@@ -46,17 +46,30 @@ class JSite extends JApplication
 	}
 
 	/**
-	* Check if the user can access the application
+	* Initialise the application.
 	*
 	* @access public
 	*/
-	function authorize($itemid)
+	function initialise( $options = array())
 	{
-		//TODO :: should we show a login screen here ?
-		$menus =& JMenu::getInstance();
-		if(!$menus->authorize($itemid, JFactory::getUser())) {
-			JError::raiseError( 403, JText::_('Not Authorised') );
+		// if a language was specified it has priority
+		// otherwise use user or default language settings
+		if (empty($options['language'])) {
+			$user = & JFactory::getUser();
+			$options['language'] = $user->getParam( 'language', $this->getCfg('lang_site') );
 		}
+
+		//One last check to make sure we have something
+		if (empty($options['language'])) {
+			$options['language'] = 'en-GB';
+		}
+		
+		$config = & JFactory::getConfig();
+		if ($config->getValue('config.legacy')) {
+			jimport('joomla.common.legacy');
+		}
+
+		parent::initialise($options);
 	}
 
 	/**
@@ -93,7 +106,15 @@ class JSite extends JApplication
 
 		$contents = JComponentHelper::renderComponent($component, array('outline', JRequest::getVar('tp', 0 )));
 		$document->setBuffer( $contents, 'component');
-
+	}
+	
+	/**
+	* Display the application.
+	*
+	* @access public
+	*/
+	function display( $component )
+	{
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$file 	  = JRequest::getVar( 'tmpl', 'index', '', 'string'  );
 
@@ -108,13 +129,22 @@ class JSite extends JApplication
 			'directory'	=> JPATH_BASE.DS.'templates'
 		);
 
-		// trigger the onBeforeDisplay events
-		$this->triggerEvent( 'onBeforeDisplay' );
-
-		$document->display( $this->getCfg('caching_tmpl'), $this->getCfg('gzip'), $params);
-
-		// trigger the onAfterDisplay events
-		$this->triggerEvent( 'onAfterDisplay' );
+		$document =& JFactory::getDocument();
+		$document->display( $this->getCfg('caching_tmpl'), $params);
+	}
+	
+   /**
+	* Check if the user can access the application
+	*
+	* @access public
+	*/
+	function authorize($itemid)
+	{
+		//TODO :: should we show a login screen here ?
+		$menus =& JMenu::getInstance();
+		if(!$menus->authorize($itemid, JFactory::getUser())) {
+			JError::raiseError( 403, JText::_('Not Authorised') );
+		}
 	}
 
 	/**
@@ -261,44 +291,6 @@ class JSite extends JApplication
 	}
 
 	/**
-	* Set the language
-	*
-	* @access public
-	* @since 1.5
-	*/
-	function setLanguage($lang='')
-	{
-		// if a language was specified at login it has priority
-		// otherwise use user or default language settings
-		if (empty($lang)) {
-			$user = & JFactory::getUser();
-			$lang = $user->getParam( 'language', $this->getCfg('lang_site') );
-		}
-
-		//One last check to make sure we have something
-		if (empty($lang)) {
-			$lang = 'en-GB';
-		}
-
-		parent::setLanguage($lang);
-	}
-
-	/**
-	* Set the legacy state of the application
-	*
-	* @access	public
-	* @param	boolean	$force	Force loading of the legacy libraries
-	* @since	1.5
-	*/
-	function setLegacy($force = false)
-	{
-		$config = & JFactory::getConfig();
-		if ($config->getValue('config.legacy') || $force) {
-			jimport('joomla.common.legacy');
-		}
-	}
-	
-	/**
 	 * Return a reference to the JPathWay object.
 	 *
 	 * @access public
@@ -347,17 +339,6 @@ class JSite extends JApplication
 		$this->_pathway->addItem( $comName, 'index.php?option='.$option.$IIDstring);
 
 		return $this->_pathway;
-	}
-
-	/**
-	* Display the application
-	*
-	* @access protected
-	* @since 1.5
-	*/
-	function _display($component, $template, $file)
-	{
-
 	}
 }
 

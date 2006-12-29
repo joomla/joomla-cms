@@ -57,7 +57,7 @@ DEFINE('_DATE_FORMAT_LC2',"%A, %d %B %Y %H:%M");
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
- $_VERSION = new JVersion();
+ $GLOBALS['_VERSION'] = new JVersion();
  $version  = $_VERSION->getLongVersion();
 
 /**

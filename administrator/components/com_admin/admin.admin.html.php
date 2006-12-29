@@ -53,7 +53,6 @@ class HTML_admin_misc
 
 	function system_info( )
 	{
-		global $_VERSION;
 		global $mainframe;
 
 		$db =& JFactory::getDBO();

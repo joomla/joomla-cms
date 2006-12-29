@@ -72,7 +72,11 @@
 				<strong><?php echo JText::_( 'Joomla! Version' ); ?>:</strong>
 			</td>
 			<td>
-				<?php echo $_VERSION->getLongVersion() ?>
+				<?php 
+					jimport('joomla.version');
+					$version = new JVersion();
+					echo $version->getLongVersion(); 
+				?>
 			</td>
 		</tr>
 		<tr>

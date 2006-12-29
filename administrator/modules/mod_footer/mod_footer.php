@@ -14,15 +14,16 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-global $_VERSION;
+jimport('joomla.version');
+$version = new JVersion();
 
 ?>
 <div>
-	<?php echo $_VERSION->URL; ?>
+	<?php echo $version->URL; ?>
 </div>
 
 <div class="smallgrey">
-	<?php echo $_VERSION->getLongVersion(); ?>
+	<?php echo $version->getLongVersion(); ?>
 </div>
 
 <div>

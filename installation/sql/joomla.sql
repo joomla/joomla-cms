@@ -351,7 +351,7 @@ INSERT INTO `#__plugins` VALUES (19, 'Content - Load Module', 'loadmodule', 'con
 INSERT INTO `#__plugins` VALUES (20, 'Authentication - Joomla', 'joomla', 'authentication', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (21, 'Authentication - LDAP', 'ldap', 'authentication', 0, 2, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (22, 'Authentication - GMail', 'gmail', 'authentication', 0, 4, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__plugins` VALUES (23, 'Request Modifier - Joomla', 'joomla.request', 'system', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', 'mode=1\r\nrealnames=0');
+INSERT INTO `#__plugins` VALUES (23, 'System - Joomla Request', 'joomla.request', 'system', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', 'mode=1\r\nrealnames=0');
 INSERT INTO `#__plugins` VALUES (25, 'Content - Page Navigation','pagenavigation','content',0,2,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (26, 'Editor - XStandard Lite 1.7', 'xstandard', 'editors', 0, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (27, 'XML-RPC - Joomla', 'joomla', 'xmlrpc', 0, 7, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
@@ -360,6 +360,7 @@ INSERT INTO `#__plugins` VALUES (28, 'XML-RPC - Blogger API', 'blogger', 'xmlrpc
 INSERT INTO `#__plugins` VALUES (30, 'Editor Button - Readmore','readmore','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (31, 'User - Joomla!', 'joomla', 'user', 0, 0, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (32, 'Authentication - OpenID', 'openid', 'authentication', 0, 3, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (33, 'System - Debug', 'debug', 'system', 0, 2, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 
 # --------------------------------------------------------
 

@@ -30,13 +30,13 @@
 //============================================================+
 //============================================================+
 // Changes made by David Gal:
-//		Ported back to PHP 4 for compatibility with Joomla 1.1
+//		Ported back to PHP 4 for compatibility with Joomla 1.5
 //		Added BiDi support for RTL languages
 //		Changed utf handling routines to slightly more efficient ones
 //		Wrote php version of unhtmlentities() for utf8 to work in php4
 //		Changed output() headers for IE6 compatibility
 //		Removed barcode routines
-//		Packaged for use in Joomla 1.1
+//		Packaged for use in Joomla 1.5
 //============================================================+
 
 /**
@@ -76,7 +76,8 @@ require_once(dirname(__FILE__).'/config/tcpdf_config.php');
  * @version 1.53.0.TC015
  */
 
-if(!class_exists('TCPDF')) {
+if(!class_exists('TCPDF')) 
+{
 	/**
 	 * define default PDF document producer
 	 */
@@ -95,7 +96,8 @@ if(!class_exists('TCPDF')) {
 	* @link http://tcpdf.sourceforge.net
 	* @license http://www.gnu.org/copyleft/lesser.html LGPL
 	*/
-	class TCPDF extends JObject {
+	class TCPDF extends JObject 
+	{
 		//Private properties
 
 		/**

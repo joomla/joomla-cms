@@ -17,6 +17,11 @@ define( 'JPATH_BASE', dirname( __FILE__ ) );
 require_once( JPATH_BASE .'/includes/defines.php'     );
 require_once( JPATH_BASE .'/includes/application.php' );
 
+/**
+ * CLEAN THE REQUEST
+ */
+JRequest::clean();
+
 // create the mainframe object
 $mainframe = new JInstallation();
 
@@ -33,8 +38,7 @@ $registry->loadArray($postVars, 'application');
 
 $configLang = $mainframe->getUserState('application.lang');
 
-//set language
-$mainframe->setLanguage($configLang);
+$mainframe->initialise(array('language' => $configLang));
 
 // load the language
 $lang =& JFactory::getLanguage();
@@ -104,5 +108,10 @@ $params = array(
 $document =& JFactory::getDocument();
 $document->setBuffer( $result, 'installation');
 $document->setTitle(JText::_('PAGE_TITLE'));
-$document->display( false, false, $params);
+$document->display( false, $params);
+
+/**
+ * RETURN THE RESPONSE
+ */
+echo JResponse::toString();
 ?>

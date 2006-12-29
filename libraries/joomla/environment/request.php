@@ -37,7 +37,7 @@ define("JREQUEST_ALLOWHTML", 4);
  * @static
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
- * @subpackage		Environment
+ * @subpackage	Environment
  * @since		1.5
  */
 class JRequest

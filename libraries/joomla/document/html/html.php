@@ -157,10 +157,9 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
-	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
-	function display( $caching = false, $compress = false, $params = array())
+	function display( $caching = false, $params = array())
 	{
 		// check
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
@@ -189,19 +188,14 @@ class JDocumentHTML extends JDocument
 		$data = $this->_parseTemplate($data, array('outline' => $outline));
 
 		//output
-		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
-		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-		header( 'Cache-Control: no-store, no-cache, must-revalidate' );
-		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.1
-		header( 'Pragma: no-cache' );										// HTTP/1.0
-		header( 'Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
+		JResponse::setHeader( 'Expires', 'Mon, 26 Jul 1997 05:00:00 GMT' );
+		JResponse::setHeader( 'Last-Modified', gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
+		JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate' );
+		JResponse::setHeader( 'Cache-Control', 'post-check=0, pre-check=0', false );	// HTTP/1.1
+		JResponse::setHeader( 'Pragma', 'no-cache' );									// HTTP/1.0
+		JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
 
-		//compress
-		if($compress) {
-			$data = $this->compress($data);
-		}
-
-		echo $data;
+		JResponse::setBody($data);
 	}
 
 	/**
@@ -315,7 +309,6 @@ class JDocumentHTML extends JDocument
 				$replace[$i] = $this->getBuffer($type, $name, array_merge($attribs, $params));
 			}
 
-			//would this work with an associative array ??? -> could solve debug data issues using system onbeforedisplay
 			$data = str_replace($matches[0], $replace, $data);
 		}
 

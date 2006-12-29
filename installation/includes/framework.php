@@ -34,14 +34,10 @@ if (file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) && (filesize( 
 // System includes
 require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
 
-// Clean the request before anything else is loaded
-jimport( 'joomla.common.abstract.object' );
-jimport( 'joomla.environment.request' );
-JRequest::clean();
-
 // Installation file includes
 define( 'JPATH_INCLUDES', dirname(__FILE__) );
 
+jimport( 'joomla.common.abstract.object' );
 jimport( 'joomla.utilities.utility' ); // needed for functions.php
 require_once( JPATH_INCLUDES . DS . 'functions.php' );
 require_once( JPATH_INCLUDES . DS . 'classes.php' );
@@ -55,6 +51,8 @@ require_once( JPATH_INCLUDES . DS . 'html.php' );
 jimport( 'joomla.common.compat.compat' );
 
 // Joomla! library imports
+jimport( 'joomla.environment.request'  );
+jimport( 'joomla.environment.response' );
 jimport( 'joomla.application.application' );
 jimport( 'joomla.application.event' );
 jimport( 'joomla.database.table' );

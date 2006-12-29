@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Dec-2006 Johan Janssens
+ + Added JResponse class to environment package
+ + Added debug system plugin to handle debug info
+ ^ Cleaned up index.php application entry files
+ - Removed $_VERSION global, use JVersion instead
+ ! Note : changes require a reinstall
+
 28-Dec-2006 Louis Landry
  # Fixed problem with nested menu item removal
 
@@ -2319,7 +2326,6 @@ Legend:
  + Added footer module english language file
 
 01-Nov-2005 Johan Janssens
- - Removed global $version, use $_VERSION->getLongVersion() instead.
  ^ Moved includes/version.php to libraries/joomla/version.php
  # Fixed [artf1901] : english.com_templates.ini
  + Added [artf1895] : Footer as as module

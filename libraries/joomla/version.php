@@ -43,14 +43,17 @@ class JVersion
 	/** @var string Timezone */
 	var $RELTZ 		= 'GMT';
 	/** @var string Copyright Text */
-	var $COPYRIGHT 	= 'Copyright (C) 2005 - 2006-2006 Open Source Matters. All rights reserved.';
+	var $COPYRIGHT 	= 'Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.';
 	/** @var string URL */
 	var $URL 		= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU/GPL License.';
 
 	/**
+	 * 
+	 * 
 	 * @return string Long format version
 	 */
-	function getLongVersion() {
+	function getLongVersion() 
+	{
 		return $this->PRODUCT .' '. $this->RELEASE .'.'. $this->DEV_LEVEL .' '
 			. $this->DEV_STATUS
 			.' [ '.$this->CODENAME .' ] '. $this->RELDATE .' '
@@ -58,6 +61,8 @@ class JVersion
 	}
 
 	/**
+	 * 
+	 * 
 	 * @return string Short version format
 	 */
 	function getShortVersion() {
@@ -65,6 +70,8 @@ class JVersion
 	}
 
 	/**
+	 * 
+	 * 
 	 * @return string Version suffix for help files
 	 */
 	function getHelpVersion() {

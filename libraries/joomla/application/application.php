@@ -57,6 +57,34 @@ class JApplication extends JObject
 		$this->_clientId = $clientId;
 		$this->set( 'requestTime', date('Y-m-d H:i', time()) );
 	}
+	
+	/**
+	* Initialise the application.
+	*
+	* @param	array An optional associative array of configuration settings.
+	* @access public
+	*/
+	function initialise($options = array())
+	{
+		//Set the language in the class
+		$conf =& JFactory::getConfig();
+		$conf->setValue('config.language', $options['language']);
+
+		//set language debug
+		$lang =& JFactory::getLanguage();
+		$lang->setDebug($this->getCfg('debug_lang'));
+
+		//define date formats
+		define('DATE_FORMAT_LC' , JText::_('DATE_FORMAT_LC' ));
+		define('DATE_FORMAT_LC2', JText::_('DATE_FORMAT_LC2'));
+		define('DATE_FORMAT_LC3', JText::_('DATE_FORMAT_LC3'));
+		define('DATE_FORMAT_LC4', JText::_('DATE_FORMAT_LC4'));
+
+		// create the backward compatible language value for old 3PD components
+		if($conf->getValue('config.legacy')) {
+			$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
+		}
+	}
 
 	/**
 	* Execute the application.
@@ -66,6 +94,17 @@ class JApplication extends JObject
 	* @param mixed Execution options. Typically this is a task or component name.
 	*/
 	function execute( $option )
+	{
+
+	}
+	
+	/**
+	* Display the application.
+	*
+	* @abstract
+	* @access public
+	*/
+	function display( $option )
 	{
 
 	}
@@ -397,35 +436,6 @@ class JApplication extends JObject
 
 		if ($session->getState() == 'expired') {
 			$this->logout();
-		}
-	}
-
-	/**
-	 * Set the application language.
-	 *
-	 * @access public
-	 * @param string The language name.
-	 * @since 1.5
-	 */
-	function setLanguage( $lang )
-	{
-		//Set the language in the class
-		$conf =& JFactory::getConfig();
-		$conf->setValue('config.language', $lang);
-
-		//set language debug
-		$lang =& JFactory::getLanguage();
-		$lang->setDebug($this->getCfg('debug_lang'));
-
-		//define date formats
-		define('DATE_FORMAT_LC' , JText::_('DATE_FORMAT_LC' ));
-		define('DATE_FORMAT_LC2', JText::_('DATE_FORMAT_LC2'));
-		define('DATE_FORMAT_LC3', JText::_('DATE_FORMAT_LC3'));
-		define('DATE_FORMAT_LC4', JText::_('DATE_FORMAT_LC4'));
-
-		if($conf->getValue('config.legacy')) {
-			// create the backward compatible language value for old 3PD components
-			$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
 		}
 	}
 
@@ -773,8 +783,8 @@ class JApplication extends JObject
 	 * @deprecated As of version 1.5
 	 * @see JURI::base()
 	 */
-	function getBasePath($client=0, $addTrailingSlash = true)
-    {
+	function getBasePath($client=0, $addTrailingSlash = true) 
+	{
 		return JURI::base();
 	}
 

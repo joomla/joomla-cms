@@ -46,13 +46,11 @@ class JDocumentRAW extends JDocument
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
-	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
-	function display( $cache = false, $compress = false, $params = array())
+	function display( $cache = false, $params = array())
 	{
-		echo $this->getBuffer();
-		parent::display( $cache, $compress, $params );
+		JResponse::setBody($this->getBuffer());
 	}
 }
 ?>

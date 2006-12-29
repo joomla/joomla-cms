@@ -616,66 +616,16 @@ class JDocument extends JObject
 	}
 
 	/**
-	 * Outputs the document to the client
+	 * Outputs the document
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
 	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params		Associative array of attributes
 	 */
-	function display( $cache = false, $compress = false, $params = array())
+	function display( $cache = false, $params = array())
 	{
 
-	}
-
-   /**
-	* Compress the data
-	*
-	* Checks the accept encoding of the browser and compresses the data before
-	* sending it to the client.
-	*
-	* @access	public
-	* @param	string		data
-	* @return	string		compressed data
-	*/
-	function compress( $data )
-	{
-		$encoding = JDocumentHelper::clientEncoding();
-
-		if (!$encoding)
-			return $data;
-
-		if (!extension_loaded('zlib') || ini_get('zlib.output_compression')) {
-			return $data;
-		}
-
-		if (headers_sent())
-			return $data;
-
-		if (connection_status() !== 0)
-			return $data;
-
-
-		$level = 4; //ideal level
-
-		/*
-		$size = strlen($data);
-		$crc  = crc32($data);
-
-		$gzdata = "\x1f\x8b\x08\x00\x00\x00\x00\x00";
-		$gzdata .= gzcompress($data, $level);
-
-		$gzdata  = substr($gzdata, 0, strlen($gzdata) - 4);
-		$gzdata .= pack("V",$crc) . pack("V", $size);
-		*/
-		
-		$gzdata = gzencode($data, $level);
-
-		Header('Content-Encoding: ' . $encoding);
-		Header('Content-Length: ' . strlen($gzdata));
-		Header('X-Content-Encoded-By: Joomla! 1.5');
-
-		return $gzdata;
 	}
 }
 
@@ -704,31 +654,6 @@ class JDocument extends JObject
 			$output[] = $key . $inner_glue . '"'.$item.'"';
 
 		return implode($outer_glue, $output);
-	}
-
-	 /**
-	* check, whether client supports compressed data
-	*
-	* @access	private
-	* @return	boolean
-	*/
-	function clientEncoding()
-	{
-		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
-			return false;
-		}
-
-		$encoding = false;
-
-		if (false !== strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) {
-			$encoding = 'gzip';
-		}
-
-		if (false !== strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip')) {
-			$encoding = 'x-gzip';
-		}
-
-		return $encoding;
 	}
  }
 ?>

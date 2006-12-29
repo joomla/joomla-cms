@@ -43,6 +43,34 @@ class JAdministrator extends JApplication
 	function __construct() {
 		parent::__construct(1);
 	}
+	
+   /**
+	* Initialise the application.
+	*
+	* @access public
+	* @param array An optional associative array of configuration settings.
+	*/
+	function initialise($options = array())
+	{
+		// if a language was specified at login it has priority
+		// otherwise use user or default language settings
+		if (empty($options['language'])) {
+			$user =& JFactory::getUser();
+			$options['language'] = $user->getParam( 'admin_language', $this->getCfg('lang_administrator') );
+		}
+
+		//One last check to make sure we have something
+		if (empty($options['language'])) {
+			$options['language'] = 'en-GB';
+		}
+		
+		$config = & JFactory::getConfig();
+		if ($config->getValue('config.legacy')) {
+			jimport('joomla.common.legacy');
+		}
+
+		parent::initialise($options);
+	}
 
 	/**
 	* Execute the application
@@ -74,7 +102,15 @@ class JAdministrator extends JApplication
 
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
-
+	}
+	
+	/**
+	* Display the application.
+	*
+	* @access public
+	*/
+	function display( $component )
+	{
 		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$file 	  = JRequest::getVar( 'tmpl', 'index',  '', 'string'  );
 
@@ -88,13 +124,8 @@ class JAdministrator extends JApplication
 			'directory'	=> JPATH_BASE.DS.'templates'
 		);
 
-		// trigger the onBeforeDisplay events
-		$this->triggerEvent( 'onBeforeDisplay' );
-
-		$document->display($this->getCfg('caching_tmpl'), $this->getCfg('gzip'), $params );
-
-		// trigger the onAfterDisplay events
-		$this->triggerEvent( 'onAfterDisplay' );
+		$document =& JFactory::getDocument();
+		$document->display($this->getCfg('caching_tmpl'), $params );
 	}
 
 	/**
@@ -225,21 +256,6 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Set the legacy state of the application
-	*
-	* @access	public
-	* @param	boolean	$force	Force loading of the legacy libraries
-	* @since	1.5
-	*/
-	function setLegacy($force = false)
-	{
-		$config = & JFactory::getConfig();
-		if ($config->getValue('config.legacy') || $force) {
-			jimport('joomla.common.legacy');
-		}
-	}
-
-	/**
 	* Get the template
 	*
 	* @return string The template name
@@ -361,29 +377,6 @@ class JAdministrator extends JApplication
 		}
 		// No stored user state exists
 		return false;
-	}
-
-	/**
-	* Set the language
-	*
-	* @access public
-	* @since 1.5
-	*/
-	function setLanguage($lang = null)
-	{
-		// if a language was specified at login it has priority
-		// otherwise use user or default language settings
-		if (empty($lang)) {
-			$user =& JFactory::getUser();
-			$lang = $user->getParam( 'admin_language', $this->getCfg('lang_administrator') );
-		}
-
-		//One last check to make sure we have something
-		if (empty($lang)) {
-			$lang = 'en-GB';
-		}
-
-		parent::setLanguage($lang);
 	}
 }
 

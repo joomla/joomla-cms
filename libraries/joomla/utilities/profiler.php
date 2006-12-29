@@ -93,32 +93,7 @@ class JProfiler extends JObject
 	}
 
 	/**
-	 * Reports on the buffered marks
-	 *
-	 * @access public
-	 * @param string Glue string
-	 */
-	function report( $memory = true, $database = true, $glue='' )
-	{
-		$db =& JFactory::getDBO();
-
-		echo implode( $glue, $this->_buffer );
-		if ($memory) {
-			echo '<br />';
-			echo $this->getmemory();
-		}
-		if ($database) {
-			echo '<br />';
-			echo $db->_ticker . ' queries executed';
-			echo '<pre>';
-			foreach ($db->_log as $k=>$sql) {
-				echo $k+1 . "\n" . $sql . '<hr />';
-			}
-			echo '</pre>';
-		}
-	}
-
-	/**
+	 * Description
 	 *
 	 * @access public
 	 * @return float The current time
@@ -130,11 +105,12 @@ class JProfiler extends JObject
 	}
 
 	/**
+	 * Description
 	 *
 	 * @access public
 	 * @return int The memory usage
 	 */
-	function getmemory()
+	function getMemory()
 	{
 		static $isWin;
 
@@ -159,6 +135,16 @@ class JProfiler extends JObject
 				return 0;
 			}
 		}
+	}
+	
+	/**
+	 * Description
+	 *
+	 * @access public
+	 * @return 
+	 */
+	function getBuffer() {
+		return $this->_buffer;
 	}
 }
 

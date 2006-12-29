@@ -188,10 +188,9 @@ class JDocumentFeed extends JDocument
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
-	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
-	function display( $cache = false, $compress = false, $params = array())
+	function display( $cache = false, $params = array())
 	{
 		global $mainframe, $option;
 
@@ -209,12 +208,12 @@ class JDocumentFeed extends JDocument
 		$renderer = $this->loadRenderer($format);
 
 		//output
-		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
-		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-		header( 'Cache-Control: no-store, no-cache, must-revalidate' );
-		header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.5
-		header( 'Pragma: no-cache' );										// HTTP/1.0
-		header( 'Content-Type: ' . $renderer->getContentType() .  '; charset=' . $this->_charset);
+		JResponse::setHeader( 'Expires', 'Mon, 26 Jul 1997 05:00:00 GMT' );
+		JResponse::setHeader( 'Last-Modified', gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
+		JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate' );
+		JResponse::setHeader( 'Cache-Control', 'post-check=0, pre-check=0' );		// HTTP/1.5
+		JResponse::setHeader( 'Pragma', 'no-cache' );								// HTTP/1.0
+		JResponse::setHeader( 'Content-Type', $renderer->getContentType() .  '; charset=' . $this->_charset);
 
 		// Generate prolog
 		$result  = "<?xml version=\"1.0\" encoding=\"".$this->_charset."\"?>\n";
@@ -228,7 +227,7 @@ class JDocumentFeed extends JDocument
 		// Render the feed
 		$result .= $renderer->render( );
 
-		echo $result;
+		JResponse::setBody($result);
 	}
 
 	/**
@@ -247,7 +246,7 @@ class JDocumentFeed extends JDocument
 /**
  * JFeedItem is an internal class that stores feed item information
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
+ * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Document
  * @since	1.5
@@ -390,7 +389,7 @@ class JFeedItem extends JObject
 /**
  * JFeedEnclosure is an internal class that stores feed enclosure information
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
+ * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Document
  * @since	1.5
@@ -431,7 +430,7 @@ class JFeedEnclosure extends JObject
 /**
  * JFeedImage is an internal class that stores feed image information
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
+ * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Document
  * @since	1.5

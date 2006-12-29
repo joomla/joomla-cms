@@ -22,53 +22,69 @@ require_once( JPATH_BASE.'/includes/application.php' );
 require_once( JPATH_BASE.'/includes/menubar.html.php' );
 
 /**
+ * CLEAN THE REQUEST
+ */
+JRequest::clean();
+
+/**
  * CREATE THE APPLICATION
+ * 
+ * NOTE :
  */
 $mainframe = new JAdministrator();
 
 // load the configuration
-$mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
+$mainframe->setConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
 
 // create the session
-$mainframe->setSession( JURI::resolve('/', -1).$mainframe->getClientId());
-
-// load system plugin group
-JPluginHelper::importPlugin( 'system' );
-
-// trigger the onStart events
-$mainframe->triggerEvent( 'onBeforeStart' );
-
-// set the language
-$mainframe->setLanguage($mainframe->getUserState( "application.lang", 'lang' ));
-
-// load the legacy libraries if enabled
-$mainframe->setLegacy();
-
-// load a stored user state if it exists
-$mainframe->loadStoredUserState();
-
-// trigger the onStart events
-$mainframe->triggerEvent( 'onAfterStart' );
-
-JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) :  null;
+$mainframe->setSession(JURI::resolve('/', -1).$mainframe->getClientId());
 
 /**
- * Set the version variable as a global
+ * INITIALISE THE APPLICATION
+ * 
+ * NOTE :
  */
-$GLOBALS['_VERSION'] = new JVersion();
+JPluginHelper::importPlugin('system');
+
+$mainframe->initialise(array(
+	'language' => $mainframe->getUserState( "application.lang", 'lang' )
+));
+
+// load a stored user state if it exists -> move into plugin ?
+$mainframe->loadStoredUserState();
+
+// trigger the onAfterInitialise events
+$mainframe->triggerEvent('onAfterInitialise');
+JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 
 // set for overlib check
-$mainframe->set( 'loadOverlib', false );
+$mainframe->set('loadOverlib', false);
 
 /**
  * EXECUTE THE APPLICATION
- *
- * Note: This section of initialization must be performed last.
+ * 
+ * NOTE :
  */
 $option = JAdministratorHelper::findOption();
-$mainframe->execute( $option );
+$mainframe->execute($option);
 
-JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null ;
-JDEBUG ? $_PROFILER->report( true, $mainframe->getCfg( 'debug_db' ) ) : null;
+// trigger the onAfterDisplay events
+$mainframe->triggerEvent('onAfterExecute');
+JDEBUG ? $_PROFILER->mark('afterExecute') : null;
 
+/**
+ * DISPLAY THE APPLICATION
+ * 
+ * NOTE :
+ */
+$mainframe->display($option);
+
+// trigger the onAfterDisplay events
+$mainframe->triggerEvent( 'onAfterDisplay' );
+JDEBUG ? $_PROFILER->mark( 'afterDisplay' ) : null;
+
+/**
+ * RETURN THE RESPONSE
+ */
+echo JResponse::toString($mainframe->getCfg('gzip'));
 ?>

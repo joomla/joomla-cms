@@ -14,7 +14,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-global $_VERSION;
+jimport('joomla.version');
+$version = new JVersion();
 
 // NOTE - You may change this file to suit your site needs
 ?>
@@ -23,5 +24,5 @@ global $_VERSION;
 </div>
 
 <div align="center">
-	<?php echo $_VERSION->URL; ?>
+	<?php echo $version->URL; ?>
 </div>

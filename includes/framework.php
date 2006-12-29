@@ -31,12 +31,6 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
 
 // System includes
 require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
-
-// Clean the request before anything else is loaded
-jimport( 'joomla.common.abstract.object' );
-jimport( 'joomla.environment.request' );
-JRequest::clean();
-
 require_once( JPATH_CONFIGURATION	. DS . 'configuration.php' );
 
 // System configuration
@@ -57,6 +51,7 @@ unset( $CONFIG );
  */
 
 // Include object abstract class
+jimport( 'joomla.common.abstract.object' );
 jimport( 'joomla.common.compat.compat' );
 
 // System profiler
@@ -65,7 +60,9 @@ if (JDEBUG) {
 	$_PROFILER =& JProfiler::getInstance( 'Application' );
 }
 
-// Joomla! library imports
+// Joomla! library imports;
+jimport( 'joomla.environment.request'    );
+jimport( 'joomla.environment.response'   );
 jimport( 'joomla.application.application' );
 jimport( 'joomla.application.event' );
 jimport( 'joomla.application.plugin.helper' );

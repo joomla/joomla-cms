@@ -69,10 +69,9 @@ class JDocumentError extends JDocument
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
-	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params	    Associative array of attributes
 	 */
-	function display( $cache = false, $compress = false, $params = array())
+	function display( $cache = false, $params = array())
 	{
 		global $mainframe;
 
@@ -85,18 +84,18 @@ class JDocumentError extends JDocument
 		switch ($this->_error->code)
 		{
 			case '403':
-				header('HTTP/1.1 403 Forbidden');
+				JResponse::setHeader('status', '403 Forbidden');
 				$file = "403.php";
 				break;
 
 			case '404':
-				header('HTTP/1.1 404 Not Found');
+				JResponse::setHeader('status', '404 Not Found');
 				$file = "404.php";
 				break;
 
 			case '500':
 			default:
-				header('HTTP/1.1 500 Internal Server Error');
+				JResponse::setHeader('status', '500 Internal Server Error');
 				$file = "500.php";
 				break;
 		}
@@ -117,7 +116,7 @@ class JDocumentError extends JDocument
 		// load
 		$data = $this->_loadTemplate($directory.DS.$template, $file);
 
-		echo $data;
+		JResponse::setBody($data);
 	}
 	
 	/**

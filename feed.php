@@ -20,28 +20,34 @@ require_once ( JPATH_BASE .'/includes/defines.php'     );
 require_once ( JPATH_BASE .'/includes/framework.php'   );
 require_once ( JPATH_BASE .'/includes/application.php' );
 
-// create the mainframe object
+/**
+ * CLEAN THE REQUEST
+ */
+JRequest::clean();
+
+/**
+ * CREATE THE APPLICATION
+ * 
+ * NOTE :
+ */
 $mainframe = new JSite();
 
 // set the configuration
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
-// load system plugin group
-JPluginHelper::importPlugin( 'system' );
-
-// trigger the onStart events
-$mainframe->triggerEvent( 'onBeforeStart' );
-
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
-// set the language
-$mainframe->setLanguage();
+/**
+ * INITIALISE THE APPLICATION
+ * 
+ * NOTE :
+ */
+JPluginHelper::importPlugin( 'system' );
 
-// trigger the onAfterStart events
-$mainframe->triggerEvent( 'onAfterStart' );
-
-JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) : null;
+// trigger the onAfterInitialise events
+$mainframe->triggerEvent('onAfterInitialise');
+JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 
 // authorization
 $Itemid = JSiteHelper::findItemid();
@@ -51,6 +57,11 @@ $mainframe->authorize($Itemid);
 //	$file = 'offline.php';
 //}
 
+/**
+ * EXECUTE THE APPLICATION
+ * 
+ * NOTE :
+ */
 $params = array(
 	'format' =>  JRequest::getVar( 'format', 'rss2.0', '', 'string' )
 );
@@ -62,9 +73,27 @@ $option = JSiteHelper::findOption();
 $document->setBuffer( JComponentHelper::renderComponent($option), 'component');
 
 $document->setTitle( $mainframe->getCfg('sitename' ));
-$document->display( false, $mainframe->getCfg('gzip'), $params);
+
+// trigger the onAfterDisplay events
+$mainframe->triggerEvent('onAfterExecute');
+JDEBUG ? $_PROFILER->mark('afterExecute') : null;
+
+/**
+ * DISPLAY THE APPLICATION
+ * 
+ * NOTE :
+ */
+$document->display( false, $params);
+
+// trigger the onAfterDisplay events
+$mainframe->triggerEvent('onAfterDisplay');
+JDEBUG ? $_PROFILER->mark('afterDisplay') : null;
+
+
+/**
+ * RETURN THE RESPONSE
+ */
+echo JResponse::toString($mainframe->getCfg('gzip'));
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null;
-
-//TODO :: log debug information to file
 ?>

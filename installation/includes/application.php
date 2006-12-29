@@ -43,32 +43,32 @@ class JInstallation extends JApplication
 		parent::__construct(2);
 		$this->_createConfiguration();
 	}
-
+	
 	/**
-	 * Set the application language
-	 *
-	 * @access private
-	 * @param string 	The language name
-	 */
-	function setLanguage($lang = null)
+	* Initialise the application.
+	*
+	* @access public
+	*/
+	function initialise( $options = array())
 	{
-		if(empty($lang)) {
+		if(empty($options['langauge'])) 
+		{
 			$forced = JInstallationHelper::getLocalise();
 			if ( empty($forced['lang'])) {
-				$lang = JLanguageHelper::detectLanguage();
+				$options['langauge'] = JLanguageHelper::detectLanguage();
 			} else {
-				$lang = $forced['lang'];
+				$options['langauge'] = $forced['lang'];
 			}
 		}
 
 		// One last check to make sure we have something
-		if (empty($lang)) {
-			$lang = 'en-GB';
+		if (empty($options['langauge'])) {
+			$options['langauge'] = 'en-GB';
 		}
 
 		//Set the language in the class
 		$conf =& JFactory::getConfig();
-		$conf->setValue('config.language', $lang);
+		$conf->setValue('config.language', $options['langauge']);
 	}
 
 	/**

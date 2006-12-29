@@ -51,7 +51,7 @@ class  JRequestJoomla extends JPlugin
 	* Converting the site URL to fit to the HTTP request
 	*
 	*/
-	function onBeforeStart()
+	function onAfterInitialise()
 	{
 		global $mainframe;
 
