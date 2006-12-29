@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php if ($this->params->get('page_title')) : ?>
+<?php if ($this->params->get('show_header')) : ?>
 <div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 	<?php echo $this->params->get('header'); ?>
 </div>

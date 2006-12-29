@@ -7,18 +7,16 @@
 	</layout>
 	<state>
 		<name>Frontpage Blog Layout</name>
-		<description>CATEGORY BLOG LAYOUT DESC</description>
+		<description>FRONTPAGE BLOG LAYOUT DESC</description>
 		<params>
-			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
-	
-			<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
-			<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
+			<param name="header" type="text" size="30" default="" label="Page Header" description="PARAMPAGEHEADER" />
+			<param name="show_header" type="radio" default="1" label="Show Header" description="Show/Hide the page header">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="title" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
+	 		<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="leading" type="text" size="3" default="1" label="Num Leading" description="PARAMLEADING" />
 			<param name="intro" type="text" size="3" default="4" label="Num Intro" description="PARAMINTRO" />
 			<param name="columns" type="text" size="3" default="2" label="Columns" description="PARAMCOLUMNS" />
@@ -51,15 +49,6 @@
 				<option value="1">Show</option>
 			</param>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
-	 		<param name="description" type="radio" default="0" label="Description" description="Show/Hide the Section Description">
-	 			<option value="0">Hide</option>
-	 			<option value="1">Show</option>
-	 		</param>
-			<param name="description_image" type="radio" default="0" label="Description Image" description="Show/Hide the Section Description">
-	 			<option value="0">Hide</option>
-	 			<option value="1">Show</option>
-	 		</param>
-	 		<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="category" type="radio" default="0" label="Category Name" description="PARAMCATEG">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
@@ -124,6 +113,8 @@
 				<option value="0">Ignore</option>
 				<option value="1">On</option>
 			</param>
+			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+			<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
 		</advanced>
 	</state>
 </metadata>

@@ -44,8 +44,9 @@ class ContentViewFrontpage extends JView
 		$menus = &JMenu::getInstance();
 		$menu  = $menus->getItem($Itemid);
 		$params = new JParameter($menu->params);
-		
+
 		// parameters
+		$title				= $params->def('title', 			$menu->name);
 		$intro				= $params->def('intro', 			4);
 		$leading			= $params->def('leading', 			1);
 		$links				= $params->def('link', 				4);
@@ -54,9 +55,9 @@ class ContentViewFrontpage extends JView
 
 		$params->def('pageclass_sfx', '');
 		$params->set('intro_only', 	1);
-		$params->def('page_title', 	1);
+		$params->def('show_header', 1);
 
-		if ($params->get('page_title')) {
+		if ($params->get('show_header')) {
 			$params->def('header', $menu->name);
 		}
 
@@ -111,6 +112,9 @@ class ContentViewFrontpage extends JView
 			}
 		}
 
+		$document = &JFactory::getDocument();
+		$document->setTitle($params->get('title'));
+
 		jimport('joomla.html.pagination');
 		$this->pagination = new JPagination($total, $limitstart, $limit);
 
@@ -121,7 +125,7 @@ class ContentViewFrontpage extends JView
 		$this->assignRef('params'    , $params);
 		$this->assignRef('items'     , $items);
 		$this->assignRef('frontpage' , $frontpage);
-		
+
 		parent::display($tpl);
 	}
 
