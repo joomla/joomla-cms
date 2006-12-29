@@ -356,45 +356,15 @@ function restoreTrash( $cid, $option ) {
 		}
 	} else if ( $type == 'menu' ) {
 		$return = 'viewMenu';
-		sort( $cid );
 
-		foreach ( $cid as $id ) {
-			$check = 1;
-			$row = JTable::getInstance('menu');
-			$row->load( $id );
+		jimport('joomla.application.component.model');
+		JModel::addIncludePath(JPATH_BASE.DS.'components'.DS.'com_menus'.DS.'models'.DS);
+		$model = JModel::getInstance('List', 'MenusModel');
+		$total = $model->fromTrash($cid);
 
-			// check if menu item is a child item
-			if ( $row->parent != 0 ) {
-				$query = "SELECT id"
-				. "\n FROM #__menu"
-				. "\n WHERE id = $row->parent"
-				. "\n AND ( published = 0 OR published = 1 )"
-				;
-				$db->setQuery( $query );
-				$check = $db->loadResult();
-
-				if ( !$check ) {
-					// if menu items parent is not found that are published/unpublished make it a root menu item
-					$query  = "UPDATE #__menu"
-					. "\n SET parent = 0, published = $state, ordering = 9999"
-					. "\n WHERE id = $id"
-					;
-				}
-			}
-
-			if ( $check ) {
-				// query to restore menu items
-				$query  = "UPDATE #__menu"
-				. "\n SET published = $state, ordering = 9999"
-				. "\n WHERE id = $id"
-				;
-			}
-
-			$db->setQuery( $query );
-			if ( !$db->query() ) {
-				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-				exit();
-			}
+		if (!$total) {
+			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			exit();
 		}
 	}
 

@@ -353,8 +353,8 @@ class MenusController extends JController
 		$menutype	= JRequest::getVar('menutype');
 
 		$model =& $this->getModel( 'List' );
-		if ($model->toTrash($cid, $menutype)) {
-			$msg = JText::sprintf( 'Item(s) sent to the Trash', count( $cid ) );
+		if ($n = $model->toTrash($cid)) {
+			$msg = JText::sprintf( 'Item(s) sent to the Trash', $n );
 		} else {
 			$msg = $model->getError();
 		}
@@ -379,7 +379,7 @@ class MenusController extends JController
 	 */
 	function viewMenus()
 	{
-		
+
 		$view =& $this->getView( 'Menus');
 		$model	=& $this->getModel( 'Menutype' );
 		$view->setModel( $model, true );
@@ -442,7 +442,7 @@ class MenusController extends JController
 				$module->published	= 0;
 				$module->iscore 	= 0;
 				$module->params		= 'menutype='. $menuType->menutype;
-	
+
 				// check then store data in db
 				if (!$module->check()) {
 					josErrorAlert( $module->getError() );
@@ -454,7 +454,7 @@ class MenusController extends JController
 				}
 				$module->checkin();
 				$module->reorder( "position='". $module->position ."'" );
-	
+
 				// module assigned to show on All pages by default
 				// Clean up possible garbage first
 				$query = 'DELETE FROM #__modules_menu WHERE moduleid = '.(int) $module->id;

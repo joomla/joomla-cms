@@ -488,12 +488,9 @@ class JInstallationController
 		$buffer = $tmpl->getParsedTemplate('configuration');
 		$path = JPATH_CONFIGURATION.DS.'configuration.php';
 
-		if (file_exists($path))
-		{
+		if (file_exists($path)) {
 			$canWrite = is_writable($path);
-		}
-		else
-		{
+		} else {
 			$canWrite = is_writable(JPATH_SITE);
 		}
 
@@ -502,8 +499,7 @@ class JInstallationController
 		 * is not writable we need to use FTP
 		 */
 		 $ftpFlag = false;
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path))))
-		{
+		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path)))) {
 			$ftpFlag = true;
 		}
 
@@ -532,8 +528,7 @@ class JInstallationController
 			$file = JPath::clean(str_replace(JPATH_SITE, $vars['ftpRoot'], $path), false);
 
 			// Use FTP write buffer to file
-			if (!$ftp->write($file, $buffer))
-			{
+			if (!$ftp->write($file, $buffer)) {
 				return $buffer;
 			}
 
@@ -543,13 +538,10 @@ class JInstallationController
 		}
 		else
 		{
-			if ($canWrite)
-			{
+			if ($canWrite) {
 				file_put_contents($path, $buffer);
 				return '';
-			}
-			else
-			{
+			} else {
 				return $buffer;
 			}
 		}

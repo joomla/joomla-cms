@@ -313,42 +313,26 @@ class MenusModelList extends JModel
 		return true;
 	}
 
-	function toTrash($items, $menutype)
+	function toTrash($items)
 	{
 		$db		=& $this->getDBO();
 		$nd		= $db->getNullDate();
 		$state	= -2;
 
-		$query = "SELECT *" .
-				"\n FROM #__menu" .
-				"\n WHERE menutype = '$menutype'" .
-				"\n AND published != $state" .
-				"\n ORDER BY menutype, parent, ordering";
-		$db->setQuery( $query );
-		$mitems = $db->loadObjectList();
-
-		// determine if selected item has an child items
-		$children = array();
-		foreach ( $items as $id )
+		// Add all children to the list
+		foreach ($items as $id)
 		{
-			foreach ( $mitems as $item )
-			{
-				if ( $item->parent == $id ) {
-					$children[] = $item->id;
-				}
-			}
+			$this->_addChildren($id, $items);
 		}
-		$list 	= $this->_josMenuChildrenRecurse( $mitems, $children, $children );
-		$list 	= array_merge( $items, $list );
 
-		$ids 	= implode( ',', $list );
-
+		// Sent menu items to the trash
+		$where = "\n WHERE id = " . implode( ' OR id = ', $items );
 		$query = "UPDATE #__menu" .
-				"\n SET published = $state, ordering = 0, checked_out = 0, checked_out_time = '$nd'" .
-				"\n WHERE id IN ( $ids )";
+				"\n SET published = ".(int) $state.", parent = 0, ordering = 0, checked_out = 0, checked_out_time = ".$db->Quote($nd) .
+				$where;
 		$db->setQuery( $query );
-		if ( !$db->query() ) {
-			$this->setError($db->getErrorMsg());
+		if (!$db->query()) {
+			$this->setError( $db->getErrorMsg() );
 			return false;
 		}
 
@@ -356,7 +340,37 @@ class MenusModelList extends JModel
 		// TODO: Is this necessary?
 		$cache = & JFactory::getCache('com_content');
 		$cache->cleanCache();
-		return true;
+		return count($items);
+	}
+
+	function fromTrash($items)
+	{
+		$db		=& $this->getDBO();
+		$nd		= $db->getNullDate();
+		$state	= 0;
+
+		// Add all children to the list
+		foreach ($items as $id)
+		{
+			$this->_addChildren($id, $items);
+		}
+
+		// Sent menu items to the trash
+		$where = "\n WHERE id = " . implode( ' OR id = ', $items );
+		$query = "UPDATE #__menu" .
+				"\n SET published = ".(int) $state.", parent = 0, ordering = 99999, checked_out = 0, checked_out_time = ".$db->Quote($nd) .
+				$where;
+		$db->setQuery( $query );
+		if (!$db->query()) {
+			$this->setError( $db->getErrorMsg() );
+			return false;
+		}
+
+		// Clear the content cache
+		// TODO: Is this necessary?
+		$cache = & JFactory::getCache('com_content');
+		$cache->cleanCache();
+		return count($items);
 	}
 
 	/**
@@ -394,7 +408,7 @@ class MenusModelList extends JModel
 	*/
 	function setState( $items, $state )
 	{
-		if(is_array($items)) 
+		if(is_array($items))
 		{
 			$row =& $this->getTable();
 			foreach ($items as $id)
@@ -527,9 +541,16 @@ class MenusModelList extends JModel
 			$ids = array( $ids );
 		}
 
-		$db = &$this->getDBO();
-
 		if (count( $ids )) {
+
+			// Add all children to the list
+			foreach ($ids as $id)
+			{
+				$this->_addChildren($id, $ids);
+			}
+
+			$db = &$this->getDBO();
+
 			// Delete associated module and template mappings
 			$where = 'WHERE menuid = ' . implode( ' OR menuid = ', $ids );
 
@@ -628,33 +649,6 @@ class MenusModelList extends JModel
 			$return = $this->_addChildren($row->id, $list);
 		}
 		return $return;
-	}
-
-	/**
-	* Returns list of child items for a given set of ids from menu items supplied
-	*
-	*/
-	function _josMenuChildrenRecurse( $mitems, $parents, $list, $maxlevel=99, $level=0 ) {
-		// check to reduce recursive processing
-		if ( $level <= $maxlevel && count( $parents ) ) {
-			$children = array();
-			foreach ( $parents as $id )
-			{
-				foreach ( $mitems as $item )
-				{
-					if ( $item->parent == $id ) {
-						$children[] = $item->id;
-					}
-				}
-			}
-
-			// check to reduce recursive processing
-			if ( count( $children ) ) {
-				$list = $this->_josMenuChildrenRecurse( $mitems, $children, $list, $maxlevel, $level+1 );
-				$list = array_merge( $list, $children );
-			}
-		}
-		return $list;
 	}
 }
 ?>

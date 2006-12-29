@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Dec-2006 Louis Landry
+ # Fixed problem with nested menu item removal
+
 28-Dec-2006 Andrew Eddie
  # Removed restriction for removing core modules from the Modules Manager
  # Added 'relative image paths' setting to TinyMCE
@@ -47,7 +50,7 @@ Legend:
 
 27-Dec-2006 Johan Janssens
  + Added administrator feed module
- ^ Changed _J_ALLOWRAW to JREQUEST_ALLOWRAW to suit naming conventions and to avoid naming conflicts 
+ ^ Changed _J_ALLOWRAW to JREQUEST_ALLOWRAW to suit naming conventions and to avoid naming conflicts
  ^ Changed _J_ALLOWHTML to JREQUEST_ALLOWHTML to suit naming conventions and to avoid naming conflicts
  ^ Changed _J_NOTRIM to JREQUEST_NOTRIM to suit naming conventions and to avoid naming conflicts
 
