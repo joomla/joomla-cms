@@ -21,11 +21,6 @@ require_once ( JPATH_BASE .'/includes/framework.php'   );
 require_once ( JPATH_BASE .'/includes/application.php' );
 
 /**
- * CLEAN THE REQUEST
- */
-JRequest::clean();
-
-/**
  * CREATE THE APPLICATION
  * 
  * NOTE :

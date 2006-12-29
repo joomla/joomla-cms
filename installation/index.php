@@ -17,10 +17,6 @@ define( 'JPATH_BASE', dirname( __FILE__ ) );
 require_once( JPATH_BASE .'/includes/defines.php'     );
 require_once( JPATH_BASE .'/includes/application.php' );
 
-/**
- * CLEAN THE REQUEST
- */
-JRequest::clean();
 
 // create the mainframe object
 $mainframe = new JInstallation();

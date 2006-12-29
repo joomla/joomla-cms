@@ -418,11 +418,13 @@ class JError extends patErrorManager
 		@ob_end_clean();
 		jimport('joomla.i18n.language');
 		$document->setTitle(JText::_('Error').': '.$error->code);
-		$document->display(false, false, array (
+		$document->display(false, array (
 			'template' => $template,
 			'directory' => JPATH_BASE.DS.'templates',
 			'debug' => $config->getValue('config.debug'
 		)));
+		
+		echo JResponse::toString();
 		exit(0);
 	}
 }
