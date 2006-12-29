@@ -63,7 +63,6 @@ class JDocumentRenderer_Head extends JDocumentRenderer
 			$strHtml .= $tab . '<base href="' . $document->getLink() . '" />' . $lnEnd;
 		}
 
-		$strHtml .= $tab . '<meta name="generator" content="' . $document->getGenerator() . '" />' . $lnEnd;
 		$strHtml .= $tab . '<meta name="description" content="' . $document->getDescription() . '" />' . $lnEnd;
 
         // Generate META tags
