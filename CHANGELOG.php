@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Dec-2006 Johan Janssens 
+ # Fixed [artf7073] : Username length
+
 30-Dec-2006 Andrew Eddie
  # Made favicon into an absolute path to overcome an odd bug with IE7
 
