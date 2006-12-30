@@ -37,7 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-30-Dec-2006 Johan Janssens 
+30-Dec-2006 Mateusz Krzeszowiec
+ # Fixed [artf6631] : Re-editing a page confuses the category drop-down list
+
+30-Dec-2006 Johan Janssens
  # Fixed [artf7073] : Username length
 
 30-Dec-2006 Andrew Eddie

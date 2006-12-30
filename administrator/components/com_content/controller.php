@@ -415,8 +415,8 @@ class ContentController extends JController
 			if (!$row->frontpage) {
 				$row->frontpage = 0;
 			}
-		} 
-		else 
+		}
+		else
 		{
 			if (!$sectionid && @ JRequest::getVar('filter_sectionid')) {
 				$sectionid =JRequest::getVar('filter_sectionid');
@@ -505,12 +505,13 @@ class ContentController extends JController
 			}
 		}
 
+		$categories = array();
 		foreach ($cat_list as $cat) {
-			$categoriesA[] = $cat;
+			if($cat->section == $row->sectionid)
+				$categories[] = $cat;
 		}
 
 		$categories[] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'name');
-		$categories = array_merge($categories, $categoriesA);
 		$lists['catid'] = JHTMLSelect::genericList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'name', intval($row->catid));
 
 		// build the html select list for ordering
@@ -1339,7 +1340,7 @@ class ContentController extends JController
 		ContentView::insertPagebreak();
 	}
 
-	function _validateDate($date) 
+	function _validateDate($date)
 	{
 		$db =& JFactory::getDBO();
 
