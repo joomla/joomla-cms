@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Dec-2006 Andrew Eddie
+ # Made favicon into an absolute path to overcome an odd bug with IE7
+
 29-Dec-2006 Andrew Eddie
  # Fixed JRequest::clean being fired too late in the execution
  # Fixed bug in SEF internal string cache
