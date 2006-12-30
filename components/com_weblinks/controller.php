@@ -54,7 +54,7 @@ class WeblinksController extends JController
 		JRequest::setVar('view', $viewName);
 
 		//update the hit count for the weblink
-		if($view == 'weblink') {
+		if($viewName == 'weblink') {
 			$model =& $this->getModel('weblink');
 			$model->hit();
 		}
