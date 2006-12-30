@@ -131,13 +131,12 @@ class ContentModelArticle extends JModel
 				}
 			}
 			// Do we have access to the category?
-			if (($this->_article->cat_access > $user->get('gid')) && $this->_article->catid)
-			{
+			if (($this->_article->cat_access > $user->get('gid')) && $this->_article->catid) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
+			
 			// Do we have access to the section?
-			if (($this->_article->sec_access > $user->get('gid')) && $this->_article->sectionid)
-			{
+			if (($this->_article->sec_access > $user->get('gid')) && $this->_article->sectionid) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 

@@ -49,8 +49,8 @@ $mainframe->initialise(array(
 $mainframe->loadStoredUserState();
 
 // trigger the onAfterInitialise events
-$mainframe->triggerEvent('onAfterInitialise');
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
+$mainframe->triggerEvent('onAfterInitialise');
 
 // set for overlib check
 $mainframe->set('loadOverlib', false);
@@ -64,8 +64,8 @@ $option = JAdministratorHelper::findOption();
 $mainframe->execute($option);
 
 // trigger the onAfterDisplay events
-$mainframe->triggerEvent('onAfterExecute');
 JDEBUG ? $_PROFILER->mark('afterExecute') : null;
+$mainframe->triggerEvent('onAfterExecute');
 
 /**
  * DISPLAY THE APPLICATION
@@ -75,8 +75,8 @@ JDEBUG ? $_PROFILER->mark('afterExecute') : null;
 $mainframe->display($option);
 
 // trigger the onAfterDisplay events
-$mainframe->triggerEvent( 'onAfterDisplay' );
 JDEBUG ? $_PROFILER->mark( 'afterDisplay' ) : null;
+$mainframe->triggerEvent( 'onAfterDisplay' );
 
 /**
  * RETURN THE RESPONSE

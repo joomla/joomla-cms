@@ -41,8 +41,9 @@ $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId(
 JPluginHelper::importPlugin( 'system' );
 
 // trigger the onAfterInitialise events
-$mainframe->triggerEvent('onAfterInitialise');
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
+$mainframe->triggerEvent('onAfterInitialise');
+
 
 // authorization
 $Itemid = JSiteHelper::findItemid();
@@ -70,8 +71,9 @@ $document->setBuffer( JComponentHelper::renderComponent($option), 'component');
 $document->setTitle( $mainframe->getCfg('sitename' ));
 
 // trigger the onAfterDisplay events
-$mainframe->triggerEvent('onAfterExecute');
 JDEBUG ? $_PROFILER->mark('afterExecute') : null;
+$mainframe->triggerEvent('onAfterExecute');
+
 
 /**
  * DISPLAY THE APPLICATION
@@ -81,9 +83,8 @@ JDEBUG ? $_PROFILER->mark('afterExecute') : null;
 $document->display( false, $params);
 
 // trigger the onAfterDisplay events
-$mainframe->triggerEvent('onAfterDisplay');
 JDEBUG ? $_PROFILER->mark('afterDisplay') : null;
-
+$mainframe->triggerEvent('onAfterDisplay');
 
 /**
  * RETURN THE RESPONSE
