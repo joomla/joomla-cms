@@ -607,13 +607,13 @@ class JCommonHTML
 	/*
 	 * Function is used only in the administrator : move to JHTMLGrid
 	 */
-	function CheckedOutProcessing( &$row, $i )
+	function CheckedOutProcessing( &$row, $i, $identifier = 'id' )
 	{
 		$user =& JFactory::getUser();
 		if ( $row->checked_out ) {
 			$checked = JCommonHTML::checkedOut( $row );
 		} else {
-			$checked = JHTML::idBox( $i, $row->id, ($row->checked_out && $row->checked_out != $user->get('id') ) );
+			$checked = JHTML::idBox( $i, $row->$identifier, ($row->checked_out && $row->checked_out != $user->get('id') ) );
 		}
 
 		return $checked;
