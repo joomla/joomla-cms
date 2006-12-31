@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Dec-2006 Mateusz Krzeszowiec
+ # Fixed [artf6736] : "Insert Image" window doesn't display cursor properly on certain text
+
 30-Dec-2006 Mateusz Krzeszowiec
  # Fixed [artf6631] : Re-editing a page confuses the category drop-down list
 
