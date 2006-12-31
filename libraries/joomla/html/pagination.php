@@ -531,7 +531,7 @@ class JPagination extends JObject
 		{
 			$html .= '&lt;&lt; ';
 			$html .= $list['start']['data'];
-			$html .= ' &lt ';
+			$html .= ' &lt; ';
 			$html .= $list['previous']['data'];
 			foreach( $list['pages'] as $page ) {
 				$html .= ' '.$page['data'];
