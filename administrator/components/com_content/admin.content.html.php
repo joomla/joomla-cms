@@ -873,7 +873,7 @@ class ContentView
 		</tr>
 		<tr>
 			<td>
-				<input type="button" class="button" value="<?php echo JText::_( 'Add Sect/Cat/Title' ); ?>" onclick="f=document.adminForm;f.metakey.value=document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].text+', '+getSelectedText('adminForm','catid')+', '+f.title.value+f.metakey.value;" />
+				<input type="button" class="button" value="<?php echo JText::_( 'Add Sect/Cat/Title' ); ?>" onclick="f=document.adminForm;if(document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].text != '<?php echo '- '.JText::_('Select Section').' -'; ?>') { if(getSelectedText('adminForm','catid') != '<?php echo JText::_('Uncategorized'); ?>') {f.metakey.value=document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].text+', '+getSelectedText('adminForm','catid')+', '+f.title.value+f.metakey.value; } }" />
 			</td>
 		</tr>
 		</table>

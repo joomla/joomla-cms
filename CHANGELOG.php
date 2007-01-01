@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Jan-2007 Hannes Papenberg
+ ^ Changed Meta-Informations gathering in article creation
+
 01-Jan-2007
  ^ Turned submenu off when hidemainmenu not zero
 
