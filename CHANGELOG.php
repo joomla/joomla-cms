@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Jan-2007
+ ^ Turned submenu off when hidemainmenu not zero
+
 31-Dec-2006 Mateusz Krzeszowiec
  # Fixed [artf6736] : "Insert Image" window doesn't display cursor properly on certain text
 
