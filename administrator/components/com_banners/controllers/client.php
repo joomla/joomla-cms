@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: bannerclient.php 6081 2006-12-21 13:24:54Z eddiea $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Banners
  * @copyright	Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
