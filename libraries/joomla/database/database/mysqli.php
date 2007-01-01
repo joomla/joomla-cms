@@ -90,11 +90,8 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	function __destruct()
 	{
-		$return = false;
-		if (is_resource($this->_resource)) {
-			$return = mysqli_close($this->_resource);
-		}
-		return $return;
+		// mysqli does not persist connections, so let's make sure it's closed
+		return @mysqli_close($this->_resource);
 	}
 
 	function _parseHost( $host )

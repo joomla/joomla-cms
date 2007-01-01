@@ -298,10 +298,9 @@ function changePublishNewsFeeds( $publish )
 		$cid = array(0);
 	}
 
-	if (count( $cid ) < 1) {
-		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
-		echo "<script> alert('". JText::_( 'Select a module to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
-		exit;
+	if (empty( $cid )) {
+		JError::raiseWarning( 500, 'No items selected' );
+		$mainframe->redirect( 'index.php?option='. $option );
 	}
 
 	$cids = implode( ',', $cid );

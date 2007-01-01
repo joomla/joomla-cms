@@ -517,6 +517,15 @@ class JController extends JObject
 	}
 
 	/**
+	 * Sets the internal message that is passed with a redirect
+	 * @param	string	The message
+	 */
+	function setMessage( $text )
+	{
+		$this->_message = $text;
+	}
+
+	/**
 	 * Set a URL for browser redirection.
 	 *
 	 * @access	public

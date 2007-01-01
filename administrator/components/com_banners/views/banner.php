@@ -1,28 +1,42 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage Banners
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	Banners
+ * @copyright	Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
-* @package Joomla
-* @subpackage Banners
+* @package		Joomla
+* @subpackage	Banners
 */
-class BannersView
+class BannersViewBanner
 {
-	function showBanners( &$rows, &$pageNav, $option, &$lists )
+	function setBannersToolbar()
 	{
+		JMenuBar::title( JText::_( 'Banner Manager' ), 'generic.png' );
+		JMenuBar::publishList();
+		JMenuBar::unpublishList();
+		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
+		JMenuBar::deleteList();
+		JMenuBar::editListX();
+		JMenuBar::addNewX();
+		JMenuBar::configuration('com_banners', '500');
+		JMenuBar::help( 'screen.banners' );
+	}
+
+	function banners( &$rows, &$pageNav, &$lists )
+	{
+		BannersViewBanner::setBannersToolbar();
 		$user =& JFactory::getUser();
 		JCommonHTML::loadOverlib();
 		?>
@@ -168,18 +182,31 @@ class BannersView
 			</tfoot>
 			</table>
 
-		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="c" value="banner" />
+		<input type="hidden" name="option" value="com_banners" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}
 
-	function edit( &$row, &$lists, $_option )
+	function setBannerToolbar()
 	{
+		$cid = JRequest::getVar( 'cid', array(), 'method', 'array');
+
+		JMenuBar::title( empty( $cid ) ? JText::_( 'New Banner Client' ) : JText::_( 'Edit Banner Client' ), 'generic.png' );
+		JMenuBar::save( 'save' );
+		JMenuBar::apply('apply');
+		JMenuBar::cancel( 'cancel' );
+		JMenuBar::help( 'screen.banners.client.edit' );
+	}
+
+	function banner( &$row, &$lists )
+	{
+		BannersViewBanner::setBannerToolbar();
+		JRequest::setVar( 'hidemainmenu', 1 );
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES, 'custombannercode' );
 		?>
@@ -391,7 +418,8 @@ class BannersView
 		</div>
 		<div class="clr"></div>
 
-		<input type="hidden" name="option" value="<?php echo $_option; ?>" />
+		<input type="hidden" name="c" value="banner" />
+		<input type="hidden" name="option" value="com_banners" />
 		<input type="hidden" name="bid" value="<?php echo $row->bid; ?>" />
 		<input type="hidden" name="clicks" value="<?php echo $row->clicks; ?>" />
 		<input type="hidden" name="task" value="" />
@@ -400,4 +428,3 @@ class BannersView
 		<?php
 	}
 }
-?>

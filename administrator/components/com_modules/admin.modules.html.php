@@ -19,13 +19,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Modules
 */
-class HTML_modules {
-
+class HTML_modules
+{
 	/**
 	* Writes a list of the defined modules
 	* @param array An array of category objects
 	*/
-	function showModules( &$rows, &$client, &$page, &$lists )
+	function view( &$rows, &$client, &$page, &$lists )
 	{
 		$user =& JFactory::getUser();
 
@@ -209,12 +209,14 @@ class HTML_modules {
 	* @param array An array of select lists
 	* @param object Parameters
 	*/
-	function editModule( &$row, &$orders2, &$lists, &$params, $client )
+	function edit( &$model, &$row, &$orders2, &$lists, &$params, $client )
 	{
 		// Check for component metadata.xml file
 		//$path = JApplicationHelper::getPath( 'mod'.$client->id.'_xml', $row->module );
 		//$params = new JParameter( $row->params, $path );
 
+		jimport('joomla.html.pane');
+		$pane =& JPane::getInstance('sliders');
 		$editor 	=& JFactory::getEditor();
 
 		$row->titleA = '';
@@ -346,13 +348,28 @@ class HTML_modules {
 			</fieldset>
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
-					<table class="admintable">
-					<tr>
-						<td>
-							<?php echo $params->render();?>
-						</td>
-					</tr>
-					</table>
+
+				<?php
+					$pane->startPane("menu-pane");
+					$pane->startPanel(JText :: _('Menu Item Parameters'), "param-page");
+					$p = $model->getParams();
+					if($params = $p->render('params')) :
+						echo $params;
+					else :
+						echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no parameters for this item')."</div>";
+					endif;
+					$pane->endPanel();
+
+					$pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
+					$p = $model->getParams('advanced');
+					if($params = $p->render('params')) :
+						echo $params;
+					else :
+						echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no advanced parameters for this item')."</div>";
+					endif;
+					$pane->endPanel();
+					$pane->endPane();
+				?>
 			</fieldset>
 		</div>
 		<div class="col40">
@@ -408,7 +425,7 @@ class HTML_modules {
 		<?php
 	}
 
-	function previewModule()
+	function preview()
 	{
 		$editor =& JFactory::getEditor();
 
@@ -435,7 +452,7 @@ class HTML_modules {
 	/**
 	* Displays a selection list for module types
 	*/
-	function addModule( &$modules, $client )
+	function add( &$modules, $client )
 	{
  		JCommonHTML::loadOverlib();
 

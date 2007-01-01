@@ -1,25 +1,35 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage Banners
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	Banners
+ * @copyright	Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 /**
-* Banner clients
-* @package Joomla
-*/
+ * @package		Joomla
+ * @subpackage	Banners
+ */
 class BannersViewClients
 {
-	function showClients( &$rows, &$pageNav, $option, &$lists )
+	function setClientsToolbar()
 	{
+		JMenuBar::title( JText::_( 'Banner Client Manager' ), 'generic.png' );
+		JMenuBar::deleteList( '', 'remove' );
+		JMenuBar::editListX( 'edit' );
+		JMenuBar::addNewX( 'add' );
+		JMenuBar::help( 'screen.banners.client' );
+	}
+
+	function clients( &$rows, &$pageNav, &$lists )
+	{
+		BannersViewClients::setClientsToolbar();
 		$user =& JFactory::getUser();
 		JCommonHTML::loadOverlib();
 		?>
@@ -48,16 +58,16 @@ class BannersViewClients
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th nowrap="nowrap" class="title">
-					<?php JCommonHTML::tableOrdering( 'Client Name', 'a.name', $lists, 'listclients' ); ?>
-				</th>
-				<th width="3%" nowrap="nowrap">
-					<?php JCommonHTML::tableOrdering( 'ID', 'a.cid', $lists, 'listclients' ); ?>
+					<?php JCommonHTML::tableOrdering( 'Client Name', 'a.name', $lists ); ?>
 				</th>
 				<th nowrap="nowrap" class="title" width="35%">
-					<?php JCommonHTML::tableOrdering( 'Contact', 'a.contact', $lists, 'listclients' ); ?>
+					<?php JCommonHTML::tableOrdering( 'Contact', 'a.contact', $lists ); ?>
 				</th>
 				<th align="center" nowrap="nowrap" width="5%">
-					<?php JCommonHTML::tableOrdering( 'No. of Active Banners', 'bid', $lists, 'listclients' ); ?>
+					<?php JCommonHTML::tableOrdering( 'No. of Active Banners', 'bid', $lists ); ?>
+				</th>
+				<th width="1%" nowrap="nowrap">
+					<?php JCommonHTML::tableOrdering( 'ID', 'a.cid', $lists ); ?>
 				</th>
 			</tr>
 			</thead>
@@ -67,7 +77,7 @@ class BannersViewClients
 				$row = &$rows[$i];
 
 				$row->id 		= $row->cid;
-				$link 			= ampReplace( 'index.php?option=com_banners&task=editclient&hidemainmenu=1&cid[]='. $row->id );
+				$link 			= ampReplace( 'index.php?option=com_banners&c=client&task=edit&cid[]='. $row->id );
 
 				$checked 		= JCommonHTML::CheckedOutProcessing( $row, $i );
 				?>
@@ -90,14 +100,14 @@ class BannersViewClients
 						}
 						?>
 					</td>
-					<td align="center">
-						<?php echo $row->cid; ?>
-					</td>
 					<td>
 						<?php echo $row->contact; ?>
 					</td>
 					<td align="center">
-						<?php echo $row->bid;?>
+						<?php echo $row->nbanners;?>
+					</td>
+					<td align="center">
+						<?php echo $row->cid; ?>
 					</td>
 				</tr>
 				<?php
@@ -111,18 +121,31 @@ class BannersViewClients
 			</tfoot>
 			</table>
 
-		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="c" value="client" />
+		<input type="hidden" name="option" value="com_banners" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}
 
-	function bannerClientForm( &$row, $option )
+	function setClientToolbar()
 	{
+		$cid = JRequest::getVar( 'cid', array(), 'method', 'array');
+
+		JMenuBar::title( empty( $cid ) ? JText::_( 'New Banner Client' ) : JText::_( 'Edit Banner Client' ), 'generic.png' );
+		JMenuBar::save( 'save' );
+		JMenuBar::apply('apply');
+		JMenuBar::cancel( 'cancel' );
+		JMenuBar::help( 'screen.banners.client.edit' );
+	}
+
+	function client( &$row )
+	{
+		BannersViewClients::setClientToolbar();
+		JRequest::setVar( 'hidemainmenu', 1 );
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES, 'extrainfo' );
 		?>
@@ -217,7 +240,8 @@ class BannersViewClients
 		</div>
 		<div class="clr"></div>
 
-		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="c" value="client" />
+		<input type="hidden" name="option" value="com_banners" />
 		<input type="hidden" name="cid" value="<?php echo $row->cid; ?>" />
 		<input type="hidden" name="client_id" value="<?php echo $row->cid; ?>" />
 		<input type="hidden" name="task" value="" />
@@ -225,4 +249,3 @@ class BannersViewClients
 		<?php
 	}
 }
-?>
