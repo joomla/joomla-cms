@@ -75,7 +75,9 @@
        		</div>
   		</div>
    		<div class="clr"></div>
+		<?php if (JRequest::getVar( 'hidemainmenu' ) != 1): ?>
 		<jdoc:include type="module" name="submenu" style="rounded" id="submenu-box" />
+		<?php endif; ?>
 		<jdoc:include type="message" />
 		<div id="element-box">
       		<div class="t">
