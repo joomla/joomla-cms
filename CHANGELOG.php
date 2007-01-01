@@ -42,6 +42,7 @@ Legend:
  + Added advanced params support for modules
  ^ Tidied controllers and error handling in admin com_banners
  ^ Tidied controllers and error handling in admin com_modules
+ + Added path plg_xml for use in leiu of bot_xml
 
 01-Jan-2007 Hannes Papenberg
  ^ Changed Meta-Informations gathering in article creation
