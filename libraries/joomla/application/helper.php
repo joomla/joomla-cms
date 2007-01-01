@@ -181,6 +181,8 @@ class JApplicationHelper
 				break;
 
 			case 'bot_xml':
+				// legacy value
+			case 'plg_xml':
 				// Site plugins
 				$path 	= DS.'plugins'.DS. $user_option .'.xml';
 				$result = JApplicationHelper::_checkPath( $path, 0 );
