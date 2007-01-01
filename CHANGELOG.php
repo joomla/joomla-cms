@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Jan-2007
+ + Added JController::setMessage
+ + Added advanced params support for modules
+ ^ Tidied controllers and error handling in admin com_banners
+ ^ Tidied controllers and error handling in admin com_modules
+
 01-Jan-2007 Hannes Papenberg
  ^ Changed Meta-Informations gathering in article creation
 
