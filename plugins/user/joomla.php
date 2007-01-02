@@ -87,7 +87,7 @@ class JUserJoomla extends JPlugin
 			$my->set( 'gid'			, 18 );				//Make configurable
 			$my->set( 'usertype'	, 'Registered' ); 	//Make configurable
 		}
-		
+
 		//If autoregister is set let's register the user
 		if($params->get('autoregister', 1)) 
 		{
