@@ -58,7 +58,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 
 		// Get the current JUser object
 		$user = &JFactory::getUser();
-		
+
 		if ( $user->get('gid') > 23 ) {
 			$link = 'index.php?option=com_menus';
 			quickiconButton( $link, 'icon-48-menumgr.png', JText::_( 'Menu Manager' ) );
