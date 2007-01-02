@@ -1,3 +1,8 @@
+<?php
+/**
+ * @version		$Id: index3.php 5441 2006-10-11 20:36:29Z Jinx $
+ */
+?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Directory Permissions' ); ?></legend>
 		<table class="adminlist">

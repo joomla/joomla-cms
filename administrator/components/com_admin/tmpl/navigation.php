@@ -1,3 +1,8 @@
+<?php
+/**
+ * @version		$Id$
+ */
+?>
 <div class="submenu-box">
 	<div class="submenu-pad">
 		<ul id="submenu">
