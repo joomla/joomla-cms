@@ -59,7 +59,6 @@ class JMainMenu extends JTree
 
 	function addNode($item)
 	{
-
 		// Menu Link is a special type that is a link to another item
 		if ($item->type == 'menulink') 
 		{
@@ -131,7 +130,13 @@ class JMainMenu extends JTree
 		}
 		$this->_nodeHash[$nid] =& $node;
 		$this->_current =& $this->_nodeHash[$item->parent];
-		$this->addChild($node, true);
+
+		if ($this->_current) {
+			$this->addChild($node, true);
+		} else {
+			// sanity check
+			JError::raiseError( 500, 'Orphan Error. Could not find parent for Item '.$item->id );
+		}
 
 		// Handle active menu items
 		if ($item->id == $this->_active) {
