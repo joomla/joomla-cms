@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla.Framework
-* @subpackage Environment
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla.Framework
+* @subpackage	Environment
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -82,10 +82,10 @@ class JBrowser extends JObject
 	var $_platform = '';
 
 	/**
-	  * Known robots.
-	  *
-	  * @var array
-	  */
+	 * Known robots.
+	 *
+	 * @var array
+	 */
 	var $_robots = array(
 		/* The most common ones. */
 		'Googlebot',
@@ -286,10 +286,10 @@ class JBrowser extends JObject
 				$this->setQuirk('avoid_popup_windows');
 				$this->_mobile = true;
 			} elseif (preg_match('|Opera[/ ]([0-9.]+)|', $this->_agent, $version)) {
-					  $this->setBrowser('opera');
-					  list($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
-					  $this->setFeature('javascript', true);
-					  $this->setQuirk('no_filename_spaces');
+						$this->setBrowser('opera');
+						list($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
+						$this->setFeature('javascript', true);
+						$this->setQuirk('no_filename_spaces');
 
 				if ($this->_majorVersion >= 7) {
 					$this->setFeature('dom');
@@ -299,8 +299,8 @@ class JBrowser extends JObject
 					$this->setQuirk('double_linebreak_textarea');
 				}
 			} elseif (strpos($this->_lowerAgent, 'elaine/') !== false ||
-					  strpos($this->_lowerAgent, 'palmsource') !== false ||
-					  strpos($this->_lowerAgent, 'digital paths') !== false) {
+						strpos($this->_lowerAgent, 'palmsource') !== false ||
+						strpos($this->_lowerAgent, 'digital paths') !== false) {
 				$this->setBrowser('palm');
 				$this->setFeature('images', false);
 				$this->setFeature('frames', false);
@@ -308,7 +308,7 @@ class JBrowser extends JObject
 				$this->setQuirk('avoid_popup_windows');
 				$this->_mobile = true;
 			} elseif ((preg_match('|MSIE ([0-9.]+)|', $this->_agent, $version)) ||
-					  (preg_match('|Internet Explorer/([0-9.]+)|', $this->_agent, $version))) {
+						(preg_match('|Internet Explorer/([0-9.]+)|', $this->_agent, $version))) {
 
 				$this->setBrowser('msie');
 				$this->setQuirk('cache_ssl_downloads');
@@ -410,7 +410,7 @@ class JBrowser extends JObject
 				$this->setBrowser('avantgo');
 				$this->_mobile = true;
 			} elseif (preg_match('|Konqueror/([0-9]+)|', $this->_agent, $version) ||
-					  preg_match('|Safari/([0-9]+)\.?([0-9]+)?|', $this->_agent, $version)) {
+						preg_match('|Safari/([0-9]+)\.?([0-9]+)?|', $this->_agent, $version)) {
 				// Konqueror and Apple's Safari both use the KHTML
 				// rendering engine.
 				$this->setBrowser('konqueror');
@@ -497,8 +497,8 @@ class JBrowser extends JObject
 				$this->setBrowser('hotjava');
 				$this->setFeature('javascript', false);
 			} elseif (strpos($this->_agent, 'UP/') !== false ||
-					  strpos($this->_agent, 'UP.B') !== false ||
-					  strpos($this->_agent, 'UP.L') !== false) {
+						strpos($this->_agent, 'UP.B') !== false ||
+						strpos($this->_agent, 'UP.L') !== false) {
 				$this->setBrowser('up');
 				$this->setFeature('html', false);
 				$this->setFeature('javascript', false);
@@ -543,7 +543,7 @@ class JBrowser extends JObject
 				$this->setFeature('wml');
 				$this->_mobile = true;
 			} elseif (strpos($this->_lowerAgent, 'docomo') !== false ||
-					  strpos($this->_lowerAgent, 'portalmmm') !== false) {
+						strpos($this->_lowerAgent, 'portalmmm') !== false) {
 				$this->setBrowser('imode');
 				$this->setFeature('images', false);
 				$this->_mobile = true;
@@ -691,8 +691,8 @@ class JBrowser extends JObject
 	function getQuirk($quirk)
 	{
 		return isset($this->_quirks[$quirk])
-			   ? $this->_quirks[$quirk]
-			   : null;
+				? $this->_quirks[$quirk]
+				: null;
 	}
 
 	/**
@@ -723,8 +723,8 @@ class JBrowser extends JObject
 	 */
 	function getFeature($feature)	 {
 		 return isset($this->_features[$feature])
-			   ? $this->_features[$feature]
-			   : null;
+				? $this->_features[$feature]
+				: null;
 	}
 
 	/**
@@ -752,12 +752,12 @@ class JBrowser extends JObject
 				}
 			 }
 
-			 /* image/jpeg and image/pjpeg *appear* to be the same
-			  * entity, but Mozilla doesn't seem to want to accept the
-			  * latter.  For our purposes, we will treat them the
-			  * same.
-			  */
-			  if ($this->isBrowser('mozilla') &&
+			/* image/jpeg and image/pjpeg *appear* to be the same
+			* entity, but Mozilla doesn't seem to want to accept the
+			* latter.  For our purposes, we will treat them the
+			* same.
+			*/
+				if ($this->isBrowser('mozilla') &&
 				($mimetype == 'image/pjpeg') &&
 				(strpos($this->_accept, 'image/jpeg') !== false)) {
 					return true;

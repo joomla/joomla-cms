@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id: view.php 4854 2006-08-31 11:29:11Z Jinx $
-* @package Joomla
-* @subpackage Weblinks
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id: view.php 4854 2006-08-31 11:29:11Z Jinx $
+* @package		Joomla
+* @subpackage	Weblinks
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -18,8 +18,8 @@ jimport( 'joomla.application.component.view');
  * HTML View class for the WebLinks component
  *
  * @static
- * @package Joomla
- * @subpackage Weblinks
+ * @package		Joomla
+ * @subpackage	Weblinks
  * @since 1.0
  */
 class WeblinksViewCategory extends JView

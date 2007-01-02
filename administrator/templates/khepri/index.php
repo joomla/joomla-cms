@@ -1,7 +1,7 @@
 <?php
 /**
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
@@ -60,7 +60,7 @@
 				<div id="toolbar-box">
    			<div class="t">
 				<div class="t">
-			   		<div class="t"></div>
+					<div class="t"></div>
 				</div>
 			</div>
 			<div class="m">
@@ -71,8 +71,8 @@
 			<div class="b">
 				<div class="b">
 					<div class="b"></div>
-		   		</div>
-	   		</div>
+				</div>
+			</div>
   		</div>
    		<div class="clr"></div>
 		<?php if (JRequest::getVar( 'hidemainmenu' ) != 1): ?>
@@ -80,20 +80,20 @@
 		<?php endif; ?>
 		<jdoc:include type="message" />
 		<div id="element-box">
-	  		<div class="t">
+			<div class="t">
 		 		<div class="t">
 					<div class="t"></div>
 		 		</div>
-	   		</div>
-	   		<div class="m">
+			</div>
+			<div class="m">
 				<jdoc:include type="component" />
 				<div class="clr"></div>
 			</div>
-	   		<div class="b">
+			<div class="b">
 				<div class="b">
 					<div class="b"></div>
-		  		</div>
-	   		</div>
+				</div>
+			</div>
    		</div>
 		<noscript>
 			<?php echo  JText::_('WARNJAVASCRIPT') ?>

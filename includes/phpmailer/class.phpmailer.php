@@ -1,6 +1,6 @@
 <?php // compatibility
 /**
-* @package Joomla
+* @package		Joomla
 */
 require_once( dirname(__FILE__)  .'/../../libraries/phpmailer/phpmailer.class.php' );
 ?>

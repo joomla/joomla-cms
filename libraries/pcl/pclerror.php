@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id$
-* @package Joomla
+* @package		Joomla
 */
 
 

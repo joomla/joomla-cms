@@ -1,10 +1,10 @@
 <?php
 /**
- * @version $Id: default.php 4724 2006-08-24 11:40:06Z eddiea $
- * @package Joomla
- * @subpackage Contact
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
+ * @version		$Id: default.php 4724 2006-08-24 11:40:06Z eddiea $
+ * @package		Joomla
+ * @subpackage	Contact
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -18,8 +18,8 @@ jimport( 'joomla.application.component.controller' );
  * Contact Component Controller
  *
  * @static
- * @package Joomla
- * @subpackage Contact
+ * @package		Joomla
+ * @subpackage	Contact
  * @since 1.5
  */
 class ContactController extends JController

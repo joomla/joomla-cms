@@ -1,7 +1,7 @@
 <?php
 /**
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
@@ -50,10 +50,10 @@
 			<div id="element-box" class="login">
 				<div class="t">
 					<div class="t">
-			  			<div class="t"></div>
+						<div class="t"></div>
 					</div>
-		  		</div>
-		  		<div class="m">
+				</div>
+				<div class="m">
 
 					<h1><?php echo JText::_('Joomla! Administration Login') ?></h1>
 					<jdoc:include type="component" />
@@ -63,12 +63,12 @@
 					</p>
 					<div id="lock"></div>
 					<div class="clr"></div>
-		  		</div>
-		  		<div class="b">
+				</div>
+				<div class="b">
 					<div class="b">
-			  			<div class="b"></div>
+						<div class="b"></div>
 					</div>
-		  		</div>
+				</div>
 			</div>
 			<noscript>
 				<?php echo JText::_('WARNJAVASCRIPT') ?>

@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla.Framework
-* @subpackage Compatibility
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla.Framework
+* @subpackage	Compatibility
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -30,10 +30,10 @@ if (!defined('FILE_APPEND')) {
  * Replace file_put_contents()
  *
  * @link		http://php.net/function.file_put_contents
- * @author	  	Aidan Lister <aidan@php.net>
+ * @author		Aidan Lister <aidan@php.net>
  * @version	 	$Revision: 47 $
  * @internal	resource_context is not supported
- * @since	   	PHP 5
+ * @since		PHP 5
  */
 if (!function_exists('file_put_contents')) {
 	function file_put_contents($filename, $content, $flags = null, $resource_context = null)

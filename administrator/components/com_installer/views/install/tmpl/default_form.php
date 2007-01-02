@@ -32,7 +32,7 @@
 	</tr>
 	<tr>
 		<td width="120">
-		   	<label for="install_package"><?php echo JText::_( 'Package File' ); ?>:</label>
+			<label for="install_package"><?php echo JText::_( 'Package File' ); ?>:</label>
 		</td>
 		<td>
 			<input class="input_box" id="install_package" name="userfile" type="file" size="57" />
@@ -53,7 +53,7 @@
 	</tr>
 	<tr>
 		<td width="120">
-		   	<label for="install_directory"><?php echo JText::_( 'Install directory' ); ?>:</label>
+			<label for="install_directory"><?php echo JText::_( 'Install directory' ); ?>:</label>
 		</td>
 		<td>
 			<input type="text" id="install_directory" name="userfile" class="input_box" size="70" value="<?php echo $this->state->get('install.directory'); ?>" />
@@ -70,16 +70,16 @@
 <form enctype="multipart/form-data" action="index.php" method="post" name="webinstall">
 	<table class="adminform">
 	<tr>
-	  	<th colspan="2"><?php echo JText::_( 'Install from URL' ); ?></th>
+		<th colspan="2"><?php echo JText::_( 'Install from URL' ); ?></th>
 	</tr>
 	<tr>
-	  	<td width="120">
+		<td width="120">
 			<label for="install_url"><?php echo JText::_( 'Install URL' ); ?>:</label>
 		</td>
 		<td>
 			<input type="text" id="install_url" name="userfile" class="input_box" size="70" value="http://" />
-		   	<input type="button" class="button" value="<?php echo JText::_( 'Install' ); ?>" onclick="submitbutton4()" />
-	  	</td>
+			<input type="button" class="button" value="<?php echo JText::_( 'Install' ); ?>" onclick="submitbutton4()" />
+		</td>
 	</tr>
 	</table>
 

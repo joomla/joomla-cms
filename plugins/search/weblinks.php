@@ -1,9 +1,9 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -77,7 +77,7 @@ function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 			$wheres = array();
 			foreach ($words as $word) {
 				$wheres2 	= array();
-		  		$wheres2[] 	= "LOWER(a.url) LIKE '%$word%'";
+				$wheres2[] 	= "LOWER(a.url) LIKE '%$word%'";
 				$wheres2[] 	= "LOWER(a.description) LIKE '%$word%'";
 				$wheres2[] 	= "LOWER(a.title) LIKE '%$word%'";
 				$wheres[] 	= implode( ' OR ', $wheres2 );

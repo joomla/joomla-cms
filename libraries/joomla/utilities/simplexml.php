@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla.Framework
-* @subpackage Utilities
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla.Framework
+* @subpackage	Utilities
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -116,11 +116,11 @@ class JSimpleXML extends JObject
 	 */
 	function __construct($options = null)
 	{
-	   	if(! function_exists('xml_parser_create')) {
+		if(! function_exists('xml_parser_create')) {
 			return false; //TODO throw warning
-	   	}
+		}
 
-	   	//Create the parser resource and make sure both versions of PHP autodetect the format.
+		//Create the parser resource and make sure both versions of PHP autodetect the format.
 		$this->_parser = xml_parser_create('');
 
 		// check parser resource

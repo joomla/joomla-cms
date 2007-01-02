@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla.Framework
-* @subpackage Document
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla.Framework
+* @subpackage	Document
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -86,7 +86,7 @@ class JDocumentFeed extends JDocument
 	/**
 	 * Docs feed element
 	 *
-	 * @var	   string
+	 * @var		string
 	 * @access	public
 	 */
 	 var $docs = "";
@@ -241,7 +241,7 @@ class JDocumentFeed extends JDocument
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage 	Document
+ * @subpackage		Document
  * @since	1.5
  */
 class JFeedItem extends JObject
@@ -264,7 +264,7 @@ class JFeedItem extends JObject
 	 * @var		string
 	 * @access	public
 	 */
-	  var $link;
+	var $link;
 
 	/**
 	 * Description item element
@@ -384,7 +384,7 @@ class JFeedItem extends JObject
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage 	Document
+ * @subpackage		Document
  * @since	1.5
  */
 class JFeedEnclosure extends JObject
@@ -425,7 +425,7 @@ class JFeedEnclosure extends JObject
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage 	Document
+ * @subpackage		Document
  * @since	1.5
  */
 class JFeedImage extends JObject

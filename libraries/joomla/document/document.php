@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla.Framework
-* @subpackage Document
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla.Framework
+* @subpackage	Document
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -66,7 +66,7 @@ class JDocument extends JObject
 	/**
 	 * Document generator
 	 *
-	 * @var	   string
+	 * @var		string
 	 * @access	public
 	 */
 	 var $_generator = 'Joomla! 1.5';
@@ -74,7 +74,7 @@ class JDocument extends JObject
 	/**
 	 * Document modified date
 	 *
-	 * @var	  string
+	 * @var		string
 	 * @access   private
 	 */
 	var $_mdate = '';
@@ -82,7 +82,7 @@ class JDocument extends JObject
 	/**
 	 * Tab string
 	 *
-	 * @var	   string
+	 * @var		string
 	 * @access	private
 	 */
 	var $_tab = "\11";
@@ -90,7 +90,7 @@ class JDocument extends JObject
 	/**
 	 * Contains the line end string
 	 *
-	 * @var	   string
+	 * @var		string
 	 * @access	private
 	 */
 	var $_lineEnd = "\12";
@@ -106,15 +106,15 @@ class JDocument extends JObject
 	/**
 	 * Document mime type
 	 *
-	 * @var	  string
-	 * @access   private
+	 * @var		string
+	 * @access	private
 	 */
 	var $_mime = '';
 
 	/**
 	 * Document namespace
 	 *
-	 * @var	  string
+	 * @var		string
 	 * @access   private
 	 */
 	var $_namespace = '';
@@ -122,7 +122,7 @@ class JDocument extends JObject
 	/**
 	 * Document profile
 	 *
-	 * @var	  string
+	 * @var		string
 	 * @access   private
 	 */
 	var $_profile = '';
@@ -130,7 +130,7 @@ class JDocument extends JObject
 	/**
 	 * Array of linked scripts
 	 *
-	 * @var	  array
+	 * @var		array
 	 * @access   private
 	 */
 	var $_scripts = array();
@@ -186,7 +186,7 @@ class JDocument extends JObject
 	/**
 	 * Array of buffered output
 	 *
-	 * @var	   mixed (depends on the renderer)
+	 * @var		mixed (depends on the renderer)
 	 * @access	private
 	 */
 	var $_buffer = null;
@@ -290,7 +290,7 @@ class JDocument extends JObject
 	/**
 	 * Gets a meta tag.
 	 *
-	 * @param	string	$name		   Value of name or http-equiv tag
+	 * @param	string	$name			Value of name or http-equiv tag
 	 * @param	bool	$http_equiv	 META type "http-equiv" defaults to null
 	 * @return	string
 	 * @access	public
@@ -309,7 +309,7 @@ class JDocument extends JObject
 	/**
 	 * Sets or alters a meta tag.
 	 *
-	 * @param string  $name		   Value of name or http-equiv tag
+	 * @param string  $name			Value of name or http-equiv tag
 	 * @param string  $content		Value of the content tag
 	 * @param bool	$http_equiv	 META type "http-equiv" defaults to null
 	 * @return void
@@ -328,7 +328,7 @@ class JDocument extends JObject
 	 * Adds a linked script to the page
 	 *
 	 * @param	string  $url		URL to the linked script
-	 * @param	string  $type	   Type of script. Defaults to 'text/javascript'
+	 * @param	string  $type		Type of script. Defaults to 'text/javascript'
 	 * @access   public
 	 */
 	function addScript($url, $type="text/javascript") {
@@ -340,7 +340,7 @@ class JDocument extends JObject
 	 *
 	 * @access   public
 	 * @param	string  $content   Script
-	 * @param	string  $type	  Scripting mime (defaults to 'text/javascript')
+	 * @param	string  $type		Scripting mime (defaults to 'text/javascript')
 	 * @return   void
 	 */
 	function addScriptDeclaration($content, $type = 'text/javascript') {
@@ -366,7 +366,7 @@ class JDocument extends JObject
 	 * Adds a stylesheet declaration to the page
 	 *
 	 * @param	string  $content   Style declarations
-	 * @param	string  $type	  Type of stylesheet (defaults to 'text/css')
+	 * @param	string  $type		Type of stylesheet (defaults to 'text/css')
 	 * @access   public
 	 * @return   void
 	 */

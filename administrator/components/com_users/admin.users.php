@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage Users
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla
+* @subpackage	Users
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -221,8 +221,8 @@ function editUser( )
 	$userId		= (int) @$cid[0];
 
 	$db 		=& JFactory::getDBO();
-	$user 	  	=& JUser::getInstance( $userId );
-	$acl	  	=& JFactory::getACL();
+	$user 		=& JUser::getInstance( $userId );
+	$acl		=& JFactory::getACL();
 
 	if ( $user->get('id') )
 	{
@@ -419,7 +419,7 @@ function removeUsers(  )
 
 	$db 			=& JFactory::getDBO();
 	$currentUser 	=& JFactory::getUser();
-	$acl	  		=& JFactory::getACL();
+	$acl			=& JFactory::getACL();
 	$cid 			= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 
 	JArrayHelper::toInteger( $cid );

@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id: weblinks.class.php 4452 2006-08-10 01:03:39Z Jinx $
-* @package Joomla
-* @subpackage Weblinks
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id: weblinks.class.php 4452 2006-08-10 01:03:39Z Jinx $
+* @package		Joomla
+* @subpackage	Weblinks
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -21,8 +21,8 @@ jimport('joomla.filter.input');
 /**
 * Weblink Table class
 *
-* @package Joomla
-* @subpackage Weblinks
+* @package		Joomla
+* @subpackage	Weblinks
 * @since 1.0
 */
 class TableWeblink extends JTable

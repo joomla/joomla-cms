@@ -1,9 +1,9 @@
 <?php
 /**
- * @version $Id$
- * @package Joomla.Framework
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
@@ -15,7 +15,7 @@
  * Joomla Framework Factory class
  *
  * @static
- * @package Joomla.Framework
+ * @package		Joomla.Framework
  * @since	1.5
  */
 class JFactory
@@ -506,7 +506,7 @@ class JFactory
 
 		// patTemplate
 		if ($conf->getValue('config.caching')) {
-	   		 $tmpl->enableTemplateCache( 'File', JPATH_BASE.DS.'cache'.DS);
+			 $tmpl->enableTemplateCache( 'File', JPATH_BASE.DS.'cache'.DS);
 		}
 
 		$tmpl->setNamespace( 'jtmpl' );
@@ -570,9 +570,9 @@ class JFactory
 
 		$attributes = array (
 			'charset'	=> 'utf-8',
-		   	'lineend'	=> 'unix',
+			'lineend'	=> 'unix',
 			'tab'		=> '  ',
-		  	'language'	=> $lang->getTag(),
+			'language'	=> $lang->getTag(),
 			'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
 		);
 

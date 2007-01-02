@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage JFramework
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla
+* @subpackage	JFramework
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -43,7 +43,7 @@ class JUserExample extends JPlugin {
 	 *
 	 * Method is called before user data is stored in the database
 	 *
-	 * @param 	array	  	holds the user data
+	 * @param 	array		holds the user data
 	 * @param 	boolean		true if a new user is stored
 	 */
 	function onBeforeStoreUser($user, $isnew)
@@ -57,7 +57,7 @@ class JUserExample extends JPlugin {
 	 *
 	 * Method is called after user data is stored in the database
 	 *
-	 * @param 	array	  	holds the user data
+	 * @param 	array		holds the user data
 	 * @param 	boolean		true if a new user is stored
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
@@ -91,7 +91,7 @@ class JUserExample extends JPlugin {
 	 *
 	 * Method is called before user data is deleted from the database
 	 *
-	 * @param 	array	  	holds the user data
+	 * @param 	array		holds the user data
 	 */
 	function onBeforeDeleteUser($user)
 	{
@@ -104,7 +104,7 @@ class JUserExample extends JPlugin {
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param 	array	  	holds the user data
+	 * @param 	array		holds the user data
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
@@ -154,7 +154,7 @@ class JUserExample extends JPlugin {
 	 * This method should handle any logout logic and report back to the subject
 	 *
 	 * @access public
-	 * @param  array	  holds the user data
+	 * @param  array		holds the user data
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
@@ -170,7 +170,7 @@ class JUserExample extends JPlugin {
 		 * if the logout routine succeeds
 		 */
 
-		  //ThirdPartyApp::loginUser($user['username'], $user['password']);
+			//ThirdPartyApp::loginUser($user['username'], $user['password']);
 
 		return $success;
 	}

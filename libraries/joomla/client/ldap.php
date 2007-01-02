@@ -1,11 +1,11 @@
 <?php
 
 /**
-* @version $Id$
-* @package Joomla.Framework
-* @subpackage Client
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla.Framework
+* @subpackage	Client
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software and parts of it may contain or be derived from the
 * GNU General Public License or other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
@@ -16,7 +16,7 @@
  *
  * @author		Samuel Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
- * @subpackage 	Client
+ * @subpackage		Client
  * @since		1.5
  */
 class JLDAP {
@@ -262,20 +262,20 @@ class JLDAP {
 	}
 
 	/**
-	  * extract readable network address from the LDAP encoded networkAddress attribute.
-	  * @author Jay Burrell, Systems & Networks, Mississippi State University
-	  * Please keep this document block and author attribution in place.
-	  *  Novell Docs, see: http://developer.novell.com/ndk/doc/ndslib/schm_enu/data/sdk5624.html#sdk5624
-	  *  for Address types: http://developer.novell.com/ndk/doc/ndslib/index.html?page=/ndk/doc/ndslib/schm_enu/data/sdk4170.html
-	  *  LDAP Format, String:
-	  *	 taggedData = uint32String "#" octetstring
-	  *	 byte 0 = uint32String = Address Type: 0= IPX Address; 1 = IP Address
-	  *	 byte 1 = char = "#" - separator
-	  *	 byte 2+ = octetstring - the ordinal value of the address
-	  *   Note: with eDirectory 8.6.2, the IP address (type 1) returns
-	  *				 correctly, however, an IPX address does not seem to.  eDir 8.7 may
-	  *				correct this.
-	  */
+	 * extract readable network address from the LDAP encoded networkAddress attribute.
+	 * @author Jay Burrell, Systems & Networks, Mississippi State University
+	 * Please keep this document block and author attribution in place.
+	 *  Novell Docs, see: http://developer.novell.com/ndk/doc/ndslib/schm_enu/data/sdk5624.html#sdk5624
+	 *  for Address types: http://developer.novell.com/ndk/doc/ndslib/index.html?page=/ndk/doc/ndslib/schm_enu/data/sdk4170.html
+	 *  LDAP Format, String:
+	 *	 taggedData = uint32String "#" octetstring
+	 *	 byte 0 = uint32String = Address Type: 0= IPX Address; 1 = IP Address
+	 *	 byte 1 = char = "#" - separator
+	 *	 byte 2+ = octetstring - the ordinal value of the address
+	 *   Note: with eDirectory 8.6.2, the IP address (type 1) returns
+	 *				 correctly, however, an IPX address does not seem to.  eDir 8.7 may
+	 *				correct this.
+	 */
 	function LDAPNetAddr($networkaddress) {
 		$addr = "";
 		$addrtype = intval(substr($networkaddress, 0, 1));

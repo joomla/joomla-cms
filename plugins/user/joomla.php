@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage JFramework
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla
+* @subpackage	JFramework
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -43,7 +43,7 @@ class JUserJoomla extends JPlugin
 	 *
 	 * Method is called before user data is deleted from the database
 	 *
-	 * @param 	array	  	holds the user data
+	 * @param 	array		holds the user data
 	 */
 	function onBeforeDeleteUser($user)
 	{
@@ -87,7 +87,7 @@ class JUserJoomla extends JPlugin
 			$my->set( 'name'		, $user['fullname'] );
 			$my->set( 'username'	, $user['username'] );
 			$my->set( 'email'		, $user['email'] );	// Result should contain an email (check)
-			$my->set( 'gid'			, 18 );			  	//Make configurable
+			$my->set( 'gid'			, 18 );				//Make configurable
 			$my->set( 'usertype'	, 'Registered' ); 	//Make configurable
 
 			if(!$my->save()) {
@@ -154,7 +154,7 @@ class JUserJoomla extends JPlugin
 	 * This method should handle any logout logic and report back to the subject
 	 *
 	 * @access public
-	* @param   array	  holds the user data
+	 * @param   array		holds the user data
 	 * @return boolean True on success
 	 * @since 1.5
 	 */

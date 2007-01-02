@@ -1,11 +1,11 @@
 <?php
 /**
- * @version $Id$
+ * @version		$Id$
  * @package  Joomla
- * @subpackage Banners
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights
+ * @subpackage	Banners
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights
  * reserved.
- * @license GNU/GPL, see LICENSE.php
+ * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -17,8 +17,8 @@ jimport( 'joomla.application.component.model' );
 jimport( 'joomla.application.component.helper' );
 
 /**
- * @package Joomla
- * @subpackage Banners
+ * @package		Joomla
+ * @subpackage	Banners
  */
 class BannersModelBanner extends JModel
 {

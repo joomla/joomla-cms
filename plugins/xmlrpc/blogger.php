@@ -1,9 +1,9 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -105,7 +105,7 @@ class BloggerXMLRPCServices
 			'url'		=> new xmlrpcval(JURI::base(), $xmlrpcString),
 			'blogid'	=> new xmlrpcval('1', $xmlrpcString),
 			'blogName'	=> new xmlrpcval('Joomla Articles', $xmlrpcString)
-		  ), 'struct');
+			), 'struct');
 
 		array_push($structarray, $blog);
 		return new xmlrpcresp(new xmlrpcval( $structarray , $xmlrpcArray));
@@ -158,10 +158,10 @@ class BloggerXMLRPCServices
 
 		$struct = new xmlrpcval(
 		array(
-		   'userid'			=> new xmlrpcval($item->created_by),
-		   'dateCreated'	=> new xmlrpcval('0'), //TODO
-		   'content'		=> new xmlrpcval($content),
-		   'postid'			=> new xmlrpcval($item->id)
+			'userid'			=> new xmlrpcval($item->created_by),
+			'dateCreated'	=> new xmlrpcval('0'), //TODO
+			'content'		=> new xmlrpcval($content),
+			'postid'			=> new xmlrpcval($item->id)
 		), $xmlrpcStruct);
 
 		return new xmlrpcresp($struct);

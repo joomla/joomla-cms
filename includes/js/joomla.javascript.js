@@ -1,9 +1,9 @@
 // <?php !! This fools phpdocumentor into parsing this file
 /**
-* @version $Id$
-* @package Joomla
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL
+* @version		$Id$
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL
 * Joomla! is Free Software
 */
 

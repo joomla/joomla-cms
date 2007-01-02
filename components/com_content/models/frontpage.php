@@ -1,10 +1,10 @@
 <?php
 /**
- * @version $Id: frontpage.php 4726 2006-08-24 13:00:25Z eddiea $
- * @package Joomla
- * @subpackage Content
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
+ * @version		$Id: frontpage.php 4726 2006-08-24 13:00:25Z eddiea $
+ * @package		Joomla
+ * @subpackage	Content
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -18,8 +18,8 @@ jimport('joomla.application.component.model');
  * Frontpage Component Model
  *
  * @author	Louis Landry <louis.landry@joomla.org>
- * @package Joomla
- * @subpackage Content
+ * @package		Joomla
+ * @subpackage	Content
  * @since 1.5
  */
 class ContentModelFrontpage extends JModel

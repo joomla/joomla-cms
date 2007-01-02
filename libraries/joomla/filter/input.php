@@ -1,9 +1,9 @@
 <?php
 /**
- * @version $Id: functions.php 4277 2006-07-19 20:35:35Z friesengeist $
+ * @version		$Id: functions.php 4277 2006-07-19 20:35:35Z friesengeist $
  * @package		Joomla.Framework
  * @subpackage	Filter
- * @copyright	Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -20,7 +20,7 @@
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage 	Filter
+ * @subpackage		Filter
  * @since		1.5
  */
 class JInputFilter extends JObject
@@ -215,7 +215,7 @@ class JInputFilter extends JObject
 		while ($tagOpen_start !== false)
 		{
 			// Get some information about the tag we are processing
-			$preTag		   .= substr($postTag, 0, $tagOpen_start);
+			$preTag			.= substr($postTag, 0, $tagOpen_start);
 			$postTag		= substr($postTag, $tagOpen_start);
 			$fromTagOpen	= substr($postTag, 1);
 			$tagOpen_end	= strpos($fromTagOpen, '>');
@@ -231,7 +231,7 @@ class JInputFilter extends JObject
 			$tagOpen_nested = strpos($fromTagOpen, '<');
 			$tagOpen_nested_end	= strpos(substr($postTag, $tagOpen_end), '>');
 			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end)) {
-				$preTag		   .= substr($postTag, 0, ($tagOpen_nested +1));
+				$preTag			.= substr($postTag, 0, ($tagOpen_nested +1));
 				$postTag		= substr($postTag, ($tagOpen_nested +1));
 				$tagOpen_start	= strpos($postTag, '<');
 				continue;

@@ -1,10 +1,10 @@
 <?php
 /**
- * @version $Id$
- * @package Joomla.Framework
- * @subpackage FileSystem
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	FileSystem
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
@@ -17,13 +17,13 @@
  *
  * @static
  * @package 	Joomla.Framework
- * @subpackage 	FileSystem
+ * @subpackage		FileSystem
  * @since		1.5
  */
 class JArchive {
 	/**
 	 * @param string The name of the archive including path and one of the following
-	 *			   extenstions: .gz, .tar., .zip
+	 *				extenstions: .gz, .tar., .zip
 	 * @param array of path to the files that must be added to the archive
 	 * $return boolean for success
 	 */

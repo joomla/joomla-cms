@@ -1,10 +1,10 @@
 <?php
 /**
- * @version $Id$
- * @package Joomla.Framework
- * @subpackage Environment
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Environment
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
@@ -62,11 +62,11 @@ class JRequest
 	 *
 	 * You can force the source by setting the $hash parameter:
 	 *
-	 *   post	   $_POST
+	 *   post		$_POST
 	 *   get		$_GET
-	 *   files	  $_FILES
-	 *   cookie	 $_COOKIE
-	 *   method	 via current $_SERVER['REQUEST_METHOD']
+	 *   files		$_FILES
+	 *   cookie		$_COOKIE
+	 *   method		via current $_SERVER['REQUEST_METHOD']
 	 *   default	$_REQUEST
 	 *
 	 * @static
@@ -184,11 +184,11 @@ class JRequest
 	 *
 	 * You can force the source by setting the $hash parameter:
 	 *
-	 *   post	   $_POST
+	 *   post		$_POST
 	 *   get		$_GET
-	 *   files	  $_FILES
-	 *   cookie	 $_COOKIE
-	 *   method	 via current $_SERVER['REQUEST_METHOD']
+	 *   files		$_FILES
+	 *   cookie		$_COOKIE
+	 *   method		via current $_SERVER['REQUEST_METHOD']
 	 *   default	$_REQUEST
 	 *
 	 * @static

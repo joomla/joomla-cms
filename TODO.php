@@ -1,9 +1,9 @@
 <?php
 /**
 * @version $Id: TODO.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Joomla
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software and parts of it may contain or be derived from the
 * GNU General Public License or other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
@@ -105,8 +105,8 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 	* Widened many database fields to accept more characters
 	* Allowed for position, address and phone numbers to be multi-line
 	* For testing: added 2 new toolbar buttons to the edit form:
-	  - Save & New: saves the item and places you into a new blank form
-	  - Save To Copy: saves the current contents to a new item, very similar to Apply except a copy is made while saving
+		- Save & New: saves the item and places you into a new blank form
+		- Save To Copy: saves the current contents to a new item, very similar to Apply except a copy is made while saving
 
 - Removed files
 	* /pathway.php

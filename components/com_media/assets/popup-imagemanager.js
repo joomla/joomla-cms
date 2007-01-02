@@ -1,8 +1,8 @@
 /**
-* @version $Id: popup-imagemanager.js 3997 2006-06-12 03:59:51Z spacemonkey $
-* @package Joomla
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id: popup-imagemanager.js 3997 2006-06-12 03:59:51Z spacemonkey $
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or

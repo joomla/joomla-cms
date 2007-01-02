@@ -1,9 +1,9 @@
 <jtmpl:comment>
-@version $Id$
-@package Joomla
-@subpackage Installation
-@copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-@license GNU/GPL
+@version	$Id$
+@package	Joomla
+@subpackage	Installation
+@copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+@license	GNU/GPL
 </jtmpl:comment>
 
 <script language="JavaScript" type="text/javascript">
@@ -69,10 +69,10 @@
 		<div id="step">
 			<div class="t">
 		<div class="t">
-		  <div class="t"></div>
+			<div class="t"></div>
 		</div>
-	  </div>
-	  <div class="m">
+		</div>
+		<div class="m">
 				<div class="far-right">
 					<jtmpl:tmpl name="buttons" type="condition" conditionvar="direction">
 						<jtmpl:sub condition="ltr">
@@ -87,20 +87,20 @@
 				</div>
 				<span class="step"><jtmpl:translate>Database Configuration</jtmpl:translate></span>
 			</div>
-	  <div class="b">
 		<div class="b">
-		  <div class="b"></div>
+		<div class="b">
+			<div class="b"></div>
 		</div>
-	  </div>
+		</div>
 	</div>
 
 	<div id="installer">
 			<div class="t">
 		<div class="t">
-		  <div class="t"></div>
+			<div class="t"></div>
 		</div>
-	  </div>
-	  <div class="m">
+		</div>
+		<div class="m">
 
 				<h2><jtmpl:translate>Connection Settings</jtmpl:translate>:</h2>
 				<div class="install-text">
@@ -115,38 +115,38 @@
 				<div class="install-body">
 				<div class="t">
 			<div class="t">
-			  <div class="t"></div>
+				<div class="t"></div>
 			</div>
-		  </div>
-		  <div class="m">
+			</div>
+			<div class="m">
 							<h3 class="title-smenu" title="Basic"><jtmpl:translate>Basic Settings</jtmpl:translate></h3>
 							<div class="section-smenu">
 								<table class="content2">
-					  			<tr>
+								<tr>
 									<td></td>
 									<td></td>
 									<td></td>
 								</tr>
-					  			<tr>
+								<tr>
 									<td colspan="2">
 										<label for="vars_dbtype">
 											<jtmpl:translate>Database Type</jtmpl:translate>
 										</label>
 										<br/>
-					 					<select id="vars_dbtype" name="vars[DBtype]" class="inputbox" size="1">
+										<select id="vars_dbtype" name="vars[DBtype]" class="inputbox" size="1">
 										<option value=""><jtmpl:translate>Select Type</jtmpl:translate></option>
 										<jtmpl:tmpl name="dbtype-options">
 											<option value="{TEXT}" {SELECTED}>{TEXT}</option>
 										</jtmpl:tmpl>
 										</select>
-							   		</td>
-						  			<td>
-						  				<em>
-						  				<jtmpl:translate key="tipType">This is probably 'mysql'</jtmpl:translate>
-						  				</em>
-						  			</td>
+									</td>
+									<td>
+										<em>
+										<jtmpl:translate key="tipType">This is probably 'mysql'</jtmpl:translate>
+										</em>
+									</td>
 								</tr>
-					  			<tr>
+								<tr>
 									<td colspan="2">
 										<label for="vars_dbhostname">
 											<span id="dbhostnamemsg"><jtmpl:translate>Host Name</jtmpl:translate></span>
@@ -154,55 +154,55 @@
 										<br/>
 										<input id="vars_dbhostname" class="inputbox validate required none dbhostnamemsg" type="text" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
 									</td>
-						  			<td>
-						  				<em>
-						  				<jtmpl:translate key="tipHost">This is usually 'localhost'</jtmpl:translate>
-						  				</em>
-						  			</td>
+									<td>
+										<em>
+										<jtmpl:translate key="tipHost">This is usually 'localhost'</jtmpl:translate>
+										</em>
+									</td>
 								</tr>
 								<tr>
-						  			<td colspan="2">
+									<td colspan="2">
 										<label for="vars_dbusername">
-							  				<span id="dbusernamemsg"><jtmpl:translate>User Name</jtmpl:translate></span>
+											<span id="dbusernamemsg"><jtmpl:translate>User Name</jtmpl:translate></span>
 										</label>
-						  				<br/>
-						  				<input id="vars_dbusername" class="inputbox validate required none dbusernamemsg" type="text" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
-						  			</td>
-						  			<td>
-						  				<em>
-						  				<jtmpl:translate key="tipUser">Either something as 'root' or a username given by the hoster</jtmpl:translate>
-						  				</em>
-						  			</td>
+										<br/>
+										<input id="vars_dbusername" class="inputbox validate required none dbusernamemsg" type="text" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
+									</td>
+									<td>
+										<em>
+										<jtmpl:translate key="tipUser">Either something as 'root' or a username given by the hoster</jtmpl:translate>
+										</em>
+									</td>
 								</tr>
-						  		<tr>
-						  			<td colspan="2">
+								<tr>
+									<td colspan="2">
 										<label for="vars_dbpassword">
-						  					<jtmpl:translate>Password</jtmpl:translate>
+											<jtmpl:translate>Password</jtmpl:translate>
 										</label>
-						  				<br/>
-						  				<input id="vars_dbpassword" class="inputbox" type="password" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
-						  			</td>
-						  			<td>
-						  				<em>
-						  				<jtmpl:translate key="tipPassword">For site security using a password for the mysql account is mandatory</jtmpl:translate>
-						  				</em>
-						  			</td>
+										<br/>
+										<input id="vars_dbpassword" class="inputbox" type="password" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
+									</td>
+									<td>
+										<em>
+										<jtmpl:translate key="tipPassword">For site security using a password for the mysql account is mandatory</jtmpl:translate>
+										</em>
+									</td>
 								</tr>
-						  		<tr>
-						  			<td colspan="2" valign="top">
+								<tr>
+									<td colspan="2" valign="top">
 										<label for="vars_dbcollation">
-						  					<jtmpl:translate>Available collations</jtmpl:translate>
+											<jtmpl:translate>Available collations</jtmpl:translate>
 										</label>
-						  				<br/>
-						  				<span id="theCollation"><input type="button" id="findbutton" class="button" value="<jtmpl:translate>Get Collations</jtmpl:translate>" onclick="JProcess('collation');" /></span>
-						  			</td>
-						  			<td>
-						  				<em>
-						  				<span id="collationMessage"><jtmpl:translate key="COLLATIONDESC">Once you have filled in the database information, click the Get Collations button to get the available collation options from the database</jtmpl:translate></span>
-						  				</em>
-						  			</td>
+										<br/>
+										<span id="theCollation"><input type="button" id="findbutton" class="button" value="<jtmpl:translate>Get Collations</jtmpl:translate>" onclick="JProcess('collation');" /></span>
+									</td>
+									<td>
+										<em>
+										<span id="collationMessage"><jtmpl:translate key="COLLATIONDESC">Once you have filled in the database information, click the Get Collations button to get the available collation options from the database</jtmpl:translate></span>
+										</em>
+									</td>
 								</tr>
-					  			<tr>
+								<tr>
 									<td colspan="2">
 										<label for="vars_dbname">
 											<span id="dbnamemsg"><jtmpl:translate>Database Name</jtmpl:translate></span>
@@ -210,11 +210,11 @@
 										<br/>
 										<input id="vars_dbname" class="inputbox validate required none dbnamemsg" type="text" name="vars[DBname]" value="{VAR_DBNAME}" />
 									</td>
-						  			<td>
-						  				<em>
-						  				<jtmpl:translate key="tipDatabase">Some hosts allow only a certain DB name per site. Use table prefix in this case for distinct Joomla! sites.</jtmpl:translate>
-						  				</em>
-						  			</td>
+									<td>
+										<em>
+										<jtmpl:translate key="tipDatabase">Some hosts allow only a certain DB name per site. Use table prefix in this case for distinct Joomla! sites.</jtmpl:translate>
+										</em>
+									</td>
 								</tr>
 								</table>
 								<br /><br />
@@ -222,26 +222,26 @@
 							<h3 class="title-smenu moofx-toggler" title="Advanced"><jtmpl:translate>Advanced settings</jtmpl:translate></h3>
 							<div class="section-smenu moofx-slider">
 								<table class="content2">
-					  			<tr>
+								<tr>
 									<td></td>
 									<td></td>
 									<td></td>
 								</tr>
-					  			<tr>
-						  			<td>
-						  				<input id="vars_dbolddel" type="radio" name="vars[DBOld]" value="rm" />
-						  			</td>
+								<tr>
+									<td>
+										<input id="vars_dbolddel" type="radio" name="vars[DBOld]" value="rm" />
+									</td>
 									<td>
 										<label for="vars_dbolddel">
 											<jtmpl:translate>Drop Existing Tables</jtmpl:translate>
 										</label>
 									</td>
 									<td></td>
-						  		</tr>
-					  			<tr>
-						  			<td>
-						  				<input id="vars_dboldbackup" type="radio" name="vars[DBOld]" value="bu"  checked="checked"/>
-						  			</td>
+								</tr>
+								<tr>
+									<td>
+										<input id="vars_dboldbackup" type="radio" name="vars[DBOld]" value="bu"  checked="checked"/>
+									</td>
 
 									<td>
 										<label for="vars_dboldbackup">
@@ -254,8 +254,8 @@
 										<jtmpl:translate key="tipBackup">Any existing backup tables from former Joomla! installations will be replaced</jtmpl:translate>
 										</em>
 									</td>
-						  		</tr>
-						  		<tr>
+								</tr>
+								<tr>
 									<td colspan="2">
 										<label for="vars_dbprefix">
 											<jtmpl:translate>Table Prefix</jtmpl:translate>
@@ -263,31 +263,31 @@
 										<br/>
 										<input id="vars_dbprefix" class="inputbox" type="text" name="vars[DBPrefix]" value="{VAR_DBPREFIX}" />
 									</td>
-						  			<td>
-						  				<em>
-						  				<jtmpl:translate key="tipPrefix">Dont use 'old_' since this is used for backup tables</jtmpl:translate>
-						  				</em>
-						  			</td>
+									<td>
+										<em>
+										<jtmpl:translate key="tipPrefix">Dont use 'old_' since this is used for backup tables</jtmpl:translate>
+										</em>
+									</td>
 								</tr>
-					  			</table>
+								</table>
 
 						</div>
 						<div class="clr"></div>
-		  </div>
-		  <div class="b">
-			<div class="b">
-			  <div class="b"></div>
 			</div>
-		  </div>
+			<div class="b">
+				<div class="b">
+					<div class="b"></div>
+				</div>
+			</div>
 					<div class="clr"></div>
 				</div>
 		<div class="clr"></div>
-	  </div>
-	  <div class="b">
-		<div class="b">
-		  <div class="b"></div>
 		</div>
-	  </div>
+		<div class="b">
+			<div class="b">
+				<div class="b"></div>
+			</div>
+		</div>
 		</div>
 	</div>
 </div>

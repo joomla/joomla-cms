@@ -3,7 +3,7 @@
  * @version		$Id: admin.media.php 3621 2006-05-24 08:21:25Z webImagery $
  * @package		Joomla
  * @subpackage	Media
- * @copyright	Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative

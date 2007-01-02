@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla.Framework
-* @subpackage I18N
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla.Framework
+* @subpackage	I18N
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -39,7 +39,7 @@ class JHelp
 
 		if ($useComponent)
 		{
-	   		if (!eregi( '\.html$', $ref )) {
+			if (!eregi( '\.html$', $ref )) {
 				$ref = $ref . '.html';
 			}
 
@@ -60,21 +60,21 @@ class JHelp
 
 		if ( $userHelpUrl )
 		{
-	   		// Online help site as defined in GC
+			// Online help site as defined in GC
 			$version = new JVersion();
 			$ref .= $version->getHelpVersion();
 			$url = $userHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
 		}
 		else if ( $globalHelpUrl )
 		{
-	   		// Online help site as defined in GC
+			// Online help site as defined in GC
 			$version = new JVersion();
 			$ref .= $version->getHelpVersion();
 			$url = $globalHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
 		}
 		else
 		{
-	   		// Included html help files
+			// Included html help files
 			$helpURL = 'help/' .$lang->getTag() .'/';
 
 			if (!eregi( '\.html$', $ref )) {

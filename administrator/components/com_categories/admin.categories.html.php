@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage Categories
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla
+* @subpackage	Categories
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -16,8 +16,8 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
-* @package Joomla
-* @subpackage Categories
+* @package		Joomla
+* @subpackage	Categories
 */
 class categories_html
 {
@@ -64,7 +64,7 @@ class categories_html
 		<thead>
 			<tr>
 				<th width="10" align="left">
-				   	<?php echo JText::_( 'Num' ); ?>
+					<?php echo JText::_( 'Num' ); ?>
 				</th>
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />

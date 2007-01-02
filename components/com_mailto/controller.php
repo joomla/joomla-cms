@@ -1,10 +1,10 @@
 <?php
 /**
- * @version $Id: controller.php 4645 2006-08-22 10:23:04Z eddiea $
- * @package Joomla
- * @subpackage MailTo
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
+ * @version		$Id: controller.php 4645 2006-08-22 10:23:04Z eddiea $
+ * @package		Joomla
+ * @subpackage	MailTo
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -15,8 +15,8 @@
 jimport('joomla.application.component.controller');
 
 /**
- * @package Joomla
- * @subpackage MailTo
+ * @package		Joomla
+ * @subpackage	MailTo
  */
 class MailtoController extends JController
 {
@@ -35,11 +35,11 @@ class MailtoController extends JController
 		$link 		= urldecode( JRequest::getVar( 'link', '', 'post' ) );
 
 		// An array of e-mail headers we do not want to allow as input
-		$headers = array ('Content-Type:',
-						  'MIME-Version:',
-						  'Content-Transfer-Encoding:',
-						  'bcc:',
-						  'cc:');
+		$headers = array (	'Content-Type:',
+							'MIME-Version:',
+							'Content-Transfer-Encoding:',
+							'bcc:',
+							'cc:');
 
 		// An array of the input fields to scan for injected headers
 		$fields = array ('mailto',

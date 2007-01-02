@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage Content
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla
+* @subpackage	Content
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -16,8 +16,8 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
-* @package Joomla
-* @subpackage Content
+* @package		Joomla
+* @subpackage	Content
 */
 class FrontpageView
 {
@@ -129,18 +129,18 @@ class FrontpageView
 
 				$times = '';
 				if ( isset( $row->publish_up ) ) {
-					  if ( $row->publish_up == $nullDate) {
+						if ( $row->publish_up == $nullDate) {
 							$times .= '<tr><td>'. JText::_( 'Start: Always' ) .'</td></tr>';
-					  } else {
+						} else {
 							$times .= '<tr><td>'. JText::_( 'Start' ) .': '. $row->publish_up .'</td></tr>';
-					  }
+						}
 				}
 				if ( isset( $row->publish_down ) ) {
-					  if ($row->publish_down == $nullDate) {
+						if ($row->publish_down == $nullDate) {
 							$times .= '<tr><td>'. JText::_( 'Finish: No Expiry' ) .'</td></tr>';
-					  } else {
-					  $times .= '<tr><td>'. JText::_( 'Finish' ) .': '. $row->publish_down .'</td></tr>';
-					  }
+						} else {
+						$times .= '<tr><td>'. JText::_( 'Finish' ) .': '. $row->publish_down .'</td></tr>';
+						}
 				}
 
 				$access 	= JCommonHTML::AccessProcessing( $row, $i );

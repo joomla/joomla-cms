@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage Statistics
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla
+* @subpackage	Statistics
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -16,8 +16,8 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
-* @package Joomla
-* @subpackage Statistics
+* @package		Joomla
+* @subpackage	Statistics
 */
 class HTML_statistics
 {
@@ -126,9 +126,9 @@ class HTML_statistics
 			</table>
 		</div>
 
-	  	<input type="hidden" name="option" value="com_statistics" />
-	  	<input type="hidden" name="task" value="<?php echo $task;?>" />
-	  	<input type="hidden" name="op" value="set" />
+		<input type="hidden" name="option" value="com_statistics" />
+		<input type="hidden" name="task" value="<?php echo $task;?>" />
+		<input type="hidden" name="op" value="set" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>

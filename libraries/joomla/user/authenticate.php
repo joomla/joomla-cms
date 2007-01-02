@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla.Framework
-* @subpackage User
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla.Framework
+* @subpackage	User
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -201,16 +201,16 @@ class JAuthenticateHelper
 	/**
 	 * Formats a password using the current encryption.
 	 *
-	 * @access public
-	 * @param string $plaintext The plaintext password to encrypt.
-	 * @param string $salt  The salt to use to encrypt the password. []
-	 *							   If not present, a new salt will be
-	 *							   generated.
-	 * @param string $encryption	 The kind of pasword encryption to use.
-	 *							   Defaults to md5-hex.
-	 * @param boolean $show_encrypt  Some password systems prepend the kind of
-	 *							   encryption to the crypted password ({SHA},
-	 *							   etc). Defaults to false.
+	 * @access	public
+	 * @param	string	$plaintext	The plaintext password to encrypt.
+	 * @param	string	$salt		The salt to use to encrypt the password. []
+	 *								If not present, a new salt will be
+	 *								generated.
+	 * @param	string	$encryption	The kind of pasword encryption to use.
+	 *								Defaults to md5-hex.
+	 * @param	boolean	$show_encrypt  Some password systems prepend the kind of
+	 *								encryption to the crypted password ({SHA},
+	 *								etc). Defaults to false.
 	 *
 	 * @return string  The encrypted password.
 	 */

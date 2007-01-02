@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage Cache
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla
+* @subpackage	Cache
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @static
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla
- * @subpackage 	Cache
+ * @subpackage		Cache
  * @since 		1.5
  */
 class CacheView

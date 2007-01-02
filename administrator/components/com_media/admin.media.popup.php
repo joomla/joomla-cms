@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage Media
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla
+* @subpackage	Media
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software and parts of it may contain or be derived from works
 * licensed under the GNU General Public License or other free or open source
 * software licenses. See COPYRIGHT.php for copyright notices and details.
@@ -17,8 +17,8 @@ defined('_JEXEC') or die('Restricted access');
  * Media Manager Views
  *
  * @static
- * @package Joomla
- * @subpackage Media
+ * @package		Joomla
+ * @subpackage	Media
  * @since 1.5
  */
 class MediaViews

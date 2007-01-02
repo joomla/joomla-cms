@@ -15,7 +15,7 @@
 				<?php echo $lists['hidePdf']; ?>
 				<?php
 					if (!is_writable( JPATH_SITE . '/media/' )) {
-					   	$tip = 'TIPOPTIONMEDIA' ;
+						$tip = 'TIPOPTIONMEDIA' ;
 						echo mosToolTip( $tip );
 					}
 				?>

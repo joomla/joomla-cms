@@ -1,8 +1,8 @@
 <jtmpl:comment>
-@version $Id$
-@package Joomla
-@copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-@license GNU/GPL, see LICENSE.php
+@version	$Id$
+@package	Joomla
+@copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+@license	GNU/GPL, see LICENSE.php
 Joomla! is free software. This version may have been modified pursuant
 to the GNU General Public License, and as distributed it includes or
 is derivative of works licensed under the GNU General Public License or
@@ -28,11 +28,11 @@ See COPYRIGHT.php for copyright notices and details.
 	<button type="reset" id="trigger_{ID}" class="button">...</button>
 	<script type="text/javascript">
 		Calendar.setup({
-			inputField	:	"{ID}",	  // id of the input field
-			ifFormat	:	"{FORMAT}",	   // format of the input field
+			inputField	:	"{ID}",			// id of the input field
+			ifFormat	:	"{FORMAT}",		// format of the input field
 			<jtmpl:tmpl type="simplecondition" requiredvars="showstime=true">
 			showsTime	:	true,			// will display a time selector</jtmpl:tmpl>
-			button		:	"trigger_{ID}",   // trigger for the calendar (button ID)
+			button		:	"trigger_{ID}",	// trigger for the calendar (button ID)
 			singleClick	:	true,
 			step		:	1				// show all years in drop-down boxes (instead of every other year as default)
 		});

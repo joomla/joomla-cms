@@ -1,10 +1,10 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage Installation
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla
+* @subpackage	Installation
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -16,8 +16,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
-* @package Joomla
-* @subpackage Installation
+* @package		Joomla
+* @subpackage	Installation
 */
 class JInstallationController
 {
@@ -562,8 +562,8 @@ class JInstallationController
 }
 
 /**
-* @package Joomla
-* @subpackage Installation
+* @package		Joomla
+* @subpackage	Installation
 */
 class JInstallationHelper
 {
@@ -1264,11 +1264,11 @@ class JInstallationHelper
 		{
    			while (false !== ($file = readdir($handle)))
    			{
-	   			if ($file != "." && $file != "..")
-	   			{
-		  			 $script = $file;
-		  			 continue;
-	   			}
+				if ($file != "." && $file != "..")
+				{
+					 $script = $file;
+					 continue;
+				}
    			}
    			closedir($handle);
 		}
@@ -1769,7 +1769,7 @@ class JInstallationHelper
 
 	/**
 	 * returns the langauge code and help url set in the localise.xml file.
-	 * 		   Used for forcing a particular language in localised releases
+	 * Used for forcing a particular language in localised releases
 	 */
 	function getLocalise()
 	{

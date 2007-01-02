@@ -25,9 +25,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					</td>
 				</tr>
 				<?php
-					if ($tabcnt == 1) : $tabcnt = 0;
-					else 			  : $tabcnt ++;
-					endif;
+					$tabcnt = 1 - $tabcnt;
 				?>
 			<?php endfor; ?>
 			</table>

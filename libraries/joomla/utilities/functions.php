@@ -1,10 +1,10 @@
 <?php
 /**
- * @version $Id$
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Utilities
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -20,7 +20,7 @@ jimport('joomla.filter.input');
 *
 * Needed to handle unicode conflicts due to unicode conflicts
 *
-* @package Joomla.Framework
+* @package		Joomla.Framework
 * @since 1.0
 */
 function ampReplace( $text ) {
@@ -87,7 +87,7 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
 /**
 * Utility function to provide ToolTips
 *
-* @package Joomla.Framework
+* @package		Joomla.Framework
 * @param string ToolTip text
 * @param string Box title
 * @returns HTML code for ToolTip

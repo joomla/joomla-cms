@@ -1,7 +1,7 @@
 <?php
 /**
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
@@ -51,17 +51,17 @@
 				<div id="tabarea_l">
 					<div id="tabarea_r">
 						<div id="tabmenu">
-			  			<table cellpadding="0" cellspacing="0" class="pill">
+						<table cellpadding="0" cellspacing="0" class="pill">
 							<tr>
-							  <td class="pill_l">&nbsp;</td>
-							  <td class="pill_m">
+								<td class="pill_l">&nbsp;</td>
+								<td class="pill_m">
 								<div id="pillmenu">
 									<jdoc:include type="modules" name="user3" />
 								</div>
-							  </td>
-							  <td class="pill_r">&nbsp;</td>
+								</td>
+								<td class="pill_r">&nbsp;</td>
 							</tr>
-						  </table>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -155,7 +155,7 @@
 					</p>
 					<p style="float:right; padding-right: 25px;">
 	 				 	Powered by <a href="http://joomla.org">Joomla!</a>.
-	  					Valid <a href="http://validator.w3.org/check/referer">XHTML</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
+						Valid <a href="http://validator.w3.org/check/referer">XHTML</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
 					</p>
 				</div>
 			</div>

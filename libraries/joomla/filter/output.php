@@ -1,9 +1,9 @@
 <?php
 /**
- * @version $Id: functions.php 4277 2006-07-19 20:35:35Z friesengeist $
+ * @version		$Id: functions.php 4277 2006-07-19 20:35:35Z friesengeist $
  * @package		Joomla.Framework
  * @subpackage	Filter
- * @copyright	Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -18,7 +18,7 @@
  * @static
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage 	Filter
+ * @subpackage		Filter
  * @since		1.5
  */
 class JOutputFilter

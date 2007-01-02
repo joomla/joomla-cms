@@ -1,9 +1,9 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-* @license GNU/GPL, see LICENSE.php
+* @version		$Id$
+* @package		Joomla
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -78,7 +78,7 @@ class RegistrationController
 	 	// Page Title
 	 	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
 		// Breadcrumb
-	  	$pathway->addItem( JText::_( 'New' ));
+		$pathway->addItem( JText::_( 'New' ));
 
 		// create the view
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'view.php');
@@ -245,7 +245,7 @@ class RegistrationController
 		 	// Page Title
 		 	$mainframe->setPageTitle( JText::_( 'Registration' ) );
 			// Breadcrumb
-		  	$pathway->addItem( JText::_( 'New' ));
+			$pathway->addItem( JText::_( 'New' ));
 
 			$message->title = JText::_( 'REGERROR' );
 			$message->text = $user->getError();
