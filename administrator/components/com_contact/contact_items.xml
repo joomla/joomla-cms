@@ -69,5 +69,9 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		<param name="email_form" type="radio" default="1" label="Email Form" description="Show/Hide the email to form">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
 	</params>
 </install>
