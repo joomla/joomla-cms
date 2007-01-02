@@ -79,7 +79,7 @@ class JSession extends JObject
     function getState() {
 		return $this->_state;
 	}
-	
+
 	/**
 	 * Get expiration time in minutes
 	 *

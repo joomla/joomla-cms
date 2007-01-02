@@ -358,7 +358,7 @@ class JApplication extends JObject
 		jimport( 'joomla.user.authenticate');
 		$authenticate = & JAuthenticate::getInstance();
 		$response	 = $authenticate->authenticate($username, $password);
-		
+
 		if (is_a($response, 'JAuthenticateResponse'))
 		{
 			// Import the user plugin group
@@ -511,14 +511,14 @@ class JApplication extends JObject
 	{
 		$options = array();
 		$options['name'] = $name;
-		
+
 		//create an anonymous user
 		$user 	 =& JUser::getInstance();
 		$user->set('aid'  , 0); 
 		$user->set('guest', 1);
 		
 		$session =& JFactory::getSession($options);
-		
+
 		$storage = & JTable::getInstance('session');
 		$storage->purge($session->getExpire() * 60);
 		
@@ -532,7 +532,7 @@ class JApplication extends JObject
 			//create persistance store in the session
 			$session->set('registry', new JRegistry('session'));
 			$session->set('user'    , $user);
-			
+
 			if (!$storage->insert( $session->getId(), $this->getClientId())) {
 				die( $storage->getError());
 			}
