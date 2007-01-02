@@ -206,7 +206,7 @@ class JPluginHelper
 		$user	= & JFactory::getUser();
 
 		$aid = $user->get('aid');
-	
+
 		$query = "SELECT id, name, folder, element, published, params"
 			. "\n FROM #__plugins"
 			. "\n WHERE published >= 1"

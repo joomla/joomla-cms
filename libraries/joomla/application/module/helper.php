@@ -225,7 +225,7 @@ class JModuleHelper
 		$db		=& JFactory::getDBO();
 
 		$aid	= $user->get('aid');
-		
+
 		$modules	= array();
 
 		$wheremenu = isset( $Itemid ) ? "\n AND ( mm.menuid = ". $Itemid ." OR mm.menuid = 0 )" : '';
