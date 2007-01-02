@@ -124,7 +124,7 @@ class JFactory
 
 		// TODO: Find more permanent solution?? Jinx??
 		if (!$instance) {
-			$instance = &JUser::getInstance();
+			$instance = new JUser(null);
 			$session->set('user', $instance);
 		}
 
