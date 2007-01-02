@@ -17,13 +17,13 @@ function SearchBuildURL(&$ARRAY, &$params)
 	$resolveNames = $params->get('realnames',0);
 
 	// TODO: Resolve category names
-	
+
 	$parts = array();
-	if(isset($ARRAY['searchword'])) 
+	if(isset($ARRAY['searchword']))
 	{
 		$parts[] = $ARRAY['searchword'];
 	}
-	
+
 	if (isset( $ARRAY['limit'] ))
 	{
 		// Do all pages if limit = 0
@@ -36,11 +36,11 @@ function SearchBuildURL(&$ARRAY, &$params)
 			$parts[]	= 'page'.$page.'-'.$limit;
 		}
 	}
-	
+
 	unset($ARRAY['searchword']);
 	unset($ARRAY['limit']);
 	unset($ARRAY['limitstart']);
-	
+
 	return $parts;
 }
 
@@ -48,21 +48,21 @@ function SearchParseURL($ARRAY, &$params)
 {
 	// view is always the first element of the array
 	$searchword	= array_shift($ARRAY);
-	$nArray	    = count($ARRAY);
-	
+	$nArray		= count($ARRAY);
+
 	JRequest::setVar('searchword', $searchword, 'get');
 
 	// Handle Pagination
 	$last = @$ARRAY[$nArray-1];
-	if ($last == 'all') 
+	if ($last == 'all')
 	{
 		array_pop( $ARRAY );
 		$nArray--;
 		JRequest::setVar('limitstart', 0, 'get');
 		JRequest::setVar('limit', 0, 'get');
 		// if you want more than 1e6 on your page then you are nuts!
-	} 
-	elseif (strpos( $last, 'page' ) === 0) 
+	}
+	elseif (strpos( $last, 'page' ) === 0)
 	{
 		array_pop( $ARRAY );
 		$nArray--;

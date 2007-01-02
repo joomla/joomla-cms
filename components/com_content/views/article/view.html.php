@@ -28,14 +28,14 @@ class ContentViewArticle extends JView
 		global $mainframe, $Itemid;
 
 		$user		=& JFactory::getUser();
-		$document   =& JFactory::getDocument();
+		$document	=& JFactory::getDocument();
 		$dispatcher	=& JEventDispatcher::getInstance();
-		$pathway    =& $mainframe->getPathWay();
+		$pathway	=& $mainframe->getPathWay();
 
 		// Initialize variables
 		$article	=& $this->get('Article');
 		$params		=& $article->parameters;
-		
+
 		if($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);
 			return;
@@ -45,15 +45,15 @@ class ContentViewArticle extends JView
 			$this->_displayPagebreak($tpl);
 			return;
 		}
-		
+
 		if (($article->id == 0))
 		{
 			$id = JRequest::getVar( 'id' );
 			return JError::raiseError( 404, JText::sprintf( 'Article # not found', $id ) );
 		}
 
-		$linkOn   = null;
-		$linkText = null;
+		$linkOn		= null;
+		$linkText	= null;
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -154,8 +154,8 @@ class ContentViewArticle extends JView
 	{
 		 global $Itemid, $mainframe;
 
-		$url  = '';
-		$text = '';
+		$url	= '';
+		$text	= '';
 
 		$article = &$this->article;
 
@@ -163,7 +163,7 @@ class ContentViewArticle extends JView
 		{
 			case 'pdf' :
 			{
-				$url   = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
+				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -173,14 +173,14 @@ class ContentViewArticle extends JView
 					$text = JText::_('PDF').'&nbsp;';
 				}
 
-				$attribs['title']   = '"'.JText::_( 'PDF' ).'"';
+				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
 
 			case 'print' :
 			{
-				$url    = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;tmpl=component&amp;Itemid='.$Itemid.'&amp;page='.@ $this->request->limitstart;
+				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;tmpl=component&amp;Itemid='.$Itemid.'&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -190,14 +190,14 @@ class ContentViewArticle extends JView
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}
 
-				$attribs['title']   = '"'.JText::_( 'Print' ).'"';
+				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
 
 			case 'email' :
 			{
-				$url   = 'index.php?option=com_mailto&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
+				$url	= 'index.php?option=com_mailto&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
 				if ($this->params->get('icons')) 	{
@@ -206,7 +206,7 @@ class ContentViewArticle extends JView
 					$text = '&nbsp;'.JText::_('Email');
 				}
 
-				$attribs['title']   = '"'.JText::_( 'Email ' ).'"';
+				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
@@ -258,8 +258,8 @@ class ContentViewArticle extends JView
 		global $mainframe, $Itemid;
 
 		// Initialize variables
-		$document =& JFactory::getDocument();
-		$user	  =& JFactory::getUser();
+		$document	=& JFactory::getDocument();
+		$user		=& JFactory::getUser();
 
 		// Make sure you are logged in
 		if ($user->get('gid') < 1) {
@@ -270,7 +270,7 @@ class ContentViewArticle extends JView
 		// Initialize variables
 		$article	=& $this->get('Article');
 		$params		=& $article->parameters;
-		$isNew      = ($article->id < 1);
+		$isNew		= ($article->id < 1);
 
 		// At some point in the future this will come from a request object
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
@@ -312,12 +312,12 @@ class ContentViewArticle extends JView
 			$article->text = $article->introtext;
 		}
 
-		$this->set('returnid', $returnid);
-		$this->set('article' , $article);
-		$this->set('params'  , $params);
-		$this->set('lists'   , $lists);
-		$this->set('editor'  , $editor);
-		$this->set('user'    , $user);
+		$this->set('returnid',	$returnid);
+		$this->set('article',	$article);
+		$this->set('params',	$params);
+		$this->set('lists',		$lists);
+		$this->set('editor',	$editor);
+		$this->set('user',		$user);
 
 		parent::display($tpl);
 	}

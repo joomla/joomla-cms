@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 // Include the syndicate functions only once
 require_once( dirname(__FILE__).DS.'helper.php' );
 
-$inputfield = modSearchHelper::renderInputField($params);
-$itemid     = modSearchHelper::getItemid($params);
+$inputfield	= modSearchHelper::renderInputField($params);
+$itemid		= modSearchHelper::getItemid($params);
 
 require(JModuleHelper::getLayoutPath('mod_search'));

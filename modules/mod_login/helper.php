@@ -19,6 +19,6 @@ class modLoginHelper
 	function getType()
 	{
 		$user = & JFactory::getUser();
-	    return ($user->get('id')) ? 'logout' : 'login';
+		return ($user->get('id')) ? 'logout' : 'login';
 	}
 }

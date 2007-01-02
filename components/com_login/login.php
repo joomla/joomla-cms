@@ -51,11 +51,11 @@ class LoginController
 
 		// Initialize variables
 		$document	= & JFactory::getDocument();
-		$user 		=& JFactory::getUser();
+		$user		=& JFactory::getUser();
 		$pathway	= & $mainframe->getPathway();
 
-		$menu    =& JSiteHelper::getActiveMenuItem();
-		$params  =& JSiteHelper::getMenuParams();
+		$menu		=& JSiteHelper::getActiveMenuItem();
+		$params		=& JSiteHelper::getMenuParams();
 
 		// Set some default page parameters if not set
 		$params->def( 'page_title', 				1 );
@@ -111,10 +111,10 @@ class LoginController
 	{
 		global $mainframe;
 
-		$username = JRequest::getVar( 'username' );
-		$password = JRequest::getVar( 'password' );
-		$return   = JRequest::getVar('return', false);
-		
+		$username	= JRequest::getVar( 'username' );
+		$password	= JRequest::getVar( 'password' );
+		$return		= JRequest::getVar('return', false);
+
 		$error = $mainframe->login($username, $password);
 
 		if(!JError::isError($error))

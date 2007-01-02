@@ -135,7 +135,7 @@ class InstallerModelTemplates extends InstallerModel
 				$row->id 		= $rowid;
 				$row->client_id	= $template->client;
 				$row->directory = $template->folder;
-				$row->baseDir   = $template->baseDir;
+				$row->baseDir	= $template->baseDir;
 
 				// Is the template active?
 				if (in_array($row->directory, $activeList)) {

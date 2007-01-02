@@ -57,7 +57,7 @@ class JApplication extends JObject
 		$this->_clientId = $clientId;
 		$this->set( 'requestTime', date('Y-m-d H:i', time()) );
 	}
-	
+
 	/**
 	* Initialise the application.
 	*
@@ -82,7 +82,7 @@ class JApplication extends JObject
 
 		// create the backward compatible language value for old 3PD components
 		if($conf->getValue('config.legacy')) {
-			$GLOBALS['mosConfig_lang']  = $lang->getBackwardLang();
+			$GLOBALS['mosConfig_lang'] = $lang->getBackwardLang();
 		}
 	}
 
@@ -97,7 +97,7 @@ class JApplication extends JObject
 	{
 
 	}
-	
+
 	/**
 	* Display the application.
 	*
@@ -131,7 +131,7 @@ class JApplication extends JObject
 		//TODO :: does this needs to be filtered here ?
 		// Instantiate an input filter and process the URL and message
 		$filter = & JInputFilter::getInstance();
-		$url    = $filter->clean( $url );
+		$url	= $filter->clean( $url );
 
 		if (!empty($msg)) {
 			$msg = $filter->clean( $msg );
@@ -243,8 +243,8 @@ class JApplication extends JObject
 	 */
 	function getUserState( $key )
 	{
-		$session  =& JFactory::getSession();
-		$registry =& $session->get('registry');
+		$session	=& JFactory::getSession();
+		$registry	=& $session->get('registry');
 		if(!is_null($registry)) {
 			return $registry->getValue($key);
 		}
@@ -261,8 +261,8 @@ class JApplication extends JObject
 	*/
 	function setUserState( $key, $value )
 	{
-		$session  =& JFactory::getSession();
-		$registry =& $session->get('registry');
+		$session	=& JFactory::getSession();
+		$registry	=& $session->get('registry');
 		if(!is_null($registry)) {
 			return $registry->setValue($key, $value);
 		}
@@ -301,7 +301,7 @@ class JApplication extends JObject
 	 * @since 1.5
 	 */
 	function registerEvent($event, $handler)
-    {
+	{
 		$dispatcher =& JEventDispatcher::getInstance();
 		$dispatcher->register($event, $handler);
 	}
@@ -316,7 +316,7 @@ class JApplication extends JObject
 	 * @since 1.5
 	 */
 	function triggerEvent($event, $args=null)
-    {
+	{
 		$dispatcher =& JEventDispatcher::getInstance();
 		return $dispatcher->trigger($event, $args);
 	}
@@ -357,7 +357,7 @@ class JApplication extends JObject
 		// Get the global JAuthenticate object
 		jimport( 'joomla.user.authenticate');
 		$authenticate = & JAuthenticate::getInstance();
-		$response     = $authenticate->authenticate($username, $password);
+		$response	 = $authenticate->authenticate($username, $password);
 
 		if (is_a($response, 'JAuthenticateResponse'))
 		{
@@ -400,7 +400,7 @@ class JApplication extends JObject
 
 		// Build the credentials array
 		$parameters['username'] = $user->get('username');
-		$parameters['id'] 	   = $user->get('id');
+		$parameters['id'] 		= $user->get('id');
 
 		// Import the user plugin group
 		JPluginHelper::importPlugin('user');
@@ -462,7 +462,7 @@ class JApplication extends JObject
 	 * @return string
 	 */
 	function getTemplate()
-    {
+	{
 		return '_system';
 	}
 
@@ -514,12 +514,12 @@ class JApplication extends JObject
 		$storage = & JTable::getInstance('session');
 		$storage->purge( intval( $this->getCfg( 'lifetime' ) * 60) );
 
-		if ($storage->load( $session->getId() )) 
+		if ($storage->load( $session->getId() ))
 		{
 			// Session cookie exists, update time in session table
 			$storage->update();
-		} 
-		else 
+		}
+		else
 		{
 			//create persistance store in the session
 			$session->set('registry', new JRegistry('session'));
@@ -542,7 +542,7 @@ class JApplication extends JObject
 		}
 
 		// Set user specific editor
-		$user    =& JFactory::getUser();
+		$user	=& JFactory::getUser();
 		$editor = $user->getParam('editor', $this->getCfg('editor'));
 
 		$config =& JFactory::getConfig();
@@ -559,7 +559,7 @@ class JApplication extends JObject
 	 * @since		1.5
 	 */
 	function getClientId( )
-    {
+	{
 		return $this->_clientId;
 	}
 
@@ -571,7 +571,7 @@ class JApplication extends JObject
 	 * @since	1.0.2
 	 */
 	function isAdmin()
-    {
+	{
 		return ($this->_clientId == 1);
 	}
 
@@ -583,7 +583,7 @@ class JApplication extends JObject
 	 * @since	1.5
 	 */
 	function isSite()
-    {
+	{
 		return ($this->_clientId == 0);
 	}
 
@@ -624,7 +624,7 @@ class JApplication extends JObject
 	 * @see JPathWay::getPathWayNames()
 	 */
 	function getCustomPathWay()
-    {
+	{
 		return $this->_pathway->getPathWayNames();
 	}
 
@@ -637,7 +637,7 @@ class JApplication extends JObject
 	 * @see JObject::get()
 	 */
 	function getHead()
-    {
+	{
 		$document=& JFactory::getDocument();
 		return $document->get('head');
 	}
@@ -654,7 +654,7 @@ class JApplication extends JObject
 	 * @see JDocument::setMetaData()
 	 */
 	function addMetaTag( $name, $content, $prepend = '', $append = '' )
-    {
+	{
 		$document=& JFactory::getDocument();
 		$document->setMetadata($name, $content);
 	}
@@ -664,12 +664,12 @@ class JApplication extends JObject
 	 *
 	 * @since 1.5
 	 * @deprecated As of version 1.5
-         * @param string Name of the metadata tag
-         * @param string Content of the metadata tag
+		 * @param string Name of the metadata tag
+		 * @param string Content of the metadata tag
 	 * @see JDocument::setMetaData()
 	 */
 	function appendMetaTag( $name, $content )
-    {
+	{
 		$this->addMetaTag($name, $content);
 	}
 
@@ -678,12 +678,12 @@ class JApplication extends JObject
 	 *
 	 * @since 1.5
 	 * @deprecated As of version 1.5
-         * @param string Name of the metadata tag
-         * @param string Content of the metadata tag
+		 * @param string Name of the metadata tag
+		 * @param string Content of the metadata tag
 	 * @see JDocument::setMetaData()
 	 */
 	function prependMetaTag( $name, $content )
-    {
+	{
 		$this->addMetaTag($name, $content);
 	}
 
@@ -696,7 +696,7 @@ class JApplication extends JObject
 	 * @see JDocumentHTML::addCustomTag()
 	 */
 	function addCustomHeadTag( $html )
-    {
+	{
 		$document=& JFactory::getDocument();
 		if($document->getType() == 'html') {
 			$document->addCustomTag($html);
@@ -710,7 +710,7 @@ class JApplication extends JObject
 	 * @deprecated As of version 1.5
 	 */
 	function getBlogSectionCount( )
-    {
+	{
 		$menus = &JMenu::getInstance();
 		return count($menus->getItems('type', 'content_blog_section'));
 	}
@@ -722,7 +722,7 @@ class JApplication extends JObject
 	 * @deprecated As of version 1.5
 	 */
 	function getBlogCategoryCount( )
-    {
+	{
 		$menus = &JMenu::getInstance();
 		return count($menus->getItems('type', 'content_blog_category'));
 	}
@@ -734,7 +734,7 @@ class JApplication extends JObject
 	 * @deprecated As of version 1.5
 	 */
 	function getGlobalBlogSectionCount( )
-    {
+	{
 		$menus = &JMenu::getInstance();
 		return count($menus->getItems('type', 'content_blog_section'));
 	}
@@ -746,7 +746,7 @@ class JApplication extends JObject
 	 * @deprecated As of version 1.5
 	 */
 	function getStaticContentCount( )
-    {
+	{
 		$menus = &JMenu::getInstance();
 		return count($menus->getItems('type', 'content_typed'));
 	}
@@ -758,7 +758,7 @@ class JApplication extends JObject
 	 * @deprecated As of version 1.5
 	 */
 	function getContentItemLinkCount( )
-    {
+	{
 		$menus = &JMenu::getInstance();
 		return count($menus->getItems('type', 'content_item_link'));
 	}
@@ -771,7 +771,7 @@ class JApplication extends JObject
 	 * @see JApplicationHelper::getPath()
 	 */
 	function getPath($varname, $user_option = null)
-    {
+	{
 		jimport('joomla.application.helper');
 		return JApplicationHelper::getPath ($varname, $user_option);
 	}
@@ -783,7 +783,7 @@ class JApplication extends JObject
 	 * @deprecated As of version 1.5
 	 * @see JURI::base()
 	 */
-	function getBasePath($client=0, $addTrailingSlash = true) 
+	function getBasePath($client=0, $addTrailingSlash = true)
 	{
 		return JURI::base();
 	}
@@ -796,7 +796,7 @@ class JApplication extends JObject
 	 * @see JFactory::getUser()
 	 */
 	function &getUser()
-    {
+	{
 		$user =& JFactory::getUser();
 		return $user;
 	}
@@ -809,7 +809,7 @@ class JApplication extends JObject
 	 * @see JContentHelper::getItemid()
 	 */
 	function getItemid( $id )
-    {
+	{
 		require_once JPATH_SITE . '/components/com_content/helpers/content.php';
 		return JContentHelper::getItemid($id);
 	}

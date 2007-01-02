@@ -76,7 +76,7 @@ require_once(dirname(__FILE__).'/config/tcpdf_config.php');
  * @version 1.53.0.TC015
  */
 
-if(!class_exists('TCPDF')) 
+if(!class_exists('TCPDF'))
 {
 	/**
 	 * define default PDF document producer
@@ -96,7 +96,7 @@ if(!class_exists('TCPDF'))
 	* @link http://tcpdf.sourceforge.net
 	* @license http://www.gnu.org/copyleft/lesser.html LGPL
 	*/
-	class TCPDF extends JObject 
+	class TCPDF extends JObject
 	{
 		//Private properties
 

@@ -107,7 +107,7 @@ function showCategories( $section, $option )
 {
 	global $mainframe;
 
-	$db                 =& JFactory::getDBO();
+	$db				 =& JFactory::getDBO();
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 				'filter_order', 	'c.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",			'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$section.filter_state", 	'filter_state', 	'*' );
@@ -285,7 +285,7 @@ function editCategory( )
 	global $mainframe;
 
 	// Initialize variables
-	$db         =& JFactory::getDBO();
+	$db		 =& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
 
 	$type 		= JRequest::getVar( 'type' );
@@ -319,7 +319,7 @@ function editCategory( )
 
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $user->get('id')) {
-    	$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The category' ), $row->title );
+		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The category' ), $row->title );
 		$mainframe->redirect( 'index.php?option=categories&amp;section='. $row->section, $msg );
 	}
 
@@ -389,7 +389,7 @@ function saveCategory()
 	global $mainframe;
 
 	// Initialize variables
-	$db         =& JFactory::getDBO();
+	$db		 =& JFactory::getDBO();
 	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 	$redirect 	= JRequest::getVar( 'redirect', '', 'post' );
@@ -458,7 +458,7 @@ function saveCategory()
 			break;
 
 		case 'apply':
-        	$msg = JText::_( 'Changes to Category saved' );
+			$msg = JText::_( 'Changes to Category saved' );
 			$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $redirect .'&task=edit&amp;hidemainmenu=1&amp;cid[]='. $row->id, $msg );
 			break;
 
@@ -534,7 +534,7 @@ function removeCategories( $section, $cid )
 
 	if (count( $err )) {
 		$cids = implode( ", ", $err );
-    	$msg = JText::sprintf( 'WARNNOTREMOVEDRECORDS', $cids );
+		$msg = JText::sprintf( 'WARNNOTREMOVEDRECORDS', $cids );
 		$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $section, $msg );
 	}
 
@@ -554,8 +554,8 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 )
 	global $mainframe;
 
 	// Initialize variables
-	$db   =& JFactory::getDBO();
-	$user =& JFactory::getUser();
+	$db		=& JFactory::getDBO();
+	$user	=& JFactory::getUser();
 
 	if (!is_array( $cid )) {
 		$cid = array();
@@ -621,8 +621,8 @@ function orderCategory( $uid, $inc )
 	global $mainframe;
 
 	// Initialize variables
-	$db  =& JFactory::getDBO();
-	$row =& JTable::getInstance('category' );
+	$db		=& JFactory::getDBO();
+	$row	=& JTable::getInstance('category' );
 	$row->load( $uid );
 	$row->move( $inc, "section = '$row->section'" );
 	$section = JRequest::getVar('section');

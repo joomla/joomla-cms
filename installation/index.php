@@ -14,7 +14,7 @@ define( '_JEXEC', 1 );
 
 define( 'JPATH_BASE', dirname( __FILE__ ) );
 
-require_once( JPATH_BASE .'/includes/defines.php'     );
+require_once( JPATH_BASE .'/includes/defines.php' );
 require_once( JPATH_BASE .'/includes/application.php' );
 
 
@@ -28,8 +28,8 @@ $mainframe->setSession('installation');
 $post		= (array) JRequest::get( 'post' );
 $postVars	= JArrayHelper::getValue( $post, 'vars', array(), 'array' );
 
-$session  =& JFactory::getSession();
-$registry =& $session->get('registry');
+$session	=& JFactory::getSession();
+$registry	=& $session->get('registry');
 $registry->loadArray($postVars, 'application');
 
 $configLang = $mainframe->getUserState('application.lang');

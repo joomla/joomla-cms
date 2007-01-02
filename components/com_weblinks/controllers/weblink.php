@@ -32,22 +32,22 @@ class WeblinksControllerWeblink extends WeblinksController
 	function edit()
 	{
 		$user = & JFactory::getUser();
-		
+
 		// Make sure you are logged in
 		if ($user->get('gid') < 1) {
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
-		
+
 		JRequest::setVar('view', 'weblink');
 		JRequest::setVar('layout', 'form');
-		
+
 		$model =& $this->getModel('weblink');
 		$model->checkout();
 
 		parent::display();
 	}
-	
+
 	/**
 	* Saves the record on an edit form submit
 	*
@@ -67,10 +67,10 @@ class WeblinksControllerWeblink extends WeblinksController
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
-		
+
 		//get data from the request
 		$post = JRequest::getVar('jform', array(), 'post', 'array');
-		
+
 		$model = $this->getModel('weblink');
 
 		if ($model->store($post)) {
@@ -78,7 +78,7 @@ class WeblinksControllerWeblink extends WeblinksController
 		} else {
 			$msg = JText::_( 'Error Saving Weblink' );
 		}
-		
+
 		// Check the table in so it can be edited.... we are done with it anyway
 		$model->checkin();
 
@@ -125,7 +125,7 @@ class WeblinksControllerWeblink extends WeblinksController
 		// Checkin the weblink
 		$model = $this->getModel('weblink');
 		$model->checkin();
-		
+
 		$this->setRedirect('index.php');
 	}
 }

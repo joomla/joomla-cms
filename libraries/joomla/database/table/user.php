@@ -21,94 +21,94 @@
  */
 class JTableUser extends JTable
 {
-	/** 
+	/**
 	 * Unique id
-	 * 
-	 * @var int 
+	 *
+	 * @var int
 	 */
 	var $id				= null;
-	
-	/** 
+
+	/**
 	 * The users real name (or nickname)
-	 * 
-	 * @var string 
+	 *
+	 * @var string
 	 */
 	var $name			= null;
-	
-	/** 
+
+	/**
 	 * The login name
-	 * 
-	 * @var string 
+	 *
+	 * @var string
 	 */
 	var $username		= null;
-	
-	/** 
+
+	/**
 	 * The email
-	 * 
-	 * @var string 
+	 *
+	 * @var string
 	 */
 	var $email			= null;
-	
-	/** 
+
+	/**
 	 * MD5 encrypted password
-	 * 
-	 * @var string 
+	 *
+	 * @var string
 	 */
 	var $password		= null;
-	
-	/** 
+
+	/**
 	 * Description
-	 * 
-	 * @var string 
+	 *
+	 * @var string
 	 */
 	var $usertype		= null;
-	
-	/** 
+
+	/**
 	 * Description
-	 * 
-	 * @var int 
+	 *
+	 * @var int
 	 */
 	var $block			= null;
-	
-	/** 
+
+	/**
 	 * Description
-	 * 
-	 * @var int 
+	 *
+	 * @var int
 	 */
 	var $sendEmail		= null;
-	
-	/** 
-	 * The group id number 
-	 * 
-	 * @var int 
+
+	/**
+	 * The group id number
+	 *
+	 * @var int
 	 */
 	var $gid			= null;
-	
-	/** 
+
+	/**
 	 * Description
-	 * 
-	 * @var datetime 
+	 *
+	 * @var datetime
 	 */
 	var $registerDate	= null;
-	
-	/** 
+
+	/**
 	 * Description
-	 * 
-	 * @var datetime 
+	 *
+	 * @var datetime
 	 */
 	var $lastvisitDate	= null;
-	
-	/** 
+
+	/**
 	 * Description
-	 * 
+	 *
 	 * @var string activation hash
 	 */
 	var $activation		= null;
-	
-	/** 
+
+	/**
 	 * Description
-	 * 
-	 * @var string 
+	 *
+	 * @var string
 	 */
 	var $params			= null;
 
@@ -120,13 +120,13 @@ class JTableUser extends JTable
 		parent::__construct( '#__users', 'id', $db );
 
 		//initialise
-		$this->id  = 0;
-		$this->gid = 0;
+		$this->id	= 0;
+		$this->gid	= 0;
 	}
 
 	/**
 	 * Validation and filtering
-	 * 
+	 *
 	 * @return boolean True is satisfactory
 	 */
 	function check()
@@ -136,23 +136,23 @@ class JTableUser extends JTable
 			$this->_error = JText::_( 'Please enter your name.' );
 			return false;
 		}
-		
+
 		if (trim( $this->username ) == '') {
 			$this->_error = JText::_( 'Please enter a user name.');
 			return false;
 		}
 
-		
+
 		if (eregi( "[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", $this->username) || JString::strlen( $this->username ) < 2) {
 			$this->_error = JText::sprintf( 'VALID_AZ09', JText::_( 'Username' ), 2 );
 			return false;
 		}
-	
+
 		if ((trim($this->email == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $this->email )==false)) {
 			$this->_error = JText::_( 'WARNREG_MAIL' );
 			return false;
 		}
-		
+
 		// check for existing username
 		$query = "SELECT id"
 		. "\n FROM #__users "
@@ -273,7 +273,7 @@ class JTableUser extends JTable
 
 	/**
 	 * Updates last visit time of user
-	 * 
+	 *
 	 * @param int The timestamp, defaults to 'now'
 	 * @return boolean False if an error occurs
 	 */
@@ -335,7 +335,7 @@ class JTableUser extends JTable
 
 	/**
 	 * Returns a complete user list
-	 * 
+	 *
 	 * @return array
 	 */
 	function getUserList()
@@ -346,7 +346,7 @@ class JTableUser extends JTable
 
 	/**
 	 * Gets the users from a group
-	 * 
+	 *
 	 * @param string The value for the group (not used 1.0)
 	 * @param string The name for the group
 	 * @param string If RECURSE, will drill into child groups

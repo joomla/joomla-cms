@@ -35,7 +35,7 @@
 				<option value="-1">Off</option>
 				<option value="0">Ignore</option>
 				<option value="1">On</option>
-			</param>	
+			</param>
 			<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="@spacer" type="spacer" default="" label="" description="" />

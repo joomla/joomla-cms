@@ -21,45 +21,45 @@
  */
 class JLDAP {
 	/** @var string Hostname of LDAP server
-	    @access public */
+		@access public */
 	var $host = null;
 	/** @var bool Authorization Method to use
-	    @access public */
+		@access public */
 	var $auth_method = null;
 	/** @var int Port of LDAP server
-	    @access public */
+		@access public */
 	var $port = null;
 	/** @var string Base DN (e.g. o=MyDir)
-	    @access public */
+		@access public */
 	var $base_dn = null;
 	/** @var string User DN (e.g. cn=Users,o=MyDir)
-	    @access public */
+		@access public */
 	var $users_dn = null;
 	/** @var string Search String
-	    @access public */
+		@access public */
 	var $search_string = null;
 	/** @var boolean Use LDAP Version 3
-	    @access public */
+		@access public */
 	var $use_ldapV3 = null;
 	/** @var boolean No referrals (server transfers)
-	    @access public */
+		@access public */
 	var $no_referrals = null;
 	/** @var boolean Negotiate TLS (encrypted communications)
-	    @access public */
+		@access public */
 	var $negotiate_tls = null;
 
 	/** @var string Username to connect to server
-	    @access public */
+		@access public */
 	var $username = null;
 	/** @var string Password to connect to server
-	    @access public */
+		@access public */
 	var $password = null;
 
 	/** @var mixed LDAP Resource Identifier
-	    @access private */
+		@access private */
 	var $_resource = null;
 	/** @var string Current DN
-	    @access private */
+		@access private */
 	var $_dn = null;
 
 	/**
@@ -138,14 +138,14 @@ class JLDAP {
 	function getDN() {
 		return $this->_dn;
 	}
-	
+
 	/**
 	 * Anonymously Binds to LDAP Directory
 	 */
 	function anonymous_bind() {
 		$bindResult = @ldap_bind($this->_resource);
 		return $bindResult;
-	}	
+	}
 
 	/**
 	 * Binds to the LDAP directory
@@ -179,12 +179,12 @@ class JLDAP {
 	function simple_search($search) {
 		$results = explode(';', $search);
 		foreach($results as $key=>$result) {
-	        $results[$key] = '('.$result.')';
+			$results[$key] = '('.$result.')';
 		}
 		return $this->search($results);
 	}
 
-	
+
 	/**
 	 * Perform an LDAP search
 	 * @param array Search Filters (array of strings)
@@ -201,7 +201,7 @@ class JLDAP {
 		}
 
 		$resource = $this->_resource;
-		
+
 		foreach ($filters as $search_filter) {
 			$search_result = ldap_search($resource, $dn, $search_filter);
 			if ($search_result && ($count = ldap_count_entries($resource, $search_result)) > 0) {
@@ -239,7 +239,7 @@ class JLDAP {
 	 */
 	function compare($dn, $attribute, $value) {
 		return ldap_compare($this->_resource, $dn, $attribute, $value);
-	}	
+	}
 
 	/**
 	 * Converts a dot notation IP address to net address (e.g. for Netware, etc)
@@ -268,13 +268,13 @@ class JLDAP {
 	  *  Novell Docs, see: http://developer.novell.com/ndk/doc/ndslib/schm_enu/data/sdk5624.html#sdk5624
 	  *  for Address types: http://developer.novell.com/ndk/doc/ndslib/index.html?page=/ndk/doc/ndslib/schm_enu/data/sdk4170.html
 	  *  LDAP Format, String:
-	  *     taggedData = uint32String "#" octetstring
-	  *     byte 0 = uint32String = Address Type: 0= IPX Address; 1 = IP Address
-	  *     byte 1 = char = "#" - separator
-	  *     byte 2+ = octetstring - the ordinal value of the address
+	  *	 taggedData = uint32String "#" octetstring
+	  *	 byte 0 = uint32String = Address Type: 0= IPX Address; 1 = IP Address
+	  *	 byte 1 = char = "#" - separator
+	  *	 byte 2+ = octetstring - the ordinal value of the address
 	  *   Note: with eDirectory 8.6.2, the IP address (type 1) returns
-	  *                 correctly, however, an IPX address does not seem to.  eDir 8.7 may
-	  *                correct this.
+	  *				 correctly, however, an IPX address does not seem to.  eDir 8.7 may
+	  *				correct this.
 	  */
 	function LDAPNetAddr($networkaddress) {
 		$addr = "";

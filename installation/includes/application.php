@@ -43,7 +43,7 @@ class JInstallation extends JApplication
 		parent::__construct(2);
 		$this->_createConfiguration();
 	}
-	
+
 	/**
 	* Initialise the application.
 	*
@@ -51,7 +51,7 @@ class JInstallation extends JApplication
 	*/
 	function initialise( $options = array())
 	{
-		if(empty($options['langauge'])) 
+		if(empty($options['langauge']))
 		{
 			$forced = JInstallationHelper::getLocalise();
 			if ( empty($forced['lang'])) {

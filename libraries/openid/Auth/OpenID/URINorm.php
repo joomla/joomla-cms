@@ -68,7 +68,7 @@ function _pct_encoded_replace($mo)
 function remove_dot_segments($path)
 {
     $result_segments = array();
-    
+
     while ($path) {
         if (_startswith($path, '../')) {
             $path = substr($path, 3);

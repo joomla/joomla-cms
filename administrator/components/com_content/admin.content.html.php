@@ -34,7 +34,7 @@ class ContentView
 		global $mainframe;
 
 		// Initialize variables
-		$db     =& JFactory::getDBO();
+		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
 
 		//Ordering allowed ?
@@ -188,15 +188,15 @@ class ContentView
 					<td align="center">
 						<?php echo $checked; ?>
 					</td>
-		    			<?php
-		    			if ( $row->title_alias ) {
-		                    ?>
-		                    <td>
-		                    <?php
-		    			}
-		    			else{
+						<?php
+						if ( $row->title_alias ) {
+							?>
+							<td>
+							<?php
+						}
+						else{
 							echo "<td>";
-		                }
+						}
 						if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
 							echo $row->title;
 						} else if ($row->state == -1) {
@@ -438,9 +438,9 @@ class ContentView
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $row );
 
-		$db     =& JFactory::getDBO();
+		$db		=& JFactory::getDBO();
 		$editor =& JFactory::getEditor();
-		$pane   =& JPane::getInstance('sliders');
+		$pane	=& JPane::getInstance('sliders');
 
 		JCommonHTML::loadOverlib();
 		JCommonHTML::loadCalendar();
@@ -457,7 +457,7 @@ class ContentView
 		}
 		?>
 
-		function submitbutton(pressbutton) 
+		function submitbutton(pressbutton)
 		{
 			var form = document.adminForm;
 
@@ -516,7 +516,7 @@ class ContentView
 			<td valign="top" width="320" style="padding: 7px 0 0 5px">
 			<?php
 				ContentView::_displayArticleStats($row, $lists, $params);
-			
+
 				$title = JText::_( 'PARAMBASIC' );
 				$pane->startPane("content-pane");
 				$pane->startPanel( $title, "detail-page" );
@@ -681,8 +681,8 @@ class ContentView
 
 	function previewContent()
 	{
-		$document =& JFactory::getDocument();
-		$editor   =& JFactory::getEditor();
+		$document	=& JFactory::getDocument();
+		$editor		=& JFactory::getEditor();
 
 		$document->addScript('../includes/js/joomla/caption.js');
 

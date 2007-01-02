@@ -29,8 +29,8 @@ class ContactViewCategory extends JView
 		$model	 = &$this->getModel();
 
 		// Get the paramaters of the active menu item
-		$menu    =& JSiteHelper::getActiveMenuItem();
-		$params  =& JSiteHelper::getMenuParams();
+		$menu	=& JSiteHelper::getActiveMenuItem();
+		$params	=& JSiteHelper::getMenuParams();
 
 		// Selected Request vars
 		$categoryId			= JRequest::getVar( 'catid', 0, '', 'int' );
@@ -59,9 +59,9 @@ class ContactViewCategory extends JView
 		$options['limitstart']	= $limitstart;
 		$options['order by']	= "$filter_order $filter_order_Dir, cd.ordering";
 
-		$categories   = $model->getCategories( $options );
-		$contacts     = $model->getContacts( $options );
-		$total 		  = $model->getContactCount( $options );
+		$categories	= $model->getCategories( $options );
+		$contacts	= $model->getContacts( $options );
+		$total 		= $model->getContactCount( $options );
 
 		//prepare contacts
 		$k = 0;
@@ -69,9 +69,9 @@ class ContactViewCategory extends JView
 		{
 			$contact =& $contacts[$i];
 
-			$contact->link    = sefRelToAbs('index.php?option=com_contact&amp;view=contact&amp;id='.$contact->id.'&amp;Itemid='.$Itemid);
+			$contact->link	= sefRelToAbs('index.php?option=com_contact&amp;view=contact&amp;id='.$contact->id.'&amp;Itemid='.$Itemid);
 
-			$contact->odd   = $k;
+			$contact->odd	= $k;
 			$contact->count = $i;
 			$k = 1 - $k;
 		}
@@ -113,12 +113,12 @@ class ContactViewCategory extends JView
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
-		$this->assignRef('items'     , $contacts);
-		$this->assignRef('lists'     , $lists);
-		$this->assignRef('pagination', $pagination);
-		//$this->assignRef('data'      , $data);
-		$this->assignRef('category'  , $category);
-		$this->assignRef('params'    , $params);
+		$this->assignRef('items',		$contacts);
+		$this->assignRef('lists',		$lists);
+		$this->assignRef('pagination',	$pagination);
+		//$this->assignRef('data',		$data);
+		$this->assignRef('category',	$category);
+		$this->assignRef('params',		$params);
 
 		parent::display($tpl);
 	}

@@ -28,11 +28,11 @@
 class JDocumentRenderer_RSS extends JDocumentRenderer
 {
 	/**
-     * Renderer mime type
-     *
-     * @var      string
-     * @access   private
-     */
+	 * Renderer mime type
+	 *
+	 * @var	  string
+	 * @access   private
+	 */
 	// var $_mime = "application/rss+xml";
 	 var $_mime = "text/xml";
 
@@ -45,8 +45,8 @@ class JDocumentRenderer_RSS extends JDocumentRenderer
 	 */
 	function render()
 	{
-		$now  = new JDate();
-		$data =& $this->_doc;
+		$now	= new JDate();
+		$data	=& $this->_doc;
 
 		$feed = "<rss version=\"2.0\">\n";
 		$feed.= "	<channel>\n";
@@ -54,7 +54,7 @@ class JDocumentRenderer_RSS extends JDocumentRenderer
 		$feed.= "		<description>".$data->description."</description>\n";
 		$feed.= "		<link>".$data->link."</link>\n";
 		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822())."</lastBuildDate>\n";
-		$feed.= "        <generator>".$data->getGenerator()."</generator>\n";
+		$feed.= "		<generator>".$data->getGenerator()."</generator>\n";
 
 		if ($data->image!=null)
 		{
@@ -99,7 +99,7 @@ class JDocumentRenderer_RSS extends JDocumentRenderer
 			$feed.= "		<ttl>".htmlspecialchars($data->ttl)."</ttl>\n";
 		}
 		if ($data->rating!="") {
-			$feed.= "        <rating>".htmlspecialchars($data->rating)."</rating>\n";
+			$feed.= "		<rating>".htmlspecialchars($data->rating)."</rating>\n";
 		}
 		if ($data->skipHours!="") {
 			$feed.= "		<skipHours>".htmlspecialchars($data->skipHours)."</skipHours>\n";
@@ -139,13 +139,13 @@ class JDocumentRenderer_RSS extends JDocumentRenderer
 			}
 			if ($data->items[$i]->enclosure != NULL)
 			{
-					$feed.= "            <enclosure url=\"";
-				    $feed.= $data->items[$i]->enclosure->url;
-				    $feed.= "\" length=\"";
-				    $feed.= $data->items[$i]->enclosure->length;
-				    $feed.= "\" type=\"";
-				    $feed.= $data->items[$i]->enclosure->type;
-				    $feed.= "\"/>\n";
+					$feed.= "			<enclosure url=\"";
+					$feed.= $data->items[$i]->enclosure->url;
+					$feed.= "\" length=\"";
+					$feed.= $data->items[$i]->enclosure->length;
+					$feed.= "\" type=\"";
+					$feed.= $data->items[$i]->enclosure->type;
+					$feed.= "\"/>\n";
 			}
 
 			$feed.= "		</item>\n";

@@ -32,11 +32,11 @@ class JDocumentRenderer extends JObject
 	var	$_doc = null;
 
 	/**
-     * Renderer mime type
-     *
-     * @var      string
-     * @access   private
-     */
+	 * Renderer mime type
+	 *
+	 * @var		string
+	 * @access	private
+	 */
 	 var $_mime = "text/html";
 
    /**
@@ -49,7 +49,7 @@ class JDocumentRenderer extends JObject
 		$this->_doc =& $doc;
 	}
 
-    /**
+	/**
 	 * Renders a script and returns the results as a string
 	 *
 	 * @abstract

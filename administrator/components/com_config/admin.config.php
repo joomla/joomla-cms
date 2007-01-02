@@ -27,11 +27,11 @@ require_once (JPATH_COMPONENT.DS.'controller.php');
 // Require specific controller if requested
 if($controller = JRequest::getVar('controller', 'application')) {
 	require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
-} 
+}
 
 // Create the controller
-$classname  = 'ConfigController'.$controller;
-$controller = new $classname( );
+$classname	= 'ConfigController'.$controller;
+$controller	= new $classname( );
 
 // Perform the Request task
 $controller->execute( JRequest::getVar( 'task' ) );

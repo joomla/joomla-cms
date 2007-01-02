@@ -179,11 +179,10 @@ class JPaneTabs extends JPane
 	{
 		global $mainframe;
 
-		$document =& JFactory::getDocument();
-		$lang     =& JFactory::getLanguage();
-
-		$css  = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$document	=& JFactory::getDocument();
+		$lang	 	=& JFactory::getLanguage();
+		$css		= $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
+		$url		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$document->addStyleSheet( $url. 'includes/js/tabs/'.$css, 'text/css', null, array(' id' => 'luna-tab-style-sheet' ));
 		$document->addScript( $url. 'includes/js/tabs/tabpane_mini.js' );
@@ -267,7 +266,7 @@ class JPaneSliders extends JPane
 		global $mainframe;
 
 		$document =& JFactory::getDocument();
-		$lang     =& JFactory::getLanguage();
+		$lang	 =& JFactory::getLanguage();
 
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 

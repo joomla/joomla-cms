@@ -261,7 +261,7 @@ class ContentModelSection extends JModel
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 
-			$Itemid    	= JRequest::getVar('Itemid');
+			$Itemid		= JRequest::getVar('Itemid');
 
 			// Get the paramaters of the active menu item
 			$params =& JSiteHelper::getMenuParams();
@@ -409,7 +409,7 @@ class ContentModelSection extends JModel
 	{
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
-		$Itemid    			= JRequest::getVar('Itemid');
+		$Itemid				= JRequest::getVar('Itemid');
 
 		$orderby = "\n ORDER BY ";
 		if ($filter_order && $filter_order_Dir) {
@@ -449,7 +449,7 @@ class ContentModelSection extends JModel
 		$noauth		= !$params->get('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
 
-		$Itemid    	= JRequest::getVar('Itemid');
+		$Itemid		= JRequest::getVar('Itemid');
 
 		// First thing we need to do is assert that the articles are in the current category
 		$where = "\n WHERE a.access <= $gid";

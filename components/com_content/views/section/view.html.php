@@ -29,13 +29,13 @@ class ContentViewSection extends JView
 		global $mainframe, $Itemid, $option;
 
 		// Initialize some variables
-		$user	  =& JFactory::getUser();
-		$document =& JFactory::getDocument();
-		$pathway  = & $mainframe->getPathWay();
+		$user		=& JFactory::getUser();
+		$document	=& JFactory::getDocument();
+		$pathway	= & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
-		$menu    =& JSiteHelper::getActiveMenuItem();
-		$params  =& JSiteHelper::getMenuParams();
+		$menu		=& JSiteHelper::getActiveMenuItem();
+		$params		=& JSiteHelper::getMenuParams();
 
 		// Request variables
 		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
@@ -50,10 +50,10 @@ class ContentViewSection extends JView
 		JRequest::setVar('limit', $limit);
 
 		// Get some data from the model
-		$items      = & $this->get( 'Data');
-		$total      = & $this->get( 'Total');
+		$items		= & $this->get( 'Data');
+		$total		= & $this->get( 'Total');
 		$categories	= & $this->get( 'Categories' );
-		$section    = & $this->get( 'Section' );
+		$section	= & $this->get( 'Section' );
 
 		// Create a user access object for the user
 		$access					= new stdClass();
@@ -62,7 +62,7 @@ class ContentViewSection extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//add alternate feed link
-		$link    = 'feed.php?option=com_content&amp;view=section&amp;id='.$section->id.'&amp;Itemid='.$Itemid;
+		$link	= 'feed.php?option=com_content&amp;view=section&amp;id='.$section->id.'&amp;Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
@@ -99,15 +99,15 @@ class ContentViewSection extends JView
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
-		$this->assign('total'        , $total);
+		$this->assign('total',			$total);
 
-		$this->assignRef('items'     , $items);
-		$this->assignRef('section'   , $section);
-		$this->assignRef('categories', $categories);
-		$this->assignRef('params'    , $params);
-		$this->assignRef('user'      , $user);
-		$this->assignRef('access'    , $access);
-		$this->assignRef('pagination', $pagination);
+		$this->assignRef('items',		$items);
+		$this->assignRef('section',		$section);
+		$this->assignRef('categories',	$categories);
+		$this->assignRef('params',		$params);
+		$this->assignRef('user',		$user);
+		$this->assignRef('access',		$access);
+		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
 	}
@@ -200,8 +200,8 @@ class ContentViewSection extends JView
 	{
 		 global $Itemid, $mainframe;
 
-		$url  = '';
-		$text = '';
+		$url	= '';
+		$text	= '';
 
 		$article = $this->item;
 
@@ -209,7 +209,7 @@ class ContentViewSection extends JView
 		{
 			case 'pdf' :
 			{
-				$url   = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
+				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -219,14 +219,14 @@ class ContentViewSection extends JView
 					$text = JText::_('PDF').'&nbsp;';
 				}
 
-				$attribs['title']   = '"'.JText::_( 'PDF' ).'"';
+				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
 
 			case 'print' :
 			{
-				$url    = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component&amp;page='.@ $this->request->limitstart;
+				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -236,14 +236,14 @@ class ContentViewSection extends JView
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}
 
-				$attribs['title']   = '"'.JText::_( 'Print' ).'"';
+				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
 
 			case 'email' :
 			{
-				$url   = 'index.php?option=com_mailto&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
+				$url	= 'index.php?option=com_mailto&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
 				if ($this->params->get('icons')) 	{
@@ -252,7 +252,7 @@ class ContentViewSection extends JView
 					$text = '&nbsp;'.JText::_('Email');
 				}
 
-				$attribs['title']   = '"'.JText::_( 'Email ' ).'"';
+				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;

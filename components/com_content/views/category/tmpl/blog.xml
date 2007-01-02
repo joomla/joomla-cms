@@ -129,7 +129,7 @@
 				<option value="-1">Off</option>
 				<option value="0">Ignore</option>
 				<option value="1">On</option>
-			</param>	
+			</param>
 		</advanced>
 	</state>
 </metadata>

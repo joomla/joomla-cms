@@ -366,7 +366,7 @@ class JAJAXLang extends JObject
 	 */
 	function load( $prefix = '', $basePath = JPATH_BASE )
 	{
-        $path = JAJAXLang::getLanguagePath( $basePath, $this->_lang);
+		$path = JAJAXLang::getLanguagePath( $basePath, $this->_lang);
 
 		$filename = empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
 

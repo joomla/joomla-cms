@@ -40,7 +40,7 @@ class patTemplate_Function_Sef extends patTemplate_Function
 	{
 		/*
 		if( !isset( $params['macro'] ) ) {
-            return false;
+			return false;
 		}
 		*/
 

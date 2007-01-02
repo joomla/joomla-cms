@@ -19,8 +19,8 @@ require_once (dirname(__FILE__).DS.'helper.php');
 
 $link 	 = $params->get( 'link' );
 
-$folder  = modRandomImageHelper::getFolder($params);
-$images  = modRandomImageHelper::getImages($params, $folder);
+$folder	= modRandomImageHelper::getFolder($params);
+$images	= modRandomImageHelper::getImages($params, $folder);
 
 if (!count($images)) {
 	echo JText::_( 'No images ');

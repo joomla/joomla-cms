@@ -26,20 +26,20 @@ jimport('joomla.application.module.helper');
 class JDocumentHTML extends JDocument
 {
 	 /**
-     * Array of Header <link> tags
-     *
-     * @var     array
-     * @access  private
-     */
-    var $_links = array();
+	 * Array of Header <link> tags
+	 *
+	 * @var	 array
+	 * @access  private
+	 */
+	var $_links = array();
 
 	/**
-     * Array of custom tags
-     *
-     * @var     string
-     * @access  private
-     */
-    var $_custom = array();
+	 * Array of custom tags
+	 *
+	 * @var	 string
+	 * @access  private
+	 */
+	var $_custom = array();
 
 
 	/**
@@ -64,43 +64,43 @@ class JDocumentHTML extends JDocument
 	}
 
 	 /**
-     * Adds <link> tags to the head of the document
-     *
-     * <p>$relType defaults to 'rel' as it is the most common relation type used.
-     * ('rev' refers to reverse relation, 'rel' indicates normal, forward relation.)
-     * Typical tag: <link href="index.php" rel="Start"></p>
-     *
-     * @access   public
-     * @param    string  $href       The link that is being related.
-     * @param    string  $relation   Relation of link.
-     * @param    string  $relType    Relation type attribute.  Either rel or rev (default: 'rel').
-     * @param    array   $attributes Associative array of remaining attributes.
-     * @return   void
-     */
-    function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
+	 * Adds <link> tags to the head of the document
+	 *
+	 * <p>$relType defaults to 'rel' as it is the most common relation type used.
+	 * ('rev' refers to reverse relation, 'rel' indicates normal, forward relation.)
+	 * Typical tag: <link href="index.php" rel="Start"></p>
+	 *
+	 * @access   public
+	 * @param	string  $href	   The link that is being related.
+	 * @param	string  $relation   Relation of link.
+	 * @param	string  $relType	Relation type attribute.  Either rel or rev (default: 'rel').
+	 * @param	array   $attributes Associative array of remaining attributes.
+	 * @return   void
+	 */
+	function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
 	{
-        $attribs = JDocumentHelper::implodeAttribs('=', ' ', $attribs);
-        $generatedTag = "<link href=\"$href\" $relType=\"$relation\" ". $attribs;
-        $this->_links[] = $generatedTag;
-    }
+		$attribs = JDocumentHelper::implodeAttribs('=', ' ', $attribs);
+		$generatedTag = "<link href=\"$href\" $relType=\"$relation\" ". $attribs;
+		$this->_links[] = $generatedTag;
+	}
 
 	 /**
-     * Adds a shortcut icon (favicon)
-     *
-     * <p>This adds a link to the icon shown in the favorites list or on
-     * the left of the url in the address bar. Some browsers display
-     * it on the tab, as well.</p>
-     *
-     * @param     string  $href        The link that is being related.
-     * @param     string  $type        File type
-     * @param     string  $relation    Relation of link
-     * @access    public
-     */
-    function addFavicon($href, $type = 'image/x-icon', $relation = 'shortcut icon')
+	 * Adds a shortcut icon (favicon)
+	 *
+	 * <p>This adds a link to the icon shown in the favorites list or on
+	 * the left of the url in the address bar. Some browsers display
+	 * it on the tab, as well.</p>
+	 *
+	 * @param	 string  $href		The link that is being related.
+	 * @param	 string  $type		File type
+	 * @param	 string  $relation	Relation of link
+	 * @access	public
+	 */
+	function addFavicon($href, $type = 'image/x-icon', $relation = 'shortcut icon')
 	{
-        $href = str_replace( '\\', '/', $href );
-        $this->_links[] = '<link href="'.JURI::base().$href.'" rel="'.$relation.'" type="'.$type.'"';
-    }
+		$href = str_replace( '\\', '/', $href );
+		$this->_links[] = '<link href="'.JURI::base().$href.'" rel="'.$relation.'" type="'.$type.'"';
+	}
 
 	/**
 	 * Adds a custom html string to the head block
@@ -157,15 +157,15 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
-	 * @param array		$params	    Associative array of attributes
+	 * @param array		$params		Associative array of attributes
 	 */
 	function display( $caching = false, $params = array())
 	{
 		// check
-		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
-		$outline   = isset($params['outline'])   ? $params['outline']   : 0;
-		$template  = $params['template'];
-		$file      = $params['file'];
+		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
+		$outline	= isset($params['outline'])   ? $params['outline']   : 0;
+		$template	= $params['template'];
+		$file		= $params['file'];
 
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
@@ -293,7 +293,7 @@ class JDocumentHTML extends JDocument
 			$matches[1] = array_reverse($matches[1]);
 			$matches[2] = array_reverse($matches[2]);
 
-			$count   = count($matches[1]);
+			$count = count($matches[1]);
 
 			for($i = 0; $i < $count; $i++)
 			{

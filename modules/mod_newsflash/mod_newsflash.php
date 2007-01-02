@@ -25,7 +25,7 @@ $params->set('hide_modifydate', 1);
 
 // Disable edit ability icon
 $access = new stdClass();
-$access->canEdit    = 0;
+$access->canEdit	= 0;
 $access->canEditOwn = 0;
 $access->canPublish = 0;
 

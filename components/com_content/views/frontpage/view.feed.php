@@ -29,9 +29,9 @@ class ContentViewFrontpage extends JView
 		global $mainframe, $Itemid;
 
 		// parameters
-		$db       =& JFactory::getDBO();
-		$document =& JFactory::getDocument();
-		$limit	  = '10';
+		$db			=& JFactory::getDBO();
+		$document	=& JFactory::getDocument();
+		$limit		= '10';
 
 		JRequest::setVar('limit', $limit);
 		$rows = $this->get('data');
@@ -48,9 +48,9 @@ class ContentViewFrontpage extends JView
 			$link = sefRelToAbs( $link );
 
 			// strip html from feed item description text
-			$description = $row->introtext;
-			$author      = $row->author;
-			@$date = ( $row->created ? date( 'r', strtotime($row->created) ) : '' );
+			$description	= $row->introtext;
+			$author			= $row->author;
+			@$date			= ( $row->created ? date( 'r', strtotime($row->created) ) : '' );
 
 			// load individual item creator class
 			$item = new JFeedItem();

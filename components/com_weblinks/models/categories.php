@@ -43,7 +43,7 @@ class WeblinksModelCategories extends JModel
 	 *
 	 * @since 1.5
 	 */
-	 
+
 	function __construct()
 	{
 		parent::__construct();
@@ -90,13 +90,13 @@ class WeblinksModelCategories extends JModel
 	{
 		$user = JFactory::getUser();
 		$gid = $user->get('gid');
-		
+
 		//Query to retrieve all categories that belong under the web links section and that are published.
 		$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc" .
 			"\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id" .
 			"\n WHERE a.published = 1" .
 			"\n AND section = 'com_weblinks'" .
-		    "\n AND cc.published = 1".
+			"\n AND cc.published = 1".
 			"\n AND cc.access <= $gid".
 			"\n GROUP BY cc.id" .
 			"\n ORDER BY cc.ordering";

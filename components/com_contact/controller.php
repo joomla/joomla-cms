@@ -32,8 +32,8 @@ class ContactController extends JController
 
 		$document =& JFactory::getDocument();
 
-		$viewName  = JRequest::getVar('view');
-		$viewType  = $document->getType();
+		$viewName	= JRequest::getVar('view');
+		$viewType	= $document->getType();
 
 		// interceptors to support legacy urls
 		switch( $this->getTask())
@@ -270,7 +270,7 @@ class ContactController extends JController
 		$bannedSubject 	= $config->get( 'bannedSubject', 	'' );
 		$bannedText 	= $config->get( 'bannedText', 		'' );
 		$sessionCheck 	= $config->get( 'sessionCheck', 	1 );
-		$sessionName    = $session->getName();
+		$sessionName	= $session->getName();
 
 		// check for session cookie
 		if  ( $sessionCheck ) {

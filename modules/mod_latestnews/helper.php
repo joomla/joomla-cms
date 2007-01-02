@@ -131,8 +131,8 @@ class modLatestNewsHelper
 				break;
 		}
 
-		$i 	   = 0;
-		$lists = array();
+		$i		= 0;
+		$lists	= array();
 		foreach ( $rows as $row )
 		{
 			// get Itemid

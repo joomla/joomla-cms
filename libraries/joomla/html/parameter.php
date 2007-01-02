@@ -54,7 +54,7 @@ class JParameter extends JRegistry
 	* @access	private
 	* @var		array
 	*/
-	var $_elementDirs  = array();
+	var $_elementDirs = array();
 
 	/**
 	 * Constructor
@@ -111,7 +111,7 @@ class JParameter extends JRegistry
 		$result = (empty($value) && ($value !== 0) && ($value !== '0')) ? $default : $value;
 		return $result;
 	}
-	
+
 	/**
 	 * Sets a default value if not alreay assigned
 	 *
@@ -154,8 +154,8 @@ class JParameter extends JRegistry
 			return $this->loadArray($data, 'parameter');
 		} elseif ( is_object($data) ) {
 			return $this->loadObject($data, 'parameter');
-		} 
-		
+		}
+
 		return false;
 	}
 

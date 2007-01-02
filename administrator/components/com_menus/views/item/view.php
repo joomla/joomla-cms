@@ -170,9 +170,9 @@ class MenusViewItem extends JView
 			$document->setTitle('New Menu Item Type');
 		}
 
-		$this->assignRef('item'      , $item);
-		$this->assignRef('components', $components);
-		$this->assignRef('expansion' , $expansion);
+		$this->assignRef('item',		$item);
+		$this->assignRef('components',	$components);
+		$this->assignRef('expansion',	$expansion);
 		parent::display($tpl);
 	}
 }

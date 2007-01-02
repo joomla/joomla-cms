@@ -95,7 +95,7 @@ class JComponentHelper
 	function renderComponent($name = null, $params = array())
 	{
 		global $mainframe, $option;
-		
+
 		if(empty($name)) {
 			return;
 		}
@@ -107,9 +107,9 @@ class JComponentHelper
 		$file = substr( $name, 4 );
 
 		// Define component path
-		define( 'JPATH_COMPONENT'              ,  JPATH_BASE.DS.'components'.DS.$name);
-		define( 'JPATH_COMPONENT_SITE'         ,  JPATH_SITE.DS.'components'.DS.$name);
-		define( 'JPATH_COMPONENT_ADMINISTRATOR',  JPATH_ADMINISTRATOR.DS.'components'.DS.$name);
+		define( 'JPATH_COMPONENT',					JPATH_BASE.DS.'components'.DS.$name);
+		define( 'JPATH_COMPONENT_SITE',				JPATH_SITE.DS.'components'.DS.$name);
+		define( 'JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.DS.'components'.DS.$name);
 
 		// get component path
 		if ( $mainframe->isAdmin() && is_file(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
@@ -158,9 +158,9 @@ class JComponentHelper
 		$contents = null;
 		if($outline && !$mainframe->isAdmin())
 		{
-			$doc =& JFactory::getDocument();
-			$css  = ".com-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }";
-			$css .= ".com-preview-wrapper { background-color:#eee;  border: 1px dotted black; color:#700; opacity: .50; filter: alpha(opacity=50); -moz-opactiy: .50;}";
+			$doc	=& JFactory::getDocument();
+			$css	= ".com-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }";
+			$css	.= ".com-preview-wrapper { background-color:#eee;  border: 1px dotted black; color:#700; opacity: .50; filter: alpha(opacity=50); -moz-opactiy: .50;}";
 			$doc->addStyleDeclaration($css);
 
 			$contents .= "
@@ -174,7 +174,7 @@ class JComponentHelper
 		require_once $path;
 		$contents = ob_get_contents();
 		ob_end_clean();
-		
+
 		// Build the component toolbar
 		jimport( 'joomla.application.helper' );
 		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {

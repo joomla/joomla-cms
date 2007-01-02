@@ -27,14 +27,14 @@ See COPYRIGHT.php for copyright notices and details.
 <jtmpl:tmpl name="calendar-field">
 	<button type="reset" id="trigger_{ID}" class="button">...</button>
 	<script type="text/javascript">
-	    Calendar.setup({
-	        inputField     :    "{ID}",      // id of the input field
-	        ifFormat       :    "{FORMAT}",       // format of the input field
-	        <jtmpl:tmpl type="simplecondition" requiredvars="showstime=true">
-	        showsTime      :    true,            // will display a time selector</jtmpl:tmpl>
-	        button         :    "trigger_{ID}",   // trigger for the calendar (button ID)
-	        singleClick    :    true,
-	        step           :    1                // show all years in drop-down boxes (instead of every other year as default)
-	    });
+		Calendar.setup({
+			inputField	:	"{ID}",	  // id of the input field
+			ifFormat	:	"{FORMAT}",	   // format of the input field
+			<jtmpl:tmpl type="simplecondition" requiredvars="showstime=true">
+			showsTime	:	true,			// will display a time selector</jtmpl:tmpl>
+			button		:	"trigger_{ID}",   // trigger for the calendar (button ID)
+			singleClick	:	true,
+			step		:	1				// show all years in drop-down boxes (instead of every other year as default)
+		});
 	</script>
 </jtmpl:tmpl>

@@ -31,8 +31,8 @@ class UserViewUser extends JView
 		$pathway =& $mainframe->getPathWay();
 
 		// Get the paramaters of the active menu item
-		$menus  = &JMenu::getInstance();
-		$menu   = $menus->getItem($Itemid);
+		$menus	= &JMenu::getInstance();
+		$menu	= $menus->getItem($Itemid);
 
 		// Add breadcrumb
 		$pathway->setItemName(1, 'User');

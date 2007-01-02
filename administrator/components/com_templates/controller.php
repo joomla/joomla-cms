@@ -11,7 +11,7 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
  */
- 
+
 /**
  * @package Joomla
  * @subpackage Templates
@@ -48,8 +48,8 @@ class TemplatesController
 
 		// set dynamic template information
 		for($i = 0; $i < count($rows); $i++)  {
-			$rows[$i]->assigned  = TemplatesHelper::isTemplateAssigned($rows[$i]->directory);
-			$rows[$i]->published = TemplatesHelper::isTemplateDefault($rows[$i]->directory, $client->id);
+			$rows[$i]->assigned		= TemplatesHelper::isTemplateAssigned($rows[$i]->directory);
+			$rows[$i]->published	= TemplatesHelper::isTemplateDefault($rows[$i]->directory, $client->id);
 		}
 
 		jimport('joomla.html.pagination');
@@ -116,7 +116,7 @@ class TemplatesController
 		jimport('joomla.filesystem.path');
 
 		// Initialize some variables
-		$db	    	= & JFactory::getDBO();
+		$db			= & JFactory::getDBO();
 		$cid		= JRequest::getVar('cid', array(), 'method', 'array');
 		$option		= JRequest::getVar('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
@@ -151,7 +151,7 @@ class TemplatesController
 
 		$params = new JParameter($content, $xml, 'template');
 
-		$lists['published']  = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published);
+		$lists['published'] = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published);
 
 		$lists['selections'] = '';
 		if($client->id == '1')  {
@@ -311,12 +311,12 @@ class TemplatesController
 			$task = JRequest::getVar('task');
 			switch($task)
 			{
-				case 'apply_source' :
+				case 'apply_source':
 					$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id.'&amp;task=edit_source&cid[]='.$template, JText::_('Template source saved'));
 					break;
 
-				case 'save_source'  :
-				default          :
+				case 'save_source':
+				default:
 					$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id.'&amp;task=edit&amp;cid[]='.$template, JText::_('Template source saved'));
 					break;
 			}
@@ -419,12 +419,12 @@ class TemplatesController
 			$task = JRequest::getVar('task');
 			switch($task)
 			{
-				case 'apply_css' :
+				case 'apply_css':
 					$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id.'&amp;task=edit_css&amp;id='.$template.'&amp;filename='.$filename);
 					break;
 
-				case 'save_css'  :
-				default          :
+				case 'save_css':
+				default:
 					$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id.'&amp;task=edit&amp;cid[]='.$template);
 					break;
 			}

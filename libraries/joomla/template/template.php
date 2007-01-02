@@ -27,11 +27,11 @@ jimport('pattemplate.patTemplate');
 class JTemplate extends patTemplate
 {
 	/**
-     * The path of the template file
-     *
-     * @var       string
-     * @access    private
-     */
+	 * The path of the template file
+	 *
+	 * @var	   string
+	 * @access	private
+	 */
 	var $_file = '';
 
 
@@ -198,8 +198,8 @@ class JTemplate extends patTemplate
 		/**
 		 * get modification time
 		 */
-		$modTime   = $stat->getModificationTime( $this->_file );
-		$templates = $this->_tmplCache->load( $key, $modTime );
+		$modTime	= $stat->getModificationTime( $this->_file );
+		$templates	= $this->_tmplCache->load( $key, $modTime );
 
 		return $templates;
 	}

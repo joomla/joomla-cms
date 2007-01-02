@@ -255,8 +255,8 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 
 	// Get the files and folders
 	jimport('joomla.filesystem.folder');
-	$files   = JFolder::files($path, $filter, $recurse, $fullpath);
-	$folders = JFolder::folders($path, $filter, $recurse, $fullpath);
+	$files		= JFolder::files($path, $filter, $recurse, $fullpath);
+	$folders	= JFolder::folders($path, $filter, $recurse, $fullpath);
 	// Merge files and folders into one array
 	$arr = array_merge($files, $folders);
 	// Sort them all

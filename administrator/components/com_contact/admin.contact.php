@@ -249,8 +249,8 @@ function saveContact( $task )
 	global $mainframe;
 
 	// Initialize variables
-	$db  =& JFactory::getDBO();
-	$row =& JTable::getInstance('contact', 'Table');
+	$db		=& JFactory::getDBO();
+	$row	=& JTable::getInstance('contact', 'Table');
 	if (!$row->bind( JRequest::get( 'post' ))) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();

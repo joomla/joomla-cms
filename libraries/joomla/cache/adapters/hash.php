@@ -35,11 +35,11 @@ class JCacheHash extends JCache
 	}
 
 	/**
-     * Enable/disbale caching
-     *
-     * @access public
-     * @param boolean $enable If true enable caching.
-     */
+	 * Enable/disbale caching
+	 *
+	 * @access public
+	 * @param boolean $enable If true enable caching.
+	 */
 	function setCaching($enable)  {
 		$this->_caching = $enable;
 	}
@@ -67,7 +67,7 @@ class JCacheHash extends JCache
 
 	/**
 	 * Create full directory structure, Ripped straight from the Smarty Template
-	 * engine. Version:     2.3.0 Copyright:   2001,2002 ispi of Lincoln, Inc.
+	 * engine. Version:	 2.3.0 Copyright:   2001,2002 ispi of Lincoln, Inc.
 	 *
 	 * @param string $dir Full directory.
 	 * @access private
@@ -161,8 +161,8 @@ class JCacheHash extends JCache
 		}
 
 		if ($this->_memoryCaching) {
-			$this->_memoryCachingArray   = array();
-			$this->_memoryCachingCounter = 0;
+			$this->_memoryCachingArray		= array();
+			$this->_memoryCachingCounter	= 0;
 			if ($this->_onlyMemoryCaching) {
 				return true;
 			}

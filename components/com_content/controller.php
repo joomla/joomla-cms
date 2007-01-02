@@ -31,9 +31,9 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-		$viewName  = JRequest::getVar( 'view', 'article' );
-		$layout    = JRequest::getVar( 'layout', 'default' );
-		
+		$viewName	= JRequest::getVar( 'view', 'article' );
+		$layout		= JRequest::getVar( 'layout', 'default' );
+
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
@@ -62,7 +62,7 @@ class ContentController extends JController
 				$viewName	= 'article';
 				break;
 		}
-		
+
 		JRequest::setVar('view', $viewName);
 		JRequest::setVar('layout', $layout);
 
@@ -401,7 +401,7 @@ class ContentController extends JController
 				"\n WHERE attribs LIKE '%keyref=$keyref%'";
 		$db->setQuery($query);
 		$id = $db->loadResult();
-		if ($id > 0) 
+		if ($id > 0)
 		{
 			// Create the view
 			$view = & $this->getView('article', 'html');
@@ -438,7 +438,7 @@ class ContentController extends JController
 		$view->setLayout('pagebreak');
 
 		// Display the view
-		$view->display();	
+		$view->display();
 	}
 }
 

@@ -137,7 +137,7 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function unarchiveList( $task='unarchive', $alt='Unarchive' ) {
-        $alt= JText::_( $alt );
+		$alt= JText::_( $alt );
 
 		mosToolBar::custom( $task, 'unarchive_f2.png', '', $alt, true );
 	}
@@ -249,7 +249,7 @@ class mosToolBar {
 	* any other operation
 	*/
 	function back() {
-        $alt= JText::_( 'back' );
+		$alt= JText::_( 'back' );
 		$image = JAdminMenus::ImageCheck( 'back_f2.png', '/images/', NULL, NULL, $alt, 'cancel', 1 );
 		?>
 		<td>
@@ -276,7 +276,7 @@ class mosToolBar {
 	* @param string The sub-drectory to upload the media to
 	*/
 	function media_manager( $directory = '' ) {
-        $alt= JText::_( 'Upload Image' );
+		$alt= JText::_( 'Upload Image' );
 		$image = JAdminMenus::ImageCheck( 'upload_f2.png', '/images/', NULL, NULL, $alt, 'uploadPic', 1 );
 		?>
 		<td>

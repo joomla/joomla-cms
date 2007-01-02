@@ -473,7 +473,7 @@ class MenusController extends JController
 				}
 			}
 
-	    	$msg = JText::sprintf( 'New Menu created', $menuType->menutype );
+			$msg = JText::sprintf( 'New Menu created', $menuType->menutype );
 		}
 		else if ($isChanged)
 		{

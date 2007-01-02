@@ -214,12 +214,12 @@ function savePlugin( $option, $client, $task )
 
 	switch ( $task ) {
 		case 'apply':
-        	$msg = JText::sprintf( 'Successfully Saved changes to Plugin', $row->name );
+			$msg = JText::sprintf( 'Successfully Saved changes to Plugin', $row->name );
 			$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client .'&amp;task=edit&amp;hidemainmenu=1&amp;cid[]='. $row->id, $msg );
 
 		case 'save':
 		default:
-        	$msg = JText::sprintf( 'Successfully Saved Plugin', $row->name );
+			$msg = JText::sprintf( 'Successfully Saved Plugin', $row->name );
 			$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client, $msg );
 			break;
 	}
@@ -250,7 +250,7 @@ function editPlugin( )
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
-    	$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The module' ), $row->title );
+		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The module' ), $row->title );
 		mosErrorAlert( $msg, "document.location.href='index.php?option=$option'" );
 	}
 
@@ -324,8 +324,8 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 {
 	global $mainframe;
 
-	$db     =& JFactory::getDBO();
-	$user 	=& JFactory::getUser();
+	$db		=& JFactory::getDBO();
+	$user	=& JFactory::getUser();
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );

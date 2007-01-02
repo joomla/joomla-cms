@@ -105,14 +105,14 @@ class JTableContent extends JTable
 		$this->introtext = trim( $filter->clean( $this->introtext ) );
 		$this->fulltext =  trim( $filter->clean( $this->fulltext ) );
 		*/
-		
+
 		jimport('joomla.filter.output');
 		$alias = JOutputFilter::stringURLSafe($this->title);
-	
+
 		if(empty($this->title_alias) || $this->title_alias === $alias ) {
 			$this->title_alias = $alias;
 		}
-		
+
 		if (trim( str_replace( '&nbsp;', '', $this->fulltext ) ) == '') {
 			$this->fulltext = '';
 		}

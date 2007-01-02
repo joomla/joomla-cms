@@ -39,7 +39,7 @@ function deldir( $dir )
 			if (is_dir( $dir . $entryname )) {
 				deldir( mosPathName( $dir . $entryname ) );
 			} else {
-                @chmod($dir . $entryname, 0777);
+				@chmod($dir . $entryname, 0777);
 				unlink( $dir . $entryname );
 			}
 		}

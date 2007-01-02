@@ -83,9 +83,8 @@ class JInstallationView
 	{
 		global $steps;
 
-		$lang    =& JFactory::getLanguage();
-
-		$tmpl =& JInstallationView::createTemplate( 'language.html' );
+		$lang	=& JFactory::getLanguage();
+		$tmpl	=& JInstallationView::createTemplate( 'language.html' );
 
 		$steps['lang'] = 'on';
 
@@ -105,10 +104,9 @@ class JInstallationView
 	{
 		global $steps;
 
-		$lang    =& JFactory::getLanguage();
-		$version = new JVersion();
-
-		$tmpl =& JInstallationView::createTemplate( 'preinstall.html' );
+		$lang		=& JFactory::getLanguage();
+		$version	= new JVersion();
+		$tmpl		=& JInstallationView::createTemplate( 'preinstall.html' );
 
 		$steps['preinstall'] = 'on';
 
@@ -227,9 +225,8 @@ class JInstallationView
 	{
 		global $steps;
 
-		$lang  =& JFactory::getLanguage();
-
-		$tmpl =& JInstallationView::createTemplate( 'finish.html' );
+		$lang	=& JFactory::getLanguage();
+		$tmpl	=& JInstallationView::createTemplate( 'finish.html' );
 
 		$steps['finish'] = 'on';
 

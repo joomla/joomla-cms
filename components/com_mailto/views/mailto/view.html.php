@@ -45,13 +45,13 @@ class MailtoViewMailto extends JView
 		}
 
 		if ($user->get('id') > 0) {
-			$data->sender = $user->get('name');
-			$data->from   = $user->get('email');
+			$data->sender	= $user->get('name');
+			$data->from		= $user->get('email');
 		}
 		else
 		{
-			$data->sender = '';
-			$data->from   = '';
+			$data->sender	= '';
+			$data->from		= '';
 		}
 
 		return $data;

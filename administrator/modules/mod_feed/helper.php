@@ -126,7 +126,7 @@ class modFeedHelper
 					}
 
 					// item description
-					if ($rssitemdesc) 
+					if ($rssitemdesc)
 					{
 						// item description
 						$text = html_entity_decode($currItem->get_description());

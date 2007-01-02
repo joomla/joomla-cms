@@ -51,7 +51,7 @@ class NewsfeedsModelCategory extends JModel
 	 * @var object
 	 */
 	var $_category = null;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -60,7 +60,7 @@ class NewsfeedsModelCategory extends JModel
 	function __construct()
 	{
 		parent::__construct();
-	
+
 		$id = JRequest::getVar('catid', 0, '', 'int');
 		$this->setId($id);
 
@@ -119,7 +119,7 @@ class NewsfeedsModelCategory extends JModel
 
 		return $this->_total;
 	}
-	
+
 	/**
 	 * Method to get category data for the current category
 	 *

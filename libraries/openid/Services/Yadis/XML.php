@@ -332,7 +332,7 @@ function &Services_Yadis_getXMLParser()
     $classname = null;
 
     // Return a wrapper for the resident implementation, if any.
-    foreach ($__Services_Yadis_xml_extensions as $name => $params) 
+    foreach ($__Services_Yadis_xml_extensions as $name => $params)
 	{
 		echo $name;
         if (!extension_loaded($name)) {

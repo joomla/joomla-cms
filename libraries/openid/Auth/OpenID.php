@@ -275,7 +275,7 @@ class Auth_OpenID {
                 array_push($res, $c);
             }
         }
-    
+
         return implode('', $res);
     }
 

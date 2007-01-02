@@ -66,16 +66,16 @@ class JUtility
 			$numReplyTo = count($replyto);
 			for ( $i=0; $i < $numReplyTo; $i++){
 				$mail->addReplyTo( array($replyto[$i], $replytoname[$i]) );
-			}	
+			}
 		} elseif( isset( $replyto ) ) {
 			$mail->addReplyTo( array( $replyto, $replytoname ) );
 		}
-		
+
 		return  $mail->Send();
 	}
 
 	/**
-     * Sends mail to administrator for approval of a user submission
+	 * Sends mail to administrator for approval of a user submission
  	 *
  	 * @param string $adminName Name of administrator
  	 * @param string $adminEmail Email address of administrator

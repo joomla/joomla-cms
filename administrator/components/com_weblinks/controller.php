@@ -24,7 +24,7 @@ jimport('joomla.application.component.controller');
 class WeblinksController extends JController
 {
 	function display() {
-		parent::display();	
+		parent::display();
 	}
 }
 ?>

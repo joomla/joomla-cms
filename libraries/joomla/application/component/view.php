@@ -279,11 +279,11 @@ class JView extends JObject
 	*
 	* // use replacement callbacks
 	* $result = $view->escape(
-	*     $value,
-	*     'stripslashes',
-	*     'htmlspecialchars',
-	*     array('StaticClass', 'method'),
-	*     array($object, $method)
+	*	 $value,
+	*	 'stripslashes',
+	*	 'htmlspecialchars',
+	*	 array('StaticClass', 'method'),
+	*	 array($object, $method)
 	* );
 	* </code>
 	*
@@ -442,15 +442,15 @@ class JView extends JObject
 	}
 
 	/**
-     * Adds to the stack of view script paths in LIFO order.
-     *
-     * @param string|array The directory (-ies) to add.
-     * @return void
-     */
-    function addTemplatePath($path)
-    {
-        $this->_addPath('template', $path);
-    }
+	 * Adds to the stack of view script paths in LIFO order.
+	 *
+	 * @param string|array The directory (-ies) to add.
+	 * @return void
+	 */
+	function addTemplatePath($path)
+	{
+		$this->_addPath('template', $path);
+	}
 
 	/**
 	* Clears then sets the callbacks to use when calling JView::escape().
@@ -460,10 +460,10 @@ class JView extends JObject
 	*
 	* <code>
 	* $view->setEscape(
-	*     'stripslashes',
-	*     'htmlspecialchars',
-	*     array('StaticClass', 'method'),
-	*     array($object, $method)
+	*	 'stripslashes',
+	*	 'htmlspecialchars',
+	*	 array('StaticClass', 'method'),
+	*	 array($object, $method)
 	* );
 	* </code>
 	*
@@ -483,10 +483,10 @@ class JView extends JObject
 	*
 	* <code>
 	* $savant->addEscape(
-	*     'stripslashes',
-	*     'htmlspecialchars',
-	*     array('StaticClass', 'method'),
-	*     array($object, $method)
+	*	 'stripslashes',
+	*	 'htmlspecialchars',
+	*	 array('StaticClass', 'method'),
+	*	 array($object, $method)
 	* );
 	* </code>
 	*
@@ -626,13 +626,13 @@ class JView extends JObject
 	function _createFileName($type, $parts = array())
 	{
 		$filename = '';
-		
+
 		switch($type)
 		{
 			case 'template' :
 				 $filename = strtolower($parts['name']).'.php';
 				break;
-			 
+
 		}
 		return $filename;
 	}

@@ -208,7 +208,7 @@ class JLanguage extends JObject
 			$paths = array();
 		}
 
-        $path = JLanguage::getLanguagePath( $basePath, $this->_lang);
+		$path = JLanguage::getLanguagePath( $basePath, $this->_lang);
 
 		$filename = empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
 		$filename = $path . $filename .'.ini';
@@ -594,8 +594,8 @@ class JLanguageHelper
 	{
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
 		{
-			$systemLangs  = JLanguage::getKnownLanguages();
-			$browserLangs = explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+			$systemLangs	= JLanguage::getKnownLanguages();
+			$browserLangs	= explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 
 			foreach ($browserLangs as $browserLang)
 			{
@@ -603,8 +603,8 @@ class JLanguageHelper
 				$browserLang = substr( $browserLang, 0, strcspn( $browserLang, ';' ) );
 				$primary_browserLang = substr( $browserLang, 0, 2 );
 
-				foreach($systemLangs as $systemLang => $metadata) {
-
+				foreach($systemLangs as $systemLang => $metadata)
+				{
 					if($primary_browserLang == substr( $metadata['tag'], 0, 2 )) {
 						return $systemLang;
 					}

@@ -33,7 +33,7 @@ class ConfigModelComponent extends JModel
 
 			$table = JTable::getInstance('component');
 			$table->loadByOption( $component );
-			
+
 			// work out file path
 			if ($path = JRequest::getVar( 'path' )) {
 				$path = JPath::clean( JPATH_SITE.DS.$path, false );
@@ -42,7 +42,7 @@ class ConfigModelComponent extends JModel
 				$option	= preg_replace( '#\W#', '', $table->option );
 				$path	= JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml';
 			}
-			
+
 			if (file_exists( $path )) {
 				$instance = new JParameter( $table->params, $path );
 			} else {

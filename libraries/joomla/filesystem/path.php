@@ -231,7 +231,7 @@ class JPath {
 	{
 		return (posix_getuid() == fileowner($path));
 	}
-	
+
 	 /**
 	 * Searches the directory paths for a given file.
 	 *
@@ -249,7 +249,7 @@ class JPath {
 		{
 			// get the path to the file
 			$fullname = $path . $file;
-			
+
 			// is the path based on a stream?
 			if (strpos($path, '://') === false)
 			{

@@ -81,8 +81,8 @@ class InstallerModelLanguages extends InstallerModel
 				$lang->baseDir = $langBDir;
 				$languages[] = $lang;
 			}
-		} 
-		else 
+		}
+		else
 		{
 			$clientInfo = JApplicationHelper::getClientInfo($this->_state->get('filter.client'));
 			$client = $clientInfo->name;

@@ -143,14 +143,14 @@ class PollController
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'poll'.DS.'view.php');
 		$view = new PollViewPoll();
 
-		$view->assign('first_vote'  , $first_vote);
-		$view->assign('last_vote'  	, $last_vote);
+		$view->assign('first_vote',	$first_vote);
+		$view->assign('last_vote',	$last_vote);
 
-		$view->assignRef('lists'   , $lists);
-		$view->assignRef('params'  , $params);
-		//$view->assignRef('data'    , $data);
-		$view->assignRef('poll'    , $poll);
-		$view->assignRef('votes'   , $votes);
+		$view->assignRef('lists',	$lists);
+		$view->assignRef('params',	$params);
+		//$view->assignRef('data',	$data);
+		$view->assignRef('poll',	$poll);
+		$view->assignRef('votes',	$votes);
 
 		$view->display();
 	}

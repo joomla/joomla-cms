@@ -35,16 +35,16 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 		if (!is_object($module))
 		{
 			$module = JModuleHelper::getModule($module);
-			
-			if (!is_object($module)) 
+
+			if (!is_object($module))
 			{
 				if (is_null($content)) {
 					return '';
-				} 
-				else 
+				}
+				else
 				{
-					/** 
-					 * If module isn't found in the database but data has been pushed in the buffer 
+					/**
+					 * If module isn't found in the database but data has been pushed in the buffer
 					 * we want to render it
 					 */
 					$tmp = $module;
@@ -68,7 +68,7 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 
 		//get module parameters
 		$mod_params = new JParameter( $module->params );
-		
+
 		$cache = JFactory::getCache( $module->module );
 
 		$cache->setCaching( $mod_params->get( 'cache', 0 ) && $conf->getValue( 'config.caching' ) );

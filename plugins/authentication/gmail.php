@@ -80,12 +80,12 @@ class JAuthenticateGMail extends JPlugin
 		switch($code)
 		{
 			case 200:
-         		$message = 'Access Granted';
-         		$success = 1;
-            break;
+		 		$message = 'Access Granted';
+		 		$success = 1;
+			break;
 			case 401:
 				$message = 'Access Denied';
-            break;
+			break;
 			default:
 				$message = 'Result unknown, access denied.';
 
@@ -100,8 +100,8 @@ class JAuthenticateGMail extends JPlugin
 		}
 		else
 		{
-			$return->status 	   = JAUTHENTICATE_STATUS_FAILURE;
-			$return->error_message = 'Failed to authenticate: ' . $message;
+			$return->status 		= JAUTHENTICATE_STATUS_FAILURE;
+			$return->error_message	= 'Failed to authenticate: ' . $message;
 		}
 		return $return;
 	}

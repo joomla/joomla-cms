@@ -46,10 +46,10 @@ function NewsfeedsBuildURL(&$ARRAY, &$params)
 			$parts[]	= 'page'.$page.'-'.$limit;
 		}
 	}
-	
+
 	//unset the whole array
 	$ARRAY = array();
-	
+
 	return $parts;
 }
 

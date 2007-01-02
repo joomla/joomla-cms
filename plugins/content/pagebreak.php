@@ -232,12 +232,12 @@ function createNavigation( &$row, $page, $n )
 	$link = 'index.php?option=com_content&amp;view=article&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
 
 	$pnSpace = "";
-    if (JText::_( '&lt' ) || JText::_( '&gt' )) $pnSpace = " ";
+	if (JText::_( '&lt' ) || JText::_( '&gt' )) $pnSpace = " ";
 
 	if ( $page < $n-1 ) {
 		$link_next = $link .'&amp;limit=1&amp;limitstart='. ( $page + 1 );
 		$link_next = sefRelToAbs( $link_next );
-        // Next >>
+		// Next >>
 		$next = '<a href="'. $link_next .'">' . JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ) . JText::_( '&gt' ) .'</a>';
 	} else {
 		$next = JText::_( 'Next' );
@@ -246,7 +246,7 @@ function createNavigation( &$row, $page, $n )
 	if ( $page > 0 ) {
 		$link_prev = $link .'&amp;limit=1&amp;limitstart='. ( $page - 1 );
 		$link_prev = sefRelToAbs( $link_prev );
-        // << Prev
+		// << Prev
 		$prev = '<a href="'. $link_prev .'">'. JText::_( '&lt' ) . JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ) .'</a>';
 	} else {
 		$prev = JText::_( 'Prev' );

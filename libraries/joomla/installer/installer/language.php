@@ -53,7 +53,7 @@ class JInstallerLanguage extends JInstaller
 		$root = & $this->_xmldoc->documentElement;
 
 		// Get the client application target
-		if ($client = $root->getAttribute('client')) 
+		if ($client = $root->getAttribute('client'))
 		{
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');

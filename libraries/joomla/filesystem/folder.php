@@ -76,8 +76,8 @@ class JFolder
 				$ret = false;
 			}
 			$ftp->quit();
-		} 
-		else 
+		}
+		else
 		{
 			// First set umask
 			$origmask = @ umask(0);
@@ -86,7 +86,7 @@ class JFolder
 			$obd = ini_get('open_basedir');
 
 			// If open_basedir is et we need to get the open_basedir that the path is in
-			if ($obd != null) 
+			if ($obd != null)
 			{
 				if (JPATH_ISWIN) {
 					$obdSeparator = ";";
@@ -113,7 +113,7 @@ class JFolder
 			// TODO: there's potential for an infinite loop here..!
 			$ret = true;
 			$dir = $path;
-			while ($dir != dirname($dir)) 
+			while ($dir != dirname($dir))
 			{
 				$dir = $path;
 				while (!@ mkdir($dir, $mode)) {
@@ -186,20 +186,20 @@ class JFolder
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
-	    }
-	    // In case of restricted permissions we zap it one way or the other
-	    // as long as the owner is either the webserver or the ftp
-	    if(@rmdir($path)){
-	    	$ret = true;
-	    } elseif($ftpFlag == true) {
+		}
+		// In case of restricted permissions we zap it one way or the other
+		// as long as the owner is either the webserver or the ftp
+		if(@rmdir($path)){
+			$ret = true;
+		} elseif($ftpFlag == true) {
 			// Translate path and delete
 			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path));
 			$ret = $ftp->delete($path);
-	    } else {
+		} else {
 			$ret = false;
 		}
 
-	    if($ftpFlag){
+		if($ftpFlag){
 			$ftp->quit();
 		}
 		return $ret;

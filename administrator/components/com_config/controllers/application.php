@@ -27,7 +27,7 @@ class ConfigControllerApplication extends ConfigController
 	{
 		$default['default_task'] = 'showConfig';
 		parent::__construct( $default );
-		
+
 		$this->registerTask( 'apply', 'save' );
 	}
 
@@ -171,10 +171,10 @@ class ConfigControllerApplication extends ConfigController
 		$lists['sef'] 			= JHTMLSelect::yesnoList('sef', 'class="inputbox"', $row->sef);
 
 		// FEED SETTINGS
-		$formats  = array (JHTMLSelect::option('RSS2.0', JText::_('RSS')), JHTMLSelect::option('Atom', JText::_('Atom')));
-		$summary = array (JHTMLSelect::option(1, JText::_('Full Text')), JHTMLSelect::option(0, JText::_('Intro Text')),);
-		$lists['feed_limit']   = JHTMLSelect::genericList($listLimit, 'feed_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
-		$lists['feed_summary'] = JHTMLSelect::radioList($summary, 'feed_summary', 'class="inputbox"', $row->feed_summary);
+		$formats	= array (JHTMLSelect::option('RSS2.0', JText::_('RSS')), JHTMLSelect::option('Atom', JText::_('Atom')));
+		$summary	= array (JHTMLSelect::option(1, JText::_('Full Text')), JHTMLSelect::option(0, JText::_('Intro Text')),);
+		$lists['feed_limit']	= JHTMLSelect::genericList($listLimit, 'feed_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
+		$lists['feed_summary']	= JHTMLSelect::radioList($summary, 'feed_summary', 'class="inputbox"', $row->feed_summary);
 
 		// SHOW EDIT FORM
 		ConfigApplicationView::showConfig($row, $lists);
@@ -244,8 +244,8 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['sef'] 		= JRequest::getVar('sef', 0, 'post');
 
 		// FEED SETTINGS
-		$config_array['feed_limit']   = JRequest::getVar('feed_limit', 10, 'post');
-		$config_array['feed_summary'] = JRequest::getVar('feed_summary', 0, 'post');
+		$config_array['feed_limit']		= JRequest::getVar('feed_limit', 10, 'post');
+		$config_array['feed_summary']	= JRequest::getVar('feed_summary', 0, 'post');
 
 		// SERVER SETTINGS
 		$config_array['gzip'] 		= JRequest::getVar('gzip', 0, 'post');
@@ -316,9 +316,9 @@ class ConfigControllerApplication extends ConfigController
 
 		// Get the path of the configuration file
 		$fname = JPATH_CONFIGURATION.'/configuration.php';
-		
+
 		jimport('joomla.filesystem.path');
-		
+
 		$oldperms = JPath::getPermissions($fname);
 		// if enable_write == 1 make config file writable
 		if( JRequest::getVar('enable_write', 0) )
@@ -330,11 +330,11 @@ class ConfigControllerApplication extends ConfigController
 		 */
 		jimport('joomla.filesystem.file');
 		if (JFile::write($fname, $config->toString('PHP', 'config', array('class' => 'JConfig')))) {
-			
+
 			// if disable_write == 1 make config file unwritable
 			if( JRequest::getVar('disable_write', 0) )
 				JPath::setPermissions($fname, '0555');
-			
+
 			$msg = JText::_('The Configuration Details have been updated');
 
 			$task = $this->getTask();

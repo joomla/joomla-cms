@@ -50,22 +50,22 @@ class  JDebug extends JPlugin
 	function onAfterDisplay()
 	{
 		global $_PROFILER, $mainframe;
-		
+
 		if(!JDEBUG) { return; }
-		
-		$db       =& JFactory::getDBO();
-		$profiler =& $_PROFILER; 
+
+		$db			=& JFactory::getDBO();
+		$profiler	=& $_PROFILER;
 
 		ob_start();
 		echo implode( '', $profiler->getBuffer() );
-		
-		if ($this->_params->get('memory', 1)) 
+
+		if ($this->_params->get('memory', 1))
 		{
 			echo '<br />';
 			echo $profiler->getMemory();
 		}
-		
-		if ($this->_params->get('queries', 1)) 
+
+		if ($this->_params->get('queries', 1))
 		{
 			echo '<br />';
 			echo $db->_ticker . ' queries logged';
@@ -75,8 +75,8 @@ class  JDebug extends JPlugin
 			}
 			echo '</pre>';
 		}
-		
-        $debug = ob_get_clean();
+
+		$debug = ob_get_clean();
 		JResponse::appendBody($debug);
 	}
 }

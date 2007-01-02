@@ -64,7 +64,7 @@ class categories_html
 		<thead>
 			<tr>
 				<th width="10" align="left">
-		           	<?php echo JText::_( 'Num' ); ?>
+				   	<?php echo JText::_( 'Num' ); ?>
 				</th>
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
@@ -244,7 +244,7 @@ class categories_html
 				$component = 'Contact';
 			}
 		}
-		
+
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES, 'description' );
 		?>

@@ -32,7 +32,7 @@ class JSession extends JObject
 	 *
 	 * @access protected
 	 * @var	string $_state one of 'active'|'expired'|'destroyed|'error'
-     * @see getState()
+	 * @see getState()
 	 */
 	var	$_state	=	'active';
 
@@ -76,10 +76,10 @@ class JSession extends JObject
 	 * @access public
 	 * @return string The session state
 	 */
-    function getState()
-    {
+	function getState()
+	{
 		return $this->_state;
-    }
+	}
 
 
 	/**
@@ -88,14 +88,14 @@ class JSession extends JObject
 	 * @access public
 	 * @return string The session name
 	 */
-    function getName()
-    {
+	function getName()
+	{
 		if( $this->_state === 'destroyed' ) {
 			// @TODO : raise error
 			return null;
 		}
 		return session_name();
-    }
+	}
 
 	/**
 	 * Get session id
@@ -103,41 +103,41 @@ class JSession extends JObject
 	 * @access public
 	 * @return string The session name
 	 */
-    function getId()
-    {
+	function getId()
+	{
 		if( $this->_state === 'destroyed' ) {
 			// @TODO : raise error
 			return null;
 		}
 		return session_id();
-    }
+	}
 
    /**
-    * Check whether this session is currently created
+	* Check whether this session is currently created
 	*
 	* @access public
 	* @return boolean $result true on success
 	*/
-    function isNew()
-    {
-	    $counter = $this->get( 'session.counter' );
+	function isNew()
+	{
+		$counter = $this->get( 'session.counter' );
 		if( $counter === 1 ) {
 			return true;
 		}
-        return false;
-    }
+		return false;
+	}
 
 	 /**
-     * Get date from session
-     *
-     * @static
-     * @access public
-     * @param  string $name    Name of a variable
-     * @param  mixed  $default Default value of a variable if not set
-     * @return mixed  Value of a variable
-     */
-    function &get($name, $default = null)
-    {
+	 * Get date from session
+	 *
+	 * @static
+	 * @access public
+	 * @param  string $name	Name of a variable
+	 * @param  mixed  $default Default value of a variable if not set
+	 * @return mixed  Value of a variable
+	 */
+	function &get($name, $default = null)
+	{
 		if($this->_state !== 'active') {
 			// @TODO :: generated error here
 			$error = null;
@@ -145,22 +145,22 @@ class JSession extends JObject
 		}
 
 		if (isset($_SESSION[$name])) {
-            return $_SESSION[$name];
-        }
-        return $default;
-    }
+			return $_SESSION[$name];
+		}
+		return $default;
+	}
 
-    /**
-     * Save date into session
-     *
-     * @access public
-     * @param  string $name  Name of a variable
-     * @param  mixed  $value Value of a variable
-     * @return mixed  Old value of a variable
-     */
-    function set($name, $value)
-    {
-         if($this->_state !== 'active') {
+	/**
+	 * Save date into session
+	 *
+	 * @access public
+	 * @param  string $name  Name of a variable
+	 * @param  mixed  $value Value of a variable
+	 * @return mixed  Old value of a variable
+	 */
+	function set($name, $value)
+	{
+		 if($this->_state !== 'active') {
 			// @TODO :: generated error here
 			return null;
 		}
@@ -168,13 +168,13 @@ class JSession extends JObject
 		$old = isset($_SESSION[$name]) ?  $_SESSION[$name] : null;
 
 		if (null === $value) {
-            unset($_SESSION[$name]);
-        } else {
-            $_SESSION[$name] = $value;
-        }
+			unset($_SESSION[$name]);
+		} else {
+			$_SESSION[$name] = $value;
+		}
 
-        return $old;
-    }
+		return $old;
+	}
 
 	/**
 	* Check wheter a session value exists
@@ -217,19 +217,19 @@ class JSession extends JObject
 	}
 
 	/**
-    * Start a session
-    *
-    * Creates a session (or resumes the current one based on the state of the session)
+	* Start a session
+	*
+	* Creates a session (or resumes the current one based on the state of the session)
  	*
 	* @access private
 	* @return boolean $result true on success
 	*/
-    function _start()
-    {
+	function _start()
+	{
 		//  start session if not startet
 		if( $this->_state == 'restart' ) {
-            session_id( $this->_createId() );
-        }
+			session_id( $this->_createId() );
+		}
 
 		session_cache_limiter('none');
 		session_start();
@@ -250,28 +250,28 @@ class JSession extends JObject
 		// Send modified header for IE 6.0 Security Policy
 		//header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 
-        return true;
-    }
+		return true;
+	}
 
 
 	/**
-     * Frees all session variables and destroys all data registered to a session
-     *
-     * This method resets the $_SESSION variable and destroys all of the data associated
-     * with the current session in its storage (file or DB). It forces new session to be
-     * started after this method is called. It does not unset the session cookie.
-     *
-     * @static
-     * @access public
-     * @return void
-     * @see    session_unset()
-     * @see    session_destroy()
-     */
+	 * Frees all session variables and destroys all data registered to a session
+	 *
+	 * This method resets the $_SESSION variable and destroys all of the data associated
+	 * with the current session in its storage (file or DB). It forces new session to be
+	 * started after this method is called. It does not unset the session cookie.
+	 *
+	 * @static
+	 * @access public
+	 * @return void
+	 * @see	session_unset()
+	 * @see	session_destroy()
+	 */
 	function destroy()
-    {
-        // session was already destroyed
+	{
+		// session was already destroyed
 		if( $this->_state === 'destroyed' ) {
-            return true;
+			return true;
 		}
 
 		// In order to kill the session altogether, like to log the user out, the session id
@@ -281,37 +281,37 @@ class JSession extends JObject
 			setcookie(session_name(), '', time()-42000, '/');
 		}
 
-        session_unset();
-        session_destroy();
+		session_unset();
+		session_destroy();
 
 		$this->_state = 'destroyed';
 		return true;
 	}
 
    /**
-    * restart a destroyed or locked session
+	* restart a destroyed or locked session
 	*
 	* @access public
 	* @return boolean $result true on success
 	* @see destroy
 	*/
-    function restart()
-    {
-        $this->destroy();
-        if( $this->_state !==  'destroyed' ) {
-           // @TODO :: generated error here
-            return false;
-        }
+	function restart()
+	{
+		$this->destroy();
+		if( $this->_state !==  'destroyed' ) {
+		   // @TODO :: generated error here
+			return false;
+		}
 
-        $this->_state   =   'restart';
+		$this->_state	=   'restart';
 		$this->_start();
 		$this->_state	=	'active';
 
 		$this->_validate();
 		$this->_setCounter();
 
-        return true;
-    }
+		return true;
+	}
 
 	/**
 	* Create a new session and copy variables from the old one
@@ -320,8 +320,8 @@ class JSession extends JObject
 	* @access public
 	* @return boolean $result true on success
 	*/
-    function fork()
-    {
+	function fork()
+	{
 		if( $this->_state !== 'active' ) {
 			// @TODO :: generated error here
 			return false;
@@ -352,38 +352,38 @@ class JSession extends JObject
 		session_start();
 
 		return true;
-    }
+	}
 
 	 /**
-     * Writes session data and ends session
-     *
-     * Session data is usually stored after your script terminated without the need
-     * to call JSession::pauze(),but as session data is locked to prevent concurrent
-     * writes only one script may operate on a session at any time. When using
-     * framesets together with sessions you will experience the frames loading one
-     * by one due to this locking. You can reduce the time needed to load all the
-     * frames by ending the session as soon as all changes to session variables are
-     * done.
-     *
-     * @access public
-     * @see    session_write_close()
-     */
-    function pause()
-    {
-        session_write_close();
-    }
+	 * Writes session data and ends session
+	 *
+	 * Session data is usually stored after your script terminated without the need
+	 * to call JSession::pauze(),but as session data is locked to prevent concurrent
+	 * writes only one script may operate on a session at any time. When using
+	 * framesets together with sessions you will experience the frames loading one
+	 * by one due to this locking. You can reduce the time needed to load all the
+	 * frames by ending the session as soon as all changes to session variables are
+	 * done.
+	 *
+	 * @access public
+	 * @see	session_write_close()
+	 */
+	function pause()
+	{
+		session_write_close();
+	}
 
 	 /**
-     * Create a session id
-     *
-     * @static
-     * @access private
-     * @return string Session ID
-     */
+	 * Create a session id
+	 *
+	 * @static
+	 * @access private
+	 * @return string Session ID
+	 */
 	function _createId( )
 	{
 		$agent = $_SERVER['HTTP_USER_AGENT'];
-		$id    = md5( $agent . uniqid(dechex(rand())) . $_SERVER['REMOTE_ADDR'] );
+		$id	= md5( $agent . uniqid(dechex(rand())) . $_SERVER['REMOTE_ADDR'] );
 		return $id;
 	}
 
@@ -408,42 +408,42 @@ class JSession extends JObject
 	}
 
 	/**
-    * Set counter of session usage
+	* Set counter of session usage
 	*
 	* @access protected
 	* @return boolean $result true on success
 	*/
-    function _setCounter()
-    {
+	function _setCounter()
+	{
 		$counter = $this->get( 'session.counter', 0 );
 		++$counter;
 
 		$this->set( 'session.counter', $counter );
-    	return true;
-    }
+		return true;
+	}
 
    /**
-    * Set the session timers
+	* Set the session timers
 	*
 	* @access protected
 	* @return boolean $result true on success
 	*/
-    function _setTimers()
-    {
+	function _setTimers()
+	{
 		if( !$this->has( 'session.timer.start' ) )
 		{
-            $start	=	time();
+			$start	=	time();
 
-        	$this->set( 'session.timer.start' , $start );
-        	$this->set( 'session.timer.last'  , $start );
-        	$this->set( 'session.timer.now'   , $start );
-        }
+			$this->set( 'session.timer.start' , $start );
+			$this->set( 'session.timer.last'  , $start );
+			$this->set( 'session.timer.now'   , $start );
+		}
 
-        $this->set( 'session.timer.last', $this->get( 'session.timer.now' ) );
-        $this->set( 'session.timer.now', time() );
+		$this->set( 'session.timer.last', $this->get( 'session.timer.now' ) );
+		$this->set( 'session.timer.now', time() );
 
-    	return true;
-    }
+		return true;
+	}
 
 	/**
 	* set additional session options
@@ -452,8 +452,8 @@ class JSession extends JObject
 	* @param array $options list of parameter
 	* @return boolean $result true on success
 	*/
-    function _setOptions( &$options )
-    {
+	function _setOptions( &$options )
+	{
 		// set name
 		if( isset( $options['name'] ) ) {
 			session_name( md5($options['name']) );
@@ -470,7 +470,7 @@ class JSession extends JObject
 		}
 
 		return true;
-    }
+	}
 
 	/**
 	* Do some checks for security reason
@@ -482,7 +482,7 @@ class JSession extends JObject
 	* If one check failed, session data has to be cleaned.
 	*
 	* @access protected
-    * @param boolean $restart reactivate session
+	* @param boolean $restart reactivate session
 	* @return boolean $result true on success
 	*/
 	function _validate( $restart = false )
@@ -525,7 +525,7 @@ class JSession extends JObject
 					if (strpos('AOL', $_SERVER['HTTP_USER_AGENT']) !== false)
 					{
 						$address	= explode('.',$ip);
-						$ip	   = $address[0] .'.'. $address[1] .'.'. $address[2];
+						$ip			= $address[0] .'.'. $address[1] .'.'. $address[2];
 					}
 				}
 

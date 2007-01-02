@@ -48,11 +48,11 @@ class JVersion
 	var $URL 		= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU/GPL License.';
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @return string Long format version
 	 */
-	function getLongVersion() 
+	function getLongVersion()
 	{
 		return $this->PRODUCT .' '. $this->RELEASE .'.'. $this->DEV_LEVEL .' '
 			. $this->DEV_STATUS
@@ -61,8 +61,8 @@ class JVersion
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @return string Short version format
 	 */
 	function getShortVersion() {
@@ -70,8 +70,8 @@ class JVersion
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @return string Version suffix for help files
 	 */
 	function getHelpVersion() {

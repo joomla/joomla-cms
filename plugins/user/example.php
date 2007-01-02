@@ -72,10 +72,10 @@ class JUserExample extends JPlugin {
 	 	 */
 
 		$args = array();
-		$args['username'] = $user['username'];
-		$args['email'] 	  = $user['email'];
-		$args['fullname'] = $user['name'];
-		$args['password'] = $user['password'];
+		$args['username']	= $user['username'];
+		$args['email'] 		= $user['email'];
+		$args['fullname']	= $user['name'];
+		$args['password']	= $user['password'];
 
 		if($isnew) {
 			// Call a function in the external app to create the user

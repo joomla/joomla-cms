@@ -51,9 +51,9 @@ class NewsfeedsController extends JController
 		}
 
 		JRequest::setVar('view', $viewName);
-		
+
 		parent::display();
-		
+
 	}
 }
 

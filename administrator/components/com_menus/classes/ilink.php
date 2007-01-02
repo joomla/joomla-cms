@@ -204,7 +204,7 @@ class iLink extends JTree
 					} else {
 						$data = null;
 					}
-	
+
 					$url = 'url[option]=com_'.$this->_com.'&amp;url[view]='.$view;
 					if ($data) {
 						if ($data->attributes('hidden') != 'true') {
@@ -254,7 +254,7 @@ class iLink extends JTree
 						} else {
 							$data = null;
 						}
-	
+
 						if ($layout != 'default') {
 							$url = 'url[option]=com_'.$this->_com.'&amp;url[view]='.basename($path).'&amp;url[layout]='.$layout;
 						} else {

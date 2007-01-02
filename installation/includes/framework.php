@@ -36,7 +36,7 @@ require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
 
 //clean the request
 jimport( 'joomla.common.abstract.object' );
-jimport( 'joomla.environment.request'    );
+jimport( 'joomla.environment.request' );
 JRequest::clean();
 
 // Installation file includes

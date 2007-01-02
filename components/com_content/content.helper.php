@@ -341,11 +341,11 @@ class JContentHelper
 	 */
 	function getItemid($id)
 	{
-		$db    = & JFactory::getDBO();
-		$menus =& JMenu::getInstance();
-		$items = $menus->getMenu();
-		$Itemid = null;
-		$component = JComponentHelper::getInfo('com_content');
+		$db			= & JFactory::getDBO();
+		$menus		=& JMenu::getInstance();
+		$items		= $menus->getMenu();
+		$Itemid		= null;
+		$component	= JComponentHelper::getInfo('com_content');
 
 		$n = count( $items );
 		if ($n)

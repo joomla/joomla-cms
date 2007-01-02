@@ -83,9 +83,9 @@ class JTableComponent extends JTable
 	 * Validate and filter fields
 	 */
 	function check() {
-	    $this->parent = intval( $this->parent );
-	    $this->ordering = intval( $this->ordering );
-	    return true;
+		$this->parent = intval( $this->parent );
+		$this->ordering = intval( $this->ordering );
+		return true;
 	}
 
 	/**

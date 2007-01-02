@@ -23,7 +23,7 @@ jimport('joomla.client.ldap');
  * @subpackage JFramework
  * @since 1.5
  */
-class JAuthenticateLdap extends JPlugin 
+class JAuthenticateLdap extends JPlugin
 {
 	/**
 	 * Constructor
@@ -63,7 +63,7 @@ class JAuthenticateLdap extends JPlugin
 	 	$plugin =& JPluginHelper::getPlugin('authentication', 'ldap');
 	 	$params = new JParameter( $plugin->params );
 
-		$ldap   = new JLDAP($params);
+		$ldap	= new JLDAP($params);
 		$result = new JAuthenticateResponse('LDAP');
 
 		if (!$ldap->connect())
@@ -81,12 +81,12 @@ class JAuthenticateLdap extends JPlugin
 			case 'anonymous':
 			{
 				// Need to do some work!
-				if($ldap->anonymous_bind()) 
+				if($ldap->anonymous_bind())
 				{
 					// Comparison time
 					$success = $ldap->compare(str_replace("[username]",$username,$params->get('users_dn')),$params->get('ldap_password'),$password);
-				} 
-				else 
+				}
+				else
 				{
 					//die('Anonymous bind failed');
 					$result->status = JAUTHENTICATE_STATUS_FAILURE;
@@ -98,12 +98,12 @@ class JAuthenticateLdap extends JPlugin
 			case 'bind':
 			{
 				// We just accept the result here
-		    		$success = $ldap->bind($username,$password);
+					$success = $ldap->bind($username,$password);
 			}	break;
 
 			case 'authbind':
 			{	// First bind as a search enabled account
-				if($ldap->bind()) 
+				if($ldap->bind())
 				{
 					$ldap_uid = $params->get('ldap_uid');
 					$userdetails = $ldap->simple_search($params->get('ldap_uid').'='.$username);
@@ -115,12 +115,12 @@ class JAuthenticateLdap extends JPlugin
 
 			case 'authenticated':
 			{
-				if($ldap->bind()) 
+				if($ldap->bind())
 				{
 					// Comparison time
 					$success = $ldap->compare(str_replace("[username]",$username,$params->get('users_dn')),$params->get('ldap_password'),$password);
-				} 
-				else 
+				}
+				else
 				{
 					//die('Authenticated Bind Failed');
 					$result->status = JAUTHENTICATE_STATUS_FAILURE;
@@ -141,7 +141,7 @@ class JAuthenticateLdap extends JPlugin
 
 			$userdetails 	= $ldap->simple_search(str_replace("[search]", $username, $params->get('search_string')));
 			$ldap_email 	= $params->get('ldap_email');
-			$ldap_fullname  = $params->get('ldap_fullname');
+			$ldap_fullname	= $params->get('ldap_fullname');
 
 			if (isset($userdetails[0][$ldap_email][0]))
 			{

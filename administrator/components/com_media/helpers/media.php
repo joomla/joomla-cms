@@ -1,10 +1,10 @@
 <?php
 /**
- * @version $Id: admin.media.php 3621 2006-05-24 08:21:25Z webImagery $
- * @package Joomla
- * @subpackage Media
- * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
+ * @version		$Id: admin.media.php 3621 2006-05-24 08:21:25Z webImagery $
+ * @package		Joomla
+ * @subpackage	Media
+ * @copyright	Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -13,8 +13,8 @@
  */
 
 /**
- * @package    Joomla
- * @subpackage Media
+ * @package		Joomla
+ * @subpackage	Media
  */
 class MediaHelper
 {

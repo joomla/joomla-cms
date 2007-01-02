@@ -51,7 +51,7 @@ class WeblinksViewWeblink extends JView
 		// Get some objects from the JApplication
 		$pathway	=& $mainframe->getPathWay();
 		$document	=& JFactory::getDocument();
-		$model      =& $this->getModel();
+		$model		=& $this->getModel();
 
 		/*
 		 * Disabled until ACL system is implemented.  When enabled the $id variable
@@ -60,8 +60,8 @@ class WeblinksViewWeblink extends JView
 		$returnid = JRequest::getVar( 'Returnid', 0, '', 'int' );
 
 		//get the weblink
-		$weblink =& $this->get('data');
-		$isNew   = ($weblink->id < 1);
+		$weblink	=& $this->get('data');
+		$isNew		= ($weblink->id < 1);
 
 		// Edit or Create?
 		if (!$isNew)

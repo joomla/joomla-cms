@@ -57,7 +57,7 @@ See COPYRIGHT.php for copyright notices and details.
 
 <jtmpl:tmpl name="item-select-box" type="condition" conditionvar="item_checked_out" varscope="list-items">
 	<jtmpl:sub condition="0">
-    	<input type="checkbox" name="cid[]" id="cb{ITEM_ID}" value="{ITEM_ID}" onclick="isChecked(this);" />
+		<input type="checkbox" name="cid[]" id="cb{ITEM_ID}" value="{ITEM_ID}" onclick="isChecked(this);" />
 	</jtmpl:sub>
 	<jtmpl:sub condition="__default">
 		<a href="javascript:submitbutton('checkin');" onmouseover="return escape('{ITEM_EDITOR}<br/>{ITEM_CHECKED_OUT_TIME}<br/><jtmpl:Translate>Click to check in</jtmpl:Translate>')">

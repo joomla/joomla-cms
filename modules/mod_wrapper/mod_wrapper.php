@@ -19,12 +19,12 @@ require_once (dirname(__FILE__).DS.'helper.php');
 
 $params = modWrapperHelper::getParams($params);
 
-$load   = $params->get( 'load');
-$url    = $params->get( 'url');
+$load	= $params->get( 'load');
+$url	= $params->get( 'url');
 $target = $params->get( 'target' );
-$width  = $params->get( 'width');
+$width	= $params->get( 'width');
 $height = $params->get( 'height');
 $scroll = $params->get( 'scrolling' );
-$class  = $params->get( 'moduleclass_sfx' );
+$class	= $params->get( 'moduleclass_sfx' );
 
 require(JModuleHelper::getLayoutPath('mod_wrapper'));

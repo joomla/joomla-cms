@@ -51,14 +51,12 @@ class JEditor_tinymce extends JPlugin
 	{
 		global $mainframe;
 
-		$db		  =& JFactory::getDBO();
-		$language =& JFactory::getLanguage();
-
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		$plugin = JPluginHelper::getPlugin('editors', 'tinymce');
-		$id		= $plugin->id;
-		$params = new JParameter( $plugin->params );
+		$db			=& JFactory::getDBO();
+		$language	=& JFactory::getLanguage();
+		$url		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$plugin		= JPluginHelper::getPlugin('editors', 'tinymce');
+		$id			= $plugin->id;
+		$params 	= new JParameter( $plugin->params );
 
 		$theme = $params->get( 'theme', 'advanced' );
 		// handling for former default option
@@ -166,10 +164,10 @@ class JEditor_tinymce extends JPlugin
 
 		if ( $newlines ) {
 			$br_newlines	= 'true';
-			$p_newlines     = 'false';
+			$p_newlines		= 'false';
 		} else {
 			$br_newlines	= 'false';
-			$p_newlines     = 'true';
+			$p_newlines		= 'true';
 		}
 
 		// Tiny Compressed mode
@@ -343,7 +341,7 @@ class JEditor_tinymce extends JPlugin
 		if (is_numeric( $height )) {
 			$height .= 'px';
 		}
-		
+
 		return "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" mce_editable=\"true\">$content</textarea>";
 	}
 

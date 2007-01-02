@@ -117,8 +117,8 @@ class MediaViews
 	{
 		global $mainframe;
 
-		$doc   =& JFactory::getDocument();
-		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
+		$doc	=& JFactory::getDocument();
+		$style	= $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 		$doc->addStyleSheet('components/com_media/assets/medialist-'.$style.'.css');
 		$doc->addScript('components/com_media/assets/preview.js');
 
@@ -557,8 +557,8 @@ class MediaViews
 
 	function _buildFolderTree($tree)
 	{
-		$lang =& JFactory::getLanguage();
-		$doc  =& JFactory::getDocument();
+		$lang	=& JFactory::getLanguage();
+		$doc	=& JFactory::getDocument();
 
 		$doc->addScript('../includes/js/dtree/dtree.js');
 		$cssfile = $lang->isRTL() ? 'dtree_rtl.css': 'dtree.css';

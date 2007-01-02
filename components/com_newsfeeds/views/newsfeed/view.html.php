@@ -40,16 +40,16 @@ class NewsfeedsViewNewsfeed extends JView
 		$pathway =& $mainframe->getPathWay();
 
 		// Get the current menu item
-		$menu    =& JSiteHelper::getActiveMenuItem();
-		$params  =& JSiteHelper::getMenuParams();
-		
+		$menu	=& JSiteHelper::getActiveMenuItem();
+		$params	=& JSiteHelper::getMenuParams();
+
 		//get the newsfeed
 		$newsfeed =& $this->get('data');
 
 		//  get RSS parsed object
 		$options = array();
-		$options['rssUrl']     = $newsfeed->link;
-		$options['cache_time'] = $newsfeed->cache_time;
+		$options['rssUrl']		= $newsfeed->link;
+		$options['cache_time']	= $newsfeed->cache_time;
 
 		$rssDoc = JFactory::getXMLparser('RSS', $options);
 

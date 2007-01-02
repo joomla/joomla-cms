@@ -40,8 +40,8 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 {
 	global $mainframe;
 
-	$db	  =& JFactory::getDBO();
-	$user =& JFactory::getUser();
+	$db		=& JFactory::getDBO();
+	$user	=& JFactory::getUser();
 
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( botSearchContentAreas() ) )) {
@@ -50,16 +50,16 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'content');
- 	$pluginParams = new JParameter( $plugin->params );
+ 	$plugin			=& JPluginHelper::getPlugin('search', 'content');
+ 	$pluginParams	= new JParameter( $plugin->params );
 
-	$sContent 			= $pluginParams->get( 'search_content', 		1 );
-	$sUncategorised 	= $pluginParams->get( 'search_uncategorised', 	1 );
-	$sArchived 			= $pluginParams->get( 'search_archived', 		1 );
-	$limit 				= $pluginParams->def( 'search_limit', 		50 );
+	$sContent 		= $pluginParams->get( 'search_content', 		1 );
+	$sUncategorised = $pluginParams->get( 'search_uncategorised', 	1 );
+	$sArchived 		= $pluginParams->get( 'search_archived', 		1 );
+	$limit 			= $pluginParams->def( 'search_limit', 		50 );
 
-	$nullDate 	= $db->getNullDate();
-	$now 		= date( 'Y-m-d H:i:s', time()+$mainframe->getCfg('offset')*60*60 );
+	$nullDate 		= $db->getNullDate();
+	$now 			= date( 'Y-m-d H:i:s', time()+$mainframe->getCfg('offset')*60*60 );
 
 	$text = trim( $text );
 	if ($text == '') {

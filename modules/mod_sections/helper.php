@@ -23,7 +23,7 @@ class modSectionsHelper
 		global $mainframe;
 
 		$db		=& JFactory::getDBO();
-		$user   =& JFactory::getUser();
+		$user	=& JFactory::getUser();
 
 		$count	= intval($params->get('count', 20));
 		$contentConfig 	= &JComponentHelper::getParams( 'com_content' );

@@ -61,8 +61,8 @@ function contentGeshi_replacer( &$matches )
 	$args = SAXY_Parser_Base::parseAttributes( $matches[1] );
 	$text = $matches[2];
 
-	$lang  = JArrayHelper::getValue( $args, 'lang', 'php' );
-	$lines = JArrayHelper::getValue( $args, 'lines', 'false' );
+	$lang	= JArrayHelper::getValue( $args, 'lang', 'php' );
+	$lines	= JArrayHelper::getValue( $args, 'lines', 'false' );
 
 
 	$html_entities_match = array( "|\<br \/\>|", "#<#", "#>#", "|&#39;|", '#&quot;#', '#&nbsp;#' );

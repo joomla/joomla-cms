@@ -68,15 +68,15 @@ class JController extends JObject
 	 */
 	var $_doTask 	= null;
 
-    /**
+	/**
 	 * The set of search directories for resources (views or models).
 	 *
 	 * @var array
 	 * @access protected
 	 */
 	var $_path = array(
-		'model' => array(),
-		'view'  => array()
+		'model'	=> array(),
+		'view'	=> array()
 	);
 
 	/**
@@ -164,27 +164,27 @@ class JController extends JObject
 		}
 
 		//Set the controller name
-		if ( empty( $this->_name ) ) 
+		if ( empty( $this->_name ) )
 		{
 			if ( isset( $config['name'] ) )
 			{
 				$this->_name = $config['name'];
-			} 
-			else 
+			}
+			else
 			{
 				$r = null;
 				if ( !preg_match( '/(.*)Controller/i', get_class( $this ), $r ) ) {
 					JError::raiseError(
-                        500, JText::_(
-                            'JController::__construct() :'
-                            .' Can\'t get or parse class name.'
-                        )
-                    );
+						500, JText::_(
+							'JController::__construct() :'
+							.' Can\'t get or parse class name.'
+						)
+					);
 				}
 				$this->_name = strtolower( $r[1] );
 			}
 		}
-		
+
 		// If the default task is set, register it as such
 		if ( isset( $config['default_task'] ) ) {
 			$this->registerDefaultTask( $config['default_task'] );
@@ -294,19 +294,19 @@ class JController extends JObject
 	{
 		$document =& JFactory::getDocument();
 
-		$viewType   = $document->getType();
+		$viewType	= $document->getType();
 		$viewName	= JRequest::getVar( 'view', $this->_name );
 		$viewLayout = JRequest::getVar( 'layout', 'default' );
 
 		$view = & $this->getView( $viewName, $viewType);
-		
+
 		// Get/Create the model
 		if ($model = & $this->getModel($viewName))
 		{
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 		}
-		
+
 		// Set the layout
 		$view->setLayout($viewLayout);
 
@@ -327,7 +327,7 @@ class JController extends JObject
 			global $mainframe;
 			$mainframe->redirect( $this->_redirect, $this->_message, $this->_messageType );
 		}
-        return false;
+		return false;
 	}
 
 	/**
@@ -342,22 +342,22 @@ class JController extends JObject
 	function &getModel( $name, $prefix = '' )
 	{
 		global $Itemid;
-		
+
 		if ( empty( $prefix ) ) {
 			$prefix = $this->_name . 'Model';
 		}
-		
-		if ( $model = & $this->_createModel( $name, $prefix ) ) 
+
+		if ( $model = & $this->_createModel( $name, $prefix ) )
 		{
 			// task is a reserved state
 			$model->setState( 'task', $this->_task );
-			
+
 			// Get menu item information if Itemid exists
-			if ( isset( $Itemid ) ) 
+			if ( isset( $Itemid ) )
 			{
 				$menu		= & JMenu::getInstance();
 				$item		= & $menu->getItem( $Itemid );
-				$params	    = new JParameter( $item->params );
+				$params		= new JParameter( $item->params );
 
 				// Set Default State Data
 				$model->setState( 'parameters.menu', $params );
@@ -367,13 +367,13 @@ class JController extends JObject
 	}
 
 	/**
-     * Adds to the stack of controller model paths in LIFO order.
-     *
-     * @static
-     * @param string|array The directory (string), or list of directories
-     * (array) to add.
-     * @return void
-     */
+	 * Adds to the stack of controller model paths in LIFO order.
+	 *
+	 * @static
+	 * @param string|array The directory (string), or list of directories
+	 * (array) to add.
+	 * @return void
+	 */
 	function addModelPath( $path )
 	{
 		$this->_addPath( 'model', $path );
@@ -406,10 +406,10 @@ class JController extends JObject
 	 * Method to get a reference to the current view and load it if necessary.
 	 *
 	 * @access	public
-     * @param 	string	The view name. Optional, defaults to the controller
-     * name.
-     * @param 	string	The view type. Optional.
-     * @param 	string	The class prefix. Optional.
+	 * @param 	string	The view name. Optional, defaults to the controller
+	 * name.
+	 * @param 	string	The view type. Optional.
+	 * @param 	string	The class prefix. Optional.
 	 * @return	object	Reference to the view or an error.
 	 * @since	1.5
 	 */
@@ -420,42 +420,42 @@ class JController extends JObject
 		if ( !isset( $views ) ) {
 			$instances = array();
 		}
-		
+
 		if ( empty( $name ) ) {
 			$name = $this->_name;
 		}
-		
+
 		if ( empty( $prefix ) ) {
 			$prefix = $this->_name . 'View';
 		}
 
-		if ( empty( $views[$name] ) ) 
+		if ( empty( $views[$name] ) )
 		{
-			if ( $view = & $this->_createView( $name, $prefix, $type ) ) 
+			if ( $view = & $this->_createView( $name, $prefix, $type ) )
 			{
 				$views[$name] = & $view;
-			} 
-			else 
+			}
+			else
 			{
 				$result = JError::raiseError(
-                    500, JText::_( 'View not found [name, type, prefix]:' )
-                        . ' ' . $name . ',' . $type . ',' . $prefix
-                );
+					500, JText::_( 'View not found [name, type, prefix]:' )
+						. ' ' . $name . ',' . $type . ',' . $prefix
+				);
 				return $result;
 			}
 		}
 
-		return $views[$name];	
+		return $views[$name];
 	}
 
 	/**
-     * Add one or more view paths to the controller's stack, in LIFO order.
-     *
-     * @static
-     * @param string|array The directory (string), or list of directories
-     * (array) to add.
-     * @return void
-     */
+	 * Add one or more view paths to the controller's stack, in LIFO order.
+	 *
+	 * @static
+	 * @param string|array The directory (string), or list of directories
+	 * (array) to add.
+	 * @return void
+	 */
 	function addViewPath( $path )
 	{
 		$this->_addPath( 'view', $path );
@@ -491,7 +491,7 @@ class JController extends JObject
 	 * @since	1.5
 	 */
 	function registerDefaultTask( $method )
-    {
+	{
 		$this->registerTask( '__default', $method );
 	}
 
@@ -510,9 +510,9 @@ class JController extends JObject
 	 * @return string The new error message.
 	 * @since 1.5
 	 */
-    function setError( $message )
-    {
-        $this->_error = $message;
+	function setError( $message )
+	{
+		$this->_error = $message;
 		return $this->_error;
 	}
 
@@ -539,9 +539,9 @@ class JController extends JObject
 	function setRedirect( $url, $msg = null, $type = 'message' )
 	{
 		$this->_redirect = $url;
-		if ( $msg !== null ) 
+		if ( $msg !== null )
 		{
-			// controller may have set this directly 
+			// controller may have set this directly
 			$this->_message	= $msg;
 		}
 		$this->_messageType	= $type;
@@ -567,7 +567,7 @@ class JController extends JObject
 	 *
 	 * @access	private
 	 * @param	string  The name of the model.
-     * @param	string	Optional model prefix.
+	 * @param	string	Optional model prefix.
 	 * @return	mixed	Model object on success; error object or null on
 	 * failure.
 	 * @since	1.5
@@ -577,33 +577,33 @@ class JController extends JObject
 		$result = null;
 
 		// Clean the model name
-		$modelName   = preg_replace( '#\W#', '', $name );
-		$classPrefix = preg_replace( '#\W#', '', $prefix );
+		$modelName		= preg_replace( '#\W#', '', $name );
+		$classPrefix	= preg_replace( '#\W#', '', $prefix );
 
 		// Build the model class name
 		$modelClass = $classPrefix . $modelName;
 
-		if ( !class_exists( $modelClass ) ) 
+		if ( !class_exists( $modelClass ) )
 		{
 			jimport( 'joomla.filesystem.path' );
-            $path = JPath::find(
-                $this->_path['model'],
-                $this->_createFileName( 'model', array( 'name' => $modelName ) )
-            );
-			if ( $path ) 
+			$path = JPath::find(
+				$this->_path['model'],
+				$this->_createFileName( 'model', array( 'name' => $modelName ) )
+			);
+			if ( $path )
 			{
 				require $path;
-				if ( !class_exists( $modelClass ) ) 
+				if ( !class_exists( $modelClass ) )
 				{
-                    $result = JError::raiseWarning(
-                        0,
-                        JText::_( 'Model class not found [class, file]:' )
-                        . ' ' . $modelClass . ', ' . $path
-                    );
+					$result = JError::raiseWarning(
+						0,
+						JText::_( 'Model class not found [class, file]:' )
+						. ' ' . $modelClass . ', ' . $path
+					);
 					return $result;
 				}
-			} 
-			else 
+			}
+			else
 			{
 				return $result;
 			}
@@ -617,9 +617,9 @@ class JController extends JObject
 	 * Method to load and return a view object. This method first looks in the
 	 * current template directory for a match, and failing that uses a default
 	 * set path to load the view class file.
-     * 
-     * Note the "name, prefix, type" order of parameters, which differs from the
-     * "name, type, prefix" order used in related public methods.
+	 *
+	 * Note the "name, prefix, type" order of parameters, which differs from the
+	 * "name, type, prefix" order used in related public methods.
 	 *
 	 * @access	private
 	 * @param	string	The name of the view.
@@ -639,27 +639,27 @@ class JController extends JObject
 		// Build the view class name
 		$viewClass = $classPrefix . $viewName;
 
-		if ( !class_exists( $viewClass ) ) 
+		if ( !class_exists( $viewClass ) )
 		{
 			jimport( 'joomla.filesystem.path' );
-            $path = JPath::find(
-                $this->_path['view'],
-                $this->_createFileName(
-                    'view', array( 'name' => $viewName, 'type' => $viewType) )
-            );
-			if ( $path ) 
+			$path = JPath::find(
+				$this->_path['view'],
+				$this->_createFileName(
+					'view', array( 'name' => $viewName, 'type' => $viewType) )
+			);
+			if ( $path )
 			{
 				require_once $path;
 
-				if ( !class_exists( $viewClass ) ) 
+				if ( !class_exists( $viewClass ) )
 				{
 					$result = JError::raiseError(
-                        500, JText::_( 'View class not found [class, file]:' )
-                        . ' ' . $viewClass . ', ' . $path );
+						500, JText::_( 'View class not found [class, file]:' )
+						. ' ' . $viewClass . ', ' . $path );
 					return $result;
 				}
-			} 
-			else 
+			}
+			else
 			{
 				return $result;
 			}
@@ -683,19 +683,19 @@ class JController extends JObject
 		$this->_path[$type] = array();
 
 		// always add the fallback directories as last resort
-		switch ( strtolower($type) ) 
+		switch ( strtolower($type) )
 		{
 			case 'view': {
 				// the current directory
-                $this->_addPath( $type, JPATH_COMPONENT . DS . 'views' );
-            }
-            break;
+				$this->_addPath( $type, JPATH_COMPONENT . DS . 'views' );
+			}
+			break;
 
 			case 'model': {
 				// the current directory
-                $this->_addPath( $type, JPATH_COMPONENT . DS . 'models' );
-            }
-            break;
+				$this->_addPath( $type, JPATH_COMPONENT . DS . 'models' );
+			}
+			break;
 		}
 
 		// actually add the user-specified directories
@@ -706,9 +706,9 @@ class JController extends JObject
 	* Adds to the search path for templates and resources.
 	*
 	* @access protected
-    * @param string The path type (e.g. 'model', 'view'.
+	* @param string The path type (e.g. 'model', 'view'.
 	* @param string|array The directory or stream to search.
-    * @return void
+	* @return void
 	*/
 	function _addPath( $type, $path )
 	{
@@ -716,7 +716,7 @@ class JController extends JObject
 		settype( $path, 'array' );
 
 		// loop through the path directories
-		foreach ( $path as $dir ) 
+		foreach ( $path as $dir )
 		{
 			// no surrounding spaces allowed!
 			$dir = trim( $dir );
@@ -741,30 +741,30 @@ class JController extends JObject
 	 * @return	string	The filename.
 	 * @since 1.5
 	 */
-    function _createFileName( $type, $parts = array() )
+	function _createFileName( $type, $parts = array() )
 	{
 		$filename = '';
-		
+
 		switch ( $type )
 		{
-			case 'view' : 
+			case 'view' :
 			{
 				if ( !empty( $parts['type'] ) ) {
 					$parts['type'] = '.' . $parts['type'];
 				}
-				
+
 				$filename = strtolower( $parts['name'] ) . DS . 'view'
-                    . $parts['type'] . '.php';
+					. $parts['type'] . '.php';
 			}
-            break;
-			
+			break;
+
 			case 'model' : {
 				 $filename = strtolower( $parts['name'] ) . '.php';
-            }
-            break;
-			 
+			}
+			break;
+
 		}
-		
+
 		return $filename;
 	}
 

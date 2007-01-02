@@ -23,7 +23,7 @@ class modPollHelper
 		$Itemid = JRequest::getVar( 'Itemid' );
 		$db		=& JFactory::getDBO();
 		$result	= array();
-		
+
 		if ($id = $params->get( 'id', 0 ))
 		{
 			$query = "SELECT p.id, p.title" .
@@ -32,7 +32,7 @@ class modPollHelper
 				"\n AND p.published = 1";
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
-	
+
 			if ($db->getErrorNum()) {
 				JError::raiseWarning( 500, $db->stderr(true) );
 			}
@@ -56,7 +56,7 @@ class modPollHelper
 			echo "MD ".$db->stderr(true);
 			return;
 		}
-		
+
 		foreach( $options as $option ){
 			$option->text = stripslashes( $option->text );
 		}

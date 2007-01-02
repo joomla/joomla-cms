@@ -115,9 +115,9 @@ class MenusModelItem extends JModel
 
 	function &getExpansion()
 	{
-		$item = &$this->getItem();
-		$return['option'] = JRequest::getVar('expand');
-		$menutype         = JRequest::getVar('menutype');
+		$item				= &$this->getItem();
+		$return['option']	= JRequest::getVar('expand');
+		$menutype			= JRequest::getVar('menutype');
 
 		if ($return['option'])
 		{
@@ -262,7 +262,7 @@ class MenusModelItem extends JModel
 			if ($oldType != $row->menutype) {
 				// moved to another menu, disconnect the old parent
 				$row->parent = 0;
-			}		
+			}
 		}
 		else
 		{

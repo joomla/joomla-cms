@@ -99,8 +99,8 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 
 	$lang = JFactory::getLanguage();
 
-	$tooltip = addslashes(htmlspecialchars($tooltip));
-	$title   = addslashes(htmlspecialchars($title));
+	$tooltip	= addslashes(htmlspecialchars($tooltip));
+	$title		= addslashes(htmlspecialchars($title));
 
 	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
@@ -117,7 +117,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
 	} else {
 		$text 	= JText::_( $text, true );
-    }
+	}
 
 	$style = 'style="text-decoration: none; color: #333;"';
 

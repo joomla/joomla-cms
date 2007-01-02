@@ -104,10 +104,9 @@ class JHelp
 	 */
 	function createSiteList($pathToXml, $selected = null)
 	{
-		$list = array ();
-
-		$xml  = JFactory::getXMLParser('Simple');
-		$data = null;
+		$list	= array ();
+		$xml	= JFactory::getXMLParser('Simple');
+		$data	= null;
 		if( !empty( $pathToXml ) ) {
 			$data = file_get_contents($pathToXml);
 		}
@@ -129,14 +128,13 @@ class JHelp
 
 					$option = array ();
 					$sites = $elmSites->children();
-					foreach ($sites as $site) {
-
-						$text = $site->data();
-						$url  = $site->attributes('url');
-
-						$option['text'] = $text;
-						$option['value'] = $url;
-						$list[] = $option;
+					foreach ($sites as $site)
+					{
+						$text				= $site->data();
+						$url				= $site->attributes('url');
+						$option['text']		= $text;
+						$option['value']	= $url;
+						$list[]				= $option;
 					}
 				}
 			}

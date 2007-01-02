@@ -1,18 +1,18 @@
 <?xml version="1.0" ?>
 <install version="1.5" type="plugin" group="editors">
-    <name>Editor - XStandard Lite for Joomla!</name>
-    <version>1.0 alpha</version>
-    <creationDate>Feb 2006</creationDate>
-    <author>Johan Janssens</author>
-    <authorEmail>johan.janssens@joomla.org</authorEmail>
-    <authorUrl>http://www.joomla.be</authorUrl>
-    <copyright>(C) 2006 Johan Janssens</copyright>
-    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <description>DESCXSTANDARD</description>
-    <files>
-    	 <filename>xstandard_lite/xstandard.js</filename>
-    	 <filename plugin="xstandard">xstandard.php</filename>
-    </files>
-    <params>
-    </params>
+	<name>Editor - XStandard Lite for Joomla!</name>
+	<version>1.0 alpha</version>
+	<creationDate>Feb 2006</creationDate>
+	<author>Johan Janssens</author>
+	<authorEmail>johan.janssens@joomla.org</authorEmail>
+	<authorUrl>http://www.joomla.be</authorUrl>
+	<copyright>(C) 2006 Johan Janssens</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<description>DESCXSTANDARD</description>
+	<files>
+		<filename>xstandard_lite/xstandard.js</filename>
+		<filename plugin="xstandard">xstandard.php</filename>
+	</files>
+	<params>
+	</params>
 </install>

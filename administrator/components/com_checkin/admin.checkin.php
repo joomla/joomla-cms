@@ -22,8 +22,8 @@ $user = & JFactory::getUser();
 if (!$user->authorize( 'com_checkin', 'manage' )) {
 	$mainframe->redirect( 'index.php?', JText::_('ALERTNOTAUTH') );
 }
-$db       =& JFactory::getDBO();
-$nullDate = $db->getNullDate();
+$db			=& JFactory::getDBO();
+$nullDate	= $db->getNullDate();
 ?>
 <div id="tablecell">
 	<table class="adminform">

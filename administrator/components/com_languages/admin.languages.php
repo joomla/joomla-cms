@@ -134,7 +134,7 @@ function publishLanguage( $language )
 	 * Now we get the config registry in PHP class format and write it to
 	 * configuation.php then redirect appropriately.
 	 */
-    jimport('joomla.filesystem.file');
+	jimport('joomla.filesystem.file');
 	if (JFile::write($fname, $config->toString('PHP', 'config',  array('class' => 'JConfig')))) {
 		$mainframe->redirect("index.php?option=com_languages&amp;client=".$client->id,JText::_( 'Configuration successfully updated!' ) );
 	} else {

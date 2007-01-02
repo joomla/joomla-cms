@@ -39,8 +39,8 @@ function &botSearchWeblinksAreas() {
  */
 function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 {
-	$db   =& JFactory::getDBO();
-	$user =& JFactory::getUser();
+	$db		=& JFactory::getDBO();
+	$user	=& JFactory::getUser();
 
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( botSearchWeblinksAreas() ) )) {

@@ -39,8 +39,8 @@ class JElement_List extends JElement
 		$options = array ();
 		foreach ($node->children() as $option)
 		{
-			$val  = $option->attributes('value');
-			$text = $option->data();
+			$val	= $option->attributes('value');
+			$text	= $option->data();
 			$options[] = JHTMLSelect::option($val, JText::_($text));
 		}
 

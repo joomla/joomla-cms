@@ -106,38 +106,38 @@ class JAuthenticate extends JObject
 
 		// Time to authenticate the credentials.  Lets fire the auth event
 		$results = $dispatcher->trigger( 'onAuthenticate', array($username, $password));
-		
+
 		/*
 		 * Check each of the results to see if a valid user ID was returned. and use the
 		 * first ID to log into the system.
-		 
+
 		 * Any errors raised in the plugin should be returned via the JAuthenticateResponse
 		 * and handled appropriately.
 		 */
 		foreach($results as $result)
 		{
-			switch($result->status) 
+			switch($result->status)
 			{
 				case JAUTHENTICATE_STATUS_SUCCESS :
 				{
 					if(empty($result->username)) {
 						$result->username = $username;
 					}
-					
+
 					if(empty($result->fullname)) {
 						$result->fullname = $username;
 					}
-					
+
 					//TODO :: this needs to be changed, should only return at the end
 					return $result;
-					
+
 				}	break;
-					
+
 				case JAUTHENTICATE_STATUS_CANCEL :
 				{
 					// do nothing
 				} break;
-				
+
 				case JAUTHENTICATE_STATUS_FAILURE :
 				{
 					//do nothing
@@ -204,13 +204,13 @@ class JAuthenticateHelper
 	 * @access public
 	 * @param string $plaintext The plaintext password to encrypt.
 	 * @param string $salt  The salt to use to encrypt the password. []
-	 *                               If not present, a new salt will be
-	 *                               generated.
-	 * @param string $encryption     The kind of pasword encryption to use.
-	 *                               Defaults to md5-hex.
+	 *							   If not present, a new salt will be
+	 *							   generated.
+	 * @param string $encryption	 The kind of pasword encryption to use.
+	 *							   Defaults to md5-hex.
 	 * @param boolean $show_encrypt  Some password systems prepend the kind of
-	 *                               encryption to the crypted password ({SHA},
-	 *                               etc). Defaults to false.
+	 *							   encryption to the crypted password ({SHA},
+	 *							   etc). Defaults to false.
 	 *
 	 * @return string  The encrypted password.
 	 */
@@ -302,12 +302,12 @@ class JAuthenticateHelper
 	 *
 	 * @access public
 	 * @param string $encryption  The kind of pasword encryption to use.
-	 *                            Defaults to md5-hex.
-	 * @param string $seed        The seed to get the salt from (probably a
-	 *                            previously generated password). Defaults to
-	 *                            generating a new seed.
+	 *							Defaults to md5-hex.
+	 * @param string $seed		The seed to get the salt from (probably a
+	 *							previously generated password). Defaults to
+	 *							generating a new seed.
 	 * @param string $plaintext   The plaintext password that we're generating
-	 *                            a salt for. Defaults to none.
+	 *							a salt for. Defaults to none.
 	 *
 	 * @return string  The generated or extracted salt.
 	 */
@@ -447,108 +447,108 @@ class JAuthenticateHelper
  */
 class JAuthenticateResponse extends JObject
 {
-	/** 
+	/**
 	 * User type (refers to the authentication method used)
-	 * 
+	 *
 	 * @var name string
 	 * @access public
 	 */
 	var $type	= '';
-	
-	/** 
+
+	/**
 	 * Response status (see status codes)
-	 * 
-	 * @var type string  
+	 *
+	 * @var type string
 	 * @access public
 	 */
 	var $status 		= 4;
-	
-	/** 
+
+	/**
 	 *  The error message
-	 * 
-	 * @var error_message string 
+	 *
+	 * @var error_message string
 	 * @access public
 	 */
 	var $error_message 	= '';
-	
-	/** 
+
+	/**
 	 * Any UTF-8 string that the End User wants to use as a username.
-	 * 
-	 * @var fullname string 
+	 *
+	 * @var fullname string
 	 * @access public
 	 */
 	var $username 		= '';
-	
-	/** 
+
+	/**
 	 * The email address of the End User as specified in section 3.4.1 of [RFC2822]
-	 * 
-	 * @var email string  
+	 *
+	 * @var email string
 	 * @access public
 	 */
 	var $email			= '';
-	
-	/** 
+
+	/**
 	 * UTF-8 string free text representation of the End User's full name.
-	 * 
-	 * @var fullname string 
+	 *
+	 * @var fullname string
 	 * @access public
 	 */
 	var $fullname 		= '';
-	
-	/** 
-	 * The End User's date of birth as YYYY-MM-DD. Any values whose representation uses 
-	 * fewer than the specified number of digits should be zero-padded. The length of this 
-	 * value MUST always be 10. If the End User user does not want to reveal any particular 
+
+	/**
+	 * The End User's date of birth as YYYY-MM-DD. Any values whose representation uses
+	 * fewer than the specified number of digits should be zero-padded. The length of this
+	 * value MUST always be 10. If the End User user does not want to reveal any particular
 	 * component of this value, it MUST be set to zero.
-	 * 
-	 * For instance, if a End User wants to specify that his date of birth is in 1980, but 
+	 *
+	 * For instance, if a End User wants to specify that his date of birth is in 1980, but
 	 * not the month or day, the value returned SHALL be "1980-00-00".
-	 * 
-	 * @var fullname string 
+	 *
+	 * @var fullname string
 	 * @access public
 	 */
 	var $birthdate	 	= '';
-	
-	/** 
+
+	/**
 	 * The End User's gender, "M" for male, "F" for female.
-	 * 
-	 * @var fullname string 
+	 *
+	 * @var fullname string
 	 * @access public
 	 */
 	var $gender 		= '';
-	
-	/** 
+
+	/**
 	 * UTF-8 string free text that SHOULD conform to the End User's country's postal system.
-	 * 
-	 * @var fullname string 
+	 *
+	 * @var fullname string
 	 * @access public
 	 */
 	var $postcode 		= '';
-	
-	/** 
+
+	/**
 	 * The End User's country of residence as specified by ISO3166.
-	 * 
-	 * @var fullname string 
+	 *
+	 * @var fullname string
 	 * @access public
 	 */
 	var $country 		= '';
-	
-	/** 
+
+	/**
 	 * End User's preferred language as specified by ISO639.
-	 * 
-	 * @var fullname string 
+	 *
+	 * @var fullname string
 	 * @access public
 	 */
 	var $language 		= '';
-	
-	/** 
-	 * ASCII string from TimeZone database  
-	 * 
-	 * @var fullname string 
+
+	/**
+	 * ASCII string from TimeZone database
+	 *
+	 * @var fullname string
 	 * @access public
 	 */
 	var $timezone 		= '';
-	
+
 	/**
 	 * Constructor
 	 *

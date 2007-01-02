@@ -25,8 +25,8 @@ class WrapperViewWrapper extends JView
 		global $Itemid;
 
 		// get menu
-		$menus  =& JMenu::getInstance();
-		$menu   =& $menus->getItem($Itemid);
+		$menus	=& JMenu::getInstance();
+		$menu	=& $menus->getItem($Itemid);
 
 		$this->params->def( 'header', $menu->name );
 		$this->params->def( 'scrolling', 'auto' );

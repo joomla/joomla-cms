@@ -32,7 +32,7 @@ class ConfigViewComponent extends JView
 		$model		= &$this->getModel();
 		$params		= &$model->getParams();
 		$component	= JComponentHelper::getInfo(JRequest::getVar( 'component' ));
-		
+
 		$document = & JFactory::getDocument();
 		$document->setTitle( JText::_('Edit Configuration') );
 		$document->addStyleSheet('../includes/js/joomla/modal.css');
@@ -45,7 +45,7 @@ class ConfigViewComponent extends JView
 					<?php echo JText::_( 'Save' );?></button>
 				<button type="button" onclick="window.top.document.popup.hide();">
 					<?php echo JText::_( 'Cancel' );?></button>
-		    </div>
+			</div>
 		</fieldset>
 
 		<fieldset>

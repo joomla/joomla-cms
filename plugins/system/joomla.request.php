@@ -59,7 +59,7 @@ class  JRequestJoomla extends JPlugin
 		$config	= & JFactory::getConfig();
 
 		// Get config variables
-		$mode    = $this->_params->get('mode', 0);
+		$mode	= $this->_params->get('mode', 0);
 		$rewrite = $config->getValue('config.sef');
 
 		//Only use SEF is enabled and not in the administrator
@@ -195,7 +195,7 @@ function sefRelToAbs($value)
 		}
 
 		// Get config variables
-		$mode    = $params->get('mode', 0);
+		$mode	= $params->get('mode', 0);
 		$rewrite = $config->getValue('config.sef');
 
 		// Home index.php
@@ -224,9 +224,9 @@ function sefRelToAbs($value)
 		{
 			//get component name
 			$component = str_replace('com_', '', $uri->getVar('option'));
-			$itemid    = intval( $uri->getVar('Itemid'));
+			$itemid	= intval( $uri->getVar('Itemid'));
 
-			$route     = ''; //the route created
+			$route	 = ''; //the route created
 
 			// Build component name and sef handler path
 			$path = JPATH_BASE.DS.'components'.DS.$uri->getVar('option').DS.'request.php';
@@ -239,8 +239,8 @@ function sefRelToAbs($value)
 			if (file_exists($path))
 			{
 				require_once $path;
-				$function  = $component.'BuildURL';
-				$parts     = $function($query,$params);
+				$function	= $component.'BuildURL';
+				$parts		= $function($query,$params);
 
 				$route = implode('/', $parts);
 				$route = ($route) ? $route.'/' : null;

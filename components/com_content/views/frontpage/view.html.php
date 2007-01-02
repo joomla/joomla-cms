@@ -41,17 +41,17 @@ class ContentViewFrontpage extends JView
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Load the menu object and parameters
-		$menus = &JMenu::getInstance();
-		$menu  = $menus->getItem($Itemid);
-		$params = new JParameter($menu->params);
+		$menus	= &JMenu::getInstance();
+		$menu	= $menus->getItem($Itemid);
+		$params	= new JParameter($menu->params);
 
 		// parameters
-		$title				= $params->def('title', 			$menu->name);
-		$intro				= $params->def('intro', 			4);
-		$leading			= $params->def('leading', 			1);
-		$links				= $params->def('link', 				4);
-		$descrip			= $params->def('description', 		1);
-		$descrip_image		= $params->def('description_image', 1);
+		$title			= $params->def('title', 			$menu->name);
+		$intro			= $params->def('intro', 			4);
+		$leading		= $params->def('leading', 			1);
+		$links			= $params->def('link', 				4);
+		$descrip		= $params->def('description', 		1);
+		$descrip_image	= $params->def('description_image', 1);
 
 		$params->def('pageclass_sfx', '');
 		$params->set('intro_only', 	1);
@@ -75,7 +75,7 @@ class ContentViewFrontpage extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//add alternate feed link
-		$link    = ampReplace('feed.php?option=com_content&view=frontpage&Itemid='.$Itemid);
+		$link	= ampReplace('feed.php?option=com_content&view=frontpage&Itemid='.$Itemid);
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
@@ -83,7 +83,7 @@ class ContentViewFrontpage extends JView
 
 		// Set section/category description text and images for
 		//TODO :: Fix this !
-		$frontpage  = new stdClass();
+		$frontpage = new stdClass();
 		if ($menu && $menu->componentid && ($descrip || $descrip_image))
 		{
 			switch ($menu->type)
@@ -118,13 +118,13 @@ class ContentViewFrontpage extends JView
 		jimport('joomla.html.pagination');
 		$this->pagination = new JPagination($total, $limitstart, $limit);
 
-		$this->assign('total'        , $total);
+		$this->assign('total',			$total);
 
-		$this->assignRef('user'      , $user);
-		$this->assignRef('access'    , $access);
-		$this->assignRef('params'    , $params);
-		$this->assignRef('items'     , $items);
-		$this->assignRef('frontpage' , $frontpage);
+		$this->assignRef('user',		$user);
+		$this->assignRef('access',		$access);
+		$this->assignRef('params',		$params);
+		$this->assignRef('items',		$items);
+		$this->assignRef('frontpage',	$frontpage);
 
 		parent::display($tpl);
 	}
@@ -133,8 +133,8 @@ class ContentViewFrontpage extends JView
 	{
 		 global $Itemid, $mainframe;
 
-		$url  = '';
-		$text = '';
+		$url	= '';
+		$text	= '';
 
 		$article = $this->item;
 
@@ -142,7 +142,7 @@ class ContentViewFrontpage extends JView
 		{
 			case 'pdf' :
 			{
-				$url   = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
+				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -152,14 +152,14 @@ class ContentViewFrontpage extends JView
 					$text = JText::_('PDF').'&nbsp;';
 				}
 
-				$attribs['title']   = '"'.JText::_( 'PDF' ).'"';
+				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
 
 			case 'print' :
 			{
-				$url    = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component&amp;page='.@ $this->request->limitstart;
+				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -169,14 +169,14 @@ class ContentViewFrontpage extends JView
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}
 
-				$attribs['title']   = '"'.JText::_( 'Print' ).'"';
+				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
 
 			case 'email' :
 			{
-				$url   = 'index.php?option=com_mailtoa&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
+				$url	= 'index.php?option=com_mailtoa&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
 				if ($this->params->get('icons')) 	{
@@ -185,7 +185,7 @@ class ContentViewFrontpage extends JView
 					$text = '&nbsp;'.JText::_('Email');
 				}
 
-				$attribs['title']   = '"'.JText::_( 'Email ' ).'"';
+				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;

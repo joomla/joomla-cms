@@ -53,13 +53,13 @@ class WeblinksModelWeblinks extends JModel
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		global $mainframe, $option;
-		
+
 		// Get the pagination request variables
 		$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
-		
+
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 	}
@@ -99,7 +99,7 @@ class WeblinksModelWeblinks extends JModel
 
 		return $this->_total;
 	}
-	
+
 	/**
 	 * Method to get a pagination object for the weblinks
 	 *
@@ -123,7 +123,7 @@ class WeblinksModelWeblinks extends JModel
 		// Get the WHERE and ORDER BY clauses for the query
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
-		
+
 		$query = "SELECT a.*, cc.name AS category, u.name AS editor"
 			. "\n FROM #__weblinks AS a"
 			. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
@@ -131,17 +131,17 @@ class WeblinksModelWeblinks extends JModel
 			. $where
 			. $orderby
 		;
-		
+
 		return $query;
 	}
-	
+
 	function _buildContentOrderBy()
 	{
 		global $mainframe, $option;
-		
+
 		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
-		
+
 		if ($filter_order == 'a.ordering'){
 			$orderby 	= "\n ORDER BY category, a.ordering";
 		} else {
@@ -154,7 +154,7 @@ class WeblinksModelWeblinks extends JModel
 	function _buildContentWhere()
 	{
 		global $mainframe, $option;
-		
+
 		$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'*' );
 		$filter_catid 		= $mainframe->getUserStateFromRequest( "$option.filter_catid", 		'filter_catid', 	0 );
 		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
@@ -179,7 +179,7 @@ class WeblinksModelWeblinks extends JModel
 		}
 
 		$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
-		
+
 		return $where;
 	}
 }

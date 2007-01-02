@@ -235,7 +235,7 @@ function editSection( )
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
-    	$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The section' ), $row->title );
+		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The section' ), $row->title );
 		$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $row->scope, $msg );
 	}
 
@@ -393,7 +393,7 @@ function removeSections( $cid, $scope, $option )
 
 	if (count( $err )) {
 		$cids = implode( ', ', $err );
-    	$msg = JText::sprintf( 'DESCCANNOTBEREMOVED', $cids );
+		$msg = JText::sprintf( 'DESCCANNOTBEREMOVED', $cids );
 		$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope, $msg );
 	}
 

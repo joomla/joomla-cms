@@ -32,11 +32,11 @@
  class JDocumentRenderer_Atom extends JDocumentRenderer
  {
 	/**
-     * Document mime type
-     *
-     * @var      string
-     * @access   private
-     */
+	 * Document mime type
+	 *
+	 * @var	  string
+	 * @access   private
+	 */
 	 //var $_mime = "application/atom+xml";
 	 var $_mime = "text/xml";
 
@@ -49,56 +49,56 @@
 	 */
 	function render()
 	{
-		$now  = new JDate();
-		$data =& $this->_doc;
+		$now	= new JDate();
+		$data	=& $this->_doc;
 
 		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\"";
 		if ($data->language!="") {
 			$feed.= " xml:lang=\"".$data->language."\"";
 		}
 		$feed.= ">\n";
-		$feed.= "    <title>".htmlspecialchars($data->title)."</title>\n";
-		$feed.= "    <subtitle>".htmlspecialchars($data->description)."</subtitle>\n";
-		$feed.= "    <link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($data->link)."\"/>\n";
-		$feed.= "    <id>".htmlspecialchars($data->link)."</id>\n";
-		$feed.= "    <updated>".htmlspecialchars($now->toISO8601())."</updated>\n";
+		$feed.= "	<title>".htmlspecialchars($data->title)."</title>\n";
+		$feed.= "	<subtitle>".htmlspecialchars($data->description)."</subtitle>\n";
+		$feed.= "	<link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($data->link)."\"/>\n";
+		$feed.= "	<id>".htmlspecialchars($data->link)."</id>\n";
+		$feed.= "	<updated>".htmlspecialchars($now->toISO8601())."</updated>\n";
 		if ($data->editor!="") {
-			$feed.= "    <author>\n";
-			$feed.= "        <name>".$data->editor."</name>\n";
+			$feed.= "	<author>\n";
+			$feed.= "		<name>".$data->editor."</name>\n";
 			if ($data->editorEmail!="") {
-				$feed.= "        <email>".$data->editorEmail."</email>\n";
+				$feed.= "		<email>".$data->editorEmail."</email>\n";
 			}
-			$feed.= "    </author>\n";
+			$feed.= "	</author>\n";
 		}
-		$feed.= "    <generator uri=\"http://joomla.org\" version=\"1.5\">".$data->getGenerator()."</generator>\n";
+		$feed.= "	<generator uri=\"http://joomla.org\" version=\"1.5\">".$data->getGenerator()."</generator>\n";
 		$feed.= "<link rel=\"self\" type=\"application/atom+xml\" href=\"". $data->syndicationURL . "\" />\n";
 		for ($i=0;$i<count($data->items);$i++)
 		{
-			$feed.= "    <entry>\n";
-			$feed.= "        <title>".htmlspecialchars(strip_tags($data->items[$i]->title))."</title>\n";
-			$feed.= "        <link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($data->items[$i]->link)."\"/>\n";
+			$feed.= "	<entry>\n";
+			$feed.= "		<title>".htmlspecialchars(strip_tags($data->items[$i]->title))."</title>\n";
+			$feed.= "		<link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($data->items[$i]->link)."\"/>\n";
 
 			if ($data->items[$i]->date=="") {
 				$data->items[$i]->date = time();
 			}
 			$itemDate = new JDate($data->items[$i]->date);
-			$feed.= "        <published>".htmlspecialchars($itemDate->toISO8601())."</published>\n";
-			$feed.= "        <updated>".htmlspecialchars($itemDate->toISO8601())."</updated>\n";
-			$feed.= "        <id>".htmlspecialchars($data->items[$i]->link)."</id>\n";
+			$feed.= "		<published>".htmlspecialchars($itemDate->toISO8601())."</published>\n";
+			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601())."</updated>\n";
+			$feed.= "		<id>".htmlspecialchars($data->items[$i]->link)."</id>\n";
 
 			if ($data->items[$i]->author!="")
 			{
-				$feed.= "        <author>\n";
-				$feed.= "            <name>".htmlspecialchars($data->items[$i]->author)."</name>\n";
-				$feed.= "        </author>\n";
+				$feed.= "		<author>\n";
+				$feed.= "			<name>".htmlspecialchars($data->items[$i]->author)."</name>\n";
+				$feed.= "		</author>\n";
 			}
 			if ($data->items[$i]->description!="") {
-				$feed.= "        <summary type=\"html\">".htmlspecialchars($data->items[$i]->description)."</summary>\n";
+				$feed.= "		<summary type=\"html\">".htmlspecialchars($data->items[$i]->description)."</summary>\n";
 			}
 			if ($data->items[$i]->enclosure != NULL) {
-			$feed.="        <link rel=\"enclosure\" href=\"". $data->items[$i]->enclosure->url ."\" type=\"". $data->items[$i]->enclosure->type."\"  length=\"". $data->items[$i]->enclosure->length . "\" />\n";
+			$feed.="		<link rel=\"enclosure\" href=\"". $data->items[$i]->enclosure->url ."\" type=\"". $data->items[$i]->enclosure->type."\"  length=\"". $data->items[$i]->enclosure->length . "\" />\n";
 			}
-			$feed.= "    </entry>\n";
+			$feed.= "	</entry>\n";
 		}
 		$feed.= "</feed>\n";
 		return $feed;

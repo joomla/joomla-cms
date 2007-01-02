@@ -138,7 +138,7 @@ table#chart tr.enabled td {
 	/* Leave this alone */
 }
 
-table#chart tr.disabled td, 
+table#chart tr.disabled td,
 table#chart tr.disabled td a {
 	color:#999;
 	font-style:italic;
@@ -267,13 +267,13 @@ function fnLoadPngs() {
 								<?php else: ?>
 									<li><strong>cURL:</strong> The <code>cURL</code> extension is either not available, or is an unsupported version.  SimplePie will use <code>fsockopen</code> instead.</li>
 								<?php endif; ?>
-	
+
 								<?php if ($zlib_ok): ?>
 									<li><strong>Zlib:</strong> You have <code>Zlib</code> enabled.  This allows SimplePie to support GZIP-encoded feeds.  <em>No problems here.</em></li>
 								<?php else: ?>
 									<li><strong>Zlib:</strong> The <code>Zlib</code> extension is not available.  SimplePie will ignore any GZIP-encoding, and instead handle feeds as uncompressed text.</li>
 								<?php endif; ?>
-	
+
 								<?php if ($mbstring_ok && $iconv_ok): ?>
 									<li><strong>mbstring and iconv:</strong> You have both <code>mbstring</code> and <code>iconv</code> installed!  This will allow SimplePie to handle the greatest number of languages.  Check the <a href="http://simplepie.org/docs/reference/simplepie-core/supported-character-encodings/">Supported Character Encodings</a> chart to see what's supported on your webhost.</li>
 								<?php elseif ($mbstring_ok): ?>

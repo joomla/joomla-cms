@@ -45,7 +45,7 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 	// any@email.address.com
 	$search_email		= "([[:alnum:]_\.\-]+)(\@[[:alnum:]\.\-]+\.+)([[:alnum:]\.\-]+)";
 	// any@email.address.com?subject=anyText
-	$search_email_msg   = "([[:alnum:]_\.\-]+)(\@[[:alnum:]\.\-]+\.+)([[:alnum:]\.\-]+)([[:alnum:][:space:][:punct:]][^\"<>]+)";
+	$search_email_msg	= "([[:alnum:]_\.\-]+)(\@[[:alnum:]\.\-]+\.+)([[:alnum:]\.\-]+)([[:alnum:][:space:][:punct:]][^\"<>]+)";
 	// anyText
 	$search_text 		= "([[:alnum:][:space:][:punct:]][^<>]+)";
 
@@ -95,7 +95,7 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 
 
 		// replace the found address with the js cloacked email
-		$row->text     = str_replace( $regs[0], $replacement, $row->text );
+		$row->text	 = str_replace( $regs[0], $replacement, $row->text );
 	}
 
 	// search for derivativs of link code <a href="mailto:email@amail.com?subject=Text">anytext</a>
@@ -109,7 +109,7 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 		$replacement = JHTML::emailCloaking( $mail, $mode, $mail_text, 0 );
 
 		// replace the found address with the js cloacked email
-		$row->text     = str_replace( $regs[0], $replacement, $row->text );
+		$row->text	 = str_replace( $regs[0], $replacement, $row->text );
 	}
 
 	// search for plain text email@amail.com

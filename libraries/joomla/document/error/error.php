@@ -69,7 +69,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
-	 * @param array		$params	    Associative array of attributes
+	 * @param array		$params		Associative array of attributes
 	 */
 	function display( $cache = false, $params = array())
 	{
@@ -101,8 +101,8 @@ class JDocumentError extends JDocument
 		}
 
 		// check template
-		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
-		$template  = isset($params['template']) ? $params['template'] : '_system';
+		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
+		$template	= isset($params['template']) ? $params['template'] : '_system';
 
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
@@ -110,8 +110,8 @@ class JDocumentError extends JDocument
 
 		//set variables
 		$this->template = $template;
-		$this->debug    = isset($params['debug']) ? $params['debug'] : false;
-		$this->message  = JText::_($this->_error->message);
+		$this->debug	= isset($params['debug']) ? $params['debug'] : false;
+		$this->message	= JText::_($this->_error->message);
 
 		// load
 		$data = $this->_loadTemplate($directory.DS.$template, $file);
@@ -149,8 +149,8 @@ class JDocumentError extends JDocument
 
 	function renderBacktrace()
 	{
-		$contents  = null;
-		$backtrace = $this->_error->getBacktrace();
+		$contents	= null;
+		$backtrace	= $this->_error->getBacktrace();
 		if( is_array( $backtrace ) )
 		{
 			ob_start();
@@ -185,7 +185,7 @@ class JDocumentError extends JDocument
 			$contents = ob_get_contents();
 			ob_end_clean();
 		}
-        return $contents;
+		return $contents;
 	}
 }
 ?>

@@ -47,13 +47,13 @@
 	</div>
 	<div id="content-box">
 		<div class="padding">
-        	<div id="element-box" class="login">
-    			<div class="t">
-            		<div class="t">
-              			<div class="t"></div>
-            		</div>
-          		</div>
-          		<div class="m">
+			<div id="element-box" class="login">
+				<div class="t">
+					<div class="t">
+			  			<div class="t"></div>
+					</div>
+		  		</div>
+		  		<div class="m">
 
 					<h1><?php echo JText::_('Joomla! Administration Login') ?></h1>
 					<jdoc:include type="component" />
@@ -63,13 +63,13 @@
 					</p>
 					<div id="lock"></div>
 					<div class="clr"></div>
-          		</div>
-          		<div class="b">
-            		<div class="b">
-              			<div class="b"></div>
-            		</div>
-          		</div>
-        	</div>
+		  		</div>
+		  		<div class="b">
+					<div class="b">
+			  			<div class="b"></div>
+					</div>
+		  		</div>
+			</div>
 			<noscript>
 				<?php echo JText::_('WARNJAVASCRIPT') ?>
 			</noscript>

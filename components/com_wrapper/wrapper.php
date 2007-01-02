@@ -42,8 +42,8 @@ class WrapperController
 	{
 		global $Itemid, $mainframe, $option;
 
-		$menus  = &JMenu::getInstance();
-		$menu   = $menus->getItem($Itemid);
+		$menus	= &JMenu::getInstance();
+		$menu	= $menus->getItem($Itemid);
 		$params = new JParameter( $menu->params );
 
 		//set page title
@@ -64,17 +64,14 @@ class WrapperController
 				// relative url in component. use server http_host.
 				$row->url = 'http://'. $_SERVER['HTTP_HOST'] . $url;
 			}
-			elseif ( !strstr( $url, 'http' ) && !strstr( $url, 'https' ) )
-			{
+			elseif ( !strstr( $url, 'http' ) && !strstr( $url, 'https' ) ) {
 				$row->url = 'http://'. $url;
 			}
-			else
-			{
+			else {
 				$row->url = $url;
 			}
 		}
-		else
-		{
+		else {
 			$row->url = $url;
 		}
 

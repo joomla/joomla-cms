@@ -52,8 +52,8 @@ class ContentModelArchive extends JModel
 		if (empty($this->_data))
 		{
 			// Get the menu object of the active menu item
-			$menus	 =& JMenu::getInstance();
-			$params  =& JSiteHelper::getMenuParams();
+			$menus	=& JMenu::getInstance();
+			$params	=& JSiteHelper::getMenuParams();
 
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
@@ -106,7 +106,7 @@ class ContentModelArchive extends JModel
 			$voting['join'].
 			$where.
 			$orderby;
-		
+
 		return $query;
 	}
 
@@ -114,7 +114,7 @@ class ContentModelArchive extends JModel
 	{
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
-		$Itemid    			= JRequest::getVar('Itemid');
+		$Itemid				= JRequest::getVar('Itemid');
 
 		$orderby = "\n ORDER BY ";
 		if ($filter_order && $filter_order_Dir) {
@@ -126,8 +126,8 @@ class ContentModelArchive extends JModel
 
 		// Special ordering for archive articles
 		$orderby_sec	= $params->def('orderby', 'rdate');
-		$primary  = JContentHelper::orderbySecondary($orderby_sec);
-		$orderby .= $primary;
+		$primary		= JContentHelper::orderbySecondary($orderby_sec);
+		$orderby		.= $primary;
 
 		return $orderby;
 	}

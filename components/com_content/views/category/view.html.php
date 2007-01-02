@@ -28,16 +28,16 @@ class ContentViewCategory extends JView
 		global $mainframe, $option, $Itemid;
 
 		// Initialize some variables
-		$user	  =& JFactory::getUser();
-		$document =& JFactory::getDocument();
-		$pathway  = & $mainframe->getPathWay();
+		$user		=& JFactory::getUser();
+		$document	=& JFactory::getDocument();
+		$pathway	= & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
-		$menu    =& JSiteHelper::getActiveMenuItem();
-		$params  =& JSiteHelper::getMenuParams();
+		$menu		=& JSiteHelper::getActiveMenuItem();
+		$params		=& JSiteHelper::getMenuParams();
 
 		// Request variables
-		$task 	    = JRequest::getVar('task');
+		$task 		= JRequest::getVar('task');
 		$limit		= JRequest::getVar('limit', $params->def('display_num', 0), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -51,12 +51,12 @@ class ContentViewCategory extends JView
 		JRequest::setVar('limit', $limit);
 
 		// Get some data from the model
-		$items	  = & $this->get( 'Data' );
-		$total	  = & $this->get( 'Total' );
-		$category = & $this->get( 'Category' );
+		$items		= & $this->get( 'Data' );
+		$total		= & $this->get( 'Total' );
+		$category	= & $this->get( 'Category' );
 
 		//add alternate feed link
-		$link    = 'feed.php?option=com_content&view=category&id='.$category->id.'&Itemid='.$Itemid;
+		$link	= 'feed.php?option=com_content&view=category&id='.$category->id.'&Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
@@ -100,14 +100,14 @@ class ContentViewCategory extends JView
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
-		$this->assign('total'        , $total);
+		$this->assign('total',			$total);
 
-		$this->assignRef('items'     , $items);
-		$this->assignRef('category'  , $category);
-		$this->assignRef('params'    , $params);
-		$this->assignRef('user'      , $user);
-		$this->assignRef('access'    , $access);
-		$this->assignRef('pagination', $pagination);
+		$this->assignRef('items',		$items);
+		$this->assignRef('category',	$category);
+		$this->assignRef('params',		$params);
+		$this->assignRef('user',		$user);
+		$this->assignRef('access',		$access);
+		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
 	}
@@ -116,8 +116,8 @@ class ContentViewCategory extends JView
 	{
 		global $Itemid, $mainframe;
 
-		$url  = '';
-		$text = '';
+		$url	= '';
+		$text	= '';
 
 		switch($type)
 		{
@@ -131,7 +131,7 @@ class ContentViewCategory extends JView
 					$text = JText::_('New').'&nbsp;';
 				}
 
-				$attribs['title']   = '"'.JText::_( 'New' ).'"';
+				$attribs['title']	= '"'.JText::_( 'New' ).'"';
 
 			} break;
 
@@ -174,7 +174,7 @@ class ContentViewCategory extends JView
 
 			case 'pdf' :
 			{
-				$url   = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
+				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -184,14 +184,14 @@ class ContentViewCategory extends JView
 					$text = JText::_('PDF').'&nbsp;';
 				}
 
-				$attribs['title']   = '"'.JText::_( 'PDF' ).'"';
+				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
 
 			case 'print' :
 			{
-				$url    = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component&amp;page='.@ $this->request->limitstart;
+				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -201,14 +201,14 @@ class ContentViewCategory extends JView
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}
 
-				$attribs['title']   = '"'.JText::_( 'Print' ).'"';
+				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
 
 			case 'email' :
 			{
-				$url   = 'index.php?option=com_mailto&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
+				$url	= 'index.php?option=com_mailto&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
 				if ($this->params->get('icons')) 	{
@@ -217,7 +217,7 @@ class ContentViewCategory extends JView
 					$text = '&nbsp;'.JText::_('Email');
 				}
 
-				$attribs['title']   = '"'.JText::_( 'Email ' ).'"';
+				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
 			} break;
@@ -247,16 +247,16 @@ class ContentViewCategory extends JView
 		for($i = 0; $i <  count($this->items); $i++)
 		{
 			$item =& $this->items[$i];
-			
-			$item->link    = sefRelToAbs('index.php?option=com_content&amp;view=article&amp;id='.$item->slug.'&amp;Itemid='.$Itemid);
-			$item->created = JHTML::Date($item->created, $this->params->get('date_format'));
 
-			$item->odd   = $k;
-			$item->count = $i;
+			$item->link		= sefRelToAbs('index.php?option=com_content&amp;view=article&amp;id='.$item->slug.'&amp;Itemid='.$Itemid);
+			$item->created	= JHTML::Date($item->created, $this->params->get('date_format'));
+
+			$item->odd		= $k;
+			$item->count	= $i;
 			$k = 1 - $k;
 		}
 
-		$this->assign('lists'     , $lists);
+		$this->assign('lists',	$lists);
 
 		return $this->items;
 	}

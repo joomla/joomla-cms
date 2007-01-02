@@ -37,7 +37,7 @@ class modRandomImageHelper
 		}
 
 		$image->width 	= $width;
-		$image->height  = $height;
+		$image->height	= $height;
 		$image->folder	= str_replace( '\\', '/', $image->folder );
 
 		return $image;

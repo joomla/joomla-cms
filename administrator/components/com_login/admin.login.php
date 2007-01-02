@@ -60,7 +60,7 @@ class LoginController
 		if (!JError::isError($result)) {
 			$mainframe->redirect('index.php');
 		}
-		
+
 		LoginController::display();
 	}
 
@@ -73,7 +73,7 @@ class LoginController
 		if (!JError::isError($result)) {
 			$mainframe->redirect('index.php');
 		}
-		
+
 		LoginController::display();
 	}
 }

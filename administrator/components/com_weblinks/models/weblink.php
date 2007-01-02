@@ -61,8 +61,8 @@ class WeblinksModelWeblink extends JModel
 	function setId($id)
 	{
 		// Set weblink id and wipe data
-		$this->_id	    = $id;
-		$this->_data = null;
+		$this->_id		= $id;
+		$this->_data	= null;
 	}
 
 	/**
@@ -89,9 +89,9 @@ class WeblinksModelWeblink extends JModel
 				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 				return;
 			}
-		} 
+		}
 		else  $this->_initData();
-		
+
 		return $this->_data;
 	}
 
@@ -158,12 +158,12 @@ class WeblinksModelWeblink extends JModel
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
-			
+
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to store the weblink
 	 *
@@ -173,17 +173,17 @@ class WeblinksModelWeblink extends JModel
 	 */
 	function store($data)
 	{
-		$row  =& $this->getTable();
-		
+		$row =& $this->getTable();
+
 		// Bind the form fields to the web link table
 		if (!$row->bind($data)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		
+
 		// Create the timestamp for the date
 		$row->date = gmdate('Y-m-d H:i:s');
-		
+
 		// if new item, order last in appropriate group
 		if (!$row->id) {
 			$where = "catid = " . $row->catid ;
@@ -201,10 +201,10 @@ class WeblinksModelWeblink extends JModel
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Method to remove a weblink
 	 *
@@ -215,8 +215,8 @@ class WeblinksModelWeblink extends JModel
 	function delete($cid = array())
 	{
 		$result = false;
-		
-		if (count( $cid )) 
+
+		if (count( $cid ))
 		{
 			$cids = implode( ',', $cid );
 			$query = "DELETE FROM #__weblinks"
@@ -230,7 +230,7 @@ class WeblinksModelWeblink extends JModel
 
 		return true;
 	}
-	
+
 	/**
 	 * Method to (un)publish a weblink
 	 *
@@ -242,7 +242,7 @@ class WeblinksModelWeblink extends JModel
 	{
 		$user 	=& JFactory::getUser();
 
-		if (count( $cid )) 
+		if (count( $cid ))
 		{
 			$cids = implode( ',', $cid );
 
@@ -257,10 +257,10 @@ class WeblinksModelWeblink extends JModel
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Method to move a weblink
 	 *
@@ -270,20 +270,20 @@ class WeblinksModelWeblink extends JModel
 	 */
 	function move($direction)
 	{
-		$row  =& $this->getTable();
+		$row =& $this->getTable();
 		if (!$row->load($this->_id)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		
+
 		if (!$row->move( $direction, "catid = $row->catid AND published >= 0" )) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-	
+
 		return true;
 	}
-	
+
 	/**
 	 * Method to move a weblink
 	 *
@@ -295,15 +295,15 @@ class WeblinksModelWeblink extends JModel
 	{
 		$row =& $this->getTable();
 		$groupings = array();
-		
+
 		// update ordering values
-		for( $i=0; $i < count($cid); $i++ ) 
+		for( $i=0; $i < count($cid); $i++ )
 		{
 			$row->load( (int) $cid[$i] );
 			// track categories
 			$groupings[] = $row->catid;
 
-			if ($row->ordering != $order[$i]) 
+			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
 				if (!$row->store()) {
@@ -345,7 +345,7 @@ class WeblinksModelWeblink extends JModel
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Method to initialise the weblink data
 	 *

@@ -50,17 +50,17 @@ class JDatabase extends JObject
 	var $_nameQuote		= null;
 	/**
 	 * @var boolean UTF-8 support
-	 * @since    1.5
+	 * @since	1.5
 	 */
 	var $_utf			= 0;
 	/**
 	 * @var array The fields that are to be quote
-	 * @since    1.5
+	 * @since	1.5
 	 */
 	var $_quoted	= null;
 	/**
 	 * @var bool Legacy compatibility
-	 * @since    1.5
+	 * @since	1.5
 	 */
 	var $_hasQuoted	= null;
 
@@ -83,12 +83,12 @@ class JDatabase extends JObject
 			$this->setUTF();
 		}
 
-		$this->_table_prefix = $table_prefix;
-		$this->_ticker   = 0;
-		$this->_errorNum = 0;
-		$this->_log = array();
-		$this->_quoted = array();
-		$this->_hasQuoted = false;
+		$this->_table_prefix	= $table_prefix;
+		$this->_ticker			= 0;
+		$this->_errorNum		= 0;
+		$this->_log				= array();
+		$this->_quoted			= array();
+		$this->_hasQuoted		= false;
 
 		// If we opened the connection lets make sure we close it
 		register_shutdown_function(array(&$this,'__destruct'));
@@ -130,10 +130,10 @@ class JDatabase extends JObject
 	/**
 	 * Database object destructor
 	 *
-     * @abstract
-     * @access private
-     * @return boolean
-     * @since 1.5
+	 * @abstract
+	 * @access private
+	 * @return boolean
+	 * @since 1.5
 	 */
 	function __destruct()
 	{
@@ -143,10 +143,10 @@ class JDatabase extends JObject
 	/**
 	 * Determines UTF support
 	 *
-     * @abstract
-     * @access public
-     * @return boolean
-     * @since 1.5
+	 * @abstract
+	 * @access public
+	 * @return boolean
+	 * @since 1.5
 	 */
 	function hasUTF() {
 		return false;
@@ -154,10 +154,10 @@ class JDatabase extends JObject
 
 	/**
 	 * Custom settings for UTF support
-     *
-     * @abstract
-     * @access public
-     * @since 1.5
+	 *
+	 * @abstract
+	 * @access public
+	 * @since 1.5
 	 */
 	function setUTF() {
 	}
@@ -240,8 +240,8 @@ class JDatabase extends JObject
 	/**
 	 * Get a database escaped string
 	 *
-     * @abstract
-     * @access public
+	 * @abstract
+	 * @access public
 	 * @return string
 	 */
 	function getEscaped( $text ) {
@@ -417,8 +417,8 @@ class JDatabase extends JObject
    /**
 	* Execute a batch query
 	*
-    * @abstract
-    * @access public
+	* @abstract
+	* @access public
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
 	function queryBatch( $abort_on_error=true, $p_transaction_safe = false) {
@@ -428,8 +428,8 @@ class JDatabase extends JObject
 	/**
 	 * Diagnostic function
 	 *
-     * @abstract
-     * @access public
+	 * @abstract
+	 * @access public
 	 */
 	function explain() {
 		return;
@@ -442,7 +442,7 @@ class JDatabase extends JObject
 	 * @access public
 	 * @param object Database resource
 	 * @return int The number of rows
-     */
+	 */
 	function getNumRows( $cur=null ) {
 		return;
 	}
@@ -450,8 +450,8 @@ class JDatabase extends JObject
 	/**
 	 * This method loads the first field of the first row returned by the query.
 	 *
-     * @abstract
-     * @access public
+	 * @abstract
+	 * @access public
 	 * @return The value returned in the query or null if the query failed.
 	 */
 	function loadResult() {
@@ -461,7 +461,7 @@ class JDatabase extends JObject
 	/**
 	 * Load an array of single field results into an array
 	 *
-     * @abstract
+	 * @abstract
 	 */
 	function loadResultArray($numinarray = 0) {
 		return;
@@ -479,8 +479,8 @@ class JDatabase extends JObject
 	/**
 	 * Load a associactive list of database rows
 	 *
-     * @abstract
-     * @access public
+	 * @abstract
+	 * @access public
 	 * @param string The field name of a primary key
 	 * @return array If key is empty as sequential list of returned records.
 	 */
@@ -492,8 +492,8 @@ class JDatabase extends JObject
 	 * This global function loads the first row of a query into an object
 	 *
 	 *
-     * @abstract
-     * @access public
+	 * @abstract
+	 * @access public
 	 * @param object
 	 */
 	function loadObject( ) {
@@ -502,13 +502,13 @@ class JDatabase extends JObject
 
 	/**
 	* Load a list of database objects
-    *
-    * @abstract
-    * @access public
+	*
+	* @abstract
+	* @access public
 	* @param string The field name of a primary key
 	* @return array If <var>key</var> is empty as sequential list of returned records.
 
-    * If <var>key</var> is not empty then the returned array is indexed by the value
+	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
 	*/
 	function loadObjectList( $key='' ) {
@@ -520,7 +520,7 @@ class JDatabase extends JObject
 	 *
 	 * @abstract
 	 * @access public
-     * @return The first row of the query.
+	 * @return The first row of the query.
 	 */
 	function loadRow() {
 		return;
@@ -532,9 +532,9 @@ class JDatabase extends JObject
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
 	*
-    * @abstract
-    * @access public
-    * @param string The field name of a primary key
+	* @abstract
+	* @access public
+	* @param string The field name of a primary key
 	* @return array
 	*/
 	function loadRowList( $key='' ) {
@@ -546,7 +546,7 @@ class JDatabase extends JObject
 	 *
 	 * @abstract
 	 * @access public
-     * @param string The table name
+	 * @param string The table name
 	 * @param object
 	 * @param string
 	 * @param boolean
@@ -558,8 +558,8 @@ class JDatabase extends JObject
 	/**
 	 * Update ab object in the database
 	 *
-     * @abstract
-     * @access public
+	 * @abstract
+	 * @access public
 	 * @param string
 	 * @param object
 	 * @param string
@@ -588,11 +588,11 @@ class JDatabase extends JObject
 	/**
 	 * Get the ID generated from the previous INSERT operation
 	 *
-     * @abstract
-     * @access public
-     * @return mixed
+	 * @abstract
+	 * @access public
+	 * @return mixed
 	 */
-    function insertid() {
+	function insertid() {
 		return;
 	}
 
@@ -601,16 +601,16 @@ class JDatabase extends JObject
 	 *
 	 * @abstract
 	 * @access public
-     * @return string Collation in use
+	 * @return string Collation in use
 	 */
 	function getCollation() {
 		return;
 	}
 
-    /**
-     * Get the version of the database connector
-     *
-     * @abstract
+	/**
+	 * Get the version of the database connector
+	 *
+	 * @abstract
 	 */
 	function getVersion() {
 		return 'Not available for this connector';
@@ -621,7 +621,7 @@ class JDatabase extends JObject
 	 *
 	 * @abstract
 	 * @access public
-     * @return array A list of all the tables in the database
+	 * @return array A list of all the tables in the database
 	 */
 	function getTableList() {
 		return;
@@ -632,7 +632,7 @@ class JDatabase extends JObject
 	 *
 	 * @abstract
 	 * @access public
-     * @param array A list of table names
+	 * @param array A list of table names
 	 * @return array A list the create SQL for the tables
 	 */
 	function getTableCreate( $tables ) {
@@ -644,7 +644,7 @@ class JDatabase extends JObject
 	 *
 	 * @abstract
 	 * @access public
-     * @param array A list of table names
+	 * @param array A list of table names
 	 * @return array An array of fields by table
 	 */
 	function getTableFields( $tables ) {

@@ -29,25 +29,25 @@ class WeblinksViewCategory extends JView
 		global $mainframe, $Itemid, $option;
 
 		// Initialize some variables
-		$document = & JFactory::getDocument();
-		$uri 	  =& JFactory::getURI();
-		$pathway  = & $mainframe->getPathWay();
+		$document	= & JFactory::getDocument();
+		$uri 		=& JFactory::getURI();
+		$pathway	= & $mainframe->getPathWay();
 
 		// Get the paramaters of the active menu item
-		$menus  = &JMenu::getInstance();
-		$menu   = $menus->getItem($Itemid);
+		$menus	= &JMenu::getInstance();
+		$menu	= $menus->getItem($Itemid);
 
 		// Get some data from the model
-		$items      =& $this->get('data' );
-		$total      =& $this->get('total');
-		$pagination =& $this->get('pagination'); 
-		$category   =& $this->get('category' );
-		$state      =& $this->get('state');
-		$params     =  $state->get('parameters.menu');
+		$items		=& $this->get('data' );
+		$total		=& $this->get('total');
+		$pagination	=& $this->get('pagination');
+		$category	=& $this->get('category' );
+		$state		=& $this->get('state');
+		$params		=  $state->get('parameters.menu');
 		$category->total = $total;
 
 		//add alternate feed link
-		$link    = 'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$category->id.'&amp;Itemid='.$Itemid;
+		$link	= 'feed.php?option=com_weblinks&amp;task=category&amp;catid='.$category->id.'&amp;Itemid='.$Itemid;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
@@ -119,31 +119,31 @@ class WeblinksViewCategory extends JView
 
 				case 2:
 					// open in a popup window
-					$item->link  = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $item->title ."</a>\n";
+					$item->link = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $item->title ."</a>\n";
 					break;
 
 				default:
 					// formerly case 2
 					// open in parent window
-					$item->link  = '<a href="'. $link .'" class="'. $menuclass .'">'. $item->title .'</a>';
+					$item->link = '<a href="'. $link .'" class="'. $menuclass .'">'. $item->title .'</a>';
 					break;
 			}
 
 			$item->image = $image;
 
-			$item->odd   = $k;
-			$item->count = $i;
+			$item->odd		= $k;
+			$item->count	= $i;
 			$k = 1 - $k;
 		}
 
 		$this->assign('total', $total);
 
-		$this->assignRef('lists'     , $lists);
-		$this->assignRef('params'    , $params);
-		$this->assignRef('category'  , $category);
-		$this->assignRef('items'     , $items);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->assignRef('lists',		$lists);
+		$this->assignRef('params',		$params);
+		$this->assignRef('category',	$category);
+		$this->assignRef('items',		$items);
+		$this->assignRef('pagination',	$pagination);
+		$this->assignRef('request_url',	$uri->toString());
 
 		parent::display($tpl);
 	}

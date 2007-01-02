@@ -136,12 +136,12 @@ class JProfiler extends JObject
 			}
 		}
 	}
-	
+
 	/**
 	 * Description
 	 *
 	 * @access public
-	 * @return 
+	 * @return
 	 */
 	function getBuffer() {
 		return $this->_buffer;

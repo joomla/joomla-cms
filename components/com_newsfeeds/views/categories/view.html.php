@@ -35,9 +35,9 @@ class NewsfeedsViewCategories extends JView
 		$pathway->setItemName(1, JText::_('News Feeds'));
 
 		// Load the menu object and parameters
-		$menus = &JMenu::getInstance();
-		$menu  = $menus->getItem($Itemid);
-		
+		$menus	= &JMenu::getInstance();
+		$menu	= $menus->getItem($Itemid);
+
 		$categories =& $this->get('data');
 
 		// Parameters
@@ -78,9 +78,9 @@ class NewsfeedsViewCategories extends JView
 			$image = JHTML::Image('/images/stories/'.$params->get('image'), JText::_('NEWS_FEEDS'), $attribs);
 		}
 
-		$this->assignRef('image'     , $image);
-		$this->assignRef('params'    , $params);
-		$this->assignRef('categories', $categories);
+		$this->assignRef('image',		$image);
+		$this->assignRef('params',		$params);
+		$this->assignRef('categories',	$categories);
 
 		parent::display($tpl);
 	}

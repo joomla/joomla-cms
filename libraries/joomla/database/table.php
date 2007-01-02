@@ -93,16 +93,16 @@ class JTable extends JObject
 	function &getInstance( $type, $prefix='JTable' )
 	{
 		$false = false;
-		
+
 		$tableClass = $prefix.ucfirst($type);
-		
+
 		if (!class_exists( $tableClass ))
 		{
 			jimport('joomla.filesystem.path');
 			if($path = JPath::find(JTable::addIncludePath(), strtolower($type).'.php'))
 			{
 				require_once $path;
-				
+
 				if (!class_exists( $tableClass ))
 				{
 					JError::raiseWarning( 0, 'Table class ' . $tableClass . ' not found in file.' );
@@ -115,7 +115,7 @@ class JTable extends JObject
 				return $false;
 			}
 		}
-		
+
 		$db =& JFactory::getDBO();
 		$instance = new $tableClass($db);
 
@@ -663,7 +663,7 @@ class JTable extends JObject
 			$this->$k = $oid;
 		}
 		$time = date( 'Y-m-d H:i:s' );
-		
+
 		if (is_numeric( $who ))
 		{
 			// new way of storing editor, by id
@@ -671,7 +671,7 @@ class JTable extends JObject
 				"\n SET checked_out = ".(int)$who.", checked_out_time = ".$this->_db->Quote($time) .
 				"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
 			$this->_db->setQuery( $query );
-			
+
 			$this->checked_out = $who;
 			$this->checked_out_time = $time;
 		}
@@ -922,15 +922,15 @@ class JTable extends JObject
 	function addIncludePath( $path='' )
 	{
 		static $paths;
-		
+
 		if (!isset($paths)) {
 			$paths = array( JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS );
 		}
-		
+
 		// just force path to array
 		settype($path, 'array');
-	
-		if (!empty( $path ) && !in_array( $path, $paths )) 
+
+		if (!empty( $path ) && !in_array( $path, $paths ))
 		{
 			// loop through the path directories
 			foreach ($path as $dir)
@@ -948,11 +948,11 @@ class JTable extends JObject
 				//array_unshift($paths, $dir);
 				$paths[] = $dir;
 			}
-			
-			
+
+
 		}
 		return $paths;
-		
+
 	}
 }
 ?>

@@ -34,8 +34,8 @@ class WeblinksViewCategory extends JView
 		JRequest::setVar('limit', $limit);
 
 		// Get some data from the model
-		$items    =& $this->get( 'data' );
-		$category =& $this->get( 'category' );
+		$items		=& $this->get( 'data' );
+		$category	=& $this->get( 'category' );
 
 		foreach ( $items as $item )
 		{

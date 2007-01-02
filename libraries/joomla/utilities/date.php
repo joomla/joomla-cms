@@ -45,7 +45,7 @@ class JDate extends JObject
 	 * @var		string
 	 * @access	protected
 	 */
-	var $_date   = 0;
+	var $_date = 0;
 
 	/**
 	 * Timeoffset (in hours)

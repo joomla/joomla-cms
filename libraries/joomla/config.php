@@ -23,11 +23,11 @@ class JFrameworkConfig
 	var $smtphost 	= 'localhost';
 	var $debug 		= 0;
 	var $caching 	= '0';
-	var $cachetime  = '900';
+	var $cachetime	= '900';
 	var $language  	= 'en-GB';
-	var $secret     = null;
-	var $editor     = 'none';
-	var $offset     = 0;
-	var $lifetime   = 15;
+	var $secret		= null;
+	var $editor		= 'none';
+	var $offset		= 0;
+	var $lifetime	= 15;
 }
 ?>

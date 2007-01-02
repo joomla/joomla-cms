@@ -25,12 +25,11 @@ define( 'DS', DIRECTORY_SEPARATOR );
 $parts = explode( DS, JPATH_BASE );
 
 //Defines
-define( 'JPATH_ROOT'         , implode( DS, $parts ) );
+define( 'JPATH_ROOT',			implode( DS, $parts ) );
 
-define( 'JPATH_SITE'         , JPATH_ROOT );
-define( 'JPATH_CONFIGURATION', JPATH_ROOT );
-define( 'JPATH_ADMINISTRATOR', JPATH_ROOT . DS . 'administrator' );
-define( 'JPATH_LIBRARIES'    , JPATH_ROOT . DS . 'libraries' );
-define( 'JPATH_PLUGINS'      , JPATH_ROOT . DS . 'plugins'   );
-define( 'JPATH_INSTALLATION' , JPATH_ROOT . DS . 'installation' );
-?>
+define( 'JPATH_SITE',			JPATH_ROOT );
+define( 'JPATH_CONFIGURATION',	JPATH_ROOT );
+define( 'JPATH_ADMINISTRATOR',	JPATH_ROOT.DS.'administrator' );
+define( 'JPATH_LIBRARIES',		JPATH_ROOT.DS.'libraries' );
+define( 'JPATH_PLUGINS',		JPATH_ROOT.DS.'plugins'   );
+define( 'JPATH_INSTALLATION',	JPATH_ROOT.DS.'installation' );

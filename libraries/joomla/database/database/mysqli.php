@@ -85,8 +85,8 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Database object destructor
 	 *
-     * @return boolean
-     * @since 1.5
+	 * @return boolean
+	 * @since 1.5
 	 */
 	function __destruct()
 	{

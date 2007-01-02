@@ -3,7 +3,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <ul id="archive-list" style="list-style: none;">
 <?php foreach ($this->items as $item) : ?>
 <li class="row<?php echo ($item->odd +1 ); ?>">
-	<?php if ($this->params->get('title'))              : ?>
+	<?php if ($this->params->get('title')) : ?>
 	<h4 class="title">
 		<a href="<?php echo JURI::resolve('index.php?option=com_content&amp;view=article&amp;id='.$item->id.'&amp;Itemid='.$Itemid); ?>">
 			<?php echo $item->title; ?>

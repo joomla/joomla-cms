@@ -59,20 +59,20 @@
 			<div class="padding">
 				<div id="toolbar-box">
    			<div class="t">
-            	<div class="t">
-               		<div class="t"></div>
-            	</div>
-        	</div>
-        	<div class="m">
+				<div class="t">
+			   		<div class="t"></div>
+				</div>
+			</div>
+			<div class="m">
 				<jdoc:include type="modules" name="toolbar" />
 				<jdoc:include type="modules" name="title" />
 				<div class="clr"></div>
 			</div>
-        	<div class="b">
-        		<div class="b">
-                	<div class="b"></div>
-           		</div>
-       		</div>
+			<div class="b">
+				<div class="b">
+					<div class="b"></div>
+		   		</div>
+	   		</div>
   		</div>
    		<div class="clr"></div>
 		<?php if (JRequest::getVar( 'hidemainmenu' ) != 1): ?>
@@ -80,20 +80,20 @@
 		<?php endif; ?>
 		<jdoc:include type="message" />
 		<div id="element-box">
-      		<div class="t">
-         		<div class="t">
-            		<div class="t"></div>
-         		</div>
-       		</div>
-       		<div class="m">
+	  		<div class="t">
+		 		<div class="t">
+					<div class="t"></div>
+		 		</div>
+	   		</div>
+	   		<div class="m">
 				<jdoc:include type="component" />
 				<div class="clr"></div>
 			</div>
-       		<div class="b">
-        		<div class="b">
-            		<div class="b"></div>
-          		</div>
-       		</div>
+	   		<div class="b">
+				<div class="b">
+					<div class="b"></div>
+		  		</div>
+	   		</div>
    		</div>
 		<noscript>
 			<?php echo  JText::_('WARNJAVASCRIPT') ?>

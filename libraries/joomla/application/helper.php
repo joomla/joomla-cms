@@ -36,12 +36,12 @@ class JApplicationHelper
 	 * @return	mixed	Object describing the client or false if not known
 	 * @since	1.5
 	 */
-	function getClientInfo($id = null, $byName = false) 
+	function getClientInfo($id = null, $byName = false)
 	{
 		global $mainframe;
-		
+
 		static $clients;
-		
+
 		if(!isset($id)) {
 			$id = $mainframe->getClientId();
 		}
@@ -209,7 +209,7 @@ class JApplicationHelper
 
 		/*
 		 * Check for a valid XML root tag.
-	     *
+		 *
 		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
 		 */
 		if ($xml->document->name() != 'install' && $xml->document->name() != 'mosinstall') {
@@ -262,7 +262,7 @@ class JApplicationHelper
 
 		/*
 		 * Check for a valid XML root tag.
-	     *
+		 *
 		 * Should be 'langMetaData'.
 		 */
 		if ($xml->document->name() != 'metafile') {

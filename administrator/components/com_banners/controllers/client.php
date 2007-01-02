@@ -38,8 +38,8 @@ class BannerControllerClient extends JController
 	{
 		global $mainframe;
 
-		$db   =& JFactory::getDBO();
-		$user =& JFactory::getUser();
+		$db		=& JFactory::getDBO();
+		$user	=& JFactory::getUser();
 		$context			= 'com_banners.bannerclient.list.';
 		$filter_order		= $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order', 	'a.name' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir',	'' );
@@ -99,8 +99,8 @@ class BannerControllerClient extends JController
 	function edit()
 	{
 		// Initialize variables
-		$db   =& JFactory::getDBO();
-		$user =& JFactory::getUser();
+		$db		=& JFactory::getDBO();
+		$user	=& JFactory::getUser();
 
 		$userId	= $user->get ( 'id' );
 		$cid 	= JRequest::getVar( 'cid', array(0), 'method', 'array' );

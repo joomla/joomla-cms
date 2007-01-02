@@ -61,7 +61,7 @@ JCommonHTML::loadOverlib();
 	</thead>
 	<?php
 	$k = 0;
-	for ($i=0, $n=count( $this->items ); $i < $n; $i++) 
+	for ($i=0, $n=count( $this->items ); $i < $n; $i++)
 	{
 		$row = &$this->items[$i];
 

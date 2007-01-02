@@ -28,10 +28,10 @@ class ConfigControllerComponent extends JController
 	{
 		$default['default_task'] = 'edit';
 		parent::__construct( $default );
-		
+
 		$this->registerTask( 'apply', 'save' );
 	}
-	
+
 	/**
 	 * Show the configuration edit form
 	 * @param string The URL option
@@ -40,22 +40,22 @@ class ConfigControllerComponent extends JController
 	{
 		JRequest::setVar('tmpl', 'component'); //force the component template
 		$component = JRequest::getVar( 'component' );
-		
+
 		if (empty( $component ))
 		{
 			JError::raiseWarning( 500, 'Not a valid component' );
 			return false;
 		}
-		
+
 		$model = $this->getModel('Component' );
 		$table = JTable::getInstance('component');
-		
+
 		if (!$table->loadByOption( $component ))
 		{
 			JError::raiseWarning( 500, 'Not a valid component' );
 			return false;
 		}
-		
+
 		$view = new ConfigViewComponent( );
 		$view->assignRef('component', $table);
 		$view->setModel( $model, true );
@@ -68,7 +68,7 @@ class ConfigControllerComponent extends JController
 	function save()
 	{
 		$component = JRequest::getVar( 'component' );
-		
+
 		$table = JTable::getInstance('component');
 		if (!$table->loadByOption( $component ))
 		{
@@ -91,7 +91,7 @@ class ConfigControllerComponent extends JController
 			JError::raiseWarning( 500, $table->getError() );
 			return false;
 		}
-			
+
 		//$this->setRedirect( 'index.php?option=com_config', $msg );
 		$this->edit();
 	}

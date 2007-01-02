@@ -36,15 +36,15 @@ function ContentBuildURL(&$ARRAY, &$params)
 			$parts[] = $ARRAY['id'];
 		}
 	};
-	
+
 	if(isset($ARRAY['year'])) {
 		$parts[] = $ARRAY['year'];
 	};
-	
+
 	if(isset($ARRAY['month'])) {
 		$parts[] = $ARRAY['month'];
 	};
-	
+
 	if (isset( $ARRAY['limit'] ))
 	{
 		// Do all pages if limit = 0
@@ -57,10 +57,10 @@ function ContentBuildURL(&$ARRAY, &$params)
 			$parts[]	= 'page'.$page.':'.$limit;
 		}
 	}
-	
+
 	//unset the whole array
 	$ARRAY = array();
-	
+
 	return $parts;
 }
 
@@ -69,9 +69,9 @@ function ContentParseURL($ARRAY, &$params)
 	// view is always the first element of the array
 	$view = array_shift($ARRAY);
 	JRequest::setVar('view', $view, 'get');
-	
+
 	$next = array_shift($ARRAY);
-				
+
 	switch($view)
 	{
 		case 'article'  :
@@ -87,7 +87,7 @@ function ContentParseURL($ARRAY, &$params)
 				JRequest::setVar('id', (int)array_shift($ARRAY), 'get');
 			}
 		} break;
-			
+
 		case 'archive'   :
 		{
 			if(is_numeric((int)$next) && ((int)$next != 0)) {
@@ -99,10 +99,10 @@ function ContentParseURL($ARRAY, &$params)
 				JRequest::setVar('layout', $next, 'get');
 				JRequest::setVar('year', array_shift($ARRAY), 'get');
 				JRequest::setVar('month', array_shift($ARRAY), 'get');
-			}	
+			}
 		} break;
 	}
-			
+
  	// Handle Pagination
 	$last = array_shift($ARRAY);
 	if ($last == 'all')

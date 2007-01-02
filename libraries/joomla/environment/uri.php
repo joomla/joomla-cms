@@ -39,14 +39,14 @@ class JURI extends JObject
 	 * @var string
 	 */
 	var $_scheme = null;
-	
+
 	/**
 	 * Host
 	 *
 	 * @var string
 	 */
 	var $_host = null;
-	
+
 	/**
 	 * Port
 	 *
@@ -74,14 +74,14 @@ class JURI extends JObject
 	 * @var string
 	 */
 	var $_path = null;
-	
+
 	/**
 	 * Query
 	 *
 	 * @var string
 	 */
 	var $_query = null;
-	
+
 	/**
 	 * Anchor
 	 *
@@ -192,9 +192,9 @@ class JURI extends JObject
 
 		// Get the base request URL if not set
 		if (!isset($base)) {
-			$uri =& JURI::getInstance();
-			$base  = $uri->getScheme().'://';
-			$base .= $uri->getHost();
+			$uri	=& JURI::getInstance();
+			$base	= $uri->getScheme().'://';
+			$base	.= $uri->getHost();
 			if ($port = $uri->getPort()) {
 				$base .= ":$port";
 			}
@@ -205,7 +205,7 @@ class JURI extends JObject
 			} else {
 				//Others
 				$base .=  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\').'/';
-			}			
+			}
 		}
 		return $base;
 	}
@@ -314,7 +314,7 @@ class JURI extends JObject
 		$this->_path = isset ($_parts['path']) ? $_parts['path'] : null;
 		$this->_query = isset ($_parts['query'])? $_parts['query'] : null;
 		$this->_fragment = isset ($_parts['fragment']) ? $_parts['fragment'] : null;
-		
+
 		//parse the query
 		if(isset ($_parts['query'])) parse_str($_parts['query'], $this->_vars);
 
@@ -332,14 +332,14 @@ class JURI extends JObject
 	function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
 	{
 		$uri = '';
-		$uri .= in_array('scheme', $parts)   ? (!empty($this->_scheme) ? $this->_scheme.'://' : '') : '';
-		$uri .= in_array('user', $parts)     ? $this->_user : '';
-		$uri .= in_array('pass', $parts)     ? (!empty ($this->_pass) ? ':' : '') .$this->_pass. (!empty ($this->_user) ? '@' : '') : '';
-		$uri .= in_array('host', $parts)     ? $this->_host : '';
-		$uri .= in_array('port', $parts)     ? (!empty ($this->_port) ? ':' : '').$this->_port : '';
-		$uri .= in_array('path', $parts)     ? $this->_path : '';
-		$uri .= in_array('query', $parts)    ? (!empty ($this->_query) ? '?'.$this->_query : '') : '';
-		$uri .= in_array('fragment', $parts) ? (!empty ($this->_fragment) ? '#'.$this->_fragment : '') : '';
+		$uri .= in_array('scheme', $parts)  ? (!empty($this->_scheme) ? $this->_scheme.'://' : '') : '';
+		$uri .= in_array('user', $parts)	? $this->_user : '';
+		$uri .= in_array('pass', $parts)	? (!empty ($this->_pass) ? ':' : '') .$this->_pass. (!empty ($this->_user) ? '@' : '') : '';
+		$uri .= in_array('host', $parts)	? $this->_host : '';
+		$uri .= in_array('port', $parts)	? (!empty ($this->_port) ? ':' : '').$this->_port : '';
+		$uri .= in_array('path', $parts)	? $this->_path : '';
+		$uri .= in_array('query', $parts)	? (!empty ($this->_query) ? '?'.$this->_query : '') : '';
+		$uri .= in_array('fragment', $parts)? (!empty ($this->_fragment) ? '#'.$this->_fragment : '') : '';
 
 		return $uri;
 	}
@@ -369,8 +369,8 @@ class JURI extends JObject
 	 * @return array Query variables
 	 * @since 1.5
 	 */
-	function getVar($name = null, $default=null) 
-	{	
+	function getVar($name = null, $default=null)
+	{
 		if(isset($this->_vars[$name])) {
 			return $this->_vars[$name];
 		}
@@ -399,13 +399,13 @@ class JURI extends JObject
 	 * @param mixed (array|string) $query The query string
 	 * @since 1.5
 	 */
-	function setQuery($query) 
+	function setQuery($query)
 	{
 		if(!is_array($query)) {
 			$this->_query = $query;
 			parse_str($query, $this->_vars);
 		}
-		
+
 		if(is_array($query)) {
 			$this->_query = JURI::_buildQuery($query);
 			$this->_vars = $query;
@@ -419,7 +419,7 @@ class JURI extends JObject
 	 * @return string Query string
 	 * @since 1.5
 	 */
-	function getQuery($toArray = false) 
+	function getQuery($toArray = false)
 	{
 		if($toArray) {
 			return $this->_vars;
@@ -603,7 +603,7 @@ class JURI extends JObject
 	 * Resolves //, ../ and ./ from a path and returns
 	 * the result. Eg:
 	 *
-	 * /foo/bar/../boo.php    => /foo/boo.php
+	 * /foo/bar/../boo.php	=> /foo/boo.php
 	 * /foo/bar/../../boo.php => /boo.php
 	 * /foo/bar/.././/boo.php => /foo/boo.php
 	 *
@@ -642,7 +642,7 @@ class JURI extends JObject
 
 		return implode('/', $path);
 	}
-	
+
 	/**
 	 * Build a query from a array (reverse of the PHP parse_str())
 	 *
@@ -651,23 +651,23 @@ class JURI extends JObject
 	 * @since 1.5
 	 * @see parse_str()
 	 */
-	function _buildQuery ($params, $akey = null) 
+	function _buildQuery ($params, $akey = null)
 	{
 		if ( !is_array($params) || count($params) == 0 ) {
 			return false;
 		}
-		
+
 		static $out = array();
 
 		//reset in case we are looping
 		if( !isset($akey) && !count($out) )  {
 			unset($out);
 			$out = array();
-		} 
-  
-		foreach ( $params as $key => $val ) 
+		}
+
+		foreach ( $params as $key => $val )
 		{
-			if ( is_array($val) ) {   
+			if ( is_array($val) ) {
 				JURI::_buildQuery($val,$key);
 				continue;
 			}
@@ -675,8 +675,8 @@ class JURI extends JObject
 			$thekey = ( !$akey ) ? $key : $akey.'[]';
 			$out[] = $thekey."=".$val;
 		}
-  
-		return implode("&",$out);   
+
+		return implode("&",$out);
 	}
 }
 ?>

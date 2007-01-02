@@ -17,7 +17,7 @@
  */
 $GLOBALS['_JRESPONSE'] = new stdClass();
 $GLOBALS['_JRESPONSE']->headers = array();
-$GLOBALS['_JRESPONSE']->body    = array();
+$GLOBALS['_JRESPONSE']->body	= array();
 
  /**
  * JResponse Class
@@ -34,141 +34,141 @@ $GLOBALS['_JRESPONSE']->body    = array();
 
 class JResponse
 {
-    /**
-     * Set a header
-     *
-     * If $replace is true, replaces any headers already defined with that
-     * $name.
-     *
-     * @access public
-     * @param string 	$name
-     * @param string 	$value
-     * @param boolean 	$replace
-     */
-    function setHeader($name, $value, $replace = false)
-    {
-        $name  = (string) $name;
-        $value = (string) $value;
+	/**
+	 * Set a header
+	 *
+	 * If $replace is true, replaces any headers already defined with that
+	 * $name.
+	 *
+	 * @access public
+	 * @param string 	$name
+	 * @param string 	$value
+	 * @param boolean 	$replace
+	 */
+	function setHeader($name, $value, $replace = false)
+	{
+		$name	= (string) $name;
+		$value	= (string) $value;
 
-        if ($replace)
+		if ($replace)
 		{
-            foreach ($GLOBALS['_JRESPONSE']->headers as $key => $header) {
-                if ($name == $header['name']) {
-                    unset($GLOBALS['_JRESPONSE']->headers[$key]);
-                }
-            }
-        }
+			foreach ($GLOBALS['_JRESPONSE']->headers as $key => $header) {
+				if ($name == $header['name']) {
+					unset($GLOBALS['_JRESPONSE']->headers[$key]);
+				}
+			}
+		}
 
-        $GLOBALS['_JRESPONSE']->headers[] = array(
-            'name'  => $name,
-            'value' => $value
-        );
-    }
+		$GLOBALS['_JRESPONSE']->headers[] = array(
+			'name'	=> $name,
+			'value'	=> $value
+		);
+	}
 
-    /**
-     * Return array of headers;
-     *
-     * @access public
-     * @return array
-     */
-    function getHeaders() {
-        return  $GLOBALS['_JRESPONSE']->headers;
-    }
+	/**
+	 * Return array of headers;
+	 *
+	 * @access public
+	 * @return array
+	 */
+	function getHeaders() {
+		return  $GLOBALS['_JRESPONSE']->headers;
+	}
 
-    /**
-     * Clear headers
-     *
-     * @access public
-     */
-    function clearHeaders() {
-        $GLOBALS['_JRESPONSE']->headers = array();
-    }
+	/**
+	 * Clear headers
+	 *
+	 * @access public
+	 */
+	function clearHeaders() {
+		$GLOBALS['_JRESPONSE']->headers = array();
+	}
 
-    /**
-     * Send all headers
-     *
-     * @access public
-     * @return void
-     */
-    function sendHeaders()
-    {
-        if (!headers_sent())
+	/**
+	 * Send all headers
+	 *
+	 * @access public
+	 * @return void
+	 */
+	function sendHeaders()
+	{
+		if (!headers_sent())
 		{
 			foreach ($GLOBALS['_JRESPONSE']->headers as $header)
 			{
 				if ('status' == strtolower($header['name']))
 				{
-                    // 'status' headers indicate an HTTP status, and need to be handled slightly differently
-                    header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
-                } else {
-                    header($header['name'] . ': ' . $header['value']);
-                }
-            }
-        }
-    }
+					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
+					header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
+				} else {
+					header($header['name'] . ': ' . $header['value']);
+				}
+			}
+		}
+	}
 
-    /**
-     * Set body content
-     *
-     * If body content already defined, this will replace it.
-     *
-     * @access public
-     * @param string $content
-     */
-    function setBody($content) {
-        $GLOBALS['_JRESPONSE']->body = array((string) $content);
-    }
+	/**
+	 * Set body content
+	 *
+	 * If body content already defined, this will replace it.
+	 *
+	 * @access public
+	 * @param string $content
+	 */
+	function setBody($content) {
+		$GLOBALS['_JRESPONSE']->body = array((string) $content);
+	}
 
 	 /**
-     * Prepend content to the body content
-     *
-     * @access public
-     * @param string $content
-     */
-    function prependBody($content) {
-        array_unshift($GLOBALS['_JRESPONSE']->body, (string) $content);
-    }
+	 * Prepend content to the body content
+	 *
+	 * @access public
+	 * @param string $content
+	 */
+	function prependBody($content) {
+		array_unshift($GLOBALS['_JRESPONSE']->body, (string) $content);
+	}
 
-    /**
-     * Append content to the body content
-     *
-     * @access public
-     * @param string $content
-     */
-    function appendBody($content) {
+	/**
+	 * Append content to the body content
+	 *
+	 * @access public
+	 * @param string $content
+	 */
+	function appendBody($content) {
 		array_push($GLOBALS['_JRESPONSE']->body, (string) $content);
-    }
+	}
 
-    /**
-     * Return the body content
-     *
-     * @access public
-     * @param boolean $toArray Whether or not to return the body content as an
-     * array of strings or as a single string; defaults to false
-     * @return string|array
-     */
-    function getBody($toArray = false)
-    {
-        if ($toArray) {
-            return $GLOBALS['_JRESPONSE']->body;
-        }
+	/**
+	 * Return the body content
+	 *
+	 * @access public
+	 * @param boolean $toArray Whether or not to return the body content as an
+	 * array of strings or as a single string; defaults to false
+	 * @return string|array
+	 */
+	function getBody($toArray = false)
+	{
+		if ($toArray) {
+			return $GLOBALS['_JRESPONSE']->body;
+		}
 
-        ob_start();
-        foreach ($GLOBALS['_JRESPONSE']->body as $content) {
-            echo $content;
-        }
-        return ob_get_clean();
-    }
+		ob_start();
+		foreach ($GLOBALS['_JRESPONSE']->body as $content) {
+			echo $content;
+		}
+		return ob_get_clean();
+	}
 
-    /**
-     * Sends all headers prior to returning the string
-     *
-     * @access public
-     * @param boolean 	$compress	If true, compress the data
-     * @return string
-     */
-    function toString($compress = false)
-    {
+	/**
+	 * Sends all headers prior to returning the string
+	 *
+	 * @access public
+	 * @param boolean 	$compress	If true, compress the data
+	 * @return string
+	 */
+	function toString($compress = false)
+	{
 		$data = JResponse::getBody();
 		if($compress) {
 			$data = JResponse::_compress($data);
@@ -176,8 +176,8 @@ class JResponse
 
 		JResponse::setHeader( 'Content-Length', strlen($data) );
 		JResponse::sendHeaders();
-        return $data;
-    }
+		return $data;
+	}
 
 	/**
 	* Compress the data
@@ -210,14 +210,14 @@ class JResponse
 		$level = 4; //ideal level
 
 		/*
-		$size = strlen($data);
-		$crc  = crc32($data);
+		$size		= strlen($data);
+		$crc		= crc32($data);
 
-		$gzdata = "\x1f\x8b\x08\x00\x00\x00\x00\x00";
-		$gzdata .= gzcompress($data, $level);
+		$gzdata		= "\x1f\x8b\x08\x00\x00\x00\x00\x00";
+		$gzdata		.= gzcompress($data, $level);
 
-		$gzdata  = substr($gzdata, 0, strlen($gzdata) - 4);
-		$gzdata .= pack("V",$crc) . pack("V", $size);
+		$gzdata 	= substr($gzdata, 0, strlen($gzdata) - 4);
+		$gzdata 	.= pack("V",$crc) . pack("V", $size);
 		*/
 
 		$gzdata = gzencode($data, $level);

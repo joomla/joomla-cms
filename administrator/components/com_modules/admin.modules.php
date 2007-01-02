@@ -349,7 +349,7 @@ class ModulesController extends JController
 			}
 		}
 
-    	$this->setMessage( JText::_( 'Item saved' ) );
+		$this->setMessage( JText::_( 'Item saved' ) );
 		switch ($this->getTask())
 		{
 			case 'apply':
@@ -491,11 +491,11 @@ class ModulesController extends JController
 
 		$row->description = '';
 
-	    $lang =& JFactory::getLanguage();
+		$lang =& JFactory::getLanguage();
 		if ( $client->id != '1' ) {
-	        $lang->load( trim($row->module), JPATH_SITE );
+			$lang->load( trim($row->module), JPATH_SITE );
 		} else {
-	        $lang->load( trim($row->module) );
+			$lang->load( trim($row->module) );
 		}
 
 		// xml file for module

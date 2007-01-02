@@ -38,11 +38,11 @@ function BannersBuildURL(&$ARRAY, &$params)
 /**
  * @param	array	A named array
  * @param	object
- * 
+ *
  * Formats:
- * 
+ *
  * index.php?/banners/task/bid/Itemid
- * 
+ *
  * index.php?/banners/bid/Itemid
  */
 function BannersParseURL(&$ARRAY, &$params)

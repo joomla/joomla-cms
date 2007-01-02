@@ -43,8 +43,8 @@
  * <?xml version="1.0" encoding="utf-8" standalon="yes"?>
  * <document>
  *   <node>
- *     <child gender="m">Tom Foo</child>
- *     <child gender="f">Tamara Bar</child>
+ *	 <child gender="m">Tom Foo</child>
+ *	 <child gender="f">Tamara Bar</child>
  *   <node>
  * </document>
  *
@@ -80,48 +80,48 @@
  */
 class JSimpleXML extends JObject
 {
-    /**
-     * The XML parser
-     *
-     * @var resource
-     */
-    var $_parser = null;
+	/**
+	 * The XML parser
+	 *
+	 * @var resource
+	 */
+	var $_parser = null;
 
-    /**
-    * The XML document
-    *
-    * @var string
-    */
-    var $_xml = '';
+	/**
+	* The XML document
+	*
+	* @var string
+	*/
+	var $_xml = '';
 
-    /**
-    * Document element
-    *
-    * @var object
-    */
-    var $document = null;
+	/**
+	* Document element
+	*
+	* @var object
+	*/
+	var $document = null;
 
-    /**
-    * Current object depth
-    *
-    * @var array
-    */
-    var $_stack = array();
+	/**
+	* Current object depth
+	*
+	* @var array
+	*/
+	var $_stack = array();
 
 
-    /**
-     * Constructor.
-     *
-     * @access protected
-     */
-    function __construct($options = null)
+	/**
+	 * Constructor.
+	 *
+	 * @access protected
+	 */
+	function __construct($options = null)
 	{
-       	if(! function_exists('xml_parser_create')) {
+	   	if(! function_exists('xml_parser_create')) {
 			return false; //TODO throw warning
-       	}
+	   	}
 
-       	//Create the parser resource and make sure both versions of PHP autodetect the format.
-        $this->_parser = xml_parser_create('');
+	   	//Create the parser resource and make sure both versions of PHP autodetect the format.
+		$this->_parser = xml_parser_create('');
 
 		// check parser resource
 		xml_set_object($this->_parser, $this);
@@ -134,38 +134,38 @@ class JSimpleXML extends JObject
 		}
 
 		//Set the handlers
-        xml_set_element_handler($this->_parser, '_startElement', '_endElement');
-        xml_set_character_data_handler($this->_parser, '_characterData');
+		xml_set_element_handler($this->_parser, '_startElement', '_endElement');
+		xml_set_character_data_handler($this->_parser, '_characterData');
 	}
 
 	 /**
-     * Interprets a string of XML into an object
-     *
-     * This function will take the well-formed xml string data and return an object of class
-     * JSimpleXMLElement with properties containing the data held within the xml document.
-     * If any errors occur, it returns FALSE.
-     *
-     * @param string  Well-formed xml string data
-     * @param string  currently ignored
-     * @return object JSimpleXMLElement
-     */
+	 * Interprets a string of XML into an object
+	 *
+	 * This function will take the well-formed xml string data and return an object of class
+	 * JSimpleXMLElement with properties containing the data held within the xml document.
+	 * If any errors occur, it returns FALSE.
+	 *
+	 * @param string  Well-formed xml string data
+	 * @param string  currently ignored
+	 * @return object JSimpleXMLElement
+	 */
 	function loadString($string, $classname = null) {
 		$this->_parse($string);
 		return true;
-    }
+	}
 
 	 /**
-     * Interprets an XML file into an object
-     *
-     * This function will convert the well-formed XML document in the file specified by filename
-     * to an object  of class JSimpleXMLElement. If any errors occur during file access or
-     * interpretation, the function returns FALSE.
-     *
-     * @param string  Path to xml file containing a well-formed XML document
-     * @param string  currently ignored
-     * @return boolean True if successful, false if file empty
-     */
-    function loadFile($path, $classname = null)
+	 * Interprets an XML file into an object
+	 *
+	 * This function will convert the well-formed XML document in the file specified by filename
+	 * to an object  of class JSimpleXMLElement. If any errors occur during file access or
+	 * interpretation, the function returns FALSE.
+	 *
+	 * @param string  Path to xml file containing a well-formed XML document
+	 * @param string  currently ignored
+	 * @return boolean True if successful, false if file empty
+	 */
+	function loadFile($path, $classname = null)
 	{
 		//Get the XML document loaded into a variable
 		$xml = trim( file_get_contents($path) );
@@ -178,157 +178,157 @@ class JSimpleXML extends JObject
 			$this->_parse($xml);
 			return true;
 		}
-    }
-
-    /**
-     * Get a JSimpleXMLElement object from a DOM node.
-     *
-     * This function takes a node of a DOM  document and makes it into a JSimpleXML node.
-     * This new object can then be used as a native JSimpleXML element. If any errors occur,
-     * it returns FALSE.
-     *
-     * @param string	DOM  document
-     * @param string   	currently ignored
-     * @return object 	JSimpleXMLElement
-     */
-    function importDom($node, $classname = null) {
-		return false;
-    }
+	}
 
 	/**
-     * Get the parser
-     *
-     * @access public
-     * @return resource XML parser resource handle
-     */
-    function getParser() {
+	 * Get a JSimpleXMLElement object from a DOM node.
+	 *
+	 * This function takes a node of a DOM  document and makes it into a JSimpleXML node.
+	 * This new object can then be used as a native JSimpleXML element. If any errors occur,
+	 * it returns FALSE.
+	 *
+	 * @param string	DOM  document
+	 * @param string   	currently ignored
+	 * @return object 	JSimpleXMLElement
+	 */
+	function importDom($node, $classname = null) {
+		return false;
+	}
+
+	/**
+	 * Get the parser
+	 *
+	 * @access public
+	 * @return resource XML parser resource handle
+	 */
+	function getParser() {
 		return $this->_parser;
-    }
+	}
 
-    /**
-     * Set the parser
-     *
-     * @access public
-     * @param resource	XML parser resource handle
-     */
-    function setParser($parser) {
+	/**
+	 * Set the parser
+	 *
+	 * @access public
+	 * @param resource	XML parser resource handle
+	 */
+	function setParser($parser) {
 		$this->_parser = $parser;
-    }
+	}
 
-    /**
-     * Start parsing an XML document
-     *
-     * Parses an XML document. The handlers for the configured events are called as many times as necessary.
-     *
-     * @param $xml 	string 	data to parse
-     */
-    function _parse($data = '')
-    {
-        //Error handling
-        if (!xml_parse($this->_parser, $data)) {
-            $this->_handleError(
+	/**
+	 * Start parsing an XML document
+	 *
+	 * Parses an XML document. The handlers for the configured events are called as many times as necessary.
+	 *
+	 * @param $xml 	string 	data to parse
+	 */
+	function _parse($data = '')
+	{
+		//Error handling
+		if (!xml_parse($this->_parser, $data)) {
+			$this->_handleError(
 				xml_get_error_code($this->_parser),
 				xml_get_current_line_number($this->_parser),
 				xml_get_current_column_number($this->_parser)
 			);
-        }
+		}
 
 		//Free the parser
-        xml_parser_free($this->_parser);
-    }
+		xml_parser_free($this->_parser);
+	}
 
-    /**
-     * Handles an XML parsing error
-     *
-     * @access protected
-     * @param int $code XML Error Code
-     * @param int $line Line on which the error happened
-     * @param int $col Column on which the error happened
-     */
-    function _handleError($code, $line, $col)
-    {
-        trigger_error('XML Parsing Error at '.$line.':'.$col.'. Error '.$code.': '.xml_error_string($code));
-    }
+	/**
+	 * Handles an XML parsing error
+	 *
+	 * @access protected
+	 * @param int $code XML Error Code
+	 * @param int $line Line on which the error happened
+	 * @param int $col Column on which the error happened
+	 */
+	function _handleError($code, $line, $col)
+	{
+		trigger_error('XML Parsing Error at '.$line.':'.$col.'. Error '.$code.': '.xml_error_string($code));
+	}
 
-    /**
-     * Gets the reference to the current direct parent
-     *
-     * @return object
-     */
-    function _getStackLocation()
-    {
-        $return = '';
-        foreach($this->_stack as $stack) {
-            $return .= $stack.'->';
-        }
+	/**
+	 * Gets the reference to the current direct parent
+	 *
+	 * @return object
+	 */
+	function _getStackLocation()
+	{
+		$return = '';
+		foreach($this->_stack as $stack) {
+			$return .= $stack.'->';
+		}
 
-        return rtrim($return, '->');
-    }
+		return rtrim($return, '->');
+	}
 
-    /**
-     * Handler function for the start of a tag
-     *
-     * @access protected
-     * @param resource $parser
-     * @param string $name
-     * @param array $attrs
-     */
-    function _startElement($parser, $name, $attrs = array())
-    {
-        //Make the name of the tag lower case
-        $name = strtolower($name);
+	/**
+	 * Handler function for the start of a tag
+	 *
+	 * @access protected
+	 * @param resource $parser
+	 * @param string $name
+	 * @param array $attrs
+	 */
+	function _startElement($parser, $name, $attrs = array())
+	{
+		//Make the name of the tag lower case
+		$name = strtolower($name);
 
-        //Check to see if tag is root-level
-        if (count($this->_stack) == 0)
-        {
-            //If so, set the document as the current tag
-            $this->document = new JSimpleXMLElement($name, $attrs);
+		//Check to see if tag is root-level
+		if (count($this->_stack) == 0)
+		{
+			//If so, set the document as the current tag
+			$this->document = new JSimpleXMLElement($name, $attrs);
 
-            //And start out the stack with the document tag
-            $this->_stack = array('document');
-        }
-        //If it isn't root level, use the stack to find the parent
-        else
-        {
+			//And start out the stack with the document tag
+			$this->_stack = array('document');
+		}
+		//If it isn't root level, use the stack to find the parent
+		else
+		{
 			 //Get the name which points to the current direct parent, relative to $this
-            $parent = $this->_getStackLocation();
+			$parent = $this->_getStackLocation();
 
-            //Add the child
-            eval('$this->'.$parent.'->addChild($name, $attrs, '.count($this->_stack).');');
+			//Add the child
+			eval('$this->'.$parent.'->addChild($name, $attrs, '.count($this->_stack).');');
 
-            //Update the stack
-            eval('$this->_stack[] = $name.\'[\'.(count($this->'.$parent.'->'.$name.') - 1).\']\';');
-        }
-    }
+			//Update the stack
+			eval('$this->_stack[] = $name.\'[\'.(count($this->'.$parent.'->'.$name.') - 1).\']\';');
+		}
+	}
 
-    /**
-     * Handler function for the end of a tag
-     *
-     * @access protected
-     * @param resource $parser
-     * @param string $name
-     */
-    function _endElement($parser, $name)
-    {
-        //Update stack by removing the end value from it as the parent
-        array_pop($this->_stack);
-    }
+	/**
+	 * Handler function for the end of a tag
+	 *
+	 * @access protected
+	 * @param resource $parser
+	 * @param string $name
+	 */
+	function _endElement($parser, $name)
+	{
+		//Update stack by removing the end value from it as the parent
+		array_pop($this->_stack);
+	}
 
-    /**
-     * Handler function for the character data within a tag
-     *
-     * @access protected
-     * @param resource $parser
-     * @param string $data
-     */
-    function _characterData($parser, $data)
-    {
-        //Get the reference to the current parent object
-        $tag = $this->_getStackLocation();
+	/**
+	 * Handler function for the character data within a tag
+	 *
+	 * @access protected
+	 * @param resource $parser
+	 * @param string $data
+	 */
+	function _characterData($parser, $data)
+	{
+		//Get the reference to the current parent object
+		$tag = $this->_getStackLocation();
 
-        //Assign data to it
-        eval('$this->'.$tag.'->_data .= trim($data);');
-    }
+		//Assign data to it
+		eval('$this->'.$tag.'->_data .= trim($data);');
+	}
 }
 
 
@@ -353,60 +353,60 @@ class JSimpleXML extends JObject
  */
 class JSimpleXMLElement extends JObject
 {
-    /**
-     * Array with the attributes of this XML element
-     *
-     * @var array
-     */
-    var $_attributes = array();
+	/**
+	 * Array with the attributes of this XML element
+	 *
+	 * @var array
+	 */
+	var $_attributes = array();
 
-    /**
-     * The name of the element
-     *
-     * @var string
-     */
-    var $_name = '';
+	/**
+	 * The name of the element
+	 *
+	 * @var string
+	 */
+	var $_name = '';
 
-    /**
-     * The data the element contains
-     *
-     * @var string
-     */
-    var $_data = '';
+	/**
+	 * The data the element contains
+	 *
+	 * @var string
+	 */
+	var $_data = '';
 
-    /**
-     * Array of references to the objects of all direct children of this XML object
-     *
-     * @var array
-     */
-    var $_children = array();
+	/**
+	 * Array of references to the objects of all direct children of this XML object
+	 *
+	 * @var array
+	 */
+	var $_children = array();
 
-    /**
-     * The level of this XML element
-     *
-     * @var int
-     */
-    var $_level = 0;
+	/**
+	 * The level of this XML element
+	 *
+	 * @var int
+	 */
+	var $_level = 0;
 
-    /**
-     * Constructor, sets up all the default values
-     *
-     * @param string $name
-     * @param array $attrs
-     * @param int $parents
-     * @return JSimpleXMLElement
-     */
-    function __construct($name, $attrs = array(), $level = 0)
-    {
-        //Make the keys of the attr array lower case, and store the value
-        $this->_attributes = array_change_key_case($attrs, CASE_LOWER);
+	/**
+	 * Constructor, sets up all the default values
+	 *
+	 * @param string $name
+	 * @param array $attrs
+	 * @param int $parents
+	 * @return JSimpleXMLElement
+	 */
+	function __construct($name, $attrs = array(), $level = 0)
+	{
+		//Make the keys of the attr array lower case, and store the value
+		$this->_attributes = array_change_key_case($attrs, CASE_LOWER);
 
-        //Make the name lower case and store the value
-        $this->_name = strtolower($name);
+		//Make the name lower case and store the value
+		$this->_name = strtolower($name);
 
-        //Set the level
-        $this->_level = $level;
-    }
+		//Set the level
+		$this->_level = $level;
+	}
 
 	/**
 	 * Get the name of the element
@@ -461,47 +461,47 @@ class JSimpleXMLElement extends JObject
 	}
 
 	 /**
-     * AAdds an attribute to the element
-     *
-     * @param string $name
-     * @param array  $attrs
-     */
-    function addAttribute($name, $value)
-    {
+	 * AAdds an attribute to the element
+	 *
+	 * @param string $name
+	 * @param array  $attrs
+	 */
+	function addAttribute($name, $value)
+	{
 		//add the attribute to the element, override if it already exists
-        $this->_attributes[$name] = $value;
-    }
+		$this->_attributes[$name] = $value;
+	}
 
-    /**
-     * Adds a direct child to the element
-     *
-     * @param string $name
-     * @param array  $attrs
-     * @param int 	 $level
-     */
-    function addChild($name, $attrs, $level)
-    {
-        //If there is no array already set for the tag name being added,
-        //create an empty array for it
-        if(!isset($this->$name))
-            $this->$name = array();
+	/**
+	 * Adds a direct child to the element
+	 *
+	 * @param string $name
+	 * @param array  $attrs
+	 * @param int 	 $level
+	 */
+	function addChild($name, $attrs, $level)
+	{
+		//If there is no array already set for the tag name being added,
+		//create an empty array for it
+		if(!isset($this->$name))
+			$this->$name = array();
 
-        //Create the child object itself
-        $child = new JSimpleXMLElement($name, $attrs, $level);
+		//Create the child object itself
+		$child = new JSimpleXMLElement($name, $attrs, $level);
 
-        //Add the reference of it to the end of an array member named for the elements name
-        $this->{$name}[] =& $child;
+		//Add the reference of it to the end of an array member named for the elements name
+		$this->{$name}[] =& $child;
 
-        //Add the reference to the children array member
-        $this->_children[] =& $child;
-    }
+		//Add the reference to the children array member
+		$this->_children[] =& $child;
+	}
 
-    /**
-     * Get an element in the document by / separated path
-     *
-     * @param	string	$path	The / separated path to the element
-     * @return	object	JSimpleXMLElement
-     */
+	/**
+	 * Get an element in the document by / separated path
+	 *
+	 * @param	string	$path	The / separated path to the element
+	 * @return	object	JSimpleXMLElement
+	 */
 	function &getElementByPath($path)
 	{
 		$tmp	=& $this;
@@ -529,51 +529,51 @@ class JSimpleXMLElement extends JObject
 		return $ref;
 	}
 
-    /**
-     * Return a well-formed XML string based on SimpleXML element
-     *
-     * @return string
-     */
-    function asXML()
-    {
-        //Start a new line, indent by the number indicated in $this->level, add a <, and add the name of the tag
-        $out = "\n".str_repeat("\t", $this->_level).'<'.$this->_name;
+	/**
+	 * Return a well-formed XML string based on SimpleXML element
+	 *
+	 * @return string
+	 */
+	function asXML()
+	{
+		//Start a new line, indent by the number indicated in $this->level, add a <, and add the name of the tag
+		$out = "\n".str_repeat("\t", $this->_level).'<'.$this->_name;
 
-        //For each attribute, add attr="value"
-        foreach($this->_attributes as $attr => $value)
-            $out .= ' '.$attr.'="'.$value.'"';
+		//For each attribute, add attr="value"
+		foreach($this->_attributes as $attr => $value)
+			$out .= ' '.$attr.'="'.$value.'"';
 
-        //If there are no children and it contains no data, end it off with a />
-        if(empty($this->_children) && empty($this->_data))
-            $out .= " />";
+		//If there are no children and it contains no data, end it off with a />
+		if(empty($this->_children) && empty($this->_data))
+			$out .= " />";
 
-        //Otherwise...
-        else
-        {
-            //If there are children
-            if(!empty($this->_children))
-            {
-                //Close off the start tag
-                $out .= '>';
+		//Otherwise...
+		else
+		{
+			//If there are children
+			if(!empty($this->_children))
+			{
+				//Close off the start tag
+				$out .= '>';
 
-                //For each child, call the asXML function (this will ensure that all children are added recursively)
-                foreach($this->_children as $child)
-                    $out .= $child->asXML();
+				//For each child, call the asXML function (this will ensure that all children are added recursively)
+				foreach($this->_children as $child)
+					$out .= $child->asXML();
 
-                //Add the newline and indentation to go along with the close tag
-                $out .= "\n".str_repeat("\t", $this->_level);
-            }
+				//Add the newline and indentation to go along with the close tag
+				$out .= "\n".str_repeat("\t", $this->_level);
+			}
 
-            //If there is data, close off the start tag and add the data
-            elseif(!empty($this->_data))
-                $out .= '>'.$this->_data;
+			//If there is data, close off the start tag and add the data
+			elseif(!empty($this->_data))
+				$out .= '>'.$this->_data;
 
-            //Add the end tag
-            $out .= '</'.$this->_name.'>';
-        }
+			//Add the end tag
+			$out .= '</'.$this->_name.'>';
+		}
 
-        //Return the final output
-        return $out;
-    }
+		//Return the final output
+		return $out;
+	}
 }
 ?>

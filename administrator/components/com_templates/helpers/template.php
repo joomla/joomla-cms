@@ -63,7 +63,7 @@ class TemplatesHelper
 			if(!$data = TemplatesHelper::parseXMLTemplateFile($templateBaseDir, $templateDir)){
 				continue;
 			} else {
-				$rows[]  = $data;
+				$rows[] = $data;
 			}
 		}
 

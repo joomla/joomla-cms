@@ -52,7 +52,7 @@ class BannersViewClients
 			<thead>
 			<tr>
 				<th width="20">
-	           		<?php echo JText::_( 'Num' ); ?>
+			   		<?php echo JText::_( 'Num' ); ?>
 				</th>
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />

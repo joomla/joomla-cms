@@ -184,11 +184,11 @@ class JDocument extends JObject
 	var $_type = null;
 
 	/**
-     * Array of buffered output
-     *
-     * @var       mixed (depends on the renderer)
-     * @access    private
-     */
+	 * Array of buffered output
+	 *
+	 * @var	   mixed (depends on the renderer)
+	 * @access	private
+	 */
 	var $_buffer = null;
 
 
@@ -290,10 +290,10 @@ class JDocument extends JObject
 	/**
 	 * Gets a meta tag.
 	 *
-	 * @param string  $name		   Value of name or http-equiv tag
-	 * @param bool    $http_equiv	 META type "http-equiv" defaults to null
-	 * @return string
-	 * @access public
+	 * @param	string	$name		   Value of name or http-equiv tag
+	 * @param	bool	$http_equiv	 META type "http-equiv" defaults to null
+	 * @return	string
+	 * @access	public
 	 */
 	function getMetaData($name, $http_equiv = false)
 	{
@@ -357,9 +357,9 @@ class JDocument extends JObject
 	 */
 	function addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array())
 	{
-		$this->_styleSheets[$url]['mime']	= $type;
-		$this->_styleSheets[$url]['media']   = $media;
-		$this->_styleSheets[$url]['attribs'] = $attribs;
+		$this->_styleSheets[$url]['mime']		= $type;
+		$this->_styleSheets[$url]['media']		= $media;
+		$this->_styleSheets[$url]['attribs']	= $attribs;
 	}
 
 	 /**

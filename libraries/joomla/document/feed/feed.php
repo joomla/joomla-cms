@@ -84,11 +84,11 @@ class JDocumentFeed extends JDocument
 	 var $editor = "";
 
 	/**
-     * Docs feed element
-     *
-     * @var       string
-     * @access    public
-     */
+	 * Docs feed element
+	 *
+	 * @var	   string
+	 * @access	public
+	 */
 	 var $docs = "";
 
 	 /**
@@ -188,14 +188,14 @@ class JDocumentFeed extends JDocument
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
-	 * @param array		$params	    Associative array of attributes
+	 * @param array		$params		Associative array of attributes
 	 */
 	function display( $cache = false, $params = array())
 	{
 		global $mainframe, $option;
 
-		$format     = isset($params['format']) ? $params['format'] : 'RSS';
-		$cache      = 0;
+		$format		= isset($params['format']) ? $params['format'] : 'RSS';
+		$cache		= 0;
 		$cache_time = 3600;
 		$cache_path = JPATH_BASE.DS.'cache';
 
@@ -208,13 +208,13 @@ class JDocumentFeed extends JDocument
 
 		//output
 		// Generate prolog
-		$data  = "<?xml version=\"1.0\" encoding=\"".$this->_charset."\"?>\n";
-		$data .= "<!-- generator=\"".$this->getGenerator()."\" -->\n";
+		$data	= "<?xml version=\"1.0\" encoding=\"".$this->_charset."\"?>\n";
+		$data	.= "<!-- generator=\"".$this->getGenerator()."\" -->\n";
 
 		 // Generate stylesheet links
-        foreach ($this->_styleSheets as $src => $attr ) {
-            $data .= "<?xml-stylesheet href=\"$src\" type=\"".$attr['mime']."\"?>\n";
-        }
+		foreach ($this->_styleSheets as $src => $attr ) {
+			$data .= "<?xml-stylesheet href=\"$src\" type=\"".$attr['mime']."\"?>\n";
+		}
 
 		// Render the feed
 		$data .= $renderer->render();

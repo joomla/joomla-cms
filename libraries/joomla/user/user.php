@@ -89,7 +89,7 @@ class JUser extends JObject
 	 * 		<pre>  $user = JUser::getInstance($id);</pre>
 	 *
 	 * @access 	public
-	 * @param 	int 	$id 	The user to load - Can be an integer or string - If string, it is converted to ID automatically. 
+	 * @param 	int 	$id 	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 * @return 	JUser  			The User object.
 	 * @since 	1.5
 	 */
@@ -403,8 +403,8 @@ class JUser extends JObject
 		 * don't ya think?
 		 */
 		$me = & JFactory::getUser();
-		
-		
+
+
 		/*
 		 * Now that we have gotten all the field handling out of the way, time
 		 * to check and store the object.
@@ -414,7 +414,7 @@ class JUser extends JObject
 			$this->_setError("JUser::save: ".$this->_table->getError());
 			return false;
 		}
-		
+
 		// if user is made a Super Admin group and user is NOT a Super Admin
 		if ( $this->get('gid') == 25 && $me->get('gid') != 25 )
 		{
@@ -600,6 +600,6 @@ class JUserHelper
 		$db->setQuery($query, 0, 1);
 		return $db->loadResult();
 	}
-	
+
 }
 ?>

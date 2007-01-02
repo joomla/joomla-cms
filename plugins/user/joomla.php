@@ -78,9 +78,9 @@ class JUserJoomla extends JPlugin
 		// load plugin parameters
 	 	$plugin =& JPluginHelper::getPlugin('authentication', 'joomla');
 	 	$params = new JParameter( $plugin->params );
-		
+
 		// We need to create the user if they don't exist
-		if(!$id = intval(JUserHelper::getUserId($user['username']))) 
+		if(!$id = intval(JUserHelper::getUserId($user['username'])))
 		{
 			$my = new JUser();
 			$my->set( 'id'			, 0 );
@@ -89,15 +89,15 @@ class JUserJoomla extends JPlugin
 			$my->set( 'email'		, $user['email'] );	// Result should contain an email (check)
 			$my->set( 'gid'			, 18 );			  	//Make configurable
 			$my->set( 'usertype'	, 'Registered' ); 	//Make configurable
-					
+
 			if(!$my->save()) {
 				return false;
 			}
-			
+
 			//get the id of the new user
 			$id = intval($my->get('id'));
 		}
-					
+
 		// Get the JUser object for the user to login
 		$my =& JUser::getInstance( $id );
 

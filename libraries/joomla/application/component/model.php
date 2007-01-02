@@ -59,7 +59,7 @@ class JModel extends JObject
 	 * @access protected
 	 */
 	var $_state;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -67,9 +67,9 @@ class JModel extends JObject
 	 */
 	function __construct($config = array())
 	{
-		$this->_db    = &JFactory::getDBO();
+		$this->_db	= &JFactory::getDBO();
 		$this->_state = new JObject();
-		
+
 		//set the view name
 		if (empty( $this->_name ))
 		{
@@ -114,7 +114,7 @@ class JModel extends JObject
 			if ($path = JPath::find(JModel::addIncludePath(), strtolower($type).'.php'))
 			{
 				require_once $path;
-				
+
 				if (!class_exists( $modelClass ))
 				{
 					JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
@@ -127,7 +127,7 @@ class JModel extends JObject
 				return $result;
 			}
 		}
-		
+
 		$result = new $modelClass();
 		return $result;
 	}
@@ -194,7 +194,7 @@ class JModel extends JObject
 		$this->_error = $value;
 		return $this->_error;
 	}
-	
+
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
@@ -209,7 +209,7 @@ class JModel extends JObject
 		if (empty($name)) {
 			$name = $this->_name;
 		}
-		
+
 		if($table = &$this->_createTable( $name, $prefix )) {
 			return $table;
 		} else {
@@ -217,7 +217,7 @@ class JModel extends JObject
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Add a directory where JModel should search for models. You may
 	 * either pass a string or an array of directories.
@@ -239,18 +239,18 @@ class JModel extends JObject
 		}
 		return $paths;
 	}
-	
+
 	/**
-     * Adds to the stack of model table paths in LIFO order.
-     *
-     * @static
-     * @param string|array The directory (-ies) to add.
-     * @return void
-     */
-    function addTablePath($path)
-    {
-        JTable::addIncludePath($path);
-    }
+	 * Adds to the stack of model table paths in LIFO order.
+	 *
+	 * @static
+	 * @param string|array The directory (-ies) to add.
+	 * @return void
+	 */
+	function addTablePath($path)
+	{
+		JTable::addIncludePath($path);
+	}
 
 	/**
 	 * Returns an object list
@@ -287,7 +287,7 @@ class JModel extends JObject
 
 		return $db->getNumRows();
 	}
-	
+
 	/**
 	 * Method to load and return a model object.
 	 *
@@ -301,19 +301,19 @@ class JModel extends JObject
 		$result = null;
 
 		// Clean the model name
-		$tableName   = preg_replace( '#\W#', '', $name );
-		$classPrefix = preg_replace( '#\W#', '', $prefix );
+		$tableName		= preg_replace( '#\W#', '', $name );
+		$classPrefix	= preg_replace( '#\W#', '', $prefix );
 
 		// Build the model class name
 		$tableClass = $classPrefix.$tableName;
-			
+
 		if (!class_exists( $tableClass ))
 		{
 			jimport('joomla.filesystem.path');
 			if($path = JPath::find(JTable::addIncludePath(), $this->_createFileName('table', array('name' => $tableName))))
 			{
 				require_once $path;
-				
+
 				if (!class_exists( $tableClass ))
 				{
 					$result = JError::raiseError( 500, 'Table class ' . $tableClass . ' not found in file.' );
@@ -324,13 +324,13 @@ class JModel extends JObject
 				return $result;
 			}
 		}
-		
+
 		$db =& $this->getDBO();
 		$result = new $tableClass($db);
 
 		return $result;
 	}
-	
+
 	/**
 	 * Create the filename for a resource
 	 *
@@ -343,13 +343,13 @@ class JModel extends JObject
 	function _createFileName($type, $parts = array())
 	{
 		$filename = '';
-		
+
 		switch($type)
 		{
 			case 'table' :
 				 $filename = strtolower($parts['name']).'.php';
 				break;
-			 
+
 		}
 		return $filename;
 	}

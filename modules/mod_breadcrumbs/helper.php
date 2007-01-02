@@ -22,7 +22,7 @@ class modBreadCrumbsHelper
 
 		// Initialize variables
 		$showHome 		= true;
-		$showComponent  = true;
+		$showComponent	= true;
 
 		// Show the home link in the breadcrumbs
 		if ($params->get('showHome') == false) {

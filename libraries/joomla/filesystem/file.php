@@ -161,15 +161,15 @@ class JFile
 		foreach ($files as $file) {
 			$file = JPath::clean($file, false);
 
-		    // In case of restricted permissions we zap it one way or the other
-		    // as long as the owner is either the webserver or the ftp
+			// In case of restricted permissions we zap it one way or the other
+			// as long as the owner is either the webserver or the ftp
 			if(@unlink($file)){
-	        	$retval = true;
-	      	} else {
-	        	if($ftpFlag){
-	          		$retval = $ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file), false));
-	        	}
-	      	}
+				$retval = true;
+		  	} else {
+				if($ftpFlag){
+			  		$retval = $ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file), false));
+				}
+		  	}
 		}
 
 		// Close FTP connection if connected
@@ -218,8 +218,8 @@ class JFile
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
 			//Translate path for the FTP account
-			$src  = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $src), false);
-			$dest = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $dest), false);
+			$src	= JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $src), false);
+			$dest	= JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $dest), false);
 
 			// Use FTP rename to simulate move
 			if (!$ftp->rename($src, $dest)) {

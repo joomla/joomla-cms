@@ -41,11 +41,11 @@ class JString
 	 * @see http://www.php.net/strpos
 	 */
 	function strpos($str, $search, $offset = FALSE){
-	    if ( $offset === FALSE ) {
-	        return utf8_strpos($str, $search);
-	    } else {
-	        return utf8_strpos($str, $search, $offset);
-	    }
+		if ( $offset === FALSE ) {
+			return utf8_strpos($str, $search);
+		} else {
+			return utf8_strpos($str, $search, $offset);
+		}
 	}
 
 	/**
@@ -76,11 +76,11 @@ class JString
 	 * @see http://www.php.net/substr
 	 */
 	function substr($str, $offset, $length = FALSE){
-	    if ( $length === FALSE ) {
-	        return utf8_substr($str, $offset);
-	    } else {
-	        return utf8_substr($str, $offset, $length);
-	    }
+		if ( $length === FALSE ) {
+			return utf8_substr($str, $offset);
+		} else {
+			return utf8_substr($str, $offset, $length);
+		}
 	}
 
 	/**
@@ -97,7 +97,7 @@ class JString
 	 * @see http://www.php.net/strtolower
 	 */
 	function strtolower($str){
-	    return utf8_strtolower($str);
+		return utf8_strtolower($str);
 	}
 
 	/**
@@ -114,7 +114,7 @@ class JString
 	 * @see http://www.php.net/strtoupper
 	 */
 	function strtoupper($str){
-	    return utf8_strtoupper($str);
+		return utf8_strtoupper($str);
 	}
 
 	/**
@@ -127,7 +127,7 @@ class JString
 	 * @see http://www.php.net/strlen
 	 */
 	function strlen($str){
-	    return utf8_strlen($str);
+		return utf8_strlen($str);
 	}
 
 	/**
@@ -144,11 +144,11 @@ class JString
 	*/
 	function str_ireplace($search, $replace, $str, $count = NULL){
 		jimport('phputf8.str_ireplace');
-	    if ( $count === FALSE ) {
-	        return utf8_ireplace($search, $replace, $str);
-	    } else {
-	        return utf8_ireplace($search, $replace, $str, $count);
-	    }
+		if ( $count === FALSE ) {
+			return utf8_ireplace($search, $replace, $str);
+		} else {
+			return utf8_ireplace($search, $replace, $str, $count);
+		}
 	}
 
 	/**
@@ -198,13 +198,13 @@ class JString
 	*/
 	function strcspn($str, $mask, $start = NULL, $length = NULL) {
 		jimport('phputf8.strcspn');
-	    if ( $start === FALSE && $length === FALSE ) {
-	    	return utf8_strcspn($str, $mask);
-	    } else if ( $length === FALSE ) {
-	    	return utf8_strcspn($str, $mask, $start);
-	    } else {
-	    	return utf8_strcspn($str, $mask, $start, $length);
-	    }
+		if ( $start === FALSE && $length === FALSE ) {
+			return utf8_strcspn($str, $mask);
+		} else if ( $length === FALSE ) {
+			return utf8_strcspn($str, $mask, $start);
+		} else {
+			return utf8_strcspn($str, $mask, $start, $length);
+		}
 	}
 
 	/**
@@ -254,13 +254,13 @@ class JString
 	*/
 	function strspn($str, $mask, $start = NULL, $length = NULL) {
 		jimport('phputf8.native.utf8_strspn');
-	    if ( $start === FALSE && $length === FALSE ) {
-	    	return utf8_strspn($str, $mask);
-	    } else if ( $length === FALSE ) {
-	    	return utf8_strspn($str, $mask, $start);
-	    } else {
-	    	return utf8_strspn($str, $mask, $start, $length);
-	    }
+		if ( $start === FALSE && $length === FALSE ) {
+			return utf8_strspn($str, $mask);
+		} else if ( $length === FALSE ) {
+			return utf8_strspn($str, $mask, $start);
+		} else {
+			return utf8_strspn($str, $mask, $start, $length);
+		}
 	}
 
 	/**
@@ -278,10 +278,10 @@ class JString
 	function substr_replace($str, $repl, $start, $length = NULL ) {
 		// loaded by library loader
 		if ( $length === FALSE ) {
-	    	return utf8_substr_replace($str, $repl, $start);
-	    } else {
-	    	return utf8_substr_replace($str, $repl, $start, $length);
-	    }
+			return utf8_substr_replace($str, $repl, $start);
+		} else {
+			return utf8_substr_replace($str, $repl, $start, $length);
+		}
 	}
 
 	/**
@@ -301,10 +301,10 @@ class JString
 	function ltrim( $str, $charlist = FALSE ) {
 		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
-	    	return utf8_ltrim( $str );
-	    } else {
-	    	return utf8_ltrim( $str, $charlist );
-	    }
+			return utf8_ltrim( $str );
+		} else {
+			return utf8_ltrim( $str, $charlist );
+		}
 	}
 
 	/**
@@ -324,10 +324,10 @@ class JString
 	function rtrim( $str, $charlist = FALSE ) {
 		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
-	    	return utf8_rltrim( $str );
-	    } else {
-	    	return utf8_rtrim( $str, $charlist );
-	    }
+			return utf8_rltrim( $str );
+		} else {
+			return utf8_rtrim( $str, $charlist );
+		}
 	}
 
 	/**
@@ -347,10 +347,10 @@ class JString
 	function trim( $str, $charlist = FALSE ) {
 		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
-	    	return utf8_trim( $str );
-	    } else {
-	    	return utf8_trim( $str, $charlist );
-	    }
+			return utf8_trim( $str );
+		} else {
+			return utf8_trim( $str, $charlist );
+		}
 	}
 
 	/**

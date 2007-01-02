@@ -27,7 +27,7 @@ switch ( JRequest::getVar( 'task' ) )
 	case 'search' :
 		SearchController::search();
 		break;
-	
+
 	default:
 		SearchController::display();
 		break;
@@ -52,9 +52,9 @@ class SearchController
 		$db 	=& JFactory::getDBO();
 		$pathway =& $mainframe->getPathWay();
 
-		$error = '';
-		$rows  = null;
-		$total = 0;
+		$error	= '';
+		$rows	= null;
+		$total	= 0;
 
 		// Get some request variables
 		$searchword 	= JRequest::getVar( 'searchword' );
@@ -64,16 +64,16 @@ class SearchController
 		$activeareas 	= JRequest::getVar( 'areas' );
 		$limit			= JRequest::getVar( 'limit', $mainframe->getCfg( 'list_limit' ), 'get', 'int' );
 		$limitstart 	= JRequest::getVar( 'limitstart', 0, 'get', 'int' );
-		
+
 		// First thing we want to do is set the page title
 		$mainframe->setPageTitle(JText::_('Search'));
-		
+
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_( 'Search' ) );
 
 		// Get the paramaters of the active menu item
-		$menu    =& JSiteHelper::getActiveMenuItem();
-		$params  =& JSiteHelper::getMenuParams();
+		$menu	=& JSiteHelper::getActiveMenuItem();
+		$params	=& JSiteHelper::getMenuParams();
 		$params->def( 'page_title', 1 );
 		$params->def( 'pageclass_sfx', '' );
 		$params->def( 'header', $menu->name, JText::_( 'Search' ) );
@@ -98,14 +98,14 @@ class SearchController
 		$areas = array();
 		$areas['active'] = $activeareas;
 		$areas['search'] = array();
-		
+
 		JPluginHelper::importPlugin( 'search' );
 		$searchareas = $mainframe->triggerEvent( 'onSearchAreas' );
-		
+
 		foreach ($searchareas as $area) {
 			$areas['search'] = array_merge( $areas['search'], $area );
 		}
-		
+
 		// log the search
 		SearchHelper::logSearch( $searchword );
 
@@ -124,46 +124,46 @@ class SearchController
 		}
 
 		if(!$error) {
-			$rows  = SearchController::getResults($searchword, $phrase, $ordering, $activeareas);
-			$total = count($rows);
-			$rows  = array_splice($rows, $limitstart, $limit);
+			$rows	= SearchController::getResults($searchword, $phrase, $ordering, $activeareas);
+			$total	= count($rows);
+			$rows	= array_splice($rows, $limitstart, $limit);
 		}
 
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'search'.DS.'view.php');
 		$view = new SearchViewSearch();
 
-		$view->assign('limit'       , $limit);
-		$view->assign('limitstart'  , $limitstart);
-		$view->assign('ordering'    , $ordering);
-		$view->assign('searchword'  , $searchword);
-		$view->assign('searchphrase', $searchphrase);
-		$view->assign('searchareas',  $areas);
+		$view->assign('limit',			$limit);
+		$view->assign('limitstart',		$limitstart);
+		$view->assign('ordering',		$ordering);
+		$view->assign('searchword',		$searchword);
+		$view->assign('searchphrase',	$searchphrase);
+		$view->assign('searchareas',	$areas);
 
-		$view->assign('total', $total);
-		$view->assign('error', $error);
+		$view->assign('total',			$total);
+		$view->assign('error',			$error);
 
-		$view->assignRef('results' , $rows);
-		$view->assignRef('lists'   , $lists);
-		$view->assignRef('params'  , $params);
+		$view->assignRef('results',		$rows);
+		$view->assignRef('lists',		$lists);
+		$view->assignRef('params',		$params);
 		//$view->assignRef('request' , $request);		// TODO: remove if unneded
-		//$view->assignRef('data'    , $data);			// TODO: remove if unneded
+		//$view->assignRef('data'	, $data);			// TODO: remove if unneded
 
 		$view->display();
 	}
-	
+
 	function search()
 	{
 		global $mainframe;
 		$post = JRequest::get('post');
-		
+
 		unset($post['task']);
 		unset($post['submit']);
-		
+
 		$uri = new JURI();
 		$uri->setQuery($post);
-	
+
 		$mainframe->redirect(sefRelToAbs('index.php?'.$uri->getQuery()));
-		
+
 	}
 
 	function getResults($searchword, $phrase, $ordering, $areas)

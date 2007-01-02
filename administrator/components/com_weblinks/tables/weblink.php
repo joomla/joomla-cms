@@ -113,7 +113,7 @@ class TableWeblink extends JTable
 	function TableWeblink(& $db) {
 		parent::__construct('#__weblinks', 'id', $db);
 	}
-	
+
 	/**
 	* Overloaded bind function
 	*

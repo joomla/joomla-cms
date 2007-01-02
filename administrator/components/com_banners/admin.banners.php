@@ -48,7 +48,7 @@ switch ($controllerName)
 
 		// Perform the Request task
 		$controller->execute( JRequest::getVar('task') );
-		
+
 		// Redirect if set by the controller
 		$controller->redirect();
 		break;

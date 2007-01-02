@@ -145,9 +145,9 @@ class JInstallerComponent extends JInstaller
 
 		/*
 		 * Let's run the install queries for the component
-		 *    If backward compatibility is required - run queries in xml file
-		 *    If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		 *    file for utf-8 support or non-utf-8 support
+		 *	If backward compatibility is required - run queries in xml file
+		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+		 *	file for utf-8 support or non-utf-8 support
 		 */
 
 		// start with backward compatibility <queries> tag
@@ -518,9 +518,9 @@ class JInstallerComponent extends JInstaller
 
 		/*
 		 * Let's run the uninstall queries for the component
-		 *    If backward compatibility is required - run queries in xml file
-		 *    If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		 *    file for utf-8 support or non-utf support
+		 *	If backward compatibility is required - run queries in xml file
+		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
+		 *	file for utf-8 support or non-utf support
 		 */
 
 		// start with backward compatibility <queries> tag

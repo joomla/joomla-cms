@@ -24,14 +24,14 @@ class ContactViewContact extends JView
 	{
 		global $mainframe, $Itemid;
 
-		$user	  = &JFactory::getUser();
-		$pathway  = & $mainframe->getPathWay();
-		$document = & JFactory::getDocument();
-		$model	  = &$this->getModel();
+		$user		= &JFactory::getUser();
+		$pathway	= & $mainframe->getPathWay();
+		$document	= & JFactory::getDocument();
+		$model		= &$this->getModel();
 
 		// Get the paramaters of the active menu item
-		$menu    =& JSiteHelper::getActiveMenuItem();
-		$params  =& JSiteHelper::getMenuParams();
+		$menu		=& JSiteHelper::getActiveMenuItem();
+		$params		=& JSiteHelper::getMenuParams();
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('header', 					$menu->name );
 		$params->def('print', 					!$contentConfig->get('hidePrint'));
@@ -49,7 +49,7 @@ class ContactViewContact extends JView
 		$options['id']	= $contactId;
 		$options['gid']	= $user->get('gid');
 
-		$contact  = $model->getContact( $options );
+		$contact	= $model->getContact( $options );
 
 		// check if we have a contact
 		if (!is_object( $contact )) {
@@ -57,8 +57,8 @@ class ContactViewContact extends JView
 			return;
 		}
 
-		$options['category_id']  = $contact->catid;
-		$options['order by']	 = 'a.default_con DESC, a.ordering ASC';
+		$options['category_id']	= $contact->catid;
+		$options['order by']	= 'a.default_con DESC, a.ordering ASC';
 
 		$contacts = $modelCat->getContacts( $options );
 

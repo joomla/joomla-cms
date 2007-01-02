@@ -38,7 +38,7 @@
 		<param name="full_active_id" type="radio" default="0" label="Full Active highlighting" description="PARAMFULLACTIVEHIGHLIGHTING">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
-		</param>		
+		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="menu_images" type="radio" default="0" label="Show Menu Icons" description="PARAMSHOWMENUICONS">
 			<option value="0">No</option>

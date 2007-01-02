@@ -107,11 +107,9 @@ class JEditor_xstandard extends JPlugin {
 		global $mainframe;
 
 		jimport('joomla.environment.browser');
-		$instance  =& JBrowser::getInstance();
-
-		$language  =& JFactory::getLanguage();
-
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$instance	=& JBrowser::getInstance();
+		$language	=& JFactory::getLanguage();
+		$url		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		if ($language->isRTL()) {
 			$text_direction = 'rtl';

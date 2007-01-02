@@ -123,8 +123,8 @@ class BannerControllerBanner extends JController
 
 	function edit()
 	{
-		$db   =& JFactory::getDBO();
-		$user =& JFactory::getUser();
+		$db		=& JFactory::getDBO();
+		$user	=& JFactory::getUser();
 
 		$cid 	= JRequest::getVar('cid', array(0), 'method', 'array');
 		$option = JRequest::getVar('option');

@@ -31,9 +31,8 @@ class HTML_cpanel
 	{
 		global $mainframe;
 
-		$modules = JModuleHelper::getModules('cpanel');
-
-		$pane   =& JPane::getInstance('sliders');
+		$modules	= JModuleHelper::getModules('cpanel');
+		$pane		=& JPane::getInstance('sliders');
 		$pane->startPane("content-pane");
 
 		foreach ($modules as $module) {

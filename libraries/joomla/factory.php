@@ -119,8 +119,8 @@ class JFactory
 	{
 		// If there is a userid in the session, load the application user
 		// object with the logged in user.
-		$session  =& JFactory::getSession();
-		$instance =& JUser::getInstance((int)$session->get('session.user.id', 0));
+		$session	=& JFactory::getSession();
+		$instance	=& JUser::getInstance((int)$session->get('session.user.id', 0));
 
 		return $instance;
 	}
@@ -239,7 +239,7 @@ class JFactory
 			unset($instance);
 
 		$instance = JFactory::_createMailer();
-		
+
 		return $instance;
 	}
 
@@ -264,17 +264,17 @@ class JFactory
 			case 'RSS' :
 			case 'Atom' :
 				if (!is_null( $options['rssUrl'] )) {
-				    jimport ('simplepie.simplepie');
-				    $simplepie = new SimplePie();
-				    $simplepie->feed_url($options['rssUrl']);
-				    $simplepie->cache_location(JPATH_BASE.DS.'cache');
-				    $simplepie->init();
-				    $simplepie->handle_content_type();
-				    if ($simplepie->data) {
-				        $doc = $simplepie;
-				    } else {
+					jimport ('simplepie.simplepie');
+					$simplepie = new SimplePie();
+					$simplepie->feed_url($options['rssUrl']);
+					$simplepie->cache_location(JPATH_BASE.DS.'cache');
+					$simplepie->init();
+					$simplepie->handle_content_type();
+					if ($simplepie->data) {
+						$doc = $simplepie;
+					} else {
 					// Raise Error
-				    }
+					}
 				}
 				break;
 
@@ -312,7 +312,7 @@ class JFactory
 		jimport( 'joomla.html.editor' );
 
 		//get the editor configuration setting
-		if(is_null($editor)) 
+		if(is_null($editor))
 		{
 			$conf =& JFactory::getConfig();
 			$editor = $conf->getValue('config.editor');
@@ -562,18 +562,18 @@ class JFactory
 	{
 		jimport('joomla.document.document');
 
-		$lang  =& JFactory::getLanguage();
+		$lang	=& JFactory::getLanguage();
 
 		//Keep backwards compatibility with Joomla! 1.0
-		$raw  = JRequest::getVar( 'no_html', 0, '', 'int' );
-		$type = JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
+		$raw	= JRequest::getVar( 'no_html', 0, '', 'int' );
+		$type	= JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
 
 		$attributes = array (
-            'charset'  => 'utf-8',
-           	'lineend'  => 'unix',
-            'tab'  => '  ',
-          	'language'  => $lang->getTag(),
-			'direction' => $lang->isRTL() ? 'rtl' : 'ltr'
+			'charset'	=> 'utf-8',
+		   	'lineend'	=> 'unix',
+			'tab'		=> '  ',
+		  	'language'	=> $lang->getTag(),
+			'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
 		);
 
 		$doc =& JDocument::getInstance($type, $attributes);

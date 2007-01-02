@@ -39,7 +39,7 @@ class MediaViews
 			<div style="float: right">
 				<button type="button" onclick="document.imagemanager.onok();window.top.document.popup.hide();"><?php echo JText::_('Insert') ?></button>
 				<button type="button" onclick="window.top.document.popup.hide();"><?php echo JText::_('Cancel') ?></button>
-		    </div>
+			</div>
 		</fieldset>
 		<iframe src="index.php?option=com_media&amp;task=imgManagerList&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component" id="imageview"></iframe>
 		<fieldset>
@@ -53,10 +53,10 @@ class MediaViews
 				</td>
 				<td><label for="f_align"><?php echo JText::_('Align') ?></label></td>
 				<td>
-					<select size="1" id="f_align"  title="Positioning of this image">
-						<option value="" selected="selected" ><?php echo JText::_('Not Set') ?></option>
-						<option value="left"                 ><?php echo JText::_('Left') ?></option>
-						<option value="right"                ><?php echo JText::_('Right') ?></option>
+					<select size="1" id="f_align" title="Positioning of this image">
+						<option value="" selected="selected"><?php echo JText::_('Not Set') ?></option>
+						<option value="left"><?php echo JText::_('Left') ?></option>
+						<option value="right"><?php echo JText::_('Right') ?></option>
 					</select>
 				</td>
 			</tr>

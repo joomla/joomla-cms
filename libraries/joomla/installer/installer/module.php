@@ -311,7 +311,7 @@ class JInstallerModule extends JInstaller
 	function uninstall( $id, $clientId )
 	{
 		// Initialize variables
-		$row    = null;
+		$row	= null;
 		$retval = true;
 		$db		= &$this->_db;
 

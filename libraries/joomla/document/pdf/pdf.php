@@ -45,7 +45,7 @@ class JDocumentPDF extends JDocument
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
-	 * @param array		$params	    Associative array of attributes
+	 * @param array		$params		Associative array of attributes
 	 */
 	function display( $cache = false, $params = array())
 	{

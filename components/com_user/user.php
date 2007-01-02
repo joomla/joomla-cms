@@ -76,8 +76,8 @@ class UserController
 	{
 		global $mainframe, $Itemid, $option;
 
-		$db      =& JFactory::getDBO();
-		$user	 =& JFactory::getUser();
+		$db		=& JFactory::getDBO();
+		$user	=& JFactory::getUser();
 
 		if ( $user->get('id') == 0 ) {
 			JError::raiseError( 403, JText::_('Access Forbidden') );
@@ -85,8 +85,8 @@ class UserController
 		}
 
 		// Get the paramaters of the active menu item
-		$menus  = &JMenu::getInstance();
-		$menu   = $menus->getItem($Itemid);
+		$menus	= &JMenu::getInstance();
+		$menu	= $menus->getItem($Itemid);
 
 		// Set page title
 		$mainframe->setPageTitle( $menu->name );
@@ -119,7 +119,7 @@ class UserController
 	{
 		global $mainframe, $option;
 
-		$user    =& JFactory::getUser();
+		$user	=& JFactory::getUser();
 		$session =& JFactory::getSession();
 
 		$db 	=& JFactory::getDBO();
@@ -133,8 +133,8 @@ class UserController
 
 		$post = JRequest::get( 'post' );
 
-		$post['password'] 	 = JRequest::getVar('password', '', 'post', 'string');
-		$post['verifyPass']  = JRequest::getVar('verifyPass', '', 'post', 'string');
+		$post['password']	= JRequest::getVar('password', '', 'post', 'string');
+		$post['verifyPass']	= JRequest::getVar('verifyPass', '', 'post', 'string');
 
 		// do a password safety check
 		if(strlen($post['password'])) { // so that "0" can be used as password e.g.
@@ -248,12 +248,12 @@ class UserController
 	{
 		global $mainframe, $option;
 
-		$db      =& JFactory::getDBO();
-		$user    =& JFactory::getUser();
-		$userid  = $user->get('id');
+		$db		=& JFactory::getDBO();
+		$user	=& JFactory::getUser();
+		$userid	= $user->get('id');
 
 		// Editor usertype check
-		$canEdit    = $user->authorize( 'action', 'edit', 'content', 'all' );
+		$canEdit	= $user->authorize( 'action', 'edit', 'content', 'all' );
 		$canEditOwn = $user->authorize( 'action', 'edit', 'content', 'own' );
 
 		$nullDate = $db->getNullDate();

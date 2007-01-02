@@ -40,7 +40,7 @@ class JHTML
 		$href = JURI::resolve(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
 
 		if (is_array($attribs)) {
-            $attribs = JHTML::_implode_assoc('=', ' ', $attribs);
+			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
 		return '<a href="'.$href.'" '.$attribs.'>'.$text.'</a>';
@@ -62,7 +62,7 @@ class JHTML
 		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
 
 		 if (is_array($attribs)) {
-            $attribs = JHTML::_implode_assoc('=', ' ', $attribs);
+			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
 		return '<img src="'.$src.'" alt="'.$alt.'" '.$attribs.' />';
@@ -85,7 +85,7 @@ class JHTML
 		$src = $mainframe->getCfg('live_site') . $url;
 
 		 if (is_array($attribs)) {
-            $attribs = JHTML::_implode_assoc('=', ' ', $attribs);
+			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
 		return '<script type="text/javascript" src="'.$src.'" '.$attribs.'></script>';
@@ -108,7 +108,7 @@ class JHTML
 		$src = JURI::resolve(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
 
 		 if (is_array($attribs)) {
-            $attribs = JHTML::_implode_assoc('=', ' ', $attribs);
+			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
 		return '<iframe src="'.$src.'" '.$attribs.' />';
@@ -255,20 +255,20 @@ class JHTML
 	}
 
 	function _implode_assoc($inner_glue = "=", $outer_glue = "\n", $array = null, $keepOuterKey = false)
-    {
-        $output = array();
+	{
+		$output = array();
 
-        foreach($array as $key => $item)
-        if (is_array ($item)) {
-            if ($keepOuterKey)
-                $output[] = $key;
-            // This is value is an array, go and do it again!
-            $output[] = JHTML::_implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
-        } else
-            $output[] = $key . $inner_glue . $item;
+		foreach($array as $key => $item)
+		if (is_array ($item)) {
+			if ($keepOuterKey)
+				$output[] = $key;
+			// This is value is an array, go and do it again!
+			$output[] = JHTML::_implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
+		} else
+			$output[] = $key . $inner_glue . $item;
 
-        return implode($outer_glue, $output);
-    }
+		return implode($outer_glue, $output);
+	}
 }
 
 /**
@@ -307,7 +307,7 @@ class JHTMLSelect
 			reset( $arr );
 		}
 
-        $id = $tag_name;
+		$id = $tag_name;
 		if ( $idtag ) {
 			$id = $idtag;
 		}
@@ -920,11 +920,11 @@ class JAdminMenus
 			$order = JAdminMenus::GenericOrdering( $query );
 			$ordering = JHTMLSelect::genericList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
-    		if ( $neworder ) {
-    			$text = JText::_( 'descNewItemsFirst' );
-    		} else {
-    			$text = JText::_( 'descNewItemsLast' );
-    		}
+			if ( $neworder ) {
+				$text = JText::_( 'descNewItemsFirst' );
+			} else {
+				$text = JText::_( 'descNewItemsLast' );
+			}
 			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. $text;
 		}
 		return $ordering;

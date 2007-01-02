@@ -455,7 +455,7 @@ class JAuthorization extends gacl_api
 			return FALSE;
 		}
 
-		$query  = '
+		$query = '
 				SELECT		g2.group_id
 				FROM		'. $table .' g1';
 

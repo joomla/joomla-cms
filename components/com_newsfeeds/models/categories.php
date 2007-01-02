@@ -49,7 +49,7 @@ class NewsfeedsModelCategories extends JModel
 		parent::__construct();
 
 	}
-	
+
 	/**
 	 * Method to get newsfeed item data for the categories
 	 *
@@ -90,7 +90,7 @@ class NewsfeedsModelCategories extends JModel
 	{
 		$user = JFactory::getUser();
 		$gid = $user->get('gid');
-		
+
 		/* Query to retrieve all categories that belong under the contacts section and that are published. */
 		$query = "SELECT cc.*, a.catid, COUNT(a.id) AS numlinks"
 			. "\n FROM #__categories AS cc"
@@ -102,7 +102,7 @@ class NewsfeedsModelCategories extends JModel
 			. "\n GROUP BY cc.id"
 			. "\n ORDER BY cc.ordering"
 		;
-		
+
 		return $query;
 	}
 }

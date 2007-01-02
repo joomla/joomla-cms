@@ -27,19 +27,19 @@ class SearchViewSearch extends JView
 	function display($tpl = null)
 	{
 		global $option, $Itemid;
-		
+
 		$uri =& JFactory::getURI();
-		
-		$searchword   = $this->searchword;
-		$searchphrase = $this->searchphrase;
-		$ordering     = $this->ordering;
+
+		$searchword		= $this->searchword;
+		$searchphrase	= $this->searchphrase;
+		$ordering		= $this->ordering;
 
 		//create pagination
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($this->total, $this->limitstart, $this->limit);
 
-		$this->result = JText::sprintf( 'TOTALRESULTSFOUND', $this->total, $this->searchword );
-		$this->image  = JAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
+		$this->result	= JText::sprintf( 'TOTALRESULTSFOUND', $this->total, $this->searchword );
+		$this->image	= JAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
 
 		for($i = 0; $i < count($this->results); $i++ )
 		{
@@ -51,8 +51,8 @@ class SearchViewSearch extends JView
 				$created = '';
 			}
 
-			$result->created = $created;
-			$result->count   = $i + 1;
+			$result->created	= $created;
+			$result->count		= $i + 1;
 		}
 
 		$this->assignRef('pagination', $pagination);

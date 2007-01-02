@@ -66,9 +66,9 @@ class JElement extends JObject
 
 	function render(&$xmlElement, $control_name = 'params')
 	{
-		$name  = $xmlElement->attributes('name');
-		$label = $xmlElement->attributes('label');
-		$descr = $xmlElement->attributes('description');
+		$name	= $xmlElement->attributes('name');
+		$label	= $xmlElement->attributes('label');
+		$descr	= $xmlElement->attributes('description');
 
 		//get value
 		$value = $this->_parent->get($name, $xmlElement->attributes('default'));

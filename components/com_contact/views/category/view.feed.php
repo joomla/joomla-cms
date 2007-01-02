@@ -24,33 +24,33 @@ class ContactViewCategory extends JView
 	{
 		global $mainframe, $Itemid;
 
-		$db		  =& JFactory::getDBO();
-		$document =& JFactory::getDocument();
+		$db			=& JFactory::getDBO();
+		$document	=& JFactory::getDocument();
 
-		$limit 			= JRequest::getVar('limit', 0, '', 'int');
-		$limitstart 	= JRequest::getVar('limitstart', 0, '', 'int');
-		$catid  		= JRequest::getVar('catid', 0);
+		$limit 		= JRequest::getVar('limit', 0, '', 'int');
+		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$catid  	= JRequest::getVar('catid', 0);
 
-		$where  = "\n WHERE a.published = 1";
+		$where		= "\n WHERE a.published = 1";
 
 		if ( $catid ) {
 			$where .= "\n AND a.catid = $catid";
 		}
 
-    	$query = "SELECT"
-    	. "\n a.name AS title,"
-    	. "\n CONCAT( '$link', a.catid, '&id=', a.id ) AS link,"
-    	. "\n CONCAT( a.con_position, ' - ',a.misc ) AS description,"
-    	. "\n '' AS date,"
+		$query = "SELECT"
+		. "\n a.name AS title,"
+		. "\n CONCAT( '$link', a.catid, '&id=', a.id ) AS link,"
+		. "\n CONCAT( a.con_position, ' - ',a.misc ) AS description,"
+		. "\n '' AS date,"
 		. "\n c.title AS category,"
-    	. "\n a.id AS id"
-    	. "\n FROM #__contact_details AS a"
+		. "\n a.id AS id"
+		. "\n FROM #__contact_details AS a"
 		. "\n LEFT JOIN #__categories AS c ON c.id = a.catid"
-    	. $where
-    	. "\n ORDER BY a.catid, a.ordering"
-    	;
+		. $where
+		. "\n ORDER BY a.catid, a.ordering"
+		;
 		$db->setQuery( $query, 0, $limit );
-    	$rows = $db->loadObjectList();
+		$rows = $db->loadObjectList();
 
 		foreach ( $rows as $row )
 		{

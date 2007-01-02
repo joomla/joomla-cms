@@ -222,7 +222,7 @@ function editUser( )
 
 	$db 		=& JFactory::getDBO();
 	$user 	  	=& JUser::getInstance( $userId );
-	$acl      	=& JFactory::getACL();
+	$acl	  	=& JFactory::getACL();
 
 	if ( $user->get('id') )
 	{
@@ -387,13 +387,13 @@ function saveUser(  )
 
 	switch ( $task ) {
 		case 'apply':
-        	$msg = JText::sprintf( 'Successfully Saved changes to User %s', $user->get('name') );
+			$msg = JText::sprintf( 'Successfully Saved changes to User %s', $user->get('name') );
 			$mainframe->redirect( 'index.php?option=com_users&amp;task=edit&amp;hidemainmenu=1&amp;cid[]='. $user->get('id'), $msg );
 			break;
 
 		case 'save':
 		default:
-        	$msg = JText::sprintf( 'Successfully Saved User %s', $user->get('name') );
+			$msg = JText::sprintf( 'Successfully Saved User %s', $user->get('name') );
 			$mainframe->redirect( 'index.php?option=com_users', $msg );
 			break;
 	}
@@ -419,7 +419,7 @@ function removeUsers(  )
 
 	$db 			=& JFactory::getDBO();
 	$currentUser 	=& JFactory::getUser();
-	$acl      		=& JFactory::getACL();
+	$acl	  		=& JFactory::getACL();
 	$cid 			= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 
 	JArrayHelper::toInteger( $cid );

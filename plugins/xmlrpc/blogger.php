@@ -102,9 +102,9 @@ class BloggerXMLRPCServices
 		$structarray = array();
 
 		$blog = new xmlrpcval(array(
-		    'url'      => new xmlrpcval(JURI::base(), $xmlrpcString),
-		    'blogid'   => new xmlrpcval('1', $xmlrpcString),
-		    'blogName' => new xmlrpcval('Joomla Articles', $xmlrpcString)
+			'url'		=> new xmlrpcval(JURI::base(), $xmlrpcString),
+			'blogid'	=> new xmlrpcval('1', $xmlrpcString),
+			'blogName'	=> new xmlrpcval('Joomla Articles', $xmlrpcString)
 		  ), 'struct');
 
 		array_push($structarray, $blog);
@@ -126,12 +126,12 @@ class BloggerXMLRPCServices
 
 		$struct = new xmlrpcval(
 		array(
-		    'nickname'  => new xmlrpcval($user->get('username')),
-		    'userid'    => new xmlrpcval($user->get('id')),
-		    'url'       => new xmlrpcval(''),
-		    'email'     => new xmlrpcval($user->get('email')),
-		    'lastname'  => new xmlrpcval($user->get('name')),
-		    'firstname' => new xmlrpcval($user->get('name'))
+			'nickname'	=> new xmlrpcval($user->get('username')),
+			'userid'	=> new xmlrpcval($user->get('id')),
+			'url'		=> new xmlrpcval(''),
+			'email'		=> new xmlrpcval($user->get('email')),
+			'lastname'	=> new xmlrpcval($user->get('name')),
+			'firstname'	=> new xmlrpcval($user->get('name'))
 		), $xmlrpcStruct);
 
 		return new xmlrpcresp($struct);
@@ -152,16 +152,16 @@ class BloggerXMLRPCServices
 		$item =& JTable::getInstance('content' );
 		$item->load( $postid );
 
-		$content  = '<title>'.$item->title.'</title>';
-		//$content .= '<category>'.$item->catid.'</category>';
-		$content .= $item->introtext.'<more_text>'.$item->fulltext.'</more_text>';
+		$content	= '<title>'.$item->title.'</title>';
+		//$content	.= '<category>'.$item->catid.'</category>';
+		$content	.= $item->introtext.'<more_text>'.$item->fulltext.'</more_text>';
 
 		$struct = new xmlrpcval(
 		array(
-		   'userid'    => new xmlrpcval($item->created_by),
-		   'dateCreated' => new xmlrpcval('0'), //TODO
-		   'content'     => new xmlrpcval($content),
-		   'postid'  => new xmlrpcval($item->id)
+		   'userid'			=> new xmlrpcval($item->created_by),
+		   'dateCreated'	=> new xmlrpcval('0'), //TODO
+		   'content'		=> new xmlrpcval($content),
+		   'postid'			=> new xmlrpcval($item->id)
 		), $xmlrpcStruct);
 
 		return new xmlrpcresp($struct);
@@ -178,7 +178,7 @@ class BloggerXMLRPCServices
 		$user =& JUser::getInstance($username);
 		//TODO::implement generic access check
 
-		$db   =& JFactory::getDBO();
+		$db =& JFactory::getDBO();
 
 		// load plugin params info
 	 	$plugin =& JPluginHelper::getPlugin('xmlrpc','blogger');
@@ -191,20 +191,20 @@ class BloggerXMLRPCServices
 		// create a new content item
 		$item =& JTable::getInstance('content');
 
-		$item->title     = JBloggerHelper::getPostTitle($content);
-		$item->introtext = JBloggerHelper::getPostIntroText($content);
-		$item->fulltext  = JBloggerHelper::getPostFullText($content);
+		$item->title	 	= JBloggerHelper::getPostTitle($content);
+		$item->introtext	= JBloggerHelper::getPostIntroText($content);
+		$item->fulltext		= JBloggerHelper::getPostFullText($content);
 
-		$item->catid     = $cat->id;
-		$item->sectionid = $cat->section;
+		$item->catid	 	= $cat->id;
+		$item->sectionid 	= $cat->section;
 
-		$item->created = date('Y-m-d H:i:s');
-		$item->created_by = $user->get('id');
+		$item->created		= date('Y-m-d H:i:s');
+		$item->created_by	= $user->get('id');
 
-		$item->publish_up   = $publish ? date('Y-m-d H:i:s') : $db->getNullDate();
-		$item->publish_down = $db->getNullDate();
+		$item->publish_up	= $publish ? date('Y-m-d H:i:s') : $db->getNullDate();
+		$item->publish_down	= $db->getNullDate();
 
-		$item->state = $publish;
+		$item->state		= $publish;
 
 		if (!$item->check()) {
 			return new dom_xmlrpc_fault( '500', 'Post check failed' );
@@ -245,7 +245,7 @@ class BloggerXMLRPCServices
 		//lock the item
 		$item->checkout();
 
-		$item->title     = JBloggerHelper::getPostTitle($content);
+		$item->title	 = JBloggerHelper::getPostTitle($content);
 		$item->introtext = JBloggerHelper::getPostIntroText($content);
 		$item->fulltext  = JBloggerHelper::getPostFullText($content);
 
@@ -348,15 +348,15 @@ class BloggerXMLRPCServices
 		$structArray = array();
 		foreach ($items as $item)
 		{
-			$content  = '<title>'.$item->title.'</title>';
-			//$content .= '<category>'.$item->catid.'</category>'; //doesn't seem to work
-			$content .= $item->introtext.'<more_text>'.$item->fulltext.'</more_text>';
+			$content	= '<title>'.$item->title.'</title>';
+			//$content	.= '<category>'.$item->catid.'</category>'; //doesn't seem to work
+			$content	.= $item->introtext.'<more_text>'.$item->fulltext.'</more_text>';
 
 			$structArray[] = new xmlrpcval(array(
-			    'userid'      => new xmlrpcval($item->created_by),
-			    'dateCreated'   => new xmlrpcval('0'),
-			    'content' => new xmlrpcval($content),
-			    'postid' => new xmlrpcval($item->id)
+				'userid'		=> new xmlrpcval($item->created_by),
+				'dateCreated'	=> new xmlrpcval('0'),
+				'content'		=> new xmlrpcval($content),
+				'postid'		=> new xmlrpcval($item->id)
 			), 'struct');
 		}
 

@@ -18,7 +18,7 @@ define('JPATH_BASE', dirname(__FILE__) );
 
 error_reporting( E_ALL );
 
-require_once ( JPATH_BASE .'/includes/defines.php'     );
+require_once ( JPATH_BASE .'/includes/defines.php' );
 require_once ( JPATH_BASE .'/includes/application.php' );
 
 //if (!$mainframe->getCfg('xmlrpc_server')) {
@@ -34,8 +34,8 @@ $path 	= JRequest::getVar( 'path', '', 'post' );
 $debug 	= JRequest::getVar( 'debug', 0, 'post', 'int' );
 $task 	= JRequest::getVar( 'task', 0, 'post' );
 
-$output = '';
-$array  = array();
+$output	= '';
+$array	= array();
 
 if ($task)
 {

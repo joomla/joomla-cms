@@ -32,8 +32,8 @@
 			<div id="techinfo">
 			<p><?php echo $this->message;   ?></p>
 			<p>
-				<?php if($this->debug) : 
-					echo $this->renderBacktrace(); 
+				<?php if($this->debug) :
+					echo $this->renderBacktrace();
 				endif; ?>
 			</p>
 			</div>

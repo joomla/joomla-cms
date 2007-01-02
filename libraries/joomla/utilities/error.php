@@ -242,7 +242,7 @@ class JError extends patErrorManager
 			// output as simple text
 			echo "J$level_human: ".$error->getMessage()."\n";
 			if ($info != null) {
-				echo "    ".$error->getInfo()."\n";
+				echo "\t".$error->getInfo()."\n";
 			}
 
 		}
@@ -423,7 +423,7 @@ class JError extends patErrorManager
 			'directory' => JPATH_BASE.DS.'templates',
 			'debug' => $config->getValue('config.debug'
 		)));
-		
+
 		echo JResponse::toString();
 		exit(0);
 	}

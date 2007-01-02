@@ -1064,7 +1064,7 @@ class mosHTML
  	*/
 	function PrintIcon( &$row, &$params, $hide_js, $link, $status=NULL ) {
 
-    	if ( $params->get( 'print' )  && !$hide_js ) {
+		if ( $params->get( 'print' )  && !$hide_js ) {
 			// use default settings if none declared
 			if ( !$status ) {
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';

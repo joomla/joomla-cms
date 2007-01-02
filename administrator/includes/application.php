@@ -79,8 +79,8 @@ class JAdministrator extends JApplication
 	*/
 	function execute( $component )
 	{
-		$document =& JFactory::getDocument();
-		$user     =& JFactory::getUser();
+		$document	=& JFactory::getDocument();
+		$user		=& JFactory::getUser();
 
 		switch($document->getType())
 		{
@@ -111,8 +111,8 @@ class JAdministrator extends JApplication
 	*/
 	function display( $component )
 	{
-		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
-		$file 	  = JRequest::getVar( 'tmpl', 'index',  '', 'string'  );
+		$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
+		$file 		= JRequest::getVar( 'tmpl', 'index',  '', 'string'  );
 
 		if($component == 'com_login') {
 			$file = 'login';
@@ -247,8 +247,8 @@ class JAdministrator extends JApplication
 			$state->request	= $_REQUEST;
 
 			// Store the user state
-			$cache =& JFactory::getCache();
-			$user  =& JFactory::getUser();
+			$cache	=& JFactory::getCache();
+			$user	=& JFactory::getUser();
 			$cache->save(serialize($state), md5($user->get('id')), 'autoLogoutState');
 
 			$this->logout();
@@ -318,8 +318,8 @@ class JAdministrator extends JApplication
 	*/
 	function purgeMessages()
 	{
-		$db   =& JFactory::getDBO();
-		$user =& JFactory::getUser();
+		$db		=& JFactory::getDBO();
+		$user	=& JFactory::getUser();
 
 		$userid = $user->get('id');
 

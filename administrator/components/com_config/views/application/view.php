@@ -27,7 +27,7 @@ class ConfigApplicationView
 
 		$document =& JFactory::getDocument();
 		$document->addScript(JURI::base().'components/com_config/assets/switcher.js');
-		
+
 		$table = JTable::getInstance('component');
 		$table->loadByOption( 'com_users' );
 		$userparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/components/com_users/config.xml' );
@@ -57,7 +57,7 @@ class ConfigApplicationView
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_metadata.php'); ?>
 						</td>
 						<td width="35%">
-							
+
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_seo.php'); ?>
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_feeds.php'); ?>
 						</td>
@@ -72,18 +72,18 @@ class ConfigApplicationView
 							<fieldset class="adminform">
 								<legend><?php echo JText::_( 'User Settings' ); ?></legend>
 								<?php echo $userparams->render('userparams'); ?>
-							</fieldset>	
+							</fieldset>
 							<fieldset class="adminform">
 								<legend><?php echo JText::_( 'Media Settings' ); ?></legend>
 								<?php echo $mediaparams->render('mediaparams'); ?>
-							</fieldset>	
+							</fieldset>
 						</td>
 						<td with="40%">
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_debug.php'); ?>
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_statistics.php'); ?>
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_cache.php'); ?>
 						</td>
-						
+
 					</td>
 					</tr>
 				</table>
@@ -123,7 +123,7 @@ class ConfigApplicationView
 
 		$title 		= JText::_( 'Joomla Warning' );
 		$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
-		$url        = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$url		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$tip 		 = '<!--'. $title .'-->';
 		$tip 		.= '<a onmouseover="'. $mouseover .'" onmouseout="return nd();">';

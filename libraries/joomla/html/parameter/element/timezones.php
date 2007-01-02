@@ -37,9 +37,9 @@ class JElement_Timezones extends JElement
 			$conf =& JFactory::getConfig();
 			$value = $conf->getValue('config.offset');
 		}
-		
+
 		// LOCALE SETTINGS
-		$timezones = array (	
+		$timezones = array (
 			JHTMLSelect::option(-12, JText::_('(UTC -12:00) International Date Line West')),
 			JHTMLSelect::option(-11, JText::_('(UTC -11:00) Midway Island, Samoa')),
 			JHTMLSelect::option(-10, JText::_('(UTC -10:00) Hawaii')),
@@ -79,7 +79,7 @@ class JElement_Timezones extends JElement
 			JHTMLSelect::option(12.75, JText::_('(UTC +12:45) Chatham Island')),
 			JHTMLSelect::option(13, JText::_('(UTC +13:00) Tonga')),
 			JHTMLSelect::option(14, JText::_('(UTC +14:00) Kiribati')),);
-			
+
 		return JHTMLSelect::genericList($timezones, ''.$control_name.'['.$name.']', ' class="inputbox"', 'value', 'text', $value, $control_name.$name );
 	}
 }

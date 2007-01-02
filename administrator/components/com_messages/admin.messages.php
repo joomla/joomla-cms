@@ -139,8 +139,8 @@ function showMessages( $option )
 
 function editConfig( $option )
 {
-	$db   =& JFactory::getDBO();
-	$user =& JFactory::getUser();
+	$db		=& JFactory::getDBO();
+	$user	=& JFactory::getUser();
 
 	$query = "SELECT cfg_name, cfg_value"
 	. "\n FROM #__messages_cfg"
@@ -173,8 +173,8 @@ function saveConfig( $option )
 {
 	global $mainframe;
 
-	$db   =& JFactory::getDBO();
-	$user =& JFactory::getUser();
+	$db		=& JFactory::getDBO();
+	$user	=& JFactory::getUser();
 
 	$query = "DELETE FROM #__messages_cfg"
 	. "\n WHERE user_id = " .$user->get('id')
@@ -197,8 +197,8 @@ function saveConfig( $option )
 
 function newMessage( $option, $user, $subject )
 {
-	$db  =& JFactory::getDBO();
-	$acl =& JFactory::getACL();
+	$db		=& JFactory::getDBO();
+	$acl	=& JFactory::getACL();
 
 	// get available backend user groups
 	$gid 	= $acl->get_group_id( 'Public Backend', '', 'ARO' );
@@ -253,7 +253,7 @@ function saveMessage( $option )
 
 function viewMessage( $uid='0', $option )
 {
-	$db  =& JFactory::getDBO();
+	$db	=& JFactory::getDBO();
 
 	$query = "SELECT a.*, u.name AS user_from"
 	. "\n FROM #__messages AS a"

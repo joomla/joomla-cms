@@ -24,32 +24,32 @@ class WeblinksControllerWeblink extends WeblinksController
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		// Register Extra tasks
 		$this->registerTask( 'add'  , 	'edit' );
 		$this->registerTask( 'apply', 	'save' );
 		$this->registerTask( 'apply_new', 'save' );
 	}
-	
-	function edit() 
+
+	function edit()
 	{
 		JRequest::setVar( 'view', 'weblink' );
 		JRequest::setVar( 'layout', 'form'  );
 		JRequest::setVar('hidemainmenu', 1);
-		
-		parent::display();	
-		
+
+		parent::display();
+
 		// Checkin the weblink
 		$model = $this->getModel('weblink');
 		$model->checkout();
 	}
-	
+
 	function save()
 	{
-		$post = JRequest::get('post');
-		$cid  = JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$post	= JRequest::get('post');
+		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		$post['id'] = $cid[0];
-		
+
 		$model = $this->getModel('weblink');
 
 		if ($model->store($post)) {
@@ -57,10 +57,10 @@ class WeblinksControllerWeblink extends WeblinksController
 		} else {
 			$msg = JText::_( 'Error Saving Weblink' );
 		}
-		
+
 		// Check the table in so it can be edited.... we are done with it anyway
 		$model->checkin();
-	 
+
 		switch (JRequest::getVar('task'))
 		{
 			case 'apply':
@@ -75,7 +75,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		$this->setRedirect($link, $msg);
 	}
-	
+
 	function remove()
 	{
 		$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
@@ -84,7 +84,7 @@ class WeblinksControllerWeblink extends WeblinksController
 			echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 			exit;
 		}
-		
+
 		$model = $this->getModel('weblink');
 		if(!$model->delete($cid)) {
 			echo "<script> alert('".$model->getError()."'); window.history.go(-1); </script>\n";
@@ -92,7 +92,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		$this->setRedirect( 'index.php?option=com_weblinks' );
 	}
-		
+
 
 	function publish()
 	{
@@ -102,7 +102,7 @@ class WeblinksControllerWeblink extends WeblinksController
 			echo "<script> alert('". JText::_( 'Select an item to publish' ) ."'); window.history.go(-1);</script>\n";
 			exit;
 		}
-		
+
 		$model = $this->getModel('weblink');
 		if(!$model->publish($cid, 1)) {
 			echo "<script> alert('".$model->getError()."'); window.history.go(-1); </script>\n";
@@ -110,7 +110,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		$this->setRedirect( 'index.php?option=com_weblinks' );
 	}
-		
+
 
 	function unpublish()
 	{
@@ -120,7 +120,7 @@ class WeblinksControllerWeblink extends WeblinksController
 			echo "<script> alert('". JText::_( 'Select an item to unpublish' ) ."'); window.history.go(-1);</script>\n";
 			exit;
 		}
-		
+
 		$model = $this->getModel('weblink');
 		if(!$model->publish($cid, 0)) {
 			echo "<script> alert('".$model->getError()."'); window.history.go(-1); </script>\n";
@@ -128,16 +128,16 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		$this->setRedirect( 'index.php?option=com_weblinks' );
 	}
-	
+
 	function cancel()
 	{
 		// Checkin the weblink
 		$model = $this->getModel('weblink');
 		$model->checkin();
-		
+
 		$this->setRedirect( 'index.php?option=com_weblinks' );
 	}
-		
+
 
 	function orderup()
 	{
@@ -146,7 +146,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		$this->setRedirect( 'index.php?option=com_weblinks');
 	}
-		
+
 	function orderdown()
 	{
 		$model = $this->getModel('weblink');
@@ -154,12 +154,12 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		$this->setRedirect( 'index.php?option=com_weblinks');
 	}
-		
+
 	function saveorder()
 	{
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		$order 	= JRequest::getVar( 'order', array(0), 'post', 'array' );
-		
+
 		$model = $this->getModel('weblink');
 		$model->saveorder($cid, $order);
 

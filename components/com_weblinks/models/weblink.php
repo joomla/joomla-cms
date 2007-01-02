@@ -61,8 +61,8 @@ class WeblinksModelWeblink extends JModel
 	function setId($id)
 	{
 		// Set weblink id and wipe data
-		$this->_id	    = $id;
-		$this->_data = null;
+		$this->_id		= $id;
+		$this->_data	= null;
 	}
 
 	/**
@@ -200,7 +200,7 @@ class WeblinksModelWeblink extends JModel
 	 */
 	function store($data)
 	{
-		$row  =& $this->getTable();
+		$row =& $this->getTable();
 
 		// Bind the form fields to the web link table
 		if (!$row->bind($data, "published")) {

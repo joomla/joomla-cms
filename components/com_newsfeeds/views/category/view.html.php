@@ -33,16 +33,16 @@ class NewsfeedsViewCategory extends JView
 		$document	= & JFactory::getDocument();
 
 		// Get the paramaters of the active menu item
-		$menu    =& JSiteHelper::getActiveMenuItem();
-		$params  =& JSiteHelper::getMenuParams();
+		$menu	=& JSiteHelper::getActiveMenuItem();
+		$params	=& JSiteHelper::getMenuParams();
 
 		$limit 			= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
 		$limitstart 	= JRequest::getVar('limitstart', 0, '', 'int');
 		$catid 			= JRequest::getVar( 'catid', 0, '', 'int' );
-		
-		$category = $this->get('category');
-		$items    = $this->get('data');
-		$total    = $this->get('total');
+
+		$category	= $this->get('category');
+		$items		= $this->get('data');
+		$total		= $this->get('total');
 
 		// Parameters
 		$params->def( 'page_title', 		1 );
@@ -84,8 +84,8 @@ class NewsfeedsViewCategory extends JView
 
 			$item->link =  sefRelToAbs('index.php?option=com_newsfeeds&amp;view=newsfeed&amp;feedid='. $item->id .'&amp;Itemid='. $Itemid);
 
-			$item->odd   = $k;
-			$item->count = $i;
+			$item->odd		= $k;
+			$item->count	= $i;
 			$k = 1 - $k;
 		}
 
@@ -99,11 +99,11 @@ class NewsfeedsViewCategory extends JView
 			$image = JHTML::Image('/images/stories/'.$category->image, JText::_('NEWS_FEEDS'), $attribs);
 		}
 
-		$this->assignRef('image'     , $image);
-		$this->assignRef('params'    , $params);
-		$this->assignRef('items'     , $items);
-		$this->assignRef('category'  , $category);
-		$this->assignRef('pagination', $pagination);
+		$this->assignRef('image',		$image);
+		$this->assignRef('params',		$params);
+		$this->assignRef('items',		$items);
+		$this->assignRef('category',	$category);
+		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
 	}

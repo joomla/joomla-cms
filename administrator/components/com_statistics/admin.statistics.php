@@ -16,7 +16,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-switch (JRequest::getVar('task')) 
+switch (JRequest::getVar('task'))
 {
 	case 'searches':
 		showSearches();
@@ -38,9 +38,9 @@ switch (JRequest::getVar('task'))
 function showSearches( $showResults=null )
 {
 	global $mainframe, $option;
-	
+
 	$db					=& JFactory::getDBO();
-	
+
 	$filter_order		= $mainframe->getUserStateFromRequest( "com_statistics.filter_order", 		'filter_order', 	'hits' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_statistics.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 							'limit', 			$mainframe->getCfg('list_limit') );
@@ -48,7 +48,7 @@ function showSearches( $showResults=null )
 	$search 			= $mainframe->getUserStateFromRequest( "com_statistics.search", 				'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 	$where				= array();
-	
+
 	if ($search) {
 		$where[] = "LOWER( search_term ) LIKE '%$search%'";
 	}

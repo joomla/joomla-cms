@@ -62,12 +62,12 @@ class JRequest
 	 *
 	 * You can force the source by setting the $hash parameter:
 	 *
-	 *   post       $_POST
-	 *   get        $_GET
-	 *   files      $_FILES
-	 *   cookie     $_COOKIE
-	 *   method     via current $_SERVER['REQUEST_METHOD']
-	 *   default    $_REQUEST
+	 *   post	   $_POST
+	 *   get		$_GET
+	 *   files	  $_FILES
+	 *   cookie	 $_COOKIE
+	 *   method	 via current $_SERVER['REQUEST_METHOD']
+	 *   default	$_REQUEST
 	 *
 	 * @static
 	 * @param	string	$name		Variable name
@@ -85,26 +85,26 @@ class JRequest
 		if ($hash === 'METHOD') {
 			$hash = strtoupper( $_SERVER['REQUEST_METHOD'] );
 		}
-		$type = strtoupper( $type );
-		$sig  = $hash.$mask;
+		$type	= strtoupper( $type );
+		$sig	= $hash.$mask;
 
 		// Get the input hash
 		switch ($hash)
 		{
 			case 'GET' :
-				$input  = &$_GET;
+				$input = &$_GET;
 				break;
 			case 'POST' :
-				$input  = &$_POST;
+				$input = &$_POST;
 				break;
 			case 'FILES' :
-				$input  = &$_FILES;
+				$input = &$_FILES;
 				break;
 			case 'COOKIE' :
-				$input  = &$_COOKIE;
+				$input = &$_COOKIE;
 				break;
 			default:
-				$input  = &$_REQUEST;
+				$input = &$_REQUEST;
 				break;
 		}
 
@@ -184,12 +184,12 @@ class JRequest
 	 *
 	 * You can force the source by setting the $hash parameter:
 	 *
-	 *   post       $_POST
-	 *   get        $_GET
-	 *   files      $_FILES
-	 *   cookie     $_COOKIE
-	 *   method     via current $_SERVER['REQUEST_METHOD']
-	 *   default    $_REQUEST
+	 *   post	   $_POST
+	 *   get		$_GET
+	 *   files	  $_FILES
+	 *   cookie	 $_COOKIE
+	 *   method	 via current $_SERVER['REQUEST_METHOD']
+	 *   default	$_REQUEST
 	 *
 	 * @static
 	 * @param	string	$hash	to get (POST, GET, FILES, METHOD)
@@ -218,23 +218,23 @@ class JRequest
 			switch ($hash)
 			{
 				case 'GET' :
-					$input  = $_GET;
+					$input = $_GET;
 					break;
 
 				case 'POST' :
-					$input  = $_POST;
+					$input = $_POST;
 					break;
 
 				case 'FILES' :
-					$input  = $_FILES;
+					$input = $_FILES;
 					break;
 
 				case 'COOKIE' :
-					$input  = $_COOKIE;
+					$input = $_COOKIE;
 					break;
 
 				default:
-					$input  = $_REQUEST;
+					$input = $_REQUEST;
 					break;
 			}
 
@@ -269,13 +269,13 @@ class JRequest
 			JRequest::_cleanArray( $_SESSION );
 		}
 
-		$REQUEST = $_REQUEST;
-		$GET 	 = $_GET;
-		$POST 	 = $_POST;
-		$COOKIE  = $_COOKIE;
-		$FILES   = $_FILES;
-		$ENV     = $_ENV;
-		$SERVER  = $_SERVER;
+		$REQUEST	= $_REQUEST;
+		$GET		= $_GET;
+		$POST		= $_POST;
+		$COOKIE		= $_COOKIE;
+		$FILES		= $_FILES;
+		$ENV		= $_ENV;
+		$SERVER		= $_SERVER;
 
 		if (isset ( $_SESSION )) {
 			$SESSION = $_SESSION;
@@ -286,11 +286,11 @@ class JRequest
 				unset ( $GLOBALS [ $key ] );
 			}
 		}
-		$_REQUEST 	= $REQUEST;
-		$_GET 		= $GET;
-		$_POST 		= $POST;
-		$_COOKIE 	= $COOKIE;
-		$_FILES 	= $FILES;
+		$_REQUEST	= $REQUEST;
+		$_GET		= $GET;
+		$_POST		= $POST;
+		$_COOKIE	= $COOKIE;
+		$_FILES		= $FILES;
 		$_ENV 		= $ENV;
 		$_SERVER 	= $SERVER;
 
@@ -355,8 +355,8 @@ class JRequest
 			}
 			$var = $safeHtmlFilter->clean($var, $type);
 		}
-		else 
-		{	
+		else
+		{
 			// Since no allow flags were set, we will apply the most strict filter to the variable
 			if (is_null($noHtmlFilter)) {
 				$noHtmlFilter = & JInputFilter::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);

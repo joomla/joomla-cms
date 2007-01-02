@@ -37,7 +37,7 @@ class NewsfeedsModelNewsfeed extends JModel
 	 * @var array
 	 */
 	var $_data = null;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -46,7 +46,7 @@ class NewsfeedsModelNewsfeed extends JModel
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		$id = JRequest::getVar('feedid', 0, '', 'int');
 		$this->setId($id);
 	}
@@ -63,7 +63,7 @@ class NewsfeedsModelNewsfeed extends JModel
 		$this->_id	 = $id;
 		$this->_data = null;
 	}
-	
+
 	/**
 	 * Method to get the newsfeed data
 	 *
@@ -94,8 +94,8 @@ class NewsfeedsModelNewsfeed extends JModel
 				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 				return;
 			}
-			
-		} 
+
+		}
 
 		return $this->_data;
 	}

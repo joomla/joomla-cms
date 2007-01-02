@@ -21,7 +21,7 @@ class modArchiveHelper
 	function getList(&$params)
 	{
 		global $Itemid;
-			
+
 		//get database
 		$db =& JFactory::getDBO();
 
@@ -31,9 +31,9 @@ class modArchiveHelper
 			"\n GROUP BY created_year DESC, created_month DESC";
 		$db->setQuery($query, 0, intval($params->get('count')));
 		$rows = $db->loadObjectList();
-			
-		$i 	   = 0;
-		$lists = array();
+
+		$i		= 0;
+		$lists	= array();
 		foreach ( $rows as $row )
 		{
 			$date = new JDate($row->created);

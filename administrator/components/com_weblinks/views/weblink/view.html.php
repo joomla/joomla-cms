@@ -43,28 +43,28 @@ class WeblinksViewWeblink extends JView
 
 		parent::display($tpl);
 	}
-	
+
 	function _displayForm($tpl)
-	{	
+	{
 		global $mainframe, $option;
 
 		$db		=& JFactory::getDBO();
 		$uri 	=& JFactory::getURI();
 		$user 	=& JFactory::getUser();
-		$model  =& $this->getModel();
+		$model	=& $this->getModel();
 
 		$lists = array();
-		
+
 		//get the weblink
-		$weblink =& $this->get('data');
-		$isNew   = ($weblink->id < 1);
-		
+		$weblink	=& $this->get('data');
+		$isNew		= ($weblink->id < 1);
+
 		// fail if checked out not by 'me'
 		if ($model->isCheckedOut( $user->get('id') )) {
 			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The weblink' ), $weblink->title );
 			$mainframe->redirect( 'index.php?option='. $option, $msg );
 		}
-		
+
 		// Set toolbar items for the page
 		$text = $isNew ? JText::_( 'New' ) : JText::_( 'Edit' );
 		JMenuBar::title(   JText::_( 'Weblink' ).': <small><small>[ ' . $text.' ]</small></small>' );
@@ -79,11 +79,11 @@ class WeblinksViewWeblink extends JView
 		JMenuBar::help( 'screen.weblink.edit' );
 
 		// Edit or Create?
-		if (!$isNew) 
+		if (!$isNew)
 		{
 			$model->checkout( $user->get('id') );
-		} 
-		else 
+		}
+		else
 		{
 			// initialise new record
 			$weblink->published = 1;
@@ -108,14 +108,14 @@ class WeblinksViewWeblink extends JView
 		//clean weblink data
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
-		
+
 		$file 	= JPATH_ADMINISTRATOR .'/components/com_weblinks/weblinks_item.xml';
 		$params = new JParameter( $weblink->params, $file, 'component' );
-		
-		$this->assignRef('lists' 	   , $lists);
-		$this->assignRef('weblink'     , $weblink);
-		$this->assignRef('params'	   , $params);
-		$this->assignRef('request_url' , $uri->toString());
+
+		$this->assignRef('lists',		$lists);
+		$this->assignRef('weblink',		$weblink);
+		$this->assignRef('params',		$params);
+		$this->assignRef('request_url',	$uri->toString());
 
 		parent::display($tpl);
 	}

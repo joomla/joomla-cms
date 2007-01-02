@@ -51,17 +51,17 @@
 				<div id="tabarea_l">
 					<div id="tabarea_r">
 						<div id="tabmenu">
-			  	    	<table cellpadding="0" cellspacing="0" class="pill">
-	    				    <tr>
-	    				      <td class="pill_l">&nbsp;</td>
-	    				      <td class="pill_m">
-	    				        <div id="pillmenu">
-	    				        	<jdoc:include type="modules" name="user3" />
-	    				        </div>
-	    				      </td>
-	    				      <td class="pill_r">&nbsp;</td>
-	    				    </tr>
-	    				  </table>
+			  			<table cellpadding="0" cellspacing="0" class="pill">
+							<tr>
+							  <td class="pill_l">&nbsp;</td>
+							  <td class="pill_m">
+								<div id="pillmenu">
+									<jdoc:include type="modules" name="user3" />
+								</div>
+							  </td>
+							  <td class="pill_r">&nbsp;</td>
+							</tr>
+						  </table>
 						</div>
 					</div>
 				</div>
@@ -154,9 +154,9 @@
 						<jdoc:include type="modules" name="syndicate" />
 					</p>
 					<p style="float:right; padding-right: 25px;">
-     				 	Powered by <a href="http://joomla.org">Joomla!</a>.
-      					Valid <a href="http://validator.w3.org/check/referer">XHTML</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
-    				</p>
+	 				 	Powered by <a href="http://joomla.org">Joomla!</a>.
+	  					Valid <a href="http://validator.w3.org/check/referer">XHTML</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
+					</p>
 				</div>
 			</div>
 		</div>

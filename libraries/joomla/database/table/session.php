@@ -53,8 +53,8 @@ class JTableSession extends JTable
 
 	function insert($sessionId, $clientId)
 	{
-		$this->session_id = $sessionId;
-		$this->client_id  = $clientId;
+		$this->session_id	= $sessionId;
+		$this->client_id	= $clientId;
 
 		$this->time = time();
 		$ret = $this->_db->insertObject( $this->_tbl, $this );

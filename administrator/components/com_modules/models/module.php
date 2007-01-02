@@ -28,7 +28,7 @@ class ModulesModelModule extends JModel
 	function &getModule()
 	{
 		static $instance;
-		
+
 		if (!$instance)
 		{
 			$instance = $this->getTable( 'Module', 'JTable' );
@@ -46,13 +46,13 @@ class ModulesModelModule extends JModel
 			$clientId	= $this->getState( 'clientId', 0 );
 			$path		= ($clientId == 1) ? 'mod1_xml' : 'mod0_xml';
 			$module		= &$this->getModule();
-	
+
 			if ($module->module == 'custom') {
 				$xmlpath = JApplicationHelper::getPath( $path, 'mod_custom' );
 			} else {
 				$xmlpath = JApplicationHelper::getPath( $path, $module->module );
 			}
-	
+
 			if (file_exists($xmlpath))
 			{
 				$xml =& JFactory::getXMLParser('Simple');

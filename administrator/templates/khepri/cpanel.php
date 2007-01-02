@@ -60,11 +60,11 @@
 				<div id="element-box">
 					<jdoc:include type="message" />
    					<div class="t">
-              			<div class="t">
-                			<div class="t"></div>
-              			</div>
-            		</div>
-            		<div class="m" >
+			  			<div class="t">
+							<div class="t"></div>
+			  			</div>
+					</div>
+					<div class="m" >
 						<table class="adminform">
 						<tr>
 							<td width="55%" valign="top">
@@ -77,12 +77,12 @@
 						</table>
 						<div class="clr"></div>
 					</div>
-            		<div class="b">
-              			<div class="b">
-                			<div class="b"></div>
-              			</div>
-            		</div>
-          		</div>
+					<div class="b">
+			  			<div class="b">
+							<div class="b"></div>
+			  			</div>
+					</div>
+		  		</div>
 				<noscript>
 					<?php echo  JText::_('WARNJAVASCRIPT') ?>
 				</noscript>

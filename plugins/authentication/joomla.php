@@ -52,7 +52,7 @@ class JAuthenticateJoomla extends JPlugin
 	function onAuthenticate( $username, $password )
 	{
 		global $mainframe;
-		
+
 		// Initialize variables
 		$conditions = '';
 

@@ -33,7 +33,7 @@ class JSite extends JApplication
 	 * @access protected
 	 */
 	var $_pathway = null;
-	
+
 	/**
 	* Class constructor
 	*
@@ -63,7 +63,7 @@ class JSite extends JApplication
 		if (empty($options['language'])) {
 			$options['language'] = 'en-GB';
 		}
-		
+
 		$config = & JFactory::getConfig();
 		if ($config->getValue('config.legacy')) {
 			jimport('joomla.common.legacy');
@@ -107,7 +107,7 @@ class JSite extends JApplication
 		$contents = JComponentHelper::renderComponent($component, array('outline', JRequest::getVar('tp', 0 )));
 		$document->setBuffer( $contents, 'component');
 	}
-	
+
 	/**
 	* Display the application.
 	*
@@ -115,8 +115,8 @@ class JSite extends JApplication
 	*/
 	function display( $component )
 	{
-		$template = JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
-		$file 	  = JRequest::getVar( 'tmpl', 'index', '', 'string'  );
+		$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
+		$file 		= JRequest::getVar( 'tmpl', 'index', '', 'string'  );
 
 
 		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
@@ -132,7 +132,7 @@ class JSite extends JApplication
 		$document =& JFactory::getDocument();
 		$document->display( $this->getCfg('caching_tmpl'), $params);
 	}
-	
+
    /**
 	* Check if the user can access the application
 	*
@@ -298,7 +298,7 @@ class JSite extends JApplication
 	 * @since 1.5
 	 */
 	function &getPathWay()
-    {
+	{
 		return $this->_pathway;
 	}
 
@@ -392,8 +392,8 @@ class JSiteHelper
 		$menus =& JMenu::getInstance();
 		if(!is_object($menus->getItem($itemid)) || $itemid === 0)
 		{
-			$item  =& $menus->getDefault();
-			$itemid = $item->id;
+			$item	=& $menus->getDefault();
+			$itemid	= $item->id;
 		}
 
 		return JRequest::setVar( 'Itemid', $itemid );

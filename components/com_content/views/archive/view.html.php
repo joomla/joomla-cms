@@ -34,16 +34,16 @@ class ContentViewArchive extends JView
 		}
 
 		// Initialize some variables
-		$user	  =& JFactory::getUser();
-		$document =& JFactory::getDocument();
-		$pathway  = & $mainframe->getPathWay();
+		$user		=& JFactory::getUser();
+		$document	=& JFactory::getDocument();
+		$pathway	= & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
-		$menu    =& JSiteHelper::getActiveMenuItem();
-		$params  =& JSiteHelper::getMenuParams();
+		$menu		=& JSiteHelper::getActiveMenuItem();
+		$params		=& JSiteHelper::getMenuParams();
 
 		// Request variables
-		$task 	    = JRequest::getVar('task');
+		$task 		= JRequest::getVar('task');
 		$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 		$month		= JRequest::getVar( 'month' );
@@ -123,11 +123,11 @@ class ContentViewArchive extends JView
 		$this->assign('year'  		, $year);
 		$this->assign('month' 		, $month);
 
-		$this->assignRef('form'      , $form);
-		$this->assignRef('items'     , $items);
-		$this->assignRef('params'    , $params);
-		$this->assignRef('user'      , $user);
-		$this->assignRef('pagination', $pagination);
+		$this->assignRef('form',		$form);
+		$this->assignRef('items',		$items);
+		$this->assignRef('params',		$params);
+		$this->assignRef('user',		$user);
+		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
 	}

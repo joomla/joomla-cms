@@ -139,7 +139,7 @@ class PollController extends JController
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $user->get('id') ))
 		{
-	    	$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The poll' ), $row->title );
+			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The poll' ), $row->title );
 			$this->setRedirect( 'index.php?option='. $option, $msg );
 		}
 
@@ -237,9 +237,8 @@ class PollController extends JController
 
 	function removePoll()
 	{
-		$db =& JFactory::getDBO();
-
-		$cid    = JRequest::getVar( 'cid', array(), '', 'array' );
+		$db		=& JFactory::getDBO();
+		$cid	= JRequest::getVar( 'cid', array(), '', 'array' );
 		$option = JRequest::getVar( 'option', 'com_poll', '', 'string' );
 		$msg = '';
 

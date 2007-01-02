@@ -207,9 +207,9 @@ class JMenu extends JObject
 			return $menus;
 		}
 		// Initialize some variables
-		$db   = & JFactory::getDBO();
-		$user = & JFactory::getUser();
-		$sql  = "SELECT *" .
+		$db		= & JFactory::getDBO();
+		$user	= & JFactory::getUser();
+		$sql	= "SELECT *" .
 				"\n FROM #__menu" .
 				"\n WHERE published = 1".
 				"\n ORDER BY parent, ordering";

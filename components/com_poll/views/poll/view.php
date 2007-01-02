@@ -40,7 +40,7 @@ class PollViewPoll extends JView
 		for ($i = 0; $i < count( $this->votes ); $i++)
 		{
 			$vote =& $this->votes[$i];
-			
+
 			$vote->text = stripslashes( $vote->text );
 
 			if ($maxval > 0 && $sumval > 0)
@@ -50,8 +50,8 @@ class PollViewPoll extends JView
 			}
 			else
 			{
-				$vote->width   = 0;
-				$vote->percent = 0;
+				$vote->width	= 0;
+				$vote->percent	= 0;
 			}
 
 			$vote->class = '';
@@ -69,8 +69,8 @@ class PollViewPoll extends JView
 
 			$vote->barheight = $barheight;
 
-			$vote->odd   = $k;
-			$vote->count = $i;
+			$vote->odd		= $k;
+			$vote->count	= $i;
 			$k = 1 - $k;
 		}
 
