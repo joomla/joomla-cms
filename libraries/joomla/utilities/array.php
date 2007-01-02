@@ -159,7 +159,6 @@ class JArrayHelper
 	function getValue(&$array, $name, $default=null, $type='')
 	{
 		// Initialize variables
-		$type = strtoupper($type);
 		$result = null;
 
 		if (isset ($array[$name])) {
@@ -172,7 +171,7 @@ class JArrayHelper
 		}
 
 		// Handle the type constraint
-		switch ($type)
+		switch (strtoupper($type))
 		{
 			case 'INT' :
 			case 'INTEGER' :
@@ -204,7 +203,7 @@ class JArrayHelper
 				break;
 
 			case 'WORD' :
-				$result = (string) preg_replace( '#\W#', '', $result );;
+				$result = (string) preg_replace( '#\W#', '', $result );
 				break;
 
 			case 'NONE' :
