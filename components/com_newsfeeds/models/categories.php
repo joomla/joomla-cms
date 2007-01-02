@@ -89,7 +89,7 @@ class NewsfeedsModelCategories extends JModel
 	function _buildQuery()
 	{
 		$user = JFactory::getUser();
-		$gid = $user->get('gid');
+		$gid = $user->get('aid');
 
 		/* Query to retrieve all categories that belong under the contacts section and that are published. */
 		$query = "SELECT cc.*, a.catid, COUNT(a.id) AS numlinks"

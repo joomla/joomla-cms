@@ -99,7 +99,7 @@ class JComponentHelper
 		if(empty($name)) {
 			return;
 		}
-
+		
 		$outline	= isset($params['outline']) ? $params['outline'] : false;
 		$task		= JRequest::getVar( 'task' );
 
@@ -168,7 +168,7 @@ class JComponentHelper
 			<div class=\"com-preview-info\">".JText::_('Component')."[".$name."]</div>
 			<div class=\"com-preview-wrapper\">";
 		}
-
+		
 		// Execute the component
 		ob_start();
 		require_once $path;

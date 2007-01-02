@@ -267,7 +267,7 @@ function mosShowVIMenu(& $params)
 
 	// first pass - collect children
 	foreach ($rows as $v) {
-		if ($v->access <= $user->get('gid')) {
+		if ($v->access <= $user->get('aid')) {
 			$pt = $v->parent;
 			$list = @ $children[$pt] ? $children[$pt] : array ();
 			array_push($list, $v);
@@ -337,7 +337,7 @@ function mosShowHFMenu(& $params, $style = 0)
 
 	$links = array ();
 	foreach ($rows as $row) {
-		if ($row->access <= $user->get('gid')) {
+		if ($row->access <= $user->get('aid')) {
 			$links[] = mosGetMenuLink($row, 0, $params);
 		}
 	}

@@ -131,12 +131,12 @@ class ContentModelArticle extends JModel
 				}
 			}
 			// Do we have access to the category?
-			if (($this->_article->cat_access > $user->get('gid')) && $this->_article->catid) {
+			if (($this->_article->cat_access > $user->get('aid')) && $this->_article->catid) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 
 			// Do we have access to the section?
-			if (($this->_article->sec_access > $user->get('gid')) && $this->_article->sectionid) {
+			if (($this->_article->sec_access > $user->get('aid')) && $this->_article->sectionid) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 
@@ -441,7 +441,7 @@ class ContentModelArticle extends JModel
 		global $mainframe;
 
 		$user		=& JFactory::getUser();
-		$gid		= $user->get('gid');
+		$aid		= $user->get('aid');
 		$now		= $mainframe->get('requestTime');
 		$nullDate	= $this->_db->getNullDate();
 
@@ -450,7 +450,7 @@ class ContentModelArticle extends JModel
 		 * we are looking for and we have access to it.
 		 */
 		$where = "\n WHERE a.id = $this->_id";
-		$where .= "\n AND a.access <= $gid";
+		$where .= "\n AND a.access <= $aid";
 
 		if (!$user->authorize('action', 'edit', 'content', 'all'))
 		{

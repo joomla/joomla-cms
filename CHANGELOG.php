@@ -37,7 +37,15 @@ Legend:
 - -> Removed
 ! -> Note
 
-02-Jan-2007
+02-Jan-2007 Johan Janssens
+ ^ Changed JFactory::getUser, the user object is now stored completely in the session
+ + Added 'auto register' setting to the Joomla! user plugin. When turned off it allows the system 
+   to have temporary logged in users. This setting is experimental and should be used with care.
+ # Fix various session related problems
+ + Added 'aid' dynamic variable to the user object, this acts as the 'gid' variable in 1.0
+ + Added 'guest' dynamic variable to the user object, when a user is logged in guest is set to 0.
+ 
+02-Jan-2007 Andrew Eddie
  + Added JController::setMessage
  + Added advanced params support for modules
  ^ Tidied controllers and error handling in admin com_banners

@@ -100,7 +100,7 @@ class ContentViewArticle extends JView
 			if ($params->get('intro_only'))
 			{
 				// Check to see if the user has access to view the full article
-				if ($article->access <= $user->get('gid'))
+				if ($article->access <= $user->get('aid'))
 				{
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$article->slug."&amp;Itemid=".$Itemid);
 
@@ -262,7 +262,7 @@ class ContentViewArticle extends JView
 		$user		=& JFactory::getUser();
 
 		// Make sure you are logged in
-		if ($user->get('gid') < 1) {
+		if ($user->get('aid') < 1) {
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}

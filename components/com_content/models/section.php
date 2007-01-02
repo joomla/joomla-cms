@@ -112,7 +112,7 @@ class ContentModelSection extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_section->access > $user->get('gid')) {
+			if ($this->_section->access > $user->get('aid')) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -158,7 +158,7 @@ class ContentModelSection extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_section->access > $user->get('gid')) {
+			if ($this->_section->access > $user->get('aid')) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -186,7 +186,7 @@ class ContentModelSection extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_section->access > $user->get('gid')) {
+			if ($this->_section->access > $user->get('aid')) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -257,7 +257,7 @@ class ContentModelSection extends JModel
 			$user		=& JFactory::getUser();
 			$params 	= &JComponentHelper::getParams( 'com_content' );
 			$noauth	= !$params->get('shownoauth');
-			$gid		= $user->get('gid');
+			$gid		= $user->get('aid');
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 
@@ -352,7 +352,7 @@ class ContentModelSection extends JModel
 		if (empty($this->_tree))
 		{
 			$user		=& JFactory::getUser();
-			$gid		= $user->get('gid');
+			$aid		= $user->get('aid');
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 
@@ -372,7 +372,7 @@ class ContentModelSection extends JModel
 				"\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )";
 				"\n WHERE a.published = 1" .
 				$and .
-				"\n AND a.access <= $gid" .
+				"\n AND a.access <= $aid" .
 				"\n ORDER BY a.catid, a.ordering, b.ordering";
 			$this->_db->setQuery($query);
 			$this->_tree = $this->_db->loadObjectList();
@@ -443,7 +443,7 @@ class ContentModelSection extends JModel
 	{
 		global $mainframe;
 		$user		=& JFactory::getUser();
-		$gid		= $user->get('gid');
+		$aid		= $user->get('aid');
 		$now		= $mainframe->get('requestTime');
 		$params 	= &JComponentHelper::getParams( 'com_content' );
 		$noauth		= !$params->get('shownoauth');
@@ -452,13 +452,13 @@ class ContentModelSection extends JModel
 		$Itemid		= JRequest::getVar('Itemid');
 
 		// First thing we need to do is assert that the articles are in the current category
-		$where = "\n WHERE a.access <= $gid";
+		$where = "\n WHERE a.access <= $aid";
 		if ($this->_id) {
 			$where .= "\n AND a.sectionid = $this->_id";
 		}
 
-		$where .= "\n AND s.access <= $gid";
-		$where .= "\n AND cc.access <= $gid";
+		$where .= "\n AND s.access <= $aid";
+		$where .= "\n AND cc.access <= $aid";
 		$where .= "\n AND s.published = 1";
 		$where .= "\n AND cc.published = 1";
 

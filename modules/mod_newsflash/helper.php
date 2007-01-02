@@ -38,7 +38,7 @@ class modNewsFlashHelper
 			if ($params->get('intro_only'))
 			{
 				// Check to see if the user has access to view the full article
-				if ($item->access <= $user->get('gid'))
+				if ($item->access <= $user->get('aid'))
 				{
 					$Itemid = JContentHelper::getItemid($item->id);
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$item->id."&amp;Itemid=".$Itemid);
@@ -83,7 +83,7 @@ class modNewsFlashHelper
 			"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
 			"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
 			"\n WHERE a.state = 1".
-			($noauth ? "\n AND a.access <= " .$user->get('gid'). " AND cc.access <= " .$user->get('gid'). " AND s.access <= " .$user->get('gid') : '').
+			($noauth ? "\n AND a.access <= " .$user->get('aid'). " AND cc.access <= " .$user->get('aid'). " AND s.access <= " .$user->get('aid') : '').
 			"\n AND (a.publish_up = '$nullDate' OR a.publish_up <= '$now' ) " .
 			"\n AND (a.publish_down = '$nullDate' OR a.publish_down >= '$now' )" .
 			"\n AND a.catid = $catid"."\n AND cc.published = 1" .

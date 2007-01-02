@@ -233,7 +233,7 @@ class JAdministrator extends JApplication
 	{
 		$session =& $this->_createSession($name);
 
-		if ($session->getState() == 'expired')
+		/*if ($session->getState() == 'expired')
 		{
 			// Build the URL
 			$uri = JFactory::getURI();
@@ -252,7 +252,7 @@ class JAdministrator extends JApplication
 			$cache->save(serialize($state), md5($user->get('id')), 'autoLogoutState');
 
 			$this->logout();
-		}
+		}*/
 	}
 
 	/**
@@ -397,16 +397,15 @@ class JAdministratorHelper
 	{
 		$option = strtolower(JRequest::getVar('option', null));
 
-		$session =& JFactory::getSession();
-		if (is_null($session->get('session.user.id')) || !$session->get('session.user.id')) {
+		$user =& JFactory::getUser();
+		if ($user->get('guest')) {
 			$option = 'com_login';
 		}
 
 		if(empty($option)) {
 			$option = 'com_cpanel';
-
 		}
-
+		
 		return JRequest::setVar('option', $option);
 	}
 }

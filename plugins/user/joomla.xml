@@ -13,7 +13,7 @@
 		<filename plugin="joomla">joomla.php</filename>
 	</files>
 	<params>
-		<param name="autoregister" type="radio" default="0" label="Auto Create Users" description="PARAMAUTOCREATEUSERS">
+		<param name="autoregister" type="radio" default="1" label="Auto Create Users" description="PARAMAUTOCREATEUSERS">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>

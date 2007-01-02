@@ -111,7 +111,7 @@ class ContentModelCategory extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('gid'))
+			if ($this->_category->access > $user->get('aid'))
 			{
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
@@ -157,7 +157,7 @@ class ContentModelCategory extends JModel
 				return false;
 			}
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('gid')) {
+			if ($this->_category->access > $user->get('aid')) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -186,7 +186,7 @@ class ContentModelCategory extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('gid'))
+			if ($this->_category->access > $user->get('aid'))
 			{
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
@@ -248,7 +248,7 @@ class ContentModelCategory extends JModel
 			$user		=& JFactory::getUser();
 			$params = &JComponentHelper::getParams( 'com_content' );
 			$noauth		= !$params->get('shownoauth');
-			$gid		= $user->get('gid');
+			$gid		= $user->get('aid');
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 			$section	= $this->_category->section;
@@ -382,7 +382,7 @@ class ContentModelCategory extends JModel
 		global $mainframe, $Itemid;
 
 		$user		=& JFactory::getUser();
-		$gid		= $user->get('gid');
+		$gid		= $user->get('aid');
 		$now		= $mainframe->get('requestTime');
 		$params 	= &JComponentHelper::getParams( 'com_content' );
 		$noauth		= !$params->get('shownoauth');

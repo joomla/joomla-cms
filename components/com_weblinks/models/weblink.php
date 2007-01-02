@@ -91,7 +91,7 @@ class WeblinksModelWeblink extends JModel
 			}
 
 			// Check whether category access level allows access
-			if ($this->_data->cat_access > $user->get('gid')) {
+			if ($this->_data->cat_access > $user->get('aid')) {
 				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 				return;
 			}

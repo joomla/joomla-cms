@@ -29,7 +29,7 @@ class modSectionsHelper
 		$contentConfig 	= &JComponentHelper::getParams( 'com_content' );
 		$access	= !$contentConfig->get('shownoauth');
 
-		$gid 		= $user->get('gid');
+		$gid 		= $user->get('aid');
 		$now		= date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);
 		$nullDate	= $db->getNullDate();
 

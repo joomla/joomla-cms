@@ -358,7 +358,7 @@ class JApplication extends JObject
 		jimport( 'joomla.user.authenticate');
 		$authenticate = & JAuthenticate::getInstance();
 		$response	 = $authenticate->authenticate($username, $password);
-
+		
 		if (is_a($response, 'JAuthenticateResponse'))
 		{
 			// Import the user plugin group
@@ -400,7 +400,7 @@ class JApplication extends JObject
 
 		// Build the credentials array
 		$parameters['username'] = $user->get('username');
-		$parameters['id'] 		= $user->get('id');
+		$parameters['id'] 	    = $user->get('id');
 
 		// Import the user plugin group
 		JPluginHelper::importPlugin('user');
@@ -434,9 +434,12 @@ class JApplication extends JObject
 	{
 		$session =& $this->_createSession($name);
 
-		if ($session->getState() == 'expired') {
-			$this->logout();
-		}
+		// Set user specific editor
+		$user   =& JFactory::getUser();
+		$editor = $user->getParam('editor', $this->getCfg('editor'));
+
+		$config =& JFactory::getConfig();
+		$config->setValue('config.editor', $editor);
 	}
 
 	/**
@@ -508,13 +511,18 @@ class JApplication extends JObject
 	{
 		$options = array();
 		$options['name'] = $name;
-
+		
+		//create an anonymous user
+		$user 	 =& JUser::getInstance();
+		$user->set('aid'  , 0); 
+		$user->set('guest', 1);
+		
 		$session =& JFactory::getSession($options);
-
+		
 		$storage = & JTable::getInstance('session');
-		$storage->purge( intval( $this->getCfg( 'lifetime' ) * 60) );
-
-		if ($storage->load( $session->getId() ))
+		$storage->purge($session->getExpire() * 60);
+		
+		if ($storage->load($session->getId())) 
 		{
 			// Session cookie exists, update time in session table
 			$storage->update();
@@ -523,9 +531,10 @@ class JApplication extends JObject
 		{
 			//create persistance store in the session
 			$session->set('registry', new JRegistry('session'));
-
-			if (!$storage->insert( $session->getId(), $this->getClientId() )) {
-				die( $storage->getError() );
+			$session->set('user'    , $user);
+			
+			if (!$storage->insert( $session->getId(), $this->getClientId())) {
+				die( $storage->getError());
 			}
 
 			//TODO::Fix remember me (harden and move out of function)
@@ -535,18 +544,6 @@ class JApplication extends JObject
 			//	$this->login( $usercookie['username'], $usercookie['password'] );
 			//}
 		}
-
-		if (!is_a($session->get('registry'), 'JRegistry')) {
-			// Registry has been corrupted somehow
-			$session->set('registry', new JRegistry('session'));
-		}
-
-		// Set user specific editor
-		$user	=& JFactory::getUser();
-		$editor = $user->getParam('editor', $this->getCfg('editor'));
-
-		$config =& JFactory::getConfig();
-		$config->setValue('config.editor', $editor);
 
 		return $session;
 	}

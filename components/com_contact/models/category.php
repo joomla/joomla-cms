@@ -30,7 +30,7 @@ class ContactModelCategory extends JModel
 	{
 		// TODO: Cache on the fingerprint of the arguments
 		$db		= JFactory::getDBO();
-		$gid	= @$options['gid'];
+		$aid	= @$options['aid'];
 
 		$select = 'cc.*, COUNT( a.id ) AS numlinks, a.id as cid';
 		$from	= '#__categories AS cc';
@@ -43,8 +43,8 @@ class ContactModelCategory extends JModel
 
 		if ($gid !== null)
 		{
-			$wheres[] = 'a.access <= ' . (int) $gid;
-			$wheres[] = 'cc.access <= ' . (int) $gid;
+			$wheres[] = 'a.access <= ' . (int) $aid;
+			$wheres[] = 'cc.access <= ' . (int) $aid;
 		}
 
 		$groupBy	= 'cc.id';
@@ -75,7 +75,7 @@ class ContactModelCategory extends JModel
 	{
 		// TODO: Cache on the fingerprint of the arguments
 		$db			= JFactory::getDBO();
-		$gid		= @$options['gid'];
+		$aid		= @$options['aid'];
 		$catId		= @$options['category_id'];
 		$groupBy	= @$options['group by'];
 		$orderBy	= @$options['order by'];
@@ -95,8 +95,8 @@ class ContactModelCategory extends JModel
 
 		if ($gid !== null)
 		{
-			$wheres[] = 'cc.access <= ' . (int) $gid;
-			$wheres[] = 'cd.access <= ' . (int) $gid;
+			$wheres[] = 'cc.access <= ' . (int) $aid;
+			$wheres[] = 'cd.access <= ' . (int) $aid;
 		}
 
 		$groupBy	= 'cd.id';

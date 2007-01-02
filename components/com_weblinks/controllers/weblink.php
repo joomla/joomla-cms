@@ -34,7 +34,7 @@ class WeblinksControllerWeblink extends WeblinksController
 		$user = & JFactory::getUser();
 
 		// Make sure you are logged in
-		if ($user->get('gid') < 1) {
+		if ($user->get('aid') < 1) {
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}

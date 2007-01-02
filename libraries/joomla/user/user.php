@@ -77,7 +77,7 @@ class JUser extends JObject
 
 		// Load the user if it exists
 		if (!empty($identifier)) {
-			$this->_load($identifier);
+			$this->load($identifier);
 		}
 	}
 
@@ -145,8 +145,7 @@ class JUser extends JObject
 	 */
 	function get($property, $default=null)
 	{
-		if(isset($this->_table->$property))
-		{
+		if(isset($this->_table->$property)) {
 			return $this->_table->$property;
 		}
 		return $default;
@@ -486,13 +485,13 @@ class JUser extends JObject
 	/**
 	 * Method to load a JUser object by user id number
 	 *
-	 * @access 	protected
+	 * @access 	public
 	 * @param 	mixed 	$identifier The user id of the user to load
 	 * @param 	string 	$path 		Path to a parameters xml file
 	 * @return 	boolean 			True on success
 	 * @since 1.5
 	 */
-	function _load($id)
+	function load($id)
 	{
 		 // Load the JUserModel object based on the user id or throw a warning.
 		 if(!$this->_table->load($id))

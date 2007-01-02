@@ -76,7 +76,7 @@ class modLatestNewsHelper
 					"\n LEFT OUTER JOIN #__menu AS m ON m.componentid = a.id " .
 					"\n WHERE $where AND a.sectionid = 0" .
 					"\n AND m.type = 'content_typed' ".
-					($access ? "\n AND a.access <= " .$user->get('gid') : '').
+					($access ? "\n AND a.access <= " .$user->get('aid') : '').
 					"\n ORDER BY $ordering";
 
 				$db->setQuery($query, 0, $count);
@@ -90,7 +90,7 @@ class modLatestNewsHelper
 					"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" .
 					"\n LEFT JOIN #__sections AS s ON s.id = a.sectionid" .
 					"\n WHERE $where" .
-					($access ? "\n AND a.access <= " .$user->get('gid') : '') .
+					($access ? "\n AND a.access <= " .$user->get('aid') : '') .
 					"\n ORDER BY $ordering";
 
 				$db->setQuery( $query, 0, $count );
@@ -119,7 +119,7 @@ class modLatestNewsHelper
 					"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
 					"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
 					"\n WHERE $where AND a.sectionid > 0" .
-					($access ? "\n AND a.access <= " .$user->get('gid'). " AND cc.access <= " .$user->get('gid'). " AND s.access <= " .$user->get('gid') : '').
+					($access ? "\n AND a.access <= " .$user->get('aid'). " AND cc.access <= " .$user->get('aid'). " AND s.access <= " .$user->get('aid') : '').
 					($catid ? "\n $catCondition" : '').
 					($secid ? "\n $secCondition" : '').
 					($show_front == '0' ? "\n AND f.content_id IS NULL" : '').
@@ -143,7 +143,7 @@ class modLatestNewsHelper
 					break;
 
 				case 3:
-					if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('gid') || $row->cat_access == '' || !$access) && ($row->sec_access <= $user->get('gid') || $row->sec_access == '' || !$access))
+					if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('aid') || $row->cat_access == '' || !$access) && ($row->sec_access <= $user->get('aid') || $row->sec_access == '' || !$access))
 					{
 						if ($row->sectionid) {
 							$row->my_itemid = JContentHelper::getItemid($row->id);

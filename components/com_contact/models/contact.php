@@ -30,7 +30,7 @@ class ContactModelContact extends JModel
 	{
 		// TODO: Cache on the fingerprint of the arguments
 		$db			= JFactory::getDBO();
-		$gid		= @$options['gid'];
+		$aid		= @$options['aid'];
 		$id			= @$options['id'];
 		$groupBy	= @$options['group by'];
 		$orderBy	= @$options['order by'];
@@ -46,8 +46,8 @@ class ContactModelContact extends JModel
 
 		if ($gid !== null)
 		{
-			$wheres[] = 'a.access <= ' . (int) $gid;
-			$wheres[] = 'cc.access <= ' . (int) $gid;
+			$wheres[] = 'a.access <= ' . (int) $aid;
+			$wheres[] = 'cc.access <= ' . (int) $aid;
 		}
 
 		/*

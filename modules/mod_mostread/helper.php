@@ -49,7 +49,7 @@ class modMostReadHelper
 					"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
 					"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
 					"\n AND m.type = 'content_typed' ".
-					($access ? "\n AND a.access <= " .$user->get('gid') : '').
+					($access ? "\n AND a.access <= " .$user->get('aid') : '').
 					"\n ORDER BY a.hits DESC";
 				$db->setQuery($query, 0, $count);
 				$rows = $db->loadObjectList();
@@ -64,7 +64,7 @@ class modMostReadHelper
 					"\n WHERE a.state = 1" .
 					"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
 					"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
-					($access ? "\n AND a.access <= " .$user->get('gid') : '') .
+					($access ? "\n AND a.access <= " .$user->get('aid') : '') .
 					"\n ORDER BY a.hits DESC";
 				$db->setQuery( $query, 0, $count );
 				$rows = $db->loadObjectList();
@@ -81,7 +81,7 @@ class modMostReadHelper
 					"\n WHERE ( a.state = 1 AND a.sectionid > 0 )" .
 					"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
 					"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
-					($access ? "\n AND a.access <= " .$user->get('gid'). " AND cc.access <= " .$user->get('gid'). " AND s.access <= " .$user->get('gid') : '').
+					($access ? "\n AND a.access <= " .$user->get('aid'). " AND cc.access <= " .$user->get('aid'). " AND s.access <= " .$user->get('aid') : '').
 					($catid ? "\n AND ( a.catid IN ( $catid ) )" : '').
 					($secid ? "\n AND ( a.sectionid IN ( $secid ) )" : '').
 					($show_front == '0' ? "\n AND f.content_id IS NULL" : '').
@@ -105,7 +105,7 @@ class modMostReadHelper
 					break;
 
 				case 3:
-					if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('gid') || $row->cat_access == '' || !$access) && ($row->sec_access <= $user->get('gid') || $row->sec_access == '' || !$access))
+					if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('aid') || $row->cat_access == '' || !$access) && ($row->sec_access <= $user->get('aid') || $row->sec_access == '' || !$access))
 					{
 						if ($row->sectionid) {
 							$row->my_itemid = JContentHelper::getItemid($row->id);

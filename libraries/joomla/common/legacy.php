@@ -78,8 +78,9 @@ $GLOBALS['database']->debug($conf->getValue('config.debug'));
  * @deprecated	As of version 1.5
  * @package		Joomla.Legacy
  */
-$user			= & JFactory::getUser();
-$GLOBALS['my']	= $user->getTable();
+$user			    = JFactory::getUser();
+$GLOBALS['my']	    = clone($user->getTable());
+$GLOBALS['my']->gid = $user->get('aid');  
 
 /**
  * Legacy global, use JApplication::getTemplate() instead

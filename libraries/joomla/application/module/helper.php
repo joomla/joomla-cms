@@ -224,8 +224,8 @@ class JModuleHelper
 		$user	=& JFactory::getUser();
 		$db		=& JFactory::getDBO();
 
-		$gid	= $user->get('gid');
-
+		$aid	= $user->get('aid');
+		
 		$modules	= array();
 
 		$wheremenu = isset( $Itemid ) ? "\n AND ( mm.menuid = ". $Itemid ." OR mm.menuid = 0 )" : '';
@@ -234,7 +234,7 @@ class JModuleHelper
 			. "\n FROM #__modules AS m"
 			. "\n LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id"
 			. "\n WHERE m.published = 1"
-			. "\n AND m.access <= ". (int)$gid
+			. "\n AND m.access <= ". (int)$aid
 			. "\n AND m.client_id = ". (int)$mainframe->getClientId()
 			. $wheremenu
 			. "\n ORDER BY position, ordering";

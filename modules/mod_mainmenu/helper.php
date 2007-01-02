@@ -58,7 +58,7 @@ class modMainMenuHelper
 				// pop the first item until the array is empty
 				while ( !is_null($row = array_shift($rows))){
 					if(array_key_exists($row->parent, $ids)){
-						if($row->access <= $user->get('gid')) {
+						if($row->access <= $user->get('aid')) {
 							$menu->addNode($row);
 							// record loaded parents
 							$ids[$row->id] = true;

@@ -139,7 +139,7 @@ class NewsfeedsModelCategory extends JModel
 				return false;
 			}
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('gid')) {
+			if ($this->_category->access > $user->get('aid')) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}

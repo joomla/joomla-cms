@@ -119,8 +119,8 @@ class JFactory
 	{
 		// If there is a userid in the session, load the application user
 		// object with the logged in user.
-		$session	=& JFactory::getSession();
-		$instance	=& JUser::getInstance((int)$session->get('session.user.id', 0));
+		$session  =& JFactory::getSession();
+		$instance =& $session->get('user');
 
 		return $instance;
 	}
@@ -378,9 +378,12 @@ class JFactory
 
 		//get the editor configuration setting
 		$conf =& JFactory::getConfig();
-		$options['expire'] = $conf->getValue('config.lifetime', 900);
+		$options['expire'] = $conf->getValue('config.lifetime', 15);
 
 		$session = new JSession($options);
+		if ($session->getState() == 'expired') {
+			$session->restart();
+		}
 
 		return $session;
 	}

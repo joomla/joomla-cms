@@ -492,25 +492,25 @@ INSERT INTO `#__modules` VALUES (14, 'Search', '', 1, 'user4', 0, '0000-00-00 00
 INSERT INTO `#__modules` VALUES (15, 'Random Image', '', 9, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_random_image', 0, 0, 1, '', 0, 0, '');
 INSERT INTO `#__modules` VALUES (16, 'Top Menu', '', 1, 'user3', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'menutype=topmenu\nmenu_style=list_flat\nmenu_images=n\nmenu_images_align=left\nexpand_menu=n\nclass_sfx=-nav\nmoduleclass_sfx=\nindent_image1=0\nindent_image2=0\nindent_image3=0\nindent_image4=0\nindent_image5=0\nindent_image6=0', 1, 0, '');
 INSERT INTO `#__modules` VALUES (17, 'Banners', '', 1, 'banner', 0, '0000-00-00 00:00:00', 1, 'mod_banners', 0, 0, 0, 'banner_cids=\nmoduleclass_sfx=\n', 1, 0, '');
-INSERT INTO `#__modules` VALUES (18, 'Popular','',3,'cpanel',0,'0000-00-00 00:00:00',1,'mod_popular',0,23,1,'',0, 1, '');
-INSERT INTO `#__modules` VALUES (19, 'Recent added Articles','',4,'cpanel',0,'0000-00-00 00:00:00',1,'mod_latest',0,23,1,'',0, 1, '');
-INSERT INTO `#__modules` VALUES (20, 'Menu Stats','',5,'cpanel',0,'0000-00-00 00:00:00',1,'mod_stats',0,23,1,'',0, 1, '');
-INSERT INTO `#__modules` VALUES (21, 'Unread Messages','',1,'header',0,'0000-00-00 00:00:00',1,'mod_unread',0,23,1,'',1, 1, '');
-INSERT INTO `#__modules` VALUES (22, 'Online Users','',2,'header',0,'0000-00-00 00:00:00',1,'mod_online',0,23,1,'',1, 1, '');
-INSERT INTO `#__modules` VALUES (23, 'Toolbar','',1,'toolbar',0,'0000-00-00 00:00:00',1,'mod_toolbar',0,23,1,'',1, 1, '');
-INSERT INTO `#__modules` VALUES (24, 'Quick Icons','',1,'icon',0,'0000-00-00 00:00:00',1,'mod_quickicon',0,23,1,'',1,1, '');
+INSERT INTO `#__modules` VALUES (18, 'Popular','',3,'cpanel',0,'0000-00-00 00:00:00',1,'mod_popular',0,,1,'',0, 1, '');
+INSERT INTO `#__modules` VALUES (19, 'Recent added Articles','',4,'cpanel',0,'0000-00-00 00:00:00',1,'mod_latest',0,,1,'',0, 1, '');
+INSERT INTO `#__modules` VALUES (20, 'Menu Stats','',5,'cpanel',0,'0000-00-00 00:00:00',1,'mod_stats',0,,1,'',0, 1, '');
+INSERT INTO `#__modules` VALUES (21, 'Unread Messages','',1,'header',0,'0000-00-00 00:00:00',1,'mod_unread',0,,1,'',1, 1, '');
+INSERT INTO `#__modules` VALUES (22, 'Online Users','',2,'header',0,'0000-00-00 00:00:00',1,'mod_online',0,,1,'',1, 1, '');
+INSERT INTO `#__modules` VALUES (23, 'Toolbar','',1,'toolbar',0,'0000-00-00 00:00:00',1,'mod_toolbar',0,,1,'',1, 1, '');
+INSERT INTO `#__modules` VALUES (24, 'Quick Icons','',1,'icon',0,'0000-00-00 00:00:00',1,'mod_quickicon',0,,1,'',1,1, '');
 INSERT INTO `#__modules` VALUES (25, 'Other Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'menutype=othermenu\nmenu_style=vert_indent\ncache=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nclass_sfx=\nmoduleclass_sfx=\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=\nmoduleclass_sfx=_menu\n', 0, 0, '');
 INSERT INTO `#__modules` VALUES (26, 'Wrapper','',10,'left',0,'0000-00-00 00:00:00',0,'mod_wrapper',0,0,1,'',0, 0, '');
-INSERT INTO `#__modules` VALUES (27, 'Logged in Users','',2,'cpanel',0,'0000-00-00 00:00:00',1,'mod_logged',0,23,1,'',0,1, '');
+INSERT INTO `#__modules` VALUES (27, 'Logged in Users','',2,'cpanel',0,'0000-00-00 00:00:00',1,'mod_logged',0,,1,'',0,1, '');
 INSERT INTO `#__modules` VALUES (28, 'Footer', '', 1, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 0, '');
 INSERT INTO `#__modules` VALUES (29, 'Footer', '', 0, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 1, '');
 INSERT INTO `#__modules` VALUES (30, 'Feed Display', '', 11, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_feed', 0, 0, 1, '', 1, 0, '');
 INSERT INTO `#__modules` VALUES (31, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 0, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 1, 0, '');
 INSERT INTO `#__modules` VALUES (32, 'Syndication', '', 3, 'syndicate', 0, '0000-00-00 00:00:00', 1, 'mod_syndicate', 0, 0, 0, '', 1, 0, '');
-INSERT INTO `#__modules` VALUES (33, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 0, 23, 1, '', 0, 1, '');
-INSERT INTO `#__modules` VALUES (34, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, 23, 1, '', 0, 1, '');
-INSERT INTO `#__modules` VALUES (35, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, 23, 1, '', 0, 1, '');
-INSERT INTO `#__modules` VALUES (36, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 0, 23, 1, '', 0, 1, '');
+INSERT INTO `#__modules` VALUES (33, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 0, , 1, '', 0, 1, '');
+INSERT INTO `#__modules` VALUES (34, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, , 1, '', 0, 1, '');
+INSERT INTO `#__modules` VALUES (35, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, , 1, '', 0, 1, '');
+INSERT INTO `#__modules` VALUES (36, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 0, , 1, '', 0, 1, '');
 
 # --------------------------------------------------------
 

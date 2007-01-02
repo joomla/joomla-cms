@@ -42,7 +42,7 @@ class JSession extends JObject
 	 * @access protected
 	 * @var	string $_expire minutes
 	 */
-	var	$_expire	=	null;
+	var	$_expire	=	15;
 
 	/**
 	* Constructor
@@ -76,10 +76,19 @@ class JSession extends JObject
 	 * @access public
 	 * @return string The session state
 	 */
-	function getState()
-	{
+    function getState() {
 		return $this->_state;
 	}
+	
+	/**
+	 * Get expiration time in minutes
+	 *
+	 * @access public
+	 * @return integer The session expiration time in minutes
+	 */
+    function getExpire() {
+		return $this->_expire;
+    }
 
 
 	/**
@@ -138,7 +147,7 @@ class JSession extends JObject
 	 */
 	function &get($name, $default = null)
 	{
-		if($this->_state !== 'active') {
+		if($this->_state !== 'active' && $this->_state !== 'expired') {
 			// @TODO :: generated error here
 			$error = null;
 			return $error;
@@ -234,19 +243,6 @@ class JSession extends JObject
 		session_cache_limiter('none');
 		session_start();
 
-		// Check to see if the user id is already set
-		// TODO :: this needs to be moved somewehere
-		if(($userid = $this->get('session.user.id'))) {
-			// And if they have a valid session entry in the table
-			$db = JFactory::getDBO();
-			$db->setQuery('SELECT session_id FROM #__session WHERE userid = '. $userid);
-			$db->Query() or die($db->getErrorMsg());
-			if(!$db->getNumRows()) {
-				// No rows for this user, their session was wiped out :)
-				$this->restart();
-			}
-		}
-
 		// Send modified header for IE 6.0 Security Policy
 		//header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 
@@ -289,7 +285,7 @@ class JSession extends JObject
 	}
 
    /**
-	* restart a destroyed or locked session
+    * restart an expired or locked session
 	*
 	* @access public
 	* @return boolean $result true on success

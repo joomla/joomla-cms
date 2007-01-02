@@ -50,9 +50,9 @@ class LoginController
 		global $mainframe, $Itemid, $option;
 
 		// Initialize variables
-		$document	= & JFactory::getDocument();
+		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
-		$pathway	= & $mainframe->getPathway();
+		$pathway	=& $mainframe->getPathway();
 
 		$menu		=& JSiteHelper::getActiveMenuItem();
 		$params		=& JSiteHelper::getMenuParams();
@@ -75,7 +75,7 @@ class LoginController
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 		$params->def( 'registration', 				$usersConfig->get( 'allowUserRegistration' ) );
 
-		if ( $user->get('id') )
+		if ( !$user->get('guest') )
 		{
 			$title = JText::_( 'Logout');
 
@@ -83,8 +83,6 @@ class LoginController
 			$pathway->setItemName(1, $title );
 			// Set page title
 			$document->setTitle( $title );
-
-			$viewname = 'logout';
 		}
 		else
 		{
@@ -94,14 +92,12 @@ class LoginController
 			$pathway->setItemName(1, $title );
 			// Set page title
 			$document->setTitle( $title );
-
-			$viewname = 'login';
 		}
 
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'login'.DS.'view.php');
 		$view = new LoginViewLogin();
 
-		$view->assign('type', ($user->get('id')) ? 'logout' : 'login');
+		$view->assign('type', (!$user->get('guest')) ? 'logout' : 'login');
 		$view->assignRef('params', $params);
 
 		$view->display();

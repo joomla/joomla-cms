@@ -47,7 +47,7 @@ class ContactViewContact extends JView
 
 		// query options
 		$options['id']	= $contactId;
-		$options['gid']	= $user->get('gid');
+		$options['gid']	= $user->get('aid');
 
 		$contact	= $model->getContact( $options );
 

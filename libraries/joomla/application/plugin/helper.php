@@ -205,16 +205,12 @@ class JPluginHelper
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
 
-		if (is_object( $user )) {
-			$gid = $user->get('gid');
-		} else {
-			$gid = 0;
-		}
-
+		$aid = $user->get('aid');
+	
 		$query = "SELECT id, name, folder, element, published, params"
 			. "\n FROM #__plugins"
 			. "\n WHERE published >= 1"
-			. "\n AND access <= " . (int) $gid
+			. "\n AND access <= " . (int) $aid
 			. "\n ORDER BY ordering"
 			;
 

@@ -79,7 +79,7 @@ class UserController
 		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
 
-		if ( $user->get('id') == 0 ) {
+		if ( $user->get('guest')) {
 			JError::raiseError( 403, JText::_('Access Forbidden') );
 			return;
 		}

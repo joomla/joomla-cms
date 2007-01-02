@@ -58,11 +58,6 @@ class JUserJoomla extends JPlugin
 		}
 		$db->setQuery('DELETE FROM #__session WHERE username = "'.$username.'"');
 		$db->Query();
-
-
-		//Make sure
-		mysql_select_db($mainframe->getCfg('db'));
-
 	}
 
 	/**
@@ -76,59 +71,63 @@ class JUserJoomla extends JPlugin
 	function onLoginUser($user, $remember)
 	{
 		// load plugin parameters
-	 	$plugin =& JPluginHelper::getPlugin('authentication', 'joomla');
+	 	$plugin =& JPluginHelper::getPlugin('user', 'joomla');
 	 	$params = new JParameter( $plugin->params );
 
-		// We need to create the user if they don't exist
-		if(!$id = intval(JUserHelper::getUserId($user['username'])))
+		$my = new JUser();
+		if($id = intval(JUserHelper::getUserId($user['username'])))  {
+			$my->load($id);
+		} 
+		else 
 		{
-			$my = new JUser();
 			$my->set( 'id'			, 0 );
 			$my->set( 'name'		, $user['fullname'] );
 			$my->set( 'username'	, $user['username'] );
 			$my->set( 'email'		, $user['email'] );	// Result should contain an email (check)
 			$my->set( 'gid'			, 18 );				//Make configurable
 			$my->set( 'usertype'	, 'Registered' ); 	//Make configurable
-
+		}
+		
+		//If autoregister is set let's register the user
+		if($params->get('autoregister', 1)) 
+		{
 			if(!$my->save()) {
 				return false;
 			}
-
-			//get the id of the new user
-			$id = intval($my->get('id'));
 		}
-
-		// Get the JUser object for the user to login
-		$my =& JUser::getInstance( $id );
 
 		// If the user is blocked, redirect with an error
 		if ($my->get('block') == 1) {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
 		}
-
-		// Fudge the ACL stuff for now...
-		// TODO: Implement ACL :)
+		
+		//Mark the user as logged in
+		$my->set( 'guest', 0);
+		
+		// Discover the access group identifier
+		// NOTE : this is a very basic for of permission handling, will be replaced by a full ACL in 1.6
 		jimport('joomla.factory');
 		$acl = &JFactory::getACL();
 		$grp = $acl->getAroGroup($my->get('id'));
-		$my->set('gid', 1);
-
-		// ToDO: Add simple mapping based on the group table to allow positive references between content and user groups
+		
+		$my->set('aid', 1);
 		if ($acl->is_group_child_of($grp->name, 'Registered', 'ARO') || $acl->is_group_child_of($grp->name, 'Public Backend', 'ARO')) {
-				// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
-				$my->set('gid', 2);
+			// fudge Authors, Editors, Publishers and Super Administrators into the special access group
+			$my->set('aid', 2);
 		}
+		
+		//Set the usertype based on the ACL group name
 		$my->set('usertype', $grp->name);
 
 		// Register the needed session variables
 		$session =& JFactory::getSession();
-		$session->set('session.user.id', $my->get('id'));
+		$session->set('user', $my);
 
 		// Get the session object
 		$table = & JTable::getInstance('session');
 		$table->load( $session->getId() );
 
-		$table->guest 		= 0;
+		$table->guest 		= $my->get('guest');
 		$table->username 	= $my->get('username');
 		$table->userid 		= intval($my->get('id'));
 		$table->usertype 	= $my->get('usertype');

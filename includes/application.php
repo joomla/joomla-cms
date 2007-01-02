@@ -425,8 +425,7 @@ class JSiteHelper
 			if ($parts['query']) {
 				$vars = array();
 				parse_str($parts['query'], $vars);
-				foreach ($vars as $k => $v)
-				{
+				foreach ($vars as $k => $v) {
 					JRequest::setVar($k, $v);
 				}
 			}

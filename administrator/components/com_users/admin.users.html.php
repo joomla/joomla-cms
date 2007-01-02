@@ -182,7 +182,7 @@ class HTML_users {
 				alert( "<?php echo JText::_( 'You must provide a name.', true ); ?>" );
 			} else if (form.username.value == "") {
 				alert( "<?php echo JText::_( 'You must provide a user login name.', true ); ?>" );
-			} else if (r.exec(form.username.value) || form.username.value.length < 3) {
+			} else if (r.exec(form.username.value) || form.username.value.length < 2) {
 				alert( "<?php echo JText::_( 'WARNLOGININVALID', true ); ?>" );
 			} else if (trim(form.email.value) == "") {
 				alert( "<?php echo JText::_( 'You must provide an email address.', true ); ?>" );
@@ -219,7 +219,7 @@ class HTML_users {
 							</label>
 						</td>
 						<td>
-							<input type="text" name="name" id="name" class="inputbox" size="40" value="<?php echo $user->get('name'); ?>" maxlength="50" />
+							<input type="text" name="name" id="name" class="inputbox" size="40" value="<?php echo $user->get('name'); ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -229,7 +229,7 @@ class HTML_users {
 							</label>
 						</td>
 						<td>
-							<input type="text" name="username" id="username" class="inputbox" size="40" value="<?php echo $user->get('username'); ?>" maxlength="25"  autocomplete="off" />
+							<input type="text" name="username" id="username" class="inputbox" size="40" value="<?php echo $user->get('username'); ?>" autocomplete="off" />
 						</td>
 					</tr>
 					<tr>
