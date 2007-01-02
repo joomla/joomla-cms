@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
@@ -44,6 +44,8 @@ Legend:
  ^ Tidied controllers and error handling in admin com_modules
  + Added path plg_xml for use in leiu of bot_xml
  # Fixed bug in mysqli __deconstruct method (was not closing the connection at all)
+ ^ Cleaned up up whitespace
+ ^ Updated copyright notices for 2007
 
 01-Jan-2007 Hannes Papenberg
  ^ Changed Meta-Informations gathering in article creation

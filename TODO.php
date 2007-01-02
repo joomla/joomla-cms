@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: TODO.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php

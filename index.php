@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
@@ -83,4 +83,3 @@ $mainframe->triggerEvent('onAfterDisplay');
  * RETURN THE RESPONSE
  */
 echo JResponse::toString($mainframe->getCfg('gzip'));
-?>

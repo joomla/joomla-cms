@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: feed.php 5061 2006-09-14 21:23:40Z Jinx $
+* @version		$Id: feed.php 5061 2006-09-14 21:23:40Z Jinx $
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
@@ -92,4 +92,3 @@ $mainframe->triggerEvent('onAfterDisplay');
 echo JResponse::toString($mainframe->getCfg('gzip'));
 
 JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null;
-?>
