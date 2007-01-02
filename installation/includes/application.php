@@ -106,6 +106,17 @@ class JInstallation extends JApplication
 	}
 
 	/**
+	 * Set the user session.
+	 *
+	 * @access public
+	 * @param string The session's name.
+	 */
+	function setSession($name)
+	{
+		$session =& $this->_createSession($name);
+	}
+
+	/**
 	 * Create the user session
 	 *
 	 * @access private

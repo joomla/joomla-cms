@@ -302,7 +302,7 @@ class JTableUser extends JTable
 		// updates user lastvistdate field with date and time
 		$query = "UPDATE $this->_tbl"
 		. "\n SET lastvisitDate = '$dateTime'"
-		. "\n WHERE id = '$id'"
+		. "\n WHERE id = ".$id
 		;
 		$this->_db->setQuery( $query );
 		if (!$this->_db->query()) {

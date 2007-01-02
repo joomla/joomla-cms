@@ -396,7 +396,10 @@ class JApplication extends JObject
 		$retval = false;
 
 		// Get a user object from the JApplication
-		$user = JFactory::getUser();
+		$user = &JFactory::getUser();
+
+		// Hit the user last visit field
+		$user->setLastVisit();
 
 		// Build the credentials array
 		$parameters['username'] = $user->get('username');
@@ -417,9 +420,6 @@ class JApplication extends JObject
 		if (!in_array(false, $results, true)) {
 			$retval = true;
 		}
-
-		// Hit the user last visit field
-		$user->setLastVisit();
 
 		return $retval;
 	}
@@ -514,15 +514,15 @@ class JApplication extends JObject
 
 		//create an anonymous user
 		$user 	 =& JUser::getInstance();
-		$user->set('aid'  , 0); 
+		$user->set('aid'  , 0);
 		$user->set('guest', 1);
-		
+
 		$session =& JFactory::getSession($options);
 
 		$storage = & JTable::getInstance('session');
 		$storage->purge($session->getExpire() * 60);
-		
-		if ($storage->load($session->getId())) 
+
+		if ($storage->load($session->getId()))
 		{
 			// Session cookie exists, update time in session table
 			$storage->update();

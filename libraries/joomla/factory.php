@@ -123,9 +123,12 @@ class JFactory
 		$instance =& $session->get('user');
 
 		// TODO: Find more permanent solution?? Jinx??
-		if (!$instance) {
+		if (!is_object($instance)) {
 			$instance = new JUser(null);
 			$session->set('user', $instance);
+		} else {
+			$table =& $instance->getTable();
+			$table->setDBO(JFactory::getDBO());
 		}
 
 		return $instance;

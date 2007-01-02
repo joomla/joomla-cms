@@ -133,6 +133,17 @@ class JTable extends JObject
 	}
 
 	/**
+	 * Set the internal database object
+	 *
+	 * @param	object	$db	A JDatabase based object
+	 * @return	void
+	 */
+	function setDBO(&$db)
+	{
+		$this->_db =& $db;
+	}
+
+	/**
 	 * Gets the internal table name for the object
 	 *
 	 * @return string
