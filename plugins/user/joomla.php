@@ -77,8 +77,8 @@ class JUserJoomla extends JPlugin
 		$my = new JUser();
 		if($id = intval(JUserHelper::getUserId($user['username'])))  {
 			$my->load($id);
-		} 
-		else 
+		}
+		else
 		{
 			$my->set( 'id'			, 0 );
 			$my->set( 'name'		, $user['fullname'] );
@@ -89,7 +89,7 @@ class JUserJoomla extends JPlugin
 		}
 
 		//If autoregister is set let's register the user
-		if($params->get('autoregister', 1)) 
+		if($params->get('autoregister') == 1)
 		{
 			if(!$my->save()) {
 				return false;
@@ -100,22 +100,22 @@ class JUserJoomla extends JPlugin
 		if ($my->get('block') == 1) {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
 		}
-		
+
 		//Mark the user as logged in
 		$my->set( 'guest', 0);
-		
+
 		// Discover the access group identifier
 		// NOTE : this is a very basic for of permission handling, will be replaced by a full ACL in 1.6
 		jimport('joomla.factory');
 		$acl = &JFactory::getACL();
 		$grp = $acl->getAroGroup($my->get('id'));
-		
+
 		$my->set('aid', 1);
 		if ($acl->is_group_child_of($grp->name, 'Registered', 'ARO') || $acl->is_group_child_of($grp->name, 'Public Backend', 'ARO')) {
 			// fudge Authors, Editors, Publishers and Super Administrators into the special access group
 			$my->set('aid', 2);
 		}
-		
+
 		//Set the usertype based on the ACL group name
 		$my->set('usertype', $grp->name);
 

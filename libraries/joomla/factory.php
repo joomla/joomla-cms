@@ -122,6 +122,12 @@ class JFactory
 		$session  =& JFactory::getSession();
 		$instance =& $session->get('user');
 
+		// TODO: Find more permanent solution?? Jinx??
+		if (!$instance) {
+			$instance = &JUser::getInstance();
+			$session->set('user', $instance);
+		}
+
 		return $instance;
 	}
 
