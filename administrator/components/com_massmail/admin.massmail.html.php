@@ -109,10 +109,6 @@ class HTML_massmail {
 						</label>
 					</td>
 					<td>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" colspan="2">
 						<textarea rows="20" cols="100" name="mm_message" id="mm_message" class="inputbox"></textarea>
 					</td>
 				</tr>

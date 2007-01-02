@@ -39,6 +39,7 @@ Legend:
 
 02-Jan-2007 Hannes Papenberg
  # Fixed com_contact mail form
+ # Fixed com_massmail
 
 02-Jan-2007 Johan Janssens
  ^ Changed JFactory::getUser, the user object is now stored completely in the session

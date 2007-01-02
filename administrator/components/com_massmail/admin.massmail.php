@@ -65,7 +65,7 @@ function sendMail()
 
 	$mode				= JRequest::getVar( 'mm_mode', 0, 'post' );
 	$subject			= JRequest::getVar( 'mm_subject', '', 'post' );
-	$gou				= JRequest::getVar( 'mm_group', '', 'post' );
+	$gou				= JRequest::getVar( 'mm_group', '0', 'post' );
 	$recurse			= JRequest::getVar( 'mm_recurse', 'NO_RECURSE', 'post' );
 	// pulls message inoformation either in text or html format
 	if ( $mode ) {
@@ -76,7 +76,7 @@ function sendMail()
 	}
 	$message_body 		= stripslashes( $message_body );
 
-	if (!$message_body || !$subject || $gou === null) {
+	if (!$message_body || !$subject) {
 		$mainframe->redirect( 'index.php?option=com_massmail', JText::_( 'Please fill in the form correctly' ) );
 	}
 
