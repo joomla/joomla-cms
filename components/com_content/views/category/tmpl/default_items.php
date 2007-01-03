@@ -70,7 +70,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php echo $this->pagination->getRowOffset( $item->count ); ?>
 	</td>
 	<?php if ($this->params->get('title')) : ?>
-	<?php if ($item->access <= $this->user->get('aid')) : ?>
+	<?php if ($item->access <= $this->user->get('aid', 0)) : ?>
 	<td>
 		<a href="<?php echo $item->link; ?>">
 			<?php echo $item->title; ?></a>

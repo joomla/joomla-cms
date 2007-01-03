@@ -138,7 +138,7 @@ class ContentModelArchive extends JModel
 
 		// Initialize some variables
 		$user	=& JFactory::getUser();
-		$aid	= $user->get('aid');
+		$aid	= (int) $user->get('aid', 0);
 
 		// First thing we need to do is build the access section of the clause
 		$where = "\n WHERE a.access <= $aid";

@@ -41,7 +41,7 @@ class ContactModelCategory extends JModel
 		$wheres[] = 'cc.section = ' . $db->Quote( 'com_contact_details' );
 		$wheres[] = 'cc.published = 1';
 
-		if ($gid !== null)
+		if ($aid !== null)
 		{
 			$wheres[] = 'a.access <= ' . (int) $aid;
 			$wheres[] = 'cc.access <= ' . (int) $aid;
@@ -93,7 +93,7 @@ class ContactModelCategory extends JModel
 		$wheres[] = 'cc.published = 1';
 		$wheres[] = 'cd.published = 1';
 
-		if ($gid !== null)
+		if ($aid !== null)
 		{
 			$wheres[] = 'cc.access <= ' . (int) $aid;
 			$wheres[] = 'cd.access <= ' . (int) $aid;

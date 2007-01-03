@@ -159,7 +159,7 @@ class ContentModelFrontpage extends JModel
 		global $mainframe;
 
 		$user		=& JFactory::getUser();
-		$gid		= $user->get('aid');
+		$gid		= $user->get('aid', 0);
 		$now		= $mainframe->get('requestTime');
 		$params 	= &JComponentHelper::getParams( 'com_content' );
 		$noauth	= !$params->get('shownoauth');
@@ -173,7 +173,7 @@ class ContentModelFrontpage extends JModel
 
 		// Does the user have access to view the items?
 		if ($noauth) {
-			$where .= "\n AND a.access <= $gid";
+			$where .= "\n AND a.access <= ".(int) $gid;
 		}
 
 		if ($user->authorize('action', 'edit', 'content', 'all')) {

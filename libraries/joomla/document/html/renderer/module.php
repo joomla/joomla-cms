@@ -75,7 +75,7 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 		$cache->setLifeTime( $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) ) );
 		$cache->setCacheValidation(true);
 
-		return $cache->callId( "JModuleHelper::renderModule", array( $module, $params ), $module->id. $user->get('aid') );
+		return $cache->callId( "JModuleHelper::renderModule", array( $module, $params ), $module->id. $user->get('aid', 0) );
 	}
 }
 ?>

@@ -126,7 +126,7 @@ function pluginNavigation( &$row, &$params, $page=0 )
 		$query = "SELECT a.id"
 		. "\n FROM #__content AS a"
 		. "\n WHERE a.catid = " . (int) $row->catid
-		. "\n AND a.state = $row->state". ($access->canEdit ? '' : "\n AND a.access <= " .$user->get('aid'))
+		. "\n AND a.state = $row->state". ($access->canEdit ? '' : "\n AND a.access <= " .(int) $user->get('aid', 0))
 		. $xwhere
 		. "\n ORDER BY $orderby";
 		$db->setQuery($query);

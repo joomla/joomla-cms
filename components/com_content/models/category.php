@@ -111,7 +111,7 @@ class ContentModelCategory extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('aid'))
+			if ($this->_category->access > $user->get('aid', 0))
 			{
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
@@ -157,7 +157,7 @@ class ContentModelCategory extends JModel
 				return false;
 			}
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('aid')) {
+			if ($this->_category->access > $user->get('aid', 0)) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -186,7 +186,7 @@ class ContentModelCategory extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_category->access > $user->get('aid'))
+			if ($this->_category->access > $user->get('aid', 0))
 			{
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
@@ -248,7 +248,7 @@ class ContentModelCategory extends JModel
 			$user		=& JFactory::getUser();
 			$params = &JComponentHelper::getParams( 'com_content' );
 			$noauth		= !$params->get('shownoauth');
-			$gid		= $user->get('aid');
+			$gid		= (int) $user->get('aid', 0);
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 			$section	= $this->_category->section;
@@ -382,7 +382,7 @@ class ContentModelCategory extends JModel
 		global $mainframe, $Itemid;
 
 		$user		=& JFactory::getUser();
-		$gid		= $user->get('aid');
+		$gid		= $user->get('aid', 0);
 		$now		= $mainframe->get('requestTime');
 		$params 	= &JComponentHelper::getParams( 'com_content' );
 		$noauth		= !$params->get('shownoauth');
@@ -392,7 +392,7 @@ class ContentModelCategory extends JModel
 		$params		=& JSiteHelper::getMenuParams();
 
 		// First thing we need to do is assert that the articles are in the current category
-		$where = "\n WHERE a.access <= $gid";
+		$where = "\n WHERE a.access <= ".(int) $gid;
 		if ($this->_id)
 		{
 			$where .= "\n AND a.catid = $this->_id";

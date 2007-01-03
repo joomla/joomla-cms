@@ -205,7 +205,7 @@ class JPluginHelper
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
 
-		$aid = $user->get('aid');
+		$aid = $user->get('aid', 0);
 
 		$query = "SELECT id, name, folder, element, published, params"
 			. "\n FROM #__plugins"

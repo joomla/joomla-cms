@@ -67,7 +67,7 @@ class modRelatedItemsHelper
 							"\n LEFT JOIN #__sections AS s ON s.id = a.sectionid" .
 							"\n WHERE a.id != $id" .
 							"\n AND a.state = 1" .
-							"\n AND a.access <= " .$user->get('aid') .
+							"\n AND a.access <= " .(int) $user->get('aid', 0) .
 							"\n AND ( a.metakey LIKE '%".implode("%' OR a.metakey LIKE '%", $likes)."%' )" .
 							"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
 							"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
@@ -79,7 +79,7 @@ class modRelatedItemsHelper
 					{
 						foreach ($temp as $row)
 						{
-							if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('aid') || $row->cat_access == '') && ($row->sec_access <= $user->get('aid') || $row->sec_access == ''))
+							if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('aid', 0) || $row->cat_access == '') && ($row->sec_access <= $user->get('aid', 0) || $row->sec_access == ''))
 							{
 								$row->itemid = JContentHelper::getItemid($row->id);
 								$related[] = $row;

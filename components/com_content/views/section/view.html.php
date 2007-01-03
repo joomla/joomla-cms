@@ -165,7 +165,7 @@ class ContentViewSection extends JView
 			if ($params->get('intro_only'))
 			{
 				// checks if the item is a public or registered/special item
-				if ($item->access <= $user->get('aid'))
+				if ($item->access <= $user->get('aid', 0))
 				{
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$item->slug."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');

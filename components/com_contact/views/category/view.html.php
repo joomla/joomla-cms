@@ -53,7 +53,7 @@ class ContactViewCategory extends JView
 		$params->def('display_num', 		$limit);
 
 		// query options
-		$options['gid'] 		= $user->get('aid');
+		$options['aid'] 		= $user->get('aid', 0);
 		$options['category_id']	= $categoryId;
 		$options['limit']		= $limit;
 		$options['limitstart']	= $limitstart;

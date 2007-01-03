@@ -38,7 +38,7 @@ class modNewsFlashHelper
 			if ($params->get('intro_only'))
 			{
 				// Check to see if the user has access to view the full article
-				if ($item->access <= $user->get('aid'))
+				if ($item->access <= $user->get('aid', 0))
 				{
 					$Itemid = JContentHelper::getItemid($item->id);
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$item->id."&amp;Itemid=".$Itemid);
@@ -67,9 +67,10 @@ class modNewsFlashHelper
 
 		$db 	=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();
+		$aid	= $user->get('aid', 0);
 
-		$catid 	= intval($params->get('catid'));
-		$items 	= intval($params->get('items', 0));
+		$catid 	= (int) $params->get('catid', 0);
+		$items 	= (int) $params->get('items', 0);
 
 		$contentConfig	= &JComponentHelper::getParams( 'com_content' );
 		$noauth			= !$contentConfig->get('shownoauth');
@@ -83,10 +84,11 @@ class modNewsFlashHelper
 			"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
 			"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
 			"\n WHERE a.state = 1".
-			($noauth ? "\n AND a.access <= " .$user->get('aid'). " AND cc.access <= " .$user->get('aid'). " AND s.access <= " .$user->get('aid') : '').
+			($noauth ? "\n AND a.access <= " .(int) $aid. " AND cc.access <= " .(int) $aid. " AND s.access <= " .(int) $aid : '').
 			"\n AND (a.publish_up = '$nullDate' OR a.publish_up <= '$now' ) " .
 			"\n AND (a.publish_down = '$nullDate' OR a.publish_down >= '$now' )" .
-			"\n AND a.catid = $catid"."\n AND cc.published = 1" .
+			"\n AND a.catid = $catid".
+			"\n AND cc.published = 1" .
 			"\n AND s.published = 1" .
 			"\n ORDER BY a.ordering";
 		$db->setQuery($query, 0, $items);

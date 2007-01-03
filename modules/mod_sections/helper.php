@@ -29,7 +29,7 @@ class modSectionsHelper
 		$contentConfig 	= &JComponentHelper::getParams( 'com_content' );
 		$access	= !$contentConfig->get('shownoauth');
 
-		$gid 		= $user->get('aid');
+		$gid 		= $user->get('aid', 0);
 		$now		= date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);
 		$nullDate	= $db->getNullDate();
 
@@ -37,7 +37,7 @@ class modSectionsHelper
 		$query = "SELECT a.id AS id, a.title AS title, COUNT(b.id) as cnt" .
 			"\n FROM #__sections as a" .
 			"\n LEFT JOIN #__content as b ON a.id = b.sectionid" .
-			($access ? "\n AND b.access <= $gid" : '') .
+			($access ? "\n AND b.access <= ".(int) $gid : '') .
 			"\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )" .
 			"\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )" .
 			"\n WHERE a.scope = 'content'" .

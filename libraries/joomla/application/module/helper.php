@@ -224,7 +224,7 @@ class JModuleHelper
 		$user	=& JFactory::getUser();
 		$db		=& JFactory::getDBO();
 
-		$aid	= $user->get('aid');
+		$aid	= $user->get('aid', 0);
 
 		$modules	= array();
 

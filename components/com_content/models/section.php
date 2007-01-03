@@ -112,7 +112,7 @@ class ContentModelSection extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_section->access > $user->get('aid')) {
+			if ($this->_section->access > $user->get('aid', 0)) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -158,7 +158,7 @@ class ContentModelSection extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_section->access > $user->get('aid')) {
+			if ($this->_section->access > $user->get('aid', 0)) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -186,7 +186,7 @@ class ContentModelSection extends JModel
 			}
 
 			// check whether category access level allows access
-			if ($this->_section->access > $user->get('aid')) {
+			if ($this->_section->access > $user->get('aid', 0)) {
 				JError::raiseError(403, JText::_("ALERTNOTAUTH"));
 				return false;
 			}
@@ -257,7 +257,7 @@ class ContentModelSection extends JModel
 			$user		=& JFactory::getUser();
 			$params 	= &JComponentHelper::getParams( 'com_content' );
 			$noauth	= !$params->get('shownoauth');
-			$gid		= $user->get('aid');
+			$gid		= $user->get('aid', 0);
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 
@@ -293,7 +293,7 @@ class ContentModelSection extends JModel
 			// Handle the access permissions
 			$access_check = null;
 			if ($noauth) {
-				$access_check = "\n AND a.access <= $gid";
+				$access_check = "\n AND a.access <= ".(int) $gid;
 			}
 
 			// Query of categories within section
@@ -352,7 +352,7 @@ class ContentModelSection extends JModel
 		if (empty($this->_tree))
 		{
 			$user		=& JFactory::getUser();
-			$aid		= $user->get('aid');
+			$aid		= $user->get('aid', 0);
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
 
@@ -372,7 +372,7 @@ class ContentModelSection extends JModel
 				"\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )";
 				"\n WHERE a.published = 1" .
 				$and .
-				"\n AND a.access <= $aid" .
+				"\n AND a.access <= ".(int) $aid .
 				"\n ORDER BY a.catid, a.ordering, b.ordering";
 			$this->_db->setQuery($query);
 			$this->_tree = $this->_db->loadObjectList();
@@ -443,7 +443,7 @@ class ContentModelSection extends JModel
 	{
 		global $mainframe;
 		$user		=& JFactory::getUser();
-		$aid		= $user->get('aid');
+		$aid		= $user->get('aid', 0);
 		$now		= $mainframe->get('requestTime');
 		$params 	= &JComponentHelper::getParams( 'com_content' );
 		$noauth		= !$params->get('shownoauth');
@@ -457,8 +457,8 @@ class ContentModelSection extends JModel
 			$where .= "\n AND a.sectionid = $this->_id";
 		}
 
-		$where .= "\n AND s.access <= $aid";
-		$where .= "\n AND cc.access <= $aid";
+		$where .= "\n AND s.access <= ".(int) $aid;
+		$where .= "\n AND cc.access <= ".(int) $aid;
 		$where .= "\n AND s.published = 1";
 		$where .= "\n AND cc.published = 1";
 

@@ -159,7 +159,7 @@ class JUserJoomla extends JPlugin
 	 */
 	function onLogoutUser($user)
 	{
-		$session =& JFactory::getSession();
+  		$session =& JFactory::getSession();
 
 		// Remove the session from the session table
 		$table = & JTable::getInstance('session');

@@ -44,7 +44,7 @@ class ContactModelContact extends JModel
 		$wheres[] = 'a.published = 1';
 		$wheres[] = 'cc.published = 1';
 
-		if ($gid !== null)
+		if ($aid !== null)
 		{
 			$wheres[] = 'a.access <= ' . (int) $aid;
 			$wheres[] = 'cc.access <= ' . (int) $aid;

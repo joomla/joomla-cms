@@ -126,6 +126,7 @@ class JFactory
 		// TODO: Find more permanent solution?? Jinx??
 		if (!is_object($instance)) {
 			$instance = new JUser(null);
+			$instance->set('aid',	0);
 			$session->set('user', $instance);
 		} else {
 			$table =& $instance->getTable();

@@ -131,12 +131,12 @@ class ContentModelArticle extends JModel
 				}
 			}
 			// Do we have access to the category?
-			if (($this->_article->cat_access > $user->get('aid')) && $this->_article->catid) {
+			if (($this->_article->cat_access > $user->get('aid', 0)) && $this->_article->catid) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 
 			// Do we have access to the section?
-			if (($this->_article->sec_access > $user->get('aid')) && $this->_article->sectionid) {
+			if (($this->_article->sec_access > $user->get('aid', 0)) && $this->_article->sectionid) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 
@@ -441,7 +441,7 @@ class ContentModelArticle extends JModel
 		global $mainframe;
 
 		$user		=& JFactory::getUser();
-		$aid		= $user->get('aid');
+		$aid		= (int) $user->get('aid', 0);
 		$now		= $mainframe->get('requestTime');
 		$nullDate	= $this->_db->getNullDate();
 

@@ -514,8 +514,8 @@ class JApplication extends JObject
 
 		//create an anonymous user
 		$user 	 =& JUser::getInstance();
-		$user->set('aid'  , 0);
-		$user->set('guest', 1);
+		$user->set('aid',	0);
+		$user->set('guest',	1);
 
 		$session =& JFactory::getSession($options);
 

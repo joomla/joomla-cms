@@ -80,7 +80,7 @@ $GLOBALS['database']->debug($conf->getValue('config.debug'));
  */
 $user			    = JFactory::getUser();
 $GLOBALS['my']	    = clone($user->getTable());
-$GLOBALS['my']->gid = $user->get('aid');  
+$GLOBALS['my']->gid = $user->get('aid', 0);  
 
 /**
  * Legacy global, use JApplication::getTemplate() instead
