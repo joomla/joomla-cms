@@ -55,7 +55,7 @@ class LoginController
 	{
 		global $mainframe;
 
-		$result =& $mainframe->login();
+		$result = $mainframe->login();
 
 		if (!JError::isError($result)) {
 			$mainframe->redirect('index.php');
@@ -68,7 +68,7 @@ class LoginController
 	{
 		global $mainframe;
 
-		$result =& $mainframe->logout();
+		$result = $mainframe->logout();
 
 		if (!JError::isError($result)) {
 			$mainframe->redirect('index.php');
