@@ -118,7 +118,8 @@ class JSite extends JApplication
 		$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$file 		= JRequest::getVar( 'tmpl', 'index', '', 'string'  );
 
-
+		$user =& JFactory::getUser();
+		
 		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
 			$file = 'offline';
 		}
