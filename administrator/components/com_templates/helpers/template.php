@@ -107,9 +107,14 @@ class TemplatesHelper
 				"\n AND template = '$template'";
 		$db->setQuery($query);
 		$lookup = $db->loadObjectList();
+		if (empty( $lookup )) {
+			$lookup = array( JHTMLSelect::option( '-1' ) );
+		}
 
 		// build the html select list
-		return JAdminMenus::MenuLinks($lookup, 0, 1);
+		$options	= JAdminMenus::MenuLinkOptions(true, true);
+		$result		= JHTMLSelect::genericList( $options, 'selections[]', 'class="inputbox" size="15" multiple="multiple" onchange="onChangeSelections(this)"', 'value', 'text', $lookup, 'selections' );
+		return $result;
 	}
 }
 ?>

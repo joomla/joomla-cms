@@ -129,17 +129,13 @@ class TemplatesController
 		$tBaseDir	= JPath::clean($client->path.DS.'templates');
 		$template	= preg_replace( '#\W#', '', $cid[0] );
 
-		if (!is_dir( $tBaseDir . DS . $template ))
-		{
-			//return JError::raiseError( 500, 'Please specify a template' );
+		if (!is_dir( $tBaseDir . DS . $template )) {
 			return JError::raiseWarning( 500, 'Template not found' );
 		}
 
-		$ini		= $client->path.DS.'templates'.DS.$template.DS.'params.ini';
-		$xml		= $client->path.DS.'templates'.DS.$template.DS.'templateDetails.xml';
-
-		$row = TemplatesHelper::parseXMLTemplateFile($tBaseDir, $template);
-		$row->published = TemplatesHelper::isTemplateDefault($row->directory, $client->id);
+		$ini	= $client->path.DS.'templates'.DS.$template.DS.'params.ini';
+		$xml	= $client->path.DS.'templates'.DS.$template.DS.'templateDetails.xml';
+		$row	= TemplatesHelper::parseXMLTemplateFile($tBaseDir, $template);
 
 		jimport('joomla.filesystem.file');
 		// Read the ini file
@@ -151,19 +147,16 @@ class TemplatesController
 
 		$params = new JParameter($content, $xml, 'template');
 
-		$lists['published'] = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published);
+		$default = TemplatesHelper::isTemplateDefault($row->directory, $client->id);
+		$lists['default'] = JHTMLSelect::yesnoList( 'default', 'class="inputbox"', $default);
 
-		$lists['selections'] = '';
 		if($client->id == '1')  {
 			$lists['selections'] =  JText::_("Can't assign an administrator template");
-		} else  {
-			if(TemplatesHelper::isTemplateDefault($row->directory, $client->id)) {
-				$lists['selections'] =  JText::_("Can't assign a default template");
-			} else {
-				$lists['selections'] = TemplatesHelper::createMenuList($template);
-			}
+		} else {
+			$lists['selections'] = TemplatesHelper::createMenuList($template);
 		}
 
+		JRequest::setVar( 'hidemainmenu', 1 );
 		require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
 		TemplatesView::editTemplate($row, $lists, $params, $option, $client);
 	}
@@ -180,7 +173,7 @@ class TemplatesController
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$menus		= JRequest::getVar('selections', array (), 'post', 'array');
 		$params		= JRequest::getVar('params', array (), '', 'array');
-		$published	= JRequest::getVar('published', 0);
+		$default	= JRequest::getVar('default', 0);
 
 		if (!$template) {
 			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
@@ -201,42 +194,33 @@ class TemplatesController
 			}
 		}
 
+		// Reset all existing assignments
+		$query = "DELETE FROM #__templates_menu" .
+				"\n WHERE client_id = 0" .
+				"\n AND template = ".$db->Quote( $template );
+		$db->setQuery($query);
+		$db->query();
 
-		if ($published)
-		{
-			$query = "DELETE FROM #__templates_menu" .
-					"\n WHERE client_id = $client->id" .
-					"\n AND menuid = 0";
-			$db->setQuery($query);
-			$db->query();
-
-			$query = "INSERT INTO #__templates_menu" .
-					"\n SET client_id = $client->id, template = ".$db->Quote( $template ).", menuid = 0";
-			$db->setQuery($query);
-			$db->query();
+		if ($default) {
+			$menus = array( 0 );
 		}
 
-		if (!in_array('', $menus))
+		foreach ($menus as $menuid)
 		{
-			foreach ($menus as $menuid)
+			// If 'None' is not in array
+			if ((int) $menuid >= 0)
 			{
-				$menuid = (int) $menuid;
+				// check if there is already a template assigned to this menu item
+				$query = "DELETE FROM #__templates_menu" .
+						"\n WHERE client_id = 0" .
+						"\n AND menuid = ".(int) $menuid;
+				$db->setQuery($query);
+				$db->query();
 
-				// If 'None' is not in array
-				if ($menuid != -999)
-				{
-					// check if there is already a template assigned to this menu item
-					$query = "DELETE FROM #__templates_menu" .
-							"\n WHERE client_id = 0" .
-							"\n AND menuid = $menuid";
-					$db->setQuery($query);
-					$db->query();
-
-					$query = "INSERT INTO #__templates_menu" .
-							"\n SET client_id = 0, template = ". $db->Quote( $template ) .", menuid = $menuid";
-					$db->setQuery($query);
-					$db->query();
-				}
+				$query = "INSERT INTO #__templates_menu" .
+						"\n SET client_id = 0, template = ". $db->Quote( $template ) .", menuid = ".(int) $menuid;
+				$db->setQuery($query);
+				$db->query();
 			}
 		}
 

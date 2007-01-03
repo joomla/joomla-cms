@@ -336,7 +336,7 @@ class ModulesController extends JController
 			foreach ($menus as $menuid)
 			{
 				// this check for the blank spaces in the select box that have been added for cosmetic reasons
-				if ( $menuid != "-999" ) {
+				if ( (int) $menuid >= 0 ) {
 					// assign new module to menu item associations
 					$query = "INSERT INTO #__modules_menu"
 					. "\n SET moduleid = $row->id, menuid = $menuid"
@@ -467,6 +467,9 @@ class ModulesController extends JController
 			;
 			$db->setQuery( $query );
 			$lookup = $db->loadObjectList();
+			if (empty( $lookup )) {
+				$lookup = array( JHTMLSelect::option( '-1' ) );
+			}
 		} else {
 			$lookup = array( JHTMLSelect::option( 0, JText::_( 'All' ) ) );
 		}
@@ -481,7 +484,9 @@ class ModulesController extends JController
 				$lists['selections'] 	= 'N/A';
 			} else {
 				$lists['access'] 		= JAdminMenus::Access( $row );
-				$lists['selections'] 	= JAdminMenus::MenuLinks( $lookup, 1, 1 );
+
+				$selections				= JAdminMenus::MenuLinkOptions($lookup, true, true);
+				$lists['selections']	= JHTMLSelect::genericList( $selections, 'selections[]', 'class="inputbox" size="15" multiple="multiple" onchange="onChangeSelections(this)"', 'value', 'text', $lookup, 'selections' );
 			}
 			$lists['showtitle'] = JHTMLSelect::yesnoList( 'showtitle', 'class="inputbox"', $row->showtitle );
 		}

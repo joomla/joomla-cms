@@ -219,11 +219,6 @@ class HTML_modules
 		$pane =& JPane::getInstance('sliders');
 		$editor 	=& JFactory::getEditor();
 
-		$row->titleA = '';
-		if ( $row->id ) {
-			$row->titleA = '<small><small>[ '. $row->title .' ]</small></small>';
-		}
-
 		JCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
@@ -253,7 +248,7 @@ class HTML_modules
 		//-->
 		</script>
 		<form action="index.php" method="post" name="adminForm">
-		<div class="col60">
+		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
@@ -347,6 +342,14 @@ class HTML_modules
 				</table>
 			</fieldset>
 			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Menu Assignment' ); ?></legend>
+
+				<?php echo $lists['selections']; ?>
+			</fieldset>
+		</div>
+
+		<div class="col50">
+			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 
 				<?php
@@ -371,29 +374,6 @@ class HTML_modules
 					$pane->endPane();
 				?>
 			</fieldset>
-		</div>
-		<div class="col40">
-			<fieldset class="adminform">
-				<legend><?php echo JText::_( 'Pages / Items' ); ?></legend>
-
-				<table class="admintable">
-				<tr>
-					<td class="key vtop">
-						<label for="selections">
-							<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
-						</label>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<?php echo $lists['selections']; ?>
-					</td>
-				</tr>
-				</table>
-
-
-			</fieldset>
-
 		</div>
 		<div class="clr"></div>
 
@@ -422,6 +402,18 @@ class HTML_modules
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client->id ?>" />
 		</form>
+		<script type="text/javascript">
+		function onChangeSelections(e) {
+			sel = e.options[e.selectedIndex];
+			condition = (sel.value == 0) ? true : false;
+			for (i = 0, n = e.options.length; i < n; i++) {
+				if (e.options[i].value > 0) {
+					e.options[i].disabled = condition;
+				}
+			}
+		}
+		onChangeSelections(document.adminForm.selections);
+		</script>
 		<?php
 	}
 

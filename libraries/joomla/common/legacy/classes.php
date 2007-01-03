@@ -1406,9 +1406,13 @@ class mosAdminMenus
  	 * @deprecated	As of version 1.5
  	*/
 	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {
-		return JAdminMenus::MenuLinks($lookup, $all, $none, $unassigned);
+		$options = JAdminMenus::MenuLinkOptions($lookup, $all, $none|$unassigned);
+		if (empty( $lookup )) {
+			$lookup = array( JHTMLSelect::option( -1 ) );
+		}
+		$pages = JHTMLSelect::genericList( $options, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
+		return $pages;
 	}
-
 
 	/**
  	 * Legacy function, deprecated
@@ -1434,7 +1438,6 @@ class mosAdminMenus
 
 		return $category;
 	}
-
 
 	/**
  	 * Legacy function, deprecated
@@ -1463,7 +1466,6 @@ class mosAdminMenus
 
 		return $section;
 	}
-
 
 	/**
  	 * Legacy function, deprecated

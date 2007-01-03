@@ -318,7 +318,9 @@ class JHTMLSelect
 //		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
 		while(current($arr) !== FALSE) {
 			$element =& $arr[key($arr)]; // since current doesn't return a reference, need to do this
-			if( is_array( $element ) ) {
+
+			$isArray = is_array( $element );
+			if ($isArray) {
 				$k 		= $element[$key];
 				$t	 	= $element[$text];
 				$id 	= ( isset( $element['id'] ) ? $element['id'] : null );
@@ -328,28 +330,38 @@ class JHTMLSelect
 				$id 	= ( isset( $element->id ) ? $element->id : null );
 			}
 
-			//if no string after hypen - take hypen out
-			$splitText = explode( " - ", $t, 2 );
-			$t = $splitText[0];
-			if(isset($splitText[1])){ $t .= " - ". $splitText[1]; }
-
-			$extra = '';
-			//$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
-			if (is_array( $selected )) {
-				foreach ($selected as $obj) {
-					$k2 = $obj->$key;
-					if ($k == $k2) {
-						$extra .= ' selected="selected"';
-						break;
-					}
-				}
+			// This is real dirty, open to suggestions,
+			// barring doing a propper object to handle it
+			if ($k === '<OPTGROUP>') {
+				$html .= '<optgroup label="' . $t . '">';
+			} else if ($k === '</OPTGROUP>') {
+				$html .= '</optgroup>';
 			} else {
-				$extra .= ( $k == $selected ? ' selected="selected"' : '' );
+				//if no string after hypen - take hypen out
+				$splitText = explode( " - ", $t, 2 );
+				$t = $splitText[0];
+				if(isset($splitText[1])){ $t .= " - ". $splitText[1]; }
+	
+				$extra = '';
+				//$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
+				if (is_array( $selected )) {
+					foreach ($selected as $obj) {
+						$k2 = $obj->$key;
+						if ($k == $k2) {
+							$extra .= ' selected="selected"';
+							break;
+						}
+					}
+				} else {
+					$extra .= ( $k == $selected ? ' selected="selected"' : '' );
+				}
+				//if flag translate text
+				if ($flag) {
+					$t = JText::_( $t );
+				}
+	
+				$html .= '<option value="'. $k .'" '. $extra .'>' . $t . '</option>';
 			}
-			//if flag translate text
-			if($flag) $t = JText::_( $t );
-
-			$html .= '<option value="'. $k .'" '. $extra .'>' . $t . '</option>';
 			next($arr);
 		}
 		$html .= '</select>';
@@ -758,12 +770,12 @@ class JAdminMenus
 	/*
 	 * Function is only used in the administrator (multiple components)
 	 */
-	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 )
+	function MenuLinkOptions( $all=false, $unassigned=false )
 	{
 		$db =& JFactory::getDBO();
 
 		// get a list of the menu items
-		$query = "SELECT m.*"
+		$query = "SELECT m.id, m.parent, m.name, m.menutype"
 		. "\n FROM #__menu AS m"
 		. "\n WHERE m.published = 1"
 		. "\n ORDER BY m.menutype, m.parent, m.ordering"
@@ -787,54 +799,38 @@ class JAdminMenus
 		$list = mosTreeRecurse( intval( $mitems[0]->parent ), '', array(), $children, 9999, 0, 0 );
 
 		// Code that adds menu name to Display of Page(s)
-		$text_count 	= 0;
 		$mitems_spacer 	= $mitems_temp[0]->menutype;
-		foreach ($list as $list_a)
-		{
-			foreach ($mitems_temp as $mitems_a)
-			{
-				if ($mitems_a->id == $list_a->id)
-				{
-					// Code that inserts the blank line that seperates different menus
-					if ($mitems_a->menutype <> $mitems_spacer) {
-						$list_temp[] 	= JHTMLSelect::option( -999, '----' );
-						$mitems_spacer 	= $mitems_a->menutype;
-					}
-					$text = $mitems_a->menutype." | ".$list_a->treename;
-					$list_temp[] = JHTMLSelect::option( $list_a->id, $text );
-					if ( JString::strlen($text) > $text_count) {
-						$text_count = JString::strlen($text);
-					}
-				}
-			}
-		}
-		$list = $list_temp;
 
 		$mitems = array();
-		if ( $all ) {
-			// prepare an array with 'all' as the first item
-			$mitems[] = JHTMLSelect::option( 0, JText::_( 'All' ) );
-			// adds space, in select box which is not saved
-			$mitems[] = JHTMLSelect::option( -999, '----' );
+		if ($all | $unassigned) {
+			$mitems[] = JHTMLSelect::option( '<OPTGROUP>', JText::_( 'Menus' ) );
+
+			if ( $all ) {
+				$mitems[] = JHTMLSelect::option( 0, JText::_( 'All' ) );
+			}
+			if ( $unassigned ) {
+				$mitems[] = JHTMLSelect::option( -1, JText::_( 'Unassigned' ) );
+			}
+
+			$mitems[] = JHTMLSelect::option( '</OPTGROUP>' );
 		}
-		if ( $none ) {
-			// prepare an array with 'all' as the first item
-			$mitems[] = JHTMLSelect::option( -999, JText::_( 'None' ) );
-			// adds space, in select box which is not saved
-			$mitems[] = JHTMLSelect::option( -999, '----' );
+
+		$lastMenuType	= null;
+		foreach ($list as $list_a)
+		{
+			if ($list_a->menutype != $lastMenuType)
+			{
+				$mitems[] = JHTMLSelect::option( '<OPTGROUP>', $list_a->menutype );
+				$lastMenuType = $list_a->menutype;
+			}
+
+			$mitems[] = JHTMLSelect::option( $list_a->id, $list_a->treename );
 		}
-		if ( $none ) {
-			// prepare an array with 'all' as the first item
-			$mitems[] = JHTMLSelect::option( 99999999, JText::_( 'Unassigned' ) );
-			// adds space, in select box which is not saved
-			$mitems[] = JHTMLSelect::option( -999, '----' );
+		if ($lastMenuType !== null) {
+			$mitems[] = JHTMLSelect::option( '</OPTGROUP>' );
 		}
-		// append the rest of the menu items to the array
-		foreach ($list as $item) {
-			$mitems[] = JHTMLSelect::option( $item->value, $item->text );
-		}
-		$pages = JHTMLSelect::genericList( $mitems, 'selections[]', 'class="inputbox" size="26" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
-		return $pages;
+
+		return $mitems;
 	}
 
 	/**

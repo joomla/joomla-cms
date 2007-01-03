@@ -270,7 +270,7 @@ class TemplatesView
 ?>
 		<form action="index.php" method="post" name="adminForm">
 
-		<div class="col60">
+		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
@@ -287,14 +287,6 @@ class TemplatesView
 				</tr>
 				<tr>
 					<td valign="top" class="key">
-						<?php echo JText::_( 'Published' ); ?>:
-					</td>
-					<td>
-						<?php echo $lists['published']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" class="key">
 						<?php echo JText::_( 'Description' ); ?>:
 					</td>
 					<td>
@@ -304,6 +296,14 @@ class TemplatesView
 				</table>
 			</fieldset>
 
+			<fieldset class="adminform">
+				<legend><?php echo JText::_( 'Menu Assignment' ); ?></legend>
+
+				<?php echo $lists['selections']; ?>
+			</fieldset>
+		</div>
+
+		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 
@@ -323,33 +323,6 @@ class TemplatesView
 				</table>
 			</fieldset>
 		</div>
-
-		<div class="col40">
-			<fieldset class="adminform">
-				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
-
-				<table class="admintable">
-				<tr>
-					<th class="left" colspan="2">
-						<?php echo JText::_( 'Assign template' ); ?>
-			 			<?php echo $row->name; ?> <?php echo JText::_( 'to menu items' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td valign="top" class="key">
-						<?php echo JText::_( 'Page(s)' ); ?>:
-					</td>
-					<td>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" colspan="2">
-						<?php echo $lists['selections']; ?>
-					</td>
-				</tr>
-				</table>
-			</fieldset>
-		</div>
 		<div class="clr"></div>
 
 		<input type="hidden" name="id" value="<?php echo $row->directory; ?>" />
@@ -358,8 +331,19 @@ class TemplatesView
 		<input type="hidden" name="hidemainmenu" value="1" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
+		<script type="text/javascript">
+		function onChangeSelections(e) {
+			sel = e.options[e.selectedIndex];
+			condition = (sel.value == 0) ? true : false;
+			for (i = 0, n = e.options.length; i < n; i++) {
+				if (e.options[i].value > 0) {
+					e.options[i].disabled = condition;
+				}
+			}
+		}
+		onChangeSelections(document.adminForm.selections);
+		</script>
 		<?php
-
 	}
 
 	function editTemplateSource($template, & $content, $option, & $client)
