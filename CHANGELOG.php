@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Jan-2007 Andrew Eddie
+ # Fixed bug in menu item copy which results in multiple items set to home
+
 03-Jan-2007 Johan Janssens
  # Fixed [artf7120] : Changing IP adresses of users through proxys
 

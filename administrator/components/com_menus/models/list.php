@@ -230,17 +230,18 @@ class MenusModelList extends JModel
 	{
 		$curr =& JTable::getInstance('menu');
 		$itemref = array();
-		foreach( $items as $id )
+		foreach ($items as $id)
 		{
 			$curr->load( $id );
-			$curr->id = NULL;
+			$curr->id	= NULL;
+			$curr->home	= 0;
 			if ( !$curr->store() ) {
 				$this->setError($row->getError());
 				return false;
 			}
 			$itemref[] = array($id, $curr->id);
 		}
-		foreach ( $itemref as $ref )
+		foreach ($itemref as $ref)
 		{
 			$curr->load( $ref[1] );
 			if ($curr->parent!=0) {
@@ -259,6 +260,7 @@ class MenusModelList extends JModel
 			} // if
 			$curr->menutype = $menu;
 			$curr->ordering = '9999';
+			$curr->home		= 0;
 			if ( !$curr->store() ) {
 				$this->setError($row->getError());
 				return false;
