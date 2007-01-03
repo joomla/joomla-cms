@@ -26,10 +26,11 @@ class modPollHelper
 
 		if ($id = $params->get( 'id', 0 ))
 		{
-			$query = "SELECT p.id, p.title" .
-				"\n FROM #__polls AS p, #__poll_menu AS pm" .
-				"\n WHERE p.id = ".(int) $id.
-				"\n AND p.published = 1";
+			$query = "SELECT id, title"
+			."\n FROM #__polls"
+			."\n WHERE id = ".(int) $id
+			."\n AND published = 1"
+			;
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
 
@@ -55,10 +56,6 @@ class modPollHelper
 		if (!($options = $db->loadObjectList())) {
 			echo "MD ".$db->stderr(true);
 			return;
-		}
-
-		foreach( $options as $option ){
-			$option->text = stripslashes( $option->text );
 		}
 
 		return $options;

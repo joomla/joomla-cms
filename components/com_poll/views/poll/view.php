@@ -41,8 +41,6 @@ class PollViewPoll extends JView
 		{
 			$vote =& $this->votes[$i];
 
-			$vote->text = stripslashes( $vote->text );
-
 			if ($maxval > 0 && $sumval > 0)
 			{
 				$vote->width	= ceil( $vote->hits * $graphwidth / $maxval );
