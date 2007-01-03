@@ -77,6 +77,3 @@ class LoginController
 		LoginController::display();
 	}
 }
-
-
-?>
