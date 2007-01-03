@@ -33,9 +33,9 @@ if(!defined('DATE_FORMAT_LC4')) {
  *
  * @author	Johan Janssens <johan.janssens@joomla.org>
  *
- * @package 	Joomla.Framework
- * @subpackage		Utilities
- * @since	1.5
+ * @package		Joomla.Framework
+ * @subpackage	Utilities
+ * @since		1.5
  */
 class JDate extends JObject
 {
@@ -145,6 +145,7 @@ class JDate extends JObject
 	 * Gets the date as an RFC 822 date.
 	 *
 	 * @return a date in RFC 822 format
+	 * @link http://www.ietf.org/rfc/rfc2822.txt?number=2822 IETF RFC 2822 (replaces RFC 822)
 	 */
 	function toRFC822()
 	{
@@ -156,6 +157,7 @@ class JDate extends JObject
 	 * Gets the date as an ISO 8601 date.
 	 *
 	 * @return a date in ISO 8601 (RFC 3339) format
+	 * @link http://www.ietf.org/rfc/rfc3339.txt?number=3339 IETF RFC 3339
 	 */
 	function toISO8601()
 	{
@@ -167,6 +169,7 @@ class JDate extends JObject
 	 * Gets the date as in MySQL datetime format
 	 *
 	 * @return a date in MySQL datetime format
+	 * @link http://dev.mysql.com/doc/refman/4.1/en/datetime.html MySQL DATETIME format
 	 */
 	function toMySQL()
 	{
@@ -191,10 +194,8 @@ class JDate extends JObject
 	 * Returns a string formatted according to the given format. Month and weekday names and
 	 * other language dependent strings respect the current locale
 	 *
-	 * @params string $format  The date format
-	 * @param boolean $useOffset  Use the offset to calculate the date
+	 * @param string $format  The date format specification string (see {@link PHP_MANUAL#strftime})
 	 * @return a date in a specific format
-	 * @see strftime
 	 */
 	function toFormat($format = '%Y-%m-%d %H:%M:%S')
 	{

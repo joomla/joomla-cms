@@ -23,7 +23,7 @@ class JFactory
 	/**
 	 * Get a configuration object
 	 *
-	 * Returns a reference to the global JRegistry object, only creating it
+	 * Returns a reference to the global {@link JRegistry} object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @access public
@@ -49,10 +49,11 @@ class JFactory
 	/**
 	 * Get a session object
 	 *
-	 * Returns a reference to the global JSession object, only creating it
+	 * Returns a reference to the global {@link JSession} object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @access public
+	 * @param array An array containing session options
 	 * @return object JSession
 	 */
 	function &getSession($options = array())
@@ -69,7 +70,7 @@ class JFactory
 	/**
 	 * Get a language object
 	 *
-	 * Returns a reference to the global JLanguage object, only creating it
+	 * Returns a reference to the global {@link JLanguage} object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @access public
@@ -89,7 +90,7 @@ class JFactory
 	/**
 	 * Get a document object
 	 *
-	 * Returns a reference to the global JDocument object, only creating it
+	 * Returns a reference to the global {@link JDocument} object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @access public
@@ -109,7 +110,7 @@ class JFactory
 	/**
 	 * Get an user object
 	 *
-	 * Returns a reference to the global JUser object, only creating it
+	 * Returns a reference to the global {@link JUser} object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @access public
@@ -137,13 +138,13 @@ class JFactory
 	/**
 	 * Get a cache object
 	 *
-	 * Returns a reference to the global JCache object, only creating it
+	 * Returns a reference to the global {@link JCache} object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @access public
 	 * @param string The cache group name
 	 * @param string The cache class name
-	 * @return object
+	 * @return object JCache
 	 */
 	function &getCache($group='', $handler = 'function')
 	{
@@ -169,11 +170,11 @@ class JFactory
 	/**
 	 * Get an authorization object
 	 *
-	 * Returns a reference to the global JAuthorization object, only creating it
+	 * Returns a reference to the global {@link JAuthorization} object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @access public
-	 * @return object
+	 * @return object JAuthorization
 	 */
 	function &getACL( )
 	{
@@ -187,13 +188,13 @@ class JFactory
 	}
 
 	/**
-	 * Get an template object
+	 * Get a template object
 	 *
-	 * Returns a reference to the global JAuthorization object, only creating it
+	 * Returns a reference to the global {@link JTemplate} object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @access public
-	 * @return object
+	 * @return object JTemplate
 	 */
 	function &getTemplate( )
 	{
@@ -207,12 +208,12 @@ class JFactory
 	}
 
 	/**
-	 * Get th database object
+	 * Get a database object
 	 *
-	 * Returns a reference to the global JDatabase object, only creating it
+	 * Returns a reference to the global {@link JDatabase} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return object JDatabase based object
+	 * @return object JDatabase
 	 */
 	function &getDBO()
 	{
@@ -232,13 +233,13 @@ class JFactory
 	}
 
 	/**
-	 * Get mailer object
+	 * Get a mailer object
 	 *
-	 * Returns a reference to the global Mailer object, only creating it
+	 * Returns a reference to the global {@link JMail} object, only creating it
 	 * if it doesn't already exist
 	 *
 	 * @access public
-	 * @return object
+	 * @return object JMail
 	 */
 	function &getMailer( )
 	{
@@ -253,7 +254,7 @@ class JFactory
 	}
 
 	/**
-	 * Get a XML document
+	 * Get an XML document
 	 *
 	 * @access public
 	 * @param string The type of xml parser needed 'DOM', 'RSS' or 'Simple'
@@ -261,7 +262,7 @@ class JFactory
 	 * 		boolean ['lite'] When using 'DOM' if true or not defined then domit_lite is used
 	 * 		string  ['rssUrl'] the rss url to parse when using "RSS"
 	 * 		string	['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
-	 * @return object
+	 * @return object Parsed XML document object
 	 */
 
 	 function &getXMLParser( $type = 'DOM', $options = array())
@@ -310,11 +311,11 @@ class JFactory
 	}
 
 	/**
-	* Get an JEditor object
+	* Get an editor object
 	*
 	* @access public
 	* @param string $editor The editor to load, depends on the editor plugins that are installed
-	* @return object A JEditor object
+	* @return object JEditor
 	*/
 	function &getEditor($editor = null)
 	{
@@ -333,10 +334,10 @@ class JFactory
 	}
 
 	/**
-	 * Return a reference to the JURI object
+	 * Return a reference to the {@link JURI} object
 	 *
 	 * @access public
-	 * @return juri 	JURI object
+	 * @return object JURI
 	 * @since 1.5
 	 */
 	function &getURI($uri = 'SERVER')
@@ -353,7 +354,7 @@ class JFactory
 	 * @access private
 	 * @param string	The path to the configuration file
 	 * @param string	The type of the configuration file
-	 * @return object
+	 * @return object JRegistry
 	 * @since 1.5
 	 */
 	function &_createConfig($file, $type = 'PHP')
@@ -378,7 +379,8 @@ class JFactory
 	 * Create a session object
 	 *
 	 * @access private
-	 * @return object
+	 * @param array $options An array containing session options
+	 * @return object JSession
 	 * @since 1.5
 	 */
 	function &_createSession($options = array())
@@ -401,7 +403,7 @@ class JFactory
 	 * Create an ACL object
 	 *
 	 * @access private
-	 * @return object
+	 * @return object JAuthorization
 	 * @since 1.5
 	 */
 	function &_createACL()
@@ -425,7 +427,7 @@ class JFactory
 	 * Create an database object
 	 *
 	 * @access private
-	 * @return object
+	 * @return object JDatabase
 	 * @since 1.5
 	 */
 	function &_createDBO()
@@ -455,7 +457,7 @@ class JFactory
 	 * Create a mailer object
 	 *
 	 * @access private
-	 * @return object
+	 * @return object JMail
 	 * @since 1.5
 	 */
 	function &_createMailer()
@@ -501,11 +503,11 @@ class JFactory
 
 
 	/**
-	 * Create a mailer object
+	 * Create a template object
 	 *
 	 * @access private
 	 * @param array An array of support template files to load
-	 * @return object
+	 * @return object JTemplate
 	 * @since 1.5
 	 */
 	function &_createTemplate($files = array())
@@ -548,7 +550,7 @@ class JFactory
 	 * Create a language object
 	 *
 	 * @access private
-	 * @return object
+	 * @return object JLanguage
 	 * @since 1.5
 	 */
 	function &_createLanguage()
@@ -567,7 +569,7 @@ class JFactory
 	 * Create a document object
 	 *
 	 * @access private
-	 * @return object
+	 * @return object JDocument
 	 * @since 1.5
 	 */
 	function &_createDocument()

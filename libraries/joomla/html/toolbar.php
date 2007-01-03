@@ -17,13 +17,13 @@
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage		HTML
+ * @subpackage	HTML
  * @since		1.5
  */
 class JToolBar extends JObject
 {
 	/**
-	 * toolbar name
+	 * Toolbar name
 	 *
 	 * @access	private
 	 * @var		string
@@ -31,7 +31,7 @@ class JToolBar extends JObject
 	var $_name = array ();
 
 	/**
-	 * toolbar array
+	 * Toolbar array
 	 *
 	 * @access	private
 	 * @var		array
@@ -39,7 +39,7 @@ class JToolBar extends JObject
 	var $_bar = array ();
 
 	/**
-	 * loaded buttons
+	 * Loaded buttons
 	 *
 	 * @access	private
 	 * @var		array
@@ -47,7 +47,7 @@ class JToolBar extends JObject
 	var $_buttons = array ();
 
 	/**
-	 * directories, where button types can be stored
+	 * Directories, where button types can be stored
 	 *
 	 * @access	private
 	 * @var		array
@@ -76,7 +76,7 @@ class JToolBar extends JObject
 	 * doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $toolbar = &JToolBar::getInstance([$name);</pre>
+	 * 		<pre>  $toolbar = & JToolBar::getInstance( $name );</pre>
 	 *
 	 * @access	public
 	 * @param	string		$name  The name of the toolbar.
@@ -161,7 +161,7 @@ class JToolBar extends JObject
 	}
 
 	/**
-	 * render a parameter type
+	 * Render a parameter type
 	 *
 	 * @param object A param tag node
 	 * @param string The control name
@@ -249,7 +249,7 @@ class JToolBar extends JObject
 	 *
 	 * You may either pass a string or an array of directories.
 	 *
-	 * JParameter will be searching for a element type in the same order you
+	 * {@link JParameter} will be searching for an element type in the same order you
 	 * added them. If the parameter type cannot be found in the custom folders,
 	 * it will look in JParameter/types.
 	 *

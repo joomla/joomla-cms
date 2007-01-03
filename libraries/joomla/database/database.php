@@ -104,7 +104,7 @@ class JDatabase extends JObject
 	 * @param string Database user password
 	 * @param string Database name
 	 * @param string Common prefix for all tables
-	 * @return database A database object
+	 * @return JDatabase A database object
 	 * @since 1.5
 	*/
 	function &getInstance( $driver='mysql', $host='localhost', $user, $pass, $db='', $table_prefix='' )

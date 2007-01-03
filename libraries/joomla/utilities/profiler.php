@@ -15,7 +15,8 @@
 
 
 /**
- * Page generation time
+ * Utility class to assist in the process of benchmarking the execution
+ * of sections of code to understand where time is being spent.
  *
  * @package 	Joomla.Framework
  * @subpackage	Utilities
@@ -59,9 +60,10 @@ class JProfiler extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $browser = &JProfiler::getInstance([$prefix]);</pre>
+	 * 		<pre>  $browser = & JProfiler::getInstance( $prefix );</pre>
 	 *
 	 * @access public
+	 * @param string Prefix used to distinguish profiler objects.
 	 * @return JProfiler  The Profiler object.
 	 */
 	function &getInstance($prefix = '')
@@ -82,8 +84,12 @@ class JProfiler extends JObject
 	/**
 	 * Output a time mark
 	 *
+	 * The mark is returned as text enclosed in <div> tags
+	 * with a CSS class of 'profiler'.
+	 *
 	 * @access public
-	 * @var string A label for the time mark
+	 * @param string A label for the time mark
+	 * @return string Mark enclosed in <div> tags
 	 */
 	function mark( $label )
 	{
@@ -93,7 +99,7 @@ class JProfiler extends JObject
 	}
 
 	/**
-	 * Description
+	 * Get the current time.
 	 *
 	 * @access public
 	 * @return float The current time
@@ -105,10 +111,11 @@ class JProfiler extends JObject
 	}
 
 	/**
-	 * Description
+	 * Get information about current memory usage.
 	 *
 	 * @access public
 	 * @return int The memory usage
+	 * @link PHP_MANUAL#memory_get_usage
 	 */
 	function getMemory()
 	{
@@ -138,10 +145,13 @@ class JProfiler extends JObject
 	}
 
 	/**
-	 * Description
+	 * Get all profiler marks.
+	 *
+	 * Returns an array of all marks created since the Profiler object
+	 * was instantiated.  Marks are strings as per {@link JProfiler::mark()}.
 	 *
 	 * @access public
-	 * @return
+	 * @return array Array of profiler marks
 	 */
 	function getBuffer() {
 		return $this->_buffer;

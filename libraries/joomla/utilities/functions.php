@@ -20,7 +20,6 @@ jimport('joomla.filter.input');
 *
 * Needed to handle unicode conflicts due to unicode conflicts
 *
-* @package		Joomla.Framework
 * @since 1.0
 */
 function ampReplace( $text ) {
@@ -87,7 +86,6 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
 /**
 * Utility function to provide ToolTips
 *
-* @package		Joomla.Framework
 * @param string ToolTip text
 * @param string Box title
 * @returns HTML code for ToolTip
