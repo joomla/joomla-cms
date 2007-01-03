@@ -127,7 +127,7 @@ class JUtility
 	function getToken()
 	{
 		$session =& JFactory::getSession();
-		return $session->get('session.token');
+		return $session->getToken();
 	}
 
 	/**

@@ -89,6 +89,29 @@ class JSession extends JObject
     function getExpire() {
 		return $this->_expire;
     }
+	
+	/**
+	 * Get a session token, if a token isn't set yet one will be generated.
+	 * 
+	 * Tokens are used to secure forms from spamming attacks. Once a token 
+	 * has been generated the system will check the post request to see if
+	 * it is present, if not it will invalidate the session. 
+	 *
+	 * @access public
+	 * @return string The session token
+	 */
+	function getToken() 
+	{	
+		$token = $this->get( 'session.token' );
+
+		//create a token
+		if( $token === null ) {
+			$token	=	$this->_createToken( 12 );
+			$this->set( 'session.token', $token );
+		}
+		
+		return $token;
+	}
 
 
 	/**
@@ -244,7 +267,7 @@ class JSession extends JObject
 		session_start();
 
 		// Send modified header for IE 6.0 Security Policy
-		//header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 
 		return true;
 	}
@@ -364,8 +387,7 @@ class JSession extends JObject
 	 * @access public
 	 * @see	session_write_close()
 	 */
-	function pause()
-	{
+	function pause() {
 		session_write_close();
 	}
 
@@ -378,8 +400,12 @@ class JSession extends JObject
 	 */
 	function _createId( )
 	{
-		$agent = $_SERVER['HTTP_USER_AGENT'];
-		$id	= md5( $agent . uniqid(dechex(rand())) . $_SERVER['REMOTE_ADDR'] );
+		$id = 0;
+		while (strlen($id) < 32)  {    
+			$id .= mt_rand(0, mt_getrandmax());
+		}
+		
+		$id	= md5( uniqid($id, true));
 		return $id;
 	}
 
@@ -480,6 +506,7 @@ class JSession extends JObject
 	* @access protected
 	* @param boolean $restart reactivate session
 	* @return boolean $result true on success
+	* @see http://shiflett.org/articles/the-truth-about-sessions
 	*/
 	function _validate( $restart = false )
 	{
@@ -488,7 +515,7 @@ class JSession extends JObject
 		{
 			$this->_state	=	'active';
 
-			$this->set( 'session.client.address'		, null );
+			$this->set( 'session.client.address'	, null );
 			$this->set( 'session.client.forwarded'	, null );
 			$this->set( 'session.client.browser'	, null );
 			$this->set( 'session.token'				, null );
@@ -507,55 +534,23 @@ class JSession extends JObject
 			}
 		}
 
-		// check for client-ip
-		if( isset( $_SERVER['REMOTE_ADDR'] ) )
-		{
-			$ip	=	$this->get( 'session.client.address' );
-
-			if( $ip === null )
-			{
-				$ip = $_SERVER['REMOTE_ADDR'];
-
-				if(isset($_SERVER['HTTP_USER_AGENT']))
-				{
-					if (strpos('AOL', $_SERVER['HTTP_USER_AGENT']) !== false)
-					{
-						$address	= explode('.',$ip);
-						$ip			= $address[0] .'.'. $address[1] .'.'. $address[2];
-					}
-				}
-
-				$this->set( 'session.client.address', $ip );
-			}
-			else if( $_SERVER['REMOTE_ADDR'] !== $ip )
-			{
-				$this->_state	=	'error';
-				return false;
-			}
-
-			// some polite proxy server tell, for whom they forward the request for
-			if( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
-			{
-				$forwarded	=	$this->get( 'session.client.forwarded' );
-
-				if( $forwarded === null ) {
-					$this->set( 'session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR'] );
-				}
-				else if( $_SERVER['HTTP_X_FORWARDED_FOR'] !== $forwarded )
-				{
-					$this->_state = 'error';
-					return false;
-				}
-			}
+		// record ip in the session in case we need it later
+		if( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+			$this->set( 'session.client.address',  $_SERVER['REMOTE_ADDR']);
 		}
 
+		// record proxy forwarded for in the session in case we need it later
+		if( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+			$this->set( 'session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
+		}
+	
 		// check for clients browser
 		if( isset( $_SERVER['HTTP_USER_AGENT'] ) )
 		{
 			$browser = $this->get( 'session.client.browser' );
 
 			if( $browser === null ) {
-				$this->set( 'session.client.browser', $_SERVER['HTTP_USER_AGENT'] );
+				$this->set( 'session.client.browser', $_SERVER['HTTP_USER_AGENT']);
 			}
 			else if( $_SERVER['HTTP_USER_AGENT'] !== $browser ) {
 				$this->_state	=	'error';
@@ -563,25 +558,21 @@ class JSession extends JObject
 			}
 		}
 
-		// check token!
-		$token = $this->get( 'session.token' );
-
 		// check if token is valid!
+		$token = $this->get( 'session.token' );
 		if( $token !== null )
 		{
-			$match	=	false;
-			// check token from request
+			//reset token
+			$this->set( 'session.token', null );
+			
+			//check token
 			$var = JRequest::getVar( 'token', '', 'post' );
-			if(!empty($var) && ($var != $token)) {
+			if(($var !== $token) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 				$this->_state = 'error';
 				return false;
 			}
-
 		}
 
-		// save new token
-		$token	=	$this->_createToken( 12 );
-		$this->set( 'session.token', $token );
 		return true;
 	}
 }

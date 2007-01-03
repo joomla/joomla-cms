@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Jan-2007 Johan Janssens
+ # Fixed [artf7120] : Changing IP adresses of users through proxys
+
 02-Jan-2007 Hannes Papenberg
  # Fixed com_contact mail form
  # Fixed com_massmail
@@ -48,6 +51,7 @@ Legend:
  # Fix various session related problems
  + Added 'aid' dynamic variable to the user object, this acts as the 'gid' variable in 1.0
  + Added 'guest' dynamic variable to the user object, when a user is logged in guest is set to 0.
+ ! Note : changes require a new install and sessions need to be cleaned
  
 02-Jan-2007 Andrew Eddie
  + Added JController::setMessage
@@ -62,7 +66,7 @@ Legend:
 01-Jan-2007 Hannes Papenberg
  ^ Changed Meta-Informations gathering in article creation
 
-01-Jan-2007
+01-Jan-2007 Andrew Eddie
  ^ Turned submenu off when hidemainmenu not zero
 
 31-Dec-2006 Mateusz Krzeszowiec
