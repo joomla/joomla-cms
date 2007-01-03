@@ -41,6 +41,11 @@ Legend:
  # Fixed bug in menu item copy which results in multiple items set to home
  # Reworked Menu Selection lists in Edit Module and Edit Template pages
 
+03-Jan-2007 Andy Miller
+ # Fixed left column always taking up 20% in milkyway
+ ^ Removed 1px black border from polls
+ # Fixed alignment of polls with Opera
+
 03-Jan-2007 Johan Janssens
  # Fixed [artf7120] : Changing IP adresses of users through proxys
 

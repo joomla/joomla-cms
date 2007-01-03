@@ -13,10 +13,3 @@
 
 .polls_color_5{ background-color: #5B781E; border: 2px ridge #6B8E23; }
 
-
-
-/* polls Outside Table Border */
-.pollstableborder {
-	border: 1px solid;
-	padding: 2px;
-}

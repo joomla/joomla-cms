@@ -280,11 +280,16 @@ td.pill_r {
 	float:left;
 }
 
-#maincolumn {
+#maincolumn,
+#maincolumn_full {
 	margin-left: 20%;
 	float: none;
 	padding-left: 15px;
 	width: auto;
+}
+
+#maincolumn_full {
+	margin-left: 0;
 }
 
 table.nopad {
@@ -694,3 +699,8 @@ dl#system-message { margin: 0; padding: 0; }
 
 .pagination span { padding: 2px; }
 .pagination a    { padding: 2px; }
+
+/* Polls */
+.pollstableborder td {
+	text-align: left;
+}

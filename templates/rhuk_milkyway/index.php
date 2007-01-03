@@ -91,8 +91,12 @@
 							<jdoc:include type="modules" name="left" style="rounded" />
 						<?php endif; ?>
 						</div>
-
+						
+						<?php if($this->countModules('left')) : ?>
 						<div id="maincolumn">
+						<?php else: ?>
+						<div id="maincolumn_full">
+						<?php endif; ?>
 							<?php if($this->countModules('user1 or user2')) : ?>
 								<table class="nopad user1user2">
 									<tr valign="top">
