@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Jan-2007 Andrew Eddie
+ ^ Updated language file headers
+
 03-Jan-2007 Andrew Eddie
  # Fixed bug in menu item copy which results in multiple items set to home
  # Reworked Menu Selection lists in Edit Module and Edit Template pages
