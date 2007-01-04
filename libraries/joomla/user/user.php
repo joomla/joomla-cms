@@ -403,7 +403,6 @@ class JUser extends JObject
 		 */
 		$me = & JFactory::getUser();
 
-
 		/*
 		 * Now that we have gotten all the field handling out of the way, time
 		 * to check and store the object.
@@ -421,6 +420,9 @@ class JUser extends JObject
 			$this->_setError("JUser::save: ".JText::_( 'WARNSUPERADMINCREATE' ));
 			return false;
 		}
+		
+		//are we creating a new user
+		$isnew = !$this->_table->id;
 
 		/*
 		 * Since we have passed all checks lets load the user plugin group and
@@ -428,7 +430,7 @@ class JUser extends JObject
 		 */
 		JPluginHelper::importPlugin( 'user' );
 		$dispatcher =& JEventDispatcher::getInstance();
-		$dispatcher->trigger( 'onBeforeStoreUser', array( get_object_vars( $this->_table ), $this->_table->id ) );
+		$dispatcher->trigger( 'onBeforeStoreUser', array( get_object_vars( $this->_table ), $isnew ) );
 
 		/*
 		 * Time for the real thing... are you ready for the real thing?  Store
@@ -449,7 +451,7 @@ class JUser extends JObject
 		}
 
 		// We stored the user... lets tell everyone about it.
-		$dispatcher->trigger( 'onAfterStoreUser', array( get_object_vars( $this->_table ), $this->_table->id, $result, $this->getError() ) );
+		$dispatcher->trigger( 'onAfterStoreUser', array( get_object_vars( $this->_table ), $isnew, $result, $this->getError() ) );
 
 		return $result;
 	}
