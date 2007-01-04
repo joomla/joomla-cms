@@ -20,30 +20,8 @@
  * @subpackage		FileSystem
  * @since		1.5
  */
-class JArchive {
-	/**
-	 * @param string The name of the archive including path and one of the following
-	 *				extenstions: .gz, .tar., .zip
-	 * @param array of path to the files that must be added to the archive
-	 * $return boolean for success
-	 */
-	function create($archive, $files )
-	{
-		jimport('pear.File.Archive');
-
-		// $files is an array of path to the files that must be added to the archive
-
-		$r = File_Archive::extract(
-			$files,
-			File_Archive::toArchive($archive, File_Archive::toOutput())
-		);
-
-		if (PEAR::isError($r)) {
-			return false;
-		}
-		return true;
-	}
-
+class JArchive 
+{	
 	/**
 	 * @param string The name of the archive file
 	 * @param string Directory to unpack into

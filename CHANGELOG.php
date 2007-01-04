@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Jan-2007 Johan Janssens
+ - Removed pear archive and mime packages
+ - Removed JArchive::create method
+
 04-Jan-2007 Andrew Eddie
  ^ Updated language file headers
 

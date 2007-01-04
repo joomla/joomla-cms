@@ -129,7 +129,7 @@ class JUserExample extends JPlugin {
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function onLoginUser($user)
+	function onLoginUser($user, $remember)
 	{
 		// Initialize variables
 		$success = false;
