@@ -4,6 +4,19 @@
 
 		<tbody>
 			<tr>
+				<td valign="top" class="key">
+					<span class="editlinktip">
+					<?php
+					$tip = 'TIPTMPFOLDER';
+					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Path to Temp-folder', '', 0 );
+					?>
+					</span>
+				</td>
+				<td>
+					<input class="text_area" type="text" size="50" name="tmp_path" value="<?php echo $row->tmp_path; ?>" />
+				</td>
+			</tr>
+			<tr>
 				<td class="key">
 					<span class="editlinktip">
 					<?php

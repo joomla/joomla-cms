@@ -253,6 +253,8 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['error_reporting'] = JRequest::getVar('error_reporting', -1, 'post');
 		$config_array['xmlrpc_server'] = JRequest::getVar('xmlrpc_server', 0, 'post');
 		$config_array['legacy']		= JRequest::getVar('legacy', 0, 'post');
+		$config_array['log_path']	= JRequest::getVar('log_path', JPATH_ROOT.DS.'logs', 'post');
+		$config_array['tmp_path']	= JRequest::getVar('tmp_path', JPATH_ROOT.DS.'tmp', 'post');
 
 		// LOCALE SETTINGS
 		$config_array['offset'] 	= JRequest::getVar('offset', 0, 'post');

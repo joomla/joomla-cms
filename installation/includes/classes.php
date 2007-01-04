@@ -439,6 +439,8 @@ class JInstallationController
 		$vars['errormsg']		= JText::_( 'STDERRORMSG' );
 		$vars['metadesc']		= JText::_( 'STDMETADESC' );
 		$vars['metakeys']		= JText::_( 'STDMETAKEYS' );
+		$vars['tmp_path']		= JPATH_ROOT.DS.'tmp';
+		$vars['log_path']		= JPATH_ROOT.DS.'logs';
 
 		// set default language
 		$forced = JInstallationHelper::getLocalise();
