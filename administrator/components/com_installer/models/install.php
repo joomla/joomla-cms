@@ -94,7 +94,11 @@ class InstallerModelInstall extends JModel
 		$this->setState('extension.message', $installer->get('message'));
 
 		// Cleanup the install files
-		JInstallerHelper::cleanupInstall(JPATH_ROOT.DS.'tmp'.DS.$package['packagefile'], $package['extractdir']);
+		if (!is_file($package['packagefile'])) {
+			$config =& JFactory::getConfig();
+			$package['packagefile'] = $config->getValue('config.tmp_path').DS.$package['packagefile'];
+		}
+		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 		return $result;
 	}
@@ -126,7 +130,8 @@ class InstallerModelInstall extends JModel
 		}
 
 		// Build the appropriate paths
-		$tmp_dest 	= JPATH_ROOT.DS.'tmp'.DS.$userfile['name'];
+		$config =& JFactory::getConfig();
+		$tmp_dest 	= $config->getValue('config.tmp_path').DS.$userfile['name'];
 		$tmp_src	= $userfile['tmp_name'];
 
 		// Move uploaded file

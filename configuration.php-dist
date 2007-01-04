@@ -20,7 +20,7 @@
 * Now edit this file and configure the parameters for your site and
 * database.
 */
-class JConfig {	
+class JConfig {
 	/**
 	* -------------------------------------------------------------------------
 	* Site configuration section
@@ -33,7 +33,7 @@ class JConfig {
 	var $editor = 'tinymce';
 	var $list_limit = '20';
 	var $legacy = '0';
-	
+
 	/**
 	* -------------------------------------------------------------------------
 	* Database configuration section
@@ -46,7 +46,7 @@ class JConfig {
 	var $password = '';						// MySQL password
 	var $db = '';							// MySQL database name
 	var $dbprefix = 'jos_';					// Do not change unless you need to!
-	
+
 	/* Server Settings */
 	var $secret = 'FBVtggIk5lAzEU9H'; 		//Change this to something more secure
 	var $gzip = '0';
@@ -60,9 +60,11 @@ class JConfig {
 	var $ftp_pass = '';
 	var $ftp_root = '';
 	var $ftp_enable = '';
+	var $tmp_path	= '/tmp';
+	var $log_path	= '/var/logs';
 
 	/* Locale Settings */
-	var $lang_site = 'en-GB';					
+	var $lang_site = 'en-GB';
 	var $lang_administrator = 'en-GB';
 	var $language = 'en-GB';
 	var $lang = 'english';					// Site language
@@ -78,7 +80,7 @@ class JConfig {
 	var $smtpuser = '';
 	var $smtppass = '';
 	var $smtphost = 'localhost';
-	
+
 	/* Cache Settings */
 	var $caching = '0';
 	var $caching_tmpl = '0';
@@ -89,13 +91,13 @@ class JConfig {
 	var $debug      = '0';
 	var $debug_db 	= '0';
 	var $debug_lang = '0';
-	
+
 	/* Meta Settings */
 	var $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
 	var $MetaKeys = 'joomla, Joomla';
 	var $MetaTitle = '1';
 	var $MetaAuthor = '1';
-	
+
 	/* Statistics Settings */
 	var $enable_stats = '0';
 	var $enable_log_items = '0';
@@ -103,7 +105,7 @@ class JConfig {
 
 	/* SEO Settings */
 	var $sef = '0';
-			
+
 	/* Feed Settings */
 	var $feed_limit   = 10;
 	var $feed_summary = 0;

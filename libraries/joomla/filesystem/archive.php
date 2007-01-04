@@ -51,14 +51,73 @@ class JArchive {
 	 */
 	function extract( $archivename, $extractdir)
 	{
-		jimport( 'pear.File.Archive' );
+		$ext = JFile::getExt(strtolower($archivename));
+		switch ($ext)
+		{
+			case 'zip':
+				$adapter =& JArchive::getAdapter('zip');
+				if ($adapter) {
+					$result = $adapter->extract($archivename, $extractdir);
+				}
+				break;
+			case 'tar':
+				$adapter =& JArchive::getAdapter('tar');
+				if ($adapter) {
+					$result = $adapter->extract($archivename, $extractdir);
+				}
+				break;
+			case 'gz';
+			case 'tgz';
+			case 'gzip';
+				$adapter =& JArchive::getAdapter('gzip');
+				if ($adapter) {
+					$config =& JFactory::getConfig();
+					$tmpfname = tempnam($config->getValue('config.tmp_path'), 'gzip');
+					$gzresult = $adapter->extract($archivename, $tmpfname);
+					if (JError::isError($gzresult)) {
+						@unlink($tmpfname);
+						return false;
+					}
+					// Try to untar the file
+					$tadapter =& JArchive::getAdapter('tar');
+					if ($tadapter) {
+						$result = $tadapter->extract($tmpfname, $extractdir);
+					}
+					@unlink($tmpfname);
+				}
+				$type = 'gzip';
+				break;
+			default:
+				JError::raiseWarning(10, JText::_('UNKNOWNARCHIVETYPE'));
+				return false;
+				break;
+		}
 
-		$r = File_Archive::extract( File_Archive::read($archivename.'/'), File_Archive::toFiles($extractdir) );
-
-		if (PEAR::isError($r)) {
+		if (JError::isError($result)) {
 			return false;
 		}
 		return true;
+	}
+
+	function &getAdapter($type)
+	{
+		static $adapters;
+
+		if (!isset($adapters)) {
+			$adapters = array();
+		}
+
+		if (!isset($adapters[$type])) {
+			// Try to load the adapter object
+			jimport('joomla.filesystem.archive.'.strtolower($type));
+			$class = 'JArchive_'.strtolower($type);
+			if (!class_exists($class)) {
+				$false = false;
+				return $false;
+			}
+			$adapters[$type] = new $class();
+		}
+		return $adapters[$type];
 	}
 }
 ?>

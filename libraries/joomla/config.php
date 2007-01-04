@@ -13,6 +13,8 @@ class JFrameworkConfig
 	var $ftp_pass 	= '';
 	var $ftp_root 	= '';
 	var $ftp_enable = 0;
+	var $tmp_path	= '/tmp';
+	var $log_path	= '/var/logs';
 	var $mailer 	= 'mail';
 	var $mailfrom 	= 'admin@localhost.home';
 	var $fromname 	= '';

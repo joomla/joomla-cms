@@ -307,7 +307,7 @@ class JInstaller extends JObject
 		$version	= $root->attributes('version');
 		$rootName	= $root->name();
 		$config		= &JFactory::getConfig();
-		if ((!JVersion::isCompatible($version) || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
+		if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
 			return $this->abort(JText::_('MUSTENABLELEGACY'));
 		}
 
@@ -978,16 +978,13 @@ class JInstallerHelper
 	 */
 	function downloadPackage($url, $target = false)
 	{
+		$config =& JFactory::getConfig();
 
-		/*
-		 * Set the target path if not given
-		 */
-		if (!$target)
-		{
-			$target = JPATH_SITE.DS.'tmp'.DS.JInstallerHelper::getFilenameFromURL($url);
-		} else
-		{
-			$target = JPATH_SITE.DS.'tmp'.DS.basename($target);
+		// Set the target path if not given
+		if (!$target) {
+			$target = $config->getValue('config.tmp_path').DS.JInstallerHelper::getFilenameFromURL($url);
+		} else {
+			$target = $config->getValue('config.tmp_path').DS.basename($target);
 		}
 
 		/*
@@ -1000,8 +997,7 @@ class JInstallerHelper
 		 * Open the remote server socket for reading
 		 */
 		$inputHandle = @ fopen($url, "r");
-		if (!$inputHandle)
-		{
+		if (!$inputHandle) {
 			JError::raiseWarning(42, 'Remote Server connection failed: '.$php_errormsg);
 			return false;
 		}
@@ -1012,26 +1008,19 @@ class JInstallerHelper
 		while (!feof($inputHandle))
 		{
 			$contents .= fread($inputHandle, 4096);
-			if ($contents == false)
-			{
+			if ($contents == false) {
 				JError::raiseWarning(44, 'Failed reading network resource: '.$php_errormsg);
 				return false;
 			}
 		}
 
-		/*
-		 * Write buffer to file
-		 */
+		// Write buffer to file
 		JFile::write($target, $contents);
 
-		/*
-		 * Close file pointer resources
-		 */
+		// Close file pointer resource
 		fclose($inputHandle);
 
-		/*
-		 * Return the name of the downloaded package
-		 */
+		// Return the name of the downloaded package
 		return basename($target);
 	}
 
@@ -1184,19 +1173,21 @@ class JInstallerHelper
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function cleanupInstall($p_file, $resultdir)
+	function cleanupInstall($package, $resultdir)
 	{
+		$config =& JFactory::getConfig();
+
 		// Does the unpacked extension directory exist?
 		if (is_dir($resultdir)) {
 			JFolder::delete($resultdir);
 		}
 
 		// Is the package file a valid file?
-		if (is_file($p_file)) {
-			JFile::delete($p_file);
-		} elseif (is_file(JPath::clean(JPATH_ROOT.DS.'tmp'.DS.$p_file, false))) {
+		if (is_file($package)) {
+			JFile::delete($package);
+		} elseif (is_file(JPath::clean($config->getValue('config.tmp_path').DS.$package, false))) {
 			// It might also be just a base filename
-			JFile::delete(JPath::clean(JPATH_ROOT.DS.'tmp'.DS.$p_file, false));
+			JFile::delete(JPath::clean($config->getValue('config.tmp_path').DS.$package, false));
 		}
 	}
 

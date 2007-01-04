@@ -42,6 +42,8 @@ Legend:
 
 04-Jan-2007 Louis Landry
  ^ Refactor of Installer libraries to use composition instead of inheritance
+ + Added new archive libraries to better support zip|gzip|tar file extraction
+ ! Two new config vars tmp_path and log_path will require existing installs to edit global config and set them
 
 03-Jan-2007 Andrew Eddie
  # Fixed bug in menu item copy which results in multiple items set to home
