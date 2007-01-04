@@ -3,9 +3,6 @@
 	<table class="adminform">
 		<tbody>
 			<tr>
-				<td><strong><?php echo $this->install->description; ?></strong></td>
-			</tr>
-			<tr>
 				<td><?php echo $this->install->message; ?></td>
 			</tr>
 		</tbody>

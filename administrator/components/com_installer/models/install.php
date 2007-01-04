@@ -76,7 +76,7 @@ class InstallerModelInstall extends JModel
 		$db = & JFactory::getDBO();
 
 		// Get an installer instance
-		$installer = & JInstaller::getInstance($db, $package['type']);
+		$installer =& JInstaller::getInstance();
 
 		// Install the package
 		if (!$installer->install($package['dir'])) {
@@ -91,8 +91,7 @@ class InstallerModelInstall extends JModel
 
 		// Set some model state values
 		$this->setState('message', $msg);
-		$this->setState('extension.description', $installer->description);
-		$this->setState('extension.message', $installer->message);
+		$this->setState('extension.message', $installer->get('message'));
 
 		// Cleanup the install files
 		JInstallerHelper::cleanupInstall(JPATH_ROOT.DS.'tmp'.DS.$package['packagefile'], $package['extractdir']);

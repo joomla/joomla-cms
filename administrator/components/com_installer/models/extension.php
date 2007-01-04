@@ -101,13 +101,13 @@ class InstallerModel extends JModel
 
 		// Get an installer object for the extension type
 		jimport('joomla.installer.installer');
-		$installer = & JInstaller::getInstance($db, $this->_type);
+		$installer = & JInstaller::getInstance();
 
 		// Uninstall the chosen extensions
 		foreach ($eid as $id => $clientId)
 		{
 			$id		= trim( $id );
-			$result	= $installer->uninstall( $id, $clientId );
+			$result	= $installer->uninstall($this->_type, $id, $clientId );
 
 			// Build an array of extensions that failed to uninstall
 			if ($result === false) {

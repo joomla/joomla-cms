@@ -17,7 +17,6 @@ jimport('joomla.filesystem.*');
 /**
  * Joomla base installer class
  *
- * @abstract
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
@@ -25,109 +24,45 @@ jimport('joomla.filesystem.*');
  */
 class JInstaller extends JObject
 {
+	/**
+	 * Array of paths needed by the installer
+	 * @var array
+	 */
+	var $_paths = array();
 
 	/**
-	 * The directory that the extension is to be installed from
-	 *
-	 * @var string
+	 * The installation manifest XML object
+	 * @var object
 	 */
-	var $_installDir = null;
-
-	/**
-	 * The extension type to install
-	 *
-	 * @var string
-	 */
-	var $_installType = null;
-
-	/**
-	 * The xml install file
-	 *
-	 * @var string
-	 */
-	var $_installFile = null;
-
-	/**
-	 * The does the package have an install script?
-	 *
-	 * @var boolean
-	 */
-	var $_hasInstallScript = false;
-
-	/**
-	 * The package install script
-	 *
-	 * @var string
-	 */
-	var $_installScript = null;
-
-	/**
-	 * The name of the Joomla! extension
-	 *
-	 * @var string
-	 */
-	var $_extensionName = null;
-
-	/**
-	 * The site directory where the extension is to be installed
-	 *
-	 * @var string
-	 */
-	var $_extensionDir = null;
-
-	/**
-	 * The admin directory where the extension is to be installed
-	 *
-	 * @var string
-	 */
-	var $_extensionAdminDir = null;
-
-	/**
-	 * The name of a special atttibute in a tag
-	 *
-	 * @var string
-	 */
-	var $_extensionSpecial = null;
+	var $_manifest = null;
 
 	/**
 	 * True if existing files can be overwritten
-	 *
 	 * @var boolean
 	 */
-	var $_allowOverwrite = false;
-
-	/**
-	 * A DOMIT XML document
-	 *
-	 * @var object
-	 */
-	var $_xmldoc = null;
+	var $_overwrite = false;
 
 	/**
 	 * A database connector object
-	 *
 	 * @var object
 	 */
 	var $_db = null;
 
 	/**
-	 * Stack of installation steps
-	 * 	- Used for installation rollback
-	 *
+	 * Associative array of package installer handlers
 	 * @var array
 	 */
-	var $_stepStack = array ();
+	var $_adapters = array();
 
 	/**
-	 * The description of the extension
-	 *
-	 * @var string
+	 * Stack of installation steps
+	 * 	- Used for installation rollback
+	 * @var array
 	 */
-	var $description = null;
+	var $_stepStack = array();
 
 	/**
 	 * The output from the install/uninstall scripts
-	 *
 	 * @var string
 	 */
 	var $message = null;
@@ -137,9 +72,9 @@ class JInstaller extends JObject
 	 *
 	 * @access protected
 	 */
-	function __construct(& $db)
+	function __construct()
 	{
-		$this->_db = & $db;
+		$this->_db =& JFactory::getDBO();
 	}
 
 	/**
@@ -147,36 +82,299 @@ class JInstaller extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * @static
-	 * @param object $db A database connector object
-	 * @param string $type The installer type to instantiate [optional]
-	 * @return database A database object
+	 * @return	object	An installer object
 	 * @since 1.5
 	 */
-	function & getInstance(& $db, $type = null)
+	function &getInstance()
 	{
-		static $instances;
+		static $instance;
+
+		if (!isset ($instance)) {
+			$instance = new JInstaller();
+		}
+		return $instance;
+	}
+
+	/**
+	 * Get the allow overwrite switch
+	 *
+	 * @access	public
+	 * @return	boolean	Allow overwrite switch
+	 * @since	1.5
+	 */
+	function getOverwrite()
+	{
+		return $this->_overwrite;
+	}
+
+	/**
+	 * Set the allow overwrite switch
+	 *
+	 * @access	public
+	 * @param	boolean	$state	Overwrite switch state
+	 * @return	boolean	Previous value
+	 * @since	1.5
+	 */
+	function setOverwrite($state=false)
+	{
+		$tmp = $this->_overwrite;
+		if ($state) {
+			$this->_overwrite = true;
+		} else {
+			$this->_overwrite = false;
+		}
+		return $tmp;
+	}
+
+	/**
+	 * Get the database connector object
+	 *
+	 * @access	public
+	 * @return	object	Database connector object
+	 * @since	1.5
+	 */
+	function &getDBO()
+	{
+		return $this->_db;
+	}
+
+	/**
+	 * Get the installation manifest object
+	 *
+	 * @access	public
+	 * @return	object	Manifest object
+	 * @since	1.5
+	 */
+	function &getManifest()
+	{
+		if (!is_object($this->_manifest)) {
+			$this->_findManifest();
+		}
+		return $this->_manifest;
+	}
+
+	/**
+	 * Get an installer path by name
+	 *
+	 * @access	public
+	 * @param	string	$name		Path name
+	 * @param	string	$default	Default value
+	 * @return	string	Path
+	 * @since	1.5
+	 */
+	function getPath($name, $default=null)
+	{
+		return (!empty($this->_paths[$name])) ? $this->_paths[$name] : $default;
+	}
+
+	/**
+	 * Sets an installer path by name
+	 *
+	 * @access	public
+	 * @param	string	$name	Path name
+	 * @param	string	$value	Path
+	 * @return	void
+	 * @since	1.5
+	 */
+	function setPath($name, $value)
+	{
+		$this->_paths[$name] = $value;
+	}
+
+	/**
+	 * Pushes a step onto the installer stack for rolling back steps
+	 *
+	 * @access	public
+	 * @param	array	$step	Installer step
+	 * @return	void
+	 * @since	1.5
+	 */
+	function pushStep($step)
+	{
+		$this->_stepStack[] = $step;
+	}
+
+	/**
+	 * Set an installer adapter by name
+	 *
+	 * @access	public
+	 * @param	string	$name		Adapter name
+	 * @param	object	$adapter	Installer adapter object
+	 * @return	boolean True if successful
+	 * @since	1.5
+	 */
+	function setAdapter($name, $adapter=null)
+	{
+		if (!is_object($adapter)) {
+			// Try to load the adapter object
+			jimport('joomla.installer.adapters.'.strtolower($name));
+			$class = 'JInstaller_'.strtolower($name);
+			if (!class_exists($class)) {
+				return false;
+			}
+			$adapter = new $class($this);
+		}
+		$this->_adapters[$name] =& $adapter;
+		return true;
+	}
+
+	/**
+	 * Installation abort method
+	 *
+	 * @access	public
+	 * @param	string	$msg	Abort message from the installer
+	 * @param	string	$type	Package type if defined
+	 * @return	boolean	True if successful
+	 * @since	1.5
+	 */
+	function abort($msg=null, $type=null)
+	{
+		// Initialize variables
+		$retval = true;
+		$step = array_pop($this->_stepStack);
+
+		// Raise abort warning
+		if ($msg) {
+			JError::raiseWarning(100, $msg);
+		}
+
+		while ($step != null)
+		{
+			switch ($step['type'])
+			{
+				case 'file' :
+					// remove the file
+					$stepval = JFile::delete($step['path']);
+					break;
+
+				case 'folder' :
+					// remove the folder
+					$stepval = JFolder::delete($step['path']);
+					break;
+
+				case 'query' :
+					// placeholder in case this is necessary in the future
+					break;
+
+				default :
+					if ($type && is_object($this->_adapters[$type])) {
+						// Build the name of the custom rollback method for the type
+						$method = '_rollback_'.$step['type'];
+						// Custom rollback method handler
+						if (method_exists($this->_adapters[$type], $method)) {
+							$stepval = $this->_adapters[$type]->$method($step);
+						}
+					}
+					break;
+			}
+
+			// Only set the return value if it is false
+			if ($stepval === false) {
+				$retval = false;
+			}
+
+			// Get the next step and continue
+			$step = array_pop($this->_stepStack);
+		}
+
+		return $retval;
+	}
+
+	/**
+	 * Package installation method
+	 *
+	 * @access	public
+	 * @param	string	$path	Path to package source folder
+	 * @return	boolean	True if successful
+	 * @since	1.5
+	 */
+	function install($path=null)
+	{
+		if ($path && JFolder::exists($path)) {
+			$this->setPath('source', $path);
+		} else {
+			return $this->abort(JText::_('Install path does not exist'));
+		}
+
+		if (!$this->setupInstall()) {
+			return $this->abort(JText::_('Unable to detect manifest file'));
+		}
 
 		/*
-		 * @TODO Deprecate this in next release
-		 * Checking for mambot install files
+		 * LEGACY CHECK
 		 */
-		if ($type == 'mambot') {
-			$type = 'plugin';
+		$root		=& $this->_manifest->document;
+		$version	= $root->attributes('version');
+		$rootName	= $root->name();
+		$config		= &JFactory::getConfig();
+		if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
+			return $this->abort(JText::_('MUSTENABLELEGACY'));
 		}
 
-		if (!isset ($instances)) {
-			$instances = array ();
+		$type = $root->attributes('type');
+		if (is_object($this->_adapters[$type])) {
+			return $this->_adapters[$type]->install();
+		}
+		return false;
+	}
+
+	/**
+	 * Package update method
+	 *
+	 * @access	public
+	 * @param	string	$path	Path to package source folder
+	 * @return	boolean	True if successful
+	 * @since	1.5
+	 */
+	function update($path=null)
+	{
+		if ($path && JFolder::exists($path)) {
+			$this->setPath('source', $path);
+		} else {
+			$this->abort(JText::_('Update path does not exist'));
 		}
 
-		$signature = serialize(array ($type));
-
-		if (empty ($instances[$signature])) {
-			jimport('joomla.installer.installer.'.$type);
-			$adapter = 'JInstaller'.$type;
-			$instances[$signature] = new $adapter ($db);
+		if (!$this->setupInstall()) {
+			return $this->abort(JText::_('Unable to detect manifest file'));
 		}
 
-		return $instances[$signature];
+		/*
+		 * LEGACY CHECK
+		 */
+		$root		=& $this->_manifest->document;
+		$version	= $root->attributes('version');
+		$rootName	= $root->name();
+		$config		= &JFactory::getConfig();
+		if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
+			return $this->abort(JText::_('MUSTENABLELEGACY'));
+		}
+
+		$type = $root->attributes('type');
+		if (is_object($this->_adapters[$type])) {
+			$this->_adapters[$type]->update();
+		}
+	}
+
+	/**
+	 * Package uninstallation method
+	 *
+	 * @access	public
+	 * @param	string	$type	Package type
+	 * @param	mixed	$identifier	Package identifier for adapter
+	 * @param	int		$cid	Application ID
+	 * @return	boolean	True if successful
+	 * @since	1.5
+	 */
+	function uninstall($type, $identifier, $cid=0)
+	{
+		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type])) {
+			if (!$this->setAdapter($type)) {
+				return false;
+			}
+		}
+		if (is_object($this->_adapters[$type])) {
+			$this->_adapters[$type]->uninstall($identifier, $cid);
+		}
 	}
 
 	/**
@@ -184,288 +382,196 @@ class JInstaller extends JObject
 	 * and checks the installation file and verifies the installation type
 	 *
 	 * @access public
-	 * @param string Install from directory
-	 * @param string The install type
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function preInstallCheck($p_fromdir, $type)
+	function setupInstall()
 	{
-		if (!is_null($p_fromdir)) {
-			$this->_installDir = $p_fromdir;
+		// We need to find the installation manifest file
+		if (!$this->_findManifest()) {
+			return false;
 		}
 
-		if (is_null($this->_installFile)) {
-			if (!$this->_findInstallFile()) {
-				JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Installation file not found').':<br />'.$this->_installDir);
+		// Load the adapter(s) for the install manifest
+		$root =& $this->_manifest->document;
+		$type = $root->attributes('type');
+		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type])) {
+			if (!$this->setAdapter($type)) {
 				return false;
 			}
-		}
-
-		if (!$this->_readInstallFile()) {
-			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Installation file not found').':<br />'.$this->_installDir);
-			return false;
-		}
-
-		/*
-		 * Backward Compatability
-		 * @TODO Deprecate in next release
-		 */
-		if ($this->_installType == 'mambot' && $type == 'plugin') {
-			$type = 'mambot';
-		}
-
-		if ($this->_installType != $type) {
-			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('XML setup file is not for a').' "'.$type.'".');
-			return false;
 		}
 
 		return true;
 	}
 
 	/**
-	 * Abstract install method
-	 * 	- override in child class
+	 * Backward compatible Method to parse through a queries element of the
+	 * installation manifest file and take appropriate action.
 	 *
-	 * @abstract
-	 * @since 1.0
+	 * @access	public
+	 * @param	object	$element 	The xml node to process
+	 * @return	mixed	Number of queries processed or False on error
+	 * @since	1.5
 	 */
-	function install()
+	function parseQueries($element)
 	{
-		die(JText::_('Method "install" cannot be called by class').' '.strtolower(get_class($this)));
-	}
+		// Get the database connector object
+		$db = & $this->_db;
 
-	/**
-	 * Abstract update method
-	 * 	- override in child class
-	 *
-	 * @abstract
-	 * @since 1.5
-	 */
-	function update()
-	{
-		die(JText::_('Method "update" cannot be called by class').' '.strtolower(get_class($this)));
-	}
-
-	/**
-	 * Abstract uninstall method
-	 * 	- override in child class
-	 *
-	 * @abstract
-	 * @since 1.0
-	 */
-	function uninstall()
-	{
-		die(JText::_('Method "uninstall" cannot be called by class').' '.strtolower(get_class($this)));
-	}
-
-	/**
-	 * Tries to find the package XML file
-	 *
-	 * @access protected
-	 * @return boolean True on success, False on error
-	 * @since 1.0
-	 */
-	function _findInstallFile()
-	{
-		// Get an array of all the xml files from teh installation directory
-		$xmlfiles = JFolder::files($this->_installDir, '.xml$', true, true);
-		// If at least one xml file exists
-		if (count($xmlfiles) > 0) {
-			foreach ($xmlfiles as $file)
-			{
-				// Is it a valid joomla install file?
-				$packagefile = $this->_isPackageFile($file);
-				if (!is_null($packagefile)) {
-					$this->_xmldoc = & $packagefile;
-					$this->_installFile = $file;
-					// reset the install directory to the location of the xml file
-					$this->_installDir	= dirname( $file ).DS;
-					return true;
-				}
-			}
-
-			// None of the xml files found were valid install files
-			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('ERRORJOSXMLSETUP'));
-			return false;
+		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+			// Either the tag does not exist or has no children therefore we return zero files processed.
+			return 0;
 		}
-		else
+
+		// Get the array of query nodes to process
+		$queries = $element->children();
+		if (count($queries) == 0) {
+			// No queries to process
+			return 0;
+		}
+
+		// Process each query in the $queries array (children of $tagName).
+		foreach ($queries as $query)
 		{
-			// No xml files were found in the install folder
-			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('ERRORXMLSETUP'));
-			return false;
-		}
-	}
-
-	/**
-	 * Is the xml file a valid Joomla install file
-	 *
-	 * @access protected
-	 * @param string $p_file An xmlfile path to check
-	 * @return mixed A DOMIT XML document, or null if the file failed to parse
-	 * @since 1.0
-	 */
-	function & _isPackageFile($p_file)
-	{
-		// Get an xml parser object
-		$xmlDoc = & JFactory::getXMLParser();
-		$xmlDoc->resolveErrors(true);
-
-		// If we cannot load the xml file return null
-		if (!$xmlDoc->loadXML($p_file, false, true)) {
-			// Free up xml parser memory and return null
-			unset ($xmlDoc);
-			return $xmlDoc;			// returning null, but to avoid an notice the var
-		}
-
-		// Get the root node of the xml document
-		$root = & $xmlDoc->documentElement;
-
-		/*
-		 * Check for a valid XML root tag.
-		 *
-		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
-		 */
-		if ($root->getTagName() != 'install' && $root->getTagName() != 'mosinstall') {
-			// Free up xml parser memory and return null
-			unset ($xmlDoc);
-			return $xmlDoc;			// returning null, but to avoid an notice the var
-		}
-
-		// Set the installation type and filename
-		$this->_installType = $root->getAttribute('type');
-		$this->_installFile = JPath::clean($p_file);
-
-		return $xmlDoc;				// returning null, but to avoid an notice the var
-	}
-
-	/**
-	 * Loads and parses the XML setup file
-	 *
-	 * @access private
-	 * @return boolean True on success
-	 * @since 1.0
-	 */
-	function _readInstallFile()
-	{
-		/*
-		 * If the xml installation file has not been found, set an error and return
-		 * false.
-		 */
-		if (empty ($this->_installFile)) {
-			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('No filename specified'));
-			return false;
-		}
-
-		/*
-		 * If the XML document object is not set, try to create it.  If cannot be
-		 * created, set an error and return false.
-		 */
-		if (!is_object($this->_xmldoc)) {
-			$this->_xmldoc = & JFactory::getXMLParser();
-			$this->_xmldoc->resolveErrors(true);
-			if (!$this->_xmldoc->loadXML($this->_installFile, false, true)) {
-				JError::raiseWarning(1, 'JInstaller::install: '.JText::_('ERRORJOSXMLSETUP'));
+			$db->setQuery($query->data());
+			if (!$db->query()) {
+				JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL Error')." ".$db->stderr(true));
 				return false;
 			}
 		}
-
-		// Get the root node of the XML document
-		$root = & $this->_xmldoc->documentElement;
-
-		/*
-		 * Check for a valid XML root tag.
-		 *
-		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
-		 */
-		if ($root->getTagName() != 'install' && $root->getTagName() != 'mosinstall') {
-			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('File').': "'.$this->_installFile.'" '.JText::_('is not a valid Joomla! installation file'));
-			return false;
-		}
-
-		// Set the type for the extension to install
-		$this->_installType = $root->getAttribute('type');
-
-		// If the install attribute is set to upgrade, allow file overwrite
-		if ($root->getAttribute('method') == 'upgrade') {
-			$this->_allowOverwrite = true;
-		}
-
-		return true;
+		return (int) count($queries);
 	}
 
 	/**
-	 * Method to parse through a files element of the installation file and take appropriate
-	 * action.
+	 * Method to extract the name of a discreet installation sql file from the installation manifest file.
 	 *
-	 * @access private
-	 * @param string $tagName The tag name to parse
-	 * @param string $special An attribute to search for in a filename element
-	 * @param string $specialError The value of the 'special' element if found
-	 * @param boolean $admin True for Administrator files
-	 * @return mixed Number of files processed or False on error
-	 * @since 1.0
+	 * @access	public
+	 * @param	object	$element 	The xml node to process
+	 * @param	string	$version	The database connector to use
+	 * @return	mixed	Number of queries processed or False on error
+	 * @since	1.5
 	 */
-	function _parseFiles($tagName = 'files', $special = null, $specialError = null, $admin = false)
+	function parseSQLFiles($element, $version = '4.1.2')
 	{
 		// Initialize variables
-		$copyfiles = array ();
+		$queries = array();
+		$db = & $this->_db;
 
-		// Get the install document root element
-		$root = & $this->_xmldoc->documentElement;
-
-		// Get the element from the document
-		$filesElement = & $root->getElementsByPath($tagName, 1);
-		if (is_null($filesElement) || !$filesElement->hasChildNodes()) {
-			/*
-			 * Either the tag does not exist or has no children therefore we return
-			 * zero files processed.
-			 */
+		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
 		}
 
 		// Get the array of file nodes to process
-		$files = & $filesElement->childNodes;
+		$files = $element->children();
 		if (count($files) == 0) {
-			/*
-			 * No files to process
-			 */
+			// No files to process
+			return 0;
+		}
+
+		// Get the name of the sql file to process
+		$sqlfile = '';
+		foreach ($files as $file) {
+			if( $file->attributes('version') == $version)
+			{
+				$sqlfile = $file->data();
+				// Check that sql files exists before reading. Otherwise raise error for rollback
+				if ( !file_exists( $this->_extensionAdminDir.$sqlfile ) ) {
+					return false;
+				}
+				$buffer = file_get_contents($this->_extensionAdminDir.$sqlfile);
+
+				// Graceful exit and rollback if read not successful
+				if ( $buffer === false ) {
+					return false;
+				}
+
+				// Create an array of queries from the sql file
+				$queries = JInstallerHelper::splitSql($buffer);
+
+				if (count($queries) == 0) {
+					// No queries to process
+					return 0;
+				}
+
+				// Process each query in the $queries array (split out of sql file).
+				foreach ($queries as $query)
+				{
+					$query = trim($query);
+					if ($query != '' && $query{0} != '#') {
+						$db->setQuery($query);
+						if (!$db->query()) {
+							JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL Error')." ".$db->stderr(true));
+							return false;
+						}
+					}
+				}
+			}
+		}
+
+		return (int) count($queries);
+	}
+
+	/**
+	 * Method to parse through a files element of the installation manifest and take appropriate
+	 * action.
+	 *
+	 * @access	public
+	 * @param	object	$element 	The xml node to process
+	 * @param	int		$cid		Application ID of application to install to
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	function parseFiles($element, $cid=0)
+	{
+		// Initialize variables
+		$copyfiles = array ();
+
+		// Get the client info
+		jimport('joomla.application.helper');
+		$client = JApplicationHelper::getClientInfo($cid);
+
+		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+			// Either the tag does not exist or has no children therefore we return zero files processed.
+			return 0;
+		}
+
+		// Get the array of file nodes to process
+		$files = $element->children();
+		if (count($files) == 0) {
+			// No files to process
 			return 0;
 		}
 
 		/*
-		 * Here we set the folder we are going to copy the files to.  There are a few
+		 * Here we set the folder we are going to remove the files from.  There are a few
 		 * special cases that need to be considered for certain reserved tags.
 		 *
-		 * 	- 'media' Files are copied to the JROOT/images/stories/ folder
-		 * 	- 'languages' Files are copied to JROOT/languages/ folder
-		 * 	- 'administration/languages' Files are copied to JADMIN_ROOT/languages/
+		 * 	- 'media' Files are copied to the JPATH_BASE/images/stories/ folder
+		 * 	- 'languages' Files are copied to JPATH_BASE/languages/ folder
 		 */
-		switch ($tagName)
+		switch ($element->name())
 		{
-			case 'media' :
-				if ($filesElement->hasAttribute('destination')) {
-					$folder = $filesElement->getAttribute('destination');
+			case 'media':
+				if ($element->attributes('destination')) {
+					$folder = $element->attributes('destination');
 				} else {
 					$folder = 'stories';
 				}
-				$installTo = JPath::clean(JPATH_SITE.DS.'images'.DS.$folder);
+				$destintion = JPath::clean($client->path.DS.'images'.DS.$folder);
 				break;
-			case 'languages' :
-				if ($admin) {
-					$installTo = JPath::clean(JPATH_ADMINISTRATOR.DS.'language');
+
+			case 'languages':
+				$destination = JPath::clean($client->path.DS.'language');
+				break;
+
+			default:
+				if ($client) {
+					$pathname = 'extension_'.$client->name;
+					$destination = JPath::clean($this->getPath($pathname));
 				} else {
-					$installTo = JPath::clean(JPATH_SITE.DS.'language');
-				}
-				break;
-			case 'administration/languages' :
-				$installTo = JPath::clean(JPATH_ADMINISTRATOR.DS.'language');
-				break;
-			default :
-				if ($admin) {
-					$installTo = JPath::clean($this->_extensionAdminDir);
-				} else {
-					$installTo = JPath::clean($this->_extensionDir);
+					$pathname = 'extension_root';
+					$destination = JPath::clean($this->getPath($pathname));
 				}
 				break;
 		}
@@ -479,22 +585,14 @@ class JInstaller extends JObject
 		 * folder and we should append the folder attribute to the source path when
 		 * copying files.
 		 */
-		if ($folder = $filesElement->getAttribute('folder')) {
-			$installFrom = JPath::clean($this->_installDir.DS.$folder);
+		if ($folder = $element->attributes('folder')) {
+			$source = JPath::clean($this->getPath('source').DS.$folder);
 		} else {
-			$installFrom = JPath::clean($this->_installDir);
+			$source = JPath::clean($this->getPath('source'));
 		}
 
 		// Process each file in the $files array (children of $tagName).
 		foreach ($files as $file) {
-			/*
-			 * Check to see if the special attribute is set for the file, and if so set
-			 * the class field to its value.
-			 */
-			if ($file->getAttribute($special)) {
-				$this->_extensionSpecial = $file->getAttribute($special);
-			}
-
 			/*
 			 * If the file is a language, we must handle it differently.  Language files
 			 * go in a subdirectory based on the language code, ie.
@@ -506,17 +604,17 @@ class JInstaller extends JObject
 			 * We will only install language files where a core language pack
 			 * already exists.
 			 */
-			if ($file->getTagName() == 'language' && $file->getAttribute('tag') != '') {
-				$path['src']	= $installFrom.$file->getText();
-				$path['dest']	= $installTo.$file->getAttribute('tag').DS.basename($file->getText());
+			if ($file->name() == 'language' && $file->attributes('tag') != '') {
+				$path['src']	= $source.$file->data();
+				$path['dest']	= $destination.$file->attributes('tag').DS.basename($file->data());
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
 				if (!JFolder::exists(dirname($path['dest']))) {
 					continue;
 				}
 			} else {
-				$path['src']	= $installFrom.$file->getText();
-				$path['dest']	= $installTo.$file->getText();
+				$path['src']	= $source.$file->data();
+				$path['dest']	= $destination.$file->data();
 			}
 
 			/*
@@ -537,180 +635,44 @@ class JInstaller extends JObject
 			$copyfiles[] = $path;
 		}
 
-		/*
-		 * If a file with a special tag was expected but not found, set an error and
-		 * return false.
-		 */
-		if ($specialError) {
-			if (empty ($this->_extensionSpecial)) {
-				JError::raiseWarning(1, 'JInstaller::install: '.$specialError);
-				return false;
-			}
-		}
-
-		return $this->_copyFiles($copyfiles);
-	}
-
-	/**
-	 * Backward compatible Method to parse through a queries element of the
-	 * installation file and take appropriate action.
-	 *
-	 * @access private
-	 * @param string $tagName The tag name to parse
-	 * @return mixed Number of queries processed or False on error
-	 * @since 1.5
-	 */
-	function _parseBackwardQueries($tagName = 'queries')
-	{
-		// Get the database connector object
-		$db = & $this->_db;
-
-		// Get teh install document root element
-		$root = & $this->_xmldoc->documentElement;
-
-		// Get the element of the tag names
-		$queriesElement = & $root->getElementsByPath($tagName, 1);
-		if (is_null($queriesElement) || !$queriesElement->hasChildNodes()) {
-			/*
-			 * Either the tag does not exist or has no children therefore we return
-			 * zero queries processed.
-			 */
-			return 0;
-		}
-
-		// Get the array of query nodes to process
-		$queries = & $queriesElement->childNodes;
-		if (count($queries) == 0) {
-			/*
-			 * No queries to process
-			 */
-			return 0;
-		}
-
-		// Process each query in the $queries array (children of $tagName).
-		foreach ($queries as $query)
-		{
-			$db->setQuery($query->getText());
-			if (!$db->query()) {
-				JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL Error')." ".$db->stderr(true));
-				return false;
-			}
-		}
-		return (int) count($queries);
-	}
-
-	/**
-	 * Method to extract the name of a discreet installation sql file from the xml file.
-	 *
-	 * @access private
-	 * @param string $tagName The tag name to parse
-	 * @return mixed Number of queries processed or False on error
-	 * @since 1.5
-	 */
-	function _parseQueries($tagName, $version = '4.1.2')
-	{
-		// Get the database connector object
-		$db = & $this->_db;
-
-		// Get the install document root element
-		$root = & $this->_xmldoc->documentElement;
-		// Get the element of the tag names
-		$queriesElements = & $root->getElementsByPath($tagName);
-		if ( count( $queriesElements->toArray() ) == 0 ) {
-			/*
-			 * the tag does not exist therefore we return
-			 * zero queries processed.
-			 */
-			return 0;
-		}
-
-		// Get the name of the sql file to process
-		$sqlfile = '';
-		for ($i = 0; $i < $queriesElements->getLength(); $i++ ) {
-			$element = $queriesElements->item($i);
-			if( $element->getAttribute('version') == $version) {
-				$sqlfile = $element->getText();
-			continue;
-			}
-		}
-
-		// Check that sql files exists before reading. Otherwise raise error for rollback
-		if ( !file_exists( $this->_extensionAdminDir.$sqlfile ) ) {
-			return false;
-		}
-		$buffer = file_get_contents($this->_extensionAdminDir.$sqlfile);
-
-		// Graceful exit and rollback if read not successful
-		if ( $buffer === false ) {
-			return false;
-		}
-
-		// Create an array of queries from the sql file
-		$queries = JInstallerHelper::splitSql($buffer);
-
-		if (count($queries) == 0) {
-			/*
-			 * No queries to process
-			 */
-			return 0;
-		}
-
-		// Process each query in the $queries array (split out of sql file).
-		foreach ($queries as $query) {
-
-			$query = trim($query);
-			if ($query != '' && $query{0} != '#') {
-				$db->setQuery($query);
-				if (!$db->query()) {
-					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL Error')." ".$db->stderr(true));
-					return false;
-				}
-			}
-		}
-
-		return (int) count($queries);
+		return $this->copyFiles($copyfiles);
 	}
 
 	/**
 	 * Method to parse the parameters of an extension, build the INI
 	 * string for it's default parameters, and return the INI string.
 	 *
-	 * @access private
-	 * @return string INI string of parameter values
-	 * @since 1.5
+	 * @access	public
+	 * @return	string	INI string of parameter values
+	 * @since	1.5
 	 */
-	function _getParams()
+	function getParams()
 	{
-		// Get the install document root element
-		$root = & $this->_xmldoc->documentElement;
+		// Get the manifest document root element
+		$root = & $this->_manifest->document;
 
 		// Get the element of the tag names
-		$paramsElement = & $root->getElementsByPath('params', 1);
-		if (is_null($paramsElement) || !$paramsElement->hasChildNodes()) {
-			/*
-			 * Either the tag does not exist or has no children therefore we return
-			 * zero params processed.
-			 */
+		$element =& $root->getElementByPath('params');
+		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return null;
 		}
 
 		// Get the array of parameter nodes to process
-		$params = & $paramsElement->childNodes;
+		$params = $element->children();
 		if (count($params) == 0) {
-			/*
-			 * No params to process
-			 */
+			// No params to process
 			return null;
 		}
 
 		// Process each parameter in the $params array.
 		$ini = null;
 		foreach ($params as $param) {
-			if (!$name = $param->getAttribute('name')) {
+			if (!$name = $param->attributes('name')) {
 				continue;
 			}
 
-			if (!$value = $param->getAttribute('default')) {
+			if (!$value = $param->attributes('default')) {
 				continue;
 			}
 
@@ -722,15 +684,13 @@ class JInstaller extends JObject
 	/**
 	 * Copy files from source directory to the target directory
 	 *
-	 * @access private
-	 * @param string $p_sourcedir Source directory
-	 * @param string $p_destdir Destination directory
-	 * @param array $p_files array with filenames
-	 * @param boolean $overwrite True if existing files can be replaced
-	 * @return boolean True on success
-	 * @since 1.0
+	 * @access	public
+	 * @param	array $files array with filenames
+	 * @param	boolean $overwrite True if existing files can be replaced
+	 * @return	boolean True on success
+	 * @since	1.5
 	 */
-	function _copyFiles($p_files, $overwrite = null)
+	function copyFiles($files, $overwrite=null)
 	{
 		/*
 		 * To allow for manual override on the overwriting flag, we check to see if
@@ -738,16 +698,16 @@ class JInstaller extends JObject
 		 * allowOverwrite flag.
 		 */
 		if (is_null($overwrite) || !is_bool($overwrite)) {
-			$overwrite = $this->_allowOverwrite;
+			$overwrite = $this->_overwrite;
 		}
 
 		/*
-		 * $p_files must be an array of filenames.  Verify that it is an array with
+		 * $files must be an array of filenames.  Verify that it is an array with
 		 * at least one file to copy.
 		 */
-		if (is_array($p_files) && count($p_files) > 0)
+		if (is_array($files) && count($files) > 0)
 		{
-			foreach ($p_files as $file)
+			foreach ($files as $file)
 			{
 				// Get the source and destination paths
 				$filesource	= JPath::clean($file['src'], false);
@@ -784,101 +744,74 @@ class JInstaller extends JObject
 		} else
 		{
 			/*
-			 * The $p_files variable was either not an array or an empty array
+			 * The $files variable was either not an array or an empty array
 			 */
 			return false;
 		}
-		return count($p_files);
+		return count($files);
 	}
 
 	/**
-	 * Copies the XML install file to the extension folder in the given client
-	 *
-	 * @access private
-	 * @param int $client Where to copy the installfile [optional: defaults to 1 (admin)]
-	 * @return boolean True on success, False on error
-	 * @since 1.0
-	 */
-	function _copyInstallFile($client = 1)
-	{
-		switch ($client) {
-			case 1:
-				$path['src'] = $this->_installDir.basename($this->_installFile);
-				$path['dest'] = $this->_extensionAdminDir.basename($this->_installFile);
-				break;
-			case 0:
-			default:
-				$path['src'] = $this->_installDir.basename($this->_installFile);
-				$path['dest'] = $this->_extensionDir.basename($this->_installFile);
-				break;
-		}
-		return $this->_copyFiles(array ($path), true);
-	}
-
-	/**
-	 * Method to parse through a files element of the installation file and remove
+	 * Method to parse through a files element of the installation manifest and remove
 	 * the files that were installed
 	 *
-	 * @access private
-	 * @param string $tagName The tag name to parse
-	 * @param boolean $admin True for Administrator files
-	 * @return boolean True on success
-	 * @since 1.5
+	 * @access	public
+	 * @param	object	$element 	The xml node to process
+	 * @param	int		$cid		Application ID of application to remove from
+	 * @return	boolean	True on success
+	 * @since	1.5
 	 */
-	function _removeFiles($tagName = 'files', $admin = false)
+	function removeFiles($element, $cid=0)
 	{
 		// Initialize variables
 		$removefiles = array ();
 		$retval = true;
 
-		// Get the install document root element
-		$root = & $this->_xmldoc->documentElement;
+		// Get the client info
+		jimport('joomla.application.helper');
+		$client = JApplicationHelper::getClientInfo($cid);
 
-		// Get the element of the tag names
-		$filesElement = & $root->getElementsByPath($tagName, 1);
-		if (is_null($filesElement) || !$filesElement->hasChildNodes())
-		{
-			// Either the tag does not exist or has no children therefore we return
-			// zero files processed.
-			return 0;
+		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+			// Either the tag does not exist or has no children therefore we return zero files processed.
+			return true;
 		}
 
 		// Get the array of file nodes to process
-		$files = $filesElement->childNodes;
-		if (count($files) == 0)
-		{
+		$files = $element->children();
+		if (count($files) == 0) {
 			// No files to process
-			return 0;
+			return true;
 		}
 
 		/*
-		 * Here we set the folder we are going to copy the files to.  There are a few
+		 * Here we set the folder we are going to remove the files from.  There are a few
 		 * special cases that need to be considered for certain reserved tags.
-		 *
-		 * 	- 'media' Files are copied to the JROOT/images/stories/ folder
-		 * 	- 'languages' Files are copied to JROOT/languages/ folder
-		 * 	- 'administration/languages' Files are copied to JADMIN_ROOT/languages/
 		 */
-		if ($tagName == 'media')
+		switch ($element->name())
 		{
-			if ($filesElement->hasAttribute('destination')) {
-				$folder = $filesElement->getAttribute('destination');
-			} else {
-				$folder = 'stories';
-			}
-			$removeFrom = JPath::clean(JPATH_SITE.DS.'images'.DS.$folder);
-		} else
-			if ($tagName == 'languages') {
-				$removeFrom = JPath::clean(JPATH_SITE.DS.'language');
-			} else
-				if ($tagName == 'administration/languages') {
-					$removeFrom = JPath::clean(JPATH_ADMINISTRATOR.DS.'language');
-				} else
-					if ($admin) {
-						$removeFrom = $this->_extensionAdminDir;
-					} else {
-						$removeFrom = $this->_extensionDir;
-					}
+			case 'media':
+				if ($element->attributes('destination')) {
+					$folder = $element->attributes('destination');
+				} else {
+					$folder = 'stories';
+				}
+				$source = JPath::clean($client->path.DS.'images'.DS.$folder);
+				break;
+
+			case 'languages':
+				$source = JPath::clean($client->path.DS.'language');
+				break;
+
+			default:
+				if ($client) {
+					$pathname = 'extension_'.$client->name;
+					$source = JPath::clean($this->getPath($pathname));
+				} else {
+					$pathname = 'extension_root';
+					$source = JPath::clean($this->getPath($pathname));
+				}
+				break;
+		}
 
 		// Process each file in the $files array (children of $tagName).
 		foreach ($files as $file)
@@ -891,10 +824,10 @@ class JInstaller extends JObject
 			 *
 			 * would go in the en_US subdirectory of the languages directory.
 			 */
-			if ($file->getTagName() == 'language' && $file->getAttribute('tag') != '') {
-				$path = $removeFrom.$file->getAttribute('tag').DS.basename($file->getText());
+			if ($file->name() == 'language' && $file->attributes('tag') != '') {
+				$path = $source.$file->attributes('tag').DS.basename($file->data());
 			} else {
-				$path = $removeFrom.$file->getText();
+				$path = $source.$file->data();
 			}
 
 			/*
@@ -915,63 +848,111 @@ class JInstaller extends JObject
 	}
 
 	/**
-	 * Roll back the extension installation
-	 * 	- Called if an installation step fails
+	 * Copies the installation manifest file to the extension folder in the given client
+	 *
+	 * @access	public
+	 * @param	int		$cid	Where to copy the installfile [optional: defaults to 1 (admin)]
+	 * @return	boolean	True on success, False on error
+	 * @since	1.5
+	 */
+	function copyManifest($cid=1)
+	{
+		// Get the client info
+		jimport('joomla.application.helper');
+		$client = JApplicationHelper::getClientInfo($cid);
+
+		$path['src'] = $this->getPath('manifest');
+
+		if ($client) {
+			$pathname = 'extension_'.$client->name;
+			$path['dest']  = JPath::clean($this->getPath($pathname).DS.basename($this->getPath('manifest')));
+		} else {
+			$pathname = 'extension_root';
+			$path['dest']  = JPath::clean($this->getPath($pathname).DS.basename($this->getPath('manifest')));
+		}
+		return $this->copyFiles(array ($path), true);
+	}
+
+	/**
+	 * Tries to find the package manifest file
 	 *
 	 * @access private
-	 * @return boolean True on success
-	 * @since 1.5
+	 * @return boolean True on success, False on error
+	 * @since 1.0
 	 */
-	function _rollback()
+	function _findManifest()
+	{
+		// Get an array of all the xml files from teh installation directory
+		$xmlfiles = JFolder::files($this->getPath('source'), '.xml$', true, true);
+		// If at least one xml file exists
+		if (count($xmlfiles) > 0) {
+			foreach ($xmlfiles as $file)
+			{
+				// Is it a valid joomla installation manifest file?
+				$manifest = $this->_isManifest($file);
+				if (!is_null($manifest)) {
+
+					// If the root method attribute is set to upgrade, allow file overwrite
+					$root =& $manifest->document;
+					if ($root->attributes('method') == 'upgrade') {
+						$this->_overwrite = true;
+					}
+
+					// Set the manifest object and path
+					$this->_manifest =& $manifest;
+					$this->setPath('manifest', $file);
+
+					// Set the installation source path to that of the manifest file
+					$this->setPath('source', dirname($file).DS);
+					return true;
+				}
+			}
+
+			// None of the xml files found were valid install files
+			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('ERRORJOSXMLSETUP'));
+			return false;
+		} else {
+			// No xml files were found in the install folder
+			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('ERRORXMLSETUP'));
+			return false;
+		}
+	}
+
+	/**
+	 * Is the xml file a valid Joomla installation manifest file
+	 *
+	 * @access	private
+	 * @param	string	$file	An xmlfile path to check
+	 * @return	mixed	A JSimpleXML document, or null if the file failed to parse
+	 * @since	1.5
+	 */
+	function &_isManifest($file)
 	{
 		// Initialize variables
-		$retval = true;
-		$step = array_pop($this->_stepStack);
+		$null	= null;
+		$xml	=& JFactory::getXMLParser('Simple');
 
-		// Get database connector object
-		$db = & $this->_db;
-
-		while ($step != null)
-		{
-			switch ($step['type'])
-			{
-				case 'file' :
-					// remove the file
-					$stepval = JFile::delete($step['path']);
-					break;
-
-				case 'folder' :
-					// remove the folder
-					$stepval = JFolder::delete($step['path']);
-					break;
-
-				case 'query' :
-					// placeholder in case this is necessary in the future
-					break;
-
-				default :
-					// Build the name of the custom rollback method for the type
-					$method = '_rollback_'.$step['type'];
-
-					// Custom rollback method handler
-					if (method_exists($this, $method)) {
-						$stepval = $this->$method($step);
-					} else {
-						// do nothing
-					}
-					break;
-			}
-
-			// Only set the return value if it is false
-			if ($stepval === false) {
-				$retval = false;
-			}
-
-			// Get the next step and continue
-			$step = array_pop($this->_stepStack);
+		// If we cannot load the xml file return null
+		if (!$xml->loadFile($file)) {
+			// Free up xml parser memory and return null
+			unset ($xml);
+			return $null;
 		}
 
-		return $retval;
+		/*
+		 * Check for a valid XML root tag.
+		 * @todo: Remove backwards compatability in a future version
+		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
+		 */
+		$root =& $xml->document;
+		if ($root->name() != 'install' && $root->name() != 'mosinstall') {
+			// Free up xml parser memory and return null
+			unset ($xml);
+			return $null;
+		}
+
+		// Valid manifest file return the object
+		return $xml;
 	}
 }
 
@@ -986,7 +967,6 @@ class JInstaller extends JObject
  */
 class JInstallerHelper
 {
-
 	/**
 	 * Downloads a package
 	 *
@@ -1188,8 +1168,7 @@ class JInstallerHelper
 	 */
 	function getFilenameFromURL($url)
 	{
-		if (is_string($url))
-		{
+		if (is_string($url)) {
 			$parts = explode('/', $url);
 			return $parts[count($parts) - 1];
 		}
@@ -1207,26 +1186,16 @@ class JInstallerHelper
 	 */
 	function cleanupInstall($p_file, $resultdir)
 	{
-
-		/*
-		 * Does the unpacked extension directory exist?
-		 */
-		if (is_dir($resultdir))
-		{
+		// Does the unpacked extension directory exist?
+		if (is_dir($resultdir)) {
 			JFolder::delete($resultdir);
 		}
-		/*
-		 * Is the package file a valid file?
-		 */
-		if (is_file($p_file))
-		{
+
+		// Is the package file a valid file?
+		if (is_file($p_file)) {
 			JFile::delete($p_file);
-		}
-		elseif (is_file(JPath::clean(JPATH_ROOT.DS.'tmp'.DS.$p_file, false)))
-		{
-			/*
-			 * It might also be just a base filename
-			 */
+		} elseif (is_file(JPath::clean(JPATH_ROOT.DS.'tmp'.DS.$p_file, false))) {
+			// It might also be just a base filename
 			JFile::delete(JPath::clean(JPATH_ROOT.DS.'tmp'.DS.$p_file, false));
 		}
 	}
@@ -1247,30 +1216,23 @@ class JInstallerHelper
 
 		for ($i = 0; $i < strlen($sql) - 1; $i ++)
 		{
-			if ($sql[$i] == ";" && !$in_string)
-			{
+			if ($sql[$i] == ";" && !$in_string) {
 				$ret[] = substr($sql, 0, $i);
 				$sql = substr($sql, $i +1);
 				$i = 0;
 			}
 
-			if ($in_string && ($sql[$i] == $in_string) && $buffer[1] != "\\")
-			{
+			if ($in_string && ($sql[$i] == $in_string) && $buffer[1] != "\\") {
 				$in_string = false;
-			}
-			elseif (!$in_string && ($sql[$i] == '"' || $sql[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
-			{
+			} elseif (!$in_string && ($sql[$i] == '"' || $sql[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\")) {
 				$in_string = $sql[$i];
-			}
-			if (isset ($buffer[1]))
-			{
+			} if (isset ($buffer[1])) {
 				$buffer[0] = $buffer[1];
 			}
 			$buffer[1] = $sql[$i];
 		}
 
-		if (!empty ($sql))
-		{
+		if (!empty ($sql)) {
 			$ret[] = $sql;
 		}
 		return ($ret);

@@ -40,6 +40,9 @@ Legend:
 04-Jan-2007 Andrew Eddie
  ^ Updated language file headers
 
+04-Jan-2007 Louis Landry
+ ^ Refactor of Installer libraries to use composition instead of inheritance
+
 03-Jan-2007 Andrew Eddie
  # Fixed bug in menu item copy which results in multiple items set to home
  # Reworked Menu Selection lists in Edit Module and Edit Template pages
@@ -58,13 +61,13 @@ Legend:
 
 02-Jan-2007 Johan Janssens
  ^ Changed JFactory::getUser, the user object is now stored completely in the session
- + Added 'auto register' setting to the Joomla! user plugin. When turned off it allows the system 
+ + Added 'auto register' setting to the Joomla! user plugin. When turned off it allows the system
    to have temporary logged in users. This setting is experimental and should be used with care.
  # Fix various session related problems
  + Added 'aid' dynamic variable to the user object, this acts as the 'gid' variable in 1.0
  + Added 'guest' dynamic variable to the user object, when a user is logged in guest is set to 0.
  ! Note : changes require a new install and sessions need to be cleaned
- 
+
 02-Jan-2007 Andrew Eddie
  + Added JController::setMessage
  + Added advanced params support for modules
