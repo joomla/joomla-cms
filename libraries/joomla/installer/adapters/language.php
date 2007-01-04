@@ -88,7 +88,7 @@ class JInstaller_language extends JObject
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
 		$element =& $root->getElementByPath('files');
-		if (!is_a($element, 'JSimpleXMLElement') && count($element->children())) {
+		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
 			$files =& $element->children();
 			foreach ($files as $file) {
 				if ($file->attributes('file') == 'meta') {

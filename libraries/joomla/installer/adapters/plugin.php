@@ -60,7 +60,7 @@ class JInstaller_plugin extends JObject
 
 		// Set the installation path
 		$element =& $root->getElementByPath('files');
-		if (!is_a($element, 'JSimpleXMLElement') && count($element->children())) {
+		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
 			$files =& $element->children();
 			foreach ($files as $file) {
 				if ($file->attributes($type)) {

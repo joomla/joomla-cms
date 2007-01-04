@@ -307,7 +307,7 @@ class JInstaller extends JObject
 		$version	= $root->attributes('version');
 		$rootName	= $root->name();
 		$config		= &JFactory::getConfig();
-		if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
+		if ((!JVersion::isCompatible($version) || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
 			return $this->abort(JText::_('MUSTENABLELEGACY'));
 		}
 
