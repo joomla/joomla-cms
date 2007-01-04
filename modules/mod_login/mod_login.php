@@ -20,7 +20,7 @@ require_once (dirname(__FILE__).DS.'helper.php');
 $params->def('greeting', 1);
 
 $type 	= modLoginHelper::getType();
-$return	= modLoginHelper::getReturnURL(&$params, $type);
+$return	= modLoginHelper::getReturnURL($params, $type);
 
 $user =& JFactory::getUser();
 
