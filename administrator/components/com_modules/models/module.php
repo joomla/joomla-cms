@@ -81,4 +81,37 @@ class ModulesModelModule extends JModel
 		}
 		return $params;
 	}
+
+	function getPositions()
+	{
+		$module =& $this->getModule();
+		jimport('joomla.filesystem.folder');
+		// Attempt to map the client to a base path
+		jimport('joomla.application.helper');
+		$client = JApplicationHelper::getClientInfo($module->client_id);
+		if ($client === false) {
+			return false;
+		}
+
+		// Get a list of all template xml files for a given application
+		$positions = array();
+		$xml = JFactory::getXMLParser('Simple');
+		$xmlfiles = JFolder::files($client->path.DS.'templates', 'templateDetails.xml$', true, true);
+		for ($i=0,$n=count($xmlfiles);$i<$n;$i++)
+		{
+			if ($xml->loadFile($xmlfiles[$i])) {
+				$p =& $xml->document->getElementByPath('positions');
+				if (is_a($p, 'JSimpleXMLElement') && count($p->children())) {
+					foreach ($p->children() as $child)
+					{
+						if (!in_array($child->data(), $positions)) {
+							$positions[] = $child->data();
+						}
+					}
+				}
+			}
+		}
+		sort($positions);
+		return $positions;
+	}
 }

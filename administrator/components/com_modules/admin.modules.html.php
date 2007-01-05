@@ -214,6 +214,8 @@ class HTML_modules
 		// Check for component metadata.xml file
 		//$path = JApplicationHelper::getPath( 'mod'.$client->id.'_xml', $row->module );
 		//$params = new JParameter( $row->params, $path );
+		$document =& JFactory::getDocument();
+		$document->addScript('../includes/js/joomla/combobox.js');
 
 		jimport('joomla.html.pane');
 		$pane =& JPane::getInstance('sliders');
@@ -296,7 +298,14 @@ class HTML_modules
 							</label>
 						</td>
 						<td>
-							<?php echo $lists['position']; ?>
+							<input type="text" id="position" class="combobox" name="position" value="<?php echo $row->position; ?>" />
+							<ul id="combobox-position" style="display:none;"><?php
+							$positions = $model->getPositions();
+							for ($i=0,$n=count($positions);$i<$n;$i++)
+							{
+								echo '<li>',$positions[$i],'</li>';
+							}
+							?></ul>
 						</td>
 					</tr>
 					<tr>
@@ -402,6 +411,7 @@ class HTML_modules
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client->id ?>" />
 		</form>
+		<?php if ($row->client_id != 1) : ?>
 		<script type="text/javascript">
 		function onChangeSelections(e) {
 			sel = e.options[e.selectedIndex];
@@ -414,7 +424,7 @@ class HTML_modules
 		}
 		onChangeSelections(document.adminForm.selections);
 		</script>
-		<?php
+		<?php endif;
 	}
 
 	function preview()
