@@ -63,7 +63,26 @@ class JArchive
 					}
 					@unlink($tmpfname);
 				}
-				$type = 'gzip';
+				break;
+			case 'bz2';
+			case 'tbz2';
+			case 'bzip2';
+				$adapter =& JArchive::getAdapter('bzip2');
+				if ($adapter) {
+					$config =& JFactory::getConfig();
+					$tmpfname = tempnam($config->getValue('config.tmp_path'), 'bzip2');
+					$bzresult = $adapter->extract($archivename, $tmpfname);
+					if (JError::isError($bzresult)) {
+						@unlink($tmpfname);
+						return false;
+					}
+					// Try to untar the file
+					$tadapter =& JArchive::getAdapter('tar');
+					if ($tadapter) {
+						$result = $tadapter->extract($tmpfname, $extractdir);
+					}
+					@unlink($tmpfname);
+				}
 				break;
 			default:
 				JError::raiseWarning(10, JText::_('UNKNOWNARCHIVETYPE'));
