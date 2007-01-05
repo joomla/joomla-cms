@@ -86,13 +86,13 @@ class JUserJoomla extends JPlugin
 			$my->set( 'email'		, $user['email'] );	// Result should contain an email (check)
 			$my->set( 'gid'			, 18 );				//Make configurable
 			$my->set( 'usertype'	, 'Registered' ); 	//Make configurable
-		}
-
-		//If autoregister is set let's register the user
-		if($params->get('autoregister', 1) == 1)
-		{
-			if(!$my->save()) {
-				return false;
+			
+			//If autoregister is set let's register the user
+			if($params->get('autoregister', 1) == 1)
+			{
+				if(!$my->save()) {
+					return false;
+				}
 			}
 		}
 
