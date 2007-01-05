@@ -20,8 +20,8 @@
  * @subpackage		FileSystem
  * @since		1.5
  */
-class JArchive 
-{	
+class JArchive
+{
 	/**
 	 * @param string The name of the archive file
 	 * @param string Directory to unpack into
@@ -88,7 +88,7 @@ class JArchive
 		if (!isset($adapters[$type])) {
 			// Try to load the adapter object
 			jimport('joomla.filesystem.archive.'.strtolower($type));
-			$class = 'JArchive_'.strtolower($type);
+			$class = 'JArchive'.ucfirst($type);
 			if (!class_exists($class)) {
 				$false = false;
 				return $false;

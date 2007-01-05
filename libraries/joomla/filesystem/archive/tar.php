@@ -26,7 +26,7 @@
  * @subpackage	FileSystem
  * @since		1.5
  */
-class JArchive_tar extends JObject
+class JArchiveTar extends JObject
 {
 	/**
 	 * Tar file types.

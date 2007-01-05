@@ -37,7 +37,7 @@
  * @subpackage	FileSystem
  * @since		1.5
  */
-class JArchive_zip extends JObject
+class JArchiveZip extends JObject
 {
 	/**
 	 * ZIP compression methods.

@@ -26,7 +26,7 @@
  * @subpackage	FileSystem
  * @since		1.5
  */
-class JArchive_gzip extends JObject
+class JArchiveGzip extends JObject
 {
 	/**
 	 * Gzip file flags.
