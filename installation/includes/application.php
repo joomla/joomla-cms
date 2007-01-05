@@ -51,24 +51,24 @@ class JInstallation extends JApplication
 	*/
 	function initialise( $options = array())
 	{
-		if(empty($options['langauge']))
+		if(empty($options['language']))
 		{
 			$forced = JInstallationHelper::getLocalise();
 			if ( empty($forced['lang'])) {
-				$options['langauge'] = JLanguageHelper::detectLanguage();
+				$options['language'] = JLanguageHelper::detectLanguage();
 			} else {
-				$options['langauge'] = $forced['lang'];
+				$options['language'] = $forced['lang'];
 			}
 		}
 
 		// One last check to make sure we have something
-		if (empty($options['langauge'])) {
-			$options['langauge'] = 'en-GB';
+		if (empty($options['language'])) {
+			$options['language'] = 'en-GB';
 		}
 
 		//Set the language in the class
 		$conf =& JFactory::getConfig();
-		$conf->setValue('config.language', $options['langauge']);
+		$conf->setValue('config.language', $options['language']);
 	}
 
 	/**

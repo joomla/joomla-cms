@@ -38,7 +38,7 @@ $mainframe->initialise(array('language' => $configLang));
 
 // load the language
 $lang =& JFactory::getLanguage();
-$lang->_load( JPATH_BASE . '/language/' . $configLang . '/' . $configLang .'.ini' );
+$lang->_load( JPATH_BASE.DS.'language'.DS.$configLang.DS.$configLang.'.ini' );
 
 $task	= JRequest::getVar( 'task' );
 $vars	= $registry->toArray('application');
