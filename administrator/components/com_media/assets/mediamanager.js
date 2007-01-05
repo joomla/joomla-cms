@@ -18,70 +18,69 @@
  * @subpackage	Media
  * @since		1.5
  */
- 
+
 JMediaManager = function() { this.constructor.apply(this, arguments);}
 JMediaManager.prototype = {
 
-	constructor: function() 
-	{	
+	constructor: function()
+	{
 		var self = this;
-		
+
 		this.folderframe  	= document.getElementById('folderframe');
 		this.folderpath  	= document.getElementById('folderpath');
 	},
-	
-	registerEvent: function(target,type,args) 
+
+	registerEvent: function(target,type,args)
 	{
 		//use a closure to keep scope
 		var self = this;
-			
-		if (target.addEventListener)   { 
+
+		if (target.addEventListener)   {
     		target.addEventListener(type,onEvent,true);
-		} else if (target.attachEvent) { 
+		} else if (target.attachEvent) {
 	  		target.attachEvent('on'+type,onEvent);
-		} 
-		
+		}
+
 		function onEvent(e)	{
 			e = e||window.event;
 			e.element = target;
 			return self["on"+type](e, args);
 		}
 	},
-	
+
 	submit: function(task)
 	{
 		var form = window.frames['folderframe'].document.getElementById('mediamanager-form');
 		form.task.value = task;
 		form.submit();
 	},
-	
+
 	onloadframe: function()
 	{
 		var folder = this.getFolder();
-
 		this.folderpath.value = basepath + folder;
 		var node = d.getNodeByTitle(folder);
 		d.openTo(node, true, true);
 		document.getElementById(cStyle).className = 'active';
 	},
-	
+
 	oncreatefolder: function()
 	{
 		var dirpath = document.getElementById('dirpath');
 		if (document.getElementById('foldername').value.length) {
-			dirpath.value = '/'+this.getFolder()
+			dirpath.value = '/'+this.getFolder();
 			submitbutton('createfolder');
 		}
 	},
-	
+
 	onuploadfiles: function()
 	{
 		var dirpath    = document.getElementById('dirpath');
 		dirpath.value = '/'+this.getFolder()
 		submitbutton('uploadbatch');
 	},
-	
-	setViewType: function(type) 
+
+	setViewType: function(type)
 	{
 		var url    = window.frames['folderframe'].location.search.substring(1);
 		var folder = url.substring(url.indexOf('cFolder=')+8);
@@ -90,7 +89,7 @@ JMediaManager.prototype = {
 		cStyle = type;
 		window.frames['folderframe'].location.href='index.php?option=com_media&task=list&tmpl=component&cFolder='+folder+'&listStyle='+type;
 	},
-	
+
 	getFolder: function()
 	{
 		var url 	= window.frames['folderframe'].location.search.substring(1);
@@ -98,28 +97,28 @@ JMediaManager.prototype = {
 		var args	= new Object();
 
 		// Split query at the comma
-		var pairs = url.split("&"); 
-		
+		var pairs = url.split("&");
+
 		// Begin loop through the querystring
 		for(var i = 0; i < pairs.length; i++) {
-	
+
 			// Look for "name=value"
-			var pos = pairs[i].indexOf('='); 
+			var pos = pairs[i].indexOf('=');
 			// if not found, skip to next
-			if (pos == -1) continue; 
+			if (pos == -1) continue;
 			// Extract the name
-			var argname = pairs[i].substring(0,pos); 
-			
+			var argname = pairs[i].substring(0,pos);
+
 			// Extract the value
-			var value = pairs[i].substring(pos+1); 
+			var value = pairs[i].substring(pos+1);
 			// Store as a property
-			args[argname] = unescape(value); 
+			args[argname] = unescape(value);
 		}
-		
+
 		return args['cFolder'];
 	},
-	
-	addFile: function() 
+
+	addFile: function()
 	{
 		uploads = document.getElementById( 'uploads' );
 		upload  = uploads.childNodes[1].cloneNode(true);

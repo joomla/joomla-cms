@@ -139,6 +139,7 @@ JMediaPreview.prototype = {
 			// After image is loaded, update the overlay height as the new image might have
 			// increased the overall page height.
 			arrayPageSize = document.mediapreview.getPageSize();
+			overlay.style.width = '100%';
 			overlay.style.height = (arrayPageSize[1] + 'px');
 
 			// Check for 'x' keypress
@@ -185,10 +186,10 @@ JMediaPreview.prototype = {
 	 */
 	createPreview: function()
 	{
-		var body = window.top.document.getElementsByTagName("body").item(0);
+		var body = window.top.document.getElementsByTagName("body")[0];
 
 		// create overlay div and hardcode some functional styles (aesthetic styles are in CSS file)
-		var overlay = document.createElement("div");
+		var overlay = window.top.document.createElement("DIV");
 		overlay.setAttribute('id','overlay');
 		overlay.onclick = function () { document.mediapreview.hide(); return false; }
 		overlay.style.display = 'none';
@@ -208,12 +209,12 @@ JMediaPreview.prototype = {
 		// if loader image found, create link to hide preview and create loadingimage
 		preloader.onload=function()
 		{
-			var loadingImageLink = document.createElement("a");
+			var loadingImageLink = window.top.document.createElement("a");
 			loadingImageLink.setAttribute('href','#');
 			loadingImageLink.onclick = function () { document.mediapreview.hide(); return false; }
 			overlay.appendChild(loadingImageLink);
 
-			var loadingImage = document.createElement("img");
+			var loadingImage = window.top.document.createElement("img");
 			loadingImage.src = '';
 			loadingImage.setAttribute('id','loadingImage');
 			loadingImage.style.position = 'absolute';
@@ -227,7 +228,7 @@ JMediaPreview.prototype = {
 		preloader.src = '';
 
 		// create preview div, same note about styles as above
-		var preview = document.createElement("div");
+		var preview = window.top.document.createElement("div");
 		preview.setAttribute('id','preview');
 		preview.style.display = 'none';
 		preview.style.position = 'absolute';
@@ -235,7 +236,7 @@ JMediaPreview.prototype = {
 		body.insertBefore(preview, overlay.nextSibling);
 
 		// create link
-		var link = document.createElement("a");
+		var link = window.top.document.createElement("a");
 		link.setAttribute('href','#');
 		link.setAttribute('title','Click to close');
 		link.onclick = function () { document.mediapreview.hide(); return false; }
@@ -247,7 +248,7 @@ JMediaPreview.prototype = {
 		// if close button image found,
 		preloadCloseButton.onload=function()
 		{
-			var closeButton = document.createElement("img");
+			var closeButton = window.top.document.createElement("img");
 			closeButton.src = '';
 			closeButton.setAttribute('id','previewCloseButton');
 			closeButton.style.position = 'absolute';
@@ -259,23 +260,23 @@ JMediaPreview.prototype = {
 		preloadCloseButton.src = '';
 
 		// create image
-		var image = document.createElement("img");
+		var image = window.top.document.createElement("img");
 		image.setAttribute('id','previewImage');
 		link.appendChild(image);
 
 		// create details div, a container for the caption and keyboard message
-		var container = document.createElement("div");
+		var container = window.top.document.createElement("div");
 		container.setAttribute('id','previewContainer');
 		preview.appendChild(container);
 
 		// create caption
-		var caption = document.createElement("div");
+		var caption = window.top.document.createElement("div");
 		caption.setAttribute('id','previewCaption');
 		caption.style.display = 'none';
 		container.appendChild(caption);
 
 		// create keyboard message
-		var message = document.createElement("div");
+		var message = window.top.document.createElement("div");
 		message.setAttribute('id','previewMsg');
 		message.innerHTML = 'press <kbd>x</kbd> to close';
 		container.appendChild(message);

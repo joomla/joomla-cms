@@ -47,6 +47,9 @@ JCombobox.prototype = {
 			var o = document.createElement('option');
 			o.value = list[i].innerHTML;
 			o.innerHTML = list[i].innerHTML;
+			if (o.value == element.value) {
+				o.selected = selected;
+			}
 			select.appendChild(o);
 		}
 		select.inputbox = element.id;
@@ -57,8 +60,9 @@ JCombobox.prototype = {
 		var widthOffset = 20;
 		var heightOffset = 4;
 		if (this.is_ie) {
-			widthOffset = 24;
-			heightOffset = 6;
+			coords.x = coords.x + 2;
+			widthOffset = 22;
+			heightOffset = 5;
 		}
 		if (this.is_opera) {
 			widthOffset = 19;

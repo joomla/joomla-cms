@@ -36,7 +36,9 @@ class MediaViews
 
 		// Get current path from request
 		$current = JRequest::getVar( 'cFolder' );
-
+		if ($current == '/') {
+			$current = '';
+		}
 		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 
 		$listStyle = "
@@ -506,6 +508,8 @@ class MediaViews
 	function imageStyle($listdir)
 	{
 		if ($listdir == '') {
+			$listdir = '/';
+		} elseif ($listdir == '//') {
 			$listdir = '/';
 		}
 		?>
