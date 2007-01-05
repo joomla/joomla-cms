@@ -103,8 +103,8 @@ class JSite extends JApplication
 
 		$document->setTitle( $this->getCfg('sitename' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
-
-		$contents = JComponentHelper::renderComponent($component, array('outline', JRequest::getVar('tp', 0 )));
+		
+		$contents = JComponentHelper::renderComponent($component, array('outline' => JRequest::getVar('tp', 0 )));
 		$document->setBuffer( $contents, 'component');
 	}
 
@@ -127,7 +127,8 @@ class JSite extends JApplication
 		$params = array(
 			'template' 	=> $template,
 			'file'		=> $file.'.php',
-			'directory'	=> JPATH_BASE.DS.'templates'
+			'directory'	=> JPATH_BASE.DS.'templates',
+			'outline' => JRequest::getVar('tp', 0 )
 		);
 
 		$document =& JFactory::getDocument();

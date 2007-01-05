@@ -127,7 +127,7 @@ class ContentModelFrontpage extends JModel
 			$voting['select'] .
 			"\n FROM #__content AS a" .
 			"\n INNER JOIN #__content_frontpage AS f ON f.content_id = a.id" .
-			"\n INNER JOIN #__categories AS cc ON cc.id = a.catid".
+			"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid".
 			"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
 			"\n LEFT JOIN #__groups AS g ON a.access = g.id".
 			$voting['join'].
@@ -162,13 +162,10 @@ class ContentModelFrontpage extends JModel
 		$gid		= $user->get('aid', 0);
 		$now		= $mainframe->get('requestTime');
 		$params 	= &JComponentHelper::getParams( 'com_content' );
-		$noauth	= !$params->get('shownoauth');
+		$noauth		= !$params->get('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
-
-		/*
-		 * First thing we need to do is assert that the articles are in
-		 * the current category
-		 */
+		
+		//First thing we need to do is assert that the articles are in the current category
 		$where = "\n WHERE 1";
 
 		// Does the user have access to view the items?

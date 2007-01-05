@@ -102,7 +102,7 @@ class JComponentHelper
 
 		$outline	= isset($params['outline']) ? $params['outline'] : false;
 		$task		= JRequest::getVar( 'task' );
-
+		
 		// Build the component path
 		$file = substr( $name, 4 );
 

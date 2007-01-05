@@ -165,20 +165,13 @@ class FrontpageView
 				if ($row->sectionid) {
 					$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&hidemainmenu=1&id='. $row->sectionid );
 					$title_sec		= JText::_( 'Edit Section' );
-				} else {
-					$row->sect_name = JText::_( 'Static Content' );
-					$row->sect_link = ampReplace( 'index.php?option=com_typedcontent' );
-					$title_sec		= JText::_( 'View Static Content Manager' );
-				}
+				} 
+				
 				// category handling
 				if ($row->catid) {
 					$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=edit&hidemainmenu=1&id='. $row->catid );
 					$title_cat		= JText::_( 'Edit Category' );
-				} else {
-					$row->name 		= JText::_( 'Static Content' );
-					$row->cat_link 	= ampReplace( 'index.php?option=com_typedcontent' );
-					$title_cat		= JText::_( 'View Static Content Manager' );
-				}
+				} 
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
