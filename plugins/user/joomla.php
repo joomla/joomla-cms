@@ -89,7 +89,7 @@ class JUserJoomla extends JPlugin
 		}
 
 		//If autoregister is set let's register the user
-		if($params->get('autoregister') == 1)
+		if($params->get('autoregister', 1) == 1)
 		{
 			if(!$my->save()) {
 				return false;
