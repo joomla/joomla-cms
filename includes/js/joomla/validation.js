@@ -60,7 +60,7 @@ JFormValidator.prototype = {
 								  }
 		this.handlers['password']	= { enabled : true,
 									exec : function (value) {
-										regex=/^[a-zA-Z]\w{3,14}$/;
+										regex=/^\S[\S ]{2,98}\S$/;
 										return regex.test(value);
 									}
 								  }

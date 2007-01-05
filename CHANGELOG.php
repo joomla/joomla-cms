@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Jan-2007 Mateusz Krzeszowiec
+ # Fixed [artf6851] : New use registration problem with numbers in password
+ ^ JavaScript form validator now allows all characters in password, password can't start and end with whitespace, length from 4 to 100 chars
+
 05-Jan-2007 Johan Janssens
  - Removed pear archive and mime packages
  - Removed JArchive::create method
