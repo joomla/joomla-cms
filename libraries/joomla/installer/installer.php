@@ -879,10 +879,10 @@ class JInstaller extends JObject
 
 		if ($client) {
 			$pathname = 'extension_'.$client->name;
-			$path['dest']  = JPath::clean($this->getPath($pathname).DS.basename($this->getPath('manifest')));
+			$path['dest']  = JPath::clean($this->getPath($pathname).DS.basename($this->getPath('manifest')),false);
 		} else {
 			$pathname = 'extension_root';
-			$path['dest']  = JPath::clean($this->getPath($pathname).DS.basename($this->getPath('manifest')));
+			$path['dest']  = JPath::clean($this->getPath($pathname).DS.basename($this->getPath('manifest')),false);
 		}
 		return $this->copyFiles(array ($path), true);
 	}
