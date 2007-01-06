@@ -18,48 +18,48 @@
  * @subpackage	Media
  * @since		1.5
  */
- 
+
 JImageManager = function() { this.constructor.apply(this, arguments);}
 JImageManager.prototype = {
 
-	constructor: function() 
-	{	
+	constructor: function()
+	{
 		var self = this;
-		
+
 		var imageview  = null;
-		var folderlist = null;	
-		
+		var folderlist = null;
+
 		this.imageview  	= document.getElementById('imageview');
 		this.folderlist 	= document.getElementById('folderlist');
 		this.uploadtoggler  = document.getElementById('uploadtoggler');
-				
+
 		//Setup events
 		this.registerEvent(this.uploadtoggler, 'click');
-		
+
 		//Setup effect
 		this.uploadpane = new fx.Height(document.getElementById('uploadpane'), {opacity:true, duration: 200});
 		this.uploadpane.hide();
 	},
-	
-	registerEvent: function(target,type,args) 
+
+	registerEvent: function(target,type,args)
 	{
 		//use a closure to keep scope
 		var self = this;
-			
-		if (target.addEventListener)   { 
+
+		if (target.addEventListener)   {
     		target.addEventListener(type,onEvent,true);
-		} else if (target.attachEvent) { 
+		} else if (target.attachEvent) {
 	  		target.attachEvent('on'+type,onEvent);
-		} 
-		
+		}
+
 		function onEvent(e)	{
 			e = e||window.event;
 			e.element = target;
 			return self["on"+type](e, args);
 		}
 	},
-	
-	onclick: function(event, args)  
+
+	onclick: function(event, args)
 	{
 		if(Element.hasClassName(event.element, 'toggler-down')) {
 			Element.removeClassName(event.element, 'toggler-down');
@@ -68,11 +68,11 @@ JImageManager.prototype = {
 			Element.addClassName(event.element, 'toggler-down');
 			window.top.document.popup.increaseHeight(50);
 		}
-		
+
 		this.uploadpane.toggle();
 	},
-	
-	onok: function() 
+
+	onok: function()
 	{
 		// Get the image tag field information
 		var url		= document.getElementById("f_url").value;
@@ -84,34 +84,34 @@ JImageManager.prototype = {
 		if (url != '') {
 			// Set alt attribute
 			if (alt != '') {
-				alt = "alt='"+alt+"' ";
+				alt = "alt=\""+alt+"\" ";
 			}
 			// Set align attribute
 			if (align != '') {
-				align = "align='"+align+"' ";
+				align = "align=\""+align+"\" ";
 			}
-			
+
 			// Set align attribute
 			if (title != '') {
-				title = "title='"+title+"' ";
+				title = "title=\""+title+"\" ";
 			}
-			
+
 			// Set align attribute
 			if (caption != '') {
 				caption = 'class="caption"';
 			}
 
-			var tag = "<img src='"+url+"' "+alt+align+title+caption+" />";
+			var tag = "<img src=\""+url+"\" "+alt+align+title+caption+" />";
 		}
-		
+
 		window.parent.jInsertEditorText(tag);
 		return false;
 	},
-		
-	setFolder: function(directory, refresh)  
+
+	setFolder: function(directory, refresh)
 	{
 		//this.showMessage('Loading');
-		
+
 		for(var i = 0; i < this.folderlist.length; i++)
 		{
 			var folder = this.folderlist.options[i].text;
@@ -120,32 +120,32 @@ JImageManager.prototype = {
 				break;
 			}
 		}
-		
-		this.imageview.src   = 'index.php?option=com_media&task=imgManagerList&tmpl=component&folder=' + directory;		
-	
+
+		this.imageview.src   = 'index.php?option=com_media&task=imgManagerList&tmpl=component&folder=' + directory;
+
 		if(refresh) {
 			this.imageview.location.reload(true);
 		}
 	},
-	
+
 	getFolder: function() {
 		return this.folderlist.options[this.folderlist.selectedIndex].text;
 	},
-	
-	upFolder: function() 
+
+	upFolder: function()
 	{
 		var currentFolder = this.folderlist.options[this.folderlist.selectedIndex].text;
 		if(currentFolder.length < 2)
 			return false;
-		
+
 		var folders = currentFolder.split('/');
-			
+
 		var search = '/';
 
 		for(var i = 0; i < folders.length - 1; i++) {
 			search += folders[i];
 		}
-	
+
 		for(var i = 0; i < this.folderlist.length; i++)
 		{
 			var thisFolder = this.folderlist.options[i].text;
@@ -158,23 +158,23 @@ JImageManager.prototype = {
 			}
 		}
 	},
-	
+
 	populateFields: function(file) {
 		document.getElementById("f_url").value = "images/stories"+file;
 	},
-	
-	showMessage: function(text) 
+
+	showMessage: function(text)
 	{
 		var message  = document.getElementById('message');
 		var messages = document.getElementById('messages');
-		
+
 		if(message.firstChild)
 			message.removeChild(message.firstChild);
 
 		message.appendChild(document.createTextNode(text));
 		messages.style.display = "block";
 	}
-	
+
 }
 
 document.imagemanager = null;
