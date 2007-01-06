@@ -350,6 +350,9 @@ class JInstaller extends JObject
 		}
 
 		$type = $root->attributes('type');
+		if ($type == 'mambot') {
+			$type = 'plugin';
+		}
 		if (is_object($this->_adapters[$type])) {
 			$this->_adapters[$type]->update();
 		}
