@@ -34,7 +34,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php if ($this->params->def('cat_description', 1) && $category->description) : ?>
 			<br />
 			<?php echo $category->description; ?>
-			<?php else : echo $category->name; ?>
 			<?php endif; ?>
 		</li>
 	<?php endforeach; ?>
