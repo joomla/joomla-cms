@@ -306,7 +306,7 @@ class JFile
 
 			$ftp->quit();
 		} else {
-			$file = JPath::clean($file);
+			$file = JPath::clean($file, false);
 			$ret = file_put_contents($file, $buffer);
 		}
 		return $ret;
