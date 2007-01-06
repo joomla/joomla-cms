@@ -22,6 +22,8 @@
  */
 class JDatabase extends JObject
 {
+	/** @var string The database driver name */
+	var $name			= '';
 	/** @var string Internal variable to hold the query sql */
 	var $_sql			= '';
 	/** @var int Internal variable to hold the database error number */

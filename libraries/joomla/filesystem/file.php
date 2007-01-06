@@ -288,25 +288,25 @@ class JFile
 			$ftpFlag = false;
 		}
 
+		// If the destination directory doesn't exist we need to create it
+		if (!file_exists(dirname($file))) {
+			jimport('joomla.filesystem.folder');
+			JFolder::create(dirname($file));
+		}
+
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($config->getValue('config.ftp_host'), $config->getValue('config.ftp_port'));
 			$ftp->login($config->getValue('config.ftp_user'), $config->getValue('config.ftp_pass'));
 
-			// If the destination directory doesn't exist we need to create it
-			if (!file_exists(dirname($file))) {
-				jimport('joomla.filesystem.folder');
-				JFolder::create(dirname($file));
-			}
-
-			//Translate path for the FTP account
+			// Translate path for the FTP account and use FTP write buffer to file
 			$file = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file), false);
-
-			// Use FTP write buffer to file
 			$ret = $ftp->write($file, $buffer);
+
 			$ftp->quit();
 		} else {
+			$file = JPath::clean($file);
 			$ret = file_put_contents($file, $buffer);
 		}
 		return $ret;

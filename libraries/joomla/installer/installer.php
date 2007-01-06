@@ -451,14 +451,19 @@ class JInstaller extends JObject
 	 * @return	mixed	Number of queries processed or False on error
 	 * @since	1.5
 	 */
-	function parseSQLFiles($element, $version = '4.1.2')
+	function parseSQLFiles($element)
 	{
 		// Initialize variables
 		$queries = array();
 		$db = & $this->_db;
+		$dbDriver = strtolower($db->get('name'));
+		if ($dbDriver == 'mysqli') {
+			$dbDriver = 'mysql';
+		}
+		$dbCharset = ($db->hasUTF()) ? 'utf8' : '';
 
-		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
-			// Either the tag does not exist or has no children therefore we return zero files processed.
+		if (!is_a($element, 'JSimpleXMLElement')) {
+			// The tag does not exist.
 			return 0;
 		}
 
@@ -471,15 +476,21 @@ class JInstaller extends JObject
 
 		// Get the name of the sql file to process
 		$sqlfile = '';
-		foreach ($files as $file) {
-			if( $file->attributes('version') == $version)
-			{
+		foreach ($files as $file)
+		{
+			$fCharset = (strtolower($file->attributes('charset')) == 'utf8') ? 'utf8' : '';
+			$fDriver  = strtolower($file->attributes('driver'));
+			if ($fDriver == 'mysqli') {
+				$fDriver = 'mysql';
+			}
+
+			if( $fCharset == $dbCharset && $fDriver == $dbDriver) {
 				$sqlfile = $file->data();
 				// Check that sql files exists before reading. Otherwise raise error for rollback
-				if ( !file_exists( $this->_extensionAdminDir.$sqlfile ) ) {
+				if ( !file_exists( $this->getPath('extension_administrator').$sqlfile ) ) {
 					return false;
 				}
-				$buffer = file_get_contents($this->_extensionAdminDir.$sqlfile);
+				$buffer = file_get_contents($this->getPath('extension_administrator').$sqlfile);
 
 				// Graceful exit and rollback if read not successful
 				if ( $buffer === false ) {

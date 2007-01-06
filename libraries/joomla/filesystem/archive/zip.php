@@ -226,12 +226,14 @@ class JArchiveZip extends JObject
 				while ($file = zip_read($zip))
 				{
 					if (zip_entry_open($zip, $file, "r")) {
-						$buffer = zip_entry_read($file, zip_entry_filesize($file));
-						if (JFile::write($destination.DS.zip_entry_name($file), $buffer) === false) {
-							$this->set('error.message', 'Unable to write entry');
-							return false;
+						if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/") {
+							$buffer = zip_entry_read($file, zip_entry_filesize($file));
+							if (JFile::write($destination.DS.zip_entry_name($file), $buffer) === false) {
+								$this->set('error.message', 'Unable to write entry');
+								return false;
+							}
+							zip_entry_close($file);
 						}
-						zip_entry_close($file);
 					} else {
 						$this->set('error.message', 'Unable to read entry');
 						return false;

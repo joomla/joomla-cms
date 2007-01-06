@@ -21,6 +21,8 @@
  */
 class JDatabaseMySQLi extends JDatabase
 {
+	/** @var string The database driver name */
+	var $name			= 'mysqli';
 	/** @var string The null/zero date string */
 	var $_nullDate		= '0000-00-00 00:00:00';
 	/** @var string Quote for named objects */

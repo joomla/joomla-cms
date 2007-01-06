@@ -139,7 +139,7 @@ class JInstaller_component extends JObject
 		} elseif ($result === 0) {
 			// no backward compatibility queries found - try for Joomla 1.5 type queries
 			// second argument is the utf compatible version attribute
-			$utfresult = $this->parent->parseSQLFiles($root->getElementByPath('install/sql/file'), ($db->hasUTF() ? '4.1.2' : '3.2.0'));
+			$utfresult = $this->parent->parseSQLFiles($root->getElementByPath('install/sql'));
 			if ($utfresult === false) {
 				// Install failed, rollback changes
 				$this->parent->abort('Component Install: '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
@@ -335,15 +335,15 @@ class JInstaller_component extends JObject
 		 * method to the installation message.
 		 */
 		if ($this->get('installscript')) {
-			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('installscript'))) {
+			if (is_file($this->parent->getPath('extension_administrator').$this->get('installscript'))) {
 				ob_start();
 				ob_implicit_flush(false);
-				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('installscript'));
+				require_once ($this->parent->getPath('extension_administrator').$this->get('installscript'));
 				$ret = com_install();
 				$ret .= ob_get_contents();
 				ob_end_clean();
 				if ($ret != '') {
-					$this->set('message', $ret);
+					$this->parent ->set('extension.message', $ret);
 				}
 			}
 		}
@@ -425,15 +425,15 @@ class JInstaller_component extends JObject
 		$uninstallfileElement =& $root->getElementByPath('uninstallfile');
 		if (is_a($uninstallfileElement, 'JSimpleXMLElement')) {
 			// Element exists, does the file exist?
-			if (file_exists($this->parent->getPath('extension_administrator').DS.$uninstallfileElement->data())) {
+			if (file_exists($this->parent->getPath('extension_administrator').$uninstallfileElement->data())) {
 				ob_start();
 				ob_implicit_flush(false);
-				require_once ($this->parent->getPath('extension_administrator').DS.$uninstallfileElement->data());
+				require_once ($this->parent->getPath('extension_administrator').$uninstallfileElement->data());
 				$ret = com_uninstall();
 				$ret .= ob_get_contents();
 				ob_end_clean();
 				if ($ret != '') {
-					$this->set('message', $ret);
+					$this->parent->set('extension.message', $ret);
 				}
 			}
 		}
@@ -452,7 +452,7 @@ class JInstaller_component extends JObject
 		} elseif ($result === 0) {
 			// no backward compatibility queries found - try for Joomla 1.5 type queries
 			// second argument is the utf compatible version attribute
-			$utfresult = $this->parent->parseSQLFiles($root->getElementByPath('uninstall/sql/file'), ($db->hasUTF() ? '4.1.2' : '3.2.0'));
+			$utfresult = $this->parent->parseSQLFiles($root->getElementByPath('uninstall/sql'));
 			if ($utfresult === false) {
 				// Install failed, rollback changes
 				JError::raiseWarning(100, 'Component Uninstall: '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
