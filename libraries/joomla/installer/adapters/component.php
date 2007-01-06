@@ -530,7 +530,7 @@ class JInstaller_component extends JObject
 
 				// Set the sub menu link
 				if ($child->attributes("link")) {
-					$com->admin_menu_link = $child->attributes("link");
+					$com->admin_menu_link = str_replace('&amp;', '&', $child->attributes("link"));
 				} else {
 					$request = array();
 					if ($child->attributes('act')) {
