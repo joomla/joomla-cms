@@ -384,7 +384,11 @@ class JMenuBar
 	{
 		$bar = & JToolBar::getInstance('JComponent');
 		// Add a delete button
-		$bar->appendButton( 'Standard', 'delete', $alt, $task, true, false );
+		if ($msg) {
+			$bar->appendButton( 'Confirm', $msg, 'delete', $alt, $task, true, false );
+		} else {
+			$bar->appendButton( 'Standard', 'delete', $alt, $task, true, false );
+		}
 	}
 
 	/**
@@ -399,7 +403,11 @@ class JMenuBar
 	{
 		$bar = & JToolBar::getInstance('JComponent');
 		// Add a delete button (hide)
-		$bar->appendButton( 'Standard', 'delete', $alt, $task, true, true );
+		if ($msg) {
+			$bar->appendButton( 'Confirm', $msg, 'delete', $alt, $task, true, true );
+		} else {
+			$bar->appendButton( 'Standard', 'delete', $alt, $task, true, true );
+		}
 	}
 
 	/**
