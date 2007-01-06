@@ -202,7 +202,8 @@ class JInstaller_component extends JObject
 		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
 		 *	file for utf-8 support or non-utf-8 support
 		 */
-		if ($result = $this->parent->parseQueries($this->manifest->getElementByPath('install/queries')) === false) {
+		$result = $this->parent->parseQueries($this->manifest->getElementByPath('install/queries'));
+		if ($result === false) {
 			// Install failed, rollback changes
 			$this->parent->abort('Component Install: '.JText::_('SQL Error')." ".$db->stderr(true));
 			return false;
