@@ -514,9 +514,11 @@ class JInstaller_component extends JObject
 
 		// Initialize submenu ordering value
 		$ordering = 0;
-		foreach ($this->adminElement->children() as $child)
+		$submenu = $this->adminElement->getElementByPath('submenu');
+		if (!is_a($submenu, 'JSimpleXMLElement') || !count($submenu->children()))
+		foreach ($submenu->children() as $child)
 		{
-			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'submenu') {
+			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'menu') {
 
 				$com = JTable::getInstance('component');
 				$com->name = $child->data();
