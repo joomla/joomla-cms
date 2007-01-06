@@ -210,7 +210,8 @@ class JInstaller_component extends JObject
 				$this->parent->pushStep(array ('type' => 'menu', 'id' => $comAdminMenuId));
 
 				// Get the submenus array
-				$comAdminSubMenus = $adminMenuElement->children();
+				$adminElement =& $root->getElementByPath('administration');
+				$comAdminSubMenus = $adminElement->children();
 
 				// SubMenu Ordering value
 				$subMenuOrdering = 0;
