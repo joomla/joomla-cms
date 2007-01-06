@@ -515,7 +515,9 @@ class JInstaller_component extends JObject
 		// Initialize submenu ordering value
 		$ordering = 0;
 		$submenu = $this->adminElement->getElementByPath('submenu');
-		if (!is_a($submenu, 'JSimpleXMLElement') || !count($submenu->children()))
+		if (!is_a($submenu, 'JSimpleXMLElement') || !count($submenu->children())) {
+			return true;
+		}
 		foreach ($submenu->children() as $child)
 		{
 			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'menu') {
