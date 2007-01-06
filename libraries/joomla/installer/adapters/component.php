@@ -339,11 +339,16 @@ class JInstaller_component extends JObject
 				ob_start();
 				ob_implicit_flush(false);
 				require_once ($this->parent->getPath('extension_administrator').$this->get('installscript'));
-				$ret = com_install();
-				$ret .= ob_get_contents();
+				if (function_exists('com_install')) {
+					if (com_install() === false) {
+						$this->parent->abort('Component Install: '.JText::_('Custom install routine failure'));
+						return false;
+					}
+				}
+				$msg = ob_get_contents();
 				ob_end_clean();
-				if ($ret != '') {
-					$this->parent ->set('extension.message', $ret);
+				if ($msg != '') {
+					$this->parent ->set('extension.message', $msg);
 				}
 			}
 		}
@@ -429,11 +434,16 @@ class JInstaller_component extends JObject
 				ob_start();
 				ob_implicit_flush(false);
 				require_once ($this->parent->getPath('extension_administrator').$uninstallfileElement->data());
-				$ret = com_uninstall();
-				$ret .= ob_get_contents();
+				if (function_exists('com_uninstall')) {
+					if (com_uninstall() === false) {
+						$this->parent->abort('Component Install: '.JText::_('Custom uninstall routine failure'));
+						return false;
+					}
+				}
+				$msg = ob_get_contents();
 				ob_end_clean();
-				if ($ret != '') {
-					$this->parent->set('extension.message', $ret);
+				if ($msg != '') {
+					$this->parent->set('extension.message', $msg);
 				}
 			}
 		}
