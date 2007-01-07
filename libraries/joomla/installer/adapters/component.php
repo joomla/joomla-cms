@@ -43,6 +43,9 @@ class JInstaller_component extends JObject
 	 */
 	function install()
 	{
+		// Get a database connector object
+		$db =& $this->parent->getDBO();
+
 		// Get the extension manifest object
 		$manifest =& $this->parent->getManifest();
 		$this->manifest =& $manifest->document;
