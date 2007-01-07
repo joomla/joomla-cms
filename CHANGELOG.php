@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Jan-2007 Rastin Mehr
+ # Fixed [artf6887] : failure/improper assigning of active submenu item
+
 06-Jan-2007 Mateusz Krzeszowiec
  # Fixed [artf7188] : List categories in section
 

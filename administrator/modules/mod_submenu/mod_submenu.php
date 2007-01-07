@@ -81,6 +81,22 @@ class JAdminSubMenu
 
 				$menu = JAdminSubMenu::_buildList($subMenuList);
 				break;
+	
+			case 'com_banners' :
+				$c	= JRequest::getVar('c');
+				
+				if($c == 'client') {
+					$subMenuList[] = array('title' => JText::_('Banners'), 'link' => 'index.php?option=com_banners', 'img' => '' );
+					$subMenuList[] = array('title' => JText::_('Clients'), 'link' => 'index.php?option=com_banners&c=client', 'img' => '', 'active' => 1 );
+					$subMenuList[] = array('title' => JText::_('Categories'), 'link' => 'index.php?option=com_categories&section=com_banner', 'img' => '' );
+				} else {
+					$subMenuList[] = array('title' => JText::_('Banners'), 'link' => 'index.php?option=com_banners', 'img' => '', 'active' => 1 );
+					$subMenuList[] = array('title' => JText::_('Clients'), 'link' => 'index.php?option=com_banners&c=client', 'img' => '' );
+					$subMenuList[] = array('title' => JText::_('Categories'), 'link' => 'index.php?option=com_categories&section=com_banner', 'img' => '' );
+				}
+			
+				$menu = JAdminSubMenu::_buildList($subMenuList);
+				break;
 
 			case 'com_languages' :
 				$client	= JRequest::getVar('client', 0, '', 'int');
