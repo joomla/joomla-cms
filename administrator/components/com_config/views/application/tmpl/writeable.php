@@ -1,3 +1,6 @@
+<?php $config = JFactory::getConfig();
+if ($config->get('ftp_enable') != 0) {
+?>
 <span class="small">
 <?php
 	jimport('joomla.filesystem.path');
@@ -24,3 +27,4 @@
 <?php echo JText::_( 'configuration.php' ); ?> :
 <?php echo is_writable( JPATH_CONFIGURATION . DS . 'configuration.php' ) ? '<b><font color="green"> '. JText::_( 'Writeable' ) .'</font></b>' : '<b><font color="red"> '. JText::_( 'Unwriteable' ) .'</font></b>' ?>
 </span>
+<?php } ?>
