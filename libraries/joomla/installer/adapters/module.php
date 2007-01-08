@@ -43,13 +43,39 @@ class JInstaller_module extends JObject
 	 */
 	function install()
 	{
-		// Get database connector object
+		// Get a database connector object
 		$db =& $this->parent->getDBO();
-		$manifest =& $this->parent->getManifest();
-		$root =& $manifest->document;
 
-		// Get the client application target
-		if ($cname = $root->attributes('client')) {
+		// Get the extension manifest object
+		$manifest =& $this->parent->getManifest();
+		$this->manifest =& $manifest->document;
+
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Manifest Document Setup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		// Set the component name
+		$name =& $this->manifest->getElementByPath('name');
+		$this->set('name', $name->data());
+
+		// Get the component description
+		$description = & $this->manifest->getElementByPath('description');
+		if (is_a($description, 'JSimpleXMLElement')) {
+			$this->parent->set('message', $this->get('name').'<p>'.$description->data().'</p>');
+		} else {
+			$this->parent->set('message', $this->get('name'));
+		}
+
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Target Application Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		// Get the target application
+		if ($cname = $this->manifest->attributes('client')) {
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
 			$client = JApplicationHelper::getClientInfo($cname, true);
@@ -66,12 +92,8 @@ class JInstaller_module extends JObject
 			$clientId = 0;
 		}
 
-		// Get the module name
-		$name =& $root->getElementByPath('name');
-		$this->set('name', $name->data());
-
 		// Set the installation path
-		$element =& $root->getElementByPath('files');
+		$element =& $this->manifest->getElementByPath('files');
 		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
 			$files =& $element->children();
 			foreach ($files as $file) {
@@ -87,6 +109,12 @@ class JInstaller_module extends JObject
 			$this->parent->abort('Module Install: '.JText::_('No module file specified'));
 			return false;
 		}
+
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Filesystem Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		/*
 		 * If the module directory already exists, then we will assume that the
@@ -123,12 +151,18 @@ class JInstaller_module extends JObject
 			return false;
 		}
 
-		// Copy all images, media and languages as well
-		$this->parent->parseFiles($root->getElementByPath('images'), -1);
-		$this->parent->parseFiles($root->getElementByPath('media'));
-		$this->parent->parseFiles($root->getElementByPath('administration/media'), 1);
-		$this->parent->parseFiles($root->getElementByPath('languages'));
-		$this->parent->parseFiles($root->getElementByPath('administration/languages'), 1);
+		// Parse optional tags
+		$this->parent->parseMedia($this->manifest->getElementByPath('media'), $clientId);
+		$this->parent->parseLanguages($this->manifest->getElementByPath('languages'), $clientId);
+
+		// Parse deprecated tags
+		$this->parent->parseFiles($this->manifest->getElementByPath('images'), -1);
+
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Database Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Check to see if a module by the same name is already installed
 		$query = "SELECT `id`" .
@@ -196,13 +230,11 @@ class JInstaller_module extends JObject
 			$this->parent->pushStep(array ('type' => 'menu', 'id' => $db->insertid()));
 		}
 
-		// Get the module description
-		$description = & $root->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
-			$this->parent->set('message', $this->get('name').'<p>'.$description->data().'</p>');
-		} else {
-			$this->parent->set('message', $this->get('name'));
-		}
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1)) {

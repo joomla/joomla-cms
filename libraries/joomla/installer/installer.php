@@ -653,6 +653,185 @@ class JInstaller extends JObject
 	}
 
 	/**
+	 * Method to parse through a languages element of the installation manifest and take appropriate
+	 * action.
+	 *
+	 * @access	public
+	 * @param	object	$element 	The xml node to process
+	 * @param	int		$cid		Application ID of application to install to
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	function parseLanguages($element, $cid=0)
+	{
+		// Initialize variables
+		$copyfiles = array ();
+
+		// Get the client info
+		jimport('joomla.application.helper');
+		$client = JApplicationHelper::getClientInfo($cid);
+
+		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+			// Either the tag does not exist or has no children therefore we return zero files processed.
+			return 0;
+		}
+
+		// Get the array of file nodes to process
+		$files = $element->children();
+		if (count($files) == 0) {
+			// No files to process
+			return 0;
+		}
+
+		/*
+		 * Here we set the folder we are going to copy the files to.
+		 *
+		 * 'languages' Files are copied to JPATH_BASE/language/ folder
+		 */
+		$destination = JPath::clean($client->path.DS.'language');
+
+		/*
+		 * Here we set the folder we are going to copy the files from.
+		 *
+		 * Does the element have a folder attribute?
+		 *
+		 * If so this indicates that the files are in a subdirectory of the source
+		 * folder and we should append the folder attribute to the source path when
+		 * copying files.
+		 */
+		if ($folder = $element->attributes('folder')) {
+			$source = JPath::clean($this->getPath('source').DS.$folder);
+		} else {
+			$source = JPath::clean($this->getPath('source'));
+		}
+
+		// Process each file in the $files array (children of $tagName).
+		foreach ($files as $file) {
+			/*
+			 * Language files go in a subfolder based on the language code, ie.
+			 *
+			 * 		<language tag="en-US">en-US.mycomponent.ini</language>
+			 *
+			 * would go in the en-US subdirectory of the language folder.
+			 *
+			 * We will only install language files where a core language pack
+			 * already exists.
+			 */
+			if ($file->attributes('tag') != '') {
+				$path['src']	= $source.$file->data();
+				$path['dest']	= $destination.$file->attributes('tag').DS.basename($file->data());
+
+				// If the language folder is not present, then the core pack hasn't been installed... ignore
+				if (!JFolder::exists(dirname($path['dest']))) {
+					continue;
+				}
+			} else {
+				$path['src']	= $source.$file->data();
+				$path['dest']	= $destination.$file->data();
+			}
+
+			/*
+			 * Before we can add a file to the copyfiles array we need to ensure
+			 * that the folder we are copying our file to exits and if it doesn't,
+			 * we need to create it.
+			 */
+			if (basename($path['dest']) != $path['dest']) {
+				$newdir = dirname($path['dest']);
+
+				if (!JFolder::create($newdir)) {
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$newdir.'"');
+					return false;
+				}
+			}
+
+			// Add the file to the copyfiles array
+			$copyfiles[] = $path;
+		}
+
+		return $this->copyFiles($copyfiles);
+	}
+
+	/**
+	 * Method to parse through a media element of the installation manifest and take appropriate
+	 * action.
+	 *
+	 * @access	public
+	 * @param	object	$element 	The xml node to process
+	 * @param	int		$cid		Application ID of application to install to
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	function parseMedia($element, $cid=0)
+	{
+		// Initialize variables
+		$copyfiles = array ();
+
+		// Get the client info
+		jimport('joomla.application.helper');
+		$client = JApplicationHelper::getClientInfo($cid);
+
+		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
+			// Either the tag does not exist or has no children therefore we return zero files processed.
+			return 0;
+		}
+
+		// Get the array of file nodes to process
+		$files = $element->children();
+		if (count($files) == 0) {
+			// No files to process
+			return 0;
+		}
+
+		/*
+		 * Here we set the folder we are going to copy the files to.
+		 * 	Default 'media' Files are copied to the JPATH_BASE/images folder
+		 */
+		$folder = ($element->attributes('destination')) ? DS.$element->attributes('destination') : null;
+		$destination = JPath::clean($client->path.DS.'images'.$folder);
+
+		/*
+		 * Here we set the folder we are going to copy the files from.
+		 *
+		 * Does the element have a folder attribute?
+		 *
+		 * If so this indicates that the files are in a subdirectory of the source
+		 * folder and we should append the folder attribute to the source path when
+		 * copying files.
+		 */
+		if ($folder = $element->attributes('folder')) {
+			$source = JPath::clean($this->getPath('source').DS.$folder);
+		} else {
+			$source = JPath::clean($this->getPath('source'));
+		}
+
+		// Process each file in the $files array (children of $tagName).
+		foreach ($files as $file)
+		{
+			$path['src']	= $source.$file->data();
+			$path['dest']	= $destination.$file->data();
+
+			/*
+			 * Before we can add a file to the copyfiles array we need to ensure
+			 * that the folder we are copying our file to exits and if it doesn't,
+			 * we need to create it.
+			 */
+			if (basename($path['dest']) != $path['dest']) {
+				$newdir = dirname($path['dest']);
+
+				if (!JFolder::create($newdir)) {
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('Failed to create directory').' "'.$newdir.'"');
+					return false;
+				}
+			}
+
+			// Add the file to the copyfiles array
+			$copyfiles[] = $path;
+		}
+
+		return $this->copyFiles($copyfiles);
+	}
+
+	/**
 	 * Method to parse the parameters of an extension, build the INI
 	 * string for it's default parameters, and return the INI string.
 	 *

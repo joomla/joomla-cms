@@ -43,14 +43,30 @@ class JInstaller_plugin extends JObject
 	 */
 	function install()
 	{
-		// Get database connector object
+		// Get a database connector object
 		$db =& $this->parent->getDBO();
-		$manifest =& $this->parent->getManifest();
-		$root =& $manifest->document;
 
-		// Get the plugin name
-		$name =& $root->getElementByPath('name');
+		// Get the extension manifest object
+		$manifest =& $this->parent->getManifest();
+		$this->manifest =& $manifest->document;
+
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Manifest Document Setup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
+		// Set the component name
+		$name =& $this->manifest->getElementByPath('name');
 		$this->set('name', $name->data());
+
+		// Get the component description
+		$description = & $this->manifest->getElementByPath('description');
+		if (is_a($description, 'JSimpleXMLElement')) {
+			$this->parent->set('message', $this->get('name').'<p>'.$description->data().'</p>');
+		} else {
+			$this->parent->set('message', $this->get('name'));
+		}
 
 		/*
 		 * Backward Compatability
@@ -59,7 +75,7 @@ class JInstaller_plugin extends JObject
 		$type = $root->attributes('type');
 
 		// Set the installation path
-		$element =& $root->getElementByPath('files');
+		$element =& $this->manifest->getElementByPath('files');
 		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
 			$files =& $element->children();
 			foreach ($files as $file) {
@@ -69,13 +85,19 @@ class JInstaller_plugin extends JObject
 				}
 			}
 		}
-		$group = $root->attributes('group');
+		$group = $this->manifest->attributes('group');
 		if (!empty ($pname) && !empty($group)) {
 			$this->parent->setPath('extension_root', JPath::clean(JPATH_ROOT.DS.'plugins'.DS.$group));
 		} else {
 			$this->parent->abort('Plugin Install: '.JText::_('No plugin file specified'));
 			return false;
 		}
+
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Filesystem Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// If the plugin directory does not exist, lets create it
 		$created = false;
@@ -102,9 +124,15 @@ class JInstaller_plugin extends JObject
 			return false;
 		}
 
-		// Copy all media and languages as well
-		$this->parent->parseFiles($root->getElementByPath('media'));
-		$this->parent->parseFiles($root->getElementByPath('languages'), 1);
+		// Parse optional tags
+		$this->parent->parseMedia($this->manifest->getElementByPath('media'), 1);
+		$this->parent->parseLanguages($this->manifest->getElementByPath('languages'), 1);
+
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Database Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Check to see if a plugin by the same name is already installed
 		$query = "SELECT `id`" .
@@ -151,13 +179,11 @@ class JInstaller_plugin extends JObject
 			$this->parent->pushStep(array ('type' => 'plugin', 'id' => $row->id));
 		}
 
-		// Get the plugin description
-		$description = & $root->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
-			$this->parent->set('message', $this->get('name').'<p>'.$description->data().'</p>');
-		} else {
-			$this->parent->set('message', $this->get('name'));
-		}
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1)) {

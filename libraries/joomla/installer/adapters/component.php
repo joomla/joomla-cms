@@ -151,10 +151,10 @@ class JInstaller_component extends JObject
 		}
 
 		// Parse optional tags
-		$this->parent->parseFiles($this->manifest->getElementByPath('media'));
-		$this->parent->parseFiles($this->manifest->getElementByPath('administration/media'), 1);
-		$this->parent->parseFiles($this->manifest->getElementByPath('languages'));
-		$this->parent->parseFiles($this->manifest->getElementByPath('administration/languages'), 1);
+		$this->parent->parseMedia($this->manifest->getElementByPath('media'));
+		$this->parent->parseMedia($this->manifest->getElementByPath('administration/media'), 1);
+		$this->parent->parseLanguages($this->manifest->getElementByPath('languages'));
+		$this->parent->parseLanguages($this->manifest->getElementByPath('administration/languages'), 1);
 
 		// Parse deprecated tags
 		$this->parent->parseFiles($this->manifest->getElementByPath('images'));
