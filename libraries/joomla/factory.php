@@ -364,7 +364,7 @@ class JFactory
 
 		require_once( $file );
 
-		// Create the registry with a default namespace of config which is read only
+		// Create the registry with a default namespace of config
 		$registry = new JRegistry( 'config');
 
 		// Create the JConfig object
