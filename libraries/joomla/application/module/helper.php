@@ -176,7 +176,7 @@ class JModuleHelper
 		if($outline && !$mainframe->isAdmin()) {
 			$contents .= "</div></div>";
 		}
-
+	
 		return $contents;
 	}
 
@@ -225,7 +225,7 @@ class JModuleHelper
 		$db		=& JFactory::getDBO();
 
 		$aid	= $user->get('aid', 0);
-
+	
 		$modules	= array();
 
 		$wheremenu = isset( $Itemid ) ? "\n AND ( mm.menuid = ". $Itemid ." OR mm.menuid = 0 )" : '';

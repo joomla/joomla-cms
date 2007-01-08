@@ -29,10 +29,10 @@ require_once( JPATH_BASE.'/includes/menubar.html.php' );
 $mainframe = new JAdministrator();
 
 // load the configuration
-$mainframe->setConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
+$mainframe->loadConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
 
 // create the session
-$mainframe->setSession(JURI::resolve('/', -1).$mainframe->getClientId());
+$mainframe->loadSession(JURI::resolve('/', -1).$mainframe->getClientId());
 
 /**
  * INITIALISE THE APPLICATION
@@ -44,9 +44,6 @@ JPluginHelper::importPlugin('system');
 $mainframe->initialise(array(
 	'language' => $mainframe->getUserState( "application.lang", 'lang' )
 ));
-
-// load a stored user state if it exists -> move into plugin ?
-$mainframe->loadStoredUserState();
 
 // trigger the onAfterInitialise events
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
@@ -77,6 +74,11 @@ $mainframe->display($option);
 // trigger the onAfterDisplay events
 JDEBUG ? $_PROFILER->mark( 'afterDisplay' ) : null;
 $mainframe->triggerEvent( 'onAfterDisplay' );
+
+/**
+ * CLOSE THE SESSION
+ */
+JSession::close();
 
 /**
  * RETURN THE RESPONSE

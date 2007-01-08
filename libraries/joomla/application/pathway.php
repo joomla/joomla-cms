@@ -12,6 +12,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport('joomla.filter.output');
+
 /**
  * Class to maintain a pathway.
  *
@@ -153,7 +155,7 @@ class JPathWay extends JObject {
 	function _makeItem($name, $link)
 	{
 		$item = new stdClass();
-		$item->name = ampReplace(html_entity_decode($name));
+		$item->name = JOutputFilter::ampReplace(html_entity_decode($name));
 		$item->link = $link;
 
 		return $item;

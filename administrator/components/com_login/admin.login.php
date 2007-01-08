@@ -54,9 +54,14 @@ class LoginController
 	function login()
 	{
 		global $mainframe;
-
-		$result = $mainframe->login();
-
+		
+		$username	= JRequest::getVar( 'username' );
+		$password	= JRequest::getVar( 'password' );
+		
+		echo var_dump($_SESSION);
+		
+		$result = $mainframe->login($username, $password);
+		
 		if (!JError::isError($result)) {
 			$mainframe->redirect('index.php');
 		}

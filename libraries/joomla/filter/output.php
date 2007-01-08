@@ -18,7 +18,7 @@
  * @static
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage		Filter
+ * @subpackage	Filter
  * @since		1.5
  */
 class JOutputFilter

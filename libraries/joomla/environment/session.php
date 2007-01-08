@@ -12,6 +12,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport('joomla.environment.sessionhandler');
+
 /**
 * Class for managing HTTP sessions
 *
@@ -43,18 +45,40 @@ class JSession extends JObject
 	 * @var	string $_expire minutes
 	 */
 	var	$_expire	=	15;
+	
+	/**
+	 * The session save handler object
+	 *
+	 * @access protected
+	 * @var	object A JSessionHandler object
+	 */
+	var	$_handler	=	null;
+	
+   /**
+	* security policy
+	* 
+	* Default values:
+	*  - fix_browser
+	*  - fix_adress
+	* 
+	* @access protected
+	* @var array $_security list of checks that will be done.
+	*/
+	var $_security = array( 'fix_browser' );
 
 	/**
 	* Constructor
 	*
 	* @access protected
-	* @param string $id name-prefix used for internal storage of session-data
-	* @param array $options optional parameters
+	* @param string $handler	
+	* @param array 	$options 	optional parameters
 	*/
-	function __construct( $options = array() )
+	function __construct( $handler = 'file', $options = array() )
 	{
-		session_write_close();
-
+		//create handler
+		$this->_handler =& JSessionHandler::getInstance($handler, $options);
+		
+		//set options
 		$this->_setOptions( $options );
 
 		//load the session
@@ -160,89 +184,101 @@ class JSession extends JObject
 	}
 
 	 /**
-	 * Get date from session
+	 * Get data from the session store
 	 *
 	 * @static
 	 * @access public
-	 * @param  string $name	Name of a variable
-	 * @param  mixed  $default Default value of a variable if not set
+	 * @param  string $name			Name of a variable
+	 * @param  mixed  $default 		Default value of a variable if not set
+	 * @param  string 	$namespace 	Namespace to use, default to 'default'
 	 * @return mixed  Value of a variable
 	 */
-	function &get($name, $default = null)
+	function &get($name, $default = null, $namespace = 'default')
 	{
+		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
+		
 		if($this->_state !== 'active' && $this->_state !== 'expired') {
 			// @TODO :: generated error here
 			$error = null;
 			return $error;
 		}
 
-		if (isset($_SESSION[$name])) {
-			return $_SESSION[$name];
+		if (isset($_SESSION[$namespace][$name])) {
+			return $_SESSION[$namespace][$name];
 		}
 		return $default;
 	}
 
 	/**
-	 * Save date into session
+	 * Set data into the session store
 	 *
 	 * @access public
-	 * @param  string $name  Name of a variable
-	 * @param  mixed  $value Value of a variable
+	 * @param  string $name  		Name of a variable
+	 * @param  mixed  $value 		Value of a variable
+	 * @param  string 	$namespace 	Namespace to use, default to 'default'
 	 * @return mixed  Old value of a variable
 	 */
-	function set($name, $value)
+	function set($name, $value, $namespace = 'default')
 	{
-		 if($this->_state !== 'active') {
+		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
+		
+		if($this->_state !== 'active') {
 			// @TODO :: generated error here
 			return null;
 		}
 
-		$old = isset($_SESSION[$name]) ?  $_SESSION[$name] : null;
+		$old = isset($_SESSION[$namespace][$name]) ?  $_SESSION[$namespace][$name] : null;
 
 		if (null === $value) {
-			unset($_SESSION[$name]);
+			unset($_SESSION[$namespace][$name]);
 		} else {
-			$_SESSION[$name] = $value;
+			$_SESSION[$namespace][$name] = $value;
 		}
 
 		return $old;
 	}
 
 	/**
-	* Check wheter a session value exists
+	* Check wheter data exists in the session store
 	*
 	* @access public
-	* @param string $name name of variable
+	* @param string 	$name 		Name of variable
+	* @param  string 	$namespace 	Namespace to use, default to 'default'
 	* @return boolean $result true if the variable exists
 	*/
-	function has( $name )
+	function has( $name, $namespace = 'default' )
 	{
+		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
+		
 		if( $this->_state !== 'active' ) {
 			// @TODO :: generated error here
 			return null;
 		}
 
-		return isset( $_SESSION[$name] );
+		return isset( $_SESSION[$namespace][$name] );
 	}
 
 	/**
-	* Unset data from session
+	* Unset data from the session store
 	*
 	* @access public
-	* @param string $name name of variable
+	* @param  string 	$name 		Name of variable
+	* @param  string 	$namespace 	Namespace to use, default to 'default'
 	* @return mixed $value the value from session or NULL if not set
 	*/
-	function clear( $name )
+	function clear( $name, $namespace = 'default' )
 	{
+		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
+		
 		if( $this->_state !== 'active' ) {
 			// @TODO :: generated error here
 			return null;
 		}
 
 		$value	=	null;
-		if( isset( $_SESSION[$name] ) ) {
-			$value	=	$_SESSION[$name];
-			unset( $_SESSION[$name] );
+		if( isset( $_SESSION[$namespace][$name] ) ) {
+			$value	=	$_SESSION[$namespace][$name];
+			unset( $_SESSION[$namespace][$name] );
 		}
 
 		return $value;
@@ -377,7 +413,7 @@ class JSession extends JObject
 	 * Writes session data and ends session
 	 *
 	 * Session data is usually stored after your script terminated without the need
-	 * to call JSession::pauze(),but as session data is locked to prevent concurrent
+	 * to call JSession::close(),but as session data is locked to prevent concurrent
 	 * writes only one script may operate on a session at any time. When using
 	 * framesets together with sessions you will experience the frames loading one
 	 * by one due to this locking. You can reduce the time needed to load all the
@@ -387,7 +423,7 @@ class JSession extends JObject
 	 * @access public
 	 * @see	session_write_close()
 	 */
-	function pause() {
+	function close() {
 		session_write_close();
 	}
 
@@ -490,6 +526,11 @@ class JSession extends JObject
 		if( isset( $options['expire'] ) ) {
 			$this->_expire	=	$options['expire'];
 		}
+		
+		// get security options
+		if( isset( $options['security'] ) ) {
+			$this->_security	=	explode( ',', $options['security'] );
+		}
 
 		return true;
 	}
@@ -533,26 +574,37 @@ class JSession extends JObject
 				return false;
 			}
 		}
-
-		// record ip in the session in case we need it later
-		if( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-			$this->set( 'session.client.address',  $_SERVER['REMOTE_ADDR']);
-		}
-
+		
 		// record proxy forwarded for in the session in case we need it later
 		if( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
 			$this->set( 'session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		}
-	
+		
+		// check for client adress
+		if( in_array( 'fix_adress', $this->_security ) && isset( $_SERVER['REMOTE_ADDR'] ) )
+		{
+			$ip	= $this->get( 'session.client.address' );
+			
+			if( $ip === null ) {
+				$this->set( 'session.client.address', $_SERVER['REMOTE_ADDR'] );
+			}
+			else if( $_SERVER['REMOTE_ADDR'] !== $ip )
+			{
+				$this->_state	=	'error';
+				return false;
+			}
+		}
+		
 		// check for clients browser
-		if( isset( $_SERVER['HTTP_USER_AGENT'] ) )
+		if( in_array( 'fix_browser', $this->_security ) && isset( $_SERVER['HTTP_USER_AGENT'] ) )
 		{
 			$browser = $this->get( 'session.client.browser' );
 
 			if( $browser === null ) {
 				$this->set( 'session.client.browser', $_SERVER['HTTP_USER_AGENT']);
 			}
-			else if( $_SERVER['HTTP_USER_AGENT'] !== $browser ) {
+			else if( $_SERVER['HTTP_USER_AGENT'] !== $browser ) 
+			{
 				$this->_state	=	'error';
 				return false;
 			}

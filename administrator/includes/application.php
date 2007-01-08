@@ -123,7 +123,7 @@ class JAdministrator extends JApplication
 			'file'		=> $file.'.php',
 			'directory'	=> JPATH_BASE.DS.'templates'
 		);
-
+		
 		$document =& JFactory::getDocument();
 		$document->display($this->getCfg('caching_tmpl'), $params );
 	}
@@ -143,13 +143,11 @@ class JAdministrator extends JApplication
 		$remember = JRequest::getVar( 'remember', $remember, 'post' );
 
 		$result = parent::login($username, $password, $remember);
+	
 		if(!JError::isError($result))
 		{
 			$lang = JRequest::getVar( 'lang' );
 			$this->setUserState( 'application.lang', $lang  );
-
-			$session =& JFactory::getSession();
-			$session->pause();
 
 			JAdministrator::purgeMessages();
 		}
@@ -199,9 +197,9 @@ class JAdministrator extends JApplication
 	 * @param string	The type of the configuration file
 	 * @since 1.5
 	 */
-	function setConfiguration($file, $type = 'config')
+	function loadConfiguration($file, $type = 'config')
 	{
-		parent::setConfiguration($file, $type);
+		parent::loadConfiguration($file, $type);
 
 		$registry =& JFactory::getConfig();
 		$registry->setValue('config.live_site', substr_replace($this->getSiteURL(), '', -1, 1));
@@ -221,38 +219,6 @@ class JAdministrator extends JApplication
 			$GLOBALS['mosConfig_live_site']		= substr_replace($this->getSiteURL(), '', -1, 1);
 			$GLOBALS['mosConfig_absolute_path']	= JPATH_SITE;
 		}
-	}
-
-	/**
-	 * Set the user session
-	 *
-	 * @access public
-	 * @param string	The sessions name
-	 */
-	function setSession($name)
-	{
-		$session =& $this->_createSession($name);
-
-		/*if ($session->getState() == 'expired')
-		{
-			// Build the URL
-			$uri = JFactory::getURI();
-			$url = basename($uri->getPath());
-			$url .= $uri->toString(array('query', 'fragment'));
-
-			// Build the user state
-			$state = new stdClass();
-			$state->post	= $_POST;
-			$state->get		= $_GET;
-			$state->request	= $_REQUEST;
-
-			// Store the user state
-			$cache	=& JFactory::getCache();
-			$user	=& JFactory::getUser();
-			$cache->save(serialize($state), md5($user->get('id')), 'autoLogoutState');
-
-			$this->logout();
-		}*/
 	}
 
 	/**
@@ -329,12 +295,12 @@ class JAdministrator extends JApplication
 		. "\n AND cfg_name = 'auto_purge'"
 		;
 		$db->setQuery( $query );
-		$user = $db->loadObject( );
+		$config = $db->loadObject( );
 
 		// check if auto_purge value set
-		if (is_object( $user ) and $user->cfg_name == 'auto_purge' )
+		if (is_object( $config ) and $config->cfg_name == 'auto_purge' )
 		{
-			$purge 	= $user->cfg_value;
+			$purge 	= $config->cfg_value;
 		}
 		else
 		{
@@ -357,26 +323,6 @@ class JAdministrator extends JApplication
 			$db->setQuery( $query );
 			$db->query();
 		}
-	}
-
-	function loadStoredUserState()
-	{
-		// Get the stored the user state if it exists
-		$cache	= & JFactory::getCache();
-		$user	= & JFactory::getUser();
-		$state	= $cache->get(md5($user->get('id')), 'autoLogoutState');
-		$cache->remove(md5($user->get('id')), 'autoLogoutState');
-
-		// If the stored user state exists, lets restore it, remove the stored state and go back to where we were.
-		if ($state) {
-			$state		= unserialize($state);
-			$_POST		= $state->post;
-			$_GET		= $state->get;
-			$_REQUEST	= $state->request;
-			return true;
-		}
-		// No stored user state exists
-		return false;
 	}
 }
 
@@ -401,11 +347,11 @@ class JAdministratorHelper
 		if ($user->get('guest')) {
 			$option = 'com_login';
 		}
-
+	
 		if(empty($option)) {
 			$option = 'com_cpanel';
 		}
-		
+			
 		return JRequest::setVar('option', $option);
 	}
 }

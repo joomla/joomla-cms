@@ -21,22 +21,59 @@
  */
 class JTableSession extends JTable
 {
-	/** @var int Primary key */
+	/** 
+	 * 
+	 * @var int Primary key 
+	 */
 	var $session_id			= null;
-	/** @var string */
+	
+	/** 
+	 * 
+	 * @var string 
+	 */
 	var $time				= null;
-	/** @var string */
+	
+	/** 
+	 * 
+	 * @var string 
+	 */
 	var $userid				= null;
-	/** @var string */
+	
+	/** 
+	 * 
+	 * @var string 
+	 */
 	var $usertype			= null;
-	/** @var string */
+	
+	/** 
+	 * 
+	 * @var string 
+	 */
 	var $username			= null;
-	/** @var time */
+	
+	/** 
+	 * 
+	 * @var time 
+	 */
 	var $gid				= null;
-	/** @var int */
+	
+	/** 
+	 * 
+	 * @var int 
+	 */
 	var $guest				= null;
-	/** @var int */
+	
+	/** 
+	 * 
+	 * @var int 
+	 */
 	var $client_id			= null;
+	
+	/** 
+	 * 
+	 * @var string 
+	 */
+	var $data				= null;
 
 	/**
 	 * Constructor
@@ -67,7 +104,7 @@ class JTableSession extends JTable
 		}
 	}
 
-	function update( $updateNulls=false )
+	function update( $updateNulls = false )
 	{
 		$this->time = time();
 		$ret = $this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );
@@ -83,10 +120,10 @@ class JTableSession extends JTable
 	/**
 	 * Destroys the pesisting session
 	 */
-	function destroy()
+	function destroy($sessionId)
 	{
 		$query = "DELETE FROM #__session"
-			. "\n WHERE session_id = ". $this->_db->Quote( $this->session_id );
+			. "\n WHERE session_id = ". $this->_db->Quote( $sessionId );
 		$this->_db->setQuery( $query );
 
 		if ( !$this->_db->query() ) {
@@ -99,12 +136,13 @@ class JTableSession extends JTable
 
 	/**
 	* Purge old sessions
-	* @param int Session age in seconds
+	* 
+	* @param int 	Session age in seconds
 	* @return mixed Resource on success, null on fail
 	*/
-	function purge( $age=1800 )
+	function purge( $maxLifetime = 1440 )
 	{
-		$past = time() - $age;
+		$past = time() - $maxLifetime;
 		$query = "DELETE FROM $this->_tbl"
 		. "\n WHERE ( time < $past )"
 		;

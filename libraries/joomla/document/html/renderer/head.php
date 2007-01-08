@@ -55,7 +55,7 @@ class JDocumentRenderer_Head extends JDocumentRenderer
 		$tab = $document->_getTab();
 
 		$tagEnd		= ' />';
-		$strHtml	= $tab . '<title>' . $document->getTitle() . '</title>' . $lnEnd;
+		$strHtml	= $tab . '<title>' . htmlspecialchars($document->getTitle()) . '</title>' . $lnEnd;
 
 		$link = $document->getLink();
 		if(!empty($link)) {

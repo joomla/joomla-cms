@@ -37,6 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Jan-2007 Johan Janssens
+ # Fixed [artf6692] : XSS vulnerability in title and pathway
+ + Added SessionHandler support to JSession
+ + Added database session handler
+ + Added file session handler
+ ! The database is now used as default session store instead of the file system
+ ! Changes require a reinstall
+
 07-Jan-2007 Rastin Mehr
  # Fixed [artf6887] : failure/improper assigning of active submenu item
  # Fixed [artf6852] : User registration failing ungracefully

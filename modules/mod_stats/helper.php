@@ -92,23 +92,6 @@ class modStatsHelper
 			}
 		}
 
-		if ( $mainframe->getCfg('enable_stats') && $counter )
-		{
-			$query = "SELECT SUM( hits ) AS count"
-			. "\n FROM #__stats_agents"
-			. "\n WHERE type = '1'";
-			$db->setQuery( $query );
-			$hits = $db->loadResult();
-
-			$hits = $hits + $increase;
-			if ( $hits == NULL ) {
-				$hits = 0;
-			}
-
-			$rows[$i]->title 	= JText::_( 'Visitors' );
-			$rows[$i]->data 	= $hits;
-		}
-
 		return $rows;
 	}
 }

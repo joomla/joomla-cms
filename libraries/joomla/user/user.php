@@ -473,8 +473,7 @@ class JUser extends JObject
 		$dispatcher->trigger( 'onBeforeDeleteUser', array( array( 'id' => $this->_id ) ) );
 
 		$result = false;
-		if (!$result = $this->_table->delete($this->_id))
-		{
+		if (!$result = $this->_table->delete($this->_id)) {
 			$this->_setError($this->_table->getError());
 		}
 

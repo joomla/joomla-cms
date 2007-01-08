@@ -27,11 +27,11 @@ require_once ( JPATH_BASE .'/includes/application.php' );
  */
 $mainframe = new JSite();
 
-// set the configuration
-$mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
+// looad the configuration settings
+$mainframe->loadConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
 
 // create the session
-$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
+$mainframe->loadSession( JURI::resolve('/', -1).$mainframe->getClientId());
 
 /**
  * INITIALISE THE APPLICATION
@@ -85,6 +85,11 @@ $document->display( false, $params);
 // trigger the onAfterDisplay events
 JDEBUG ? $_PROFILER->mark('afterDisplay') : null;
 $mainframe->triggerEvent('onAfterDisplay');
+
+/**
+ * CLOSE THE SESSION
+ */
+JSession::close();
 
 /**
  * RETURN THE RESPONSE

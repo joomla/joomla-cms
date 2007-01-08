@@ -117,7 +117,7 @@ class JComponentHelper
 		} else {
 			$path = JPATH_COMPONENT.DS.$file.'.php';
 		}
-
+	
 		// If component disabled throw error
 		if (!JComponentHelper::isEnabled( $name ) || !file_exists($path)) {
 			JError::raiseError( 404, JText::_('Component Not Found') );
@@ -174,7 +174,7 @@ class JComponentHelper
 		require_once $path;
 		$contents = ob_get_contents();
 		ob_end_clean();
-
+		
 		// Build the component toolbar
 		jimport( 'joomla.application.helper' );
 		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {

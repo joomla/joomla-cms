@@ -634,6 +634,7 @@ CREATE TABLE `#__session` (
   `usertype` varchar(50) default '',
   `gid` tinyint(3) unsigned NOT NULL default '0',
   `client_id` tinyint(3) unsigned NOT NULL default '0',
+  `data` text,
   PRIMARY KEY  (`session_id`),
   KEY `whosonline` (`guest`,`usertype`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;

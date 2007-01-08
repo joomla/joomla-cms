@@ -111,7 +111,7 @@ class JInstallation extends JApplication
 	 * @access public
 	 * @param string The session's name.
 	 */
-	function setSession($name)
+	function loadSession($name)
 	{
 		$session =& $this->_createSession($name);
 	}
@@ -128,7 +128,7 @@ class JInstallation extends JApplication
 		$options = array();
 		$options['name'] = $name;
 
-		$session = &JFactory::getSession($options);
+		$session = &JFactory::getSession('file', $options);
 		if (!is_a($session->get('registry'), 'JRegistry')) {
 			// Registry has been corrupted somehow
 			$session->set('registry', new JRegistry('session'));

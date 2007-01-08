@@ -657,6 +657,7 @@ CREATE TABLE `#__session` (
   `usertype` varchar(150) default '',
   `gid` tinyint(3) unsigned NOT NULL default '0',
   `client_id` tinyint(3) unsigned NOT NULL default '0',
+  `data` text,
   PRIMARY KEY  (`session_id`),
   KEY `whosonline` (`guest`,`usertype`)
 ) TYPE=MyISAM;

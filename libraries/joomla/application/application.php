@@ -162,11 +162,12 @@ class JApplication extends JObject
 		 * If the headers have been sent, then we cannot send an additional location header
 		 * so we will output a javascript redirect statement.
 		 */
+		
 		if (headers_sent()) {
 			echo "<script>document.location.href='$url';</script>\n";
 		} else {
 			//@ob_end_clean(); // clear output buffer
-			session_write_close();
+			JSession::close();
 			header( 'HTTP/1.1 301 Moved Permanently' );
 			header( 'Location: ' . $url );
 		}
@@ -358,7 +359,7 @@ class JApplication extends JObject
 		jimport( 'joomla.user.authenticate');
 		$authenticate = & JAuthenticate::getInstance();
 		$response	 = $authenticate->authenticate($username, $password);
-
+	
 		if (is_a($response, 'JAuthenticateResponse'))
 		{
 			// Import the user plugin group
@@ -425,12 +426,12 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Set the user session.
+	 * Load the user session.
 	 *
 	 * @access public
 	 * @param string The session's name.
 	 */
-	function setSession($name)
+	function loadSession($name)
 	{
 		$session =& $this->_createSession($name);
 
@@ -443,14 +444,14 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Set the configuration
+	 * Load the configuration
 	 *
 	 * @access public
 	 * @param string	The path to the configuration file
 	 * @param string	The type of the configuration file
 	 * @since 1.5
 	 */
-	function setConfiguration($file)
+	function loadConfiguration($file)
 	{
 		$config =& $this->_createConfiguration($file);
 
@@ -517,7 +518,7 @@ class JApplication extends JObject
 		$user->set('aid',	0);
 		$user->set('guest',	1);
 
-		$session =& JFactory::getSession($options);
+		$session =& JFactory::getSession('database', $options);
 
 		$storage = & JTable::getInstance('session');
 		$storage->purge($session->getExpire() * 60);
