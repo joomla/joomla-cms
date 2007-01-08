@@ -469,9 +469,15 @@ class ModulesController extends JController
 			$lookup = $db->loadObjectList();
 			if (empty( $lookup )) {
 				$lookup = array( JHTMLSelect::option( '-1' ) );
+				$row->pages = 'none';
+			} elseif (count($lookup) == 1 && $lookup[0]->value == 0) {
+				$row->pages = 'all';
+			} else {
+				$row->pages = null;
 			}
 		} else {
 			$lookup = array( JHTMLSelect::option( 0, JText::_( 'All' ) ) );
+			$row->pages = 'all';
 		}
 
 		if ( $row->access == 99 || $row->client_id == 1 || $lists['client_id'] ) {
@@ -485,8 +491,8 @@ class ModulesController extends JController
 			} else {
 				$lists['access'] 		= JAdminMenus::Access( $row );
 
-				$selections				= JAdminMenus::MenuLinkOptions($lookup, true, true);
-				$lists['selections']	= JHTMLSelect::genericList( $selections, 'selections[]', 'class="inputbox" size="15" multiple="multiple" onchange="onChangeSelections(this)"', 'value', 'text', $lookup, 'selections' );
+				$selections				= JAdminMenus::MenuLinkOptions();
+				$lists['selections']	= JHTMLSelect::genericList( $selections, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
 			}
 			$lists['showtitle'] = JHTMLSelect::yesnoList( 'showtitle', 'class="inputbox"', $row->showtitle );
 		}

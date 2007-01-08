@@ -352,8 +352,74 @@ class HTML_modules
 			</fieldset>
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Menu Assignment' ); ?></legend>
-
-				<?php echo $lists['selections']; ?>
+				<script type="text/javascript">
+					function allselections() {
+						var e = document.getElementById('selections');
+						var i = 0;
+						var n = e.options.length;
+						for (i = 0; i < n; i++) {
+							e.options[i].disabled = true;
+							e.options[i].selected = true;
+						}
+					}
+					function disableselections() {
+						var e = document.getElementById('selections');
+						var i = 0;
+						var n = e.options.length;
+						for (i = 0; i < n; i++) {
+							e.options[i].disabled = true;
+							e.options[i].selected = false;
+						}
+					}
+					function enableselections() {
+						var e = document.getElementById('selections');
+						var i = 0;
+						var n = e.options.length;
+						for (i = 0; i < n; i++) {
+							e.options[i].disabled = false;
+						}
+					}
+				</script>
+				<table class="admintable" cellspacing="1">
+					<tr>
+						<td valign="top" class="key">
+							<?php echo JText::_( 'Menus' ); ?>:
+						</td>
+						<td>
+						<?php if ($row->client_id != 1) : ?>
+							<?php if ($row->pages == 'all') { ?>
+							<label for="menus-all"><input id="menus-all" type="radio" name="menus" value="all" onclick="allselections();" checked="checked" /><?php echo JText::_( 'All' ); ?></label>
+							<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" /><?php echo JText::_( 'None' ); ?></label>
+							<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" /><?php echo JText::_( 'Select From List' ); ?></label>
+							<?php } elseif ($row->pages == 'none') { ?>
+							<label for="menus-all"><input id="menus-all" type="radio" name="menus" value="all" onclick="allselections();" /><?php echo JText::_( 'All' ); ?></label>
+							<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" checked="checked" /><?php echo JText::_( 'None' ); ?></label>
+							<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" /><?php echo JText::_( 'Select From List' ); ?></label>
+							<?php } else { ?>
+							<label for="menus-all"><input id="menus-all" type="radio" name="menus" value="all" onclick="allselections();" /><?php echo JText::_( 'All' ); ?></label>
+							<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" /><?php echo JText::_( 'None' ); ?></label>
+							<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" checked="checked" /><?php echo JText::_( 'Select From List' ); ?></label>
+							<?php } ?>
+						<?php endif; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" class="key">
+							<?php echo JText::_( 'Menu Selection' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['selections']; ?>
+						</td>
+					</tr>
+				</table>
+				<?php if ($row->client_id != 1) : ?>
+					<?php if ($row->pages == 'all') { ?>
+					<script type="text/javascript">allselections();</script>
+					<?php } elseif ($row->pages == 'none') { ?>
+					<script type="text/javascript">disableselections();</script>
+					<?php } else { ?>
+					<?php } ?>
+				<?php endif; ?>
 			</fieldset>
 		</div>
 
@@ -411,20 +477,7 @@ class HTML_modules
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client->id ?>" />
 		</form>
-		<?php if ($row->client_id != 1) : ?>
-		<script type="text/javascript">
-		function onChangeSelections(e) {
-			sel = e.options[e.selectedIndex];
-			condition = (sel.value == 0) ? true : false;
-			for (i = 0, n = e.options.length; i < n; i++) {
-				if (e.options[i].value > 0) {
-					e.options[i].disabled = condition;
-				}
-			}
-		}
-		onChangeSelections(document.adminForm.selections);
-		</script>
-		<?php endif;
+	<?php
 	}
 
 	function preview()
