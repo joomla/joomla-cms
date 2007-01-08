@@ -73,18 +73,12 @@ class JAdminSubMenu
 					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png');
 				}
 
-				if ($task == 'positions') {
-					$subMenuList[] = array ('title' => JText::_('Module Positions'), 'link' => 'index.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png', 'active' => 1);
-				} else {
-					$subMenuList[] = array ('title' => JText::_('Module Positions'), 'link' => 'index.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png');
-				}
-
 				$menu = JAdminSubMenu::_buildList($subMenuList);
 				break;
-	
+
 			case 'com_banners' :
 				$c	= JRequest::getVar('c');
-				
+
 				if($c == 'client') {
 					$subMenuList[] = array('title' => JText::_('Banners'), 'link' => 'index.php?option=com_banners', 'img' => '' );
 					$subMenuList[] = array('title' => JText::_('Clients'), 'link' => 'index.php?option=com_banners&c=client', 'img' => '', 'active' => 1 );
@@ -94,7 +88,7 @@ class JAdminSubMenu
 					$subMenuList[] = array('title' => JText::_('Clients'), 'link' => 'index.php?option=com_banners&c=client', 'img' => '' );
 					$subMenuList[] = array('title' => JText::_('Categories'), 'link' => 'index.php?option=com_categories&section=com_banner', 'img' => '' );
 				}
-			
+
 				$menu = JAdminSubMenu::_buildList($subMenuList);
 				break;
 

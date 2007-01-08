@@ -308,7 +308,8 @@ class ModulesController extends JController
 		}
 		$row->checkin();
 
-		$menus = JRequest::getVar( 'selections', array(), 'post', 'array' );
+		$menus = JRequest::getVar( 'menus', '', 'post' );
+		$selections = JRequest::getVar( 'selections', array(), 'post', 'array' );
 
 		// delete old module to menu item associations
 		$query = "DELETE FROM #__modules_menu"
@@ -321,7 +322,7 @@ class ModulesController extends JController
 
 		// check needed to stop a module being assigned to `All`
 		// and other menu items resulting in a module being displayed twice
-		if ( in_array( '0', $menus ) ) {
+		if ( $menus == 'all' ) {
 			// assign new module to `all` menu item associations
 			$query = "INSERT INTO #__modules_menu"
 			. "\n SET moduleid = $row->id, menuid = 0"
@@ -333,7 +334,7 @@ class ModulesController extends JController
 		}
 		else
 		{
-			foreach ($menus as $menuid)
+			foreach ($selections as $menuid)
 			{
 				// this check for the blank spaces in the select box that have been added for cosmetic reasons
 				if ( (int) $menuid >= 0 ) {

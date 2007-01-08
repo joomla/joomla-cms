@@ -298,8 +298,70 @@ class TemplatesView
 
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Menu Assignment' ); ?></legend>
-
-				<?php echo $lists['selections']; ?>
+				<script type="text/javascript">
+					function allselections() {
+						var e = document.getElementById('selections');
+							e.disabled = true;
+						var i = 0;
+						var n = e.options.length;
+						for (i = 0; i < n; i++) {
+							e.options[i].disabled = true;
+							e.options[i].selected = true;
+						}
+					}
+					function disableselections() {
+						var e = document.getElementById('selections');
+							e.disabled = true;
+						var i = 0;
+						var n = e.options.length;
+						for (i = 0; i < n; i++) {
+							e.options[i].disabled = true;
+							e.options[i].selected = false;
+						}
+					}
+					function enableselections() {
+						var e = document.getElementById('selections');
+							e.disabled = false;
+						var i = 0;
+						var n = e.options.length;
+						for (i = 0; i < n; i++) {
+							e.options[i].disabled = false;
+						}
+					}
+				</script>
+				<table class="admintable" cellspacing="1">
+					<tr>
+						<td valign="top" class="key">
+							<?php echo JText::_( 'Menus' ); ?>:
+						</td>
+						<td>
+							<?php if ($client->id == 1) {
+									echo JText::_('Cannot assign administrator template');
+								  } elseif ($row->pages == 'all') {
+									echo JText::_('Cannot assign default template');
+								  } elseif ($row->pages == 'none') { ?>
+							<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" checked="checked" /><?php echo JText::_( 'None' ); ?></label>
+							<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" /><?php echo JText::_( 'Select From List' ); ?></label>
+							<?php } else { ?>
+							<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" /><?php echo JText::_( 'None' ); ?></label>
+							<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" checked="checked" /><?php echo JText::_( 'Select From List' ); ?></label>
+							<?php } ?>
+						</td>
+					</tr>
+					<?php if ($row->pages != 'all' && $client->id != 1) : ?>
+					<tr>
+						<td valign="top" class="key">
+							<?php echo JText::_( 'Menu Selection' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['selections']; ?>
+							<?php if ($row->pages == 'none') { ?>
+							<script type="text/javascript">disableselections();</script>
+							<?php } ?>
+						</td>
+					</tr>
+					<?php endif; ?>
+				</table>
 			</fieldset>
 		</div>
 
@@ -331,18 +393,6 @@ class TemplatesView
 		<input type="hidden" name="hidemainmenu" value="1" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
-		<script type="text/javascript">
-		function onChangeSelections(e) {
-			sel = e.options[e.selectedIndex];
-			condition = (sel.value == 0) ? true : false;
-			for (i = 0, n = e.options.length; i < n; i++) {
-				if (e.options[i].value > 0) {
-					e.options[i].disabled = condition;
-				}
-			}
-		}
-		onChangeSelections(document.adminForm.selections);
-		</script>
 		<?php
 	}
 

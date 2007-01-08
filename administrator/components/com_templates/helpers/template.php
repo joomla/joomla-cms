@@ -112,8 +112,8 @@ class TemplatesHelper
 		}
 
 		// build the html select list
-		$options	= JAdminMenus::MenuLinkOptions(true, true);
-		$result		= JHTMLSelect::genericList( $options, 'selections[]', 'class="inputbox" size="15" multiple="multiple" onchange="onChangeSelections(this)"', 'value', 'text', $lookup, 'selections' );
+		$options	= JAdminMenus::MenuLinkOptions();
+		$result		= JHTMLSelect::genericList( $options, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
 		return $result;
 	}
 }

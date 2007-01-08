@@ -355,6 +355,7 @@ class HTML_modules
 				<script type="text/javascript">
 					function allselections() {
 						var e = document.getElementById('selections');
+							e.disabled = true;
 						var i = 0;
 						var n = e.options.length;
 						for (i = 0; i < n; i++) {
@@ -364,6 +365,7 @@ class HTML_modules
 					}
 					function disableselections() {
 						var e = document.getElementById('selections');
+							e.disabled = true;
 						var i = 0;
 						var n = e.options.length;
 						for (i = 0; i < n; i++) {
@@ -373,6 +375,7 @@ class HTML_modules
 					}
 					function enableselections() {
 						var e = document.getElementById('selections');
+							e.disabled = false;
 						var i = 0;
 						var n = e.options.length;
 						for (i = 0; i < n; i++) {

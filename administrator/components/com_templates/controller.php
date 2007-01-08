@@ -147,6 +147,7 @@ class TemplatesController
 
 		$params = new JParameter($content, $xml, 'template');
 
+		$assigned = TemplatesHelper::isTemplateAssigned($row->directory);
 		$default = TemplatesHelper::isTemplateDefault($row->directory, $client->id);
 		$lists['default'] = JHTMLSelect::yesnoList( 'default', 'class="inputbox"', $default);
 
@@ -154,6 +155,14 @@ class TemplatesController
 			$lists['selections'] =  JText::_("Can't assign an administrator template");
 		} else {
 			$lists['selections'] = TemplatesHelper::createMenuList($template);
+		}
+
+		if ($default) {
+			$row->pages = 'all';
+		} elseif (!$assigned) {
+			$row->pages = 'none';
+		} else {
+			$row->pages = null;
 		}
 
 		JRequest::setVar( 'hidemainmenu', 1 );
