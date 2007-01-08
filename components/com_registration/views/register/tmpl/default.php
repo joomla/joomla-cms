@@ -32,9 +32,11 @@ function validateForm( frm ) {
 // -->
 </script>
 
-<?php if(isset($this->message)) : ?>
-	<?php $this->loadTemplate('message'); ?>
-<?php endif; ?>
+<?php  
+	if(isset($this->message)){
+		$this->display('message');
+	}
+?>
 
 <form action="<?php echo JURI::resolve( 'index.php?option=com_registration&amp;task=register' ); ?>" method="post" id="josForm" name="josForm" class="form-validate">
 

@@ -39,6 +39,8 @@ Legend:
 
 07-Jan-2007 Rastin Mehr
  # Fixed [artf6887] : failure/improper assigning of active submenu item
+ # Fixed [artf6852] : User registration failing ungracefully
+ ^ Terms such as "JUser::save" are removed from the JUser class in libraries/joomla/user/user.php
 
 06-Jan-2007 Mateusz Krzeszowiec
  # Fixed [artf7188] : List categories in section

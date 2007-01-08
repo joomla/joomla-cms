@@ -365,7 +365,7 @@ class JUser extends JObject
 		 */
 		if (!$this->_table->bind($array))
 		{
-			$this->_setError("JUser::bind: Unable to bind array to user object");
+			$this->_setError("Unable to bind array to user object");
 			return false;
 		}
 
@@ -409,7 +409,7 @@ class JUser extends JObject
 		 */
 		if (!$this->_table->check())
 		{
-			$this->_setError("JUser::save: ".$this->_table->getError());
+			$this->_setError($this->_table->getError());
 			return false;
 		}
 
@@ -417,7 +417,7 @@ class JUser extends JObject
 		if ( $this->get('gid') == 25 && $me->get('gid') != 25 )
 		{
 			// disallow creation of Super Admin by non Super Admin users
-			$this->_setError("JUser::save: ".JText::_( 'WARNSUPERADMINCREATE' ));
+			$this->_setError(JText::_( 'WARNSUPERADMINCREATE' ));
 			return false;
 		}
 		
@@ -438,7 +438,7 @@ class JUser extends JObject
 		 */
 		$result = false;
 		if (!$result = $this->_table->store()) {
-			$this->_setError("JUser::save: ".$this->_table->getError());
+			$this->_setError($this->_table->getError());
 		}
 
 		/*
@@ -475,7 +475,7 @@ class JUser extends JObject
 		$result = false;
 		if (!$result = $this->_table->delete($this->_id))
 		{
-			$this->_setError("JUser::delete: ".$this->_table->getError());
+			$this->_setError($this->_table->getError());
 		}
 
 		//trigger the onAfterDeleteUser event
@@ -573,13 +573,13 @@ class JUserHelper
 			// Time to take care of business.... store the user.
 			if (!$user->save())
 			{
-				JError::raiseWarning( "SOME_ERROR_CODE", "JUserHelper::activateUser: ".$user->getError() );
+				JError::raiseWarning( "SOME_ERROR_CODE", $user->getError() );
 				return false;
 			}
 		}
 		else
 		{
-			JError::raiseWarning( "SOME_ERROR_CODE", "JUserHelper::activateUser: ".JText::_('Unable to find a user with given activation string.') );
+			JError::raiseWarning( "SOME_ERROR_CODE", JText::_('Unable to find a user with given activation string.') );
 			return false;
 		}
 

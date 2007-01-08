@@ -241,15 +241,15 @@ class RegistrationController
 		$message = new stdClass();
 
 		// If there was an error with registration, set the message and display form
-		if (!$user->save()) {
+		if ( !$user->save() ) {
 		 	// Page Title
 		 	$mainframe->setPageTitle( JText::_( 'Registration' ) );
 			// Breadcrumb
-			$pathway->addItem( JText::_( 'New' ));
+			$pathway->addItem( JText::_( 'New' ) );
 
-			$message->title = JText::_( 'REGERROR' );
-			$message->text = $user->getError();
-			JError::raiseWarning( 500, JText::_( 'REGERROR' ));
+			$message->title	= JText::_( 'REGERROR' );
+			$message->text	= JText::_( $user->getError() );
+
 			$view->assign('message', $message);
 			$view->display();
 
