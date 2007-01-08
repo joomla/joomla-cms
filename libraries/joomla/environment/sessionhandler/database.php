@@ -13,7 +13,7 @@
 */
 
 /**
-* Custom session handler for PHP 
+* Database session handler for PHP 
 *
 * @abstract
 * @author		Johan Janssens <johan.janssens@joomla.org>
@@ -60,9 +60,7 @@ class JSessionHandlerDatabase extends JSessionHandler
 	{
 		$session = & JTable::getInstance('session');
 		$session->load($id);
-		
-		settype($session->data, 'string');
-		return $session->data;
+		return (string)$session->data;
 	}
 	
 	/**      

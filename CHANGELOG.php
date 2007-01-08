@@ -42,6 +42,7 @@ Legend:
  + Added SessionHandler support to JSession
  + Added database session handler
  + Added file session handler
+ + Added APC session handler
  ! The database is now used as default session store instead of the file system
  ! Changes require a reinstall
 

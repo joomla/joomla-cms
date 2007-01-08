@@ -28,7 +28,6 @@ class JSessionHandler extends JObject
 	* Constructor
 	*
 	* @access protected
-	* @param string $id name-prefix used for internal storage of session-data
 	* @param array $options optional parameters
 	*/
 	function __construct( $options = array() )

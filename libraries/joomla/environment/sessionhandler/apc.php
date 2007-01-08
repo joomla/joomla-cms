@@ -13,7 +13,7 @@
 */
 
 /**
-* File session handler for PHP 
+* APC session handler for PHP 
 *
 * @abstract
 * @author		Johan Janssens <johan.janssens@joomla.org>
@@ -22,8 +22,23 @@
 * @since		1.5
 * @see http://www.php.net/manual/en/function.session-set-save-handler.php
 */
-class JSessionHandlerFile extends JSessionHandler
+class JSessionHandlerAPC extends JSessionHandler
 {
+	/**
+	* Constructor
+	*
+	* @access protected
+	* @param array $options optional parameters
+	*/
+	function __construct( $options = array() )
+	{
+		if (!extension_loaded('apc')) {
+            return JError::raiseError(404, "The apc extension isn't available");
+        }
+		
+		parent::__construct($options);
+	}
+	
 	/**      
 	 * Open the SessionHandler backend.      
 	 *      
@@ -58,8 +73,8 @@ class JSessionHandlerFile extends JSessionHandler
  	 */
 	function read($id)
 	{
-		$file = session_save_path().DS.'sess_'.$id;         	
-		return (string)@file_get_contents($file);
+		$sess_id = 'sess_'.$id; 	
+		return (string) apc_fetch($sess_id);
 	}
 	
 	/**      
@@ -72,16 +87,8 @@ class JSessionHandlerFile extends JSessionHandler
 	 */
 	function write($id, $session_data)
 	{
-		global $sess_save_path;
- 
-		$sess_file = session_save_path().DS.'sess_'.$id;
-		if ($fp = @fopen($sess_file, "w")) {
-			$return = fwrite($fp, $session_data);
-			fclose($fp);
-			return $return;
-		}
-		
-		return false;
+		$sess_id = 'sess_'.$id;
+		return apc_store($sess_id, $session_data);
 	}
 	
 	/**      
@@ -94,8 +101,8 @@ class JSessionHandlerFile extends JSessionHandler
 	  */
 	function destroy($id)     
 	{         
-		$sess_file = session_save_path().DS.'sess_'.$id;
-		return(@unlink($sess_file));
+		$sess_id = 'sess_'.$id;
+		return apc_delete($sess_id);
 	}
 	
 	/**      
@@ -107,13 +114,6 @@ class JSessionHandlerFile extends JSessionHandler
 	 */
 	function gc($maxlifetime)
 	{
-		global $sess_save_path;
- 
-		foreach (glob(session_save_path().DS.'sess_*') as $filename) {
-			if (filemtime($filename) + $maxlifetime < time()) {
-				@unlink($filename);
-			}
-		}
 		return true;
 	}
 }
