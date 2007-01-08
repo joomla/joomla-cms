@@ -81,3 +81,5 @@
 	z-index: 1;
 	white-space: nowrap;
 }
+
+h2.tab { width: auto; }
