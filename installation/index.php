@@ -22,7 +22,7 @@ require_once( JPATH_BASE .'/includes/application.php' );
 $mainframe = new JInstallation();
 
 // create the session
-$mainframe->setSession('installation');
+$mainframe->loadSession('installation');
 
 // get a recursively slash stripped version of post
 $post		= (array) JRequest::get( 'post' );
