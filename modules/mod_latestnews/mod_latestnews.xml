@@ -14,11 +14,6 @@
 	</files>
 	<params>
 		<param name="count" type="text" default="5" label="Count" description="The number of items to display (default 5)" />
-		<param name="type" type="list" default="0" label="Module Mode" description="PARAMMODULEMODE">
-			<option value="1">Content Items only</option>
-			<option value="2">Static Content only</option>
-			<option value="3">Both</option>
-		</param>
 		<param name="ordering" type="list" default="create_dsc" label="Ordering" description="Ordering options">
 			<option value="c_dsc">Recently Added First</option>
 			<option value="m_dsc">Recently Modified First</option>

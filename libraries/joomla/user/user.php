@@ -12,7 +12,7 @@
  * details.
  */
 
-jimport( 'joomla.html.parameter' );
+jimport( 'joomla.html.parameter'  );
 jimport( 'joomla.utilities.array' );
 
 /**
@@ -690,6 +690,5 @@ class JUserHelper
 		$db->setQuery($query, 0, 1);
 		return $db->loadResult();
 	}
-
 }
 ?>

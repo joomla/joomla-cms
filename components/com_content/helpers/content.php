@@ -332,9 +332,13 @@ class JContentHelper
 	function getItemid($id, $catid = 0, $sectionid = 0)
 	{
 		$db			=& JFactory::getDBO();
+		$component	= JComponentHelper::getInfo('com_content');
+		
 		$menus		=& JMenu::getInstance();
-		$items		= $menus->getMenu();
-		$Itemid		= null;
+		$items		= $menus->getItems('componentid', $component->id);
+		
+		$Itemid		= 1;
+		
 		
 		$n = count( $items );
 		if (!$n) {
@@ -349,11 +353,7 @@ class JContentHelper
 			$parts = null;
 			parse_str($url, $parts);
 			
-			if(!isset($parts['option']) || !isset($parts['id'])) {
-				continue;
-			}
-			
-			if($parts['option'] != 'com_content') {
+			if(!isset($parts['id'])) {
 				continue;
 			}
 			
