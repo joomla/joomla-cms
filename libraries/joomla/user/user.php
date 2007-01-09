@@ -13,6 +13,7 @@
  */
 
 jimport( 'joomla.html.parameter' );
+jimport( 'joomla.utilities.array' );
 
 /**
  * User class.  Handles all application interaction with a user
@@ -25,36 +26,97 @@ jimport( 'joomla.html.parameter' );
 class JUser extends JObject
 {
 	/**
-	 * User id
-	 *
+	 * Unique id
 	 * @var int
 	 */
-	var $_id		= null;
+	var $id				= null;
 
 	/**
-	 * User table
-	 *
-	 * @var object
+	 * The users real name (or nickname)
+	 * @var string
 	 */
-	var $_table 	= null;
+	var $name			= null;
+
+	/**
+	 * The login name
+	 * @var string
+	 */
+	var $username		= null;
+
+	/**
+	 * The email
+	 * @var string
+	 */
+	var $email			= null;
+
+	/**
+	 * MD5 encrypted password
+	 * @var string
+	 */
+	var $password		= null;
+
+	/**
+	 * Description
+	 * @var string
+	 */
+	var $usertype		= null;
+
+	/**
+	 * Description
+	 * @var int
+	 */
+	var $block			= null;
+
+	/**
+	 * Description
+	 * @var int
+	 */
+	var $sendEmail		= null;
+
+	/**
+	 * The group id number
+	 * @var int
+	 */
+	var $gid			= null;
+
+	/**
+	 * Description
+	 * @var datetime
+	 */
+	var $registerDate	= null;
+
+	/**
+	 * Description
+	 * @var datetime
+	 */
+	var $lastvisitDate	= null;
+
+	/**
+	 * Description
+	 * @var string activation hash
+	 */
+	var $activation		= null;
+
+	/**
+	 * Description
+	 * @var string
+	 */
+	var $params			= null;
 
 	/**
 	 * User parameters
-	 *
 	 * @var object
 	 */
 	var $_params 	= null;
 
 	/**
 	 * Error message
-	 *
 	 * @var string
 	 */
 	var $_errorMsg	= null;
 
 	/**
 	 * Clear password, only available when a new password is set for a user
-	 *
 	 * @var string
 	 */
 	var $clearPW	= '';
@@ -66,12 +128,6 @@ class JUser extends JObject
 	*/
 	function __construct($identifier = 0)
 	{
-		// Initialize variables
-		$db	=& JFactory::getDBO();
-
-		// Create the user table object
-		$this->_table 	=& JTable::getInstance( 'user');
-
 		// Create the user parameters object
 		$this->_params = new JParameter( '' );
 
@@ -104,51 +160,18 @@ class JUser extends JObject
 		// Find the user id
 		if(!is_numeric($id))
 		{
-			if (!$id = JUserHelper::getUserId($id))
-			{
+			if (!$id = JUserHelper::getUserId($id)) {
 				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$id.' does not exist' );
 				return false;
 			}
 		}
 
-		if (empty($instances[$id]))
-		{
+		if (empty($instances[$id])) {
 			$user = new JUser($id);
 			$instances[$id] = $user;
 		}
 
 		return $instances[$id];
-	}
-
-	/**
-	 * Overridden set method to pass properties on to the user table
-	 *
-	 * @access	public
-	 * @param	string	$property	The name of the property
-	 * @param	mixed	$value		The value of the property to set
-	 * @return	void
-	 * @since	1.5
-	 */
-	function set( $property, $value=null )
-	{
-		$this->_table->$property = $value;
-	}
-
-	/**
-	 * Overridden get method to get properties from the user table
-	 *
-	 * @access	public
-	 * @param	string	$property	The name of the property
-	 * @param	mixed	$value		The value of the property to set
-	 * @return 	mixed 				The value of the property
-	 * @since	1.5
-	 */
-	function get($property, $default=null)
-	{
-		if(isset($this->_table->$property)) {
-			return $this->_table->$property;
-		}
-		return $default;
 	}
 
 	/**
@@ -208,7 +231,7 @@ class JUser extends JObject
 	function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
 	{
 		$acl = & JFactory::getACL();
-		return $acl->acl_check( $acoSection, $aco,	'users', $this->get('usertype'), $axoSection, $axo );
+		return $acl->acl_check( $acoSection, $aco,	'users', $this->usertype, $axoSection, $axo );
 	}
 
 	/**
@@ -221,7 +244,11 @@ class JUser extends JObject
 	 */
 	function setLastVisit($timestamp=null)
 	{
-		return $this->_table->setLastVisit($timestamp);
+		// Create the user table object
+		$table 	=& JTable::getInstance( 'user');
+		$table->load($this->id);
+
+		return $table->setLastVisit($timestamp);
 	}
 
 	/**
@@ -245,7 +272,11 @@ class JUser extends JObject
 	 */
 	function &getTable()
 	{
-		return $this->_table;
+		// Create the user table object
+		$table 	=& JTable::getInstance( 'user');
+		$table->load($this->id);
+
+		return $table;
 	}
 
 	/**
@@ -263,8 +294,7 @@ class JUser extends JObject
 		 * If we are not fed a path of an xml file for parameters then we should
 		 * assume we are using the xml file from com_users.
 		 */
-		if (is_null($path))
-		{
+		if (is_null($path)) {
 			jimport( 'joomla.application.helper' );
 			$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
 		}
@@ -297,7 +327,7 @@ class JUser extends JObject
 		jimport('joomla.user.authenticate');
 
 		// Lets check to see if the user is new or not
-		if (empty($this->_table->id) && empty($this->_id) /*&& $array['id']*/)
+		if (empty($this->id) /*&& $array['id']*/)
 		{
 			/*
 			 * Since we have a new user, and we are going to create it... we
@@ -342,7 +372,7 @@ class JUser extends JObject
 			}
 			else
 			{
-				$array['password'] = $this->get('password');
+				$array['password'] = $this->password;
 			}
 		}
 
@@ -351,37 +381,34 @@ class JUser extends JObject
 		 * TODO
 		 * @todo: this will be deprecated as of the ACL implementation
 		 */
+		$db =& JFactory::getDBO();
+
 		$query = "SELECT name"
 		. "\n FROM #__core_acl_aro_groups"
 		. "\n WHERE id = " . (int) $array['gid']
 		;
-		$this->_table->_db->setQuery( $query );
-		$this->set( 'usertype', $this->_table->_db->loadResult());
+		$db->setQuery( $query );
+		$this->set( 'usertype', $db->loadResult());
 
 		/*
-		 * Lets first try to bind the array to the user table... if that fails
+		 * Lets first try to bind the array to us... if that fails
 		 * then we can certainly fail the whole method as we've done absolutely
 		 * no good :)
 		 */
-		if (!$this->_table->bind($array))
-		{
+		if (!$this->_bind($array)) {
 			$this->_setError("Unable to bind array to user object");
 			return false;
 		}
 
-		$this->_table->id = (int) $this->_table->id;
+		// Make sure its an integer
+		$this->id = (int) $this->id;
 
 		/*
 		 * We were able to bind the array to the object, so now lets run
 		 * through the parameters and build the INI parameter string for the
 		 * table
 		 */
-		$this->_params->loadINI($this->_table->params);
-
-		// If the table user id is set, lets set the id for the JUser object.
-		if ($this->get( 'id' )) {
-			$this->_id = $this->get( 'id' );
-		}
+		$this->_params->loadINI($this->params);
 
 		return true;
 	}
@@ -396,20 +423,24 @@ class JUser extends JObject
 	 */
 	function save( $updateOnly = false )
 	{
+		// Create the user table object
+		$table 	=& JTable::getInstance( 'user');
+		$table->bind(JArrayHelper::fromObject($this, false));
+
 		/*
 		 * We need to get the JUser object for the current installed user, but
 		 * might very well be modifying that user... and isn't it ironic...
 		 * don't ya think?
 		 */
-		$me = & JFactory::getUser();
+		$me =& JFactory::getUser();
 
 		/*
 		 * Now that we have gotten all the field handling out of the way, time
 		 * to check and store the object.
 		 */
-		if (!$this->_table->check())
+		if (!$table->check())
 		{
-			$this->_setError($this->_table->getError());
+			$this->_setError($table->getError());
 			return false;
 		}
 
@@ -420,9 +451,14 @@ class JUser extends JObject
 			$this->_setError(JText::_( 'WARNSUPERADMINCREATE' ));
 			return false;
 		}
-		
+
 		//are we creating a new user
-		$isnew = !$this->_table->id;
+		$isnew = !$this->id;
+
+		// If we aren't allowed to create new and we are  about to... return true .. job done
+		if ($isnew && $updateOnly) {
+			return true;
+		}
 
 		/*
 		 * Since we have passed all checks lets load the user plugin group and
@@ -430,15 +466,15 @@ class JUser extends JObject
 		 */
 		JPluginHelper::importPlugin( 'user' );
 		$dispatcher =& JEventDispatcher::getInstance();
-		$dispatcher->trigger( 'onBeforeStoreUser', array( get_object_vars( $this->_table ), $isnew ) );
+		$dispatcher->trigger( 'onBeforeStoreUser', array( get_object_vars( $table ), $isnew ) );
 
 		/*
 		 * Time for the real thing... are you ready for the real thing?  Store
 		 * the JUserModel ... if a fail condition exists throw a warning
 		 */
 		$result = false;
-		if (!$result = $this->_table->store()) {
-			$this->_setError($this->_table->getError());
+		if (!$result = $table->store()) {
+			$this->_setError($table->getError());
 		}
 
 		/*
@@ -446,12 +482,12 @@ class JUser extends JObject
 		 * might happen if we just inserted a new user... and need to update
 		 * this objects id value with the inserted id.
 		 */
-		if (empty($this->_id)) {
-			$this->_id = $this->get( 'id' );
+		if (empty($this->id)) {
+			$this->id = $table->get( 'id' );
 		}
 
 		// We stored the user... lets tell everyone about it.
-		$dispatcher->trigger( 'onAfterStoreUser', array( get_object_vars( $this->_table ), $isnew, $result, $this->getError() ) );
+		$dispatcher->trigger( 'onAfterStoreUser', array( get_object_vars( $table ), $isnew, $result, $this->getError() ) );
 
 		return $result;
 	}
@@ -470,15 +506,18 @@ class JUser extends JObject
 
 		//trigger the onBeforeDeleteUser event
 		$dispatcher =& JEventDispatcher::getInstance();
-		$dispatcher->trigger( 'onBeforeDeleteUser', array( array( 'id' => $this->_id ) ) );
+		$dispatcher->trigger( 'onBeforeDeleteUser', array( array( 'id' => $this->id ) ) );
+
+		// Create the user table object
+		$table 	=& JTable::getInstance( 'user');
 
 		$result = false;
-		if (!$result = $this->_table->delete($this->_id)) {
-			$this->_setError($this->_table->getError());
+		if (!$result = $table->delete($this->id)) {
+			$this->_setError($table->getError());
 		}
 
 		//trigger the onAfterDeleteUser event
-		$dispatcher->trigger( 'onAfterDeleteUser', array( array('id' => $this->_id), $result, $this->getError()) );
+		$dispatcher->trigger( 'onAfterDeleteUser', array( array('id' => $this->id), $result, $this->getError()) );
 		return $result;
 
 	}
@@ -494,8 +533,11 @@ class JUser extends JObject
 	 */
 	function load($id)
 	{
+		// Create the user table object
+		$table 	=& JTable::getInstance( 'user');
+
 		 // Load the JUserModel object based on the user id or throw a warning.
-		 if(!$this->_table->load($id))
+		 if(!$table->load($id))
 		 {
 			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with id: '.$id );
 			return false;
@@ -506,10 +548,58 @@ class JUser extends JObject
 		 * extend this in the future to allow for the ability to have custom
 		 * user parameters, but for right now we'll leave it how it is.
 		 */
-		$this->_params->loadINI($this->_table->params);
+		$this->_params->loadINI($table->params);
 
-		// Assuming all is well at this point, we set the private id field
-		$this->_id = $this->_table->id;
+		// Assuming all is well at this point lets bind the data
+		$this->_bind(JArrayHelper::fromObject($table, false));
+
+		return true;
+	}
+
+	/**
+	* Binds a named array/hash to this object
+	*
+	* @access	protected
+	* @param	$array  mixed Either and associative array or another object
+	* @param	$ignore string	Space separated list of fields not to bind
+	* @return	boolean
+	* @since	1.5
+	*/
+	function _bind( $from, $ignore='' )
+	{
+		if (!is_array( $from ) && !is_object( $from )) {
+			$this->_setError(strtolower(get_class( $this ))."::bind failed.");
+			return false;
+		}
+
+		$fromArray = is_array( $from );
+		$fromObject = is_object( $from );
+
+		if ($fromArray || $fromObject)
+		{
+			foreach (get_object_vars($this) as $k => $v)
+			{
+				// only bind to public variables
+				if( substr( $k, 0, 1 ) != '_' )
+				{
+					// internal attributes of an object are ignored
+					if (strpos( $ignore, $k) === false)
+					{
+						$ak = $k;
+
+						if ($fromArray && isset( $from[$ak] )) {
+							$this->$k = $from[$ak];
+						} else if ($fromObject && isset( $from->$ak )) {
+							$this->$k = $from->$ak;
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			return false;
+		}
 
 		return true;
 	}
