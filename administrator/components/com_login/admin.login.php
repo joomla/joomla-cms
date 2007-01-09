@@ -61,7 +61,7 @@ class LoginController
 		echo var_dump($_SESSION);
 		
 		$result = $mainframe->login($username, $password);
-		
+
 		if (!JError::isError($result)) {
 			$mainframe->redirect('index.php');
 		}

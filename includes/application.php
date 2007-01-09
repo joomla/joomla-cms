@@ -103,7 +103,7 @@ class JSite extends JApplication
 
 		$document->setTitle( $this->getCfg('sitename' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
-		
+
 		$contents = JComponentHelper::renderComponent($component, array('outline' => JRequest::getVar('tp', 0 )));
 		$document->setBuffer( $contents, 'component');
 	}

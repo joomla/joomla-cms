@@ -68,7 +68,7 @@ class JTableSession extends JTable
 	 * @var int 
 	 */
 	var $client_id			= null;
-	
+
 	/** 
 	 * 
 	 * @var string 

@@ -60,7 +60,7 @@ class MenusController extends JController
 		$post	= JRequest::get('post');
 		// allow name only to contain html
 		$post['name'] = JRequest::getVar( 'name', '', 'post', 'string', JREQUEST_ALLOWHTML );
-		$model->setItemState( 'request', $post );
+		$model->setState( 'request', $post );
 
 		if ($model->store()) {
 			$msg = JText::_( 'Menu item Saved' );

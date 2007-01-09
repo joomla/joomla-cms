@@ -123,7 +123,7 @@ class JAdministrator extends JApplication
 			'file'		=> $file.'.php',
 			'directory'	=> JPATH_BASE.DS.'templates'
 		);
-		
+
 		$document =& JFactory::getDocument();
 		$document->display($this->getCfg('caching_tmpl'), $params );
 	}
@@ -347,11 +347,11 @@ class JAdministratorHelper
 		if ($user->get('guest')) {
 			$option = 'com_login';
 		}
-	
+
 		if(empty($option)) {
 			$option = 'com_cpanel';
 		}
-			
+
 		return JRequest::setVar('option', $option);
 	}
 }

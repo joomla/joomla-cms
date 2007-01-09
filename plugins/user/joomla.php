@@ -73,7 +73,7 @@ class JUserJoomla extends JPlugin
 		// load plugin parameters
 	 	$plugin =& JPluginHelper::getPlugin('user', 'joomla');
 	 	$params = new JParameter( $plugin->params );
-		
+
 		$my = new JUser();
 		if($id = intval(JUserHelper::getUserId($user['username'])))  {
 			$my->load($id);
@@ -122,7 +122,7 @@ class JUserJoomla extends JPlugin
 		// Register the needed session variables
 		$session =& JFactory::getSession();
 		$session->set('user', $my);
-		
+
 		// Get the session object
 		$table = & JTable::getInstance('session');
 		$table->load( $session->getId() );

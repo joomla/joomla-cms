@@ -45,7 +45,7 @@ class JSession extends JObject
 	 * @var	string $_expire minutes
 	 */
 	var	$_expire	=	15;
-	
+
 	/**
 	 * The session save handler object
 	 *

@@ -180,13 +180,13 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->template =& $template;
-		
+
 		// load
 		$data = $this->_loadTemplate($directory.DS.$template, $file);
 
 		// parse
 		$data = $this->_parseTemplate($data, array('outline' => $outline));
-		
+
 		//output
 		parent::display();
 		JResponse::setBody($data);

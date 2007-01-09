@@ -30,11 +30,11 @@ class HTML_cpanel
 	function display()
 	{
 		global $mainframe;
-	
+
 		$modules	= JModuleHelper::getModules('cpanel');
 		$pane		=& JPane::getInstance('sliders');
 		$pane->startPane("content-pane");
-		
+
 		foreach ($modules as $module) {
 			$title = $module->title ;
 			$pane->startPanel( $title, "cpanel-panel" );

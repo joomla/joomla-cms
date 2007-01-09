@@ -162,7 +162,6 @@ class JApplication extends JObject
 		 * If the headers have been sent, then we cannot send an additional location header
 		 * so we will output a javascript redirect statement.
 		 */
-		
 		if (headers_sent()) {
 			echo "<script>document.location.href='$url';</script>\n";
 		} else {
@@ -359,7 +358,7 @@ class JApplication extends JObject
 		jimport( 'joomla.user.authenticate');
 		$authenticate = & JAuthenticate::getInstance();
 		$response	 = $authenticate->authenticate($username, $password);
-	
+
 		if (is_a($response, 'JAuthenticateResponse'))
 		{
 			// Import the user plugin group

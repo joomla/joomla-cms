@@ -403,7 +403,7 @@ class JError extends patErrorManager
 	function customErrorPage(& $error)
 	{
 		global $mainframe;
-		
+
 		// Initialize variables
 		jimport('joomla.document.document');
 		$document	= & JDocument::getInstance('error');
@@ -411,7 +411,7 @@ class JError extends patErrorManager
 
 		// Get the current template from the application
 		$template = $mainframe->getTemplate();
-		
+
 		// Push the error object into the document
 		$document->setError($error);
 
