@@ -98,7 +98,7 @@ class ModulesModelModule extends JModel
 		$xmlfiles = JFolder::files($client->path.DS.'templates', 'templateDetails.xml$', true, true);
 		for ($i=0,$n=count($xmlfiles);$i<$n;$i++)
 		{
-			$xml = JFactory::getXMLParser('Simple');
+			$xml =& JFactory::getXMLParser('Simple');
 			if ($xml->loadFile($xmlfiles[$i])) {
 				$p =& $xml->document->getElementByPath('positions');
 				if (is_a($p, 'JSimpleXMLElement') && count($p->children())) {
