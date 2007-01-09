@@ -222,6 +222,20 @@ class JParameter extends JRegistry
 	}
 
 	/**
+	 * Return number of params to render
+	 *
+	 * @access public
+	 * @return mixed	Boolean falst if no params exist or integer number of params that exist
+	 */
+	function getNumParams() {
+		if (!is_object($this->_xml) || !count($this->_xml->children())) {
+			return false;
+		} else {
+			return count($this->_xml->children());
+		}
+	}
+
+	/**
 	 * Render all parameters
 	 *
 	 * @access public

@@ -341,7 +341,7 @@ class JHTMLSelect
 				$splitText = explode( " - ", $t, 2 );
 				$t = $splitText[0];
 				if(isset($splitText[1])){ $t .= " - ". $splitText[1]; }
-	
+
 				$extra = '';
 				//$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
 				if (is_array( $selected )) {
@@ -359,7 +359,7 @@ class JHTMLSelect
 				if ($flag) {
 					$t = JText::_( $t );
 				}
-	
+
 				$html .= '<option value="'. $k .'" '. $extra .'>' . $t . '</option>';
 			}
 			next($arr);
@@ -816,12 +816,17 @@ class JAdminMenus
 		}
 
 		$lastMenuType	= null;
+		$tmpMenuType	= null;
 		foreach ($list as $list_a)
 		{
 			if ($list_a->menutype != $lastMenuType)
 			{
+				if ($tmpMenuType) {
+					$mitems[] = JHTMLSelect::option( '</OPTGROUP>' );
+				}
 				$mitems[] = JHTMLSelect::option( '<OPTGROUP>', $list_a->menutype );
 				$lastMenuType = $list_a->menutype;
+				$tmpMenuType  = $list_a->menutype;
 			}
 
 			$mitems[] = JHTMLSelect::option( $list_a->id, $list_a->treename );
