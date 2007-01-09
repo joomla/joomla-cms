@@ -54,12 +54,10 @@ class LoginController
 	function login()
 	{
 		global $mainframe;
-		
+
 		$username	= JRequest::getVar( 'username' );
 		$password	= JRequest::getVar( 'password' );
-		
-		echo var_dump($_SESSION);
-		
+
 		$result = $mainframe->login($username, $password);
 
 		if (!JError::isError($result)) {
