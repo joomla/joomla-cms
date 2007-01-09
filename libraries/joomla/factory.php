@@ -128,9 +128,6 @@ class JFactory
 			$instance = new JUser(null);
 			$instance->set('aid',	0);
 			$session->set('user', $instance);
-		} else {
-			$table =& $instance->getTable();
-			$table->setDBO(JFactory::getDBO());
 		}
 
 		return $instance;
