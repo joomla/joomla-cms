@@ -30,21 +30,14 @@ class JContentHelper
 {
 	function saveContentPrep(& $row)
 	{
-		/*
-		 * Get submitted text from the request variables
-		 */
+		//Get submitted text from the request variables
 		$text = JRequest::getVar('text', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
-		/*
-		 * Clean text for xhtml transitional compliance
-		 */
+		//Clean text for xhtml transitional compliance
 		$text = str_replace('<br>', '<br />', $text);
 		$row->title = ampReplace($row->title);
 
-		/*
-		 * Now we need to search for the {readmore} tag and split the text up
-		 * accordingly.
-		 */
+		// Search for the {readmore} tag and split the text up accordingly.
 		$tagPos = JString::strpos($text, '<hr id="system-readmore" />');
 
 		if ($tagPos === false)	{
@@ -288,16 +281,15 @@ class JContentHelper
 			$catLinkID = $result[0];
 			$catLinkURL = $result[1];
 
-			/*
-			 * Did we find an Itemid for the category?
-			 */
+			// Did we find an Itemid for the category?
 			$Itemid = null;
-			if ($catLinkID) 	{
+			if ($catLinkID) 	
+			{
 				$Itemid = '&amp;Itemid='.(int) $catLinkID;
-			} else {
-				/*
-				 * Nope, lets try to find it by section...
-				 */
+			} 
+			else 
+			{
+				// Nope, lets try to find it by section...
 				$query = "SELECT id, link" .
 						"\n FROM #__menu" .
 						"\n WHERE published = 1" .
@@ -307,28 +299,26 @@ class JContentHelper
 				$db->setQuery($query);
 				$secLinkID = $db->loadResult();
 
-				/*
-				 * Find it by section?
-				 */
+				// Find it by section?
 				if ($secLinkID)	{
 					$Itemid = '&amp;Itemid='.$secLinkID;
 				}
 			}
 
-			if ($Itemid !== null) {
+			if ($Itemid !== null) 
+			{
 				if ($catLinkURL) {
 					$link = sefRelToAbs($catLinkURL.$Itemid);
 				} else {
 					$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$row->sectionid.'&amp;id='.$row->catid.$Itemid);
 				}
-				/*
-				 * We found an Itemid... build the link
-				 */
+
+				// We found an Itemid... build the link
 				$links[$row->catid] = '<a href="'.$link.'">'.$row->category.'</a>';
-			} else {
-				/*
-				 * Didn't find an Itemid.. set the section name as the link
-				 */
+			} 
+			else 
+			{
+				// Didn't find an Itemid.. set the section name as the link
 				$links[$row->catid] = $row->category;
 			}
 		}
@@ -339,82 +329,52 @@ class JContentHelper
 	/**
 	 * @param	int	The id of the content item
 	 */
-	function getItemid($id)
+	function getItemid($id, $catid = 0, $sectionid = 0)
 	{
-		$db			= & JFactory::getDBO();
+		$db			=& JFactory::getDBO();
 		$menus		=& JMenu::getInstance();
 		$items		= $menus->getMenu();
 		$Itemid		= null;
-		$component	= JComponentHelper::getInfo('com_content');
-
+		
 		$n = count( $items );
-		if ($n)
+		if (!$n) {
+			return $Itemid;
+		}
+		
+		for ($i = 0; $i < $n; $i++) 
 		{
+			$item = &$items[$i];
+			$url = str_replace('index.php?', '', $item->link);
+			$url = str_replace('&amp;', '&', $url);
+			$parts = null;
+			parse_str($url, $parts);
+			
+			if(!isset($parts['option']) || !isset($parts['id'])) {
+				continue;
+			}
+			
+			if($parts['option'] != 'com_content') {
+				continue;
+			}
+			
+			$item->view_name = $parts['view'];
+			$item->item_id   = $parts['id'];
+						
 			// Do we have a content item linked to the menu with this id?
-			for ($i = 0; $i < $n; $i++) {
-				$item = &$items[$i];
-				$params =& $menus->getParams($item->id);
-
-				if (($item->componentid == $component->id) && ($item->published) && ($params->get('article_id') == $id)) {
-					return $item->id;
-				}
+			if (($item->published) && ($item->item_id == $id) && ($item->view_name = 'article')) {
+				return $item->id;
 			}
-
-			/*
-			 * Not a linked as an article, so perhaps is it in a category or section that is linked
-			 * to the menu?
-			 */
-
-			// First we must load the article data to know what section/category it is in.
-			$article = JTable::getInstance('content');
-			$article->load($id);
-
+	
 			// Check to see if it is in a published category
-			for ($i = 0; $i < $n; $i++) {
-				$item = &$items[$i];
-				$params =& $menus->getParams($item->id);
-
-				if (($item->componentid == $component->id) && ($item->published) && ($params->get('category_id') == $article->catid)) {
-					return $item->id;
-				}
+			if (($item->published) && ($item->item_id == $catid) && $item->view_name == 'category') {
+				return $item->id;
 			}
-
+		
 			// Check to see if it is in a published section
-			for ($i = 0; $i < $n; $i++) {
-				$item = &$items[$i];
-				$params =& $menus->getParams($item->id);
-
-				if (($item->componentid == $component->id) && ($item->published) && ($params->get('section_id') == $article->sectionid)) {
-					return $item->id;
-				}
-			}
-
-			/*
-			 * Once we have exhausted all our options for finding the Itemid in
-			 * the content structure, lets see if maybe we have a global
-			 * category or section in the menu we can put it under.
-			 */
-
-			// Category
-			for ($i = 0; $i < $n; $i++) {
-				$item = &$items[$i];
-				$params =& $menus->getParams($item->id);
-
-				if (($item->componentid == $component->id) && ($item->published) && ($params->get('category_id') == 0)) {
-					return $item->id;
-				}
-			}
-			// Section
-			for ($i = 0; $i < $n; $i++) {
-				$item = &$items[$i];
-				$params =& $menus->getParams($item->id);
-
-				if (($item->componentid == $component->id) && ($item->published) && ($params->get('section_id') == 0)) {
-					return $item->id;
-				}
+			if (($item->published) && ($item->item_id == $sectionid) && $item->view_name == 'section') {
+				return $item->id;
 			}
 		}
-
 
 		return $Itemid;
 	}

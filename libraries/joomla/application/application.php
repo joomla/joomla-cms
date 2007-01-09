@@ -809,7 +809,12 @@ class JApplication extends JObject
 	function getItemid( $id )
 	{
 		require_once JPATH_SITE . '/components/com_content/helpers/content.php';
-		return JContentHelper::getItemid($id);
+		
+		// Load the article data to know what section/category it is in.
+		$article = JTable::getInstance('content');
+		$article->load($id);
+		
+		return JContentHelper::getItemid($id, $article->catid, $article->sectionid);
 	}
 }
 

@@ -21,12 +21,6 @@
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="type" type="list" default="0" label="Module Mode" description="PARAMMODULEMODE">
-			<option value="1">Content Items only</option>
-			<option value="2">Static Content only</option>
-			<option value="3">Both</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="show_front" type="radio" default="1" label="Frontpage Items" description="PARAMFRONTPAGEITEMS">
 			<option value="1">show</option>
 			<option value="0">hide</option>

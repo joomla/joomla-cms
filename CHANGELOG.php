@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Jan-2007 Johan Janssens
+ # Fixed [artf6614] : JApplicationHelper::getItemid() bug and $mainframe->getItemid() missing
+ # Fixed [artf6825] : Hide other modules after using links in the mods 'Latest Items and Most Popular'
+
 08-Jan-2007 Johan Janssens
  # Fixed [artf6692] : XSS vulnerability in title and pathway
  + Added SessionHandler support to JSession
