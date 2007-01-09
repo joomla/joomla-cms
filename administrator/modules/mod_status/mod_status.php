@@ -36,11 +36,17 @@ $query = "SELECT COUNT(*)"
 $db->setQuery( $query );
 $unread = $db->loadResult();
 
+if (JRequest::getVar('hidemainmenu')) {
+	$inboxLink = '<a>';
+} else {
+	$inboxLink = '<a href="index.php?option=com_messages">';
+}
+
 // Print the inbox message
 if ($unread) {
-	$output[] = "<a href=\"index.php?option=com_messages\"><span class=\"unread-messages\">$unread</span></a>";
+	$output[] = $inboxLink.'<span class="unread-messages">'.$unread.'</span></a>';
 } else {
-	$output[] = "<a href=\"index.php?option=com_messages\"><span class=\"no-unread-messages\">$unread</span></a>";
+	$output[] = $inboxLink.'<span class="no-unread-messages">'.$unread.'</span></a>';
 }
 
 // Get the number of logged in users
