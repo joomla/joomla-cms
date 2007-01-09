@@ -69,7 +69,7 @@ class WeblinksViewCategory extends JView
 		$lists['order'] = $state->get('filter_order');
 
 		$selected = '';
-		$contentConfig = &JComponentHelper::getParams( 'com_content' );
+		$contentConfig = &JComponentHelper::getParams( 'com_weblinks' );
 
 		$params->def('header', $menu->name);
 		$params->def('pageclass_sfx', '');
