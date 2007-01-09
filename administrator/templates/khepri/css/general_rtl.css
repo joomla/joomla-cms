@@ -208,7 +208,7 @@ table.toolbar td 			 { padding: 1px 1px 1px 4px; text-align: center; color: #666
 table.toolbar td.spacer  { width: 10px; }
 table.toolbar td.divider { border-right: 1px solid #eee; width: 5px; }
 
-table.toolbar div { float: none; width: 32px; height: 32px; margin: 0 auto; }
+table.toolbar span { float: none; width: 32px; height: 32px; margin: 0 auto; display: block; }
 
 table.toolbar a {
    display: block; float: left;

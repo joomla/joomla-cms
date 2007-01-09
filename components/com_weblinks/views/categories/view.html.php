@@ -42,16 +42,16 @@ class WeblinksViewCategories extends JView
 		$state		=& $this->get('state');
 		$params		= $state->get('parameters.menu');
 
-		$contentConfig = &JComponentHelper::getParams( 'com_content' );
+		$weblinksConfig = &JComponentHelper::getParams( 'com_weblinks' );
 		$params->def('header', $menu->name);
 		$params->def('pageclass_sfx', '');
 		$params->def('headings', 1);
-		$params->def('hits', $contentConfig->get('hits'));
+		$params->def('hits', $weblinksConfig->get('hits'));
 		$params->def('item_description', 1);
 		$params->def('other_cat_section', 1);
 		$params->def('other_cat', 1);
 		$params->def('description', 1);
-		$params->def('description_text', JText::_('WEBLINKS_DESC'));
+		$params->def('description_text', $weblinksConfig->get('description_text'));
 		$params->def('image', -1);
 		$params->def('weblink_icons', '');
 		$params->def('image_align', 'right');

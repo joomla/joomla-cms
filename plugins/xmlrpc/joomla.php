@@ -105,7 +105,7 @@ class JoomlaXMLRPCServices
 		foreach ($results as $i=>$rows)
 		{
 			foreach ($rows as $j=>$row) {
-				$results[$i][$j]->href = $url.'/'.$row->href;
+				$results[$i][$j]->href = eregi('^(http|https)://', $row->href) ? $row->href : $url.'/'.$row->href;
 				$results[$i][$j]->text = SearchHelper::prepareSearchContent( $row->text, 200, $searchword);
 			}
 		}

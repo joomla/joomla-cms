@@ -37,8 +37,8 @@ class JButton_Popup extends JButton
 		$doTask	= $this->_getCommand($name, $url, $width, $height, $top, $left);
 
 		$html	= "<a href=\"#\" onclick=\"$doTask\">\n";
-		$html	.= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
-		$html	.= "</div>\n";
+		$html .= "<span class=\"$class\" title=\"$text\">\n";
+		$html .= "</span>\n";
 		$html	.= "$text\n";
 		$html	.= "</a>\n";
 

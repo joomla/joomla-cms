@@ -60,7 +60,7 @@ class MenusController extends JController
 		$post	= JRequest::get('post');
 		// allow name only to contain html
 		$post['name'] = JRequest::getVar( 'name', '', 'post', 'string', JREQUEST_ALLOWHTML );
-		$model->setState( 'request', $post );
+		$model->setItemState( 'request', $post );
 
 		if ($model->store()) {
 			$msg = JText::_( 'Menu item Saved' );
@@ -185,7 +185,7 @@ class MenusController extends JController
 		$menutype	= JRequest::getVar('menutype');
 
 		$model =& $this->getModel( 'List' );
-		if ($model->setState($cid, 1)) {
+		if ($model->setItemState($cid, 1)) {
 			$msg = JText::sprintf( 'Menu Items Published', count( $cid ) );
 		} else {
 			$msg = $model->getError();
@@ -203,7 +203,7 @@ class MenusController extends JController
 		$menutype	= JRequest::getVar('menutype');
 
 		$model =& $this->getModel( 'List' );
-		if ($model->setState($cid, 0)) {
+		if ($model->setItemState($cid, 0)) {
 			$msg = JText::sprintf( 'Menu Items Unpublished', count( $cid ) );
 		} else {
 			$msg = $model->getError();

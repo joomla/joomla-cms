@@ -408,7 +408,7 @@ class MenusModelList extends JModel
 	/**
 	* Set the state of selected menu items
 	*/
-	function setState( $items, $state )
+	function setItemState( $items, $state )
 	{
 		if(is_array($items))
 		{

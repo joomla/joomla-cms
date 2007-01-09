@@ -37,8 +37,8 @@ class JButton_Standard extends JButton
 		$doTask	= $this->_getCommand($name, $task, $list, $hideMenu);
 
 		$html	= "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
-		$html	.= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
-		$html	.= "</div>\n";
+		$html .= "<span class=\"$class\" title=\"$text\">\n";
+		$html .= "</span>\n";
 		$html	.= "$text\n";
 		$html	.= "</a>\n";
 

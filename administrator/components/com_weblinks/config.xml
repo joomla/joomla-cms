@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+ <params>
+  <param name="hits" type="radio" default="1" label="Hits" description="TIPIFSETTOSHOWHITS">
+   <option value="0">Hide</option>
+   <option value="1">Show</option>
+  </param>
+  <param name="description_text" type="textarea" default="WEBLINKS_DESC" label="Weblinks Intro" rows="3" cols="50" description="WEBLINKS_INTRO_DESC" />
+ </params>
+</config>
