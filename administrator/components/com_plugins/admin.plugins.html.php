@@ -287,19 +287,39 @@ class HTML_modules {
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 
-				<table class="admintable">
-				<tr>
-					<td>
-						<?php
-						if ( $row->id ) {
-							echo $params->render();
-						} else {
-							echo '<i>'. JText::_( 'No Parameters' ) .'</i>';
-						}
-						?>
-					</td>
-				</tr>
-				</table>
+				<?php
+					jimport('joomla.html.pane');
+					$pane =& JPane::getInstance('sliders');
+					$pane->startPane("plugin-pane");
+					$pane->startPanel(JText :: _('Plugin Parameters'), "param-page");
+					if($output = $params->render('params')) :
+						echo $output;
+					else :
+						echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no parameters for this item')."</div>";
+					endif;
+					$pane->endPanel();
+
+					if ($params->getNumParams('advanced')) {
+						$pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
+						if($output = $params->render('params', 'advanced')) :
+							echo $output;
+						else :
+							echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no advanced parameters for this item')."</div>";
+						endif;
+						$pane->endPanel();
+					}
+
+					if ($params->getNumParams('legacy')) {
+						$pane->startPanel(JText :: _('Legacy Parameters'), "legacy-page");
+						if($output = $params->render('params', 'legacy')) :
+							echo $output;
+						else :
+							echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no legacy parameters for this item')."</div>";
+						endif;
+						$pane->endPanel();
+					}
+					$pane->endPane();
+				?>
 			</fieldset>
 		</div>
 		<div class="clr"></div>
