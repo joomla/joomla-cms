@@ -44,13 +44,13 @@ class JDatabaseMySQL extends JDatabase
 			$this->_errorMsg = 'The MySQL adapter "mysql" is not available.';
 			return;
 		}
-		
+
 		if (!($this->_resource = @mysql_connect( $host, $user, $pass, true ))) {
 			$this->_errorNum = 2;
 			$this->_errorMsg = 'Could not connect to MySQL';
 			return;
 		}
-		
+
 		if ($db != '' && !mysql_select_db( $db, $this->_resource )) {
 			$this->_errorNum = 3;
 			$this->_errorMsg = 'Could not connect to database';
@@ -111,6 +111,10 @@ class JDatabaseMySQL extends JDatabase
 	*/
 	function query()
 	{
+		if (!is_resource($this->_resource)) {
+			return false;
+		}
+
 		if ($this->_limit > 0 || $this->_offset > 0) {
 			$this->_sql .= "\nLIMIT $this->_offset, $this->_limit";
 		}

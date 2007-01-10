@@ -131,6 +131,10 @@ class JDatabaseMySQLi extends JDatabase
 	*/
 	function query()
 	{
+		if (!is_resource($this->_resource)) {
+			return false;
+		}
+
 		if ($this->_limit > 0 || $this->_offset > 0) {
 			$this->_sql .= "\nLIMIT $this->_offset, $this->_limit";
 		}
