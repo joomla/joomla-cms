@@ -59,7 +59,7 @@
 			<div class="padding">
 				<div id="element-box">
 					<jdoc:include type="message" />
-   					<div class="t">
+					<div class="t">
 						<div class="t">
 							<div class="t"></div>
 						</div>

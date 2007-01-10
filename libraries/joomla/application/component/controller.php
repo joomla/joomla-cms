@@ -418,7 +418,7 @@ class JController extends JObject
 		static $views;
 
 		if ( !isset( $views ) ) {
-			$instances = array();
+			$views = array();
 		}
 
 		if ( empty( $name ) ) {

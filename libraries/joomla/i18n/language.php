@@ -313,7 +313,7 @@ class JLanguage extends JObject
 	}
 
 	/**
-	* Get for the langauge tag (as defined in RFC 3066)
+	* Get for the language tag (as defined in RFC 3066)
 	*
 	* @access public
 	* @return string The language tag

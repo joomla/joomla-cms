@@ -552,7 +552,7 @@ class JSession extends JObject
 	*/
 	function _validate( $restart = false )
 	{
-		// allow to restsart a session
+		// allow to restart a session
 		if( $restart )
 		{
 			$this->_state	=	'active';

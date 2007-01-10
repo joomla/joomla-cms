@@ -72,8 +72,6 @@ class JSessionHandlerFile extends JSessionHandler
 	 */
 	function write($id, $session_data)
 	{
-		global $sess_save_path;
- 
 		$sess_file = session_save_path().DS.'sess_'.$id;
 		if ($fp = @fopen($sess_file, "w")) {
 			$return = fwrite($fp, $session_data);
@@ -107,8 +105,6 @@ class JSessionHandlerFile extends JSessionHandler
 	 */
 	function gc($maxlifetime)
 	{
-		global $sess_save_path;
- 
 		foreach (glob(session_save_path().DS.'sess_*') as $filename) {
 			if (filemtime($filename) + $maxlifetime < time()) {
 				@unlink($filename);
