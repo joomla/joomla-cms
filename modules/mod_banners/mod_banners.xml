@@ -18,11 +18,6 @@
 			<option value="1">New Window With Browser Navigation</option>
 			<option value="2">New Window Without Browser Navigation</option>
 		</param>
-		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
-			<option value="1">Use global</option>
-			<option value="0">No caching</option>
-		</param>
-		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="count" type="text" default="1" label="Count" description="PARAMNUMBERITEMS" />
 		<param name="cid" type="bannerclient" default="" label="Banner client" description="PARAMSINGLECLIENT" />
@@ -40,5 +35,12 @@
 		<param name="footer_text" type="textarea" rows="3" cols="40" default="" label="Footer Text" description="PARAMFOOTERTEXT" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
+	</params>
+	<params group="advanced">
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
 	</params>
 </install>

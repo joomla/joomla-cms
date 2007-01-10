@@ -64,7 +64,7 @@ class ModulesModelModule extends JModel
 		return $this->_xml;
 	}
 
-	function &getParams( $nodeName='params' )
+	function &getParams()
 	{
 		// Get the state parameters
 		$module	=& $this->getModule();
@@ -72,11 +72,11 @@ class ModulesModelModule extends JModel
 
 		if ($xml =& $this->_getXML())
 		{
-			if (is_a($xml, 'JSimpleXML'))
-			{
-				$document =& $xml->document;
-				$sp =& $document->getElementByPath($nodeName);
-				$params->setXML($sp);
+			if ($ps = & $xml->document->params) {
+				foreach ($ps as $p)
+				{
+					$params->setXML( $p );
+				}
 			}
 		}
 		return $params;

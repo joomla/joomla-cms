@@ -30,7 +30,7 @@
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="window_open" type="text" default="" label="Target Position" description="PARAMTARGETPOSITION" />
 	</params>
-	<advanced>
+	<params group="advanced">
 		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
 			<option value="1">Use global</option>
 			<option value="0">No caching</option>
@@ -38,8 +38,8 @@
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="class_sfx" type="text" default="" label="Menu Class Suffix" description="PARAMMENUCLASSSUFFIX" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-	</advanced>
-	<legacy>
+	</params>
+	<params group="legacy">
 		<param name="menu_images" type="radio" default="0" label="Show Menu Icons" description="PARAMSHOWMENUICONS">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
@@ -76,5 +76,5 @@
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="spacer" type="text" default="" size="5" label="Spacer" description="Spacer for Horizontal menu" />
 		<param name="end_spacer" type="text" default="" size="5" label="End Spacer" description="End Spacer for Horizontal menu" />
-	</legacy>
+	</params>
 </install>

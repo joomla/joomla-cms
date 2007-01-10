@@ -13,17 +13,19 @@
 	<filename module="mod_random_image">mod_random_image.php</filename>
 	</files>
 	<params>
-		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
-			<option value="1">Use global</option>
-			<option value="0">No caching</option>
-		</param>
-		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
-		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="type" type="text" default="jpg" label="Image Type" description="Type of image PNG/GIF/JPG etc. (default is JPG)" />
 		<param name="folder" type="text" default="" label="Image Folder" description="PARAMIMAGEFOLDER" />
 		<param name="link" type="text" default="" label="Link" description="PARAMLINK" />
 		<param name="width" type="text" default="" label="Width (px)" description="PARAMWIDTHPX" />
 		<param name="height" type="text" default="" label="Height (px)" description="PARAMHEIGHTPX" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
-</install>
+	<params group="advanced">
+		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
+	</params>
+/install>

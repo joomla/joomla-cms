@@ -13,12 +13,6 @@
 		<filename module="mod_feed">mod_feed.php</filename>
 	</files>
 	<params>
-		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
-			<option value="1">Use global</option>
-			<option value="0">No caching</option>
-		</param>
-		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
-		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="rssurl" type="text" size="50" default="" label="Feed URL" description="Enter the URL of the RSS/RDF feed" />
@@ -44,5 +38,12 @@
 			<option value="0">No</option>
 		</param>
 		<param name="word_count" type="text" size="6" default="0" label="Word Count" description="PARAMWORDCOUNT" />
+	</params>
+	<params group="advanced">
+		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
 	</params>
 </install>

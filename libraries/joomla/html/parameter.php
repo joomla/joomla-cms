@@ -172,7 +172,7 @@ class JParameter extends JRegistry
 	 */
 	function render($name = 'params', $group = '_default')
 	{
-		if (!is_object($this->_xml[$group])) {
+		if (!isset($this->_xml[$group])) {
 			return false;
 		}
 
@@ -214,7 +214,7 @@ class JParameter extends JRegistry
 	 */
 	function renderToArray($name = 'params', $group = '_default')
 	{
-		if (!is_object($this->_xml[$group])) {
+		if (!isset($this->_xml[$group])) {
 			return false;
 		}
 		$results = array();
@@ -232,11 +232,29 @@ class JParameter extends JRegistry
 	 * @return mixed	Boolean falst if no params exist or integer number of params that exist
 	 */
 	function getNumParams($group = '_default') {
-		if (!is_object($this->_xml[$group]) || !count($this->_xml[$group]->children())) {
+		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children())) {
 			return false;
 		} else {
 			return count($this->_xml[$group]->children());
 		}
+	}
+
+	/**
+	 * Get the number of params in each group
+	 *
+	 * @access public
+	 * @return array of all group names as key and param count as value
+	 */
+	function getGroups()
+	{
+		if (!is_array($this->_xml)) {
+			return false;
+		}
+		$results = array();
+		foreach ($this->_xml as $name => $group)  {
+			$results[$name] = $this->getNumParams($name);
+		}
+		return $results;
 	}
 
 	/**
@@ -248,7 +266,7 @@ class JParameter extends JRegistry
 	 */
 	function getParams($name = 'params', $group = '_default')
 	{
-		if (!is_object($this->_xml[$group])) {
+		if (!isset($this->_xml[$group])) {
 			return false;
 		}
 		$results = array();
