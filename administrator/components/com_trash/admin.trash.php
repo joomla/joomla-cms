@@ -351,8 +351,7 @@ function restoreTrash( $cid, $option ) {
 		;
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			$mainframe->close();
+			JError::raiseError(500, $db->getErrorMsg() );
 		}
 	} else if ( $type == 'menu' ) {
 		$return = 'viewMenu';
@@ -363,8 +362,7 @@ function restoreTrash( $cid, $option ) {
 		$total = $model->fromTrash($cid);
 
 		if (!$total) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			$mainframe->close();
+			JError::raiseError(500, $db->getErrorMsg() );
 		}
 	}
 

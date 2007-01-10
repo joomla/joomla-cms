@@ -5,6 +5,10 @@
 			<tr>
 				<td><?php echo $this->install->message; ?></td>
 			</tr>
+			<?php if($this->install->ext_message) { ?>
+			<tr>
+				<td><?php echo $this->install->ext_message; ?></td>
+			</tr><?php } ?>
 		</tbody>
 	</table>
 </fieldset>

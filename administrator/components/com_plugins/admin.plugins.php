@@ -191,16 +191,13 @@ function savePlugin( $option, $client, $task )
 	$row =& JTable::getInstance('plugin');
 
 	if (!$row->bind(JRequest::get('post'))) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		$mainframe->close();
+		JError::raiseError(500, $row->getError() );
 	}
 	if (!$row->check()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		$mainframe->close();
+		JError::raiseError(500, $row->getError() );
 	}
 	if (!$row->store()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		$mainframe->close();
+		JError::raiseError(500, $row->getError() );
 	}
 	$row->checkin();
 
@@ -329,8 +326,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
-		echo "<script> alert('". JText::_( 'Select a plugin to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
-		$mainframe->close();
+		JError::raiseError(500, JText::_( 'Select a plugin to '.$action, true ) );
 	}
 
 	$cids = implode( ',', $cid );
@@ -341,8 +337,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
-		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-		$mainframe->close();
+		JError::raiseError(500, $db->getErrorMsg() );
 	}
 
 	if (count( $cid ) == 1) {
@@ -444,9 +439,8 @@ function saveOrder( &$cid )
 		if ($row->ordering != $order[$i]) {
 			$row->ordering = $order[$i];
 			if (!$row->store()) {
-				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-				$mainframe->close();
-			} // if
+				JError::raiseError(500, $db->getErrorMsg() );
+			}
 			// remember to updateOrder this group
 			$condition = "folder = '$row->folder' AND ordering > -10000 AND ordering < 10000 AND client_id = $row->client_id";
 			$found = false;

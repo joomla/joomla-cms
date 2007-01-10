@@ -236,13 +236,11 @@ function saveMessage( $option )
 	$row = new TableMessage( $db );
 
 	if (!$row->bind(JRequest::get('post'))) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		$mainframe->close();
+		JError::raiseError(500, $row->getError() );
 	}
 
 	if (!$row->check()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		$mainframe->close();
+		JError::raiseError(500, $row->getError() );
 	}
 
 	if (!$row->send()) {
@@ -281,8 +279,7 @@ function removeMessage( $cid, $option )
 	$db =& JFactory::getDBO();
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
-		$mainframe->close();
+		JError::raiseError(500, JText::_( 'Select an item to delete' ) );
 	}
 
 	if (count( $cid ))

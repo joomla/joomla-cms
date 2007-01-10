@@ -70,7 +70,8 @@ class InstallerViewInstall extends JView
 		$document->setTitle($state->get('message'));
 
 		$install = new stdClass();
-		$install->message = $state->get('extension.message');
+		$install->message = $state->get('message');
+		$install->ext_message = $state->get('extension.message', '');
 
 		if ($install->message) {
 			$showMessage = true;

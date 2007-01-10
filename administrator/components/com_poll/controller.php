@@ -174,21 +174,18 @@ class PollController extends JController
 		$post	= JRequest::get( 'post' );
 		if (!$row->bind( $post ))
 		{
-			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-			$mainframe->close();
+			JError::raiseError(500, $row->getError() );
 		}
 		$isNew = ($row->id == 0);
 
 		if (!$row->check())
 		{
-			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-			$mainframe->close();
+			JError::raiseError(500, $row->getError() );
 		}
 
 		if (!$row->store())
 		{
-			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-			$mainframe->close();
+			JError::raiseError(500, $row->getError() );
 		}
 		$row->checkin();
 		// save the poll options
@@ -274,8 +271,7 @@ class PollController extends JController
 		if (count( $cid ) < 1)
 		{
 			$action = $publish ? 'publish' : 'unpublish';
-			echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
-			$mainframe->close();
+			JError::raiseError(500, JText::_( 'Select an item to '.$action, true ) );
 		}
 
 		JArrayHelper::toInteger( $cid );
@@ -289,8 +285,7 @@ class PollController extends JController
 		$db->setQuery( $query );
 		if (!$db->query())
 		{
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			$mainframe->close();
+			JError::raiseError(500, $db->getErrorMsg() );
 		}
 
 		if (count( $cid ) == 1)

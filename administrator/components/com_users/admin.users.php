@@ -425,8 +425,7 @@ function removeUsers(  )
 	JArrayHelper::toInteger( $cid );
 
 	if (count( $cid ) < 1) {
-		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
-		$mainframe->close();
+		JError::raiseError(500, JText::_( 'Select an item to delete', true ) );
 	}
 
 	foreach ($cid as $id)
@@ -507,8 +506,7 @@ function changeUserBlock( $block=1 )
 	if (count( $cid ) < 1)
 	{
 		$action = $block ? 'block' : 'unblock';
-		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
-		$mainframe->close();
+		JError::raiseError(500, JText::_( 'Select an item to '.$action, true ) );
 	}
 
 	$cids = implode( ',', $cid );
@@ -521,8 +519,7 @@ function changeUserBlock( $block=1 )
 
 	if (!$db->query())
 	{
-		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-		$mainframe->close();
+		JError::raiseError(500, $db->getErrorMsg() );
 	}
 
 	// if action is to block a user
