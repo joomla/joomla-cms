@@ -80,6 +80,8 @@ class JTableContent extends JTable
 	var $metakey			= null;
 	/** @var string */
 	var $metadesc			= null;
+	/** @var string */
+	var $metadata			= null;
 	/** @var int */
 	var $access				= null;
 	/** @var int */

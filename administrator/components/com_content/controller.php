@@ -524,14 +524,9 @@ class ContentController extends JController
 
 		// build the html radio buttons for frontpage
 		$lists['frontpage'] = JHTMLSelect::yesnoList('frontpage', '', $row->frontpage);
+
 		// build the html radio buttons for published
 		$lists['state'] = JHTMLSelect::yesnoList('state', '', $row->state);
-		// build list of users
-		$active = (intval($row->created_by) ? intval($row->created_by) : $user->get('id'));
-		$lists['created_by'] = JAdminMenus::UserSelect('created_by', $active);
-
-		// build the html select list for the group access
-		$lists['access'] = JAdminMenus::Access($row);
 
 		// get params definitions
 		$params = new JParameter($row->attribs, JApplicationHelper::getPath('com_xml', 'com_content'), 'component');
@@ -546,7 +541,27 @@ class ContentController extends JController
 			$row->text = $row->introtext;
 		}
 
-		ContentView::editContent($row, $contentSection, $lists, $sectioncategories, $params, $option);
+		// Create the form
+		$form = new JParameter('', JPATH_COMPONENT.DS.'models'.DS.'article.xml');
+
+		// Details Group
+		$active = (intval($row->created_by) ? intval($row->created_by) : $user->get('id'));
+		$form->set('created_by', $active);
+		$form->set('access', $row->access);
+		$form->set('created_by_alias', $row->created_by_alias);
+		$form->set('created', $row->created);
+		$form->set('publish_up', $row->publish_up);
+		$form->set('publish_down', $row->publish_down);
+
+		// Advanced Group
+		$form->loadINI($row->attribs, 'advanced');
+
+		// Metadata Group
+		$form->set('description', $row->metadesc, 'metadata');
+		$form->set('keywords', $row->metakey, 'metadata');
+		$form->loadINI($row->metadata, 'metadata');
+
+		ContentView::editContent($row, $contentSection, $lists, $sectioncategories, $params, $option, $form);
 	}
 
 	/**
@@ -561,6 +576,7 @@ class ContentController extends JController
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 
+		$details	= JRequest::getVar( 'details', array(), 'post', 'array');
 		$option		= JRequest::getVar( 'option' );
 		$task		= JRequest::getVar( 'task' );
 		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
@@ -574,6 +590,7 @@ class ContentController extends JController
 			JError::raiseError( 500, $db->stderr() );
 			return false;
 		}
+		$row->bind($details);
 
 		// sanitise id field
 		$row->id = (int) $row->id;
@@ -623,7 +640,6 @@ class ContentController extends JController
 		$row->state	= JRequest::getVar( 'state', 0, '', 'int' );
 		$params		= JRequest::getVar( 'params', '', 'post' );
 
-
 		// Build parameter INI string
 		if (is_array($params))
 		{
@@ -632,6 +648,23 @@ class ContentController extends JController
 				$txt[] = "$k=$v";
 			}
 			$row->attribs = implode("\n", $txt);
+		}
+
+		// Get metadata string
+		$metadata = JRequest::getVar( 'meta', array(), 'post', 'array');
+		if (is_array($params))
+		{
+			$txt = array();
+			foreach ($metadata as $k => $v) {
+				if ($k == 'description') {
+					$row->metadesc = $v;
+				} elseif ($k == 'keywords') {
+					$row->metakey = $v;
+				} else {
+					$txt[] = "$k=$v";
+				}
+			}
+			$row->metadata = implode("\n", $txt);
 		}
 
 		// Prepare the content for saving to the database

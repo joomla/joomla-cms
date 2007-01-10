@@ -70,7 +70,7 @@ class JParameter extends JRegistry
 			define( 'JPARAMETER_INCLUDE_PATH', dirname( __FILE__ ).DS.'parameter'.DS.'element' );
 		}
 
-		parent::__construct('parameter');
+		parent::__construct('_default');
 
 		if (trim( $data )) {
 			$this->loadINI($data);
@@ -91,10 +91,10 @@ class JParameter extends JRegistry
 	 * @param string The value of the parameter
 	 * @return string The set value
 	 */
-	function set($key, $value = '')
+	function set($key, $value = '', $group = '_default')
 	{
-		$this->setValue('parameter.'.$key, (string) $value);
-		return $this->getValue('parameter.'.$key);
+		$this->setValue($group.'.'.$key, (string) $value);
+		return $this->getValue($group.'.'.$key);
 	}
 
 	/**
@@ -105,9 +105,9 @@ class JParameter extends JRegistry
 	 * @param mixed The default value if not found
 	 * @return string
 	 */
-	function get($key, $default = '')
+	function get($key, $default = '', $group = '_default')
 	{
-		$value = $this->getValue('parameter.'.$key);
+		$value = $this->getValue($group.'.'.$key);
 		$result = (empty($value) && ($value !== 0) && ($value !== '0')) ? $default : $value;
 		return $result;
 	}
@@ -152,12 +152,12 @@ class JParameter extends JRegistry
 	 * @access public
 	 * @since 1.5
 	 */
-	function bind($data)
+	function bind($data, $group = '_default')
 	{
 		if ( is_array($data) ) {
-			return $this->loadArray($data, 'parameter');
+			return $this->loadArray($data, $group);
 		} elseif ( is_object($data) ) {
-			return $this->loadObject($data, 'parameter');
+			return $this->loadObject($data, $group);
 		}
 
 		return false;
@@ -271,7 +271,7 @@ class JParameter extends JRegistry
 		}
 		$results = array();
 		foreach ($this->_xml[$group]->children() as $param)  {
-			$results[] = $this->getParam($param, $name);
+			$results[] = $this->getParam($param, $name, $group);
 		}
 		return $results;
 	}
@@ -283,7 +283,7 @@ class JParameter extends JRegistry
 	 * @param string The control name
 	 * @return array Any array of the label, the form element and the tooltip
 	 */
-	function getParam(&$node, $control_name = 'params')
+	function getParam(&$node, $control_name = 'params', $group = '_default')
 	{
 		//get the type of the parameter
 		$type = $node->attributes('type');
@@ -305,7 +305,10 @@ class JParameter extends JRegistry
 			return $result;
 		}
 
-		return $element->render($node, $control_name);
+		//get value
+		$value = $this->get($node->attributes('name'), $node->attributes('default'), $group);
+
+		return $element->render($node, $value, $control_name);
 	}
 
 	/**

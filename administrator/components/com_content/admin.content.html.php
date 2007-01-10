@@ -432,7 +432,7 @@ class ContentView
 	* @param JTableContent The category object
 	* @param string The html for the groups select list
 	*/
-	function editContent( &$row, $section, &$lists, &$sectioncategories, &$params, $option )
+	function editContent( &$row, $section, &$lists, &$sectioncategories, &$params, $option, &$form )
 	{
 		jimport('joomla.html.pane');
 		jimport('joomla.filter.output');
@@ -521,19 +521,22 @@ class ContentView
 				$pane->startPane("content-pane");
 				$pane->startPanel( $title, "detail-page" );
 
-				ContentView::_paneDetails(  $row, $lists, $params );
+				echo $form->render('details');
+				//ContentView::_paneDetails(  $row, $lists, $params );
 
 				$title = JText::_( 'PARAMADVANCED' );
 				$pane->endPanel();
 				$pane->startPanel( $title, "params-page" );
 
-				ContentView::_paneParameters( $row, $lists, $params );
+				echo $form->render('params', 'advanced');
+				//ContentView::_paneParameters( $row, $lists, $params );
 
 				$title = JText::_( 'Metadata Information' );
 				$pane->endPanel();
 				$pane->startPanel( $title, "metadata-page" );
 
-				ContentView::_paneMetaInfo( $row, $lists, $params );
+				echo $form->render('meta', 'metadata');
+				//ContentView::_paneMetaInfo( $row, $lists, $params );
 
 				$pane->endPanel();
 				$pane->endPane();

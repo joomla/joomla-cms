@@ -64,14 +64,11 @@ class JElement extends JObject
 		return $this->_name;
 	}
 
-	function render(&$xmlElement, $control_name = 'params')
+	function render(&$xmlElement, $value, $control_name = 'params')
 	{
 		$name	= $xmlElement->attributes('name');
 		$label	= $xmlElement->attributes('label');
 		$descr	= $xmlElement->attributes('description');
-
-		//get value
-		$value = $this->_parent->get($name, $xmlElement->attributes('default'));
 
 		//make sure we have a valid label
 		$label = $label ? $label : $name;
