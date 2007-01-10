@@ -403,6 +403,8 @@ class MenusController extends JController
 	 */
 	function saveMenu()
 	{
+		global $mainframe;
+
 		$db		=& JFactory::getDBO();
 		$id		= JRequest::getVar( 'id', 0, '', 'int' );
 
@@ -422,13 +424,13 @@ class MenusController extends JController
 
 		if (!$menuType->check()) {
 			josErrorAlert( $menuType->getError() );
-			exit;
+			$mainframe->exit();
 		}
 
 		if (!$menuType->store())
 		{
 			josErrorAlert( $menuType->getError() );
-			exit;
+			$mainframe->exit();
 		}
 
 		if ($isNew)
@@ -446,11 +448,11 @@ class MenusController extends JController
 				// check then store data in db
 				if (!$module->check()) {
 					josErrorAlert( $module->getError() );
-					exit();
+					$mainframe->exit();
 				}
 				if (!$module->store()) {
 					josErrorAlert( $module->getError() );
-					exit();
+					$mainframe->exit();
 				}
 				$module->checkin();
 				$module->reorder( "position='". $module->position ."'" );
@@ -461,7 +463,7 @@ class MenusController extends JController
 				$db->setQuery( $query );
 				if (!$db->query()) {
 					josErrorAlert( $db->getErrorMsg() );
-					exit();
+					$mainframe->exit();
 				}
 
 				// ToDO: Changed to become a Joomla! db-object
@@ -469,7 +471,7 @@ class MenusController extends JController
 				$db->setQuery( $query );
 				if (!$db->query()) {
 					josErrorAlert( $db->getErrorMsg() );
-					exit();
+					$mainframe->exit();
 				}
 			}
 
@@ -498,11 +500,11 @@ class MenusController extends JController
 				// check then store data in db
 				if ( !$row->check() ) {
 					josErrorAlert( $row->getError() );
-					exit();
+					$mainframe->exit();
 				}
 				if ( !$row->store() ) {
 					josErrorAlert( $row->getError() );
-					exit();
+					$mainframe->exit();
 				}
 				$row->checkin();
 			}
@@ -588,7 +590,7 @@ class MenusController extends JController
 			$params = new JParameter( $menu );
 			if ( $params->get('menutype') == $menu_name ) {
 				JError::raiseError( 500, JText::_( 'ERRORMENUNAMEEXISTS' ) );
-				exit;
+				$mainframe->exit();
 			}
 		}
 
@@ -609,11 +611,11 @@ class MenusController extends JController
 
 			if ( !$copy->check() ) {
 				josErrorAlert( $copy->getError() );
-				exit();
+				$mainframe->exit();
 			}
 			if ( !$copy->store() ) {
 				josErrorAlert( $copy->getError() );
-				exit();
+				$mainframe->exit();
 			}
 			$a_ids[$original->id] = $copy->id;
 		}
@@ -630,11 +632,11 @@ class MenusController extends JController
 
 		if (!$row->check()) {
 			josErrorAlert( $row->getError() );
-			exit();
+			$mainframe->exit();
 		}
 		if (!$row->store()) {
 			josErrorAlert( $row->getError() );
-			exit();
+			$mainframe->exit();
 		}
 		$row->checkin();
 		$row->reorder( "position='$row->position'" );
@@ -645,7 +647,7 @@ class MenusController extends JController
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
 			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			exit();
+			$mainframe->exit();
 		}
 
 		// Insert the menu type
@@ -654,7 +656,7 @@ class MenusController extends JController
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
 			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			exit();
+			$mainframe->exit();
 		}
 
 		$msg = JText::sprintf( 'Copy of Menu created', $type, $total );

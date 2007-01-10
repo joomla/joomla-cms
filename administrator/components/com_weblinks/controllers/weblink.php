@@ -78,11 +78,13 @@ class WeblinksControllerWeblink extends WeblinksController
 
 	function remove()
 	{
+		global $mainframe;
+
 		$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 
 		if (!is_array( $cid ) || count( $cid ) < 1) {
 			echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
-			exit;
+			$mainframe->exit();
 		}
 
 		$model = $this->getModel('weblink');
@@ -96,11 +98,13 @@ class WeblinksControllerWeblink extends WeblinksController
 
 	function publish()
 	{
+		global $mainframe;
+
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 
 		if (!is_array( $cid ) || count( $cid ) < 1) {
 			echo "<script> alert('". JText::_( 'Select an item to publish' ) ."'); window.history.go(-1);</script>\n";
-			exit;
+			$mainframe->exit();
 		}
 
 		$model = $this->getModel('weblink');
@@ -114,11 +118,13 @@ class WeblinksControllerWeblink extends WeblinksController
 
 	function unpublish()
 	{
+		global $mainframe;
+
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 
 		if (!is_array( $cid ) || count( $cid ) < 1) {
 			echo "<script> alert('". JText::_( 'Select an item to unpublish' ) ."'); window.history.go(-1);</script>\n";
-			exit;
+			$mainframe->exit();
 		}
 
 		$model = $this->getModel('weblink');

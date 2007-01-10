@@ -352,7 +352,7 @@ function restoreTrash( $cid, $option ) {
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
 			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			exit();
+			$mainframe->exit();
 		}
 	} else if ( $type == 'menu' ) {
 		$return = 'viewMenu';
@@ -364,7 +364,7 @@ function restoreTrash( $cid, $option ) {
 
 		if (!$total) {
 			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			exit();
+			$mainframe->exit();
 		}
 	}
 

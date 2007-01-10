@@ -221,7 +221,7 @@ function changeFrontPage( $cid=null, $state=0, $option )
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
 		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
-		exit;
+		$mainframe->exit();
 	}
 
 	$cids = implode( ',', $cid );
@@ -234,7 +234,7 @@ function changeFrontPage( $cid=null, $state=0, $option )
 	$db->setQuery( $query );
 	if (!$db->query()) {
 		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 
 	if (count( $cid ) == 1) {
@@ -255,20 +255,20 @@ function removeFrontPage( &$cid, $option )
 	$db =& JFactory::getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
-		exit;
+		$mainframe->exit();
 	}
 	$fp =& JTable::getInstance('frontpage', 'Table');
 	foreach ($cid as $id) {
 		if (!$fp->delete( $id )) {
 			echo "<script> alert('".$fp->getError()."'); </script>\n";
-			exit();
+			$mainframe->exit();
 		}
 		$obj =& JTable::getInstance('content');
 		$obj->load( $id );
 		$obj->mask = 0;
 		if (!$obj->store()) {
 			echo "<script> alert('".$fp->getError()."'); </script>\n";
-			exit();
+			$mainframe->exit();
 		}
 	}
 	$fp->reorder();
@@ -342,7 +342,7 @@ function saveOrder( &$cid )
 		$db->setQuery( $query );
 		if (!$db->query()) {
 			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			exit();
+			$mainframe->exit();
 		}
 
 		// update ordering

@@ -110,6 +110,19 @@ class JApplication extends JObject
 	}
 
 	/**
+	* Exit the application.
+	*
+	* @access	public
+	* @param	int	Exit code
+	*/
+	function execute( $code=0 )
+	{
+		$session =& JFactory::getSession();
+		$session->close();
+		exit($code);
+	}
+
+	/**
 	 * Redirect to another URL.
 	 *
 	 * Optionally enqueues a message in the system message queue (which will be displayed
@@ -808,11 +821,11 @@ class JApplication extends JObject
 	function getItemid( $id )
 	{
 		require_once JPATH_SITE . '/components/com_content/helpers/content.php';
-		
+
 		// Load the article data to know what section/category it is in.
 		$article = JTable::getInstance('content');
 		$article->load($id);
-		
+
 		return JContentHelper::getItemid($id, $article->catid, $article->sectionid);
 	}
 }

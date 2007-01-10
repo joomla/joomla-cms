@@ -34,6 +34,8 @@ function ampReplace( $text ) {
 }
 
 function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
+	global $mainframe;
+
 	$text = nl2br( $text );
 	$text = addslashes( $text );
 	$text = strip_tags( $text );
@@ -52,7 +54,7 @@ function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 			break;
 	}
 
-	exit;
+	$mainframe->exit();
 }
 
 function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 ) {

@@ -310,7 +310,7 @@ function editCategory( )
 			&& $section != "com_contact_details"
 			&& $section != "com_banner") {
 		echo "<script> alert('". JText::_( 'WARNSECTION', true ) ."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 
 	$row =& JTable::getInstance('category');
@@ -402,11 +402,11 @@ function saveCategory()
 	$row = JTable::getInstance('category');
 	if (!$row->bind( $post )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 	// if new item order last in appropriate group
 	if (!$row->id) {
@@ -416,7 +416,7 @@ function saveCategory()
 
 	if (!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 	$row->checkin();
 
@@ -444,7 +444,7 @@ function saveCategory()
 
 	if (!$db->query()) {
 		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 
 	switch ( JRequest::getVar('task') )
@@ -484,7 +484,7 @@ function removeCategories( $section, $cid )
 
 	if (count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select a category to delete', true ) ."'); window.history.go(-1);</script>\n";
-		exit;
+		$mainframe->exit();
 	}
 
 	$cids = implode( ',', $cid );
@@ -567,7 +567,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 )
 	if (count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select a category to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
-		exit;
+		$mainframe->exit();
 	}
 
 	$cids = implode( ',', $cid );
@@ -580,7 +580,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 )
 	$db->setQuery( $query );
 	if (!$db->query()) {
 		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 
 	if (count( $cid ) == 1) {
@@ -637,12 +637,14 @@ function orderCategory( $uid, $inc )
 */
 function moveCategorySelect( $option, $cid, $sectionOld )
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	$redirect = JRequest::getVar( 'section', 'com_content', 'post' );;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
-		exit;
+		$mainframe->exit();
 	}
 
 	## query to list selected categories
@@ -699,7 +701,7 @@ function moveCategorySave( $cid, $sectionOld )
 	$db->setQuery( $query );
 	if ( !$db->query() ) {
 		echo "<script> alert('". $db->getErrorMsg() ."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 	$query = "UPDATE #__content"
 	. "\n SET sectionid = '$sectionMove'"
@@ -708,7 +710,7 @@ function moveCategorySave( $cid, $sectionOld )
 	$db->setQuery( $query );
 	if ( !$db->query() ) {
 		echo "<script> alert('". $db->getErrorMsg() ."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 	$sectionNew =& JTable::getInstance('section');
 	$sectionNew->load( $sectionMove );
@@ -722,12 +724,14 @@ function moveCategorySave( $cid, $sectionOld )
 */
 function copyCategorySelect( $option, $cid, $sectionOld )
 {
+	global $mainframe;
+
 	$db =& JFactory::getDBO();
 	$redirect = JRequest::getVar( 'section', 'com_content', 'post' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
-		exit;
+		$mainframe->exit();
 	}
 
 	## query to list selected categories
@@ -789,12 +793,12 @@ function copyCategorySave( $cid, $sectionOld )
 		$category->section 	= $sectionMove;
 		if (!$category->check()) {
 			echo "<script> alert('".$category->getError()."'); window.history.go(-1); </script>\n";
-			exit();
+			$mainframe->exit();
 		}
 
 		if (!$category->store()) {
 			echo "<script> alert('".$category->getError()."'); window.history.go(-1); </script>\n";
-			exit();
+			$mainframe->exit();
 		}
 		$category->checkin();
 		// stores original catid
@@ -816,12 +820,12 @@ function copyCategorySave( $cid, $sectionOld )
 		}
 		if (!$content->check()) {
 			echo "<script> alert('".$content->getError()."'); window.history.go(-1); </script>\n";
-			exit();
+			$mainframe->exit();
 		}
 
 		if (!$content->store()) {
 			echo "<script> alert('".$content->getError()."'); window.history.go(-1); </script>\n";
-			exit();
+			$mainframe->exit();
 		}
 		$content->checkin();
 	}
@@ -880,7 +884,7 @@ function saveOrder( &$cid, $section )
 			if (!$row->store()) {
 				//TODO - convert to JError
 				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-				exit();
+				$mainframe->exit();
 			}
 		}
 	}

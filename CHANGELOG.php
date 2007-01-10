@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Jan-2007 Louis Landry
+ ^ Reworked module manager : module edit screen and controls
+ ^ Reworked JUser for better session storage
+ + Added JApplication::exit() method.  This is a session integrity safe application exit method and should be used instead of exit();
+
 09-Jan-2007 Johan Janssens
  # Fixed [artf6614] : JApplicationHelper::getItemid() bug and $mainframe->getItemid() missing
  # Fixed [artf6825] : Hide other modules after using links in the mods 'Latest Items and Most Popular'

@@ -59,9 +59,7 @@ class MailtoController extends JController
 			{
 				if (strpos($_POST[$field], $header) !== false)
 				{
-					header("HTTP/1.0 403 Forbidden");
-					die( JText::_( 'ALERTNOTAUTH' ) );
-					exit;
+					JError::raiseError(403, '');
 				}
 			}
 		}

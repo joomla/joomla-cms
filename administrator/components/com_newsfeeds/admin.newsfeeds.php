@@ -222,7 +222,7 @@ function saveNewsFeed(  )
 	$row 		=& JTable::getInstance( 'newsfeed', 'Table' );
 	if (!$row->bind(JRequest::get('post'))) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 
 	// Sets rtl value when rtl checkbox ticked
@@ -234,7 +234,7 @@ function saveNewsFeed(  )
 	// pre-save checks
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 
 	// if new item, order last in appropriate group
@@ -246,7 +246,7 @@ function saveNewsFeed(  )
 	// save the changes
 	if (!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 	$row->checkin();
 
@@ -313,7 +313,7 @@ function changePublishNewsFeeds( $publish )
 	$db->setQuery( $query );
 	if (!$db->query()) {
 		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-		exit();
+		$mainframe->exit();
 	}
 
 	if (count( $cid ) == 1) {
@@ -340,7 +340,7 @@ function removeNewsFeeds( )
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
-		exit;
+		$mainframe->exit();
 	}
 	if (count( $cid )) {
 		$cids = implode( ',', $cid );
@@ -438,7 +438,7 @@ function saveOrder(  )
 			if (!$row->store()) {
 				//TODO - convert to JError
 				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-				exit();
+				$mainframe->exit();
 			}
 		}
 	}
