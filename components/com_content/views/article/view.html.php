@@ -80,6 +80,14 @@ class ContentViewArticle extends JView
 		$document->setDescription( $article->metadesc );
 		$document->setMetadata('keywords', $article->metakey);
 
+		$mdata = new JParameter($article->metadata);
+		$mdata = $mdata->toArray();
+		foreach ($mdata as $k => $v) {
+			if ($v) {
+				$document->setMetadata($k, $v);
+			}
+		}
+
 		// If there is a pagebreak heading or title, add it to the page title
 		if (isset ($article->page_title)) {
 			$document->setTitle($article->title.' '.$article->page_title);
