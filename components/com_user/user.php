@@ -140,7 +140,7 @@ class UserController
 		if(strlen($post['password'])) { // so that "0" can be used as password e.g.
 			if($post['password'] != $post['verifyPass']) {
 				echo "<script> alert(\"". JText::_( 'Passwords do not match', true ) ."\"); window.history.go(-1); </script>\n";
-				exit();
+				$mainframe->close();
 			}
 		}
 
@@ -149,12 +149,12 @@ class UserController
 
 		if (!$user->bind( $post )) {
 			echo "<script> alert('".$user->getError()."'); window.history.go(-1); </script>\n";
-			exit();
+			$mainframe->close();
 		}
 
 		if (!$user->save()) {
 			echo "<script> alert('".$user->getError()."'); window.history.go(-1); </script>\n";
-			exit();
+			$mainframe->close();
 		}
 
 		// check if username has been changed

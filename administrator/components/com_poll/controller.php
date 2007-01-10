@@ -175,20 +175,20 @@ class PollController extends JController
 		if (!$row->bind( $post ))
 		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 		$isNew = ($row->id == 0);
 
 		if (!$row->check())
 		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 
 		if (!$row->store())
 		{
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 		$row->checkin();
 		// save the poll options
@@ -275,7 +275,7 @@ class PollController extends JController
 		{
 			$action = $publish ? 'publish' : 'unpublish';
 			echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 
 		JArrayHelper::toInteger( $cid );
@@ -290,7 +290,7 @@ class PollController extends JController
 		if (!$db->query())
 		{
 			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 
 		if (count( $cid ) == 1)

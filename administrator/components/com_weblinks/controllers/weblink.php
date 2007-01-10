@@ -84,7 +84,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		if (!is_array( $cid ) || count( $cid ) < 1) {
 			echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 
 		$model = $this->getModel('weblink');
@@ -104,7 +104,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		if (!is_array( $cid ) || count( $cid ) < 1) {
 			echo "<script> alert('". JText::_( 'Select an item to publish' ) ."'); window.history.go(-1);</script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 
 		$model = $this->getModel('weblink');
@@ -124,7 +124,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		if (!is_array( $cid ) || count( $cid ) < 1) {
 			echo "<script> alert('". JText::_( 'Select an item to unpublish' ) ."'); window.history.go(-1);</script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 
 		$model = $this->getModel('weblink');

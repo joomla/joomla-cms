@@ -23,7 +23,7 @@ switch ($task) {
 		if ($goto == 'null') {
 			$msg = JText::_( 'There is no link associated with this item' );
 			$mainframe->redirect( 'index.php?option=com_admin&task=listcomponents', $msg );
-			$mainframe->exit();
+			$mainframe->close();
 		}
 		$goto = str_replace( "'", '', $goto );
 		$mainframe->redirect( $goto );

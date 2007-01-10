@@ -216,7 +216,6 @@ class RegistrationController
 		// Bind the post array to the user object
 		if (!$user->bind( JRequest::get('post'), 'usertype' )) {
 			JError::raiseError( 500, $user->getError());
-			exit();
 		}
 
 		// Set some initial user values

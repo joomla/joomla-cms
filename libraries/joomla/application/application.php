@@ -115,7 +115,7 @@ class JApplication extends JObject
 	* @access	public
 	* @param	int	Exit code
 	*/
-	function exit( $code=0 )
+	function close( $code=0 )
 	{
 		$session =& JFactory::getSession();
 		$session->close();
@@ -179,11 +179,10 @@ class JApplication extends JObject
 			echo "<script>document.location.href='$url';</script>\n";
 		} else {
 			//@ob_end_clean(); // clear output buffer
-			JSession::close();
 			header( 'HTTP/1.1 301 Moved Permanently' );
 			header( 'Location: ' . $url );
 		}
-		exit();
+		$this->close();
 	}
 
 	/**

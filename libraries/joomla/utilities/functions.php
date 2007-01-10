@@ -54,7 +54,7 @@ function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 			break;
 	}
 
-	$mainframe->exit();
+	$mainframe->close();
 }
 
 function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 ) {

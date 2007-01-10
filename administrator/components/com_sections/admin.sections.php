@@ -288,11 +288,11 @@ function saveSection( $option, $scope, $task )
 	$row =& JTable::getInstance('section');
 	if (!$row->bind($post)) {
 		echo "<script> alert('".$row->getError()."'); document.location.href='index.php?option=$option&amp;scope=$scope&amp;task=new'; </script>\n";
-		$mainframe->exit();
+		$mainframe->close();
 	}
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); document.location.href='index.php?option=$option&amp;scope=$scope&amp;task=new'; </script>\n";
-		$mainframe->exit();
+		$mainframe->close();
 	}
 	if ( $oldtitle ) {
 		if ( $oldtitle <> $row->title ) {
@@ -314,7 +314,7 @@ function saveSection( $option, $scope, $task )
 
 	if (!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		$mainframe->exit();
+		$mainframe->close();
 	}
 	$row->checkin();
 
@@ -353,7 +353,7 @@ function removeSections( $cid, $scope, $option )
 	$db =& JFactory::getDBO();
 	if (count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select a section to delete', true ) ."'); window.history.go(-1);</script>\n";
-		$mainframe->exit();
+		$mainframe->close();
 	}
 
 	$cids = implode( ',', $cid );
@@ -421,7 +421,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 	if ( !is_array( $cid ) || count( $cid ) < 1 ) {
 		$action = $publish ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select a section to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
-		$mainframe->exit();
+		$mainframe->close();
 	}
 
 	$cids = implode( ',', $cid );
@@ -441,7 +441,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 	$db->setQuery( $query );
 	if (!$db->query()) {
 		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-		$mainframe->exit();
+		$mainframe->close();
 	}
 
 	if ( $count == 1 ) {
@@ -519,7 +519,7 @@ function copySectionSelect( $option, $cid, $section )
 	$db =& JFactory::getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move', true ) ."'); window.history.go(-1);</script>\n";
-		$mainframe->exit();
+		$mainframe->close();
 	}
 
 	## query to list selected categories
@@ -565,12 +565,12 @@ function copySectionSave( $sectionid )
 		$section->name 	= $title;
 		if ( !$section->check() ) {
 			echo "<script> alert('".$section->getError()."'); window.history.go(-1); </script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 
 		if ( !$section->store() ) {
 			echo "<script> alert('".$section->getError()."'); window.history.go(-1); </script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 		$section->checkin();
 		$section->reorder( "section = '$section->id'" );
@@ -594,12 +594,12 @@ function copySectionSave( $sectionid )
 		}
 		if (!$category->check()) {
 			echo "<script> alert('".$category->getError()."'); window.history.go(-1); </script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 
 		if (!$category->store()) {
 			echo "<script> alert('".$category->getError()."'); window.history.go(-1); </script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 		$category->checkin();
 		$category->reorder( "section = '$category->section'" );
@@ -626,12 +626,12 @@ function copySectionSave( $sectionid )
 		}
 		if (!$content->check()) {
 			echo "<script> alert('".$content->getError()."'); window.history.go(-1); </script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 
 		if (!$content->store()) {
 			echo "<script> alert('".$content->getError()."'); window.history.go(-1); </script>\n";
-			$mainframe->exit();
+			$mainframe->close();
 		}
 		$content->checkin();
 	}
@@ -683,7 +683,7 @@ function saveOrder( &$cid )
 			$row->ordering = $order[$i];
 			if (!$row->store()) {
 				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-				$mainframe->exit();
+				$mainframe->close();
 			}
 		}
 	}

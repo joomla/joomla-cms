@@ -253,7 +253,7 @@ function saveContact( $task )
 	$row	=& JTable::getInstance('contact', 'Table');
 	if (!$row->bind( JRequest::get( 'post' ))) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		$mainframe->exit();
+		$mainframe->close();
 	}
 
 	// save params
@@ -274,7 +274,7 @@ function saveContact( $task )
 	// pre-save checks
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		$mainframe->exit();
+		$mainframe->close();
 	}
 
 	// if new item, order last in appropriate group
@@ -286,7 +286,7 @@ function saveContact( $task )
 	// save the changes
 	if (!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		$mainframe->exit();
+		$mainframe->close();
 	}
 	$row->checkin();
 	if ($row->default_con) {
@@ -364,7 +364,7 @@ function changeContact( $cid=null, $state=0 )
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		$action = $state ? 'publish' : 'unpublish';
 		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
-		$mainframe->exit();
+		$mainframe->close();
 	}
 
 	$cids = implode( ',', $cid );
@@ -377,7 +377,7 @@ function changeContact( $cid=null, $state=0 )
 	$db->setQuery( $query );
 	if (!$db->query()) {
 		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-		$mainframe->exit();
+		$mainframe->close();
 	}
 
 	if (count( $cid ) == 1) {
@@ -469,7 +469,7 @@ function saveOrder( &$cid )
 			if (!$row->store()) {
 				//TODO - convert to JError
 				echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
-				$mainframe->exit();
+				$mainframe->close();
 			}
 		}
 	}
