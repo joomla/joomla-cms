@@ -298,7 +298,8 @@ class JSession extends JObject
 		if( $this->_state == 'restart' ) {
 			session_id( $this->_createId() );
 		}
-
+		
+		ini_set('session.save_handler', 'user');
 		session_cache_limiter('none');
 		session_start();
 
