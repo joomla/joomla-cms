@@ -265,11 +265,17 @@ class ContactController extends JController
 	{
 		$session =& JFactory::getSession();
 
+		$model		= $this->getModel('contact');
+		$options['category_id']	= $contact->catid;
+		$options['order by']	= 'a.default_con DESC, a.ordering ASC';
+
+		$contact 		= $model->getContact( $options );
+		$contactParams	= new JParameter($contact->params);
 		$config 		= &JComponentHelper::getParams( 'com_contact' );
-		$bannedEmail 	= $config->get( 'bannedEmail', 	'' );
-		$bannedSubject 	= $config->get( 'bannedSubject', 	'' );
-		$bannedText 	= $config->get( 'bannedText', 		'' );
-		$sessionCheck 	= $config->get( 'sessionCheck', 	1 );
+		$bannedEmail 	= $config->get( 'bannedEmail', 	'' ).';'.$contactParams->get( 'bannedEmail', 	'' );
+		$bannedSubject 	= $config->get( 'bannedSubject', 	'' ).';'.$contactParams->get( 'bannedSubject', 	'' );;
+		$bannedText 	= $config->get( 'bannedText', 	'' ).';'.$contactParams->get( 'bannedText', 	'' );;
+		$sessionCheck 	= $config->get( 'session', 	1 );
 		$sessionName	= $session->getName();
 
 		// check for session cookie

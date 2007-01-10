@@ -32,11 +32,7 @@ class ContactViewContact extends JView
 		// Get the paramaters of the active menu item
 		$menu		=& JSiteHelper::getActiveMenuItem();
 		$params		=& JSiteHelper::getMenuParams();
-		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('header', 					$menu->name );
-		$params->def('print', 					!$contentConfig->get('hidePrint'));
-		$params->def('email_description_text', JText::_('Send an Email to this Contact:'));
-		$params->def('icons', 					$contentConfig->get('icons'));
 
 		// Push a model into the view
 		$model		= &$this->getModel();
@@ -73,27 +69,8 @@ class ContactViewContact extends JView
 
 		// Adds parameter handling
 		$contact->params = new JParameter($contact->params);
-
-		$contact->params->def( 'name', 				1 );
-		$contact->params->def( 'email', 			0 );
-		$contact->params->def( 'street_address', 	1 );
-		$contact->params->def( 'suburb', 			1 );
-		$contact->params->def( 'state', 			1 );
-		$contact->params->def( 'country', 			1 );
-		$contact->params->def( 'postcode', 			1 );
-		$contact->params->def( 'telephone', 		1 );
-		$contact->params->def( 'fax', 				1 );
-		$contact->params->def( 'misc', 				1 );
-		$contact->params->def( 'image', 			1 );
-
 		if ($contact->email_to && $params->get('email')) {
 			$contact->email = JHTML::emailCloaking($contact->email_to);
-		}
-
-		if ($contact->params->get('email_description')) {
-			$contact->params->set('email_description', $params->get('email_description_text'));
-		} else {
-			$contact->params->set('email_description', '');
 		}
 
 		if (!empty ($contact->address) || !empty ($contact->suburb) || !empty ($contact->state) || !empty ($contact->country) || !empty ($contact->postcode)) {

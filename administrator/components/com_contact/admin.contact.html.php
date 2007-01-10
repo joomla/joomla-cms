@@ -171,6 +171,8 @@ class HTML_contact
 		}
 
 		JCommonHTML::loadOverlib();
+		jimport('joomla.html.pane');
+		$pane =& JPane::getInstance('sliders');
 
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES, 'misc' );
@@ -434,20 +436,19 @@ class HTML_contact
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 
-				<table class="admintable">
-				<tr>
-					<td>
-						<?php echo JText::_( 'DESCPARAMWHENCLICKCONTAC' ); ?>
-						<br /><br />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<?php echo $params->render();?>
-					</td>
-				</tr>
-				</table>
-			</fieldset>
+				<?php
+					$pane->startPane("menu-pane");
+					$pane->startPanel(JText :: _('Contact Parameters'), "param-page");
+					echo $params->render();
+					$pane->endPanel();
+					$pane->startPanel(JText :: _('Advanced Parameters'), "param-page");
+					echo $params->render('params', 'advanced');
+					$pane->endPanel();
+					$pane->startPanel(JText :: _('E-Mail Parameters'), "param-page");
+					echo $params->render('params', 'email');
+					$pane->endPanel();
+					$pane->endPane();
+				?></fieldset>
 		</div>
 		<div class="clr"></div>
 

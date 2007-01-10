@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<params>
+		<param name="contact_icons" type="list" default="0" label="Icons/text" description="PARAMCONTACTICONS">
+			<option value="0">Icons</option>
+			<option value="1">Text</option>
+			<option value="2">None</option>
+		</param>
+		<param name="icon_address" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Address Icon" description="Icon for the Address info" />
+		<param name="icon_email" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Email Icon" description="Icon for the Email info" />
+		<param name="icon_telephone" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Telephone Icon" description="Icon for the Telephone info" />
+		<param name="icon_fax" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Fax Icon" description="Icon for the Fax info" />
+		<param name="icon_misc" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Misc Icon" description="Icon for the Misc info" />
+
 		<param name="bannedEmail" type="textarea" default=""
 			label="BANNED EMAIL LABEL" rows="3" cols="50"
 			description="BANNED EMAIL DESC" />
