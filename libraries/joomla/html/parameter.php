@@ -133,7 +133,11 @@ class JParameter extends JRegistry
 	{
 		if (is_object( $xml ))
 		{
-			$this->_xml = $xml;
+			if ($group = $xml->attributes( 'group' )) {
+				$this->_xml[$group] = $xml;
+			} else {
+				$this->_xml['_default'] = $xml;
+			}
 			if ($dir = $xml->attributes( 'addparameterdir' )) {
 				$this->addParameterDir( JPATH_ROOT . $dir );
 			}
@@ -166,18 +170,18 @@ class JParameter extends JRegistry
 	 * @param string The name of the control, or the default text area if a setup file is not found
 	 * @return string HTML
 	 */
-	function render($name = 'params')
+	function render($name = 'params', $group = '_default')
 	{
-		if (!is_object($this->_xml)) {
+		if (!is_object($this->_xml[$group])) {
 			return false;
 		}
 
-		$params = $this->getParams($name);
+		$params = $this->getParams($name, $group);
 
 		$html = array ();
 		$html[] = '<table width="100%" class="paramlist" cellspacing="1">';
 
-		if ($description = $this->_xml->attributes('description')) {
+		if ($description = $this->_xml[$group]->attributes('description')) {
 			// add the params description to the display
 			$html[] = '<tr><td class="paramlist_description" colspan="2">'.$description.'</td></tr>';
 		}
@@ -208,13 +212,13 @@ class JParameter extends JRegistry
 	 * @param string The name of the control, or the default text area if a setup file is not found
 	 * @return array of all parameters, each as array Any array of the label, the form element and the tooltip
 	 */
-	function renderToArray($name = 'params')
+	function renderToArray($name = 'params', $group = '_default')
 	{
-		if (!is_object($this->_xml)) {
+		if (!is_object($this->_xml[$group])) {
 			return false;
 		}
 		$results = array();
-		foreach ($this->_xml->children() as $param)  {
+		foreach ($this->_xml[$group]->children() as $param)  {
 			$result = $this->getParam($param, $name);
 			$results[$result[5]] = $result;
 		}
@@ -227,11 +231,11 @@ class JParameter extends JRegistry
 	 * @access public
 	 * @return mixed	Boolean falst if no params exist or integer number of params that exist
 	 */
-	function getNumParams() {
-		if (!is_object($this->_xml) || !count($this->_xml->children())) {
+	function getNumParams($group = '_default') {
+		if (!is_object($this->_xml[$group]) || !count($this->_xml[$group]->children())) {
 			return false;
 		} else {
-			return count($this->_xml->children());
+			return count($this->_xml[$group]->children());
 		}
 	}
 
@@ -242,13 +246,13 @@ class JParameter extends JRegistry
 	 * @param string The name of the control, or the default text area if a setup file is not found
 	 * @return array of all parameters, each as array Any array of the label, the form element and the tooltip
 	 */
-	function getParams($name = 'params')
+	function getParams($name = 'params', $group = '_default')
 	{
-		if (!is_object($this->_xml)) {
+		if (!is_object($this->_xml[$group])) {
 			return false;
 		}
 		$results = array();
-		foreach ($this->_xml->children() as $param)  {
+		foreach ($this->_xml[$group]->children() as $param)  {
 			$results[] = $this->getParam($param, $name);
 		}
 		return $results;
@@ -304,9 +308,12 @@ class JParameter extends JRegistry
 
 			if ($xml->loadFile($path))
 			{
-				if ($params = & $xml->document->params[0]) {
-					$this->setXML( $params );
-					$result = true;
+				if ($params = & $xml->document->params) {
+					foreach ($params as $param)
+					{
+						$this->setXML( $param );
+						$result = true;
+					}
 				}
 			}
 		}
