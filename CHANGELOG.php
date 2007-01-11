@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Jan-2007 Louis Landry
+ ^ Reworked JError to remove dependency on patError/patErrorManager
+ ^ JLog now uses the log_path config if not explicitly set
+
 11-Jan-2007 Enno Klasing
  + Added optional default parameter to JRegistry->getValue
  # Fixed XHTML compliance for feed links

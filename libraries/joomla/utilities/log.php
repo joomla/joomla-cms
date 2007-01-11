@@ -75,7 +75,8 @@ class JLog extends JObject
 
 		// Set default path if not set
 		if (!$path) {
-			$path = JPATH_ROOT.DS.'logs';
+			$config =& JFactory::getConfig();
+			$path = $config->getValue('config.log_path');
 		}
 
 		jimport('joomla.filesystem.path');

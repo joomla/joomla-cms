@@ -36,12 +36,10 @@ $langs = JHTMLSelect::genericList( $languages, 'lang', ' class="inputbox"', 'val
 		<input name="passwd" id="password" type="password" class="inputbox" size="15" />
 	</p>
 	<?php
-	$errors = JError::getErrors();
-	if(JError::isError($errors[0])) {
+	if($error = JError::getError(true)) {
 		echo '<p>';
-		echo $errors[0]->getMessage();
+		echo $error->get('message');
 		echo '<p>';
-		array_shift($errors);
 	}
 	?>
 	<p>

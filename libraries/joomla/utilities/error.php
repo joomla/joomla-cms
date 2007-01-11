@@ -13,100 +13,166 @@
 */
 
 // Import library dependencies
-jimport('pattemplate.patErrorManager');
 jimport('joomla.i18n.language');
 
 define('JERR_PHP5', version_compare(phpversion(), '5') >= 0);
+// Error Definition: Illegal Options
+define( 'JERR_ILLEGAL_OPTIONS', 1 );
+// Error Definition: Callback does not exist
+define( 'JERR_CALLBACK_NOT_CALLABLE', 2 );
+// Error Definition: Illegal Handler
+define( 'JERR_ILLEGAL_MODE', 3 );
 
-/**
- * global definition needed to store the raised errors
+/*
+ * JError exception stack
  */
-$GLOBALS['_JError_errorStore'] = array();
+$GLOBALS['_JError_Stack'] = array();
+
+/*
+ * Default available error levels
+ */
+$GLOBALS['_JError_Levels'] = array( E_NOTICE => 'Notice', E_WARNING => 'Warning', E_ERROR => 'Error' );
+
+/*
+ * Default error handlers
+ */
+$GLOBALS['_JError_Handlers'] = array( E_NOTICE => array( 'mode' => 'message' ), E_WARNING => array( 'mode' => 'message' ), E_ERROR => array( 'mode' => 'callback', 'options' => array('JError','customErrorPage') ) );
 
 /**
  * Error Handling Class
  *
- * This class is an proxy of the patError class
+ * This class is inspired in design and concept by patErrorManager <http://www.php-tools.net>
+ *
+ * patErrorManager contributors include:
+ * 	- gERD Schaufelberger	<gerd@php-tools.net>
+ * 	- Sebastian Mordziol	<argh@php-tools.net>
+ * 	- Stephan Schmidt		<scst@php-tools.net>
  *
  * @static
+ * @author		Louis Landry <louis.landry@joomla.org>
+ * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since		1.5
  */
-class JError extends patErrorManager
+class JError
 {
 	/**
-	 * method for checking whether the return value of a pat application method is a pat
-	 * error object.
+	 * Method to determine if a value is an exception object.  This check supports both JException and PHP5 Exception objects
 	 *
 	 * @static
 	 * @access	public
-	 * @param	mixed	&$object
-	 * @return	boolean $result	True if argument is a JError-object, false otherwise.
+	 * @param	mixed	&$object	Object to check
+	 * @return	boolean	True if argument is an exception, false otherwise.
+	 * @since	1.5
 	 */
 	function isError(& $object)
 	{
-		if (JERR_PHP5) {
-			// supports PHP 5 exception handling
-			return patErrorManager::isError($object) | is_a($object, 'Exception');
+		if (!is_object($object)) {
+			return false;
+		}
+		// supports PHP 5 exception handling
+		return is_a($object, 'JException') | is_a($object, 'Exception');
+	}
+
+	/**
+	 * Method for retrieving the last exception object in the error stack
+	 *
+	 * @static
+	 * @access	public
+	 * @return	mixed	Last exception object in the error stack or boolean false if none exist
+	 * @since	1.5
+	 */
+	function & getError($unset = false)
+	{
+		if (!isset($GLOBALS['_JError_Stack'][0])) {
+			$false = false;
+			return $false;
+		}
+		if ($unset) {
+			$error = array_shift($GLOBALS['_JError_Stack']);
 		} else {
-			return patErrorManager::isError($object);
+			$error = &$GLOBALS['_JError_Stack'][0];
+		}
+		return $error;
+	}
+
+	/**
+	 * Method for retrieving the exception stack
+	 *
+	 * @static
+	 * @access	public
+	 * @return	array 	Chronological array of errors that have been stored during script execution
+	 * @since	1.5
+	 */
+	function & getErrors()
+	{
+		return $GLOBALS['_JError_Stack'];
+	}
+
+	/**
+	 * Create a new JException object given the passed arguments
+	 *
+	 * @static
+	 * @param	int		$level	The error level - use any of PHP's own error levels for this: E_ERROR, E_WARNING, E_NOTICE, E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE.
+	 * @param	string	$code	The application-internal error code for this error
+	 * @param	string	$msg	The error message, which may also be shown the user if need be.
+	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
+	 * @return	mixed	The JException object
+	 * @since	1.5
+	 *
+	 * @see		JException
+	 */
+	function & raise($level, $code, $msg, $info = null, $backtrace = false)
+	{
+		// build error object
+		$error = new JException($level, $code, $msg, $info, $backtrace);
+
+		// see what to do with this kind of error
+		$handler = JError::getErrorHandling($level);
+
+		//store the error
+		$GLOBALS['_JError_Stack'][] =& $error;
+
+		$function = 'handle'.ucfirst($handler['mode']);
+		if (is_callable(array('JError', $function))) {
+			return JError::$function ($error, (isset($handler['options'])) ? $handler['options'] : array());
+		} else {
+			// This is required to prevent a very unhelpful white-screen-of-death
+			die(
+				'JError::raise -> Static method JError::' . $function . ' does not exist.' .
+				' Contact a developer to debug' .
+				'<br/><strong>Error was</strong> ' .
+				'<br/>' . $error->get('message')
+			);
 		}
 	}
 
 	/**
-	 * method for retrieving the last error stored
+	 * Wrapper method for the {@link raise()} method with predefined error level of E_ERROR and backtrace set to true.
 	 *
 	 * @static
-	 * @access	public
-	 * @return	array 	$result	Chronological array of errors that have been stored during script execution
-	 */
-	function & getError()
-	{
-		return $GLOBALS['_JError_errorStore'][0];
-	}
-
-	/**
-	 * method for for retrieving the errors that are stored
-	 *
-	 * @static
-	 * @access	public
-	 * @return	array 	$result	Chronological array of errors that have been stored during script execution
-	 */
-	function & getErrors()
-	{
-		return $GLOBALS['_JError_errorStore'];
-	}
-
-	/**
-	 * wrapper for the {@link raise()} method where you do not have to specify the
-	 * error level - a {@link patError} object with error level E_ERROR will be returned.
-	 *
-	 * @static
-	 * @access	public
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
 	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
 	 * @return	object	$error	The configured JError object
-	 * @see		patErrorManager
+	 * @since	1.5
 	 */
 	function & raiseError($code, $msg, $info = null)
 	{
-		$reference = & JError::raise(E_ERROR, $code, $msg, $info);
+		$reference = & JError::raise(E_ERROR, $code, $msg, $info, true);
 		return $reference;
 	}
 
 	/**
-	 * wrapper for the {@link raise()} method where you do not have to specify the
-	 * error level - a {@link patError} object with error level E_WARNING will be returned.
+	 * Wrapper method for the {@link raise()} method with predefined error level of E_WARNING and backtrace set to false.
 	 *
 	 * @static
-	 * @access	public
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
 	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
 	 * @return	object	$error	The configured JError object
-	 * @see		patErrorManager
+	 * @since	1.5
 	 */
 	function & raiseWarning($code, $msg, $info = null)
 	{
@@ -115,16 +181,14 @@ class JError extends patErrorManager
 	}
 
 	/**
-	 * wrapper for the {@link raise()} method where you do not have to specify the
-	 * error level - a {@link patError} object with error level E_NOTICE will be returned.
+	 * Wrapper method for the {@link raise()} method with predefined error level of E_NOTICE and backtrace set to false.
 	 *
 	 * @static
-	 * @access	public
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
 	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
 	 * @return	object	$error	The configured JError object
-	 * @see		patErrorManager
+	 * @since	1.5
 	 */
 	function & raiseNotice($code, $msg, $info = null)
 	{
@@ -132,115 +196,187 @@ class JError extends patErrorManager
 		return $reference;
 	}
 
+   /**
+	* Method to get the current error handler settings for a specified error level.
+	*
+	* @static
+	* @param	int		$level	The error level to retrieve. This can be any of PHP's own error levels, e.g. E_ALL, E_NOTICE...
+	* @return	array	All error handling details
+	* @since	1.5
+	*/
+    function getErrorHandling( $level )
+    {
+		return $GLOBALS['_JError_Handlers'][$level];
+    }
+
 	/**
-	 * creates a new patError object given the specified information.
+	 * Method to set the way the JError will handle different error levels. Use this if you want to override the default settings.
 	 *
-	 * @access	public
-	 * @param	int		$level	The error level - use any of PHP's own error levels for this: E_ERROR, E_WARNING, E_NOTICE, E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE.
-	 * @param	string	$code	The application-internal error code for this error
-	 * @param	string	$msg	The error message, which may also be shown the user if need be.
-	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
-	 * @return	mixed	$error	The configured patError object or false if this error should be ignored
-	 * @see		patError
+	 * Error handling modes:
+	 * - ignore
+	 * - echo
+	 * - verbose
+	 * - die
+	 * - message
+	 * - log
+	 * - trigger
+	 * - callback
+	 *
+	 * You may also set the error handling for several modes at once using PHP's bit operations.
+	 * Examples:
+	 * - E_ALL = Set the handling for all levels
+	 * - E_ERROR | E_WARNING = Set the handling for errors and warnings
+	 * - E_ALL ^ E_ERROR = Set the handling for all levels except errors
+	 *
+	 * @static
+	 * @param	int		$level		The error level for which to set the error handling
+	 * @param	string	$mode		The mode to use for the error handling.
+	 * @param	mixed	$options	Optional: Any options needed for the given mode.
+	 * @return	mixed	True on success, or a JException object if failed.
+	 * @since	1.5
 	 */
-	function & raise($level, $code, $msg, $info = null)
+	function setErrorHandling($level, $mode, $options = null)
 	{
-		// ignore this error?
-		if (in_array($code, $GLOBALS['_pat_errorIgnores'])) {
-			return false;
+		$levels = $GLOBALS['_JError_Levels'];
+
+		$function = 'handle'.ucfirst($mode);
+		if (!is_callable(array ('JError',$function))) {
+			return JError::raiseError(E_ERROR, 'JError:'.JERR_ILLEGAL_MODE, 'Error Handling mode is not knwon', 'Mode: '.$mode.' is not implemented.');
 		}
 
-		// this error was expected
-		if (!empty ($GLOBALS['_pat_errorExpects'])) {
-			$expected = array_pop($GLOBALS['_pat_errorExpects']);
-			if (in_array($code, $expected)) {
-				return false;
+		foreach ($levels as $eLevel => $eTitle) {
+			if (($level & $eLevel) != $eLevel) {
+				continue;
+			}
+
+			// set callback options
+			if ($mode == 'callback') {
+				if (!is_array($options)) {
+					return JError::raiseError(E_ERROR, 'JError:'.JERR_ILLEGAL_OPTIONS, 'Options for callback not valid');
+				}
+
+				if (!is_callable($options)) {
+					$tmp = array ('GLOBAL');
+					if (is_array($options)) {
+						$tmp[0] = $options[0];
+						$tmp[1] = $options[1];
+					} else {
+						$tmp[1] = $options;
+					}
+
+					return JError::raiseError(E_ERROR, 'JError:'.JERR_CALLBACK_NOT_CALLABLE, 'Function is not callable', 'Function:'.$tmp[1].' scope '.$tmp[0].'.');
+				}
+			}
+
+			// save settings
+			$GLOBALS['_JError_Handlers'][$eLevel] = array ('mode' => $mode);
+			if ($options != null) {
+				$GLOBALS['_JError_Handlers'][$eLevel]['options'] = $options;
 			}
 		}
 
-		// need patError
-		$class = $GLOBALS['_pat_errorClass'];
-		if (!class_exists($class)) {
-			jimport('pattemplate.patError');
+		return true;
+	}
+
+   /**
+	* Method to register a new error level for handling errors
+	*
+	* This allows you to add custom error levels to the built-in
+	* - E_NOTICE
+	* - E_WARNING
+	* - E_NOTICE
+	*
+	* @static
+	* @param	int		$level		Error level to register
+	* @param	string	$name		Human readable name for the error level
+	* @param	string	$handler	Error handler to set for the new error level [optional]
+	* @return	boolean	True on success; false if the level already has been registered
+	* @since	1.5
+	*/
+	function registerErrorLevel( $level, $name, $handler = 'ignore' )
+	{
+		if( isset($GLOBALS['_JError_Levels'][$level]) ) {
+			return false;
 		}
+		$GLOBALS['_JError_Levels'][$level] = $name;
+		JError::setErrorHandling($level, $handler);
+		return true;
+	}
 
-		// build error object
-		$error = new $class($level, $code, $msg, $info);
-
-		// see what to do with this kind of error
-		$handling = patErrorManager::getErrorHandling($level);
-
-		//store the error
-		$GLOBALS['_JError_errorStore'][] = & $error;
-
-		$function = 'handleError'.ucfirst($handling['mode']);
-		if (is_callable(array('JError', $function)))
-		{
-			return JError::$function ($error, $handling);
-		} else {
-			// This is required to prevent a very unhelpful white-screen-of-death
-			die(
-				'JError::raise -> Static method JError::' . $function . ' does not exist.' .
-				' Contact a developer to debug' .
-				'<br/><strong>Error was</strong> ' .
-				'<br/>' . $error->getMessage()
-			);
+   /**
+	* Translate an error level integer to a human readable string
+	* e.g. E_ERROR will be translated to 'Error'
+	*
+	* @static
+	* @param	int		$level	Error level to translate
+	* @return	mixed	Human readable error level name or boolean false if it doesn't exist
+	* @since	1.5
+	*/
+	function translateErrorLevel( $level )
+	{
+		if( isset($GLOBALS['_JError_Levels'][$level]) ) {
+			return $GLOBALS['_JError_Levels'][$level];
 		}
+		return false;
 	}
 
 	/**
-	 * handleError: Echo
-	 * display error message
+	 * Echo error handler
+	 * 	- Echos the error message to output
 	 *
-	 * @access private
-	 * @param object $error patError-Object
-	 * @param array $options options for handler
-	 * @return object $error error-object
-	 * @see raise()
+	 * @static
+	 * @param	object	$error		Exception object to handle
+	 * @param	array	$options	Handler options
+	 * @return	object	The exception object
+	 * @since	1.5
+	 *
+	 * @see	raise()
 	 */
-	function & handleErrorEcho(& $error, $options)
+	function & handleEcho(&$error, $options)
 	{
-		$level_human = patErrorManager::translateErrorLevel($error->getLevel());
+		$level_human = JError::translateErrorLevel($error->getLevel());
 
 		if (isset ($_SERVER['HTTP_HOST'])) {
 			// output as html
-			echo "<br /><b>jos-$level_human</b>: ".$error->getMessage()."<br />\n";
+			echo "<br /><b>jos-$level_human</b>: ".$error->get('message')."<br />\n";
 		} else {
 			// output as simple text
 			if (defined('STDERR')) {
-				fwrite(STDERR, "jos-$level_human: ".$error->getMessage()."\n");
+				fwrite(STDERR, "jos-$level_human: ".$error->get('message')."\n");
 			} else {
-				echo "jos-$level_human: ".$error->getMessage()."\n";
+				echo "jos-$level_human: ".$error->get('message')."\n";
 			}
 		}
 		return $error;
 	}
 
 	/**
-	 * handleError: Verbose
-	 * display verbose output for developing purpose
+	 * Verbose error handler
+	 * 	- Echos the error message to output as well as related info
 	 *
-	 * @access private
-	 * @param object $error patError-Object
-	 * @param array $options options for handler
-	 * @return object $error error-object
-	 * @see raise()
+	 * @static
+	 * @param	object	$error		Exception object to handle
+	 * @param	array	$options	Handler options
+	 * @return	object	The exception object
+	 * @since	1.5
+	 *
+	 * @see	raise()
 	 */
-	function & handleErrorVerbose(& $error, $options)
+	function & handleVerbose(& $error, $options)
 	{
 		$level_human = patErrorManager::translateErrorLevel($error->getLevel());
 		$info = $error->getInfo();
 
 		if (isset ($_SERVER['HTTP_HOST'])) {
 			// output as html
-			echo "<br /><b>J$level_human</b>: ".$error->getMessage()."<br />\n";
+			echo "<br /><b>J$level_human</b>: ".$error->get('message')."<br />\n";
 			if ($info != null) {
 				echo "&nbsp;&nbsp;&nbsp;".$error->getInfo()."<br />\n";
 			}
 			echo $error->getBacktrace(true);
 		} else {
 			// output as simple text
-			echo "J$level_human: ".$error->getMessage()."\n";
+			echo "J$level_human: ".$error->get('message')."\n";
 			if ($info != null) {
 				echo "\t".$error->getInfo()."\n";
 			}
@@ -250,61 +386,67 @@ class JError extends patErrorManager
 	}
 
 	/**
-	 * handleError: die
-	 * display error-message and die
+	 * Die error handler
+	 * 	- Echos the error message to output and then dies
 	 *
-	 * @access private
-	 * @param object $error patError-Object
-	 * @param array $options options for handler
-	 * @return object $error error-object
-	 * @see raise()
+	 * @static
+	 * @param	object	$error		Exception object to handle
+	 * @param	array	$options	Handler options
+	 * @return	object	The exception object
+	 * @since	1.5
+	 *
+	 * @see	raise()
 	 */
-	function & handleErrorDie(& $error, $options)
+	function & handleDie(& $error, $options)
 	{
 		$level_human = patErrorManager::translateErrorLevel($error->getLevel());
 
 		if (isset ($_SERVER['HTTP_HOST'])) {
 			// output as html
-			die("<br /><b>J$level_human</b> ".$error->getMessage()."<br />\n");
+			die("<br /><b>J$level_human</b> ".$error->get('message')."<br />\n");
 		} else {
 			// output as simple text
 			if (defined('STDERR')) {
-				fwrite(STDERR, "J$level_human ".$error->getMessage()."\n");
+				fwrite(STDERR, "J$level_human ".$error->get('message')."\n");
 			} else {
-				die("J$level_human ".$error->getMessage()."\n");
+				die("J$level_human ".$error->get('message')."\n");
 			}
 		}
 		return $error;
 	}
 
 	/**
-	 * handleError: Message
-	 * enqueue error message in system queue
+	 * Message error handler
+	 * 	- Enqueues the error message into the system queue
 	 *
-	 * @access private
-	 * @param object $error patError-Object
-	 * @param array $options options for handler
-	 * @return object $error error-object
-	 * @see raise()
+	 * @static
+	 * @param	object	$error		Exception object to handle
+	 * @param	array	$options	Handler options
+	 * @return	object	The exception object
+	 * @since	1.5
+	 *
+	 * @see	raise()
 	 */
-	function & handleErrorMessage(& $error, $options)
+	function & handleMessage(& $error, $options)
 	{
 		global $mainframe;
-		$mainframe->enqueueMessage(JText::_($error->getMessage()), 'error');
+		$mainframe->enqueueMessage(JText::_($error->get('message')), 'error');
 		return $error;
 	}
 
 	/**
-	 * handleError: Log
-	 * log error message
+	 * Log error handler
+	 * 	- Logs the error message to a system log file
 	 *
-	 * @access private
-	 * @param object $error patError-Object
-	 * @param array $options options for handler
-	 * @return object $error error-object
-	 * @see raise()
+	 * @static
+	 * @param	object	$error		Exception object to handle
+	 * @param	array	$options	Handler options
+	 * @return	object	The exception object
+	 * @since	1.5
+	 *
+	 * @see	raise()
 	 */
-	function & handleErrorLog(& $error, $options)
+	function & handleLog(& $error, $options)
 	{
 		static $log;
 
@@ -317,88 +459,71 @@ class JError extends patErrorManager
 
 		$entry['level'] = $error->getLevel();
 		$entry['code'] = $error->getCode();
-		$entry['message'] = str_replace(array ("\r","\n"), array ('','\\n'), $error->getMessage());
+		$entry['message'] = str_replace(array ("\r","\n"), array ('','\\n'), $error->get('message'));
 		$log->addEntry($entry);
 
 		return $error;
 	}
 
 	/**
-	 * sets the way the patErrorManager will handle teh different error levels. Use this
-	 * if you want to override the default settings.
-	 *
-	 * Error handling modes:
-	 * - ignore
-	 * - trigger
-	 * - verbose
-	 * - echo
-	 * - callback
-	 * - die
-	 * - store
-	 *
-	 * You may also set the error handling for several modes at once using PHP's bit operations.
-	 * Examples:
-	 * - E_ALL = Set the handling for all levels
-	 * - E_ERROR | E_WARNING = Set the handling for errors and warnings
-	 * - E_ALL ^ E_ERROR = Set the handling for all levels except errors
+	 * Trigger error handler
+	 * 	- Triggers a PHP native error with the error message
 	 *
 	 * @static
-	 * @access	public
-	 * @param	int		$level		The error level for which to set the error handling
-	 * @param	string	$mode		The mode to use for the error handling.
-	 * @param	mixed	$options	Optional: Any options needed for the given mode.
-	 * @return	mixed	$result		True on success, or a patError object if failed.
-	 * @see		getErrorHandling()
+	 * @param	object	$error		Exception object to handle
+	 * @param	array	$options	Handler options
+	 * @return	object	The exception object
+	 * @since	1.5
+	 *
+	 * @see	raise()
 	 */
-	function setErrorHandling($level, $mode, $options = null)
-	{
-		$levels = $GLOBALS['_pat_errorLevels'];
-
-		$function = 'handleError'.ucfirst($mode);
-		if (!is_callable(array ('JError',$function))) {
-			return JError::raiseError(E_ERROR, 'JError:'.PATERRORMANAGER_ERROR_ILLEGAL_MODE, 'Error Handling mode is not knwon', 'Mode: '.$mode.' is not implemented.');
+    function &handleTrigger( &$error, $options )
+    {
+		switch( $error->getLevel() )
+		{
+			case	E_NOTICE:
+				$level	=	E_USER_NOTICE;
+				break;
+			case	E_WARNING:
+				$level	=	E_USER_WARNING;
+				break;
+			case	E_NOTICE:
+				$level =	E_NOTICE;
+				break;
+			default:
+				$level	=	E_USER_ERROR;
+				break;
 		}
 
-		foreach ($levels as $eLevel => $eTitle) {
-			if (($level & $eLevel) != $eLevel) {
-				continue;
-			}
+		trigger_error( $error->get('message'), $level );
+		return $error;
+    }
 
-			// set callback options
-			if ($mode == 'callback') {
-				if (!is_array($options)) {
-					return JError::raiseError(E_ERROR, 'JError:'.PATERRORMANAGER_ERROR_ILLEGAL_OPTIONS, 'Options for callback not valid');
-				}
-
-				if (!is_callable($options)) {
-					$tmp = array ('GLOBAL');
-					if (is_array($options)) {
-						$tmp[0] = $options[0];
-						$tmp[1] = $options[1];
-					} else {
-						$tmp[1] = $options;
-					}
-
-					return JError::raiseError(E_ERROR, 'JError:'.PATERRORMANAGER_ERROR_CALLBACK_NOT_CALLABLE, 'Function is not callable', 'Function:'.$tmp[1].' scope '.$tmp[0].'.');
-				}
-			}
-
-			// save settings
-			$GLOBALS['_pat_errorHandling'][$eLevel] = array ('mode' => $mode);
-			if ($options != null) {
-				$GLOBALS['_pat_errorHandling'][$eLevel]['options'] = $options;
-			}
-		}
-
-		return true;
-	}
+ 	/**
+	 * Callback error handler
+	 * 	- Send the error object to a callback method for error handling
+	 *
+	 * @static
+	 * @param	object	$error		Exception object to handle
+	 * @param	array	$options	Handler options
+	 * @return	object	The exception object
+	 * @since	1.5
+	 *
+	 * @see	raise()
+	 */
+    function &handleCallback( &$error, $options )
+    {
+		$result = &call_user_func( $options, $error );
+		return $result;
+    }
 
 	/**
 	 * Display a custom error page and exit gracefully
 	 *
-	 * @access public
-	 * @param object $error patError-Object
-	 * @return void
+	 * @static
+	 * @param	object	$error Exception object
+	 * @return	void
+	 * @since	1.5
 	 */
 	function customErrorPage(& $error)
 	{
@@ -421,15 +546,163 @@ class JError extends patErrorManager
 		$document->display(false, array (
 			'template' => $template,
 			'directory' => JPATH_BASE.DS.'templates',
-			'debug' => $config->getValue('config.debug'
-		)));
+			'debug' => $config->getValue('config.debug')
+		));
 
 		echo JResponse::toString();
-		exit(0);
+		$mainframe->close(0);
 	}
 }
 
-JError::setErrorHandling(E_ERROR, 'callback', array('JError','customErrorPage'));
-JError::setErrorHandling(E_WARNING, 'message');
-JError::setErrorHandling(E_NOTICE, 'message');
+/**
+ * Joomla! Exception object.
+ *
+ * This class is inspired in design and concept by patError <http://www.php-tools.net>
+ *
+ * patError contributors include:
+ * 	- gERD Schaufelberger	<gerd@php-tools.net>
+ * 	- Sebastian Mordziol	<argh@php-tools.net>
+ * 	- Stephan Schmidt		<scst@php-tools.net>
+ *
+ * @author		Louis Landry <louis.landry@joomla.org>
+ * @package 	Joomla.Framework
+ * @subpackage	Utilities
+ * @since		1.5
+ */
+class JException extends JObject
+{
+   /**
+	* Error level
+	* @var string
+	*/
+	var	$level		= null;
+
+   /**
+	* Error code
+	* @var string
+	*/
+	var	$code		= null;
+
+   /**
+	* Error message
+	* @var string
+	*/
+	var	$message	= null;
+
+   /**
+	* Additional info about the error relevant to the developer
+	*  - e.g. if a database connect fails, the dsn used
+	* @var string
+	*/
+	var	$info		= '';
+
+   /**
+	* Name of the file the error occurred in [Available if backtrace is enabled]
+	* @var string
+	*/
+	var	$file		= null;
+
+   /**
+	* Line number the error occurred in [Available if backtrace is enabled]
+	* @var int
+	*/
+	var	$line		= 0;
+
+   /**
+	* Name of the method the error occurred in [Available if backtrace is enabled]
+	* @var string
+	*/
+	var	$function	= null;
+
+   /**
+	* Name of the class the error occurred in [Available if backtrace is enabled]
+	* @var string
+	*/
+	var	$class		= null;
+
+   /**
+    * Error type
+	* @var string
+	*/
+	var	$type		= null;
+
+   /**
+	* Arguments recieved by the method the error occurred in [Available if backtrace is enabled]
+	* @var array
+	*/
+	var	$args		= array();
+
+   /**
+	* Backtrace information
+	* @var mixed
+	*/
+	var	$backtrace	= false;
+
+   /**
+	* Constructor
+	* 	- used to set up the error with all needed error details.
+	*
+	* @access	protected
+	* @param	int		$level	The error level (use the PHP constants E_ALL, E_NOTICE etc.).
+	* @param	string	$code	The error code from the application
+	* @param	string	$msg	The error message
+	* @param	string	$info	Optional: The additional error information.
+	*/
+    function __construct( $level, $code, $msg, $info = null, $backtrace = false )
+    {
+		$this->level	=	$level;
+		$this->code		=	$code;
+		$this->message	=	$msg;
+
+		if( $info != null ) {
+			$this->info = $info;
+		}
+
+		if( $backtrace && function_exists( 'debug_backtrace' ) ) {
+			$this->backtrace = debug_backtrace();
+
+			for( $i = count( $this->backtrace ) - 1; $i >= 0; --$i )
+			{
+				++$i;
+				if( isset( $this->backtrace[$i]['file'] ) )
+					$this->file		= $this->backtrace[$i]['file'];
+				if( isset( $this->backtrace[$i]['line'] ) )
+					$this->line		= $this->backtrace[$i]['line'];
+				if( isset( $this->backtrace[$i]['class'] ) )
+					$this->class	= $this->backtrace[$i]['class'];
+				if( isset( $this->backtrace[$i]['function'] ) )
+					$this->function	= $this->backtrace[$i]['function'];
+				if( isset( $this->backtrace[$i]['type'] ) )
+					$this->type		= $this->backtrace[$i]['type'];
+
+				$this->args		= false;
+				if( isset( $this->backtrace[$i]['args'] ) ) {
+					$this->args		= $this->backtrace[$i]['args'];
+				}
+				break;
+			}
+		}
+    }
+
+   /**
+	* Method to get the backtrace information for an exception object
+	*
+	* @access	public
+	* @return	array backtrace
+	* @since	1.5
+	*/
+    function getBacktrace( $formatted=false )
+    {
+    	if ($formatted && is_array( $this->backtrace )) {
+    		$result = '';
+    		foreach( $this->backtrace as $back) {
+			    if (strpos( $back['file'], 'error.php') !== false) {
+				    $result .= '<br />'.$back['file'].':'.$back['line'];
+				}
+			}
+			return $result;
+		}
+		return $this->backtrace;
+    }
+}
 ?>
