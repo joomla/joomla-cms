@@ -29,7 +29,7 @@ class ContactModelCategory extends JModel
 	function _getCatgoriesQuery( &$options )
 	{
 		// TODO: Cache on the fingerprint of the arguments
-		$db		= JFactory::getDBO();
+		$db		=& JFactory::getDBO();
 		$aid	= @$options['aid'];
 
 		$select = 'cc.*, COUNT( a.id ) AS numlinks, a.id as cid';
@@ -74,7 +74,7 @@ class ContactModelCategory extends JModel
 	function _getContactsQuery( &$options )
 	{
 		// TODO: Cache on the fingerprint of the arguments
-		$db			= JFactory::getDBO();
+		$db			=& JFactory::getDBO();
 		$aid		= @$options['aid'];
 		$catId		= @$options['category_id'];
 		$groupBy	= @$options['group by'];

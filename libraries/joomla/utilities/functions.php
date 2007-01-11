@@ -97,7 +97,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 {
 	global $mainframe;
 
-	$lang = JFactory::getLanguage();
+	$lang =& JFactory::getLanguage();
 
 	$tooltip	= addslashes(htmlspecialchars($tooltip));
 	$title		= addslashes(htmlspecialchars($title));

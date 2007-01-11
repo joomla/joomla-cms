@@ -143,7 +143,7 @@ class UserController
 			}
 		}
 
-		$user = JUser::getInstance($user_id);
+		$user =& JUser::getInstance($user_id);
 		$orig_username = $user->get('username');
 
 		if (!$user->bind( $post )) {

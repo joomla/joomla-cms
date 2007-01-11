@@ -66,7 +66,7 @@ class  JRequestJoomla extends JPlugin
 		if ($rewrite && !$mainframe->isAdmin())
 		{
 			// get the full request URI
-			$URI = JURI::getInstance();
+			$URI =& JURI::getInstance();
 
 			// Check for normal index.php?option= ... style
 			$path = $URI->toString();
@@ -204,7 +204,7 @@ function sefRelToAbs($value)
 		}
 
 		// decompose link into url component parts
-		$uri = JURI::getInstance($string);
+		$uri =& JURI::getInstance($string);
 
 		// check if link contained a query component
 		if ($query = $uri->getQuery())

@@ -31,7 +31,7 @@ class BannerHelper
 
 		if (!$instance)
 		{
-			$config = JComponentHelper::getParams( 'com_banners' );
+			$config =& JComponentHelper::getParams( 'com_banners' );
 			$prefix = $config->get( 'tag_prefix' );
 
 			$instance = array();

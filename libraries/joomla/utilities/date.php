@@ -202,7 +202,7 @@ class JDate extends JObject
 		$date = strftime($format, $this->_date + ($this->_offset * 3600));
 
 		// for Windows there is a need to convert the OS date string to utf-8.
-		$lang = JFactory::getLanguage();
+		$lang =& JFactory::getLanguage();
 		if ( JUtility::isWinOS() && function_exists('iconv') ) {
 			return iconv($lang->getWinCP(), "UTF-8", $date);
 		}

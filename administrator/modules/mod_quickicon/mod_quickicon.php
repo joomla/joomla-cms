@@ -21,7 +21,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 	function quickiconButton( $link, $image, $text )
 	{
 		global $mainframe;
-		$lang 		= JFactory::getLanguage();
+		$lang		=& JFactory::getLanguage();
 		$template	= $mainframe->getTemplate();
 		?>
 		<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">

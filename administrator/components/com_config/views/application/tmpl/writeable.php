@@ -1,4 +1,4 @@
-<?php $config = JFactory::getConfig();
+<?php $config =& JFactory::getConfig();
 if ($config->get('ftp_enable') != 0) {
 ?>
 <span class="small">

@@ -48,7 +48,7 @@ class ConfigControllerComponent extends JController
 		}
 
 		$model = $this->getModel('Component' );
-		$table = JTable::getInstance('component');
+		$table =& JTable::getInstance('component');
 
 		if (!$table->loadByOption( $component ))
 		{
@@ -69,7 +69,7 @@ class ConfigControllerComponent extends JController
 	{
 		$component = JRequest::getVar( 'component' );
 
-		$table = JTable::getInstance('component');
+		$table =& JTable::getInstance('component');
 		if (!$table->loadByOption( $component ))
 		{
 			JError::raiseWarning( 500, 'Not a valid component' );

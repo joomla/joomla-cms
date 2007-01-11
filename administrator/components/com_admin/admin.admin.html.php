@@ -165,7 +165,7 @@ class HTML_admin_misc
 		$helpsearch = JRequest::getVar( 'helpsearch' );
 		$page 		= JRequest::getVar( 'page', 'joomla.whatsnew15.html' );
 		$toc 		= getHelpToc( $helpsearch );
-		$lang		= JFactory::getLanguage();
+		$lang		=& JFactory::getLanguage();
 		$langTag = $lang->getTag();
 		if( !JFolder::exists( JPATH_BASE . '/help/' .$langTag ) ) {
 			$langTag = 'en-GB';		// use english as fallback

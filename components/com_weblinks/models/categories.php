@@ -88,7 +88,7 @@ class WeblinksModelCategories extends JModel
 
 	function _buildQuery()
 	{
-		$user = JFactory::getUser();
+		$user =& JFactory::getUser();
 		$aid = $user->get('aid', 0);
 
 		//Query to retrieve all categories that belong under the web links section and that are published.

@@ -63,7 +63,7 @@ class TOOLBAR_content
 	function _DEFAULT() {
 		global $filter_state;
 
-		$user = JFactory::getUser();
+		$user =& JFactory::getUser();
 
 		JMenuBar::title( JText::_( 'Article Manager' ), 'addedit.png' );
 		if ($filter_state == 'A' || $filter_state == NULL) {

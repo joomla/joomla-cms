@@ -287,7 +287,7 @@ class iLink extends JTree
 		$result = null;
 		// load the xml metadata
 		if (file_exists( $path )) {
-			$xml = JFactory::getXMLParser('Simple');
+			$xml =& JFactory::getXMLParser('Simple');
 			if ($xml->loadFile($path)) {
 				if (isset( $xml->document )) {
 					$result = $xml->document->getElementByPath($xpath);

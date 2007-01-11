@@ -526,7 +526,7 @@ class JInstaller_component extends JObject
 		{
 			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'menu') {
 
-				$com = JTable::getInstance('component');
+				$com =& JTable::getInstance('component');
 				$com->name = $child->data();
 				$com->link = '';
 				$com->menuid = 0;

@@ -77,7 +77,7 @@ class SearchHelper
 
 		if ( @$enable_log_searches )
 		{
-			$db = JFactory::getDBO();
+			$db =& JFactory::getDBO();
 			$query = "SELECT hits"
 			. "\n FROM #__core_log_searches"
 			. "\n WHERE LOWER( search_term ) = '$search_term'"

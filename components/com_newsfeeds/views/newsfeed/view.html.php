@@ -51,7 +51,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$options['rssUrl']		= $newsfeed->link;
 		$options['cache_time']	= $newsfeed->cache_time;
 
-		$rssDoc = JFactory::getXMLparser('RSS', $options);
+		$rssDoc =& JFactory::getXMLparser('RSS', $options);
 
 		if ( $rssDoc == false ) {
 			$msg = JText::_('Error: Feed not retrieved');

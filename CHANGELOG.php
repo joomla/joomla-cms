@@ -44,6 +44,7 @@ Legend:
 11-Jan-2007 Enno Klasing
  + Added optional default parameter to JRegistry->getValue
  # Fixed XHTML compliance for feed links
+ # Fixed assignments of variables by reference
 
 10-Jan-2007 Johan Janssens
  + Added Session Handler configuration setting

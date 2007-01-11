@@ -31,7 +31,7 @@ class ConfigModelComponent extends JModel
 		{
 			$component	= JRequest::getVar( 'component' );
 
-			$table = JTable::getInstance('component');
+			$table =& JTable::getInstance('component');
 			$table->loadByOption( $component );
 
 			// work out file path

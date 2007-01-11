@@ -88,7 +88,7 @@ class ContactViewCategory extends JView
 		}
 		if ($category == null) {
 			$db = &JFactory::getDBO();
-			$category = JTable::getInstance( 'category' );
+			$category =& JTable::getInstance( 'category' );
 		}
 
 		// Set the page title and pathway

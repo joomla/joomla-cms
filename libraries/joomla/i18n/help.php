@@ -35,7 +35,7 @@ class JHelp
 		$user			=& JFactory::getUser();
 		$userHelpUrl	= $user->getParam( 'helpsite' );
 		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
-		$lang			= JFactory::getLanguage();
+		$lang			=& JFactory::getLanguage();
 
 		if ($useComponent)
 		{
@@ -105,7 +105,7 @@ class JHelp
 	function createSiteList($pathToXml, $selected = null)
 	{
 		$list	= array ();
-		$xml	= JFactory::getXMLParser('Simple');
+		$xml	=& JFactory::getXMLParser('Simple');
 		$data	= null;
 		if( !empty( $pathToXml ) ) {
 			$data = file_get_contents($pathToXml);

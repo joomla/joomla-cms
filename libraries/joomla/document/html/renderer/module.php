@@ -34,7 +34,7 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 	{
 		if (!is_object($module))
 		{
-			$module = JModuleHelper::getModule($module);
+			$module =& JModuleHelper::getModule($module);
 
 			if (!is_object($module))
 			{
@@ -69,7 +69,7 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 		//get module parameters
 		$mod_params = new JParameter( $module->params );
 
-		$cache = JFactory::getCache( $module->module );
+		$cache =& JFactory::getCache( $module->module );
 
 		$cache->setCaching( $mod_params->get( 'cache', 0 ) && $conf->getValue( 'config.caching' ) );
 		$cache->setLifeTime( $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) ) );

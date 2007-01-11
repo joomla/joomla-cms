@@ -25,7 +25,7 @@ class HTML_newsfeeds
 	{
 		global $mainframe;
 
-		$user = JFactory::getUser();
+		$user =& JFactory::getUser();
 
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'a.ordering');

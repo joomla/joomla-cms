@@ -496,7 +496,7 @@ function changeUserBlock( $block=1 )
 {
 	global $mainframe;
 
-	$db = JFactory::getDBO();
+	$db =& JFactory::getDBO();
 
 	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array(), '', 'array' );

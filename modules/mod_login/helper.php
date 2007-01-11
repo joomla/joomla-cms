@@ -23,7 +23,7 @@ class modLoginHelper
 		if($url == ''){
 			$return = JURI::base();
 		} else {
-			$uri = JURI::getInstance($url);
+			$uri =& JURI::getInstance($url);
 			$return = $uri->toString();
 		}
 		return $return;

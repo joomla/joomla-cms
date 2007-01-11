@@ -49,8 +49,8 @@ class JUserJoomla extends JPlugin
 	{
 		global $mainframe;
 
-		$db = JFactory::getDBO();
-		if($user = JUser::getInstance( $user['id'] )) {
+		$db =& JFactory::getDBO();
+		if($user =& JUser::getInstance( $user['id'] )) {
 			$username = $user->get('username');
 		} else {
 			// This should never happen?!?

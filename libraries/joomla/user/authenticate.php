@@ -47,7 +47,7 @@ class JAuthenticate extends JObject
 		// Get the global event dispatcher to load the plugins
 		$dispatcher =& JEventDispatcher::getInstance();
 
-		$plugins = JPluginHelper::getPlugin('authentication');
+		$plugins =& JPluginHelper::getPlugin('authentication');
 
 		$isLoaded = false;
 		foreach ($plugins as $plugin) {

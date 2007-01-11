@@ -28,11 +28,10 @@ class ConfigApplicationView
 		$document =& JFactory::getDocument();
 		$document->addScript(JURI::base().'components/com_config/assets/switcher.js');
 
-		$table = JTable::getInstance('component');
+		$table =& JTable::getInstance('component');
 		$table->loadByOption( 'com_users' );
 		$userparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/components/com_users/config.xml' );
 
-		$table = JTable::getInstance('component');
 		$table->loadByOption( 'com_media' );
 		$mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/components/com_media/config.xml' );
 		$contents = '';

@@ -62,7 +62,7 @@ class JAuthenticateJoomla extends JPlugin
 		}
 
 		// Get a database object
-		$db = JFactory::getDBO();
+		$db =& JFactory::getDBO();
 
 		$query = "SELECT `id`"
 			. "\nFROM `#__users`"

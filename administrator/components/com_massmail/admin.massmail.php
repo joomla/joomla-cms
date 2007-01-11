@@ -41,7 +41,7 @@ switch ($task) {
 
 function messageForm( $option )
 {
-	$acl = JFactory::getACL();
+	$acl =& JFactory::getACL();
 
 	$gtree = array(
 		JHTMLSelect::option( 0, '- '. JText::_( 'All User Groups' ) .' -' )
@@ -61,7 +61,7 @@ function sendMail()
 
 	$db					=& JFactory::getDBO();
 	$user 				=& JFactory::getUser();
-	$acl 				= JFactory::getACL();
+	$acl 				=& JFactory::getACL();
 
 	$mode				= JRequest::getVar( 'mm_mode', 0, 'post' );
 	$subject			= JRequest::getVar( 'mm_subject', '', 'post' );
@@ -102,8 +102,8 @@ function sendMail()
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList();
 
-		$mailer = JFactory::getMailer();
-		$params = &JComponentHelper::getParams( 'com_massmail' );
+		$mailer =& JFactory::getMailer();
+		$params =& JComponentHelper::getParams( 'com_massmail' );
 		// Build e-mail message format
 		$mailer->setSender(array($mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname')));
 		$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes( $subject));

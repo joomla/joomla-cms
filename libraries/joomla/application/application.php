@@ -822,7 +822,7 @@ class JApplication extends JObject
 		require_once JPATH_SITE . '/components/com_content/helpers/content.php';
 
 		// Load the article data to know what section/category it is in.
-		$article = JTable::getInstance('content');
+		$article =& JTable::getInstance('content');
 		$article->load($id);
 
 		return JContentHelper::getItemid($id, $article->catid, $article->sectionid);

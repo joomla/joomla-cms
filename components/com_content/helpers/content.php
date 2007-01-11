@@ -332,7 +332,7 @@ class JContentHelper
 	function getItemid($id, $catid = 0, $sectionid = 0)
 	{
 		$db			=& JFactory::getDBO();
-		$component	= JComponentHelper::getInfo('com_content');
+		$component	=& JComponentHelper::getInfo('com_content');
 		
 		$menus		=& JMenu::getInstance();
 		$items		= $menus->getItems('componentid', $component->id);

@@ -118,6 +118,7 @@ class JTable extends JObject
 
 		$db =& JFactory::getDBO();
 		$instance = new $tableClass($db);
+		$instance->setDBO($db);
 
 		return $instance;
 	}

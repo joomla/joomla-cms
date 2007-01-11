@@ -57,7 +57,7 @@ class JAuthenticateLdap extends JPlugin
 		$success = false;
 
 		// Get a database connector
-		$db = JFactory::getDBO();
+		$db =& JFactory::getDBO();
 
 		// load plugin parameters
 	 	$plugin =& JPluginHelper::getPlugin('authentication', 'ldap');

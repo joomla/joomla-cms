@@ -142,7 +142,7 @@ class JUser extends JObject
 	 * doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $user = JUser::getInstance($id);</pre>
+	 * 		<pre>  $user =& JUser::getInstance($id);</pre>
 	 *
 	 * @access 	public
 	 * @param 	int 	$id 	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
@@ -654,7 +654,7 @@ class JUserHelper
 		// Is it a valid user to activate?
 		if ($id)
 		{
-			$user = JUser::getInstance( (int) $id );
+			$user =& JUser::getInstance( (int) $id );
 
 			$user->set('block', '0');
 			$user->set('activation', '');

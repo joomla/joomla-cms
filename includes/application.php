@@ -255,7 +255,7 @@ class JSite extends JApplication
 			$templates = array();
 
 			// Load template entries for each menuid
-			$db = JFactory::getDBO();
+			$db =& JFactory::getDBO();
 			$query = "SELECT template, menuid"
 				. "\n FROM #__templates_menu"
 				. "\n WHERE client_id = 0"
@@ -415,7 +415,7 @@ class JSiteHelper
 			$menu =& JMenu::getInstance();
 			$item =& $menu->getItem(JSiteHelper::findItemid());
 
-			$component = JTable::getInstance( 'component');
+			$component =& JTable::getInstance( 'component');
 			$component->load($item->componentid);
 
 			$option = $component->option;

@@ -82,7 +82,7 @@ function showNewsFeeds(  )
 {
 	global $mainframe, $option;
 
-	$db 				= JFactory::getDBO();
+	$db					=& JFactory::getDBO();
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
@@ -389,8 +389,8 @@ function orderNewsFeed( $inc )
 {
 	global $mainframe;
 
-	$db		= JFactory::getDBO();
-	$cid 	= JRequest::getVar( 'cid', array(0));
+	$db		=& JFactory::getDBO();
+	$cid	= JRequest::getVar( 'cid', array(0));
 	$option = JRequest::getVar( 'option');
 	if (!is_array( $cid )) {
 		$cid = array(0);
@@ -414,11 +414,11 @@ function saveOrder(  )
 {
 	global $mainframe;
 
-	$db		 	= JFactory::getDBO();
-	$cid 		= JRequest::getVar( 'cid' );
+	$db			=& JFactory::getDBO();
+	$cid		= JRequest::getVar( 'cid' );
 
 	$total		= count( $cid );
-	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
+	$order		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 	$row =& JTable::getInstance( 'newsfeed', 'Table' );
 	$groupings = array();
 

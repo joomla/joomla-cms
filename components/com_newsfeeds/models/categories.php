@@ -88,7 +88,7 @@ class NewsfeedsModelCategories extends JModel
 
 	function _buildQuery()
 	{
-		$user = JFactory::getUser();
+		$user =& JFactory::getUser();
 		$gid = $user->get('aid', 0);
 
 		/* Query to retrieve all categories that belong under the contacts section and that are published. */

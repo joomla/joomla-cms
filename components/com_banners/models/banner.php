@@ -87,7 +87,7 @@ class BannersModelBanner extends JModel
 	 */
 	function impress( $list )
 	{
-		$config = JComponentHelper::getParams( 'com_banners' );
+		$config =& JComponentHelper::getParams( 'com_banners' );
 		$db		= &$this->getDBO();
 		$n		= count( $list );
 
@@ -127,7 +127,7 @@ class BannersModelBanner extends JModel
 	 */
 	function click( $id = 0 )
 	{
-		$config = JComponentHelper::getParams( 'com_banners' );
+		$config =& JComponentHelper::getParams( 'com_banners' );
 		$db		= &$this->getDBO();
 
 		$trackClicks = $config->get( 'track_clicks' );

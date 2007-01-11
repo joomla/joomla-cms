@@ -196,7 +196,7 @@ class ConfigControllerApplication extends ConfigController
 		global $mainframe;
 
 		//Save user and media manager settings
-		$table = JTable::getInstance('component');
+		$table =& JTable::getInstance('component');
 
 		$userpost['params'] = JRequest::getVar('userparams');
 		$userpost['option'] = 'com_users';

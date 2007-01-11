@@ -344,7 +344,7 @@ function mosShowHFMenu(& $params, $style = 0)
 	}
 
 	$menuclass = 'mainlevel' . $params->get('class_sfx');
-	$lang = JFactory::getLanguage();
+	$lang =& JFactory::getLanguage();
 
 	if (count($links))
 	{

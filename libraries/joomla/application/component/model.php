@@ -264,7 +264,7 @@ class JModel extends JObject
 	 */
 	function &_getList( $query, $limitstart=0, $limit=0 )
 	{
-		$db = JFactory::getDBO();
+		$db =& JFactory::getDBO();
 		$db->setQuery( $query, $limitstart, $limit );
 		$result = $db->loadObjectList();
 
@@ -281,7 +281,7 @@ class JModel extends JObject
 	 */
 	function _getListCount( $query )
 	{
-		$db = JFactory::getDBO();
+		$db =& JFactory::getDBO();
 		$db->setQuery( $query );
 		$db->query();
 

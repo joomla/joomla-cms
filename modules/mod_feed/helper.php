@@ -34,7 +34,7 @@ class modFeedHelper
 		$options['rssUrl'] 		= $rssurl;
 		$options['cache_time'] 	= 3600;
 
-		$rssDoc = JFactory::getXMLparser('RSS', $options);
+		$rssDoc =& JFactory::getXMLparser('RSS', $options);
 
 		if ($rssDoc != false)
 		{

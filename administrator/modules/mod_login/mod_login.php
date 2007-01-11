@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 //$browserLang = JLanguageHelper::detectLanguage();
 // forced to default
 $browserLang = null;
-$lang = JFactory::getLanguage();
+$lang =& JFactory::getLanguage();
 
 $languages = array();
 $languages = JLanguageHelper::createLanguageList($browserLang );

@@ -66,7 +66,7 @@ class JRegistryFormatINI extends JRegistryFormat {
 	 * @param boolean add an associative index for each section [in brackets]
 	 * @return object Data Object
 	 */
-	function stringToObject( $data, $process_sections = false )
+	function &stringToObject( $data, $process_sections = false )
 	{
 		if (is_string($data)) {
 			$lines = explode("\n", $data);

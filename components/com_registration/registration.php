@@ -83,7 +83,7 @@ class RegistrationController
 		// create the view
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'view.php');
 		$view = new RegistrationViewRegister();
-		$view->user = JFactory::getUser();
+		$view->user =& JFactory::getUser();
 
 		$view->display();
 	}

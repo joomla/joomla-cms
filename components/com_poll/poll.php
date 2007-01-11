@@ -162,7 +162,7 @@ class PollController
 	{
 		global $mainframe;
 
-		$db			= JFactory::getDBO();
+		$db			=& JFactory::getDBO();
 
 		$poll_id	= JRequest::getVar( 'id', 0, '', 'int' );
 		$option_id	= JRequest::getVar( 'voteid', 0, 'post', 'int' );
