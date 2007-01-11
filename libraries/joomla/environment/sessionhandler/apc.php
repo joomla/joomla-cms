@@ -32,7 +32,7 @@ class JSessionHandlerAPC extends JSessionHandler
 	*/
 	function __construct( $options = array() )
 	{
-		if (!extension_loaded('apc')) {
+		if (!$this->test()) {
             return JError::raiseError(404, "The apc extension isn't available");
         }
 		
@@ -88,7 +88,7 @@ class JSessionHandlerAPC extends JSessionHandler
 	function write($id, $session_data)
 	{
 		$sess_id = 'sess_'.$id;
-		return apc_store($sess_id, $session_data);
+		return apc_store($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
 	}
 	
 	/**      
@@ -115,6 +115,17 @@ class JSessionHandlerAPC extends JSessionHandler
 	function gc($maxlifetime)
 	{
 		return true;
+	}
+	
+	/**      
+	 * Test to see if the SessionHandler is available.      
+	 * 
+	 * @static
+	 * @access public           
+	 * @return boolean  True on success, false otherwise.      
+	 */
+	function test() {
+		return extension_loaded('apc');
 	}
 }
 ?>

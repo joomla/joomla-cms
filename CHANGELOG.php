@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Jan-2007 Johan Janssens
+ + Added Session Handler configuration setting
+ ^ Improvements to session handling
+ ! Changes require a reinstall
+
 09-Jan-2007 Louis Landry
  ^ Reworked module manager : module edit screen and controls
  ^ Reworked JUser for better session storage

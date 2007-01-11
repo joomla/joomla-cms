@@ -150,5 +150,18 @@ class JSessionHandler extends JObject
 	{
 		return true;
 	}
+	
+	/**      
+	 * Test to see if the SessionHandler is available.      
+	 *      
+	 * @abstract
+	 * @static
+	 * @access public           
+	 * @return boolean  True on success, false otherwise.      
+	 */
+	function test()
+	{
+		return true;
+	}
 }
 ?>

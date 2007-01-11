@@ -56,12 +56,12 @@ class JFactory
 	 * @param array An array containing session options
 	 * @return object JSession
 	 */
-	function &getSession($handler = 'file', $options = array())
+	function &getSession($options = array())
 	{
 		static $instance;
 
 		if (!is_object($instance)) {
-			$instance = JFactory::_createSession($handler, $options);
+			$instance = JFactory::_createSession($options);
 		}
 
 		return $instance;
@@ -381,14 +381,16 @@ class JFactory
 	 * @return object JSession
 	 * @since 1.5
 	 */
-	function &_createSession($handler = 'file', $options = array())
+	function &_createSession( $options = array())
 	{
 		jimport('joomla.environment.session');
 
 		//get the editor configuration setting
 		$conf =& JFactory::getConfig();
+		$handler =  $conf->getValue('config.session_handler', 'none');
 		$options['expire'] = $conf->getValue('config.lifetime', 15);
-
+	
+		
 		$session = new JSession($handler, $options);
 		if ($session->getState() == 'expired') {
 			$session->restart();

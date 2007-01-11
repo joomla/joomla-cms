@@ -40,7 +40,7 @@ class ConfigControllerApplication extends ConfigController
 		// Initialize some variables
 		$db =& JFactory::getDBO();
 		$row = new JConfig();
-
+		
 		// compile list of the languages
 		$langs 		= array ();
 		$menuitems 	= array ();
@@ -176,6 +176,14 @@ class ConfigControllerApplication extends ConfigController
 		$lists['feed_limit']	= JHTMLSelect::genericList($listLimit, 'feed_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
 		$lists['feed_summary']	= JHTMLSelect::radioList($summary, 'feed_summary', 'class="inputbox"', $row->feed_summary);
 
+		// SESSION SETTINGS
+		$handlers = JSession::getHandlers();
+		$options = array();
+		foreach($handlers as $handler) {
+			$options[] = JHTMLSelect::option($handler, $handler);
+		}
+		$lists['session_handlers'] = JHTMLSelect::genericList($options, 'session_handler', 'class="inputbox" size="1"', 'value', 'text', $row->session_handler);
+		
 		// SHOW EDIT FORM
 		ConfigApplicationView::showConfig($row, $lists);
 	}
@@ -249,7 +257,6 @@ class ConfigControllerApplication extends ConfigController
 
 		// SERVER SETTINGS
 		$config_array['gzip'] 		= JRequest::getVar('gzip', 0, 'post');
-		$config_array['lifetime'] 		= JRequest::getVar('lifetime', 0, 'post');
 		$config_array['error_reporting'] = JRequest::getVar('error_reporting', -1, 'post');
 		$config_array['xmlrpc_server'] = JRequest::getVar('xmlrpc_server', 0, 'post');
 		$config_array['legacy']		= JRequest::getVar('legacy', 0, 'post');
@@ -292,6 +299,10 @@ class ConfigControllerApplication extends ConfigController
 		// META SETTINGS
 		$config_array['MetaAuthor'] 	= JRequest::getVar('MetaAuthor', 1, 'post');
 		$config_array['MetaTitle'] 	= JRequest::getVar('MetaTitle', 1, 'post');
+		
+		// SESSION SETTINGS
+		$config_array['lifetime'] 			= JRequest::getVar('lifetime', 0, 'post');
+		$config_array['session_handler'] 	= JRequest::getVar('session_handler', 'none', 'post');
 
 		$config->loadArray($config_array);
 

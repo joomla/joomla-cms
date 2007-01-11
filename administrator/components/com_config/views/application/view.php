@@ -82,6 +82,7 @@ class ConfigApplicationView
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_debug.php'); ?>
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_statistics.php'); ?>
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_cache.php'); ?>
+							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_session.php'); ?>
 						</td>
 
 					</td>

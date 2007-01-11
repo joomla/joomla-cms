@@ -529,7 +529,7 @@ class JApplication extends JObject
 		$user->set('aid',	0);
 		$user->set('guest',	1);
 
-		$session =& JFactory::getSession('database', $options);
+		$session =& JFactory::getSession($options);
 
 		$storage = & JTable::getInstance('session');
 		$storage->purge($session->getExpire() * 60);

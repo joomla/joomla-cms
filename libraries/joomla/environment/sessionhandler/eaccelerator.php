@@ -32,7 +32,7 @@ class JSessionHandlereAccelerator extends JSessionHandler
 	*/
 	function __construct( $options = array() )
 	{
-		if (!extension_loaded('eaccelerator')) {
+		if (!$this->test()) {
             return JError::raiseError(404, "The eaccelerator extension isn't available");
         }
 
@@ -88,7 +88,7 @@ class JSessionHandlereAccelerator extends JSessionHandler
 	function write($id, $session_data)
 	{
 		$sess_id = 'sess_'.$id;
-		return eaccelerator_put($sess_id, $session_data);
+		return eaccelerator_put($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
 	}
 
 	/**
@@ -116,6 +116,17 @@ class JSessionHandlereAccelerator extends JSessionHandler
 	{
 		eaccelerator_gc();
 		return true;
+	}
+	
+	/**      
+	 * Test to see if the SessionHandler is available.      
+	 *      
+	 * @static
+	 * @access public           
+	 * @return boolean  True on success, false otherwise.      
+	 */
+	function test() {
+		return extension_loaded('eaccelerator');
 	}
 }
 ?>

@@ -75,6 +75,9 @@ class JSession extends JObject
 	*/
 	function __construct( $handler = 'file', $options = array() )
 	{
+		//
+		ini_set('session.save_handler', 'files');
+		
 		//create handler
 		$this->_handler =& JSessionHandler::getInstance($handler, $options);
 		
@@ -166,6 +169,31 @@ class JSession extends JObject
 			return null;
 		}
 		return session_id();
+	}
+	
+	/**
+	 * Get the session handlers
+	 *
+	 * @access public
+	 * @return array An array of available session handlers
+	 */
+	function getHandlers()
+	{
+		jimport('joomla.filesystem.folder');
+		$handlers = JFolder::files(dirname(__FILE__).DS.'sessionhandler', '.php$');
+		
+		$names = array();
+		foreach($handlers as $handler) 
+		{
+			$name = substr($handler, 0, strrpos($handler, '.'));
+			jimport('joomla.environment.sessionhandler.'.$name);
+			$class = 'JSessionHandler'.$name;
+			if(call_user_func_array( array( trim($class), 'test' ), null)) {
+				$names[] = $name; 
+			}
+		}
+		
+		return $names;
 	}
 
    /**
@@ -299,7 +327,6 @@ class JSession extends JObject
 			session_id( $this->_createId() );
 		}
 		
-		ini_set('session.save_handler', 'user');
 		session_cache_limiter('none');
 		session_start();
 
@@ -532,6 +559,9 @@ class JSession extends JObject
 		if( isset( $options['security'] ) ) {
 			$this->_security	=	explode( ',', $options['security'] );
 		}
+		
+		//sync the session maxlifetime
+		ini_set("session.gc_maxlifetime", $this->_expire); 
 
 		return true;
 	}

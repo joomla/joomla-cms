@@ -12,20 +12,6 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="key">
-					<span class="editlinktip">
-					<?php
-					$tip = 'TIPAUTOLOGOUTTIMEOF';
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Login Session Lifetime', '', 0 );
-					?>
-					</span>
-				</td>
-				<td>
-					<input class="text_area" type="text" name="lifetime" size="10" value="<?php echo $row->lifetime; ?>" />
-					&nbsp;<?php echo JText::_('minutes'); ?>&nbsp;
-				</td>
-			</tr>
-			<tr>
 				<td valign="top" class="key">
 					<span class="editlinktip">
 					<?php
