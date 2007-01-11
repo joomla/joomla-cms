@@ -52,7 +52,7 @@ class JSessionHandler extends JObject
 	 * @return database A JSessionHandler object
 	 * @since 1.5
 	 */
-	function &getInstance($handler = 'file', $options = array())
+	function &getInstance($handler = 'none', $options = array())
 	{
 		static $instances;
 

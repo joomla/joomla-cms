@@ -73,7 +73,7 @@ class JSession extends JObject
 	* @param string $handler	
 	* @param array 	$options 	optional parameters
 	*/
-	function __construct( $handler = 'file', $options = array() )
+	function __construct( $handler = 'none', $options = array() )
 	{
 		//
 		ini_set('session.save_handler', 'files');

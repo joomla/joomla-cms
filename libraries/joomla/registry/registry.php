@@ -96,12 +96,13 @@ class JRegistry extends JObject
 	 * Get a registry value
 	 *
 	 * @access public
-	 * @param 	$regpath	string 	Registry path (e.g. joomla.content.showauthor)
-	 * @return 	mixed Value of entry or null
+	 * @param	$regpath	string	Registry path (e.g. joomla.content.showauthor)
+	 * @param	$default	mixed	Optional default value
+	 * @return	mixed Value of entry or null
 	 */
-	function getValue($regpath)
+	function getValue($regpath, $default=null)
 	{
-		$result = null;
+		$result = $default;
 
 		// Explode the registry path into an array
 		if ($nodes = explode('.', $regpath))
