@@ -62,6 +62,12 @@
  			<option value="bottom">Bottom</option>
  		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
+ 		<param name="hr" type="radio" default="1" label="Horizontal Rule" description="Show/Hide the Horizontal Rule button">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+   	</params>
+   	<params group="advanced">
  		<param name="smilies" type="radio" default="1" label="Smilies" description="PARAMSMILIES">
  			<option value="1">Hide</option>
  			<option value="0">Show</option>
@@ -73,10 +79,6 @@
  		<param name="flash" type="radio" default="1" label="Flash" description="PARAMFLASH">
  			<option value="1">Hide</option>
  			<option value="0">Show</option>
- 		</param>
- 		<param name="hr" type="radio" default="1" label="Horizontal Rule" description="Show/Hide the Horizontal Rule button">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
  		</param>
  		<param name="style" type="radio" default="1" label="Style" description="PARAMSTYLE">
  			<option value="0">Hide</option>
