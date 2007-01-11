@@ -110,7 +110,7 @@ function viewTrashContent( $option )
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// Query articles
-	$query = "SELECT c.*, g.name AS groupname, cc.name AS catname, s.name AS sectname"
+	$query = "SELECT c.title, c.id, c.sectionid, c.catid, g.name AS groupname, cc.name AS catname, s.name AS sectname"
 	. "\n FROM #__content AS c"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
 	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
@@ -179,7 +179,7 @@ function viewTrashMenu( $option )
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// Query menu items
-	$query = "SELECT m.*, com.name AS com_name"
+	$query = "SELECT m.name, m.id, m.menutype, m.type, com.name AS com_name"
 	. "\n FROM #__menu AS m"
 	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
 	. "\n LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = 'components'"
