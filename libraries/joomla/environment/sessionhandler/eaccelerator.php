@@ -117,16 +117,16 @@ class JSessionHandlereAccelerator extends JSessionHandler
 		eaccelerator_gc();
 		return true;
 	}
-	
-	/**      
-	 * Test to see if the SessionHandler is available.      
-	 *      
+
+	/**
+	 * Test to see if the SessionHandler is available.
+	 *
 	 * @static
-	 * @access public           
-	 * @return boolean  True on success, false otherwise.      
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
 	 */
 	function test() {
-		return extension_loaded('eaccelerator');
+		return (extension_loaded('eaccelerator') && function_exists('eaccelerator_get'));
 	}
 }
 ?>
