@@ -72,7 +72,7 @@ class JInstaller_plugin extends JObject
 		 * Backward Compatability
 		 * @todo Deprecate in future version
 		 */
-		$type = $root->attributes('type');
+		$type = $this->manifest->attributes('type');
 
 		// Set the installation path
 		$element =& $this->manifest->getElementByPath('files');
