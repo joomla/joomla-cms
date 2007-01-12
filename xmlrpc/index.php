@@ -33,7 +33,7 @@ $mainframe = new JXMLRPC(3);
 //JRequest::clean();
 
 // set the configuration
-$mainframe->setConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
+$mainframe->loadConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
 
 // Includes the required class file for the XML-RPC Server
 jimport('phpxmlrpc.xmlrpc' );
