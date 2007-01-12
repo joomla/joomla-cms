@@ -31,6 +31,125 @@ jimport('joomla.filesystem.path');
 class JFolder
 {
 	/**
+	 * Copies a folder
+	 *
+	 * @param	string	$src	The path to the source folder
+	 * @param	string	$dest	The path to the destination folder
+	 * @param	string	$path	An optional base path to prefix to the file names
+	 * @return	mixed	JError object on failure or boolean True on success
+	 * @since	1.5
+	 */
+	function copy($src, $dest, $path = '')
+	{
+		$config =& JFactory::getConfig();
+
+		// Initialize variables
+		$ftpFlag    = false;
+		$ftpRoot    = $config->getValue('config.ftp_root');
+
+		if ($path) {
+			$src = JPath::clean($path.$src, false);
+			$dest = JPath::clean($path.$dest, false);
+		}
+
+		if (!JFolder::exists($src) && !is_writable($src)) {
+			return JError::raiseError(-1, JText::_('Cannot find source folder'));
+		}
+		if (JFolder::exists($dest)) {
+			return JError::raiseError(-1, JText::_('Folder already exists'));
+		}
+
+		// Do NOT use ftp if it is not enabled
+		if ($config->getValue('config.ftp_enable') != 1) {
+			$ftpFlag = false;
+		}
+
+		if ($ftpFlag) {
+			//Translate path for the FTP account
+			$src = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $src), false);
+			$dest = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $dest), false);
+		}
+		// Eliminate trailing directory separators, if any
+		$len = strlen($src) - 1;
+		if ($src{$len} == DS) {
+			$src = substr($src, 0, $len);
+		}
+		$len = strlen($dest) - 1;
+		if ($dest{$len} == DS) {
+			$dest = substr($dest, 0, $len);
+		}
+		// Make sure the destination exists
+		if (! JFolder::create($dest)) {
+			return JError::raiseError(-1, JText::_('Unable to create target folder'));
+		}
+		if ($ftpFlag) {
+			// Connect the FTP client
+			jimport('joomla.client.ftp');
+			$ftp = & JFTP::getInstance(
+				$config->getValue('config.ftp_host'),
+				$config->getValue('config.ftp_port')
+			);
+			$ftp->login(
+				$config->getValue('config.ftp_user'),
+				$config->getValue('config.ftp_pass')
+			);
+
+			if(! ($dh = @opendir($src))) {
+				return JError::raiseError(-1, JText::_('Unable to open source folder'));
+			}
+			// Walk through the directory copying files and recursing into folders.
+			while (($file = readdir($dh)) !== false) {
+				$sfid = $src . DS . $file;
+				$dfid = $dest . DS . $file;
+				switch (filetype($sfid)) {
+					case 'dir':
+						if ($file != '.' && $file != '..') {
+							$ret = JFolder::copy($sfid, $dfid);
+							if ($ret !== true) {
+								return $ret;
+							}
+						}
+						break;
+
+					case 'file':
+						if (! $ftp->store($sfid, $dfid)) {
+							$ftp->quit();
+							return JError::raiseError(-1, JText::_('Copy failed'));
+						}
+						break;
+				}
+			}
+			$ftp->quit();
+		} else {
+			if(! ($dh = @opendir($src))) {
+				return JError::raiseError(-1, JText::_('Unable to open source folder'));
+			}
+			// Walk through the directory copying files and recursing into folders.
+			while (($file = readdir($dh)) !== false) {
+				$sfid = $src . DS . $file;
+				$dfid = $dest . DS . $file;
+				switch (filetype($sfid)) {
+					case 'dir':
+						if ($file != '.' && $file != '..') {
+							$ret = JFolder::copy($sfid, $dfid);
+							if ($ret !== true) {
+								return $ret;
+							}
+						}
+						break;
+
+					case 'file':
+						if (!@ copy($sfid, $dfid)) {
+							return JError::raiseError(-1, JText::_('Copy failed'));
+						}
+						break;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Create a folder -- and all necessary parent folders
 	 *
 	 * @param string $path A path to create from the base path
