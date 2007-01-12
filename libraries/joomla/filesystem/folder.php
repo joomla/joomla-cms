@@ -52,7 +52,7 @@ class JFolder
 			$dest = JPath::clean($path.$dest, false);
 		}
 
-		if (!JFolder::exists($src) && !is_writable($src)) {
+		if (!JFolder::exists($src)) {
 			return JError::raiseError(-1, JText::_('Cannot find source folder'));
 		}
 		if (JFolder::exists($dest)) {
