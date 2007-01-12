@@ -489,7 +489,7 @@ div.tooltip {
 div.tooltip h4 {
 	padding: 0;
 	margin: 0;
-	font-size: 95%;
+	font-size: 100%;
 	font-weight: bold;
 	margin-top: -15px;
 	padding-top: 15px;
@@ -498,7 +498,7 @@ div.tooltip h4 {
 }
 
 div.tooltip p {
-	font-size: 90%;
+	font-size: 100%;
 	margin: 0;
 }
 
