@@ -464,11 +464,6 @@ class JInstallationController
 			$vars['ftpEnable'] = 0;
 		}
 
-		$strip = get_magic_quotes_gpc();
-		if (!$strip) {
-			$vars['siteName'] = addslashes($vars['siteName']);
-		}
-
 		switch ($vars['DBtype']) {
 
 			case 'mssql' :

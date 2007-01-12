@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Jan-2007 Enno Klasing
+ # Removed double slashes from sitename in installtion when magic_quotes_gpc was swiched off
+
 11-Jan-2007 Louis Landry
  ^ Reworked JError to remove dependency on patError/patErrorManager
  ^ JLog now uses the log_path config if not explicitly set
