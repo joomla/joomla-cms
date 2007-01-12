@@ -41,6 +41,8 @@ Legend:
  ^ Reworked JError to remove dependency on patError/patErrorManager
  ^ JLog now uses the log_path config if not explicitly set
  + Added JFolder::copy() -- Thanks instance
+ + Added generic buffer stream handler
+ ^ JFTP to use PHP FTP extension if available
 
 11-Jan-2007 Enno Klasing
  + Added optional default parameter to JRegistry->getValue
