@@ -85,6 +85,31 @@ label.invalid { color: #ff0000; }
 	background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat;
 }
 
+/* Tooltips */
+div.selector {
+	float: left;
+	background: #ffc;
+	border: 1px solid #D4D5AA;
+	padding: 5px;
+	max-width: 200px;
+}
+
+div.selector h4 {
+	padding: 0;
+	margin: 0;
+	font-size: 95%;
+	font-weight: bold;
+	margin-top: -15px;
+	padding-top: 15px;
+	padding-bottom: 5px;
+	background: url(../images/selector-arrow.png) no-repeat;
+}
+
+div.selector p {
+	font-size: 90%;
+	margin: 0;
+}
+
 /* System Messages */
 dl#system-message { margin: 0; padding: 0; }
 #system-message dt { font-weight: bold; }
