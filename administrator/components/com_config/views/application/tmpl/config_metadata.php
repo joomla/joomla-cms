@@ -21,12 +21,9 @@
 		</tr>
 		<tr>
 			<td valign="top" class="key">
-			<span class="editlinktip">
-			<?php
-				$tip = 'TIPSHOWTITLEMETATAGITEMS';
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Show Title Meta Tag', '', 0 );
-				?>
-			</span>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Show Title Meta Tag' ); ?>::<?php echo JText::_( 'TIPSHOWTITLEMETATAGITEMS' ); ?>">
+					<?php echo JText::_( 'Show Title Meta Tag' ); ?>
+				</span>
 			</td>
 			<td>
 				<?php echo $lists['MetaTitle']; ?>
@@ -34,11 +31,8 @@
 		</tr>
 		<tr>
 			<td valign="top" class="key">
-				<span class="editlinktip">
-				<?php
-					$tip = 'TIPSHOWAUTHORMETATAGITEMS';
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Show Author Meta Tag', '', 0 );
-				?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Show Author Meta Tag' ); ?>::<?php echo JText::_( 'TIPSHOWAUTHORMETATAGITEMS' ); ?>">
+					<?php echo JText::_( 'Show Author Meta Tag' ); ?>
 				</span>
 			</td>
 			<td>

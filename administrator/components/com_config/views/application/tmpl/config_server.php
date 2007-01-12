@@ -5,11 +5,8 @@
 		<tbody>
 			<tr>
 				<td valign="top" class="key">
-					<span class="editlinktip">
-					<?php
-					$tip = 'TIPTMPFOLDER';
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Path to Temp-folder', '', 0 );
-					?>
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Path to Temp-folder' ); ?>::<?php echo JText::_( 'TIPTMPFOLDER' ); ?>">
+						<?php echo JText::_( 'Path to Temp-folder' ); ?>
 					</span>
 				</td>
 				<td>
@@ -18,11 +15,8 @@
 			</tr>
 			<tr>
 				<td class="key">
-					<span class="editlinktip">
-					<?php
-					$tip = 'Compress buffered output if supported';
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'GZIP Page Compression', '', 0 );
-					?>
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'GZIP Page Compression' ); ?>::<?php echo JText::_( 'Compress buffered output if supported' ); ?>">
+						<?php echo JText::_( 'GZIP Page Compression' ); ?>
 					</span>
 				</td>
 				<td>

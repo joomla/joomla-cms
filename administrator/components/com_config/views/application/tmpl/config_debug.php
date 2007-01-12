@@ -5,11 +5,8 @@
 		<tbody>
 		<tr>
 			<td width="185" class="key">
-				<span class="editlinktip">
-				<?php
-					$tip = 'TIPDEBUGGINGINFO';
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Enable Debugging', '', 0 );
-				?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Enable Debugging' ); ?>::<?php echo JText::_('TIPDEBUGGINGINFO'); ?>">
+					<?php echo JText::_( 'Enable Debugging' ); ?>
 				</span>
 			</td>
 			<td>

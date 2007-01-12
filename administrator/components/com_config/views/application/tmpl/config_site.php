@@ -12,11 +12,8 @@
 		</tr>
 		<tr>
 			<td valign="top" class="key">
-				<span class="editlinktip">
-				<?php
-				$tip = 'TIPIFYOURSITEISOFFLINE';
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Offline Message', '', 0 );
-				?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Offline Message' ); ?>::<?php echo JText::_( 'TIPIFYOURSITEISOFFLINE' ); ?>">
+					<?php echo JText::_( 'Offline Message' ); ?>
 				</span>
 			</td>
 			<td>
@@ -41,11 +38,8 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip">
-				<?php
-					$tip = 'TIPSETSDEFAULTLENGTHLISTS';
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'List Length', '', 0 );
-				?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'List Length' ); ?>::<?php echo JText::_( 'TIPSETSDEFAULTLENGTHLISTS' ); ?>">
+					<?php echo JText::_( 'List Length' ); ?>
 				</span>
 			</td>
 			<td>

@@ -13,11 +13,8 @@
 			</tr>
 			<tr>
 				<td valign="top" class="key">
-					<span class="editlinktip">
-					<?php
-					$tip = 'TIPLOGFOLDER';
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Path to Log-folder', '', 0 );
-					?>
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Path to Log-folder' ); ?>::<?php echo JText::_( 'TIPLOGFOLDER' ); ?>">
+						<?php echo JText::_( 'Path to Log-folder' ); ?>
 					</span>
 				</td>
 				<td>

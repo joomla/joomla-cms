@@ -25,8 +25,8 @@ class ConfigApplicationView
 	{
 		global $mainframe;
 
-		$document =& JFactory::getDocument();
-		$document->addScript(JURI::base().'components/com_config/assets/switcher.js');
+		// Load tooltips behavior
+		jimport('joomla.html.tooltips');
 
 		$table =& JTable::getInstance('component');
 		$table->loadByOption( 'com_users' );
@@ -40,8 +40,11 @@ class ConfigApplicationView
 		$contents = ob_get_contents();
 		ob_end_clean();
 
+		// Set document data
+		$document =& JFactory::getDocument();
+		$document->addScript(JURI::base().'components/com_config/assets/switcher.js');
+
 		$document->setBuffer($contents, 'module', 'submenu');
-		JCommonHTML::loadOverlib();
 		?>
 		<form action="index.php" method="post" name="adminForm">
 
@@ -83,7 +86,6 @@ class ConfigApplicationView
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_cache.php'); ?>
 							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_session.php'); ?>
 						</td>
-
 					</td>
 					</tr>
 				</table>
@@ -117,17 +119,12 @@ class ConfigApplicationView
 		<?php
 	}
 
-	function WarningIcon($warning, $title='Joomla Warning')
+	function WarningIcon()
 	{
 		global $mainframe;
 
-		$title 		= JText::_( 'Joomla Warning' );
-		$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
-		$url		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		$tip 		 = '<!--'. $title .'-->';
-		$tip 		.= '<a onmouseover="'. $mouseover .'" onmouseout="return nd();">';
-		$tip 		.= '<img src="'.$url.'includes/js/ThemeOffice/warning.png" border="0"  alt="" /></a>';
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$tip = '<img src="'.$url.'includes/js/ThemeOffice/warning.png" border="0"  alt="" />';
 
 		return $tip;
 	}

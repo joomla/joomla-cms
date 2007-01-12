@@ -478,7 +478,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 .button2-left .blank	 	{ background: url(../images/j_button2_blank.png) 100% 0 no-repeat; }
 
 /* Tooltips */
-div.selector {
+div.tooltip {
 	float: left;
 	background: #ffc;
 	border: 1px solid #D4D5AA;
@@ -486,7 +486,7 @@ div.selector {
 	max-width: 200px;
 }
 
-div.selector h4 {
+div.tooltip h4 {
 	padding: 0;
 	margin: 0;
 	font-size: 95%;
@@ -497,7 +497,7 @@ div.selector h4 {
 	background: url(../images/selector-arrow.png) no-repeat;
 }
 
-div.selector p {
+div.tooltip p {
 	font-size: 90%;
 	margin: 0;
 }

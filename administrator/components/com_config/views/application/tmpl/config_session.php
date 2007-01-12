@@ -4,11 +4,8 @@
 		<tbody>
 			<tr>
 				<td class="key">
-					<span class="editlinktip">
-					<?php
-					$tip = 'TIPAUTOLOGOUTTIMEOF';
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Session Lifetime', '', 0 );
-					?>
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Session Lifetime' ); ?>::<?php echo JText::_( 'TIPAUTOLOGOUTTIMEOF' ); ?>">
+						<?php echo JText::_( 'Session Lifetime' ); ?>
 					</span>
 				</td>
 				<td>

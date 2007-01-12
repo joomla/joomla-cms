@@ -86,7 +86,7 @@ label.invalid { color: #ff0000; }
 }
 
 /* Tooltips */
-div.selector {
+div.tooltip {
 	float: left;
 	background: #ffc;
 	border: 1px solid #D4D5AA;
@@ -94,7 +94,7 @@ div.selector {
 	max-width: 200px;
 }
 
-div.selector h4 {
+div.tooltip h4 {
 	padding: 0;
 	margin: 0;
 	font-size: 95%;
@@ -105,7 +105,7 @@ div.selector h4 {
 	background: url(../images/selector-arrow.png) no-repeat;
 }
 
-div.selector p {
+div.tooltip p {
 	font-size: 90%;
 	margin: 0;
 }

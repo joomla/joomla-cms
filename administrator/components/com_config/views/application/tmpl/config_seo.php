@@ -5,19 +5,14 @@
 		<tbody>
 		<tr>
 			<td width="185" class="key">
-			<span class="editlinktip">
-				<?php
-					echo mosToolTip( 'Search Engine Optimization Settings', '', 280, 'tooltip.png', 'Search Engine Friendly URLs', '', 0 );
-				?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Search Engine Friendly URLs' ); ?>::<?php echo JText::_('Search Engine Optimization Settings'); ?>">
+					<?php echo JText::_( 'Search Engine Friendly URLs' ); ?>
 				</span>
 			</td>
 			<td>
 				<?php echo $lists['sef']; ?>
-				<span class="error">
-				<?php
-					$tip = JText::_( 'WARNAPACHEONLY', true );
-					echo ConfigApplicationView::WarningIcon( $tip );
-				?>
+				<span class="error hasTip" title="<?php echo JText::_( 'Warning' );?>::<?php echo JText::_( 'WARNAPACHEONLY' ); ?>">
+					<?php echo ConfigApplicationView::WarningIcon(); ?>
 				</span>
 			</td>
 		</tr>

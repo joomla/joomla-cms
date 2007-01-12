@@ -4,11 +4,8 @@
 		<tbody>
 		<tr>
 			<td width="185" class="key">
-				<span class="editlinktip">
-				<?php
-					$tip = JText::_( 'Current date/time configured to display' ) .': '. JHTML::Date( 'now', DATE_FORMAT_LC2);
-					echo mosToolTip( $tip, '', 280, 'tooltip.png', 'Time Zone', '', 0 );
-				?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Time Zone' ); ?>::<?php echo JText::_( 'Current date/time configured to display' ) .': '. JHTML::Date( 'now', DATE_FORMAT_LC2); ?>">
+					<?php echo JText::_( 'Time Zone' ); ?>
 				</span>
 			</td>
 			<td>
