@@ -386,6 +386,9 @@ class JSession extends JObject
 			return false;
 		}
 
+		// Re-register the session handler after a session has been destroyed, to avoid PHP bug
+		$this->_handler->register();
+
 		$this->_state	=   'restart';
 		$this->_start();
 		$this->_state	=	'active';
@@ -425,6 +428,9 @@ class JSession extends JObject
 
 		// kill session
 		session_destroy();
+
+		// re-register the session handler after a session has been destroyed, to avoid PHP bug
+		$this->_handler->register();
 
 		// restore config
 		ini_set( 'session.use_trans_sid', $trans );

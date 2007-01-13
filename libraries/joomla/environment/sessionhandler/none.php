@@ -25,12 +25,12 @@
 class JSessionHandlerNone extends JSessionHandler
 {
 	/**
-	* Constructor
+	* Register the functions of this class with PHP's session handler
 	*
-	* @access protected
+	* @access public
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	function register()
 	{
 		//let php handle the session storage
 	}

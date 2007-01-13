@@ -32,15 +32,7 @@ class JSessionHandler extends JObject
 	*/
 	function __construct( $options = array() )
 	{
-		// use this object as the session handler
-		session_set_save_handler(
-			array($this, 'open'),
-			array($this, 'close'),
-			array($this, 'read'),
-			array($this, 'write'),
-			array($this, 'destroy'),
-			array($this, 'gc')
-		);
+		$this->register($options);
 	}
 	
 	/**
@@ -69,7 +61,26 @@ class JSessionHandler extends JObject
 
 		return $instances[$handler];
 	}
-	
+
+	/**
+	* Register the functions of this class with PHP's session handler
+	*
+	* @access public
+	* @param array $options optional parameters
+	*/
+	function register( $options = array() )
+	{
+		// use this object as the session handler
+		session_set_save_handler(
+			array($this, 'open'),
+			array($this, 'close'),
+			array($this, 'read'),
+			array($this, 'write'),
+			array($this, 'destroy'),
+			array($this, 'gc')
+		);
+	}
+
 	/**      
 	 * Open the SessionHandler backend.      
 	 *      
