@@ -1173,26 +1173,34 @@ class JInstallerHelper
 	{
 		$config =& JFactory::getConfig();
 
+		// Capture PHP errors
+		$php_errormsg = 'Error Unknown';
+		ini_set('track_errors', true);
+
+		// Set user agent
+		ini_set('user_agent', "Joomla! 1.5 Installer");
+
+		// Open the remote server socket for reading
+		$inputHandle = @ fopen($url, "r");
+		if (!$inputHandle) {
+			JError::raiseWarning(42, 'Remote Server connection failed: '.$php_errormsg);
+			return false;
+		}
+
+		$meta_data = stream_get_meta_data($inputHandle);
+		foreach ($meta_data['wrapper_data'] as $wrapper_data)
+		{
+			if (substr($wrapper_data, 0, strlen("Content-Disposition"))) {
+				$contentfilename = explode ("\"", $wrapper_data);
+				$target = $contentfilename[1];
+			}
+		}
+
 		// Set the target path if not given
 		if (!$target) {
 			$target = $config->getValue('config.tmp_path').DS.JInstallerHelper::getFilenameFromURL($url);
 		} else {
 			$target = $config->getValue('config.tmp_path').DS.basename($target);
-		}
-
-		/*
-		 * Capture php errors
-		 */
-		$php_errormsg = 'Error Unknown';
-		ini_set('track_errors', true);
-
-		/*
-		 * Open the remote server socket for reading
-		 */
-		$inputHandle = @ fopen($url, "r");
-		if (!$inputHandle) {
-			JError::raiseWarning(42, 'Remote Server connection failed: '.$php_errormsg);
-			return false;
 		}
 
 		// Initialize contents buffer
