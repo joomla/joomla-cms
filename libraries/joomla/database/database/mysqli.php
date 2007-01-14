@@ -131,7 +131,7 @@ class JDatabaseMySQLi extends JDatabase
 	*/
 	function query()
 	{
-		if (!is_resource($this->_resource)) {
+		if (!is_object($this->_resource)) {
 			return false;
 		}
 
