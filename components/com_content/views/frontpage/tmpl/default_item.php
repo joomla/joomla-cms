@@ -104,7 +104,7 @@ endif; ?>
 </td>
 </tr>
 
-<?php if (!empty($this->item->modified) && $this->params->get('modifydate')) : ?>
+<?php if ( intval($this->item->modified) != 0 && $this->params->get('modifydate')) : ?>
 <tr>
 	<td colspan="2"  class="modifydate">
 		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHTML::Date($this->item->modified, DATE_FORMAT_LC2); ?> )
