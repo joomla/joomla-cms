@@ -256,7 +256,7 @@ class JFolder
 		$path = JPath::clean($path);
 		// Is this really a folder?
 		if (!is_dir($path)) {
-			JError::raiseWarning(21, 'JFolder::delete: Path is not a folder: '.$path);
+			JError::raiseWarning(21, 'JFolder::delete: '.JText::_('Path is not a folder').' '.$path);
 			return false;
 		}
 
@@ -380,7 +380,7 @@ class JFolder
 
 		// Is the path a folder?
 		if (!is_dir($path)) {
-			JError::raiseWarning(21, 'JFolder::files: Path is not a folder: '.$path);
+			JError::raiseWarning(21, 'JFolder::files: '.JText::_('Path is not a folder').' '.$path);
 			return false;
 		}
 
@@ -432,7 +432,7 @@ class JFolder
 
 		// Is the path a folder?
 		if (!is_dir($path)) {
-			JError::raiseWarning(21, 'JFolder::folder: Path is not a folder: '.$path);
+			JError::raiseWarning(21, 'JFolder::folder: '.JText::_('Path is not a folder').' '.$path);
 			return false;
 		}
 
