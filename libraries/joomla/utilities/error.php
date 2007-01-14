@@ -321,6 +321,23 @@ class JError
 	}
 
 	/**
+	 * Ignore error handler
+	 * 	- Ignores the error
+	 *
+	 * @static
+	 * @param	object	$error		Exception object to handle
+	 * @param	array	$options	Handler options
+	 * @return	object	The exception object
+	 * @since	1.5
+	 *
+	 * @see	raise()
+	 */
+	function & handleIgnore(&$error, $options)
+	{
+		return $error;
+	}
+
+	/**
 	 * Echo error handler
 	 * 	- Echos the error message to output
 	 *
