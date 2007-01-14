@@ -39,6 +39,7 @@ Legend:
 
 14-Jan-2007 Marko Schmuck
  # Fixed [artf7279] : Newly created article has no "modified" date / user
+ # Fixed [artf6301] : Uninstallation error messages remain English
  
 12-Jan-2007 Enno Klasing
  # Removed double slashes from sitename in installtion when magic_quotes_gpc was swiched off
