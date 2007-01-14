@@ -128,11 +128,10 @@ class ContentViewArticle extends JView
 				}
 			}
 		}
-
+		$mod_date = '';
 		if (intval($article->modified) != 0) {
-			$article->modified = JHTML::Date($article->modified);
+			$article->mod_date = JHTML::Date($article->modified);
 		}
-
 		if (intval($article->created) != 0) {
 			$article->created = JHTML::Date($article->created);
 		}
