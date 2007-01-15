@@ -123,7 +123,7 @@ class  JRequestJoomla extends JPlugin
 
 				// If Itemid is set -- last item in array -- pop it off and set it
 				$last = $urlArray[count($urlArray)-1];
-				if ($pos = strpos($last, '?') !== false) {
+				if (($pos = strpos($last, '?')) !== false) {
 					$last = substr($last, 0, $pos);
 				}
 				if (is_numeric($last)) {

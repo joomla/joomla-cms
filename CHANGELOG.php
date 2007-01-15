@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Jan-2006 Enno Klasing
+ # Fixed [artf7292] : operator precedence problem in joomla.request.php
+
 15-Jan-2007 Sam Moffatt
  # Fixed up installation bug when installing sample data with joomla_backward.sql (backwards compat file had extra entries)
 

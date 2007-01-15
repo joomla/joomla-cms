@@ -164,7 +164,7 @@ class JFTP extends JObject {
 	 * @return JFTP  The FTP Client object.
 	 * @since 1.5
 	 */
-	function & getInstance($host = '127.0.0.1', $port = '21', $options = null)
+	function &getInstance($host = '127.0.0.1', $port = '21', $options = null)
 	{
 		static $instances;
 
@@ -663,7 +663,7 @@ class JFTP extends JObject {
 	 * @param string $buffer Buffer variable to read file contents into
 	 * @return boolean True if successful
 	 */
-	function read($remote, & $buffer) {
+	function read($remote, &$buffer) {
 
 		// Determine file type and set transfer mode
 		if ($this->_type == FTP_AUTOASCII) {
@@ -1015,7 +1015,7 @@ class JFTP extends JObject {
 				return false;
 			}
 
-			if ($list = ftp_nlist($this->_conn,$path) === false) {
+			if (($list = ftp_nlist($this->_conn,$path)) === false) {
 				JError::raiseWarning('35', 'JFTP::nameList: Bad response' );
 				return false;
 			}
@@ -1086,7 +1086,7 @@ class JFTP extends JObject {
 				return false;
 			}
 
-			if ($contents = ftp_rawlist($this->_conn,$path, $recurse) === false) {
+			if (($contents = ftp_rawlist($this->_conn, $path)) === false) {
 				JError::raiseWarning('35', 'JFTP::listDir: Bad response' );
 				return false;
 			}
