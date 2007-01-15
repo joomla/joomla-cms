@@ -166,17 +166,12 @@ class JFTP extends JObject {
 	 */
 	function &getInstance($host = '127.0.0.1', $port = '21', $options = null)
 	{
-		static $instances;
+		static $instances = array();
 
 		$signature = $host.":".$port;
 
-		if (!isset ($instances)) {
-			$instances = array ();
-			$instances[$signature] = new JFTP($options);
-			$instances[$signature]->connect($host, $port);
-		}
-
-		if (!is_object($instances[$signature])) {
+		if (!isset ($instances[$signature]) || !is_object($instances[$signature])) {
+			// Create a new instance
 			$instances[$signature] = new JFTP($options);
 			$instances[$signature]->connect($host, $port);
 		} else {
@@ -335,11 +330,11 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			if (ftp_pwd($this->_conn) === false) {
+			if (($ret = ftp_pwd($this->_conn)) === false) {
 				JError::raiseWarning('35', 'JFTP::pwd: Bad response' );
 				return false;
 			}
-			return true;
+			return $ret;
 		}
 
 		// Initialize variables
@@ -368,11 +363,11 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			if (ftp_systype($this->_conn) === false) {
+			if (($ret = ftp_systype($this->_conn)) === false) {
 				JError::raiseWarning('35', 'JFTP::syst: Bad response' );
 				return false;
 			}
-			return true;
+			return $ret;
 		}
 
 		// Initialize variables
@@ -1000,13 +995,6 @@ class JFTP extends JObject {
 		// Initialize variables
 		$data = null;
 
-		/*
-		 * If a path exists, prepend a space
-		 */
-		if ($path != null) {
-			$path = ' ' . $path;
-		}
-
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			// turn passive mode on
@@ -1020,6 +1008,13 @@ class JFTP extends JObject {
 				return false;
 			}
 			return $list;
+		}
+
+		/*
+		 * If a path exists, prepend a space
+		 */
+		if ($path != null) {
+			$path = ' ' . $path;
 		}
 
 		// Start passive mode
@@ -1068,16 +1063,6 @@ class JFTP extends JObject {
 		// For now we will just set it to false
 		$recurse = false;
 
-		/*
-		 * If a path exists, prepend a space
-		 */
-		if ($path != null) {
-			$path = ' ' . $path;
-		}
-
-		// Determine system type for directory listing parsing
-		$osType = $this->syst();
-
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			// turn passive mode on
@@ -1099,6 +1084,12 @@ class JFTP extends JObject {
 				return false;
 			}
 
+			// If a path exists, prepend a space
+			if ($path != null) {
+				$path = ' ' . $path;
+			}
+
+			// Request the file listing
 			if (!$this->_putCmd(($recurse == true) ? 'LIST -R' : 'LIST'.$path, array (150, 125))) {
 				JError::raiseWarning('35', 'JFTP::listDir: Bad response.', 'Server response:'.$this->_response.' [Expected: 150 or 125] Path sent:'.$path );
 				@ fclose($this->_dataconn);
@@ -1119,6 +1110,14 @@ class JFTP extends JObject {
 
 			$contents = explode(CRLF, $data);
 		}
+
+		// If only raw output is requested we are done
+		if ($type == 'raw') {
+			return $data;
+		}
+
+		// Determine system type for directory listing parsing
+		$osType = $this->syst();
 
 		/*
 		 * Here is where it is going to get dirty....
@@ -1216,12 +1215,7 @@ class JFTP extends JObject {
 			}
 		}
 
-		// One last check, do we want parsed output or raw output???
-		if ($type == 'raw') {
-			return $data;
-		} else {
-			return $dir_list;
-		}
+		return $dir_list;
 	}
 
 	/**
