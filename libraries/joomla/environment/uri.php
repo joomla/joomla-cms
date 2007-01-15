@@ -358,6 +358,7 @@ class JURI extends JObject
 	{
 		$tmp = @$this->_vars[$name];
 		$this->_vars[$name] = is_array($value) ? array_map('urlencode', $value) : urlencode($value);
+		$this->_query = JURI::_buildQuery($this->_vars);
 		return $tmp;
 	}
 
@@ -388,6 +389,7 @@ class JURI extends JObject
 	{
 		if (in_array($name, array_keys($this->_vars))) {
 			unset ($this->_vars[$name]);
+			$this->_query = JURI::_buildQuery($this->_vars);
 		}
 	}
 
