@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Jan-2007 Sam Moffatt
+ # Fixed up installation bug when installing sample data with joomla_backward.sql (backwards compat file had extra entries)
+
 14-Jan-2007 Marko Schmuck
  # Fixed [artf7279] : Newly created article has no "modified" date / user
  # Fixed [artf6301] : Uninstallation error messages remain English

@@ -508,31 +508,8 @@ CREATE TABLE `#__modules_menu` (
 # Dumping data for table `#__modules_menu`
 #
 
-INSERT INTO `#__modules_menu` VALUES (1,1);
-INSERT INTO `#__modules_menu` VALUES (2,0);
 INSERT INTO `#__modules_menu` VALUES (3,0);
-INSERT INTO `#__modules_menu` VALUES (4,1);
-INSERT INTO `#__modules_menu` VALUES (5,1);
-INSERT INTO `#__modules_menu` VALUES (5,2);
-INSERT INTO `#__modules_menu` VALUES (5,4);
-INSERT INTO `#__modules_menu` VALUES (5,27);
-INSERT INTO `#__modules_menu` VALUES (5,36);
-INSERT INTO `#__modules_menu` VALUES (7,1);
-INSERT INTO `#__modules_menu` VALUES (8,1);
-INSERT INTO `#__modules_menu` VALUES (8,2);
-INSERT INTO `#__modules_menu` VALUES (8,4);
-INSERT INTO `#__modules_menu` VALUES (8,27);
-INSERT INTO `#__modules_menu` VALUES (8,36);
-INSERT INTO `#__modules_menu` VALUES (12,0);
-INSERT INTO `#__modules_menu` VALUES (14,0);
-INSERT INTO `#__modules_menu` VALUES (16,0);
-INSERT INTO `#__modules_menu` VALUES (17,0);
-INSERT INTO `#__modules_menu` VALUES (25,1);
-INSERT INTO `#__modules_menu` VALUES (26,0);
-INSERT INTO `#__modules_menu` VALUES (28,0);
-INSERT INTO `#__modules_menu` VALUES (30,0);
 INSERT INTO `#__modules_menu` VALUES (31,0);
-INSERT INTO `#__modules_menu` VALUES (32,0);
 
 # --------------------------------------------------------
 
