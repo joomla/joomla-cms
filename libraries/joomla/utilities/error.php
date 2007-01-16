@@ -351,7 +351,7 @@ class JError
 	 */
 	function & handleEcho(&$error, $options)
 	{
-		$level_human = JError::translateErrorLevel($error->getLevel());
+		$level_human = JError::translateErrorLevel($error->get('level'));
 
 		if (isset ($_SERVER['HTTP_HOST'])) {
 			// output as html
@@ -381,21 +381,21 @@ class JError
 	 */
 	function & handleVerbose(& $error, $options)
 	{
-		$level_human = patErrorManager::translateErrorLevel($error->getLevel());
-		$info = $error->getInfo();
+		$level_human = JError::translateErrorLevel($error->get('level'));
+		$info = $error->get('info');
 
 		if (isset ($_SERVER['HTTP_HOST'])) {
 			// output as html
 			echo "<br /><b>J$level_human</b>: ".$error->get('message')."<br />\n";
 			if ($info != null) {
-				echo "&nbsp;&nbsp;&nbsp;".$error->getInfo()."<br />\n";
+				echo "&nbsp;&nbsp;&nbsp;".$info."<br />\n";
 			}
 			echo $error->getBacktrace(true);
 		} else {
 			// output as simple text
 			echo "J$level_human: ".$error->get('message')."\n";
 			if ($info != null) {
-				echo "\t".$error->getInfo()."\n";
+				echo "\t".$info."\n";
 			}
 
 		}
@@ -416,7 +416,7 @@ class JError
 	 */
 	function & handleDie(& $error, $options)
 	{
-		$level_human = patErrorManager::translateErrorLevel($error->getLevel());
+		$level_human = JError::translateErrorLevel($error->get('level'));
 
 		if (isset ($_SERVER['HTTP_HOST'])) {
 			// output as html
@@ -474,8 +474,8 @@ class JError
 			$log = & JLog::getInstance($fileName, $options);
 		}
 
-		$entry['level'] = $error->getLevel();
-		$entry['code'] = $error->getCode();
+		$entry['level'] = $error->get('level');
+		$entry['code'] = $error->get('code');
 		$entry['message'] = str_replace(array ("\r","\n"), array ('','\\n'), $error->get('message'));
 		$log->addEntry($entry);
 
@@ -496,7 +496,7 @@ class JError
 	 */
     function &handleTrigger( &$error, $options )
     {
-		switch( $error->getLevel() )
+		switch( $error->get('level') )
 		{
 			case	E_NOTICE:
 				$level	=	E_USER_NOTICE;
