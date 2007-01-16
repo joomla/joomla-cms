@@ -124,12 +124,12 @@ class JUtility
 	 * @since	1.5
 	 * @static
 	 */
-	function getToken()
+	function getToken($forceNew = false)
 	{
 		$session =& JFactory::getSession();
-		return $session->getToken();
+		return $session->getToken($forceNew);
 	}
-
+	
 	/**
  	 * Method to extract key/value pairs out of a string with xml style attributes
  	 *

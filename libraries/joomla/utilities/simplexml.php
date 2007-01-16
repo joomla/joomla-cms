@@ -424,9 +424,15 @@ class JSimpleXMLElement extends JObject
 	 * @param string $attribute 	The name of the attribute
 	 *
 	 * @access public
-	 * @return string
+	 * @return mixed If an attribute is given will return the attribute if it exist. 
+	 * 				 If no attribute is given will return the complete attributes array
 	 */
-	function attributes($attribute = null) {
+	function attributes($attribute = null) 
+	{
+		if(!isset($attribute)) {
+			return $this->_attributes;
+		}
+		
 		return isset($this->_attributes[$attribute]) ? $this->_attributes[$attribute] : null;
 	}
 
@@ -508,10 +514,13 @@ class JSimpleXMLElement extends JObject
 		$false	= false;
 		$parts	= explode('/', trim($path, '/'));
 
-		foreach ($parts as $node) {
+		foreach ($parts as $node) 
+		{
 			$found = false;
-			foreach ($tmp->_children as $child) {
-				if ($child->_name == $node) {
+			foreach ($tmp->_children as $child) 
+			{
+				if ($child->_name == $node) 
+				{
 					$tmp =& $child;
 					$found = true;
 					break;
@@ -521,6 +530,7 @@ class JSimpleXMLElement extends JObject
 				break;
 			}
 		}
+		
 		if ($found) {
 			$ref =& $tmp;
 		} else {

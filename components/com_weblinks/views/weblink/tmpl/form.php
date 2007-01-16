@@ -84,5 +84,5 @@ function submitbutton(pressbutton)
 <input type="hidden" name="controller" value="weblink" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="Returnid" value="<?php echo $this->returnid; ?>" />
-<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
+<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>

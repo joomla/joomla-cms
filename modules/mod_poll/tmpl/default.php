@@ -46,5 +46,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 <input type="hidden" name="id" value="<?php echo $item->id;?>" />
 <input type="hidden" name="task" value="vote" />
-<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
+<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>

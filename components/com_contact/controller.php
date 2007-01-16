@@ -79,6 +79,12 @@ class ContactController extends JController
 	function sendmail()
 	{
 		global $mainframe, $Itemid;
+		
+		//check the token before we do anything else
+		$token	= JUtility::getToken();
+		if(!JRequest::getVar( $token, 0, 'post' )) {
+			JError::raiseError(403, 'Request Forbidden');
+		} 
 
 		// Initialize some variables
 		$db			= & JFactory::getDBO();

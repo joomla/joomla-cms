@@ -104,5 +104,5 @@ function validateForm( frm ) {
 <input type="hidden" name="task" value="save" />
 <input type="hidden" name="id" value="0" />
 <input type="hidden" name="gid" value="0" />
-<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
+<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>

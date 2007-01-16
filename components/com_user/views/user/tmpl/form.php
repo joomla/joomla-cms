@@ -91,5 +91,5 @@ function submitbutton( pressbutton ) {
 <input type="hidden" name="gid" value="<?php echo $this->user->get('gid');?>" />
 <input type="hidden" name="option" value="com_user" />
 <input type="hidden" name="task" value="save" />
-<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
+<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>

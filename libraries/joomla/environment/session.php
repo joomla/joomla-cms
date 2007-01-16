@@ -124,20 +124,47 @@ class JSession extends JObject
 	 * has been generated the system will check the post request to see if
 	 * it is present, if not it will invalidate the session. 
 	 *
+	 * @param boolean $forceNew If true, force a new token to be created
 	 * @access public
 	 * @return string The session token
 	 */
-	function getToken() 
+	function getToken($forceNew = false) 
 	{	
 		$token = $this->get( 'session.token' );
 
 		//create a token
-		if( $token === null ) {
+		if( $token === null || $forceNew ) {
 			$token	=	$this->_createToken( 12 );
 			$this->set( 'session.token', $token );
 		}
 		
 		return $token;
+	}
+	
+	/**
+	 * Method to determine if a token exists in the session. If not the
+	 * session will be set to expired
+	 *
+	 * @param	string	Hashed token to be verified
+	 * @param	boolean	If true, expires the session
+	 * @since	1.5
+	 * @static
+	 */
+	function hasToken($tCheck, $forceExpire = true)
+	{
+		// check if a token exists in the session
+		$tStored = $this->get( 'session.token' );
+		
+		//check token
+		if(($Stored !== $tCheck)) 
+		{
+			if($forceExpire) {
+				$this->_state = 'expired';
+			}
+			return false;
+		}
+		
+		return true;
 	}
 
 
@@ -643,21 +670,6 @@ class JSession extends JObject
 			else if( $_SERVER['HTTP_USER_AGENT'] !== $browser ) 
 			{
 				$this->_state	=	'error';
-				return false;
-			}
-		}
-
-		// check if token is valid!
-		$token = $this->get( 'session.token' );
-		if( $token !== null )
-		{
-			//reset token
-			$this->set( 'session.token', null );
-			
-			//check token
-			$var = JRequest::getVar( 'token', '', 'post' );
-			if(($var !== $token) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
-				$this->_state = 'error';
 				return false;
 			}
 		}

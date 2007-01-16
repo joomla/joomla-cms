@@ -59,5 +59,5 @@ $langs = JHTMLSelect::genericList( $languages, 'lang', ' class="inputbox"', 'val
 	<div class="clr"></div>
 	<input type="hidden" name="option" value="com_login" />
 	<input type="hidden" name="task" value="login" />
-	<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
+	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>

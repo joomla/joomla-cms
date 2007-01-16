@@ -115,7 +115,7 @@ class JApplication extends JObject
 	* @access	public
 	* @param	int	Exit code
 	*/
-	function close( $code=0 )
+	function close( $code = 0 )
 	{
 		$session =& JFactory::getSession();
 		$session->close();

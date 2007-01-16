@@ -63,5 +63,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<input type="hidden" name="option" value="com_mailto" />
 	<input type="hidden" name="task" value="send" />
 	<input type="hidden" name="link" value="<?php echo $this->data->link; ?>" />
-	<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
+	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>
