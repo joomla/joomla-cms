@@ -22,14 +22,15 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Registration
  * @since 1.0
  */
-class RegistrationViewRegister extends JView
+class RegistrationViewLostpass extends JView
 {
 	function display($tpl = null)
 	{
-		$doc = & JFactory::getDocument();
-		$doc->addScript('includes/js/joomla/common.js');
-		$doc->addScript('includes/js/joomla/validation.js');
-
+		global $mainframe;
+		
+		$breadcrumbs =& $mainframe->getPathWay();
+		$breadcrumbs->addItem( JText::_( 'Lost your Password?' ));
+		
 		parent::display($tpl);
 	}
 }
