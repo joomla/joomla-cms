@@ -229,11 +229,12 @@ function savePlugin( $option, $client, $task )
 */
 function editPlugin( )
 {
+	global $option, $mainframe;
+	
 	$db		=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
 
 	$client = JRequest::getVar( 'client', 'site' );
-	$option = JRequest::getVar( 'option');
 	$cid 	= JRequest::getVar( 'cid', array(0));
 	if (!is_array( $cid )) {
 		$cid = array(0);
@@ -246,9 +247,10 @@ function editPlugin( )
 	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
+	
 	if ($row->isCheckedOut( $user->get('id') )) {
 		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The module' ), $row->title );
-		mosErrorAlert( $msg, "document.location.href='index.php?option=$option'" );
+		$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client, $msg, 'error' );
 	}
 
 	if ($client == 'admin') {

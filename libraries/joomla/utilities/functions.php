@@ -33,30 +33,6 @@ function ampReplace( $text ) {
 	return $text;
 }
 
-function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
-	global $mainframe;
-
-	$text = nl2br( $text );
-	$text = addslashes( $text );
-	$text = strip_tags( $text );
-
-	switch ( $mode ) {
-		case 2:
-			echo "<script>$action</script> \n";
-			break;
-
-		case 1:
-		default:
-			echo "<script>alert('$text'); $action</script> \n";
-			echo '<noscript>';
-			echo "$text\n";
-			echo '</noscript>';
-			break;
-	}
-
-	$mainframe->close();
-}
-
 function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 ) {
 	if (@$children[$id] && $level <= $maxlevel) {
 		foreach ($children[$id] as $v) {

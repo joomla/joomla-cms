@@ -225,12 +225,33 @@ function mosNotAuth()
 }
 
 /**
- * Legacy function, use {@link josErrorAlert} instead
+ * Legacy function, replaced by JError
  *
  * @deprecated	As of version 1.5
  */
-function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
-	return josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 );
+function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) 
+{
+	global $mainframe;
+
+	$text = nl2br( $text );
+	$text = addslashes( $text );
+	$text = strip_tags( $text );
+
+	switch ( $mode ) {
+		case 2:
+			echo "<script>$action</script> \n";
+			break;
+
+		case 1:
+		default:
+			echo "<script>alert('$text'); $action</script> \n";
+			echo '<noscript>';
+			echo "$text\n";
+			echo '</noscript>';
+			break;
+	}
+
+	$mainframe->close();
 }
 
 /**

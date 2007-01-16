@@ -782,8 +782,8 @@ class ContentController extends JController
 
 		if (count($cid) < 1) {
 			$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
-			JViewContent::displayError( JText::_('Select an item to') . ' ' . JText::_($action) );
-			return false;
+			$msg = JText::_('Select an item to') . ' ' . JText::_($action);
+			$mainframe->redirect('index.php?option='.$option.$rtask.'&amp;sectionid='.$redirect, $msg, 'error');
 		}
 
 		// Get some variables for the query
@@ -856,8 +856,8 @@ class ContentController extends JController
 		$msg	= null;
 
 		if (count($cid) < 1) {
-			JViewContent::displayError( JText::_('Select an item to toggle') );
-			return false;
+			$msg = JText::_('Select an item to toggle');
+			$mainframe->redirect('index.php?option='.$option, $msg, 'error');
 		}
 
 		/*
@@ -909,10 +909,10 @@ class ContentController extends JController
 		$return		= JRequest::getVar( 'returntask', '', 'post' );
 		$nullDate	= $db->getNullDate();
 
-		if (count($cid) < 1)
-		{
-			ContentView::displayError( JText::_('Select an item to delete') );
-			return false;
+		if (count($cid) < 1) {
+			$msg =  JText::_('Select an item to delete');
+			$mainframe->redirect('index.php?option='.$option, $msg, 'error');
+			
 		}
 
 		// Removed content gets put in the trash [state = -2] and ordering is always set to 0
@@ -994,10 +994,9 @@ class ContentController extends JController
 		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
 
-		if (count($cid) < 1)
-		{
-			ContentView::displayError( JText::_('Select an item to move') );
-			return false;
+		if (count($cid) < 1) {
+			$msg = JText::_('Select an item to move');
+			$mainframe->redirect('index.php?option='.$option, $msg, 'error');
 		}
 
 		//seperate contentids
@@ -1116,8 +1115,8 @@ class ContentController extends JController
 		$option		= JRequest::getVar( 'option' );
 
 		if (!is_array($cid) || count($cid) < 1) {
-			ContentView::displayError( JText::_('Select an item to move') );
-			return false;
+			$msg = JText::_('Select an item to move');
+			$mainframe->redirect('index.php?option='.$option, $msg, 'error');
 		}
 
 		//seperate contentids

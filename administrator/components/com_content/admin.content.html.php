@@ -769,18 +769,6 @@ class ContentView
 		<?php
 	}
 
-	/**
-	 * Writes a user input error message and if javascript is enabled goes back
-	 * to the previous screen to try again.
-	 *
-	 * @param string $msg The error message to display
-	 * @return void
-	 * @since 1.5
-	 */
-	function displayError($msg) {
-		josErrorAlert($msg);
-	}
-
 	function _paneDetails(&$row, &$lists, &$params )
 	{
 		?>

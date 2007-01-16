@@ -417,20 +417,12 @@ class MenusController extends JController
 		$isNew		= ($menuType->id == 0);
 		$isChanged	= ($oldType->menutype != $menuType->menutype);
 
-		// block to stop renaming of 'mainmenu' menutype
-		if ($oldType->menutype == 'mainmenu' && $isChanged) {
-			josErrorAlert( JText::_( 'WARNMAINMENU', true ) );
-		}
-
 		if (!$menuType->check()) {
-			josErrorAlert( $menuType->getError() );
-			$mainframe->close();
+			return JError::raiseWarning( 500, $row->getError() );
 		}
 
-		if (!$menuType->store())
-		{
-			josErrorAlert( $menuType->getError() );
-			$mainframe->close();
+		if (!$menuType->store()) {
+			return JError::raiseWarning( 500, $row->getError() );
 		}
 
 		if ($isNew)
@@ -447,12 +439,10 @@ class MenusController extends JController
 
 				// check then store data in db
 				if (!$module->check()) {
-					josErrorAlert( $module->getError() );
-					$mainframe->close();
+					return JError::raiseWarning( 500, $row->getError() );
 				}
 				if (!$module->store()) {
-					josErrorAlert( $module->getError() );
-					$mainframe->close();
+					return JError::raiseWarning( 500, $row->getError() );
 				}
 				$module->checkin();
 				$module->reorder( "position='". $module->position ."'" );
@@ -462,26 +452,24 @@ class MenusController extends JController
 				$query = 'DELETE FROM #__modules_menu WHERE moduleid = '.(int) $module->id;
 				$db->setQuery( $query );
 				if (!$db->query()) {
-					josErrorAlert( $db->getErrorMsg() );
-					$mainframe->close();
+					return JError::raiseWarning( 500, $row->getError() );
 				}
 
 				// ToDO: Changed to become a Joomla! db-object
 				$query = 'INSERT INTO #__modules_menu VALUES ( '.(int) $module->id.', 0 )';
 				$db->setQuery( $query );
 				if (!$db->query()) {
-					josErrorAlert( $db->getErrorMsg() );
-					$mainframe->close();
+					return JError::raiseWarning( 500, $row->getError() );
 				}
 			}
 
 			$msg = JText::sprintf( 'New Menu created', $menuType->menutype );
 		}
 		else if ($isChanged)
-		{
-			$oldTerm = 'menutype=' . $oldType->menutype;
-			$newTerm = 'menutype=' . $menuType->menutype;
-
+		{	
+			$oldTerm = $oldType->menutype;
+			$newTerm = $menuType->menutype;
+			
 			// change menutype being of all mod_mainmenu modules calling old menutype
 			$query = "SELECT id"
 			. "\n FROM #__modules"
@@ -491,7 +479,8 @@ class MenusController extends JController
 			$db->setQuery( $query );
 			$modules = $db->loadResultArray();
 
-			foreach ($modules as $id) {
+			foreach ($modules as $id) 
+			{
 				$row =& JTable::getInstance('module');
 				$row->load( $id );
 
@@ -499,12 +488,10 @@ class MenusController extends JController
 
 				// check then store data in db
 				if ( !$row->check() ) {
-					josErrorAlert( $row->getError() );
-					$mainframe->close();
+					return JError::raiseWarning( 500, $row->getError() );
 				}
 				if ( !$row->store() ) {
-					josErrorAlert( $row->getError() );
-					$mainframe->close();
+					return JError::raiseWarning( 500, $row->getError() );
 				}
 				$row->checkin();
 			}
@@ -586,7 +573,9 @@ class MenusController extends JController
 				"\n WHERE module = 'mod_mainmenu'";
 		$db->setQuery( $query );
 		$menus = $db->loadResultArray();
-		foreach ( $menus as $menu ) {
+		
+		foreach ( $menus as $menu ) 
+		{
 			$params = new JParameter( $menu );
 			if ( $params->get('menutype') == $menu_name ) {
 				JError::raiseError( 500, JText::_( 'ERRORMENUNAMEEXISTS' ) );
@@ -602,7 +591,8 @@ class MenusController extends JController
 		sort( $mids );
 		$a_ids 		= array();
 
-		foreach( $mids as $mid ) {
+		foreach( $mids as $mid ) 
+		{
 			$original->load( $mid );
 			$copy 			= $original;
 			$copy->id 		= NULL;
