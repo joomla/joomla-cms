@@ -342,7 +342,7 @@ class JFactory
 	{
 		jimport('joomla.environment.uri');
 
-		$instance =& JURI::getInstance();
+		$instance =& JURI::getInstance($uri);
 		return $instance;
 	}
 
