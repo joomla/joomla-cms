@@ -380,11 +380,9 @@ class JInstallationController
 			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
 		}
 
-		 // mport the authentication library
-		jimport('joomla.user.authenticate');
-
 		// Generate a random admin password
-		$vars['adminPassword'] = JAuthenticateHelper::genRandomPassword(8);
+		jimport('joomla.user.helper');
+		$vars['adminPassword'] = JUserHelper::genRandomPassword(8);
 
 		$folders = array (
 			'administrator/backups',
@@ -428,11 +426,11 @@ class JInstallationController
 		$lang =& JFactory::getLanguage();
 
 		// Import authentication library
-		jimport( 'joomla.user.authenticate' );
+		jimport( 'joomla.user.helper' );
 
 		// Set some needed variables
 		$vars['siteUrl']		= $mainframe->getSiteURL();
-		$vars['secret']			= JAuthenticateHelper::genRandomPassword(16);
+		$vars['secret']			= JUserHelper::genRandomPassword(16);
 		$vars['hidePdf']		= intval(!is_writable(JPATH_SITE.DS.'tmp'.DS));
 
 		$vars['offline']		= JText::_( 'STDOFFLINEMSG' );

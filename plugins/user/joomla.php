@@ -70,6 +70,8 @@ class JUserJoomla extends JPlugin
 	 */
 	function onLoginUser($user, $remember)
 	{
+		jimport('joomla.user.helper');
+
 		// load plugin parameters
 	 	$plugin =& JPluginHelper::getPlugin('user', 'joomla');
 	 	$params = new JParameter( $plugin->params );
@@ -86,7 +88,7 @@ class JUserJoomla extends JPlugin
 			$my->set( 'email'		, $user['email'] );	// Result should contain an email (check)
 			$my->set( 'gid'			, 18 );				//Make configurable
 			$my->set( 'usertype'	, 'Registered' ); 	//Make configurable
-			
+
 			//If autoregister is set let's register the user
 			if($params->get('autoregister', 1) == 1)
 			{

@@ -160,6 +160,7 @@ class JUser extends JObject
 		// Find the user id
 		if(!is_numeric($id))
 		{
+			jimport('joomla.user.helper');
 			if (!$id = JUserHelper::getUserId($id)) {
 				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$id.' does not exist' );
 				return false;
@@ -324,7 +325,7 @@ class JUser extends JObject
 	 */
 	function bind(& $array)
 	{
-		jimport('joomla.user.authenticate');
+		jimport('joomla.user.helper');
 
 		// Lets check to see if the user is new or not
 		if (empty($this->id) /*&& $array['id']*/)
@@ -338,10 +339,10 @@ class JUser extends JObject
 			// First the password
 			if (empty($array['password']))
 			{
-				$array['password'] = JAuthenticateHelper::genRandomPassword();
+				$array['password'] = JUserHelper::genRandomPassword();
 			}
 			$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
-			$array['password'] = JAuthenticateHelper::getCryptedPassword($array['password']);
+			$array['password'] = JUserHelper::getCryptedPassword($array['password']);
 
 			// Next the registration timestamp
 			$this->set( 'registerDate', date( 'Y-m-d H:i:s' ) );
@@ -368,7 +369,7 @@ class JUser extends JObject
 			if (!empty($array['password']))
 			{
 				$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
-				$array['password'] = JAuthenticateHelper::getCryptedPassword($array['password']);
+				$array['password'] = JUserHelper::getCryptedPassword($array['password']);
 			}
 			else
 			{
@@ -618,77 +619,4 @@ class JUser extends JObject
 	}
 }
 
-/**
- * Helper class for the JUser class.  Performs various tasks in correlation with
- * the JUser class that don't logically fit inside the JUser object
- *
- * @static
- * @author 		Louis Landry <louis.landry@joomla.org>
- * @package 	Joomla.Framework
- * @subpackage	User
- * @since		1.5
- */
-class JUserHelper
-{
-	/**
-	 * Method to activate a user
-	 *
-	 * @param	string	$activation	Activation string
-	 * @return 	boolean 			True on success
-	 * @since	1.5
-	 */
-	function activateUser($activation)
-	{
-		//Initialize some variables
-		$db = & JFactory::getDBO();
-
-		// Lets get the id of the user we want to activate
-		$query = "SELECT id"
-		. "\n FROM #__users"
-		. "\n WHERE activation = '$activation'"
-		. "\n AND block = 1"
-		;
-		$db->setQuery( $query );
-		$id = intval( $db->loadResult() );
-
-		// Is it a valid user to activate?
-		if ($id)
-		{
-			$user =& JUser::getInstance( (int) $id );
-
-			$user->set('block', '0');
-			$user->set('activation', '');
-
-			// Time to take care of business.... store the user.
-			if (!$user->save())
-			{
-				JError::raiseWarning( "SOME_ERROR_CODE", $user->getError() );
-				return false;
-			}
-		}
-		else
-		{
-			JError::raiseWarning( "SOME_ERROR_CODE", JText::_('Unable to find a user with given activation string.') );
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Returns userid if a user exists
-	 *
-	 * @param string The username to search on
-	 * @return int The user id or 0 if not found
-	 */
-	function getUserId($username)
-	{
-		// Initialize some variables
-		$db = & JFactory::getDBO();
-
-		$query = 'SELECT id FROM #__users WHERE username = ' . $db->Quote( $username );
-		$db->setQuery($query, 0, 1);
-		return $db->loadResult();
-	}
-}
 ?>

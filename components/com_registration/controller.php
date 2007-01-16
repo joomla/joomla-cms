@@ -35,7 +35,7 @@ class RegistrationController extends JController
 
 		parent::display();
 	}
-	
+
 	/**
 	 * Prepares the registration form
 	 * @return void
@@ -43,15 +43,15 @@ class RegistrationController extends JController
 	function register()
 	{
 		global $mainframe;
-			
+
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 		if (!$usersConfig->get( 'allowUserRegistration' )) {
 			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
 			return;
 		}
-		
+
 		JRequest::setVar('view', 'register');
-		
+
 		parent::display();
 	}
 
@@ -71,12 +71,12 @@ class RegistrationController extends JController
 	function sendreminder()
 	{
 		global $mainframe, $Itemid;
-		
+
 		//check the token before we do anything else
 		$token	= JUtility::getToken();
 		if(!JRequest::getVar( $token, 0, 'post' )) {
 			JError::raiseError(403, 'Request Forbidden');
-		} 
+		}
 
 		// Initialize variables
 		$siteURL 	= JURI::base();
@@ -87,7 +87,7 @@ class RegistrationController extends JController
 		$username	= JRequest::getVar( 'jusername', '', 'post' );
 		$email		= JRequest::getVar( 'jemail', '', 'post' );
 
-		if ($username) 
+		if ($username)
 		{
 			// We have a username ... send a new password
 			$query = "SELECT id, email" .
@@ -121,11 +121,11 @@ class RegistrationController extends JController
 			JUtility::sendMail($config->getValue('config.mailfrom'), $config->getValue('config.fromname'), $user->email, $subject, $message);
 
 			$mainframe->redirect( 'index.php', JText::_( 'New User Password created and sent!' ) );
-		} 
-		else 
+		}
+		else
 		{
 			// No username... do we have an email address?
-			if ($email) 
+			if ($email)
 			{
 				// We have an email address ... is it a valid one?
 				$query = "SELECT username" .
@@ -146,8 +146,8 @@ class RegistrationController extends JController
 				JUtility::sendMail($config->getValue('config.mailfrom'), $config->getValue('config.fromname'), $email, $subject, $message);
 
 				$mainframe->redirect( 'index.php', JText::_( 'Username resent' ) );
-			} 
-			else 
+			}
+			else
 			{
 				// We have nothing ... send fail
 				$mainframe->redirect( 'index.php?option=com_registration&task=lostPassword&Itemid='.$Itemid, JText::_( 'Sorry, no corresponding user was found' ) );
@@ -162,12 +162,12 @@ class RegistrationController extends JController
 	function save()
 	{
 		global $mainframe;
-		
+
 		//check the token before we do anything else
 		$token	= JUtility::getToken();
 		if(!JRequest::getVar( $token, 0, 'post' )) {
 			JError::raiseError(403, 'Request Forbidden');
-		} 
+		}
 
 		// Get required system objects
 		$user 		=& JFactory::getUser();
@@ -306,7 +306,8 @@ class RegistrationController extends JController
 			return;
 		}
 
-		// Lets activate this user.
+		// Lets activate this user
+		jimport('joomla.user.helper');
 		if (JUserHelper::activateUser($activation))
 		{
 			// Page Title
@@ -403,7 +404,7 @@ class RegistrationController extends JController
 			}
 		}
 	}
-	
+
 	function cancel() {
 		$this->setRedirect( 'index.php' );
 	}

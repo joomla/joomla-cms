@@ -321,13 +321,13 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 }
 
 /**
- * Legacy function, use {@link JAuthenticateHelper::genRandomPassword()} instead
+ * Legacy function, use {@link JUserHelper::genRandomPassword()} instead
  *
  * @deprecated	As of version 1.5
  */
 function mosMakePassword() {
-	jimport('joomla.user.authenticate');
-	return JAuthenticateHelper::genRandomPassword();
+	jimport('joomla.user.helper');
+	return JUserHelper::genRandomPassword();
 }
 
 /**

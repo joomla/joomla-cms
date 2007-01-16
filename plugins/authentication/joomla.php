@@ -51,6 +51,8 @@ class JAuthenticateJoomla extends JPlugin
 	 */
 	function onAuthenticate( $username, $password )
 	{
+		jimport('joomla.user.helper');
+
 		global $mainframe;
 
 		// Initialize variables
@@ -67,7 +69,7 @@ class JAuthenticateJoomla extends JPlugin
 		$query = "SELECT `id`"
 			. "\nFROM `#__users`"
 			. "\nWHERE username=" . $db->Quote( $username )
-			. "\n AND password=" . $db->Quote( JAuthenticateHelper::getCryptedPassword( $password ) )
+			. "\n AND password=" . $db->Quote( JUserHelper::getCryptedPassword( $password ) )
 			. $conditions;
 
 		$db->setQuery( $query );

@@ -20,7 +20,8 @@ jimport('joomla.application.plugin.helper');
 * Base class for a Joomla! application.
 *
 * Acts as a Factory class for application specific objects and provides many
-* supporting API functions. Derived clases should supply the execute() function.
+* supporting API functions. Derived clases should supply the execute() and dispaly()
+* functions.
 *
 * @abstract
 * @package		Joomla.Framework

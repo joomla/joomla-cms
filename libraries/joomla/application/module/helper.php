@@ -81,7 +81,7 @@ class JModuleHelper
 		global $mainframe, $Itemid, $option;
 
 		// Initialize variables
-		$style		= isset($attribs['style'])   ? $attribs['style']   : $module->style;
+		$style	= isset($attribs['style'])   ? $attribs['style']   : $module->style;
 		$outline	= isset($attribs['outline']) ? $attribs['outline'] : false;
 
 		// Handle legacy globals if enabled
@@ -247,8 +247,8 @@ class JModuleHelper
 		{
 			//determine if this is a custom module
 			$file					= $modules[$i]->module;
-			$custom 				= substr( $file, 0, 4 ) == 'mod_' ?  0 : 1;
-			$modules[$i]->user  	= $custom;
+			$custom 					= substr( $file, 0, 4 ) == 'mod_' ?  0 : 1;
+			$modules[$i]->user  		= $custom;
 			// CHECK: custom module name is given by the title field, otherwise it's just 'om' ??
 			$modules[$i]->name		= $custom ? $modules[$i]->title : substr( $file, 4 );
 			$modules[$i]->style		= null;

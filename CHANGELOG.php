@@ -41,6 +41,7 @@ Legend:
  ^ Improved session token handling and spoof checking.
  - Deprecated mosErrorAlert, use JError or JApplication::redirect instead
  # Fixed [artf7293] : JFactory::getURI doesn't use it parameter
+ ^ Moved JAuthenticationHelper into JUserHelper and into a seperate file
 
 15-Jan-2006 Enno Klasing
  # Fixed [artf7292] : operator precedence problem in joomla.request.php

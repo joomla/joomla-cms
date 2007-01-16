@@ -163,7 +163,7 @@ class JDocumentHTML extends JDocument
 	{
 		// check
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
-		$outline	= isset($params['outline'])   ? $params['outline']   : 0;
+		$outline		= isset($params['outline'])   ? $params['outline']   : 0;
 		$template	= $params['template'];
 		$file		= $params['file'];
 
