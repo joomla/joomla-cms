@@ -32,7 +32,7 @@ $mainframe = new JXMLRPC(3);
 // TODO: We need to make sure to enable it prior to release!
 //JRequest::clean();
 
-// set the configuration
+// load the configuration
 $mainframe->loadConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
 
 // Includes the required class file for the XML-RPC Server

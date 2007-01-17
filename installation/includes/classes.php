@@ -276,11 +276,16 @@ class JInstallationController
 				}
 			}
 
+			$type = $DBtype;
+			if ($type == 'mysqli') {
+				$type = 'mysql';
+			}
+
 			// set collation and use utf-8 compatibile script if appropriate
 			if ($DButfSupport) {
-				$dbscheme = 'sql'.DS.'joomla.sql';
+				$dbscheme = 'sql'.DS.$type.DS.'joomla.sql';
 			} else {
-				$dbscheme = 'sql'.DS.'joomla_backward.sql';
+				$dbscheme = 'sql'.DS.$type.DS.'joomla_backward.sql';
 			}
 
 			if (JInstallationHelper::populateDatabase($db, $dbscheme, $errors, ($DButfSupport) ? $DBcollation : '') > 0)
@@ -372,7 +377,6 @@ class JInstallationController
 			$vars['loadchecked'] = 2;
 		}
 
-
 //		$strip = get_magic_quotes_gpc();
 
 		if (isset ($vars['siteName']))
@@ -431,7 +435,7 @@ class JInstallationController
 		// Set some needed variables
 		$vars['siteUrl']		= $mainframe->getSiteURL();
 		$vars['secret']			= JUserHelper::genRandomPassword(16);
-		$vars['hidePdf']		= intval(!is_writable(JPATH_SITE.DS.'tmp'.DS));
+		$vars['hidePdf']		= intval(!is_writable(JPATH_SITE.DS.'tmp'));
 
 		$vars['offline']		= JText::_( 'STDOFFLINEMSG' );
 		$vars['errormsg']		= JText::_( 'STDERRORMSG' );
