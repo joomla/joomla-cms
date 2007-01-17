@@ -74,8 +74,8 @@ class JInstaller_component extends JObject
 		$this->uninstallElement	=& $this->manifest->getElementByPath('uninstall');
 
 		// Set the installation target paths
-		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->get('name'))).DS));
-		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->get('name'))).DS));
+		$this->parent->setPath('extension_site', JPath::clean(JPATH_SITE.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->get('name')))));
+		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS."components".DS.strtolower("com_".str_replace(" ", "", $this->get('name')))));
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -164,10 +164,10 @@ class JInstaller_component extends JObject
 		$installScriptElement =& $this->manifest->getElementByPath('installfile');
 		if (is_a($installScriptElement, 'JSimpleXMLElement')) {
 			// Make sure it hasn't already been copied (this would be an error in the xml install file)
-			if (!file_exists($this->parent->getPath('extension_administrator').$installScriptElement->data()))
+			if (!file_exists($this->parent->getPath('extension_administrator').DS.$installScriptElement->data()))
 			{
-				$path['src']	= $this->parent->getPath('source').$installScriptElement->data();
-				$path['dest']	= $this->parent->getPath('extension_administrator').$installScriptElement->data();
+				$path['src']	= $this->parent->getPath('source').DS.$installScriptElement->data();
+				$path['dest']	= $this->parent->getPath('extension_administrator').DS.$installScriptElement->data();
 				if (!$this->parent->copyFiles(array ($path))) {
 					// Install failed, rollback changes
 					$this->parent->abort('Component Install: '.JText::_('Could not copy PHP install file.'));
@@ -181,10 +181,10 @@ class JInstaller_component extends JObject
 		$uninstallScriptElement =& $this->manifest->getElementByPath('uninstallfile');
 		if (is_a($uninstallScriptElement, 'JSimpleXMLElement')) {
 			// Make sure it hasn't already been copied (this would be an error in the xml install file)
-			if (!file_exists($this->parent->getPath('extension_administrator').$uninstallScriptElement->data()))
+			if (!file_exists($this->parent->getPath('extension_administrator').DS.$uninstallScriptElement->data()))
 			{
-				$path['src']	= $this->parent->getPath('source').$uninstallScriptElement->data();
-				$path['dest']	= $this->parent->getPath('extension_administrator').$uninstallScriptElement->data();
+				$path['src']	= $this->parent->getPath('source').DS.$uninstallScriptElement->data();
+				$path['dest']	= $this->parent->getPath('extension_administrator').DS.$uninstallScriptElement->data();
 				if (!$this->parent->copyFiles(array ($path))) {
 					// Install failed, rollback changes
 					$this->parent->abort('Component Install: '.JText::_('Could not copy PHP uninstall file.'));
@@ -236,10 +236,10 @@ class JInstaller_component extends JObject
 		 * method to the installation message.
 		 */
 		if ($this->get('install.script')) {
-			if (is_file($this->parent->getPath('extension_administrator').$this->get('install.script'))) {
+			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install.script'))) {
 				ob_start();
 				ob_implicit_flush(false);
-				require_once ($this->parent->getPath('extension_administrator').$this->get('install.script'));
+				require_once ($this->parent->getPath('extension_administrator').DS.$this->get('install.script'));
 				if (function_exists('com_install')) {
 					if (com_install() === false) {
 						$this->parent->abort('Component Install: '.JText::_('Custom install routine failure'));
@@ -333,10 +333,10 @@ class JInstaller_component extends JObject
 		$uninstallfileElement =& $this->manifest->getElementByPath('uninstallfile');
 		if (is_a($uninstallfileElement, 'JSimpleXMLElement')) {
 			// Element exists, does the file exist?
-			if (file_exists($this->parent->getPath('extension_administrator').$uninstallfileElement->data())) {
+			if (is_file($this->parent->getPath('extension_administrator').DS.$uninstallfileElement->data())) {
 				ob_start();
 				ob_implicit_flush(false);
-				require_once ($this->parent->getPath('extension_administrator').$uninstallfileElement->data());
+				require_once ($this->parent->getPath('extension_administrator').DS.$uninstallfileElement->data());
 				if (function_exists('com_uninstall')) {
 					if (com_uninstall() === false) {
 						JError::raiseWarning(100, 'Component Uninstall: '.JText::_('Custom Uninstall script unsuccessful'));

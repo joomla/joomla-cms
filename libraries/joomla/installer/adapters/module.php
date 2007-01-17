@@ -104,7 +104,7 @@ class JInstaller_module extends JObject
 			}
 		}
 		if (!empty ($mname)) {
-			$this->parent->setPath('extension_root', JPath::clean($basePath.DS.'modules'.DS.$mname));
+			$this->parent->setPath('extension_root', $basePath.DS.'modules'.DS.$mname);
 		} else {
 			$this->parent->abort('Module Install: '.JText::_('No module file specified'));
 			return false;

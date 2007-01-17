@@ -87,7 +87,7 @@ class JInstaller_plugin extends JObject
 		}
 		$group = $this->manifest->attributes('group');
 		if (!empty ($pname) && !empty($group)) {
-			$this->parent->setPath('extension_root', JPath::clean(JPATH_ROOT.DS.'plugins'.DS.$group));
+			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$group);
 		} else {
 			$this->parent->abort('Plugin Install: '.JText::_('No plugin file specified'));
 			return false;
@@ -124,7 +124,7 @@ class JInstaller_plugin extends JObject
 			return false;
 		}
 
-		// Parse optional tags
+		// Parse optional tags -- media and language files for plugins go in admin app
 		$this->parent->parseMedia($this->manifest->getElementByPath('media'), 1);
 		$this->parent->parseLanguages($this->manifest->getElementByPath('languages'), 1);
 

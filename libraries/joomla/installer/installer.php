@@ -490,10 +490,10 @@ class JInstaller extends JObject
 			if( $fCharset == $dbCharset && $fDriver == $dbDriver) {
 				$sqlfile = $file->data();
 				// Check that sql files exists before reading. Otherwise raise error for rollback
-				if ( !file_exists( $this->getPath('extension_administrator').$sqlfile ) ) {
+				if ( !file_exists( $this->getPath('extension_administrator').DS.$sqlfile ) ) {
 					return false;
 				}
-				$buffer = file_get_contents($this->getPath('extension_administrator').$sqlfile);
+				$buffer = file_get_contents($this->getPath('extension_administrator').DS.$sqlfile);
 
 				// Graceful exit and rollback if read not successful
 				if ( $buffer === false ) {
@@ -572,20 +572,20 @@ class JInstaller extends JObject
 				} else {
 					$folder = 'stories';
 				}
-				$destintion = JPath::clean($client->path.DS.'images'.DS.$folder);
+				$destintion = $client->path.DS.'images'.DS.$folder;
 				break;
 
 			case 'languages':
-				$destination = JPath::clean($client->path.DS.'language');
+				$destination = $client->path.DS.'language';
 				break;
 
 			default:
 				if ($client) {
 					$pathname = 'extension_'.$client->name;
-					$destination = JPath::clean($this->getPath($pathname));
+					$destination = $this->getPath($pathname);
 				} else {
 					$pathname = 'extension_root';
-					$destination = JPath::clean($this->getPath($pathname));
+					$destination = $this->getPath($pathname);
 				}
 				break;
 		}
@@ -600,9 +600,9 @@ class JInstaller extends JObject
 		 * copying files.
 		 */
 		if ($folder = $element->attributes('folder')) {
-			$source = JPath::clean($this->getPath('source').DS.$folder);
+			$source = $this->getPath('source').DS.$folder;
 		} else {
-			$source = JPath::clean($this->getPath('source'));
+			$source = $this->getPath('source');
 		}
 
 		// Process each file in the $files array (children of $tagName).
@@ -619,17 +619,20 @@ class JInstaller extends JObject
 			 * already exists.
 			 */
 			if ($file->name() == 'language' && $file->attributes('tag') != '') {
-				$path['src']	= $source.$file->data();
-				$path['dest']	= $destination.$file->attributes('tag').DS.basename($file->data());
+				$path['src']	= $source.DS.$file->data();
+				$path['dest']	= $destination.DS.$file->attributes('tag').DS.basename($file->data());
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
 				if (!JFolder::exists(dirname($path['dest']))) {
 					continue;
 				}
 			} else {
-				$path['src']	= $source.$file->data();
-				$path['dest']	= $destination.$file->data();
+				$path['src']	= $source.DS.$file->data();
+				$path['dest']	= $destination.DS.$file->data();
 			}
+
+			// Is this path a file or folder?
+			$path['type']	= ( $file->name() == 'folder') ? 'folder' : 'file';
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
@@ -688,7 +691,7 @@ class JInstaller extends JObject
 		 *
 		 * 'languages' Files are copied to JPATH_BASE/language/ folder
 		 */
-		$destination = JPath::clean($client->path.DS.'language');
+		$destination = $client->path.DS.'language';
 
 		/*
 		 * Here we set the folder we are going to copy the files from.
@@ -700,9 +703,9 @@ class JInstaller extends JObject
 		 * copying files.
 		 */
 		if ($folder = $element->attributes('folder')) {
-			$source = JPath::clean($this->getPath('source').DS.$folder);
+			$source = $this->getPath('source').DS.$folder;
 		} else {
-			$source = JPath::clean($this->getPath('source'));
+			$source = $this->getPath('source');
 		}
 
 		// Process each file in the $files array (children of $tagName).
@@ -718,16 +721,16 @@ class JInstaller extends JObject
 			 * already exists.
 			 */
 			if ($file->attributes('tag') != '') {
-				$path['src']	= $source.$file->data();
-				$path['dest']	= $destination.$file->attributes('tag').DS.basename($file->data());
+				$path['src']	= $source.DS.$file->data();
+				$path['dest']	= $destination.DS.$file->attributes('tag').DS.basename($file->data());
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
 				if (!JFolder::exists(dirname($path['dest']))) {
 					continue;
 				}
 			} else {
-				$path['src']	= $source.$file->data();
-				$path['dest']	= $destination.$file->data();
+				$path['src']	= $source.DS.$file->data();
+				$path['dest']	= $destination.DS.$file->data();
 			}
 
 			/*
@@ -799,16 +802,16 @@ class JInstaller extends JObject
 		 * copying files.
 		 */
 		if ($folder = $element->attributes('folder')) {
-			$source = JPath::clean($this->getPath('source').DS.$folder);
+			$source = $this->getPath('source').DS.$folder;
 		} else {
-			$source = JPath::clean($this->getPath('source'));
+			$source = $this->getPath('source');
 		}
 
 		// Process each file in the $files array (children of $tagName).
 		foreach ($files as $file)
 		{
-			$path['src']	= $source.$file->data();
-			$path['dest']	= $destination.$file->data();
+			$path['src']	= $source.DS.$file->data();
+			$path['dest']	= $destination.DS.$file->data();
 
 			/*
 			 * Before we can add a file to the copyfiles array we need to ensure
@@ -905,6 +908,7 @@ class JInstaller extends JObject
 				// Get the source and destination paths
 				$filesource	= JPath::clean($file['src'], false);
 				$filedest	= JPath::clean($file['dest'], false);
+				$filetype	= array_key_exists('type', $file) ? $file['type'] : 'file';
 
 				if (!file_exists($filesource)) {
 					/*
@@ -921,21 +925,35 @@ class JInstaller extends JObject
 						JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('WARNSAME', $filedest));
 						return false;
 				} else {
-					if (!(JFile::copy($filesource, $filedest))) {
-						JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy file to', $filesource, $filedest));
-						return false;
+
+					// Copy the folder or file to the new location.
+					if ( $filetype == 'folder') {
+
+						if (!(JFolder::copy($filesource, $filedest))) {
+							JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy folder to', $filesource, $filedest));
+							return false;
+						}
+
+						$step = array ('type' => 'folder', 'path' => $filedest);
+					} else {
+
+						if (!(JFile::copy($filesource, $filedest))) {
+							JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy file to', $filesource, $filedest));
+							return false;
+						}
+
+						$step = array ('type' => 'file', 'path' => $filedest);
 					}
 
 					/*
-					 * Since we copied a file, we want to add it to the installation step stack so that
+					 * Since we copied a file/folder, we want to add it to the installation step stack so that
 					 * in case we have to roll back the installation we can remove the files copied.
 					 */
-					$step = array ('type' => 'file', 'path' => $filedest);
 					$this->_stepStack[] = $step;
 				}
 			}
-		} else
-		{
+		} else {
+
 			/*
 			 * The $files variable was either not an array or an empty array
 			 */
@@ -988,20 +1006,20 @@ class JInstaller extends JObject
 				} else {
 					$folder = 'stories';
 				}
-				$source = JPath::clean($client->path.DS.'images'.DS.$folder);
+				$source = $client->path.DS.'images'.DS.$folder;
 				break;
 
 			case 'languages':
-				$source = JPath::clean($client->path.DS.'language');
+				$source = $client->path.DS.'language';
 				break;
 
 			default:
 				if ($client) {
 					$pathname = 'extension_'.$client->name;
-					$source = JPath::clean($this->getPath($pathname));
+					$source = $this->getPath($pathname);
 				} else {
 					$pathname = 'extension_root';
-					$source = JPath::clean($this->getPath($pathname));
+					$source = $this->getPath($pathname);
 				}
 				break;
 		}
@@ -1018,9 +1036,9 @@ class JInstaller extends JObject
 			 * would go in the en_US subdirectory of the languages directory.
 			 */
 			if ($file->name() == 'language' && $file->attributes('tag') != '') {
-				$path = $source.$file->attributes('tag').DS.basename($file->data());
+				$path = $source.DS.$file->attributes('tag').DS.basename($file->data());
 			} else {
-				$path = $source.$file->data();
+				$path = $source.DS.$file->data();
 			}
 
 			/*
@@ -1058,10 +1076,10 @@ class JInstaller extends JObject
 
 		if ($client) {
 			$pathname = 'extension_'.$client->name;
-			$path['dest']  = JPath::clean($this->getPath($pathname).DS.basename($this->getPath('manifest')),false);
+			$path['dest']  = $this->getPath($pathname).DS.basename($this->getPath('manifest'));
 		} else {
 			$pathname = 'extension_root';
-			$path['dest']  = JPath::clean($this->getPath($pathname).DS.basename($this->getPath('manifest')),false);
+			$path['dest']  = $this->getPath($pathname).DS.basename($this->getPath('manifest'));
 		}
 		return $this->copyFiles(array ($path), true);
 	}
@@ -1096,7 +1114,7 @@ class JInstaller extends JObject
 					$this->setPath('manifest', $file);
 
 					// Set the installation source path to that of the manifest file
-					$this->setPath('source', dirname($file).DS);
+					$this->setPath('source', dirname($file));
 					return true;
 				}
 			}

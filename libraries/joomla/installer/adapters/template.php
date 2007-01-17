@@ -71,7 +71,7 @@ class JInstaller_template extends JObject
 		$this->set('name', $name->data());
 
 		// Set the template root path
-		$this->parent->setPath('extension_root', JPath::clean($basePath.DS.'templates'.DS.strtolower(str_replace(" ", "_", $this->get('name')))));
+		$this->parent->setPath('extension_root', $basePath.DS.'templates'.DS.strtolower(str_replace(" ", "_", $this->get('name'))));
 
 		/*
 		 * If the template directory already exists, then we will assume that the template is already
@@ -160,7 +160,7 @@ class JInstaller_template extends JObject
 			JError::raiseWarning(100, 'Template Uninstall: '.JText::_('Invalid application'));
 			return false;
 		}
-		$this->parent->setPath('extension_root', JPath::clean( $client->path.DS.'templates'.DS.$name ));
+		$this->parent->setPath('extension_root', $client->path.DS.'templates'.DS.$name);
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		$manifest =& $this->parent->getManifest();

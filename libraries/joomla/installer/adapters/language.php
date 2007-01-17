@@ -84,7 +84,7 @@ class JInstaller_language extends JObject
 		$folder = $tag->data();
 
 		// Set the language installation path
-		$this->parent->setPath('extension_site', JPath::clean($basePath.DS."language".DS.$this->get('tag')));
+		$this->parent->setPath('extension_site', $basePath.DS."language".DS.$this->get('tag'));
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
 		$element =& $root->getElementByPath('files');
@@ -132,7 +132,7 @@ class JInstaller_language extends JObject
 		}
 
 		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', JPath::clean($basePath.DS."language".DS.'pdf_fonts'));
+		$this->parent->setPath('extension_site', $basePath.DS."language".DS.'pdf_fonts');
 		$overwrite = $this->parent->setOverwrite(true);
 		if ($this->parent->parseFiles($root->getElementByPath('fonts')) === false) {
 			// Install failed, rollback changes
