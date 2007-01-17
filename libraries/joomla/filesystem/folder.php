@@ -387,9 +387,9 @@ class JFolder
 		// read the source directory
 		$handle = opendir($path);
 		while ($file = readdir($handle)) {
-			$dir = $path.$file;
+			$dir = $path.DS.$file;
 			$isDir = is_dir($dir);
-			if ($file != '.' && $file != '..' && $file != '.svn') {
+			if (($file != '.') && ($file != '..') && ($file != '.svn') && ($file != 'CVS')) {
 				if ($isDir) {
 					if ($recurse) {
 						$arr2 = JFolder::files($dir, $filter, $recurse, $fullpath);
@@ -439,9 +439,9 @@ class JFolder
 		// read the source directory
 		$handle = opendir($path);
 		while ($file = readdir($handle)) {
-			$dir = $path.$file;
+			$dir = $path.DS.$file;
 			$isDir = is_dir($dir);
-			if (($file != '.') && ($file != '..') && ($file != '.svn') && $isDir) {
+			if (($file != '.') && ($file != '..') && ($file != '.svn') && ($file != 'CVS') && $isDir) {
 				// removes SVN directores from list
 				if (preg_match("/$filter/", $file)) {
 					if ($fullpath) {

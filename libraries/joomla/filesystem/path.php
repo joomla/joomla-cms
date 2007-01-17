@@ -159,33 +159,28 @@ class JPath
 	/**
 	 * Function to strip additional / or \ in a path name
 	 *
-	 * @param string $p_path The path to clean
-	 * @param boolean $p_addtrailingslash True if the function should add a trailing slash
-	 * @return string The cleaned path
-	 * @since 1.5
+	 * @static
+	 * @param	string	$path	The path to clean
+	 * @return	string	The cleaned path
+	 * @since	1.5
 	 */
-	function clean($p_path, $p_addtrailingslash = true)
+	function clean($path)
 	{
-		$retval = '';
-		$path = trim($p_path);
+		// Initialize variables
+		$retval	= null;
+		$path	= trim($path);
 
-		if (empty ($p_path)) {
+		if (empty ($path)) {
 			$retval = JPATH_ROOT;
 		} else {
 			if (JPATH_ISWIN) {
-				$retval = str_replace('/', DS, $p_path);
+				$retval = str_replace('/', DS, $path);
 				// Remove double \\
 				$retval = str_replace('\\\\', DS, $retval);
 			} else {
-				$retval = str_replace('\\', DS, $p_path);
+				$retval = str_replace('\\', DS, $path);
 				// Remove double //
 				$retval = str_replace('//', DS, $retval);
-			}
-		}
-
-		if ($p_addtrailingslash) {
-			if (substr($retval, -1) != DS) {
-				$retval .= DS;
 			}
 		}
 
@@ -196,24 +191,23 @@ class JPath
 	 * Method to determine if script owns the path
 	 *
 	 * @static
-	 * @param string $path Path to check ownership
-	 * @return boolean True if the php script owns the path passed
-	 * @since 1.5
+	 * @param	string	$path	Path to check ownership
+	 * @return	boolean	True if the php script owns the path passed
+	 * @since	1.5
 	 */
 	function isOwner($path)
 	{
 		return (posix_getuid() == fileowner($path));
 	}
 
-	 /**
+	/**
 	 * Searches the directory paths for a given file.
 	 *
-	 * @access protected
-	 * @param array $path An array of paths to search in
-	 * @param string $file The file name to look for.
-	 *
-	 * @return string|bool The full path and file name for the target file,
-	 * or boolean false if the file is not found in any of the paths.
+	 * @access	protected
+	 * @param	array	$path	An array of paths to search in
+	 * @param	string	$file	The file name to look for.
+	 * @return	mixed	The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
+	 * @since	1.5
 	 */
 	function find($paths, $file)
 	{
