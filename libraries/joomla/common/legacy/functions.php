@@ -558,7 +558,7 @@ function mosLoadComponent( $name )
 function initEditor()
 {
 	$editor =& JFactory::getEditor();
-	echo $editor->init();
+	echo $editor->initialise();
 }
 
 /**

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Jan-2006 Johan Janssens
+ # Fixed [artf7320] : Can't login when legacy mode is on
+
 16-Jan-2006 Johan Janssens
  ^ Improved session token handling and spoof checking.
  - Deprecated mosErrorAlert, use JError or JApplication::redirect instead
