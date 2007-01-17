@@ -67,10 +67,10 @@ function viewLanguages()
 
 	foreach ($dirs as $dir)
 	{
-		$files = JFolder::files( $path . $dir, '^([-_A-Za-z]*)\.xml$' );
+		$files = JFolder::files( $path.DS.$dir, '^([-_A-Za-z]*)\.xml$' );
 		foreach ($files as $file)
 		{
-			$data = JApplicationHelper::parseXMLLangMetaFile($path.$dir.DS.$file);
+			$data = JApplicationHelper::parseXMLLangMetaFile($path.DS.$dir.DS.$file);
 
 
 			$row 			= new StdClass();

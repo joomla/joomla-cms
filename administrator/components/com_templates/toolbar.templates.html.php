@@ -45,7 +45,7 @@ class TOOLBAR_templates
 		JMenuBar::title( JText::_( 'Template HTML Editor' ), 'thememanager' );
 		JMenuBar::save( 'save_source' );
 		JMenuBar::apply( 'apply_source' );
-		JMenuBar::cancel();
+		JMenuBar::cancel('edit');
 		JMenuBar::help( 'screen.templates' );
 	}
 
@@ -64,7 +64,7 @@ class TOOLBAR_templates
 	function _CHOOSE_CSS(&$client){
 		JMenuBar::title( JText::_( 'Template CSS Editor' ), 'thememanager' );
 		JMenuBar::custom( 'edit_css', 'edit.png', 'edit_f2.png', 'Edit', true );
-		JMenuBar::cancel();
+		JMenuBar::cancel('edit');
 		JMenuBar::help( 'screen.templates' );
 	}
 
@@ -72,7 +72,7 @@ class TOOLBAR_templates
 		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
 		JMenuBar::save( 'save_css' );
 		JMenuBar::apply( 'apply_css');
-		JMenuBar::cancel();
+		JMenuBar::cancel('choose_css');
 		JMenuBar::help( 'screen.templates' );
 	}
 

@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Jan-2006 Louis Landry
+ + Added <folder> tag capabilities in JInstaller -- Thanks tcp
+ ^ Made changes to path handling to better support different filesystems/platforms
+ # Cancel button in editing template source and css returns to correct page
+ ^ Moved installer SQL files into driver specific subfolder
+
 17-Jan-2006 Johan Janssens
  # Fixed [artf7320] : Can't login when legacy mode is on
 
@@ -50,13 +56,13 @@ Legend:
  # Fixed [artf7292] : operator precedence problem in joomla.request.php
 
 15-Jan-2007 Sam Moffatt
- # Fixed up installation bug when installing sample data with joomla_backward.sql 
+ # Fixed up installation bug when installing sample data with joomla_backward.sql
    (backwards compat file had extra entries)
 
 14-Jan-2007 Marko Schmuck
  # Fixed [artf7279] : Newly created article has no "modified" date / user
  # Fixed [artf6301] : Uninstallation error messages remain English
- 
+
 12-Jan-2007 Enno Klasing
  # Removed double slashes from sitename in installtion when magic_quotes_gpc was swiched off
 

@@ -27,23 +27,22 @@ if (!defined('JPATH_ROOT')) {
 	define('JPATH_ROOT', JPath::clean(JPATH_SITE));
 }
 
-
 /**
  * A Path handling class
  *
  * @static
  * @package 	Joomla.Framework
- * @subpackage		FileSystem
+ * @subpackage	FileSystem
  * @since		1.5
  */
-class JPath {
-
+class JPath
+{
 	/**
 	 * Checks if a path's permissions can be changed
 	 *
-	 * @param string $path Path to check
-	 * @return boolean True if path can have mode changed
-	 * @since 1.5
+	 * @param	string	$path	Path to check
+	 * @return	boolean	True if path can have mode changed
+	 * @since	1.5
 	 */
 	function canChmod($path)
 	{
@@ -62,11 +61,11 @@ class JPath {
 	/**
 	 * Chmods files and directories recursivly to given permissions
 	 *
-	 * @param string $path Root path to begin changing mode [without trailing slash]
-	 * @param string $filemode Octal representation of the value to change file mode to [null = no change]
-	 * @param string $foldermode Octal representation of the value to change folder mode to [null = no change]
-	 * @return boolean True if successful [one fail means the whole operation failed]
-	 * @since 1.5
+	 * @param	string	$path		Root path to begin changing mode [without trailing slash]
+	 * @param	string	$filemode	Octal representation of the value to change file mode to [null = no change]
+	 * @param	string	$foldermode	Octal representation of the value to change folder mode to [null = no change]
+	 * @return	boolean	True if successful [one fail means the whole operation failed]
+	 * @since	1.5
 	 */
 	function setPermissions($path, $filemode = '0644', $foldermode = '0755') {
 
@@ -78,22 +77,15 @@ class JPath {
 			$dh = opendir($path);
 			while ($file = readdir($dh))
 			{
-				if ($file != '.' && $file != '..')
-				{
+				if ($file != '.' && $file != '..') {
 					$fullpath = $path.'/'.$file;
-					if (is_dir($fullpath))
-					{
-						if (!JPath::setPermissions($fullpath, $filemode, $foldermode))
-						{
+					if (is_dir($fullpath)) {
+						if (!JPath::setPermissions($fullpath, $filemode, $foldermode)) {
 							$ret = false;
 						}
-					}
-					else
-					{
-						if (isset ($filemode))
-						{
-							if (!@ chmod($fullpath, octdec($filemode)))
-							{
+					} else {
+						if (isset ($filemode)) {
+							if (!@ chmod($fullpath, octdec($filemode))) {
 								$ret = false;
 							}
 						}
@@ -101,18 +93,15 @@ class JPath {
 				} // if
 			} // while
 			closedir($dh);
-			if (isset ($foldermode))
-			{
-				if (!@ chmod($path, octdec($foldermode)))
-				{
+			if (isset ($foldermode)) {
+				if (!@ chmod($path, octdec($foldermode))) {
 					$ret = false;
 				}
 			}
 		}
 		else
 		{
-			if (isset ($filemode))
-			{
+			if (isset ($filemode)) {
 				$ret = @ chmod($path, octdec($filemode));
 			}
 		} // if
@@ -122,34 +111,27 @@ class JPath {
 	/**
 	 * Get the permissions of the file/folder at a give path
 	 *
-	 * @param string $path The path of a file/folder
-	 * @return string Filesystem permissions
-	 * @since 1.5
+	 * @param	string	$path	The path of a file/folder
+	 * @return	string	Filesystem permissions
+	 * @since	1.5
 	 */
 	function getPermissions($path)
 	{
 		$path = JPath::clean($path, false);
 		$mode = @ decoct(@ fileperms($path) & 0777);
 
-		if (strlen($mode) < 3)
-		{
+		if (strlen($mode) < 3) {
 			return '---------';
 		}
 		$parsed_mode = '';
 		for ($i = 0; $i < 3; $i ++)
 		{
 			// read
-			$parsed_mode .= ($mode {
-				$i }
-			& 04) ? "r" : "-";
+			$parsed_mode .= ($mode { $i } & 04) ? "r" : "-";
 			// write
-			$parsed_mode .= ($mode {
-				$i }
-			& 02) ? "w" : "-";
+			$parsed_mode .= ($mode { $i } & 02) ? "w" : "-";
 			// execute
-			$parsed_mode .= ($mode {
-				$i }
-			& 01) ? "x" : "-";
+			$parsed_mode .= ($mode { $i } & 01) ? "x" : "-";
 		}
 		return $parsed_mode;
 	}
@@ -157,20 +139,18 @@ class JPath {
 	/**
 	 * Checks for snooping outside of the file system root
 	 *
-	 * @param	string	A file system path to check
+	 * @param	string	$path	A file system path to check
 	 * @return	string	A cleaned version of the path
-	 * @since 1.5
+	 * @since	1.5
 	 */
 	function check($path)
 	{
-		if (strpos($path, '..') !== false)
-		{
+		if (strpos($path, '..') !== false) {
 			JError::raiseError( 20, 'JPath::check Use of relative paths not permitted'); // don't translate
 			die();
 		}
 		$path = JPath::clean($path);
-		if (strpos($path, JPath::clean(JPATH_ROOT)) !== 0)
-		{
+		if (strpos($path, JPath::clean(JPATH_ROOT)) !== 0) {
 			JError::raiseError( 20, 'JPath::check Snooping out of bounds @ '.$path); // don't translate
 			die();
 		}
@@ -180,7 +160,7 @@ class JPath {
 	 * Function to strip additional / or \ in a path name
 	 *
 	 * @param string $p_path The path to clean
-	 * @param boolean $p_addtrailingslash True if the function shoul add a trailing slash
+	 * @param boolean $p_addtrailingslash True if the function should add a trailing slash
 	 * @return string The cleaned path
 	 * @since 1.5
 	 */
@@ -189,29 +169,22 @@ class JPath {
 		$retval = '';
 		$path = trim($p_path);
 
-		if (empty ($p_path))
-		{
+		if (empty ($p_path)) {
 			$retval = JPATH_ROOT;
-		}
-		else
-		{
-			if (JPATH_ISWIN)
-			{
+		} else {
+			if (JPATH_ISWIN) {
 				$retval = str_replace('/', DS, $p_path);
 				// Remove double \\
 				$retval = str_replace('\\\\', DS, $retval);
-			}
-			else
-			{
+			} else {
 				$retval = str_replace('\\', DS, $p_path);
 				// Remove double //
 				$retval = str_replace('//', DS, $retval);
 			}
 		}
-		if ($p_addtrailingslash)
-		{
-			if (substr($retval, -1) != DS)
-			{
+
+		if ($p_addtrailingslash) {
+			if (substr($retval, -1) != DS) {
 				$retval .= DS;
 			}
 		}
@@ -248,7 +221,7 @@ class JPath {
 		foreach ($paths as $path)
 		{
 			// get the path to the file
-			$fullname = $path . $file;
+			$fullname = $path.DS.$file;
 
 			// is the path based on a stream?
 			if (strpos($path, '://') === false)

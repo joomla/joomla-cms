@@ -683,7 +683,7 @@ class JTable extends JObject
 
 		$this->checked_out = $who;
 		$this->checked_out_time = $time;
-		
+
 		return $this->_db->query();
 	}
 
@@ -705,7 +705,7 @@ class JTable extends JObject
 		if ($oid !== null) {
 			$this->$k = $oid;
 		}
-		
+
 		if ($this->$k == NULL) {
 			return false;
 		}
@@ -753,15 +753,15 @@ class JTable extends JObject
 	function isCheckedOut( $user_id = 0 )
 	{
 		$checkedOut = $this->get( 'checked_out' );
-		
+
 		//item is not checked out, or being checked out by the same user
 		if (!$checkedOut || $checkedOut == $user_id) {
 			return  false;
 		}
-		
+
 		$session =& JTable::getInstance('session');
 		return $session->exist($checkedOut);
-		
+
 	}
 
 	/**
@@ -919,7 +919,7 @@ class JTable extends JObject
 		static $paths;
 
 		if (!isset($paths)) {
-			$paths = array( JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS );
+			$paths = array( JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table' );
 		}
 
 		// just force path to array
@@ -932,12 +932,6 @@ class JTable extends JObject
 			{
 				// no surrounding spaces allowed!
 				$dir = trim($dir);
-
-				// add trailing separators as needed
-				if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
-					// directory
-					$dir .= DIRECTORY_SEPARATOR;
-				}
 
 				// add to the top of the search dirs
 				//array_unshift($paths, $dir);

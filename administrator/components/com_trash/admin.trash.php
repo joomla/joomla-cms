@@ -357,7 +357,7 @@ function restoreTrash( $cid, $option ) {
 		$return = 'viewMenu';
 
 		jimport('joomla.application.component.model');
-		JModel::addIncludePath(JPATH_BASE.DS.'components'.DS.'com_menus'.DS.'models'.DS);
+		JModel::addIncludePath(JPATH_BASE.DS.'components'.DS.'com_menus'.DS.'models');
 		$model =& JModel::getInstance('List', 'MenusModel');
 		$total = $model->fromTrash($cid);
 

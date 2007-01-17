@@ -211,7 +211,7 @@ class JLanguage extends JObject
 		$path = JLanguage::getLanguagePath( $basePath, $this->_lang);
 
 		$filename = empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
-		$filename = $path . $filename .'.ini';
+		$filename = $path.DS.$filename.'.ini';
 
 		$result = false;
 		if (isset( $paths[$filename] ))
@@ -429,9 +429,9 @@ class JLanguage extends JObject
 	 */
 	function getLanguagePath($basePath = JPATH_BASE, $language = null )
 	{
-		$dir = $basePath.DS.'language'.DS;
+		$dir = $basePath.DS.'language';
 		if (isset ($language)) {
-			$dir .= $language.DS;
+			$dir .= DS.$language;
 		}
 		return $dir;
 	}
@@ -451,7 +451,7 @@ class JLanguage extends JObject
 
 		$subdirs = JFolder::folders($dir);
 		foreach ($subdirs as $path) {
-			$langs = JLanguage::_parseXMLLanguageFiles($dir.$path.DIRECTORY_SEPARATOR);
+			$langs = JLanguage::_parseXMLLanguageFiles($dir.DS.$path);
 			$languages = array_merge($languages, $langs);
 		}
 
@@ -474,7 +474,7 @@ class JLanguage extends JObject
 		jimport('joomla.filesystem.folder');
 		$files = JFolder::files($dir, '^([_A-Za-z]*)\.ini$');
 		foreach ($files as $file) {
-			if ($content = file_get_contents($dir.$file)) {
+			if ($content = file_get_contents($dir.DS.$file)) {
 				$langContent = JParameter::parse($content, false, true);
 				$lang = str_replace('.ini', '', $file);
 				$name = $lang;
@@ -505,8 +505,8 @@ class JLanguage extends JObject
 		jimport('joomla.filesystem.folder');
 		$files = JFolder::files($dir, '^([-_A-Za-z]*)\.xml$');
 		foreach ($files as $file) {
-			if ($content = file_get_contents($dir.$file)) {
-				if ($metadata = JLanguage::_parseXMLLanguageFile($dir.$file)) {
+			if ($content = file_get_contents($dir.DS.$file)) {
+				if ($metadata = JLanguage::_parseXMLLanguageFile($dir.DS.$file)) {
 					$lang = str_replace('.xml', '', $file);
 					$languages[$lang] = $metadata;
 				}

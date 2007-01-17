@@ -440,6 +440,7 @@ class TemplatesView
 		<div class="clr"></div>
 
 		<input type="hidden" name="id" value="<?php echo $template; ?>" />
+		<input type="hidden" name="cid[]" value="<?php echo $template; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
@@ -495,6 +496,7 @@ class TemplatesView
 ?>
 		</table>
 		<input type="hidden" name="id" value="<?php echo $template; ?>" />
+		<input type="hidden" name="cid[]" value="<?php echo $template; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="1" />
@@ -568,6 +570,7 @@ class TemplatesView
 
 
 		<input type="hidden" name="id" value="<?php echo $template; ?>" />
+		<input type="hidden" name="cid[]" value="<?php echo $template; ?>" />
 		<input type="hidden" name="filename" value="<?php echo $filename; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
