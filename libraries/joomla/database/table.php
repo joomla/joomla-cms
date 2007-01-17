@@ -663,7 +663,7 @@ class JTable extends JObject
 	 * @param $who
 	 * @param $oid
 	 */
-	function checkout( $who, $oid=null )
+	function checkout( $who, $oid = null )
 	{
 		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) ))
 		{
@@ -676,30 +676,14 @@ class JTable extends JObject
 		}
 		$time = date( 'Y-m-d H:i:s' );
 
-		if (is_numeric( $who ))
-		{
-			// new way of storing editor, by id
-			$query = "UPDATE `".$this->_tbl."`" .
-				"\n SET checked_out = ".(int)$who.", checked_out_time = ".$this->_db->Quote($time) .
-				"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
-			$this->_db->setQuery( $query );
+		$query = "UPDATE `".$this->_tbl."`" .
+			"\n SET checked_out = ".(int)$who.", checked_out_time = ".$this->_db->Quote($time) .
+			"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
+		$this->_db->setQuery( $query );
 
-			$this->checked_out = $who;
-			$this->checked_out_time = $time;
-		}
-		else
-		{
-			// old way of storing editor, by name
-			$query = "UPDATE `".$this->_tbl."`" .
-				"\n SET checked_out = 1, checked_out_time = ".$this->_db->Quote($time).", editor = ".$this->_db->Quote($who) .
-				"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
-			$this->_db->setQuery( $query );
-
-			$this->checked_out = 1;
-			$this->checked_out_time = $time;
-			$this->checked_out_editor = $who;
-		}
-
+		$this->checked_out = $who;
+		$this->checked_out_time = $time;
+		
 		return $this->_db->query();
 	}
 
@@ -718,12 +702,11 @@ class JTable extends JObject
 		}
 		$k = $this->_tbl_key;
 
-		if ($oid !== null)
-		{
+		if ($oid !== null) {
 			$this->$k = $oid;
 		}
-		if ($this->$k == NULL)
-		{
+		
+		if ($this->$k == NULL) {
 			return false;
 		}
 
@@ -767,18 +750,18 @@ class JTable extends JObject
 	 * @param int A user id
 	 * @return boolean
 	 */
-	function isCheckedOut( $user_id=0 )
+	function isCheckedOut( $user_id = 0 )
 	{
 		$checkedOut = $this->get( 'checked_out' );
-
-		if ($user_id)
-		{
-			return ($checkedOut && $checkedOut <> $user_id);
+		
+		//item is not checked out, or being checked out by the same user
+		if (!$checkedOut || $checkedOut == $user_id) {
+			return  false;
 		}
-		else
-		{
-			return $checkedOut;
-		}
+		
+		$session =& JTable::getInstance('session');
+		return $session->exist($checkedOut);
+		
 	}
 
 	/**
