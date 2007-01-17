@@ -83,9 +83,9 @@ class JTableSession extends JTable
 	{
 		parent::__construct( '#__session', 'session_id', $db );
 
-		$this->guest = 1;
+		$this->guest 	= 1;
 		$this->username = '';
-		$this->gid = 0;
+		$this->gid 		= 0;
 	}
 
 	function insert($sessionId, $clientId)
@@ -149,6 +149,26 @@ class JTableSession extends JTable
 		$this->_db->setQuery($query);
 
 		return $this->_db->query();
+	}
+	
+	/**
+	 * Find out if a user has a one or more active sessions
+	 * 
+	 * @param int $userid The identifier of the user
+	 * @return boolean True if a session for this user exists
+	 */
+	function exists($userid)
+	{
+		$query = "SELECT COUNT(userid) FROM #__session"
+			. "\n WHERE userid = ". $this->_db->Quote( $userid );
+		$this->_db->setQuery( $query );
+
+		if ( !$result = $this->_db->loadResult() ) {
+			$this->_error =  $this->_db->stderr();
+			return false;
+		}
+
+		return (boolean) $result;
 	}
 }
 ?>
