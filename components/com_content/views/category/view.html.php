@@ -39,7 +39,7 @@ class ContentViewCategory extends JView
 		// Request variables
 		$task 		= JRequest::getVar('task');
 		$limit		= JRequest::getVar('limit', $params->def('display_num', 0), '', 'int');
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int'); 
 
 		// parameters
 		$intro		= $params->def('intro', 	0);

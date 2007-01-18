@@ -49,7 +49,8 @@ class ContentController extends JController
 				$viewName	= 'category';
 				break;
 			case 'blogcategory':
-				$viewName	= 'section';
+				$viewName	= 'category';
+				$layout = 'blog';
 				break;
 			case 'archivesection':
 			case 'archivecategory':

@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Jan-2006 Rastin Mehr
+# Fixed [artf7187] : Section & pagination problem
+! Same problem existed in the category blog view. It is fixed now.
+
 17-Jan-2006 Louis Landry
  + Added <folder> tag capabilities in JInstaller -- Thanks tcp
  ^ Made changes to path handling to better support different filesystems/platforms
