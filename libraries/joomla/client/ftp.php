@@ -385,10 +385,9 @@ class JFTP extends JObject {
 		}
 
 		// Match the system string to an OS
-		if (!(strpos('MAC', strtoupper($this->_response)) === false)) {
+		if (strpos(strtoupper($this->_response), 'MAC') !== false) {
 			$ret = 'MAC';
-		}
-		elseif (!(strpos('WIN', strtoupper($this->_response)) === false)) {
+		} elseif (strpos(strtoupper($this->_response), 'WIN') !== false) {
 			$ret = 'WIN';
 		} else {
 			$ret = 'UNIX';
@@ -521,7 +520,7 @@ class JFTP extends JObject {
 
 		// Send change mode command and verify success [must convert mode from octal]
 		if (!$this->_putCmd('SITE CHMOD '.$mode.' '.$path, array(200, 250))) {
-			JError::raiseWarning('35', 'JFTP::chmod: Bad response.', 'Server response: '.$this->_response.' [Expected: 200 or 250] Path sent: '.$path.' Mode sent: '.decoct($mode));
+			JError::raiseWarning('35', 'JFTP::chmod: Bad response.', 'Server response: '.$this->_response.' [Expected: 200 or 250] Path sent: '.$path.' Mode sent: '.$mode);
 			return false;
 		}
 		return true;
@@ -1087,8 +1086,29 @@ class JFTP extends JObject {
 			return $data;
 		}
 
-		// Determine system type for directory listing parsing
-		$osType = $this->syst();
+		// If we received the listing of an emtpy directory, we are done as well
+		if (empty($contents[0])) {
+			return $dir_list;
+		}
+
+		// Regular expressions for the directory listing parsing
+		$regexps['UNIX'] = '([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)';
+		$regexps['MAC'] = '([-dl][rwxstST-]+).* ?([0-9 ]* )?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)';
+		$regexps['WIN'] = '([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)';
+
+		// Find out the format of the directory listing by matching one of the regexps
+		$osType = null;
+		foreach ($regexps as $k=>$v) {
+			if (ereg($v, $contents[0])) {
+				$osType = $k;
+				$regexp = $v;
+				break;
+			}
+		}
+		if (!$osType) {
+			JError::raiseWarning('SOME_ERROR_CODE', 'JFTP::listDir: Unrecognized directory listing format.' );
+			return false;
+		}
 
 		/*
 		 * Here is where it is going to get dirty....
@@ -1096,7 +1116,7 @@ class JFTP extends JObject {
 		if ($osType == 'UNIX') {
 			foreach ($contents as $file) {
 				$tmp_array = null;
-				if (ereg("([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)", $file, $regs)) {
+				if (ereg($regexp, $file, $regs)) {
 					$fType = (int) strpos("-dl", $regs[1] { 0 });
 					//$tmp_array['line'] = $regs[0];
 					$tmp_array['type'] = $fType;
@@ -1125,7 +1145,7 @@ class JFTP extends JObject {
 		elseif ($osType == 'MAC') {
 			foreach ($contents as $file) {
 				$tmp_array = null;
-				if (ereg("([-dl][rwxstST-]+).* ?([0-9 ]* )?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)", $file, $regs)) {
+				if (ereg($regexp, $file, $regs)) {
 					$fType = (int) strpos("-dl", $regs[1] { 0 });
 					//$tmp_array['line'] = $regs[0];
 					$tmp_array['type'] = $fType;
@@ -1153,23 +1173,18 @@ class JFTP extends JObject {
 		} else {
 			foreach ($contents as $file) {
 				$tmp_array = null;
-				if (ereg("([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)", $file, $regs)) {
-					// Four digit year fix
-					if ($regs[3] < 70) {
-						$regs[3] += 2000;
-					} else {
-						$regs[3] += 1900;
-					}
-					// File Type
-					if ($regs[7] == "<DIR>") {
-						$fType = 1;
-					} else {
-						$fType = 0;
-					}
+				if (ereg($regexp, $file, $regs)) {
+					$fType = (int) ($regs[7] == '<DIR>');
+					$timestamp = strtotime("$regs[3]-$regs[1]-$regs[2] $regs[4]:$regs[5]$regs[6]");
+					//$tmp_array['line'] = $regs[0];
 					$tmp_array['type'] = $fType;
-					$tmp_array['size'] = $regs[7];
-					$tmp_array['date'] = date("m-d", strtotime($regs[1].' '.$regs[2]));
-					$tmp_array['time'] = $regs[4].':'.$regs[5];
+					$tmp_array['rights'] = '';
+					//$tmp_array['number'] = 0;
+					$tmp_array['user'] = '';
+					$tmp_array['group'] = '';
+					$tmp_array['size'] = (int) $regs[7];
+					$tmp_array['date'] = date('m-d', $timestamp);
+					$tmp_array['time'] = date('H:i', $timestamp);
 					$tmp_array['name'] = $regs[8];
 				}
 				// If we just want files, do not add a folder
@@ -1330,7 +1345,7 @@ class JFTP extends JObject {
 	/**
 	 * Method to find out the correct transfer mode for a specific file
 	 *
-	 * @access	public
+	 * @access	private
 	 * @param	string	$fileName	Name of the file
 	 * @return	integer	Transfer-mode for this filetype [FTP_ASCII|FTP_BINARY]
 	 */
