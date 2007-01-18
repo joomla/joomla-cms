@@ -43,7 +43,7 @@ class SearchModelSearch extends JModel
 		global $mainframe, $option;
 		$db	=& JFactory::getDBO();
 
-		$filter_order	= $mainframe->getUserStateFromRequest( "com_ssearch.filter_order", 'filter_order', 	'hits' );
+		$filter_order	= $mainframe->getUserStateFromRequest( "com_search.filter_order", 'filter_order', 	'hits' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_search.filter_order_Dir", 'filter_order_Dir',	'' );
 		$limit 		= $mainframe->getUserStateFromRequest( 'limit',	'limit', $mainframe->getCfg('list_limit') );
 		$limitstart		= $mainframe->getUserStateFromRequest( "com_search.limitstart", 'limitstart',	0 );

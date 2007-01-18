@@ -25,7 +25,7 @@ class SearchController extends JController
 	/**
 	 * Show Search Statistics
 	 */
-	function show()
+	function display()
 	{
 		$model	=& $this->getModel( 'Search' );
 		$view =& $this->getView( 'Search' );
