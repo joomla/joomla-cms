@@ -53,14 +53,14 @@ class JSession extends JObject
 	 * @var	object A JSessionHandler object
 	 */
 	var	$_handler	=	null;
-	
+
    /**
 	* security policy
-	* 
+	*
 	* Default values:
 	*  - fix_browser
 	*  - fix_adress
-	* 
+	*
 	* @access protected
 	* @var array $_security list of checks that will be done.
 	*/
@@ -70,17 +70,17 @@ class JSession extends JObject
 	* Constructor
 	*
 	* @access protected
-	* @param string $handler	
+	* @param string $handler
 	* @param array 	$options 	optional parameters
 	*/
 	function __construct( $handler = 'none', $options = array() )
 	{
 		//
 		ini_set('session.save_handler', 'files');
-		
+
 		//create handler
 		$this->_handler =& JSessionHandler::getInstance($handler, $options);
-		
+
 		//set options
 		$this->_setOptions( $options );
 
@@ -116,20 +116,20 @@ class JSession extends JObject
     function getExpire() {
 		return $this->_expire;
     }
-	
+
 	/**
 	 * Get a session token, if a token isn't set yet one will be generated.
-	 * 
-	 * Tokens are used to secure forms from spamming attacks. Once a token 
+	 *
+	 * Tokens are used to secure forms from spamming attacks. Once a token
 	 * has been generated the system will check the post request to see if
-	 * it is present, if not it will invalidate the session. 
+	 * it is present, if not it will invalidate the session.
 	 *
 	 * @param boolean $forceNew If true, force a new token to be created
 	 * @access public
 	 * @return string The session token
 	 */
-	function getToken($forceNew = false) 
-	{	
+	function getToken($forceNew = false)
+	{
 		$token = $this->get( 'session.token' );
 
 		//create a token
@@ -137,10 +137,10 @@ class JSession extends JObject
 			$token	=	$this->_createToken( 12 );
 			$this->set( 'session.token', $token );
 		}
-		
+
 		return $token;
 	}
-	
+
 	/**
 	 * Method to determine if a token exists in the session. If not the
 	 * session will be set to expired
@@ -154,16 +154,16 @@ class JSession extends JObject
 	{
 		// check if a token exists in the session
 		$tStored = $this->get( 'session.token' );
-		
+
 		//check token
-		if(($Stored !== $tCheck)) 
+		if(($tStored !== $tCheck))
 		{
 			if($forceExpire) {
 				$this->_state = 'expired';
 			}
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -197,7 +197,7 @@ class JSession extends JObject
 		}
 		return session_id();
 	}
-	
+
 	/**
 	 * Get the session handlers
 	 *
@@ -208,18 +208,18 @@ class JSession extends JObject
 	{
 		jimport('joomla.filesystem.folder');
 		$handlers = JFolder::files(dirname(__FILE__).DS.'sessionhandler', '.php$');
-		
+
 		$names = array();
-		foreach($handlers as $handler) 
+		foreach($handlers as $handler)
 		{
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			jimport('joomla.environment.sessionhandler.'.$name);
 			$class = 'JSessionHandler'.$name;
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {
-				$names[] = $name; 
+				$names[] = $name;
 			}
 		}
-		
+
 		return $names;
 	}
 
@@ -251,7 +251,7 @@ class JSession extends JObject
 	function &get($name, $default = null, $namespace = 'default')
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
-		
+
 		if($this->_state !== 'active' && $this->_state !== 'expired') {
 			// @TODO :: generated error here
 			$error = null;
@@ -276,7 +276,7 @@ class JSession extends JObject
 	function set($name, $value, $namespace = 'default')
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
-		
+
 		if($this->_state !== 'active') {
 			// @TODO :: generated error here
 			return null;
@@ -304,7 +304,7 @@ class JSession extends JObject
 	function has( $name, $namespace = 'default' )
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
-		
+
 		if( $this->_state !== 'active' ) {
 			// @TODO :: generated error here
 			return null;
@@ -324,7 +324,7 @@ class JSession extends JObject
 	function clear( $name, $namespace = 'default' )
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
-		
+
 		if( $this->_state !== 'active' ) {
 			// @TODO :: generated error here
 			return null;
@@ -353,7 +353,7 @@ class JSession extends JObject
 		if( $this->_state == 'restart' ) {
 			session_id( $this->_createId() );
 		}
-		
+
 		session_cache_limiter('none');
 		session_start();
 
@@ -498,10 +498,10 @@ class JSession extends JObject
 	function _createId( )
 	{
 		$id = 0;
-		while (strlen($id) < 32)  {    
+		while (strlen($id) < 32)  {
 			$id .= mt_rand(0, mt_getrandmax());
 		}
-		
+
 		$id	= md5( uniqid($id, true));
 		return $id;
 	}
@@ -587,14 +587,14 @@ class JSession extends JObject
 		if( isset( $options['expire'] ) ) {
 			$this->_expire	=	$options['expire'];
 		}
-		
+
 		// get security options
 		if( isset( $options['security'] ) ) {
 			$this->_security	=	explode( ',', $options['security'] );
 		}
-		
+
 		//sync the session maxlifetime
-		ini_set("session.gc_maxlifetime", $this->_expire); 
+		ini_set("session.gc_maxlifetime", $this->_expire);
 
 		return true;
 	}
@@ -638,17 +638,17 @@ class JSession extends JObject
 				return false;
 			}
 		}
-		
+
 		// record proxy forwarded for in the session in case we need it later
 		if( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
 			$this->set( 'session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		}
-		
+
 		// check for client adress
 		if( in_array( 'fix_adress', $this->_security ) && isset( $_SERVER['REMOTE_ADDR'] ) )
 		{
 			$ip	= $this->get( 'session.client.address' );
-			
+
 			if( $ip === null ) {
 				$this->set( 'session.client.address', $_SERVER['REMOTE_ADDR'] );
 			}
@@ -658,7 +658,7 @@ class JSession extends JObject
 				return false;
 			}
 		}
-		
+
 		// check for clients browser
 		if( in_array( 'fix_browser', $this->_security ) && isset( $_SERVER['HTTP_USER_AGENT'] ) )
 		{
@@ -667,7 +667,7 @@ class JSession extends JObject
 			if( $browser === null ) {
 				$this->set( 'session.client.browser', $_SERVER['HTTP_USER_AGENT']);
 			}
-			else if( $_SERVER['HTTP_USER_AGENT'] !== $browser ) 
+			else if( $_SERVER['HTTP_USER_AGENT'] !== $browser )
 			{
 				$this->_state	=	'error';
 				return false;
