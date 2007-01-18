@@ -135,6 +135,11 @@ class JUser extends JObject
 		if (!empty($identifier)) {
 			$this->load($identifier);
 		}
+		
+		//initialise
+		$this->id        = 0;
+		$this->gid       = 0;
+		$this->sendEmail = 1;
 	}
 
 	/**
