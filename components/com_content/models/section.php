@@ -452,9 +452,9 @@ class ContentModelSection extends JModel
 		$Itemid		= JRequest::getVar('Itemid');
 
 		// First thing we need to do is assert that the articles are in the current category
-		$where = "\n WHERE a.access <= $aid";
+		$where = "\n WHERE a.access <= ".(int) $aid;
 		if ($this->_id) {
-			$where .= "\n AND a.sectionid = $this->_id";
+			$where .= "\n AND s.id = ".(int)$this->_id;
 		}
 
 		$where .= "\n AND s.access <= ".(int) $aid;
