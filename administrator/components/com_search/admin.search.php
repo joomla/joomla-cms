@@ -1,8 +1,8 @@
 <?php
 /**
-* @version		$Id$
+* @version		$Id: admin.search.php 6138 2007-01-02 03:44:18Z eddiea $
 * @package		Joomla
-* @subpackage	Statistics
+* @subpackage	Search
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -15,12 +15,9 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
+require_once( JPATH_COMPONENT.DS.'controller.php' );
 
-switch ($task) {
-
-	default:
-		TOOLBAR_statistics::_DEFAULT();
-		break;
-}
+$controller = new SearchController();
+$controller->execute( JRequest::getVar( 'task', 'show' ) );
+$controller->redirect();
 ?>

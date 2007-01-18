@@ -37,27 +37,30 @@ Legend:
 - -> Removed
 ! -> Note
 
-17-Jan-2006 Rastin Mehr
+18-Jan-2007 Hannes Papenberg
+^ Moved com_statistics functionality to com_search and MVCed it
+
+17-Jan-2007 Rastin Mehr
 # Fixed [artf7187] : Section & pagination problem
 ! Same problem existed in the category blog view. It is fixed now.
 # Fixed [artf7330] : Khepri Template: allow other Prototype-based Javascripts
 
-17-Jan-2006 Louis Landry
+17-Jan-2007 Louis Landry
  + Added <folder> tag capabilities in JInstaller -- Thanks tcp
  ^ Made changes to path handling to better support different filesystems/platforms
  # Cancel button in editing template source and css returns to correct page
  ^ Moved installer SQL files into driver specific subfolder
 
-17-Jan-2006 Johan Janssens
+17-Jan-2007 Johan Janssens
  # Fixed [artf7320] : Can't login when legacy mode is on
 
-16-Jan-2006 Johan Janssens
+16-Jan-2007 Johan Janssens
  ^ Improved session token handling and spoof checking.
  - Deprecated mosErrorAlert, use JError or JApplication::redirect instead
  # Fixed [artf7293] : JFactory::getURI doesn't use it parameter
  ^ Moved JAuthenticationHelper into JUserHelper and into a seperate file
 
-15-Jan-2006 Enno Klasing
+15-Jan-2007 Enno Klasing
  # Fixed [artf7292] : operator precedence problem in joomla.request.php
 
 15-Jan-2007 Sam Moffatt

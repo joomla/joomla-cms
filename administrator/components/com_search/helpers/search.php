@@ -71,7 +71,8 @@ class SearchHelper
 
 		$db =& JFactory::getDBO();
 
-		$enable_log_searches = $mainframe->getCfg( 'enable_log_searches' );
+		$params = &JComponentHelper::getParams( 'com_search' );
+		$enable_log_searches = $params->get('enabled');
 
 		$search_term = $db->getEscaped( trim( $search_term) );
 
