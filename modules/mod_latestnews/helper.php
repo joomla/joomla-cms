@@ -66,18 +66,18 @@ class modLatestNewsHelper
 				break;
 		}
 
-		
+
 		if ($catid)
 		{
 			$ids = explode( ',', $catid );
 			JArrayHelper::toInteger( $ids );
-			$catCondition = ' AND (a.catid=' . implode( ' OR a.catid=', $ids ) . ')';
+			$catCondition = ' AND (cc.id=' . implode( ' OR cc.id=', $ids ) . ')';
 		}
 		if ($secid)
 		{
 			$ids = explode( ',', $secid );
 			JArrayHelper::toInteger( $ids );
-			$secCondition = ' AND (a.sectionid=' . implode( ' OR a.sectionid=', $ids ) . ')';
+			$secCondition = ' AND (s.id=' . implode( ' OR s.id=', $ids ) . ')';
 		}
 
 		// Content Items only
@@ -86,7 +86,7 @@ class modLatestNewsHelper
 			($show_front == '0' ? "\n LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id" : '') .
 			"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
 			"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
-			"\n WHERE $where AND a.sectionid > 0" .
+			"\n WHERE $where AND s.id > 0" .
 			($access ? "\n AND a.access <= " .(int) $aid. " AND cc.access <= " .(int) $aid. " AND s.access <= " .(int) $aid : '').
 			($catid ? "\n $catCondition" : '').
 			($secid ? "\n $secCondition" : '').
@@ -99,10 +99,10 @@ class modLatestNewsHelper
 
 		$i		= 0;
 		$lists	= array();
-		foreach ( $rows as $row ) 
+		foreach ( $rows as $row )
 		{
 			$row->my_itemid = JContentHelper::getItemid($row->id, $row->catid, $row->sectionid);
-		
+
 			// & xhtml compliance conversion
 			$row->title = ampReplace( $row->title );
 

@@ -87,7 +87,8 @@ class modNewsFlashHelper
 			($noauth ? "\n AND a.access <= " .(int) $aid. " AND cc.access <= " .(int) $aid. " AND s.access <= " .(int) $aid : '').
 			"\n AND (a.publish_up = '$nullDate' OR a.publish_up <= '$now' ) " .
 			"\n AND (a.publish_down = '$nullDate' OR a.publish_down >= '$now' )" .
-			"\n AND a.catid = $catid".
+			"\n AND cc.id = $catid".
+			"\n AND cc.section = s.id" .
 			"\n AND cc.published = 1" .
 			"\n AND s.published = 1" .
 			"\n ORDER BY a.ordering";

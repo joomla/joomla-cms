@@ -43,19 +43,19 @@ class modMostReadHelper
 			"\n LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id" .
 			"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
 			"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
-			"\n WHERE ( a.state = 1 AND a.sectionid > 0 )" .
+			"\n WHERE ( a.state = 1 AND s.id > 0 )" .
 			"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
 			"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
 			($access ? "\n AND a.access <= " .(int) $aid. " AND cc.access <= " .(int) $aid. " AND s.access <= " .(int) $aid : '').
-			($catid ? "\n AND ( a.catid IN ( $catid ) )" : '').
-			($secid ? "\n AND ( a.sectionid IN ( $secid ) )" : '').
+			($catid ? "\n AND ( cc.id IN ( $catid ) )" : '').
+			($secid ? "\n AND ( s.id IN ( $secid ) )" : '').
 			($show_front == '0' ? "\n AND f.content_id IS NULL" : '').
 			"\n AND s.published = 1" .
 			"\n AND cc.published = 1" .
 			"\n ORDER BY a.hits DESC";
 		$db->setQuery($query, 0, $count);
 		$rows = $db->loadObjectList();
-		
+
 		$i		= 0;
 		$lists	= array();
 		foreach ( $rows as $row )
