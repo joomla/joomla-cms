@@ -336,7 +336,7 @@ class TemplatesController
 			$a_dir = JPATH_ADMINISTRATOR.DS.'templates'.DS.$template.DS.'css';
 			// List .css files
 			jimport('joomla.filesystem.folder');
-			$a_files = JFolder::files($a_dir, $filter = '\.css$', $recurse = false, $fullpath = false);
+			$a_files = JFolder::files($a_dir, $filter = '\.css$', false, false);
 			$fs_dir = null;
 			$fs_files = null;
 
@@ -351,7 +351,7 @@ class TemplatesController
 
 			// List template .css files
 			jimport('joomla.filesystem.folder');
-			$f_files = JFolder::files($f_dir, $filter = '\.css$', $recurse = false, $fullpath = false);
+			$f_files = JFolder::files($f_dir, $filter = '\.css$', false, false);
 
 			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
 			TemplatesView::chooseCSSFiles($template, $f_dir, $f_files, $option, $client);

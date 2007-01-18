@@ -110,15 +110,15 @@ class InstallerModelLanguages extends InstallerModel
 		$rowid = 0;
 		foreach ($languages as $language)
 		{
-			$files = JFolder::files( $language->baseDir . $language->folder, '^([-_A-Za-z]*)\.xml$' );
+			$files = JFolder::files( $language->baseDir.DS.$language->folder, '^([-_A-Za-z]*)\.xml$' );
 			foreach ($files as $file)
 			{
-				$data = JApplicationHelper::parseXMLLangMetaFile($language->baseDir .DS. $language->folder . DS . $file);
+				$data = JApplicationHelper::parseXMLLangMetaFile($language->baseDir.DS.$language->folder.DS.$file);
 
 				$row 			= new StdClass();
 				$row->id 		= $rowid;
 				$row->client_id = $language->client;
-				$row->language 	= $language->baseDir . $language->folder;
+				$row->language 	= $language->baseDir.DS.$language->folder;
 
 				// If we didn't get valid data from the xml file, move on...
 				if (!is_array($data)) {

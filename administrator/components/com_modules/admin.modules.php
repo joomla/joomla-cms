@@ -548,9 +548,9 @@ class ModulesController extends JController
 
 		// path to search for modules
 		if ($client->id == '1') {
-			$path = JPATH_ADMINISTRATOR .DS.'modules'.DS;
+			$path = JPATH_ADMINISTRATOR.DS.'modules';
 		} else {
-			$path = JPATH_ROOT .DS.'modules'.DS;
+			$path = JPATH_ROOT.DS.'modules';
 		}
 
 		$i = 1;
@@ -560,13 +560,13 @@ class ModulesController extends JController
 		foreach ($dirs as $dir)
 		{
 			if(substr($dir, 0, 4) == 'mod_') {
-				$file 			= JFolder::files( $path . $dir, '^([_A-Za-z]*)\.xml$' );
+				$file 			= JFolder::files( $path.DS.$dir, '^([_A-Za-z]*)\.xml$' );
 
 				$files_php[] 	= $file[0];
 
 				$modules[$i]->file 		= $file[0];
 				$modules[$i]->module 	= str_replace( '.xml', '', $file[0] );
-				$modules[$i]->path 		= $path . $dir;
+				$modules[$i]->path 		= $path.DS.$dir;
 				$i++;
 			}
 		}

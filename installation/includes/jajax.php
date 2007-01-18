@@ -464,8 +464,8 @@ class JAJAXLang extends JObject
 		jimport('joomla.filesystem.folder');
 		$files = JFolder::files($dir, '^([-_A-Za-z]*)\.xml$');
 		foreach ($files as $file) {
-			if ($content = file_get_contents($dir.$file)) {
-				if ($metadata = JAJAXLang::_parseXMLLanguageFile($dir.$file)) {
+			if ($content = file_get_contents($dir.DS.$file)) {
+				if ($metadata = JAJAXLang::_parseXMLLanguageFile($dir.DS.$file)) {
 					$lang = str_replace('.xml', '', $file);
 					$languages[$lang] = $metadata;
 				}

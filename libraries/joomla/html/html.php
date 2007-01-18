@@ -855,7 +855,7 @@ class JAdminMenus
 		}
 
 		jimport( 'joomla.filesystem.folder' );
-		$imageFiles = JFolder::files( JPATH_SITE . $directory );
+		$imageFiles = JFolder::files( JPATH_SITE.DS.$directory );
 		$images 	= array(  JHTMLSelect::option( '', '- '. JText::_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
 			if ( eregi( "bmp|gif|jpg|png", $file ) ) {

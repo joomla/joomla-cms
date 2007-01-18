@@ -398,7 +398,7 @@ class JFolder
 				} else {
 					if (preg_match("/$filter/", $file)) {
 						if ($fullpath) {
-							$arr[] = $path.$file;
+							$arr[] = $path.DS.$file;
 						} else {
 							$arr[] = $file;
 						}
@@ -477,7 +477,7 @@ class JFolder
 			for ($i = 0, $n = count($folders); $i < $n; $i ++) {
 				$id = ++ $GLOBALS['_JFolder_folder_tree_index'];
 				$name = $folders[$i];
-				$fullName = JPath::clean($path.DS.$name, false);
+				$fullName = JPath::clean($path.DS.$name);
 				$dirs[] = array ('id' => $id, 'parent' => $parent, 'name' => $name, 'fullname' => $fullName, 'relname' => str_replace(JPATH_ROOT, '', $fullName));
 				$dirs2 = JFolder::listFolderTree($fullName, $filter, $maxLevel, $level +1, $id);
 				$dirs = array_merge($dirs, $dirs2);

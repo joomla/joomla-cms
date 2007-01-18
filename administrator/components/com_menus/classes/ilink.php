@@ -241,7 +241,7 @@ class iLink extends JTree
 		$folder	= $path.DS.'tmpl';
 		if (is_dir( $folder ))
 		{
-			$files = JFolder::files($path.DS.'tmpl', '.php$');
+			$files = JFolder::files($folder, '.php$');
 			if (count($files)) {
 				foreach ($files as $file)
 				{

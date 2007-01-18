@@ -1290,9 +1290,9 @@ class JInstallerHelper
 
 		if (count($dirList) == 1)
 		{
-			if (JFolder::exists($extractdir.$dirList[0]))
+			if (JFolder::exists($extractdir.DS.$dirList[0]))
 			{
-				$extractdir = JPath::clean($extractdir.$dirList[0]);
+				$extractdir = JPath::clean($extractdir.DS.$dirList[0]);
 			}
 		}
 

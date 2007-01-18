@@ -1636,8 +1636,8 @@ class mosAdminMenus
 		$imgFiles = JFolder::files( $imagePath );
 
 		foreach ($imgFiles as $file) {
-			$ff_ 	= $folderPath . $file .'/';
-			$ff 	= $folderPath . $file;
+			$ff_ 	= $folderPath.DS.$file;
+			$ff 	= $folderPath.DS.$file;
 			$i_f 	= $imagePath .'/'. $file;
 
 			if ( is_dir( $i_f ) && $file <> 'CVS' && $file <> '.svn') {

@@ -330,11 +330,11 @@ function getHelpTOC( $helpsearch )
 	if( !JFolder::exists( JPATH_BASE . '/help/' .$langTag ) ) {
 		$langTag = 'en-GB';		// use english as fallback
 	}
-	$files = JFolder::files( JPATH_BASE . '/help/' .$langTag. '/', '\.xml$|\.html$' );
+	$files = JFolder::files( JPATH_BASE.DS.'help'.DS.$langTag, '\.xml$|\.html$' );
 
 	$toc = array();
 	foreach ($files as $file) {
-		$buffer = file_get_contents( JPATH_BASE . '/help/' .$langTag. '/' . $file );
+		$buffer = file_get_contents( JPATH_BASE.DS.'help'.DS.$langTag.DS.$file );
 		if (preg_match( '#<title>(.*?)</title>#', $buffer, $m )) {
 			$title = trim( $m[1] );
 			if ($title) {

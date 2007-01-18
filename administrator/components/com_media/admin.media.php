@@ -157,7 +157,7 @@ class MediaController
 		$current = JRequest::getVar( 'cFolder' );
 
 		// Initialize variables
-		$basePath 	= COM_MEDIA_BASE.$current;
+		$basePath 	= COM_MEDIA_BASE.DS.$current;
 		$images 	= array ();
 		$folders 	= array ();
 		$docs 		= array ();
@@ -514,7 +514,7 @@ class MediaController
 
 		$canDelete = true;
 		$delFolder = JRequest::getVar( 'delFolder' );
-		$delFolder = COM_MEDIA_BASE.$listdir.$delFolder;
+		$delFolder = COM_MEDIA_BASE.DS.$listdir.DS.$delFolder;
 
 		$files = JFolder::files($delFolder, '.', true);
 

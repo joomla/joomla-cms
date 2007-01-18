@@ -149,21 +149,21 @@ class CacheData extends JObject
 		if($group == "patTemplate")
 		{
 			jimport('joomla.filesystem.folder');
-			$files = JFolder::files($this->path.DS, '.cache');
+			$files = JFolder::files($this->path, '.cache');
 
 			/**
 			* Hack to remove patTemplate cache
 			* as it does not use Cache_Lite groups
 			**/
 			foreach ( $files as $file ) {
-				$file = $this->path.DS . $file;
+				$file = $this->path.DS.$file;
 				unlink( $file );
 			}
 		}
 		else
 		{
 			$cache =& JFactory::getCache();
-			$cache->setOption('cacheDir', $this->path.DS);
+			$cache->setOption('cacheDir', $this->path);
 			$cache->clean( $group );
 		}
 	}
