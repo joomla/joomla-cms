@@ -40,6 +40,7 @@ Legend:
 17-Jan-2006 Rastin Mehr
 # Fixed [artf7187] : Section & pagination problem
 ! Same problem existed in the category blog view. It is fixed now.
+# Fixed [artf7330] : Khepri Template: allow other Prototype-based Javascripts
 
 17-Jan-2006 Louis Landry
  + Added <folder> tag capabilities in JInstaller -- Thanks tcp
