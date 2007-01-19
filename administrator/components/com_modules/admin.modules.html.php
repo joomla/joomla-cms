@@ -431,36 +431,36 @@ class HTML_modules
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 
 				<?php
-					$pane->startPane("menu-pane");
-					$pane->startPanel(JText :: _('Module Parameters'), "param-page");
+					echo $pane->startPane("menu-pane");
+					echo $pane->startPanel(JText :: _('Module Parameters'), "param-page");
 					$p = $model->getParams();
 					if($params = $p->render('params')) :
 						echo $params;
 					else :
 						echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no parameters for this item')."</div>";
 					endif;
-					$pane->endPanel();
+					echo $pane->endPanel();
 
 					if ($p->getNumParams('advanced')) {
-						$pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
+						echo $pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
 						if($params = $p->render('params', 'advanced')) :
 							echo $params;
 						else :
 							echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no advanced parameters for this item')."</div>";
 						endif;
-						$pane->endPanel();
+						echo $pane->endPanel();
 					}
 
 					if ($p->getNumParams('legacy')) {
-						$pane->startPanel(JText :: _('Legacy Parameters'), "legacy-page");
+						echo $pane->startPanel(JText :: _('Legacy Parameters'), "legacy-page");
 						if($params = $p->render('params', 'legacy')) :
 							echo $params;
 						else :
 							echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no legacy parameters for this item')."</div>";
 						endif;
-						$pane->endPanel();
+						echo $pane->endPanel();
 					}
-					$pane->endPane();
+					echo $pane->endPane();
 				?>
 			</fieldset>
 		</div>

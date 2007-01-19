@@ -437,17 +437,17 @@ class HTML_contact
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 
 				<?php
-					$pane->startPane("menu-pane");
-					$pane->startPanel(JText :: _('Contact Parameters'), "param-page");
+					echo $pane->startPane("menu-pane");
+					echo $pane->startPanel(JText :: _('Contact Parameters'), "param-page");
 					echo $params->render();
-					$pane->endPanel();
-					$pane->startPanel(JText :: _('Advanced Parameters'), "param-page");
+					echo $pane->endPanel();
+					echo $pane->startPanel(JText :: _('Advanced Parameters'), "param-page");
 					echo $params->render('params', 'advanced');
-					$pane->endPanel();
-					$pane->startPanel(JText :: _('E-Mail Parameters'), "param-page");
+					echo $pane->endPanel();
+					echo $pane->startPanel(JText :: _('E-Mail Parameters'), "param-page");
 					echo $params->render('params', 'email');
-					$pane->endPanel();
-					$pane->endPane();
+					echo $pane->endPanel();
+					echo $pane->endPane();
 				?></fieldset>
 		</div>
 		<div class="clr"></div>

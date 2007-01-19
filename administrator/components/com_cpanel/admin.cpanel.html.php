@@ -33,16 +33,16 @@ class HTML_cpanel
 
 		$modules	=& JModuleHelper::getModules('cpanel');
 		$pane		=& JPane::getInstance('sliders');
-		$pane->startPane("content-pane");
+		echo $pane->startPane("content-pane");
 
 		foreach ($modules as $module) {
 			$title = $module->title ;
-			$pane->startPanel( $title, "cpanel-panel" );
+			echo $pane->startPanel( $title, "cpanel-panel" );
 			echo JModuleHelper::renderModule($module);
-			$pane->endPanel();
+			echo $pane->endPanel();
 		}
 
-		$pane->endPane();
+		echo $pane->endPane();
 	}
 }
 

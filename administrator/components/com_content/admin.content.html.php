@@ -518,28 +518,28 @@ class ContentView
 				ContentView::_displayArticleStats($row, $lists, $params);
 
 				$title = JText::_( 'PARAMBASIC' );
-				$pane->startPane("content-pane");
-				$pane->startPanel( $title, "detail-page" );
+				echo $pane->startPane("content-pane");
+				echo $pane->startPanel( $title, "detail-page" );
 
 				echo $form->render('details');
 				//ContentView::_paneDetails(  $row, $lists, $params );
 
 				$title = JText::_( 'PARAMADVANCED' );
-				$pane->endPanel();
-				$pane->startPanel( $title, "params-page" );
+				echo $pane->endPanel();
+				echo $pane->startPanel( $title, "params-page" );
 
 				echo $form->render('params', 'advanced');
 				//ContentView::_paneParameters( $row, $lists, $params );
 
 				$title = JText::_( 'Metadata Information' );
-				$pane->endPanel();
-				$pane->startPanel( $title, "metadata-page" );
+				echo $pane->endPanel();
+				echo $pane->startPanel( $title, "metadata-page" );
 
 				echo $form->render('meta', 'metadata');
 				//ContentView::_paneMetaInfo( $row, $lists, $params );
 
-				$pane->endPanel();
-				$pane->endPane();
+				echo $pane->endPanel();
+				echo $pane->endPane();
 			?>
 			</td>
 		</tr>

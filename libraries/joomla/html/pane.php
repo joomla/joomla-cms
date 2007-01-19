@@ -135,17 +135,17 @@ class JPaneTabs extends JPane
 	{
 		$document =& JFactory::getDocument();
 
-		echo "<div class=\"tab-page\" id=\"".$id."\">";
-		echo "<script type=\"text/javascript\">\n";
-		echo "	var tabPane1 = new WebFXTabPane( document.getElementById( \"".$id."\" ), ".(int)$this->useCookies." )\n";
-		echo "</script>\n";
+		return "<div class=\"tab-page\" id=\"".$id."\">"
+			."<script type=\"text/javascript\">\n"
+			."	var tabPane1 = new WebFXTabPane( document.getElementById( \"".$id."\" ), ".(int)$this->useCookies." )\n"
+			."</script>\n";
 	}
 
    /**
 	* Ends the pane
 	*/
 	function endPane() {
-		echo "</div>";
+		return "</div>";
 	}
 
 	/**
@@ -156,18 +156,18 @@ class JPaneTabs extends JPane
 	*/
 	function startPanel( $text, $id )
 	{
-		echo "<div class=\"tab-page\" id=\"".$id."\">";
-		echo "<h2 class=\"tab\"><span>".$text."</span></h2>";
-		echo "<script type=\"text/javascript\">\n";
-		echo "  tabPane1.addTabPage( document.getElementById( \"".$id."\" ) );";
-		echo "</script>";
+		return "<div class=\"tab-page\" id=\"".$id."\">"
+			."<h2 class=\"tab\"><span>".$text."</span></h2>"
+			."<script type=\"text/javascript\">\n"
+			."  tabPane1.addTabPage( document.getElementById( \"".$id."\" ) );"
+			."</script>";
 	}
 
 	/**
 	* Ends a tab page
 	*/
 	function endPanel() {
-		echo "</div>";
+		return "</div>";
 	}
 
 	/**
@@ -223,17 +223,17 @@ class JPaneSliders extends JPane
 	*/
 	function startPane( $id )
 	{
-		echo '<div id="'.$id.'" class="pane-sliders">';
+		return '<div id="'.$id.'" class="pane-sliders">';
 	}
 
    /**
 	* Ends the pane
 	*/
 	function endPane() {
-		echo '</div>';
-		echo '<script type="text/javascript">';
-		echo '	init_moofx();';
-		echo '</script>';
+		return '</div>'
+			.'<script type="text/javascript">'
+			.'	init_moofx();'
+			.'</script>';
 	}
 
 	/**
@@ -244,16 +244,16 @@ class JPaneSliders extends JPane
 	*/
 	function startPanel( $text, $id )
 	{
-		echo '<div class="panel">';
-		echo '<h3 class="moofx-toggler title" id="'.$id.'"><span>'.$text.'</span></h3>';
-		echo '<div class="moofx-slider content">';
+		return '<div class="panel">'
+			.'<h3 class="moofx-toggler title" id="'.$id.'"><span>'.$text.'</span></h3>'
+			.'<div class="moofx-slider content">';
 	}
 
 	/**
 	* Ends a tab page
 	*/
 	function endPanel() {
-		echo '</div></div>';
+		return '</div></div>';
 	}
 
 	/**
