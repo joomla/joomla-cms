@@ -124,24 +124,24 @@ function submitbutton(pressbutton) {
 			<!-- Menu Item Parameters Section -->
 			<td width="40%">
 				<?php
-					$this->pane->startPane("menu-pane");
-					$this->pane->startPanel(JText :: _('Menu Item Parameters'), "param-page");
+					echo $this->pane->startPane("menu-pane");
+					echo $this->pane->startPanel(JText :: _('Menu Item Parameters'), "param-page");
 					echo $this->urlparams->render('urlparams');
 					if($params = $this->params->render('params')) :
 						echo $params;
 					else :
 						echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no parameters for this item')."</div>";
 					endif;
-					$this->pane->endPanel();
+					echo $this->pane->endPanel();
 
-					$this->pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
+					echo $this->pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
 					if($params = $this->advanced->render('params')) :
 						echo $params;
 					else :
 						echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no advanced parameters for this item')."</div>";
 					endif;
-					$this->pane->endPanel();
-					$this->pane->endPane();
+					echo $this->pane->endPanel();
+					echo $this->pane->endPane();
 				?>
 			</td>
 		</tr>
