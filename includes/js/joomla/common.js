@@ -189,3 +189,8 @@ function $c(array){
 	for (i=0;el=array[i];i++) nArray.push(el);
 	return nArray;
 }
+
+// This fixes the modal iframe issues due to bugs in Safari and Opera
+document.addLoadEvent(function() {
+	try{window.parent.document.popup.onload()}catch(err){;};
+});

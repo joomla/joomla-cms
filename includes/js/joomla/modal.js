@@ -138,7 +138,7 @@ JPopup.prototype = {
 	* @argument url - url to display
 	* @argument returnFunc - function to call when returning true from the window.
 	*/
-	show: function(url, width, height, returnFunc) 
+	show: function(url, width, height, returnFunc)
 	{
 		this.visible = true;
 		
@@ -163,14 +163,21 @@ JPopup.prototype = {
 		// load the url
 		if(this.URL != url) 
 		{
-			this.URL = url;			
-			//TODO : Change this to a more clean fix for Safari
-			if(this.frame.contentWindow != undefined) {
-				this.frame.style.display = 'none';
+			// If the modal has been closed with reseting "this.URL" but the
+			// requested URL is the same as the old one, we have to force Opera to
+			// reload the page or it will never fire an onload event; neither will
+			// the exclusive call to documen.popup.onload() from within the frame
+			// occur. Opera recognizes that the URL hasn't changed and does nothing.
+			// TODO:	Isn't this (a complete reload) the intended behaviour? If
+			//			so, we should explicitly reload on all browsers.
+			if (this.URL == null && navigator.userAgent.indexOf('Opera') != -1) {
+				this.frame.location.reload();
 			}
+			
+			this.URL = url;
 			this.frame.src = url;
 		}
-	
+			
 		this.returnFunc = returnFunc;
 		
 		// for IE
