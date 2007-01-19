@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Jan-2007 Andrew Eddie
+ ^ JPane methods return string rather than echo (to enable capturing of output if desired)
+
 18-Jan-2007 Hannes Papenberg
 ^ Moved com_statistics functionality to com_search and MVCed it
 
