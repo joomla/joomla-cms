@@ -35,7 +35,7 @@ class MediaViews
 		global $mainframe;
 
 		// Get current path from request
-		$current = JRequest::getVar( 'cFolder' );
+		$current = JRequest::getVar( 'folder' );
 		if ($current == '/') {
 			$current = '';
 		}
@@ -74,7 +74,7 @@ class MediaViews
 						<button type="button" onclick="document.mediamanager.oncreatefolder()" /><?php echo JText::_( 'Create Folder' ); ?></button>
 					</div>
 					<div class="view">
-						<iframe src="index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;cFolder=<?php echo $current;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
+						<iframe src="index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;folder=<?php echo $current;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
 					</div>
 				</fieldset>
 			</td>
@@ -193,7 +193,7 @@ class MediaViews
 			$current = '';
 		}
 		?>
-		<form action="index.php?option=com_media&amp;tmpl=component&amp;cFolder=<?php echo $current; ?>&amp;folder=<?php echo $current; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
+		<form action="index.php?option=com_media&amp;tmpl=component&amp;folder=<?php echo $current; ?>&amp;folder=<?php echo $current; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 		<div class="manager">
 		<?php
 	}
@@ -213,7 +213,7 @@ class MediaViews
 			$current = '';
 		}
 		?>
-		<form action="index.php?option=com_media&amp;tmpl=component&amp;cFolder=<?php echo $current; ?>&amp;folder=<?php echo $current; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
+		<form action="index.php?option=com_media&amp;tmpl=component&amp;folder=<?php echo $current; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 		<div class="manager">
 		<table width="100%" cellspacing="0">
 		<thead>
@@ -240,10 +240,10 @@ class MediaViews
 		<?php
 	}
 
-	function showImgThumbs($img, $file, $info, $size, $listdir)
+	function showImgThumbs($img, $file, $info, $size, $folder)
 	{
 		$img_file	= basename($img);
-		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
+		$img_url	= COM_MEDIA_BASEURL.DS.$folder.DS.rawurlencode($img_file);
 		$filesize	= MediaHelper::parseSize($size);
 
 		if (($info[0] > 70) || ($info[0] > 70)) {
@@ -270,17 +270,17 @@ class MediaViews
 		<?php
 	}
 
-	function showFolderThumbs($path, $dir, $listdir)
+	function showFolderThumbs($path, $dir, $folder)
 	{
-		$count		= MediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
+		$path = trim($path, '\\/ ');
+		$folder = trim ($folder, '\\/ ');
+		$count		= MediaHelper::countFiles(COM_MEDIA_BASE.DS.$folder.DS.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
 
-		if ($listdir == '/') {
-			$listdir = '';
-		}
-
-		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;cFolder='.$listdir.$path;
+		$fullfolder = ($folder) ? $folder.'/' : '';
+		$fullfolder .= $path;
+		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;folder='.$fullfolder;
 
 		?>
 		<div class="imgOutline">
@@ -300,17 +300,15 @@ class MediaViews
 
 	function showUpThumbs($path)
 	{
-		$count		= MediaHelper::countFiles(COM_MEDIA_BASE.$path);
+		$count		= MediaHelper::countFiles(COM_MEDIA_BASE.DS.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
 
-		if ($path == '/') {
-			$path = '';
-		}
-
 		$folder = str_replace("\\", "/", dirname($path));
-
-		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;cFolder='.$folder;
+		if ($folder == '.') {
+			$folder = '';
+		}
+		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;folder='.$folder;
 
 		?>
 		<div class="imgOutline">
@@ -328,13 +326,13 @@ class MediaViews
 		<?php
 	}
 
-	function showDocThumbs($doc, $size, $listdir, $icon)
+	function showDocThumbs($doc, $size, $folder, $icon)
 	{
 		global $mainframe;
 
 		$size = MediaHelper::parseSize($size);
 		$base = "/images/";
-		$doc_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($doc);
+		$doc_url	= COM_MEDIA_BASEURL.'/'.$folder.'/'.rawurlencode($doc);
 
 		$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-32".DS.$icon.".png";
 		if (file_exists($iconfile)) {
@@ -354,7 +352,7 @@ class MediaViews
 			<div class="imginfoBorder">
 				<?php echo $doc; ?>
 				<div class="buttonOut">
-					<a href="index.php?option=com_media&amp;task=delete&amp;rm[]=<?php echo $doc; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" target="_top" onclick="return confirmDeleteImage('<?php echo $doc; ?>');">
+					<a href="index.php?option=com_media&amp;task=delete&amp;rm[]=<?php echo $doc; ?>&amp;folder=<?php echo $folder; ?>" target="_top" onclick="return confirmDeleteImage('<?php echo $doc; ?>');">
 						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 					</a>
 				</div>
@@ -363,10 +361,10 @@ class MediaViews
 		<?php
 	}
 
-	function showImgDetails($img, $file, $info, $size, $listdir)
+	function showImgDetails($img, $file, $info, $size, $folder)
 	{
 		$img_file	= basename($img);
-		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
+		$img_url	= COM_MEDIA_BASEURL.'/'.$folder.'/'.rawurlencode($img_file);
 		$filesize	= MediaHelper::parseSize($size);
 
 		if (($info[0] > 16) || ($info[0] > 16)) {
@@ -390,7 +388,7 @@ class MediaViews
 				<?php echo $filesize; ?>
 			</td>
 			<td>
-				<a href="index.php?option=com_media&amp;tmpl=component&amp;task=delete&amp;rm[]=<?php echo $file; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" onclick="return confirmDeleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
+				<a href="index.php?option=com_media&amp;tmpl=component&amp;task=delete&amp;rm[]=<?php echo $file; ?>&amp;folder=<?php echo $folder; ?>" onclick="return confirmDeleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
 					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
 				<input type="checkbox" name="rm[]" value="<?php echo $file; ?>" />
@@ -399,17 +397,17 @@ class MediaViews
 		<?php
 	}
 
-	function showFolderDetails($path, $dir, $listdir)
+	function showFolderDetails($path, $dir, $folder)
 	{
-		$count		= MediaHelper::countFiles(COM_MEDIA_BASE.$listdir.$path);
+		$path = trim($path, '\\/ ');
+		$folder = trim ($folder, '\\/ ');
+		$count		= MediaHelper::countFiles(COM_MEDIA_BASE.DS.$folder.DS.$path);
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
 
-		if ($listdir == '/') {
-			$listdir = '';
-		}
-
-		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;cFolder='.$listdir.$path;
+		$fullfolder = ($folder) ? $folder.'/' : '';
+		$fullfolder .= $path;
+		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;folder='.$fullfolder;
 		?>
 		<tr>
 			<td class="imgTotal">
@@ -427,7 +425,7 @@ class MediaViews
 				&nbsp;
 			</td>
 			<td>
-				<a href="index.php?option=com_media&amp;tmpl=component&amp;task=delete&amp;rm[]=<?php echo $path; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" onclick="return confirmDeleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);" title="<?php echo JText::_( 'Delete Item' ); ?>">
+				<a href="index.php?option=com_media&amp;tmpl=component&amp;task=delete&amp;rm[]=<?php echo $path; ?>&amp;folder=<?php echo $folder; ?>" onclick="return confirmDeleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);" title="<?php echo JText::_( 'Delete Item' ); ?>">
 					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
 				<input type="checkbox" name="rm[]" value="<?php echo $path; ?>" />
@@ -442,13 +440,12 @@ class MediaViews
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
 
-		if ($path == '/') {
-			$path = '';
-		}
-
 		$folder = str_replace("\\", "/", dirname($path));
+		if ($folder == '.') {
+			$folder = '';
+		}
+		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;folder='.$folder;
 
-		$link = 'index.php?option=com_media&amp;task=list&amp;tmpl=component&amp;cFolder='.$folder;
 		?>
 		<tr>
 			<td class="imgTotal">
@@ -466,7 +463,7 @@ class MediaViews
 		<?php
 	}
 
-	function showDocDetails($doc, $size, $listdir, $icon)
+	function showDocDetails($doc, $size, $folder, $icon)
 	{
 		global $mainframe;
 
@@ -478,7 +475,7 @@ class MediaViews
 		}
 		$size = MediaHelper::parseSize($size);
 		$base = "/images/";
-		$doc_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($doc);
+		$doc_url	= COM_MEDIA_BASEURL.'/'.$folder.'/'.rawurlencode($doc);
 		?>
 		<tr>
 			<td>
@@ -496,7 +493,7 @@ class MediaViews
 				<?php echo $size; ?>
 			</td>
 			<td>
-				<a href="index.php?option=com_media&amp;tmpl=component&amp;task=delete&amp;rm[]=<?php echo $doc; ?>&amp;folder=<?php echo $listdir; ?>&amp;cFolder=<?php echo $listdir; ?>" onclick="return confirmDeleteImage('<?php echo $doc; ?>');">
+				<a href="index.php?option=com_media&amp;tmpl=component&amp;task=delete&amp;rm[]=<?php echo $doc; ?>&amp;folder=<?php echo $folder; ?>" onclick="return confirmDeleteImage('<?php echo $doc; ?>');">
 					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
 				</a>
 				<input type="checkbox" name="rm[]" value="<?php echo $doc; ?>" />
@@ -505,13 +502,8 @@ class MediaViews
 		<?php
 	}
 
-	function imageStyle($listdir)
+	function imageStyle()
 	{
-		if ($listdir == '') {
-			$listdir = '/';
-		} elseif ($listdir == '//') {
-			$listdir = '/';
-		}
 		?>
 		<script language="javascript" type="text/javascript">
 		function confirmDeleteImage(file)

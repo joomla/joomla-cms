@@ -58,7 +58,11 @@ JMediaManager.prototype = {
 	onloadframe: function()
 	{
 		var folder = this.getFolder();
-		this.folderpath.value = basepath + folder;
+		if (folder) {
+			this.folderpath.value = basepath + '/' + folder;
+		} else {
+			this.folderpath.value = basepath;
+		}
 		var node = d.getNodeByTitle(folder);
 		d.openTo(node, true, true);
 		document.getElementById(cStyle).className = 'active';
@@ -83,17 +87,17 @@ JMediaManager.prototype = {
 	setViewType: function(type)
 	{
 		var url    = window.frames['folderframe'].location.search.substring(1);
-		var folder = url.substring(url.indexOf('cFolder=')+8);
+		var folder = url.substring(url.indexOf('folder=')+7);
 		document.getElementById(type).className = 'active';
 		document.getElementById(cStyle).className = '';
 		cStyle = type;
-		window.frames['folderframe'].location.href='index.php?option=com_media&task=list&tmpl=component&cFolder='+folder+'&listStyle='+type;
+		window.frames['folderframe'].location.href='index.php?option=com_media&task=list&tmpl=component&folder='+folder+'&listStyle='+type;
 	},
 
 	getFolder: function()
 	{
 		var url 	= window.frames['folderframe'].location.search.substring(1);
-		var folder  = url.substring(url.indexOf('cFolder=/')+9);
+		var folder  = url.substring(url.indexOf('folder=')+8);
 		var args	= new Object();
 
 		// Split query at the comma
@@ -115,7 +119,7 @@ JMediaManager.prototype = {
 			args[argname] = unescape(value);
 		}
 
-		return args['cFolder'];
+		return args['folder'];
 	},
 
 	addFile: function()

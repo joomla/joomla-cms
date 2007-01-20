@@ -132,6 +132,7 @@ class MediaController
 		$nodes = array();
 		foreach ($imgFolders as $folder) {
 			$folder 	= str_replace($base, "", $folder);
+			$folder		= (strpos($folder, DS) === 0) ? substr($folder, 1) : $folder ;
 			$folder 	= str_replace(DS, "/", $folder);
 			$nodes[] 	= $folder;
 		}
@@ -154,10 +155,14 @@ class MediaController
 		require_once (JApplicationHelper::getPath('admin_html'));
 
 		// Get current path from request
-		$current = JRequest::getVar( 'cFolder' );
+		$current = JRequest::getVar( 'folder' );
 
 		// Initialize variables
-		$basePath 	= COM_MEDIA_BASE.DS.$current;
+		if (strlen($current) > 1) {
+			$basePath = COM_MEDIA_BASE.DS.$current;
+		} else {
+			$basePath = COM_MEDIA_BASE;
+		}
 		$images 	= array ();
 		$folders 	= array ();
 		$docs 		= array ();
@@ -175,7 +180,7 @@ class MediaController
 					if (MediaHelper::isImage($file)) {
 						$imageInfo = @ getimagesize($basePath.DS.$file);
 						$fileDetails['name'] = $file;
-						$fileDetails['file'] = JPath::clean($basePath.DS.$file, false);
+						$fileDetails['file'] = JPath::clean($basePath.DS.$file);
 						$fileDetails['imgInfo'] = $imageInfo;
 						$fileDetails['size'] = filesize($basePath.DS.$file);
 						$images[] = $fileDetails;
@@ -183,7 +188,7 @@ class MediaController
 						// Not a known image file so we will call it a document
 						$fileDetails['name'] = $file;
 						$fileDetails['size'] = filesize($basePath.DS.$file);
-						$fileDetails['file'] = JPath::clean($basePath.DS.$file, false);
+						$fileDetails['file'] = JPath::clean($basePath.DS.$file);
 						$docs[] = $fileDetails;
 					}
 				}
@@ -359,15 +364,16 @@ class MediaController
 		global $mainframe;
 
 		$file 		= JRequest::getVar( 'upload', '', 'files', 'array' );
-		$dirPath 	= JRequest::getVar( 'dirPath', '' );
+		$folder		= trim (JRequest::getVar( 'dirpath', '' ), '\\/ ');
 		$err		= null;
 
-		JRequest::setVar('cFolder', $dirPath);
+		JRequest::setVar('folder', $folder);
 
-		if (isset ($file) && is_array($file) && isset ($dirPath)) {
+		if (isset ($file) && is_array($file) && isset ($folder)) {
 
-			if (file_exists(COM_MEDIA_BASE.$dirPath.DS.$file['name'])) {
-				MediaController::showUpload(JText::_('Upload FAILED.File allready exists'));
+			$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($file['name']));
+			if (JFile::exists($filepath)) {
+				MediaController::showUpload(JText::_('Upload FAILED. File already exists'));
 				return;
 			}
 
@@ -376,7 +382,7 @@ class MediaController
 				return;
 			}
 
-			if (!JFile::upload($file['tmp_name'], COM_MEDIA_BASE.$dirPath.DS.strtolower($file['name']))) {
+			if (!JFile::upload($file['tmp_name'], $filepath)) {
 				MediaController::showUpload(JText::_('Upload FAILED'));
 				return;
 
@@ -392,25 +398,26 @@ class MediaController
 		global $mainframe;
 
 		$files 			= JRequest::getVar( 'uploads', array(), 'files', 'array' );
-		$dirPath 		= JRequest::getVar( 'dirpath', '' );
+		$folder			= trim (JRequest::getVar( 'dirpath', '' ), '\\/ ');
 		$err			= null;
 		$file['size']	= 0;
-		JRequest::setVar('cFolder', $dirPath);
+		JRequest::setVar('folder', $folder);
 		jimport('joomla.filesystem.file');
 
-		if (is_array($files) && isset ($dirPath)) {
+		if (is_array($files) && isset ($folder)) {
 			for ($i=0;$i<count($files['name']);$i++) {
-				if (file_exists(COM_MEDIA_BASE.$dirPath.DS.$files['name'][$i])) {
+				$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($files['name'][$i]));
+				if (JFile::exists($filepath)) {
 					return false;
 				}
 				$file['name'] = $files['name'][$i];
 				$file['size'] += (int)$files['size'][$i];
 				if (!MediaHelper::canUpload( $file, $err )) {
-					$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_($err));
+					$mainframe->redirect("index.php?option=com_media&amp;folder=".$folder, JText::_($err));
 					return;
 				}
-				if (!JFile::upload($files['tmp_name'][$i], COM_MEDIA_BASE.$dirPath.DS.strtolower($files['name'][$i]))) {
-					$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_('Upload FAILED'));
+				if (!JFile::upload($files['tmp_name'][$i], $filepath)) {
+					$mainframe->redirect("index.php?option=com_media&amp;folder=".$folder, JText::_('Upload FAILED'));
 				}
 			}
 		}
@@ -426,25 +433,23 @@ class MediaController
 	{
 		global $mainframe;
 
-		$folderName = JRequest::getVar( 'foldername', '');
-		$dirPath 	= JRequest::getVar( 'dirpath', '' );
-		if ($dirPath == '/') {
-			$dirPath == '';
-		}
-		JRequest::setVar('cFolder', $dirPath);
+		$folder = JRequest::getVar( 'foldername', '');
+		$parent = trim (JRequest::getVar( 'dirpath', '' ), '\\/ ');
 
-		if (strlen($folderName) > 0) {
-			if (eregi("[^0-9a-zA-Z_]", $folderName)) {
-				$mainframe->redirect("index.php?option=com_media&amp;cFolder=".$dirPath, JText::_('WARNDIRNAME'));
+		JRequest::setVar('folder', $parent);
+
+		if (strlen($folder) > 0) {
+			if (eregi("[^0-9a-zA-Z_]", $folder)) {
+				$mainframe->redirect("index.php?option=com_media&amp;folder=".$parent, JText::_('WARNDIRNAME'));
 			}
-			$folder = COM_MEDIA_BASE.$dirPath.DS.$folderName;
-			if (!is_dir($folder) && !is_file($folder))
+			$path = JPath::clean(COM_MEDIA_BASE.DS.$parent.DS.$folder);
+			if (!is_dir($path) && !is_file($path))
 			{
 				jimport('joomla.filesystem.*');
-				$folder = JPath::clean($folder);
-				JFolder::create($folder);
-				JFile::write($folder."index.html", "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>");
+				JFolder::create($path);
+				JFile::write($path.DS."index.html", "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>");
 			}
+			JRequest::setVar('folder', $parent.'/'.$folder);
 		}
 	}
 
@@ -464,7 +469,7 @@ class MediaController
 		if (count($paths)) {
 			foreach ($paths as $path)
 			{
-				$fullPath = JPath::clean(COM_MEDIA_BASE.$current.DS.$path, false);
+				$fullPath = JPath::clean(COM_MEDIA_BASE.DS.$current.DS.$path);
 				if (is_file($fullPath)) {
 					$ret |= !JFile::delete($fullPath);
 				} else if (is_dir($fullPath)) {
@@ -537,7 +542,7 @@ class MediaController
 		// id, parent, name, url, title, target
 		$nodes = array();
 		$i = 1;
-		$nodes[''] = array ('id' => "0", 'pid' => -1, 'name' => JText::_('Images Folder'), 'url' => 'index.php?option=com_media&task=list&tmpl=component&cFolder=/', 'title' => '/', 'target' => 'folderframe');
+		$nodes[''] = array ('id' => "0", 'pid' => -1, 'name' => JText::_('Images Folder'), 'url' => 'index.php?option=com_media&task=list&tmpl=component&folder=', 'title' => '/', 'target' => 'folderframe');
 		if (is_array($list) && count($list)) {
 			foreach ($list as $item) {
 				// Try to find parent
@@ -548,7 +553,7 @@ class MediaController
 				} else {
 					$pid = -1;
 				}
-				$nodes[$item] = array ('id' => $i, 'pid' => $pid, 'name' => basename($item), 'url' => 'index.php?option=com_media&task=list&tmpl=component&cFolder='.$item, 'title' => $item, 'target' => 'folderframe');
+				$nodes[$item] = array ('id' => $i, 'pid' => $pid, 'name' => basename($item), 'url' => 'index.php?option=com_media&task=list&tmpl=component&folder='.$item, 'title' => $item, 'target' => 'folderframe');
 				$i++;
 			}
 		}
