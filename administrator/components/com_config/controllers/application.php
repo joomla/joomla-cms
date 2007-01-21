@@ -164,9 +164,6 @@ class ConfigControllerApplication extends ConfigController
 		$lists['MetaAuthor'] 	= JHTMLSelect::yesnoList('MetaAuthor', 'class="inputbox"', $row->MetaAuthor);
 		$lists['MetaTitle'] 	= JHTMLSelect::yesnoList('MetaTitle', 'class="inputbox"', $row->MetaTitle);
 
-		// STATISTICS SETTINGS
-		$lists['log_searches'] 	= JHTMLSelect::yesnoList('enable_log_searches', 'class="inputbox"', $row->enable_log_searches);
-
 		// SEO SETTINGS
 		$lists['sef'] 			= JHTMLSelect::yesnoList('sef', 'class="inputbox"', $row->sef);
 
