@@ -317,7 +317,7 @@ function editCategory( )
 	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
-	if ($row->checked_out && $row->checked_out <> $user->get('id')) {
+	if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out )) {
 		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The category' ), $row->title );
 		$mainframe->redirect( 'index.php?option=categories&amp;section='. $row->section, $msg );
 	}

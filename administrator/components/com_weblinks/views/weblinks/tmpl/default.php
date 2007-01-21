@@ -81,7 +81,7 @@ JCommonHTML::loadOverlib();
 			</td>
 			<td>
 				<?php
-				if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
+				if (  JTable::isCheckedOut($this->user->get ('id'), $row->checked_out ) ) {
 					echo $row->title;
 				} else {
 				?>

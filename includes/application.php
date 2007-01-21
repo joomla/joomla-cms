@@ -119,7 +119,7 @@ class JSite extends JApplication
 		$file 		= JRequest::getVar( 'tmpl', 'index', '', 'string'  );
 
 		$user =& JFactory::getUser();
-		
+
 		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
 			$file = 'offline';
 		}
@@ -127,7 +127,7 @@ class JSite extends JApplication
 		$params = array(
 			'template' 	=> $template,
 			'file'		=> $file.'.php',
-			'directory'	=> JPATH_BASE.DS.'templates',
+			'directory'	=> JPATH_THEMES,
 			'outline' => JRequest::getVar('tp', 0 )
 		);
 
@@ -144,7 +144,8 @@ class JSite extends JApplication
 	{
 		//TODO :: should we show a login screen here ?
 		$menus =& JMenu::getInstance();
-		if(!$menus->authorize($itemid, JFactory::getUser())) {
+		$user  =& JFactory::getUser();
+		if(!$menus->authorize($itemid, $user->get('aid'))) {
 			JError::raiseError( 403, JText::_('Not Authorised') );
 		}
 	}

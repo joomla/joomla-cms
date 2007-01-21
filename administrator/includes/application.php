@@ -121,7 +121,7 @@ class JAdministrator extends JApplication
 		$params = array(
 			'template' 	=> $template,
 			'file'		=> $file.'.php',
-			'directory'	=> JPATH_BASE.DS.'templates'
+			'directory'	=> JPATH_THEMES
 		);
 
 		$document =& JFactory::getDocument();
@@ -143,7 +143,7 @@ class JAdministrator extends JApplication
 		$remember = JRequest::getVar( 'remember', $remember, 'post' );
 
 		$result = parent::login($username, $password, $remember);
-	
+
 		if(!JError::isError($result))
 		{
 			$lang = JRequest::getVar( 'lang' );

@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Jan-2007 Johan Janssens
+ + Added JPATH_THEMES define
+ ^ Improved JTable checkout handling
+
 19-Jan-2007 Andrew Eddie
  ^ JPane methods return string rather than echo (to enable capturing of output if desired)
 

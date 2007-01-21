@@ -165,13 +165,13 @@ class FrontpageView
 				if ($row->sectionid) {
 					$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&hidemainmenu=1&id='. $row->sectionid );
 					$title_sec		= JText::_( 'Edit Section' );
-				} 
-				
+				}
+
 				// category handling
 				if ($row->catid) {
 					$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=edit&hidemainmenu=1&id='. $row->catid );
 					$title_cat		= JText::_( 'Edit Category' );
-				} 
+				}
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -182,7 +182,7 @@ class FrontpageView
 					</td>
 					<td>
 						<?php
-						if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
+						if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out ) ) {
 							echo $row->title;
 						} else {
 							?>

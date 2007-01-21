@@ -77,7 +77,7 @@
 				<?php echo $checked; ?>
 			</td>
 			<td nowrap="nowrap">
-				<?php if ( $row->checked_out && ( $row->checked_out != $this->user->get('id') ) ) : ?>
+				<?php if (  JTable::isCheckedOut($this->user->get ('id'), $row->checked_out ) ) : ?>
 				<?php echo $row->treename; ?>
 				<?php else : ?>
 				<a href="<?php echo ampReplace( 'index.php?option=com_menus&menutype='.$row->menutype.'&task=edit&cid[]='.$row->id.'&hidemainmenu=1' ); ?>"><?php echo $row->treename; ?></a>

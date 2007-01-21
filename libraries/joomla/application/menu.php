@@ -176,21 +176,14 @@ class JMenu extends JObject
 	 * object and optionally an access extension object
 	 *
 	 * @access 	public
-	 * @param	integer	$id		The menu id
-	 * @param	object	$user	The user object
+	 * @param	integer	$id			The menu id
+	 * @param	integer	$accessid	The users access identifier
 	 * @return	boolean	True if authorized
 	 */
-	function authorize($id, &$user)
+	function authorize($id, $accessid = 0)
 	{
-		// Initialize variables
-		$results	= array();
-		$access 	= 0;
-
-		foreach ($results as $result) {
-			$access = max( $access, $result->access );
-		}
-
-		return ($access <= $user->get('usertype'));
+		$menu =& $this->getItem($id);
+		return ($menu->access <= $accessid);
 	}
 
 	/**

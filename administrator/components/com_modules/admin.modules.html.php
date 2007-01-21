@@ -127,7 +127,7 @@ class HTML_modules
 					</td>
 					<td>
 					<?php
-					if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
+					if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out ) ) {
 						echo $row->title;
 					} else {
 						?>

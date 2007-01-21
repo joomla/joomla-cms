@@ -372,7 +372,7 @@ class ContentController extends JController
 		 * If the item is checked out we cannot edit it... unless it was checked
 		 * out by the current user.
 		 */
-		if ($row->checked_out && ($row->checked_out != $user->get('id')))
+		if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out ))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The module'), $row->title);
 			$mainframe->redirect('index.php?option=com_content', $msg);
@@ -912,7 +912,7 @@ class ContentController extends JController
 		if (count($cid) < 1) {
 			$msg =  JText::_('Select an item to delete');
 			$mainframe->redirect('index.php?option='.$option, $msg, 'error');
-			
+
 		}
 
 		// Removed content gets put in the trash [state = -2] and ordering is always set to 0

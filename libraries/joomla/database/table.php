@@ -744,24 +744,34 @@ class JTable extends JObject
 	}
 
 	/**
-	 * Tests if item is checked out
+	 * Check if an item is checked out
 	 *
+	 * This function can be used as a static function too, when you do so you need to also provide the
+	 * a value for the $against parameter.
+	 *
+	 * @static
 	 * @access public
-	 * @param int A user id
+	 * @param integer  $with  	The userid to preform the match with, if an item is checked out
+	 * 				  			by this user the function will return false
+	 * @param integer  $against 	The userid to perform the match against when the function is used as
+	 * 							a static function.
 	 * @return boolean
 	 */
-	function isCheckedOut( $user_id = 0 )
+	function isCheckedOut( $with = 0, $against = null)
 	{
-		$checkedOut = $this->get( 'checked_out' );
+		if(is_null($against)) {
+			$against = $this->get( 'checked_out' );
+		}
 
 		//item is not checked out, or being checked out by the same user
-		if (!$checkedOut || $checkedOut == $user_id) {
+		if (!$against || $against == $with) {
 			return  false;
 		}
 
-		$session =& JTable::getInstance('session');
-		return $session->exist($checkedOut);
+		return true;
 
+		$session =& JTable::getInstance('session');
+		return $session->exists($against);
 	}
 
 	/**

@@ -141,7 +141,7 @@ class categories_html
 				</td>
 				<td onmouseover="return overlib('<?php echo $row->title; ?>', CAPTION, '<?php echo JText::_( 'Title' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
 					<?php
-					if ( $row->checked_out_contact_category && ( $row->checked_out_contact_category != $user->get('id') ) ) {
+					if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out_contact_category )  ) {
 						echo $row->name;
 					} else {
 						?>

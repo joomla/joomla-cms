@@ -98,7 +98,7 @@ switch ($task)
 $params = array(
 	'template' 	=> 'template',
 	'file'		=> 'index.php',
-	'directory' => JPATH_BASE
+	'directory' => JPATH_THEMES
 );
 
 $document =& JFactory::getDocument();

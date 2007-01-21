@@ -121,7 +121,7 @@ class sections_html
 				</td>
 				<td onmouseover="return overlib('<?php echo $row->title; ?>', CAPTION, '<?php echo JText::_( 'Title' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
 					<?php
-					if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
+					if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out ) ) {
 						echo $row->name;
 					} else {
 						?>

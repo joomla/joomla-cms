@@ -621,11 +621,21 @@ class JCommonHTML
 	 */
 	function CheckedOutProcessing( &$row, $i, $identifier = 'id' )
 	{
-		$user =& JFactory::getUser();
-		if ( $row->checked_out ) {
+		$user   =& JFactory::getUser();
+		$userid = $user->get('id');
+
+		$result = false;
+		if(is_a($row, 'JTable')) {
+			$result = $row->isCheckedOut($userid);
+		} else {
+			$result = JTable::isCheckedOut($userid, $row->checked_out);
+		}
+
+		$checked = '';
+		if ( $result ) {
 			$checked = JCommonHTML::checkedOut( $row );
 		} else {
-			$checked = JHTML::idBox( $i, $row->$identifier, ($row->checked_out && $row->checked_out != $user->get('id') ) );
+			$checked = JHTML::idBox( $i, $row->$identifier );
 		}
 
 		return $checked;

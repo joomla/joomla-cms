@@ -229,7 +229,7 @@ function mosNotAuth()
  *
  * @deprecated	As of version 1.5
  */
-function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) 
+function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 )
 {
 	global $mainframe;
 
@@ -595,7 +595,7 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid )
 {
 	$user =& JFactory::getUser();
 	$menus =& JMenu::getInstance();
-	$menus->authorize($Itemid, $user);
+	$menus->authorize($Itemid, $user->get('aid'));
 }
 
 /**
