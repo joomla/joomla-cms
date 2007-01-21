@@ -243,7 +243,11 @@ class MediaViews
 	function showImgThumbs($img, $file, $info, $size, $folder)
 	{
 		$img_file	= basename($img);
-		$img_url	= COM_MEDIA_BASEURL.'/'.$folder.'/'.rawurlencode($img_file);
+		if ($folder) {
+			$img_url = COM_MEDIA_BASEURL.'/'.$folder.'/'.rawurlencode($img_file);
+		} else {
+			$img_url = COM_MEDIA_BASEURL.'/'.rawurlencode($img_file);
+		}
 		$filesize	= MediaHelper::parseSize($size);
 
 		if (($info[0] > 70) || ($info[0] > 70)) {
@@ -332,7 +336,11 @@ class MediaViews
 
 		$size = MediaHelper::parseSize($size);
 		$base = "/images/";
-		$doc_url	= COM_MEDIA_BASEURL.'/'.$folder.'/'.rawurlencode($doc);
+		if ($folder) {
+			$doc_url = COM_MEDIA_BASEURL.'/'.$folder.'/'.rawurlencode($doc);
+		} else {
+			$doc_url = COM_MEDIA_BASEURL.'/'.rawurlencode($doc);
+		}
 
 		$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-32".DS.$icon.".png";
 		if (file_exists($iconfile)) {
@@ -364,7 +372,11 @@ class MediaViews
 	function showImgDetails($img, $file, $info, $size, $folder)
 	{
 		$img_file	= basename($img);
-		$img_url	= COM_MEDIA_BASEURL.'/'.$folder.'/'.rawurlencode($img_file);
+		if ($folder) {
+			$img_url = COM_MEDIA_BASEURL.'/'.$folder.'/'.rawurlencode($img_file);
+		} else {
+			$img_url = COM_MEDIA_BASEURL.'/'.rawurlencode($img_file);
+		}
 		$filesize	= MediaHelper::parseSize($size);
 
 		if (($info[0] > 16) || ($info[0] > 16)) {
@@ -475,7 +487,11 @@ class MediaViews
 		}
 		$size = MediaHelper::parseSize($size);
 		$base = "/images/";
-		$doc_url	= COM_MEDIA_BASEURL.'/'.$folder.'/'.rawurlencode($doc);
+		if ($folder) {
+			$doc_url = COM_MEDIA_BASEURL.'/'.$folder.'/'.rawurlencode($doc);
+		} else {
+			$doc_url = COM_MEDIA_BASEURL.'/'.rawurlencode($doc);
+		}
 		?>
 		<tr>
 			<td>

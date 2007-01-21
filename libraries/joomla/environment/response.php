@@ -16,8 +16,9 @@
  * Create the response global object
  */
 $GLOBALS['_JRESPONSE'] = new stdClass();
-$GLOBALS['_JRESPONSE']->headers = array();
-$GLOBALS['_JRESPONSE']->body	= array();
+$GLOBALS['_JRESPONSE']->cachable = true;
+$GLOBALS['_JRESPONSE']->headers  = array();
+$GLOBALS['_JRESPONSE']->body	 = array();
 
  /**
  * JResponse Class
@@ -31,9 +32,26 @@ $GLOBALS['_JRESPONSE']->body	= array();
  * @subpackage	Environment
  * @since		1.5
  */
-
 class JResponse
 {
+	/**
+	 * Set/get cachable state for the response
+	 *
+	 * If $allow is set, sets the cachable state of the response.  Always returns current state
+	 *
+	 * @static
+	 * @param	boolean	$allow
+	 * @return	boolean 	True of browser caching should be allowed
+	 * @since	1.5
+	 */
+	function allowCache($allow = null)
+	{
+		if (!is_null($allow)) {
+			$GLOBALS['_JRESPONSE']->cachable = (bool) $allow;
+		}
+		return $GLOBALS['_JRESPONSE']->cachable;
+	}
+
 	/**
 	 * Set a header
 	 *
@@ -172,6 +190,14 @@ class JResponse
 		$data = JResponse::getBody();
 		if($compress) {
 			$data = JResponse::_compress($data);
+		}
+
+		if (JResponse::allowCache() === false) {
+			JResponse::setHeader( 'Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true ); // Expires in the past
+			JResponse::setHeader( 'Last-Modified', gmdate("D, d M Y H:i:s") . ' GMT', true ); // Always modified
+			JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate', true ); // Extra CYA
+			JResponse::setHeader( 'Cache-Control', 'post-check=0, pre-check=0', false ); // HTTP/1.1
+			JResponse::setHeader( 'Pragma', 'no-cache' ); // HTTP 1.0
 		}
 
 		JResponse::setHeader( 'Content-Length', strlen($data) );

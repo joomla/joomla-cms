@@ -115,8 +115,9 @@ class MediaController
 	 */
 	function showMedia($base = null)
 	{
-		JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate' );
-		JResponse::setHeader( 'Cache-Control', 'post-check=0, pre-check=0', false );	// HTTP/1.1
+		// Do not allow cache
+		JResponse::allowCache(false);
+
 		// Load the admin HTML view
 		require_once (JApplicationHelper::getPath('admin_html'));
 
@@ -149,8 +150,9 @@ class MediaController
 	 */
 	function listMedia()
 	{
-		JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate' );
-		JResponse::setHeader( 'Cache-Control', 'post-check=0, pre-check=0', false );	// HTTP/1.1
+		// Do not allow cache
+		JResponse::allowCache(false);
+
 		// Load the admin HTML view
 		require_once (JApplicationHelper::getPath('admin_html'));
 
