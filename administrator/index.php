@@ -32,7 +32,7 @@ $mainframe = new JAdministrator();
 $mainframe->loadConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
 
 // create the session
-$mainframe->loadSession(JURI::resolve('/', -1).$mainframe->getClientId());
+$mainframe->loadSession('Joomla15'.$mainframe->getClientId());
 
 /**
  * INITIALISE THE APPLICATION
