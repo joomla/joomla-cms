@@ -32,7 +32,7 @@ $mainframe = new JSite();
 $mainframe->loadConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
 
 // create the session
-$mainframe->loadSession( 'Joomla15'.$mainframe->getClientId());
+$mainframe->loadSession(JUtility::getHash($mainframe->getClientId()));
 
 /**
  * INITIALISE THE APPLICATION
