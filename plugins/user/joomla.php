@@ -83,11 +83,11 @@ class JUserJoomla extends JPlugin
 		else
 		{
 			$my->set( 'id'			, 0 );
-			$my->set( 'name'		, $user['fullname'] );
-			$my->set( 'username'	, $user['username'] );
+			$my->set( 'name'			, $user['fullname'] );
+			$my->set( 'username'		, $user['username'] );
 			$my->set( 'email'		, $user['email'] );	// Result should contain an email (check)
 			$my->set( 'gid'			, 18 );				//Make configurable
-			$my->set( 'usertype'	, 'Registered' ); 	//Make configurable
+			$my->set( 'usertype'	, 'Registered' ); 		//Make configurable
 
 			//If autoregister is set let's register the user
 			if($params->get('autoregister', 1) == 1)

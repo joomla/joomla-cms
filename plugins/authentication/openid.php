@@ -93,7 +93,7 @@ class JAuthenticateOpenID extends JPlugin
 		// Create a consumer object
 		$consumer = new Auth_OpenID_Consumer($store);
 
-		if (!$session->get('_openid_consumer_last_token'))
+		if (!$_SESSION['_openid_consumer_last_token'])
 		{
 			// Begin the OpenID authentication process.
 			if(!$request = $consumer->begin($username))
@@ -105,9 +105,7 @@ class JAuthenticateOpenID extends JPlugin
 
 			// Request simple registration information
 			$request->addExtensionArg('sreg', 'required' , 'email');
-			$request->addExtensionArg('sreg', 'optional', 'fullname');
-			$request->addExtensionArg('sreg', 'optional', 'language');
-			$request->addExtensionArg('sreg', 'optional', 'timezone');
+			$request->addExtensionArg('sreg', 'optional', 'fullname, language, timezone');
 
 			$uri =& JFactory::getURI();
 			$url = $uri->toString();
