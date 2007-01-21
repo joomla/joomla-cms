@@ -243,7 +243,7 @@ class MediaViews
 	function showImgThumbs($img, $file, $info, $size, $folder)
 	{
 		$img_file	= basename($img);
-		$img_url	= COM_MEDIA_BASEURL.DS.$folder.DS.rawurlencode($img_file);
+		$img_url	= COM_MEDIA_BASEURL.'/'.$folder.'/'.rawurlencode($img_file);
 		$filesize	= MediaHelper::parseSize($size);
 
 		if (($info[0] > 70) || ($info[0] > 70)) {
