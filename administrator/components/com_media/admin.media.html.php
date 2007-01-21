@@ -258,7 +258,7 @@ class MediaViews
 				<div align="center" class="imgBorder">
 					<a style="display: block; width: 100%; height: 100%">
 						<div class="image">
-							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> border="0" />
+							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
 						</div>
 					</a>
 				</div>
