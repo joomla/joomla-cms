@@ -35,7 +35,7 @@ class WeblinksViewWeblinks extends JView
 		JMenuBar::deleteList();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
-		JMenuBar::configuration('com_weblinks', '450');
+		JMenuBar::configuration('com_weblinks', '200');
 		JMenuBar::help( 'screen.weblink' );
 
 		$db		=& JFactory::getDBO();
@@ -71,6 +71,7 @@ class WeblinksViewWeblinks extends JView
 		// search filter
 		$lists['search']= $search;
 
+		$this->assignRef('user',		JFactory::getUser());
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);

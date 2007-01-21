@@ -113,10 +113,10 @@ class JAuthenticateOpenID extends JPlugin
 			$url = $uri->toString();
 
 			$process_url = sprintf("index.php?option=com_login&task=login&username=%s&return=%s", $username, $url);
-			$redirect_url = $request->redirectURL(JURI::base(), JURI::base().'/'.$process_url);
+			$redirect_url = $request->redirectURL(JURI::base(), JURI::base().$process_url);
 
 			$session->set('trust_url', JURI::base());
-		
+
 			// Redirect the user to the OpenID server for authentication.  Store
 			// the token for this authentication so we can verify the response.
 			$mainframe->redirect($redirect_url);

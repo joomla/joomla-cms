@@ -110,15 +110,15 @@ class LoginController
 		$username	= JRequest::getVar( 'username' );
 		$password	= JRequest::getVar( 'password' );
 		$return		= JRequest::getVar('return', false);
-		
+
 		//check the token before we do anything else
-		$token	= JUtility::getToken();
-		if(!JRequest::getVar( $token, 0, 'post' )) {
-			JError::raiseError(403, 'Request Forbidden');
-		} 
-		
+		//$token	= JUtility::getToken();
+		//if(!JRequest::getVar( $token, 0, 'post' )) {
+		//	JError::raiseError(403, 'Request Forbidden');
+		//}
+
 		$error = $mainframe->login($username, $password);
-		
+
 		if(!JError::isError($error))
 		{
 			/*
@@ -128,8 +128,8 @@ class LoginController
 			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
 				$mainframe->redirect( $return );
 			}
-		} 
-		else 
+		}
+		else
 		{
 			// Facilitate third party login forms
 			if ( $return ) {

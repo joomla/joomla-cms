@@ -128,7 +128,6 @@ class JDatabase extends JObject
 		return $instances[$signature];
 	}
 
-
 	/**
 	 * Database object destructor
 	 *
