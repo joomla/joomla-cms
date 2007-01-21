@@ -16,7 +16,7 @@ $tooltipInit = '
 		Window.onDomReady(function(){
 			var JTooltips = new Tips($S(\'.hasTip\'), {
 				maxTitleChars: 50,
-				maxOpacity: .9,
+				maxOpacity: .9
 			});
 		});';
 
