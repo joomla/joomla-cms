@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Jan-2007 Jason Kendall
+ # Fixed [artf7373]: Unable to edit user on front end with PHP5
+ # Fixed [artf7346]: Edit users in backend
+ # Fixed [artf7351]: Catagory blog layout ordering issue
+
 20-Jan-2007 Johan Janssens
  + Added JPATH_THEMES define
  ^ Improved JTable checkout handling

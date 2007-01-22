@@ -359,7 +359,7 @@ class JParameter extends JRegistry
 		$false = false;
 		$signature = md5( $type  );
 
-		if( isset( $this->_elements[$signature] ) && $new === false ) {
+		if( (isset( $this->_elements[$signature] ) && !is_a($this->_elements[$signature], '__PHP_Incomplete_Class'))  && $new === false ) {
 			return	$this->_elements[$signature];
 		}
 

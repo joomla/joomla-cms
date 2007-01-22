@@ -333,6 +333,7 @@ class ContentModelCategory extends JModel
 			"\n CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(':', a.id, a.title_alias) ELSE a.id END as slug,".
 			"\n CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups".$voting['select'] .
 			"\n FROM #__content AS a" .
+			"\n LEFT JOIN #__categories AS cc ON a.catid = cc.id" .
 			"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
 			"\n LEFT JOIN #__groups AS g ON a.access = g.id".
 			$voting['join'].
