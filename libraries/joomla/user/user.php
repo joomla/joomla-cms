@@ -134,12 +134,12 @@ class JUser extends JObject
 		// Load the user if it exists
 		if (!empty($identifier)) {
 			$this->load($identifier);
+		} else {
+			//initialise
+			$this->id        = 0;
+			$this->gid       = 0;
+			$this->sendEmail = 1;
 		}
-		
-		//initialise
-		$this->id        = 0;
-		$this->gid       = 0;
-		$this->sendEmail = 1;
 	}
 
 	/**
