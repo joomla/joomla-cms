@@ -138,10 +138,10 @@ JPopup.prototype = {
 	* @argument url - url to display
 	* @argument returnFunc - function to call when returning true from the window.
 	*/
-	show: function(url, width, height, returnFunc)
+	show: function(url, width, height, returnFunc) 
 	{
 		this.visible = true;
-		
+
 		this.disableTabIndexes();
 		
 		this.mask.style.display      = "block";
@@ -159,25 +159,27 @@ JPopup.prototype = {
 		// some oddness was occuring and causing the frame to poke outside the border in IE6
 		this.frame.style.width = parseInt(document.getElementById("popup-titlebar").offsetWidth, 10) + "px";
 		this.frame.style.height = (height) + "px";
-	
+
 		// load the url
 		if(this.URL != url) 
 		{
-			// If the modal has been closed with reseting "this.URL" but the
-			// requested URL is the same as the old one, we have to force Opera to
-			// reload the page or it will never fire an onload event; neither will
-			// the exclusive call to documen.popup.onload() from within the frame
-			// occur. Opera recognizes that the URL hasn't changed and does nothing.
-			// TODO:	Isn't this (a complete reload) the intended behaviour? If
-			//			so, we should explicitly reload on all browsers.
-			if (this.URL == null && navigator.userAgent.indexOf('Opera') != -1) {
-				this.frame.location.reload();
+			// Hiding the frame in Safari and Opera breaks the modal
+			if(navigator.userAgent.indexOf('Opera') == -1 && navigator.userAgent.indexOf('Safari') == -1) {
+				this.frame.style.display = "none";
 			}
 			
-			this.URL = url;
+			// If the modal has been closed with reseting "this.URL" but the
+			// requested URL is the same as the old one, we have to force Opera to
+			// reload the page or it will never fire an onload event. Opera
+			// recognizes that the URL hasn't changed and does nothing.
+			if (this.URL == null && navigator.userAgent.indexOf('Opera') != -1 && this.frame.src != 'about:blank') {
+				this.frame.location.reload();
+			}
+		
+			this.URL = url;	
 			this.frame.src = url;
 		}
-			
+	
 		this.returnFunc = returnFunc;
 		
 		// for IE
@@ -236,6 +238,11 @@ JPopup.prototype = {
 
 		if (resetURL) {
 			this.URL = null;
+			
+			// Reset to blank page when possible to avoid the unpleasing
+			// visual effects of switching to a new page
+			this.frame.src = 'about:blank';
+			
 			document.getElementById("popup-title").innerHTML = '';
 		}
 		
