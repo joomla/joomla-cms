@@ -242,9 +242,6 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['debug_db'] 	= JRequest::getVar('debug_db', 0, 'post');
 		$config_array['debug_lang'] 	= JRequest::getVar('debug_lang', 0, 'post');
 
-		// STATISTICS SETTINGS
-		$config_array['enable_log_searches'] = JRequest::getVar('enable_log_searches', 0, 'post');
-
 		// SEO SETTINGS
 		$config_array['sef'] 		= JRequest::getVar('sef', 0, 'post');
 
