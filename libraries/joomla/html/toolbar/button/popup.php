@@ -82,7 +82,7 @@ class JButton_Popup extends JButton
 		$doc->addScript($baseurl.'includes/js/joomla/modal.js');
 		$doc->addStyleSheet($baseurl.'includes/js/joomla/modal.css');
 
-		$cmd = "document.popup.show('$url', $width, $height, null)";
+		$cmd = "document.popup.show('$url', $width, $height, null); return false;";
 
 		return $cmd;
 	}
