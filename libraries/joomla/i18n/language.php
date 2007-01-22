@@ -397,8 +397,8 @@ class JLanguage extends JObject
 		$file = $lang.'.xml';
 
 		$result = null;
-		if(is_file($path.$file)) {
-			$result = JLanguage::_parseXMLLanguageFile($path.$file);
+		if(is_file($path.DS.$file)) {
+			$result = JLanguage::_parseXMLLanguageFile($path.DS.$file);
 		}
 
 		return $result;
