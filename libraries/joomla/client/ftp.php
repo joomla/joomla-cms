@@ -160,24 +160,36 @@ class JFTP extends JObject {
 	 * This method must be invoked as:
 	 * 		<pre>  $ftp = &JFTP::getInstance($host);</pre>
 	 *
-	 * @param string $host Host to connect to
-	 * @return JFTP  The FTP Client object.
+	 * You may optionally specify a username and password in the parameters. If you do so,
+	 * you may not login() again with different credentials using the same object.
+	 * If you do not use this option, you must quit() the current connection when you
+	 * are done, to free it for use by others.
+	 *
+	 * @param	string	$host		Host to connect to
+	 * @param	string	$port		Port to connect to
+	 * @param	array	$options	Array with any of these options: type=>[FTP_AUTOASCII|FTP_ASCII|FTP_BINARY], timeout=>(int)
+	 * @param	string	$user		Username to use for a connection
+	 * @param	string	$pass		Password to use for a connection
+	 * @return	JFTP	The FTP Client object.
 	 * @since 1.5
 	 */
-	function &getInstance($host = '127.0.0.1', $port = '21', $options = null)
+	function &getInstance($host = '127.0.0.1', $port = '21', $options = null, $user = null, $pass = null)
 	{
 		static $instances = array();
 
-		$signature = $host.":".$port;
+		$signature = $user.':'.$pass.'@'.$host.":".$port;
 
+		// Create a new instance, or set the options of an existing one
 		if (!isset ($instances[$signature]) || !is_object($instances[$signature])) {
-			// Create a new instance
 			$instances[$signature] = new JFTP($options);
-			$instances[$signature]->connect($host, $port);
 		} else {
-			// If instance already exists, set options for this use
-			$instances[$signature]->connect($host, $port);
 			$instances[$signature]->setOptions($options);
+		}
+
+		// Connect to the server, and login, if requested
+		$return = $instances[$signature]->connect($host, $port);
+		if ($return && $user !== null && $pass !== null) {
+			$instances[$signature]->login($user, $pass);
 		}
 
 		return $instances[$signature];
@@ -960,7 +972,7 @@ class JFTP extends JObject {
 	 * @param string $path Path local file to store on the FTP server
 	 * @return string Directory listing
 	 */
-	function nameList($path = null) {
+	function listNames($path = null) {
 
 		// Initialize variables
 		$data = null;
@@ -969,12 +981,12 @@ class JFTP extends JObject {
 		if (FTP_NATIVE) {
 			// turn passive mode on
 			if (ftp_pasv($this->_conn, true) === false) {
-				JError::raiseWarning('36', 'JFTP::nameList: Unable to use passive mode' );
+				JError::raiseWarning('36', 'JFTP::listNames: Unable to use passive mode' );
 				return false;
 			}
 
 			if (($list = ftp_nlist($this->_conn,$path)) === false) {
-				JError::raiseWarning('35', 'JFTP::nameList: Bad response' );
+				JError::raiseWarning('35', 'JFTP::listNames: Bad response' );
 				return false;
 			}
 			return $list;
@@ -989,12 +1001,12 @@ class JFTP extends JObject {
 
 		// Start passive mode
 		if (!$this->_passive()) {
-			JError::raiseWarning('36', 'JFTP::nameList: Unable to use passive mode' );
+			JError::raiseWarning('36', 'JFTP::listNames: Unable to use passive mode' );
 			return false;
 		}
 
 		if (!$this->_putCmd('NLST'.$path, array (150, 125))) {
-			JError::raiseWarning('35', 'JFTP::nameList: Bad response.', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$path );
+			JError::raiseWarning('35', 'JFTP::listNames: Bad response.', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$path );
 			@ fclose($this->_dataconn);
 			return false;
 		}
@@ -1007,7 +1019,7 @@ class JFTP extends JObject {
 
 		// Everything go okay?
 		if (!$this->_verifyResponse(226)) {
-			JError::raiseWarning('37', 'JFTP::nameList: Transfer Failed.', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$path );
+			JError::raiseWarning('37', 'JFTP::listNames: Transfer Failed.', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$path );
 			return false;
 		}
 
@@ -1023,7 +1035,7 @@ class JFTP extends JObject {
 	 * @param boolean $search Recursively search subdirectories
 	 * @return mixed : if $type is raw: string Directory listing, otherwise array of string with file-names
 	 */
-	function listDir($path = null, $type = 'all') {
+	function listDetails($path = null, $type = 'all') {
 
 		// Initialize variables
 		$dir_list = array();
@@ -1037,12 +1049,12 @@ class JFTP extends JObject {
 		if (FTP_NATIVE) {
 			// turn passive mode on
 			if (ftp_pasv($this->_conn, true) === false) {
-				JError::raiseWarning('36', 'JFTP::listDir: Unable to use passive mode' );
+				JError::raiseWarning('36', 'JFTP::listDetails: Unable to use passive mode' );
 				return false;
 			}
 
 			if (($contents = ftp_rawlist($this->_conn, $path)) === false) {
-				JError::raiseWarning('35', 'JFTP::listDir: Bad response' );
+				JError::raiseWarning('35', 'JFTP::listDetails: Bad response' );
 				return false;
 			}
 		} else {
@@ -1050,7 +1062,7 @@ class JFTP extends JObject {
 
 			// Start passive mode
 			if (!$this->_passive()) {
-				JError::raiseWarning('36', 'JFTP::listDir: Unable to use passive mode' );
+				JError::raiseWarning('36', 'JFTP::listDetails: Unable to use passive mode' );
 				return false;
 			}
 
@@ -1061,7 +1073,7 @@ class JFTP extends JObject {
 
 			// Request the file listing
 			if (!$this->_putCmd(($recurse == true) ? 'LIST -R' : 'LIST'.$path, array (150, 125))) {
-				JError::raiseWarning('35', 'JFTP::listDir: Bad response.', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$path );
+				JError::raiseWarning('35', 'JFTP::listDetails: Bad response.', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$path );
 				@ fclose($this->_dataconn);
 				return false;
 			}
@@ -1074,7 +1086,7 @@ class JFTP extends JObject {
 
 			// Everything go okay?
 			if (!$this->_verifyResponse(226)) {
-				JError::raiseWarning('37', 'JFTP::listDir: Transfer Failed.', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$path );
+				JError::raiseWarning('37', 'JFTP::listDetails: Transfer Failed.', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$path );
 				return false;
 			}
 
@@ -1106,7 +1118,7 @@ class JFTP extends JObject {
 			}
 		}
 		if (!$osType) {
-			JError::raiseWarning('SOME_ERROR_CODE', 'JFTP::listDir: Unrecognized directory listing format.' );
+			JError::raiseWarning('SOME_ERROR_CODE', 'JFTP::listDetails: Unrecognized directory listing format.' );
 			return false;
 		}
 

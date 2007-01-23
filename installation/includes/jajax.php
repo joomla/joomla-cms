@@ -184,8 +184,12 @@ class JAJAXHandler
 		$args = $args['vars'];
 		require_once(JXPATH_BASE.DS."classes.php");
 		$root =  JInstallationHelper::findFtpRoot($args['ftpUser'], $args['ftpPassword'], $args['ftpHost'], $args['ftpPort']);
-		$objResponse->addAssign('ftproot', 'value', $root);
-		$objResponse->addAssign('rootPath', 'style.display', '');
+		if (JError::isError($root)) {
+			$objResponse->addAlert($root->get('message'));
+		} else {
+			$objResponse->addAssign('ftproot', 'value', $root);
+			$objResponse->addAssign('rootPath', 'style.display', '');
+		}
 		return $objResponse;
 	}
 

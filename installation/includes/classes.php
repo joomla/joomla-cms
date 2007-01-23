@@ -466,6 +466,14 @@ class JInstallationController
 			$vars['ftpEnable'] = 0;
 		}
 
+		/*
+		 * Trim the last slash from the FTP root, as the FTP root usually replaces JPATH_ROOT.
+		 * If the path had a trailing slash, this would lead to double slashes, like "/joomla//configuration.php"
+		 */
+		if (isset($vars['ftpRoot'])) {
+			$vars['ftpRoot'] = rtrim($vars['ftpRoot'], '/');
+		}
+
 		switch ($vars['DBtype']) {
 
 			case 'mssql' :
@@ -490,14 +498,14 @@ class JInstallationController
 		if (file_exists($path)) {
 			$canWrite = is_writable($path);
 		} else {
-			$canWrite = is_writable(JPATH_SITE);
+			$canWrite = is_writable(JPATH_CONFIGURATION);
 		}
 
 		/*
 		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
 		 * is not writable we need to use FTP
 		 */
-		 $ftpFlag = false;
+		$ftpFlag = false;
 		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path)))) {
 			$ftpFlag = true;
 		}
@@ -523,8 +531,9 @@ class JInstallationController
 			$ftp = & JFTP::getInstance($vars['ftpHost'], $vars['ftpPort']);
 			$ftp->login($vars['ftpUser'], $vars['ftpPassword']);
 
-			//Translate path for the FTP account
-			$file = JPath::clean(str_replace(JPATH_SITE, $vars['ftpRoot'], $path), false);
+			// Translate path for the FTP account
+			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $vars['ftpRoot'], $path), false);
+			$file = str_replace(DS, '/', $file);
 
 			// Use FTP write buffer to file
 			if (!$ftp->write($file, $buffer)) {
@@ -907,40 +916,65 @@ class JInstallationHelper
 	function findFtpRoot($user, $pass, $host='127.0.0.1', $port='21')
 	{
 		jimport('joomla.client.ftp');
-		$ftp = & JFTP::getInstance($host, $port);
+		$ftpPaths = array();
+
+		// Connect and login to the FTP server (using binary transfer mode to be able to compare files)
+		$ftp =& JFTP::getInstance($host, $port, array('type'=>FTP_BINARY));
+		if (!$ftp->isConnected()) {
+			return JError::raiseError('31', 'NOCONNECT');
+		}
 		if (!$ftp->login($user, $pass)) {
-			JError::raiseError('SOME_ERROR_CODE', 'JInstallationHelper::findFtpRoot: Unable to login');
+			return JError::raiseError('31', 'NOLOGIN');
 		}
 
-		/*
-		 * Get file/folder list in CWD
-		 */
-		$ftpList = $ftp->nameList();
+		// Get list of folders in the CWD
+		$ftpFolders = $ftp->listDetails(null, 'folders');
+		if ($ftpFolders === false || count($ftpFolders) == 0) {
+			return JError::raiseError('SOME_ERROR_CODE', 'NODIRECTORYLISTING');
+		}
+		for ($i=0, $n=count($ftpFolders); $i<$n; $i++) {
+			$ftpFolders[$i] = $ftpFolders[$i]['name'];
+		}
+
+		// Check if Joomla! is installed at the FTP root
+		$dirList = array('administrator', 'components', 'installation', 'language', 'libraries', 'plugins');
+		if (count(array_diff($dirList, $ftpFolders)) == 0) {
+			$ftpPaths[] = '/';
+		}
+
+		// Process the list: cycle through all parts of JPATH_SITE, beginning from the end
+		$parts		= explode(DS, JPATH_SITE);
+		$tmpPath	= '';
+		for ($i=count($parts)-1; $i>=0; $i--)
+		{
+			$tmpPath = '/'.$parts[$i].$tmpPath;
+			if (in_array($parts[$i], $ftpFolders)) {
+				$ftpPaths[] = $tmpPath;
+			}
+		}
+
+		// Check all possible paths for the real Joomla! installation
+		$checkValue = file_get_contents(JPATH_LIBRARIES.DS.'joomla'.DS.'version.php');
+		foreach ($ftpPaths as $tmpPath)
+		{
+			$filePath = rtrim($tmpPath, '/').'/libraries/joomla/version.php';
+			@$ftp->read($filePath, $buffer);
+			if ($buffer == $checkValue)
+			{
+				$ftpPath = $tmpPath;
+				break;
+			}
+		}
+
+		// Close the FTP connection
 		$ftp->quit();
 
-		/*
-		 * Process the list
-		 */
-		$ftpList = array_map( 'strtolower', $ftpList );
-		$parts = explode(DS, JPATH_SITE);
-		$i = 1;
-		$numParts = count($parts);
-		$ftpPath = $parts[0];
-		$thePath = JPATH_SITE;
-
-		for ($i = 1; $i < $numParts; $i ++)
-		{
-			if (in_array(strtolower($parts[$i]), $ftpList)) {
-				$thePath = $ftpPath;
-			}
-			$ftpPath .= $parts[$i]."/";
+		// Return the FTP root path
+		if (isset($ftpPath)) {
+			return $ftpPath;
+		} else {
+			return JError::raiseError('SOME_ERROR_CODE', 'Unable to autodetect the FTP root folder');
 		}
-		$thePath = str_replace($thePath, '', JPATH_SITE);
-		if ( substr( $thePath, 0, 1 ) == "/" ) {
-			$thePath = substr( $thePath, 1 );
-		}
-
-		return ($thePath == '') ? null : $thePath."/";
 	}
 
 	/**
@@ -974,7 +1008,7 @@ class JInstallationHelper
 
 		// Verify valid root path
 		$checkList = array('CHANGELOG.php', 'COPYRIGHT.php', 'feed.php', 'index.php', 'INSTALL.php', 'LICENSE.php');
-		$rootList = $ftp->nameList();
+		$rootList = $ftp->listNames();
 		$ftp->quit();
 		foreach ($checkList as $check) {
 			if (!in_array($check, $rootList)) {
@@ -1748,6 +1782,7 @@ class JInstallationHelper
 
 			//Translate the destination path for the FTP account
 			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
+			$path = str_replace(DS, '/', $path);
 
 			// do the ftp chmod
 			if (!$ftp->chmod($path, $mode))

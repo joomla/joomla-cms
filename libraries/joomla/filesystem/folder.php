@@ -101,6 +101,8 @@ class JFolder
 						break;
 
 					case 'file':
+						$sfid = str_replace(DS, '/', $sfid);
+						$dfid = str_replace(DS, '/', $dfid);
 						if (! $ftp->store($sfid, $dfid)) {
 							$ftp->quit();
 							return JError::raiseError(-1, JText::_('Copy failed'));
@@ -169,6 +171,7 @@ class JFolder
 
 			// Translate path to FTP path
 			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), false);
+			$path = str_replace(DS, '/', $path);
 			if (!$ftp->mkdir($path)) {
 				$ret = false;
 			}
@@ -286,6 +289,7 @@ class JFolder
 		} elseif($FTPOptions['enabled'] == 1) {
 			// Translate path and delete
 			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path));
+			$path = str_replace(DS, '/', $path);
 			$ret = $ftp->delete($path);
 		} else {
 			$ret = false;
@@ -331,7 +335,9 @@ class JFolder
 
 			//Translate path for the FTP account
 			$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), false);
+			$src = str_replace(DS, '/', $src);
 			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), false);
+			$dest = str_replace(DS, '/', $dest);
 
 			// Use FTP rename to simulate move
 			if (!$ftp->rename($src, $dest)) {

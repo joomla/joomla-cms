@@ -40,6 +40,13 @@ Legend:
 24-Jan-2007 Samuel Moffatt
  ^ Rewrote JLog to do cool stuff; MySQL format needs a new table and configuration params added.
 
+23-Jan-2007 Enno Klasing
+ ^ Renamed JFTP->nameList to JFTP->listNames
+ ^ Renamed JFTP->listDir to JFTP->listDetails
+ # Fixed usage of '/' and '\' in JFile and JFolder when the FTP layer is enabled
+ # Improved FTP autofind option
+ + Added optional parameters user/pass to JFTP::getInstance
+
 22-Jan-2007 Jason Kendall
  # Fixed [artf7373]: Unable to edit user on front end with PHP5
  # Fixed [artf7346]: Edit users in backend
@@ -53,12 +60,12 @@ Legend:
  ^ JPane methods return string rather than echo (to enable capturing of output if desired)
 
 18-Jan-2007 Hannes Papenberg
-^ Moved com_statistics functionality to com_search and MVCed it
+ ^ Moved com_statistics functionality to com_search and MVCed it
 
 17-Jan-2007 Rastin Mehr
-# Fixed [artf7187] : Section & pagination problem
-! Same problem existed in the category blog view. It is fixed now.
-# Fixed [artf7330] : Khepri Template: allow other Prototype-based Javascripts
+ # Fixed [artf7187] : Section & pagination problem
+ ! Same problem existed in the category blog view. It is fixed now.
+ # Fixed [artf7330] : Khepri Template: allow other Prototype-based Javascripts
 
 17-Jan-2007 Louis Landry
  + Added <folder> tag capabilities in JInstaller -- Thanks tcp
