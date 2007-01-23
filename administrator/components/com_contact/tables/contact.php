@@ -52,11 +52,11 @@ class TableContact extends JTable
 	/** @var int */
 	var $default_con 		= null;
 	/** @var int */
-	var $published 			= null;
+	var $published 			= 0;
 	/** @var int */
-	var $checked_out 		= null;
+	var $checked_out 		= 0;
 	/** @var datetime */
-	var $checked_out_time 	= null;
+	var $checked_out_time 	= 0;
 	/** @var int */
 	var $ordering 			= null;
 	/** @var string */

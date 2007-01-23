@@ -19,19 +19,19 @@
 class TablePoll extends JTable
 {
 	/** @var int Primary key */
-	var $id					= null;
+	var $id					= 0;
 	/** @var string */
-	var $title				= null;
+	var $title				= '';
 	/** @var string */
-	var $checked_out		= null;
+	var $checked_out		= 0;
 	/** @var time */
-	var $checked_out_time	= null;
+	var $checked_out_time	= 0;
 	/** @var boolean */
-	var $published			= null;
+	var $published			= 0;
 	/** @var int */
-	var $access				= null;
+	var $access				= 0;
 	/** @var int */
-	var $lag				= null;
+	var $lag				= 0;
 
 	/**
 	* @param database A database connector object

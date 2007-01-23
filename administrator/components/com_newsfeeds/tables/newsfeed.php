@@ -35,9 +35,9 @@ class TableNewsFeed extends JTable
 	/** @var int */
 	var $cache_time			= null;
 	/** @var int */
-	var $checked_out		= null;
+	var $checked_out		= 0;
 	/** @var time */
-	var $checked_out_time	= null;
+	var $checked_out_time	= 0;
 	/** @var int */
 	var $ordering			= null;
 	/** @var int */

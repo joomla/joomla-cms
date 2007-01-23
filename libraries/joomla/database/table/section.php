@@ -38,9 +38,9 @@ class JTableSection extends JTable
 	/** @var boolean */
 	var $published			= null;
 	/** @var boolean */
-	var $checked_out		= null;
+	var $checked_out		= 0;
 	/** @var time */
-	var $checked_out_time	= null;
+	var $checked_out_time	= 0;
 	/** @var int */
 	var $ordering			= null;
 	/** @var int */

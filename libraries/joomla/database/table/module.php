@@ -34,9 +34,9 @@ class JTableModule extends JTable
 	/** @var string */
 	var $position			= null;
 	/** @var boolean */
-	var $checked_out		= null;
+	var $checked_out		= 0;
 	/** @var time */
-	var $checked_out_time	= null;
+	var $checked_out_time	= 0;
 	/** @var boolean */
 	var $published			= null;
 	/** @var string */

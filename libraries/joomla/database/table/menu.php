@@ -42,9 +42,9 @@ class JTableMenu extends JTable
 	/** @var int */
 	var $ordering			= null;
 	/** @var boolean */
-	var $checked_out		= null;
+	var $checked_out		= 0;
 	/** @var datetime */
-	var $checked_out_time	= null;
+	var $checked_out_time	= 0;
 	/** @var boolean */
 	var $pollid				= null;
 	/** @var string */

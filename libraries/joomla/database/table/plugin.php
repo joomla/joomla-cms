@@ -89,14 +89,14 @@ class JTablePlugin extends JTable
 	 *
 	 * @var int unsigned
 	 */
-	var $checked_out = null;
+	var $checked_out = 0;
 
 	/**
 	 *
 	 *
 	 * @var datetime
 	 */
-	var $checked_out_time = null;
+	var $checked_out_time = 0;
 
 	/**
 	 *
