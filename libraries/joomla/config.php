@@ -15,6 +15,7 @@ class JFrameworkConfig
 	var $ftp_enable = 0;
 	var $tmp_path	= '/tmp';
 	var $log_path	= '/var/logs';
+	var $log_formats= '';
 	var $mailer 	= 'mail';
 	var $mailfrom 	= 'admin@localhost.home';
 	var $fromname 	= '';

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Jan-2007 Samuel Moffatt
+ ^ Rewrote JLog to do cool stuff; MySQL format needs a new table and configuration params added.
+
 22-Jan-2007 Jason Kendall
  # Fixed [artf7373]: Unable to edit user on front end with PHP5
  # Fixed [artf7346]: Edit users in backend
