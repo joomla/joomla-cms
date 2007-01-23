@@ -779,11 +779,18 @@ class ContentController extends JController
 		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		$option	= JRequest::getVar( 'option' );
 		$task	= JRequest::getVar( 'task' );
+		$rtask	= JRequest::getVar( 'returntask', '', 'post' );
+		if ($rtask) {
+			$rtask = '&task='.$rtask;
+		} else {
+			$rtask = '';
+		}
 
 		if (count($cid) < 1) {
-			$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
-			$msg = JText::_('Select an item to') . ' ' . JText::_($action);
-			$mainframe->redirect('index.php?option='.$option.$rtask.'&amp;sectionid='.$redirect, $msg, 'error');
+			$redirect	= JRequest::getVar( 'redirect', '', 'post' );
+			$action		= ($state == 1) ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
+			$msg		= JText::_('Select an item to') . ' ' . JText::_($action);
+			$mainframe->redirect('index.php?option='.$option.$rtask.'&sectionid='.$redirect, $msg, 'error');
 		}
 
 		// Get some variables for the query
@@ -830,14 +837,8 @@ class ContentController extends JController
 
 		// Get some return/redirect information from the request
 		$redirect	= JRequest::getVar( 'redirect', $row->sectionid, 'post' );
-		$rtask		= JRequest::getVar( 'returntask', '', 'post' );
-		if ($rtask) {
-			$rtask = '&task='.$rtask;
-		} else {
-			$rtask = '';
-		}
 
-		$mainframe->redirect('index.php?option='.$option.$rtask.'&amp;sectionid='.$redirect, $msg);
+		$mainframe->redirect('index.php?option='.$option.$rtask.'&sectionid='.$redirect, $msg);
 	}
 
 	/**
@@ -996,7 +997,7 @@ class ContentController extends JController
 
 		if (count($cid) < 1) {
 			$msg = JText::_('Select an item to move');
-			$mainframe->redirect('index.php?option='.$option, $msg, 'error');
+			$mainframe->redirect('index.php?option=com_content', $msg, 'error');
 		}
 
 		//seperate contentids
