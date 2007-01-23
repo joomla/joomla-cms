@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: session.php 4330 2006-07-26 06:24:14Z webImagery $
+* @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Table
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: category.php 3996 2006-06-12 03:44:31Z spacemonkey $
+* @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Table
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

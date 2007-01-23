@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: menutypes.php 4033 2006-06-14 23:21:36Z eddieajau $
+* @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Table
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
