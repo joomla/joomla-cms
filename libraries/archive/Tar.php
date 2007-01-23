@@ -1243,6 +1243,7 @@ class Archive_Tar extends PEAR
 	function _extractInString($p_filename)
 	{
 		$v_result_str = "";
+		$v_header = array();
 
 		While (strlen($v_binary_data = $this->_readBlock()) != 0)
 		{
@@ -1321,6 +1322,7 @@ class Archive_Tar extends PEAR
 
 	clearstatcache();
 
+	$v_header = array();
 	While (strlen($v_binary_data = $this->_readBlock()) != 0)
 	{
 	  $v_extract_file = FALSE;
@@ -1435,7 +1437,7 @@ class Archive_Tar extends PEAR
 		  // ----- Check the file size
 		  clearstatcache();
 		  if (filesize($v_header['filename']) != $v_header['size']) {
-			  $this->_error('Extracted file '.$v_header['filename'].' does not have the correct file size \''.filesize($v_filename).'\' ('.$v_header['size'].' expected). Archive may be corrupted.');
+			  $this->_error('Extracted file '.$v_header['filename'].' does not have the correct file size \''.filesize($v_header['filename']).'\' ('.$v_header['size'].' expected). Archive may be corrupted.');
 			  return false;
 		  }
 		  }
