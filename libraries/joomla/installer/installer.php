@@ -906,8 +906,8 @@ class JInstaller extends JObject
 			foreach ($files as $file)
 			{
 				// Get the source and destination paths
-				$filesource	= JPath::clean($file['src'], false);
-				$filedest	= JPath::clean($file['dest'], false);
+				$filesource	= JPath::clean($file['src']);
+				$filedest	= JPath::clean($file['dest']);
 				$filetype	= array_key_exists('type', $file) ? $file['type'] : 'file';
 
 				if (!file_exists($filesource)) {
@@ -929,7 +929,7 @@ class JInstaller extends JObject
 					// Copy the folder or file to the new location.
 					if ( $filetype == 'folder') {
 
-						if (!(JFolder::copy($filesource, $filedest))) {
+						if (!(JFolder::copy($filesource, $filedest, null, $overwrite))) {
 							JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy folder to', $filesource, $filedest));
 							return false;
 						}

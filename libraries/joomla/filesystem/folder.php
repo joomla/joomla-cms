@@ -12,11 +12,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-if (!defined('DS')) {
-	/** string Shortcut for the DIRECTORY_SEPERATOR define */
-	define('DS', DIRECTORY_SEPERATOR);
-}
-
 jimport('joomla.filesystem.path');
 
 /**
@@ -36,30 +31,31 @@ class JFolder
 	 * @param	string	$src	The path to the source folder
 	 * @param	string	$dest	The path to the destination folder
 	 * @param	string	$path	An optional base path to prefix to the file names
+	 * @param	boolean	$force	Optionally force folder/file overwrites
 	 * @return	mixed	JError object on failure or boolean True on success
 	 * @since	1.5
 	 */
-	function copy($src, $dest, $path = '')
+	function copy($src, $dest, $path = '', $force = false)
 	{
 		// Initialize variables
 		$FTPOptions = JFolder::_getFTPOptions();
 
 		if ($path) {
-			$src = JPath::clean($path.$src, false);
-			$dest = JPath::clean($path.$dest, false);
+			$src = JPath::clean($path.DS.$src);
+			$dest = JPath::clean($path.DS.$dest);
 		}
 
 		if (!JFolder::exists($src)) {
 			return JError::raiseError(-1, JText::_('Cannot find source folder'));
 		}
-		if (JFolder::exists($dest)) {
+		if (JFolder::exists($dest) && !$force) {
 			return JError::raiseError(-1, JText::_('Folder already exists'));
 		}
 
 		if ($FTPOptions['enabled'] == 1) {
 			//Translate path for the FTP account
-			$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), false);
-			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), false);
+			$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src));
+			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest));
 		}
 
 		// Eliminate trailing directory separators, if any
@@ -93,7 +89,7 @@ class JFolder
 				switch (filetype($sfid)) {
 					case 'dir':
 						if ($file != '.' && $file != '..') {
-							$ret = JFolder::copy($sfid, $dfid);
+							$ret = JFolder::copy($sfid, $dfid, null, $force);
 							if ($ret !== true) {
 								return $ret;
 							}
@@ -117,12 +113,12 @@ class JFolder
 			}
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false) {
-				$sfid = $src . DS . $file;
-				$dfid = $dest . DS . $file;
+				$sfid = $src.DS.$file;
+				$dfid = $dest.DS.$file;
 				switch (filetype($sfid)) {
 					case 'dir':
 						if ($file != '.' && $file != '..') {
-							$ret = JFolder::copy($sfid, $dfid);
+							$ret = JFolder::copy($sfid, $dfid, null, $force);
 							if ($ret !== true) {
 								return $ret;
 							}
@@ -154,7 +150,7 @@ class JFolder
 		$FTPOptions = JFolder::_getFTPOptions();
 
 		// Check to make sure the path valid and clean
-		$path = JPath::clean($path, false);
+		$path = JPath::clean($path);
 
 		// Check if dir already exists
 		if (JFolder::exists($path)) {
@@ -170,7 +166,7 @@ class JFolder
 			$ret = true;
 
 			// Translate path to FTP path
-			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), false);
+			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path));
 			$path = str_replace(DS, '/', $path);
 			if (!$ftp->mkdir($path)) {
 				$ret = false;
@@ -316,8 +312,8 @@ class JFolder
 		$FTPOptions = JFolder::_getFTPOptions();
 
 		if ($path) {
-			$src = JPath::clean($path.$src, false);
-			$dest = JPath::clean($path.$dest, false);
+			$src = JPath::clean($path.DS.$src);
+			$dest = JPath::clean($path.DS.$dest);
 		}
 
 		if (!JFolder::exists($src) && !is_writable($src)) {
@@ -334,9 +330,9 @@ class JFolder
 			$ftp->login($FTPOptions['user'], $FTPOptions['pass']);
 
 			//Translate path for the FTP account
-			$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), false);
+			$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src));
 			$src = str_replace(DS, '/', $src);
-			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), false);
+			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest));
 			$dest = str_replace(DS, '/', $dest);
 
 			// Use FTP rename to simulate move
@@ -361,9 +357,9 @@ class JFolder
 	 * @return boolean True if path is a folder
 	 * @since 1.5
 	 */
-	function exists($path) {
-		$path = JPath::clean($path, false);
-		return is_dir($path);
+	function exists($path)
+	{
+		return is_dir(JPath::clean($path));
 	}
 
 	/**

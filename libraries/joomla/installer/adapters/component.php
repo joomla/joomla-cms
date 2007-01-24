@@ -434,6 +434,16 @@ class JInstaller_component extends JObject
 		// Initialize variables
 		$option = strtolower("com_".str_replace(" ", "", $this->get('name')));
 
+		// If a component exists with this option in the table than we don't need to add menus
+		$query = "SELECT id" .
+				"\n FROM #__components" .
+				"\n WHERE option = ".$db->Quote($option);
+		$db->setQuery($query);
+		$exists = $db->loadResult();
+		if ($exists) {
+			return true;
+		}
+
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		$menuElement = & $this->adminElement->getElementByPath('menu');
 		if (is_a($menuElement, 'JSimpleXMLElement')) {

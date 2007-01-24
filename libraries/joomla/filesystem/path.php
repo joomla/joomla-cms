@@ -18,8 +18,8 @@ define('JPATH_ISWIN', (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'));
 define('JPATH_ISMAC', (strtoupper(substr(PHP_OS, 0, 3)) === 'MAC'));
 
 if (!defined('DS')) {
-	/** string Shortcut for the DIRECTORY_SEPERATOR define */
-	define('DS', DIRECTORY_SEPERATOR);
+	/** string Shortcut for the DIRECTORY_SEPARATOR define */
+	define('DS', DIRECTORY_SEPARATOR);
 }
 
 if (!defined('JPATH_ROOT')) {
