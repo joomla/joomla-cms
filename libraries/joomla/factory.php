@@ -118,6 +118,8 @@ class JFactory
 	 */
 	function &getUser()
 	{
+	    jimport('joomla.user.user');
+	    
 		// If there is a userid in the session, load the application user
 		// object with the logged in user.
 		$session  =& JFactory::getSession();
@@ -574,7 +576,8 @@ class JFactory
 	 */
 	function &_createDocument()
 	{
-		jimport('joomla.document.document');
+	    jimport('joomla.document.document');
+		jimport('joomla.environment.request');
 
 		$lang	=& JFactory::getLanguage();
 
