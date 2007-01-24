@@ -12,6 +12,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport('joomla.application.event');
+
 /**
  * JEditor class to handle WYSIWYG editors
  *
