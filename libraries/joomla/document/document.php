@@ -268,6 +268,26 @@ class JDocument extends JObject
 	}
 
 	/**
+	 * Get the document head data
+	 *
+	 * @access	public
+	 * @return	array	The document head data in array form
+	 */
+	function getHeadData() {
+		// Impelemented in child classes
+	}
+
+	/**
+	 * Set the document head data
+	 *
+	 * @access	public
+	 * @param	array	$data	The document head data in array form
+	 */
+	function setHeadData($data) {
+		// Impelemented in child classes
+	}
+
+	/**
 	 * Get the contents of the document buffer
 	 *
 	 * @access public

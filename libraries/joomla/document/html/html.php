@@ -63,6 +63,46 @@ class JDocumentHTML extends JDocument
 		 $this->setMetaData('robots', 'index, follow' );
 	}
 
+	/**
+	 * Get the document head data
+	 *
+	 * @access	public
+	 * @return	array	The document head data in array form
+	 */
+	function getHeadData() {
+		$data = array();
+		$data['title']			= $this->title;
+		$data['description']	= $this->description;
+		$data['link']			= $this->link;
+		$data['metaTags']		= $this->_metaTags;
+		$data['links']			= $this->_links;
+		$data['styleSheets']	= $this->_styleSheets;
+		$data['style']			= $this->_style;
+		$data['scripts']		= $this->_scripts;
+		$data['script']			= $this->_script;
+		$data['custom']			= $this->_custom;
+		return $data;
+	}
+
+	/**
+	 * Set the document head data
+	 *
+	 * @access	public
+	 * @param	array	$data	The document head data in array form
+	 */
+	function setHeadData($data) {
+		$this->title		= (isset($data['title'])) ? $data['title'] : $this->title;
+		$this->description	= (isset($data['description'])) ? $data['description'] : $this->description;
+		$this->link			= (isset($data['link'])) ? $data['link'] : $this->link;
+		$this->_metaTags	= (isset($data['metaTags'])) ? $data['metaTags'] : $this->_metaTags;
+		$this->_links		= (isset($data['links'])) ? $data['links'] : $this->_links;
+		$this->_styleSheets	= (isset($data['styleSheets'])) ? $data['styleSheets'] : $this->_styleSheets;
+		$this->_style		= (isset($data['style'])) ? $data['style'] : $this->_style;
+		$this->_scripts		= (isset($data['scripts'])) ? $data['scripts'] : $this->_scripts;
+		$this->_script		= (isset($data['script'])) ? $data['script'] : $this->_script;
+		$this->_custom		= (isset($data['custom'])) ? $data['custom'] : $this->_custom;
+	}
+
 	 /**
 	 * Adds <link> tags to the head of the document
 	 *
