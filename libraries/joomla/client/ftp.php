@@ -229,7 +229,7 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			$this->_conn = ftp_connect($host, $port);
+			$this->_conn = ftp_connect($host, $port, $this->_timeout);
 			if ($this->_conn === false) {
 				JError::raiseWarning('30', 'JFTP::connect: Could not connect to host "'.$host.'" on port '.$port.'.' );
 				return false;
