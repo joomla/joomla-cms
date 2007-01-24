@@ -271,12 +271,12 @@ class JSite extends JApplication
 			// eg, $mainframe->setTemplate( 'solar-flare-ii' );
 		}
 		else if (!empty($Itemid) && (isset($templates[$Itemid]))) {
-			$template = $templates[$Itemid];
+			$template = $templates[$Itemid]->template;
 		} else {
-			$template = $templates[0];
+			$template = $templates[0]->template;
 		}
 
-		return $template->template;
+		return $template;
 	}
 
 	/**
