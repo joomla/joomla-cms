@@ -523,7 +523,7 @@ class JSession extends JObject
 			$token .=	$chars[ (rand( 0, $max )) ];
 		}
 
-		return 'token_'.md5($token.$name);
+		return md5($token.$name);
 	}
 
 	/**
