@@ -487,6 +487,12 @@ class JAuthorization extends gacl_api
 
 }
 
+
+/**
+ * Required for both Classess below
+ */
+jimport('joomla.database.table');
+
 /**
  * @package 	Joomla.Framework
  * @subpackage	User
