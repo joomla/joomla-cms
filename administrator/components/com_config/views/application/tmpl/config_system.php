@@ -19,22 +19,12 @@
 				</td>
 				<td>
 					<input class="text_area" type="text" size="50" name="log_path" value="<?php echo $row->log_path; ?>" />
-                                </td>
-                        </tr>
-                        <tr>
-                                <td valign="top" class="key">
-                                        <span class="editlinktip hasTip" title="<?php echo JText::_( 'Path to Log-folder' ); ?>::<?php echo JText::_( 'TIPLOGFORMATS' ); ?>">
-                                                <?php echo JText::_( 'Log Formats to use' ); ?>
-                                        </span>
-                                </td>
-                                <td>
-                                        <input class="text_area" type="text" size="50" name="log_formats" value="<?php echo $row->log_formats; ?>" />
-                                </td>
-                        </tr>
-                        <tr>
-                                <td class="key">
-                                        <?php echo JText::_( 'Enable Legacy Mode' ); ?>
-                                </td>
+				</td>
+			</tr>
+			<tr>
+				<td class="key">
+					<?php echo JText::_( 'Enable Legacy Mode' ); ?>
+				</td>
 				<td>
 					<?php echo $lists['legacy']; ?>
 				</td>

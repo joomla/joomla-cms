@@ -37,9 +37,6 @@ Legend:
 - -> Removed
 ! -> Note
 
-24-Jan-2007 Samuel Moffatt
- ^ Rewrote JLog to do cool stuff; MySQL format needs a new table and configuration params added.
-
 23-Jan-2007 Enno Klasing
  ^ Renamed JFTP->nameList to JFTP->listNames
  ^ Renamed JFTP->listDir to JFTP->listDetails

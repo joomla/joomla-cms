@@ -855,18 +855,3 @@ CREATE TABLE `#__core_acl_aro_sections` (
 INSERT INTO `#__core_acl_aro_sections` VALUES (10,'users',1,'Users',0);
 
 # --------------------------------------------------------
-
-#
-# Table structure for table `#__log_entries`
-#
-CREATE TABLE `#__log_entries` (
-  `logid` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  `application` VARCHAR(50) NOT NULL DEFAULT '',
-  `type` VARCHAR(20) NOT NULL DEFAULT 'message',
-  `priority` ENUM('panic', 'emerg', 'alert', 'crit', 'err', 'error', 'warn', 'warning', 'notice', 'info', 'debug', 'none') NOT NULL DEFAULT 'info',
-  `entrydate` DATETIME,
-  `message` TEXT NOT NULL DEFAULT '',
-  PRIMARY KEY(`logid`)
-) TYPE=MyISAM ;
-
-# --------------------------------------------------------
