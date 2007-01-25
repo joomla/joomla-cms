@@ -49,7 +49,6 @@ class WeblinksModelWeblink extends JModel
 
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId($id);
-
 	}
 
 	/**
