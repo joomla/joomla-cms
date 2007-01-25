@@ -127,8 +127,7 @@ class JSite extends JApplication
 		$params = array(
 			'template' 	=> $template,
 			'file'		=> $file.'.php',
-			'directory'	=> JPATH_THEMES,
-			'outline' => JRequest::getVar('tp', 0 )
+			'directory'	=> JPATH_THEMES
 		);
 
 		$document =& JFactory::getDocument();

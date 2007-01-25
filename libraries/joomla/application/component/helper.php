@@ -100,7 +100,6 @@ class JComponentHelper
 			return;
 		}
 
-		$outline	= isset($params['outline']) ? $params['outline'] : false;
 		$task		= JRequest::getVar( 'task' );
 
 		// Build the component path
@@ -156,19 +155,7 @@ class JComponentHelper
 
 		// Handle template preview outlining
 		$contents = null;
-		if($outline && !$mainframe->isAdmin())
-		{
-			$doc	=& JFactory::getDocument();
-			$css	= ".com-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }";
-			$css	.= ".com-preview-wrapper { background-color:#eee;  border: 1px dotted black; color:#700; opacity: .50; filter: alpha(opacity=50); -moz-opactiy: .50;}";
-			$doc->addStyleDeclaration($css);
-
-			$contents .= "
-			<div class=\"com-preview\">
-			<div class=\"com-preview-info\">".JText::_('Component')."[".$name."]</div>
-			<div class=\"com-preview-wrapper\">";
-		}
-
+	
 		// Execute the component
 		ob_start();
 		require_once $path;
@@ -180,11 +167,6 @@ class JComponentHelper
 		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {
 			require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
 			include_once( $path );
-		}
-
-		// Close template preview outlining if enabled
-		if($outline && !$mainframe->isAdmin()) {
-			$contents .= "</div></div>";
 		}
 
 		return $contents;

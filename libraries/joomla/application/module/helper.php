@@ -79,11 +79,7 @@ class JModuleHelper
 	{
 		static $chrome;
 		global $mainframe, $Itemid, $option;
-
-		// Initialize variables
-		$style	= isset($attribs['style'])   ? $attribs['style']   : $module->style;
-		$outline	= isset($attribs['outline']) ? $attribs['outline'] : false;
-
+		
 		// Handle legacy globals if enabled
 		if ($mainframe->getCfg('legacy'))
 		{
@@ -135,6 +131,7 @@ class JModuleHelper
 		if (!$chrome) {
 			$chrome = array();
 		}
+		
 		require_once (JPATH_BASE.'/modules/templates/modules.php');
 		$chromePath = JPATH_BASE.'/templates/'.$mainframe->getTemplate().'/html/modules.php';
 		if (!isset( $chrome[$chromePath]))
@@ -144,40 +141,34 @@ class JModuleHelper
 			}
 			$chrome[$chromePath] = true;
 		}
-
-		$chromeMethod = 'modChrome_'.$style;
-
-		// Handle template preview outlining
-		$contents = null;
-		if($outline && !$mainframe->isAdmin())
+		
+		//make sure a style is set
+		if(!isset($attribs['style'])) {
+			$attribs['style'] = 'none';
+		}
+		
+		//dynamically add outline style
+		if(JRequest::getVar('tp', 0 )) {
+			$attribs['style'] .= ' outline';
+		}
+		
+		foreach(explode(' ', $attribs['style']) as $style)
 		{
-			$doc =& JFactory::getDocument();
-			$css  = ".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }";
-			$css .= ".mod-preview-wrapper { background-color:#eee;  border: 1px dotted black; color:#700; opacity: .50; filter: alpha(opacity=50); -moz-opactiy: .50;}";
-			$doc->addStyleDeclaration($css);
+			$chromeMethod = 'modChrome_'.$style;
 
-			$contents .= "
-			<div class=\"mod-preview\">
-			<div class=\"mod-preview-info\">".$module->position."[".$style."]</div>
-			<div class=\"mod-preview-wrapper\">";
-		}
-
-		// Apply chrome and render module
-		ob_start();
-			if (!function_exists($chromeMethod)) {
-				echo $module->content;
-			} else {
+			// Apply chrome and render module
+			if (function_exists($chromeMethod)) 
+			{
+				$module->style = $attribs['style'];
+				
+				ob_start();
 				$chromeMethod($module, $params, $attribs);
+				$module->content = ob_get_contents();
+				ob_end_clean();
 			}
-		$contents .= ob_get_contents();
-		ob_end_clean();
-
-		// Close template preview outlining if enabled
-		if($outline && !$mainframe->isAdmin()) {
-			$contents .= "</div></div>";
 		}
 
-		return $contents;
+		return $module->content;
 	}
 
 	/**
@@ -247,8 +238,8 @@ class JModuleHelper
 		{
 			//determine if this is a custom module
 			$file					= $modules[$i]->module;
-			$custom 					= substr( $file, 0, 4 ) == 'mod_' ?  0 : 1;
-			$modules[$i]->user  		= $custom;
+			$custom 				= substr( $file, 0, 4 ) == 'mod_' ?  0 : 1;
+			$modules[$i]->user  	= $custom;
 			// CHECK: custom module name is given by the title field, otherwise it's just 'om' ??
 			$modules[$i]->name		= $custom ? $modules[$i]->title : substr( $file, 4 );
 			$modules[$i]->style		= null;

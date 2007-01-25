@@ -122,7 +122,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	$rows = array();
-
+	
 	// search articles
 	if ( $sContent ) {
 		$query = "SELECT a.title AS title,"

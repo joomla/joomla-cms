@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Jan-2007 Johan Janssens
+ + Added support for multiple module styles to module renderer
+
 25-Jan-2007 Enno Klasing
  # Fixed "Only variable references should be returned by reference" error in JError class
 

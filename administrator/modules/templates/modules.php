@@ -15,6 +15,14 @@
 defined('_JEXEC') or die('Restricted access');
 
 /*
+ * none (output raw module content)
+ */
+function modChrome_none($module, &$params, &$attribs)
+{
+	echo $module->content;
+}
+
+/*
  * xhtml (divs and font headder tags)
  */
 function modChrome_xhtml($module, &$params, &$attribs)

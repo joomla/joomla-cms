@@ -69,7 +69,8 @@ class JDocumentHTML extends JDocument
 	 * @access	public
 	 * @return	array	The document head data in array form
 	 */
-	function getHeadData() {
+	function getHeadData() 
+	{
 		$data = array();
 		$data['title']			= $this->title;
 		$data['description']	= $this->description;
@@ -90,7 +91,8 @@ class JDocumentHTML extends JDocument
 	 * @access	public
 	 * @param	array	$data	The document head data in array form
 	 */
-	function setHeadData($data) {
+	function setHeadData($data) 
+	{
 		$this->title		= (isset($data['title'])) ? $data['title'] : $this->title;
 		$this->description	= (isset($data['description'])) ? $data['description'] : $this->description;
 		$this->link			= (isset($data['link'])) ? $data['link'] : $this->link;
@@ -203,7 +205,6 @@ class JDocumentHTML extends JDocument
 	{
 		// check
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
-		$outline		= isset($params['outline'])   ? $params['outline']   : 0;
 		$template	= $params['template'];
 		$file		= $params['file'];
 
@@ -225,7 +226,7 @@ class JDocumentHTML extends JDocument
 		$data = $this->_loadTemplate($directory.DS.$template, $file);
 
 		// parse
-		$data = $this->_parseTemplate($data, array('outline' => $outline));
+		$data = $this->_parseTemplate($data);
 
 		//output
 		parent::display();
@@ -319,10 +320,10 @@ class JDocumentHTML extends JDocument
 	 * Parse a document template
 	 *
 	 * @access public
-	 * @param string 	$directory	The template directory
-	 * @param string 	$file 		The actual template file
+	 * @param string 	$data		The data too parse
+	 * @return The parsed contents of the template
 	 */
-	function _parseTemplate($data, $params = array())
+	function _parseTemplate($data)
 	{
 		$replace = array();
 		$matches = array();
@@ -338,9 +339,10 @@ class JDocumentHTML extends JDocument
 			for($i = 0; $i < $count; $i++)
 			{
 				$attribs = JUtility::parseAttributes( $matches[2][$i] );
-				$type = $matches[1][$i];
-				$name = isset($attribs['name']) ? $attribs['name'] : null;
-				$replace[$i] = $this->getBuffer($type, $name, array_merge($attribs, $params));
+				$type  = $matches[1][$i];
+				
+				$name  = isset($attribs['name']) ? $attribs['name'] : null;
+				$replace[$i] = $this->getBuffer($type, $name, $attribs);
 			}
 
 			$data = str_replace($matches[0], $replace, $data);

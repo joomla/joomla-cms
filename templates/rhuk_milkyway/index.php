@@ -42,7 +42,7 @@
 				<div id="header_l">
 					<div id="header_r">
 						<div id="logo"></div>
-						<jdoc:include type="modules" name="top"  />
+						<jdoc:include type="modules" name="top" />
 					</div>
 				</div>
 			</div>
