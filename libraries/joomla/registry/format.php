@@ -18,7 +18,7 @@
  * @abstract
  * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
- * @subpackage		Registry
+ * @subpackage	Registry
  * @since		1.5
  */
 class JRegistryFormat extends JObject
@@ -27,9 +27,10 @@ class JRegistryFormat extends JObject
 	 * Returns a reference to a Format object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @access public
-	 * @param 	string 	$format	 The format to load
-	 * @return 	object 	Registry format handler
+	 * @static
+	 * @param	string	$format	The format to load
+	 * @return	object	Registry format handler
+	 * @since	1.5
 	 */
 	function &getInstance($format)
 	{
@@ -47,26 +48,27 @@ class JRegistryFormat extends JObject
 		return $instances[$format];
 	}
 
-
 	/**
 	 * Converts an XML formatted string into an object
 	 *
 	 * @abstract
-	 * @access public
-	 * @param string  XML Formatted String
-	 * @return object Data Object
+	 * @access	public
+	 * @param	string	$data	Formatted string
+	 * @return	object	Data Object
+	 * @since	1.5
 	 */
 	function stringToObject( $data, $namespace='' ) {
 		return true;
 	}
 
 	/**
-	 * Converts an object into an formatted string
+	 * Converts an object into a formatted string
 	 *
 	 * @abstract
-	 * @access public
-	 * @param object $object Data Source Object
-	 * @return string XML Formatted String
+	 * @access	public
+	 * @param	object	$object	Data Source Object
+	 * @return	string	Formatted string
+	 * @since	1.5
 	 */
 	function objectToString( &$object ) {
 
