@@ -99,8 +99,8 @@ class RegistrationController extends JController
 			}
 
 			// Generate new password
-			jimport('joomla.user.authenticate');
-			$newpass = JAuthenticateHelper::genRandomPassword();
+			jimport('joomla.user.helper');
+			$newpass = JUserHelper::genRandomPassword();
 
 			// Set new password for the user
 			$query = "UPDATE #__users" .
@@ -203,8 +203,8 @@ class RegistrationController extends JController
 		// If user activation is turned on, we need to set the activation information
 		$useractivation = $usersConfig->get( 'useractivation' );
 		if ($useractivation == '1') {
-			jimport('joomla.user.authenticate');
-			$user->set('activation', md5( JAuthenticateHelper::genRandomPassword()) );
+			jimport('joomla.user.helper');
+			$user->set('activation', md5( JUserHelper::genRandomPassword()) );
 			$user->set('block', '1');
 		}
 
