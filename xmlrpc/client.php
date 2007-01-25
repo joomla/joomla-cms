@@ -19,6 +19,7 @@ define('JPATH_BASE', dirname(__FILE__) );
 error_reporting( E_ALL );
 
 require_once ( JPATH_BASE .'/includes/defines.php' );
+require_once ( JPATH_BASE .'/includes/framework.php' );
 require_once ( JPATH_BASE .'/includes/application.php' );
 
 //if (!$mainframe->getCfg('xmlrpc_server')) {
@@ -45,7 +46,7 @@ if ($task)
 	}
 	else
 	{
-		$client = new xmlrpc_client($host);
+		$client = new xmlrpc_client('', $host);
 	}
 	$client->setDebug($debug);
 
@@ -53,7 +54,7 @@ if ($task)
 	{
 		case 'list_methods':
 		{
-			jimport( 'joomla.html.html.select' );
+			jimport( 'joomla.html.html' );
 			$msg = new xmlrpcmsg('system.listMethods');
 			$xmlrpcdoc = $client->send($msg);
 

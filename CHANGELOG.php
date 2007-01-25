@@ -37,8 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
-23-Jan-2007 Jason Kendall
+24-Jan-2007 Jason Kendall
  # Fixed [artf7392]: JUser Helper updates in Registration Component Controller - Thanks jenscki
+ # Fixed up the XML-RPC client.php file.
 
 23-Jan-2007 Enno Klasing
  ^ Renamed JFTP->nameList to JFTP->listNames
