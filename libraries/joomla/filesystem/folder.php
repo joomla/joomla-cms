@@ -45,27 +45,15 @@ class JFolder
 			$dest = JPath::clean($path.DS.$dest);
 		}
 
+		// Eliminate trailing directory separators, if any
+		$src = rtrim($src, DS);
+		$dest = rtrim($dest, DS);
+
 		if (!JFolder::exists($src)) {
 			return JError::raiseError(-1, JText::_('Cannot find source folder'));
 		}
 		if (JFolder::exists($dest) && !$force) {
 			return JError::raiseError(-1, JText::_('Folder already exists'));
-		}
-
-		if ($FTPOptions['enabled'] == 1) {
-			//Translate path for the FTP account
-			$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src));
-			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest));
-		}
-
-		// Eliminate trailing directory separators, if any
-		$len = strlen($src) - 1;
-		if ($src{$len} == DS) {
-			$src = substr($src, 0, $len);
-		}
-		$len = strlen($dest) - 1;
-		if ($dest{$len} == DS) {
-			$dest = substr($dest, 0, $len);
 		}
 
 		// Make sure the destination exists
@@ -76,8 +64,7 @@ class JFolder
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port']);
-			$ftp->login($FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 			if(! ($dh = @opendir($src))) {
 				return JError::raiseError(-1, JText::_('Unable to open source folder'));
@@ -97,16 +84,15 @@ class JFolder
 						break;
 
 					case 'file':
-						$sfid = str_replace(DS, '/', $sfid);
+						//Translate path for the FTP account
+						$dfid = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid));
 						$dfid = str_replace(DS, '/', $dfid);
 						if (! $ftp->store($sfid, $dfid)) {
-							$ftp->quit();
 							return JError::raiseError(-1, JText::_('Copy failed'));
 						}
 						break;
 				}
 			}
-			$ftp->quit();
 		} else {
 			if(! ($dh = @opendir($src))) {
 				return JError::raiseError(-1, JText::_('Unable to open source folder'));
@@ -161,8 +147,7 @@ class JFolder
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port']);
-			$ftp->login($FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 			$ret = true;
 
 			// Translate path to FTP path
@@ -171,10 +156,7 @@ class JFolder
 			if (!$ftp->mkdir($path)) {
 				$ret = false;
 			}
-			if (!$ftp->chmod($path, $mode)) {
-				$ret = false;
-			}
-			$ftp->quit();
+			$ftp->chmod($path, $mode);
 		}
 		else
 		{
@@ -184,7 +166,7 @@ class JFolder
 			// We need to get and explode the open_basedir paths
 			$obd = ini_get('open_basedir');
 
-			// If open_basedir is et we need to get the open_basedir that the path is in
+			// If open_basedir is set we need to get the open_basedir that the path is in
 			if ($obd != null)
 			{
 				if (JPATH_ISWIN) {
@@ -274,10 +256,9 @@ class JFolder
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port']);
-			$ftp->login($FTPOptions['user'], $FTPOptions['pass']);
-
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 		}
+
 		// In case of restricted permissions we zap it one way or the other
 		// as long as the owner is either the webserver or the ftp
 		if(@rmdir($path)){
@@ -291,9 +272,6 @@ class JFolder
 			$ret = false;
 		}
 
-		if($FTPOptions['enabled'] == 1){
-			$ftp->quit();
-		}
 		return $ret;
 	}
 
@@ -326,8 +304,7 @@ class JFolder
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port']);
-			$ftp->login($FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 			//Translate path for the FTP account
 			$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src));
@@ -339,7 +316,6 @@ class JFolder
 			if (!$ftp->rename($src, $dest)) {
 				return JText::_('Rename failed');
 			}
-			$ftp->quit();
 			$ret = true;
 		} else {
 			if (!@ rename($src, $dest)) {

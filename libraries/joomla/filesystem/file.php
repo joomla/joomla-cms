@@ -89,8 +89,7 @@ class JFile
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port']);
-			$ftp->login($FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 			// If the parent folder doesn't exist we must create it
 			if (!file_exists(dirname($dest))) {
@@ -105,7 +104,6 @@ class JFile
 				// FTP connector throws an error
 				return false;
 			}
-			$ftp->quit();
 			$ret = true;
 		} else {
 			if (!@ copy($src, $dest)) {
@@ -139,8 +137,7 @@ class JFile
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port']);
-			$ftp->login($FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 		}
 
 		$retval = true;
@@ -160,10 +157,6 @@ class JFile
 			}
 		}
 
-		// Close FTP connection if connected
-		if ($FTPOptions['enabled'] == 1) {
-			$ftp->quit();
-		}
 		return $retval;
 	}
 
@@ -194,8 +187,7 @@ class JFile
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port']);
-			$ftp->login($FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 			//Translate path for the FTP account
 			$src	= JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src));
@@ -208,7 +200,6 @@ class JFile
 				JError::raiseWarning(21, JText::_('Rename failed'));
 				return false;
 			}
-			$ftp->quit();
 		} else {
 			if (!@ rename($src, $dest)) {
 				JError::raiseWarning(21, JText::_('Rename failed'));
@@ -271,15 +262,12 @@ class JFile
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port']);
-			$ftp->login($FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 			// Translate path for the FTP account and use FTP write buffer to file
 			$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file));
 			$file = str_replace(DS, '/', $file);
 			$ret = $ftp->write($file, $buffer);
-
-			$ftp->quit();
 		} else {
 			$file = JPath::clean($file);
 			$ret = file_put_contents($file, $buffer);
@@ -314,8 +302,7 @@ class JFile
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port']);
-			$ftp->login($FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
 			//Translate path for the FTP account
 			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions, $dest));
@@ -329,7 +316,6 @@ class JFile
 			} else {
 				JError::raiseWarning(21, JText::_('WARNFS_ERR02'));
 			}
-			$ftp->quit();
 		} else {
 			if (move_uploaded_file($src, $dest)) {
 				if (JPath::setPermissions($dest)) {

@@ -52,6 +52,7 @@ Legend:
  # Fixed "Only variable references should be returned by reference" error in JError class
  # Calling __destructor on JDatabase only once on PHP5
  + Added destructor to JFTP
+ # Changed JFile and JFolder to connect to a FTP server only once per page request
 
 24-Jan-2007 Jason Kendall
  # Fixed [artf7392]: JUser Helper updates in Registration Component Controller - Thanks jenscki

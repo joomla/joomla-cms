@@ -714,7 +714,7 @@ class JException extends JObject
     	if ($formatted && is_array( $this->backtrace )) {
     		$result = '';
     		foreach( $this->backtrace as $back) {
-			    if (strpos( $back['file'], 'error.php') !== false) {
+			    if (strpos( $back['file'], 'error.php') === false) {
 				    $result .= '<br />'.$back['file'].':'.$back['line'];
 				}
 			}
