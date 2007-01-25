@@ -88,11 +88,10 @@ class JCacheStorageHandlerApc extends JObject
 	 *
 	 * group mode		: cleans all cache in the group
 	 * notgroup mode	: cleans all cache not in the group
-	 * expired mode		: cleans all cache that is expired regardless of group
 	 *
 	 * @access	public
 	 * @param	string	$group	The cache data group
-	 * @param	string	$mode	The mode for cleaning cache [group|notgroup|expired]
+	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
@@ -102,9 +101,6 @@ class JCacheStorageHandlerApc extends JObject
 		$folder	= md5($group.'-'.$this->_hash);
 		switch ($mode)
 		{
-			case 'expired':
-				// Happens by default
-				break;
 			case 'notgroup':
 				// Get list of cache entries by folder and delete those not in $folder
 				break;

@@ -65,68 +65,94 @@ class JCacheStorageHandler extends JObject
 		{
 			jimport('joomla.cache.storagehandler.'.$handler);
 			$class = 'JCacheStorageHandler'.ucfirst($handler);
-			$instances[$handler] = new $class($options);
+			if (class_exists($class)) {
+				$instances[$handler] = new $class($options);
+			} else {
+				return JError::raiseWarning(500, 'Invalid Cache Type: '.$handler);
+			}
 		}
 		return $instances[$handler];
 	}
 
- 	/**
- 	 * Read the data for a particular session identifier from the
- 	 * SessionHandler backend.
- 	 *
- 	 * @abstract
- 	 * @access public
- 	 * @param string $id  The session identifier.
- 	 * @return string  The session data.
- 	 */
-	function get($id)
+	/**
+	 * Get cached data by id and group
+	 *
+	 * @abstract
+	 * @access	public
+	 * @param	string	$id			The cache data id
+	 * @param	string	$group		The cache data group
+	 * @param	boolean	$checkTime	True to verify cache time expiration threshold
+	 * @return	mixed	Boolean false on failure or a cached data string
+	 * @since	1.5
+	 */
+	function get($id, $group, $checkTime)
 	{
 		return;
 	}
 
 	/**
-	 * Write session data to the SessionHandler backend.
+	 * Store the data to cache by id and group
+	 *
+	 * @abstract
+	 * @access	public
+	 * @param	string	$id		The cache data id
+	 * @param	string	$group	The cache data group
+	 * @param	string	$data	The data to store in cache
+	 * @return	boolean	True on success, false otherwise
+	 * @since	1.5
+	 */
+	function store($id, $group, $data)
+	{
+		return true;
+	}
+
+	/**
+	 * Remove a cached data entry by id and group
+	 *
+	 * @abstract
+	 * @access	public
+	 * @param	string	$id		The cache data id
+	 * @param	string	$group	The cache data group
+	 * @return	boolean	True on success, false otherwise
+	 * @since	1.5
+	 */
+	function remove($id, $group)
+	{
+		return true;
+	}
+
+	/**
+	 * Clean cache for a group given a mode.
+	 *
+	 * group mode		: cleans all cache in the group
+	 * notgroup mode	: cleans all cache not in the group
+	 *
+	 * @abstract
+	 * @access	public
+	 * @param	string	$group	The cache data group
+	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
+	 * @return	boolean	True on success, false otherwise
+	 * @since	1.5
+	 */
+	function clean($group, $mode)
+	{
+		return true;
+	}
+
+	/**
+	 * Garbage collect expired cache data
 	 *
 	 * @abstract
 	 * @access public
-	 * @param string $id            The session identifier.
-	 * @param string $session_data  The session data.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function store($id, $session_data)
+	function gc()
 	{
 		return true;
 	}
 
 	/**
-	  * Destroy the data for a particular session identifier in the
-	  * SessionHandler backend.
-	  *
-	  * @abstract
-	  * @access public
-	  * @param string $id  The session identifier.
-	  * @return boolean  True on success, false otherwise.
-	  */
-	function remove($id)
-	{
-		return true;
-	}
-
-	/**
-	 * Garbage collect stale sessions from the SessionHandler backend.
-	 *
-	 * @abstract
-	 * @access public
-	 * @param integer $maxlifetime  The maximum age of a session.
-	 * @return boolean  True on success, false otherwise.
-	 */
-	function clean($maxlifetime)
-	{
-		return true;
-	}
-
-	/**
-	 * Test to see if the SessionHandler is available.
+	 * Test to see if the storage handler is available.
 	 *
 	 * @abstract
 	 * @static

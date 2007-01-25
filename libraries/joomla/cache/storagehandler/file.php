@@ -124,31 +124,19 @@ class JCacheStorageHandlerFile extends JObject
 	 *
 	 * group mode		: cleans all cache in the group
 	 * notgroup mode	: cleans all cache not in the group
-	 * expired mode		: cleans all cache that is expired regardless of group
 	 *
 	 * @access	public
 	 * @param	string	$group	The cache data group
-	 * @param	string	$mode	The mode for cleaning cache [group|notgroup|expired]
+	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
 	function clean($group, $mode)
 	{
+		$return = true;
 		$folder	= md5($group.'-'.$this->_hash);
 		switch ($mode)
 		{
-			case 'expired':
-				// files older than lifeTime get deleted from cache
-				if (!is_null($this->_lifeTime)) {
-					$files = JFolder::files($this->_root, '.', true, true);
-					for ($i=0,$n=count($files);$i<$n;$i++)
-					{
-						if (@ filemtime($files[$i]) < $this->_threshold) {
-							$result |= JFile::delete($files[$i]);
-						}
-					}
-				}
-				break;
 			case 'notgroup':
 				$folders = JFolder::folders($this->_root);
 				for ($i=0,$n=count($folders);$i<$n;$i++)
@@ -164,6 +152,28 @@ class JCacheStorageHandlerFile extends JObject
 				break;
 		}
 		return $return;
+	}
+
+	/**
+	 * Garbage collect expired cache data
+	 *
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 */
+	function gc()
+	{
+		$result = true;
+		// files older than lifeTime get deleted from cache
+		if (!is_null($this->_lifeTime)) {
+			$files = JFolder::files($this->_root, '.', true, true);
+			for ($i=0,$n=count($files);$i<$n;$i++)
+			{
+				if (@ filemtime($files[$i]) < $this->_threshold) {
+					$result |= JFile::delete($files[$i]);
+				}
+			}
+		}
+		return $result;
 	}
 
 	/**
