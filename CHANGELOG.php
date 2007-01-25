@@ -42,6 +42,9 @@ Legend:
  ^ Small improvements to session handling
  ! Set database as default session handler
  # Fixed [artf6372] : jos_sessions table not in sync with $_SESSION sessions
+ # Feature request [artf2179] : Database handler for sessions
+ # Feature request [artf1831] : Check in content automatically when a user's session ends
+ # Feature request [artf5984] : Session cookie not reliant on URL accessed
 
 25-Jan-2007 Enno Klasing
  # Fixed "Only variable references should be returned by reference" error in JError class
