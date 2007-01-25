@@ -41,6 +41,7 @@ Legend:
  + Added support for multiple module styles to module renderer
  ^ Small improvements to session handling
  ! Set database as default session handler
+ # Fixed [artf6372] : jos_sessions table not in sync with $_SESSION sessions
 
 25-Jan-2007 Enno Klasing
  # Fixed "Only variable references should be returned by reference" error in JError class
