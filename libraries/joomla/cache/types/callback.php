@@ -57,6 +57,29 @@ class JCacheCallback extends JCache
 	 */
 	function get( $callback, $args )
 	{
+		// Normalize callback
+		if (is_array( $callback )) {
+			// We have a standard php callback array -- do nothing
+		} elseif (strstr( $callback, '::' )) {
+			// This is shorthand for a static method callback classname::methodname
+			list( $class, $method ) = explode( '::', $callback );
+			$callback = array( trim($class), trim($method) );
+		} elseif (strstr( $callback, '->' )) {
+			/*
+			 * This is a really not so smart way of doing this... we provide this for backward compatability but this
+			 * WILL!!! disappear in a future version.  If you are using this syntax change your code to use the standard
+			 * PHP callback array syntax: <http://php.net/callback>
+			 *
+			 * We have to use some silly global notation to pull it off and this is very unreliable
+			 */
+			list( $object_123456789, $method ) = explode('->', $callback);
+			global $$object_123456789;
+			$callback = array( $$object_123456789, $method );
+		} else {
+			// We have just a standard function -- do nothing
+		}
+
+
 		// Generate an ID
 		$id = $this->_makeId($callback, $args);
 
@@ -74,31 +97,9 @@ class JCacheCallback extends JCache
 			ob_start();
 			ob_implicit_flush( false );
 
-			// Now we need to determine the callback type and execute the callback accordingly
-			if (is_array( $callback )) {
-				// We have a standard php callback array -- easy
-				$result = call_user_func_array( $callback, $args );
-			} elseif (strstr( $callback, '::' )) {
-				// This is shorthand for a static method callback classname::methodname
-				list( $class, $method ) = explode( '::', $callback );
-				$result = call_user_func_array( array( trim($class), trim($method) ), $args );
-			} elseif (strstr( $callback, '->' )) {
-				/*
-				 * This is a really not so smart way of doing this... we provide this for backward compatability but this
-				 * WILL!!! disappear in a future version.  If you are using this syntax change your code to use the standard
-				 * PHP callback array syntax: <http://php.net/callback>
-				 *
-				 * We have to use some silly global notation to pull it off and this is very unreliable
-				 */
-				list( $object_123456789, $method ) = explode('->', $callback);
-				global $$object_123456789;
-				$result = call_user_func_array( array( $$object_123456789, $method ), $args );
-			} else {
-				// We have just a standard function -- easy
-				$result = call_user_func_array( $callback, $args );
-			}
-
+			$result = call_user_func_array($callback, $args);
 			$output = ob_get_contents();
+
 			ob_end_clean();
 
 			$cached = array();
@@ -143,10 +144,7 @@ class JCacheCallback extends JCache
 	 */
 	function _makeId($callback, $args)
 	{
-		/*
-		 * @todo	We need to serialize the callback data as well...
-		 */
-		return md5(serialize($args));
+		return md5(serialize(array($callback, $args)));
 	}
 }
 ?>
