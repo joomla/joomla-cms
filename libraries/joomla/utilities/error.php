@@ -131,12 +131,9 @@ class JError
 		// see what to do with this kind of error
 		$handler = JError::getErrorHandling($level);
 
-		//store the error
-		$GLOBALS['_JError_Stack'][] =& $error;
-
 		$function = 'handle'.ucfirst($handler['mode']);
 		if (is_callable(array('JError', $function))) {
-			return JError::$function ($error, (isset($handler['options'])) ? $handler['options'] : array());
+			$reference =& JError::$function ($error, (isset($handler['options'])) ? $handler['options'] : array());
 		} else {
 			// This is required to prevent a very unhelpful white-screen-of-death
 			die(
@@ -146,6 +143,10 @@ class JError
 				'<br/>' . $error->get('message')
 			);
 		}
+
+		//store and return the error
+		$GLOBALS['_JError_Stack'][] =& $reference;
+		return $reference;
 	}
 
 	/**
@@ -528,11 +529,11 @@ class JError
 	 *
 	 * @see	raise()
 	 */
-    function &handleCallback( &$error, $options )
-    {
-		$result = &call_user_func( $options, $error );
+	function &handleCallback( &$error, $options )
+	{
+		$result = call_user_func( $options, $error );
 		return $result;
-    }
+	}
 
 	/**
 	 * Display a custom error page and exit gracefully
