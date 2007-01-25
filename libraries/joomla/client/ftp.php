@@ -131,6 +131,13 @@ class JFTP extends JObject {
 	 */
 	var $_lineEndings = array ('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
 
+	/**
+	 * JFTP object constructor
+	 *
+	 * @access protected
+	 * @param array $options Associative array of options to set
+	 * @since 1.5
+	 */
 	function __construct($options) {
 
 		// If default transfer type is no set, set it to autoascii detect
@@ -150,6 +157,25 @@ class JFTP extends JObject {
 		if (FTP_NATIVE) {
 			// Import the generic buffer stream handler
 			jimport('joomla.utilities.buffer');
+		}
+
+		// Register faked "destructor" in PHP4 to close all connections we might have made
+		if (version_compare(PHP_VERSION, '5') == -1) {
+			register_shutdown_function(array(&$this, '__destruct'));
+		}
+	}
+
+	/**
+	 * JFTP object destructor
+	 *
+	 * Closes an existing connection, if we have one
+	 *
+	 * @access protected
+	 * @since 1.5
+	 */
+	function __destruct() {
+		if (is_resource($this->_conn)) {
+			$this->quit();
 		}
 	}
 
@@ -229,7 +255,7 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			$this->_conn = ftp_connect($host, $port, $this->_timeout);
+			$this->_conn = @ftp_connect($host, $port, $this->_timeout);
 			if ($this->_conn === false) {
 				JError::raiseWarning('30', 'JFTP::connect: Could not connect to host "'.$host.'" on port '.$port.'.' );
 				return false;
@@ -289,7 +315,7 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			if (ftp_login($this->_conn, $user, $pass) === false) {
+			if (@ftp_login($this->_conn, $user, $pass) === false) {
 				JError::raiseWarning('30', 'JFTP::login: Unable to login' );
 				return false;
 			}
@@ -326,7 +352,7 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			ftp_close($this->_conn);
+			@ftp_close($this->_conn);
 			return true;
 		}
 
@@ -347,7 +373,7 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			if (($ret = ftp_pwd($this->_conn)) === false) {
+			if (($ret = @ftp_pwd($this->_conn)) === false) {
 				JError::raiseWarning('35', 'JFTP::pwd: Bad response' );
 				return false;
 			}
@@ -380,7 +406,7 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			if (($ret = ftp_systype($this->_conn)) === false) {
+			if (($ret = @ftp_systype($this->_conn)) === false) {
 				JError::raiseWarning('35', 'JFTP::syst: Bad response' );
 				return false;
 			}
@@ -423,7 +449,7 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			if (ftp_chdir($this->_conn, $path) === false) {
+			if (@ftp_chdir($this->_conn, $path) === false) {
 				JError::raiseWarning('35', 'JFTP::chdir: Bad response' );
 				return false;
 			}
@@ -451,7 +477,7 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			if (ftp_site($this->_conn, 'REIN') === false) {
+			if (@ftp_site($this->_conn, 'REIN') === false) {
 				JError::raiseWarning('35', 'JFTP::reinit: Bad response' );
 				return false;
 			}
@@ -479,7 +505,7 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			if (ftp_rename($this->_conn, $from, $to) === false) {
+			if (@ftp_rename($this->_conn, $from, $to) === false) {
 				JError::raiseWarning('35', 'JFTP::rename: Bad response' );
 				return false;
 			}
@@ -523,7 +549,7 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			if (ftp_site($this->_conn, 'CHMOD '.$mode.' '.$path) === false) {
+			if (@ftp_site($this->_conn, 'CHMOD '.$mode.' '.$path) === false) {
 				JError::raiseWarning('35', 'JFTP::chmod: Bad response' );
 				return false;
 			}
@@ -550,7 +576,7 @@ class JFTP extends JObject {
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			if (@ftp_delete($this->_conn, $path) === false) {
-				if (ftp_rmdir($this->_conn, $path) === false) {
+				if (@ftp_rmdir($this->_conn, $path) === false) {
 					JError::raiseWarning('35', 'JFTP::delete: Bad response' );
 					return false;
 				}
@@ -579,7 +605,7 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			if (ftp_mkdir($this->_conn, $path) === false) {
+			if (@ftp_mkdir($this->_conn, $path) === false) {
 				JError::raiseWarning('35', 'JFTP::mkdir: Bad response' );
 				return false;
 			}
@@ -605,7 +631,7 @@ class JFTP extends JObject {
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
-			if (ftp_site($this->_conn, 'REST '.$point) === false) {
+			if (@ftp_site($this->_conn, 'REST '.$point) === false) {
 				JError::raiseWarning('35', 'JFTP::restart: Bad response' );
 				return false;
 			}
@@ -633,13 +659,13 @@ class JFTP extends JObject {
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			// turn passive mode on
-			if (ftp_pasv($this->_conn, true) === false) {
+			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', 'JFTP::create: Unable to use passive mode' );
 				return false;
 			}
 
 			$buffer = fopen('buffer://tmp', 'r');
-			if (ftp_fput($this->_conn, $path, $buffer, FTP_ASCII) === false) {
+			if (@ftp_fput($this->_conn, $path, $buffer, FTP_ASCII) === false) {
 				JError::raiseWarning('35', 'JFTP::create: Bad response' );
 				fclose($buffer);
 				return false;
@@ -687,13 +713,13 @@ class JFTP extends JObject {
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			// turn passive mode on
-			if (ftp_pasv($this->_conn, true) === false) {
+			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', 'JFTP::read: Unable to use passive mode' );
 				return false;
 			}
 
 			$tmp = fopen('buffer://tmp', 'br+');
-			if (ftp_fget($this->_conn, $tmp, $remote, $mode) === false) {
+			if (@ftp_fget($this->_conn, $tmp, $remote, $mode) === false) {
 				fclose($tmp);
 				JError::raiseWarning('35', 'JFTP::read: Bad response' );
 				return false;
@@ -758,12 +784,12 @@ class JFTP extends JObject {
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			// turn passive mode on
-			if (ftp_pasv($this->_conn, true) === false) {
+			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', 'JFTP::get: Unable to use passive mode' );
 				return false;
 			}
 
-			if (ftp_get($this->_conn, $local, $remote, $mode) === false) {
+			if (@ftp_get($this->_conn, $local, $remote, $mode) === false) {
 				JError::raiseWarning('35', 'JFTP::get: Bad response' );
 				return false;
 			}
@@ -831,12 +857,12 @@ class JFTP extends JObject {
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			// turn passive mode on
-			if (ftp_pasv($this->_conn, true) === false) {
+			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', 'JFTP::store: Unable to use passive mode' );
 				return false;
 			}
 
-			if (ftp_put($this->_conn, $remote, $local, $mode) === false) {
+			if (@ftp_put($this->_conn, $remote, $local, $mode) === false) {
 				JError::raiseWarning('35', 'JFTP::store: Bad response' );
 				return false;
 			}
@@ -911,7 +937,7 @@ class JFTP extends JObject {
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			// turn passive mode on
-			if (ftp_pasv($this->_conn, true) === false) {
+			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', 'JFTP::write: Unable to use passive mode' );
 				return false;
 			}
@@ -919,7 +945,7 @@ class JFTP extends JObject {
 			$tmp = fopen('buffer://tmp', 'br+');
 			fwrite($tmp, $buffer);
 			rewind($tmp);
-			if (ftp_fput($this->_conn, $remote, $tmp, $mode) === false) {
+			if (@ftp_fput($this->_conn, $remote, $tmp, $mode) === false) {
 				fclose($tmp);
 				JError::raiseWarning('35', 'JFTP::write: Bad response' );
 				return false;
@@ -980,12 +1006,12 @@ class JFTP extends JObject {
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			// turn passive mode on
-			if (ftp_pasv($this->_conn, true) === false) {
+			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', 'JFTP::listNames: Unable to use passive mode' );
 				return false;
 			}
 
-			if (($list = ftp_nlist($this->_conn,$path)) === false) {
+			if (($list = @ftp_nlist($this->_conn,$path)) === false) {
 				JError::raiseWarning('35', 'JFTP::listNames: Bad response' );
 				return false;
 			}
@@ -1048,12 +1074,12 @@ class JFTP extends JObject {
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			// turn passive mode on
-			if (ftp_pasv($this->_conn, true) === false) {
+			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', 'JFTP::listDetails: Unable to use passive mode' );
 				return false;
 			}
 
-			if (($contents = ftp_rawlist($this->_conn, $path)) === false) {
+			if (($contents = @ftp_rawlist($this->_conn, $path)) === false) {
 				JError::raiseWarning('35', 'JFTP::listDetails: Bad response' );
 				return false;
 			}

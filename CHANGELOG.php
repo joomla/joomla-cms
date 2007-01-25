@@ -42,6 +42,8 @@ Legend:
 
 25-Jan-2007 Enno Klasing
  # Fixed "Only variable references should be returned by reference" error in JError class
+ # Calling __destructor on JDatabase only once on PHP5
+ + Added destructor to JFTP
 
 24-Jan-2007 Jason Kendall
  # Fixed [artf7392]: JUser Helper updates in Registration Component Controller - Thanks jenscki
