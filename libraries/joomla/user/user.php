@@ -102,6 +102,18 @@ class JUser extends JObject
 	 * @var string
 	 */
 	var $params			= null;
+	
+	/**
+	 * Description
+	 * @var string integer
+	 */
+	var $aid 		= null;
+	
+	/**
+	 * Description
+	 * @var boolean
+	 */
+	var $guest     = null;
 
 	/**
 	 * User parameters
@@ -120,7 +132,8 @@ class JUser extends JObject
 	 * @var string
 	 */
 	var $clearPW	= '';
-
+	
+	
 	/**
 	* Constructor activating the default information of the language
 	*
@@ -139,6 +152,8 @@ class JUser extends JObject
 			$this->id        = 0;
 			$this->gid       = 0;
 			$this->sendEmail = 1;
+			$this->aid       = 0;
+			$this->guest     = 1;
 		}
 	}
 
@@ -296,10 +311,7 @@ class JUser extends JObject
 	 */
 	function setParameters($data, $path = null)
 	{
-		/*
-		 * If we are not fed a path of an xml file for parameters then we should
-		 * assume we are using the xml file from com_users.
-		 */
+		// Assume we are using the xml file from com_users if no other xml file has been set
 		if (is_null($path)) {
 			jimport( 'joomla.application.helper' );
 			$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
@@ -401,7 +413,7 @@ class JUser extends JObject
 		 * then we can certainly fail the whole method as we've done absolutely
 		 * no good :)
 		 */
-		if (!$this->_bind($array)) {
+		if (!$this->_bind($array, 'aid guest')) {
 			$this->_setError("Unable to bind array to user object");
 			return false;
 		}
@@ -578,7 +590,7 @@ class JUser extends JObject
 			return false;
 		}
 
-		$fromArray = is_array( $from );
+		$fromArray  = is_array( $from );
 		$fromObject = is_object( $from );
 
 		if ($fromArray || $fromObject)

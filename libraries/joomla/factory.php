@@ -119,18 +119,8 @@ class JFactory
 	function &getUser()
 	{
 	    jimport('joomla.user.user');
-	    
-		// If there is a userid in the session, load the application user
-		// object with the logged in user.
 		$session  =& JFactory::getSession();
 		$instance =& $session->get('user');
-
-		// TODO: Find more permanent solution?? Jinx??
-		if (!is_object($instance)) {
-			$instance = new JUser(null);
-			$instance->set('aid',	0);
-			$session->set('user', $instance);
-		}
 
 		return $instance;
 	}

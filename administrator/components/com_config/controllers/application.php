@@ -199,6 +199,7 @@ class ConfigControllerApplication extends ConfigController
 		$userpost['option'] = 'com_users';
 		$table->loadByOption( 'com_users' );
 		$table->bind( $userpost );
+		
 		// pre-save checks
 		if (!$table->check()) {
 			JError::raiseWarning( 500, $table->getError() );
@@ -227,7 +228,7 @@ class ConfigControllerApplication extends ConfigController
 			JError::raiseWarning( 500, $table->getError() );
 			return false;
 		}
-
+		
 		$config =& JFactory::getConfig();
 		$config_array = array();
 
@@ -320,6 +321,13 @@ class ConfigControllerApplication extends ConfigController
 		$offline_message	= str_replace( '"', '&quot;', $offline_message );
 		$offline_message	= str_replace( "'", '&#039;', $offline_message );
 		$config->setValue('config.offline_message', $offline_message);
+		
+		//purge the database session table (only if we are changing to a db session store)
+		if($mainframe->getCfg('session_handler') != 'database' && $config->getValue('session_handler') == 'database') 
+		{	
+			$table =& JTable::getInstance('session');
+			$table->purge(-1);
+		}
 
 		// Get the path of the configuration file
 		$fname = JPATH_CONFIGURATION.'/configuration.php';

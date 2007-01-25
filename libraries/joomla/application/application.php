@@ -525,38 +525,31 @@ class JApplication extends JObject
 		$options = array();
 		$options['name'] = $name;
 
-		//create an anonymous user
-		$user 	 =& JUser::getInstance();
-		$user->set('aid',	0);
-		$user->set('guest',	1);
-
 		$session =& JFactory::getSession($options);
 
 		$storage = & JTable::getInstance('session');
 		$storage->purge($session->getExpire() * 60);
 
-		if ($storage->load($session->getId()))
-		{
-			// Session cookie exists, update time in session table
+		// Session exists and is not expired, update time in session table
+		if ($storage->load($session->getId())) {
 			$storage->update();
+			return $session;
 		}
-		else
-		{
-			//create persistance store in the session
-			$session->set('registry', new JRegistry('session'));
-			$session->set('user'    , $user);
+		
+		//Session doesn't exist yet, initalise and store it in the session table
+		$session->set('registry', new JRegistry('session'));
+		$session->set('user'    , new JUser());
 
-			if (!$storage->insert( $session->getId(), $this->getClientId())) {
-				die( $storage->getError());
-			}
-
-			//TODO::Fix remember me (harden and move out of function)
-			//$usercookie = JRequest::getVar( 'usercookie', null, 'COOKIE' );
-			//if ($usercookie) {
-				// Remember me cookie exists. Login with usercookie info.
-			//	$this->login( $usercookie['username'], $usercookie['password'] );
-			//}
+		if (!$storage->insert( $session->getId(), $this->getClientId())) {
+			die( $storage->getError());
 		}
+
+		//TODO::Fix remember me (harden and move out of function)
+		//$usercookie = JRequest::getVar( 'usercookie', null, 'COOKIE' );
+		//if ($usercookie) {
+			// Remember me cookie exists. Login with usercookie info.
+		//	$this->login( $usercookie['username'], $usercookie['password'] );
+		//}
 
 		return $session;
 	}

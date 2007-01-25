@@ -39,6 +39,8 @@ Legend:
 
 26-Jan-2007 Johan Janssens
  + Added support for multiple module styles to module renderer
+ ^ Small improvements to session handling
+ ! Set database as default session handler
 
 25-Jan-2007 Enno Klasing
  # Fixed "Only variable references should be returned by reference" error in JError class
