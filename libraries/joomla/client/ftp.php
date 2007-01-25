@@ -213,9 +213,11 @@ class JFTP extends JObject {
 		}
 
 		// Connect to the server, and login, if requested
-		$return = $instances[$signature]->connect($host, $port);
-		if ($return && $user !== null && $pass !== null) {
-			$instances[$signature]->login($user, $pass);
+		if (!$instances[$signature]->isConnected()) {
+			$return = $instances[$signature]->connect($host, $port);
+			if ($return && $user !== null && $pass !== null) {
+				$instances[$signature]->login($user, $pass);
+			}
 		}
 
 		return $instances[$signature];
@@ -253,39 +255,37 @@ class JFTP extends JObject {
 		$errno = null;
 		$err = null;
 
+		// If already connected, return
+		if (is_resource($this->_conn)) {
+			return true;
+		}
+
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			$this->_conn = @ftp_connect($host, $port, $this->_timeout);
 			if ($this->_conn === false) {
 				JError::raiseWarning('30', 'JFTP::connect: Could not connect to host "'.$host.'" on port '.$port.'.' );
 				return false;
-			} else {
-				// Set the timeout for this connection
-				ftp_set_option($this->_conn, FTP_TIMEOUT_SEC, $this->_timeout);
-				return true;
 			}
+			// Set the timeout for this connection
+			ftp_set_option($this->_conn, FTP_TIMEOUT_SEC, $this->_timeout);
+			return true;
 		}
 
-		/*
-		 * If not already connected, connect
-		 */
-		if (!is_resource($this->_conn)) {
+		// Connect to the FTP server.
+		$this->_conn = @ fsockopen($host, $port, $errno, $err, $this->_timeout);
+		if (!$this->_conn) {
+			JError::raiseWarning('30', 'JFTP::connect: Could not connect to host "'.$host.'" on port '.$port.'.', 'Socket error number '.$errno.' and error message: '.$err );
+			return false;
+		}
 
-			// Connect to the FTP server.
-			$this->_conn = @ fsockopen($host, $port, $errno, $err, $this->_timeout);
-			if (!$this->_conn) {
-				JError::raiseWarning('30', 'JFTP::connect: Could not connect to host "'.$host.'" on port '.$port.'.', 'Socket error number '.$errno.' and error message: '.$err );
-				return false;
-			}
+		// Set the timeout for this connection
+		socket_set_timeout($this->_conn, $this->_timeout);
 
-			// Set the timeout for this connection
-			socket_set_timeout($this->_conn, $this->_timeout);
-
-			// Check for welcome response code
-			if (!$this->_verifyResponse(220)) {
-				JError::raiseWarning('35', 'JFTP::connect: Bad response.', 'Server response: '.$this->_response.' [Expected: 220]' );
-				return false;
-			}
+		// Check for welcome response code
+		if (!$this->_verifyResponse(220)) {
+			JError::raiseWarning('35', 'JFTP::connect: Bad response.', 'Server response: '.$this->_response.' [Expected: 220]' );
+			return false;
 		}
 
 		return true;
