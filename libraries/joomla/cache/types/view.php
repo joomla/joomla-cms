@@ -20,10 +20,10 @@
  * @subpackage	Cache
  * @since		1.5
  */
-class JCachePage extends JCache
+class JCacheView extends JCache
 {
 	/**
-	 * Get the cached page data
+	 * Get the cached view data
 	 *
 	 * @access	public
 	 * @param	object	$view	The view object to cache output for
