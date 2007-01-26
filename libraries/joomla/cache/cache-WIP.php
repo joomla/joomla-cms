@@ -67,7 +67,7 @@ class JCache extends JObject
 		$type = strtolower($type);
 		if (!is_object($instances[$type]))
 		{
-			jimport('joomla.cache.adapter.'.$type);
+			jimport('joomla.cache.handlers.'.$type);
 			$class = 'JCache'.ucfirst($type);
 			$instances[$type] = new $class($options);
 		}
