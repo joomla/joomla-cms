@@ -82,27 +82,7 @@ class JCacheView extends JCache
 			$document =& JFactory::getDocument();
 			$cached['head'] = $document->getHeadData();
 			// Store the cache data
-			$this->_store($id, $group, $cached);
-		}
-		return false;
-	}
-
-	/**
-	 * Store the cached data by id and group
-	 *
-	 * @access	public
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @param	mixed	$data	The data to store
-	 * @return	boolean	True if cache stored
-	 * @since	1.5
-	 */
-	function _store($id, $group, $data)
-	{
-		// Get the storage handler and store the cached data
-		$handler =& $this->_getStorageHandler();
-		if (!JError::isError($handler)) {
-			return $handler->store($id, $group, serialize($data));
+			$this->store($id, $group, serialize($cached));
 		}
 		return false;
 	}

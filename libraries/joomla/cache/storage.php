@@ -21,7 +21,7 @@
  * @subpackage	Cache
  * @since		1.5
  */
-class JCacheStorageHandler extends JObject
+class JCacheStorage extends JObject
 {
 	/**
 	* Constructor
@@ -63,8 +63,8 @@ class JCacheStorageHandler extends JObject
 		$handler = strtolower($handler);
 		if (!is_object($instances[$handler]))
 		{
-			jimport('joomla.cache.storagehandler.'.$handler);
-			$class = 'JCacheStorageHandler'.ucfirst($handler);
+			jimport('joomla.cache.storage.'.$handler);
+			$class = 'JCacheStorage'.ucfirst($handler);
 			if (class_exists($class)) {
 				$instances[$handler] = new $class($options);
 			} else {

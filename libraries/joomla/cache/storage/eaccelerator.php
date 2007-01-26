@@ -20,7 +20,7 @@
  * @subpackage	Cache
  * @since		1.5
  */
-class JCacheStorageHandlerEaccelerator extends JObject
+class JCacheStorageEaccelerator extends JObject
 {
 	/**
 	* Constructor

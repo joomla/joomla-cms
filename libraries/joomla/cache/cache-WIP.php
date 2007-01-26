@@ -95,6 +95,26 @@ class JCache extends JObject
 	}
 
 	/**
+	 * Store the cached data by id and group
+	 *
+	 * @access	public
+	 * @param	string	$id		The cache data id
+	 * @param	string	$group	The cache data group
+	 * @param	mixed	$data	The data to store
+	 * @return	boolean	True if cache stored
+	 * @since	1.5
+	 */
+	function store($id, $group, $data)
+	{
+		// Get the storage handler and store the cached data
+		$handler =& $this->_getStorageHandler();
+		if (!JError::isError($handler)) {
+			return $handler->store($id, $group, $data);
+		}
+		return false;
+	}
+
+	/**
 	 * Remove a cached data entry by id and group
 	 *
 	 * @abstract
@@ -154,14 +174,14 @@ class JCache extends JObject
 
 	function &_getStorageHandler()
 	{
-		if (is_a($this->_handler, 'JCacheStorageHandler')) {
+		if (is_a($this->_handler, 'JCacheStorage')) {
 			return $this->_handler;
 		}
 
 		$config =& JFactory::getConfig();
 		$handler = $config->getValue('config.cache_handler', 'file');
-		jimport('joomla.cache.storagehandler');
-		$this->_handler =& JCacheStorageHandler::getInstance($handler, $this->_options);
+		jimport('joomla.cache.storage');
+		$this->_handler =& JCacheStorage::getInstance($handler, $this->_options);
 		return $this->_handler;
 	}
 }
