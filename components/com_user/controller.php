@@ -24,18 +24,16 @@ jimport('joomla.application.component.controller');
 class UserController extends JController
 {
 	/**
-	 * Method to display a user
+	 * Method to display a view
 	 *
 	 * @access	public
 	 * @since	1.5
 	 */
 	function display()
 	{
-		global $mainframe;
-
 		parent::display();
 	}
-
+	
 	function edit()
 	{
 		global $mainframe, $Itemid, $option;
@@ -94,8 +92,64 @@ class UserController extends JController
 		$this->setRedirect( $_SERVER['HTTP_REFERER'], $msg );
 	}
 
-	function cancel() {
+	function cancel() 
+	{
 		$this->setRedirect( 'index.php' );
+	}
+	
+	function login()
+	{
+		global $mainframe;
+
+		$username	= JRequest::getVar( 'username' );
+		$password	= JRequest::getVar( 'password' );
+		$return		= JRequest::getVar('return', false);
+
+		//check the token before we do anything else
+		//$token	= JUtility::getToken();
+		//if(!JRequest::getVar( $token, 0, 'post' )) {
+		//	JError::raiseError(403, 'Request Forbidden');
+		//}
+
+		//preform the login action
+		$error = $mainframe->login($username, $password);
+
+		if(!JError::isError($error))
+		{
+			// Redirect if the return url is not registration or login
+			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+				$mainframe->redirect( $return );
+			}
+		}
+		else
+		{
+			// Facilitate third party login forms
+			if ( $return ) {
+				$mainframe->redirect( $return );
+			} else {
+				parent::display();
+			}
+		}
+	}
+
+	function logout()
+	{
+		global $mainframe;
+
+		//preform the logout action
+		$error = $mainframe->logout();
+
+		if(!JError::isError($error))
+		{
+			$return = JRequest::getVar( 'return' );
+
+			// Redirect if the return url is not registration or login
+			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+				$mainframe->redirect( $return );
+			}
+		} else {
+			parent::display();
+		}
 	}
 }
 ?>

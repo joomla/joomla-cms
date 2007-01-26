@@ -432,9 +432,15 @@ class JSiteHelper
 		}
 
 		//provide backwards compatibility for frontpage component
+		//TODO :: these should be redirects
 		if($option == 'com_frontpage') {
 			$option = 'com_content';
-			JRequest::setVar('task', 'frontpage');
+			JRequest::setVar('view', 'frontpage');
+		}
+		
+		if($option == 'com_login') {
+			$option = 'com_user';
+			JRequest::setVar('view', 'login');
 		}
 
 		return JRequest::setVar('option', $option);

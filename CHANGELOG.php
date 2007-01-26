@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Jan-2007 Johan Janssens
+ - Removed com_login from site application
+ ^ Moved login component functionality into a login view in the user component
+
 25-Jan-2007 Louis Landry
  ^ Refactored caching libraries : Implementation is a WIP
 
