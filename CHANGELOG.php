@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 26-Jan-2007 Johan Janssens
+ - Removed com_frontpage from site application
  - Removed com_login from site application
  ^ Moved login component functionality into a login view in the user component
 
