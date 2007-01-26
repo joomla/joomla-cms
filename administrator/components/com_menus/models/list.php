@@ -341,7 +341,7 @@ class MenusModelList extends JModel
 		// Clear the content cache
 		// TODO: Is this necessary?
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 		return count($items);
 	}
 
@@ -371,7 +371,7 @@ class MenusModelList extends JModel
 		// Clear the content cache
 		// TODO: Is this necessary?
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 		return count($items);
 	}
 
@@ -442,7 +442,7 @@ class MenusModelList extends JModel
 		// Clear the content cache
 		// TODO: Is this necessary?
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 		return true;
 	}
 
@@ -478,7 +478,7 @@ class MenusModelList extends JModel
 		// Clear the content cache
 		// TODO: Is this necessary?
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 		return true;
 	}
 
@@ -493,7 +493,7 @@ class MenusModelList extends JModel
 		// Clear the content cache
 		// TODO: Is this necessary?
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 		return true;
 	}
 
@@ -529,7 +529,7 @@ class MenusModelList extends JModel
 		// Clear the content cache
 		// TODO: Is this necessary?
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 		return true;
 	}
 

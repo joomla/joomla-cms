@@ -50,17 +50,11 @@ class JCachePage extends JCache
 			}
 		}
 
-		// Get the storage handler and get page cache data by id and group
-		$handler =& $this->_getStorageHandler();
-		if (!JError::isError($handler)) {
-			$data = $handler->get($id, $group, (isset($this->_options['checkTime']))? $this->_options['checkTime'] : true);
-		}
-
 		// We got a cache hit... set the etag header and echo the page data
+		$data = parent::get($id, $group);
 		if ($data !== false) {
 			$this->_setEtag($id);
-			echo $data;
-			return true;
+			return $data;
 		}
 
 		// Set id and group placeholders
@@ -89,11 +83,7 @@ class JCachePage extends JCache
 
 		// Only attempt to store if page data exists
 		if ($data) {
-			// Get the storage handler and store the cached data
-			$handler =& $this->_getStorageHandler();
-			if (!JError::isError($handler)) {
-				return $handler->store($id, $group, $data);
-			}
+			return parent::store($data, $id, $group);
 		}
 		return false;
 	}

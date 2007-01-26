@@ -136,8 +136,9 @@ class JFactory
 	 * @param string The cache class name
 	 * @return object JCache
 	 */
-	function &getCache($group='', $handler = 'function')
+	function &getCache($group='', $handler = 'callback')
 	{
+		$handler = ($handler == 'function') ? 'callback' : $handler;
 		jimport('joomla.cache.cache');
 
 		$conf =& JFactory::getConfig();
@@ -145,11 +146,10 @@ class JFactory
 		// If we are in the installation application, we don't need to be
 		// creating any directories or have caching on
 		$options = array(
-			'cacheDir' 		=> JPATH_BASE.DS.'cache'.DS,
+			'cachebase' 	=> JPATH_BASE.DS.'cache',
 			'caching' 		=> $conf->getValue('config.caching'),
-			'defaultGroup' 	=> $group,
-			'lifeTime' 		=> $conf->getValue('config.cachetime'),
-			'fileNameProtection' => false
+			'defaultgroup' 	=> $group,
+			'lifetime' 		=> $conf->getValue('config.cachetime')
 		);
 
 		$cache =& JCache::getInstance( $handler, $options );
@@ -381,8 +381,8 @@ class JFactory
 		$conf =& JFactory::getConfig();
 		$handler =  $conf->getValue('config.session_handler', 'none');
 		$options['expire'] = $conf->getValue('config.lifetime', 15);
-	
-		
+
+
 		$session = new JSession($handler, $options);
 		if ($session->getState() == 'expired') {
 			$session->restart();

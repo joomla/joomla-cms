@@ -276,7 +276,7 @@ class ModulesController extends JController
 		global $mainframe;
 
 		$cache = & JFactory::getCache();
-		$cache->cleanCache( 'com_content' );
+		$cache->clean( 'com_content' );
 
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
@@ -646,7 +646,7 @@ class ModulesController extends JController
 		$this->setRedirect( 'index.php?option=com_modules&amp;client='.$client->id );
 
 		$cache = & JFactory::getCache();
-		$cache->cleanCache( 'com_content' );
+		$cache->clean( 'com_content' );
 
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$task	= $this->getTask();

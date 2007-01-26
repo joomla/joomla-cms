@@ -399,8 +399,8 @@ class BannerControllerBanner extends JController
 		}
 
 		// Clear the component's cache
-		$cache =& JFactory::getCache( 'com_banners' );
-		$cache->cleanCache();
+		$cache =& JFactory::getCache('com_banners');
+		$cache->clean();
 
 		$this->setMessage( JText::_('New ordering saved') );
 	}

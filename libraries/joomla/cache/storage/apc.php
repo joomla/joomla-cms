@@ -20,7 +20,7 @@
  * @subpackage	Cache
  * @since		1.5
  */
-class JCacheStorageApc extends JObject
+class JCacheStorageApc extends JCacheStorage
 {
 	/**
 	* Constructor

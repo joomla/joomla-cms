@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Jan-2007 Louis Landry
+ ^ Refactored caching libraries : Implementation is a WIP
+
 25-Jan-2007 Johan Janssens
  + Added support for multiple module styles to module renderer
  ^ Small improvements to session handling

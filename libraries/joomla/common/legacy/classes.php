@@ -620,7 +620,7 @@ class mosCache
 	*/
 	function cleanCache( $group=false ) {
 		$cache =& JFactory::getCache($group);
-		$cache->cleanCache($group);
+		$cache->clean($group);
 	}
 }
 

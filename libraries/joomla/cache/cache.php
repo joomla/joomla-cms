@@ -12,165 +12,231 @@
  * details.
  */
 
-jimport('pear.cache.Lite');
-
 /**
- * Abstract class for caching handlers
+ * Joomla! Cache base object
  *
- * @abstract
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
  */
-class JCache extends Cache_Lite
+class JCache extends JObject
 {
-	var $_defaultGroup = 'JCache';
-
-	var $_validateCache = false;
+	/**
+	 * Storage Handler
+	 * @access	private
+	 * @var		object
+	 */
+	var $_handler;
 
 	/**
-	* Constructor
-	*
-	* $options is an assoc. To have a look at availables options,
-	* see the constructor of the Cache_Lite class in 'Cache_Lite.php'
-	*
-	* Comparing to Cache_Lite constructor, there is another option :
-	* $options = array(
-	*	 (...) see Cache_Lite constructor
-	*	 'defaultGroup' => default cache group for function caching (string)
-	* );
-	*
-	* @param array $options options
-	* @access public
-	*/
-	function JCache($options = array (NULL))
-	{
-		$this->_construct($options);
-	}
+	 * Cache Options
+	 * @access	private
+	 * @var		array
+	 */
+	var $_options;
 
 	/**
 	 * Constructor
 	 *
-	 * @param array $options options
-	 * @access protected
+	 * @access	protected
+	 * @param	array	$options	options
 	 */
 	function _construct($options)
 	{
-		// Set default group
-		if (isset ($options['defaultGroup'])) {
-			$this->_defaultGroup = $options['defaultGroup'];
-		}
+		$this->_options =& $options;
 
-		// Build the cache directory if it exists
-		if (isset ($options['cacheDir'])) {
-			$this->_cacheDir = $options['cacheDir'];
-		}
-
-		$this->Cache_Lite($options);
+		// Get the default group and caching
+		$this->_options['defaultgroup'] = ($options['defaultgroup']) ? $options['defaultgroup'] : 'default';
+		$this->_options['caching'] = ($options['caching']) ? $options['caching'] : true;
 	}
 
 	/**
-	 * Returns a reference to the global Cache object, only creating it
+	 * Returns a reference to a cache adapter object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param handler $handler The cache handler to instantiate
-	 * @param array $options options
-	 * @return database A database object
-	 * @since 1.5
+	 * @static
+	 * @param	string	$type	The cache object type to instantiate
+	 * @return	object	A JCache object
+	 * @since	1.5
 	 */
-	function &getInstance($handler = 'Function', $options)
+	function &getInstance($type = 'output', $options = array())
 	{
 		static $instances;
 
-		if (!isset ($instances))
+		if (!isset ($instances)) {
+			$instances = array();
+		}
+
+		$type = strtolower($type);
+		if (!isset($instances[$type]))
 		{
-			$instances = array ();
+			jimport('joomla.cache.handlers.'.$type);
+			$class = 'JCache'.ucfirst($type);
+			$instances[$type] = new $class($options);
 		}
-
-		$signature = serialize(array ($options));
-
-		if (empty ($instances[$signature]))
-		{
-			jimport('joomla.cache.adapters.'.$handler);
-			$adapter = 'JCache'.$handler;
-			$instances[$signature] = new $adapter ($options);
-		}
-
-		return $instances[$signature];
+		return $instances[$type];
 	}
 
 	/**
-	* Enable/disbale caching
-	*
-	* @access public
-	* @param	boolean	$enable If true enable caching.
-	* @return	boolean The current setting (allows for a temporal change of the setting)
-	*/
-	function setCaching($enable = false)  {
-		$oldValue = $this->_caching;
-		$this->_caching = $enable;
-		return $oldValue;
-	}
-
-	/**
-	 * Enable/disbale cache validation
+	 * Set caching enabled state
 	 *
-	 * @param boolean $validateCache If true enable cache validation.
-	 * @access public
+	 * @access	public
+	 * @param	boolean	$enabled	True to enable caching
+	 * @return	void
+	 * @since	1.5
 	 */
-	function setCacheValidation($validateCache)
+	function setCaching($enabled)
 	{
-		$this->_validateCache = $validateCache;
+		$this->_options['caching'] = $enabled;
 	}
 
 	/**
-	 * Make a control key with the string containing datas
+	 * Set cache lifetime
 	 *
-	 * @param string $data data
-	 * @param string $controlType type of control 'md5', 'crc32' or 'strlen'
-	 * @return string control key
-	 * @access public
+	 * @access	public
+	 * @param	int	$lt	Cache lifetime
+	 * @return	void
+	 * @since	1.5
 	 */
-	function generateId($data, $controlType = 'md5')
+	function setLifeTime($lt)
 	{
-		return $this->_hash($data, $controlType);
+		$this->_options['lifetime'] = $lt;
 	}
 
 	/**
-	* Remove a cache file
-	*
-	* @param string $id cache id
-	* @param string $group name of the cache group
-	* @return boolean true if no problem
-	* @access public
-	*/
-	function remove($id, $group = 'default')
+	 * Set cache validation
+	 *
+	 * @access	public
+	 * @return	void
+	 * @since	1.5
+	 */
+	function setCacheValidation()
 	{
-		$this->_setFileName($id, $group);
-		if (file_exists($this->_file)) {
-			if (!@unlink($this->_file)) {
-				$this->raiseError('Cache_Lite : Unable to remove cache !', -3);
-				return false;
-			}
+		// Deprecated
+	}
+
+	/**
+	 * Get cached data by id and group
+	 *
+	 * @abstract
+	 * @access	public
+	 * @param	string	$id		The cache data id
+	 * @param	string	$group	The cache data group
+	 * @return	mixed	Boolean false on failure or a cached data string
+	 * @since	1.5
+	 */
+	function get($id, $group=null)
+	{
+		// Get the default group
+		$group = ($group) ? $group : $this->_options['defaultgroup'];
+
+		// Get the storage handler
+		$handler =& $this->_getStorageHandler();
+		if (!JError::isError($handler) && $this->_options['caching']) {
+			return $handler->get($id, $group, (isset($this->_options['checkTime']))? $this->_options['checkTime'] : true);
 		}
-		return true;
+		return false;
 	}
 
 	/**
-	 * Cleans the cache
+	 * Store the cached data by id and group
+	 *
+	 * @access	public
+	 * @param	string	$id		The cache data id
+	 * @param	string	$group	The cache data group
+	 * @param	mixed	$data	The data to store
+	 * @return	boolean	True if cache stored
+	 * @since	1.5
 	 */
-	function cleanCache($group = false, $mode = 'ingroup')
+	function store($data, $id, $group=null)
 	{
-		$cache = & JCache::getCache($group);
-		$cache->clean($group, $mode);
+		// Get the default group
+		$group = ($group) ? $group : $this->_options['defaultgroup'];
+
+		// Get the storage handler and store the cached data
+		$handler =& $this->_getStorageHandler();
+		if (!JError::isError($handler) && $this->_options['caching']) {
+			return $handler->store($id, $group, $data);
+		}
+		return false;
 	}
 
 	/**
-	 * Deprecated, use JFactory getCache instead
-	 * @since 1.5
+	 * Remove a cached data entry by id and group
+	 *
+	 * @abstract
+	 * @access	public
+	 * @param	string	$id		The cache data id
+	 * @param	string	$group	The cache data group
+	 * @return	boolean	True on success, false otherwise
+	 * @since	1.5
 	 */
-	function & getCache($group = '') {
-		return JFactory::getCache($group);
+	function remove($id, $group=null)
+	{
+		// Get the default group
+		$group = ($group) ? $group : $this->_options['defaultgroup'];
+
+		// Get the storage handler
+		$handler =& $this->_getStorageHandler();
+		if (!JError::isError($handler)) {
+			return $handler->remove($id, $group);
+		}
+		return false;
+	}
+
+	/**
+	 * Clean cache for a group given a mode.
+	 *
+	 * group mode		: cleans all cache in the group
+	 * notgroup mode	: cleans all cache not in the group
+	 *
+	 * @access	public
+	 * @param	string	$group	The cache data group
+	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
+	 * @return	boolean	True on success, false otherwise
+	 * @since	1.5
+	 */
+	function clean($group=null, $mode='group')
+	{
+		// Get the default group
+		$group = ($group) ? $group : $this->_options['defaultgroup'];
+
+		// Get the storage handler
+		$handler =& $this->_getStorageHandler();
+		if (!JError::isError($handler)) {
+			return $handler->clean($group, $mode);
+		}
+		return false;
+	}
+
+	/**
+	 * Garbage collect expired cache data
+	 *
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 */
+	function gc()
+	{
+		// Get the storage handler
+		$handler =& $this->_getStorageHandler();
+		if (!JError::isError($handler)) {
+			return $handler->gc();
+		}
+		return false;
+	}
+
+	function &_getStorageHandler()
+	{
+		if (is_a($this->_handler, 'JCacheStorage')) {
+			return $this->_handler;
+		}
+
+		$config =& JFactory::getConfig();
+		$handler = $config->getValue('config.cache_handler', 'file');
+		jimport('joomla.cache.storage');
+		$this->_handler =& JCacheStorage::getInstance($handler, $this->_options);
+		return $this->_handler;
 	}
 }
 ?>

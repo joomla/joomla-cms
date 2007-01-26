@@ -31,7 +31,7 @@ class JCacheOutput extends JCache
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	function start( $id, $group='default')
+	function start( $id, $group=null)
 	{
 		// If we have data in cache use that...
 		$data = $this->get($id, $group);
@@ -70,11 +70,7 @@ class JCacheOutput extends JCache
 		$this->_group	= null;
 
 		// Get the storage handler and store the cached data
-		$handler =& $this->_getStorageHandler();
-		if (!JError::isError($handler)) {
-			return $handler->store($id, $group, $data);
-		}
-		return false;
+		$this->store($data, $id, $group);
 	}
 }
 ?>

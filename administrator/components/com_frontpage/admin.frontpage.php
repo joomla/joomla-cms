@@ -241,7 +241,7 @@ function changeFrontPage( $cid=null, $state=0, $option )
 	}
 
 	$cache = & JFactory::getCache('com_content');
-	$cache->cleanCache();
+	$cache->clean();
 
 	$mainframe->redirect( "index.php?option=$option" );
 }
@@ -269,7 +269,7 @@ function removeFrontPage( &$cid, $option )
 	$fp->reorder();
 
 	$cache = & JFactory::getCache('com_content');
-	$cache->cleanCache();
+	$cache->clean();
 
 	$mainframe->redirect( "index.php?option=$option" );
 }
@@ -289,7 +289,7 @@ function orderFrontPage( $uid, $inc, $option )
 	$fp->move( $inc );
 
 	$cache = & JFactory::getCache('com_content');
-	$cache->cleanCache();
+	$cache->clean();
 
 	$mainframe->redirect( "index.php?option=$option" );
 }
@@ -316,7 +316,7 @@ function accessMenu( $uid, $access )
 	}
 
 	$cache = & JFactory::getCache('com_content');
-	$cache->cleanCache();
+	$cache->clean();
 
 	$mainframe->redirect( 'index.php?option=com_frontpage' );
 }
@@ -346,7 +346,7 @@ function saveOrder( &$cid )
 	}
 
 	$cache = & JFactory::getCache('com_content');
-	$cache->cleanCache();
+	$cache->clean();
 
 	$msg 	= JText::_( 'New ordering saved' );
 	$mainframe->redirect( 'index.php?option=com_frontpage', $msg );

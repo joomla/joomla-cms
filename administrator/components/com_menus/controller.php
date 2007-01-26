@@ -54,7 +54,7 @@ class MenusController extends JController
 	function save()
 	{
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 
 		$model	=& $this->getModel( 'Item' );
 		$post	= JRequest::get('post');
@@ -466,10 +466,10 @@ class MenusController extends JController
 			$msg = JText::sprintf( 'New Menu created', $menuType->menutype );
 		}
 		else if ($isChanged)
-		{	
+		{
 			$oldTerm = $oldType->menutype;
 			$newTerm = $menuType->menutype;
-			
+
 			// change menutype being of all mod_mainmenu modules calling old menutype
 			$query = "SELECT id"
 			. "\n FROM #__modules"
@@ -479,7 +479,7 @@ class MenusController extends JController
 			$db->setQuery( $query );
 			$modules = $db->loadResultArray();
 
-			foreach ($modules as $id) 
+			foreach ($modules as $id)
 			{
 				$row =& JTable::getInstance('module');
 				$row->load( $id );
@@ -573,8 +573,8 @@ class MenusController extends JController
 				"\n WHERE module = 'mod_mainmenu'";
 		$db->setQuery( $query );
 		$menus = $db->loadResultArray();
-		
-		foreach ( $menus as $menu ) 
+
+		foreach ( $menus as $menu )
 		{
 			$params = new JParameter( $menu );
 			if ( $params->get('menutype') == $menu_name ) {
@@ -591,7 +591,7 @@ class MenusController extends JController
 		sort( $mids );
 		$a_ids 		= array();
 
-		foreach( $mids as $mid ) 
+		foreach( $mids as $mid )
 		{
 			$original->load( $mid );
 			$copy 			= $original;

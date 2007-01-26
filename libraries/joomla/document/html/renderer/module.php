@@ -40,9 +40,7 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 			{
 				if (is_null($content)) {
 					return '';
-				}
-				else
-				{
+				} else {
 					/**
 					 * If module isn't found in the database but data has been pushed in the buffer
 					 * we want to render it
@@ -75,7 +73,7 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 		$cache->setLifeTime( $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) ) );
 		$cache->setCacheValidation(true);
 
-		return $cache->callId( "JModuleHelper::renderModule", array( $module, $params ), $module->id. $user->get('aid', 0) );
+		return $cache->get( "JModuleHelper::renderModule", array( $module, $params ), $module->id. $user->get('aid', 0) );
 	}
 }
 ?>

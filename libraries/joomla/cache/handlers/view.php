@@ -43,13 +43,7 @@ class JCacheView extends JCache
 			$id = $this->_makeId($view, $method);
 		}
 
-		// Get the storage handler and get page cache data by id and group
-		$handler =& $this->_getStorageHandler();
-		if (!JError::isError($handler)) {
-			$data = $handler->get($id, $group, (isset($this->_options['checkTime']))? $this->_options['checkTime'] : true);
-		}
-
-		// We got a cache hit... set the etag header and echo the page data
+		$data = parent::get($id, $group);
 		if ($data !== false) {
 			$data = unserialize($data);
 			$document =& JFactory::getDocument();
@@ -82,7 +76,7 @@ class JCacheView extends JCache
 			$document =& JFactory::getDocument();
 			$cached['head'] = $document->getHeadData();
 			// Store the cache data
-			$this->store($id, $group, serialize($cached));
+			$this->store(serialize($cached), $id, $group);
 		}
 		return false;
 	}

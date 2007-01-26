@@ -163,7 +163,7 @@ class CacheData extends JObject
 		else
 		{
 			$cache =& JFactory::getCache();
-			$cache->setOption('cacheDir', $this->path);
+//			$cache->setOption('cacheDir', $this->path);
 			$cache->clean( $group );
 		}
 	}

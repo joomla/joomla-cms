@@ -31,13 +31,14 @@ class JCacheStorage extends JObject
 	*/
 	function __construct( $options = array() )
 	{
+		$this->_application	= (isset($options['application'])) ? $options['application'] : null;
 		$this->_locking		= (isset($options['locking'])) ? $options['locking'] : true;
 		$this->_lifetime	= (isset($options['lifetime'])) ? $options['lifetime'] : null;
 		$this->_now			= time();
 
  		// Set time threshold value
         if (is_null($this->_lifetime)) {
-            $this->_threshold = null;
+            $this->_threshold = 0;
         } else {
             $this->_threshold = $this->_now - $this->_lifetime;
         }
@@ -61,7 +62,7 @@ class JCacheStorage extends JObject
 		}
 
 		$handler = strtolower($handler);
-		if (!is_object($instances[$handler]))
+		if (!isset($instances[$handler]))
 		{
 			jimport('joomla.cache.storage.'.$handler);
 			$class = 'JCacheStorage'.ucfirst($handler);

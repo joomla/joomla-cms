@@ -55,7 +55,7 @@ class JCacheCallback extends JCache
 	 * @return	mixed	Result of the callback
 	 * @since	1.5
 	 */
-	function get( $callback, $args )
+	function get( $callback, $args, $id=false )
 	{
 		// Normalize callback
 		if (is_array( $callback )) {
@@ -79,15 +79,13 @@ class JCacheCallback extends JCache
 			// We have just a standard function -- do nothing
 		}
 
-		// Generate an ID
-		$id = $this->_makeId($callback, $args);
-
-		// Get the storage handler and get callback cache data by id and group
-		$handler =& $this->_getStorageHandler();
-		if (!JError::isError($handler)) {
-			$data = $handler->get($id, 'callback', (isset($this->_options['checkTime']))? $this->_options['checkTime'] : true);
+		if (!$id) {
+			// Generate an ID
+			$id = $this->_makeId($callback, $args);
 		}
 
+		// Get the storage handler and get callback cache data by id and group
+		$data = parent::get($id, 'callback');
 		if ($data !== false) {
 			$cached = unserialize( $data );
 			$output = $cached['output'];
@@ -105,7 +103,7 @@ class JCacheCallback extends JCache
 			$cached['output'] = $output;
 			$cached['result'] = $result;
 			// Store the cache data
-			$this->store($id, 'callback', serialize($cached));
+			$this->store(serialize($cached), $id, 'callback');
 		}
 
 		echo $output;

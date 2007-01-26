@@ -20,7 +20,7 @@
  * @subpackage	Cache
  * @since		1.5
  */
-class JCacheStorageFile extends JObject
+class JCacheStorageFile extends JCacheStorage
 {
 	/**
 	* Constructor
@@ -34,6 +34,9 @@ class JCacheStorageFile extends JObject
 
 		$config			=& JFactory::getConfig();
 		$this->_root	= $config->getValue('config.cache_path', JPATH_ROOT.DS.'cache');
+		if ($this->_application) {
+			$this->_root = $this->_root.DS.$this->_application;
+		}
 		$this->_hash	= $config->getValue('config.secret');
 	}
 

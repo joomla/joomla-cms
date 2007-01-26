@@ -726,7 +726,7 @@ class ContentController extends JController
 		$fp->reorder();
 
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 
 		switch ($task)
 		{
@@ -833,7 +833,7 @@ class ContentController extends JController
 		}
 
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 
 		// Get some return/redirect information from the request
 		$redirect	= JRequest::getVar( 'redirect', $row->sectionid, 'post' );
@@ -893,7 +893,7 @@ class ContentController extends JController
 		}
 
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 
 		$mainframe->redirect('index.php?option='.$option, $msg);
 	}
@@ -934,7 +934,7 @@ class ContentController extends JController
 		}
 
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 
 		$msg = JText::sprintf('Item(s) sent to the Trash', count($cid));
 		$mainframe->redirect('index.php?option='.$option.'&amp;task='.$return, $msg);
@@ -978,7 +978,7 @@ class ContentController extends JController
 			$row->move($direction, 'catid = ' . (int) $row->catid . ' AND state >= 0' );
 
 			$cache = & JFactory::getCache('com_content');
-			$cache->cleanCache();
+			$cache->clean();
 		}
 
 		$mainframe->redirect('index.php?option=com_content');
@@ -1273,7 +1273,7 @@ class ContentController extends JController
 		}
 
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 
 		$mainframe->redirect('index.php?option='.$option);
 	}
@@ -1326,7 +1326,7 @@ class ContentController extends JController
 		}
 
 		$cache = & JFactory::getCache('com_content');
-		$cache->cleanCache();
+		$cache->clean();
 
 		$msg = JText::_('New ordering saved');
 		switch ($rettask)
