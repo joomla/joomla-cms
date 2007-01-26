@@ -14,38 +14,16 @@
  * JMediaManager behavior for media component
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Extensions
  * @subpackage	Media
  * @since		1.5
  */
-
-JMediaManager = function() { this.constructor.apply(this, arguments);}
-JMediaManager.prototype = {
-
-	constructor: function()
+var JMediaManager = new Class({
+	initialize: function()
 	{
-		var self = this;
-
-		this.folderframe  	= document.getElementById('folderframe');
-		this.folderpath  	= document.getElementById('folderpath');
-	},
-
-	registerEvent: function(target,type,args)
-	{
-		//use a closure to keep scope
-		var self = this;
-
-		if (target.addEventListener)   {
-    		target.addEventListener(type,onEvent,true);
-		} else if (target.attachEvent) {
-	  		target.attachEvent('on'+type,onEvent);
-		}
-
-		function onEvent(e)	{
-			e = e||window.event;
-			e.element = target;
-			return self["on"+type](e, args);
-		}
+		this.folderframe  	= $('folderframe');
+		this.folderpath  	= $('folderpath');
 	},
 
 	submit: function(task)
@@ -59,80 +37,76 @@ JMediaManager.prototype = {
 	{
 		var folder = this.getFolder();
 		if (folder) {
-			this.folderpath.value = basepath + '/' + folder;
+			this.folderpath.value = basepath+'/'+folder;
 		} else {
 			this.folderpath.value = basepath;
 		}
 		var node = d.getNodeByTitle(folder);
 		d.openTo(node, true, true);
-		document.getElementById(cStyle).className = 'active';
+		$(viewstyle).addClass('active');
 	},
 
 	oncreatefolder: function()
 	{
-		var dirpath = document.getElementById('dirpath');
-		if (document.getElementById('foldername').value.length) {
-			dirpath.value = '/'+this.getFolder();
+		if ($('foldername').value.length) {
+			$('dirpath').value = this.getFolder();
 			submitbutton('createfolder');
 		}
 	},
 
 	onuploadfiles: function()
 	{
-		var dirpath    = document.getElementById('dirpath');
-		dirpath.value = '/'+this.getFolder()
+		$('dirpath').value = this.getFolder();
 		submitbutton('uploadbatch');
 	},
 
 	setViewType: function(type)
 	{
-		var url    = window.frames['folderframe'].location.search.substring(1);
-		var folder = url.substring(url.indexOf('folder=')+7);
-		document.getElementById(type).className = 'active';
-		document.getElementById(cStyle).className = '';
-		cStyle = type;
+		$(type).addClass('active');
+		$(viewstyle).removeClass('active');
+		viewstyle = type;
+		var folder = this.getFolder();
 		window.frames['folderframe'].location.href='index.php?option=com_media&task=list&tmpl=component&folder='+folder+'&listStyle='+type;
 	},
 
 	getFolder: function()
 	{
 		var url 	= window.frames['folderframe'].location.search.substring(1);
-		var folder  = url.substring(url.indexOf('folder=')+8);
-		var args	= new Object();
-
-		// Split query at the comma
-		var pairs = url.split("&");
-
-		// Begin loop through the querystring
-		for(var i = 0; i < pairs.length; i++) {
-
-			// Look for "name=value"
-			var pos = pairs[i].indexOf('=');
-			// if not found, skip to next
-			if (pos == -1) continue;
-			// Extract the name
-			var argname = pairs[i].substring(0,pos);
-
-			// Extract the value
-			var value = pairs[i].substring(pos+1);
-			// Store as a property
-			args[argname] = unescape(value);
-		}
+		var args	= this.parseQuery(url);
 
 		return args['folder'];
 	},
 
 	addFile: function()
 	{
-		uploads = document.getElementById( 'uploads' );
-		upload  = uploads.childNodes[1].cloneNode(true);
-		uploads.appendChild( upload );
+		uploads = $('uploads');
+		uploads.appendChild(uploads.childNodes[1].cloneNode(true));
 		return false;
+	},
+
+	parseQuery: function(query)
+	{
+		var params = new Object();
+		if (!query) {
+			return params;
+		}
+		var pairs = query.split(/[;&]/);
+		for ( var i = 0; i < pairs.length; i++ )
+		{
+			var KeyVal = pairs[i].split('=');
+			if ( ! KeyVal || KeyVal.length != 2 ) {
+				continue;
+			}
+			var key = unescape( KeyVal[0] );
+			var val = unescape( KeyVal[1] ).replace(/\+ /g, ' ');
+			params[key] = val;
+	   }
+	   return params;
 	}
-}
+});
 
 document.mediamanager = null;
-document.addLoadEvent(function() {
+Window.onDomReady(function(){
  	document.mediamanager = new JMediaManager();
  	// Added to populate data on iframe load
  	$('folderframe').onload = function() {document.mediamanager.onloadframe();}

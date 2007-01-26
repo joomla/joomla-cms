@@ -50,6 +50,7 @@ class MediaViews
 
 		$document =& JFactory::getDocument();
 		$document->setBuffer($listStyle, 'module', 'submenu');
+		$document->addScript('../includes/js/mootools.js');
 		$document->addScript('components/com_media/assets/mediamanager.js');
 		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
 		$document->addStyleSheet('components/com_media/assets/preview.css');
@@ -598,7 +599,7 @@ class MediaViews
 		$base = str_replace("\\","/",JPATH_ROOT);
 		$js = "
 			var basepath = '".$base.'/images'."';
-			var cStyle = '".$style."';
+			var viewstyle = '".$style."';
 		" ;
 
 		$doc =& JFactory::getDocument();

@@ -451,7 +451,7 @@ class MediaController
 				JFolder::create($path);
 				JFile::write($path.DS."index.html", "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>");
 			}
-			JRequest::setVar('folder', $parent.'/'.$folder);
+			JRequest::setVar('folder', ($parent) ? $parent.'/'.$folder : $folder);
 		}
 	}
 
