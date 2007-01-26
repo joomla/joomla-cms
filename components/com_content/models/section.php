@@ -429,6 +429,7 @@ class ContentModelSection extends JModel
 			case 1:
 			default:
 				$orderby_sec	= $params->def('orderby_sec', 'rdate');
+				$orderby_sec	= ($orderby_sec == 'front') ? '' : $orderby_sec;
 				$orderby_pri	= $params->def('orderby_pri', '');
 				$secondary		= JContentHelper::orderbySecondary($orderby_sec);
 				$primary		= JContentHelper::orderbyPrimary($orderby_pri);
