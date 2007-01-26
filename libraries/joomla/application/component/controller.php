@@ -303,7 +303,7 @@ class JController extends JObject
 		// Display the view
 		if ($cachable) {
 			global $option;
-			$cache =& JFactory::getCache('view', $option);
+			$cache =& JFactory::getCache($option, 'view');
 			$cache->get($view, 'display');
 		} else {
 			$view->display();
