@@ -224,18 +224,13 @@ class JController extends JObject
 		$this->_task = $task;
 
 		$task = strtolower( $task );
-		if (isset( $this->_taskMap[$task] ))
-		{
+		if (isset( $this->_taskMap[$task] )) {
 			// We have a method in the map to this task
 			$doTask = $this->_taskMap[$task];
-		}
-		else if (isset( $this->_taskMap['__default'] ))
-		{
+		} elseif (isset( $this->_taskMap['__default'] )) {
 			// Didn't find the method, but we do have a default method
 			$doTask = $this->_taskMap['__default'];
-		}
-		else
-		{
+		} else {
 			// Don't have a default method either...
 			return JError::raiseError( 404, JText::_('Task ['.$task.'] not found') );
 		}
@@ -244,13 +239,10 @@ class JController extends JObject
 		$this->_doTask = $doTask;
 
 		// Time to make sure we have access to do what we want to do...
-		if ($this->authorize( $doTask ))
-		{
+		if ($this->authorize( $doTask )) {
 			// Yep, lets do it already
 			return $this->$doTask();
-		}
-		else
-		{
+		} else {
 			// No access... better luck next time
 			return JError::raiseError( 403, JText::_('Access Forbidden') );
 		}
@@ -270,8 +262,7 @@ class JController extends JObject
 		if ($this->_acoSection)
 		{
 			// If we have a section value set that trumps the passed task ???
-			if ($this->_acoSectionValue)
-			{
+			if ($this->_acoSectionValue) {
 				// We have one, so set it and lets do the check
 				$task = $this->_acoSectionValue;
 			}
@@ -301,8 +292,7 @@ class JController extends JObject
 		$view = & $this->getView( $viewName, $viewType);
 
 		// Get/Create the model
-		if ($model = & $this->getModel($viewName))
-		{
+		if ($model = & $this->getModel($viewName)) {
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
 		}
@@ -311,6 +301,9 @@ class JController extends JObject
 		$view->setLayout($viewLayout);
 
 		// Display the view
+//		$cache =& JFactory::getCache('view', 'view');
+//		$cache->get($view, 'display');
+
 		$view->display();
 	}
 
@@ -353,8 +346,7 @@ class JController extends JObject
 			$model->setState( 'task', $this->_task );
 
 			// Get menu item information if Itemid exists
-			if ( isset( $Itemid ) )
-			{
+			if ( isset( $Itemid ) ) {
 				$menu		= & JMenu::getInstance();
 				$item		= & $menu->getItem( $Itemid );
 				$params		= new JParameter( $item->params );
@@ -429,14 +421,10 @@ class JController extends JObject
 			$prefix = $this->_name . 'View';
 		}
 
-		if ( empty( $views[$name] ) )
-		{
-			if ( $view = & $this->_createView( $name, $prefix, $type ) )
-			{
+		if ( empty( $views[$name] ) ) {
+			if ( $view = & $this->_createView( $name, $prefix, $type ) ) {
 				$views[$name] = & $view;
-			}
-			else
-			{
+			} else {
 				$result = JError::raiseError(
 					500, JText::_( 'View not found [name, type, prefix]:' )
 						. ' ' . $name . ',' . $type . ',' . $prefix
@@ -539,8 +527,7 @@ class JController extends JObject
 	function setRedirect( $url, $msg = null, $type = 'message' )
 	{
 		$this->_redirect = $url;
-		if ( $msg !== null )
-		{
+		if ($msg !== null) {
 			// controller may have set this directly
 			$this->_message	= $msg;
 		}
@@ -583,18 +570,15 @@ class JController extends JObject
 		// Build the model class name
 		$modelClass = $classPrefix . $modelName;
 
-		if ( !class_exists( $modelClass ) )
-		{
+		if ( !class_exists( $modelClass ) ) {
 			jimport( 'joomla.filesystem.path' );
 			$path = JPath::find(
 				$this->_path['model'],
 				$this->_createFileName( 'model', array( 'name' => $modelName ) )
 			);
-			if ( $path )
-			{
+			if ( $path ) {
 				require $path;
-				if ( !class_exists( $modelClass ) )
-				{
+				if ( !class_exists( $modelClass ) ) {
 					$result = JError::raiseWarning(
 						0,
 						JText::_( 'Model class not found [class, file]:' )
@@ -602,9 +586,7 @@ class JController extends JObject
 					);
 					return $result;
 				}
-			}
-			else
-			{
+			} else {
 				return $result;
 			}
 		}
@@ -639,28 +621,22 @@ class JController extends JObject
 		// Build the view class name
 		$viewClass = $classPrefix . $viewName;
 
-		if ( !class_exists( $viewClass ) )
-		{
+		if ( !class_exists( $viewClass ) ) {
 			jimport( 'joomla.filesystem.path' );
 			$path = JPath::find(
 				$this->_path['view'],
-				$this->_createFileName(
-					'view', array( 'name' => $viewName, 'type' => $viewType) )
+				$this->_createFileName( 'view', array( 'name' => $viewName, 'type' => $viewType) )
 			);
-			if ( $path )
-			{
+			if ($path) {
 				require_once $path;
 
-				if ( !class_exists( $viewClass ) )
-				{
+				if ( !class_exists( $viewClass ) ) {
 					$result = JError::raiseError(
 						500, JText::_( 'View class not found [class, file]:' )
 						. ' ' . $viewClass . ', ' . $path );
 					return $result;
 				}
-			}
-			else
-			{
+			} else {
 				return $result;
 			}
 		}
@@ -685,17 +661,15 @@ class JController extends JObject
 		// always add the fallback directories as last resort
 		switch ( strtolower($type) )
 		{
-			case 'view': {
+			case 'view':
 				// the current directory
 				$this->_addPath( $type, JPATH_COMPONENT . DS . 'views' );
-			}
 			break;
 
-			case 'model': {
+			case 'model':
 				// the current directory
 				$this->_addPath( $type, JPATH_COMPONENT . DS . 'models' );
-			}
-			break;
+				break;
 		}
 
 		// actually add the user-specified directories
@@ -747,26 +721,18 @@ class JController extends JObject
 
 		switch ( $type )
 		{
-			case 'view' :
-			{
+			case 'view':
 				if ( !empty( $parts['type'] ) ) {
-					$parts['type'] = '.' . $parts['type'];
+					$parts['type'] = '.'.$parts['type'];
 				}
 
-				$filename = strtolower( $parts['name'] ) . DS . 'view'
-					. $parts['type'] . '.php';
-			}
-			break;
-
-			case 'model' : {
-				 $filename = strtolower( $parts['name'] ) . '.php';
-			}
-			break;
-
+				$filename = strtolower($parts['name']).DS.'view'.$parts['type'].'.php';
+				break;
+			case 'model':
+				 $filename = strtolower($parts['name']).'.php';
+				break;
 		}
-
 		return $filename;
 	}
-
 }
 ?>

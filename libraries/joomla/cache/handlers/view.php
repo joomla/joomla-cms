@@ -48,7 +48,7 @@ class JCacheView extends JCache
 			$data = unserialize($data);
 			$document =& JFactory::getDocument();
 			$document->setHeadData((isset($data['head'])) ? $data['head'] : array());
-			echo (isset($data['body'])) ? $data['body'] : array();
+			echo (isset($data['body'])) ? $data['body'] : null;
 			return true;
 		}
 

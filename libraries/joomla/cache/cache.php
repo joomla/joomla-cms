@@ -42,7 +42,7 @@ class JCache extends JObject
 	 * @access	protected
 	 * @param	array	$options	options
 	 */
-	function _construct($options)
+	function __construct($options)
 	{
 		$this->_options =& $options;
 
