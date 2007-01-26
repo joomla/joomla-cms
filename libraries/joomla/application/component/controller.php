@@ -281,7 +281,7 @@ class JController extends JObject
 	 * Typical view method for MVC based architecture
 	 *
 	 */
-	function display()
+	function display($cachable=false)
 	{
 		$document =& JFactory::getDocument();
 
@@ -301,10 +301,13 @@ class JController extends JObject
 		$view->setLayout($viewLayout);
 
 		// Display the view
-//		$cache =& JFactory::getCache('view', 'view');
-//		$cache->get($view, 'display');
-
-		$view->display();
+		if ($cachable) {
+			global $option;
+			$cache =& JFactory::getCache('view', $option);
+			$cache->get($view, 'display');
+		} else {
+			$view->display();
+		}
 	}
 
 	/**
