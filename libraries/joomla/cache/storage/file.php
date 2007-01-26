@@ -136,6 +136,8 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	function clean($group, $mode)
 	{
+		jimport('joomla.filesystem.folder');
+
 		$return = true;
 		$folder	= md5($group.'-'.$this->_hash);
 		switch ($mode)
@@ -151,7 +153,9 @@ class JCacheStorageFile extends JCacheStorage
 				break;
 			case 'group':
 			default:
-				$return = JFolder::delete($this->_root.DS.$folder);
+				if (is_dir($this->_root.DS.$folder)) {
+					$return = JFolder::delete($this->_root.DS.$folder);
+				}
 				break;
 		}
 		return $return;
