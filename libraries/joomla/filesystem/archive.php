@@ -29,6 +29,9 @@ class JArchive
 	 */
 	function extract( $archivename, $extractdir)
 	{
+		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
+		
 		$ext = JFile::getExt(strtolower($archivename));
 		switch ($ext)
 		{
