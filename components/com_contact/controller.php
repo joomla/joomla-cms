@@ -265,7 +265,13 @@ class ContactController extends JController
 	/**
 	 * Validates some inputs based on component configuration
 	 *
-	 * @return boolean
+	 * @param Object	$contact	JTable Object
+	 * @param String	$email		Email address
+	 * @param String	$subject	Email subject
+	 * @param String	$body		Email body
+	 * @return Boolean
+	 * @access protected
+	 * @since 1.5
 	 */
 	function _validateInputs( $contact, $email, $subject, $body )
 	{
