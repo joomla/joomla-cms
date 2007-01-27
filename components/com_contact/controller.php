@@ -121,7 +121,7 @@ class ContactController extends JController
 		}
 
 		// input validation
-		if  (!$this->_validateInputs( $email, $subject, $body ) ) {
+		if  (!$this->_validateInputs( $contact, $email, $subject, $body ) ) {
 			JError::raiseWarning( 0, $this->getError() );
 			return false;
 		}
@@ -267,57 +267,75 @@ class ContactController extends JController
 	 *
 	 * @return boolean
 	 */
-	function _validateInputs( $email, $subject, $body )
+	function _validateInputs( $contact, $email, $subject, $body )
 	{
 		$session =& JFactory::getSession();
 
+		/**
 		$model		= $this->getModel('contact');
 		$options['category_id']	= $contact->catid;
 		$options['order by']	= 'a.default_con DESC, a.ordering ASC';
-
 		$contact 		= $model->getContact( $options );
+		**/
+		
+		// Get params and component configurations
 		$contactParams	= new JParameter($contact->params);
 		$config 		= &JComponentHelper::getParams( 'com_contact' );
-		$bannedEmail 	= $config->get( 'bannedEmail', 	'' ).';'.$contactParams->get( 'bannedEmail', 	'' );
-		$bannedSubject 	= $config->get( 'bannedSubject', 	'' ).';'.$contactParams->get( 'bannedSubject', 	'' );;
-		$bannedText 	= $config->get( 'bannedText', 	'' ).';'.$contactParams->get( 'bannedText', 	'' );;
+		
+		// check for session cookie
 		$sessionCheck 	= $config->get( 'session', 	1 );
 		$sessionName	= $session->getName();
-
-		// check for session cookie
 		if  ( $sessionCheck ) {
 			if ( !isset($_COOKIE[$sessionName]) ) {
-				$this->setError( _NOT_AUTH );
+				$this->setError( JText::_('ALERTNOTAUTH') );
 				return false;
 			}
 		}
-
+		
+		// Determine banned e-mails
+		$configEmail	= $config->get( 'bannedEmail', '' );
+		$paramsEmail	= $contactParams->get( 'bannedEmail', '' );
+		$bannedEmail 	= $configEmail . ($paramsEmail ? ';'.$paramsEmail : '');
+		
 		// Prevent form submission if one of the banned text is discovered in the email field
 		if ( $bannedEmail ) {
 			$bannedEmail = explode( ';', $bannedEmail );
 			foreach ($bannedEmail as $value) {
+					
 				if ( JString::stristr($email, $value) ) {
-					$this->setError( _NOT_AUTH );
+					$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Email') );
 					return false;
 				}
 			}
 		}
+		
+		// Determine banned subjects
+		$configSubject	= $config->get( 'bannedSubject', '' );
+		$paramsSubject	= $contactParams->get( 'bannedSubject', '' );
+		$bannedSubject 	= $configSubject . ( $paramsSubject ? ';'.$paramsSubject : '');
+		
 		// Prevent form submission if one of the banned text is discovered in the subject field
 		if ( $bannedSubject ) {
 			$bannedSubject = explode( ';', $bannedSubject );
 			foreach ($bannedSubject as $value) {
 				if ( JString::stristr($subject, $value) ) {
-					$this->setError( _NOT_AUTH );
+					$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Subject') );
 					return false;
 				}
 			}
 		}
+		
+		// Determine banned Text
+		$configText		= $config->get( 'bannedText', '' );
+		$paramsText		= $contactParams->get( 'bannedText', '' );
+		$bannedText 	= $configText . ( $paramsText ? ';'.$paramsText : '' );
+		
 		// Prevent form submission if one of the banned text is discovered in the text field
 		if ( $bannedText ) {
 			$bannedText = explode( ';', $bannedText );
 			foreach ($bannedText as $value) {
 				if ( JString::stristr($body, $value) ) {
-					$this->setError( _NOT_AUTH );
+					$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Message') );
 					return false;
 				}
 			}
