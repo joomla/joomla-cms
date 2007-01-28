@@ -222,6 +222,7 @@ function editUser( )
 
 	$db 		=& JFactory::getDBO();
 	$user 		=& JUser::getInstance( $userId );
+	$myuser		=& JFactory::getUser();
 	$acl		=& JFactory::getACL();
 
 	if ( $user->get('id') )
@@ -243,7 +244,7 @@ function editUser( )
 	$userGroups 	= $acl->get_object_groups( $userObjectID, 'ARO' );
 	$userGroupName 	= strtolower( $acl->get_group_name( $userGroups[0], 'ARO' ) );
 
-	$myObjectID 	= $acl->get_object_id( 'users', $user->get('id'), 'ARO' );
+	$myObjectID 	= $acl->get_object_id( 'users', $myuser->get('id'), 'ARO' );
 	$myGroups 		= $acl->get_object_groups( $myObjectID, 'ARO' );
 	$myGroupName 	= strtolower( $acl->get_group_name( $myGroups[0], 'ARO' ) );;
 

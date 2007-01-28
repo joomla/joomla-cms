@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Jan-2007
+ # [artf7417] - Unable to set artical access to Special - Thanks Alissa
+ # [artf7393] - User Group Edits Not correct
+
 26-Jan-2007 Johan Janssens
  - Removed com_frontpage from site application
  - Removed com_login from site application

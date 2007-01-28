@@ -7,7 +7,7 @@
 		<param name="access" type="list" size="20" default="0" label="Access Level" description="DETAILACCESS">
 			<option value="0">Public</option>
 			<option value="1">Registered</option>
-			<option value="1">Special</option>
+			<option value="2">Special</option>
 		</param>
 		<param name="created" type="calendar" format="%Y-%m-%d %H:%M:%S" default="" label="Created Date" description="DETAILCREATED" />
 		<param name="publish_up" type="calendar" format="%Y-%m-%d %H:%M:%S" default="" label="Start Publishing" description="DETAILSTART" />
