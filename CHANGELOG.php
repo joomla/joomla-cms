@@ -37,7 +37,7 @@ Legend:
 - -> Removed
 ! -> Note
 
-28-Jan-2007
+28-Jan-2007 Jason Kendall
  # [artf7417] - Unable to set artical access to Special - Thanks Alissa
  # [artf7393] - User Group Edits Not correct
 
