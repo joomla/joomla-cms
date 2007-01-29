@@ -220,7 +220,7 @@ class JInstaller_component extends JObject
 				return false;
 			}
 		}
-
+		
 		// Time to build the admin menus
 		$this->_buildAdminMenus();
 
@@ -437,11 +437,29 @@ class JInstaller_component extends JObject
 		// If a component exists with this option in the table than we don't need to add menus
 		$query = "SELECT id" .
 				"\n FROM #__components" .
-				"\n WHERE option = ".$db->Quote($option);
+				"\n WHERE `option` = ".$db->Quote($option);
+
 		$db->setQuery($query);
 		$exists = $db->loadResult();
+		
+		// Check if menu items exist
 		if ($exists) {
-			return true;
+			
+			// Don't do anything if overwrite has not been enabled
+			if ( ! $this->parent->getOverwrite() ) {
+				return true;
+			}
+			
+			// Remove existing menu items if overwrite has been enabled
+			if ( $option ) {
+				
+				$sql = 'DELETE FROM #__components WHERE `option` = \''.$db->Quote($option).'\'';
+
+				$db->setQuery($sql);
+				if (!$db->query()) {
+					JError::raiseWarning(100, 'Component Install: '.$db->stderr(true));
+				}
+			} 
 		}
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
@@ -614,6 +632,7 @@ class JInstaller_component extends JObject
 		$sql = "DELETE " .
 				"\nFROM #__components " .
 				"\nWHERE parent = ".(int)$row->id;
+
 		$db->setQuery($sql);
 		if (!$db->query()) {
 			JError::raiseWarning(100, 'Component Uninstall: '.$db->stderr(true));

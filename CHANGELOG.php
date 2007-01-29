@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Jan-2007 Toby Patterson
+ # categories being edited will be checked-out
+ # JInstaller_component - existing menu items are deleted before new ones are added if overwrite has been enabled
+
 28-Jan-2007 Jason Kendall
  # [artf7417] - Unable to set artical access to Special - Thanks Alissa
  # [artf7393] - User Group Edits Not correct

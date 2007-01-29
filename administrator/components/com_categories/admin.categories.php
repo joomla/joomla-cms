@@ -59,11 +59,11 @@ switch (JRequest::getVar('task'))
 		break;
 
 	case 'publish':
-		publishCategories( $section, $id, $cid, 1 );
+		publishCategories( $section, $cid, 1 );
 		break;
 
 	case 'unpublish':
-		publishCategories( $section, $id, $cid, 0 );
+		publishCategories( $section, $cid, 0 );
 		break;
 
 	case 'cancel':
@@ -285,8 +285,9 @@ function editCategory( )
 	global $mainframe;
 
 	// Initialize variables
-	$db		 =& JFactory::getDBO();
+	$db			=& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
+	$uid		= $user->get('id');
 
 	$type 		= JRequest::getVar( 'type' );
 	$redirect 	= JRequest::getVar( 'section', 'content' );
@@ -376,6 +377,7 @@ function editCategory( )
 	// build the html radio buttons for published
 	$lists['published'] 		= JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
 
+	$row->checkout($uid);
  	categories_html::edit( $row, $lists, $redirect );
 }
 
@@ -543,19 +545,17 @@ function removeCategories( $section, $cid )
 * @param integer 0 if unpublishing, 1 if publishing
 * @param string The name of the current user
 */
-function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 )
+function publishCategories( $section, $cid=null, $publish=1 )
 {
 	global $mainframe;
 
 	// Initialize variables
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
+	$uid	= $user->get('id');
 
 	if (!is_array( $cid )) {
 		$cid = array();
-	}
-	if ($categoryid) {
-		$cid[] = $categoryid;
 	}
 
 	if (count( $cid ) < 1) {
@@ -568,7 +568,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 )
 	$query = "UPDATE #__categories"
 	. "\n SET published = " . intval( $publish )
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $user->get('id') ) )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = $uid ) )"
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
