@@ -135,7 +135,7 @@ INSERT INTO `#__components` VALUES (10, 'Polls', 'option=com_poll', 0, 0, 'optio
 INSERT INTO `#__components` VALUES (11, 'News Feeds', 'option=com_newsfeeds', 0, 0, '', 'News Feeds Management', 'com_newsfeeds', 0, 'js/ThemeOffice/component.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (12, 'Feeds', '', 0, 11, 'option=com_newsfeeds', 'Manage News Feeds', 'com_newsfeeds', 1, 'js/ThemeOffice/edit.png', 0, '', 1);
 INSERT INTO `#__components` VALUES (13, 'Categories', '', 0, 11, 'option=com_categories&section=com_newsfeeds', 'Manage Categories', '', 2, 'js/ThemeOffice/categories.png', 0, '', 1);
-INSERT INTO `#__components` VALUES (14, 'Login', 'option=com_login', 0, 0, '', '', 'com_login', 0, '', 1, '', 1);
+INSERT INTO `#__components` VALUES (14, 'User', 'option=com_user', 0, 0, '', '', 'com_user', 0, '', 1, '', 1);
 INSERT INTO `#__components` VALUES (15, 'Search', 'option=com_search', 0, 0, 'option=com_search', 'Search Statistics', 'com_search', 0, 'js/ThemeOffice/component.png', 1, '', 1);
 INSERT INTO `#__components` VALUES (16, 'Categories','',0,1,'option=com_categories&section=com_banner', 'Categories','',3,'',1,'',1);
 INSERT INTO `#__components` VALUES (17,'Wrapper','option=com_wrapper',0,0,'','Wrapper','com_wrapper',0,'',1,'',1);
