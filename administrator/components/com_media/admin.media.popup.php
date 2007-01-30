@@ -34,14 +34,14 @@ class MediaViews
 			<div style="float: left">
 				<label for="folder"><?php echo JText::_('Directory') ?></label>
 				<?php echo $dirPath; ?>
-				<button type="button" onclick="document.imagemanager.upFolder()" title="<?php echo JText::_('Directory Up') ?>"><?php echo JText::_('Up') ?></button>
+				<button type="button" id="upbutton" title="<?php echo JText::_('Directory Up') ?>"><?php echo JText::_('Up') ?></button>
 			</div>
 			<div style="float: right">
 				<button type="button" onclick="document.imagemanager.onok();window.top.document.popup.hide();"><?php echo JText::_('Insert') ?></button>
 				<button type="button" onclick="window.top.document.popup.hide();"><?php echo JText::_('Cancel') ?></button>
 			</div>
 		</fieldset>
-		<iframe src="index.php?option=com_media&amp;task=imgManagerList&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component" id="imageview"></iframe>
+		<iframe src="index.php?option=com_media&amp;task=imgManagerList&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component" id="imageview" name="imageview"></iframe>
 		<fieldset>
 		<table class="properties">
 			<tr>
@@ -178,7 +178,7 @@ class MediaViews
 
 		?>
 		<div class="item">
-			<a href="<?php echo $link; ?>" onclick="window.parent.document.imagemanager.setFolder('<?php echo $listdir.$path ?>');">
+			<a href="<?php echo $link; ?>">
 				<img src="<?php echo $img_path; ?>administrator/components/com_media/images/folder.gif" width="80" height="80" alt="<?php echo $dir; ?>" />
 				<span><?php echo $dir; ?></span>
 			</a>

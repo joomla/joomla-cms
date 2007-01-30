@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Jan-2007 Louis Landry
+ ^ Mootools implementation stage 1
+
 29-Jan-2007 Toby Patterson
  # categories being edited will be checked-out
  # JInstaller_component - existing menu items are deleted before new ones are added if overwrite has been enabled

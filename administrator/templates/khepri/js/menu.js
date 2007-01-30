@@ -17,89 +17,43 @@
  * @since		1.5
  * @version     1.0
  */
-  
-/* -------------------------------------------- */
-/* -- JMenu prototype ------------------------- */
-/* -------------------------------------------- */
-
-//constructor
-var JMenu = function() { this.constructor.apply(this, arguments);}
-JMenu.prototype = {
-	constructor: function(element) 
-	{	
-		var elements = element.getElementsByTagName("LI");
+var JMenu = new Class({
+	initialize: function(el)
+	{
+		var elements = $ES('li', el);
 		var nested = null
-		for (var i=0; i<elements.length; i++) 
+		for (var i=0; i<elements.length; i++)
 		{
 			var element = elements[i];
-			
-			this.registerEvent(element, 'mouseover');
-			this.registerEvent(element, 'mouseout');
-			
+
+			element.addEvent('mouseover', function(){ this.addClass('hover'); });
+			element.addEvent('mouseout', function(){ this.removeClass('hover'); });
+
 			//find nested UL
-			for (j=0; j < element.childNodes.length; j++) {
-				if (element.childNodes[j].nodeName == "UL")  {	
-					nested = element.childNodes[j]
-				}
+			nested = $E('ul', element);
+			if(!nested) {
+				continue;
 			}
-			
-			if(nested == null) 
-				return;
-			
+
 			//declare width
 			var offsetWidth  = 0;
-			
+
 			//find longest child
 			for (k=0; k < nested.childNodes.length; k++) {
 				var node  = nested.childNodes[k]
-				if (node.nodeName == "LI") 
+				if (node.nodeName == "LI")
 					offsetWidth = (offsetWidth >= node.offsetWidth) ? offsetWidth :  node.offsetWidth;
 			}
-			
+
 			//match longest child
 			for (l=0; l < nested.childNodes.length; l++) {
 				var node = nested.childNodes[l]
 				if (node.nodeName == "LI") {
-					node.style.width = offsetWidth+'px';
+					$(node).setStyle('width', offsetWidth+'px');
 				}
 			}
-			
-			nested.style.width = offsetWidth+'px';
-		}
-	},
-	
-	onmouseover: function(event, args)  {
-		this.addClassName(event.element, 'hover');
-	},
 
-	onmouseout: function(event, args)  {
-		this.removeClassName(event.element, 'hover');
-	},
-	
-	registerEvent: function(target,type,args) 
-	{
-		//use a closure to keep scope
-		var self = this;
-			
-		if (target.addEventListener)   { 
-    		target.addEventListener(type,onEvent,true);
-		} else if (target.attachEvent) { 
-	  		target.attachEvent('on'+type,onEvent);
-		} 
-		
-		function onEvent(e)	{
-			e = e||window.event;
-			e.element = target;
-			return self["on"+type](e, args);
+			$(nested).setStyle('width', offsetWidth+'px');
 		}
-	},
-	
-	addClassName: function(element, className) {
-		this.removeClassName(element, className); 
-		element.className+=(element.className.length>0?' ':'')+className; 
-	},
-  
-	removeClassName: function(element, className) {
-		element.className=element.className.replace(new RegExp("^"+className+"\\b\\s*|\\s*\\b"+className+"\\b",'g'),''); 
 	}
-}
+});

@@ -19,69 +19,60 @@
  * @subpackage	Config
  * @since		1.5
  */
-
-JSwitcher = function() { this.initialize.apply(this, arguments);}
-JSwitcher.prototype = {
-
-	initialize: function(toggler, element) 
-	{	
+var JSwitcher = new Class({
+	initialize: function(toggler, element)
+	{
 		var self = this;
-		
-		togglers = toggler.getElementsByTagName('A');
+
+		togglers = $ES('a', toggler);
 		for (i=0; i < togglers.length; i++) {
-			togglers[i].onclick = function() {
-				self.switchTo(this.getAttribute('id'));
-			}
+			togglers[i].addEvent( 'click', function() { self.switchTo(this.getAttribute('id')); } );
 		}
-		
+
 		//hide all
-		elements = element.getElementsByTagName('DIV');
+		elements = $ES('div', element);
 		for (i=0; i < elements.length; i++) {
 			this.hide(elements[i])
 		}
 	},
-	
+
 	switchTo: function(id)
 	{
-		toggler = document.getElementById(id);
-		element = document.getElementById('page-'+id);
-		
-		if(element) 
+		toggler = $(id);
+		element = $('page-'+id);
+
+		if(element)
 		{
 			//hide old element
 			if(this.active) {
 				this.hide(this.active);
 			}
-		
+
 			//show new element
 			this.show(element);
-			
-			toggler.className = 'active';
+
+			toggler.addClass('active');
 			if (this.test) {
-				document.getElementById(this.test).className = '';
+				$(this.test).removeClass('active');
 			}
 			this.active = element;
 			this.test = id;
-		}	
+		}
 	},
 
 	hide: function(element) {
-		this.setVisibility(element, false);
+		element.setStyle('display', 'none');
 	},
 
 	show: function (element) {
-		this.setVisibility(element, true);
-	},
-
-	setVisibility: function(element, bShow) { 
-		element.style.display = bShow ? "block" : "none"
+		element.setStyle('display', 'block');
 	}
-}
+});
 
 document.switcher = null;
-document.addLoadEvent(function() {
- 	toggler = document.getElementById('submenu')
-  	element = document.getElementById('config-document')
+Window.onDomReady(function(){
+ 	toggler = $('submenu')
+  	element = $('config-document')
   	if(element) {
   		document.switcher = new JSwitcher(toggler, element)
   	 	document.switcher.switchTo('site');

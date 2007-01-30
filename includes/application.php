@@ -89,10 +89,11 @@ class JSite extends JApplication
 			case 'html':
 				//set metadata
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
+				$document->addScript( 'includes/js/mootools.js');
+				$document->addScript( 'includes/js/joomla/caption.js');
 
 				$user =& JFactory::getUser();
 				if ( $user->get('id') ) {
-					$document->addScript( 'includes/js/joomla/common.js');
 					$document->addScript( 'includes/js/joomla.javascript.js');
 				}
 				break;
@@ -437,7 +438,7 @@ class JSiteHelper
 			$option = 'com_content';
 			JRequest::setVar('view', 'frontpage');
 		}
-		
+
 		if($option == 'com_login') {
 			$option = 'com_user';
 			JRequest::setVar('view', 'login');

@@ -19,25 +19,15 @@
  * @since		1.5
  * @version     1.0
  */
- 
-/* -------------------------------------------- */
-/* -- JCaption prototype ------------------------ */
-/* -------------------------------------------- */
+var JCaption = new Class({
+	initialize: function(selector)
+	{
+		this.selector = selector;
 
-//constructor
-var JCaption = function() { this.constructor.apply(this, arguments);}
-JCaption.prototype = {
-
-	constructor: function(aClass) 
-	{	
-		this.sClass = aClass;
-		
-		var images = document.getElementsByClassName(aClass);
-		for ( var i=0; i < images.length; i++) {
-			this.createCaption(images[i]);
-		}
+		var images = $$(selector);
+		images.each(function(image){ this.createCaption(image); }, this);
 	},
-	
+
 	createCaption: function(element)
 	{
 		var caption   = document.createTextNode(element.title);
@@ -45,26 +35,26 @@ JCaption.prototype = {
 		var text      = document.createElement("p");
 		var width     = element.getAttribute("width");
 		var align     = element.getAttribute("align");
-		
+
 		if(!width) {
 			width = element.width;
-		} 
-			
+		}
+
 		text.appendChild(caption);
 		element.parentNode.insertBefore(container, element);
 		container.appendChild(element);
 		if ( element.title != "" ) {
 			container.appendChild(text);
 		}
-		container.className   = this.sClass;
+		container.className   = this.selector;
 		container.setAttribute("style","float:"+align);
 		container.style.width = width + "px";
-		
+
 	}
-}
+});
 
 document.caption = null
-document.addLoadEvent(function() {
-  var caption = new JCaption('caption')
+Window.onDomReady(function(){
+  var caption = new JCaption('img.caption')
   document.caption = caption
 });

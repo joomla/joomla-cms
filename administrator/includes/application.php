@@ -87,9 +87,9 @@ class JAdministrator extends JApplication
 			case 'html' :
 			{
 				$document->setMetaData( 'keywords', 		$this->getCfg('MetaKeys') );
+				$document->addScript( '../includes/js/mootools.js');
 
 				if ( $user->get('id') ) {
-					$document->addScript( '../includes/js/joomla/common.js');
 					$document->addScript( '../includes/js/joomla.javascript.js');
 				}
 			} break;

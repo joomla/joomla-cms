@@ -1,0 +1,59 @@
+/* ---- Basic tree styles ------------------- */
+
+.jtree ul, .jtree li { margin: 0; padding: 0; list-style: none; }
+
+/* ---- Tree layout ------------------------- */
+
+.jtree ul { margin-right: 20px; }
+
+.jtree li      { background: url(rtl_images/line.gif) right repeat-y; }
+.jtree li.last { background-image: none; }
+
+.jtree div { 
+	height: 100%; padding: 4px 40px 4px 0px; 
+	background-repeat: no-repeat; background-position: right bottom; 
+}
+.jtree span { 
+	display: block; position: absolute; width: 18px; height: 18px;  margin: 0 -20px 0 0px; 
+	background-repeat: no-repeat; border: 0 none;
+}
+
+.jtree a {}
+
+.jtree .root { padding-right: 20px;}
+.jtree .root span { background: url(rtl_images/base.gif) no-repeat right bottom;  }
+
+.jtree .node { background-image: url(rtl_images/plus.gif); }
+.jtree .node span { background-image: url(rtl_images/folder.gif); }
+.jtree li.last .node { background-image: url(rtl_images/plusbottom.gif); }
+.jtree li.last .node span { background-image: url(rtl_images/folder.gif); }
+
+.jtree .node-open { background-image: url(rtl_images/minus.gif); }
+.jtree .node-open span { background-image: url(rtl_images/folderopen.gif); }
+.jtree li.last .node-open { background-image: url(rtl_images/minusbottom.gif); }
+.jtree li.last .node-open span { background-image: url(rtl_images/folderopen.gif); }
+
+.jtree .leaf { background-image: url(rtl_images/join.gif);  }
+.jtree .leaf span { background-image: url(rtl_images/page.gif); }
+.jtree li.last .leaf { background-image: url(rtl_images/joinbottom.gif); }
+.jtree li.last .leaf span { background-image: url(rtl_images/page.gif); }
+
+.jtree .base { background-image: url(rtl_images/blank.gif);  }
+.jtree .base span { background-image: url(rtl_images/folder.gif); }
+.jtree li.last .base { background-image: url(rtl_images/blankbottom.gif); }
+.jtree li.last .base span { background-image: url(rtl_images/folder.gif); }
+
+.jtree ul .node { padding: 4px 20px 4px 0px;}
+.jtree ul .node span { display: none; }
+.jtree ul .node-open { padding: 4px 20px 4px 0px; }
+.jtree ul .node-open span { display: none; }
+.jtree ul li.last .node span { display: none; }
+.jtree ul li.last .node span { padding: 4px 20px 4px 0px; }
+.jtree ul li.last .node-open span { display: none; }
+.jtree ul li.last .node-open span { padding: 4px 20px 4px 0px; }
+
+/* ---- Specific layout ------------------------- */
+#internal-node {}
+#external-node {}
+#separator-node {}
+#link-node {}

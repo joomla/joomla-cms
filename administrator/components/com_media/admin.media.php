@@ -292,8 +292,6 @@ class MediaController
 		$doc =& JFactory::getDocument();
 		$doc->addStyleSheet('components/com_media/assets/popup-imagemanager.css');
 		$doc->addScript('components/com_media/assets/popup-imagemanager.js');
-		$doc->addScript( $url. 'includes/js/moofx/moo.fx.js' );
-		$doc->addScript( $url. 'includes/js/moofx/moo.fx.pack.js' );
 
 		MediaViews::imgManager($folderSelect, null);
 	}

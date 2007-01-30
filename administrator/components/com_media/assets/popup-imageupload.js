@@ -18,59 +18,33 @@
  * @subpackage	Media
  * @since		1.5
  */
- 
-JImageUpload = function() { this.constructor.apply(this, arguments);}
-JImageUpload.prototype = {
+ var JImageUpload = new Class({
+	initialize: function()
+	{
+		var self = this;
 
-	constructor: function() 
-	{	
-		var self = this;
-		
-		this.upload  = document.getElementById('upload');
-		this.message = document.getElementById('message');
-		
+		this.upload  = $('upload');
+		this.message = $('message');
+
 		//Setup events
-		this.registerEvent(this.upload, 'click');
+		this.upload.addEvent('click', function(){
+			self.message.setStyle('display', 'none');
+		});
 	},
-	
-	registerEvent: function(target,type,args) 
-	{
-		//use a closure to keep scope
-		var self = this;
-			
-		if (target.addEventListener)   { 
-    		target.addEventListener(type,onEvent,true);
-		} else if (target.attachEvent) { 
-	  		target.attachEvent('on'+type,onEvent);
-		} 
-		
-		function onEvent(e)	{
-			e = e||window.event;
-			e.element = target;
-			return self["on"+type](e, args);
-		}
-	},
-	
-	onclick: function(event, args)  
-	{
-		this.message.style.display = 'none';	
-	},
-	
-	onupload: function() 
+
+	onupload: function()
 	{
 		if(window.parent.document.imagemanager) {
 			var folder = window.parent.document.imagemanager.getFolder();
 			document.adminForm.dirPath.value=folder;
 		}
-		
+
 		submitform('upload');
-		
-		Element.addClassName(this.upload, 'uploading');
-		this.upload.setAttribute('disabled', 'disabled');	
+
+		this.upload.addClass('uploading');
+		this.upload.setAttribute('disabled', 'disabled');
 	}
-}
+});
 
 document.imageupload = null;
-document.addLoadEvent(function() {
- 	document.imageupload = new JImageUpload();
-});
+document.onload = function(){ document.imageupload = new JImageUpload(); };

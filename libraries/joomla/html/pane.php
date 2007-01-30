@@ -230,10 +230,7 @@ class JPaneSliders extends JPane
 	* Ends the pane
 	*/
 	function endPane() {
-		return '</div>'
-			.'<script type="text/javascript">'
-			.'	init_moofx();'
-			.'</script>';
+		return '</div>';
 	}
 
 	/**
@@ -245,8 +242,8 @@ class JPaneSliders extends JPane
 	function startPanel( $text, $id )
 	{
 		return '<div class="panel">'
-			.'<h3 class="moofx-toggler title" id="'.$id.'"><span>'.$text.'</span></h3>'
-			.'<div class="moofx-slider content">';
+			.'<h3 class="jpane-toggler title" id="'.$id.'"><span>'.$text.'</span></h3>'
+			.'<div class="jpane-slider content">';
 	}
 
 	/**
@@ -268,11 +265,28 @@ class JPaneSliders extends JPane
 		$document =& JFactory::getDocument();
 		$lang	 =& JFactory::getLanguage();
 
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$options = '{';
+		$opt['onActive']	= 'function(toggler, i) { toggler.addClass(\'jpane-toggler-down\'); toggler.removeClass(\'jpane-toggler\'); }';
+		$opt['onBackground']= 'function(toggler, i) { toggler.addClass(\'jpane-toggler\'); toggler.removeClass(\'jpane-toggler-down\'); }';
+		$opt['duration']	= (isset($params['duration'])) ? (int)$params['duration'] : 300;
+		$opt['display']		= (isset($params['startOffset']) && ($params['startTransition'])) ? (int)$params['startOffset'] : null ;
+		$opt['show']		= (isset($params['startOffset']) && (!$params['startTransition'])) ? (int)$params['startOffset'] : null ;
+		$opt['opacity']		= (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false' ;
+		$opt['alwaysHide']	= (isset($params['allowAllClose']) && ($params['allowAllClose'])) ? 'true' : null ;
+		foreach ($opt as $k => $v)
+		{
+			if ($v) {
+				$options .= $k.': '.$v.',';
+			}
+		}
+		if (substr($options, -1) == ',') {
+			$options = substr($options, 0, -1);
+		}
+		$options .= '}';
 
-		$document->addScript( $url. 'includes/js/moofx/moo.fx.js' );
-		$document->addScript( $url. 'includes/js/moofx/moo.fx.pack.js' );
-		$document->addScript( $url. 'includes/js/moofx/moo.fx.slide.js' );
+		$js = '		Window.onDomReady(function(){ document.ac = new Accordion($$(\'.panel h3.jpane-toggler\'), $$(\'.panel div.jpane-slider\'), '.$options.'); });';
+
+		$document->addScriptDeclaration( $js );
 	}
 }
 ?>

@@ -2,11 +2,8 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <script type="text/javascript">
 <!--
-	document.addLoadEvent(function() {
- 	document.formvalidator.handlers['passverify'] = {
-	 		enabled : true,
-			exec : function (value) { return ($('password').value == value); }
-		}
+	Window.onDomReady(function(){
+		document.formvalidator.setHandler('passverify', function (value) { return ($('password').value == value); }	);
 	});
 
 function validateForm( frm ) {
@@ -32,13 +29,13 @@ function validateForm( frm ) {
 // -->
 </script>
 
-<?php  
+<?php
 	if(isset($this->message)){
 		$this->display('message');
 	}
 ?>
 
-<form action="<?php echo JURI::resolve( 'index.php?option=com_registration&amp;task=register' ); ?>" method="post" id="josForm" name="josForm" class="form-validate">
+<form action="<?php echo JURI::resolve( 'index.php?option=com_registration' ); ?>" method="post" id="josForm" name="josForm" class="form-validate">
 
 <div class="componentheading">
 	<?php echo JText::_( 'Registration' ); ?>
@@ -52,7 +49,7 @@ function validateForm( frm ) {
 		</label>
 	</td>
   	<td>
-  		<input type="text" name="name" id="name" size="40" value="<?php echo $this->user->get( 'name' );?>" class="inputbox validate required none namemsg" maxlength="50" /> *
+  		<input type="text" name="name" id="name" size="40" value="<?php echo $this->user->get( 'name' );?>" class="inputbox required" maxlength="50" /> *
   	</td>
 </tr>
 <tr>
@@ -62,7 +59,7 @@ function validateForm( frm ) {
 		</label>
 	</td>
 	<td>
-		<input type="text" id="username" name="username" size="40" value="<?php echo $this->user->get( 'username' );?>" class="inputbox validate required username usernamemsg" maxlength="25" /> *
+		<input type="text" id="username" name="username" size="40" value="<?php echo $this->user->get( 'username' );?>" class="inputbox required validate-username" maxlength="25" /> *
 	</td>
 <tr>
 	<td height="40">
@@ -71,7 +68,7 @@ function validateForm( frm ) {
 		</label>
 	</td>
 	<td>
-		<input type="text" id="email" name="email" size="40" value="<?php echo $this->user->get( 'email' );?>" class="inputbox validate required email emailmsg" maxlength="100" /> *
+		<input type="text" id="email" name="email" size="40" value="<?php echo $this->user->get( 'email' );?>" class="inputbox required validate-email" maxlength="100" /> *
 	</td>
 </tr>
 <tr>
@@ -81,7 +78,7 @@ function validateForm( frm ) {
 		</label>
 	</td>
   	<td>
-  		<input class="inputbox validate required password pwmsg" type="password" id="password" name="password" size="40" value="" /> *
+  		<input class="inputbox required validate-password" type="password" id="password" name="password" size="40" value="" /> *
   	</td>
 </tr>
 <tr>
@@ -91,7 +88,7 @@ function validateForm( frm ) {
 		</label>
 	</td>
 	<td>
-		<input class="inputbox validate required passverify pw2msg" type="password" id="password2" name="password2" size="40" value="" /> *
+		<input class="inputbox required validate-passverify" type="password" id="password2" name="password2" size="40" value="" /> *
 	</td>
 </tr>
 <tr>

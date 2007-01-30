@@ -18,68 +18,61 @@
  * @subpackage	Media
  * @since		1.5
  */
-
-JImageManager = function() { this.constructor.apply(this, arguments);}
-JImageManager.prototype = {
-
-	constructor: function()
+var JImageManager = new Class({
+	initialize: function(popup)
 	{
-		var self = this;
-
-		var imageview  = null;
-		var folderlist = null;
-
-		this.imageview  	= document.getElementById('imageview');
-		this.folderlist 	= document.getElementById('folderlist');
-		this.uploadtoggler  = document.getElementById('uploadtoggler');
+		this.popup			= $(popup);
+		this.imageview  	= $('imageview');
+		this.upbutton	  	= $('upbutton');
+		this.folderlist 	= $('folderlist');
+		this.uploadtoggler  = $('uploadtoggler');
 
 		//Setup events
-		this.registerEvent(this.uploadtoggler, 'click');
+		this.imageview.manager = this;
+		this.imageview.addEvent('load', function(){ this.manager.onloadimageview(); });
+
+		this.upbutton.manager = this;
+		this.upbutton.addEvent('click', function(){ this.manager.upFolder(); });
+
+		this.uploadtoggler.manager = this;
+		this.uploadtoggler.addEvent('click', function(){
+			if(this.hasClass('toggler-down')) {
+				this.removeClass('toggler-down');
+				this.manager.popup.decreaseHeight(50);
+			} else {
+				this.addClass('toggler-down');
+				this.manager.popup.increaseHeight(50);
+			}
+			this.manager.uploadpane.toggle();
+		});
 
 		//Setup effect
-		this.uploadpane = new fx.Height(document.getElementById('uploadpane'), {opacity:true, duration: 200});
+		this.uploadpane = new Fx.Slide($('uploadpane'), {opacity:true, duration: 200});
 		this.uploadpane.hide();
 	},
 
-	registerEvent: function(target,type,args)
+	onloadimageview: function()
 	{
-		//use a closure to keep scope
-		var self = this;
-
-		if (target.addEventListener)   {
-    		target.addEventListener(type,onEvent,true);
-		} else if (target.attachEvent) {
-	  		target.attachEvent('on'+type,onEvent);
-		}
-
-		function onEvent(e)	{
-			e = e||window.event;
-			e.element = target;
-			return self["on"+type](e, args);
-		}
+		var folder = this.getImageFolder();
+		this.setFolder(folder, true);
 	},
 
-	onclick: function(event, args)
+	getImageFolder: function()
 	{
-		if(Element.hasClassName(event.element, 'toggler-down')) {
-			Element.removeClassName(event.element, 'toggler-down');
-			window.top.document.popup.decreaseHeight(50);
-		} else {
-			Element.addClassName(event.element, 'toggler-down');
-			window.top.document.popup.increaseHeight(50);
-		}
+		var url 	= this.imageview.location.search.substring(1);
+		var args	= this.parseQuery(url);
 
-		this.uploadpane.toggle();
+		return args['folder'];
 	},
 
 	onok: function()
 	{
 		// Get the image tag field information
-		var url		= document.getElementById("f_url").value;
-		var alt		= document.getElementById("f_alt").value;
-		var align	= document.getElementById("f_align").value;
-		var title	= document.getElementById("f_title").value;
-		var caption	= document.getElementById("f_caption").value;
+		var url		= $("f_url").getValue();
+		var alt		= $("f_alt").getValue();
+		var align	= $("f_align").getValue();
+		var title	= $("f_title").getValue();
+		var caption	= $("f_caption").getValue();
 
 		if (url != '') {
 			// Set alt attribute
@@ -90,12 +83,10 @@ JImageManager.prototype = {
 			if (align != '') {
 				align = "align=\""+align+"\" ";
 			}
-
 			// Set align attribute
 			if (title != '') {
 				title = "title=\""+title+"\" ";
 			}
-
 			// Set align attribute
 			if (caption != '') {
 				caption = 'class="caption"';
@@ -129,7 +120,7 @@ JImageManager.prototype = {
 	},
 
 	getFolder: function() {
-		return this.folderlist.options[this.folderlist.selectedIndex].text;
+		return this.folderlist.getValue();
 	},
 
 	upFolder: function()
@@ -160,24 +151,42 @@ JImageManager.prototype = {
 	},
 
 	populateFields: function(file) {
-		document.getElementById("f_url").value = "images/stories"+file;
+		$("f_url").value = "images/stories"+file;
 	},
 
 	showMessage: function(text)
 	{
-		var message  = document.getElementById('message');
-		var messages = document.getElementById('messages');
+		var message  = $('message');
+		var messages = $('messages');
 
 		if(message.firstChild)
 			message.removeChild(message.firstChild);
 
 		message.appendChild(document.createTextNode(text));
 		messages.style.display = "block";
-	}
+	},
 
-}
+	parseQuery: function(query)
+	{
+		var params = new Object();
+		if (!query) {
+			return params;
+		}
+		var pairs = query.split(/[;&]/);
+		for ( var i = 0; i < pairs.length; i++ )
+		{
+			var KeyVal = pairs[i].split('=');
+			if ( ! KeyVal || KeyVal.length != 2 ) {
+				continue;
+			}
+			var key = unescape( KeyVal[0] );
+			var val = unescape( KeyVal[1] ).replace(/\+ /g, ' ');
+			params[key] = val;
+	   }
+	   return params;
+	}
+});
 
 document.imagemanager = null;
-document.addLoadEvent(function() {
- 	document.imagemanager = new JImageManager();
-});
+document.onload = function(){ document.imagemanager = new JImageManager(window.parent.popup); };
+

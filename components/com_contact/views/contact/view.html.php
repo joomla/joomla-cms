@@ -118,8 +118,7 @@ class ContactViewContact extends JView
 				break;
 		}
 
-		$document->addScript('includes/js/joomla/common.js');
-		$document->addScript('includes/js/joomla/validation.js');
+		$document->addScript('includes/js/joomla/validate.js');
 
 		$this->assignRef('contacts' , $contacts);
 		$this->assignRef('contact'  , $contact);

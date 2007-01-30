@@ -27,17 +27,16 @@ class RegistrationViewRegister extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
-		
+
 		$pathway =& $mainframe->getPathWay();
 
 	 	// Page Title
 	 	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
 		$pathway->addItem( JText::_( 'New' ));
-		
+
 		$doc = & JFactory::getDocument();
-		$doc->addScript('includes/js/joomla/common.js');
-		$doc->addScript('includes/js/joomla/validation.js');
-				
+		$doc->addScript('includes/js/joomla/validate.js');
+
 		$user =& JFactory::getUser();
 		$this->assignRef('user', $user);
 

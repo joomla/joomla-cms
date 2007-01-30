@@ -17,7 +17,6 @@
  * @since		1.5
  * @version  	1.0
  */
-  
-document.addLoadEvent(function() { 
-	Fat.fade_all(); 
+Window.onDomReady(function(){
+	Fat.fade_all();
 });

@@ -19,7 +19,7 @@
  * @since		1.5
  * @version     1.0
  */
- 
+
 /* -------------------------------------------- */
 /* -- JPopup prototype ------------------------ */
 /* -------------------------------------------- */
@@ -28,42 +28,42 @@
 var JPopup = function() { this.constructor.apply(this, arguments);}
 JPopup.prototype = {
 
-	constructor: function() 
-	{	
+	constructor: function()
+	{
 		//Initialise parameters
 		this.visible     = false;
 		this.hideSelects = false;
-		
+
 		this.returnFunc = null;
 		this.URL        = null;
 		this.baseURL    = null;
-		
+
 		this.mask       = null;
 		this.frame      = null;
 		this.container  = null;
-		
+
 		this.tabIndexes   = new Array();
-		this.tabbableTags = new Array("A","BUTTON","TEXTAREA","INPUT","IFRAME");	
-		
-		
+		this.tabbableTags = new Array("A","BUTTON","TEXTAREA","INPUT","IFRAME");
+
+
 		//Setup events
 		this.registerEvent(window, 'resize');
 		this.registerEvent(window, 'scroll');
-		
+
 		if (!document.all) {
 			// If using Mozilla or Firefox, use Tab-key trap.
 			this.registerEvent(document, 'keypress');
 		}
-		
+
 		//find library base url
 		//var base     = window.location.pathname;
 		//this.baseURL = base.replace(/administrator\//g, "");
-			
+
 		// Add the HTML to the body
 		body = document.getElementsByTagName('body')[0];
 		popmask = document.createElement('div');
 		popmask.id = 'popup-overlay';
-		
+
 		popcont = document.createElement('div');
 		popcont.id = 'popup-container';
 		popcont.innerHTML = '' +
@@ -78,36 +78,36 @@ JPopup.prototype = {
 			'</div>';
 		body.appendChild(popmask);
 		body.appendChild(popcont);
-		
-		this.mask      = document.getElementById("popup-overlay");
-		this.container = document.getElementById("popup-container");
-		this.frame     = document.getElementById("popup-frame");
-			
+
+		this.mask      = $("popup-overlay");
+		this.container = $("popup-container");
+		this.frame     = $("popup-frame");
+
 		// check to see if this is IE version 6 or lower. hide select boxes if so
 		var brsVersion = parseInt(window.navigator.appVersion.charAt(0), 10);
 		if (brsVersion <= 6 && window.navigator.userAgent.indexOf("MSIE") > -1) {
 			this.hideSelects = true;
 		}
 	},
-	
-	registerEvent: function(target,type,args) 
+
+	registerEvent: function(target,type,args)
 	{
 		//use a closure to keep scope
 		var self = this;
-			
-		if (target.addEventListener)   { 
+
+		if (target.addEventListener)   {
     		target.addEventListener(type,onEvent,true);
-		} else if (target.attachEvent) { 
+		} else if (target.attachEvent) {
 	  		target.attachEvent('on'+type,onEvent);
-		} 
-		
+		}
+
 		function onEvent(e)	{
 			e = e||window.event;
 			e.element = target;
 			return self["on"+type](e, args);
 		}
 	},
-	
+
 	onresize: function(event, args)  {
 		this.center();
 	},
@@ -115,15 +115,15 @@ JPopup.prototype = {
 	onscroll: function(event, args)  {
 		this.center();
 	},
-	
+
 	onload: function(event, args)  {
-		if(!this.visible) 
+		if(!this.visible)
 			return;
-				
+
 		this.frame.style.display = 'block';
 		this.setTitle();
 	},
-	
+
 	onkeypress: function(event, args)  {
 		/*
 	 	 * Tab key trap. iff popup is shown and key was [TAB], suppress it.
@@ -131,43 +131,43 @@ JPopup.prototype = {
 	 	 */
 		if (this.visible && event.keyCode == 9)  return false;
 	},
-	
+
 	/**
 	* @argument width - int in pixels
 	* @argument height - int in pixels
 	* @argument url - url to display
 	* @argument returnFunc - function to call when returning true from the window.
 	*/
-	show: function(url, width, height, returnFunc) 
+	show: function(url, width, height, returnFunc)
 	{
 		this.visible = true;
 
 		this.disableTabIndexes();
-		
+
 		this.mask.style.display      = "block";
 		this.container.style.display = "block";
-			
+
 		// calculate where to place the window on screen
 		this.center(width, height);
-	
+
 		var titleBarHeight = parseInt(document.getElementById("popup-titlebar").offsetHeight, 10);
-	
+
 		this.container.style.width = width + "px";
 		this.container.style.height = (height+titleBarHeight) + "px";
-		
+
 		// need to set the width of the iframe to the title bar width because of the dropshadow
 		// some oddness was occuring and causing the frame to poke outside the border in IE6
 		this.frame.style.width = parseInt(document.getElementById("popup-titlebar").offsetWidth, 10) + "px";
 		this.frame.style.height = (height) + "px";
 
 		// load the url
-		if(this.URL != url) 
+		if(this.URL != url)
 		{
 			// Hiding the frame in Safari and Opera breaks the modal
 			if(navigator.userAgent.indexOf('Opera') == -1 && navigator.userAgent.indexOf('Safari') == -1) {
 				this.frame.style.display = "none";
 			}
-			
+
 			// If the modal has been closed with reseting "this.URL" but the
 			// requested URL is the same as the old one, we have to force Opera to
 			// reload the page or it will never fire an onload event. Opera
@@ -175,20 +175,20 @@ JPopup.prototype = {
 			if (this.URL == null && navigator.userAgent.indexOf('Opera') != -1 && this.frame.src != 'about:blank') {
 				this.frame.location.reload();
 			}
-		
-			this.URL = url;	
+
+			this.URL = url;
 			this.frame.src = url;
 		}
-	
+
 		this.returnFunc = returnFunc;
-		
+
 		// for IE
 		if (this.hideSelects == true) {
 			this.hideSelectBoxes();
 		}
 	},
 
-	center: function(width, height) 
+	center: function(width, height)
 	{
 		if (this.visible == true) {
 			if (width == null || isNaN(width)) {
@@ -197,90 +197,95 @@ JPopup.prototype = {
 			if (height == null) {
 				height = this.container.offsetHeight;
 			}
-		
+
 			var fullHeight = this.getViewportHeight();
 			var fullWidth  = this.getViewportWidth();
-		
+
 			var theBody = document.documentElement;
-		
+
+			var Browser = new Object();
+			Browser.agt     = navigator.userAgent.toLowerCase();
+			Browser.is_ie	= ((Browser.agt.indexOf("msie") != -1) && (Browser.agt.indexOf("opera") == -1));
+
 			var scTop = Browser.is_ie ? parseInt(theBody.scrollTop,10) : 0;
 			var scLeft = Browser.is_ie ? parseInt(theBody.scrollLeft,10) : 0;
-			
+
 			var titleBarHeight = parseInt(document.getElementById("popup-titlebar").offsetHeight, 10);
-		
+
 			this.container.style.top =  scTop + ((fullHeight - (height+titleBarHeight)) / 2) + "px";
 			this.container.style.left = scLeft + ((fullWidth - width) / 2) + "px";
-			
+
 			this.mask.style.height = fullWidth + "px";
 			this.mask.style.width = fullWidth + "px";
 			//alert(fullWidth + " " + width + " " + this.container.style.left);
 		}
 	},
-	
+
 	/**
  	 * @argument callReturnFunc - bool - determines if we call the return function specified
- 	 * @argument returnVal - anything - return value 
+ 	 * @argument returnVal - anything - return value
  	 */
-	hide: function(callReturnFunc, resetURL) 
+	hide: function(callReturnFunc, resetURL)
 	{
 		this.visible = false;
-		
+
 		this.restoreTabIndexes();
 		if (this.mask == null) {
 			return;
 		}
 		this.mask.style.display      = "none";
 		this.container.style.display = "none";
-		
+
 		if (callReturnFunc == true && this.returnFunc != null) {
 			this.returnFunc(window.frames["popup-frame"].returnVal);
 		}
 
 		if (resetURL) {
 			this.URL = null;
-			
+
 			// Reset to blank page when possible to avoid the unpleasing
 			// visual effects of switching to a new page
 			this.frame.src = 'about:blank';
-			
+
 			document.getElementById("popup-title").innerHTML = '';
 		}
-		
+
 		// display all select boxes
 		if (this.hideSelects == true) {
 			this.displaySelectBoxes();
 		}
 	},
-	
+
 	/**
 	 * Increase the height of the popup
 	 */
 	increaseHeight: function(height)
 	{
-		var effect = new fx.Height(this.container, {opacity: false, duration: 200});
-		effect.custom(this.container.offsetHeight, this.container.offsetHeight + height - 9);
-		
-		var effect = new fx.Height(this.frame, {opacity: false, duration: 200});
-		effect.custom(this.frame.offsetHeight, this.frame.offsetHeight + height);
+
+		var effect = this.container.effect('height', {opacity: false, duration: 200});
+		effect.start(this.container.offsetHeight, this.container.offsetHeight + height - 9);
+
+		var frameeffect = this.frame.effect('height', {opacity: false, duration: 200});
+		frameeffect.start(this.frame.offsetHeight, this.frame.offsetHeight + height);
 	},
-	
+
 	/**
 	 * Increase the height of the popup
 	 */
 	decreaseHeight: function(height)
 	{
-		var effect = new fx.Height(this.container, {opacity: false, duration: 200});
-		effect.custom(this.container.offsetHeight, this.container.offsetHeight - height - 6);
-		
-		var effect = new fx.Height(this.frame, {opacity: false, duration: 200});
-		effect.custom(this.frame.offsetHeight, this.frame.offsetHeight - height);
+		var effect = this.container.effect('height', {opacity: false, duration: 200});
+		effect.start(this.container.offsetHeight, this.container.offsetHeight - height - 6);
+
+		var frameeffect = this.frame.effect('height', {opacity: false, duration: 200});
+		frameeffect.start(this.frame.offsetHeight, this.frame.offsetHeight - height);
 	},
 
 	/**
  	 * Sets the popup title based on the title of the html document it contains.
  	 * Uses a timeout to keep checking until the title is valid.
  	 */
-	setTitle: function() 
+	setTitle: function()
 	{
 		document.getElementById("popup-title").innerHTML = window.frames["popup-frame"].document.title;
 	},
@@ -289,7 +294,7 @@ JPopup.prototype = {
 	/*
 	 * For IE.  Go through predefined tags and disable tabbing into them.
 	 */
-	disableTabIndexes: function() 
+	disableTabIndexes: function()
 	{
 		if (document.all) {
 			var i = 0;
@@ -304,10 +309,10 @@ JPopup.prototype = {
 		}
 	},
 
-	/* 
+	/*
 	 * For IE. Restore tab-indexes.
 	 */
-	restoreTabIndexes: function() 
+	restoreTabIndexes: function()
 	{
 		if (document.all) {
 			var i = 0;
@@ -326,7 +331,7 @@ JPopup.prototype = {
 	 * Hides all drop down form select boxes on the screen so they do not appear above the mask layer.
 	 * IE has a problem with wanted select form tags to always be the topmost z-index or layer
      */
-	hideSelectBoxes: function() 
+	hideSelectBoxes: function()
 	{
 		for(var i = 0; i < document.forms.length; i++) {
 			for(var e = 0; e < document.forms[i].length; e++){
@@ -341,7 +346,7 @@ JPopup.prototype = {
 	 * Makes all drop down form select boxes on the screen visible so they do not reappear after the dialog is closed.
 	 * IE has a problem with wanted select form tags to always be the topmost z-index or layer
 	 */
-	displaySelectBoxes: function() 
+	displaySelectBoxes: function()
 	{
 		for(var i = 0; i < document.forms.length; i++) {
 			for(var e = 0; e < document.forms[i].length; e++){
@@ -351,24 +356,24 @@ JPopup.prototype = {
 			}
 		}
 	},
-	
+
 	getViewportHeight:function() {
 		if (window.innerHeight!=window.undefined) return window.innerHeight;
 		if (document.compatMode=='CSS1Compat') return document.documentElement.clientHeight;
-		if (document.body) return document.body.clientHeight; 
-		return window.undefined; 
+		if (document.body) return document.body.clientHeight;
+		return window.undefined;
 	},
-	
+
 	getViewportWidth:function() {
-		if (window.innerWidth!=window.undefined) return window.innerWidth; 
-		if (document.compatMode=='CSS1Compat') return document.documentElement.clientWidth; 
-		if (document.body) return document.body.clientWidth; 
-		return window.undefined; 
+		if (window.innerWidth!=window.undefined) return window.innerWidth;
+		if (document.compatMode=='CSS1Compat') return document.documentElement.clientWidth;
+		if (document.body) return document.body.clientWidth;
+		return window.undefined;
 	}
 }
 
 document.popup = null
-document.addLoadEvent(function() {
+Window.onDomReady(function(){
   var popup = new JPopup()
   document.popup = popup
 });

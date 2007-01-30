@@ -103,8 +103,8 @@ textarea:focus { background-color: #ffd }
 
 #footer .copyright { margin: 10px; text-align: center; }
 
-#header-box  { border: 1px solid #ccc; 
-	background: #f0f0f0; 
+#header-box  { border: 1px solid #ccc;
+	background: #f0f0f0;
 	direction: ltr;
 }
 
@@ -129,8 +129,8 @@ textarea:focus { background-color: #ffd }
 
 
 /* -- status layout */
-#module-status { 
-	float: left; 
+#module-status {
+	float: left;
 	position: absolute;
 	display: inline-block;
 }
@@ -243,15 +243,15 @@ textarea#mm_message { width: 200px; }
 
 .pane-sliders .panel h3 { background: #f6f6f6; color: #666}
 
-.pane-sliders .content { height: 0px; display: none; background: #f6f6f6;}
+.pane-sliders .content { background: #f6f6f6; }
 
 .pane-sliders .adminlist     { border: 0 none; }
 .pane-sliders .adminlist td  { border: 0 none; }
 
-.moofx-toggler  span     { background: transparent url(../images/j_arrow_left.png) right no-repeat; padding-right: 20px;}
-.moofx-toggler-down span { background-image: url(../images/j_arrow_down.png); }
+.jpane-toggler  span     { background: transparent url(../images/j_arrow.png) right no-repeat; padding-right: 20px;}
+.jpane-toggler-down span { background: transparent url(../images/j_arrow_down.png) right no-repeat; padding-right: 20px;}
 
-.moofx-toggler-down {  border-bottom: 1px solid #ccc; }
+.jpane-toggler-down {  border-bottom: 1px solid #ccc; }
 
 /** cpanel settings **/
 
@@ -424,7 +424,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	background: url(../images/j_button1_next.png) 100% 0 no-repeat;
 }
 
-.button1-left a, 
+.button1-left a,
 .button1-right a {
 	display: block;
 	height: 26px;
@@ -436,7 +436,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	cursor: pointer;
 }
 
-.button1-left a:hover, 
+.button1-left a:hover,
 .button1-right a:hover {
 	text-decoration: none;
 	color: #0B55C4;
@@ -464,7 +464,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	line-height: 22px;
 	font-size: 11px;
 	color: #333;
-	cursor: pointer;	
+	cursor: pointer;
 }
 
 .button2-left span,
@@ -485,7 +485,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	font-weight: bold;
 }
 
-.button2-left a:hover, 
+.button2-left a:hover,
 .button2-right a:hover {
 	text-decoration: none;
 	color: #0B55C4;

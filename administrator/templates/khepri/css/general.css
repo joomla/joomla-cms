@@ -217,15 +217,15 @@ textarea#mm_message { width: 200px; }
 
 .pane-sliders .panel h3 { background: #f6f6f6; color: #666}
 
-.pane-sliders .content { height: 0px; display: none; background: #f6f6f6;}
+.pane-sliders .content { background: #f6f6f6; }
 
 .pane-sliders .adminlist     { border: 0 none; }
 .pane-sliders .adminlist td  { border: 0 none; }
 
-.moofx-toggler  span     { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; padding-left: 20px;}
-.moofx-toggler-down span { background-image: url(../images/j_arrow_down.png); }
+.jpane-toggler  span     { background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; padding-left: 20px;}
+.jpane-toggler-down span { background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat; padding-left: 20px;}
 
-.moofx-toggler-down {  border-bottom: 1px solid #ccc; }
+.jpane-toggler-down {  border-bottom: 1px solid #ccc; }
 
 
 /** cpanel settings **/

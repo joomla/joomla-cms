@@ -22,18 +22,13 @@
 try {
   document.execCommand('BackgroundImageCache', false, true);
 } catch(e) {}
-  
+
 document.menu = null
-document.addLoadEvent(function() {
-  element = document.getElementById('menu')
-  
-  if(element.className != 'disabled') {
-	var menu = new JMenu(element)
-  	document.menu = menu
-  }
+Window.onDomReady(function(){
+	element = $('menu')
+	if(!element.hasClass('disabled')) {
+		var menu = new JMenu(element)
+		document.menu = menu
+	}
+	Fat.fade_all();
 });
-
-document.addLoadEvent(function() { 
-	Fat.fade_all(); 
-});
-

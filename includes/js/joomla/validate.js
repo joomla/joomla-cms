@@ -56,12 +56,9 @@ var JFormValidator = new Class({
 			}
 		);
 
-		// Set self var for enclosures
-		var self = this;
-
 		// Attach to forms with class 'form-validate'
-		var forms = $S('form.form-validate');
-		forms.each(function(form){ self.attachToForm(form); });
+		var forms = $$('form.form-validate');
+		forms.each(function(form){ this.attachToForm(form); }, this);
 	},
 
 	setHandler: function(name, fn, en)
@@ -140,7 +137,7 @@ var JFormValidator = new Class({
 	{
 		// Find the label object for the given field if it exists
 		if (!(el.labelref)) {
-			var labels = $S('label');
+			var labels = $$('label');
 			labels.each(function(label){
 				if (label.getProperty('for') == el.getProperty('id')) {
 					el.labelref = label;
