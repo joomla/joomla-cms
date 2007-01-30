@@ -82,17 +82,22 @@ class JSite extends JApplication
 		// Build the application pathway
 		$this->_createPathWay();
 
-		$document =& JFactory::getDocument();
+		$document	=& JFactory::getDocument();
+		$config		=& JFactory::getConfig();
+		$user		=& JFactory::getUser();
 
 		switch($document->getType())
 		{
 			case 'html':
 				//set metadata
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
-				$document->addScript( 'includes/js/mootools.js');
+				if ($config->getValue('config.debug')) {
+					$document->addScript( 'includes/js/mootools-uncompressed.js');
+				} else {
+					$document->addScript( 'includes/js/mootools.js');
+				}
 				$document->addScript( 'includes/js/joomla/caption.js');
 
-				$user =& JFactory::getUser();
 				if ( $user->get('id') ) {
 					$document->addScript( 'includes/js/joomla.javascript.js');
 				}
