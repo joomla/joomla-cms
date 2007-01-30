@@ -69,9 +69,9 @@ class MenusViewItem extends JView
 
 		$document = & JFactory::getDocument();
 		if ($item->id) {
-			$document->setTitle('Edit Menu Item');
+			$document->setTitle(JText::_('Edit Menu Item'));
 		} else {
-			$document->setTitle('New Menu Item');
+			$document->setTitle(JText::_('New Menu Item'));
 		}
 
 		// Was showing up null in some cases....
