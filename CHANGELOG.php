@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Jan-2007 Enno Klasing
+ # Fixed various small bugs in JFolder and JFile
+
 29-Jan-2007 Louis Landry
  ^ Mootools implementation stage 1
 
