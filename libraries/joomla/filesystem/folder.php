@@ -133,9 +133,32 @@ class JFolder
 	{
 		// Initialize variables
 		$FTPOptions = JFolder::_getFTPOptions();
+		static $nested = 0;
 
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
+
+		// Check if parent dir exists
+		$parent = dirname($path);
+		if (!JFolder::exists($parent)) {
+			// Prevent infinite loops!
+			$nested++;
+			if (($nested > 20) || ($parent == $path)) {
+				JError::raiseWarning('SOME_ERROR_CODE', 'JFolder::create: '.JText::_('Infinite loop detected'));
+				$nested--;
+				return false;
+			}
+
+			// Create the parent directory
+			if (JFolder::create($parent, $mode) !== true) {
+				// JFolder::create throws an error
+				$nested--;
+				return false;
+			}
+
+			// OK, parent directory has been created
+			$nested--;
+		}
 
 		// Check if dir already exists
 		if (JFolder::exists($path)) {
@@ -147,20 +170,14 @@ class JFolder
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
-			$ret = true;
 
 			// Translate path to FTP path
 			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
-			if (!$ftp->mkdir($path)) {
-				$ret = false;
-			}
+			$ret = $ftp->mkdir($path);
 			$ftp->chmod($path, $mode);
 		}
 		else
 		{
-			// First set umask
-			$origmask = @ umask(0);
-
 			// We need to get and explode the open_basedir paths
 			$obd = ini_get('open_basedir');
 
@@ -177,6 +194,7 @@ class JFolder
 				$inOBD = false;
 				// Iterate through open_basedir paths looking for a match
 				foreach ($obdArray as $test) {
+					$test = JPath::clean($test);
 					if (strpos($path, $test) === 0) {
 						$obdpath = $test;
 						$inOBD = true;
@@ -185,34 +203,21 @@ class JFolder
 				}
 				if ($inOBD == false) {
 					// Return false for JFolder::create because the path to be created is not in open_basedir
+					JError::raiseWarning('SOME_ERROR_CODE', 'JFolder::create: '.JText::_('Path not in open_basedir paths'));
 					return false;
 				}
 			}
-			// Try creating the folder and its parent folders, if necessary:
-			// TODO: there's potential for an infinite loop here..!
-			$ret = true;
-			$dir = $path;
-			while ($dir != dirname($dir))
-			{
-				$dir = $path;
-				while (!@ mkdir($dir, $mode)) {
-					$dir = dirname($dir);
-					if ($obd != null) {
-						if (strpos($dir, $obdpath) === false) {
-							$inOBD = false;
-							break 2;
-						}
-					}
-					if ($dir == dirname($dir)) {
-						break;
-					}
-					if (is_dir($dir)) {
-						// Reset umask
-						//	@ umask($origmask);
-						//	return false;
-					}
-				}
+
+			// First set umask
+			$origmask = @ umask(0);
+
+			// Create the path
+			if (!$ret = @mkdir($path, $mode)) {
+				@ umask($origmask);
+				JError::raiseWarning('SOME_ERROR_CODE', 'JFolder::create: '.JText::_('Could not create directory'), 'Path: '.$path);
+				return false;
 			}
+
 			// Reset umask
 			@ umask($origmask);
 		}
@@ -233,6 +238,7 @@ class JFolder
 
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
+
 		// Is this really a folder?
 		if (!is_dir($path)) {
 			JError::raiseWarning(21, 'JFolder::delete: '.JText::_('Path is not a folder').' '.$path);
@@ -243,12 +249,19 @@ class JFolder
 		$files = JFolder::files($path, '.', false, true);
 		if (count($files)) {
 			jimport('joomla.filesystem.file');
-			JFile::delete($files);
+			if (JFile::delete($files) !== true) {
+				// JFile::delete throws an error
+				return false;
+			}
 		}
+
 		// Remove sub-folders of folder
 		$folders = JFolder::folders($path, '.', false, true);
 		foreach ($folders as $folder) {
-			JFolder::delete($folder);
+			if (JFolder::delete($folder) !== true) {
+				// JFolder::delete throws an error
+				return false;
+			}
 		}
 
 		if ($FTPOptions['enabled'] == 1) {
@@ -259,13 +272,15 @@ class JFolder
 
 		// In case of restricted permissions we zap it one way or the other
 		// as long as the owner is either the webserver or the ftp
-		if(@rmdir($path)){
+		if (@rmdir($path)) {
 			$ret = true;
-		} elseif($FTPOptions['enabled'] == 1) {
+		} elseif ($FTPOptions['enabled'] == 1) {
 			// Translate path and delete
 			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
+			// FTP connector throws an error
 			$ret = $ftp->delete($path);
 		} else {
+			JError::raiseWarning('SOME_ERROR_CODE', 'JFolder::delete: '.JText::_('Could not delete folder').' '.$path);
 			$ret = false;
 		}
 

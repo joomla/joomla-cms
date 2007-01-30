@@ -20,7 +20,7 @@ jimport('joomla.filesystem.path');
  * @static
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage		FileSystem
+ * @subpackage	FileSystem
  * @since		1.5
  */
 class JFile
@@ -139,23 +139,26 @@ class JFile
 			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 		}
 
-		$retval = true;
 		foreach ($files as $file) {
 			$file = JPath::clean($file);
 
 			// In case of restricted permissions we zap it one way or the other
 			// as long as the owner is either the webserver or the ftp
-			if(@unlink($file)){
-				$retval = true;
-			} else {
-				if($FTPOptions['enabled'] == 1){
-					$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
-					$retval = $ftp->delete($file);
+			if (@unlink($file)) {
+				// Do nothing
+			} elseif ($FTPOptions['enabled'] == 1) {
+				$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+				if (!$ftp->delete($file)) {
+					// FTP connector throws an error
+					return false;
 				}
+			} else {
+				JError::raiseWarning('SOME_ERROR_CODE', JText::_('Delete failed'));
+				return false;
 			}
 		}
 
-		return $retval;
+		return true;
 	}
 
 	/**
