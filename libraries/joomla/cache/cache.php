@@ -48,7 +48,7 @@ class JCache extends JObject
 
 		// Get the default group and caching
 		$this->_options['defaultgroup'] = ($options['defaultgroup']) ? $options['defaultgroup'] : 'default';
-		$this->_options['caching'] = ($options['caching']) ? $options['caching'] : true;
+		$this->_options['caching'] = isset($options['caching']) ? $options['caching'] : true;
 	}
 
 	/**
