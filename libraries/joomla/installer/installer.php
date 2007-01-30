@@ -312,6 +312,12 @@ class JInstaller extends JObject
 		}
 
 		$type = $root->attributes('type');
+
+		// Needed for legacy reasons ... to be deprecated in next minor release
+		if ($type == 'mambot') {
+			$type = 'plugin';
+		}
+
 		if (is_object($this->_adapters[$type])) {
 			return $this->_adapters[$type]->install();
 		}
@@ -350,9 +356,12 @@ class JInstaller extends JObject
 		}
 
 		$type = $root->attributes('type');
+
+		// Needed for legacy reasons ... to be deprecated in next minor release
 		if ($type == 'mambot') {
 			$type = 'plugin';
 		}
+
 		if (is_object($this->_adapters[$type])) {
 			$this->_adapters[$type]->update();
 		}
