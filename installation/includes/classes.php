@@ -532,8 +532,7 @@ class JInstallationController
 			$ftp->login($vars['ftpUser'], $vars['ftpPassword']);
 
 			// Translate path for the FTP account
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $vars['ftpRoot'], $path));
-			$file = str_replace(DS, '/', $file);
+			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $vars['ftpRoot'], $path), '/');
 
 			// Use FTP write buffer to file
 			if (!$ftp->write($file, $buffer)) {
@@ -1781,8 +1780,7 @@ class JInstallationHelper
 			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 
 			//Translate the destination path for the FTP account
-			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path));
-			$path = str_replace(DS, '/', $path);
+			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), '/');
 
 			// do the ftp chmod
 			if (!$ftp->chmod($path, $mode))

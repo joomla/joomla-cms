@@ -161,10 +161,11 @@ class JPath
 	 *
 	 * @static
 	 * @param	string	$path	The path to clean
+	 * @param	string	$ds		Directory seperator (optional)
 	 * @return	string	The cleaned path
 	 * @since	1.5
 	 */
-	function clean($path)
+	function clean($path, $ds=DS)
 	{
 		// Initialize variables
 		$retval	= null;
@@ -174,7 +175,7 @@ class JPath
 			$path = JPATH_ROOT;
 		} else {
 			// Remove double slashes and backslahses and convert all slashes and backslashes to DS
-			$path = str_replace(array('/', '\\', '//', '\\\\'), DS, $path);
+			$path = str_replace(array('/', '\\', '//', '\\\\'), $ds, $path);
 		}
 
 		return $path;
