@@ -1262,7 +1262,7 @@ class JInstallerHelper
 
 		// Clean the paths to use for archive extraction
 		$extractdir = JPath::clean(dirname($p_filename).DS.$tmpdir);
-		$archivename = JPath::clean($archivename, false);
+		$archivename = JPath::clean($archivename);
 
 		// do the unpacking of the archive
 		$result = JArchive::extract( $archivename, $extractdir);
@@ -1404,9 +1404,9 @@ class JInstallerHelper
 		// Is the package file a valid file?
 		if (is_file($package)) {
 			JFile::delete($package);
-		} elseif (is_file(JPath::clean($config->getValue('config.tmp_path').DS.$package, false))) {
+		} elseif (is_file(JPath::clean($config->getValue('config.tmp_path').DS.$package))) {
 			// It might also be just a base filename
-			JFile::delete(JPath::clean($config->getValue('config.tmp_path').DS.$package, false));
+			JFile::delete(JPath::clean($config->getValue('config.tmp_path').DS.$package));
 		}
 	}
 

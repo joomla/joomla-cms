@@ -36,7 +36,7 @@ class ConfigModelComponent extends JModel
 
 			// work out file path
 			if ($path = JRequest::getVar( 'path' )) {
-				$path = JPath::clean( JPATH_SITE.DS.$path, false );
+				$path = JPath::clean( JPATH_SITE.DS.$path );
 				JPath::check( $path );
 			} else {
 				$option	= preg_replace( '#\W#', '', $table->option );

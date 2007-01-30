@@ -321,14 +321,14 @@ class MediaController
 				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
 					if (MediaHelper::isImage($file)) {
 						$imageInfo = @ getimagesize($basePath.DS.$file);
-						$fileDetails['file'] = JPath::clean($basePath.DS.$file, false);
+						$fileDetails['file'] = JPath::clean($basePath.DS.$file);
 						$fileDetails['imgInfo'] = $imageInfo;
 						$fileDetails['size'] = filesize($basePath.DS.$file);
 						$images[$file] = $fileDetails;
 					} else {
 						// Not a known image file so we will call it a document
 						$fileDetails['size'] = filesize($basePath.DS.$file);
-						$fileDetails['file'] = JPath::clean($basePath.DS.$file, false);
+						$fileDetails['file'] = JPath::clean($basePath.DS.$file);
 						$docs[$file] = $fileDetails;
 					}
 				}

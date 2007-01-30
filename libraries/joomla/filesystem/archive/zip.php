@@ -188,7 +188,7 @@ class JArchiveZip extends JObject
 		for ($i=0,$n=count($this->_metadata);$i<$n;$i++) {
 			if (substr($this->_metadata[$i]['name'], -1, 1) != '/' && substr($this->_metadata[$i]['name'], -1, 1) != '\\') {
 				$buffer = $this->_getFileData($i);
-				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name'], false);
+				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name']);
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path))) {
 					$this->set('error.message', 'Unable to create destination');

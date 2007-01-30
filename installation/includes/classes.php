@@ -532,7 +532,7 @@ class JInstallationController
 			$ftp->login($vars['ftpUser'], $vars['ftpPassword']);
 
 			// Translate path for the FTP account
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $vars['ftpRoot'], $path), false);
+			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $vars['ftpRoot'], $path));
 			$file = str_replace(DS, '/', $file);
 
 			// Use FTP write buffer to file
@@ -1042,7 +1042,7 @@ class JInstallationHelper
 		/*
 		 * First we need to determine if the path is chmodable
 		 */
-		if (!JPath::canChmod(JPath::clean(JPATH_SITE.DS.$dir, false)))
+		if (!JPath::canChmod(JPath::clean(JPATH_SITE.DS.$dir)))
 		{
 			$ftpFlag = true;
 		}
@@ -1061,7 +1061,7 @@ class JInstallationHelper
 			$ftp->login($srv['ftpUser'],$srv['ftpPassword']);
 
 			//Translate path for the FTP account
-			$path = JPath::clean($ftpRoot."/".$dir, false);
+			$path = JPath::clean($ftpRoot."/".$dir);
 
 			/*
 			 * chmod using ftp
@@ -1077,7 +1077,7 @@ class JInstallationHelper
 		else
 		{
 
-			$path = JPath::clean(JPATH_SITE.DS.$dir, false);
+			$path = JPath::clean(JPATH_SITE.DS.$dir);
 
 			if (!@ chmod($path, octdec('0755')))
 			{
@@ -1281,7 +1281,7 @@ class JInstallationHelper
 
 		// Clean the paths to use for archive extraction
 		$extractdir = JPath::clean(dirname($p_filename).DS.$tmpdir);
-		$archivename = JPath::clean($archivename, false);
+		$archivename = JPath::clean($archivename);
 
 		$result = JArchive::extract( $archivename, $extractdir);
 
@@ -1781,7 +1781,7 @@ class JInstallationHelper
 			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 
 			//Translate the destination path for the FTP account
-			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
+			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path));
 			$path = str_replace(DS, '/', $path);
 
 			// do the ftp chmod

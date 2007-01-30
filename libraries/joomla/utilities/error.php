@@ -709,18 +709,18 @@ class JException extends JObject
 	* @return	array backtrace
 	* @since	1.5
 	*/
-    function getBacktrace( $formatted=false )
-    {
-    	if ($formatted && is_array( $this->backtrace )) {
-    		$result = '';
-    		foreach( $this->backtrace as $back) {
-			    if (strpos( $back['file'], 'error.php') === false) {
-				    $result .= '<br />'.$back['file'].':'.$back['line'];
+	function getBacktrace( $formatted=false )
+	{
+		if ($formatted && is_array( $this->backtrace )) {
+			$result = '';
+			foreach( $this->backtrace as $back) {
+				if (isset($back['file']) && strpos($back['file'], 'error.php') === false) {
+					$result .= '<br />'.$back['file'].':'.$back['line'];
 				}
 			}
 			return $result;
 		}
 		return $this->backtrace;
-    }
+	}
 }
 ?>

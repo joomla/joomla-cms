@@ -262,7 +262,11 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 )
 function mosPathName($p_path, $p_addtrailingslash = true)
 {
 	jimport('joomla.filesystem.path');
-	return JPath::clean( $p_path, $p_addtrailingslash );
+	$path = JPath::clean($p_path);
+	if ($p_addtrailingslash) {
+		$path = rtrim($path, DS) . DS;
+	}
+	return $path;
 }
 
 /**

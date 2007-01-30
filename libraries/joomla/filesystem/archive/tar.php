@@ -96,7 +96,7 @@ class JArchiveTar extends JObject
 		for ($i=0,$n=count($this->_metadata);$i<$n;$i++) {
 			if ($this->_metadata[$i]['type'] == 'File') {
 				$buffer = $this->_metadata[$i]['data'];
-				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name'], false);
+				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name']);
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path))) {
 					$this->set('error.message', 'Unable to create destination');

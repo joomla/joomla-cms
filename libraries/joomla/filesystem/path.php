@@ -117,7 +117,7 @@ class JPath
 	 */
 	function getPermissions($path)
 	{
-		$path = JPath::clean($path, false);
+		$path = JPath::clean($path);
 		$mode = @ decoct(@ fileperms($path) & 0777);
 
 		if (strlen($mode) < 3) {
@@ -171,20 +171,13 @@ class JPath
 		$path	= trim($path);
 
 		if (empty ($path)) {
-			$retval = JPATH_ROOT;
+			$path = JPATH_ROOT;
 		} else {
-			if (JPATH_ISWIN) {
-				$retval = str_replace('/', DS, $path);
-				// Remove double \\
-				$retval = str_replace('\\\\', DS, $retval);
-			} else {
-				$retval = str_replace('\\', DS, $path);
-				// Remove double //
-				$retval = str_replace('//', DS, $retval);
-			}
+			// Remove double slashes and backslahses and convert all slashes and backslashes to DS
+			$path = str_replace(array('/', '\\', '//', '\\\\'), DS, $path);
 		}
 
-		return $retval;
+		return $path;
 	}
 
 	/**
