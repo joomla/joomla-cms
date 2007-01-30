@@ -453,7 +453,7 @@ class JInstaller_component extends JObject
 			// Remove existing menu items if overwrite has been enabled
 			if ( $option ) {
 				
-				$sql = 'DELETE FROM #__components WHERE `option` = \''.$db->Quote($option).'\'';
+				$sql = 'DELETE FROM #__components WHERE `option` = '.$db->Quote($option);
 
 				$db->setQuery($sql);
 				if (!$db->query()) {
