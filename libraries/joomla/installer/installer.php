@@ -1208,7 +1208,7 @@ class JInstallerHelper
 		$meta_data = stream_get_meta_data($inputHandle);
 		foreach ($meta_data['wrapper_data'] as $wrapper_data)
 		{
-			if (substr($wrapper_data, 0, strlen("Content-Disposition"))) {
+			if (substr($wrapper_data, 0, strlen("Content-Disposition")) == "Content-Disposition") {
 				$contentfilename = explode ("\"", $wrapper_data);
 				$target = $contentfilename[1];
 			}
