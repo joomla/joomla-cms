@@ -290,6 +290,9 @@ class ContentViewArticle extends JView
 		{
 			// TODO: Do we allow non-sectioned articles from the frontend??
 			$article->sectionid = JRequest::getVar('sectionid', 0, '', 'int');
+			$db = JFactory::getDBO();
+			$db->setQuery('SELECT title FROM #__sections WHERE id = '.$article->sectionid);
+			$article->section = $db->loadResult();
 		}
 
 		// Get the lists
@@ -346,9 +349,13 @@ class ContentViewArticle extends JView
 		$lists['state'] = JHTMLSelect::yesnoList('state', '', $article->state);
 
 		// Radio Buttons: Should the article be added to the frontpage
-		$query = "SELECT content_id"."\n FROM #__content_frontpage"."\n WHERE content_id = $article->id";
-		$db->setQuery($query);
-		$article->frontpage = $db->loadResult();
+		if($article->id) {
+			$query = "SELECT content_id"."\n FROM #__content_frontpage"."\n WHERE content_id = $article->id";
+			$db->setQuery($query);
+			$article->frontpage = $db->loadResult();
+		} else {
+			$article->frontpage = 0;
+		}
 
 		$lists['frontpage'] = JHTMLSelect::yesnoList('frontpage', '', (boolean) $article->frontpage);
 

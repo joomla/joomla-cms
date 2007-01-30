@@ -72,7 +72,7 @@ echo $this->editor->getButtons('text');
 	</td>
 	<td>
 		<strong>
-			<?php echo $this->article->sectionid;?>
+			<?php echo $this->article->section;?>
 		</strong>
 	</td>
 </tr>

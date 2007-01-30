@@ -78,7 +78,7 @@ class WeblinksModelCategory extends JModel
 
 		// Get the filter request variables
 		$this->setState('filter_order', JRequest::getVar('filter_order', 'ordering'));
-		$this->setState('filter_order_dir', JRequest::getVar('filter_order_Dir', 'DESC'));
+		$this->setState('filter_order_dir', JRequest::getVar('filter_order_Dir', 'ASC'));
 
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId($id);
