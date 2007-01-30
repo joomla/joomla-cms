@@ -398,6 +398,13 @@ class JInstaller extends JObject
 		// Load the adapter(s) for the install manifest
 		$root =& $this->_manifest->document;
 		$type = $root->attributes('type');
+
+		// Needed for legacy reasons ... to be deprecated in next minor release
+		if ($type == 'mambot') {
+			$type = 'plugin';
+		}
+
+		// Lazy load the adapter
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type])) {
 			if (!$this->setAdapter($type)) {
 				return false;
