@@ -230,9 +230,17 @@ class TemplatesController
 						"\n SET client_id = 0, template = ". $db->Quote( $template ) .", menuid = ".(int) $menuid;
 				$db->setQuery($query);
 				$db->query();
-			}
+			} 
 		}
 
+		if (empty($menus) OR (empty($menus) && $default)) 
+		{
+			$query = "INSERT INTO #__templates_menu" .
+					"\n SET client_id = 0, template = ". $db->Quote( $template ) .", menuid = 0 ";
+			$db->setQuery($query);
+			$db->query();
+		}
+		
 		$task = JRequest::getVar('task');
 		if($task == 'apply') {
 			$mainframe->redirect('index.php?option='.$option.'&amp;task=edit&amp;cid[]='.$template.'&amp;client='.$client->id);
