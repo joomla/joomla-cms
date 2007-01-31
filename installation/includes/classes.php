@@ -384,10 +384,6 @@ class JInstallationController
 			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
 		}
 
-		// Generate a random admin password
-		jimport('joomla.user.helper');
-		$vars['adminPassword'] = JUserHelper::genRandomPassword(8);
-
 		$folders = array (
 			'administrator/backups',
 			'administrator/cache',

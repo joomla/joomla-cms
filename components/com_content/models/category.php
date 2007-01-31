@@ -357,7 +357,11 @@ class ContentModelCategory extends JModel
 		{
 			$orderby .= "$filter_order $filter_order_Dir, ";
 		}
-
+		
+		if ($filter_order == "author")
+		{
+			$orderby .= "created_by_alias $filter_order_Dir, ";
+		}
 		switch ($state)
 		{
 			case -1:

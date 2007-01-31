@@ -35,8 +35,8 @@ class NewsfeedsViewCategory extends JView
 		// Get the paramaters of the active menu item
 		$menu	=& JSiteHelper::getActiveMenuItem();
 		$params	=& JSiteHelper::getMenuParams();
-
-		$limit 			= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
+		$config = JFactory::getConfig();
+		$limit 			= JRequest::getVar('limit', $params->get('display_num', $config->getValue('config.list_limit')), '', 'int');
 		$limitstart 	= JRequest::getVar('limitstart', 0, '', 'int');
 		$catid 			= JRequest::getVar( 'catid', 0, '', 'int' );
 
