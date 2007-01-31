@@ -420,7 +420,7 @@ class JDatabaseMySQLi extends JDatabase
 				continue;
 			}
 			$fields[] = $this->nameQuote( $k );;
-			$values[] = $this->isQuoted( $v ) ? $this->Quote( $v ) : $v;
+			$values[] = $this->isQuoted( $k ) ? $this->Quote( $v ) : $v;
 		}
 		$this->setQuery( sprintf( $fmtsql, implode( ",", $fields ) ,  implode( ",", $values ) ) );
 		($verbose) && print "$sql<br />\n";
@@ -455,11 +455,11 @@ class JDatabaseMySQLi extends JDatabase
 				continue;
 			}
 			if( $v == '0' ) {
-				$val = $this->isQuoted( $v ) ? $this->Quote( '0' ) : 0;
+				$val = $this->isQuoted( $k ) ? $this->Quote( '0' ) : 0;
 			} else if( $v == '' ) {
-				$val = $this->isQuoted( $v ) ? $this->Quote( '' ) : 0;
+				$val = $this->isQuoted( $k ) ? $this->Quote( '' ) : 0;
 			} else {
-				$val = $this->isQuoted( $v ) ? $this->Quote( $v ) : $v;
+				$val = $this->isQuoted( $k ) ? $this->Quote( $v ) : $v;
 			}
 			$tmp[] = $this->nameQuote( $k ) . '=' . $val;
 		}
