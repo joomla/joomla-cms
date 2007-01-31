@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: session.php 6157 2007-01-03 00:22:09Z Jinx $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
