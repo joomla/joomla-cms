@@ -129,7 +129,9 @@ class JSite extends JApplication
 		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
 			$file = 'offline';
 		}
-
+		if (!is_dir( JPATH_SITE . '/templates/' . $template ) && !$this->getCfg('offline')) {
+			$file = 'component';
+		} 
 		$params = array(
 			'template' 	=> $template,
 			'file'		=> $file.'.php',
@@ -293,7 +295,7 @@ class JSite extends JApplication
 	{
 		if (is_dir( JPATH_SITE . '/templates/' . $template )) {
 			$this->setUserState( 'setTemplate', $template );
-		}
+		} 
 	}
 
 	/**
