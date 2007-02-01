@@ -814,5 +814,3 @@ class JDatabase extends JObject
 		return '0';
 	}
 }
-
-?>

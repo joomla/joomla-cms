@@ -188,62 +188,50 @@ class JTable extends JObject
 	}
 
 	/**
-	* Binds a named array/hash to this object
-	*
-	* can be overloaded/supplemented by the child class
-	*
-	* @access public
-	* @param $array  mixed Either and associative array or another object
-	* @param $ignore string	Space separated list of fields not to bind
-	* @return	boolean
-	*/
-	function bind( $from, $ignore='' )
+	 * Binds a named array/hash to this object
+	 *
+	 * Can be overloaded/supplemented by the child class
+	 *
+	 * @access	public
+	 * @param	$from	mixed	An associative array or object
+	 * @param	$ignore	mixed	An array or space separated list of fields not to bind
+	 * @return	boolean
+	 */
+	function bind( $from, $ignore=array() )
 	{
-		if (!is_array( $from ) && !is_object( $from ))
+		$fromArray	= is_array( $from );
+		$fromObject	= is_object( $from );
+
+		if (!$fromArray && !$fromObject)
 		{
-			$this->setError(strtolower(get_class( $this ))."::bind failed.");
+			$this->setError( get_class( $this ).'::bind failed. Invalid from argument' );
 			$this->setErrorNum(20);
 			return false;
 		}
-
-		$fromArray = is_array( $from );
-		$fromObject = is_object( $from );
-
-		if ($fromArray || $fromObject)
+		if (!is_array( $ignore )) {
+			$ignore = explode( ' ', $ignore );
+		}
+		foreach ($this->getPublicProperties() as $k)
 		{
-			foreach (get_object_vars($this) as $k => $v)
+			// internal attributes of an object are ignored
+			if (!in_array( $k, $ignore ))
 			{
-				// only bind to public variables
-				if( substr( $k, 0, 1 ) != '_' )
-				{
-					// internal attributes of an object are ignored
-					if (strpos( $ignore, $k) === false)
-					{
-						$ak = $k;
-
-						if ($fromArray && isset( $from[$ak] )) {
-							$this->$k = $from[$ak];
-						} else if ($fromObject && isset( $from->$ak )) {
-							$this->$k = $from->$ak;
-						}
-					}
+				if ($fromArray && isset( $from[$k] )) {
+					$this->$k = $from[$k];
+				} else if ($fromObject && isset( $from->$k )) {
+					$this->$k = $from->$k;
 				}
 			}
 		}
-		else
-		{
-			return false;
-		}
-
 		return true;
 	}
 
 	/**
-	* Binds an array/hash to this object
+	* Loads a row from the database and binds the fields to the object properties
 	*
-	* @access public
-	* @param int $oid optional argument, if not specifed then the value of current key is used
-	* @return boolean True if successful
+	* @access	public
+	* @param	mixed	Optional primary key.  If not specifed, the value of current key is used
+	* @return	boolean	True if successful
 	*/
 	function load( $oid=null )
 	{
@@ -259,8 +247,8 @@ class JTable extends JObject
 			return false;
 		}
 
-		$class_vars = get_class_vars(get_class($this));
-		foreach ($class_vars as $name => $value)
+		// Reset the object to the class defined default values
+		foreach ($this->getPublicProperties( true ) as $name => $value)
 		{
 			if (($name != $k) and ($name != "_db") and ($name != "_tbl") and ($name != "_tbl_key")) {
 				$this->$name = $value;
@@ -275,8 +263,7 @@ class JTable extends JObject
 		;
 		$db->setQuery( $query );
 
-		if ($result = $db->loadAssoc( ))
-		{
+		if ($result = $db->loadAssoc( )) {
 			return $this->bind($result);
 		}
 		else
@@ -322,7 +309,7 @@ class JTable extends JObject
 		}
 		if( !$ret )
 		{
-			$this->setError(strtolower(get_class( $this ))."::store failed <br />" . $this->_db->getErrorMsg());
+			$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
 			$this->setErrorNum($this->_db->getErrorNum());
 			return false;
 		}
@@ -417,13 +404,13 @@ class JTable extends JObject
 	 * Returns the ordering value to place a new item last in its group
 	 *
 	 * @access public
-	 * @param string query WHERE clause for selecting MAX(`ordering`).
+	 * @param string query WHERE clause for selecting MAX(ordering).
 	 */
 	function getNextOrder ( $where='' )
 	{
-		if (!array_key_exists( 'ordering', get_class_vars( strtolower(get_class( $this )) ) ))
+		if (!in_array( 'ordering', $this->getPublicProperties() ))
 		{
-			$this->setError("WARNING: ".strtolower(get_class( $this ))." does not support ordering.");
+			$this->setError( get_class( $this ).' does not support ordering' );
 			$this->setErrorNum(21);
 			return false;
 		}
@@ -444,7 +431,6 @@ class JTable extends JObject
 		return $maxord + 1;
 	}
 
-
 	/**
 	* Compacts the ordering sequence of the selected records
 	*
@@ -455,9 +441,9 @@ class JTable extends JObject
 	{
 		$k = $this->_tbl_key;
 
-		if (!array_key_exists( 'ordering', get_class_vars( strtolower(get_class( $this )) ) ))
+		if (!in_array( 'ordering', $this->getPublicProperties() ))
 		{
-			$this->setError("WARNING: ".strtolower(get_class( $this ))." does not support ordering.");
+			$this->setError( get_class( $this ).' does not support ordering');
 			$this->setErrorNum(21);
 			return false;
 		}
@@ -640,7 +626,7 @@ class JTable extends JObject
 			$this->$k = intval( $oid );
 		}
 
-		$query = "DELETE FROM `".$this->_tbl."`" .
+		$query = 'DELETE FROM '.$this->_db->nameQuote( $this->_tbl ).
 				"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 
@@ -657,26 +643,26 @@ class JTable extends JObject
 	}
 
 	/**
-	 * Description
+	 * Checks out a row
 	 *
 	 * @access public
-	 * @param $who
-	 * @param $oid
+	 * @param	integer	The id of the user
+	 * @param 	mixed	The primary key value for the row
+	 * @return	boolean	True if successful, or if checkout is not supported
 	 */
 	function checkout( $who, $oid = null )
 	{
-		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) ))
-		{
-			//$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkin.";
+		if (!in_array( 'checked_out', $this->getPublicProperties() )) {
 			return true;
 		}
+
 		$k = $this->_tbl_key;
 		if ($oid !== null) {
 			$this->$k = $oid;
 		}
 		$time = date( 'Y-m-d H:i:s' );
 
-		$query = "UPDATE `".$this->_tbl."`" .
+		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ) .
 			"\n SET checked_out = ".(int)$who.", checked_out_time = ".$this->_db->Quote($time) .
 			"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
@@ -688,16 +674,15 @@ class JTable extends JObject
 	}
 
 	/**
-	 * Description
+	 * Checks in a row
 	 *
-	 * @access public
-	 * @param $oid
+	 * @access	public
+	 * @param	mixed	The primary key value for the row
+	 * @return	boolean	True if successful, or if checkout is not supported
 	 */
 	function checkin( $oid=null )
 	{
-		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) ))
-		{
-			//$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkin.";
+		if (!in_array( 'checked_out', $this->getPublicProperties() )) {
 			return true;
 		}
 		$k = $this->_tbl_key;
@@ -710,7 +695,7 @@ class JTable extends JObject
 			return false;
 		}
 
-		$query = "UPDATE `".$this->_tbl."`" .
+		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ).
 				"\n SET checked_out = 0, checked_out_time = ".$this->_db->Quote($this->_db->_nullDate) .
 				"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
@@ -803,7 +788,7 @@ class JTable extends JObject
 		if ($order_filter)
 		{
 			$filter_value = $this->$order_filter;
-			$this->reorder( $order_filter ? "`$order_filter` = '$filter_value'" : '' );
+			$this->reorder( $order_filter ? $this->_db->nameQuote( $order_filter ).' = '.$this->_db->Quote( $filter_value ) : '' );
 		}
 		$this->setError('');
 		$this->setErrorNum(0);
@@ -860,7 +845,7 @@ class JTable extends JObject
 		. "\n WHERE ($cids)"
 		;
 
-		$checkin = array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) );
+		$checkin = in_array( 'checked_out', $this->getPublicProperties() );
 		if ($checkin)
 		{
 			$query .= "\n AND (checked_out = 0 OR checked_out = $user_id)";
@@ -954,4 +939,3 @@ class JTable extends JObject
 
 	}
 }
-?>

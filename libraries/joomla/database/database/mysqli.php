@@ -299,7 +299,7 @@ class JDatabaseMySQLi extends JDatabase
 			return null;
 		}
 		$ret = null;
-		if ($array = mysqli_fetch_array( $cur, MYSQLI_ASSOC )) {
+		if ($array = mysqli_fetch_assoc( $cur )) {
 			$ret = $array;
 		}
 		mysqli_free_result( $cur );

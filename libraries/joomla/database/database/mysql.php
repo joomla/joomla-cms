@@ -279,7 +279,7 @@ class JDatabaseMySQL extends JDatabase
 			return null;
 		}
 		$ret = null;
-		if ($array = mysql_fetch_array( $cur, MYSQL_ASSOC )) {
+		if ($array = mysql_fetch_assoc( $cur )) {
 			$ret = $array;
 		}
 		mysql_free_result( $cur );
