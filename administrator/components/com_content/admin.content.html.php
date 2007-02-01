@@ -517,14 +517,14 @@ class ContentView
 			<?php
 				ContentView::_displayArticleStats($row, $lists, $params);
 
-				$title = JText::_( 'PARAMBASIC' );
+				$title = JText::_( 'Article Parameters' );
 				echo $pane->startPane("content-pane");
 				echo $pane->startPanel( $title, "detail-page" );
 
 				echo $form->render('details');
 				//ContentView::_paneDetails(  $row, $lists, $params );
 
-				$title = JText::_( 'PARAMADVANCED' );
+				$title = JText::_( 'Advanced Parameters' );
 				echo $pane->endPanel();
 				echo $pane->startPanel( $title, "params-page" );
 
