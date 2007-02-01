@@ -545,16 +545,12 @@ class JDatabase extends JObject
 	}
 
 	/**
-	 * Insert an object in the database
-	 *
-	 * @abstract
-	 * @access public
-	 * @param string The table name
-	 * @param object
-	 * @param string
-	 * @param boolean
+	 * Inserts a row into a table based on an objects properties
+	 * @param	string	The name of the table
+	 * @param	object	An object whose properties match table fields
+	 * @param	string	The name of the primary key. If provided the object property is updated. 
 	 */
-	function insertObject( $table, &$object, $keyName = NULL, $verbose=false ) {
+	function insertObject( $table, &$object, $keyName = NULL ) {
 		return;
 	}
 

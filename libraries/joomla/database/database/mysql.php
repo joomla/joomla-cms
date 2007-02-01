@@ -386,14 +386,12 @@ class JDatabaseMySQL extends JDatabase
 		return $array;
 	}
 	/**
-	* Document::db_insertObject()
-	*
-	* { Description }
-	*
-	* @param [type] $keyName
-	* @param [type] $verbose
-	*/
-	function insertObject( $table, &$object, $keyName = NULL, $verbose=false )
+	 * Inserts a row into a table based on an objects properties
+	 * @param	string	The name of the table
+	 * @param	object	An object whose properties match table fields
+	 * @param	string	The name of the primary key. If provided the object property is updated. 
+	 */
+	function insertObject( $table, &$object, $keyName = NULL )
 	{
 		$fmtsql = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
 		$fields = array();
@@ -408,12 +406,10 @@ class JDatabaseMySQL extends JDatabase
 			$values[] = $this->isQuoted( $k ) ? $this->Quote( $v ) : $v;
 		}
 		$this->setQuery( sprintf( $fmtsql, implode( ",", $fields ) ,  implode( ",", $values ) ) );
-		($verbose) && print "$sql<br />\n";
 		if (!$this->query()) {
 			return false;
 		}
 		$id = $this->insertid();
-		($verbose) && print "id=[$id]<br />\n";
 		if ($keyName && $id) {
 			$object->$keyName = $id;
 		}
