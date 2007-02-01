@@ -353,13 +353,6 @@ class sections_html
 				</table>
 			</fieldset>
 		</div>
-
-		<div class="col40">
-			<fieldset class="adminform">
-				<legend><?php echo JText::_( 'Link to Menu' ); ?></legend>
-
-			</fieldset>
-		</div>
 		<div class="clr"></div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
