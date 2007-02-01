@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Feb-2007 Toby Patterson
+ # Fixed [artf7442] : Unable to sort Contacts
+
 01-Feb-2007 Johan Janssens
  ^ Added 'plg' prefix to all plugins functions and classes to avoid naming collisions
 
