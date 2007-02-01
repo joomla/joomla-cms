@@ -14,12 +14,12 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'pluginLoadModule' );
+$mainframe->registerEvent( 'onPrepareContent', 'plgContentLoadModule' );
 
 /**
 * Plugin that loads module positions within content
 */
-function pluginLoadModule( &$row, &$params, $page=0 )
+function plgContentLoadModule( &$row, &$params, $page=0 )
 {
 	$db =& JFactory::getDBO();
 	// simple performance check to determine whether bot should process further
@@ -52,11 +52,11 @@ function pluginLoadModule( &$row, &$params, $page=0 )
 
 	 	$style	= $pluginParams->def( 'style', -2 );
 
- 		processPositions( $row, $matches, $count, $regex, $style );
+ 		plgContentProcessPositions( $row, $matches, $count, $regex, $style );
 	}
 }
 
-function processPositions ( &$row, &$matches, $count, $regex, $style )
+function plgContentProcessPositions ( &$row, &$matches, $count, $regex, $style )
 {
 	$db =& JFactory::getDBO();
 
@@ -75,7 +75,7 @@ function processPositions ( &$row, &$matches, $count, $regex, $style )
 
 		foreach ( $positions as $position ) {
 	 		if ( $position == @$load ) {
-				$modules	= loadPosition( $load, $style );
+				$modules	= plgContentLoadPosition( $load, $style );
 				$row->text 	= preg_replace( '{'. $matches[0][$i] .'}', $modules, $row->text );
 				break;
 	 		}
@@ -86,7 +86,7 @@ function processPositions ( &$row, &$matches, $count, $regex, $style )
 	$row->text = preg_replace( $regex, '', $row->text );
 }
 
-function loadPosition( $position, $style=-2 )
+function plgContentLoadPosition( $position, $style=-2 )
 {
 	$document	= &JFactory::getDocument();
 	$renderer	= $document->loadRenderer( 'module');

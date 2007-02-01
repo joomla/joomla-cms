@@ -14,13 +14,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onSearch', 'botSearchWeblinks' );
-$mainframe->registerEvent( 'onSearchAreas', 'botSearchWeblinksAreas' );
+$mainframe->registerEvent( 'onSearch', 'plgSearchWeblinks' );
+$mainframe->registerEvent( 'onSearchAreas', 'plgSearchWeblinksAreas' );
 
 /**
  * @return array An array of search areas
  */
-function &botSearchWeblinksAreas() {
+function &plgSearchWeblinksAreas() {
 	static $areas = array(
 		'weblinks' => 'Weblinks'
 	);
@@ -37,13 +37,13 @@ function &botSearchWeblinksAreas() {
 * @param string ordering option, newest|oldest|popular|alpha|category
  * @param mixed An array if the search it to be restricted to areas, null if search all
  */
-function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
+function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 {
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 
 	if (is_array( $areas )) {
-		if (!array_intersect( $areas, array_keys( botSearchWeblinksAreas() ) )) {
+		if (!array_intersect( $areas, array_keys( plgSearchWeblinksAreas() ) )) {
 			return array();
 		}
 	}

@@ -14,14 +14,14 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'convertGeshi' );
+$mainframe->registerEvent( 'onPrepareContent', 'plgContentGeshi' );
 
 /**
 * Code Highlighting Plugin
 *
 * Replaces <pre>...</pre> tags with highlighted text
 */
-function convertGeshi( &$row, &$params, $page=0 )
+function plgContentGeshi( &$row, &$params, $page=0 )
 {
 	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, 'pre>' ) === false ) {
@@ -42,7 +42,7 @@ function convertGeshi( &$row, &$params, $page=0 )
 	$GLOBALS['_MAMBOT_GESHI_PARAMS'] =& $params;
 
 	// perform the replacement
-	$row->text = preg_replace_callback( $regex, 'contentGeshi_replacer', $row->text );
+	$row->text = preg_replace_callback( $regex, 'plgContentGeshi_replacer', $row->text );
 
 	return true;
 }
@@ -51,7 +51,7 @@ function convertGeshi( &$row, &$params, $page=0 )
 * @param array An array of matches (see preg_match_all)
 * @return string
 */
-function contentGeshi_replacer( &$matches )
+function plgContentGeshi_replacer( &$matches )
 {
 	$params =& $GLOBALS['_MAMBOT_GESHI_PARAMS'];
 

@@ -23,7 +23,7 @@ jimport( 'joomla.application.plugin.helper' );
  * @package Editors
  * @since 1.5
  */
-class JEditor_tinymce extends JPlugin
+class plgEditorTinymce extends JPlugin
 {
 	/**
 	 * Constructor
@@ -35,7 +35,7 @@ class JEditor_tinymce extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function JEditor_tinymce(& $subject) {
+	function plgEditorTinymce(& $subject) {
 		parent::__construct($subject);
 	}
 

@@ -14,13 +14,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onSearch', 'botSearchNewsfeedslinks' );
-$mainframe->registerEvent( 'onSearchAreas', 'botSearchNewfeedAreas' );
+$mainframe->registerEvent( 'onSearch', 'plgSearchNewsfeedslinks' );
+$mainframe->registerEvent( 'onSearchAreas', 'plgSearchNewfeedAreas' );
 
 /**
  * @return array An array of search areas
  */
-function &botSearchNewfeedAreas() {
+function &plgSearchNewfeedAreas() {
 	static $areas = array(
 		'newsfeeds' => 'Newsfeeds'
 	);
@@ -37,13 +37,13 @@ function &botSearchNewfeedAreas() {
 * @param string ordering option, newest|oldest|popular|alpha|category
  * @param mixed An array if the search it to be restricted to areas, null if search all
 */
-function botSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
+function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 {
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 
 	if (is_array( $areas )) {
-		if (!array_intersect( $areas, array_keys( botSearchNewfeedAreas() ) )) {
+		if (!array_intersect( $areas, array_keys( plgSearchNewfeedAreas() ) )) {
 			return array();
 		}
 	}

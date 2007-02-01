@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'convertPagebreak' );
+$mainframe->registerEvent( 'onPrepareContent', 'plgContenPagebreak' );
 
 /**
 * Page break plugin
@@ -30,7 +30,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'convertPagebreak' );
 * <code><hr class="system-pagebreak" alt="The first page" title="The page title" /></code>
 *
 */
-function convertPagebreak( &$row, &$params, $page=0 )
+function plgContentPagebreak( &$row, &$params, $page=0 )
 {
 	global $Itemid;
 
@@ -102,7 +102,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 
 		if ( $hasToc ) {
 			// display TOC
-			createTOC( $row, $matches, $page );
+			plgContentCreateTOC( $row, $matches, $page );
 		} else {
 			$row->toc = '';
 		}
@@ -125,7 +125,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 
 		// adds navigation between pages to bottom of text
 		if ( $hasToc ) {
-			createNavigation( $row, $page, $n );
+			plgContentCreateNavigation( $row, $page, $n );
 		}
 
 		// page links shown at bottom of page if TOC disabled
@@ -139,7 +139,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 	return true;
 }
 
-function createTOC( &$row, &$matches, &$page )
+function plgContentCreateTOC( &$row, &$matches, &$page )
 {
 	global $Itemid;
 
@@ -225,7 +225,7 @@ function createTOC( &$row, &$matches, &$page )
 	$row->toc .= '</table>';
 }
 
-function createNavigation( &$row, $page, $n )
+function plgContentCreateNavigation( &$row, $page, $n )
 {
 	global $Itemid;
 

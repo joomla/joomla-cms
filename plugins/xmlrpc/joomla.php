@@ -16,9 +16,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.plugin.helper' );
 
-$dispatcher =& JEventDispatcher::getInstance();
-$dispatcher->attach(new JoomlaXMLRPC($dispatcher));
-
 /**
  * Joomla! Base XML-RPC Plugin
  *
@@ -26,7 +23,7 @@ $dispatcher->attach(new JoomlaXMLRPC($dispatcher));
  * @package XML-RPC
  * @since 1.5
  */
-class JoomlaXMLRPC extends JPlugin
+class plgJoomlaXMLRPC extends JPlugin
 {
 
 	/**
@@ -39,7 +36,7 @@ class JoomlaXMLRPC extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function JoomlaXMLRPC(& $subject) {
+	function plgJoomlaXMLRPC(& $subject) {
 		parent::__construct($subject);
 	}
 
@@ -112,4 +109,7 @@ class JoomlaXMLRPCServices
 		return $results;
 	}
 }
+
+$dispatcher =& JEventDispatcher::getInstance();
+$dispatcher->attach(new plgJoomlaXMLRPC($dispatcher));
 ?>

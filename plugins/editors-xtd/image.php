@@ -14,14 +14,14 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onCustomEditorButton', 'pluginImageButton' );
+$mainframe->registerEvent( 'onCustomEditorButton', 'plgImageButton' );
 
 /**
 * Editor Image button
 *
 * @return array A two element array of ( imageName, textToInsert )
 */
-function pluginImageButton()
+function plgImageButton()
 {
 	global $mainframe, $option;
 

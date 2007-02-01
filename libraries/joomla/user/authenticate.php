@@ -174,7 +174,7 @@ class JAuthenticate extends JObject
 
 			if(JPluginHelper::importPlugin('authentication', $plugin)) {
 				// Build authentication plugin classname
-				$name = 'JAuthenticate'.$plugin;
+				$name = 'plgAuthenticate'.$plugin;
 				$instances[$plugin] = new $name ($subject);
 			}
 		}

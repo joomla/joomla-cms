@@ -14,13 +14,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onCustomEditorButton', 'pluginPagebreakButton' );
+$mainframe->registerEvent( 'onCustomEditorButton', 'plgPagebreakButton' );
 
 /**
 * mospage button
 * @return array A two element array of ( imageName, textToInsert )
 */
-function pluginPagebreakButton()
+function plgPagebreakButton()
 {
 	global $mainframe, $option;
 

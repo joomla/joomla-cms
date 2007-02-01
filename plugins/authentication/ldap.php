@@ -23,7 +23,7 @@ jimport('joomla.client.ldap');
  * @subpackage	JFramework
  * @since 1.5
  */
-class JAuthenticateLdap extends JPlugin
+class plgAuthenticateLdap extends JPlugin
 {
 	/**
 	 * Constructor
@@ -35,7 +35,7 @@ class JAuthenticateLdap extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function JAuthenticateLdap(& $subject) {
+	function plgAuthenticateLdap(& $subject) {
 		parent::__construct($subject);
 	}
 

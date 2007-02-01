@@ -14,9 +14,9 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class BloggerXMLRPC extends JPlugin
+class plgBloggerXMLRPC extends JPlugin
 {
-	function BloggerXMLRPC(&$subject) {
+	function plgBloggerXMLRPC(&$subject) {
 		parent::__construct($subject);
 	}
 
@@ -445,5 +445,5 @@ class JBloggerHelper
 }
 
 $dispatcher =& JEventDispatcher::getInstance();
-$dispatcher->attach(new BloggerXMLRPC($dispatcher));
+$dispatcher->attach(new plgBloggerXMLRPC($dispatcher));
 ?>

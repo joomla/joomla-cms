@@ -23,7 +23,7 @@ jimport( 'joomla.application.plugin.helper' );
  * @package Editors
  * @since 1.5
  */
-class JEditor_xstandard extends JPlugin {
+class plgEditorXstandard extends JPlugin {
 
 	/**
 	 * Constructor
@@ -35,7 +35,7 @@ class JEditor_xstandard extends JPlugin {
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function JEditor_xstandard(& $subject) {
+	function plgEditorXstandard(& $subject) {
 		parent::__construct($subject);
 	}
 

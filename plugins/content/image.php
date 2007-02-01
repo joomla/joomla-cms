@@ -14,11 +14,11 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'pluginImage' );
+$mainframe->registerEvent( 'onPrepareContent', 'plgContentImage' );
 
 /**
 */
-function pluginImage( &$row, &$params, $page=0 )
+function plgContentImage( &$row, &$params, $page=0 )
 {
 	$db =& JFactory::getDBO();
  	// simple performance check to determine whether bot should process further
@@ -61,27 +61,27 @@ function pluginImage( &$row, &$params, $page=0 )
 	 	$pluginParams->def( 'margin' );
 	 	$pluginParams->def( 'link', 0 );
 
-		$images 	= processImages( $row, $pluginParams, $introCount );
+		$images 	= plgContentProcessImages( $row, $pluginParams, $introCount );
 
 		// store some vars in globals to access from the replacer
-		$GLOBALS['botMosImageCount'] 	= 0;
-		$GLOBALS['botMosImageParams'] 	=& $pluginParams;
-		$GLOBALS['botMosImageArray'] 	=& $images;
+		$GLOBALS['plgContentImageCount'] 	= 0;
+		$GLOBALS['plgContentImageParams'] 	=& $pluginParams;
+		$GLOBALS['plgContentImageArray'] 	=& $images;
 		//$GLOBALS['botMosImageArray'] 	=& $combine;
 
 		// perform the replacement
-		$row->text = preg_replace_callback( $regex, 'botMosImage_replacer', $row->text );
+		$row->text = preg_replace_callback( $regex, 'plgContentImage_replacer', $row->text );
 
 		// clean up globals
-		unset( $GLOBALS['botMosImageCount'] );
-		unset( $GLOBALS['botMosImageMask'] );
-		unset( $GLOBALS['botMosImageArray'] );
-		unset( $GLOBALS['botJosIntroCount'] );
+		unset( $GLOBALS['plgContentImageCount'] );
+		unset( $GLOBALS['plgContentImageMask'] );
+		unset( $GLOBALS['plgContentImageArray'] );
+		unset( $GLOBALS['plgContentIntroCount'] );
 		return true;
 	}
 }
 
-function processImages ( &$row, &$params, &$introCount )
+function plgContentProcessImages ( &$row, &$params, &$introCount )
 {
 	$images 		= array();
 
@@ -233,10 +233,10 @@ function processImages ( &$row, &$params, &$introCount )
 * @param array An array of matches (see preg_match_all)
 * @return string
 */
-function botMosImage_replacer( &$matches )
+function plgContentImage_replacer( &$matches )
 {
-	$i = $GLOBALS['botMosImageCount']++;
+	$i = $GLOBALS['plgContentImageCount']++;
 
-	return @$GLOBALS['botMosImageArray'][$i];
+	return @$GLOBALS['plgContentImageArray'][$i];
 }
 ?>

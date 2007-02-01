@@ -14,13 +14,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onSearch', 'botSearchContacts' );
-$mainframe->registerEvent( 'onSearchAreas', 'botSearchContactAreas' );
+$mainframe->registerEvent( 'onSearch', 'plgSearchContacts' );
+$mainframe->registerEvent( 'onSearchAreas', 'plgSearchContactAreas' );
 
 /**
  * @return array An array of search areas
  */
-function &botSearchContactAreas() {
+function &plgSearchContactAreas() {
 	static $areas = array(
 		'contacts' => 'Contacts'
 	);
@@ -36,13 +36,13 @@ function &botSearchContactAreas() {
 * @param string mathcing option, exact|any|all
 * @param string ordering option, newest|oldest|popular|alpha|category
 */
-function botSearchContacts( $text, $phrase='', $ordering='', $areas=null )
+function plgSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 {
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 
 	if (is_array( $areas )) {
-		if (!array_intersect( $areas, array_keys( botSearchContactAreas() ) )) {
+		if (!array_intersect( $areas, array_keys( plgSearchContactAreas() ) )) {
 			return array();
 		}
 	}

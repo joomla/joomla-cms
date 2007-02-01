@@ -14,12 +14,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'pluginEmailCloak' );
+$mainframe->registerEvent( 'onPrepareContent', 'plgContentEmailCloak' );
 
 /**
 * Plugin that Cloaks all emails in content from spambots via javascript
 */
-function pluginEmailCloak( &$row, &$params, $page=0 ) {
+function plgContentEmailCloak( &$row, &$params, $page=0 ) 
+{
 	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, '@' ) === false ) {
 		return true;
@@ -50,7 +51,7 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 	$search_text 		= "([[:alnum:][:space:][:punct:]][^<>]+)";
 
 	// search for derivativs of link code <a href="mailto:email@amail.com">email@amail.com</a>
-	$pattern = botMosEmailCloak_searchPattern( $search_email, $search_email );
+	$pattern = plgContentEmailCloak_searchPattern( $search_email, $search_email );
 	while( eregi( $pattern, $row->text, $regs ) ) {
 		$mail 		= $regs[2] . $regs[3] . $regs[4];
 		$mail_text 	= $regs[5] . $regs[6] . $regs[7];
@@ -67,7 +68,7 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 	}
 
 	// search for derivativs of link code <a href="mailto:email@amail.com">anytext</a>
-	$pattern = botMosEmailCloak_searchPattern( $search_email, $search_text );
+	$pattern = plgContentEmailCloak_searchPattern( $search_email, $search_text );
 	while( eregi( $pattern, $row->text, $regs ) ) {
 		$mail 		= $regs[2] . $regs[3] . $regs[4];
 		$mail_text 	= $regs[5];
@@ -79,7 +80,7 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 	}
 
 	// search for derivativs of link code <a href="mailto:email@amail.com?subject=Text">email@amail.com</a>
-	$pattern = botMosEmailCloak_searchPattern( $search_email_msg, $search_email );
+	$pattern = plgContentEmailCloak_searchPattern( $search_email_msg, $search_email );
 	while( eregi( $pattern, $row->text, $regs ) ) {
 		$mail		= $regs[2] . $regs[3] . $regs[4] . $regs[5];
 		$mail_text	= $regs[6] . $regs[7]. $regs[8];
@@ -99,7 +100,7 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 	}
 
 	// search for derivativs of link code <a href="mailto:email@amail.com?subject=Text">anytext</a>
-	$pattern = botMosEmailCloak_searchPattern( $search_email_msg, $search_text );
+	$pattern = plgContentEmailCloak_searchPattern( $search_email_msg, $search_text );
 	while( eregi( $pattern, $row->text, $regs ) ) {
 		$mail		= $regs[2] . $regs[3] . $regs[4] . $regs[5];
 		$mail_text	= $regs[6];
@@ -123,7 +124,7 @@ function pluginEmailCloak( &$row, &$params, $page=0 ) {
 	}
 }
 
-function botMosEmailCloak_searchPattern ( $link, $text ) {
+function plgContentEmailCloak_searchPattern ( $link, $text ) {
 	// <a href="mailto:anyLink">anyText</a>
 	$pattern = "(<a [[:alnum:] _\"\'=\@\.\-]*href=[\"\']mailto:". $link	."[\"\'][[:alnum:] _\"\'=\@\.\-]*)>". $text ."</a>";
 

@@ -14,13 +14,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onCustomEditorButton', 'pluginReadmoreButton' );
+$mainframe->registerEvent( 'onCustomEditorButton', 'plgReadmoreButton' );
 
 /**
 * readmore button
 * @return array A two element array of ( imageName, textToInsert )
 */
-function pluginReadmoreButton($name)
+function plgReadmoreButton($name)
 {
 	global $mainframe, $option;
 

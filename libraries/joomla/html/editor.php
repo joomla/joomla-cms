@@ -274,7 +274,7 @@ class JEditor extends JObservable
 		require_once ($path);
 
 		// Build editor plugin classname
-		$name = 'JEditor_'.$this->_name;
+		$name = 'plgEditor'.$this->_name;
 		if($this->_editor = new $name ($this))
 		{
 			$this->initialise();

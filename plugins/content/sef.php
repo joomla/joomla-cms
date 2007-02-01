@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'pluginSEF' );
+$mainframe->registerEvent( 'onPrepareContent', 'plgContentSEF' );
 
 /**
 * Converting internal relative links to SEF URLs
@@ -22,7 +22,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginSEF' );
 * <b>Usage:</b>
 * <code><a href="...relative link..."></code>
 */
-function pluginSEF( &$row, &$params, $page=0 )
+function plgContentSEF( &$row, &$params, $page=0 )
 {
 	global $mainframe;
 
@@ -47,7 +47,7 @@ function pluginSEF( &$row, &$params, $page=0 )
 	$regex = "#href=\"(.*?)\"#s";
 
 	// perform the replacement
-	$row->text = preg_replace_callback( $regex, 'contentSEF_replacer', $row->text );
+	$row->text = preg_replace_callback( $regex, 'plgContentSEF_replacer', $row->text );
 
 	return true;
 }
@@ -56,7 +56,7 @@ function pluginSEF( &$row, &$params, $page=0 )
 * @param array An array of matches (see preg_match_all)
 * @return string
 */
-function contentSEF_replacer( &$matches )
+function plgContentSEF_replacer( &$matches )
 {
 	// original text that might be replaced
 	$original = 'href="'. $matches[1] .'"';

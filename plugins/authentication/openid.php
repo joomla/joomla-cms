@@ -16,7 +16,7 @@
 jimport('joomla.application.plugin.helper');
 
 /**
- * OpenID JAuthenticate Plugin
+ * OpenID Authenticate Plugin
  *
  * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
@@ -24,7 +24,7 @@ jimport('joomla.application.plugin.helper');
  * @since 1.5
  */
 
-class JAuthenticateOpenID extends JPlugin
+class plgAuthenticateOpenID extends JPlugin
 {
 	/**
 	 * Constructor
@@ -36,7 +36,7 @@ class JAuthenticateOpenID extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function JAuthenticateOpenID(& $subject) {
+	function plgAuthenticateOpenID(& $subject) {
 		parent::__construct($subject);
 	}
 

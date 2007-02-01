@@ -22,7 +22,7 @@ jimport('joomla.application.plugin.helper');
  * @subpackage	JFramework
  * @since 1.5
  */
-class JAuthenticateGMail extends JPlugin
+class plgAuthenticateGMail extends JPlugin
 {
 	/**
 	 * Constructor
@@ -34,7 +34,7 @@ class JAuthenticateGMail extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function JAuthenticateGMail(& $subject) {
+	function plgAuthenticateGMail(& $subject) {
 		parent::__construct($subject);
 	}
 

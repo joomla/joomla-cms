@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'pluginCode' );
+$mainframe->registerEvent( 'onPrepareContent', 'plgContentCode' );
 
 /**
 * Code Highlighting Plugin
@@ -22,7 +22,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'pluginCode' );
 * <b>Usage:</b>
 * <code>{moscode}...some code...{/moscode}</code>
 */
-function pluginCode( &$row, &$params, $page=0 )
+function plgContentCode( &$row, &$params, $page=0 )
 {
 	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, '{code' ) === false ) {

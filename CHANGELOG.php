@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Feb-2007 Johan Janssens
+ ^ Added 'plg' prefix to all plugins functions and classes to avoid naming collisions
+
 01-Feb-2007 Marko Schmuck
  # Fixed [artf7454] : TinyMCE parameters smilies and flash where wrong in xml file
  

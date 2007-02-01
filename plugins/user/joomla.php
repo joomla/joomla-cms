@@ -22,7 +22,7 @@ jimport('joomla.application.plugin.helper');
  * @subpackage	JFramework
  * @since 		1.5
  */
-class JUserJoomla extends JPlugin
+class plgUserJoomla extends JPlugin
 {
 	/**
 	 * Constructor
@@ -34,7 +34,7 @@ class JUserJoomla extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function JUserJoomla(& $subject) {
+	function plgUserJoomla(& $subject) {
 		parent::__construct($subject);
 	}
 
@@ -176,5 +176,5 @@ class JUserJoomla extends JPlugin
  * Attach the plugin to the event dispatcher
  */
 $dispatcher =& JEventDispatcher::getInstance();
-$dispatcher->attach(new JUserJoomla($dispatcher));
+$dispatcher->attach(new plgUserJoomla($dispatcher));
 ?>

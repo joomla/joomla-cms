@@ -23,7 +23,7 @@ jimport('joomla.application.plugin.helper');
  * @subpackage	JFramework
  * @since 1.5
  */
-class JAuthenticateJoomla extends JPlugin
+class plgAuthenticateJoomla extends JPlugin
 {
 
 	/**
@@ -36,7 +36,7 @@ class JAuthenticateJoomla extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function JAuthenticateJoomla(& $subject) {
+	function plgAuthenticateJoomla(& $subject) {
 		parent::__construct($subject);
 	}
 

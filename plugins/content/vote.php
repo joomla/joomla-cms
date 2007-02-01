@@ -14,9 +14,9 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onBeforeDisplayContent', 'pluginVote' );
+$mainframe->registerEvent( 'onBeforeDisplayContent', 'plgContentVote' );
 
-function pluginVote( &$row, &$params, $page=0 )
+function plgContentVote( &$row, &$params, $page=0 )
 {
 	global $Itemid;
 
