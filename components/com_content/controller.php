@@ -31,41 +31,7 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-		$viewName	= JRequest::getVar( 'view', 'article' );
-		$layout		= JRequest::getVar( 'layout', 'default' );
-
-		// interceptors to support legacy urls
-		switch( $this->getTask())
-		{
-			//index.php?option=com_content&task=x&id=x&Itemid=x
-			case 'blogsection':
-				$viewName	= 'section';
-				$layout = 'blog';
-				break;
-			case 'section':
-				$viewName	= 'section';
-				break;
-			case 'category':
-				$viewName	= 'category';
-				break;
-			case 'blogcategory':
-				$viewName	= 'category';
-				$layout = 'blog';
-				break;
-			case 'archivesection':
-			case 'archivecategory':
-				$viewName	= 'archive';
-				break;
-			case 'frontpage' :
-				$viewName = 'frontpage';
-				break;
-			case 'view':
-				$viewName	= 'article';
-				break;
-		}
-
-		JRequest::setVar('view', $viewName);
-		JRequest::setVar('layout', $layout);
+	
 
 		parent::display();
 	}

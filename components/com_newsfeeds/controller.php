@@ -31,29 +31,7 @@ class NewsfeedsController extends JController
 	 */
 	function display()
 	{
-		$viewName	= JRequest::getVar( 'view', 'categories' );
-
-		// interceptors to support legacy urls
-		switch( $this->getTask())
-		{
-			//index.php?option=com_newsfeeds&task=x&catid=xid=x&Itemid=x
-			case 'view':
-			{
-				$viewName	= 'newsfeed';
-			} break;
-
-			default:
-			{
-				if(JRequest::getVar( 'catid', 0)) {
-					$viewName = 'category';
-				}
-			}
-		}
-
-		JRequest::setVar('view', $viewName);
-
 		parent::display();
-
 	}
 }
 

@@ -31,8 +31,6 @@ class RegistrationController extends JController
 	 */
 	function display()
 	{
-		global $mainframe;
-
 		parent::display();
 	}
 

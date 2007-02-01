@@ -22,7 +22,7 @@ require_once ( JPATH_BASE .'/includes/application.php' );
 
 
 /**
- * CREATE
+ * CREATE THE APPLICATION
  *
  * NOTE :
  */

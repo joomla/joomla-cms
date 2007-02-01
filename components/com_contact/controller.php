@@ -37,7 +37,7 @@ class ContactController extends JController
 		// interceptors to support legacy urls
 		switch( $this->getTask())
 		{
-			//index.php?option=com_content&task=category&id=0&Itemid=4
+			//index.php?option=com_contact&task=category&id=0&Itemid=4
 			case 'category':
 				$viewName	= 'category';
 				$layout = 'default';

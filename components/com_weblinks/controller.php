@@ -31,27 +31,7 @@ class WeblinksController extends JController
 	 */
 	function display()
 	{
-		$viewName	= JRequest::getVar( 'view', 'categories' );
-
-		// interceptors to support legacy urls
-		switch( $this->getTask())
-		{
-			//index.php?option=com_weblinks&task=x&catid=xid=x
-			case 'view':
-			{
-				$viewName	= 'weblink';
-			} break;
-
-			default:
-			{
-				if($catid = JRequest::getVar( 'catid', 0)) {
-					$viewName = 'category';
-					JRequest::setVar('id', $catid);
-				}
-			}
-		}
-
-		JRequest::setVar('view', $viewName);
+	
 
 		//update the hit count for the weblink
 		if($viewName == 'weblink') {
