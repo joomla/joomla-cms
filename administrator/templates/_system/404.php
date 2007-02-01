@@ -25,7 +25,12 @@
 	</tr>
 	<tr>
 		<td width="39%" align="center">
-			<?php echo $this->message;   ?>
+			<p><?php echo $this->message;   ?></p>
+			<p>
+				<?php if($this->debug) :
+					echo $this->renderBacktrace();
+				endif; ?>
+			</p>
 		</td>
 	</tr>
 	</table>
