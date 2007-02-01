@@ -68,9 +68,10 @@ class JObject
 	/**
 	 * Returns an array of public properties
 	 *
-	 * @return array
+	 * @param	boolean	If true, returns an associative key=>value array
+	 * @return	array
 	 */
-	function getPublicProperties()
+	function getPublicProperties( $assoc = false )
 	{
 		static $cache = null;
 
@@ -78,11 +79,12 @@ class JObject
 			$cache = array();
 			foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {
 				if (substr( $key, 0, 1 ) != '_') {
-					$cache[] = $key;
+					$cache[0][] = $key;
+					$cache[1][$key] = $val;
 				}
 			}
 		}
-		return $cache;
+		return $cache[$assoc ? 1 : 0];
 	}
 
 	/**
@@ -96,5 +98,3 @@ class JObject
 		return get_class($this);
 	}
 }
-
-?>
