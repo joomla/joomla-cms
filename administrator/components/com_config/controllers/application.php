@@ -166,6 +166,7 @@ class ConfigControllerApplication extends ConfigController
 
 		// SEO SETTINGS
 		$lists['sef'] 			= JHTMLSelect::yesnoList('sef', 'class="inputbox"', $row->sef);
+		$lists['sef_rewrite'] 	= JHTMLSelect::yesnoList('sef_rewrite', 'class="inputbox"', $row->sef_rewrite);
 
 		// FEED SETTINGS
 		$formats	= array (JHTMLSelect::option('RSS2.0', JText::_('RSS')), JHTMLSelect::option('Atom', JText::_('Atom')));
@@ -243,8 +244,9 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['debug_db'] 	= JRequest::getVar('debug_db', 0, 'post');
 		$config_array['debug_lang'] 	= JRequest::getVar('debug_lang', 0, 'post');
 
-		// SEO SETTINGS
-		$config_array['sef'] 		= JRequest::getVar('sef', 0, 'post');
+		// SEO SETTINGS	
+		$config_array['sef'] 			= JRequest::getVar('sef', 0, 'post');
+		$config_array['sef_rewrite'] 	= JRequest::getVar('sef_rewrite', 0, 'post');
 
 		// FEED SETTINGS
 		$config_array['feed_limit']		= JRequest::getVar('feed_limit', 10, 'post');

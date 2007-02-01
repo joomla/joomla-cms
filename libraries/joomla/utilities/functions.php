@@ -141,6 +141,7 @@ function sefRelToAbs($value)
 		$params = array();
 
 		// Get config variables
+		$mode    = $config->getValue('config.sef_rewrite');
 		$rewrite = $config->getValue('config.sef');
 
 		// Home index.php
@@ -208,9 +209,9 @@ function sefRelToAbs($value)
 			$url = $item->name_alias.'/'.$route.$fragment.$query;
 
 			// Prepend the base URI if we are not using mod_rewrite
-			//if ($mode) {
+			if (!$mode) {
 				$url = 'index.php/'.$url;
-			//}
+			}
 			$strings[$string] = $url;
 
 			return str_replace( '&', '&amp;', $url );

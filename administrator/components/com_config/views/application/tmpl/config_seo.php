@@ -11,6 +11,16 @@
 			</td>
 			<td>
 				<?php echo $lists['sef']; ?>
+			</td>
+		</tr>
+		<tr>
+			<td width="185" class="key">
+				<span class="editlinktip">
+					<?php echo JText::_( 'Use mod_rewrite' ); ?>
+				</span>
+			</td>
+			<td>
+				<?php echo $lists['sef_rewrite']; ?>
 				<span class="error hasTip" title="<?php echo JText::_( 'Warning' );?>::<?php echo JText::_( 'WARNAPACHEONLY' ); ?>">
 					<?php echo ConfigApplicationView::WarningIcon(); ?>
 				</span>
