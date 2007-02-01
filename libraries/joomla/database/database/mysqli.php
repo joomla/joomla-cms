@@ -105,7 +105,8 @@ class JDatabaseMySQLi extends JDatabase
 	 * Determines UTF support
 	 * @return boolean True - UTF is supported
 	 */
-	function hasUTF() {
+	function hasUTF()
+	{
 		$verParts = explode( '.', $this->getVersion() );
 		return ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int)$verParts[2] >= 2));
 	}
@@ -113,7 +114,8 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Custom settings for UTF support
 	 */
-	function setUTF() {
+	function setUTF()
+	{
 		mysqli_query( $this->_resource, "SET NAMES 'utf8'" );
 	}
 
@@ -121,7 +123,8 @@ class JDatabaseMySQLi extends JDatabase
 	* Get a database escaped string
 	* @return string
 	*/
-	function getEscaped( $text ) {
+	function getEscaped( $text )
+	{
 		return mysqli_real_escape_string( $this->_resource, $text );
 	}
 
@@ -163,7 +166,8 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return int The number of affected rows in the previous operation
 	 * @since 1.0.5
 	 */
-	function getAffectedRows() {
+	function getAffectedRows()
+	{
 		return mysqli_affected_rows( $this->_resource );
 	}
 
@@ -219,34 +223,35 @@ class JDatabaseMySQLi extends JDatabase
 		}
 		$first = true;
 
-		$buf = "<table cellspacing=\"1\" cellpadding=\"2\" border=\"0\" bgcolor=\"#000000\" align=\"center\">";
-		$buf .= $this->getQuery();
+		$buffer = '<table id="explain-sql">';
+		$buffer .= '<thead><tr><td colspan="99">'.$this->getQuery().'</td></tr>';
 		while ($row = mysqli_fetch_assoc( $cur )) {
 			if ($first) {
-				$buf .= "<tr>";
+				$buffer .= '<tr>';
 				foreach ($row as $k=>$v) {
-					$buf .= "<th bgcolor=\"#ffffff\">$k</th>";
+					$buffer .= '<th>'.$k.'</th>';
 				}
-				$buf .= "</tr>";
+				$buffer .= '</tr>';
 				$first = false;
 			}
-			$buf .= "<tr>";
+			$buffer .= '</thead><tbody><tr>';
 			foreach ($row as $k=>$v) {
-				$buf .= "<td bgcolor=\"#ffffff\">$v</td>";
+				$buffer .= '<td>'.$v.'</td>';
 			}
-			$buf .= "</tr>";
+			$buffer .= '</tr>';
 		}
-		$buf .= "</table><br />&nbsp;";
+		$buffer .= '</tbody></table>';
 		mysqli_free_result( $cur );
 
 		$this->_sql = $temp;
 
-		return "<div style=\"background-color:#FFFFCC\" align=\"left\">$buf</div>";
+		return $buffer;
 	}
 	/**
 	* @return int The number of rows returned from the most recent query.
 	*/
-	function getNumRows( $cur=null ) {
+	function getNumRows( $cur=null )
+	{
 		return mysqli_num_rows( $cur ? $cur : $this->_cursor );
 	}
 
@@ -451,13 +456,13 @@ class JDatabaseMySQLi extends JDatabase
 				$where = $keyName . '=' . $this->Quote( $v );
 				continue;
 			}
-			if ($v === NULL && !$updateNulls) {
-				continue;
-			}
-			if( $v == '0' ) {
-				$val = $this->isQuoted( $k ) ? $this->Quote( '0' ) : 0;
-			} else if( $v == '' ) {
-				$val = $this->isQuoted( $k ) ? $this->Quote( '' ) : 0;
+			if ($v === null)
+			{
+				if ($updateNulls) {
+					$val = 'NULL';
+				} else {
+					continue;
+				}
 			} else {
 				$val = $this->isQuoted( $k ) ? $this->Quote( $v ) : $v;
 			}
@@ -467,7 +472,8 @@ class JDatabaseMySQLi extends JDatabase
 		return $this->query();
 	}
 
-	function insertid() {
+	function insertid()
+	{
 		return mysqli_insert_id( $this->_resource );
 	}
 
@@ -486,14 +492,16 @@ class JDatabaseMySQLi extends JDatabase
 		}
 	}
 
-	function getVersion() {
+	function getVersion()
+	{
 		return mysqli_get_server_info( $this->_resource );
 	}
 
 	/**
 	 * @return array A list of all the tables in the database
 	 */
-	function getTableList() {
+	function getTableList()
+	{
 		$this->setQuery( 'SHOW TABLES' );
 		return $this->loadResultArray();
 	}
@@ -534,4 +542,3 @@ class JDatabaseMySQLi extends JDatabase
 		return $result;
 	}
 }
-?>

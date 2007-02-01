@@ -84,7 +84,8 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Determines UTF support
 	 */
-	function hasUTF() {
+	function hasUTF()
+	{
 		$verParts = explode( '.', $this->getVersion() );
 		return ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int)$verParts[2] >= 2));
 	}
@@ -92,7 +93,8 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Custom settings for UTF support
 	 */
-	function setUTF() {
+	function setUTF()
+	{
 		//mysql_query("SET CHARACTER SET utf8",$this->_resource);
 		mysql_query( "SET NAMES 'utf8'", $this->_resource );
 	}
@@ -101,7 +103,8 @@ class JDatabaseMySQL extends JDatabase
 	* Get a database escaped string
 	* @return string
 	*/
-	function getEscaped( $text ) {
+	function getEscaped( $text )
+	{
 		return mysql_real_escape_string( $text );
 	}
 
@@ -143,7 +146,8 @@ class JDatabaseMySQL extends JDatabase
 	 * @return int The number of affected rows in the previous operation
 	 * @since 1.0.5
 	 */
-	function getAffectedRows() {
+	function getAffectedRows()
+	{
 		return mysql_affected_rows( $this->_resource );
 	}
 
@@ -199,34 +203,35 @@ class JDatabaseMySQL extends JDatabase
 		}
 		$first = true;
 
-		$buf = "<table cellspacing=\"1\" cellpadding=\"2\" border=\"0\" bgcolor=\"#000000\" align=\"center\">";
-		$buf .= $this->getQuery();
+		$buffer = '<table id="explain-sql">';
+		$buffer .= '<thead><tr><td colspan="99">'.$this->getQuery().'</td></tr>';
 		while ($row = mysql_fetch_assoc( $cur )) {
 			if ($first) {
-				$buf .= "<tr>";
+				$buffer .= '<tr>';
 				foreach ($row as $k=>$v) {
-					$buf .= "<th bgcolor=\"#ffffff\">$k</th>";
+					$buffer .= '<th>'.$k.'</th>';
 				}
-				$buf .= "</tr>";
+				$buffer .= '</tr>';
 				$first = false;
 			}
-			$buf .= "<tr>";
+			$buffer .= '</thead><tbody><tr>';
 			foreach ($row as $k=>$v) {
-				$buf .= "<td bgcolor=\"#ffffff\">$v</td>";
+				$buffer .= '<td>'.$v.'</td>';
 			}
-			$buf .= "</tr>";
+			$buffer .= '</tr>';
 		}
-		$buf .= "</table><br />&nbsp;";
+		$buffer .= '</tbody></table>';
 		mysql_free_result( $cur );
 
 		$this->_sql = $temp;
 
-		return "<div style=\"background-color:#FFFFCC\" align=\"left\">$buf</div>";
+		return $buffer;
 	}
 	/**
 	* @return int The number of rows returned from the most recent query.
 	*/
-	function getNumRows( $cur=null ) {
+	function getNumRows( $cur=null )
+	{
 		return mysql_num_rows( $cur ? $cur : $this->_cursor );
 	}
 
@@ -423,7 +428,8 @@ class JDatabaseMySQL extends JDatabase
 	{
 		$fmtsql = "UPDATE $table SET %s WHERE %s";
 		$tmp = array();
-		foreach (get_object_vars( $object ) as $k => $v) {
+		foreach (get_object_vars( $object ) as $k => $v)
+		{
 			if( is_array($v) or is_object($v) or $k[0] == '_' ) { // internal or NA field
 				continue;
 			}
@@ -431,13 +437,13 @@ class JDatabaseMySQL extends JDatabase
 				$where = $keyName . '=' . $this->Quote( $v );
 				continue;
 			}
-			if ($v === NULL && !$updateNulls) {
-				continue;
-			}
-			if( $v == '0' ) {
-				$val = $this->isQuoted( $k ) ? $this->Quote( '0' ) : 0;
-			} else if( $v == '' ) {
-				$val = $this->isQuoted( $k ) ? $this->Quote( '' ) : 0;
+			if ($v === null)
+			{
+				if ($updateNulls) {
+					$val = 'NULL';
+				} else {
+					continue;
+				}
 			} else {
 				$val = $this->isQuoted( $k ) ? $this->Quote( $v ) : $v;
 			}
@@ -447,13 +453,13 @@ class JDatabaseMySQL extends JDatabase
 		return $this->query();
 	}
 
-
-
-	function insertid() {
+	function insertid()
+	{
 		return mysql_insert_id( $this->_resource );
 	}
 
-	function getVersion() {
+	function getVersion()
+	{
 		return mysql_get_server_info( $this->_resource );
 	}
 	/**
@@ -516,4 +522,3 @@ class JDatabaseMySQL extends JDatabase
 		return $result;
 	}
 }
-?>
