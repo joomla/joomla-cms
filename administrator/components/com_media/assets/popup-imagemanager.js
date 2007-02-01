@@ -14,34 +14,47 @@
  * JImageManager behavior for media component
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Extensions
  * @subpackage	Media
  * @since		1.5
  */
 var JImageManager = new Class({
-	initialize: function(popup)
+	initialize: function()
 	{
-		this.popup			= $(popup);
-		this.imageview  	= $('imageview');
-		this.upbutton	  	= $('upbutton');
-		this.folderlist 	= $('folderlist');
-		this.uploadtoggler  = $('uploadtoggler');
+		this.popup = window.top.document.popup;
 
-		//Setup events
-		this.imageview.manager = this;
-		this.imageview.addEvent('load', function(){ this.manager.onloadimageview(); });
+		// Setup image manager fields object
+		this.fields			= new Object();
+		this.fields.url		= $("f_url");
+		this.fields.alt		= $("f_alt");
+		this.fields.align	= $("f_align");
+		this.fields.title	= $("f_title");
+		this.fields.caption	= $("f_caption");
 
+		// Setup image listing objects
+		this.folderlist = $('folderlist');
+
+		// Setup imave listing frame
+		this.imageframe = $('imageframe');
+		this.imageframe.manager = this;
+		this.imageframe.addEvent('load', function(){ this.manager.onloadimageview(); });
+
+		// Setup folder up button
+		this.upbutton = $('upbutton');
 		this.upbutton.manager = this;
 		this.upbutton.addEvent('click', function(){ this.manager.upFolder(); });
 
+		// Setup upload form objects
+		this.uploadtoggler = $('uploadtoggler');
 		this.uploadtoggler.manager = this;
 		this.uploadtoggler.addEvent('click', function(){
 			if(this.hasClass('toggler-down')) {
 				this.removeClass('toggler-down');
-				this.manager.popup.decreaseHeight(50);
+//				this.manager.popup.decreaseHeight(50);
 			} else {
 				this.addClass('toggler-down');
-				this.manager.popup.increaseHeight(50);
+//				this.manager.popup.increaseHeight(50);
 			}
 			this.manager.uploadpane.toggle();
 		});
@@ -54,12 +67,18 @@ var JImageManager = new Class({
 	onloadimageview: function()
 	{
 		var folder = this.getImageFolder();
-		this.setFolder(folder, true);
+		for(var i = 0; i < this.folderlist.length; i++)
+		{
+			if(folder == this.folderlist.options[i].value) {
+				this.folderlist.selectedIndex = i;
+				break;
+			}
+		}
 	},
 
 	getImageFolder: function()
 	{
-		var url 	= this.imageview.location.search.substring(1);
+		var url 	= window.frames['imageframe'].location.search.substring(1);
 		var args	= this.parseQuery(url);
 
 		return args['folder'];
@@ -68,16 +87,16 @@ var JImageManager = new Class({
 	onok: function()
 	{
 		// Get the image tag field information
-		var url		= $("f_url").getValue();
-		var alt		= $("f_alt").getValue();
-		var align	= $("f_align").getValue();
-		var title	= $("f_title").getValue();
-		var caption	= $("f_caption").getValue();
+		var url		= this.fields.url.getValue();
+		var alt		= this.fields.alt.getValue();
+		var align	= this.fields.align.getValue();
+		var title	= this.fields.title.getValue();
+		var caption	= this.fields.caption.getValue();
 
 		if (url != '') {
 			// Set alt attribute
 			if (alt != '') {
-				alt = "alt=\""+alt+"\" ";
+				var alt = "alt=\""+alt+"\" ";
 			}
 			// Set align attribute
 			if (align != '') {
@@ -99,24 +118,18 @@ var JImageManager = new Class({
 		return false;
 	},
 
-	setFolder: function(directory, refresh)
+	setFolder: function(folder)
 	{
 		//this.showMessage('Loading');
 
 		for(var i = 0; i < this.folderlist.length; i++)
 		{
-			var folder = this.folderlist.options[i].text;
-			if(folder == directory) {
+			if(folder == this.folderlist.options[i].value) {
 				this.folderlist.selectedIndex = i;
 				break;
 			}
 		}
-
-		this.imageview.src   = 'index.php?option=com_media&task=imgManagerList&tmpl=component&folder=' + directory;
-
-		if(refresh) {
-			this.imageview.location.reload(true);
-		}
+		window.frames['imageframe'].location.href='index.php?option=com_media&task=imgManagerList&tmpl=component&folder=' + folder;
 	},
 
 	getFolder: function() {
@@ -125,12 +138,12 @@ var JImageManager = new Class({
 
 	upFolder: function()
 	{
-		var currentFolder = this.folderlist.options[this.folderlist.selectedIndex].text;
-		if(currentFolder.length < 2)
+		var currentFolder = this.getFolder();
+		if(currentFolder.length < 2) {
 			return false;
+		}
 
 		var folders = currentFolder.split('/');
-
 		var search = '/';
 
 		for(var i = 0; i < folders.length - 1; i++) {
@@ -188,5 +201,6 @@ var JImageManager = new Class({
 });
 
 document.imagemanager = null;
-document.onload = function(){ document.imagemanager = new JImageManager(window.parent.popup); };
-
+window.onDomReady(function(){
+	document.imagemanager = new JImageManager();
+});

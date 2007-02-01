@@ -23,73 +23,59 @@ defined('_JEXEC') or die('Restricted access');
  */
 class MediaViews
 {
-	function imgManager($dirPath, $listFolder)
+	function imgManager($dirPath, $folder)
 	{
 		global $mainframe;
 
 		?>
 		<form action="index.php" id="uploadForm" method="post" enctype="multipart/form-data">
-		<div id="messages" style="display: none;"><span id="message"></span><img src="img/dots.gif" width="22" height="12" alt="..." /></div>
-		<fieldset>
-			<div style="float: left">
-				<label for="folder"><?php echo JText::_('Directory') ?></label>
-				<?php echo $dirPath; ?>
-				<button type="button" id="upbutton" title="<?php echo JText::_('Directory Up') ?>"><?php echo JText::_('Up') ?></button>
+			<div id="messages" style="display: none;">
+				<span id="message"></span><img src="img/dots.gif" width="22" height="12" alt="..." />
 			</div>
-			<div style="float: right">
-				<button type="button" onclick="document.imagemanager.onok();window.top.document.popup.hide();"><?php echo JText::_('Insert') ?></button>
-				<button type="button" onclick="window.top.document.popup.hide();"><?php echo JText::_('Cancel') ?></button>
-			</div>
-		</fieldset>
-		<iframe src="index.php?option=com_media&amp;task=imgManagerList&amp;listdir=<?php echo $listFolder?>&amp;tmpl=component" id="imageview" name="imageview"></iframe>
-		<fieldset>
-		<table class="properties">
-			<tr>
-				<td>
-					<label for="f_url"><?php echo JText::_('Image URL') ?></label>
-				</td>
-				<td>
-					<input type="text" id="f_url" value="" />
-				</td>
-				<td><label for="f_align"><?php echo JText::_('Align') ?></label></td>
-				<td>
-					<select size="1" id="f_align" title="Positioning of this image">
-						<option value="" selected="selected"><?php echo JText::_('Not Set') ?></option>
-						<option value="left"><?php echo JText::_('Left') ?></option>
-						<option value="right"><?php echo JText::_('Right') ?></option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="f_alt"><?php echo JText::_('Image description') ?></label>
-				</td>
-				<td>
-					<input type="text" id="f_alt" value="" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="f_title"><?php echo JText::_('Title') ?></label>
-				</td>
-				<td>
-					<input type="text" id="f_title" value="" />
-				</td>
-				<td>
-					<label for="f_caption"><?php echo JText::_('Caption') ?></label>
-				</td>
-				<td>
-					<input type="checkbox" id="f_caption" />
-				</td>
-			</tr>
-			</table>
+			<fieldset>
+				<div style="float: left">
+					<label for="folder"><?php echo JText::_('Directory') ?></label>
+					<?php echo $dirPath; ?>
+					<button type="button" id="upbutton" title="<?php echo JText::_('Directory Up') ?>"><?php echo JText::_('Up') ?></button>
+				</div>
+				<div style="float: right">
+					<button type="button" onclick="document.imagemanager.onok();window.top.document.popup.hide();"><?php echo JText::_('Insert') ?></button>
+					<button type="button" onclick="window.top.document.popup.hide();"><?php echo JText::_('Cancel') ?></button>
+				</div>
+			</fieldset>
+			<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;task=imgManagerList&amp;tmpl=component&amp;folder=<?php echo $folder?>"></iframe>
+
+			<fieldset>
+				<table class="properties">
+					<tr>
+						<td><label for="f_url"><?php echo JText::_('Image URL') ?></label></td>
+						<td><input type="text" id="f_url" value="" /></td>
+						<td><label for="f_align"><?php echo JText::_('Align') ?></label></td>
+						<td>
+							<select size="1" id="f_align" title="Positioning of this image">
+								<option value="" selected="selected"><?php echo JText::_('Not Set') ?></option>
+								<option value="left"><?php echo JText::_('Left') ?></option>
+								<option value="right"><?php echo JText::_('Right') ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="f_alt"><?php echo JText::_('Image description') ?></label></td>
+						<td><input type="text" id="f_alt" value="" /></td>
+					</tr>
+					<tr>
+						<td><label for="f_title"><?php echo JText::_('Title') ?></label></td>
+						<td><input type="text" id="f_title" value="" /></td>
+						<td><label for="f_caption"><?php echo JText::_('Caption') ?></label></td>
+						<td><input type="checkbox" id="f_caption" /></td>
+					</tr>
+				</table>
 			</fieldset>
 			<div id="uploadpanel">
-			<h3 id="uploadtoggler" class="toggler title"><span><?php echo JText::_('Upload') ?></span></h3>
-			<div id="uploadpane" class="content">
-			<iframe src="index.php?option=com_media&amp;task=popupUpload&amp;tmpl=component" id="uploadview" name="uploadview" onload="document.imagemanager.setFolder(window.frames['uploadview'].document.adminForm.dirPath.value, true);"></iframe>
-			</div>
-			</div>
+				<h3 id="uploadtoggler" class="toggler title"><span><?php echo JText::_('Upload') ?></span></h3>
+				<div id="uploadpane" class="content">
+					<iframe src="index.php?option=com_media&amp;task=popupUpload&amp;tmpl=component" id="uploadview" name="uploadview" scrolling="no"></iframe>
+				</div>
 			</div>
 			<input type="hidden" id="f_file" name="f_file" />
 			<input type="hidden" id="tmpl" name="component" />
@@ -154,7 +140,7 @@ class MediaViews
 
 		?>
 		<div class="item">
-			<a href="javascript::return(void)" onclick="window.parent.document.imagemanager.populateFields('<?php echo $insert_url;?>')">
+			<a href="#" onclick="window.parent.document.imagemanager = new window.parent.JImageManager(); window.parent.document.imagemanager.populateFields('<?php echo $insert_url;?>')">
 				<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" />
 				<span><?php echo $file; ?></span>
 			</a>
