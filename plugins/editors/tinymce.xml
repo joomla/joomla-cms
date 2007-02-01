@@ -69,16 +69,16 @@
    	</params>
    	<params group="advanced">
  		<param name="smilies" type="radio" default="1" label="Smilies" description="PARAMSMILIES">
- 			<option value="1">Hide</option>
- 			<option value="0">Show</option>
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
  		</param>
  		<param name="table" type="radio" default="1" label="Table" description="PARAMTABLE">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
  		<param name="flash" type="radio" default="1" label="Flash" description="PARAMFLASH">
- 			<option value="1">Hide</option>
- 			<option value="0">Show</option>
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
  		</param>
  		<param name="style" type="radio" default="1" label="Style" description="PARAMSTYLE">
  			<option value="0">Hide</option>
