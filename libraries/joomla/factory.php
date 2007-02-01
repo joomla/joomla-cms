@@ -382,7 +382,6 @@ class JFactory
 		$handler =  $conf->getValue('config.session_handler', 'none');
 		$options['expire'] = $conf->getValue('config.lifetime', 15);
 
-
 		$session = new JSession($handler, $options);
 		if ($session->getState() == 'expired') {
 			$session->restart();
@@ -587,4 +586,3 @@ class JFactory
 		return $doc;
 	}
 }
-?>
