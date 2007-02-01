@@ -35,7 +35,7 @@ class JElement_Calendar extends JElement
 		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="inputbox"' );
 
 		return '<input type="text" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.htmlspecialchars($value).'" '.$class.' />'.
-			   '<input name="reset" type="reset" class="button" onclick="return showCalendar(\''.$control_name.$name.'\', \'y-mm-dd\');" value="..." />';
+				 '<a href="#" onclick="return showCalendar(\''.$control_name.$name.'\', \'y-mm-dd\');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>';
 	}
 }
 ?>

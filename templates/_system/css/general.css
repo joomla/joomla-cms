@@ -110,6 +110,16 @@ div.tooltip p {
 	margin: 0;
 }
 
+/* Calendar */
+a img.calendar {
+	width: 16px;
+	height: 16px;
+	margin-left: 3px;
+	background: url(../images/calendar.png) no-repeat;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
 /* System Messages */
 dl#system-message { margin: 0; padding: 0; }
 #system-message dt { font-weight: bold; }

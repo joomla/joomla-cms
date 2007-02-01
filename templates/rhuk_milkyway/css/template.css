@@ -362,7 +362,7 @@ h4 {
 	color: #333;
 }
 
-h3, .componentheading, table.moduletable th {
+h3, .componentheading, table.moduletable th, legend {
   margin: 0;
   font-weight: bold;
   font-family: Helvetica,Arial,sans-serif;
@@ -704,3 +704,22 @@ dl#system-message { margin: 0; padding: 0; }
 .pollstableborder td {
 	text-align: left;
 }
+
+/* Frontend Editing*/
+fieldset {
+	border: 1px solid #ccc;
+	margin-top: 15px;
+	padding: 15px;
+}
+
+legend {
+	margin: 0;
+	padding: 0 10px;
+}
+
+td.key {
+	border-bottom:1px solid #eee;
+	color: #666;
+}
+
+

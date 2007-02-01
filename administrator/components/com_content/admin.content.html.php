@@ -811,7 +811,7 @@ class ContentView
 			</td>
 			<td>
 				<input class="inputbox" type="text" name="created" id="created" size="25" maxlength="19" value="<?php echo JHTML::Date($row->created, "%Y-%m-%d %H:%M:%S"); ?>" />
-				<input name="reset" type="reset" class="button" onclick="return showCalendar('created', 'y-mm-dd');" value="..." />
+				<a href="#" onclick="return showCalendar('created', 'y-mm-dd');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>
 			</td>
 		</tr>
 		<tr>
@@ -822,7 +822,7 @@ class ContentView
 			</td>
 			<td>
 				<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo JHTML::Date($row->publish_up, "%Y-%m-%d %H:%M:%S"); ?>" />
-				<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');" />
+				<a href="#" onclick="return showCalendar('publish_up', 'y-mm-dd');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>
 			</td>
 		</tr>
 		<tr>
@@ -833,7 +833,7 @@ class ContentView
 			</td>
 			<td>
 				<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down;  ?>" />
-				<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');" />
+				<a href="#" onclick="return showCalendar('publish_down', 'y-mm-dd');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>
 			</td>
 		</tr>
 		</table>

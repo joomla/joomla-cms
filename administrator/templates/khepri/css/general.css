@@ -502,6 +502,16 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	margin: 0;
 }
 
+/* Calendar */
+a img.calendar {
+	width: 16px;
+	height: 16px;
+	margin-left: 3px;
+	background: url(../images/calendar.png) no-repeat;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
 /* System Messages */
 dl#system-message { margin-bottom: 10px; padding: 5px; border: 1px dashed #ccc;}
 #system-message dt { font-weight: bold; }

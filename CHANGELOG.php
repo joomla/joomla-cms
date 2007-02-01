@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Feb-2007 Andy Miller
+ # fixed layout for frontend editing
+ + Added calendar icon instead of ... button
+
 01-Feb-2007 Toby Patterson
  # Fixed [artf7442] : Unable to sort Contacts
 

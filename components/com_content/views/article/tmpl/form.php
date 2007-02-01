@@ -65,7 +65,7 @@ echo $this->editor->getButtons('text');
 <table class="adminform">
 <?php if ($this->article->sectionid) : ?>
 <tr>
-	<td>
+	<td class="key">
 		<label for="catid">
 			<?php echo JText::_( 'Section' ); ?>:
 		</label>
@@ -77,7 +77,7 @@ echo $this->editor->getButtons('text');
 	</td>
 </tr>
 <tr>
-	<td>
+	<td class="key">
 		<label for="catid">
 			<?php echo JText::_( 'Category' ); ?>:
 		</label>
@@ -89,7 +89,7 @@ echo $this->editor->getButtons('text');
 <?php endif; ?>
 <?php if ($this->user->authorize('action', 'publish', 'content', 'all')) : ?>
 <tr>
-	<td >
+	<td class="key">
 		<label for="state">
 			<?php echo JText::_( 'Published' ); ?>:
 		</label>
@@ -100,7 +100,7 @@ echo $this->editor->getButtons('text');
 </tr>
 <?php endif; ?>
 <tr>
-	<td width="120">
+	<td width="120" class="key">
 		<label for="frontpage">
 			<?php echo JText::_( 'Show on Front Page' ); ?>:
 		</label>
@@ -110,7 +110,7 @@ echo $this->editor->getButtons('text');
 	</td>
 </tr>
 <tr>
-	<td>
+	<td class="key">
 		<label for="created_by_alias">
 			<?php echo JText::_( 'Author Alias' ); ?>:
 		</label>
@@ -120,29 +120,29 @@ echo $this->editor->getButtons('text');
 	</td>
 </tr>
 <tr>
-	<td>
+	<td class="key">
 		<label for="publish_up">
 			<?php echo JText::_( 'Start Publishing' ); ?>:
 		</label>
 	</td>
 	<td>
 		<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $this->article->publish_up; ?>" />
-		<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');" />
+		<a href="#" onclick="return showCalendar('publish_up', 'y-mm-dd');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>
 	</td>
 </tr>
 <tr>
-	<td>
+	<td class="key">
 		<label for="publish_down">
 			<?php echo JText::_( 'Finish Publishing' ); ?>:
 		</label>
 	</td>
 	<td>
 		<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $this->article->publish_down; ?>" />
-		<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');" />
+		<a href="#" onclick="return showCalendar('publish_down', 'y-mm-dd');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>
 	</td>
 </tr>
 <tr>
-	<td valign="top">
+	<td valign="top" class="key">
 		<label for="access">
 			<?php echo JText::_( 'Access Level' ); ?>:
 		</label>
@@ -152,7 +152,7 @@ echo $this->editor->getButtons('text');
 	</td>
 </tr>
 <tr>
-	<td>
+	<td class="key">
 		<label for="ordering">
 			<?php echo JText::_( 'Ordering' ); ?>:
 		</label>
@@ -168,7 +168,7 @@ echo $this->editor->getButtons('text');
 <legend><?php echo JText::_('Metadata'); ?></legend>
 <table class="adminform">
 <tr>
-	<td  valign="top">
+	<td valign="top" class="key">
 		<label for="metadesc">
 			<?php echo JText::_( 'Description' ); ?>:
 		</label>
@@ -178,7 +178,7 @@ echo $this->editor->getButtons('text');
 	</td>
 </tr>
 <tr>
-	<td  valign="top">
+	<td  valign="top" class="key">
 		<label for="metakey">
 			<?php echo JText::_( 'Keywords' ); ?>:
 		</label>

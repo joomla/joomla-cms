@@ -124,7 +124,7 @@
 											<jdoc:include type="component" />
 										<?php endif; ?>
 									</td>
-									<?php if($this->countModules('right')) : ?>
+									<?php if($this->countModules('right') and JRequest::getVar('layout') != 'form') : ?>
 										<td class="greyline">&nbsp;</td>
 										<td width="170">
 											<jdoc:include type="modules" name="right" style="xhtml"/>
