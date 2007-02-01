@@ -53,7 +53,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 			break;
 
 		default :
-			$mitem->link .= '&amp;Itemid='.$mitem->id;
+			$mitem->link = 'index.php?Itemid='.$mitem->id;
 			break;
 	}
 
