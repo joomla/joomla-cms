@@ -303,7 +303,7 @@ function editPlugin( )
 	}
 
 	// Jinx 14-120-6:: Unsure why this is needed
-	//$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSDEFAULTLASTPLACE' );
+	//$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSLAST' );
 
 	$lists['published'] = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
 
