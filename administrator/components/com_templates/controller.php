@@ -132,6 +132,8 @@ class TemplatesController
 		if (!is_dir( $tBaseDir . DS . $template )) {
 			return JError::raiseWarning( 500, 'Template not found' );
 		}
+		$lang =& JFactory::getLanguage();
+		$lang->load( 'tpl_'.$template, JPATH_ADMINISTRATOR );
 
 		$ini	= $client->path.DS.'templates'.DS.$template.DS.'params.ini';
 		$xml	= $client->path.DS.'templates'.DS.$template.DS.'templateDetails.xml';
