@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Feb-2007 Marko Schmuck
+ # Fixed [artf7454] : TinyMCE parameters smilies and flash where wrong in xml file
+ 
 01-Feb-2007 Andrew Eddie
  # Fixed [artf7404] : Proposed changes to JDatabase->isQuoted method usage
  # Fixed [artf7077] : updateNulls in Database Library
