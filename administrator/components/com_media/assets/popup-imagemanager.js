@@ -56,12 +56,14 @@ var JImageManager = new Class({
 				this.addClass('toggler-down');
 //				this.manager.popup.increaseHeight(50);
 			}
-			this.manager.uploadpane.toggle();
+			this.manager.uploadpanefx.toggle();
 		});
 
 		//Setup effect
-		this.uploadpane = new Fx.Slide($('uploadpane'), {opacity:true, duration: 200});
-		this.uploadpane.hide();
+		this.uploadpane = $('uploadpane');
+		this.uploadpane.setProperty('height', this.uploadpane.getElement('iframe').getProperty('height'));
+		this.uploadpanefx = new Fx.Slide(this.uploadpane, {opacity:true, duration: 200});
+		this.uploadpanefx.hide();
 	},
 
 	onloadimageview: function()
