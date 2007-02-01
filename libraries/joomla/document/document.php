@@ -671,8 +671,9 @@ class JDocument extends JObject
 	 * @param boolean 	$cache		If true, cache the output
 	 * @param boolean 	$compress	If true, compress the output
 	 * @param array		$params		Associative array of attributes
+	 * @return 	The rendered data
 	 */
-	function display( $cache = false, $params = array())
+	function render( $cache = false, $params = array())
 	{
 		JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
 		if ($mdate = $this->getModifiedDate()) {

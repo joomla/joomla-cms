@@ -104,7 +104,7 @@ $params = array(
 $document =& JFactory::getDocument();
 $document->setBuffer( $result, 'installation');
 $document->setTitle(JText::_('PAGE_TITLE'));
-$document->display( false, $params);
+JResponse::setBody($document->render( false, $params));
 
 /**
  * RETURN THE RESPONSE

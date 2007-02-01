@@ -561,12 +561,13 @@ class JError
 		@ob_end_clean();
 		jimport('joomla.i18n.language');
 		$document->setTitle(JText::_('Error').': '.$error->code);
-		$document->display(false, array (
+		$data = $document->render(false, array (
 			'template' => $template,
 			'directory' => JPATH_BASE.DS.'templates',
 			'debug' => $config->getValue('config.debug')
 		));
 
+		JResponse::setBody($data);
 		echo JResponse::toString();
 		$mainframe->close(0);
 	}

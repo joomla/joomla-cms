@@ -65,13 +65,13 @@ class JDocumentError extends JDocument
 	}
 
 	/**
-	 * Outputs the document to the browser.
+	 * Render the document
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
 	 */
-	function display( $cache = false, $params = array())
+	function render( $cache = false, $params = array())
 	{
 		global $mainframe;
 
@@ -116,8 +116,8 @@ class JDocumentError extends JDocument
 		// load
 		$data = $this->_loadTemplate($directory.DS.$template, $file);
 
-		parent::display();
-		JResponse::setBody($data);
+		parent::render();
+		return $data;
 	}
 
 	/**

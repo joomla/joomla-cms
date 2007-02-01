@@ -184,13 +184,14 @@ class JDocumentFeed extends JDocument
 	}
 
 	/**
-	 * Outputs the document to the browser.
+	 * Render the document
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
+	 * @return 	The rendered data
 	 */
-	function display( $cache = false, $params = array())
+	function render( $cache = false, $params = array())
 	{
 		global $mainframe, $option;
 
@@ -219,8 +220,8 @@ class JDocumentFeed extends JDocument
 		// Render the feed
 		$data .= $renderer->render();
 
-		parent::display();
-		JResponse::setBody($data);
+		parent::render();
+		return $data;
 	}
 
 	/**

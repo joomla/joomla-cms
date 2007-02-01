@@ -42,15 +42,17 @@ class JDocumentRAW extends JDocument
 	}
 
 	/**
-	 * Outputs the document to the browser.
+	 * Render the document.
 	 *
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
+	 * @return 	The rendered data
 	 */
-	function display( $cache = false, $params = array())
+	function render( $cache = false, $params = array())
 	{
-		JResponse::setBody($this->getBuffer());
+		parent::render();
+		return $this->getBuffer();
 	}
 }
 ?>

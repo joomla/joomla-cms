@@ -80,7 +80,7 @@ $mainframe->triggerEvent('onAfterExecute');
  *
  * NOTE :
  */
-$document->display( false, $params);
+JResponse::setBody($document->render( false, $params));
 
 // trigger the onAfterDisplay events
 JDEBUG ? $_PROFILER->mark('afterDisplay') : null;

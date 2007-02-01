@@ -142,7 +142,8 @@ class JAdministrator extends JApplication
 		);
 
 		$document =& JFactory::getDocument();
-		$document->display($this->getCfg('caching_tmpl'), $params );
+		$data = $document->render($this->getCfg('caching_tmpl'), $params );
+		JResponse::setBody($data);
 	}
 
 	/**

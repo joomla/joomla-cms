@@ -200,8 +200,9 @@ class JDocumentHTML extends JDocument
 	 * @access public
 	 * @param boolean 	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
+	 * @return 	The rendered data
 	 */
-	function display( $caching = false, $params = array())
+	function render( $caching = false, $params = array())
 	{
 		// check
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
@@ -229,8 +230,8 @@ class JDocumentHTML extends JDocument
 		$data = $this->_parseTemplate($data);
 
 		//output
-		parent::display();
-		JResponse::setBody($data);
+		parent::render();
+		return $data;
 	}
 
 	/**

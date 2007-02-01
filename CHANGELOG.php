@@ -42,6 +42,8 @@ Legend:
 
 01-Feb-2007 Johan Janssens
  ^ Added 'plg' prefix to all plugins functions and classes to avoid naming collisions
+ ^ Changed JDocument::display to render, function now return data instead of pushing 
+   it into JResponse. JResponse handling is done inside JApplication:::render
 
 01-Feb-2007 Marko Schmuck
  # Fixed [artf7454] : TinyMCE parameters smilies and flash where wrong in xml file
