@@ -99,8 +99,8 @@ class ContactModelCategory extends JModel
 			$wheres[] = 'cd.access <= ' . (int) $aid;
 		}
 
-		$groupBy	= 'cd.id';
-		$orderBy	= 'cd.ordering' ;
+		$groupBy	= $db->getEscaped($groupBy);
+		$orderBy	= $db->getEscaped($orderBy) ;
 
 		/*
 		 * Query to retrieve all categories that belong under the contacts
