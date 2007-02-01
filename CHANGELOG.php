@@ -39,11 +39,13 @@ Legend:
 
 01-Feb-2007 Andrew Eddie
  # Fixed [artf7404] : Proposed changes to JDatabase->isQuoted method usage
+ # Fixed [artf7077] : updateNulls in Database Library
+ ^ Tidied JDatbase::explain output
 
 31-Jan-2007 Marko Schmuck
  # Fixed [artf7260][artf7362] : Pressing Save or Apply in template properties cause no default template
  + If no custome theme is in the templates folder _system/component.php will be used
- 
+
 30-Jan-2007 Enno Klasing
  # Fixed various small bugs in JFolder and JFile
 
