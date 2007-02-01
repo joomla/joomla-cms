@@ -550,17 +550,18 @@ class JCommonHTML
 	{
 		global $mainframe;
 
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		if ( !$mainframe->get( 'loadOverlib' ) ) {
-		// check if this function is already loaded
-			$doc =& JFactory::getDocument();
-			$doc->addScript($url.'includes/js/overlib_mini.js');
-			$doc->addScript($url.'includes/js/overlib_hideform_mini.js');
-
-			// change state so it isnt loaded a second time
-			$mainframe->set( 'loadOverlib', true );
-		}
+		jimport('joomla.html.tooltips');
+//		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+//
+//		if ( !$mainframe->get( 'loadOverlib' ) ) {
+//		// check if this function is already loaded
+//			$doc =& JFactory::getDocument();
+//			$doc->addScript($url.'includes/js/overlib_mini.js');
+//			$doc->addScript($url.'includes/js/overlib_hideform_mini.js');
+//
+//			// change state so it isnt loaded a second time
+//			$mainframe->set( 'loadOverlib', true );
+//		}
 	}
 
 	/*
