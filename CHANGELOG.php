@@ -45,6 +45,10 @@ Legend:
  # Fixed [artf7077] : updateNulls in Database Library
  ^ Tidied JDatbase::explain output
  - Deprecated the JDatabase::insertObject $verbose (4th) argument
+ ^ Added argument to JObject::getPublicProperties to optionally return the get_class_vars assoc array
+ ^ Refactored JTable to use JObject::getPublicProperties as appropriate
+ # Fixed [artf7200] : Are not translated
+ + Added support for template language files
 
 31-Jan-2007 Marko Schmuck
  # Fixed [artf7260][artf7362] : Pressing Save or Apply in template properties cause no default template
