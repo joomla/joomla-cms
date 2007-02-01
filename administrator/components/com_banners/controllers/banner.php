@@ -235,7 +235,7 @@ class BannerControllerBanner extends JController
 				break;
 		}
 
-		$this->setMessage( JText::_( 'Item Saved' ) );
+		$this->setRedirect( $link, JText::_( 'Item Saved' ) );
 	}
 
 	function cancel()
