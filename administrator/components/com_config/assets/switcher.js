@@ -1,5 +1,5 @@
 /**
-* @version		$Id: admin.config.html.php 2851 2006-03-20 21:45:20Z Jinx $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Config
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
