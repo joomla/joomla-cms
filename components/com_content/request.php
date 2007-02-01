@@ -13,7 +13,7 @@
 
 function ContentBuildURL(&$ARRAY, &$params)
 {
-	$resolveNames = $params->get('realnames',0);
+	$resolveNames = 0;
 
 	// TODO: Resolve category names
 	$parts = array();

@@ -116,16 +116,22 @@ class JMenu extends JObject
 	 * Gets menu items by attribute
 	 *
 	 * @access public
-	 * @param string The field name
-	 * @param string The value of the field
+	 * @param string 	The field name
+	 * @param string 	The value of the field
+	 * @param boolean 	If true, only returns the first item found
 	 * @return array
 	 */
-	function getItems($attribute, $value)
+	function getItems($attribute, $value, $firstonly = false)
 	{
 		$items = array ();
 		foreach ($this->_items as $item)
 		{
-			if ($item->$attribute == $value) {
+			if ($item->$attribute == $value)
+			{
+				if($firstonly) {
+					return $item;
+				}
+
 				$items[] = $item;
 			}
 		}
@@ -158,17 +164,8 @@ class JMenu extends JObject
 	 * @param string $name The menu name
 	 * @return array
 	 */
-	function getMenu($name = 'all')
-	{
-		$menu = array();
-
-		foreach ($this->_items as $item ) {
-			if ($item->menutype == $name || $name == 'all')  {
-				$menu[] = $item;
-			}
-		}
-
-		return $menu;
+	function getMenu() {
+		return $this->_items;
 	}
 
 	/**
@@ -202,15 +199,22 @@ class JMenu extends JObject
 		// Initialize some variables
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
-		$sql	= "SELECT *" .
-				"\n FROM #__menu" .
-				"\n WHERE published = 1".
-				"\n ORDER BY parent, ordering";
+		$sql	= "SELECT m.*, c.option as component" .
+				"\n FROM #__menu AS m" .
+				"\n LEFT JOIN #__components AS c ON m.componentid = c.id".
+				"\n WHERE m.published = 1".
+				"\n ORDER BY m.parent, m.ordering";
 		$db->setQuery($sql);
 
 		if (!($menus = $db->loadObjectList('id'))) {
 			JError::raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
 			return false;
+		}
+
+		jimport('joomla.filter.output');
+
+		foreach($menus as $key => $menu) {
+			$menus[$key]->name_alias = JOutputFilter::stringURLSafe($menu->name);
 		}
 
 		return $menus;

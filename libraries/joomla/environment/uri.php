@@ -191,7 +191,8 @@ class JURI extends JObject
 		static $base;
 
 		// Get the base request URL if not set
-		if (!isset($base)) {
+		if (!isset($base))
+		{
 			$uri	=& JURI::getInstance();
 			$base	= $uri->getScheme().'://';
 			$base	.= $uri->getHost();

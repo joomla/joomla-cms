@@ -73,12 +73,23 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Execute the application
+	* Route the application
 	*
 	* @access public
 	*/
-	function execute( $component )
+	function route()
 	{
+
+	}
+
+	/**
+	* Dispatch the application
+	*
+	* @access public
+	*/
+	function dispatch()
+	{
+		$component   = JRequest::getVar('option');
 		$document	=& JFactory::getDocument();
 		$config		=& JFactory::getConfig();
 		$user		=& JFactory::getUser();
@@ -114,8 +125,9 @@ class JAdministrator extends JApplication
 	*
 	* @access public
 	*/
-	function display( $component )
+	function render()
 	{
+		$component   = JRequest::getVar('option');
 		$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$file 		= JRequest::getVar( 'tmpl', 'index',  '', 'string'  );
 

@@ -101,8 +101,8 @@ class JMainMenu extends JTree
 				break;
 
 			default :
-				$item->link .= strpos( $item->link, '?' ) === false ? '?' : '&';
-				$item->link .= 'Itemid='.$item->id;
+				//$item->link .= strpos( $item->link, '?' ) === false ? '?' : '&';
+				$item->link = 'index.php?Itemid='.$item->id;
 				break;
 		}
 

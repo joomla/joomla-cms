@@ -88,24 +88,45 @@ class JApplication extends JObject
 	}
 
 	/**
-	* Execute the application.
+	* Route the applicaiton.
+	*
+	* Routing is the process of examining the request environment to determine which
+	* which component should receive the request. This component optional parameters
+	* are then set in the request object to be processed when the application is being
+	* dispatched
 	*
 	* @abstract
 	* @access public
-	* @param mixed Execution options. Typically this is a task or component name.
 	*/
-	function execute( $option )
-	{
+	function route()
+ 	{
 
-	}
+ 	}
+
+ 	/**
+	* Dispatch the applicaiton.
+	*
+	* Dispatching is the process of pulling the option from the request object and
+	* mapping them to a component. If the component do not exist, it handles
+	* determining a default component to dispatch
+	*
+	* @abstract
+	* @access public
+	*/
+ 	function dispatch()
+ 	{
+
+ 	}
 
 	/**
-	* Display the application.
+	* Render the application.
+	*
+	* Rendering is the process of rendering the application into the JResponse buffer
 	*
 	* @abstract
 	* @access public
 	*/
-	function display( $option )
+	function render()
 	{
 
 	}

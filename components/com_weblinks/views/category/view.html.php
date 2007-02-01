@@ -31,7 +31,7 @@ class WeblinksViewCategory extends JView
 		// Initialize some variables
 		$document	= & JFactory::getDocument();
 		$uri 		=& JFactory::getURI();
-		$pathway	= & $mainframe->getPathWay();
+		$pathway		= & $mainframe->getPathWay();
 
 		// Get the paramaters of the active menu item
 		$menus	= &JMenu::getInstance();
@@ -104,7 +104,7 @@ class WeblinksViewCategory extends JView
 		{
 			$item =& $items[$i];
 
-			$link = sefRelToAbs( 'index.php?option=com_weblinks&view=weblink&id='. $item->id.'&Itemid='.$Itemid );
+			$link = sefRelToAbs( 'index.php?view=weblink&id='. $item->id);
 
 			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
 

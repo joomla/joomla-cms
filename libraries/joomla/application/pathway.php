@@ -25,7 +25,8 @@ jimport('joomla.filter.output');
  * @subpackage	Application
  * @since		1.5
  */
-class JPathWay extends JObject {
+class JPathWay extends JObject
+{
 
 	/**
 	 * Array to hold the pathway item objects

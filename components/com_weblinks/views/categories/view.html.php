@@ -26,7 +26,7 @@ class WeblinksViewCategories extends JView
 {
 	function display( $tpl = null)
 	{
-		global $Itemid, $mainframe;
+		global $mainframe;
 
 		// Initialize some variables
 		$pathway	= & $mainframe->getPathWay();
@@ -69,7 +69,7 @@ class WeblinksViewCategories extends JView
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
-			$category->link = sefRelToAbs('index.php?option=com_weblinks&view=category&id='. $category->catid.'&Itemid='.$Itemid );
+			$category->link = sefRelToAbs('index.php?view=category&id='. $category->catid);
 		}
 
 		$this->assignRef('image',		$image);

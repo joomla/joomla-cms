@@ -72,13 +72,88 @@ class JSite extends JApplication
 		parent::initialise($options);
 	}
 
+
 	/**
-	* Execute the application
+	* Route the application
 	*
 	* @access public
 	*/
-	function execute($component)
+	function route()
 	{
+		// get the full request URI
+		$uri  =& JURI::getInstance();
+		$menu =& JMenu::getInstance();
+
+		$params = array();
+
+		// Check entry point
+		$path = $uri->toString();
+		if (!(preg_match( '#index\d?\.php#', $path) || (strpos($path, 'feed.php') == false))) {
+			return;
+		}
+
+		// Get the base and full URLs
+		$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
+		$base = JURI::base();
+
+		$url = urldecode(trim(str_replace($base, '', $full), '/'));
+		$urlArray = explode('/', $url);
+
+		//shift entry point of array
+		array_shift($urlArray);
+
+		//Only use SEF is enabled and not in the administrator
+		if (!$itemid = JRequest::getVar('Itemid'))
+		{
+			// Set document link
+			$doc = & JFactory::getDocument();
+			$doc->setLink($base);
+
+			if (!empty($urlArray[0]))
+			{
+				$alias = array_shift($urlArray);
+				$item = $menu->getItems('name_alias', $alias, true);
+				$itemid = $item->id;
+
+				//MOVE somwhere else
+				/*$path = JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.$component.'.php';
+				// Do a quick check to make sure component exists
+				if (!file_exists($path)) {
+					JError::raiseError(404, JText::_('Invalid Request'));
+					exit (404);
+				}*/
+			}
+		}
+
+		$item = $menu->getItem($itemid);
+
+		$uri =& JURI::getInstance($item->link);
+		$query = $uri->getQuery(true);
+
+		JRequest::set($query, 'get', false);
+		JRequest::setVar('Itemid', $item->id, 'get');
+
+		// Use the custom sef handler if it exists
+		$path = JPATH_BASE.DS.'components'.DS.$item->component.DS.'request.php';
+
+		if (count($urlArray) && file_exists($path))
+		{
+			require_once $path;
+			$function =  substr($item->component, 4).'ParseURL';
+			$function($urlArray, $params);
+		}
+	}
+
+	/**
+	* Dispatch the application
+	*
+	* @access public
+	*/
+	function dispatch()
+	{
+		//get the component to dispatch too
+		$component = JRequest::getVar('option');
+
 		// Build the application pathway
 		$this->_createPathWay();
 
@@ -119,8 +194,9 @@ class JSite extends JApplication
 	*
 	* @access public
 	*/
-	function display( $component )
+	function render()
 	{
+		$component   = JRequest::getVar('component');
 		$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
 		$file 		= JRequest::getVar( 'tmpl', 'index', '', 'string'  );
 

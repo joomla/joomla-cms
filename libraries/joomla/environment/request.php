@@ -63,7 +63,7 @@ class JRequest
 	 * You can force the source by setting the $hash parameter:
 	 *
 	 *   post		$_POST
-	 *   get		$_GET
+	 *   get			$_GET
 	 *   files		$_FILES
 	 *   cookie		$_COOKIE
 	 *   method		via current $_SERVER['REQUEST_METHOD']
@@ -71,7 +71,7 @@ class JRequest
 	 *
 	 * @static
 	 * @param	string	$name		Variable name
-	 * @param	string	$default	Default value if the variable does not exist
+	 * @param	string	$default		Default value if the variable does not exist
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
 	 * @param	string	$type		Return type for the variable (INT, FLOAT, STRING, BOOLEAN, ARRAY)
 	 * @param	int		$mask		Filter mask for the variable
@@ -137,8 +137,13 @@ class JRequest
 		return $var;
 	}
 
-	function setVar($name, $value = null, $hash = 'default')
+	function setVar($name, $value = null, $hash = 'default', $overwrite = true)
 	{
+		//If overwrite is true, makes sure the variable hasn't been set yet
+		if(!$overwrite && isset($_REQUEST[$name])) {
+			return $_REQUEST[$name];
+		}
+
 		// Clean global request var
 		$GLOBALS['_JREQUEST'][$name] = 'SET';
 
@@ -185,7 +190,7 @@ class JRequest
 	 * You can force the source by setting the $hash parameter:
 	 *
 	 *   post		$_POST
-	 *   get		$_GET
+	 *   get			$_GET
 	 *   files		$_FILES
 	 *   cookie		$_COOKIE
 	 *   method		via current $_SERVER['REQUEST_METHOD']
@@ -207,7 +212,8 @@ class JRequest
 
 		$hash		= strtoupper( $hash );
 		$signature	= $hash.$mask;
-		if (!isset($hashes[$signature])) {
+		if (!isset($hashes[$signature]))
+		{
 			$result		= null;
 			$matches	= array();
 
@@ -247,6 +253,13 @@ class JRequest
 			$hashes[$signature] = &$result;
 		}
 		return $hashes[$signature];
+	}
+
+	function set($array, $hash = 'default', $overwrite = true)
+	{
+		foreach($array as $key => $value) {
+			JRequest::setVar($key, $value, $hash, $overwrite);
+		}
 	}
 
 	/**

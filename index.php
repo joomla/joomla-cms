@@ -22,7 +22,7 @@ require_once ( JPATH_BASE .'/includes/application.php' );
 
 
 /**
- * CREATE THE APPLICATION
+ * CREATE
  *
  * NOTE :
  */
@@ -48,35 +48,46 @@ $mainframe->initialise();
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 $mainframe->triggerEvent('onAfterInitialise');
 
-// authorization
-$Itemid = JSiteHelper::findItemid();
-$mainframe->authorize($Itemid);
-
 // set for overlib check
 $mainframe->set('loadOverlib', false);
 
 /**
- * EXECUTE THE APPLICATION
+ * ROUTE THE APPLICATION
+ *
+ * NOTE :
+ */
+$mainframe->route();
+
+// authorization
+$Itemid = JSiteHelper::findItemid();
+$mainframe->authorize($Itemid);
+
+// trigger the onAfterDisplay events
+JDEBUG ? $_PROFILER->mark('afterRoute') : null;
+$mainframe->triggerEvent('onAfterRoute');
+
+/**
+ * DISPATCH THE APPLICATION
  *
  * NOTE :
  */
 $option = JSiteHelper::findOption();
-$mainframe->execute($option);
+$mainframe->dispatch();
 
 // trigger the onAfterDisplay events
-JDEBUG ? $_PROFILER->mark('afterExecute') : null;
-$mainframe->triggerEvent('onAfterExecute');
+JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
+$mainframe->triggerEvent('onAfterDispatch');
 
 /**
- * DISPLAY THE APPLICATION
+ * RENDER  THE APPLICATION
  *
  * NOTE :
  */
-$mainframe->display($option);
+$mainframe->render();
 
 // trigger the onAfterDisplay events
-JDEBUG ? $_PROFILER->mark('afterDisplay') : null;
-$mainframe->triggerEvent('onAfterDisplay');
+JDEBUG ? $_PROFILER->mark('afterRender') : null;
+$mainframe->triggerEvent('onAfterRender');
 
 /**
  * CLOSE THE SESSION

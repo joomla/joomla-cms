@@ -49,7 +49,7 @@ class WeblinksViewWeblink extends JView
 		global $mainframe, $option;
 
 		// Get some objects from the JApplication
-		$pathway	=& $mainframe->getPathWay();
+		$pathway		=& $mainframe->getPathWay();
 		$document	=& JFactory::getDocument();
 		$model		=& $this->getModel();
 
@@ -61,7 +61,7 @@ class WeblinksViewWeblink extends JView
 
 		//get the weblink
 		$weblink	=& $this->get('data');
-		$isNew		= ($weblink->id < 1);
+		$isNew	= ($weblink->id < 1);
 
 		// Edit or Create?
 		if (!$isNew)

@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @package		Joomla
  * @subpackage	System
  */
-class  plgDebug extends JPlugin
+class  plgLegacy extends JPlugin
 {
 	/**
 	 * Constructor
@@ -34,55 +34,18 @@ class  plgDebug extends JPlugin
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
-	function plgDebug(& $subject)
+	function plgLegacy(& $subject)
 	{
 		parent::__construct($subject);
 
 		// load plugin parameters
-		$this->_plugin = & JPluginHelper::getPlugin('system', 'debug');
+		$this->_plugin = & JPluginHelper::getPlugin('system', 'legacy');
 		$this->_params = new JParameter($this->_plugin->params);
-	}
-
-	/**
-	* Converting the site URL to fit to the HTTP request
-	*
-	*/
-	function onAfterDisplay()
-	{
-		global $_PROFILER, $mainframe;
-
-		if(!JDEBUG) { return; }
-
-		$db			=& JFactory::getDBO();
-		$profiler	=& $_PROFILER;
-
-		ob_start();
-		echo implode( '', $profiler->getBuffer() );
-
-		if ($this->_params->get('memory', 1))
-		{
-			echo '<br />';
-			echo $profiler->getMemory();
-		}
-
-		if ($this->_params->get('queries', 1))
-		{
-			echo '<br />';
-			echo $db->_ticker . ' queries logged';
-			echo '<pre>';
-			foreach ($db->_log as $k=>$sql) {
-				echo $k+1 . "\n" . $sql . '<hr />';
-			}
-			echo '</pre>';
-		}
-
-		$debug = ob_get_clean();
-		JResponse::appendBody($debug);
 	}
 }
 
 // Attach sef handler to event dispatcher
 $dispatcher = & JEventDispatcher::getInstance();
-$dispatcher->attach(new plgDebug($dispatcher));
+$dispatcher->attach(new plgLegacy($dispatcher));
 
 ?>
