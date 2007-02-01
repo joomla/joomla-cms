@@ -535,7 +535,7 @@ class JApplication extends JObject
 			$storage->update();
 			return $session;
 		}
-		
+
 		//Session doesn't exist yet, initalise and store it in the session table
 		$session->set('registry', new JRegistry('session'));
 		$session->set('user'    , new JUser());
@@ -822,5 +822,3 @@ class JApplication extends JObject
 		return JContentHelper::getItemid($id, $article->catid, $article->sectionid);
 	}
 }
-
-?>
