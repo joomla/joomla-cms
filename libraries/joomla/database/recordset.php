@@ -94,4 +94,3 @@ class JRecordSet
 	function Close() {
 	}
 }
-?>
