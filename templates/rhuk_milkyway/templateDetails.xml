@@ -8,9 +8,7 @@
 	<authorUrl>http://www.rockettheme.com</authorUrl>
 	<copyright></copyright>
 	<license>GNU/GPL</license>
-	<description>
-	MilkyWay is a fresh new template for Joomla!  The clean design of this template makes it very lightweight and fast.
-	</description>
+	<description>TPL_RHUK_MILYWAY</description>
 	<files>
 		<filename>index.php</filename>
 		<filename>templateDetails.xml</filename>
