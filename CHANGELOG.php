@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Feb-2007 Enno Klasing
+ + Added JClientHelper class
+ + Added input form for FTP credentials to com_installer
+
 01-Feb-2007 Andy Miller
  # fixed layout for frontend editing
  + Added calendar icon instead of ... button

@@ -142,7 +142,7 @@ class JAdminSubMenu
 				);
 
 				$subMenuItem['title']	= JText::_( 'Install' );
-				$subMenuItem['link']	= 'index.php?option=com_installer&amp;task=installer';
+				$subMenuItem['link']	= '#" onclick="javascript:document.adminForm.type.value=\'\';submitbutton(\'installer\');';
 				$subMenuItem['img']		= '../includes/js/ThemeOffice/installer.png';
 				$subMenuItem['active']	= !in_array( $ext, $subMenus);
 				$subMenuList[] = $subMenuItem;
@@ -150,7 +150,7 @@ class JAdminSubMenu
 				foreach ($subMenus as $name => $extension)
 				{
 					$subMenuItem['title']	= JText::_( $name );
-					$subMenuItem['link']	= 'index.php?option=com_installer&amp;task=manage&amp;type=' . $extension;
+					$subMenuItem['link']	= '#" onclick="javascript:document.adminForm.type.value=\''.$extension.'\';submitbutton(\'manage\');';
 					$subMenuItem['img']		= '../includes/js/ThemeOffice/installer.png';
 					$subMenuItem['active']	= ($extension == $ext);
 					$subMenuList[] = $subMenuItem;

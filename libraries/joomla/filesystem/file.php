@@ -72,7 +72,8 @@ class JFile
 	function copy($src, $dest, $path = null)
 	{
 		// Initialize variables
-		$FTPOptions = JFile::_getFTPOptions();
+		jimport('joomla.client.helper');
+		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		// Prepend a base path if it exists
 		if ($path) {
@@ -124,7 +125,8 @@ class JFile
 	function delete($file)
 	{
 		// Initialize variables
-		$FTPOptions = JFile::_getFTPOptions();
+		jimport('joomla.client.helper');
+		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if (is_array($file)) {
 			$files = $file;
@@ -173,7 +175,8 @@ class JFile
 	function move($src, $dest, $path = '')
 	{
 		// Initialize variables
-		$FTPOptions = JFile::_getFTPOptions();
+		jimport('joomla.client.helper');
+		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($path) {
 			$src = JPath::clean($path.DS.$src);
@@ -250,7 +253,8 @@ class JFile
 	function write($file, $buffer)
 	{
 		// Initialize variables
-		$FTPOptions = JFile::_getFTPOptions();
+		jimport('joomla.client.helper');
+		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		// If the destination directory doesn't exist we need to create it
 		if (!file_exists(dirname($file))) {
@@ -284,7 +288,8 @@ class JFile
 	function upload($src, $dest)
 	{
 		// Initialize variables
-		$FTPOptions = JFile::_getFTPOptions();
+		jimport('joomla.client.helper');
+		$FTPOptions = JClientHelper::getCredentials('ftp');
 		$ret		= false;
 
 		// Ensure that the path is valid and clean
@@ -336,46 +341,6 @@ class JFile
 	function exists($file)
 	{
 		return is_file(JPath::clean($file));
-	}
-
-	/**
-	 * Method to return the array of FTP layer configuration options
-	 *
-	 * @static
-	 * @return	array	FTP layer configuration options
-	 * @since	1.5
-	 */
-	function _getFTPOptions()
-	{
-		static $options;
-
-		if (!is_array($options)) {
-
-			// Initialize variables
-			$options = array();
-			$config	 =& JFactory::getConfig();
-
-			$options['root']	= $config->getValue('config.ftp_root');
-			$options['enabled']	= $config->getValue('config.ftp_enable');
-			$options['host']	= $config->getValue('config.ftp_host');
-			$options['port']	= $config->getValue('config.ftp_port');
-
-			$options['user']	= $config->getValue('config.ftp_user');
-			$options['pass']	= $config->getValue('config.ftp_pass');
-
-			// If not set in global config lets see if its in the session
-			if ($options['enabled'] == 1 && ($options['user'] == '' || $options['pass'] == '')) {
-				$session =& JFactory::getSession();
-				$options['user'] = $session->get('__FTP_USER');
-				$options['pass'] = $session->get('__FTP_PASS');
-			}
-
-			if ($options['user'] == '' || $options['pass'] == '') {
-				$options['enabled'] = false;
-			}
-		}
-
-		return $options;
 	}
 }
 ?>

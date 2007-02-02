@@ -109,7 +109,7 @@ class InstallerModelInstall extends JModel
 	function _getPackageFromUpload()
 	{
 		// Get the uploaded file information
-		$userfile = JRequest::getVar('userfile', '', 'files', 'array' );
+		$userfile = JRequest::getVar('install_package', '', 'files', 'array' );
 
 		// Make sure that file uploads are enabled in php
 		if (!(bool) ini_get('file_uploads')) {
@@ -154,7 +154,7 @@ class InstallerModelInstall extends JModel
 	function _getPackageFromFolder()
 	{
 		// Get the path to the package to install
-		$p_dir = JRequest::getVar('userfile');
+		$p_dir = JRequest::getVar('install_directory');
 		$p_dir = JPath::clean( $p_dir );
 
 		// Did you give us a valid directory?
@@ -193,7 +193,7 @@ class InstallerModelInstall extends JModel
 		$db = & JFactory::getDBO();
 
 		// Get the URL of the package to install
-		$url = JRequest::getVar('userfile');
+		$url = JRequest::getVar('install_url');
 
 		// Did you give us a URL?
 		if (!$url) {

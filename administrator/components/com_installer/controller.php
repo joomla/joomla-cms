@@ -14,6 +14,7 @@
  */
 
 jimport('joomla.application.component.controller');
+jimport('joomla.client.helper');
 
 /**
  * Installer Controller
@@ -37,6 +38,9 @@ class InstallerController extends JController
 		$model	= &$this->getModel( 'Install' );
 		$view	= &$this->getView( 'Install');
 
+		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
+
 		$view->setModel( $model, true );
 		$view->display();
 	}
@@ -52,6 +56,9 @@ class InstallerController extends JController
 	{
 		$model	= &$this->getModel( 'Install' );
 		$view	= &$this->getView( 'Install' );
+
+		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
 
 		$model->install();
 
@@ -72,6 +79,9 @@ class InstallerController extends JController
 		$model	= &$this->getModel( $type );
 		$view	= &$this->getView( $type );
 
+		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
+
 		$view->setModel( $model, true );
 		$view->display();
 	}
@@ -88,6 +98,9 @@ class InstallerController extends JController
 		$type	= JRequest::getVar('type', 'components');
 		$model	= &$this->getModel( $type );
 		$view	= &$this->getView( $type );
+
+		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
 
 		if (method_exists($model, 'enable')) {
 			$eid = JRequest::getVar('eid', array(), '', 'array');
@@ -111,6 +124,9 @@ class InstallerController extends JController
 		$model	= &$this->getModel( $type );
 		$view	= &$this->getView( $type );
 
+		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
+
 		if (method_exists($model, 'disable')) {
 			$eid = JRequest::getVar('eid', array(), '', 'array');
 			$model->disable($eid);
@@ -132,6 +148,9 @@ class InstallerController extends JController
 		$type	= JRequest::getVar('type', 'components');
 		$model	= &$this->getModel( $type );
 		$view	= &$this->getView( $type );
+
+		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
 
 		$eid = JRequest::getVar('eid', array(), '', 'array');
 		$result = $model->remove($eid);
