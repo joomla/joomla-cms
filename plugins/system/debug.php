@@ -47,7 +47,7 @@ class  plgDebug extends JPlugin
 	* Converting the site URL to fit to the HTTP request
 	*
 	*/
-	function onAfterDisplay()
+	function onAfterRender()
 	{
 		global $_PROFILER, $mainframe;
 
