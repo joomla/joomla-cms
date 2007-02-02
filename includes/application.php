@@ -127,14 +127,14 @@ class JSite extends JApplication
 
 		$item = $menu->getItem($itemid);
 
-		$uri =& JURI::getInstance($item->link);
+		$uri =& JURI::getInstance(($item) ? $item->link : null);
 		$query = $uri->getQuery(true);
 
 		JRequest::set($query, 'get', false);
-		JRequest::setVar('Itemid', $item->id, 'get');
+		JRequest::setVar('Itemid', ($item) ? $item->id : null, 'get');
 
 		// Use the custom sef handler if it exists
-		$path = JPATH_BASE.DS.'components'.DS.$item->component.DS.'request.php';
+		$path = ($item) ? JPATH_BASE.DS.'components'.DS.$item->component.DS.'request.php' : null;
 
 		if (count($urlArray) && file_exists($path))
 		{
@@ -207,7 +207,7 @@ class JSite extends JApplication
 		}
 		if (!is_dir( JPATH_SITE . '/templates/' . $template ) && !$this->getCfg('offline')) {
 			$file = 'component';
-		} 
+		}
 		$params = array(
 			'template' 	=> $template,
 			'file'		=> $file.'.php',
@@ -372,7 +372,7 @@ class JSite extends JApplication
 	{
 		if (is_dir( JPATH_SITE . '/templates/' . $template )) {
 			$this->setUserState( 'setTemplate', $template );
-		} 
+		}
 	}
 
 	/**
