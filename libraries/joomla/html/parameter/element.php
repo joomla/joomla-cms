@@ -85,13 +85,13 @@ class JElement extends JObject
 
 	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
 	{
-		$output = '<label id="'.$control_name.$name.'-lbl" for="'.$control_name.$name.'">';
+		$output = '<label id="'.$control_name.$name.'-lbl" for="'.$control_name.$name.'"';
 		if ($description) {
-			$output .= mosToolTip(addslashes($description), $label, '', '', $label, '#', 0);
+			$output .= ' class="hasTip" title="'.JText::_($label).'::'.JText::_($description).'">';
 		} else {
-			$output .= JText::_( $label );
+			$output .= '>';
 		}
-		$output .= '</label>';
+		$output .= JText::_( $label ).'</label>';
 
 		return $output;
 	}
