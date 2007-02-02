@@ -70,7 +70,8 @@ class TableBanner extends JTable
 
 	function __construct( &$_db ) {
 		parent::__construct( '#__banner', 'bid', $_db );
-		$this->set( 'date', date( 'Y-m-d G:i:s' ) );
+		jimport('joomla.utilities.date');
+		$this->set( 'date', JDate::toMySQL() );
 	}
 
 	function clicks() {

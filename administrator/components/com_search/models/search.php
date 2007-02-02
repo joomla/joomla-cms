@@ -66,6 +66,9 @@ class SearchModelSearch extends JModel
 		$db->setQuery( $query );
 		$total = $db->loadResult();
 
+		jimport( 'joomla.html.pagination' );
+		$pageNav = new JPagination( $total, $limitstart, $limit );
+		
 		$query = "SELECT *"
 		. "\n FROM #__core_log_searches"
 		. $where

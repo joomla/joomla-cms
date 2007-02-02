@@ -374,7 +374,7 @@ class ContentController extends JController
 		 */
 		if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out ))
 		{
-			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The module'), $row->title);
+			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The item'), $row->title);
 			$mainframe->redirect('index.php?option=com_content', $msg);
 		}
 

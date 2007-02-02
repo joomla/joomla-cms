@@ -671,7 +671,7 @@ class JURI extends JObject
 		foreach ( $params as $key => $val )
 		{
 			if ( is_array($val) ) {
-				JURI::_buildQuery($val,$key);
+				$out[] = JURI::_buildQuery($val,$key);
 				continue;
 			}
 

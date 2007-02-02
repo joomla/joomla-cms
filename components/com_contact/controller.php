@@ -181,8 +181,8 @@ class ContactController extends JController
 
 		$SiteName = $mainframe->getCfg('sitename');
 		$contactId = JRequest::getVar('contact_id', 0, '', 'int');
-
 		// Get a Contact table object and load the selected contact details
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
 		$contact =& JTable::getInstance('contact', 'Table');
 		$contact->load($contactId);
 

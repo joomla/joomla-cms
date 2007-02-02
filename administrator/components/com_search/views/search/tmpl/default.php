@@ -3,7 +3,7 @@
   <tr>
     <td align="left" width="100%">
     <?php echo JText::_( 'Filter' ); ?>:
-    <input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+    <input type="text" name="search" id="search" value="<?php echo $this->search; ?>" class="text_area" onchange="document.adminForm.submit();" />
     <button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
     <button onclick="getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
     </td>
@@ -34,10 +34,10 @@
 						<?php echo JText::_( 'NUM' ); ?>
 					</th>
 					<th class="title">
-						<?php JCommonHTML::tableOrdering( 'Search Text', 'search_term', $lists, $task ); ?>
+						<?php JCommonHTML::tableOrdering( 'Search Text', 'search_term', $lists ); ?>
 					</th>
 					<th nowrap="nowrap" width="20%">
-						<?php JCommonHTML::tableOrdering( 'Times Requested', 'hits', $lists, $task ); ?>
+						<?php JCommonHTML::tableOrdering( 'Times Requested', 'hits', $lists ); ?>
 					</th>
 					<?php
 					if ( $this->showResults ) {

@@ -249,7 +249,7 @@ function editPlugin( )
 	// fail if checked out not by 'me'
 	
 	if ($row->isCheckedOut( $user->get('id') )) {
-		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The module' ), $row->title );
+		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The plugin' ), $row->title );
 		$mainframe->redirect( 'index.php?option='. $option .'&amp;client='. $client, $msg, 'error' );
 	}
 
