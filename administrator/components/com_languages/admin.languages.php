@@ -60,6 +60,10 @@ function viewLanguages()
 
 	$rowid = 0;
 
+	// Are we supposed to switch on the FTP layer?
+	jimport('joomla.client.helper');
+	$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+
 	//load folder filesystem class
 	jimport('joomla.filesystem.folder');
 	$path = JLanguage::getLanguagePath($client->path);
@@ -106,7 +110,7 @@ function viewLanguages()
 
 	$rows = array_slice( $rows, $pageNav->limitstart, $pageNav->limit );
 
-	HTML_languages::showLanguages( $rows, $pageNav, $option, $client );
+	HTML_languages::showLanguages( $rows, $pageNav, $option, $client, $ftp );
 }
 
 /**
@@ -117,18 +121,20 @@ function publishLanguage( $language )
 {
 	global $mainframe;
 
-	/*
-	 * Initialize some variables
-	 */
+	// Initialize some variables
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-	$varname = ($client->id == 0) ? 'lang_site' : 'lang_administrator';
+	// Are we supposed to switch on the FTP layer?
+	jimport('joomla.client.helper');
+	$ftp = JClientHelper::setCredentialsFromRequest('ftp');
 
+	// Set the new default language
+	$varname = ($client->id == 0) ? 'lang_site' : 'lang_administrator';
 	$config =& JFactory::getConfig();
 	$config->setValue('config.'.$varname, $language);
 
 	// Get the path of the configuration file
-	$fname = JPATH_CONFIGURATION.'/configuration.php';
+	$fname = JPATH_CONFIGURATION.DS.'configuration.php';
 
 	/*
 	 * Now we get the config registry in PHP class format and write it to
@@ -136,9 +142,9 @@ function publishLanguage( $language )
 	 */
 	jimport('joomla.filesystem.file');
 	if (JFile::write($fname, $config->toString('PHP', 'config',  array('class' => 'JConfig')))) {
-		$mainframe->redirect("index.php?option=com_languages&amp;client=".$client->id,JText::_( 'Configuration successfully updated!' ) );
+		$mainframe->redirect("index.php?option=com_languages&amp;client=".$client->id, JText::_( 'Configuration successfully updated!' ) );
 	} else {
-		$mainframe->redirect("index.php?option=com_languages&amp;client=".$client->id,JText::_( 'ERRORCONFIGWRITEABLE' ) );
+		$mainframe->redirect("index.php?option=com_languages&amp;client=".$client->id, JText::_( 'ERRORCONFIGWRITEABLE' ) );
 	}
 }
 ?>

@@ -95,11 +95,11 @@ class JAdminSubMenu
 			case 'com_languages' :
 				$client	= JRequest::getVar('client', 0, '', 'int');
 				if ($client == 1) {
-					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_languages&client=0', 'img' => '../includes/js/ThemeOffice/language.png');
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_languages&client=1', 'img' => '../includes/js/ThemeOffice/language.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => '#" onclick="javascript:document.adminForm.client.value=\'0\';submitbutton(\'\');', 'img' => '../includes/js/ThemeOffice/language.png');
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => '#" onclick="javascript:document.adminForm.client.value=\'1\';submitbutton(\'\');', 'img' => '../includes/js/ThemeOffice/language.png', 'active' => 1);
 				} else {
-					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => 'index.php?option=com_languages&client=0', 'img' => '../includes/js/ThemeOffice/language.png', 'active' => 1);
-					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => 'index.php?option=com_languages&client=1', 'img' => '../includes/js/ThemeOffice/language.png');
+					$subMenuList[] = array ('title' => JText::_('Site'), 'link' => '#" onclick="javascript:document.adminForm.client.value=\'0\';submitbutton(\'\');', 'img' => '../includes/js/ThemeOffice/language.png', 'active' => 1);
+					$subMenuList[] = array ('title' => JText::_('Administrator'), 'link' => '#" onclick="javascript:document.adminForm.client.value=\'1\';submitbutton(\'\');', 'img' => '../includes/js/ThemeOffice/language.png');
 				}
 				$menu = JAdminSubMenu::_buildList($subMenuList);
 				break;

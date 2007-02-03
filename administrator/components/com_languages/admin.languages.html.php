@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_languages {
 
-	function showLanguages( &$rows, &$page, $option, &$client )
+	function showLanguages( &$rows, &$page, $option, &$client, &$ftp )
 	{
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 		$user =& JFactory::getUser();
@@ -30,6 +30,39 @@ class HTML_languages {
 		?>
 		<form action="index.php" method="post" name="adminForm">
 
+			<?php if($ftp): ?>
+			<fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>">
+				<legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
+
+				<?php echo JText::_('DESCFTP'); ?>
+
+				<?php if(JError::isError($ftp)): ?>
+					<p><?php echo JText::_($ftp->message); ?></p>
+				<?php endif; ?>
+
+				<table class="adminform nospace">
+				<tbody>
+				<tr>
+					<td width="120">
+						<label for="username"><?php echo JText::_('Username'); ?>:</label>
+					</td>
+					<td>
+						<input type="text" id="username" name="username" class="input_box" size="70" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td width="120">
+						<label for="password"><?php echo JText::_('Password'); ?>:</label>
+					</td>
+					<td>
+						<input type="password" id="password" name="password" class="input_box" size="70" value="" />
+					</td>
+				</tr>
+				</tbody>
+				</table>
+			</fieldset>
+			<?php endif; ?>
+
 			<table class="adminlist">
 			<thead>
 			<tr>
@@ -37,7 +70,7 @@ class HTML_languages {
 					<?php echo JText::_( 'Num' ); ?>
 				</th>
 				<th width="30">
-				&nbsp;
+					&nbsp;
 				</th>
 				<th width="25%" class="title">
 					<?php echo JText::_( 'Language' ); ?>

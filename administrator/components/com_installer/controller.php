@@ -41,7 +41,7 @@ class InstallerController extends JController
 		$model	= &$this->getModel( 'Install' );
 		$view	= &$this->getView( 'Install');
 
-		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		$view->setModel( $model, true );
@@ -60,7 +60,7 @@ class InstallerController extends JController
 		$model	= &$this->getModel( 'Install' );
 		$view	= &$this->getView( 'Install' );
 
-		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		$model->install();
@@ -82,7 +82,7 @@ class InstallerController extends JController
 		$model	= &$this->getModel( $type );
 		$view	= &$this->getView( $type );
 
-		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		$view->setModel( $model, true );
@@ -102,7 +102,7 @@ class InstallerController extends JController
 		$model	= &$this->getModel( $type );
 		$view	= &$this->getView( $type );
 
-		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		if (method_exists($model, 'enable')) {
@@ -127,7 +127,7 @@ class InstallerController extends JController
 		$model	= &$this->getModel( $type );
 		$view	= &$this->getView( $type );
 
-		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		if (method_exists($model, 'disable')) {
@@ -152,7 +152,7 @@ class InstallerController extends JController
 		$model	= &$this->getModel( $type );
 		$view	= &$this->getView( $type );
 
-		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
 		$eid = JRequest::getVar('eid', array(), '', 'array');

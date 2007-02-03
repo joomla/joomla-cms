@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Feb-2007 Enno Klasing
+ + Added input form for FTP credentials to com_languages
+
 03-Feb-2007 Mateusz Krzeszowiec
  + [artf7443] : Missing "Mobile"column in Contact Category Layout Parameters
 

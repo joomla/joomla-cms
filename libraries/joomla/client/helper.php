@@ -218,7 +218,7 @@ class JClientHelper
 	 * @return	boolean|JExeption	True, if FTP settings should be shown, or an exeption
 	 * @since	1.5
 	 */
-	function setCredentialsFromRequest($client)
+	function &setCredentialsFromRequest($client)
 	{
 		// Determine wether FTP credentials have been passed along with the current request
 		$user = JRequest::getVar('username', null, 'POST');
@@ -229,7 +229,7 @@ class JClientHelper
 			if (JClientHelper::setCredentials($client, $user, $pass)) {
 				$return = false;
 			} else {
-				$return = JError::raiseWarning('SOME_ERROR_CODE', 'JClientHelper::setCredentialsFromRequest failed');
+				$return =& JError::raiseWarning('SOME_ERROR_CODE', 'JClientHelper::setCredentialsFromRequest failed');
 			}
 		}
 		else
