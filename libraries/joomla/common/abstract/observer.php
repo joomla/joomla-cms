@@ -155,9 +155,11 @@ class JObservable extends JObject
 		// Initialize variables
 		$retval = false;
 
-		if ($k = array_search($observer, $this->_observers))
+		$key = array_search($observer, $this->_observers);
+		
+		if ( $key !== false )
 		{
-			unset($this->_observers[$k]);
+			unset($this->_observers[$key]);
 			$retval = true;
 		}
 		return $retval;
