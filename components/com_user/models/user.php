@@ -89,10 +89,8 @@ class UserModelUser extends JModel
 	 */
 	function store($data)
 	{
-		$row =& $this->getTable('user', 'JTable');
-		
-		$user =& JUser::getInstance($this->_id);
-		$username = $user->get('username');
+		$user		= JFactory::getUser();
+		$username	= $user->get('username');
 
 		// Bind the form fields to the user table
 		if (!$user->bind($data)) {
@@ -106,16 +104,17 @@ class UserModelUser extends JModel
 			return false;
 		}
 		
+		$session =& JFactory::getSession();
+		$session->set('user', $user);
+			
 		// check if username has been changed
 		if ( $username != $user->get('username') )
 		{
-			$session =& JFactory::getSession();
-			$session->set('user', $user);
-			
 			$table = $this->getTable('session', 'JTable');
 			$table->load($session->getId());
 			$table->username = $user->get('username');
 			$table->store();
+
 		}
 		
 		return true;

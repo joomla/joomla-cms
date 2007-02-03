@@ -76,7 +76,9 @@ class UserController extends JController
 		// do a password safety check
 		if(strlen($post['password'])) { // so that "0" can be used as password e.g.
 			if($post['password'] != $post['verifyPass']) {
-				JError::raiseError(500, JText::_( 'Passwords do not match', true ) );
+				$msg	= JText::_( 'Passwords do not match');
+				$this->setRedirect( $_SERVER['HTTP_REFERER'], $msg );
+				return false;
 			}
 		}
 		
@@ -84,9 +86,9 @@ class UserController extends JController
 		$model = $this->getModel('user');
 
 		if ($model->store($post)) {
-			$msg = JText::_( 'Your settings have been saved.' );
+			$msg	= JText::_( 'Your settings have been saved.' );
 		} else {
-			$msg = JText::_( 'Error saving your settings' );
+			$msg	= JText::_( 'Error saving your settings.' );
 		}
 
 		$this->setRedirect( $_SERVER['HTTP_REFERER'], $msg );
