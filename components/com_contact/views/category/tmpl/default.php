@@ -77,6 +77,11 @@ endif; ?>
 				<?php echo JText::_( 'Phone' ); ?>
 			</td>
 			<?php endif; ?>
+			<?php if ( $this->params->get( 'mobile' ) ) : ?>
+			<td height="20" width="15%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+				<?php echo JText::_( 'Mobile' ); ?>
+			</td>
+			<?php endif; ?>
 			<?php if ( $this->params->get( 'fax' ) ) : ?>
 				<td height="20" width="15%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 					<?php echo JText::_( 'Fax' ); ?>

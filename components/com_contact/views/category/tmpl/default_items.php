@@ -25,6 +25,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php echo $item->telephone; ?>
 	</td>
 	<?php endif; ?>
+	<?php if ( $this->params->get( 'mobile' ) ) : ?>
+	<td width="15%" class="sectiontableentry<?php echo $item->odd; ?>">
+		<?php echo $item->mobile; ?>
+	</td>
+	<?php endif; ?>
 	<?php if ( $this->params->get( 'fax' ) ) : ?>
 	<td width="15%" class="sectiontableentry<?php echo $item->odd; ?>">
 		<?php echo $item->fax; ?>

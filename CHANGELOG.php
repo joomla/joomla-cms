@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Feb-2007 Mateusz Krzeszowiec
+ + [artf7443] : Missing "Mobile"column in Contact Category Layout Parameters
+
 03-Feb-2007 Sam Moffatt
  # [art7349] Fixed up potential path disclosure issues
 
@@ -53,12 +56,12 @@ Legend:
 
 01-Feb-2007 Johan Janssens
  ^ Added 'plg' prefix to all plugins functions and classes to avoid naming collisions
- ^ Changed JDocument::display to render, function now return data instead of pushing 
+ ^ Changed JDocument::display to render, function now return data instead of pushing
    it into JResponse. JResponse handling is done inside JApplication:::render
 
 01-Feb-2007 Marko Schmuck
  # Fixed [artf7454] : TinyMCE parameters smilies and flash where wrong in xml file
- 
+
 01-Feb-2007 Andrew Eddie
  # Fixed [artf7404] : Proposed changes to JDatabase->isQuoted method usage
  # Fixed [artf7077] : updateNulls in Database Library

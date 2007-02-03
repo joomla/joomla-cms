@@ -55,6 +55,10 @@
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
+			<param name="mobile" type="radio" default="1" label="Mobile Column" description="Show/Hide the Mobile column">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
 			<param name="fax" type="radio" default="1" label="Fax Column" description="Show/Hide the Fax column">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
