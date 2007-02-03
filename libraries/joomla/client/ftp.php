@@ -10,6 +10,9 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+// Check to ensure this file is within the rest of the framework
+defined('JPATH_BASE') or die();
+
 /** Error Codes:
  *  - 30 : Unable to connect to host
  *  - 31 : Not connected

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Feb-2007 Sam Moffatt
+ # [art7349] Fixed up potential path disclosure issues
+
 02-Feb-2007 Enno Klasing
  + Added JClientHelper class
  + Added input form for FTP credentials to com_installer

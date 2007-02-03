@@ -12,6 +12,9 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+// Check to ensure this file is within the rest of the framework
+defined('JPATH_BASE') or die();
+
 if(!defined('DATE_FORMAT_LC')) {
 	define('DATE_FORMAT_LC', '%A, %d %B %Y');
 }

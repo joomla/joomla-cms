@@ -9,6 +9,9 @@
  * @author		Stephan Schmidt <schst@php.net>
  */
 
+// Check to ensure this file is within the rest of the framework
+defined('JPATH_BASE') or die();
+
 /**
  * patTemplate output filter that creates PDF files from latex
  *

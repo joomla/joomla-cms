@@ -18,6 +18,9 @@
 //
 // $Id$
 
+// Check to ensure this file is within the rest of the framework
+defined('JPATH_BASE') or die();
+
 jimport('pear.PEAR');
 
 define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);

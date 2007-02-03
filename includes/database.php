@@ -3,6 +3,7 @@
  * @package		Joomla
  * @deprecated As of version 1.5
  */
+
 require_once( dirname(__FILE__)  .'/../libraries/loader.php' );
 
 jimport( 'joomla.database.database' );

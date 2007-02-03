@@ -10,6 +10,9 @@
  * @author		Jens Strobel <strobel@pixeldreamz.com>
  */
 
+// Check to ensure this file is within the rest of the framework
+defined('JPATH_BASE') or die();
+
 /**
  * patTemplate function that returns a complete imagetag and
  * width and height are extracted from the image

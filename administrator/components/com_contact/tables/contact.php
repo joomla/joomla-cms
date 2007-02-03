@@ -12,6 +12,9 @@
  * details.
  */
 
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die();
+
 // Include library dependencies
 jimport('joomla.filter.input');
 

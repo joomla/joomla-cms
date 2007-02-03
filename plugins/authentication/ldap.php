@@ -12,6 +12,9 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die();
+
 jimport('joomla.application.plugin.helper');
 jimport('joomla.client.ldap');
 
@@ -55,6 +58,7 @@ class plgAuthenticateLdap extends JPlugin
 		// Initialize variables
 		$conditions = '';
 		$success = false;
+		$userdetails = null;
 
 		// Get a database connector
 		$db =& JFactory::getDBO();
@@ -138,7 +142,6 @@ class plgAuthenticateLdap extends JPlugin
 		else
 		{
 			$result->status = JAUTHENTICATE_STATUS_SUCCESS;
-
 			$userdetails 	= $ldap->simple_search(str_replace("[search]", $username, $params->get('search_string')));
 			$ldap_email 	= $params->get('ldap_email');
 			$ldap_fullname	= $params->get('ldap_fullname');

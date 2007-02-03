@@ -12,6 +12,9 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die();
+
 /**
  * Renders a category element
  *

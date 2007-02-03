@@ -10,6 +10,9 @@
  * @author		Stephan Schmidt <schst@php.net>
  */
 
+// Check to ensure this file is within the rest of the framework
+defined('JPATH_BASE') or die();
+
 /**
  * patTemplate function to dynamically change the
  * value of _any_ attribute of the parent tag.
