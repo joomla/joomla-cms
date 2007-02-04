@@ -420,7 +420,7 @@ class JTable extends JObject
 
 		$query = 'SELECT MAX(ordering)' .
 				' FROM ' . $this->_tbl .
-				' WHERE '.$where;
+				($where ? ' WHERE '.$where : '');
 
 		$this->_db->setQuery( $query );
 		$maxord = $this->_db->loadResult();
