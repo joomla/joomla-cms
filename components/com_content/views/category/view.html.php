@@ -135,7 +135,7 @@ class ContentViewCategory extends JView
 				}
 
 				$attribs['title']	= '"'.JText::_( 'New' ).'"';
-
+				$output = JHTML::Link($url, $text, $attribs);
 			} break;
 
 			case 'edit' :
@@ -150,9 +150,9 @@ class ContentViewCategory extends JView
 					return;
 				}
 
-				JCommonHTML::loadOverlib();
 
-				$url = 'index.php?option=com_content&ampview=article&amp;id='.$article->id.'&amp;task=edit&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+				$url = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;task=edit&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+				JCommonHTML::loadOverlib();
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 				if ($article->state == 0) {
@@ -170,9 +170,9 @@ class ContentViewCategory extends JView
 				$overlib .= '<br />';
 				$overlib .= $author;
 
-				$attribs['onmouseover'] = "\"return overlib('".$overlib."', CAPTION, '".JText::_( 'Edit Item' )."', BELOW, RIGHT)\"";
-				$attribs['onmouseover'] = "\"return nd();\"";
+				$button = JHTML::Link($url, $text);
 
+				$output = '<span class="hasTip" title="'.JText::_( 'Edit Item' ).' :: '.$overlib.'">'.$button.'</span>';
 			} break;
 
 			case 'pdf' :
@@ -189,6 +189,7 @@ class ContentViewCategory extends JView
 
 				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$output = JHTML::Link($url, $text, $attribs);
 
 			} break;
 
@@ -206,6 +207,7 @@ class ContentViewCategory extends JView
 
 				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$output = JHTML::Link($url, $text, $attribs);
 
 			} break;
 
@@ -222,11 +224,12 @@ class ContentViewCategory extends JView
 
 				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$output = JHTML::Link($url, $text, $attribs);
 
 			} break;
 		}
 
-		return JHTML::Link($url, $text, $attribs);
+		return $output;
 	}
 
 	function &getItems()

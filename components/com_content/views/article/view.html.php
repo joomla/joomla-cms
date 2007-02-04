@@ -186,6 +186,7 @@ class ContentViewArticle extends JView
 				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
+				$output = JHTML::Link($url, $text, $attribs);
 			} break;
 
 			case 'print' :
@@ -203,6 +204,7 @@ class ContentViewArticle extends JView
 				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
+				$output = JHTML::Link($url, $text, $attribs);
 			} break;
 
 			case 'email' :
@@ -219,6 +221,7 @@ class ContentViewArticle extends JView
 				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
 
+				$output = JHTML::Link($url, $text, $attribs);
 			} break;
 
 			case 'edit' :
@@ -232,9 +235,7 @@ class ContentViewArticle extends JView
 				if (!$this->access->canEdit && !($this->access->canEditOwn && $article->created_by == $this->user->get('id'))) {
 					return;
 				}
-
 				JCommonHTML::loadOverlib();
-
 				$url = 'index.php?option=com_content&amp;view=article&amp;layout=form&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
@@ -253,14 +254,14 @@ class ContentViewArticle extends JView
 				$overlib .= '<br />';
 				$overlib .= $author;
 
-				$attribs['onmouseover'] = "\"return overlib('".$overlib."', CAPTION, '".JText::_( 'Edit Item' )."', BELOW, RIGHT)\"";
-				$attribs['onmouseover'] = "\"return nd();\"";
+				$button = JHTML::Link($url, $text);
 
+				$output = '<span class="hasTip" title="'.JText::_( 'Edit Item' ).' :: '.$overlib.'">'.$button.'</span>';
 			} break;
 		}
 
 
-		return JHTML::Link($url, $text, $attribs);
+		return $output;
 	}
 
 	function _displayForm($tpl)

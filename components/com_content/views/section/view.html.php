@@ -224,6 +224,7 @@ class ContentViewSection extends JView
 
 				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$output = JHTML::Link($url, $text, $attribs);
 
 			} break;
 
@@ -241,6 +242,7 @@ class ContentViewSection extends JView
 
 				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$output = JHTML::Link($url, $text, $attribs);
 
 			} break;
 
@@ -257,6 +259,7 @@ class ContentViewSection extends JView
 
 				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
 				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$output = JHTML::Link($url, $text, $attribs);
 
 			} break;
 
@@ -285,20 +288,15 @@ class ContentViewSection extends JView
 				$date = JHTML::Date($article->created);
 				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
-				$overlib .= '<br />';
-				$overlib .= $article->groups;
-				$overlib .= '<br />';
-				$overlib .= $date;
-				$overlib .= '<br />';
-				$overlib .= $author;
+				$overlib .= '<br />'.$article->groups.'<br />'.$date.'<br />'.$author;
 
-				$attribs['onmouseover'] = "\"return overlib('".$overlib."', CAPTION, '".JText::_( 'Edit Item' )."', BELOW, RIGHT)\"";
-				$attribs['onmouseover'] = "\"return nd();\"";
+				$button = JHTML::Link($url, $text);
 
+				$output = '<span class="hasTip" title="'.JText::_( 'Edit Item' ).' :: '.$overlib.'">'.$button.'</span>';
 			} break;
 		}
 
-		return JHTML::Link($url, $text, $attribs);
+		return $output;
 	}
 }
 ?>
