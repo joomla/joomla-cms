@@ -49,6 +49,9 @@ class ConfigViewComponent extends JView
 				<button type="button" onclick="window.top.document.popup.hide();">
 					<?php echo JText::_( 'Cancel' );?></button>
 			</div>
+			<div class="configuration" >
+				<?php echo $this->component->name ?>
+			</div>
 		</fieldset>
 
 		<fieldset>

@@ -175,6 +175,14 @@ div.header {
 
 div.header span { color: #666; }
 
+div.configuration {
+	font-size: 14px; font-weight: bold; color: #0B55C4; line-height: 16px;
+	padding-left: 30px;
+	margin-left: 10px;
+	background-image: url(../images/menu/icon-16-config.png);
+	background-repeat: no-repeat;
+}
+
 div.toolbar { float: right; text-align: right; padding: 0; }
 
 table.toolbar    			 { border-collapse: collapse; padding: 0; margin: 0;	 }
