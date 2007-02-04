@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Table
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
@@ -23,8 +23,8 @@ defined('JPATH_BASE') or die();
  * @abstract
  * @author		Andrew Eddie <eddieajau@users.sourceforge.net>
  * @package 	Joomla.Framework
- * @subpackage		Table
- * @since	1.0
+ * @subpackage	Table
+ * @since		1.0
  * @tutorial	Joomla.Framework/jtable.cls
  */
 class JTable extends JObject
@@ -32,52 +32,52 @@ class JTable extends JObject
 	/**
 	 * Name of the table in the db schema relating to child class
 	 *
-	 * @var string
-	 * @access protected
+	 * @var 	string
+	 * @access	protected
 	 */
 	var $_tbl		= '';
 
 	/**
 	 * Name of the primary key field in the table
 	 *
-	 * @var string
-	 * @access protected
+	 * @var		string
+	 * @access	protected
 	 */
 	var $_tbl_key	= '';
 
 	/**
 	 * Error message
 	 *
-	 * @var string
-	 * @access protected
+	 * @var		string
+	 * @access	protected
 	 */
 	var $_error		= '';
 
 	/**
 	 * Error number
 	 *
-	 * @var string
-	 * @access protected
+	 * @var		int
+	 * @access	protected
 	 */
 	var $_errorNum = 0;
 
 	/**
 	 * Database connector
 	 *
-	 * @var JDatabase
-	 * @access protected
+	 * @var		JDatabase
+	 * @access	protected
 	 */
 	var $_db		= null;
 
 	/**
-	* Object constructor to set table and key field
-	*
-	* Can be overloaded/supplemented by the child class
-	*
-	* @access protected
-	* @param string $table name of the table in the db schema relating to child class
-	* @param string $key name of the primary key field in the table
-	*/
+	 * Object constructor to set table and key field
+	 *
+	 * Can be overloaded/supplemented by the child class
+	 *
+	 * @access protected
+	 * @param string $table name of the table in the db schema relating to child class
+	 * @param string $key name of the primary key field in the table
+	 */
 	function __construct( $table, $key, &$db)
 	{
 		$this->_tbl		= $table;
@@ -191,6 +191,21 @@ class JTable extends JObject
 	}
 
 	/**
+	 * Resets the default properties
+	 * @return	void
+	 */
+	function reset()
+	{
+		$k = $this->_tbl_key;
+		foreach (get_class_vars( get_class( $this ) ) as $name => $value)
+		{
+			if (($name != $k) and ($name != '_db') and ($name != '_tbl') and ($name != '_tbl_key')) {
+				$this->$name	= $value;
+			}
+		}
+	}
+
+	/**
 	 * Binds a named array/hash to this object
 	 *
 	 * Can be overloaded/supplemented by the child class
@@ -230,12 +245,12 @@ class JTable extends JObject
 	}
 
 	/**
-	* Loads a row from the database and binds the fields to the object properties
-	*
-	* @access	public
-	* @param	mixed	Optional primary key.  If not specifed, the value of current key is used
-	* @return	boolean	True if successful
-	*/
+	 * Loads a row from the database and binds the fields to the object properties
+	 *
+	 * @access	public
+	 * @param	mixed	Optional primary key.  If not specifed, the value of current key is used
+	 * @return	boolean	True if successful
+	 */
 	function load( $oid=null )
 	{
 		$k = $this->_tbl_key;
@@ -249,18 +264,11 @@ class JTable extends JObject
 		if ($oid === null) {
 			return false;
 		}
-
-		// Reset the object to the class defined default values
-		foreach ($this->getPublicProperties( true ) as $name => $value)
-		{
-			if (($name != $k) and ($name != "_db") and ($name != "_tbl") and ($name != "_tbl_key")) {
-				$this->$name = $value;
-			}
-		}
+		$this->reset();
 
 		$db =& $this->getDBO();
 
-		$query = "SELECT *"
+		$query = 'SELECT *'
 		. "\n FROM $this->_tbl"
 		. "\n WHERE $this->_tbl_key = '$oid'"
 		;
@@ -277,27 +285,27 @@ class JTable extends JObject
 	}
 
 	/**
-	* Generic check method
-	*
-	* Can be overloaded/supplemented by the child class
-	*
-	* @access public
-	* @return boolean True if the object is ok
-	*/
+	 * Generic check method
+	 *
+	 * Can be overloaded/supplemented by the child class
+	 *
+	 * @access public
+	 * @return boolean True if the object is ok
+	 */
 	function check()
 	{
 		return true;
 	}
 
 	/**
-	* Inserts a new row if id is zero or updates an existing row in the database table
-	*
-	* Can be overloaded/supplemented by the child class
-	*
-	* @access public
-	* @param boolean If false, null object variables are not updated
-	* @return null|string null if successful otherwise returns and error message
-	*/
+	 * Inserts a new row if id is zero or updates an existing row in the database table
+	 *
+	 * Can be overloaded/supplemented by the child class
+	 *
+	 * @access public
+	 * @param boolean If false, null object variables are not updated
+	 * @return null|string null if successful otherwise returns and error message
+	 */
 	function store( $updateNulls=false )
 	{
 		$k = $this->_tbl_key;
@@ -435,11 +443,11 @@ class JTable extends JObject
 	}
 
 	/**
-	* Compacts the ordering sequence of the selected records
-	*
-	* @access public
-	* @param string Additional where query to limit ordering to a particular subset of records
-	*/
+	 * Compacts the ordering sequence of the selected records
+	 *
+	 * @access public
+	 * @param string Additional where query to limit ordering to a particular subset of records
+	 */
 	function reorder( $where='' )
 	{
 		$k = $this->_tbl_key;
@@ -542,16 +550,16 @@ class JTable extends JObject
 	}
 
 	/**
-	* Generic check for whether dependancies exist for this object in the db schema
-	*
-	* can be overloaded/supplemented by the child class
-	*
-	* @access public
-	* @param string $msg Error message returned
-	* @param int Optional key index
-	* @param array Optional array to compiles standard joins: format [label=>'Label',name=>'table name',idfield=>'field',joinfield=>'field']
-	* @return true|false
-	*/
+	 * Generic check for whether dependancies exist for this object in the db schema
+	 *
+	 * can be overloaded/supplemented by the child class
+	 *
+	 * @access public
+	 * @param string $msg Error message returned
+	 * @param int Optional key index
+	 * @param array Optional array to compiles standard joins: format [label=>'Label',name=>'table name',idfield=>'field',joinfield=>'field']
+	 * @return true|false
+	 */
 	function canDelete( $oid=null, $joins=null )
 	{
 		$k = $this->_tbl_key;
@@ -609,13 +617,13 @@ class JTable extends JObject
 	}
 
 	/**
-	* Default delete method
-	*
-	* can be overloaded/supplemented by the child class
-	*
-	* @access public
-	* @return true if successful otherwise returns and error message
-	*/
+	 * Default delete method
+	 *
+	 * can be overloaded/supplemented by the child class
+	 *
+	 * @access public
+	 * @return true if successful otherwise returns and error message
+	 */
 	function delete( $oid=null )
 	{
 		//if (!$this->canDelete( $msg ))
@@ -763,13 +771,13 @@ class JTable extends JObject
 	}
 
 	/**
-	* Generic save function
-	*
-	* @access public
-	* @param array Source array for binding to class vars
-	* @param string Filter for the order updating
-	* @returns TRUE if completely successful, FALSE if partially or not succesful.
-	*/
+	 * Generic save function
+	 *
+	 * @access public
+	 * @param array Source array for binding to class vars
+	 * @param string Filter for the order updating
+	 * @returns TRUE if completely successful, FALSE if partially or not succesful.
+	 */
 	function save( $source, $order_filter='' )
 	{
 		if (!$this->bind( $source ))
@@ -872,11 +880,11 @@ class JTable extends JObject
 	}
 
 	/**
-	* Export item list to xml
-	*
-	* @access public
-	* @param boolean Map foreign keys to text values
-	*/
+	 * Export item list to xml
+	 *
+	 * @access public
+	 * @param boolean Map foreign keys to text values
+	 */
 	function toXML( $mapKeysToText=false )
 	{
 		$xml = '<record table="' . $this->_tbl . '"';

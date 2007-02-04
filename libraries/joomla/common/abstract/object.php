@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Abstract
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Abstract
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 /**
  * Object class, allowing __construct in PHP4.
@@ -45,18 +45,18 @@ class JObject
 	function __construct() {}
 
 	/**
-	* @param string The name of the property
-	* @param mixed The value of the property to set
-	*/
+	 * @param string The name of the property
+	 * @param mixed The value of the property to set
+	 */
 	function set( $property, $value=null ) {
 		$this->$property = $value;
 	}
 
 	/**
-	* @param string The name of the property
-	* @param mixed  The default value
-	* @return mixed The value of the property
-	*/
+	 * @param string The name of the property
+	 * @param mixed  The default value
+	 * @return mixed The value of the property
+	 */
 	function get($property, $default=null)
 	{
 		if(isset($this->$property)) {
@@ -75,10 +75,13 @@ class JObject
 	{
 		static $cache = null;
 
-		if (is_null( $cache )) {
+		if (is_null( $cache ))
+		{
 			$cache = array();
-			foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {
-				if (substr( $key, 0, 1 ) != '_') {
+			foreach (get_object_vars( $this ) as $key => $val)
+			{
+				if (substr( $key, 0, 1 ) != '_')
+				{
 					$cache[0][] = $key;
 					$cache[1][$key] = $val;
 				}
