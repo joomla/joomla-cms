@@ -35,11 +35,7 @@ class JElement_Contact extends JElement
 		. "\n ORDER BY a.catid, a.name"
 		;
 		$db->setQuery( $query );
-		$contacts = $db->loadObjectList( );
-
-		$db->setQuery($query);
-		$options = $db->loadObjectList();
-		//array_unshift($options, JHTMLSelect::option('0', 'None', 'id', 'text'));
+		$options = $db->loadObjectList( );
 
 		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="inputbox" size="10"', 'id', 'text', $value, $control_name.$name );
 	}
