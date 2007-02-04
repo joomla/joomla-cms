@@ -34,9 +34,11 @@ class ConfigApplicationView
 
 		$table->loadByOption( 'com_media' );
 		$mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/components/com_media/config.xml' );
+
 		$contents = '';
+		$tmplpath = dirname(__FILE__).DS.'tmpl';
 		ob_start();
-			require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.php');
+		require_once($tmplpath.DS.'navigation.php');
 		$contents = ob_get_contents();
 		ob_end_clean();
 
@@ -48,20 +50,20 @@ class ConfigApplicationView
 		?>
 		<form action="index.php" method="post" name="adminForm">
 
-		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'writeable.php'); ?>
+		<?php require_once($tmplpath.DS.'writeable.php'); ?>
 
 		<div id="config-document">
 			<div id="page-site">
 				<table class="noshow">
 					<tr>
 						<td with="65%">
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_site.php'); ?>
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_metadata.php'); ?>
+							<?php require_once($tmplpath.DS.'config_site.php'); ?>
+							<?php require_once($tmplpath.DS.'config_metadata.php'); ?>
 						</td>
 						<td width="35%">
 
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_seo.php'); ?>
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_feeds.php'); ?>
+							<?php require_once($tmplpath.DS.'config_seo.php'); ?>
+							<?php require_once($tmplpath.DS.'config_feeds.php'); ?>
 						</td>
 					</tr>
 				</table>
@@ -70,7 +72,7 @@ class ConfigApplicationView
 				<table class="noshow">
 					<tr>
 						<td with="60%">
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_system.php'); ?>
+							<?php require_once($tmplpath.DS.'config_system.php'); ?>
 							<fieldset class="adminform">
 								<legend><?php echo JText::_( 'User Settings' ); ?></legend>
 								<?php echo $userparams->render('userparams'); ?>
@@ -81,9 +83,9 @@ class ConfigApplicationView
 							</fieldset>
 						</td>
 						<td with="40%">
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_debug.php'); ?>
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_cache.php'); ?>
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_session.php'); ?>
+							<?php require_once($tmplpath.DS.'config_debug.php'); ?>
+							<?php require_once($tmplpath.DS.'config_cache.php'); ?>
+							<?php require_once($tmplpath.DS.'config_session.php'); ?>
 						</td>
 					</td>
 					</tr>
@@ -93,14 +95,14 @@ class ConfigApplicationView
 				<table class="noshow">
 					<tr>
 						<td with="60%">
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_server.php'); ?>
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_locale.php'); ?>
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS. (JUtility::isWinOS() ? 'config_noftp.php':'config_ftp.php')); ?>
+							<?php require_once($tmplpath.DS.'config_server.php'); ?>
+							<?php require_once($tmplpath.DS.'config_locale.php'); ?>
+							<?php require_once($tmplpath.DS. (JUtility::isWinOS() ? 'config_noftp.php':'config_ftp.php')); ?>
 						</td>
 						<td width="40%">
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_database.php'); ?>
+							<?php require_once($tmplpath.DS.'config_database.php'); ?>
 
-							<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'config_mail.php'); ?>
+							<?php require_once($tmplpath.DS.'config_mail.php'); ?>
 						</td>
 					</tr>
 				</table>
