@@ -42,6 +42,9 @@ Legend:
  # Fixed JObject::getPublicProperties() doesn't give (all) properties of object
  ^ Added JTable::reset to handle resetting class properties and make it accessable at any time
  # Fixed No translation of new module names
+ + Added support in JLanguage to log orphaned strings when debug on
+ + Added support to Debug Plugin for show logged orphaned strings
+ ^ Improved output symmantics of Debug Plugin
 
 03-Feb-2007 Enno Klasing
  + Added input form for FTP credentials to com_languages
