@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.0.0">
-	<name>Wrapper Module</name>
+	<name>Wrapper</name>
 	<author>Joomla! Project</author>
 	<creationDate>October 2004</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>

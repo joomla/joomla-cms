@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.0.0">
-	<name>HTML Module</name>
+	<name>Custom HTML</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
 	<copyright>(C) 2005 - 2007 Open Source Matters. All rights reserved.</copyright>

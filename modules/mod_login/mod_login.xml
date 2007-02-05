@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5.0">
-	<name>Login Module</name>
+	<name>Login</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
 	<copyright>(C) 2005 - 2007 Open Source Matters. All rights reserved.</copyright>
