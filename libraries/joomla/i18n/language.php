@@ -94,6 +94,14 @@ class JLanguage extends JObject
 	var $_debug 	= false;
 
 	/**
+	 * An array of orphaned text
+	 *
+	 * @var array
+	 * @access protected
+	 */
+	var $_orphans 	= array();
+
+	/**
 	 * Array holding the language metadata
 	 *
 	 * @var array
@@ -185,7 +193,11 @@ class JLanguage extends JObject
 			if (defined($string)) {
 				$string = $this->_debug ? "!!".constant($string)."!!" : constant($string);
 			} else {
-				$string = $this->_debug ? "??".$string."??" : $string;
+				if ($this->_debug)
+				{
+					$this->_orphans[] = $string;
+					$string = "??".$string."??";
+				}
 			}
 		}
 		if ($jsSafe) {
@@ -372,6 +384,16 @@ class JLanguage extends JObject
 	*/
 	function getDebug() {
 		return $this->_debug;
+	}
+
+	/**
+	* Get the list of orphaned strings if being tracked
+	*
+	* @access public
+	* @return boolean True is in debug mode
+	*/
+	function getOrphans() {
+		return $this->_orphans;
 	}
 
 	/**
