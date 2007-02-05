@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: joomla.request.php 6093 2006-12-26 16:57:58Z louis $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php

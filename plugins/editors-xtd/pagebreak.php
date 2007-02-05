@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: mospage.btn.php 1671 2006-01-06 10:20:01Z webImagery $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php

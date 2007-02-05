@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version		$Id: gmail.php 5509 2006-10-19 11:45:15Z pasamio $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	JFramework
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
