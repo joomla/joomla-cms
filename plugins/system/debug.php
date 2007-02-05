@@ -56,7 +56,7 @@ class  plgDebug extends JPlugin
 		$db			=& JFactory::getDBO();
 		$profiler	=& $_PROFILER;
 		$lang		= JFactory::getLanguage();
-		$lang->load( 'plg_debug', JPATH_ADMINISTRATOR );
+		$lang->load( 'plg_system_debug', JPATH_ADMINISTRATOR );
 
 		ob_start();
 		echo implode( '', $profiler->getBuffer() );
