@@ -211,8 +211,10 @@ class JMainMenu extends JTree
 
 		$parent = & $this->_current->getParent();
 		$inActive = $parent->active;
-		if ($start && ($depth <= $start) && !$inActive) {
-			if ((($depth < $end) || ($end == 0)) && $showChildren) {
+		if ($start && ($depth <= $start) && !$inActive) 
+		{
+			if ((($depth < $end) || ($end == 0)) && $showChildren) 
+			{
 				// Recurse through children if they exist
 				while ($this->_current->hasChildren())
 				{
@@ -237,7 +239,8 @@ class JMainMenu extends JTree
 			echo "<li".$id." class=\"".$classes."\">";
 
 			// Print a link if it exists
-			if ($this->_current->link != null) {
+			if ($this->_current->link != null && $this->_active != $this->_current->id) 
+			{
 				switch ($this->_current->target)
 				{
 					default:
@@ -258,7 +261,7 @@ class JMainMenu extends JTree
 						echo "<a href=\"javascript:void window.open('".$link."','targetWindow','".$attribs."')\">".$this->_current->title."</a>";
 						break;
 				}
-			} else if ($this->_current->title != null && $this->_current->class != 'separator') {
+			} else if ($this->_current->title != null && $this->_current->class != 'separator' && $this->_active != $this->_current->id) {
 				echo "<a>".$this->_current->title."</a>\n";
 			} else {
 				echo "<span>".$this->_current->title."</span>";
