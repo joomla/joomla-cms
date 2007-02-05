@@ -95,26 +95,30 @@ class JSite extends JApplication
 		// Get the base and full URLs
 		$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
 		$base = JURI::base();
-
+		
 		$url = urldecode(trim(str_replace($base, '', $full), '/'));
-		$urlArray = explode('/', $url);
-
-		//shift entry point of array
-		array_shift($urlArray);
-
-		//Only use SEF is enabled and not in the administrator
+		$url = str_replace('index.php/', '', $url); 
+		
 		if (!$itemid = JRequest::getVar('Itemid'))
 		{
 			// Set document link
 			$doc = & JFactory::getDocument();
 			$doc->setLink($base);
-
-			if (!empty($urlArray[0]))
+			
+			if (!empty($url))
 			{
-				$alias = array_shift($urlArray);
-				$item = $menu->getItems('name_alias', $alias, true);
-				$itemid = $item->id;
-
+				//Need to reverse the array (highest sublevels first)
+				$items = array_reverse($menu->getMenu());
+				
+				foreach ($items as $item)
+				{
+					if(strpos($url, $item->route) === 0) {
+						$itemid = $item->id;
+						$url    = str_replace($item->route, '', $url); 
+						break;
+					}
+				}
+				
 				//MOVE somwhere else
 				/*$path = JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.$component.'.php';
 				// Do a quick check to make sure component exists
@@ -124,7 +128,7 @@ class JSite extends JApplication
 				}*/
 			}
 		}
-
+		
 		$item = $menu->getItem($itemid);
 
 		$uri =& JURI::getInstance(($item) ? $item->link : null);
@@ -135,7 +139,10 @@ class JSite extends JApplication
 
 		// Use the custom sef handler if it exists
 		$path = ($item) ? JPATH_BASE.DS.'components'.DS.$item->component.DS.'request.php' : null;
-
+		
+		$urlArray = explode('/', $url);
+		array_shift($urlArray);
+		
 		if (count($urlArray) && file_exists($path))
 		{
 			require_once $path;

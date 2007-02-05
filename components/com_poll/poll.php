@@ -163,7 +163,7 @@ class PollController
 		global $mainframe;
 		
 		//check the token before we do anything else
-		$token	= JUtility::getToken();
+		$token = JUtility::getToken();
 		if(!JRequest::getVar( $token, 0, 'post' )) {
 			JError::raiseError(403, 'Request Forbidden');
 		} 

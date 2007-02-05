@@ -206,7 +206,7 @@ class JMenu extends JObject
 				"\n FROM #__menu AS m" .
 				"\n LEFT JOIN #__components AS c ON m.componentid = c.id".
 				"\n WHERE m.published = 1".
-				"\n ORDER BY m.parent, m.ordering";
+				"\n ORDER BY m.sublevel, m.parent, m.ordering";
 		$db->setQuery($sql);
 
 		if (!($menus = $db->loadObjectList('id'))) {
@@ -216,10 +216,27 @@ class JMenu extends JObject
 
 		jimport('joomla.filter.output');
 
-		foreach($menus as $key => $menu) {
-			$menus[$key]->name_alias = JOutputFilter::stringURLSafe($menu->name);
+		foreach($menus as $key => $menu) 
+		{
+			$menus[$key]->alias = JOutputFilter::stringURLSafe($menu->name);
+			
+			//Get parent information
+			$parent_route = '';
+			$parent_tree  = array();
+			if($parent = $menus[$key]->parent) {
+				$parent_route = $menus[$parent]->route.'/';
+				$parent_tree  = $menus[$parent]->tree;
+			}
+			
+			//Create tree 
+			array_push($parent_tree, $menus[$key]->id);
+			$menus[$key]->tree   = $parent_tree;
+			
+			//Create route
+			$route = $parent_route.$menus[$key]->alias;
+			$menus[$key]->route  = $route;
 		}
-
+		
 		return $menus;
 	}
 }

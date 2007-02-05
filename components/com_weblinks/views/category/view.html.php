@@ -34,7 +34,7 @@ class WeblinksViewCategory extends JView
 		// Initialize some variables
 		$document	= & JFactory::getDocument();
 		$uri 		=& JFactory::getURI();
-		$pathway		= & $mainframe->getPathWay();
+		$pathway	= & $mainframe->getPathWay();
 
 		// Get the paramaters of the active menu item
 		$menus	= &JMenu::getInstance();
@@ -50,11 +50,11 @@ class WeblinksViewCategory extends JView
 		$category->total = $total;
 
 		//add alternate feed link
-		$link	= 'feed.php?option=com_weblinks&amp;view=category&amp;id='.$category->id.'&amp;Itemid='.$Itemid;
+		$link	= 'feed.php?option=com_weblinks&view=category&id='.$category->id;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
+		$document->addHeadLink(sefRelToAbs($link.'&format=rss'), 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
+		$document->addHeadLink(sefRelToAbs($link.'&amp;format=atom'), 'alternate', 'rel', $attribs);
 
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_('Links'));

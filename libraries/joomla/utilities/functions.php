@@ -187,7 +187,7 @@ function sefRelToAbs($value)
 				$parts		= $function($query, $params);
 
 				$route = implode('/', $parts);
-				$route = ($route) ? $route : null;
+				$route = ($route) ? '/'.$route : null;
 
 				$uri->setQuery($query);
 			}
@@ -209,7 +209,7 @@ function sefRelToAbs($value)
 			}
 
 
-			$url = $item->name_alias.'/'.$route.$fragment.$query;
+			$url = $item->route.$route.$fragment.$query;
 
 			// Prepend the base URI if we are not using mod_rewrite
 			if (!$mode) {

@@ -58,8 +58,6 @@ class JTableMenu extends JTable
 	var $utaccess			= null;
 	/** @var string */
 	var $params				= null;
-	/** @var string Model-View-Controller-Renderer-Template controls */
-	var $control				= null;
 	/** @var int Pre-order tree traversal - left value */
 	var $lft				= null;
 	/** @var int Pre-order tree traversal - right value */
