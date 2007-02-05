@@ -186,11 +186,13 @@ class PollController
 
 		if ($voted) {
 			JError::raiseWarning( 404, JText::_('You already voted for this poll today!') );
+			PollController::display();
 			return;
 		}
 
 		if (!$option_id) {
 			JError::raiseWarning( 404, JText::_('WARNSELECT') );
+			PollController::display();
 			return;
 		}
 
