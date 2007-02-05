@@ -398,7 +398,7 @@ class TemplatesView
 
 	function editTemplateSource($template, & $content, $option, & $client)
 	{
-		$template_path = $client->path . '/templates/' . $template . '/index.php';
+		$template_path = $client->path .DS. 'templates' .DS. $template .DS. 'index.php';
 ?>
 		<form action="index.php" method="post" name="adminForm">
 
