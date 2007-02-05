@@ -55,23 +55,42 @@ class  plgDebug extends JPlugin
 
 		$db			=& JFactory::getDBO();
 		$profiler	=& $_PROFILER;
+		$lang		= JFactory::getLanguage();
+		$lang->load( 'plg_debug', JPATH_ADMINISTRATOR );
 
 		ob_start();
 		echo implode( '', $profiler->getBuffer() );
 
-		if ($this->_params->get('memory', 1))
-		{
-			echo '<br />';
-			echo $profiler->getMemory();
+		if ($this->_params->get('memory', 1)) {
+			echo '<p><h4>'.JText::_( 'Memory Usage' ).'</h4>';
+			echo $profiler->getMemory().'</p>';
 		}
 
 		if ($this->_params->get('queries', 1))
 		{
-			echo '<br />';
-			echo $db->_ticker . ' queries logged';
-			echo '<pre>';
+			echo '<p>';
+			echo '<h4>'.JText::sprintf( 'Queries logged',  $db->_ticker ).'</h4>';
+			echo '<ol>';
 			foreach ($db->_log as $k=>$sql) {
-				echo $k+1 . "\n" . $sql . '<hr />';
+				echo '<li><pre>'.$sql.'</pre></li>';
+			}
+			echo '</ol></p>';
+		}
+
+		if ($this->_params->get('language', 1))
+		{
+			echo '<p><h4>'.JText::_( 'Untranslated strings' ).'</h4>';
+			echo '<pre>';
+			$orphans = array_unique( $lang->getOrphans() );
+			if (count( $orphans ))
+			{
+				sort( $orphans );
+				foreach ($orphans as $string) {
+					echo strtoupper( $string ).'='.$string."\n";
+				}
+			}
+			else {
+				echo JText::_( 'None' );
 			}
 			echo '</pre>';
 		}
@@ -84,5 +103,3 @@ class  plgDebug extends JPlugin
 // Attach sef handler to event dispatcher
 $dispatcher = & JEventDispatcher::getInstance();
 $dispatcher->attach(new plgDebug($dispatcher));
-
-?>
