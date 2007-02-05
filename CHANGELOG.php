@@ -41,6 +41,7 @@ Legend:
  # Fixed JTable::getNextOrder - fails with no where clause
  # Fixed JObject::getPublicProperties() doesn't give (all) properties of object
  ^ Added JTable::reset to handle resetting class properties and make it accessable at any time
+ # Fixed No translation of new module names
 
 03-Feb-2007 Enno Klasing
  + Added input form for FTP credentials to com_languages
