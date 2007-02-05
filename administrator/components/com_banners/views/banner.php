@@ -83,8 +83,8 @@ class BannersViewBanner
 						<?php JCommonHTML::tableOrdering( 'Order', 'b.ordering', $lists );?>
 						<?php JCommonHTML::saveorderButton( $rows ); ?>
 					</th>
-					<th width="5%">
-						<?php echo JText::_( 'Sticky' ); ?>
+					<th width="5%" nowrap="nowrap">
+						<?php JCommonHTML::tableOrdering( 'Sticky', 'b.sticky', $lists ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
 						<?php JCommonHTML::tableOrdering( 'Impressions', 'b.impmade', $lists ); ?>
