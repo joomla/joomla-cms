@@ -548,26 +548,29 @@ class ModulesController extends JController
 
 		// path to search for modules
 		if ($client->id == '1') {
-			$path = JPATH_ADMINISTRATOR.DS.'modules';
+			$path		= JPATH_ADMINISTRATOR.DS.'modules';
+			$langbase	= JPATH_ADMINISTRATOR;
 		} else {
-			$path = JPATH_ROOT.DS.'modules';
+			$path		= JPATH_ROOT.DS.'modules';
+			$langbase	= JPATH_ROOT;
 		}
 
-		$i = 1;
 		jimport('joomla.filesystem.folder');
 		$dirs = JFolder::folders( $path );
+		$lang =& JFactory::getLanguage();
 
 		foreach ($dirs as $dir)
 		{
-			if(substr($dir, 0, 4) == 'mod_') {
-				$file 			= JFolder::files( $path.DS.$dir, '^([_A-Za-z]*)\.xml$' );
+			if (substr( $dir, 0, 4 ) == 'mod_')
+			{
+				$files 				= JFolder::files( $path.DS.$dir, '^([_A-Za-z0-9]*)\.xml$' );
+				$module				= new stdClass;
+				$module->file 		= $files[0];
+				$module->module 	= str_replace( '.xml', '', $files[0] );
+				$module->path 		= $path.DS.$dir;
+				$modules[]			= $module;
 
-				$files_php[] 	= $file[0];
-
-				$modules[$i]->file 		= $file[0];
-				$modules[$i]->module 	= str_replace( '.xml', '', $file[0] );
-				$modules[$i]->path 		= $path.DS.$dir;
-				$i++;
+				$lang->load( $module->module, $langbase );
 			}
 		}
 
