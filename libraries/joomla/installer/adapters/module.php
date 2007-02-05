@@ -188,7 +188,7 @@ class JInstaller_module extends JObject
 		} else {
 			$row = & JTable::getInstance('module');
 			$row->title = $this->get('name');
-			$row->ordering = 99;
+			$row->ordering = $row->getNextOrder( "position='left'" );
 			$row->position = 'left';
 			$row->showtitle = 1;
 			$row->iscore = 0;
