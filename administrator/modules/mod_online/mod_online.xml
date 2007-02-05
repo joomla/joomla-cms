@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.0.0">
-	<name>Online Module</name>
+	<name>Online Users</name>
 	<author>Joomla! Project</author>
 	<creationDate>Jan 2006</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
