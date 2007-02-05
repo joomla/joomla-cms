@@ -47,6 +47,10 @@ class ConfigControllerComponent extends JController
 			return false;
 		}
 
+		// load the component's language file
+		$lang = & JFactory::getLanguage();
+		$lang->load( $component );
+
 		$model = $this->getModel('Component' );
 		$table =& JTable::getInstance('component');
 
@@ -104,4 +108,3 @@ class ConfigControllerComponent extends JController
 		$this->setRedirect( 'index.php' );
 	}
 }
-?>

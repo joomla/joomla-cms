@@ -28,10 +28,6 @@ class ConfigViewComponent extends JView
 	 */
 	function display()
 	{
-		// load the component's language file
-		$lang = & JFactory::getLanguage();
-		$lang->load(JRequest::getVar( 'component' ));
-
 		$model		= &$this->getModel();
 		$params		= &$model->getParams();
 		$component	= JComponentHelper::getInfo(JRequest::getVar( 'component' ));
@@ -71,4 +67,3 @@ class ConfigViewComponent extends JView
 <?php
 	}
 }
-?>
