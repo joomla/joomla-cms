@@ -70,7 +70,7 @@ JCommonHTML::loadOverlib();
 		$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
 		$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 
-		$row->cat_link 	= ampReplace( 'index.php?option=com_categories&section=com_weblinks&task=edit&hidemainmenu=1&id='. $row->catid );
+		$row->cat_link 	= ampReplace( 'index.php?option=com_categories&section=com_weblinks&task=edit&id='. $row->catid );
 		?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td>

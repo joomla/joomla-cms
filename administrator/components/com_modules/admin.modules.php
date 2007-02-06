@@ -354,7 +354,7 @@ class ModulesController extends JController
 		switch ($this->getTask())
 		{
 			case 'apply':
-				$this->setRedirect( 'index.php?option=com_modules&amp;client='. $client->id .'&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id );
+				$this->setRedirect( 'index.php?option=com_modules&amp;client='. $client->id .'&amp;task=edit&amp;id='. $row->id );
 				break;
 		}
 	}

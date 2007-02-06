@@ -106,7 +106,7 @@ class sections_html
 		for ( $i=0, $n=count( $rows ); $i < $n; $i++ ) {
 			$row = &$rows[$i];
 
-			$link 		= 'index.php?option=com_sections&scope=content&task=edit&hidemainmenu=1&cid[]='. $row->id;
+			$link 		= 'index.php?option=com_sections&scope=content&task=edit&cid[]='. $row->id;
 
 			$access 	= JCommonHTML::AccessProcessing( $row, $i );
 			$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
@@ -171,7 +171,6 @@ class sections_html
 		<input type="hidden" name="chosen" value="" />
 		<input type="hidden" name="act" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
@@ -192,6 +191,8 @@ class sections_html
 	*/
 	function edit( &$row, $option, &$lists )
 	{
+		JRequest::setVar( 'hidemainmenu', 1 );
+		
 		global $mainframe;
 
 		$editor =& JFactory::getEditor();
@@ -359,7 +360,6 @@ class sections_html
 		<input type="hidden" name="scope" value="<?php echo $row->scope; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="oldtitle" value="<?php echo $row->title ; ?>" />
 		</form>
 		<?php

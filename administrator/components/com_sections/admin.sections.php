@@ -322,12 +322,12 @@ function saveSection( $option, $scope, $task )
 			break;
 
 		case 'go2menuitem':
-			$mainframe->redirect( 'index.php?option=com_menus&amp;menutype='. $menu .'&amp;task=edit&amp;hidemainmenu=1&amp;id='. $menuid );
+			$mainframe->redirect( 'index.php?option=com_menus&amp;menutype='. $menu .'&amp;task=edit&amp;id='. $menuid );
 			break;
 
 		case 'apply':
 			$msg = JText::_( 'Changes to Section saved' );
-			$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope .'&amp;task=edit&amp;hidemainmenu=1&amp;cid[]='. $row->id, $msg );
+			$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope .'&amp;task=edit&amp;cid[]='. $row->id, $msg );
 			break;
 
 		case 'save':

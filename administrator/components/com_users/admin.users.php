@@ -389,7 +389,7 @@ function saveUser(  )
 	switch ( $task ) {
 		case 'apply':
 			$msg = JText::sprintf( 'Successfully Saved changes to User %s', $user->get('name') );
-			$mainframe->redirect( 'index.php?option=com_users&amp;task=edit&amp;hidemainmenu=1&amp;cid[]='. $user->get('id'), $msg );
+			$mainframe->redirect( 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $user->get('id'), $msg );
 			break;
 
 		case 'save':

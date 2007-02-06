@@ -29,6 +29,8 @@ class MenusViewItem extends JView
 
 	function edit($tpl = null)
 	{
+		JRequest::setVar( 'hidemainmenu', 1 );
+		
 		global $mainframe;
 
 		$lang =& JFactory::getLanguage();
@@ -112,6 +114,8 @@ class MenusViewItem extends JView
 
 	function type($tpl = null)
 	{
+		JRequest::setVar( 'hidemainmenu', 1 );
+		
 		global $mainframe;
 
 		$lang =& JFactory::getLanguage();

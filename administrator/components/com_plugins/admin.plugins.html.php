@@ -102,7 +102,7 @@ class HTML_modules {
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row 	= &$rows[$i];
 
-				$link = ampReplace( 'index.php?option=com_plugins&client='. $client .'&task=edit&hidemainmenu=1&cid[]='. $row->id );
+				$link = ampReplace( 'index.php?option=com_plugins&client='. $client .'&task=edit&cid[]='. $row->id );
 
 				$access 	= JCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
@@ -160,7 +160,6 @@ class HTML_modules {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client;?>" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
@@ -183,6 +182,8 @@ class HTML_modules {
 	*/
 	function editPlugin( &$row, &$lists, &$params, $option )
 	{
+		JRequest::setVar( 'hidemainmenu', 1 );
+		
 		JCommonHTML::loadOverlib();
 
 		$row->nameA = '';

@@ -71,7 +71,7 @@
 	<?php foreach ($this->menus as $menu) : ?>
 		<?php
 			// Get the current iteration and set a few values
-			$link 	= 'index.php?option=com_menus&amp;task=editMenu&amp;hidemainmenu=1&amp;id='. $menu->id;
+			$link 	= 'index.php?option=com_menus&amp;task=editMenu&amp;id='. $menu->id;
 			$linkA 	= 'index.php?option=com_menus&amp;task=view&amp;menutype='. $menu->menutype;
 		?>
 		<tr class="<?php echo "row". $k; ?>">
@@ -126,5 +126,4 @@
 <input type="hidden" name="option" value="com_menus" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="hidemainmenu" value="0" />
 </form>

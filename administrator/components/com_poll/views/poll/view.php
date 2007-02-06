@@ -79,7 +79,7 @@ class PollView
 			{
 				$row = &$rows[$i];
 
-				$link 		= ampReplace( 'index.php?option=com_poll&task=edit&hidemainmenu=1&cid[]='. $row->id );
+				$link 		= ampReplace( 'index.php?option=com_poll&task=edit&cid[]='. $row->id );
 
 				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
@@ -126,7 +126,6 @@ class PollView
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
@@ -136,6 +135,8 @@ class PollView
 
 	function editPoll( &$row, &$options )
 	{
+		JRequest::setVar( 'hidemainmenu', 1 );
+		
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES );
 		?>

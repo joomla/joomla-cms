@@ -74,7 +74,7 @@ class MenusController extends JController
 		$item =& $model->getItem();
 		switch ( $this->_task ) {
 			case 'apply':
-				$this->setRedirect( 'index.php?option=com_menus&amp;menutype='.$item->menutype.'&amp;task=edit&amp;cid[]='.$item->id.'&amp;hidemainmenu=1' , $msg );
+				$this->setRedirect( 'index.php?option=com_menus&amp;menutype='.$item->menutype.'&amp;task=edit&amp;cid[]='.$item->id.'' , $msg );
 				break;
 
 			case 'save':

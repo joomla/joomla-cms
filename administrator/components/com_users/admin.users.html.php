@@ -98,7 +98,7 @@ class HTML_users {
 				$img 	= $row->block ? 'publish_x.png' : 'tick.png';
 				$task 	= $row->block ? 'unblock' : 'block';
 				$alt 	= $row->block ? JText::_( 'Enabled' ) : JText::_( 'Blocked' );
-				$link 	= 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $row->id. '&amp;hidemainmenu=1';
+				$link 	= 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $row->id. '';
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -145,7 +145,6 @@ class HTML_users {
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
@@ -157,6 +156,8 @@ class HTML_users {
 	 */
 	function edituser( &$user, &$contact, &$lists, $option )
 	{
+		JRequest::setVar( 'hidemainmenu', 1 );
+		
 		global $mainframe;
 
 		/*

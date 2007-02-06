@@ -154,5 +154,4 @@ function submitbutton(pressbutton) {
 	<input type="hidden" name="componentid" value="<?php echo $this->item->componentid; ?>" />
 	<input type="hidden" name="type" value="<?php echo $this->item->type; ?>" />
 	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="hidemainmenu" value="0" />
 </form>

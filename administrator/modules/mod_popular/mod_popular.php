@@ -40,7 +40,7 @@ $rows = $db->loadObjectList();
 <?php
 foreach ($rows as $row)
 {
-	$link = 'index.php?option=com_content&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id;
+	$link = 'index.php?option=com_content&amp;task=edit&amp;id='. $row->id;
 	?>
 	<tr>
 		<td>

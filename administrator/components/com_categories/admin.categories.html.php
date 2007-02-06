@@ -124,9 +124,9 @@ class categories_html
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row 	= &$rows[$i];
 
-			$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&hidemainmenu=1&id='. $row->section );
+			$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&id='. $row->section );
 
-			$link = 'index.php?option=com_categories&section='. $section .'&task=edit&hidemainmenu=1&cid[]='. $row->id;
+			$link = 'index.php?option=com_categories&section='. $section .'&task=edit&cid[]='. $row->id;
 
 			$access 	= JCommonHTML::AccessProcessing( $row, $i );
 			$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
@@ -215,7 +215,6 @@ class categories_html
 		<input type="hidden" name="act" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="type" value="<?php echo $type; ?>" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
@@ -230,6 +229,8 @@ class categories_html
 	*/
 	function edit( &$row, &$lists, $redirect )
 	{
+		JRequest::setVar( 'hidemainmenu', 1 );
+		
 		$editor =& JFactory::getEditor();
 
 		if ($row->image == '') {
@@ -404,7 +405,6 @@ class categories_html
 		<input type="hidden" name="sectionid" value="<?php echo $row->section; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="redirect" value="<?php echo $redirect; ?>" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
 	}

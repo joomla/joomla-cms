@@ -451,12 +451,12 @@ function saveCategory()
 			break;
 
 		case 'go2menuitem':
-			$mainframe->redirect( 'index.php?option=com_menus&amp;menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
+			$mainframe->redirect( 'index.php?option=com_menus&amp;menutype='. $menu .'&task=edit&id='. $menuid );
 			break;
 
 		case 'apply':
 			$msg = JText::_( 'Changes to Category saved' );
-			$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $redirect .'&task=edit&amp;hidemainmenu=1&amp;cid[]='. $row->id, $msg );
+			$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $redirect .'&task=edit&amp;cid[]='. $row->id, $msg );
 			break;
 
 		case 'save':

@@ -67,7 +67,7 @@ class JContentHelper
 		$row->checkin();
 
 		$msg = JText::_('Successfully Reset Hit count');
-		$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&id='.$id, $msg);
+		$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&id='.$id, $msg);
 	}
 
 	function filterCategory($query, $active = NULL)

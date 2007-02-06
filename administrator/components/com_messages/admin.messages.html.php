@@ -76,7 +76,7 @@ class HTML_messages
 				$alt = $row->state ? JText::_( 'Read' ) : JText::_( 'Read' );
 
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
-					$linkA 	= 'index.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->user_id_from;
+					$linkA 	= 'index.php?option=com_users&task=editA&id='. $row->user_id_from;
 					$author = '<a href="'. ampReplace( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->user_from .'</a>';
 				} else {
 					$author = $row->user_from;
@@ -119,7 +119,6 @@ class HTML_messages
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
@@ -223,7 +222,6 @@ class HTML_messages
 		<input type="hidden" name="cid[]" value="<?php echo $row->message_id; ?>" />
 		<input type="hidden" name="userid" value="<?php echo $row->user_id_from; ?>" />
 		<input type="hidden" name="subject" value="Re: <?php echo $row->subject; ?>" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
 	}

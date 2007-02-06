@@ -738,7 +738,7 @@ class ContentController extends JController
 				break;
 
 			case 'go2menuitem' :
-				$mainframe->redirect('index.php?option=com_menus&amp;menutype='.$menu.'&amp;task=edit&amp;hidemainmenu=1&amp;id='.$menuid);
+				$mainframe->redirect('index.php?option=com_menus&amp;menutype='.$menu.'&amp;task=edit&amp;id='.$menuid);
 				break;
 
 			case 'menulink' :
@@ -751,7 +751,7 @@ class ContentController extends JController
 
 			case 'apply' :
 				$msg = JText::sprintf('Successfully Saved changes to Item', $row->title);
-				$mainframe->redirect('index.php?option=com_content&amp;sectionid='.$redirect.'&amp;task=edit&amp;hidemainmenu=1&amp;cid[]='.$row->id, $msg);
+				$mainframe->redirect('index.php?option=com_content&amp;sectionid='.$redirect.'&amp;task=edit&amp;cid[]='.$row->id, $msg);
 				break;
 
 			case 'save' :

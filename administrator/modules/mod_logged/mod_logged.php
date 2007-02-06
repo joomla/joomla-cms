@@ -81,7 +81,7 @@ foreach ( $rows as $row )
 {
 	if ( $user->authorize( 'com_users', 'manage' ) )
 	{
-		$link 	= 'index.php?option=com_users&amp;task=edit&amp;hidemainmenu=1&amp;cid[]='. $row->userid;
+		$link 	= 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $row->userid;
 		$name 	= '<a href="'. $link .'" title="'. JText::_( 'Edit User' ) .'">'. $row->username .'</a>';
 	} else {
 		$name 	= $row->username;

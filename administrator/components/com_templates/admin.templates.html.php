@@ -132,7 +132,7 @@ class TemplatesView
 ?>
 					</td>
 					<td>
-						<a href="index.php?option=com_templates&amp;task=edit&amp;cid[]=<?php echo $row->directory;?>&amp;client=<?php echo $client->id;?>&amp;hidemainmenu=1" onmouseover="showInfo('<?php echo $row->name;?>','<?php echo $row->directory; ?>')" onmouseout="return nd();">
+						<a href="index.php?option=com_templates&amp;task=edit&amp;cid[]=<?php echo $row->directory;?>&amp;client=<?php echo $client->id;?>" onmouseover="showInfo('<?php echo $row->name;?>','<?php echo $row->directory; ?>')" onmouseout="return nd();">
 							<?php echo $row->name;?></a>
 					</td>
 					<?php
@@ -218,7 +218,6 @@ class TemplatesView
 	<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="hidemainmenu" value="0" />
 	</form>
 	<?php
 
@@ -266,6 +265,8 @@ class TemplatesView
 	*/
 	function editTemplate($row, $lists, & $params, $option, & $client)
 	{
+		JRequest::setVar( 'hidemainmenu', 1 );
+		
 		JCommonHTML :: loadOverlib();
 ?>
 		<form action="index.php" method="post" name="adminForm">
@@ -390,7 +391,6 @@ class TemplatesView
 		<input type="hidden" name="id" value="<?php echo $row->directory; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="hidemainmenu" value="1" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
 		<?php
@@ -398,6 +398,8 @@ class TemplatesView
 
 	function editTemplateSource($template, & $content, $option, & $client)
 	{
+		JRequest::setVar( 'hidemainmenu', 1 );
+		
 		$template_path = $client->path .DS. 'templates' .DS. $template .DS. 'index.php';
 ?>
 		<form action="index.php" method="post" name="adminForm">
@@ -450,6 +452,7 @@ class TemplatesView
 
 	function chooseCSSFiles($template, $t_dir, $t_files, $option, & $client)
 	{
+		JRequest::setVar( 'hidemainmenu', 1 );
 ?>
 		<form action="index.php" method="post" name="adminForm">
 
@@ -499,7 +502,6 @@ class TemplatesView
 		<input type="hidden" name="cid[]" value="<?php echo $template; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="hidemainmenu" value="1" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
@@ -514,7 +516,8 @@ class TemplatesView
 	*/
 	function editCSSSource($template, $filename, & $content, $option, & $client)
 	{
-
+		JRequest::setVar( 'hidemainmenu', 1 );
+		
 		$css_path = $client->path . $filename;
 
 ?>

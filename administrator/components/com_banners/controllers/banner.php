@@ -226,7 +226,7 @@ class BannerControllerBanner extends JController
 		switch ($task)
 		{
 			case 'apply':
-				$link = 'index.php?option=com_banners&amp;task=edit&cid[]='. $row->bid .'&hidemainmenu=1';
+				$link = 'index.php?option=com_banners&amp;task=edit&cid[]='. $row->bid ;
 				break;
 
 			case 'save':
