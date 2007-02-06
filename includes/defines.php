@@ -19,8 +19,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 
 //Global definitions
-define( 'DS', DIRECTORY_SEPARATOR );
-
 //Joomla framework paht definitions
 $parts = explode( DS, JPATH_BASE );
 
