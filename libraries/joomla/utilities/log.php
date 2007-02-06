@@ -83,7 +83,7 @@ class JLog extends JObject
 		}
 
 		jimport('joomla.filesystem.path');
-		$path = JPath :: clean($path . DS . $file, false);
+		$path = JPath :: clean($path . DS . $file);
 		$sig = md5($path);
 
 		if (!isset ($instances)) {
