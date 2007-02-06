@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Feb-2007 Toby Patterson
+ ^ [artf7502] Removed hidemainmenu URL argument, use setVar() instead
+
 05-Feb-2007 Andrew Eddie
  # Fixed JTable::getNextOrder - fails with no where clause
  # Fixed JObject::getPublicProperties() doesn't give (all) properties of object

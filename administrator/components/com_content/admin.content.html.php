@@ -265,7 +265,6 @@ class ContentView
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="redirect" value="<?php echo $redirect;?>" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
@@ -415,7 +414,6 @@ class ContentView
 		<input type="hidden" name="task" value="showarchive" />
 		<input type="hidden" name="returntask" value="showarchive" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="redirect" value="<?php echo $redirect;?>" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
@@ -553,7 +551,6 @@ class ContentView
 		<input type="hidden" name="mask" value="0" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
 		JHTML::keepAlive();
