@@ -44,6 +44,8 @@ Legend:
  	^ Changed component request.php to route.php to better refect routing system
  	^ Split application render function into route and dispatch
  	+ Added onAfterDispatch and onAfterRoute system events
+ 	+ Added legacy system plugin to handle legacy routes
+ 	- Removed joomla.request plugin functionality moved to JRouter
  	- Removed onAfterRender system event  
  + Added alias support to com_categories and com_sections
  ! Changes require a reinstall
