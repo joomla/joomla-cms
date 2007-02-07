@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ($this->params->get('page_title')) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-	<?php echo $this->section->name; ?>
+	<?php echo $this->section->title; ?>
 </div>
 <?php endif; ?>
 <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php foreach ($this->categories as $category) : ?>
 		<li>
 			<a href="<?php echo $category->link; ?>" class="category">
-				<?php echo $category->name;?>
+				<?php echo $category->title;?>
 			</a>
 			<?php if ($this->params->get('cat_items')) : ?>
 			&nbsp;

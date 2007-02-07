@@ -235,6 +235,9 @@ class JMenu extends JObject
 			//Create route
 			$route = $parent_route.$menus[$key]->alias;
 			$menus[$key]->route  = $route;
+			
+			$url = JURI::getInstance($menus[$key]->link);
+			$menus[$key]->query = $url->getQuery();
 		}
 		
 		return $menus;

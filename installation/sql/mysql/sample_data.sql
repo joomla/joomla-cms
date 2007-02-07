@@ -23,29 +23,29 @@ INSERT INTO `#__bannerclient` VALUES (1, 'Open Source Matters', 'Administrator',
 -- Dumping data for table `#__categories`
 --
 
-INSERT INTO `#__categories` VALUES (1, 0, 'Latest', 'Latest News', 'taking_notes.jpg', '1', 'left', 'The latest news from the Joomla! Team', 1, 0, '0000-00-00 00:00:00', '', 1, 0, 1, '');
-INSERT INTO `#__categories` VALUES (2, 0, 'Joomla! Specific Links', 'Joomla! Specific Links', 'clock.jpg', 'com_weblinks', 'left', 'A selection of links that are all related to the Joomla! Project.', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
-INSERT INTO `#__categories` VALUES (3, 0, 'Newsflash', 'Newsflash', '', '1', 'left', '', 1, 0, '0000-00-00 00:00:00', '', 2, 0, 0, '');
-INSERT INTO `#__categories` VALUES (4, 0, 'Joomla!', 'Joomla!', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 2, 0, 0, '');
-INSERT INTO `#__categories` VALUES (5, 0, 'Business: general', 'Business: general', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
-INSERT INTO `#__categories` VALUES (7, 0, 'Existing Users', 'Existing Users', 'key.jpg', 'com_content', 'left', 'Here you will find an example set of FAQs.', 1, 0, '0000-00-00 00:00:00', NULL, 2, 0, 2, '');
-INSERT INTO `#__categories` VALUES (10, 0, 'Linux', 'Linux', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 6, 0, 0, '');
-INSERT INTO `#__categories` VALUES (11, 0, 'Internet', 'Internet', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 7, 0, 0, '');
-INSERT INTO `#__categories` VALUES (12, 0, 'Contacts', 'Contacts', '', 'com_contact_details', 'left', 'Contact Details for this website', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
-INSERT INTO `#__categories` VALUES (13, 0, 'Joomla', 'Joomla', '', 'com_banner', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
-INSERT INTO `#__categories` VALUES (14, 0, 'Text Ads', 'Text Ads', '', 'com_banner', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
-INSERT INTO `#__categories` VALUES (15, 0, 'Features', 'Features', '', 'com_content', 'left', '', 0, 0, '0000-00-00 00:00:00', NULL, 6, 0, 0, '');
-INSERT INTO `#__categories` VALUES (17, 0, 'Benefits', 'Benefits', '', 'com_content', 'left', '', 0, 0, '0000-00-00 00:00:00', NULL, 4, 0, 0, '');
-INSERT INTO `#__categories` VALUES (18, 0, 'Platforms', 'Platforms', '', 'com_content', 'left', '', 0, 0, '0000-00-00 00:00:00', NULL, 3, 0, 0, '');
-INSERT INTO `#__categories` VALUES (19, 0, 'Other Resources', 'Other Resources', '', 'com_weblinks', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 2, 0, 0, '');
+INSERT INTO `#__categories` VALUES (1, 0, 'Latest', 'latest-news', 'taking_notes.jpg', '1', 'left', 'The latest news from the Joomla! Team', 1, 0, '0000-00-00 00:00:00', '', 1, 0, 1, '');
+INSERT INTO `#__categories` VALUES (2, 0, 'Joomla! Specific Links', 'joomla-specific-links', 'clock.jpg', 'com_weblinks', 'left', 'A selection of links that are all related to the Joomla! Project.', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
+INSERT INTO `#__categories` VALUES (3, 0, 'Newsflash', 'newsflash', '', '1', 'left', '', 1, 0, '0000-00-00 00:00:00', '', 2, 0, 0, '');
+INSERT INTO `#__categories` VALUES (4, 0, 'Joomla!', 'joomla', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 2, 0, 0, '');
+INSERT INTO `#__categories` VALUES (5, 0, 'Business: general', 'business-general', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
+INSERT INTO `#__categories` VALUES (7, 0, 'Existing Users', 'existing-users', 'key.jpg', 'com_content', 'left', 'Here you will find an example set of FAQs.', 1, 0, '0000-00-00 00:00:00', NULL, 2, 0, 2, '');
+INSERT INTO `#__categories` VALUES (10, 0, 'Linux', 'linux', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 6, 0, 0, '');
+INSERT INTO `#__categories` VALUES (11, 0, 'Internet', 'internet', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 7, 0, 0, '');
+INSERT INTO `#__categories` VALUES (12, 0, 'Contacts', 'contacts', '', 'com_contact_details', 'left', 'Contact Details for this website', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
+INSERT INTO `#__categories` VALUES (13, 0, 'Joomla', 'joomla', '', 'com_banner', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
+INSERT INTO `#__categories` VALUES (14, 0, 'Text Ads', 'text-ads', '', 'com_banner', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
+INSERT INTO `#__categories` VALUES (15, 0, 'Features', 'features', '', 'com_content', 'left', '', 0, 0, '0000-00-00 00:00:00', NULL, 6, 0, 0, '');
+INSERT INTO `#__categories` VALUES (17, 0, 'Benefits', 'benefits', '', 'com_content', 'left', '', 0, 0, '0000-00-00 00:00:00', NULL, 4, 0, 0, '');
+INSERT INTO `#__categories` VALUES (18, 0, 'Platforms', 'platforms', '', 'com_content', 'left', '', 0, 0, '0000-00-00 00:00:00', NULL, 3, 0, 0, '');
+INSERT INTO `#__categories` VALUES (19, 0, 'Other Resources', 'other Resources', '', 'com_weblinks', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 2, 0, 0, '');
 INSERT INTO `#__categories` VALUES (20, 0, 'test555', 'test555', '', 'com_content', 'left', '', 0, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
-INSERT INTO `#__categories` VALUES (29, 0, 'The CMS', 'The CMS', '', '4', 'left', 'Information about the software behind Joomla!<br />', 1, 0, '0000-00-00 00:00:00', NULL, 2, 0, 0, '');
-INSERT INTO `#__categories` VALUES (28, 0, 'Current Users', 'Current Users', '', '3', 'left', 'Questions that users migrating to Joomla! 1.5 are likely to raise<br />', 1, 0, '0000-00-00 00:00:00', NULL, 2, 0, 0, '');
-INSERT INTO `#__categories` VALUES (25, 0, 'The Project', 'The Project', '', '4', 'left', 'General facts about Joomla!<br />', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
-INSERT INTO `#__categories` VALUES (27, 0, 'New to Joomla', 'New to Joomla', '', '3', 'left', 'Questions for new users of Joomla!<br />', 1, 0, '0000-00-00 00:00:00', NULL, 3, 0, 0, '');
-INSERT INTO `#__categories` VALUES (30, 0, 'The Community', 'The Community', '', '4', 'left', 'About the millions of Joomla! users and websites<br />', 1, 0, '0000-00-00 00:00:00', NULL, 3, 0, 0, '');
-INSERT INTO `#__categories` VALUES (31, 0, 'General', 'General', '', '3', 'left', 'General questions about the Joomla! CMS', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
-INSERT INTO `#__categories` VALUES (32, 0, 'Languages', 'Languages', '', '3', 'left', 'Questions related to localisation and languages', 1, 0, '0000-00-00 00:00:00', NULL, 4, 0, 0, '');
+INSERT INTO `#__categories` VALUES (29, 0, 'The CMS', 'the-cms', '', '4', 'left', 'Information about the software behind Joomla!<br />', 1, 0, '0000-00-00 00:00:00', NULL, 2, 0, 0, '');
+INSERT INTO `#__categories` VALUES (28, 0, 'Current Users', 'current-users', '', '3', 'left', 'Questions that users migrating to Joomla! 1.5 are likely to raise<br />', 1, 0, '0000-00-00 00:00:00', NULL, 2, 0, 0, '');
+INSERT INTO `#__categories` VALUES (25, 0, 'The Project', 'the-project', '', '4', 'left', 'General facts about Joomla!<br />', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
+INSERT INTO `#__categories` VALUES (27, 0, 'New to Joomla', 'new-to-joomla', '', '3', 'left', 'Questions for new users of Joomla!<br />', 1, 0, '0000-00-00 00:00:00', NULL, 3, 0, 0, '');
+INSERT INTO `#__categories` VALUES (30, 0, 'The Community', 'the-community', '', '4', 'left', 'About the millions of Joomla! users and websites<br />', 1, 0, '0000-00-00 00:00:00', NULL, 3, 0, 0, '');
+INSERT INTO `#__categories` VALUES (31, 0, 'General', 'general', '', '3', 'left', 'General questions about the Joomla! CMS', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
+INSERT INTO `#__categories` VALUES (32, 0, 'Languages', 'languages', '', '3', 'left', 'Questions related to localisation and languages', 1, 0, '0000-00-00 00:00:00', NULL, 4, 0, 0, '');
 
 
 --

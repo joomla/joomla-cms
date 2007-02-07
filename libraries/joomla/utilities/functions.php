@@ -126,103 +126,11 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
  */
 function sefRelToAbs($value)
 {
-	global $mainframe, $Itemid, $option;
-
-	static $strings;
-
-	if (!$strings) {
-		$strings = array();
-	}
-
-	// Replace all &amp; with & - ensures cache integrity
-	$string = str_replace('&amp;', '&', $value);
-
-	if (!isset( $strings[$string] ))
-	{
-		// Initialize some variables
-		$config	= & JFactory::getConfig();
-		$params = array();
-
-		// Get config variables
-		$mode    = $config->getValue('config.sef_rewrite');
-		$rewrite = $config->getValue('config.sef');
-
-		// Home index.php
-		if ($string == 'index.php') {
-			$string = '';
-		}
-
-		// decompose link into url component parts
-		$uri  =& JURI::getInstance($string);
-		$menu =& JMenu::getInstance();
-
-		// If the itemid isn't set in the URL use default
-		if(!$itemid = $uri->getVar('Itemid'))
-		{
-			if($itemid = JRequest::getVar('Itemid')) {
-				$uri->setVar('Itemid', $itemid);
-			}
-		}
-
-		// rewite URL
-		if ($itemid && $rewrite && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php'))
-		{
-			$route = ''; //the route created
-
-			// get the menu item for the itemid
-			$item = $menu->getItem($itemid);
-
-			// Build component name and sef handler path
-			$path = JPATH_BASE.DS.'components'.DS.$item->component.DS.'request.php';
-
-			$uri->delVar('option'); //don't need the option anymore
-			$uri->delVar('Itemid'); //don't need the itemid anymore
-			$query = $uri->getQuery(true);
-
-			// Use the custom request handler if it exists
-			if (file_exists($path))
-			{
-				require_once $path;
-				$function	= substr($item->component, 4).'BuildURL';
-				$parts		= $function($query, $params);
-
-				$route = implode('/', $parts);
-				$route = ($route) ? '/'.$route : null;
-
-				$uri->setQuery($query);
-			}
-
-			// get the query
-			$query = $uri->getQuery();
-
-			// check if link contained fragment identifiers (ex. #foo)
-			$fragment = null;
-			if ($fragment = $uri->getFragment()) {
-				// ensure fragment identifiers are compatible with HTML4
-				if (preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $fragment)) {
-					$fragment = '#'.$fragment;
-				}
-			}
-
-			if($query) {
-				$query = '?'.$query;
-			}
-
-
-			$url = $item->route.$route.$fragment.$query;
-
-			// Prepend the base URI if we are not using mod_rewrite
-			if (!$mode) {
-				$url = 'index.php/'.$url;
-			}
-			$strings[$string] = $url;
-
-			return str_replace( '&', '&amp;', $url );
-		}
-
-		$strings[$string] = $uri->toString();
-	}
-
-	return str_replace( '&', '&amp;', $strings[$string] );
+	global $mainframe;
+	
+	$router = $mainframe->getRouter();
+	$route = $router->build($value);
+	
+	return $route;
 }
 ?>

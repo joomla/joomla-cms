@@ -11,28 +11,23 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function NewsfeedsBuildURL(&$ARRAY, &$params)
+function WeblinksBuildRoute(&$ARRAY, &$params)
 {
-	static $categories;
 	$resolveNames = 0;
 
 	// TODO: Resolve category names
-
 	$parts = array();
-	switch (@$ARRAY['view'])
-	{
-		case 'newsfeed':
-			$parts[]	= 'feed';
-			$parts[]	= @$ARRAY['feedid'];
-			break;
-		case 'category':
-			$parts[]	= 'category';
-			$parts[]	= @$ARRAY['catid'];
-			break;
-		default:
-			// Do Nothing
-			break;
-	}
+	if(isset($ARRAY['view'])) {
+		$parts[] = $ARRAY['view'];
+	};
+
+	if(isset($ARRAY['layout'])) {
+		$parts[] = $ARRAY['layout'];
+	};
+
+	if(isset($ARRAY['id'])) {
+		$parts[] = $ARRAY['id'];
+	};
 
 	if (isset( $ARRAY['limit'] ))
 	{
@@ -43,7 +38,7 @@ function NewsfeedsBuildURL(&$ARRAY, &$params)
 			$limit		= (int) $ARRAY['limit'];
 			$limitstart	= (int) @$ARRAY['limitstart'];
 			$page		= floor( $limitstart / $limit ) + 1;
-			$parts[]	= 'page'.$page.'-'.$limit;
+			$parts[]	= 'page'.$page.':'.$limit;
 		}
 	}
 
@@ -53,50 +48,64 @@ function NewsfeedsBuildURL(&$ARRAY, &$params)
 	return $parts;
 }
 
-function NewsfeedsParseURL($ARRAY, &$params)
+function WeblinksParseRoute($ARRAY, &$params)
 {
 	// view is always the first element of the array
-	$task	= array_shift($ARRAY);
+	$view	= array_shift($ARRAY);
 	$nArray	= count($ARRAY);
 
-	switch ($task)
+	JRequest::setVar('view', $view, 'get');
+
+	switch ($view)
 	{
-		case 'feed':
-			JRequest::setVar('task', 'view', 'get');
-			if (count($ARRAY)) {
- 				$id = array_shift($ARRAY);
-				JRequest::setVar('feedid', $id, 'get');
-			}
-			break;
 		case 'category':
-			JRequest::setVar('task', 'category', 'get');
+		{
+			if (count($ARRAY))
+			{
+ 				$variable = array_shift($ARRAY);
+
+				if(is_numeric((int)$variable) && ((int)$variable != 0)) {
+					JRequest::setVar('id', (int)$variable, 'get');
+				}
+			}
+
+		} break;
+
+		case 'weblink':
+		{
+			if (count($ARRAY))
+			{
+ 				$variable = array_shift($ARRAY);
+
+				if(is_numeric((int)$variable) && ((int)$variable != 0)) {
+					JRequest::setVar('id', (int)$variable, 'get');
+				}
+			}
 
 			// Handle Pagination
 			$last = @$ARRAY[$nArray-1];
-			if ($last == 'all') {
+			if ($last == 'all')
+			{
 				array_pop( $ARRAY );
 				$nArray--;
 				JRequest::setVar('limitstart', 0, 'get');
 				JRequest::setVar('limit', 0, 'get');
 				// if you want more than 1e6 on your page then you are nuts!
-			} elseif (strpos( $last, 'page' ) === 0) {
+			}
+			elseif (strpos( $last, 'page' ) === 0)
+			{
 				array_pop( $ARRAY );
 				$nArray--;
-				$pts		= explode( '-', $last );
+				$pts		= explode( ':', $last );
 				$limit		= @$pts[1];
 				$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
 				JRequest::setVar('limit',$limit, 'get');
 				JRequest::setVar('limitstart', $limitstart, 'get');
 			}
+		}
+		break;
 
-			// Set the category id
-			if (count($ARRAY)) {
- 				$catid = array_shift($ARRAY);
-				JRequest::setVar('catid', $catid, 'get');
-			}
-			break;
-		default:
-			break;
+		default: break;
 	}
 }
 ?>

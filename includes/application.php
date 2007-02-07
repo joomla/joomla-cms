@@ -82,73 +82,9 @@ class JSite extends JApplication
 	{
 		// get the full request URI
 		$uri  =& JURI::getInstance();
-		$menu =& JMenu::getInstance();
-
-		$params = array();
-
-		// Check entry point
-		$path = $uri->toString();
-		if (!(preg_match( '#index\d?\.php#', $path) || (strpos($path, 'feed.php') == false))) {
-			return;
-		}
-
-		// Get the base and full URLs
-		$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
-		$base = JURI::base();
 		
-		$url = urldecode(trim(str_replace($base, '', $full), '/'));
-		$url = str_replace('index.php/', '', $url); 
-		
-		if (!$itemid = JRequest::getVar('Itemid'))
-		{
-			// Set document link
-			$doc = & JFactory::getDocument();
-			$doc->setLink($base);
-			
-			if (!empty($url))
-			{
-				//Need to reverse the array (highest sublevels first)
-				$items = array_reverse($menu->getMenu());
-				
-				foreach ($items as $item)
-				{
-					if(strpos($url, $item->route) === 0) {
-						$itemid = $item->id;
-						$url    = str_replace($item->route, '', $url); 
-						break;
-					}
-				}
-				
-				//MOVE somwhere else
-				/*$path = JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.$component.'.php';
-				// Do a quick check to make sure component exists
-				if (!file_exists($path)) {
-					JError::raiseError(404, JText::_('Invalid Request'));
-					exit (404);
-				}*/
-			}
-		}
-		
-		$item = $menu->getItem($itemid);
-
-		$uri =& JURI::getInstance(($item) ? $item->link : null);
-		$query = $uri->getQuery(true);
-
-		JRequest::set($query, 'get', false);
-		JRequest::setVar('Itemid', ($item) ? $item->id : null, 'get');
-
-		// Use the custom sef handler if it exists
-		$path = ($item) ? JPATH_BASE.DS.'components'.DS.$item->component.DS.'request.php' : null;
-		
-		$urlArray = explode('/', $url);
-		array_shift($urlArray);
-		
-		if (count($urlArray) && file_exists($path))
-		{
-			require_once $path;
-			$function =  substr($item->component, 4).'ParseURL';
-			$function($urlArray, $params);
-		}
+		$router =& $this->getRouter();
+		$router->parse($uri);
 	}
 
 	/**

@@ -43,6 +43,15 @@ class JApplication extends JObject
 	 */
 	var $_clientId = null;
 
+
+	/**
+	 * The router object
+	 *
+	 * @var object  JRouter object
+	 * @access protected
+	 */
+	var $_router = null;
+	
 	/**
 	 * The application message queue.
 	 *
@@ -60,6 +69,8 @@ class JApplication extends JObject
 	{
 		$this->_clientId = $clientId;
 		$this->set( 'requestTime', date('Y-m-d H:i', time()) );
+		
+		$this->_createRouter();
 	}
 
 	/**
@@ -505,6 +516,18 @@ class JApplication extends JObject
 	{
 		return '_system';
 	}
+	
+	/**
+	 * Return a reference to the JRouter object.
+	 *
+	 * @access public
+	 * @return object JRouter.
+	 * @since 1.5
+	 */
+	function &getRouter()
+	{
+		return $this->_router;
+	}
 
 	/**
 	 * Create the configuration registry
@@ -577,6 +600,24 @@ class JApplication extends JObject
 
 		return $session;
 	}
+	
+	/**
+	 * Create a JRouter object
+	 *
+	 * @access private
+	 * @return object JRouter.
+	 * @since 1.5
+	 */
+	function &_createRouter()
+	{
+		//Load the pathway object
+		jimport( 'joomla.application.router' );
+
+		// Create a JPathWay object
+		$this->_router = JRouter::getInstance();
+
+		return $this->_router;
+	}
 
 	/**
 	 * Gets the client id of the current running application.
@@ -621,7 +662,7 @@ class JApplication extends JObject
 	 /**
 	 * Deprecated, use JPathWay->addItem() method instead.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 * @see JPathWay::addItem()
 	 */
@@ -646,7 +687,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated, use JPathWay->getPathWayNames() method instead.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 * @see JPathWay::getPathWayNames()
 	 */
@@ -658,7 +699,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated, use JDocument->get( 'head' ) instead.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 * @see JDocument
 	 * @see JObject::get()
@@ -672,7 +713,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated, use JDocument->setMetaData instead.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 * @param string Name of the metadata tag
 	 * @param string Content of the metadata tag
@@ -689,7 +730,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated, use JDocument->setMetaData instead.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 		 * @param string Name of the metadata tag
 		 * @param string Content of the metadata tag
@@ -703,7 +744,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated, use JDocument->setMetaData instead
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 		 * @param string Name of the metadata tag
 		 * @param string Content of the metadata tag
@@ -717,7 +758,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated, use JDocument->addCustomTag instead (only when document type is HTML).
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 * @param string Valid HTML
 	 * @see JDocumentHTML::addCustomTag()
@@ -733,7 +774,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 */
 	function getBlogSectionCount( )
@@ -745,7 +786,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 */
 	function getBlogCategoryCount( )
@@ -757,7 +798,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 */
 	function getGlobalBlogSectionCount( )
@@ -769,7 +810,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 */
 	function getStaticContentCount( )
@@ -781,7 +822,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 */
 	function getContentItemLinkCount( )
@@ -793,7 +834,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated, use JApplicationHelper::getPath instead.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 * @see JApplicationHelper::getPath()
 	 */
@@ -806,7 +847,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated, use JURI::base() instead.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 * @see JURI::base()
 	 */
@@ -818,7 +859,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated, use JFactory::getUser instead.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 * @see JFactory::getUser()
 	 */
@@ -831,7 +872,7 @@ class JApplication extends JObject
 	/**
 	 * Deprecated, use JContentHelper::getItemid instead.
 	 *
-	 * @since 1.5
+	 * @since 1.0
 	 * @deprecated As of version 1.5
 	 * @see JContentHelper::getItemid()
 	 */

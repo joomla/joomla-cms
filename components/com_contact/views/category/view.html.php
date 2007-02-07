@@ -95,11 +95,11 @@ class ContactViewCategory extends JView
 		}
 
 		// Set the page title and pathway
-		if ($category->name)
+		if ($category->title)
 		{
 			// Add the category breadcrumbs item
-			$pathway->addItem($category->name, '');
-			$mainframe->setPageTitle(JText::_('Contact').' - '.$category->name);
+			$pathway->addItem($category->title, '');
+			$mainframe->setPageTitle(JText::_('Contact').' - '.$category->title);
 		} else {
 			$mainframe->SetPageTitle(JText::_('Contact'));
 		}

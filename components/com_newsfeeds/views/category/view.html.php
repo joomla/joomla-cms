@@ -71,10 +71,10 @@ class NewsfeedsViewCategory extends JView
 		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
 
 		// Set page title per category
-		$document->setTitle( $menu->name. ' - ' .$category->name );
+		$document->setTitle( $menu->name. ' - ' .$category->title );
 
 		// Add breadcrumb item per category
-		$pathway->addItem($category->name, '');
+		$pathway->addItem($category->title, '');
 
 		//create pagination
 		jimport('joomla.html.pagination');

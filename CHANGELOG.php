@@ -37,6 +37,17 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Feb-2007 Johan Janssens
+ ^ Major refactoring of Itemid handling
+ 	^ Implemented JRouter in application package and improved routing algorithms
+ 	^ Reworked JMenu class to allow lookups based on itemid routes
+ 	^ Changed component request.php to route.php to better refect routing system
+ 	^ Split application render function into route and dispatch
+ 	+ Added onAfterDispatch and onAfterRoute system events
+ 	- Removed onAfterRender system event  
+ + Added alias support to com_categories and com_sections
+ ! Changes require a reinstall
+
 06-Feb-2007 Toby Patterson
  ^ [artf7502] Removed hidemainmenu URL argument, use setVar() instead
 

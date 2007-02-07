@@ -56,7 +56,8 @@ class JTableCategory extends JTable
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db ) {
+	function __construct( &$db ) 
+	{
 		parent::__construct( '#__categories', 'id', $db );
 	}
 
@@ -68,14 +69,11 @@ class JTableCategory extends JTable
 			$this->_error = JText::sprintf( 'must contain a title', JText::_( 'Category') );
 			return false;
 		}
-		if (trim( $this->name ) == '') {
-			$this->_error = JText::sprintf( 'must have a name', JText::_( 'Category') );
-			return false;
-		}
+		
 		// check for existing name
-		$query = "SELECT id"
+		/*$query = "SELECT id"
 		. "\n FROM #__categories "
-		. "\n WHERE name = '$this->name'"
+		. "\n WHERE title = '$this->title'"
 		. "\n AND section = '$this->section'"
 		;
 		$this->_db->setQuery( $query );
@@ -84,7 +82,15 @@ class JTableCategory extends JTable
 		if ($xid && $xid != intval( $this->id )) {
 			$this->_error = JText::sprintf( 'WARNNAMETRYAGAIN', JText::_( 'Category') );
 			return false;
+		}*/
+		
+		jimport('joomla.filter.output');
+		$alias = JOutputFilter::stringURLSafe($this->title);
+		
+		if(empty($this->name) || $this->name === $alias ) {
+			$this->name = $alias;
 		}
+		
 		return true;
 	}
 }

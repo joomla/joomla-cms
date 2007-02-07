@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function SearchBuildURL(&$ARRAY, &$params)
+function SearchBuildRoute(&$ARRAY, &$params)
 {
 	static $categories;
 	$resolveNames = 0;
@@ -44,7 +44,7 @@ function SearchBuildURL(&$ARRAY, &$params)
 	return $parts;
 }
 
-function SearchParseURL($ARRAY, &$params)
+function SearchParseRoute($ARRAY, &$params)
 {
 	// view is always the first element of the array
 	$searchword	= array_shift($ARRAY);

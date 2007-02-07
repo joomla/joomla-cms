@@ -914,7 +914,7 @@ class ContentView
 		<tr>
 			<td>
 				<label for="title_alias">
-					<?php echo JText::_( 'Title Alias' ); ?>:
+					<?php echo JText::_( 'Alias' ); ?>
 				</label>
 			</td>
 			<td>

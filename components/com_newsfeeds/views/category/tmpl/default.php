@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ( $this->params->get( 'page_title' ) ) : ?>
 	<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<?php echo $this->category->name; ?>
+		<?php echo $this->category->title; ?>
 	</div>
 <?php endif; ?>
 

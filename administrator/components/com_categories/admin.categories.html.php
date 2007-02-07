@@ -70,7 +70,7 @@ class categories_html
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
-					<?php JCommonHTML::tableOrdering( 'Category Name', 'c.name', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
 				</th>
 				<th width="10%">
 					<?php JCommonHTML::tableOrdering( 'Published', 'c.published', $lists ); ?>
@@ -146,7 +146,7 @@ class categories_html
 					} else {
 						?>
 						<a href="<?php echo ampReplace( $link ); ?>">
-							<?php echo $row->name; ?></a>
+							<?php echo $row->title; ?></a>
 						<?php
 					}
 					?>
@@ -270,8 +270,8 @@ class categories_html
 				}
 			}
 
-			if ( form.name.value == "" ) {
-				alert("<?php echo JText::_( 'Category must have a name', true ); ?>");
+			if ( form.title.value == "" ) {
+				alert("<?php echo JText::_( 'Category must have a title', true ); ?>");
 			} else {
 				<?php
 				echo $editor->save( 'description' ) ; ?>
@@ -290,7 +290,7 @@ class categories_html
 					<tr>
 						<td class="key">
 							<label for="title" width="100">
-								<?php echo JText::_( 'Category Title' ); ?>:
+								<?php echo JText::_( 'Title' ); ?>:
 							</label>
 						</td>
 						<td colspan="2">
@@ -300,7 +300,7 @@ class categories_html
 					<tr>
 						<td class="key">
 							<label for="name">
-								<?php echo JText::_( 'Category Name' ); ?>:
+								<?php echo JText::_( 'Alias' ); ?>:
 							</label>
 						</td>
 						<td colspan="2">

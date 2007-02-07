@@ -65,7 +65,7 @@ class sections_html
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
-					<?php JCommonHTML::tableOrdering( 'Section Name', 's.name', $lists ); ?>
+					<?php JCommonHTML::tableOrdering( 'Title', 's.title', $lists ); ?>
 				</th>
 				<th width="10%">
 					<?php JCommonHTML::tableOrdering( 'Published', 's.published', $lists ); ?>
@@ -126,7 +126,7 @@ class sections_html
 					} else {
 						?>
 						<a href="<?php echo ampReplace( $link ); ?>">
-							<?php echo $row->name; ?></a>
+							<?php echo $row->title; ?></a>
 						<?php
 					}
 					?>
@@ -230,10 +230,8 @@ class sections_html
 				}
 			}
 
-			if ( form.name.value == '' ){
-				alert("<?php echo JText::_( 'Section must have a name', true ); ?>");
-			} else if ( form.title.value == '' ){
-				alert("<?php echo JText::_( 'Section must have a title', true  ); ?>");
+			if ( form.title.value == '' ){
+				alert("<?php echo JText::_( 'Section must have a title', true ); ?>");
 			} else {
 				<?php
 				echo $editor->save( 'description' ) ; ?>
@@ -272,7 +270,7 @@ class sections_html
 				<tr>
 					<td nowrap="nowrap" class="key">
 						<label for="name">
-							<?php echo JText::_( 'Section Name' ); ?>:
+							<?php echo JText::_( 'Alias' ); ?>:
 						</label>
 					</td>
 					<td colspan="2">

@@ -60,7 +60,7 @@ class WeblinksViewCategory extends JView
 		$pathway->setItemName(1, JText::_('Links'));
 
 		// Add pathway item based on category name
-		$pathway->addItem($category->name, '');
+		$pathway->addItem($category->title, '');
 
 		// table ordering
 		if ($state->get('filter_order_dir') == 'DESC') {

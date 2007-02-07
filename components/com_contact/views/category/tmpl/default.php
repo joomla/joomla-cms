@@ -2,8 +2,8 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ( $this->params->get( 'page_title' ) ) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-<?php if ($this->category->name) :
-	echo $this->params->get('header').' - '.$this->category->name;
+<?php if ($this->category->title) :
+	echo $this->params->get('header').' - '.$this->category->title;
 else :
 	echo $this->params->get('header');
 endif; ?>
