@@ -28,4 +28,4 @@
 		</param>
 		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
 	</params>
-/install>
+</install>
