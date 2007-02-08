@@ -19,16 +19,16 @@
 	<div align="center">
 		<div id="outline">
 		<div id="errorboxoutline">
-			<div id="errorboxheader">500 - An error has occured</div>
+			<div id="errorboxheader">500 - <?php echo JText::_('An error has occured'); ?></div>
 			<div id="errorboxbody">
-			<p>An error has occurred while processing your request.</p>
-			<p><strong>Please try one of the following pages:</strong></p>
+			<p><?php echo JText::_('An error has occurred while processing your request.'); ?></p>
+			<p><strong><?php echo JText::_('Please try one of the following pages:'); ?></strong></p>
 			<p>
 				<ul>
-					<li><a href="index.php" title="Go to the home page">Home Page</a></li>
+					<li><a href="index.php" title="<?php echo JText::_('Go to the home page'); ?>"><?php echo JText::_('Home Page'); ?></a></li>
 				</ul>
 			</p>
-			<p>If difficulties persist, please contact the system administrator of this site.</p>
+			<p><?php echo JText::_('If difficulties persist, please contact the system administrator of this site.'); ?></p>
 			<div id="techinfo">
 			<p><?php echo $this->message;   ?></p>
 			<p>

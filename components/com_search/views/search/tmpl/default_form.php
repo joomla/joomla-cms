@@ -36,7 +36,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	?>
 	<input type="checkbox" name="areas[]" value="<?php echo $val;?>" id="area_<?php echo $val;?>" <?php echo $checked;?> />
 		<label for="area_<?php echo $val;?>">
-			<?php echo $txt;?>
+			<?php echo JText::_($txt); ?>
 		</label>
 	<?php endforeach; ?>
 <?php endif; ?>

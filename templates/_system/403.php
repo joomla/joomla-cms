@@ -19,20 +19,20 @@
 	<div align="center">
 		<div id="outline">
 		<div id="errorboxoutline">
-			<div id="errorboxheader">403 - Access denied</div>
+			<div id="errorboxheader">403 - <?php echo JText::_('Access denied'); ?></div>
 			<div id="errorboxbody">
-			<p><strong>You may not be able to visit this page because of:</strong></p>
+			<p><strong><?php echo JText::_('You may not be able to visit this page because of:'); ?></strong></p>
 				<ol>
-					<li>An <strong>out-of-date bookmark/favourite</strong></li>
-					<li>A search engine that has an <strong>out-of-date listing for this site</strong></li>
-					<li>A <strong>mis-typed address</strong></li>
-					<li>You have <strong>no access</strong> to this page</li>
-					<li>The requested resource was <strong>not found</strong></li>
+					<li><?php echo JText::_('An <strong>out-of-date bookmark/favourite</strong>'); ?></li>
+					<li><?php echo JText::_('A search engine that has an <strong>out-of-date listing for this site</strong>'); ?></li>
+					<li><?php echo JText::_('A <strong>mis-typed address</strong>'); ?></li>
+					<li><?php echo JText::_('You have <strong>no access</strong> to this page'); ?></li>
+					<li><?php echo JText::_('The requested resource was <strong>not found</strong>'); ?></li>
 				</ol>
-			<p><strong>Please try one of the following pages:</strong></p>
+			<p><strong><?php echo JText::_('Please try one of the following pages:'); ?></strong></p>
 			<p>
 				<ul>
-					<li><a href="index.php" title="Go to the home page">Home Page</a></li>
+					<li><a href="index.php" title="<?php echo JText::_('Go to the home page'); ?>"><?php echo JText::_('Home Page'); ?></a></li>
 				</ul>
 			</p>
 			<div id="techinfo">
