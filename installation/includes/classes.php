@@ -924,7 +924,6 @@ class JInstallationHelper
 
 		// Get list of folders in the CWD
 		$ftpFolders = $ftp->listDetails(null, 'folders');
-		print_r($ftpFolders);
 		if ($ftpFolders === false || count($ftpFolders) == 0) {
 			return JError::raiseError('SOME_ERROR_CODE', 'NODIRECTORYLISTING');
 		}
