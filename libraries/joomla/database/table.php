@@ -269,9 +269,8 @@ class JTable extends JObject
 		$db =& $this->getDBO();
 
 		$query = 'SELECT *'
-		. ' FROM $this->_tbl'
-		. ' WHERE $this->_tbl_key = "'.$oid.'"'
-		;
+		. ' FROM '.$this->_tbl
+		. ' WHERE '.$this->_tbl_key.' = '.$db->Quote($oid);
 		$db->setQuery( $query );
 
 		if ($result = $db->loadAssoc( )) {
@@ -397,7 +396,7 @@ class JTable extends JObject
 		}
 		else
 		{
-			$query = 'UPDATE '. $this->_tbl  
+			$query = 'UPDATE '. $this->_tbl
 			. ' SET ordering = "'.$this->ordering.'"'
 			. ' WHERE '. $this->_tbl_key .' = "'. $this->$k .'"'
 			;
@@ -471,7 +470,7 @@ class JTable extends JObject
 		$query = 'SELECT '.$this->_tbl_key.', ordering'
 		. ' FROM '. $this->_tbl
 		. ( $where ? ' WHERE '. $where : '' )
-		. ' ORDER BY ordering'.$order2 
+		. ' ORDER BY ordering'.$order2
 		;
 		$this->_db->setQuery( $query );
 		if (!($orders = $this->_db->loadObjectList()))

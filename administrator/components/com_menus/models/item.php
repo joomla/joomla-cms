@@ -103,7 +103,7 @@ class MenusModelItem extends JModel
 				if ($component = @$table->linkparts['option']) {
 					$query = 'SELECT `id`' .
 							' FROM `#__components`' .
-							' WHERE `link` <> ''' .
+							' WHERE `link` <> \'\'' .
 							' AND `parent` = 0' .
 							' AND `option` = "'.$db->getEscaped($component).'"';
 					$db->setQuery( $query );

@@ -120,7 +120,7 @@ function viewFrontPage( $option )
 	}
 
 	if ($search) {
-		$where[] = 'LOWER( c.title ) LIKE "%'.$search%.'"';
+		$where[] = 'LOWER( c.title ) LIKE '.$db->Quote('%'.$search.'%');
 	}
 
 	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );

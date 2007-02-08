@@ -87,8 +87,8 @@ class MenusModelList extends JModel
 		if ($search) {
 			$query = 'SELECT m.id' .
 					' FROM #__menu AS m' .
-					' WHERE menutype = "'.$menutype . '"'
-					' AND LOWER( m.name ) LIKE "%'.JString::strtolower( $search ).'%" '.
+					' WHERE menutype = '.$db->Quote($menutype) .
+					' AND LOWER( m.name ) LIKE '.$db->Quote('%'.JString::strtolower($search).'%') .
 					$and;
 			$db->setQuery( $query );
 			$search_rows = $db->loadResultArray();

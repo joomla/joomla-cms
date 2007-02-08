@@ -200,7 +200,7 @@ class PollController extends JController
 			{
 				$query = 'INSERT INTO #__poll_data'
 				. ' ( pollid, text )'
-				. ' VALUES ( '. $row->id .', '. $text )'
+				. ' VALUES ( '. $row->id .', '. $text.' )'
 				;
 				$db->setQuery( $query );
 				$db->query();

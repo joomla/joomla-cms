@@ -24,57 +24,57 @@ defined('JPATH_BASE') or die();
  */
 class JTableSession extends JTable
 {
-	/** 
-	 * 
-	 * @var int Primary key 
+	/**
+	 *
+	 * @var int Primary key
 	 */
 	var $session_id			= null;
-	
-	/** 
-	 * 
-	 * @var string 
+
+	/**
+	 *
+	 * @var string
 	 */
 	var $time				= null;
-	
-	/** 
-	 * 
-	 * @var string 
+
+	/**
+	 *
+	 * @var string
 	 */
 	var $userid				= null;
-	
-	/** 
-	 * 
-	 * @var string 
+
+	/**
+	 *
+	 * @var string
 	 */
 	var $usertype			= null;
-	
-	/** 
-	 * 
-	 * @var string 
+
+	/**
+	 *
+	 * @var string
 	 */
 	var $username			= null;
-	
-	/** 
-	 * 
-	 * @var time 
+
+	/**
+	 *
+	 * @var time
 	 */
 	var $gid				= null;
-	
-	/** 
-	 * 
-	 * @var int 
+
+	/**
+	 *
+	 * @var int
 	 */
 	var $guest				= null;
-	
-	/** 
-	 * 
-	 * @var int 
+
+	/**
+	 *
+	 * @var int
 	 */
 	var $client_id			= null;
 
-	/** 
-	 * 
-	 * @var string 
+	/**
+	 *
+	 * @var string
 	 */
 	var $data				= null;
 
@@ -97,7 +97,7 @@ class JTableSession extends JTable
 		$this->client_id	= $clientId;
 
 		$this->time = time();
-		$ret = $this->_db->insertObject( $this->_tbl, $this );
+		$ret = $this->_db->insertObject( $this->_tbl, $this, 'session_id' );
 
 		if( !$ret ) {
 			$this->_error = strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $this->_db->stderr();
@@ -139,7 +139,7 @@ class JTableSession extends JTable
 
 	/**
 	* Purge old sessions
-	* 
+	*
 	* @param int 	Session age in seconds
 	* @return mixed Resource on success, null on fail
 	*/
@@ -152,10 +152,10 @@ class JTableSession extends JTable
 
 		return $this->_db->query();
 	}
-	
+
 	/**
 	 * Find out if a user has a one or more active sessions
-	 * 
+	 *
 	 * @param int $userid The identifier of the user
 	 * @return boolean True if a session for this user exists
 	 */
