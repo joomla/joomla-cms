@@ -19,13 +19,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<table>
 		<tr>
 		<?php if ($this->params->get('filter')) : ?>
-			<td align="left" width="100%" nowrap="nowrap">
+			<td align="left" width="60%" nowrap="nowrap">
 				<?php echo JText::_('Filter').'&nbsp;'; ?>
 				<input type="text" name="filter" value="<?php echo $this->lists['filter'];?>" class="inputbox" onchange="document.adminForm.submit();" />
 			</td>
 		<?php endif; ?>
 		<?php if ($this->params->get('display')) : ?>
-			<td align="right" width="100%" nowrap="nowrap">
+			<td align="right" width="40%" nowrap="nowrap">
 			<?php
 				echo '&nbsp;&nbsp;&nbsp;'.JText::_('Display Num').'&nbsp;';
 				echo $this->pagination->getLimitBox();
