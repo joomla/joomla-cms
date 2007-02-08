@@ -186,6 +186,7 @@ class JModel extends JObject
 			return addslashes($this->_error);
 		} else {
 			return $this->_error;
+		}
 	}
 
 	/**
