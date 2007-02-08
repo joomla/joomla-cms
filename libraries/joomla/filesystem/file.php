@@ -158,7 +158,8 @@ class JFile
 					return false;
 				}
 			} else {
-				JError::raiseWarning('SOME_ERROR_CODE', JText::_('Delete failed'));
+				$filename	= basename($file);
+				JError::raiseWarning('SOME_ERROR_CODE', JText::_('Delete failed') . ": '$filename'");
 				return false;
 			}
 		}
