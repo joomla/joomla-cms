@@ -28,13 +28,14 @@ class ConfigApplicationView
 		// Load tooltips behavior
 		jimport('joomla.html.tooltips');
 
+		// Load component specific configurations
 		$table =& JTable::getInstance('component');
 		$table->loadByOption( 'com_users' );
-		$userparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/components/com_users/config.xml' );
-
+		$userparams = new JParameter( $table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'config.xml' );
 		$table->loadByOption( 'com_media' );
-		$mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR . '/components/com_media/config.xml' );
+		$mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_media'.DS.'config.xml' );
 
+		// Build the component's submenu
 		$contents = '';
 		$tmplpath = dirname(__FILE__).DS.'tmpl';
 		ob_start();
@@ -45,23 +46,25 @@ class ConfigApplicationView
 		// Set document data
 		$document =& JFactory::getDocument();
 		$document->addScript(JURI::base().'components/com_config/assets/switcher.js');
-
 		$document->setBuffer($contents, 'module', 'submenu');
+
+		// Load settings for the FTP layer
+		jimport('joomla.client.helper');
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 		?>
 		<form action="index.php" method="post" name="adminForm">
-
-		<?php require_once($tmplpath.DS.'writeable.php'); ?>
-
+		<?php if ($ftp) {
+			require_once($tmplpath.DS.'ftp.php');
+		} ?>
 		<div id="config-document">
 			<div id="page-site">
 				<table class="noshow">
 					<tr>
-						<td with="65%">
+						<td width="65%">
 							<?php require_once($tmplpath.DS.'config_site.php'); ?>
 							<?php require_once($tmplpath.DS.'config_metadata.php'); ?>
 						</td>
 						<td width="35%">
-
 							<?php require_once($tmplpath.DS.'config_seo.php'); ?>
 							<?php require_once($tmplpath.DS.'config_feeds.php'); ?>
 						</td>
@@ -71,7 +74,7 @@ class ConfigApplicationView
 			<div id="page-system">
 				<table class="noshow">
 					<tr>
-						<td with="60%">
+						<td width="60%">
 							<?php require_once($tmplpath.DS.'config_system.php'); ?>
 							<fieldset class="adminform">
 								<legend><?php echo JText::_( 'User Settings' ); ?></legend>
@@ -82,7 +85,7 @@ class ConfigApplicationView
 								<?php echo $mediaparams->render('mediaparams'); ?>
 							</fieldset>
 						</td>
-						<td with="40%">
+						<td width="40%">
 							<?php require_once($tmplpath.DS.'config_debug.php'); ?>
 							<?php require_once($tmplpath.DS.'config_cache.php'); ?>
 							<?php require_once($tmplpath.DS.'config_session.php'); ?>
@@ -94,14 +97,13 @@ class ConfigApplicationView
 			<div id="page-server">
 				<table class="noshow">
 					<tr>
-						<td with="60%">
+						<td width="60%">
 							<?php require_once($tmplpath.DS.'config_server.php'); ?>
 							<?php require_once($tmplpath.DS.'config_locale.php'); ?>
 							<?php require_once($tmplpath.DS. (JUtility::isWinOS() ? 'config_noftp.php':'config_ftp.php')); ?>
 						</td>
 						<td width="40%">
 							<?php require_once($tmplpath.DS.'config_database.php'); ?>
-
 							<?php require_once($tmplpath.DS.'config_mail.php'); ?>
 						</td>
 					</tr>

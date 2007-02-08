@@ -39,6 +39,7 @@ Legend:
 
 08-Feb-2007 Enno Klasing
  + Added input form for FTP credentials to com_templates
+ + Added input form for FTP credentials to com_config
 
 06-Feb-2007 Johan Janssens
  ^ Major refactoring of Itemid handling

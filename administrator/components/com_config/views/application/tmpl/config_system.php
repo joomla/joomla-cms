@@ -43,7 +43,7 @@
 			</td>
 			<td>
 				<?php echo $lists['helpsites']; ?>
-				<button onclick="submitbutton('refreshhelp')"><?php echo JText::_( 'Refresh' ); ?></button>
+				<input type="button" onclick="submitbutton('refreshhelp')" value="<?php echo JText::_('Refresh'); ?>" />
 			</td>
 		</tr>
 		</tbody>

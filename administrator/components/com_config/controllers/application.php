@@ -193,6 +193,11 @@ class ConfigControllerApplication extends ConfigController
 	{
 		global $mainframe;
 
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = JClientHelper::getCredentials('ftp');
+
 		//Save user and media manager settings
 		$table =& JTable::getInstance('component');
 
@@ -332,41 +337,38 @@ class ConfigControllerApplication extends ConfigController
 		}
 
 		// Get the path of the configuration file
-		$fname = JPATH_CONFIGURATION.'/configuration.php';
+		$fname = JPATH_CONFIGURATION.DS.'configuration.php';
 
+		// Try to make configuration.php writeable
 		jimport('joomla.filesystem.path');
+		if (!$ftp['enabled'] && !JPath::setPermissions($fname, '0755')) {
+			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make configuration.php writeable');
+		}
 
-		$oldperms = JPath::getPermissions($fname);
-		// if enable_write == 1 make config file writable
-		if( JRequest::getVar('enable_write', 0) )
-			JPath::setPermissions($fname, '0644');
-
-		/*
-		 * Now we get the config registry in PHP class format and write it to
-		 * configuation.php then redirect appropriately.
-		 */
+		// Get the config registry in PHP class format and write it to configuation.php
 		jimport('joomla.filesystem.file');
 		if (JFile::write($fname, $config->toString('PHP', 'config', array('class' => 'JConfig')))) {
-
-			// if disable_write == 1 make config file unwritable
-			if( JRequest::getVar('disable_write', 0) )
-				JPath::setPermissions($fname, '0555');
-
 			$msg = JText::_('The Configuration Details have been updated');
-
-			$task = $this->getTask();
-			switch ($task) {
-				case 'apply' :
-					$this->setRedirect('index.php?option=com_config', $msg);
-					break;
-
-				case 'save' :
-				default :
-					$this->setRedirect('index.php', $msg);
-					break;
-			}
 		} else {
-			$this->setRedirect('index.php', JText::_('ERRORCONFIGFILE'));
+			$msg = JText::_('ERRORCONFIGFILE');
+		}
+
+		// Redirect appropriately
+		$task = $this->getTask();
+		switch ($task) {
+			case 'apply' :
+				$this->setRedirect('index.php?option=com_config', $msg);
+				break;
+
+			case 'save' :
+			default :
+				$this->setRedirect('index.php', $msg);
+				break;
+		}
+
+		// Try to make configuration.php unwriteable
+		if (!$ftp['enabled'] && !JPath::setPermissions($fname, '0555')) {
+			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make configuration.php unwriteable');
 		}
 	}
 
@@ -375,6 +377,10 @@ class ConfigControllerApplication extends ConfigController
 	 */
 	function cancel()
 	{
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
+
 		$this->setRedirect( 'index.php' );
 	}
 
@@ -382,11 +388,17 @@ class ConfigControllerApplication extends ConfigController
 	{
 		jimport('joomla.filesystem.file');
 
-		$data = file_get_contents('http://help.joomla.org/helpsites-15.xml');
-		JFile::write(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $data);
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$msg = JText::_('The help sites list has been refreshed');
-		$this->setRedirect('index.php?option=com_config', $msg);
+		if (($data = file_get_contents('http://help.joomla.org/helpsites-15.xml')) === false ) {
+			$this->setRedirect('index.php?option=com_config', JText::_('HELPREFRESH ERROR FETCH'), 'error');
+		} else if (!JFile::write(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $data)) {
+			$this->setRedirect('index.php?option=com_config', JText::_('HELPREFRESH ERROR STORE'), 'error');
+		} else {
+			$this->setRedirect('index.php?option=com_config', JText::_('HELPREFRESH SUCCESS'));
+		}
 	}
 }
 ?>
