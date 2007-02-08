@@ -29,10 +29,10 @@ $output = array();
 $output[] = "<span class=\"preview\"><a href=\"".$mainframe->getSiteURL()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
 
 // Get the number of unread messages in your inbox
-$query = "SELECT COUNT(*)"
-. "\n FROM #__messages"
-. "\n WHERE state = 0"
-. "\n AND user_id_to = ".$user->get('id');
+$query = 'SELECT COUNT(*)'
+. ' FROM #__messages'
+. ' WHERE state = 0'
+. ' AND user_id_to = '.$user->get('id');
 $db->setQuery( $query );
 $unread = $db->loadResult();
 

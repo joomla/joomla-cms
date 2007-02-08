@@ -220,10 +220,10 @@ class ContentModelCategory extends JModel
 		if (empty($this->_category))
 		{
 			// Lets get the information for the current category
-			$query = "SELECT c.*, s.id sectionid, s.title as sectiontitle" .
-					"\n FROM #__categories AS c" .
-					"\n INNER JOIN #__sections AS s ON s.id = c.section" .
-					"\n WHERE c.id = '$this->_id'";
+			$query = 'SELECT c.*, s.id sectionid, s.title as sectiontitle' .
+					' FROM #__categories AS c' .
+					' INNER JOIN #__sections AS s ON s.id = c.section' .
+					' WHERE c.id = '. $this->_id;
 			$this->_db->setQuery($query, 0, 1);
 			$this->_category = $this->_db->loadObject();
 		}
@@ -262,34 +262,34 @@ class ContentModelCategory extends JModel
 			if ($user->authorize('action', 'edit', 'content', 'all'))
 			{
 				$xwhere = '';
-				$xwhere2 = "\n AND b.state >= 0";
+				$xwhere2 = ' AND b.state >= 0';
 			}
 			else
 			{
-				$xwhere = "\n AND c.published = 1";
-				$xwhere2 = "\n AND b.state = 1" .
-						"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
-						"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
+				$xwhere = ' AND c.published = 1';
+				$xwhere2 = ' AND b.state = 1' .
+						' AND ( publish_up = "'.$nullDate.'" OR publish_up <= "'.$now.'" )' .
+						' AND ( publish_down = "'.$nullDate.'" OR publish_down >= "'.$now.'" )';
 			}
 
 			// show/hide empty categories
 			$empty = null;
 			if (!$params->get('empty_cat'))
 			{
-				$empty = "\n HAVING COUNT( b.id ) > 0";
+				$empty = ' HAVING COUNT( b.id ) > 0';
 			}
 
 			// Get the list of sibling categories [categories with the same parent]
-			$query = "SELECT c.*, COUNT( b.id ) AS numitems" .
-					"\n FROM #__categories AS c" .
-					"\n LEFT JOIN #__content AS b ON b.catid = c.id ".
+			$query = 'SELECT c.*, COUNT( b.id ) AS numitems' .
+					' FROM #__categories AS c' .
+					' LEFT JOIN #__content AS b ON b.catid = c.id '.
 					$xwhere2.
-					($noauth ? "\n AND b.access <= $gid" : '') .
-					"\n WHERE c.section = '$section'".
+					($noauth ? ' AND b.access <= '. $gid : '') .
+					' WHERE c.section = "'. $section.'"'.
 					$xwhere.
-					($noauth ? "\n AND c.access <= $gid" : '').
-					"\n GROUP BY c.id".$empty.
-					"\n ORDER BY c.ordering";
+					($noauth ? ' AND c.access <= '. $gid : '').
+					' GROUP BY c.id'.$empty.
+					' ORDER BY c.ordering';
 			$this->_db->setQuery($query);
 			$this->_siblings = $this->_db->loadObjectList();
 		}
@@ -331,14 +331,14 @@ class ContentModelCategory extends JModel
 		$where		= $this->_buildContentWhere($state);
 		$orderby	= $this->_buildContentOrderBy($state);
 
-		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-			"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
-			"\n CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(':', a.id, a.title_alias) ELSE a.id END as slug,".
-			"\n CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups".$voting['select'] .
-			"\n FROM #__content AS a" .
-			"\n LEFT JOIN #__categories AS cc ON a.catid = cc.id" .
-			"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-			"\n LEFT JOIN #__groups AS g ON a.access = g.id".
+		$query = 'SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
+			' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
+			' CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(":", a.id, a.title_alias) ELSE a.id END as slug,'.
+			' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups'.$voting['select'] .
+			' FROM #__content AS a' .
+			' LEFT JOIN #__categories AS cc ON a.catid = cc.id' .
+			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
+			' LEFT JOIN #__groups AS g ON a.access = g.id'.
 			$voting['join'].
 			$where.
 			$orderby;
@@ -355,15 +355,15 @@ class ContentModelCategory extends JModel
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
 
-		$orderby = "\n ORDER BY ";
+		$orderby = ' ORDER BY ';
 		if ($filter_order && $filter_order_Dir)
 		{
-			$orderby .= "$filter_order $filter_order_Dir, ";
+			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
 		}
 		
-		if ($filter_order == "author")
+		if ($filter_order == 'author')
 		{
-			$orderby .= "created_by_alias $filter_order_Dir, ";
+			$orderby .= 'created_by_alias '. $filter_order_Dir.', ';
 		}
 		switch ($state)
 		{
@@ -380,7 +380,7 @@ class ContentModelCategory extends JModel
 				$primary		= JContentHelper::orderbyPrimary($orderby_pri);
 				break;
 		}
-		$orderby .= "$primary $secondary a.created DESC";
+		$orderby .= $primary .' '. $secondary .' a.created DESC';
 
 		return $orderby;
 	}
@@ -400,10 +400,10 @@ class ContentModelCategory extends JModel
 		$params		=& JSiteHelper::getMenuParams();
 
 		// First thing we need to do is assert that the articles are in the current category
-		$where = "\n WHERE a.access <= ".(int) $gid;
+		$where = ' WHERE a.access <= '.(int) $gid;
 		if ($this->_id)
 		{
-			$where .= "\n AND a.catid = $this->_id";
+			$where .= ' AND a.catid = '. $this->_id;
 		}
 
 		// Regular Published Content
@@ -412,13 +412,13 @@ class ContentModelCategory extends JModel
 			case 1:
 				if ($user->authorize('action', 'edit', 'content', 'all'))
 				{
-					$where .= "\n AND a.state >= 0";
+					$where .= ' AND a.state >= 0';
 				}
 				else
 				{
-					$where .= "\n AND a.state = 1" .
-							"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
-							"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
+					$where .= ' AND a.state = 1' .
+							' AND ( publish_up = "'.$nullDate.'" OR publish_up <= "'.$now.'" )' .
+							' AND ( publish_down = "'.$nullDate.'" OR publish_down >= "'.$now.'" )';
 				}
 				break;
 
@@ -429,12 +429,12 @@ class ContentModelCategory extends JModel
 				$year	= JRequest::getVar( 'year', date('Y') );
 				$month	= JRequest::getVar( 'month', date('m') );
 
-				$where .= "\n AND a.state = '-1'";
-				$where .= "\n AND YEAR( a.created ) = '$year'";
-				$where .= "\n AND MONTH( a.created ) = '$month'";
+				$where .= ' AND a.state = "-1"';
+				$where .= ' AND YEAR( a.created ) = "'.$year.'"';
+				$where .= ' AND MONTH( a.created ) = "'.$month.'"';
 				break;
 			default:
-				$where .= "\n AND a.state = '$state'";
+				$where .= ' AND a.state = '.$state.'"';
 				break;
 		}
 
@@ -453,15 +453,15 @@ class ContentModelCategory extends JModel
 				switch ($params->get('filter_type'))
 				{
 					case 'title' :
-						$where .= "\n AND LOWER( a.title ) LIKE '%$filter%'";
+						$where .= ' AND LOWER( a.title ) LIKE "%'.$filter.'%"';
 						break;
 
 					case 'author' :
-						$where .= "\n AND ( ( LOWER( u.name ) LIKE '%$filter%' ) OR ( LOWER( a.created_by_alias ) LIKE '%$filter%' ) )";
+						$where .= ' AND ( ( LOWER( u.name ) LIKE "%'.$filter.'%" ) OR ( LOWER( a.created_by_alias ) LIKE "%'.$filter.'%" ) )';
 						break;
 
 					case 'hits' :
-						$where .= "\n AND a.hits LIKE '%$filter%'";
+						$where .= ' AND a.hits LIKE "%'.$filter.'%"';
 						break;
 				}
 			}

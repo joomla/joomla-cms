@@ -100,14 +100,14 @@ class TemplatesController
 		{
 			$template	= preg_replace( '#[^a-zA-Z0-9\-_]#', '', $cid[0] );
 
-			$query = "DELETE FROM #__templates_menu" .
-					"\n WHERE client_id = $client->id" .
-					"\n AND menuid = 0";
+			$query = 'DELETE FROM #__templates_menu' .
+					' WHERE client_id = '. $client->id .
+					' AND menuid = 0';
 			$db->setQuery($query);
 			$db->query();
 
-			$query = "INSERT INTO #__templates_menu" .
-					"\n SET client_id = $client->id, template = ".$db->Quote( $template ).", menuid = 0";
+			$query = 'INSERT INTO #__templates_menu' .
+					' SET client_id = '. $client->id .', template = '.$db->Quote( $template ).', menuid = 0';
 			$db->setQuery($query);
 			$db->query();
 		}
@@ -217,9 +217,9 @@ class TemplatesController
 		}
 
 		// Reset all existing assignments
-		$query = "DELETE FROM #__templates_menu" .
-				"\n WHERE client_id = 0" .
-				"\n AND template = ".$db->Quote( $template );
+		$query = 'DELETE FROM #__templates_menu' .
+				' WHERE client_id = 0' .
+				' AND template = '.$db->Quote( $template );
 		$db->setQuery($query);
 		$db->query();
 
@@ -233,14 +233,14 @@ class TemplatesController
 			if ((int) $menuid >= 0)
 			{
 				// check if there is already a template assigned to this menu item
-				$query = "DELETE FROM #__templates_menu" .
-						"\n WHERE client_id = 0" .
-						"\n AND menuid = ".(int) $menuid;
+				$query = 'DELETE FROM #__templates_menu' .
+						' WHERE client_id = 0' .
+						' AND menuid = '.(int) $menuid;
 				$db->setQuery($query);
 				$db->query();
 
-				$query = "INSERT INTO #__templates_menu" .
-						"\n SET client_id = 0, template = ". $db->Quote( $template ) .", menuid = ".(int) $menuid;
+				$query = 'INSERT INTO #__templates_menu' .
+						' SET client_id = 0, template = '. $db->Quote( $template ) .', menuid = '.(int) $menuid;
 				$db->setQuery($query);
 				$db->query();
 			} 
@@ -248,8 +248,8 @@ class TemplatesController
 
 		if (empty($menus) OR (empty($menus) && $default)) 
 		{
-			$query = "INSERT INTO #__templates_menu" .
-					"\n SET client_id = 0, template = ". $db->Quote( $template ) .", menuid = 0 ";
+			$query = 'INSERT INTO #__templates_menu' .
+					' SET client_id = 0, template = '. $db->Quote( $template ) .', menuid = 0 ';
 			$db->setQuery($query);
 			$db->query();
 		}

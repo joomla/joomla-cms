@@ -53,22 +53,22 @@ class modStatsHelper
 
 		if ( $siteinfo )
 		{
-			$query = "SELECT COUNT( id ) AS count_users"
-			. "\n FROM #__users"
+			$query = 'SELECT COUNT( id ) AS count_users'
+			. ' FROM #__users'
 			;
 			$db->setQuery( $query );
 			$members = $db->loadResult();
 
-			$query = "SELECT COUNT( id ) AS count_items"
-			. "\n FROM #__content"
-			. "\n WHERE state = '1'"
+			$query = 'SELECT COUNT( id ) AS count_items'
+			. ' FROM #__content'
+			. ' WHERE state = "1"'
 			;
 			$db->setQuery( $query );
 			$items = $db->loadResult();
 
-			$query = "SELECT COUNT( id ) AS count_links"
-			. "\n FROM #__weblinks"
-			. "\n WHERE published = '1'"
+			$query = 'SELECT COUNT( id ) AS count_links'
+			. ' FROM #__weblinks'
+			. ' WHERE published = "1"'
 			;
 			$db->setQuery( $query );
 			$links = $db->loadResult();

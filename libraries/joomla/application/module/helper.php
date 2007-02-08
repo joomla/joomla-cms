@@ -222,16 +222,16 @@ class JModuleHelper
 
 		$modules	= array();
 
-		$wheremenu = isset( $Itemid ) ? "\n AND ( mm.menuid = ". $Itemid ." OR mm.menuid = 0 )" : '';
+		$wheremenu = isset( $Itemid ) ? ' AND ( mm.menuid = '. $Itemid .' OR mm.menuid = 0 )' : '';
 
-		$query = "SELECT id, title, module, position, content, showtitle, control, params"
-			. "\n FROM #__modules AS m"
-			. "\n LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id"
-			. "\n WHERE m.published = 1"
-			. "\n AND m.access <= ". (int)$aid
-			. "\n AND m.client_id = ". (int)$mainframe->getClientId()
+		$query = 'SELECT id, title, module, position, content, showtitle, control, params'
+			. ' FROM #__modules AS m'
+			. ' LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id'
+			. ' WHERE m.published = 1'
+			. ' AND m.access <= '. (int)$aid
+			. ' AND m.client_id = '. (int)$mainframe->getClientId()
 			. $wheremenu
-			. "\n ORDER BY position, ordering";
+			. ' ORDER BY position, ordering';
 
 		$db->setQuery( $query );
 		$modules = $db->loadObjectList();

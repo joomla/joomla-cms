@@ -269,17 +269,17 @@ class ContentModelArticle extends JModel
 		{
 			$userIP =  $_SERVER['REMOTE_ADDR'];
 
-			$query = "SELECT *" .
-					"\n FROM #__content_rating" .
-					"\n WHERE content_id = $this->_id";
+			$query = 'SELECT *' .
+					' FROM #__content_rating' .
+					' WHERE content_id = '. $this->_id;
 			$this->_db->setQuery($query);
 			$rating = $this->_db->loadObject();
 
 			if (!$rating)
 			{
 				// There are no ratings yet, so lets insert our rating
-				$query = "INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )" .
-						"\n VALUES ( $this->_id, '$userIP', $rate, 1 )";
+				$query = 'INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )' .
+						' VALUES ( '. $this->_id .', "'.$userIP.'", '. $rate .', 1 )';
 				$this->_db->setQuery($query);
 				if (!$this->_db->query()) {
 					JError::raiseError( 500, $this->_db->stderr());
@@ -290,9 +290,9 @@ class ContentModelArticle extends JModel
 				if ($userIP != ($rating->lastip))
 				{
 					// We weren't the last voter so lets add our vote to the ratings totals for the article
-					$query = "UPDATE #__content_rating" .
-							"\n SET rating_count = rating_count + 1, rating_sum = rating_sum + $rate, lastip = '$userIP'" .
-							"\n WHERE content_id = $this->_id";
+					$query = 'UPDATE #__content_rating' .
+							' SET rating_count = rating_count + 1, rating_sum = rating_sum + $rate, lastip = "'.$userIP.'"' .
+							' WHERE content_id = '. $this->_id;
 					$this->_db->setQuery($query);
 					if (!$this->_db->query()) {
 						JError::raiseError( 500, $this->_db->stderr());
@@ -327,14 +327,14 @@ class ContentModelArticle extends JModel
 			// Get the WHERE clause
 			$where	= $this->_buildContentWhere();
 
-			$query = "SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section," .
-					"\n CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(':', a.id, a.title_alias) ELSE a.id END as slug,".
-					"\n g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access".$voting['select'].
-					"\n FROM #__content AS a" .
-					"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" .
-					"\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = 'content'" .
-					"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-					"\n LEFT JOIN #__groups AS g ON a.access = g.id".
+			$query = 'SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section,' .
+					' CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(":", a.id, a.title_alias) ELSE a.id END as slug,'.
+					' g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access'.$voting['select'].
+					' FROM #__content AS a' .
+					' LEFT JOIN #__categories AS cc ON cc.id = a.catid' .
+					' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = "content"' .
+					' LEFT JOIN #__users AS u ON u.id = a.created_by' .
+					' LEFT JOIN #__groups AS g ON a.access = g.id'.
 					$voting['join'].
 					$where;
 			$this->_db->setQuery($query);
@@ -452,14 +452,14 @@ class ContentModelArticle extends JModel
 		 * First thing we need to do is assert that the content article is the one
 		 * we are looking for and we have access to it.
 		 */
-		$where = "\n WHERE a.id = $this->_id";
-		$where .= "\n AND a.access <= $aid";
+		$where = ' WHERE a.id = '. $this->_id;
+		$where .= ' AND a.access <= '. $aid;
 
 		if (!$user->authorize('action', 'edit', 'content', 'all'))
 		{
-			$where .= " AND ( a.state = 1 OR a.state = -1 )" .
-					"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
-					"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
+			$where .= ' AND ( a.state = 1 OR a.state = -1 )' .
+					' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )' .
+					' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )';
 		}
 
 		return $where;

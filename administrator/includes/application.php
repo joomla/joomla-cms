@@ -255,10 +255,10 @@ class JAdministrator extends JApplication
 
 			// Load template entries for each menuid
 			$db =& JFactory::getDBO();
-			$query = "SELECT template"
-				. "\n FROM #__templates_menu"
-				. "\n WHERE client_id = 1"
-				. "\n AND menuid = 0"
+			$query = 'SELECT template'
+				. ' FROM #__templates_menu'
+				. ' WHERE client_id = 1'
+				. ' AND menuid = 0'
 				;
 			$db->setQuery( $query );
 			$templates[0] = $db->loadResult();
@@ -266,7 +266,7 @@ class JAdministrator extends JApplication
 
 		$template = $templates[0];
 
-		$path = JPATH_ADMINISTRATOR ."/templates/$template/index.php";
+		$path = JPATH_ADMINISTRATOR .'/templates/'.$template.'/index.php';
 
 		if (!file_exists( $path )) {
 			$cur_template = 'khepri';
@@ -307,10 +307,10 @@ class JAdministrator extends JApplication
 
 		$userid = $user->get('id');
 
-		$query = "SELECT *"
-		. "\n FROM #__messages_cfg"
-		. "\n WHERE user_id = " . (int) $userid
-		. "\n AND cfg_name = 'auto_purge'"
+		$query = 'SELECT *'
+		. ' FROM #__messages_cfg'
+		. ' WHERE user_id = ' . (int) $userid
+		. ' AND cfg_name = "auto_purge"'
 		;
 		$db->setQuery( $query );
 		$config = $db->loadObject( );
@@ -334,9 +334,9 @@ class JAdministrator extends JApplication
 
 			$past = date( 'Y-m-d H:i:s', time() - $purge * 86400 );
 
-			$query = "DELETE FROM #__messages"
-			. "\n WHERE date_time < " . $db->Quote( $past )
-			. "\n AND user_id_to = " . (int) $userid
+			$query = 'DELETE FROM #__messages'
+			. ' WHERE date_time < ' . $db->Quote( $past )
+			. ' AND user_id_to = ' . (int) $userid
 			;
 			$db->setQuery( $query );
 			$db->query();

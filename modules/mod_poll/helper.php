@@ -26,10 +26,10 @@ class modPollHelper
 
 		if ($id = $params->get( 'id', 0 ))
 		{
-			$query = "SELECT id, title"
-			."\n FROM #__polls"
-			."\n WHERE id = ".(int) $id
-			."\n AND published = 1"
+			$query = 'SELECT id, title'
+			.' FROM #__polls'
+			.' WHERE id = '.(int) $id
+			.' AND published = 1'
 			;
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
@@ -46,11 +46,11 @@ class modPollHelper
 	{
 		$db	=& JFactory::getDBO();
 
-		$query = "SELECT id, text" .
-			"\n FROM #__poll_data" .
-			"\n WHERE pollid = $id" .
-			"\n AND text <> ''" .
-			"\n ORDER BY id";
+		$query = 'SELECT id, text' .
+			' FROM #__poll_data' .
+			' WHERE pollid = '.$id .
+			' AND text <> ""' .
+			' ORDER BY id';
 		$db->setQuery($query);
 
 		if (!($options = $db->loadObjectList())) {

@@ -27,9 +27,9 @@ class modWhosonlineHelper
 		// show online count
 		if ($showmode == 0 || $showmode == 2)
 		{
-			$query = "SELECT guest, usertype, client_id" .
-					"\n FROM #__session" .
-					"\n WHERE client_id = 0";
+			$query = 'SELECT guest, usertype, client_id' .
+					' FROM #__session' .
+					' WHERE client_id = 0';
 			$db->setQuery($query);
 			$sessions = $db->loadObjectList();
 
@@ -98,9 +98,9 @@ class modWhosonlineHelper
 		// show online member names
 		if ($showmode > 0)
 		{
-			$query = "SELECT DISTINCT a.username" .
-					"\n FROM #__session AS a" .
-					"\n WHERE a.guest = 0";
+			$query = 'SELECT DISTINCT a.username' .
+					' FROM #__session AS a' .
+					' WHERE a.guest = 0';
 			$db->setQuery($query);
 			$rows = $db->loadObjectList();
 

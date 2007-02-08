@@ -222,8 +222,8 @@ class WeblinksModelWeblink extends JModel
 		if (count( $cid ))
 		{
 			$cids = implode( ',', $cid );
-			$query = "DELETE FROM #__weblinks"
-				. "\n WHERE id IN ( $cids )";
+			$query = 'DELETE FROM #__weblinks'
+				. ' WHERE id IN ( '.$cids.' )';
 			$this->_db->setQuery( $query );
 			if(!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
@@ -249,10 +249,10 @@ class WeblinksModelWeblink extends JModel
 		{
 			$cids = implode( ',', $cid );
 
-			$query = "UPDATE #__weblinks"
-				. "\n SET published = " . intval( $publish )
-				. "\n WHERE id IN ( $cids )"
-				. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get('id'). " ) )"
+			$query = 'UPDATE #__weblinks'
+				. ' SET published = ' . intval( $publish )
+				. ' WHERE id IN ( '.$cids.' )'
+				. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get('id'). ' ) )'
 			;
 			$this->_db->setQuery( $query );
 			if (!$this->_db->query()) {
@@ -337,11 +337,11 @@ class WeblinksModelWeblink extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			$query = "SELECT w.*, cc.title AS category," .
-					"\n cc.published AS cat_pub, cc.access AS cat_access".
-					"\n FROM #__weblinks AS w" .
-					"\n LEFT JOIN #__categories AS cc ON cc.id = w.catid" .
-					"\n WHERE w.id = $this->_id";
+			$query = 'SELECT w.*, cc.title AS category,'.
+					' cc.published AS cat_pub, cc.access AS cat_access'.
+					' FROM #__weblinks AS w' .
+					' LEFT JOIN #__categories AS cc ON cc.id = w.catid' .
+					' WHERE w.id = '. $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 			return (boolean) $this->_data;

@@ -38,21 +38,21 @@ class modMostReadHelper
 		$now		= date('Y-m-d H:i:s', time());
 
 		//Content Items only
-		$query = "SELECT a.id, a.title, a.sectionid, a.catid" .
-			"\n FROM #__content AS a" .
-			"\n LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id" .
-			"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
-			"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
-			"\n WHERE ( a.state = 1 AND s.id > 0 )" .
-			"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
-			"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )".
-			($access ? "\n AND a.access <= " .(int) $aid. " AND cc.access <= " .(int) $aid. " AND s.access <= " .(int) $aid : '').
-			($catid ? "\n AND ( cc.id IN ( $catid ) )" : '').
-			($secid ? "\n AND ( s.id IN ( $secid ) )" : '').
-			($show_front == '0' ? "\n AND f.content_id IS NULL" : '').
-			"\n AND s.published = 1" .
-			"\n AND cc.published = 1" .
-			"\n ORDER BY a.hits DESC";
+		$query = 'SELECT a.id, a.title, a.sectionid, a.catid' .
+			' FROM #__content AS a' .
+			' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' .
+			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
+			' INNER JOIN #__sections AS s ON s.id = a.sectionid' .
+			' WHERE ( a.state = 1 AND s.id > 0 )' .
+			' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )' .
+			' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )'.
+			($access ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid. ' AND s.access <= ' .(int) $aid : '').
+			($catid ? ' AND ( cc.id IN ( '.$catid.' ) )' : '').
+			($secid ? ' AND ( s.id IN ( '.$secid.' ) )' : '').
+			($show_front == '0' ? ' AND f.content_id IS NULL' : '').
+			' AND s.published = 1' .
+			' AND cc.published = 1' .
+			' ORDER BY a.hits DESC';
 		$db->setQuery($query, 0, $count);
 		$rows = $db->loadObjectList();
 

@@ -109,32 +109,32 @@ class ModulesController extends JController
 		// used by filter
 		if ( $filter_assigned ) {
 			$joins[] = 'LEFT JOIN #__templates_menu AS t ON t.menuid = m.id';
-			$where[] = "t.template = '$filter_assigned'";
+			$where[] = 't.template = "'.$filter_assigned.'"';
 		}
 		if ( $filter_position ) {
-			$where[] = "m.position = '$filter_position'";
+			$where[] = 'm.position = "'.$filter_position.'"';
 		}
 		if ( $filter_type ) {
-			$where[] = "m.module = '$filter_type'";
+			$where[] = 'm.module = '.$filter_type.'"';
 		}
 		if ( $search ) {
-			$where[] = "LOWER( m.title ) LIKE '%$search%'";
+			$where[] = 'LOWER( m.title ) LIKE "%'.$search.'%"';
 		}
 		if ( $filter_state ) {
 			if ( $filter_state == 'P' ) {
-				$where[] = "m.published = 1";
+				$where[] = 'm.published = 1';
 			} else if ($filter_state == 'U' ) {
-				$where[] = "m.published = 0";
+				$where[] = 'm.published = 0';
 			}
 		}
 
-		$where 		= "\n WHERE " . implode( ' AND ', $where );
-		$join 		= "\n " . implode( "\n ", $joins );
-		$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.ordering ASC";
+		$where 		= ' WHERE ' . implode( ' AND ', $where );
+		$join 		= ' ' . implode( "\n ", $joins );
+		$orderby 	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', m.ordering ASC';
 
 		// get the total number of records
-		$query = "SELECT COUNT(*)"
-		. "\n FROM #__modules AS m"
+		$query = 'SELECT COUNT(*)'
+		. ' FROM #__modules AS m'
 		. $where
 		;
 		$db->setQuery( $query );
@@ -143,11 +143,11 @@ class ModulesController extends JController
 		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
-		$query = "SELECT m.*, u.name AS editor, g.name AS groupname, MIN(mm.menuid) AS pages"
-		. "\n FROM #__modules AS m"
+		$query = 'SELECT m.*, u.name AS editor, g.name AS groupname, MIN(mm.menuid) AS pages'
+		. ' FROM #__modules AS m'
 		. $join
 		. $where
-		. "\n GROUP BY m.id"
+		. ' GROUP BY m.id'
 		. $orderby
 		;
 		$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
@@ -158,12 +158,12 @@ class ModulesController extends JController
 		}
 
 		// get list of Positions for dropdown filter
-		$query = "SELECT t.position AS value, t.position AS text"
-		. "\n FROM #__template_positions as t"
-		. "\n LEFT JOIN #__modules AS m ON m.position = t.position"
-		. "\n WHERE m.client_id = $client->id"
-		. "\n GROUP BY t.position"
-		. "\n ORDER BY t.position"
+		$query = 'SELECT t.position AS value, t.position AS text'
+		. ' FROM #__template_positions as t'
+		. ' LEFT JOIN #__modules AS m ON m.position = t.position'
+		. ' WHERE m.client_id = '. $client->id
+		. ' GROUP BY t.position'
+		. ' ORDER BY t.position'
 		;
 		$positions[] = JHTMLSelect::option( '0', '- '. JText::_( 'Select Position' ) .' -' );
 		$db->setQuery( $query );
@@ -171,11 +171,11 @@ class ModulesController extends JController
 		$lists['position']	= JHTMLSelect::genericList( $positions, 'filter_position', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_position" );
 
 		// get list of Positions for dropdown filter
-		$query = "SELECT module AS value, module AS text"
-		. "\n FROM #__modules"
-		. "\n WHERE client_id = $client->id"
-		. "\n GROUP BY module"
-		. "\n ORDER BY module"
+		$query = 'SELECT module AS value, module AS text'
+		. ' FROM #__modules'
+		. ' WHERE client_id = '. $client->id
+		. ' GROUP BY module'
+		. ' ORDER BY module'
 		;
 		$db->setQuery( $query );
 		$types[] 		= JHTMLSelect::option( '0', '- '. JText::_( 'Select Type' ) .' -' );
@@ -186,9 +186,9 @@ class ModulesController extends JController
 		$lists['state']	= JCommonHTML::selectState( $filter_state );
 
 		// template assignment filter
-		$query = "SELECT DISTINCT(template) AS text, template AS value" .
-				"\nFROM #__templates_menu" .
-				"\nWHERE client_id = " . $client->id;
+		$query = 'SELECT DISTINCT(template) AS text, template AS value'. 
+				' FROM #__templates_menu' .
+				' WHERE client_id = ' . $client->id;
 		$db->setQuery( $query );
 		$assigned[]		= JHTMLSelect::option( '0', '- '. JText::_( 'Select Template' ) .' -' );
 		$assigned 		= array_merge( $assigned, $db->loadObjectList() );
@@ -246,17 +246,17 @@ class ModulesController extends JController
 
 		$row->reorder( "position='".$row->position."' AND client_id=".$client->id );
 
-		$query = "SELECT menuid"
-		. "\n FROM #__modules_menu"
-		. "\n WHERE moduleid = ".(int) $cid[0]
+		$query = 'SELECT menuid'
+		. ' FROM #__modules_menu'
+		. ' WHERE moduleid = '.(int) $cid[0]
 		;
 		$db->setQuery( $query );
 		$rows = $db->loadResultArray();
 
 		foreach ($rows as $menuid)
 		{
-			$query = "INSERT INTO #__modules_menu"
-			. "\n SET moduleid = ".(int) $row->id.", menuid = ".(int) $menuid
+			$query = 'INSERT INTO #__modules_menu'
+			. ' SET moduleid = '.(int) $row->id.', menuid = '.(int) $menuid
 			;
 			$db->setQuery( $query );
 			if (!$db->query()) {
@@ -312,8 +312,8 @@ class ModulesController extends JController
 		$selections = JRequest::getVar( 'selections', array(), 'post', 'array' );
 
 		// delete old module to menu item associations
-		$query = "DELETE FROM #__modules_menu"
-		. "\n WHERE moduleid = $row->id"
+		$query = 'DELETE FROM #__modules_menu'
+		. ' WHERE moduleid = '. $row->id
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
@@ -324,8 +324,8 @@ class ModulesController extends JController
 		// and other menu items resulting in a module being displayed twice
 		if ( $menus == 'all' ) {
 			// assign new module to `all` menu item associations
-			$query = "INSERT INTO #__modules_menu"
-			. "\n SET moduleid = $row->id, menuid = 0"
+			$query = 'INSERT INTO #__modules_menu'
+			. ' SET moduleid = '.$row->id.' , menuid = 0'
 			;
 			$db->setQuery( $query );
 			if (!$db->query()) {
@@ -339,8 +339,8 @@ class ModulesController extends JController
 				// this check for the blank spaces in the select box that have been added for cosmetic reasons
 				if ( (int) $menuid >= 0 ) {
 					// assign new module to menu item associations
-					$query = "INSERT INTO #__modules_menu"
-					. "\n SET moduleid = $row->id, menuid = $menuid"
+					$query = 'INSERT INTO #__modules_menu'
+					. ' SET moduleid = '. $row->id .', menuid = '.$menuid
 					;
 					$db->setQuery( $query );
 					if (!$db->query()) {
@@ -416,10 +416,10 @@ class ModulesController extends JController
 			$path				= 'mod0_xml';
 		}
 
-		$query = "SELECT position, ordering, showtitle, title"
-		. "\n FROM #__modules"
-		. "\n WHERE $where"
-		. "\n ORDER BY ordering"
+		$query = 'SELECT position, ordering, showtitle, title'
+		. ' FROM #__modules'
+		. ' WHERE '. $where
+		. ' ORDER BY ordering'
 		;
 		$db->setQuery( $query );
 		if ( !($orders = $db->loadObjectList()) ) {
@@ -427,10 +427,10 @@ class ModulesController extends JController
 			return false;
 		}
 
-		$query = "SELECT position, description"
-		. "\n FROM #__template_positions"
-		. "\n WHERE position <> ''"
-		. "\n ORDER BY position"
+		$query = 'SELECT position, description'
+		. ' FROM #__template_positions'
+		. ' WHERE position <> ""'
+		. ' ORDER BY position'
 		;
 		$db->setQuery( $query );
 		// hard code options for now
@@ -461,9 +461,9 @@ class ModulesController extends JController
 
 		// get selected pages for $lists['selections']
 		if ( $cid[0] ) {
-			$query = "SELECT menuid AS value"
-			. "\n FROM #__modules_menu"
-			. "\n WHERE moduleid = $row->id"
+			$query = 'SELECT menuid AS value'
+			. ' FROM #__modules_menu'
+			. ' WHERE moduleid = '. $row->id
 			;
 			$db->setQuery( $query );
 			$lookup = $db->loadObjectList();
@@ -607,8 +607,8 @@ class ModulesController extends JController
 
 		$cids = implode( ',', $cid );
 
-		$query = "SELECT id, module, title, iscore, params"
-		. "\n FROM #__modules WHERE id IN ($cids)"
+		$query = 'SELECT id, module, title, iscore, params'
+		. ' FROM #__modules WHERE id IN ('.$cids.')'
 		;
 		$db->setQuery( $query );
 		if (!($rows = $db->loadObjectList())) {
@@ -616,16 +616,16 @@ class ModulesController extends JController
 		}
 
 		// remove mappings first (lest we leave orphans)
-		$query = "DELETE FROM #__modules_menu"
-			. "\n WHERE moduleid IN ( $cids )"
+		$query = 'DELETE FROM #__modules_menu'
+			. ' WHERE moduleid IN ( '.$cids.' )'
 			;
 		$db->setQuery( $query );
 		if (!$db->query()) {
 			return JError::raiseError( 500, $db->getErrorMsg() );
 		}
 		// remove module
-		$query = "DELETE FROM #__modules"
-			. "\n WHERE id IN ($cids)"
+		$query = 'DELETE FROM #__modules'
+			. ' WHERE id IN ('.$cids.')'
 			;
 		$db->setQuery( $query );
 		if (!$db->query()) {
@@ -661,10 +661,10 @@ class ModulesController extends JController
 
 		$cids = implode( ',', $cid );
 
-		$query = "UPDATE #__modules"
-		. "\n SET published = " . intval( $publish )
-		. "\n WHERE id IN ( $cids )"
-		. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get('id'). " ) )"
+		$query = 'UPDATE #__modules'
+		. ' SET published = ' . intval( $publish )
+		. ' WHERE id IN ( '.$cids.' )'
+		. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get('id'). ' ) )'
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {

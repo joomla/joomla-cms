@@ -79,21 +79,21 @@ class SearchHelper
 		if ( @$enable_log_searches )
 		{
 			$db =& JFactory::getDBO();
-			$query = "SELECT hits"
-			. "\n FROM #__core_log_searches"
-			. "\n WHERE LOWER( search_term ) = '$search_term'"
+			$query = 'SELECT hits'
+			. ' FROM #__core_log_searches'
+			. ' WHERE LOWER( search_term ) = "'.$search_term.'"'
 			;
 			$db->setQuery( $query );
 			$hits = intval( $db->loadResult() );
 			if ( $hits ) {
-				$query = "UPDATE #__core_log_searches"
-				. "\n SET hits = ( hits + 1 )"
-				. "\n WHERE LOWER( search_term ) = '$search_term'"
+				$query = 'UPDATE #__core_log_searches'
+				. ' SET hits = ( hits + 1 )'
+				. ' WHERE LOWER( search_term ) = "'.$search_term.'"'
 				;
 				$db->setQuery( $query );
 				$db->query();
 			} else {
-				$query = "INSERT INTO #__core_log_searches VALUES ( '$search_term', 1 )";
+				$query = 'INSERT INTO #__core_log_searches VALUES ( "'.$search_term.'", 1 )';
 				$db->setQuery( $query );
 				$db->query();
 			}

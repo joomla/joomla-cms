@@ -40,11 +40,11 @@ class TemplatesHelper
 		$db =& JFactory::getDBO();
 
 		// check if template is assigned
-		$query = "SELECT COUNT(*)" .
-				"\n FROM #__templates_menu" .
-				"\n WHERE client_id = 0" .
-				"\n AND template = '$template'" .
-				"\n AND menuid <> 0";
+		$query = 'SELECT COUNT(*)' .
+				' FROM #__templates_menu' .
+				' WHERE client_id = 0' .
+				' AND template = "'.$template.'"' .
+				' AND menuid <> 0';
 		$db->setQuery($query);
 		return $db->loadResult() ? 1 : 0;
 	}
@@ -101,10 +101,10 @@ class TemplatesHelper
 		$db =& JFactory::getDBO();
 
 		// get selected pages for $menulist
-		$query = "SELECT menuid AS value" .
-				"\n FROM #__templates_menu" .
-				"\n WHERE client_id = 0" .
-				"\n AND template = '$template'";
+		$query = 'SELECT menuid AS value' .
+				' FROM #__templates_menu' .
+				' WHERE client_id = 0' .
+				' AND template = "'.$template.'"';
 		$db->setQuery($query);
 		$lookup = $db->loadObjectList();
 		if (empty( $lookup )) {

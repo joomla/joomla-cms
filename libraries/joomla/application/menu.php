@@ -202,11 +202,11 @@ class JMenu extends JObject
 		// Initialize some variables
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
-		$sql	= "SELECT m.*, c.option as component" .
-				"\n FROM #__menu AS m" .
-				"\n LEFT JOIN #__components AS c ON m.componentid = c.id".
-				"\n WHERE m.published = 1".
-				"\n ORDER BY m.sublevel, m.parent, m.ordering";
+		$sql	= 'SELECT m.*, c.option as component' .
+				' FROM #__menu AS m' .
+				' LEFT JOIN #__components AS c ON m.componentid = c.id'.
+				' WHERE m.published = 1'.
+				' ORDER BY m.sublevel, m.parent, m.ordering';
 		$db->setQuery($sql);
 
 		if (!($menus = $db->loadObjectList('id'))) {

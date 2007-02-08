@@ -1401,7 +1401,7 @@ class JInstallationHelper
 		/*
 		 * Check to see if migration is from 4.5.1
 		 */
-		$query = "SELECT id FROM ".$newPrefix."users WHERE usertype = 'superadministrator'";
+		$query = 'SELECT id FROM '.$newPrefix.'users WHERE usertype = "superadministrator"';
 		$db->setQuery($query);
 		$rows = $db->loadRowList(  );
 		JInstallationHelper::getDBErrors($errors, $db );
@@ -1411,9 +1411,9 @@ class JInstallationHelper
 		 */
 		if ( count($rows) > 0 )
 		{
-			$query = "UPDATE ".$newPrefix."users AS u, ".$newPrefix."core_acl_aro_groups AS g" .
-					"\n SET u.usertype = g.value" .
-					"\n WHERE u.gid = g.id";
+			$query = 'UPDATE '.$newPrefix.'users AS u, '.$newPrefix.'core_acl_aro_groups AS g' .
+					' SET u.usertype = g.value' .
+					' WHERE u.gid = g.id';
 			$db->setQuery($query);
 			$db->query();
 			JInstallationHelper::getDBErrors($errors, $db );
@@ -1424,178 +1424,178 @@ class JInstallationHelper
 		 * Construct the menu table based on old table references to core items
 		 */
 		// Component - change all
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `type` = 'component' WHERE `type` = 'components';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `type` = "component" WHERE `type` = "components";';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// Component Item Link
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = SUBSTRING(link, 1, LOCATE('&Itemid=', link) -1), `type` = 'component' WHERE `type` = 'component_item_link';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = SUBSTRING(link, 1, LOCATE("&Itemid=", link) -1), `type` = "component" WHERE `type` = "component_item_link";';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// get com_contact id
-		$query = "SELECT `id` FROM `".$newPrefix."components` WHERE `option`='com_contact' AND `parent` = 0";
+		$query = 'SELECT `id` FROM `'.$newPrefix.'components` WHERE `option`="com_contact" AND `parent` = 0';
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$compId = $db->loadResult();
 
 		// contact category table
-		$query = "UPDATE `".$newPrefix."menu_migration` SET  `link` = INSERT(link, LOCATE('catid=', link), 0, 'view=category&'), `type` = 'component', `componentid` = ".$compId." WHERE `type` = 'contact_category_table';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET  `link` = INSERT(link, LOCATE("catid=", link), 0, "view=category&"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "contact_category_table"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// contact item link
-		$query = "UPDATE `".$newPrefix."menu_migration` SET  `link` = INSERT(link, LOCATE('task=view', link), 20, 'view=contact&id'), `type` = 'component', `componentid` = ".$compId." WHERE `type` = 'contact_item_link';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET  `link` = INSERT(link, LOCATE("task=view", link), 20, "view=contact&id"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "contact_item_link"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// get com_content id
-		$query = "SELECT `id` FROM `".$newPrefix."components` WHERE `option`='com_content' AND `parent` = 0";
+		$query = 'SELECT `id` FROM `'.$newPrefix.'components` WHERE `option`="com_content" AND `parent` = 0';
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$compId = $db->loadResult();
 
 		// front page
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `control` = 'view_name=', `link` = 'index.php?option=com_content&view=frontpage', `type` = 'component', `componentid` = ".$compId." WHERE `link` LIKE '%option=com_frontpage%';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `control` = "view_name=", `link` = "index.php?option=com_content&view=frontpage", `type` = "component", `componentid` = '.$compId.' WHERE `link` LIKE "%option=com_frontpage%"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// content archive category or section
-		$query = "UPDATE `".$newPrefix."menu_migration` SET  `link` = 'index.php?option=com_content&view=archive', `type` = 'component', `componentid` = ".$compId." WHERE (`type` = 'content_archive_category' OR `type` = 'content_archive_section');";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET  `link` = "index.php?option=com_content&view=archive", `type` = "component", `componentid` = '.$compId.' WHERE (`type` = "content_archive_category" OR `type` = "content_archive_section")';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// content blog category
-		$query = "UPDATE `".$newPrefix."menu_migration` SET  `link` = INSERT(link, LOCATE('task=blogcat', link), 17, 'view=category&layout=blog'), `type` = 'component', `componentid` = ".$compId." WHERE `type` = 'content_blog_category';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET  `link` = INSERT(link, LOCATE("task=blogcat", link), 17, "view=category&layout=blog"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "content_blog_category"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// content blog section
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = INSERT(link, LOCATE('task=blogsec', link), 16, 'view=section&layout=blog'), `type` = 'component', `componentid` = ".$compId." WHERE `type` = 'content_blog_section';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = INSERT(link, LOCATE("task=blogsec", link), 16, "view=section&layout=blog"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "content_blog_section";';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// content category
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = INSERT(link, LOCATE('task=', link), LOCATE('&id=', link) - LOCATE('task=', link), 'view=category'), `type` = 'component', `componentid` = ".$compId." WHERE `type` = 'content_category';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = INSERT(link, LOCATE("task=", link), LOCATE("&id=", link) - LOCATE("task=", link), "view=category"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "content_category"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// content item link and typed content
-		$query = "UPDATE `".$newPrefix."menu_migration` SET  `link` = INSERT(link, LOCATE('task=', link), 9, 'view=article'), `type` = 'component', `componentid` = ".$compId." WHERE (`type` = 'content_item_link' OR `type` = 'content_typed');";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET  `link` = INSERT(link, LOCATE("task=", link), 9, "view=article"), `type` = "component", `componentid` = '.$compId.' WHERE (`type` = "content_item_link" OR `type` = "content_typed")';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// content section
-		$query = "UPDATE `".$newPrefix."menu_migration` SET  `link` = INSERT(link, LOCATE('task=', link), 12, 'view=section'), `type` = 'component', `componentid` = ".$compId." WHERE `type` = 'content_section';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET  `link` = INSERT(link, LOCATE("task=", link), 12, "view=section"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "content_section"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// get com_newsfeeds id
-		$query = "SELECT `id` FROM `".$newPrefix."components` WHERE `option`='com_newsfeeds' AND `parent` = 0";
+		$query = 'SELECT `id` FROM `'.$newPrefix.'components` WHERE `option`="com_newsfeeds" AND `parent` = 0';
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$compId = $db->loadResult();
 
 		// newsfeed categories
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = CONCAT(link, '&view=categories'), `componentid` = ".$compId." WHERE `type` = 'component' AND link LIKE '%option=com_newsfeeds%';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = CONCAT(link, "&view=categories"), `componentid` = '.$compId.' WHERE `type` = "component" AND link LIKE "%option=com_newsfeeds%"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// newsfeed category table
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = INSERT(link, LOCATE('catid=', link), 5, 'view=category&catid'), `type` = 'component', `componentid` = ".$compId." WHERE `type` = 'newsfeed_category_table';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = INSERT(link, LOCATE("catid=", link), 5, "view=category&catid"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "newsfeed_category_table"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// newsfeed link
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = INSERT(link, LOCATE('task=', link), 9, 'view=newsfeed'), `type` = 'component', `componentid` = ".$compId." WHERE `type` = 'newsfeed_link';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = INSERT(link, LOCATE("task=", link), 9, "view=newsfeed"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "newsfeed_link"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// user checkin items
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = INSERT(link, LOCATE('CheckIn', link), 7, 'checkin') WHERE `type` = 'url' AND link LIKE '%option=com_user&task=CheckIn%';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = INSERT(link, LOCATE("CheckIn", link), 7, "checkin") WHERE `type` = "url" AND link LIKE "%option=com_user&task=CheckIn%"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// user edit details
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = INSERT(link, LOCATE('UserDetails', link), 11, 'edit') WHERE `type` = 'url' AND link LIKE '%option=com_user&task=UserDetails%';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = INSERT(link, LOCATE("UserDetails", link), 11, "edit") WHERE `type` = "url" AND link LIKE "%option=com_user&task=UserDetails%"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// get com_weblinks id
-		$query = "SELECT `id` FROM `".$newPrefix."components` WHERE `option`='com_weblinks' AND `parent` = 0";
+		$query = 'SELECT `id` FROM `'.$newPrefix.'components` WHERE `option`="com_weblinks" AND `parent` = 0';
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$compId = $db->loadResult();
 
 		// weblinks categories
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = CONCAT(link, '&view=categories'), `componentid` = ".$compId." WHERE `type` = 'component' AND link LIKE '%option=com_weblinks%';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = CONCAT(link, "&view=categories"), `componentid` = '.$compId.' WHERE `type` = "component" AND link LIKE "%option=com_weblinks%"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// weblinks category table
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = INSERT(link, LOCATE('catid=', link), 5, 'view=category&catid'), `type` = 'component', `componentid` = ".$compId." WHERE `type` = 'weblink_category_table';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = INSERT(link, LOCATE("catid=", link), 5, "view=category&catid"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "weblink_category_table"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// weblinks submit new item
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = INSERT(link, LOCATE('task=', link), 8, 'view=weblink&layout=form') WHERE `type` = 'url' AND link LIKE '%option=com_weblinks%';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = INSERT(link, LOCATE("task=", link), 8, "view=weblink&layout=form") WHERE `type` = "url" AND link LIKE "%option=com_weblinks%"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// get com_wrapper id
-		$query = "SELECT `id` FROM `".$newPrefix."components` WHERE `option`='com_wrapper' AND `parent` = 0";
+		$query = 'SELECT `id` FROM `'.$newPrefix.'components` WHERE `option`="com_wrapper" AND `parent` = 0';
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$compId = $db->loadResult();
 
 		// wrapper
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = CONCAT(link, '&view=wrapper'), `type` = 'component', `componentid` = ".$compId." WHERE `type` = 'wrapper';";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = CONCAT(link, "&view=wrapper"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "wrapper"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// set default to lowest ordering published on mainmenu
-		$query = "SELECT MIN( `ordering` ) FROM `".$newPrefix."menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = 'mainmenu'";
+		$query = 'SELECT MIN( `ordering` ) FROM `'.$newPrefix.'menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = "mainmenu"';
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$minorder = $db->loadResult();
 
-		$query = "SELECT `id` FROM `".$newPrefix."menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = 'mainmenu' AND `ordering` = $minorder";
+		$query = 'SELECT `id` FROM `'.$newPrefix.'menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = "mainmenu" AND `ordering` = '.$minorder;
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$menuitemid = $db->loadResult();
 
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `home` = 1 WHERE `id` = ".$menuitemid." ;";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `home` = 1 WHERE `id` = '.$menuitemid;
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// tidy up urls with Itemids
-		$query = "UPDATE `".$newPrefix."menu_migration` SET `link` = SUBSTRING(`link`,1,LOCATE('&Itemid',`link`)-1) WHERE `type` = 'url' AND `link` LIKE '%&Itemid=%' ;";
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = SUBSTRING(`link`,1,LOCATE("&Itemid",`link`)-1) WHERE `type` = "url" AND `link` LIKE "%&Itemid=%"';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
-		$query = "SELECT DISTINCT `option` FROM ".$newPrefix."components WHERE `option` != ''";
+		$query = 'SELECT DISTINCT `option` FROM '.$newPrefix.'components WHERE `option` != ""';
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$lookup = $db->loadResultArray();
@@ -1642,7 +1642,7 @@ class JInstallationHelper
 		}
 
 		// fix possible orphaned sub menu items
-		$query = "UPDATE  `".$newPrefix."menu` AS c LEFT OUTER JOIN `".$newPrefix."menu` AS p ON c.parent = p.id SET c.parent = 0 WHERE c.parent <> 0 AND p.id IS NULL ;";
+		$query = 'UPDATE  `'.$newPrefix.'menu` AS c LEFT OUTER JOIN `'.$newPrefix.'menu` AS p ON c.parent = p.id SET c.parent = 0 WHERE c.parent <> 0 AND p.id IS NULL';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
@@ -1650,19 +1650,19 @@ class JInstallationHelper
 		/*
 		 * Construct the menu_type table base on new menu table types
 		 */
-		$query = "SELECT DISTINCT `menutype` FROM ".$newPrefix."menu WHERE 1";
+		$query = 'SELECT DISTINCT `menutype` FROM '.$newPrefix.'menu WHERE 1';
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$menuTypes = $db->loadResultArray();
 
-		$query = "TRUNCATE TABLE ".$newPrefix."menu_types";
+		$query = 'TRUNCATE TABLE '.$newPrefix.'menu_types';
 		$db->setQuery($query);
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		foreach( $menuTypes as $mType )
 		{
-			$query = "INSERT INTO ".$newPrefix."menu_types ( menutype, title ) VALUES ('".$mType."', '".$mType."');";
+			$query = 'INSERT INTO '.$newPrefix.'menu_types ( menutype, title ) VALUES ("'.$mType.'", "'.$mType.'");';
 			$db->setQuery($query);
 			$db->query();
 			JInstallationHelper::getDBErrors($errors, $db );
@@ -1671,12 +1671,12 @@ class JInstallationHelper
 		/*
 		 * Add core client modules from old site to modules table as unpublished
 		 */
-		$query = "SELECT module FROM ".$newPrefix."modules WHERE client_id = 0 AND module != 'mod_mainmenu'";
+		$query = 'SELECT module FROM '.$newPrefix.'modules WHERE client_id = 0 AND module != "mod_mainmenu"';
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$lookup = $db->loadResultArray();
 
-		$query = "SELECT MAX(id) FROM ".$newPrefix."modules ";
+		$query = 'SELECT MAX(id) FROM '.$newPrefix.'modules ';
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$nextId = $db->loadResult();
@@ -1684,7 +1684,7 @@ class JInstallationHelper
 		foreach( $lookup as $module )
 		{
 			$nextId++;
-			$qry = "SELECT * FROM ".$newPrefix."modules_migration WHERE module = '".$module."' AND client_id = 0";
+			$qry = 'SELECT * FROM '.$newPrefix.'modules_migration WHERE module = "'.$module.'" AND client_id = 0';
 			$db->setQuery( $qry );
 			JInstallationHelper::getDBErrors($errors, $db );
 			if ( $row = $db->loadObject() )

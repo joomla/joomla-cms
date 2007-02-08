@@ -161,10 +161,10 @@ class NewsfeedsModelCategory extends JModel
 		if (empty($this->_category))
 		{
 			// current category info
-			$query = "SELECT c.*" .
-				"\n FROM #__categories AS c" .
-				"\n WHERE c.id = $this->_id" .
-				"\n AND c.section = 'com_newsfeeds'";
+			$query = 'SELECT c.*' .
+				' FROM #__categories AS c' .
+				' WHERE c.id = '. $this->_id .
+				' AND c.section = "com_newsfeeds"';
 			$this->_db->setQuery($query, 0, 1);
 			$this->_category = $this->_db->loadObject();
 		}
@@ -174,11 +174,11 @@ class NewsfeedsModelCategory extends JModel
 	function _buildQuery()
 	{
 		// We need to get a list of all weblinks in the given category
-		$query = "SELECT *" .
-			"\n FROM #__newsfeeds" .
-			"\n WHERE catid = $this->_id".
-			"\n AND published = 1" .
-			"\n ORDER BY ordering";
+		$query = 'SELECT *' .
+			' FROM #__newsfeeds' .
+			' WHERE catid = '.$this->_id.
+			' AND published = 1' .
+			' ORDER BY ordering';
 
 		return $query;
 	}

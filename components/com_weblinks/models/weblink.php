@@ -240,11 +240,11 @@ class WeblinksModelWeblink extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			$query = "SELECT w.*, cc.title AS category," .
-					"\n cc.published AS cat_pub, cc.access AS cat_access".
-					"\n FROM #__weblinks AS w" .
-					"\n LEFT JOIN #__categories AS cc ON cc.id = w.catid" .
-					"\n WHERE w.id = $this->_id";
+			$query = 'SELECT w.*, cc.title AS category,' .
+					' cc.published AS cat_pub, cc.access AS cat_access'.
+					' FROM #__weblinks AS w' .
+					' LEFT JOIN #__categories AS cc ON cc.id = w.catid' .
+					' WHERE w.id = '. $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 			return (boolean) $this->_data;

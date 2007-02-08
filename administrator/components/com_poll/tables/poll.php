@@ -76,9 +76,9 @@ class TablePoll extends JTable
 			return false;
 		}
 		// check for existing title
-		$query = "SELECT id"
-		. "\n FROM #__polls"
-		. "\n WHERE title = '$this->title'"
+		$query = 'SELECT id'
+		. ' FROM #__polls'
+		. ' WHERE title = "'.$this->title.'"'
 		;
 		$this->_db->setQuery( $query );
 
@@ -101,24 +101,24 @@ class TablePoll extends JTable
 		}
 
 		if ( parent::delete( $oid )) {
-			$query = "DELETE FROM #__poll_data"
-			. "\n WHERE pollid = ". $this->$k
+			$query = 'DELETE FROM #__poll_data'
+			. ' WHERE pollid = '. $this->$k
 			;
 			$this->_db->setQuery( $query );
 			if ( !$this->_db->query() ) {
 				$this->_error .= $this->_db->getErrorMsg() . "\n";
 			}
 
-			$query = "DELETE FROM #__poll_date"
-			. "\n WHERE pollid = ". $this->$k
+			$query = 'DELETE FROM #__poll_date'
+			. ' WHERE pollid = '. $this->$k
 			;
 			$this->_db->setQuery( $query );
 			if ( !$this->_db->query() ) {
 				$this->_error .= $this->_db->getErrorMsg() . "\n";
 			}
 
-			$query = "DELETE from #__poll_menu"
-			. "\n WHERE pollid = ". $this->$k
+			$query = 'DELETE from #__poll_menu'
+			. ' WHERE pollid = '. $this->$k
 			;
 			$this->_db->setQuery( $query );
 			if ( !$this->_db->query() ) {

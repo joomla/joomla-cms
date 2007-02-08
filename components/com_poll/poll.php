@@ -89,9 +89,9 @@ class PollController
 				$poll->title = JText::_( 'Select Poll from the list' );
 			}
 
-			$query = "SELECT MIN( date ) AS mindate, MAX( date ) AS maxdate"
-				. "\n FROM #__poll_date"
-				. "\n WHERE poll_id = $poll->id";
+			$query = 'SELECT MIN( date ) AS mindate, MAX( date ) AS maxdate'
+				. ' FROM #__poll_date'
+				. ' WHERE poll_id = '. $poll->id;
 			$db->setQuery( $query );
 			$dates = $db->loadObject();
 
@@ -100,12 +100,12 @@ class PollController
 				$last_vote 	= JHTML::Date( $dates->maxdate, DATE_FORMAT_LC2 );
 			}
 
-			$query = "SELECT a.id, a.text, a.hits, b.voters"
-				. "\n FROM #__poll_data AS a"
-				. "\n INNER JOIN #__polls AS b ON b.id = a.pollid"
-				. "\n WHERE a.pollid = $poll->id"
-				. "\n AND a.text <> ''"
-				. "\n ORDER BY a.hits DESC";
+			$query = 'SELECT a.id, a.text, a.hits, b.voters'
+				. ' FROM #__poll_data AS a'
+				. ' INNER JOIN #__polls AS b ON b.id = a.pollid'
+				. ' WHERE a.pollid = '. $poll->id
+				. ' AND a.text <> ""'
+				. ' ORDER BY a.hits DESC';
 			$db->setQuery( $query );
 			$votes = $db->loadObjectList();
 		} else {
@@ -113,10 +113,10 @@ class PollController
 		}
 
 		// list of polls for dropdown selection
-		$query = "SELECT id, title"
-			. "\n FROM #__polls"
-			. "\n WHERE published = 1"
-			. "\n ORDER BY id"
+		$query = 'SELECT id, title'
+			. ' FROM #__polls'
+			. ' WHERE published = 1'
+			. ' ORDER BY id'
 		;
 		$db->setQuery( $query );
 		$polls = $db->loadObjectList();

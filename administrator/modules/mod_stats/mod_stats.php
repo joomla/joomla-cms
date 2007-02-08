@@ -15,10 +15,10 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $db =& JFactory::getDBO();
-$query = "SELECT menutype, COUNT(id) AS numitems"
-. "\n FROM #__menu"
-. "\n WHERE published = 1"
-. "\n GROUP BY menutype"
+$query = 'SELECT menutype, COUNT(id) AS numitems'
+. ' FROM #__menu'
+. ' WHERE published = 1'
+. ' GROUP BY menutype'
 ;
 $db->setQuery( $query );
 $rows = $db->loadObjectList();

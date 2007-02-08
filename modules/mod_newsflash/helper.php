@@ -79,19 +79,19 @@ class modNewsFlashHelper
 		$nullDate = $db->getNullDate();
 
 		// query to determine article count
-		$query = "SELECT a.id, a.introtext, a.`fulltext`, a.images, a.attribs, a.title, a.state" .
-			"\n FROM #__content AS a" .
-			"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
-			"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
-			"\n WHERE a.state = 1".
-			($noauth ? "\n AND a.access <= " .(int) $aid. " AND cc.access <= " .(int) $aid. " AND s.access <= " .(int) $aid : '').
-			"\n AND (a.publish_up = '$nullDate' OR a.publish_up <= '$now' ) " .
-			"\n AND (a.publish_down = '$nullDate' OR a.publish_down >= '$now' )" .
-			"\n AND cc.id = $catid".
-			"\n AND cc.section = s.id" .
-			"\n AND cc.published = 1" .
-			"\n AND s.published = 1" .
-			"\n ORDER BY a.ordering";
+		$query = 'SELECT a.id, a.introtext, a.`fulltext`, a.images, a.attribs, a.title, a.state' .
+			' FROM #__content AS a' .
+			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
+			' INNER JOIN #__sections AS s ON s.id = a.sectionid' .
+			' WHERE a.state = 1 ' .
+			($noauth ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid. ' AND s.access <= ' .(int) $aid : '').
+			' AND (a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" ) ' .
+			' AND (a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )' .
+			' AND cc.id = '. $catid .
+			' AND cc.section = s.id' .
+			' AND cc.published = 1' .
+			' AND s.published = 1' .
+			' ORDER BY a.ordering';
 		$db->setQuery($query, 0, $items);
 		$rows = $db->loadObjectList();
 

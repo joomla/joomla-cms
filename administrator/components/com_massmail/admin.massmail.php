@@ -86,18 +86,18 @@ function sendMail()
 	$rows = array();
 	if ( count( $to['users'] ) || $gou === '0' ) {
 		// Get sending email address
-		$query = "SELECT email"
-		. "\n FROM #__users"
-		. "\n WHERE id = " .$user->get('id')
+		$query = 'SELECT email'
+		. ' FROM #__users'
+		. ' WHERE id = ' .$user->get('id')
 		;
 		$db->setQuery( $query );
 		$user->set( 'email', $db->loadResult() );
 
 		// Get all users email and group except for senders
-		$query = "SELECT email"
-		. "\n FROM #__users"
-		. "\n WHERE id != " .$user->get('id')
-		. ( $gou !== '0' ? " AND id IN (" . implode( ',', $to['users'] ) . ")" : '' )
+		$query = 'SELECT email'
+		. ' FROM #__users'
+		. ' WHERE id != ' .$user->get('id')
+		. ( $gou !== '0' ? ' AND id IN (' . implode( ',', $to['users'] ) . ')' : '' )
 		;
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList();

@@ -28,10 +28,10 @@ class JElement_Poll extends JElement
 	{
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT a.id, a.title"
-		. "\n FROM #__polls AS a"
-		. "\n WHERE a.published = 1"
-		. "\n ORDER BY a.title"
+		$query = 'SELECT a.id, a.title'
+		. ' FROM #__polls AS a'
+		. ' WHERE a.published = 1'
+		. ' ORDER BY a.title'
 		;
 		$db->setQuery( $query );
 		$options = $db->loadObjectList();

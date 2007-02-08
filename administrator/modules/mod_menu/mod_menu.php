@@ -61,13 +61,13 @@ function & buildMenu($usertype = '')
 	$canMassMail		= $user->authorize('com_massmail', 'manage');
 	$canManageUsers		= $user->authorize('com_users', 'manage');
 
-	$query = "SELECT a.id, a.title, a.name, COUNT( DISTINCT c.id ) AS numcat, COUNT( DISTINCT b.id ) AS numarc" .
-			"\n FROM #__sections AS a" .
-			"\n LEFT JOIN #__categories AS c ON c.section = a.id" .
-			"\n LEFT JOIN #__content AS b ON b.sectionid = a.id AND b.state = -1" .
-			"\n WHERE a.scope = 'content'" .
-			"\n GROUP BY a.id" .
-			"\n ORDER BY a.ordering";
+	$query = 'SELECT a.id, a.title, a.name, COUNT( DISTINCT c.id ) AS numcat, COUNT( DISTINCT b.id ) AS numarc' .
+			' FROM #__sections AS a' .
+			' LEFT JOIN #__categories AS c ON c.section = a.id' .
+			' LEFT JOIN #__content AS b ON b.sectionid = a.id AND b.state = -1' .
+			' WHERE a.scope = "content"' .
+			' GROUP BY a.id' .
+			' ORDER BY a.ordering';
 	$db->setQuery($query);
 	$sections = $db->loadObjectList();
 	$nonemptySections = 0;
@@ -156,11 +156,11 @@ function & buildMenu($usertype = '')
 	if ($editAllComponents) {
 		$menu->addChild(new JMenuNode(JText::_('Components')), true);
 
-		$query = "SELECT *" .
-				"\n FROM #__components" .
-				"\n WHERE ".$db->NameQuote( 'option' )." <> 'com_frontpage'" .
-				"\n AND ".$db->NameQuote( 'option' )." <> 'com_media'" .
-				"\n ORDER BY ordering, name";
+		$query = 'SELECT *' .
+				' FROM #__components' .
+				' WHERE '.$db->NameQuote( 'option' ).' <> "com_frontpage"' .
+				' AND '.$db->NameQuote( 'option' ).' <> "com_media"' .
+				' ORDER BY ordering, name';
 		$db->setQuery($query);
 		$comps = $db->loadObjectList(); // component list
 		$subs = array (); // sub menus

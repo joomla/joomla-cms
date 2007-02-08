@@ -129,9 +129,9 @@ class TableMessage extends JTable
 			$message	= $message	? $message	: $this->message;
 		}
 
-		$query = "SELECT cfg_name, cfg_value" .
-				"\n FROM #__messages_cfg" .
-				"\n WHERE user_id = $toId";
+		$query = 'SELECT cfg_name, cfg_value' .
+				' FROM #__messages_cfg' .
+				' WHERE user_id = '. $toId;
 		$db->setQuery($query);
 
 		$config = $db->loadObjectList('cfg_name');
@@ -150,9 +150,9 @@ class TableMessage extends JTable
 			{
 				if ($domail)
 				{
-					$query = "SELECT email" .
-							"\n FROM #__users" .
-							"\n WHERE id = $to_id";
+					$query = 'SELECT email' .
+							' FROM #__users' .
+							' WHERE id = '. $to_id;
 					$db->setQuery($query);
 					$recipient	= $db->loadResult();
 					$subject	= JText::_('A new private message has arrived');

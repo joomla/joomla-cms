@@ -160,9 +160,9 @@ class ContentController extends JController
 			else
 			{
 				// For existing items keep existing state - author is not allowed to change status
-				$query = "SELECT state" .
-						"\n FROM #__content" .
-						"\n WHERE id = $row->id";
+				$query = 'SELECT state' .
+						' FROM #__content' .
+						' WHERE id = '.$row->id;
 				$db->setQuery($query);
 				$state = $db->loadResult();
 
@@ -201,8 +201,8 @@ class ContentController extends JController
 			if (!$fp->load($row->id))
 			{
 				// new entry
-				$query = "INSERT INTO #__content_frontpage" .
-						"\n VALUES ( $row->id, 1 )";
+				$query = 'INSERT INTO #__content_frontpage' .
+						' VALUES ( '.$row->id.', 1 )';
 				$db->setQuery($query);
 				if (!$db->query())
 				{
@@ -225,17 +225,17 @@ class ContentController extends JController
 		$row->reorder("catid = " . (int) $row->catid );
 
 		// gets section name of item
-		$query = "SELECT s.title" .
-				"\n FROM #__sections AS s" .
-				"\n WHERE s.scope = 'content'" .
-				"\n AND s.id = " . (int) $row->sectionid;
+		$query = 'SELECT s.title' .
+				' FROM #__sections AS s' .
+				' WHERE s.scope = "content"' .
+				' AND s.id = ' . (int) $row->sectionid;
 		$db->setQuery($query);
 		// gets category name of item
 		$section = $db->loadResult();
 
-		$query = "SELECT c.title" .
-				"\n FROM #__categories AS c" .
-				"\n WHERE c.id = " . (int) $row->catid;
+		$query = 'SELECT c.title' .
+				' FROM #__categories AS c' .
+				' WHERE c.id = ' . (int) $row->catid;
 		$db->setQuery($query);
 		$category = $db->loadResult();
 
@@ -243,9 +243,9 @@ class ContentController extends JController
 		{
 			// messaging for new items
 			require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'tables'.DS.'message.php');
-			$query = "SELECT id" .
-					"\n FROM #__users" .
-					"\n WHERE sendEmail = 1";
+			$query = 'SELECT id' .
+					' FROM #__users' .
+					' WHERE sendEmail = 1';
 			$db->setQuery($query);
 			$users = $db->loadResultArray();
 			foreach ($users as $user_id)
@@ -366,9 +366,9 @@ class ContentController extends JController
 		$db		= & JFactory::getDBO();
 		$keyref	= $db->getEscaped(JRequest::getVar('keyref'));
 
-		$query = "SELECT id" .
-				"\n FROM #__content" .
-				"\n WHERE attribs LIKE '%keyref=$keyref%'";
+		$query = 'SELECT id' .
+				' FROM #__content' .
+				' WHERE attribs LIKE "%keyref='.$keyref.'%"';
 		$db->setQuery($query);
 		$id = $db->loadResult();
 		if ($id > 0)

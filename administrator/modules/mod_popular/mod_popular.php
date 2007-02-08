@@ -15,11 +15,11 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $db =& JFactory::getDBO();
-$query = "SELECT a.hits, a.id, a.sectionid, a.title, a.created, u.name"
-. "\n FROM #__content AS a"
-. "\n LEFT JOIN #__users AS u ON u.id=a.created_by"
-. "\n WHERE a.state <> -2"
-. "\n ORDER BY hits DESC"
+$query = 'SELECT a.hits, a.id, a.sectionid, a.title, a.created, u.name'
+. ' FROM #__content AS a'
+. ' LEFT JOIN #__users AS u ON u.id=a.created_by'
+. ' WHERE a.state <> -2'
+. ' ORDER BY hits DESC'
 ;
 $db->setQuery( $query, 0, 10 );
 $rows = $db->loadObjectList();

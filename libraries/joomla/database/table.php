@@ -269,8 +269,8 @@ class JTable extends JObject
 		$db =& $this->getDBO();
 
 		$query = 'SELECT *'
-		. "\n FROM $this->_tbl"
-		. "\n WHERE $this->_tbl_key = '$oid'"
+		. ' FROM $this->_tbl'
+		. ' WHERE $this->_tbl_key = "'.$oid.'"'
 		;
 		$db->setQuery( $query );
 
@@ -345,21 +345,21 @@ class JTable extends JObject
 
 		if ($dirn < 0)
 		{
-			$sql .= "\n WHERE ordering < $this->ordering";
-			$sql .= ($where ? "\n	AND $where" : '');
-			$sql .= "\n ORDER BY ordering DESC";
+			$sql .= ' WHERE ordering < $this->ordering';
+			$sql .= ($where ? '	AND '.$where : '');
+			$sql .= ' ORDER BY ordering DESC';
 		}
 		else if ($dirn > 0)
 		{
-			$sql .= "\n WHERE ordering > $this->ordering";
-			$sql .= ($where ? "\n	AND $where" : '');
-			$sql .= "\n ORDER BY ordering";
+			$sql .= ' WHERE ordering > '.$this->ordering;
+			$sql .= ($where ? '	AND '. $where : '');
+			$sql .= ' ORDER BY ordering';
 		}
 		else
 		{
-			$sql .= "\nWHERE ordering = $this->ordering";
-			$sql .= ($where ? "\n AND $where" : '');
-			$sql .= "\n ORDER BY ordering";
+			$sql .= 'WHERE ordering = '. $this->ordering;
+			$sql .= ($where ? ' AND '.$where : '');
+			$sql .= ' ORDER BY ordering';
 		}
 
 		$this->_db->setQuery( $sql, 0, 1 );
@@ -369,9 +369,9 @@ class JTable extends JObject
 		$row = $this->_db->loadObject();
 		if (isset($row))
 		{
-			$query = "UPDATE $this->_tbl"
-			. "\n SET ordering = '$row->ordering'"
-			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
+			$query = 'UPDATE '. $this->_tbl
+			. ' SET ordering = "'. $row->ordering. '"'
+			. ' WHERE '. $this->_tbl_key .' = "'. $this->$k . '"'
 			;
 			$this->_db->setQuery( $query );
 
@@ -381,9 +381,9 @@ class JTable extends JObject
 				die( $err );
 			}
 
-			$query = "UPDATE $this->_tbl"
-			. "\n SET ordering = '$this->ordering'"
-			. "\n WHERE $this->_tbl_key = '". $row->$k. "'"
+			$query = 'UPDATE '.$this->_tbl
+			. ' SET ordering = "'.$this->ordering.'"'
+			. ' WHERE $this->_tbl_key = "'. $row->$k. '"'
 			;
 			$this->_db->setQuery( $query );
 
@@ -397,9 +397,9 @@ class JTable extends JObject
 		}
 		else
 		{
-			$query = "UPDATE $this->_tbl"
-			. "\n SET ordering = '$this->ordering'"
-			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
+			$query = 'UPDATE '. $this->_tbl . 
+			. ' SET ordering = "'.$this->ordering.'"'
+			. ' WHERE '. $this->_tbl_key .' = "'. $this->$k .'"'
 			;
 			$this->_db->setQuery( $query );
 
@@ -468,10 +468,10 @@ class JTable extends JObject
 			$order2 = "";
 		}
 
-		$query = "SELECT $this->_tbl_key, ordering"
-		. "\n FROM $this->_tbl"
-		. ( $where ? "\n WHERE $where" : '' )
-		. "\n ORDER BY ordering$order2 "
+		$query = 'SELECT '.$this->_tbl_key.', ordering'
+		. ' FROM '. $this->_tbl
+		. ( $where ? ' WHERE '. $where : '' )
+		. ' ORDER BY ordering'.$order2 
 		;
 		$this->_db->setQuery( $query );
 		if (!($orders = $this->_db->loadObjectList()))
@@ -488,9 +488,9 @@ class JTable extends JObject
 				if ($orders[$i]->ordering != $i+1)
 				{
 					$orders[$i]->ordering = $i+1;
-					$query = "UPDATE $this->_tbl"
-					. "\n SET ordering = '". $orders[$i]->ordering ."'"
-					. "\n WHERE $k = '". $orders[$i]->$k ."'"
+					$query = 'UPDATE '.$this->_tbl
+					. ' SET ordering = "'. $orders[$i]->ordering .'"'
+					. ' WHERE '. $k .' = "'. $orders[$i]->$k .'"'
 					;
 					$this->_db->setQuery( $query);
 					$this->_db->query();
@@ -573,15 +573,15 @@ class JTable extends JObject
 			$join = "";
 			foreach( $joins as $table )
 			{
-				$select .= ",\n COUNT(DISTINCT {$table['idfield']}) AS {$table['idfield']}";
-				$join .= "\n LEFT JOIN {$table['name']} ON {$table['joinfield']} = $k";
+				$select .= ', COUNT(DISTINCT '.$table['idfield'].') AS '.$table['idfield'];
+				$join .= ' LEFT JOIN '.$table['name'].' ON '.$table['joinfield'].' = '.$k;
 			}
 
-			$query = "SELECT $select"
-			. "\n FROM $this->_tbl"
+			$query = 'SELECT '. $select
+			. ' FROM '. $this->_tbl
 			. $join
-			. "\n WHERE $k = ". $this->$k .""
-			. "\n GROUP BY $k"
+			. ' WHERE '. $k .' = "'. $this->$k .'"'
+			. ' GROUP BY '. $k
 			;
 			$this->_db->setQuery( $query );
 
@@ -638,7 +638,7 @@ class JTable extends JObject
 		}
 
 		$query = 'DELETE FROM '.$this->_db->nameQuote( $this->_tbl ).
-				"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
+				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 
 		if ($this->_db->query())
@@ -674,8 +674,8 @@ class JTable extends JObject
 		$time = date( 'Y-m-d H:i:s' );
 
 		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ) .
-			"\n SET checked_out = ".(int)$who.", checked_out_time = ".$this->_db->Quote($time) .
-			"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
+			' SET checked_out = '.(int)$who.', checked_out_time = '.$this->_db->Quote($time) .
+			' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 
 		$this->checked_out = $who;
@@ -707,8 +707,8 @@ class JTable extends JObject
 		}
 
 		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ).
-				"\n SET checked_out = 0, checked_out_time = ".$this->_db->Quote($this->_db->_nullDate) .
-				"\n WHERE ".$this->_tbl_key." = ". $this->_db->Quote($this->$k);
+				' SET checked_out = 0, checked_out_time = '.$this->_db->Quote($this->_db->_nullDate) .
+				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 
 		$this->checked_out = 0;
@@ -732,9 +732,9 @@ class JTable extends JObject
 			$this->$k = intval( $oid );
 		}
 
-		$query = "UPDATE $this->_tbl"
-		. "\n SET hits = ( hits + 1 )"
-		. "\n WHERE $this->_tbl_key =". $this->_db->Quote($this->$k);
+		$query = 'UPDATE '. $this->_tbl
+		. ' SET hits = ( hits + 1 )'
+		. ' WHERE '. $this->_tbl_key .'='. $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 		$this->_db->query();
 	}
@@ -851,15 +851,15 @@ class JTable extends JObject
 
 		$cids = $k . '=' . implode( ' OR ' . $k . '=', $cid );
 
-		$query = "UPDATE $this->_tbl"
-		. "\n SET published = " . (int) $publish
-		. "\n WHERE ($cids)"
+		$query = 'UPDATE '. $this->_tbl
+		. ' SET published = ' . (int) $publish
+		. ' WHERE ('.$cids.')'
 		;
 
 		$checkin = in_array( 'checked_out', $this->getPublicProperties() );
 		if ($checkin)
 		{
-			$query .= "\n AND (checked_out = 0 OR checked_out = $user_id)";
+			$query .= ' AND (checked_out = 0 OR checked_out = '.$user_id.')';
 		}
 
 		$this->_db->setQuery( $query );

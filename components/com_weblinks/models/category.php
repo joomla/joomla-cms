@@ -193,10 +193,10 @@ class WeblinksModelCategory extends JModel
 		if (empty($this->_category))
 		{
 			// current category info
-			$query = "SELECT c.*" .
-				"\n FROM #__categories AS c" .
-				"\n WHERE c.id = $this->_id" .
-				"\n AND c.section = 'com_weblinks'";
+			$query = 'SELECT c.*' .
+				' FROM #__categories AS c' .
+				' WHERE c.id = '. $this->_id .
+				' AND c.section = "com_weblinks"';
 			$this->_db->setQuery($query, 0, 1);
 			$this->_category = $this->_db->loadObject();
 		}
@@ -209,12 +209,12 @@ class WeblinksModelCategory extends JModel
 		$filter_order_dir	= $this->getState('filter_order_dir');
 
 		// We need to get a list of all weblinks in the given category
-		$query = "SELECT *" .
-			"\n FROM #__weblinks" .
-			"\n WHERE catid = $this->_id".
-			"\n AND published = 1" .
-			"\n AND archived = 0".
-			"\n ORDER BY $filter_order $filter_order_dir, ordering";
+		$query = 'SELECT *' .
+			' FROM #__weblinks' .
+			' WHERE catid = '. $this->_id.
+			' AND published = 1' .
+			' AND archived = 0'.
+			' ORDER BY '. $filter_order .' '. $filter_order_dir .', ordering';
 
 		return $query;
 	}

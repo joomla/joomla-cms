@@ -51,11 +51,11 @@ class ConfigControllerApplication extends ConfigController
 		// -- Editors --
 
 		// compile list of the editors
-		$query = "SELECT element AS value, name AS text"
-				."\n FROM #__plugins"
-				."\n WHERE folder = 'editors'"
-				."\n AND published = 1"
-				."\n ORDER BY ordering, name"
+		$query = 'SELECT element AS value, name AS text'
+				.' FROM #__plugins'
+				.' WHERE folder = "editors"'
+				.' AND published = 1'
+				.' ORDER BY ordering, name'
 				;
 		$db->setQuery($query);
 		$edits = $db->loadObjectList();
@@ -68,11 +68,11 @@ class ConfigControllerApplication extends ConfigController
 
 		// -- menu items --
 
-		$query = "SELECT id AS value, name AS text FROM #__menu"
-				."\n WHERE ( type='content_section' OR type='components' OR type='content_typed' )"
-				."\n AND published = 1"
-				."\n AND access = 0"
-				."\n ORDER BY name"
+		$query = 'SELECT id AS value, name AS text FROM #__menu'
+				.' WHERE ( type="content_section" OR type="components" OR type="content_typed" )'
+				.' AND published = 1'
+				.' AND access = 0'
+				.' ORDER BY name'
 				;
 		$db->setQuery($query);
 		$menuitems = array_merge($menuitems, $db->loadObjectList());

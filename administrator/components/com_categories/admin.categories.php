@@ -121,7 +121,7 @@ function showCategories( $section, $option )
 	$section_name 	= '';
 	$content_add 	= '';
 	$content_join 	= '';
-	$order 			= ' ORDER BY $filter_order $filter_order_Dir, c.ordering';
+	$order 			= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', c.ordering';
 	if (intval( $section ) > 0) {
 		$table = 'content';
 

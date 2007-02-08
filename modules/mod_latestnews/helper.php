@@ -39,8 +39,8 @@ class modLatestNewsHelper
 		$now		= date('Y-m-d H:i:s', time());
 
 		$where		= 'a.state = 1'
-			. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
-			. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
+			. ' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )'
+			. ' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )'
 			;
 
 		// User Filter
@@ -81,19 +81,19 @@ class modLatestNewsHelper
 		}
 
 		// Content Items only
-		$query = "SELECT a.id, a.title, a.sectionid, a.catid" .
-			"\n FROM #__content AS a" .
-			($show_front == '0' ? "\n LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id" : '') .
-			"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
-			"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
-			"\n WHERE $where AND s.id > 0" .
-			($access ? "\n AND a.access <= " .(int) $aid. " AND cc.access <= " .(int) $aid. " AND s.access <= " .(int) $aid : '').
-			($catid ? "\n $catCondition" : '').
-			($secid ? "\n $secCondition" : '').
-			($show_front == '0' ? "\n AND f.content_id IS NULL" : '').
-			"\n AND s.published = 1" .
-			"\n AND cc.published = 1" .
-			"\n ORDER BY $ordering";
+		$query = 'SELECT a.id, a.title, a.sectionid, a.catid' .
+			' FROM #__content AS a' .
+			($show_front == '0' ? ' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' : '') .
+			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
+			' INNER JOIN #__sections AS s ON s.id = a.sectionid' .
+			' WHERE '. $where .' AND s.id > 0' .
+			($access ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid. ' AND s.access <= ' .(int) $aid : '').
+			($catid ? $catCondition : '').
+			($secid ? $secCondition : '').
+			($show_front == '0' ? ' AND f.content_id IS NULL ' : '').
+			' AND s.published = 1' .
+			' AND cc.published = 1' .
+			' ORDER BY '. $ordering;
 		$db->setQuery($query, 0, $count);
 		$rows = $db->loadObjectList();
 

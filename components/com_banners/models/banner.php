@@ -71,9 +71,9 @@ class BannersModelBanner extends JModel
 
 		$query = "SELECT *"
 			. ($randomise ? ', RAND() AS ordering' : '')
-			. "\n FROM #__banner"
-			. "\n WHERE " . implode( " AND ", $wheres )
-			. "\nORDER BY sticky DESC, ordering ";
+			. ' FROM #__banner'
+			. ' WHERE ' . implode( ' AND ', $wheres )
+			. ' ORDER BY sticky DESC, ordering ';
 
 		$db->setQuery( $query, 0, $filters['limit'] );
 
@@ -105,9 +105,9 @@ class BannersModelBanner extends JModel
 			$expire = ($item->imptotal >= $item->impmade);
 
 			$query = 'UPDATE #__banner'
-			. "\n SET impmade = impmade + 1"
+			. ' SET impmade = impmade + 1'
 			. ($expire ? ', showBanner=0' : '')
-			. "\n WHERE bid = $item->bid"
+			. ' WHERE bid = '. $item->bid
 			;
 			$db->setQuery( $query );
 

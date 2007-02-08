@@ -95,10 +95,10 @@ class WeblinksControllerWeblink extends WeblinksController
 		$gid = 25;
 
 		// list of admins
-		$query = "SELECT email, name" .
-				"\n FROM #__users" .
-				"\n WHERE gid = $gid" .
-				"\n AND sendEmail = 1";
+		$query = 'SELECT email, name' .
+				' FROM #__users' .
+				' WHERE gid = ' . $gid .
+				' AND sendEmail = 1';
 		$db->setQuery($query);
 		if (!$db->query()) {
 			JError::raiseError( 500, $db->stderr(true));

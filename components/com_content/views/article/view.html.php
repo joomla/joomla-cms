@@ -346,7 +346,7 @@ class ContentViewArticle extends JView
 		$lists['catid'] = JAdminMenus::ComponentCategory('catid', $article->sectionid, intval($article->catid));
 
 		// Select List: Category Ordering
-		$query = "SELECT ordering AS value, title AS text"."\n FROM #__content"."\n WHERE catid = $article->catid"."\n ORDER BY ordering";
+		$query = 'SELECT ordering AS value, title AS text FROM #__content WHERE catid = '.$article->catid.' ORDER BY ordering';
 		$lists['ordering'] = JAdminMenus::SpecificOrdering($article, $article->id, $query, 1);
 
 		// Radio Buttons: Should the article be published
@@ -354,7 +354,7 @@ class ContentViewArticle extends JView
 
 		// Radio Buttons: Should the article be added to the frontpage
 		if($article->id) {
-			$query = "SELECT content_id"."\n FROM #__content_frontpage"."\n WHERE content_id = $article->id";
+			$query = 'SELECT content_id FROM #__content_frontpage WHERE content_id = '. $article->id;
 			$db->setQuery($query);
 			$article->frontpage = $db->loadResult();
 		} else {

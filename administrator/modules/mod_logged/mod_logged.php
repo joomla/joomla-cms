@@ -27,20 +27,20 @@ $limitstart 	= $mainframe->getUserStateFromRequest( 'mod_logged.limitstart', 'li
 $and = '';
 // administrator check
 if ( $user->get('gid') == 24 ) {
-	$and = "\n AND gid != '25'";
+	$and = ' AND gid != "25"';
 }
 // manager check
 if ( $user->get('gid') == 23 ) {
-	$and = "\n AND gid != '25'";
-	$and .= "\n AND gid != '24'";
+	$and = ' AND gid != "25"';
+	$and .= ' AND gid != "24"';
 }
 
 // get the total number of records
-$query = "SELECT COUNT(*)"
-. "\n FROM #__session"
-. "\n WHERE userid != 0"
+$query = 'SELECT COUNT(*)'
+. ' FROM #__session'
+. ' WHERE userid != 0'
 . $and
-. "\n ORDER BY usertype, username"
+. ' ORDER BY usertype, username'
 ;
 $db->setQuery( $query );
 $total = $db->loadResult();
@@ -48,11 +48,11 @@ $total = $db->loadResult();
 // page navigation
 $pageNav = new JPagination( $total, $limitstart, $limit );
 
-$query = "SELECT *"
-. "\n FROM #__session"
-. "\n WHERE userid != 0"
+$query = 'SELECT *'
+. ' FROM #__session'
+. ' WHERE userid != 0'
 . $and
-. "\n ORDER BY usertype, username"
+. ' ORDER BY usertype, username'
 ;
 $db->setQuery( $query );
 $rows = $db->loadObjectList();

@@ -231,13 +231,13 @@ class ContentModelSection extends JModel
 		{
 			// Lets get the information for the current section
 			if ($this->_id) {
-				$where = "\n WHERE id = '$this->_id'";
+				$where = ' WHERE id = '. $this->_id;
 			} else {
 				$where = null;
 			}
 
-			$query = "SELECT *" .
-					"\n FROM #__sections" .
+			$query = 'SELECT *' .
+					' FROM #__sections' .
 					$where;
 			$this->_db->setQuery($query, 0, 1);
 			$this->_section = $this->_db->loadObject();
@@ -276,12 +276,12 @@ class ContentModelSection extends JModel
 			// Handle the access permissions part of the main database query
 			if ($user->authorize('action', 'edit', 'content', 'all')) {
 				$xwhere = '';
-				$xwhere2 = "\n AND b.state >= 0";
+				$xwhere2 = ' AND b.state >= 0';
 			} else {
-				$xwhere = "\n AND a.published = 1";
-				$xwhere2 = "\n AND b.state = 1" .
-						"\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )" .
-						"\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )";
+				$xwhere = ' AND a.published = 1';
+				$xwhere2 = ' AND b.state = 1' .
+						' AND ( b.publish_up = "'.$nullDate.'" OR b.publish_up <= "'.$now.'" )' .
+						' AND ( b.publish_down = "'.$nullDate.'" OR b.publish_down >= "'.$now.'" )';
 			}
 
 			// Determine whether to show/hide the empty categories and sections
@@ -290,25 +290,25 @@ class ContentModelSection extends JModel
 
 			// show/hide empty categories in section
 			if (!$params->get('empty_cat_section')) {
-				$empty_sec = "\n HAVING numitems > 0";
+				$empty_sec = ' HAVING numitems > 0';
 			}
 
 			// Handle the access permissions
 			$access_check = null;
 			if ($noauth) {
-				$access_check = "\n AND a.access <= ".(int) $gid;
+				$access_check = ' AND a.access <= '.(int) $gid;
 			}
 
 			// Query of categories within section
-			$query = "SELECT a.*, COUNT( b.id ) AS numitems" .
-					"\n FROM #__categories AS a" .
-					"\n LEFT JOIN #__content AS b ON b.catid = a.id".
+			$query = 'SELECT a.*, COUNT( b.id ) AS numitems' .
+					' FROM #__categories AS a' .
+					' LEFT JOIN #__content AS b ON b.catid = a.id'.
 					$xwhere2 .
-					"\n WHERE a.section = '$this->_id'".
+					' WHERE a.section = '.$this->_id.
 					$xwhere.
 					$access_check .
-					"\n GROUP BY a.id".$empty.$empty_sec .
-					"\n ORDER BY $orderby";
+					' GROUP BY a.id'.$empty.$empty_sec .
+					' ORDER BY '. $orderby;
 			$this->_db->setQuery($query);
 			$this->_categories = $this->_db->loadObjectList();
 		}
@@ -361,22 +361,22 @@ class ContentModelSection extends JModel
 
 			// Get the information for the current section
 			if ($this->_id) {
-				$and = "\n AND a.section = '$this->_id'";
+				$and = ' AND a.section = '.$this->_id;
 			} else {
 				$and = null;
 			}
 
 			// Query of categories within section
-			$query = "SELECT a.name AS catname, a.title AS cattitle, b.* " .
-				"\n FROM #__categories AS a" .
-				"\n INNER JOIN #__content AS b ON b.catid = a.id" .
-				"\n AND b.state = 1" .
-				"\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )" .
-				"\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )";
-				"\n WHERE a.published = 1" .
+			$query = 'SELECT a.name AS catname, a.title AS cattitle, b.* ' .
+				' FROM #__categories AS a' .
+				' INNER JOIN #__content AS b ON b.catid = a.id' .
+				' AND b.state = 1' .
+				' AND ( b.publish_up = "'.$nullDate.'" OR b.publish_up <= "'.$now.'" )' .
+				' AND ( b.publish_down = "'.$nullDate.'" OR b.publish_down >= "'.$now.'" )';
+				' WHERE a.published = 1' .
 				$and .
-				"\n AND a.access <= ".(int) $aid .
-				"\n ORDER BY a.catid, a.ordering, b.ordering";
+				' AND a.access <= '.(int) $aid .
+				' ORDER BY a.catid, a.ordering, b.ordering';
 			$this->_db->setQuery($query);
 			$this->_tree = $this->_db->loadObjectList();
 		}
@@ -392,15 +392,15 @@ class ContentModelSection extends JModel
 		$where		= $this->_buildContentWhere($state);
 		$orderby	= $this->_buildContentOrderBy($state);
 
-		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
-				"\n CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(':', a.id, a.title_alias) ELSE a.id END as slug,".
-				"\n CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, cc.name AS category, g.name AS groups".$voting['select'] .
-				"\n FROM #__content AS a" .
-				"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
-				"\n LEFT JOIN #__sections AS s ON s.id = a.sectionid" .
-				"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-				"\n LEFT JOIN #__groups AS g ON a.access = g.id".
+		$query = 'SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
+				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
+				' CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(':', a.id, a.title_alias) ELSE a.id END as slug,'.
+				' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, cc.name AS category, g.name AS groups'.$voting['select'] .
+				' FROM #__content AS a' .
+				' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
+				' LEFT JOIN #__sections AS s ON s.id = a.sectionid' .
+				' LEFT JOIN #__users AS u ON u.id = a.created_by' .
+				' LEFT JOIN #__groups AS g ON a.access = g.id'.
 				$voting['join'].
 				$where.
 				$orderby;
@@ -414,9 +414,9 @@ class ContentModelSection extends JModel
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
 		$Itemid				= JRequest::getVar('Itemid');
 
-		$orderby = "\n ORDER BY ";
+		$orderby = ' ORDER BY ';
 		if ($filter_order && $filter_order_Dir) {
-			$orderby .= "$filter_order $filter_order_Dir, ";
+			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
 		}
 
 		// Get the paramaters of the active menu item
@@ -456,26 +456,26 @@ class ContentModelSection extends JModel
 		$Itemid		= JRequest::getVar('Itemid');
 
 		// First thing we need to do is assert that the articles are in the current category
-		$where = "\n WHERE a.access <= ".(int) $aid;
+		$where = ' WHERE a.access <= '.(int) $aid;
 		if ($this->_id) {
-			$where .= "\n AND s.id = ".(int)$this->_id;
+			$where .= ' AND s.id = '.(int)$this->_id;
 		}
 
-		$where .= "\n AND s.access <= ".(int) $aid;
-		$where .= "\n AND cc.access <= ".(int) $aid;
-		$where .= "\n AND s.published = 1";
-		$where .= "\n AND cc.published = 1";
+		$where .= ' AND s.access <= '.(int) $aid;
+		$where .= ' AND cc.access <= '.(int) $aid;
+		$where .= ' AND s.published = 1';
+		$where .= ' AND cc.published = 1';
 
 		// Regular Published Content
 		switch ($state)
 		{
 			case 1:
 				if ($user->authorize('action', 'edit', 'content', 'all')) {
-					$where .= "\n AND a.state >= 0";
+					$where .= ' AND a.state >= 0';
 				} else {
-					$where .= "\n AND a.state = 1" .
-							"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
-							"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
+					$where .= ' AND a.state = 1' .
+							' AND ( publish_up = "'.$nullDate.'" OR publish_up <= "'.$now.'" )' .
+							' AND ( publish_down = "'.$nullDate.'" OR publish_down >= "'.$now.'" )';
 				}
 				break;
 
@@ -485,12 +485,12 @@ class ContentModelSection extends JModel
 				$year	= JRequest::getVar( 'year', date('Y') );
 				$month	= JRequest::getVar( 'month', date('m') );
 
-				$where .= "\n AND a.state = '-1'";
-				$where .= "\n AND YEAR( a.created ) = '$year'";
-				$where .= "\n AND MONTH( a.created ) = '$month'";
+				$where .= ' AND a.state = "-1"';
+				$where .= ' AND YEAR( a.created ) = '.$year;
+				$where .= ' AND MONTH( a.created ) = '.$month;
 				break;
 			default:
-				$where .= "\n AND a.state = '$state'";
+				$where .= ' AND a.state = "'.$state.'"';
 				break;
 		}
 
@@ -511,15 +511,15 @@ class ContentModelSection extends JModel
 				switch ($params->get('filter_type'))
 				{
 					case 'title' :
-						$where .= "\n AND LOWER( a.title ) LIKE '%$filter%'";
+						$where .= ' AND LOWER( a.title ) LIKE "%'.$filter.'%"';
 						break;
 
 					case 'author' :
-						$where .= "\n AND ( ( LOWER( u.name ) LIKE '%$filter%' ) OR ( LOWER( a.created_by_alias ) LIKE '%$filter%' ) )";
+						$where .= ' AND ( ( LOWER( u.name ) LIKE "%'.$filter.'%" ) OR ( LOWER( a.created_by_alias ) LIKE "%'.$filter.'%" ) )';
 						break;
 
 					case 'hits' :
-						$where .= "\n AND a.hits LIKE '%$filter%'";
+						$where .= ' AND a.hits LIKE "%'.$filter.'%"';
 						break;
 				}
 			}

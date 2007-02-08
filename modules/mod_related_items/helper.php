@@ -37,9 +37,9 @@ class modRelatedItemsHelper
 		if ($option == 'com_content' && $task == 'view' && $id)
 		{
 			// select the meta keywords from the item
-			$query = "SELECT metakey" .
-					"\n FROM #__content" .
-					"\n WHERE id = $id";
+			$query = 'SELECT metakey' .
+					' FROM #__content' .
+					' WHERE id = '.$id;
 			$db->setQuery($query);
 
 			if ($metakey = trim($db->loadResult()))
@@ -60,17 +60,17 @@ class modRelatedItemsHelper
 				if (count($likes))
 				{
 					// select other items based on the metakey field 'like' the keys found
-					$query = "SELECT a.id, a.title, DATE_FORMAT(a.created, '%Y-%m-%d') AS created, a.sectionid, a.catid, cc.access AS cat_access, s.access AS sec_access, cc.published AS cat_state, s.published AS sec_state" .
-							"\n FROM #__content AS a" .
-							"\n LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id" .
-							"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" .
-							"\n LEFT JOIN #__sections AS s ON s.id = a.sectionid" .
-							"\n WHERE a.id != $id" .
-							"\n AND a.state = 1" .
-							"\n AND a.access <= " .(int) $user->get('aid', 0) .
-							"\n AND ( a.metakey LIKE '%".implode("%' OR a.metakey LIKE '%", $likes)."%' )" .
-							"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
-							"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
+					$query = 'SELECT a.id, a.title, DATE_FORMAT(a.created, "%Y-%m-%d") AS created, a.sectionid, a.catid, cc.access AS cat_access, s.access AS sec_access, cc.published AS cat_state, s.published AS sec_state' .
+							' FROM #__content AS a' .
+							' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' .
+							' LEFT JOIN #__categories AS cc ON cc.id = a.catid' .
+							' LEFT JOIN #__sections AS s ON s.id = a.sectionid' .
+							' WHERE a.id != '.$id .
+							' AND a.state = 1' .
+							' AND a.access <= ' .(int) $user->get('aid', 0) .
+							' AND ( a.metakey LIKE "%'.implode('%" OR a.metakey LIKE "%', $likes).'%" )' .
+							' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )' .
+							' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )';
 					$db->setQuery($query);
 					$temp = $db->loadObjectList();
 

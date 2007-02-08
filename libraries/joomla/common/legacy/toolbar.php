@@ -227,10 +227,10 @@ class mosToolBar {
 	function preview( $popup='' ) {
 		$db =& JFactory::getDBO();
 
-		$sql = "SELECT template"
-		. "\n FROM #__templates_menu"
-		. "\n WHERE client_id = 0"
-		. "\n AND menuid = 0";
+		$sql = 'SELECT template'
+		. ' FROM #__templates_menu'
+		. ' WHERE client_id = 0'
+		. ' AND menuid = 0';
 		$db->setQuery( $sql );
 		$cur_template = $db->loadResult();
 

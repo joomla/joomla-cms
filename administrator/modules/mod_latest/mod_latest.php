@@ -46,11 +46,11 @@ switch ($params->get( 'ordering' ))
 		break;
 }
 
-$query = "SELECT a.id, a.sectionid, a.title, a.created, a.modified, u.name, a.created_by_alias, a.created_by"
-. "\n FROM #__content AS a"
-. "\n LEFT JOIN #__users AS u ON u.id = a.created_by"
-. "\n $where"
-. "\n ORDER BY $ordering"
+$query = 'SELECT a.id, a.sectionid, a.title, a.created, a.modified, u.name, a.created_by_alias, a.created_by'
+. ' FROM #__content AS a'
+. ' LEFT JOIN #__users AS u ON u.id = a.created_by'
+. ' '. $where
+. ' ORDER BY '. $ordering
 ;
 $db->setQuery( $query, 0, 10 );
 $rows = $db->loadObjectList();

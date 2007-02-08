@@ -20,9 +20,9 @@ $session	=& JFactory::getSession();
 $session_id = $session->getId();
 
 // Get no. of users online not including current session
-$query = "SELECT COUNT( session_id )"
-. "\n FROM #__session"
-. "\n WHERE session_id <> '$session_id'"
+$query = 'SELECT COUNT( session_id )'
+. ' FROM #__session'
+. ' WHERE session_id <> "'.$session_id.'"'
 ;
 $db->setQuery($query);
 $online_num = intval( $db->loadResult() );

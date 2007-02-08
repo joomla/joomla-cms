@@ -76,11 +76,11 @@ class ContentModelElement extends JModel
 		if (!$filter_order) {
 			$filter_order = 'section_name';
 		}
-		$order = "\n ORDER BY $filter_order $filter_order_Dir, section_name, cc.name, c.ordering";
+		$order = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', section_name, cc.name, c.ordering';
 		$all = 1;
 
 		if ($filter_sectionid >= 0) {
-			$filter = "\n WHERE cc.section = $filter_sectionid";
+			$filter = ' WHERE cc.section = '. $filter_sectionid;
 		}
 		$section->title = 'All Articles';
 		$section->id = 0;
@@ -90,43 +90,43 @@ class ContentModelElement extends JModel
 		 */
 		// Section filter
 		if ($filter_sectionid >= 0) {
-			$where[] = "c.sectionid = $filter_sectionid";
+			$where[] = 'c.sectionid = '. $filter_sectionid;
 		}
 		// Category filter
 		if ($catid > 0) {
-			$where[] = "c.catid = $catid";
+			$where[] = 'c.catid = '.$catid;
 		}
 		// Author filter
 		if ($filter_authorid > 0) {
-			$where[] = "c.created_by = $filter_authorid";
+			$where[] = 'c.created_by = '.$filter_authorid;
 		}
 		// Content state filter
 		if ($filter_state) {
 			if ($filter_state == 'P') {
-				$where[] = "c.state = 1";
+				$where[] = 'c.state = 1';
 			} else {
 				if ($filter_state == 'U') {
-					$where[] = "c.state = 0";
+					$where[] = 'c.state = 0';
 				} else if ($filter_state == 'A') {
-					$where[] = "c.state = -1";
+					$where[] = 'c.state = -1';
 				} else {
-					$where[] = "c.state != -2";
+					$where[] = 'c.state != -2';
 				}
 			}
 		}
 		// Keyword filter
 		if ($search) {
-			$where[] = "LOWER( c.title ) LIKE '%$search%'";
+			$where[] = 'LOWER( c.title ) LIKE "%'.$search.'%"';
 		}
 
 		// Build the where clause of the content record query
-		$where = (count($where) ? "\n WHERE ".implode(' AND ', $where) : '');
+		$where = (count($where) ? ' WHERE '.implode(' AND ', $where) : '');
 
 		// Get the total number of records
-		$query = "SELECT COUNT(*)" .
-				"\n FROM #__content AS c" .
-				"\n LEFT JOIN #__categories AS cc ON cc.id = c.catid" .
-				"\n LEFT JOIN #__sections AS s ON s.id = c.sectionid" .
+		$query = 'SELECT COUNT(*)' .
+				' FROM #__content AS c' .
+				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
+				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
 				$where;
 		$db->setQuery($query);
 		$total = $db->loadResult();
@@ -136,14 +136,14 @@ class ContentModelElement extends JModel
 		$this->_page = new JPagination($total, $limitstart, $limit);
 
 		// Get the articles
-		$query = "SELECT c.*, g.name AS groupname, cc.name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author" .
-				"\n FROM #__content AS c" .
-				"\n LEFT JOIN #__categories AS cc ON cc.id = c.catid" .
-				"\n LEFT JOIN #__sections AS s ON s.id = c.sectionid" .
-				"\n LEFT JOIN #__groups AS g ON g.id = c.access" .
-				"\n LEFT JOIN #__users AS u ON u.id = c.checked_out" .
-				"\n LEFT JOIN #__users AS v ON v.id = c.created_by" .
-				"\n LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id" .
+		$query = 'SELECT c.*, g.name AS groupname, cc.name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
+				' FROM #__content AS c' .
+				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
+				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
+				' LEFT JOIN #__groups AS g ON g.id = c.access' .
+				' LEFT JOIN #__users AS u ON u.id = c.checked_out' .
+				' LEFT JOIN #__users AS v ON v.id = c.created_by' .
+				' LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id' .
 				$where .
 				$order;
 		$db->setQuery($query, $this->_page->limitstart, $this->_page->limit);

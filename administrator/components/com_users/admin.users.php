@@ -127,19 +127,19 @@ function showUsers( )
 
 	if (is_array( $pgids ) && count( $pgids ) > 0)
 	{
-		$where[] = "(a.gid NOT IN (" . implode( ',', $pgids ) . "))";
+		$where[] = '(a.gid NOT IN (' . implode( ',', $pgids ) . '))';
 	}
 	$filter = '';
 	if ($filter_logged == 1 || $filter_logged == 2)
 	{
-		$filter = "\n INNER JOIN #__session AS s ON s.userid = a.id";
+		$filter = ' INNER JOIN #__session AS s ON s.userid = a.id';
 	}
 
-	$orderby = "\n ORDER BY $filter_order $filter_order_Dir";
-	$where = ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
+	$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir;
+	$where = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
 
-	$query = "SELECT COUNT(a.id)"
-	. "\n FROM #__users AS a"
+	$query = 'SELECT COUNT(a.id)'
+	. ' FROM #__users AS a'
 	. $filter
 	. $where
 	;
@@ -149,23 +149,23 @@ function showUsers( )
 	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
-	$query = "SELECT a.*, g.name AS groupname"
-	. "\n FROM #__users AS a"
-	. "\n INNER JOIN #__core_acl_aro AS aro ON aro.value = a.id"
-	. "\n INNER JOIN #__core_acl_groups_aro_map AS gm ON gm.aro_id = aro.id"
-	. "\n INNER JOIN #__core_acl_aro_groups AS g ON g.id = gm.group_id"
+	$query = 'SELECT a.*, g.name AS groupname'
+	. ' FROM #__users AS a'
+	. ' INNER JOIN #__core_acl_aro AS aro ON aro.value = a.id'
+	. ' INNER JOIN #__core_acl_groups_aro_map AS gm ON gm.aro_id = aro.id'
+	. ' INNER JOIN #__core_acl_aro_groups AS g ON g.id = gm.group_id'
 	. $filter
 	. $where
-	. "\n GROUP BY a.id"
+	. ' GROUP BY a.id'
 	. $orderby
 	;
 	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $db->loadObjectList();
 
 	$n = count( $rows );
-	$template = "SELECT COUNT(s.userid)"
-	. "\n FROM #__session AS s"
-	. "\n WHERE s.userid = %d"
+	$template = 'SELECT COUNT(s.userid)'
+	. ' FROM #__session AS s'
+	. ' WHERE s.userid = %d'
 	;
 	for ($i = 0; $i < $n; $i++)
 	{
@@ -176,10 +176,10 @@ function showUsers( )
 	}
 
 	// get list of Groups for dropdown filter
-	$query = "SELECT name AS value, name AS text"
-	. "\n FROM #__core_acl_aro_groups"
-	. "\n WHERE name != 'ROOT'"
-	. "\n AND name != 'USERS'"
+	$query = 'SELECT name AS value, name AS text'
+	. ' FROM #__core_acl_aro_groups'
+	. ' WHERE name != "ROOT"'
+	. ' AND name != "USERS"'
 	;
 	$db->setQuery( $query );
 	$types[] 		= JHTMLSelect::option( '0', '- '. JText::_( 'Select Group' ) .' -' );
@@ -227,9 +227,9 @@ function editUser( )
 
 	if ( $user->get('id') )
 	{
-		$query = "SELECT *"
-		. "\n FROM #__contact_details"
-		. "\n WHERE user_id =". $userId
+		$query = 'SELECT *'
+		. ' FROM #__contact_details'
+		. ' WHERE user_id ='. $userId
 		;
 		$db->setQuery( $query );
 		$contact = $db->loadObjectList();
@@ -341,10 +341,10 @@ function saveUser(  )
 		if ( $user->get('gid') != $original_gid && $original_gid == 25 )
 		{
 			// count number of active super admins
-			$query = "SELECT COUNT( id )"
-			. "\n FROM #__users"
-			. "\n WHERE gid = 25"
-			. "\n AND block = 0"
+			$query = 'SELECT COUNT( id )'
+			. ' FROM #__users'
+			. ' WHERE gid = 25'
+			. ' AND block = 0'
 			;
 			$db->setQuery( $query );
 			$count = $db->loadResult();
@@ -457,10 +457,10 @@ function removeUsers(  )
 			if ( $user->get( 'gid' ) == 25 )
 			{
 				// count number of active super admins
-				$query = "SELECT COUNT( id )"
-				. "\n FROM #__users"
-				. "\n WHERE gid = 25"
-				. "\n AND block = 0"
+				$query = 'SELECT COUNT( id )'
+				. ' FROM #__users'
+				. ' WHERE gid = 25'
+				. ' AND block = 0'
 				;
 				$db->setQuery( $query );
 				$count = $db->loadResult();
@@ -512,9 +512,9 @@ function changeUserBlock( $block=1 )
 
 	$cids = implode( ',', $cid );
 
-	$query = "UPDATE #__users"
-	. "\n SET block = $block"
-	. "\n WHERE id IN ( $cids )"
+	$query = 'UPDATE #__users'
+	. ' SET block = '. $block
+	. ' WHERE id IN ( '. $cids .' )'
 	;
 	$db->setQuery( $query );
 
@@ -560,15 +560,15 @@ function logoutUser( )
 
 	if ($task == 'logout')
 	{
-		$query = "DELETE FROM #__session"
-		. "\n WHERE userid IN ( $cids )"
+		$query = 'DELETE FROM #__session'
+		. ' WHERE userid IN ( '.$cids.' )'
 		;
 	}
 	else if ($task == 'flogout')
 	{
-		$query = "DELETE FROM #__session"
-		. "\n WHERE userid = $cids"
-		. "\n AND client_id = $client"
+		$query = 'DELETE FROM #__session'
+		. ' WHERE userid = '. $cids
+		. ' AND client_id = '. $client
 		;
 	}
 

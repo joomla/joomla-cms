@@ -99,34 +99,34 @@ function viewPlugins( $option, $client )
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 
 	if ($client == 'admin') {
-		$where[] = "p.client_id = '1'";
+		$where[] = 'p.client_id = "1"';
 		$client_id = 1;
 	} else {
-		$where[] = "p.client_id = '0'";
+		$where[] = 'p.client_id = "0"';
 		$client_id = 0;
 	}
 
 	// used by filter
 	if ( $filter_type != 1 ) {
-		$where[] = "p.folder = '$filter_type'";
+		$where[] = 'p.folder = "'.$filter_type.'"';
 	}
 	if ( $search ) {
-		$where[] = "LOWER( p.name ) LIKE '%$search%'";
+		$where[] = 'LOWER( p.name ) LIKE "%'.$search.'%"';
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
-			$where[] = "p.published = 1";
+			$where[] = 'p.published = 1';
 		} else if ($filter_state == 'U' ) {
-			$where[] = "p.published = 0";
+			$where[] = 'p.published = 0';
 		}
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, p.ordering ASC";
+	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+	$orderby 	= ' ORDER BY '.$filter_order .' '. $filter_order_Dir .', p.ordering ASC';
 
 	// get the total number of records
-	$query = "SELECT COUNT(*)"
-	. "\n FROM #__plugins AS p"
+	$query = 'SELECT COUNT(*)'
+	. ' FROM #__plugins AS p'
 	. $where
 	;
 	$db->setQuery( $query );
@@ -135,12 +135,12 @@ function viewPlugins( $option, $client )
 	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
-	$query = "SELECT p.*, u.name AS editor, g.name AS groupname"
-	. "\n FROM #__plugins AS p"
-	. "\n LEFT JOIN #__users AS u ON u.id = p.checked_out"
-	. "\n LEFT JOIN #__groups AS g ON g.id = p.access"
+	$query = 'SELECT p.*, u.name AS editor, g.name AS groupname'
+	. ' FROM #__plugins AS p'
+	. ' LEFT JOIN #__users AS u ON u.id = p.checked_out'
+	. ' LEFT JOIN #__groups AS g ON g.id = p.access'
 	. $where
-	. "\n GROUP BY p.id"
+	. ' GROUP BY p.id'
 	. $orderby
 	;
 	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
@@ -151,11 +151,11 @@ function viewPlugins( $option, $client )
 	}
 
 	// get list of Positions for dropdown filter
-	$query = "SELECT folder AS value, folder AS text"
-	. "\n FROM #__plugins"
-	. "\n WHERE client_id = '$client_id'"
-	. "\n GROUP BY folder"
-	. "\n ORDER BY folder"
+	$query = 'SELECT folder AS value, folder AS text'
+	. ' FROM #__plugins'
+	. ' WHERE client_id = "'.$client_id.'"'
+	. ' GROUP BY folder'
+	. ' ORDER BY folder'
 	;
 	$types[] = JHTMLSelect::option( 1, '- '. JText::_( 'Select Type' ) .' -' );
 	$db->setQuery( $query );
@@ -273,14 +273,14 @@ function editPlugin( )
 
 		if ( $row->ordering > -10000 && $row->ordering < 10000 ) {
 			// build the html select list for ordering
-			$query = "SELECT ordering AS value, name AS text"
-			. "\n FROM #__plugins"
-			. "\n WHERE folder = '$row->folder'"
-			. "\n AND published > 0"
-			. "\n AND $where"
-			. "\n AND ordering > -10000"
-			. "\n AND ordering < 10000"
-			. "\n ORDER BY ordering"
+			$query = 'SELECT ordering AS value, name AS text'
+			. ' FROM #__plugins'
+			. ' WHERE folder = "'.$row->folder.'"'
+			. ' AND published > 0'
+			. ' AND '. $where
+			. ' AND ordering > -10000'
+			. ' AND ordering < 10000'
+			. ' ORDER BY ordering'
 			;
 			$order = JAdminMenus::GenericOrdering( $query );
 			$lists['ordering'] = JHTMLSelect::genericList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
@@ -333,9 +333,9 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 
 	$cids = implode( ',', $cid );
 
-	$query = "UPDATE #__plugins SET published = '". intval( $publish ) ."'"
-	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get( 'id' ). " ))"
+	$query = 'UPDATE #__plugins SET published = "'. intval( $publish ) .'"'
+	. ' WHERE id IN ( '.$cids.' )'
+	. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get( 'id' ). ' ))'
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
@@ -444,7 +444,7 @@ function saveOrder( &$cid )
 				JError::raiseError(500, $db->getErrorMsg() );
 			}
 			// remember to updateOrder this group
-			$condition = "folder = '$row->folder' AND ordering > -10000 AND ordering < 10000 AND client_id = $row->client_id";
+			$condition = 'folder = "'.$row->folder.'" AND ordering > -10000 AND ordering < 10000 AND client_id = $row->client_id';
 			$found = false;
 			foreach ( $conditions as $cond )
 				if ($cond[1]==$condition) {

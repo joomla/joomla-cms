@@ -438,9 +438,9 @@ class JInstaller_component extends JObject
 		$option = strtolower("com_".str_replace(" ", "", $this->get('name')));
 
 		// If a component exists with this option in the table than we don't need to add menus
-		$query = "SELECT id" .
-				"\n FROM #__components" .
-				"\n WHERE `option` = ".$db->Quote($option);
+		$query = 'SELECT id' .
+				' FROM #__components' .
+				' WHERE `option` = '.$db->Quote($option);
 
 		$db->setQuery($query);
 		$exists = $db->loadResult();
@@ -503,10 +503,10 @@ class JInstaller_component extends JObject
 			 * No menu element was specified so lets first see if we have an admin menu entry for this component
 			 * if we do.. then we obviously don't want to create one -- we'll just attach sub menus to that one.
 			 */
-			$query = "SELECT id" .
-					"\n FROM #__components" .
-					"\n WHERE `option` = ".$db->Quote($option) .
-					"\n AND parent = 0";
+			$query = 'SELECT id' .
+					' FROM #__components' .
+					' WHERE `option` = '.$db->Quote($option) .
+					' AND parent = 0';
 			$db->setQuery($query);
 			$menuid = $db->loadResult();
 
@@ -632,9 +632,9 @@ class JInstaller_component extends JObject
 		$retval = true;
 
 		// Delete the submenu items
-		$sql = "DELETE " .
-				"\nFROM #__components " .
-				"\nWHERE parent = ".(int)$row->id;
+		$sql = 'DELETE ' .
+				' FROM #__components ' .
+				'WHERE parent = '.(int)$row->id;
 
 		$db->setQuery($sql);
 		if (!$db->query()) {
@@ -665,9 +665,9 @@ class JInstaller_component extends JObject
 		$db =& $this->parent->getDBO;
 
 		// Remove the entry from the #__components table
-		$query = "DELETE " .
-				"\nFROM `#__components` " .
-				"\nWHERE id=".(int)$arg['id'];
+		$query = 'DELETE ' .
+				' FROM `#__components` ' .
+				' WHERE id='.(int)$arg['id'];
 		$db->setQuery($query);
 		return ($db->query() !== false);
 	}

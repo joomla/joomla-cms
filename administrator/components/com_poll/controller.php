@@ -63,23 +63,23 @@ class PollController extends JController
 		{
 			if ( $filter_state == 'P' )
 			{
-				$where[] = "m.published = 1";
+				$where[] = 'm.published = 1';
 			}
 			else if ($filter_state == 'U' )
 			{
-				$where[] = "m.published = 0";
+				$where[] = 'm.published = 0';
 			}
 		}
 		if ($search)
 		{
-			$where[] = "LOWER(m.title) LIKE '%$search%'";
+			$where[] = 'LOWER(m.title) LIKE "%'.$search.'%"';
 		}
 
-		$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
-		$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir";
+		$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+		$orderby 	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir;
 
-		$query = "SELECT COUNT(m.id)"
-		. "\n FROM #__polls AS m"
+		$query = 'SELECT COUNT(m.id)'
+		. ' FROM #__polls AS m'
 		. $where
 		;
 		$db->setQuery( $query );
@@ -88,12 +88,12 @@ class PollController extends JController
 		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
-		$query = "SELECT m.*, u.name AS editor, COUNT(d.id) AS numoptions"
-		. "\n FROM #__polls AS m"
-		. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
-		. "\n LEFT JOIN #__poll_data AS d ON d.pollid = m.id AND d.text <> ''"
+		$query = 'SELECT m.*, u.name AS editor, COUNT(d.id) AS numoptions'
+		. ' FROM #__polls AS m'
+		. ' LEFT JOIN #__users AS u ON u.id = m.checked_out'
+		. ' LEFT JOIN #__poll_data AS d ON d.pollid = m.id AND d.text <> ""'
 		. $where
-		. "\n GROUP BY m.id"
+		. ' GROUP BY m.id'
 		. $orderby
 		;
 		$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
@@ -150,10 +150,10 @@ class PollController extends JController
 		if ($uid)
 		{
 			$row->checkout( $user->get('id') );
-			$query = "SELECT id, text"
-			. "\n FROM #__poll_data"
-			. "\n WHERE pollid = $uid"
-			. "\n ORDER BY id"
+			$query = 'SELECT id, text'
+			. ' FROM #__poll_data'
+			. ' WHERE pollid = '.$uid
+			. ' ORDER BY id'
 			;
 			$db->setQuery($query);
 			$options = $db->loadObjectList();
@@ -198,19 +198,19 @@ class PollController extends JController
 			$text = $db->Quote($text);
 			if ($isNew)
 			{
-				$query = "INSERT INTO #__poll_data"
-				. "\n ( pollid, text )"
-				. "\n VALUES ( $row->id, $text )"
+				$query = 'INSERT INTO #__poll_data'
+				. ' ( pollid, text )'
+				. ' VALUES ( '. $row->id .', '. $text )'
 				;
 				$db->setQuery( $query );
 				$db->query();
 			}
 			else
 			{
-				$query = "UPDATE #__poll_data"
-				. "\n SET text = $text"
-				. "\n WHERE id = $i"
-				. "\n AND pollid = $row->id"
+				$query = 'UPDATE #__poll_data'
+				. ' SET text = '. $text
+				. ' WHERE id = '. $i
+				. ' AND pollid = '.  $row->id
 				;
 				$db->setQuery( $query );
 				$db->query();
@@ -279,10 +279,10 @@ class PollController extends JController
 		JArrayHelper::toInteger( $cid );
 		$cids = implode( ',', $cid );
 
-		$query = "UPDATE #__polls"
-		. "\n SET published = " . intval( $publish )
-		. "\n WHERE id IN ( $cids )"
-		. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get('id'). " ) )"
+		$query = 'UPDATE #__polls'
+		. ' SET published = ' . intval( $publish )
+		. ' WHERE id IN ( '. $cids .' )'
+		. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get('id'). ' ) )'
 		;
 		$db->setQuery( $query );
 		if (!$db->query())
@@ -320,17 +320,17 @@ class PollController extends JController
 		$pollid = JRequest::getVar( 'pollid', 0, '', 'int' );
 		$css	= JRequest::getVar( 't', '' );
 
-		$query = "SELECT title"
-			. "\n FROM #__polls"
-			. "\n WHERE id = $pollid"
+		$query = 'SELECT title'
+			. ' FROM #__polls'
+			. ' WHERE id = '. $pollid
 		;
 		$db->setQuery( $query );
 		$title = $db->loadResult();
 
-		$query = "SELECT text"
-			. "\n FROM #__poll_data"
-			. "\n WHERE pollid = $pollid"
-			. "\n ORDER BY id"
+		$query = 'SELECT text'
+			. ' FROM #__poll_data'
+			. ' WHERE pollid = '. $pollid
+			. ' ORDER BY id'
 		;
 		$db->setQuery( $query );
 		$options = $db->loadResultArray();

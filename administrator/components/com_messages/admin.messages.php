@@ -80,25 +80,25 @@ function showMessages( $option )
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where = array();
-	$where[] = " a.user_id_to='" .$user->get('id'). "'";
+	$where[] = ' a.user_id_to="' .$user->get('id'). '"';
 
 	if (isset($search) && $search!= "") {
-		$where[] = "( u.username LIKE '%$search%' OR email LIKE '%$search%' OR u.name LIKE '%$search%' )";
+		$where[] = '( u.username LIKE "%'.$search.'%" OR email LIKE "%'.$search.'%" OR u.name LIKE "%'.$search.'%" )';
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
-			$where[] = "a.state = 1";
+			$where[] = 'a.state = 1';
 		} else if ($filter_state == 'U' ) {
-			$where[] = "a.state = 0";
+			$where[] = 'a.state = 0';
 		}
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, a.date_time DESC";
+	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+	$orderby 	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', a.date_time DESC';
 
-	$query = "SELECT COUNT(*)"
-	. "\n FROM #__messages AS a"
-	. "\n INNER JOIN #__users AS u ON u.id = a.user_id_from"
+	$query = 'SELECT COUNT(*)'
+	. ' FROM #__messages AS a'
+	. ' INNER JOIN #__users AS u ON u.id = a.user_id_from'
 	. $where
 	;
 	$db->setQuery( $query );
@@ -107,9 +107,9 @@ function showMessages( $option )
 	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
-	$query = "SELECT a.*, u.name AS user_from"
-	. "\n FROM #__messages AS a"
-	. "\n INNER JOIN #__users AS u ON u.id = a.user_id_from"
+	$query = 'SELECT a.*, u.name AS user_from'
+	. ' FROM #__messages AS a'
+	. ' INNER JOIN #__users AS u ON u.id = a.user_id_from'
 	. $where
 	. $orderby
 	;
@@ -142,9 +142,9 @@ function editConfig( $option )
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 
-	$query = "SELECT cfg_name, cfg_value"
-	. "\n FROM #__messages_cfg"
-	. "\n WHERE user_id = " .$user->get('id')
+	$query = 'SELECT cfg_name, cfg_value'
+	. ' FROM #__messages_cfg'
+	. ' WHERE user_id = ' .$user->get('id')
 	;
 	$db->setQuery( $query );
 	$data = $db->loadObjectList( 'cfg_name' );
@@ -176,8 +176,8 @@ function saveConfig( $option )
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 
-	$query = "DELETE FROM #__messages_cfg"
-	. "\n WHERE user_id = " .$user->get('id')
+	$query = 'DELETE FROM #__messages_cfg'
+	. ' WHERE user_id = ' .$user->get('id')
 	;
 	$db->setQuery( $query );
 	$db->query();
@@ -185,9 +185,9 @@ function saveConfig( $option )
 	$vars = JRequest::getVar( 'vars', array(), 'post', 'array' );
 	foreach ($vars as $k=>$v) {
 		$v = $db->getEscaped( $v );
-		$query = "INSERT INTO #__messages_cfg"
-		. "\n ( user_id, cfg_name, cfg_value )"
-		. "\n VALUES ( " .$user->get('id'). ", '" .$k. "', '" .$v. "' )"
+		$query = 'INSERT INTO #__messages_cfg'
+		. ' ( user_id, cfg_name, cfg_value )'
+		. ' VALUES ( ' .$user->get('id'). ', "' .$k. '", "' .$v. '" )'
 		;
 		$db->setQuery( $query );
 		$db->query();
@@ -207,9 +207,9 @@ function newMessage( $option, $user, $subject )
 
 	// get list of usernames
 	$recipients = array( JHTMLSelect::option( '0', '- '. JText::_( 'Select User' ) .' -' ) );
-	$query = "SELECT id AS value, username AS text FROM #__users"
-	. "\n WHERE gid IN ( $gids )"
-	. "\n ORDER BY name"
+	$query = 'SELECT id AS value, username AS text FROM #__users'
+	. ' WHERE gid IN ( '.$gids.' )'
+	. ' ORDER BY name'
 	;
 	$db->setQuery( $query );
 	$recipients = array_merge( $recipients, $db->loadObjectList() );
@@ -253,18 +253,18 @@ function viewMessage( $uid='0', $option )
 {
 	$db	=& JFactory::getDBO();
 
-	$query = "SELECT a.*, u.name AS user_from"
-	. "\n FROM #__messages AS a"
-	. "\n INNER JOIN #__users AS u ON u.id = a.user_id_from"
-	. "\n WHERE a.message_id = $uid"
-	. "\n ORDER BY date_time DESC"
+	$query = 'SELECT a.*, u.name AS user_from'
+	. ' FROM #__messages AS a'
+	. ' INNER JOIN #__users AS u ON u.id = a.user_id_from'
+	. ' WHERE a.message_id = '. $uid
+	. ' ORDER BY date_time DESC'
 	;
 	$db->setQuery( $query );
 	$row = $db->loadObject();
 
-	$query = "UPDATE #__messages"
-	. "\n SET state = 1"
-	. "\n WHERE message_id = $uid"
+	$query = 'UPDATE #__messages'
+	. ' SET state = 1'
+	. ' WHERE message_id = '. $uid
 	;
 	$db->setQuery( $query );
 	$db->query();
@@ -285,8 +285,8 @@ function removeMessage( $cid, $option )
 	if (count( $cid ))
 	{
 		$cids = implode( ',', $cid );
-		$query = "DELETE FROM #__messages"
-		. "\n WHERE message_id IN ( $cids )"
+		$query = 'DELETE FROM #__messages'
+		. ' WHERE message_id IN ( '. $cids .' )'
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {

@@ -37,7 +37,7 @@ class SearchModelSearch extends JModel
 	function reset()
 	{
 		$db =& JFactory::getDBO();
-		$db->setQuery( "DELETE FROM #__core_log_searches" );
+		$db->setQuery( 'DELETE FROM #__core_log_searches' );
 		$db->query();
 	}
 
@@ -56,15 +56,15 @@ class SearchModelSearch extends JModel
 		$showResults	= JRequest::getVar('search_results', 0);
 
 		if ($search) {
-			$where[] = "LOWER( search_term ) LIKE '%$search%'";
+			$where[] = 'LOWER( search_term ) LIKE "%'.$search.'%"';
 		}
 
-		$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
-		$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, hits DESC";
+		$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+		$orderby 	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', hits DESC';
 
 		// get the total number of records
-		$query = "SELECT COUNT(*)"
-		. "\n FROM #__core_log_searches"
+		$query = 'SELECT COUNT(*)'
+		. ' FROM #__core_log_searches'
 		. $where;
 		$db->setQuery( $query );
 		$total = $db->loadResult();

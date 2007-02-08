@@ -115,11 +115,11 @@ class NewsfeedsModelNewsfeed extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			$query = "SELECT f.*, cc.title AS category," .
-					"\n cc.published AS cat_pub, cc.access AS cat_access".
-					"\n FROM #__newsfeeds AS f" .
-					"\n LEFT JOIN #__categories AS cc ON cc.id = f.catid" .
-					"\n WHERE f.id = $this->_id";
+			$query = 'SELECT f.*, cc.title AS category,'.
+					' cc.published AS cat_pub, cc.access AS cat_access'.
+					' FROM #__newsfeeds AS f' .
+					' LEFT JOIN #__categories AS cc ON cc.id = f.catid' .
+					' WHERE f.id = '.$this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 			return (boolean) $this->_data;

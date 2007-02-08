@@ -34,18 +34,18 @@ class modSectionsHelper
 		$nullDate	= $db->getNullDate();
 
 
-		$query = "SELECT a.id AS id, a.title AS title, COUNT(b.id) as cnt" .
-			"\n FROM #__sections as a" .
-			"\n LEFT JOIN #__content as b ON a.id = b.sectionid" .
-			($access ? "\n AND b.access <= ".(int) $gid : '') .
-			"\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )" .
-			"\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )" .
-			"\n WHERE a.scope = 'content'" .
-			"\n AND a.published = 1" .
-			($access ? "\n AND a.access <= $gid" : '') .
-			"\n GROUP BY a.id" .
-			"\n HAVING COUNT( b.id ) > 0" .
-			"\n ORDER BY a.ordering";
+		$query = 'SELECT a.id AS id, a.title AS title, COUNT(b.id) as cnt' .
+			' FROM #__sections as a' .
+			' LEFT JOIN #__content as b ON a.id = b.sectionid' .
+			($access ? ' AND b.access <= '.(int) $gid : '') .
+			' AND ( b.publish_up = "'.$nullDate.'" OR b.publish_up <= "'.$now.'" )' .
+			' AND ( b.publish_down = "'.$nullDate.'" OR b.publish_down >= "'.$now.'" )' .
+			' WHERE a.scope = "content"' .
+			' AND a.published = 1' .
+			($access ? ' AND a.access <= '.$gid : '') .
+			' GROUP BY a.id '.
+			' HAVING COUNT( b.id ) > 0' .
+			' ORDER BY a.ordering';
 		$db->setQuery($query, 0, $count);
 		$rows = $db->loadObjectList();
 

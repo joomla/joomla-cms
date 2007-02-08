@@ -284,9 +284,9 @@ class JSite extends JApplication
 
 			// Load template entries for each menuid
 			$db =& JFactory::getDBO();
-			$query = "SELECT template, menuid"
-				. "\n FROM #__templates_menu"
-				. "\n WHERE client_id = 0"
+			$query = 'SELECT template, menuid'
+				. ' FROM #__templates_menu'
+				. ' WHERE client_id = 0'
 				;
 			$db->setQuery( $query );
 			$templates = $db->loadObjectList('menuid');

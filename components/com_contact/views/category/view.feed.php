@@ -34,23 +34,23 @@ class ContactViewCategory extends JView
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 		$catid  	= JRequest::getVar('catid', 0);
 
-		$where		= "\n WHERE a.published = 1";
+		$where		= ' WHERE a.published = 1';
 
 		if ( $catid ) {
-			$where .= "\n AND a.catid = $catid";
+			$where .= ' AND a.catid = '. $catid;
 		}
 
-		$query = "SELECT"
-		. "\n a.name AS title,"
-		. "\n CONCAT( '$link', a.catid, '&id=', a.id ) AS link,"
-		. "\n CONCAT( a.con_position, ' - ',a.misc ) AS description,"
-		. "\n '' AS date,"
-		. "\n c.title AS category,"
-		. "\n a.id AS id"
-		. "\n FROM #__contact_details AS a"
-		. "\n LEFT JOIN #__categories AS c ON c.id = a.catid"
+		$query = 'SELECT'
+		. ' a.name AS title,'
+		. ' CONCAT( "'.$link.'", a.catid, "&id=", a.id ) AS link,'
+		. ' CONCAT( a.con_position, ' - ',a.misc ) AS description,'
+		. ' "" AS date,'
+		. ' c.title AS category,'
+		. ' a.id AS id'
+		. ' FROM #__contact_details AS a'
+		. ' LEFT JOIN #__categories AS c ON c.id = a.catid'
 		. $where
-		. "\n ORDER BY a.catid, a.ordering"
+		. ' ORDER BY a.catid, a.ordering'
 		;
 		$db->setQuery( $query, 0, $limit );
 		$rows = $db->loadObjectList();

@@ -138,10 +138,10 @@ class JInstaller_plugin extends JObject
 		 */
 
 		// Check to see if a plugin by the same name is already installed
-		$query = "SELECT `id`" .
-				"\n FROM `#__plugins`" .
-				"\n WHERE folder = ".$db->Quote($group) .
-				"\n AND element = ".$db->Quote($pname);
+		$query = 'SELECT `id`' .
+				' FROM `#__plugins`' .
+				' WHERE folder = '.$db->Quote($group) .
+				' AND element = '.$db->Quote($pname);
 		$db->setQuery($query);
 		if (!$db->Query()) {
 			// Install failed, roll back changes
@@ -298,9 +298,9 @@ class JInstaller_plugin extends JObject
 		$db =& $this->parent->getDBO();
 
 		// Remove the entry from the #__plugins table
-		$query = "DELETE" .
-				"\n FROM `#__plugins`" .
-				"\n WHERE id=".(int)$arg['id'];
+		$query = 'DELETE' .
+				' FROM `#__plugins`' .
+				' WHERE id='.(int)$arg['id'];
 		$db->setQuery($query);
 		return ($db->query() !== false);
 	}

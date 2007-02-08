@@ -1426,11 +1426,11 @@ class mosAdminMenus
 	{
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT c.id AS `value`, c.section AS `id`, CONCAT_WS( ' / ', s.title, c.title) AS `text`"
-		. "\n FROM #__sections AS s"
-		. "\n INNER JOIN #__categories AS c ON c.section = s.id"
-		. "\n WHERE s.scope = 'content'"
-		. "\n ORDER BY s.name, c.name"
+		$query = 'SELECT c.id AS `value`, c.section AS `id`, CONCAT_WS( " / ", s.title, c.title) AS `text`'
+		. ' FROM #__sections AS s'
+		. ' INNER JOIN #__categories AS c ON c.section = s.id'
+		. ' WHERE s.scope = "content"'
+		. ' ORDER BY s.name, c.name'
 		;
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList();
@@ -1451,10 +1451,10 @@ class mosAdminMenus
 	{
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT s.id AS `value`, s.id AS `id`, s.title AS `text`"
-		. "\n FROM #__sections AS s"
-		. "\n WHERE s.scope = 'content'"
-		. "\n ORDER BY s.name"
+		$query = 'SELECT s.id AS `value`, s.id AS `id`, s.title AS `text`'
+		. ' FROM #__sections AS s'
+		. ' WHERE s.scope = "content"'
+		. ' ORDER BY s.name'
 		;
 		$db->setQuery( $query );
 		if ( $all ) {
@@ -1479,10 +1479,10 @@ class mosAdminMenus
 	{
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT c.id AS value, c.name AS text, c.link"
-		. "\n FROM #__components AS c"
-		. "\n WHERE c.link <> ''"
-		. "\n ORDER BY c.name"
+		$query = 'SELECT c.id AS value, c.name AS text, c.link'
+		. ' FROM #__components AS c'
+		. ' WHERE c.link <> ""'
+		. ' ORDER BY c.name'
 		;
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList( );
@@ -1502,10 +1502,10 @@ class mosAdminMenus
 	{
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT c.id AS value, c.name AS text, c.link"
-		. "\n FROM #__components AS c"
-		. "\n WHERE c.link <> ''"
-		. "\n ORDER BY c.name"
+		$query = 'SELECT c.id AS value, c.name AS text, c.link'
+		. ' FROM #__components AS c'
+		. ' WHERE c.link <> ""'
+		. ' ORDER BY c.name'
 		;
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList( );
@@ -1583,10 +1583,10 @@ class mosAdminMenus
 	function Links2Menu( $type, $and ) {
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT *"
-		. "\n FROM #__menu"
-		. "\n WHERE type = '$type'"
-		. "\n AND published = 1"
+		$query = 'SELECT * '
+		. ' FROM #__menu '
+		. ' WHERE type = "'.$type.'"'
+		. ' AND published = 1'
 		. $and
 		;
 		$db->setQuery( $query );
@@ -1604,9 +1604,9 @@ class mosAdminMenus
 	{
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT params"
-		. "\n FROM #__modules"
-		. "\n WHERE module = 'mod_mainmenu'"
+		$query = 'SELECT params'
+		. ' FROM #__modules'
+		. ' WHERE module = "mod_mainmenu"'
 		;
 		$db->setQuery( $query );
 		$menus = $db->loadObjectList();

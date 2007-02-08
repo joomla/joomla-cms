@@ -196,8 +196,8 @@ class JContentHelper
 
 		if ($voting) {
 			// calculate voting count
-			$select = "\n , ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count";
-			$join = "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id";
+			$select = ' , ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count';
+			$join = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
 		} else {
 			$select = '';
 			$join = '';
@@ -218,12 +218,12 @@ class JContentHelper
 		}
 
 		if (empty ($links[$row->sectionid])) {
-			$query = "SELECT id, link" .
-					"\n FROM #__menu" .
-					"\n WHERE published = 1" .
-					"\n AND (type = 'content_section' OR type = 'content_blog_section' )" .
-					"\n AND componentid = $row->sectionid" .
-					"\n ORDER BY type DESC, ordering";
+			$query = 'SELECT id, link' .
+					' FROM #__menu' .
+					' WHERE published = 1' .
+					' AND (type = "content_section" OR type = "content_blog_section" )' .
+					' AND componentid = '. $row->sectionid .
+					' ORDER BY type DESC, ordering';
 			$db->setQuery($query);
 			//$secLinkID = $db->loadResult();
 			$result = $db->loadRow();
@@ -269,12 +269,12 @@ class JContentHelper
 
 		if (empty ($links[$row->catid])) {
 
-			$query = "SELECT id, link" .
-					"\n FROM #__menu" .
-					"\n WHERE published = 1" .
-					"\n AND (type = 'content_category' OR type = 'content_blog_category' )" .
-					"\n AND componentid = " . (int) $row->catid .
-					"\n ORDER BY type DESC, ordering";
+			$query = 'SELECT id, link' .
+					' FROM #__menu' .
+					' WHERE published = 1' .
+					' AND (type = "content_category" OR type = "content_blog_category" )' .
+					' AND componentid = ' . (int) $row->catid .
+					' ORDER BY type DESC, ordering';
 			$db->setQuery($query);
 			$result = $db->loadRow();
 
@@ -290,12 +290,12 @@ class JContentHelper
 			else 
 			{
 				// Nope, lets try to find it by section...
-				$query = "SELECT id, link" .
-						"\n FROM #__menu" .
-						"\n WHERE published = 1" .
-						"\n AND (type = 'content_section' OR type = 'content_blog_section' )" .
-						"\n AND componentid = $row->sectionid" .
-						"\n ORDER BY type DESC, ordering";
+				$query = 'SELECT id, link' .
+						' FROM #__menu' .
+						' WHERE published = 1' .
+						' AND (type = "content_section" OR type = "content_blog_section" )' .
+						' AND componentid = '. $row->sectionid .
+						' ORDER BY type DESC, ordering';
 				$db->setQuery($query);
 				$secLinkID = $db->loadResult();
 

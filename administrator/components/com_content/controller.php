@@ -72,11 +72,11 @@ class ContentController extends JController
 		if (!$filter_order) {
 			$filter_order = 'section_name';
 		}
-		$order = "\n ORDER BY $filter_order $filter_order_Dir, section_name, cc.name, c.ordering";
+		$order = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', section_name, cc.name, c.ordering';
 		$all = 1;
 
 		if ($filter_sectionid >= 0) {
-			$filter = "\n WHERE cc.section = $filter_sectionid";
+			$filter = ' WHERE cc.section = $filter_sectionid';
 		}
 		$section->title = 'All Articles';
 		$section->id = 0;
@@ -117,13 +117,13 @@ class ContentController extends JController
 		}
 
 		// Build the where clause of the content record query
-		$where = (count($where) ? "\n WHERE ".implode(' AND ', $where) : '');
+		$where = (count($where) ? ' WHERE '.implode(' AND ', $where) : '');
 
 		// Get the total number of records
-		$query = "SELECT COUNT(*)" .
-				"\n FROM #__content AS c" .
-				"\n LEFT JOIN #__categories AS cc ON cc.id = c.catid" .
-				"\n LEFT JOIN #__sections AS s ON s.id = c.sectionid" .
+		$query = 'SELECT COUNT(*)' .
+				' FROM #__content AS c' .
+				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
+				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
 				$where;
 		$db->setQuery($query);
 		$total = $db->loadResult();
@@ -133,14 +133,14 @@ class ContentController extends JController
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		// Get the articles
-		$query = "SELECT c.title, c.title_alias, c.created, c.modified, c.state, c.checked_out, c.checked_out_time, c.access, c.ordering, c.id, c.modified_by, c.created_by_alias, c.hits,	c.created_by, c.publish_up, c.publish_down, c.catid, c.sectionid, g.name AS groupname, cc.name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author" .
-				"\n FROM #__content AS c" .
-				"\n LEFT JOIN #__categories AS cc ON cc.id = c.catid" .
-				"\n LEFT JOIN #__sections AS s ON s.id = c.sectionid" .
-				"\n LEFT JOIN #__groups AS g ON g.id = c.access" .
-				"\n LEFT JOIN #__users AS u ON u.id = c.checked_out" .
-				"\n LEFT JOIN #__users AS v ON v.id = c.created_by" .
-				"\n LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id" .
+		$query = 'SELECT c.title, c.title_alias, c.created, c.modified, c.state, c.checked_out, c.checked_out_time, c.access, c.ordering, c.id, c.modified_by, c.created_by_alias, c.hits,	c.created_by, c.publish_up, c.publish_down, c.catid, c.sectionid, g.name AS groupname, cc.name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
+				' FROM #__content AS c' .
+				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
+				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
+				' LEFT JOIN #__groups AS g ON g.id = c.access' .
+				' LEFT JOIN #__users AS u ON u.id = c.checked_out' .
+				' LEFT JOIN #__users AS v ON v.id = c.created_by' .
+				' LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id' .
 				$where .
 				$order;
 		$db->setQuery($query, $pagination->limitstart, $pagination->limit);
@@ -153,10 +153,10 @@ class ContentController extends JController
 		}
 
 		// get list of categories for dropdown filter
-		$query = "SELECT cc.id AS value, cc.title AS text, section" .
-				"\n FROM #__categories AS cc" .
-				"\n INNER JOIN #__sections AS s ON s.id = cc.section ".$filter .
-				"\n ORDER BY s.ordering, cc.ordering";
+		$query = 'SELECT cc.id AS value, cc.title AS text, section' .
+				' FROM #__categories AS cc' .
+				' INNER JOIN #__sections AS s ON s.id = cc.section '.$filter .
+				' ORDER BY s.ordering, cc.ordering';
 		$lists['catid'] = JContentHelper::filterCategory($query, $catid);
 
 		// get list of sections for dropdown filter
@@ -164,14 +164,14 @@ class ContentController extends JController
 		$lists['sectionid'] = JAdminMenus::SelectSection('filter_sectionid', $filter_sectionid, $javascript);
 
 		// get list of Authors for dropdown filter
-		$query = "SELECT c.created_by, u.name" .
-				"\n FROM #__content AS c" .
-				"\n INNER JOIN #__sections AS s ON s.id = c.sectionid" .
-				"\n LEFT JOIN #__users AS u ON u.id = c.created_by" .
-				"\n WHERE c.state <> -1" .
-				"\n AND c.state <> -2" .
-				"\n GROUP BY u.name" .
-				"\n ORDER BY u.name";
+		$query = 'SELECT c.created_by, u.name' .
+				' FROM #__content AS c' .
+				' INNER JOIN #__sections AS s ON s.id = c.sectionid' .
+				' LEFT JOIN #__users AS u ON u.id = c.created_by' .
+				' WHERE c.state <> -1' .
+				' AND c.state <> -2' .
+				' GROUP BY u.name' .
+				' ORDER BY u.name';
 		$authors[] = JHTMLSelect::option('0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
 		$db->setQuery($query);
 		$authors = array_merge($authors, $db->loadObjectList());
@@ -222,15 +222,15 @@ class ContentController extends JController
 		// A section id of zero means view all articles [all sections]
 		if ($sectionid == 0)
 		{
-			$where = array ("c.state 	= -1", "c.catid	= cc.id", "cc.section = s.id", "s.scope  	= 'content'");
-			$filter = "\n , #__sections AS s WHERE s.id = c.section";
+			$where = array ('c.state 	= -1', 'c.catid	= cc.id', 'cc.section = s.id', 's.scope  	= "content"');
+			$filter = ' , #__sections AS s WHERE s.id = c.section';
 			$all = 1;
 		}
 		else
 		{
 			 //We are viewing a specific section
-			$where = array ("c.state 	= -1", "c.catid	= cc.id", "cc.section	= s.id", "s.scope	= 'content'", "c.sectionid= $sectionid");
-			$filter = "\n WHERE section = '$sectionid'";
+			$where = array ('c.state 	= -1', 'c.catid	= cc.id', 'cc.section	= s.id', 's.scope	= "content"', 'c.sectionid= '.$sectionid);
+			$filter = ' WHERE section = "'.$sectionid.'"';
 			$all = NULL;
 		}
 
@@ -252,31 +252,31 @@ class ContentController extends JController
 		// Keyword filter
 		if ($search)
 		{
-			$where[] = "LOWER( c.title ) LIKE '%$search%'";
+			$where[] = 'LOWER( c.title ) LIKE "%'.$search.'%"';
 		}
 
 		// TODO: Sanitise $filter_order
 		$filter_order_Dir = ($filter_order_Dir == 'ASC' ? 'ASC' : 'DESC');
-		$orderby = "\n ORDER BY $filter_order $filter_order_Dir, sectname, cc.name, c.ordering";
-		$where = (count($where) ? "\n WHERE ".implode(' AND ', $where) : '');
+		$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', sectname, cc.name, c.ordering';
+		$where = (count($where) ? ' WHERE '.implode(' AND ', $where) : '');
 
 		// get the total number of records
-		$query = "SELECT COUNT(*)" .
-				"\n FROM #__content AS c" .
-				"\n LEFT JOIN #__categories AS cc ON cc.id = c.catid" .
-				"\n LEFT JOIN #__sections AS s ON s.id = c.sectionid".$where;
+		$query = 'SELECT COUNT(*)' .
+				' FROM #__content AS c' .
+				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
+				' LEFT JOIN #__sections AS s ON s.id = c.sectionid'.$where;
 		$db->setQuery($query);
 		$total = $db->loadResult();
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
-		$query = "SELECT c.*, g.name AS groupname, cc.name, v.name AS author, s.name AS sectname" .
-				"\n FROM #__content AS c" .
-				"\n LEFT JOIN #__categories AS cc ON cc.id = c.catid" .
-				"\n LEFT JOIN #__sections AS s ON s.id = c.sectionid" .
-				"\n LEFT JOIN #__groups AS g ON g.id = c.access" .
-				"\n LEFT JOIN #__users AS v ON v.id = c.created_by".$where.$orderby;
+		$query = 'SELECT c.*, g.name AS groupname, cc.name, v.name AS author, s.name AS sectname' .
+				' FROM #__content AS c' .
+				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
+				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
+				' LEFT JOIN #__groups AS g ON g.id = c.access' .
+				' LEFT JOIN #__users AS v ON v.id = c.created_by'.$where.$orderby;
 		$db->setQuery($query, $pagination->limitstart, $pagination->limit);
 		$rows = $db->loadObjectList();
 
@@ -288,9 +288,9 @@ class ContentController extends JController
 		}
 
 		// get list of categories for dropdown filter
-		$query = "SELECT c.id AS value, c.title AS text" .
-				"\n FROM #__categories AS c".$filter .
-				"\n ORDER BY c.ordering";
+		$query = 'SELECT c.id AS value, c.title AS text' .
+				' FROM #__categories AS c'.$filter .
+				' ORDER BY c.ordering';
 		$lists['catid'] = JContentHelper::filterCategory($query, $catid);
 
 		// get list of sections for dropdown filter
@@ -301,13 +301,13 @@ class ContentController extends JController
 		$section->load($sectionid);
 
 		// get list of Authors for dropdown filter
-		$query = "SELECT c.created_by, u.name" .
-				"\n FROM #__content AS c" .
-				"\n INNER JOIN #__sections AS s ON s.id = c.sectionid" .
-				"\n LEFT JOIN #__users AS u ON u.id = c.created_by" .
-				"\n WHERE c.state = -1" .
-				"\n GROUP BY u.name" .
-				"\n ORDER BY u.name";
+		$query = 'SELECT c.created_by, u.name' .
+				' FROM #__content AS c' .
+				' INNER JOIN #__sections AS s ON s.id = c.sectionid' .
+				' LEFT JOIN #__users AS u ON u.id = c.created_by' .
+				' WHERE c.state = -1' .
+				' GROUP BY u.name' .
+				' ORDER BY u.name';
 		$db->setQuery($query);
 		$authors[] = JHTMLSelect::option('0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
 		$authors = array_merge($authors, $db->loadObjectList());
@@ -365,10 +365,10 @@ class ContentController extends JController
 
 		// A sectionid of zero means grab from all sections
 		if ($sectionid == 0) {
-			$where = "\n WHERE section NOT LIKE '%com_%'";
+			$where = ' WHERE section NOT LIKE "%com_%"';
 		} else {
 			// Grab from the specific section
-			$where = "\n WHERE section = ". $db->Quote( $sectionid );
+			$where = ' WHERE section = '. $db->Quote( $sectionid );
 		}
 
 		/*
@@ -393,9 +393,9 @@ class ContentController extends JController
 
 			$row->publish_down 	= ContentController::_validateDate($row->publish_down);
 
-			$query = "SELECT name" .
-					"\n FROM #__users" .
-					"\n WHERE id = $row->created_by";
+			$query = 'SELECT name' .
+					' FROM #__users'. 
+					' WHERE id = '. $row->created_by;
 			$db->setQuery($query);
 			$row->creator = $db->loadResult();
 
@@ -403,16 +403,16 @@ class ContentController extends JController
 			if ($row->created_by == $row->modified_by) {
 				$row->modifier = $row->creator;
 			} else {
-				$query = "SELECT name" .
-						"\n FROM #__users" .
-						"\n WHERE id = $row->modified_by";
+				$query = 'SELECT name' .
+						' FROM #__users' .
+						' WHERE id = '. $row->modified_by;
 				$db->setQuery($query);
 				$row->modifier = $db->loadResult();
 			}
 
-			$query = "SELECT COUNT(content_id)" .
-					"\n FROM #__content_frontpage" .
-					"\n WHERE content_id = $row->id";
+			$query = 'SELECT COUNT(content_id)' .
+					' FROM #__content_frontpage' .
+					' WHERE content_id = '. $row->id;
 			$db->setQuery($query);
 			$row->frontpage = $db->loadResult();
 			if (!$row->frontpage) {
@@ -450,9 +450,9 @@ class ContentController extends JController
 
 		$javascript = "onchange=\"changeDynaList( 'catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
 
-		$query = "SELECT s.id, s.title" .
-				"\n FROM #__sections AS s" .
-				"\n ORDER BY s.ordering";
+		$query = 'SELECT s.id, s.title' .
+				' FROM #__sections AS s' .
+				' ORDER BY s.ordering';
 		$db->setQuery($query);
 
 		$sections[] = JHTMLSelect::option('-1', '- '.JText::_('Select Section').' -', 'id', 'title');
@@ -480,10 +480,10 @@ class ContentController extends JController
 		$sectioncategories[-1][] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'name');
 		$section_list = implode('\', \'', $section_list);
 
-		$query = "SELECT id, name, section" .
-				"\n FROM #__categories" .
-				"\n WHERE section IN ( '$section_list' )" .
-				"\n ORDER BY ordering";
+		$query = 'SELECT id, name, section' .
+				' FROM #__categories' .
+				' WHERE section IN ( "'.$section_list.'" )' .
+				' ORDER BY ordering';
 		$db->setQuery($query);
 		$cat_list = $db->loadObjectList();
 
@@ -518,11 +518,11 @@ class ContentController extends JController
 		$lists['catid'] = JHTMLSelect::genericList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'name', intval($row->catid));
 
 		// build the html select list for ordering
-		$query = "SELECT ordering AS value, title AS text" .
-				"\n FROM #__content" .
-				"\n WHERE catid = " . (int) $row->catid .
-				"\n AND state >= 0" .
-				"\n ORDER BY ordering";
+		$query = 'SELECT ordering AS value, title AS text' .
+				' FROM #__content' .
+				' WHERE catid = ' . (int) $row->catid .
+				' AND state >= 0' .
+				' ORDER BY ordering';
 		$lists['ordering'] = JAdminMenus::SpecificOrdering($row, $id, $query, 1);
 
 		// build the html radio buttons for frontpage
@@ -707,8 +707,8 @@ class ContentController extends JController
 			if (!$fp->load($row->id))
 			{
 				// Insert the new entry
-				$query = "INSERT INTO #__content_frontpage" .
-						"\n VALUES ( $row->id, 1 )";
+				$query = 'INSERT INTO #__content_frontpage' .
+						' VALUES ( '. $row->id .', 1 )';
 				$db->setQuery($query);
 				if (!$db->query())
 				{
@@ -801,9 +801,9 @@ class ContentController extends JController
 		$total	= count($cid);
 		$cids	= implode(',', $cid);
 
-		$query = "UPDATE #__content" .
-				"\n SET state = $state" .
-				"\n WHERE id IN ( $cids ) AND ( checked_out = 0 OR (checked_out = $uid ) )";
+		$query = 'UPDATE #__content' .
+				' SET state = '. $state .
+				' WHERE id IN ( '. $cids .' ) AND ( checked_out = 0 OR (checked_out = '. $uid .' ) )';
 		$db->setQuery($query);
 		if (!$db->query()) {
 			JError::raiseError( 500, $db->getErrorMsg() );
@@ -883,8 +883,8 @@ class ContentController extends JController
 				$fp->ordering = 0;
 			} else {
 				// new entry
-				$query = "INSERT INTO #__content_frontpage" .
-						"\n VALUES ( $id, 0 )";
+				$query = 'INSERT INTO #__content_frontpage' .
+						' VALUES ( '. $id .', 0 )';
 				$db->setQuery($query);
 				if (!$db->query()) {
 					JError::raiseError( 500, $db->stderr() );
@@ -927,8 +927,11 @@ class ContentController extends JController
 		$cids = implode(',', $cid);
 
 		// Update articles in the database
-		$query = "UPDATE #__content" .
-				"\n SET state = $state, ordering = $ordering, checked_out = 0, checked_out_time = '$nullDate'"."\n WHERE id IN ( $cids )";
+		$query = 'UPDATE #__content' .
+				' SET state = '.$state .
+				', ordering = '.$ordering . 
+				', checked_out = 0, checked_out_time = "'.$nullDate.
+				' WHERE id IN ( '. $cids. ' )';
 		$db->setQuery($query);
 		if (!$db->query())
 		{
@@ -1007,18 +1010,18 @@ class ContentController extends JController
 		JArrayHelper::toInteger( $cid );
 		$cids = implode(',', $cid);
 		// Articles query
-		$query = "SELECT a.title" .
-				"\n FROM #__content AS a" .
-				"\n WHERE ( a.id IN ( $cids ) )" .
-				"\n ORDER BY a.title";
+		$query = 'SELECT a.title' .
+				' FROM #__content AS a' .
+				' WHERE ( a.id IN ( '. $cids .' ) )' .
+				' ORDER BY a.title';
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
 
-		$query = "SELECT CONCAT_WS( ', ', s.id, c.id ) AS `value`, CONCAT_WS( '/', s.name, c.name ) AS `text`" .
-				"\n FROM #__sections AS s" .
-				"\n INNER JOIN #__categories AS c ON c.section = s.id" .
-				"\n WHERE s.scope = 'content'" .
-				"\n ORDER BY s.name, c.name";
+		$query = 'SELECT CONCAT_WS( ", ", s.id, c.id ) AS `value`, CONCAT_WS( "/", s.name, c.name ) AS `text`' .
+				' FROM #__sections AS s' .
+				' INNER JOIN #__categories AS c ON c.section = s.id' .
+				' WHERE s.scope = "content"' .
+				' ORDER BY s.name, c.name';
 		$db->setQuery($query);
 		$rows[] = JHTMLSelect::option("0, 0", 'Static Content');
 		$rows = array_merge($rows, $db->loadObjectList());
@@ -1051,16 +1054,16 @@ class ContentController extends JController
 		}
 
 		// find section name
-		$query = "SELECT a.name" .
-				"\n FROM #__sections AS a" .
-				"\n WHERE a.id = $newsect";
+		$query = 'SELECT a.name' .
+				' FROM #__sections AS a' .
+				' WHERE a.id = '. $newsect;
 		$db->setQuery($query);
 		$section = $db->loadResult();
 
 		// find category name
-		$query = "SELECT  a.name" .
-				"\n FROM #__categories AS a" .
-				"\n WHERE a.id = $newcat";
+		$query = 'SELECT  a.name' .
+				' FROM #__categories AS a' .
+				' WHERE a.id = '. $newcat;
 		$db->setQuery($query);
 		$category = $db->loadResult();
 
@@ -1078,9 +1081,9 @@ class ContentController extends JController
 			$row->reorder("catid = $row->catid AND state >= 0");
 		}
 
-		$query = "UPDATE #__content SET sectionid = $newsect, catid = $newcat" .
-				"\n WHERE id IN ( $cids )" .
-				"\n AND ( checked_out = 0 OR ( checked_out = $uid ) )";
+		$query = 'UPDATE #__content SET sectionid = '.$newsect.', catid = '.$newcat.
+				' WHERE id IN ( '.$cids.' )' .
+				' AND ( checked_out = 0 OR ( checked_out = '.$uid.' ) )';
 		$db->setQuery($query);
 		if (!$db->query())
 		{
@@ -1126,19 +1129,19 @@ class ContentController extends JController
 		//seperate contentids
 		$cids = implode(',', $cid);
 		## Articles query
-		$query = "SELECT a.title" .
-				"\n FROM #__content AS a" .
-				"\n WHERE ( a.id IN ( $cids ) )" .
-				"\n ORDER BY a.title";
+		$query = 'SELECT a.title' .
+				' FROM #__content AS a' .
+				' WHERE ( a.id IN ( '. $cids .' ) )' .
+				' ORDER BY a.title';
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
 
 		## Section & Category query
-		$query = "SELECT CONCAT_WS(',',s.id,c.id) AS `value`, CONCAT_WS(' // ', s.name, c.name) AS `text`" .
-				"\n FROM #__sections AS s" .
-				"\n INNER JOIN #__categories AS c ON c.section = s.id" .
-				"\n WHERE s.scope = 'content'" .
-				"\n ORDER BY s.name, c.name";
+		$query = 'SELECT CONCAT_WS(",",s.id,c.id) AS `value`, CONCAT_WS(" // ", s.name, c.name) AS `text`' .
+				' FROM #__sections AS s' .
+				' INNER JOIN #__categories AS c ON c.section = s.id' .
+				' WHERE s.scope = "content"' .
+				' ORDER BY s.name, c.name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 		// build the html select list
@@ -1172,16 +1175,16 @@ class ContentController extends JController
 		}
 
 		// find section name
-		$query = "SELECT a.name" .
-				"\n FROM #__sections AS a" .
-				"\n WHERE a.id = $newsect";
+		$query = 'SELECT a.name' .
+				' FROM #__sections AS a' .
+				' WHERE a.id = '. $newsect;
 		$db->setQuery($query);
 		$section = $db->loadResult();
 
 		// find category name
-		$query = "SELECT a.name" .
-				"\n FROM #__categories AS a" .
-				"\n WHERE a.id = $newcat";
+		$query = 'SELECT a.name' .
+				' FROM #__categories AS a' .
+				' WHERE a.id = '. $newcat;
 		$db->setQuery($query);
 		$category = $db->loadResult();
 
@@ -1191,9 +1194,9 @@ class ContentController extends JController
 			$row = & JTable::getInstance('content');
 
 			// main query
-			$query = "SELECT a.*" .
-					"\n FROM #__content AS a" .
-					"\n WHERE a.id = ".$cid[$i];
+			$query = 'SELECT a.*' .
+					' FROM #__content AS a' .
+					' WHERE a.id = '.$cid[$i];
 			$db->setQuery($query, 0, 1);
 			$item = $db->loadObject();
 
@@ -1353,10 +1356,10 @@ class ContentController extends JController
 		$option			= JRequest::getVar( 'option' );
 
 		// Get the current default template
-		$query = "SELECT template" .
-				"\n FROM #__templates_menu" .
-				"\n WHERE client_id = 0" .
-				"\n AND menuid = 0";
+		$query = 'SELECT template' .
+				' FROM #__templates_menu' .
+				' WHERE client_id = 0' .
+				' AND menuid = 0';
 		$db->setQuery($query);
 		$template = $db->loadResult();
 

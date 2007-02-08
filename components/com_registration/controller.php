@@ -91,9 +91,9 @@ class RegistrationController extends JController
 		if ($username)
 		{
 			// We have a username ... send a new password
-			$query = "SELECT id, email" .
-					"\n FROM #__users" .
-					"\n WHERE username = '".$db->getEscaped($username)."'";
+			$query = 'SELECT id, email' .
+					' FROM #__users' .
+					' WHERE username = "'.$db->getEscaped($username).'"';
 			$db->setQuery( $query );
 			if (!($user = $db->loadObject()) || !$username) {
 				$mainframe->redirect( 'index.php?option=com_registration&task=lostPassword&Itemid='.$Itemid, JText::_( 'Sorry, no corresponding user was found' ) );
@@ -104,9 +104,9 @@ class RegistrationController extends JController
 			$newpass = JUserHelper::genRandomPassword();
 
 			// Set new password for the user
-			$query = "UPDATE #__users" .
-					"\n SET password = '".md5($newpass)."'" .
-					"\n WHERE id = ".$user->id;
+			$query = 'UPDATE #__users' .
+					' SET password = "'.md5($newpass)."'" .
+					' WHERE id = '.$user->id;
 			$db->setQuery( $query );
 			if (!$db->query()) {
 				JError::raiseError( 404, JText::_('SQL error' ) . $db->stderr(true));
@@ -129,9 +129,9 @@ class RegistrationController extends JController
 			if ($email)
 			{
 				// We have an email address ... is it a valid one?
-				$query = "SELECT username" .
-						"\n FROM #__users" .
-						"\n WHERE email = '".$db->getEscaped($email)."'";
+				$query = 'SELECT username' .
+						' FROM #__users' .
+						' WHERE email = "'.$db->getEscaped($email)."'";
 				$db->setQuery( $query );
 				if (!($username = $db->loadResult()) || !$email) {
 					$mainframe->redirect( 'index.php?option=com_registration&task=lostPassword&Itemid='.$Itemid, JText::_( 'Sorry, no corresponding user was found' ) );
@@ -366,10 +366,10 @@ class RegistrationController extends JController
 			$adminName2 = $fromname;
 			$adminEmail2 = $mailfrom;
 		} else {
-			$query = "SELECT name, email" .
-					"\n FROM #__users" .
-					"\n WHERE LOWER( usertype ) = 'superadministrator'" .
-					"\n OR LOWER( usertype ) = 'super administrator'";
+			$query = 'SELECT name, email' .
+					' FROM #__users' .
+					' WHERE LOWER( usertype ) = "superadministrator"' .
+					' OR LOWER( usertype ) = "super administrator"';
 			$db->setQuery( $query );
 			$rows = $db->loadObjectList();
 
@@ -392,9 +392,9 @@ class RegistrationController extends JController
 
 		foreach ( $admins['users'] AS $id )
 		{
-			$query = "SELECT email, sendEmail" .
-					"\n FROM #__users" .
-					"\n WHERE id = $id";
+			$query = 'SELECT email, sendEmail' .
+					' FROM #__users' .
+					' WHERE id = '. $id;
 			$db->setQuery( $query );
 			$rows = $db->loadObjectList();
 

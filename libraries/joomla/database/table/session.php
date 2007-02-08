@@ -125,8 +125,8 @@ class JTableSession extends JTable
 	 */
 	function destroy($sessionId)
 	{
-		$query = "DELETE FROM #__session"
-			. "\n WHERE session_id = ". $this->_db->Quote( $sessionId );
+		$query = 'DELETE FROM #__session'
+			. '\n WHERE session_id = '. $this->_db->Quote( $sessionId );
 		$this->_db->setQuery( $query );
 
 		if ( !$this->_db->query() ) {
@@ -146,7 +146,7 @@ class JTableSession extends JTable
 	function purge( $maxLifetime = 1440 )
 	{
 		$past = time() - $maxLifetime;
-		$query = "DELETE FROM $this->_tbl WHERE ( time < $past )";
+		$query = 'DELETE FROM '. $this->_tbl .' WHERE ( time < '. $past .' )';
 		;
 		$this->_db->setQuery($query);
 
