@@ -39,10 +39,10 @@ class JUserHelper
 		$db = & JFactory::getDBO();
 
 		// Lets get the id of the user we want to activate
-		$query = "SELECT id"
-		. "\n FROM #__users"
-		. "\n WHERE activation = '$activation'"
-		. "\n AND block = 1"
+		$query = 'SELECT id'
+		. ' FROM #__users'
+		. ' WHERE activation = "'.$activation.'"'
+		. ' AND block = 1'
 		;
 		$db->setQuery( $query );
 		$id = intval( $db->loadResult() );

@@ -146,8 +146,8 @@ class JTableSession extends JTable
 	function purge( $maxLifetime = 1440 )
 	{
 		$past = time() - $maxLifetime;
-		$query = "DELETE FROM $this->_tbl"
-		. "\n WHERE ( time < $past )"
+		$query = 'DELETE FROM $this->_tbl'
+		. '\n WHERE ( time < $past )'
 		;
 		$this->_db->setQuery($query);
 
@@ -162,8 +162,8 @@ class JTableSession extends JTable
 	 */
 	function exists($userid)
 	{
-		$query = "SELECT COUNT(userid) FROM #__session"
-			. "\n WHERE userid = ". $this->_db->Quote( $userid );
+		$query = 'SELECT COUNT(userid) FROM #__session'
+			. ' WHERE userid = '. $this->_db->Quote( $userid );
 		$this->_db->setQuery( $query );
 
 		if ( !$result = $this->_db->loadResult() ) {

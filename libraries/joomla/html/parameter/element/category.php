@@ -54,18 +54,18 @@ class JElement_Category extends JElement
 
 		if ($section == 'content') {
 			// This might get a conflict with the dynamic translation - TODO: search for better solution
-			$query = "SELECT c.id, CONCAT_WS( '/',s.title, c.title ) AS title" .
-				"\n FROM #__categories AS c" .
-				"\n LEFT JOIN #__sections AS s ON s.id=c.section" .
-				"\n WHERE c.published = 1" .
-				"\n AND s.scope = '$section'" .
-				"\n ORDER BY c.title";
+			$query = 'SELECT c.id, CONCAT_WS( "/",s.title, c.title ) AS title' .
+				' FROM #__categories AS c' .
+				' LEFT JOIN #__sections AS s ON s.id=c.section' .
+				' WHERE c.published = 1' .
+				' AND s.scope = "'.$section.'"' .
+				' ORDER BY c.title';
 		} else {
-			$query = "SELECT c.id, c.title" .
-				"\n FROM #__categories AS c" .
-				"\n WHERE c.published = 1" .
-				"\n AND c.section = '$section'" .
-				"\n ORDER BY c.title";
+			$query = 'SELECT c.id, c.title' .
+				' FROM #__categories AS c' .
+				' WHERE c.published = 1' .
+				' AND c.section = "'.$section.'"' .
+				' ORDER BY c.title';
 		}
 		$db->setQuery($query);
 		$options = $db->loadObjectList();

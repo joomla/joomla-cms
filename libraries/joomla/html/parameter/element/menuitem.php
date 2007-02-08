@@ -40,9 +40,9 @@ class JElement_MenuItem extends JElement
 
 		$menuType = $this->_parent->get('menu_type');
 		if (!empty($menuType)) {
-			$where = "\n WHERE menutype = '$menuType'";
+			$where = ' WHERE menutype = "'.$menuType."'";
 		} else {
-			$where = "\n WHERE 1";
+			$where = ' WHERE 1';
 		}
 
 		// load the list of menu types
@@ -54,13 +54,13 @@ class JElement_MenuItem extends JElement
 		$menuTypes = $db->loadObjectList();
 
 		if ($state = $node->attributes('state')) {
-			$where .= "\n AND published = '$state'";
+			$where .= ' AND published = "'.$state.'"';
 		}
 
 		// load the list of menu items
 		// TODO: move query to model
-		$query = "SELECT id, parent, name, menutype" .
-				"\n FROM #__menu" .
+		$query = 'SELECT id, parent, name, menutype' .
+				' FROM #__menu' .
 				$where .
 				' ORDER BY menutype, parent, ordering'
 				;

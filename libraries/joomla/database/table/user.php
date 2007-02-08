@@ -158,10 +158,10 @@ class JTableUser extends JTable
 		}
 
 		// check for existing username
-		$query = "SELECT id"
-		. "\n FROM #__users "
-		. "\n WHERE username = '$this->username'"
-		. "\n AND id != $this->id"
+		$query = 'SELECT id'
+		. ' FROM #__users '
+		. ' WHERE username = "' . $this->username . '"'
+		. ' AND id != '. $this->id;
 		;
 		$this->_db->setQuery( $query );
 		$xid = intval( $this->_db->loadResult() );
@@ -172,10 +172,10 @@ class JTableUser extends JTable
 
 
 		// check for existing email
-		$query = "SELECT id"
-			. "\n FROM #__users "
-			. "\n WHERE email = '$this->email'"
-			. "\n AND id != $this->id"
+		$query = 'SELECT id'
+			. ' FROM #__users '
+			. ' WHERE email = "'. $this->email . '"'
+			. ' AND id != '. $this->id
 			;
 		$this->_db->setQuery( $query );
 		$xid = intval( $this->_db->loadResult() );
@@ -242,8 +242,8 @@ class JTableUser extends JTable
 		$aro_id = $acl->get_object_id( 'users', $this->$k, 'ARO' );
 		$acl->del_object( $aro_id, 'ARO', true );
 
-		$query = "DELETE FROM $this->_tbl"
-		. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
+		$query = 'DELETE FROM '. $this->_tbl
+		. ' WHERE  '. $this->_tbl_key .' = "'. $this->$k .'"';
 		;
 		$this->_db->setQuery( $query );
 
@@ -251,16 +251,16 @@ class JTableUser extends JTable
 			// cleanup related data
 
 			// private messaging
-			$query = "DELETE FROM #__messages_cfg"
-			. "\n WHERE user_id = ". $this->$k .""
+			$query = 'DELETE FROM #__messages_cfg'
+			. ' WHERE user_id = '. $this->$k
 			;
 			$this->_db->setQuery( $query );
 			if (!$this->_db->query()) {
 				$this->_error = $this->_db->getErrorMsg();
 				return false;
 			}
-			$query = "DELETE FROM #__messages"
-			. "\n WHERE user_id_to = ". $this->$k .""
+			$query = 'DELETE FROM #__messages'
+			. ' WHERE user_id_to = '. $this->$k
 			;
 			$this->_db->setQuery( $query );
 			if (!$this->_db->query()) {
@@ -303,9 +303,9 @@ class JTableUser extends JTable
 		}
 
 		// updates user lastvistdate field with date and time
-		$query = "UPDATE $this->_tbl"
-		. "\n SET lastvisitDate = '$dateTime'"
-		. "\n WHERE id = ".$id
+		$query = 'UPDATE '. $this->_tbl
+		. ' SET lastvisitDate = "'.$dateTime.'"'
+		. ' WHERE id = '.$id
 		;
 		$this->_db->setQuery( $query );
 		if (!$this->_db->query()) {
@@ -369,11 +369,11 @@ class JTableUser extends JTable
 		{
 			$gWhere = '(id =' . implode( ' OR id =', $objects['users'] ) . ')';
 
-			$query = "SELECT id AS value, name AS text"
-			. "\n FROM #__users"
-			. "\n WHERE block = '0'"
-			. "\n AND " . $gWhere
-			. "\n ORDER BY ". $order
+			$query = 'SELECT id AS value, name AS text'
+			. ' FROM #__users'
+			. ' WHERE block = "0"'
+			. ' AND ' . $gWhere
+			. ' ORDER BY '. $order
 			;
 			$this->_db->setQuery( $query );
 			$options = $this->_db->loadObjectList();

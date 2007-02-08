@@ -38,7 +38,7 @@ class JElement_Section extends JElement
 	{
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT id, title"."\n FROM #__sections"."\n WHERE published = 1"."\n AND scope = 'content'"."\n ORDER BY title";
+		$query = 'SELECT id, title FROM #__sections WHERE published = 1 AND scope = "content" ORDER BY title';
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 		array_unshift($options, JHTMLSelect::option('0', '- '.JText::_('Select Section').' -', 'id', 'title'));

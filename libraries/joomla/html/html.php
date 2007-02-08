@@ -764,9 +764,9 @@ class JAdminMenus
 	{
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT id AS value, name AS text"
-		. "\n FROM #__groups"
-		. "\n ORDER BY id"
+		$query = 'SELECT id AS value, name AS text'
+		. ' FROM #__groups'
+		. ' ORDER BY id'
 		;
 		$db->setQuery( $query );
 		$groups = $db->loadObjectList();
@@ -786,10 +786,10 @@ class JAdminMenus
 		$db =& JFactory::getDBO();
 
 		// get a list of the menu items
-		$query = "SELECT m.id, m.parent, m.name, m.menutype"
-		. "\n FROM #__menu AS m"
-		. "\n WHERE m.published = 1"
-		. "\n ORDER BY m.menutype, m.parent, m.ordering"
+		$query = 'SELECT m.id, m.parent, m.name, m.menutype'
+		. ' FROM #__menu AS m'
+		. ' WHERE m.published = 1'
+		. ' ORDER BY m.menutype, m.parent, m.ordering'
 		;
 		$db->setQuery( $query );
 		$mitems = $db->loadObjectList();
@@ -958,11 +958,11 @@ class JAdminMenus
 			$and = "\n AND gid > 18";
 		}
 
-		$query = "SELECT id AS value, name AS text"
-		. "\n FROM #__users"
-		. "\n WHERE block = 0"
+		$query = 'SELECT id AS value, name AS text'
+		. ' FROM #__users'
+		. ' WHERE block = 0'
 		. $and
-		. "\n ORDER BY $order"
+		. ' ORDER BY '. $order
 		;
 		$db->setQuery( $query );
 		if ( $nouser ) {
@@ -1015,11 +1015,11 @@ class JAdminMenus
 
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT id AS value, name AS text"
-		. "\n FROM #__categories"
-		. "\n WHERE section = '$section'"
-		. "\n AND published = 1"
-		. "\n ORDER BY $order"
+		$query = 'SELECT id AS value, name AS text'
+		. ' FROM #__categories'
+		. ' WHERE section = "'. $section . '"'
+		. ' AND published = 1'
+		. ' ORDER BY '. $order
 		;
 		$db->setQuery( $query );
 		if ( $sel_cat ) {
@@ -1050,10 +1050,10 @@ class JAdminMenus
 
 		$categories[] = JHTMLSelect::option( '-1', '- '. JText::_( 'Select Section' ) .' -' );
 		$categories[] = JHTMLSelect::option( '0', JText::_( 'Uncategorized' ) );
-		$query = "SELECT id AS value, title AS text"
-		. "\n FROM #__sections"
-		. "\n WHERE published = 1"
-		. "\n ORDER BY $order"
+		$query = 'SELECT id AS value, title AS text'
+		. ' FROM #__sections'
+		. ' WHERE published = 1'
+		. ' ORDER BY ' . $order
 		;
 		$db->setQuery( $query );
 		$sections = array_merge( $categories, $db->loadObjectList() );

@@ -285,11 +285,11 @@ class JAuthorization extends gacl_api
 	{
 		$db =& JFactory::getDBO();
 
-		$db->setQuery( "SELECT g.*"
-			. "\nFROM #__core_acl_{$type}_groups AS g"
-			. "\nINNER JOIN #__core_acl_groups_{$type}_map AS gm ON gm.group_id = g.id"
-			. "\nINNER JOIN #__core_acl_{$type} AS ao ON ao.id = gm.{$type}_id"
-			. "\nWHERE ao.value='$value'"
+		$db->setQuery( 'SELECT g.*'
+			. ' FROM #__core_acl_'.$type.'_groups AS g'
+			. ' INNER JOIN #__core_acl_groups_'.$type.'_map AS gm ON gm.group_id = g.id'
+			. ' INNER JOIN #__core_acl_'.$type.' AS ao ON ao.id = gm.'.$type.'_id'
+			. ' WHERE ao.value="'.$value.'"'
 		);
 		$obj = $db->loadObject(  );
 		return $obj;
@@ -305,25 +305,25 @@ class JAuthorization extends gacl_api
 
 		if ($root_id) {
 		} else if ($root_name) {
-			$db->setQuery( "SELECT lft, rgt FROM $table WHERE name='$root_name'" );
+			$db->setQuery( 'SELECT lft, rgt FROM $table WHERE name="'.$root_name.'"' );
 			$root = $db->loadObject();
 		}
 
 		$where = '';
 		if ($root->lft+$root->rgt <> 0) {
 			if ($inclusive) {
-				$where = "WHERE g1.lft BETWEEN $root->lft AND $root->rgt";
+				$where = 'WHERE g1.lft BETWEEN '.$root.'->lft AND '.$root.'->rgt';
 			} else {
-				$where = "WHERE g1.lft BETWEEN 3 AND 22";
+				$where = 'WHERE g1.lft BETWEEN 3 AND 22';
 			}
 		}
 
-		$db->setQuery( "SELECT $fields"
-			. "\nFROM $table AS g1"
-			. "\nINNER JOIN $table AS g2 ON g1.lft BETWEEN g2.lft AND g2.rgt"
-			. "\n$where"
+		$db->setQuery( 'SELECT '. $fields
+			. ' FROM '. $table .' AS g1'
+			. ' INNER JOIN '. $table .' AS g2 ON g1.lft BETWEEN g2.lft AND g2.rgt'
+			. $where
 			. ($groupby ? ' GROUP BY ' . $groupby : '')
-			. "\nORDER BY g1.lft"
+			. ' ORDER BY g1.lft'
 		);
 
 		return $db->loadObjectList();
@@ -409,28 +409,28 @@ class JAuthorization extends gacl_api
 		}
 
 		if (is_int( $grp_src ) && is_int($grp_tgt)) {
-			$db->setQuery( "SELECT COUNT(*)"
-				. "\nFROM $table AS g1"
-				. "\nLEFT JOIN $table AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt"
-				. "\nWHERE g1.id=$grp_src AND g2.id=$grp_tgt"
+			$db->setQuery( 'SELECT COUNT(*)'
+				. ' FROM $table AS g1'
+				. ' LEFT JOIN '. $table .' AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt '
+				. ' WHERE g1.id='. $grp_src .' AND g2.id= '. $grp_tgt
 			);
 		} else if (is_string( $grp_src ) && is_string($grp_tgt)) {
-			$db->setQuery( "SELECT COUNT(*)"
-				. "\nFROM $table AS g1"
-				. "\nLEFT JOIN $table AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt"
-				. "\nWHERE g1.name='$grp_src' AND g2.name='$grp_tgt'"
+			$db->setQuery( 'SELECT COUNT(*)'
+				. ' FROM '. $table .' AS g1 '
+				. ' LEFT JOIN '. $table .' AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt'
+				. ' WHERE g1.name="'.$grp_src .'" AND g2.name="' . $grp_tgt . '"'
 			);
 		} else if (is_int( $grp_src ) && is_string($grp_tgt)) {
-			$db->setQuery( "SELECT COUNT(*)"
-				. "\nFROM $table AS g1"
-				. "\nLEFT JOIN $table AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt"
-				. "\nWHERE g1.id='$grp_src' AND g2.name='$grp_tgt'"
+			$db->setQuery( 'SELECT COUNT(*)'
+				. 'FROM $table AS g1'
+				. 'LEFT JOIN '. $table .' AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt'
+				. 'WHERE g1.id="' . $grp_src . '" AND g2.name="' . $grp_tgt. '"'
 			);
 		} else {
-			$db->setQuery( "SELECT COUNT(*)"
-				. "\nFROM $table AS g1"
-				. "\nLEFT JOIN $table AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt"
-				. "\nWHERE g1.name=$grp_src AND g2.id='$grp_tgt'"
+			$db->setQuery( 'SELECT COUNT(*)'
+				. 'FROM $table AS g1'
+				. 'LEFT JOIN $table AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt'
+				. 'WHERE g1.name= "' . $grp_src . '" AND g2.id="' . $grp_tgt . '"'
 			);
 		}
 		return $db->loadResult();

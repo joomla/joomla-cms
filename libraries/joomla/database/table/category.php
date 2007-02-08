@@ -71,10 +71,10 @@ class JTableCategory extends JTable
 		}
 		
 		// check for existing name
-		/*$query = "SELECT id"
-		. "\n FROM #__categories "
-		. "\n WHERE title = '$this->title'"
-		. "\n AND section = '$this->section'"
+		/*$query = 'SELECT id'
+		. ' FROM #__categories '
+		. ' WHERE title = "'.$this->title.'"'
+		. ' AND section = "'.$this->section.'"'
 		;
 		$this->_db->setQuery( $query );
 

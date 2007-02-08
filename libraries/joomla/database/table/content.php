@@ -134,23 +134,23 @@ class JTableContent extends JTable
 		$db =& JFactory::getDBO();
 
 		if ($mapKeysToText) {
-			$query = "SELECT name"
-			. "\n FROM #__sections"
-			. "\n WHERE id = $this->sectionid"
+			$query = 'SELECT name'
+			. ' FROM #__sections'
+			. ' WHERE id = '. $this->sectionid
 			;
 			$db->setQuery( $query );
 			$this->sectionid = $db->loadResult();
 
-			$query = "SELECT name"
-			. "\n FROM #__categories"
-			. "\n WHERE id $this->catid"
+			$query = 'SELECT name'
+			. ' FROM #__categories'
+			. ' WHERE id = '. $this->catid
 			;
 			$db->setQuery( $query );
 			$this->catid = $db->loadResult();
 
-			$query = "SELECT name"
-			. "\n FROM #__users"
-			. "\n WHERE id = $this->created_by"
+			$query = 'SELECT name'
+			. ' FROM #__users'
+			. ' WHERE id = ' . $this->created_by
 			;
 			$db->setQuery( $query );
 			$this->created_by = $db->loadResult();

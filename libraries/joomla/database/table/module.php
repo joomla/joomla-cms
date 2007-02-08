@@ -84,8 +84,8 @@ class JTableModule extends JTable
 
 		// limitation has been removed
 		// check for existing title
-		//$this->_db->setQuery( "SELECT id FROM #__modules"
-		//. "\nWHERE title='$this->title'"
+		//$this->_db->setQuery( 'SELECT id FROM #__modules'
+		//. ' WHERE title="'.$this->title.'"'
 		//);
 		// check for module of same name
 		//$xid = intval( $this->_db->loadResult() );

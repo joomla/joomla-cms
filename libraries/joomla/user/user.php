@@ -404,9 +404,9 @@ class JUser extends JObject
 		 */
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT name"
-		. "\n FROM #__core_acl_aro_groups"
-		. "\n WHERE id = " . (int) $array['gid']
+		$query = 'SELECT name'
+		. ' FROM #__core_acl_aro_groups'
+		. ' WHERE id = ' . (int) $array['gid']
 		;
 		$db->setQuery( $query );
 		$this->set( 'usertype', $db->loadResult());
