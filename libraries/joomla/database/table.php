@@ -397,7 +397,7 @@ class JTable extends JObject
 		}
 		else
 		{
-			$query = 'UPDATE '. $this->_tbl . 
+			$query = 'UPDATE '. $this->_tbl  
 			. ' SET ordering = "'.$this->ordering.'"'
 			. ' WHERE '. $this->_tbl_key .' = "'. $this->$k .'"'
 			;
