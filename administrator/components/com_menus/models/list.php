@@ -56,52 +56,52 @@ class MenusModelList extends JModel
 		$db =& $this->getDBO();
 
 		$menutype 			= $mainframe->getUserStateFromRequest( "com_menus.menutype",				 		'menutype', 		'mainmenu' );
-		$filter_order		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order", 		'filter_order', 	'm.ordering' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order_Dir",	'filter_order_Dir',	'ASC' );
-		$filter_state		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_state", 		'filter_state', 	'*' );
-		$limit 				= $mainframe->getUserStateFromRequest( "limit", 									'limit', 			$mainframe->getCfg( 'list_limit' ) );
-		$limitstart 		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.limitstart", 			'limitstart', 		0 );
-		$levellimit 		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.levellimit", 			'levellimit', 		10 );
-		$search 			= $mainframe->getUserStateFromRequest( "com_menus.$menutype.search", 				'search', 			'' );
+		$filter_order		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_order', 		'filter_order', 	'm.ordering' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_order_Dir',	'filter_order_Dir',	'ASC' );
+		$filter_state		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_state', 		'filter_state', 	'*' );
+		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 									'limit', 			$mainframe->getCfg( 'list_limit' ) );
+		$limitstart 		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.limitstart', 			'limitstart', 		0 );
+		$levellimit 		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.levellimit', 			'levellimit', 		10 );
+		$search 			= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.search', 				'search', 			'' );
 		$search 			= $db->getEscaped( JString::strtolower( $search ) );
 
 		$and = '';
 		if ( $filter_state )
 		{
 			if ( $filter_state == 'P' ) {
-				$and = "\n AND m.published = 1";
+				$and = ' AND m.published = 1';
 			} else if ($filter_state == 'U' ) {
-				$and = "\n AND m.published = 0";
+				$and = ' AND m.published = 0';
 			}
 		}
 
 		// just in case filter_order get's messed up
 		if ($filter_order) {
-			$orderby = "\n ORDER BY $filter_order $filter_order_Dir, m.parent, m.ordering";
+			$orderby = ' ORDER BY '.$filter_order .' '. $filter_order_Dir .', m.parent, m.ordering';
 		} else {
-			$orderby = "\n ORDER BY m.parent, m.ordering";
+			$orderby = ' ORDER BY m.parent, m.ordering';
 		}
 
 		// select the records
 		// note, since this is a tree we have to do the limits code-side
 		if ($search) {
-			$query = "SELECT m.id" .
-					"\n FROM #__menu AS m" .
-					"\n WHERE menutype = '$menutype'" .
-					"\n AND LOWER( m.name ) LIKE '%".JString::strtolower( $search )."%'" .
+			$query = 'SELECT m.id' .
+					' FROM #__menu AS m' .
+					' WHERE menutype = "'.$menutype . '"'
+					' AND LOWER( m.name ) LIKE "%'.JString::strtolower( $search ).'%" '.
 					$and;
 			$db->setQuery( $query );
 			$search_rows = $db->loadResultArray();
 		}
 
-		$query = "SELECT m.*, u.name AS editor, g.name AS groupname, c.publish_up, c.publish_down, com.name AS com_name" .
-				"\n FROM #__menu AS m" .
-				"\n LEFT JOIN #__users AS u ON u.id = m.checked_out" .
-				"\n LEFT JOIN #__groups AS g ON g.id = m.access" .
-				"\n LEFT JOIN #__content AS c ON c.id = m.componentid AND m.type = 'content_typed'" .
-				"\n LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = 'component'" .
-				"\n WHERE m.menutype = '$menutype'" .
-				"\n AND m.published != -2" .
+		$query = 'SELECT m.*, u.name AS editor, g.name AS groupname, c.publish_up, c.publish_down, com.name AS com_name' .
+				' FROM #__menu AS m' .
+				' LEFT JOIN #__users AS u ON u.id = m.checked_out' .
+				' LEFT JOIN #__groups AS g ON g.id = m.access' .
+				' LEFT JOIN #__content AS c ON c.id = m.componentid AND m.type = "content_typed"' .
+				' LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = "component"' .
+				' WHERE m.menutype = "'.$menutype.'"' .
+				' AND m.published != -2' .
 				$and .
 				$orderby;
 		$db->setQuery( $query );
@@ -205,9 +205,9 @@ class MenusModelList extends JModel
 		// Query to list the selected menu items
 		$db =& $this->getDBO();
 		$cids = implode( ',', $cid );
-		$query = "SELECT `id`, `name`" .
-				"\n FROM `#__menu`" .
-				"\n WHERE `id` IN ( $cids )";
+		$query = 'SELECT `id`, `name`' .
+				' FROM `#__menu`' .
+				' WHERE `id` IN ( '.$cids.' )';
 
 		$db->setQuery( $query );
 		$items = $db->loadObjectList();
@@ -331,9 +331,9 @@ class MenusModelList extends JModel
 		}
 
 		// Sent menu items to the trash
-		$where = "\n WHERE id = " . implode( ' OR id = ', $items );
-		$query = "UPDATE #__menu" .
-				"\n SET published = ".(int) $state.", parent = 0, ordering = 0, checked_out = 0, checked_out_time = ".$db->Quote($nd) .
+		$where = ' WHERE id = ' . implode( ' OR id = ', $items );
+		$query = 'UPDATE #__menu' .
+				' SET published = '.(int) $state.', parent = 0, ordering = 0, checked_out = 0, checked_out_time = '.$db->Quote($nd) .
 				$where;
 		$db->setQuery( $query );
 		if (!$db->query()) {
@@ -361,9 +361,9 @@ class MenusModelList extends JModel
 		}
 
 		// Sent menu items to the trash
-		$where = "\n WHERE id = " . implode( ' OR id = ', $items );
-		$query = "UPDATE #__menu" .
-				"\n SET published = ".(int) $state.", parent = 0, ordering = 99999, checked_out = 0, checked_out_time = ".$db->Quote($nd) .
+		$where = ' WHERE id = ' . implode( ' OR id = ', $items );
+		$query = 'UPDATE #__menu' .
+				' SET published = '.(int) $state.', parent = 0, ordering = 99999, checked_out = 0, checked_out_time = '.$db->Quote($nd) .
 				$where;
 		$db->setQuery( $query );
 		if (!$db->query()) {
@@ -386,9 +386,9 @@ class MenusModelList extends JModel
 		$db =& $this->getDBO();
 
 		// Clear home field for all other items
-		$query = "UPDATE #__menu" .
-				"\n SET home = 0" .
-				"\n WHERE 1";
+		$query = 'UPDATE #__menu' .
+				' SET home = 0' .
+				' WHERE 1';
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
 			$this->setError($db->getErrorMsg());
@@ -396,9 +396,9 @@ class MenusModelList extends JModel
 		}
 
 		// Set the given item to home
-		$query = "UPDATE #__menu" .
-				"\n SET home = 1" .
-				"\n WHERE id = $item";
+		$query = 'UPDATE #__menu' .
+				' SET home = 1' .
+				' WHERE id = '.$item;
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
 			$this->setError($db->getErrorMsg());
@@ -624,9 +624,9 @@ class MenusModelList extends JModel
 
 		// Get all rows with parent of $id
 		$db =& $this->getDBO();
-		$query = "SELECT id" .
-				"\n FROM #__menu" .
-				"\n WHERE parent = $id";
+		$query = 'SELECT id' .
+				'\n FROM #__menu' .
+				'\n WHERE parent = '.$id;
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList();
 

@@ -108,11 +108,11 @@ function showCategories( $section, $option )
 	global $mainframe;
 
 	$db				 =& JFactory::getDBO();
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 				'filter_order', 	'c.ordering' );
+	$filter_order		= $mainframe->getUserStateFromRequest( $option.'.filter_order', 				'filter_order', 	'c.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",			'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$section.filter_state", 	'filter_state', 	'*' );
-	$sectionid 			= $mainframe->getUserStateFromRequest( "$option.$section.sectionid", 		'sectionid', 		0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( $option.'.'.$section.'.filter_state', 	'filter_state', 	'*' );
+	$sectionid 			= $mainframe->getUserStateFromRequest( $option.'.'.$section.'.sectionid', 		'sectionid', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( $option.'.search', 					'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
@@ -121,28 +121,28 @@ function showCategories( $section, $option )
 	$section_name 	= '';
 	$content_add 	= '';
 	$content_join 	= '';
-	$order 			= "\n ORDER BY $filter_order $filter_order_Dir, c.ordering";
+	$order 			= ' ORDER BY $filter_order $filter_order_Dir, c.ordering';
 	if (intval( $section ) > 0) {
 		$table = 'content';
 
-		$query = "SELECT name"
-		. "\n FROM #__sections"
-		. "\n WHERE id = $section";
+		$query = 'SELECT name'
+		. ' FROM #__sections'
+		. ' WHERE id = $section';
 		$db->setQuery( $query );
 		$section_name = $db->loadResult();
 		$section_name = JText::sprintf( 'Content:', JText::_( $section_name ) );
-		$where 	= "\n WHERE c.section = '$section'";
+		$where 	= ' WHERE c.section = "'.$section.'"';
 		$type 	= 'content';
 	} else if (strpos( $section, 'com_' ) === 0) {
 		$table = substr( $section, 4 );
 
-		$query = "SELECT name"
-		. "\n FROM #__components"
-		. "\n WHERE link = 'option=$section'"
+		$query = 'SELECT name'
+		. ' FROM #__components'
+		. ' WHERE link = "option='.$section.'"';
 		;
 		$db->setQuery( $query );
 		$section_name = $db->loadResult();
-		$where 	= "\n WHERE c.section = '$section'";
+		$where 	= ' WHERE c.section = "'.$section.'"';
 		$type 	= 'other';
 		// special handling for contact component
 		if ( $section == 'com_contact_details' ) {
@@ -151,14 +151,14 @@ function showCategories( $section, $option )
 		$section_name = JText::sprintf( 'Component:', $section_name );
 	} else {
 		$table 	= $section;
-		$where 	= "\n WHERE c.section = '$section'";
+		$where 	= ' WHERE c.section = "'.$section.'"';
 		$type 	= 'other';
 	}
 
 	// get the total number of records
-	$query = "SELECT COUNT(*)"
-	. "\n FROM #__categories"
-	. "\n WHERE section = '$section'"
+	$query = 'SELECT COUNT(*)'
+	. ' FROM #__categories'
+	. ' WHERE section = "'.$section.'"'
 	;
 	$db->setQuery( $query );
 	$total = $db->loadResult();
@@ -166,23 +166,23 @@ function showCategories( $section, $option )
 	// allows for viweing of all content categories
 	if ( $section == 'com_content' ) {
 		$table 			= 'content';
-		$content_add 	= "\n , z.title AS section_name";
-		$content_join 	= "\n LEFT JOIN #__sections AS z ON z.id = c.section";
-		$where 			= "\n WHERE c.section NOT LIKE '%com_%'";
+		$content_add 	= ' , z.title AS section_name';
+		$content_join 	= ' LEFT JOIN #__sections AS z ON z.id = c.section';
+		$where 			= ' WHERE c.section NOT LIKE "%com_%"';
 		if ($filter_order == 'c.ordering'){
-			$order 			= "\n ORDER BY  z.title, c.ordering";
+			$order 			= ' ORDER BY  z.title, c.ordering';
 		} else {
-			$order 			= "\n ORDER BY  $filter_order $filter_order_Dir, z.title, c.ordering";
+			$order 			= ' ORDER BY  '.$filter_order.' '. $filter_order_Dir.', z.title, c.ordering';
 		}
 
 		$section_name 	= JText::_( 'All Content:' );
 
 		// get the total number of records
-		$query = "SELECT COUNT(*)"
-		. "\n FROM #__categories"
-		. "\n INNER JOIN #__sections AS s ON s.id = section";
+		$query = 'SELECT COUNT(*)'
+		. ' FROM #__categories'
+		. ' INNER JOIN #__sections AS s ON s.id = section';
 		if ( $sectionid > 0 ) {
-			$query .= "\n WHERE section = '$sectionid'";
+			$query .= ' WHERE section = "'.$sectionid.'"';
 		}
 		$db->setQuery( $query );
 		$total = $db->loadResult();
@@ -191,35 +191,35 @@ function showCategories( $section, $option )
 
 	// used by filter
 	if ( $sectionid > 0 ) {
-		$filter = "\n AND c.section = '$sectionid'";
+		$filter = ' AND c.section = "'.$sectionid.'"';
 	} else {
 		$filter = '';
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
-			$filter .= "\n AND c.published = 1";
+			$filter .= ' AND c.published = 1';
 		} else if ($filter_state == 'U' ) {
-			$filter .= "\n AND c.published = 0";
+			$filter .= ' AND c.published = 0';
 		}
 	}
 	if ($search) {
-		$filter .= "\n AND LOWER(c.name) LIKE '%$search%'";
+		$filter .= ' AND LOWER(c.name) LIKE "%'.$search.'%"';
 	}
 
 	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
-	$query = "SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, COUNT( DISTINCT s2.checked_out ) AS checked_out"
+	$query = 'SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, COUNT( DISTINCT s2.checked_out ) AS checked_out'
 	. $content_add
-	. "\n FROM #__categories AS c"
-	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
-	. "\n LEFT JOIN #__groups AS g ON g.id = c.access"
-	. "\n LEFT JOIN #__$table AS s2 ON s2.catid = c.id AND s2.checked_out > 0"
+	. ' FROM #__categories AS c'
+	. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
+	. ' LEFT JOIN #__groups AS g ON g.id = c.access'
+	. ' LEFT JOIN #__'.$table.' AS s2 ON s2.catid = c.id AND s2.checked_out > 0'
 	. $content_join
 	. $where
 	. $filter
-	. "\n AND c.published != -2"
-	. "\n GROUP BY c.id"
+	. ' AND c.published != -2'
+	. ' GROUP BY c.id'
 	. $order
 	;
 	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
@@ -232,10 +232,10 @@ function showCategories( $section, $option )
 	$count = count( $rows );
 	// number of Active Items
 	for ( $i = 0; $i < $count; $i++ ) {
-		$query = "SELECT COUNT( a.id )"
-		. "\n FROM #__content AS a"
-		. "\n WHERE a.catid = ". $rows[$i]->id
-		. "\n AND a.state <> -2"
+		$query = 'SELECT COUNT( a.id )'
+		. ' FROM #__content AS a'
+		. ' WHERE a.catid = '. $rows[$i]->id
+		. ' AND a.state <> -2'
 		;
 		$db->setQuery( $query );
 		$active = $db->loadResult();
@@ -243,10 +243,10 @@ function showCategories( $section, $option )
 	}
 	// number of Trashed Items
 	for ( $i = 0; $i < $count; $i++ ) {
-		$query = "SELECT COUNT( a.id )"
-		. "\n FROM #__content AS a"
-		. "\n WHERE a.catid = ". $rows[$i]->id
-		. "\n AND a.state = -2"
+		$query = 'SELECT COUNT( a.id )'
+		. ' FROM #__content AS a'
+		. ' WHERE a.catid = '. $rows[$i]->id
+		. ' AND a.state = -2'
 		;
 		$db->setQuery( $query );
 		$trash = $db->loadResult();
@@ -299,17 +299,17 @@ function editCategory( )
 	}
 
 	// check for existance of any sections
-	$query = "SELECT COUNT( id )"
-	. "\n FROM #__sections"
-	. "\n WHERE scope = 'content'"
+	$query = 'SELECT COUNT( id )'
+	. ' FROM #__sections'
+	. ' WHERE scope = "content"'
 	;
 	$db->setQuery( $query );
 	$sections = $db->loadResult();
 	if (!$sections && $type != 'other'
-			&& $section != "com_weblinks"
-			&& $section != "com_newsfeeds"
-			&& $section != "com_contact_details"
-			&& $section != "com_banner") {
+			&& $section != 'com_weblinks'
+			&& $section != 'com_newsfeeds'
+			&& $section != 'com_contact_details'
+			&& $section != 'com_banner') {
 		JError::raiseError(500, JText::_( 'WARNSECTION', true ));
 	}
 
@@ -326,9 +326,9 @@ function editCategory( )
 
 	// make order list
 	$order = array();
-	$query = "SELECT COUNT(*)"
-	. "\n FROM #__categories"
-	. "\n WHERE section = '$row->section'"
+	$query = 'SELECT COUNT(*)'
+	. ' FROM #__categories'
+	. ' WHERE section = "'.$row->section.'"'
 	;
 	$db->setQuery( $query );
 	$max = intval( $db->loadResult() ) + 1;
@@ -339,9 +339,9 @@ function editCategory( )
 
 	// build the html select list for sections
 	if ( $section == 'com_content' ) {
-		$query = "SELECT s.id AS value, s.title AS text"
-		. "\n FROM #__sections AS s"
-		. "\n ORDER BY s.ordering"
+		$query = 'SELECT s.id AS value, s.title AS text'
+		. ' FROM #__sections AS s'
+		. ' ORDER BY s.ordering'
 		;
 		$db->setQuery( $query );
 		$sections = $db->loadObjectList();
@@ -360,10 +360,10 @@ function editCategory( )
 	}
 
 	// build the html select list for ordering
-	$query = "SELECT ordering AS value, title AS text"
-	. "\n FROM #__categories"
-	. "\n WHERE section = '$row->section'"
-	. "\n ORDER BY ordering"
+	$query = 'SELECT ordering AS value, title AS text'
+	. ' FROM #__categories'
+	. ' WHERE section = "'.$row->section.'"'
+	. ' ORDER BY ordering'
 	;
 	$lists['ordering'] 			= JAdminMenus::SpecificOrdering( $row, $cid[0], $query );
 
@@ -420,10 +420,10 @@ function saveCategory()
 
 	if ( $oldtitle ) {
 		if ($oldtitle != $row->title) {
-			$query = "UPDATE #__menu"
-			. "\n SET name = '$row->title'"
-			. "\n WHERE name = '$oldtitle'"
-			. "\n AND type = 'content_category'"
+			$query = 'UPDATE #__menu'
+			. ' SET name = "'.$row->title.'"'
+			. ' WHERE name = "'.$oldtitle.'"'
+			. ' AND type = "content_category"'
 			;
 			$db->setQuery( $query );
 			$db->query();
@@ -434,8 +434,8 @@ function saveCategory()
 	if ($row->section != 'com_contact_details' &&
 		$row->section != 'com_newsfeeds' &&
 		$row->section != 'com_weblinks') {
-		$query = "UPDATE #__sections SET count=count+1"
-		. "\n WHERE id = '$row->section'"
+		$query = 'UPDATE #__sections SET count=count+1'
+		. ' WHERE id = "'.$row->section.'"'
 		;
 		$db->setQuery( $query );
 	}
@@ -493,11 +493,11 @@ function removeCategories( $section, $cid )
 		$table = $section;
 	}
 
-	$query = "SELECT c.id, c.name, COUNT( s.catid ) AS numcat"
-	. "\n FROM #__categories AS c"
-	. "\n LEFT JOIN #__$table AS s ON s.catid = c.id"
-	. "\n WHERE c.id IN ( $cids )"
-	. "\n GROUP BY c.id"
+	$query = 'SELECT c.id, c.name, COUNT( s.catid ) AS numcat'
+	. ' FROM #__categories AS c'
+	. ' LEFT JOIN #__$table AS s ON s.catid = c.id'
+	. ' WHERE c.id IN ( '.$cids.' )'
+	. ' GROUP BY c.id'
 	;
 	$db->setQuery( $query );
 
@@ -518,8 +518,8 @@ function removeCategories( $section, $cid )
 
 	if (count( $cid )) {
 		$cids = implode( ',', $cid );
-		$query = "DELETE FROM #__categories"
-		. "\n WHERE id IN ( $cids )"
+		$query = 'DELETE FROM #__categories'
+		. ' WHERE id IN ( '.$cids.' )'
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
@@ -565,10 +565,10 @@ function publishCategories( $section, $cid=null, $publish=1 )
 
 	$cids = implode( ',', $cid );
 
-	$query = "UPDATE #__categories"
-	. "\n SET published = " . intval( $publish )
-	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $uid ) )"
+	$query = 'UPDATE #__categories'
+	. ' SET published = ' . intval( $publish )
+	. ' WHERE id IN ( '.$cids.' )'
+	. ' AND ( checked_out = 0 OR ( checked_out = '.$uid.' ) )'
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
@@ -640,27 +640,27 @@ function moveCategorySelect( $option, $cid, $sectionOld )
 
 	## query to list selected categories
 	$cids = implode( ',', $cid );
-	$query = "SELECT a.name, a.section"
-	. "\n FROM #__categories AS a"
-	. "\n WHERE a.id IN ( $cids )"
+	$query = 'SELECT a.name, a.section'
+	. ' FROM #__categories AS a'
+	. ' WHERE a.id IN ( '.$cids.' )'
 	;
 	$db->setQuery( $query );
 	$items = $db->loadObjectList();
 
 	## query to list items from categories
-	$query = "SELECT a.title"
-	. "\n FROM #__content AS a"
-	. "\n WHERE a.catid IN ( $cids )"
-	. "\n ORDER BY a.catid, a.title"
+	$query = 'SELECT a.title'
+	. ' FROM #__content AS a'
+	. ' WHERE a.catid IN ( '.$cids.' )'
+	. ' ORDER BY a.catid, a.title'
 	;
 	$db->setQuery( $query );
 	$contents = $db->loadObjectList();
 
 	## query to choose section to move to
-	$query = "SELECT a.name AS text, a.id AS value"
-	. "\n FROM #__sections AS a"
-	. "\n WHERE a.published = 1"
-	. "\n ORDER BY a.name"
+	$query = 'SELECT a.name AS text, a.id AS value'
+	. ' FROM #__sections AS a'
+	. ' WHERE a.published = 1'
+	. ' ORDER BY a.name'
 	;
 	$db->setQuery( $query );
 	$sections = $db->loadObjectList();
@@ -685,17 +685,17 @@ function moveCategorySave( $cid, $sectionOld )
 	$cids = implode( ',', $cid );
 	$total = count( $cid );
 
-	$query = "UPDATE #__categories"
-	. "\n SET section = '$sectionMove'"
-	. "WHERE id IN ( $cids )"
+	$query = 'UPDATE #__categories'
+	. ' SET section = "'.$sectionMove.'"'
+	. 'WHERE id IN ( '.$cids.' )'
 	;
 	$db->setQuery( $query );
 	if ( !$db->query() ) {
 		JError::raiseError(500, $db->getErrorMsg() );
 	}
-	$query = "UPDATE #__content"
-	. "\n SET sectionid = '$sectionMove'"
-	. "\n WHERE catid IN ( $cids )"
+	$query = 'UPDATE #__content'
+	. ' SET sectionid = "'.$sectionMove.'"'
+	. ' WHERE catid IN ( '.$cids.' )'
 	;
 	$db->setQuery( $query );
 	if ( !$db->query() ) {
@@ -724,18 +724,18 @@ function copyCategorySelect( $option, $cid, $sectionOld )
 
 	## query to list selected categories
 	$cids = implode( ',', $cid );
-	$query = "SELECT a.name, a.section"
-	. "\n FROM #__categories AS a"
-	. "\n WHERE a.id IN ( $cids )"
+	$query = 'SELECT a.name, a.section'
+	. ' FROM #__categories AS a'
+	. ' WHERE a.id IN ( '.$cids.' )'
 	;
 	$db->setQuery( $query );
 	$items = $db->loadObjectList();
 
 	## query to list items from categories
-	$query = "SELECT a.title, a.id"
-	. "\n FROM #__content AS a"
-	. "\n WHERE a.catid IN ( $cids )"
-	. "\n ORDER BY a.catid, a.title"
+	$query = 'SELECT a.title, a.id'
+	. ' FROM #__content AS a'
+	. ' WHERE a.catid IN ( '.$cids.' )'
+	. ' ORDER BY a.catid, a.title'
 	;
 	$db->setQuery( $query );
 	$contents = $db->loadObjectList();

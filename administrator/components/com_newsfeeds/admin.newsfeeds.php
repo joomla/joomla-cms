@@ -96,29 +96,29 @@ function showNewsFeeds(  )
 
 	$where = array();
 	if ( $filter_catid ) {
-		$where[] = "a.catid = $filter_catid";
+		$where[] = 'a.catid = $filter_catid';
 	}
 	if ($search) {
-		$where[] = "LOWER(a.name) LIKE '%$search%'";
+		$where[] = 'LOWER(a.name) LIKE "%'.$search.'%"';
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
-			$where[] = "a.published = 1";
+			$where[] = 'a.published = 1';
 		} else if ($filter_state == 'U' ) {
-			$where[] = "a.published = 0";
+			$where[] = 'a.published = 0';
 		}
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
+	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
 	if ($filter_order == 'a.ordering'){
-		$orderby 	= "\n ORDER BY catname, a.ordering";
+		$orderby 	= ' ORDER BY catname, a.ordering';
 	} else {
-		$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, catname, a.ordering";
+		$orderby 	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', catname, a.ordering';
 	}
 
 	// get the total number of records
-	$query = "SELECT COUNT(*) "
-	. "\n FROM #__newsfeeds AS a"
+	$query = 'SELECT COUNT(*) '
+	. ' FROM #__newsfeeds AS a'
 	. $where
 	;
 	$db->setQuery( $query );
@@ -128,10 +128,10 @@ function showNewsFeeds(  )
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// get the subset (based on limits) of required records
-	$query = "SELECT a.*, c.name AS catname, u.name AS editor"
-	. "\n FROM #__newsfeeds AS a"
-	. "\n LEFT JOIN #__categories AS c ON c.id = a.catid"
-	. "\n LEFT JOIN #__users AS u ON u.id = a.checked_out"
+	$query = 'SELECT a.*, c.name AS catname, u.name AS editor'
+	. ' FROM #__newsfeeds AS a'
+	. ' LEFT JOIN #__categories AS c ON c.id = a.catid'
+	. ' LEFT JOIN #__users AS u ON u.id = a.checked_out'
 	. $where
 	. $orderby
 	;
@@ -195,9 +195,9 @@ function editNewsFeed(  )
 	}
 
 	// build the html select list for ordering
-	$query = "SELECT a.ordering AS value, a.name AS text"
-	. "\n FROM #__newsfeeds AS a"
-	. "\n ORDER BY a.ordering"
+	$query = 'SELECT a.ordering AS value, a.name AS text'
+	. ' FROM #__newsfeeds AS a'
+	. ' ORDER BY a.ordering'
 	;
 	$lists['ordering'] 			= JAdminMenus::SpecificOrdering( $row, $cid[0], $query, 1 );
 
@@ -302,10 +302,10 @@ function changePublishNewsFeeds( $publish )
 
 	$cids = implode( ',', $cid );
 
-	$query = "UPDATE #__newsfeeds"
-	. "\n SET published = ". intval( $publish )
-	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $user->get('id') ) )"
+	$query = 'UPDATE #__newsfeeds'
+	. ' SET published = '. intval( $publish )
+	. ' WHERE id IN ( '. $cids .' )'
+	. ' AND ( checked_out = 0 OR ( checked_out = '. $user->get('id') .' ) )'
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
@@ -339,8 +339,8 @@ function removeNewsFeeds( )
 	}
 	if (count( $cid )) {
 		$cids = implode( ',', $cid );
-		$query = "DELETE FROM #__newsfeeds"
-		. "\n WHERE id IN ( $cids )"
+		$query = 'DELETE FROM #__newsfeeds'
+		. ' WHERE id IN ( '. $cids .' )'
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {

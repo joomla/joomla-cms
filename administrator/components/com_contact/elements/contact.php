@@ -28,11 +28,11 @@ class JElement_Contact extends JElement
 	{
 		$db = &JFactory::getDBO();
 
-		$query = "SELECT a.id, CONCAT( a.name, ' - ',a.con_position ) AS text, a.catid "
-		. "\n FROM #__contact_details AS a"
-		. "\n INNER JOIN #__categories AS c ON a.catid = c.id"
-		. "\n WHERE a.published = 1"
-		. "\n ORDER BY a.catid, a.name"
+		$query = 'SELECT a.id, CONCAT( a.name, " - ",a.con_position ) AS text, a.catid '
+		. ' FROM #__contact_details AS a'
+		. ' INNER JOIN #__categories AS c ON a.catid = c.id'
+		. ' WHERE a.published = 1'
+		. ' ORDER BY a.catid, a.name'
 		;
 		$db->setQuery( $query );
 		$options = $db->loadObjectList( );

@@ -85,13 +85,13 @@ function viewFrontPage( $option )
 	global $mainframe;
 
 	$db 				=& JFactory::getDBO();
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'fpordering' );
+	$filter_order		= $mainframe->getUserStateFromRequest( $option.'.filter_order', 		'filter_order', 	'fpordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'*' );
-	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 			'catid', 			0 );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.filter_authorid", 	'filter_authorid', 	0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.filter_sectionid", 	'filter_sectionid', 0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( $option.'.filter_state', 		'filter_state', 	'*' );
+	$catid 				= $mainframe->getUserStateFromRequest( $option.'.catid', 			'catid', 			0 );
+	$filter_authorid 	= $mainframe->getUserStateFromRequest( $option.'.filter_authorid', 	'filter_authorid', 	0 );
+	$filter_sectionid 	= $mainframe->getUserStateFromRequest( $option.'.filter_sectionid', 	'filter_sectionid', 0 );
+	$search 			= $mainframe->getUserStateFromRequest( $option.'.search', 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
@@ -103,35 +103,35 @@ function viewFrontPage( $option )
 
 	// used by filter
 	if ( $filter_sectionid > 0 ) {
-		$where[] = "c.sectionid = '$filter_sectionid'";
+		$where[] = 'c.sectionid = "'.$filter_sectionid.'"';
 	}
 	if ( $catid > 0 ) {
-		$where[] = "c.catid = '$catid'";
+		$where[] = 'c.catid = "'.$catid.'"';
 	}
 	if ( $filter_authorid > 0 ) {
-		$where[] = "c.created_by = $filter_authorid";
+		$where[] = 'c.created_by = '. $filter_authorid;
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
-			$where[] = "c.state = 1";
+			$where[] = 'c.state = 1';
 		} else if ($filter_state == 'U' ) {
-			$where[] = "c.state = 0";
+			$where[] = 'c.state = 0';
 		}
 	}
 
 	if ($search) {
-		$where[] = "LOWER( c.title ) LIKE '%$search%'";
+		$where[] = 'LOWER( c.title ) LIKE "%'.$search%.'"';
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, fpordering";
+	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+	$orderby 	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', fpordering';
 
 	// get the total number of records
-	$query = "SELECT count(*)"
-	. "\n FROM #__content AS c"
-	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
-	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
-	. "\n INNER JOIN #__content_frontpage AS f ON f.content_id = c.id"
+	$query = 'SELECT count(*)'
+	. ' FROM #__content AS c'
+	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
+	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope="content"'
+	. ' INNER JOIN #__content_frontpage AS f ON f.content_id = c.id'
 	. $where
 	;
 	$db->setQuery( $query );
@@ -140,14 +140,14 @@ function viewFrontPage( $option )
 	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
-	$query = "SELECT c.*, g.name AS groupname, cc.name, s.name AS sect_name, u.name AS editor, f.ordering AS fpordering, v.name AS author"
-	. "\n FROM #__content AS c"
-	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
-	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
-	. "\n INNER JOIN #__content_frontpage AS f ON f.content_id = c.id"
-	. "\n INNER JOIN #__groups AS g ON g.id = c.access"
-	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
-	. "\n LEFT JOIN #__users AS v ON v.id = c.created_by"
+	$query = 'SELECT c.*, g.name AS groupname, cc.name, s.name AS sect_name, u.name AS editor, f.ordering AS fpordering, v.name AS author'
+	. ' FROM #__content AS c'
+	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
+	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope="content"'
+	. ' INNER JOIN #__content_frontpage AS f ON f.content_id = c.id'
+	. ' INNER JOIN #__groups AS g ON g.id = c.access'
+	. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
+	. ' LEFT JOIN #__users AS v ON v.id = c.created_by'
 	. $where
 	. $orderby
 	;
@@ -159,10 +159,10 @@ function viewFrontPage( $option )
 	}
 
 	// get list of categories for dropdown filter
-	$query = "SELECT cc.id AS value, cc.title AS text, section"
-	. "\n FROM #__categories AS cc"
-	. "\n INNER JOIN #__sections AS s ON s.id = cc.section "
-	. "\n ORDER BY s.ordering, cc.ordering"
+	$query = 'SELECT cc.id AS value, cc.title AS text, section'
+	. ' FROM #__categories AS cc'
+	. ' INNER JOIN #__sections AS s ON s.id = cc.section '
+	. ' ORDER BY s.ordering, cc.ordering'
 	;
 	$db->setQuery( $query );
 	$categories[] 	= JHTMLSelect::option( '0', '- '. JText::_( 'Select Category' ) .' -' );
@@ -174,14 +174,14 @@ function viewFrontPage( $option )
 	$lists['sectionid']	= JAdminMenus::SelectSection( 'filter_sectionid', $filter_sectionid, $javascript );
 
 	// get list of Authors for dropdown filter
-	$query = "SELECT c.created_by, u.name"
-	. "\n FROM #__content AS c"
-	. "\n INNER JOIN #__sections AS s ON s.id = c.sectionid"
-	. "\n LEFT JOIN #__users AS u ON u.id = c.created_by"
-	. "\n WHERE c.state <> -1"
-	. "\n AND c.state <> -2"
-	. "\n GROUP BY u.name"
-	. "\n ORDER BY u.name"
+	$query = 'SELECT c.created_by, u.name'
+	. ' FROM #__content AS c'
+	. ' INNER JOIN #__sections AS s ON s.id = c.sectionid'
+	. ' LEFT JOIN #__users AS u ON u.id = c.created_by'
+	. ' WHERE c.state <> -1'
+	. ' AND c.state <> -2'
+	. ' GROUP BY u.name'
+	. ' ORDER BY u.name'
 	;
 	$db->setQuery( $query );
 	$authors[] 			= JHTMLSelect::option( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
@@ -225,10 +225,10 @@ function changeFrontPage( $cid=null, $state=0, $option )
 
 	$cids = implode( ',', $cid );
 
-	$query = "UPDATE #__content"
-	. "\n SET state = $state"
-	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get ('id' ). " ) )"
+	$query = 'UPDATE #__content'
+	. ' SET state = $state'
+	. ' WHERE id IN ( '. $cids .' )'
+	. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get ('id' ). ' ) )'
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
@@ -243,7 +243,7 @@ function changeFrontPage( $cid=null, $state=0, $option )
 	$cache = & JFactory::getCache('com_content');
 	$cache->clean();
 
-	$mainframe->redirect( "index.php?option=$option" );
+	$mainframe->redirect( 'index.php?option='.$option );
 }
 
 function removeFrontPage( &$cid, $option )
@@ -331,9 +331,9 @@ function saveOrder( &$cid )
 
 	for( $i=0; $i < $total; $i++ )
 	{
-		$query = "UPDATE #__content_frontpage"
-		. "\n SET ordering = " . (int) $order[$i]
-		. "\n WHERE content_id = " . (int) $cid[$i];
+		$query = 'UPDATE #__content_frontpage'
+		. ' SET ordering = ' . (int) $order[$i]
+		. ' WHERE content_id = ' . (int) $cid[$i];
 		$db->setQuery( $query );
 		if (!$db->query()) {
 			JError::raiseError(500, $db->getErrorMsg() );

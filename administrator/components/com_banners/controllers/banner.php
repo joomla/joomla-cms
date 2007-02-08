@@ -73,13 +73,13 @@ class BannerControllerBanner extends JController
 			$where[] = 'LOWER(b.name) LIKE ' . $db->Quote( '%'.$search.'%' );
 		}
 
-		$where 		= count( $where ) ? "\nWHERE " . implode( ' AND ', $where ) : '';
-		$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, b.ordering";
+		$where 		= count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '';
+		$orderby 	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', b.ordering';
 
 		// get the total number of records
-		$query = "SELECT COUNT(*)"
-		. "\n FROM #__banner AS b"
-		. "\n LEFT JOIN #__categories AS cc ON cc.id = b.catid"
+		$query = 'SELECT COUNT(*)'
+		. ' FROM #__banner AS b'
+		. ' LEFT JOIN #__categories AS cc ON cc.id = b.catid'
 		. $where
 		;
 		$db->setQuery( $query );
@@ -88,11 +88,11 @@ class BannerControllerBanner extends JController
 		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
-		$query = "SELECT b.*, c.name AS client_name, cc.name AS category_name, u.name AS editor"
-		. "\n FROM #__banner AS b"
-		. "\n INNER JOIN #__bannerclient AS c ON c.cid = b.cid"
-		. "\n LEFT JOIN #__categories AS cc ON cc.id = b.catid"
-		. "\n LEFT JOIN #__users AS u ON u.id = b.checked_out"
+		$query = 'SELECT b.*, c.name AS client_name, cc.name AS category_name, u.name AS editor'
+		. ' FROM #__banner AS b'
+		. ' INNER JOIN #__bannerclient AS c ON c.cid = b.cid'
+		. ' LEFT JOIN #__categories AS cc ON cc.id = b.catid'
+		. ' LEFT JOIN #__users AS u ON u.id = b.checked_out'
 		. $where
 		. $orderby
 		;
@@ -141,8 +141,8 @@ class BannerControllerBanner extends JController
 		}
 
 		// Build Client select list
-		$sql = "SELECT cid, name"
-		. "\n FROM #__bannerclient"
+		$sql = 'SELECT cid, name'
+		. ' FROM #__bannerclient'
 		;
 		$db->setQuery($sql);
 		if (!$db->query())
@@ -310,10 +310,10 @@ class BannerControllerBanner extends JController
 		JArrayHelper::toInteger( $cid );
 		$cids = implode( ',', $cid );
 
-		$query = "UPDATE #__banner"
-		. "\n SET showBanner = " . (int) $publish
-		. "\n WHERE bid IN ( $cids )"
-		. "\n AND ( checked_out = 0 OR ( checked_out = " .(int) $user->get('id'). " ) )"
+		$query = 'UPDATE #__banner'
+		. ' SET showBanner = ' . (int) $publish
+		. ' WHERE bid IN ( '. $cids.'  )'
+		. ' AND ( checked_out = 0 OR ( checked_out = ' .(int) $user->get('id'). ' ) )'
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
@@ -334,8 +334,8 @@ class BannerControllerBanner extends JController
 
 		if ($n)
 		{
-			$query = "DELETE FROM #__banner"
-			. "\n WHERE bid = " . implode( ' OR bid = ', $cid )
+			$query = 'DELETE FROM #__banner'
+			. ' WHERE bid = ' . implode( ' OR bid = ', $cid )
 			;
 			$db->setQuery( $query );
 			if (!$db->query()) {

@@ -44,8 +44,8 @@ class InstallerModelModules extends InstallerModel
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest( "com_installer.modules.string", 'filter' ));
-		$this->setState('filter.client', $mainframe->getUserStateFromRequest( "com_installer.modules.client", 'client', -1 ));
+		$this->setState('filter.string', $mainframe->getUserStateFromRequest( 'com_installer.modules.string', 'filter' ));
+		$this->setState('filter.client', $mainframe->getUserStateFromRequest( 'com_installer.modules.client', 'client', -1 ));
 	}
 
 	function _loadItems()
@@ -57,23 +57,23 @@ class InstallerModelModules extends InstallerModel
 		$and = null;
 		if ($this->_state->get('filter.client') < 0) {
 			if ($this->_state->get('filter.string')) {
-				$and = "\n AND title LIKE '%".$db->getEscaped($this->_state->get('filter.string'))."%'";
+				$and = ' AND title LIKE "%'.$db->getEscaped($this->_state->get('filter.string')).'%"';
 			}
 		} else {
 			if (!$this->_state->get('filter.string')) {
-				$and = "\n AND client_id = ".(int)$this->_state->get('filter.client');
+				$and = ' AND client_id = '.(int)$this->_state->get('filter.client');
 			} else {
-				$and = "\n AND client_id = ".(int)$this->_state->get('filter.client');
-				$and .= "\n AND title LIKE '%".$db->getEscaped($this->_state->get('filter.string'))."%'";
+				$and = ' AND client_id = '.(int)$this->_state->get('filter.client');
+				$and .= ' AND title LIKE "%'.$db->getEscaped($this->_state->get('filter.string')).'%"';
 			}
 		}
 
-		$query = "SELECT id, module, client_id, title, iscore" .
-				"\n FROM #__modules" .
-				"\n WHERE module LIKE 'mod_%' " .
+		$query = 'SELECT id, module, client_id, title, iscore' .
+				' FROM #__modules' .
+				' WHERE module LIKE "mod_%" ' .
 				$and .
-				"\n GROUP BY module, client_id" .
-				"\n ORDER BY iscore, client_id, module";
+				' GROUP BY module, client_id' .
+				' ORDER BY iscore, client_id, module';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 

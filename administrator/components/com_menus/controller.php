@@ -474,10 +474,10 @@ class MenusController extends JController
 			$newTerm = $menuType->menutype;
 
 			// change menutype being of all mod_mainmenu modules calling old menutype
-			$query = "SELECT id"
-			. "\n FROM #__modules"
-			. "\n WHERE module = 'mod_mainmenu'"
-			. "\n AND params LIKE '%menutype=$oldTerm%'"
+			$query = 'SELECT id'
+			. ' FROM #__modules'
+			. ' WHERE module = "mod_mainmenu"'
+			. ' AND params LIKE "%menutype='.$oldTerm.'%"'
 			;
 			$db->setQuery( $query );
 			$modules = $db->loadResultArray();
@@ -500,9 +500,9 @@ class MenusController extends JController
 			}
 
 			// change menutype of all menuitems using old menutype
-			$query = "UPDATE #__menu"
-			. "\n SET menutype = '$menutype'"
-			. "\n WHERE menutype = '$old_menutype'"
+			$query = 'UPDATE #__menu'
+			. ' SET menutype = "'.$menutype.'"'
+			. ' WHERE menutype = "'.$old_menutype.'"'
 			;
 			$db->setQuery( $query );
 			$db->query();
@@ -571,9 +571,9 @@ class MenusController extends JController
 		$module_name 	= JRequest::getVar( 'module_name', 'New Module', 'post' );
 
 		// check for unique menutype for new menu copy
-		$query = "SELECT params" .
-				"\n FROM #__modules" .
-				"\n WHERE module = 'mod_mainmenu'";
+		$query = 'SELECT params' .
+				' FROM #__modules' .
+				' WHERE module = "mod_mainmenu"';
 		$db->setQuery( $query );
 		$menus = $db->loadResultArray();
 
@@ -635,8 +635,8 @@ class MenusController extends JController
 		$row->reorder( "position='$row->position'" );
 		// module assigned to show on All pages by default
 		// ToDO: Changed to become a Joomla! db-object
-		$query = "INSERT INTO #__modules_menu" .
-				"\n VALUES ( ".$row->id.", 0 )";
+		$query = 'INSERT INTO #__modules_menu' .
+				' VALUES ( '.$row->id.', 0 )';
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
 			echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";

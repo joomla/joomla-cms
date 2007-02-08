@@ -113,9 +113,9 @@ class InstallerModelTemplates extends InstallerModel
 		}
 
 		// Get a list of the currently active templates
-		$query = "SELECT template" .
-				"\n FROM #__templates_menu" .
-				"\n WHERE 1";
+		$query = 'SELECT template' .
+				' FROM #__templates_menu' .
+				' WHERE 1';
 		$db->setQuery($query);
 		$activeList = $db->loadResultArray();
 

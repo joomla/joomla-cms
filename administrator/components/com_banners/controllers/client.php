@@ -52,19 +52,19 @@ class BannerControllerClient extends JController
 		$where = array();
 
 		if ($search) {
-			$where[] = "LOWER(a.name) LIKE '%$search%'";
+			$where[] = 'LOWER(a.name) LIKE "%'.$search.'%"';
 		}
 
-		$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
-		$orderby = "\n ORDER BY $filter_order $filter_order_Dir, a.cid";
+		$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+		$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', a.cid';
 
 		// get the total number of records
-		$query = "SELECT a.*, count(b.bid) AS nbanners, u.name AS editor"
-		. "\n FROM #__bannerclient AS a"
-		. "\n LEFT JOIN #__banner AS b ON a.cid = b.cid"
-		. "\n LEFT JOIN #__users AS u ON u.id = a.checked_out"
+		$query = 'SELECT a.*, count(b.bid) AS nbanners, u.name AS editor'
+		. ' FROM #__bannerclient AS a'
+		. ' LEFT JOIN #__banner AS b ON a.cid = b.cid'
+		. ' LEFT JOIN #__users AS u ON u.id = a.checked_out'
 		. $where
-		. "\n GROUP BY a.cid"
+		. ' GROUP BY a.cid'
 		. $orderby
 		;
 
@@ -179,9 +179,9 @@ class BannerControllerClient extends JController
 
 		for ($i = 0; $i < $n; $i++)
 		{
-			$query = "SELECT COUNT( bid )"
-			. "\n FROM #__banner"
-			. "\n WHERE cid = ". (int) $cid[$i]
+			$query = 'SELECT COUNT( bid )'
+			. ' FROM #__banner'
+			. ' WHERE cid = '. (int) $cid[$i]
 			;
 			$db->setQuery($query);
 			$count = $db->loadResult();

@@ -37,11 +37,11 @@ class JElement_Newsfeed extends JElement
 	{
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT a.id, c.title, a.name"
-		. "\n FROM #__newsfeeds AS a"
-		. "\n INNER JOIN #__categories AS c ON a.catid = c.id"
-		. "\n WHERE a.published = 1"
-		. "\n ORDER BY a.catid, a.name"
+		$query = 'SELECT a.id, c.title, a.name'
+		. ' FROM #__newsfeeds AS a'
+		. ' INNER JOIN #__categories AS c ON a.catid = c.id'
+		. ' WHERE a.published = 1'
+		. ' ORDER BY a.catid, a.name'
 		;
 		$db->setQuery( $query );
 		$options = $db->loadObjectList( );

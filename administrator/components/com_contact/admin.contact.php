@@ -101,42 +101,42 @@ function showContacts( $option )
 	global $mainframe;
 
 	$db					=& JFactory::getDBO();
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'cd.ordering' );
+	$filter_order		= $mainframe->getUserStateFromRequest( $option.'.filter_order', 		'filter_order', 	'cd.ordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'*' );
-	$filter_catid 		= $mainframe->getUserStateFromRequest( "$option.filter_catid", 		'filter_catid',		0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( $option.'.filter_state', 		'filter_state', 	'*' );
+	$filter_catid 		= $mainframe->getUserStateFromRequest( $option.'.filter_catid', 		'filter_catid',		0 );
+	$search 			= $mainframe->getUserStateFromRequest( $option.'.search', 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
-	$limitstart	= (int) $mainframe->getUserStateFromRequest("$option.limitstart", 'limitstart', 0);
+	$limitstart	= (int) $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0);
 
 	$where = array();
 
 	if ( $search ) {
-		$where[] = "cd.name LIKE '%$search%'";
+		$where[] = 'cd.name LIKE "%'.$search.'%"';
 	}
 	if ( $filter_catid ) {
-		$where[] = "cd.catid = '$filter_catid'";
+		$where[] = 'cd.catid = "'.$filter_catid.'"';
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
-			$where[] = "cd.published = 1";
+			$where[] = 'cd.published = 1';
 		} else if ($filter_state == 'U' ) {
-			$where[] = "cd.published = 0";
+			$where[] = 'cd.published = 0';
 		}
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
+	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
 	if ($filter_order == 'cd.ordering'){
-		$orderby 	= "\n ORDER BY category, cd.ordering";
+		$orderby 	= ' ORDER BY category, cd.ordering';
 	} else {
-		$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, category, cd.ordering";
+		$orderby 	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', category, cd.ordering';
 	}
 
 	// get the total number of records
-	$query = "SELECT COUNT(*)"
-	. "\n FROM #__contact_details AS cd"
+	$query = 'SELECT COUNT(*)'
+	. ' FROM #__contact_details AS cd'
 	. $where
 	;
 	$db->setQuery( $query );
@@ -146,12 +146,12 @@ function showContacts( $option )
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// get the subset (based on limits) of required records
-	$query = "SELECT cd.*, cc.title AS category, u.name AS user, v.name as editor, g.name AS groupname"
-	. "\n FROM #__contact_details AS cd"
-	. "\n LEFT JOIN #__groups AS g ON g.id = cd.access"
-	. "\n LEFT JOIN #__categories AS cc ON cc.id = cd.catid"
-	. "\n LEFT JOIN #__users AS u ON u.id = cd.user_id"
-	. "\n LEFT JOIN #__users AS v ON v.id = cd.checked_out"
+	$query = 'SELECT cd.*, cc.title AS category, u.name AS user, v.name as editor, g.name AS groupname'
+	. ' FROM #__contact_details AS cd'
+	. ' LEFT JOIN #__groups AS g ON g.id = cd.access'
+	. ' LEFT JOIN #__categories AS cc ON cc.id = cd.catid'
+	. ' LEFT JOIN #__users AS u ON u.id = cd.user_id'
+	. ' LEFT JOIN #__users AS v ON v.id = cd.checked_out'
 	. $where
 	. $orderby
 	;
@@ -212,11 +212,11 @@ function editContact( )
 	$lists = array();
 
 	// build the html select list for ordering
-	$query = "SELECT ordering AS value, name AS text"
-	. "\n FROM #__contact_details"
-	. "\n WHERE published >= 0"
-	. "\n AND catid = '$row->catid'"
-	. "\n ORDER BY ordering"
+	$query = 'SELECT ordering AS value, name AS text'
+	. ' FROM #__contact_details'
+	. ' WHERE published >= 0'
+	. ' AND catid = "'.$row->catid.'"'
+	. ' ORDER BY ordering'
 	;
 	$lists['ordering'] 			= JAdminMenus::SpecificOrdering( $row, $cid[0], $query, 1 );
 
@@ -288,10 +288,10 @@ function saveContact( $task )
 	}
 	$row->checkin();
 	if ($row->default_con) {
-		$query = "UPDATE #__contact_details"
-		. "\n SET default_con = 0"
-		. "\n WHERE id <> $row->id"
-		. "\n AND default_con = 1"
+		$query = 'UPDATE #__contact_details'
+		. ' SET default_con = 0'
+		. ' WHERE id <> '. $row->id
+		. ' AND default_con = 1'
 		;
 		$db->setQuery( $query );
 		$db->query();
@@ -333,8 +333,8 @@ function removeContacts( &$cid )
 	$db =& JFactory::getDBO();
 	if (count( $cid )) {
 		$cids = implode( ',', $cid );
-		$query = "DELETE FROM #__contact_details"
-		. "\n WHERE id IN ( $cids )"
+		$query = 'DELETE FROM #__contact_details'
+		. ' WHERE id IN ( '. $cids .' )'
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
@@ -366,10 +366,10 @@ function changeContact( $cid=null, $state=0 )
 
 	$cids = implode( ',', $cid );
 
-	$query = "UPDATE #__contact_details"
-	. "\n SET published = " . intval( $state )
-	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = $user->get('id') ) )"
+	$query = 'UPDATE #__contact_details'
+	. ' SET published = ' . intval( $state )
+	. ' WHERE id IN ( '. $cids .' )'
+	. ' AND ( checked_out = 0 OR ( checked_out = '. $user->get('id') .' ) )'
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
@@ -381,7 +381,7 @@ function changeContact( $cid=null, $state=0 )
 		$row->checkin( intval( $cid[0] ) );
 	}
 
-	$mainframe->redirect( "index.php?option=com_contact" );
+	$mainframe->redirect( 'index.php?option=com_contact' );
 }
 
 /** JJC
@@ -397,9 +397,9 @@ function orderContacts( $uid, $inc )
 
 	$row =& JTable::getInstance('contact', 'Table');
 	$row->load( $uid );
-	$row->move( $inc, "catid = $row->catid AND published != 0" );
+	$row->move( $inc, 'catid = '. $row->catid .' AND published != 0' );
 
-	$mainframe->redirect( "index.php?option=com_contact" );
+	$mainframe->redirect( 'index.php?option=com_contact' );
 }
 
 /** PT

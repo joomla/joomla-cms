@@ -85,22 +85,22 @@ function viewTrashContent( $option )
 	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 
-	$where[] = "c.state = -2";
+	$where[] = 'c.state = -2';
 
 	if ($search) {
-		$where[] = "LOWER(c.title) LIKE '%$search%'";
+		$where[] = 'LOWER(c.title) LIKE "%'.$search.'%"';
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
-	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, s.name, cc.name, c.title";
+	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+	$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', s.name, cc.name, c.title';
 
 	// get the total number of content
-	$query = "SELECT count(c.id)"
-	. "\n FROM #__content AS c"
-	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
-	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = 'content'"
-	. "\n LEFT JOIN #__groups AS g ON g.id = c.access"
-	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
+	$query = 'SELECT count(c.id)'
+	. ' FROM #__content AS c'
+	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
+	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = "content"'
+	. ' LEFT JOIN #__groups AS g ON g.id = c.access'
+	. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
 	. $where
 	;
 	$db->setQuery( $query );
@@ -110,12 +110,12 @@ function viewTrashContent( $option )
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// Query articles
-	$query = "SELECT c.title, c.id, c.sectionid, c.catid, g.name AS groupname, cc.name AS catname, s.name AS sectname"
-	. "\n FROM #__content AS c"
-	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
-	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
-	. "\n LEFT JOIN #__groups AS g ON g.id = c.access"
-	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
+	$query = 'SELECT c.title, c.id, c.sectionid, c.catid, g.name AS groupname, cc.name AS catname, s.name AS sectname'
+	. ' FROM #__content AS c'
+	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
+	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope="content"'
+	. ' LEFT JOIN #__groups AS g ON g.id = c.access'
+	. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
 	. $where
 	. $orderby
 	;
@@ -158,18 +158,18 @@ function viewTrashMenu( $option )
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 
-	$where[] = "m.published = -2";
+	$where[] = 'm.published = -2';
 
 	if ($search) {
-		$where[] = "LOWER(m.name) LIKE '%$search%'";
+		$where[] = 'LOWER(m.name) LIKE "%'.$search.'%"';
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.menutype, m.ordering, m.ordering, m.name";
+	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+	$orderby 	= ' ORDER BY '. $filter_order . ' ' . $filter_order_Dir .', m.menutype, m.ordering, m.ordering,  m.name';
 
-	$query = "SELECT count(*)"
-	. "\n FROM #__menu AS m"
-	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
+	$query = 'SELECT count(*)'
+	. ' FROM #__menu AS m'
+	. ' LEFT JOIN #__users AS u ON u.id = m.checked_out'
 	. $where
 	;
 	$db->setQuery( $query );
@@ -179,10 +179,10 @@ function viewTrashMenu( $option )
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// Query menu items
-	$query = "SELECT m.name, m.id, m.menutype, m.type, com.name AS com_name"
-	. "\n FROM #__menu AS m"
-	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
-	. "\n LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = 'components'"
+	$query = 'SELECT m.name, m.id, m.menutype, m.type, com.name AS com_name'
+	. ' FROM #__menu AS m'
+	. ' LEFT JOIN #__users AS u ON u.id = m.checked_out'
+	. ' LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = "components"'
 	. $where
 	. $orderby
 	;
@@ -220,10 +220,10 @@ function viewdeleteTrash( $cid, $mid, $option )
 
 	if ( $cids ) {
 		// Articles query
-		$query = 	"SELECT a.title AS name"
-		. "\n FROM #__content AS a"
-		. "\n WHERE ( a.id IN ( $cids ) )"
-		. "\n ORDER BY a.title"
+		$query = 	'SELECT a.title AS name'
+		. ' FROM #__content AS a'
+		. ' WHERE ( a.id IN ( '.$cids.' ) )'
+		. ' ORDER BY a.title'
 		;
 		$db->setQuery( $query );
 		$items = $db->loadObjectList();
@@ -231,10 +231,10 @@ function viewdeleteTrash( $cid, $mid, $option )
 		$type = "content";
 	} else if ( $mids ) {
 		// Articles query
-		$query = 	"SELECT a.name"
-		. "\n FROM #__menu AS a"
-		. "\n WHERE ( a.id IN ( $mids ) )"
-		. "\n ORDER BY a.name"
+		$query = 	'SELECT a.name'
+		. ' FROM #__menu AS a'
+		. ' WHERE ( a.id IN ( '.$mids.' ) )'
+		. ' ORDER BY a.name'
 		;
 		$db->setQuery( $query );
 		$items = $db->loadObjectList();
@@ -298,10 +298,10 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 
 	if ( $cids ) {
 		// Articles query
-		$query = "SELECT a.title AS name"
-		. "\n FROM #__content AS a"
-		. "\n WHERE ( a.id IN ( $cids ) )"
-		. "\n ORDER BY a.title"
+		$query = 'SELECT a.title AS name'
+		. ' FROM #__content AS a'
+		. ' WHERE ( a.id IN ( '.$cids.' ) )'
+		. ' ORDER BY a.title'
 		;
 		$db->setQuery( $query );
 		$items = $db->loadObjectList();
@@ -309,10 +309,10 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 		$type = "content";
 	} else if ( $mids ) {
 		// Articles query
-		$query = "SELECT a.name"
-		. "\n FROM #__menu AS a"
-		. "\n WHERE ( a.id IN ( $mids ) )"
-		. "\n ORDER BY a.name"
+		$query = 'SELECT a.name'
+		. ' FROM #__menu AS a'
+		. ' WHERE ( a.id IN ( '.$mids.' ) )'
+		. ' ORDER BY a.name'
 		;
 		$db->setQuery( $query );
 		$items = $db->loadObjectList();
@@ -345,9 +345,9 @@ function restoreTrash( $cid, $option ) {
 		$cids = implode( ',', $cid );
 
 		// query to restore article
-		$query = "UPDATE #__content"
-		. "\n SET state = $state, ordering = $ordering"
-		. "\n WHERE id IN ( $cids )"
+		$query = 'UPDATE #__content'
+		. ' SET state = '.$state.', ordering = '.$ordering
+		. ' WHERE id IN ( '.$cids.' )'
 		;
 		$db->setQuery( $query );
 		if ( !$db->query() ) {

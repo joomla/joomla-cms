@@ -54,10 +54,10 @@ class InstallerModelPlugins extends InstallerModel
 		$db = &$this->getDBO();
 
 		// get list of Positions for dropdown filter
-		$query = "SELECT folder AS value, folder AS text" .
-				"\n FROM #__plugins" .
-				"\n GROUP BY folder" .
-				"\n ORDER BY folder";
+		$query = 'SELECT folder AS value, folder AS text' .
+				' FROM #__plugins' .
+				' GROUP BY folder' .
+				' ORDER BY folder';
 		$db->setQuery( $query );
 
 		$types[] = JHTMLSelect::option( '', JText::_( 'All' ) );
@@ -76,21 +76,21 @@ class InstallerModelPlugins extends InstallerModel
 		$where = null;
 		if ($this->_state->get('filter.group')) {
 			if ($this->_state->get('filter.string')) {
-				$where = "\n WHERE folder = '".$db->getEscaped($this->_state->get('filter.group'))."'";
-				$where .= "\n AND name LIKE '%".$db->getEscaped($this->_state->get('filter.string'))."%'";
+				$where = ' WHERE folder = "'.$db->getEscaped($this->_state->get('filter.group')).'"';
+				$where .= ' AND name LIKE "%'.$db->getEscaped($this->_state->get('filter.string')).'%"';
 			} else {
-				$where = "\n WHERE folder = '".$db->getEscaped($this->_state->get('filter.group'))."'";
+				$where = ' WHERE folder = "'.$db->getEscaped($this->_state->get('filter.group')).'"';
 			}
 		} else {
 			if ($this->_state->get('filter.string')) {
-				$where .= "\n WHERE name LIKE '%".$db->getEscaped($this->_state->get('filter.string'))."%'";
+				$where .= ' WHERE name LIKE "%'.$db->getEscaped($this->_state->get('filter.string')).'%"';
 			}
 		}
 
-		$query = "SELECT id, name, folder, element, client_id, iscore" .
-				"\n FROM #__plugins" .
+		$query = 'SELECT id, name, folder, element, client_id, iscore' .
+				' FROM #__plugins' .
 				$where .
-				"\n ORDER BY iscore, folder, name";
+				' ORDER BY iscore, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 

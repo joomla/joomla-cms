@@ -27,8 +27,8 @@ class JMenuHelper
 	function getMenuTypeList()
 	{
 		$db = &JFactory::getDBO();
-		$query = "SELECT *" .
-				"\n FROM #__menu_types";
+		$query = 'SELECT *' .
+				' FROM #__menu_types';
 		$db->setQuery( $query );
 		return $db->loadObjectList();
 	}
@@ -40,8 +40,8 @@ class JMenuHelper
 	function getMenuTypes()
 	{
 		$db = &JFactory::getDBO();
-		$query = "SELECT menutype" .
-				"\n FROM #__menu_types";
+		$query = 'SELECT menutype' .
+				' FROM #__menu_types';
 		$db->setQuery( $query );
 		return $db->loadResultArray();
 	}
@@ -52,10 +52,10 @@ class JMenuHelper
 	function getComponentList()
 	{
 		$db = &JFactory::getDBO();
-		$query = "SELECT c.id, c.name, c.link, c.option" .
-				"\n FROM #__components AS c" .
-				"\n WHERE c.link <> '' AND parent = 0" .
-				"\n ORDER BY c.name";
+		$query = 'SELECT c.id, c.name, c.link, c.option' .
+				' FROM #__components AS c' .
+				' WHERE c.link <> "" AND parent = 0' .
+				' ORDER BY c.name';
 		$db->setQuery( $query );
 		$result = $db->loadObjectList( );
 		return $result;
@@ -70,7 +70,7 @@ class JMenuHelper
 
 		// If a not a new item, lets set the menu item id
 		if ( $row->id ) {
-			$id = "\n AND id != $row->id";
+			$id = ' AND id != '.$row->id;
 		} else {
 			$id = null;
 		}
@@ -82,12 +82,12 @@ class JMenuHelper
 
 		// get a list of the menu items
 		// excluding the current menu item and its child elements
-		$query = "SELECT m.*" .
-				"\n FROM #__menu m" .
-				"\n WHERE menutype = '$row->menutype'" .
-				"\n AND published != -2" .
+		$query = 'SELECT m.*' .
+				' FROM #__menu m' .
+				' WHERE menutype = "'.$row->menutype.'"' .
+				' AND published != -2' .
 				$id .
-				"\n ORDER BY parent, ordering";
+				' ORDER BY parent, ordering';
 		$db->setQuery( $query );
 		$mitems = $db->loadObjectList();
 

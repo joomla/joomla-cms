@@ -104,34 +104,34 @@ function showSections( $scope, $option )
 
 	$db					=& JFactory::getDBO();
 	$user 				=& JFactory::getUser();
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	's.ordering' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'*' );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
+	$filter_order		= $mainframe->getUserStateFromRequest( $option.'.filter_order', 		'filter_order', 	's.ordering' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'.filter_order_Dir',	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( $option.'.filter_state', 		'filter_state', 	'*' );
+	$search 			= $mainframe->getUserStateFromRequest( $option.'.search', 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 
-	$where[] = "s.scope = '$scope'";
+	$where[] = 's.scope = "'.$scope.'"';
 
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
-			$where[] = "s.published = 1";
+			$where[] = 's.published = 1';
 		} else if ($filter_state == 'U' ) {
-			$where[] = "s.published = 0";
+			$where[] = 's.published = 0';
 		}
 	}
 	if ($search) {
-		$where[] = "LOWER(s.title) LIKE '%$search%'";
+		$where[] = 'LOWER(s.title) LIKE "%'.$search.'%"';
 	}
 
-	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, s.ordering";
+	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+	$orderby 	= ' ORDER BY '.$filter_order.' '. $filter_order_Dir .', s.ordering';
 
 	// get the total number of records
-	$query = "SELECT COUNT(*)"
-	. "\n FROM #__sections AS s"
+	$query = 'SELECT COUNT(*)'
+	. ' FROM #__sections AS s'
 	. $where
 	;
 	$db->setQuery( $query );
@@ -140,13 +140,13 @@ function showSections( $scope, $option )
 	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
-	$query = "SELECT s.*, g.name AS groupname, u.name AS editor"
-	. "\n FROM #__sections AS s"
-	. "\n LEFT JOIN #__content AS cc ON s.id = cc.sectionid"
-	. "\n LEFT JOIN #__users AS u ON u.id = s.checked_out"
-	. "\n LEFT JOIN #__groups AS g ON g.id = s.access"
+	$query = 'SELECT s.*, g.name AS groupname, u.name AS editor'
+	. ' FROM #__sections AS s'
+	. ' LEFT JOIN #__content AS cc ON s.id = cc.sectionid'
+	. ' LEFT JOIN #__users AS u ON u.id = s.checked_out'
+	. ' LEFT JOIN #__groups AS g ON g.id = s.access'
 	. $where
-	. "\n GROUP BY s.id"
+	. ' GROUP BY s.id'
 	. $orderby
 	;
 	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
@@ -159,10 +159,10 @@ function showSections( $scope, $option )
 	$count = count( $rows );
 	// number of Active Items
 	for ( $i = 0; $i < $count; $i++ ) {
-		$query = "SELECT COUNT( a.id )"
-		. "\n FROM #__categories AS a"
-		. "\n WHERE a.section = '". $rows[$i]->id ."'"
-		. "\n AND a.published <> -2"
+		$query = 'SELECT COUNT( a.id )'
+		. ' FROM #__categories AS a'
+		. ' WHERE a.section = "'. $rows[$i]->id .'"'
+		. ' AND a.published <> -2'
 		;
 		$db->setQuery( $query );
 		$active = $db->loadResult();
@@ -170,10 +170,10 @@ function showSections( $scope, $option )
 	}
 	// number of Active Items
 	for ( $i = 0; $i < $count; $i++ ) {
-		$query = "SELECT COUNT( a.id )"
-		. "\n FROM #__content AS a"
-		. "\n WHERE a.sectionid = '". $rows[$i]->id ."'"
-		. "\n AND a.state <> -2"
+		$query = 'SELECT COUNT( a.id )'
+		. ' FROM #__content AS a'
+		. ' WHERE a.sectionid = "'. $rows[$i]->id .'"'
+		. ' AND a.state <> -2'
 		;
 		$db->setQuery( $query );
 		$active = $db->loadResult();
@@ -181,10 +181,10 @@ function showSections( $scope, $option )
 	}
 	// number of Trashed Items
 	for ( $i = 0; $i < $count; $i++ ) {
-		$query = "SELECT COUNT( a.id )"
-		. "\n FROM #__content AS a"
-		. "\n WHERE a.sectionid = '". $rows[$i]->id ."'"
-		. "\n AND a.state = -2"
+		$query = 'SELECT COUNT( a.id )'
+		. ' FROM #__content AS a'
+		. ' WHERE a.sectionid = "'. $rows[$i]->id .'"'
+		. ' AND a.state = -2'
 		;
 		$db->setQuery( $query );
 		$trash = $db->loadResult();
@@ -247,9 +247,9 @@ function editSection( )
 	}
 
 	// build the html select list for ordering
-	$query = "SELECT ordering AS value, title AS text"
-	. "\n FROM #__sections"
-	. "\n WHERE scope='$row->scope' ORDER BY ordering"
+	$query = 'SELECT ordering AS value, title AS text'
+	. ' FROM #__sections'
+	. ' WHERE scope="'.$row->scope.'" ORDER BY ordering'
 	;
 	$lists['ordering'] 			= JAdminMenus::SpecificOrdering( $row, $cid[0], $query );
 
@@ -294,10 +294,10 @@ function saveSection( $option, $scope, $task )
 	}
 	if ( $oldtitle ) {
 		if ( $oldtitle <> $row->title ) {
-			$query = "UPDATE #__menu"
-			. "\n SET name = '$row->title'"
-			. "\n WHERE name = '$oldtitle'"
-			. "\n AND type = 'content_section'"
+			$query = 'UPDATE #__menu'
+			. ' SET name = "'.$row->title.'"'
+			. ' WHERE name = "'.$oldtitle.'"'
+			. ' AND type = "content_section"'
 			;
 			$db->setQuery( $query );
 			$db->query();
@@ -354,11 +354,11 @@ function removeSections( $cid, $scope, $option )
 
 	$cids = implode( ',', $cid );
 
-	$query = "SELECT s.id, s.name, COUNT(c.id) AS numcat"
-	. "\n FROM #__sections AS s"
-	. "\n LEFT JOIN #__categories AS c ON c.section=s.id"
-	. "\n WHERE s.id IN ( $cids )"
-	. "\n GROUP BY s.id"
+	$query = 'SELECT s.id, s.name, COUNT(c.id) AS numcat'
+	. ' FROM #__sections AS s'
+	. ' LEFT JOIN #__categories AS c ON c.section=s.id'
+	. ' WHERE s.id IN ( '.$cids.' )'
+	. ' GROUP BY s.id'
 	;
 	$db->setQuery( $query );
 	if (!($rows = $db->loadObjectList())) {
@@ -378,8 +378,8 @@ function removeSections( $cid, $scope, $option )
 
 	if (count( $cid )) {
 		$cids = implode( ',', $cid );
-		$query = "DELETE FROM #__sections"
-		. "\n WHERE id IN ( $cids )"
+		$query = 'DELETE FROM #__sections'
+		. ' WHERE id IN ( $cids )'
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
@@ -428,10 +428,10 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 		}
 	}
 
-	$query = "UPDATE #__sections"
-	. "\n SET published = " . intval( $publish )
-	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = " .$user->get('id'). " ) )"
+	$query = 'UPDATE #__sections'
+	. ' SET published = ' . intval( $publish )
+	. ' WHERE id IN ( '.$cids.' )'
+	. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get('id'). ' ) )'
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
@@ -445,19 +445,19 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 
 	// check if section linked to menu items if unpublishing
 	if ( $publish == 0 ) {
-		$query = "SELECT id"
-		. "\n FROM #__menu"
-		. "\n WHERE type = 'content_section'"
-		. "\n AND componentid IN ( $cids )"
+		$query = 'SELECT id'
+		. ' FROM #__menu'
+		. ' WHERE type = "content_section"'
+		. ' AND componentid IN ( '.$cids.' )'
 		;
 		$db->setQuery( $query );
 		$menus = $db->loadObjectList();
 
 		if ($menus) {
 			foreach ($menus as $menu) {
-				$query = "UPDATE #__menu"
-				. "\n SET published = " . intval( $publish )
-				. "\n WHERE id = $menu->id"
+				$query = 'UPDATE #__menu'
+				. ' SET published = ' . intval( $publish )
+				. ' WHERE id = ' . $menu->id
 				;
 				$db->setQuery( $query );
 				$db->query();
@@ -517,18 +517,18 @@ function copySectionSelect( $option, $cid, $section )
 
 	## query to list selected categories
 	$cids = implode( ',', $cid );
-	$query = "SELECT a.name, a.id"
-	. "\n FROM #__categories AS a"
-	. "\n WHERE a.section IN ( $cids )"
+	$query = 'SELECT a.name, a.id'
+	. ' FROM #__categories AS a'
+	. ' WHERE a.section IN ( '.$cids.' )'
 	;
 	$db->setQuery( $query );
 	$categories = $db->loadObjectList();
 
 	## query to list items from categories
-	$query = "SELECT a.title, a.id"
-	. "\n FROM #__content AS a"
-	. "\n WHERE a.sectionid IN ( $cids )"
-	. "\n ORDER BY a.sectionid, a.catid, a.title"
+	$query = 'SELECT a.title, a.id'
+	. ' FROM #__content AS a'
+	. ' WHERE a.sectionid IN ( '.$cids.' )'
+	. ' ORDER BY a.sectionid, a.catid, a.title'
 	;
 	$db->setQuery( $query );
 	$contents = $db->loadObjectList();

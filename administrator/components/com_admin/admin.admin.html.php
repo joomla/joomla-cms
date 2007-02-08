@@ -130,9 +130,9 @@ class HTML_admin_misc
 	{
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT params"
-		. "\n FROM #__modules "
-		. "\n WHERE module = 'mod_components'"
+		$query = 'SELECT params'
+		. ' FROM #__modules '
+		. ' WHERE module = "mod_components"';
 		;
 		$db->setQuery( $query );
 		$row = $db->loadResult();

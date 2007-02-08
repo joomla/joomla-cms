@@ -101,11 +101,11 @@ class MenusModelItem extends JModel
 
 				$db = &$this->getDBO();
 				if ($component = @$table->linkparts['option']) {
-					$query = "SELECT `id`" .
-							"\n FROM `#__components`" .
-							"\n WHERE `link` <> ''" .
-							"\n AND `parent` = 0" .
-							"\n AND `option` = '".$db->getEscaped($component)."'";
+					$query = 'SELECT `id`' .
+							' FROM `#__components`' .
+							' WHERE `link` <> ''' .
+							' AND `parent` = 0' .
+							' AND `option` = "'.$db->getEscaped($component).'"';
 					$db->setQuery( $query );
 					$table->componentid = $db->loadResult();
 				}

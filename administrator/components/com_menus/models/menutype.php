@@ -61,26 +61,26 @@ class MenusModelMenutype extends JModel
 		// Preselect some aggregate data
 
 		// Query to get published menu item counts
-		$query = "SELECT a.menutype, COUNT( a.menutype ) AS num" .
-				"\n FROM #__menu AS a" .
-				"\n WHERE a.published = 1" .
-				"\n GROUP BY a.menutype";
+		$query = 'SELECT a.menutype, COUNT( a.menutype ) AS num' .
+				' FROM #__menu AS a' .
+				' WHERE a.published = 1' .
+				' GROUP BY a.menutype';
 		$db->setQuery( $query );
 		$published = $db->loadObjectList( 'menutype' );
 
 		// Query to get unpublished menu item counts
-		$query = "SELECT a.menutype, COUNT( a.menutype ) AS num" .
-				"\n FROM #__menu AS a" .
-				"\n WHERE a.published = 0" .
-				"\n GROUP BY a.menutype";
+		$query = 'SELECT a.menutype, COUNT( a.menutype ) AS num' .
+				' FROM #__menu AS a' .
+				' WHERE a.published = 0' .
+				' GROUP BY a.menutype';
 		$db->setQuery( $query );
 		$unpublished = $db->loadObjectList( 'menutype' );
 
 		// Query to get trash menu item counts
-		$query = "SELECT a.menutype, COUNT( a.menutype ) AS num" .
-				"\n FROM #__menu AS a" .
-				"\n WHERE a.published = -2" .
-				"\n GROUP BY a.menutype";
+		$query = 'SELECT a.menutype, COUNT( a.menutype ) AS num' .
+				' FROM #__menu AS a' .
+				' WHERE a.published = -2' .
+				' GROUP BY a.menutype';
 		$db->setQuery( $query );
 		$trash = $db->loadObjectList( 'menutype' );
 
@@ -91,10 +91,10 @@ class MenusModelMenutype extends JModel
 			$row = &$menuTypes[$i];
 
 			// query to get number of modules for menutype
-			$query = "SELECT count( id )" .
-					"\n FROM #__modules" .
-					"\n WHERE module = 'mod_mainmenu'" .
-					"\n AND params LIKE '%" . $row->menutype . "%'";
+			$query = 'SELECT count( id )' .
+					' FROM #__modules' .
+					' WHERE module = "mod_mainmenu"' .
+					' AND params LIKE "%' . $row->menutype . '%"';
 			$db->setQuery( $query );
 			$modules = $db->loadResult();
 
@@ -143,10 +143,10 @@ class MenusModelMenutype extends JModel
 		}
 
 		$db = &$this->getDBO();
-		$query = "SELECT a.name, a.id" .
-				"\n FROM #__menu AS a" .
-				"\n WHERE a.menutype = " . $db->Quote( $table->menutype ) .
-				"\n ORDER BY a.name";
+		$query = 'SELECT a.name, a.id' .
+				' FROM #__menu AS a' .
+				' WHERE a.menutype = ' . $db->Quote( $table->menutype ) .
+				' ORDER BY a.name';
 		$db->setQuery( $query );
 		$result = $db->loadObjectList();
 		return $result;
@@ -164,10 +164,10 @@ class MenusModelMenutype extends JModel
 		}
 
 		$db = &$this->getDBO();
-		$query = "SELECT id, title, params" .
-				"\n FROM #__modules" .
-				"\n WHERE module = 'mod_mainmenu'" .
-				"\n AND params LIKE " . $db->Quote( '%menutype=' . $type . '%' );
+		$query = 'SELECT id, title, params' .
+				' FROM #__modules' .
+				' WHERE module = "mod_mainmenu"' .
+				' AND params LIKE ' . $db->Quote( '%menutype=' . $type . '%' );
 		$db->setQuery( $query );
 		$temp = $db->loadObjectList();
 
@@ -234,8 +234,8 @@ class MenusModelMenutype extends JModel
 		}
 
 		if (count( $modulesIds )) {
-			$query = "DELETE FROM #__modules_menu" .
-					"\n WHERE menuid = ".implode( ' OR moduleid = ', $modulesIds );
+			$query = 'DELETE FROM #__modules_menu' .
+					' WHERE menuid = '.implode( ' OR moduleid = ', $modulesIds );
 			$db->setQuery( $query );
 			if (!$db->query()) {
 				$this->setError( $menuTable->getErrorMsg() );
@@ -257,8 +257,8 @@ class MenusModelMenutype extends JModel
 			return false;
 		}
 		$db = &$this->getDBO();
-		$query = "DELETE FROM #__menu" .
-				"\n WHERE menutype = ".$db->Quote( $type );
+		$query = 'DELETE FROM #__menu' .
+				' WHERE menutype = '.$db->Quote( $type );
 		$db->setQuery( $query );
 		if (!$db->query()) {
 			$this->setError( $menuTable->getErrorMsg() );

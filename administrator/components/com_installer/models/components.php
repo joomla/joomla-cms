@@ -112,10 +112,10 @@ class InstallerModelComponents extends InstallerModel
 		/* Get a database connector */
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT *" .
-				"\n FROM #__components" .
-				"\n WHERE parent = 0" .
-				"\n ORDER BY iscore, name";
+		$query = 'SELECT *' .
+				' FROM #__components' .
+				' WHERE parent = 0' .
+				' ORDER BY iscore, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
