@@ -263,13 +263,46 @@ class TemplatesView
 	* @param string Source code
 	* @param string The option
 	*/
-	function editTemplate($row, $lists, & $params, $option, & $client)
+	function editTemplate($row, $lists, & $params, $option, & $client, & $ftp)
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
 		
 		JCommonHTML :: loadOverlib();
 ?>
 		<form action="index.php" method="post" name="adminForm">
+
+		<?php if($ftp): ?>
+		<fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>" class="adminform">
+			<legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
+
+			<?php echo JText::_('DESCFTP'); ?>
+
+			<?php if(JError::isError($ftp)): ?>
+				<p><?php echo JText::_($ftp->message); ?></p>
+			<?php endif; ?>
+
+			<table class="adminform nospace">
+			<tbody>
+			<tr>
+				<td width="120">
+					<label for="username"><?php echo JText::_('Username'); ?>:</label>
+				</td>
+				<td>
+					<input type="text" id="username" name="username" class="input_box" size="70" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td width="120">
+					<label for="password"><?php echo JText::_('Password'); ?>:</label>
+				</td>
+				<td>
+					<input type="password" id="password" name="password" class="input_box" size="70" value="" />
+				</td>
+			</tr>
+			</tbody>
+			</table>
+		</fieldset>
+		<?php endif; ?>
 
 		<div class="col50">
 			<fieldset class="adminform">
@@ -396,7 +429,7 @@ class TemplatesView
 		<?php
 	}
 
-	function editTemplateSource($template, & $content, $option, & $client)
+	function editTemplateSource($template, & $content, $option, & $client, & $ftp)
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
 		
@@ -404,27 +437,38 @@ class TemplatesView
 ?>
 		<form action="index.php" method="post" name="adminForm">
 
-		<?php echo JText::_( 'This file is' ); ?>:
-		<strong><?php echo is_writable($template_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></strong>
-		<?php
+		<?php if($ftp): ?>
+		<fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>">
+			<legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
 
-		jimport('joomla.filesystem.path');
-		if (JPath::canCHMOD($template_path)) {
-			if (is_writable($template_path)) {
-?>
-					<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
-					<label for="disable_write"><?php echo JText::_( 'Make unwriteable after saving' ); ?></label>
-				<?php
+			<?php echo JText::_('DESCFTP'); ?>
 
-			} else {
-?>
-					<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
-					<label for="enable_write"><?php echo JText::_( 'Override write protection while saving' ); ?></label>
-				<?php
+			<?php if(JError::isError($ftp)): ?>
+				<p><?php echo JText::_($ftp->message); ?></p>
+			<?php endif; ?>
 
-			} // if
-		} // if
-?>
+			<table class="adminform nospace">
+			<tbody>
+			<tr>
+				<td width="120">
+					<label for="username"><?php echo JText::_('Username'); ?>:</label>
+				</td>
+				<td>
+					<input type="text" id="username" name="username" class="input_box" size="70" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td width="120">
+					<label for="password"><?php echo JText::_('Password'); ?>:</label>
+				</td>
+				<td>
+					<input type="password" id="password" name="password" class="input_box" size="70" value="" />
+				</td>
+			</tr>
+			</tbody>
+			</table>
+		</fieldset>
+		<?php endif; ?>
 
 		<table class="adminform">
 		<tr>
@@ -489,7 +533,7 @@ class TemplatesView
 					<?php echo $file; ?>
 				</td>
 				<td width="10%">
-					<?php echo is_writable($t_dir .'/'. $file) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?>
+					<?php echo is_writable($t_dir.DS.$file) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?>
 				</td>
 			</tr>
 		<?php
@@ -514,7 +558,7 @@ class TemplatesView
 	* @param string Source code
 	* @param string The option
 	*/
-	function editCSSSource($template, $filename, & $content, $option, & $client)
+	function editCSSSource($template, $filename, & $content, $option, & $client, & $ftp)
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
 		
@@ -523,40 +567,38 @@ class TemplatesView
 ?>
 		<form action="index.php" method="post" name="adminForm">
 
-		<table cellpadding="1" cellspacing="1" border="0" width="100%">
-		<tr>
-			<td width="260">
-				<span class="componentheading"><?php echo JText::_( 'template_css.css is' ); ?> :
-				<b><?php echo is_writable($css_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></b>
-				</span>
-			</td>
-			<?php
+		<?php if($ftp): ?>
+		<fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>">
+			<legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
 
-		jimport('joomla.filesystem.path');
-		if (JPath::canCHMOD($css_path))
-		{
-			if (is_writable($css_path))
-			{
-				?>
-				<td>
-					<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
-					<label for="disable_write"><?php echo JText::_( 'Make unwriteable after saving' ); ?></label>
+			<?php echo JText::_('DESCFTP'); ?>
+
+			<?php if(JError::isError($ftp)): ?>
+				<p><?php echo JText::_($ftp->message); ?></p>
+			<?php endif; ?>
+
+			<table class="adminform nospace">
+			<tbody>
+			<tr>
+				<td width="120">
+					<label for="username"><?php echo JText::_('Username'); ?>:</label>
 				</td>
-				<?php
-
-			} else {
-				?>
 				<td>
-					<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
-					<label for="enable_write"><?php echo JText::_( 'Override write protection while saving' ); ?></label>
+					<input type="text" id="username" name="username" class="input_box" size="70" value="" />
 				</td>
-				<?php
-
-			} // if
-		} // if
-		?>
-		</tr>
-		</table>
+			</tr>
+			<tr>
+				<td width="120">
+					<label for="password"><?php echo JText::_('Password'); ?>:</label>
+				</td>
+				<td>
+					<input type="password" id="password" name="password" class="input_box" size="70" value="" />
+				</td>
+			</tr>
+			</tbody>
+			</table>
+		</fieldset>
+		<?php endif; ?>
 
 		<table class="adminform">
 		<tr>

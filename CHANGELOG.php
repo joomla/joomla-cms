@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Feb-2007 Enno Klasing
+ + Added input form for FTP credentials to com_templates
+
 06-Feb-2007 Johan Janssens
  ^ Major refactoring of Itemid handling
  	^ Implemented JRouter in application package and improved routing algorithms

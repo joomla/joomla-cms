@@ -75,6 +75,10 @@ class TemplatesController
 			return JError::raiseWarning( 500, 'Template not specified' );
 		}
 
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
+
 		require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
 		TemplatesView::previewTemplate($template, true, $client, $option);
 	}
@@ -167,9 +171,12 @@ class TemplatesController
 			$row->pages = null;
 		}
 
-		JRequest::setVar( 'hidemainmenu', 1 );
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+
 		require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
-		TemplatesView::editTemplate($row, $lists, $params, $option, $client);
+		TemplatesView::editTemplate($row, $lists, $params, $option, $client, $ftp);
 	}
 
 	function saveTemplate()
@@ -189,6 +196,10 @@ class TemplatesController
 		if (!$template) {
 			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 		}
+
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
 
 		$file = $client->path.DS.'templates'.DS.$template.DS.'params.ini';
 
@@ -259,6 +270,10 @@ class TemplatesController
 		$option	= JRequest::getVar('option');
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
+
 		$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id);
 	}
 
@@ -278,9 +293,13 @@ class TemplatesController
 
 		if ($content !== false)
 		{
+			// Set FTP credentials, if given
+			jimport('joomla.client.helper');
+			$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+
 			$content = htmlspecialchars($content);
 			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
-			TemplatesView::editTemplateSource($template, $content, $option, $client);
+			TemplatesView::editTemplateSource($template, $content, $option, $client, $ftp);
 		} else {
 			$msg = JText::sprintf('Operation Failed Could not open', $file);
 			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, $msg);
@@ -305,6 +324,10 @@ class TemplatesController
 		if (!$filecontent) {
 			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
 		}
+
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
 
 		$file = $client->path.DS.'templates'.DS.$template.DS.'index.php';
 
@@ -333,40 +356,28 @@ class TemplatesController
 	{
 		global $mainframe;
 
-		/*
-		 * Initialize some variables
-		 */
+		// Initialize some variables
 		$option 	= JRequest::getVar('option');
 		$template	= JRequest::getVar('id', '', 'method', 'word');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-		if ($client->id == 1)
-		{
-			// Admin template css dir
-			$a_dir = JPATH_ADMINISTRATOR.DS.'templates'.DS.$template.DS.'css';
-			// List .css files
-			jimport('joomla.filesystem.folder');
-			$a_files = JFolder::files($a_dir, $filter = '\.css$', false, false);
-			$fs_dir = null;
-			$fs_files = null;
-
-			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
-			TemplatesView::chooseCSSFiles($template, $a_dir, $a_files, $option, $client);
-
+		// Determine template CSS directory
+		if ($client->id == 1) {
+			$dir = JPATH_ADMINISTRATOR.DS.'templates'.DS.$template.DS.'css';
+		} else {
+			$dir = JPATH_SITE.DS.'templates'.DS.$template.DS.'css';
 		}
-		else
-		{
-			// Template css dir
-			$f_dir = JPATH_SITE.DS.'templates'.DS.$template.DS.'css';
 
-			// List template .css files
-			jimport('joomla.filesystem.folder');
-			$f_files = JFolder::files($f_dir, $filter = '\.css$', false, false);
+		// List template .css files
+		jimport('joomla.filesystem.folder');
+		$files = JFolder::files($dir, '\.css$', false, false);
 
-			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
-			TemplatesView::chooseCSSFiles($template, $f_dir, $f_files, $option, $client);
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
 
-		}
+		require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
+		TemplatesView::chooseCSSFiles($template, $dir, $files, $option, $client);
 	}
 
 	function editTemplateCSS()
@@ -386,9 +397,13 @@ class TemplatesController
 
 		if ($content !== false)
 		{
+			// Set FTP credentials, if given
+			jimport('joomla.client.helper');
+			$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+
 			$content = htmlspecialchars($content);
 			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
-			TemplatesView::editCSSSource($template, $filename, $content, $option, $client);
+			TemplatesView::editCSSSource($template, $filename, $content, $option, $client, $ftp);
 		}
 		else
 		{
@@ -416,6 +431,10 @@ class TemplatesController
 			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
 		}
 
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
+
 		jimport('joomla.filesystem.file');
 		if (JFile::write($client->path.$filename, $filecontent))
 		{
@@ -423,12 +442,12 @@ class TemplatesController
 			switch($task)
 			{
 				case 'apply_css':
-					$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id.'&amp;task=edit_css&amp;id='.$template.'&amp;filename='.$filename);
+					$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id.'&amp;task=edit_css&amp;id='.$template.'&amp;filename='.$filename,  JText::_('File Saved'));
 					break;
 
 				case 'save_css':
 				default:
-					$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id.'&amp;task=edit&amp;cid[]='.$template);
+					$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id.'&amp;task=edit&amp;cid[]='.$template, JText::_('File Saved'));
 					break;
 			}
 		}
