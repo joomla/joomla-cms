@@ -362,7 +362,7 @@ function removeSections( $cid, $scope, $option )
 	;
 	$db->setQuery( $query );
 	if (!($rows = $db->loadObjectList())) {
-		echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
 	}
 
 	$err = array();
@@ -383,7 +383,7 @@ function removeSections( $cid, $scope, $option )
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
 		}
 	}
 

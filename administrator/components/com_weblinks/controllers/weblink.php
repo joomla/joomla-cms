@@ -91,7 +91,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		$model = $this->getModel('weblink');
 		if(!$model->delete($cid)) {
-			echo "<script> alert('".$model->getError()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( 'index.php?option=com_weblinks' );
@@ -110,7 +110,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		$model = $this->getModel('weblink');
 		if(!$model->publish($cid, 1)) {
-			echo "<script> alert('".$model->getError()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( 'index.php?option=com_weblinks' );
@@ -129,7 +129,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		$model = $this->getModel('weblink');
 		if(!$model->publish($cid, 0)) {
-			echo "<script> alert('".$model->getError()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 
 		$this->setRedirect( 'index.php?option=com_weblinks' );

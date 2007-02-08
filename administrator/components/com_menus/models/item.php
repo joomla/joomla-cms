@@ -252,7 +252,7 @@ class MenusModelItem extends JModel
 				break;
 		}
 		if (!$row->bind( $post )) {
-			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$row->getError(true)."'); window.history.go(-1); </script>\n";
 			return false;
 		}
 
@@ -300,13 +300,13 @@ class MenusModelItem extends JModel
 
 		if (!$row->check())
 		{
-			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$row->getError(true)."'); window.history.go(-1); </script>\n";
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$row->getError(true)."'); window.history.go(-1); </script>\n";
 			return false;
 		}
 

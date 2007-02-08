@@ -180,9 +180,12 @@ class JModel extends JObject
 	 * @return string The error message
 	 * @since 1.5
 	 */
-	function getError()
+	function getError($escaped = false)
 	{
-		return $this->_error;
+		if ($escaped) {
+			return addslashes($this->_error);
+		} else {
+			return $this->_error;
 	}
 
 	/**

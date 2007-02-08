@@ -344,7 +344,7 @@ function removeNewsFeeds( )
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
 		}
 	}
 

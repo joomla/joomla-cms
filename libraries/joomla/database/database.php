@@ -239,8 +239,12 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return string The error message for the most recent query
 	 */
-	function getErrorMsg() {
-		return $this->_errorMsg;
+	function getErrorMsg($escaped = false) {
+		if($escaped) {
+			return addslashes($this->_errorMsg);
+		} else {
+			return $this->_errorMsg;
+		}
 	}
 
 	/**

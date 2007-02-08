@@ -639,7 +639,7 @@ class MenusController extends JController
 				"\n VALUES ( ".$row->id.", 0 )";
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
 			$mainframe->close();
 		}
 
@@ -648,7 +648,7 @@ class MenusController extends JController
 				"\n VALUES ( ".$db->Quote($menu_name).", ".$db->Quote(JText::_('New Menu')).", '')";
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
-			echo "<script> alert('".$db->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
 			$mainframe->close();
 		}
 
