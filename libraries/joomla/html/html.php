@@ -530,7 +530,7 @@ class JCommonHTML
 			$checked_out_text 	.= '<tr><td>'. $time .'</td></tr>';
 			$checked_out_text 	.= '</table>';
 
-			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \''. JText::_( 'Checked Out' ) .'\', BELOW, RIGHT);" onMouseOut="return nd();"';
+			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \''. JText::_( 'Checked Out', true ) .'\', BELOW, RIGHT);" onMouseOut="return nd();"';
 		}
 		$checked = '<img src="images/checked_out.png" '. $hover .'/>';
 
