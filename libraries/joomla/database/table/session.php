@@ -126,7 +126,7 @@ class JTableSession extends JTable
 	function destroy($sessionId)
 	{
 		$query = 'DELETE FROM #__session'
-			. '\n WHERE session_id = '. $this->_db->Quote( $sessionId );
+			. ' WHERE session_id = '. $this->_db->Quote( $sessionId );
 		$this->_db->setQuery( $query );
 
 		if ( !$this->_db->query() ) {

@@ -117,18 +117,18 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		if ($access->canEdit) {
 			$xwhere = '';
 		} else {
-			$xwhere = " AND ( a.state = 1 OR a.state = -1 )" .
-			"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
-			"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
+			$xwhere = ' AND ( a.state = 1 OR a.state = -1 )' .
+			' AND ( publish_up = "'.$nullDate' OR publish_up <= "'.$now.'" )' .
+			' AND ( publish_down = "'.$nullDate.'" OR publish_down >= "'.$now.'" )';
 		}
 
 		// array of articles in same category corretly ordered
-		$query = "SELECT a.id"
-		. "\n FROM #__content AS a"
-		. "\n WHERE a.catid = " . (int) $row->catid
-		. "\n AND a.state = $row->state". ($access->canEdit ? '' : "\n AND a.access <= " .(int) $user->get('aid', 0))
+		$query = 'SELECT a.id'
+		. ' FROM #__content AS a'
+		. ' WHERE a.catid = ' . (int) $row->catid
+		. ' AND a.state = '. $row->state . ($access->canEdit ? '' : ' AND a.access <= ' .(int) $user->get('aid', 0))
 		. $xwhere
-		. "\n ORDER BY $orderby";
+		. ' ORDER BY '. $orderby;
 		$db->setQuery($query);
 		$list = $db->loadResultArray();
 

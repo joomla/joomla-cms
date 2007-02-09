@@ -268,7 +268,7 @@ class MenusModelList extends JModel
 				$this->setError($row->getError());
 				return false;
 			}
-			$curr->reorder( "menutype = '$curr->menutype' AND parent = $curr->parent" );
+			$curr->reorder( 'menutype = "'.$curr->menutype.'" AND parent = '.$curr->parent );
 		} // foreach
 		return true;
 	}
@@ -313,7 +313,7 @@ class MenusModelList extends JModel
 
 		if ($firstroot) {
 			$row->load( $firstroot );
-			$row->reorder( "menutype = '$row->menutype' AND parent = $row->parent" );
+			$row->reorder( 'menutype = "'.$row->menutype.'" AND parent = '.$row->parent );
 		} // if
 		return true;
 	}
@@ -625,8 +625,8 @@ class MenusModelList extends JModel
 		// Get all rows with parent of $id
 		$db =& $this->getDBO();
 		$query = 'SELECT id' .
-				'\n FROM #__menu' .
-				'\n WHERE parent = '.$id;
+				' FROM #__menu' .
+				' WHERE parent = '.$id;
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList();
 

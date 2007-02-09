@@ -50,9 +50,9 @@ if ($unread) {
 }
 
 // Get the number of logged in users
-$query = "SELECT COUNT( session_id )"
-. "\n FROM #__session"
-. "\n WHERE guest <> '1'"
+$query = 'SELECT COUNT( session_id )'
+. ' FROM #__session'
+. ' WHERE guest <> "1"'
 ;
 $db->setQuery($query);
 $online_num = intval( $db->loadResult() );

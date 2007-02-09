@@ -329,13 +329,13 @@ class BloggerXMLRPCServices
 		$where = '';
 		//echo $params->get('sectionid', 0);
 		if($params->get('sectionid', 0)) {
-			$where = "\n WHERE sectionid = ".$params->get('sectionid');
+			$where = ' WHERE sectionid = '.$params->get('sectionid');
 		}
 
-		$query = "SELECT *"
-			. "\n FROM #__content"
-			. "\n WHERE state =1"
-			. "\n ORDER BY created"
+		$query = 'SELECT *'
+			. ' FROM #__content'
+			. ' WHERE state =1'
+			. ' ORDER BY created'
 			;
 		$db->setQuery($query, 0, $numposts);
 		$items = $db->loadObjectList();

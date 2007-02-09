@@ -168,10 +168,10 @@ class JInstaller_module extends JObject
 		 */
 
 		// Check to see if a module by the same name is already installed
-		$query = "SELECT `id`" .
-				"\n FROM `#__modules` " .
-				"\n WHERE module = ".$db->Quote($mname) .
-				"\n AND client_id = ".(int)$clientId;
+		$query = 'SELECT `id`' .
+				' FROM `#__modules` ' .
+				' WHERE module = '.$db->Quote($mname) .
+				' AND client_id = '.(int)$clientId;
 		$db->setQuery($query);
 		if (!$db->Query()) {
 			// Install failed, roll back changes
@@ -217,8 +217,8 @@ class JInstaller_module extends JObject
 			}
 
 			// Time to create a menu entry for the module
-			$query = "INSERT INTO `#__modules_menu` " .
-					"\nVALUES (".(int) $row->id.", 0 )";
+			$query = 'INSERT INTO `#__modules_menu` ' .
+					' VALUES ('.(int) $row->id.', 0 )';
 			$db->setQuery($query);
 			if (!$db->query()) {
 				// Install failed, roll back changes
@@ -303,19 +303,19 @@ class JInstaller_module extends JObject
 		$this->parent->removeFiles($root->getElementByPath('administration/languages'), 1);
 
 		// Lets delete all the module copies for the type we are uninstalling
-		$query = "SELECT `id`" .
-				"\n FROM `#__modules`" .
-				"\n WHERE module = ".$db->Quote($row->module) .
-				"\n AND client_id = ".(int)$row->client_id;
+		$query = 'SELECT `id`' .
+				' FROM `#__modules`' .
+				' WHERE module = '.$db->Quote($row->module) .
+				' AND client_id = '.(int)$row->client_id;
 		$db->setQuery($query);
 		$modules = $db->loadResultArray();
 
 		// Do we have any module copies?
 		if (count($modules)) {
 			$modID = implode(',', $modules);
-			$query = "DELETE" .
-					"\n FROM #__modules_menu" .
-					"\n WHERE moduleid IN ('".$modID."')";
+			$query = 'DELETE' .
+					' FROM #__modules_menu' .
+					' WHERE moduleid IN ("'.$modID.'")';
 			$db->setQuery($query);
 			if (!$db->query()) {
 				JError::raiseWarning(100, 'Module Uninstall: '.$db->stderr(true));
@@ -350,9 +350,9 @@ class JInstaller_module extends JObject
 		$db =& $this->parent->getDBO();
 
 		// Remove the entry from the #__modules_menu table
-		$query = "DELETE" .
-				"\n FROM `#__modules_menu`" .
-				"\n WHERE moduleid=".(int)$arg['id'];
+		$query = 'DELETE' .
+				' FROM `#__modules_menu`' .
+				' WHERE moduleid='.(int)$arg['id'];
 		$db->setQuery($query);
 		return ($db->query() !== false);
 	}
@@ -372,9 +372,9 @@ class JInstaller_module extends JObject
 		$db =& $this->parent->getDBO();
 
 		// Remove the entry from the #__modules table
-		$query = "DELETE" .
-				"\n FROM `#__modules`" .
-				"\n WHERE id=".(int)$arg['id'];
+		$query = 'DELETE' .
+				' FROM `#__modules`' .
+				' WHERE id='.(int)$arg['id'];
 		$db->setQuery($query);
 		return ($db->query() !== false);
 	}

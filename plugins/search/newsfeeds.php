@@ -103,19 +103,19 @@ function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 
 	$searchNewsfeeds = JText::_( 'Newsfeeds' );
 
-	$query = "SELECT a.name AS title,"
-	. "\n '' AS created,"
-	. "\n a.link AS text,"
-	. "\n CONCAT_WS( ' / ','". $searchNewsfeeds ."', b.title )AS section,"
-	. "\n CONCAT( 'index.php?option=com_newsfeeds&view=article&feedid=', a.id ) AS href,"
-	. "\n '1' AS browsernav"
-	. "\n FROM #__newsfeeds AS a"
-	. "\n INNER JOIN #__categories AS b ON b.id = a.catid"
-	. "\n WHERE ( $where )"
-	. "\n AND a.published = 1"
-	. "\n AND b.published = 1"
-	. "\n AND b.access <= " .$user->get( 'gid' )
-	. "\n ORDER BY $order"
+	$query = 'SELECT a.name AS title,'
+	. ' "" AS created,'
+	. ' a.link AS text,'
+	. ' CONCAT_WS( " / ","'. $searchNewsfeeds .'", b.title )AS section,'
+	. ' CONCAT( "index.php?option=com_newsfeeds&view=article&feedid=", a.id ) AS href,'
+	. ' "1" AS browsernav'
+	. ' FROM #__newsfeeds AS a'
+	. ' INNER JOIN #__categories AS b ON b.id = a.catid'
+	. ' WHERE ( '. $where .' )'
+	. ' AND a.published = 1'
+	. ' AND b.published = 1'
+	. ' AND b.access <= ' .$user->get( 'gid' )
+	. ' ORDER BY '. $order
 	;
 	$db->setQuery( $query, 0, $limit );
 	$rows = $db->loadObjectList();

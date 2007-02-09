@@ -87,11 +87,11 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 			$wheres = array();
 			foreach ($words as $word) {
 				$wheres2 	= array();
-				$wheres2[] 	= "LOWER(a.title) LIKE '%$word%'";
-				$wheres2[] 	= "LOWER(a.introtext) LIKE '%$word%'";
-				$wheres2[] 	= "LOWER(a.`fulltext`) LIKE '%$word%'";
-				$wheres2[] 	= "LOWER(a.metakey) LIKE '%$word%'";
-				$wheres2[] 	= "LOWER(a.metadesc) LIKE '%$word%'";
+				$wheres2[] 	= 'LOWER(a.title) LIKE "%'.$word.'%"';
+				$wheres2[] 	= 'LOWER(a.introtext) LIKE "%'.$word.'%"';
+				$wheres2[] 	= 'LOWER(a.`fulltext`) LIKE "%'.$word.'%"';
+				$wheres2[] 	= 'LOWER(a.metakey) LIKE "%'.$word.'%"';
+				$wheres2[] 	= 'LOWER(a.metadesc) LIKE "%'.$word.'%"';
 				$wheres[] 	= implode( ' OR ', $wheres2 );
 			}
 			$where = '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';
@@ -127,26 +127,26 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	
 	// search articles
 	if ( $sContent ) {
-		$query = "SELECT a.title AS title,"
-		. "\n a.created AS created,"
-		. "\n CONCAT(a.introtext, a.`fulltext`) AS text,"
-		. "\n CONCAT_WS( '/', u.title, b.title ) AS section,"
-		. "\n CONCAT( 'index.php?option=com_content&view=article&id=', a.id ) AS href,"
-		. "\n '2' AS browsernav"
-		. "\n FROM #__content AS a"
-		. "\n INNER JOIN #__categories AS b ON b.id=a.catid"
-		. "\n INNER JOIN #__sections AS u ON u.id = a.sectionid"
-		. "\n WHERE ( $where )"
-		. "\n AND a.state = 1"
-		. "\n AND u.published = 1"
-		. "\n AND b.published = 1"
-		. "\n AND a.access <= " .$user->get( 'gid' )
-		. "\n AND b.access <= " .$user->get( 'gid' )
-		. "\n AND u.access <= " .$user->get( 'gid' )
-		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
-		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
-		. "\n GROUP BY a.id"
-		. "\n ORDER BY $order"
+		$query = 'SELECT a.title AS title,'
+		. ' a.created AS created,'
+		. ' CONCAT(a.introtext, a.`fulltext`) AS text,'
+		. ' CONCAT_WS( "/", u.title, b.title ) AS section,'
+		. ' CONCAT( "index.php?option=com_content&view=article&id=", a.id ) AS href,'
+		. ' "2" AS browsernav'
+		. ' FROM #__content AS a'
+		. ' INNER JOIN #__categories AS b ON b.id=a.catid'
+		. ' INNER JOIN #__sections AS u ON u.id = a.sectionid'
+		. ' WHERE ( '.$where.' )'
+		. ' AND a.state = 1'
+		. ' AND u.published = 1'
+		. ' AND b.published = 1'
+		. ' AND a.access <= ' .$user->get( 'gid' )
+		. ' AND b.access <= ' .$user->get( 'gid' )
+		. ' AND u.access <= ' .$user->get( 'gid' )
+		. ' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )'
+		. ' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )'
+		. ' GROUP BY a.id'
+		. ' ORDER BY '. $order
 		;
 		$db->setQuery( $query, 0, $limit );
 		$list = $db->loadObjectList();
@@ -156,19 +156,19 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 
 	// search uncategorised content
 	if ( $sUncategorised ) {
-		$query = "SELECT id, a.title AS title, a.created AS created,"
-		. "\n a.introtext AS text,"
-		. "\n CONCAT( 'index.php?option=com_content&view=article&id=', a.id ) AS href,"
-		. "\n '2' as browsernav, '". JText::_('Uncategorised Content') ."' AS section"
-		. "\n FROM #__content AS a"
-		. "\n WHERE ($where)"
-		. "\n AND a.state = 1"
-		. "\n AND a.access <= " .$user->get( 'gid' )
-		. "\n AND a.sectionid = 0"
-		. "\n AND a.catid = 0"
-		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
-		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
-		. "\n ORDER BY ". ($morder ? $morder : $order)
+		$query = 'SELECT id, a.title AS title, a.created AS created,'
+		. ' a.introtext AS text,'
+		. ' CONCAT( "index.php?option=com_content&view=article&id=", a.id ) AS href,'
+		. ' "2" as browsernav, "'. JText::_('Uncategorised Content') .'" AS section'
+		. ' FROM #__content AS a'
+		. ' WHERE ('.$where.')'
+		. ' AND a.state = 1'
+		. ' AND a.access <= ' .$user->get( 'gid' )
+		. ' AND a.sectionid = 0'
+		. ' AND a.catid = 0'
+		. ' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )'
+		. ' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )'
+		. ' ORDER BY '. ($morder ? $morder : $order)
 		;
 		$db->setQuery( $query, 0, $limit );
 		$list2 = $db->loadObjectList();
@@ -180,25 +180,25 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	if ( $sArchived ) {
 		$searchArchived = JText::_( 'Archived' );
 
-		$query = "SELECT a.title AS title,"
-		. "\n a.created AS created,"
-		. "\n a.introtext AS text,"
-		. "\n CONCAT_WS( '/', '". $searchArchived ." ', u.title, b.title ) AS section,"
-		. "\n CONCAT('index.php?option=com_content&view=article&id=',a.id) AS href,"
-		. "\n '2' AS browsernav"
-		. "\n FROM #__content AS a"
-		. "\n INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= " .$user->get( 'gid' )
-		. "\n INNER JOIN #__sections AS u ON u.id = a.sectionid"
-		. "\n WHERE ( $where )"
-		. "\n AND a.state = -1"
-		. "\n AND u.published = 1"
-		. "\n AND b.published = 1"
-		. "\n AND a.access <= " .$user->get( 'gid' )
-		. "\n AND b.access <= " .$user->get( 'gid' )
-		. "\n AND u.access <= " .$user->get( 'gid' )
-		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
-		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
-		. "\n ORDER BY $order"
+		$query = 'SELECT a.title AS title,'
+		. ' a.created AS created,'
+		. ' a.introtext AS text,'
+		. ' CONCAT_WS( "/", "'. $searchArchived .' ", u.title, b.title ) AS section,'
+		. ' CONCAT("index.php?option=com_content&view=article&id=",a.id) AS href,'
+		. ' "2" AS browsernav'
+		. ' FROM #__content AS a'
+		. ' INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= ' .$user->get( 'gid' )
+		. ' INNER JOIN #__sections AS u ON u.id = a.sectionid'
+		. ' WHERE ( '.$where.' )'
+		. ' AND a.state = -1'
+		. ' AND u.published = 1'
+		. ' AND b.published = 1'
+		. ' AND a.access <= ' .$user->get( 'gid' )
+		. ' AND b.access <= ' .$user->get( 'gid' )
+		. ' AND u.access <= ' .$user->get( 'gid' )
+		. ' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )'
+		. ' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )'
+		. ' ORDER BY '. $order
 		;
 		$db->setQuery( $query, 0, $limit );
 		$list3 = $db->loadObjectList();

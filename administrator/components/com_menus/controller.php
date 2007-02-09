@@ -97,7 +97,7 @@ class MenusController extends JController
 //			$menu->id = $menuid;
 //		}
 //		$menu->checkin();
-		$menutype = $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+		$menutype = $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu' );
 		$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$menutype);
 	}
 
@@ -644,8 +644,8 @@ class MenusController extends JController
 		}
 
 		// Insert the menu type
-		$query = "INSERT INTO `#__menu_types`  ( `menutype` , `title` , `description` ) " .
-				"\n VALUES ( ".$db->Quote($menu_name).", ".$db->Quote(JText::_('New Menu')).", '')";
+		$query = 'INSERT INTO `#__menu_types`  ( `menutype` , `title` , `description` ) ' .
+				' VALUES ( '.$db->Quote($menu_name).', '.$db->Quote(JText::_('New Menu')).', "")';
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
 			echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";

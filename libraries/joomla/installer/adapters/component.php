@@ -482,8 +482,8 @@ class JInstaller_component extends JObject
 			$db_params = $this->parent->getParams();
 			$db_enabled = 1;
 
-			$query = "INSERT INTO #__components" .
-					"\n VALUES( '', '$db_name', '$db_link', $db_menuid, $db_parent, '$db_admin_menu_link', '$db_admin_menu_alt', '$db_option', $db_ordering, '$db_admin_menu_img', $db_iscore, '$db_params', '$db_enabled' )";
+			$query = 'INSERT INTO #__components' .
+					' VALUES( "", "'.$db_name.'", "'.$db_link.'", '.$db_menuid.', '.$db_parent.', "'.$db_admin_menu_link.'", "'.$db_admin_menu_alt.'", "'.$db_option.'", '.$db_ordering.', "'.$db_admin_menu_img.'", '.$db_iscore.', "'.$db_params.'", "'.$db_enabled.'" )';
 			$db->setQuery($query);
 			if (!$db->query()) {
 				// Install failed, rollback changes
@@ -525,8 +525,8 @@ class JInstaller_component extends JObject
 				$db_params = $this->parent->getParams();
 				$db_enabled = 1;
 
-				$query = "INSERT INTO #__components" .
-						"\n VALUES( '', '$db_name', '$db_link', $db_menuid, $db_parent, '$db_admin_menu_link', '$db_admin_menu_alt', '$db_option', $db_ordering, '$db_admin_menu_img', $db_iscore, '$db_params', '$db_enabled' )";
+				$query = 'INSERT INTO #__components' .
+						' VALUES( "", "'.$db_name.'", "'.$db_link.'", '.$db_menuid.', '.$db_parent.', "'.$db_admin_menu_link.'", "'.$db_admin_menu_alt.'", "'.$db_option.'", '.$db_ordering.', "'.$db_admin_menu_img.'", '.$db_iscore.', "'.$db_params.'", "'.$db_enabled.'" )';
 				$db->setQuery($query);
 				if (!$db->query()) {
 					// Install failed, rollback changes

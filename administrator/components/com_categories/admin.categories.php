@@ -741,10 +741,10 @@ function copyCategorySelect( $option, $cid, $sectionOld )
 	$contents = $db->loadObjectList();
 
 	## query to choose section to move to
-	$query = "SELECT a.name AS `text`, a.id AS `value`"
-	. "\n FROM #__sections AS a"
-	. "\n WHERE a.published = 1"
-	. "\n ORDER BY a.name"
+	$query = 'SELECT a.name AS `text`, a.id AS `value`'
+	. ' FROM #__sections AS a'
+	. ' WHERE a.published = 1'
+	. ' ORDER BY a.name'
 	;
 	$db->setQuery( $query );
 	$sections = $db->loadObjectList();

@@ -60,9 +60,9 @@ function plgContentProcessPositions ( &$row, &$matches, $count, $regex, $style )
 {
 	$db =& JFactory::getDBO();
 
-	$query = "SELECT position"
-	. "\n FROM #__template_positions"
-	. "\n ORDER BY position"
+	$query = 'SELECT position'
+	. ' FROM #__template_positions'
+	. ' ORDER BY position'
 	;
 	$db->setQuery( $query );
  	$positions 	= $db->loadResultArray();

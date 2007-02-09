@@ -78,30 +78,30 @@ function plgSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 			$order = 'a.name DESC';
 	}
 
-	$query = "SELECT a.name AS title,"
-	. "\n CONCAT_WS( ', ', a.name, a.con_position, a.misc ) AS text,"
-	. "\n '' AS created,"
-	. "\n CONCAT_WS( ' / ', '$section', b.title ) AS section,"
-	. "\n '2' AS browsernav,"
-	. "\n CONCAT( 'index.php?option=com_contact&view=article&id=', a.id ) AS href"
-	. "\n FROM #__contact_details AS a"
-	. "\n INNER JOIN #__categories AS b ON b.id = a.catid"
-	. "\n WHERE ( a.name LIKE '%$text%'"
-	. "\n OR a.misc LIKE '%$text%'"
-	. "\n OR a.con_position LIKE '%$text%'"
-	. "\n OR a.address LIKE '%$text%'"
-	. "\n OR a.suburb LIKE '%$text%'"
-	. "\n OR a.state LIKE '%$text%'"
-	. "\n OR a.country LIKE '%$text%'"
-	. "\n OR a.postcode LIKE '%$text%'"
-	. "\n OR a.telephone LIKE '%$text%'"
-	. "\n OR a.fax LIKE '%$text%' )"
-	. "\n AND a.published = 1"
-	. "\n AND b.published = 1"
-	. "\n AND a.access <= " .$user->get( 'gid' )
-	. "\n AND b.access <= " .$user->get( 'gid' )
-	. "\n GROUP BY a.id"
-	. "\n ORDER BY $order"
+	$query = 'SELECT a.name AS title,'
+	. ' CONCAT_WS( ", ", a.name, a.con_position, a.misc ) AS text,'
+	. ' "" AS created,'
+	. ' CONCAT_WS( " / ", "'.$section.'", b.title ) AS section,'
+	. ' "2" AS browsernav,'
+	. ' CONCAT( "index.php?option=com_contact&view=article&id=", a.id ) AS href'
+	. ' FROM #__contact_details AS a'
+	. ' INNER JOIN #__categories AS b ON b.id = a.catid'
+	. ' WHERE ( a.name LIKE "%'.$text.'%"'
+	. ' OR a.misc LIKE "%'.$text.'%"'
+	. ' OR a.con_position LIKE "%'.$text.'%"'
+	. ' OR a.address LIKE "%'.$text.'%"'
+	. ' OR a.suburb LIKE "%'.$text.'%"'
+	. ' OR a.state LIKE "%'.$text.'%"'
+	. ' OR a.country LIKE "%'.$text.'%"'
+	. ' OR a.postcode LIKE "%'.$text.'%"'
+	. ' OR a.telephone LIKE "%'.$text.'%"'
+	. ' OR a.fax LIKE "%'.$text.'%" )'
+	. ' AND a.published = 1'
+	. ' AND b.published = 1'
+	. ' AND a.access <= ' .$user->get( 'gid' )
+	. ' AND b.access <= ' .$user->get( 'gid' )
+	. ' GROUP BY a.id'
+	. ' ORDER BY '. $order
 	;
 	$db->setQuery( $query, 0, $limit );
 	$rows = $db->loadObjectList();

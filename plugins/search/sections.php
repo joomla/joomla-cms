@@ -74,21 +74,21 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 			$order = 'a.name DESC';
 	}
 
-	$query = "SELECT a.name AS title,"
-	. "\n a.description AS text,"
-	. "\n '' AS created,"
-	. "\n '2' AS browsernav,"
-	. "\n a.id AS secid, m.id AS menuid, m.type AS menutype"
-	. "\n FROM #__sections AS a"
-	. "\n LEFT JOIN #__menu AS m ON m.componentid = a.id"
-	. "\n WHERE ( a.name LIKE '%$text%'"
-	. "\n OR a.title LIKE '%$text%'"
-	. "\n OR a.description LIKE '%$text%' )"
-	. "\n AND a.published = 1"
-	. "\n AND a.access <= " .$user->get( 'gid' )
-	. "\n AND ( m.type = 'content_section' OR m.type = 'content_blog_section' )"
-	. "\n GROUP BY a.id"
-	. "\n ORDER BY $order"
+	$query = 'SELECT a.name AS title,'
+	. ' a.description AS text,'
+	. ' "" AS created,'
+	. ' "2" AS browsernav,'
+	. ' a.id AS secid, m.id AS menuid, m.type AS menutype'
+	. ' FROM #__sections AS a'
+	. ' LEFT JOIN #__menu AS m ON m.componentid = a.id'
+	. ' WHERE ( a.name LIKE "%'.$text.'%"'
+	. ' OR a.title LIKE "%'.$text.'%"'
+	. ' OR a.description LIKE "%'.$text.'%" )'
+	. ' AND a.published = 1'
+	. ' AND a.access <= ' .$user->get( 'gid' )
+	. ' AND ( m.type = "content_section" OR m.type = "content_blog_section" )'
+	. ' GROUP BY a.id'
+	. ' ORDER BY '. $order
 	;
 	$db->setQuery( $query, 0, $limit );
 	$rows = $db->loadObjectList();

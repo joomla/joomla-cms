@@ -110,19 +110,19 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 			$order = 'a.date DESC';
 	}
 
-	$query = "SELECT a.title AS title,"
-	. "\n a.description AS text,"
-	. "\n a.date AS created,"
-	. "\n CONCAT_WS( ' / ', '$section', b.title ) AS section,"
-	. "\n '1' AS browsernav,"
-	. "\n a.url AS href"
-	. "\n FROM #__weblinks AS a"
-	. "\n INNER JOIN #__categories AS b ON b.id = a.catid"
-	. "\n WHERE ($where)"
-	. "\n AND a.published = 1"
-	. "\n AND b.published = 1"
-	. "\n AND b.access <= " .$user->get( 'gid' )
-	. "\n ORDER BY $order"
+	$query = 'SELECT a.title AS title,'
+	. ' a.description AS text,'
+	. ' a.date AS created,'
+	. ' CONCAT_WS( " / ", "'.$section.'", b.title ) AS section,'
+	. ' "1" AS browsernav,'
+	. ' a.url AS href'
+	. ' FROM #__weblinks AS a'
+	. ' INNER JOIN #__categories AS b ON b.id = a.catid'
+	. ' WHERE ('. $where .')'
+	. ' AND a.published = 1'
+	. ' AND b.published = 1'
+	. ' AND b.access <= ' .$user->get( 'gid' )
+	. ' ORDER BY '. $order
 	;
 	$db->setQuery( $query, 0, $limit );
 	$rows = $db->loadObjectList();
