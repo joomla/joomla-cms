@@ -79,7 +79,7 @@ class JButton_Help extends JButton
 		jimport('joomla.i18n.help');
 		$url = JHelp::createURL($ref, $com);
 
-		$cmd = "popupWindow('$url', '".JText::_('Help')."', 640, 480, 1)";
+		$cmd = "popupWindow('$url', '".JText::_('Help', true)."', 640, 480, 1)";
 
 		return $cmd;
 	}
