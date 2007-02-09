@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: helper.php 5369 2006-10-08 00:36:33Z Jinx $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Templates
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -27,7 +27,7 @@ class TemplatesHelper
 		// Get the current default template
 		$query = ' SELECT template '
 				.' FROM #__templates_menu '
-				.' WHERE client_id = $clientId '
+				.' WHERE client_id = ' . (int) $clientId
 				.' AND menuid = 0 ';
 		$db->setQuery($query);
 		$defaultemplate = $db->loadResult();
