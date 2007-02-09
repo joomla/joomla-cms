@@ -139,7 +139,14 @@ class MediaController
 		}
 		$tree = MediaController::_buildFolderTree($nodes);
 
-		MediaViews::showMedia($tree);
+		/*
+		 * Display form for FTP credentials?
+		 * Don't set them here, as there are other functions called before this one if there is any file write operation
+		 */
+		jimport('joomla.client.helper');
+		$ftp = !JClientHelper::hasCredentials('ftp');
+
+		MediaViews::showMedia($tree, $ftp);
 	}
 
 	/**
@@ -397,6 +404,10 @@ class MediaController
 	{
 		global $mainframe;
 
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
+
 		$files 			= JRequest::getVar( 'uploads', array(), 'files', 'array' );
 		$folder			= trim (JRequest::getVar( 'dirpath', '' ), '\\/ ');
 		$err			= null;
@@ -433,6 +444,10 @@ class MediaController
 	{
 		global $mainframe;
 
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
+
 		$folder = JRequest::getVar( 'foldername', '');
 		$parent = trim (JRequest::getVar( 'dirpath', '' ), '\\/ ');
 
@@ -463,6 +478,10 @@ class MediaController
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
+
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
 
 		$paths	= JRequest::getVar( 'rm', array(), '', 'array' );
 		$ret	= false;

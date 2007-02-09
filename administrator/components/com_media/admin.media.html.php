@@ -30,7 +30,7 @@ class MediaViews
 	 * @param string $listdir The current working directory
 	 * @since 1.0
 	 */
-	function showMedia($tree)
+	function showMedia($tree, $ftp)
 	{
 		global $mainframe;
 
@@ -57,7 +57,33 @@ class MediaViews
 
 		MediaViews::_loadJS();
 		?>
-		<form action="index.php" name="adminForm" method="post" enctype="multipart/form-data" >
+		<form action="index.php" name="adminForm" id="adminForm" method="post" enctype="multipart/form-data" >
+		<?php if ($ftp): ?>
+		<fieldset title="<?php echo JText::_('DESCFTPTITLE'); ?>">
+			<legend><?php echo JText::_('DESCFTPTITLE'); ?></legend>
+			<?php echo JText::_('DESCFTP'); ?>
+			<table class="adminform nospace">
+				<tbody>
+					<tr>
+						<td width="120">
+							<label for="username"><?php echo JText::_('Username'); ?>:</label>
+						</td>
+						<td>
+							<input type="text" id="username" name="username" class="input_box" size="70" value="" />
+						</td>
+					</tr>
+					<tr>
+						<td width="120">
+							<label for="password"><?php echo JText::_('Password'); ?>:</label>
+						</td>
+						<td>
+							<input type="password" id="password" name="password" class="input_box" size="70" value="" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</fieldset>
+		<?php endif; ?>
 		<table width="100%" cellspacing="0">
 		<tr valign="top">
 			<td width="150px">
@@ -194,7 +220,7 @@ class MediaViews
 			$current = '';
 		}
 		?>
-		<form action="index.php?option=com_media&amp;tmpl=component&amp;folder=<?php echo $current; ?>&amp;folder=<?php echo $current; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
+		<form action="index.php?option=com_media&amp;tmpl=component&amp;folder=<?php echo $current; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 		<div class="manager">
 		<?php
 	}
@@ -204,6 +230,8 @@ class MediaViews
 		?>
 		</div>
 		<input type="hidden" name="task" value="list" />
+		<input type="hidden" name="username" value="" />
+		<input type="hidden" name="password" value="" />
 		</form>
 		<?php
 	}
@@ -237,6 +265,8 @@ class MediaViews
 		</table>
 		</div>
 		<input type="hidden" name="task" value="list" />
+		<input type="hidden" name="username" value="" />
+		<input type="hidden" name="password" value="" />
 		</form>
 		<?php
 	}
@@ -360,11 +390,6 @@ class MediaViews
 			</div>
 			<div class="imginfoBorder">
 				<?php echo $doc; ?>
-				<div class="buttonOut">
-					<a href="index.php?option=com_media&amp;task=delete&amp;rm[]=<?php echo $doc; ?>&amp;folder=<?php echo $folder; ?>" target="_top" onclick="return confirmDeleteImage('<?php echo $doc; ?>');">
-						<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
-					</a>
-				</div>
 			</div>
 		</div>
 		<?php
@@ -401,9 +426,7 @@ class MediaViews
 				<?php echo $filesize; ?>
 			</td>
 			<td>
-				<a href="index.php?option=com_media&amp;tmpl=component&amp;task=delete&amp;rm[]=<?php echo $file; ?>&amp;folder=<?php echo $folder; ?>" onclick="return confirmDeleteImage('<?php echo $file; ?>');" title="<?php echo JText::_( 'Delete Item' ); ?>">
-					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
-				</a>
+				<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" onclick="confirmDeleteImage('<?php echo $file; ?>');" />
 				<input type="checkbox" name="rm[]" value="<?php echo $file; ?>" />
 			</td>
 		</tr>
@@ -438,9 +461,7 @@ class MediaViews
 				&nbsp;
 			</td>
 			<td>
-				<a href="index.php?option=com_media&amp;tmpl=component&amp;task=delete&amp;rm[]=<?php echo $path; ?>&amp;folder=<?php echo $folder; ?>" onclick="return confirmDeleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);" title="<?php echo JText::_( 'Delete Item' ); ?>">
-					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
-				</a>
+				<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" onclick="confirmDeleteFolder('<?php echo $path; ?>', <?php echo $num_files+$num_dir; ?>);" />
 				<input type="checkbox" name="rm[]" value="<?php echo $path; ?>" />
 			</td>
 		</tr>
@@ -510,9 +531,7 @@ class MediaViews
 				<?php echo $size; ?>
 			</td>
 			<td>
-				<a href="index.php?option=com_media&amp;tmpl=component&amp;task=delete&amp;rm[]=<?php echo $doc; ?>&amp;folder=<?php echo $folder; ?>" onclick="return confirmDeleteImage('<?php echo $doc; ?>');">
-					<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" />
-				</a>
+				<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" onclick="confirmDeleteImage('<?php echo $doc; ?>');" />
 				<input type="checkbox" name="rm[]" value="<?php echo $doc; ?>" />
 			</td>
 		</tr>
@@ -525,10 +544,19 @@ class MediaViews
 		<script language="javascript" type="text/javascript">
 		function confirmDeleteImage(file)
 		{
-			if(confirm("<?php echo JText::_( 'Delete file' ); ?> \""+file+"\"?"))
-			return true;
-
-			return false;
+			if(confirm("<?php echo JText::_( 'Delete file' ); ?> \""+file+"\"?")) {
+				var form = document.getElementById('mediamanager-form');
+				form.task.value = 'delete';
+				if (top.$('username')) {
+					form.username.value = top.$('username').value;
+					form.password.value = top.$('password').value;
+				}
+				var files = document.getElementsByName('rm[]');
+				for (var i = 0; i < files.length; i++) {
+					files[i].checked = (files[i].value == file);
+				}
+				form.submit();
+			}
 		}
 		function confirmDeleteFolder(folder, numFiles)
 		{
@@ -538,10 +566,18 @@ class MediaViews
 			}
 
 			if(confirm("<?php echo JText::_( 'Delete folder', true ); ?> \""+folder+"\"?")) {
-				return true;
+				var form = document.getElementById('mediamanager-form');
+				form.task.value = 'delete';
+				if (top.$('username')) {
+					form.username.value = top.$('username').value;
+					form.password.value = top.$('password').value;
+				}
+				var folders = document.getElementsByName('rm[]');
+				for (var i = 0; i < folders.length; i++) {
+					folders[i].checked = (folders[i].value == folder);
+				}
+				form.submit();
 			}
-
-			return false;
 		}
 		</script>
 		<?php

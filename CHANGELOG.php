@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Feb-2007 Enno Klasing
+ + Added input form for FTP credentials to com_media
+
 09-Feb-2007 Rastin Mehr
 ^ [artf7503] com_weblinks, com_users, com_search and com_templates on the ADMIN side are now using single quotes instead of double quotes.
 

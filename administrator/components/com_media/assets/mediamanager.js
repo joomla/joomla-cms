@@ -30,6 +30,10 @@ var JMediaManager = new Class({
 	{
 		var form = window.frames['folderframe'].document.getElementById('mediamanager-form');
 		form.task.value = task;
+		if ($('username')) {
+			form.username.value = $('username').value;
+			form.password.value = $('password').value;
+		}
 		form.submit();
 	},
 
