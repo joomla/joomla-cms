@@ -127,10 +127,10 @@ class WeblinksModelWeblinks extends JModel
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
 
-		$query = "SELECT a.*, cc.name AS category, u.name AS editor"
-			. "\n FROM #__weblinks AS a"
-			. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
-			. "\n LEFT JOIN #__users AS u ON u.id = a.checked_out"
+		$query = ' SELECT a.*, cc.name AS category, u.name AS editor '
+			. ' FROM #__weblinks AS a '
+			. ' LEFT JOIN #__categories AS cc ON cc.id = a.catid '
+			. ' LEFT JOIN #__users AS u ON u.id = a.checked_out '
 			. $where
 			. $orderby
 		;
@@ -146,9 +146,9 @@ class WeblinksModelWeblinks extends JModel
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 
 		if ($filter_order == 'a.ordering'){
-			$orderby 	= "\n ORDER BY category, a.ordering";
+			$orderby 	= ' ORDER BY category, a.ordering ';
 		} else {
-			$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, category, a.ordering";
+			$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir.' , category, a.ordering ';
 		}
 
 		return $orderby;
@@ -168,20 +168,20 @@ class WeblinksModelWeblinks extends JModel
 		$where = array();
 
 		if ($filter_catid > 0) {
-			$where[] = "a.catid = $filter_catid";
+			$where[] = 'a.catid = '.$filter_catid;
 		}
 		if ($search) {
-			$where[] = "LOWER(a.title) LIKE '%$search%'";
+			$where[] = 'LOWER(a.title) LIKE \'%'.$search.'%\' ';
 		}
 		if ( $filter_state ) {
 			if ( $filter_state == 'P' ) {
-				$where[] = "a.published = 1";
+				$where[] = 'a.published = 1';
 			} else if ($filter_state == 'U' ) {
-				$where[] = "a.published = 0";
+				$where[] = 'a.published = 0';
 			}
 		}
 
-		$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
+		$where 		= ( count( $where ) ? ' WHERE '. implode( ' AND ', $where ) : '' );
 
 		return $where;
 	}

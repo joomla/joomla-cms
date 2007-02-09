@@ -189,7 +189,7 @@ class WeblinksModelWeblink extends JModel
 
 		// if new item, order last in appropriate group
 		if (!$row->id) {
-			$where = "catid = " . $row->catid ;
+			$where = 'catid = ' . $row->catid ;
 			$row->ordering = $row->getNextOrder ( $where );
 		}
 
@@ -279,7 +279,7 @@ class WeblinksModelWeblink extends JModel
 			return false;
 		}
 
-		if (!$row->move( $direction, "catid = $row->catid AND published >= 0" )) {
+		if (!$row->move( $direction, ' catid = '.$row->catid.' AND published >= 0 ' )) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -319,7 +319,7 @@ class WeblinksModelWeblink extends JModel
 		// execute updateOrder for each parent group
 		$groupings = array_unique( $groupings );
 		foreach ($groupings as $group){
-			$row->reorder("catid = $group");
+			$row->reorder('catid = '.$group);
 		}
 
 		return true;

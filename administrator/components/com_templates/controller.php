@@ -464,8 +464,7 @@ class TemplatesController
 		$db		= & JFactory::getDBO();
 		$option	= JRequest::getVar('option');
 
-		$query = "SELECT *" .
-				"\n FROM #__template_positions";
+		$query = 'SELECT * FROM #__template_positions';
 		$db->setQuery($query);
 		$positions = $db->loadObjectList();
 
@@ -485,7 +484,7 @@ class TemplatesController
 		$positions			= JRequest::getVar('position', array (), 'post', 'array');
 		$descriptions		= JRequest::getVar('description', array (), 'post', 'array');
 
-		$query = "DELETE FROM #__template_positions";
+		$query = 'DELETE FROM #__template_positions';
 		$db->setQuery($query);
 		$db->query();
 
@@ -496,8 +495,8 @@ class TemplatesController
 			if ($position != '')
 			{
 				$id = intval($id);
-				$query = "INSERT INTO #__template_positions" .
-						"\n VALUES ( $id, '$position', '$description' )";
+				$query = 'INSERT INTO #__template_positions'
+						.' VALUES ( '.$id.', \'$position\', \'$description\' ) ';
 				$db->setQuery($query);
 				$db->query();
 			}

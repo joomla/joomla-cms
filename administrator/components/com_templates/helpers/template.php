@@ -25,10 +25,10 @@ class TemplatesHelper
 		$db =& JFactory::getDBO();
 
 		// Get the current default template
-		$query = "SELECT template" .
-				"\n FROM #__templates_menu" .
-				"\n WHERE client_id = $clientId" .
-				"\n AND menuid = 0";
+		$query = ' SELECT template '
+				.' FROM #__templates_menu '
+				.' WHERE client_id = $clientId '
+				.' AND menuid = 0 ';
 		$db->setQuery($query);
 		$defaultemplate = $db->loadResult();
 

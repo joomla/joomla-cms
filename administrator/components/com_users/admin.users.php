@@ -96,30 +96,30 @@ function showUsers( )
 
 	if (isset( $search ) && $search!= '')
 	{
-		$where[] = "(a.username LIKE '%$search%' OR a.email LIKE '%$search%' OR a.name LIKE '%$search%')";
+		$where[] = '(a.username LIKE \'%'.$search.'%\' OR a.email LIKE \'%'.$search.'%\' OR a.name LIKE \'%'.$search.'%\')';
 	}
 	if ( $filter_type )
 	{
 		if ( $filter_type == 'Public Frontend' )
 		{
-			$where[] = "a.usertype = 'Registered' OR a.usertype = 'Author' OR a.usertype = 'Editor' OR a.usertype = 'Publisher'";
+			$where[] = ' a.usertype = \'Registered\' OR a.usertype = \'Author\' OR a.usertype = \'Editor\' OR a.usertype = \'Publisher\' ';
 		}
 		else if ( $filter_type == 'Public Backend' )
 		{
-			$where[] = "a.usertype = 'Manager' OR a.usertype = 'Administrator' OR a.usertype = 'Super Administrator'";
+			$where[] = 'a.usertype = \'Manager\' OR a.usertype = \'Administrator\' OR a.usertype = \'Super Administrator\' ';
 		}
 		else
 		{
-			$where[] = "a.usertype = LOWER( '$filter_type' )";
+			$where[] = 'a.usertype = LOWER( \''.$filter_type.'\' ) ';
 		}
 	}
 	if ( $filter_logged == 1 )
 	{
-		$where[] = "s.userid = a.id";
+		$where[] = 's.userid = a.id';
 	}
 	else if ($filter_logged == 2)
 	{
-		$where[] = "s.userid IS NULL";
+		$where[] = 's.userid IS NULL';
 	}
 
 	// exclude any child group id's for this user
@@ -158,7 +158,7 @@ function showUsers( )
 	. $where
 	. ' GROUP BY a.id'
 	. $orderby
-	;
+	;	
 	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $db->loadObjectList();
 
