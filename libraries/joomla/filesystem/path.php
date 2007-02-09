@@ -161,7 +161,7 @@ class JPath
 	 *
 	 * @static
 	 * @param	string	$path	The path to clean
-	 * @param	string	$ds		Directory seperator (optional)
+	 * @param	string	$ds		Directory separator (optional)
 	 * @return	string	The cleaned path
 	 * @since	1.5
 	 */

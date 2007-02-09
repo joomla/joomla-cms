@@ -235,7 +235,7 @@ class JInstaller_plugin extends JObject
 		$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$row->folder);
 
 		// Because plugins don't have their own folders we cannot use the standard method of finding an installation manifest
-		$manifestFile = PATH_ROOT.DS.'plugins'.DS.$row->folder.DS.$row->element.'.xml';
+		$manifestFile = JPATH_ROOT.DS.'plugins'.DS.$row->folder.DS.$row->element.'.xml';
 		if (file_exists($manifestFile))
 		{
 			$xml =& JFactory::getXMLParser('Simple');
