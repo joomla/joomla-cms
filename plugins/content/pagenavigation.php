@@ -118,8 +118,8 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 			$xwhere = '';
 		} else {
 			$xwhere = ' AND ( a.state = 1 OR a.state = -1 )' .
-			' AND ( publish_up = "'.$nullDate' OR publish_up <= "'.$now.'" )' .
-			' AND ( publish_down = "'.$nullDate.'" OR publish_down >= "'.$now.'" )';
+			' AND ( publish_up = '.$db->Quote($nullDate).' OR publish_up <= '.$db->Quote($now).' )' .
+			' AND ( publish_down = '.$db->Quote($nullDate).' OR publish_down >= '.$db->Quote($now).' )';
 		}
 
 		// array of articles in same category corretly ordered
