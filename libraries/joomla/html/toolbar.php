@@ -222,7 +222,7 @@ class JToolBar extends JObject
 			$found = false;
 			foreach ($dirs as $dir)
 			{
-				$buttonFile = sprintf("%s/%s.php", $dir, str_replace('_', '/', strtolower($type)));
+				$buttonFile = sprintf('%s'.DS.'%s.php', $dir, str_replace('_', DS, strtolower($type)));
 				if (@ include_once $buttonFile)
 				{
 					$found = true;

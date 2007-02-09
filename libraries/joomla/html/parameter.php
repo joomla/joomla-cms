@@ -142,7 +142,7 @@ class JParameter extends JRegistry
 				$this->_xml['_default'] = $xml;
 			}
 			if ($dir = $xml->attributes( 'addparameterdir' )) {
-				$this->addParameterDir( JPATH_ROOT . $dir );
+				$this->addParameterDir( JPATH_ROOT . str_replace('/', DS, $dir) );
 			}
 		}
 	}
@@ -384,7 +384,7 @@ class JParameter extends JRegistry
 			$found = false;
 			foreach( $dirs as $dir )
 			{
-				$elementFile	= sprintf( "%s/%s.php", $dir, str_replace( '_', '/', $type ) );
+				$elementFile	= sprintf( '%s'.DS.'%s.php', $dir, str_replace( '_', DS, $type ) );
 
 				if (@include_once $elementFile)
 				{
