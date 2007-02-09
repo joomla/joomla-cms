@@ -64,7 +64,10 @@ class JButton_Standard extends JButton
 	 * Get the JavaScript command for the button
 	 *
 	 * @access	private
-	 * @param	object	$definition	Button definition
+	 * @param	string	$name	The task name as seen by the user
+	 * @param	string	$task	The task used by the application
+	 * @param	???		$list
+	 * @param	boolean	$hide	
 	 * @return	string	JavaScript command string
 	 * @since	1.5
 	 */
