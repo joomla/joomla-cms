@@ -216,6 +216,7 @@ function showUsers( )
  */
 function editUser( )
 {
+	
 	$option 	= JRequest::getVar( 'option');
 	$cid 		= JRequest::getVar( 'cid', array(), '', 'array' );
 	$userId		= (int) @$cid[0];
@@ -225,6 +226,14 @@ function editUser( )
 	$myuser		=& JFactory::getUser();
 	$acl		=& JFactory::getACL();
 
+	// Check for post data in the event that we are returning
+	// from a unsuccessful attempt to save data
+	$post = JRequest::get('post');
+	if ( $post )
+	{
+		$user->bind($post);
+	}
+	
 	if ( $user->get('id') )
 	{
 		$query = 'SELECT *'
@@ -329,8 +338,12 @@ function saveUser(  )
 	$post = JRequest::get('post');
 	if (!$user->bind($post))
 	{
-		$mainframe->redirect( 'index.php?option=com_users', $user->getError() );
-		return false;
+		$mainframe->enqueueMessage('Cannot save the user information', 'message');
+		$mainframe->enqueueMessage($user->getError(), 'error');
+		//$mainframe->redirect( 'index.php?option=com_users', $user->getError() );
+		//return false;
+		JRequest::setVar( 'task', 'edit');
+		return editUser();
 	}
 
 	// Are we dealing with a new user which we need to create?
@@ -363,8 +376,12 @@ function saveUser(  )
 	 */
 	if (!$user->save())
 	{
-		$mainframe->redirect( 'index.php?option=com_users', $user->getError() );
-		return false;
+		$mainframe->enqueueMessage('Cannot save the user information', 'message');
+		$mainframe->enqueueMessage($user->getError(), 'error');
+		//$mainframe->redirect( 'index.php?option=com_users', $user->getError() );
+		//return false;
+		JRequest::setVar( 'task', 'edit');
+		return editUser();
 	}
 
 	/*

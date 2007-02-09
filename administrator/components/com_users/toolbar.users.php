@@ -21,6 +21,7 @@ switch ( $task )
 {
 	case 'add' :
 	case 'edit':
+	case 'apply':
 	case 'editA':
 		TOOLBAR_users::_EDIT();
 		break;
