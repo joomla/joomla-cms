@@ -73,21 +73,16 @@ class JObject
 	 */
 	function getPublicProperties( $assoc = false )
 	{
-		static $cache = null;
-
-		if (is_null( $cache ))
+		$vars = array(array(),array());
+		foreach (get_object_vars( $this ) as $key => $val)
 		{
-			$cache = array();
-			foreach (get_object_vars( $this ) as $key => $val)
+			if (substr( $key, 0, 1 ) != '_')
 			{
-				if (substr( $key, 0, 1 ) != '_')
-				{
-					$cache[0][] = $key;
-					$cache[1][$key] = $val;
-				}
+				$vars[0][] = $key;
+				$vars[1][$key] = $val;
 			}
 		}
-		return $cache[$assoc ? 1 : 0];
+		return $vars[$assoc ? 1 : 0];
 	}
 
 	/**
