@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Feb-2007 Mateusz Krzeszowiec
+ # Fixed [artf7503] : Readmore and Pagebreak don't work in editor in IE7
+
 10-Feb-2007 Hannes Papenberg
  ^ Changed JMenuBar::configuration to preferences
  - removed obsolete module position code in com_templates
@@ -68,7 +71,7 @@ Legend:
  	+ Added onAfterDispatch and onAfterRoute system events
  	+ Added legacy system plugin to handle legacy routes
  	- Removed joomla.request plugin functionality moved to JRouter
- 	- Removed onAfterRender system event  
+ 	- Removed onAfterRender system event
  + Added alias support to com_categories and com_sections
  ! Changes require a reinstall
 
