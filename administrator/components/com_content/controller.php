@@ -931,7 +931,7 @@ class ContentController extends JController
 				' SET state = '.$state .
 				', ordering = '.$ordering . 
 				', checked_out = 0, checked_out_time = "'.$nullDate.
-				' WHERE id IN ( '. $cids. ' )';
+				'" WHERE id IN ( '. $cids. ' )';
 		$db->setQuery($query);
 		if (!$db->query())
 		{

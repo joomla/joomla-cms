@@ -122,7 +122,7 @@ function viewTrashContent( $option )
 	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$contents = $db->loadObjectList();
 
-	for ( $i = 0; $i < $total; $i++ ) {
+	for ( $i = 0; $i < count($contents); $i++ ) {
 		if ( ( $contents[$i]->sectionid == 0 ) && ( $contents[$i]->catid == 0 ) ) {
 			$contents[$i]->sectname = 'Typed Content';
 		}
