@@ -403,10 +403,12 @@ class JUser extends JObject
 		 * @todo: this will be deprecated as of the ACL implementation
 		 */
 		$db =& JFactory::getDBO();
+		
+		$gid	= array_key_exists('gid', $array ) ? $array['gid'] : $this->get('gid');
 
 		$query = 'SELECT name'
 		. ' FROM #__core_acl_aro_groups'
-		. ' WHERE id = ' . (int) $array['gid']
+		. ' WHERE id = ' . (int) $gid
 		;
 		$db->setQuery( $query );
 		$this->set( 'usertype', $db->loadResult());
@@ -429,6 +431,7 @@ class JUser extends JObject
 		 * through the parameters and build the INI parameter string for the
 		 * table
 		 */
+
 		$this->_params->loadINI($this->params);
 
 		return true;
