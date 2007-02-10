@@ -63,8 +63,8 @@ class JAJAXHandler
 	/**
 	 * Method to get the database collations
 	 */
-	function dbcollate($args) {
-
+	function dbcollate($args)
+	{
 		jimport( 'joomla.application.application' );
 		jimport( 'joomla.database.database' );
 		jimport( 'joomla.registry.registry' );
@@ -122,8 +122,8 @@ class JAJAXHandler
 	/**
 	 * Method to get the database privileges
 	 */
-//	function dbpriv($args) {
-//
+//	function dbpriv($args)
+//	{
 //		jimport( 'joomla.application.application' );
 //		jimport( 'joomla.database.database' );
 //		jimport( 'joomla.registry.registry' );
@@ -176,29 +176,39 @@ class JAJAXHandler
 	/**
 	 * Method to get the path from the FTP root to the Joomla root directory
 	 */
-	function ftproot($args) {
-
+	function ftproot($args)
+	{
 		jimport( 'joomla.application.application' );
+		jimport( 'joomla.registry.registry' );
+
+		$lang = new JAJAXLang($args['lang']);
+//		$lang->setDebug(true);
 
 		$objResponse = new xajaxResponse();
 		$args = $args['vars'];
+
 		require_once(JXPATH_BASE.DS."classes.php");
-		$root =  JInstallationHelper::findFtpRoot($args['ftpUser'], $args['ftpPassword'], $args['ftpHost'], $args['ftpPort']);
+		$root = JInstallationHelper::findFtpRoot($args['ftpUser'], $args['ftpPassword'], $args['ftpHost'], $args['ftpPort']);
 		if (JError::isError($root)) {
-			$objResponse->addAlert($root->get('message'));
+			$objResponse->addAlert($lang->_($root->get('message')));
 		} else {
 			$objResponse->addAssign('ftproot', 'value', $root);
 			$objResponse->addAssign('rootPath', 'style.display', '');
 		}
+
 		return $objResponse;
 	}
 
 	/**
 	 * Method to verify the ftp values are valid
 	 */
-	function ftpverify($args) {
-
+	function ftpverify($args)
+	{
 		jimport( 'joomla.application.application' );
+		jimport( 'joomla.registry.registry' );
+
+		$lang = new JAJAXLang($args['lang']);
+//		$lang->setDebug(true);
 
 		$objResponse = new xajaxResponse();
 		$args = $args['vars'];
@@ -206,10 +216,11 @@ class JAJAXHandler
 		require_once(JXPATH_BASE.DS."classes.php");
 		$status =  JInstallationHelper::FTPVerify($args['ftpUser'], $args['ftpPassword'], $args['ftpRoot'], $args['ftpHost'], $args['ftpPort']);
 		if (JError::isError($status)) {
-			$objResponse->addAlert($status->get('message'));
+			$objResponse->addAlert($lang->_($status->get('message')));
 		} else {
-			$objResponse->addAlert('VALID');
+			$objResponse->addAlert($lang->_('VALIDFTP'));
 		}
+
 		return $objResponse;
 	}
 
@@ -269,7 +280,7 @@ class JAJAXHandler
 	 * @return	object	$error	JError object
 	 * @since	1.5
 	 */
-	function & handleError(& $error)
+	function &handleError(&$error)
 	{
 		return $error;
 	}

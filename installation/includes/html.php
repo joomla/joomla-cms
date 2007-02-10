@@ -184,6 +184,7 @@ class JInstallationView
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 'var_' );
 		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
+		$tmpl->addVar( 'body', 'lang', $lang->getTag() );
 
 		return $tmpl->fetch( 'page' );
 	}
