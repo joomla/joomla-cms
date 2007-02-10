@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php endif; ?>
 	</td>
 	<?php endif; ?>
-	<?php if ($this->tmpl != 'component') : ?>
+	<?php if (!$print) : ?>
 	<?php if ($this->params->get('pdf')) : ?>
 	<td align="right" width="100%" class="buttonheading">
 	<?php echo $this->getIcon('pdf'); ?>

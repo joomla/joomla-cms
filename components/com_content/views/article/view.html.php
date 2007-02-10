@@ -152,13 +152,13 @@ class ContentViewArticle extends JView
 		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $article, & $params, $limitstart));
 		$article->event->afterDisplayContent = trim(implode("\n", $results));
 
-		$tmpl = JRequest::getVar('tmpl');
+		$print = JRequest::getVar('print');
 
 		$this->assignRef('article', $article);
 		$this->assignRef('params' , $params);
 		$this->assignRef('user'   , $user);
 		$this->assignRef('access' , $access);
-		$this->assignRef('tmpl', $tmpl);
+		$this->assignRef('print', $print);
 
 		parent::display($tpl);
 	}
@@ -194,7 +194,7 @@ class ContentViewArticle extends JView
 
 			case 'print' :
 			{
-				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;tmpl=component&amp;Itemid='.$Itemid.'&amp;page='.@ $this->request->limitstart;
+				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;tmpl=component&print=1&amp;Itemid='.$Itemid.'&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded

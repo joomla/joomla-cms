@@ -34,6 +34,11 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 {
 	global $Itemid;
 
+	$print = JRequest::getVar('print');
+	if ($print) {
+		return true;
+	}
+
 	// simple performance check to determine whether bot should process further
 	if ( JString::strpos( $row->text, '<hr class="system-pagebreak' ) === false ) {
 		return true;
