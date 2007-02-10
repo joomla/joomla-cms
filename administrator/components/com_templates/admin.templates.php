@@ -73,10 +73,6 @@ switch ($task)
 		TemplatesController::cancelTemplate();
 		break;
 
-	case 'positions' :
-		TemplatesController::editPositions();
-		break;
-
 	case 'save_positions' :
 		TemplatesController::savePositions();
 		break;

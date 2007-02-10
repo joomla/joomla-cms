@@ -33,7 +33,7 @@ class ConfigViewComponent extends JView
 		$component	= JComponentHelper::getInfo(JRequest::getVar( 'component' ));
 
 		$document = & JFactory::getDocument();
-		$document->setTitle( JText::_('Edit Configuration') );
+		$document->setTitle( JText::_('Edit Preferences') );
 		$document->addStyleSheet('../includes/js/joomla/modal.css');
 		JCommonHTML::loadOverlib();
 ?>

@@ -33,6 +33,7 @@ class ContentViewCategory extends JView
 		// Initialize some variables
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
+		$uri 		=& JFactory::getURI();
 		$pathway	= & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
@@ -111,6 +112,7 @@ class ContentViewCategory extends JView
 		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('pagination',	$pagination);
+		$this->assignRef('request_url',	$uri->toString());
 
 		parent::display($tpl);
 	}

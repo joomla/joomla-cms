@@ -29,6 +29,7 @@ class ContactViewCategory extends JView
 
 		$user	 = &JFactory::getUser();
 		$pathway = & $mainframe->getPathWay();
+		$uri 		=& JFactory::getURI();
 		$model	 = &$this->getModel();
 
 		// Get the paramaters of the active menu item
@@ -122,6 +123,7 @@ class ContactViewCategory extends JView
 		//$this->assignRef('data',		$data);
 		$this->assignRef('category',	$category);
 		$this->assignRef('params',		$params);
+		$this->assignRef('request_url',	$uri->toString());
 
 		parent::display($tpl);
 	}

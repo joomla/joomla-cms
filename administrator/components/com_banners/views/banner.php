@@ -30,7 +30,7 @@ class BannersViewBanner
 		JMenuBar::deleteList();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
-		JMenuBar::configuration('com_banners', '500');
+		JMenuBar::preferences('com_banners', '500');
 		JMenuBar::help( 'screen.banners' );
 	}
 

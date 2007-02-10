@@ -72,7 +72,6 @@ class WeblinksViewWeblink extends JView
 		$text = $isNew ? JText::_( 'New' ) : JText::_( 'Edit' );
 		JMenuBar::title(   JText::_( 'Weblink' ).': <small><small>[ ' . $text.' ]</small></small>' );
 		JMenuBar::save();
-		JMenuBar::apply();
 		if ($isNew)  {
 			JMenuBar::cancel();
 		} else {

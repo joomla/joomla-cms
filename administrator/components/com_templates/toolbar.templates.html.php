@@ -75,12 +75,5 @@ class TOOLBAR_templates
 		JMenuBar::cancel('choose_css');
 		JMenuBar::help( 'screen.templates' );
 	}
-
-	function _POSITIONS(){
-		JMenuBar::title( JText::_( 'Module Positions' ), 'thememanager' );
-		JMenuBar::save( 'save_positions' );
-		JMenuBar::cancel();
-		JMenuBar::help( 'screen.templates.modules' );
-	}
 }
 ?>

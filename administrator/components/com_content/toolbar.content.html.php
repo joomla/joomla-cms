@@ -80,7 +80,7 @@ class TOOLBAR_content
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
 		if ($user->get('gid') == 25) {
-			JMenuBar::configuration('com_content', '450');
+			JMenuBar::preferences('com_content', '450');
 		}
 		JMenuBar::help( 'screen.content' );
 	}

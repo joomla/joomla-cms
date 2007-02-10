@@ -42,10 +42,6 @@ switch ($task)
 		TOOLBAR_templates::_EDIT_CSS($client);
 		break;
 
-	case 'positions':
-		TOOLBAR_templates::_POSITIONS();
-		break;
-
 	default:
 		TOOLBAR_templates::_DEFAULT($client);
 		break;

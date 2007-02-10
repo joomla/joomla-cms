@@ -152,10 +152,13 @@ class ContentViewArticle extends JView
 		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $article, & $params, $limitstart));
 		$article->event->afterDisplayContent = trim(implode("\n", $results));
 
+		$tmpl = JRequest::getVar('tmpl');
+
 		$this->assignRef('article', $article);
 		$this->assignRef('params' , $params);
 		$this->assignRef('user'   , $user);
 		$this->assignRef('access' , $access);
+		$this->assignRef('tmpl', $tmpl);
 
 		parent::display($tpl);
 	}
@@ -258,6 +261,11 @@ class ContentViewArticle extends JView
 
 				$output = '<span class="hasTip" title="'.JText::_( 'Edit Item' ).' :: '.$overlib.'">'.$button.'</span>';
 			} break;
+
+			case 'print_screen' :
+			{
+				$output = '<a href="#" onclick="window.print();return false;">'.JText::_('Print').'</a>';
+			}
 		}
 
 

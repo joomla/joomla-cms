@@ -38,7 +38,7 @@ class WeblinksViewWeblinks extends JView
 		JMenuBar::deleteList();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
-		JMenuBar::configuration('com_weblinks', '200');
+		JMenuBar::preferences('com_weblinks', '200');
 		JMenuBar::help( 'screen.weblink' );
 
 		$db		=& JFactory::getDBO();

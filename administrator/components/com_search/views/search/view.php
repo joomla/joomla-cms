@@ -28,11 +28,9 @@ class searchViewSearch extends JView
 	{
 		global $mainframe;
 
-//		$this->_layout = 'default';
-
 		JMenuBar::title( JText::_( 'Search Statistics' ), 'searchtext.png' );
 		JMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', 'Reset', false );
-		JMenuBar::configuration( 'com_search' );
+		JMenuBar::preferences( 'com_search' );
 		JMenuBar::help( 'screen.stats.searches' );
 
 		$document = & JFactory::getDocument();

@@ -474,7 +474,7 @@ class JMenuBar
 	* @param	string	An alternative path for the configuation xml relative to JPATH_SITE
 	* @since 1.0
 	*/
-	function configuration($component, $height='150', $width='570', $alt = 'Configuration', $path = '')
+	function preferences($component, $height='150', $width='570', $alt = 'Preferences', $path = '')
 	{
 		$component	= urlencode( $component );
 		$path		= urlencode( $path );

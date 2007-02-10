@@ -494,53 +494,5 @@ class TemplatesController
 			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 		}
 	}
-
-	/**
-	*/
-	function editPositions()
-	{
-		// Initialize some variables
-		$db		= & JFactory::getDBO();
-		$option	= JRequest::getVar('option');
-
-		$query = 'SELECT * FROM #__template_positions';
-		$db->setQuery($query);
-		$positions = $db->loadObjectList();
-
-		require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
-		TemplatesView::editPositions($positions, $option);
-	}
-
-	/**
-	*/
-	function savePositions()
-	{
-		global $mainframe;
-
-		// Initialize some variables
-		$db					= & JFactory::getDBO();
-		$option				= JRequest::getVar('option');
-		$positions			= JRequest::getVar('position', array (), 'post', 'array');
-		$descriptions		= JRequest::getVar('description', array (), 'post', 'array');
-
-		$query = 'DELETE FROM #__template_positions';
-		$db->setQuery($query);
-		$db->query();
-
-		foreach ($positions as $id => $position)
-		{
-			$position = trim($db->getEscaped($position));
-			$description = $descriptions[$id];
-			if ($position != '')
-			{
-				$id = intval($id);
-				$query = 'INSERT INTO #__template_positions'
-						.' VALUES ( '.$id.', \'$position\', \'$description\' ) ';
-				$db->setQuery($query);
-				$db->query();
-			}
-		}
-		$mainframe->redirect('index.php?option='.$option.'&amp;task=positions', JText::_('Positions saved'));
-	}
 }
 ?>

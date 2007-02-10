@@ -37,6 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Feb-2007 Hannes Papenberg
+ ^ Changed JMenuBar::configuration to preferences
+ - removed obsolete module position code in com_templates
+ - removed Apply button in com_weblinks
+ # Fixed print function in com_content
+ # Fixed link in sample content
+ # Fixed ordering of tables in com_content, com_contact
+
 10-Feb-2007 Enno Klasing
  # chmodding of template files and configuration.php before and after writing to these files
  # Fixed [artf7524] : Missing translations in installation

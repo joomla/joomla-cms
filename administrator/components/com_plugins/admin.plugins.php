@@ -302,9 +302,6 @@ function editPlugin( )
 		$row->description 	= '';
 	}
 
-	// Jinx 14-120-6:: Unsure why this is needed
-	//$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSLAST' );
-
 	$lists['published'] = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
 
 	// get params definitions
@@ -328,7 +325,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
-		JError::raiseError(500, JText::_( 'Select a plugin to '.$action, true ) );
+		JError::raiseError(500, JText::_( 'Select a plugin to '.$action ) );
 	}
 
 	$cids = implode( ',', $cid );

@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php endif; ?>
 	</td>
 	<?php endif; ?>
-
+	<?php if ($this->tmpl != 'component') : ?>
 	<?php if ($this->params->get('pdf')) : ?>
 	<td align="right" width="100%" class="buttonheading">
 	<?php echo $this->getIcon('pdf'); ?>
@@ -36,6 +36,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php if ($this->params->get('email')) : ?>
 	<td align="right" width="100%" class="buttonheading">
 	<?php echo $this->getIcon('email'); ?>
+	</td>
+	<?php endif; ?>
+	<?php else : ?>
+	<td align="right" width="100%" class="buttonheading">
+	<?php echo $this->getIcon('print_screen'); ?>
 	</td>
 	<?php endif; ?>
 </tr>

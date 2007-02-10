@@ -51,7 +51,7 @@ class TOOLBAR_contact {
 		JMenuBar::deleteList();
 		JMenuBar::editListX();
 		JMenuBar::addNewX();
-		JMenuBar::configuration('com_contact', '500');
+		JMenuBar::preferences('com_contact', '500');
 
 		JMenuBar::help( 'screen.contactmanager' );
 	}

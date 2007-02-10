@@ -30,8 +30,6 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		// Register Extra tasks
 		$this->registerTask( 'add'  , 	'edit' );
-		$this->registerTask( 'apply', 	'save' );
-		$this->registerTask( 'apply_new', 'save' );
 	}
 
 	function edit()
@@ -63,19 +61,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		// Check the table in so it can be edited.... we are done with it anyway
 		$model->checkin();
-
-		switch (JRequest::getVar('task'))
-		{
-			case 'apply':
-				$link = 'index.php?option=com_weblinks&controller=weblink&task=edit&cid[]='. $post['id'];
-				break;
-
-			case 'save':
-			default:
-				$link = 'index.php?option=com_weblinks';
-				break;
-		}
-
+		$link = 'index.php?option=com_weblinks';
 		$this->setRedirect($link, $msg);
 	}
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		document.adminForm.submit( task );
 	}
 </script>
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo $this->request_url; ?>" method="post" name="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <?php if ($this->params->get('filter') || $this->params->get('display')) : ?>
 <tr>
