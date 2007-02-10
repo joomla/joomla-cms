@@ -200,6 +200,7 @@ class TemplatesController
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = JClientHelper::getCredentials('ftp');
 
 		$file = $client->path.DS.'templates'.DS.$template.DS.'params.ini';
 
@@ -211,7 +212,19 @@ class TemplatesController
 				$txt .= "$k=$v\n";
 			}
 
-			if (!JFile::write($file, $txt)) {
+			// Try to make the params file writeable
+			if (!$ftp['enabled'] && !JPath::setPermissions($file, '0755')) {
+				JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template parameter file writeable');
+			}
+
+			$return = JFile::write($file, $txt);
+
+			// Try to make the params file unwriteable
+			if (!$ftp['enabled'] && !JPath::setPermissions($file, '0555')) {
+				JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template parameter file unwriteable');
+			}
+
+			if (!$return) {
 				$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 			}
 		}
@@ -328,11 +341,24 @@ class TemplatesController
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = JClientHelper::getCredentials('ftp');
 
 		$file = $client->path.DS.'templates'.DS.$template.DS.'index.php';
 
+		// Try to make the template file writeable
+		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0755')) {
+			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template file writeable');
+		}
+
 		jimport('joomla.filesystem.file');
-		if (JFile::write($file, $filecontent))
+		$return = JFile::write($file, $filecontent);
+
+		// Try to make the template file unwriteable
+		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0555')) {
+			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template file unwriteable');
+		}
+
+		if ($return)
 		{
 			$task = JRequest::getVar('task');
 			switch($task)
@@ -384,9 +410,7 @@ class TemplatesController
 	{
 		global $mainframe;
 
-		/*
-		 * Initialize some variables
-		 */
+		// Initialize some variables
 		$option		= JRequest::getVar('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template	= JRequest::getVar('id', '', 'method', 'word');
@@ -434,9 +458,24 @@ class TemplatesController
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = JClientHelper::getCredentials('ftp');
+
+		$file = $client->path . $filename;
+
+		// Try to make the css file writeable
+		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0755')) {
+			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the css file writeable');
+		}
 
 		jimport('joomla.filesystem.file');
-		if (JFile::write($client->path.$filename, $filecontent))
+		$return = JFile::write($file, $filecontent);
+
+		// Try to make the css file unwriteable
+		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0555')) {
+			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the css file unwriteable');
+		}
+
+		if ($return)
 		{
 			$task = JRequest::getVar('task');
 			switch($task)

@@ -60,7 +60,7 @@ function viewLanguages()
 
 	$rowid = 0;
 
-	// Are we supposed to switch on the FTP layer?
+	// Set FTP credentials, if given
 	jimport('joomla.client.helper');
 	$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 
@@ -124,9 +124,10 @@ function publishLanguage( $language )
 	// Initialize some variables
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-	// Are we supposed to switch on the FTP layer?
+	// Set FTP credentials, if given
 	jimport('joomla.client.helper');
-	$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+	JClientHelper::setCredentialsFromRequest('ftp');
+	$ftp = JClientHelper::getCredentials('ftp');
 
 	// Set the new default language
 	$varname = ($client->id == 0) ? 'lang_site' : 'lang_administrator';
@@ -136,12 +137,22 @@ function publishLanguage( $language )
 	// Get the path of the configuration file
 	$fname = JPATH_CONFIGURATION.DS.'configuration.php';
 
-	/*
-	 * Now we get the config registry in PHP class format and write it to
-	 * configuation.php then redirect appropriately.
-	 */
+	// Try to make the configuration file writeable
+	if (!$ftp['enabled'] && !JPath::setPermissions($fname, '0755')) {
+		JError::raiseNotice('SOME_ERROR_CODE', 'Could not make configuration.php writeable');
+	}
+
+	// Get the config registry in PHP class format and write it to configuration.php
 	jimport('joomla.filesystem.file');
-	if (JFile::write($fname, $config->toString('PHP', 'config',  array('class' => 'JConfig')))) {
+	$return = JFile::write($fname, $config->toString('PHP', 'config',  array('class' => 'JConfig')));
+
+	// Try to make the configuration file unwriteable
+	if (!$ftp['enabled'] && !JPath::setPermissions($fname, '0555')) {
+		JError::raiseNotice('SOME_ERROR_CODE', 'Could not make configuration.php unwriteable');
+	}
+
+	// Redirect appropriately
+	if ($return) {
 		$mainframe->redirect("index.php?option=com_languages&amp;client=".$client->id, JText::_( 'Configuration successfully updated!' ) );
 	} else {
 		$mainframe->redirect("index.php?option=com_languages&amp;client=".$client->id, JText::_( 'ERRORCONFIGWRITEABLE' ) );
