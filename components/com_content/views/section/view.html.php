@@ -230,7 +230,7 @@ class ContentViewSection extends JView
 
 			case 'print' :
 			{
-				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component&amp;page='.@ $this->request->limitstart;
+				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component&amp;print=1&amp;page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
