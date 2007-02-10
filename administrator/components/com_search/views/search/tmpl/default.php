@@ -57,7 +57,7 @@
 				?>
 				<tr class="row<?php echo $k;?>">
 					<td align="right">
-						<?php echo $i+1+$pageNav->limitstart; ?>
+						<?php echo $i+1+$this->pageNav->limitstart; ?>
 					</td>
 					<td>
 						<?php echo $row->search_term;?>
@@ -88,7 +88,6 @@
 		</div>
 
 		<input type="hidden" name="option" value="com_search" />
-		<input type="hidden" name="task" value="<?php echo $task;?>" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
