@@ -304,7 +304,6 @@ class JAJAXLang extends JObject
 	 */
 	var $_debug 	= false;
 
-
 	/**
 	 * Identifying string of the language
 	 *
@@ -347,7 +346,6 @@ class JAJAXLang extends JObject
 		$this->load();
 	}
 
-
 	/**
 	* Translator function, mimics the php gettext (alias _) function
 	*
@@ -377,7 +375,7 @@ class JAJAXLang extends JObject
 	}
 
 	/**
-	 * Loads a single langauge file and appends the results to the existing strings
+	 * Loads a single language file and appends the results to the existing strings
 	 *
 	 * @access public
 	 * @param string 	$prefix 	The prefix
@@ -392,7 +390,7 @@ class JAJAXLang extends JObject
 
 		$result = false;
 
-		$newStrings = $this->_load( $path . $filename .'.ini' );
+		$newStrings = $this->_load( $path.DS.$filename.'.ini' );
 
 		if (is_array($newStrings)) {
 			$this->_strings = array_merge( $this->_strings, $newStrings);
@@ -425,7 +423,6 @@ class JAJAXLang extends JObject
 		return false;
 	}
 
-
 	/**
 	* Set the Debug property
 	*
@@ -434,7 +431,6 @@ class JAJAXLang extends JObject
 	function setDebug($debug) {
 		$this->_debug = $debug;
 	}
-
 
 	/**
 	 * Determines is a key exists
@@ -447,7 +443,6 @@ class JAJAXLang extends JObject
 		return isset ($this->_strings[strtoupper($key)]);
 	}
 
-
 	/**
 	 * Get the path to a language
 	 *
@@ -458,70 +453,11 @@ class JAJAXLang extends JObject
 	 */
 	function getLanguagePath($basePath = JPATH_BASE, $language = null )
 	{
-		$dir = $basePath.DS.'language'.DS;
+		$dir = $basePath.DS.'language';
 		if (isset ($language)) {
-			$dir .= $language.DS;
+			$dir .= DS.$language;
 		}
 		return $dir;
-	}
-
-
-
-	/**
-	 * Parses XML files for language information
-	 *
-	 * @access public
-	 * @param string	$dir	 Directory of files
-	 * @return array	Array holding the found languages as filename => metadata array
-	 */
-	function _parseXMLLanguageFiles($dir = null)
-	{
-		if ($dir == null) {
-			return null;
-		}
-
-		$languages = array ();
-		jimport('joomla.filesystem.folder');
-		$files = JFolder::files($dir, '^([-_A-Za-z]*)\.xml$');
-		foreach ($files as $file) {
-			if ($content = file_get_contents($dir.DS.$file)) {
-				if ($metadata = JAJAXLang::_parseXMLLanguageFile($dir.DS.$file)) {
-					$lang = str_replace('.xml', '', $file);
-					$languages[$lang] = $metadata;
-				}
-			}
-		}
-		return $languages;
-	}
-
-	/**
-	 * Parse XML file for language information
-	 *
-	 * @access public
-	 * @param string	$path	 Path to the xml files
-	 * @return array	Array holding the found metadat as a key => value pair
-	 */
-	function _parseXMLLanguageFile($path)
-	{
-		jimport('joomla.utilities.simplexml');
-		$xml = new JSimpleXML();
-
-		if (!$xml->loadFile($path)) {
-			return null;
-		}
-
-		// Check that it's am metadata file
-		if ($xml->document->name() != 'metafile') {
-			return null;
-		}
-
-		$metadata = array ();
-
-			foreach ($xml->document->metadata[0]->children() as $child) {
-				$metadata[$child->name()] = $child->data();
-			}
-		//}
-		return $metadata;
 	}
 }
 
