@@ -64,7 +64,7 @@ switch (JRequest::getVar('task'))
 
 	case 'contact':
 		$contact_id = JRequest::getVar( 'contact_id', '', 'post', 'int' );
-		$mainframe->redirect( 'index.php?option=com_contact&amp;task=editA&amp;id='. $contact_id );
+		$mainframe->redirect( 'index.php?option=com_contact&amp;task=edit&amp;cid[]='. $contact_id );
 		break;
 
 	default:
