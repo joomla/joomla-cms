@@ -43,7 +43,7 @@ class ConfigModelComponent extends JModel
 				JPath::check( $path );
 			} else {
 				$option	= preg_replace( '#\W#', '', $table->option );
-				$path	= JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml';
+				$path	= JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'config.xml';
 			}
 
 			if (file_exists( $path )) {
