@@ -167,15 +167,13 @@ class JPath
 	 */
 	function clean($path, $ds=DS)
 	{
-		// Initialize variables
-		$retval	= null;
-		$path	= trim($path);
+		$path = trim($path);
 
-		if (empty ($path)) {
+		if (empty($path)) {
 			$path = JPATH_ROOT;
 		} else {
 			// Remove double slashes and backslahses and convert all slashes and backslashes to DS
-			$path = preg_replace('#[//|\\\\]+#s', $ds, $path);
+			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 
 		return $path;
