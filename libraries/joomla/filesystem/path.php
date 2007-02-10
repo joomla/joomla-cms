@@ -175,7 +175,7 @@ class JPath
 			$path = JPATH_ROOT;
 		} else {
 			// Remove double slashes and backslahses and convert all slashes and backslashes to DS
-			$path = str_replace(array('/', '\\', '//', '\\\\'), $ds, $path);
+			$path = preg_replace('#[//|\\\\]+#s', $ds, $path);
 		}
 
 		return $path;
