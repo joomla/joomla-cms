@@ -530,7 +530,7 @@ class JCommonHTML
 			$checked_out_text 	.= '<tr><td>'. $time .'</td></tr>';
 			$checked_out_text 	.= '</table>';
 
-			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $checked_out_text.'">;
+			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $checked_out_text.'">';
 		}
 		$checked = $hover .'<img src="images/checked_out.png"/></span>';
 
