@@ -36,6 +36,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <input type="submit" value="<?php echo JText::_('Send'); ?>" />
 <input type="hidden" name="task" value="sendreminder" />
-<input type="hidden" name="option" value="com_registration" />
+<input type="hidden" name="option" value="com_user" />
 <input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>

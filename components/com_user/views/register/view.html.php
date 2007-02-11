@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id$
+* @version		$Id: view.html.php 6472 2007-02-03 10:47:26Z pasamio $
 * @package		Joomla
 * @subpackage	Registration
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -25,7 +25,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Registration
  * @since 1.0
  */
-class RegistrationViewRegister extends JView
+class UserViewRegister extends JView
 {
 	function display($tpl = null)
 	{

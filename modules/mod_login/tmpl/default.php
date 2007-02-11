@@ -35,7 +35,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td>
-			<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=lostPassword' ); ?>">
+			<a href="<?php echo sefRelToAbs( 'index.php?option=com_user&amp;task=lostPassword' ); ?>">
 				<?php echo JText::_( 'Lost Password?'); ?>
 			</a>
 		</td>
@@ -46,7 +46,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td>
 			<?php echo JText::_( 'No account yet?'); ?>
-			<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>">
+			<a href="<?php echo sefRelToAbs( 'index.php?option=com_user&amp;task=register' ); ?>">
 				<?php echo JText::_( 'Register'); ?>
 			</a>
 		</td>

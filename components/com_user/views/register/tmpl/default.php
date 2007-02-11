@@ -35,7 +35,7 @@ function validateForm( frm ) {
 	}
 ?>
 
-<form action="<?php echo JURI::resolve( 'index.php?option=com_registration' ); ?>" method="post" id="josForm" name="josForm" class="form-validate">
+<form action="<?php echo JURI::resolve( 'index.php?option=com_user' ); ?>" method="post" id="josForm" name="josForm" class="form-validate">
 
 <div class="componentheading">
 	<?php echo JText::_( 'Registration' ); ?>
@@ -98,7 +98,7 @@ function validateForm( frm ) {
 </tr>
 </table>
 <button class="button validate" type="submit"><?php echo JText::_('Register'); ?></button>
-<input type="hidden" name="task" value="save" />
+<input type="hidden" name="task" value="register_save" />
 <input type="hidden" name="id" value="0" />
 <input type="hidden" name="gid" value="0" />
 <input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
