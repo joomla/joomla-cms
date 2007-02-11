@@ -84,7 +84,7 @@ class ContentViewArticle extends JView
 		$pdf->WriteHTML($article->text, true);
 
 		//Close and output PDF document
-		$pdf->Output("joomla.pdf", "I");
+		$pdf->Output($article->title_alias.".pdf", "I");
 	}
 
 	function _getHeaderText(& $article, & $params)
