@@ -133,7 +133,7 @@ class ContentController extends JController
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		// Get the articles
-		$query = 'SELECT c.title, c.title_alias, c.created, c.modified, c.state, c.checked_out, c.checked_out_time, c.access, c.ordering, c.id, c.modified_by, c.created_by_alias, c.hits,	c.created_by, c.publish_up, c.publish_down, c.catid, c.sectionid, g.name AS groupname, cc.name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
+		$query = 'SELECT c.title, c.title_alias, c.created, c.modified, c.state, c.checked_out, c.checked_out_time, c.access, c.ordering, c.id, c.modified_by, c.created_by_alias, c.hits,	c.created_by, c.publish_up, c.publish_down, c.catid, c.sectionid, g.name AS groupname, cc.title AS name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
 				' FROM #__content AS c' .
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
 				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
@@ -480,7 +480,7 @@ class ContentController extends JController
 		$sectioncategories[-1][] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'name');
 		$section_list = implode('\', \'', $section_list);
 
-		$query = 'SELECT id, name, section' .
+		$query = 'SELECT id, title, section' .
 				' FROM #__categories' .
 				' WHERE section IN ( \''.$section_list.'\' )' .
 				' ORDER BY ordering';
@@ -504,7 +504,7 @@ class ContentController extends JController
 				}
 			}
 			foreach ($rows2 as $row2) {
-				$sectioncategories[$section->id][] = JHTMLSelect::option($row2->id, $row2->name, 'id', 'name');
+				$sectioncategories[$section->id][] = JHTMLSelect::option($row2->id, $row2->title, 'id', 'name');
 			}
 		}
 
