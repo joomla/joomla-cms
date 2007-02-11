@@ -161,6 +161,8 @@ class JParameter extends JRegistry
 			return $this->loadArray($data, $group);
 		} elseif ( is_object($data) ) {
 			return $this->loadObject($data, $group);
+		} else {
+			return $this->loadINI($data, $group);
 		}
 
 		return false;
