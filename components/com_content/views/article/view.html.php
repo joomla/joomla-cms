@@ -264,7 +264,13 @@ class ContentViewArticle extends JView
 
 			case 'print_screen' :
 			{
-				$output = '<a href="#" onclick="window.print();return false;">'.JText::_('Print').'</a>';
+				// checks template image directory for image, if non found default are loaded
+				if ( $this->params->get( 'icons' ) ) {
+					$text = JAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
+				} else {
+					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
+				}
+				$output = '<a href="#" onclick="window.print();return false;">'.$text.'</a>';
 			}
 		}
 
