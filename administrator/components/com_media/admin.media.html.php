@@ -350,12 +350,12 @@ class MediaViews
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
 					<a href="<?php echo $link; ?>" target="folderframe">
-						<img src="components/com_media/images/folderup_32.png" width="32" height="32" border="0" alt="..." />
+						<img src="components/com_media/images/folderup_32.png" width="32" height="32" border="0" alt=".." />
 					</a>
 				</div>
 			</div>
 			<div class="imginfoBorder">
-				...
+				..
 			</div>
 		</div>
 		<?php
@@ -484,11 +484,11 @@ class MediaViews
 		<tr>
 			<td class="imgTotal">
 				<a href="<?php echo $link; ?>" target="folderframe">
-					<img src="components/com_media/images/folderup_16.png" width="16" height="16" border="0" alt="..." />
+					<img src="components/com_media/images/folderup_16.png" width="16" height="16" border="0" alt=".." />
 				</a>
 			</td>
 			<td class="description">
-				...
+				..
 			</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
