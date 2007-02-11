@@ -482,7 +482,7 @@ class ContentController extends JController
 
 		$query = 'SELECT id, name, section' .
 				' FROM #__categories' .
-				' WHERE section IN ( "'.$section_list.'" )' .
+				' WHERE section IN ( \''.$section_list.'\' )' .
 				' ORDER BY ordering';
 		$db->setQuery($query);
 		$cat_list = $db->loadObjectList();
