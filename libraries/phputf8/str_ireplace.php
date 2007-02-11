@@ -26,6 +26,7 @@ function utf8_ireplace($search, $replace, $str, $count = NULL){
     if ( !is_array($search) ) {
 
         $slen = strlen($search);
+        $lendif = strlen($replace) - $slen;
         if ( $slen == 0 ) {
             return $str;
         }
@@ -43,7 +44,7 @@ function utf8_ireplace($search, $replace, $str, $count = NULL){
             $mlen = strlen($matches[0]);
             $lstr = substr($lstr, $mlen);
             $str = substr_replace($str, $replace, $matched+strlen($matches[1]), $slen);
-                    $matched += $mlen;
+            $matched += $mlen + $lendif;
             $i++;
         }
         return $str;
