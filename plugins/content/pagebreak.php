@@ -34,9 +34,14 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 {
 	global $Itemid;
 
+	// Get Plugin info
+ 	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak');
+
+ 	$pluginparams = new JParameter( $plugin->params );
+
 	$print = JRequest::getVar('print');
 	$showall = JRequest::getVar('showall');
-	if ($print || $showall) {
+	if ($print || ($showall && $pluginparams->get('showall') )) {
 		return true;
 	}
 
@@ -54,8 +59,6 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
  	// expression to search for
  	$regex = '#<hr class=\"system-pagebreak\"(.*)\/>#iU';
 
-	// Get Plugin info
- 	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak');
 
 	// check whether plugin has been unpublished
  	if (!$plugin->published || $params->get( 'intro_only' )|| $params->get( 'popup' ) || $full) {
@@ -227,6 +230,12 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 		}
 		$i++;
 	}
+	// Get Plugin info
+ 	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak');
+
+ 	$params = new JParameter( $plugin->params );
+
+	if ($params->get('showall') ) {
 	$row->toc .= '
 	<tr>
 		<td>
@@ -236,7 +245,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 		</td>
 	</tr>
 	';
-
+	}
 	$row->toc .= '</table>';
 }
 

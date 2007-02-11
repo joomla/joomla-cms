@@ -21,5 +21,9 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		<param name="showall" type="radio" default="1" label="Show All" description="PARAMSITESHOWALL">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
 	</params>
 </install>
