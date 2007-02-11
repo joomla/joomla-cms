@@ -44,7 +44,7 @@ class TOOLBAR_media {
 		// Add a delete button
 		$bar = & JToolBar::getInstance('JComponent');
 		$dhtml = "<a href=\"#\" onclick=\"document.mediamanager.submit('delete')\" class=\"toolbar\">
-					<div class=\"icon-32-delete\" title=\"Delete\" type=\"Custom\"></div>
+					<span class=\"icon-32-delete\" title=\"Delete\" type=\"Custom\"></span>
 					Delete
 				</a>";
 		$bar->appendButton( 'Custom', $dhtml, 'delete' );
