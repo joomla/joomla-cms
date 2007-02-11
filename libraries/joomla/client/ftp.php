@@ -141,7 +141,7 @@ class JFTP extends JObject {
 	 * @param array $options Associative array of options to set
 	 * @since 1.5
 	 */
-	function __construct($options) {
+	function __construct($options=array()) {
 
 		// If default transfer type is no set, set it to autoascii detect
 		if (!isset ($options['type'])) {
@@ -267,7 +267,7 @@ class JFTP extends JObject {
 		if (FTP_NATIVE) {
 			$this->_conn = @ftp_connect($host, $port, $this->_timeout);
 			if ($this->_conn === false) {
-				JError::raiseWarning('30', 'JFTP::connect: Could not connect to host "'.$host.'" on port '.$port.'.' );
+				JError::raiseWarning('30', 'JFTP::connect: Could not connect to host "'.$host.'" on port '.$port);
 				return false;
 			}
 			// Set the timeout for this connection
@@ -278,7 +278,7 @@ class JFTP extends JObject {
 		// Connect to the FTP server.
 		$this->_conn = @ fsockopen($host, $port, $errno, $err, $this->_timeout);
 		if (!$this->_conn) {
-			JError::raiseWarning('30', 'JFTP::connect: Could not connect to host "'.$host.'" on port '.$port.'.', 'Socket error number '.$errno.' and error message: '.$err );
+			JError::raiseWarning('30', 'JFTP::connect: Could not connect to host "'.$host.'" on port '.$port, 'Socket error number '.$errno.' and error message: '.$err);
 			return false;
 		}
 
@@ -287,7 +287,7 @@ class JFTP extends JObject {
 
 		// Check for welcome response code
 		if (!$this->_verifyResponse(220)) {
-			JError::raiseWarning('35', 'JFTP::connect: Bad response.', 'Server response: '.$this->_response.' [Expected: 220]' );
+			JError::raiseWarning('35', 'JFTP::connect: Bad response', 'Server response: '.$this->_response.' [Expected: 220]');
 			return false;
 		}
 
@@ -327,7 +327,7 @@ class JFTP extends JObject {
 
 		// Send the username
 		if (!$this->_putCmd('USER '.$user, array(331, 503))) {
-			JError::raiseWarning('33', 'JFTP::login: Bad Username.', 'Server response: '.$this->_response.' [Expected: 331] Username sent: '.$user );
+			JError::raiseWarning('33', 'JFTP::login: Bad Username', 'Server response: '.$this->_response.' [Expected: 331] Username sent: '.$user );
 			return false;
 		}
 
@@ -338,7 +338,7 @@ class JFTP extends JObject {
 
 		// Send the password
 		if (!$this->_putCmd('PASS '.$pass, 230)) {
-			JError::raiseWarning('34', 'JFTP::login: Bad Password.', 'Server response: '.$this->_response.' [Expected: 230] Password sent: '.str_repeat('*', strlen($pass)));
+			JError::raiseWarning('34', 'JFTP::login: Bad Password', 'Server response: '.$this->_response.' [Expected: 230] Password sent: '.str_repeat('*', strlen($pass)));
 			return false;
 		}
 
@@ -388,7 +388,7 @@ class JFTP extends JObject {
 
 		// Send print working directory command and verify success
 		if (!$this->_putCmd('PWD', 257)) {
-			JError::raiseWarning('35', 'JFTP::pwd: Bad response.', 'Server response: '.$this->_response.' [Expected: 257]' );
+			JError::raiseWarning('35', 'JFTP::pwd: Bad response', 'Server response: '.$this->_response.' [Expected: 257]' );
 			return false;
 		}
 
@@ -421,7 +421,7 @@ class JFTP extends JObject {
 
 		// Send print working directory command and verify success
 		if (!$this->_putCmd('SYST', 215)) {
-			JError::raiseWarning('35', 'JFTP::syst: Bad response.', 'Server response: '.$this->_response.' [Expected: 215]' );
+			JError::raiseWarning('35', 'JFTP::syst: Bad response', 'Server response: '.$this->_response.' [Expected: 215]' );
 			return false;
 		}
 
@@ -461,7 +461,7 @@ class JFTP extends JObject {
 
 		// Send change directory command and verify success
 		if (!$this->_putCmd('CWD '.$path, 250)) {
-			JError::raiseWarning('35', 'JFTP::chdir: Bad response.', 'Server response: '.$this->_response.' [Expected: 250] Path sent: '.$path );
+			JError::raiseWarning('35', 'JFTP::chdir: Bad response', 'Server response: '.$this->_response.' [Expected: 250] Path sent: '.$path );
 			return false;
 		}
 
@@ -489,7 +489,7 @@ class JFTP extends JObject {
 
 		// Send reinitialize command to the server
 		if (!$this->_putCmd('REIN', 220)) {
-			JError::raiseWarning('35', 'JFTP::reinit: Bad response.', 'Server response: '.$this->_response.' [Expected: 220]' );
+			JError::raiseWarning('35', 'JFTP::reinit: Bad response', 'Server response: '.$this->_response.' [Expected: 220]' );
 			return false;
 		}
 
@@ -517,13 +517,13 @@ class JFTP extends JObject {
 
 		// Send rename from command to the server
 		if (!$this->_putCmd('RNFR '.$from, 350)) {
-			JError::raiseWarning('35', 'JFTP::rename: Bad response.', 'Server response: '.$this->_response.' [Expected: 320] From path sent: '.$from );
+			JError::raiseWarning('35', 'JFTP::rename: Bad response', 'Server response: '.$this->_response.' [Expected: 320] From path sent: '.$from );
 			return false;
 		}
 
 		// Send rename to command to the server
 		if (!$this->_putCmd('RNTO '.$to, 250)) {
-			JError::raiseWarning('35', 'JFTP::rename: Bad response.', 'Server response: '.$this->_response.' [Expected: 250] To path sent: '.$to );
+			JError::raiseWarning('35', 'JFTP::rename: Bad response', 'Server response: '.$this->_response.' [Expected: 250] To path sent: '.$to );
 			return false;
 		}
 
@@ -561,7 +561,7 @@ class JFTP extends JObject {
 
 		// Send change mode command and verify success [must convert mode from octal]
 		if (!$this->_putCmd('SITE CHMOD '.$mode.' '.$path, array(200, 250))) {
-			JError::raiseWarning('35', 'JFTP::chmod: Bad response.', 'Server response: '.$this->_response.' [Expected: 200 or 250] Path sent: '.$path.' Mode sent: '.$mode);
+			JError::raiseWarning('35', 'JFTP::chmod: Bad response', 'Server response: '.$this->_response.' [Expected: 200 or 250] Path sent: '.$path.' Mode sent: '.$mode);
 			return false;
 		}
 		return true;
@@ -590,7 +590,7 @@ class JFTP extends JObject {
 		// Send delete file command and if that doesn't work, try to remove a directory
 		if (!$this->_putCmd('DELE '.$path, 250)) {
 			if (!$this->_putCmd('RMD '.$path, 250)) {
-				JError::raiseWarning('35', 'JFTP::delete: Bad response.', 'Server response: '.$this->_response.' [Expected: 250] Path sent: '.$path );
+				JError::raiseWarning('35', 'JFTP::delete: Bad response', 'Server response: '.$this->_response.' [Expected: 250] Path sent: '.$path );
 				return false;
 			}
 		}
@@ -617,7 +617,7 @@ class JFTP extends JObject {
 
 		// Send change directory command and verify success
 		if (!$this->_putCmd('MKD '.$path, 257)) {
-			JError::raiseWarning('35', 'JFTP::mkdir: Bad response.', 'Server response: '.$this->_response.' [Expected: 257] Path sent: '.$path );
+			JError::raiseWarning('35', 'JFTP::mkdir: Bad response', 'Server response: '.$this->_response.' [Expected: 257] Path sent: '.$path );
 			return false;
 		}
 		return true;
@@ -643,7 +643,7 @@ class JFTP extends JObject {
 
 		// Send restart command and verify success
 		if (!$this->_putCmd('REST '.$point, 350)) {
-			JError::raiseWarning('35', 'JFTP::restart: Bad response.', 'Server response: '.$this->_response.' [Expected: 350] Restart point sent: '.$point );
+			JError::raiseWarning('35', 'JFTP::restart: Bad response', 'Server response: '.$this->_response.' [Expected: 350] Restart point sent: '.$point );
 			return false;
 		}
 
@@ -685,7 +685,7 @@ class JFTP extends JObject {
 
 		if (!$this->_putCmd('STOR '.$path, array (150, 125))) {
 			@ fclose($this->_dataconn);
-			JError::raiseWarning('35', 'JFTP::create: Bad response.', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$path );
+			JError::raiseWarning('35', 'JFTP::create: Bad response', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$path );
 			return false;
 		}
 
@@ -693,7 +693,7 @@ class JFTP extends JObject {
 		fclose($this->_dataconn);
 
 		if (!$this->_verifyResponse(226)) {
-			JError::raiseWarning('37', 'JFTP::create: Transfer Failed.', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$path );
+			JError::raiseWarning('37', 'JFTP::create: Transfer Failed', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$path );
 			return false;
 		}
 
@@ -746,7 +746,7 @@ class JFTP extends JObject {
 
 		if (!$this->_putCmd('RETR '.$remote, array (150, 125))) {
 			@ fclose($this->_dataconn);
-			JError::raiseWarning('35', 'JFTP::read: Bad response.', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$remote );
+			JError::raiseWarning('35', 'JFTP::read: Bad response', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$remote );
 			return false;
 		}
 
@@ -764,7 +764,7 @@ class JFTP extends JObject {
 		}
 
 		if (!$this->_verifyResponse(226)) {
-			JError::raiseWarning('37', 'JFTP::read: Transfer Failed.', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$remote );
+			JError::raiseWarning('37', 'JFTP::read: Transfer Failed', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$remote );
 			return false;
 		}
 
@@ -804,7 +804,7 @@ class JFTP extends JObject {
 		// Check to see if the local file can be opened for writing
 		$fp = fopen($local, "wb");
 		if (!$fp) {
-			JError::raiseWarning('38', 'JFTP::get: Unable to open local file for writing.', 'Local path: '.$local );
+			JError::raiseWarning('38', 'JFTP::get: Unable to open local file for writing', 'Local path: '.$local );
 			return false;
 		}
 
@@ -816,7 +816,7 @@ class JFTP extends JObject {
 
 		if (!$this->_putCmd('RETR '.$remote, array (150, 125))) {
 			@ fclose($this->_dataconn);
-			JError::raiseWarning('35', 'JFTP::get: Bad response.', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$remote );
+			JError::raiseWarning('35', 'JFTP::get: Bad response', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$remote );
 			return false;
 		}
 
@@ -831,7 +831,7 @@ class JFTP extends JObject {
 		fclose($fp);
 
 		if (!$this->_verifyResponse(226)) {
-			JError::raiseWarning('37', 'JFTP::get: Transfer Failed.', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$remote );
+			JError::raiseWarning('37', 'JFTP::get: Transfer Failed', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$remote );
 			return false;
 		}
 
@@ -878,7 +878,7 @@ class JFTP extends JObject {
 		if (@ file_exists($local)) {
 			$fp = fopen($local, "rb");
 			if (!$fp) {
-				JError::raiseWarning('38', 'JFTP::store: Unable to open local file for reading.', 'Local path: '.$local );
+				JError::raiseWarning('38', 'JFTP::store: Unable to open local file for reading', 'Local path: '.$local );
 				return false;
 			}
 		} else {
@@ -897,7 +897,7 @@ class JFTP extends JObject {
 		if (!$this->_putCmd('STOR '.$remote, array (150, 125))) {
 			@ fclose($fp);
 			@ fclose($this->_dataconn);
-			JError::raiseWarning('35', 'JFTP::store: Bad response.', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$remote );
+			JError::raiseWarning('35', 'JFTP::store: Bad response', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$remote );
 			return false;
 		}
 
@@ -906,7 +906,7 @@ class JFTP extends JObject {
 			$line = fread($fp, 4096);
 			do {
 				if (($result = @ fwrite($this->_dataconn, $line)) === false) {
-					JError::raiseWarning('37', 'JFTP::store: Unable to write to data port socket.' );
+					JError::raiseWarning('37', 'JFTP::store: Unable to write to data port socket' );
 					return false;
 				}
 				$line = substr($line, $result);
@@ -917,7 +917,7 @@ class JFTP extends JObject {
 		fclose($this->_dataconn);
 
 		if (!$this->_verifyResponse(226)) {
-			JError::raiseWarning('37', 'JFTP::store: Transfer Failed.', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$remote );
+			JError::raiseWarning('37', 'JFTP::store: Transfer Failed', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$remote );
 			return false;
 		}
 
@@ -968,7 +968,7 @@ class JFTP extends JObject {
 
 		// Send store command to the FTP server
 		if (!$this->_putCmd('STOR '.$remote, array (150, 125))) {
-			JError::raiseWarning('35', 'JFTP::write: Bad response.', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$remote );
+			JError::raiseWarning('35', 'JFTP::write: Bad response', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$remote );
 			@ fclose($this->_dataconn);
 			return false;
 		}
@@ -976,7 +976,7 @@ class JFTP extends JObject {
 		// Write buffer to the data connection port
 		do {
 			if (($result = @ fwrite($this->_dataconn, $buffer)) === false) {
-				JError::raiseWarning('37', 'JFTP::write: Unable to write to data port socket.' );
+				JError::raiseWarning('37', 'JFTP::write: Unable to write to data port socket' );
 				return false;
 			}
 			$buffer = substr($buffer, $result);
@@ -987,7 +987,7 @@ class JFTP extends JObject {
 
 		// Verify that the server recieved the transfer
 		if (!$this->_verifyResponse(226)) {
-			JError::raiseWarning('37', 'JFTP::write: Transfer Failed.', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$remote );
+			JError::raiseWarning('37', 'JFTP::write: Transfer Failed', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$remote );
 			return false;
 		}
 
@@ -1035,7 +1035,7 @@ class JFTP extends JObject {
 		}
 
 		if (!$this->_putCmd('NLST'.$path, array (150, 125))) {
-			JError::raiseWarning('35', 'JFTP::listNames: Bad response.', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$path );
+			JError::raiseWarning('35', 'JFTP::listNames: Bad response', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$path );
 			@ fclose($this->_dataconn);
 			return false;
 		}
@@ -1048,7 +1048,7 @@ class JFTP extends JObject {
 
 		// Everything go okay?
 		if (!$this->_verifyResponse(226)) {
-			JError::raiseWarning('37', 'JFTP::listNames: Transfer Failed.', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$path );
+			JError::raiseWarning('37', 'JFTP::listNames: Transfer Failed', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$path );
 			return false;
 		}
 
@@ -1102,7 +1102,7 @@ class JFTP extends JObject {
 
 			// Request the file listing
 			if (!$this->_putCmd(($recurse == true) ? 'LIST -R' : 'LIST'.$path, array (150, 125))) {
-				JError::raiseWarning('35', 'JFTP::listDetails: Bad response.', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$path );
+				JError::raiseWarning('35', 'JFTP::listDetails: Bad response', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$path );
 				@ fclose($this->_dataconn);
 				return false;
 			}
@@ -1115,7 +1115,7 @@ class JFTP extends JObject {
 
 			// Everything go okay?
 			if (!$this->_verifyResponse(226)) {
-				JError::raiseWarning('37', 'JFTP::listDetails: Transfer Failed.', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$path );
+				JError::raiseWarning('37', 'JFTP::listDetails: Transfer Failed', 'Server response: '.$this->_response.' [Expected: 226] Path sent: '.$path );
 				return false;
 			}
 
@@ -1147,7 +1147,7 @@ class JFTP extends JObject {
 			}
 		}
 		if (!$osType) {
-			JError::raiseWarning('SOME_ERROR_CODE', 'JFTP::listDetails: Unrecognized directory listing format.' );
+			JError::raiseWarning('SOME_ERROR_CODE', 'JFTP::listDetails: Unrecognized directory listing format' );
 			return false;
 		}
 
@@ -1419,12 +1419,12 @@ class JFTP extends JObject {
 	function _mode($mode) {
 		if ($mode == FTP_BINARY) {
 			if (!$this->_putCmd("TYPE I", 200)) {
-				JError::raiseWarning('35', 'JFTP::_mode: Bad response.', 'Server response: '.$this->_response.' [Expected: 200] Mode sent: Binary' );
+				JError::raiseWarning('35', 'JFTP::_mode: Bad response', 'Server response: '.$this->_response.' [Expected: 200] Mode sent: Binary' );
 				return false;
 			}
 		} else {
 			if (!$this->_putCmd("TYPE A", 200)) {
-				JError::raiseWarning('35', 'JFTP::_mode: Bad response.', 'Server response: '.$this->_response.' [Expected: 200] Mode sent: Ascii' );
+				JError::raiseWarning('35', 'JFTP::_mode: Bad response', 'Server response: '.$this->_response.' [Expected: 200] Mode sent: Ascii' );
 				return false;
 			}
 		}
