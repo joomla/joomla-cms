@@ -36,8 +36,8 @@ class JElement_FileList extends JElement
 
 	function fetchTooltip($label, $description, &$node, $control_name, $name)
 	{
-		$output = '<label for="'.$control_name.$name.'">';
-		$output .= mosToolTip(addslashes($description), $label, '', '', $label, '#', 0);
+		$output = '<label for="'.$control_name.$name.'" class="hasTip" title="'.$label.'::'.$description.'">';
+		$output .= $label;
 		$output .= '</label>';
 
 		return $output;

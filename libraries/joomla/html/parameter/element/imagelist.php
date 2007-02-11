@@ -35,8 +35,8 @@ class JElement_ImageList extends JElement {
 
 	function fetchTooltip($label, $description, &$node, $control_name, $name)
 	{
-		$output = '<label for="param'. $name .'">';
-		$output .= mosToolTip(addslashes($description), $label, '', '', $label, '#', 0);
+		$output = '<label for="'.$name.'" class="hasTip" title="'.$label.'::'.$description.'">';
+		$output .= $label;
 		$output .= '</label>';
 
 		return $output;
