@@ -119,7 +119,8 @@ class sections_html
 				<td>
 					<?php echo $checked; ?>
 				</td>
-				<td onmouseover="return overlib('<?php echo $row->title; ?>', CAPTION, '<?php echo JText::_( 'Title' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
+				<td>
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Title' );?>::<?php echo $row->title; ?>">
 					<?php
 					if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out ) ) {
 						echo $row->name;
@@ -129,7 +130,7 @@ class sections_html
 							<?php echo $row->title; ?></a>
 						<?php
 					}
-					?>
+					?></span>
 				</td>
 				<td align="center">
 					<?php echo $published;?>

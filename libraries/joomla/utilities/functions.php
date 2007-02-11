@@ -104,14 +104,10 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$href = ampReplace( $href );
 		$style = '';
 	}
-	$pos = $lang->isRTL() ? 'LEFT': 'RIGHT';
-	$mousover = 'return overlib(\''. JText::_( $tooltip, true ) .'\''. $title .', BELOW, '.$pos. $width .');';
-
-	$tip = '<!--'. JText::_( 'Tooltip' ) .'--> \n';
 	if ( $link ) {
-		$tip = '<a href="'. $href .'" onmouseover="'. $mousover .'" onmouseout="return nd();" '. $style .'>'. $text .'</a>';
+		$tip = '<span class="editlinktip hasTip" title="'.$title.'::'.JText::_($tooltip).' '. $style .'><a href="'. $href .'">'. $text .'</a></span>';
 	} else {
-		$tip = '<span onmouseover="'. $mousover .'" onmouseout="return nd();" '. $style .'>'. $text .'</span>';
+		$tip = '<span class="editlinktip hasTip" title="'.$title.'::'.JText::_($tooltip).' '. $style .'>'. $text .'</span>';
 	}
 
 	return $tip;

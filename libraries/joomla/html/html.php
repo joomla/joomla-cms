@@ -530,9 +530,9 @@ class JCommonHTML
 			$checked_out_text 	.= '<tr><td>'. $time .'</td></tr>';
 			$checked_out_text 	.= '</table>';
 
-			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \''. JText::_( 'Checked Out', true ) .'\', BELOW, RIGHT);" onMouseOut="return nd();"';
+			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $checked_out_text.'">;
 		}
-		$checked = '<img src="images/checked_out.png" '. $hover .'/>';
+		$checked = $hover .'<img src="images/checked_out.png"/></span>';
 
 		return $checked;
 	}

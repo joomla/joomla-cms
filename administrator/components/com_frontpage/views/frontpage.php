@@ -130,16 +130,16 @@ class FrontpageView
 				$times = '';
 				if ( isset( $row->publish_up ) ) {
 						if ( $row->publish_up == $nullDate) {
-							$times .= '<tr><td>'. JText::_( 'Start: Always' ) .'</td></tr>';
+							$times .= JText::_( 'Start: Always' );
 						} else {
-							$times .= '<tr><td>'. JText::_( 'Start' ) .': '. $row->publish_up .'</td></tr>';
+							$times .= JText::_( 'Start' ) .': '. $row->publish_up;
 						}
 				}
 				if ( isset( $row->publish_down ) ) {
 						if ($row->publish_down == $nullDate) {
-							$times .= '<tr><td>'. JText::_( 'Finish: No Expiry' ) .'</td></tr>';
+							$times .= '<br />'. JText::_( 'Finish: No Expiry' );
 						} else {
-						$times .= '<tr><td>'. JText::_( 'Finish' ) .': '. $row->publish_down .'</td></tr>';
+							$times .= '<br />'. JText::_( 'Finish' ) .': '. $row->publish_down;
 						}
 				}
 
@@ -196,8 +196,9 @@ class FrontpageView
 					if ( $times ) {
 						?>
 						<td align="center">
-							<a href="javascript:void(0);" onmouseover="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo JText::_( 'Publish Information' ); ?>', BELOW, RIGHT);" onmouseout="return nd();" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? 'unpublish' : 'publish' ?>')">
-								<img src="images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt;?>" /></a>
+							<span class="editlinktip hasTip" title="<?php echo JText::_( 'Publish Information' );?>::<?php echo $times; ?>">
+							<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? 'unpublish' : 'publish' ?>')">
+								<img src="images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt;?>" /></a></span>
 						</td>
 						<?php
 					}

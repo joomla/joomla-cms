@@ -40,20 +40,6 @@ class TemplatesView
 
 		JCommonHTML :: loadOverlib();
 ?>
-		<script language="javascript" type="text/javascript">
-		<!--
-		function showInfo(name, dir) {
-			var pattern = /\b \b/ig;
-			name = name.replace(pattern,'_');
-			name = name.toLowerCase();
-			var src = '<?php echo  ($client->id == 1 ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() );?>/templates/'+dir+'/template_thumbnail.png';
-			var html=name;
-			html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo JText::_( 'No preview available' ); ?>" width="206" height="145" />';
-			return overlib(html, CAPTION, name)
-		}
-		-->
-		</script>
-
 		<form action="index.php" method="post" name="adminForm">
 
 			<table class="adminlist">
@@ -131,9 +117,10 @@ class TemplatesView
 			}
 ?>
 					</td>
-					<td>
-						<a href="index.php?option=com_templates&amp;task=edit&amp;cid[]=<?php echo $row->directory;?>&amp;client=<?php echo $client->id;?>" onmouseover="showInfo('<?php echo $row->name;?>','<?php echo $row->directory; ?>')" onmouseout="return nd();">
-							<?php echo $row->name;?></a>
+					<td><?php $img_path = ($client->id == 1 ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() ).'/templates/'.$row->directory.'/template_thumbnail.png'; ?>
+						<span class="editlinktip hasTip" title="<?php echo $row->name;?>::
+<img border=&quot;1&quot; src=&quot;<?php echo $img_path; ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?php echo JText::_( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />"><a href="index.php?option=com_templates&amp;task=edit&amp;cid[]=<?php echo $row->directory;?>&amp;client=<?php echo $client->id;?>">
+							<?php echo $row->name;?></a></span>
 					</td>
 					<?php
 
@@ -202,7 +189,7 @@ class TemplatesView
 						<?php echo $row->creationdate; ?>
 					</td>
 					<td>
-						<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
+						<span class="editlinktip hasTip" title="<?php echo JText::_( 'Author Information' );?>::<?php echo $author_info; ?>">
 							<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
 						</span>
 					</td>
