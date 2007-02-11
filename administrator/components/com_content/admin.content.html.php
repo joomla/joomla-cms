@@ -40,7 +40,7 @@ class ContentView
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		?>
 		<form action="index.php?option=com_content" method="post" name="adminForm">
 
@@ -442,7 +442,7 @@ class ContentView
 		$editor =& JFactory::getEditor();
 		$pane	=& JPane::getInstance('sliders');
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		JCommonHTML::loadCalendar();
 		?>
 		<script language="javascript" type="text/javascript">

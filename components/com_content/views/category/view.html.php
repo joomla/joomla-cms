@@ -154,7 +154,7 @@ class ContentViewCategory extends JView
 
 
 				$url = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;task=edit&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
-				JCommonHTML::loadOverlib();
+				jimport('joomla.html.tooltips');
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 				if ($article->state == 0) {

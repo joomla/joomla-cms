@@ -791,4 +791,26 @@ function josSpoofValue($alt = NULL)
 
 	return $validate;
 }
+
+/*
+* Loads all necessary files for JS Overlib tooltips
+*/
+function loadOverlib()
+{
+	jimport('joomla.html.tooltips');
+}
+
+/**
+* Utility function to provide ToolTips
+*
+* @param string ToolTip text
+* @param string Box title
+* @returns HTML code for ToolTip
+* @since 1.0
+*/
+function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='', $link=1 )
+{
+	return JCommonHTML::ToolTip($tooltip, $title, $image, $text, $href, $link);
+}
+
 ?>

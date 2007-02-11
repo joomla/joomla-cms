@@ -62,7 +62,7 @@ class MenusViewList extends JView
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'm.ordering');
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 
 		$this->assignRef('items', $items);
 		$this->assignRef('pagination', $pagination);

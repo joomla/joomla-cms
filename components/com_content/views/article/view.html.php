@@ -152,7 +152,7 @@ class ContentViewArticle extends JView
 		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $article, & $params, $limitstart));
 		$article->event->afterDisplayContent = trim(implode("\n", $results));
 
-		$print = JRequest::getVar('print');
+		$print = JRequest::getVar('print', '0');
 
 		$this->assignRef('article', $article);
 		$this->assignRef('params' , $params);
@@ -238,7 +238,7 @@ class ContentViewArticle extends JView
 				if (!$this->access->canEdit && !($this->access->canEditOwn && $article->created_by == $this->user->get('id'))) {
 					return;
 				}
-				JCommonHTML::loadOverlib();
+				jimport('joomla.html.tooltips');
 				$url = 'index.php?option=com_content&amp;view=article&amp;layout=form&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 

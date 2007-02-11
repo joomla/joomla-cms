@@ -49,7 +49,7 @@ class InstallerViewComponents extends JView
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		parent::display($tpl);
 	}
 

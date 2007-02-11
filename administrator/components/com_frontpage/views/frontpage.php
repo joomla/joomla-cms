@@ -36,7 +36,7 @@ class FrontpageView
 		//Ordering allowed ?
 		$ordering = (($lists['order'] == 'fpordering'));
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		?>
 		<form action="index.php?option=com_frontpage" method="post" name="adminForm">
 

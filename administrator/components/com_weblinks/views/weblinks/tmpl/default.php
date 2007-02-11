@@ -5,7 +5,7 @@ $user 	=& JFactory::getUser();
 //Ordering allowed ?
 $ordering = ($this->lists['order'] == 'a.ordering');
 
-JCommonHTML::loadOverlib();
+jimport('joomla.html.tooltips');
 ?>
 <form action="<?php echo sefReltoAbs($this->request_url) ?>" method="post" name="adminForm">
 <table>

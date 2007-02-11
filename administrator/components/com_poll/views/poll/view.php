@@ -23,7 +23,7 @@ class PollView
 {
 	function showPolls( &$rows, &$pageNav, $option, &$lists )
 	{
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		?>
 		<form action="index.php?option=com_poll" method="post" name="adminForm">
 

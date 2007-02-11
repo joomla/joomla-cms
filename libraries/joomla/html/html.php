@@ -524,13 +524,8 @@ class JCommonHTML
 
 			$date 				= JHTML::Date( $row->checked_out_time, '%A, %d %B %Y' );
 			$time				= JHTML::Date( $row->checked_out_time, '%H:%M' );
-			$checked_out_text 	= '<table>';
-			$checked_out_text 	.= '<tr><td>'. $text .'</td></tr>';
-			$checked_out_text 	.= '<tr><td>'. $date .'</td></tr>';
-			$checked_out_text 	.= '<tr><td>'. $time .'</td></tr>';
-			$checked_out_text 	.= '</table>';
 
-			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $checked_out_text.'">';
+			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
 		}
 		$checked = $hover .'<img src="images/checked_out.png"/></span>';
 
@@ -538,30 +533,41 @@ class JCommonHTML
 	}
 
 	/*
-	* Loads all necessary files for JS Overlib tooltips
-	*/
-	/*
-	 * Function is used in the site/administrator
+	 * Creates a tooltip with an image as button
 	 */
-	 /*
-	 * Function is used in the administrator/site : move in JTooptip
-	 */
-	function loadOverlib()
+	function ToolTip($tooltip, $title='', $image='tooltip.png', $text='', $href='', $link=1)
 	{
 		global $mainframe;
 
-		jimport('joomla.html.tooltips');
-//		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-//
-//		if ( !$mainframe->get( 'loadOverlib' ) ) {
-//		// check if this function is already loaded
-//			$doc =& JFactory::getDocument();
-//			$doc->addScript($url.'includes/js/overlib_mini.js');
-//			$doc->addScript($url.'includes/js/overlib_hideform_mini.js');
-//
-//			// change state so it isnt loaded a second time
-//			$mainframe->set( 'loadOverlib', true );
-//		}
+		$tooltip	= addslashes(htmlspecialchars($tooltip));
+		$title		= addslashes(htmlspecialchars($title));
+
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		if ( !$text ) {
+			$image 	= $url . 'includes/js/ThemeOffice/'. $image;
+			$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
+		} else {
+			$text 	= JText::_( $text, true );
+		}
+		
+		if($title) {
+			$title = $title.'::';
+		}
+
+		$style = 'style="text-decoration: none; color: #333;"';
+
+		if ( $href ) {
+			$href = ampReplace( $href );
+			$style = '';
+		}
+		if ( $link ) {
+			$tip = '<span class="editlinktip hasTip" title="'.$title.$tooltip.' '. $style .'><a href="'. $href .'">'. $text .'</a></span>';
+		} else {
+			$tip = '<span class="editlinktip hasTip" title="'.$title.$tooltip.' '. $style .'>'. $text .'</span>';
+		}
+
+		return $tip;
 	}
 
 	/*

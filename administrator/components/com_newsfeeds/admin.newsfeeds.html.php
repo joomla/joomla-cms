@@ -30,7 +30,7 @@ class HTML_newsfeeds
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'a.ordering');
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		?>
 		<form action="index.php?option=com_newsfeeds" method="post" name="adminForm">
 

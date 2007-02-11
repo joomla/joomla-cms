@@ -207,7 +207,7 @@ class ContentViewFrontpage extends JView
 				if (!$this->access->canEdit && !($this->access->canEditOwn && $article->created_by == $this->user->get('id'))) {
 					return;
 				}
-				JCommonHTML::loadOverlib();
+				jimport('joomla.html.tooltips');
 				$url = 'index.php?option=com_content&amp;view=article&amp;layout=form&amp;id='.$article->id.'&amp;task=edit&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 

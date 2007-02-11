@@ -56,7 +56,7 @@ class InstallerViewLanguages extends JView
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('lists',		$lists);
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		parent::display($tpl);
 	}
 

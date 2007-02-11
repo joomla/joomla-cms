@@ -32,7 +32,7 @@ class HTML_modules
 		//Ordering allowed ?
 		$ordering = (($lists['order'] == 'm.position'));
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		?>
 		<form action="index.php?option=com_modules" method="post" name="adminForm">
 
@@ -222,7 +222,7 @@ class HTML_modules
 		$pane =& JPane::getInstance('sliders');
 		$editor 	=& JFactory::getEditor();
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -524,7 +524,7 @@ class HTML_modules
 	*/
 	function add( &$modules, $client )
 	{
- 		JCommonHTML::loadOverlib();
+ 		jimport('joomla.html.tooltips');
 
 		?>
 		<form action="index.php" method="post" name="adminForm">
@@ -561,10 +561,7 @@ class HTML_modules
 			}
 			?>
 				<td width="50%">
-					<input type="radio" id="cb<?php echo $i; ?>" name="module" value="<?php echo $row->module; ?>" onclick="isChecked(this.checked);" />
-					<?php
-					echo mosToolTip( stripslashes( $row->descrip ), stripslashes( $row->name ), 300, '', stripslashes( $row->name ), $link, 'LEFT' );
-					?>
+					<span class="editlinktip hasTip" title="<?php echo stripslashes( $row->descrip ) .'::'. stripslashes( $row->name); ?><input type="radio" id="cb<?php echo $i; ?>" name="module" value="<?php echo $row->module; ?>" onclick="isChecked(this.checked);" /><a href="<?php echo $link .'">'. $row->name; ?></a></span>
 				</td>
 			<?php
 			if ( $k ) {

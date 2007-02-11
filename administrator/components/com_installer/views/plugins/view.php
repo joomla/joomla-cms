@@ -54,7 +54,7 @@ class InstallerViewPlugins extends JView
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('fields',		$fields);
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		parent::display($tpl);
 	}
 

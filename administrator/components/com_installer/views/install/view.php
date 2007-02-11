@@ -38,7 +38,7 @@ class InstallerViewInstall extends JView
 		// Get data from the model
 		$state = &$this->get('State');
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_( 'Extension Manager' ));
@@ -64,7 +64,7 @@ class InstallerViewInstall extends JView
 		// Get data from the model
 		$state = &$this->get('State');
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 
 		$document = & JFactory::getDocument();
 		$document->setTitle($state->get('message'));

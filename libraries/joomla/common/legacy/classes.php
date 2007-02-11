@@ -1297,7 +1297,7 @@ class mosCommonHTML
  	 * @deprecated	As of version 1.5
  	*/
 	function loadOverlib() {
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 	}
 
 	/**

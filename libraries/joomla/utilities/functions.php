@@ -64,54 +64,6 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
 	return $list;
 }
 
-/**
-* Utility function to provide ToolTips
-*
-* @param string ToolTip text
-* @param string Box title
-* @returns HTML code for ToolTip
-* @since 1.0
-*/
-function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='', $link=1 )
-{
-	global $mainframe;
-
-	$lang =& JFactory::getLanguage();
-
-	$tooltip	= addslashes(htmlspecialchars($tooltip));
-	$title		= addslashes(htmlspecialchars($title));
-
-	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-	if ( $width ) {
-		$width = ', WIDTH, \''.$width .'\'';
-	}
-
-	if ( $title ) {
-		$title = ', CAPTION, \''. JText::_( $title ) .'\'';
-	}
-
-	if ( !$text ) {
-		$image 	= $url . 'includes/js/ThemeOffice/'. $image;
-		$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
-	} else {
-		$text 	= JText::_( $text, true );
-	}
-
-	$style = 'style="text-decoration: none; color: #333;"';
-
-	if ( $href ) {
-		$href = ampReplace( $href );
-		$style = '';
-	}
-	if ( $link ) {
-		$tip = '<span class="editlinktip hasTip" title="'.$title.'::'.JText::_($tooltip).' '. $style .'><a href="'. $href .'">'. $text .'</a></span>';
-	} else {
-		$tip = '<span class="editlinktip hasTip" title="'.$title.'::'.JText::_($tooltip).' '. $style .'>'. $text .'</span>';
-	}
-
-	return $tip;
-}
 
 /**
  * Function to convert an internal Joomla URL to a humanly readible URL.

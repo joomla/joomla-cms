@@ -35,7 +35,7 @@ class sections_html
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 's.ordering');
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		?>
 		<form action="index.php?option=com_sections&amp;scope=<?php echo $scope; ?>" method="post" name="adminForm">
 

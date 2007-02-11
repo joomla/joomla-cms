@@ -30,7 +30,7 @@ class HTML_users {
 
 		$user =& JFactory::getUser();
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		?>
 		<form action="index.php?option=com_users" method="post" name="adminForm">
 
@@ -165,7 +165,7 @@ class HTML_users {
 		 */
 		$acl = & JFactory::getACL();
 
-		JCommonHTML::loadOverlib();
+		jimport('joomla.html.tooltips');
 		$canBlockUser 	= $user->authorize( 'com_user', 'block user' );
 		$canEmailEvents = $acl->acl_check( 'workflow', 'email_events', 'users', $acl->get_group_name( $user->get('gid'), 'ARO' ) );
 		?>
