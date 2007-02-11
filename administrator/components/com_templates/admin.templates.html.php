@@ -38,7 +38,7 @@ class TemplatesView
 			$row->authorUrl = str_replace('http://', '', $row->authorUrl);
 		}
 
-		JCommonHTML :: loadOverlib();
+		jimport('joomla.html.tooltips');
 ?>
 		<form action="index.php" method="post" name="adminForm">
 
