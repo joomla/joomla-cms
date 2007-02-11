@@ -264,7 +264,7 @@ class JMainMenu extends JTree
 			} else if ($this->_current->title != null && $this->_current->class != 'separator' && $this->_active != $this->_current->id) {
 				echo "<a>".$this->_current->title."</a>\n";
 			} else {
-				echo "<span>".$this->_current->title."</span>";
+				echo '<span class="active_link">'.$this->_current->title."</span>";
 			}
 		}
 
