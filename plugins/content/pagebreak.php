@@ -43,7 +43,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 	$print = JRequest::getVar('print');
 	$showall = JRequest::getVar('showall');
-	if ($print || ($showall && $pluginparams->get('showall') )) {
+	if ($print) {
 		$row->text = preg_replace( $regex, '<BR/>', $row->text );
 		return true;
 	}
@@ -70,6 +70,21 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 	// find all instances of plugin and put in $matches
 	$matches = array();
 	preg_match_all( $regex, $row->text, $matches, PREG_SET_ORDER );
+
+	if (($showall && $pluginparams->get('showall') )) {
+		// Get plugin parameters
+	 	$pluginParams = new JParameter( $plugin->params );
+		$hasToc = $pluginParams->get( 'multipage_toc', 1 );
+		if ( $hasToc ) {
+			// display TOC
+			$page = 1;
+			plgContentCreateTOC( $row, $matches, $page );
+		} else {
+			$row->toc = '';
+		}
+		$row->text = preg_replace( $regex, '<BR/>', $row->text );
+		return true;
+	}
 
 	// split the text around the plugin
 	$text = preg_split( $regex, $row->text );
