@@ -413,6 +413,19 @@ class JUser extends JObject
 		$db->setQuery( $query );
 		$this->set( 'usertype', $db->loadResult());
 
+		if ( array_key_exists('params', $array) )
+		{
+			$params	= '';
+			$this->_params->bind($array['params']);
+			if ( is_array($array['params']) ) {
+				$params	= $this->_params->toString();
+			} else {
+				$params = $array['params'];
+			}
+			
+			$this->params = $params;
+		}
+		
 		/*
 		 * Lets first try to bind the array to us... if that fails
 		 * then we can certainly fail the whole method as we've done absolutely
@@ -425,14 +438,6 @@ class JUser extends JObject
 
 		// Make sure its an integer
 		$this->id = (int) $this->id;
-
-		/*
-		 * We were able to bind the array to the object, so now lets run
-		 * through the parameters and build the INI parameter string for the
-		 * table
-		 */
-
-		$this->_params->loadINI($this->params);
 
 		return true;
 	}
