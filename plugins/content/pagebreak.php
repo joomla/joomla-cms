@@ -252,15 +252,17 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
  	$params = new JParameter( $plugin->params );
 
 	if ($params->get('showall') ) {
-	$row->toc .= '
-	<tr>
-		<td>
-		<a href="'. $link .'&showall=1" class="toclink">'
-		. JText::_( 'All Pages' ) .
-		'</a>
-		</td>
-	</tr>
-	';
+		$link = 'index.php?option=com_content&amp;view=article&amp;id='. $row->id .'&amp;Itemid='. $Itemid . '&amp;showall=1';
+		$link = sefRelToAbs( $link );
+		$row->toc .= '
+		<tr>
+			<td>
+				<a href="'. $link .'" class="toclink">'
+				. JText::_( 'All Pages' ) .
+				'</a>
+			</td>
+		</tr>
+		';
 	}
 	$row->toc .= '</table>';
 }
