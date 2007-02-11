@@ -91,7 +91,8 @@ class UserController extends JController
 		if ($model->store($post)) {
 			$msg	= JText::_( 'Your settings have been saved.' );
 		} else {
-			$msg	= JText::_( 'Error saving your settings.' );
+			//$msg	= JText::_( 'Error saving your settings.' );
+			$msg	= $model->getError();
 		}
 
 		$this->setRedirect( $_SERVER['HTTP_REFERER'], $msg );

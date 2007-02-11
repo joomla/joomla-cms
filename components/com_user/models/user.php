@@ -103,7 +103,7 @@ class UserModelUser extends JModel
 
 		// Store the web link table to the database
 		if (!$user->save()) {
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError( $user->getError() );
 			return false;
 		}
 		
