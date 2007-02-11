@@ -114,6 +114,16 @@ class WeblinksModelCategory extends JModel
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+
+			$total = count($this->_data);
+			for($i = 0; $i < $total; $i++)
+			{
+				$item =& $this->_data[$i];
+
+				jimport('joomla.filter.output');
+				$alias = JOutputFilter::stringURLSafe($item->title);
+				$item->slug = $item->id.':'.$alias;
+			}
 		}
 
 		return $this->_data;
@@ -193,7 +203,8 @@ class WeblinksModelCategory extends JModel
 		if (empty($this->_category))
 		{
 			// current category info
-			$query = 'SELECT c.*' .
+			$query = 'SELECT c.*, ' .
+				" CASE WHEN CHAR_LENGTH(c.name) THEN CONCAT_WS(':', c.id, c.name) ELSE c.id END as slug ".
 				' FROM #__categories AS c' .
 				' WHERE c.id = '. $this->_id .
 				' AND c.section = "com_weblinks"';

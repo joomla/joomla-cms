@@ -42,8 +42,9 @@ class ContentViewArchive extends JView
 		$pathway	= & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
-		$menu		=& JSiteHelper::getActiveMenuItem();
-		$params		=& JSiteHelper::getMenuParams();
+		$menu   =& JMenu::getInstance();
+		$item   = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
 
 		// Request variables
 		$task 		= JRequest::getVar('task');
@@ -60,7 +61,7 @@ class ContentViewArchive extends JView
 		// Add item to pathway
 		$pathway->addItem(JText::_('Archive'), '');
 
-		$mainframe->setPageTitle($menu->name);
+		$mainframe->setPageTitle($item->name);
 
 		$intro		= $params->def('intro', 	4);
 		$leading	= $params->def('leading', 	1);
@@ -85,7 +86,7 @@ class ContentViewArchive extends JView
 		$params->set('intro_only', 		1);
 
 		if ($params->def('page_title', 1)) {
-			$params->def('header', $menu->name);
+			$params->def('header', $item->name);
 		}
 
 		$limit	= $intro + $leading + $links;

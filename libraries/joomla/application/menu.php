@@ -42,6 +42,14 @@ class JMenu extends JObject
 	 */
 	var $_default = 0;
 
+	/**
+	 * Identifier of the active menu item
+	 *
+	 * @access private
+	 * @param integer
+	 */
+	var $_active = 0;
+
 
 	/**
 	 * Class constructor
@@ -103,15 +111,62 @@ class JMenu extends JObject
 	}
 
 	/**
+	 * Set the default item by id
+	 *
+	 * @param int The item id
+	 * @access public
+	 * @return True, if succesfull
+	 */
+	function setDefault($id)
+	{
+		if(exists($this->_items[$id])) {
+			$this->_default = $id;
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get menu item by id
 	 *
 	 * @access public
-	 * @param int The item id
+	 *
 	 * @return object The item object
 	 */
 	function &getDefault()
 	{
 		$item =& $this->_items[$this->_default];
+		return $item;
+	}
+
+	/**
+	 * Set the default item by id
+	 *
+	 * @param int The item id
+	 * @access public
+	 * @return True, if succesfull
+	 */
+	function setActive($id)
+	{
+		if(isset($this->_items[$id])) {
+			$this->_active = $id;
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get menu item by id
+	 *
+	 * @access public
+	 *
+	 * @return object The item object
+	 */
+	function &getActive()
+	{
+		$item =& $this->_items[$this->_active];
 		return $item;
 	}
 
@@ -216,10 +271,10 @@ class JMenu extends JObject
 
 		jimport('joomla.filter.output');
 
-		foreach($menus as $key => $menu) 
+		foreach($menus as $key => $menu)
 		{
 			$menus[$key]->alias = JOutputFilter::stringURLSafe($menu->name);
-			
+
 			//Get parent information
 			$parent_route = '';
 			$parent_tree  = array();
@@ -227,19 +282,19 @@ class JMenu extends JObject
 				$parent_route = $menus[$parent]->route.'/';
 				$parent_tree  = $menus[$parent]->tree;
 			}
-			
-			//Create tree 
+
+			//Create tree
 			array_push($parent_tree, $menus[$key]->id);
 			$menus[$key]->tree   = $parent_tree;
-			
+
 			//Create route
 			$route = $parent_route.$menus[$key]->alias;
 			$menus[$key]->route  = $route;
-			
+
 			$url = JURI::getInstance($menus[$key]->link);
-			$menus[$key]->query = $url->getQuery();
+			$menus[$key]->query = $url->getQuery(true);
 		}
-		
+
 		return $menus;
 	}
 }

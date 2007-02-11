@@ -27,12 +27,12 @@ class JRouter extends JObject
 {
 	/**
 	 * Class constructor
-	 * 
+	 *
 	 * @access public
 	 */
 	function __construct() {
 	}
-	
+
 	/**
 	 * Returns a reference to the global Router object, only creating it
 	 * if it doesn't already exist.
@@ -54,7 +54,7 @@ class JRouter extends JObject
 
 		return $instance;
 	}
-	
+
    /**
 	* Route a request
 	*
@@ -63,8 +63,6 @@ class JRouter extends JObject
 	function parse($uri)
 	{
 		$menu =& JMenu::getInstance();
-
-		$params = array();
 
 		// Check entry point
 		$path = $uri->toString();
@@ -75,30 +73,30 @@ class JRouter extends JObject
 		// Get the base and full URLs
 		$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
 		$base = JURI::base();
-		
+
 		$url = urldecode(trim(str_replace($base, '', $full), '/'));
-		$url = str_replace('index.php/', '', $url); 
-		
+		$url = str_replace('index.php/', '', $url);
+
 		if (!$itemid = JRequest::getVar('Itemid'))
 		{
 			// Set document link
 			$doc = & JFactory::getDocument();
 			$doc->setLink($base);
-			
+
 			if (!empty($url))
 			{
 				//Need to reverse the array (highest sublevels first)
 				$items = array_reverse($menu->getMenu());
-				
+
 				foreach ($items as $item)
 				{
 					if(strpos($url, $item->route) === 0) {
 						$itemid = $item->id;
-						$url    = str_replace($item->route, '', $url); 
+						$url    = str_replace($item->route, '', $url);
 						break;
 					}
 				}
-				
+
 				//MOVE somwhere else
 				/*$path = JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.$component.'.php';
 				// Do a quick check to make sure component exists
@@ -108,29 +106,27 @@ class JRouter extends JObject
 				}*/
 			}
 		}
-		
+
 		$item = $menu->getItem($itemid);
+		$menu->setActive($item->id);
 
-		$uri =& JURI::getInstance(($item) ? $item->link : null);
-		$query = $uri->getQuery(true);
-
-		JRequest::set($query, 'get', false);
+		JRequest::set($item->query, 'get', false);
 		JRequest::setVar('Itemid', ($item) ? $item->id : null, 'get');
 
 		// Use the custom sef handler if it exists
 		$path = ($item) ? JPATH_BASE.DS.'components'.DS.$item->component.DS.'route.php' : null;
-		
+
 		$urlArray = explode('/', $url);
 		array_shift($urlArray);
-		
+
 		if (count($urlArray) && file_exists($path))
 		{
 			require_once $path;
 			$function =  substr($item->component, 4).'ParseRoute';
-			$function($urlArray, $params);
+			$function($urlArray);
 		}
 	}
-	
+
 	/**
  	 * Function to convert an internal URI to a route
  	 *
@@ -155,7 +151,6 @@ class JRouter extends JObject
 		{
 			// Initialize some variables
 			$config	= & JFactory::getConfig();
-			$params = array();
 
 			// Get config variables
 			$mode    = $config->getValue('config.sef_rewrite');
@@ -198,7 +193,7 @@ class JRouter extends JObject
 				{
 					require_once $path;
 					$function	= substr($item->component, 4).'BuildRoute';
-					$parts		= $function($query, $params);
+					$parts		= $function($query);
 
 					$route = implode('/', $parts);
 					$route = ($route) ? '/'.$route : null;
@@ -211,7 +206,7 @@ class JRouter extends JObject
 
 				// check if link contained fragment identifiers (ex. #foo)
 				$fragment = null;
-				if ($fragment = $uri->getFragment()) 
+				if ($fragment = $uri->getFragment())
 				{
 					// ensure fragment identifiers are compatible with HTML4
 					if (preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $fragment)) {
@@ -222,7 +217,7 @@ class JRouter extends JObject
 				if($query) {
 					$query = '?'.$query;
 				}
-				
+
 				$url = $item->route.$route.$fragment.$query;
 
 				// Prepend the base URI if we are not using mod_rewrite

@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function NewsfeedsBuildRoute(&$ARRAY, &$params)
+function NewsfeedsBuildRoute(&$ARRAY)
 {
 	static $categories;
 	$resolveNames = 0;
@@ -53,7 +53,7 @@ function NewsfeedsBuildRoute(&$ARRAY, &$params)
 	return $parts;
 }
 
-function NewsfeedsParseRoute($ARRAY, &$params)
+function NewsfeedsParseRoute($ARRAY)
 {
 	// view is always the first element of the array
 	$task	= array_shift($ARRAY);

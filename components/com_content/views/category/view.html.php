@@ -37,13 +37,14 @@ class ContentViewCategory extends JView
 		$pathway	= & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
-		$menu		=& JSiteHelper::getActiveMenuItem();
-		$params		=& JSiteHelper::getMenuParams();
+		$menu   =& JMenu::getInstance();
+		$item   = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
 
 		// Request variables
 		$task 		= JRequest::getVar('task');
 		$limit		= JRequest::getVar('limit', $params->def('display_num', 0), '', 'int');
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int'); 
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// parameters
 		$intro		= $params->def('intro', 	0);
@@ -77,7 +78,7 @@ class ContentViewCategory extends JView
 		// Category
 		$pathway->addItem($category->title, '');
 
-		$mainframe->setPageTitle($menu->name);
+		$mainframe->setPageTitle($item->name);
 
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('title',			1);
@@ -98,20 +99,20 @@ class ContentViewCategory extends JView
 		$params->set('intro_only', 		1);
 
 		if ($params->def('page_title', 1)) {
-			$params->def('header', $menu->name);
+			$params->def('header', $item->name);
 		}
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
-		$this->assign('total',			$total);
+		$this->assign('total',		$total);
 
 		$this->assignRef('items',		$items);
 		$this->assignRef('category',	$category);
-		$this->assignRef('params',		$params);
+		$this->assignRef('params',	$params);
 		$this->assignRef('user',		$user);
-		$this->assignRef('access',		$access);
-		$this->assignRef('pagination',	$pagination);
+		$this->assignRef('access',	$access);
+		$this->assignRef('pagination',$pagination);
 		$this->assignRef('request_url',	$uri->toString());
 
 		parent::display($tpl);

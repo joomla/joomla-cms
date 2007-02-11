@@ -11,23 +11,17 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function WeblinksBuildRoute(&$ARRAY, &$params)
+function WeblinksBuildRoute(&$ARRAY)
 {
-	$resolveNames = 0;
-
-	// TODO: Resolve category names
 	$parts = array();
-	if(isset($ARRAY['view'])) {
-		$parts[] = $ARRAY['view'];
-	};
-
-	if(isset($ARRAY['layout'])) {
-		$parts[] = $ARRAY['layout'];
+	if(isset($ARRAY['catid'])) {
+		$parts[] = $ARRAY['catid'];
 	};
 
 	if(isset($ARRAY['id'])) {
 		$parts[] = $ARRAY['id'];
 	};
+
 
 	if (isset( $ARRAY['limit'] ))
 	{
@@ -44,68 +38,63 @@ function WeblinksBuildRoute(&$ARRAY, &$params)
 
 	//unset the whole array
 	$ARRAY = array();
-
 	return $parts;
 }
 
-function WeblinksParseRoute($ARRAY, &$params)
+function WeblinksParseRoute($ARRAY)
 {
-	// view is always the first element of the array
-	$view	= array_shift($ARRAY);
-	$nArray	= count($ARRAY);
+	$menu =& JMenu::getInstance();
+	$item =& $menu->getActive();
 
-	JRequest::setVar('view', $view, 'get');
-
-	switch ($view)
+	// Handle Pagination
+	$nArray = count($ARRAY);
+	$last = @$ARRAY[$nArray-1];
+	if ($last == 'all')
 	{
-		case 'category':
-		{
-			if (count($ARRAY))
-			{
- 				$variable = array_shift($ARRAY);
+		array_pop( $ARRAY );
+		$nArray--;
+		$limit      = 0;
+		$limitstart = 0;
+		JRequest::setVar('limit', $limit, 'get');
+		JRequest::setVar('limitstart', $limitstart, 'get');
+	}
+	elseif (strpos( $last, 'page' ) === 0)
+	{
+		array_pop( $ARRAY );
+		$nArray--;
+		$pts		= explode( ':', $last );
+		$limit		= @$pts[1];
+		$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
+		JRequest::setVar('limit', $limit, 'get');
+		JRequest::setVar('limitstart', $limitstart, 'get');
+	}
 
-				if(is_numeric((int)$variable) && ((int)$variable != 0)) {
-					JRequest::setVar('id', (int)$variable, 'get');
-				}
+	//Handle View and Identifier
+	switch($item->query['view'])
+	{
+		case 'categories' :
+		{
+			if($nArray == 1) {
+				$view = 'category';
 			}
+
+			if($nArray == 2) {
+				$view = 'weblink';
+			}
+
+			$id = $ARRAY[$nArray-1];
 
 		} break;
 
-		case 'weblink':
+		case 'category'   :
 		{
-			if (count($ARRAY))
-			{
- 				$variable = array_shift($ARRAY);
+			$id   = $ARRAY[$nArray-1];
+			$view = 'weblink';
 
-				if(is_numeric((int)$variable) && ((int)$variable != 0)) {
-					JRequest::setVar('id', (int)$variable, 'get');
-				}
-			}
-
-			// Handle Pagination
-			$last = @$ARRAY[$nArray-1];
-			if ($last == 'all')
-			{
-				array_pop( $ARRAY );
-				$nArray--;
-				JRequest::setVar('limitstart', 0, 'get');
-				JRequest::setVar('limit', 0, 'get');
-				// if you want more than 1e6 on your page then you are nuts!
-			}
-			elseif (strpos( $last, 'page' ) === 0)
-			{
-				array_pop( $ARRAY );
-				$nArray--;
-				$pts		= explode( ':', $last );
-				$limit		= @$pts[1];
-				$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
-				JRequest::setVar('limit',$limit, 'get');
-				JRequest::setVar('limitstart', $limitstart, 'get');
-			}
-		}
-		break;
-
-		default: break;
+		} break;
 	}
+
+	JRequest::setVar('view', $view, 'get');
+	JRequest::setVar('id', (int)$id, 'get');
 }
 ?>

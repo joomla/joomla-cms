@@ -33,8 +33,9 @@ class ContactViewCategory extends JView
 		$model	 = &$this->getModel();
 
 		// Get the paramaters of the active menu item
-		$menu	=& JSiteHelper::getActiveMenuItem();
-		$params	=& JSiteHelper::getMenuParams();
+		$menu    =& JMenu::getInstance();
+		$item    = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
 
 		// Selected Request vars
 		$categoryId			= JRequest::getVar( 'catid', 0, '', 'int' );
@@ -44,11 +45,11 @@ class ContactViewCategory extends JView
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 	'ASC');
 
 		// Set some defaults against system variables
-		$params->def('header', 				$menu->name);
+		$params->def('header', 			$item->name);
 		$params->def('headings', 			1);
 		$params->def('position', 			1);
-		$params->def('email', 				1);
-		$params->def('telephone', 			1);
+		$params->def('email', 			1);
+		$params->def('telephone', 		1);
 		$params->def('fax', 				1);
 		$params->def('page_title',			1);
 		$params->def('back_button', 		$mainframe->getCfg('back_button'));

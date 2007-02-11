@@ -27,7 +27,9 @@ class MailtoViewMailto extends JView
 		}
 
 		// Menu Parameters
-		$params = &JSiteHelper::getMenuParams();
+		$menu	=& JMenu::getInstance();
+		$item    = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
 
 		$this->set('params', $params);
 		$this->set('data'  , $data);

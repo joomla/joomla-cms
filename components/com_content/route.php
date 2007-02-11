@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function ContentBuildRoute(&$ARRAY, &$params)
+function ContentBuildRoute(&$ARRAY)
 {
 	$resolveNames = 0;
 
@@ -64,7 +64,7 @@ function ContentBuildRoute(&$ARRAY, &$params)
 	return $parts;
 }
 
-function ContentParseRoute($ARRAY, &$params)
+function ContentParseRoute($ARRAY)
 {
 	// view is always the first element of the array
 	$view = array_shift($ARRAY);

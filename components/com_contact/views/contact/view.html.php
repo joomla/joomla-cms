@@ -33,9 +33,10 @@ class ContactViewContact extends JView
 		$model		= &$this->getModel();
 
 		// Get the paramaters of the active menu item
-		$menu		=& JSiteHelper::getActiveMenuItem();
-		$params		=& JSiteHelper::getMenuParams();
-		$params->def('header', 					$menu->name );
+		$menu    =& JMenu::getInstance();
+		$item    = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
+		$params->def('header', $item->name );
 
 		// Push a model into the view
 		$model		= &$this->getModel();

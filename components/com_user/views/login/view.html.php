@@ -35,25 +35,26 @@ class UserViewLogin extends JView
 		$user		=& JFactory::getUser();
 		$pathway	=& $mainframe->getPathway();
 
-		$menu		=& JSiteHelper::getActiveMenuItem();
-		$params		=& JSiteHelper::getMenuParams();
-		
+		$menu   =& JMenu::getInstance();
+		$item   = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
+
 		$type = (!$user->get('guest')) ? 'logout' : 'login';
 
 		// Set some default page parameters if not set
 		$params->def( 'page_title', 				1 );
-		$params->def( 'header_login', 				$menu->name );
-		$params->def( 'header_logout', 				$menu->name );
-		$params->def( 'pageclass_sfx', 				'' );
-		$params->def( 'login', 						'index.php' );
+		$params->def( 'header_login', 			$item->name );
+		$params->def( 'header_logout', 			$item->name );
+		$params->def( 'pageclass_sfx', 			'' );
+		$params->def( 'login', 					'index.php' );
 		$params->def( 'logout', 					'index.php' );
-		$params->def( 'description_login', 			1 );
+		$params->def( 'description_login', 		1 );
 		$params->def( 'description_logout', 		1 );
 		$params->def( 'description_login_text', 	JText::_( 'LOGIN_DESCRIPTION' ) );
 		$params->def( 'description_logout_text',	JText::_( 'LOGOUT_DESCRIPTION' ) );
 		$params->def( 'image_login', 				'key.jpg' );
-		$params->def( 'image_logout', 				'key.jpg' );
-		$params->def( 'image_login_align', 			'right' );
+		$params->def( 'image_logout', 			'key.jpg' );
+		$params->def( 'image_login_align', 		'right' );
 		$params->def( 'image_logout_align', 		'right' );
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 		$params->def( 'registration', 				$usersConfig->get( 'allowUserRegistration' ) );
@@ -76,15 +77,15 @@ class UserViewLogin extends JView
 			// Set page title
 			$document->setTitle( $title );
 		}
-	
+
 		// Build login image if enabled
 		if ( $params->get( 'image_'.$type ) != -1 ) {
 			$image = 'images/stories/'. $params->get( 'image_'.$type );
 			$image = '<img src="'. $image  .'" align="'. $params->get( 'image_'.$type.'_align' ) .'" hspace="10" alt="" />';
 		}
-		
+
 		$errors =& JError::getErrors();
-		
+
 		$this->assign('image', $image);
 		$this->assign('type', $type);
 		$this->assignRef('params', $params);

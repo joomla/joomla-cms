@@ -37,8 +37,9 @@ class ContentViewSection extends JView
 		$pathway	= & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
-		$menu		=& JSiteHelper::getActiveMenuItem();
-		$params		=& JSiteHelper::getMenuParams();
+		$menu    =& JMenu::getInstance();
+		$item    = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
 
 		// Request variables
 		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
@@ -74,8 +75,8 @@ class ContentViewSection extends JView
 		// Set the page title and breadcrumbs
 		$pathway->addItem($section->title, '');
 
-		if (!empty ($menu->name)) {
-			$mainframe->setPageTitle($menu->name);
+		if (!empty ($item->name)) {
+			$mainframe->setPageTitle($item->name);
 		}
 
 		for($i = 0; $i < count($categories); $i++)
@@ -96,7 +97,7 @@ class ContentViewSection extends JView
 		}
 
 		if ($params->def('page_title', 1)) {
-			$params->def('header', $menu->name);
+			$params->def('header', $item->name);
 		}
 
 		jimport('joomla.html.pagination');

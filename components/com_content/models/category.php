@@ -257,7 +257,9 @@ class ContentModelCategory extends JModel
 			$section	= $this->_category->section;
 
 			// Get the paramaters of the active menu item
-			$params =& JSiteHelper::getMenuParams();
+			$menu	=& JMenu::getInstance();
+			$item    = $menu->getActive();
+			$params	=& $menu->getParams($item->id);
 
 			if ($user->authorize('action', 'edit', 'content', 'all'))
 			{
@@ -351,7 +353,10 @@ class ContentModelCategory extends JModel
 		global $Itemid;
 
 		// Get the paramaters of the active menu item
-		$params				=& JSiteHelper::getMenuParams();
+		$menu	=& JMenu::getInstance();
+		$item    = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
+
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
 
@@ -360,7 +365,7 @@ class ContentModelCategory extends JModel
 		{
 			$orderby .= $filter_order .' '. $filter_order_Dir.', ';
 		}
-		
+
 		if ($filter_order == 'author')
 		{
 			$orderby .= 'created_by_alias '. $filter_order_Dir.', ';
@@ -397,7 +402,9 @@ class ContentModelCategory extends JModel
 		$nullDate	= $this->_db->getNullDate();
 
 		// Get the paramaters of the active menu item
-		$params		=& JSiteHelper::getMenuParams();
+		$menu	=& JMenu::getInstance();
+		$item    = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
 
 		// First thing we need to do is assert that the articles are in the current category
 		$where = ' WHERE a.access <= '.(int) $gid;

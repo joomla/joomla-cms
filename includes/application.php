@@ -82,7 +82,7 @@ class JSite extends JApplication
 	{
 		// get the full request URI
 		$uri  =& JURI::getInstance();
-		
+
 		$router =& $this->getRouter();
 		$router->parse($uri);
 	}
@@ -376,35 +376,6 @@ class JSite extends JApplication
  */
 class JSiteHelper
 {
-	/**
-	 * Gets the current menu item
-	 *
-	 * @static
-	 * @return	object	Reference to the current menu item, an an empty menu object if none set
-	 * @since	1.5
-	 */
-	function &getActiveMenuItem()
-	{
-		global $Itemid;
-		$menu	= &JMenu::getInstance();
-		$result = &$menu->getItem( $Itemid );
-		return $result;
-	}
-
-	/**
-	 * Gets the parameter object for the current menu
-	 *
-	 * @static
-	 * @return	object	A JParameter object
-	 * @since	1.5
-	 */
-	function &getMenuParams()
-	{
-		$item = &JSiteHelper::getActiveMenuItem();
-		$params = new JParameter( $item->params );
-		return $params;
-	}
-
 	/**
 	 * Return the application itemid
 	 *

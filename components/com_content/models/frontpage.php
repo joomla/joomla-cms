@@ -145,7 +145,9 @@ class ContentModelFrontpage extends JModel
 		global $Itemid;
 
 		// Get the menu object of the active menu item
-		$params			=& JSiteHelper::getMenuParams();
+		$menu	=& JMenu::getInstance();
+		$item    = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
 
 		$orderby_sec	= $params->def('orderby_sec', '');
 		$orderby_pri	= $params->def('orderby_pri', '');
@@ -167,7 +169,7 @@ class ContentModelFrontpage extends JModel
 		$params 	= &JComponentHelper::getParams( 'com_content' );
 		$noauth		= !$params->get('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
-		
+
 		//First thing we need to do is assert that the articles are in the current category
 		$where = "\n WHERE 1";
 

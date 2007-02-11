@@ -18,7 +18,7 @@
  * @param	object
  * @return	array
  */
-function BannersBuildRoute(&$ARRAY, &$params)
+function BannersBuildRoute(&$ARRAY)
 {
 	$parts = array();
 
@@ -45,7 +45,7 @@ function BannersBuildRoute(&$ARRAY, &$params)
  *
  * index.php?/banners/bid/Itemid
  */
-function BannersParseRoute(&$ARRAY, &$params)
+function BannersParseRoute(&$ARRAY)
 {
 	// view is always the first element of the array
 	$nArray	= count($ARRAY);

@@ -72,11 +72,13 @@ class SearchController
 		$pathway->setItemName(1, JText::_( 'Search' ) );
 
 		// Get the paramaters of the active menu item
-		$menu	=& JSiteHelper::getActiveMenuItem();
-		$params	=& JSiteHelper::getMenuParams();
+		$menu   =& JMenu::getInstance();
+		$item   = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
+
 		$params->def( 'page_title', 1 );
 		$params->def( 'pageclass_sfx', '' );
-		$params->def( 'header', $menu->name, JText::_( 'Search' ) );
+		$params->def( 'header', $item->name, JText::_( 'Search' ) );
 
 		// built select lists
 		$orders = array();

@@ -36,12 +36,14 @@ class NewsfeedsViewCategory extends JView
 		$document	= & JFactory::getDocument();
 
 		// Get the paramaters of the active menu item
-		$menu	=& JSiteHelper::getActiveMenuItem();
-		$params	=& JSiteHelper::getMenuParams();
-		$config = JFactory::getConfig();
-		$limit 			= JRequest::getVar('limit', $params->get('display_num', $config->getValue('config.list_limit')), '', 'int');
+		$menu   =& JMenu::getInstance();
+		$item   = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
+
+		$config 		= JFactory::getConfig();
+		$limit 		= JRequest::getVar('limit', $params->get('display_num', $config->getValue('config.list_limit')), '', 'int');
 		$limitstart 	= JRequest::getVar('limitstart', 0, '', 'int');
-		$catid 			= JRequest::getVar( 'catid', 0, '', 'int' );
+		$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
 
 		$category	= $this->get('category');
 		$items		= $this->get('data');
@@ -49,7 +51,7 @@ class NewsfeedsViewCategory extends JView
 
 		// Parameters
 		$params->def( 'page_title', 		1 );
-		$params->def( 'header', 			$menu->name );
+		$params->def( 'header', 			$item->name );
 		$params->def( 'pageclass_sfx', 		'' );
 		$params->def( 'headings', 			1 );
 		$params->def( 'back_button', 		$mainframe->getCfg( 'back_button' ) );
