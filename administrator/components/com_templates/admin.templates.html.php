@@ -254,7 +254,7 @@ class TemplatesView
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
 		
-		JCommonHTML :: loadOverlib();
+		jimport('joomla.html.tooltips');
 ?>
 		<form action="index.php" method="post" name="adminForm">
 
