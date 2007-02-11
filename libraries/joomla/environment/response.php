@@ -188,7 +188,8 @@ class JResponse
 	function toString($compress = false)
 	{
 		$data = JResponse::getBody();
-		if($compress) {
+		// Don't compress something if the server is going todo it anyway. Waste of time.
+		if($compress && !ini_get('zlib.output_compression') && ini_get('output_handler')!='ob_gzhandler') {
 			$data = JResponse::_compress($data);
 		}
 
@@ -249,7 +250,6 @@ class JResponse
 		$gzdata = gzencode($data, $level);
 
 		JResponse::setHeader('Content-Encoding', $encoding);
-		JResponse::setHeader('Content-Length', strlen($gzdata));
 		JResponse::setHeader('X-Content-Encoded-By', 'Joomla! 1.5');
 
 		return $gzdata;
