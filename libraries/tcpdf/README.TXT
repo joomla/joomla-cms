@@ -5,10 +5,10 @@ Name:
 	TCPDF
 
 Version:
-	1.53.0.TC019
+	1.53.0.TC027_PHP4
 	
 Release date:
-	2006-05-21
+	2006-12-14
 
 Author:
 	Nicola Asuni 
@@ -25,7 +25,7 @@ URLs:
 	http://tcpdf.sf.net/
 
 Description:
-	TCPDF is a PHP5 class for generating PDF files on-the-fly without requiring external extensions.
+	TCPDF is a PHP4 class for generating PDF files on-the-fly without requiring external extensions.
 	TCPDF is an extension and improvement of the FPDF class by Olivier Plathey (http://www.fpdf.org).
 	
 	Main Features:

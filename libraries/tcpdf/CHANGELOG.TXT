@@ -1,3 +1,36 @@
+1.53.0.TC027 (2006-12-14)
+	- $attr['face'] bug were fixed.
+	- K_TCPDF_EXTERNAL_CONFIG control where introduced on /config/tcpdf_config.php to use external configuration files.
+	
+1.53.0.TC026_PHP4 (2006-10-28)
+	- writeHTML function call were fixed on examples.
+
+1.53.0.TC025_PHP4 (2006-10-27)
+	- Bugs item #1421290 were fixed (0D - 0A substitution in some characters)
+	- Bugs item #1573174 were fixed (MultiCell documentation)
+
+1.53.0.TC024_PHP4 (2006-09-26)
+	- getPageHeight() function were fixed (bug 1543476).
+	- fixed missing breaks on closedHTMLTagHandler function (bug 1535263).
+	- fixed extra spaces on Write function (bug 1535262).
+	
+1.53.0.TC023_PHP4 (2006-08-04)
+	- second parameter were removed from class_exists function.
+	- paths to barcode directory were fixed.
+	- documentation were updated.
+	
+1.53.0.TC022_PHP4 (2006-07-16)
+	- fixed bug: [ 1516858 ] Probs with PHP autoloader and class_exists() 
+
+1.53.0.TC021_PHP4 (2006-07-01)
+	- HTML attributes with whitespaces are now supported (thanks to Nelson Benitez for his support)
+
+1.53.0.TC020_PHP4 (2006-06-23)
+	- this version fixes the MBCS error on html_entity_decode
+	
+1.53.0.TC019_PHP4 (2006-06-08)
+	- this version were backported to PHP4
+	
 1.53.0.TC019 (2006-05-21)
 	- fixed <strong> and <em> closing tags.
 	

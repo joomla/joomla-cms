@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Feb-2007 Louis Landry
+ ^ Upgraded TCPDF
+
 11-Feb-2007 Mateusz Krzeszowiec
  # Fixed [artf7503] : Readmore and Pagebreak don't work in editor in IE7
 
