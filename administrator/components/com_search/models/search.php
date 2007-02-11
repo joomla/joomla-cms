@@ -25,6 +25,9 @@ jimport( 'joomla.application.component.model' );
  */
 class SearchModelSearch extends JModel
 {
+
+	var $lists = '';
+
 	/**
 	 * Overridden constructor
 	 * @access	protected
@@ -54,6 +57,17 @@ class SearchModelSearch extends JModel
 		$search 		= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 		$where		= array();
 		$showResults	= JRequest::getVar('search_results', 0);
+
+		// table ordering
+		if ( $filter_order_Dir == 'DESC' ) {
+			$this->lists['order_Dir'] = 'ASC';
+		} else {
+			$this->lists['order_Dir'] = 'DESC';
+		}
+		$this->lists['order'] = $filter_order;
+
+		// search filter
+		$this->lists['search']= $search;
 
 		if ($search) {
 			$where[] = 'LOWER( search_term ) LIKE "%'.$search.'%"';
