@@ -35,7 +35,8 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 	global $Itemid;
 
 	$print = JRequest::getVar('print');
-	if ($print) {
+	$showall = JRequest::getVar('showall');
+	if ($print || $showall) {
 		return true;
 	}
 
@@ -226,6 +227,15 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 		}
 		$i++;
 	}
+	$row->toc .= '
+	<tr>
+		<td>
+		<a href="'. $link .'&showall=1" class="toclink">'
+		. JText::_( 'All Pages' ) .
+		'</a>
+		</td>
+	</tr>
+	';
 
 	$row->toc .= '</table>';
 }
