@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Feb-2007 Mateusz Krzeszowiec
+ # Fixed [artf7490] : A little reorder required in Edit Contact form
+
 11-Feb-2007 Johan Janssens
  ^ com_weblinks : Implemented new routing mechanism
 

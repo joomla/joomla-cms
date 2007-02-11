@@ -30,17 +30,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->country && $this->contact->params->get( 'country' ) ) : ?>
-<tr>
-	<td valign="top">
-		<?php echo $this->contact->country; ?>
-	</td>
-</tr>
-<?php endif; ?>
 <?php if ( $this->contact->postcode && $this->contact->params->get( 'postcode' ) ) : ?>
 <tr>
 	<td valign="top">
 		<?php echo $this->contact->postcode; ?>
+	</td>
+</tr>
+<?php endif; ?>
+<?php if ( $this->contact->country && $this->contact->params->get( 'country' ) ) : ?>
+<tr>
+	<td valign="top">
+		<?php echo $this->contact->country; ?>
 	</td>
 </tr>
 <?php endif; ?>

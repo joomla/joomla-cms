@@ -165,9 +165,9 @@ class HTML_contact
 
 
 	function editContact( &$row, &$lists, $option, &$params ) {
-		
+
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		if ($row->image == '') {
 			$row->image = 'blank.png';
 		}
@@ -340,22 +340,22 @@ class HTML_contact
 				</tr>
 				<tr>
 					<td class="key">
-						<label for="country">
-							<?php echo JText::_( 'Country' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="country" id="country" size="60" maxlength="100" value="<?php echo $row->country;?>" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
 						<label for="postcode">
 							<?php echo JText::_( 'Postal Code/ZIP' ); ?>:
 						</label>
 					</td>
 					<td>
 						<input class="inputbox" type="text" name="postcode" id="postcode" size="60" maxlength="100" value="<?php echo $row->postcode; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
+						<label for="country">
+							<?php echo JText::_( 'Country' ); ?>:
+						</label>
+					</td>
+					<td>
+						<input class="inputbox" type="text" name="country" id="country" size="60" maxlength="100" value="<?php echo $row->country;?>" />
 					</td>
 				</tr>
 				<tr>

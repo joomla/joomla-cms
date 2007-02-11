@@ -33,11 +33,11 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="country" type="radio" default="1" label="Country" description="Show/Hide the country info">
+		<param name="postcode" type="radio" default="1" label="Post/Zip Code" description="Show/Hide the post code info">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="postcode" type="radio" default="1" label="Post/Zip Code" description="Show/Hide the post code info">
+		<param name="country" type="radio" default="1" label="Country" description="Show/Hide the country info">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
