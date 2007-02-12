@@ -344,7 +344,7 @@ class JTable extends JObject
 
 		if ($dirn < 0)
 		{
-			$sql .= ' WHERE ordering < $this->ordering';
+			$sql .= ' WHERE ordering < '.$this->ordering;
 			$sql .= ($where ? '	AND '.$where : '');
 			$sql .= ' ORDER BY ordering DESC';
 		}
@@ -382,7 +382,7 @@ class JTable extends JObject
 
 			$query = 'UPDATE '.$this->_tbl
 			. ' SET ordering = "'.$this->ordering.'"'
-			. ' WHERE $this->_tbl_key = "'. $row->$k. '"'
+			. ' WHERE '.$this->_tbl_key.' = \''.$row->$k.'\''
 			;
 			$this->_db->setQuery( $query );
 
