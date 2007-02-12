@@ -72,7 +72,7 @@ class ContentController extends JController
 		if (!$filter_order) {
 			$filter_order = 'section_name';
 		}
-		$order = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', section_name, cc.name, c.ordering';
+		$order = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', section_name, cc.title, c.ordering';
 		$all = 1;
 
 		if ($filter_sectionid >= 0) {
@@ -133,7 +133,7 @@ class ContentController extends JController
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		// Get the articles
-		$query = 'SELECT c.title, c.title_alias, c.created, c.modified, c.state, c.checked_out, c.checked_out_time, c.access, c.ordering, c.id, c.modified_by, c.created_by_alias, c.hits,	c.created_by, c.publish_up, c.publish_down, c.catid, c.sectionid, g.name AS groupname, cc.title AS name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
+		$query = 'SELECT c.*, g.name AS groupname, cc.title AS name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
 				' FROM #__content AS c' .
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
 				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .

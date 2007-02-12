@@ -92,7 +92,7 @@ class ContentViewElement extends JView
 						<?php JCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
 					</th>
 					<th  class="title" width="15%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Category', 'cc.title', $lists ); ?>
 					</th>
 					<th align="center" width="10">
 						<?php JCommonHTML::tableOrdering( 'Date', 'c.created', $lists ); ?>
@@ -143,7 +143,7 @@ class ContentViewElement extends JView
 							<?php echo $row->section_name; ?>
 						</td>
 					<td>
-						<?php echo $row->name; ?>
+						<?php echo $row->cctitle; ?>
 					</td>
 					<td nowrap="nowrap">
 						<?php echo $date; ?>
