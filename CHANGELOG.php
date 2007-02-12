@@ -37,8 +37,17 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Feb-2007 Toby Patterson
+ # Fixed [t140455] SQL syntax error in JTable::move()
+
 12-Feb-2007 Mateusz Krzeszowiec
  # Fixed [artf7490] : A little reorder required in Edit Contact form
+
+11-Feb-2007 Toby Patterson
+ # Fixed [artf7473] Edit your details works
+ # Fixed [t129709] admin com_user, returns to edit page when record cannot be saved
+ # Fixed [t115840] phputf8 JString::str_ireplace uses iammac's code
+ # Various small fixes 
 
 11-Feb-2007 Johan Janssens
  ^ com_weblinks : Implemented new routing mechanism
