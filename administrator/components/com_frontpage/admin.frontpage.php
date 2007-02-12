@@ -226,7 +226,7 @@ function changeFrontPage( $cid=null, $state=0, $option )
 	$cids = implode( ',', $cid );
 
 	$query = 'UPDATE #__content'
-	. ' SET state = $state'
+	. ' SET state = '.$state
 	. ' WHERE id IN ( '. $cids .' )'
 	. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get ('id' ). ' ) )'
 	;
