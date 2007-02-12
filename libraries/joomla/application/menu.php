@@ -182,8 +182,11 @@ class JMenu extends JObject
 	function getItems($attribute, $value, $firstonly = false)
 	{
 		$items = array ();
-		foreach ($this->_items as $item)
+		foreach ($this->_items as  $item)
 		{
+			if ( ! is_object($item) )
+				continue;
+				
 			if ($item->$attribute == $value)
 			{
 				if($firstonly) {
@@ -273,6 +276,7 @@ class JMenu extends JObject
 
 		foreach($menus as $key => $menu)
 		{
+			
 			$menus[$key]->alias = JOutputFilter::stringURLSafe($menu->name);
 
 			//Get parent information
@@ -281,7 +285,7 @@ class JMenu extends JObject
 			if($parent = $menus[$key]->parent) {
 				$parent_route = $menus[$parent]->route.'/';
 				$parent_tree  = $menus[$parent]->tree;
-			}
+			} 
 
 			//Create tree
 			array_push($parent_tree, $menus[$key]->id);
