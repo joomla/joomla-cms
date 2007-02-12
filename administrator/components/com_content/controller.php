@@ -477,7 +477,7 @@ class ContentController extends JController
 
 		$sectioncategories = array ();
 		$sectioncategories[-1] = array ();
-		$sectioncategories[-1][] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'name');
+		$sectioncategories[-1][] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'title');
 		$section_list = implode('\', \'', $section_list);
 
 		$query = 'SELECT id, title, section' .
@@ -504,7 +504,7 @@ class ContentController extends JController
 				}
 			}
 			foreach ($rows2 as $row2) {
-				$sectioncategories[$section->id][] = JHTMLSelect::option($row2->id, $row2->title, 'id', 'name');
+				$sectioncategories[$section->id][] = JHTMLSelect::option($row2->id, $row2->title, 'id', 'title');
 			}
 		}
 
@@ -514,8 +514,8 @@ class ContentController extends JController
 				$categories[] = $cat;
 		}
 
-		$categories[] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'name');
-		$lists['catid'] = JHTMLSelect::genericList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'name', intval($row->catid));
+		$categories[] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'title');
+		$lists['catid'] = JHTMLSelect::genericList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($row->catid));
 
 		// build the html select list for ordering
 		$query = 'SELECT ordering AS value, title AS text' .
