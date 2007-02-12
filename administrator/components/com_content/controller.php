@@ -490,7 +490,7 @@ class ContentController extends JController
 		// Uncategorized category mapped to uncategorized section
 		$uncat = new stdClass();
 		$uncat->id = 0;
-		$uncat->name = JText::_('Uncategorized');
+		$uncat->title = JText::_('Uncategorized');
 		$uncat->section = 0;
 		$cat_list[] = $uncat;
 		foreach ($sections as $section)
