@@ -38,8 +38,7 @@ class WeblinksViewCategories extends JView
 		$pathway->setItemName(1, JText::_('Links'));
 
 		// Load the menu object and parameters
-		$menu   =& JMenu::getInstance();
-		$item   = $menu->getActive();
+		$menu		=& JSiteHelper::getActiveMenuItem();
 
 		$categories	=& $this->get('data');
 		$total		=& $this->get('total');
@@ -47,7 +46,7 @@ class WeblinksViewCategories extends JView
 		$params		= $state->get('parameters.menu');
 
 		$weblinksConfig = &JComponentHelper::getParams( 'com_weblinks' );
-		$params->def('header', $item->name);
+		$params->def('header', $menu->name);
 		$params->def('pageclass_sfx', '');
 		$params->def('headings', 1);
 		$params->def('hits', $weblinksConfig->get('hits'));
@@ -73,7 +72,7 @@ class WeblinksViewCategories extends JView
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
-			$category->link = sefRelToAbs('index.php?view=category&id='. $category->slug);
+			$category->link = sefRelToAbs('index.php?option=com_weblinks&amp;view=category&amp;id='. $category->slug);
 		}
 
 		$this->assignRef('image',		$image);

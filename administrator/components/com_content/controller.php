@@ -76,7 +76,7 @@ class ContentController extends JController
 		$all = 1;
 
 		if ($filter_sectionid >= 0) {
-			$filter = ' WHERE cc.section = $filter_sectionid';
+			$filter = ' WHERE cc.section = '. $filter_sectionid;
 		}
 		$section->title = 'All Articles';
 		$section->id = 0;
