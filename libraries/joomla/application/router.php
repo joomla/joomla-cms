@@ -107,15 +107,11 @@ class JRouter extends JObject
 			}
 		}
 
-		// tcp added, temp fix
-		if ( $itemid ) {
-			$item = $menu->getItem($itemid);
-			$menu->setActive($item->id);
+		// tcp added, temp fix	
+		$item = $itemid ? $menu->getItem($itemid) : $menu->getDefault();
+		$menu->setActive($item->id);
 
-			JRequest::set($item->query, 'get', false);
-			
-		}
-		
+		JRequest::set($item->query, 'get', false);	
 		JRequest::setVar('Itemid', ($item) ? $item->id : null, 'get');
 		
 		// Use the custom sef handler if it exists
