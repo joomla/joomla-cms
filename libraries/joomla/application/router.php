@@ -216,7 +216,7 @@ class JRouter extends JObject
 	function parseComponentRoute($component, $route)
 	{
 		// Use the component routing handler if it exists
-		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'route.php';
+		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
 
 		$routeArray = explode('/', $route);
 		array_shift($routeArray);
@@ -258,7 +258,7 @@ class JRouter extends JObject
 		$route = '';
 		
 		// Use the component routing handler if it exists
-		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'route.php';
+		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
 		
 		// Use the custom request handler if it exists
 		if (file_exists($path))
