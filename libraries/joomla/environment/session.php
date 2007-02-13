@@ -15,7 +15,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport('joomla.environment.sessionhandler');
+jimport('joomla.environment.sessionstorage');
 
 /**
 * Class for managing HTTP sessions
@@ -50,12 +50,12 @@ class JSession extends JObject
 	var	$_expire	=	15;
 
 	/**
-	 * The session save handler object
+	 * The session store object
 	 *
 	 * @access protected
-	 * @var	object A JSessionHandler object
+	 * @var	object A JSessionStorage object
 	 */
-	var	$_handler	=	null;
+	var	$_store	=	null;
 
    /**
 	* security policy
@@ -73,16 +73,16 @@ class JSession extends JObject
 	* Constructor
 	*
 	* @access protected
-	* @param string $handler
+	* @param string $storage
 	* @param array 	$options 	optional parameters
 	*/
-	function __construct( $handler = 'none', $options = array() )
+	function __construct( $store = 'none', $options = array() )
 	{
 		//
 		ini_set('session.save_handler', 'files');
 
 		//create handler
-		$this->_handler =& JSessionHandler::getInstance($handler, $options);
+		$this->_store =& JSessionStorage::getInstance($store, $options);
 
 		//set options
 		$this->_setOptions( $options );
@@ -207,17 +207,17 @@ class JSession extends JObject
 	 * @access public
 	 * @return array An array of available session handlers
 	 */
-	function getHandlers()
+	function getStores()
 	{
 		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(dirname(__FILE__).DS.'sessionhandler', '.php$');
+		$handlers = JFolder::files(dirname(__FILE__).DS.'sessionstorage', '.php$');
 
 		$names = array();
 		foreach($handlers as $handler)
 		{
 			$name = substr($handler, 0, strrpos($handler, '.'));
-			jimport('joomla.environment.sessionhandler.'.$name);
-			$class = 'JSessionHandler'.$name;
+			jimport('joomla.environment.sessionstorage.'.$name);
+			$class = 'JSessionStorage'.$name;
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {
 				$names[] = $name;
 			}
@@ -417,7 +417,7 @@ class JSession extends JObject
 		}
 
 		// Re-register the session handler after a session has been destroyed, to avoid PHP bug
-		$this->_handler->register();
+		$this->_store->register();
 
 		$this->_state	=   'restart';
 		$this->_start();
@@ -459,8 +459,8 @@ class JSession extends JObject
 		// kill session
 		session_destroy();
 
-		// re-register the session handler after a session has been destroyed, to avoid PHP bug
-		$this->_handler->register();
+		// re-register the session store after a session has been destroyed, to avoid PHP bug
+		$this->_store->register();
 
 		// restore config
 		ini_set( 'session.use_trans_sid', $trans );

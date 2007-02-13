@@ -16,7 +16,7 @@
 defined('JPATH_BASE') or die();
 
 /**
-* Database session handler for PHP 
+* Database session storage handler for PHP 
 *
 * @abstract
 * @author		Johan Janssens <johan.janssens@joomla.org>
@@ -25,7 +25,7 @@ defined('JPATH_BASE') or die();
 * @since		1.5
 * @see http://www.php.net/manual/en/function.session-set-save-handler.php
 */
-class JSessionHandlerDatabase extends JSessionHandler
+class JSessionStorageDatabase extends JSessionStorage
 {
 	/**      
 	 * Open the SessionHandler backend.      

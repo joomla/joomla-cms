@@ -16,7 +16,7 @@
 defined('JPATH_BASE') or die();
 
 /**
-* eAccelerator session handler for PHP
+* Custom session storage handler for PHP
 *
 * @abstract
 * @author		Johan Janssens <johan.janssens@joomla.org>
@@ -25,7 +25,7 @@ defined('JPATH_BASE') or die();
 * @since		1.5
 * @see http://www.php.net/manual/en/function.session-set-save-handler.php
 */
-class JSessionHandlereAccelerator extends JSessionHandler
+class JSessionStorage extends JObject
 {
 	/**
 	* Constructor
@@ -35,16 +35,60 @@ class JSessionHandlereAccelerator extends JSessionHandler
 	*/
 	function __construct( $options = array() )
 	{
-		if (!$this->test()) {
-            return JError::raiseError(404, "The eaccelerator extension isn't available");
-        }
+		$this->register($options);
+	}
 
-		parent::__construct($options);
+	/**
+	 * Returns a reference to a session storage hanlder object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @access public
+	 * @param name 	$name The session store to instantiate
+	 * @return database A JSessionStorage object
+	 * @since 1.5
+	 */
+	function &getInstance($name = 'none', $options = array())
+	{
+		static $instances;
+
+		if (!isset ($instances)) {
+			$instances = array ();
+		}
+
+		$handler = strtolower($name);
+		if (empty ($instances[$name]))
+		{
+			jimport('joomla.environment.sessionstorage.'.$name);
+			$class = 'JSessionStorage'.ucfirst($name);
+			$instances[$name] = new $class($options);
+		}
+
+		return $instances[$name];
+	}
+
+	/**
+	* Register the functions of this class with PHP's session handler
+	*
+	* @access public
+	* @param array $options optional parameters
+	*/
+	function register( $options = array() )
+	{
+		// use this object as the session handler
+		session_set_save_handler(
+			array($this, 'open'),
+			array($this, 'close'),
+			array($this, 'read'),
+			array($this, 'write'),
+			array($this, 'destroy'),
+			array($this, 'gc')
+		);
 	}
 
 	/**
 	 * Open the SessionHandler backend.
 	 *
+	 * @abstract
 	 * @access public
 	 * @param string $save_path     The path to the session object.
 	 * @param string $session_name  The name of the session.
@@ -58,6 +102,7 @@ class JSessionHandlereAccelerator extends JSessionHandler
 	/**
 	 * Close the SessionHandler backend.
 	 *
+	 * @abstract
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
@@ -70,19 +115,20 @@ class JSessionHandlereAccelerator extends JSessionHandler
  	 * Read the data for a particular session identifier from the
  	 * SessionHandler backend.
  	 *
+ 	 * @abstract
  	 * @access public
  	 * @param string $id  The session identifier.
  	 * @return string  The session data.
  	 */
 	function read($id)
 	{
-		$sess_id = 'sess_'.$id;
-		return (string) eaccelerator_get($sess_id);
+		return;
 	}
 
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
+	 * @abstract
 	 * @access public
 	 * @param string $id            The session identifier.
 	 * @param string $session_data  The session data.
@@ -90,46 +136,47 @@ class JSessionHandlereAccelerator extends JSessionHandler
 	 */
 	function write($id, $session_data)
 	{
-		$sess_id = 'sess_'.$id;
-		return eaccelerator_put($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
+		return true;
 	}
 
 	/**
 	  * Destroy the data for a particular session identifier in the
 	  * SessionHandler backend.
 	  *
+	  * @abstract
 	  * @access public
 	  * @param string $id  The session identifier.
 	  * @return boolean  True on success, false otherwise.
 	  */
 	function destroy($id)
 	{
-		$sess_id = 'sess_'.$id;
-		return eaccelerator_rm($sess_id);
+		return true;
 	}
 
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
 	 *
+	 * @abstract
 	 * @access public
 	 * @param integer $maxlifetime  The maximum age of a session.
 	 * @return boolean  True on success, false otherwise.
 	 */
 	function gc($maxlifetime)
 	{
-		eaccelerator_gc();
 		return true;
 	}
 
 	/**
 	 * Test to see if the SessionHandler is available.
 	 *
+	 * @abstract
 	 * @static
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test() {
-		return (extension_loaded('eaccelerator') && function_exists('eaccelerator_get'));
+	function test()
+	{
+		return true;
 	}
 }
 ?>

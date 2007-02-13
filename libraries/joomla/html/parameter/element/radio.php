@@ -24,7 +24,8 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 
-class JElement_Radio extends JElement {
+class JElementRadio extends JElement 
+{
    /**
 	* Element name
 	*

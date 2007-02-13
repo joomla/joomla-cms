@@ -22,7 +22,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Installer
  * @since		1.5
  */
-class JInstaller_module extends JObject
+class JInstallerModule extends JObject
 {
 	/**
 	 * Constructor

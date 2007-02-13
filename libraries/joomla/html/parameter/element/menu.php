@@ -24,7 +24,7 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 
-class JElement_Menu extends JElement
+class JElementMenu extends JElement
 {
    /**
 	* Element name

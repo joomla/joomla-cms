@@ -211,7 +211,7 @@ class JInstaller extends JObject
 		if (!is_object($adapter)) {
 			// Try to load the adapter object
 			jimport('joomla.installer.adapters.'.strtolower($name));
-			$class = 'JInstaller_'.strtolower($name);
+			$class = 'JInstaller'.ucfirst($name);
 			if (!class_exists($class)) {
 				return false;
 			}

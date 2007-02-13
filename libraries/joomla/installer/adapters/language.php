@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Installer
  * @since		1.5
  */
-class JInstaller_language extends JObject
+class JInstallerLanguage extends JObject
 {
 	/**
 	 * Core language pack flag

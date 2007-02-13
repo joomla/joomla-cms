@@ -23,7 +23,7 @@ defined('_JEXEC') or die();
  * @subpackage	Banners
  * @since		1.5
  */
-class JElement_BannerClient extends JElement
+class JElementBannerclient extends JElement
 {
    /**
 	* Element name
@@ -31,7 +31,7 @@ class JElement_BannerClient extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'BannerClient';
+	var	$_name = 'Bannerclient';
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{

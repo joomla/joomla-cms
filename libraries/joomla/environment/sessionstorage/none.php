@@ -25,7 +25,7 @@ defined('JPATH_BASE') or die();
 * @since		1.5
 * @see http://www.php.net/manual/en/function.session-set-save-handler.php
 */
-class JSessionHandlerNone extends JSessionHandler
+class JSessionStorageNone extends JSessionStorage
 {
 	/**
 	* Register the functions of this class with PHP's session handler

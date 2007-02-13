@@ -24,7 +24,7 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 
-class JElement_Helpsites extends JElement
+class JElementHelpsites extends JElement
 {
    /**
 	* Element name

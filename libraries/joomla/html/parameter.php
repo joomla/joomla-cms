@@ -236,7 +236,8 @@ class JParameter extends JRegistry
 	 * @access public
 	 * @return mixed	Boolean falst if no params exist or integer number of params that exist
 	 */
-	function getNumParams($group = '_default') {
+	function getNumParams($group = '_default') 
+	{
 		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children())) {
 			return false;
 		} else {
@@ -372,7 +373,7 @@ class JParameter extends JRegistry
 			jimport('joomla.html.parameter.element');
 		}
 
-		$elementClass	=	'JElement_' . $type;
+		$elementClass	=	'JElement'.$type;
 		if( !class_exists( $elementClass ) )
 		{
 			if( isset( $this->_elementDirs ) ) {

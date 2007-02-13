@@ -24,7 +24,7 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 
-class JElement_FolderList extends JElement
+class JElementFolderlist extends JElement
 {
    /**
 	* Element name
@@ -32,7 +32,7 @@ class JElement_FolderList extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'FolderList';
+	var	$_name = 'Folderlist';
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{

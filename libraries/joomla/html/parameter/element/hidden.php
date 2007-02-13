@@ -24,7 +24,8 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 
-class JElement_Hidden extends JElement {
+class JElementHidden extends JElement 
+{
    /**
 	* Element name
 	*

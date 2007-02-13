@@ -24,7 +24,7 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 
-class JElement_FileList extends JElement
+class JElementFilelist extends JElement
 {
    /**
 	* Element name
@@ -32,7 +32,7 @@ class JElement_FileList extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'FileList';
+	var	$_name = 'Filelist';
 
 	function fetchTooltip($label, $description, &$node, $control_name, $name)
 	{
