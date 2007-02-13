@@ -225,6 +225,9 @@ class JHTML
 		return $replacement;
 	}
 
+	/**
+	 * Keep session alive, for example, while editing or creating an article.
+	 */
 	function keepAlive()
 	{
 		$js = "

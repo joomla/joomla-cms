@@ -22,6 +22,7 @@ defined('JPATH_BASE') or die();
  * @package 	Joomla.Framework
  * @subpackage		Abstract
  * @since		1.5
+ * @abstract
  */
 class JTree extends JObject
 {
@@ -67,6 +68,7 @@ class JTree extends JObject
  * @package 	Joomla.Framework
  * @subpackage		Abstract
  * @since		1.5
+ * @abstract
  */
 class JNode extends JObject
 {

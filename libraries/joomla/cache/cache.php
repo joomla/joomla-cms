@@ -18,6 +18,7 @@ defined('JPATH_BASE') or die();
 /**
  * Joomla! Cache base object
  *
+ * @abstract
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache

@@ -225,7 +225,7 @@ function mosNotAuth()
 }
 
 /**
- * Legacy function, replaced by JError
+ * Legacy function, use (@link JError} or {@link JApplication::redirect()} instead.
  *
  * @deprecated	As of version 1.5
  */

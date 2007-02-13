@@ -39,7 +39,7 @@ class JSessionStorage extends JObject
 	}
 
 	/**
-	 * Returns a reference to a session storage hanlder object, only creating it
+	 * Returns a reference to a session storage handler object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @access public

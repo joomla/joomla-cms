@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
 * File session handler for PHP 
 *
-* @abstract
 * @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
 * @subpackage	Environment

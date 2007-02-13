@@ -20,6 +20,7 @@ jimport( 'joomla.common.abstract.observer' );
 /**
  * JPlugin Class
  *
+ * @abstract
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Application
