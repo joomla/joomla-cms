@@ -30,7 +30,7 @@ class NewsfeedsViewNewsfeed extends JView
 {
 	function display( $tpl = null)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		// check if cache directory is writeable
 		$cacheDir = JPATH_BASE.DS.'cache'.DS;
@@ -59,7 +59,7 @@ class NewsfeedsViewNewsfeed extends JView
 
 		if ( $rssDoc == false ) {
 			$msg = JText::_('Error: Feed not retrieved');
-			$mainframe->redirect('index.php?option=com_newsfeeds&catid='. $newsfeed->catid .'&Itemid=' . $Itemid, $msg);
+			$mainframe->redirect('index.php?view=category&id='. $newsfeed->slug, $msg);
 			return;
 		}
 		$lists = array();

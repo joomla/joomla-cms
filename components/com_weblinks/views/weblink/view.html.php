@@ -49,10 +49,10 @@ class WeblinksViewWeblink extends JView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe, $option;
+		global $mainframe;
 
 		// Get some objects from the JApplication
-		$pathway		=& $mainframe->getPathWay();
+		$pathway	=& $mainframe->getPathWay();
 		$document	=& JFactory::getDocument();
 		$model		=& $this->getModel();
 
@@ -99,7 +99,7 @@ class WeblinksViewWeblink extends JView
 		}
 
 		// build list of categories
-		$lists['catid'] = JAdminMenus::ComponentCategory('jform[catid]', $option, intval($weblink->catid));
+		$lists['catid'] = JAdminMenus::ComponentCategory('jform[catid]', 'com_weblinks', intval($weblink->catid));
 
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );

@@ -77,7 +77,7 @@ function sefRelToAbs($value)
 	global $mainframe;
 	
 	$router = $mainframe->getRouter();
-	$route = $router->build($value);
+	$route = $router->buildRoute($value);
 	
 	return $route;
 }

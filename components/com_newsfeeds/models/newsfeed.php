@@ -50,7 +50,7 @@ class NewsfeedsModelNewsfeed extends JModel
 	{
 		parent::__construct();
 
-		$id = JRequest::getVar('feedid', 0, '', 'int');
+		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId($id);
 	}
 

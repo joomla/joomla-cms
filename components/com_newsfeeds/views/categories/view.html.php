@@ -30,7 +30,7 @@ class NewsfeedsViewCategories extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $Itemid, $option;
+		global $mainframe;
 
 		$pathway 	= & $mainframe->getPathWay();
 
@@ -38,15 +38,15 @@ class NewsfeedsViewCategories extends JView
 		$pathway->setItemName(1, JText::_('News Feeds'));
 
 		// Load the menu object and parameters
-		$menus	= &JMenu::getInstance();
-		$menu	= $menus->getItem($Itemid);
+		$menu   = &JMenu::getInstance();
+		$item   = $menu->getActive();
+		$params	=& $menu->getParams($item->id);
 
 		$categories =& $this->get('data');
 
 		// Parameters
-		$params = new JParameter($menu->params);
 		$params->def( 'page_title', 		1 );
-		$params->def( 'header', 			$menu->name );
+		$params->def( 'header', 			$item->name );
 		$params->def( 'pageclass_sfx', 		'' );
 		$params->def( 'headings', 			1 );
 		$params->def( 'description_text', 	'' );
@@ -69,7 +69,7 @@ class NewsfeedsViewCategories extends JView
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
-			$category->link = sefRelToAbs('index.php?option=com_newsfeeds&amp;view=category&amp;catid='. $category->catid .'&amp;Itemid='. $Itemid);
+			$category->link = sefRelToAbs('index.php?view=category&id='. $category->slug );
 		}
 		// Define image tag attributes
 		if ($params->get('image') != -1)

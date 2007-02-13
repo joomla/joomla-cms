@@ -11,92 +11,61 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function NewsfeedsBuildRoute(&$ARRAY)
+function NewsfeedsBuildRoute(&$query)
 {
-	static $categories;
-	$resolveNames = 0;
-
-	// TODO: Resolve category names
-
 	$parts = array();
-	switch (@$ARRAY['view'])
+	
+	if(isset($query['catid'])) 
 	{
-		case 'newsfeed':
-			$parts[]	= 'feed';
-			$parts[]	= @$ARRAY['feedid'];
-			break;
-		case 'category':
-			$parts[]	= 'category';
-			$parts[]	= @$ARRAY['catid'];
-			break;
-		default:
-			// Do Nothing
-			break;
-	}
+		$parts[] = $query['catid'];
+		unset($query['catid']);
+	};
 
-	if (isset( $ARRAY['limit'] ))
+	if(isset($query['id'])) 
 	{
-		// Do all pages if limit = 0
-		if ($ARRAY['limit'] == 0) {
-			$parts[] = 'all';
-		} else {
-			$limit		= (int) $ARRAY['limit'];
-			$limitstart	= (int) @$ARRAY['limitstart'];
-			$page		= floor( $limitstart / $limit ) + 1;
-			$parts[]	= 'page'.$page.'-'.$limit;
-		}
-	}
-
-	//unset the whole array
-	$ARRAY = array();
+		$parts[] = $query['id'];
+		unset($query['id']);
+	};
+	
+	unset($query['view']);
 
 	return $parts;
 }
 
-function NewsfeedsParseRoute($ARRAY)
+function NewsfeedsParseRoute($parts)
 {
-	// view is always the first element of the array
-	$task	= array_shift($ARRAY);
-	$nArray	= count($ARRAY);
+	$menu =& JMenu::getInstance();
+	$item =& $menu->getActive();
 
-	switch ($task)
+	// Count route parts
+	$nArray = count($parts);
+	
+	//Handle View and Identifier
+	switch($item->query['view'])
 	{
-		case 'feed':
-			JRequest::setVar('task', 'view', 'get');
-			if (count($ARRAY)) {
- 				$id = array_shift($ARRAY);
-				JRequest::setVar('feedid', $id, 'get');
-			}
-			break;
-		case 'category':
-			JRequest::setVar('task', 'category', 'get');
-
-			// Handle Pagination
-			$last = @$ARRAY[$nArray-1];
-			if ($last == 'all') {
-				array_pop( $ARRAY );
-				$nArray--;
-				JRequest::setVar('limitstart', 0, 'get');
-				JRequest::setVar('limit', 0, 'get');
-				// if you want more than 1e6 on your page then you are nuts!
-			} elseif (strpos( $last, 'page' ) === 0) {
-				array_pop( $ARRAY );
-				$nArray--;
-				$pts		= explode( '-', $last );
-				$limit		= @$pts[1];
-				$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
-				JRequest::setVar('limit',$limit, 'get');
-				JRequest::setVar('limitstart', $limitstart, 'get');
+		case 'categories' :
+		{
+			if($nArray == 1) {
+				$view = 'category';
 			}
 
-			// Set the category id
-			if (count($ARRAY)) {
- 				$catid = array_shift($ARRAY);
-				JRequest::setVar('catid', $catid, 'get');
+			if($nArray == 2) {
+				$view = 'newsfeed';
 			}
-			break;
-		default:
-			break;
+
+			$id = $parts[$nArray-1];
+
+		} break;
+
+		case 'category'   :
+		{
+			$id   = $parts[$nArray-1];
+			$view = 'newsfeed';
+
+		} break;
 	}
+
+	JRequest::setVar('view', $view, 'get');
+	JRequest::setVar('id', (int)$id, 'get');
 }
 ?>

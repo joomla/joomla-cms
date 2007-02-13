@@ -18,7 +18,7 @@ defined('_JEXEC') or die();
 jimport('joomla.application.component.model');
 
 /**
- * Weblinks Component Weblink Model
+ * Newsfeeds Component Newsfeeds Model
  *
  * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
@@ -71,12 +71,10 @@ class WeblinksModelCategory extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe;
-
-		//TODO :: Maybe the controller should do this ?
-
+		$config = JFactory::getConfig();
+		
 		// Get the pagination request variables
-		$this->setState('limit', JRequest::getVar('limit', $mainframe->getCfg('list_limit'), '', 'int'));
+		$this->setState('limit', JRequest::getVar('limit', $config->getValue('config.list_limit'), '', 'int'));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
 		// Get the filter request variables

@@ -29,16 +29,16 @@ class WeblinksViewCategory extends JView
 {
 	function display( $tpl = null )
 	{
-		global $mainframe, $Itemid, $option;
+		global $mainframe;
 
 		// Initialize some variables
 		$document	= & JFactory::getDocument();
 		$uri 		=& JFactory::getURI();
-		$pathway		= & $mainframe->getPathWay();
+		$pathway	= & $mainframe->getPathWay();
 
 		// Get the paramaters of the active menu item
-		$menus	= &JMenu::getInstance();
-		$menu	= $menus->getItem($Itemid);
+		$menu = &JMenu::getInstance();
+		$item = $menu->getActive();
 
 		// Get some data from the model
 		$items		=& $this->get('data' );
@@ -74,7 +74,7 @@ class WeblinksViewCategory extends JView
 		$selected = '';
 		$contentConfig = &JComponentHelper::getParams( 'com_weblinks' );
 
-		$params->def('header', $menu->name);
+		$params->def('header', $item->name);
 		$params->def('pageclass_sfx', '');
 		$params->def('hits', $contentConfig->get('hits'));
 		$params->def('item_description', 1);

@@ -30,7 +30,7 @@ class NewsfeedsViewCategory extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $Itemid, $option;
+		global $mainframe;
 
 		$pathway 	= & $mainframe->getPathWay();
 		$document	= & JFactory::getDocument();
@@ -40,14 +40,10 @@ class NewsfeedsViewCategory extends JView
 		$item   = $menu->getActive();
 		$params	=& $menu->getParams($item->id);
 
-		$config 		= JFactory::getConfig();
-		$limit 		= JRequest::getVar('limit', $params->get('display_num', $config->getValue('config.list_limit')), '', 'int');
-		$limitstart 	= JRequest::getVar('limitstart', 0, '', 'int');
-		$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
-
 		$category	= $this->get('category');
 		$items		= $this->get('data');
 		$total		= $this->get('total');
+		$pagination	=& $this->get('pagination');
 
 		// Parameters
 		$params->def( 'page_title', 		1 );
@@ -73,21 +69,17 @@ class NewsfeedsViewCategory extends JView
 		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
 
 		// Set page title per category
-		$document->setTitle( $menu->name. ' - ' .$category->title );
+		$document->setTitle( $item->name. ' - ' .$category->title );
 
 		// Add breadcrumb item per category
 		$pathway->addItem($category->title, '');
-
-		//create pagination
-		jimport('joomla.html.pagination');
-		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$k = 0;
 		for($i = 0; $i <  count($items); $i++)
 		{
 			$item =& $items[$i];
 
-			$item->link =  sefRelToAbs('index.php?option=com_newsfeeds&amp;view=newsfeed&amp;feedid='. $item->id .'&amp;Itemid='. $Itemid);
+			$item->link =  sefRelToAbs('index.php?view=newsfeed&catid='.$category->slug.'&id='. $item->slug );
 
 			$item->odd		= $k;
 			$item->count	= $i;

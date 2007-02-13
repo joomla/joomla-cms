@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Feb-2007 Johan Janssens
+ ^ com_newsfeeds : Implemented new routing mechanism
+ ^ Moved handling of pagination routing into JRouter
+
 13-Feb-2007 Toby Patterson
  # Fixed [t140455] SQL syntax error in JTable::move()
 

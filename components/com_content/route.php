@@ -45,19 +45,6 @@ function ContentBuildRoute(&$ARRAY)
 		$parts[] = $ARRAY['month'];
 	};
 
-	if (isset( $ARRAY['limit'] ))
-	{
-		// Do all pages if limit = 0
-		if ($ARRAY['limit'] == 0) {
-			$parts[] = 'all';
-		} else {
-			$limit		= (int) $ARRAY['limit'];
-			$limitstart	= (int) @$ARRAY['limitstart'];
-			$page		= floor( $limitstart / $limit ) + 1;
-			$parts[]	= 'page'.$page.':'.$limit;
-		}
-	}
-
 	//unset the whole array
 	$ARRAY = array();
 
@@ -101,25 +88,6 @@ function ContentParseRoute($ARRAY)
 				JRequest::setVar('month', array_shift($ARRAY), 'get');
 			}
 		} break;
-	}
-
- 	// Handle Pagination
-	$last = array_shift($ARRAY);
-	if ($last == 'all')
-	{
-		array_pop( $ARRAY );
-		JRequest::setVar('limitstart', 0, 'get');
-		JRequest::setVar('limit', 0, 'get');
-		// if you want more than 1e6 on your page then you are nuts!
-	}
-	elseif (strpos( $last, 'page' ) === 0)
-	{
-		array_pop( $ARRAY );
-		$pts		= explode( ':', $last );
-		$limit		= @$pts[1];
-		$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
-		JRequest::setVar('limit',$limit, 'get');
-		JRequest::setVar('limitstart', $limitstart, 'get');
 	}
 }
 ?>

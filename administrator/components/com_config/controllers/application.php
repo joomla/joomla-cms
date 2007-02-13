@@ -175,10 +175,10 @@ class ConfigControllerApplication extends ConfigController
 		$lists['feed_summary']	= JHTMLSelect::radioList($summary, 'feed_summary', 'class="inputbox"', $row->feed_summary);
 
 		// SESSION SETTINGS
-		$handlers = JSession::getHandlers();
+		$stores = JSession::getStores();
 		$options = array();
-		foreach($handlers as $handler) {
-			$options[] = JHTMLSelect::option($handler, $handler);
+		foreach($stores as $store) {
+			$options[] = JHTMLSelect::option($store, $store);
 		}
 		$lists['session_handlers'] = JHTMLSelect::genericList($options, 'session_handler', 'class="inputbox" size="1"', 'value', 'text', $row->session_handler);
 		

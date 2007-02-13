@@ -11,64 +11,35 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function WeblinksBuildRoute(&$ARRAY)
+function WeblinksBuildRoute(&$query)
 {
 	$parts = array();
-	if(isset($ARRAY['catid'])) {
-		$parts[] = $ARRAY['catid'];
-	};
-
-	if(isset($ARRAY['id'])) {
-		$parts[] = $ARRAY['id'];
-	};
-
-
-	if (isset( $ARRAY['limit'] ))
+	
+	if(isset($query['catid'])) 
 	{
-		// Do all pages if limit = 0
-		if ($ARRAY['limit'] == 0) {
-			$parts[] = 'all';
-		} else {
-			$limit		= (int) $ARRAY['limit'];
-			$limitstart	= (int) @$ARRAY['limitstart'];
-			$page		= floor( $limitstart / $limit ) + 1;
-			$parts[]	= 'page'.$page.':'.$limit;
-		}
-	}
+		$parts[] = $query['catid'];
+		unset($query['catid']);
+	};
 
-	//unset the whole array
-	$ARRAY = array();
+	if(isset($query['id'])) 
+	{
+		$parts[] = $query['id'];
+		unset($query['id']);
+	};
+	
+	unset($query['view']);
+
 	return $parts;
 }
 
-function WeblinksParseRoute($ARRAY)
+function WeblinksParseRoute($parts)
 {
 	$menu =& JMenu::getInstance();
 	$item =& $menu->getActive();
 
-	// Handle Pagination
-	$nArray = count($ARRAY);
-	$last = @$ARRAY[$nArray-1];
-	if ($last == 'all')
-	{
-		array_pop( $ARRAY );
-		$nArray--;
-		$limit      = 0;
-		$limitstart = 0;
-		JRequest::setVar('limit', $limit, 'get');
-		JRequest::setVar('limitstart', $limitstart, 'get');
-	}
-	elseif (strpos( $last, 'page' ) === 0)
-	{
-		array_pop( $ARRAY );
-		$nArray--;
-		$pts		= explode( ':', $last );
-		$limit		= @$pts[1];
-		$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
-		JRequest::setVar('limit', $limit, 'get');
-		JRequest::setVar('limitstart', $limitstart, 'get');
-	}
-
+	// Count route parts
+	$nArray = count($parts);
+	
 	//Handle View and Identifier
 	switch($item->query['view'])
 	{
@@ -82,13 +53,13 @@ function WeblinksParseRoute($ARRAY)
 				$view = 'weblink';
 			}
 
-			$id = $ARRAY[$nArray-1];
+			$id = $parts[$nArray-1];
 
 		} break;
 
 		case 'category'   :
 		{
-			$id   = $ARRAY[$nArray-1];
+			$id   = $parts[$nArray-1];
 			$view = 'weblink';
 
 		} break;

@@ -60,7 +60,7 @@ class JRouter extends JObject
 	*
 	* @access public
 	*/
-	function parse($uri)
+	function parseRoute($uri)
 	{
 		$menu =& JMenu::getInstance();
 
@@ -96,14 +96,6 @@ class JRouter extends JObject
 						break;
 					}
 				}
-
-				//MOVE somwhere else
-				/*$path = JPATH_BASE.DS.'components'.DS.'com_'.$component.DS.$component.'.php';
-				// Do a quick check to make sure component exists
-				if (!file_exists($path)) {
-					JError::raiseError(404, JText::_('Invalid Request'));
-					exit (404);
-				}*/
 			}
 		}
 
@@ -114,18 +106,8 @@ class JRouter extends JObject
 		JRequest::set($item->query, 'get', false);	
 		JRequest::setVar('Itemid', ($item) ? $item->id : null, 'get');
 		
-		// Use the custom sef handler if it exists
-		$path = ($item) ? JPATH_BASE.DS.'components'.DS.$item->component.DS.'route.php' : null;
-
-		$urlArray = explode('/', $url);
-		array_shift($urlArray);
-
-		if (count($urlArray) && file_exists($path))
-		{
-			require_once $path;
-			$function =  substr($item->component, 4).'ParseRoute';
-			$function($urlArray);
-		}
+		//Parse component route
+		$this->parseComponentRoute($item->component, $url);
 	}
 
 	/**
@@ -133,9 +115,9 @@ class JRouter extends JObject
  	 *
  	 * @param	string	$string	The internal URL
  	 * @return	string	The absolute search engine friendly URL
- 	 * @since	1.0
+ 	 * @since	1.5
  	 */
-	function build($value)
+	function buildRoute($value)
 	{
 		global $mainframe, $Itemid, $option;
 
@@ -162,7 +144,7 @@ class JRouter extends JObject
 				$string = '';
 			}
 
-			// decompose link into url component parts
+			// Decompose link into url component parts
 			$uri  =& JURI::getInstance($string);
 			$menu =& JMenu::getInstance();
 
@@ -182,30 +164,17 @@ class JRouter extends JObject
 				// get the menu item for the itemid
 				$item = $menu->getItem($itemid);
 
-				// Build component name and sef handler path
-				$path = JPATH_BASE.DS.'components'.DS.$item->component.DS.'route.php';
-
 				$uri->delVar('option'); //don't need the option anymore
 				$uri->delVar('Itemid'); //don't need the itemid anymore
 				$query = $uri->getQuery(true);
+				
+				//Build component route
+				$route = $this->buildComponentRoute($item->component, $query);
+				
+				//Set query again in the URI
+				$uri->setQuery($query);
 
-				// Use the custom request handler if it exists
-				if (file_exists($path))
-				{
-					require_once $path;
-					$function	= substr($item->component, 4).'BuildRoute';
-					$parts		= $function($query);
-
-					$route = implode('/', $parts);
-					$route = ($route) ? '/'.$route : null;
-
-					$uri->setQuery($query);
-				}
-
-				// get the query
-				$query = $uri->getQuery();
-
-				// check if link contained fragment identifiers (ex. #foo)
+				//Check if link contained fragment identifiers (ex. #foo)
 				$fragment = null;
 				if ($fragment = $uri->getFragment())
 				{
@@ -215,16 +184,19 @@ class JRouter extends JObject
 					}
 				}
 
-				if($query) {
+				//Check if the component has left any query information unhandled
+				if($query = $uri->getQuery()) {
 					$query = '?'.$query;
 				}
 
+				//Create the route
 				$url = $item->route.$route.$fragment.$query;
 
-				// Prepend the base URI if we are not using mod_rewrite
+				//Prepend the base URI if we are not using mod_rewrite
 				if (!$mode) {
 					$url = 'index.php/'.$url;
 				}
+				
 				$strings[$string] = $url;
 
 				return str_replace( '&', '&amp;', $url );
@@ -234,6 +206,88 @@ class JRouter extends JObject
 		}
 
 		return str_replace( '&', '&amp;', $strings[$string] );
+	}
+	
+	/**
+	* Parse a component specific route
+	*
+	* @access public
+	*/
+	function parseComponentRoute($component, $route)
+	{
+		// Use the component routing handler if it exists
+		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'route.php';
+
+		$routeArray = explode('/', $route);
+		array_shift($routeArray);
+
+		if (file_exists($path) && count($routeArray))
+		{
+			// Handle Pagination
+			$nArray = count($routeArray);
+			$last = @$routeArray[$nArray-1];
+			if ($last == 'all')
+			{
+				array_pop( $routeArray );
+				JRequest::setVar('limit', 0, 'get');
+				JRequest::setVar('limitstart', 0, 'get');
+			}
+			elseif (strpos( $last, 'page' ) === 0)
+			{
+				array_pop( $routeArray );
+				$pts		= explode( ':', $last );
+				$limit		= @$pts[1];
+				$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
+				JRequest::setVar('limit', $limit, 'get');
+				JRequest::setVar('limitstart', $limitstart, 'get');
+			}
+			
+			require_once $path;
+			$function =  substr($component, 4).'ParseRoute';
+			$function($routeArray);
+		}
+	}
+	
+	/**
+	* Build a component specific route
+	*
+	* @access public
+	*/
+	function buildComponentRoute($component, &$query)
+	{
+		$route = '';
+		
+		// Use the component routing handler if it exists
+		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'route.php';
+		
+		// Use the custom request handler if it exists
+		if (file_exists($path))
+		{
+			require_once $path;
+			$function	= substr($component, 4).'BuildRoute';
+			$parts		= $function($query);
+			
+			if (isset( $query['limit'] ))
+			{
+				// Do all pages if limit = 0
+				if ($query['limit'] == 0) {
+					$parts[] = 'all';
+				} else {
+					$limit		= (int) $query['limit'];
+					$limitstart	= (int) @$query['limitstart'];
+					$page		= floor( $limitstart / $limit ) + 1;
+					$parts[]	= 'page'.$page.':'.$limit;
+				}
+				
+				unset($query['limit']);
+				unset($query['limitstart']);
+			}
+
+			$route = implode('/', $parts);
+			$route = ($route) ? '/'.$route : null;
+		}
+		
+		return $route;
 	}
 }
 ?>

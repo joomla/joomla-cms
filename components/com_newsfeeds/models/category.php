@@ -64,9 +64,15 @@ class NewsfeedsModelCategory extends JModel
 	{
 		parent::__construct();
 
-		$id = JRequest::getVar('catid', 0, '', 'int');
+		$config = JFactory::getConfig();
+		
+		// Get the pagination request variables
+		$this->setState('limit', JRequest::getVar('limit', $config->getValue('config.list_limit')), '', 'int');
+		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
+		
+		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId($id);
-
+		
 	}
 
 	/**
@@ -93,13 +99,19 @@ class NewsfeedsModelCategory extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			// Get the pagination request variables
-			$limit		= JRequest::getVar('limit', 0, '', 'int');
-			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-
 			$query = $this->_buildQuery();
 
-			$this->_data = $this->_getList($query, $limitstart, $limit);
+			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+			
+			$total = count($this->_data);
+			for($i = 0; $i < $total; $i++)
+			{
+				$item =& $this->_data[$i];
+
+				jimport('joomla.filter.output');
+				$alias = JOutputFilter::stringURLSafe($item->name);
+				$item->slug = $item->id.':'.$alias;
+			}
 		}
 
 		return $this->_data;
@@ -121,6 +133,24 @@ class NewsfeedsModelCategory extends JModel
 		}
 
 		return $this->_total;
+	}
+	
+	/**
+	 * Method to get a pagination object of the newsfeeds items for the category
+	 *
+	 * @access public
+	 * @return integer
+	 */
+	function getPagination()
+	{
+		// Lets load the content if it doesn't already exist
+		if (empty($this->_pagination))
+		{
+			jimport('joomla.html.pagination');
+			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+		}
+
+		return $this->_pagination;
 	}
 
 	/**
@@ -161,7 +191,8 @@ class NewsfeedsModelCategory extends JModel
 		if (empty($this->_category))
 		{
 			// current category info
-			$query = 'SELECT c.*' .
+			$query = 'SELECT c.*,' .
+				" CASE WHEN CHAR_LENGTH(c.name) THEN CONCAT_WS(':', c.id, c.name) ELSE c.id END as slug ".
 				' FROM #__categories AS c' .
 				' WHERE c.id = '. $this->_id .
 				' AND c.section = "com_newsfeeds"';
@@ -182,6 +213,5 @@ class NewsfeedsModelCategory extends JModel
 
 		return $query;
 	}
-
 }
 ?>

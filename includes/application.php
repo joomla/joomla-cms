@@ -84,7 +84,7 @@ class JSite extends JApplication
 		$uri  =& JURI::getInstance();
 
 		$router =& $this->getRouter();
-		$router->parse($uri);
+		$router->parseRoute($uri);
 	}
 
 	/**
