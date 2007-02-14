@@ -77,9 +77,16 @@ class JTable extends JObject
 	 * @access protected
 	 * @param string $table name of the table in the db schema relating to child class
 	 * @param string $key name of the primary key field in the table
+	 * @param object $db JDatabase object
 	 */
-	function __construct( $table, $key, &$db)
+	function __construct( $table, $key, &$db = null )
 	{
+		// The Joomla database is the default database
+		if ( is_null( $db) )
+		{
+			$db		=& JFactory::getDBO();
+		}
+		
 		$this->_tbl		= $table;
 		$this->_tbl_key	= $key;
 		$this->_db		=& $db;
