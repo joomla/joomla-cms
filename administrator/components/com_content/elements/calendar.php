@@ -23,7 +23,7 @@ defined('_JEXEC') or die();
  * @subpackage	Articles
  * @since		1.5
  */
-class JElement_Calendar extends JElement
+class JElementCalendar extends JElement
 {
    /**
 	* Element name

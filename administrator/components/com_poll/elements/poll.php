@@ -14,7 +14,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-class JElement_Poll extends JElement
+class JElementPoll extends JElement
 {
    /**
 	* Element name

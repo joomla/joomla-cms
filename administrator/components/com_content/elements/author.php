@@ -23,7 +23,7 @@ defined('_JEXEC') or die();
  * @subpackage	Articles
  * @since		1.5
  */
-class JElement_Author extends JElement
+class JElementAuthor extends JElement
 {
    /**
 	* Element name

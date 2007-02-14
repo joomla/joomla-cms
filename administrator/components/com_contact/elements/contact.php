@@ -14,7 +14,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-class JElement_Contact extends JElement
+class JElementContact extends JElement
 {
    /**
 	* Element name

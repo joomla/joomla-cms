@@ -862,7 +862,7 @@ class JAdminMenus
 	* build the select list to choose an image
 	*/
 	/*
-	 * Function is only used in the administrator (multiple components) : duplicate with JElement_imagelist
+	 * Function is only used in the administrator (multiple components) : duplicate with JElementImagelist
 	 */
 	function Images( $name, &$active, $javascript=NULL, $directory=NULL )
 	{
@@ -1016,7 +1016,7 @@ class JAdminMenus
 	* Select list of active categories for components
 	*/
 	/*
-	 * Function is used in the site/administrator : duplicate in JElement_category
+	 * Function is used in the site/administrator : duplicate in JElementCategory
 	 */
 	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 )
 	{
@@ -1051,7 +1051,7 @@ class JAdminMenus
 	* Select list of active sections
 	*/
 	/*
-	 * Function is only used in the administrator : duplicate in JElement_section
+	 * Function is only used in the administrator : duplicate in JElementSection
 	 */
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' )
 	{

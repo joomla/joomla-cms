@@ -115,7 +115,7 @@ class ModulesController extends JController
 			$where[] = 'm.position = "'.$filter_position.'"';
 		}
 		if ( $filter_type ) {
-			$where[] = 'm.module = '.$filter_type.'"';
+			$where[] = 'm.module = "'.$filter_type.'"';
 		}
 		if ( $search ) {
 			$where[] = 'LOWER( m.title ) LIKE "%'.$search.'%"';

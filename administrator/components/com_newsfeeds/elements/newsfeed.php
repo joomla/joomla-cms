@@ -23,7 +23,7 @@ defined('_JEXEC') or die();
  * @since		1.5
  */
 
-class JElement_Newsfeed extends JElement
+class JElementNewsfeed extends JElement
 {
    /**
 	* Element name
