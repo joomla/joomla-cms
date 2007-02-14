@@ -904,6 +904,13 @@ class JInstallationHelper
 			return JError::raiseError('31', 'NOLOGIN');
 		}
 
+		// Get the FTP CWD, in case it is not the FTP root
+		$cwd = $ftp->pwd();
+		if ($cwd === false) {
+			return JError::raiseError('SOME_ERROR_CODE', 'NOPWD');
+		}
+		$cwd = rtrim($cwd, '/');
+
 		// Get list of folders in the CWD
 		$ftpFolders = $ftp->listDetails(null, 'folders');
 		if ($ftpFolders === false || count($ftpFolders) == 0) {
@@ -913,10 +920,10 @@ class JInstallationHelper
 			$ftpFolders[$i] = $ftpFolders[$i]['name'];
 		}
 
-		// Check if Joomla! is installed at the FTP root
+		// Check if Joomla! is installed at the FTP CWD
 		$dirList = array('administrator', 'components', 'installation', 'language', 'libraries', 'plugins');
 		if (count(array_diff($dirList, $ftpFolders)) == 0) {
-			$ftpPaths[] = '/';
+			$ftpPaths[] = $cwd.'/';
 		}
 
 		// Process the list: cycle through all parts of JPATH_SITE, beginning from the end
@@ -926,7 +933,7 @@ class JInstallationHelper
 		{
 			$tmpPath = '/'.$parts[$i].$tmpPath;
 			if (in_array($parts[$i], $ftpFolders)) {
-				$ftpPaths[] = $tmpPath;
+				$ftpPaths[] = $cwd.$tmpPath;
 			}
 		}
 
@@ -967,6 +974,9 @@ class JInstallationHelper
 	{
 		jimport('joomla.client.ftp');
 		$ftp = & JFTP::getInstance($host, $port);
+
+		// Since the root path will be trimmed when it gets saved to configuration.php, we want to test with the same value as well
+		$root = rtrim($root, '/');
 
 		// Verify connection
 		if (!$ftp->isConnected()) {
