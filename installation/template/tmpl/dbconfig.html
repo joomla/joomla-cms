@@ -30,12 +30,6 @@
 		} else if (DBPrefix.value == '') {
 			alert('<jtmpl:translate key="validPrefix" escape="yes">You must enter a MySQL Table Prefix for Joomla to operate correctly</jtmpl:translate>');
 			return;
-		} else if (!document.getElementById('vars_dbcollation')) {
-			if (confirm( '<jtmpl:translate key="validCollation" escape="yes"></jtmpl:translate>' )) {
-				submitForm( frm, task);
-			} else {
-				return;
-			}
 		} else {
 			submitForm( frm, task );
 		}
@@ -185,20 +179,6 @@
 									<td>
 										<em>
 										<jtmpl:translate key="tipPassword">For site security using a password for the mysql account is mandatory</jtmpl:translate>
-										</em>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2" valign="top">
-										<label for="vars_dbcollation">
-											<jtmpl:translate>Available collations</jtmpl:translate>
-										</label>
-										<br/>
-										<span id="theCollation"><input type="button" id="findbutton" class="button" value="<jtmpl:translate>Get Collations</jtmpl:translate>" onclick="JProcess('collation');" /></span>
-									</td>
-									<td>
-										<em>
-										<span id="collationMessage"><jtmpl:translate key="COLLATIONDESC">Once you have filled in the database information, click the Get Collations button to get the available collation options from the database</jtmpl:translate></span>
 										</em>
 									</td>
 								</tr>

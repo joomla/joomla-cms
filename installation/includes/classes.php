@@ -158,17 +158,6 @@ class JInstallationController
 	{
 		global $mainframe;
 
-		// Require the xajax library
-		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
-
-		/*
-		 * Instantiate the xajax object and register the functions
-		 */
-		$xajax = new xajax(JURI::base().'includes/jajax.php');
-		$xajax->registerFunction(array('getCollations', 'JAJAXHandler', 'dbcollate'));
-//		$xajax->registerFunction(array('getPrivileges', 'JAJAXHandler', 'dbpriv'));
-//		$xajax->debugOn();
-
 		if (!isset ($vars['DBPrefix'])) {
 			$vars['DBPrefix'] = 'jos_';
 		}
@@ -188,8 +177,6 @@ class JInstallationController
 		}
 
 		$doc =& JFactory::getDocument();
-		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
-
 		return JInstallationView::dbConfig($vars, $lists);
 	}
 
@@ -214,7 +201,6 @@ class JInstallationController
 		$DBOld 		= JArrayHelper::getValue($vars, 'DBOld', 'bu');
 //		$DBSample = mosGetParam($vars, 'DBSample', 1);
 		$DButfSupport 	= intval(JArrayHelper::getValue($vars, 'DButfSupport', 0));
-		$DBcollation 	= JArrayHelper::getValue($vars, 'DBcollation', '');
 		$DBversion 		= JArrayHelper::getValue($vars, 'DBversion', '');
 
 		// these 3 errors should be caught by the javascript in dbConfig
@@ -255,7 +241,7 @@ class JInstallationController
 			} else {
 				// pre-existing database - need to set character set to utf8
 				// will only affect MySQL 4.1.2 and up
-				JInstallationHelper::setDBCharset($db, $DBname, $DBcollation);
+				JInstallationHelper::setDBCharset($db, $DBname);
 			}
 
 			$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
@@ -288,7 +274,7 @@ class JInstallationController
 				$dbscheme = 'sql'.DS.$type.DS.'joomla_backward.sql';
 			}
 
-			if (JInstallationHelper::populateDatabase($db, $dbscheme, $errors, ($DButfSupport) ? $DBcollation : '') > 0)
+			if (JInstallationHelper::populateDatabase($db, $dbscheme, $errors) > 0)
 			{
 				return JInstallationView::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 			}
@@ -638,11 +624,11 @@ class JInstallationHelper
 	 * @param string Selected collation
 	 * @return boolean success
 	 */
-	function setDBCharset(& $db, $DBname, $DBcollation)
+	function setDBCharset(& $db, $DBname)
 	{
 		if ($db->hasUTF())
 		{
-			$sql = "ALTER DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
+			$sql = "ALTER DATABASE `$DBname` CHARACTER SET `utf8`";
 			$db->setQuery($sql);
 			$db->query();
 			$result = $db->getErrorNum();
@@ -727,13 +713,13 @@ class JInstallationHelper
 	/**
 	 *
 	 */
-	function populateDatabase(& $db, $sqlfile, & $errors, $collation = '')
+	function populateDatabase(& $db, $sqlfile, & $errors)
 	{
 		if( !($buffer = file_get_contents($sqlfile)) )
 		{
 			return -1;
 		}
-		$queries = JInstallationHelper::splitSql($buffer, $collation);
+		$queries = JInstallationHelper::splitSql($buffer);
 
 		foreach ($queries as $query)
 		{
@@ -752,14 +738,10 @@ class JInstallationHelper
 	 * @param string
 	 * @return array
 	 */
-	function splitSql($sql, $collation)
+	function splitSql($sql)
 	{
 		$sql = trim($sql);
 		$sql = preg_replace("/\n\#[^\n]*/", '', "\n".$sql);
-		if ($collation != '')
-		{
-			$sql = str_replace("utf8_general_ci", $collation, $sql);
-		}
 		$buffer = array ();
 		$ret = array ();
 		$in_string = false;
