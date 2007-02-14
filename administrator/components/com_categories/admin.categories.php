@@ -495,7 +495,7 @@ function removeCategories( $section, $cid )
 
 	$query = 'SELECT c.id, c.name, COUNT( s.catid ) AS numcat'
 	. ' FROM #__categories AS c'
-	. ' LEFT JOIN #__$table AS s ON s.catid = c.id'
+	. ' LEFT JOIN #__'.$table.' AS s ON s.catid = c.id'
 	. ' WHERE c.id IN ( '.$cids.' )'
 	. ' GROUP BY c.id'
 	;
