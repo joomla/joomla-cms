@@ -413,22 +413,19 @@ class JFTP extends JObject {
 				JError::raiseWarning('35', 'JFTP::syst: Bad response' );
 				return false;
 			}
-			return $ret;
-		}
-
-		// Initialize variables
-		$match = array (null);
-
-		// Send print working directory command and verify success
-		if (!$this->_putCmd('SYST', 215)) {
-			JError::raiseWarning('35', 'JFTP::syst: Bad response', 'Server response: '.$this->_response.' [Expected: 215]' );
-			return false;
+		} else {
+			// Send print working directory command and verify success
+			if (!$this->_putCmd('SYST', 215)) {
+				JError::raiseWarning('35', 'JFTP::syst: Bad response', 'Server response: '.$this->_response.' [Expected: 215]' );
+				return false;
+			}
+			$ret = $this->_response;
 		}
 
 		// Match the system string to an OS
-		if (strpos(strtoupper($this->_response), 'MAC') !== false) {
+		if (strpos(strtoupper($ret), 'MAC') !== false) {
 			$ret = 'MAC';
-		} elseif (strpos(strtoupper($this->_response), 'WIN') !== false) {
+		} elseif (strpos(strtoupper($ret), 'WIN') !== false) {
 			$ret = 'WIN';
 		} else {
 			$ret = 'UNIX';
@@ -446,9 +443,6 @@ class JFTP extends JObject {
 	 * @return boolean True if successful
 	 */
 	function chdir($path) {
-
-		// Strip trailing slash if it exists
-		$path = rtrim($path, '/');
 
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
@@ -729,6 +723,7 @@ class JFTP extends JObject {
 			}
 			// Read tmp buffer contents
 			rewind($tmp);
+			$buffer = '';
 			while (!feof($tmp)) {
 				$buffer .= fread($tmp, 8192);
 			}
@@ -751,6 +746,7 @@ class JFTP extends JObject {
 		}
 
 		// Read data from data port connection and add to the buffer
+		$buffer = '';
 		while (!feof($this->_dataconn)) {
 			$buffer .= fread($this->_dataconn, 4096);
 		}
@@ -1018,6 +1014,7 @@ class JFTP extends JObject {
 				JError::raiseWarning('35', 'JFTP::listNames: Bad response' );
 				return false;
 			}
+			$list = preg_replace('#^'.preg_quote($path, '#').'[/\\\\]?#', '', $list);
 			return $list;
 		}
 
@@ -1052,7 +1049,9 @@ class JFTP extends JObject {
 			return false;
 		}
 
-		return preg_split("/[".CRLF."]+/", $data, -1, PREG_SPLIT_NO_EMPTY);
+		$data = preg_split("/[".CRLF."]+/", $data, -1, PREG_SPLIT_NO_EMPTY);
+		$data = preg_replace('#^'.preg_quote(substr($path, 1), '#').'[/\\\\]?#', '', $data);
+		return $data;
 	}
 
 	/**
@@ -1129,7 +1128,12 @@ class JFTP extends JObject {
 
 		// If we received the listing of an emtpy directory, we are done as well
 		if (empty($contents[0])) {
-			return $dir_list;
+			// Workaround for a bug in some FTP servers, which are sending an empty array instead of failing for invalid paths
+			if($this->listNames(trim($path)) === false) {
+				return false;
+			} else {
+				return $dir_list;
+			}
 		}
 
 		// Regular expressions for the directory listing parsing
