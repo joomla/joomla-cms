@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	 HTML
  * @since		1.5
  */
-class JButton_Custom extends JButton
+class JButtonCustom extends JButton
 {
 	/**
 	 * Button type

@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
  * @subpackage		HTML
  * @since		1.5
  */
-class JButton_Separator extends JButton
+class JButtonSeparator extends JButton
 {
 	/**
 	 * Button type
