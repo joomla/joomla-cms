@@ -35,7 +35,7 @@
 	<tr>
 		<td width="100" >
 			<label for="menutype">
-				<strong><?php echo JText::_( 'Type' ); ?>:</strong>
+				<strong><?php echo JText::_( 'Module Name' ); ?>:</strong>
 			</label>
 		</td>
 		<td>
@@ -50,7 +50,7 @@
 		</td>
 		<td>
 			<input class="inputbox" type="text" name="title" id="title" size="30" maxlength="255" value="<?php echo $this->row->title; ?>" />
-			<?php echo JCommonHTML::ToolTip( JText::_( 'A proper title for the Menu Type' ) ); ?>
+			<?php echo JCommonHTML::ToolTip( JText::_( 'A proper title for the Menu' ) ); ?>
 		</td>
 	</tr>
 	<tr>
@@ -61,7 +61,7 @@
 		</td>
 		<td>
 			<input class="inputbox" type="text" name="description" id="description" size="30" maxlength="255" value="<?php echo $this->row->description; ?>" />
-			<?php echo JCommonHTML::ToolTip( JText::_( 'A description for the Menu Type' ) ); ?>
+			<?php echo JCommonHTML::ToolTip( JText::_( 'A description for the Menu' ) ); ?>
 		</td>
 	</tr>
 	<?php if ($this->isnew) : ?>

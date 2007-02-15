@@ -561,9 +561,9 @@ class JCommonHTML
 			$style = '';
 		}
 		if ( $link ) {
-			$tip = '<span class="editlinktip hasTip" title="'.$title.$tooltip.' '. $style .'><a href="'. $href .'">'. $text .'</a></span>';
+			$tip = '<span class="editlinktip hasTip" title="'.$title.$tooltip.'" '. $style .'><a href="'. $href .'">'. $text .'</a></span>';
 		} else {
-			$tip = '<span class="editlinktip hasTip" title="'.$title.$tooltip.' '. $style .'>'. $text .'</span>';
+			$tip = '<span class="editlinktip hasTip" title="'.$title.$tooltip.'" '. $style .'>'. $text .'</span>';
 		}
 
 		return $tip;
