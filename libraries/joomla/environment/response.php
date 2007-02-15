@@ -201,7 +201,6 @@ class JResponse
 			JResponse::setHeader( 'Pragma', 'no-cache' ); // HTTP 1.0
 		}
 
-		JResponse::setHeader( 'Content-Length', strlen($data) );
 		JResponse::sendHeaders();
 		return $data;
 	}
