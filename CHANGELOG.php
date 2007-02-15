@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Feb-2007 Laurens Vandeput
+# Fixed [artf7572] : XML-RPC server fixed
+
 15-Feb-2007 Andrew Eddie
  # Error deleting section
 
@@ -54,7 +57,7 @@ Legend:
  # Fixed [artf7473] Edit your details works
  # Fixed [t129709] admin com_user, returns to edit page when record cannot be saved
  # Fixed [t115840] phputf8 JString::str_ireplace uses iammac's code
- # Various small fixes 
+ # Various small fixes
 
 11-Feb-2007 Johan Janssens
  ^ com_weblinks : Implemented new routing mechanism

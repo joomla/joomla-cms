@@ -206,17 +206,25 @@ class JPluginHelper
 			return $plugins;
 		}
 
-		$db		= & JFactory::getDBO();
-		$user	= & JFactory::getUser();
+		$db		=& JFactory::getDBO();
+		$user	=& JFactory::getUser();
 
-		$aid = $user->get('aid', 0);
+		if (isset($user)) {
+			$aid = $user->get('aid', 0);
 
-		$query = "SELECT id, name, folder, element, published, params"
-			. "\n FROM #__plugins"
-			. "\n WHERE published >= 1"
-			. "\n AND access <= " . (int) $aid
-			. "\n ORDER BY ordering"
-			;
+			$query = "SELECT id, name, folder, element, published, params"
+				. "\n FROM #__plugins"
+				. "\n WHERE published >= 1"
+				. "\n AND access <= " . (int) $aid
+				. "\n ORDER BY ordering"
+				;
+		} else {
+			$query = "SELECT id, name, folder, element, published, params"
+				. "\n FROM #__plugins"
+				. "\n WHERE published >= 1"
+				. "\n ORDER BY ordering"
+				;
+		}
 
 		$db->setQuery( $query );
 
