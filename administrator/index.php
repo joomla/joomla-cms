@@ -50,9 +50,6 @@ $mainframe->initialise(array(
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 $mainframe->triggerEvent('onAfterInitialise');
 
-// set for overlib check
-$mainframe->set('loadOverlib', false);
-
 /**
  * ROUTE THE APPLICATION
  *
