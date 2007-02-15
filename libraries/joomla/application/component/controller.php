@@ -351,12 +351,14 @@ class JController extends JObject
 
 			// Get menu item information if Itemid exists
 			$menu	=& JMenu::getInstance();
-			if(is_object($menu)) {
-				$item    = $menu->getActive();
-				$params	=& $menu->getParams($item->id);
-
-				// Set Default State Data
-				$model->setState( 'parameters.menu', $params );
+			if (is_object( $menu ))
+			{
+				if ($item = $menu->getActive())
+				{
+					$params	=& $menu->getParams($item->id);
+					// Set Default State Data
+					$model->setState( 'parameters.menu', $params );
+				}
 			}
 		}
 		return $model;
