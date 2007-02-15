@@ -419,26 +419,31 @@ class MenusModelList extends JModel
 			foreach ($items as $id)
 			{
 				$row->load( $id );
-				$row->published = $state;
 
-				if ($state != 1) {
-					// Set any alias menu types to not point to unpublished menu items
-					$db = &$this->getDBO();
-					$query = 'UPDATE #__menu SET link = 0 WHERE type = \'menulink\' AND link = '.(int)$id;
-					$db->setQuery( $query );
-					if (!$db->query()) {
-						$this->setError( $db->getErrorMsg() );
+				if ($row->home != 1) {
+					$row->published = $state;
+
+					if ($state != 1) {
+						// Set any alias menu types to not point to unpublished menu items
+						$db = &$this->getDBO();
+						$query = 'UPDATE #__menu SET link = 0 WHERE type = \'menulink\' AND link = '.(int)$id;
+						$db->setQuery( $query );
+						if (!$db->query()) {
+							$this->setError( $db->getErrorMsg() );
+							return false;
+						}
+					}
+
+					if (!$row->check()) {
+						$this->setError($row->getError());
 						return false;
 					}
-				}
-
-				if (!$row->check()) {
-					$this->setError($row->getError());
-					return false;
-				}
-				if (!$row->store()) {
-					$this->setError($row->getError());
-					return false;
+					if (!$row->store()) {
+						$this->setError($row->getError());
+						return false;
+					}
+				} else {
+					JError::raiseWarning( 'SOME_ERROR_CODE', 'You can\'t unpublish the default menu item'  );					
 				}
 			}
 		}
