@@ -45,6 +45,12 @@ class  plgLegacy extends JPlugin
 	
 	function onAfterRoute()
 	{
+		global $mainframe;
+		if ($mainframe->isAdmin())
+		{
+			return;
+		}
+
 		switch(JRequest::getVar('option'))
 		{
 			case 'com_content'   :
