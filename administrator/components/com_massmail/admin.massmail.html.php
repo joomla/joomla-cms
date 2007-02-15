@@ -99,7 +99,7 @@ class HTML_massmail {
 						</label>
 					</td>
 					<td>
-						<input class="inputbox" type="text" name="mm_subject" id="mm_subject" value="" size="100" />
+						<input class="inputbox" type="text" name="mm_subject" id="mm_subject" value="" size="150" />
 					</td>
 				</tr>
 				<tr>
@@ -109,7 +109,7 @@ class HTML_massmail {
 						</label>
 					</td>
 					<td>
-						<textarea rows="20" cols="100" name="mm_message" id="mm_message" class="inputbox"></textarea>
+						<textarea rows="20" cols="150" name="mm_message" id="mm_message" class="inputbox"></textarea>
 					</td>
 				</tr>
 				</table>
