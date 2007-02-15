@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Feb-2007 Andrew Eddie
+ # Error deleting section
+
 13-Feb-2007 Johan Janssens
  ^ com_newsfeeds : Implemented new routing mechanism
  ^ Moved handling of pagination routing into JRouter
