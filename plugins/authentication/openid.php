@@ -16,7 +16,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport('joomla.application.plugin.helper');
+jimport('joomla.application.plugin.plugin');
 
 /**
  * OpenID Authenticate Plugin

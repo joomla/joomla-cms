@@ -198,8 +198,7 @@ class JToolBar extends JObject
 	function & loadButtonType($type, $new = false)
 	{
 		$signature = md5($type);
-		if (isset ($this->_buttons[$signature]) && $new === false)
-		{
+		if (isset ($this->_buttons[$signature]) && $new === false) {
 			return $this->_buttons[$signature];
 		}
 
@@ -209,7 +208,7 @@ class JToolBar extends JObject
 			return false;
 		}
 
-		$buttonClass = 'JButton_'.$type;
+		$buttonClass = 'JButton'.$type;
 		if (!class_exists($buttonClass))
 		{
 			if (isset ($this->_buttonDirs))

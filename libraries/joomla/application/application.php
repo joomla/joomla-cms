@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
 
 // Include library dependencies
 jimport('joomla.filter.input');
-jimport('joomla.application.plugin.helper');
+jimport('joomla.application.plugin.*');
 
 /**
 * Base class for a Joomla! application.

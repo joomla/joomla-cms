@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.plugin.helper' );
+jimport('joomla.application.plugin.plugin');
 
 /**
  * Joomla! Base XML-RPC Plugin
