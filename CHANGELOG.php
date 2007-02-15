@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Feb-2007 Mateusz Krzeszowiec
+ # Fixed [artf7519] : Images/Pagebreak/Readmore buttons don't work in XStandard
+ ^ editors-xtd plugins are now rendered in onDisplay event of editor plugin
+ ^ JEditor::display now have additional argument for rendering editors-xtd, default = true
+ - Removed JEditor::getButtons
+
 15-Feb-2007 Johan Janssens
  ^ Deprecated sefRelToAbs, use JRoute::_() instead
  ^ Removed Itemid in JRoute implementations, JRouter handles this automatically

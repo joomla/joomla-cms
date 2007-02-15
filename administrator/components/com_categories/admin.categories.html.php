@@ -231,7 +231,7 @@ class categories_html
 	function edit( &$row, &$lists, $redirect )
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		$editor =& JFactory::getEditor();
 
 		if ($row->image == '') {
@@ -390,8 +390,8 @@ class categories_html
 					<tr>
 						<td valign="top" colspan="3">
 							<?php
-							// parameters : areaname, content, width, height, cols, rows
-							echo $editor->display( 'description',  $row->description, '100%', '300', '60', '20' ) ;
+							// parameters : areaname, content, width, height, cols, rows, show xtd buttons
+							echo $editor->display( 'description',  $row->description, '100%', '300', '60', '20', false ) ;
 							?>
 						</td>
 					</tr>

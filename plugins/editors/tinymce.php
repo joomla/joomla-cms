@@ -332,7 +332,7 @@ class plgEditorTinymce extends JPlugin
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onDisplay( $name, $content, $width, $height, $col, $row )
+	function onDisplay( $name, $content, $width, $height, $col, $row, $buttons = true )
 	{
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric( $width )) {
@@ -342,7 +342,44 @@ class plgEditorTinymce extends JPlugin
 			$height .= 'px';
 		}
 
-		return "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" mce_editable=\"true\">$content</textarea>";
+		$args['name'] = $name;
+		$args['event'] = 'onGetInsertMethod';
+
+		$return = '';
+		$results[] = $this->update($args);
+		foreach ($results as $result) {
+			if (is_string($result) && trim($result)) {
+				$return .= $result;
+			}
+		}
+
+		if($buttons) {
+			$dispatcher =& JEventDispatcher::getInstance();
+			$results = $dispatcher->trigger( 'onCustomEditorButton', array('name' => $name) );
+
+			/*
+			 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
+			 */
+			$return .= "\n<div id=\"editor-xtd-buttons\">\n";
+			foreach ($results as $result)
+			{
+				/*
+				 * Results should be a three offset array consisting of:
+				 * [0] - onclick event
+				 * [1] - button text
+				 * [2] - button icon
+				 */
+				if ( $result[0] ) {
+					$return .= "<div class=\"button2-left\"><div class=\"".$result[2]."\"><a title=\"".$result[1]."\" onclick=\"javascript: ".$result[0].";\">".$result[1]."</a></div></div>\n";
+				}
+			}
+			$return .= "</div>\n";
+		}
+
+
+		$return = "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" mce_editable=\"true\">$content</textarea>\n" . $return;
+
+		return $return;
 	}
 
 	function onGetInsertMethod($name)

@@ -23,7 +23,7 @@ jimport('joomla.application.plugin.plugin');
  * @package Editors
  * @since 1.5
  */
-class plgEditorNone extends JPlugin 
+class plgEditorNone extends JPlugin
 {
 
 	/**
@@ -110,7 +110,7 @@ class plgEditorNone extends JPlugin
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onDisplay( $name, $content, $width, $height, $col, $row )
+	function onDisplay( $name, $content, $width, $height, $col, $row, $buttons = true )
 	{
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric( $width )) {
@@ -120,7 +120,43 @@ class plgEditorNone extends JPlugin
 			$height .= 'px';
 		}
 
-		return "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>";
+		$args['name'] = $name;
+		$args['event'] = 'onGetInsertMethod';
+
+		$return = '';
+		$results[] = $this->update($args);
+		foreach ($results as $result) {
+			if (is_string($result) && trim($result)) {
+				$return .= $result;
+			}
+		}
+
+		if($buttons) {
+			$dispatcher =& JEventDispatcher::getInstance();
+			$results = $dispatcher->trigger( 'onCustomEditorButton', array('name' => $name) );
+
+			/*
+			 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
+			 */
+			$return .= "\n<div id=\"editor-xtd-buttons\">\n";
+			foreach ($results as $result)
+			{
+				/*
+				 * Results should be a three offset array consisting of:
+				 * [0] - onclick event
+				 * [1] - button text
+				 * [2] - button icon
+				 */
+				if ( $result[0] ) {
+					$return .= "<div class=\"button2-left\"><div class=\"".$result[2]."\"><a title=\"".$result[1]."\" onclick=\"javascript: ".$result[0].";\">".$result[1]."</a></div></div>\n";
+				}
+			}
+			$return .= "</div>\n";
+		}
+
+		$return = "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>" . $return;
+
+		return $return;
 	}
 
 	function onGetInsertMethod($name)

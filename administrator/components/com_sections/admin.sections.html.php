@@ -193,7 +193,7 @@ class sections_html
 	function edit( &$row, $option, &$lists )
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		global $mainframe;
 
 		$editor =& JFactory::getEditor();
@@ -346,7 +346,7 @@ class sections_html
 					<td valign="top" colspan="3">
 						<?php
 						// parameters : areaname, content, width, height, cols, rows
-						echo $editor->display( 'description',  $row->description, '100%', '300', '60', '20' ) ;
+						echo $editor->display( 'description',  $row->description, '100%', '300', '60', '20', false ) ;
 						?>
 					</td>
 				</tr>

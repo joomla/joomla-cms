@@ -112,7 +112,7 @@ class JEditor extends JObservable
 	 *
 	 *
 	 */
-	function display($name, $html, $width, $height, $col, $row)
+	function display($name, $html, $width, $height, $col, $row, $buttons = true)
 	{
 		$this->_loadEditor();
 
@@ -134,6 +134,7 @@ class JEditor extends JObservable
 		$args['height'] 	 = $height;
 		$args['col'] 		 = $col;
 		$args['row'] 		 = $row;
+		$args['buttons']	 = $buttons;
 		$args['event'] 		 = 'onDisplay';
 
 		$results[] = $this->_editor->update($args);
@@ -166,48 +167,6 @@ class JEditor extends JObservable
 			}
 		}
 		return $return;
-	}
-
-	/**
-	 * Get the editor extended buttons
-	 *
-	 *
-	 */
-	function getButtons($editor)
-	{
-		$this->_loadEditor();
-
-		$args['name'] = $editor;
-		$args['event'] = 'onGetInsertMethod';
-
-		$return = '';
-		$results[] = $this->_editor->update($args);
-		foreach ($results as $result) {
-			if (trim($result)) {
-				$return .= $result;
-			}
-		}
-
-		$dispatcher =& JEventDispatcher::getInstance();
-		$results = $dispatcher->trigger( 'onCustomEditorButton', array('name' => $editor) );
-
-		$html = null;
-		foreach ($results as $result)
-		{
-			/*
-			 * Results should be a three offset array consisting of:
-			 * [0] - onclick event
-			 * [1] - button text
-			 * [2] - button icon
-			 */
-			if ( $result[0] ) {
-				$html .= "<div class=\"button2-left\"><div class=\"".$result[2]."\"><a title=\"".$result[1]."\" onclick=\"javascript: ".$result[0].";\">".$result[1]."</a></div></div>\n";
-			}
-		}
-		/*
-		 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
-		 */
-		return "\n<div id=\"editor-xtd-buttons\">\n$html</div>";
 	}
 
 	/**

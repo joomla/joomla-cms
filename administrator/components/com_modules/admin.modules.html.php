@@ -211,7 +211,7 @@ class HTML_modules
 	function edit( &$model, &$row, &$orders2, &$lists, &$params, $client )
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		// Check for component metadata.xml file
 		//$path = JApplicationHelper::getPath( 'mod'.$client->id.'_xml', $row->module );
 		//$params = new JParameter( $row->params, $path );
@@ -476,7 +476,6 @@ class HTML_modules
 				<?php
 				// parameters : areaname, content, width, height, cols, rows
 				echo $editor->display( 'content', $row->content, '100%', '400', '60', '20' ) ;
-				echo $editor->getButtons('content');
 				?>
 
 			</fieldset>

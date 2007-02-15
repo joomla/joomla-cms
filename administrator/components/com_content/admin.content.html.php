@@ -433,7 +433,7 @@ class ContentView
 	function editContent( &$row, $section, &$lists, &$sectioncategories, &$params, $option, &$form )
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		jimport('joomla.html.pane');
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $row );
@@ -507,7 +507,6 @@ class ContentView
 						<?php
 						// parameters : areaname, content, width, height, cols, rows
 						echo $editor->display( 'text',  $row->text , '100%', '550', '75', '20' ) ;
-						echo $editor->getButtons('text');
 						?>
 					</td>
 				</tr>
