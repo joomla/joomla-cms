@@ -124,7 +124,7 @@ class categories_html
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row 	= &$rows[$i];
 
-			$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&id='. $row->section );
+			$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&cid[]='. $row->section );
 
 			$link = 'index.php?option=com_categories&section='. $section .'&task=edit&cid[]='. $row->id;
 
