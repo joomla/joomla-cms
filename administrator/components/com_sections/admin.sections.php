@@ -352,6 +352,7 @@ function removeSections( $cid, $scope, $option )
 		JError::raiseError(500, JText::_( 'Select a section to delete', true ) );
 	}
 
+	JArrayHelper::toInteger( $cid );
 	$cids = implode( ',', $cid );
 
 	$query = 'SELECT s.id, s.name, COUNT(c.id) AS numcat'
@@ -369,17 +370,18 @@ function removeSections( $cid, $scope, $option )
 	$cid = array();
 	foreach ($rows as $row) {
 		if ($row->numcat == 0) {
-			$cid[] = $row->id;
-			$name[] = $row->name;
+			$cid[]	= (int) $row->id;
+			$name[]	= $row->name;
 		} else {
-			$err[] = $row->name;
+			$err[]	= $row->name;
 		}
 	}
 
-	if (count( $cid )) {
+	if (count( $cid ))
+	{
 		$cids = implode( ',', $cid );
 		$query = 'DELETE FROM #__sections'
-		. ' WHERE id IN ( $cids )'
+		. ' WHERE id IN ( '.$cids.' )'
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
@@ -387,7 +389,8 @@ function removeSections( $cid, $scope, $option )
 		}
 	}
 
-	if (count( $err )) {
+	if (count( $err ))
+	{
 		$cids = implode( ', ', $err );
 		$msg = JText::sprintf( 'DESCCANNOTBEREMOVED', $cids );
 		$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope, $msg );
