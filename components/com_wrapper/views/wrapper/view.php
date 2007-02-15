@@ -25,13 +25,11 @@ class WrapperViewWrapper extends JView
 {
 	function display( $tpl = null )
 	{
-		global $Itemid;
-
 		// get menu
-		$menus	=& JMenu::getInstance();
-		$menu	=& $menus->getItem($Itemid);
+		$menu =& JMenu::getInstance();
+		$item =& $menu->getActive();
 
-		$this->params->def( 'header', $menu->name );
+		$this->params->def( 'header', $item->name );
 		$this->params->def( 'scrolling', 'auto' );
 		$this->params->def( 'page_title', '1' );
 		$this->params->def( 'pageclass_sfx', '' );

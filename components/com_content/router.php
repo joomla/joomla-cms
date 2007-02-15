@@ -11,53 +11,54 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function ContentBuildRoute(&$ARRAY)
+function ContentBuildRoute(&$query)
 {
-	$resolveNames = 0;
-
-	// TODO: Resolve category names
-	$parts = array();
-	if(isset($ARRAY['view'])) {
-		$parts[] = $ARRAY['view'];
+	$segments = array();
+	if(isset($query['view'])) {
+		$segments[] = $query['view'];
+		unset($query['view']);
 	};
 
-	if(isset($ARRAY['layout'])) {
-		$parts[] = $ARRAY['layout'];
+	if(isset($query['layout'])) {
+		$segments[] = $query['layout'];
+		unset($query['layout']);
 	};
 
-	if(isset($ARRAY['catid'])) {
-		$parts[] = $ARRAY['catid'];
+	if(isset($query['catid'])) {
+		$segments[] = $query['catid'];
+		unset($query['catid']);
 	};
 
-	if(isset($ARRAY['id'])) {
-		if(!$resolveNames) {
-			$parts[] = (int)$ARRAY['id'];
-		} else {
-			$parts[] = $ARRAY['id'];
-		}
+	if(isset($query['id'])) {
+		$segments[] = $query['id'];
+		unset($query['id']);
 	};
 
-	if(isset($ARRAY['year'])) {
-		$parts[] = $ARRAY['year'];
+	if(isset($query['year'])) {
+		$segments[] = $query['year'];
+		unset($query['year']);
 	};
 
-	if(isset($ARRAY['month'])) {
-		$parts[] = $ARRAY['month'];
+	if(isset($query['month'])) {
+		$segments[] = $query['month'];
+		unset($query['month']);
 	};
 
-	//unset the whole array
-	$ARRAY = array();
-
-	return $parts;
+	return $segments;
 }
 
-function ContentParseRoute($ARRAY)
+function ContentParseRoute($segments)
 {
+	global $mainframe;
+	
+	//Get the router
+	$router =& $mainframe->getRouter();
+	
 	// view is always the first element of the array
-	$view = array_shift($ARRAY);
+	$view = array_shift($segments);
 	JRequest::setVar('view', $view, 'get');
 
-	$next = array_shift($ARRAY);
+	$next = array_shift($segments);
 
 	switch($view)
 	{
@@ -66,26 +67,26 @@ function ContentParseRoute($ARRAY)
 		case 'section'  :
 		{
 			if(is_numeric((int)$next) && ((int)$next != 0)) {
-				JRequest::setVar('id', (int)$next, 'get');
+				$router->setVar('id', (int)$next);
 			}
 			else
 			{
-				JRequest::setVar('layout', $next, 'get');
-				JRequest::setVar('id', (int)array_shift($ARRAY), 'get');
+				$router->setVar('layout', $next);
+				$router->setVar('id', (int)array_shift($segments));
 			}
 		} break;
 
 		case 'archive'   :
 		{
 			if(is_numeric((int)$next) && ((int)$next != 0)) {
-				JRequest::setVar('year', $next, 'get');
-				JRequest::setVar('month', array_shift($ARRAY), 'get');
+				$router->setVar('year', $next);
+				$router->setVar('month', array_shift($segments));
 			}
 			else
 			{
-				JRequest::setVar('layout', $next, 'get');
-				JRequest::setVar('year', array_shift($ARRAY), 'get');
-				JRequest::setVar('month', array_shift($ARRAY), 'get');
+				$router->setVar('layout', $next);
+				$router->setVar('year', array_shift($segments));
+				$router->setVar('month', array_shift($segments));
 			}
 		} break;
 	}

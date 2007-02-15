@@ -116,7 +116,7 @@ class JMainMenu extends JTree
 		$iParams =& new JParameter($item->params);
 		$iSecure = $iParams->def('secure', 0);
 		if (strcasecmp(substr($item->link, 0, 4), 'http')) {
-			$item->url = JURI::resolve($item->link, $iSecure);
+			$item->url = JRoute::_($item->link, $iSecure);
 		} else {
 			$item->url = $item->link;
 		}

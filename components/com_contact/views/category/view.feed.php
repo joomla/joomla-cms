@@ -25,7 +25,7 @@ class ContactViewCategory extends JView
 {
 	function display()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		$db			=& JFactory::getDBO();
 		$document	=& JFactory::getDocument();
@@ -63,8 +63,7 @@ class ContactViewCategory extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$link = 'index.php?option=com_contact&view=contact&id='. $row->id . '&catid='.$row->catid. '&Itemid='. $Itemid;;
-			$link = sefRelToAbs( $link );
+			$link = JRoute::_( 'index.php?option=com_contact&view=contact&id='. $row->id . '&catid='.$row->catid );
 
 			// strip html from feed item description text
 			$description = $row->description;

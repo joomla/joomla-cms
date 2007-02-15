@@ -18,7 +18,7 @@ $mainframe->registerEvent( 'onBeforeDisplayContent', 'plgContentNavigation' );
 
 function plgContentNavigation( &$row, &$params, $page=0 )
 {
-	global $Itemid, $access, $mainframe;
+	global $access, $mainframe;
 
 	$task 		= JRequest::getVar( 'task' );
 	$user		=& JFactory::getUser();
@@ -48,9 +48,9 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		$access->canPublish = $user->authorize('action', 'publish', 'content', 'all');
 
 		// Paramters for menu item as determined by controlling Itemid
-		$menu = & JTable::getInstance( 'menu');
-		$menu->load($Itemid);
-		$params = new JParameter($menu->params);
+		$menu =& JMenu::getInstance();
+		$item =& $menu->getActive();
+		$params = new JParameter($item->params);
 
 		// the following is needed as different menu items types utilise a different param to control ordering
 		// for Blogs the `orderby_sec` param is the order controlling param
@@ -156,12 +156,12 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		}
 
 		if ($row->prev) {
-			$row->prev = sefRelToAbs('index.php?option=com_content&amp;view=article&amp;id='.$row->prev.'&amp;Itemid='.$Itemid);
+			$row->prev = JRoute::_('index.php?option=com_content&view=article&id='.$row->prev);
 		} else {
 			$row->prev = '';
 		}
 		if ($row->next) {
-			$row->next = sefRelToAbs('index.php?option=com_content&amp;view=article&amp;id='.$row->next.'&amp;Itemid='.$Itemid);
+			$row->next = JRoute::_('index.php?option=com_content&view=article&id='.$row->next);
 		} else {
 			$row->next = '';
 		}

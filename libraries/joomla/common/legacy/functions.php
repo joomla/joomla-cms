@@ -792,25 +792,31 @@ function josSpoofValue($alt = NULL)
 	return $validate;
 }
 
-/*
-* Loads all necessary files for JS Overlib tooltips
-*/
-function loadOverlib()
-{
+/**
+ * Legacy function to load the tooltip library.
+ *
+ * @deprecated	As of version 1.5
+ */
+function loadOverlib() {
 	jimport('joomla.html.tooltips');
 }
 
 /**
-* Utility function to provide ToolTips
+* Legacy utility function to provide ToolTips
 *
-* @param string ToolTip text
-* @param string Box title
-* @returns HTML code for ToolTip
-* @since 1.0
+* @deprecated	As of version 1.5
 */
-function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='', $link=1 )
-{
+function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='', $link=1 ) {
 	return JCommonHTML::ToolTip($tooltip, $title, $image, $text, $href, $link);
+}
+
+/**
+ * Legacy function to convert an internal Joomla URL to a humanly readible URL.
+ *
+ * @deprecated	As of version 1.5
+ */
+function sefRelToAbs($value) {
+	return JRoute::_($value);
 }
 
 ?>

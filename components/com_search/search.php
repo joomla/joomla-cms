@@ -46,7 +46,7 @@ class SearchController
 {
 	function display()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		// Initialize some variables
 		$db 	=& JFactory::getDBO();
@@ -164,7 +164,7 @@ class SearchController
 		$uri = new JURI();
 		$uri->setQuery($post);
 
-		$mainframe->redirect(sefRelToAbs('index.php?'.$uri->getQuery()));
+		$mainframe->redirect(JRoute::_('index.php?'.$uri->getQuery()));
 
 	}
 

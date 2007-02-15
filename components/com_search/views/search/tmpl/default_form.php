@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<form action="index.php" method="post">
+<form action="<?php echo JRoute::_(index.php) ?>" method="post">
 <table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<td nowrap="nowrap">
@@ -42,5 +42,4 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <input type="hidden" name="task"   value="search" />
 <input type="hidden" name="option" value="com_search" />
-<input type="hidden" name="Itemid" value="<?php echo $Itemid ?>" />
 </form>

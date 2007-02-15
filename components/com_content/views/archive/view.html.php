@@ -28,7 +28,7 @@ class ContentViewArchive extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $option, $Itemid;
+		global $mainframe, $option;
 
 		if (empty( $layout ))
 		{
@@ -121,7 +121,7 @@ class ContentViewArchive extends JView
 			$years[] = JHTMLSelect::option( $i, $i );
 		}
 		$form->yearField	= JHTMLSelect::genericList( $years, 'year', 'size="1" class="inputbox"', 'value', 'text', $year );
-		$form->limitField	= $pagination->getLimitBox('index.php?option=com_content&amp;view=archive&amp;month='.$month.'&amp;year='.$year.'&amp;limitstart='.$limitstart.'&amp;Itemid='.$Itemid);
+		$form->limitField	= $pagination->getLimitBox('index.php?option=com_content&view=archive&month='.$month.'&year='.$year.'&limitstart='.$limitstart);
 
 		$this->assign('filter' 		, $filter);
 		$this->assign('year'  		, $year);

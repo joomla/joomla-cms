@@ -238,7 +238,7 @@ class ContentModelCategory extends JModel
 	 */
 	function _loadSiblings()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		if (empty($this->_category))
 		{
@@ -350,8 +350,6 @@ class ContentModelCategory extends JModel
 
 	function _buildContentOrderBy($state = 1)
 	{
-		global $Itemid;
-
 		// Get the paramaters of the active menu item
 		$menu	=& JMenu::getInstance();
 		$item    = $menu->getActive();
@@ -392,7 +390,7 @@ class ContentModelCategory extends JModel
 
 	function _buildContentWhere($state = 1)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('aid', 0);

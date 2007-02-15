@@ -19,8 +19,7 @@ class modPollHelper
 	function getList(&$params)
 	{
 		global $mainframe;
-
-		$Itemid = JRequest::getVar( 'Itemid' );
+		
 		$db		=& JFactory::getDBO();
 		$result	= array();
 

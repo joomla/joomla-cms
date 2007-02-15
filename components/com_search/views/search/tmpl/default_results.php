@@ -41,9 +41,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<?php if ( $result->href ) :
 					$result->href = ampReplace( $result->href );
 					if ($result->browsernav == 1 ) : ?>
-						<a href="<?php echo sefRelToAbs($result->href); ?>" target="_blank">
+						<a href="<?php echo JRoute::_($result->href); ?>" target="_blank">
 					<?php else : ?>
-						<a href="<?php echo sefRelToAbs($result->href); ?>">
+						<a href="<?php echo JRoute::_($result->href); ?>">
 					<?php endif;
 
 					echo $result->title;

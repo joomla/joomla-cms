@@ -18,8 +18,6 @@ $mainframe->registerEvent( 'onBeforeDisplayContent', 'plgContentVote' );
 
 function plgContentVote( &$row, &$params, $page=0 )
 {
-	global $Itemid;
-
 	$id 	= $row->id;
 	$option = 'com_content';
 	$task 	= JRequest::getVar( 'task' );
@@ -28,7 +26,7 @@ function plgContentVote( &$row, &$params, $page=0 )
 	if ($params->get( 'rating' ) && !$params->get( 'popup' ))
 	{
 
-		$html .= '<form method="post" action="' . sefRelToAbs( 'index.php' ) . '">';
+		$html .= '<form method="post" action="' . JRoute::_( 'index.php' ) . '">';
 		$img = '';
 
 		// look for images in template if available
@@ -61,7 +59,6 @@ function plgContentVote( &$row, &$params, $page=0 )
 			$html .= '<input type="hidden" name="task" value="vote" />';
 			$html .= '<input type="hidden" name="pop" value="0" />';
 			$html .= '<input type="hidden" name="option" value="com_content" />';
-			$html .= '<input type="hidden" name="Itemid" value="'. $Itemid .'" />';
 			$html .= '<input type="hidden" name="cid" value="'. $id .'" />';
 			$html .= '<input type="hidden" name="url" value="'. $url .'" />';
 			$html .= '</span>';

@@ -81,7 +81,7 @@ class JModuleHelper
 	function renderModule($module, $attribs = array())
 	{
 		static $chrome;
-		global $mainframe, $Itemid, $option;
+		global $mainframe, $option;
 		
 		// Handle legacy globals if enabled
 		if ($mainframe->getCfg('legacy'))
@@ -207,7 +207,7 @@ class JModuleHelper
 	 */
 	function &_load()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		static $modules;
 
@@ -217,12 +217,15 @@ class JModuleHelper
 
 		$user	=& JFactory::getUser();
 		$db		=& JFactory::getDBO();
+		
+		$menu   =& JMenu::getInstance();
+		$item   = $menu->getActive();
 
 		$aid	= $user->get('aid', 0);
 
 		$modules	= array();
 
-		$wheremenu = isset( $Itemid ) ? ' AND ( mm.menuid = '. $Itemid .' OR mm.menuid = 0 )' : '';
+		$wheremenu = isset( $item->id ) ? ' AND ( mm.menuid = '. $item->id .' OR mm.menuid = 0 )' : '';
 
 		$query = 'SELECT id, title, module, position, content, showtitle, control, params'
 			. ' FROM #__modules AS m'

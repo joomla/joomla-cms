@@ -82,8 +82,7 @@ class WeblinksModelCategory extends JModel
 		$this->setState('filter_order_dir', JRequest::getVar('filter_order_Dir', 'ASC'));
 
 		$id = JRequest::getVar('id', 0, '', 'int');
-		$this->setId($id);
-
+		$this->setId((int)$id);
 	}
 
 	/**

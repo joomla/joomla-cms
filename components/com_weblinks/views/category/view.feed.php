@@ -29,7 +29,7 @@ class WeblinksViewCategory extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $Itemid, $option;
+		global $mainframe, $option;
 
 		$document =& JFactory::getDocument();
 
@@ -47,7 +47,7 @@ class WeblinksViewCategory extends JView
 			$title = html_entity_decode( $title );
 
 			// url link to article
-			$link = sefRelToAbs( 'index.php?option=com_weblinks&view=weblink&id='. $item->id.'&Itemid='.$Itemid );
+			$link = JRoute::_( 'index.php?option=com_weblinks&view=weblink&id='. $item->id );
 
 			// strip html from feed item description text
 			$description = $item->description;

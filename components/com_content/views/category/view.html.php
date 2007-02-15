@@ -28,7 +28,7 @@ class ContentViewCategory extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $option, $Itemid;
+		global $mainframe, $option;
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
@@ -61,11 +61,11 @@ class ContentViewCategory extends JView
 		$category	= & $this->get( 'Category' );
 
 		//add alternate feed link
-		$link	= 'feed.php?option=com_content&amp;view=category&amp;id='.$category->id.'&amp;Itemid='.$Itemid;
+		$link	= 'feed.php?option=com_content&view=category&id='.$category->id;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&format=rss'), 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&format=atom'), 'alternate', 'rel', $attribs);
 
 		// Create a user access object for the user
 		$access					= new stdClass();
@@ -74,7 +74,7 @@ class ContentViewCategory extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Section
-		$pathway->addItem($category->sectiontitle, sefRelToAbs('index.php?option=com_content&amp;view=section&amp;id='.$category->sectionid.'&amp;Itemid='.$Itemid));
+		$pathway->addItem($category->sectiontitle, JRoute::_('index.php?option=com_content&view=section&id='.$category->sectionid));
 		// Category
 		$pathway->addItem($category->title, '');
 
@@ -120,7 +120,7 @@ class ContentViewCategory extends JView
 
 	function getIcon(&$article, $type, $attribs = array())
 	{
-		global $Itemid, $mainframe;
+		global $mainframe, $Itemid;
 
 		$url	= '';
 		$text	= '';
@@ -129,7 +129,7 @@ class ContentViewCategory extends JView
 		{
 			case 'new' :
 			{
-				$url = 'index.php?option=com_content&amp;task=new&amp;sectionid='.$article->sectionid.'&amp;Itemid='.$Itemid;
+				$url = 'index.php?option=com_content&amp;task=new&amp;sectionid='.$article->sectionid;
 
 				if ($this->params->get('icons')) {
 					$text = JAdminMenus::ImageCheck('new.png', '/images/M_images/', NULL, NULL, JText::_('New'), JText::_('New'). $article->id );
@@ -154,7 +154,7 @@ class ContentViewCategory extends JView
 				}
 
 
-				$url = 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;task=edit&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+				$url = 'index.php?option=com_content&view=article&id='.$article->id.'&task=edit&Returnid='.$Itemid;
 				jimport('joomla.html.tooltips');
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
@@ -198,7 +198,7 @@ class ContentViewCategory extends JView
 
 			case 'print' :
 			{
-				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component&amp;print=1&amp;page='.@ $this->request->limitstart;
+				$url	= 'index.php?option=com_content&view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -237,7 +237,7 @@ class ContentViewCategory extends JView
 
 	function &getItems()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		if (!count( $this->items ) ) {
 			$return = array();
@@ -257,7 +257,7 @@ class ContentViewCategory extends JView
 		{
 			$item =& $this->items[$i];
 
-			$item->link		= sefRelToAbs('index.php?option=com_content&amp;view=article&amp;id='.$item->slug.'&amp;Itemid='.$Itemid);
+			$item->link		= JRoute::_('index.php?option=com_content&view=article&id='.$item->slug);
 			$item->created	= JHTML::Date($item->created, $this->params->get('date_format'));
 
 			$item->odd		= $k;
@@ -272,7 +272,7 @@ class ContentViewCategory extends JView
 
 	function &getItem($index = 0, $params)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
@@ -326,12 +326,12 @@ class ContentViewCategory extends JView
 				// checks if the item is a public or registered/special item
 				if ($item->access <= $user->get('aid', 0))
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$item->slug."&amp;Itemid=".$Itemid);
+					$linkOn = JRoute::_("index.php?option=com_content&view=article&id=".$item->slug);
 					$linkText = JText::_('Read more...');
 				}
 				else
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
+					$linkOn = JRoute::_("index.php?option=com_registration&task=register");
 					$linkText = JText::_('Register to read more...');
 				}
 			}
@@ -340,7 +340,7 @@ class ContentViewCategory extends JView
 		$item->readmore_link = $linkOn;
 		$item->readmore_text = $linkText;
 
-		$item->print_link = $mainframe->getCfg('live_site').'/index.php?option=com_content&amp;view=article&amp;id='.$item->slug.'&amp;Itemid='.$Itemid.'&amp;tmpl=component';
+		$item->print_link = $mainframe->getCfg('live_site').'/index.php?option=com_content&view=article&id='.$item->slug.'&tmpl=component';
 
 		$item->event = new stdClass();
 		$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $item, & $params,0));

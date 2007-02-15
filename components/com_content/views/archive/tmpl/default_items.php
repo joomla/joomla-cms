@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <li class="row<?php echo ($item->odd +1 ); ?>">
 	<?php if ($this->params->get('title')) : ?>
 	<h4 class="title">
-		<a href="<?php echo JURI::resolve('index.php?option=com_content&amp;view=article&amp;id='.$item->id.'&amp;Itemid='.$Itemid); ?>">
+		<a href="<?php echo JRoute::_('index.php?option=com_content&view=article&id='.$item->id); ?>">
 			<?php echo $item->title; ?>
 		</a>
 	</h4>

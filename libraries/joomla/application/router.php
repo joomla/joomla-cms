@@ -16,6 +16,71 @@
 defined('JPATH_BASE') or die();
 
 /**
+ * Route handling class
+ *
+ * @static
+ * @package 	Joomla.Framework
+ * @subpackage	Application
+ * @since		1.5
+ */
+class JRoute
+{
+	/**
+	 * Translates an internal Joomla URL to a humanly readible URL.
+	 *
+	 * @access public
+	 * @param 	string 	$url 	Absolute or Relative URI to Joomla resource
+	 * @param	int		$ssl	Secure state for the resolved URI
+	 * 		 1: Make URI secure using global secure site URI
+	 * 		 0: Leave URI in the same secure state as it was passed to the function
+	 * 		-1: Make URI unsecure using the global unsecure site URI
+	 * @return The translated humanly readible URL
+	 */
+	function _($url, $ssl = 0)
+	{
+		global $mainframe;
+		$router =& $mainframe->getRouter();
+		
+		// Build route
+		$url = $router->build($url);
+		
+	
+		/*
+		 * Get the secure/unsecure URLs.  
+		 
+		 * If the first 5 characters of the BASE are 'https', then we are on an ssl connection over
+		 * https and need to set our secure URL to the current request URL, if not, and the scheme is 
+		 * 'http', then we need to do a quick string manipulation to switch schemes.
+		 */
+		 
+		$base = JURI::base(); //get base URL
+		
+		if ( substr( $base, 0, 5 ) == 'https' ) 
+		{
+			$secure 	= $base;
+			$unsecure	= 'http'.substr( $base, 5 );
+		} 
+		elseif ( substr( $base, 0, 4 ) == 'http' ) 
+		{
+			$secure		= 'https'.substr( $base, 4 );
+			$unsecure	= $base;
+		}
+
+		// Ensure that proper secure URL is used if ssl flag set secure
+		if ($ssl == 1) {
+			$url = $secure.$url;
+		}
+
+		// Ensure that unsecure URL is used if ssl flag is set to unsecure
+		if ($ssl == -1) {
+			$url = $unsecure.$url;
+		}
+
+		return $url;
+	}
+}
+
+/**
  * Class to create and parse routes
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
@@ -26,11 +91,22 @@ defined('JPATH_BASE') or die();
 class JRouter extends JObject
 {
 	/**
+	 * The URI object that contains the raw URL information
+	 * 
+	 * @access public
+	 * @var JURI object
+	 */
+	var $_vars = null;
+
+	
+	/**
 	 * Class constructor
 	 *
 	 * @access public
 	 */
-	function __construct() {
+	function __construct() 
+	{
+		
 	}
 
 	/**
@@ -54,30 +130,38 @@ class JRouter extends JObject
 
 		return $instance;
 	}
+	
+	function setVar($key, $value) {
+		$this->_vars[$key] = $value;
+	}
+	
 
    /**
 	* Route a request
 	*
 	* @access public
 	*/
-	function parseRoute($uri)
+	function parse($url)
 	{
-		$menu =& JMenu::getInstance();
-
+		//Create the URI object based on the passed in URL
+		$uri = JURI::getInstance($url);
+		
 		// Check entry point
-		$path = $uri->toString();
-		if (!(preg_match( '#index\d?\.php#', $path) || (strpos($path, 'feed.php') == false))) {
+		if (!(preg_match( '#index\d?\.php#', $url) || (strpos($url, 'feed.php') == false))) {
 			return;
 		}
+		
+		// Get menu object
+		$menu =& JMenu::getInstance();
 
 		// Get the base and full URLs
 		$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
-		$base = JURI::base();
+		$base = $uri->base();
 
 		$url = urldecode(trim(str_replace($base, '', $full), '/'));
 		$url = str_replace('index.php/', '', $url);
 
-		if (!$itemid = JRequest::getVar('Itemid'))
+		if (!$itemid = $uri->getVar('Itemid'))
 		{
 			// Set document link
 			$doc = & JFactory::getDocument();
@@ -88,9 +172,10 @@ class JRouter extends JObject
 				//Need to reverse the array (highest sublevels first)
 				$items = array_reverse($menu->getMenu());
 
-				foreach ($items as $item)
+				foreach ($items as $item) 
 				{
-					if(strpos($url, $item->route) === 0) {
+					if(strpos($url, $item->route) === 0) 
+					{
 						$itemid = $item->id;
 						$url    = str_replace($item->route, '', $url);
 						break;
@@ -102,12 +187,15 @@ class JRouter extends JObject
 		// tcp added, temp fix	
 		$item = $itemid ? $menu->getItem($itemid) : $menu->getDefault();
 		$menu->setActive($item->id);
-
-		JRequest::set($item->query, 'get', false);	
-		JRequest::setVar('Itemid', ($item) ? $item->id : null, 'get');
 		
-		//Parse component route
-		$this->parseComponentRoute($item->component, $url);
+		JRequest::set($item->query, 'get', false);	//how do we deal with this ?
+		$this->setVar('Itemid', ($item) ? $item->id : null);
+		
+		//Parse component segment
+		$this->parseComponentSegment($item->component, $url);
+		
+		//Push data into request
+		JRequest::set($this->_vars, 'get');
 	}
 
 	/**
@@ -117,7 +205,7 @@ class JRouter extends JObject
  	 * @return	string	The absolute search engine friendly URL
  	 * @since	1.5
  	 */
-	function buildRoute($value)
+	function build($value)
 	{
 		global $mainframe, $Itemid, $option;
 
@@ -169,7 +257,7 @@ class JRouter extends JObject
 				$query = $uri->getQuery(true);
 				
 				//Build component route
-				$route = $this->buildComponentRoute($item->component, $query);
+				$route = $this->buildComponentSegment($item->component, $query);
 				
 				//Set query again in the URI
 				$uri->setQuery($query);
@@ -213,7 +301,7 @@ class JRouter extends JObject
 	*
 	* @access public
 	*/
-	function parseComponentRoute($component, $route)
+	function parseComponentSegment($component, $route)
 	{
 		// Use the component routing handler if it exists
 		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
@@ -253,7 +341,7 @@ class JRouter extends JObject
 	*
 	* @access public
 	*/
-	function buildComponentRoute($component, &$query)
+	function buildComponentSegment($component, &$query)
 	{
 		$route = '';
 		

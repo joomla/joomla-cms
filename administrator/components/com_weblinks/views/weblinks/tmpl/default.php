@@ -7,7 +7,7 @@ $ordering = ($this->lists['order'] == 'a.ordering');
 
 jimport('joomla.html.tooltips');
 ?>
-<form action="<?php echo sefReltoAbs($this->request_url) ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm">
 <table>
 <tr>
 	<td align="left" width="100%">

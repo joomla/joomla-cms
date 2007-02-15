@@ -55,7 +55,7 @@ class modBreadCrumbsHelper
 			if (empty ($items[$i]->link) || $count == $i +1) {
 				$items[$i]->link = $items[$i]->name;
 			} else {
-				$items[$i]->link = '<a href="'.JURI::resolve($items[$i]->link).'" class="pathway">'.$items[$i]->name.'</a>';
+				$items[$i]->link = '<a href="'.JRoute::_($items[$i]->link).'" class="pathway">'.$items[$i]->name.'</a>';
 			}
 		}
 

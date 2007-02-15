@@ -59,7 +59,7 @@ class WeblinksControllerWeblink extends WeblinksController
 	*/
 	function save()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 		
 		//check the token before we do anything else
 		$token	= JUtility::getToken();
@@ -111,7 +111,7 @@ class WeblinksControllerWeblink extends WeblinksController
 			JUtility::sendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $post['title'], $user->get('username'), JURI::base());
 		}
 
-		$this->setRedirect('index.php?option=com_weblinks&Itemid='.$Itemid, $msg);
+		$this->setRedirect('index.php?option=com_weblinks', $msg);
 	}
 
 	/**

@@ -32,8 +32,6 @@ $mainframe->registerEvent( 'onPrepareContent', 'plgContentPagebreak' );
 */
 function plgContentPagebreak( &$row, &$params, $page=0 )
 {
-	global $Itemid;
-
  	// expression to search for
  	$regex = '#<hr class=\"system-pagebreak\"(.*)\/>#iU';
 
@@ -155,7 +153,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 		// page links shown at bottom of page if TOC disabled
 		if (!$hasToc) {
-			$row->text .= $pageNav->getPagesLinks( 'index.php?option=com_content&amp;view=article&amp;id='. $row->id .'&amp;Itemid='. $Itemid );
+			$row->text .= $pageNav->getPagesLinks( 'index.php?option=com_content&view=article&id='. $row->id  );
 		}
 
 		$row->text .= '</div><br />';
@@ -166,11 +164,8 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 function plgContentCreateTOC( &$row, &$matches, &$page )
 {
-	global $Itemid;
-
-	$nonseflink = 'index.php?option=com_content&amp;view=article&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
-	$link = 'index.php?option=com_content&amp;view=article&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
-	$link = sefRelToAbs( $link );
+	$nonseflink = 'index.php?option=com_content&view=article&id='. $row->id;
+	$link = JRoute::_( 'index.php?option=com_content&view=article&id='. $row->id );
 
 	$heading = $row->title;
 	// allows customization of first page title by checking for `heading` attribute in first bot
@@ -205,9 +200,9 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
 	$i = 2;
 
-	foreach ( $matches as $bot ) {
-		$link = $nonseflink .'&amp;limit=1&amp;limitstart='. ($i-1);
-		$link = sefRelToAbs( $link );
+	foreach ( $matches as $bot ) 
+	{
+		$link = JRoute::_( $nonseflink .'&limit=1&limitstart='. ($i-1) );
 
 		if ( @$bot[1] ) {
 			$attrs2 = JUtility::parseAttributes($bot[1]);
@@ -251,9 +246,9 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
  	$params = new JParameter( $plugin->params );
 
-	if ($params->get('showall') ) {
-		$link = 'index.php?option=com_content&amp;view=article&amp;id='. $row->id .'&amp;Itemid='. $Itemid . '&amp;showall=1';
-		$link = sefRelToAbs( $link );
+	if ($params->get('showall') ) 
+	{
+		$link = JRoute::_( 'index.php?option=com_content&view=article&id='. $row->id . '&showall=1');
 		$row->toc .= '
 		<tr>
 			<td>
@@ -269,16 +264,13 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
 function plgContentCreateNavigation( &$row, $page, $n )
 {
-	global $Itemid;
-
-	$link = 'index.php?option=com_content&amp;view=article&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
+	$link = 'index.php?option=com_content&view=article&id='. $row->id ;
 
 	$pnSpace = "";
 	if (JText::_( '&lt' ) || JText::_( '&gt' )) $pnSpace = " ";
 
 	if ( $page < $n-1 ) {
-		$link_next = $link .'&amp;limit=1&amp;limitstart='. ( $page + 1 );
-		$link_next = sefRelToAbs( $link_next );
+		$link_next = JRoute::_( $link .'&limit=1&limitstart='. ( $page + 1 ) );
 		// Next >>
 		$next = '<a href="'. $link_next .'">' . JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ) . JText::_( '&gt' ) .'</a>';
 	} else {
@@ -286,8 +278,7 @@ function plgContentCreateNavigation( &$row, $page, $n )
 	}
 
 	if ( $page > 0 ) {
-		$link_prev = $link .'&amp;limit=1&amp;limitstart='. ( $page - 1 );
-		$link_prev = sefRelToAbs( $link_prev );
+		$link_prev = JRoute::_(  $link .'&limit=1&limitstart='. ( $page - 1 ) );
 		// << Prev
 		$prev = '<a href="'. $link_prev .'">'. JText::_( '&lt' ) . JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ) .'</a>';
 	} else {

@@ -80,7 +80,7 @@ class ContactController extends JController
 	 */
 	function sendmail()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 		
 		//check the token before we do anything else
 		$token	= JUtility::getToken();

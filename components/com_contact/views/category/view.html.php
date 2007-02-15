@@ -25,7 +25,7 @@ class ContactViewCategory extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $Itemid, $option;
+		global $mainframe, $option;
 
 		$user	 = &JFactory::getUser();
 		$pathway = & $mainframe->getPathWay();
@@ -74,7 +74,7 @@ class ContactViewCategory extends JView
 		{
 			$contact =& $contacts[$i];
 
-			$contact->link	= sefRelToAbs('index.php?option=com_contact&amp;view=contact&amp;id='.$contact->id.'&amp;Itemid='.$Itemid);
+			$contact->link	= JRoute::_('index.php?option=com_contact&view=contact&id='.$contact->id);
 
 			$contact->odd	= $k;
 			$contact->count = $i;

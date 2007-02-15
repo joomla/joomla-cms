@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 	<input type="hidden" name="option" value="com_login" />
 	<input type="hidden" name="task" value="logout" />
-	<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return); ?>" />
+	<input type="hidden" name="return" value="<?php echo JRoute::_( $return); ?>" />
 </form>
 <?php else : ?>
 <form action="index.php" method="post" name="login" >
@@ -35,7 +35,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td>
-			<a href="<?php echo sefRelToAbs( 'index.php?option=com_user&amp;task=lostPassword' ); ?>">
+			<a href="<?php echo JRoute::_( 'index.php?option=com_user&task=lostPassword' ); ?>">
 				<?php echo JText::_( 'Lost Password?'); ?>
 			</a>
 		</td>
@@ -46,7 +46,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td>
 			<?php echo JText::_( 'No account yet?'); ?>
-			<a href="<?php echo sefRelToAbs( 'index.php?option=com_user&amp;task=register' ); ?>">
+			<a href="<?php echo JRoute::_( 'index.php?option=com_user&task=register' ); ?>">
 				<?php echo JText::_( 'Register'); ?>
 			</a>
 		</td>
@@ -57,7 +57,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 	<input type="hidden" name="option" value="com_login" />
 	<input type="hidden" name="task" value="login" />
-	<input type="hidden" name="return" value="<?php echo sefRelToAbs($return ); ?>" />
+	<input type="hidden" name="return" value="<?php echo JRoute::_($return ); ?>" />
 	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>
 <?php endif; ?>

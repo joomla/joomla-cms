@@ -29,7 +29,7 @@ class ContentViewSection extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $Itemid, $option;
+		global $mainframe, $option;
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
@@ -66,11 +66,11 @@ class ContentViewSection extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//add alternate feed link
-		$link	= 'feed.php?option=com_content&amp;view=section&amp;id='.$section->id.'&amp;Itemid='.$Itemid;
+		$link	= 'feed.php?option=com_content&view=section&id='.$section->id;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&format=rss'), 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&format=atom'), 'alternate', 'rel', $attribs);
 
 		// Set the page title and breadcrumbs
 		$pathway->addItem($section->title, '');
@@ -82,7 +82,7 @@ class ContentViewSection extends JView
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
-			$category->link = sefRelToAbs('index.php?option=com_content&amp;view=category&amp;id='.$category->id.'&amp;Itemid='.$Itemid);
+			$category->link = JRoute::_('index.php?option=com_content&view=category&id='.$category->id);
 		}
 
 		$params->def('empty_cat_section', 	0);
@@ -118,7 +118,7 @@ class ContentViewSection extends JView
 
 	function &getItem( $index = 0, &$params)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
@@ -171,12 +171,12 @@ class ContentViewSection extends JView
 				// checks if the item is a public or registered/special item
 				if ($item->access <= $user->get('aid', 0))
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$item->slug."&amp;Itemid=".$Itemid);
+					$linkOn = JRoute::_("index.php?option=com_content&view=article&id=".$item->slug);
 					$linkText = JText::_('Read more...');
 				}
 				else
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
+					$linkOn = JRoute::_("index.php?option=com_registration&task=register");
 					$linkText = JText::_('Register to read more...');
 				}
 			}
@@ -185,7 +185,7 @@ class ContentViewSection extends JView
 		$item->readmore_link = $linkOn;
 		$item->readmore_text = $linkText;
 
-		$item->print_link = $mainframe->getCfg('live_site').'/index.php?option=com_content&amp;view=article&amp;id='.$item->id.'&amp;tmpl=component&amp;Itemid='.$Itemid;
+		$item->print_link = $mainframe->getCfg('live_site').'/index.php?option=com_content&view=article&id='.$item->id.'&tmpl=component';
 
 		$item->event = new stdClass();
 		$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $item, & $params,0));
@@ -202,7 +202,7 @@ class ContentViewSection extends JView
 
 	function getIcon($type, $attribs = array())
 	{
-		 global $Itemid, $mainframe;
+		 global $mainframe, $Itemid;
 
 		$url	= '';
 		$text	= '';
@@ -231,7 +231,7 @@ class ContentViewSection extends JView
 
 			case 'print' :
 			{
-				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component&amp;print=1&amp;page='.@ $this->request->limitstart;
+				$url	= 'index.php?option=com_content&view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -278,7 +278,7 @@ class ContentViewSection extends JView
 
 				jimport('joomla.html.tooltips');
 
-				$url = 'index.php?option=com_content&amp;task=edit&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+				$url = 'index.php?option=com_content&task=edit&id='.$article->id.'&Returnid='.$Itemid;
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 				if ($article->state == 0) {

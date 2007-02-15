@@ -20,8 +20,6 @@ class modArchiveHelper
 {
 	function getList(&$params)
 	{
-		global $Itemid;
-
 		//get database
 		$db =& JFactory::getDBO();
 
@@ -42,7 +40,7 @@ class modArchiveHelper
 			$month_name		= $date->toFormat("%B");
 			$created_year	= $date->toFormat("%Y");
 
-			$lists[$i]->link	= sefRelToAbs('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.'&Itemid='.$Itemid);
+			$lists[$i]->link	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month);
 			$lists[$i]->text	= $month_name.', '.$created_year;
 			$i++;
 		}

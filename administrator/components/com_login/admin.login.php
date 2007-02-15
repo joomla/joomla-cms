@@ -45,8 +45,6 @@ class LoginController
 {
 	function display()
 	{
-		global $mainframe, $Itemid, $option;
-
 		$document =& JFactory::getDocument();
 		echo $document->getBuffer('module', 'login', array('style' => 'rounded', 'id' => 'section-box'));
 	}

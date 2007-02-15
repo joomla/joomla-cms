@@ -142,8 +142,6 @@ class ContentModelFrontpage extends JModel
 
 	function _buildContentOrderBy()
 	{
-		global $Itemid;
-
 		// Get the menu object of the active menu item
 		$menu	=& JMenu::getInstance();
 		$item    = $menu->getActive();

@@ -74,7 +74,7 @@ class ContentController extends JController
 	*/
 	function save()
 	{
-		global $Itemid, $mainframe;
+		global $mainframe;
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();

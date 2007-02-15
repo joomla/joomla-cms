@@ -80,7 +80,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td>
 		<?php
 			echo $item->title.' : ';
-			$link = sefRelToAbs('index.php?option=com_registration&amp;task=register');
+			$link = JRoute::_('index.php?option=com_registration&task=register');
 		?>
 		<a href="<?php echo $link; ?>">
 			<?php echo JText::_( 'Register to read more...' ); ?>

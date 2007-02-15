@@ -95,7 +95,6 @@ endif; ?>
 
 <input type="hidden" name="option" value="com_contact" />
 <input type="hidden" name="catid" value="<?php echo $this->category->id;?>" />
-<input type="hidden" name="Itemid" value="<?php echo $Itemid;?>" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 <input type="hidden" name="filter_order_Dir" value="" />
 </form>

@@ -47,7 +47,7 @@ class PollController
 {
 	function display()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		$db 	=& JFactory::getDBO();
 		$pathway =& $mainframe->getPathWay();
@@ -64,10 +64,9 @@ class PollController
 		}
 
 		// Adds parameter handling
-		$menu =& JTable::getInstance('menu');
-		$menu->load( $Itemid );
-
-		$params = new JParameter( $menu->params );
+		$menu   =& JMenu::getInstance();
+		$item   = $menu->getActive();
+		$params = new JParameter( $item->params );
 
 		$mainframe->SetPageTitle($poll->title);
 
@@ -121,16 +120,10 @@ class PollController
 		$db->setQuery( $query );
 		$polls = $db->loadObjectList();
 
-		// Itemid for dropdown
-		$_Itemid = '';
-		if ( $Itemid || $Itemid != 99999999 ) {
-			$_Itemid = '&amp;Itemid='. $Itemid;
-		}
-
 		$lists = array();
 
 		// dropdown output
-		$link = sefRelToAbs( 'index.php?option=com_poll&amp;task=results&amp;id=\' + this.options[selectedIndex].value + \'&amp;Itemid='. $Itemid .'\' + \'' );
+		$link = JRoute::_( 'index.php?option=com_poll&task=results&id=\' + this.options[selectedIndex].value + \' + \'' );
 
 		array_unshift( $polls, JHTMLSelect::option( '', JText::_( 'Select Poll from the list' ), 'id', 'title' ));
 
@@ -202,7 +195,7 @@ class PollController
 		$model = new PollModelPoll();
 		$model->addVote( $poll_id, $option_id );
 
-		$mainframe->redirect( sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $poll_id ), JText::_( 'Thanks for your vote!' ) );
+		$mainframe->redirect( JRoute::_( 'index.php?option=com_poll&task=results&id='. $poll_id ), JText::_( 'Thanks for your vote!' ) );
 	}
 }
 ?>

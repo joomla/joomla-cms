@@ -18,21 +18,20 @@
  * @param	object
  * @return	array
  */
-function BannersBuildRoute(&$ARRAY)
+function BannersBuildRoute(&$query)
 {
-	$parts = array();
+	$segments = array();
 
-	if (isset($ARRAY['task'])) {
-		$parts[] = $ARRAY['task'];
+	if (isset($query['task'])) {
+		$segments[] = $query['task'];
+		unset( $query['task'] );
 	}
-	if (isset($ARRAY['bid'])) {
-		$parts[] = $ARRAY['bid'];
+	if (isset($query['bid'])) {
+		$segments[] = $query['bid'];
+		unset( $query['bid'] );
 	}
 
-	unset( $ARRAY['task'] );
-	unset( $ARRAY['bid'] );
-
-	return $parts;
+	return $segments;
 }
 
 /**
@@ -45,24 +44,33 @@ function BannersBuildRoute(&$ARRAY)
  *
  * index.php?/banners/bid/Itemid
  */
-function BannersParseRoute(&$ARRAY)
+function BannersParseRoute(&$segments)
 {
+	global $mainframe;
+	
+	//Get the router
+	$router =& $mainframe->getRouter();
+	
 	// view is always the first element of the array
-	$nArray	= count($ARRAY);
-	if ($nArray) {
-		$nArray--;
-		$part = array_shift($ARRAY);
-		if (is_numeric( $part )) {
-			JRequest::setVar('bid', $part, 'get');
+	$count = count($segments);
+	
+	if ($count) 
+	{
+		$count--;
+		$segment = array_shift($segments);
+		if (is_numeric( $segment )) {
+			$router->setVar('bid', $segment);
 		} else {
-			JRequest::setVar('task', $part, 'get');
+			$router->setVar('task', $segment);
 		}
 	}
-	if ($nArray) {
-		$nArray--;
-		$part = array_shift($ARRAY);
-		if (is_numeric( $part )) {
-			JRequest::setVar('bid', $part, 'get');
+	
+	if ($count) 
+	{
+		$count--;
+		$segment = array_shift($segments);
+		if (is_numeric( $segment )) {
+			$router->setVar('bid', $segment);
 		}
 	}
 }

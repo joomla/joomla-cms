@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<form action="<?php echo JURI::resolve('index.php'); ?>" method="post" name="josForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="josForm">
 
 <div class="componentheading">
 	<?php echo JText::_( 'Lost your Password?' ); ?>

@@ -41,11 +41,11 @@ class modNewsFlashHelper
 				if ($item->access <= $user->get('aid', 0))
 				{
 					$Itemid = JContentHelper::getItemid($item->id);
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$item->id."&amp;Itemid=".$Itemid);
+					$linkOn = JRoute::_("index.php?option=com_content&view=article&id=".$item->id."&Itemid=".$Itemid);
 				}
 				else
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
+					$linkOn = JRoute::_("index.php?option=com_registration&task=register");
 				}
 			}
 

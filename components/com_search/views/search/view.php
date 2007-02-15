@@ -29,7 +29,7 @@ class SearchViewSearch extends JView
 {
 	function display($tpl = null)
 	{
-		global $option, $Itemid;
+		global $option;
 
 		$uri =& JFactory::getURI();
 

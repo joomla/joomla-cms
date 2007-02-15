@@ -26,7 +26,8 @@ jimport( 'joomla.common.abstract.observer' );
  * @subpackage	Application
  * @since		1.5
  */
-class JPlugin extends JObserver {
+class JPlugin extends JObserver 
+{
 
 	/**
 	 * Constructor

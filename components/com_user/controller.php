@@ -39,7 +39,7 @@ class UserController extends JController
 	
 	function edit()
 	{
-		global $mainframe, $Itemid, $option;
+		global $mainframe, $option;
 
 		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
@@ -192,7 +192,7 @@ class UserController extends JController
 	 */
 	function sendreminder()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		//check the token before we do anything else
 		$token	= JUtility::getToken();
@@ -217,7 +217,7 @@ class UserController extends JController
 					' WHERE username = "'.$db->getEscaped($username).'"';
 			$db->setQuery( $query );
 			if (!($user = $db->loadObject()) || !$username) {
-				$mainframe->redirect( 'index.php?option=com_user&task=lostPassword&Itemid='.$Itemid, JText::_( 'Sorry, no corresponding user was found' ) );
+				$mainframe->redirect( 'index.php?option=com_user&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
 			}
 
 			// Generate new password
@@ -255,7 +255,7 @@ class UserController extends JController
 						' WHERE email = "'.$db->getEscaped($email)."'";
 				$db->setQuery( $query );
 				if (!($username = $db->loadResult()) || !$email) {
-					$mainframe->redirect( 'index.php?option=com_user&task=lostPassword&Itemid='.$Itemid, JText::_( 'Sorry, no corresponding user was found' ) );
+					$mainframe->redirect( 'index.php?option=com_user&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
 				}
 
 				// Build the email body and subject
@@ -272,7 +272,7 @@ class UserController extends JController
 			else
 			{
 				// We have nothing ... send fail
-				$mainframe->redirect( 'index.php?option=com_user&task=lostPassword&Itemid='.$Itemid, JText::_( 'Sorry, no corresponding user was found' ) );
+				$mainframe->redirect( 'index.php?option=com_user&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
 			}
 		}
 	}

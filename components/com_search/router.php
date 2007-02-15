@@ -11,24 +11,26 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function SearchBuildRoute(&$ARRAY)
+function SearchBuildRoute(&$query)
 {
-	$parts = array();
-	if(isset($ARRAY['searchword']))
-	{
-		$parts[] = $ARRAY['searchword'];
-		unset($ARRAY['searchword']);
+	$segments = array();
+	if(isset($query['searchword'])) {
+		$segments[] = $query['searchword'];
+		unset($query['searchword']);
 	}
 
-	return $parts;
+	return $segments;
 }
 
-function SearchParseRoute($ARRAY)
+function SearchParseRoute($segments)
 {
-	// view is always the first element of the array
-	$searchword	= array_shift($ARRAY);
-	$nArray		= count($ARRAY);
+	global $mainframe;
+	
+	//Get the router
+	$router =& $mainframe->getRouter();
+	
+	$searchword	= array_shift($segments);
 
-	JRequest::setVar('searchword', $searchword, 'get');
+	$router->setVar('searchword', $searchword);
 }
 ?>

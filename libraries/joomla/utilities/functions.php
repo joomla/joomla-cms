@@ -63,22 +63,4 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
 	}
 	return $list;
 }
-
-
-/**
- * Function to convert an internal Joomla URL to a humanly readible URL.
- *
- * @param	string	$string	The internal URL
- * @return	string	The absolute search engine friendly URL
- * @since	1.0
- */
-function sefRelToAbs($value)
-{
-	global $mainframe;
-	
-	$router = $mainframe->getRouter();
-	$route = $router->buildRoute($value);
-	
-	return $route;
-}
 ?>

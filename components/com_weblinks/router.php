@@ -13,59 +13,65 @@
 
 function WeblinksBuildRoute(&$query)
 {
-	$parts = array();
+	$segments = array();
 	
 	if(isset($query['catid'])) 
 	{
-		$parts[] = $query['catid'];
+		$segments[] = $query['catid'];
 		unset($query['catid']);
 	};
 
 	if(isset($query['id'])) 
 	{
-		$parts[] = $query['id'];
+		$segments[] = $query['id'];
 		unset($query['id']);
 	};
 	
 	unset($query['view']);
 
-	return $parts;
+	return $segments;
 }
 
-function WeblinksParseRoute($parts)
+function WeblinksParseRoute($segments)
 {
+	global $mainframe;
+	
+	//Get the router
+	$router =& $mainframe->getRouter();
+	
+	//Get the active menu item
 	$menu =& JMenu::getInstance();
 	$item =& $menu->getActive();
-
-	// Count route parts
-	$nArray = count($parts);
+	
+	// Count route segments
+	$count = count($segments);
 	
 	//Handle View and Identifier
 	switch($item->query['view'])
 	{
 		case 'categories' :
 		{
-			if($nArray == 1) {
+			if($count == 1) {
 				$view = 'category';
 			}
 
-			if($nArray == 2) {
+			if($count == 2) {
 				$view = 'weblink';
 			}
 
-			$id = $parts[$nArray-1];
+			$id = $segments[$count-1];
 
 		} break;
 
 		case 'category'   :
 		{
-			$id   = $parts[$nArray-1];
+			$id   = $segments[$count-1];
 			$view = 'weblink';
 
 		} break;
 	}
 
-	JRequest::setVar('view', $view, 'get');
-	JRequest::setVar('id', (int)$id, 'get');
+	$router->setVar('view' , $view);
+	$router->setVar('id'   , $id);
 }
 ?>

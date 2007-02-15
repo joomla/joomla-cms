@@ -25,7 +25,7 @@ class ContactViewContact extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		$user		= &JFactory::getUser();
 		$pathway	= & $mainframe->getPathWay();
@@ -67,7 +67,7 @@ class ContactViewContact extends JView
 
 		// Add the breadcrumbs items
 		if ($params->get('hideCatCrumbs')) {
-			$pathway->addItem($contact->category_name, "index.php?option=com_contact&view=category&catid=$contact->catid&Itemid=$Itemid");
+			$pathway->addItem($contact->category_name, "index.php?option=com_contact&view=category&catid=$contact->catid");
 		}
 		$pathway->addItem($contact->name, '');
 

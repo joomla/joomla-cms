@@ -32,11 +32,7 @@ class patTemplate_Modifier_SEF extends patTemplate_Modifier
 	*/
 	function modify( $value, $params = array() )
 	{
-		if (function_exists( 'sefRelToAbs' )) {
-			return sefRelToAbs( $value );
-		} else {
-			return $value;
-		}
+		return JRoute::_( $value );
 	}
 }
 ?>

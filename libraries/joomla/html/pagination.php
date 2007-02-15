@@ -28,6 +28,7 @@ class JPagination extends JObject
 {
 	/**
 	 * The record number to start dislpaying from
+	 * 
 	 * @access public
 	 * @var int
 	 */
@@ -35,6 +36,7 @@ class JPagination extends JObject
 
 	/**
 	 * Number of rows to display per page
+	 * 
 	 * @access public
 	 * @var int
 	 */
@@ -42,6 +44,7 @@ class JPagination extends JObject
 
 	/**
 	 * Total number of rows
+	 * 
 	 * @access public
 	 * @var int
 	 */
@@ -49,6 +52,7 @@ class JPagination extends JObject
 
 	/**
 	 * Base URL for pagination output
+	 * 
 	 * @access protected
 	 * @var string
 	 */
@@ -56,6 +60,7 @@ class JPagination extends JObject
 
 	/**
 	 * View all flag
+	 * 
 	 * @access protected
 	 * @var boolean
 	 */
@@ -105,7 +110,7 @@ class JPagination extends JObject
 			{
 				$this->_link = 'index.php?';
 				$get = JRequest::get('get');
-				$this->_link .= '&amp;option='.$get['option'];
+				$this->_link .= '&option='.$get['option'];
 
 				foreach ($get as $k => $v)
 				{
@@ -113,7 +118,7 @@ class JPagination extends JObject
 						$this->_link .= '&amp;'.$k.'='.$v;
 					}
 				}
-				$this->_link .= '&amp;Itemid='.$get['Itemid'];
+				$this->_link .= '&Itemid='.$get['Itemid'];
 			}
 			else
 			{
@@ -353,7 +358,7 @@ class JPagination extends JObject
 		if ($mainframe->isAdmin()) {
 			$html = JHTMLSelect::genericList($limits, 'limit', 'class="inputbox" size="1" onchange="submitform();"', 'value', 'text', $this->limit);
 		} else {
-			$link = JURI::resolve($link.'&amp;limit=\' + this.options[selectedIndex].value + \'&amp;limitstart='.$this->limitstart);
+			$link = JRoute::_($link.'&limit=\' + this.options[selectedIndex].value + \'&limitstart='.$this->limitstart);
 			$html = JHTMLSelect::genericList($limits, 'limit', 'class="inputbox" size="1" onchange="document.location.href=\''.$link.'\';"', 'value', 'text', $this->limit);
 		}
 		return $html;
@@ -579,16 +584,16 @@ class JPagination extends JObject
 		// Initialize variables
 		$data = new stdClass();
 		if ($base) {
-			$link = $base.'&amp;limit='.$this->limit;
+			$link = $base.'&limit='.$this->limit;
 		} else {
 			$base = $this->_link;
-			$link = $this->_link.'&amp;limit='.$this->limit;
+			$link = $this->_link.'&limit='.$this->limit;
 		}
 
 		$data->all	= new JPaginationObject(JText::_('View All'));
 		if (!$this->_viewall) {
 			$data->all->base	= '0';
-			$data->all->link	= JURI::resolve($base."&amp;limit=0&amp;limitstart=0");
+			$data->all->link	= JRoute::_($base."&limit=0&limitstart=0");
 		}
 
 		// Set the start and previous data objects
@@ -599,9 +604,9 @@ class JPagination extends JObject
 		{
 			$page = ($this->get('pages.current') -2) * $this->limit;
 			$data->start->base	= '0';
-			$data->start->link	= JURI::resolve($link."&amp;limitstart=0");
+			$data->start->link	= JRoute::_($link."&limitstart=0");
 			$data->previous->base	= $page;
-			$data->previous->link	= JURI::resolve($link."&amp;limitstart=".$page);
+			$data->previous->link	= JRoute::_($link."&limitstart=".$page);
 		}
 
 		// Set the next and end data objects
@@ -613,9 +618,9 @@ class JPagination extends JObject
 			$page = $this->get('pages.current') * $this->limit;
 			$endPage = ($this->get('pages.total') -1) * $this->limit;
 			$data->next->base	= $page;
-			$data->next->link	= JURI::resolve($link."&amp;limitstart=".$page);
+			$data->next->link	= JRoute::_($link."&limitstart=".$page);
 			$data->end->base	= $endPage;
-			$data->end->link	= JURI::resolve($link."&amp;limitstart=".$endPage);
+			$data->end->link	= JRoute::_($link."&limitstart=".$endPage);
 		}
 
 		$data->pages = array();
@@ -627,7 +632,7 @@ class JPagination extends JObject
 			if ($i != $this->get('pages.current') || $this->_viewall)
 			{
 				$data->pages[$i]->base	= $offset;
-				$data->pages[$i]->link	= JURI::resolve($link."&amp;limitstart=".$offset);
+				$data->pages[$i]->link	= JRoute::_($link."&limitstart=".$offset);
 			}
 		}
 		return $data;

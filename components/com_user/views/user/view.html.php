@@ -29,7 +29,7 @@ class UserViewUser extends JView
 {
 	function display( $tpl = null)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 		
 		if($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);
@@ -41,12 +41,12 @@ class UserViewUser extends JView
 		$pathway =& $mainframe->getPathWay();
 
 		// Get the paramaters of the active menu item
-		$menus	= &JMenu::getInstance();
-		$menu	= $menus->getItem($Itemid);
+		$menu	= &JMenu::getInstance();
+		$item   = $menu->getActive();
 
 		// Add breadcrumb
 		$pathway->setItemName(1, 'User');
-		$pathway->addItem( $menu->name, '' );
+		$pathway->addItem( $item->name, '' );
 		
 		$this->assignRef('user'   , $user);
 		
@@ -55,13 +55,13 @@ class UserViewUser extends JView
 	
 	function _displayForm($tpl = null)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 		
 		$user =& JFactory::getUser();
 		
 		// Get the paramaters of the active menu item
-		$menus	= &JMenu::getInstance();
-		$menu	= $menus->getItem($Itemid);
+		$menu = &JMenu::getInstance();
+		$item = $menu->getActive();
 		
 		// Set page title
 		$mainframe->setPageTitle( $menu->name );

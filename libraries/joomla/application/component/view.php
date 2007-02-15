@@ -514,7 +514,7 @@ class JView extends JObject
 	 */
 	function loadTemplate( $tpl = null)
 	{
-		global $mainframe, $option, $Itemid;
+		global $mainframe, $option;
 
 		// clear prior output
 		$this->_output = null;

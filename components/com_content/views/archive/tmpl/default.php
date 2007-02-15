@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<form id="jForm" action="<?php JURI::resolve('index.php')?>" method="post">
+<form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">
 <?php if ($this->params->get('header')) : ?>
 	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->params->get('header'); ?></div>
 <?php endif; ?>
@@ -17,7 +17,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php echo $this->loadTemplate('items'); ?>
 
-	<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 	<input type="hidden" name="view" value="archive" />
 	<input type="hidden" name="option" value="com_content" />
 </form>

@@ -10,12 +10,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td colspan="2" align="center">
 		<br />
-		<form method="post" name="selectForm" target="_top" id="selectForm">
+		<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="selectForm" target="_top" id="selectForm">
 		<?php echo JText::_( 'Select Contact' ); ?>:
 			<br />
 			<?php echo JHTMLSelect::genericList($this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
 			<option type="hidden" name="option" value="com_contact" />
-			<option type="hidden" name="Itemid" value="<?php echo $Itemid;?>" />
 		</form>
 	</td>
 </tr>

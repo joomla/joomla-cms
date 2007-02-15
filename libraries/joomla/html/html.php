@@ -35,9 +35,7 @@ class JHTML
 
 	function Link($url, $text, $attribs = null, $ssl = 0)
 	{
-		global $mainframe;
-
-		$href = JURI::resolve(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
+		$href = JRoute::_($url, $ssl);
 
 		if (is_array($attribs)) {
 			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
@@ -103,9 +101,7 @@ class JHTML
 	 */
 	function Iframe($url, $name, $attribs = null, $ssl = 0)
 	{
-		global $mainframe;
-
-		$src = JURI::resolve(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
+		$src = JRoute::_($url, $ssl);
 
 		 if (is_array($attribs)) {
 			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);

@@ -84,7 +84,7 @@ class JSite extends JApplication
 		$uri  =& JURI::getInstance();
 
 		$router =& $this->getRouter();
-		$router->parseRoute($uri);
+		$router->parse($uri->toString());
 	}
 
 	/**
@@ -274,7 +274,8 @@ class JSite extends JApplication
 	*/
 	function getTemplate()
 	{
-		global $Itemid;
+		$menu =& JMenu::getInstance();
+		$item = $menu->getActive();
 
 		static $templates;
 
@@ -297,8 +298,8 @@ class JSite extends JApplication
 			// ok, allows for an override of the template from a component
 			// eg, $mainframe->setTemplate( 'solar-flare-ii' );
 		}
-		else if (!empty($Itemid) && (isset($templates[$Itemid]))) {
-			$template = $templates[$Itemid]->template;
+		else if (!empty($item->id) && (isset($templates[$item->id]))) {
+			$template = $templates[$item->id]->template;
 		} else {
 			$template = $templates[0]->template;
 		}

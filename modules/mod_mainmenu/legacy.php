@@ -99,7 +99,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	$menu_secure = $menu_params->def('secure', 0);
 
 	if (strcasecmp(substr($mitem->link, 0, 4), 'http')) {
-		$mitem->url = JURI::resolve($mitem->link, $menu_secure);
+		$mitem->url = JRoute::_($mitem->link, $menu_secure);
 	} else {
 		$mitem->url = $mitem->link;
 	}

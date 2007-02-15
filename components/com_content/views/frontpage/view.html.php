@@ -30,7 +30,7 @@ class ContentViewFrontpage extends JView
 
 	function display($tpl = null)
 	{
-		global $mainframe, $Itemid, $option;
+		global $mainframe, $option;
 
 		// Initialize variables
 		$db			=& JFactory::getDBO();
@@ -45,7 +45,7 @@ class ContentViewFrontpage extends JView
 
 		// Load the menu object and parameters
 		$menus	= &JMenu::getInstance();
-		$menu	= $menus->getItem($Itemid);
+		$menu	= $menus->getActive();
 		$params	= new JParameter($menu->params);
 
 		// parameters
@@ -78,11 +78,11 @@ class ContentViewFrontpage extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//add alternate feed link
-		$link	= ampReplace('feed.php?option=com_content&amp;view=frontpage&amp;Itemid='.$Itemid);
+		$link	= ampReplace('feed.php?option=com_content&view=frontpage');
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink($link.'&amp;format=rss', 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&format=rss'), 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink($link.'&amp;format=atom', 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&format=atom'), 'alternate', 'rel', $attribs);
 
 		// Set section/category description text and images for
 		//TODO :: Fix this !
@@ -134,7 +134,7 @@ class ContentViewFrontpage extends JView
 
 	function getIcon($type, $attribs = array())
 	{
-		 global $Itemid, $mainframe;
+		 global $mainframe;
 
 		$url	= '';
 		$text	= '';
@@ -163,7 +163,7 @@ class ContentViewFrontpage extends JView
 
 			case 'print' :
 			{
-				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;tmpl=component&amp;print=1&amp;page='.@ $this->request->limitstart;
+				$url	= 'index.php?option=com_content&view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -208,7 +208,7 @@ class ContentViewFrontpage extends JView
 					return;
 				}
 				jimport('joomla.html.tooltips');
-				$url = 'index.php?option=com_content&amp;view=article&amp;layout=form&amp;id='.$article->id.'&amp;task=edit&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+				$url = 'index.php?option=com_content&;view=article&layout=form&id='.$article->id.'&task=edit&Returnid='.$Itemid;
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 				if ($article->state == 0) {
@@ -238,7 +238,7 @@ class ContentViewFrontpage extends JView
 
 	function &getItem($index = 0, &$params)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
@@ -293,12 +293,12 @@ class ContentViewFrontpage extends JView
 				// checks if the item is a public or registered/special item
 				if ($item->access <= $user->get('aid', 0))
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$item->slug."&amp;Itemid=".$Itemid);
+					$linkOn = JRoute::_("index.php?option=com_content&view=article&id=".$item->slug);
 					$linkText = JText::_('Read more...');
 				}
 				else
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
+					$linkOn = JRoute::_("index.php?option=com_registration&amp;task=register");
 					$linkText = JText::_('Register to read more...');
 				}
 			}
@@ -307,7 +307,7 @@ class ContentViewFrontpage extends JView
 		$item->readmore_link = $linkOn;
 		$item->readmore_text = $linkText;
 
-		$item->print_link = $mainframe->getCfg('live_site').'/index.php?option=com_content&amp;view=article&amp;id='.$item->id.'&amp;tmpl=component&amp;Itemid='.$Itemid;
+		$item->print_link = $mainframe->getCfg('live_site').'/index.php?option=com_content&view=article&id='.$item->id.'&tmpl=component';
 
 		$item->event = new stdClass();
 		$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $item, & $params,0));

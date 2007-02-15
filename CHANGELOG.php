@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Feb-2007 Johan Janssens
+ ^ Deprecated sefRelToAbs, use JRoute::_() instead
+ ^ Removed Itemid in JRoute implementations, JRouter handles this automatically
+ ^ Removed JURI::resolve, moved functionality into JRoute::_()
+
 15-Feb-2007 Laurens Vandeput
 # Fixed [artf7572] : XML-RPC server fixed
 

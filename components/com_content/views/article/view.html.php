@@ -28,7 +28,7 @@ class ContentViewArticle extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
@@ -61,17 +61,14 @@ class ContentViewArticle extends JView
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Handle BreadCrumbs
-
-		if (!empty ($Itemid))
-		{
-			// Section
-			if (!empty ($article->section)) {
-				$pathway->addItem($article->section, sefRelToAbs('index.php?option=com_content&amp;view=section&amp;id='.$article->sectionid.'&amp;Itemid='.$Itemid));
-			}
-			// Category
-			if (!empty ($article->category)) {
-				$pathway->addItem($article->category, sefRelToAbs('index.php?option=com_content&amp;view=category&amp;&amp;id='.$article->catid.'&amp;Itemid='.$Itemid));
-			}
+		
+		// Section
+		if (!empty ($article->section)) {
+			$pathway->addItem($article->section, JRoute::_('index.php?option=com_content&view=section&id='.$article->sectionid));
+		}
+		// Category
+		if (!empty ($article->category)) {
+			$pathway->addItem($article->category, JRoute::_('index.php?option=com_content&view=category&id='.$article->catid));
 		}
 		// Article
 		$pathway->addItem($article->title, '');
@@ -113,7 +110,7 @@ class ContentViewArticle extends JView
 				// Check to see if the user has access to view the full article
 				if ($article->access <= $user->get('aid', 0))
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;view=article&amp;id=".$article->slug."&amp;Itemid=".$Itemid);
+					$linkOn = JRoute::_("index.php?option=com_content&view=article&id=".$article->slug);
 
 					if (@$article->readmore) {
 						// text for the readmore link
@@ -122,7 +119,7 @@ class ContentViewArticle extends JView
 				}
 				else
 				{
-					$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
+					$linkOn = JRoute::_("index.php?option=com_registration&task=register");
 
 					if (@$article->readmore) {
 						// text for the readmore link if accessible only if registered
@@ -165,7 +162,7 @@ class ContentViewArticle extends JView
 
 	function getIcon($type, $attribs = array())
 	{
-		 global $Itemid, $mainframe;
+		 global $mainframe, $Itemid;
 
 		$url	= '';
 		$text	= '';
@@ -194,7 +191,7 @@ class ContentViewArticle extends JView
 
 			case 'print' :
 			{
-				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;tmpl=component&amp;print=1&amp;Itemid='.$Itemid.'&amp;page='.@ $this->request->limitstart;
+				$url	= 'index.php?option=com_content&view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -239,7 +236,7 @@ class ContentViewArticle extends JView
 					return;
 				}
 				jimport('joomla.html.tooltips');
-				$url = 'index.php?option=com_content&amp;view=article&amp;layout=form&amp;id='.$article->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
+				$url = 'index.php?option=com_content&view=article&layout=form&id='.$article->id.'&Returnid='.$Itemid;
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 				if ($article->state == 0) {
@@ -280,7 +277,7 @@ class ContentViewArticle extends JView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		// Initialize variables
 		$document	=& JFactory::getDocument();

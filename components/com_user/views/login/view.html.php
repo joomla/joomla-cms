@@ -28,7 +28,7 @@ class UserViewLogin extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $Itemid, $option;
+		global $mainframe, $option;
 
 		// Initialize variables
 		$document	=& JFactory::getDocument();

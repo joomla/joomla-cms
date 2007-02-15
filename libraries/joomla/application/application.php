@@ -613,7 +613,7 @@ class JApplication extends JObject
 		//Load the pathway object
 		jimport( 'joomla.application.router' );
 
-		// Create a JPathWay object
+		// Create a JRouter object
 		$this->_router = JRouter::getInstance();
 
 		return $this->_router;

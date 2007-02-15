@@ -49,8 +49,6 @@ class ContentModelArchive extends JModel
 	 */
 	function getData()
 	{
-		global $Itemid;
-
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
@@ -118,8 +116,7 @@ class ContentModelArchive extends JModel
 	{
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
-		$Itemid				= JRequest::getVar('Itemid');
-
+	
 		$orderby = "\n ORDER BY ";
 		if ($filter_order && $filter_order_Dir) {
 			$orderby .= "$filter_order $filter_order_Dir, ";
@@ -140,7 +137,7 @@ class ContentModelArchive extends JModel
 
 	function _buildContentWhere()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		// Initialize some variables
 		$user	=& JFactory::getUser();

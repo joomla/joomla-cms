@@ -236,12 +236,12 @@ class JContentHelper
 			 */
 			$Itemid = null;
 			if ($secLinkID)	{
-				$Itemid = '&amp;Itemid='.(int) $secLinkID;
+				$Itemid = '&Itemid='.(int) $secLinkID;
 
 				if ($secLinkURL) {
-					$link = sefRelToAbs($secLinkURL.$Itemid);
+					$link = JRoute::_($secLinkURL.$Itemid);
 				} else {
-					$link = sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$row->sectionid.$Itemid);
+					$link = JRoute::_('index.php?option=com_content&task=section&id='.$row->sectionid.$Itemid);
 				}
 				/*
 				 * We found one.. and built the link, so lets set it
@@ -308,9 +308,9 @@ class JContentHelper
 			if ($Itemid !== null) 
 			{
 				if ($catLinkURL) {
-					$link = sefRelToAbs($catLinkURL.$Itemid);
+					$link = JRoute::_($catLinkURL.$Itemid);
 				} else {
-					$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$row->sectionid.'&amp;id='.$row->catid.$Itemid);
+					$link = JRoute::_('index.php?option=com_content&task=category&sectionid='.$row->sectionid.'&id='.$row->catid.$Itemid);
 				}
 
 				// We found an Itemid... build the link

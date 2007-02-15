@@ -35,7 +35,7 @@ function validateForm( frm ) {
 	}
 ?>
 
-<form action="<?php echo JURI::resolve( 'index.php?option=com_user' ); ?>" method="post" id="josForm" name="josForm" class="form-validate">
+<form action="<?php echo JRoute::_( 'index.php?option=com_user' ); ?>" method="post" id="josForm" name="josForm" class="form-validate">
 
 <div class="componentheading">
 	<?php echo JText::_( 'Registration' ); ?>

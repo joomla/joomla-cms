@@ -40,18 +40,18 @@ class WrapperController
 {
 	function display()
 	{
-		global $Itemid, $mainframe, $option;
+		global $mainframe, $option;
 
-		$menus	= &JMenu::getInstance();
-		$menu	= $menus->getItem($Itemid);
-		$params = new JParameter( $menu->params );
+		$menu	= &JMenu::getInstance();
+		$item	= $menu->getActive();
+		$params = new JParameter( $item->params );
 
 		//set page title
-		$mainframe->SetPageTitle($menu->name);
+		$mainframe->SetPageTitle($item->name);
 
 		// Set the breadcrumbs
 		$pathway =& $mainframe->getPathWay();
-		$pathway->setItemName(1, $menu->name);
+		$pathway->setItemName(1, $item->name);
 
 		$url = $params->def( 'url', '' );
 

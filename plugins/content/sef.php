@@ -93,7 +93,7 @@ function plgContentSEF_replacer( &$matches )
 		{
 			$anchor = '#' . $anchor;
 		}
-		return 'href="'. JURI::resolve( 'index.php' . $qstring ) . $uriHREF->getFragment() .'"';
+		return 'href="'. JRoute::_( 'index.php' . $qstring ) . $uriHREF->getFragment() .'"';
 	}
 	else
 	{

@@ -28,7 +28,7 @@ class ContentViewCategory extends JView
 {
 	function display()
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		$doc =& JFactory::getDocument();
 
@@ -47,8 +47,7 @@ class ContentViewCategory extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$link = 'index.php?option=com_content&view=article&id='. $row->id . '&Itemid=' . $Itemid;
-			$link = sefRelToAbs( $link );
+			$link = JRoute::_( 'index.php?option=com_content&view=article&id='. $row->id );
 
 			// strip html from feed item description text
 			$description	= $row->introtext;
