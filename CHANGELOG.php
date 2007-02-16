@@ -39,6 +39,7 @@ Legend:
 
 16-Feb-2007 Mateusz Krzeszowiec
  # Removed call to not existing JEditor:getButtons in frontend
+ # Fixed [artf7626] : XStandard destroys editor content on save and writes empty strings to db
 
 15-Feb-2007 Mateusz Krzeszowiec
  # Fixed [artf7519] : Images/Pagebreak/Readmore buttons don't work in XStandard

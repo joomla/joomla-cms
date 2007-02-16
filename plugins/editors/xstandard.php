@@ -88,7 +88,11 @@ class plgEditorXstandard extends JPlugin {
 	 * @param string 	The name of the editor
 	 */
 	function onSave( $editor ) {
-		return;
+		$js = "var editor = $('alternate1');\n";
+		$js .= "editor.EscapeUnicode = true;\n";
+		$js .= "$('text').value = editor.value;\n";
+
+		return $js;
 	}
 
 	/**
