@@ -57,7 +57,6 @@ function submitbutton(pressbutton) {
 
 <?php
 echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '15');
-echo $this->editor->getButtons('text');
 ?>
 </fieldset>
 <fieldset>

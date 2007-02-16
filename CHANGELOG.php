@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Feb-2007 Mateusz Krzeszowiec
+ # Removed call to not existing JEditor:getButtons in frontend
+
 15-Feb-2007 Mateusz Krzeszowiec
  # Fixed [artf7519] : Images/Pagebreak/Readmore buttons don't work in XStandard
  ^ editors-xtd plugins are now rendered in onDisplay event of editor plugin
