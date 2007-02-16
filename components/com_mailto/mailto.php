@@ -20,5 +20,7 @@ jimport('joomla.application.component.helper');
 require_once( JPATH_COMPONENT.DS.'controller.php' );
 
 $controller	= new MailtoController( );
+$controller->registerDefaultTask('mailto');
 $controller->execute( JRequest::getVar( 'task' ) );
-$controller->redirect();
+
+//$controller->redirect();

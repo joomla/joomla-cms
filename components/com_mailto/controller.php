@@ -23,6 +23,25 @@ jimport('joomla.application.component.controller');
  */
 class MailtoController extends JController
 {
+	
+	/**
+	 * Show the form so that the user can send the link to someone
+	 * 
+	 * @access public
+	 * @since 1.5
+	 */
+	function mailto()
+	{
+		JRequest::setVar( 'view', 'mailto' );
+		$this->display();
+	}
+	
+	/**
+	 * Send the message and display a notice
+	 * 
+	 * @access public
+	 * @since 1.5
+	 */
 	function send()
 	{
 		global $mainframe;
