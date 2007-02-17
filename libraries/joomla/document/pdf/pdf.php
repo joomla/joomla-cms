@@ -151,8 +151,6 @@ class JDocumentPDF extends JDocument
 		 * FONTS
 		 */
 
-		$lang = & JFactory::getLanguage();
-
 		// Default font name
 		define("PDF_FONT_NAME_MAIN", 'vera');
 		// Default font size
@@ -254,31 +252,46 @@ class JDocumentPDF extends JDocument
 	 */
 	function render( $cache = false, $params = array())
 	{
-		parent::render();
-
 		$pdf = &$this->_engine;
 
-		// set document information
+		// Set PDF Metadata
 		$pdf->SetCreator($this->getGenerator());
 		$pdf->SetTitle($this->getTitle());
 		$pdf->header_title = $this->getTitle();
 		$pdf->SetSubject($this->getDescription());
 		$pdf->SetKeywords($this->getMetaData('keywords'));
 
+		// Set PDF Header data
 		$pdf->setHeaderData('',0,$this->getTitle(), $this->getHeader());
 
+		// Set PDF Header and Footer fonts
 		$pdf->setHeaderFont(array('vera', '', 10));
 		$pdf->setFooterFont(array('vera', '', 8));
 
-		//initialize document
+		// Initialize PDF Document
 		$pdf->AliasNbPages();
 		$pdf->AddPage();
 
+		// Build the PDF Document string from the document buffer
 		$pdf->WriteHTML($this->getData(), true);
+		$data = $pdf->Output('', 'S');
+
+		// Set document type headers
+		parent::render();
+		if(ob_get_contents()) {
+			JError::raiseError(500, JText::_('PDF Error'));
+		}
+		if(php_sapi_name()!='cli') {
+			//We send to a browser
+			if(headers_sent()) {
+				JError::raiseError(500, JText::_('PDF Error'));
+			}
+			JResponse::setHeader('Content-Length', strlen($data), true);
+			JResponse::setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.pdf"', true);
+		}
 
 		//Close and output PDF document
-		$pdf->Output($this->getName().".pdf", "I");
-		return;
+		return $data;
 	}
 }
 ?>
