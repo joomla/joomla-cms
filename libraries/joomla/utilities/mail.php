@@ -74,7 +74,8 @@ class JMail extends PHPMailer
 	 */
 	function &Send()
 	{
-		$result = parent::Send();
+		@ $result = parent::Send();
+
 		if ($result == false)
 		{
 			// TODO: Set an appropriate error number
@@ -405,5 +406,6 @@ class JMailHelper
 		}
 		return $rBool;
 	}
+	
 }
 ?>
