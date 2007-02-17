@@ -291,7 +291,7 @@ class MediaViews
 		<div class="imgOutline">
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
-					<a style="display: block; width: 100%; height: 100%">
+					<a href="<?php echo $img_url; ?>" title="<?php echo $file; ?>" rel="preview" style="display: block; width: 100%; height: 100%">
 						<div class="image">
 							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
 						</div>
@@ -327,7 +327,7 @@ class MediaViews
 				</div>
 			</div>
 			<div class="imginfoBorder">
-				<?php echo substr( $dir, 0, 10 ) . ( strlen( $dir ) > 10 ? '...' : ''); ?>
+				<a href="<?php echo $link; ?>" target="folderframe"><?php echo substr( $dir, 0, 10 ) . ( strlen( $dir ) > 10 ? '...' : ''); ?></a>
 			</div>
 		</div>
 		<?php
@@ -355,7 +355,7 @@ class MediaViews
 				</div>
 			</div>
 			<div class="imginfoBorder">
-				..
+				<a href="<?php echo $link; ?>" target="folderframe">..</a>
 			</div>
 		</div>
 		<?php
@@ -417,7 +417,7 @@ class MediaViews
 				<a href="<?php echo $img_url; ?>" title="<?php echo $file;?>" rel="preview"><img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" /></a>
 			</td>
 			<td class="description">
-				<?php echo htmlspecialchars( $file, ENT_QUOTES ); ?>
+				<a href="<?php echo $img_url; ?>" title="<?php echo $file;?>" rel="preview"><?php echo htmlspecialchars( $file, ENT_QUOTES ); ?></a>
 			</td>
 			<td>
 				<?php echo $info[0]; ?> x <?php echo $info[1]; ?>
@@ -452,7 +452,7 @@ class MediaViews
 				</a>
 			</td>
 			<td class="description">
-				<?php echo $dir; ?>
+				<a href="<?php echo $link; ?>" target="folderframe"><?php echo $dir; ?></a>
 			</td>
 			<td>
 				&nbsp;
@@ -488,7 +488,7 @@ class MediaViews
 				</a>
 			</td>
 			<td class="description">
-				..
+				<a href="<?php echo $link; ?>" target="folderframe">..</a>
 			</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>

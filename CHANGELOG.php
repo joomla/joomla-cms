@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Feb-2007 Hannes Papenberg
+ # Fixed [artf7595] : com_frontpage reset works again and some smaller improvements
+ # Fixed some issues in com_media
+
 16-Feb-2007 Toby Patterson
  # Fixed [artf7616] : Email function of articles doesn't work.
  # User is returned to mailto form when mail cannot be sent.

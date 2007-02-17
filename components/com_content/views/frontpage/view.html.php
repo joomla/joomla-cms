@@ -208,7 +208,7 @@ class ContentViewFrontpage extends JView
 					return;
 				}
 				jimport('joomla.html.tooltips');
-				$url = 'index.php?option=com_content&;view=article&layout=form&id='.$article->id.'&task=edit&Returnid='.$Itemid;
+				$url = 'index.php?option=com_content&view=article&layout=form&id='.$article->id.'&Returnid='.$Itemid;
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 				if ($article->state == 0) {

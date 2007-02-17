@@ -21,10 +21,14 @@ if ($mainframe->isAdmin()) {
 	if (!$user->authorize( 'com_media', 'manage' )) {
 		$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 	}
+	define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
+	define('COM_MEDIA_BASEURL', $mainframe->getSiteURL().'images');
 } else {
 	if (!$user->authorize( 'com_media', 'popup' )) {
 		$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 	}
+	define('COM_MEDIA_BASE', JPATH_SITE.DS.'images'.DS.'stories');
+	define('COM_MEDIA_BASEURL', JURI::base().'images/stories');
 }
 
 $cid = JRequest::getVar( 'cid', array (0), 'post', 'array');
@@ -36,9 +40,6 @@ $folder = JRequest::getVar( 'folder', '');
 if (is_int(strpos($folder, "..")) && $folder != '') {
 	$mainframe->redirect("index.php?option=com_media&folder=".$folder, JText::_('NO HACKING PLEASE'));
 }
-
-define('COM_MEDIA_BASE', JPATH_SITE.DS.'images'.DS.'stories');
-define('COM_MEDIA_BASEURL', ($mainframe->isAdmin()) ? $mainframe->getSiteURL().'images/stories' : JURI::base().'images/stories');
 
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'media.php' );
 

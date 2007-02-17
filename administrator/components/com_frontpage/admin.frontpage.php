@@ -97,6 +97,13 @@ function viewFrontPage( $option )
 	$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 
+	JMenuBar::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );
+	JMenuBar::archiveList();
+	JMenuBar::publishList();
+	JMenuBar::unpublishList();
+	JMenuBar::custom('remove','delete.png','delete_f2.png','Remove', true);
+	JMenuBar::help( 'screen.frontpage' );
+
 	$where = array(
 		"c.state >= 0"
 	);
@@ -140,7 +147,7 @@ function viewFrontPage( $option )
 	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
-	$query = 'SELECT c.*, g.name AS groupname, cc.name, s.name AS sect_name, u.name AS editor, f.ordering AS fpordering, v.name AS author'
+	$query = 'SELECT c.*, g.name AS groupname, cc.title as name, s.name AS sect_name, u.name AS editor, f.ordering AS fpordering, v.name AS author'
 	. ' FROM #__content AS c'
 	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
 	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope="content"'
