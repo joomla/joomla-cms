@@ -26,6 +26,20 @@ defined('JPATH_BASE') or die();
 
 class JDocumentPDF extends JDocument
 {
+	var $_engine	= null;
+	var $_name		= 'joomla';
+	var $_header	= null;
+
+	var $_margin_header	= 5;
+	var $_margin_footer	= 10;
+	var $_margin_top	= 27;
+	var $_margin_bottom	= 25;
+	var $_margin_left	= 15;
+	var $_margin_right	= 15;
+
+	// Scale ratio for images [number of points in user unit]
+	var $_image_scale	= 4;
+
 	/**
 	 * Class constructore
 	 *
@@ -36,11 +50,198 @@ class JDocumentPDF extends JDocument
 	{
 		parent::__construct($options);
 
+		if (isset($options['margin-header'])) {
+			$this->_margin_header = $options['margin-header'];
+		}
+
+		if (isset($options['margin-footer'])) {
+			$this->_margin_footer = $options['margin-footer'];
+		}
+
+		if (isset($options['margin-top'])) {
+			$this->_margin_top = $options['margin-top'];
+		}
+
+		if (isset($options['margin-bottom'])) {
+			$this->_margin_bottom = $options['margin-bottom'];
+		}
+
+		if (isset($options['margin-left'])) {
+			$this->_margin_left = $options['margin-left'];
+		}
+
+		if (isset($options['margin-right'])) {
+			$this->_margin_right = $options['margin-right'];
+		}
+
+		if (isset($options['image-scale'])) {
+			$this->_image_scale = $options['image-scale'];
+		}
+
 		//set mime type
 		$this->_mime = 'application/pdf';
 
 		//set document type
 		$this->_type = 'pdf';
+
+		/*
+		 * Setup external configuration options
+		 */
+		define('K_TCPDF_EXTERNAL_CONFIG', true);
+
+		/*
+		 * Path options
+		 */
+
+		// Installation path
+		define("K_PATH_MAIN", JPATH_LIBRARIES.DS."tcpdf");
+
+		// URL path
+		define("K_PATH_URL", JPATH_BASE);
+
+		// Fonts path
+		define("FPDF_FONTPATH", K_PATH_MAIN.DS."fonts".DS);
+
+		// Cache directory path
+		define("K_PATH_CACHE", K_PATH_MAIN.DS."cache");
+
+		// Cache URL path
+		define("K_PATH_URL_CACHE", K_PATH_URL.DS."cache");
+
+		// Images path
+		define("K_PATH_IMAGES", K_PATH_MAIN.DS."images");
+
+		// Blank image path
+		define("K_BLANK_IMAGE", K_PATH_IMAGES.DS."_blank.png");
+
+		/*
+		 * Format options
+		 */
+
+		// Cell height ratio
+		define("K_CELL_HEIGHT_RATIO", 1.25);
+
+		// Magnification scale for titles
+		define("K_TITLE_MAGNIFICATION", 1.3);
+
+		// Reduction scale for small font
+		define("K_SMALL_RATIO", 2/3);
+
+		// Magnication scale for head
+		define("HEAD_MAGNIFICATION", 1.1);
+
+		/*
+		 * Create the pdf document
+		 */
+
+		jimport('tcpdf.tcpdf');
+
+		// Default settings are a portrait layout with an A4 configuration using millimeters as units
+		$this->_engine = new TCPDF("P", "mm", "A4", true);
+
+		//set margins
+		$this->_engine->SetMargins($this->_margin_left, $this->_margin_top, $this->_margin_right);
+		//set auto page breaks
+		$this->_engine->SetAutoPageBreak(TRUE, $this->_margin_bottom);
+		$this->_engine->SetHeaderMargin($this->_margin_header);
+		$this->_engine->SetFooterMargin($this->_margin_footer);
+		$this->_engine->setImageScale($this->_image_scale);
+
+		/*
+		 * FONTS
+		 */
+
+		$lang = & JFactory::getLanguage();
+
+		// Default font name
+		define("PDF_FONT_NAME_MAIN", 'vera');
+		// Default font size
+		define("PDF_FONT_SIZE_MAIN", 10);
+		// Data font name
+		define("PDF_FONT_NAME_DATA", 'vera');
+		// Data font size
+		define("PDF_FONT_SIZE_DATA", 8);
+	}
+
+	function & getEngine()
+	{
+		return $this->_engine;
+	}
+
+	 /**
+	 * Sets the document name
+	 *
+	 * @param   string   $name	Document name
+	 * @access  public
+	 * @return  void
+	 */
+	function setName($name = 'joomla')
+	{
+		$this->_name = $name;
+	}
+
+	/**
+	 * Returns the document name
+	 *
+	 * @access public
+	 * @return string
+	 */
+	function getName()
+	{
+		return $this->_name;
+	}
+
+	 /**
+	 * Sets the document header string
+	 *
+	 * @param   string   $text	Document header string
+	 * @access  public
+	 * @return  void
+	 */
+	function setHeader($text)
+	{
+		$this->_header = $text;
+	}
+
+	/**
+	 * Returns the document header string
+	 *
+	 * @access public
+	 * @return string
+	 */
+	function getHeader()
+	{
+		return $this->_header;
+	}
+
+	/**
+	 * Get the contents of the document buffer
+	 *
+	 * @access public
+	 * @return 	The contents of the document buffer
+	 */
+	function getData() {
+		return $this->_data;
+	}
+
+	/**
+	 * Set the contents of the document buffer
+	 *
+	 * @access public
+	 * @param string 	$content	The content to be set in the buffer
+	 */
+	function setData($content) {
+		$this->_data = $content;
+	}
+
+	/**
+	 * Set the contents of the document buffer
+	 *
+	 * @access public
+	 * @param string 	$content	The content to be set in the buffer
+	 */
+	function appendData($content) {
+		$this->_data .= $content;
 	}
 
 	/**
@@ -54,7 +255,30 @@ class JDocumentPDF extends JDocument
 	function render( $cache = false, $params = array())
 	{
 		parent::render();
-		return $this->getBuffer();
+
+		$pdf = &$this->_engine;
+
+		// set document information
+		$pdf->SetCreator($this->getGenerator());
+		$pdf->SetTitle($this->getTitle());
+		$pdf->header_title = $this->getTitle();
+		$pdf->SetSubject($this->getDescription());
+		$pdf->SetKeywords($this->getMetaData('keywords'));
+
+		$pdf->setHeaderData('',0,$this->getTitle(), $this->getHeader());
+
+		$pdf->setHeaderFont(array('vera', '', 10));
+		$pdf->setFooterFont(array('vera', '', 8));
+
+		//initialize document
+		$pdf->AliasNbPages();
+		$pdf->AddPage();
+
+		$pdf->WriteHTML($this->getData(), true);
+
+		//Close and output PDF document
+		$pdf->Output($this->getName().".pdf", "I");
+		return;
 	}
 }
 ?>

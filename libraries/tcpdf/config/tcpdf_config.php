@@ -16,10 +16,11 @@
 //               www.tecnick.com
 //               info@tecnick.com
 //============================================================+
-// no direct access
-defined('_JEXEC') or die('Restricted access');
 
-$lang =& JFactory::getLanguage();
+// no direct access
+defined('JPATH_BASE') or die('Restricted access');
+
+$lang = & JFactory :: getLanguage();
 
 /**
  * Congiguration file for TCPDF.
@@ -34,162 +35,161 @@ $lang =& JFactory::getLanguage();
 
 // PLEASE SET THE FOLLOWING CONSTANTS:
 
-/**
- * installation path
- */
-define ("K_PATH_MAIN", JPATH_LIBRARIES.DS."tcpdf".DS);
+if (!defined("K_TCPDF_EXTERNAL_CONFIG")) {
 
-/**
- * url path
- */
-define ("K_PATH_URL", JPATH_SITE);
+	/**
+	 * installation path
+	 */
+	define("K_PATH_MAIN", JPATH_LIBRARIES . DS . "tcpdf");
 
-/**
- * path for PDF fonts
- */
-define ("FPDF_FONTPATH", JPATH_SITE.DS."language".DS."pdf_fonts".DS);
+	/**
+	 * url path
+	 */
+	define("K_PATH_URL", JPATH_SITE);
 
-/**
- * cache directory for temporary files (full path)
- */
-define ("K_PATH_CACHE", K_PATH_MAIN."cache".DS);
+	/**
+	 * path for PDF fonts
+	 */
+	define("FPDF_FONTPATH", JPATH_SITE . DS . "language" . DS . "pdf_fonts" . DS);
 
-/**
- * cache directory for temporary files (url path)
- */
-define ("K_PATH_URL_CACHE", K_PATH_URL."cache".DS);
+	/**
+	 * cache directory for temporary files (full path)
+	 */
+	define("K_PATH_CACHE", K_PATH_MAIN . "cache" . DS);
 
-/**
- *images directory
- */
-define ("K_PATH_IMAGES", K_PATH_MAIN."images".DS);
+	/**
+	 * cache directory for temporary files (url path)
+	 */
+	define("K_PATH_URL_CACHE", K_PATH_URL . "cache" . DS);
 
-/**
- * blank image
- */
-define ("K_BLANK_IMAGE", K_PATH_IMAGES."_blank.png");
+	/**
+	 *images directory
+	 */
+	define("K_PATH_IMAGES", K_PATH_MAIN . "images" . DS);
 
-/**
- * page format
- */
-define ("PDF_PAGE_FORMAT", "A4");
+	/**
+	 * blank image
+	 */
+	define("K_BLANK_IMAGE", K_PATH_IMAGES . "_blank.png");
 
-/**
- * page orientation (P=portrait, L=landscape)
- */
-define ("PDF_PAGE_ORIENTATION", "P");
+	/**
+	 * page format
+	 */
+	define("PDF_PAGE_FORMAT", "A4");
 
-/**
- * document creator
- */
-define ("PDF_CREATOR", "pdf creator");
+	/**
+	 * page orientation (P=portrait, L=landscape)
+	 */
+	define("PDF_PAGE_ORIENTATION", "P");
 
-/**
- * document author
- */
-define ("PDF_AUTHOR", "pdf author");
+	/**
+	 * document creator
+	 */
+	define("PDF_CREATOR", "pdf creator");
 
-/**
- * header title
- */
-define ("PDF_HEADER_TITLE", "first row\nsecond row\nthird row");
+	/**
+	 * document author
+	 */
+	define("PDF_AUTHOR", "pdf author");
 
-/**
- * header description string
- */
-define ("PDF_HEADER_STRING", "first row\nsecond row\nthird row");
+	/**
+	 * header title
+	 */
+	define("PDF_HEADER_TITLE", "first row\nsecond row\nthird row");
 
-/**
- * image logo
- */
-define ("PDF_HEADER_LOGO", "");
+	/**
+	 * header description string
+	 */
+	define("PDF_HEADER_STRING", "first row\nsecond row\nthird row");
 
-/**
- * header logo image width [mm]
- */
-define ("PDF_HEADER_LOGO_WIDTH", 20);
+	/**
+	 * image logo
+	 */
+	define("PDF_HEADER_LOGO", "");
 
-/**
- *  document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch]
- */
-define ("PDF_UNIT", "mm");
+	/**
+	 * header logo image width [mm]
+	 */
+	define("PDF_HEADER_LOGO_WIDTH", 20);
 
-/**
- * header margin
- */
-define ("PDF_MARGIN_HEADER", 5);
+	/**
+	 *  document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch]
+	 */
+	define("PDF_UNIT", "mm");
 
-/**
- * footer margin
- */
-define ("PDF_MARGIN_FOOTER", 10);
+	/**
+	 * header margin
+	 */
+	define("PDF_MARGIN_HEADER", 5);
 
-/**
- * top margin
- */
-define ("PDF_MARGIN_TOP", 27);
+	/**
+	 * footer margin
+	 */
+	define("PDF_MARGIN_FOOTER", 10);
 
-/**
- * bottom margin
- */
-define ("PDF_MARGIN_BOTTOM", 25);
+	/**
+	 * top margin
+	 */
+	define("PDF_MARGIN_TOP", 27);
 
-/**
- * left margin
- */
-define ("PDF_MARGIN_LEFT", 15);
+	/**
+	 * bottom margin
+	 */
+	define("PDF_MARGIN_BOTTOM", 25);
 
-/**
- * right margin
- */
-define ("PDF_MARGIN_RIGHT", 15);
+	/**
+	 * left margin
+	 */
+	define("PDF_MARGIN_LEFT", 15);
 
-/**
- * main font name
- */
-define ("PDF_FONT_NAME_MAIN", $lang->getPdfFontName());
+	/**
+	 * right margin
+	 */
+	define("PDF_MARGIN_RIGHT", 15);
 
-/**
- * main font size
- */
-define ("PDF_FONT_SIZE_MAIN", 10);
+	/**
+	 * main font name
+	 */
+	define("PDF_FONT_NAME_MAIN", $lang->getPdfFontName());
 
-/**
- * data font name
- */
-define ("PDF_FONT_NAME_DATA", $lang->getPdfFontName());
+	/**
+	 * main font size
+	 */
+	define("PDF_FONT_SIZE_MAIN", 10);
 
-/**
- * data font size
- */
-define ("PDF_FONT_SIZE_DATA", 8);
+	/**
+	 * data font name
+	 */
+	define("PDF_FONT_NAME_DATA", $lang->getPdfFontName());
 
-/**
- *  scale factor for images (number of points in user unit)
- */
-define ("PDF_IMAGE_SCALE_RATIO", 4);
+	/**
+	 * data font size
+	 */
+	define("PDF_FONT_SIZE_DATA", 8);
 
-/**
- * magnification factor for titles
- */
-define("HEAD_MAGNIFICATION", 1.1);
+	/**
+	 *  scale factor for images (number of points in user unit)
+	 */
+	define("PDF_IMAGE_SCALE_RATIO", 4);
 
-/**
- * height of cell repect font height
- */
-define("K_CELL_HEIGHT_RATIO", 1.25);
+	/**
+	 * magnification factor for titles
+	 */
+	define("HEAD_MAGNIFICATION", 1.1);
 
-/**
- * title magnification respect main font size
- */
-define("K_TITLE_MAGNIFICATION", 1.3);
+	/**
+	 * height of cell repect font height
+	 */
+	define("K_CELL_HEIGHT_RATIO", 1.25);
 
-/**
- * reduction factor for small font
- */
-define("K_SMALL_RATIO", 2/3);
+	/**
+	 * title magnification respect main font size
+	 */
+	define("K_TITLE_MAGNIFICATION", 1.3);
 
-//============================================================+
-// END OF FILE
-//============================================================+
+	/**
+	 * reduction factor for small font
+	 */
+	define("K_SMALL_RATIO", 2 / 3);
+}
 ?>
