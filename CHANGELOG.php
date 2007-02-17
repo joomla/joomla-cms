@@ -85,6 +85,7 @@ Legend:
 11-Feb-2007 Jason Kendall
  # Fixed [Topic 127883] : First attempt at bug when PHP/Server is compressing as well as Joomla!
  # Fixed [Topic 117691] : Missing Delete Icon in Media Manager
+ # Fixed [Topic 136174] : Correct checking of cache
  + Add [Topic 60767] : Add Show all option when articles have page breaks
  # Repaired some damnage to XML-RPC client - Although still broke
  # Implement JError in SimpleXML
