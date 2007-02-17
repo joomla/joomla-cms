@@ -103,16 +103,32 @@ class MailtoController extends JController
 		$subject_default 	= JText::sprintf('Item sent by', $sender);
 		$subject 			= JRequest::getVar( 'subject', $subject_default, 'post' );
 
-		if (!$email || !$from || (JMailHelper::isEmailAddress($email) == false) || (JMailHelper::isEmailAddress($from) == false)) {
-			ContentView :: userInputError(JText :: _('EMAIL_ERR_NOINFO'));
+		// Check for a valid to address
+		$error	= false;
+		if ( ! $email  || ! JMailHelper::isEmailAddress($email) ) 
+		{
+			$error	= JText::sprintf('EMAIL_INVALID', $email);
+			JError::raiseWarning(0, $error );
 		}
-
+		
+		// Check for a valid from address
+		if ( ! $from || ! JMailHelper::isEmailAddress($from) )
+		{
+			$error	= JText::sprintf('EMAIL_INVALID', $from);
+			JError::raiseWarning(0, $error );
+		}
+		
+		if ( $error )
+		{
+			return $this->mailto();
+		}
+		
 		// Build the link to send in the email
-		$link = JRoute::_($link);
+		$link	= JRoute::_($link);
 
 		// Build the message to send
-		$msg = JText :: _('EMAIL_MSG');
-		$body = sprintf( $msg, $SiteName, $sender, $from, $link);
+		$msg	= JText :: _('EMAIL_MSG');
+		$body	= sprintf( $msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data
 		$subject = JMailHelper::cleanSubject($subject);
@@ -120,7 +136,11 @@ class MailtoController extends JController
 		$sender	 = JMailHelper::cleanAddress($sender);
 
 		// Send the email
-		JUtility::sendMail($from, $sender, $email, $subject, $body);
+		if ( JUtility::sendMail($from, $sender, $email, $subject, $body) !== true )
+		{
+			JError::raiseNotice( 500, 'EMAIL_NOT_SENT' );
+			return $this->mailto();
+		}
 
 		JRequest::setVar( 'view', 'sent' );
 		$this->display();

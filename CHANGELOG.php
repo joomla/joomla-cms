@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Feb-2007 Toby Patterson
+ # Fixed [artf7616] : Email function of articles doesn't work.
+ # User is returned to mailto form when mail cannot be sent.
+ + phpmailer language files added; local set in JFactory.
+
 16-Feb-2007 Mateusz Krzeszowiec
  # Removed call to not existing JEditor:getButtons in frontend
  # Fixed [artf7626] : XStandard destroys editor content on save and writes empty strings to db
