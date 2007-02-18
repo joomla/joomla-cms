@@ -133,7 +133,7 @@ class ContentViewSection extends JView
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		// Get some parameters from global configuration
 		$params->def('link_titles',	$contentConfig->get('link_titles'));
-		$params->def('author',		!$contentConfig->get('hideAuthor'));
+		$params->def('showAuthor',		$contentConfig->get('showAuthor'));
 		$params->def('createdate',	!$contentConfig->get('hideCreateDate'));
 		$params->def('modifydate',	!$contentConfig->get('hideModifyDate'));
 		$params->def('print',		!$contentConfig->get('hidePrint'));

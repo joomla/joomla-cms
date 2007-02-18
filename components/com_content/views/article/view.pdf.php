@@ -30,6 +30,8 @@ class ContentViewArticle extends JView
 	{
 		global $mainframe;
 
+		jimport('tcpdf.tcpdf');
+
 		$dispatcher	=& JEventDispatcher::getInstance();
 
 		// Initialize some variables
@@ -49,18 +51,40 @@ class ContentViewArticle extends JView
 		JPluginHelper::importPlugin('content', 'image');
 		$dispatcher->trigger('onPrepareContent', array (& $article, & $params, 0));
 
-		$document = &JFactory::getDocument();
+		//create new PDF document (document units are set by default to millimeters)
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true);
 
 		// set document information
-		$document->setTitle($article->title);
-		$document->setName($article->title_alias);
-		$document->setDescription($article->metadesc);
-		$document->setMetaData('keywords', $article->metakey);
+		$pdf->SetCreator("Joomla!");
+		$pdf->SetTitle("Joomla generated PDF");
+		$pdf->SetSubject($article->title);
+		$pdf->SetKeywords($article->metakey);
 
 		// prepare header lines
-		$document->setHeader($this->_getHeaderText($article, $params));
+		$headerText = $this->_getHeaderText($article, $params);
 
-		$document->setData($article->text);
+		$pdf->SetHeaderData('', 0, $article->title, $headerText);
+
+		//set margins
+		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		//set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
+
+		$pdf->setHeaderFont(Array (PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setFooterFont(Array (PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+		//initialize document
+		$pdf->AliasNbPages();
+
+		$pdf->AddPage();
+
+		$pdf->WriteHTML($article->text, true);
+
+		//Close and output PDF document
+		$pdf->Output($article->title_alias.".pdf", "I");
 	}
 
 	function _getHeaderText(& $article, & $params)
@@ -68,7 +92,7 @@ class ContentViewArticle extends JView
 		// Initialize some variables
 		$text = '';
 
-		if ($params->get('author')) {
+		if ($params->get('showAuthor')) {
 			// Display Author name
 			if ($article->usertype == 'administrator' || $article->usertype == 'superadministrator') {
 				$text .= "\n";
@@ -79,7 +103,7 @@ class ContentViewArticle extends JView
 			}
 		}
 
-		if ($params->get('createdate') && $params->get('author')) {
+		if ($params->get('createdate') && $params->get('showAuthor')) {
 			// Display Separator
 			$text .= "\n";
 		}
@@ -92,7 +116,7 @@ class ContentViewArticle extends JView
 			}
 		}
 
-		if ($params->get('modifydate') && ($params->get('author') || $params->get('createdate'))) {
+		if ($params->get('modifydate') && ($params->get('showAuthor') || $params->get('createdate'))) {
 			// Display Separator
 			$text .= " - ";
 		}

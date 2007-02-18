@@ -531,9 +531,6 @@ class ContentController extends JController
 		// build the html radio buttons for published
 		$lists['state'] = JHTMLSelect::yesnoList('state', '', $row->state);
 
-		// get params definitions
-		$params = new JParameter($row->attribs, JApplicationHelper::getPath('com_xml', 'com_content'), 'component');
-
 		/*
 		 * We need to unify the introtext and fulltext fields and have the
 		 * fields separated by the {readmore} tag, so lets do that now.
@@ -557,14 +554,14 @@ class ContentController extends JController
 		$form->set('publish_down', $row->publish_down);
 
 		// Advanced Group
-		$form->loadINI($row->attribs, 'advanced');
+		$form->loadINI($row->attribs);
 
 		// Metadata Group
 		$form->set('description', $row->metadesc, 'metadata');
 		$form->set('keywords', $row->metakey, 'metadata');
-		$form->loadINI($row->metadata, 'metadata');
+		$form->loadINI($row->metadata);
 
-		ContentView::editContent($row, $contentSection, $lists, $sectioncategories, $params, $option, $form);
+		ContentView::editContent($row, $contentSection, $lists, $sectioncategories, $option, $form);
 	}
 
 	/**

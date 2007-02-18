@@ -40,6 +40,8 @@ Legend:
 17-Feb-2007 Hannes Papenberg
  # Fixed [artf7595] : com_frontpage reset works again and some smaller improvements
  # Fixed some issues in com_media
+ # Renamed the parameter hideAuthor and author in article management and article preferences to showAuthor. Show Author when set to 1
+You have to open the article preferences and change the setting to show and save or re-install. This one was necessary because of a naming collision.
 
 16-Feb-2007 Toby Patterson
  # Fixed [artf7616] : Email function of articles doesn't work.

@@ -83,7 +83,7 @@ class ContentViewCategory extends JView
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('title',			1);
 		$params->def('hits',			$contentConfig->get('hits'));
-		$params->def('author',			!$contentConfig->get('hideAuthor'));
+		$params->def('showAuthor',			$contentConfig->get('showAuthor'));
 		$params->def('date',			!$contentConfig->get('hideCreateDate'));
 		$params->def('date_format',		JText::_('DATE_FORMAT_LC'));
 		$params->def('navigation',		2);
@@ -166,12 +166,7 @@ class ContentViewCategory extends JView
 				$date = JHTML::Date($article->created);
 				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
-				$overlib .= '<br />';
-				$overlib .= $article->groups;
-				$overlib .= '<br />';
-				$overlib .= $date;
-				$overlib .= '<br />';
-				$overlib .= $author;
+				$overlib .= '<br />'.$article->groups.'<br />'.$date.'<br />'.$author;
 
 				$button = JHTML::Link($url, $text);
 
@@ -288,7 +283,7 @@ class ContentViewCategory extends JView
 		// Get some parameters from global configuration
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('link_titles',	$contentConfig->get('link_titles'));
-		$params->def('author',		!$contentConfig->get('hideAuthor'));
+		$params->def('showAuthor',		$contentConfig->get('showAuthor'));
 		$params->def('createdate',	!$contentConfig->get('hideCreateDate'));
 		$params->def('modifydate',	!$contentConfig->get('hideModifyDate'));
 		$params->def('print',		!$contentConfig->get('hidePrint'));

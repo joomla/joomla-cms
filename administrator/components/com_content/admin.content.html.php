@@ -430,7 +430,7 @@ class ContentView
 	* @param JTableContent The category object
 	* @param string The html for the groups select list
 	*/
-	function editContent( &$row, $section, &$lists, &$sectioncategories, &$params, $option, &$form )
+	function editContent( &$row, $section, &$lists, &$sectioncategories, $option, &$form )
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
 
@@ -500,7 +500,7 @@ class ContentView
 		<table cellspacing="0" cellpadding="0" border="0" width="100%">
 		<tr>
 			<td valign="top">
-				<?php ContentView::_displayArticleDetails( $row, $lists, $params ); ?>
+				<?php ContentView::_displayArticleDetails( $row, $lists ); ?>
 				<table class="adminform">
 				<tr>
 					<td>
@@ -514,7 +514,7 @@ class ContentView
 			</td>
 			<td valign="top" width="320" style="padding: 7px 0 0 5px">
 			<?php
-				ContentView::_displayArticleStats($row, $lists, $params);
+				ContentView::_displayArticleStats($row, $lists);
 
 				$title = JText::_( 'Article Parameters' );
 				echo $pane->startPane("content-pane");
@@ -888,7 +888,7 @@ class ContentView
 		<?php
 	}
 
-	function _displayArticleDetails(&$row, &$lists, &$params )
+	function _displayArticleDetails(&$row, &$lists )
 	{
 		?>
 		<table  class="adminform">
@@ -950,7 +950,7 @@ class ContentView
 		<?php
 	}
 
-	function _displayArticleStats(&$row, &$lists, &$params)
+	function _displayArticleStats(&$row, &$lists )
 	{
 		$db =& JFactory::getDBO();
 

@@ -74,7 +74,7 @@ endif; ?>
 </tr>
 <?php endif; ?>
 
-<?php if (($this->params->get('author')) && ($this->article->author != "")) : ?>
+<?php if (($this->params->get('showAuthor')) && ($this->article->author != "")) : ?>
 <tr>
 	<td width="70%"  valign="top" colspan="2">
 		<span class="small">

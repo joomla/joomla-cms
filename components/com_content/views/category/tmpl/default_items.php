@@ -52,7 +52,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php JCommonHTML::tableOrdering( 'Date', 'a.created', $this->lists ); ?>
 	</td>
 	<?php endif; ?>
-	<?php if ($this->params->get('author')) : ?>
+	<?php if ($this->params->get('showAuthor')) : ?>
 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>"  width="20%">
 		<?php JCommonHTML::tableOrdering( 'Author', 'author', $this->lists ); ?>
 	</td>
@@ -93,7 +93,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php echo $item->created; ?>
 	</td>
 	<?php endif; ?>
-	<?php if ($this->params->get('author')) : ?>
+	<?php if ($this->params->get('showAuthor')) : ?>
 	<td >
 		<?php echo $item->created_by_alias ? $item->created_by_alias : $item->author; ?>
 	</td>

@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php echo JText::_('Created').': '.$item->created; ?>
 		</span>
 		<?php endif; ?>
-		<?php if ($this->params->get('author')) : ?>
+		<?php if ($this->params->get('showAuthor')) : ?>
 		<span class="author">
 			<?php echo JText::_('Author').': '; echo $item->created_by_alias ? $item->created_by_alias : $item->author; ?>
 		</span>

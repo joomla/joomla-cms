@@ -386,7 +386,7 @@ class ContentModelArticle extends JModel
 		// Handle global overides for some article parameters if set
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('link_titles',	$contentConfig->get('link_titles'));
-		$params->def('author',		!$contentConfig->get('hideAuthor'));
+		$params->def('showAuthor',	$contentConfig->get('showAuthor'));
 		$params->def('createdate',	!$contentConfig->get('hideCreateDate'));
 		$params->def('modifydate',	!$contentConfig->get('hideModifyDate'));
 		$params->def('print',		!$contentConfig->get('hidePrint'));
