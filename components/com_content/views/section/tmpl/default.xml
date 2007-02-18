@@ -63,7 +63,7 @@
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="author" type="list" default="" label="Author Column" description="Show/Hide the Author column">
+			<param name="showAuthor" type="list" default="" label="Author Column" description="Show/Hide the Author column">
 				<option value="">Use Global</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>

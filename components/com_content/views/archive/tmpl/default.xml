@@ -28,7 +28,7 @@
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="author" type="list" default="1" label="Show Author" description="PARAMAUTHOR">
+			<param name="showAuthor" type="list" default="1" label="Show Author" description="PARAMAUTHOR">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>

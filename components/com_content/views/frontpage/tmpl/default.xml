@@ -76,7 +76,7 @@
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="author" type="list" default="" label="Author Names" description="PARAMAUTHOR">
+			<param name="showAuthor" type="list" default="" label="Author Names" description="PARAMAUTHOR">
 				<option value="">Use Global</option>
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
