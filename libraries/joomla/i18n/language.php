@@ -145,14 +145,8 @@ class JLanguage extends JObject
 		if ($lang == null) {
 			$lang = 'en-GB';
 		}
-
-		$this->_lang= $lang;
-
-		$this->_metadata = $this->getMetadata($this->_lang);
-
-		//set locale based on the language tag
-		//TODO : add function to display locale setting in configuration
-		$locale = setlocale(LC_ALL, $this->getLocale());
+		
+		$this->setLanguage($lang);
 
 		$this->load();
 	}
@@ -258,9 +252,8 @@ class JLanguage extends JObject
 	function _load( $filename )
 	{
 		if ($content = @file_get_contents( $filename )) {
-			if( $this->_identifyer === null ) {
-				$this->_identifyer = basename( $filename, '.ini' );
-			}
+
+			$this->_identifyer = basename( $filename, '.ini' );
 
 			$registry = new JRegistry();
 			$registry->loadINI($content);
@@ -459,6 +452,24 @@ class JLanguage extends JObject
 			$dir .= DS.$language;
 		}
 		return $dir;
+	}
+	
+	/**
+	 * Set the language attributes to the given language
+	 * 
+	 * Once called, the language still needs to be loaded using JLanguage::load()
+	 * 
+	 * @access	public
+	 * @param	string	$lang	Language code
+	 */
+	function setLanguage($lang)
+	{
+		$this->_lang		= $lang;
+		$this->_metadata	= $this->getMetadata($this->_lang);
+
+		//set locale based on the language tag
+		//TODO : add function to display locale setting in configuration
+		$locale = setlocale(LC_ALL, $this->getLocale());
 	}
 
 	/**

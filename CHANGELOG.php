@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Feb-2007 Toby Patterson
+ + Added setLanguage() to JLanguage, no change in functionality
+ + Changed key requested in JFactory::_createLanguage from 'debug' to 'debug_lang'
+
 17-Feb-2007 Hannes Papenberg
  # Fixed [artf7595] : com_frontpage reset works again and some smaller improvements
  # Fixed some issues in com_media
