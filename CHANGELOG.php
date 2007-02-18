@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Feb-2007 Mateusz Krzeszowiec
+ # Fixed XStandard not saving changes
+
 18-Feb-2007 Hannes Papenberg
  # Fixed Article buttons in blog_category view
  ^ Removed old code
