@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 18-Feb-2007 Toby Patterson
+ # Fixed [artf7621] [artf7473] Saving user information in the admin application updates the session.
  + Added setLanguage() to JLanguage, no change in functionality
  + Changed key requested in JFactory::_createLanguage from 'debug' to 'debug_lang'
 

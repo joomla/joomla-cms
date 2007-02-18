@@ -383,6 +383,17 @@ function saveUser(  )
 		JRequest::setVar( 'task', 'edit');
 		return editUser();
 	}
+	
+	/*
+	 * Change the user object in the session
+	 */
+	if ( $me->get('id') == $user->get('id') )
+	{
+		$session	= JFactory::getSession();
+		$user->_bind($me);
+		$session->set('user', $user);
+	} 
+
 
 	/*
 	 * Time for the email magic so get ready to sprinkle the magic dust...
