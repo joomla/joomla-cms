@@ -465,16 +465,8 @@ class JFactory
 		$mailfrom 	= $conf->getValue('config.mailfrom');
 		$fromname 	= $conf->getValue('config.fromname');
 		$mailer 	= $conf->getValue('config.mailer');
-		
-		$lang	=& JFactory::getLanguage();
-		$tag	= $lang->getTag();
-		$local	= substr($tag, 0, 2);
 
 		$mail = new JMail();
-
-		$mail->PluginDir = JPATH_LIBRARIES.DS.'phpmailer'.DS;
-		$mail->SetLanguage($local, JPATH_LIBRARIES.DS.'phpmailer'.DS.'language'.DS);
-		$mail->CharSet = 'utf-8';
 
 		// Set default sender
 		$mail->setSender(array ($mailfrom, $fromname));
