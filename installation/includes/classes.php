@@ -474,6 +474,11 @@ class JInstallationController
 		$tmpl->readTemplatesFromFile('configuration.html');
 		$tmpl->addVars('configuration', $vars, 'var_');
 
+		if (empty($vars['ftpSavePass'])) {
+			$tmpl->addVar('configuration', 'var_ftpuser', '');
+			$tmpl->addVar('configuration', 'var_ftppassword', '');
+		}
+
 		$buffer = $tmpl->getParsedTemplate('configuration');
 		$path = JPATH_CONFIGURATION.DS.'configuration.php';
 
