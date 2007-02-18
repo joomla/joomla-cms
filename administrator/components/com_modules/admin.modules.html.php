@@ -560,7 +560,7 @@ class HTML_modules
 			}
 			?>
 				<td width="50%">
-					<span class="editlinktip hasTip" title="<?php echo stripslashes( $row->descrip ) .'::'. stripslashes( $row->name); ?><input type="radio" id="cb<?php echo $i; ?>" name="module" value="<?php echo $row->module; ?>" onclick="isChecked(this.checked);" /><a href="<?php echo $link .'">'. $row->name; ?></a></span>
+					<span class="editlinktip hasTip" title="<?php echo JText::_(stripslashes( $row->name)).' :: '.JText::_(stripslashes( $row->descrip )); ?>" name="module" value="<?php echo $row->module; ?>" onclick="isChecked(this.checked);" /><input type="radio" id="cb<?php echo $i; ?><a href="<?php echo $link .'">'. JText::_($row->name); ?></a></span>
 				</td>
 			<?php
 			if ( $k ) {
