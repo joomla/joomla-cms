@@ -519,23 +519,17 @@ class ContentView
 				$title = JText::_( 'Article Parameters' );
 				echo $pane->startPane("content-pane");
 				echo $pane->startPanel( $title, "detail-page" );
-
 				echo $form->render('details');
-				//ContentView::_paneDetails(  $row, $lists, $params );
 
 				$title = JText::_( 'Advanced Parameters' );
 				echo $pane->endPanel();
 				echo $pane->startPanel( $title, "params-page" );
-
 				echo $form->render('params', 'advanced');
-				//ContentView::_paneParameters( $row, $lists, $params );
 
 				$title = JText::_( 'Metadata Information' );
 				echo $pane->endPanel();
 				echo $pane->startPanel( $title, "metadata-page" );
-
 				echo $form->render('meta', 'metadata');
-				//ContentView::_paneMetaInfo( $row, $lists, $params );
 
 				echo $pane->endPanel();
 				echo $pane->endPane();
@@ -764,127 +758,6 @@ class ContentView
 		</table>
 		</form>
 		<button onclick="insertPagebreak();window.top.document.popup.hide();"><?php echo JText::_( 'PGB INS PAGEBRK' ); ?></button>
-		<?php
-	}
-
-	function _paneDetails(&$row, &$lists, &$params )
-	{
-		?>
-		<table>
-		<tr>
-			<td>
-				<label for="created_by">
-					<?php echo JText::_( 'Author' ); ?>:
-				</label>
-			</td>
-			<td>
-				<?php echo $lists['created_by']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="created_by_alias">
-					<?php echo JText::_( 'Author Alias' ); ?>:
-				</label>
-			</td>
-			<td>
-				<input type="text" name="created_by_alias" id="created_by_alias" size="30" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="inputbox" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="access">
-					<?php echo JText::_( 'Access Level' ); ?>:
-				</label>
-			</td>
-			<td>
-				<?php echo $lists['access']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="created">
-					<?php echo JText::_( 'Created Date' ); ?>
-				</label>
-			</td>
-			<td>
-				<input class="inputbox" type="text" name="created" id="created" size="25" maxlength="19" value="<?php echo JHTML::Date($row->created, "%Y-%m-%d %H:%M:%S"); ?>" />
-				<a href="#" onclick="return showCalendar('created', 'y-mm-dd');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="publish_up">
-					<?php echo JText::_( 'Start Publishing' ); ?>:
-				</label>
-			</td>
-			<td>
-				<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo JHTML::Date($row->publish_up, "%Y-%m-%d %H:%M:%S"); ?>" />
-				<a href="#" onclick="return showCalendar('publish_up', 'y-mm-dd');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="publish_down">
-					<?php echo JText::_( 'Finish Publishing' ); ?>:
-				</label>
-			</td>
-			<td>
-				<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down;  ?>" />
-				<a href="#" onclick="return showCalendar('publish_down', 'y-mm-dd');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>
-			</td>
-		</tr>
-		</table>
-		<?php
-	}
-
-	function _paneMetaInfo( &$row, &$lists, &$params )
-	{
-		?>
-		<table>
-		<tr>
-			<td>
-				<label for="metadesc">
-					<?php echo JText::_( 'Description' ); ?>:
-				</label>
-				<br />
-				<textarea class="inputbox" cols="40" rows="5" name="metadesc" id="metadesc" style="width:300px;"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="metakey">
-					<?php echo JText::_( 'Keywords' ); ?>:
-				</label>
-				<br />
-				<textarea class="inputbox" cols="40" rows="5" name="metakey" id="metakey" style="width:300px;"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="button" class="button" value="<?php echo JText::_( 'Add Sect/Cat/Title' ); ?>" onclick="f=document.adminForm;if(document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].text != '<?php echo '- '.JText::_('Select Section').' -'; ?>') { if(getSelectedText('adminForm','catid') != '<?php echo JText::_('Uncategorized'); ?>') {f.metakey.value=document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].text+', '+getSelectedText('adminForm','catid')+', '+f.title.value+f.metakey.value; } }" />
-			</td>
-		</tr>
-		</table>
-		<?php
-	}
-
-	function _paneParameters( &$row, &$lists, &$params )
-	{
-		?>
-		<table>
-		<tr>
-			<td>
-				<?php echo JText::_( 'DESCPARAMCONTROLWHATSEE' ); ?>
-				<br /><br />
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo $params->render();?>
-			</td>
-		</tr>
-		</table>
 		<?php
 	}
 
