@@ -74,7 +74,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td>
 		<a href="<?php echo $item->link; ?>">
 			<?php echo $item->title; ?></a>
-			<?php echo $this->getIcon($item, 'edit') ?>
+			<?php $this->item = $item; echo $this->getIcon('edit') ?>
 	</td>
 	<?php else : ?>
 	<td>

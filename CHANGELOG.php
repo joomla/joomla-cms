@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Feb-2007 Hannes Papenberg
+ # Fixed Article buttons in blog_category view
+ ^ Removed old code
+ ^ getIcon from com_content now allways uses the same parameters
+
 18-Feb-2007 Toby Patterson
  # Fixed [artf7621] [artf7473] Saving user information in the admin application updates the session.
  + Added setLanguage() to JLanguage, no change in functionality

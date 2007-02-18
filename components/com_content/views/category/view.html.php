@@ -39,7 +39,7 @@ class ContentViewCategory extends JView
 		// Get the menu object of the active menu item
 		$menu   =& JMenu::getInstance();
 		$item   = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		$params = $menu->getParams($item->id);
 
 		// Request variables
 		$task 		= JRequest::getVar('task');
@@ -118,12 +118,14 @@ class ContentViewCategory extends JView
 		parent::display($tpl);
 	}
 
-	function getIcon(&$article, $type, $attribs = array())
+	function getIcon($type, $attribs = array())
 	{
 		global $mainframe, $Itemid;
 
 		$url	= '';
 		$text	= '';
+
+		$article = $this->item;
 
 		switch($type)
 		{

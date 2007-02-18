@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ($this->user->authorize('action', 'edit', 'content', 'all')) : ?>
 	<div class="contentpaneopen_edit<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="float: left;">
-		<?php echo $this->getIcon($this->item, 'edit'); ?>
+		<?php echo $this->getIcon('edit'); ?>
 	</div>
 <?php endif; ?>
 
@@ -23,19 +23,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 	<?php if ($this->params->get('pdf')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php $this->getIcon($this->item, 'pdf'); ?>
+	<?php  echo $this->getIcon('pdf'); ?>
 	</td>
 	<?php endif; ?>
 
 	<?php if ( $this->params->get( 'print' )) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php $this->getIcon($this->item, 'print'); ?>
+	<?php echo $this->getIcon('print'); ?>
 	</td>
 	<?php endif; ?>
 
 	<?php if ($this->params->get('email')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php $this->getIcon($this->item, 'email'); ?>
+	<?php echo $this->getIcon('email'); ?>
 	</td>
 	<?php endif; ?>
 </tr>

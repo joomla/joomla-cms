@@ -33,10 +33,8 @@ class ContentViewFrontpage extends JView
 		global $mainframe, $option;
 
 		// Initialize variables
-		$db			=& JFactory::getDBO();
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
-		$lang 		=& JFactory::getLanguage();
 
 		// Request variables
 		$id			= JRequest::getVar('id');
