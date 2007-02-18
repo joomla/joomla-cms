@@ -156,6 +156,8 @@ class plgEditorXstandard extends JPlugin {
 			<param name="CMSDirectoryURL" value="<?php echo $url ?>plugins/editors/xstandard/directory.php" />
 			<param name="PreviewXSLT" value="<?php echo $url ?>plugins/editors/xstandard/preview.xsl" />
 
+			<param name="CSS" value="<?php echo $this->_getTemplateCss(); ?>" />
+
 			<textarea name="alternate1" id="alternate1" cols="60" rows="15"><?php echo $content ?></textarea>
 		</object>
  		<input type="hidden" id="<?php echo $name ?>" name="<?php echo $name ?>" value="" />
@@ -166,6 +168,36 @@ class plgEditorXstandard extends JPlugin {
 
 		return $html;
 	}
+
+	function _getTemplateCss() {
+		global $mainframe;
+
+		$db			=& JFactory::getDBO();
+		$url		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		/*
+		 * Lets get the default template for the site application
+		 */
+		$query = 'SELECT template'
+		. ' FROM #__templates_menu'
+		. ' WHERE client_id = 0'
+		. ' AND menuid = 0'
+		;
+		$db->setQuery( $query );
+		$template = $db->loadResult();
+
+		$content_css = $url .'templates/'. $template .'/css/';
+
+		$file_path = JPATH_SITE .'/templates/'. $template .'/css/';
+		if ( file_exists( $file_path .DS. 'editor.css' ) ) {
+			$content_css = $content_css . 'editor.css' .'", ';
+		} else {
+			$content_css = $content_css . 'template_css.css", ';
+		}
+
+		return $content_css;
+	}
+
 }
 
 function convertToXML($content)
