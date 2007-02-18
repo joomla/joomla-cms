@@ -145,7 +145,7 @@ class JFTP extends JObject {
 
 		// If default transfer type is no set, set it to autoascii detect
 		if (!isset ($options['type'])) {
-			$options['type'] = FTP_AUTOASCII;
+			$options['type'] = FTP_BINARY;
 		}
 		$this->setOptions($options);
 

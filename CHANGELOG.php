@@ -39,6 +39,7 @@ Legend:
 
 18-Feb-2007 Enno Klasing
  + Installation does not save FTP password to configuration.php anymore by default
+ ^ Changed FTP layer to use binary transfer mode by default
 
 18-Feb-2007 Mateusz Krzeszowiec
  # Fixed XStandard not saving changes
