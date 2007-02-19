@@ -62,6 +62,8 @@ class NewsfeedsModelCategory extends JModel
 	 */
 	function __construct()
 	{
+		global $mainframe;
+
 		parent::__construct();
 
 		$config = JFactory::getConfig();

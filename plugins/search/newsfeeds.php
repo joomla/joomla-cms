@@ -107,7 +107,7 @@ function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	. ' "" AS created,'
 	. ' a.link AS text,'
 	. ' CONCAT_WS( " / ","'. $searchNewsfeeds .'", b.title )AS section,'
-	. ' CONCAT( "index.php?option=com_newsfeeds&view=article&feedid=", a.id ) AS href,'
+	. ' CONCAT( "index.php?option=com_newsfeeds&view=newsfeed&id=", a.id ) AS href,'
 	. ' "1" AS browsernav'
 	. ' FROM #__newsfeeds AS a'
 	. ' INNER JOIN #__categories AS b ON b.id = a.catid'

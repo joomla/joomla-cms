@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Feb-2007 Hannes Papenberg
+ # Fixed [artf7597] Newsfeeds were broken
+
 18-Feb-2007 Johan Janssens
  ^ Refactored pagination routing
 

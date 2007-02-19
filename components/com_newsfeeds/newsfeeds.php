@@ -24,7 +24,7 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 $controller = new NewsfeedsController( );
 
 // Perform the Request task
-$controller->execute( JRequest::getVar('task'));
+$controller->execute('');
 
 // Redirect if set by the controller
 $controller->redirect();
