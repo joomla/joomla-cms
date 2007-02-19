@@ -1,8 +1,7 @@
 <?php
 /**
 * @version $Id$
-* @package		Joomla
-* @subpackage Libraries
+* @package		Joomla.Framework
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -17,8 +16,7 @@ if(!defined('DS')) {
 }
 
 /**
- * @package		Joomla
- * @subpackage	Libraries
+ * @package		Joomla.Framework
  */
 class JLoader
 {
@@ -122,7 +120,7 @@ class JLoader
  * Intelligent file importer
  *
  * @access public
- * @param string $$path A dot syntax path
+ * @param string $path A dot syntax path
  * @since 1.5
  */
 function jimport( $path ) {

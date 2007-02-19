@@ -2,7 +2,7 @@
 /**
  * @version		$Id: tree.php 6613 2007-02-13 01:36:19Z chrisdavenport $
  * @package		Joomla.Framework
- * @subpackage	Abstract
+ * @subpackage	Base
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
