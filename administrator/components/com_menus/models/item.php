@@ -313,6 +313,10 @@ class MenusModelItem extends JModel
 		$row->checkin();
 		$row->reorder( 'menutype='.$db->Quote( $row->menutype ).' AND parent='.(int)$row->parent );
 
+		// clean menu cache
+		$cache =& JFactory::getCache('mod_mainmenu');
+		$cache->clean();
+
 		return true;
 	}
 
@@ -367,6 +371,11 @@ class MenusModelItem extends JModel
 				return false;
 			}
 		}
+
+		// clean menu cache
+		$cache =& JFactory::getCache('mod_mainmenu');
+		$cache->clean();
+
 		return true;
 	}
 

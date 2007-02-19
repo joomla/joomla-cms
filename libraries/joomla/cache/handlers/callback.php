@@ -88,7 +88,7 @@ class JCacheCallback extends JCache
 		}
 
 		// Get the storage handler and get callback cache data by id and group
-		$data = parent::get($id, 'callback');
+		$data = parent::get($id);
 		if ($data !== false) {
 			$cached = unserialize( $data );
 			$output = $cached['output'];
@@ -106,7 +106,7 @@ class JCacheCallback extends JCache
 			$cached['output'] = $output;
 			$cached['result'] = $result;
 			// Store the cache data
-			$this->store(serialize($cached), $id, 'callback');
+			$this->store(serialize($cached), $id);
 		}
 
 		echo $output;

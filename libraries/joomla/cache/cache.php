@@ -66,20 +66,13 @@ class JCache extends JObject
 	 */
 	function &getInstance($type = 'output', $options = array())
 	{
-		static $instances;
-
-		if (!isset ($instances)) {
-			$instances = array();
-		}
 
 		$type = strtolower($type);
-		if (!isset($instances[$type]))
-		{
-			jimport('joomla.cache.handlers.'.$type);
-			$class = 'JCache'.ucfirst($type);
-			$instances[$type] = new $class($options);
-		}
-		return $instances[$type];
+		jimport('joomla.cache.handlers.'.$type);
+		$class = 'JCache'.ucfirst($type);
+		$instance = new $class($options);
+
+		return $instance;
 	}
 
 	/**

@@ -1,3 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<?php echo modMainMenuHelper::render($params); ?>
+defined('_JEXEC') or die('Restricted access');
+
+echo modMainMenuHelper::render($params, 'modMainMeuXMLCallback');
+?>

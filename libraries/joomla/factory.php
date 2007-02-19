@@ -147,13 +147,12 @@ class JFactory
 		// creating any directories or have caching on
 		$options = array(
 			'cachebase' 	=> JPATH_BASE.DS.'cache',
-			'caching' 		=> $conf->getValue('config.caching'),
 			'defaultgroup' 	=> $group,
 			'lifetime' 		=> $conf->getValue('config.cachetime')
 		);
 
 		$cache =& JCache::getInstance( $handler, $options );
-
+		$cache->setCaching($conf->getValue('config.caching'));
 		return $cache;
 	}
 

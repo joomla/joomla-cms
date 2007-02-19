@@ -450,6 +450,17 @@ class JSimpleXMLElement extends JObject
 	}
 
 	/**
+	 * Set the data of the element
+	 *
+	 * @access public
+	 * @param	string $data
+	 * @return string
+	 */
+	function setData($data) {
+		$this->_data = $data;
+	}
+
+	/**
 	 * Get the children of the element
 	 *
 	 * @access public
@@ -470,7 +481,7 @@ class JSimpleXMLElement extends JObject
 	}
 
 	 /**
-	 * AAdds an attribute to the element
+	 * Adds an attribute to the element
 	 *
 	 * @param string $name
 	 * @param array  $attrs
@@ -479,6 +490,16 @@ class JSimpleXMLElement extends JObject
 	{
 		//add the attribute to the element, override if it already exists
 		$this->_attributes[$name] = $value;
+	}
+
+	 /**
+	 * Removes an attribute from the element
+	 *
+	 * @param string $name
+	 */
+	function removeAttribute($name)
+	{
+		unset($this->_attributes[$name]);
 	}
 
 	/**
@@ -503,6 +524,26 @@ class JSimpleXMLElement extends JObject
 
 		//Add the reference to the children array member
 		$this->_children[] =& $child;
+	}
+
+	function removeChild(&$child)
+	{
+		$name = $child->name();
+		for ($i=0,$n=count($this->_children);$i<$n;$i++)
+		{
+			if ($this->_children[$i] == $child) {
+				unset($this->_children[$i]);
+			}
+		}
+		for ($i=0,$n=count($this->{$name});$i<$n;$i++)
+		{
+			if ($this->{$name}[$i] == $child) {
+				unset($this->{$name}[$i]);
+			}
+		}
+		$this->_children = array_values($this->_children);
+		$this->{$name} = array_values($this->{$name});
+		unset($child);
 	}
 
 	/**
@@ -542,15 +583,31 @@ class JSimpleXMLElement extends JObject
 		return $ref;
 	}
 
+	function map($callback, $args=array())
+	{
+		$callback($this, $args);
+		// Map to all children
+		if ($n = count($this->_children)) {
+			for($i=0;$i<$n;$i++)
+			{
+				$this->_children[$i]->map($callback, $args);
+			}
+		}
+	}
+
 	/**
 	 * Return a well-formed XML string based on SimpleXML element
 	 *
 	 * @return string
 	 */
-	function asXML()
+	function asXML($whitespace=true)
 	{
 		//Start a new line, indent by the number indicated in $this->level, add a <, and add the name of the tag
-		$out = "\n".str_repeat("\t", $this->_level).'<'.$this->_name;
+		if ($whitespace) {
+			$out = "\n".str_repeat("\t", $this->_level).'<'.$this->_name;
+		} else {
+			$out = '<'.$this->_name;
+		}
 
 		//For each attribute, add attr="value"
 		foreach($this->_attributes as $attr => $value)
@@ -571,10 +628,12 @@ class JSimpleXMLElement extends JObject
 
 				//For each child, call the asXML function (this will ensure that all children are added recursively)
 				foreach($this->_children as $child)
-					$out .= $child->asXML();
+					$out .= $child->asXML($whitespace);
 
 				//Add the newline and indentation to go along with the close tag
-				$out .= "\n".str_repeat("\t", $this->_level);
+				if ($whitespace) {
+					$out .= "\n".str_repeat("\t", $this->_level);
+				}
 			}
 
 			//If there is data, close off the start tag and add the data

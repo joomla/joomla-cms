@@ -443,14 +443,15 @@ class MenusModelList extends JModel
 						return false;
 					}
 				} else {
-					JError::raiseWarning( 'SOME_ERROR_CODE', 'You can\'t unpublish the default menu item'  );					
+					JError::raiseWarning( 'SOME_ERROR_CODE', 'You can\'t unpublish the default menu item'  );
 				}
 			}
 		}
-		// Clear the content cache
-		// TODO: Is this necessary?
-		$cache = & JFactory::getCache('com_content');
+
+		// clean menu cache
+		$cache =& JFactory::getCache('mod_mainmenu');
 		$cache->clean();
+
 		return true;
 	}
 
@@ -483,10 +484,11 @@ class MenusModelList extends JModel
 				return false;
 			}
 		}
-		// Clear the content cache
-		// TODO: Is this necessary?
-		$cache = & JFactory::getCache('com_content');
+
+		// clean menu cache
+		$cache =& JFactory::getCache('mod_mainmenu');
 		$cache->clean();
+
 		return true;
 	}
 
@@ -498,10 +500,11 @@ class MenusModelList extends JModel
 			$this->setError($row->getError());
 			return false;
 		}
-		// Clear the content cache
-		// TODO: Is this necessary?
-		$cache = & JFactory::getCache('com_content');
+
+		// clean menu cache
+		$cache =& JFactory::getCache('mod_mainmenu');
 		$cache->clean();
+
 		return true;
 	}
 
@@ -533,11 +536,10 @@ class MenusModelList extends JModel
 			$row->reorder("menutype = '$menutype' AND parent = $group AND published >=0");
 		}
 
-
-		// Clear the content cache
-		// TODO: Is this necessary?
-		$cache = & JFactory::getCache('com_content');
+		// clean menu cache
+		$cache =& JFactory::getCache('mod_mainmenu');
 		$cache->clean();
+
 		return true;
 	}
 
@@ -598,6 +600,11 @@ class MenusModelList extends JModel
 				return false;
 			}
 		}
+
+		// clean menu cache
+		$cache =& JFactory::getCache('mod_mainmenu');
+		$cache->clean();
+
 		return true;
 	}
 
