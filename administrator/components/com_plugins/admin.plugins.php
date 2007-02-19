@@ -88,6 +88,12 @@ function viewPlugins( $option, $client )
 
 	$db =& JFactory::getDBO();
 
+	JMenuBar::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
+	JMenuBar::publishList();
+	JMenuBar::unpublishList();
+	JMenuBar::editListX();
+	JMenuBar::help( 'screen.plugins' );
+
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order", 		'filter_order', 	'p.folder' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 		'filter_state', 	'*' );
@@ -239,6 +245,12 @@ function editPlugin( )
 	if (!is_array( $cid )) {
 		$cid = array(0);
 	}
+
+	JMenuBar::title( JText::_( 'Plugin' ) .': <small><small>[' .JText::_('Edit'). ']</small></small>', 'plugin.png' );
+	JMenuBar::save();
+	JMenuBar::apply();
+	JMenuBar::cancel( 'cancel', 'Close' );
+	JMenuBar::help( 'screen.plugins.edit' );
 
 	$lists 	= array();
 	$row 	=& JTable::getInstance('plugin');
