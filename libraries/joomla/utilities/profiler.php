@@ -126,23 +126,26 @@ class JProfiler extends JObject
 
 		if (function_exists( 'memory_get_usage' )) {
 			return memory_get_usage();
-		}
-		else
-		{
+		} else {
+			// Determine if a windows server
 			if (is_null( $isWin )) {
 				$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
 			}
+
+			// Initialize variables
+			$output = array();
+			$pid = getmypid();
+
 			if ($isWin) {
 				// Windows workaround
-				$output = array();
-				$pid = getmypid();
 				@exec( 'tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output );
 				if (!isset($output[5])) {
 					$output[5] = null;
 				}
 				return substr( $output[5], strpos( $output[5], ':' ) + 1 );
 			} else {
-				return 0;
+				@exec("ps -o rss -p $pid", $output);
+				return $output[1] *1024;
 			}
 		}
 	}
