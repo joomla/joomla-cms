@@ -132,7 +132,7 @@ class ContentViewFrontpage extends JView
 
 	function getIcon($type, $attribs = array())
 	{
-		 global $mainframe;
+		 global $mainframe, $Itemid;
 
 		$url	= '';
 		$text	= '';

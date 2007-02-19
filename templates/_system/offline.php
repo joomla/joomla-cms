@@ -14,8 +14,10 @@
 <head>
 	<jdoc:include type="head" />
 	<link rel="stylesheet" href="templates/_system/css/offline.css" type="text/css" />
+	<link rel="stylesheet" href="templates/_system/css/general.css" type="text/css" />
 </head>
 <body>
+<jdoc:include type="message" />
 	<div id="frame" class="outline">
 		<img src="images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />
 		<h1>

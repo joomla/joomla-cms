@@ -39,6 +39,7 @@ Legend:
 
 19-Feb-2007 Hannes Papenberg
  # Fixed [artf7597] Newsfeeds were broken
+ # Fixed [artf7603] Error message are now shown above login window in offline mode
 
 18-Feb-2007 Johan Janssens
  ^ Refactored pagination routing
