@@ -51,7 +51,7 @@ class JApplication extends JObject
 	 * @access protected
 	 */
 	var $_router = null;
-	
+
 	/**
 	 * The application message queue.
 	 *
@@ -69,8 +69,6 @@ class JApplication extends JObject
 	{
 		$this->_clientId = $clientId;
 		$this->set( 'requestTime', date('Y-m-d H:i', time()) );
-		
-		$this->_createRouter();
 	}
 
 	/**
@@ -99,6 +97,9 @@ class JApplication extends JObject
 		if($conf->getValue('config.legacy')) {
 			$GLOBALS['mosConfig_lang'] = $lang->getBackwardLang();
 		}
+
+		//create the router
+		$this->_createRouter();
 	}
 
 	/**
@@ -114,7 +115,11 @@ class JApplication extends JObject
 	*/
 	function route()
  	{
+		// get the full request URI
+		$uri  =& JURI::getInstance();
 
+		$router =& $this->getRouter();
+		$router->parse($uri->toString());
  	}
 
  	/**
@@ -516,7 +521,7 @@ class JApplication extends JObject
 	{
 		return '_system';
 	}
-	
+
 	/**
 	 * Return a reference to the JRouter object.
 	 *
@@ -600,7 +605,7 @@ class JApplication extends JObject
 
 		return $session;
 	}
-	
+
 	/**
 	 * Create a JRouter object
 	 *
@@ -613,8 +618,16 @@ class JApplication extends JObject
 		//Load the pathway object
 		jimport( 'joomla.application.router' );
 
+		$options = array();
+
+		// Get routing mode
+		$options['mode'] = $this->getCfg('sef');
+		if($this->getCfg('sef_rewrite')) {
+			$options['mode'] = 2;
+		}
+
 		// Create a JRouter object
-		$this->_router = JRouter::getInstance();
+		$this->_router = JRouter::getInstance($options);
 
 		return $this->_router;
 	}

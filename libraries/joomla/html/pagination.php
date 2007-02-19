@@ -28,7 +28,7 @@ class JPagination extends JObject
 {
 	/**
 	 * The record number to start dislpaying from
-	 * 
+	 *
 	 * @access public
 	 * @var int
 	 */
@@ -36,7 +36,7 @@ class JPagination extends JObject
 
 	/**
 	 * Number of rows to display per page
-	 * 
+	 *
 	 * @access public
 	 * @var int
 	 */
@@ -44,7 +44,7 @@ class JPagination extends JObject
 
 	/**
 	 * Total number of rows
-	 * 
+	 *
 	 * @access public
 	 * @var int
 	 */
@@ -52,7 +52,7 @@ class JPagination extends JObject
 
 	/**
 	 * Base URL for pagination output
-	 * 
+	 *
 	 * @access protected
 	 * @var string
 	 */
@@ -60,7 +60,7 @@ class JPagination extends JObject
 
 	/**
 	 * View all flag
-	 * 
+	 *
 	 * @access protected
 	 * @var boolean
 	 */
@@ -74,9 +74,9 @@ class JPagination extends JObject
 		global $mainframe;
 
 		// Value/Type checking
-		$this->total		= (int) $total;
+		$this->total			= (int) $total;
 		$this->limitstart	= (int) max($limitstart, 0);
-		$this->limit		= (int) max($limit, 1);
+		$this->limit			= (int) max($limit, 1);
 
 		if ($this->limit > $this->total) {
 			$this->limitstart = 0;
@@ -353,13 +353,13 @@ class JPagination extends JObject
 		}
 		$limits[] = JHTMLSelect::option('50');
 		$limits[] = JHTMLSelect::option('100');
+		$limits[] = JHTMLSelect::option('0', 'all');
 
 		// Build the select list
 		if ($mainframe->isAdmin()) {
 			$html = JHTMLSelect::genericList($limits, 'limit', 'class="inputbox" size="1" onchange="submitform();"', 'value', 'text', $this->limit);
 		} else {
-			$link = JRoute::_($link.'&limit=\' + this.options[selectedIndex].value + \'&limitstart='.$this->limitstart);
-			$html = JHTMLSelect::genericList($limits, 'limit', 'class="inputbox" size="1" onchange="document.location.href=\''.$link.'\';"', 'value', 'text', $this->limit);
+			$html = JHTMLSelect::genericList($limits, 'limit', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $this->limit);
 		}
 		return $html;
 	}
@@ -584,16 +584,16 @@ class JPagination extends JObject
 		// Initialize variables
 		$data = new stdClass();
 		if ($base) {
-			$link = $base.'&limit='.$this->limit;
+			$link = $base;
 		} else {
 			$base = $this->_link;
-			$link = $this->_link.'&limit='.$this->limit;
+			$link = $this->_link;
 		}
 
 		$data->all	= new JPaginationObject(JText::_('View All'));
 		if (!$this->_viewall) {
 			$data->all->base	= '0';
-			$data->all->link	= JRoute::_($base."&limit=0&limitstart=0");
+			$data->all->link	= JRoute::_($base."&limitstart=0");
 		}
 
 		// Set the start and previous data objects

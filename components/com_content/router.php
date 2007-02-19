@@ -49,11 +49,6 @@ function ContentBuildRoute(&$query)
 
 function ContentParseRoute($segments)
 {
-	global $mainframe;
-	
-	//Get the router
-	$router =& $mainframe->getRouter();
-	
 	// view is always the first element of the array
 	$view = array_shift($segments);
 	JRequest::setVar('view', $view, 'get');
@@ -67,26 +62,26 @@ function ContentParseRoute($segments)
 		case 'section'  :
 		{
 			if(is_numeric((int)$next) && ((int)$next != 0)) {
-				$router->setVar('id', (int)$next);
+				JRequest::setVar('id', (int)$next, 'get');
 			}
 			else
 			{
-				$router->setVar('layout', $next);
-				$router->setVar('id', (int)array_shift($segments));
+				JRequest::setVar('layout', $next, 'get');
+				JRequest::setVar('id', (int)array_shift($segments), 'get');
 			}
 		} break;
 
 		case 'archive'   :
 		{
 			if(is_numeric((int)$next) && ((int)$next != 0)) {
-				$router->setVar('year', $next);
-				$router->setVar('month', array_shift($segments));
+				JRequest::setVar('year', $next, 'get');
+				JRequest::setVar('month', array_shift($segments), 'get');
 			}
 			else
 			{
-				$router->setVar('layout', $next);
-				$router->setVar('year', array_shift($segments));
-				$router->setVar('month', array_shift($segments));
+				JRequest::setVar('layout', $next, 'get');
+				JRequest::setVar('year', array_shift($segments), 'get');
+				JRequest::setVar('month', array_shift($segments), 'get');
 			}
 		} break;
 	}

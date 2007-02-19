@@ -71,10 +71,12 @@ class WeblinksModelCategory extends JModel
 	{
 		parent::__construct();
 
+		global $mainframe;
+
 		$config = JFactory::getConfig();
-		
+
 		// Get the pagination request variables
-		$this->setState('limit', JRequest::getVar('limit', $config->getValue('config.list_limit'), '', 'int'));
+		$this->setState('limit', $mainframe->getUserStateFromRequest('com_weblinks.limit', 'limit', $config->getValue('config.list_limit')));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
 		// Get the filter request variables

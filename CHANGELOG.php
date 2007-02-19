@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Feb-2007 Johan Janssens
+ ^ Refactored pagination routing
+
 18-Feb-2007 Enno Klasing
  + Installation does not save FTP password to configuration.php anymore by default
  ^ Changed FTP layer to use binary transfer mode by default

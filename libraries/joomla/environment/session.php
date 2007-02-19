@@ -78,7 +78,7 @@ class JSession extends JObject
 	*/
 	function __construct( $store = 'none', $options = array() )
 	{
-		//
+		//set default sessios save handler
 		ini_set('session.save_handler', 'files');
 
 		//create handler
@@ -98,6 +98,28 @@ class JSession extends JObject
 
 		// perform security checks
 		$this->_validate();
+	}
+
+	/**
+	 * Returns a reference to the global Session object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * This method must be invoked as:
+	 * 		<pre>  $session = &JSession::getInstance();</pre>
+	 *
+	 * @access	public
+	 * @return	JSession	The Session object.
+	 * @since	1.5
+	 */
+	function & getInstance($handler, $options)
+	{
+		static $instance;
+
+		if (!is_object($instance)) {
+			$instance = new JSession($handler, $options);
+		}
+
+		return $instance;
 	}
 
 	/**

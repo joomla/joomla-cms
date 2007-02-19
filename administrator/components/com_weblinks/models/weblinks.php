@@ -60,7 +60,7 @@ class WeblinksModelWeblinks extends JModel
 		global $mainframe, $option;
 
 		// Get the pagination request variables
-		$limit		= $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limit	   = $mainframe->getUserStateFromRequest( $option.'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 
 		$this->setState('limit', $limit);

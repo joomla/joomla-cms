@@ -197,8 +197,10 @@ class JURI extends JObject
 		if (!isset($base))
 		{
 			$uri	=& JURI::getInstance();
-			$base	= $uri->getScheme().'://';
-			$base	.= $uri->getHost();
+
+			$base = $uri->getScheme().'://';
+			$base .= $uri->getHost();
+
 			if ($port = $uri->getPort()) {
 				$base .= ":$port";
 			}
@@ -229,6 +231,9 @@ class JURI extends JObject
 
 		// Set the original URI to fall back on
 		$this->_uri = $uri;
+
+		// Decode the passed in uri
+		$uri = urldecode($uri);
 
 		/*
 		 * Parse the URI and populate the object fields.  If URI is parsed properly,
@@ -289,7 +294,7 @@ class JURI extends JObject
 	function setVar($name, $value)
 	{
 		$tmp = @$this->_vars[$name];
-		$this->_vars[$name] = is_array($value) ? array_map('urlencode', $value) : urlencode($value);
+		$this->_vars[$name] = $value;
 		$this->_query = JURI::_buildQuery($this->_vars);
 		return $tmp;
 	}
@@ -607,7 +612,7 @@ class JURI extends JObject
 			}
 
 			$thekey = ( !$akey ) ? $key : $akey.'[]';
-			$out[] = $thekey."=".$val;
+			$out[] = $thekey."=".urlencode($val);
 		}
 
 		return implode("&",$out);

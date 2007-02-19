@@ -46,31 +46,26 @@ function BannersBuildRoute(&$query)
  */
 function BannersParseRoute(&$segments)
 {
-	global $mainframe;
-	
-	//Get the router
-	$router =& $mainframe->getRouter();
-	
 	// view is always the first element of the array
 	$count = count($segments);
-	
-	if ($count) 
+
+	if ($count)
 	{
 		$count--;
 		$segment = array_shift($segments);
 		if (is_numeric( $segment )) {
-			$router->setVar('bid', $segment);
+			JRequest::setVar('bid', $segment, 'get');
 		} else {
-			$router->setVar('task', $segment);
+			JRequest::getVar('task', $segment, 'get');
 		}
 	}
-	
-	if ($count) 
+
+	if ($count)
 	{
 		$count--;
 		$segment = array_shift($segments);
 		if (is_numeric( $segment )) {
-			$router->setVar('bid', $segment);
+			JRequest::setVar('bid', $segment, 'get');
 		}
 	}
 }

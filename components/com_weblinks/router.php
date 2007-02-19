@@ -14,19 +14,19 @@
 function WeblinksBuildRoute(&$query)
 {
 	$segments = array();
-	
-	if(isset($query['catid'])) 
+
+	if(isset($query['catid']))
 	{
 		$segments[] = $query['catid'];
 		unset($query['catid']);
 	};
 
-	if(isset($query['id'])) 
+	if(isset($query['id']))
 	{
 		$segments[] = $query['id'];
 		unset($query['id']);
 	};
-	
+
 	unset($query['view']);
 
 	return $segments;
@@ -34,18 +34,13 @@ function WeblinksBuildRoute(&$query)
 
 function WeblinksParseRoute($segments)
 {
-	global $mainframe;
-	
-	//Get the router
-	$router =& $mainframe->getRouter();
-	
 	//Get the active menu item
 	$menu =& JMenu::getInstance();
 	$item =& $menu->getActive();
-	
+
 	// Count route segments
 	$count = count($segments);
-	
+
 	//Handle View and Identifier
 	switch($item->query['view'])
 	{
@@ -71,7 +66,7 @@ function WeblinksParseRoute($segments)
 		} break;
 	}
 
-	$router->setVar('view' , $view);
-	$router->setVar('id'   , $id);
+	JRequest::setVar('view', $view, 'get');
+	JRequest::setVar('id'  , $id, 'get');
 }
 ?>

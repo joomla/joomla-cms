@@ -65,14 +65,14 @@ class NewsfeedsModelCategory extends JModel
 		parent::__construct();
 
 		$config = JFactory::getConfig();
-		
+
 		// Get the pagination request variables
-		$this->setState('limit', JRequest::getVar('limit', $config->getValue('config.list_limit')), '', 'int');
+		$this->setState('limit', $mainframe->getUserStateFromRequest('com_weblinks.limit', 'limit', $config->getValue('config.list_limit')));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
-		
+
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId($id);
-		
+
 	}
 
 	/**
@@ -102,7 +102,7 @@ class NewsfeedsModelCategory extends JModel
 			$query = $this->_buildQuery();
 
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
-			
+
 			$total = count($this->_data);
 			for($i = 0; $i < $total; $i++)
 			{
@@ -134,7 +134,7 @@ class NewsfeedsModelCategory extends JModel
 
 		return $this->_total;
 	}
-	
+
 	/**
 	 * Method to get a pagination object of the newsfeeds items for the category
 	 *

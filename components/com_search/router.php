@@ -14,6 +14,7 @@
 function SearchBuildRoute(&$query)
 {
 	$segments = array();
+
 	if(isset($query['searchword'])) {
 		$segments[] = $query['searchword'];
 		unset($query['searchword']);
@@ -24,13 +25,7 @@ function SearchBuildRoute(&$query)
 
 function SearchParseRoute($segments)
 {
-	global $mainframe;
-	
-	//Get the router
-	$router =& $mainframe->getRouter();
-	
 	$searchword	= array_shift($segments);
-
-	$router->setVar('searchword', $searchword);
+	JRequest::setVar('searchword', $searchword, 'get');
 }
 ?>

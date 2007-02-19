@@ -21,7 +21,6 @@ require_once ( JPATH_BASE .DS.'includes'.DS.'defines.php' );
 require_once ( JPATH_BASE .DS.'includes'.DS.'framework.php' );
 require_once ( JPATH_BASE .DS.'includes'.DS.'application.php' );
 
-
 /**
  * CREATE THE APPLICATION
  *
@@ -91,6 +90,7 @@ $mainframe->triggerEvent('onAfterRender');
  * CLOSE THE SESSION
  */
 JSession::close();
+
 
 /**
  * RETURN THE RESPONSE

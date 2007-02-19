@@ -103,7 +103,8 @@ class WeblinksViewCategory extends JView
 		}
 
 		$k = 0;
-		for($i = 0; $i < $total; $i++)
+		$count = count($items);
+		for($i = 0; $i < $count; $i++)
 		{
 			$item =& $items[$i];
 
@@ -138,8 +139,6 @@ class WeblinksViewCategory extends JView
 			$item->count	= $i;
 			$k = 1 - $k;
 		}
-
-		$this->assign('total', $total);
 
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('params',		$params);

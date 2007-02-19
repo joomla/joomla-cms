@@ -103,8 +103,7 @@ class JTableContent extends JTable
 	function check()
 	{
 		/*
-		TODO: This filter is too rigorous,
-		need to implement more configurable solution
+		TODO: This filter is too rigorous,need to implement more configurable solution
 		// specific filters
 		$filter = & JInputFilter::getInstance( null, null, 1, 1 );
 		$this->introtext = trim( $filter->clean( $this->introtext ) );

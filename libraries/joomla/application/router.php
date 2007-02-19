@@ -39,28 +39,38 @@ class JRoute
 	function _($url, $ssl = 0)
 	{
 		global $mainframe;
+
+		// If we are in the administrator application return
+		if($mainframe->isAdmin()) {
+			return $url;
+		}
+
+		if(!strstr($url, '?')) {
+
+		}
+
+		// Get the router
 		$router =& $mainframe->getRouter();
-		
+
 		// Build route
 		$url = $router->build($url);
-		
-	
+
 		/*
-		 * Get the secure/unsecure URLs.  
-		 
+		 * Get the secure/unsecure URLs.
+
 		 * If the first 5 characters of the BASE are 'https', then we are on an ssl connection over
-		 * https and need to set our secure URL to the current request URL, if not, and the scheme is 
+		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
-		 
+
 		$base = JURI::base(); //get base URL
-		
-		if ( substr( $base, 0, 5 ) == 'https' ) 
+
+		if ( substr( $base, 0, 5 ) == 'https' )
 		{
 			$secure 	= $base;
 			$unsecure	= 'http'.substr( $base, 5 );
-		} 
-		elseif ( substr( $base, 0, 4 ) == 'http' ) 
+		}
+		elseif ( substr( $base, 0, 4 ) == 'http' )
 		{
 			$secure		= 'https'.substr( $base, 4 );
 			$unsecure	= $base;
@@ -91,22 +101,25 @@ class JRoute
 class JRouter extends JObject
 {
 	/**
-	 * The URI object that contains the raw URL information
-	 * 
-	 * @access public
-	 * @var JURI object
+	 * The rewrite mode
+	 *
+	 * @access protected
+	 * @var integer
 	 */
-	var $_vars = null;
+	var $_mode = null;
 
-	
 	/**
 	 * Class constructor
 	 *
 	 * @access public
 	 */
-	function __construct() 
+	function __construct($options = array())
 	{
-		
+		if(isset($options['mode'])) {
+			$this->_mode = $options['mode'];
+		} else {
+			$this->_mode = 0;
+		}
 	}
 
 	/**
@@ -120,21 +133,16 @@ class JRouter extends JObject
 	 * @return	JRouter	The Router object.
 	 * @since	1.5
 	 */
-	function & getInstance()
+	function & getInstance($options = array())
 	{
 		static $instance;
 
 		if (!is_object($instance)) {
-			$instance = new JRouter();
+			$instance = new JRouter($options);
 		}
 
 		return $instance;
 	}
-	
-	function setVar($key, $value) {
-		$this->_vars[$key] = $value;
-	}
-	
 
    /**
 	* Route a request
@@ -145,12 +153,7 @@ class JRouter extends JObject
 	{
 		//Create the URI object based on the passed in URL
 		$uri = JURI::getInstance($url);
-		
-		// Check entry point
-		if (!(preg_match( '#index\d?\.php#', $url) || (strpos($url, 'feed.php') == false))) {
-			return;
-		}
-		
+
 		// Get menu object
 		$menu =& JMenu::getInstance();
 
@@ -172,9 +175,9 @@ class JRouter extends JObject
 				//Need to reverse the array (highest sublevels first)
 				$items = array_reverse($menu->getMenu());
 
-				foreach ($items as $item) 
+				foreach ($items as $item)
 				{
-					if(strpos($url, $item->route) === 0) 
+					if(strpos($url, $item->route) === 0)
 					{
 						$itemid = $item->id;
 						$url    = str_replace($item->route, '', $url);
@@ -184,18 +187,15 @@ class JRouter extends JObject
 			}
 		}
 
-		// tcp added, temp fix	
+		// tcp added, temp fix
 		$item = $itemid ? $menu->getItem($itemid) : $menu->getDefault();
 		$menu->setActive($item->id);
-		
+
 		JRequest::set($item->query, 'get', false);	//how do we deal with this ?
-		$this->setVar('Itemid', ($item) ? $item->id : null);
-		
+		JRequest::setVar('Itemid', ($item) ? $item->id : null);
+
 		//Parse component segment
 		$this->parseComponentSegment($item->component, $url);
-		
-		//Push data into request
-		JRequest::set($this->_vars, 'get');
 	}
 
 	/**
@@ -220,18 +220,6 @@ class JRouter extends JObject
 
 		if (!isset( $strings[$string] ))
 		{
-			// Initialize some variables
-			$config	= & JFactory::getConfig();
-
-			// Get config variables
-			$mode    = $config->getValue('config.sef_rewrite');
-			$rewrite = $config->getValue('config.sef');
-
-			// Home index.php
-			if ($string == 'index.php') {
-				$string = '';
-			}
-
 			// Decompose link into url component parts
 			$uri  =& JURI::getInstance($string);
 			$menu =& JMenu::getInstance();
@@ -245,7 +233,7 @@ class JRouter extends JObject
 			}
 
 			// rewite URL
-			if ($itemid && $rewrite && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php'))
+			if ($itemid && $this->_mode && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php'))
 			{
 				$route = ''; //the route created
 
@@ -255,10 +243,10 @@ class JRouter extends JObject
 				$uri->delVar('option'); //don't need the option anymore
 				$uri->delVar('Itemid'); //don't need the itemid anymore
 				$query = $uri->getQuery(true);
-				
+
 				//Build component route
 				$route = $this->buildComponentSegment($item->component, $query);
-				
+
 				//Set query again in the URI
 				$uri->setQuery($query);
 
@@ -281,10 +269,10 @@ class JRouter extends JObject
 				$url = $item->route.$route.$fragment.$query;
 
 				//Prepend the base URI if we are not using mod_rewrite
-				if (!$mode) {
+				if ($this->_mode == 1) {
 					$url = 'index.php/'.$url;
 				}
-				
+
 				$strings[$string] = $url;
 
 				return str_replace( '&', '&amp;', $url );
@@ -295,7 +283,7 @@ class JRouter extends JObject
 
 		return str_replace( '&', '&amp;', $strings[$string] );
 	}
-	
+
 	/**
 	* Parse a component specific route
 	*
@@ -311,31 +299,17 @@ class JRouter extends JObject
 
 		if (file_exists($path) && count($routeArray))
 		{
-			// Handle Pagination
-			$nArray = count($routeArray);
-			$last = @$routeArray[$nArray-1];
-			if ($last == 'all')
-			{
-				array_pop( $routeArray );
-				JRequest::setVar('limit', 0, 'get');
-				JRequest::setVar('limitstart', 0, 'get');
+			$limitstart = JRequest::getVar('start', null, 'get');
+			if(isset($limitstart)) {
+				JRequest::setVar('limitstart', $limitstart);
 			}
-			elseif (strpos( $last, 'page' ) === 0)
-			{
-				array_pop( $routeArray );
-				$pts		= explode( ':', $last );
-				$limit		= @$pts[1];
-				$limitstart	= (max( 1, intval( str_replace( 'page', '', $pts[0] ) ) ) - 1)  * $limit;
-				JRequest::setVar('limit', $limit, 'get');
-				JRequest::setVar('limitstart', $limitstart, 'get');
-			}
-			
+
 			require_once $path;
 			$function =  substr($component, 4).'ParseRoute';
 			$function($routeArray);
 		}
 	}
-	
+
 	/**
 	* Build a component specific route
 	*
@@ -344,37 +318,27 @@ class JRouter extends JObject
 	function buildComponentSegment($component, &$query)
 	{
 		$route = '';
-		
+
 		// Use the component routing handler if it exists
 		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
-		
+
 		// Use the custom request handler if it exists
 		if (file_exists($path))
 		{
 			require_once $path;
 			$function	= substr($component, 4).'BuildRoute';
 			$parts		= $function($query);
-			
-			if (isset( $query['limit'] ))
+
+			if (isset( $query['limitstart'] ))
 			{
-				// Do all pages if limit = 0
-				if ($query['limit'] == 0) {
-					$parts[] = 'all';
-				} else {
-					$limit		= (int) $query['limit'];
-					$limitstart	= (int) @$query['limitstart'];
-					$page		= floor( $limitstart / $limit ) + 1;
-					$parts[]	= 'page'.$page.':'.$limit;
-				}
-				
-				unset($query['limit']);
+				$query['start'] = (int) $query['limitstart'];
 				unset($query['limitstart']);
 			}
 
 			$route = implode('/', $parts);
 			$route = ($route) ? '/'.$route : null;
 		}
-		
+
 		return $route;
 	}
 }

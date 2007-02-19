@@ -82,7 +82,7 @@ class JModuleHelper
 	{
 		static $chrome;
 		global $mainframe, $option;
-		
+
 		// Handle legacy globals if enabled
 		if ($mainframe->getCfg('legacy'))
 		{
@@ -134,7 +134,7 @@ class JModuleHelper
 		if (!$chrome) {
 			$chrome = array();
 		}
-		
+
 		require_once (JPATH_BASE.'/modules/templates/modules.php');
 		$chromePath = JPATH_BASE.'/templates/'.$mainframe->getTemplate().'/html/modules.php';
 		if (!isset( $chrome[$chromePath]))
@@ -144,26 +144,26 @@ class JModuleHelper
 			}
 			$chrome[$chromePath] = true;
 		}
-		
+
 		//make sure a style is set
 		if(!isset($attribs['style'])) {
 			$attribs['style'] = 'none';
 		}
-		
+
 		//dynamically add outline style
 		if(JRequest::getVar('tp', 0 )) {
 			$attribs['style'] .= ' outline';
 		}
-		
+
 		foreach(explode(' ', $attribs['style']) as $style)
 		{
 			$chromeMethod = 'modChrome_'.$style;
 
 			// Apply chrome and render module
-			if (function_exists($chromeMethod)) 
+			if (function_exists($chromeMethod))
 			{
 				$module->style = $attribs['style'];
-				
+
 				ob_start();
 				$chromeMethod($module, $params, $attribs);
 				$module->content = ob_get_contents();
@@ -207,7 +207,7 @@ class JModuleHelper
 	 */
 	function &_load()
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
 
 		static $modules;
 
@@ -217,15 +217,12 @@ class JModuleHelper
 
 		$user	=& JFactory::getUser();
 		$db		=& JFactory::getDBO();
-		
-		$menu   =& JMenu::getInstance();
-		$item   = $menu->getActive();
 
 		$aid	= $user->get('aid', 0);
 
 		$modules	= array();
 
-		$wheremenu = isset( $item->id ) ? ' AND ( mm.menuid = '. $item->id .' OR mm.menuid = 0 )' : '';
+		$wheremenu = isset( $Itemid ) ? ' AND ( mm.menuid = '. $Itemid .' OR mm.menuid = 0 )' : '';
 
 		$query = 'SELECT id, title, module, position, content, showtitle, control, params'
 			. ' FROM #__modules AS m'

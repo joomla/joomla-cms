@@ -78,13 +78,8 @@ class JSite extends JApplication
 	*
 	* @access public
 	*/
-	function route()
-	{
-		// get the full request URI
-		$uri  =& JURI::getInstance();
-
-		$router =& $this->getRouter();
-		$router->parse($uri->toString());
+	function route() {
+		parent::route();
 	}
 
 	/**
