@@ -278,17 +278,8 @@ class JDocumentPDF extends JDocument
 
 		// Set document type headers
 		parent::render();
-		if(ob_get_contents()) {
-			JError::raiseError(500, JText::_('PDF Error'));
-		}
-		if(php_sapi_name()!='cli') {
-			//We send to a browser
-			if(headers_sent()) {
-				JError::raiseError(500, JText::_('PDF Error'));
-			}
-			JResponse::setHeader('Content-Length', strlen($data), true);
-			JResponse::setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.pdf"', true);
-		}
+		//JResponse::setHeader('Content-Length', strlen($data), true);
+		JResponse::setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.pdf"', true);
 
 		//Close and output PDF document
 		return $data;
