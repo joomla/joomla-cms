@@ -15,7 +15,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport('joomla.common.abstract.observer');
+jimport('joomla.base.observer');
 
 /**
  * Class to handle dispatching of events.

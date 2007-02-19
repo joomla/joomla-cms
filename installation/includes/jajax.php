@@ -43,7 +43,7 @@ $xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 $xajax->registerFunction(array('FTPVerify', 'JAJAXHandler', 'ftpverify'));
 $xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 
-jimport( 'joomla.common.abstract.object' );
+jimport( 'joomla.base.object' );
 jimport( 'joomla.utilities.error' );
 JError::setErrorHandling(E_ERROR, 'callback', array('JAJAXHandler','handleError'));
 JError::setErrorHandling(E_WARNING, 'callback', array('JAJAXHandler','handleError'));

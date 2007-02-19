@@ -64,11 +64,6 @@ class JAdministrator extends JApplication
 			$options['language'] = 'en-GB';
 		}
 
-		$config = & JFactory::getConfig();
-		if ($config->getValue('config.legacy')) {
-			jimport('joomla.common.legacy');
-		}
-
 		parent::initialise($options);
 	}
 

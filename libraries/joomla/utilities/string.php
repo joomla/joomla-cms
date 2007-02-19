@@ -15,7 +15,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport('joomla.common.compat.phputf8env');
+jimport('joomla.utilities.compat.phputf8env');
 jimport('phputf8.utf8');
 
 /**
@@ -168,7 +168,7 @@ class JString
 	 * @return array
 	 * @see http://www.php.net/str_split
 	*/
-	function str_split($str, $split_len = 1) 
+	function str_split($str, $split_len = 1)
 	{
 		jimport('phputf8.str_split');
 		return utf8_str_split($str, $split_len);
@@ -185,7 +185,7 @@ class JString
 	 * @return int < 0 if str1 is less than str2; > 0 if str1 is greater than str2, and 0 if they are equal.
 	 * @see http://www.php.net/strcasecmp
 	*/
-	function strcasecmp($str1, $str2) 
+	function strcasecmp($str1, $str2)
 	{
 		jimport('phputf8.strcasecmp');
 		return utf8_strcasecmp($str1, $str2);
@@ -204,7 +204,7 @@ class JString
 	 * @return int the length of the initial segment of str1 which does not contain any of the characters in str2
 	 * @see http://www.php.net/strcspn
 	*/
-	function strcspn($str, $mask, $start = NULL, $length = NULL) 
+	function strcspn($str, $mask, $start = NULL, $length = NULL)
 	{
 		jimport('phputf8.strcspn');
 		if ( $start === FALSE && $length === FALSE ) {
@@ -229,7 +229,7 @@ class JString
 	 * @return string the sub string
 	 * @see http://www.php.net/stristr
 	*/
-	function stristr($str, $search) 
+	function stristr($str, $search)
 	{
 		jimport('phputf8.stristr');
 		return utf8_stristr($str, $search);
@@ -263,7 +263,7 @@ class JString
 	 * @param int length optional
 	 * @see http://www.php.net/strspn
 	*/
-	function strspn($str, $mask, $start = NULL, $length = NULL) 
+	function strspn($str, $mask, $start = NULL, $length = NULL)
 	{
 		jimport('phputf8.native.utf8_strspn');
 		if ( $start === FALSE && $length === FALSE ) {
@@ -287,7 +287,7 @@ class JString
 	 * @param int length (optional)
 	 * @see http://www.php.net/substr_replace
 	*/
-	function substr_replace($str, $repl, $start, $length = NULL ) 
+	function substr_replace($str, $repl, $start, $length = NULL )
 	{
 		// loaded by library loader
 		if ( $length === FALSE ) {
@@ -311,7 +311,7 @@ class JString
 	 * @return string the trimmed string
 	 * @see http://www.php.net/ltrim
 	*/
-	function ltrim( $str, $charlist = FALSE ) 
+	function ltrim( $str, $charlist = FALSE )
 	{
 		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
@@ -335,7 +335,7 @@ class JString
 	 * @return string the trimmed string
 	 * @see http://www.php.net/rtrim
 	*/
-	function rtrim( $str, $charlist = FALSE ) 
+	function rtrim( $str, $charlist = FALSE )
 	{
 		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
@@ -359,7 +359,7 @@ class JString
 	 * @return string the trimmed string
 	 * @see http://www.php.net/trim
 	*/
-	function trim( $str, $charlist = FALSE ) 
+	function trim( $str, $charlist = FALSE )
 	{
 		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
@@ -395,7 +395,7 @@ class JString
 	 * @return string with first char of each word uppercase
 	 * @see http://www.php.net/ucwords
 	*/
-	function ucwords($str) 
+	function ucwords($str)
 	{
 		jimport('phputf8.ucwords');
 		return utf8_ucwords($str);

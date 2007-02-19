@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: functions.php 6641 2007-02-15 23:49:14Z facedancer $
  * @package		Joomla.Legacy
  * @subpackage	1.5
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: tree.php 6613 2007-02-13 01:36:19Z chrisdavenport $
  * @package		Joomla.Framework
  * @subpackage	Abstract
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -16,13 +16,12 @@
 defined('JPATH_BASE') or die();
 
 /**
- * Abstract Tree Class.
+ * Tree Class.
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage		Abstract
+ * @subpackage	Base
  * @since		1.5
- * @abstract
  */
 class JTree extends JObject
 {
@@ -62,13 +61,12 @@ class JTree extends JObject
 }
 
 /**
- * Abstract Tree Node Class.
+ * Tree Node Class.
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage		Abstract
+ * @subpackage	Base
  * @since		1.5
- * @abstract
  */
 class JNode extends JObject
 {

@@ -17,7 +17,7 @@
 defined('_JEXEC') or die();
 
 // Import library dependencies
-jimport('joomla.common.abstract.tree');
+jimport('joomla.base.tree');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 

@@ -35,7 +35,7 @@ if (file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) && (filesize( 
 require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
 
 //clean the request
-jimport( 'joomla.common.abstract.object' );
+jimport( 'joomla.base.object' );
 jimport( 'joomla.environment.request' );
 JRequest::clean();
 
@@ -52,7 +52,7 @@ require_once( JPATH_INCLUDES . DS . 'html.php' );
  */
 
 // Include object abstract class
-jimport( 'joomla.common.compat.compat' );
+jimport( 'joomla.utilities.compat.compat' );
 
 // Joomla! library imports
 jimport( 'joomla.environment.response' );

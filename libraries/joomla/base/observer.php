@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id$
+* @version		$Id: observer.php 6472 2007-02-03 10:47:26Z pasamio $
 * @package		Joomla.Framework
 * @subpackage	Abstract
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -21,7 +21,7 @@ defined('JPATH_BASE') or die();
  * @abstract
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Abstract
+ * @subpackage	Base
  * @since		1.5
  */
 class JObserver extends JObject {
@@ -64,7 +64,7 @@ class JObserver extends JObject {
  * @abstract
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Abstract
+ * @subpackage	Base
  * @since		1.5
  */
 class JObservable extends JObject
@@ -159,7 +159,7 @@ class JObservable extends JObject
 		$retval = false;
 
 		$key = array_search($observer, $this->_observers);
-		
+
 		if ( $key !== false )
 		{
 			unset($this->_observers[$key]);

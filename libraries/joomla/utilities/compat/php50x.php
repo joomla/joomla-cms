@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id$
+* @version		$Id: php50x.php 6138 2007-01-02 03:44:18Z eddiea $
 * @package		Joomla.Framework
 * @subpackage	Compatibility
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -17,7 +17,6 @@
  *
  * @since		1.5
  */
-
 if (!defined('FILE_USE_INCLUDE_PATH')) {
 	define('FILE_USE_INCLUDE_PATH', 1);
 }

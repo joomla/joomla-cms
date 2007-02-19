@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: object.php 6616 2007-02-14 00:22:01Z chrisdavenport $
  * @package		Joomla.Framework
  * @subpackage	Abstract
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -15,10 +15,9 @@
 /**
  * Object class, allowing __construct in PHP4.
  *
- * @abstract
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Abstract
+ * @subpackage	Base
  * @since		1.5
  */
 class JObject

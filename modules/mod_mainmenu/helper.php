@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-jimport('joomla.common.abstract.tree');
+jimport('joomla.base.tree');
 jimport('joomla.utilities.simplexml');
 
 /**

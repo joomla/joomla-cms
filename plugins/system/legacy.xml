@@ -11,7 +11,15 @@
 	<description>Provides legacy support for older version of Joomla!</description>
 	<files>
 		<filename plugin="legacy">legacy.php</filename>
+		<filename>legacy/classes.php</filename>
+		<filename>legacy/functions.php</filename>
+		<filename>legacy/toolbar.php</filename>
+		<filename>legacy/index.html</filename>
 	</files>
 	<params>
+		<param name="route" type="radio" default="0" label="Use legacy URL routing" description="If yes, use legacy url routing mechanism">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 	</params>
 </install>

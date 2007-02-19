@@ -34,7 +34,7 @@ require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
 require_once( JPATH_CONFIGURATION	. DS . 'configuration.php' );
 
 //clean the request
-jimport( 'joomla.common.abstract.object' );
+jimport( 'joomla.base.object' );
 jimport( 'joomla.environment.request' );
 // ALERT! DO NOT CALL JRequest::clean ANY LATER IN EXECUTION!
 JRequest::clean();
@@ -57,7 +57,7 @@ unset( $CONFIG );
  */
 
 // Include object abstract class
-jimport( 'joomla.common.compat.compat' );
+jimport( 'joomla.utilities.compat.compat' );
 
 // System profiler
 if (JDEBUG) {
