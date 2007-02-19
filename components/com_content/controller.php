@@ -34,7 +34,7 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-		parent::display(true);
+		parent::display();
 	}
 
 	/**
