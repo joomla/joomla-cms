@@ -30,7 +30,6 @@ class  plgLegacy extends JPlugin
 	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
-	 * @access	protected
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
@@ -48,7 +47,7 @@ class  plgLegacy extends JPlugin
 		require_once(dirname(__FILE__).DS.'legacy'.DS.'toolbar.php');
 
 		/**
-		 * Legacy define, _ISO defined not used anymore. All output is forced as utf-8
+		 * Legacy define, _ISO define not used anymore. All output is forced as utf-8.
 		 * @deprecated	As of version 1.5
 		 */
 		DEFINE('_ISO','charset=utf-8');
@@ -81,7 +80,6 @@ class  plgLegacy extends JPlugin
 		 * Legacy global, use JVersion->getLongVersion() instead
 		 * @name $_VERSION
 		 * @deprecated	As of version 1.5
-		 * @package		Joomla.Legacy
 		 */
 		 $GLOBALS['_VERSION']	= new JVersion();
 		 $version				= $GLOBALS['_VERSION']->getLongVersion();
@@ -90,7 +88,6 @@ class  plgLegacy extends JPlugin
 		 * Legacy global, use JFactory::getDBO() instead
 		 * @name $database
 		 * @deprecated	As of version 1.5
-		 * @package		Joomla.Legacy
 		 */
 		$conf =& JFactory::getConfig();
 		$GLOBALS['database'] = new database($conf->getValue('config.host'), $conf->getValue('config.user'), $conf->getValue('config.password'), $conf->getValue('config.db'), $conf->getValue('config.dbprefix'));
@@ -100,7 +97,6 @@ class  plgLegacy extends JPlugin
 		 * Legacy global, use JFactory::getUser() [JUser object] instead
 		 * @name $my
 		 * @deprecated	As of version 1.5
-		 * @package		Joomla.Legacy
 		 */
 		$user				=& JFactory::getUser();
 		$GLOBALS['my']		= clone($user->getTable());
@@ -110,7 +106,6 @@ class  plgLegacy extends JPlugin
 		 * Legacy global, use JApplication::getTemplate() instead
 		 * @name $cur_template
 		 * @deprecated	As of version 1.5
-		 * @package		Joomla.Legacy
 		 */
 		global $mainframe;
 		$GLOBALS['cur_template']	= $mainframe->getTemplate();
@@ -120,7 +115,6 @@ class  plgLegacy extends JPlugin
 		 * Legacy global, use JFactory::getUser() instead
 		 * @name $acl
 		 * @deprecated	As of version 1.5
-		 * @package		Joomla.Legacy
 		 */
 		$GLOBALS['acl'] =& JFactory::getACL();
 
@@ -128,7 +122,6 @@ class  plgLegacy extends JPlugin
 		 * Legacy global
 		 * @name $task
 		 * @deprecated	As of version 1.5
-		 * @package		Joomla.Legacy
 		 */
 		$GLOBALS['task'] = JRequest::getVar('task');
 

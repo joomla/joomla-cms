@@ -2,7 +2,7 @@
 <install version="1.5" type="plugin" group="system">
 	<name>System - Legacy</name>
 	<author>Joomla! Project</author>
-	<creationDate>Januari 2006</creationDate>
+	<creationDate>January 2007</creationDate>
 	<copyright>(C) 2005 - 2007 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
