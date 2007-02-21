@@ -17,32 +17,36 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="showAuthor" type="radio" default="0" label="Author Names" description="TIPIFSETTOSHOWAUTHOR">
+		<param name="showAuthor" type="radio" default="1" label="Author Names" description="TIPIFSETTOSHOWAUTHOR">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="hideCreateDate" type="radio" default="0" label="Created Date and Time" description="TIPIFSETTOSHOWDATETIMECREATED">
-			<option value="1">Hide</option>
-			<option value="0">Show</option>
+		<param name="showCreateDate" type="radio" default="1" label="Created Date and Time" description="TIPIFSETTOSHOWDATETIMECREATED">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
 		</param>
-		<param name="hideModifyDate" type="radio" default="0" label="Modified Date and Time" description="TIPIFSETTOSHOWDATETIMEMODIFIED">
-			<option value="1">Hide</option>
-			<option value="0">Show</option>
+		<param name="showModifyDate" type="radio" default="1" label="Modified Date and Time" description="TIPIFSETTOSHOWDATETIMEMODIFIED">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="showItemNavigation" type="radio" default="0" label="Show Navigation" description="PARAMNAVIGATIONARTICLE">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="hidePdf" type="radio" default="0" label="PDF Icon" description="">
-			<option value="1">Hide</option>
-			<option value="0">Show</option>
-		</param>
-		<param name="hidePrint" type="radio" default="0" label="Print Icon" description="">
-			<option value="1">Hide</option>
-			<option value="0">Show</option>
-		</param>
-		<param name="hideEmail" type="radio" default="0" label="Email Icon" description="">
-			<option value="1">Hide</option>
-			<option value="0">Show</option>
-		</param>
 		<param name="icons" type="radio" default="1" label="Icons" description="TIPPRINTPDFEMAIL">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="showPdf" type="radio" default="1" label="PDF Icon" description="">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="showPrint" type="radio" default="1" label="Print Icon" description="">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="showEmail" type="radio" default="1" label="Email Icon" description="">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

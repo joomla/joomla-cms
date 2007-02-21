@@ -20,6 +20,11 @@
 				<option value="0">Ignore</option>
 				<option value="1">On</option>
 			</param>
+			<param name="showItemNavigation" type="list" default="" label="Show Navigation" description="PARAMNAVIGATIONARTICLE">
+				<option value="">Use Global</option>
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
 		</advanced>
 	</state>
 </metadata>

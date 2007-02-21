@@ -368,13 +368,6 @@ class ContentModelArticle extends JModel
 		// Default setting
 		$params->set('intro_only', 0);
 
-		// We only want to view navigation if necessary
-		if ($this->_article->sectionid == 0) {
-			$params->set('item_navigation', 0);
-		} else {
-			$params->set('item_navigation', $mainframe->getCfg('item_navigation'));
-		}
-
 		// Set some metatag information if needed
 		if ($mainframe->getCfg('MetaTitle') == '1') {
 			$mainframe->addMetaTag('title', $this->_article->title);
@@ -387,11 +380,11 @@ class ContentModelArticle extends JModel
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('link_titles',	$contentConfig->get('link_titles'));
 		$params->def('showAuthor',	$contentConfig->get('showAuthor'));
-		$params->def('createdate',	!$contentConfig->get('hideCreateDate'));
-		$params->def('modifydate',	!$contentConfig->get('hideModifyDate'));
-		$params->def('print',		!$contentConfig->get('hidePrint'));
-		$params->def('pdf',		!$contentConfig->get('hidePdf'));
-		$params->def('email',		!$contentConfig->get('hideEmail'));
+		$params->def('createdate',	$contentConfig->get('showCreateDate'));
+		$params->def('modifydate',	$contentConfig->get('showModifyDate'));
+		$params->def('print',		$contentConfig->get('showPrint'));
+		$params->def('pdf',		$contentConfig->get('showPdf'));
+		$params->def('email',		$contentConfig->get('showEmail'));
 		$params->def('rating',		$contentConfig->get('vote'));
 
 		$params->def('back_button', $contentConfig->get('back_button'));

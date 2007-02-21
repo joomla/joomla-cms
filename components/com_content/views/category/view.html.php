@@ -83,8 +83,8 @@ class ContentViewCategory extends JView
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('title',			1);
 		$params->def('hits',			$contentConfig->get('hits'));
-		$params->def('showAuthor',			$contentConfig->get('showAuthor'));
-		$params->def('date',			!$contentConfig->get('hideCreateDate'));
+		$params->def('showAuthor',		$contentConfig->get('showAuthor'));
+		$params->def('date',			$contentConfig->get('showCreateDate'));
 		$params->def('date_format',		JText::_('DATE_FORMAT_LC'));
 		$params->def('navigation',		2);
 		$params->def('display',			1);
@@ -285,12 +285,12 @@ class ContentViewCategory extends JView
 		// Get some parameters from global configuration
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('link_titles',	$contentConfig->get('link_titles'));
-		$params->def('showAuthor',		$contentConfig->get('showAuthor'));
-		$params->def('createdate',	!$contentConfig->get('hideCreateDate'));
-		$params->def('modifydate',	!$contentConfig->get('hideModifyDate'));
-		$params->def('print',		!$contentConfig->get('hidePrint'));
-		$params->def('pdf',		!$contentConfig->get('hidePdf'));
-		$params->def('email',		!$contentConfig->get('hideEmail'));
+		$params->def('showAuthor',	$contentConfig->get('showAuthor'));
+		$params->def('createdate',	$contentConfig->get('showCreateDate'));
+		$params->def('modifydate',	$contentConfig->get('showModifyDate'));
+		$params->def('print',		$contentConfig->get('showPrint'));
+		$params->def('pdf',		$contentConfig->get('showPdf'));
+		$params->def('email',		$contentConfig->get('showEmail'));
 		$params->def('rating',		$contentConfig->get('vote'));
 		$params->def('icons',		$contentConfig->get('icons'));
 		$params->def('readmore',	$contentConfig->get('readmore'));

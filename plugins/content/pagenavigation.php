@@ -18,39 +18,23 @@ $mainframe->registerEvent( 'onBeforeDisplayContent', 'plgContentNavigation' );
 
 function plgContentNavigation( &$row, &$params, $page=0 )
 {
-	global $access, $mainframe;
-
-	$task 		= JRequest::getVar( 'task' );
-	$user		=& JFactory::getUser();
+	$view		= JRequest::getVar( 'view' );
 
 	// Get Plugin info
 	$plugin =& JPluginHelper::getPlugin('content', 'pagenavigation');
 
-	// check whether plugin has been unpublished
-	if (!$plugin->published) {
-		return true;
-	}
-
-	if ($params->get('item_navigation') && ($task == 'view') && !$params->get('popup'))
+	if ($params->get('showItemNavigation') && ($view == 'article'))
 	{
-		$html 		= '';
+		$html 	= '';
 		$db 		= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$nullDate	= $db->getNullDate();
-		$now 		= date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);
+		$config 	= & JFactory::getConfig();
+		$offset 	= $config->getValue('config.offset');
+		$now 		= date('Y-m-d H:i', time() + $offset * 60 * 60);
 		$uid 		= $row->id;
 		$option 	= 'com_content';
-
-		// Editor access object
-		$access = new stdClass();
-		$access->canEdit 	= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn = $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish = $user->authorize('action', 'publish', 'content', 'all');
-
-		// Paramters for menu item as determined by controlling Itemid
-		$menu =& JMenu::getInstance();
-		$item =& $menu->getActive();
-		$params = new JParameter($item->params);
+		$canPublish = $user->authorize('action', 'publish', 'content', 'all');
 
 		// the following is needed as different menu items types utilise a different param to control ordering
 		// for Blogs the `orderby_sec` param is the order controlling param
@@ -114,19 +98,15 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 				break;
 		}
 
-		if ($access->canEdit) {
-			$xwhere = '';
-		} else {
-			$xwhere = ' AND ( a.state = 1 OR a.state = -1 )' .
-			' AND ( publish_up = '.$db->Quote($nullDate).' OR publish_up <= '.$db->Quote($now).' )' .
-			' AND ( publish_down = '.$db->Quote($nullDate).' OR publish_down >= '.$db->Quote($now).' )';
-		}
+		$xwhere = ' AND ( a.state = 1 OR a.state = -1 )' .
+		' AND ( publish_up = '.$db->Quote($nullDate).' OR publish_up <= '.$db->Quote($now).' )' .
+		' AND ( publish_down = '.$db->Quote($nullDate).' OR publish_down >= '.$db->Quote($now).' )';
 
-		// array of articles in same category corretly ordered
+		// array of articles in same category correctly ordered
 		$query = 'SELECT a.id'
 		. ' FROM #__content AS a'
 		. ' WHERE a.catid = ' . (int) $row->catid
-		. ' AND a.state = '. $row->state . ($access->canEdit ? '' : ' AND a.access <= ' .(int) $user->get('aid', 0))
+		. ' AND a.state = '. $row->state . ($canPublish ? '' : ' AND a.access <= ' .(int) $user->get('aid', 0))
 		. $xwhere
 		. ' ORDER BY '. $orderby;
 		$db->setQuery($query);

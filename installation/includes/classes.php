@@ -417,7 +417,6 @@ class JInstallationController
 		// Set some needed variables
 		$vars['siteUrl']		= $mainframe->getSiteURL();
 		$vars['secret']			= JUserHelper::genRandomPassword(16);
-		$vars['hidePdf']		= intval(!is_writable(JPATH_SITE.DS.'tmp'));
 
 		$vars['offline']		= JText::_( 'STDOFFLINEMSG' );
 		$vars['errormsg']		= JText::_( 'STDERRORMSG' );

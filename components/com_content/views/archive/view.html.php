@@ -70,8 +70,8 @@ class ContentViewArchive extends JView
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('title',			1);
 		$params->def('hits',			$contentConfig->get('hits'));
-		$params->def('showAuthor',			$contentConfig->get('showAuthor'));
-		$params->def('date',			!$contentConfig->get('hideCreateDate'));
+		$params->def('showAuthor',		$contentConfig->get('showAuthor'));
+		$params->def('date',			$contentConfig->get('showCreateDate'));
 		$params->def('date_format',		JText::_('DATE_FORMAT_LC'));
 		$params->def('navigation',		2);
 		$params->def('display',			1);

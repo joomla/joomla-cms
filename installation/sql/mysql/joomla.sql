@@ -141,7 +141,7 @@ INSERT INTO `#__components` VALUES (16, 'Categories','',0,1,'option=com_categori
 INSERT INTO `#__components` VALUES (17,'Wrapper','option=com_wrapper',0,0,'','Wrapper','com_wrapper',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (18,'Mail To','',0,0,'','','com_mailto',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (19,'Media Manager','',0,0,'option=com_media','Media Manager','com_media',0,'',1,'upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\n\n',1);
-INSERT INTO `#__components` VALUES (20,'Articles','option=com_content',0,0,'','','com_content',0,'',1,'shownoauth=0\nlink_titles=0\nreadmore=1\nvote=0\nshowAuthor=1\nhideCreateDate=0\nhideModifyDate=0\nhidePdf=0\nhidePrint=0\nhideEmail=0\nicons=1\nhits=1\n\n',1);
+INSERT INTO `#__components` VALUES (20, 'Articles', 'option=com_content', 0, 0, '', '', 'com_content', 0, '', 1, 'shownoauth=0\nlink_titles=0\nreadmore=1\nvote=0\nshowAuthor=1\nshowCreateDate=1\nshowModifyDate=1\nshowItemNavigation=0\nicons=1\nshowPdf=1\nshowPrint=1\nshowEmail=1\nhits=1\n\n', 1);
 INSERT INTO `#__components` VALUES (21,'Configuration Manager','',0,0,'','Configuration','com_config',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (22,'Installation Manager','',0,0,'','Installer','com_installer',0,'',1,'',1);
 INSERT INTO `#__components` VALUES (23,'Lanuage Manager','',0,0,'','Lanaguages','com_languages',0,'',1,'',1);

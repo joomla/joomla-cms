@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Feb-2007 Hannes Papenberg
+ + Added page navigation between articles
+ ^ Renamed some parameters in com_content preferences
+You need to open the com_content preferences and save them anew or reinstall
+
 20-Feb-2007 Johan Janssens
  + Added page cache system plugin
  - Removed template and page cache global configuration setting.

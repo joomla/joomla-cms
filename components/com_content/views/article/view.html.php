@@ -34,10 +34,18 @@ class ContentViewArticle extends JView
 		$document	=& JFactory::getDocument();
 		$dispatcher	=& JEventDispatcher::getInstance();
 		$pathway	=& $mainframe->getPathWay();
+		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 
 		// Initialize variables
 		$article	=& $this->get('Article');
-		$params		=& $article->parameters;
+		$params	=& $article->parameters;
+
+		// Get the menu object of the active menu item
+		$menu   =& JMenu::getInstance();
+		$item   = $menu->getActive();
+		$menuparams = $menu->getParams($item->id);
+
+		$params->def('showItemNavigation', $menuparams->get('showItemNavigation', $contentConfig->get('showItemNavigation')));
 
 		if($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);

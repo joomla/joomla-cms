@@ -64,7 +64,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</div>
 			<?php
 				$contentConfig = &JComponentHelper::getParams( 'com_content' );
-				if ( !$contentConfig->get( 'hideCreateDate' )) : ?>
+				if ( $contentConfig->get( 'showCreateDate' )) : ?>
 			<div class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 				<?php echo $result->created; ?>
 			</div>

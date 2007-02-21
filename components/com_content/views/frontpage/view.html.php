@@ -247,12 +247,12 @@ class ContentViewFrontpage extends JView
 		// Get some parameters from global configuration
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('link_titles',	$contentConfig->get('link_titles'));
-		$params->def('showAuthor',		$contentConfig->get('showAuthor'));
-		$params->def('createdate',	!$contentConfig->get('hideCreateDate'));
-		$params->def('modifydate',	!$contentConfig->get('hideModifyDate'));
-		$params->def('print',		!$contentConfig->get('hidePrint'));
-		$params->def('pdf',		!$contentConfig->get('hidePdf'));
-		$params->def('email',		!$contentConfig->get('hideEmail'));
+		$params->def('showAuthor',	$contentConfig->get('showAuthor'));
+		$params->def('createdate',	$contentConfig->get('showCreateDate'));
+		$params->def('modifydate',	$contentConfig->get('showModifyDate'));
+		$params->def('print',		$contentConfig->get('showPrint'));
+		$params->def('pdf',		$contentConfig->get('showPdf'));
+		$params->def('email',		$contentConfig->get('showEmail'));
 		$params->def('rating',		$contentConfig->get('vote'));
 		$params->def('icons',		$contentConfig->get('icons'));
 		$params->def('readmore',	$contentConfig->get('readmore'));
