@@ -50,7 +50,10 @@ class JCachePage extends JCache
 		if ( !headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']) ){
 			$etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
 			if( $etag == $id) {
-				$this->_noChange();
+				$browserCache = isset($this->_options['browsercache']) ? $this->_options['browsercache'] : false;
+				if ($browserCache) {
+					$this->_noChange();
+				}
 			}
 		}
 
@@ -130,7 +133,7 @@ class JCachePage extends JCache
 	 */
 	function _setEtag($etag)
 	{
-		JResponse::setHeader( 'ETag: '.$etag, true );
+		JResponse::setHeader( 'ETag', $etag, true );
 	}
 }
 ?>

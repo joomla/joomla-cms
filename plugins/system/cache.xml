@@ -13,5 +13,10 @@
 		<filename plugin="cache">cache.php</filename>
 	</files>
 	<params>
+		<param name="browsercache" type="radio" default="0" label="Use browser caching" description="If yes, use mechanism for storing page cache in the browser">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+  		<param name="cachetime" type="text" default="15" label="Cache Lifetime" description="Page cache lifetime in minutes"/>
 	</params>
 </install>

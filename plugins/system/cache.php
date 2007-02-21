@@ -14,6 +14,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jimport('joomla.cache.cache');
+
 /**
  * Joomla! Page Cache Plugin
  *
@@ -45,7 +47,14 @@ class  plgCache extends JPlugin
 		$this->_plugin = & JPluginHelper::getPlugin('system', 'cache');
 		$this->_params = new JParameter($this->_plugin->params);
 
-		$this->_cache =& JFactory::getCache('page', 'page');
+		$options = array(
+			'cachebase' 	=> JPATH_BASE.DS.'cache',
+			'defaultgroup' 	=> 'page',
+			'lifetime' 		=> $this->_params->get('cachetime', 15) * 60,
+			'browsercache'	=> $this->_params->get('browsercache', false)
+		);
+
+		$this->_cache =& JCache::getInstance( 'page', $options );
 		$this->_cache->setCaching(true);
 	}
 

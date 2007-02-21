@@ -136,19 +136,14 @@ class JPaneTabs extends JPane
 	*/
 	function startPane( $id )
 	{
-		$document =& JFactory::getDocument();
-
-		return "<div class=\"tab-page\" id=\"".$id."\">"
-			."<script type=\"text/javascript\">\n"
-			."	var tabPane1 = new WebFXTabPane( document.getElementById( \"".$id."\" ), ".(int)$this->useCookies." )\n"
-			."</script>\n";
+		return '<dl class="tabs" id="'.$id.'">';
 	}
 
    /**
 	* Ends the pane
 	*/
 	function endPane() {
-		return "</div>";
+		return "</dl>";
 	}
 
 	/**
@@ -159,18 +154,14 @@ class JPaneTabs extends JPane
 	*/
 	function startPanel( $text, $id )
 	{
-		return "<div class=\"tab-page\" id=\"".$id."\">"
-			."<h2 class=\"tab\"><span>".$text."</span></h2>"
-			."<script type=\"text/javascript\">\n"
-			."  tabPane1.addTabPage( document.getElementById( \"".$id."\" ) );"
-			."</script>";
+		return '<dt id="'.$id.'">'.$text.'</dt><dd>';
 	}
 
 	/**
 	* Ends a tab page
 	*/
 	function endPanel() {
-		return "</div>";
+		return "</dd>";
 	}
 
 	/**
@@ -182,13 +173,28 @@ class JPaneTabs extends JPane
 	{
 		global $mainframe;
 
-		$document	=& JFactory::getDocument();
-		$lang	 	=& JFactory::getLanguage();
-		$css		= $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
-		$url		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$document =& JFactory::getDocument();
 
-		$document->addStyleSheet( $url. 'includes/js/tabs/'.$css, 'text/css', null, array(' id' => 'luna-tab-style-sheet' ));
-		$document->addScript( $url. 'includes/js/tabs/tabpane_mini.js' );
+		$options = '{';
+		$opt['onActive']	= (isset($params['onActive'])) ? $params['onActive'] : null ;
+		$opt['onBackground']= (isset($params['onBackground'])) ? $params['onBackground'] : null ;
+		$opt['display']		= (isset($params['startOffset'])) ? (int)$params['startOffset'] : null ;
+		foreach ($opt as $k => $v)
+		{
+			if ($v) {
+				$options .= $k.': '.$v.',';
+			}
+		}
+		if (substr($options, -1) == ',') {
+			$options = substr($options, 0, -1);
+		}
+		$options .= '}';
+
+		$js = '		Window.onDomReady(function(){ $$(\'dl.tabs\').each(function(tabs){ new JTabs(tabs, '.$options.'); }); });';
+
+		$document->addScriptDeclaration( $js );
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$document->addScript( $url. 'includes/js/joomla/tabs.js' );
 	}
 }
 
@@ -266,7 +272,6 @@ class JPaneSliders extends JPane
 		global $mainframe;
 
 		$document =& JFactory::getDocument();
-		$lang	 =& JFactory::getLanguage();
 
 		$options = '{';
 		$opt['onActive']	= 'function(toggler, i) { toggler.addClass(\'jpane-toggler-down\'); toggler.removeClass(\'jpane-toggler\'); }';
@@ -287,7 +292,7 @@ class JPaneSliders extends JPane
 		}
 		$options .= '}';
 
-		$js = '		Window.onDomReady(function(){ document.ac = new Accordion($$(\'.panel h3.jpane-toggler\'), $$(\'.panel div.jpane-slider\'), '.$options.'); });';
+		$js = '		Window.onDomReady(function(){ new Accordion($$(\'.panel h3.jpane-toggler\'), $$(\'.panel div.jpane-slider\'), '.$options.'); });';
 
 		$document->addScriptDeclaration( $js );
 	}
