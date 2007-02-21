@@ -111,7 +111,7 @@ class JComponentHelper
 		define( 'JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.DS.'components'.DS.$name);
 
 		// get component path
-		if ( $mainframe->isAdmin() && is_file(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
+		if ( $mainframe->isAdmin() && file_exists(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
 			$path = JPATH_COMPONENT.DS.'admin.'.$file.'.php';
 		} else {
 			$path = JPATH_COMPONENT.DS.$file.'.php';
@@ -155,7 +155,7 @@ class JComponentHelper
 
 		// Handle template preview outlining
 		$contents = null;
-	
+
 		// Execute the component
 		ob_start();
 		require_once $path;
@@ -165,10 +165,10 @@ class JComponentHelper
 		// Build the component toolbar
 		jimport( 'joomla.application.helper' );
 		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {
-			
+
 			// Get the task again, in case it has changed
 			$task		= JRequest::getVar( 'task' );
-			
+
 			// Make the toolbar
 			require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
 			include_once( $path );
