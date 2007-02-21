@@ -358,8 +358,9 @@ INSERT INTO `#__plugins` VALUES (28, 'XML-RPC - Blogger API', 'blogger', 'xmlrpc
 INSERT INTO `#__plugins` VALUES (30, 'Editor Button - Readmore','readmore','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (31, 'User - Joomla!', 'joomla', 'user', 0, 0, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (32, 'Authentication - OpenID', 'openid', 'authentication', 0, 3, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__plugins` VALUES (33, 'System - Debug', 'debug', 'system', 0, 2, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__plugins` VALUES (34, 'System - Legacy', 'legacy', 'system', 0, 3, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (33, 'System - Debug', 'debug', 'system', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (34, 'System - Legacy', 'legacy', 'system', 0, 2, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (34, 'System - Cache', 'cache', 'system', 0, 3, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 
 # --------------------------------------------------------
 

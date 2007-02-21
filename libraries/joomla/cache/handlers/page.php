@@ -45,6 +45,7 @@ class JCachePage extends JCache
 			$id = $this->_makeId();
 		}
 
+
 		// If the etag matches the page id ... sent a no change header and exit : utilize browser cache
 		if ( !headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']) ){
 			$etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
@@ -129,7 +130,7 @@ class JCachePage extends JCache
 	 */
 	function _setEtag($etag)
 	{
-		JResponse::setHeader( 'ETag:'.$etag, true );
+		JResponse::setHeader( 'ETag: '.$etag, true );
 	}
 }
 ?>

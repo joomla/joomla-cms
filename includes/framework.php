@@ -70,18 +70,18 @@ if (JDEBUG) {
 jimport( 'joomla.environment.response'   );
 jimport( 'joomla.application.application' );
 jimport( 'joomla.application.event' );
-jimport( 'joomla.application.menu' );
+jimport( 'joomla.application.menu' ); 		//needs to be loaded later
 jimport( 'joomla.database.table' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
 jimport( 'joomla.factory' );
-jimport( 'joomla.html.html' );
-jimport( 'joomla.utilities.array' );
+jimport( 'joomla.html.html' );		  		//needs to be loaded later
+jimport( 'joomla.utilities.array' );	  		//needs to be loaded later
 jimport( 'joomla.utilities.error' );
-jimport( 'joomla.utilities.functions' );
+jimport( 'joomla.utilities.functions' ); 	//needs to be loaded later
 jimport( 'joomla.utilities.utility' );
-jimport( 'joomla.utilities.string' );
-jimport( 'joomla.version' );
+jimport( 'joomla.utilities.string' );		//needs to be loaded later
+jimport( 'joomla.version' );				//needs to be loaded later
 
 
 JDEBUG ? $_PROFILER->mark( 'afterLoadFramework' ) : null;

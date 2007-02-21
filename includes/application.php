@@ -147,7 +147,7 @@ class JSite extends JApplication
 		);
 
 		$document =& JFactory::getDocument();
-		$data = $document->render( $this->getCfg('caching_tmpl'), $params);
+		$data = $document->render( $this->getCfg('caching'), $params);
 		JResponse::setBody($data);
 	}
 

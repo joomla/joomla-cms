@@ -145,7 +145,7 @@ class JLanguage extends JObject
 		if ($lang == null) {
 			$lang = 'en-GB';
 		}
-		
+
 		$this->setLanguage($lang);
 
 		$this->load();
@@ -453,12 +453,12 @@ class JLanguage extends JObject
 		}
 		return $dir;
 	}
-	
+
 	/**
 	 * Set the language attributes to the given language
-	 * 
+	 *
 	 * Once called, the language still needs to be loaded using JLanguage::load()
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$lang	Language code
 	 */

@@ -31,7 +31,7 @@
 		<param name="window_open" type="text" default="" label="Target Position" description="PARAMTARGETPOSITION" />
 	</params>
 	<params group="advanced">
-		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
 			<option value="1">Use global</option>
 			<option value="0">No caching</option>
 		</param>

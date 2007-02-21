@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Feb-2007 Johan Janssens
+ + Added page cache system plugin
+ - Removed template and page cache global configuration setting.
+
 19-Feb-2007 Hannes Papenberg
  # Fixed [artf7597] Newsfeeds were broken
  # Fixed [artf7603] Error message are now shown above login window in offline mode

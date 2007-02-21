@@ -40,7 +40,7 @@ class ConfigControllerApplication extends ConfigController
 		// Initialize some variables
 		$db =& JFactory::getDBO();
 		$row = new JConfig();
-		
+
 		// compile list of the languages
 		$langs 		= array ();
 		$menuitems 	= array ();
@@ -157,8 +157,6 @@ class ConfigControllerApplication extends ConfigController
 
 		// CACHE SETTINGS
 		$lists['caching'] 		= JHTMLSelect::yesnoList('caching', 'class="inputbox"', $row->caching);
-		$lists['caching_tmpl'] 		= JHTMLSelect::yesnoList('caching_tmpl', 'class="inputbox"', $row->caching_tmpl);
-		$lists['caching_page'] 		= JHTMLSelect::yesnoList('caching_page', 'class="inputbox"', $row->caching_page);
 
 		// META SETTINGS
 		$lists['MetaAuthor'] 	= JHTMLSelect::yesnoList('MetaAuthor', 'class="inputbox"', $row->MetaAuthor);
@@ -181,7 +179,7 @@ class ConfigControllerApplication extends ConfigController
 			$options[] = JHTMLSelect::option($store, $store);
 		}
 		$lists['session_handlers'] = JHTMLSelect::genericList($options, 'session_handler', 'class="inputbox" size="1"', 'value', 'text', $row->session_handler);
-		
+
 		// SHOW EDIT FORM
 		ConfigApplicationView::showConfig($row, $lists);
 	}
@@ -205,7 +203,7 @@ class ConfigControllerApplication extends ConfigController
 		$userpost['option'] = 'com_users';
 		$table->loadByOption( 'com_users' );
 		$table->bind( $userpost );
-		
+
 		// pre-save checks
 		if (!$table->check()) {
 			JError::raiseWarning( 500, $table->getError() );
@@ -234,7 +232,7 @@ class ConfigControllerApplication extends ConfigController
 			JError::raiseWarning( 500, $table->getError() );
 			return false;
 		}
-		
+
 		$config =& JFactory::getConfig();
 		$config_array = array();
 
@@ -249,7 +247,7 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['debug_db'] 	= JRequest::getVar('debug_db', 0, 'post');
 		$config_array['debug_lang'] 	= JRequest::getVar('debug_lang', 0, 'post');
 
-		// SEO SETTINGS	
+		// SEO SETTINGS
 		$config_array['sef'] 			= JRequest::getVar('sef', 0, 'post');
 		$config_array['sef_rewrite'] 	= JRequest::getVar('sef_rewrite', 0, 'post');
 
@@ -270,8 +268,6 @@ class ConfigControllerApplication extends ConfigController
 
 		// CACHE SETTINGS
 		$config_array['caching'] 	= JRequest::getVar('caching', 0, 'post');
-		$config_array['caching_tmpl'] = JRequest::getVar('caching_tmpl', 0, 'post');
-		$config_array['caching_page'] = JRequest::getVar('caching_page', 0, 'post');
 
 		// FTP SETTINGS
 		$config_array['ftp_enable'] 	= JRequest::getVar('ftp_enable', 0, 'post');
@@ -301,7 +297,7 @@ class ConfigControllerApplication extends ConfigController
 		// META SETTINGS
 		$config_array['MetaAuthor'] 	= JRequest::getVar('MetaAuthor', 1, 'post');
 		$config_array['MetaTitle'] 	= JRequest::getVar('MetaTitle', 1, 'post');
-		
+
 		// SESSION SETTINGS
 		$config_array['lifetime'] 			= JRequest::getVar('lifetime', 0, 'post');
 		$config_array['session_handler'] 	= JRequest::getVar('session_handler', 'none', 'post');
@@ -328,10 +324,10 @@ class ConfigControllerApplication extends ConfigController
 		$offline_message	= str_replace( '"', '&quot;', $offline_message );
 		$offline_message	= str_replace( "'", '&#039;', $offline_message );
 		$config->setValue('config.offline_message', $offline_message);
-		
+
 		//purge the database session table (only if we are changing to a db session store)
-		if($mainframe->getCfg('session_handler') != 'database' && $config->getValue('session_handler') == 'database') 
-		{	
+		if($mainframe->getCfg('session_handler') != 'database' && $config->getValue('session_handler') == 'database')
+		{
 			$table =& JTable::getInstance('session');
 			$table->purge(-1);
 		}

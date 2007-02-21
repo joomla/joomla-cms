@@ -83,7 +83,7 @@ class JApplication extends JObject
 		$conf =& JFactory::getConfig();
 		$conf->setValue('config.language', $options['language']);
 
-		//set language debug
+		//set language debug -> lazy load it later
 		$lang =& JFactory::getLanguage();
 		$lang->setDebug($this->getCfg('debug_lang'));
 
@@ -98,7 +98,7 @@ class JApplication extends JObject
 			$GLOBALS['mosConfig_lang'] = $lang->getBackwardLang();
 		}
 
-		//create the router
+		//create the router -> lazy load it later
 		$this->_createRouter();
 	}
 

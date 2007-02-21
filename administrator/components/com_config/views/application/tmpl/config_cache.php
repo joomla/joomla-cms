@@ -5,26 +5,10 @@
 		<tbody>
 		<tr>
 			<td class="key">
-				<?php echo JText::_( 'Template Cache' ); ?>
-			</td>
-			<td>
-				<?php echo $lists['caching_tmpl']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<?php echo JText::_( 'Extension Cache' ); ?>
+				<?php echo JText::_( 'Cache' ); ?>
 			</td>
 			<td>
 				<?php echo $lists['caching']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
-				<?php echo JText::_( 'Page Cache' ); ?>
-			</td>
-			<td>
-				<?php echo $lists['caching_page'];?>
 			</td>
 		</tr>
 		<tr>
