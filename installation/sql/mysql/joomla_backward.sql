@@ -329,7 +329,6 @@ CREATE TABLE `#__plugins` (
   KEY `idx_folder` (`published`,`client_id`,`access`,`folder`)
 ) TYPE=MyISAM;
 
-INSERT INTO `#__plugins` VALUES (1, 'Content - Image','image','content',0,-10000,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (2, 'Content - Pagebreak','pagebreak','content',0,10000,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (4, 'Content - SEF','sef','content',0,3,1,0,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (5, 'Content - Rating','vote','content',0,4,1,1,0,0,'0000-00-00 00:00:00','');
