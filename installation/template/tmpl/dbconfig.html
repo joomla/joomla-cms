@@ -46,12 +46,6 @@
 		} else if (document.getElementById("vars_dbusername").value == '') {
 			alert( '<jtmpl:translate key="validUser" escape="yes">Please enter a database username</jtmpl:translate>' );
 			return;
-		} else {
-			if ( action == 'collation' ) {
-				xajax_getCollations(xajax.getFormValues('adminForm'));
-			} else if ( action == 'privs' ) {
-				xajax_getPrivileges(xajax.getFormValues('adminForm'));
-			}
 		}
 	}
 //-->

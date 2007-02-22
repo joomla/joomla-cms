@@ -225,7 +225,7 @@ class JInstallationController
 			if ($err = $db->getErrorNum()) {
 				if ($err == 3) {
 					// connection ok, need to create database
-					if (JInstallationHelper::createDatabase($db, $DBname, $DButfSupport, $DBcollation)) {
+					if (JInstallationHelper::createDatabase($db, $DBname, $DButfSupport)) {
 						// make the new connection to the new database
 						$db = NULL;
 						$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
@@ -597,11 +597,11 @@ class JInstallationHelper
 	 * @param string Selected collation
 	 * @return boolean success
 	 */
-	function createDatabase(& $db, $DBname, $DButfSupport, $DBcollation)
+	function createDatabase(& $db, $DBname, $DButfSupport)
 	{
 		if ($DButfSupport)
 		{
-			$sql = "CREATE DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
+			$sql = "CREATE DATABASE `$DBname` CHARACTER SET `utf8`";
 		}
 		else
 		{

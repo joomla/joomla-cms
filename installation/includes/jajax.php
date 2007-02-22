@@ -37,8 +37,6 @@ require_once (JXPATH_BASE.DS.'xajax'.DS.'xajax.inc.php');
 $xajax = new xajax();
 $xajax->errorHandlerOn();
 
-$xajax->registerFunction(array('getCollations', 'JAJAXHandler', 'dbcollate'));
-//$xajax->registerFunction(array('getPrivileges', 'JAJAXHandler', 'dbpriv'));
 $xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 $xajax->registerFunction(array('FTPVerify', 'JAJAXHandler', 'ftpverify'));
 $xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));

@@ -58,10 +58,6 @@ switch ($task)
 		$result = JInstallationController::dbConfig($vars);
 		break;
 
-	case 'dbcollation':
-		$result = JInstallationController::dbCollation($vars);
-		break;
-
 	case 'makedb':
 		$result = JInstallationController::makeDB($vars);
 		// continue to ftpConfig only on true token otherwise display messages
