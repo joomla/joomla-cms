@@ -25,13 +25,16 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 
 	if ($params->get('showItemNavigation') && ($view == 'article'))
 	{
+		jimport('joomla.utilities.date');
 		$html 	= '';
 		$db 		= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$nullDate	= $db->getNullDate();
+
+		$date		= new JDate();
 		$config 	= & JFactory::getConfig();
-		$offset 	= $config->getValue('config.offset');
-		$now 		= date('Y-m-d H:i', time() + $offset * 60 * 60);
+		$now 		= $date->toMySQL();
+
 		$uid 		= $row->id;
 		$option 	= 'com_content';
 		$canPublish = $user->authorize('action', 'publish', 'content', 'all');

@@ -36,7 +36,7 @@ class UserController extends JController
 	{
 		parent::display();
 	}
-	
+
 	function edit()
 	{
 		global $mainframe, $option;
@@ -60,7 +60,7 @@ class UserController extends JController
 		$token	= JUtility::getToken();
 		if(!JRequest::getVar( $token, 0, 'post' )) {
 			JError::raiseError(403, 'Request Forbidden');
-		} 
+		}
 
 		$user	 =& JFactory::getUser();
 		$userid = JRequest::getVar( 'id', 0, 'post', 'int' );
@@ -84,7 +84,7 @@ class UserController extends JController
 				return false;
 			}
 		}
-		
+
 		// store data
 		$model = $this->getModel('user');
 
@@ -98,11 +98,11 @@ class UserController extends JController
 		$this->setRedirect( $_SERVER['HTTP_REFERER'], $msg );
 	}
 
-	function cancel() 
+	function cancel()
 	{
 		$this->setRedirect( 'index.php' );
 	}
-	
+
 	function login()
 	{
 		global $mainframe;
@@ -226,7 +226,7 @@ class UserController extends JController
 
 			// Set new password for the user
 			$query = 'UPDATE #__users' .
-					' SET password = "'.md5($newpass)."'" .
+					' SET password = "'.md5($newpass).'"' .
 					' WHERE id = '.$user->id;
 			$db->setQuery( $query );
 			if (!$db->query()) {

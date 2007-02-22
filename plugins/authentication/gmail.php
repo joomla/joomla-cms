@@ -54,17 +54,6 @@ class plgAuthenticateGMail extends JPlugin
 	{
 		global $mainframe;
 
-		// Initialize variables
-		$conditions = '';
-
-		// Get a database connector
-		$db =& JFactory::getDBO();
-
-		// If we are in the admin panel, make sure we have access to it
-		if ($mainframe->isAdmin()) {
-			$conditions = "AND gid > 22";
-		}
-
 		// load plugin parameters
 	 	$plugin =& JPluginHelper::getPlugin('authentication', 'gmail');
 	 	$pluginParams = new JParameter( $plugin->params );

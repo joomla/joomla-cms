@@ -64,7 +64,7 @@ class plgAuthenticateExample extends JPlugin
 		 * user if the routine passes
 		 */
 
-		$return->type = 'success';
+		$return->status 	= JAUTHENTICATE_STATUS_SUCCESS;
 		return $return;
 	}
 }

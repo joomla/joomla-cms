@@ -155,20 +155,14 @@ class JLDAP {
 	 * @access public
 	 */
 	function bind($username = null, $password = null, $nosub = 0) {
-		switch($this->bind_method) {
-			case 'anonymous':
-				$bindResult = @ldap_bind($this->_resource);
-				break;
-			default:
-				if (is_null($username)) {
-					$username = $this->username;
-				}
-				if (is_null($password)) {
-					$password = $this->password;
-				}
-				$this->setDN($username,$nosub);
-				$bindResult = @ ldap_bind($this->_resource, $this->getDN(), $password);
+		if (is_null($username)) {
+			$username = $this->username;
 		}
+		if (is_null($password)) {
+			$password = $this->password;
+		}
+		$this->setDN($username,$nosub);
+		$bindResult = @ ldap_bind($this->_resource, $this->getDN(), $password);
 		return $bindResult;
 	}
 

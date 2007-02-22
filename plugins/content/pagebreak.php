@@ -69,9 +69,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 	$matches = array();
 	preg_match_all( $regex, $row->text, $matches, PREG_SET_ORDER );
 
-	if (($showall && $pluginparams->get('showall') )) {
-		// Get plugin parameters
-	 	$pluginParams = new JParameter( $plugin->params );
+	if (($showall && $pluginparams->get('showall', 1) )) {
 		$hasToc = $pluginParams->get( 'multipage_toc', 1 );
 		if ( $hasToc ) {
 			// display TOC
@@ -200,7 +198,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
 	$i = 2;
 
-	foreach ( $matches as $bot ) 
+	foreach ( $matches as $bot )
 	{
 		$link = JRoute::_( $nonseflink .'&limit=1&limitstart='. ($i-1) );
 
@@ -246,7 +244,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
  	$params = new JParameter( $plugin->params );
 
-	if ($params->get('showall') ) 
+	if ($params->get('showall') )
 	{
 		$link = JRoute::_( 'index.php?option=com_content&view=article&id='. $row->id . '&showall=1');
 		$row->toc .= '

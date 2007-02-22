@@ -138,11 +138,34 @@ class JAuthenticate extends JObject
 
 				case JAUTHENTICATE_STATUS_CANCEL :
 				{
+					jimport('joomla.utilities.log');
+					$log = JLog::getInstance();
+					$errorlog = array();
+					$errorlog['status'] = $result->type . " CANCELED: ";
+					$errorlog['comment'] = $result->error_message;
+					$log->addEntry($errorlog);
 					// do nothing
 				} break;
 
 				case JAUTHENTICATE_STATUS_FAILURE :
 				{
+					jimport('joomla.utilities.log');
+					$log = JLog::getInstance();
+					$errorlog = array();
+					$errorlog['status'] = $result->type . " FAILURE: ";
+					$errorlog['comment'] = $result->error_message;
+					$log->addEntry($errorlog);
+					//do nothing
+				}	break;
+
+				default :
+				{
+					jimport('joomla.utilities.log');
+					$log = JLog::getInstance();
+					$errorlog = array();
+					$errorlog['status'] = $result->type . " UNKNOWN ERROR: ";
+					$errorlog['comment'] = $result->error_message;
+					$log->addEntry($errorlog);
 					//do nothing
 				}	break;
 			}

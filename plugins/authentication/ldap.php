@@ -26,6 +26,7 @@ jimport('joomla.client.ldap');
  * @subpackage	JFramework
  * @since 1.5
  */
+
 class plgAuthenticateLdap extends JPlugin
 {
 	/**
@@ -53,48 +54,62 @@ class plgAuthenticateLdap extends JPlugin
 	 */
 	function onAuthenticate( $username, $password )
 	{
-		global $mainframe;
-
 		// Initialize variables
-		$conditions = '';
-		$success = false;
 		$userdetails = null;
 
-		// Get a database connector
-		$db =& JFactory::getDBO();
+		// LDAP does not like Blank passwords (tries to Anon Bind which is bad)
+		if ($password == "") {
+			$result->status = JAUTHENTICATE_STATUS_FAILURE;
+			$result->error_message = 'LDAP can not have blank password';
+			return $result;
+		}
 
 		// load plugin parameters
 	 	$plugin =& JPluginHelper::getPlugin('authentication', 'ldap');
 	 	$params = new JParameter( $plugin->params );
+
+		$ldap_email 	= $params->get('ldap_email');
+		$ldap_fullname	= $params->get('ldap_fullname');
+		$ldap_uid		= $params->get('ldap_uid');
+		$auth_method	= $params->get('auth_method');
 
 		$ldap	= new JLDAP($params);
 		$result = new JAuthenticateResponse('LDAP');
 
 		if (!$ldap->connect())
 		{
-			//die('Unable to connect to ldap server');
 			$result->status = JAUTHENTICATE_STATUS_FAILURE;
 			$result->error_message = 'Unable to connect to LDAP server';
 			return $result;
 		}
 
-		$auth_method = $params->get('auth_method');
-
 		switch($auth_method)
 		{
 			case 'anonymous':
+			case 'authenticated':
 			{
-				// Need to do some work!
-				if($ldap->anonymous_bind())
+				if ($auth_method == 'anonymous')
 				{
-					// Comparison time
-					$success = $ldap->compare(str_replace("[username]",$username,$params->get('users_dn')),$params->get('ldap_password'),$password);
+					// Bind anonymously
+					$bindtest = $ldap->anonymous_bind();
+				} else {
+					// Bind using Connect Username/password
+					$bindtest = $ldap->bind();
+				}
+
+				if($bindtest)
+				{
+					// Search for users DN
+					$binddata = $ldap->simple_search(str_replace("[search]", $username, $params->get('search_string')));
+					// Verify Users Credentials
+					$success = $ldap->bind($binddata[0]['dn'],$password);
+					// Get users details
+					$userdetails = $binddata;
 				}
 				else
 				{
-					//die('Anonymous bind failed');
 					$result->status = JAUTHENTICATE_STATUS_FAILURE;
-					$result->error_message = 'Anonymous bind failed.';
+					$result->error_message = 'Unable to bind to LDAP';
 					return $result;
 				}
 			}	break;
@@ -102,60 +117,34 @@ class plgAuthenticateLdap extends JPlugin
 			case 'bind':
 			{
 				// We just accept the result here
-					$success = $ldap->bind($username,$password);
-			}	break;
-
-			case 'authbind':
-			{	// First bind as a search enabled account
-				if($ldap->bind())
-				{
-					$ldap_uid = $params->get('ldap_uid');
-					$userdetails = $ldap->simple_search($params->get('ldap_uid').'='.$username);
-					if(isset($userdetails[0][$ldap_uid][0])) {
-						$success = $ldap->bind($userdetails[0][dn], $password,1);
-					}
-				}
-			}	break;
-
-			case 'authenticated':
-			{
-				if($ldap->bind())
-				{
-					// Comparison time
-					$success = $ldap->compare(str_replace("[username]",$username,$params->get('users_dn')),$params->get('ldap_password'),$password);
-				}
-				else
-				{
-					//die('Authenticated Bind Failed');
-					$result->status = JAUTHENTICATE_STATUS_FAILURE;
-					$result->error_message = 'Authenticated bind failed.';
-					return $result;
-				}
+				$success = $ldap->bind($username,$password);
+				$userdetails = $ldap->simple_search(str_replace("[search]", $username, $params->get('search_string')));
 			}	break;
 		}
 
 		if(!$success)
 		{
 			$result->status = JAUTHENTICATE_STATUS_FAILURE;
-			$result->error_message = 'Failed to bind to LDAP server';
+			$result->error_message = 'Incorrect username/password';
 		}
 		else
 		{
-			$result->status = JAUTHENTICATE_STATUS_SUCCESS;
-			$userdetails 	= $ldap->simple_search(str_replace("[search]", $username, $params->get('search_string')));
-			$ldap_email 	= $params->get('ldap_email');
-			$ldap_fullname	= $params->get('ldap_fullname');
-
+			// Grab some details from LDAP and return them
+			if (isset($userdetails[0][$ldap_uid][0]))
+			{
+				$result->username = $userdetails[0][$ldap_uid][0];
+			}
 			if (isset($userdetails[0][$ldap_email][0]))
 			{
 				$result->email = $userdetails[0][$ldap_email][0];
-
-				if(isset($userdetails[0][$ldap_fullname][0])) {
-					$result->fullname = $userdetails[0][$ldap_fullname][0];
-				} else {
-					$result->fullname = $username;
-				}
 			}
+			if(isset($userdetails[0][$ldap_fullname][0])) {
+				$result->fullname = $userdetails[0][$ldap_fullname][0];
+			} else {
+				$result->fullname = $username;
+			}
+			// Were good - So say so.
+			$result->status = JAUTHENTICATE_STATUS_SUCCESS;
 		}
 
 		$ldap->close();

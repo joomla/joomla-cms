@@ -27,22 +27,20 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		<param name="auth_method" default="bind" type="list" label="Authorization Method" description="PARAMAUTHMETHOD">
+			<option value="anonymous">Anonymous Bind and Search</option>
+			<option value="authenticated">Authenticated Bind and Search</option>
+			<option value="bind">Bind Directly As User</option>
+		</param>
 		<param name="base_dn" type="text" size="20" default="" label="Base DN" description="PARAMBASEDN" />
 		<param name="search_string" type="text" size="20" default="" label="Search string" description="PARAMSEARCHSTRING" />
 		<param name="users_dn" type="text" size="20" default="" label="Users DN" description="PARAMUSERSDN" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="auth_method" default="bind" type="list" label="Authorization Method" description="PARAMAUTHMETHOD">
-			<option value="anonymous">Anonymous Compare</option>
-			<option value="authenticated">Authenticated Compare</option>
-			<option value="bind">Bind As User</option>
-			<option value="authbind">Authenticate then Bind</option>
-		</param>
 		<param name="username" type="text" size="20" default="" label="Connect username" description="PARAMCONNECTSTRING" />
 		<param name="password" type="password" size="20" default="" label="Connect password" description="PARAMCONNECTPASSWORD" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="ldap_fullname" type="text" size="20" default="fullName" label="Map FullName" description="PARAMMAPFN" />
 		<param name="ldap_email" type="text" size="20" default="mail" label="Map Email" description="PARAMMAPEMAIL" />
 		<param name="ldap_uid" type="text" size="20" default="uid" label="Map User ID" description="PARAMMAPUID" />
-		<param name="ldap_password" type="text" size="20" default="userPassword" label="Map Password" description="PARAMMAPPASSWORD" />
 	</params>
 </install>

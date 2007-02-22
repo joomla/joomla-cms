@@ -37,6 +37,15 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Feb-2007 Jason Kendall
+ # [artf7628] - Rewrote LDAP plugin to be easier to setup and fix authentication issues
+ # [artf7623] - Added default (ON) to Show All
+ # [artf7617] - Send new password was broken
+ # [artf7570] - Incorrect date on new/edit content
+ # [artf7578] - Possible problem with JDate (Incorrect handling of timezones)
+ + [artf6535] - Added logging to Authentication system
+ ^ Changed pagenavigation to use JDate (as per Hannes request)
+
 21-Feb-2007 Hannes Papenberg
  + Added page navigation between articles
  ^ Renamed some parameters in com_content preferences

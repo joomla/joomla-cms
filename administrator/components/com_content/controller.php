@@ -394,7 +394,7 @@ class ContentController extends JController
 			$row->publish_down 	= ContentController::_validateDate($row->publish_down);
 
 			$query = 'SELECT name' .
-					' FROM #__users'. 
+					' FROM #__users'.
 					' WHERE id = '. $row->created_by;
 			$db->setQuery($query);
 			$row->creator = $db->loadResult();
@@ -434,18 +434,21 @@ class ContentController extends JController
 			} else {
 				$row->catid = NULL;
 			}
+			jimport('joomla.utilities.date');
+			$createdate = new JDate();
 			$row->sectionid = $sectionid;
 			$row->version = 0;
 			$row->state = 1;
 			$row->ordering = 0;
 			$row->images = array ();
-			$row->publish_up = gmdate('Y-m-d H:i:s');
+			$row->publish_up = $createdate->toUnix();
 			$row->publish_down = JText::_('Never');
 			$row->creator = '';
-			$row->created = gmdate('Y-m-d H:i:s');
+			$row->created = $createdate->toUnix();
 			$row->modified = $nullDate;
 			$row->modifier = '';
 			$row->frontpage = 0;
+
 		}
 
 		$javascript = "onchange=\"changeDynaList( 'catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
@@ -549,8 +552,8 @@ class ContentController extends JController
 		$form->set('created_by', $active);
 		$form->set('access', $row->access);
 		$form->set('created_by_alias', $row->created_by_alias);
-		$form->set('created', $row->created);
-		$form->set('publish_up', $row->publish_up);
+		$form->set('created', JHTML::Date($row->created, '%Y-%m-%d %H:%M:%S'));
+		$form->set('publish_up', JHTML::Date($row->publish_up, '%Y-%m-%d %H:%M:%S'));
 		$form->set('publish_down', $row->publish_down);
 
 		// Advanced Group
@@ -571,6 +574,8 @@ class ContentController extends JController
 	function saveContent()
 	{
 		global $mainframe;
+
+		jimport('joomla.utilities.date');
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();
@@ -597,7 +602,8 @@ class ContentController extends JController
 
 		// Are we saving from an item edit?
 		if ($row->id) {
-			$row->modified 		= gmdate( 'Y-m-d H:i:s' );
+			$datenow = new JDate();
+			$row->modified 		= $datenow->toFormat();
 			$row->modified_by 	= $user->get('id');
 		}
 
@@ -607,9 +613,8 @@ class ContentController extends JController
 			$row->created 	.= ' 00:00:00';
 		}
 
-		jimport('joomla.utilities.date');
 		$date = new JDate($row->created);
-		$date->setOffset( -$mainframe->getCfg('offset'));
+		$date->setOffset( $mainframe->getCfg('offset'));
 		$row->created = $date->toMySQL();
 
 		// Append time if not added to publish date
@@ -618,7 +623,7 @@ class ContentController extends JController
 		}
 
 		$date = new JDate($row->publish_up);
-		$date->setOffset( -$mainframe->getCfg('offset'));
+		$date->setOffset( $mainframe->getCfg('offset'));
 		$row->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
@@ -926,7 +931,7 @@ class ContentController extends JController
 		// Update articles in the database
 		$query = 'UPDATE #__content' .
 				' SET state = '.$state .
-				', ordering = '.$ordering . 
+				', ordering = '.$ordering .
 				', checked_out = 0, checked_out_time = "'.$nullDate.
 				'" WHERE id IN ( '. $cids. ' )';
 		$db->setQuery($query);
