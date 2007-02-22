@@ -47,6 +47,8 @@ class  plgCache extends JPlugin
 		$this->_plugin = & JPluginHelper::getPlugin('system', 'cache');
 		$this->_params = new JParameter($this->_plugin->params);
 
+		$user =& JFactory::getUser();
+
 		$options = array(
 			'cachebase' 	=> JPATH_BASE.DS.'cache',
 			'defaultgroup' 	=> 'page',
@@ -55,7 +57,10 @@ class  plgCache extends JPlugin
 		);
 
 		$this->_cache =& JCache::getInstance( 'page', $options );
-		$this->_cache->setCaching(true);
+
+		if (!$user->get('aid') && $_SERVER['REQUEST_METHOD'] == 'GET') {
+			$this->_cache->setCaching(true);
+		}
 	}
 
 	/**
@@ -66,9 +71,9 @@ class  plgCache extends JPlugin
 	{
 		global $mainframe, $_PROFILER;
 
-		if($mainframe->isAdmin()) {
-			return;
-		}
+		 if($mainframe->isAdmin()) {
+		 	return;
+		 }
 
 		$data  = $this->_cache->get();
 
