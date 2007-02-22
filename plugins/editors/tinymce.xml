@@ -56,7 +56,8 @@
  			<option value="1">BR Elements</option>
  			<option value="0">P Elements</option>
  		</param>
- 		<param name="@spacer" type="spacer" default="" label="" description="" />
+   	</params>
+   	<params group="advanced">
  		<param name="toolbar" type="list" default="top" label="Toolbar" description="Position of the toolbar">
  			<option value="top">Top</option>
  			<option value="bottom">Bottom</option>
@@ -66,8 +67,6 @@
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
-   	</params>
-   	<params group="advanced">
  		<param name="smilies" type="radio" default="1" label="Smilies" description="PARAMSMILIES">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
@@ -76,15 +75,23 @@
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
- 		<param name="flash" type="radio" default="1" label="Flash" description="PARAMFLASH">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
  		<param name="style" type="radio" default="1" label="Style" description="PARAMSTYLE">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
  		<param name="layer" type="radio" default="1" label="Layer" description="PARAMLAYER">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+ 		<param name="xhtmlxtras" type="radio" default="0" label="XHTMLxtras" description="PARAMXHTMLXTRAS">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+ 		<param name="template" type="radio" default="0" label="Layer" description="PARAMTEMPLATE">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+ 		<param name="directionality" type="radio" default="1" label="Directionality" description="PARAMDIRECTIONALITY">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>

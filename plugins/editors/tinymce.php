@@ -51,11 +51,11 @@ class plgEditorTinymce extends JPlugin
 	{
 		global $mainframe;
 
-		$db			=& JFactory::getDBO();
+		$db		=& JFactory::getDBO();
 		$language	=& JFactory::getLanguage();
 		$url		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-		$plugin		=& JPluginHelper::getPlugin('editors', 'tinymce');
-		$id			= $plugin->id;
+		$plugin	=& JPluginHelper::getPlugin('editors', 'tinymce');
+		$id		= $plugin->id;
 		$params 	= new JParameter( $plugin->params );
 
 		$theme = $params->get( 'theme', 'advanced' );
@@ -69,40 +69,126 @@ class plgEditorTinymce extends JPlugin
 		$html_width			= $params->def( 'html_width', '750' );
 		$content_css		= $params->def( 'content_css', 1 );
 		$content_css_custom	= $params->def( 'content_css_custom', '' );
-		$invalid_elements	= $params->def( 'invalid_elements', 'script,applet,iframe' );
+		$invalid_elements		= $params->def( 'invalid_elements', 'script,applet,iframe' );
 		$newlines			= $params->def( 'newlines', 0 );
 		$cleanup			= $params->def( 'cleanup', 1 );
-		$cleanup_startup	= $params->def( 'cleanup_startup', 0 );
+		$cleanup_startup		= $params->def( 'cleanup_startup', 0 );
 		$compressed			= $params->def( 'compressed', 0 );
 		$langPrefix			= $params->def( 'lang_code', 'en' );
 		$langMode			= $params->def( 'lang_mode', 0 );
 		$relative_urls		= $params->def( 'relative_urls', 		0 );
 
-		// Plugins
+		$plugins 	= array();
+		$buttons2	= array();
+		$buttons3	= array();
+		$elements	= array();
+
+		// search & replace
+		$searchreplace 		=  $params->def( 'searchreplace', 1 );
+		if ( $searchreplace ) {
+			$plugins[]	= 'searchreplace';
+			$buttons2[]	= 'search,replace';
+		}
+
+		$plugins[]	= 'insertdatetime';
+
 		// insert date
 		$insertdate			= $params->def( 'insertdate', 1 );
 		$format_date		= $params->def( 'format_date', '%Y-%m-%d' );
+		if ( $insertdate ) {
+			$buttons2[]	= 'insertdate';
+		}
+
 		// insert time
 		$inserttime			= $params->def( 'inserttime', 1 );
 		$format_time		= $params->def( 'format_time', '%H:%M:%S' );
-		// search & replace
-		$searchreplace		=  $params->def( 'searchreplace', 1 );
+		if ( $inserttime ) {
+			$buttons2[]	= 'inserttime';
+		}
+
 		// emotions
-		$smilies			=  $params->def( 'smilies', 0 );
-		// flash
-		$flash				=  $params->def( 'flash', 1 );
-		// table
-		$table				=  $params->def( 'table', 1 );
+		$smilies 			=  $params->def( 'smilies', 0 );
+		if ( $smilies ) {
+			$plugins[]	= 'emotions';
+			$buttons2[]	= 'emotions';
+		}
+
+		//media plugin
+		$plugins[] = 'media';
+		$buttons2[] = 'media';
+
 		// horizontal line
-		$hr					=  $params->def( 'hr', 1 );
+		$hr 				=  $params->def( 'hr', 1 );
+		if ( $hr ) {
+			$plugins[]	= 'advhr';
+			$elements[] = 'hr[class|width|size|noshade]';
+			$buttons3[]	= 'advhr';
+		}
+
+		// table
+		$table			=  $params->def( 'table', 1 );
+		if ( $table ) {
+			$plugins[]	= 'table';
+			$buttons3[]	= 'tablecontrols';
+		}
 		// fullscreen
 		$fullscreen			=  $params->def( 'fullscreen', 1 );
+		if ( $fullscreen ) {
+			$plugins[]	= 'fullscreen';
+			$buttons3[]	= 'fullscreen';
+		}
+
+		// rtl/ltr buttons
+		$directionality		=  $params->def( 'directionality', 1 );
+		if ( $fullscreen ) {
+			$plugins[] = 'directionality';
+			$buttons2[] = 'ltr,rtl';
+		}
+
 		// autosave
 		$autosave			= $params->def( 'autosave', 0 );
+		if ( $autosave ) {
+			$plugins[]	= 'autosave';
+		}
+
 		// layer
-		$layer				= $params->def( 'layer', 1 );
+		$layer			= $params->def( 'layer', 1 );
+		if ( $layer ) {
+			$plugins[]	= 'layer';
+			$buttons2[]	= 'insertlayer';
+			$buttons2[]	= 'moveforward';
+			$buttons2[]	= 'movebackward';
+			$buttons2[]	= 'absolute';
+		}
+
 		// style
-		$style				= $params->def( 'style', 1 );
+		$style			= $params->def( 'style', 1 );
+		if ( $style ) {
+			$plugins[]	= 'style';
+			$buttons3[]	= 'styleprops';
+		}
+
+		// XHTMLxtras
+		$xhtmlxtras			= $params->def( 'xhtmlxtras', 0 );
+		if ( $xhtmlxtras ) {
+			$plugins[]	= 'xhtmlxtras';
+			$buttons3[]	= 'cite';
+			$buttons3[]	= 'abbr';
+			$buttons3[]	= 'acronym';
+			$buttons3[]	= 'ins';
+			$buttons3[]	= 'del';
+			$buttons3[]	= 'attribs';
+		}
+
+		// template
+		$template			= $params->def( 'template', 0 );
+		if ( $template ) {
+			$plugins[]	= 'template';
+			$buttons3[]	= 'template';
+		}
+
+		// text color
+		$buttons2[] = 'forecolor';
 
 		if ($language->isRTL()) {
 			$text_direction = 'rtl';
@@ -145,10 +231,6 @@ class plgEditorTinymce extends JPlugin
 			}
 		}
 
-		$plugins 	= array();
-		$buttons2	= array();
-		$buttons3	= array();
-		$elements	= array();
 
 		if ( $cleanup ) {
 			$cleanup	= 'true';
@@ -175,68 +257,6 @@ class plgEditorTinymce extends JPlugin
 			$load = "\t<script type=\"text/javascript\" src=\"".$url."plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php\"></script>\n";
 		} else {
 			$load = "\t<script type=\"text/javascript\" src=\"".$url."plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
-		}
-
-		// search & replace
-		if ( $searchreplace ) {
-			$plugins[]	= 'searchreplace';
-			$buttons2[]	= 'search,replace';
-		}
-		$plugins[]	= 'insertdatetime';
-		// insert date
-		if ( $insertdate ) {
-			$buttons2[]	= 'insertdate';
-		}
-		// insert time
-		if ( $inserttime ) {
-			$buttons2[]	= 'inserttime';
-		}
-		// emotions
-		if ( $smilies ) {
-			$plugins[]	= 'emotions';
-			$buttons2[]	= 'emotions';
-		}
-
-		// horizontal line
-		if ( $hr ) {
-			$plugins[]	= 'advhr';
-			$elements[] = 'hr[class|width|size|noshade]';
-			$buttons3[]	= 'advhr';
-		}
-		// flash
-		if ( $flash ) {
-			$plugins[]	= 'flash';
-			$buttons3[]	= 'flash';
-		}
-		// table
-		if ( $table ) {
-			$plugins[]	= 'table';
-			$buttons3[]	= 'tablecontrols';
-		}
-		// fullscreen
-		if ( $fullscreen ) {
-			$plugins[]	= 'fullscreen';
-			$buttons3[]	= 'fullscreen';
-		}
-		// rtl/ltr buttons
-		$plugins[] = 'directionality';
-		$buttons2[] = 'ltr,rtl';
-		// autosave
-		if ( $autosave ) {
-			$plugins[]	= 'autosave';
-		}
-		// layer
-		if ( $layer ) {
-			$plugins[]	= 'layer';
-			$buttons2[]	= 'insertlayer';
-			$buttons2[]	= 'moveforward';
-			$buttons2[]	= 'movebackward';
-			$buttons2[]	= 'absolute';
-		}
-		// style
-		if ( $style ) {
-			$plugins[]	= 'style';
-			$buttons3[]	= 'styleprops';
 		}
 
 		$buttons2 	= implode( ', ', $buttons2 );
@@ -268,6 +288,7 @@ class plgEditorTinymce extends JPlugin
 			cleanup_on_startup : $cleanup_startup,
 			safari_warning : false,
 			plugins : \"advlink, advimage, $plugins\",
+			theme_advanced_buttons1_add : \"fontselect\",
 			theme_advanced_buttons2_add : \"$buttons2\",
 			theme_advanced_buttons3_add : \"$buttons3\",
 			theme_advanced_disable : \"help\",
