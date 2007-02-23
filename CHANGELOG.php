@@ -39,6 +39,7 @@ Legend:
 
 22-Feb-2007 Hannes Papenberg
  # Updated TinyMCE to 2.1.0
+ # Fixed [artf7574] Frontend submission layout only allows uncategorized content
 
 21-Feb-2007 Jason Kendall
  # [artf7628] - Rewrote LDAP plugin to be easier to setup and fix authentication issues

@@ -1,10 +1,22 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <script language="javascript" type="text/javascript">
+<!--
 function setgood() {
 	// TODO: Put setGood back
 	return true;
 }
+
+var sectioncategories = new Array;
+<?php
+$i = 0;
+foreach ($this->lists['sectioncategories'] as $k=>$items) {
+	foreach ($items as $v) {
+		echo "sectioncategories[".$i++."] = new Array( '$k','".addslashes( $v->id )."','".addslashes( $v->title )."' );\n\t\t";
+	}
+}
+?>
+
 
 function submitbutton(pressbutton) {
 	var form = document.adminForm;
@@ -30,6 +42,7 @@ function submitbutton(pressbutton) {
 	<?php echo $this->editor->save( 'text' ); ?>
 	submitform(pressbutton);
 }
+//-->
 </script>
 <form action="index.php" method="post" name="adminForm" onSubmit="setgood();">
 <fieldset>
@@ -62,17 +75,14 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <fieldset>
 <legend><?php echo JText::_('Publishing'); ?></legend>
 <table class="adminform">
-<?php if ($this->article->sectionid) : ?>
 <tr>
 	<td class="key">
-		<label for="catid">
+		<label for="sectionid">
 			<?php echo JText::_( 'Section' ); ?>:
 		</label>
 	</td>
 	<td>
-		<strong>
-			<?php echo $this->article->section;?>
-		</strong>
+		<?php echo $this->lists['sectionid']; ?>
 	</td>
 </tr>
 <tr>
@@ -85,7 +95,6 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 		<?php echo $this->lists['catid']; ?>
 	</td>
 </tr>
-<?php endif; ?>
 <?php if ($this->user->authorize('action', 'publish', 'content', 'all')) : ?>
 <tr>
 	<td class="key">
@@ -193,7 +202,6 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <input type="hidden" name="Returnid" value="<?php echo $this->returnid; ?>" />
 <input type="hidden" name="id" value="<?php echo $this->article->id; ?>" />
 <input type="hidden" name="version" value="<?php echo $this->article->version; ?>" />
-<input type="hidden" name="sectionid" value="<?php echo $this->article->sectionid; ?>" />
 <input type="hidden" name="created_by" value="<?php echo $this->article->created_by; ?>" />
 <input type="hidden" name="referer" value="<?php echo ampReplace( @$_SERVER['HTTP_REFERER'] ); ?>" />
 <input type="hidden" name="task" value="" />

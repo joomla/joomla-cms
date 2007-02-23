@@ -129,6 +129,7 @@ class ContentViewArticle extends JView
 				{
 					$linkOn = JRoute::_("index.php?option=com_registration&task=register");
 
+
 					if (@$article->readmore) {
 						// text for the readmore link if accessible only if registered
 						$linkText = JText::_('Register to read more...');
@@ -285,7 +286,7 @@ class ContentViewArticle extends JView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe;
+		global $mainframe, $Itemid;
 
 		// Initialize variables
 		$document	=& JFactory::getDocument();
@@ -361,8 +362,75 @@ class ContentViewArticle extends JView
 		$article = & $this->get('Article');
 		$db 	 = & JFactory::getDBO();
 
-		// Select List: Categories
-		$lists['catid'] = JAdminMenus::ComponentCategory('catid', $article->sectionid, intval($article->catid));
+		$javascript = "onchange=\"changeDynaList( 'catid', sectioncategories, document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].value, 0, 0);\"";
+
+		$query = 'SELECT s.id, s.title' .
+				' FROM #__sections AS s' .
+				' ORDER BY s.ordering';
+		$db->setQuery($query);
+
+		$sections[] = JHTMLSelect::option('-1', '- '.JText::_('Select Section').' -', 'id', 'title');
+		$sections[] = JHTMLSelect::option('0', JText::_('Uncategorized'), 'id', 'title');
+		$sections = array_merge($sections, $db->loadObjectList());
+		$lists['sectionid'] = JHTMLSelect::genericList($sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($article->sectionid));
+
+		foreach ($sections as $section)
+		{
+			$section_list[] = $section->id;
+			// get the type name - which is a special category
+			if ($article->sectionid) {
+				if ($section->id == $article->sectionid) {
+					$contentSection = $section->title;
+				}
+			} else {
+				if ($section->id == $sectionid) {
+					$contentSection = $section->title;
+				}
+			}
+		}
+
+		$sectioncategories = array ();
+		$sectioncategories[-1] = array ();
+		$sectioncategories[-1][] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'title');
+		$section_list = implode('\', \'', $section_list);
+
+		$query = 'SELECT id, title, section' .
+				' FROM #__categories' .
+				' WHERE section IN ( \''.$section_list.'\' )' .
+				' ORDER BY ordering';
+		$db->setQuery($query);
+		$cat_list = $db->loadObjectList();
+
+		// Uncategorized category mapped to uncategorized section
+		$uncat = new stdClass();
+		$uncat->id = 0;
+		$uncat->title = JText::_('Uncategorized');
+		$uncat->section = 0;
+		$cat_list[] = $uncat;
+		foreach ($sections as $section)
+		{
+			$sectioncategories[$section->id] = array ();
+			$rows2 = array ();
+			foreach ($cat_list as $cat)
+			{
+				if ($cat->section == $section->id) {
+					$rows2[] = $cat;
+				}
+			}
+			foreach ($rows2 as $row2) {
+				$sectioncategories[$section->id][] = JHTMLSelect::option($row2->id, $row2->title, 'id', 'title');
+			}
+		}
+
+		$categories = array();
+		foreach ($cat_list as $cat) {
+			if($cat->section == $article->sectionid)
+				$categories[] = $cat;
+		}
+
+		$categories[] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'title');
+		$lists['sectioncategories'] = $sectioncategories;
+		$lists['catid'] = JHTMLSelect::genericList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($article->catid));
 
 		// Select List: Category Ordering
 		$query = 'SELECT ordering AS value, title AS text FROM #__content WHERE catid = '.$article->catid.' ORDER BY ordering';
