@@ -56,6 +56,8 @@ class plgAuthenticateLdap extends JPlugin
 	{
 		// Initialize variables
 		$userdetails = null;
+		$result = new JAuthenticateResponse('LDAP');
+		$success = 0;
 
 		// LDAP does not like Blank passwords (tries to Anon Bind which is bad)
 		if ($password == "") {
@@ -74,7 +76,6 @@ class plgAuthenticateLdap extends JPlugin
 		$auth_method	= $params->get('auth_method');
 
 		$ldap	= new JLDAP($params);
-		$result = new JAuthenticateResponse('LDAP');
 
 		if (!$ldap->connect())
 		{
@@ -82,7 +83,7 @@ class plgAuthenticateLdap extends JPlugin
 			$result->error_message = 'Unable to connect to LDAP server';
 			return $result;
 		}
-
+		
 		switch($auth_method)
 		{
 			case 'anonymous':
@@ -96,13 +97,13 @@ class plgAuthenticateLdap extends JPlugin
 					// Bind using Connect Username/password
 					$bindtest = $ldap->bind();
 				}
-
+				
 				if($bindtest)
 				{
 					// Search for users DN
 					$binddata = $ldap->simple_search(str_replace("[search]", $username, $params->get('search_string')));
 					// Verify Users Credentials
-					$success = $ldap->bind($binddata[0]['dn'],$password);
+					$success = $ldap->bind($binddata[0]['dn'],$password,1);
 					// Get users details
 					$userdetails = $binddata;
 				}

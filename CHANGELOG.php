@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Feb-2007 Sam Moffatt
+ # Fixed up LDAP plugin so that it works again with MSAD
+
 22-Feb-2007 Hannes Papenberg
  # Updated TinyMCE to 2.1.0
  # Fixed [artf7574] Frontend submission layout only allows uncategorized content
