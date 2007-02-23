@@ -283,9 +283,8 @@ td.pill_r {
 #maincolumn,
 #maincolumn_full {
 	margin-left: 20%;
-	float: none;
 	padding-left: 15px;
-	width: auto;
+	width: 75%;
 }
 
 #maincolumn_full {
