@@ -130,7 +130,6 @@ class JHTML
 			$config =& JFactory::getConfig();
 			$offset = $config->getValue('config.offset');
 		}
-
 		$instance = new JDate($date);
 		$instance->setOffset($offset);
 
@@ -549,7 +548,7 @@ class JCommonHTML
 		} else {
 			$text 	= JText::_( $text, true );
 		}
-		
+
 		if($title) {
 			$title = $title.'::';
 		}

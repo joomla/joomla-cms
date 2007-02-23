@@ -552,6 +552,7 @@ class ContentController extends JController
 		$form->set('created_by', $active);
 		$form->set('access', $row->access);
 		$form->set('created_by_alias', $row->created_by_alias);
+
 		$form->set('created', JHTML::Date($row->created, '%Y-%m-%d %H:%M:%S'));
 		$form->set('publish_up', JHTML::Date($row->publish_up, '%Y-%m-%d %H:%M:%S'));
 		$form->set('publish_down', $row->publish_down);
@@ -613,8 +614,9 @@ class ContentController extends JController
 			$row->created 	.= ' 00:00:00';
 		}
 
-		$date = new JDate($row->created);
-		$date->setOffset( $mainframe->getCfg('offset'));
+		$config =& JFactory::getConfig();
+		$tzoffset = $config->getValue('config.offset');
+		$date = new JDate($row->created, $tzoffset);
 		$row->created = $date->toMySQL();
 
 		// Append time if not added to publish date
@@ -622,8 +624,7 @@ class ContentController extends JController
 			$row->publish_up .= ' 00:00:00';
 		}
 
-		$date = new JDate($row->publish_up);
-		$date->setOffset( $mainframe->getCfg('offset'));
+		$date = new JDate($row->publish_up, $tzoffset);
 		$row->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date

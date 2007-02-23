@@ -66,8 +66,9 @@ class JDate extends JObject
 	 *
 	 * @param mixed $date optional the date this JDate will represent.
 	 */
-	function __construct($date = 'now')
+	function __construct($date = 'now', $tzOffset = 0)
 	{
+
 		if ($date == 'now' || empty($date))
 		{
 			$this->_date = gmdate('U');
@@ -76,14 +77,14 @@ class JDate extends JObject
 
 		if (is_numeric($date))
 		{
-			$this->_date = $date;
+			$this->_date = $date + ($this->_offset * 3600);
 			return;
 		}
 
 		if (preg_match("~(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),\\s+)?(\\d{1,2})\\s+([a-zA-Z]{3})\\s+(\\d{4})\\s+(\\d{2}):(\\d{2}):(\\d{2})\\s+(.*)~",$date,$matches))
 		{
 			$months = Array("Jan"=>1,"Feb"=>2,"Mar"=>3,"Apr"=>4,"May"=>5,"Jun"=>6,"Jul"=>7,"Aug"=>8,"Sep"=>9,"Oct"=>10,"Nov"=>11,"Dec"=>12);
-			$this->_date = mktime($matches[4],$matches[5],$matches[6],$months[$matches[2]],$matches[1],$matches[3]);
+			$this->_date = gmmktime($matches[4],$matches[5],$matches[6],$months[$matches[2]],$matches[1],$matches[3]);
 
 			if (substr($matches[7],0,1)=='+' OR substr($matches[7],0,1)=='-') {
 				$tzOffset = (substr($matches[7],0,3) * 60 + substr($matches[7],-2)) * 60;
@@ -104,12 +105,12 @@ class JDate extends JObject
 					case "GMT":	$tzOffset = 0;
 				}
 			}
-			$this->_date += $tzOffset;
+			$this->_date -= $tzOffset;
 			return;
 		}
 		if (preg_match("~(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(.*)~",$date,$matches))
 		{
-			$this->_date = mktime($matches[4],$matches[5],$matches[6],$matches[2],$matches[3],$matches[1]);
+			$this->_date = gmmktime($matches[4],$matches[5],$matches[6],$matches[2],$matches[3],$matches[1]);
 			if (substr($matches[7],0,1)=='+' OR substr($matches[7],0,1)=='-') {
 				$tzOffset = (substr($matches[7],0,3) * 60 + substr($matches[7],-2)) * 60;
 			} else {
@@ -117,11 +118,11 @@ class JDate extends JObject
 					$tzOffset = 0;
 				}
 			}
-			$this->_date += $tzOffset;
+			$this->_date -= $tzOffset;
 			return;
 		}
 
-		$this->_date = strtotime($date);
+		$this->_date = strtotime($date) + $this->serverOffset() - ($tzOffset*3600);
 	}
 
 	/**
@@ -152,7 +153,7 @@ class JDate extends JObject
 	 */
 	function toRFC822()
 	{
-		$date = date("D, d M Y H:i:s O", $this->_date + ($this->_offset * 3600));
+		$date = date("D, d M Y H:i:s O", $this->_date);
 		return $date;
 	}
 
@@ -164,7 +165,7 @@ class JDate extends JObject
 	 */
 	function toISO8601()
 	{
-		$date = date("Y-m-d\TH:i:sP", $this->_date + ($this->_offset * 3600));
+		$date = date("Y-m-d\TH:i:sP", $this->_date);
 		return $date;
 	}
 
@@ -212,5 +213,19 @@ class JDate extends JObject
 
 		return $date;
 	}
+
+	function serverOffset()
+	{
+		$tz = date('O');
+
+		$tzOffset = ((intval(substr($tz,1,2))*60) + intval(substr($tz,-2)))*60;
+		if (substr($tz,0,1) == '-')
+		{
+		$tzOffset = -$tzOffset;
+		}
+
+		return $tzOffset;
+	}
+
 }
 ?>
