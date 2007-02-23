@@ -206,3 +206,4 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <input type="hidden" name="referer" value="<?php echo ampReplace( @$_SERVER['HTTP_REFERER'] ); ?>" />
 <input type="hidden" name="task" value="" />
 </form>
+<?php JHTML::keepAlive(); ?>
