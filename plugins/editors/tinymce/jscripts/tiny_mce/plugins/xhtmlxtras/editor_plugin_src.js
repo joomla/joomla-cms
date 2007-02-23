@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 42 2006-08-08 14:32:24Z spocke $
  *
  * @author Moxiecode - based on work by Andrew Tetlaw
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
@@ -14,7 +14,7 @@ var TinyMCE_XHTMLXtrasPlugin = {
 			longname : 'XHTML Xtras Plugin',
 			author : 'Moxiecode Systems AB',
 			authorurl : 'http://tinymce.moxiecode.com',
-			infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_xhtmlxtras.html',
+			infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/xhtmlxtras',
 			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
 		};
 	},
@@ -39,13 +39,16 @@ var TinyMCE_XHTMLXtrasPlugin = {
 
 			case "ins":
 				return tinyMCE.getButtonHTML(cn, 'lang_xhtmlxtras_ins_desc', '{$pluginurl}/images/ins.gif', 'mceIns', true);
+
+			case "attribs":
+				return tinyMCE.getButtonHTML(cn, 'lang_xhtmlxtras_attribs_desc', '{$pluginurl}/images/attribs.gif', 'mceAttributes', true);
 		}
 
 		return "";
 	},
 
 	execCommand : function(editor_id, element, command, user_interface, value) {
-		var template;
+		var template, inst, elm;
 
 		switch (command) {
 			case "mceCite":
@@ -102,6 +105,20 @@ var TinyMCE_XHTMLXtrasPlugin = {
 				template['height'] = 310;
 				tinyMCE.openWindow(template, {editor_id : editor_id});
 				return true;
+
+			case "mceAttributes":
+				inst = tinyMCE.getInstanceById(editor_id);
+				elm = inst.getFocusElement();
+
+				if (elm && elm.nodeName !== 'BODY' && elm.className.indexOf('mceItem') == -1) {
+					tinyMCE.openWindow({
+						file : '../../plugins/xhtmlxtras/attributes.htm',
+						width : 380,
+						height : 370
+					}, {editor_id : editor_id});
+				}
+
+				return true;
 		}
 
 		return false;
@@ -117,8 +134,12 @@ var TinyMCE_XHTMLXtrasPlugin = {
 	},
 
 	handleNodeChange : function(editor_id, node, undo_index,undo_levels, visual_aid, any_selection) {
+		var elm = tinyMCE.getParentElement(node);
+
 		if (node == null)
 			return;
+
+		tinyMCE.switchClass(editor_id + '_attribs', 'mceButtonDisabled');
 
 		if (!any_selection) {
 			// Disable the buttons
@@ -135,6 +156,9 @@ var TinyMCE_XHTMLXtrasPlugin = {
 			tinyMCE.switchClass(editor_id + '_del', 'mceButtonNormal');
 			tinyMCE.switchClass(editor_id + '_ins', 'mceButtonNormal');
 		}
+
+		if (elm && elm.nodeName != 'BODY' && elm.className.indexOf('mceItem') == -1)
+			tinyMCE.switchClass(editor_id + '_attribs', 'mceButtonNormal');
 
 		switch (node.nodeName) {
 			case "CITE":

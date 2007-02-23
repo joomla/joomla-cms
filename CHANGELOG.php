@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Feb-2007 Hannes Papenberg
+ # Updated TinyMCE to 2.1.0
+
 21-Feb-2007 Jason Kendall
  # [artf7628] - Rewrote LDAP plugin to be easier to setup and fix authentication issues
  # [artf7623] - Added default (ON) to Show All

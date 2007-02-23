@@ -118,6 +118,8 @@ function renderInfo() {
 		h += addRenderInfo('foreColor', inst.foreColor);
 		h += addRenderInfo('backColor', inst.backColor);
 		h += addRenderInfo('formTargetElementId', inst.formTargetElementId);
+		h += addRenderInfo('formElement', inst.formElement ? inst.formElement.nodeName : null);
+		h += addRenderInfo('oldTargetElement', inst.oldTargetElement ? inst.oldTargetElement.nodeName : null);
 		h += addRenderInfo('linkElement', inst.linkElement ? inst.linkElement.nodeName : null, 'dep');
 		h += addRenderInfo('imgElement', inst.imgElement ? inst.imgElement.nodeName : null, 'dep');
 		h += addRenderInfo('selectedNode', inst.selectedNode ? inst.selectedNode.nodeName : null, 'dep');
@@ -131,6 +133,7 @@ function renderInfo() {
 		h += addRenderInfo('undoRedo.undoLevels.length', inst.undoRedo.undoLevels.length);
 		h += addRenderInfo('undoRedo.undoIndex', inst.undoRedo.undoIndex);
 		h += addRenderInfo('selection.getSelectedHTML()', inst.selection.getSelectedHTML());
+		h += addRenderInfo('selection.isCollapsed()', inst.selection.isCollapsed() || 'false');
 		h += addRenderInfo('selection.getSelectedText()', inst.selection.getSelectedText());
 		h += addRenderInfo('selection.getFocusElement().nodeName', inst.selection.getFocusElement().nodeName);
 		h += addRenderInfo('selection.getFocusElement().outerHTML', tinyMCE.getOuterHTML(inst.selection.getFocusElement()));
