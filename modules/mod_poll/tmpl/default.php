@@ -43,7 +43,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </table>
 
 <input type="hidden" name="option" value="com_poll" />
-<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
+<input type="hidden" name="Itemid" value="<?php echo $itemid; ?>" />
 <input type="hidden" name="id" value="<?php echo $item->id;?>" />
 <input type="hidden" name="task" value="vote" />
 <input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
