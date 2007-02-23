@@ -50,7 +50,7 @@ if (!defined("K_TCPDF_EXTERNAL_CONFIG")) {
 	/**
 	 * path for PDF fonts
 	 */
-	define("FPDF_FONTPATH", JPATH_SITE . DS . "language" . DS . "pdf_fonts" . DS);
+	define("FPDF_FONTPATH", JPATH_LIBRARIES . DS . "tcpdf" . DS . "fonts" . DS);
 
 	/**
 	 * cache directory for temporary files (full path)
