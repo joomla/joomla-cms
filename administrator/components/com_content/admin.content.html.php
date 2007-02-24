@@ -130,11 +130,17 @@ class ContentView
 				$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&cid[]='. $row->sectionid );
 				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=edit&cid[]='. $row->catid );
 
-				$now = date( 'Y-m-d H:i:s' );
-				if ( $now <= $row->publish_up && $row->state == 1 ) {
+				jimport('joomla.utilities.date');
+				$config =& JFactory::getConfig();
+				$now = new JDate();
+				$publish_up = new JDate($row->publish_up);
+				$publish_down = new JDate($row->publish_down);
+				$publish_up->setOffset($config->getValue('config.offset'));
+				$publish_down->setOffset($config->getValue('config.offset'));
+				if ( $now <= $publish_up && $row->state == 1 ) {
 					$img = 'publish_y.png';
 					$alt = JText::_( 'Published' );
-				} else if ( ( $now <= $row->publish_down || $row->publish_down == $nullDate ) && $row->state == 1 ) {
+				} else if ( ( $now <= $publish_down || $row->publish_down == $nullDate ) && $row->state == 1 ) {
 					$img = 'publish_g.png';
 					$alt = JText::_( 'Published' );
 				} else if ( $now > $row->publish_down && $row->state == 1 ) {
@@ -152,14 +158,14 @@ class ContentView
 					if ($row->publish_up == $nullDate) {
 						$times .= JText::_( 'Start: Always' );
 					} else {
-						$times .= JText::_( 'Start' ) .": ". $row->publish_up;
+						$times .= JText::_( 'Start' ) .": ". $publish_up->toFormat();
 					}
 				}
 				if (isset($row->publish_down)) {
 					if ($row->publish_down == $nullDate) {
 						$times .= "<br />". JText::_( 'Finish: No Expiry' );
 					} else {
-						$times .= "<br />". JText::_( 'Finish' ) .": ". $row->publish_down;
+						$times .= "<br />". JText::_( 'Finish' ) .": ". $publish_down->toFormat();
 					}
 				}
 
