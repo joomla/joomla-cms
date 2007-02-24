@@ -37,8 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
-23-Feb-2007 Jason Kendall
- # Corrected com_content to use JDate.
+24-Feb-2007 Johan Janssens 
+ ^ Implemented caching for administrator menu module
 
 23-Feb-2007 Sam Moffatt
  # Fixed up LDAP plugin so that it works again with MSAD
@@ -59,7 +59,7 @@ Legend:
 21-Feb-2007 Hannes Papenberg
  + Added page navigation between articles
  ^ Renamed some parameters in com_content preferences
-You need to open the com_content preferences and save them anew or reinstall
+ ! You need to open the com_content preferences and save them anew or reinstall
 
 20-Feb-2007 Johan Janssens
  + Added page cache system plugin

@@ -14,8 +14,11 @@
 		<filename>menu.php</filename>
 	</files>
 	<params>
-		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
-			<option value="0">Never</option>
+	</params>
+	<params group="advanced">
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
 		</param>
 	</params>
 </install>
