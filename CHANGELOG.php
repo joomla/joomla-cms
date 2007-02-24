@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Feb-2007 Jason Kendall
+ # Corrected com_content to use JDate.
+
 23-Feb-2007 Sam Moffatt
  # Fixed up LDAP plugin so that it works again with MSAD
 

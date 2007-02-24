@@ -449,7 +449,12 @@ class ContentModelSection extends JModel
 		global $mainframe;
 		$user		=& JFactory::getUser();
 		$aid		= $user->get('aid', 0);
-		$now		= $mainframe->get('requestTime');
+		// TODO: Should we be using requestTime here? or is JDate ok?
+		// $now		= $mainframe->get('requestTime');
+
+		jimport('joomla.utilities.date');
+		$jnow		= new JDate();
+		$now		= $jnow->toMySQL();
 		$params 	= &JComponentHelper::getParams( 'com_content' );
 		$noauth		= !$params->get('shownoauth');
 		$nullDate	= $this->_db->getNullDate();

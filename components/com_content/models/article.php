@@ -438,7 +438,12 @@ class ContentModelArticle extends JModel
 
 		$user		=& JFactory::getUser();
 		$aid		= (int) $user->get('aid', 0);
-		$now		= $mainframe->get('requestTime');
+		// TODO: Should we be using requestTime here? or is JDate ok?
+		// $now		= $mainframe->get('requestTime');
+
+		jimport('joomla.utilities.date');
+		$jnow		= new JDate();
+		$now		= $jnow->toMySQL();
 		$nullDate	= $this->_db->getNullDate();
 
 		/*
