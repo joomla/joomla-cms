@@ -31,11 +31,6 @@ function plgContentGeshi( &$row, &$params, $page=0 )
 	// Get Plugin info
  	$plugin =& JPluginHelper::getPlugin('content', 'geshi');
 
-	// check whether plugin has been unpublished
-	if (!$plugin->published) {
-		return true;
-	}
-
 	// define the regular expression for the bot
 	$regex = "#<pre\s*(.*?)>(.*?)</pre>#s";
 

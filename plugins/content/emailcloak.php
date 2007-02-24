@@ -28,11 +28,6 @@ function plgContentEmailCloak( &$row, &$params, $page=0 )
 
  	$plugin =& JPluginHelper::getPlugin('content', 'emailcloak');
 
-	// check whether plugin has been unpublished
-	if ( !$plugin->published ) {
-		return true;
-	}
-
 	// check for presence of {emailcloak=off} which is explicits disables this bot for the item
 	if ( !JString::strpos( $row->text, '{emailcloak=off}' ) === false ) {
 		$row->text = JString::str_replace( '{emailcloak=off}', '', $row->text );

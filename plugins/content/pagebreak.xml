@@ -13,6 +13,10 @@
 		<filename plugin="pagebreak">pagebreak.php</filename>
 	</files>
 	<params>
+		<param name="enabled" type="radio" default="1" label="Enable Plugin" description="PARAMENABLED">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 		<param name="title" type="radio" default="1" label="Site Title" description="PARAMSITETITLE">
 			<option value="0">No</option>
 			<option value="1">Yes</option>

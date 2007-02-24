@@ -33,8 +33,10 @@ function plgContentLoadModule( &$row, &$params, $page=0 )
  	// expression to search for
  	$regex = '/{loadposition\s*.*?}/i';
 
+ 	$pluginParams = new JParameter( $plugin->params );
+
 	// check whether plugin has been unpublished
-	if ( !$plugin->published ) {
+	if ( $pluginParams->get( 'enabled', 1 ) ) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return true;
 	}
@@ -48,8 +50,6 @@ function plgContentLoadModule( &$row, &$params, $page=0 )
  	// plugin only processes if there are any instances of the plugin in the text
  	if ( $count ) {
 		// Get plugin parameters
-	 	$pluginParams = new JParameter( $plugin->params );
-
 	 	$style	= $pluginParams->def( 'style', -2 );
 
  		plgContentProcessPositions( $row, $matches, $count, $regex, $style );

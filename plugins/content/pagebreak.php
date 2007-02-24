@@ -41,6 +41,11 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 	$print = JRequest::getVar('print');
 	$showall = JRequest::getVar('showall');
+
+	if (!$pluginparams->get('enabled', 1)) {
+		$print = 1;
+	}
+
 	if ($print) {
 		$row->text = preg_replace( $regex, '<BR/>', $row->text );
 		return true;

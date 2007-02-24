@@ -226,7 +226,7 @@ class JSearchHelper
 	function &getPluginParams( $folder, $name )
 	{
 		if ($folder && $name) {
-	 		$plugin =& JPluginHelper::getPlugin($this->folder, $this->name);
+	 		$plugin =& JPluginHelper::getPlugin($folder, $name);
 	 		$pluginParams = new JParameter( $plugin->params );
 		} else {
 	 		$pluginParams = new JParameter( '' );
