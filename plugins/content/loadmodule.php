@@ -36,7 +36,7 @@ function plgContentLoadModule( &$row, &$params, $page=0 )
  	$pluginParams = new JParameter( $plugin->params );
 
 	// check whether plugin has been unpublished
-	if ( $pluginParams->get( 'enabled', 1 ) ) {
+	if ( !$pluginParams->get( 'enabled', 1 ) ) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return true;
 	}
