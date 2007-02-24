@@ -98,7 +98,10 @@ class JSite extends JApplication
 			case 'html':
 				//set metadata
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
-				if ($config->getValue('config.debug')) {
+				// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
+				$konkcheck = phpversion <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];
+				$konkcheck = stripos ($konkcheck, "konqueror");
+				if ($config->getValue('config.debug') || $konkcheck ) {
 					$document->addScript( 'includes/js/mootools-uncompressed.js');
 				} else {
 					$document->addScript( 'includes/js/mootools.js');

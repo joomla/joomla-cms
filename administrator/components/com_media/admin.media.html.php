@@ -33,6 +33,7 @@ class MediaViews
 	function showMedia($tree, $ftp)
 	{
 		global $mainframe;
+		$config		=& JFactory::getConfig();
 
 		// Get current path from request
 		$current = JRequest::getVar( 'folder' );
@@ -50,7 +51,14 @@ class MediaViews
 
 		$document =& JFactory::getDocument();
 		$document->setBuffer($listStyle, 'module', 'submenu');
-		$document->addScript('../includes/js/mootools.js');
+		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
+		$konkcheck = phpversion <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];
+		$konkcheck = stripos ($konkcheck, "konqueror");
+		if ($config->getValue('config.debug') || $konkcheck ) {
+			$document->addScript( '../includes/js/mootools-uncompressed.js');
+		} else {
+			$document->addScript( '../includes/js/mootools.js');
+		}
 		$document->addScript('components/com_media/assets/mediamanager.js');
 		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
 		$document->addStyleSheet('components/com_media/assets/preview.css');
