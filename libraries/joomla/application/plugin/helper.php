@@ -153,7 +153,8 @@ class JPluginHelper
 		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
 
-		if (isset($user)) {
+		if (isset($user)) 
+		{
 			$aid = $user->get('aid', 0);
 
 			$query = "SELECT id, name, folder, element, published, params"
@@ -162,7 +163,9 @@ class JPluginHelper
 				. "\n AND access <= " . (int) $aid
 				. "\n ORDER BY ordering"
 				;
-		} else {
+		} 
+		else 
+		{
 			$query = "SELECT id, name, folder, element, published, params"
 				. "\n FROM #__plugins"
 				. "\n WHERE published >= 1"

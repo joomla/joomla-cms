@@ -146,7 +146,7 @@ class JFactory
 		// If we are in the installation application, we don't need to be
 		// creating any directories or have caching on
 		$options = array(
-			'cachebase' 	=> JPATH_BASE.DS.'cache',
+			'cachebase' 	=> JPATH_CACHE,
 			'defaultgroup' 	=> $group,
 			'lifetime' 		=> $conf->getValue('config.cachetime')
 		);

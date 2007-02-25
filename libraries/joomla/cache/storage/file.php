@@ -36,7 +36,7 @@ class JCacheStorageFile extends JCacheStorage
 		parent::__construct($options);
 
 		$config			=& JFactory::getConfig();
-		$this->_root	= $config->getValue('config.cache_path', JPATH_ROOT.DS.'cache');
+		$this->_root	= $options['cachebase'];
 		if ($this->_application) {
 			$this->_root = $this->_root.DS.$this->_application;
 		}

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Feb-2007 Johan Janssens
+ + Added JPATH_CACHE to the application path defines
+
 24-Feb-2007 Johan Janssens 
  ^ Implemented caching for administrator menu module
 
