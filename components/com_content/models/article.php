@@ -291,7 +291,7 @@ class ContentModelArticle extends JModel
 				{
 					// We weren't the last voter so lets add our vote to the ratings totals for the article
 					$query = 'UPDATE #__content_rating' .
-							' SET rating_count = rating_count + 1, rating_sum = rating_sum + $rate, lastip = "'.$userIP.'"' .
+							' SET rating_count = rating_count + 1, rating_sum = rating_sum + '.$rate.', lastip = "'.$userIP.'"' .
 							' WHERE content_id = '. $this->_id;
 					$this->_db->setQuery($query);
 					if (!$this->_db->query()) {
