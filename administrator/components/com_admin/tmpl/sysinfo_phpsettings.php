@@ -146,7 +146,7 @@
 		</tr>
 		<?php
 		$query = 'SELECT name FROM #__plugins'
-		. 'WHERE folder="editors" AND published="1"';
+		. ' WHERE folder="editors" AND published="1"';
 		$db->setQuery( $query, 0, 1 );
 		$editor = $db->loadResult();
 		?>
