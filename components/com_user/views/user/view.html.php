@@ -64,7 +64,7 @@ class UserViewUser extends JView
 		$item = $menu->getActive();
 		
 		// Set page title
-		$mainframe->setPageTitle( $menu->name );
+		$mainframe->setPageTitle( $item->name );
 
 		// check to see if Frontend User Params have been enabled
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );

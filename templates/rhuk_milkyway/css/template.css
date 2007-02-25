@@ -151,11 +151,12 @@ div#footerspacer {
 
 #search {
 	float: right;
-	width: 160px;
+	width:320px;
 	margin-top: -20px;
-	margin-right: 10px;
+	margin-right: 20px;
 	height: 40px;
 	overflow: hidden;
+	text-align:right;
 }
 
 #area {

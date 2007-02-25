@@ -390,7 +390,6 @@ function modMainMeuXMLCallback(&$node, $args)
 		}
 	}
 	if ($node->attributes('id') == $path[0]) {
-		$node->a[0]->removeAttribute('href');
 		$node->addAttribute('id', 'current');
 	} else {
 		$node->removeAttribute('id');
