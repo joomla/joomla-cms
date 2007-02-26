@@ -543,9 +543,9 @@ class JFactory
 	{
 		jimport('joomla.i18n.language');
 
-		$conf =& JFactory::getConfig();
-
-		$lang =& JLanguage::getInstance($conf->getValue('config.language'));
+		$conf	=& JFactory::getConfig();
+		$locale	= $conf->getValue('config.language');
+		$lang	=& JLanguage::getInstance($locale);
 		$lang->setDebug($conf->getValue('config.debug_lang'));
 
 		return $lang;

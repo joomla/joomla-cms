@@ -92,6 +92,16 @@ class JLanguage extends JObject
 	 * @access protected
 	 */
 	var $_debug 	= false;
+	
+	/**
+	 * The default language
+	 * 
+	 * The default language is used when a language file in the requested language does not exist.
+	 * 
+	 * @var string
+	 * @access protected
+	 */
+	var $_default	= 'en-GB';
 
 	/**
 	 * An array of orphaned text
@@ -142,8 +152,8 @@ class JLanguage extends JObject
 	{
 		$this->_strings = array ();
 
-		if ($lang == null) {
-			$lang = 'en-GB';
+		if ( $lang == null ) {
+			$lang = $this->_default;
 		}
 
 		$this->setLanguage($lang);
@@ -199,14 +209,42 @@ class JLanguage extends JObject
 		}
 		return $string;
 	}
+	
+	/**
+	 * Check if a language exists
+	 * 
+	 * This is a simple, quick check for the directory that should contain language files for the given user.
+	 * 
+	 * @access	public
+	 * @param	string $lang Language to check
+	 * @return	boolean True if the language exists
+	 * @since	1.5
+	 */
+	function languageExists($lang)
+	{
+		static	$languages	= array();
+		
+		if ( isset($languages[$lang]) )
+		{
+			return $languages[$lang];
+		}
+		
+		jimport('joomla.filesystem.folder');
+		
+		$dir	= JLanguage::getLanguagePath( JPATH_BASE, $lang );
+		
+		$languages[$lang]	= JFolder::exists($dir);
 
+		return $languages[$lang];
+	}
+	
 	/**
 	 * Loads a single language file and appends the results to the existing strings
 	 *
 	 * @access public
 	 * @param string 	$prefix 	The prefix
 	 * @param string 	$basePath  	The basepath to use
-	 * $return boolean	True, if the file has successfully loaded.
+	 * @return boolean	True, if the file has successfully loaded.
 	 */
 	function load( $prefix = '', $basePath = JPATH_BASE )
 	{
@@ -225,16 +263,31 @@ class JLanguage extends JObject
 		$result = false;
 		if (isset( $paths[$filename] ))
 		{
+			// Strings for this file have already been loaded
 			$result = true;
 		}
 		else
 		{
-			$paths[$filename] = true;
+			// Load the language file
 			$newStrings = $this->_load( $filename );
 
-			if (is_array($newStrings)) {
+			// Check if there was a problem with loading the file
+			if ( $newStrings === false ) {
+				// No strings, which probably means that the language file does not exist
+				$path		= JLanguage::getLanguagePath( $basePath, $this->_default);
+				$filename	= empty( $prefix ) ?  $this->_default : $this->_default . '.' . $prefix ;
+				$filename	= $path.DS.$filename.'.ini';
+				
+				$newStrings = $this->_load( $filename );
+			}
+			
+			// Merge the new strings into the strings array
+			if ( is_array($newStrings) ) {
 				$this->_strings = array_merge( $this->_strings, $newStrings);
+				$paths[$filename] = true;
 				$result = true;
+			} else {
+				// Do something ??? 
 			}
 		}
 
@@ -377,6 +430,25 @@ class JLanguage extends JObject
 	*/
 	function getDebug() {
 		return $this->_debug;
+	}
+	
+	/**
+	 * Get the default language code
+	 * 
+	 * @access	public
+	 * @return	string Language code
+	 */
+	function getDefault() {
+		return $this->_default;
+	}
+	
+	/**
+	 * Set the default language code
+	 * 
+	 * @access public
+	 */
+	function setDefault($lang) {
+		$this->_default	= $lang;
 	}
 
 	/**
@@ -650,5 +722,6 @@ class JLanguageHelper
 
 		return 'en-GB';
 	}
+
 }
 ?>

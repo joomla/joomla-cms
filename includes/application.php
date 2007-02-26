@@ -56,11 +56,18 @@ class JSite extends JApplication
 		// otherwise use user or default language settings
 		if (empty($options['language'])) {
 			$user = & JFactory::getUser();
-			$options['language'] = $user->getParam( 'language', $this->getCfg('lang_site') );
+			$lang	= $user->getParam( 'language' );
+			
+			// Make sure that the user's language exists
+			if ( ! JLanguage::languageExists($lang) ) {
+				$lang	= $this->getCfg('lang_site');
+			}
+			
+			$options['language'] = $lang;
 		}
 
-		//One last check to make sure we have something
-		if (empty($options['language'])) {
+		// One last check to make sure we have something
+		if ( ! JLanguage::languageExists($options['language']) ) {
 			$options['language'] = 'en-GB';
 		}
 
