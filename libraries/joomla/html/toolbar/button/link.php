@@ -33,10 +33,10 @@ class JButtonLink extends JButton
 	 */
 	var $_name = 'Link';
 
-	function fetchButton( $type='Link', $name = '', $text = '', $url = null )
+	function fetchButton( $type='Link', $name = 'back', $text = '', $url = null )
 	{
 		$text	= JText::_($text);
-		$class	= $this->fetchIconClass('back');
+		$class	= $this->fetchIconClass($name);
 		$doTask	= $this->_getCommand($url);
 
 		$html	= "<a href=\"$doTask\">\n";
