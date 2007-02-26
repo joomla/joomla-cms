@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Feb-2007 Toby Patterson
+ + JLanguage will try to load a default language file ( 'en-GB' ) if a localized version cannot be loaded
+
 25-Feb-2007 Johan Janssens
  + Added JPATH_CACHE to the application path defines
 
