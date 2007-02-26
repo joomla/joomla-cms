@@ -52,7 +52,7 @@ class MediaViews
 		$document =& JFactory::getDocument();
 		$document->setBuffer($listStyle, 'module', 'submenu');
 		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
-		$konkcheck = phpversion <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];
+		$konkcheck = phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];
 				$konkcheck = strpos (strtolower($konkcheck), "konqueror");
 		if ($config->getValue('config.debug') || $konkcheck ) {
 			$document->addScript( '../includes/js/mootools-uncompressed.js');
