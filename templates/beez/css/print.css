@@ -1,0 +1,86 @@
+/**
+ * @version $Id$
+ * @author Design & Accessible Team ( Angie Radtke / Robert Deutz )
+ * @package Joomla
+ * @subpackage Accessible-Template-Beez
+ * @copyright Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+
+
+h1
+{
+	font-size: 16pt;
+	font-weight: bold;
+	color: #000;
+	background: inherit;
+	margin: 0.4em 0 0.5em 0;
+}
+
+h2
+{
+	font-size: 14pt;
+	font-weight: bold;
+	color: #333;
+	background: inherit;
+	margin: 0.2em 0 0.5em 0;
+	padding: 0.3em;
+}
+
+h3
+{
+	font-size: 12pt;
+	font-weight: bold;
+	margin: 0.4em 0 0.3em 0;
+}
+
+/* Vermeidung von Seitenumbr�chen direkt nach einer �berschrift */
+h1,h2,h3 { page-break-after: avoid; }
+
+a
+{
+	color: #93246F;
+	font-weight: bold;
+}
+
+.unsichtbar , p .u2 { display: none; }
+#header { width: auto; }
+#header form ,.pagination , #footer , p.counter { display: none; }
+#header ul, #right form { display: none; }
+#breadcrumbs , #left , #fontsize { display: none; }
+#main2 { margin: 0%; }
+
+#right
+{
+	display: block;
+	position: static !important;
+}
+
+#main2:before
+{
+	content: " content ";
+	color: #888;
+	display: block;
+	background-color: inherit;
+	font-weight: bold;
+	font-size: 1.5em;
+	border-bottom: 1px #000 solid;
+	margin-bottom: 1em;
+}
+
+#right:before
+{
+	content: " right ";
+	color: #888;
+	display: block;
+	background-color: inherit;
+	font-weight: bold;
+	font-size: 1.5em;
+	border-bottom: 1px #000 solid;
+	margin-bottom: 1em;
+}

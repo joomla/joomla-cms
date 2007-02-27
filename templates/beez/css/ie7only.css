@@ -1,0 +1,34 @@
+/**
+ * @version $Id$
+ * @author Design & Accessible Team ( Angie Radtke / Robert Deutz )
+ * @package Joomla
+ * @subpackage Accessible-Template-Beez
+ * @copyright Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+
+.contentdescription {height:1%}
+
+#right form.poll
+{
+                        /* nur fuer IE-Win;
+                         * definierte groe�e (height or witdh)
+                         * fuer automatisches einbeziehen
+                         * der Float-Container (auto-clearing);
+                         *
+                         * verbergen IE-Mac \*/
+                        height: 1%;
+                        /* ende verbergen IE-Mac */
+                        }
+
+form.login input
+{
+       margin:0 0 0 -10px
+
+
+}

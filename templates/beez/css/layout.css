@@ -1,0 +1,1484 @@
+/**
+ * @version $Id$
+ * @author Design & Accessible Team ( Angie Radtke / Robert Deutz )
+ * @package Joomla
+ * @subpackage Accessible-Template-Beez
+ * @copyright Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+
+
+a:link, a:visited { color: #000000; }
+
+a:hover, a:active, a:focus
+{
+        background: #000000;
+        color: #FFFFFF;
+}
+
+dd
+{
+        background: #EEEEEE;
+        padding: 5px;
+}
+
+dl
+{
+        display: block;
+        margin: 20px 0 20px 0;
+}
+
+dt
+{
+        border-bottom: solid 1px #CCCCCC;
+        font-weight: bold;
+        margin: 0;
+        padding: 5px;
+}
+
+h3
+{
+        border-bottom: solid 1px #CCCCCC;
+        font-size: 1.0em;
+        font-weight: bold;
+        margin: 10px 0 10px 0;
+}
+
+h4
+{
+        border: solid 0px;
+        color: #000000;
+        font-size: 1em;
+}
+
+input:focus { border: solid 2px; }
+fieldset { border: 0; }
+
+ol.list
+{
+        list-style-position: inside;
+        margin: 20px 0 20px 0;
+        padding: 0 0 0 0px;
+}
+
+ol.list li
+{
+        border-bottom: solid 1px #EFDEEA;
+        margin: 10px 0 10px 0;
+        padding: 10px;
+}
+
+ol.list li h4
+{
+        border-bottom: solid 1px #CCCCCC;
+        color: #009999;
+        display: inline;
+        margin: 0 0 10px 0;
+}
+
+p
+{
+        line-height: 1.4em;
+        margin: 5px 0 5px 0;
+}
+
+p a.u2:focus,p a.u2:active
+{
+        padding: 0.5em;
+        background-color: #000000;
+        color: #FFFFFF;
+        display: inline;
+        height: 2.5em;
+        left: 00px;
+        margin-top: 0em;
+        padding-left: 15px;
+        position: absolute;
+        top: 0px;
+        width: 13.8em;
+}
+
+p.counter
+{
+        background: #EEEEEE;
+        color: #000000;
+        font-weight: bold;
+        margin: 10px 0 10px 0px;
+        padding: 5px;
+}
+
+p.isstrong
+{
+        font-weight: bold;
+        color: #444;
+        margin: 10px 0 15px 0;
+        padding: 10px 0 10px 0;
+}
+
+p.code
+{
+        color: #93246F;
+        margin: 10px 0 10px 0;
+        font-weight: bold;
+}
+
+p.buttonheading { text-align: right; }
+
+p.buttonheading a:hover
+{
+        background: none !important;
+        color: #000 !important;
+}
+
+p.buttonheading a:active, p.buttonheading a:focus
+{
+        border: solid 2px;
+        color: #000;
+}
+
+em { font-weight: bold; }
+
+/* ###########  header content #############  */
+#header h1
+{
+        font-size: 1.5em;
+        font-weight: normal;
+        text-transform: uppercase;
+}
+
+#logo
+{
+        font-size: 1em !important;
+        font-weight: bold !important;
+        position: relative;
+        text-align: left;
+        text-transform: none !important;
+        z-index: 0;
+        margin-top: 1em;
+}
+
+#logo  img { display: block; }
+
+#logo span
+{
+        display: block;
+        margin: 0px 0 0 100px !important;
+        border-bottom: solid 1px #666;
+}
+
+/*  Search box  */
+#header form
+{
+        background: #CC3399;
+        border: solid 0px #000;
+        float: right;
+        height: 5em;
+        min-width: 240px;
+        text-align: left;
+        padding: 0 0 0 20px;
+}
+
+* html #header form { height: 65px; }
+
+#header form  fieldset
+{
+        border: 0px solid #000000;
+        display: inline;
+        float: left;
+        padding: 19px;
+        text-align: left;
+        width: 6em;
+}
+
+#header form  label
+{
+        color: #000;
+        position: absolute;
+        left: -3000px;
+        top: -200px;
+        width: auto;
+}
+
+#header form .button
+{
+        background: url(../images/pfeil.gif) #000000 no-repeat;
+        border: 0;
+        color: #fff;
+        font-weight: bold;
+        margin: 20px 10px 0 0;
+        padding: 0 0 0 30px;
+        cursor: pointer;
+}
+
+#header form .inputbox
+{
+        background: #fff;
+        border: solid 2px #93246F;
+        font-weight: bold;
+        padding: 0 0 0 2px;
+        margin: 20px 10px 0 0 !important;   
+        width: 6em;
+}
+
+#header form .inputbox:focus { border: solid 2px #000000; }
+
+/* header Top-nav   */
+#header #active_menu-nav
+{
+        background: #000;
+        color: #fff;
+}
+
+#header ul
+{
+        background: #fff;
+        display: block;
+        margin: -7px 0 -2px 0;
+        padding: 5px 0 5px 0;
+        text-align: right;
+}
+
+#header ul li
+{
+        background: #000;
+        color: #fff;
+        display: inline;
+        text-align: center;
+}
+
+#header ul li a:link,#header ul li a:visited
+{
+        background: #fff;
+        color: #000;
+        font-weight: bold;
+        text-decoration: none;
+        border-right: solid 1px #666;
+        padding: 5px 10px 5px 10px;
+        line-height: 1.5em;
+}
+
+#header ul li a:hover,#header ul li a:active,#header ul li a:focus
+{
+        background: #000;
+        color: #fff;
+        font-weight: bold;
+}
+
+/*  fontsize  */
+#fontsize
+{
+        z-index: 100;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background: #fff;
+        color: #000;
+}
+
+#fontsize h3, #fontsize p
+{
+        border: 0;
+        display: inline;
+        font-size: 1em;
+}
+
+#fontsize p { margin: 0 0 0 5px; }
+
+#fontsize p a
+{
+        font-weight: bold;
+        margin: 0 5px 0 5px;
+        display: inline;
+        padding: 2px 0px 2px 24px;
+}
+
+/* background-images */
+#fontsize p a.larger { background: #fff url(../images/lupe_larger.gif) no-repeat; }
+#fontsize p a.smaller { background: #fff url(../images/lupe_smaller.gif) no-repeat; }
+#fontsize p a.reset { background: #fff url(../images/lupe_reset.gif) no-repeat; }
+
+#fontsize p a.larger:hover,#fontsize p a.larger:active,#fontsize p a.larger:focus
+{
+        background: #000 url(../images/lupe_larger_black.gif) no-repeat;
+        color: #fff;
+}
+
+#fontsize p a.smaller:hover, #fontsize p a.smaller:active, #fontsize p a.smaller:focus
+{
+        background: #000 url(../images/lupe_smaller_black.gif) no-repeat;
+        color: #fff;
+}
+
+#fontsize p a.reset:hover,#fontsize p a.reset:active,#fontsize p a.reset:focus
+{
+        background: #000 url(../images/lupe_reset_black.gif) no-repeat;
+        color: #fff;
+}
+
+/* ################# breadcrumbs ################ */
+#breadcrumbs
+{
+        background: #93246F;
+        min-height: 5em;
+        padding-top: 0px;
+        text-align: left;
+        color: #fff;
+}
+
+#breadcrumbs p
+{
+        padding: 5px;
+        display: inline;
+
+}
+
+* html #breadcrumbs { height: 65px; }
+#breadcrumbs a { text-transform: none; }
+
+#breadcrumbs a:link, #breadcrumbs a:visited
+{
+        background: #93246F;
+        color: #fff;
+}
+
+#breadcrumbs span
+{
+        color: #fff;
+        font-size: 0.9em;
+        padding: 7px;
+}
+
+#breadcrumbs span a:hover, #breadcrumbs span  a:active, #breadcrumbs span  a:focus
+{
+        background: #000;
+        color: #fff;
+        text-decoration: none;
+}
+
+/* ################ left ######################## */
+#left form
+{
+        background: #EFDEEA;
+        color: #000;
+        font-size: 0.9em;
+        margin: 5px 0px 20px 10px;
+        padding: 20px 10px 20px 10px;
+}
+
+#left h3    , #right h3
+{
+        color: #000;
+        font-family: trebuchet MS, sans-serif;
+        font-size: 1.2em;
+        margin: 0px 0 0px 5px;
+        padding: 7px 5px 7px 10px;
+        border: solid 0px;
+}
+
+#left ul
+{
+        list-style-type: none;
+        margin: 0px 0 20px 10px;
+}
+
+#left ul  li.active span.active_link
+{
+        background: #93246F;
+        border-bottom: solid 1px #93246F;
+        border-left: solid 4px #BE7CA9;
+        color: #fff;
+        display: block;
+        padding: 3px 0px 3px 6px;
+}
+
+#left ul  li.active ul li.active  span.active_link,#left ul  li.active ul li.active ul  li.active span.active_link
+{
+        background: #fff;
+        border-bottom: solid 1px #E0C1E0;
+        border-left: solid 0px #DD75BB;
+        color: #000;
+        font-weight: bold;
+        padding: 3px 0px 3px 20px;
+}
+
+#left ul li
+{
+        border: solid 1px #fff;
+        margin: 0px 0 2px 0;
+}
+
+#left ul li a
+{
+        display: block;
+        padding: 3px 4px 3px 10px;
+        text-decoration: none;
+}
+
+#left ul li a:link,#left ul li  a:visited
+{
+        background: #F2E3ED;
+        border-bottom: solid 1px #E0C1E0;
+        color: #000;
+        font-weight: normal;
+}
+
+#left ul li a:hover,#left ul li a:active,#left ul li  a:focus
+{
+        background: #333 !important;
+        color: #fff !important;
+}
+
+/* ################## Main Menue ################## */
+#left ul li ul
+{
+        background: #fff;
+        border: solid 1px #E0C1E0;
+        border-bottom: solid 0px #93246F;
+        border-left: solid 4px #93246F;
+        border-top: 0px;
+        margin: 0;
+}
+
+#left ul li ul li { border: solid 1px #fff; }
+#left ul li ul li { margin: 0px 0 0px 0; }
+
+#left ul li ul li  a:hover,#left ul li ul li a:active,#left ul li ul li a:focus
+{
+        background: #93246F;
+        color: #fff;
+}
+
+#left ul li ul li ul
+{
+        border: solid 0px #E0C1E0;
+        padding: 10px 0 10px 5px;
+}
+
+#left ul li.active a:link, #left ul li.active  a:visited
+{
+        background: #93246F;
+        border-left: solid 4px #BE7CA9;
+        color: #fff;
+        border-bottom: solid 1px #93246F;
+        padding: 3px 0px 3px 6px;
+}
+
+#left ul li.active ul li  a:link,#left ul li.active ul li a:visited
+{
+        background: #fff;
+        border-bottom: solid 1px #E0C1E0;
+        border-left: solid 0px #DD75BB;
+        color: #000;
+        font-weight: normal;
+        padding: 3px 4px 3px 20px;
+}
+
+#left ul li.active ul li ul li a:link,#left ul li.active ul li ul li a:visited
+{
+        background: #fff;
+        border-bottom: solid 1px #E0C1E0;
+        color: #000;
+        font-weight: normal;
+        margin: 0 0 0 10px;
+}
+
+#left ul li.active ul li.active a:link, #left ul li.active ul li.active a:visited
+{
+        background: #fff;
+        border-left: solid 0px #DD75BB;
+        color: #000;
+        font-weight: bold;
+}
+
+#left ul li.active ul li.active ul li a:link, #left ul li.active ul li.active ul li a:visited
+{
+        background: url(../images/arrow.gif) #fff no-repeat top left;
+        color: #000;
+        font-weight: normal;
+        margin: 0 0 0 15px;
+        padding: 3px 0 3px 15px;
+}
+
+#left ul li.active ul li.active ul li.active span.active_link
+{
+        background: url(../images/arrow.gif) #fff no-repeat top left;
+        border-bottom: solid 1px #E0C1E0;
+        color: #000;
+        font-weight: bold;
+        margin: 0 0 0 15px;
+        padding: 3px 0px 3px 15px;
+}
+
+#left form a:hover ,#left form a:active ,#left form a:focus { color: #fff; }
+
+/* ###############  main * ########################### */
+/* position */
+.leading_separator
+{
+        border-bottom: solid 0px #333;
+        display: block;
+        height: 10px;
+        margin: 0 0 0px 0;
+}
+
+#main .leading  h2, #main2 .leading  h2
+{
+        background: #EFDEEA;
+        border-bottom: solid 0px #333;
+        color: #93246F;
+        font-family: trebuchet MS, sans-serif;
+        font-size: 1.4em;
+        font-weight: normal;
+        margin: 0 0 10px 0;
+        text-transform: uppercase;
+}
+
+#main h2 a , #main2 h2 a { text-decoration: none; }
+
+#main .leading .readon,
+#main2 .leading .readon
+{
+        background: url(../images/pfeil.gif) #93246F no-repeat;
+        border: solid 0px;
+        bottom: 0;
+        color: #FFF !important;
+        display: block !important;
+        margin-top: 20px !important;
+        position: absolute;
+        right: 0;
+        text-decoration: none;
+        padding: 2px 2px 0px 30px;
+}
+
+#main .leading .small , #main .leading .modifydate,
+#main2 .leading .small , #main2 .leading .modifydate
+{
+        background: #EFDEEA;
+        color: #93246F;
+}
+
+.article_column h2
+{
+        background: #fff;
+        color: #000 !important;
+        font-family: trebuchet MS;
+        font-size: 1.2em !important;
+        font-weight: bold !important;
+        padding: 0px;
+}
+
+.article_row .column1 h2,.article_row .column2 h2
+{
+        background: #fff;
+        border-bottom: solid 1px #D4A7C5;
+        color: #000;
+        margin: 0 0px 10px 0px;
+        padding: 5px 5px 5px 0;
+}
+
+.article_row p.iteminfo
+{
+        background: #fff;
+        line-height: 1.0em;
+        margin: 0px -10px 5px -10px;
+        padding: 10px;
+}
+
+#main .h3, #main2 h3 { 20px 0 10px 0: ; }
+
+/* blog_more */
+#main .blog_more h2, #main2 .blog_more h2
+{
+        background: #fff;
+        color: #93246F;
+        font-family: trebuchet MS, sans-serif;
+        font-size: 1.3em;
+        font-weight: normal;
+        margin: 0 0 0 0px;
+}
+
+#main .blog_more li a, #main2 .blog_more li a
+{
+        display: inline;
+        margin: 0;
+        padding: 0;
+}
+
+#main .blog_more li, #main2 .blog_more li { padding: 4px; }
+
+#main .blog_more ul li a, #main2 .blog_more ul li a
+{
+        background: url(../images/pfeil.gif) no-repeat;
+        font-weight: bold;
+        padding: 2px 0 4px 30px;
+}
+
+#main .blog_more ul li a:hover, #main2 .blog_more ul li a:hover
+{
+        background: url(../images/pfeil.gif) #993399 no-repeat !important;
+        color: #fff;
+        font-weight: bold;
+        padding: 2px 0 2px 30px;
+}
+
+#main .blog_more ul li a:active, #main2 .blog_more ul li a:active, #main .blog_more ul li a:focus, #main2 .blog_more ul li a:focus
+{
+        background: url(../images/pfeil.gif) #993399 no-repeat !important;
+        color: #fff;
+        font-weight: bold;
+        padding: 2px 0 2px 30px;
+}
+
+#main .blog_more ul, #main2 .blog_more ul
+{
+        background: #eee;
+        border: solid 1px #ccc;
+        color: #000000;
+        line-height: 1.3em;
+        list-style-type: none;
+        margin: 0px 0 0 0px;
+        padding: 10px 10px 30px 10px;
+}
+
+#main .blog_more, #main2 .blog_more { padding-top: 10px; }
+
+/* main generell  */
+#main a.readon, #main2 a.readon
+{
+        background: url(../images/pfeil.gif) no-repeat;
+        font-weight: bold;
+        padding: 2px 2px 0px 30px;
+        display: inline-block;
+}
+
+#main a.readon:hover, #main2 a.readon:hover ,#main a.readon:active, #main2 a.readon:active,
+#main a.readon:focus, #main2 a.readon:focus
+{
+        background: url(../images/pfeil.gif) #000 no-repeat;
+        color: #fff;
+        padding: 2px 2px 0px 30px;
+        text-decoration: none;
+}
+
+#main a:link, #main2 a:link, #main a:visited, #main2 a:visited { color: #000000; }
+
+#main a:hover, #main2 a:hover, #main a:active, #main2 a:active, #main a:focus, #main2 a:focus
+{
+        background: #93246F;
+        color: #fff;
+}
+
+#main h1 , #main2   h1
+{
+        color: #000;
+        font-family: trebuchet MS, sans-serif;
+        font-size: 1.6em;
+        font-weight: normal;
+        margin: 0px 0 0px 0px;
+}
+
+#main h2 , #main2   h2
+{
+        color: #93246F;
+        font-family: trebuchet MS, sans-serif;
+        font-size: 1.6em;
+        font-weight: normal;
+}
+
+#main ul li, #main2 ul li
+{
+        padding: 0 0 0 10px;
+        line-height: 1.4em;
+        margin: 10px 0 10px 0;
+}
+
+#main ul, #main2 ul
+{
+        list-style-position: outside;
+        list-style-type: square;
+        padding: 0 0 0 10px;
+        margin: 0 0 0 20px;
+}
+
+#main ul,#main ol
+{
+        list-style-position: inside;
+        margin: 10px 0 10px 20px;
+        padding: 0 0 0 10px;
+}
+
+.small
+{
+        border: solid 0px;
+        color: #932467;
+        font-size: 0.85em;
+        margin: 0 0 20px 0;
+}
+
+.contentdescription
+{
+        padding: 10px 0 10px 0;
+        overflow: hidden;
+}
+
+.image_left
+{
+        float: left;
+        border: solid 0px #ccc;
+        margin: 0 10px 10px 0;
+}
+
+.image_right
+{
+        float: right;
+        border: solid 1px #ccc;
+        margin: 0 0px 10px 10px;
+}
+
+.wrap_image { clear: left; }
+
+.createdate
+{
+        color: #932467;
+        display: block;
+        font-size: 0.85em;
+}
+
+.createdby
+{
+        color: #932467;
+        display: block;
+        font-size: 0.85em;
+        padding: 0 0 0 2px;
+}
+
+.modifydate
+{
+        color: #932467;
+        display: block;
+        font-size: 0.85em;
+        padding: 0px;
+}
+
+span.content_rating , .leading span.content_rating
+{
+        margin: 10px 0 0px 0;
+        display: block;
+}
+
+.content_vote
+{
+        margin: 0px 0 10px 0;
+        display: block;
+}
+
+.content_vote input { margin: 0 5px 0 5px; }
+
+.content_vote  .button
+{
+        background: url(../images/pfeil.gif) #000000 no-repeat;
+        border: 0;
+        color: #fff;
+        font-weight: bold;
+        margin: 20px 10px 0 0;
+        padding: 0 0 0 30px;
+        cursor: pointer;
+}
+
+/* ############# pagination ###################### */
+#main2 .pagination  , #main .pagination
+{
+        border-top: solid 1px #CCCCCC;
+        margin: 10px 0 0 0px;
+        padding: 10px 0 10px 0;
+}
+
+ul.pagination
+{
+        list-style-type: none;
+        margin: 0px;
+        padding: 0;
+        text-align: left;
+}
+
+ul.pagination li
+{
+        display: inline;
+        padding: 2px 5px 0 5px!important;
+        text-align: left;
+}
+
+ul.pagination li a { padding: 2px; }
+
+/* ###############  right #################  */
+#right .moduletable
+{
+        background: #fff;
+        color: #000;
+        margin: 10px 0 10px 0;
+        padding: 10px;
+}
+
+#right h3
+{
+        background: #fff;
+        border-bottom: solid 1px #D4A7C5;
+        color: #333333;
+        margin: 0 0 3px 0px;
+        padding: 0px 5px 0px 0px;
+}
+
+#right h4
+{
+        color: #000;
+        font-size: 1.0em;
+        padding: 10px 5px 0px 0px;
+        margin: 0;
+        border: solid 0px;
+}
+
+#right ul
+{
+        border: solid 0px #ccc;
+        color: #000;
+        line-height: 1.4em;
+        list-style-type: none;
+        margin: 0px;
+        padding: 10px 10px 10px 0px;
+        position: relative;
+}
+
+#right ul li { margin-bottom: 4px; }
+
+#right ul li a
+{
+        color: #000;
+        font-weight: normal;
+        padding: 2px;
+}
+
+#right ul li a:link, #right ul li  a:visited { color: #000000; }
+
+#right ul li a:hover, #right ul li  a:active,#right ul li  a:focus
+{
+        background: #93246F;
+        color: #fff;
+}
+
+#right form.poll { padding: 10px 0 0 0; }
+#right form.poll fieldset
+{line-height:1.6em}
+#right form.poll fieldset label {padding:0 0 0 4px}
+#right form.poll .button
+{
+        border: outset 1px #CC3399;
+        background: #F2E3ED;
+        cursor: pointer;
+        float: left;
+        width: auto;
+        line-height: 0.9em;
+        display: inline;
+        height: 1.55em;
+        font-size: 1em;
+        overflow: visible;
+        margin: 0px 10px 0 0;
+        padding: 0 2px 0px 2px !important;
+}
+
+#right form.poll .button:focus { border: outset 1px #CC3399; }
+
+#right form.poll a
+{
+        text-decoration: none;
+        color: #000 !important;
+        padding: 1px 2px 1px 2px !important;
+        border: outset 1px #CC3399;
+        background: #F2E3ED;
+        cursor: pointer;
+        float: left;
+}
+
+#right form.poll a:hover, #right form.poll a:active,  #right form.poll a:focus,
+ #right form.poll .button:hover, #right form.poll .button:active,  #right form.poll .button:focus { border: 2px outset #CC3399; }
+
+#right form.poll:after
+{
+        /* Inhalt pseudo-Element :after;
+                         * somit [clear] moeglich
+                         */
+        content: ".";
+        /* [content] verbergen;
+                         */
+        visibility: hidden;
+        height: 0;
+        /* Block-Level fuer [clear];
+                         */
+        display: block;
+        /* [float] clearing;
+                         * einbeziehen der Float-Container;
+                         */
+        clear: both;
+}
+
+/*  ####################   Formulare   #####################  */
+fieldset.word , fieldset.only { border: solid 1px #ccc; }
+form.limit { }
+
+form.login
+{
+        background: #93246F;
+
+        color: #000000;
+        font-size: 0.9em;
+        margin: 5px 0px 20px 0px;
+        padding: 10px 10px 20px 15px;
+        text-align:left
+}
+
+form.login  .inputbox:focus { border: solid 2px #000000; }
+
+form.login  p
+{
+        clear: both;
+        border: solid 0px #000;
+        font-size: 1em;
+}
+
+form.login .button
+{
+        background: url(../images/pfeil.gif) #CC3399 no-repeat;
+        clear: left;
+        color: #fff;
+        display: block;
+        font-weight: bold;
+        margin: 0px 0 10px 0 !important;
+        padding: 0 0 0 30px !important;
+        cursor: pointer;
+        border: solid 0px;
+}
+
+form.login fieldset
+{
+        border: solid 0px #fff;
+        margin: 0 0 0 0px;
+        padding: 0px;
+        text-align:left
+}
+
+form.login input
+{
+        background: #fff;
+        border: solid 2px #CC3399;
+        color: #000;
+        padding: 2px 2px 0 2px;
+        width: 90%;
+
+
+}
+
+form.login input.checkbox
+{
+        background: none;
+        border: solid 0px #000;
+        float: left;
+        margin: 11px 0 0 0;
+        padding: 5px;
+        width: 20px;
+}
+
+form.login label
+{
+        color: #000;
+        display: block;
+        font-weight: bold;
+        margin: 5px 0 0 0;
+        padding: 2px 2px 0 2px;
+
+}
+
+form.login label.remember
+{
+        float: left;
+        margin: 5px 0 20px 0;
+        padding: 5px 0 0 0;
+        width: 11em;
+
+}
+
+form.login p { color: #000; }
+form.login p a { color: #000; }
+
+form.login p a:hover,form.login p a:active,form.login p a:focus
+{
+        color: #000;
+        text-decoration: none;
+}
+
+form.lost_password .button , .login_form .button
+{
+        background: url(../images/pfeil.gif) #000000 no-repeat;
+        border: 0;
+        bottom: 0;
+        color: #fff;
+        font-weight: bold;
+        margin: 0px 0px 0 10px;
+        padding: 0 0 0 30px;
+        position: absolute;
+        right: 0;
+        cursor: pointer;
+}
+
+/* ################# poll ################ */
+.poll { padding: 20px 20px 20px 0; }
+
+form.poll fieldset
+{
+        border: 0px solid #000;
+        margin: 0 0 10px 0;
+        padding: 0;
+}
+
+form.registration input , form.lost_password input , .login_form input { border: solid 2px #93246F; }
+
+form.registration label, form.lost_password label ,.login_form label
+{
+        display: block;
+        float: left;
+        font-weight: bold;
+        width: 12em;
+}
+
+/* #####################  form.registration ################ */
+form.registration, form.lost_password
+{
+        margin: 45px 10px 10px 10px;
+        padding: 10px;
+        position: relative;
+}
+
+form.search_result h3
+{
+        background: #93246F;
+        border: solid 0px;
+        color: #fff;
+        display: block;
+        margin: 0px 0 0 0;
+        padding: 5px;
+}
+
+form.search_result,    form.registration,  form.lost_password , .login_form
+{
+        background: #fff;
+        border: solid 1px #93246F;
+        border-top: solid 4px #93246F;
+        margin: 15px 10px 0 10px;
+        padding: 20px;
+        position: relative;
+}
+
+.only label
+{
+        float: left;
+        width: 6em;
+}
+
+.only input
+{
+        margin: 0px;
+        display: block;
+        width: 2em;
+        float: left;
+}
+
+fieldset.only { padding-top: 10px; }
+
+.search_result .button , form.registration .button
+{
+        background: url(../images/pfeil.gif) #000000 no-repeat;
+        border: 0;
+        bottom: 0;
+        color: #fff;
+        font-weight: bold;
+        margin: 10px 0px 0 10px;
+        padding: 0 0 0 30px;
+        position: absolute;
+        right: 0;
+        cursor: pointer;
+}
+
+/* ########################## search ############################ */
+.search_result fieldset { border: solid 0px #EFDEEA; }
+
+.search_result legend
+{
+        background: #fff;
+        font-weight: bold;
+}
+
+.searcharea
+{
+        padding: 10px;
+        background: #fff;
+        border: solid 1px #EFDEEA;
+        color: #000;
+        margin: 10px;
+}
+
+.searchintro
+{
+        font-weight: bold;
+        margin: 0 0 20px 0;
+}
+
+.display
+{
+        margin: 20px 0 0 0;
+        text-align: right;
+}
+
+.filter { margin: 10px 0 0 0; }
+.inputbox:focus { border: solid 2px #000; }
+
+.word , .only
+{
+        border: solid 0px;
+        margin: 10px 0 0px 20px;
+        padding: 5px 10px 5px 0;
+}
+
+.word   input
+{
+        background: #fff;
+        border: solid 2px #93246F;
+        color: #93246F;
+        font-weight: bold;
+        margin: 0 0 0 10px;
+        padding: 2px;
+}
+
+.word  label { font-weight: bold; }
+
+.phrase
+{
+        background: #fff;
+        color: #000;
+        margin: 10px 0px 10px 10px;
+        padding: 10px;
+}
+
+/*Selects*/
+.phrase .inputbox
+{
+        background: #fff;
+        color: #93246F;
+        display: block;
+        font-weight: bold;
+        height: 1.5em;
+        margin-top: 10px;
+        width: 12em;
+        border: solid 2px;
+}
+
+.phrase label.ordering { font-weight: bold; }
+
+.phrase .inputbox  option
+{
+        background: #EFDEEA;
+        border-bottom: solid 1px #333;
+        padding: 2px;
+}
+
+.phrase .inputbox  option  a:hover
+{
+        background: #CC0000;
+        border-color: #CFD0D6;
+        color: #fff;
+}
+
+.search_result .button , form.registration .button
+{
+        background: url(../images/pfeil.gif) #000000 no-repeat;
+        border: 0;
+        bottom: 0;
+        color: #fff;
+        font-weight: bold;
+        margin: 10px 0px 0 10px;
+        padding: 0 0 0 30px;
+        position: absolute;
+        right: 0;
+        cursor: pointer;
+}
+
+.search_result fieldset { border: solid 0px #EFDEEA; }
+
+.search_result legend
+{
+        background: #fff;
+        font-weight: bold;
+}
+
+.searcharea
+{
+        padding: 10px;
+        background: #fff;
+        border: solid 1px #EFDEEA;
+        color: #000;
+        margin: 10px;
+}
+
+form.search_result h3
+{
+        background: #fff;
+        border: solid 0px;
+        color: #93246F;
+        display: block;
+        margin: 0px 0 0 0;
+        padding: 5px;
+}
+
+/* #####################  form.registration ################ */
+form.registration, form.lost_password
+{
+        margin: 45px 10px 10px 10px;
+        padding: 10px;
+        position: relative;
+}
+
+form.search_result,    form.registration,  form.lost_password , .login_form
+{
+        background: #fff;
+        border: solid 1px #93246F;
+        border-top: solid 4px #93246F;
+        margin: 15px 10px 0 10px;
+        padding: 20px;
+        position: relative;
+}
+
+.only label
+{
+        float: left;
+        width: 6em;
+}
+
+.only input
+{
+        margin: 0px;
+        display: block;
+        width: 2em;
+        float: left;
+}
+
+fieldset.only { padding-top: 10px; }
+
+/* ########################### contacts ########################### */
+div.contact { margin: 10px 0 10px 0; }
+
+address
+{
+        font-style: normal;
+        margin: 10px 0 10px 0;
+}
+
+address p { line-height: 1em; }
+
+.contact label
+{
+        float: left;
+        font-weight: bold;
+        width: 14em;
+        margin: 10px 0 0 0;
+}
+
+span.marker { margin: 0 10px 0 0px; }
+.contact_email_checkbox label { float: none !important; }
+.contact label.copy {width:90%;padding: 0 0  0 10px  }
+.contact form
+{
+        background: #EFDEEA;
+        color: #000;
+        padding: 20px;
+        margin: 10px 0 10px 0;
+}
+
+.contact input
+{
+        background: #fff;
+        border: solid 2px #CC3399;
+        color: #000000;
+        padding: 2px 2px 0 2px;
+        margin: 10px 0 0 0;
+}
+
+.contact .button
+{
+        background: url(../images/pfeil.gif) #000000 no-repeat;
+        border: 0;
+        color: #fff;
+        font-weight: bold;
+        margin: 20px 10px 0 0;
+        padding: 0 0 0 30px;
+        cursor: pointer;
+}
+
+.error
+{
+        background: #F2E3ED;
+        border: solid 1px #ccc;
+        padding: 20px;
+}
+
+label.textarea
+{
+        float: none !important;
+        margin: 10px 0 10px 0;
+        display: block;
+        width: 100%;
+}
+#contact_text
+{width:80% ; height:150px}
+/*#################### tabellen ############################ */
+table.newsfeeds td,  table.weblinks td, table.category td
+{
+        border-right: solid 1px #EEEEEE;
+        padding: 5px;
+}
+
+table.newsfeeds th , table.weblinks th , table.category th
+{
+        background: #EEEEEE;
+        padding: 5px;
+}
+
+table.newsfeeds, table.weblinks, table.category
+{
+        border: solid 1px #eee;
+        font-size: 1em;
+        margin: 20px 0 20px 0;
+}
+
+/* category table */
+#count { width: 10%; }
+#tableOrdering { width: 70%; }
+#author { width: 20%; }
+
+/*  polls */
+poll .polls_color_1,
+.poll .polls_color_2,
+.poll .polls_color_3,
+.poll .polls_color_4,
+.poll .polls_color_5
+{
+        border: solid 1px;
+        position: relative;
+}
+
+.poll h3
+{
+        color: #932467;
+        border: solid 0px;
+        margin: 20px 0 20px 0;
+}
+
+.poll .td_2 { width: 100px; }
+.poll .td_3 { width: 300px; }
+.poll form { margin: 20px 0 20px 0; }
+
+.poll table
+{
+        font-size: 1em;
+        width: auto;
+        border: solid 0px;
+        position: relative;
+}
+
+.poll table .td_1 { width: 30px; }
+
+.poll table caption
+{
+        color: #93246F;
+        font-size: 1.0em;
+        font-weight: bold;
+        margin: 10px 0 10px 0;
+        text-align: left;
+}
+
+.poll td
+{
+        border: solid 1px #ddd;
+        padding: 2px;
+}
+
+.poll td.line { width: 300px; }
+
+.poll th
+{
+        background: #EEEEEE;
+        border: solid 1px #ccc;
+}
+
+.question { font-weight: bold; }
+
+#footer
+{
+        background: #93246F;
+        color: #fff;
+        padding: 5px;
+        text-align: right;
+        border-top: solid 4px #ccc;
+}
+
+p.syndicate
+{
+        float: left;
+        display: block;
+        text-align: left;
+}
+
+#footer a { color: #fff; }
+
+/* Error Message */
+.error
+{
+        background: #F2E3ED;
+        border: solid 1px #ccc;
+        margin: 20px 10px 10px 10px;
+        padding: 20px;
+}
+
+.error dl dd , .error dl dt
+{
+        background: #F2E3ED;
+        border: solid 0px;
+        list-style-type: none;
+        margin: 0 !important;
+        padding: 0 !important;
+}
+
+.error dl dd ul li
+{
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+}
+
+.error dl ul
+{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+}
+
+.error dt { display: none; }
+
+body.contentpane
+{
+        background: #fff;
+        width: auto;
+        margin: 10px;
+        line-height: 1.4em;
+        text-align: left;
+}

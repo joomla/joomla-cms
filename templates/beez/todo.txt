@@ -1,0 +1,41 @@
+
+Was funktioniert grunds�tzlich nicht?
+
+*) Pagination, es werden nicht alle in pagination.php angegebenen routinen aufgerufen
+
+*) User-Rating, formular label fehlt, id'en ..., class f�r form
+
+Was ist nicht konsistent gel�st?
+
+*) Die image Ausgabe ist nicht an allen Stellen gleich.
+- z.B. weblinks/category/default.php wird der komplette image-tag ausgegeben, aber bei com_content/category/default.php wird nur der image name ausgegeben
+- newsfeeds dito.
+- login/logout auch
+
+*) bei den Kategorien wird einmal der Titel und ein anderes mal der Name ausgegeben.
+
+
+./html
+--------
+com_user
+	Einige der m�glichen Parameter werden noch nicht ausgewertet z.B. Image und Description lassen sich nicht ausschalten
+	user/form.php - ist noch eine Tabelle
+	user/default - ist noch eine Tabelle
+
+
+com_weblinks
+	weblinks/form.php - ist noch eine Tabelle
+
+com_poll
+	es fehlen die JText Konstanten f�r die tabelle, default_graph.php
+
+mod_menu
+	sprachauszeichnung
+
+rtl fehlt noch
+
+
+Was stimmt/fehlt in den Core-Views nicht?
+-) com_weblinks/../categories/default.php - Parameterauswertung fehlt, image und description lassen sich nicht ausschalten
+
+-) com_weblinks/../category/default.php - Parameterauswertung fehlt, image und description lassen sich nicht ausschalten

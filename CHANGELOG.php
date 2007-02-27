@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Feb-2007 Johan Janssens
+ + Added new Beeze accessible template, contributed by the design and accessibility working group
+
 26-Feb-2007 Toby Patterson
  + JLanguage will try to load a default language file ( 'en-GB' ) if a localized version cannot be loaded
 

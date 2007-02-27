@@ -1,0 +1,222 @@
+/**
+ * @version $Id$
+ * @author Design & Accessible Team ( Angie Radtke / Robert Deutz )
+ * @package Joomla
+ * @subpackage Accessible-Template-Beez
+ * @copyright Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+
+*
+{
+	margin: 0;
+	padding: 0;
+}
+
+body
+{
+	background: #F2E3ED;
+	color: #000000;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 100.1%;
+	padding: 0px;
+	text-align: center;
+}
+
+/* ################   Position ################  */
+#all
+{
+	background: #FFFFFF;
+	border: solid 1px #DBB0CD;
+	color: #000000;
+	font-size: 0.8em;
+	margin: 0 auto;
+	max-width: 1000px;
+	padding: 0 3px 3px 3px;
+	text-align: left;
+}
+
+#page { }
+
+#header
+{
+	background: #fff;
+	color: #000000;
+	margin: 0;
+	position: relative;
+	text-align: right;
+	border-bottom: solid 4px #ccc;
+}
+
+#contentarea,#contentarea2
+{
+	border: solid 0px #000000;
+	margin: 0;
+	padding: 0px 0px 0px 0px;
+	position: relative;
+	overflow: hidden;
+}
+
+#left
+{
+	background: #FFFFFF;
+	border-right: solid 0px #EEEEEE;
+	float: left;
+	margin: 20px 0 0 0;
+	width: 21%;
+}
+
+#right
+{
+	color: #000;
+	position: absolute;
+	right: 0;
+	top: 10px;
+	width: 240px;
+}
+
+#main2
+{
+	background: #fff;
+	margin: 0px 240px 0 22%;
+	padding: 25px 20px 20px 20px;
+	position: relative;
+}
+
+#main
+{
+	background: #fff;
+	margin: 0 0px 0 22%;
+	padding: 25px 20px 20px 20px;
+	position: relative;
+}
+
+/* ###################### generell ###################### */
+.unsichtbar,.u2,.invisible
+{
+	display: inline;
+	height: 0px;
+	left: -3000px;
+	position: absolute;
+	top: -2000px;
+	width: 0px;
+	z-index: 200;
+}
+
+.wrap
+{
+	border: 0;
+	clear: both;
+	float: none;
+	font-size: 1px;
+	height: 0;
+	line-height: 1px;
+	margin: 0;
+	padding: 0;
+	visibility: hidden;
+}
+
+#logo
+{
+	font-size: 1em !important;
+	font-weight: bold !important;
+	position: relative;
+	text-align: left;
+	text-transform: none !important;
+	z-index: 0;
+	margin-top: 1em;
+}
+
+#logo  img { display: block; }
+
+#logo span
+{
+	display: block;
+	margin: 0px 0 0 100px !important;
+	border-bottom: solid 1px #666;
+}
+
+/* ###############  main * ########################### */
+/* position */
+.leading
+{
+	background: #EFDEEA url(../images/biene.gif) no-repeat top left;
+	border: solid 1px #CCCCCC;
+	color: #000000;
+	margin: 30px 0px 10px 0px;
+	padding: 20px 20px 40px 120px;
+	position: relative;
+}
+
+.leading_separator
+{
+	border-bottom: solid 0px #333333;
+	display: block;
+	height: 10px;
+	margin: 0 0 0px 0;
+}
+
+.article_separator
+{
+	border: solid 1px #333333;
+	display: none;
+	margin: 0px 0 0px 0;
+}
+
+.blog { padding: 0; }
+
+.cols1
+{
+	display: block;
+	float: none !important;
+	margin: 0 !important;
+}
+
+.cols2 { width: 45%; }
+.cols3 { width: 30%; }
+
+.column1 , .column2
+{
+	border: solid 0px #D4A7C5;
+	margin: 0 5px 0 0;
+	position: relative;
+}
+
+.column2 , .column1
+{
+	float: left;
+	margin: 0;
+}
+
+.column2
+{
+	float: right;
+	margin: 0;
+	width: 45%;
+}
+
+.article_row
+{
+	margin: 0px 0 0px 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+.article_column
+{
+	border: solid 0px #ccc;
+	padding: 10px 10px 10px 0;
+}
+
+.row_separator2
+{
+	display: block;
+	clear: both;
+	margin: 0;
+	border: solid 0px;
+}

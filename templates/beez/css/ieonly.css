@@ -1,0 +1,96 @@
+/**
+ * @version $Id$
+ * @author Design & Accessible Team ( Angie Radtke / Robert Deutz )
+ * @package Joomla
+ * @subpackage Accessible-Template-Beez
+ * @copyright Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+
+
+#contentarea,#contentarea2 { width: expression(document . body . clientWidth > 980 ? "980px" : "auto"); }
+#all { width: expression(document . body . clientWidth > 980 ? "980px" : "auto"); }
+.leading ,#contentarea2, #main { zoom: 1; }
+#all { padding: 0; }
+
+#main
+{
+        position: relative;
+        width: 98%;
+        margin: 0 0 0 22%;
+}
+
+.article_row { zoom: 1; }
+
+.cols1
+{
+        display: block !important;
+        width: 100%;
+}
+
+#header
+{
+        width: auto;
+        border: solid 3px #fff;
+        height: 1%;
+}
+
+#header form
+{
+        background: #CC3399;
+        width: 250px;
+        float: right;
+        height: 65px;
+        position: relative;
+        margin: 0 0px 0 -10px;
+}
+
+#breadcrumbs
+{
+        background: #93246F;
+        height: 65px;
+        text-align: left;
+        padding-top: 5px;
+        margin: 0;
+}
+
+.article_column { position: relative; }
+
+.cols2
+{
+        width: 49%;
+        overflow: hidden;
+}
+
+.blog_more ul { zoom: 1; }
+form.search_result,    form.registration,  form.lost_password { zoom: 1; }
+#right form.poll fieldset
+{ margin: 0; }
+
+#right form.poll
+{
+        /* nur fuer IE-Win;
+                         * definierte groe�e (height or witdh)
+                         * fuer automatisches einbeziehen
+                         * der Float-Container (auto-clearing);
+                         *
+                         * verbergen IE-Mac \*/
+        height: 1%;
+        /* ende verbergen IE-Mac */
+}
+
+#right form.poll a ,
+#right form.poll .button { margin-top: 10px; }
+.contentdescription { height: 1%; }
+.contact form , .login_form , #page { zoom: 1; }
+form.login input
+{
+       margin:0 0 0 -10px
+
+
+}
