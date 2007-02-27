@@ -132,18 +132,18 @@ class ContentView
 
 				jimport('joomla.utilities.date');
 				$config =& JFactory::getConfig();
-				$now = new JDate();
+				$jnow = new JDate();
 				$publish_up = new JDate($row->publish_up);
 				$publish_down = new JDate($row->publish_down);
 				$publish_up->setOffset($config->getValue('config.offset'));
 				$publish_down->setOffset($config->getValue('config.offset'));
-				if ( $now <= $publish_up && $row->state == 1 ) {
+				if ( $now->toUnix() <= $publish_up->toUnix() && $row->state == 1 ) {
 					$img = 'publish_y.png';
 					$alt = JText::_( 'Published' );
-				} else if ( ( $now <= $publish_down || $row->publish_down == $nullDate ) && $row->state == 1 ) {
+				} else if ( ( $now->toUnix() <= $publish_down->toUnix() || $publish_down->toUnix() == $nullDate ) && $row->state == 1 ) {
 					$img = 'publish_g.png';
 					$alt = JText::_( 'Published' );
-				} else if ( $now > $row->publish_down && $row->state == 1 ) {
+				} else if ( $now->toUnix() > $publish_down->toUnix() && $row->state == 1 ) {
 					$img = 'publish_r.png';
 					$alt = JText::_( 'Expired' );
 				} else if ( $row->state == 0 ) {
