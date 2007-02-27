@@ -30,8 +30,8 @@ if (@ $this->_models->weblinksmodelcategory->_category->image || @ $this->catego
 	echo '<div  class="contentdescription' . $this->params->get('pageclass_sfx') . '">';
 	$wrap = '';
 	/* we use the model data, the normal object has only the complete img-tag */
-	$image = $this->_models[weblinksmodelcategory]->_category->image;
-	$image_align = $this->_models[weblinksmodelcategory]->_category->image_position;
+	$image = $this->_models['weblinksmodelcategory']->_category->image;
+	$image_align = $this->_models['weblinksmodelcategory']->_category->image_position;
 
 	if (isset ($image)) {
 		$wrap = '<div class="wrap_image">&nbsp;</div>';
