@@ -132,7 +132,7 @@ class ContentView
 
 				jimport('joomla.utilities.date');
 				$config =& JFactory::getConfig();
-				$jnow = new JDate();
+				$now = new JDate();
 				$publish_up = new JDate($row->publish_up);
 				$publish_down = new JDate($row->publish_down);
 				$publish_up->setOffset($config->getValue('config.offset'));
