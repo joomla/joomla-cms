@@ -29,7 +29,7 @@
 
 	<div id="all">
 		<div id="header">
-			<h1 id="logo"><img src="templates/<?php echo $this->template ?>/images/logo.gif" border="0" alt="Logo Beez, 3 freche Bienchen" width=300" height="97" />
+			<h1 id="logo"><img src="templates/<?php echo $this->template ?>/images/logo.gif" border="0" alt="Logo Beez, 3 freche Bienchen" width="300" height="97" />
 			<span class="header1">Joomla! accessible Template Beta 1</span>
 			</h1>
 			<p>
