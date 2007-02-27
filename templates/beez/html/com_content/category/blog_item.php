@@ -41,7 +41,7 @@ if (!$this->params->get('intro_only')) {
 	echo $this->item->event->afterDisplayTitle;
 }
 
-if ($this->print) {
+if ($this->params->get( 'print' )) {
 	echo '<p class="buttonheading">';
 	echo $this->getIcon('print_screen');
 	echo '</p>';
