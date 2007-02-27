@@ -1,18 +1,5 @@
-<?php 
+<?php
 defined('_JEXEC') or die('Restricted access');
-/**
- * @version $Id$
- * @author Design & Accessible Team ( Angie Radtke / Robert Deutz ) 
- * @package Joomla
- * @subpackage Accessible-Template-Beez
- * @copyright Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
- * @license GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses. See COPYRIGHT.php for copyright notices and
- * details.
- */
 
 /*
  *
@@ -45,7 +32,7 @@ echo '</h'.$polltitlelevel.'>';
 
 echo '<table class="pollstableborder">';
 /* Translation is missing */
-echo '<tr><th id="itema" class="td_1">hits</th><th id="itemb" class="td_2">Prozent</th><th id="itemc" class="td_3">Graph</th></tr>'; 
+echo '<tr><th id="itema" class="td_1">hits</th><th id="itemb" class="td_2">Prozent</th><th id="itemc" class="td_3">Graph</th></tr>';
 for ($i=0;$i<count($this->votes);$i++)
 {
 	$vote=$this->votes[$i];

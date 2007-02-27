@@ -45,12 +45,12 @@ for ($i = 0, $n = count($options); $i < $n; $i++) {
 echo '</fieldset>';
 
 echo '<input type="submit" name="task_button" class="button" value="' . JText :: _('Vote') . '" />';
-echo '<a href="' . JRoute :: _("index.php?option=com_poll&amp;task=results&amp;id=$item->id&amp;Itemid=$Itemid#content") . '">';
+echo '<a href="' . JRoute :: _("index.php?option=com_poll&task=results&id=$item->id#content") . '">';
 echo JText :: _('Results');
 echo '</a>';
 
 echo '<input type="hidden" name="option" value="com_poll" />';
-echo '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
+echo '<input type="hidden" name="Itemid" value="' . $itemid . '" />';
 echo '<input type="hidden" name="id" value="' . $item->id . '" />';
 echo '<input type="hidden" name="task" value="vote" />';
 echo '<input type="hidden" name="' . JUtility :: getToken() . '" value="1" />';

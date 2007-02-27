@@ -1,16 +1,13 @@
 <?php
 /**
-@ Design by Joomla! Design & Accessible Team ( Angie Radtke www.der-auftritt.de/ Robert Deutz www.rdbs.net) joomla at run-digital dot com
-@ Logodesign by Martin Hagenlocher
-
-@copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-@license GNU/GPL, see LICENSE.php
-Joomla! is free software. This version may have been modified pursuant
-to the GNU General Public License, and as distributed it includes or
-is derivative of works licensed under the GNU General Public License or
-other free or open source software licenses.
-See COPYRIGHT.php for copyright notices and details.
-**/
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 ?>
 <?php echo '<?xml version="1.0" encoding="utf-8"?' .'>'; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -60,93 +57,54 @@ See COPYRIGHT.php for copyright notices and details.
   			<div class="wrap">&nbsp;</div>
 		</div> <!-- end header -->
 
-<?php
-if ($this->countModules('user1 + user2 + right + top'))
-{
-	echo '<div id="contentarea2">';
-} else {
-	echo '<div id="contentarea">';
-}
-?>
+<?php if ($this->countModules('user1 + user2 + right + top')) : ?>
+	<div id="contentarea2">
+<?php else : ?>
+	<div id="contentarea">
+<?php endif; ?>
 		<a name="mainmenu"></a>
    		<div id="left">
 			<jdoc:include type="modules" name="left" style="xhtml" />
 		</div> <!-- left -->
 
 		<a name="content"></a>
-<?php
-if ($this->countModules('user1 + user2 + right + top'))
-{
-	echo '<div id="main2">';
-} else {
-	echo '<div id="main">';
-}
+<?php if ($this->countModules('user1 + user2 + right + top')) : ?>
+	<div id="main2">
+<?php else : ?>
+	<div id="main">
+<?php endif; ?>
 
-if ($this->getBuffer('message')) {
-	echo '<div class="error">';
-	echo '<h2> Message </h2>';
-	echo ' <jdoc:include type="message" />';
-	echo '</div>';
-}
-?>
+<?php if ($this->getBuffer('message')) : ?>
+	<div class="error">
+		<h2> Message </h2>
+		<jdoc:include type="message" />
+	</div>
+<?php endif; ?>
 
-<?php
-if ($this->params->get('showComponent')) {
-?>
 	<jdoc:include type="component" />
-<?php
-} else {
-	echo "&nbsp";
-}
-?>
-
-
 
 		</div> <!-- end main or main2 -->
 		<a name="additional"></a>
-<?php
-if ($this->countModules('user1 + user2 + right + top')) {
-?>
+	<?php if ($this->countModules('user1 + user2 + right + top')) : ?>
 		<div id="right">
 		<h2 class="unsichtbar">additional informations</h2>
-	<?php
-	if ($this->countModules('top'))
-	{
-	?>
+		<?php if ($this->countModules('top')) : ?>
 		<jdoc:include type="modules" name="top" style="xhtml" />
-	<?php
-	}
-	?>
+		<?php endif; ?>
 
-	<?php
-	if ($this->countModules('user1'))
-	{
-	?>
+		<?php if ($this->countModules('user1')) : ?>
 		<jdoc:include type="modules" name="user1" style="xhtml" />
-	<?php
-	}
-	?>
+		<?php endif; ?>
 
-	<?php
-	if ($this->countModules('user2'))
-	{
-	?>
-	<jdoc:include type="modules" name="user2" style="xhtml" />
-	<?php
-	}
-	?>
+		<?php if ($this->countModules('user2')) : ?>
+		<jdoc:include type="modules" name="user2" style="xhtml" />
+		<?php endif; ?>
 
-	<?php
-	if ($this->countModules('right')) {
-	?>
+		<?php if ($this->countModules('right')) : ?>
 		<jdoc:include type="modules" name="right" style="xhtml"/>
-	<?php
-	}
-	?>
+		<?php endif; ?>
 		</div> <!-- right -->
-<?php
-}
-?>
+	<?php endif; ?>
 
 <div class="wrap"></div>
 
