@@ -140,7 +140,7 @@ class ContentView
 				if ( $now->toUnix() <= $publish_up->toUnix() && $row->state == 1 ) {
 					$img = 'publish_y.png';
 					$alt = JText::_( 'Published' );
-				} else if ( ( $now->toUnix() <= $publish_down->toUnix() || $publish_down->toUnix() == $nullDate ) && $row->state == 1 ) {
+				} else if ( ( $now->toUnix() <= $publish_down->toUnix() || $row->publish_down == $nullDate ) && $row->state == 1 ) {
 					$img = 'publish_g.png';
 					$alt = JText::_( 'Published' );
 				} else if ( $now->toUnix() > $publish_down->toUnix() && $row->state == 1 ) {
