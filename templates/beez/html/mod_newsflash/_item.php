@@ -39,6 +39,7 @@ echo ampReplace($item->text);
 if (isset ($item->linkOn) && $item->readmore) {
 	echo '<a href="' . $item->linkOn . '">' . JText :: _('Read more') . '</a>';
 }
-echo $item->afterDisplayContent;
+// AJE: Don't think this is relevent in the context of this module??
+//echo $item->afterDisplayContent;
 echo '<span class="article_separator">&nbsp;</span>';
 ?>
