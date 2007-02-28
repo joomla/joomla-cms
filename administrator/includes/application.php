@@ -57,13 +57,13 @@ class JAdministrator extends JApplication
 		// otherwise use user or default language settings
 		if (empty($options['language'])) {
 			$user = & JFactory::getUser();
-			$lang	= $user->getParam( 'language' );
+			$lang	= $user->getParam( 'admin_language' );
 			
 			// Make sure that the user's language exists
 			if ( $lang && JLanguage::languageExists($lang) ) {
 				$options['language'] = $lang;
 			} else {
-				$options['language'] = $this->getCfg('lang_site');
+				$options['language'] = $this->getCfg('lang_administrator');
 			}
 			
 		}
