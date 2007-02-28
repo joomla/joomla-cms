@@ -224,11 +224,18 @@ class JLanguage extends JObject
 	{
 		static	$languages	= array();
 		
+		// Return false if no language was specified
+		if ( ! $lang ) {
+			return false;
+		}
+		
+		// Return previous check results if it exists
 		if ( isset($languages[$lang]) )
 		{
 			return $languages[$lang];
 		}
 		
+		// Check if the language exists
 		jimport('joomla.filesystem.folder');
 		
 		$dir	= JLanguage::getLanguagePath( JPATH_BASE, $lang );
@@ -277,7 +284,7 @@ class JLanguage extends JObject
 				$path		= JLanguage::getLanguagePath( $basePath, $this->_default);
 				$filename	= empty( $prefix ) ?  $this->_default : $this->_default . '.' . $prefix ;
 				$filename	= $path.DS.$filename.'.ini';
-				
+
 				$newStrings = $this->_load( $filename );
 			}
 			

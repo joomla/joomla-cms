@@ -52,15 +52,24 @@ class JAdministrator extends JApplication
 	*/
 	function initialise($options = array())
 	{
-		// if a language was specified at login it has priority
+
+		// if a language was specified it has priority
 		// otherwise use user or default language settings
 		if (empty($options['language'])) {
-			$user =& JFactory::getUser();
-			$options['language'] = $user->getParam( 'admin_language', $this->getCfg('lang_administrator') );
+			$user = & JFactory::getUser();
+			$lang	= $user->getParam( 'language' );
+			
+			// Make sure that the user's language exists
+			if ( $lang && JLanguage::languageExists($lang) ) {
+				$options['language'] = $lang;
+			} else {
+				$options['language'] = $this->getCfg('lang_site');
+			}
+			
 		}
 
-		//One last check to make sure we have something
-		if (empty($options['language'])) {
+		// One last check to make sure we have something
+		if ( ! JLanguage::languageExists($options['language']) ) {
 			$options['language'] = 'en-GB';
 		}
 

@@ -59,11 +59,12 @@ class JSite extends JApplication
 			$lang	= $user->getParam( 'language' );
 			
 			// Make sure that the user's language exists
-			if ( ! JLanguage::languageExists($lang) ) {
-				$lang	= $this->getCfg('lang_site');
+			if ( $lang && JLanguage::languageExists($lang) ) {
+				$options['language'] = $lang;
+			} else {
+				$options['language'] = $this->getCfg('lang_site');
 			}
 			
-			$options['language'] = $lang;
 		}
 
 		// One last check to make sure we have something
