@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Feb-2007
+ # All parameter strings ( labels and descriptions ) should now go through JText
+ ^ Further tweaks on JLanguage and identifying a default language
+
 27-Feb-2007 Johan Janssens
  + Added new Beeze accessible template, contributed by the design and accessibility working group
 
