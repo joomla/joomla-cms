@@ -163,8 +163,8 @@ JPopup.prototype = {
 		// load the url
 		if(this.URL != url)
 		{
-			// Hiding the frame in Safari and Opera breaks the modal
-			if(navigator.userAgent.indexOf('Opera') == -1 && navigator.userAgent.indexOf('Safari') == -1) {
+			// Hiding the frame in Safari, Konqueror and Opera breaks the modal
+			if(navigator.userAgent.indexOf('Opera') == -1 && navigator.userAgent.indexOf('Safari') == -1 && navigator.userAgent.indexOf("Konqueror") == -1) {
 				this.frame.style.display = "none";
 			}
 

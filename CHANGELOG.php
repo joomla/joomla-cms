@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+1-Mar-2007 Mateusz Krzeszowiec
+ # WIP [artf7592] : Popups of Config don't work in Konqueror, first issue fixed
+
 28-Feb-2007
  # All parameter strings ( labels and descriptions ) should now go through JText
  ^ Further tweaks on JLanguage and identifying a default language
@@ -50,7 +53,7 @@ Legend:
 25-Feb-2007 Johan Janssens
  + Added JPATH_CACHE to the application path defines
 
-24-Feb-2007 Johan Janssens 
+24-Feb-2007 Johan Janssens
  ^ Implemented caching for administrator menu module
 
 23-Feb-2007 Sam Moffatt
