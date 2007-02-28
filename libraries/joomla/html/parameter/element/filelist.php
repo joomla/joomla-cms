@@ -34,15 +34,6 @@ class JElementFilelist extends JElement
 	*/
 	var	$_name = 'Filelist';
 
-	function fetchTooltip($label, $description, &$node, $control_name, $name)
-	{
-		$output = '<label for="'.$control_name.$name.'" class="hasTip" title="'.$label.'::'.$description.'">';
-		$output .= $label;
-		$output .= '</label>';
-
-		return $output;
-	}
-
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 		jimport( 'joomla.filesystem.folder' );

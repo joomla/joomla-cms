@@ -34,15 +34,6 @@ class JElementImageList extends JElement
 	*/
 	var	$_name = 'ImageList';
 
-	function fetchTooltip($label, $description, &$node, $control_name, $name)
-	{
-		$output = '<label for="'.$name.'" class="hasTip" title="'.$label.'::'.$description.'">';
-		$output .= $label;
-		$output .= '</label>';
-
-		return $output;
-	}
-
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 		$filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$';

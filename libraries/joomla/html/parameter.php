@@ -188,7 +188,8 @@ class JParameter extends JRegistry
 
 		if ($description = $this->_xml[$group]->attributes('description')) {
 			// add the params description to the display
-			$html[] = '<tr><td class="paramlist_description" colspan="2">'.$description.'</td></tr>';
+			$desc	= JText::_($description);
+			$html[]	= '<tr><td class="paramlist_description" colspan="2">'.$desc.'</td></tr>';
 		}
 
 		foreach ($params as $param)
