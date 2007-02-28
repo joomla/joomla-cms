@@ -118,9 +118,19 @@ class BannersModelBanner extends JModel
 			if ($trackImpressions)
 			{
 				// TODO: Add impression tracking
+				/*
 				$query = 'UPDATE #__bannertrack SET' .
 					' track_type = 1,' .
 					' banner_id = ' . $item->bid;
+				*/
+				$query = 'INSERT INTO #__bannertrack ( track_type, banner_id, track_date )' .
+					' VALUES ( 1, '.$item->bid.', \''.$trackDate.'\' )'
+					;
+				$db->setQuery( $query );
+
+				if(!$db->query()) {
+					JError::raiseError( 500, $db->stderror() );
+				}
 			}
 		}
 	}
@@ -148,7 +158,14 @@ class BannersModelBanner extends JModel
 
 		if ($trackClicks)
 		{
-			// TODO: Add click tracking
+			$query = 'INSERT INTO #__bannertrack ( track_type, banner_id, track_date )' .
+				' VALUES ( 2, '.(int)$id.', \''.$trackDate.'\' )'
+				;
+			$db->setQuery( $query );
+
+			if(!$db->query()) {
+				JError::raiseError( 500, $db->stderror() );
+			}
 		}
 
 	}

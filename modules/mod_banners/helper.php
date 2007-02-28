@@ -47,7 +47,7 @@ class modBannersHelper
 		if (!class_exists( 'BannersModelBanner' ))
 		{
 			// Build the path to the model based upon a supplied base path
-			$path = JPATH_SITE . '/components/com_banners/models/banner.php';
+			$path = JPATH_SITE.DS.'components'.DS.'com_banners'.DS.'models'.DS.'banner.php';
 			$false = false;
 
 			// If the model file exists include it and try to instantiate the object

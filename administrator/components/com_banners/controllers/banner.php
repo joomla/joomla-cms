@@ -126,7 +126,12 @@ class BannerControllerBanner extends JController
 		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
 
-		$cid 	= JRequest::getVar('cid', array(0), 'method', 'array');
+		if ($this->_task == 'edit') {
+			$cid 	= JRequest::getVar('cid', array(0), 'method', 'array');
+		} else {
+			$cid 	= array( 0 );
+		}
+
 		$option = JRequest::getVar('option');
 
 		$lists = array();

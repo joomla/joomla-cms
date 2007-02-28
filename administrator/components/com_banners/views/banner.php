@@ -47,7 +47,7 @@ class BannersViewBanner
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-				<button onclick="getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+				<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 			</td>
 			<td nowrap="nowrap">
 				<?php
@@ -196,11 +196,11 @@ class BannersViewBanner
 	{
 		$cid = JRequest::getVar( 'cid', array(), 'method', 'array');
 
-		JMenuBar::title( empty( $cid ) ? JText::_( 'New Banner Client' ) : JText::_( 'Edit Banner Client' ), 'generic.png' );
+		JMenuBar::title( empty( $cid ) ? JText::_( 'New Banner' ) : JText::_( 'Edit Banner' ), 'generic.png' );
 		JMenuBar::save( 'save' );
 		JMenuBar::apply('apply');
 		JMenuBar::cancel( 'cancel' );
-		JMenuBar::help( 'screen.banners.client.edit' );
+		JMenuBar::help( 'screen.banners.edit' );
 	}
 
 	function banner( &$row, &$lists )
@@ -234,6 +234,8 @@ class BannersViewBanner
 				alert( "<?php echo JText::_( 'Please select an image.', true ); ?>" );*/
 			/*} else if (form.clickurl.value == "") {
 				alert( "<?php echo JText::_( 'Please fill in the URL for the banner.', true ); ?>" );*/
+			} else if ( getSelectedValue('adminForm','catid') == 0 ) {
+				alert( "<?php echo JText::_( 'Please select a category.', true ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}

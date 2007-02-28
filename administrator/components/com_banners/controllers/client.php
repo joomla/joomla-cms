@@ -103,7 +103,12 @@ class BannerControllerClient extends JController
 		$user	=& JFactory::getUser();
 
 		$userId	= $user->get ( 'id' );
-		$cid 	= JRequest::getVar( 'cid', array(0), 'method', 'array' );
+
+		if ($this->_task == 'edit') {
+			$cid 	= JRequest::getVar('cid', array(0), 'method', 'array');
+		} else {
+			$cid 	= array( 0 );
+		}
 
 		$row =& JTable::getInstance('bannerclient', 'Table');
 		$row->load( (int) $cid[0] );
