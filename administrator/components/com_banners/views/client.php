@@ -133,9 +133,9 @@ class BannersViewClients
 
 	function setClientToolbar()
 	{
-		$cid = JRequest::getVar( 'cid', array(), 'method', 'array');
+		$task = JRequest::getVar( 'task', '', 'method', 'string');
 
-		JMenuBar::title( empty( $cid ) ? JText::_( 'New Banner Client' ) : JText::_( 'Edit Banner Client' ), 'generic.png' );
+		JMenuBar::title( $task == 'add' ? JText::_( 'New Banner Client' ) : JText::_( 'Edit Banner Client' ), 'generic.png' );
 		JMenuBar::save( 'save' );
 		JMenuBar::apply('apply');
 		JMenuBar::cancel( 'cancel' );

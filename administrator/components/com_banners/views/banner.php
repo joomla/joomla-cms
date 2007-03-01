@@ -194,9 +194,9 @@ class BannersViewBanner
 
 	function setBannerToolbar()
 	{
-		$cid = JRequest::getVar( 'cid', array(), 'method', 'array');
+		$task = JRequest::getVar( 'task', '', 'method', 'string');
 
-		JMenuBar::title( empty( $cid ) ? JText::_( 'New Banner' ) : JText::_( 'Edit Banner' ), 'generic.png' );
+		JMenuBar::title( $task == 'add' ? JText::_( 'New Banner' ) : JText::_( 'Edit Banner' ), 'generic.png' );
 		JMenuBar::save( 'save' );
 		JMenuBar::apply('apply');
 		JMenuBar::cancel( 'cancel' );
