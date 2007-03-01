@@ -286,7 +286,7 @@ class ContentViewFrontpage extends JView
 				// checks if the item is a public or registered/special item
 				if ($item->access <= $user->get('aid', 0))
 				{
-					$linkOn = JRoute::_("index.php?option=com_content&view=article&id=".$item->slug);
+					$linkOn = JRoute::_("index.php?option=com_content&view=article&id=".$item->slug.'&Itemid='.JContentHelper::getItemid($item->id, $item->catid, $item->sectionid));
 					$linkText = JText::_('Read more...');
 				}
 				else
