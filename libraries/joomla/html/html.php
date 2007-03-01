@@ -745,7 +745,7 @@ class JAdminMenus
 		if ( $id ) {
 			$query = 'SELECT ordering AS value, name AS text'
 			. ' FROM #__menu'
-			. ' WHERE menutype = \''.$row->menutype.
+			. ' WHERE menutype = \''.$row->menutype
 			. '\' AND parent = '.$row->parent
 			. ' AND published != -2'
 			. ' ORDER BY ordering';
