@@ -198,12 +198,11 @@ class JAdminSubMenu
 	{
 		$db = & JFactory::getDBO();
 
-		$query = "SELECT a.name, a.admin_menu_link, a.admin_menu_img" .
-		"\n FROM #__components AS a" .
-		"\n INNER JOIN #__components AS b ON b.id = a.parent" .
-		"\n WHERE b.option = " . $db->Quote( $componentOption ) .
-		"\n AND b.parent = 0"
-		;
+		$query = 'SELECT a.name, a.admin_menu_link, a.admin_menu_img' .
+		' FROM #__components AS a' .
+		' INNER JOIN #__components AS b ON b.id = a.parent' .
+		' WHERE b.option = ' . $db->Quote( $componentOption ) .
+		' AND b.parent = 0';
 
 		$db->setQuery($query);
 		$items = $db->loadObjectList();

@@ -60,30 +60,18 @@ $nullDate	= $db->getNullDate();
 
 		if ($foundCO && $foundCOT) {
 			if ($foundE) {
-				$query = "SELECT checked_out, editor"
-				. "\n FROM $tn"
-				. "\n WHERE checked_out > 0"
-				;
+				$query = 'SELECT checked_out, editor FROM '.$tn.' WHERE checked_out > 0';
 			} else {
-				$query = "SELECT checked_out"
-				. "\n FROM $tn"
-				. "\n WHERE checked_out > 0"
-				;
+				$query = 'SELECT checked_out FROM '.$tn.' WHERE checked_out > 0';
 			}
 			$db->setQuery( $query );
 			$res = $db->query();
 			$num = $db->getNumRows( $res );
 
 			if ($foundE) {
-				$query = "UPDATE $tn"
-				. "\n SET checked_out = 0, checked_out_time = '$nullDate', editor = NULL"
-				. "\n WHERE checked_out > 0"
-				;
+				$query = 'UPDATE '.$tn.' SET checked_out = 0, checked_out_time = \''.$nullDate.'\', editor = NULL WHERE checked_out > 0';
 			} else {
-				$query = "UPDATE $tn"
-				. "\n SET checked_out = 0, checked_out_time = '$nullDate'"
-				. "\n WHERE checked_out > 0"
-				;
+				$query = 'UPDATE '.$tn.' SET checked_out = 0, checked_out_time = \''.$nullDate.'\' WHERE checked_out > 0';
 			}
 			$db->setQuery( $query );
 			$res = $db->query();

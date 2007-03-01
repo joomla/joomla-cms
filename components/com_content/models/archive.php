@@ -96,15 +96,15 @@ class ContentModelArchive extends JModel
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
 
-		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-			"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
-			"\n CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(':', a.id, a.title_alias) ELSE a.id END as slug,".
-			"\n CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, cc.name AS category, g.name AS groups".$voting['select'] .
-			"\n FROM #__content AS a" .
-			"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
-			"\n LEFT JOIN #__sections AS s ON s.id = a.sectionid" .
-			"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-			"\n LEFT JOIN #__groups AS g ON a.access = g.id".
+		$query = 'SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,'.
+			' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
+			' CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(\':\', a.id, a.title_alias) ELSE a.id END as slug,'.
+			' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, cc.name AS category, g.name AS groups'.$voting['select'] .
+			' FROM #__content AS a' .
+			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
+			' LEFT JOIN #__sections AS s ON s.id = a.sectionid' .
+			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
+			' LEFT JOIN #__groups AS g ON a.access = g.id'.
 			$voting['join'].
 			$where.
 			$orderby;
@@ -117,9 +117,9 @@ class ContentModelArchive extends JModel
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
 	
-		$orderby = "\n ORDER BY ";
+		$orderby = ' ORDER BY ';
 		if ($filter_order && $filter_order_Dir) {
-			$orderby .= "$filter_order $filter_order_Dir, ";
+			$orderby .= $filter_order.' '.$filter_order_Dir.', ';
 		}
 
 		// Get the paramaters of the active menu item
@@ -144,20 +144,20 @@ class ContentModelArchive extends JModel
 		$aid	= (int) $user->get('aid', 0);
 
 		// First thing we need to do is build the access section of the clause
-		$where = "\n WHERE a.access <= $aid";
-		$where .= "\n AND s.access <= $aid";
-		$where .= "\n AND cc.access <= $aid";
-		$where .= "\n AND s.published = 1";
-		$where .= "\n AND cc.published = 1";
+		$where = ' WHERE a.access <= '.$aid;
+		$where .= ' AND s.access <= '.$aid;
+		$where .= ' AND cc.access <= '.$aid;
+		$where .= ' AND s.published = 1';
+		$where .= ' AND cc.published = 1';
 
-		$where .= "\n AND a.state = '-1'";
+		$where .= ' AND a.state = \'-1\'';
 		$year	= JRequest::getVar( 'year' );
 		if ($year) {
-			$where .= "\n AND YEAR( a.created ) = '$year'";
+			$where .= ' AND YEAR( a.created ) = \''.$year.'\'';
 		}
 		$month	= JRequest::getVar( 'month' );
 		if ($month) {
-			$where .= "\n AND MONTH( a.created ) = '$month'";
+			$where .= ' AND MONTH( a.created ) = \''.$month.'\'';
 		}
 
 		/*
@@ -176,15 +176,15 @@ class ContentModelArchive extends JModel
 			switch ($params->get('filter_type', 'title'))
 			{
 				case 'title' :
-					$where .= "\n AND LOWER( a.title ) LIKE '%$filter%'";
+					$where .= ' AND LOWER( a.title ) LIKE \'%'.$filter.'%\'';
 					break;
 
 				case 'author' :
-					$where .= "\n AND ( ( LOWER( u.name ) LIKE '%$filter%' ) OR ( LOWER( a.created_by_alias ) LIKE '%$filter%' ) )";
+					$where .= ' AND ( ( LOWER( u.name ) LIKE \'%'.$filter.'%\' ) OR ( LOWER( a.created_by_alias ) LIKE \'%'.$filter.'%\' ) )';
 					break;
 
 				case 'hits' :
-					$where .= "\n AND a.hits LIKE '%$filter%'";
+					$where .= ' AND a.hits LIKE \'%'.$filter.'%\'';
 					break;
 			}
 		}

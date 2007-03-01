@@ -63,16 +63,16 @@ class plgAuthenticateJoomla extends JPlugin
 
 		// If we are in the admin panel, make sure we have access to it
 		if($mainframe->isAdmin()) {
-			$conditions = " AND gid > 22";
+			$conditions = ' AND gid > 22';
 		}
 
 		// Get a database object
 		$db =& JFactory::getDBO();
 
-		$query = "SELECT `id`"
-			. "\nFROM `#__users`"
-			. "\nWHERE username=" . $db->Quote( $username )
-			. "\n AND password=" . $db->Quote( JUserHelper::getCryptedPassword( $password ) )
+		$query = 'SELECT `id`'
+			. ' FROM `#__users`'
+			. ' WHERE username=' . $db->Quote( $username )
+			. ' AND password=' . $db->Quote( JUserHelper::getCryptedPassword( $password ) )
 			. $conditions;
 
 		$db->setQuery( $query );

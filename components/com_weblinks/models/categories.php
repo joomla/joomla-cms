@@ -95,16 +95,16 @@ class WeblinksModelCategories extends JModel
 		$aid = $user->get('aid', 0);
 
 		//Query to retrieve all categories that belong under the web links section and that are published.
-		$query = "SELECT *, COUNT(a.id) AS numlinks,"
-			."\n CASE WHEN CHAR_LENGTH(cc.name) THEN CONCAT_WS(':', cc.id, cc.name) ELSE cc.id END as slug"
-			."\n FROM #__categories AS cc"
-			."\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id"
-			."\n WHERE a.published = 1" 
-			."\n AND section = 'com_weblinks'"
-			."\n AND cc.published = 1"
-			."\n AND cc.access <= ".(int) $aid
-			."\n GROUP BY cc.id"
-			."\n ORDER BY cc.ordering";
+		$query = 'SELECT *, COUNT(a.id) AS numlinks,'
+			.' CASE WHEN CHAR_LENGTH(cc.name) THEN CONCAT_WS(\':\', cc.id, cc.name) ELSE cc.id END as slug'
+			.' FROM #__categories AS cc'
+			.' LEFT JOIN #__weblinks AS a ON a.catid = cc.id'
+			.' WHERE a.published = 1' 
+			.' AND section = \'com_weblinks\''
+			.' AND cc.published = 1'
+			.' AND cc.access <= '.(int) $aid
+			.' GROUP BY cc.id'
+			.' ORDER BY cc.ordering';
 
 		return $query;
 	}

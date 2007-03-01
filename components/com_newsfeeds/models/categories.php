@@ -95,16 +95,16 @@ class NewsfeedsModelCategories extends JModel
 		$gid = $user->get('aid', 0);
 
 		/* Query to retrieve all categories that belong under the newsfeeds section and that are published. */
-		$query = "SELECT cc.*, a.catid, COUNT(a.id) AS numlinks,"
-			. "\n CASE WHEN CHAR_LENGTH(cc.name) THEN CONCAT_WS(':', cc.id, cc.name) ELSE cc.id END as slug"
-			. "\n FROM #__categories AS cc"
-			. "\n LEFT JOIN #__newsfeeds AS a ON a.catid = cc.id"
-			. "\n WHERE a.published = 1"
-			. "\n AND cc.section = 'com_newsfeeds'"
-			. "\n AND cc.published = 1"
-			. "\n AND cc.access <= ".(int) $gid
-			. "\n GROUP BY cc.id"
-			. "\n ORDER BY cc.ordering"
+		$query = 'SELECT cc.*, a.catid, COUNT(a.id) AS numlinks,'
+			. ' CASE WHEN CHAR_LENGTH(cc.name) THEN CONCAT_WS(\':\', cc.id, cc.name) ELSE cc.id END as slug'
+			. ' FROM #__categories AS cc'
+			. ' LEFT JOIN #__newsfeeds AS a ON a.catid = cc.id'
+			. ' WHERE a.published = 1'
+			. ' AND cc.section = \'com_newsfeeds\''
+			. ' AND cc.published = 1'
+			. ' AND cc.access <= '.(int) $gid
+			. ' GROUP BY cc.id'
+			. ' ORDER BY cc.ordering'
 		;
 
 		return $query;

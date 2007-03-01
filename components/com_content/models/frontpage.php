@@ -122,17 +122,17 @@ class ContentModelFrontpage extends JModel
 		$where	 = $this->_buildContentWhere();
 		$orderby = $this->_buildContentOrderBy();
 
-		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-			"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
-			"\n CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(':', a.id, a.title_alias) ELSE a.id END as slug,".
-			"\n CHAR_LENGTH( a.`fulltext` ) AS readmore," .
-			"\n u.name AS author, u.usertype, g.name AS groups, cc.name AS category".
+		$query = 'SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
+			' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
+			' CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(\':\', a.id, a.title_alias) ELSE a.id END as slug,'.
+			' CHAR_LENGTH( a.`fulltext` ) AS readmore,' .
+			' u.name AS author, u.usertype, g.name AS groups, cc.name AS category'.
 			$voting['select'] .
-			"\n FROM #__content AS a" .
-			"\n INNER JOIN #__content_frontpage AS f ON f.content_id = a.id" .
-			"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid".
-			"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-			"\n LEFT JOIN #__groups AS g ON a.access = g.id".
+			' FROM #__content AS a' .
+			' INNER JOIN #__content_frontpage AS f ON f.content_id = a.id' .
+			' LEFT JOIN #__categories AS cc ON cc.id = a.catid'.
+			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
+			' LEFT JOIN #__groups AS g ON a.access = g.id'.
 			$voting['join'].
 			$where.
 			$orderby;
@@ -152,7 +152,7 @@ class ContentModelFrontpage extends JModel
 		$secondary		= JContentHelper::orderbySecondary($orderby_sec);
 		$primary		= JContentHelper::orderbyPrimary($orderby_pri);
 
-		$orderby = "\n ORDER BY $primary $secondary";
+		$orderby = ' ORDER BY '.$primary.' '.$secondary;
 
 		return $orderby;
 	}
@@ -174,19 +174,19 @@ class ContentModelFrontpage extends JModel
 		$nullDate	= $this->_db->getNullDate();
 
 		//First thing we need to do is assert that the articles are in the current category
-		$where = "\n WHERE 1";
+		$where = ' WHERE 1';
 
 		// Does the user have access to view the items?
 		if ($noauth) {
-			$where .= "\n AND a.access <= ".(int) $gid;
+			$where .= ' AND a.access <= '.(int) $gid;
 		}
 
 		if ($user->authorize('action', 'edit', 'content', 'all')) {
-			$where .= "\n AND a.state >= 0";
+			$where .= ' AND a.state >= 0';
 		} else {
-			$where .= "\n AND a.state = 1" .
-					"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
-					"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
+			$where .= ' AND a.state = 1' .
+					' AND ( publish_up = \''.$nullDate.'\' OR publish_up <= \''.$now.'\' )' .
+					' AND ( publish_down = \''.$nullDate.'\' OR publish_down >= \''.$now.'\' )';
 		}
 
 		return $where;

@@ -743,13 +743,12 @@ class JAdminMenus
 		$db =& JFactory::getDBO();
 
 		if ( $id ) {
-			$query = "SELECT ordering AS value, name AS text"
-			. "\n FROM #__menu"
-			. "\n WHERE menutype = '$row->menutype'"
-			. "\n AND parent = $row->parent"
-			. "\n AND published != -2"
-			. "\n ORDER BY ordering"
-			;
+			$query = 'SELECT ordering AS value, name AS text'
+			. ' FROM #__menu'
+			. ' WHERE menutype = \''.$row->menutype.
+			. '\' AND parent = '.$row->parent
+			. ' AND published != -2'
+			. ' ORDER BY ordering';
 			$order = JAdminMenus::GenericOrdering( $query );
 			$ordering = JHTMLSelect::genericList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
@@ -959,7 +958,7 @@ class JAdminMenus
 		$and = '';
 		if ( $reg ) {
 		// does not include registered users in the list
-			$and = "\n AND gid > 18";
+			$and = ' AND gid > 18';
 		}
 
 		$query = 'SELECT id AS value, name AS text'

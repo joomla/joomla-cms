@@ -157,20 +157,18 @@ class JPluginHelper
 		{
 			$aid = $user->get('aid', 0);
 
-			$query = "SELECT id, name, folder, element, published, params"
-				. "\n FROM #__plugins"
-				. "\n WHERE published >= 1"
-				. "\n AND access <= " . (int) $aid
-				. "\n ORDER BY ordering"
-				;
+			$query = 'SELECT id, name, folder, element, published, params'
+				. ' FROM #__plugins'
+				. ' WHERE published >= 1'
+				. ' AND access <= ' . (int) $aid
+				. ' ORDER BY ordering';
 		} 
 		else 
 		{
-			$query = "SELECT id, name, folder, element, published, params"
-				. "\n FROM #__plugins"
-				. "\n WHERE published >= 1"
-				. "\n ORDER BY ordering"
-				;
+			$query = 'SELECT id, name, folder, element, published, params'
+				. ' FROM #__plugins'
+				. ' WHERE published >= 1'
+				. ' ORDER BY ordering';
 		}
 
 		$db->setQuery( $query );

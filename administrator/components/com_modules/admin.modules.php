@@ -129,7 +129,7 @@ class ModulesController extends JController
 		}
 
 		$where 		= ' WHERE ' . implode( ' AND ', $where );
-		$join 		= ' ' . implode( "\n ", $joins );
+		$join 		= ' ' . implode( " ", $joins );
 		$orderby 	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', m.ordering ASC';
 
 		// get the total number of records

@@ -57,10 +57,10 @@ class ContactModelContact extends JModel
 		 * Query to retrieve all categories that belong under the contacts
 		 * section and that are published.
 		 */
-		$query = "SELECT " . $select .
-				"\n FROM " . $from .
-				"\n  " . implode ( "\n  ", $joins ) .
-				"\n WHERE " . implode( "\n  AND ", $wheres );
+		$query = 'SELECT ' . $select .
+				' FROM ' . $from .
+				' '. implode ( ' ', $joins ) .
+				' WHERE ' . implode( ' AND ', $wheres );
 
 		return $query;
 	}

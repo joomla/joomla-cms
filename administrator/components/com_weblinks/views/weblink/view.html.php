@@ -95,11 +95,10 @@ class WeblinksViewWeblink extends JView
 		}
 
 		// build the html select list for ordering
-		$query = "SELECT ordering AS value, title AS text"
-			. "\n FROM #__weblinks"
-			. "\n WHERE catid = " . (int) $weblink->catid
-			. "\n ORDER BY ordering"
-		;
+		$query = 'SELECT ordering AS value, title AS text'
+			. ' FROM #__weblinks'
+			. ' WHERE catid = ' . (int) $weblink->catid
+			. ' ORDER BY ordering';
 		$lists['ordering'] 			= JAdminMenus::SpecificOrdering( $weblink, $weblink->id, $query, 1 );
 
 		// build list of categories

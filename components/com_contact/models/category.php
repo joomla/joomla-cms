@@ -35,11 +35,6 @@ class ContactModelCategory extends JModel
 		$db		=& JFactory::getDBO();
 		$aid	= @$options['aid'];
 
-		$select = 'cc.*, COUNT( a.id ) AS numlinks, a.id as cid';
-		$from	= '#__categories AS cc';
-
-		$joins[] = 'LEFT JOIN #__contact_details AS a ON a.catid = cc.id';
-
 		$wheres[] = 'a.published = 1';
 		$wheres[] = 'cc.section = ' . $db->Quote( 'com_contact_details' );
 		$wheres[] = 'cc.published = 1';
@@ -57,12 +52,12 @@ class ContactModelCategory extends JModel
 		 * Query to retrieve all categories that belong under the contacts
 		 * section and that are published.
 		 */
-		$query = "SELECT " . $select .
-				"\n FROM " . $from .
-				"\n " . implode ( "\n", $joins ) .
-				"\n WHERE " . implode( "\n AND ", $wheres ) .
-				"\n GROUP BY " . $groupBy .
-				"\n ORDER BY " . $orderBy;
+		$query = 'SELECT cc.*, COUNT( a.id ) AS numlinks, a.id as cid'.
+				' FROM #__categories AS cc'.
+				' LEFT JOIN #__contact_details AS a ON a.catid = cc.id'.
+				' WHERE ' . implode( ' AND ', $wheres ) .
+				' GROUP BY ' . $groupBy .
+				' ORDER BY ' . $orderBy;
 
 		//echo $query;
 		return $query;
@@ -109,12 +104,12 @@ class ContactModelCategory extends JModel
 		 * Query to retrieve all categories that belong under the contacts
 		 * section and that are published.
 		 */
-		$query = "SELECT " . $select .
-				"\n FROM " . $from .
-				"\n  " . implode ( "\n  ", $joins ) .
-				"\n WHERE " . implode( "\n  AND ", $wheres ) .
-				($groupBy ? "\n GROUP BY " . $groupBy : '').
-				($orderBy ? "\n ORDER BY " . $orderBy : '');
+		$query = 'SELECT ' . $select .
+				' FROM ' . $from .
+				' ' . implode ( ' ', $joins ) .
+				' WHERE ' . implode( ' AND ', $wheres ) .
+				($groupBy ? ' GROUP BY ' . $groupBy : '').
+				($orderBy ? ' ORDER BY ' . $orderBy : '');
 
 		//echo "<pre>$query</pre>";
 		return $query;
