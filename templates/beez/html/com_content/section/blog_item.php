@@ -89,7 +89,7 @@ if ((!empty ($this->item->modified) && $this->params->get('modifydate')) || ($th
 		echo JText :: _('Last Updated') . ' (' . JHTML :: Date($this->item->modified, DATE_FORMAT_LC2) . ')';
 		echo '</span>';
 	}
-	if (($this->params->get('author')) && ($this->item->author != "")) {
+	if (($this->params->get('showAuthor')) && ($this->item->author != "")) {
 		echo '<span class="createdby">';
 		JText :: printf('Written by', ($this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author));
 		echo '</span>';
