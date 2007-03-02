@@ -380,7 +380,7 @@ function modMainMeuXMLCallback(&$node, $args)
 		}
 	} else {
 		if (isset($args['children']) && !$args['children']) {
-			$children = &$node->children();
+			$children = $node->children();
 			foreach ($node->children() as $child)
 			{
 				if ($child->name() == 'ul') {
