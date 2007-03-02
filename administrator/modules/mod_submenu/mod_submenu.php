@@ -202,7 +202,8 @@ class JAdminSubMenu
 		' FROM #__components AS a' .
 		' INNER JOIN #__components AS b ON b.id = a.parent' .
 		' WHERE b.option = ' . $db->Quote( $componentOption ) .
-		' AND b.parent = 0';
+		' AND b.parent = 0'.
+		' ORDER BY a.ordering ASC';
 
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
