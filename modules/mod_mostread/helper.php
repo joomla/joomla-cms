@@ -65,7 +65,7 @@ class modMostReadHelper
 			// & xhtml compliance conversion
 			$row->title = ampReplace( $row->title );
 
-			$link = JRoute::_( 'index.php?option=com_content&view=article&id='. $row->id . '&Itemid='. $row->my_itemid );
+			$link = JRoute::_( 'index.php?view=article&id='. $row->id . '&Itemid='. $row->my_itemid );
 
 			$lists[$i]->link	= $link;
 			$lists[$i]->text	= $row->title;

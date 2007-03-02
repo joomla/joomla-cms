@@ -357,9 +357,10 @@ function modMainMeuXMLCallback(&$node, $args)
 {
 	$menu	= &JMenu::getInstance();
 	$active	= $menu->getActive();
-	$path	= array_reverse($active->tree);
+	$path	= isset($active) ? array_reverse($active->tree) : null;
 
-	if (($args['end']) && ($node->attributes('level') >= $args['end'])) {
+	if (($args['end']) && ($node->attributes('level') >= $args['end'])) 
+	{
 		$children = &$node->children();
 		foreach ($node->children() as $child)
 		{
@@ -372,14 +373,19 @@ function modMainMeuXMLCallback(&$node, $args)
 	if (($node->name() == 'li') && isset($node->ul)) {
 		$node->addAttribute('class', 'parent');
 	}
-	if (in_array($node->attributes('id'), $path)) {
+	
+	if (isset($path) && in_array($node->attributes('id'), $path)) 
+	{
 		if ($node->attributes('class')) {
 			$node->addAttribute('class', $node->attributes('class').' active');
 		} else {
 			$node->addAttribute('class', 'active');
 		}
-	} else {
-		if (isset($args['children']) && !$args['children']) {
+	} 
+	else 
+	{
+		if (isset($args['children']) && !$args['children']) 
+		{
 			$children = $node->children();
 			foreach ($node->children() as $child)
 			{
@@ -389,7 +395,8 @@ function modMainMeuXMLCallback(&$node, $args)
 			}
 		}
 	}
-	if ($node->attributes('id') == $path[0]) {
+	
+	if (isset($path) && $node->attributes('id') == $path[0]) {
 		$node->addAttribute('id', 'current');
 	} else {
 		$node->removeAttribute('id');

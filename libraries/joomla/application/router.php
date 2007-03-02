@@ -153,8 +153,26 @@ class JRouter extends JObject
 	{
 		//Create the URI object based on the passed in URL
 		$uri = JURI::getInstance($url);
+		
+		/*
+		 * Handle raw URL
+		 */ 
+		if($itemid = $uri->getVar('Itemid')) 
+		{
+			//Set active menu item
+			$menu  =& JMenu::getInstance();
+			$menu->setActive($itemid);
+		
+			$item = $menu->getActive();
+				
+			//Set request information
+			JRequest::set($item->query, 'get', false);
+			return;
+		}
 
-		// Get menu object
+		/*
+		 * Handle routed URL
+		 */ 
 		$menu =& JMenu::getInstance();
 
 		// Get the base and full URLs
@@ -163,39 +181,20 @@ class JRouter extends JObject
 
 		$url = urldecode(trim(str_replace($base, '', $full), '/'));
 		$url = str_replace('index.php/', '', $url);
-
-		if (!$itemid = $uri->getVar('Itemid'))
+		
+		// Set document link
+		$doc = & JFactory::getDocument();
+		$doc->setLink($base);
+		
+		// Parse the route
+		if (!empty($url)) 
 		{
-			// Set document link
-			$doc = & JFactory::getDocument();
-			$doc->setLink($base);
-
-			if (!empty($url))
-			{
-				//Need to reverse the array (highest sublevels first)
-				$items = array_reverse($menu->getMenu());
-
-				foreach ($items as $item)
-				{
-					if(strpos($url, $item->route) === 0)
-					{
-						$itemid = $item->id;
-						$url    = str_replace($item->route, '', $url);
-						break;
-					}
-				}
-			}
+			// Parse application segment
+			$this->_parseApplicationSegment($url);
+							
+			//Parse component segment
+			$this->_parseComponentSegment($url);
 		}
-
-		// tcp added, temp fix
-		$item = $itemid ? $menu->getItem($itemid) : $menu->getDefault();
-		$menu->setActive($item->id);
-
-		JRequest::set($item->query, 'get', false);	//how do we deal with this ?
-		JRequest::setVar('Itemid', ($item) ? $item->id : null);
-
-		//Parse component segment
-		$this->parseComponentSegment($item->component, $url);
 	}
 
 	/**
@@ -214,7 +213,7 @@ class JRouter extends JObject
 		if (!$strings) {
 			$strings = array();
 		}
-
+		
 		// Replace all &amp; with & - ensures cache integrity
 		$string = str_replace('&amp;', '&', $value);
 
@@ -225,27 +224,30 @@ class JRouter extends JObject
 			$menu =& JMenu::getInstance();
 
 			// If the itemid isn't set in the URL use default
-			if(!$itemid = $uri->getVar('Itemid'))
-			{
-				if($itemid = JRequest::getVar('Itemid')) {
-					$uri->setVar('Itemid', $itemid);
-				}
+			if(!$itemid = $uri->getVar('Itemid')) {
+				$uri->setVar('Itemid', JRequest::getVar('Itemid', $menu->getDefault()));
+			}
+			
+			// Get the active menu item
+			$item = $menu->getItem($uri->getVar(('Itemid')));
+			
+			// If the option isn't set in the URL use the itemid
+			if(!$option = $uri->getVar('option')) {
+				$uri->setVar('option', $item->component);
 			}
 
 			// rewite URL
-			if ($itemid && $this->_mode && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php'))
+			if ($this->_mode && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php'))
 			{
 				$route = ''; //the route created
 
-				// get the menu item for the itemid
-				$item = $menu->getItem($itemid);
-
-				$uri->delVar('option'); //don't need the option anymore
-				$uri->delVar('Itemid'); //don't need the itemid anymore
 				$query = $uri->getQuery(true);
 
-				//Build component route
-				$route = $this->buildComponentSegment($item->component, $query);
+				//Built application segment
+				$app_segment = $this->_buildApplicationSegment($query);
+				
+				//Build component segment
+				$com_segment = $this->_buildComponentSegment($query);
 
 				//Set query again in the URI
 				$uri->setQuery($query);
@@ -266,7 +268,7 @@ class JRouter extends JObject
 				}
 
 				//Create the route
-				$url = $item->route.$route.$fragment.$query;
+				$url = $app_segment.$com_segment.$fragment.$query;
 
 				//Prepend the base URI if we are not using mod_rewrite
 				if ($this->_mode == 1) {
@@ -283,41 +285,112 @@ class JRouter extends JObject
 
 		return str_replace( '&', '&amp;', $strings[$string] );
 	}
+	
+	/**
+	* Parse a application specific route
+	*
+	* @access protected
+	*/
+	function _parseApplicationSegment(&$url)
+	{
+		if(substr($url, 0, 9) == 'component') 
+		{
+			$segments = explode('/', $url);
+			$url = ''; 
+			
+			JRequest::setVar('option', 'com_'.$segments[1]);
+		}
+		else
+		{
+			$menu  =& JMenu::getInstance();
+		
+			//Need to reverse the array (highest sublevels first)
+			$items = array_reverse($menu->getMenu());
+
+			$itemid = null;
+			foreach ($items as $item)
+			{
+				if(strpos($url, $item->route) === 0)
+				{
+					$itemid = $item->id;
+					$url    = str_replace($item->route, '', $url);
+					break;
+				}
+			}
+		
+			//Set active menu item
+			$menu->setActive($itemid);
+			
+			//Set request information
+			JRequest::set($item->query, 'get', false);		
+			JRequest::setVar('Itemid', $itemid);
+		}
+	}
 
 	/**
 	* Parse a component specific route
 	*
-	* @access public
+	* @access protected
 	*/
-	function parseComponentSegment($component, $route)
+	function _parseComponentSegment($url)
 	{
+		$segments = explode('/', $url);
+		array_shift($segments);
+			
+		$component = JRequest::getVar('option');
+		
 		// Use the component routing handler if it exists
 		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
 
-		$routeArray = explode('/', $route);
-		array_shift($routeArray);
-
-		if (file_exists($path) && count($routeArray))
+		if (file_exists($path) && count($segments))
 		{
 			$limitstart = JRequest::getVar('start', null, 'get');
 			if(isset($limitstart)) {
 				JRequest::setVar('limitstart', $limitstart);
 			}
-
+			
 			require_once $path;
 			$function =  substr($component, 4).'ParseRoute';
-			$function($routeArray);
+			$function($segments);
 		}
+	}
+	
+	/**
+	* Build the application specific route
+	*
+	* @access protected
+	*/
+	function _buildApplicationSegment(&$query)
+	{
+		$route = '';
+		
+		$menu =& JMenu::getInstance();
+		$item = $menu->getItem($query['Itemid']);
+		
+		if($query['option'] == $item->component) {
+			$route = $item->route;
+		} else {
+			$route = 'component/'.substr($query['option'], 4);
+		}
+	
+		return $route;
 	}
 
 	/**
-	* Build a component specific route
+	* Build the component specific route
 	*
-	* @access public
+	* @access protected
 	*/
-	function buildComponentSegment($component, &$query)
+	function _buildComponentSegment(&$query)
 	{
 		$route = '';
+		
+		// Get the component
+		$component = $query['option'];
+		
+		// Unset unneeded query information
+		unset($query['option']); 
+		unset($query['Itemid']); 
 
 		// Use the component routing handler if it exists
 		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';

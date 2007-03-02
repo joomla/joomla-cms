@@ -37,7 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-1-Mar-2007 Mateusz Krzeszowiec
+02-Mar-2007 Johan Janssens
+ ^ Implemented simple routing mechanism in JRouter to handle none Itemid linked URL's
+
+01-Mar-2007 Mateusz Krzeszowiec
  # WIP [artf7592] : Popups of Config don't work in Konqueror, first issue fixed
 
 28-Feb-2007
