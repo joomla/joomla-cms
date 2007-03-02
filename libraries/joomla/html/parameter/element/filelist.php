@@ -58,20 +58,23 @@ class JElementFilelist extends JElement
 			$options[] = JHTMLSelect::option('', '- '.JText::_('Use default').' -');
 		}
 
-		foreach ($files as $file)
+		if ( is_array($files) )
 		{
-			if ($exclude)
+			foreach ($files as $file)
 			{
-				if (preg_match( chr( 1 ) . $exclude . chr( 1 ), $file ))
+				if ($exclude)
 				{
-					continue;
+					if (preg_match( chr( 1 ) . $exclude . chr( 1 ), $file ))
+					{
+						continue;
+					}
 				}
+				if ($stripExt)
+				{
+					$file = JFile::stripExt( $file );
+				}
+				$options[] = JHTMLSelect::option($file, $file);
 			}
-			if ($stripExt)
-			{
-				$file = JFile::stripExt( $file );
-			}
-			$options[] = JHTMLSelect::option($file, $file);
 		}
 
 		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
