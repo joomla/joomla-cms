@@ -108,7 +108,7 @@ class JDatabaseMySQL extends JDatabase
 	*/
 	function getEscaped( $text )
 	{
-		return mysql_real_escape_string( $text );
+		return mysql_real_escape_string( $text, $this->_resource );
 	}
 
 	/**
@@ -392,7 +392,7 @@ class JDatabaseMySQL extends JDatabase
 	 * Inserts a row into a table based on an objects properties
 	 * @param	string	The name of the table
 	 * @param	object	An object whose properties match table fields
-	 * @param	string	The name of the primary key. If provided the object property is updated. 
+	 * @param	string	The name of the primary key. If provided the object property is updated.
 	 */
 	function insertObject( $table, &$object, $keyName = NULL )
 	{
