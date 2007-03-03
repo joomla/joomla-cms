@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Mar-2007 Jason Kendall
+ # [artf7559] - missing _resource call in mysql
+
 02-Mar-2007 Johan Janssens
  ^ Implemented simple routing mechanism in JRouter to handle none Itemid linked URL's
 
