@@ -16,7 +16,6 @@
 defined('JPATH_BASE') or die();
 
 jimport( 'joomla.html.parameter'  );
-jimport( 'joomla.utilities.array' );
 
 /**
  * User class.  Handles all application interaction with a user
@@ -346,6 +345,7 @@ class JUser extends JObject
 	function bind(& $array)
 	{
 		jimport('joomla.user.helper');
+		jimport( 'joomla.utilities.array' );
 
 		// Lets check to see if the user is new or not
 		if (empty($this->id) /*&& $array['id']*/)
@@ -452,6 +452,8 @@ class JUser extends JObject
 	 */
 	function save( $updateOnly = false )
 	{
+		jimport( 'joomla.utilities.array' );
+		
 		// Create the user table object
 		$table 	=& JTable::getInstance( 'user');
 		$table->bind(JArrayHelper::fromObject($this, false));

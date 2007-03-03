@@ -16,7 +16,6 @@
 defined('JPATH_BASE') or die();
 
 // Include library dependencies
-jimport('joomla.filter.input');
 jimport('joomla.application.plugin.*');
 
 /**
@@ -182,19 +181,6 @@ class JApplication extends JObject
 	 */
 	function redirect( $url, $msg='', $msgType='message' )
 	{
-		//TODO :: does this needs to be filtered here ?
-		// Instantiate an input filter and process the URL and message
-		$filter = & JInputFilter::getInstance();
-		$url	= $filter->clean( $url );
-
-		if (!empty($msg)) {
-			$msg = $filter->clean( $msg );
-		}
-
-		if (JInputFilter::checkAttribute( array( 'href', $url ))) {
-			$url = JURI::base();
-		}
-
 		// check for relative internal links
 		if (preg_match( '#^index[2]?.php#', $url )) {
 			$url = JURI::base() . $url;
