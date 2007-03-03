@@ -920,7 +920,7 @@ class JTable extends JObject
 	 * @return	array	An array with directory elements
 	 * @since 1.5
 	 */
-	function addIncludePath( $path='' )
+	function addIncludePath( $path=null )
 	{
 		static $paths;
 
