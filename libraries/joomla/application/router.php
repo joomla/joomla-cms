@@ -45,10 +45,6 @@ class JRoute
 			return $url;
 		}
 
-		if(!strstr($url, '?')) {
-
-		}
-
 		// Get the router
 		$router =& $mainframe->getRouter();
 
@@ -189,11 +185,11 @@ class JRouter extends JObject
 		// Parse the route
 		if (!empty($url)) 
 		{
-			// Parse application segment
-			$this->_parseApplicationSegment($url);
+			// Parse application route
+			$this->_parseApplicationRoute($url);
 							
-			//Parse component segment
-			$this->_parseComponentSegment($url);
+			//Parse component route
+			$this->_parseComponentRoute($url);
 		}
 	}
 
@@ -243,11 +239,11 @@ class JRouter extends JObject
 
 				$query = $uri->getQuery(true);
 
-				//Built application segment
-				$app_segment = $this->_buildApplicationSegment($query);
+				//Built application route
+				$app_route = $this->_buildApplicationRoute($query);
 				
-				//Build component segment
-				$com_segment = $this->_buildComponentSegment($query);
+				//Build component route
+				$com_route = $this->_buildComponentRoute($query);
 
 				//Set query again in the URI
 				$uri->setQuery($query);
@@ -268,7 +264,7 @@ class JRouter extends JObject
 				}
 
 				//Create the route
-				$url = $app_segment.$com_segment.$fragment.$query;
+				$url = $app_route.$com_route.$fragment.$query;
 
 				//Prepend the base URI if we are not using mod_rewrite
 				if ($this->_mode == 1) {
@@ -291,12 +287,12 @@ class JRouter extends JObject
 	*
 	* @access protected
 	*/
-	function _parseApplicationSegment(&$url)
+	function _parseApplicationRoute(&$url)
 	{
 		if(substr($url, 0, 9) == 'component') 
 		{
 			$segments = explode('/', $url);
-			$url = ''; 
+			$url = str_replace('component/'.$segments[1], '', $url);; 
 			
 			JRequest::setVar('option', 'com_'.$segments[1]);
 		}
@@ -332,7 +328,7 @@ class JRouter extends JObject
 	*
 	* @access protected
 	*/
-	function _parseComponentSegment($url)
+	function _parseComponentRoute($url)
 	{
 		$segments = explode('/', $url);
 		array_shift($segments);
@@ -349,6 +345,9 @@ class JRouter extends JObject
 				JRequest::setVar('limitstart', $limitstart);
 			}
 			
+			//decode the route segments
+			$segments = $this->_decodeSegments($segments);
+			
 			require_once $path;
 			$function =  substr($component, 4).'ParseRoute';
 			$function($segments);
@@ -360,16 +359,19 @@ class JRouter extends JObject
 	*
 	* @access protected
 	*/
-	function _buildApplicationSegment(&$query)
+	function _buildApplicationRoute(&$query)
 	{
 		$route = '';
 		
 		$menu =& JMenu::getInstance();
 		$item = $menu->getItem($query['Itemid']);
 		
-		if($query['option'] == $item->component) {
+		if($query['option'] == $item->component) 
+		{
 			$route = $item->route;
-		} else {
+		} 
+		else 
+		{
 			$route = 'component/'.substr($query['option'], 4);
 		}
 	
@@ -381,7 +383,7 @@ class JRouter extends JObject
 	*
 	* @access protected
 	*/
-	function _buildComponentSegment(&$query)
+	function _buildComponentRoute(&$query)
 	{
 		$route = '';
 		
@@ -407,12 +409,35 @@ class JRouter extends JObject
 				$query['start'] = (int) $query['limitstart'];
 				unset($query['limitstart']);
 			}
-
+			
+			//encode the route segments
+			$parts= $this->_encodeSegments($parts);
+			
 			$route = implode('/', $parts);
 			$route = ($route) ? '/'.$route : null;
 		}
 
 		return $route;
+	}
+	
+	function _encodeSegments($segments)
+	{
+		$total = count($segments);
+		for($i=0; $i<$total; $i++) {
+			$segments[$i] = str_replace(':', '_', $segments[$i]);
+		}
+		
+		return $segments;
+	}
+	
+	function _decodeSegments($segments)
+	{
+		$total = count($segments);
+		for($i=0; $i<$total; $i++)  {
+			$segments[$i] = str_replace('_', ':', $segments[$i]);
+		}
+		
+		return $segments;
 	}
 }
 ?>

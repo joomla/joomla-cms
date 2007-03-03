@@ -337,8 +337,7 @@ class JContentHelper
 		$menus		=& JMenu::getInstance();
 		$items		= $menus->getItems('componentid', $component->id);
 		
-		$Itemid		= 1;
-		
+		$Itemid = 0;
 		
 		$n = count( $items );
 		if (!$n) {
@@ -375,7 +374,7 @@ class JContentHelper
 				return $item->id;
 			}
 		}
-
+		
 		return $Itemid;
 	}
 }
