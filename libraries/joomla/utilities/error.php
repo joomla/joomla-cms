@@ -451,7 +451,7 @@ class JError
 	function & handleMessage(& $error, $options)
 	{
 		global $mainframe;
-		$mainframe->enqueueMessage(JText::_($error->get('message')), 'error');
+		$mainframe->enqueueMessage($error->get('message'), 'error');
 		return $error;
 	}
 

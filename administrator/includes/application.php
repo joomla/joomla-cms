@@ -60,7 +60,7 @@ class JAdministrator extends JApplication
 			$lang	= $user->getParam( 'admin_language' );
 			
 			// Make sure that the user's language exists
-			if ( $lang && JLanguage::languageExists($lang) ) {
+			if ( $lang && JLanguage::exists($lang) ) {
 				$options['language'] = $lang;
 			} else {
 				$options['language'] = $this->getCfg('lang_administrator');
@@ -69,7 +69,7 @@ class JAdministrator extends JApplication
 		}
 
 		// One last check to make sure we have something
-		if ( ! JLanguage::languageExists($options['language']) ) {
+		if ( ! JLanguage::exists($options['language']) ) {
 			$options['language'] = 'en-GB';
 		}
 

@@ -116,6 +116,11 @@ class JEditor extends JObservable
 	{
 		$this->_loadEditor();
 
+		//check if editor is already loaded
+		if(is_null(($this->_editor))) {
+			return;
+		}
+		
 		/*
 		 * Backwards compatibility. Width and height should be passed without a semicolon from now on.
 		 * If editor plugins need a unit like "px" for CSS styling, they need to take care of that
@@ -156,6 +161,11 @@ class JEditor extends JObservable
 	{
 		$this->_loadEditor();
 
+		//check if editor is already loaded
+		if(is_null(($this->_editor))) {
+			return;
+		}
+		
 		$args[] = $editor;
 		$args['event'] = 'onSave';
 
@@ -226,12 +236,19 @@ class JEditor extends JObservable
 		if(!is_null(($this->_editor))) {
 			return;
 		}
+		
+		jimport('joomla.filesystem.file');
 
 		// Build the path to the needed editor plugin
 		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$this->_name.'.php';
 
-		//TODO::Raise warning when the file can't be found
-
+		if ( ! JFile::exists($path) )
+		{
+			$message	= JText::_('Cannot load the editor');
+			JError::raiseWarning( 500, $message );
+			return false;
+		}
+		
 		// Require plugin file
 		require_once ($path);
 

@@ -220,7 +220,7 @@ class JLanguage extends JObject
 	 * @return	boolean True if the language exists
 	 * @since	1.5
 	 */
-	function languageExists($lang)
+	function exists($lang)
 	{
 		static	$languages	= array();
 		
