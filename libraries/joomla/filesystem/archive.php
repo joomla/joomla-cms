@@ -31,7 +31,7 @@ class JArchive
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
-		
+
 		$ext = JFile::getExt(strtolower($archivename));
 		switch ($ext)
 		{
@@ -53,7 +53,7 @@ class JArchive
 				$adapter =& JArchive::getAdapter('gzip');
 				if ($adapter) {
 					$config =& JFactory::getConfig();
-					$tmpfname = tempnam($config->getValue('config.tmp_path'), 'gzip');
+					$tmpfname = $config->getValue('config.tmp_path').DS.uniqid('gzip');
 					$gzresult = $adapter->extract($archivename, $tmpfname);
 					if (JError::isError($gzresult)) {
 						@unlink($tmpfname);
@@ -73,7 +73,7 @@ class JArchive
 				$adapter =& JArchive::getAdapter('bzip2');
 				if ($adapter) {
 					$config =& JFactory::getConfig();
-					$tmpfname = tempnam($config->getValue('config.tmp_path'), 'bzip2');
+					$tmpfname = $config->getValue('config.tmp_path').DS.uniqid('bzip2');
 					$bzresult = $adapter->extract($archivename, $tmpfname);
 					if (JError::isError($bzresult)) {
 						@unlink($tmpfname);
