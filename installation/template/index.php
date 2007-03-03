@@ -28,7 +28,6 @@
 		<div id="content-box">
 			<div id="content-pad">
 				<jdoc:include type="installation" />
-
 			</div>
 		</div>
 		<div id="footer1">
@@ -36,7 +35,6 @@
 				<div id="footer3"></div>
 			</div>
 		</div>
-
 		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
 			<?php echo JText::_('ISFREESOFTWARE') ?>
 		</div>

@@ -28,14 +28,18 @@ class JInstallationView
 	 */
 	function &createTemplate( $bodyHtml = null )
 	{
-		jimport('joomla.template.template');
+		static	$tmpl;
+		
+		if ( is_null($tmpl) ) {
+			jimport('joomla.template.template');
 
-		$tmpl = new JTemplate();
-		$tmpl->applyInputFilter('ShortModifiers');
+			$tmpl = new JTemplate();
+			$tmpl->applyInputFilter('ShortModifiers');
 
-		// load the wrapper and common templates
-		$tmpl->setRoot( JPATH_BASE . DS . 'template' . DS. 'tmpl' );
-		$tmpl->readTemplatesFromFile( 'page.html' );
+			// load the wrapper and common templates
+			$tmpl->setRoot( JPATH_BASE . DS . 'template' . DS. 'tmpl' );
+			$tmpl->readTemplatesFromFile( 'page.html' );
+		}
 
 		if ($bodyHtml) {
 			$tmpl->setAttribute( 'body', 'src', $bodyHtml );
@@ -166,6 +170,30 @@ class JInstallationView
 		return $tmpl->fetch( 'page' );
 	}
 
+	/**
+	 * The finish page for the installer
+	 * @param array An array of lists
+	 * @param string The configuration file if it could not be saved
+	 */
+	function finish( &$vars, $buffer )
+	{
+		global $steps;
+
+		$lang	=& JFactory::getLanguage();
+		$tmpl	=& JInstallationView::createTemplate( 'finish.html' );
+
+		$steps['finish'] = 'on';
+
+		$tmpl->addVars( 'stepbar', $steps, 'step_' );
+		$tmpl->addVars( 'body', 	$vars, 'var_' );
+		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
+
+		if ($buffer) {
+			$tmpl->addVar( 'configuration-error', 'buffer', $buffer );
+		}
+
+		return $tmpl->fetch( 'page' );
+	}
 
 	/**
 	 * The ftp configuration page
@@ -187,6 +215,18 @@ class JInstallationView
 		$tmpl->addVar( 'body', 'lang', $lang->getTag() );
 
 		return $tmpl->fetch( 'page' );
+	}
+	
+	/**
+	 * Set a warning message for the user
+	 *
+	 * @param	string $message Warning message
+	 */
+	function setWarning($message)
+	{
+		$tmpl =& JInstallationView::createTemplate();
+		$tmpl->addVar('page', 'warningMessage', $message );
+		$tmpl->addVar('page', 'showWarning', false);
 	}
 
 	/**
@@ -214,31 +254,6 @@ class JInstallationView
 		 */
 		$encodings = array( 'iso-8859-1','iso-8859-2','iso-8859-3','iso-8859-4','iso-8859-5','iso-8859-6','iso-8859-7','iso-8859-8','iso-8859-9','iso-8859-10','iso-8859-13','iso-8859-14','iso-8859-15','cp874','windows-1250','windows-1251','windows-1252','windows-1253','windows-1254','windows-1255','windows-1256','windows-1257','windows-1258','utf-8','big5','euc-jp','euc-kr','euc-tw','iso-2022-cn','iso-2022-jp-2','iso-2022-jp','iso-2022-kr','iso-10646-ucs-2','iso-10646-ucs-4','koi8-r','koi8-ru','ucs2-internal','ucs4-internal','unicode-1-1-utf-7','us-ascii','utf-16' );
 		$tmpl->addVar( 'encoding_options', 'value', $encodings );
-		return $tmpl->fetch( 'page' );
-	}
-
-	/**
-	 * The finish page for the installer
-	 * @param array An array of lists
-	 * @param string The configuration file if it could not be saved
-	 */
-	function finish( &$vars, $buffer )
-	{
-		global $steps;
-
-		$lang	=& JFactory::getLanguage();
-		$tmpl	=& JInstallationView::createTemplate( 'finish.html' );
-
-		$steps['finish'] = 'on';
-
-		$tmpl->addVars( 'stepbar', $steps, 'step_' );
-		$tmpl->addVars( 'body', 	$vars, 'var_' );
-		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
-
-		if ($buffer) {
-			$tmpl->addVar( 'configuration-error', 'buffer', $buffer );
-		}
-
 		return $tmpl->fetch( 'page' );
 	}
 }

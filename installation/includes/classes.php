@@ -22,7 +22,12 @@ defined('_JEXEC') or die('Restricted access');
 class JInstallationController
 {
 	/**
-	 * @param patTemplate A template object
+	 * Generate a panel of language choices for the user to select their language
+	 * 
+	 * @since	1.0
+	 * @param	Array Configuration data
+	 * @return	HTML
+	 * @access	public
 	 */
 	function chooseLanguage($vars)
 	{
@@ -36,9 +41,23 @@ class JInstallationController
 
 		return JInstallationView::chooseLanguage($lists);
 	}
+	
+	/**
+	 * Generate a warning indicating that cookies may be disabled
+	 * 
+	 * @since	1.5
+	 * @param	array Array of configuration data
+	 * @return	HTML
+	 * @access	public
+	 */
+	function noCookiesWarning()
+	{
+		$message	= JText::_('WARNCOOKIESNOTENABLED');
+		return JInstallationView::setWarning($message);
+	}
 
 	/**
-	 * @param patTemplate A template object
+	 * @param array Array of configuration data
 	 */
 	function preInstall($vars)
 	{
@@ -145,6 +164,11 @@ class JInstallationController
 
 	/**
 	 * Gets the parameters for database creation
+	 * 
+	 * @since	1.0
+	 * @param	Array Configuration data
+	 * @return	HTML
+	 * @access	public
 	 */
 	function license($vars)
 	{
@@ -153,6 +177,11 @@ class JInstallationController
 
 	/**
 	 * Gets the parameters for database creation
+	 * 
+	 * @since	1.0
+	 * @param	Array Configuration data
+	 * @return	HTML
+	 * @access	public
 	 */
 	function dbConfig($vars)
 	{

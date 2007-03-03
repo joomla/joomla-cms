@@ -43,7 +43,15 @@ $lang->_load( JPATH_BASE.DS.'language'.DS.$configLang.DS.$configLang.'.ini' );
 $task	= JRequest::getVar( 'task' );
 $vars	= $registry->toArray('application');
 $result	= '';
+$warning = '';
 
+// Generate a warning if cookies appear to be disabled
+if ( $task && empty($vars) )
+{
+	JInstallationController::noCookiesWarning('cookies');
+}
+
+// Execute the task
 switch ($task)
 {
 	case 'preinstall':
