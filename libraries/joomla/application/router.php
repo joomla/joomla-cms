@@ -332,19 +332,21 @@ class JRouter extends JObject
 	{
 		$segments = explode('/', $url);
 		array_shift($segments);
-			
+		
+		// Handle pagination
+		$limitstart = JRequest::getVar('start', null, 'get');
+		if(isset($limitstart)) {
+			JRequest::setVar('limitstart', $limitstart);
+		}
+		
+		// Handle component	route
 		$component = JRequest::getVar('option');
 		
 		// Use the component routing handler if it exists
 		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
 
 		if (file_exists($path) && count($segments))
-		{
-			$limitstart = JRequest::getVar('start', null, 'get');
-			if(isset($limitstart)) {
-				JRequest::setVar('limitstart', $limitstart);
-			}
-			
+		{	
 			//decode the route segments
 			$segments = $this->_decodeSegments($segments);
 			
