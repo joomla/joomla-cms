@@ -123,7 +123,7 @@ class UserController extends JController
 		if(!JError::isError($error))
 		{
 			// Redirect if the return url is not registration or login
-			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+			if ( $return && !( strpos( $return, 'com_user' ) || strpos( $return, 'com_login' ) ) ) {
 				$mainframe->redirect( $return );
 			}
 		}
@@ -150,7 +150,7 @@ class UserController extends JController
 			$return = JRequest::getVar( 'return' );
 
 			// Redirect if the return url is not registration or login
-			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+			if ( $return && !( strpos( $return, 'com_user' ) || strpos( $return, 'com_login' ) ) ) {
 				$mainframe->redirect( $return );
 			}
 		} else {
@@ -476,7 +476,7 @@ class UserController extends JController
 		$subject 	= html_entity_decode($subject, ENT_QUOTES);
 
 		if ( $useractivation == 1 ){
-			$message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $sitename, $siteURL."/index.php?option=com_registration&task=activate&activation=".$user->get('activation'), $siteURL, $username, $password);
+			$message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $sitename, $siteURL."/index.php?option=com_user&task=activate&activation=".$user->get('activation'), $siteURL, $username, $password);
 		} else {
 			$message = sprintf ( JText::_( 'SEND_MSG' ), $name, $sitename, $siteURL);
 		}

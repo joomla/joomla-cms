@@ -41,11 +41,11 @@ class modNewsFlashHelper
 				if ($item->access <= $user->get('aid', 0))
 				{
 					$Itemid = JContentHelper::getItemid($item->id);
-					$linkOn = JRoute::_("index.php?option=com_content&view=article&id=".$item->id."&Itemid=".$Itemid);
+					$linkOn = JRoute::_('index.php?option=com_content&view=article&catid='.$item->catslug.'&id='.$item->slug.'&Itemid='.$Itemid);
 				}
 				else
 				{
-					$linkOn = JRoute::_("index.php?option=com_registration&task=register");
+					$linkOn = JRoute::_('index.php?option=com_user&task=register');
 				}
 			}
 
@@ -79,7 +79,9 @@ class modNewsFlashHelper
 		$nullDate = $db->getNullDate();
 
 		// query to determine article count
-		$query = 'SELECT a.id, a.introtext, a.`fulltext`, a.images, a.attribs, a.title, a.state' .
+		$query = 'SELECT a.*,' .
+			' CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(":", a.id, a.title_alias) ELSE a.id END as slug,'.
+			' CASE WHEN CHAR_LENGTH(cc.name) THEN CONCAT_WS(":", cc.id, cc.name) ELSE cc.id END as catslug'.
 			' FROM #__content AS a' .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
 			' INNER JOIN #__sections AS s ON s.id = a.sectionid' .

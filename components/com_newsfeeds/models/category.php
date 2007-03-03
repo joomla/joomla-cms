@@ -73,7 +73,7 @@ class NewsfeedsModelCategory extends JModel
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
 		$id = JRequest::getVar('id', 0, '', 'int');
-		$this->setId($id);
+		$this->setId((int)$id);
 
 	}
 

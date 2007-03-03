@@ -6,7 +6,7 @@
 <?php
  foreach ($this->links as $link) : ?>
 	<li>
-		<a class="blogsection" href="<?php echo JRoute::_('index.php?option=com_content&view=article&id='.$link->id.'&Itemid='.$Itemid); ?>">
+		<a class="blogsection" href="<?php echo JRoute::_('index.php?view=article&id='.$link->slug); ?>">
 			<?php echo $link->title; ?>
 		</a>
 	</li>

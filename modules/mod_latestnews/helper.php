@@ -81,7 +81,9 @@ class modLatestNewsHelper
 		}
 
 		// Content Items only
-		$query = 'SELECT a.id, a.title, a.sectionid, a.catid' .
+		$query = 'SELECT a.*, ' .
+			' CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(":", a.id, a.title_alias) ELSE a.id END as slug,'.
+			' CASE WHEN CHAR_LENGTH(cc.name) THEN CONCAT_WS(":", cc.id, cc.name) ELSE cc.id END as catslug'.
 			' FROM #__content AS a' .
 			($show_front == '0' ? ' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' : '') .
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
@@ -106,7 +108,7 @@ class modLatestNewsHelper
 			// & xhtml compliance conversion
 			$row->title = ampReplace( $row->title );
 
-			$link = JRoute::_( 'index.php?view=article&id='. $row->id . '&Itemid='. $row->my_itemid );
+			$link = JRoute::_( 'index.php?view=article&catid='.$row->catslug.'&id='. $row->slug . '&Itemid='. $row->my_itemid );
 
 			$lists[$i]->link	= $link;
 			$lists[$i]->text	= $row->title;

@@ -82,7 +82,7 @@ class ContentViewSection extends JView
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
-			$category->link = JRoute::_('index.php?option=com_content&view=category&id='.$category->id);
+			$category->link = JRoute::_('index.php?view=category&id='.$category->slug);
 		}
 
 		$params->def('empty_cat_section', 	0);
@@ -171,12 +171,12 @@ class ContentViewSection extends JView
 				// checks if the item is a public or registered/special item
 				if ($item->access <= $user->get('aid', 0))
 				{
-					$linkOn = JRoute::_("index.php?option=com_content&view=article&id=".$item->slug);
+					$linkOn = JRoute::_("index.php?view=article&id=".$item->slug);
 					$linkText = JText::_('Read more...');
 				}
 				else
 				{
-					$linkOn = JRoute::_("index.php?option=com_registration&task=register");
+					$linkOn = JRoute::_("index.php?option=com_user&task=register");
 					$linkText = JText::_('Register to read more...');
 				}
 			}
@@ -213,7 +213,7 @@ class ContentViewSection extends JView
 		{
 			case 'pdf' :
 			{
-				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
+				$url	= 'index.php?view=article&id='.$article->id.'&format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -231,7 +231,7 @@ class ContentViewSection extends JView
 
 			case 'print' :
 			{
-				$url	= 'index.php?option=com_content&view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $this->request->limitstart;
+				$url	= 'index.php?view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -249,7 +249,7 @@ class ContentViewSection extends JView
 
 			case 'email' :
 			{
-				$url	= 'index.php?option=com_mailto&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
+				$url	= 'index.php?option=com_mailto&tmpl=component&link='.urlencode( JRequest::getURI());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
 				if ($this->params->get('icons')) 	{

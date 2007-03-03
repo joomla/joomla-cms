@@ -41,6 +41,11 @@ Legend:
  # [artf7559] - missing _resource call in mysql
 
 02-Mar-2007 Johan Janssens
+ ^ com_content : Implemented new routing mechanism
+ ^ mod_latestnews : Implemented new routing mechanism
+ ^ mod_mostread : Implemented new routing mechanism
+ ^ mod_newsflash : Implemented new routing mechanism
+ ^ Changed references to com_registration to com_user
  ^ Implemented simple routing mechanism in JRouter to handle none Itemid linked URL's
 
 01-Mar-2007 Mateusz Krzeszowiec

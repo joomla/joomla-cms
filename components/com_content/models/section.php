@@ -73,7 +73,7 @@ class ContentModelSection extends JModel
 		parent::__construct();
 
 		$id = JRequest::getVar('id', 0, '', 'int');
-		$this->setId($id);
+		$this->setId((int)$id);
 	}
 
 	/**
@@ -300,7 +300,8 @@ class ContentModelSection extends JModel
 			}
 
 			// Query of categories within section
-			$query = 'SELECT a.*, COUNT( b.id ) AS numitems' .
+			$query = 'SELECT a.*, COUNT( b.id ) AS numitems,' .
+					' CASE WHEN CHAR_LENGTH(a.name) THEN CONCAT_WS(\':\', a.id, a.name) ELSE a.id END as slug'.
 					' FROM #__categories AS a' .
 					' LEFT JOIN #__content AS b ON b.catid = a.id'.
 					$xwhere2 .

@@ -127,7 +127,7 @@ class ContentViewArticle extends JView
 				}
 				else
 				{
-					$linkOn = JRoute::_("index.php?option=com_registration&task=register");
+					$linkOn = JRoute::_("index.php?option=com_user&task=register");
 
 
 					if (@$article->readmore) {

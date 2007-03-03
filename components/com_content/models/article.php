@@ -44,7 +44,7 @@ class ContentModelArticle extends JModel
 		parent::__construct();
 
 		$id = JRequest::getVar('id', 0, '', 'int');
-		$this->setId($id);
+		$this->setId((int)$id);
 	}
 
 	/**

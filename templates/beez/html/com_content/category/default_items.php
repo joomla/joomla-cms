@@ -72,7 +72,7 @@ if ($item->access <= $this->user->get('aid', 0)) {
 echo '<td headers="tableOrdering"><a href="' . $item->link . '">' . $item->title . '</a>' . $this->getIcon($item, 'edit') . '</td>';
 } else {
 echo '<td headers="tableOrdering1">' . $item->title . ' : ';
-$link = JRoute::_('index.php?option=com_registration&amp;task=register');
+$link = JRoute::_('index.php?option=com_user&amp;task=register');
 echo '<a href="' . $link . '">' . JText :: _('Register to read more...') . '</a></td>';
 }
 }

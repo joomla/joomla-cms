@@ -41,6 +41,9 @@ $mainframe->loadSession(JUtility::getHash($mainframe->getClientId()));
  */
 JPluginHelper::importPlugin( 'system' );
 
+// set the language
+$mainframe->initialise();
+
 // trigger the onAfterInitialise events
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 $mainframe->triggerEvent('onAfterInitialise');

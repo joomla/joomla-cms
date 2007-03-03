@@ -31,7 +31,7 @@ echo '<input type="text" id="jemail" name="jemail" class="inputbox"  />' . '</p>
 
 echo '<input type="submit" value="' . JText :: _('Send') . '" class="button" />';
 echo '<input type="hidden" name="task" value="sendreminder" />';
-echo '<input type="hidden" name="option" value="com_registration" />';
+echo '<input type="hidden" name="option" value="com_user" />';
 echo '<input type="hidden" name="' . JUtility :: getToken() . '" value="1" />';
 echo '</form>';
 ?>

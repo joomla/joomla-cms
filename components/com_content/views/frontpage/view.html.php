@@ -143,7 +143,7 @@ class ContentViewFrontpage extends JView
 		{
 			case 'pdf' :
 			{
-				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
+				$url	= 'index.php?view=article&amp;id='.$article->id.'&format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -161,7 +161,7 @@ class ContentViewFrontpage extends JView
 
 			case 'print' :
 			{
-				$url	= 'index.php?option=com_content&view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $this->request->limitstart;
+				$url	= 'index.php?view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -179,7 +179,7 @@ class ContentViewFrontpage extends JView
 
 			case 'email' :
 			{
-				$url	= 'index.php?option=com_mailto&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
+				$url	= 'index.php?option=com_mailto&tmpl=component&link='.urlencode( JRequest::getURI());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
 				if ($this->params->get('icons')) 	{
@@ -206,7 +206,7 @@ class ContentViewFrontpage extends JView
 					return;
 				}
 				jimport('joomla.html.tooltips');
-				$url = 'index.php?option=com_content&view=article&layout=form&id='.$article->id.'&Returnid='.$Itemid;
+				$url = 'index.php?view=article&layout=form&id='.$article->id.'&Returnid='.$Itemid;
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 				if ($article->state == 0) {
@@ -286,12 +286,12 @@ class ContentViewFrontpage extends JView
 				// checks if the item is a public or registered/special item
 				if ($item->access <= $user->get('aid', 0))
 				{
-					$linkOn = JRoute::_("index.php?option=com_content&view=article&id=".$item->slug.'&Itemid='.JContentHelper::getItemid($item->id, $item->catid, $item->sectionid));
+					$linkOn = JRoute::_("index.php?view=article&id=".$item->slug);
 					$linkText = JText::_('Read more...');
 				}
 				else
 				{
-					$linkOn = JRoute::_("index.php?option=com_registration&amp;task=register");
+					$linkOn = JRoute::_("index.php?option=com_user&task=register");
 					$linkText = JText::_('Register to read more...');
 				}
 			}

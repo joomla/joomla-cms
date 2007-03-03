@@ -47,13 +47,13 @@ echo '<input name="passwd" type="password" class="inputbox" size="20" id="pass" 
 
 echo '<p><label for="rem">' . JText :: _('Remember me') . '</label>';
 echo '<input type="checkbox" name="remember" class="inputbox" value="yes" id="rem"/></p>';
-echo '<p><a href="' . JRoute :: _('index.php?option=com_registration&amp;task=lostPassword') . '">';
+echo '<p><a href="' . JRoute :: _('index.php?option=com_user&amp;task=lostPassword') . '">';
 echo JText :: _('Lost Password?');
 echo '</a></p>';
 
 if ($this->params->get('registration')) {
 	echo JText :: _('No account yet?');
-	echo '<p><a href="' . JRoute :: _('index.php?option=com_registration&amp;task=register') . '">' . JText :: _('Register') . '</a></p>';
+	echo '<p><a href="' . JRoute :: _('index.php?option=com_user&amp;task=register') . '">' . JText :: _('Register') . '</a></p>';
 }
 
 echo '<p><input type="submit" name="submit" class="button" value="' . JText :: _('Login') . '" /></p>';

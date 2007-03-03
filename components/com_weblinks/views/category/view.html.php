@@ -50,11 +50,11 @@ class WeblinksViewCategory extends JView
 		$category->total = $total;
 
 		//add alternate feed link
-		$link	= 'feed.php?option=com_weblinks&view=category&id='.$category->id;
+		$link	= 'feed.php?view=category&id='.$category->id;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink(JRoute::_($link.'&format=rss'), 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink(JRoute::_($link.'&amp;format=atom'), 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&format=atom'), 'alternate', 'rel', $attribs);
 
 		// Set the component name in the pathway
 		$pathway->setItemName(1, JText::_('Links'));

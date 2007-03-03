@@ -25,10 +25,10 @@ if ($type == 'logout') {
 	;
 	echo '<input type="checkbox" name="remember" id="mod_login_remember" class="checkbox" value="yes" alt="' . JText :: _('Remember me') . '" />';
 	echo '<input type="submit" name="Submit" class="button" value="' . JText :: _('BUTTON_LOGIN') . '" />';
-	echo '<p><a href="' . JRoute :: _('index.php?option=com_registration&amp;task=lostPassword') . '">' . JText :: _('Lost Password?') . '</a></p>';
+	echo '<p><a href="' . JRoute :: _('index.php?option=com_user&amp;task=lostPassword') . '">' . JText :: _('Lost Password?') . '</a></p>';
 	$usersConfig = & JComponentHelper :: getParams('com_users');
 	if ($usersConfig->get('allowUserRegistration')) {
-		echo '<p>' . JText :: _('No account yet?') . ' <a href="' . JRoute :: _('index.php?option=com_registration&amp;task=register') . '" >';
+		echo '<p>' . JText :: _('No account yet?') . ' <a href="' . JRoute :: _('index.php?option=com_user&amp;task=register') . '" >';
 		echo JText :: _('Register') . '</a></p>';
 	}
 	echo $params->get('posttext');

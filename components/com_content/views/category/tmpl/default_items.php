@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		document.adminForm.submit( task );
 	}
 </script>
-<form action="<?php echo $this->request_url; ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <?php if ($this->params->get('filter') || $this->params->get('display')) : ?>
 <tr>
@@ -80,7 +80,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td>
 		<?php
 			echo $item->title.' : ';
-			$link = JRoute::_('index.php?option=com_registration&task=register');
+			$link = JRoute::_('index.php?option=com_user&task=register');
 		?>
 		<a href="<?php echo $link; ?>">
 			<?php echo JText::_( 'Register to read more...' ); ?>
@@ -125,8 +125,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <input type="hidden" name="id" value="<?php echo $this->category->id; ?>" />
 <input type="hidden" name="sectionid" value="<?php echo $this->category->sectionid; ?>" />
 <input type="hidden" name="task" value="<?php echo $this->lists['task']; ?>" />
-<input type="hidden" name="option" value="com_content" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 <input type="hidden" name="filter_order_Dir" value="" />
-<input type="hidden" name="Itemid" value="<?php echo $Itemid;?>" />
 </form>

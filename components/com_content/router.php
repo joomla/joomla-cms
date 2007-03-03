@@ -14,16 +14,7 @@
 function ContentBuildRoute(&$query)
 {
 	$segments = array();
-	if(isset($query['view'])) {
-		$segments[] = $query['view'];
-		unset($query['view']);
-	};
-
-	if(isset($query['layout'])) {
-		$segments[] = $query['layout'];
-		unset($query['layout']);
-	};
-
+	
 	if(isset($query['catid'])) {
 		$segments[] = $query['catid'];
 		unset($query['catid']);
@@ -43,47 +34,47 @@ function ContentBuildRoute(&$query)
 		$segments[] = $query['month'];
 		unset($query['month']);
 	};
+	
+	unset($query['view']);
 
 	return $segments;
 }
 
 function ContentParseRoute($segments)
 {
-	// view is always the first element of the array
-	$view = array_shift($segments);
-	JRequest::setVar('view', $view, 'get');
+	//Get the active menu item
+	$menu =& JMenu::getInstance();
+	$item =& $menu->getActive();
 
-	$next = array_shift($segments);
+	// Count route segments
+	$count = count($segments);
 
-	switch($view)
+	//Handle View and Identifier
+	switch($item->query['view'])
 	{
-		case 'article'  :
-		case 'category' :
-		case 'section'  :
+		case 'section' :
 		{
-			if(is_numeric((int)$next) && ((int)$next != 0)) {
-				JRequest::setVar('id', (int)$next, 'get');
+			if($count == 1) {
+				$view = 'category';
 			}
-			else
-			{
-				JRequest::setVar('layout', $next, 'get');
-				JRequest::setVar('id', (int)array_shift($segments), 'get');
+
+			if($count == 2) {
+				$view = 'article';
 			}
+
+			$id = $segments[$count-1];
+
 		} break;
 
-		case 'archive'   :
+		case 'category'   :
 		{
-			if(is_numeric((int)$next) && ((int)$next != 0)) {
-				JRequest::setVar('year', $next, 'get');
-				JRequest::setVar('month', array_shift($segments), 'get');
-			}
-			else
-			{
-				JRequest::setVar('layout', $next, 'get');
-				JRequest::setVar('year', array_shift($segments), 'get');
-				JRequest::setVar('month', array_shift($segments), 'get');
-			}
+			$id   = $segments[$count-1];
+			$view = 'article';
+
 		} break;
 	}
+
+	JRequest::setVar('view', $view, 'get');
+	JRequest::setVar('id'  , $id, 'get');
 }
 ?>
