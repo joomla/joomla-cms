@@ -37,6 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Mar-2007 Toby Patterson
+ # JEditor check for object in JEditor
+ # Stop JError from double-translating error messages
+ ! Errors should go through JText before JError
+ + Added methods to installer classes to display a warning
+ ! Still need to get message to display nicely in page.html subtemplate
+ ^ Changed JLanguage::languageExists to JLanguage::exists
+
 03-Mar-2007 Johan Janssens
  ^ Implemented very basic segment encoder and decoder in JRouter
 
