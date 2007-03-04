@@ -72,7 +72,7 @@ class JLog extends JObject
 	 * @return	object	The JLog object.
 	 * @since	1.5
 	 */
-	function & getInstance($file = 'error.log', $options = null, $path = null)
+	function & getInstance($file = 'error.php', $options = null, $path = null)
 	{
 		static $instances;
 
@@ -175,6 +175,7 @@ class JLog extends JObject
 			if (!JFolder :: create(dirname($this->_path))) {
 				return false;
 			}
+			$header[] = "#<? die(); ?>";
 			$header[] = "#Version: 1.0";
 			$header[] = "#Date: " . $date . " " . $time;
 
