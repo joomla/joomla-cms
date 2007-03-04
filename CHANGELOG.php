@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Mar-2007 Mateusz Krzeszowiec
+ # Fixed [artf7594] : Bugs in com_media, add file button now working in IE
+
 03-Mar-2007 Toby Patterson
  # JEditor check for object in JEditor
  # Stop JError from double-translating error messages
@@ -44,7 +47,7 @@ Legend:
  + Added methods to installer classes to display a warning
  ! Still need to get message to display nicely in page.html subtemplate
  ^ Changed JLanguage::languageExists to JLanguage::exists
- 
+
  03-Mar-2007 Jason Kendall
  * Updated JLog to write to a PHP file and include a call to die at the start
 

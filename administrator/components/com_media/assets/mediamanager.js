@@ -83,8 +83,8 @@ var JMediaManager = new Class({
 
 	addFile: function()
 	{
-		uploads = $('uploads');
-		uploads.appendChild(uploads.childNodes[1].cloneNode(true));
+		var uploads = $('uploads');
+		uploads.appendChild(uploads.firstChild.cloneNode(true));
 		return false;
 	},
 
