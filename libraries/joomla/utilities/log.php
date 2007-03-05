@@ -175,7 +175,7 @@ class JLog extends JObject
 			if (!JFolder :: create(dirname($this->_path))) {
 				return false;
 			}
-			$header[] = "#<? die(); ?>";
+			$header[] = "#<?php die(); ?>";
 			$header[] = "#Version: 1.0";
 			$header[] = "#Date: " . $date . " " . $time;
 
