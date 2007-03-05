@@ -39,6 +39,7 @@ Legend:
 
 05-Mar-2007 Enno Klasing
  # Improved "Verify FTP settings" in the installer application
+ # Re-enabled FTP layer on Windows servers
 
 04-Mar-2007 Mateusz Krzeszowiec
  # Fixed [artf7594] : Bugs in com_media, add file button now working in IE

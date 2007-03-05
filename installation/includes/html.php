@@ -246,7 +246,7 @@ class JInstallationView
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 'var_' );
 		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
-		$tmpl->addVar( 'buttons', 'previous', JUtility::isWinOS() ? 'dbconfig' : 'ftpconfig');
+		$tmpl->addVar( 'buttons', 'previous', 'ftpconfig');
 //		$tmpl->addRows( 'folder-perms', $lists['folderPerms'] );
 
 		/*

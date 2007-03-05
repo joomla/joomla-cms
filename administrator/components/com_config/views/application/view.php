@@ -100,7 +100,7 @@ class ConfigApplicationView
 						<td width="60%">
 							<?php require_once($tmplpath.DS.'config_server.php'); ?>
 							<?php require_once($tmplpath.DS.'config_locale.php'); ?>
-							<?php require_once($tmplpath.DS. (JUtility::isWinOS() ? 'config_noftp.php':'config_ftp.php')); ?>
+							<?php require_once($tmplpath.DS.'config_ftp.php'); ?>
 						</td>
 						<td width="40%">
 							<?php require_once($tmplpath.DS.'config_database.php'); ?>

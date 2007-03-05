@@ -24,9 +24,6 @@ $steps = array(
 	'mainconfig' => 'off',
 	'finish' => 'off'
 );
-if ( JUtility::isWinOS() ){
-	$steps['ftpconfig'] = 'grey';
-}
 
 function get_php_setting($val) {
 	$r =  (ini_get($val) == '1' ? 1 : 0);
