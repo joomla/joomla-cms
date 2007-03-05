@@ -75,10 +75,12 @@ class JAJAXHandler
 		require_once(JXPATH_BASE.DS."classes.php");
 		$root = JInstallationHelper::findFtpRoot($args['ftpUser'], $args['ftpPassword'], $args['ftpHost'], $args['ftpPort']);
 		if (JError::isError($root)) {
+			$objResponse->addScript('document.getElementById(\'ftpdisable\').checked = true;');
 			$objResponse->addAlert($lang->_($root->get('message')));
 		} else {
 			$objResponse->addAssign('ftproot', 'value', $root);
 			$objResponse->addAssign('rootPath', 'style.display', '');
+			$objResponse->addScript('document.getElementById(\'verifybutton\').click();');
 		}
 
 		return $objResponse;
@@ -101,8 +103,15 @@ class JAJAXHandler
 		require_once(JXPATH_BASE.DS."classes.php");
 		$status =  JInstallationHelper::FTPVerify($args['ftpUser'], $args['ftpPassword'], $args['ftpRoot'], $args['ftpHost'], $args['ftpPort']);
 		if (JError::isError($status)) {
-			$objResponse->addAlert($lang->_($status->get('message')));
+			if (($msg = $status->get('message')) != 'INVALIDROOT') {
+				$msg = $lang->_('INVALIDFTP') ."\n". $lang->_($msg);
+			} else {
+				$msg = $lang->_($msg);
+			}
+			$objResponse->addScript('document.getElementById(\'ftpdisable\').checked = true;');
+			$objResponse->addAlert($msg);
 		} else {
+			$objResponse->addScript('document.getElementById(\'ftpenable\').checked = true;');
 			$objResponse->addAlert($lang->_('VALIDFTP'));
 		}
 

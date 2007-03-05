@@ -1021,23 +1021,69 @@ class JInstallationHelper
 			return JError::raiseWarning('31', 'NOLOGIN');
 		}
 
+		// Verify PWD function
+		if ($ftp->pwd() === false) {
+			return JError::raiseError('SOME_ERROR_CODE', 'NOPWD');
+		}
+
 		// Verify root path exists
 		if (!$ftp->chdir($root)) {
 			return JError::raiseWarning('31', 'NOROOT');
 		}
 
-		// Verify valid root path
-		$checkList = array('CHANGELOG.php', 'COPYRIGHT.php', 'feed.php', 'index.php', 'INSTALL.php', 'LICENSE.php');
-		$rootList = $ftp->listNames();
-		$ftp->quit();
-		foreach ($checkList as $check) {
-			if (!in_array($check, $rootList)) {
-				return JError::raiseWarning('31', 'INVALIDROOT');
-			}
+		// Verify NLST function
+		if (($rootList = $ftp->listNames()) === false) {
+			return JError::raiseError('SOME_ERROR_CODE', 'NONLST');
 		}
 
-		// TODO: Perhaps check various needed ftp functions to see if they exist and are available
+		// Verify LIST function
+		if ($ftp->listNames() === false) {
+			return JError::raiseError('SOME_ERROR_CODE', 'NOLIST');
+		}
 
+		// Verify SYST function
+		if ($ftp->syst() === false) {
+			return JError::raiseError('SOME_ERROR_CODE', 'NOSYST');
+		}
+
+		// Verify valid root path, part one
+		$checkList = array('CHANGELOG.php', 'COPYRIGHT.php', 'feed.php', 'index.php', 'INSTALL.php', 'LICENSE.php');
+		if (count(array_diff($checkList, $rootList))) {
+			return JError::raiseWarning('31', 'INVALIDROOT');
+		}
+
+		// Verify RETR function
+		if ($ftp->read($root.'/libraries/joomla/version.php', $buffer) === false) {
+			return JError::raiseError('SOME_ERROR_CODE', 'NORETR');
+		}
+
+		// Verify valid root path, part two
+		$checkValue = file_get_contents(JPATH_LIBRARIES.DS.'joomla'.DS.'version.php');
+		if ($buffer !== $checkValue) {
+			return JError::raiseWarning('31', 'INVALIDROOT');
+		}
+
+		// Verify STOR function
+		if ($ftp->create($root.'/ftp_testfile') === false) {
+			return JError::raiseError('SOME_ERROR_CODE', 'NOSTOR');
+		}
+
+		// Verify DELE function
+		if ($ftp->delete($root.'/ftp_testfile') === false) {
+			return JError::raiseError('SOME_ERROR_CODE', 'NODELE');
+		}
+
+		// Verify MKD function
+		if ($ftp->mkdir($root.'/ftp_testdir') === false) {
+			return JError::raiseError('SOME_ERROR_CODE', 'NOMKD');
+		}
+
+		// Verify RMD function
+		if ($ftp->delete($root.'/ftp_testdir') === false) {
+			return JError::raiseError('SOME_ERROR_CODE', 'NORMD');
+		}
+
+		$ftp->quit();
 		return true;
 	}
 

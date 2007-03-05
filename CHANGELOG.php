@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Mar-2007 Enno Klasing
+ # Improved "Verify FTP settings" in the installer application
+
 04-Mar-2007 Mateusz Krzeszowiec
  # Fixed [artf7594] : Bugs in com_media, add file button now working in IE
 
@@ -48,7 +51,7 @@ Legend:
  ! Still need to get message to display nicely in page.html subtemplate
  ^ Changed JLanguage::languageExists to JLanguage::exists
 
- 03-Mar-2007 Jason Kendall
+03-Mar-2007 Jason Kendall
  * Updated JLog to write to a PHP file and include a call to die at the start
 
 03-Mar-2007 Johan Janssens
