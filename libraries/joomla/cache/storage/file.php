@@ -37,9 +37,6 @@ class JCacheStorageFile extends JCacheStorage
 
 		$config			=& JFactory::getConfig();
 		$this->_root	= $options['cachebase'];
-		if ($this->_application) {
-			$this->_root = $this->_root.DS.$this->_application;
-		}
 		$this->_hash	= $config->getValue('config.secret');
 	}
 
@@ -211,8 +208,8 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	function _getFilePath($id, $group)
 	{
-		$folder	= md5($group.'-'.$this->_hash);
-		$name	= md5($id.'-'.$this->_hash).'.cache';
+		$folder	= $group;
+		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language).'.cache';
 
 		// If the folder doesn't exist try to create it
 		if (!is_dir($this->_root.DS.$folder)) {

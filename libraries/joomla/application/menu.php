@@ -166,8 +166,13 @@ class JMenu extends JObject
 	 */
 	function &getActive()
 	{
-		$item =& $this->_items[$this->_active];
-		return $item;
+		if (!$this->_active) {
+			$item =& $this->_items[$this->_default];
+			return $item;
+		} else {
+			$item =& $this->_items[$this->_active];
+			return $item;
+		}
 	}
 
 	/**
@@ -186,7 +191,7 @@ class JMenu extends JObject
 		{
 			if ( ! is_object($item) )
 				continue;
-				
+
 			if ($item->$attribute == $value)
 			{
 				if($firstonly) {
@@ -284,7 +289,7 @@ class JMenu extends JObject
 			if($parent = $menus[$key]->parent) {
 				$parent_route = $menus[$parent]->route.'/';
 				$parent_tree  = $menus[$parent]->tree;
-			} 
+			}
 
 			//Create tree
 			array_push($parent_tree, $menus[$key]->id);

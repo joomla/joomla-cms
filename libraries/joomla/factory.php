@@ -136,20 +136,21 @@ class JFactory
 	 * @param string The cache class name
 	 * @return object JCache
 	 */
-	function &getCache($group='', $handler = 'callback')
+	function &getCache($group='', $handler = 'callback', $application = 0)
 	{
 		$handler = ($handler == 'function') ? 'callback' : $handler;
-		jimport('joomla.cache.cache');
 
 		$conf =& JFactory::getConfig();
 
-		// If we are in the installation application, we don't need to be
-		// creating any directories or have caching on
 		$options = array(
-			'cachebase' 	=> JPATH_CACHE,
 			'defaultgroup' 	=> $group,
-			'lifetime' 		=> $conf->getValue('config.cachetime')
+			'application'	=> $application,
+			'cachebase' 	=> $conf->getValue('config.cache_path'),
+			'lifetime' 		=> $conf->getValue('config.cachetime'),
+			'language' 		=> $conf->getValue('config.language')
 		);
+
+		jimport('joomla.cache.cache');
 
 		$cache =& JCache::getInstance( $handler, $options );
 		$cache->setCaching($conf->getValue('config.caching'));

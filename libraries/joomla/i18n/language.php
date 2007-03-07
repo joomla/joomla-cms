@@ -92,12 +92,12 @@ class JLanguage extends JObject
 	 * @access protected
 	 */
 	var $_debug 	= false;
-	
+
 	/**
 	 * The default language
-	 * 
+	 *
 	 * The default language is used when a language file in the requested language does not exist.
-	 * 
+	 *
 	 * @var string
 	 * @access protected
 	 */
@@ -209,12 +209,12 @@ class JLanguage extends JObject
 		}
 		return $string;
 	}
-	
+
 	/**
 	 * Check if a language exists
-	 * 
+	 *
 	 * This is a simple, quick check for the directory that should contain language files for the given user.
-	 * 
+	 *
 	 * @access	public
 	 * @param	string $lang Language to check
 	 * @return	boolean True if the language exists
@@ -223,28 +223,28 @@ class JLanguage extends JObject
 	function exists($lang)
 	{
 		static	$languages	= array();
-		
+
 		// Return false if no language was specified
 		if ( ! $lang ) {
 			return false;
 		}
-		
+
 		// Return previous check results if it exists
 		if ( isset($languages[$lang]) )
 		{
 			return $languages[$lang];
 		}
-		
+
 		// Check if the language exists
 		jimport('joomla.filesystem.folder');
-		
+
 		$dir	= JLanguage::getLanguagePath( JPATH_BASE, $lang );
-		
+
 		$languages[$lang]	= JFolder::exists($dir);
 
 		return $languages[$lang];
 	}
-	
+
 	/**
 	 * Loads a single language file and appends the results to the existing strings
 	 *
@@ -287,14 +287,14 @@ class JLanguage extends JObject
 
 				$newStrings = $this->_load( $filename );
 			}
-			
+
 			// Merge the new strings into the strings array
 			if ( is_array($newStrings) ) {
 				$this->_strings = array_merge( $this->_strings, $newStrings);
 				$paths[$filename] = true;
 				$result = true;
 			} else {
-				// Do something ??? 
+				// Do something ???
 			}
 		}
 
@@ -438,20 +438,20 @@ class JLanguage extends JObject
 	function getDebug() {
 		return $this->_debug;
 	}
-	
+
 	/**
 	 * Get the default language code
-	 * 
+	 *
 	 * @access	public
 	 * @return	string Language code
 	 */
 	function getDefault() {
 		return $this->_default;
 	}
-	
+
 	/**
 	 * Set the default language code
-	 * 
+	 *
 	 * @access public
 	 */
 	function setDefault($lang) {
@@ -678,12 +678,13 @@ class JLanguageHelper
 	 * @param string	Base path to use
 	 * @param array	An array of arrays ( text, value, selected )
 	 */
-	function createLanguageList($actualLanguage, $basePath = JPATH_BASE) {
+	function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = true) {
 
 		$list = array ();
 
 		// cache activation
 		$cache = & JFactory::getCache('JLanguage');
+		$cache->setCaching($caching);
 		$langs = $cache->call('JLanguage::getKnownLanguages', $basePath);
 
 		foreach ($langs as $lang => $metadata) {

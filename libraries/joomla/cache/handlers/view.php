@@ -36,7 +36,7 @@ class JCacheView extends JCache
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	function get( &$view, $method, $group='view', $id=false )
+	function get( &$view, $method, $id=false )
 	{
 		// Initialize variables
 		$data = false;
@@ -46,7 +46,7 @@ class JCacheView extends JCache
 			$id = $this->_makeId($view, $method);
 		}
 
-		$data = parent::get($id, $group);
+		$data = parent::get($id);
 		if ($data !== false) {
 			$data = unserialize($data);
 			$document =& JFactory::getDocument();
@@ -79,7 +79,7 @@ class JCacheView extends JCache
 			$document =& JFactory::getDocument();
 			$cached['head'] = $document->getHeadData();
 			// Store the cache data
-			$this->store(serialize($cached), $id, $group);
+			$this->store(serialize($cached), $id);
 		}
 		return false;
 	}
