@@ -59,11 +59,11 @@ class plgAuthenticateGMail extends JPlugin
 	 	$pluginParams = new JParameter( $plugin->params );
 		$return = new JAuthenticateResponse('gmail');
 
-		$curl = curl_init("https://mail.google.com/gmail/feed/atom");
+		$curl = curl_init('https://mail.google.com/gmail/feed/atom');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		//curl_setopt($curl, CURLOPT_HEADER, 1);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($curl, CURLOPT_USERPWD, "$username:$password");
+		curl_setopt($curl, CURLOPT_USERPWD, $username.':'.$password);
 		$result = curl_exec($curl);
 		$code = curl_getinfo ($curl, CURLINFO_HTTP_CODE);
 		$message = '';
