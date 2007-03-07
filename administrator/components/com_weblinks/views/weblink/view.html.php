@@ -110,7 +110,7 @@ class WeblinksViewWeblink extends JView
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
 
-		$file 	= JPATH_ADMINISTRATOR .'/components/com_weblinks/weblinks_item.xml';
+		$file 	= JPATH_ADMINISTRATOR .'/components/com_weblinks/models/weblink.xml';
 		$params = new JParameter( $weblink->params, $file, 'component' );
 
 		$this->assignRef('lists',		$lists);
