@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Document
  * @since		1.5
  */
-class JDocumentRenderer_Head extends JDocumentRenderer
+class JDocumentRendererHead extends JDocumentRenderer
 {
    /**
 	 * Renders the document head and returns the results as a string

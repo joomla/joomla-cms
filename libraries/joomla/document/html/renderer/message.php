@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Document
  * @since		1.5
  */
-class JDocumentRenderer_Message extends JDocumentRenderer
+class JDocumentRendererMessage extends JDocumentRenderer
 {
 	/**
 	 * Renders the error stack and returns the results as a string

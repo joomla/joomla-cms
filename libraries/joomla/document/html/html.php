@@ -72,7 +72,7 @@ class JDocumentHTML extends JDocument
 	 * @access	public
 	 * @return	array	The document head data in array form
 	 */
-	function getHeadData() 
+	function getHeadData()
 	{
 		$data = array();
 		$data['title']			= $this->title;
@@ -94,7 +94,7 @@ class JDocumentHTML extends JDocument
 	 * @access	public
 	 * @param	array	$data	The document head data in array form
 	 */
-	function setHeadData($data) 
+	function setHeadData($data)
 	{
 		$this->title		= (isset($data['title'])) ? $data['title'] : $this->title;
 		$this->description	= (isset($data['description'])) ? $data['description'] : $this->description;
@@ -176,7 +176,7 @@ class JDocumentHTML extends JDocument
 			$result = $this->_buffer[$type][$name];
 		}
 
-		if($renderer = $this->loadRenderer( $type )) {
+		if($renderer =& $this->loadRenderer( $type )) {
 			$result = $renderer->render($name, $attribs, $result);
 		};
 
@@ -344,7 +344,7 @@ class JDocumentHTML extends JDocument
 			{
 				$attribs = JUtility::parseAttributes( $matches[2][$i] );
 				$type  = $matches[1][$i];
-				
+
 				$name  = isset($attribs['name']) ? $attribs['name'] : null;
 				$replace[$i] = $this->getBuffer($type, $name, $attribs);
 			}

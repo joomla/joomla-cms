@@ -32,7 +32,7 @@ jimport( 'joomla.utilities.date' );
  * @since	1.5
  */
 
- class JDocumentRenderer_Atom extends JDocumentRenderer
+ class JDocumentRendererAtom extends JDocumentRenderer
  {
 	/**
 	 * Document mime type

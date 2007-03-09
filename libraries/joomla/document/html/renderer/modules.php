@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Document
  * @since		1.5
  */
-class JDocumentRenderer_Modules extends JDocumentRenderer
+class JDocumentRendererModules extends JDocumentRenderer
 {
    /**
 	 * Renders multiple modules script and returns the results as a string
@@ -35,7 +35,7 @@ class JDocumentRenderer_Modules extends JDocumentRenderer
 	 */
 	function render( $position, $params = array(), $content = null )
 	{
-		$renderer =  $this->_doc->loadRenderer( 'module');
+		$renderer =&  $this->_doc->loadRenderer( 'module');
 
 		$contents = '';
 		foreach (JModuleHelper::getModules($position) as $mod)  {

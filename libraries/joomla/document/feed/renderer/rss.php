@@ -28,7 +28,7 @@ jimport( 'joomla.utilities.date' );
  * @since	1.5
  */
 
-class JDocumentRenderer_RSS extends JDocumentRenderer
+class JDocumentRendererRSS extends JDocumentRenderer
 {
 	/**
 	 * Renderer mime type
