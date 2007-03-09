@@ -79,7 +79,7 @@ class PollView
 			{
 				$row = &$rows[$i];
 
-				$link 		= ampReplace( 'index.php?option=com_poll&task=edit&cid[]='. $row->id );
+				$link 		= JRoute::_( 'index.php?option=com_poll&task=edit&cid[]='. $row->id );
 
 				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
@@ -136,7 +136,7 @@ class PollView
 	function editPoll( &$row, &$options )
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES );
 		?>

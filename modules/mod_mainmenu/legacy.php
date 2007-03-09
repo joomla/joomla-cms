@@ -92,8 +92,6 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	}
 
 	// replace & with amp; for xhtml compliance
-	$mitem->link = ampReplace($mitem->link);
-
 	$menu_params = new stdClass();
 	$menu_params = new JParameter($mitem->params);
 	$menu_secure = $menu_params->def('secure', 0);
@@ -111,7 +109,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 
 	// replace & with amp; for xhtml compliance
 	// remove slashes from excaped characters
-	$mitem->name = stripslashes(ampReplace($mitem->name));
+	$mitem->name = stripslashes(htmlspecialchars($mitem->name));
 
 	switch ($mitem->browserNav)
 	{

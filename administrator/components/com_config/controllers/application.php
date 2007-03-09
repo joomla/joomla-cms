@@ -319,8 +319,9 @@ class ConfigControllerApplication extends ConfigController
 
 		// handling of quotes (double and single) and amp characters
 		// htmlspecialchars not used to preserve ability to insert other html characters
+		jimport('joomla.filter.output');
 		$offline_message	= JRequest::getVar( 'offline_message', '', 'post' );
-		$offline_message	= ampReplace( $offline_message );
+		$offline_message	= JOUtputFilter::ampReplace( $offline_message );
 		$offline_message	= str_replace( '"', '&quot;', $offline_message );
 		$offline_message	= str_replace( "'", '&#039;', $offline_message );
 		$config->setValue('config.offline_message', $offline_message);

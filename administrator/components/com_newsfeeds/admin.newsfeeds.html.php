@@ -93,12 +93,12 @@ class HTML_newsfeeds
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$link 		= ampReplace( 'index.php?option=com_newsfeeds&task=edit&cid[]='. $row->id );
+				$link 		= JRoute::_( 'index.php?option=com_newsfeeds&task=edit&cid[]='. $row->id );
 
 				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
 				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 
-				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&section=com_newsfeeds&task=edit&cid[]='. $row->catid );
+				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_newsfeeds&task=edit&cid[]='. $row->catid );
 				?>
 				<tr class="<?php echo 'row'. $k; ?>">
 					<td align="center">
@@ -186,7 +186,7 @@ class HTML_newsfeeds
 	function editNewsFeed( &$row, &$lists, $option )
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		jimport('joomla.filter.output');
 		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES );
 		?>

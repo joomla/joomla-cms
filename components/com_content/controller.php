@@ -145,7 +145,8 @@ class ContentController extends JController
 			$row->publish_down = $date->toMySQL();
 		}
 
-		$row->title = ampReplace($row->title);
+		jimport('joomla.filter.output');
+		$row->title = JOutputFilter::ampReplace($row->title);
 
 		// Publishing state hardening for Authors
 		if (!$access->canPublish)
@@ -277,12 +278,9 @@ class ContentController extends JController
 			case 'save' :
 			default :
 				$Itemid = JRequest::getVar('Returnid', '', 'post');
-				if ($Itemid)
-				{
+				if ($Itemid) {
 					$link = 'index.php?option=com_content&view=article&id='.$row->id.'&Itemid='.$Itemid;
-				}
-				else
-				{
+				} else {
 					$link = JRequest::getVar('referer', '', 'post');
 				}
 				break;

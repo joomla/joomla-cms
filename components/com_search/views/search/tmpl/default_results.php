@@ -39,7 +39,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 					<?php echo $result->count.'. ';?>
 				</span>
 				<?php if ( $result->href ) :
-					$result->href = ampReplace( $result->href );
 					if ($result->browsernav == 1 ) : ?>
 						<a href="<?php echo JRoute::_($result->href); ?>" target="_blank">
 					<?php else : ?>

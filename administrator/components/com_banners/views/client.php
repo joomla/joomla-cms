@@ -77,7 +77,7 @@ class BannersViewClients
 				$row = &$rows[$i];
 
 				$row->id 		= $row->cid;
-				$link 			= ampReplace( 'index.php?option=com_banners&c=client&task=edit&cid[]='. $row->id );
+				$link 			= JRoute::_( 'index.php?option=com_banners&c=client&task=edit&cid[]='. $row->id );
 
 				$checked 		= JCommonHTML::CheckedOutProcessing( $row, $i );
 				?>

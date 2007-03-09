@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <tr>
 	<td class="contentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<a href="<?php echo ampReplace( $this->newsfeed->channel['link'] ); ?>" target="_blank">
+		<a href="<?php echo str_replace( '&', '&amp', $this->newsfeed->channel['link'] ); ?>" target="_blank">
 			<?php echo str_replace('&apos;', "'", $this->newsfeed->channel['title']); ?>
 		</a>
 	</td>
@@ -38,7 +38,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php foreach ( $this->newsfeed->items as $item ) :  ?>
 			<li>
 			<?php if ( !is_null( $item->get_link() ) ) : ?>
-				<a href="<?php echo ampReplace( $item->get_link() ); ?>" target="_blank">
+				<a href="<?php echo str_replace( '&', '&amp', $item->get_link() ); ?>" target="_blank">
 					<?php echo $item->get_title(); ?>
 				</a>
 			<?php endif; ?>

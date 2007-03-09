@@ -16,7 +16,7 @@
 defined('JPATH_BASE') or die();
 
 jimport('joomla.utilities.array');
-jimport('joomla.utilities.functions');
+jimport('joomla.filter.input');
 
 /**
  * Create the request global object
@@ -116,11 +116,11 @@ class JRequest
 			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
 		}
 		elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig]))
-		{	
+		{
 			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
 			// Get the variable from the input hash
 			$var = JRequest::_cleanVar($var, $mask, $type);
-			
+
 			// Handle magic quotes compatability
 			if (get_magic_quotes_gpc() && ($var != $default))
 			{
@@ -351,7 +351,7 @@ class JRequest
 		// Static input filters for specific settings
 		static $noHtmlFilter	= null;
 		static $safeHtmlFilter	= null;
-			
+
 		// If the no trim flag is not set, trim the variable
 		if (!($mask & 1) && is_string($var)) {
 			$var = trim($var);
@@ -373,8 +373,8 @@ class JRequest
 		}
 		else
 		{
-		
-			
+
+
 			// Since no allow flags were set, we will apply the most strict filter to the variable
 			if (is_null($noHtmlFilter)) {
 				$noHtmlFilter = & JInputFilter::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);

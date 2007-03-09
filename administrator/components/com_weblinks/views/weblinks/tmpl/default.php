@@ -65,12 +65,12 @@ jimport('joomla.html.tooltips');
 	{
 		$row = &$this->items[$i];
 
-		$link 	= ampReplace( 'index.php?option=com_weblinks&controller=weblink&task=edit&cid[]='. $row->id );
+		$link 	= JRoute::_( 'index.php?option=com_weblinks&controller=weblink&task=edit&cid[]='. $row->id );
 
 		$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
 		$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 
-		$row->cat_link 	= ampReplace( 'index.php?option=com_categories&section=com_weblinks&task=edit&id='. $row->catid );
+		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_weblinks&task=edit&id='. $row->catid );
 		?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td>

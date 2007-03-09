@@ -96,7 +96,7 @@ class JProfiler extends JObject
 	 */
 	function mark( $label )
 	{
-		$mark = sprintf ( "\n<div class=\"profiler\">$this->_prefix %.3f $label</div>", $this->getmicrotime() - $this->_start );
+		$mark = sprintf ( "\n<div>$this->_prefix %.3f $label</div>", $this->getmicrotime() - $this->_start );
 		$this->_buffer[] = $mark;
 		return $mark;
 	}

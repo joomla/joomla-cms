@@ -57,7 +57,7 @@ div.center {
 
 div#wrapper {
 	margin-left: auto;
-	margin-right: auto;	
+	margin-right: auto;
 }
 
 body.width_medium div#wrapper {
@@ -746,3 +746,7 @@ td.key {
 	font-size: 100%;
 	margin: 0;
 }
+
+/* Debug */
+#system-debug { color: white; background-color: white; padding: 10px; margin: 10px; }
+

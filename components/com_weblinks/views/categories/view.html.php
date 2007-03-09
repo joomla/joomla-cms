@@ -73,7 +73,7 @@ class WeblinksViewCategories extends JView
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
-			$category->link = JRoute::_('index.php?option=com_weblinks&amp;view=category&amp;id='. $category->slug);
+			$category->link = JRoute::_('index.php?option=com_weblinks&view=category&id='. $category->slug);
 		}
 
 		$this->assignRef('image',		$image);

@@ -288,7 +288,7 @@ class JMenuTree extends JTree
 			if (strcasecmp(substr($tmp->url, 0, 4), 'http')) {
 				$tmp->url = JRoute::_($tmp->url, $iSecure);
 			} else {
-				$tmp->url = ampReplace($tmp->url);
+				$tmp->url = str_replace('&', '&amp', $tmp->url);
 			}
 
 			switch ($tmp->browserNav)
@@ -359,7 +359,7 @@ function modMainMeuXMLCallback(&$node, $args)
 	$active	= $menu->getActive();
 	$path	= isset($active) ? array_reverse($active->tree) : null;
 
-	if (($args['end']) && ($node->attributes('level') >= $args['end'])) 
+	if (($args['end']) && ($node->attributes('level') >= $args['end']))
 	{
 		$children = &$node->children();
 		foreach ($node->children() as $child)
@@ -373,18 +373,18 @@ function modMainMeuXMLCallback(&$node, $args)
 	if (($node->name() == 'li') && isset($node->ul)) {
 		$node->addAttribute('class', 'parent');
 	}
-	
-	if (isset($path) && in_array($node->attributes('id'), $path)) 
+
+	if (isset($path) && in_array($node->attributes('id'), $path))
 	{
 		if ($node->attributes('class')) {
 			$node->addAttribute('class', $node->attributes('class').' active');
 		} else {
 			$node->addAttribute('class', 'active');
 		}
-	} 
-	else 
+	}
+	else
 	{
-		if (isset($args['children']) && !$args['children']) 
+		if (isset($args['children']) && !$args['children'])
 		{
 			$children = $node->children();
 			foreach ($node->children() as $child)
@@ -395,7 +395,7 @@ function modMainMeuXMLCallback(&$node, $args)
 			}
 		}
 	}
-	
+
 	if (isset($path) && $node->attributes('id') == $path[0]) {
 		$node->addAttribute('id', 'current');
 	} else {

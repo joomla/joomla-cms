@@ -107,7 +107,7 @@ endif; ?>
 <?php if (isset ($this->article->toc)) : ?>
 	<?php echo $this->article->toc; ?>
 <?php endif; ?>
-<?php echo ampReplace($this->article->text); ?>
+<?php echo $this->article->text; ?>
 </td>
 </tr>
 

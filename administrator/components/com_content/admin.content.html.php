@@ -127,8 +127,8 @@ class ContentView
 
 				$link 	= 'index.php?option=com_content&sectionid='. $redirect .'&task=edit&cid[]='. $row->id;
 
-				$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&cid[]='. $row->sectionid );
-				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=edit&cid[]='. $row->catid );
+				$row->sect_link = JRoute::_( 'index.php?option=com_sections&task=edit&cid[]='. $row->sectionid );
+				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&task=edit&cid[]='. $row->catid );
 
 				jimport('joomla.utilities.date');
 				$config =& JFactory::getConfig();
@@ -174,7 +174,7 @@ class ContentView
 						$author = $row->created_by_alias;
 					} else {
 						$linkA 	= 'index.php?option=com_users&task=edit&cid[]='. $row->created_by;
-						$author = '<a href="'. ampReplace( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
+						$author = '<a href="'. JRoute::_( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
 					}
 				} else {
 					if ( $row->created_by_alias ) {
@@ -210,7 +210,7 @@ class ContentView
 							echo ' [ '. JText::_( 'Archived' ) .' ]';
 						} else {
 							?>
-							<a href="<?php echo ampReplace( $link ); ?>">
+							<a href="<?php echo JRoute::_( $link ); ?>">
 								<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?></a>
 							<?php
 						}
@@ -356,14 +356,14 @@ class ContentView
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=edit&cid[]='. $row->catid );
-				$row->sec_link 	= ampReplace( 'index.php?option=com_sections&task=edit&cid[]='. $row->sectionid );
+				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&task=edit&cid[]='. $row->catid );
+				$row->sec_link 	= JRoute::_( 'index.php?option=com_sections&task=edit&cid[]='. $row->sectionid );
 
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
 					} else {
-						$linkA 	= ampReplace( 'index.php?option=com_users&task=edit&cid[]='. $row->created_by );
+						$linkA 	= JRoute::_( 'index.php?option=com_users&task=edit&cid[]='. $row->created_by );
 						$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
 					}
 				} else {

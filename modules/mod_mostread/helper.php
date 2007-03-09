@@ -65,7 +65,7 @@ class modMostReadHelper
 			$row->my_itemid = JContentHelper::getItemid($row->id, $row->catid, $row->sectionid);
 
 			// & xhtml compliance conversion
-			$row->title = ampReplace( $row->title );
+			$row->title = htmlspecialchars( $row->title );
 
 			$link = JRoute::_( 'index.php?view=article&catid='.$row->catslug.'&id='. $row->slug . '&Itemid='. $row->my_itemid );
 

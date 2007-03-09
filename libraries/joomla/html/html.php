@@ -556,7 +556,7 @@ class JCommonHTML
 		$style = 'style="text-decoration: none; color: #333;"';
 
 		if ( $href ) {
-			$href = ampReplace( $href );
+			$href = JRoute::_( $href );
 			$style = '';
 		}
 		if ( $link ) {

@@ -76,7 +76,7 @@ class ContentViewFrontpage extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//add alternate feed link
-		$link	= ampReplace('feed.php?option=com_content&view=frontpage');
+		$link	= JRoute::_('feed.php?option=com_content&view=frontpage');
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink(JRoute::_($link.'&format=rss'), 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
@@ -271,10 +271,10 @@ class ContentViewFrontpage extends JView
 		$params->set('image',			1);
 
 		$item =& $this->items[$index];
+		$item->text = $item->introtext;
 
 
 		// Process the content preparation plugins
-		$item->text	= ampReplace($item->introtext);
 		JPluginHelper::importPlugin('content');
 		$results = $dispatcher->trigger('onPrepareContent', array (& $item, & $params, 0));
 

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Mar-2007 Johan Janssens
+ ^ Moved ampReplace into JOutputFilter
+
 05-Mar-2007 Enno Klasing
  # Improved "Verify FTP settings" in the installer application
  # Re-enabled FTP layer on Windows servers
@@ -51,6 +54,8 @@ Legend:
  + Added methods to installer classes to display a warning
  ! Still need to get message to display nicely in page.html subtemplate
  ^ Changed JLanguage::languageExists to JLanguage::exists
+
+ 03-Mar-2007 Jason Kendall
 
 03-Mar-2007 Jason Kendall
  * Updated JLog to write to a PHP file and include a call to die at the start

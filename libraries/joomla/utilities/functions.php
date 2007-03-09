@@ -15,27 +15,6 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-// Include library dependencies
-jimport('joomla.filter.input');
-
-/**
-* Replaces &amp; with & for xhtml compliance
-*
-* Needed to handle unicode conflicts due to unicode conflicts
-*
-* @since 1.0
-*/
-function ampReplace( $text ) {
-	$text = str_replace( '&&', '*--*', $text );
-	$text = str_replace( '&#', '*-*', $text );
-	$text = str_replace( '&amp;', '&', $text );
-	$text = preg_replace( '|&(?![\w]+;)|', '&amp;', $text );
-	$text = str_replace( '*-*', '&#', $text );
-	$text = str_replace( '*--*', '&&', $text );
-
-	return $text;
-}
-
 function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 ) {
 	if (@$children[$id] && $level <= $maxlevel) {
 		foreach ($children[$id] as $v) {

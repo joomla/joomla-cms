@@ -34,8 +34,9 @@ class JContentHelper
 		$text = JRequest::getVar('text', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		//Clean text for xhtml transitional compliance
+		jimport('joomla.filter.output');
 		$text = str_replace('<br>', '<br />', $text);
-		$row->title = ampReplace($row->title);
+		$row->title = JOutputFilter::ampReplace($row->title);
 
 		// Search for the {readmore} tag and split the text up accordingly.
 		$tagPos = JString::strpos($text, '<hr id="system-readmore" />');
@@ -283,11 +284,11 @@ class JContentHelper
 
 			// Did we find an Itemid for the category?
 			$Itemid = null;
-			if ($catLinkID) 	
+			if ($catLinkID)
 			{
 				$Itemid = '&amp;Itemid='.(int) $catLinkID;
-			} 
-			else 
+			}
+			else
 			{
 				// Nope, lets try to find it by section...
 				$query = 'SELECT id, link' .
@@ -305,7 +306,7 @@ class JContentHelper
 				}
 			}
 
-			if ($Itemid !== null) 
+			if ($Itemid !== null)
 			{
 				if ($catLinkURL) {
 					$link = JRoute::_($catLinkURL.$Itemid);
@@ -315,8 +316,8 @@ class JContentHelper
 
 				// We found an Itemid... build the link
 				$links[$row->catid] = '<a href="'.$link.'">'.$row->category.'</a>';
-			} 
-			else 
+			}
+			else
 			{
 				// Didn't find an Itemid.. set the section name as the link
 				$links[$row->catid] = $row->category;
@@ -333,48 +334,48 @@ class JContentHelper
 	{
 		$db			=& JFactory::getDBO();
 		$component	=& JComponentHelper::getInfo('com_content');
-		
+
 		$menus		=& JMenu::getInstance();
 		$items		= $menus->getItems('componentid', $component->id);
-		
+
 		$Itemid = 0;
-		
+
 		$n = count( $items );
 		if (!$n) {
 			return $Itemid;
 		}
-		
-		for ($i = 0; $i < $n; $i++) 
+
+		for ($i = 0; $i < $n; $i++)
 		{
 			$item = &$items[$i];
 			$url = str_replace('index.php?', '', $item->link);
 			$url = str_replace('&amp;', '&', $url);
 			$parts = null;
 			parse_str($url, $parts);
-			
+
 			if(!isset($parts['id'])) {
 				continue;
 			}
-			
+
 			$item->view_name = $parts['view'];
 			$item->item_id   = $parts['id'];
-						
+
 			// Do we have a content item linked to the menu with this id?
 			if (($item->published) && ($item->item_id == $id) && ($item->view_name = 'article')) {
 				return $item->id;
 			}
-	
+
 			// Check to see if it is in a published category
 			if (($item->published) && ($item->item_id == $catid) && $item->view_name == 'category') {
 				return $item->id;
 			}
-		
+
 			// Check to see if it is in a published section
 			if (($item->published) && ($item->item_id == $sectionid) && $item->view_name == 'section') {
 				return $item->id;
 			}
 		}
-		
+
 		return $Itemid;
 	}
 }

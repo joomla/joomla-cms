@@ -159,7 +159,6 @@ class ContentViewSection extends JView
 		$item =& $this->items[$index];
 
 		// Process the content preparation plugins
-		$item->text	= ampReplace($item->introtext);
 		JPluginHelper::importPlugin('content');
 		$results = $dispatcher->trigger('onPrepareContent', array (& $item, & $params, 0));
 

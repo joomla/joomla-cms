@@ -49,7 +49,7 @@ class modBreadCrumbsHelper
 			if (($showHome) && ($i == 0)) {
 				$items[$i]->name = $params->get('homeText');
 			}
-			$items[$i]->name = stripslashes(ampReplace($items[$i]->name));
+			$items[$i]->name = stripslashes(htmlspecialchars($items[$i]->name));
 
 			// If a link is present create an html link, if not just use the name
 			if (empty ($items[$i]->link) || $count == $i +1) {

@@ -77,7 +77,7 @@ class HTML_messages
 
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					$linkA 	= 'index.php?option=com_users&task=editA&id='. $row->user_id_from;
-					$author = '<a href="'. ampReplace( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->user_from .'</a>';
+					$author = '<a href="'. JRoute::_( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->user_from .'</a>';
 				} else {
 					$author = $row->user_from;
 				}

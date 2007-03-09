@@ -126,7 +126,7 @@ class sections_html
 						echo $row->name;
 					} else {
 						?>
-						<a href="<?php echo ampReplace( $link ); ?>">
+						<a href="<?php echo JRoute::_( $link ); ?>">
 							<?php echo $row->title; ?></a>
 						<?php
 					}

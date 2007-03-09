@@ -112,7 +112,7 @@ class HTML_modules
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row 	= &$rows[$i];
 
-				$link 		= ampReplace( 'index.php?option=com_modules&client='. $client->id .'&task=edit&cid[]='. $row->id );
+				$link 		= JRoute::_( 'index.php?option=com_modules&client='. $client->id .'&task=edit&cid[]='. $row->id );
 
 				$access 	= JCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );

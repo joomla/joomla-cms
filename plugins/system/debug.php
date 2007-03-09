@@ -59,6 +59,7 @@ class  plgDebug extends JPlugin
 		$lang->load( 'plg_system_debug', JPATH_ADMINISTRATOR );
 
 		ob_start();
+		echo '<div id="system-debug" class="profiler">';
 		echo implode( '', $profiler->getBuffer() );
 
 		if ($this->_params->get('memory', 1)) {
@@ -94,6 +95,7 @@ class  plgDebug extends JPlugin
 			}
 			echo '</pre>';
 		}
+		echo '</div>';
 
 		$debug = ob_get_clean();
 		JResponse::appendBody($debug);

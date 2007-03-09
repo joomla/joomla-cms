@@ -124,7 +124,7 @@ class categories_html
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row 	= &$rows[$i];
 
-			$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&cid[]='. $row->section );
+			$row->sect_link = JRoute::_( 'index.php?option=com_sections&task=edit&cid[]='. $row->section );
 
 			$link = 'index.php?option=com_categories&section='. $section .'&task=edit&cid[]='. $row->id;
 
@@ -146,7 +146,7 @@ class categories_html
 						echo $row->name;
 					} else {
 						?>
-						<a href="<?php echo ampReplace( $link ); ?>">
+						<a href="<?php echo JRoute::_( $link ); ?>">
 							<?php echo $row->title; ?></a>
 						<?php
 					}

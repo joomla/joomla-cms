@@ -274,7 +274,8 @@ class MenusModelItem extends JModel
 			$row->ordering = $row->getNextOrder ( $where );
 		}
 
-		$row->name = ampReplace( $row->name );
+		jimporr('joomla.filter.output');
+		$row->name = JOutputFilter::ampReplace( $row->name );
 
 		if (is_array($post['urlparams']))
 		{

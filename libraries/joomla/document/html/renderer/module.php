@@ -30,7 +30,7 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 	 *
 	 * @access public
 	 * @param string 	$name		The name of the module to render
-	 * @param array 	$params		Associative array of values
+	 * @param array 		$params		Associative array of values
 	 * @return string	The output of the script
 	 */
 	function render( $module, $params = array(), $content = null )
@@ -70,13 +70,20 @@ class JDocumentRenderer_Module extends JDocumentRenderer
 		//get module parameters
 		$mod_params = new JParameter( $module->params );
 
-		$cache =& JFactory::getCache( $module->module );
+		$contents = '';
+		if($mod_params->get('cache, 0') && $conf->getValue( 'config.caching' ))
+		{
+			$cache =& JFactory::getCache( $module->module );
 
-		$cache->setCaching( $mod_params->get( 'cache', 0 ) && $conf->getValue( 'config.caching' ) );
-		$cache->setLifeTime( $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) ) );
-		$cache->setCacheValidation(true);
+			$cache->setLifeTime( $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) ) );
+			$cache->setCacheValidation(true);
 
-		return $cache->get( array('JModuleHelper', 'renderModule'), array( $module, $params ), $module->id. $user->get('aid', 0) );
+			$contents =  $cache->get( array('JModuleHelper', 'renderModule'), array( $module, $params ), $module->id. $user->get('aid', 0) );
+		} else {
+			$contents = JModuleHelper::renderModule($module, $params);
+		}
+
+		return $contents;
 	}
 }
 ?>

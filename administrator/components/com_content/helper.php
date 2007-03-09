@@ -30,8 +30,9 @@ class JContentHelper
 		$text = JRequest::getVar( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW );
 
 		// Clean text for xhtml transitional compliance
+		jimport('joomla.filter.output');
 		$text		= str_replace( '<br>', '<br />', $text );
-		$row->title	= ampReplace($row->title);
+		$row->title	= JOutputFilter::ampReplace($row->title);
 
 		// Search for the {readmore} tag and split the text up accordingly.
 		$tagPos	= JString::strpos( $text, '<hr id="system-readmore" />' );

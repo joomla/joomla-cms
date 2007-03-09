@@ -164,8 +164,6 @@
 		</div>
 	</div>
 </div>
-
 <jdoc:include type="modules" name="debug" />
-
 </body>
 </html>

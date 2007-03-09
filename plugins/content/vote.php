@@ -44,7 +44,7 @@ function plgContentVote( &$row, &$params, $page=0 )
 		$html .= intval( $row->rating_count );
 		$html .= "</span>\n<br />\n";
 		$url = @$_SERVER['REQUEST_URI'];
-		$url = ampReplace( $url );
+		$url = str_replace('&', '&amp',  $url );
 
 		if (!$params->get( 'intro_only' ) && $task != "blogsection") {
 			$html .= '<span class="content_vote">';

@@ -28,8 +28,8 @@ $layout = JModuleHelper::getLayoutPath('mod_poll');
 
 foreach ($list as $item)
 {
-	$tabcnt 			= 0;
-	$voted 				= JRequest::getVar( "voted$item->id", 'z', 'COOKIE' );
+	$tabcnt 	= 0;
+	$voted 	= JRequest::getVar( "voted$item->id", 'z', 'COOKIE' );
 
 	if ($item->id && $item->title)  {
 		$options = modPollHelper::getPollOptions($item->id);

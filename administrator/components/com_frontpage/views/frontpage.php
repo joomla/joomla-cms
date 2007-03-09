@@ -110,7 +110,7 @@ class FrontpageView
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$link = ampReplace( 'index.php?option=com_content&task=edit&cid[]='. $row->id );
+				$link = JRoute::_( 'index.php?option=com_content&task=edit&cid[]='. $row->id );
 
 				$now = date( 'Y-m-d H:i:s' );
 				if ( $now <= $row->publish_up && $row->state == '1' ) {
@@ -150,7 +150,7 @@ class FrontpageView
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
 					} else {
-						$linkA 	= ampReplace( 'index.php?option=com_users&task=editA&id='. $row->created_by );
+						$linkA 	= JRoute::_( 'index.php?option=com_users&task=editA&id='. $row->created_by );
 						$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
 					}
 				} else {
@@ -163,13 +163,13 @@ class FrontpageView
 
 				// section handling
 				if ($row->sectionid) {
-					$row->sect_link = ampReplace( 'index.php?option=com_sections&task=edit&id='. $row->sectionid );
+					$row->sect_link = JRoute::_( 'index.php?option=com_sections&task=edit&id='. $row->sectionid );
 					$title_sec		= JText::_( 'Edit Section' );
 				}
 
 				// category handling
 				if ($row->catid) {
-					$row->cat_link 	= ampReplace( 'index.php?option=com_categories&task=edit&id='. $row->catid );
+					$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&task=edit&id='. $row->catid );
 					$title_cat		= JText::_( 'Edit Category' );
 				}
 				?>

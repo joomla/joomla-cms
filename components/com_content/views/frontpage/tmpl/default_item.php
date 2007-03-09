@@ -100,7 +100,7 @@ endif; ?>
 <?php if (isset ($this->item->toc)) : ?>
 	<?php echo $this->item->toc; ?>
 <?php endif; ?>
-<?php echo ampReplace($this->item->text); ?>
+<?php echo $this->item->text; ?>
 </td>
 </tr>
 

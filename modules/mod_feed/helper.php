@@ -67,7 +67,7 @@ class modFeedHelper
 				<tr>
 				<td>
 					<strong>
-						<a href="<?php echo ampReplace( $channel['link'] ); ?>" target="_blank">
+						<a href="<?php echo str_replace( '&', '&amp', $channel['link'] ); ?>" target="_blank">
 						<?php echo $channel['title']; ?></a>
 					</strong>
 				</td>

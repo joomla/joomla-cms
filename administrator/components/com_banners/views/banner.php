@@ -106,7 +106,7 @@ class BannersViewBanner
 				$row = &$rows[$i];
 
 				$row->id 	= $row->bid;
-				$link 		= ampReplace( 'index.php?option=com_banners&amp;task=edit&amp;cid[]='. $row->id );
+				$link 		= JRoute::_( 'index.php?option=com_banners&task=edit&cid[]='. $row->id );
 
 				$impleft 	= $row->imptotal - $row->impmade;
 				if( $impleft < 0 ) {

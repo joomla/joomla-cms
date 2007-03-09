@@ -309,9 +309,9 @@ class ContentViewCategory extends JView
 		$params->set('image',			1);
 
 		$item 		=& $this->items[$index];
+		$item->text = $item->introtext;
 
 		// Process the content preparation plugins
-		$item->text	= ampReplace($item->introtext);
 		JPluginHelper::importPlugin('content');
 		$results = $dispatcher->trigger('onPrepareContent', array (& $item, & $params, 0));
 

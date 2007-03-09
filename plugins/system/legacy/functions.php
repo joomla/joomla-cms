@@ -818,4 +818,16 @@ function sefRelToAbs($value) {
 	return JRoute::_($value);
 }
 
+
+/**
+ * Legacy function to replaces &amp; with & for xhtml compliance
+ *
+ * @deprecated	As of version 1.5
+ */
+function ampReplace( $text )
+{
+	jimport('joomla.filter.output');
+	return JOutputFilter::ampReplace($text);
+}
+
 ?>

@@ -91,14 +91,14 @@ class HTML_contact
 			for ($i=0, $n=count($rows); $i < $n; $i++) {
 				$row = $rows[$i];
 
-				$link 		= ampReplace( 'index.php?option=com_contact&task=edit&cid[]='. $row->id );
+				$link 		= JRoute::_( 'index.php?option=com_contact&task=edit&cid[]='. $row->id );
 
 				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
 				$access 	= JCommonHTML::AccessProcessing( $row, $i );
 				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
 
-				$row->cat_link 	= ampReplace( 'index.php?option=com_categories&section=com_contact_details&task=editA&cid[]='. $row->catid );
-				$row->user_link	= ampReplace( 'index.php?option=com_users&task=editA&cid[]='. $row->user_id );
+				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_contact_details&task=editA&cid[]='. $row->catid );
+				$row->user_link	= JRoute::_( 'index.php?option=com_users&task=editA&cid[]='. $row->user_id );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
