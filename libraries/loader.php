@@ -24,11 +24,11 @@ class JLoader
 	 * Loads a class from specified directories.
 	 *
 	 * @param string $name The class name to look for.
-	 * @param string|array $dirs Search these directories for the class.
+	 * @param string $base Search this directory for the class.
 	 * @return void
 	 * @since 1.5
 	 */
-	function import( $filePath )
+	function import( $filePath, $base = null )
 	{
 		static $paths;
 
@@ -43,8 +43,11 @@ class JLoader
 
 			$parts = explode( '.', $filePath );
 
-			$base =  dirname( __FILE__ );
-
+			if ( ! $base )
+			{
+				$base =  dirname( __FILE__ );
+			}
+			
 			if(array_pop( $parts ) == '*')
 			{
 				$path = $base . DS . implode( DS, $parts );
