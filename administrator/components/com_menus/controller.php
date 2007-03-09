@@ -74,12 +74,12 @@ class MenusController extends JController
 		$item =& $model->getItem();
 		switch ( $this->_task ) {
 			case 'apply':
-				$this->setRedirect( 'index.php?option=com_menus&amp;menutype='.$item->menutype.'&amp;task=edit&amp;cid[]='.$item->id.'' , $msg );
+				$this->setRedirect( 'index.php?option=com_menus&menutype='.$item->menutype.'&task=edit&cid[]='.$item->id.'' , $msg );
 				break;
 
 			case 'save':
 			default:
-				$this->setRedirect( 'index.php?option=com_menus&amp;task=view&amp;menutype='.$item->menutype, $msg );
+				$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$item->menutype, $msg );
 				break;
 		}
 	}

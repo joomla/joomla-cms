@@ -561,8 +561,8 @@ class ContentController extends JController
 		$form->loadINI($row->attribs);
 
 		// Metadata Group
-		$form->set('description', $row->metadesc, 'metadata');
-		$form->set('keywords', $row->metakey, 'metadata');
+		$form->set('description', $row->metadesc);
+		$form->set('keywords', $row->metakey);
 		$form->loadINI($row->metadata);
 
 		ContentView::editContent($row, $contentSection, $lists, $sectioncategories, $option, $form);
