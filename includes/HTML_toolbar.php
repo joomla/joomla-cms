@@ -1,3 +1,3 @@
 <?php // compatibility
-require_once( dirname(__FILE__)  .'/../libraries/joomla/common/legacy/toolbar.php' );
+require_once( JPATH_ROOT .'/plugins/system/legacy/toolbar.php' );
 ?>

@@ -74,7 +74,7 @@ class PollController
 		$pathway->addItem($poll->title, '');
 
 		$params->def( 'page_title',	1 );
-		$params->def( 'header', $menu->name );
+		$params->def( 'header', $item->name );
 
 		$first_vote = '';
 		$last_vote 	= '';
@@ -123,7 +123,7 @@ class PollController
 		$lists = array();
 
 		// dropdown output
-		$link = JRoute::_( 'index.php?option=com_poll&task=results&id=\' + this.options[selectedIndex].value + \' + \'' );
+		$link = JRoute::_( 'index.php?option=com_poll&task=results&id='.$poll->id );
 
 		array_unshift( $polls, JHTMLSelect::option( '', JText::_( 'Select Poll from the list' ), 'id', 'title' ));
 
@@ -195,7 +195,7 @@ class PollController
 		$model = new PollModelPoll();
 		$model->addVote( $poll_id, $option_id );
 
-		$mainframe->redirect( JRoute::_( 'index.php?option=com_poll&task=results&id='. $poll_id ), JText::_( 'Thanks for your vote!' ) );
+		$mainframe->redirect( 'index.php?option=com_poll&task=results&id='. $poll_id, JText::_( 'Thanks for your vote!' ) );
 	}
 }
 ?>
