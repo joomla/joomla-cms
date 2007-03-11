@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Mar-2007 Sam Moffatt
+ ! A whole new world.
+
 05-Mar-2007 Johan Janssens
  ^ Moved ampReplace into JOutputFilter
 
