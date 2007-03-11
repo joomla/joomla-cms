@@ -19,11 +19,11 @@ defined('JPATH_BASE') or die();
  * DocumentPDF class, provides an easy interface to parse and display a pdf document
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
  */
-
 class JDocumentPDF extends JDocument
 {
 	var $_engine	= null;
@@ -100,6 +100,7 @@ class JDocumentPDF extends JDocument
 		define("K_PATH_URL", JPATH_BASE);
 
 		// Fonts path
+		$lang = &JFactory::getLanguage();
 		define("FPDF_FONTPATH", K_PATH_MAIN.DS."fonts".DS);
 
 		// Cache directory path
@@ -146,19 +147,6 @@ class JDocumentPDF extends JDocument
 		$this->_engine->SetHeaderMargin($this->_margin_header);
 		$this->_engine->SetFooterMargin($this->_margin_footer);
 		$this->_engine->setImageScale($this->_image_scale);
-
-		/*
-		 * FONTS
-		 */
-
-		// Default font name
-		define("PDF_FONT_NAME_MAIN", 'vera');
-		// Default font size
-		define("PDF_FONT_SIZE_MAIN", 10);
-		// Data font name
-		define("PDF_FONT_NAME_DATA", 'vera');
-		// Data font size
-		define("PDF_FONT_SIZE_DATA", 8);
 	}
 
 	function & getEngine()
@@ -265,8 +253,12 @@ class JDocumentPDF extends JDocument
 		$pdf->setHeaderData('',0,$this->getTitle(), $this->getHeader());
 
 		// Set PDF Header and Footer fonts
-		$pdf->setHeaderFont(array('vera', '', 10));
-		$pdf->setFooterFont(array('vera', '', 8));
+		$lang = &JFactory::getLanguage();
+		$font = $lang->getPdfFontName();
+		$font = ($font) ? $font : 'vera';
+
+		$pdf->setHeaderFont(array($font, '', 10));
+		$pdf->setFooterFont(array($font, '', 8));
 
 		// Initialize PDF Document
 		$pdf->AliasNbPages();
