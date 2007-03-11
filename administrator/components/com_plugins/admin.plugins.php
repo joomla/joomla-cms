@@ -29,6 +29,7 @@ $option = JRequest::getVar( 'option', '' );
 $client = JRequest::getVar( 'client', 'site' );
 $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $id 	= JRequest::getVar( 'id', 0, '', 'int' );
+$task = JRequest::getVar( 'task' );
 
 if (!is_array( $cid )) {
 	$cid = array(0);
