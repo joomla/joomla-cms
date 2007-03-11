@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<?php endif; ?>
 			</div>
 			<div>
-				<?php echo ampReplace( $result->text );?>
+				<?php echo JRoute::_( $result->text );?>
 			</div>
 			<?php
 				$contentConfig = &JComponentHelper::getParams( 'com_content' );
