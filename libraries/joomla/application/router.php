@@ -271,10 +271,6 @@ class JRouter extends JObject
 					$url = 'index.php/'.$url;
 				}
 
-				if ($this->_mode == 2) {
-					$url = $url.'.html';
-				}
-
 				$strings[$string] = $url;
 
 				return str_replace( '&', '&amp;', $url );
