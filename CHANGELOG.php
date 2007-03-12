@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Mar-2007 Louis Landry
+ - Removed Legacy mode global configuration setting
+ ^ Set legacy mode by publishing the system legacy plugin
+
 12-Mar-2007 Sam Moffatt
  ! A whole new world.
 

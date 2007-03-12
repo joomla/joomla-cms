@@ -17,6 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 global $task, $hidemainmenu;
 
 // Initialize some variables
+$config		=& JFactory::getConfig();
 $user		=& JFactory::getUser();
 $db			=& JFactory::getDBO();
 $lang		=& JFactory::getLanguage();
@@ -24,6 +25,11 @@ $session	=& JFactory::getSession();
 
 $sid	= $session->getId();
 $output = array();
+
+// Legacy Mode
+if ($config->getValue('config.legacy')) {
+	$output[] = '<span class="legacy-mode">'.JText::_('Legacy').': '._J_LEGACY.'</span>';
+}
 
 // Print the preview button
 $output[] = "<span class=\"preview\"><a href=\"".$mainframe->getSiteURL()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";

@@ -106,7 +106,6 @@ class ConfigControllerApplication extends ConfigController
 		$lists['xmlrpc_server'] = JHTMLSelect::yesnoList('xmlrpc_server', 'class="inputbox"', $row->xmlrpc_server);
 		$lists['error_reporting'] = JHTMLSelect::genericList($errors, 'error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->error_reporting);
 		$lists['enable_ftp'] 	= JHTMLSelect::yesnoList('ftp_enable', 'class="inputbox"', intval($row->ftp_enable));
-		$lists['legacy']		= JHTMLSelect::yesnoList('legacy', 'class="inputbox"', $row->legacy);
 
 		// LOCALE SETTINGS
 		$timeoffset = array (	JHTMLSelect::option(-12, JText::_('(UTC -12:00) International Date Line West')),
@@ -259,7 +258,6 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['gzip'] 		= JRequest::getVar('gzip', 0, 'post');
 		$config_array['error_reporting'] = JRequest::getVar('error_reporting', -1, 'post');
 		$config_array['xmlrpc_server'] = JRequest::getVar('xmlrpc_server', 0, 'post');
-		$config_array['legacy']		= JRequest::getVar('legacy', 0, 'post');
 		$config_array['log_path']	= JRequest::getVar('log_path', JPATH_ROOT.DS.'logs', 'post');
 		$config_array['tmp_path']	= JRequest::getVar('tmp_path', JPATH_ROOT.DS.'tmp', 'post');
 

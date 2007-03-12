@@ -37,6 +37,13 @@ class  plgLegacy extends JPlugin
 	{
 		parent::__construct($subject);
 
+		// Define the 1.0 legacy mode constant
+		define('_J_LEGACY', '1.0');
+
+		// Set global configuration var for legacy mode
+		$config = &JFactory::getConfig();
+		$config->setValue('config.legacy', 1);
+
 		// load plugin parameters
 		$this->_plugin = & JPluginHelper::getPlugin('system', 'legacy');
 		$this->_params = new JParameter($this->_plugin->params);
@@ -50,7 +57,7 @@ class  plgLegacy extends JPlugin
 		 * Legacy define, _ISO define not used anymore. All output is forced as utf-8.
 		 * @deprecated	As of version 1.5
 		 */
-		DEFINE('_ISO','charset=utf-8');
+		define('_ISO','charset=utf-8');
 
 		/**
 		 * Legacy constant, use _JEXEC instead

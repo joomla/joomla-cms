@@ -23,14 +23,6 @@
 			</tr>
 			<tr>
 				<td class="key">
-					<?php echo JText::_( 'Enable Legacy Mode' ); ?>
-				</td>
-				<td>
-					<?php echo $lists['legacy']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="key">
 					<?php echo JText::_( 'Enable XML-RPC' ); ?>
 				</td>
 				<td>

@@ -647,19 +647,20 @@ class JDocument extends JObject
 			jimport('joomla.document.renderer');
 		}
 
-		$class	=	'JDocumentRenderer' . $type;
+		$null	= null;
+		$class	= 'JDocumentRenderer'.$type;
 
 		if( !class_exists( $class ) )
 		{
 			if(!file_exists(dirname(__FILE__).DS.$this->_type.DS.'renderer'.DS.$type.'.php')) {
-				return null;
+				return $null;
 			}
 			//import renderer
 			jimport('joomla.document.'.$this->_type.'.renderer.'.$type);
 		}
 
 		if( !class_exists( $class ) ) {
-			return null;
+			return $null;
 		}
 
 		$instance = new $class($this);
