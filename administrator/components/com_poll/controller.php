@@ -221,7 +221,7 @@ class PollController extends JController
 		{
 			case 'apply':
 				$msg = JText::_( 'Changes to Poll saved' );
-				$link = 'index.php?option=com_poll&amp;task=edit&amp;cid[]='. $row->id .'';
+				$link = 'index.php?option=com_poll&task=edit&cid[]='. $row->id .'';
 				break;
 
 			case 'save':

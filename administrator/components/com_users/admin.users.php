@@ -64,7 +64,7 @@ switch (JRequest::getVar('task'))
 
 	case 'contact':
 		$contact_id = JRequest::getVar( 'contact_id', '', 'post', 'int' );
-		$mainframe->redirect( 'index.php?option=com_contact&amp;task=edit&amp;cid[]='. $contact_id );
+		$mainframe->redirect( 'index.php?option=com_contact&atask=edit&cid[]='. $contact_id );
 		break;
 
 	default:
@@ -417,7 +417,7 @@ function saveUser(  )
 	switch ( $task ) {
 		case 'apply':
 			$msg = JText::sprintf( 'Successfully Saved changes to User %s', $user->get('name') );
-			$mainframe->redirect( 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $user->get('id'), $msg );
+			$mainframe->redirect( 'index.php?option=com_users&task=edit&cid[]='. $user->get('id'), $msg );
 			break;
 
 		case 'save':
@@ -436,7 +436,7 @@ function cancelUser( )
 	global $mainframe;
 
 	$option = JRequest::getVar( 'option');
-	$mainframe->redirect( 'index.php?option='. $option .'&amp;task=view' );
+	$mainframe->redirect( 'index.php?option='. $option .'&task=view' );
 }
 
 /**

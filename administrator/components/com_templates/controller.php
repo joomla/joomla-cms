@@ -112,7 +112,7 @@ class TemplatesController
 			$db->query();
 		}
 
-		$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id);
+		$mainframe->redirect('index.php?option='.$option.'&client='.$client->id);
 	}
 
 	function editTemplate()
@@ -194,7 +194,7 @@ class TemplatesController
 		$default	= JRequest::getVar('default', 0);
 
 		if (!$template) {
-			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 		}
 
 		// Set FTP credentials, if given
@@ -225,7 +225,7 @@ class TemplatesController
 			}
 
 			if (!$return) {
-				$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
+				$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 			}
 		}
 
@@ -269,9 +269,9 @@ class TemplatesController
 		
 		$task = JRequest::getVar('task');
 		if($task == 'apply') {
-			$mainframe->redirect('index.php?option='.$option.'&amp;task=edit&amp;cid[]='.$template.'&amp;client='.$client->id);
+			$mainframe->redirect('index.php?option='.$option.'&task=edit&cid[]='.$template.'&client='.$client->id);
 		} else {
-			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id);
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id);
 		}
 	}
 
@@ -287,7 +287,7 @@ class TemplatesController
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id);
+		$mainframe->redirect('index.php?option='.$option.'&client='.$client->id);
 	}
 
 	function editTemplateSource()
@@ -315,7 +315,7 @@ class TemplatesController
 			TemplatesView::editTemplateSource($template, $content, $option, $client, $ftp);
 		} else {
 			$msg = JText::sprintf('Operation Failed Could not open', $file);
-			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, $msg);
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, $msg);
 		}
 	}
 
@@ -331,11 +331,11 @@ class TemplatesController
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', JREQUEST_ALLOWRAW);
 
 		if (!$template) {
-			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 		}
 
 		if (!$filecontent) {
-			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
 		}
 
 		// Set FTP credentials, if given
@@ -364,17 +364,17 @@ class TemplatesController
 			switch($task)
 			{
 				case 'apply_source':
-					$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id.'&amp;task=edit_source&id='.$template, JText::_('Template source saved'));
+					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_source&id='.$template, JText::_('Template source saved'));
 					break;
 
 				case 'save_source':
 				default:
-					$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id.'&amp;task=edit&amp;cid[]='.$template, JText::_('Template source saved'));
+					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&task=edit&cid[]='.$template, JText::_('Template source saved'));
 					break;
 			}
 		}
 		else {
-			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 		}
 	}
 
@@ -432,7 +432,7 @@ class TemplatesController
 		else
 		{
 			$msg = JText::sprintf('Operation Failed Could not open', $client->path.$filename);
-			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, $msg);
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, $msg);
 		}
 	}
 
@@ -448,11 +448,11 @@ class TemplatesController
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', JREQUEST_ALLOWRAW);
 
 		if (!$template) {
-			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 		}
 
 		if (!$filecontent) {
-			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Content empty.'));
 		}
 
 		// Set FTP credentials, if given
@@ -481,17 +481,17 @@ class TemplatesController
 			switch($task)
 			{
 				case 'apply_css':
-					$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id.'&amp;task=edit_css&amp;id='.$template.'&amp;filename='.$filename,  JText::_('File Saved'));
+					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&task=edit_css&id='.$template.'&filename='.$filename,  JText::_('File Saved'));
 					break;
 
 				case 'save_css':
 				default:
-					$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id.'&amp;task=edit&amp;cid[]='.$template, JText::_('File Saved'));
+					$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&task=edit&cid[]='.$template, JText::_('File Saved'));
 					break;
 			}
 		}
 		else {
-			$mainframe->redirect('index.php?option='.$option.'&amp;client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 		}
 	}
 }

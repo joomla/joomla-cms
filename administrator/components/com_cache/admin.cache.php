@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user =& JFactory::getUser();
 if (!$user->authorize( 'com_cache', 'manage' )) {
-	$mainframe->redirect( 'index.php?', JText::_('ALERTNOTAUTH') );
+	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
 // Load the html output class and the model class

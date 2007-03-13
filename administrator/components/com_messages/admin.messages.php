@@ -297,6 +297,6 @@ function removeMessage( $cid, $option )
 	$limit 		= JRequest::getVar( 'limit', 10, '', 'int' );
 	$limitstart	= JRequest::getVar( 'limitstart', 0, '', 'int' );
 
-	$mainframe->redirect( "index.php?option=$option&amp;limit=$limit&amp;limitstart=$limitstart" );
+	$mainframe->redirect( 'index.php?option='.$option.'&limit='.$limit.'&limitstart='.$limitstart );
 }
 ?>

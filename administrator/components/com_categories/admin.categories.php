@@ -320,7 +320,7 @@ function editCategory( )
 	// fail if checked out not by 'me'
 	if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out )) {
 		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The category' ), $row->title );
-		$mainframe->redirect( 'index.php?option=categories&amp;section='. $row->section, $msg );
+		$mainframe->redirect( 'index.php?option=categories&section='. $row->section, $msg );
 	}
 
 
@@ -447,22 +447,22 @@ function saveCategory()
 	switch ( JRequest::getVar('task') )
 	{
 		case 'go2menu':
-			$mainframe->redirect( 'index.php?option=com_menus&amp;menutype='. $menu );
+			$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu );
 			break;
 
 		case 'go2menuitem':
-			$mainframe->redirect( 'index.php?option=com_menus&amp;menutype='. $menu .'&task=edit&id='. $menuid );
+			$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu .'&task=edit&id='. $menuid );
 			break;
 
 		case 'apply':
 			$msg = JText::_( 'Changes to Category saved' );
-			$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $redirect .'&task=edit&amp;cid[]='. $row->id, $msg );
+			$mainframe->redirect( 'index.php?option=com_categories&section='. $redirect .'&task=edit&cid[]='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
 			$msg = JText::_( 'Category saved' );
-			$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $redirect, $msg );
+			$mainframe->redirect( 'index.php?option=com_categories&section='. $redirect, $msg );
 			break;
 	}
 }
@@ -531,10 +531,10 @@ function removeCategories( $section, $cid )
 	if (count( $err )) {
 		$cids = implode( ", ", $err );
 		$msg = JText::sprintf( 'WARNNOTREMOVEDRECORDS', $cids );
-		$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $section, $msg );
+		$mainframe->redirect( 'index.php?option=com_categories&section='. $section, $msg );
 	}
 
-	$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $section );
+	$mainframe->redirect( 'index.php?option=com_categories&section='. $section );
 }
 
 /**
@@ -580,7 +580,7 @@ function publishCategories( $section, $cid=null, $publish=1 )
 		$row->checkin( $cid[0] );
 	}
 
-	$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $section );
+	$mainframe->redirect( 'index.php?option=com_categories&section='. $section );
 }
 
 /**
@@ -601,7 +601,7 @@ function cancelCategory()
 	$row->bind( JRequest::get( 'post' ));
 	$row->checkin();
 
-	$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $redirect );
+	$mainframe->redirect( 'index.php?option=com_categories&section='. $redirect );
 }
 
 /**
@@ -705,7 +705,7 @@ function moveCategorySave( $cid, $sectionOld )
 	$sectionNew->load( $sectionMove );
 
 	$msg = JText::sprintf( 'Categories moved to', $sectionNew->name );
-	$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $sectionOld, $msg );
+	$mainframe->redirect( 'index.php?option=com_categories&section='. $sectionOld, $msg );
 }
 
 /**
@@ -818,7 +818,7 @@ function copyCategorySave( $cid, $sectionOld )
 	$sectionNew->load( $sectionMove );
 
 	$msg = JText::sprintf( 'Categories copied to', $total, $sectionNew->name );
-	$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $sectionOld, $msg );
+	$mainframe->redirect( 'index.php?option=com_categories&section='. $sectionOld, $msg );
 }
 
 /**
@@ -843,7 +843,7 @@ function accessMenu( $uid, $access, $section )
 		return $row->getError();
 	}
 
-	$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $section );
+	$mainframe->redirect( 'index.php?option=com_categories&section='. $section );
 }
 
 function saveOrder( &$cid, $section )
@@ -879,6 +879,6 @@ function saveOrder( &$cid, $section )
 	}
 
 	$msg 	= JText::_( 'New ordering saved' );
-	$mainframe->redirect( 'index.php?option=com_categories&amp;section='. $section, $msg );
+	$mainframe->redirect( 'index.php?option=com_categories&section='. $section, $msg );
 }
 ?>

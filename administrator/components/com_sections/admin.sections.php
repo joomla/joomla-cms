@@ -236,7 +236,7 @@ function editSection( )
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
 		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The section' ), $row->title );
-		$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $row->scope, $msg );
+		$mainframe->redirect( 'index.php?option='. $option .'&scope='. $row->scope, $msg );
 	}
 
 	if ( $cid[0] ) {
@@ -318,22 +318,22 @@ function saveSection( $option, $scope, $task )
 	switch ( $task )
 	{
 		case 'go2menu':
-			$mainframe->redirect( 'index.php?option=com_menus&amp;menutype='. $menu );
+			$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu );
 			break;
 
 		case 'go2menuitem':
-			$mainframe->redirect( 'index.php?option=com_menus&amp;menutype='. $menu .'&amp;task=edit&amp;id='. $menuid );
+			$mainframe->redirect( 'index.php?option=com_menus&menutype='. $menu .'&task=edit&id='. $menuid );
 			break;
 
 		case 'apply':
 			$msg = JText::_( 'Changes to Section saved' );
-			$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope .'&amp;task=edit&amp;cid[]='. $row->id, $msg );
+			$mainframe->redirect( 'index.php?option='. $option .'&scope='. $scope .'&task=edit&cid[]='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
 			$msg = JText::_( 'Section saved' );
-			$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope, $msg );
+			$mainframe->redirect( 'index.php?option='. $option .'&scope='. $scope, $msg );
 			break;
 	}
 }
@@ -398,7 +398,7 @@ function removeSections( $cid, $scope, $option )
 
 	$names = implode( ', ', $name );
 	$msg = JText::sprintf( 'Sections successfully deleted', $names );
-	$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope, $msg );
+	$mainframe->redirect( 'index.php?option='. $option .'&scope='. $scope, $msg );
 }
 
 /**
@@ -468,7 +468,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 		}
 	}
 
-	$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope );
+	$mainframe->redirect( 'index.php?option='. $option .'&scope='. $scope );
 }
 
 /**
@@ -486,7 +486,7 @@ function cancelSection( $option, $scope )
 	$row->bind(JRequest::get('post'));
 	$row->checkin();
 
-	$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope );
+	$mainframe->redirect( 'index.php?option='. $option .'&scope='. $scope );
 }
 
 /**
@@ -502,7 +502,7 @@ function orderSection( $uid, $inc, $option, $scope )
 	$row->load( $uid );
 	$row->move( $inc, "scope = '$row->scope'" );
 
-	$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope );
+	$mainframe->redirect( 'index.php?option='. $option .'&scope='. $scope );
 }
 
 
@@ -629,7 +629,7 @@ function copySectionSave( $sectionid )
 	$sectionOld->load( $sectionMove );
 
 	$msg = JText::sprintf( 'DESCCATANDITEMSCOPIED', $sectionOld-> name, $title );
-	$mainframe->redirect( 'index.php?option=com_sections&amp;scope=content', $msg );
+	$mainframe->redirect( 'index.php?option=com_sections&scope=content', $msg );
 }
 
 /**
@@ -652,7 +652,7 @@ function accessMenu( $uid, $access, $option )
 		return $row->getError();
 	}
 
-	$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $row->scope );
+	$mainframe->redirect( 'index.php?option='. $option .'&scope='. $row->scope );
 }
 
 function saveOrder( &$cid )
@@ -680,6 +680,6 @@ function saveOrder( &$cid )
 	$row->reorder( );
 
 	$msg 	= JText::_( 'New ordering saved' );
-	$mainframe->redirect( 'index.php?option=com_sections&amp;scope=content', $msg );
+	$mainframe->redirect( 'index.php?option=com_sections&scope=content', $msg );
 }
 ?>

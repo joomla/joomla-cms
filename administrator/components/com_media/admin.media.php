@@ -38,7 +38,7 @@ if (!is_array($cid)) {
 
 $folder = JRequest::getVar( 'folder', '');
 if (is_int(strpos($folder, "..")) && $folder != '') {
-	$mainframe->redirect("index.php?option=com_media&folder=".$folder, JText::_('NO HACKING PLEASE'));
+	$mainframe->redirect('index.php?option=com_media&folder='.$folder, JText::_('NO HACKING PLEASE'));
 }
 
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'media.php' );
@@ -425,11 +425,11 @@ class MediaController
 				$file['name'] = $files['name'][$i];
 				$file['size'] += (int)$files['size'][$i];
 				if (!MediaHelper::canUpload( $file, $err )) {
-					$mainframe->redirect("index.php?option=com_media&amp;folder=".$folder, JText::_($err));
+					$mainframe->redirect('index.php?option=com_media&folder='.$folder, JText::_($err));
 					return;
 				}
 				if (!JFile::upload($files['tmp_name'][$i], $filepath)) {
-					$mainframe->redirect("index.php?option=com_media&amp;folder=".$folder, JText::_('Upload FAILED'));
+					$mainframe->redirect('index.php?option=com_media&folder='.$folder, JText::_('Upload FAILED'));
 				}
 			}
 		}
@@ -456,7 +456,7 @@ class MediaController
 
 		if (strlen($folder) > 0) {
 			if (eregi("[^0-9a-zA-Z_]", $folder)) {
-				$mainframe->redirect("index.php?option=com_media&amp;folder=".$parent, JText::_('WARNDIRNAME'));
+				$mainframe->redirect('index.php?option=com_media&folder='.$parent, JText::_('WARNDIRNAME'));
 			}
 			$path = JPath::clean(COM_MEDIA_BASE.DS.$parent.DS.$folder);
 			if (!is_dir($path) && !is_file($path))

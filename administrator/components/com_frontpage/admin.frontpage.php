@@ -278,7 +278,7 @@ function removeFrontPage( &$cid, $option )
 	$cache = & JFactory::getCache('com_content');
 	$cache->clean();
 
-	$mainframe->redirect( "index.php?option=$option" );
+	$mainframe->redirect( 'index.php?option='.$option );
 }
 
 /**
@@ -298,7 +298,7 @@ function orderFrontPage( $uid, $inc, $option )
 	$cache = & JFactory::getCache('com_content');
 	$cache->clean();
 
-	$mainframe->redirect( "index.php?option=$option" );
+	$mainframe->redirect( 'index.php?option='.$option );
 }
 
 /**

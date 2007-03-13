@@ -153,9 +153,9 @@ function publishLanguage( $language )
 
 	// Redirect appropriately
 	if ($return) {
-		$mainframe->redirect("index.php?option=com_languages&amp;client=".$client->id, JText::_( 'Configuration successfully updated!' ) );
+		$mainframe->redirect('index.php?option=com_languages&client='.$client->id, JText::_( 'Configuration successfully updated!' ) );
 	} else {
-		$mainframe->redirect("index.php?option=com_languages&amp;client=".$client->id, JText::_( 'ERRORCONFIGWRITEABLE' ) );
+		$mainframe->redirect('index.php?option=com_languages&client='.$client->id, JText::_( 'ERRORCONFIGWRITEABLE' ) );
 	}
 }
 ?>

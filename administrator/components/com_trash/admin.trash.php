@@ -279,7 +279,7 @@ function deleteTrash( $cid, $option )
 	}
 
 	$msg = JText::sprintf( 'Item(s) successfully Deleted', $total );
-	$mainframe->redirect( "index.php?option=$option&amp;task=$return", $msg );
+	$mainframe->redirect( 'index.php?option='.$option.'&task='.$return, $msg );
 }
 
 
@@ -367,7 +367,7 @@ function restoreTrash( $cid, $option ) {
 	}
 
 	$msg = JText::sprintf( 'Item(s) successfully Restored', $total );
-	$mainframe->redirect( "index.php?option=$option&amp;task=$return", $msg );
+	$mainframe->redirect( 'index.php?option='.$option.'&task='.$return, $msg );
 }
 
 function ReadMenuXML( $type, $component=-1 ) {

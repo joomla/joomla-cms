@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
 if (!$user->authorize( 'com_config', 'manage' )) {
-	$mainframe->redirect('index.php?', JText::_('ALERTNOTAUTH'));
+	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
 // Require the base controller
