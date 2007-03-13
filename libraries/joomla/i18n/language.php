@@ -343,10 +343,9 @@ class JLanguage extends JObject
 	* Getter for Name
 	*
 	* @access public
-	* @param string  $value 	An optional value
 	* @return string Official name element of the language
 	*/
-	function getName($value = null) {
+	function getName() {
 		return $this->_metadata['name'];
 	}
 
@@ -416,7 +415,7 @@ class JLanguage extends JObject
 	* @access public
 	* @return boolean True is it an RTL language
 	*/
-	function isRTL($value = null) {
+	function isRTL() {
 		return $this->_metadata['rtl'];
 	}
 
