@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Mar-2007 Jason Kendall
+ ^ [topic,147016] - Updated lang file to show loadposition not mos...
+
 14-Mar-2007 Toby Patterson
  ! Merging changes from 10-Mar back into new tree.
 
