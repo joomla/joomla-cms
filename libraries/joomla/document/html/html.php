@@ -176,7 +176,7 @@ class JDocumentHTML extends JDocument
 			$result = $this->_buffer[$type][$name];
 		}
 
-		if($renderer =& $this->loadRenderer( $type )) {
+		if( @ $renderer =& $this->loadRenderer( $type )) {
 			$result = $renderer->render($name, $attribs, $result);
 		};
 
@@ -331,7 +331,6 @@ class JDocumentHTML extends JDocument
 	{
 		$replace = array();
 		$matches = array();
-
 		if(preg_match_all('#<jdoc:include\ type="([^"]+)" (.*)\/>#iU', $data, $matches))
 		{
 			$matches[0] = array_reverse($matches[0]);

@@ -24,85 +24,10 @@ $mainframe = new JInstallation();
 // create the session
 $mainframe->loadSession('installation');
 
-// get a recursively slash stripped version of post
-$post		= (array) JRequest::get( 'post' );
-$postVars	= JArrayHelper::getValue( $post, 'vars', array(), 'array' );
+$mainframe->initialise();
 
-$session	=& JFactory::getSession();
-$registry	=& $session->get('registry');
-$registry->loadArray($postVars, 'application');
 
-$configLang = $mainframe->getUserState('application.lang');
-
-$mainframe->initialise(array('language' => $configLang));
-
-// load the language
-$lang =& JFactory::getLanguage();
-$lang->_load( JPATH_BASE.DS.'language'.DS.$configLang.DS.$configLang.'.ini' );
-
-$task	= JRequest::getVar( 'task' );
-$vars	= $registry->toArray('application');
-$result	= '';
-$warning = '';
-
-// Generate a warning if cookies appear to be disabled
-if ( $task && empty($vars) )
-{
-	JInstallationController::noCookiesWarning('cookies');
-}
-
-// Execute the task
-switch ($task)
-{
-	case 'preinstall':
-		$result = JInstallationController::preInstall($vars);
-		break;
-
-	case 'license':
-		$result = JInstallationController::license($vars);
-		break;
-
-	case 'dbconfig':
-		$result = JInstallationController::dbConfig($vars);
-		break;
-
-	case 'makedb':
-		$result = JInstallationController::makeDB($vars);
-		// continue to ftpConfig only on true token otherwise display messages
-		if ($result === true) {
-			$result = JInstallationController::ftpConfig($vars, 1);
-		}
-		break;
-
-	case 'ftpconfig':
-		$result = JInstallationController::ftpConfig($vars);
-		break;
-
-	case 'mainconfig':
-		$result = JInstallationController::mainConfig($vars);
-		break;
-
-	case 'saveconfig':
-		$buffer = JInstallationController::saveConfig($vars);
-		$result = JInstallationController::finish( $vars, $buffer );
-		break;
-
-	case 'lang':
-	default:
-		$result = JInstallationController::chooseLanguage($vars);
-		break;
-}
-
-$params = array(
-	'template' 	=> 'template',
-	'file'		=> 'index.php',
-	'directory' => JPATH_THEMES
-);
-
-$document =& JFactory::getDocument();
-$document->setBuffer( $result, 'installation');
-$document->setTitle(JText::_('PAGE_TITLE'));
-JResponse::setBody($document->render( false, $params));
+$mainframe->render();
 
 /**
  * RETURN THE RESPONSE

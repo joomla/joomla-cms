@@ -43,7 +43,51 @@ class JInstallation extends JApplication
 		parent::__construct(2);
 		$this->_createConfiguration();
 	}
+	
+	/**
+	 * Render the application
+	 *
+	 * @access public
+	 */
+	function render()
+	{
 
+		$document	=& JFactory::getDocument();
+		$config		=& JFactory::getConfig();
+		$user		=& JFactory::getUser();
+
+		switch($document->getType())
+		{
+			case 'html':
+				//set metadata
+				$document->setTitle(JText::_('PAGE_TITLE'));
+				break;
+
+			default: break;
+		}
+		
+		// Define component path
+		define( 'JPATH_COMPONENT',					JPATH_BASE.DS.'installer');
+		define( 'JPATH_COMPONENT_SITE',				JPATH_SITE.DS.'installer');
+		define( 'JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.DS.'installer');
+
+		// Execute the component
+		ob_start();
+		require_once(JPATH_COMPONENT.DS.'installer.php');
+		$contents = ob_get_contents();
+		ob_end_clean();
+
+		$params = array(
+			'template' 	=> 'template',
+			'file'		=> 'index.php',
+			'directory' => JPATH_THEMES
+		);
+
+		$document->setBuffer( $contents, 'installation');
+		$document->setTitle(JText::_('PAGE_TITLE'));
+		JResponse::setBody($document->render( false, $params));
+	}
+	
 	/**
 	* Initialise the application.
 	*
@@ -51,9 +95,31 @@ class JInstallation extends JApplication
 	*/
 	function initialise( $options = array())
 	{
+		// Check URL arguement - useful when user has just set the language preferences
 		if(empty($options['language']))
 		{
-			$forced = JInstallationHelper::getLocalise();
+			$vars		= JRequest::getVar('vars');
+			if ( is_array($vars) && ! empty($vars['lang'])  )
+			{
+				$varLang	= $vars['lang'];
+				$options['language']	= $varLang;
+			}
+		}
+		
+		// Check the application state - useful when the user has previously set the language preference
+		if(empty($options['language']))
+		{
+			$configLang = $this->getUserState('application.lang');
+			if ( $configLang )
+			{
+				$options['language']	= $configLang;
+			}
+		}
+		
+		// This could be a first-time visit - try to determine what the client accepts
+		if(empty($options['language']))
+		{
+			$forced = $this->getLocalise();
 			if ( empty($forced['lang'])) {
 				$options['language'] = JLanguageHelper::detectLanguage();
 			} else {
@@ -61,7 +127,7 @@ class JInstallation extends JApplication
 			}
 		}
 
-		// One last check to make sure we have something
+		// Give the user English
 		if (empty($options['language'])) {
 			$options['language'] = 'en-GB';
 		}
@@ -137,6 +203,30 @@ class JInstallation extends JApplication
 		return $session;
 	}
 
+	/**
+	 * returns the langauge code and help url set in the localise.xml file.
+	 * Used for forcing a particular language in localised releases
+	 */
+	function getLocalise()
+	{
+		jimport('joomla.factory');
+		$xml = & JFactory::getXMLParser('Simple');
+		if (!$xml->loadFile(JPATH_SITE.DS.'installation'.DS.'localise.xml')) {
+			return 'no file'; //null;
+		}
+
+		// Check that it's a localise file
+		if ($xml->document->name() != 'localise') {
+			return 'not a localise'; //null;
+		}
+		$tags =  $xml->document->children();
+		$ret = array();
+		$ret['lang'] = $tags[0]->data();
+		$ret['helpurl'] = $tags[1]->data();
+		return  $ret;
+
+	}
+	
 	/**
 	* Get the url of the site
 	*

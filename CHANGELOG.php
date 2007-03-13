@@ -37,12 +37,20 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Mar-2007 Toby Patterson
+ ! Merging changes from 10-Mar back into new tree.
+
 12-Mar-2007 Louis Landry
  - Removed Legacy mode global configuration setting
  ^ Set legacy mode by publishing the system legacy plugin
 
 12-Mar-2007 Sam Moffatt
  ! A whole new world.
+
+10-Mar-2007 Toby Patterson
+ # Fixed [artf7605] Refactored installer to use MVC, added check for cookies
+ ^ new code located in J/installation/instaler/
+ ! Still need to complete some cleanup work in the includes dir
 
 05-Mar-2007 Johan Janssens
  ^ Moved ampReplace into JOutputFilter

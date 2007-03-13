@@ -32,6 +32,8 @@ define( 'JPATH_LIBRARIES',		JPATH_ROOT . DS . 'libraries' );
 
 // Require the library loader
 require_once( JPATH_LIBRARIES . DS .'loader.php' );
+
+require_once( JPATH_BASE . DS. 'installer' . DS . 'helper.php' );
 // Require the xajax library
 require_once (JXPATH_BASE.DS.'xajax'.DS.'xajax.inc.php');
 $xajax = new xajax();

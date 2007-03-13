@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @package		Joomla
  * @subpackage	Installation
  */
-class JInstallationView
+class JInstallationViewX
 {
 	/**
 	 * Static method to create the template object

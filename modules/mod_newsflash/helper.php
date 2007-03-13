@@ -24,7 +24,7 @@ class modNewsFlashHelper
 
 		$user 	=& JFactory::getUser();
 
-		$item->text 	= htmlspecialchars($item->introtext);
+		$item->text 	= $item->introtext;
 		$item->groups 	= '';
 		$item->readmore = (trim($item->fulltext) != '');
 		$item->metadesc = '';

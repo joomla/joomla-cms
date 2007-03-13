@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 * @package		Joomla
 * @subpackage	Installation
 */
-class JInstallationController
+class JInstallationControllerX
 {
 	/**
 	 * Generate a panel of language choices for the user to select their language
@@ -587,7 +587,7 @@ class JInstallationController
 * @package		Joomla
 * @subpackage	Installation
 */
-class JInstallationHelper
+class JInstallationHelperX
 {
 	/**
 	 * @return string A guess at the db required

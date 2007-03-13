@@ -109,7 +109,7 @@ class JArchiveZip extends JObject
 		{
 			$this->_addToZIPFile($file, $contents, $ctrldir);
 		}
-		return $this->_createZIPFile($contents, $ctrldir);
+		return $this->_createZIPFile($contents, $ctrldir, $archive);
 	}
 
 	/**
