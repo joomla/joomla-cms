@@ -121,11 +121,13 @@ class JParameter extends JRegistry
 	 * @access public
 	 * @param string The name of the param
 	 * @param string The value of the parameter
+	 * @param string The parameter group to modify
 	 * @return string The set value
 	 */
-	function def($key, $value = '') {
-		return $this->set($key, $this->get($key, (string) $value));
+	function def($key, $value = '', $group = '_default') {
+		return $this->set($key, $this->get($key, (string) $value, $group));
 	}
+
 
 	/**
 	 * Sets the XML object from custom xml files
