@@ -37,12 +37,12 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 	// Get Plugin info
  	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak');
- 	$pluginparams = new JParameter( $plugin->params );
+ 	$pluginParams = new JParameter( $plugin->params );
 
 	$print = JRequest::getVar('print');
 	$showall = JRequest::getVar('showall');
 
-	if (!$pluginparams->get('enabled', 1)) {
+	if (!$pluginParams->get('enabled', 1)) {
 		$print = 1;
 	}
 
@@ -74,7 +74,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 	$matches = array();
 	preg_match_all( $regex, $row->text, $matches, PREG_SET_ORDER );
 
-	if (($showall && $pluginparams->get('showall', 1) )) {
+	if (($showall && $pluginParams->get('showall', 1) )) {
 		$hasToc = $pluginParams->get( 'multipage_toc', 1 );
 		if ( $hasToc ) {
 			// display TOC
