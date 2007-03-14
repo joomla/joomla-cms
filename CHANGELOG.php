@@ -41,6 +41,7 @@ Legend:
  ^ [topic,147016] - Updated lang file to show loadposition not mos...
 
 14-Mar-2007 Toby Patterson
+ + Added JLanguage::getPaths()
  ! Merging changes from 10-Mar back into new tree.
 
 12-Mar-2007 Louis Landry

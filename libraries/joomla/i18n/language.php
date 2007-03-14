@@ -134,6 +134,15 @@ class JLanguage extends JObject
 	 * @access protected
 	 */
 	var $_lang = null;
+	
+	/**
+	 * List of language files that have been loaded
+	 * 
+	 * @var		array
+	 * @access	public
+	 * @since	1.5
+	 */
+	var $_paths	= array();
 
 	/**
 	 * Transaltions
@@ -255,12 +264,6 @@ class JLanguage extends JObject
 	 */
 	function load( $prefix = '', $basePath = JPATH_BASE )
 	{
-		static $paths;
-
-		if (!isset($paths))
-		{
-			$paths = array();
-		}
 
 		$path = JLanguage::getLanguagePath( $basePath, $this->_lang);
 
@@ -268,7 +271,7 @@ class JLanguage extends JObject
 		$filename = $path.DS.$filename.'.ini';
 
 		$result = false;
-		if (isset( $paths[$filename] ))
+		if (isset( $this->_paths[$filename] ))
 		{
 			// Strings for this file have already been loaded
 			$result = true;
@@ -291,7 +294,7 @@ class JLanguage extends JObject
 			// Merge the new strings into the strings array
 			if ( is_array($newStrings) ) {
 				$this->_strings = array_merge( $this->_strings, $newStrings);
-				$paths[$filename] = true;
+				$this->_paths[] = $filename;
 				$result = true;
 			} else {
 				// Do something ???
@@ -347,6 +350,18 @@ class JLanguage extends JObject
 	*/
 	function getName() {
 		return $this->_metadata['name'];
+	}
+	
+	/**
+	 * Get a list of language files that have been loaded
+	 * 
+	 * @access	public
+	 * @return	array
+	 * @since	1.5
+	 */
+	function getPaths()
+	{
+		return $this->_paths;
 	}
 
 	/**
