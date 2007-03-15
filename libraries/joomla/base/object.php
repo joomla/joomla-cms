@@ -28,7 +28,9 @@ class JObject
 	 * so this constructor gets called first and calls the top-layer __construct()
 	 * which (if present) should call parent::__construct()
 	 *
-	 * @return Object
+	 * @access	public
+	 * @return	Object
+	 * @since	1.5
 	 */
 	function JObject()
 	{
@@ -40,26 +42,34 @@ class JObject
 	 * Class constructor, overridden in descendant classes.
 	 *
 	 * @access	protected
+	 * @since	1.5
 	 */
 	function __construct() {}
 
 	/**
 	 * Modifies a property of the object, creating it if it does not already exist.
 	 *
-	 * @param string $property The name of the property
-	 * @param mixed  $value The value of the property to set
+	 * @access	public
+	 * @param	string $property The name of the property
+	 * @param	mixed  $value The value of the property to set
+	 * @return	mixed Previous value of the property
+	 * @since	1.5
  	 */
 	function set( $property, $value=null ) {
+		$previous = isset($this->property) ? $this->property : null;
 		$this->$property = $value;
+		return $previous;
 	}
 
 	/**
 	 * Returns a property of the object or the default value if the property is not set.
 	 *
-	 * @param string $property The name of the property
-	 * @param mixed  $default The default value
-	 * @return mixed The value of the property
-	 * @see get(), getPublicProperties()
+	 * @access	public
+	 * @param	string $property The name of the property
+	 * @param	mixed  $default The default value
+	 * @return	mixed The value of the property
+	 * @see		get(), getPublicProperties()
+	 * @since	1.5
  	 */
 	function get($property, $default=null)
 	{
@@ -72,9 +82,11 @@ class JObject
 	/**
 	 * Returns an array of public properties
 	 *
-	 * @param   boolean $assoc If true, returns an associative key=>value array
-	 * @return  array
-	 * @see get(), toString()
+	 * @access	public
+	 * @param	boolean $assoc If true, returns an associative key=>value array
+	 * @return	array
+	 * @see		get(), toString()
+	 * @since	1.5
  	 */
 	function getPublicProperties( $assoc = false )
 	{
@@ -94,8 +106,9 @@ class JObject
 	 * Object-to-string conversion.
 	 * Each class can override it as necessary.
 	 *
-	 * @return string This name of this class
-	 * @see get(), getPublicProperties()
+	 * @access	public
+	 * @return	string This name of this class
+	 * @since	1.5
  	 */
 	function toString()
 	{
