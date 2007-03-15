@@ -27,7 +27,7 @@ $sid	= $session->getId();
 $output = array();
 
 // Legacy Mode
-if ($config->getValue('config.legacy')) {
+if (defined('_J_LEGACY')) {
 	$output[] = '<span class="legacy-mode">'.JText::_('Legacy').': '._J_LEGACY.'</span>';
 }
 
