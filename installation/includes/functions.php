@@ -15,18 +15,5 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$steps = array(
-	'lang' => 'off',
-	'preinstall' => 'off',
-	'license' => 'off',
-	'dbconfig' => 'off',
-	'ftpconfig' => 'off',
-	'mainconfig' => 'off',
-	'finish' => 'off'
-);
 
-function get_php_setting($val) {
-	$r =  (ini_get($val) == '1' ? 1 : 0);
-	return $r ? 'ON' : 'OFF';
-}
 ?>

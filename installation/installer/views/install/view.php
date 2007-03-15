@@ -25,6 +25,15 @@ jimport('joomla.application.component.view');
 class JInstallationView extends JView
 {
 	/**
+	 * The installation steps
+	 * 
+	 * @var		array
+	 * @access	protected
+	 * @since	1.5
+	 */
+	var $_steps		= null;
+	
+	/**
 	 * The templabe object
 	 *
 	 * @var		object
@@ -42,7 +51,7 @@ class JInstallationView extends JView
 	 */
 	function chooseLanguage()
 	{
-		global $steps;
+		$steps	=& $this->getSteps();
 
 		$model	=& $this->getModel();
 		$lists	=& $model->getData('lists');
@@ -91,7 +100,7 @@ class JInstallationView extends JView
 	 */
 	function dbConfig()
 	{
-		global $steps;
+		$steps	=& $this->getSteps();
 		$model	=& $this->getModel();
 		$lists	=& $model->getData('lists');
 		$tmpl	=& $this->getTemplate( 'dbconfig.html' );
@@ -136,7 +145,7 @@ class JInstallationView extends JView
 	 */
 	function error()
 	{
-		global $steps;
+		$steps	=& $this->getSteps();
 		$model	=& $this->getModel();
 		$vars	=& $model->getVars();
 		$tmpl	=& $this->getTemplate( 'error.html' );
@@ -167,7 +176,7 @@ class JInstallationView extends JView
 	 */
 	function finish()
 	{
-		global $steps;
+		$steps	=& $this->getSteps();
 		$model	=& $this->getModel();
 		$vars	=& $model->getVars();
 		$tmpl	=& $this->getTemplate( 'finish.html' );
@@ -194,7 +203,7 @@ class JInstallationView extends JView
 	 */
 	function ftpConfig()
 	{
-		global $steps;
+		$steps	=& $this->getSteps();
 		$model	=& $this->getModel();
 
 		$tmpl =& $this->getTemplate( 'ftpconfig.html' );
@@ -204,6 +213,31 @@ class JInstallationView extends JView
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 
 		return $this->display();
+	}
+	
+	/**
+	 * Get the installation steps
+	 * 
+	 * @return	array
+	 * @access	protected
+	 * @since	1.5
+	 */
+	function & getSteps()
+	{
+		if ( is_null($this->_steps) ) 
+		{
+			$this->_steps = array(
+				'lang' => 'off',
+				'preinstall' => 'off',
+				'license' => 'off',
+				'dbconfig' => 'off',
+				'ftpconfig' => 'off',
+				'mainconfig' => 'off',
+				'finish' => 'off'
+			);
+		}
+			
+		return $this->_steps;
 	}
 
 	/**
@@ -246,7 +280,7 @@ class JInstallationView extends JView
 	 */
 	function license()
 	{
-		global $steps;
+		$steps	=& $this->getSteps();
 		$model	=& $this->getModel();
 		$tmpl	=& $this->getTemplate( 'license.html' );
 
@@ -266,7 +300,7 @@ class JInstallationView extends JView
 	 */
 	function mainConfig()
 	{
-		global $steps;
+		$steps	=& $this->getSteps();
 		$model	=& $this->getModel();
 		$tmpl	=& $this->getTemplate( 'mainconfig.html' );
 
@@ -295,7 +329,7 @@ class JInstallationView extends JView
 	 */
 	function preInstall()
 	{
-		global $steps;
+		$steps	=& $this->getSteps();
 		$model	=& $this->getModel();
 		$lists	=& $model->getData('lists');
 

@@ -220,6 +220,19 @@ class JInstallationModel extends JModel
 	}
 	
 	/**
+	 * Get the local PHP settings
+	 *
+	 * @param	$val Value to get
+	 * @return	Mixed
+	 * @access	protected
+	 * @since	1.5
+	 */
+	function getPhpSetting($val) {
+		$r =  (ini_get($val) == '1' ? 1 : 0);
+		return $r ? 'ON' : 'OFF';
+	}
+
+	/**
 	 * Get the configuration variables for the installation
 	 * 
 	 * @return	Array Configuration variables
@@ -582,8 +595,8 @@ class JInstallationModel extends JModel
 			$lists['phpSettings'][] = array (
 				'label' => $setting[0],
 				'setting' => $setting[2],
-				'actual' => get_php_setting( $setting[1] ),
-				'state' => get_php_setting($setting[1]) == $setting[2] ? 'Yes' : 'No'
+				'actual' => $this->getPhpSetting( $setting[1] ),
+				'state' => $this->getPhpSetting($setting[1]) == $setting[2] ? 'Yes' : 'No'
 			);
 		}
 		
@@ -759,5 +772,7 @@ class JInstallationModel extends JModel
 	}
 
 }
+
+
 
 ?>

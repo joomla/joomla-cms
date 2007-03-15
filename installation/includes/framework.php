@@ -42,10 +42,7 @@ JRequest::clean();
 // Installation file includes
 define( 'JPATH_INCLUDES', dirname(__FILE__) );
 
-jimport( 'joomla.utilities.utility' ); // needed for functions.php
-require_once( JPATH_INCLUDES . DS . 'functions.php' );
-require_once( JPATH_INCLUDES . DS . 'classes.php' );
-require_once( JPATH_INCLUDES . DS . 'html.php' );
+
 
 /*
  * Joomla! framework loading
@@ -68,6 +65,7 @@ jimport( 'joomla.i18n.language' );
 jimport( 'joomla.html.parameter' );
 jimport( 'joomla.utilities.array' );
 jimport( 'joomla.utilities.error' );
+jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.version' );
 
 // JString should only be loaded after pre-install checks
