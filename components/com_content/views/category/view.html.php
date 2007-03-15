@@ -139,7 +139,7 @@ class ContentViewCategory extends JView
 					$text = JText::_('New').'&nbsp;';
 				}
 
-				$attribs['title']	= '"'.JText::_( 'New' ).'"';
+				$attribs	= array( 'title' => '"'.JText::_( 'New' ).'"');
 				$output = JHTML::Link($url, $text, $attribs);
 			} break;
 
