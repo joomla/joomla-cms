@@ -186,6 +186,7 @@ class JURI extends JObject
 	 * Returns the base URI for the request.
 	 *
 	 * @access	public
+	 * @static
 	 * @return	string	The base URI string
 	 * @since	1.5
 	 */
