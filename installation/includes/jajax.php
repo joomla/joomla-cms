@@ -74,7 +74,6 @@ class JAJAXHandler
 		$objResponse = new xajaxResponse();
 		$args = $args['vars'];
 
-		require_once(JXPATH_BASE.DS."classes.php");
 		$root = JInstallationHelper::findFtpRoot($args['ftpUser'], $args['ftpPassword'], $args['ftpHost'], $args['ftpPort']);
 		if (JError::isError($root)) {
 			$objResponse->addScript('document.getElementById(\'ftpdisable\').checked = true;');
@@ -102,7 +101,6 @@ class JAJAXHandler
 		$objResponse = new xajaxResponse();
 		$args = $args['vars'];
 
-		require_once(JXPATH_BASE.DS."classes.php");
 		$status =  JInstallationHelper::FTPVerify($args['ftpUser'], $args['ftpPassword'], $args['ftpRoot'], $args['ftpHost'], $args['ftpPort']);
 		if (JError::isError($status)) {
 			if (($msg = $status->get('message')) != 'INVALIDROOT') {
@@ -129,7 +127,6 @@ class JAJAXHandler
 		jimport( 'joomla.i18n.language');
 		jimport( 'joomla.registry.registry');
 
-		require_once(JXPATH_BASE.DS."classes.php");
 
 		$errors = null;
 		$msg = '';
