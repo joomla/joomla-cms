@@ -126,12 +126,12 @@ class ContentViewCategory extends JView
 		$text	= '';
 
 		$article = $this->item;
-
+		
 		switch($type)
 		{
 			case 'new' :
 			{
-				$url = 'index.php?task=new&sectionid='.$article->sectionid;
+				$url = 'index.php?task=new&id=0&sectionid='.$article->sectionid;
 
 				if ($this->params->get('icons')) {
 					$text = JAdminMenus::ImageCheck('new.png', '/images/M_images/', NULL, NULL, JText::_('New'), JText::_('New'). $article->id );

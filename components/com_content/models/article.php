@@ -340,10 +340,16 @@ class ContentModelArticle extends JModel
 			$this->_db->setQuery($query);
 			$this->_article = $this->_db->loadObject();
 
+			if ( ! $this->_article )
+			{
+				return false;
+			}
+			
 			if($this->_article->publish_down == $this->_db->getNullDate()) {
 				$this->_article->publish_down = JText::_('Never');
 			}
-			return (boolean) $this->_article;
+			
+			return true;
 		}
 		return true;
 	}

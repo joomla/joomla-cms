@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	?>
 
 	<?php if ($this->access->canEdit || $this->access->canEditOwn) :
-		echo $this->getIcon($this->items[0], 'new');
+			echo $this->getIcon('new');
 	endif; ?>
 	</td>
 </tr>
