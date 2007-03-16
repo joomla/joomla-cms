@@ -226,10 +226,11 @@ class JLanguage extends JObject
 	 *
 	 * @access	public
 	 * @param	string $lang Language to check
+	 * @param	string $basePath Optional path to check
 	 * @return	boolean True if the language exists
 	 * @since	1.5
 	 */
-	function exists($lang)
+	function exists($lang, $basePath = JPATH_BASE)
 	{
 		static	$languages	= array();
 
@@ -247,7 +248,7 @@ class JLanguage extends JObject
 		// Check if the language exists
 		jimport('joomla.filesystem.folder');
 
-		$dir	= JLanguage::getLanguagePath( JPATH_BASE, $lang );
+		$dir	= JLanguage::getLanguagePath( $basePath, $lang );
 
 		$languages[$lang]	= JFolder::exists($dir);
 
