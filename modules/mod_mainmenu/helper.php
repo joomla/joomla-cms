@@ -353,7 +353,7 @@ class JMenuNode extends JNode
 	}
 }
 
-function modMainMeuXMLCallback(&$node, $args)
+function modMainMenuXMLCallback(&$node, $args)
 {
 	$menu	= &JMenu::getInstance();
 	$active	= $menu->getActive();
