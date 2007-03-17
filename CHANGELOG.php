@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Mar-2007 Toby Patterson
+ # Fixed [t150923] ianmac's fix ContactViewContact
+
 14-Mar-2007 Jason Kendall
  ^ [topic,147016] - Updated lang file to show loadposition not mos...
 

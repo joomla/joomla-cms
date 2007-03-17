@@ -58,7 +58,7 @@ class ContactViewContact extends JView
 		}
 
 		$options['category_id']	= $contact->catid;
-		$options['order by']	= 'a.default_con DESC, a.ordering ASC';
+		$options['order by']	= 'cd.default_con DESC, cd.ordering ASC';
 
 		$contacts = $modelCat->getContacts( $options );
 
