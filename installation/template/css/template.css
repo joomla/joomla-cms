@@ -140,7 +140,7 @@ form {
   color: #a7a7a7
 }
 
-#right {
+#right, #warning {
 	margin-left: 180px;
 }
 
@@ -318,6 +318,14 @@ td em {
 	color: #666;
 }
 
+div#javascript-warning {
+	padding: 1em;
+	border: 1px solid #ccc;
+	background-color: red;
+	margin-bottom: 10px;
+	font-size: 18px;
+	color: white;
+}
 /* form limiting stuff */
 
 #theDefault input {
