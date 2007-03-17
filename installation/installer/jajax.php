@@ -14,13 +14,14 @@
 
 define( '_JEXEC', 1 );
 
-define( 'JXPATH_BASE', dirname( __FILE__ ) );
+
 
 //Global definitions
 define( 'DS', DIRECTORY_SEPARATOR );
 
 //Joomla framework path definitions
-$parts = explode( DS, JXPATH_BASE );
+$parts = explode( DS, dirname(__FILE__) );
+
 array_pop( $parts );
 define( 'JPATH_BASE',			implode( DS, $parts )  );
 array_pop( $parts );
@@ -29,6 +30,8 @@ define( 'JPATH_ROOT',			implode( DS, $parts ) );
 define( 'JPATH_SITE',			JPATH_ROOT );
 define( 'JPATH_CONFIGURATION',	JPATH_ROOT );
 define( 'JPATH_LIBRARIES',		JPATH_ROOT . DS . 'libraries' );
+
+define( 'JXPATH_BASE', JPATH_BASE.DS.'includes' );
 
 // Require the library loader
 require_once( JPATH_LIBRARIES . DS .'loader.php' );
