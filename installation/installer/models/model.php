@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version		$Id: classes.php 6774 2007-03-05 02:42:09Z friesengeist $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Installation
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -752,7 +752,7 @@ class JInstallationModel extends JModel
 				file_put_contents($path, $buffer);
 			} else {
 				$this->setData('buffer', $buffer);
-				return false;
+				return true;
 			}
 		}
 		
