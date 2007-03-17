@@ -380,15 +380,10 @@ class JBloggerHelper
 {
 	function authenticateUser($username, $password)
 	{
-		// Build the credentials array
-		$credentials['username'] = $username;
-		$credentials['password'] = $password;
-
 		// Get the global JAuthenticate object
 		jimport( 'joomla.user.authenticate');
 		$auth = & JAuthenticate::getInstance();
-
-		return $auth->authenticate($credentials);
+		return $auth->authenticate($username, $password);
 	}
 
 	function getPostTitle($content)

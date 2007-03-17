@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Mar-2007 Jason Kendall
+ # Fixed [t151189] Blogger XML-RPC incorrectly authenticating - Thanks Ian
+
 17-Mar-2007 Toby Patterson
  # Fixed [track17] Installation without javascript disabled need warning
  # Fixed [track18] Cannot access Site or Admin after completion of install
