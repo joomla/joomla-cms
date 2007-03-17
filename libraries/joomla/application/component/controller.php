@@ -561,7 +561,7 @@ class JController extends JObject
 	 * @access	private
 	 * @param	string  The name of the model.
 	 * @param	string	Optional model prefix.
-	 * @return	mixed	Model object on success; error object or null on
+	 * @return	mixed	Model object on success; otherwise null
 	 * failure.
 	 * @since	1.5
 	 */
@@ -585,7 +585,7 @@ class JController extends JObject
 			if ( $path ) {
 				require $path;
 				if ( !class_exists( $modelClass ) ) {
-					$result = JError::raiseWarning(
+					JError::raiseWarning(
 						0,
 						JText::_( 'Model class not found [class, file]:' )
 						. ' ' . $modelClass . ', ' . $path
