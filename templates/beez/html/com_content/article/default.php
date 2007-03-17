@@ -115,7 +115,7 @@ if (isset ($this->article->toc)) {
 	echo $this->article->toc;
 }
 
-echo ampReplace($this->article->text);
+echo JOutputFilter::ampReplace($this->article->text);
 
 if ($this->params->get('readmore') && $this->params->get('intro_only') && $this->article->readmore_text) {
 	echo '<p>';

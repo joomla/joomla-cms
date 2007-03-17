@@ -38,6 +38,11 @@ class ContentViewCategory extends JView
 		JRequest::setVar('limit', $limit);
 		$category	= & $this->get( 'Category' );
 		$rows 		= & $this->get( 'Data' );
+		
+		if ( empty($rows) )
+		{
+			return;
+		}
 
 		foreach ( $rows as $row )
 		{

@@ -51,7 +51,7 @@ if (count($this->results)) {
 		echo '<li>';
 		echo '<span class="small' . $this->params->get('pageclass_sfx') . '"></span>';
 		if ($result->href) {
-			$result->href = ampReplace($result->href);
+			$result->href = JOutputFilter::ampReplace($result->href);
 			if ($result->browsernav == 1) {
 				$level = $hlevel +2;
 				echo '<h' . $level . '>';
@@ -70,7 +70,7 @@ if (count($this->results)) {
 				echo ')</span></p>';
 			}
 		}
-		echo ampReplace($result->text);
+		echo JOutputFilter::ampReplace($result->text);
 		if (!$mainframe->getCfg('hideCreateDate')) {
 			echo '<span class="small' . $this->params->get('pageclass_sfx') . '">';
 			echo $result->created;

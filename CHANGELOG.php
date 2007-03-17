@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 17-Mar-2007 Toby Patterson
+ # Fixed [track17] Installation without javascript disabled need warning
+ # Fixed [track18] Cannot access Site or Admin after completion of install
+ # Fixed [t150452] beez template calls ampReplace()
  # Fixed [t150923] ianmac's fix ContactViewContact
 
 14-Mar-2007 Jason Kendall

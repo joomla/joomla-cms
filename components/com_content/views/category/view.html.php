@@ -124,6 +124,7 @@ class ContentViewCategory extends JView
 
 		$url	= '';
 		$text	= '';
+		$output	= '';
 
 		$article = $this->item;
 		

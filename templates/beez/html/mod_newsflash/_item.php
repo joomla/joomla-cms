@@ -35,7 +35,7 @@ if (!$params->get('intro_only')) {
 }
 
 echo $item->beforeDisplayContent;
-echo ampReplace($item->text);
+echo JOutputFilter::ampReplace($item->text);
 if (isset ($item->linkOn) && $item->readmore) {
 	echo '<a href="' . $item->linkOn . '">' . JText :: _('Read more') . '</a>';
 }
