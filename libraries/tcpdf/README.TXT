@@ -5,15 +5,15 @@ Name:
 	TCPDF
 
 Version:
-	1.53.0.TC027_PHP4
+	1.53.0.TC030_PHP4
 	
 Release date:
-	2006-12-14
+	2007-03-06
 
 Author:
 	Nicola Asuni 
 	
-Copyright (c) 2001-2006:
+Copyright (c) 2001-2007:
 	Tecnick.com S.r.l.
 	Via Ugo Foscolo n.19
 	09045 Quartu Sant'Elena (CA)

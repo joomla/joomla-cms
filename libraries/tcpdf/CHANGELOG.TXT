@@ -1,4 +1,15 @@
-1.53.0.TC027 (2006-12-14)
+1.53.0.TC030 (2007-03-06)
+	- fixed bug on PHP4 version.
+	
+1.53.0.TC029_PHP4 (2007-03-06)
+	- DejaVu Fonts were added.
+	
+1.53.0.TC028_PHP4 (2007-03-03)
+	- MultiCell function signature were changed: the $ln parameter were added. Check documentation for further information.
+	- Greek language were added on example sentences.
+	- setPrintHeader() and setPrintFooter() functions were added to enable or disable page header and footer.
+
+1.53.0.TC027_PHP4 (2006-12-14)
 	- $attr['face'] bug were fixed.
 	- K_TCPDF_EXTERNAL_CONFIG control where introduced on /config/tcpdf_config.php to use external configuration files.
 	
