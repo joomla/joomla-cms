@@ -68,6 +68,7 @@ class JLog extends JObject
 	 * This method must be invoked as:
 	 * 		<pre>  $log = & JLog::getInstance();</pre>
 	 *
+	 * @access	public
 	 * @static
 	 * @return	object	The JLog object.
 	 * @since	1.5
@@ -175,7 +176,7 @@ class JLog extends JObject
 			if (!JFolder :: create(dirname($this->_path))) {
 				return false;
 			}
-			$header[] = "#<?php die(); ?>";
+			$header[] = "#<?php die('Direct Access To Log Files Not Permitted'); ?>";
 			$header[] = "#Version: 1.0";
 			$header[] = "#Date: " . $date . " " . $time;
 

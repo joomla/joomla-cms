@@ -31,7 +31,8 @@ class JParameter extends JRegistry
 	 * The raw params string
 	 *
 	 * @access	private
-	 * @var string
+	 * @var		string
+	 * @since	1.5
 	 */
 	var $_raw = null;
 
@@ -39,7 +40,8 @@ class JParameter extends JRegistry
 	 * The xml params element
 	 *
 	 * @access	private
-	 * @var object
+	 * @var		object
+	 * @since	1.5
 	 */
 	var $_xml = null;
 
@@ -48,6 +50,7 @@ class JParameter extends JRegistry
 	*
 	* @access	private
 	* @var		array
+	* @since	1.5
 	*/
 	var $_elements = array();
 
@@ -56,16 +59,17 @@ class JParameter extends JRegistry
 	*
 	* @access	private
 	* @var		array
+	* @since	1.5
 	*/
 	var $_elementDirs = array();
 
 	/**
 	 * Constructor
 	 *
-	 * @access protected
-	 * @param string The raw parms text
-	 * @param string Path to the xml setup file
-	 * @var string The type of setup file
+	 * @access	protected
+	 * @param	string The raw parms text
+	 * @param	string Path to the xml setup file
+	 * @since	1.5
 	 */
 	function __construct($data, $path = '')
 	{
@@ -89,24 +93,27 @@ class JParameter extends JRegistry
 	/**
 	 * Set a value
 	 *
-	 * @access public
-	 * @param string The name of the param
-	 * @param string The value of the parameter
-	 * @return string The set value
+	 * @access	public
+	 * @param	string The name of the param
+	 * @param	string The value of the parameter
+	 * @return	string The previous value
+	 * @since	1.5
 	 */
 	function set($key, $value = '', $group = '_default')
 	{
+		$oldValue	= $this->getValue($group.'.'.$key);
 		$this->setValue($group.'.'.$key, (string) $value);
-		return $this->getValue($group.'.'.$key);
+		return $oldValue;
 	}
 
 	/**
 	 * Get a value
 	 *
-	 * @access public
-	 * @param string The name of the param
-	 * @param mixed The default value if not found
-	 * @return string
+	 * @access	public
+	 * @param	string The name of the param
+	 * @param	mixed The default value if not found
+	 * @return	string
+	 * @since	1.5
 	 */
 	function get($key, $default = '', $group = '_default')
 	{
@@ -118,11 +125,12 @@ class JParameter extends JRegistry
 	/**
 	 * Sets a default value if not alreay assigned
 	 *
-	 * @access public
-	 * @param string The name of the param
-	 * @param string The value of the parameter
-	 * @param string The parameter group to modify
-	 * @return string The set value
+	 * @access	public
+	 * @param	string The name of the param
+	 * @param	string The value of the parameter
+	 * @param	string The parameter group to modify
+	 * @return	string The set value
+	 * @since	1.5
 	 */
 	function def($key, $value = '', $group = '_default') {
 		return $this->set($key, $this->get($key, (string) $value, $group));
@@ -131,8 +139,10 @@ class JParameter extends JRegistry
 
 	/**
 	 * Sets the XML object from custom xml files
-	 * @access public
-	 * @param object An XML object
+	 * 
+	 * @access	public
+	 * @param	object An XML object
+	 * @since	1.5
 	 */
 	function setXML( &$xml )
 	{
@@ -152,10 +162,10 @@ class JParameter extends JRegistry
 	/**
 	 * Bind data to the parameter
 	 *
-	 * @param mixed $data Array or Object
-	 * @return boolean True if the data was successfully bound
-	 * @access public
-	 * @since 1.5
+	 * @param	mixed $data Array or Object
+	 * @return	boolean True if the data was successfully bound
+	 * @access	public
+	 * @since	1.5
 	 */
 	function bind($data, $group = '_default')
 	{
@@ -173,9 +183,10 @@ class JParameter extends JRegistry
 	/**
 	 * Render
 	 *
-	 * @access public
-	 * @param string The name of the control, or the default text area if a setup file is not found
-	 * @return string HTML
+	 * @access	public
+	 * @param	string The name of the control, or the default text area if a setup file is not found
+	 * @return	string HTML
+	 * @since	1.5
 	 */
 	function render($name = 'params', $group = '_default')
 	{
@@ -216,9 +227,10 @@ class JParameter extends JRegistry
 	/**
 	 * Render all parameters to an array
 	 *
-	 * @access public
-	 * @param string The name of the control, or the default text area if a setup file is not found
-	 * @return array of all parameters, each as array Any array of the label, the form element and the tooltip
+	 * @access	public
+	 * @param	string The name of the control, or the default text area if a setup file is not found
+	 * @return	array of all parameters, each as array Any array of the label, the form element and the tooltip
+	 * @since	1.5
 	 */
 	function renderToArray($name = 'params', $group = '_default')
 	{
@@ -236,8 +248,9 @@ class JParameter extends JRegistry
 	/**
 	 * Return number of params to render
 	 *
-	 * @access public
-	 * @return mixed	Boolean falst if no params exist or integer number of params that exist
+	 * @access	public
+	 * @return	mixed	Boolean falst if no params exist or integer number of params that exist
+	 * @since	1.5
 	 */
 	function getNumParams($group = '_default') 
 	{
@@ -251,8 +264,9 @@ class JParameter extends JRegistry
 	/**
 	 * Get the number of params in each group
 	 *
-	 * @access public
-	 * @return array of all group names as key and param count as value
+	 * @access	public
+	 * @return	array of all group names as key and param count as value
+	 * @since	1.5
 	 */
 	function getGroups()
 	{
@@ -269,9 +283,10 @@ class JParameter extends JRegistry
 	/**
 	 * Render all parameters
 	 *
-	 * @access public
-	 * @param string The name of the control, or the default text area if a setup file is not found
-	 * @return array of all parameters, each as array Any array of the label, the form element and the tooltip
+	 * @access	public
+	 * @param	string The name of the control, or the default text area if a setup file is not found
+	 * @return	array of all parameters, each as array Any array of the label, the form element and the tooltip
+	 * @since	1.5
 	 */
 	function getParams($name = 'params', $group = '_default')
 	{
@@ -288,9 +303,10 @@ class JParameter extends JRegistry
 	/**
 	 * Render a parameter type
 	 *
-	 * @param object A param tag node
-	 * @param string The control name
-	 * @return array Any array of the label, the form element and the tooltip
+	 * @param	object A param tag node
+	 * @param	string The control name
+	 * @return	array Any array of the label, the form element and the tooltip
+	 * @since	1.5
 	 */
 	function getParam(&$node, $control_name = 'params', $group = '_default')
 	{
@@ -326,7 +342,7 @@ class JParameter extends JRegistry
 	* @access	public
 	* @param	string	path to xml setup file
 	* @return	object
-	* @since 1.5
+	* @since	1.5
 	*/
 	function loadSetupFile($path)
 	{
@@ -361,7 +377,7 @@ class JParameter extends JRegistry
 	* @access	public
 	* @param	string	elementType
 	* @return	object
-	* @since 1.5
+	* @since	1.5
 	*/
 	function &loadElement( $type, $new = false )
 	{
@@ -425,7 +441,7 @@ class JParameter extends JRegistry
 	*
 	* @access	public
 	* @param	string|array	directory or directories to search.
-	* @since 1.5
+	* @since	1.5
 	*/
 	function addParameterDir( $dir )
 	{
@@ -440,8 +456,8 @@ class JParameter extends JRegistry
 	* Get the include path
 	*
 	* @access	public
-	* @return   string
-	* @since 1.5
+	* @return	 string
+	* @since	1.5
 	*/
 	function getIncludePath() {
 		return	JPARAMETER_INCLUDE_PATH;

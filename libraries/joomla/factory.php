@@ -466,7 +466,8 @@ class JFactory
 		$fromname 	= $conf->getValue('config.fromname');
 		$mailer 	= $conf->getValue('config.mailer');
 
-		$mail = new JMail();
+		// Create a JMail object
+		$mail 		=& JMail::getInstance();
 
 		// Set default sender
 		$mail->setSender(array ($mailfrom, $fromname));
