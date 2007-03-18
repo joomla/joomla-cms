@@ -74,6 +74,7 @@ class ContentViewCategory extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Section
+		$pathway->setItemName(1, JText::_('Content'));
 		$pathway->addItem($category->sectiontitle, JRoute::_('index.php?view=section&id='.$category->sectionid));
 		// Category
 		$pathway->addItem($category->title, '');

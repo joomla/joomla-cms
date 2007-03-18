@@ -73,6 +73,7 @@ class ContentViewSection extends JView
 		$document->addHeadLink(JRoute::_($link.'&format=atom'), 'alternate', 'rel', $attribs);
 
 		// Set the page title and breadcrumbs
+		$pathway->setItemName(1, JText::_('Content'));
 		$pathway->addItem($section->title, '');
 
 		if (!empty ($item->name)) {

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Mar-2007 Toby Patterson
+ # Fixed [t147196] Breadcrumbs: Home >> content ? - Yet another fix by Ian!
+
 17-Mar-2007 Jason Kendall
  ^ Updated tcpdf to 1.53.0.TC030 (2007-03-06)
  # Fixed [t151189] Blogger XML-RPC incorrectly authenticating - Thanks Ian

@@ -69,6 +69,7 @@ class ContentViewArticle extends JView
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Handle BreadCrumbs
+		$pathway->setItemName(1, JText::_('Content'));
 		
 		// Section
 		if (!empty ($article->section)) {
