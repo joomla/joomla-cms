@@ -560,7 +560,7 @@ function publishCategories( $section, $cid=null, $publish=1 )
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
-		JError::raiseError(500, JText::_( 'Select a category to '.$action ) );
+		JError::raiseError(500, JText::_( 'Select a category to '.$action, true ) );
 	}
 
 	$cids = implode( ',', $cid );
@@ -635,7 +635,7 @@ function moveCategorySelect( $option, $cid, $sectionOld )
 	$redirect = JRequest::getVar( 'section', 'com_content', 'post' );;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		JError::raiseError(500, JText::_( 'Select an item to move' ));
+		JError::raiseError(500, JText::_( 'Select an item to move', true ));
 	}
 
 	## query to list selected categories
@@ -719,7 +719,7 @@ function copyCategorySelect( $option, $cid, $sectionOld )
 	$redirect = JRequest::getVar( 'section', 'com_content', 'post' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		JError::raiseError(500, JText::_( 'Select an item to move' ));
+		JError::raiseError(500, JText::_( 'Select an item to move', true ));
 	}
 
 	## query to list selected categories

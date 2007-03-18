@@ -268,8 +268,7 @@ class HTML_trash
 			echo "</ol>";
 			?>
 			</td>
-			 <td valign="top"><?php echo JText::_( '* This will' ); ?>
-			 <strong><font color="#FF0000"><?php echo JText::_( 'Permanently Delete' ); ?></font></strong> <br /><?php echo JText::_( 'these Items from the Database *' ); ?>
+			 <td valign="top"><?php echo JText::_( 'PERMDELETETHESEITEMS' ); ?>
 			<br /><br /><br />
 			<a class="icon-32-delete" style="border: 1px dotted gray; width: 70px; padding: 10px; margin-left: 50px; background-repeat: no-repeat; padding-left: 40px; "  href="javascript:void submitbutton('delete')">
 			&nbsp;<?php echo JText::_( 'Delete' ); ?>
@@ -325,8 +324,7 @@ class HTML_trash
 			echo "</ol>";
 			?>
 			</td>
-			 <td valign="top"><?php echo JText::_( '* This will' ); ?>
-			 <strong><font color="#FF0000"><?php echo JText::_( 'Restore' ); ?></font></strong> <?php echo JText::_( 'these Items,' ); ?><br /><?php echo JText::_( 'TIPWILLBERETURNED' ); ?>
+			 <td valign="top"><?php echo JText::_( 'RESTOREITEMS' ); ?><br /><?php echo JText::_( 'TIPWILLBERETURNED' ); ?>
 			<br /><br /><br />
 			<div style="border: 1px dotted gray; width: 80px; padding: 10px; margin-left: 50px;">
 			<a class="toolbar" href="javascript:if (confirm('<?php echo JText::_( 'WARNRESTORE' ); ?>')){ submitbutton('restore');}">

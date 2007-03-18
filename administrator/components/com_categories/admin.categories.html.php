@@ -375,7 +375,7 @@ class categories_html
 						} else {
 							jsimg='../images/M_images/blank.png';
 						}
-						document.write('<img src=' + jsimg + ' name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />');
+						document.write('<img src=' + jsimg + ' name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview', true ); ?>" />');
 						</script>
 						</td>
 					</tr>
