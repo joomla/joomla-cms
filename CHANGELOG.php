@@ -25,7 +25,7 @@ see source code and the LICENSE file
 This is a non-exhaustive (but still near complete) changelog for
 Joomla! 1.5, including beta and release candidate versions.
 Our thanks to all those people who've contributed bug reports and
-code fixes...
+code fixes.
 
 
 Legend:
