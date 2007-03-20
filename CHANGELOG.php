@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Mar-2007 Rastin Mehr
+# Fixed [track79] Error in Joomla SQL
+
 18-Mar-2007 Toby Patterson
  # Fixed [t147196] Breadcrumbs: Home >> content ? - Yet another fix by Ian!
 
