@@ -71,6 +71,4 @@ JImageUpload.prototype = {
 }
 
 document.imageupload = null;
-document.addLoadEvent(function() {
- 	document.imageupload = new JImageUpload();
-});
+document.onload = function(){ document.imageupload = new JImageUpload(); };

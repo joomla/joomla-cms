@@ -24,21 +24,48 @@ JImageManager.prototype = {
 
 	constructor: function() 
 	{	
-		var self = this;
-		
-		var imageview  = null;
-		var folderlist = null;	
-		
-		this.imageview  	= document.getElementById('imageview');
-		this.folderlist 	= document.getElementById('folderlist');
-		this.uploadtoggler  = document.getElementById('uploadtoggler');
-				
-		//Setup events
-		this.registerEvent(this.uploadtoggler, 'click');
-		
+		this.popup = window.top.document.popup;
+
+		// Setup image manager fields object
+		this.fields			= new Object();
+		this.fields.url		= $("f_url");
+		this.fields.alt		= $("f_alt");
+		this.fields.align	= $("f_align");
+		this.fields.title	= $("f_title");
+		this.fields.caption	= $("f_caption");
+
+		// Setup image listing objects
+		this.folderlist = $('folderlist');
+
+		// Setup image listing frame
+		this.imageframe = $('imageframe');
+		this.imageframe.manager = this;
+		this.imageframe.addEvent('load', function(){ this.manager.onloadimageview(); });
+
+		// Setup folder up button
+		this.upbutton = $('upbutton');
+		this.upbutton.manager = this;
+		this.upbutton.addEvent('click', function(){ this.manager.upFolder(); });
+
+		// Setup upload form objects
+		this.uploadtoggler = $('uploadtoggler');
+		this.uploadtoggler.manager = this;
+		this.uploadtoggler.addEvent('click', function(){
+			if(this.hasClass('toggler-down')) {
+				this.removeClass('toggler-down');
+//				this.manager.popup.decreaseHeight(50);
+			} else {
+				this.addClass('toggler-down');
+//				this.manager.popup.increaseHeight(50);
+			}
+			this.manager.uploadpanefx.toggle();
+		});
+
 		//Setup effect
-		this.uploadpane = new fx.Height(document.getElementById('uploadpane'), {opacity:true, duration: 200});
-		this.uploadpane.hide();
+		this.uploadpane = $('uploadpane');
+		this.uploadpane.setProperty('height', this.uploadpane.getElement('iframe').getProperty('height'));
+		this.uploadpanefx = new Fx.Slide(this.uploadpane, {opacity:true, duration: 200});
+		this.uploadpanefx.hide();
 	},
 	
 	registerEvent: function(target,type,args) 
@@ -148,7 +175,7 @@ JImageManager.prototype = {
 	},
 	
 	populateFields: function(file) {
-		document.getElementById("f_url").value = "images/stories"+file;
+		document.getElementById("f_url").value = "images/stories"+this.getFolder()+file;
 	},
 	
 	showMessage: function(text) 
@@ -166,6 +193,6 @@ JImageManager.prototype = {
 }
 
 document.imagemanager = null;
-document.addLoadEvent(function() {
+document.addLoadEvent = function() {
  	document.imagemanager = new JImageManager();
-});
+};

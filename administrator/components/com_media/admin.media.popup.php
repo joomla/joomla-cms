@@ -140,7 +140,7 @@ class MediaViews
 
 		?>
 		<div class="item">
-			<a href="#" onclick="window.parent.document.imagemanager = new window.parent.JImageManager(); window.parent.document.imagemanager.populateFields('<?php echo $insert_url;?>')">
+			<a href="javascript:window.parent.document.imagemanager = new window.parent.JImageManager(); window.parent.document.imagemanager.populateFields('<?php echo $insert_url;?>')">
 				<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" />
 				<span><?php echo $file; ?></span>
 			</a>
