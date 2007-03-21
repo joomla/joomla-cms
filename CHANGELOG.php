@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Mar-2007 Rastin Mehr
+# Fixed [track99] the sectionid error
+# Fixed [track99] the insert page break error
+
 20-Mar-2007 Rastin Mehr
 # Fixed [track79] Error in Joomla SQL
 

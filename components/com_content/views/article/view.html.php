@@ -38,22 +38,22 @@ class ContentViewArticle extends JView
 
 		// Initialize variables
 		$article	=& $this->get('Article');
-		$params	=& $article->parameters;
+		$params		=& $article->parameters;
 
 		// Get the menu object of the active menu item
-		$menu   =& JMenu::getInstance();
-		$item   = $menu->getActive();
+		$menu   	=& JMenu::getInstance();
+		$item   	= $menu->getActive();
 		$menuparams = $menu->getParams($item->id);
+
+		if($this->getLayout() == 'pagebreak') {
+			$this->_displayPagebreak($tpl);
+			return;
+		}
 
 		$params->def('showItemNavigation', $menuparams->get('showItemNavigation', $contentConfig->get('showItemNavigation')));
 
 		if($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);
-			return;
-		}
-
-		if($this->getLayout() == 'pagebreak') {
-			$this->_displayPagebreak($tpl);
 			return;
 		}
 
@@ -384,7 +384,7 @@ class ContentViewArticle extends JView
 					$contentSection = $section->title;
 				}
 			} else {
-				if ($section->id == $sectionid) {
+				if ($section->id == $article->sectionid) {
 					$contentSection = $section->title;
 				}
 			}
