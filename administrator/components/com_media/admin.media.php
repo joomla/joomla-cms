@@ -279,7 +279,7 @@ class MediaController
 		$imgFolders = JFolder::folders(COM_MEDIA_BASE, '.', true, true);
 
 		// Build the array of select options for the folder list
-		$folders[] = JHTMLSelect::option("/");
+		$folders[] = JHTMLSelect::option("","/");
 		foreach ($imgFolders as $folder) {
 			$folder 	= str_replace(COM_MEDIA_BASE, "", $folder);
 			$folder 	= str_replace(DS, "/", $folder);
@@ -292,7 +292,7 @@ class MediaController
 		}
 
 		// Create the drop-down folder select list
-		$folderSelect = JHTMLSelect::genericList($folders, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"document.imagemanager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $listFolder);
+		$folderSelect = JHTMLSelect::genericList($folders, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"document.imagemanager = new JImageManager(); document.imagemanager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $listFolder);
 
 		//attach stylesheet to document
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();

@@ -166,7 +166,7 @@ var JImageManager = new Class({
 	},
 
 	populateFields: function(file) {
-		$("f_url").value = "images"+file;
+		$("f_url").value = "images"+this.folderlist.options[this.folderlist.selectedIndex].value+file;
 	},
 
 	showMessage: function(text)
@@ -203,6 +203,6 @@ var JImageManager = new Class({
 });
 
 document.imagemanager = null;
-window.onDomReady(function(){
-	document.imagemanager = new JImageManager();
-});
+document.addLoadEvent = function() {
+ 	document.imagemanager = new JImageManager();
+};

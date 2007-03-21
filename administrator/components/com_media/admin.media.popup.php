@@ -202,7 +202,7 @@ class MediaViews
 		<tr>
 			<td>
 				<label for="upload"><?php echo  JText::_( 'Select File' ); ?></label>
-				<input class="inputbox" name="upload" id="upload" type="file" size="45" />
+				<input class="inputbox" name="upload" id="upload" type="file" size="43" />
 				<input class="button" type="button" value="<?php echo  JText::_( 'Upload' ); ?>" name="fileupload" onclick="document.imageupload.onupload()" />
 				<span>[ <?php echo  JText::_( 'Max size' ); ?> = <?php echo ini_get( 'post_max_size' );?> ]</span>
 			</td>

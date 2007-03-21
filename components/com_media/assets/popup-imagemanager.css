@@ -1,5 +1,5 @@
 /**
-* @version $Id: popup-imagemanager.css 3997 2006-06-12 03:59:51Z spacemonkey $
+* @version $Id: popup-imagemanager.css 6668 2007-02-18 19:13:36Z hackwar $
 * @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
 * @license GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -10,7 +10,7 @@
 */
 
 /**
- * JImageManager javascript behavior styling
+ * ImageManager javascript behavior styling
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
@@ -35,7 +35,7 @@ button:hover { border: 1px solid #0B55C4; }
 select,input,button { font: 11px Tahoma, Verdana, sans-serif; }
 
 iframe { width: 100%;  overflow-x: false; border: 0 none;  margin: 0; padding: 0; margin-top: 0.5em;}
-iframe#imageview  { height: 174px; }
+iframe#imageframe  { height: 175px; }
 iframe#uploadview { height: 40px; }
 
 a       { padding: 5px; border: 1px solid ButtonFace; }
@@ -43,7 +43,7 @@ a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighligh
 
 .buttons { width: 70px; text-align: center; }
 
-#f_alt, #f_url { width: 22em; }
+#f_alt, #f_url, #f_title { width: 22em; }
 
 #messages {
 	position: relative;
@@ -65,11 +65,11 @@ a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighligh
 }
 
 #uploadpanel  { border: 1px solid #ccc; margin: 5px 2px 0 2px;}
-#uploadpanel .title    { padding: 4px; margin: 0;}
+#uploadpanel .title    { padding: 4px; margin: 0; cursor: pointer;}
 
-#uploadpane { height: 0; }
+#uploadpane {  }
 
 #uploadpanel .toggler span     { background: transparent url(arrow.png) 0 50% no-repeat; padding-left: 20px;}
-#uploadpanel .toggler-down span { background-image: url(arrow-down.png); }
+#uploadpanel .toggler-down span { background: transparent url(arrow-down.png) 0 50% no-repeat; padding-left: 20px;}
 
 #uploadpanel .toggler-down {  border-bottom: 1px solid #ccc; }
