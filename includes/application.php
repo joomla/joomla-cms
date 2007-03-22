@@ -57,14 +57,14 @@ class JSite extends JApplication
 		if (empty($options['language'])) {
 			$user = & JFactory::getUser();
 			$lang	= $user->getParam( 'language' );
-			
+
 			// Make sure that the user's language exists
 			if ( $lang && JLanguage::exists($lang) ) {
 				$options['language'] = $lang;
 			} else {
 				$options['language'] = $this->getCfg('lang_site');
 			}
-			
+
 		}
 
 		// One last check to make sure we have something
@@ -408,7 +408,7 @@ class JSiteHelper
 	 */
 	function findOption()
 	{
-		$option = strtolower(JRequest::getVar('option', null));
+		$option = strtolower(JRequest::getVar('option', null, '', 'word'));
 
 		if(empty($option))
 		{
