@@ -2,12 +2,10 @@
 /*************************************************************************************
  * css.php
  * -------
- * Author: Nigel McNie (oracle.shinoda@gmail.com)
+ * Author: Nigel McNie (nigel@geshi.org)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
- * Release Version: 1.0.7.8
- * CVS Revision Version: $Revision: 1.10 $
+ * Release Version: 1.0.7.18
  * Date Started: 2004/06/18
- * Last Modified: $Date: 2006/02/25 00:46:33 $
  *
  * CSS language file for GeSHi.
  *
@@ -59,61 +57,78 @@ $language_data = array (
 	'ESCAPE_CHAR' => '\\',
 	'KEYWORDS' => array(
 		1 => array(
-			'aqua', 'azimuth', 'background-attachment', 'background-color',
-			'background-image', 'background-position', 'background-repeat',
-			'background', 'black', 'blue', 'border-bottom-color', 'border-bottom-style',
-			'border-bottom-width', 'border-left-color', 'border-left-style',
-			'border-left-width', 'border-right', 'border-right-color',
-			'border-right-style', 'border-right-width', 'border-top-color',
-			'border-top-style', 'border-top-width','border-bottom', 'border-collapse',
-			'border-left', 'border-width', 'border-color', 'border-spacing',
-			'border-style', 'border-top', 'border',  'caption-side',
-			'clear', 'clip', 'color', 'content', 'counter-increment', 'counter-reset',
-			'cue-after', 'cue-before', 'cue', 'cursor', 'direction', 'display',
-			'elevation', 'empty-cells', 'float', 'font-family', 'font-size',
-			'font-size-adjust', 'font-stretch', 'font-style', 'font-variant',
-			'font-weight', 'font', 'height', 'letter-spacing', 'line-height',
-			'list-style', 'list-style-image', 'list-style-position', 'list-style-type',
-			'margin-bottom', 'margin-left', 'margin-right', 'margin-top', 'margin',
-			'marker-offset', 'marks', 'max-height', 'max-width', 'min-height',
-			'min-width', 'orphans', 'outline', 'outline-color', 'outline-style',
-			'outline-width', 'overflow', 'padding-bottom', 'padding-left',
-			'padding-right', 'padding-top', 'padding', 'page', 'page-break-after',
-			'page-break-before', 'page-break-inside', 'pause-after', 'pause-before',
-			'pause', 'pitch', 'pitch-range',  'play-during', 'position', 'quotes',
-			'richness', 'right', 'size', 'speak-header', 'speak-numeral', 'speak-punctuation',
-			'speak', 'speech-rate', 'stress', 'table-layout', 'text-align', 'text-decoration',
-			'text-indent', 'text-shadow', 'text-transform', 'top', 'unicode-bidi',
-			'vertical-align', 'visibility', 'voice-family', 'volume', 'white-space', 'widows',
-			'width', 'word-spacing', 'z-index', 'bottom', 'left'
-			),
+            'aqua', 'azimuth', 'background-attachment', 'background-color', 
+            'background-image', 'background-position', 'background-repeat', 
+            'background', 'black', 'blue', 'border-bottom-color', 
+            'border-bottom-style', 'border-bottom-width', 'border-left-color', 
+            'border-left-style', 'border-left-width', 'border-right', 
+            'border-right-color', 'border-right-style', 'border-right-width', 
+            'border-top-color', 'border-top-style', 
+            'border-top-width','border-bottom', 'border-collapse', 
+            'border-left', 'border-width', 'border-color', 'border-spacing', 
+            'border-style', 'border-top', 'border', 'caption-side', 'clear', 
+            'clip', 'color', 'content', 'counter-increment', 'counter-reset', 
+            'cue-after', 'cue-before', 'cue', 'cursor', 'direction', 'display', 
+            'elevation', 'empty-cells', 'float', 'font-family', 'font-size', 
+            'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 
+            'font-weight', 'font', 'line-height', 'letter-spacing', 
+            'list-style', 'list-style-image', 'list-style-position', 
+            'list-style-type', 'margin-bottom', 'margin-left', 'margin-right', 
+            'margin-top', 'margin', 'marker-offset', 'marks', 'max-height', 
+            'max-width', 'min-height', 'min-width', 'orphans', 'outline', 
+            'outline-color', 'outline-style', 'outline-width', 'overflow', 
+            'padding-bottom', 'padding-left', 'padding-right', 'padding-top', 
+            'padding', 'page', 'page-break-after', 'page-break-before', 
+            'page-break-inside', 'pause-after', 'pause-before', 'pause', 
+            'pitch', 'pitch-range', 'play-during', 'position', 'quotes', 
+            'richness', 'right', 'size', 'speak-header', 'speak-numeral', 
+            'speak-punctuation', 'speak', 'speech-rate', 'stress', 
+            'table-layout', 'text-align', 'text-decoration', 'text-indent', 
+            'text-shadow', 'text-transform', 'top', 'unicode-bidi', 
+            'vertical-align', 'visibility', 'voice-family', 'volume', 
+            'white-space', 'widows', 'width', 'word-spacing', 'z-index', 
+            'bottom', 'left', 'height'
+        ),
 		2 => array(
-			'above', 'absolute', 'always', 'armenian', 'aural', 'auto', 'avoid',
-			'baseline', 'behind', 'below', 'bidi-override', 'blink', 'block', 'bold', 'bolder', 'both',
-			'capitalize', 'center-left', 'center-right', 'center', 'circle', 'cjk-ideographic',
-            'close-quote', 'collapse', 'condensed', 'continuous', 'crop', 'crosshair', 'cross', 'cursive',
-			'dashed', 'decimal-leading-zero', 'decimal', 'default', 'digits', 'disc', 'dotted', 'double',
-			'e-resize', 'embed', 'extra-condensed', 'extra-expanded', 'expanded',
-			'fantasy', 'far-left', 'far-right', 'faster', 'fast', 'fixed', 'fuchsia',
-			'georgian', 'gray', 'green', 'groove', 'hebrew', 'help', 'hidden', 'hide', 'higher',
-			'high', 'hiragana-iroha', 'hiragana', 'icon', 'inherit', 'inline-table', 'inline',
-			'inset', 'inside', 'invert', 'italic', 'justify', 'katakana-iroha', 'katakana',
-			'landscape', 'larger', 'large', 'left-side', 'leftwards', 'level', 'lighter', 'lime', 'line-through', 'list-item', 'loud', 'lower-alpha', 'lower-greek', 'lower-roman', 'lowercase', 'ltr', 'lower', 'low',
-			'maroon', 'medium', 'message-box', 'middle', 'mix', 'monospace',
-			'n-resize', 'narrower', 'navy', 'ne-resize', 'no-close-quote', 'no-open-quote', 'no-repeat', 'none', 'normal', 'nowrap', 'nw-resize',
-			'oblique', 'olive', 'once', 'open-quote', 'outset', 'outside', 'overline',
-			'pointer', 'portrait', 'purple', 'px',
-			'red', 'relative', 'repeat-x', 'repeat-y', 'repeat', 'rgb', 'ridge', 'right-side', 'rightwards',
-			's-resize', 'sans-serif', 'scroll', 'se-resize', 'semi-condensed', 'semi-expanded', 'separate', 'serif', 'show', 'silent', 'silver', 'slow', 'slower', 'small-caps', 'small-caption', 'smaller', 'soft', 'solid', 'spell-out', 'square',
-			'static', 'status-bar', 'super', 'sw-resize',
-			'table-caption', 'table-cell', 'table-column', 'table-column-group', 'table-footer-group', 'table-header-group', 'table-row', 'table-row-group', 'teal', 'text', 'text-bottom', 'text-top', 'thick', 'thin', 'transparent',
-			'ultra-condensed', 'ultra-expanded', 'underline', 'upper-alpha', 'upper-latin', 'upper-roman', 'uppercase', 'url',
-			'visible',
-			'w-resize', 'wait', 'white', 'wider',
-			'x-fast', 'x-high', 'x-large', 'x-loud', 'x-low', 'x-small', 'x-soft', 'xx-large', 'xx-small',
-			'yellow', 'yes'
-			)
-		),
+             'above', 'absolute', 'always', 'armenian', 'aural', 'auto', 
+             'avoid', 'baseline', 'behind', 'below', 'bidi-override', 'blink', 
+             'block', 'bold', 'bolder', 'both', 'capitalize', 'center-left', 
+             'center-right', 'center', 'circle', 'cjk-ideographic', 
+             'close-quote', 'collapse', 'condensed', 'continuous', 'crop', 
+             'crosshair', 'cross', 'cursive', 'dashed', 'decimal-leading-zero', 
+             'decimal', 'default', 'digits', 'disc', 'dotted', 'double', 
+             'e-resize', 'embed', 'extra-condensed', 'extra-expanded', 
+             'expanded', 'fantasy', 'far-left', 'far-right', 'faster', 'fast', 
+             'fixed', 'fuchsia', 'georgian', 'gray', 'green', 'groove', 
+             'hebrew', 'help', 'hidden', 'hide', 'higher', 'high', 
+             'hiragana-iroha', 'hiragana', 'icon', 'inherit', 'inline-table', 
+             'inline', 'inset', 'inside', 'invert', 'italic', 'justify', 
+             'katakana-iroha', 'katakana', 'landscape', 'larger', 'large', 
+             'left-side', 'leftwards', 'level', 'lighter', 'lime', 
+             'line-through', 'list-item', 'loud', 'lower-alpha', 'lower-greek', 
+             'lower-roman', 'lowercase', 'ltr', 'lower', 'low', 'maroon', 
+             'medium', 'message-box', 'middle', 'mix', 'monospace', 'n-resize', 
+             'narrower', 'navy', 'ne-resize', 'no-close-quote', 
+             'no-open-quote', 'no-repeat', 'none', 'normal', 'nowrap', 
+             'nw-resize', 'oblique', 'olive', 'once', 'open-quote', 'outset', 
+             'outside', 'overline', 'pointer', 'portrait', 'purple', 'px', 
+             'red', 'relative', 'repeat-x', 'repeat-y', 'repeat', 'rgb', 
+             'ridge', 'right-side', 'rightwards', 's-resize', 'sans-serif', 
+             'scroll', 'se-resize', 'semi-condensed', 'semi-expanded', 
+             'separate', 'serif', 'show', 'silent', 'silver', 'slow', 'slower', 
+             'small-caps', 'small-caption', 'smaller', 'soft', 'solid', 
+             'spell-out', 'square', 'static', 'status-bar', 'super', 
+             'sw-resize', 'table-caption', 'table-cell', 'table-column', 
+             'table-column-group', 'table-footer-group', 'table-header-group', 
+             'table-row', 'table-row-group', 'teal', 'text', 'text-bottom', 
+             'text-top', 'thick', 'thin', 'transparent', 'ultra-condensed', 
+             'ultra-expanded', 'underline', 'upper-alpha', 'upper-latin', 
+             'upper-roman', 'uppercase', 'url', 'visible', 'w-resize', 'wait', 
+             'white', 'wider', 'x-fast', 'x-high', 'x-large', 'x-loud', 
+             'x-low', 'x-small', 'x-soft', 'xx-large', 'xx-small', 'yellow', 
+             'yes'
+            )
+        ),
 	'SYMBOLS' => array(
 		'(', ')', '{', '}', ':', ';'
 		),
@@ -154,6 +169,8 @@ $language_data = array (
 			0 => 'color: #cc00cc;',
 			1 => 'color: #6666ff;',
 			2 => 'color: #3333ff;',
+            3 => 'color: #933;',
+            4 => 'color: #933;',
 			)
 		),
 	'URLS' => array(
@@ -164,9 +181,17 @@ $language_data = array (
 	'OBJECT_SPLITTERS' => array(
 		),
 	'REGEXPS' => array(
-		0 => '\#[a-zA-Z0-9\-]+\s+\{',
-		1 => '\.[a-zA-Z0-9\-]+\s',
-		2 => ':[a-zA-Z0-9\-]+\s'
+		0 => '\#[a-zA-Z0-9\-_]+',
+		1 => '\.[a-zA-Z0-9\-_]+',
+        2 => ':[a-zA-Z0-9\-]+',
+        3 => '(\d+|(\d*\.\d+))(em|ex|pt|px|cm|in|%)',
+        4 => array(
+            GESHI_SEARCH    => '(url\()([^)]+)(\))',
+            GESHI_REPLACE   => '\\2',
+            GESHI_BEFORE    => '\\1',
+            GESHI_AFTER     => '\\3',
+            GESHI_MODIFIERS => 'si'
+        )
 		),
 	'STRICT_MODE_APPLIES' => GESHI_NEVER,
 	'SCRIPT_DELIMITERS' => array(
@@ -174,5 +199,9 @@ $language_data = array (
 	'HIGHLIGHT_STRICT_BLOCK' => array(
 		)
 );
+
+if (isset($this) && is_a($this, 'GeSHi')) {
+    $language_data['STYLES']['NUMBERS'][0] = $language_data['STYLES']['REGEXPS'][3];
+}
 
 ?>

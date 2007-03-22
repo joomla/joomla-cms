@@ -399,8 +399,7 @@ class ModulesController extends JController
 			$row->published = 1;
 			//$row->ordering = $l;
 
-			$moduleType 	= JRequest::getVar( 'module' );
-			$row->module 	= $moduleType;
+			$row->module 	= $module;
 		}
 
 		if ($client->id == 1)

@@ -434,7 +434,7 @@ class HTML_modules
 				<?php
 					echo $pane->startPane("menu-pane");
 					echo $pane->startPanel(JText :: _('Module Parameters'), "param-page");
-					$p = $model->getParams();
+					$p = $params;
 					if($params = $p->render('params')) :
 						echo $params;
 					else :
