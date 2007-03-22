@@ -117,7 +117,7 @@ class  plgLegacy extends JPlugin
 		global $mainframe;
 		$GLOBALS['cur_template']	= $mainframe->getTemplate();
 
-
+		$GLOBALS['mosConfig_absolute_path']	= JPATH_SITE;
 		/**
 		 * Legacy global, use JFactory::getUser() instead
 		 * @name $acl
