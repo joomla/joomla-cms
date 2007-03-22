@@ -171,7 +171,7 @@ class JInstallationModel extends JModel
 		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
 
 		// Instantiate the xajax object and register the function
-		$xajax = new xajax(JURI::base().'installer'.DS.'jajax.php');
+		$xajax = new xajax(JURI::base().'installer/jajax.php');
 		$xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 		$xajax->registerFunction(array('FTPVerify', 'JAJAXHandler', 'ftpverify'));
 		//$xajax->debugOn();
