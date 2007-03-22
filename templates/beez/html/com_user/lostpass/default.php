@@ -19,7 +19,7 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
-echo '<form action="' . JURI :: resolve('index.php') . '" method="post" name="josForm" class="lost_password" >';
+echo '<form action="' . JRoute::_('index.php') . '" method="post" name="josForm" class="lost_password" >';
 echo '<h' . $hlevel . ' class="componentheading">' . JText :: _('Lost your Password?') . '</h' . $hlevel . '>';
 
 echo '<p>' . JText :: _('NEW_PASS_DESC') . '</p>';

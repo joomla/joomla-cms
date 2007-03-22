@@ -69,7 +69,7 @@ echo '<tr class="sectiontableentry' . $oddoreven . $this->params->get('pageclass
 echo '<td headers="count">' . $this->pagination->getRowOffset($item->count) . '</td>';
 if ($this->params->get('title')) {
 if ($item->access <= $this->user->get('aid', 0)) {
-echo '<td headers="tableOrdering"><a href="' . $item->link . '">' . $item->title . '</a>' . $this->getIcon($item, 'edit') . '</td>';
+echo '<td headers="tableOrdering"><a href="' . JRoute::_($item->link) . '">' . $item->title . '</a>' . $this->getIcon($item, 'edit') . '</td>';
 } else {
 echo '<td headers="tableOrdering1">' . $item->title . ' : ';
 $link = JRoute::_('index.php?option=com_user&amp;task=register');

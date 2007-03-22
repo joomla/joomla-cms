@@ -45,7 +45,7 @@ if (count($this->categories)) {
 	foreach ($this->categories as $category) {
 
 		echo '<li>';
-		echo '<a href="' . $category->link . '" class="category" >';
+		echo '<a href="' . JRoute::_($category->link) . '" class="category" >';
 		echo $category->title;
 		echo '</a>';
 		if ($this->params->get('cat_items')) {

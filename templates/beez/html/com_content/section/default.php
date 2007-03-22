@@ -46,7 +46,7 @@ if ($this->params->def('other_cat_section', 1)) {
 		foreach ($this->categories as $category) {
 
 			echo '<li>';
-			echo '<a href="' . $category->link . '" class="category" >';
+			echo '<a href="' . JRoute::_($category->link) . '" class="category" >';
 			echo $category->name;
 			echo '</a>';
 			if ($this->params->get('cat_items')) {

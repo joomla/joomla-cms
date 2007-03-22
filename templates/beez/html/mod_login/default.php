@@ -12,7 +12,7 @@ if ($type == 'logout') {
 	echo '<input type="hidden" name="return" value="' . JRoute :: _($return) . '" />';
 	echo '</form>';
 } else {
-	echo '<form action="index.php#content" method="post" name="login" class="login" >';
+	echo '<form action="'.JRoute::_('index.php').'" method="post" name="login" class="login" >';
 	echo '<p>' . $params->get('pretext') . '</p>';
 	echo '<fieldset>';
 	echo '<label for="mod_login_username">' . JText :: _('Username') . '</label>';
@@ -22,7 +22,6 @@ if ($type == 'logout') {
 	echo '<input type="password" id="mod_login_password" name="passwd" class="inputbox"  alt="' . JText :: _('Password') . '" />';
 	echo ' </fieldset>';
 	echo '<label for="mod_login_remember" class="remember">' . JText :: _('Remember me') . '</label>';
-	;
 	echo '<input type="checkbox" name="remember" id="mod_login_remember" class="checkbox" value="yes" alt="' . JText :: _('Remember me') . '" />';
 	echo '<input type="submit" name="Submit" class="button" value="' . JText :: _('BUTTON_LOGIN') . '" />';
 	echo '<p><a href="' . JRoute :: _('index.php?option=com_user&amp;task=lostPassword') . '">' . JText :: _('Lost Password?') . '</a></p>';

@@ -34,8 +34,7 @@ foreach ($this->items as $item) {
 	echo $item->count + 1;
 	echo '</td>';
 	if ($this->params->get('name')) {
-		echo '<td  width="90%" headers="name"><a href="' . $item->link . '" class="category' . $this->params->get('pageclass_sfx') . '">';
-		echo $item->name;
+		echo '<td  width="90%" headers="name"><a href="' . JRoute::_($item->link) . '" class="category' . $this->params->get('pageclass_sfx') . '">';		echo $item->name;
 		echo '</a></td>';
 	}
 	if ($this->params->get('articles')) {

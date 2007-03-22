@@ -56,7 +56,7 @@ if(isset($this->message))
 	$this->loadTemplate('message');
 }
 
-echo '<form action="'.JURI::resolve( 'index.php?option=com_user&amp;task=register' ).'" method="post" id="josForm" name="josForm" class="registration">';
+echo '<form action="'.JRoute::_( 'index.php?option=com_user&amp;task=register' ).'" method="post" id="josForm" name="josForm" class="registration">';
 echo '<h'.$hlevel.' class="componentheading">'. JText::_( 'Registration' ).'</h'.$hlevel.'>';
 
 echo '<p>'.JText::_( 'REGISTER_REQUIRED' ).'</p>';

@@ -31,7 +31,7 @@ if ($this->params->get('header')) {
 }
 
 echo '<h' . $hlevel . ' class="contentheading' . $this->params->get('pageclass_sfx') . '">';
-echo '<a href="' . JOutputFilter::ampReplace($this->newsfeed->channel['link']) . '" target="_blank">';
+echo '<a href="' . JRoute::_($this->newsfeed->channel['link']) . '" target="_blank">';
 echo str_replace('&apos;', "'", $this->newsfeed->channel['title']);
 echo '</a></h' . $hlevel . '>';
 
@@ -47,7 +47,7 @@ if (count($this->newsfeed->items)) {
 	foreach ($this->newsfeed->items as $item) {
 		echo '<li>';
 		if (!is_null($item->get_link())) {
-			echo '<a href="' . JOutputFilter::ampReplace($item->get_link()) . '" target="_blank">';
+			echo '<a href="' . JRoute::_($item->get_link()) . '" target="_blank">';
 			echo $item->get_title();
 			echo '</a>';
 		}

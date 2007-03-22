@@ -47,7 +47,7 @@ if ($this->params->get('category') && $this->article->catid) {
 if ($this->params->get('item_title')) {
 	echo '<h' . $hlevel . ' class="contentheading' . $this->params->get('pageclass_sfx') . '">';
 	if ($this->params->get('link_titles') && $this->article->readmore_link != '') {
-		echo '<a href="' . $this->article->readmore_link . '" class="contentpagetitle' . $this->params->get('pageclass_sfx') . '">';
+		echo '<a href="' . JRoute::_($this->article->readmore_link) . '" class="contentpagetitle' . $this->params->get('pageclass_sfx') . '">';
 		echo $this->article->title;
 		echo '</a>';
 	} else {
@@ -107,7 +107,7 @@ echo $this->article->event->beforeDisplayContent;
 if ($this->params->get('url') && $this->article->urls) {
 	echo '<span class="small">';
 	/* sefreltoabs ??? */
-	echo '<a href="http://' . $this->article->urls . '" target="_blank">';
+	echo '<a href="' . JRoute::_($this->article->urls) . '" target="_blank">';
 	echo $this->article->urls . '</a></span>';
 }
 
@@ -119,7 +119,7 @@ echo JOutputFilter::ampReplace($this->article->text);
 
 if ($this->params->get('readmore') && $this->params->get('intro_only') && $this->article->readmore_text) {
 	echo '<p>';
-	echo '<a href="' . $this->article->readmore_link . '" class="readon' . $this->params->get('pageclass_sfx') . '">';
+	echo '<a href="' . JRoute::_($this->article->readmore_link) . '" class="readon' . $this->params->get('pageclass_sfx') . '">';
 	$alias = JOutputFilter :: stringURLSafe($this->item->title);
 	if ($this->item->title_alias === $alias) {
 		echo $this->item->readmore_text;

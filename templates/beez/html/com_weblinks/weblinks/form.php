@@ -21,7 +21,7 @@ function submitbutton(pressbutton)
 }
 </script>
 
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="<?php JRoute::_('index.php') ?>" method="post" name="adminForm" id="adminForm">
 <div class="componentheading">
         <?php echo JText::_( 'Submit A Web Link' );?>
 </div>

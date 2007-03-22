@@ -30,7 +30,7 @@ if(isset($this->error))
 echo '<div class="contentdescription">';
 echo '<p>'.$this->contact->params->get( 'email_description_text' ). '</p>';
 echo '</div>';
-echo '<form action="index.php"  class="form-validate" method="post" name="emailForm" target="_top" id="emailForm">';
+echo '<form action="'.JRoute::_('index.php').'"  class="form-validate" method="post" name="emailForm" target="_top" id="emailForm">';
 echo '<div class="contact_email'.$this->params->get( 'pageclass_sfx' ).'">';
 echo '<label for="contact_name">';
 echo JText::_( 'Enter your name' ).'*:</label>';

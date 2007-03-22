@@ -1,6 +1,5 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
-
 /*
  *
  * Get the template parameters
@@ -28,7 +27,7 @@ if ($this->user->authorize('action', 'edit', 'content', 'all')) {
 if ($this->params->get('item_title')) {
 	echo '<h' . $hlevel . ' class="contentheading' . $this->params->get('pageclass_sfx') . '">';
 	if ($this->params->get('link_titles') && $this->item->readmore_link != '') {
-		echo '<a href="' . $this->item->readmore_link . '" class="contentpagetitle' . $this->params->get('pageclass_sfx') . '">';
+		echo '<a href="' . JRoute::_($this->item->readmore_link ). '" class="contentpagetitle' . $this->params->get('pageclass_sfx') . '">';
 		echo $this->item->title;
 		echo '</a>';
 	} else {
@@ -106,8 +105,7 @@ echo $this->item->event->beforeDisplayContent;
 
 if ($this->params->get('url') && $this->item->urls) {
 	echo '<span class="small">';
-	/* sefreltoabs ??? */
-	echo '<a href="http://' . $this->item->urls . '" target="_blank">';
+	echo '<a href="' . JRoute::_($this->item->urls) . '" target="_blank">';
 	echo $this->item->urls . '</a></span>';
 }
 
@@ -119,7 +117,7 @@ echo JOutputFilter::ampReplace($this->item->text);
 
 if ($this->params->get('readmore') && $this->params->get('intro_only') && $this->item->readmore_text) {
 	echo '<p>';
-	echo '<a href="' . $this->item->readmore_link . '" class="readon' . $this->params->get('pageclass_sfx') . '">';
+	echo '<a href="' . JRoute::_($this->item->readmore_link) . '" class="readon' . $this->params->get('pageclass_sfx') . '">';
 	$alias = JOutputFilter :: stringURLSafe($this->item->title);
 	if ($this->item->title_alias === $alias) {
 		echo $this->item->readmore_text;

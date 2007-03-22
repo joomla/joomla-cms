@@ -128,7 +128,7 @@ function pagination_list_render($list)
 }
 
 function pagination_item_active(&$item) {
-        return "<li><strong><a href=\"".$item->link."\" title=\"".$item->text."\">".$item->text."</a></strong></li>";
+        return "<li><strong><a href=\"".JRoute::_($item->link)."\" title=\"".$item->text."\">".$item->text."</a></strong></li>";
 }
 
 function pagination_item_inactive(&$item) {

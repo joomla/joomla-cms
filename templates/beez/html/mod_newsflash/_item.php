@@ -21,7 +21,7 @@ $level = $hlevel +2;
 
 if ($params->get('item_title')) {
 	if ($params->get('link_titles') && $linkOn != '') {
-		echo '<h' . $level . '><a href="' . $linkOn . '" class="contentpagetitle' . $params->get('moduleclass_sfx') . '">';
+		echo '<h' . $level . '><a href="' . JRoute::_($linkOn) . '" class="contentpagetitle' . $params->get('moduleclass_sfx') . '">';
 		echo $item->title;
 		echo '</a></h' . $level . '>';
 	} else {
