@@ -166,7 +166,7 @@ var JImageManager = new Class({
 	},
 
 	populateFields: function(file) {
-		$("f_url").value = "images"+this.folderlist.options[this.folderlist.selectedIndex].value+file;
+		$("f_url").value = "images/stories"+this.folderlist.options[this.folderlist.selectedIndex].value+file;
 	},
 
 	showMessage: function(text)
