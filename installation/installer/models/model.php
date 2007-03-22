@@ -27,22 +27,22 @@ class JInstallationModel extends JModel
 {
 	/**
 	 * Array used to store data between model and view
-	 * 
+	 *
 	 * @var		Array
 	 * @access	protected
 	 * @since	1.5
 	 */
 	var	$data		= array();
-	
+
 	/**
 	 * Array used to store user input created during the installation process
-	 * 
+	 *
 	 * @var		Array
 	 * @access	protected
 	 * @since	1.5
 	 */
 	var	$vars		= array();
-	
+
 	/**
 	 * Constructor
 	 */
@@ -68,7 +68,7 @@ class JInstallationModel extends JModel
 		}
 
 	}
-        	
+
 	/**
 	 * Generate a panel of language choices for the user to select their language
 	 *
@@ -79,21 +79,21 @@ class JInstallationModel extends JModel
 	function chooseLanguage()
 	{
 		global $mainframe;
-		
+
 		$vars	=& $this->getVars();
-		
+
 		$native = JLanguageHelper::detectLanguage();
 		$forced = $mainframe->getLocalise();
-		
+
 		if ( !empty( $forced['lang'] ) ){
 			$native = $forced['lang'];
 		}
-		
+
 		$lists = array ();
 		$lists['langs'] = JLanguageHelper::createLanguageList($native);
 
 		$this->setData('lists', $lists);
-		
+
 		return true;
 	}
 
@@ -129,12 +129,12 @@ class JInstallationModel extends JModel
 		}
 
 		$doc =& JFactory::getDocument();
-		
+
 		$this->setData('lists', $lists);
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Displays the finish screen
 	 *
@@ -209,16 +209,16 @@ class JInstallationModel extends JModel
 	 * @since	1.5
 	 */
 	function & getData($key){
-		
+
 		if ( ! array_key_exists($key, $this->data) )
 		{
 			$null = null;
 			return $null;
 		}
-		
+
 		return $this->data[$key];
 	}
-	
+
 	/**
 	 * Get the local PHP settings
 	 *
@@ -234,7 +234,7 @@ class JInstallationModel extends JModel
 
 	/**
 	 * Get the configuration variables for the installation
-	 * 
+	 *
 	 * @return	Array Configuration variables
 	 * @access	public
 	 * @since	1.5
@@ -408,7 +408,7 @@ class JInstallationModel extends JModel
 
 	/**
 	 * Finishes configuration parameters
-	 * 
+	 *
 	 * @return	boolean True if successful
 	 * @access	public
 	 * @since	1.5
@@ -418,7 +418,7 @@ class JInstallationModel extends JModel
 		global $mainframe;
 
 		$vars	=& $this->getVars();
-		
+
 		// get ftp configuration into registry for use in case of safe mode
 		if($vars['ftpEnable']) {
 			JInstallationHelper::setFTPCfg( $vars );
@@ -428,7 +428,7 @@ class JInstallationModel extends JModel
 		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
 
 		// Instantiate the xajax object and register the function
-		$xajax = new xajax(JURI::base().'installer'.DS.'jajax.php');
+		$xajax = new xajax(JURI::base().'installer/jajax.php');
 		$xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 		//		$xajax->debugOn();
 		$xajax->errorHandlerOn();
@@ -599,7 +599,7 @@ class JInstallationModel extends JModel
 				'state' => $this->getPhpSetting($setting[1]) == $setting[2] ? 'Yes' : 'No'
 			);
 		}
-		
+
 		$this->setData('lists', $lists);
 
 		return true;
@@ -755,13 +755,13 @@ class JInstallationModel extends JModel
 				return true;
 			}
 		}
-		
+
 		return true;
 	}
 
 	/**
 	 * Set data for later use
-	 * 
+	 *
 	 * @param	string $key Data key
 	 * @param	Mixed data
 	 * @access	public
