@@ -273,7 +273,12 @@ class MenusModelItem extends JModel
 			$where = "menutype = '" . $row->menutype . "' AND published >= 0 AND parent = ".$row->parent;
 			$row->ordering = $row->getNextOrder ( $where );
 		}
-
+		
+		if( $row->parent != 0 ) {
+			$query = 'SELECT sublevel FROM #__menu WHERE id = '. (int) $row->parent;
+			$this->_db->setQuery($query);
+			$row->sublevel = $this->_db->loadResult() + 1;
+		}
 		jimport('joomla.filter.output');
 		$row->name = JOutputFilter::ampReplace( $row->name );
 
