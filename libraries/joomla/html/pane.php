@@ -154,7 +154,7 @@ class JPaneTabs extends JPane
 	*/
 	function startPanel( $text, $id )
 	{
-		return '<dt id="'.$id.'">'.$text.'</dt><dd>';
+		return '<dt id="'.$id.'"><span>'.$text.'</span></dt><dd>';
 	}
 
 	/**
