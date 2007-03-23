@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Mar-2007 Andy Miller
+# Fixed Tabs styling
+^ Changed Message and Error styling
++ Added styling for Legacy mode flag
+
 23-Mar-2007 Rastin Mehr
 # Fixed [track41] No "Copy | Move" buttons on Category Manager [Content] toolbar
 
