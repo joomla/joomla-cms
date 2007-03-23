@@ -71,7 +71,8 @@ class TOOLBAR_categories {
 		JMenuBar::title( JText::_( 'Category Manager' ) .': <small><small>[ '. JText::_(JString::substr($section, 4)).' ]</small></small>', 'categories.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
-		if ( $section == 'content' || ( $section > 0 ) ) {
+		
+		if ( $section == 'com_content' || ( $section > 0 ) ) {
 			JMenuBar::customX( 'moveselect', 'move.png', 'move_f2.png', 'Move', true );
 			JMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );
 		}

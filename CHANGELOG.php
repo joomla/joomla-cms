@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Mar-2007 Rastin Mehr
+# Fixed [track41] No "Copy | Move" buttons on Category Manager [Content] toolbar
+
 21-Mar-2007 Rastin Mehr
 # Fixed [track99] the sectionid error
 # Fixed [track99] the insert page break error
