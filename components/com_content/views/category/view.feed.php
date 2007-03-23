@@ -36,13 +36,8 @@ class ContentViewCategory extends JView
 		$limit = '10';
 
 		JRequest::setVar('limit', $limit);
-		$category	= & $this->get( 'Category' );
 		$rows 		= & $this->get( 'Data' );
-		
-		if ( empty($rows) )
-		{
-			return;
-		}
+
 
 		foreach ( $rows as $row )
 		{
@@ -66,7 +61,7 @@ class ContentViewCategory extends JView
 			$item->description 	= $description;
 			$item->date			= $date;
 			$item->author		= $author;
-			$item->category   	= $category->title;
+			$item->category   	= $row->category;
 
 			// loads item info into rss array
 			$doc->addItem( $item );
