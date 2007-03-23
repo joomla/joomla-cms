@@ -69,7 +69,7 @@ class modBannersHelper
 
 	function renderBanner($params, &$item)
 	{
-		$link = JRoute::_( 'index.php?option=com_banners&amp;task=click&amp;bid='. $item->bid );
+		$link = JRoute::_( 'index.php?option=com_banners&task=click&bid='. $item->bid );
 
 		$html = '';
 		if (trim($item->custombannercode))

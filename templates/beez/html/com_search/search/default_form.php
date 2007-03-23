@@ -19,10 +19,6 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
-if (!count($this->results)) {
-	echo JText :: _('help_text');
-}
-
 echo '<form action="index.php#content" method="get" class="search_result' . $this->params->get('pageclass_sfx') . '">';
 echo '<a name="form1"></a>';
 

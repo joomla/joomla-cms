@@ -19,7 +19,7 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
-echo '<form action="'.JRoute::_('index.php').'" method="post" class="search' . $params->get('moduleclass_sfx') . '">';
+echo '<form action="index.php" method="post" class="search' . $params->get('moduleclass_sfx') . '">';
 // echo '<fieldset>';
 echo '<label for="mod_search_searchword">' . JText :: _('search') . ' </label>';
 echo $inputfield;

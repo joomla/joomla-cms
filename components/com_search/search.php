@@ -164,7 +164,7 @@ class SearchController
 		$uri = new JURI();
 		$uri->setQuery($post);
 
-		$mainframe->redirect(JRoute::_('index.php?'.$uri->getQuery()));
+		$mainframe->redirect('index.php?'.$uri->getQuery());
 
 	}
 
@@ -214,7 +214,7 @@ class SearchController
 				if ( !empty($link) && @$link['task'] == 'view' && isset($link['id']) && !isset($link['Itemid']) ) {
 					$itemid = '';
 					if (JContentHelper::getItemid( $link['id'] )) {
-						$itemid = '&amp;Itemid='. JContentHelper::getItemid( $link['id'] );
+						$itemid = '&Itemid='. JContentHelper::getItemid( $link['id'] );
 					}
 					$rows[$i]->href = $rows[$i]->href . $itemid;
 				}

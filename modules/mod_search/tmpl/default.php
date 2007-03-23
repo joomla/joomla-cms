@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<form action="<?php echo JRoute::_('index.php') ?>" method="post">
+<form action="index.php" method="post">
 	<div class="search<?php echo $params->get('moduleclass_sfx') ?>">
 		<?php echo $inputfield ?>
 	</div>
