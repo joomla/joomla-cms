@@ -621,6 +621,17 @@ div.search input {
 	margin: 15px 0 10px 0;
 }
 
+input#mod_login_username,
+input#mod_login_password {
+	width: 116px;
+}
+
+input#mod_login_username.openid {
+	background: url(../images/login-bg.gif) 0 50% no-repeat;
+	padding-left: 20px;
+	width: 100px;
+}
+
 /* thumbnails */
 div.mosimage         {  margin: 5px; }
 div.mosimage_caption {  font-size: .90em; color: #666; }
