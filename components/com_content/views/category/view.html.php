@@ -73,11 +73,13 @@ class ContentViewCategory extends JView
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
-		// Section
-		$pathway->setItemName(1, JText::_('Content'));
-		$pathway->addItem($category->sectiontitle, JRoute::_('index.php?view=section&id='.$category->sectionid));
-		// Category
-		$pathway->addItem($category->title, '');
+		//set breadcrumbs
+		$router 	= JRouter::getInstance();
+		$uri		= JFactory::getURI();
+		if(JRoute::_($item->link) != JRoute::_('index.php'.$uri->getQuery()))
+		{
+			$pathway->addItem($category->title, '');
+		}
 
 		$mainframe->setPageTitle($item->name);
 

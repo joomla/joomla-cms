@@ -59,7 +59,6 @@ class ContentViewArchive extends JView
 		$total = & $this->get( 'total' );
 
 		// Add item to pathway
-		$pathway->setItemName(1, JText::_('Content'));
 		$pathway->addItem(JText::_('Archive'), '');
 
 		$mainframe->setPageTitle($item->name);

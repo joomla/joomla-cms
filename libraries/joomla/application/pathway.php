@@ -58,13 +58,10 @@ class JPathWay extends JObject
 	 * @return array Array of pathway items
 	 * @since 1.5
 	 */
-	function getPathWay($showHome = true, $showComponent = true)
+	function getPathWay($showHome = true)
 	{
 		$pw = $this->_pathway;
 
-		if ($showComponent == false) {
-			unset($pw[1]);
-		}
 		if ($showHome == false) {
 			unset($pw[0]);
 		}
@@ -82,7 +79,7 @@ class JPathWay extends JObject
 	 * @return array Array of names of pathway items
 	 * @since 1.5
 	 */
-	function getPathWayNames($showHome = true, $showComponent = true)
+	function getPathWayNames($showHome = true)
 	{
 		// Initialize variables
 		$names = array (null);
@@ -92,9 +89,6 @@ class JPathWay extends JObject
 			$names[] = $item->name;
 		}
 
-		if ($showComponent == false) {
-			unset($names[1]);
-		}
 		if ($showHome == false) {
 			unset($names[0]);
 		}

@@ -65,11 +65,12 @@ class ContactViewContact extends JView
 		// Set the document page title
 		$mainframe->setPageTitle(JText::_('Contact').' - '.$contact->name);
 
-		// Add the breadcrumbs items
-		if ($params->get('hideCatCrumbs')) {
-			$pathway->addItem($contact->category_name, "index.php?option=com_contact&view=category&catid=$contact->catid");
+		//set breadcrumbs
+		$uri		= JFactory::getURI();
+		if(JRoute::_($item->link) != JRoute::_('index.php'.$uri->getQuery()))
+		{
+			$pathway->addItem($contact->name, '');
 		}
-		$pathway->addItem($contact->name, '');
 
 		// Adds parameter handling
 		$contact->params = new JParameter($contact->params);

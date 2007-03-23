@@ -340,33 +340,31 @@ class JSite extends JApplication
 	 */
 	function &_createPathWay()
 	{
-		global $option, $Itemid;
-
 		//Load the pathway object
 		jimport( 'joomla.application.pathway' );
 
 		// Create a JPathWay object
 		$this->_pathway = new JPathWay();
 
-		// Initialize variables
-		$IIDstring = null;
+		$menu   	=& JMenu::getInstance();
+		$item   	= $menu->getActive();
+		$menus	= $menu->getMenu();
+		$home		= $menu->getDefault();
 
 		// Add the home item to the pathway
-		$this->_pathway->addItem( JText::_('Home'), 'index.php' );
-
-		// Get the actual component name
-		if (substr($option, 0, 4) == 'com_') {
-			$comName = substr($option, 4);
+		if( $item->id == $home->id ) {
+			$this->_pathway->addItem( JText::_('Home'), '' );
 		} else {
-			$comName = $option;
-		}
-		// Handle the ItemID
-		if ($Itemid) {
-			$IIDstring = '&Itemid='.$Itemid;
+			$this->_pathway->addItem( JText::_('Home'), 'index.php' );
 		}
 
-		$this->_pathway->addItem( $comName, 'index.php?option='.$option.$IIDstring);
-
+		if( $item->id != $home->id)
+		{
+			foreach($item->tree as $menupath)
+			{	
+				$this->_pathway->addItem( $menus[$menupath]->name, 'index.php?Itemid='.$menupath);
+			}
+		}
 		return $this->_pathway;
 	}
 }

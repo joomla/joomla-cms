@@ -32,11 +32,6 @@ class NewsfeedsViewCategories extends JView
 	{
 		global $mainframe;
 
-		$pathway 	= & $mainframe->getPathWay();
-
-		// Set the component name in the pathway
-		$pathway->setItemName(1, JText::_('News Feeds'));
-
 		// Load the menu object and parameters
 		$menu   = &JMenu::getInstance();
 		$item   = $menu->getActive();

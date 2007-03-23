@@ -20,6 +20,10 @@ $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 $total = $this->total;
 
+$colcount=$this->params->def('columns', 2);
+
+if ($columns == 0) {$colcount = 1;}
+
 if ($this->params->get('page_title')) {
 	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
 	echo $this->params->get('header');
@@ -58,11 +62,10 @@ if ($this->params->def('leading', 1)) {
 	$i = 0;
 }
 if ($this->params->def('intro', 4) && ($i < $total)) {
-	$rowcount = (int) $this->params->get('intro') / $this->params->def('columns', 2);
+	$rowcount = (int) $this->params->get('intro') / $colcount;
 	$ii = 0;
 	for ($y = 0; $y < $rowcount && $i < $total; $y++) {
 		echo '<div class="article_row' . $this->params->get('pageclass_sfx') . '">';
-		$colcount = $this->params->get('columns');
 		for ($z = 0; $z < $colcount; $z++) {
 			$columnnumber = $z +1;
 			echo '<div  class="article_column column' . $columnnumber . ' cols' . $colcount . '" >';

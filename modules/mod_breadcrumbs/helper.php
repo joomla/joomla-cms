@@ -18,37 +18,33 @@ class modBreadCrumbsHelper
 {
 	function getList(&$params)
 	{
-		global $mainframe, $option;
+		global $mainframe;
 
 		// Initialize variables
 		$showHome 		= true;
-		$showComponent	= true;
 
 		// Show the home link in the breadcrumbs
 		if ($params->get('showHome') == false) {
 			$showHome = false;
 		}
 
-		// Show the component link in the breadcrumbs
-		if ($params->get('showComponent') == false) {
-			$showComponent = false;
-		}
-
-		// Do not show the content component item in the BreadCrumbs list
-		if ($option == 'com_content') {
-			$showComponent = false;
-		}
-
 		// Get the PathWay object from the application
 		$pathway = & $mainframe->getPathWay();
-		$items = $pathway->getPathWay($showHome, $showComponent);
+		$items = $pathway->getPathWay($showHome);
+
+		if ($showHome) {
+			$items[0]->name = $params->get('homeText');
+			if (empty ($items[0]->link)) {
+				$items[0]->link = $items[0]->name;
+			} else {
+				$items[0]->link = '<a href="'.JURI::base().'" class="pathway">'.$items[0]->name.'</a>';
+			}
+		}
+
 
 		$count = count($items);
-		for ($i = 0; $i < $count; $i ++)
+		for ($i = 1; $i < $count; $i ++)
 		{
-			if (($showHome) && ($i == 0)) {
-				$items[$i]->name = $params->get('homeText');
-			}
 			$items[$i]->name = stripslashes(htmlspecialchars($items[$i]->name));
 
 			// If a link is present create an html link, if not just use the name

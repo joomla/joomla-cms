@@ -226,7 +226,7 @@ class HTML_modules
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
-			if ( ( pressbutton == 'save' ) && ( document.adminForm.title.value == "" ) ) {
+			if ( ( pressbutton == 'save' || pressbutton == 'apply' ) && ( document.adminForm.title.value == "" ) ) {
 				alert("<?php echo JText::_( 'Module must have a title', true ); ?>");
 			} else {
 				<?php
@@ -234,8 +234,8 @@ class HTML_modules
 					echo $editor->save( 'content' );
 				}
 				?>
+				submitform(pressbutton);
 			}
-			submitform(pressbutton);
 		}
 		<!--
 		var originalOrder 	= '<?php echo $row->ordering;?>';

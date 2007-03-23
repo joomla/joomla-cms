@@ -72,10 +72,7 @@ class ContentViewSection extends JView
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$document->addHeadLink(JRoute::_($link.'&format=atom'), 'alternate', 'rel', $attribs);
 
-		// Set the page title and breadcrumbs
-		$pathway->setItemName(1, JText::_('Content'));
-		$pathway->addItem($section->title, '');
-
+		// Set the page title
 		if (!empty ($item->name)) {
 			$mainframe->setPageTitle($item->name);
 		}

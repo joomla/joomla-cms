@@ -71,8 +71,12 @@ class NewsfeedsViewCategory extends JView
 		// Set page title per category
 		$document->setTitle( $item->name. ' - ' .$category->title );
 
-		// Add breadcrumb item per category
-		$pathway->addItem($category->title, '');
+		//set breadcrumbs
+		$uri		= JFactory::getURI();
+		if(JRoute::_($item->link) != JRoute::_('index.php'.$uri->getQuery()))
+		{
+			$pathway->addItem($category->title, '');
+		}
 
 		$k = 0;
 		for($i = 0; $i <  count($items); $i++)

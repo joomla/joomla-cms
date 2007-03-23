@@ -28,7 +28,6 @@ class ContactViewCategory extends JView
 		global $mainframe, $option;
 
 		$user	 = &JFactory::getUser();
-		$pathway = & $mainframe->getPathWay();
 		$uri 		=& JFactory::getURI();
 		$model	 = &$this->getModel();
 
@@ -100,7 +99,6 @@ class ContactViewCategory extends JView
 		if ($category->title)
 		{
 			// Add the category breadcrumbs item
-			$pathway->addItem($category->title, '');
 			$mainframe->setPageTitle(JText::_('Contact').' - '.$category->title);
 		} else {
 			$mainframe->SetPageTitle(JText::_('Contact'));

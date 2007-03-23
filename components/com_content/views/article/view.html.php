@@ -68,20 +68,25 @@ class ContentViewArticle extends JView
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-		// Handle BreadCrumbs
-		$pathway->setItemName(1, JText::_('Content'));
+		//set breadcrumbs
+		$router 	= JRouter::getInstance();
+		$uri		= JFactory::getURI();
+		$menuURI	= new JURI($item->link);
+		if(JRoute::_($item->link) != JRoute::_('index.php'.$uri->getQuery()))
+		{
+			$vars = $menuURI->getQuery(true);
+			switch ($vars['view'])
+			{
+				case 'section':
+					$pathway->addItem($article->category, JRoute::_('index.php?option=com_content&view=category&id='.$article->catid));
+					$pathway->addItem($article->title, '');
+					break;
+				case 'category':
+					$pathway->addItem($article->title, '');
+					break;
+			}
+		}
 		
-		// Section
-		if (!empty ($article->section)) {
-			$pathway->addItem($article->section, JRoute::_('index.php?option=com_content&view=section&id='.$article->sectionid));
-		}
-		// Category
-		if (!empty ($article->category)) {
-			$pathway->addItem($article->category, JRoute::_('index.php?option=com_content&view=category&id='.$article->catid));
-		}
-		// Article
-		$pathway->addItem($article->title, '');
-
 		// Handle Page Title
 		$document->setTitle($article->title);
 

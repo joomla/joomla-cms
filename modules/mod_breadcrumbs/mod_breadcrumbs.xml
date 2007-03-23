@@ -18,10 +18,6 @@
 			<option value="1">Yes</option>
 		</param>
 		<param name="homeText" type="text" default="Home" label="Text for Home entry" description="PARAMHOMETEXT" />
-		<param name="showComponent" type="radio" default="1" label="Show Component" description="PARAMSHOWCOMPONENT">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
 		<param name="separator" type="text" default="" label="Text Separator" description="A text separator" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>

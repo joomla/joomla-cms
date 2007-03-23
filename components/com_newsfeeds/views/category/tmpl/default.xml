@@ -9,7 +9,7 @@
 		<name>Newsfeed Category Layout</name>
 		<description>NEWSFEED CATEGORY LAYOUT DESC</description>
 		<url addParameterDir="/administrator/components/com_newsfeeds/elements">
-			<param name="catid" type="category" section="com_newsfeeds" default="0" label="Category" description="PARAMCATSELECT" />
+			<param name="id" type="category" section="com_newsfeeds" default="0" label="Category" description="PARAMCATSELECT" />
 		</url>
 		<params>
 			<param name="@spacer" type="spacer" default="" label="" description="" />

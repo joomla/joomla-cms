@@ -79,6 +79,12 @@ function ContentParseRoute($segments)
 			$view = 'article';
 
 		} break;
+
+		case 'article' :
+		{
+			$id	= $segments[$count-1];
+			$view	= 'article';
+		} break;
 	}
 
 	JRequest::setVar('view', $view, 'get');
