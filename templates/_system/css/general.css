@@ -135,3 +135,8 @@ a img.calendar {
 #system-message dt.error { display: none; }
 #system-message dd.error {  }
 #system-message dd.error ul { color: #c00; background: #E6C0C0 url(../images/notice-alert.png) 4px 4px no-repeat; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
+
+/* System Notice Messages */
+#system-message dt.notice { display: none; }
+#system-message dd.notice {  }
+#system-message dd.notice ul { color: #c00; background: #EFE7B8 url(../images/notice-note.png) 4px 4px no-repeat; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
