@@ -120,6 +120,7 @@ textarea:focus { background-color: #ffd }
 #module-status      { float: right; }
 #module-status span { display: block; float: left; line-height: 16px; padding: 4px 10px 0 22px; margin-bottom: 5px; }
 
+#module-status .legacy-mode { background: url(../images/mini_icon.png) 3px 5px no-repeat; color: #c00;}
 #module-status .preview 			  { background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat; }
 #module-status .unread-messages,
 #module-status .no-unread-messages { background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat; }
@@ -235,7 +236,42 @@ textarea#mm_message { width: 200px; }
 
 .jpane-toggler-down {  border-bottom: 1px solid #ccc; }
 
+/* tabs */
 
+dl.tabs {
+	float: left;
+	margin: 10px 0 -1px 0;
+	z-index: 50;
+}
+
+dl.tabs dt {
+	float: left;
+	padding: 4px 10px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	margin-left: 3px;
+	background: #f0f0f0;
+	color: #666;
+}
+
+dl.tabs dt.open {
+	background: #F9F9F9;
+	border-bottom: 1px solid #F9F9F9;
+	z-index: 100;
+	color: #000;
+}
+
+div.current {
+	clear: both;
+	border: 1px solid #ccc;
+	padding: 10px 10px;
+}
+
+div.current dd {
+	padding: 0;
+	margin: 0;
+}
 /** cpanel settings **/
 
 #cpanel div.icon {
