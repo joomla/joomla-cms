@@ -37,7 +37,7 @@ p {
 }
 
 div, p, table, td, th {
-	font-family: Tahoma,Helvetica,Arial,sans-serif;
+	font-family: Helvetica,Arial,sans-serif;
 	line-height: 1.3em;
 	font-size: 1em;
 	color: #333;
@@ -691,22 +691,7 @@ div.message {
 }
 
 /* System Messages */
-
-dl#system-message { margin: 0; padding: 0; }
-#system-message dt { font-weight: bold; }
-#system-message dd { margin: 0; font-size: 14px; }
-
-/* System Standard Messages */
-
-#system-message dt.message { display: none; }
-#system-message dd.message { background: #fff; }
-#system-message dd.message ul { list-style: none; color: black; padding: 10px 10px 10px 40px;}
-
-/* System Error Messages */
-
-#system-message dt.error { display: none; }
-#system-message dd.error { background: #f00; }
-#system-message dd.error ul { list-style: none; background: url(../../../images/M_images/icon_error.gif) no-repeat 10px 10px; color: white; padding: 10px 10px 10px 40px;}
+/* see system general.css */
 
 .pagination span { padding: 2px; }
 .pagination a    { padding: 2px; }
