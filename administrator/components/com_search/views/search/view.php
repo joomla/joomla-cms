@@ -36,7 +36,7 @@ class searchViewSearch extends JView
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('Search Statistics'));
 
-		$limit 		= $mainframe->getUserStateFromRequest( 'limit',	'limit', $mainframe->getCfg('list_limit') );
+		$limit 		= $mainframe->getUserStateFromRequest( 'global.list.limit',	'limit', $mainframe->getCfg('list_limit') );
 		$limitstart		= $mainframe->getUserStateFromRequest( "com_search.limitstart", 'limitstart',	0 );
 
 		$model = $this->getModel();

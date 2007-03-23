@@ -55,16 +55,16 @@ class ContentController extends JController
 		$redirect			= $sectionid;
 		$option				= JRequest::getVar( 'option' );
 		$context			= 'com_content.viewcontent';
-		$filter_order		= $mainframe->getUserStateFromRequest("$context.filter_order", 'filter_order', '');
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest("$context.filter_order_Dir", 'filter_order_Dir', '');
-		$filter_state		= $mainframe->getUserStateFromRequest("$context.filter_state", 'filter_state', '*');
-		$catid				= $mainframe->getUserStateFromRequest("$context.catid", 'catid', 0);
-		$filter_authorid	= $mainframe->getUserStateFromRequest("$context.filter_authorid", 'filter_authorid', 0);
-		$filter_sectionid	= $mainframe->getUserStateFromRequest("$context.filter_sectionid", 'filter_sectionid', -1);
-		$search				= $mainframe->getUserStateFromRequest("$context.search", 'search', '');
+		$filter_order		= $mainframe->getUserStateFromRequest( $context.'filter_order', 'filter_order', '');
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_state		= $mainframe->getUserStateFromRequest( $context.'filter_state', 'filter_state', '*');
+		$catid				= $mainframe->getUserStateFromRequest( $context.'catid', 'catid', 0);
+		$filter_authorid	= $mainframe->getUserStateFromRequest( $context.'filter_authorid', 'filter_authorid', 0);
+		$filter_sectionid	= $mainframe->getUserStateFromRequest( $context.'filter_sectionid', 'filter_sectionid', -1);
+		$search				= $mainframe->getUserStateFromRequest( $context.'search', 'search', '');
 
-		$limit		= (int) $mainframe->getUserStateFromRequest("$context.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart	= (int) $mainframe->getUserStateFromRequest("$context.limitstart", 'limitstart', 0);
+		$limit		= (int) $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limitstart	= (int) $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0);
 
 		//$where[] = "c.state >= 0";
 		$where[] = 'c.state != -2';

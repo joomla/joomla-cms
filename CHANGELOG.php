@@ -44,6 +44,7 @@ Legend:
 
 23-Mar-2007 Rastin Mehr
 # Fixed [track41] No "Copy | Move" buttons on Category Manager [Content] toolbar
+# Fixed [track16] All the ADMIN side list limits are now using 'global.list.limit' session name to hold the $limit value
 
 21-Mar-2007 Rastin Mehr
 # Fixed [track99] the sectionid error

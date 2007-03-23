@@ -101,14 +101,14 @@ function showContacts( $option )
 	global $mainframe;
 
 	$db					=& JFactory::getDBO();
-	$filter_order		= $mainframe->getUserStateFromRequest( $option.'.filter_order', 		'filter_order', 	'cd.ordering' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( $option.'.filter_state', 		'filter_state', 	'*' );
-	$filter_catid 		= $mainframe->getUserStateFromRequest( $option.'.filter_catid', 		'filter_catid',		0 );
-	$search 			= $mainframe->getUserStateFromRequest( $option.'.search', 			'search', 			'' );
+	$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order', 		'filter_order', 	'cd.ordering' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( $option.'filter_state', 		'filter_state', 	'*' );
+	$filter_catid 		= $mainframe->getUserStateFromRequest( $option.'filter_catid', 		'filter_catid',		0 );
+	$search 			= $mainframe->getUserStateFromRequest( $option.'search', 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
-	$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart	= (int) $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0);
 
 	$where = array();

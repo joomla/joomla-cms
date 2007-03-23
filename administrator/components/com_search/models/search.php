@@ -51,7 +51,7 @@ class SearchModelSearch extends JModel
 
 		$filter_order	= $mainframe->getUserStateFromRequest( "com_search.filter_order", 'filter_order', 	'hits' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_search.filter_order_Dir", 'filter_order_Dir',	'' );
-		$limit 		= $mainframe->getUserStateFromRequest( 'limit',	'limit', $mainframe->getCfg('list_limit') );
+		$limit 		= $mainframe->getUserStateFromRequest( 'global.list.limit',	'limit', $mainframe->getCfg('list_limit') );
 		$limitstart		= $mainframe->getUserStateFromRequest( "com_search.limitstart", 'limitstart',	0 );
 		$search 		= $mainframe->getUserStateFromRequest( "com_search.search", 'search', '' );
 		$search 		= $db->getEscaped( trim( JString::strtolower( $search ) ) );
