@@ -558,17 +558,18 @@ a img.calendar {
 }
 
 /* System Messages */
-dl#system-message { margin-bottom: 10px; padding: 5px; border: 1px dashed #ccc;}
+#system-message { margin-bottom: 10px; padding: 0;}
 #system-message dt { font-weight: bold; }
 #system-message dd { margin: 0; font-size: 12px; font-weight: bold; text-indent: 30px; }
+#system-message dd ul { color: #0055BB; margin-bottom: 10px; list-style: none; padding: 10px; border-top: 3px solid #84A7DB; border-bottom: 3px solid #84A7DB;}
 
 /* System Standard Messages */
 #system-message dt.message { display: none; }
 #system-message dd.message {  }
-#system-message dd.message ul { line-height: 16px;color: #333;list-style: none; background: url(../images/icon_info.png) no-repeat; padding: 0;}
+#system-message dd.message ul { background: #C3D2E5 url(../images/notice-info.png) 4px 4px no-repeat;}
 
 /* System Error Messages */
 #system-message dt.error { display: none; }
 #system-message dd.error {  }
-#system-message dd.error ul { line-height: 16px;color: #f00;list-style: none; background: url(../../../../images/M_images/icon_error.gif) no-repeat; padding: 0;}
+#system-message dd.error ul { color: #c00; background: #E6C0C0 url(../images/notice-alert.png) 4px 4px no-repeat; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
 
