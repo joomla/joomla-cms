@@ -51,7 +51,7 @@ class WrapperController
 
 		// Set the breadcrumbs
 		$pathway =& $mainframe->getPathWay();
-		$pathway->setItemName(1, $item->name);
+		$pathway->addItem($item->name, '');
 
 		$url = $params->def( 'url', '' );
 

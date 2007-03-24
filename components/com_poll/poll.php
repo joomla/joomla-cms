@@ -68,9 +68,10 @@ class PollController
 		$item   = $menu->getActive();
 		$params = new JParameter( $item->params );
 
+		//Set page title information
 		$mainframe->SetPageTitle($poll->title);
 
-		$pathway->setItemName(1, 'Polls');
+		//Set pathway information
 		$pathway->addItem($poll->title, '');
 
 		$params->def( 'page_title',	1 );

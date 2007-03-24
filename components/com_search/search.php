@@ -65,11 +65,8 @@ class SearchController
 		$limit			= JRequest::getVar( 'limit', $mainframe->getCfg( 'list_limit' ), 'get', 'int' );
 		$limitstart 	= JRequest::getVar( 'limitstart', 0, 'get', 'int' );
 
-		// First thing we want to do is set the page title
+		// Set page title information
 		$mainframe->setPageTitle(JText::_('Search'));
-
-		// Set the component name in the pathway
-		$pathway->setItemName(1, JText::_( 'Search' ) );
 
 		// Get the paramaters of the active menu item
 		$menu   =& JMenu::getInstance();

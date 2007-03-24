@@ -31,12 +31,6 @@ class WeblinksViewCategories extends JView
 	{
 		global $mainframe;
 
-		// Initialize some variables
-		$pathway	= & $mainframe->getPathWay();
-
-		// Set the component name in the pathway
-		$pathway->setItemName(1, JText::_('Links'));
-
 		// Load the menu object and parameters
 		$menu = &JMenu::getInstance();
 		$item = $menu->getActive();

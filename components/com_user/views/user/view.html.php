@@ -44,8 +44,7 @@ class UserViewUser extends JView
 		$menu	= &JMenu::getInstance();
 		$item   = $menu->getActive();
 
-		// Add breadcrumb
-		$pathway->setItemName(1, 'User');
+		// Set pathway information
 		$pathway->addItem( $item->name, '' );
 		
 		$this->assignRef('user'   , $user);

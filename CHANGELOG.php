@@ -38,20 +38,20 @@ Legend:
 ! -> Note
 
 23-Mar-2007 Andy Miller
-# Fixed Tabs styling
-^ Changed Message and Error styling
-+ Added styling for Legacy mode flag
+ # Fixed Tabs styling
+ ^ Changed Message and Error styling
+ + Added styling for Legacy mode flag
 
 23-Mar-2007 Rastin Mehr
-# Fixed [track41] No "Copy | Move" buttons on Category Manager [Content] toolbar
-# Fixed [track16] All the ADMIN side list limits are now using 'global.list.limit' session name to hold the $limit value
+ # Fixed [track41] No "Copy | Move" buttons on Category Manager [Content] toolbar
+ # Fixed [track16] All the ADMIN side list limits are now using 'global.list.limit' session name to hold the $limit value
 
 21-Mar-2007 Rastin Mehr
-# Fixed [track99] the sectionid error
-# Fixed [track99] the insert page break error
+ # Fixed [track99] the sectionid error
+ # Fixed [track99] the insert page break error
 
 20-Mar-2007 Rastin Mehr
-# Fixed [track79] Error in Joomla SQL
+ # Fixed [track79] Error in Joomla SQL
 
 18-Mar-2007 Toby Patterson
  # Fixed [t147196] Breadcrumbs: Home >> content ? - Yet another fix by Ian!

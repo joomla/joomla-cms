@@ -64,7 +64,7 @@ class UserViewLogin extends JView
 			$title = JText::_( 'Logout');
 
 			// pathway item
-			$pathway->setItemName(1, $title );
+			$pathway->addItem($title, '' );
 			// Set page title
 			$document->setTitle( $title );
 		}
@@ -73,7 +73,7 @@ class UserViewLogin extends JView
 			$title = JText::_( 'Login');
 
 			// pathway item
-			$pathway->setItemName(1, $title );
+			$pathway->addItem($title, '' );
 			// Set page title
 			$document->setTitle( $title );
 		}
