@@ -49,10 +49,6 @@ class WrapperController
 		//set page title
 		$mainframe->SetPageTitle($item->name);
 
-		// Set the breadcrumbs
-		$pathway =& $mainframe->getPathWay();
-		$pathway->addItem($item->name, '');
-
 		$url = $params->def( 'url', '' );
 
 		$row = new stdClass();
