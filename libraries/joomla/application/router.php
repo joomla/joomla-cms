@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: pathway.php 6472 2007-02-03 10:47:26Z pasamio $
+* @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Application
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -221,7 +221,7 @@ class JRouter extends JObject
 
 			// If the itemid isn't set in the URL use default
 			if(!$itemid = $uri->getVar('Itemid')) {
-				$uri->setVar('Itemid', JRequest::getVar('Itemid', $menu->getDefault()));
+				$uri->setVar('Itemid', JRequest::getVar('Itemid', $menu->getDefault(), '', 'int'));
 			}
 
 			// Get the active menu item
@@ -340,7 +340,7 @@ class JRouter extends JObject
 		}
 
 		// Handle component	route
-		$component = JRequest::getVar('option');
+		$component = JRequest::getVar('option', null, '', 'word');
 
 		// Use the component routing handler if it exists
 		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
@@ -368,12 +368,9 @@ class JRouter extends JObject
 		$menu =& JMenu::getInstance();
 		$item = $menu->getItem($query['Itemid']);
 
-		if($query['option'] == $item->component)
-		{
+		if ($query['option'] == $item->component) {
 			$route = $item->route;
-		}
-		else
-		{
+		} else {
 			$route = 'component/'.substr($query['option'], 4);
 		}
 

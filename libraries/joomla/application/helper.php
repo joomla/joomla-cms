@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: application.php 5801 2006-11-18 16:28:10Z chrisdavenport $
+* @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Application
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -106,7 +106,7 @@ class JApplicationHelper
 		$check = ( ( $varname == 'mod0_xml' ) || ( $varname == 'mod1_xml' ) );
 
 		if ( !$user_option && !$check ) {
-			$user_option = JRequest::getVar('option', null);
+			$user_option = JRequest::getVar('option', null, '', 'word');
 		}
 
 		$result = null;
@@ -323,6 +323,5 @@ class JApplicationHelper
 
 		return null;
 	}
-
 }
 ?>
