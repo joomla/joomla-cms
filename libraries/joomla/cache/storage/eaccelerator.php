@@ -149,10 +149,8 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 */
 	function _getCacheId($id, $group)
 	{
-		$folder	= md5($group.'-'.$this->_hash);
-		$name	= md5($id.'-'.$this->_hash);
-
-		return 'cache_'.$folder.DS.$name;
+		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
+		return 'cache_'.$group.DS.$name;
 	}
 }
 ?>
