@@ -92,7 +92,7 @@ class JSite extends JApplication
 	function dispatch()
 	{
 		//get the component to dispatch too
-		$component = JRequest::getVar('option');
+		$component = JRequest::getVar('option', null, '', 'word');
 
 		// Build the application pathway
 		$this->_createPathWay();
@@ -139,9 +139,9 @@ class JSite extends JApplication
 	*/
 	function render()
 	{
-		$component   = JRequest::getVar('component');
-		$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
-		$file 		= JRequest::getVar( 'tmpl', 'index', '', 'string'  );
+		$component   = JRequest::getVar('component', null, '', 'word');
+		$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'word' );
+		$file 		= JRequest::getVar( 'tmpl', 'index', '', 'word'  );
 
 		$user =& JFactory::getUser();
 
@@ -361,7 +361,7 @@ class JSite extends JApplication
 		if( $item->id != $home->id)
 		{
 			foreach($item->tree as $menupath)
-			{	
+			{
 				$this->_pathway->addItem( $menus[$menupath]->name, 'index.php?Itemid='.$menupath);
 			}
 		}
@@ -385,7 +385,7 @@ class JSiteHelper
 	function findItemid()
 	{
 		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
-		$option = strtolower(JRequest::getVar('option', null));
+		$option = strtolower(JRequest::getVar('option', null, '', 'word'));
 
 		$menus =& JMenu::getInstance();
 		if(!is_object($menus->getItem($itemid)) || $itemid === 0)
