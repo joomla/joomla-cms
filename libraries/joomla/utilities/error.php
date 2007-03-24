@@ -451,7 +451,8 @@ class JError
 	function & handleMessage(& $error, $options)
 	{
 		global $mainframe;
-		$mainframe->enqueueMessage($error->get('message'), 'error');
+		$type = ($error->get('level') == E_NOTICE) ? 'notice' : 'error';
+		$mainframe->enqueueMessage($error->get('message'), $type);
 		return $error;
 	}
 
