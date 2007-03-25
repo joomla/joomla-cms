@@ -82,7 +82,7 @@ class NewsfeedsViewCategory extends JView
 		{
 			$item =& $items[$i];
 
-			$item->link = JRoute::_('index.php?view=newsfeed&catid='.$category->slug.'&id='. $item->slug );
+			$item->link = JRoute::_('index.php?option=com_newsfeeds&view=newsfeed&id='. $item->slug );
 
 			$item->odd		= $k;
 			$item->count	= $i;
