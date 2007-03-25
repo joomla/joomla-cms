@@ -68,6 +68,7 @@ class HTML_messages
 					</th>
 				</tr>
 			<thead>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -108,6 +109,7 @@ class HTML_messages
 				<?php $k = 1 - $k;
 				}
 			?>
+			</tbody>
 			<tfoot>
 				<td colspan="6">
 					<?php echo $pageNav->getListFooter(); ?>
