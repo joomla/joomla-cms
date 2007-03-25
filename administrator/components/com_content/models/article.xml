@@ -83,8 +83,8 @@
 		<param name="keyref" type="text" size="25" default="" label="Key Reference" description="PARAMKEYREF" />
 	</params>
 	<params group="metadata">
-		<param name="description" type="textarea" rows="5" cols="40" default="" label="Description" description="METADESC" />
-		<param name="keywords" type="textarea" rows="5" cols="40" default="" label="Keywords" description="METAKEYS" />
+		<param name="description" type="textarea" rows="5" cols="30" default="" label="Description" description="METADESC" />
+		<param name="keywords" type="textarea" rows="5" cols="30" default="" label="Keywords" description="METAKEYS" />
 		<param name="robots" type="text" size="20" default="" label="Robots" description="METAROBOTS" />
 		<param name="author" type="text" size="20" default="" label="Author" description="METAAUTHOR" />
 	</params>
