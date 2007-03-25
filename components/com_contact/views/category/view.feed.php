@@ -29,6 +29,7 @@ class ContactViewCategory extends JView
 
 		$db			=& JFactory::getDBO();
 		$document	=& JFactory::getDocument();
+		$document->link = JRoute::_('index.php?option=com_contact&view=category&catid='.JRequest::getVar('catid'));
 
 		$limit 		= JRequest::getVar('limit', 0, '', 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');

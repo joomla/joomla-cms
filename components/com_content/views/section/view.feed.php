@@ -33,6 +33,7 @@ class ContentViewSection extends JView
 
 		// Lets get our data from the model
 		$rows = & $this->get( 'Data' );
+		$doc->link = JRoute::_('index.php?option=com_content&view=section&id='.JRequest::getVar('id'));
 
 		foreach ( $rows as $row )
 		{

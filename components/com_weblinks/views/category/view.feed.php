@@ -33,6 +33,7 @@ class WeblinksViewCategory extends JView
 
 		$document =& JFactory::getDocument();
 
+		$document->link = JRoute::_('index.php?option=com_weblinks&view=category&id='.JRequest::getVar('id'));
 		$limit = '10';
 		JRequest::setVar('limit', $limit);
 

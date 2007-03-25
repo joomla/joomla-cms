@@ -31,6 +31,7 @@ class ContentViewCategory extends JView
 		global $mainframe;
 
 		$doc =& JFactory::getDocument();
+		$doc->link = JRoute::_('index.php?option=com_content&view=category&id='.JRequest::getVar('id'));
 
 		// Get some data from the model
 		$limit = '10';

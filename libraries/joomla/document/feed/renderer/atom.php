@@ -62,8 +62,8 @@ jimport( 'joomla.utilities.date' );
 		$feed.= ">\n";
 		$feed.= "	<title>".htmlspecialchars($data->title)."</title>\n";
 		$feed.= "	<subtitle>".htmlspecialchars($data->description)."</subtitle>\n";
-		$feed.= "	<link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($data->link)."\"/>\n";
-		$feed.= "	<id>".htmlspecialchars($data->link)."</id>\n";
+		$feed.= "	<link rel=\"alternate\" type=\"text/html\" href=\"".$data->link."\"/>\n";
+		$feed.= "	<id>".$data->link."</id>\n";
 		$feed.= "	<updated>".htmlspecialchars($now->toISO8601())."</updated>\n";
 		if ($data->editor!="") {
 			$feed.= "	<author>\n";
