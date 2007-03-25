@@ -406,7 +406,7 @@ class UserController extends JController
 
 		// create the view
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'view.html.php');
-		$view = new RegistrationViewRegister();
+		$view = new UserViewRegister();
 
 		$message = new stdClass();
 
