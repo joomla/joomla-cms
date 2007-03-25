@@ -34,7 +34,6 @@ class ContentViewSection extends JView
 		// Initialize some variables
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
-		$pathway	= & $mainframe->getPathWay();
 
 		// Get the menu object of the active menu item
 		$menu    =& JMenu::getInstance();

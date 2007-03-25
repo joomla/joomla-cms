@@ -56,8 +56,11 @@ class WeblinksViewCategory extends JView
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 		$document->addHeadLink(JRoute::_($link.'&format=atom'), 'alternate', 'rel', $attribs);
 
-		// Add pathway item based on category name
-		$pathway->addItem($category->title, '');
+		//set breadcrumbs
+		if($item->query['view'] != 'category')
+		{
+			$pathway->addItem($category->title, '');
+		}
 
 		// table ordering
 		if ($state->get('filter_order_dir') == 'DESC') {

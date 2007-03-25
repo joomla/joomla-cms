@@ -38,15 +38,7 @@ class UserViewUser extends JView
 		
 		$user =& JFactory::getUser();
 
-		$pathway =& $mainframe->getPathWay();
-
-		// Get the paramaters of the active menu item
-		$menu	= &JMenu::getInstance();
-		$item   = $menu->getActive();
-
-		// Set pathway information
-		$pathway->addItem( $item->name, '' );
-		
+		// Set pathway information		
 		$this->assignRef('user'   , $user);
 		
 		parent::display($tpl);

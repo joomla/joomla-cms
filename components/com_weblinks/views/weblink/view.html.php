@@ -77,8 +77,20 @@ class WeblinksViewWeblink extends JView
 			// Set page title
 			$document->setTitle(JText::_('Links').' - '.JText::_('Edit'));
 
-			// Add pathway item
-			$pathway->addItem(JText::_('Edit'), '');
+			//set breadcrumbs
+			if($item->query['view'] != 'weblink')
+			{
+				switch ($item->query['view'])
+				{
+					case 'categories':
+						$pathway->addItem($weblink->category, JRoute::_('index.php?option=com_weblinks&view=category&id='.$weblink->catid));
+						$pathway->addItem(JText::_('Edit').' '.$weblink->title, '');
+						break;
+					case 'category':
+						$pathway->addItem(JText::_('Edit').' '.$weblink->title, '');
+						break;
+				}
+			}
 		}
 		else
 		{

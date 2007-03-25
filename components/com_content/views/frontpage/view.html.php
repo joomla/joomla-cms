@@ -35,7 +35,6 @@ class ContentViewFrontpage extends JView
 		// Initialize variables
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
-		$pathway	=& $mainframe->getPathWay();
 
 		// Request variables
 		$id			= JRequest::getVar('id');

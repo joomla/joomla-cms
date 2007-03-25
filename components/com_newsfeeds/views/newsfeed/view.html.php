@@ -99,12 +99,9 @@ class NewsfeedsViewNewsfeed extends JView
 		$mainframe->setPageTitle( $item->name. ' - ' .$newsfeed->name );
 
 		//set breadcrumbs
-		$uri		= JFactory::getURI();
-		$menuURI	= new JURI($item->link);
-		if(JRoute::_($item->link) != JRoute::_('index.php'.$uri->getQuery()))
+		if($item->query['view'] != 'newsfeed')
 		{
-			$vars = $menuURI->getQuery(true);
-			switch ($vars['view'])
+			switch ($item->query['view'])
 			{
 				case 'categories':
 					$pathway->addItem($newsfeed->category, JRoute::_('index.php?option=com_newsfeeds&view=category&catid='.$newsfeed->catid));

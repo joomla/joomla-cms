@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Mar-2007 Hannes Papenberg
+ ^ Finished and improved breadcrumbs refactoring
+
 23-Mar-2007 Andy Miller
  # Fixed Tabs styling
  ^ Changed Message and Error styling

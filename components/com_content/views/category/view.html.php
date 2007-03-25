@@ -74,9 +74,7 @@ class ContentViewCategory extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//set breadcrumbs
-		$router 	= JRouter::getInstance();
-		$uri		= JFactory::getURI();
-		if(JRoute::_($item->link) != JRoute::_('index.php'.$uri->getQuery()))
+		if($item->query['view'] != 'category')
 		{
 			$pathway->addItem($category->title, '');
 		}

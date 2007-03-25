@@ -72,8 +72,7 @@ class NewsfeedsViewCategory extends JView
 		$document->setTitle( $item->name. ' - ' .$category->title );
 
 		//set breadcrumbs
-		$uri		= JFactory::getURI();
-		if(JRoute::_($item->link) != JRoute::_('index.php'.$uri->getQuery()))
+		if($item->query['view'] != 'category')
 		{
 			$pathway->addItem($category->title, '');
 		}
