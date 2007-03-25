@@ -34,7 +34,7 @@ class MediaViews
 	{
 		global $mainframe;
 		$config		=& JFactory::getConfig();
-
+		$configMedia	=& JComponentHelper::getParams( 'com_media' );
 		// Get current path from request
 		$current = JRequest::getVar( 'folder' );
 		if ($current == '/') {
@@ -116,7 +116,7 @@ class MediaViews
 		</tr>
 		</table>
 		<fieldset>
-			<legend><?php echo JText::_( 'Upload File' ); ?> [ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]</legend>
+			<legend><?php echo JText::_( 'Upload File' ); ?> [ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ($configMedia->get('upload_maxsize') / 1000000); ?>M ]</legend>
 			<div id="uploads">
 				<div class="upload">
 
