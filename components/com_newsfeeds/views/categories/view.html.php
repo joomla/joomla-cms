@@ -64,7 +64,7 @@ class NewsfeedsViewCategories extends JView
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
-			$category->link = JRoute::_('index.php?view=category&id='. $category->slug );
+			$category->link = JRoute::_('index.php?view=category&catid='. $category->slug );
 		}
 		// Define image tag attributes
 		if ($params->get('image') != -1)

@@ -72,7 +72,7 @@ class NewsfeedsModelCategory extends JModel
 		$this->setState('limit', $mainframe->getUserStateFromRequest('com_weblinks.limit', 'limit', $config->getValue('config.list_limit')));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
-		$id = JRequest::getVar('id', 0, '', 'int');
+		$id = JRequest::getVar('catid', 0, '', 'int');
 		$this->setId((int)$id);
 
 	}
