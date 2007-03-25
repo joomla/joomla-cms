@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: functions.php 4277 2006-07-19 20:35:35Z friesengeist $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Filter
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -385,7 +385,7 @@ class JInputFilter extends JObject
 			 * Remove all "non-regular" attribute names
 			 * AND blacklisted attributes
 			 */
-			if ((!eregi("^[a-z]*$", $attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on')))) {
+			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on')))) {
 				continue;
 			}
 

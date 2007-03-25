@@ -233,7 +233,7 @@ class JRouter extends JObject
 			}
 
 			// rewite URL
-			if ($this->_mode && !eregi("^(([^:/?#]+):)", $string) && !strcasecmp(substr($string, 0, 9), 'index.php'))
+			if ($this->_mode && !preg_match('/^(([^:\/\?#]+):)/i', $string) && !strcasecmp(substr($string, 0, 9), 'index.php'))
 			{
 				$route = ''; //the route created
 

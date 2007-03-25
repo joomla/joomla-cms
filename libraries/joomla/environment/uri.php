@@ -169,6 +169,14 @@ class JURI extends JObject
 						$theURI .= '?' . $_SERVER['QUERY_STRING'];
 					}
 				}
+
+				// Now we need to clean what we got since we can't trust the server var
+				$theURI = urldecode($theURI);
+				$theURI = str_replace('"', '&quot;',$theURI);
+				$theURI = str_replace('<', '&lt;',$theURI);
+				$theURI = str_replace('>', '&gt;',$theURI);
+				$theURI = preg_replace('/eval\((.*)\)/', '', $theURI);
+				$theURI = preg_replace('/[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']/', '""', $theURI);
 			}
 			else
 			{
@@ -216,10 +224,10 @@ class JURI extends JObject
 		}
 		return $base;
 	}
-	
+
 	/**
 	 * Returns the URL for the request, minus the query
-	 * 
+	 *
 	 * @access	public
 	 * @return	string
 	 * @since	1.5
@@ -227,14 +235,14 @@ class JURI extends JObject
 	function current()
 	{
 		static $current;
-		
+
 		// Get the current URL
 		if (!isset($current))
 		{
 			$uri		= & JFactory::getURI();
 			$current	= $uri->toString( array('scheme', 'host', 'port', 'path'));
 		}
-		
+
 		return $current;
 	}
 
