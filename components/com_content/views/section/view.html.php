@@ -154,6 +154,7 @@ class ContentViewSection extends JView
 		$params->set('image',			1);
 
 		$item =& $this->items[$index];
+		$item->text = $item->introtext;
 
 		// Process the content preparation plugins
 		JPluginHelper::importPlugin('content');
