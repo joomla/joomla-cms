@@ -116,7 +116,8 @@ class NewsfeedsModelNewsfeed extends JModel
 		if (empty($this->_data))
 		{
 			$query = 'SELECT f.*, cc.title AS category,'.
-					' cc.published AS cat_pub, cc.access AS cat_access'.
+					' cc.published AS cat_pub, cc.access AS cat_access,'.
+					' CASE WHEN CHAR_LENGTH(cc.name) THEN CONCAT_WS(\':\', cc.id, cc.name) ELSE cc.id END as catslug'.
 					' FROM #__newsfeeds AS f' .
 					' LEFT JOIN #__categories AS cc ON cc.id = f.catid' .
 					' WHERE f.id = '.$this->_id;

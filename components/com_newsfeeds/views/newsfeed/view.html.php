@@ -59,7 +59,7 @@ class NewsfeedsViewNewsfeed extends JView
 
 		if ( $rssDoc == false ) {
 			$msg = JText::_('Error: Feed not retrieved');
-			$mainframe->redirect('index.php?view=category&id='. $newsfeed->slug, $msg);
+			$mainframe->redirect('index.php?view=category&catid='. $newsfeed->catslug, $msg);
 			return;
 		}
 		$lists = array();
@@ -104,7 +104,7 @@ class NewsfeedsViewNewsfeed extends JView
 			switch ($item->query['view'])
 			{
 				case 'categories':
-					$pathway->addItem($newsfeed->category, JRoute::_('index.php?option=com_newsfeeds&view=category&catid='.$newsfeed->catid));
+					$pathway->addItem($newsfeed->category, JRoute::_('index.php?option=com_newsfeeds&view=category&catid='.$newsfeed->catslug));
 					$pathway->addItem($newsfeed->name, '');
 					break;
 				case 'category':
