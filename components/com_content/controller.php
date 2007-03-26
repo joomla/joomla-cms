@@ -281,7 +281,7 @@ class ContentController extends JController
 				if ($Itemid) {
 					$link = 'index.php?option=com_content&view=article&id='.$row->id.'&Itemid='.$Itemid;
 				} else {
-					$link = JRequest::getVar('referer', '', 'post');
+					$link = 'index.php?option=com_content&view=article&id='.$row->id;
 				}
 				break;
 		}
