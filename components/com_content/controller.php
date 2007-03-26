@@ -80,6 +80,12 @@ class ContentController extends JController
 		$nullDate	= $db->getNullDate();
 		$task		= JRequest::getVar('task');
 
+		// Make sure you are logged in and have the necessary access rights
+		if ($user->get('gid') < 19) {
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			return;
+		}
+
 		/*
 		 * Create a user access object for the user
 		 */
@@ -278,14 +284,14 @@ class ContentController extends JController
 			case 'save' :
 			default :
 				$Itemid = JRequest::getVar('Returnid', '', 'post');
-				if ($Itemid) {
+				if (!$isNew) {
 					$link = 'index.php?option=com_content&view=article&id='.$row->id.'&Itemid='.$Itemid;
 				} else {
 					$link = 'index.php?option=com_content&view=article&id='.$row->id;
 				}
 				break;
 		}
-		$mainframe->redirect($link, $msg);
+		$this->setRedirect($link, $msg);
 	}
 
 	/**

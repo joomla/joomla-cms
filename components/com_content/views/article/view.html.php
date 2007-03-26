@@ -294,8 +294,8 @@ class ContentViewArticle extends JView
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
 
-		// Make sure you are logged in
-		if ($user->get('aid', 0) < 1) {
+		// Make sure you are logged in and have the necessary access rights
+		if ($user->get('gid') < 19) {
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}

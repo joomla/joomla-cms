@@ -33,6 +33,8 @@ if($controller = JRequest::getVar('controller', 'application')) {
 $classname	= 'ConfigController'.$controller;
 $controller	= new $classname( );
 
+JResponse::setHeader( 'Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true );
+
 // Perform the Request task
 $controller->execute( JRequest::getVar( 'task' ) );
 $controller->redirect();
