@@ -63,47 +63,20 @@ class CacheData extends JObject
 	function _parse( )
 	{
 		jimport('joomla.filesystem.folder');
-		$files = JFolder::files($this->_path);
+		jimport('joomla.filesystem.file');
+		$folders = JFolder::folders($this->_path);
 
-		foreach($files as $file)
+		foreach($folders as $folder)
 		{
-			$filename = basename( $this->_path."/".$file );
-			$group = null;
+			$files = array();
+			$files = JFolder::files($this->_path.DS.$folder);
+			$this->_items[$folder] = new CacheItem( $folder );
 
-			// Get cache group name from file
-			if(substr( $filename, 0, 6 ) == "cache_") {
-				$group = $this->_getCacheGroupName( $filename );
-			}
-
-			// If the file ends with .cache it is a patTemplate cache file
-			if(substr( $filename, strlen($filename)-6 ) == ".cache") {
-				$group = "patTemplate";
-			}
-
-			if($group)
+			foreach($files as $file)
 			{
-				if(!isset( $this->_items[$group]) ){
-					$this->_items[$group] = new CacheItem( $group );
-				}
-				$this->_items[$group]->updateSize( filesize( $this->_path."/".$file )/ 1024 );
+				$this->_items[$folder]->updateSize( filesize( $this->_path.DS.$folder.DS.$file )/ 1024 );
 			}
 		}
-	}
-
-	/**
-	 * Retrive a Cache Group ID from a cache filename
-	 *
-	 * @access private
-	 * @param String $filename
-	 * @return String
-	 */
-	function _getCacheGroupName( $filename )
-	{
-		$parts = explode( "_", $filename );
-		for($i=1;$i<count($parts)-1;$i++){
-			$group[] = $parts[$i];
-		}
-		return implode($group, "_");
 	}
 
 	/**
@@ -125,7 +98,7 @@ class CacheData extends JObject
 	 * @param Int $limit
 	 * @return Array
 	 */
-	function &getRows( $start, $limit )
+	function getRows( $start, $limit )
 	{
 		$i=0;
 		if(count($this->_items) == 0) return null;
@@ -146,26 +119,8 @@ class CacheData extends JObject
 	 */
 	function cleanCache( $group='' )
 	{
-		if($group == "patTemplate")
-		{
-			jimport('joomla.filesystem.folder');
-			$files = JFolder::files($this->path, '.cache');
-
-			/**
-			* Hack to remove patTemplate cache
-			* as it does not use Cache_Lite groups
-			**/
-			foreach ( $files as $file ) {
-				$file = $this->path.DS.$file;
-				unlink( $file );
-			}
-		}
-		else
-		{
-			$cache =& JFactory::getCache();
-//			$cache->setOption('cacheDir', $this->path);
-			$cache->clean( $group );
-		}
+		$cache =& JFactory::getCache();
+		$cache->clean( $group );
 	}
 
 	function cleanCacheList( $array )

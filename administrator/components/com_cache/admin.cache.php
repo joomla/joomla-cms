@@ -27,7 +27,7 @@ if (!$user->authorize( 'com_cache', 'manage' )) {
 require_once (JApplicationHelper::getPath('admin_html'));
 require_once (JApplicationHelper::getPath('class'));
 
-$cid = JRequest::getVar( 'eid', array(0), 'post', 'array' );
+$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 
 /*
  * This is our main control structure for the component

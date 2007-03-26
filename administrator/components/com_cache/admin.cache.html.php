@@ -73,7 +73,7 @@ class CacheView
 						<?php echo $page->getRowOffset( $i ); ?>
 					</td>
 					<td>
-						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->group; ?>" onclick="isChecked(this.checked);" />
+						<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->group; ?>" onclick="isChecked(this.checked);" />
 					</td>
 					<td>
 						<span class="bold">

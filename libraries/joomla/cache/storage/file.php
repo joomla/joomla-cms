@@ -139,7 +139,7 @@ class JCacheStorageFile extends JCacheStorage
 		jimport('joomla.filesystem.folder');
 
 		$return = true;
-		$folder	= md5($group.'-'.$this->_hash);
+		$folder	= $group;
 		switch ($mode)
 		{
 			case 'notgroup':
