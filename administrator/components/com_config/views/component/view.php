@@ -40,7 +40,7 @@ class ConfigViewComponent extends JView
 	<form action="index3.php" method="post" name="adminForm" autocomplete="off">
 		<fieldset>
 			<div style="float: right">
-				<button type="button" onclick="submitbutton('save');window.setTimeout('window.top.document.popup.hide(null, true)',200);">
+				<button type="button" onclick="submitbutton('save');window.setTimeout('window.top.document.popup.hide(null, true)',700);">
 					<?php echo JText::_( 'Save' );?></button>
 				<button type="button" onclick="window.top.document.popup.hide();">
 					<?php echo JText::_( 'Cancel' );?></button>

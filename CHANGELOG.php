@@ -39,6 +39,8 @@ Legend:
 
 25-Mar-2007 Hannes Papenberg
  ^ Finished and improved breadcrumbs refactoring
+ ^ Cleaned up installation SQL and removed old {image} tags, replaced them with the proper HTML tags
+ ! Reinstalling is advised!
 
 23-Mar-2007 Andy Miller
  # Fixed Tabs styling
