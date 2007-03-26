@@ -72,7 +72,7 @@ class LoginController
 		$result = $mainframe->logout();
 
 		if (!JError::isError($result)) {
-			$mainframe->redirect('index.php');
+			$mainframe->redirect('index.php?option=com_login');
 		}
 
 		LoginController::display();
