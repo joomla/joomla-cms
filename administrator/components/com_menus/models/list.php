@@ -331,7 +331,7 @@ class MenusModelList extends JModel
 		}
 
 		// Sent menu items to the trash
-		$where = ' WHERE id = ' . implode( ' OR id = ', $items );
+		$where = ' WHERE (id = ' . implode( ' OR id = ', $items ) . ') AND home = 0';
 		$query = 'UPDATE #__menu' .
 				' SET published = '.(int) $state.', parent = 0, ordering = 0, checked_out = 0, checked_out_time = '.$db->Quote($nd) .
 				$where;
