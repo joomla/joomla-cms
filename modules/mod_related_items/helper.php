@@ -81,7 +81,7 @@ class modRelatedItemsHelper
 						{
 							if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('aid', 0) || $row->cat_access == '') && ($row->sec_access <= $user->get('aid', 0) || $row->sec_access == ''))
 							{
-								$row->itemid = JContentHelper::getItemid($row->id);
+								$row->route = JContentHelper::getArticleRoute($row->id);
 								$related[] = $row;
 							}
 						}

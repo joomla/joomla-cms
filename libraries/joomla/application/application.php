@@ -883,6 +883,7 @@ class JApplication extends JObject
 		$article =& JTable::getInstance('content');
 		$article->load($id);
 
-		return JContentHelper::getItemid($id, $article->catid, $article->sectionid);
+		$info = JContentHelper::_getArticleMenuInfo($id, $article->catid, $article->sectionid);
+		return $info->id;
 	}
 }

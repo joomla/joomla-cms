@@ -327,10 +327,34 @@ class JContentHelper
 		return $links[$row->catid];
 	}
 
+
 	/**
-	 * @param	int	The id of the content item
+	 * @param	int	The route of the content item
 	 */
-	function getItemid($id, $catid = 0, $sectionid = 0)
+	function getArticleRoute($id, $catid = 0, $sectionid = 0)
+	{
+		$item = JContentHelper::_getArticleMenuInfo((int)$id, (int)$catid, (int)$sectionid);
+
+		$link = 'index.php?option=com_content&view=article';
+		if($item->link_parts['view'] == 'article') {
+			$link .=  '&Itemid='. $item->id;
+		} 
+		
+		if($item->link_parts['view'] == 'category') {
+			$link .= '&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
+		}
+		
+		if($item->link_parts['view'] == 'section') {
+			$link .= '&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
+		}
+		
+		return JRoute::_( $link );
+	}
+	
+	/**
+	 * @param	int	The menu information based on the article identifiers
+	 */
+	function _getArticleMenuInfo($id, $catid = 0, $sectionid = 0)
 	{
 		$db			=& JFactory::getDBO();
 		$component	=& JComponentHelper::getInfo('com_content');
@@ -338,11 +362,9 @@ class JContentHelper
 		$menus		=& JMenu::getInstance();
 		$items		= $menus->getItems('componentid', $component->id);
 
-		$Itemid = 0;
-
 		$n = count( $items );
 		if (!$n) {
-			return $Itemid;
+			return null;
 		}
 
 		for ($i = 0; $i < $n; $i++)
@@ -357,26 +379,26 @@ class JContentHelper
 				continue;
 			}
 
-			$item->view_name = $parts['view'];
-			$item->item_id   = $parts['id'];
+			// set the link parts
+			$item->link_parts = $parts;
 
 			// Do we have a content item linked to the menu with this id?
-			if (($item->published) && ($item->item_id == $id) && ($item->view_name = 'article')) {
-				return $item->id;
+			if (($item->published) && ($item->link_parts['id'] == $id) && ($item->link_parts['view'] = 'article')) {
+				return $item;
 			}
 
 			// Check to see if it is in a published category
-			if (($item->published) && ($item->item_id == $catid) && $item->view_name == 'category') {
-				return $item->id;
+			if (($item->published) && ($item->link_parts['id'] == $catid) && $item->link_parts['view'] == 'category') {
+				return $item;
 			}
 
 			// Check to see if it is in a published section
-			if (($item->published) && ($item->item_id == $sectionid) && $item->view_name == 'section') {
-				return $item->id;
+			if (($item->published) && ($item->link_parts['id'] == $sectionid) && $item->link_parts['view'] == 'section') {
+				return $item;
 			}
 		}
 
-		return $Itemid;
+		return null;
 	}
 }
 ?>

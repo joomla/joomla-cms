@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Mar-2007 Johan Janssens
+ # Fixed inconsistencies in module and individual content URL's
+
 25-Mar-2007 Hannes Papenberg
  ^ Finished and improved breadcrumbs refactoring
  ^ Cleaned up installation SQL and removed old {image} tags, replaced them with the proper HTML tags

@@ -38,13 +38,9 @@ class modNewsFlashHelper
 			if ($params->get('intro_only'))
 			{
 				// Check to see if the user has access to view the full article
-				if ($item->access <= $user->get('aid', 0))
-				{
-					$Itemid = JContentHelper::getItemid($item->id);
-					$linkOn = JRoute::_('index.php?option=com_content&view=article&catid='.$item->catslug.'&id='.$item->slug.'&Itemid='.$Itemid);
-				}
-				else
-				{
+				if ($item->access <= $user->get('aid', 0)) {
+					$linkOn = JContentHelper::getArticleRoute($item->slug, $item->catslug);
+				} else {
 					$linkOn = JRoute::_('index.php?option=com_user&task=register');
 				}
 			}
