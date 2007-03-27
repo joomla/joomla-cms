@@ -19,6 +19,7 @@ defined('JPATH_BASE') or die();
  * Route handling class
  *
  * @static
+ * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
  * @since		1.5
@@ -29,14 +30,15 @@ class JRoute
 	 * Translates an internal Joomla URL to a humanly readible URL.
 	 *
 	 * @access public
-	 * @param 	string 	$url 	Absolute or Relative URI to Joomla resource
-	 * @param	int		$ssl	Secure state for the resolved URI
+	 * @param 	string 	 $url 	Absolute or Relative URI to Joomla resource
+	 * @param 	boolean  $xhtml Replace & by &amp; for xml compilance
+	 * @param	int		 $ssl	Secure state for the resolved URI
 	 * 		 1: Make URI secure using global secure site URI
 	 * 		 0: Leave URI in the same secure state as it was passed to the function
 	 * 		-1: Make URI unsecure using the global unsecure site URI
 	 * @return The translated humanly readible URL
 	 */
-	function _($url, $ssl = 0)
+	function _($url, $xhtml = true, $ssl = 0)
 	{
 		global $mainframe;
 
@@ -80,6 +82,10 @@ class JRoute
 		// Ensure that unsecure URL is used if ssl flag is set to unsecure
 		if ($ssl == -1) {
 			$url = $unsecure.$url;
+		}
+		
+		if($xhtml) {
+			$url = str_replace( '&', '&amp;', $url );
 		}
 
 		return $url;
@@ -273,13 +279,13 @@ class JRouter extends JObject
 
 				$strings[$string] = $url;
 
-				return str_replace( '&', '&amp;', $url );
+				return $url;
 			}
 
 			$strings[$string] = $uri->toString();
 		}
 
-		return str_replace( '&', '&amp;', $strings[$string] );
+		return $strings[$string];
 	}
 
 	/**
@@ -423,7 +429,7 @@ class JRouter extends JObject
 	{
 		$total = count($segments);
 		for($i=0; $i<$total; $i++) {
-			$segments[$i] = str_replace(':', '_', $segments[$i]);
+			$segments[$i] = str_replace(':', '-', $segments[$i]);
 		}
 
 		return $segments;
@@ -433,7 +439,7 @@ class JRouter extends JObject
 	{
 		$total = count($segments);
 		for($i=0; $i<$total; $i++)  {
-			$segments[$i] = str_replace('_', ':', $segments[$i]);
+			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
 		}
 
 		return $segments;

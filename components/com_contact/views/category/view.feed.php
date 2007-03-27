@@ -63,7 +63,6 @@ class ContactViewCategory extends JView
 			$title = html_entity_decode( $title );
 
 			// url link to article
-			// & used instead of &amp; as this is converted by feed creator
 			$link = JRoute::_( 'index.php?option=com_contact&view=contact&id='. $row->id . '&catid='.$row->catid );
 
 			// strip html from feed item description text

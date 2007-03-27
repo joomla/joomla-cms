@@ -286,7 +286,7 @@ class JMenuTree extends JTree
 			$iParams =& new JParameter($tmp->params);
 			$iSecure = $iParams->def('secure', 0);
 			if (strcasecmp(substr($tmp->url, 0, 4), 'http')) {
-				$tmp->url = JRoute::_($tmp->url, $iSecure);
+				$tmp->url = JRoute::_($tmp->url, true, $iSecure);
 			} else {
 				$tmp->url = str_replace('&', '&amp', $tmp->url);
 			}
