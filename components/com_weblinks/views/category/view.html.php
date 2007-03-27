@@ -50,11 +50,11 @@ class WeblinksViewCategory extends JView
 		$category->total = $total;
 
 		// Add alternate feed link
-		$link	= 'feed.php?view=category&id='.$category->id;
+		$link	= 'index.php?view=category&format=feed&id='.$category->id;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink(JRoute::_($link.'&format=rss'), 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink(JRoute::_($link.'&format=atom'), 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 
 		//set breadcrumbs
 		if($item->query['view'] != 'category')

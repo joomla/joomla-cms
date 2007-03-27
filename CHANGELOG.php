@@ -40,6 +40,7 @@ Legend:
 27-Mar-2007 Johan Janssens
  # Fixed inconsistencies in module and individual content URL's
  # Smaller improvements to route creation
+ - Removed feed.php file, feeds now use index.php again
 
 25-Mar-2007 Hannes Papenberg
  ^ Finished and improved breadcrumbs refactoring

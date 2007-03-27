@@ -139,25 +139,41 @@ class JSite extends JApplication
 	*/
 	function render()
 	{
-		$component   = JRequest::getVar('component', null, '', 'word');
-		$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'word' );
-		$file 		= JRequest::getVar( 'tmpl', 'index', '', 'word'  );
-
-		$user =& JFactory::getUser();
-
-		if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
-			$file = 'offline';
-		}
-		if (!is_dir( JPATH_SITE . '/templates/' . $template ) && !$this->getCfg('offline')) {
-			$file = 'component';
-		}
-		$params = array(
-			'template' 	=> $template,
-			'file'		=> $file.'.php',
-			'directory'	=> JPATH_THEMES
-		);
-
+		// get the formet to render
+		$format = JRequest::getVar( 'format', 'html', '', 'string' );
+		
 		$document =& JFactory::getDocument();
+		$user     =& JFactory::getUser();
+
+		switch($format)
+		{
+			case 'feed' :
+			{
+				$params = array(
+					'format' => JRequest::getVar( 'type', 'rss2.0', '', 'string' )
+				);
+			}
+			
+			case 'html' :
+			default     :
+			{
+				$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'word' );
+				$file 		= JRequest::getVar( 'tmpl', 'index', '', 'word'  );
+
+				if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
+					$file = 'offline';
+				}
+				if (!is_dir( JPATH_SITE . '/templates/' . $template ) && !$this->getCfg('offline')) {
+					$file = 'component';
+				}
+				$params = array(
+					'template' 	=> $template,
+					'file'		=> $file.'.php',
+					'directory'	=> JPATH_THEMES
+				);
+			}
+ 		}
+		
 		$data = $document->render( $this->getCfg('caching'), $params);
 		JResponse::setBody($data);
 	}

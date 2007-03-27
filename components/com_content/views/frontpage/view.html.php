@@ -76,11 +76,11 @@ class ContentViewFrontpage extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//add alternate feed link
-		$link	= JRoute::_('feed.php?option=com_content&view=frontpage');
+		$link	= JRoute::_('index.php?option=com_content&view=frontpage&format=feed');
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink(JRoute::_($link.'&format=rss'), 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink(JRoute::_($link.'&format=atom'), 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 
 		// Set section/category description text and images for
 		//TODO :: Fix this !

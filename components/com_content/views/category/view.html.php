@@ -61,11 +61,11 @@ class ContentViewCategory extends JView
 		$category	= & $this->get( 'Category' );
 
 		//add alternate feed link
-		$link	= 'feed.php?option=com_content&view=category&id='.$category->id;
+		$link	= 'index.php?option=com_content&view=category&formart=feed&id='.$category->id;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink(JRoute::_($link.'&format=rss'), 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink(JRoute::_($link.'&format=atom'), 'alternate', 'rel', $attribs);
+		$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 
 		// Create a user access object for the user
 		$access					= new stdClass();
