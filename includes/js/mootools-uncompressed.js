@@ -5632,7 +5632,8 @@ var Tips = new Class({
 			'position': 'absolute',
 			'top': '0',
 			'left': '0',
-			'visibility': 'hidden'
+			'visibility': 'hidden',
+			'z-inde': '100000'
 		}).injectInside(document.body);
 		this.wrapper = new Element('div').injectInside(this.toolTip);
 		$each(elements, function(el){
