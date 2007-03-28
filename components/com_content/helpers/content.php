@@ -334,23 +334,23 @@ class JContentHelper
 	function getArticleRoute($id, $catid = 0, $sectionid = 0)
 	{
 		$item = JContentHelper::_getArticleMenuInfo((int)$id, (int)$catid, (int)$sectionid);
-		
+
 		$link = 'index.php?option=com_content&view=article';
-		if($item->link_parts['view'] == 'article') {
+		if(@$item->link_parts['view'] == 'article') {
 			$link .=  '&Itemid='. $item->id;
-		} 
-		
-		if($item->link_parts['view'] == 'category') {
+		}
+
+		if(@$item->link_parts['view'] == 'category') {
 			$link .= '&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
 		}
-		
-		if($item->link_parts['view'] == 'section') {
+
+		if(@$item->link_parts['view'] == 'section') {
 			$link .= '&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
 		}
-		
+
 		return JRoute::_( $link );
 	}
-	
+
 	/**
 	 * @param	int	The menu information based on the article identifiers
 	 */
