@@ -84,6 +84,7 @@ class modMainMenuHelper
 		// Get subtree
 		if ($start) {
 			$found = false;
+			$root = true;
 			$path = array_reverse($active->tree);
 			for ($i=0,$n=count($path);$i<$n;$i++)
 			{
@@ -91,6 +92,7 @@ class modMainMenuHelper
 				{
 					if ($child->attributes('id') == $path[$i]) {
 						$doc = &$child->ul[0];
+						$root = false;
 						break;
 					}
 				}
@@ -99,7 +101,7 @@ class modMainMenuHelper
 					break;
 				}
 			}
-			if ((!is_a($doc, 'JSimpleXMLElement')) || (!$found)) {
+			if ((!is_a($doc, 'JSimpleXMLElement')) || (!$found) || ($root)) {
 				$doc = new JSimpleXMLElement('ul');
 			}
 		}
