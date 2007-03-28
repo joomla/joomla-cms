@@ -85,7 +85,7 @@ class JToolBar extends JObject
 	 * @param	string		$name  The name of the toolbar.
 	 * @return	JToolBar	The JToolBar object.
 	 */
-	function & getInstance($name)
+	function & getInstance($name = 'toolbar')
 	{
 		static $instances;
 
@@ -94,7 +94,7 @@ class JToolBar extends JObject
 		}
 
 		if (empty ($instances[$name])) {
-			$instances[$name] = new JToolBar();
+			$instances[$name] = new JToolBar($name);
 		}
 
 		return $instances[$name];
