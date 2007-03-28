@@ -34,7 +34,13 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-		parent::display();
+		// View caching logic -- simple... are we logged in?
+		$user = &JFactory::getUser();
+		if (!$user->get('gid')) {
+			parent::display(true);
+		} else {
+			parent::display();
+		}
 	}
 
 	/**
@@ -258,6 +264,10 @@ class ContentController extends JController
 				$msg = new TableMessage($db);
 				$msg->send($user->get('id'), $user_id, "New Item", JText::sprintf('ON_NEW_CONTENT', $user->get('username'), $row->title, $section, $category));
 			}
+		} else {
+			// If the article isn't new, then we need to clean the cache so that our changes appear realtime :)
+			$cache = &JFactory::getCache('com_content');
+			$cache->clean();
 		}
 
 		if ($access->canPublish)
@@ -413,5 +423,4 @@ class ContentController extends JController
 		$view->display();
 	}
 }
-
 ?>
