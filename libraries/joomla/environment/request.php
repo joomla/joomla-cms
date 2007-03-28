@@ -124,9 +124,8 @@ class JRequest
 			// Handle magic quotes compatability
 			if (get_magic_quotes_gpc() && ($var != $default))
 			{
-				if (!is_array($var) && is_string($var)) {
-					$var = stripslashes($var);
-				}
+				var_dump( $var );
+				$var = JRequest::_stripSlashesRecursive( $var );
 			}
 			if ($var !== null) {
 				$GLOBALS['_JREQUEST'][$name][$sig] = $var;
