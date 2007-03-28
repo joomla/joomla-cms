@@ -79,6 +79,7 @@ class modMainMenuHelper
 		$start	= $params->get('startLevel');
 		$end	= $params->get('endLevel');
 		$sChild	= $params->get('showAllChildren');
+		$path	= array();
 
 		// Get subtree
 		if ($start) {
@@ -93,12 +94,12 @@ class modMainMenuHelper
 						break;
 					}
 				}
-				if ($i == $start) {
+				if ($i+1 == $start) {
 					$found = true;
 					break;
 				}
 			}
-			if (!$found) {
+			if ((!is_a($doc, 'JSimpleXMLElement')) || (!$found)) {
 				$doc = new JSimpleXMLElement('ul');
 			}
 		}
