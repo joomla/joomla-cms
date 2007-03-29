@@ -344,11 +344,11 @@ class ContentModelArticle extends JModel
 			{
 				return false;
 			}
-			
+
 			if($this->_article->publish_down == $this->_db->getNullDate()) {
 				$this->_article->publish_down = JText::_('Never');
 			}
-			
+
 			return true;
 		}
 		return true;

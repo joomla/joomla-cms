@@ -84,7 +84,7 @@ class ContentController extends JController
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$nullDate	= $db->getNullDate();
-		$task		= JRequest::getVar('task');
+		$task		= JRequest::getVar('task', null, 'default', 'word');
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
@@ -287,13 +287,13 @@ class ContentController extends JController
 				break;
 
 			case 'apply_new' :
-				$Itemid = JRequest::getVar('Returnid', $Itemid, 'post');
+				$Itemid = JRequest::getVar('Returnid', $Itemid, 'post', 'int');
 				$link = 'index.php?option=com_content&task=edit&id='.$row->id.'&Itemid='.$Itemid;
 				break;
 
 			case 'save' :
 			default :
-				$Itemid = JRequest::getVar('Returnid', '', 'post');
+				$Itemid = JRequest::getVar('Returnid', '', 'post','int');
 				if (!$isNew) {
 					$link = 'index.php?option=com_content&view=article&id='.$row->id.'&Itemid='.$Itemid;
 				} else {
@@ -317,7 +317,7 @@ class ContentController extends JController
 		$user	= & JFactory::getUser();
 
 		// At some point in the future these will be in a request object
-		$Itemid		= JRequest::getVar('Returnid', '0', 'post');
+		$Itemid		= JRequest::getVar('Returnid', '0', 'post', 'int');
 
 		// Get an article table object and bind post variabes to it [We don't need a full model here]
 		$article = & JTable::getInstance('content');
@@ -351,7 +351,7 @@ class ContentController extends JController
 	*/
 	function vote()
 	{
-		$url	= JRequest::getVar('url', '');
+		$url	= JRequest::getVar('url', '', 'default', 'string');
 		$rating	= JRequest::getVar('user_rating', 0, '', 'int');
 		$id		= JRequest::getVar('cid', 0, '', 'int');
 
@@ -376,7 +376,7 @@ class ContentController extends JController
 	{
 		// Initialize variables
 		$db		= & JFactory::getDBO();
-		$keyref	= $db->getEscaped(JRequest::getVar('keyref'));
+		$keyref	= $db->getEscaped(JRequest::getVar('keyref', null, 'default', 'string'));
 
 		$query = 'SELECT id' .
 				' FROM #__content' .

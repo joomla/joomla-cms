@@ -16,14 +16,14 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Require the com_content helper library
-require_once (JPATH_COMPONENT.DS.'controller.php');
-require_once (JPATH_COMPONENT.DS.'helpers'.DS.'content.php');
+require_once(JPATH_COMPONENT.DS.'controller.php');
+require_once(JPATH_COMPONENT.DS.'helpers'.DS.'content.php');
 
 // Component Helper
 jimport('joomla.application.component.helper');
 
 // Create the controller
-$controller = new ContentController( );
+$controller = new ContentController();
 
 // Register Extra tasks
 $controller->registerTask( 'new'  , 	'edit' );
@@ -31,7 +31,7 @@ $controller->registerTask( 'apply', 	'save' );
 $controller->registerTask( 'apply_new', 'save' );
 
 // Perform the Request task
-$controller->execute( JRequest::getVar('task'));
+$controller->execute(JRequest::getVar('task', null, 'default', 'word'));
 $controller->redirect();
 
 ?>

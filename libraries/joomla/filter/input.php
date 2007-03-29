@@ -130,7 +130,7 @@ class JInputFilter extends JObject
 				break;
 
 			case 'WORD' :
-				$result = (string) preg_replace( '#\W#', '', $source );
+				$result = (string) preg_replace( '/[^A-Z_]/i', '', $source );
 				break;
 
 			default :
