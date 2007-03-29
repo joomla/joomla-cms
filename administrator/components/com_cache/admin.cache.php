@@ -65,8 +65,15 @@ class CacheController
 	function showCache()
 	{
 		global $mainframe, $option;
-
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$submenu = JRequest::getVar('client', '0', '', 'int');
+		$client	= JApplicationHelper::getClientInfo($submenu);
+		if ($submenu == 1) {
+			JSubMenu::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0');
+			JSubMenu::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1', true);
+		} else {
+			JSubMenu::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0', true);
+			JSubMenu::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1');
+		}
 
 		$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );

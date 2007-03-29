@@ -32,6 +32,15 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
+$client	= JRequest::getVar('client', 0, '', 'int');
+if ($client == 1) {
+	JSubMenu::addEntry(JText::_('Site'),'#" onclick="javascript:document.adminForm.client.value=\'0\';submitbutton(\'\');');
+	JSubMenu::addEntry(JText::_('Administrator'), '#" onclick="javascript:document.adminForm.client.value=\'1\';submitbutton(\'\');', true );
+} else {
+	JSubMenu::addEntry(JText::_('Site'), '#" onclick="javascript:document.adminForm.client.value=\'0\';submitbutton(\'\');', true );
+	JSubMenu::addEntry(JText::_('Administrator'), '#" onclick="javascript:document.adminForm.client.value=\'1\';submitbutton(\'\');');
+}
+
 switch ($task)
 {
 	case 'publish':

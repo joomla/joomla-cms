@@ -26,6 +26,16 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'
 
 $controllerName = JRequest::getVar( 'c', 'banner' );
 
+if($controllerName == 'client') {
+	JSubMenu::addEntry(JText::_('Banners'), 'index.php?option=com_banners');
+	JSubMenu::addEntry(JText::_('Clients'), 'index.php?option=com_banners&c=client', true );
+	JSubMenu::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_banner');
+} else {
+	JSubMenu::addEntry(JText::_('Banners'), 'index.php?option=com_banners', true );
+	JSubMenu::addEntry(JText::_('Clients'), 'index.php?option=com_banners&c=client');
+	JSubMenu::addEntry(JText::_('Categories'), 'index.php?option=com_categories&section=com_banner');
+}
+
 switch ($controllerName)
 {
 	default:

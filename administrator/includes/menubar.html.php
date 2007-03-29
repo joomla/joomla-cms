@@ -532,4 +532,18 @@ class mosMenuBar extends JMenuBar
 	}
 
 }
+
+/**
+* Utility class for the submenu
+*
+* @package		Joomla
+*/
+class JSubMenu
+{
+	function addEntry($name, $link = '', $active = false)
+	{
+		$menu = &JToolBar::getInstance('submenu');
+		$menu->appendButton($name, $link, $active);
+	}
+}
 ?>
