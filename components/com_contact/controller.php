@@ -34,7 +34,7 @@ class ContactController extends JController
 	{
 		$document =& JFactory::getDocument();
 
-		$viewName	= JRequest::getVar('view', 'category');
+		$viewName	= JRequest::getVar('view', 'category', 'default', 'word');
 		$viewType	= $document->getType();
 
 		// interceptors to support legacy urls
@@ -43,11 +43,11 @@ class ContactController extends JController
 			//index.php?option=com_contact&task=category&id=0&Itemid=4
 			case 'category':
 				$viewName	= 'category';
-				$layout = 'default';
+				$layout		= 'default';
 				break;
 			case 'view':
 				$viewName	= 'contact';
-				$layout = 'default';
+				$layout		= 'default';
 				break;
 		}
 
@@ -81,12 +81,12 @@ class ContactController extends JController
 	function sendmail()
 	{
 		global $mainframe;
-		
+
 		//check the token before we do anything else
 		$token	= JUtility::getToken();
 		if(!JRequest::getVar( $token, 0, 'post' )) {
 			JError::raiseError(403, 'Request Forbidden');
-		} 
+		}
 
 		// Initialize some variables
 		$db			= & JFactory::getDBO();
@@ -285,11 +285,11 @@ class ContactController extends JController
 		$options['order by']	= 'a.default_con DESC, a.ordering ASC';
 		$contact 		= $model->getContact( $options );
 		**/
-		
+
 		// Get params and component configurations
 		$contactParams	= new JParameter($contact->params);
 		$config 		= &JComponentHelper::getParams( 'com_contact' );
-		
+
 		// check for session cookie
 		$sessionCheck 	= $config->get( 'session', 	1 );
 		$sessionName	= $session->getName();
@@ -299,29 +299,29 @@ class ContactController extends JController
 				return false;
 			}
 		}
-		
+
 		// Determine banned e-mails
 		$configEmail	= $config->get( 'bannedEmail', '' );
 		$paramsEmail	= $contactParams->get( 'bannedEmail', '' );
 		$bannedEmail 	= $configEmail . ($paramsEmail ? ';'.$paramsEmail : '');
-		
+
 		// Prevent form submission if one of the banned text is discovered in the email field
 		if ( $bannedEmail ) {
 			$bannedEmail = explode( ';', $bannedEmail );
 			foreach ($bannedEmail as $value) {
-					
+
 				if ( JString::stristr($email, $value) ) {
 					$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Email') );
 					return false;
 				}
 			}
 		}
-		
+
 		// Determine banned subjects
 		$configSubject	= $config->get( 'bannedSubject', '' );
 		$paramsSubject	= $contactParams->get( 'bannedSubject', '' );
 		$bannedSubject 	= $configSubject . ( $paramsSubject ? ';'.$paramsSubject : '');
-		
+
 		// Prevent form submission if one of the banned text is discovered in the subject field
 		if ( $bannedSubject ) {
 			$bannedSubject = explode( ';', $bannedSubject );
@@ -332,12 +332,12 @@ class ContactController extends JController
 				}
 			}
 		}
-		
+
 		// Determine banned Text
 		$configText		= $config->get( 'bannedText', '' );
 		$paramsText		= $contactParams->get( 'bannedText', '' );
 		$bannedText 	= $configText . ( $paramsText ? ';'.$paramsText : '' );
-		
+
 		// Prevent form submission if one of the banned text is discovered in the text field
 		if ( $bannedText ) {
 			$bannedText = explode( ';', $bannedText );

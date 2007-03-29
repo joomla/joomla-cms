@@ -17,13 +17,13 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.helper');
 
-require_once( JPATH_COMPONENT.DS.'controller.php' );
+require_once(JPATH_COMPONENT.DS.'controller.php');
 
 // Create the controller
-$controller	= new ContactController();
+$controller = new ContactController();
 
 // Perform the Request task
-$controller->execute( JRequest::getVar( 'task' ) );
+$controller->execute(JRequest::getVar('task', null, 'default', 'word'));
 
 // Redirect if set by the controller
 $controller->redirect();

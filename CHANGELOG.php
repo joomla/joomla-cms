@@ -40,6 +40,7 @@ Legend:
 28-Mar-2007 Rob Schley
  # Fixed key reference lookups in com_content
  # Adjusted JRequest to recursively strip slashes in getVar()
+ * Hardened various inputs in com_contact
  * Hardened various inputs in com_content and related
  * Hardened key reference filtering
  ! Key References are now limited to A-Za-z0-9.-_
