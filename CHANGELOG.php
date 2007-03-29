@@ -37,6 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Mar-2007 Rob Schley
+ # Fixed key reference lookups in com_content
+ # Adjusted JRequest to recursively strip slashes in getVar()
+ * Hardened various inputs in com_content and related
+ * Hardened key reference filtering
+ ! Key References are now limited to A-Za-z0-9.-_
+ + Reinstated onAuthenticateFailure event trigger in JAuthenticate
+
 27-Mar-2007 Johan Janssens
  # Fixed inconsistencies in module and individual content URL's
  # Smaller improvements to route creation

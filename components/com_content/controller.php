@@ -351,7 +351,7 @@ class ContentController extends JController
 	*/
 	function vote()
 	{
-		$url	= JRequest::getVar('url', '', 'default', 'string');
+		$url		= JRequest::getVar('url', '', 'default', 'string');
 		$rating	= JRequest::getVar('user_rating', 0, '', 'int');
 		$id		= JRequest::getVar('cid', 0, '', 'int');
 
@@ -376,27 +376,37 @@ class ContentController extends JController
 	{
 		// Initialize variables
 		$db		= & JFactory::getDBO();
-		$keyref	= $db->getEscaped(JRequest::getVar('keyref', null, 'default', 'string'));
+		$keyref	= JRequest::getVar('keyref', null, 'default', 'string');
+		$keyref	= preg_replace('/[^A-Z0-9.-_]/i', '', $keyref);
+		$keyref	= JRequest::setVar('keyref', $keyref);
+		$keyref	= $db->getEscaped($keyref);
 
-		$query = 'SELECT id' .
+		// If no keyref left, throw 404
+		if( empty($keyref) === true )
+		{
+			JError::raiseError( 404, JText::_("Key Not Found") );
+		}
+
+		$query =	'SELECT id' .
 				' FROM #__content' .
 				' WHERE attribs LIKE "%keyref='.$keyref.'%"';
 		$db->setQuery($query);
-		$id = $db->loadResult();
+		$id = (int) $db->loadResult();
+
 		if ($id > 0)
 		{
 			// Create the view
-			$view = & $this->getView('article', 'html');
+			$view =& $this->getView('article', 'html');
 
 			// Get/Create the model
-			$model = & $this->getModel('Article' );
+			$model =& $this->getModel('Article' );
 
-			// Get the id of the article to display and set the model
-			$id = JRequest::getVar('id', 0, '', 'int');
+			// Set the id of the article to display
 			$model->setId($id);
 
 			// Push the model into the view (as default)
 			$view->setModel($model, true);
+
 			// Display the view
 			$view->display();
 		}
