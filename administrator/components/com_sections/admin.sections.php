@@ -25,6 +25,8 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
+$task = JRequest::getVar('task');
+
 switch ($task)
 {
 	case 'add' :
