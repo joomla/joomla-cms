@@ -121,6 +121,9 @@ class JFactory
 	    jimport('joomla.user.user');
 		$session  =& JFactory::getSession();
 		$instance =& $session->get('user');
+		if (!is_a($instance, 'JUser')) {
+			$instance = new JUser();
+		}
 
 		return $instance;
 	}

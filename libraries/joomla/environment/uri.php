@@ -211,7 +211,7 @@ class JURI extends JObject
 			$base .= $uri->getHost();
 
 			if ($port = $uri->getPort()) {
-				$base .= ":$port";
+				$base .= ':'.$port;
 			}
 
 			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
