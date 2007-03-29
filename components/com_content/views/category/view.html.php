@@ -61,7 +61,7 @@ class ContentViewCategory extends JView
 		$category	= & $this->get( 'Category' );
 
 		//add alternate feed link
-		$link	= 'index.php?option=com_content&view=category&formart=feed&id='.$category->id;
+		$link	= 'index.php?option=com_content&view=category&format=feed&id='.$category->id;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 		$document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
 		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
@@ -128,7 +128,7 @@ class ContentViewCategory extends JView
 		$output	= '';
 
 		$article = $this->item;
-		
+
 		switch($type)
 		{
 			case 'new' :

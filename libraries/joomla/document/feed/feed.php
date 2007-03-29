@@ -197,7 +197,7 @@ class JDocumentFeed extends JDocument
 	function render( $cache = false, $params = array())
 	{
 		global $mainframe, $option;
-
+		$type		= JRequest::getVar('type', 'rss');
 		$format		= isset($params['format']) ? $params['format'] : 'RSS';
 		$cache		= 0;
 		$cache_time = 3600;
@@ -207,7 +207,10 @@ class JDocumentFeed extends JDocument
 		$file = strtolower( str_replace( '.', '', $format ) );
 		$file = $cache_path.'/'. $file .'_'. $option .'.xml';
 
-		$renderer =& $this->loadRenderer($format);
+		$renderer =& $this->loadRenderer($type);
+		if (!is_a($renderer, 'JDocumentRenderer')) {
+			JError::raiseError(404, JText::_('Resource Not Found'));
+		}
 		$this->setMimeEncoding($renderer->getContentType());
 
 		//output

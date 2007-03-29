@@ -31,7 +31,7 @@ class ContentViewCategory extends JView
 		global $mainframe;
 
 		$doc =& JFactory::getDocument();
-		$doc->link = JRoute::_('index.php?option=com_content&view=category&id='.JRequest::getVar('id'));
+		$doc->link = JRoute::_( JURI::base().'index.php?option=com_content&view=category&id='.JRequest::getVar('id', null, '', 'int'));
 
 		// Get some data from the model
 		$limit = '10';
@@ -48,7 +48,7 @@ class ContentViewCategory extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$link = JRoute::_( 'index.php?option=com_content&view=article&id='. $row->id );
+			$link = JRoute::_( JURI::base().'index.php?option=com_content&view=article&id='. $row->id );
 
 			// strip html from feed item description text
 			$description	= $row->introtext;
