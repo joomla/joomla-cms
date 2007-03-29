@@ -171,6 +171,7 @@ class JAuthenticate extends JObject
 			}
 		}
 
+		$dispatcher->trigger( 'onAuthenticateFailure', array( array( $username, $password ), $results ) );
 		return false;
 	}
 
