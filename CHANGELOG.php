@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Mar-2007 Rob Schley
+ * Hardened findOption in JAdministrator
+ * Hardened various inputs in JAdministrator
+
 28-Mar-2007 Rob Schley
  # Fixed key reference lookups in com_content
  # Adjusted JRequest to recursively strip slashes in getVar()

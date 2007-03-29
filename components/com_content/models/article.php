@@ -389,7 +389,7 @@ class ContentModelArticle extends JModel
 		$params->def('createdate',	$contentConfig->get('showCreateDate'));
 		$params->def('modifydate',	$contentConfig->get('showModifyDate'));
 		$params->def('print',		$contentConfig->get('showPrint'));
-		$params->def('pdf',		$contentConfig->get('showPdf'));
+		$params->def('pdf',			$contentConfig->get('showPdf'));
 		$params->def('email',		$contentConfig->get('showEmail'));
 		$params->def('rating',		$contentConfig->get('vote'));
 

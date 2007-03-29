@@ -58,14 +58,14 @@ class JAdministrator extends JApplication
 		if (empty($options['language'])) {
 			$user = & JFactory::getUser();
 			$lang	= $user->getParam( 'admin_language' );
-			
+
 			// Make sure that the user's language exists
 			if ( $lang && JLanguage::exists($lang) ) {
 				$options['language'] = $lang;
 			} else {
 				$options['language'] = $this->getCfg('lang_administrator');
 			}
-			
+
 		}
 
 		// One last check to make sure we have something
@@ -93,7 +93,7 @@ class JAdministrator extends JApplication
 	*/
 	function dispatch()
 	{
-		$component   = JRequest::getVar('option');
+		$component   = JRequest::getVar('option', null, 'default', 'word');
 		$document	=& JFactory::getDocument();
 		$config		=& JFactory::getConfig();
 		$user		=& JFactory::getUser();
@@ -134,9 +134,9 @@ class JAdministrator extends JApplication
 	*/
 	function render()
 	{
-		$component   = JRequest::getVar('option');
-		$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'string' );
-		$file 		= JRequest::getVar( 'tmpl', 'index',  '', 'string'  );
+		$component	= JRequest::getVar( 'option', null, '', 'word' );
+		$template	= JRequest::getVar( 'template', $this->getTemplate(), '', 'word' );
+		$file 		= JRequest::getVar( 'tmpl', 'index',  '', 'word' );
 
 		if($component == 'com_login') {
 			$file = 'login';
@@ -165,13 +165,14 @@ class JAdministrator extends JApplication
 	{
 		$username = trim( JRequest::getVar( 'username', $username, 'post' ) );
 		$password = trim( JRequest::getVar( 'passwd', $password, 'post' ) );
-		$remember = JRequest::getVar( 'remember', $remember, 'post' );
+		$remember = JRequest::getVar( 'remember', $remember, 'post', 'word' );
 
 		$result = parent::login($username, $password, $remember);
 
 		if(!JError::isError($result))
 		{
 			$lang = JRequest::getVar( 'lang' );
+			$lang = preg_replace( '/[^A-Z-]/i', '', $lang );
 			$this->setUserState( 'application.lang', $lang  );
 
 			JAdministrator::purgeMessages();
@@ -366,7 +367,7 @@ class JAdministratorHelper
 	 */
 	function findOption()
 	{
-		$option = strtolower(JRequest::getVar('option', null));
+		$option = strtolower(JRequest::getVar('option', null, '', 'word'));
 
 		$user =& JFactory::getUser();
 		if ($user->get('guest')) {

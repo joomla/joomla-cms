@@ -23,9 +23,9 @@ function plgContentVote( &$row, &$params, $page=0 )
 	$task 	= JRequest::getVar( 'task' );
 	$html 	= '';
 
+
 	if ($params->get( 'rating' ) && !$params->get( 'popup' ))
 	{
-
 		$html .= '<form method="post" action="' . JRoute::_( 'index.php' ) . '">';
 		$img = '';
 
