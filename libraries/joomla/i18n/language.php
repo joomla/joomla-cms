@@ -56,6 +56,7 @@ class JText
 		}
 		return '';
 	}
+	
 	/**
 	 * Passes a string thru an printf
 	 *
@@ -138,7 +139,7 @@ class JLanguage extends JObject
 	/**
 	 * List of language files that have been loaded
 	 * 
-	 * @var		array
+	 * @var		array of arrays
 	 * @access	public
 	 * @since	1.5
 	 */
@@ -259,20 +260,20 @@ class JLanguage extends JObject
 	 * Loads a single language file and appends the results to the existing strings
 	 *
 	 * @access public
-	 * @param string 	$prefix 	The prefix
+	 * @param string 	$extension 	The extension for which a language file should be loaded
 	 * @param string 	$basePath  	The basepath to use
 	 * @return boolean	True, if the file has successfully loaded.
 	 */
-	function load( $prefix = '', $basePath = JPATH_BASE )
+	function load( $extension = 'joomla', $basePath = JPATH_BASE )
 	{
 
 		$path = JLanguage::getLanguagePath( $basePath, $this->_lang);
 
-		$filename = empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
+		$filename = ( $extension == 'joomla' ) ?  $this->_lang : $this->_lang . '.' . $extension ;
 		$filename = $path.DS.$filename.'.ini';
 
 		$result = false;
-		if (isset( $this->_paths[$filename] ))
+		if (isset( $this->_paths[$extension][$filename] ))
 		{
 			// Strings for this file have already been loaded
 			$result = true;
@@ -286,7 +287,7 @@ class JLanguage extends JObject
 			if ( $newStrings === false ) {
 				// No strings, which probably means that the language file does not exist
 				$path		= JLanguage::getLanguagePath( $basePath, $this->_default);
-				$filename	= empty( $prefix ) ?  $this->_default : $this->_default . '.' . $prefix ;
+				$filename	= ( $extension == 'joomla' ) ?  $this->_default : $this->_default . '.' . $extension ;
 				$filename	= $path.DS.$filename.'.ini';
 
 				$newStrings = $this->_load( $filename );
@@ -295,11 +296,16 @@ class JLanguage extends JObject
 			// Merge the new strings into the strings array
 			if ( is_array($newStrings) ) {
 				$this->_strings = array_merge( $this->_strings, $newStrings);
-				$this->_paths[] = $filename;
 				$result = true;
 			} else {
-				// Do something ???
+				$result = false;
 			}
+			
+			// Record the result of loading the extension's file.
+			if ( ! isset($this->_paths[$extension])) {
+				$this->_paths[$extension] = array();
+			}
+			$this->_paths[$extension][$filename] = $result;
 		}
 
 		return $result;
@@ -357,12 +363,23 @@ class JLanguage extends JObject
 	 * Get a list of language files that have been loaded
 	 * 
 	 * @access	public
+	 * @param	string	$extension	An option extension name
 	 * @return	array
 	 * @since	1.5
 	 */
-	function getPaths()
+	function getPaths($extension = null)
 	{
-		return $this->_paths;
+		if ( isset($extension) )
+		{
+			if ( isset($this->_paths[$extension]) )
+				return $this->_paths[$extension];
+				
+			return null;
+		}
+		else
+		{
+			return $this->_paths;
+		}
 	}
 
 	/**
