@@ -46,11 +46,9 @@ class modMainMenuHelper
 		while ( !is_null($row = array_shift($rows)))
 		{
 			if (array_key_exists($row->parent, $ids)) {
-				if ($row->access <= $user->get('aid', 0)) {
-					$menu->addNode($row);
-					// record loaded parents
-					$ids[$row->id] = true;
-				}
+				$menu->addNode($row);
+				// record loaded parents
+				$ids[$row->id] = true;
 			} else {
 				// no parent yet so push item to back of list
 				array_push($rows, $row);
@@ -181,7 +179,7 @@ class JMenuTree extends JTree
 		$data = $this->_getItemData($item);
 
 		// Create the node and add it
-		$node =& new JMenuNode($item->id, $item->name, $data);
+		$node =& new JMenuNode($item->id, $item->name, $item->access, $data);
 
 		if (isset($item->mid)) {
 			$nid = $item->mid;
@@ -223,7 +221,7 @@ class JMenuTree extends JTree
 		$depth++;
 
 		// Start the item
-		$this->_buffer .= '<li level="'.$depth.'" id="'.$this->_current->id.'">';
+		$this->_buffer .= '<li access="'.$this->_current->access.'" level="'.$depth.'" id="'.$this->_current->id.'">';
 
 		// Append item data
 		$this->_buffer .= $this->_current->link;
@@ -347,10 +345,11 @@ class JMenuNode extends JNode
 	 */
 	var $class = null;
 
-	function __construct($id, $title, $link = null, $class = null)
+	function __construct($id, $title, $access = null, $link = null, $class = null)
 	{
 		$this->id		= $id;
 		$this->title	= $title;
+		$this->access	= $access;
 		$this->link		= $link;
 		$this->class	= $class;
 	}
@@ -358,6 +357,7 @@ class JMenuNode extends JNode
 
 function modMainMenuXMLCallback(&$node, $args)
 {
+	$user	= &JFactory::getUser();
 	$menu	= &JMenu::getInstance();
 	$active	= $menu->getActive();
 	$path	= isset($active) ? array_reverse($active->tree) : null;
@@ -368,6 +368,15 @@ function modMainMenuXMLCallback(&$node, $args)
 		foreach ($node->children() as $child)
 		{
 			if ($child->name() == 'ul') {
+				$node->removeChild($child);
+			}
+		}
+	}
+
+	if ($node->name() == 'ul') {
+		foreach ($node->children() as $child)
+		{
+			if ($child->attributes('access') > $user->get('aid', 0)) {
 				$node->removeChild($child);
 			}
 		}
@@ -405,5 +414,6 @@ function modMainMenuXMLCallback(&$node, $args)
 		$node->removeAttribute('id');
 	}
 	$node->removeAttribute('level');
+	$node->removeAttribute('access');
 }
 ?>
