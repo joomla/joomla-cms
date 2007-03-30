@@ -110,7 +110,7 @@ class ContentViewArticle extends JView
 		$access->canPublish	= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Process the content plugins
-		JPluginHelper::importPlugin('content');
+		JPluginHelper::importPlugin('content', null, false);
 		$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
 
 		if ($params->get('readmore') || $params->get('link_titles'))

@@ -98,7 +98,7 @@ class SearchController
 		$areas['active'] = $activeareas;
 		$areas['search'] = array();
 
-		JPluginHelper::importPlugin( 'search' );
+		JPluginHelper::importPlugin( 'search', null, false);
 		$searchareas = $mainframe->triggerEvent( 'onSearchAreas' );
 
 		foreach ($searchareas as $area) {

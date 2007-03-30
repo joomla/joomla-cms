@@ -19,14 +19,14 @@ jimport('joomla.application.plugin.plugin');
 
 
 /**
- * Example Authenticate Plugin
+ * Example Authentication Plugin
  *
  * @author Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	JFramework
  * @since 1.5
  */
-class plgAuthenticateExample extends JPlugin
+class plgAuthenticationExample extends JPlugin
 {
 	/**
 	 * Constructor
@@ -38,7 +38,7 @@ class plgAuthenticateExample extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function plgAuthenticateExample(& $subject) {
+	function plgAuthenticationExample(& $subject) {
 		parent::__construct($subject);
 	}
 
@@ -48,13 +48,13 @@ class plgAuthenticateExample extends JPlugin
 	 * @access	public
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
-	 * @return	object	JAuthenticateResponse
+	 * @return	object	JAuthenticationResponse
 	 * @since 1.5
 	 */
 	function onAuthenticate( $username, $password )
 	{
 		// Initialize variables
-		$return = new JAuthenticateResponse('example');
+		$return = new JAuthenticationResponse('example');
 
 		/*
 		 * Here you would do whatever you need for an authentication routine with the credentials

@@ -18,14 +18,14 @@ defined('_JEXEC') or die();
 jimport('joomla.application.plugin.plugin');
 
 /**
- * GMail Authenticate Plugin
+ * GMail Authentication Plugin
  *
  * @author Samuel Moffatt <sam.moffatt@joomla.org>
  * @package		Joomla
  * @subpackage	JFramework
  * @since 1.5
  */
-class plgAuthenticateGMail extends JPlugin
+class plgAuthenticationGMail extends JPlugin
 {
 	/**
 	 * Constructor
@@ -37,7 +37,7 @@ class plgAuthenticateGMail extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function plgAuthenticateGMail(& $subject) {
+	function plgAuthenticationGMail(& $subject) {
 		parent::__construct($subject);
 	}
 
@@ -47,7 +47,7 @@ class plgAuthenticateGMail extends JPlugin
 	 * @access	public
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
-	 * @return	object	JAuthenticateResponse
+	 * @return	object	JAuthenticationResponse
 	 * @since 1.5
 	 */
 	function onAuthenticate( $username, $password )
@@ -57,7 +57,7 @@ class plgAuthenticateGMail extends JPlugin
 		// load plugin parameters
 	 	$plugin =& JPluginHelper::getPlugin('authentication', 'gmail');
 	 	$pluginParams = new JParameter( $plugin->params );
-		$return = new JAuthenticateResponse('gmail');
+		$return = new JAuthenticationResponse('gmail');
 
 		$curl = curl_init('https://mail.google.com/gmail/feed/atom');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);

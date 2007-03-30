@@ -72,7 +72,7 @@ class JPluginHelper
 	* @param string 	$plugin	The plugin name
 	* @return boolean True if success
 	*/
-	function importPlugin($group, $plugin = null)
+	function importPlugin($group, $plugin = null, $autocreate = true, $dispatcher = null)
 	{
 		$result = false;
 
@@ -81,7 +81,7 @@ class JPluginHelper
 		$total = count($plugins);
 		for($i = 0; $i < $total; $i++) {
 			if($plugins[$i]->folder == $group && ($plugins[$i]->element == $plugin ||  $plugin === null)) {
-				JPluginHelper::_import( $plugins[$i]->folder, $plugins[$i]->element, $plugins[$i]->published, $plugins[$i]->params );
+				JPluginHelper::_import( $plugins[$i], $autocreate, $dispatcher );
 				$result = true;
 			}
 		}
@@ -99,7 +99,7 @@ class JPluginHelper
 	 * @param string The params for the bot
 	 * @return boolean True if success
 	 */
-	function _import( $folder, $element, $published, $params='' )
+	function _import( &$plugin, $autocreate = true, $dispatcher = null )
 	{
 		static $paths;
 
@@ -108,13 +108,9 @@ class JPluginHelper
 		}
 
 		$result	= false;
-		$path	= JPATH_PLUGINS.DS.$folder.DS.$element.'.php';
+		$path	= JPATH_PLUGINS.DS.$plugin->folder.DS.$plugin->element.'.php';
 
-		if (isset( $paths[$path] ))
-		{
-			$result = $paths[$path];
-		}
-		else
+		if (!isset( $paths[$path] ))
 		{
 			if (file_exists( $path ))
 			{
@@ -122,19 +118,26 @@ class JPluginHelper
 				global $_MAMBOTS, $mainframe;
 
 				require_once( $path );
-
-				//Jinx :: if plugins need languages they need to load them themselves
-				//$lang =& JFactory::getLanguage();
-				//$lang->load( 'plg_'.trim( $folder ).'_'.trim( $element ), JPATH_ADMINISTRATOR );
-
 				$paths[$path] = true;
+				
+				if($autocreate) 
+				{
+					// Makes sure we have an event dispatcher
+					if(!is_object($dispatcher)) {
+						$dispatcher = & JEventDispatcher::getInstance();
+					}
+					
+					$className = 'plg'.$plugin->folder.$plugin->element;
+					if(class_exists($className)) {
+						$plugin = new $className($dispatcher);
+					}
+				}
 			}
 			else
 			{
 				$paths[$path] = false;
 			}
 		}
-		return $paths[$path];
 	}
 
 	/**

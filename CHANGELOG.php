@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Mar-2007 Johan Janssens
+ ^ Implemented auto creating for plugins in JPluginHelper::importPlugin
+ ^ Renamed JAuthorize to JAuthorization for consistency 
+
 29-Mar-2007 Rob Schley
  * Hardened findOption in JAdministrator
  * Hardened various inputs in JAdministrator

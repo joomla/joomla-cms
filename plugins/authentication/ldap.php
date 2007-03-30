@@ -19,7 +19,7 @@ jimport('joomla.application.plugin.plugin');
 jimport('joomla.client.ldap');
 
 /**
- * LDAP Authenticate Plugin
+ * LDAP Authentication Plugin
  *
  * @author Sam Moffatt <sam.moffatt@joomla.org>
  * @package		Joomla
@@ -27,7 +27,7 @@ jimport('joomla.client.ldap');
  * @since 1.5
  */
 
-class plgAuthenticateLdap extends JPlugin
+class plgAuthenticationLdap extends JPlugin
 {
 	/**
 	 * Constructor
@@ -39,7 +39,7 @@ class plgAuthenticateLdap extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function plgAuthenticateLdap(& $subject) {
+	function plgAuthenticationLdap(& $subject) {
 		parent::__construct($subject);
 	}
 
@@ -49,14 +49,14 @@ class plgAuthenticateLdap extends JPlugin
 	 * @access	public
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
-	 * @return	object	JAuthenticateResponse
+	 * @return	object	JAuthenticationResponse
 	 * @since 1.5
 	 */
 	function onAuthenticate( $username, $password )
 	{
 		// Initialize variables
 		$userdetails = null;
-		$result = new JAuthenticateResponse('LDAP');
+		$result = new JAuthenticationResponse('LDAP');
 		$success = 0;
 
 		// LDAP does not like Blank passwords (tries to Anon Bind which is bad)

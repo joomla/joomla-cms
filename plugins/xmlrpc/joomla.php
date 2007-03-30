@@ -23,7 +23,7 @@ jimport('joomla.application.plugin.plugin');
  * @package XML-RPC
  * @since 1.5
  */
-class plgJoomlaXMLRPC extends JPlugin
+class plgXMLRPCJoomla extends JPlugin
 {
 
 	/**
@@ -36,7 +36,7 @@ class plgJoomlaXMLRPC extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function plgJoomlaXMLRPC(& $subject) {
+	function plgXMLRPCJoomla(& $subject) {
 		parent::__construct($subject);
 	}
 
@@ -56,7 +56,7 @@ class plgJoomlaXMLRPC extends JPlugin
 
 		// Site search service
 		$services['joomla.searchSite'] = array(
-			'function' => 'JoomlaXMLRPCServices::searchSite',
+			'function' => 'plgXMLRPCJoomlaServices::searchSite',
 			'docstring' => 'Searches a remote site.',
 			'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString))
 			);
@@ -65,7 +65,7 @@ class plgJoomlaXMLRPC extends JPlugin
 	}
 }
 
-class JoomlaXMLRPCServices
+class plgXMLRPCJoomlaServices
 {
 	/**
 	 * Remote Search method
@@ -110,6 +110,4 @@ class JoomlaXMLRPCServices
 	}
 }
 
-$dispatcher =& JEventDispatcher::getInstance();
-$dispatcher->attach(new plgJoomlaXMLRPC($dispatcher));
 ?>

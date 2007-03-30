@@ -14,9 +14,9 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class plgBloggerXMLRPC extends JPlugin
+class plgXMLRPCBlogger extends JPlugin
 {
-	function plgBloggerXMLRPC(&$subject) {
+	function plgXMLRPCBlogger(&$subject) {
 		parent::__construct($subject);
 	}
 
@@ -30,52 +30,52 @@ class plgBloggerXMLRPC extends JPlugin
 		return array
 		(
 				'blogger.getUsersBlogs' => array(
-				'function' => 'BloggerXMLRPCServices::getUserBlogs',
+				'function' => 'plgXMLRPCBloggerServices::getUserBlogs',
 				'docstring' => 'Returns a list of weblogs to which an author has posting privileges.',
 				'signature' => array(array($xmlrpcArray, $xmlrpcString, $xmlrpcString, $xmlrpcString ))
 			),
 				'blogger.getUserInfo' => array(
-				'function' => 'BloggerXMLRPCServices::getUserInfo',
+				'function' => 'plgXMLRPCBloggerServices::getUserInfo',
 				'docstring' => 'Returns information about an author in the system.',
 				'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 			),
 				'blogger.getPost' => array(
-				'function' => 'BloggerXMLRPCServices::getPost',
+				'function' => 'plgXMLRPCBloggerServices::getPost',
 				'docstring' => 'Returns information about a specific post.',
 				'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 			),
 				'blogger.getRecentPosts' => array(
-				'function' => 'BloggerXMLRPCServices::getRecentPosts',
+				'function' => 'plgXMLRPCBloggerServices::getRecentPosts',
 				'docstring' => 'Returns a list of the most recent posts in the system.',
 				'signature' => array(array($xmlrpcArray, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcInt))
 			),
 				'blogger.getTemplate' => array(
-				'function' => 'BloggerXMLRPCServices::getTemplate',
+				'function' => 'plgXMLRPCBloggerServices::getTemplate',
 				'docstring' => '',
 				'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 			),
 				'blogger.setTemplate' => array(
-				'function' => 'BloggerXMLRPCServices::setTemplate',
+				'function' => 'plgXMLRPCBloggerServices::setTemplate',
 				'docstring' => '',
 				'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 			),
 				'blogger.newPost' => array(
-				'function' => 'BloggerXMLRPCServices::newPost',
+				'function' => 'plgXMLRPCBloggerServices::newPost',
 				'docstring' => 'Creates a new post, and optionally publishes it.',
 				'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 			),
 				'blogger.deletePost' => array(
-				'function' => 'BloggerXMLRPCServices::deletePost',
+				'function' => 'plgXMLRPCBloggerServices::deletePost',
 				'docstring' => 'Deletes a post.',
 				'signature' => array(array($xmlrpcBoolean, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 			),
 				'blogger.editPost' => array(
-				'function' => 'BloggerXMLRPCServices::editPost',
+				'function' => 'plgXMLRPCBloggerServices::editPost',
 				'docstring' => 'Updates the information about an existing post.',
 				'signature' => array(array($xmlrpcBoolean, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 			),
 			'blogger.helloworld' => array(
-				'function' => 'BloggerXMLRPCServices::helloworld',
+				'function' => 'plgXMLRPCBloggerServices::helloworld',
 				'docstring' => 'Updates the information about an existing post.',
 				'signature' => array(array($xmlrpcBoolean))
 			)
@@ -83,7 +83,7 @@ class plgBloggerXMLRPC extends JPlugin
 	}
 }
 
-class BloggerXMLRPCServices
+class plgXMLRPCBloggerServices
 {
 	/*
 	 * Note : blogger.getUsersBlogs will make more sense once we support multiple blogs
@@ -92,7 +92,7 @@ class BloggerXMLRPCServices
 	{
 		global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
-		if(!JBloggerHelper::authenticateUser($username, $password)) {
+		if(!plgXMLRPCBloggerHelper::authenticateUser($username, $password)) {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");
 		}
 
@@ -115,7 +115,7 @@ class BloggerXMLRPCServices
 	{
 		global $xmlrpcerruser, $xmlrpcStruct;
 
-		if(!JBloggerHelper::authenticateUser($username, $password)) {
+		if(!plgXMLRPCBloggerHelper::authenticateUser($username, $password)) {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");
 		}
 
@@ -141,7 +141,7 @@ class BloggerXMLRPCServices
 	{
 		global $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
-		if(!JBloggerHelper::authenticateUser($username, $password)) {
+		if(!plgXMLRPCBloggerHelper::authenticateUser($username, $password)) {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");
 		}
 
@@ -171,7 +171,7 @@ class BloggerXMLRPCServices
 	{
 		global $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
-		if(!JBloggerHelper::authenticateUser($username, $password)) {
+		if(!plgXMLRPCBloggerHelper::authenticateUser($username, $password)) {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");
 		}
 
@@ -191,9 +191,9 @@ class BloggerXMLRPCServices
 		// create a new content item
 		$item =& JTable::getInstance('content');
 
-		$item->title	 	= JBloggerHelper::getPostTitle($content);
-		$item->introtext	= JBloggerHelper::getPostIntroText($content);
-		$item->fulltext		= JBloggerHelper::getPostFullText($content);
+		$item->title	 	= plgXMLRPCBloggerHelper::getPostTitle($content);
+		$item->introtext	= plgXMLRPCBloggerHelper::getPostIntroText($content);
+		$item->fulltext		= plgXMLRPCBloggerHelper::getPostFullText($content);
 
 		$item->catid	 	= $cat->id;
 		$item->sectionid 	= $cat->section;
@@ -223,7 +223,7 @@ class BloggerXMLRPCServices
 	{
 		global $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
-		if(!JBloggerHelper::authenticateUser($username, $password)) {
+		if(!plgXMLRPCBloggerHelper::authenticateUser($username, $password)) {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");
 		}
 
@@ -245,9 +245,9 @@ class BloggerXMLRPCServices
 		//lock the item
 		$item->checkout();
 
-		$item->title	 = JBloggerHelper::getPostTitle($content);
-		$item->introtext = JBloggerHelper::getPostIntroText($content);
-		$item->fulltext  = JBloggerHelper::getPostFullText($content);
+		$item->title	 = plgXMLRPCBloggerHelper::getPostTitle($content);
+		$item->introtext = plgXMLRPCBloggerHelper::getPostIntroText($content);
+		$item->fulltext  = plgXMLRPCBloggerHelper::getPostFullText($content);
 
 		if (!$item->check()) {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, 'Post check failed' );
@@ -269,7 +269,7 @@ class BloggerXMLRPCServices
 	{
 		global $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
-		if(!JBloggerHelper::authenticateUser($username, $password)) {
+		if(!plgXMLRPCBloggerHelper::authenticateUser($username, $password)) {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");
 		}
 
@@ -312,7 +312,7 @@ class BloggerXMLRPCServices
 	{
 		global $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 
-		if(!JBloggerHelper::authenticateUser($username, $password)) {
+		if(!plgXMLRPCBloggerHelper::authenticateUser($username, $password)) {
 			return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");
 		}
 
@@ -376,13 +376,13 @@ class BloggerXMLRPCServices
 	}
 }
 
-class JBloggerHelper
+class plgXMLRPCBloggerHelper
 {
 	function authenticateUser($username, $password)
 	{
-		// Get the global JAuthenticate object
-		jimport( 'joomla.user.authenticate');
-		$auth = & JAuthenticate::getInstance();
+		// Get the global JAuthentication object
+		jimport( 'joomla.user.authentication');
+		$auth = & JAuthentication::getInstance();
 		return $auth->authenticate($username, $password);
 	}
 
@@ -414,7 +414,7 @@ class JBloggerHelper
 
 	function getPostIntroText($content)
 	{
-		return JBloggerHelper::removePostData($content); //substr($string, 0, strpos($string, '<more_text>'));
+		return plgXMLRPCBloggerHelper::removePostData($content); //substr($string, 0, strpos($string, '<more_text>'));
 	}
 
 	function getPostFullText($content)
@@ -438,7 +438,4 @@ class JBloggerHelper
 		return $content;
 	}
 }
-
-$dispatcher =& JEventDispatcher::getInstance();
-$dispatcher->attach(new plgBloggerXMLRPC($dispatcher));
 ?>

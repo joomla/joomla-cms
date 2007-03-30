@@ -175,9 +175,4 @@ class plgUserJoomla extends JPlugin
 	}
 }
 
-/**
- * Attach the plugin to the event dispatcher
- */
-$dispatcher =& JEventDispatcher::getInstance();
-$dispatcher->attach(new plgUserJoomla($dispatcher));
 ?>

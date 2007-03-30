@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @package		Joomla
  * @subpackage	System
  */
-class  plgLegacy extends JPlugin
+class  plgSystemLegacy extends JPlugin
 {
 	/**
 	 * Constructor
@@ -33,7 +33,7 @@ class  plgLegacy extends JPlugin
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
-	function plgLegacy(& $subject)
+	function plgSystemLegacy(& $subject)
 	{
 		parent::__construct($subject);
 
@@ -263,9 +263,4 @@ class  plgLegacy extends JPlugin
 		JRequest::setVar('view', $viewName);
 	}
 }
-
-// Attach sef handler to event dispatcher
-$dispatcher = & JEventDispatcher::getInstance();
-$dispatcher->attach(new plgLegacy($dispatcher));
-
 ?>

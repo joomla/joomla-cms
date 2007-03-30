@@ -44,7 +44,7 @@ class JPlugin extends JObserver
 	}
 
 	/**
-	 * Method to trigger events based upon the JAuthenticate object
+	 * Method to trigger events based upon the JAuthentication object
 	 *
 	 * @access public
 	 * @param array Arguments

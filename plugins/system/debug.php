@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @package		Joomla
  * @subpackage	System
  */
-class  plgDebug extends JPlugin
+class  plgSystemDebug extends JPlugin
 {
 	/**
 	 * Constructor
@@ -34,7 +34,7 @@ class  plgDebug extends JPlugin
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
-	function plgDebug(& $subject)
+	function plgSystemDebug(& $subject)
 	{
 		parent::__construct($subject);
 
@@ -101,7 +101,3 @@ class  plgDebug extends JPlugin
 		JResponse::appendBody($debug);
 	}
 }
-
-// Attach sef handler to event dispatcher
-$dispatcher = & JEventDispatcher::getInstance();
-$dispatcher->attach(new plgDebug($dispatcher));

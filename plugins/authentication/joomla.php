@@ -19,14 +19,14 @@ jimport('joomla.application.plugin.plugin');
 
 
 /**
- * Joomla Authenticate plugin
+ * Joomla Authentication plugin
  *
  * @author Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	JFramework
  * @since 1.5
  */
-class plgAuthenticateJoomla extends JPlugin
+class plgAuthenticationJoomla extends JPlugin
 {
 
 	/**
@@ -39,7 +39,7 @@ class plgAuthenticateJoomla extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function plgAuthenticateJoomla(& $subject) {
+	function plgAuthenticationJoomla(& $subject) {
 		parent::__construct($subject);
 	}
 
@@ -49,7 +49,7 @@ class plgAuthenticateJoomla extends JPlugin
 	 * @access	public
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
-	 * @return	object	JAuthenticateResponse
+	 * @return	object	JAuthenticationResponse
 	 * @since 1.5
 	 */
 	function onAuthenticate( $username, $password )
@@ -77,7 +77,7 @@ class plgAuthenticateJoomla extends JPlugin
 
 		$db->setQuery( $query );
 		$result = $db->loadResult();
-		$return = new JAuthenticateResponse('Joomla');
+		$return = new JAuthenticationResponse('Joomla');
 
 		if($result)
 		{

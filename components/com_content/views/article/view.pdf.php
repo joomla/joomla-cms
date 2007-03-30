@@ -46,7 +46,7 @@ class ContentViewArticle extends JView
 		}
 
 		// process the new plugins
-		JPluginHelper::importPlugin('content', 'image');
+		JPluginHelper::importPlugin('content', 'image', false);
 		$dispatcher->trigger('onPrepareContent', array (& $article, & $params, 0));
 
 		$document = &JFactory::getDocument();

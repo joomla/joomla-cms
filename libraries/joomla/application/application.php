@@ -368,7 +368,7 @@ class JApplication extends JObject
 	 * the current session record with the users details.
 	 *
 	 * Username and encoded password are sent as credentials (along with other
-	 * possibilities) to each observer (JAuthenticatePlugin) for user
+	 * possibilities) to each observer (JAuthenticationPlugin) for user
 	 * validation.  Successful validation will update the current session with
 	 * the user details.
 	 *
@@ -393,12 +393,12 @@ class JApplication extends JObject
 		$credentials['username'] = $username;
 		$credentials['password'] = $password;
 
-		// Get the global JAuthenticate object
-		jimport( 'joomla.user.authenticate');
-		$authenticate = & JAuthenticate::getInstance();
+		// Get the global JAuthentication object
+		jimport( 'joomla.user.authentication');
+		$authenticate = & JAuthentication::getInstance();
 		$response	 = $authenticate->authenticate($username, $password);
 
-		if (is_a($response, 'JAuthenticateResponse'))
+		if (is_a($response, 'JAuthenticationResponse'))
 		{
 			// Import the user plugin group
 			JPluginHelper::importPlugin('user');

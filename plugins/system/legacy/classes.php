@@ -747,7 +747,7 @@ class mosMambotHandler extends JEventDispatcher
 	* @param string The group name, relates to the sub-directory in the plugins directory
 	*/
 	function loadBotGroup( $group ) {
-		return JPluginHelper::importPlugin($group);
+		return JPluginHelper::importPlugin($group, null, false);
 	}
 	/**
 	 * Loads the bot file

@@ -19,7 +19,7 @@ defined('_JEXEC') or die();
 jimport('joomla.application.plugin.plugin');
 
 /**
- * OpenID Authenticate Plugin
+ * OpenID Authentication Plugin
  *
  * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
@@ -27,7 +27,7 @@ jimport('joomla.application.plugin.plugin');
  * @since 1.5
  */
 
-class plgAuthenticateOpenID extends JPlugin
+class plgAuthenticationOpenID extends JPlugin
 {
 	/**
 	 * Constructor
@@ -39,7 +39,7 @@ class plgAuthenticateOpenID extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function plgAuthenticateOpenID(& $subject) {
+	function plgAuthenticationOpenID(& $subject) {
 		parent::__construct($subject);
 	}
 
@@ -49,7 +49,7 @@ class plgAuthenticateOpenID extends JPlugin
 	 * @access	public
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
-	 * @return	object	JAuthenticateResponse
+	 * @return	object	JAuthenticationResponse
 	 * @since 1.5
 	 */
 	function onAuthenticate( $username, $password )
@@ -72,7 +72,7 @@ class plgAuthenticateOpenID extends JPlugin
 		$params = new JParameter( $plugin->params );
 
 		// create response object
-		$return = new JAuthenticateResponse('openid');
+		$return = new JAuthenticationResponse('openid');
 
 		// Need to check for bcmath or gmp - if not, use the dumb mode.
 		// TODO: Should dump an error to debug saying we are dumb

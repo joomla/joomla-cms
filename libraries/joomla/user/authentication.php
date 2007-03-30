@@ -31,14 +31,14 @@ define('JAUTHENTICATE_STATUS_CANCEL', 2);
 define('JAUTHENTICATE_STATUS_FAILURE', 4);
 
 /**
- * Authorization class, provides an interface for the Joomla authentication system
+ * Authenthication class, provides an interface for the Joomla authentication system
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	User
  * @since		1.5
  */
-class JAuthenticate extends JObject
+class JAuthentication extends JObject
 {
 	/**
 	 * Constructor
@@ -50,12 +50,7 @@ class JAuthenticate extends JObject
 		// Get the global event dispatcher to load the plugins
 		$dispatcher =& JEventDispatcher::getInstance();
 
-		$plugins =& JPluginHelper::getPlugin('authentication');
-
-		$isLoaded = false;
-		foreach ($plugins as $plugin) {
-			$isLoaded |= $this->loadPlugin($plugin->element, $dispatcher);
-		}
+		$isLoaded = JPluginHelper::importPlugin('authentication');
 
 		if (!$isLoaded) {
 			JError::raiseWarning('SOME_ERROR_CODE', 'JAuthenticate::__constructor: Could not load authentication libraries.', $plugins);
@@ -83,7 +78,7 @@ class JAuthenticate extends JObject
 		}
 
 		if (empty ($instances[0])) {
-			$instances[0] = new JAuthenticate();
+			$instances[0] = new JAuthentication();
 		}
 
 		return $instances[0];
@@ -174,39 +169,6 @@ class JAuthenticate extends JObject
 		$dispatcher->trigger( 'onAuthenticateFailure', array( array( $username, $password ), $results ) );
 		return false;
 	}
-
-	/**
-	 * Static method to load an auth plugin and attach it to the JEventDispatcher
-	 * object.
-	 *
-	 * This method should be invoked as:
-	 * 		<pre>  $isLoaded = JAuthenticate::loadPlugin($plugin, $subject);</pre>
-	 *
-	 * @access public
-	 * @static
-	 * @param string $plugin The authentication plugin to use.
-	 * @param object $subject Observable object for the plugin to observe
-	 * @return boolean True if plugin is loaded
-	 * @since 1.5
-	 */
-	function loadPlugin($plugin, & $subject)
-	{
-		static $instances;
-
-		if (!isset ($instances)) {
-			$instances = array ();
-		}
-
-		if (empty ($instances[$plugin])) {
-
-			if(JPluginHelper::importPlugin('authentication', $plugin)) {
-				// Build authentication plugin classname
-				$name = 'plgAuthenticate'.$plugin;
-				$instances[$plugin] = new $name ($subject);
-			}
-		}
-		return is_object($instances[$plugin]);
-	}
 }
 
 /**
@@ -217,7 +179,7 @@ class JAuthenticate extends JObject
  * @subpackage	User
  * @since		1.5
  */
-class JAuthenticateResponse extends JObject
+class JAuthenticationResponse extends JObject
 {
 	/**
 	 * User type (refers to the authentication method used)

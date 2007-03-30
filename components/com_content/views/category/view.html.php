@@ -314,7 +314,7 @@ class ContentViewCategory extends JView
 		$item->text = $item->introtext;
 
 		// Process the content preparation plugins
-		JPluginHelper::importPlugin('content');
+		JPluginHelper::importPlugin('content', null, false);
 		$results = $dispatcher->trigger('onPrepareContent', array (& $item, & $params, 0));
 
 		// Build the link and text of the readmore button

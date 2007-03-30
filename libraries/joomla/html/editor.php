@@ -244,7 +244,7 @@ class JEditor extends JObservable
 
 		if ( ! JFile::exists($path) )
 		{
-			$message	= JText::_('Cannot load the editor');
+			$message = JText::_('Cannot load the editor');
 			JError::raiseWarning( 500, $message );
 			return false;
 		}
