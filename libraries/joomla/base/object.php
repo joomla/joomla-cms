@@ -22,6 +22,16 @@
  */
 class JObject
 {
+
+	/**
+	 * An array of errors
+	 * 
+	 * @var		array of error messages or JExceptions objects
+	 * @access	protected
+	 * @since	1.0
+	 */
+	var		$_errors		= array();
+	
 	/**
 	 * A hack to support __construct() on PHP 4
 	 * Hint: descendant classes have no PHP4 class_name() constructors,
@@ -47,20 +57,17 @@ class JObject
 	function __construct() {}
 
 	/**
-	 * Modifies a property of the object, creating it if it does not already exist.
+	 * Indicates if the object has any errors
 	 *
 	 * @access	public
-	 * @param	string $property The name of the property
-	 * @param	mixed  $value The value of the property to set
-	 * @return	mixed Previous value of the property
+	 * @return	integer	Number of errrors
 	 * @since	1.5
- 	 */
-	function set( $property, $value=null ) {
-		$previous = isset($this->$property) ? $this->$property : null;
-		$this->$property = $value;
-		return $previous;
+	 */
+	function hasErrors()
+	{
+		return count($this->_errors);
 	}
-
+	
 	/**
 	 * Returns a property of the object or the default value if the property is not set.
 	 *
@@ -78,6 +85,39 @@ class JObject
 		}
 		return $default;
 	}
+
+	/**
+	 * Get the most recent error message
+	 *
+	 * @param	int		$i Option error index
+	 * @param	boolean	$toString Indicates if JError objects should return their error message
+	 * @return	string	Error message
+	 * @access	public
+	 * @since	1.5
+	 */
+	function getError($i = null, $toString = true )
+	{
+		// Find the error
+		if ( $i === null) {
+			// Default, return the last message
+			$error =& end($this->_errors);
+		}
+		else	
+		if ( ! array_key_exists($i, $this->_errors) ) {
+			// If $i has been specified but does not exist, return false
+			return false;
+		}
+		else {
+			$error	=& $this->_errors[$i];
+		}
+		
+		// Check if only the string is requested
+		if ( JError::isError($error) && $toString ) {
+			return $error->toString();
+		}
+		
+		return $error;
+	} 
 
 	/**
 	 * Returns an array of public properties
@@ -101,6 +141,33 @@ class JObject
 		}
 		return $vars[$assoc ? 1 : 0];
 	}
+
+	/**
+	 * Modifies a property of the object, creating it if it does not already exist.
+	 *
+	 * @access	public
+	 * @param	string $property The name of the property
+	 * @param	mixed  $value The value of the property to set
+	 * @return	mixed Previous value of the property
+	 * @since	1.5
+	 */
+	function set( $property, $value=null ) {
+		$previous = isset($this->$property) ? $this->$property : null;
+		$this->$property = $value;
+		return $previous;
+	}
+
+	/**
+	 * Add an error message
+	 *
+	 * @param	string $error Error message
+	 * @access	public
+	 * @since	1.0
+	 */
+	function setError($error)
+	{
+		array_push($this->_errors, $error);
+	} 
 
 	/**
 	 * Object-to-string conversion.

@@ -727,5 +727,17 @@ class JException extends JObject
 		}
 		return $this->backtrace;
 	}
+	
+	/**
+	 * Returns to error message
+	 * 
+	 * @access	public
+	 * @return	string Error message
+	 * @since	1.5
+	 */
+	function toString()
+	{
+		return $this->message;
+	}
 }
 ?>

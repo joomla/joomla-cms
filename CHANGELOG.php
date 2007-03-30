@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Mar-2007 Toby Patterson
+ + setError(), getError(), and hasError() to JObject
+ ! such methods will be removed from the framework
+
 30-Mar-2007 Johan Janssens
  ^ Implemented auto creating for plugins in JPluginHelper::importPlugin
  ^ Renamed JAuthorize to JAuthorization for consistency 
