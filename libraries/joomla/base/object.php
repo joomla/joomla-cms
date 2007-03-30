@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: object.php 6616 2007-02-14 00:22:01Z chrisdavenport $
+ * @version		$Id:object.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Base
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -56,7 +56,7 @@ class JObject
 	 * @since	1.5
  	 */
 	function set( $property, $value=null ) {
-		$previous = isset($this->property) ? $this->property : null;
+		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
 		return $previous;
 	}
