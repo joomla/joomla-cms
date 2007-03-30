@@ -197,17 +197,24 @@ class JDocumentFeed extends JDocument
 	function render( $cache = false, $params = array())
 	{
 		global $mainframe, $option;
-		$type		= JRequest::getVar('type', 'rss');
-		$format		= isset($params['format']) ? $params['format'] : 'RSS';
+
+		// Get the feed type
+		$type = JRequest::getVar('type', 'rss', '', 'word');
+
+		/*
+		 * Cache TODO In later release
+		 */
 		$cache		= 0;
 		$cache_time = 3600;
 		$cache_path = JPATH_BASE.DS.'cache';
 
 		// set filename for rss feeds
-		$file = strtolower( str_replace( '.', '', $format ) );
+		$file = strtolower( str_replace( '.', '', $type ) );
 		$file = $cache_path.'/'. $file .'_'. $option .'.xml';
 
-		$renderer =& $this->loadRenderer($type);
+
+		// Instantiate feed renderer and set the mime encoding
+		$renderer =& $this->loadRenderer(($type) ? $type : 'rss');
 		if (!is_a($renderer, 'JDocumentRenderer')) {
 			JError::raiseError(404, JText::_('Resource Not Found'));
 		}
