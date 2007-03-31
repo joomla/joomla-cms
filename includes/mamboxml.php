@@ -1,3 +1,3 @@
 <?php // compatibility
-require_once( JPATH_SITE . ' /libraries/joomla/html/parameter.php' );
+require_once( dirname(__FILE__) . '/../libraries/joomla/html/parameter.php' );
 ?>
