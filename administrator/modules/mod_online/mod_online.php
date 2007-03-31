@@ -15,7 +15,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $db			=& JFactory::getDBO();
-$session	=& JFactory::getSession();
+$session		=& JFactory::getSession();
 
 $session_id = $session->getId();
 

@@ -41,7 +41,7 @@ jimport( 'joomla.environment.request' );
 // TODO: Check why there is a problem here
 //JRequest::clean();
 
-require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
+require_once( JPATH_LIBRARIES	. DS . 'loader.php' );
 
 // File includes
 define( 'JPATH_INCLUDES', dirname(__FILE__) );

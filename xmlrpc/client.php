@@ -14,14 +14,14 @@
 /** Set flag that this is a parent file */
 define( "_JEXEC", 1 );
 
-define('JPATH_BASE', dirname(__FILE__) );
+define( 'JPATH_BASE', dirname(__FILE__) );
 define( 'DS', DIRECTORY_SEPARATOR );
 
 error_reporting( E_ALL );
 
-require_once ( JPATH_BASE .'/includes/defines.php' );
-require_once ( JPATH_BASE .'/includes/framework.php' );
-require_once ( JPATH_BASE .'/includes/application.php' );
+require_once( JPATH_BASE.'/includes/defines.php' );
+require_once( JPATH_BASE.'/includes/framework.php' );
+require_once( JPATH_BASE.'/includes/application.php' );
 
 //if (!$mainframe->getCfg('xmlrpc_server')) {
 //	die( 'XML-RPC server not enabled.' );
@@ -29,12 +29,10 @@ require_once ( JPATH_BASE .'/includes/application.php' );
 
 jimport('phpxmlrpc.xmlrpc');
 
-$uri 	= dirname( $_SERVER['PHP_SELF'] );
-
 $host 	= JRequest::getVar( 'host', $_SERVER['HTTP_HOST'], 'post' );
 $path 	= JRequest::getVar( 'path', '', 'post' );
 $debug 	= JRequest::getVar( 'debug', 0, 'post', 'int' );
-$task 	= JRequest::getVar( 'task', 0, 'post' );
+$task 	= JRequest::getVar( 'task', 0, 'post', 'word' );
 
 $output	= '';
 $array	= array();
@@ -86,7 +84,7 @@ if ($task)
 
 		case 'exec':
 		{
-			$method = JRequest::getVar( 'method' );
+			$method = JRequest::getVar( 'method', '', '', 'cmd' );
 			$args 	= JRequest::getVar( 'args' );
 
 			$message = new xmlrpcmsg($method, array(new xmlrpcval(0, "int")));

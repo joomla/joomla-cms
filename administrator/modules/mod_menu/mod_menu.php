@@ -2,7 +2,7 @@
 /**
 * @version		$Id:mod_menu.php 2463 2006-02-18 06:05:38Z webImagery $
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright		Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -12,13 +12,13 @@
 */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once(dirname(__FILE__).DS.'helper.php');
+require_once( dirname(__FILE__).DS.'helper.php' );
 
-$hide	= JRequest::getVar('hidemainmenu', 0);
+$hide	= JRequest::getVar( 'hidemainmenu', 0, '', 'int' );
 
-if ($hide) {
+if ( $hide ) {
 	modMenuHelper::buildDisabledMenu();
 } else {
 	modMenuHelper::buildMenu();

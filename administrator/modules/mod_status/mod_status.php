@@ -21,7 +21,7 @@ $config		=& JFactory::getConfig();
 $user		=& JFactory::getUser();
 $db			=& JFactory::getDBO();
 $lang		=& JFactory::getLanguage();
-$session	=& JFactory::getSession();
+$session		=& JFactory::getSession();
 
 $sid	= $session->getId();
 $output = array();

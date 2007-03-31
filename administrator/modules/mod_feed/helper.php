@@ -21,13 +21,13 @@ class modFeedHelper
 		// module params
 		$rssurl				= $params->get('rssurl', '');
 		$rssitems			= $params->get('rssitems', 5);
-		$rssdesc			= $params->get('rssdesc', 1);
+		$rssdesc				= $params->get('rssdesc', 1);
 		$rssimage			= $params->get('rssimage', 1);
-		$rssitemdesc		= $params->get('rssitemdesc', 1);
+		$rssitemdesc			= $params->get('rssitemdesc', 1);
 		$words				= $params->def('word_count', 0);
 		$rsstitle			= $params->get('rsstitle', 1);
 		$rssrtl				= $params->get('rssrtl', 0);
-		$moduleclass_sfx	= $params->get('moduleclass_sfx', '');
+		$moduleclass_sfx		= $params->get('moduleclass_sfx', '');
 
 		//  get RSS parsed object
 		$options = array();

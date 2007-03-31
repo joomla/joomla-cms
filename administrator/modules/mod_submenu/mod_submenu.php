@@ -15,9 +15,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Lets get some variables we will need to render the menu
-$lang	= & JFactory::getLanguage();
-$doc	= & JFactory::getDocument();
-$user	= & JFactory::getUser();
+$lang	=& JFactory::getLanguage();
+$doc		=& JFactory::getDocument();
+$user	=& JFactory::getUser();
 
 // If hidemainmenu is true, we don't want to render this module at all
 echo JAdminSubMenu::get();
@@ -39,10 +39,10 @@ class JAdminSubMenu
 		$list = $menu->_bar;
 		if(!is_array($list) || !count($list))
 		{
-			$option = JRequest::getVar('option');
+			$option = JRequest::getVar('option', null, '', 'word');
 			if($option == 'com_categories')
 			{
-				$section = JRequest::getVar('section');
+				$section = JRequest::getVar('section', null, '', 'word');
 				if ($section) {
 					if ($section != 'content') {
 						// special handling for specific core components
@@ -60,7 +60,7 @@ class JAdminSubMenu
 			return null;
 		}
 
-		$hide = JRequest::getVar('hidemainmenu', 0);
+		$hide = JRequest::getVar('hidemainmenu', 0, '', 'int');
 		$txt = "<ul id=\"submenu\">\n";
 
 		/*

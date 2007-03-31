@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright		Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -21,7 +21,7 @@ $user			=& JFactory::getUser();
 
 // TODO -  pagination needs to be completed in module
 $limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-$limitstart 	= $mainframe->getUserStateFromRequest( 'mod_logged.limitstart', 'limitstart', 0 );
+$limitstart 		= $mainframe->getUserStateFromRequest( 'mod_logged.limitstart', 'limitstart', 0 );
 
 // hides Administrator or Super Administrator from list depending on usertype
 $and = '';
