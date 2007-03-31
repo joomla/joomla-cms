@@ -48,7 +48,7 @@ class JHelp
 
 			// Check if the file exists within a different language!
 			if( $lang->getTag() != 'en-GB' ) {
-				$localeURL = JPATH_BASE.$url.DS.$tag.DS.$ref;
+				$localeURL = JPATH_BASE.DS.$url.DS.$tag.DS.$ref;
 				jimport( 'joomla.filesystem.file' );
 				if( !JFile::exists( $localeURL ) ) {
 					$tag = 'en-GB';

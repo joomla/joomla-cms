@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Mar-2007 Jason Kendall
+ # Fixed [track191] - Missing DS in finding lang file.
+
 30-Mar-2007 Rob Schley
  + getInt(), getFloat(), getBool(), getWord(), getCmd() to JRequest
  ! Those methods are just proxies to getVar() for now
