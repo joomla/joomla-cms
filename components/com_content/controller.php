@@ -84,7 +84,7 @@ class ContentController extends JController
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$nullDate	= $db->getNullDate();
-		$task		= JRequest::getVar('task', null, 'default', 'word');
+		$task		= JRequest::getVar('task', null, 'default', 'cmd');
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {

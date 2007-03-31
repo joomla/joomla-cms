@@ -135,8 +135,8 @@ class JAdministrator extends JApplication
 	function render()
 	{
 		$component	= JRequest::getVar( 'option', null, '', 'word' );
-		$template	= JRequest::getVar( 'template', $this->getTemplate(), '', 'word' );
-		$file 		= JRequest::getVar( 'tmpl', 'index',  '', 'word' );
+		$template	= JRequest::getVar( 'template', $this->getTemplate(), '', 'cmd' );
+		$file 		= JRequest::getVar( 'tmpl', 'index',  '', 'cmd' );
 
 		if($component == 'com_login') {
 			$file = 'login';

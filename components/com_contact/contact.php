@@ -23,7 +23,7 @@ require_once(JPATH_COMPONENT.DS.'controller.php');
 $controller = new ContactController();
 
 // Perform the Request task
-$controller->execute(JRequest::getVar('task', null, 'default', 'word'));
+$controller->execute(JRequest::getVar('task', null, 'default', 'cmd'));
 
 // Redirect if set by the controller
 $controller->redirect();

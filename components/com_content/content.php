@@ -31,7 +31,7 @@ $controller->registerTask( 'apply', 	'save' );
 $controller->registerTask( 'apply_new', 'save' );
 
 // Perform the Request task
-$controller->execute(JRequest::getVar('task', null, 'default', 'word'));
+$controller->execute(JRequest::getVar('task', null, 'default', 'cmd'));
 $controller->redirect();
 
 ?>

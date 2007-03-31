@@ -42,7 +42,7 @@ class JAdminSubMenu
 			$option = JRequest::getVar('option', null, '', 'word');
 			if($option == 'com_categories')
 			{
-				$section = JRequest::getVar('section', null, '', 'word');
+				$section = JRequest::getVar('section', null, '', 'cmd');
 				if ($section) {
 					if ($section != 'content') {
 						// special handling for specific core components

@@ -141,7 +141,7 @@ class JSite extends JApplication
 	{
 		// get the formet to render
 		$format = JRequest::getVar( 'format', 'html', '', 'string' );
-		
+
 		$document =& JFactory::getDocument();
 		$user     =& JFactory::getUser();
 
@@ -153,12 +153,12 @@ class JSite extends JApplication
 					'format' => JRequest::getVar( 'type', 'rss2.0', '', 'string' )
 				);
 			}
-			
+
 			case 'html' :
 			default     :
 			{
-				$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'word' );
-				$file 		= JRequest::getVar( 'tmpl', 'index', '', 'word'  );
+				$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'cmd' );
+				$file 		= JRequest::getVar( 'tmpl', 'index', '', 'cmd'  );
 
 				if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
 					$file = 'offline';
@@ -173,7 +173,7 @@ class JSite extends JApplication
 				);
 			}
  		}
-		
+
 		$data = $document->render( $this->getCfg('caching'), $params);
 		JResponse::setBody($data);
 	}

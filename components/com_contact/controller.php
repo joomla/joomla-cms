@@ -34,7 +34,7 @@ class ContactController extends JController
 	{
 		$document =& JFactory::getDocument();
 
-		$viewName	= JRequest::getVar('view', 'category', 'default', 'word');
+		$viewName	= JRequest::getVar('view', 'category', 'default', 'cmd');
 		$viewType	= $document->getType();
 
 		// interceptors to support legacy urls

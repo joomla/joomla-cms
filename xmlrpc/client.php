@@ -32,7 +32,7 @@ jimport('phpxmlrpc.xmlrpc');
 $host 	= JRequest::getVar( 'host', $_SERVER['HTTP_HOST'], 'post' );
 $path 	= JRequest::getVar( 'path', '', 'post' );
 $debug 	= JRequest::getVar( 'debug', 0, 'post', 'int' );
-$task 	= JRequest::getVar( 'task', 0, 'post', 'word' );
+$task 	= JRequest::getVar( 'task', 0, 'post', 'cmd' );
 
 $output	= '';
 $array	= array();

@@ -66,7 +66,7 @@ class TemplatesController
 	*/
 	function previewTemplate()
 	{
-		$template	= JRequest::getVar('id', '', 'method', 'word');
+		$template	= JRequest::getVar('id', '', 'method', 'cmd');
 		$option 	= JRequest::getVar('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
@@ -186,8 +186,8 @@ class TemplatesController
 		// Initialize some variables
 		$db			 = & JFactory::getDBO();
 
-		$template	= JRequest::getVar('id', '', 'method', 'word');
-		$option		= JRequest::getVar('option', '', '', 'word');
+		$template	= JRequest::getVar('id', '', 'method', 'cmd');
+		$option		= JRequest::getVar('option', '', '', 'cmd');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$menus		= JRequest::getVar('selections', array (), 'post', 'array');
 		$params		= JRequest::getVar('params', array (), '', 'array');
@@ -256,17 +256,17 @@ class TemplatesController
 						' SET client_id = 0, template = '. $db->Quote( $template ) .', menuid = '.(int) $menuid;
 				$db->setQuery($query);
 				$db->query();
-			} 
+			}
 		}
 
-		if (empty($menus) OR (empty($menus) && $default)) 
+		if (empty($menus) OR (empty($menus) && $default))
 		{
 			$query = 'INSERT INTO #__templates_menu' .
 					' SET client_id = 0, template = '. $db->Quote( $template ) .', menuid = 0 ';
 			$db->setQuery($query);
 			$db->query();
 		}
-		
+
 		$task = JRequest::getVar('task');
 		if($task == 'apply') {
 			$mainframe->redirect('index.php?option='.$option.'&task=edit&cid[]='.$template.'&client='.$client->id);
@@ -297,7 +297,7 @@ class TemplatesController
 		// Initialize some variables
 		$option		= JRequest::getVar('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$template	= JRequest::getVar('id', '', 'method', 'word');
+		$template	= JRequest::getVar('id', '', 'method', 'cmd');
 		$file		= $client->path.DS.'templates'.DS.$template.DS.'index.php';
 
 		// Read the source file
@@ -326,7 +326,7 @@ class TemplatesController
 		// Initialize some variables
 		$option			= JRequest::getVar('option');
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$template		= JRequest::getVar('id', '', 'method', 'word');
+		$template		= JRequest::getVar('id', '', 'method', 'cmd');
 		$enableWrite	= JRequest::getVar('enable_write', 0, '', 'int');
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', JREQUEST_ALLOWRAW);
 
@@ -384,7 +384,7 @@ class TemplatesController
 
 		// Initialize some variables
 		$option 	= JRequest::getVar('option');
-		$template	= JRequest::getVar('id', '', 'method', 'word');
+		$template	= JRequest::getVar('id', '', 'method', 'cmd');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		// Determine template CSS directory
@@ -413,7 +413,7 @@ class TemplatesController
 		// Initialize some variables
 		$option		= JRequest::getVar('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$template	= JRequest::getVar('id', '', 'method', 'word');
+		$template	= JRequest::getVar('id', '', 'method', 'cmd');
 		$filename	= JRequest::getVar('filename');
 
 		jimport('joomla.filesystem.file');
@@ -443,7 +443,7 @@ class TemplatesController
 		// Initialize some variables
 		$option			= JRequest::getVar('option');
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$template		= JRequest::getVar('id', '', 'method', 'word');
+		$template		= JRequest::getVar('id', '', 'method', 'cmd');
 		$filename		= JRequest::getVar('filename');
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', JREQUEST_ALLOWRAW);
 
