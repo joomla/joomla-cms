@@ -24,7 +24,7 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 
-class JElementHidden extends JElement 
+class JElementHidden extends JElement
 {
    /**
 	* Element name
@@ -41,4 +41,3 @@ class JElementHidden extends JElement
 		return '<input type="hidden" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' />';
 	}
 }
-?>

@@ -72,4 +72,3 @@ class JButtonLink extends JButton
 		return $url;
 	}
 }
-?>

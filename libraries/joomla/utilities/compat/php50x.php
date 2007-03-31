@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: php50x.php 6138 2007-01-02 03:44:18Z eddiea $
+* @version		$Id:php50x.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	Compatibility
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -100,4 +100,3 @@ if (!function_exists('file_put_contents')) {
 function clone($object) {
 	return $object;
 }
-?>

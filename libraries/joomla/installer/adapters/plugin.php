@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: plugin.php 6138 2007-01-02 03:44:18Z eddiea $
+ * @version		$Id:plugin.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -305,4 +305,3 @@ class JInstallerPlugin extends JObject
 		return ($db->query() !== false);
 	}
 }
-?>

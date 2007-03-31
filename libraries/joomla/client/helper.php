@@ -241,4 +241,3 @@ class JClientHelper
 		return $return;
 	}
 }
-?>

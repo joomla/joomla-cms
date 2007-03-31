@@ -107,4 +107,3 @@ jimport( 'joomla.utilities.date' );
 		return $feed;
 	}
 }
-?>

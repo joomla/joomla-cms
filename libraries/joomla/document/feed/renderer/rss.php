@@ -158,4 +158,3 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		return $feed;
 	}
 }
-?>

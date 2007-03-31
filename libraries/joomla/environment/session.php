@@ -702,4 +702,3 @@ class JSession extends JObject
 		return true;
 	}
 }
-?>

@@ -74,4 +74,3 @@ class JElementCategory extends JElement
 		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name );
 	}
 }
-?>

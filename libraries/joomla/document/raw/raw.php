@@ -58,4 +58,3 @@ class JDocumentRAW extends JDocument
 		return $this->getBuffer();
 	}
 }
-?>

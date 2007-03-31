@@ -50,4 +50,3 @@ class JButtonSeparator extends JButton
 		return '<td class="' . $class . '"' . $style . ">\n</td>\n";
 	}
 }
-?>

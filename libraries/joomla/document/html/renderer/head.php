@@ -156,4 +156,3 @@ class JDocumentRendererHead extends JDocumentRenderer
 		return $strHtml;
 	}
 }
-?>

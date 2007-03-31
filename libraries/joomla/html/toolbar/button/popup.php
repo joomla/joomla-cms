@@ -90,4 +90,3 @@ class JButtonPopup extends JButton
 		return $cmd;
 	}
 }
-?>

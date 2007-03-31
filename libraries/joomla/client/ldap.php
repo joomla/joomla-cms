@@ -19,7 +19,8 @@
  * @subpackage		Client
  * @since		1.5
  */
-class JLDAP {
+class JLDAP
+{
 	/** @var string Hostname of LDAP server
 		@access public */
 	var $host = null;
@@ -67,7 +68,8 @@ class JLDAP {
 	 * @param object An object of configuration variables
 	 * @access public
 	 */
-	function JLDAP($configObj = null) {
+	function JLDAP($configObj = null)
+	{
 		if (is_object($configObj)) {
 			$vars = get_class_vars(get_class($this));
 			foreach (array_keys($vars) as $var) {
@@ -85,7 +87,8 @@ class JLDAP {
 	 * @return boolean True if successful
 	 * @access public
 	 */
-	function connect() {
+	function connect()
+	{
 		if ($this->host == '') {
 			return false;
 		}
@@ -123,7 +126,8 @@ class JLDAP {
 	 * @param string The username
 	 * @access public
 	 */
-	function setDN($username,$nosub=0) {
+	function setDN($username,$nosub=0)
+	{
 		if ($this->users_dn == '' || $nosub) {
 			$this->_dn = $username;
 		} else {
@@ -142,7 +146,8 @@ class JLDAP {
 	/**
 	 * Anonymously Binds to LDAP Directory
 	 */
-	function anonymous_bind() {
+	function anonymous_bind()
+	{
 		$bindResult = @ldap_bind($this->_resource);
 		return $bindResult;
 	}
@@ -154,7 +159,8 @@ class JLDAP {
 	 * @return boolean Result
 	 * @access public
 	 */
-	function bind($username = null, $password = null, $nosub = 0) {
+	function bind($username = null, $password = null, $nosub = 0)
+	{
 		if (is_null($username)) {
 			$username = $this->username;
 		}
@@ -170,7 +176,8 @@ class JLDAP {
 	 * Perform an LDAP search using comma seperated search strings
 	 * @param string search string of search values
 	 */
-	function simple_search($search) {
+	function simple_search($search)
+	{
 		$results = explode(';', $search);
 		foreach($results as $key=>$result) {
 			$results[$key] = '('.$result.')';
@@ -186,7 +193,8 @@ class JLDAP {
 	 * @return array Multidimensional array of results
 	 * @access public
 	 */
-	function search($filters, $dnoverride = null) {
+	function search($filters, $dnoverride = null)
+	{
 		$attributes = array ();
 		if ($dnoverride) {
 			$dn = $dnoverride;
@@ -196,10 +204,13 @@ class JLDAP {
 
 		$resource = $this->_resource;
 
-		foreach ($filters as $search_filter) {
+		foreach ($filters as $search_filter)
+		{
 			$search_result = ldap_search($resource, $dn, $search_filter);
-			if ($search_result && ($count = ldap_count_entries($resource, $search_result)) > 0) {
-				for ($i = 0; $i < $count; $i++) {
+			if ($search_result && ($count = ldap_count_entries($resource, $search_result)) > 0)
+			{
+				for ($i = 0; $i < $count; $i++)
+				{
 					$attributes[$i] = Array ();
 					if (!$i) {
 						$firstentry = ldap_first_entry($resource, $search_result);
@@ -208,8 +219,10 @@ class JLDAP {
 					}
 					$attributes_array = ldap_get_attributes($resource, $firstentry); // load user-specified attributes
 					// ldap returns an array of arrays, fit this into attributes result array
-					foreach ($attributes_array as $ki => $ai) {
-						if (is_array($ai)) {
+					foreach ($attributes_array as $ki => $ai)
+					{
+						if (is_array($ai))
+						{
 							$subcount = $ai['count'];
 							$attributes[$i][$ki] = Array ();
 							for ($k = 0; $k < $subcount; $k++) {
@@ -241,7 +254,8 @@ class JLDAP {
 	 * @return string Net address
 	 * @access public
 	 */
-	function ipToNetAddress($ip) {
+	function ipToNetAddress($ip)
+	{
 		$parts = explode('.', $ip);
 		$address = '1#';
 
@@ -270,7 +284,8 @@ class JLDAP {
 	 *				 correctly, however, an IPX address does not seem to.  eDir 8.7 may
 	 *				correct this.
 	 */
-	function LDAPNetAddr($networkaddress) {
+	function LDAPNetAddr($networkaddress)
+	{
 		$addr = "";
 		$addrtype = intval(substr($networkaddress, 0, 1));
 		$networkaddress = substr($networkaddress, 2); // throw away bytes 0 and 1 which should be the addrtype and the "#" separator
@@ -292,8 +307,10 @@ class JLDAP {
 			'Count'
 		);
 		$len = strlen($networkaddress);
-		if ($len > 0) {
-			for ($i = 0; $i < $len; $i += 1) {
+		if ($len > 0)
+		{
+			for ($i = 0; $i < $len; $i += 1)
+			{
 				$byte = substr($networkaddress, $i, 1);
 				$addr .= ord($byte);
 				if ($addrtype == 1) { // dot separate IP addresses...
@@ -309,4 +326,3 @@ class JLDAP {
 		return Array('protocol'=>$addrtypes[$addrtype], 'address'=>$addr);
 	}
 }
-?>

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Mar-2007 Johan Janssens
+ ^ Removed closing tags from Joomla! Framework library files
+
 31-Mar-2007 Jason Kendall
  # Fixed [track191] - Missing DS in finding lang file.
 

@@ -648,4 +648,3 @@ class JURI extends JObject
 		return implode("&",$out);
 	}
 }
-?>

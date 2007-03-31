@@ -258,4 +258,3 @@ class JArrayHelper
 		return 0;
 	}
 }
-?>

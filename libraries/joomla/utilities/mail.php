@@ -406,6 +406,5 @@ class JMailHelper
 		}
 		return $rBool;
 	}
-	
+
 }
-?>

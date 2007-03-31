@@ -26,7 +26,7 @@ jimport( 'joomla.base.observer' );
  * @subpackage	Application
  * @since		1.5
  */
-class JPlugin extends JObserver 
+class JPlugin extends JObserver
 {
 
 	/**
@@ -71,5 +71,3 @@ class JPlugin extends JObserver
 		}
 	}
 }
-
-?>

@@ -324,4 +324,3 @@ class JApplicationHelper
 		return null;
 	}
 }
-?>

@@ -127,4 +127,3 @@ class JCacheCallback extends JCache
 		return md5(serialize(array($callback, $args)));
 	}
 }
-?>

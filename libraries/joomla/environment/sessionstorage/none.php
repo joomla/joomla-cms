@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: session.php 6157 2007-01-03 00:22:09Z Jinx $
+* @version		$Id:none.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	Environment
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -16,7 +16,7 @@
 defined('JPATH_BASE') or die();
 
 /**
-* File session handler for PHP 
+* File session handler for PHP
 *
 * @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
@@ -37,4 +37,3 @@ class JSessionStorageNone extends JSessionStorage
 		//let php handle the session storage
 	}
 }
-?>

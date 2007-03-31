@@ -77,4 +77,3 @@ class JRegistryFormat extends JObject
 
 	}
 }
-?>

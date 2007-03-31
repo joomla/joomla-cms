@@ -383,4 +383,3 @@ class JTableUser extends JTable
 		}
 	}
 }
-?>

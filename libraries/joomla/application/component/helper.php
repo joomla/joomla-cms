@@ -177,4 +177,3 @@ class JComponentHelper
 		return $contents;
 	}
 }
-?>

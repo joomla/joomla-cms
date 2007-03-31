@@ -816,4 +816,3 @@ class JBrowser extends JObject
 			getenv('SSL_PROTOCOL_VERSION'));
 	}
 }
-?>

@@ -293,4 +293,3 @@ class JAuthenticationResponse extends JObject
 		$this->type = $type;
 	}
 }
-?>

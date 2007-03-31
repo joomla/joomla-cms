@@ -504,4 +504,3 @@ class JFeedImage extends JObject
 	 */
 	 var $description;
 }
-?>

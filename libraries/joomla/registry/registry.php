@@ -308,7 +308,7 @@ class JRegistry extends JObject
 				$this->_registry[$namespace]['data']->$k = $v;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -348,7 +348,7 @@ class JRegistry extends JObject
 				$this->_registry[$namespace]['data']->$k = $v;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -388,7 +388,7 @@ class JRegistry extends JObject
 				$this->_registry[$namespace]['data']->$k = $v;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -516,4 +516,3 @@ class JRegistry extends JObject
 		}
 	}
 }
-?>

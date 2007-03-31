@@ -35,4 +35,3 @@ class patTemplate_Modifier_SEF extends patTemplate_Modifier
 		return JRoute::_( $value );
 	}
 }
-?>

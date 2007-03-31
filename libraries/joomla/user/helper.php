@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: authenticate.php 6257 2007-01-11 22:03:46Z friesengeist $
+* @version		$Id:helper.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	User
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -323,5 +323,3 @@ class JUserHelper
 		return $bin;
 	}
 }
-
-?>

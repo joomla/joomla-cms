@@ -120,7 +120,7 @@ class JEditor extends JObservable
 		if(is_null(($this->_editor))) {
 			return;
 		}
-		
+
 		/*
 		 * Backwards compatibility. Width and height should be passed without a semicolon from now on.
 		 * If editor plugins need a unit like "px" for CSS styling, they need to take care of that
@@ -165,7 +165,7 @@ class JEditor extends JObservable
 		if(is_null(($this->_editor))) {
 			return;
 		}
-		
+
 		$args[] = $editor;
 		$args['event'] = 'onSave';
 
@@ -236,7 +236,7 @@ class JEditor extends JObservable
 		if(!is_null(($this->_editor))) {
 			return;
 		}
-		
+
 		jimport('joomla.filesystem.file');
 
 		// Build the path to the needed editor plugin
@@ -248,7 +248,7 @@ class JEditor extends JObservable
 			JError::raiseWarning( 500, $message );
 			return false;
 		}
-		
+
 		// Require plugin file
 		require_once ($path);
 
@@ -261,4 +261,3 @@ class JEditor extends JObservable
 		}
 	}
 }
-?>

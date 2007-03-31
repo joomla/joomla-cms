@@ -741,4 +741,3 @@ class JController extends JObject
 		return $filename;
 	}
 }
-?>

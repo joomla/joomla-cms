@@ -717,4 +717,3 @@ class JDocument extends JObject
 		return implode($outer_glue, $output);
 	}
  }
-?>

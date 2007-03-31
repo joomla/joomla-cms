@@ -84,4 +84,3 @@ class JButtonHelp extends JButton
 		return $cmd;
 	}
 }
-?>

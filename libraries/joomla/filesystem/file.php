@@ -347,4 +347,3 @@ class JFile
 		return is_file(JPath::clean($file));
 	}
 }
-?>

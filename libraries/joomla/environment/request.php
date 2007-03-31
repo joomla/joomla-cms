@@ -490,4 +490,3 @@ class JRequest
 		return $value;
 	}
 }
-?>

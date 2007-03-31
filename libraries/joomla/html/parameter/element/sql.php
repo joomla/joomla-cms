@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: hidden.php 6138 2007-01-02 03:44:18Z eddiea $
+* @version		$Id:sql.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	Parameter
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -24,7 +24,7 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 
-class JElementSQL extends JElement 
+class JElementSQL extends JElement
 {
    /**
 	* Element name
@@ -41,4 +41,3 @@ class JElementSQL extends JElement
 		return JHTMLSelect::genericList($db->loadObjectList(), ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', $name, $value, $control_name.$name);
 	}
 }
-?>

@@ -191,4 +191,3 @@ class JDocumentError extends JDocument
 		return $contents;
 	}
 }
-?>

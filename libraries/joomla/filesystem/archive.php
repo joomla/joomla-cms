@@ -120,4 +120,3 @@ class JArchive
 		return $adapters[$type];
 	}
 }
-?>

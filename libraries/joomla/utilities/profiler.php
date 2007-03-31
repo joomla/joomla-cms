@@ -163,5 +163,3 @@ class JProfiler extends JObject
 		return $this->_buffer;
 	}
 }
-
-?>

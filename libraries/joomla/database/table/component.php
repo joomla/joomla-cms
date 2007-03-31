@@ -111,4 +111,3 @@ class JTableComponent extends JTable
 		return parent::bind($array, $ignore);
 	}
 }
-?>

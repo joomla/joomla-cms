@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: compat.php 6472 2007-02-03 10:47:26Z pasamio $
+* @version		$Id:compat.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	Compatibility
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -25,4 +25,3 @@ defined('JPATH_BASE') or die();
 if (version_compare( phpversion(), '5.0' ) < 0) {
 	jimport('joomla.utilities.compat.php50x' );
 }
-?>

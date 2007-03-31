@@ -45,4 +45,3 @@ class JElementTextarea extends JElement
 		return '<textarea name="'.$control_name.'['.$name.']" cols="'.$cols.'" rows="'.$rows.'" '.$class.' id="'.$control_name.$name.'" >'.$value.'</textarea>';
 	}
 }
-?>

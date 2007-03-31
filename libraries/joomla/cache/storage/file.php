@@ -223,4 +223,3 @@ class JCacheStorageFile extends JCacheStorage
 		return $this->_root.DS.$folder.DS.$name;
 	}
 }
-?>

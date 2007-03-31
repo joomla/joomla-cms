@@ -47,4 +47,3 @@ class JElementSpacer extends JElement
 		}
 	}
 }
-?>

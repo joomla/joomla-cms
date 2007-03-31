@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: component.php 6138 2007-01-02 03:44:18Z eddiea $
+ * @version		$Id:component.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -223,7 +223,7 @@ class JInstallerComponent extends JObject
 				return false;
 			}
 		}
-		
+
 		// Time to build the admin menus
 		$this->_buildAdminMenus();
 
@@ -444,25 +444,25 @@ class JInstallerComponent extends JObject
 
 		$db->setQuery($query);
 		$exists = $db->loadResult();
-		
+
 		// Check if menu items exist
 		if ($exists) {
-			
+
 			// Don't do anything if overwrite has not been enabled
 			if ( ! $this->parent->getOverwrite() ) {
 				return true;
 			}
-			
+
 			// Remove existing menu items if overwrite has been enabled
 			if ( $option ) {
-				
+
 				$sql = 'DELETE FROM #__components WHERE `option` = '.$db->Quote($option);
 
 				$db->setQuery($sql);
 				if (!$db->query()) {
 					JError::raiseWarning(100, 'Component Install: '.$db->stderr(true));
 				}
-			} 
+			}
 		}
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
@@ -672,4 +672,3 @@ class JInstallerComponent extends JObject
 		return ($db->query() !== false);
 	}
 }
-?>

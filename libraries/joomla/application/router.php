@@ -83,7 +83,7 @@ class JRoute
 		if ($ssl == -1) {
 			$url = $unsecure.$url;
 		}
-		
+
 		if($xhtml) {
 			$url = str_replace( '&', '&amp;', $url );
 		}
@@ -445,4 +445,3 @@ class JRouter extends JObject
 		return $segments;
 	}
 }
-?>

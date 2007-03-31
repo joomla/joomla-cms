@@ -76,4 +76,3 @@ class JDocumentRenderer extends JObject
 		return $this->_mime;
 	}
 }
-?>

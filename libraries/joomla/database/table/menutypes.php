@@ -60,4 +60,3 @@ class JTableMenuTypes extends JTable
 		return true;
 	}
 }
-?>

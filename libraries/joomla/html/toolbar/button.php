@@ -132,4 +132,3 @@ class JButton extends JObject
 		return;
 	}
 }
-?>

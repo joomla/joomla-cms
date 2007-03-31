@@ -306,4 +306,3 @@ class JMenu extends JObject
 		return $menus;
 	}
 }
-?>

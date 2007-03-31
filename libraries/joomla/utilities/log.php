@@ -226,4 +226,3 @@ class JLog extends JObject
 		return true;
 	}
 }
-?>

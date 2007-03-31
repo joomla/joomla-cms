@@ -104,13 +104,13 @@ class JUser extends JObject
 	 * @var string
 	 */
 	var $params			= null;
-	
+
 	/**
 	 * Description
 	 * @var string integer
 	 */
 	var $aid 		= null;
-	
+
 	/**
 	 * Description
 	 * @var boolean
@@ -134,8 +134,8 @@ class JUser extends JObject
 	 * @var string
 	 */
 	var $clearPW	= '';
-	
-	
+
+
 	/**
 	* Constructor activating the default information of the language
 	*
@@ -403,7 +403,7 @@ class JUser extends JObject
 		 * @todo: this will be deprecated as of the ACL implementation
 		 */
 		$db =& JFactory::getDBO();
-		
+
 		$gid	= array_key_exists('gid', $array ) ? $array['gid'] : $this->get('gid');
 
 		$query = 'SELECT name'
@@ -422,10 +422,10 @@ class JUser extends JObject
 			} else {
 				$params = $array['params'];
 			}
-			
+
 			$this->params = $params;
 		}
-		
+
 		/*
 		 * Lets first try to bind the array to us... if that fails
 		 * then we can certainly fail the whole method as we've done absolutely
@@ -453,7 +453,7 @@ class JUser extends JObject
 	function save( $updateOnly = false )
 	{
 		jimport( 'joomla.utilities.array' );
-		
+
 		// Create the user table object
 		$table 	=& JTable::getInstance( 'user');
 		$table->bind(JArrayHelper::fromObject($this, false));
@@ -648,5 +648,3 @@ class JUser extends JObject
 		$this->_errorMsg .= $msg."\n";
 	}
 }
-
-?>

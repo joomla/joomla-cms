@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: archive.php 6138 2007-01-02 03:44:18Z eddiea $
+ * @version		$Id:gzip.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	FileSystem
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -133,4 +133,3 @@ class JArchiveGzip extends JObject
 		return $position;
 	}
 }
-?>

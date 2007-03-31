@@ -24,7 +24,7 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 
-class JElementPassword extends JElement 
+class JElementPassword extends JElement
 {
    /**
 	* Element name
@@ -42,4 +42,3 @@ class JElementPassword extends JElement
 		return '<input type="password" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' '.$size.' />';
 	}
 }
-?>

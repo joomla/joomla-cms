@@ -354,4 +354,3 @@ class JDocumentHTML extends JDocument
 		return $data;
 	}
 }
-?>

@@ -67,7 +67,7 @@ class JButtonStandard extends JButton
 	 * @param	string	$name	The task name as seen by the user
 	 * @param	string	$task	The task used by the application
 	 * @param	???		$list
-	 * @param	boolean	$hide	
+	 * @param	boolean	$hide
 	 * @return	string	JavaScript command string
 	 * @since	1.5
 	 */
@@ -87,4 +87,3 @@ class JButtonStandard extends JButton
 		return $cmd;
 	}
 }
-?>

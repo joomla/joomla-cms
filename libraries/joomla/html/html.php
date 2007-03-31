@@ -1170,4 +1170,3 @@ class JAdminMenus
 		return $image;
 	}
 }
-?>

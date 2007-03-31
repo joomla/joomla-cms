@@ -24,7 +24,7 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 
-class JElementRadio extends JElement 
+class JElementRadio extends JElement
 {
    /**
 	* Element name
@@ -47,4 +47,3 @@ class JElementRadio extends JElement
 		return JHTMLSelect::radioList($options, ''.$control_name.'['.$name.']', '', $value, 'value', 'text', $control_name.$name );
 	}
 }
-?>

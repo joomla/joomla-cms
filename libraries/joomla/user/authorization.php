@@ -536,4 +536,3 @@ class JTableARO extends JTable
 		parent::__construct( '#__core_acl_aro_groups', 'group_id', $db );
 	}
 }
-?>

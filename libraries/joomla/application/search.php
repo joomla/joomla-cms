@@ -250,4 +250,3 @@ class JSearchHelper
 		return true;
 	}
 }
-?>

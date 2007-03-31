@@ -238,4 +238,3 @@ class JCache extends JObject
 		return $this->_handler;
 	}
 }
-?>

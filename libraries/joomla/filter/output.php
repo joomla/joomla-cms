@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: functions.php 4277 2006-07-19 20:35:35Z friesengeist $
+ * @version		$Id:output.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Filter
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -149,4 +149,3 @@ class JOutputFilter
 		return $text;
 	}
 }
-?>

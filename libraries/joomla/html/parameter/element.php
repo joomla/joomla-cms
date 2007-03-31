@@ -103,4 +103,3 @@ class JElement extends JObject
 		return;
 	}
 }
-?>

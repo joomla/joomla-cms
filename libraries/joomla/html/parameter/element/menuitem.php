@@ -119,4 +119,3 @@ class JElementMenuItem extends JElement
 		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
 	}
 }
-?>

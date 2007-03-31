@@ -24,7 +24,7 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 
-class JElementText extends JElement 
+class JElementText extends JElement
 {
    /**
 	* Element name
@@ -42,4 +42,3 @@ class JElementText extends JElement
 		return '<input type="text" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.htmlspecialchars($value).'" '.$class.' '.$size.' />';
 	}
 }
-?>

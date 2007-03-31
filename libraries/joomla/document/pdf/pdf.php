@@ -277,4 +277,3 @@ class JDocumentPDF extends JDocument
 		return $data;
 	}
 }
-?>

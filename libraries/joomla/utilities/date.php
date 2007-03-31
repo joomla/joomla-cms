@@ -228,4 +228,3 @@ class JDate extends JObject
 	}
 
 }
-?>

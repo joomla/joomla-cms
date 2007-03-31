@@ -279,4 +279,3 @@ class JToolBar extends JObject
 		return JBUTTON_INCLUDE_PATH;
 	}
 }
-?>

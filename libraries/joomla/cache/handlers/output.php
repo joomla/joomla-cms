@@ -76,4 +76,3 @@ class JCacheOutput extends JCache
 		$this->store($data, $id, $group);
 	}
 }
-?>

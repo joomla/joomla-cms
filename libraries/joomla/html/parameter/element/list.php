@@ -50,4 +50,3 @@ class JElementList extends JElement
 		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', $class, 'value', 'text', $value, $control_name.$name);
 	}
 }
-?>

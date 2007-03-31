@@ -1435,4 +1435,3 @@ class JFTP extends JObject {
 		return true;
 	}
 }
-?>

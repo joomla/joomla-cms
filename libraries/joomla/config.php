@@ -32,4 +32,3 @@ class JFrameworkConfig
 	var $offset		= 0;
 	var $lifetime	= 15;
 }
-?>

@@ -460,4 +460,3 @@ class JInputFilter extends JObject
 		return $source;
 	}
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: observer.php 6472 2007-02-03 10:47:26Z pasamio $
+* @version		$Id:observer.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	Base
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -168,4 +168,3 @@ class JObservable extends JObject
 		return $retval;
 	}
 }
-?>

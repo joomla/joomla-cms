@@ -143,4 +143,3 @@ class JHelp
 		return $list;
 	}
 }
-?>

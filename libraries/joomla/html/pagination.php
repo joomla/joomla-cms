@@ -660,4 +660,3 @@ class JPaginationObject extends JObject
 		$this->link = $link;
 	}
 }
-?>

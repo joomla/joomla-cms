@@ -481,4 +481,3 @@ class JFolder
 		return $dirs;
 	}
 }
-?>

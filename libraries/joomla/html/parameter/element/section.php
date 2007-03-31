@@ -46,4 +46,3 @@ class JElementSection extends JElement
 		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value, $control_name.$name);
 	}
 }
-?>

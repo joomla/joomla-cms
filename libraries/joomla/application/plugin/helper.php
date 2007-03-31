@@ -119,14 +119,14 @@ class JPluginHelper
 
 				require_once( $path );
 				$paths[$path] = true;
-				
-				if($autocreate) 
+
+				if($autocreate)
 				{
 					// Makes sure we have an event dispatcher
 					if(!is_object($dispatcher)) {
 						$dispatcher = & JEventDispatcher::getInstance();
 					}
-					
+
 					$className = 'plg'.$plugin->folder.$plugin->element;
 					if(class_exists($className)) {
 						$plugin = new $className($dispatcher);
@@ -156,7 +156,7 @@ class JPluginHelper
 		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
 
-		if (isset($user)) 
+		if (isset($user))
 		{
 			$aid = $user->get('aid', 0);
 
@@ -165,8 +165,8 @@ class JPluginHelper
 				. ' WHERE published >= 1'
 				. ' AND access <= ' . (int) $aid
 				. ' ORDER BY ordering';
-		} 
-		else 
+		}
+		else
 		{
 			$query = 'SELECT id, name, folder, element, published, params'
 				. ' FROM #__plugins'
@@ -185,4 +185,3 @@ class JPluginHelper
 	}
 
 }
-?>

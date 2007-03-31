@@ -129,7 +129,7 @@ class JUtility
 		$session =& JFactory::getSession();
 		return $session->getToken($forceNew);
 	}
-	
+
 	/**
  	 * Method to extract key/value pairs out of a string with xml style attributes
  	 *
@@ -168,4 +168,3 @@ class JUtility
 		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 	}
 }
-?>

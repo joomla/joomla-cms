@@ -153,4 +153,3 @@ class JCacheStorageEaccelerator extends JCacheStorage
 		return 'cache_'.$group.DS.$name;
 	}
 }
-?>

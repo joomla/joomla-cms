@@ -361,4 +361,3 @@ class JModel extends JObject
 		return $filename;
 	}
 }
-?>

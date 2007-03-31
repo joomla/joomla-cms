@@ -647,4 +647,3 @@ class JView extends JObject
 		return $filename;
 	}
 }
-?>

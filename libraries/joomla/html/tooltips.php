@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: pane.php 6138 2007-01-02 03:44:18Z eddiea $
+* @version		$Id:tooltips.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	HTML
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -58,4 +58,3 @@ function loadTooltips($selector='.hasTip', $params=array())
 
 // Create the default tooltips
 loadTooltips();
-?>

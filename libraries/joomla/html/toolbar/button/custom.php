@@ -50,4 +50,3 @@ class JButtonCustom extends JButton
 		return $this->_parent->_name.'-'.$id;
 	}
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: session.php 6157 2007-01-03 00:22:09Z Jinx $
+* @version		$Id:storage.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	Cache
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -169,4 +169,3 @@ class JCacheStorage extends JObject
 		return true;
 	}
 }
-?>

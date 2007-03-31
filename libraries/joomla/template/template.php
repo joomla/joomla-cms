@@ -207,4 +207,3 @@ class JTemplate extends patTemplate
 		return $templates;
 	}
 }
-?>

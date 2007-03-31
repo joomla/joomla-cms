@@ -38,4 +38,3 @@ class JDocumentRendererComponent extends JDocumentRenderer
 		return $content;
 	}
 }
-?>

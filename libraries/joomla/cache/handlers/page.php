@@ -136,4 +136,3 @@ class JCachePage extends JCache
 		JResponse::setHeader( 'ETag', $etag, true );
 	}
 }
-?>

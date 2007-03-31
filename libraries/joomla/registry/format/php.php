@@ -61,4 +61,3 @@ class JRegistryFormatPHP extends JRegistryFormat {
 		return true;
 	}
 }
-?>

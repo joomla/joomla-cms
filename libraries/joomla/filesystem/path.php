@@ -231,4 +231,3 @@ class JPath
 		return false;
 	}
 }
-?>

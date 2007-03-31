@@ -163,4 +163,3 @@ class JRegistryFormatINI extends JRegistryFormat {
 		return $obj;
 	}
 }
-?>

@@ -74,7 +74,7 @@ class JVersion
 	 *
 	 * @return string Version suffix for help files
 	 */
-	function getHelpVersion() 
+	function getHelpVersion()
 	{
 		if ($this->RELEASE > '1.0') {
 			return '.' . str_replace( '.', '', $this->RELEASE );
@@ -93,4 +93,3 @@ class JVersion
 		return (version_compare( JVERSION, $minimum, 'eq' ) == 1);
 	}
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: tree.php 6613 2007-02-13 01:36:19Z chrisdavenport $
+ * @version		$Id:tree.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Base
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -111,4 +111,3 @@ class JNode extends JObject
 		return $this->_children;
 	}
 }
-?>

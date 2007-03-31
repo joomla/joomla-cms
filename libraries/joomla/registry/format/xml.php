@@ -89,4 +89,3 @@ class JRegistryFormatXML extends JRegistryFormat {
 		return $retval;
 	}
 }
-?>

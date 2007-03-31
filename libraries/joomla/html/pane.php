@@ -297,4 +297,3 @@ class JPaneSliders extends JPane
 		$document->addScriptDeclaration( $js );
 	}
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: helpsites.php 5921 2006-12-04 16:12:21Z chrisdavenport $
+* @version		$Id:timezones.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	Parameter
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -86,4 +86,3 @@ class JElementTimezones extends JElement
 		return JHTMLSelect::genericList($timezones, ''.$control_name.'['.$name.']', ' class="inputbox"', 'value', 'text', $value, $control_name.$name );
 	}
 }
-?>

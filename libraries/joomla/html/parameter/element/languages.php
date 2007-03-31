@@ -54,4 +54,3 @@ class JElementLanguages extends JElement
 		return JHTMLSelect::genericList($languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name );
 	}
 }
-?>

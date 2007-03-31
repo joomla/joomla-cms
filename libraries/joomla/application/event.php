@@ -192,4 +192,3 @@ class JEventDispatcher extends JObservable
 		return $result;
 	}
 }
-?>

@@ -24,7 +24,7 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 
-class JElementImageList extends JElement 
+class JElementImageList extends JElement
 {
    /**
 	* Element name
@@ -44,4 +44,3 @@ class JElementImageList extends JElement
 		return $parameter->fetchElement($name, $value, $node, $control_name);
 	}
 }
-?>

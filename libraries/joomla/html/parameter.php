@@ -139,7 +139,7 @@ class JParameter extends JRegistry
 
 	/**
 	 * Sets the XML object from custom xml files
-	 * 
+	 *
 	 * @access	public
 	 * @param	object An XML object
 	 * @since	1.5
@@ -252,7 +252,7 @@ class JParameter extends JRegistry
 	 * @return	mixed	Boolean falst if no params exist or integer number of params that exist
 	 * @since	1.5
 	 */
-	function getNumParams($group = '_default') 
+	function getNumParams($group = '_default')
 	{
 		if (!isset($this->_xml[$group]) || !count($this->_xml[$group]->children())) {
 			return false;
@@ -463,4 +463,3 @@ class JParameter extends JRegistry
 		return	JPARAMETER_INCLUDE_PATH;
 	}
 }
-?>

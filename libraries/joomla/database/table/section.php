@@ -65,7 +65,7 @@ class JTableSection extends JTable
 			$this->_error = JText::sprintf( 'must contain a title', JText::_( 'Section') );
 			return false;
 		}
-		
+
 		// check for existing name
 		/*$query = "SELECT id"
 		. ' FROM #__sections "
@@ -79,14 +79,14 @@ class JTableSection extends JTable
 			$this->_error = JText::sprintf( 'WARNNAMETRYAGAIN', JText::_( 'Section') );
 			return false;
 		}*/
-		
+
 		jimport('joomla.filter.output');
 		$alias = JOutputFilter::stringURLSafe($this->title);
-		
+
 		if(empty($this->name) || $this->name === $alias ) {
 			$this->name = $alias;
 		}
-		
+
 		return true;
 	}
 
@@ -111,4 +111,3 @@ class JTableSection extends JTable
 		return parent::bind($array, $ignore);
 	}
 }
-?>

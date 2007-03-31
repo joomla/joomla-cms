@@ -56,7 +56,7 @@ class JText
 		}
 		return '';
 	}
-	
+
 	/**
 	 * Passes a string thru an printf
 	 *
@@ -135,10 +135,10 @@ class JLanguage extends JObject
 	 * @access protected
 	 */
 	var $_lang = null;
-	
+
 	/**
 	 * List of language files that have been loaded
-	 * 
+	 *
 	 * @var		array of arrays
 	 * @access	public
 	 * @since	1.5
@@ -300,7 +300,7 @@ class JLanguage extends JObject
 			} else {
 				$result = false;
 			}
-			
+
 			// Record the result of loading the extension's file.
 			if ( ! isset($this->_paths[$extension])) {
 				$this->_paths[$extension] = array();
@@ -358,10 +358,10 @@ class JLanguage extends JObject
 	function getName() {
 		return $this->_metadata['name'];
 	}
-	
+
 	/**
 	 * Get a list of language files that have been loaded
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$extension	An option extension name
 	 * @return	array
@@ -373,7 +373,7 @@ class JLanguage extends JObject
 		{
 			if ( isset($this->_paths[$extension]) )
 				return $this->_paths[$extension];
-				
+
 			return null;
 		}
 		else
@@ -764,4 +764,3 @@ class JLanguageHelper
 	}
 
 }
-?>

@@ -252,4 +252,3 @@ class JModuleHelper
 		return $modules;
 	}
 }
-?>

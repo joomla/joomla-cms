@@ -78,4 +78,3 @@ class JDocumentRendererMessage extends JDocumentRenderer
 		return $contents;
 	}
 }
-?>

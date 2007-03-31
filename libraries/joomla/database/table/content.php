@@ -158,4 +158,3 @@ class JTableContent extends JTable
 		return parent::toXML( $mapKeysToText );
 	}
 }
-?>

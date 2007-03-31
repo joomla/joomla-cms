@@ -173,4 +173,3 @@ class JTableSession extends JTable
 		return (boolean) $result;
 	}
 }
-?>

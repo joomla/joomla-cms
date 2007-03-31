@@ -44,4 +44,3 @@ class JDocumentRendererModules extends JDocumentRenderer
 		return $contents;
 	}
 }
-?>

@@ -42,4 +42,3 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
 	}
 	return $list;
 }
-?>

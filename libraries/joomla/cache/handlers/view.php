@@ -98,4 +98,3 @@ class JCacheView extends JCache
 		return md5(serialize(array(JRequest::getURI(), get_class($view), $method)));
 	}
 }
-?>
