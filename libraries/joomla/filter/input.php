@@ -133,6 +133,10 @@ class JInputFilter extends JObject
 				$result = (string) preg_replace( '/[^A-Z_]/i', '', $source );
 				break;
 
+			case 'CMD' :
+				$result = (string) preg_replace( '/[^A-Z0-9_\.-]/i', '', $source );
+				break;
+
 			default :
 				// Are we dealing with an array?
 				if (is_array($source)) {

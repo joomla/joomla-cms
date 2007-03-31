@@ -138,6 +138,101 @@ class JRequest
 		return $var;
 	}
 
+	/**
+	 * Fetches and returns a given filtered variable. The integer
+	 * filter will allow only digits to be returned. This is currently
+	 * only a proxy function for getVar().
+	 *
+	 * See getVar() for more in-depth documentation on the parameters.
+	 *
+	 * @static
+	 * @param	string	$name		Variable name
+	 * @param	string	$default		Default value if the variable does not exist
+	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
+	 * @return	integer	Requested variable
+	 * @since	1.5
+	 */
+	function getInt($name, $default = null, $hash = 'default')
+	{
+		return JRequest::getVar($name, $default, $hash, 'int');
+	}
+
+	/**
+	 * Fetches and returns a given filtered variable.  The float
+	 * filter only allows digits and periods.  This is currently
+	 * only a proxy function for getVar().
+	 *
+	 * See getVar() for more in-depth documentation on the parameters.
+	 *
+	 * @static
+	 * @param	string	$name		Variable name
+	 * @param	string	$default		Default value if the variable does not exist
+	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
+	 * @return	float	Requested variable
+	 * @since	1.5
+	 */
+	function getFloat($name, $default = null, $hash = 'default')
+	{
+		return JRequest::getVar($name, $default, $hash, 'float');
+	}
+
+	/**
+	 * Fetches and returns a given filtered variable. The bool
+	 * filter will only return true/false bool values. This is
+	 * currently only a proxy function for getVar().
+	 *
+	 * See getVar() for more in-depth documentation on the parameters.
+	 *
+	 * @static
+	 * @param	string	$name		Variable name
+	 * @param	string	$default		Default value if the variable does not exist
+	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
+	 * @return	bool		Requested variable
+	 * @since	1.5
+	 */
+	function getBool($name, $default = null, $hash = 'default')
+	{
+		return JRequest::getVar($name, $default, $hash, 'bool');
+	}
+
+	/**
+	 * Fetches and returns a given filtered variable. The word
+	 * filter only allows the characters [A-Za-z_]. This is currently
+	 * only a proxy function for getVar().
+	 *
+	 * See getVar() for more in-depth documentation on the parameters.
+	 *
+	 * @static
+	 * @param	string	$name		Variable name
+	 * @param	string	$default		Default value if the variable does not exist
+	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
+	 * @return	string	Requested variable
+	 * @since	1.5
+	 */
+	function getWord($name, $default = null, $hash = 'default')
+	{
+		return JRequest::getVar($name, $default, $hash, 'word');
+	}
+
+	/**
+	 * Fetches and returns a given filtered variable. The cmd
+	 * filter only allows the characters [A-Za-z0-9.-_]. This is
+	 * currently only a proxy function for getVar().
+	 *
+	 * See getVar() for more in-depth documentation on the parameters.
+	 *
+	 * @static
+	 * @param	string	$name		Variable name
+	 * @param	string	$default		Default value if the variable does not exist
+	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
+	 * @return	string	Requested variable
+	 * @since	1.5
+	 */
+	function getCmd($name, $default = null, $hash = 'default')
+	{
+		return JRequest::getVar($name, $default, $hash, 'cmd');
+	}
+
 	function setVar($name, $value = null, $hash = 'default', $overwrite = true)
 	{
 		//If overwrite is true, makes sure the variable hasn't been set yet

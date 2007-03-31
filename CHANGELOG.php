@@ -37,13 +37,19 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Mar-2007 Rob Schley
+ + getInt(), getFloat(), getBool(), getWord(), getCmd() to JRequest
+ ! Those methods are just proxies to getVar() for now
+ + Implemented 'cmd' filter type to JInputFilter
+ ! The 'cmd' filter type allows [A-Za-z0-9_-.]
+
 30-Mar-2007 Toby Patterson
  + setError(), getError(), and hasError() to JObject
  ! such methods will be removed from the framework
 
 30-Mar-2007 Johan Janssens
  ^ Implemented auto creating for plugins in JPluginHelper::importPlugin
- ^ Renamed JAuthorize to JAuthorization for consistency 
+ ^ Renamed JAuthorize to JAuthorization for consistency
 
 29-Mar-2007 Rob Schley
  * Hardened findOption in JAdministrator
