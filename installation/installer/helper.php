@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version		$Id: classes.php 6774 2007-03-05 02:42:09Z friesengeist $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Installation
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -480,7 +480,7 @@ class JInstallationHelper
 		}
 
 		// Verify valid root path, part one
-		$checkList = array('CHANGELOG.php', 'COPYRIGHT.php', 'feed.php', 'index.php', 'INSTALL.php', 'LICENSE.php');
+		$checkList = array('CHANGELOG.php', 'COPYRIGHT.php', 'installation', 'index.php', 'INSTALL.php', 'LICENSE.php');
 		if (count(array_diff($checkList, $rootList))) {
 			return JError::raiseWarning('31', 'INVALIDROOT');
 		}
