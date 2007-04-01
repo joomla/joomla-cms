@@ -138,7 +138,7 @@ class JDocumentPDF extends JDocument
 		jimport('tcpdf.tcpdf');
 
 		// Default settings are a portrait layout with an A4 configuration using millimeters as units
-		$this->_engine = new TCPDF("P", "mm", "A4", true);
+		$this->_engine = new TCPDF();
 
 		//set margins
 		$this->_engine->SetMargins($this->_margin_left, $this->_margin_top, $this->_margin_right);

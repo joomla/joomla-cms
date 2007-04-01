@@ -411,6 +411,23 @@ class JDatabase extends JObject
 	 * @return string beautified text
 	 */
 	function beautify($sqltext) {
+
+		// Start by finding what we are doing
+		// SELECT, DELETE, INSERT
+/*		$pieces = explode ( " ", $sqltext );
+		switch (strtoupper( $pieces[0] )) {
+			case "SELECT":
+				$pieces[0] = "SELECT\n\t";
+				$sqltext = implode ( " ", $pieces);
+				break;
+			case "DELETE":
+				break;
+			case "INSERT":
+				break;
+			default:
+				// do nothing, we don't know what we are looking for
+		}
+*/
 		jimport('geshi.geshi');
 		jimport('domit.xml_saxy_shared');
 		$geshi = new GeSHi( $sqltext, 'sql' );
