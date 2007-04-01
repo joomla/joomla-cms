@@ -73,7 +73,8 @@ class  plgSystemDebug extends JPlugin
 			echo '<h4>'.JText::sprintf( 'Queries logged',  $db->_ticker ).'</h4>';
 			echo '<ol>';
 			foreach ($db->_log as $k=>$sql) {
-				echo '<li><pre>'.$sql.'</pre></li>';
+				$text = $db->beautify( $sql );
+				echo '<li><pre>'.$text.'</pre></li>';
 			}
 			echo '</ol></p>';
 		}

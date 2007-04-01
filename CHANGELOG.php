@@ -42,6 +42,7 @@ Legend:
 
 31-Mar-2007 Jason Kendall
  # Fixed [track191] - Missing DS in finding lang file.
+ ^ [track13] - Starting working on beautify SQL function
 
 30-Mar-2007 Rob Schley
  + getInt(), getFloat(), getBool(), getWord(), getCmd() to JRequest

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: database.php 4350 2006-07-28 03:34:45Z eddiea $
+* @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Database
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -398,8 +398,28 @@ class JDatabase extends JObject
 	 * @return string The current value of the internal SQL vairable
 	 */
 	function getQuery() {
-		return "<pre>" . htmlspecialchars( $this->_sql ) . "</pre>";
+		$text = $this->beautify($this->_sql);
+		return $text;
+
 	}
+
+	/**
+	 * Beautify SQL (Add line breaks and highlighting)
+	 *
+	 * @access public
+	 * @param string sql to work with
+	 * @return string beautified text
+	 */
+	function beautify($sqltext) {
+		jimport('geshi.geshi');
+		jimport('domit.xml_saxy_shared');
+		$geshi = new GeSHi( $sqltext, 'sql' );
+		$geshi->set_header_type(GESHI_HEADER_PRE);
+		$geshi->enable_line_numbers( GESHI_NORMAL_LINE_NUMBERS );
+		$text = $geshi->parse_code();
+		return $text;
+	}
+
 
 	/**
 	 * Execute the query
@@ -555,7 +575,7 @@ class JDatabase extends JObject
 	 * Inserts a row into a table based on an objects properties
 	 * @param	string	The name of the table
 	 * @param	object	An object whose properties match table fields
-	 * @param	string	The name of the primary key. If provided the object property is updated. 
+	 * @param	string	The name of the primary key. If provided the object property is updated.
 	 */
 	function insertObject( $table, &$object, $keyName = NULL ) {
 		return;
