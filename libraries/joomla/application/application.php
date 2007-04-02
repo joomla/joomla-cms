@@ -583,7 +583,7 @@ class JApplication extends JObject
 		}
 
 		//TODO::Fix remember me (harden and move out of function)
-		//$usercookie = JRequest::getVar( 'usercookie', null, 'COOKIE' );
+		//$usercookie = JRequest::getCmd( 'usercookie', null, 'COOKIE' );
 		//if ($usercookie) {
 			// Remember me cookie exists. Login with usercookie info.
 		//	$this->login( $usercookie['username'], $usercookie['password'] );
@@ -877,7 +877,7 @@ class JApplication extends JObject
 	 */
 	function getItemid( $id )
 	{
-		require_once JPATH_SITE . '/components/com_content/helpers/content.php';
+		require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'content.php';
 
 		// Load the article data to know what section/category it is in.
 		$article =& JTable::getInstance('content');

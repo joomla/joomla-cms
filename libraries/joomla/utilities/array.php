@@ -18,7 +18,7 @@
  * @static
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage		Utilities
+ * @subpackage	Utilities
  * @since		1.5
  */
 class JArrayHelper
@@ -28,21 +28,23 @@ class JArrayHelper
 	 *
 	 * @static
 	 * @param	array	$array		The source array to convert
-	 * @param	int		$default	A default value to assign if $array is not an array
-	 * @return	array
+	 * @param	mixed	$default	A default value (int|array) to assign if $array is not an array
 	 * @since	1.5
 	 */
-	function toInteger( &$array, $default = null)
+	function toInteger(&$array, $default = null)
 	{
 		if (is_array($array)) {
 			foreach ($array as $i => $v) {
-				$array[$i] = intval($v);
+				$array[$i] = (int) $v;
 			}
 		} else {
-			if (is_null($default)) {
-				return array();
+			if ($default === null) {
+				$array = array();
+			} elseif (is_array($default)) {
+				JArrayHelper::toInteger($default, null);
+				$array = $default;
 			} else {
-				return array($default);
+				$array = array( (int) $default );
 			}
 		}
 	}

@@ -509,13 +509,13 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 )
 		if (is_null($safeHtmlFilter)) {
 			$safeHtmlFilter = & JInputFilter::getInstance(null, null, 1, 1);
 		}
-		$var = $safeHtmlFilter->clean($var);
+		$var = $safeHtmlFilter->clean($var, 'none');
 	} else {
 		// Since no allow flags were set, we will apply the most strict filter to the variable
 		if (is_null($noHtmlFilter)) {
 			$noHtmlFilter = & JInputFilter::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
 		}
-		$var = $noHtmlFilter->clean($var);
+		$var = $noHtmlFilter->clean($var, 'none');
 	}
 	return $var;
 }

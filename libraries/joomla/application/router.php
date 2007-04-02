@@ -146,11 +146,11 @@ class JRouter extends JObject
 		return $instance;
 	}
 
-   /**
-	* Route a request
-	*
-	* @access public
-	*/
+	/**
+	 * Route a request
+	 *
+	 * @access public
+	 */
 	function parse($url)
 	{
 		//Create the URI object based on the passed in URL
@@ -159,7 +159,7 @@ class JRouter extends JObject
 		/*
 		 * Handle raw URL
 		 */
-		if($itemid = $uri->getVar('Itemid'))
+		if($itemid = (int) $uri->getVar('Itemid'))
 		{
 			//Set active menu item
 			$menu  =& JMenu::getInstance();
@@ -200,12 +200,12 @@ class JRouter extends JObject
 	}
 
 	/**
- 	 * Function to convert an internal URI to a route
- 	 *
- 	 * @param	string	$string	The internal URL
- 	 * @return	string	The absolute search engine friendly URL
- 	 * @since	1.5
- 	 */
+	 * Function to convert an internal URI to a route
+	 *
+	 * @param	string	$string	The internal URL
+	 * @return	string	The absolute search engine friendly URL
+	 * @since	1.5
+	 */
 	function build($value)
 	{
 		global $mainframe, $Itemid, $option;
@@ -227,11 +227,11 @@ class JRouter extends JObject
 
 			// If the itemid isn't set in the URL use default
 			if(!$itemid = $uri->getVar('Itemid')) {
-				$uri->setVar('Itemid', JRequest::getVar('Itemid', $menu->getDefault(), '', 'int'));
+				$uri->setVar('Itemid', JRequest::getInt('Itemid', $menu->getDefault()));
 			}
 
 			// Get the active menu item
-			$item = $menu->getItem($uri->getVar(('Itemid')));
+			$item = $menu->getItem($uri->getVar('Itemid'));
 
 			// If the option isn't set in the URL use the itemid
 			if(!$option = $uri->getVar('option')) {
@@ -346,7 +346,7 @@ class JRouter extends JObject
 		}
 
 		// Handle component	route
-		$component = JRequest::getVar('option', null, '', 'word');
+		$component = JRequest::getWord('option');
 
 		// Use the component routing handler if it exists
 		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
@@ -393,7 +393,7 @@ class JRouter extends JObject
 		$route = '';
 
 		// Get the component
-		$component = $query['option'];
+		$component = preg_replace('/[^A-Z_]/i', '', $query['option']);
 
 		// Unset unneeded query information
 		unset($query['option']);

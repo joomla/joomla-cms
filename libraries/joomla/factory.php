@@ -118,7 +118,7 @@ class JFactory
 	 */
 	function &getUser()
 	{
-	    jimport('joomla.user.user');
+		jimport('joomla.user.user');
 		$session  =& JFactory::getSession();
 		$instance =& $session->get('user');
 		if (!is_a($instance, 'JUser')) {
@@ -565,14 +565,14 @@ class JFactory
 	 */
 	function &_createDocument()
 	{
-	    jimport('joomla.document.document');
+		jimport('joomla.document.document');
 		jimport('joomla.environment.request');
 
 		$lang	=& JFactory::getLanguage();
 
 		//Keep backwards compatibility with Joomla! 1.0
-		$raw	= JRequest::getVar( 'no_html', 0, '', 'int' );
-		$type	= JRequest::getVar( 'format', $raw ? 'raw' : 'html',  '', 'string'  );
+		$raw	= JRequest::getInt('no_html', 0);
+		$type	= JRequest::getWord('format', $raw ? 'raw' : 'html');
 
 		$attributes = array (
 			'charset'	=> 'utf-8',

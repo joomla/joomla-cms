@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Apr-2007 Enno Klasing
+ + Added JRequest::getString
+ # JInputFilter now also handles the types "string" and "array"
+ # JArrayHelper::toInteger does not return anything, operates directly on the parameter
+
 31-Mar-2007 Johan Janssens
  ^ Removed closing tags from Joomla! Framework library files
 

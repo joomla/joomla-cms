@@ -66,7 +66,7 @@ class JRequest
 	 * You can force the source by setting the $hash parameter:
 	 *
 	 *   post		$_POST
-	 *   get			$_GET
+	 *   get		$_GET
 	 *   files		$_FILES
 	 *   cookie		$_COOKIE
 	 *   method		via current $_SERVER['REQUEST_METHOD']
@@ -74,9 +74,9 @@ class JRequest
 	 *
 	 * @static
 	 * @param	string	$name		Variable name
-	 * @param	string	$default		Default value if the variable does not exist
+	 * @param	string	$default	Default value if the variable does not exist
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
-	 * @param	string	$type		Return type for the variable (INT, FLOAT, STRING, BOOLEAN, ARRAY)
+	 * @param	string	$type		Return type for the variable (INT, FLOAT, BOOLEAN, WORD, CMD, STRING, ARRAY, NONE)
 	 * @param	int		$mask		Filter mask for the variable
 	 * @return	mixed	Requested variable
 	 * @since	1.5
@@ -147,7 +147,7 @@ class JRequest
 	 *
 	 * @static
 	 * @param	string	$name		Variable name
-	 * @param	string	$default		Default value if the variable does not exist
+	 * @param	string	$default	Default value if the variable does not exist
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
 	 * @return	integer	Requested variable
 	 * @since	1.5
@@ -166,7 +166,7 @@ class JRequest
 	 *
 	 * @static
 	 * @param	string	$name		Variable name
-	 * @param	string	$default		Default value if the variable does not exist
+	 * @param	string	$default	Default value if the variable does not exist
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
 	 * @return	float	Requested variable
 	 * @since	1.5
@@ -185,7 +185,7 @@ class JRequest
 	 *
 	 * @static
 	 * @param	string	$name		Variable name
-	 * @param	string	$default		Default value if the variable does not exist
+	 * @param	string	$default	Default value if the variable does not exist
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
 	 * @return	bool		Requested variable
 	 * @since	1.5
@@ -204,7 +204,7 @@ class JRequest
 	 *
 	 * @static
 	 * @param	string	$name		Variable name
-	 * @param	string	$default		Default value if the variable does not exist
+	 * @param	string	$default	Default value if the variable does not exist
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
 	 * @return	string	Requested variable
 	 * @since	1.5
@@ -223,7 +223,7 @@ class JRequest
 	 *
 	 * @static
 	 * @param	string	$name		Variable name
-	 * @param	string	$default		Default value if the variable does not exist
+	 * @param	string	$default	Default value if the variable does not exist
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
 	 * @return	string	Requested variable
 	 * @since	1.5
@@ -231,6 +231,27 @@ class JRequest
 	function getCmd($name, $default = null, $hash = 'default')
 	{
 		return JRequest::getVar($name, $default, $hash, 'cmd');
+	}
+
+	/**
+	 * Fetches and returns a given filtered variable. The string
+	 * filter deletes 'bad' HTML code, if not overridden by the mask.
+	 * This is currently only a proxy function for getVar().
+	 *
+	 * See getVar() for more in-depth documentation on the parameters.
+	 *
+	 * @static
+	 * @param	string	$name		Variable name
+	 * @param	string	$default	Default value if the variable does not exist
+	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
+ 	 * @param	int		$mask		Filter mask for the variable
+	 * @return	string	Requested variable
+	 * @since	1.5
+	 */
+	function getString($name, $default = null, $hash = 'default', $mask = 0)
+	{
+		// Cast to string, in case JREQUEST_ALLOWRAW was specified for mask
+		return (string) JRequest::getVar($name, $default, $hash, 'string', $mask);
 	}
 
 	function setVar($name, $value = null, $hash = 'default', $overwrite = true)
@@ -466,8 +487,6 @@ class JRequest
 		}
 		else
 		{
-
-
 			// Since no allow flags were set, we will apply the most strict filter to the variable
 			if (is_null($noHtmlFilter)) {
 				$noHtmlFilter = & JInputFilter::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);

@@ -101,7 +101,7 @@ class JInputFilter extends JObject
 	 *
 	 * @access	public
 	 * @param	mixed	$source	Input string/array-of-string to be 'cleaned'
-	 * @param	string	$type	Return type for the variable (INT, FLOAT, WORD, BOOLEAN, STRING)
+	 * @param	string	$type	Return type for the variable (INT, FLOAT, BOOLEAN, WORD, CMD, STRING, ARRAY, NONE)
 	 * @return	mixed	'Cleaned' version of input parameter
 	 * @since	1.5
 	 */
@@ -135,6 +135,14 @@ class JInputFilter extends JObject
 
 			case 'CMD' :
 				$result = (string) preg_replace( '/[^A-Z0-9_\.-]/i', '', $source );
+				break;
+
+			case 'STRING' :
+				$result = (string) $this->_remove($this->_decode((string) $source));
+				break;
+
+			case 'ARRAY' :
+				$result = (array) $source;
 				break;
 
 			default :
