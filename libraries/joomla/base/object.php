@@ -56,17 +56,6 @@ class JObject
 	 */
 	function __construct() {}
 
-	/**
-	 * Indicates if the object has any errors
-	 *
-	 * @access	public
-	 * @return	integer	Number of errrors
-	 * @since	1.5
-	 */
-	function hasErrors()
-	{
-		return count($this->_errors);
-	}
 	
 	/**
 	 * Returns a property of the object or the default value if the property is not set.
@@ -119,6 +108,18 @@ class JObject
 		return $error;
 	} 
 
+	/**
+	 * Return all errors, if any
+	 *
+	 * @access	public
+	 * @return	array	Array of error messages or JErrors
+	 * @since	1.5
+	 */
+	function getErrors()
+	{
+		return $this->_errors;
+	}
+	
 	/**
 	 * Returns an array of public properties
 	 *
