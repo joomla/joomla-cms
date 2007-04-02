@@ -122,7 +122,7 @@ class JRequest
 			$var = JRequest::_cleanVar($var, $mask, $type);
 
 			// Handle magic quotes compatability
-			if (get_magic_quotes_gpc() && ($var != $default))
+			if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES') )
 			{
 				$var = JRequest::_stripSlashesRecursive( $var );
 			}
