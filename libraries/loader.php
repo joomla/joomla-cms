@@ -63,7 +63,7 @@ class JLoader
 						// we need to check each file again incase one has a jimport
 						if (!isset($paths[$nPath]))
 						{
-							require_once $path . DS . $file;
+							require $path . DS . $file;
 							$paths[$nPath] = true;
 						}
 					}
@@ -71,7 +71,7 @@ class JLoader
 				$dir->close();
 			} else {
 				$path = str_replace( '.', DS, $filePath );
-				require_once $base . DS . $path . '.php';
+				require $base . DS . $path . '.php';
 			}
 		}
 		return true;
