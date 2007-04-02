@@ -69,9 +69,9 @@ class JDocumentRendererModule extends JDocumentRenderer
 
 		//get module parameters
 		$mod_params = new JParameter( $module->params );
-
+		
 		$contents = '';
-		if($mod_params->get('cache, 0') && $conf->getValue( 'config.caching' ))
+		if($mod_params->get('cache', 0) && $conf->getValue( 'config.caching' ))
 		{
 			$cache =& JFactory::getCache( $module->module );
 
