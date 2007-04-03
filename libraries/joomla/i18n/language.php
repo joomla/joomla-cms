@@ -233,27 +233,27 @@ class JLanguage extends JObject
 	 */
 	function exists($lang, $basePath = JPATH_BASE)
 	{
-		static	$languages	= array();
+		static	$paths	= array();
 
 		// Return false if no language was specified
 		if ( ! $lang ) {
 			return false;
 		}
 
+		$path	= $basePath.DS.'language'.DS.$lang;
+		
 		// Return previous check results if it exists
-		if ( isset($languages[$lang]) )
+		if ( isset($paths[$path]) )
 		{
-			return $languages[$lang];
+			return $paths[$path];
 		}
 
 		// Check if the language exists
 		jimport('joomla.filesystem.folder');
 
-		$dir	= JLanguage::getLanguagePath( $basePath, $lang );
+		$paths[$path]	= JFolder::exists($path);
 
-		$languages[$lang]	= JFolder::exists($dir);
-
-		return $languages[$lang];
+		return $paths[$path];
 	}
 
 	/**
