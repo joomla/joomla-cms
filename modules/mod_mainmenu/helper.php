@@ -83,7 +83,7 @@ class modMainMenuHelper
 		if ($start) {
 			$found = false;
 			$root = true;
-			$path = array_reverse($active->tree);
+			$path = $active->tree;
 			for ($i=0,$n=count($path);$i<$n;$i++)
 			{
 				foreach ($doc->children() as $child)
@@ -94,7 +94,7 @@ class modMainMenuHelper
 						break;
 					}
 				}
-				if ($i+1 == $start) {
+				if (($i)?$i:1 == $start) {
 					$found = true;
 					break;
 				}
