@@ -134,7 +134,7 @@ class modMainMenuHelper
 				// Include the new menu class
 				// require_once(dirname(__FILE__).DS.'menu.php');
 				$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
-				echo $xml->asXML();
+				echo JOutputFilter::ampReplace($xml->asXML());
 				break;
 		}
 	}
@@ -309,7 +309,7 @@ class JMenuTree extends JTree
 
 					// hrm...this is a bit dickey
 					$link = str_replace('index.php', 'index2.php', $tmp->url);
-					$data = '<a href="javascript:void window.open(\''.$link.'\',\'targetWindow\',\''.$attribs.'\');">'.$tmp->name.'</a>';
+					$data = '<a href="'.$link.'" onclick="window.open(this.href,\'targetWindow\',\''.$attribs.'\');return false;">'.$tmp->name.'</a>';
 					break;
 			}
 		} else {

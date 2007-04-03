@@ -35,7 +35,7 @@ class JHTML
 
 	function Link($url, $text, $attribs = null, $ssl = 0)
 	{
-		$href = JRoute::_($url, $ssl);
+		$href = JRoute::_($url, true, $ssl);
 
 		if (is_array($attribs)) {
 			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
@@ -101,7 +101,7 @@ class JHTML
 	 */
 	function Iframe($url, $name, $attribs = null, $ssl = 0)
 	{
-		$src = JRoute::_($url, $ssl);
+		$src = JRoute::_($url, true, $ssl);
 
 		 if (is_array($attribs)) {
 			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
