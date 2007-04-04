@@ -62,6 +62,14 @@ class JView extends JObject
 	 */
 	var $_layout = 'default';
 
+	/**
+	 * Layout extension
+	 *
+	 * @var		string
+	 * @access 	protected
+	 */
+	var $_layoutExt = 'php';
+
    /**
 	* The set of search directories for resources (templates)
 	*
@@ -383,6 +391,19 @@ class JView extends JObject
 	}
 
 	/**
+	 * Allows a different extension for the layout files to be used
+	 * 
+	 * @access	public
+	 * @param	string	The extension
+	 */
+	function setLayoutExt( $value )
+	{
+		if ($value = preg_replace( '#[^A-Za-z0-9]#', '', trim( $value ) )) {
+			$this->_layoutExt = $value;
+		}
+	}
+
+	/**
 	 * Method to add a model to the view.  We support a multiple model single
 	 * view system by which models are referenced by classname.  A caveat to the
 	 * classname referencing is that any classname prepended by JModel will be
@@ -640,7 +661,7 @@ class JView extends JObject
 		switch($type)
 		{
 			case 'template' :
-				 $filename = strtolower($parts['name']).'.php';
+				$filename = strtolower($parts['name']).'.'.$this->_layoutExt;
 				break;
 
 		}

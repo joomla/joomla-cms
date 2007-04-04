@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Apr-2007 Andrew Eddie
+ + Added JView::setLayoutExt to allow a designer, for example, to set .html (default .php) for layout files 
+
 02-Apr-2007 Enno Klasing
  + Added JRequest::getString
  # JInputFilter now also handles the types "string" and "array"
