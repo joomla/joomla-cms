@@ -82,7 +82,7 @@ class ContentViewArticle extends JView
 					break;
 			}
 		}
-		
+
 		// Handle Page Title
 		$document->setTitle($article->title);
 
@@ -184,7 +184,7 @@ class ContentViewArticle extends JView
 		{
 			case 'pdf' :
 			{
-				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;format=pdf';
+				$url	= 'index.php?option=com_content&view=article&id='.$article->id.'&format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -195,14 +195,14 @@ class ContentViewArticle extends JView
 				}
 
 				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
-				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
 
 				$output = JHTML::Link($url, $text, $attribs);
 			} break;
 
 			case 'print' :
 			{
-				$url	= 'index.php?option=com_content&amp;view=article&amp;id='.$article->id.'&amp;tmpl=component&amp;print=1&amp;page='.@ $this->request->limitstart;
+				$url	= 'index.php?option=com_content&view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $this->request->limitstart;
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -213,14 +213,14 @@ class ContentViewArticle extends JView
 				}
 
 				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
-				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
 
 				$output = JHTML::Link($url, $text, $attribs);
 			} break;
 
 			case 'email' :
 			{
-				$url	= 'index.php?option=com_mailto&amp;tmpl=component&amp;link='.urlencode( JRequest::getURI());
+				$url	= 'index.php?option=com_mailto&tmpl=component&link='.urlencode( JRequest::getURI());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
 				if ($this->params->get('icons')) 	{
@@ -230,7 +230,7 @@ class ContentViewArticle extends JView
 				}
 
 				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
-				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
 
 				$output = JHTML::Link($url, $text, $attribs);
 			} break;

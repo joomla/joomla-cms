@@ -190,7 +190,7 @@ class ContentViewCategory extends JView
 				}
 
 				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
-				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
 				$output = JHTML::Link($url, $text, $attribs);
 
 			} break;
@@ -208,7 +208,7 @@ class ContentViewCategory extends JView
 				}
 
 				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
-				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
 				$output = JHTML::Link($url, $text, $attribs);
 
 			} break;
@@ -225,7 +225,7 @@ class ContentViewCategory extends JView
 				}
 
 				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
-				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
 				$output = JHTML::Link($url, $text, $attribs);
 
 			} break;

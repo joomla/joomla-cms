@@ -143,7 +143,7 @@ class ContentViewFrontpage extends JView
 		{
 			case 'pdf' :
 			{
-				$url	= 'index.php?view=article&amp;id='.$article->id.'&format=pdf';
+				$url	= 'index.php?view=article&id='.$article->id.'&format=pdf';
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -154,7 +154,7 @@ class ContentViewFrontpage extends JView
 				}
 
 				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
-				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
 				$output = JHTML::Link($url, $text, $attribs);
 
 			} break;
@@ -172,7 +172,7 @@ class ContentViewFrontpage extends JView
 				}
 
 				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
-				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
 				$output = JHTML::Link($url, $text, $attribs);
 
 			} break;
@@ -189,7 +189,7 @@ class ContentViewFrontpage extends JView
 				}
 
 				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
-				$attribs['onclick'] = "\"window.open('".$url."','win2','".$status."'); return false;\"";
+				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
 				$output = JHTML::Link($url, $text, $attribs);
 
 			} break;

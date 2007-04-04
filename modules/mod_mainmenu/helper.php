@@ -224,7 +224,7 @@ class JMenuTree extends JTree
 		$this->_buffer .= '<li access="'.$this->_current->access.'" level="'.$depth.'" id="'.$this->_current->id.'">';
 
 		// Append item data
-		$this->_buffer .= $this->_current->link;
+		$this->_buffer .= '<![CDATA['.$this->_current->link.']]>';
 
 		// Recurse through item's children if they exist
 		while ($this->_current->hasChildren())
@@ -261,10 +261,16 @@ class JMenuTree extends JTree
 			$tmp = $item;
 		}
 
+		$iParams =& new JParameter($tmp->params);
+		if ($iParams->get('menu_image') && $iParams->get('menu_image') != -1) {
+			$image = '<img src="images/stories/'.$iParams->get('menu_image').'" alt="" />';
+		} else {
+			$image = null;
+		}
 		switch ($tmp->type)
 		{
 			case 'separator' :
-				return '<span class="separator">'.$tmp->name.'</span>';
+				return '<span class="separator">'.$image.$tmp->name.'</span>';
 				break;
 
 			case 'url' :
@@ -284,7 +290,6 @@ class JMenuTree extends JTree
 		if ($tmp->url != null)
 		{
 			// Handle SSL links
-			$iParams =& new JParameter($tmp->params);
 			$iSecure = $iParams->def('secure', 0);
 			if (strcasecmp(substr($tmp->url, 0, 4), 'http')) {
 				$tmp->url = JRoute::_($tmp->url, true, $iSecure);
@@ -297,11 +302,11 @@ class JMenuTree extends JTree
 				default:
 				case 0:
 					// _top
-					$data = '<a href="'.$tmp->url.'">'.$tmp->name.'</a>';
+					$data = '<a href="'.$tmp->url.'">'.$image.$tmp->name.'</a>';
 					break;
 				case 1:
 					// _blank
-					$data = '<a href="'.$tmp->url.'" target="_blank">'.$tmp->name.'</a>';
+					$data = '<a href="'.$tmp->url.'" target="_blank">'.$image.$tmp->name.'</a>';
 					break;
 				case 2:
 					// window.open
@@ -309,11 +314,11 @@ class JMenuTree extends JTree
 
 					// hrm...this is a bit dickey
 					$link = str_replace('index.php', 'index2.php', $tmp->url);
-					$data = '<a href="'.$link.'" onclick="window.open(this.href,\'targetWindow\',\''.$attribs.'\');return false;">'.$tmp->name.'</a>';
+					$data = '<a href="'.$link.'" onclick="window.open(this.href,\'targetWindow\',\''.$attribs.'\');return false;">'.$image.$tmp->name.'</a>';
 					break;
 			}
 		} else {
-			$data = '<a>'.$tmp->name.'</a>';
+			$data = '<a>'.$image.$tmp->name.'</a>';
 		}
 
 		return $data;
