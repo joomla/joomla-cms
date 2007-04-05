@@ -378,7 +378,7 @@ class JTable extends JObject
 			if (!$this->_db->query())
 			{
 				$err = $this->_db->getErrorMsg();
-				die( $err );
+				JError::raiseError( 0, $err );
 			}
 
 			$query = 'UPDATE '.$this->_tbl
@@ -390,7 +390,7 @@ class JTable extends JObject
 			if (!$this->_db->query())
 			{
 				$err = $this->_db->getErrorMsg();
-				die( $err );
+				JError::raiseError( 0, $err );
 			}
 
 			$this->ordering = $row->ordering;
@@ -406,7 +406,7 @@ class JTable extends JObject
 			if (!$this->_db->query())
 			{
 				$err = $this->_db->getErrorMsg();
-				die( $err );
+				JError::raiseError( 0, $err );
 			}
 		}
 	}
@@ -671,7 +671,8 @@ class JTable extends JObject
 		if ($oid !== null) {
 			$this->$k = $oid;
 		}
-		$time = date( 'Y-m-d H:i:s' );
+		$datenow = new JDate();
+		$time = $datenow->toMysql();
 
 		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ) .
 			' SET checked_out = '.(int)$who.', checked_out_time = '.$this->_db->Quote($time) .
@@ -693,9 +694,13 @@ class JTable extends JObject
 	 */
 	function checkin( $oid=null )
 	{
-		if (!in_array( 'checked_out', $this->getPublicProperties() )) {
+		if (!(
+			in_array( 'checked_out', $this->getPublicProperties() ) ||
+	 		in_array( 'checked_out_time', $this->getPublicProperties() )
+		)) {
 			return true;
 		}
+
 		$k = $this->_tbl_key;
 
 		if ($oid !== null) {
@@ -726,6 +731,10 @@ class JTable extends JObject
 	 */
 	function hit( $oid=null, $log=false )
 	{
+		if (!in_array( 'hits', $this->getPublicProperties() )) {
+			return;
+		}
+
 		$k = $this->_tbl_key;
 
 		if ($oid !== null) {
@@ -737,6 +746,7 @@ class JTable extends JObject
 		. ' WHERE '. $this->_tbl_key .'='. $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 		$this->_db->query();
+		$this->hits++;
 	}
 
 	/**
@@ -765,9 +775,6 @@ class JTable extends JObject
 		}
 
 		return true;
-
-		$session =& JTable::getInstance('session');
-		return $session->exists($against);
 	}
 
 	/**

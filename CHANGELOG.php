@@ -38,7 +38,14 @@ Legend:
 ! -> Note
 
 05-Apr-2007 Andrew Eddie
- + Added JView::setLayoutExt to allow a designer, for example, to set .html (default .php) for layout files 
+ + Added JView::setLayoutExt to allow a designer, for example, to set .html (default .php) for layout files
+
+04-Apr-2007 Jason Kendall
+ # [Topic,156662] JTable was using die, not JError -- Thanks Ian
+ # [Topic,156522] JTable was not using JDate for dates -- Thanks Ian
+ # [Topic,156659] Rouge code (never executed) in JTable::isCheckedout -- Thanks Ian
+ # [Topic,156515] Check for check_out_time as well in JTable::checkin -- Thanks Ian
+ # [Topic,156656] hit should check for the hits field and should update the local table -- Thanks Ian
 
 02-Apr-2007 Enno Klasing
  + Added JRequest::getString
