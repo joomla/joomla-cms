@@ -671,6 +671,7 @@ class JTable extends JObject
 		if ($oid !== null) {
 			$this->$k = $oid;
 		}
+		jimport('joomla.utilities.date');
 		$datenow = new JDate();
 		$time = $datenow->toMysql();
 
