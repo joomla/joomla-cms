@@ -543,7 +543,8 @@ class JView extends JObject
 		//create the template file name based on the layout
 		$file = isset($tpl) ? $this->_layout.'_'.$tpl : $this->_layout;
 		// clean the file name
-		$file = preg_replace( '#[^\w_\.]#', '', $file );
+		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
+		$tpl  = preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl);
 
 		// load the template script
 		jimport('joomla.filesystem.path');
@@ -603,11 +604,13 @@ class JView extends JObject
 		{
 			case 'template':
 				// the current directory
-				$this->_addPath($type, JPATH_COMPONENT.DS.'views'.DS.$this->_name.DS.'tmpl');
+				$viewName = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_name);
+				$this->_addPath($type, JPATH_COMPONENT.DS.'views'.DS.$viewName.DS.'tmpl');
 
-				// set the alternative template searh dir
+				// set the alternative template search dir
 				if (isset($mainframe)) {
-					$fallback = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_name;
+					$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
+					$fallback = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$viewName;
 					$this->_addPath('template', $fallback);
 				}
 				break;

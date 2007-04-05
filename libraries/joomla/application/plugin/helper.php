@@ -108,6 +108,8 @@ class JPluginHelper
 		}
 
 		$result	= false;
+		$plugin->folder = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->folder);
+		$plugin->element = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->element);
 		$path	= JPATH_PLUGINS.DS.$plugin->folder.DS.$plugin->element.'.php';
 
 		if (!isset( $paths[$path] ))

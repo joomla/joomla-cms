@@ -100,9 +100,10 @@ class JComponentHelper
 			return;
 		}
 
-		$task		= JRequest::getVar( 'task' );
+		$task		= JRequest::getString( 'task' );
 
 		// Build the component path
+		$name = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
 		$file = substr( $name, 4 );
 
 		// Define component path
@@ -167,10 +168,10 @@ class JComponentHelper
 		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {
 
 			// Get the task again, in case it has changed
-			$task		= JRequest::getVar( 'task' );
+			$task		= JRequest::getString( 'task' );
 
 			// Make the toolbar
-			require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
+			require_once( JPATH_ADMINISTRATOR.DS.'includes'.DS.'menubar.html.php' );
 			include_once( $path );
 		}
 

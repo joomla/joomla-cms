@@ -116,7 +116,8 @@ class JModuleHelper
 		$params = new JParameter( $module->params );
 
 		// Get module path
-		$path = JPATH_BASE.'/modules/'.$module->module.'/'.$module->module.'.php';
+		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
+		$path = JPATH_BASE.DS.'modules'.DS.$module->module.DS.$module->module.'.php';
 
 		// Load the module
 		if (!$module->user && file_exists( $path ) && empty($module->content))
@@ -135,8 +136,8 @@ class JModuleHelper
 			$chrome = array();
 		}
 
-		require_once (JPATH_BASE.'/modules/templates/modules.php');
-		$chromePath = JPATH_BASE.'/templates/'.$mainframe->getTemplate().'/html/modules.php';
+		require_once (JPATH_BASE.DS.'modules'.DS.'templates'.DS.'modules.php');
+		$chromePath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.'modules.php';
 		if (!isset( $chrome[$chromePath]))
 		{
 			if (file_exists($chromePath)) {
@@ -151,7 +152,7 @@ class JModuleHelper
 		}
 
 		//dynamically add outline style
-		if(JRequest::getVar('tp', 0 )) {
+		if(JRequest::getBool('tp')) {
 			$attribs['style'] .= ' outline';
 		}
 

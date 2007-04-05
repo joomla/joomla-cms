@@ -108,6 +108,7 @@ class JModel extends JObject
 	*/
 	function &getInstance( $type, $prefix='' )
 	{
+		$type		= preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$modelClass	= $prefix.ucfirst($type);
 		$result		= false;
 
@@ -308,8 +309,8 @@ class JModel extends JObject
 		$result = null;
 
 		// Clean the model name
-		$tableName		= preg_replace( '#\W#', '', $name );
-		$classPrefix	= preg_replace( '#\W#', '', $prefix );
+		$tableName		= preg_replace( '/[^A-Z0-9_]/i', '', $name );
+		$classPrefix	= preg_replace( '/[^A-Z0-9_]/i', '', $prefix );
 
 		// Build the model class name
 		$tableClass = $classPrefix.$tableName;
@@ -354,7 +355,7 @@ class JModel extends JObject
 		switch($type)
 		{
 			case 'table' :
-				 $filename = strtolower($parts['name']).'.php';
+				$filename = strtolower($parts['name']).'.php';
 				break;
 
 		}

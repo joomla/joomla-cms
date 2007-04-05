@@ -393,7 +393,7 @@ class JRouter extends JObject
 		$route = '';
 
 		// Get the component
-		$component = preg_replace('/[^A-Z_]/i', '', $query['option']);
+		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
 
 		// Unset unneeded query information
 		unset($query['option']);

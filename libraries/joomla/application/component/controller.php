@@ -289,8 +289,8 @@ class JController extends JObject
 		$document =& JFactory::getDocument();
 
 		$viewType	= $document->getType();
-		$viewName	= JRequest::getVar( 'view', $this->_name );
-		$viewLayout = JRequest::getVar( 'layout', 'default' );
+		$viewName	= JRequest::getWord( 'view', $this->_name );
+		$viewLayout = JRequest::getWord( 'layout', 'default' );
 
 		$view = & $this->getView( $viewName, $viewType);
 
@@ -570,8 +570,8 @@ class JController extends JObject
 		$result = null;
 
 		// Clean the model name
-		$modelName		= preg_replace( '#\W#', '', $name );
-		$classPrefix	= preg_replace( '#\W#', '', $prefix );
+		$modelName		= preg_replace( '/[^A-Z0-9_]/i', '', $name );
+		$classPrefix	= preg_replace( '/[^A-Z0-9_]/i', '', $prefix );
 
 		// Build the model class name
 		$modelClass = $classPrefix . $modelName;
@@ -620,9 +620,9 @@ class JController extends JObject
 		$result = null;
 
 		// Clean the view name
-		$viewName	 = preg_replace( '#\W#', '', $name );
-		$classPrefix = preg_replace( '#\W#', '', $prefix );
-		$viewType	 = preg_replace( '#\W#', '', $type );
+		$viewName	 = preg_replace( '/[^A-Z0-9_]/i', '', $name );
+		$classPrefix = preg_replace( '/[^A-Z0-9_]/i', '', $prefix );
+		$viewType	 = preg_replace( '/[^A-Z0-9_]/i', '', $type );
 
 		// Build the view class name
 		$viewClass = $classPrefix . $viewName;

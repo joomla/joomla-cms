@@ -272,7 +272,7 @@ class JAdministrator extends JApplication
 			$templates[0] = $db->loadResult();
 		}
 
-		$template = $templates[0];
+		$template = preg_replace('/[^A-Z0-9_\.-]/i', '', $templates[0]);
 
 		$path = JPATH_ADMINISTRATOR .'/templates/'.$template.'/index.php';
 
