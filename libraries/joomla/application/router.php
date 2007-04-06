@@ -312,7 +312,7 @@ class JRouter extends JObject
 			$itemid = null;
 			foreach ($items as $item)
 			{
-				if(strpos($url, $item->route) === 0)
+				if(strlen($item->route) > 0 && strpos($url, $item->route) === 0)
 				{
 					$itemid = $item->id;
 					$url    = str_replace($item->route, '', $url);
