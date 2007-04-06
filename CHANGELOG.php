@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Apr-2007 Andrew Eddie
+ ^ Split out options rendering in JHTMLSelect::genericList to JHTMLSelect::options
+
 05-Apr-2007 Andrew Eddie
  + Added JView::setLayoutExt to allow a designer, for example, to set .html (default .php) for layout files
 

@@ -288,16 +288,16 @@ class JHTMLSelect
 	}
 
 	/**
-	* Generates an HTML select list
-	*
-	* @param array An array of objects
-	* @param string The value of the HTML name attribute
-	* @param string Additional HTML attributes for the <select> tag
-	* @param string The name of the object variable for the option value
-	* @param string The name of the object variable for the option text
-	* @param mixed The key that is selected (accepts an array or a string)
-	* @returns string HTML for the select list
-	*/
+	 * Generates an HTML select list
+	 *
+	 * @param	array	An array of objects
+	 * @param	string	The value of the HTML name attribute
+	 * @param	string	Additional HTML attributes for the <select> tag
+	 * @param	string	The name of the object variable for the option value
+	 * @param	string	The name of the object variable for the option text
+	 * @param	mixed	The key that is selected (accepts an array or a string)
+	 * @returns	string	HTML for the select list
+	 */
 	function genericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false )
 	{
 		// check if array
@@ -314,6 +314,23 @@ class JHTMLSelect
 
 		$html = '<select name="'. $tag_name .'" id="'. $id .'" '. $tag_attribs .'>';
 //		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
+		$html .= JHTMLSelect::options( $arr, $key, $text, $selected, $flag );
+		$html .= '</select>';
+
+		return $html;
+	}
+
+	/**
+	 * Generates just the option tags for an HTML select list
+	 *
+	 * @param	array	An array of objects
+	 * @param	string	The name of the object variable for the option value
+	 * @param	string	The name of the object variable for the option text
+	 * @param	mixed	The key that is selected (accepts an array or a string)
+	 * @returns	string	HTML for the select list
+	 */
+	function options( $arr, $key, $text, $selected=null, $flag=false )
+	{
 		while(current($arr) !== FALSE) {
 			$element =& $arr[key($arr)]; // since current doesn't return a reference, need to do this
 
@@ -362,7 +379,6 @@ class JHTMLSelect
 			}
 			next($arr);
 		}
-		$html .= '</select>';
 
 		return $html;
 	}
