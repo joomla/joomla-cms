@@ -19,7 +19,7 @@ defined('JPATH_BASE') or die();
  * Text  handling class
  *
  * @static
- * @package 	Joomla.Framework
+ * @package 		Joomla.Framework
  * @subpackage	I18N
  * @since		1.5
  */
@@ -121,14 +121,6 @@ class JLanguage extends JObject
 	var $_metadata 	= null;
 
 	/**
-	 * Identifying string of the language
-	 *
-	 * @var string
-	 * @access protected
-	 */
-	var $_identifyer = null;
-
-	/**
 	 * The language to load
 	 *
 	 * @var string
@@ -201,12 +193,17 @@ class JLanguage extends JObject
 		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br>'.$key;
 		$key = strtoupper($string);
 		$key = substr($key, 0, 1) == '_' ? substr($key, 1) : $key;
-		if (isset ($this->_strings[$key])) {
+		if (isset ($this->_strings[$key]))
+		{
 			$string = $this->_debug ? "&bull;".$this->_strings[$key]."&bull;" : $this->_strings[$key];
-		} else {
+		}
+		else
+		{
 			if (defined($string)) {
 				$string = $this->_debug ? "!!".constant($string)."!!" : constant($string);
-			} else {
+			}
+			else
+			{
 				if ($this->_debug)
 				{
 					$this->_orphans[] = $string;
@@ -214,9 +211,11 @@ class JLanguage extends JObject
 				}
 			}
 		}
+
 		if ($jsSafe) {
 			$string = addslashes($string);
 		}
+
 		return $string;
 	}
 
@@ -241,7 +240,7 @@ class JLanguage extends JObject
 		}
 
 		$path	= $basePath.DS.'language'.DS.$lang;
-		
+
 		// Return previous check results if it exists
 		if ( isset($paths[$path]) )
 		{
@@ -266,7 +265,6 @@ class JLanguage extends JObject
 	 */
 	function load( $extension = 'joomla', $basePath = JPATH_BASE )
 	{
-
 		$path = JLanguage::getLanguagePath( $basePath, $this->_lang);
 
 		$filename = ( $extension == 'joomla' ) ?  $this->_lang : $this->_lang . '.' . $extension ;
@@ -321,10 +319,8 @@ class JLanguage extends JObject
 	*/
 	function _load( $filename )
 	{
-		if ($content = @file_get_contents( $filename )) {
-
-			$this->_identifyer = basename( $filename, '.ini' );
-
+		if ($content = @file_get_contents( $filename ))
+		{
 			$registry = new JRegistry();
 			$registry->loadINI($content);
 			return $registry->toArray( );
@@ -602,36 +598,6 @@ class JLanguage extends JObject
 			$languages = array_merge($languages, $langs);
 		}
 
-		return $languages;
-	}
-
-	/**
-	 * Parses INI type of files for language information
-	 *
-	 * @access public
-	 * @param string	$dir 	Directory of files
-	 * @return array	Array holding the found languages as filename => real name pairs
-	 */
-	function _parseINILanguageFiles($dir = null)
-	{
-		if ($dir == null)
-			return null;
-
-		$languages = array ();
-		jimport('joomla.filesystem.folder');
-		$files = JFolder::files($dir, '^([_A-Za-z]*)\.ini$');
-		foreach ($files as $file) {
-			if ($content = file_get_contents($dir.DS.$file)) {
-				$langContent = JParameter::parse($content, false, true);
-				$lang = str_replace('.ini', '', $file);
-				$name = $lang;
-				if (isset ($langContent['__NAME'])) {
-					$name = $langContent['__NAME'];
-				}
-
-				$languages[$lang] = $name;
-			}
-		}
 		return $languages;
 	}
 
