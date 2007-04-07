@@ -221,8 +221,8 @@ class JClientHelper
 	function &setCredentialsFromRequest($client)
 	{
 		// Determine wether FTP credentials have been passed along with the current request
-		$user = JRequest::getVar('username', null, 'POST');
-		$pass = JRequest::getVar('password', null, 'POST');
+		$user = JRequest::getString('username', null, 'POST', JREQUEST_ALLOWRAW);
+		$pass = JRequest::getString('password', null, 'POST', JREQUEST_ALLOWRAW);
 		if ($user != '' && $pass != '')
 		{
 			// Add credentials to the session

@@ -331,6 +331,8 @@ class JHTMLSelect
 	 */
 	function options( $arr, $key, $text, $selected=null, $flag=false )
 	{
+		$html = '';
+
 		while(current($arr) !== FALSE) {
 			$element =& $arr[key($arr)]; // since current doesn't return a reference, need to do this
 

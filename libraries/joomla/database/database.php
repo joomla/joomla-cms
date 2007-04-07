@@ -125,7 +125,16 @@ class JDatabase extends JObject
 		$signature = serialize(array($driver, $host, $user, $pass, $db, $table_prefix));
 
 		if (empty($instances[$signature])) {
-			jimport('joomla.database.database.'.$driver);
+			$driver = preg_replace('/[^A-Z0-9_\.-]/i', '', $driver);
+			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'database'.DS.$driver.'.php';
+			if (file_exists($path)) {
+				require_once $path;
+			} else {
+				/** @TODO: Call JError::raiseError as soon as it's fixed (infinite loop) */
+				//JError::raiseError(500, 'Unable to load Database Driver: '.$driver);
+				die('Unable to load Database Driver: '.$driver);
+			}
+
 			$adapter = 'JDatabase'.$driver;
 			$instances[$signature] = new $adapter($host, $user, $pass, $db, $table_prefix);
 		}

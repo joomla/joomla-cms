@@ -98,6 +98,7 @@ class JTable extends JObject
 	{
 		$false = false;
 
+		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$tableClass = $prefix.ucfirst($type);
 
 		if (!class_exists( $tableClass ))

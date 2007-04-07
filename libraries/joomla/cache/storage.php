@@ -65,10 +65,16 @@ class JCacheStorage extends JObject
 			$instances = array ();
 		}
 
-		$handler = strtolower($handler);
+		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 		if (!isset($instances[$handler]))
 		{
-			jimport('joomla.cache.storage.'.$handler);
+			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'storage'.DS.$handler.'.php';
+			if (file_exists($path)) {
+				require_once $path;
+			} else {
+				return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
+			}
+
 			$class = 'JCacheStorage'.ucfirst($handler);
 			if (class_exists($class)) {
 				$instances[$handler] = new $class($options);

@@ -68,9 +68,15 @@ class JCache extends JObject
 	 */
 	function &getInstance($type = 'output', $options = array())
 	{
+		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
-		$type = strtolower($type);
-		jimport('joomla.cache.handlers.'.$type);
+		$path = JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'handlers'.DS.$type.'.php';
+		if (file_exists($path)) {
+			require_once $path;
+		} else {
+			JError::raiseError(500, 'Unable to load Cache Adapter: '.$type);
+		}
+
 		$class = 'JCache'.ucfirst($type);
 		$instance = new $class($options);
 
