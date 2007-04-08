@@ -49,10 +49,11 @@ class plgAuthenticationJoomla extends JPlugin
 	 * @access	public
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
-	 * @return	object	JAuthenticationResponse
+	 * @param	object	$response	Authentication response object
+	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate( $username, $password )
+	function onAuthenticate( $username, $password, &$response )
 	{
 		jimport('joomla.user.helper');
 
@@ -77,18 +78,16 @@ class plgAuthenticationJoomla extends JPlugin
 
 		$db->setQuery( $query );
 		$result = $db->loadResult();
-		$return = new JAuthenticationResponse('Joomla');
 
 		if($result)
 		{
-			$return->status = JAUTHENTICATE_STATUS_SUCCESS;
+			$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 		}
 		else
 		{
-			$return->status = JAUTHENTICATE_STATUS_FAILURE;
-			$return->error_message = 'Invalid response from database';
+			$response->status = JAUTHENTICATE_STATUS_FAILURE;
+			$response->error_message = 'Invalid response from database';
 		}
-		return $return;
 	}
 }
 ?>

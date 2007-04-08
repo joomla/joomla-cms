@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	User
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright		Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -34,11 +34,11 @@ define('JAUTHENTICATE_STATUS_FAILURE', 4);
  * Authenthication class, provides an interface for the Joomla authentication system
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
- * @package 	Joomla.Framework
+ * @package 		Joomla.Framework
  * @subpackage	User
  * @since		1.5
  */
-class JAuthentication extends JObject
+class JAuthentication extends JObservable
 {
 	/**
 	 * Constructor
@@ -47,13 +47,10 @@ class JAuthentication extends JObject
 	 */
 	function __construct()
 	{
-		// Get the global event dispatcher to load the plugins
-		$dispatcher =& JEventDispatcher::getInstance();
-
 		$isLoaded = JPluginHelper::importPlugin('authentication');
 
 		if (!$isLoaded) {
-			JError::raiseWarning('SOME_ERROR_CODE', 'JAuthenticate::__constructor: Could not load authentication libraries.', $plugins);
+			JError::raiseWarning('SOME_ERROR_CODE', 'JAuthenticate::__constructor: Could not load authentication libraries.');
 		}
 	}
 
@@ -91,7 +88,8 @@ class JAuthentication extends JObject
 	 * @access public
 	 * @param string 	The username.
 	 * @param string 	The password.
-	 * @return mixed Integer userid for valid user if credentials are valid or boolean false if they are not
+	 * @return mixed 	Integer userid for valid user if credentials are valid or
+	 * 					boolean false if they are not
 	 * @since 1.5
 	 */
 	function authenticate($username, $password)
@@ -99,75 +97,45 @@ class JAuthentication extends JObject
 		// Initialize variables
 		$auth = false;
 
-		// Get the global event dispatcher object
-		$dispatcher = &JEventDispatcher::getInstance();
+		// Get plugins
+		$plugins = JPluginHelper::getPlugin('authentication');
 
-		// Time to authenticate the credentials.  Lets fire the auth event
-		$results = $dispatcher->trigger( 'onAuthenticate', array($username, $password));
+		// Create authencication response
+		$response = new JAuthenticationResponse();
 
 		/*
-		 * Check each of the results to see if a valid user ID was returned. and use the
-		 * first ID to log into the system.
-
+		 * Loop through the plugins and check of the creditials can be used to authenticate
+		 * the user
+		 *
 		 * Any errors raised in the plugin should be returned via the JAuthenticateResponse
 		 * and handled appropriately.
 		 */
-		foreach($results as $result)
+		foreach($plugins as $plugin)
 		{
-			switch($result->status)
+			$className = 'plg'.$plugin->folder.$plugin->element;
+			if(class_exists($className)) {
+				$plugin = new $className($this);
+			}
+
+			// Try to authenticate
+			$plugin->onAuthenticate($username, $password, $response);
+
+			// If authentication is successfull break out of the loop
+			if($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 			{
-				case JAUTHENTICATE_STATUS_SUCCESS :
-				{
-					if(empty($result->username)) {
-						$result->username = $username;
-					}
+				if(empty($response->username)) {
+					$response->username = $username;
+				}
 
-					if(empty($result->fullname)) {
-						$result->fullname = $username;
-					}
+				if(empty($response->fullname)) {
+					$response->fullname = $username;
+				}
 
-					//TODO :: this needs to be changed, should only return at the end
-					return $result;
-
-				}	break;
-
-				case JAUTHENTICATE_STATUS_CANCEL :
-				{
-					jimport('joomla.utilities.log');
-					$log = JLog::getInstance();
-					$errorlog = array();
-					$errorlog['status'] = $result->type . " CANCELED: ";
-					$errorlog['comment'] = $result->error_message;
-					$log->addEntry($errorlog);
-					// do nothing
-				} break;
-
-				case JAUTHENTICATE_STATUS_FAILURE :
-				{
-					jimport('joomla.utilities.log');
-					$log = JLog::getInstance();
-					$errorlog = array();
-					$errorlog['status'] = $result->type . " FAILURE: ";
-					$errorlog['comment'] = $result->error_message;
-					$log->addEntry($errorlog);
-					//do nothing
-				}	break;
-
-				default :
-				{
-					jimport('joomla.utilities.log');
-					$log = JLog::getInstance();
-					$errorlog = array();
-					$errorlog['status'] = $result->type . " UNKNOWN ERROR: ";
-					$errorlog['comment'] = $result->error_message;
-					$log->addEntry($errorlog);
-					//do nothing
-				}	break;
+				break;
 			}
 		}
 
-		$dispatcher->trigger( 'onAuthenticateFailure', array( array( $username, $password ), $results ) );
-		return false;
+		return $response;
 	}
 }
 
@@ -182,20 +150,12 @@ class JAuthentication extends JObject
 class JAuthenticationResponse extends JObject
 {
 	/**
-	 * User type (refers to the authentication method used)
-	 *
-	 * @var name string
-	 * @access public
-	 */
-	var $type	= '';
-
-	/**
 	 * Response status (see status codes)
 	 *
 	 * @var type string
 	 * @access public
 	 */
-	var $status 		= 4;
+	var $status 		= JAUTHENTICATE_STATUS_FAILURE;
 
 	/**
 	 *  The error message
@@ -289,7 +249,5 @@ class JAuthenticationResponse extends JObject
 	 * @param string $name The type of the response
 	 * @since 1.5
 	 */
-	function __construct($type) {
-		$this->type = $type;
-	}
+	function __construct() { }
 }

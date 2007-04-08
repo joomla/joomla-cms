@@ -49,41 +49,42 @@ class plgAuthenticationLdap extends JPlugin
 	 * @access	public
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
-	 * @return	object	JAuthenticationResponse
+	 * @param	object	$response	Authentication response object
+	 * @return	object	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate( $username, $password )
+	function onAuthenticate( $username, $password, &$response )
 	{
 		// Initialize variables
 		$userdetails = null;
-		$result = new JAuthenticationResponse('LDAP');
 		$success = 0;
 
 		// LDAP does not like Blank passwords (tries to Anon Bind which is bad)
-		if ($password == "") {
-			$result->status = JAUTHENTICATE_STATUS_FAILURE;
-			$result->error_message = 'LDAP can not have blank password';
-			return $result;
+		if ($password == "")
+		{
+			$response->status = JAUTHENTICATE_STATUS_FAILURE;
+			$response->error_message = 'LDAP can not have blank password';
+			return false;
 		}
 
 		// load plugin parameters
 	 	$plugin =& JPluginHelper::getPlugin('authentication', 'ldap');
 	 	$params = new JParameter( $plugin->params );
 
-		$ldap_email 	= $params->get('ldap_email');
+		$ldap_email 		= $params->get('ldap_email');
 		$ldap_fullname	= $params->get('ldap_fullname');
 		$ldap_uid		= $params->get('ldap_uid');
-		$auth_method	= $params->get('auth_method');
+		$auth_method		= $params->get('auth_method');
 
-		$ldap	= new JLDAP($params);
+		$ldap = new JLDAP($params);
 
 		if (!$ldap->connect())
 		{
-			$result->status = JAUTHENTICATE_STATUS_FAILURE;
-			$result->error_message = 'Unable to connect to LDAP server';
-			return $result;
+			$response->status = JAUTHENTICATE_STATUS_FAILURE;
+			$response->error_message = 'Unable to connect to LDAP server';
+			return;
 		}
-		
+
 		switch($auth_method)
 		{
 			case 'anonymous':
@@ -97,7 +98,7 @@ class plgAuthenticationLdap extends JPlugin
 					// Bind using Connect Username/password
 					$bindtest = $ldap->bind();
 				}
-				
+
 				if($bindtest)
 				{
 					// Search for users DN
@@ -109,9 +110,8 @@ class plgAuthenticationLdap extends JPlugin
 				}
 				else
 				{
-					$result->status = JAUTHENTICATE_STATUS_FAILURE;
-					$result->error_message = 'Unable to bind to LDAP';
-					return $result;
+					$response->status = JAUTHENTICATE_STATUS_FAILURE;
+					$response->error_message = 'Unable to bind to LDAP';
 				}
 			}	break;
 
@@ -125,31 +125,30 @@ class plgAuthenticationLdap extends JPlugin
 
 		if(!$success)
 		{
-			$result->status = JAUTHENTICATE_STATUS_FAILURE;
-			$result->error_message = 'Incorrect username/password';
+			$response->status = JAUTHENTICATE_STATUS_FAILURE;
+			$response->error_message = 'Incorrect username/password';
 		}
 		else
 		{
 			// Grab some details from LDAP and return them
 			if (isset($userdetails[0][$ldap_uid][0]))
 			{
-				$result->username = $userdetails[0][$ldap_uid][0];
+				$response->username = $userdetails[0][$ldap_uid][0];
 			}
 			if (isset($userdetails[0][$ldap_email][0]))
 			{
-				$result->email = $userdetails[0][$ldap_email][0];
+				$response->email = $userdetails[0][$ldap_email][0];
 			}
 			if(isset($userdetails[0][$ldap_fullname][0])) {
-				$result->fullname = $userdetails[0][$ldap_fullname][0];
+				$response->fullname = $userdetails[0][$ldap_fullname][0];
 			} else {
-				$result->fullname = $username;
+				$response->fullname = $username;
 			}
 			// Were good - So say so.
-			$result->status = JAUTHENTICATE_STATUS_SUCCESS;
+			$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 		}
 
 		$ldap->close();
-		return $result;
 	}
 }
 ?>

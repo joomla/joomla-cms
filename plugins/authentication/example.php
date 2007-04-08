@@ -48,14 +48,12 @@ class plgAuthenticationExample extends JPlugin
 	 * @access	public
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
-	 * @return	object	JAuthenticationResponse
+	 * @param	object	$response	Authentication response object
+	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate( $username, $password )
+	function onAuthenticate( $username, $password, &$response )
 	{
-		// Initialize variables
-		$return = new JAuthenticationResponse('example');
-
 		/*
 		 * Here you would do whatever you need for an authentication routine with the credentials
 		 *
@@ -64,8 +62,7 @@ class plgAuthenticationExample extends JPlugin
 		 * user if the routine passes
 		 */
 
-		$return->status 	= JAUTHENTICATE_STATUS_SUCCESS;
-		return $return;
+		$response->status 	= JAUTHENTICATE_STATUS_SUCCESS;
 	}
 }
 ?>

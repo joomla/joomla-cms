@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system">
+	<name>System - Log</name>
+	<author>Joomla! Project</author>
+	<creationDate>April 2007</creationDate>
+	<copyright>(C) 2005 - 2007 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.5</version>
+	<description>Provides system logging</description>
+	<files>
+		<filename plugin="log">log.php</filename>
+	</files>
+	<params>
+	</params>
+</install>

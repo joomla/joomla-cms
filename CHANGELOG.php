@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Apr-2007 Johan Janssens
+ + Added Log plugin to catch new onLoginFailure event
+ ^ Refactored JAuthentication to allow for stacked authentication plugins
+ ! These changes require a reinstall and authentication plugins will need to be adapted
+
 06-Apr-2007 Andrew Eddie
  ^ Split out options rendering in JHTMLSelect::genericList to JHTMLSelect::options
 

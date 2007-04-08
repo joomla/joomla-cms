@@ -47,13 +47,12 @@ class plgAuthenticationGMail extends JPlugin
 	 * @access	public
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
-	 * @return	object	JAuthenticationResponse
+	 * @param	object	$response	Authentication response object
+	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate( $username, $password )
+	function onAuthenticate( $username, $password, &$response )
 	{
-		global $mainframe;
-
 		// load plugin parameters
 	 	$plugin =& JPluginHelper::getPlugin('authentication', 'gmail');
 	 	$pluginParams = new JParameter( $plugin->params );
@@ -86,16 +85,15 @@ class plgAuthenticationGMail extends JPlugin
 
 		if ($success)
 		{
-			$return->status 	= JAUTHENTICATE_STATUS_SUCCESS;
-			$return->email 		= $username;
-			$return->fullname 	= $username;
+			$response->status 	= JAUTHENTICATE_STATUS_SUCCESS;
+			$response->email 	= $username;
+			$response->fullname 	= $username;
 		}
 		else
 		{
-			$return->status 		= JAUTHENTICATE_STATUS_FAILURE;
-			$return->error_message	= 'Failed to authenticate: ' . $message;
+			$response->status 		= JAUTHENTICATE_STATUS_FAILURE;
+			$response->error_message	= 'Failed to authenticate: ' . $message;
 		}
-		return $return;
 	}
 }
 ?>

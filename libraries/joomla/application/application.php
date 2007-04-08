@@ -368,7 +368,7 @@ class JApplication extends JObject
 	 * the current session record with the users details.
 	 *
 	 * Username and encoded password are sent as credentials (along with other
-	 * possibilities) to each observer (JAuthenticationPlugin) for user
+	 * possibilities) to each observer (authentication plugin) for user
 	 * validation.  Successful validation will update the current session with
 	 * the user details.
 	 *
@@ -398,7 +398,7 @@ class JApplication extends JObject
 		$authenticate = & JAuthentication::getInstance();
 		$response	 = $authenticate->authenticate($username, $password);
 
-		if (is_a($response, 'JAuthenticationResponse'))
+		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 		{
 			// Import the user plugin group
 			JPluginHelper::importPlugin('user');
@@ -407,17 +407,22 @@ class JApplication extends JObject
 			$results = $this->triggerEvent('onLoginUser', array((array)$response, $remember));
 
 			/*
-			 * If any of the user plugins did not successfully
-			 * complete the login routine then the whole method fails.  Any
-			 * errors raised should be done in the plugin as this provides the
-			 * ability to provide much more information about why the routine
-			 * may have failed.
+			 * If any of the user plugins did not successfully complete the login routine
+			 * then the whole method fails.
+			 *
+			 * Any errors raised should be done in the plugin as this provides the ability
+			 * to provide much more information about why the routine may have failed.
 			 */
-			//TODO :: need to handle error reporting here
+
 			if (!in_array(false, $results, true)) {
 				return true;
 			}
 		}
+
+		// Trigger onLoginFailure Event
+		$this->triggerEvent('onLoginFailure', array((array)$response));
+
+		// Return the error
 		return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_AUTHENTICATE'));
 	}
 

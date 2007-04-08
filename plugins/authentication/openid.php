@@ -49,10 +49,11 @@ class plgAuthenticationOpenID extends JPlugin
 	 * @access	public
 	 * @param	string	$username	Username for authentication
 	 * @param	string	$password	Password for authentication
-	 * @return	object	JAuthenticationResponse
+	 * @param	object	$response	Authentication response object
+	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate( $username, $password )
+	function onAuthenticate( $username, $password, &$response )
 	{
 		global $mainframe;
 
@@ -70,9 +71,6 @@ class plgAuthenticationOpenID extends JPlugin
 		// load plugin parameters
 		$plugin =& JPluginHelper::getPlugin('authentication', 'openid');
 		$params = new JParameter( $plugin->params );
-
-		// create response object
-		$return = new JAuthenticationResponse('openid');
 
 		// Need to check for bcmath or gmp - if not, use the dumb mode.
 		// TODO: Should dump an error to debug saying we are dumb
@@ -101,9 +99,9 @@ class plgAuthenticationOpenID extends JPlugin
 			// Begin the OpenID authentication process.
 			if(!$request = $consumer->begin($username))
 			{
-				$return->type = JAUTHENTICATE_STATUS_FAILURE;
-				$return->error_message = 'Authentication error : could not connect to the openid server';
-				return $return;
+				$response->type = JAUTHENTICATE_STATUS_FAILURE;
+				$response->error_message = 'Authentication error : could not connect to the openid server';
+				return false;
 			}
 
 			// Request simple registration information
@@ -121,39 +119,38 @@ class plgAuthenticationOpenID extends JPlugin
 			// Redirect the user to the OpenID server for authentication.  Store
 			// the token for this authentication so we can verify the response.
 			$mainframe->redirect($redirect_url);
+
 			return false;
 		}
 
-		$response = $consumer->complete(JRequest::get('get'));
+		$result = $consumer->complete(JRequest::get('get'));
 
-		switch ($response->status)
+		switch ($result->status)
 		{
 			case Auth_OpenID_SUCCESS :
 			{
-				$sreg = $response->extensionResponse('sreg');
+				$sreg = $result->extensionResponse('sreg');
 
-				$return->status		= JAUTHENTICATE_STATUS_SUCCESS;
-				$return->email		= isset($sreg['email'])	? $sreg['email']	: "";
-				$return->fullname	= isset($sreg['fullname']) ? $sreg['fullname'] : "";
-				$return->language	= isset($sreg['language']) ? $sreg['language'] : "";
-				$return->timezone	= isset($sreg['timezone']) ? $sreg['timezone'] : "";
+				$response->status		= JAUTHENTICATE_STATUS_SUCCESS;
+				$response->email		= isset($sreg['email'])	? $sreg['email']	: "";
+				$response->fullname	= isset($sreg['fullname']) ? $sreg['fullname'] : "";
+				$response->language	= isset($sreg['language']) ? $sreg['language'] : "";
+				$response->timezone	= isset($sreg['timezone']) ? $sreg['timezone'] : "";
 
 			} break;
 
 			case Auth_OpenID_CANCEL :
 			{
-				$return->status = JAUTHENTICATE_STATUS_CANCEL;
-				$return->error_message = 'Authentication failed';
+				$response->status = JAUTHENTICATE_STATUS_CANCEL;
+				$response->error_message = 'Authentication cancelled';
 			} break;
 
 			case Auth_OpenID_FAILURE :
 			{
-				$return->status = JAUTHENTICATE_STATUS_FAILURE;
-				$return->error_message = 'Authentication cancelled';
+				$response->status = JAUTHENTICATE_STATUS_FAILURE;
+				$response->error_message = 'Authentication failed';
 			} break;
 		}
-
-		return $return;
 	}
 }
 ?>
