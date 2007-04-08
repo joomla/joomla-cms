@@ -318,7 +318,7 @@ function editPlugin( )
 	$lists['published'] = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
 
 	// get params definitions
-	$params = new JParameter( $row->params, JApplicationHelper::getPath( 'bot_xml', $row->folder.DS.$row->element ), 'plugin' );
+	$params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ), 'plugin' );
 
 
 	HTML_modules::editPlugin( $row, $lists, $params, $option );

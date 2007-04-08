@@ -58,8 +58,7 @@ class JCache extends JObject
 	}
 
 	/**
-	 * Returns a reference to a cache adapter object, only creating it
-	 * if it doesn't already exist.
+	 * Returns a reference to a cache adapter object, always creating it
 	 *
 	 * @static
 	 * @param	string	$type	The cache object type to instantiate
