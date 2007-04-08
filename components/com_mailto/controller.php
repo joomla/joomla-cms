@@ -23,10 +23,10 @@ jimport('joomla.application.component.controller');
  */
 class MailtoController extends JController
 {
-	
+
 	/**
 	 * Show the form so that the user can send the link to someone
-	 * 
+	 *
 	 * @access public
 	 * @since 1.5
 	 */
@@ -35,22 +35,22 @@ class MailtoController extends JController
 		JRequest::setVar( 'view', 'mailto' );
 		$this->display();
 	}
-	
+
 	/**
 	 * Send the message and display a notice
-	 * 
+	 *
 	 * @access public
 	 * @since 1.5
 	 */
 	function send()
 	{
 		global $mainframe;
-		
+
 		//check the token before we do anything else
 		$token	= JUtility::getToken();
 		if(!JRequest::getVar( $token, 0, 'post' )) {
 			JError::raiseError(403, 'Request Forbidden');
-		} 
+		}
 
 		$db	=& JFactory::getDBO();
 
@@ -60,7 +60,7 @@ class MailtoController extends JController
 		$MailFrom 	= $mainframe->getCfg('mailfrom');
 		$FromName 	= $mainframe->getCfg('fromname');
 
-		$link 		= urldecode( JRequest::getVar( 'link', '', 'post' ) );
+		$link 		= base64_decode( JRequest::getVar( 'link', '', 'post' ) );
 
 		// An array of e-mail headers we do not want to allow as input
 		$headers = array (	'Content-Type:',
@@ -105,24 +105,24 @@ class MailtoController extends JController
 
 		// Check for a valid to address
 		$error	= false;
-		if ( ! $email  || ! JMailHelper::isEmailAddress($email) ) 
+		if ( ! $email  || ! JMailHelper::isEmailAddress($email) )
 		{
 			$error	= JText::sprintf('EMAIL_INVALID', $email);
 			JError::raiseWarning(0, $error );
 		}
-		
+
 		// Check for a valid from address
 		if ( ! $from || ! JMailHelper::isEmailAddress($from) )
 		{
 			$error	= JText::sprintf('EMAIL_INVALID', $from);
 			JError::raiseWarning(0, $error );
 		}
-		
+
 		if ( $error )
 		{
 			return $this->mailto();
 		}
-		
+
 		// Build the link to send in the email
 		$link	= JRoute::_($link);
 
