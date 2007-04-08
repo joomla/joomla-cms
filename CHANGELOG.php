@@ -41,6 +41,7 @@ Legend:
  ^ Update OpenID library to version 1.2.2
 
 07-Apr-2007 Johan Janssens
+ + Added onLoginFailure and onLogoutFailure events
  + Added Log plugin to catch new onLoginFailure event
  ^ Refactored JAuthentication to allow for stacked authentication plugins
  ! These changes require a reinstall and authentication plugins will need to be adapted

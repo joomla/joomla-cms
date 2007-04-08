@@ -462,10 +462,13 @@ class JApplication extends JObject
 		 * much more information about why the routine may have failed.
 		 */
 		if (!in_array(false, $results, true)) {
-			$retval = true;
+			return true;
 		}
 
-		return $retval;
+		// Trigger onLoginFailure Event
+		$this->triggerEvent('onLogoutFailure', array($parameters));
+
+		return false;
 	}
 
 	/**
