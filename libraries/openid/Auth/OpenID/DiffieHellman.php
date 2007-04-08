@@ -17,13 +17,21 @@
 require_once 'Auth/OpenID/BigMath.php';
 require_once 'Auth/OpenID/HMACSHA1.php';
 
-$_Auth_OpenID_DEFAULT_MOD = '155172898181473697471232257763715539915724801'.
-'966915404479707795314057629378541917580651227423698188993727816152646631'.
-'438561595825688188889951272158842675419950341258706556549803580104870537'.
-'681476726513255747040765857479291291572334510643245094715007229621094194'.
-'349783925984760375594985848253359305585439638443';
+function Auth_OpenID_getDefaultMod()
+{
+    return '155172898181473697471232257763715539915724801'.
+        '966915404479707795314057629378541917580651227423'.
+        '698188993727816152646631438561595825688188889951'.
+        '272158842675419950341258706556549803580104870537'.
+        '681476726513255747040765857479291291572334510643'.
+        '245094715007229621094194349783925984760375594985'.
+        '848253359305585439638443';
+}
 
-$_Auth_OpenID_DEFAULT_GEN = '2';
+function Auth_OpenID_getDefaultGen()
+{
+    return '2';
+}
 
 /**
  * The Diffie-Hellman key exchange class.  This class relies on
@@ -42,8 +50,6 @@ class Auth_OpenID_DiffieHellman {
     function Auth_OpenID_DiffieHellman($mod = null, $gen = null,
                                        $private = null, $lib = null)
     {
-        global $_Auth_OpenID_DEFAULT_MOD, $_Auth_OpenID_DEFAULT_GEN;
-
         if ($lib === null) {
             $this->lib =& Auth_OpenID_getMathLib();
         } else {
@@ -51,13 +57,13 @@ class Auth_OpenID_DiffieHellman {
         }
 
         if ($mod === null) {
-            $this->mod = $this->lib->init($_Auth_OpenID_DEFAULT_MOD);
+            $this->mod = $this->lib->init(Auth_OpenID_getDefaultMod());
         } else {
             $this->mod = $mod;
         }
 
         if ($gen === null) {
-            $this->gen = $this->lib->init($_Auth_OpenID_DEFAULT_GEN);
+            $this->gen = $this->lib->init(Auth_OpenID_getDefaultGen());
         } else {
             $this->gen = $gen;
         }
@@ -89,16 +95,14 @@ class Auth_OpenID_DiffieHellman {
      */
     function getAssocArgs()
     {
-        global $_Auth_OpenID_DEFAULT_MOD, $_Auth_OpenID_DEFAULT_GEN;
-
         $cpub = $this->lib->longToBase64($this->getPublicKey());
         $args = array(
                       'openid.dh_consumer_public' => $cpub,
                       'openid.session_type' => 'DH-SHA1'
                       );
 
-        if ($this->lib->cmp($this->mod, $_Auth_OpenID_DEFAULT_MOD) ||
-            $this->lib->cmp($this->gen, $_Auth_OpenID_DEFAULT_GEN)) {
+        if ($this->lib->cmp($this->mod, Auth_OpenID_getDefaultMod()) ||
+            $this->lib->cmp($this->gen, Auth_OpenID_getDefaultGen())) {
             $args['openid.dh_modulus'] = $this->lib->longToBase64($this->mod);
             $args['openid.dh_gen'] = $this->lib->longToBase64($this->gen);
         }
@@ -108,10 +112,8 @@ class Auth_OpenID_DiffieHellman {
 
     function usingDefaultValues()
     {
-        global $_Auth_OpenID_DEFAULT_GEN, $_Auth_OpenID_DEFAULT_MOD;
-
-        return ($this->mod == $_Auth_OpenID_DEFAULT_MOD &&
-                $this->gen == $_Auth_OpenID_DEFAULT_GEN);
+        return ($this->mod == Auth_OpenID_getDefaultMod() &&
+                $this->gen == Auth_OpenID_getDefaultGen());
     }
 
     /**
@@ -132,7 +134,7 @@ class Auth_OpenID_DiffieHellman {
         } else {
             $gen = null;
         }
-
+        
         $cpub64 = @$consumer_args['openid.dh_consumer_public'];
         if (!isset($cpub64)) {
             return false;

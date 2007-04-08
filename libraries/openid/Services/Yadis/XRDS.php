@@ -30,11 +30,17 @@ define('SERVICES_YADIS_MATCH_ALL', 101);
  */
 define('SERVICES_YADIS_MATCH_ANY', 102);
 
-global $_Services_Yadis_ns_map;
-$_Services_Yadis_ns_map = array('xrds' => 'xri://$xrds',
-                                'xrd' => 'xri://$xrd*($v*2.0)');
-
+/**
+ * The priority value used for service elements with no priority
+ * specified.
+ */
 define('SERVICES_YADIS_MAX_PRIORITY', pow(2, 30));
+
+function Services_Yadis_getNSMap()
+{
+    return array('xrds' => 'xri://$xrds',
+                 'xrd' => 'xri://$xrd*($v*2.0)');
+}
 
 /**
  * @access private
@@ -214,30 +220,30 @@ class Services_Yadis_XRDS {
      * @return mixed $xrds An instance of Services_Yadis_XRDS or null,
      * depending on the validity of $xml_string
      */
-    function parseXRDS($xml_string, $extra_ns_map = null)
+    function &parseXRDS($xml_string, $extra_ns_map = null)
     {
-        global $_Services_Yadis_ns_map;
+        $_null = null;
 
         if (!$xml_string) {
-            return null;
+            return $_null;
         }
 
         $parser = Services_Yadis_getXMLParser();
 
-        $ns_map = $_Services_Yadis_ns_map;
+        $ns_map = Services_Yadis_getNSMap();
 
         if ($extra_ns_map && is_array($extra_ns_map)) {
             $ns_map = array_merge($ns_map, $extra_ns_map);
         }
 
         if (!($parser && $parser->init($xml_string, $ns_map))) {
-            return null;
+            return $_null;
         }
 
         // Try to get root element.
         $root = $parser->evalXPath('/xrds:XRDS[1]');
         if (!$root) {
-            return null;
+            return $_null;
         }
 
         if (is_array($root)) {
@@ -248,18 +254,18 @@ class Services_Yadis_XRDS {
 
         if (array_key_exists('xmlns:xrd', $attrs) &&
             $attrs['xmlns:xrd'] != 'xri://$xrd*($v*2.0)') {
-            return null;
+            return $_null;
         } else if (array_key_exists('xmlns', $attrs) &&
                    preg_match('/xri/', $attrs['xmlns']) &&
                    $attrs['xmlns'] != 'xri://$xrd*($v*2.0)') {
-            return null;
+            return $_null;
         }
 
         // Get the last XRD node.
         $xrd_nodes = $parser->evalXPath('/xrds:XRDS[1]/xrd:XRD');
 
         if (!$xrd_nodes) {
-            return null;
+            return $_null;
         }
 
         $xrds = new Services_Yadis_XRDS($parser, $xrd_nodes);

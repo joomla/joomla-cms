@@ -147,7 +147,12 @@ class Services_Yadis_PlainHTTPFetcher extends Services_Yadis_HTTPFetcher {
 
         $headers = array();
 
-        $headers[] = "POST ".$parts['path']." HTTP/1.0";
+        $post_path = $parts['path'];
+        if (isset($parts['query'])) {
+            $post_path .= '?' . $parts['query'];
+        }
+
+        $headers[] = "POST ".$post_path." HTTP/1.0";
         $headers[] = "Host: " . $parts['host'];
         $headers[] = "Content-type: application/x-www-form-urlencoded";
         $headers[] = "Content-length: " . strval(strlen($body));

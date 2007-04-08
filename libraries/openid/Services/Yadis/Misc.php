@@ -9,33 +9,39 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
 
-$__UCSCHAR = array(
-                   array(0xA0, 0xD7FF),
-                   array(0xF900, 0xFDCF),
-                   array(0xFDF0, 0xFFEF),
-                   array(0x10000, 0x1FFFD),
-                   array(0x20000, 0x2FFFD),
-                   array(0x30000, 0x3FFFD),
-                   array(0x40000, 0x4FFFD),
-                   array(0x50000, 0x5FFFD),
-                   array(0x60000, 0x6FFFD),
-                   array(0x70000, 0x7FFFD),
-                   array(0x80000, 0x8FFFD),
-                   array(0x90000, 0x9FFFD),
-                   array(0xA0000, 0xAFFFD),
-                   array(0xB0000, 0xBFFFD),
-                   array(0xC0000, 0xCFFFD),
-                   array(0xD0000, 0xDFFFD),
-                   array(0xE1000, 0xEFFFD)
-                   );
+function Services_Yadis_getUCSChars()
+{
+    return array(
+                 array(0xA0, 0xD7FF),
+                 array(0xF900, 0xFDCF),
+                 array(0xFDF0, 0xFFEF),
+                 array(0x10000, 0x1FFFD),
+                 array(0x20000, 0x2FFFD),
+                 array(0x30000, 0x3FFFD),
+                 array(0x40000, 0x4FFFD),
+                 array(0x50000, 0x5FFFD),
+                 array(0x60000, 0x6FFFD),
+                 array(0x70000, 0x7FFFD),
+                 array(0x80000, 0x8FFFD),
+                 array(0x90000, 0x9FFFD),
+                 array(0xA0000, 0xAFFFD),
+                 array(0xB0000, 0xBFFFD),
+                 array(0xC0000, 0xCFFFD),
+                 array(0xD0000, 0xDFFFD),
+                 array(0xE1000, 0xEFFFD)
+                 );
+}
 
-$__IPRIVATE = array(
-                    array(0xE000, 0xF8FF),
-                    array(0xF0000, 0xFFFFD),
-                    array(0x100000, 0x10FFFD)
-                    );
+function Services_Yadis_getIPrivateChars()
+{
+    return array(
+                 array(0xE000, 0xF8FF),
+                 array(0xF0000, 0xFFFFD),
+                 array(0x100000, 0x10FFFD)
+                 );
+}
 
-function _pct_escape_unicode($char_match)
+function Services_Yadis_pct_escape_unicode($char_match)
 {
     $c = $char_match[0];
     $result = "";
@@ -45,7 +51,7 @@ function _pct_escape_unicode($char_match)
     return $result;
 }
 
-function _startswith($s, $stuff)
+function Services_Yadis_startswith($s, $stuff)
 {
     return strpos($s, $stuff) === 0;
 }

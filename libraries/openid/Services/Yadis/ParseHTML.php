@@ -30,33 +30,15 @@ class Services_Yadis_ParseHTML {
     /**
      * @access private
      */
-    var $_tag_expr = "<%s\b(?!:)([^>]*?)(?:\/>|>(.*?)(?:<\/?%s\s*>|\Z))";
+    var $_tag_expr = "<%s%s(?:\s.*?)?%s>";
 
     /**
      * @access private
      */
-    var $_close_tag_expr = "<\/?%s\s*>";
-
-    /**
-     * @access private
-     */
-    var $_removed_re =
-           "<!--.*?-->|<!\[CDATA\[.*?\]\]>|<script\b(?!:)[^>]*>.*?<\/script>";
-
-    /**
-     * @access private
-     */
-    var $_attr_find = '\b([-\w]+)=("[^"]*"|\'[^\']*\'|[^\'"\s\/<>]+)';
+    var $_attr_find = '\b([-\w]+)=(".*?"|\'.*?\'|.+?)[\s>]';
 
     function Services_Yadis_ParseHTML()
     {
-        $this->_meta_find = sprintf("/<meta\b(?!:)([^>]*)(?!<)>/%s",
-                                    $this->_re_flags);
-
-        $this->_removed_re = sprintf("/%s/%s",
-                                     $this->_removed_re,
-                                     $this->_re_flags);
-
         $this->_attr_find = sprintf("/%s/%s",
                                     $this->_attr_find,
                                     $this->_re_flags);
@@ -121,43 +103,34 @@ class Services_Yadis_ParseHTML {
     }
 
     /**
-     * Create a regular expression that will match an opening (and
-     * optional) closing tag of a given name.
+     * Create a regular expression that will match an opening 
+     * or closing tag from a set of names.
      *
      * @access private
-     * @param string $tag_name The tag name to match
-     * @param array $close_tags An array of tag names which also
-     * constitute closing of the original tag
+     * @param mixed $tag_names Tag names to match
+     * @param mixed $close false/0 = no, true/1 = yes, other = maybe
+     * @param mixed $self_close false/0 = no, true/1 = yes, other = maybe
      * @return string $regex A regular expression string to be used
      * in, say, preg_match.
      */
-    function tagMatcher($tag_name, $close_tags = null)
+    function tagPattern($tag_names, $close, $self_close)
     {
-        if ($close_tags) {
-            $options = implode("|", array_merge(array($tag_name), $close_tags));
-            $closer = sprintf("(?:%s)", $options);
-        } else {
-            $closer = $tag_name;
+        if (is_array($tag_names)) {
+            $tag_names = '(?:'.implode('|',$tag_names).')';
         }
+        if ($close) {
+            $close = '\/' . (($close == 1)? '' : '?');
+        } else {
+            $close = '';
+        }
+        if ($self_close) {
+            $self_close = '(?:\/\s*)' . (($self_close == 1)? '' : '?');
+        } else {
+            $self_close = '';
+        }
+        $expr = sprintf($this->_tag_expr, $close, $tag_names, $self_close);
 
-        $expr = sprintf($this->_tag_expr, $tag_name, $closer);
         return sprintf("/%s/%s", $expr, $this->_re_flags);
-    }
-
-    /**
-     * @access private
-     */
-    function htmlFind($str)
-    {
-        return $this->tagMatcher('html', array('body'));
-    }
-
-    /**
-     * @access private
-     */
-    function headFind()
-    {
-        return $this->tagMatcher('head', array('body'));
     }
 
     /**
@@ -173,51 +146,52 @@ class Services_Yadis_ParseHTML {
      */
     function getMetaTags($html_string)
     {
-        $stripped = preg_replace($this->_removed_re,
-                                 "",
-                                 $html_string);
-
-        // Look for the closing body tag.
-        $body_closer = sprintf($this->_close_tag_expr, 'body');
-        $body_matches = array();
-        preg_match($body_closer, $html_string, $body_matches,
-                   PREG_OFFSET_CAPTURE);
-        if ($body_matches) {
-            $html_string = substr($html_string, 0, $body_matches[0][1]);
+        $key_tags = array($this->tagPattern('html', false, false),
+                          $this->tagPattern('head', false, false),
+                          $this->tagPattern('head', true, false),
+                          $this->tagPattern('html', true, false),
+                          $this->tagPattern(array(
+                          'body', 'frameset', 'frame', 'p', 'div',
+                          'table','span','a'), 'maybe', 'maybe'));
+        $key_tags_pos = array();
+        foreach ($key_tags as $pat) {
+            $matches = array();
+            preg_match($pat, $html_string, $matches, PREG_OFFSET_CAPTURE);
+            if($matches) {
+                $key_tags_pos[] = $matches[0][1];
+            } else {
+                $key_tags_pos[] = null;
+            }
         }
-
-        // Look for the opening body tag, and discard everything after
-        // that tag.
-        $body_re = $this->tagMatcher('body');
-        $body_matches = array();
-        preg_match($body_re, $html_string, $body_matches, PREG_OFFSET_CAPTURE);
-        if ($body_matches) {
-            $html_string = substr($html_string, 0, $body_matches[0][1]);
-        }
-
-        // If an HTML tag is found at all, it must be in the right
-        // order; else, it may be missing (which is a case we allow
-        // for).
-        $html_re = $this->tagMatcher('html', array('body'));
-        preg_match($html_re, $html_string, $html_matches);
-        if ($html_matches) {
-            $html = $html_matches[0];
-        } else {
-            $html = $html_string;
-        }
-
-        // Try to find the <HEAD> tag.
-        $head_re = $this->headFind();
-        $head_matches = array();
-        if (!preg_match($head_re, $html, $head_matches)) {
+        // no opening head tag
+        if (is_null($key_tags_pos[1])) {
             return array();
         }
+        // the effective </head> is the min of the following
+        if (is_null($key_tags_pos[2])) {
+            $key_tags_pos[2] = strlen($html_string);
+        }
+        foreach (array($key_tags_pos[3], $key_tags_pos[4]) as $pos) {
+            if (!is_null($pos) && $pos < $key_tags_pos[2]) {
+                $key_tags_pos[2] = $pos;
+            }
+        }
+        // closing head tag comes before opening head tag
+        if ($key_tags_pos[1] > $key_tags_pos[2]) {
+            return array();
+        }
+        // if there is an opening html tag, make sure the opening head tag
+        // comes after it
+        if (!is_null($key_tags_pos[0]) && $key_tags_pos[1] < $key_tags_pos[0]) {
+            return array();
+        }
+        $html_string = substr($html_string, $key_tags_pos[1], ($key_tags_pos[2]-$key_tags_pos[1]));
 
         $link_data = array();
         $link_matches = array();
-
-        if (!preg_match_all($this->_meta_find, $head_matches[0],
-                            $link_matches)) {
+        
+        if (!preg_match_all($this->tagPattern('meta', false, 'maybe'),
+                            $html_string, $link_matches)) {
             return array();
         }
 

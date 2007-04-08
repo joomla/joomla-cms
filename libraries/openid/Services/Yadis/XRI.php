@@ -13,24 +13,37 @@ require_once 'Services/Yadis/Misc.php';
 require_once 'Services/Yadis/Yadis.php';
 require_once 'Auth/OpenID.php';
 
-$DEFAULT_PROXY = 'http://proxy.xri.net/';
-$XRI_AUTHORITIES = array('!', '=', '@', '+', '$', '(');
-
-$parts = array();
-foreach (array_merge($__UCSCHAR, $__IPRIVATE) as $pair) {
-    list($m, $n) = $pair;
-    $parts[] = sprintf("%s-%s", chr($m), chr($n));
+function Services_Yadis_getDefaultProxy()
+{
+    return 'http://proxy.xri.net/';
 }
 
-$_escapeme_re = sprintf('/[%s]/', implode('', $parts));
-$_xref_re = '/\((.*?)\)/';
+function Services_Yadis_getXRIAuthorities()
+{
+    return array('!', '=', '@', '+', '$', '(');
+}
+
+function Services_Yadis_getEscapeRE()
+{
+    $parts = array();
+    foreach (array_merge(Services_Yadis_getUCSChars(),
+                         Services_Yadis_getIPrivateChars()) as $pair) {
+        list($m, $n) = $pair;
+        $parts[] = sprintf("%s-%s", chr($m), chr($n));
+    }
+
+    return sprintf('/[%s]/', implode('', $parts));
+}
+
+function Services_Yadis_getXrefRE()
+{
+    return '/\((.*?)\)/';
+}
 
 function Services_Yadis_identifierScheme($identifier)
 {
-    global $XRI_AUTHORITIES;
-
-    if (_startswith($identifier, 'xri://') ||
-        (in_array($identifier[0], $XRI_AUTHORITIES))) {
+    if (Services_Yadis_startswith($identifier, 'xri://') ||
+        (in_array($identifier[0], Services_Yadis_getXRIAuthorities()))) {
         return "XRI";
     } else {
         return "URI";
@@ -39,7 +52,7 @@ function Services_Yadis_identifierScheme($identifier)
 
 function Services_Yadis_toIRINormal($xri)
 {
-    if (!_startswith($xri, 'xri://')) {
+    if (!Services_Yadis_startswith($xri, 'xri://')) {
         $xri = 'xri://' . $xri;
     }
 
@@ -57,10 +70,9 @@ function _escape_xref($xref_match)
 
 function Services_Yadis_escapeForIRI($xri)
 {
-    global $_xref_re;
-
     $xri = str_replace('%', '%25', $xri);
-    $xri = preg_replace_callback($_xref_re, '_escape_xref', $xri);
+    $xri = preg_replace_callback(Services_Yadis_getXrefRE(),
+                                 '_escape_xref', $xri);
     return $xri;
 }
 
@@ -74,10 +86,9 @@ function Services_Yadis_iriToURI($iri)
     if (1) {
         return $iri;
     } else {
-        global $_escapeme_re;
         // According to RFC 3987, section 3.1, "Mapping of IRIs to URIs"
-        return preg_replace_callback($_escapeme_re,
-                                     '_pct_escape_unicode', $iri);
+        return preg_replace_callback(Services_Yadis_getEscapeRE(),
+                                     'Services_Yadis_pct_escape_unicode', $iri);
     }
 }
 
@@ -131,13 +142,11 @@ function Services_Yadis_providerIsAuthoritative($providerID, $canonicalID)
 
 function Services_Yadis_rootAuthority($xri)
 {
-    global $XRI_AUTHORITIES;
-
     // Return the root authority for an XRI.
 
     $root = null;
 
-    if (_startswith($xri, 'xri://')) {
+    if (Services_Yadis_startswith($xri, 'xri://')) {
         $xri = substr($xri, 6);
     }
 
@@ -150,7 +159,7 @@ function Services_Yadis_rootAuthority($xri)
         //   does that before we have a real xriparse function.
         //   Hopefully nobody does that *ever*.
         $root = substr($authority, 0, strpos($authority, ')') + 1);
-    } else if (in_array($authority[0], $XRI_AUTHORITIES)) {
+    } else if (in_array($authority[0], Services_Yadis_getXRIAuthorities())) {
         // Other XRI reference.
         $root = $authority[0];
     } else {
@@ -168,7 +177,7 @@ function Services_Yadis_rootAuthority($xri)
 
 function Services_Yadis_XRI($xri)
 {
-    if (!_startswith($xri, 'xri://')) {
+    if (!Services_Yadis_startswith($xri, 'xri://')) {
         $xri = 'xri://' . $xri;
     }
     return $xri;

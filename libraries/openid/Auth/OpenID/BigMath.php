@@ -335,6 +335,7 @@ class Auth_OpenID_GmpMathWrapper extends Auth_OpenID_MathLibrary{
  * You can define new math library implementations and add them to
  * this array.
  */
+global $_Auth_OpenID_math_extensions;
 $_Auth_OpenID_math_extensions = array(
     array('modules' => array('gmp', 'php_gmp'),
           'extension' => 'gmp',
@@ -428,10 +429,9 @@ function &Auth_OpenID_getMathLib()
             $tried[] = $extinfo['extension'];
         }
         $triedstr = implode(", ", $tried);
-        $msg = 'This PHP installation has no big integer math ' .
-            'library. Define Auth_OpenID_NO_MATH_SUPPORT to use ' .
-            'this library in dumb mode. Tried: ' . $triedstr;
-        trigger_error($msg, E_USER_ERROR);
+
+        define('Auth_OpenID_NO_MATH_SUPPORT', true);
+        return null;
     }
 
     // Instantiate a new wrapper

@@ -57,11 +57,6 @@ class plgAuthenticationOpenID extends JPlugin
 	{
 		global $mainframe;
 
-		//OpenID plugin requires DOM xml module to be installed
-		if(version_compare( phpversion(), '5.0' ) < 0) {
-			return;
-		}
-
 	 	 // Require the OpenID consumer.
 		jimport ('openid.consumer');
 

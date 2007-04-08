@@ -289,6 +289,7 @@ class Services_Yadis_dom extends Services_Yadis_XMLParser {
     }
 }
 
+global $__Services_Yadis_defaultParser;
 $__Services_Yadis_defaultParser = null;
 
 /**
@@ -306,12 +307,15 @@ function Services_Yadis_setDefaultParser(&$parser)
     $__Services_Yadis_defaultParser =& $parser;
 }
 
-$GLOBALS['__Services_Yadis_xml_extensions'] = array(
-    'dom' => array('classname' => 'Services_Yadis_dom',
-                   'libname' => array('dom.so', 'dom.dll')),
-    'domxml' => array('classname' => 'Services_Yadis_domxml',
-                      'libname' => array('domxml.so', 'php_domxml.dll')),
-    );
+function Services_Yadis_getSupportedExtensions()
+{
+    return array(
+                 'dom' => array('classname' => 'Services_Yadis_dom',
+                                'libname' => array('dom.so', 'dom.dll')),
+                 'domxml' => array('classname' => 'Services_Yadis_domxml',
+                                   'libname' => array('domxml.so', 'php_domxml.dll')),
+                 );
+}
 
 /**
  * Returns an instance of a Services_Yadis_XMLParser subclass based on
@@ -321,8 +325,7 @@ $GLOBALS['__Services_Yadis_xml_extensions'] = array(
  */
 function &Services_Yadis_getXMLParser()
 {
-    global $__Services_Yadis_defaultParser,
-        $__Services_Yadis_xml_extensions;
+    global $__Services_Yadis_defaultParser;
 
     if (isset($__Services_Yadis_defaultParser)) {
         return $__Services_Yadis_defaultParser;
@@ -331,10 +334,10 @@ function &Services_Yadis_getXMLParser()
     $p = null;
     $classname = null;
 
+    $extensions = Services_Yadis_getSupportedExtensions();
+
     // Return a wrapper for the resident implementation, if any.
-    foreach ($__Services_Yadis_xml_extensions as $name => $params)
-	{
-		echo $name;
+    foreach ($extensions as $name => $params) {
         if (!extension_loaded($name)) {
             foreach ($params['libname'] as $libname) {
                 if (@dl($libname)) {

@@ -29,7 +29,7 @@
  * identity check.
  *
  * LIBRARY DESIGN
- *
+ * 
  * This consumer library is designed with that flow in mind.  The goal
  * is to make it as easy as possible to perform the above steps
  * securely.
