@@ -44,7 +44,7 @@ function BannersBuildRoute(&$query)
  *
  * index.php?/banners/bid/Itemid
  */
-function BannersParseRoute(&$segments)
+function BannersParseRoute($segments)
 {
 	// view is always the first element of the array
 	$count = count($segments);
