@@ -35,27 +35,27 @@ jimport('joomla.html.tooltips');
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
 			</th>
 			<th class="title">
-				<?php JCommonHTML::tableOrdering( 'Title', 'a.title', $this->lists ); ?>
+				<?php JHTML::element('sort', 'Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php JCommonHTML::tableOrdering( 'Published', 'a.published', $this->lists ); ?>
+				<?php JHTML::element('sort', 'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 			<th width="80" nowrap="nowrap">
 				<a href="javascript:tableOrdering('a.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
-					<?php echo JText::_( 'Order' );?>
-				</a>
+					<?php echo JText::_( 'Order' );?></a>
 		 	</th>
 			<th width="1%">
 				<?php JCommonHTML::saveorderButton( $this->items ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php JCommonHTML::tableOrdering( 'ID', 'a.id', $this->lists ); ?>
+				<?php JHTML::element('sort', 'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 			<th width="25%"  class="title">
-				<?php JCommonHTML::tableOrdering( 'Category', 'category', $this->lists ); ?>
+				<?php JHTML::element('sort', 'Category', 'category', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 			<th width="5%">
-				<?php JCommonHTML::tableOrdering( 'Hits', 'a.hits', $this->lists ); ?>
+				<?php JHTML::element('sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 		</tr>
 	</thead>

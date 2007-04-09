@@ -19,9 +19,8 @@ jimport( 'joomla.database.database' );
 jimport( 'joomla.database.table' );
 
 /**
- * Tables and database apapters need to be included using a regular include to avoid conflict
+ * Tables need to be included using a regular include to avoid conflict
  */
-include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'database'.DS.'mysql.php');
 include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'category.php');
 include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'component.php');
 include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'content.php');
@@ -1355,12 +1354,12 @@ class mosCommonHTML
 	}
 
 	/**
- 	 * Legacy function, use {@link JCommonHTML::tableOrdering()} instead
+ 	 * Legacy function, use {@link JHTML::element('sort')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {
-		JCommonHTML::tableOrdering($text, $ordering, $lists, $task);
+		JHTML::element('sort', $text, $ordering, @$lists['order_Dir'], @$lists['order'], $task);
 	}
 }
 
