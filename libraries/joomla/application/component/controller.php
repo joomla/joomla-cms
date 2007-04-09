@@ -35,7 +35,7 @@ class JController extends JObject
 	 * The name of the controller
 	 *
 	 * @var		array
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_name = null;
 
@@ -43,7 +43,7 @@ class JController extends JObject
 	 * Array of class methods
 	 *
 	 * @var	array
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_methods 	= null;
 
@@ -51,7 +51,7 @@ class JController extends JObject
 	 * Array of class methods to call for a given task.
 	 *
 	 * @var	array
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_taskMap 	= null;
 
@@ -59,7 +59,7 @@ class JController extends JObject
 	 * Current or most recent task to be performed.
 	 *
 	 * @var	string
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_task 		= null;
 
@@ -67,7 +67,7 @@ class JController extends JObject
 	 * The mapped task that was performed.
 	 *
 	 * @var	string
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_doTask 	= null;
 
@@ -75,7 +75,7 @@ class JController extends JObject
 	 * The set of search directories for resources (views or models).
 	 *
 	 * @var array
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_path = array(
 		'model'	=> array(),
@@ -86,7 +86,7 @@ class JController extends JObject
 	 * URL for redirection.
 	 *
 	 * @var	string
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_redirect 	= null;
 
@@ -94,7 +94,7 @@ class JController extends JObject
 	 * Redirect message.
 	 *
 	 * @var	string
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_message 	= null;
 
@@ -102,7 +102,7 @@ class JController extends JObject
 	 * Redirect message type.
 	 *
 	 * @var	string
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_messageType 	= null;
 
@@ -110,7 +110,7 @@ class JController extends JObject
 	 * ACO Section for the controller.
 	 *
 	 * @var	string
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_acoSection 		= null;
 
@@ -118,17 +118,9 @@ class JController extends JObject
 	 * Default ACO Section value for the controller.
 	 *
 	 * @var	string
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_acoSectionValue 	= null;
-
-	/**
-	 * An error message.
-	 *
-	 * @var string
-	 * @access protected
-	 */
-	var $_error;
 
 	/**
 	 * Constructor.
@@ -368,9 +360,9 @@ class JController extends JObject
 	 * Adds to the stack of controller model paths in LIFO order.
 	 *
 	 * @static
-	 * @param string|array The directory (string), or list of directories
+	 * @param	string|array The directory (string), or list of directories
 	 * (array) to add.
-	 * @return void
+	 * @return	void
 	 */
 	function addModelPath( $path )
 	{
@@ -392,7 +384,7 @@ class JController extends JObject
 	 * Get the last task that is or was to be performed.
 	 *
 	 * @access	public
-	 * @return  string The task that was or is being performed.
+	 * @return	 string The task that was or is being performed.
 	 * @since	1.5
 	 */
 	function getTask()
@@ -404,10 +396,10 @@ class JController extends JObject
 	 * Method to get a reference to the current view and load it if necessary.
 	 *
 	 * @access	public
-	 * @param 	string	The view name. Optional, defaults to the controller
+	 * @param	string	The view name. Optional, defaults to the controller
 	 * name.
-	 * @param 	string	The view type. Optional.
-	 * @param 	string	The class prefix. Optional.
+	 * @param	string	The view type. Optional.
+	 * @param	string	The class prefix. Optional.
 	 * @return	object	Reference to the view or an error.
 	 * @since	1.5
 	 */
@@ -446,9 +438,9 @@ class JController extends JObject
 	 * Add one or more view paths to the controller's stack, in LIFO order.
 	 *
 	 * @static
-	 * @param string|array The directory (string), or list of directories
+	 * @param	string|array The directory (string), or list of directories
 	 * (array) to add.
-	 * @return void
+	 * @return	void
 	 */
 	function addViewPath( $path )
 	{
@@ -490,33 +482,18 @@ class JController extends JObject
 	}
 
 	/**
-	 * Get the error message.
-	 * @return string The error message.
-	 * @since 1.5
-	 */
-	function getError() {
-		return $this->_error;
-	}
-
-	/**
-	 * Set the error message.
-	 * @param string The error message.
-	 * @return string The new error message.
-	 * @since 1.5
-	 */
-	function setError( $message )
-	{
-		$this->_error = $message;
-		return $this->_error;
-	}
-
-	/**
 	 * Sets the internal message that is passed with a redirect
+	 * 
+	 * @access	public
 	 * @param	string	The message
+	 * @return	string	Previous message
+	 * @since	1.5
 	 */
 	function setMessage( $text )
 	{
+		$previous		= $this->_message;
 		$this->_message = $text;
+		return $previous;
 	}
 
 	/**
@@ -525,7 +502,7 @@ class JController extends JObject
 	 * @access	public
 	 * @param	string URL to redirect to.
 	 * @param	string	Message to display on redirect. Optional, defaults to
-	 * value set internally by controller, if any.
+	 * 			value set internally by controller, if any.
 	 * @param	string	Message type. Optional, defaults to 'message'.
 	 * @return	void
 	 * @since	1.5
@@ -544,8 +521,8 @@ class JController extends JObject
 	 * Sets the access control levels.
 	 *
 	 * @access	public
-	 * @param string The ACO section (eg, the component).
-	 * @param string The ACO section value (if using a constant value).
+	 * @param	string The ACO section (eg, the component).
+	 * @param	string The ACO section value (if using a constant value).
 	 * @return	void
 	 * @since	1.5
 	 */
@@ -654,7 +631,7 @@ class JController extends JObject
    /**
 	* Sets an entire array of search paths for resources.
 	*
-	* @access protected
+	* @access	protected
 	* @param	string	The type of path to set, typically 'view' or 'model'.
 	* @param	string|array	The new set of search paths. If null or false,
 	* resets to the current directory only.
@@ -685,10 +662,10 @@ class JController extends JObject
    /**
 	* Adds to the search path for templates and resources.
 	*
-	* @access protected
-	* @param string The path type (e.g. 'model', 'view'.
-	* @param string|array The directory or stream to search.
-	* @return void
+	* @access	protected
+	* @param	string The path type (e.g. 'model', 'view'.
+	* @param	string|array The directory or stream to search.
+	* @return	void
 	*/
 	function _addPath( $type, $path )
 	{
@@ -719,7 +696,7 @@ class JController extends JObject
 	 * @param	string	The resource type to create the filename for.
 	 * @param	array	An associative array of filename information. Optional.
 	 * @return	string	The filename.
-	 * @since 1.5
+	 * @since	1.5
 	 */
 	function _createFileName( $type, $parts = array() )
 	{

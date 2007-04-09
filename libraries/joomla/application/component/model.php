@@ -35,7 +35,7 @@ class JModel extends JObject
 	 * The model (base) name
 	 *
 	 * @var string
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_name;
 
@@ -43,30 +43,22 @@ class JModel extends JObject
 	 * Database Connector
 	 *
 	 * @var object
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_db;
-
-	/**
-	 * An error message
-	 *
-	 * @var string
-	 * @access protected
-	 */
-	var $_error;
 
 	/**
 	 * An state object
 	 *
 	 * @var string
-	 * @access protected
+	 * @access	protected
 	 */
 	var $_state;
 
 	/**
 	 * Constructor
 	 *
-	 * @since 1.5
+	 * @since	1.5
 	 */
 	function __construct($config = array())
 	{
@@ -104,7 +96,7 @@ class JModel extends JObject
 	 * @param	string	The model type to instantiate
 	 * @param	string	Prefix for the model class name
 	 * @return	mixed	A model object, or false on failure
-	 * @since 1.5
+	 * @since	1.5
 	*/
 	function &getInstance( $type, $prefix='' )
 	{
@@ -168,39 +160,11 @@ class JModel extends JObject
 	 *
 	 * @access	public
 	 * @return	object JDatabase connector object
-	 * @since 1.5
+	 * @since	1.5
 	 */
 	function &getDBO()
 	{
 		return $this->_db;
-	}
-
-	/**
-	 * Get the error message
-	 *
-	 * @return string The error message
-	 * @since 1.5
-	 */
-	function getError($escaped = false)
-	{
-		if ($escaped) {
-			return addslashes($this->_error);
-		} else {
-			return $this->_error;
-		}
-	}
-
-	/**
-	 * Sets the error message
-	 *
-	 * @param string The error message
-	 * @return string The new error message
-	 * @since 1.5
-	 */
-	function setError( $value )
-	{
-		$this->_error = $value;
-		return $this->_error;
 	}
 
 	/**
@@ -233,7 +197,7 @@ class JModel extends JObject
 	 * @access	public
 	 * @param	string	A path to search.
 	 * @return	array	An array with directory elements
-	 * @since 1.5
+	 * @since	1.5
 	 */
 	function addIncludePath( $path='' )
 	{
@@ -252,8 +216,8 @@ class JModel extends JObject
 	 * Adds to the stack of model table paths in LIFO order.
 	 *
 	 * @static
-	 * @param string|array The directory (-ies) to add.
-	 * @return void
+	 * @param	string|array The directory (-ies) to add.
+	 * @return	void
 	 */
 	function addTablePath($path)
 	{
@@ -263,12 +227,12 @@ class JModel extends JObject
 	/**
 	 * Returns an object list
 	 *
-	 * @param string The query
-	 * @param int Offset
-	 * @param int The number of records
-	 * @return array
-	 * @access protected
-	 * @since 1.5
+	 * @param	string The query
+	 * @param	int Offset
+	 * @param	int The number of records
+	 * @return	array
+	 * @access	protected
+	 * @since	1.5
 	 */
 	function &_getList( $query, $limitstart=0, $limit=0 )
 	{
@@ -282,10 +246,10 @@ class JModel extends JObject
 	/**
 	 * Returns a record count for the query
 	 *
-	 * @param string The query
-	 * @return int
-	 * @access protected
-	 * @since 1.5
+	 * @param	string The query
+	 * @return	int
+	 * @access	protected
+	 * @since	1.5
 	 */
 	function _getListCount( $query )
 	{
@@ -342,11 +306,11 @@ class JModel extends JObject
 	/**
 	 * Create the filename for a resource
 	 *
-	 * @access private
-	 * @param string 	$type  The resource type to create the filename for
-	 * @param array 	$parts An associative array of filename information
-	 * @return string The filename
-	 * @since 1.5
+	 * @access	private
+	 * @param	string 	$type  The resource type to create the filename for
+	 * @param	array 	$parts An associative array of filename information
+	 * @return	string The filename
+	 * @since	1.5
 	 */
 	function _createFileName($type, $parts = array())
 	{

@@ -395,12 +395,16 @@ class JView extends JObject
 	 * 
 	 * @access	public
 	 * @param	string	The extension
+	 * @return	string	Previous value
+	 * @since	1.5
 	 */
 	function setLayoutExt( $value )
 	{
+		$previous	= $this->_layoutExt;
 		if ($value = preg_replace( '#[^A-Za-z0-9]#', '', trim( $value ) )) {
 			$this->_layoutExt = $value;
 		}
+		return $previous;
 	}
 
 	/**
@@ -444,13 +448,17 @@ class JView extends JObject
 	/**
 	* Sets the layout name to use
 	*
-	* @access public
-	* @param string $template The template name.
+	* @access	public
+	* @param	string $template The template name.
+	* @return	string Previous value
+	* @since	1.5
 	*/
 
 	function setLayout($layout)
 	{
+		$previous		= $this->_layout;
 		$this->_layout = $layout;
+		return $previous;
 	}
 
 	/**
