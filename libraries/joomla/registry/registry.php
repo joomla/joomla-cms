@@ -255,9 +255,12 @@ class JRegistry extends JObject
 		 * groups loaded into the namespace.  This overwrites any existing group
 		 * with the same name
 		 */
-		foreach (get_object_vars($object) as $k => $v) {
-			if (substr($k, 0,1) != '_' || $k == '_name') {
-				$this->_registry[$namespace]['data']->$k = $v;
+		if (is_object( $object ))
+		{
+			foreach (get_object_vars($object) as $k => $v) {
+				if (substr($k, 0,1) != '_' || $k == '_name') {
+					$this->_registry[$namespace]['data']->$k = $v;
+				}
 			}
 		}
 
