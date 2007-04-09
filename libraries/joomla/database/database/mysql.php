@@ -85,6 +85,18 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
+	 * Test to see if the MySQL connector is available
+	 *
+	 * @static
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 */
+	function test()
+	{
+		return (function_exists( 'mysql_connect' ));
+	}
+
+	/**
 	 * Determines if the connection to the server is active.
 	 *
 	 * @access	public

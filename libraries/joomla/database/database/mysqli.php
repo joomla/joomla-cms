@@ -99,6 +99,18 @@ class JDatabaseMySQLi extends JDatabase
 		return @mysqli_close($this->_resource);
 	}
 
+	/**
+	 * Test to see if the MySQLi connector is available
+	 *
+	 * @static
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 */
+	function test()
+	{
+		return (function_exists( 'mysqli_connect' ));
+	}
+
 	function _parseHost( $host )
 	{
 

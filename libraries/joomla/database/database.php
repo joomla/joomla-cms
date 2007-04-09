@@ -162,6 +162,43 @@ class JDatabase extends JObject
 	}
 
 	/**
+	 * Get the database connectors
+	 *
+	 * @access public
+	 * @return array An array of available session handlers
+	 */
+	function getConnectors()
+	{
+		jimport('joomla.filesystem.folder');
+		$handlers = JFolder::files(dirname(__FILE__).DS.'database', '.php$');
+
+		$names = array();
+		foreach($handlers as $handler)
+		{
+			$name = substr($handler, 0, strrpos($handler, '.'));
+			jimport('joomla.database.database.'.$name);
+			$class = 'JDatabase'.ucfirst($name);
+			if(call_user_func_array( array( trim($class), 'test' ), null)) {
+				$names[] = $name;
+			}
+		}
+
+		return $names;
+	}
+
+	/**
+	 * Test to see if the MySQLi connector is available
+	 *
+	 * @static
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 */
+	function test()
+	{
+		return false;
+	}
+
+	/**
 	 * Determines if the connection to the server is active.
 	 *
 	 * @access      public
