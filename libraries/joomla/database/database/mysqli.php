@@ -105,6 +105,19 @@ class JDatabaseMySQLi extends JDatabase
 	}
 
 	/**
+	 * Determines if the connection to the server is active.
+	 *
+	 * @access	public
+	 * @return	boolean
+	 * @since	1.5
+	 */
+	function connected()
+	{
+		return $this->_resource->ping();
+	}
+
+
+	/**
 	 * Determines UTF support
 	 * @return boolean True - UTF is supported
 	 */
@@ -250,6 +263,7 @@ class JDatabaseMySQLi extends JDatabase
 
 		return $buffer;
 	}
+
 	/**
 	* @return int The number of rows returned from the most recent query.
 	*/

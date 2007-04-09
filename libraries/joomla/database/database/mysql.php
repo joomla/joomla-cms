@@ -85,6 +85,18 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
+	 * Determines if the connection to the server is active.
+	 *
+	 * @access	public
+	 * @return	boolean
+	 * @since	1.5
+	 */
+	function connected()
+	{
+		return mysql_ping($this->_resource);
+	}
+
+	/**
 	 * Determines UTF support
 	 */
 	function hasUTF()

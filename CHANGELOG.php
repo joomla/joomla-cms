@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Apr-2007 Toby Patterson
+ + Added check to JDatabase::getInstance() to die if error in connecting
+ + Added connected() methods to JDatabase and derived classes
+
 08-Apr-2007 Johan Janssens
  ^ Update OpenID library to version 1.2.2
 

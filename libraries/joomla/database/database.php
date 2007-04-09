@@ -136,7 +136,13 @@ class JDatabase extends JObject
 			}
 
 			$adapter = 'JDatabase'.$driver;
-			$instances[$signature] = new $adapter($host, $user, $pass, $db, $table_prefix);
+			$instance = new $adapter($host, $user, $pass, $db, $table_prefix);
+			if ( $error = $instance->getErrorMsg() )
+			{
+				die('Unable to connect to the database: '.$error);
+			}
+
+			$instances[$signature] = & $instance;
 		}
 
 		return $instances[$signature];
@@ -153,6 +159,18 @@ class JDatabase extends JObject
 	function __destruct()
 	{
 		return true;
+	}
+
+	/**
+	 * Determines if the connection to the server is active.
+	 *
+	 * @access      public
+	 * @return      boolean
+	 * @since       1.5
+	 */
+	function connected()
+	{
+		return false;
 	}
 
 	/**
