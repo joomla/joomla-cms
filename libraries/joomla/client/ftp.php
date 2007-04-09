@@ -1015,6 +1015,11 @@ class JFTP extends JObject {
 				return false;
 			}
 			$list = preg_replace('#^'.preg_quote($path, '#').'[/\\\\]?#', '', $list);
+			if ($keys = array_merge(array_keys($list, '.'), array_keys($list, '..'))) {
+				foreach ($keys as $key) {
+					unset($list[$key]);
+				}
+			}
 			return $list;
 		}
 
@@ -1051,6 +1056,11 @@ class JFTP extends JObject {
 
 		$data = preg_split("/[".CRLF."]+/", $data, -1, PREG_SPLIT_NO_EMPTY);
 		$data = preg_replace('#^'.preg_quote(substr($path, 1), '#').'[/\\\\]?#', '', $data);
+		if ($keys = array_merge(array_keys($data, '.'), array_keys($data, '..'))) {
+			foreach ($keys as $key) {
+				unset($data[$key]);
+			}
+		}
 		return $data;
 	}
 
@@ -1128,12 +1138,7 @@ class JFTP extends JObject {
 
 		// If we received the listing of an emtpy directory, we are done as well
 		if (empty($contents[0])) {
-			// Workaround for a bug in some FTP servers, which are sending an empty array instead of failing for invalid paths
-			if($this->listNames(trim($path)) === false) {
-				return false;
-			} else {
-				return $dir_list;
-			}
+			return $dir_list;
 		}
 
 		// Regular expressions for the directory listing parsing
@@ -1182,7 +1187,7 @@ class JFTP extends JObject {
 				if ($type == 'folders' && $tmp_array['type'] == 0) {
 					continue;
 				}
-				if (is_array($tmp_array)) {
+				if (is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
 					$dir_list[] = $tmp_array;
 				}
 			}
@@ -1211,7 +1216,7 @@ class JFTP extends JObject {
 				if ($type == 'folders' && $tmp_array['type'] == 0) {
 					continue;
 				}
-				if (is_array($tmp_array)) {
+				if (is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
 					$dir_list[] = $tmp_array;
 				}
 			}
@@ -1240,7 +1245,7 @@ class JFTP extends JObject {
 				if ($type == 'folders' && $tmp_array['type'] == 0) {
 					continue;
 				}
-				if (is_array($tmp_array)) {
+				if (is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..') {
 					$dir_list[] = $tmp_array;
 				}
 			}
