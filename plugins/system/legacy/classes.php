@@ -16,12 +16,12 @@
 defined('JPATH_BASE') or die();
 
 jimport( 'joomla.database.database' );
-jimport( 'joomla.database.database.mysql' );
 jimport( 'joomla.database.table' );
 
 /**
- * Tables need to be included using a regular include to avoid conflict
+ * Tables and database apapters need to be included using a regular include to avoid conflict
  */
+include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'database'.DS.'mysql.php');
 include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'category.php');
 include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'component.php');
 include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'content.php');
