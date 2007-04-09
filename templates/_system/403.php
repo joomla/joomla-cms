@@ -8,11 +8,13 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
+jimport('joomla.environment.uri');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<title>403 - <?php echo $this->title; ?></title>
+	<base href="<?php echo JURI::base() ?>" />
 	<link rel="stylesheet" href="templates/_system/css/error.css" type="text/css" />
 </head>
 <body>
