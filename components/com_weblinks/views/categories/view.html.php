@@ -49,7 +49,7 @@ class WeblinksViewCategories extends JView
 		$params->def('other_cat_section', 1);
 		$params->def('other_cat', 1);
 		$params->def('description', 1);
-		$params->def('description_text', $weblinksConfig->get('description_text'));
+		$params->def('description_text', JText::_($weblinksConfig->get('description_text')));
 		$params->def('image', -1);
 		$params->def('weblink_icons', '');
 		$params->def('image_align', 'right');

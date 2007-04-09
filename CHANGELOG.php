@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Apr-2007 Sam Moffatt
+ # Fixed [#264] Menu Weblink doesn't show weblinks Description
+
 08-Apr-2007 Toby Patterson
  + Added check to JDatabase::getInstance() to die if error in connecting
  + Added connected() methods to JDatabase and derived classes
