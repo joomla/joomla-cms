@@ -35,11 +35,11 @@ jimport('joomla.html.tooltips');
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
 			</th>
 			<th class="title">
-				<?php JHTML::element('sort', 'Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php JHTML::element('grid_sort', 'Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 				
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php JHTML::element('sort', 'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php JHTML::element('grid_sort', 'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 			<th width="80" nowrap="nowrap">
 				<a href="javascript:tableOrdering('a.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
@@ -49,13 +49,13 @@ jimport('joomla.html.tooltips');
 				<?php JCommonHTML::saveorderButton( $this->items ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php JHTML::element('sort', 'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php JHTML::element('grid_sort', 'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 			<th width="25%"  class="title">
-				<?php JHTML::element('sort', 'Category', 'category', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php JHTML::element('grid_sort', 'Category', 'category', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 			<th width="5%">
-				<?php JHTML::element('sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php JHTML::element('grid_sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 		</tr>
 	</thead>
