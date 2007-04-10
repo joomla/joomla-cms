@@ -18,7 +18,7 @@
  * @subpackage	HTML
  * @since		1.5
  */
-class JHTMLSort
+class JHTMLGrid_sort
 {
 	/**
 	 * @param	string	The link title
