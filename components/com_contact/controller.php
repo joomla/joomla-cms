@@ -78,7 +78,7 @@ class ContactController extends JController
 	 * @static
 	 * @since 1.0
 	 */
-	function sendmail()
+	function submit()
 	{
 		global $mainframe;
 
@@ -128,41 +128,50 @@ class ContactController extends JController
 			return false;
 		}
 
-		// Prepare email body
-		$prefix = JText::sprintf('ENQUIRY_TEXT', JURI::base());
-		$body 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
+		// Passed Validation: Process the contact plugins to integrate with other applications
+		JPluginHelper::importPlugin( 'contact', null, false );
+		$dispatcher	=& JEventDispatcher::getInstance();
+		$results	= $dispatcher->trigger( 'onSubmitContact', array( &$contact ) );
 
-		$mail = new JMail();
-
-		$mail->addRecipient( $contact->email_to );
-		$mail->setSender( array( $email, $name ) );
-		$mail->setSubject( $FromName.': '.$subject );
-		$mail->setBody( $body );
-
-		$sent = $mail->Send();
-
-		/*
-		 * If we are supposed to copy the admin, do so.
-		 */
-		// parameter check
-		$menuParams 		= new JParameter( $contact->params );
-		$emailcopyCheck = $menuParams->get( 'email_copy', 0 );
-
-		// check whether email copy function activated
-		if ( $emailCopy && $emailcopyCheck )
+		$config	= &JComponentHelper::getParams( 'com_contact' );
+		if (!$config->get( 'customReply' ))
 		{
-			$copyText 		= JText::sprintf('Copy of:', $contact->name, $SiteName);
-			$copyText 		.= "\r\n\r\n".$body;
-			$copySubject 	= JText::_('Copy of:')." ".$subject;
-
+			// Prepare email body
+			$prefix = JText::sprintf('ENQUIRY_TEXT', JURI::base());
+			$body 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
+	
 			$mail = new JMail();
-
-			$mail->addRecipient( $email );
-			$mail->setSender( array( $MailFrom, $FromName ) );
-			$mail->setSubject( $copySubject );
-			$mail->setBody( $copyText );
-
+	
+			$mail->addRecipient( $contact->email_to );
+			$mail->setSender( array( $email, $name ) );
+			$mail->setSubject( $FromName.': '.$subject );
+			$mail->setBody( $body );
+	
 			$sent = $mail->Send();
+	
+			/*
+			 * If we are supposed to copy the admin, do so.
+			 */
+			// parameter check
+			$menuParams 		= new JParameter( $contact->params );
+			$emailcopyCheck = $menuParams->get( 'email_copy', 0 );
+	
+			// check whether email copy function activated
+			if ( $emailCopy && $emailcopyCheck )
+			{
+				$copyText 		= JText::sprintf('Copy of:', $contact->name, $SiteName);
+				$copyText 		.= "\r\n\r\n".$body;
+				$copySubject 	= JText::_('Copy of:')." ".$subject;
+	
+				$mail = new JMail();
+	
+				$mail->addRecipient( $email );
+				$mail->setSender( array( $MailFrom, $FromName ) );
+				$mail->setSubject( $copySubject );
+				$mail->setBody( $copyText );
+	
+				$sent = $mail->Send();
+			}
 		}
 
 		$this->setError( JText::_( 'Thank you for your e-mail'));

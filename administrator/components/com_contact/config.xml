@@ -27,5 +27,11 @@
 			<option value="0">NO</option>
 			<option value="1">YES</option>
 		</param>
+		<param name="customReply" type="radio" default="0"
+			label="Custom Reply"
+			description="Custom Reply Desc">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</param>
 	</params>
 </config>

@@ -68,7 +68,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<input type="hidden" name="option" value="com_contact" />
 	<input type="hidden" name="view" value="contact" />
 	<input type="hidden" name="id" value="<?php echo $this->contact->id; ?>" />
-	<input type="hidden" name="task" value="sendmail" />
+	<input type="hidden" name="task" value="submit" />
 	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 	</form>
 	<br />

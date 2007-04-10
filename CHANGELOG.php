@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Apr-2007 Andrew Eddie
+ ^ Renamed ContactController::sendmail method to ContactController::submit
+ + Added onSubmitContact trigger for custom contact handler plugins
+ + Added Contact Component configuration setting to turn off the built in reply (and allow completly custom handling)
+
 10-Apr-2007 Sam Moffatt
  # Fixed [#264] Menu Weblink doesn't show weblinks Description
 
