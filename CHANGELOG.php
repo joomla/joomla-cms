@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Apr-2007 Toby Patterson
+ ^ JLanguage::_load now responsible for loading into _strings
+ + Added JLanguage::_getCallerInfo() to produce debugging information
+
 10-Apr-2007 Andrew Eddie
  ^ Renamed ContactController::sendmail method to ContactController::submit
  + Added onSubmitContact trigger for custom contact handler plugins

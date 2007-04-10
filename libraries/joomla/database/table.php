@@ -46,14 +46,6 @@ class JTable extends JObject
 	var $_tbl_key	= '';
 
 	/**
-	 * Error message
-	 *
-	 * @var		string
-	 * @access	protected
-	 */
-	var $_error		= '';
-
-	/**
 	 * Error number
 	 *
 	 * @var		int
@@ -169,17 +161,6 @@ class JTable extends JObject
 	function getKeyName()
 	{
 		return $this->_tbl_key;
-	}
-
-
-	/**
-	 * Returns the error message
-	 *
-	 * @return string
-	 */
-	function getError()
-	{
-		return $this->_error;
 	}
 
 	/**
@@ -813,16 +794,6 @@ class JTable extends JObject
 		$this->setError('');
 		$this->setErrorNum(0);
 		return true;
-	}
-
-	/**
-	 * Sets the internal error message
-	 * @param string The error message
-	 * @since 1.5
-	 */
-	function setError( $value )
-	{
-		$this->_error = $value;
 	}
 
 	/**

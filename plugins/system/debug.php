@@ -83,18 +83,24 @@ class  plgSystemDebug extends JPlugin
 		{
 			echo '<p><h4>'.JText::_( 'Untranslated strings' ).'</h4>';
 			echo '<pre>';
-			$orphans = array_unique( $lang->getOrphans() );
+			$orphans = $lang->getOrphans();
 			if (count( $orphans ))
 			{
-				sort( $orphans );
-				foreach ($orphans as $string) {
-					echo strtoupper( $string ).'='.$string."\n";
+				ksort( $orphans, SORT_STRING );
+				foreach ($orphans as $key => $occurance) {
+					foreach ( $occurance as $i => $info) {
+						$class	= $info['class'];
+						$func	= $info['function'];
+						$file	= $info['file'];
+						$line	= $info['line'];
+						echo strtoupper( $key )."\t$class::$func()\t[$file:$line]\n";
+					}
 				}
 			}
 			else {
 				echo JText::_( 'None' );
 			}
-			echo '</pre>';
+			echo '</pre></p>';
 		}
 		echo '</div>';
 
