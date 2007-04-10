@@ -99,8 +99,8 @@ Legend:
  ! The 'cmd' filter type allows [A-Za-z0-9_-.]
 
 30-Mar-2007 Toby Patterson
- + setError(), getError(), and hasError() to JObject
- ! such methods will be removed from the framework
+ + setError(), getError(), and getErrors() to JObject
+ ! identical methods will be removed from the framework
 
 30-Mar-2007 Johan Janssens
  ^ Implemented auto creating for plugins in JPluginHelper::importPlugin
