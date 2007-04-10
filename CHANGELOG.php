@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Apr-2007 Johan Janssens
+ ^ Implemented alias support for all content types
+ # Fixed [#241] SEF urls create the same url for multiple pages
+ ! Changes require a reinstall
+
 10-Apr-2007 Toby Patterson
  ^ JLanguage::_load now responsible for loading into _strings
  + Added JLanguage::_getCallerInfo() to produce debugging information
@@ -60,7 +65,7 @@ Legend:
  + Added onLoginFailure and onLogoutFailure events
  + Added Log plugin to catch new onLoginFailure event
  ^ Refactored JAuthentication to allow for stacked authentication plugins
- ! These changes require a reinstall and authentication plugins will need to be adapted
+ ! Changes require a reinstall and authentication plugins will need to be adapted
 
 06-Apr-2007 Andrew Eddie
  ^ Split out options rendering in JHTMLSelect::genericList to JHTMLSelect::options

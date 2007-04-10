@@ -416,7 +416,7 @@ class JRouter extends JObject
 			}
 
 			//encode the route segments
-			$parts= $this->_encodeSegments($parts);
+			$parts = $this->_encodeSegments($parts);
 
 			$route = implode('/', $parts);
 			$route = ($route) ? '/'.$route : null;
@@ -428,8 +428,9 @@ class JRouter extends JObject
 	function _encodeSegments($segments)
 	{
 		$total = count($segments);
-		for($i=0; $i<$total; $i++) {
-			$segments[$i] = str_replace(':', '-', $segments[$i]);
+		for($i=0; $i<$total; $i++)
+		{
+
 		}
 
 		return $segments;
@@ -439,7 +440,7 @@ class JRouter extends JObject
 	{
 		$total = count($segments);
 		for($i=0; $i<$total; $i++)  {
-			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+
 		}
 
 		return $segments;

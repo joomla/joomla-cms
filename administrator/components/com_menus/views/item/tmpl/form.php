@@ -56,10 +56,18 @@ function submitbutton(pressbutton) {
 						<?php } ?>
 						<tr>
 							<td class="key" align="right">
-								<?php echo JText::_( 'Name' ); ?>:
+								<?php echo JText::_( 'Title' ); ?>:
 							</td>
 							<td>
 								<input class="inputbox" type="text" name="name" size="50" maxlength="255" value="<?php echo $this->item->name; ?>" />
+							</td>
+						</tr>
+						<tr>
+							<td class="key" align="right">
+								<?php echo JText::_( 'Alias' ); ?>:
+							</td>
+							<td>
+								<input class="inputbox" type="text" name="alias" size="50" maxlength="255" value="<?php echo $this->item->alias; ?>" />
 							</td>
 						</tr>
 						<tr>

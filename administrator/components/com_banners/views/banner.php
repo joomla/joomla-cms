@@ -68,7 +68,7 @@ class BannersViewBanner
 						<input type="checkbox" name="toggle" value=""  onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th nowrap="nowrap" class="title">
-						<?php JCommonHTML::tableOrdering( 'Banner Name', 'b.name', $lists ); ?>
+						<?php JCommonHTML::tableOrdering( 'Name', 'b.name', $lists ); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
 						<?php JCommonHTML::tableOrdering( 'Client', 'c.name', $lists ); ?>
@@ -253,11 +253,21 @@ class BannersViewBanner
 					<tr>
 						<td width="20%" class="key">
 							<label for="name">
-								<?php echo JText::_( 'Banner Name' ); ?>:
+								<?php echo JText::_( 'Name' ); ?>:
 							</label>
 						</td>
 						<td width="80%">
 							<input class="inputbox" type="text" name="name" id="name" size="50" value="<?php echo $row->name;?>" />
+						</td>
+					</tr>
+					<tr>
+						<td width="20%" class="key">
+							<label for="name">
+								<?php echo JText::_( 'Alias' ); ?>:
+							</label>
+						</td>
+						<td width="80%">
+							<input class="inputbox" type="text" name="alias" id="alias" size="50" value="<?php echo $row->alias;?>" />
 						</td>
 					</tr>
 					<tr>

@@ -31,6 +31,8 @@ class JTableMenu extends JTable
 	/** @var string */
 	var $name				= null;
 	/** @var string */
+	var $alias				= null;
+	/** @var string */
 	var $link				= null;
 	/** @var int */
 	var $type				= null;
@@ -73,6 +75,26 @@ class JTableMenu extends JTable
 	 */
 	function __construct( &$db ) {
 		parent::__construct( '#__menu', 'id', $db );
+	}
+
+	/**
+	 * Overloaded check function
+	 *
+	 * @access public
+	 * @return boolean
+	 * @see JTable::check
+	 * @since 1.5
+	 */
+	function check()
+	{
+		jimport('joomla.filter.output');
+		$alias = JOutputFilter::stringURLSafe($this->name);
+
+		if(empty($this->alias) || $this->alias === $alias ) {
+			$this->alias = $alias;
+		}
+
+		return true;
 	}
 
 	/**

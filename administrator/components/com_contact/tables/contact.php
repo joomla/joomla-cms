@@ -15,8 +15,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-// Include library dependencies
-jimport('joomla.filter.input');
 
 /**
  * @package		Joomla
@@ -25,15 +23,17 @@ jimport('joomla.filter.input');
 class TableContact extends JTable
 {
 	/** @var int Primary key */
-	var $id 				= null;
+	var $id 					= null;
 	/** @var string */
 	var $name 				= null;
+	/** @var string */
+	var $alias				= null;
 	/** @var string */
 	var $con_position 		= null;
 	/** @var string */
 	var $address 			= null;
 	/** @var string */
-	var $suburb 			= null;
+	var $suburb 				= null;
 	/** @var string */
 	var $state 				= null;
 	/** @var string */
@@ -63,15 +63,15 @@ class TableContact extends JTable
 	/** @var int */
 	var $ordering 			= null;
 	/** @var string */
-	var $params 			= null;
+	var $params 				= null;
 	/** @var int A link to a registered user */
 	var $user_id 			= null;
 	/** @var int A link to a category */
 	var $catid 				= null;
 	/** @var int */
-	var $access 			= null;
+	var $access 				= null;
 	/** @var string Mobile phone number(s) */
-	var $mobile 			= null;
+	var $mobile 				= null;
 	/** @var string */
 	var $webpage 			= null;
 
@@ -83,10 +83,19 @@ class TableContact extends JTable
 		parent::__construct( '#__contact_details', 'id', $db );
 	}
 
+	/**
+	 * Overloaded check function
+	 *
+	 * @access public
+	 * @return boolean
+	 * @see JTable::check
+	 * @since 1.5
+	 */
 	function check()
 	{
 		$this->default_con = intval( $this->default_con );
 
+		jimport('joomla.filter.input');
 		if (JInputFilter::checkAttribute(array ('href', $this->webpage))) {
 			$this->_error = JText::_('Please provide a valid URL');
 			return false;
@@ -95,6 +104,13 @@ class TableContact extends JTable
 		// check for http on webpage
 		if (strlen($this->webpage) > 0 && (!(eregi('http://', $this->webpage) || (eregi('https://', $this->webpage)) || (eregi('ftp://', $this->webpage))))) {
 			$this->webpage = 'http://'.$this->webpage;
+		}
+
+		jimport('joomla.filter.output');
+		$alias = JOutputFilter::stringURLSafe($this->name);
+
+		if(empty($this->alias) || $this->alias === $alias ) {
+			$this->alias = $alias;
 		}
 
 		return true;

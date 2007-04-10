@@ -32,7 +32,9 @@ class JTableContent extends JTable
 	/** @var string */
 	var $title				= null;
 	/** @var string */
-	var $title_alias		= null;
+	var $alias				= null;
+	/** @var string */
+	var $title_alias			= null;
 	/** @var string */
 	var $introtext			= null;
 	/** @var string */
@@ -46,19 +48,19 @@ class JTableContent extends JTable
 	/** @var int */
 	var $catid				= null;
 	/** @var datetime */
-	var $created			= null;
+	var $created				= null;
 	/** @var int User id*/
 	var $created_by			= null;
 	/** @var string An alias for the author*/
-	var $created_by_alias	= null;
+	var $created_by_alias		= null;
 	/** @var datetime */
 	var $modified			= null;
 	/** @var int User id*/
-	var $modified_by		= null;
+	var $modified_by			= null;
 	/** @var boolean */
-	var $checked_out		= 0;
+	var $checked_out			= 0;
 	/** @var time */
-	var $checked_out_time	= 0;
+	var $checked_out_time		= 0;
 	/** @var datetime */
 	var $frontpage_up		= null;
 	/** @var datetime */
@@ -72,15 +74,15 @@ class JTableContent extends JTable
 	/** @var string */
 	var $urls				= null;
 	/** @var string */
-	var $attribs			= null;
+	var $attribs				= null;
 	/** @var int */
-	var $version			= null;
+	var $version				= null;
 	/** @var int */
 	var $parentid			= null;
 	/** @var int */
 	var $ordering			= null;
 	/** @var string */
-	var $metakey			= null;
+	var $metakey				= null;
 	/** @var string */
 	var $metadesc			= null;
 	/** @var string */
@@ -98,7 +100,12 @@ class JTableContent extends JTable
 	}
 
 	/**
-	 * Validation and filtering
+	 * Overloaded check function
+	 *
+	 * @access public
+	 * @return boolean
+	 * @see JTable::check
+	 * @since 1.5
 	 */
 	function check()
 	{
@@ -113,8 +120,8 @@ class JTableContent extends JTable
 		jimport('joomla.filter.output');
 		$alias = JOutputFilter::stringURLSafe($this->title);
 
-		if(empty($this->title_alias) || $this->title_alias === $alias ) {
-			$this->title_alias = $alias;
+		if(empty($this->alias) || $this->alias === $alias ) {
+			$this->alias = $alias;
 		}
 
 		if (trim( str_replace( '&nbsp;', '', $this->fulltext ) ) == '') {

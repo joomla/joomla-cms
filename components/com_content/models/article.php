@@ -56,7 +56,7 @@ class ContentModelArticle extends JModel
 	function setId($id)
 	{
 		// Set new article ID and wipe data
-		$this->_id			= $id;
+		$this->_id		= $id;
 		$this->_article	= null;
 	}
 
@@ -328,7 +328,7 @@ class ContentModelArticle extends JModel
 			$where	= $this->_buildContentWhere();
 
 			$query = 'SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section,' .
-					' CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(":", a.id, a.title_alias) ELSE a.id END as slug,'.
+					' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS("-", a.id, a.alias) ELSE a.id END as slug,'.
 					' g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access'.$voting['select'].
 					' FROM #__content AS a' .
 					' LEFT JOIN #__categories AS cc ON cc.id = a.catid' .

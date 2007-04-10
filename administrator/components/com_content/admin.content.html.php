@@ -791,12 +791,12 @@ class ContentView
 		</tr>
 		<tr>
 			<td>
-				<label for="title_alias">
+				<label for="alias">
 					<?php echo JText::_( 'Alias' ); ?>
 				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="text" name="title_alias" id="title_alias" size="40" maxlength="255" value="<?php echo $row->title_alias; ?>" />
+				<input class="inputbox" type="text" name="alias" id="alias" size="40" maxlength="255" value="<?php echo $row->alias; ?>" />
 			</td>
 			<td>
 				<label>

@@ -221,7 +221,7 @@ class ContentModelCategory extends JModel
 		{
 			// Lets get the information for the current category
 			$query = 'SELECT c.*, s.id sectionid, s.title as sectiontitle,' .
-					' CASE WHEN CHAR_LENGTH(c.name) THEN CONCAT_WS(":", c.id, c.name) ELSE c.id END as slug'.
+					' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS("-", c.id, c.alias) ELSE c.id END as slug'.
 					' FROM #__categories AS c' .
 					' INNER JOIN #__sections AS s ON s.id = c.section' .
 					' WHERE c.id = '. $this->_id;
@@ -249,13 +249,13 @@ class ContentModelCategory extends JModel
 		// Lets load the siblings if they don't already exist
 		if (empty($this->_siblings))
 		{
-			$user		=& JFactory::getUser();
-			$params = &JComponentHelper::getParams( 'com_content' );
-			$noauth		= !$params->get('shownoauth');
-			$gid		= (int) $user->get('aid', 0);
-			$now		= $mainframe->get('requestTime');
-			$nullDate	= $this->_db->getNullDate();
-			$section	= $this->_category->section;
+			$user	 =& JFactory::getUser();
+			$params  = &JComponentHelper::getParams( 'com_content' );
+			$noauth	 = !$params->get('shownoauth');
+			$gid		 = (int) $user->get('aid', 0);
+			$now		 = $mainframe->get('requestTime');
+			$nullDate = $this->_db->getNullDate();
+			$section	 = $this->_category->section;
 
 			// Get the paramaters of the active menu item
 			$menu	=& JMenu::getInstance();
@@ -337,7 +337,7 @@ class ContentModelCategory extends JModel
 
 		$query = 'SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
 			' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
-			' CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(":", a.id, a.title_alias) ELSE a.id END as slug,'.
+			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS("-", a.id, a.alias) ELSE a.id END as slug,'.
 			' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups'.$voting['select'] .
 			' FROM #__content AS a' .
 			' LEFT JOIN #__categories AS cc ON a.catid = cc.id' .
@@ -382,7 +382,7 @@ class ContentModelCategory extends JModel
 				$orderby_sec	= $params->def('orderby_sec', 'rdate');
 				$orderby_sec	= ($orderby_sec == 'front') ? '' : $orderby_sec;
 				$orderby_pri	= $params->def('orderby_pri', '');
-				$secondary		= JContentHelper::orderbySecondary($orderby_sec).', ';
+				$secondary	= JContentHelper::orderbySecondary($orderby_sec).', ';
 				$primary		= JContentHelper::orderbyPrimary($orderby_pri);
 				break;
 		}
@@ -402,8 +402,8 @@ class ContentModelCategory extends JModel
 
 		jimport('joomla.utilities.date');
 		$jnow		= new JDate();
-		$now		= $jnow->toMySQL();
-		$params 	= &JComponentHelper::getParams( 'com_content' );
+		$now			= $jnow->toMySQL();
+		$params 		= &JComponentHelper::getParams( 'com_content' );
 		$noauth		= !$params->get('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
 

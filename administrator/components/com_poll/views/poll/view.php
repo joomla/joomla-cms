@@ -180,6 +180,16 @@ class PollView
 					</td>
 				</tr>
 				<tr>
+					<td width="110" class="key">
+						<label for="alias">
+							<?php echo JText::_( 'Alias' ); ?>:
+						</label>
+					</td>
+					<td>
+						<input class="inputbox" type="text" name="alias" id="alias" size="60" value="<?php echo $row->alias; ?>" />
+					</td>
+				</tr>
+				<tr>
 					<td class="key">
 						<label for="lag">
 							<?php echo JText::_( 'Lag' ); ?>:

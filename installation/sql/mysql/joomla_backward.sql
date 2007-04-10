@@ -11,6 +11,7 @@ CREATE TABLE `#__banner` (
   `cid` int(11) NOT NULL default '0',
   `type` varchar(90) NOT NULL default 'banner',
   `name` TEXT NOT NULL default '',
+  `alias` varchar(255) NOT NULL default '',
   `imptotal` int(11) NOT NULL default '0',
   `impmade` int(11) NOT NULL default '0',
   `clicks` int(11) NOT NULL default '0',
@@ -76,6 +77,7 @@ CREATE TABLE `#__categories` (
   `parent_id` int(11) NOT NULL default 0,
   `title` TEXT NOT NULL default '',
   `name` TEXT NOT NULL default '',
+  `alias` varchar(255) NOT NULL default '',
   `image` varchar(255) NOT NULL default '',
   `section` varchar(150) NOT NULL default '',
   `image_position` varchar(90) NOT NULL default '',
@@ -165,6 +167,7 @@ INSERT INTO `#__components` VALUES (33,'Control Panel','',0,0,'','Control Panel'
 CREATE TABLE `#__contact_details` (
   `id` int(11) NOT NULL auto_increment,
   `name` TEXT NOT NULL default '',
+  `alias` varchar(255) NOT NULL default '',
   `con_position` TEXT default NULL,
   `address` text,
   `suburb` TEXT default NULL,
@@ -200,6 +203,7 @@ CREATE TABLE `#__contact_details` (
 CREATE TABLE `#__content` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `title` TEXT NOT NULL default '',
+  `alias` varchar(255) NOT NULL default '',
   `title_alias` TEXT NOT NULL default '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
@@ -265,8 +269,6 @@ CREATE TABLE `#__content_rating` (
 # --------------------------------------------------------
 
 # Table structure for table `#__core_log_items`
-#
-# To be implemented in Version 4.6
 
 CREATE TABLE `#__core_log_items` (
   `time_stamp` date NOT NULL default '0000-00-00',
@@ -278,8 +280,6 @@ CREATE TABLE `#__core_log_items` (
 # --------------------------------------------------------
 
 # Table structure for table `#__core_log_searches`
-#
-# To be implemented in Version 4.6
 
 CREATE TABLE `#__core_log_searches` (
   `search_term` TEXT NOT NULL default '',
@@ -371,6 +371,7 @@ CREATE TABLE `#__menu` (
   `id` int(11) NOT NULL auto_increment,
   `menutype` varchar(225) default NULL,
   `name` TEXT default NULL,
+  `alias` varchar(255) NOT NULL default '',
   `link` text,
   `type` varchar(150) NOT NULL default '',
   `published` tinyint(1) NOT NULL default 0,
@@ -393,7 +394,7 @@ CREATE TABLE `#__menu` (
   KEY `menutype` (`menutype`)
 ) TYPE=MyISAM;
 
-INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_content&view=frontpage', 'component', 1, 0, 20, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0', 0, 0, 1);
+INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'home', 'index.php?option=com_content&view=frontpage', 'component', 1, 0, 20, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0', 0, 0, 1);
 
 # --------------------------------------------------------
 
@@ -518,6 +519,7 @@ CREATE TABLE `#__newsfeeds` (
   `catid` int(11) NOT NULL default '0',
   `id` int(11) NOT NULL auto_increment,
   `name` text NOT NULL,
+  `alias` varchar(255) NOT NULL default '',
   `link` text NOT NULL,
   `filename` varchar(200) default NULL,
   `published` tinyint(1) NOT NULL default '0',
@@ -570,6 +572,7 @@ CREATE TABLE `#__poll_date` (
 CREATE TABLE `#__polls` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `title` TEXT NOT NULL default '',
+  `alias` varchar(255) NOT NULL default '',
   `voters` int(9) NOT NULL default '0',
   `checked_out` int(11) NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -601,6 +604,7 @@ CREATE TABLE `#__sections` (
   `id` int(11) NOT NULL auto_increment,
   `title` TEXT NOT NULL default '',
   `name` TEXT NOT NULL default '',
+  `alias` varchar(255) NOT NULL default '',
   `image` TEXT NOT NULL default '',
   `scope` varchar(50) NOT NULL default '',
   `image_position` varchar(90) NOT NULL default '',
@@ -754,6 +758,7 @@ CREATE TABLE `#__weblinks` (
   `catid` int(11) NOT NULL default '0',
   `sid` int(11) NOT NULL default '0',
   `title` TEXT NOT NULL default '',
+  `alias` varchar(255) NOT NULL default '',
   `url` varchar(250) NOT NULL default '',
   `description` text NOT NULL default '',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',

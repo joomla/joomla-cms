@@ -270,12 +270,12 @@ class sections_html
 				</tr>
 				<tr>
 					<td nowrap="nowrap" class="key">
-						<label for="name">
+						<label for="alias">
 							<?php echo JText::_( 'Alias' ); ?>:
 						</label>
 					</td>
 					<td colspan="2">
-						<input class="text_area" type="text" name="name" id="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'TIPNAMEFIELD' ); ?>" />
+						<input class="text_area" type="text" name="alias" id="alias" value="<?php echo $row->alias; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'TIPNAMEFIELD' ); ?>" />
 					</td>
 				</tr>
 				<tr>

@@ -26,15 +26,17 @@ class TablePoll extends JTable
 	/** @var string */
 	var $title				= '';
 	/** @var string */
-	var $checked_out		= 0;
+	var $alias				= '';
+	/** @var string */
+	var $checked_out			= 0;
 	/** @var time */
-	var $checked_out_time	= 0;
+	var $checked_out_time		= 0;
 	/** @var boolean */
 	var $published			= 0;
 	/** @var int */
 	var $access				= 0;
 	/** @var int */
-	var $lag				= 0;
+	var $lag					= 0;
 
 	/**
 	* @param database A database connector object
@@ -59,7 +61,14 @@ class TablePoll extends JTable
 		return $result;
 	}
 
-	// overloaded check function
+	/**
+	 * Overloaded check function
+	 *
+	 * @access public
+	 * @return boolean
+	 * @see JTable::check
+	 * @since 1.5
+	 */
 	function check()
 	{
 		// check for valid name
@@ -70,8 +79,7 @@ class TablePoll extends JTable
 		}
 		// check for valid lag
 		$this->lag = intval( $this->lag );
-		if ($this->lag == 0)
-		{
+		if ($this->lag == 0) {
 			$this->_error = JText::_( 'Your Poll must have a non-zero lag time.' );
 			return false;
 		}
@@ -87,6 +95,13 @@ class TablePoll extends JTable
 		{
 			$this->_error = JText::sprintf( 'WARNNAMETRYAGAIN', JText::_( 'Module') );
 			return false;
+		}
+
+		jimport('joomla.filter.output');
+		$alias = JOutputFilter::stringURLSafe($this->title);
+
+		if(empty($this->alias) || $this->alias === $alias ) {
+			$this->alias = $alias;
 		}
 
 		return true;

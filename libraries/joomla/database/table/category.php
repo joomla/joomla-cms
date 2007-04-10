@@ -28,24 +28,26 @@ class JTableCategory extends JTable
 	var $id					= null;
 	/** @var int */
 	var $parent_id			= null;
-	/** @var string The menu title for the Category (a short name)*/
+	/** @var string The menu title for the category (a short name)*/
 	var $title				= null;
-	/** @var string The full name for the Category*/
+	/** @var string The full name for the category*/
 	var $name				= null;
+	/** @var string The the alias for the category*/
+	var $alias				= null;
 	/** @var string */
 	var $image				= null;
 	/** @var string */
-	var $section			= null;
+	var $section				= null;
 	/** @var int */
 	var $image_position		= null;
 	/** @var string */
-	var $description		= null;
+	var $description			= null;
 	/** @var boolean */
 	var $published			= null;
 	/** @var boolean */
-	var $checked_out		= 0;
+	var $checked_out			= 0;
 	/** @var time */
-	var $checked_out_time	= 0;
+	var $checked_out_time		= 0;
 	/** @var int */
 	var $ordering			= null;
 	/** @var int */
@@ -61,7 +63,14 @@ class JTableCategory extends JTable
 		parent::__construct( '#__categories', 'id', $db );
 	}
 
-	// overloaded check function
+	/**
+	 * Overloaded check function
+	 *
+	 * @access public
+	 * @return boolean
+	 * @see JTable::check
+	 * @since 1.5
+	 */
 	function check()
 	{
 		// check for valid name
@@ -87,8 +96,8 @@ class JTableCategory extends JTable
 		jimport('joomla.filter.output');
 		$alias = JOutputFilter::stringURLSafe($this->title);
 
-		if(empty($this->name) || $this->name === $alias ) {
-			$this->name = $alias;
+		if(empty($this->alias) || $this->alias === $alias ) {
+			$this->alias = $alias;
 		}
 
 		return true;

@@ -281,8 +281,6 @@ class JMenu extends JObject
 
 		foreach($menus as $key => $menu)
 		{
-			$menus[$key]->alias = JOutputFilter::stringURLSafe($menu->name);
-
 			//Get parent information
 			$parent_route = '';
 			$parent_tree  = array();

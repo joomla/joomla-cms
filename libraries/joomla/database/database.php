@@ -124,9 +124,11 @@ class JDatabase extends JObject
 
 		$signature = serialize(array($driver, $host, $user, $pass, $db, $table_prefix));
 
-		if (empty($instances[$signature])) {
+		if (empty($instances[$signature]))
+		{
 			$driver = preg_replace('/[^A-Z0-9_\.-]/i', '', $driver);
 			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'database'.DS.$driver.'.php';
+
 			if (file_exists($path)) {
 				require_once $path;
 			} else {

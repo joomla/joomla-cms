@@ -24,9 +24,10 @@ $mainframe = new JInstallation();
 // create the session
 $mainframe->loadSession('installation');
 
+// initialuse the application
 $mainframe->initialise();
 
-
+// render the application
 $mainframe->render();
 
 /**

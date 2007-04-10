@@ -854,7 +854,7 @@ class JAdminMenus
 
 		$db =& JFactory::getDBO();
 
-		$query = 'SELECT id AS value, name AS text'
+		$query = 'SELECT id AS value, title AS text'
 		. ' FROM #__categories'
 		. ' WHERE section = "'. $section . '"'
 		. ' AND published = 1'

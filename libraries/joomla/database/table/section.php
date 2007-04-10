@@ -26,10 +26,12 @@ class JTableSection extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;
-	/** @var string The menu title for the Section (a short name)*/
+	/** @var string The menu title for the section (a short name)*/
 	var $title				= null;
-	/** @var string The full name for the Section*/
+	/** @var string The full name for the section*/
 	var $name				= null;
+	/** @var string The alias for the section*/
+	var $alias				= null;
 	/** @var string */
 	var $image				= null;
 	/** @var string */
@@ -57,7 +59,14 @@ class JTableSection extends JTable
 	function __construct( &$db ) {
 		parent::__construct( '#__sections', 'id', $db );
 	}
-	// overloaded check function
+
+	/** Overloaded check function
+	 *
+	 * @access public
+	 * @return boolean
+	 * @see JTable::check
+	 * @since 1.5
+	 */
 	function check()
 	{
 		// check for valid name
@@ -83,8 +92,8 @@ class JTableSection extends JTable
 		jimport('joomla.filter.output');
 		$alias = JOutputFilter::stringURLSafe($this->title);
 
-		if(empty($this->name) || $this->name === $alias ) {
-			$this->name = $alias;
+		if(empty($this->alias) || $this->alias === $alias ) {
+			$this->alias = $alias;
 		}
 
 		return true;

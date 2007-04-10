@@ -52,6 +52,11 @@ class TableWeblink extends JTable
 	/**
 	 * @var string
 	 */
+	var $alias = null;
+
+	/**
+	 * @var string
+	 */
 	var $url = null;
 
 	/**
@@ -123,7 +128,6 @@ class TableWeblink extends JTable
 	* @see JTable:bind
 	* @since 1.5
 	*/
-
 	function bind($array, $ignore = '')
 	{
 		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
@@ -168,6 +172,14 @@ class TableWeblink extends JTable
 			$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('Web Link'));
 			return false;
 		}
+
+		jimport('joomla.filter.output');
+		$alias = JOutputFilter::stringURLSafe($this->title);
+
+		if(empty($this->alias) || $this->alias === $alias ) {
+			$this->alias = $alias;
+		}
+
 		return true;
 	}
 }

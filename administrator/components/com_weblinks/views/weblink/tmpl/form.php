@@ -45,6 +45,16 @@
 			</td>
 		</tr>
 		<tr>
+			<td width="100" align="right" class="key">
+				<label for="alias"">
+					<?php echo JText::_( 'Alias' ); ?>:
+				</label>
+			</td>
+			<td>
+				<input class="text_area" type="text" name="alias" id="alias" size="32" maxlength="250" value="<?php echo $this->weblink->alias;?>" />
+			</td>
+		</tr>
+		<tr>
 			<td valign="top" align="right" class="key">
 				<?php echo JText::_( 'Published' ); ?>:
 			</td>

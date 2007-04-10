@@ -300,12 +300,12 @@ class categories_html
 					</tr>
 					<tr>
 						<td class="key">
-							<label for="name">
+							<label for="alias">
 								<?php echo JText::_( 'Alias' ); ?>:
 							</label>
 						</td>
 						<td colspan="2">
-							<input class="text_area" type="text" name="name" id="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'A long name to be displayed in headings' ); ?>" />
+							<input class="text_area" type="text" name="alias" id="alias" value="<?php echo $row->alias; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'A long name to be displayed in headings' ); ?>" />
 						</td>
 					</tr>
 					<tr>

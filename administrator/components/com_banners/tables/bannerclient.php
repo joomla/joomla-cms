@@ -23,6 +23,7 @@ class TableBannerClient extends JTable
 {
 	var	$cid 				= null;
 	var $name 				= '';
+	var $alias				= '';
 	var $contact 			= '';
 	var $email 				= '';
 	var $extrainfo 			= '';
@@ -34,7 +35,16 @@ class TableBannerClient extends JTable
 		parent::__construct( '#__bannerclient', 'cid', $_db );
 	}
 
-	function check() {
+	/**
+	 * Overloaded check function
+	 *
+	 * @access public
+	 * @return boolean
+	 * @see JTable::check
+	 * @since 1.5
+	 */
+	function check()
+	{
 		// check for valid client name
 		if (trim($this->name == '')) {
 			$this->_error = JText::_( 'BNR_CLIENT_NAME' );

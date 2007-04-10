@@ -236,7 +236,7 @@ class MenusModelItem extends JModel
 	{
 		// Initialize variables
 		$db		=& JFactory::getDBO();
-		$row	=& $this->getItem();
+		$row		=& $this->getItem();
 		$post	= $this->_state->get( 'request' );
 
 		switch ($post['type'])
@@ -273,7 +273,7 @@ class MenusModelItem extends JModel
 			$where = "menutype = '" . $row->menutype . "' AND published >= 0 AND parent = ".$row->parent;
 			$row->ordering = $row->getNextOrder ( $where );
 		}
-		
+
 		if( $row->parent != 0 ) {
 			$query = 'SELECT sublevel FROM #__menu WHERE id = '. (int) $row->parent;
 			$this->_db->setQuery($query);

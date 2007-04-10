@@ -235,6 +235,16 @@ class HTML_newsfeeds
 					</td>
 				</tr>
 				<tr>
+					<td width="170" class="key">
+						<label for="name">
+							<?php echo JText::_( 'Alias' ); ?>
+						</label>
+					</td>
+					<td>
+						<input class="inputbox" type="text" size="40" name="alias" id="alias" value="<?php echo $row->alias; ?>" />
+					</td>
+				</tr>
+				<tr>
 					<td valign="top" align="right" class="key">
 						<?php echo JText::_( 'Published' ); ?>:
 					</td>

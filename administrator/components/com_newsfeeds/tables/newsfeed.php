@@ -28,29 +28,51 @@ class TableNewsFeed extends JTable
 	/** @var string */
 	var $name				= null;
 	/** @var string */
+	var $alias				= null;
+	/** @var string */
 	var $link				= null;
 	/** @var string */
 	var $filename			= null;
 	/** @var int */
 	var $published			= null;
 	/** @var int */
-	var $numarticles		= null;
+	var $numarticles			= null;
 	/** @var int */
 	var $cache_time			= null;
 	/** @var int */
-	var $checked_out		= 0;
+	var $checked_out			= 0;
 	/** @var time */
-	var $checked_out_time	= 0;
+	var $checked_out_time		= 0;
 	/** @var int */
 	var $ordering			= null;
 	/** @var int */
-	var $rtl				= 0;
+	var $rtl					= 0;
 
 	/**
 	 * @param database A database connector object
 	 */
 	function __construct( &$db ) {
 		parent::__construct( '#__newsfeeds', 'id', $db );
+	}
+
+	/**
+	 * Overloaded check function
+	 *
+	 * @access public
+	 * @return boolean
+	 * @see JTable::check
+	 * @since 1.5
+	 */
+	function check()
+	{
+		jimport('joomla.filter.output');
+		$alias = JOutputFilter::stringURLSafe($this->name);
+
+		if(empty($this->alias) || $this->alias === $alias ) {
+			$this->alias = $alias;
+		}
+
+		return true;
 	}
 }
 ?>

@@ -29,10 +29,12 @@ class TableBanner extends JTable
 	var $type				= '';
 	/** @var string */
 	var $name				= '';
+	/** @var string */
+	var $alias				= '';
 	/** @var int */
 	var $imptotal			= 0;
 	/** @var int */
-	var $impmade			= 0;
+	var $impmade				= 0;
 	/** @var int */
 	var $clicks				= 0;
 	/** @var string */
@@ -44,17 +46,17 @@ class TableBanner extends JTable
 	/** @var int */
 	var $showBanner			= 0;
 	/** @var int */
-	var $checked_out		= 0;
+	var $checked_out			= 0;
 	/** @var date */
-	var $checked_out_time	= 0;
+	var $checked_out_time		= 0;
 	/** @var string */
 	var $editor				= '';
 	/** @var string */
-	var $custombannercode	= '';
+	var $custombannercode		= '';
 	/** @var int */
-	var $catid		= null;
+	var $catid				= null;
 	/** @var string */
-	var $description		= null;
+	var $description			= null;
 	/** @var int */
 	var $sticky				= null;
 	/** @var int */
@@ -83,16 +85,33 @@ class TableBanner extends JTable
 		$this->_db->query();
 	}
 
-	function check() {
+	/**
+	 * Overloaded check function
+	 *
+	 * @access public
+	 * @return boolean
+	 * @see JTable::check
+	 * @since 1.5
+	 */
+	function check()
+	{
 		// check for valid client id
 		if (is_null($this->cid) || $this->cid == 0) {
 			$this->_error = JText::_( 'BNR_CLIENT' );
 			return false;
 		}
 
+		// check for valid name
 		if(trim($this->name) == '') {
 			$this->_error = JText::_( 'BNR_NAME' );
 			return false;
+		}
+
+		jimport('joomla.filter.output');
+		$alias = JOutputFilter::stringURLSafe($this->name);
+
+		if(empty($this->alias) || $this->alias === $alias ) {
+			$this->alias = $alias;
 		}
 
 		/*if(trim($this->imageurl) == '') {

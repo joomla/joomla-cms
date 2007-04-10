@@ -219,6 +219,16 @@ class HTML_contact
 				</tr>
 				<tr>
 					<td class="key">
+						<label for="name">
+							<?php echo JText::_( 'Alias' ); ?>:
+						</label>
+					</td>
+					<td >
+						<input class="inputbox" type="text" name="alias" id="alias" size="60" maxlength="255" value="<?php echo $row->alias; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td class="key">
 						<?php echo JText::_( 'Published' ); ?>:
 					</td>
 					<td>

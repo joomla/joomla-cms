@@ -96,7 +96,7 @@ class NewsfeedsModelCategories extends JModel
 
 		/* Query to retrieve all categories that belong under the newsfeeds section and that are published. */
 		$query = 'SELECT cc.*, a.catid, COUNT(a.id) AS numlinks,'
-			. ' CASE WHEN CHAR_LENGTH(cc.name) THEN CONCAT_WS(\':\', cc.id, cc.name) ELSE cc.id END as slug'
+			. ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(\'-\', cc.id, cc.alias) ELSE cc.id END as slug'
 			. ' FROM #__categories AS cc'
 			. ' LEFT JOIN #__newsfeeds AS a ON a.catid = cc.id'
 			. ' WHERE a.published = 1'
