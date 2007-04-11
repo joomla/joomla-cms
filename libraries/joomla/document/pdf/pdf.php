@@ -101,7 +101,7 @@ class JDocumentPDF extends JDocument
 
 		// Fonts path
 		$lang = &JFactory::getLanguage();
-		define("FPDF_FONTPATH", K_PATH_MAIN.DS."fonts".DS);
+		define("FPDF_FONTPATH", JPATH_SITE.DS.'language'.DS."pdf_fonts".DS);
 
 		// Cache directory path
 		define("K_PATH_CACHE", K_PATH_MAIN.DS."cache");

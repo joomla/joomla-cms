@@ -7,12 +7,12 @@
 // Version     : 1.53.0.TC030_PHP4
 // License     : GNU LGPL (http://www.gnu.org/copyleft/lesser.html)
 //
-// Description : This is a PHP4 class for generating PDF files 
-//               on-the-fly without requiring external 
+// Description : This is a PHP4 class for generating PDF files
+//               on-the-fly without requiring external
 //               extensions.
 //
 // IMPORTANT:
-// This class is an extension and improvement of the public Domain 
+// This class is an extension and improvement of the public Domain
 // FPDF class by Olivier Plathey (http://www.fpdf.org).
 //
 // Main changes by Nicola Asuni:
@@ -39,7 +39,7 @@ require_once(dirname(__FILE__).'/config/tcpdf_config.php');
  * TCPDF Class.
  * @package com.tecnick.tcpdf
  */
- 
+
 /**
  * This is a PHP4 class for generating PDF files on-the-fly without requiring external extensions.<br>
  * TCPDF project (http://tcpdf.sourceforge.net) is based on the public Domain FPDF class by Olivier Plathey (http://www.fpdf.org).<br>
@@ -69,9 +69,9 @@ require_once(dirname(__FILE__).'/config/tcpdf_config.php');
 if(!class_exists('TCPDF')) {
 	/**
 	 * define default PDF document producer
-	 */ 
+	 */
 	define('PDF_PRODUCER','TCPDF 1.53.0.TC030_PHP4 (http://tcpdf.sourceforge.net)');
-	
+
 	/**
 	* This is a PHP4 class for generating PDF files on-the-fly without requiring external extensions.<br>
 	* This class is an extension and improvement of the FPDF class by Olivier Plathey (http://www.fpdf.org).<br>
@@ -468,248 +468,248 @@ if(!class_exists('TCPDF')) {
 		* @access protected
 		*/
 		var $PDFVersion = "1.3";
-		
-		
+
+
 		// ----------------------
-		
+
 		/**
 		 * @var Minimum distance between header and top page margin.
 		 * @access private
 		 */
 		var $header_margin;
-		
+
 		/**
 		 * @var Minimum distance between footer and bottom page margin.
 		 * @access private
 		 */
 		var $footer_margin;
-		
+
 		/**
 		 * @var original left margin value
 		 * @access private
 		 * @since 1.53.0.TC013
 		 */
 		var $original_lMargin;
-		
+
 		/**
 		 * @var original right margin value
 		 * @access private
 		 * @since 1.53.0.TC013
 		 */
 		var $original_rMargin;
-			
+
 		/**
 		 * @var Header font.
 		 * @access private
 		 */
 		var $header_font;
-		
+
 		/**
 		 * @var Footer font.
 		 * @access private
 		 */
 		var $footer_font;
-		
+
 		/**
 		 * @var Language templates.
 		 * @access private
 		 */
 		var $l;
-		
+
 		/**
 		 * @var Barcode to print on page footer (only if set).
 		 * @access private
 		 */
 		var $barcode = false;
-		
+
 		/**
 		 * @var If true prints header
 		 * @access private
 		 */
 		var $print_header = true;
-		
+
 		/**
 		 * @var If true prints footer.
 		 * @access private
 		 */
 		var $print_footer = true;
-		
+
 		/**
 		 * @var Header width (0 = full page width).
 		 * @access private
 		 */
 		var $header_width = 0;
-		
+
 		/**
 		 * @var Header image logo.
 		 * @access private
 		 */
 		var $header_logo = "";
-		
+
 		/**
 		 * @var Header image logo width in mm.
 		 * @access private
 		 */
 		var $header_logo_width = 30;
-		
+
 		/**
 		 * @var String to print as title on document header.
 		 * @access private
 		 */
 		var $header_title = "";
-		
+
 		/**
 		 * @var String to print on document header.
 		 * @access private
 		 */
 		var $header_string = "";
-		
+
 		/**
 		 * @var Default number of columns for html table.
 		 * @access private
 		 */
 		var $default_table_columns = 4;
-		
-		
+
+
 		// variables for html parser
-		
+
 		/**
 		 * @var HTML PARSER: store current link.
 		 * @access private
 		 */
 		var $HREF;
-		
+
 		/**
 		 * @var HTML PARSER: store font list.
 		 * @access private
 		 */
 		var $fontList;
-		
+
 		/**
 		 * @var HTML PARSER: true when font attribute is set.
 		 * @access private
 		 */
 		var $issetfont;
-		
+
 		/**
 		 * @var HTML PARSER: true when color attribute is set.
 		 * @access private
 		 */
 		var $issetcolor;
-		
+
 		/**
 		 * @var HTML PARSER: true in case of ordered list (OL), false otherwise.
 		 * @access private
 		 */
 		var $listordered = false;
-		
+
 		/**
 		 * @var HTML PARSER: count list items.
 		 * @access private
 		 */
 		var $listcount = 0;
-		
+
 		/**
 		 * @var HTML PARSER: size of table border.
 		 * @access private
 		 */
 		var $tableborder = 0;
-		
+
 		/**
 		 * @var HTML PARSER: true at the beginning of table.
 		 * @access private
 		 */
 		var $tdbegin = false;
-		
+
 		/**
 		 * @var HTML PARSER: table width.
 		 * @access private
 		 */
 		var $tdwidth = 0;
-		
+
 		/**
 		 * @var HTML PARSER: table height.
 		 * @access private
 		 */
 		var $tdheight = 0;
-		
+
 		/**
 		 * @var HTML PARSER: table align.
 		 * @access private
 		 */
 		var $tdalign = "L";
-		
+
 		/**
 		 * @var HTML PARSER: table background color.
 		 * @access private
 		 */
 		var $tdbgcolor = false;
-		
+
 		/**
 		 * @var Store temporary font size in points.
 		 * @access private
 		 */
 		var $tempfontsize = 10;
-		
+
 		/**
 		 * @var Bold font style status.
 		 * @access private
 		 */
 		var $b;
-		
+
 		/**
 		 * @var Underlined font style status.
 		 * @access private
 		 */
 		var $u;
-		
+
 		/**
 		 * @var Italic font style status.
 		 * @access private
 		 */
 		var $i;
-		
+
 		/**
 		 * @var spacer for LI tags.
 		 * @access private
 		 */
 		var $lispacer = "";
-		
+
 		/**
 		 * @var default encoding
 		 * @access private
 		 * @since 1.53.0.TC010
 		 */
 		var $encoding = "UTF-8";
-		
+
 		/**
 		 * @var PHP internal encoding
 		 * @access private
 		 * @since 1.53.0.TC016
 		 */
 		var $internal_encoding;
-		
+
 		/**
 		 * @var store previous fill color as RGB array
 		 * @access private
 		 * @since 1.53.0.TC017
 		 */
 		var $prevFillColor = array(255,255,255);
-		
+
 		/**
 		 * @var store previous text color as RGB array
 		 * @access private
 		 * @since 1.53.0.TC017
 		 */
 		var $prevTextColor = array(0,0,0);
-		
+
 		/**
 		 * @var store previous font family
 		 * @access private
 		 * @since 1.53.0.TC017
 		 */
 		var $prevFontFamily;
-		
+
 		/**
 		 * @var store previous font style
 		 * @access private
@@ -722,8 +722,8 @@ if(!class_exists('TCPDF')) {
 		//------------------------------------------------------------
 
 		/**
-		 * This is the class constructor. 
-		 * It allows to set up the page format, the orientation and 
+		 * This is the class constructor.
+		 * It allows to set up the page format, the orientation and
 		 * the measure unit used in all the methods (except for the font sizes).
 		 * @since 1.0
 		 * @param string $orientation page orientation. Possible values are (case insensitive):<ul><li>P or Portrait (default)</li><li>L or Landscape</li></ul>
@@ -733,13 +733,13 @@ if(!class_exists('TCPDF')) {
 		 * @param String $encoding charset encoding; default is UTF-8
 		 */
 		function TCPDF($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding="UTF-8") {
-			
+
 			/* Set internal character encoding to ASCII */
 			if (function_exists("mb_internal_encoding") AND mb_internal_encoding()) {
 				$this->internal_encoding = mb_internal_encoding();
 				mb_internal_encoding("ASCII");
 			}
-				
+
 			//Some checks
 			$this->_dochecks();
 			//Initialization of properties
@@ -897,7 +897,7 @@ if(!class_exists('TCPDF')) {
 			$this->SetCompression(true);
 			//Set default PDF version number
 			$this->PDFVersion = "1.3";
-			
+
 			$this->encoding = $encoding;
 			$this->b = 0;
 			$this->i = 0;
@@ -912,7 +912,7 @@ if(!class_exists('TCPDF')) {
 			$this->tdheight = 0;
 			$this->tdalign = "L";
 			$this->tdbgcolor = false;
-			
+
 			$this->SetFillColor(200, 200, 200, true);
 			$this->SetTextColor(0, 0, 0, true);
 		}
@@ -1283,9 +1283,9 @@ if(!class_exists('TCPDF')) {
 			$this->TextColor=$tc;
 			$this->ColorFlag=$cf;
 		}
-		
-		
-		
+
+
+
 		/**
 	 	 * Set header data.
 		 * @param string $ln header image logo
@@ -1299,7 +1299,7 @@ if(!class_exists('TCPDF')) {
 			$this->header_title = $ht;
 			$this->header_string = $hs;
 		}
-		
+
 		/**
 	 	 * Set header margin.
 		 * (minimum distance between header and top page margin)
@@ -1308,7 +1308,7 @@ if(!class_exists('TCPDF')) {
 		function setHeaderMargin($hm=10) {
 			$this->header_margin = $hm;
 		}
-		
+
 		/**
 	 	 * Set footer margin.
 		 * (minimum distance between footer and bottom page margin)
@@ -1317,61 +1317,61 @@ if(!class_exists('TCPDF')) {
 		function setFooterMargin($fm=10) {
 			$this->footer_margin = $fm;
 		}
-		
+
 		/**
 	 	 * Set a flag to print page header.
-		 * @param boolean $val set to true to print the page header (default), false otherwise. 
+		 * @param boolean $val set to true to print the page header (default), false otherwise.
 		*/
 		function setPrintHeader($val=true) {
 			$this->print_header = $val;
 		}
-		
+
 		/**
 	 	 * Set a flag to print page footer.
-		 * @param boolean $value set to true to print the page footer (default), false otherwise. 
+		 * @param boolean $value set to true to print the page footer (default), false otherwise.
 		*/
 		function setPrintFooter($val=true) {
 			$this->print_footer = $val;
 		}
-		
+
 		/**
 	 	 * This method is used to render the page header.
 	 	 * It is automatically called by AddPage() and could be overwritten in your own inherited class.
 		 */
 		function Header() {
 			if ($this->print_header) {
-				
+
 				if (!isset($this->original_lMargin)) {
 					$this->original_lMargin = $this->lMargin;
 				}
 				if (!isset($this->original_rMargin)) {
 					$this->original_rMargin = $this->rMargin;
 				}
-				
+
 				//set current position
 				$this->SetXY($this->original_lMargin, $this->header_margin);
-				
+
 				if (($this->header_logo) AND ($this->header_logo != K_BLANK_IMAGE)) {
 					$this->Image(K_PATH_IMAGES.$this->header_logo, $this->original_lMargin, $this->header_margin, $this->header_logo_width);
 				}
 				else {
 					$this->img_rb_y = $this->GetY();
 				}
-				
+
 				$cell_height = round((K_CELL_HEIGHT_RATIO * $this->header_font[2]) / $this->k, 2);
-				
+
 				$header_x = $this->original_lMargin + ($this->header_logo_width * 1.05); //set left margin for text data cell
-				
+
 				// header title
 				$this->SetFont($this->header_font[0], 'B', $this->header_font[2] + 1);
 				$this->SetX($header_x);
-				$this->Cell($this->header_width, $cell_height, $this->header_title, 0, 1, 'L'); 
-				
+				$this->Cell($this->header_width, $cell_height, $this->header_title, 0, 1, 'L');
+
 				// header string
 				$this->SetFont($this->header_font[0], $this->header_font[1], $this->header_font[2]);
 				$this->SetX($header_x);
 				$this->MultiCell($this->header_width, $cell_height, $this->header_string, 0, 'L', 0);
-				
+
 				// print an ending header line
 				if (empty($this->header_width)) {
 					//set style for cell border
@@ -1379,55 +1379,55 @@ if(!class_exists('TCPDF')) {
 					$this->SetDrawColor(0, 0, 0);
 					$this->SetY(1 + max($this->img_rb_y, $this->GetY()));
 					$this->SetX($this->original_lMargin);
-					$this->Cell(0, 0, '', 'T', 0, 'C'); 
+					$this->Cell(0, 0, '', 'T', 0, 'C');
 				}
-				
+
 				//restore position
 				$this->SetXY($this->original_lMargin, $this->tMargin);
 			}
 		}
-		
+
 		/**
-	 	 * This method is used to render the page footer. 
+	 	 * This method is used to render the page footer.
 	 	 * It is automatically called by AddPage() and could be overwritten in your own inherited class.
 		 */
 		function Footer() {
 			if ($this->print_footer) {
-				
+
 				if (!isset($this->original_lMargin)) {
 					$this->original_lMargin = $this->lMargin;
 				}
 				if (!isset($this->original_rMargin)) {
 					$this->original_rMargin = $this->rMargin;
 				}
-				
+
 				//set font
 				$this->SetFont($this->footer_font[0], $this->footer_font[1] , $this->footer_font[2]);
 				//set style for cell border
 				$line_width = 0.3;
 				$this->SetLineWidth($line_width);
 				$this->SetDrawColor(0, 0, 0);
-				
+
 				$footer_height = round((K_CELL_HEIGHT_RATIO * $this->footer_font[2]) / $this->k, 2); //footer height
 				//get footer y position
 				$footer_y = $this->h - $this->footer_margin - $footer_height;
 				//set current position
-				$this->SetXY($this->original_lMargin, $footer_y); 
-				
+				$this->SetXY($this->original_lMargin, $footer_y);
+
 				//print document barcode
 				if ($this->barcode) {
 					$this->Ln();
 					$barcode_width = round(($this->w - $this->original_lMargin - $this->original_rMargin)); //max width
 					$this->writeBarcode($this->original_lMargin, $footer_y + $line_width, $barcode_width, $footer_height - $line_width, "C128B", false, false, 2, $this->barcode);
 				}
-				
-				$this->SetXY($this->original_lMargin, $footer_y); 
-				
+
+				$this->SetXY($this->original_lMargin, $footer_y);
+
 				//Print page number
-				$this->Cell(0, $footer_height, $this->l['w_page']." ".$this->PageNo().' / {nb}', 'T', 0, 'R'); 
+				$this->Cell(0, $footer_height, $this->l['w_page']." ".$this->PageNo().' / {nb}', 'T', 0, 'R');
 			}
 		}
-		
+
 		/**
 		* Returns the current page number.
 		* @return int page number
@@ -1755,12 +1755,12 @@ if(!class_exists('TCPDF')) {
 			if($this->isunicode) {
 				$this->AddFont($family, $style);
 			}
-			
+
 			//Test if font is already selected
 			if(($this->FontFamily == $family) AND ($this->FontStyle == $style) AND ($this->FontSizePt == $size)) {
 				return;
 			}
-			
+
 			$fontkey = $family.$style;
 			//if(!isset($this->fonts[$fontkey]) AND isset($this->fonts[$family])) {
 			//	$style='';
@@ -2063,11 +2063,11 @@ if(!class_exists('TCPDF')) {
 		* @see SetFont(), SetDrawColor(), SetFillColor(), SetTextColor(), SetLineWidth(), Cell(), Write(), SetAutoPageBreak()
 		*/
 		function MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1) {
-			
+
 			// save current position
 			$prevx = $this->x;
 			$prevy = $this->y;
-			
+
 			//Output text with automatic or explicit line breaks
 			$cw = &$this->CurrentFont['cw'];
 
@@ -2175,7 +2175,7 @@ if(!class_exists('TCPDF')) {
 				$b.='B';
 			}
 			$this->Cell($w, $h, substr($s, $j, $i-$j), $b, 2, $align, $fill);
-			
+
 			// move cursor to specified position
 			// since: 2007-03-03
 			 if($ln == 1) {
@@ -2291,7 +2291,7 @@ if(!class_exists('TCPDF')) {
 					$i++;
 				}
 			}
-			
+
 			//Last chunk
 			if($i!=$j) {
 				$this->Cell($this->GetStringWidth(substr($s, $j)), $h, substr($s, $j), 0, 0, '', $fill, $link);
@@ -2868,7 +2868,7 @@ if(!class_exists('TCPDF')) {
 			$this->_out('>>');
 			$this->_out('endobj');
 		}
-		
+
 		/**
 		* _putinfo
 		* @access protected
@@ -3262,14 +3262,14 @@ if(!class_exists('TCPDF')) {
 			$this->_out('/DescendantFonts ['.($this->n + 1).' 0 R]');
 			$this->_out('>>');
 			$this->_out('endobj');
-			
+
 			// CIDFontType2
 			// A CIDFont whose glyph descriptions are based on TrueType font technology
 			$this->_newobj();
 			$this->_out('<</Type /Font');
 			$this->_out('/Subtype /CIDFontType2');
 			$this->_out('/BaseFont /'.$font['name'].'');
-			$this->_out('/CIDSystemInfo '.($this->n + 1).' 0 R'); 
+			$this->_out('/CIDSystemInfo '.($this->n + 1).' 0 R');
 			$this->_out('/FontDescriptor '.($this->n + 2).' 0 R');
 			if (isset($font['desc']['MissingWidth'])){
 				$this->_out('/DW '.$font['desc']['MissingWidth'].''); // The default width for glyphs in the CIDFont MissingWidth
@@ -3282,7 +3282,7 @@ if(!class_exists('TCPDF')) {
 			$this->_out('/CIDToGIDMap '.($this->n + 3).' 0 R');
 			$this->_out('>>');
 			$this->_out('endobj');
-			
+
 			// CIDSystemInfo dictionary
 			// A dictionary containing entries that define the character collection of the CIDFont.
 			$this->_newobj();
@@ -3291,7 +3291,7 @@ if(!class_exists('TCPDF')) {
 			$this->_out('/Supplement 0'); // The supplement number of the character collection.
 			$this->_out('>>');
 			$this->_out('endobj');
-			
+
 			// Font descriptor
 			// A font descriptor describing the CIDFont’s default metrics other than its glyph widths
 			$this->_newobj();
@@ -3317,8 +3317,8 @@ if(!class_exists('TCPDF')) {
 			$size = filesize($ctgfile);
 			$this->_out('<</Length '.$size.'');
 			if(substr($ctgfile, -2) == '.z') { // check file extension
-				/* Decompresses data encoded using the public-domain 
-				zlib/deflate compression method, reproducing the 
+				/* Decompresses data encoded using the public-domain
+				zlib/deflate compression method, reproducing the
 				original text or binary data */
 				$this->_out('/Filter /FlateDecode');
 			}
@@ -3368,10 +3368,10 @@ if(!class_exists('TCPDF')) {
 			$unicode = array(); // array containing unicode values
 			$bytes  = array(); // array containing single character byte sequences
 			$numbytes  = 1; // number of octetc needed to represent the UTF-8 character
-			
+
 			$str .= ""; // force $str to be a string
 			$length = strlen($str);
-			
+
 			for($i = 0; $i < $length; $i++) {
 				$char = ord($str{$i}); // get one string character at time
 				if(count($bytes) == 0) { // get starting octect
@@ -3379,13 +3379,13 @@ if(!class_exists('TCPDF')) {
 						$unicode[] = $char; // use the character "as is" because is ASCII
 						$numbytes = 1;
 					} elseif (($char >> 0x05) == 0x06) { // 2 bytes character (0x06 = 110 BIN)
-						$bytes[] = ($char - 0xC0) << 0x06; 
+						$bytes[] = ($char - 0xC0) << 0x06;
 						$numbytes = 2;
 					} elseif (($char >> 0x04) == 0x0E) { // 3 bytes character (0x0E = 1110 BIN)
-						$bytes[] = ($char - 0xE0) << 0x0C; 
+						$bytes[] = ($char - 0xE0) << 0x0C;
 						$numbytes = 3;
 					} elseif (($char >> 0x03) == 0x1E) { // 4 bytes character (0x1E = 11110 BIN)
-						$bytes[] = ($char - 0xF0) << 0x12; 
+						$bytes[] = ($char - 0xF0) << 0x12;
 						$numbytes = 4;
 					} else {
 						// use replacement character for other invalid sequences
@@ -3412,7 +3412,7 @@ if(!class_exists('TCPDF')) {
 							$unicode[] = $char; // add char to array
 						}
 						// reset data for next char
-						$bytes = array(); 
+						$bytes = array();
 						$numbytes = 1;
 					}
 				} else {
@@ -3424,32 +3424,32 @@ if(!class_exists('TCPDF')) {
 			}
 			return $unicode;
 		}
-		
+
 		/**
 		 * Converts UTF-8 strings to UTF16-BE.<br>
 		 * Based on: http://www.faqs.org/rfcs/rfc2781.html
 	 	 * <pre>
 		 *   Encoding UTF-16:
-		 * 
+		 *
  		 *   Encoding of a single character from an ISO 10646 character value to
 		 *    UTF-16 proceeds as follows. Let U be the character number, no greater
 		 *    than 0x10FFFF.
-		 * 
+		 *
 		 *    1) If U < 0x10000, encode U as a 16-bit unsigned integer and
 		 *       terminate.
-		 * 
+		 *
 		 *    2) Let U' = U - 0x10000. Because U is less than or equal to 0x10FFFF,
 		 *       U' must be less than or equal to 0xFFFFF. That is, U' can be
 		 *       represented in 20 bits.
-		 * 
+		 *
 		 *    3) Initialize two 16-bit unsigned integers, W1 and W2, to 0xD800 and
 		 *       0xDC00, respectively. These integers each have 10 bits free to
 		 *       encode the character value, for a total of 20 bits.
-		 * 
+		 *
 		 *    4) Assign the 10 high-order bits of the 20-bit U' to the 10 low-order
 		 *       bits of W1 and the 10 low-order bits of U' to the 10 low-order
 		 *       bits of W2. Terminate.
-		 * 
+		 *
 		 *    Graphically, steps 2 through 4 look like:
 		 *    U' = yyyyyyyyyyxxxxxxxxxx
 		 *    W1 = 110110yyyyyyyyyy
@@ -3470,7 +3470,7 @@ if(!class_exists('TCPDF')) {
 			$outstr = ""; // string to be returned
 			$unicode = $this->UTF8StringToArray($str); // array containing UTF-8 unicode values
 			$numitems = count($unicode);
-			
+
 			if ($setbom) {
 				$outstr .= "\xFE\xFF"; // Byte Order Mark (BOM)
 			}
@@ -3483,7 +3483,7 @@ if(!class_exists('TCPDF')) {
 				} else {
 					$char -= 0x10000;
 					$w1 = 0xD800 | ($char >> 0x10);
-					$w2 = 0xDC00 | ($char & 0x3FF);	
+					$w2 = 0xDC00 | ($char & 0x3FF);
 					$outstr .= chr($w1 >> 0x08);
 					$outstr .= chr($w1 & 0xFF);
 					$outstr .= chr($w2 >> 0x08);
@@ -3492,9 +3492,9 @@ if(!class_exists('TCPDF')) {
 			}
 			return $outstr;
 		}
-		
+
 		// ====================================================
-		
+
 		/**
 	 	 * Set header font.
 		 * @param array $font font
@@ -3503,7 +3503,7 @@ if(!class_exists('TCPDF')) {
 		function setHeaderFont($font) {
 			$this->header_font = $font;
 		}
-		
+
 		/**
 	 	 * Set footer font.
 		 * @param array $font font
@@ -3512,7 +3512,7 @@ if(!class_exists('TCPDF')) {
 		function setFooterFont($font) {
 			$this->footer_font = $font;
 		}
-		
+
 		/**
 	 	 * Set language array.
 		 * @param array $language
@@ -3521,7 +3521,7 @@ if(!class_exists('TCPDF')) {
 		function setLanguageArray($language) {
 			$this->l = $language;
 		}
-		
+
 		/**
 	 	 * Set document barcode.
 		 * @param string $bc barcode
@@ -3529,7 +3529,7 @@ if(!class_exists('TCPDF')) {
 		function setBarcode($bc="") {
 			$this->barcode = $bc;
 		}
-		
+
 		/**
 	 	 * Print Barcode.
 		 * @param int $x x position in user units
@@ -3549,11 +3549,11 @@ if(!class_exists('TCPDF')) {
 			require_once(dirname(__FILE__)."/barcode/c128aobject.php");
 			require_once(dirname(__FILE__)."/barcode/c128bobject.php");
 			require_once(dirname(__FILE__)."/barcode/c128cobject.php");
-			
+
 			if (empty($code)) {
 				return;
 			}
-			
+
 			if (empty($style)) {
 				$style  = BCS_ALIGN_LEFT;
 				$style |= BCS_IMAGE_PNG;
@@ -3565,11 +3565,11 @@ if(!class_exists('TCPDF')) {
 			}
 			if (empty($font)) {$font = BCD_DEFAULT_FONT;}
 			if (empty($xres)) {$xres = BCD_DEFAULT_XRES;}
-			
+
 			$scale_factor = 1.5 * $xres * $this->k;
 			$bc_w = round($w * $scale_factor); //width in points
 			$bc_h = round($h * $scale_factor); //height in points
-			
+
 			switch (strtoupper($type)) {
 				case "I25": {
 					$obj = new I25Object($bc_w, $bc_h, $style, $code);
@@ -3593,10 +3593,10 @@ if(!class_exists('TCPDF')) {
 					break;
 				}
 			}
-			
-			$obj->SetFont($font);   
+
+			$obj->SetFont($font);
 			$obj->DrawObject($xres);
-			
+
 			//use a temporary file....
 			$tmpName = tempnam(K_PATH_CACHE,'img');
 			imagepng($obj->getImage(), $tmpName);
@@ -3605,7 +3605,7 @@ if(!class_exists('TCPDF')) {
 			unset($obj);
 			unlink($tmpName);
 		}
-		
+
 		/**
 	 	 * Returns the PDF data.
 		 */
@@ -3615,9 +3615,9 @@ if(!class_exists('TCPDF')) {
 			}
 			return $this->buffer;
 		}
-		
+
 		// --- HTML PARSER FUNCTIONS ---
-		
+
 		/**
 		 * Allows to preserve some HTML formatting.<br />
 		 * Supports: h1, h2, h3, h4, h5, h6, b, u, i, a, img, p, br, strong, em, font, blockquote, li, ul, ol, hr, td, th, tr, table, sup, sub, small
@@ -3626,20 +3626,20 @@ if(!class_exists('TCPDF')) {
 		 * @param int $fill Indicates if the background must be painted (1) or transparent (0). Default value: 0.
 		 */
 		function writeHTML($html, $ln=true, $fill=0) {
-						
+
 			// store some variables
 			$html=strip_tags($html,"<h1><h2><h3><h4><h5><h6><b><u><i><a><img><p><br><br/><strong><em><font><blockquote><li><ul><ol><hr><td><th><tr><table><sup><sub><small>"); //remove all unsupported tags
 			//replace carriage returns, newlines and tabs
-			$repTable = array("\t" => " ", "\n" => " ", "\r" => " ", "\0" => " ", "\x0B" => " "); 
+			$repTable = array("\t" => " ", "\n" => " ", "\r" => " ", "\0" => " ", "\x0B" => " ");
 			$html = strtr($html, $repTable);
 			$pattern = '/(<[^>]+>)/Uu';
 			$a = preg_split($pattern, $html, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY); //explodes the string
-			
+
 			if (empty($this->lasth)) {
 				//set row height
-				$this->lasth = $this->FontSize * K_CELL_HEIGHT_RATIO; 
+				$this->lasth = $this->FontSize * K_CELL_HEIGHT_RATIO;
 			}
-			
+
 			foreach($a as $key=>$element) {
 				if (!preg_match($pattern, $element)) {
 					//Text
@@ -3683,7 +3683,7 @@ if(!class_exists('TCPDF')) {
 				$this->Ln($this->lasth);
 			}
 		}
-		
+
 		/**
 		 * Prints a cell (rectangular area) with optional borders, background color and html text string. The upper-left corner of the cell corresponds to the current position. After the call, the current position moves to the right or to the next line.<br />
 		 * If automatic page breaking is enabled and the cell goes beyond the limit, a page break is done before outputting.
@@ -3699,44 +3699,44 @@ if(!class_exists('TCPDF')) {
 		 * @see Cell()
 		 */
 		function writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0) {
-			
+
 			if (empty($this->lasth)) {
 				//set row height
-				$this->lasth = $this->FontSize * K_CELL_HEIGHT_RATIO; 
+				$this->lasth = $this->FontSize * K_CELL_HEIGHT_RATIO;
 			}
-			
+
 			if (empty($x)) {
 				$x = $this->GetX();
 			}
 			if (empty($y)) {
 				$y = $this->GetY();
 			}
-			
+
 			// get current page number
 			$pagenum = $this->page;
-			
+
 			$this->SetX($x);
 			$this->SetY($y);
-					
+
 			if(empty($w)) {
 				$w = $this->fw - $x - $this->rMargin;
 			}
-			
+
 			// store original margin values
 			$lMargin = $this->lMargin;
 			$rMargin = $this->rMargin;
-			
+
 			// set new margin values
 			$this->SetLeftMargin($x);
 			$this->SetRightMargin($this->fw - $x - $w);
-					
+
 			// calculate remaining vertical space on page
 			$restspace = $this->getPageHeight() - $this->GetY() - $this->getBreakMargin();
-			
+
 			$this->writeHTML($html, true, $fill); // write html text
-			
+
 			$currentY =  $this->GetY();
-			
+
 			// check if a new page has been created
 			if ($this->page > $pagenum) {
 				// design a cell around the text on first page
@@ -3756,16 +3756,16 @@ if(!class_exists('TCPDF')) {
 				// design a cell around the text
 				$this->Cell($w, $h, "", $border, $ln, 'L', 0);
 			}
-			
+
 			// restore original margin values
 			$this->SetLeftMargin($lMargin);
 			$this->SetRightMargin($rMargin);
-			
+
 			if ($ln) {
 				$this->Ln(0);
 			}
 		}
-		
+
 		/**
 		 * Process opening tags.
 		 * @param string $tag tag name (in uppercase)
@@ -3871,11 +3871,11 @@ if(!class_exists('TCPDF')) {
 						if(!isset($attr['height'])) {
 							$attr['height'] = 0;
 						}
-						
+
 						$this->Image($attr['src'], $this->GetX(),$this->GetY(), $this->pixelsToMillimeters($attr['width']), $this->pixelsToMillimeters($attr['height']));
 						//$this->SetX($this->img_rb_x);
 						$this->SetY($this->img_rb_y);
-						
+
 					}
 					break;
 				}
@@ -3956,11 +3956,11 @@ if(!class_exists('TCPDF')) {
 					$this->lasth = $this->FontSize * K_CELL_HEIGHT_RATIO;
 					break;
 				}
-				case 'h1': 
-				case 'h2': 
-				case 'h3': 
-				case 'h4': 
-				case 'h5': 
+				case 'h1':
+				case 'h2':
+				case 'h3':
+				case 'h4':
+				case 'h5':
 				case 'h6': {
 					$headsize = (4 - substr($tag, 1)) * 2;
 					$currentFontSize = $this->FontSize;
@@ -3972,7 +3972,7 @@ if(!class_exists('TCPDF')) {
 				}
 			}
 		}
-		
+
 		/**
 		 * Process closing tags.
 		 * @param string $tag tag name (in uppercase)
@@ -4067,11 +4067,11 @@ if(!class_exists('TCPDF')) {
 					$this->lispacer = "";
 					break;
 				}
-				case 'h1': 
-				case 'h2': 
-				case 'h3': 
-				case 'h4': 
-				case 'h5': 
+				case 'h1':
+				case 'h2':
+				case 'h3':
+				case 'h4':
+				case 'h5':
 				case 'h6': {
 					$currentFontSize = $this->FontSize;
 					$this->SetFontSize($this->tempfontsize);
@@ -4086,7 +4086,7 @@ if(!class_exists('TCPDF')) {
 				}
 			}
 		}
-		
+
 		/**
 		 * Sets font style.
 		 * @param string $tag tag name (in lowercase)
@@ -4104,7 +4104,7 @@ if(!class_exists('TCPDF')) {
 			}
 			$this->SetFont('', $style);
 		}
-		
+
 		/**
 		 * Output anchor link.
 		 * @param string $url link URL
@@ -4120,9 +4120,9 @@ if(!class_exists('TCPDF')) {
 			$this->setStyle('u', false);
 			$this->SetTextColor(0);
 		}
-		
+
 		/**
-		 * Returns an associative array (keys: R,G,B) from 
+		 * Returns an associative array (keys: R,G,B) from
 		 * a hex html code (e.g. #3FE5AA).
 		 * @param string $color hexadecimal html color [#rrggbb]
 		 * @return array
@@ -4135,7 +4135,7 @@ if(!class_exists('TCPDF')) {
 			$tbl_color['B'] = hexdec(substr($color, 5, 2));
 			return $tbl_color;
 		}
-		
+
 		/**
 		 * Converts pixels to millimeters in 72 dpi.
 		 * @param int $px pixels
@@ -4145,7 +4145,7 @@ if(!class_exists('TCPDF')) {
 		function pixelsToMillimeters($px){
 			return $px * 25.4 / 72;
 		}
-			
+
 		/**
 		 * Reverse function for htmlentities.
 		 * Convert entities in UTF-8.
@@ -4164,9 +4164,8 @@ if(!class_exists('TCPDF')) {
 		header('Content-Type: application/pdf');
 		exit;
 	}
-	
+
 }
 //============================================================+
 // END OF FILE
 //============================================================+
-?>
