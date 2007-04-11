@@ -415,6 +415,16 @@ class JApplication extends JObject
 			 */
 
 			if (!in_array(false, $results, true)) {
+
+				// Set the remember me cookie if enabled
+				if ($remember) {
+					jimport('joomla.utilities.simplecrypt');
+					jimport('joomla.utilities.utility');
+					$crypt = new JSimpleCrypt();
+					$rcookie = $crypt->encrypt($username.':|:'.$password);
+					$lifetime = time() + 365*24*60*60;
+					setcookie( JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, '/' );
+				}
 				return true;
 			}
 		}

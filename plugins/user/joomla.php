@@ -143,14 +143,6 @@ class plgUserJoomla extends JPlugin
 		// Hit the user last visit field
 		$my->setLastVisit();
 
-		// Set remember me option
-		if ($remember == 'yes')
-		{
-			$lifetime = time() + 365*24*60*60;
-			setcookie( 'usercookie[username]', $my->get('username'), $lifetime, '/' );
-			setcookie( 'usercookie[password]', $my->get('password'), $lifetime, '/' );
-		}
-
 		return true;
 	}
 

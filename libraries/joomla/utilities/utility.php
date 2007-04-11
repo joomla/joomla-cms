@@ -12,6 +12,9 @@
  * details.
  */
 
+// Check to ensure this file is within the rest of the framework
+defined('JPATH_BASE') or die();
+
 /**
  * JUtility is a utility functions class
  *
@@ -21,7 +24,6 @@
  * @subpackage		Utilities
  * @since	1.5
  */
-
 class JUtility
 {
 	/**

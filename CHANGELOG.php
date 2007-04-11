@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Apr-2007 Louis Landry
+ + Fixed [#110] the "remember me" option at login doesn't work
+ + JSimpleCrypt for basic string encryption
+ ! Changes require a reinstall
+
 10-Apr-2007 Johan Janssens
  ^ Implemented alias support for all content types
  # Fixed [#241] SEF urls create the same url for multiple pages
