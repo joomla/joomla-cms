@@ -56,6 +56,14 @@ class JController extends JObject
 	var $_taskMap 	= null;
 
 	/**
+	 * Array of class methods to fire onExecute events for.
+	 *
+	 * @var	array
+	 * @access	protected
+	 */
+	var $_eventMap 	= null;
+
+	/**
 	 * Current or most recent task to be performed.
 	 *
 	 * @var	string
@@ -70,6 +78,14 @@ class JController extends JObject
 	 * @access	protected
 	 */
 	var $_doTask 	= null;
+
+	/**
+	 * The event data object
+	 *
+	 * @var	registry
+	 * @access protected
+	 */
+	var $_eventData	= null;
 
 	/**
 	 * The set of search directories for resources (views or models).
@@ -138,6 +154,7 @@ class JController extends JObject
 		$this->_message		= null;
 		$this->_messageType = 'message';
 		$this->_taskMap		= array();
+		$this->_eventMap	= array();
 		$this->_methods		= array();
 		$this->_data		= array();
 
@@ -236,7 +253,12 @@ class JController extends JObject
 		// Time to make sure we have access to do what we want to do...
 		if ($this->authorize( $doTask )) {
 			// Yep, lets do it already
-			return $this->$doTask();
+			$retval = $this->$doTask();
+			if (($task != 'display') && (@$this->_eventMap[$task] == true)) {
+				$dispatcher = &JEventDispatcher::getInstance();
+				$dispatcher->trigger('onExecute', array($this->_name, $doTask, $this->_eventData));
+			}
+			return $retval;
 		} else {
 			// No access... better luck next time
 			return JError::raiseError( 403, JText::_('Access Forbidden') );
@@ -483,7 +505,7 @@ class JController extends JObject
 
 	/**
 	 * Sets the internal message that is passed with a redirect
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	The message
 	 * @return	string	Previous message
@@ -530,6 +552,34 @@ class JController extends JObject
 	{
 		$this->_acoSection = $section;
 		$this->_acoSectionValue = $value;
+	}
+
+	/**
+	 * Set the task event data object
+	 *
+	 * @access	protected
+	 * @param	registry	The task event data object
+	 * @return	void
+	 * @since	1.5
+	 */
+	function setEventData( &$data )
+	{
+		if (is_a($data, 'JRegistry')) {
+			$this->_eventData = &$data;
+		}
+	}
+
+	/**
+	 * Register a task as an event trigger for the onExecute event
+	 *
+	 * @access	protected
+	 * @param	string	The name of the task to register
+	 * @return	void
+	 * @since	1.5
+	 */
+	function registerEvent($task)
+	{
+		$this->_eventMap[strtolower($task)] = true;
 	}
 
 	/**
