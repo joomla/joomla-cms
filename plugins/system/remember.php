@@ -46,6 +46,12 @@ class  plgSystemRemember extends JPlugin
 	function onAfterInitialise()
 	{
 		global $mainframe;
+
+		// No remember me for admin
+		if ($mainframe->isAdmin()) {
+			return;
+		}
+
 		$user = &JFactory::getUser();
 		if (!$user->get('gid')) {
 			jimport('joomla.utilities.utility');
