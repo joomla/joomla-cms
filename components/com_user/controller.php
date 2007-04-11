@@ -109,7 +109,7 @@ class UserController extends JController
 
 		$username	= JRequest::getVar( 'username' );
 		$password	= JRequest::getVar( 'password' );
-		$return		= JRequest::getVar('return', false);
+		$return		= JRequest::getVar('return', false, '', 'cmd');
 		if ($return) {
 			$return = base64_decode($return);
 		}
@@ -150,7 +150,10 @@ class UserController extends JController
 
 		if(!JError::isError($error))
 		{
-			$return = base64_decode(JRequest::getVar( 'return' ));
+			$return	= JRequest::getVar('return', false, '', 'cmd');
+			if ($return) {
+				$return = base64_decode($return);
+			}
 
 			// Redirect if the return url is not registration or login
 			if ( $return && !( strpos( $return, 'com_user' ) || strpos( $return, 'com_login' ) ) ) {
