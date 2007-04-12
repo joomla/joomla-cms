@@ -39,6 +39,7 @@ Legend:
 
 12-Apr-2007 Jason Kendall
  # Fixed [#15] - global checkin now available to admins
+ # Fixed [topic,159199] - ordering of <= 0 items - Thanks Ian
 
 11-Apr-2007 Louis Landry
  + Fixed [#110] the "remember me" option at login doesn't work
