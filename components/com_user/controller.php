@@ -110,7 +110,7 @@ class UserController extends JController
 		$username	= JRequest::getVar( 'username' );
 		$password	= JRequest::getVar( 'password' );
 		$return		= JRequest::getVar( 'return', false, '' );
-		$return		= preg_replace( '/\s/', '+', $return );
+		$return		= str_replace( ' ', '+', $return );
 		$return		= preg_replace( '/[^A-Z0-9+\/\=]/i', '', $return );
 		if ($return) {
 			$return = base64_decode($return);
@@ -153,7 +153,7 @@ class UserController extends JController
 		if(!JError::isError($error))
 		{
 			$return	= JRequest::getVar( 'return', false, '' );
-			$return	= preg_replace( '/\s/', '+', $return );
+			$return	= str_replace( ' ', '+', $return );
 			$return	= preg_replace( '/[^A-Z0-9+\/\=]/i', '', $return );
 			if ($return) {
 				$return = base64_decode($return);
