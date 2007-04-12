@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Apr-2007 Jason Kendall
+ # Fixed [#15] - global checkin now available to admins
+
 11-Apr-2007 Louis Landry
  + Fixed [#110] the "remember me" option at login doesn't work
  + JSimpleCrypt for basic string encryption

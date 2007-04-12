@@ -215,13 +215,15 @@ class modMenuHelper
 		/*
 	 	 * System SubMenu
 	 	 */
-		if ($canConfig)
+		if ($canConfig || $canCheckin)
 		{
 			$menu->addChild(new JMenuNode(JText::_('Tools')), true);
 
-			$menu->addChild(new JMenuNode(JText::_('Read Messages'), 'index.php?option=com_messages', 'class:messages'));
-			$menu->addChild(new JMenuNode(JText::_('Write Message'), 'index.php?option=com_messages&task=add', 'class:messages'));
-			$menu->addSeparator();
+			if ($canConfig) {
+				$menu->addChild(new JMenuNode(JText::_('Read Messages'), 'index.php?option=com_messages', 'class:messages'));
+				$menu->addChild(new JMenuNode(JText::_('Write Message'), 'index.php?option=com_messages&task=add', 'class:messages'));
+				$menu->addSeparator();
+			}
 			if ($canMassMail) {
 				$menu->addChild(new JMenuNode(JText::_('Mass Mail'), 'index.php?option=com_massmail', 'class:massmail'));
 				$menu->addSeparator();
