@@ -213,6 +213,7 @@ class JMenuTree extends JTree
 			}
 			$this->_buffer .= '</ul>';
 		}
+		if($this->_buffer == '') { $this->_buffer = '<ul />'; }
 		return $this->_buffer;
 	}
 
