@@ -148,7 +148,7 @@ Example:
 		'lastName': 'Dorian'
 	};
 	Object.extend(firstOb, secondOb);
-	//firstOb will become: 
+	//firstOb will become:
 	{
 		'name': 'John',
 		'lastName': 'Dorian',
@@ -451,7 +451,7 @@ Array.extend({
 
 	Returns:
 		a new array which is a copy of the current one.
-	
+
 	Arguments:
 		start - optional, the index where to start the copy, default is 0. If negative, it is taken as the offset from the end of the array.
 		length - optional, the number of elements to copy. By default, copies all elements from start to the end of the array.
@@ -776,12 +776,12 @@ String.extend({
 });
 
 Array.extend({
-	
+
 	/*
 	Property: rgbToHex
 		see <String.rgbToHex>, but as an array method.
 	*/
-	
+
 	rgbToHex: function(array){
 		if (this.length < 3) return false;
 		if (this[3] && (this[3] == 0) && !array) return 'transparent';
@@ -792,12 +792,12 @@ Array.extend({
 		}
 		return array ? hex : '#'+hex.join('');
 	},
-	
+
 	/*
 	Property: hexToRgb
 		same as <String.hexToRgb>, but as an array method.
 	*/
-	
+
 	hexToRgb: function(array){
 		if (this.length != 3) return false;
 		var rgb = [];
@@ -831,7 +831,7 @@ Number.extend({
 
 });
 
-/* 
+/*
 Script: Function.js
 	Contains Function prototypes and utility functions .
 
@@ -855,13 +855,13 @@ Function.extend({
 	/*
 	Property: create
 		Main function to create closures.
-	
+
 	Returns:
 		a function.
-	
+
 	Arguments:
 		options - An Options object.
-	
+
 	Options:
 		bind - The object that the "this" of the function will refer to. Default is the current function.
 		event - If set to true, the function will act as an event listener and receive an event as first argument.
@@ -880,11 +880,11 @@ Function.extend({
 	create: function(options){
 		var fn = this;
 		options = Object.extend({
-			'bind': fn, 
-			'event': false, 
-			'arguments': null, 
-			'delay': false, 
-			'periodical': false, 
+			'bind': fn,
+			'event': false,
+			'arguments': null,
+			'delay': false,
+			'periodical': false,
 			'attempt': false
 		}, options || {});
 		if ($chk(options.arguments) && $type(options.arguments) != 'array') options.arguments = [options.arguments];
@@ -930,7 +930,7 @@ Function.extend({
 	pass: function(args, bind){
 		return this.create({'arguments': args, 'bind': bind});
 	},
-	
+
 	/*
 	Property: attempt
 		Tries to execute the function, returns either the function results or the error.
@@ -1273,7 +1273,7 @@ Element.extend({
 	Property: clone
 		Clones the Element and returns the cloned one.
 
-	Returns: 
+	Returns:
 		the cloned element
 
 	Example:
@@ -1337,10 +1337,10 @@ Element.extend({
 	Returns:
 	 	true - the Element has the class
 	 	false - it doesn't
-	 
+
 	Arguments:
 		className - the class name to test.
-	 
+
 	Example:
 		><div id="myElement" class="testClass"></div>
 		>$('myElement').hasClass('testClass'); //returns true
@@ -1357,7 +1357,7 @@ Element.extend({
 	Arguments:
 		className - the class name to add
 
-	Example: 
+	Example:
 		><div id="myElement" class="testClass"></div>
 		>$('myElement').addClass('newClass'); //<div id="myElement" class="testClass newClass"></div>
 	*/
@@ -1639,7 +1639,7 @@ Element.extend({
 		while ($type(el) == 'whitespace') el = el.previousSibling;
 		return $(el);
 	},
-	
+
 	/*
 	Property: getParent
 		returns the $(element.parentNode)
@@ -1648,7 +1648,7 @@ Element.extend({
 	getParent: function(){
 		return $(this.parentNode);
 	},
-	
+
 	/*
 	Property: getChildren
 		returns all the $(element.childNodes), excluding text nodes. Returns as <Elements>.
@@ -1793,7 +1793,7 @@ Element.extend({
 		}
 		return false;
 	},
-	
+
 	/*
 	Property: getSize
 		return an Object representing the size/scroll values of the element.
@@ -1831,7 +1831,7 @@ Element.extend({
 	Returns:
 		>{x: 100, y:500};
 	*/
-	
+
 	getPosition: function(overflown){
 		overflown = overflown || [];
 		var el = this, left = 0, top = 0;
@@ -1846,7 +1846,7 @@ Element.extend({
 		});
 		return {'x': left, 'y': top};
 	},
-	
+
 	/*
 	Property: getTop
 		Returns the distance from the top of the window to the Element.
@@ -1864,7 +1864,7 @@ Element.extend({
 	getLeft: function(){
 		return this.getPosition().x;
 	},
-	
+
 	/*
 	Property: getCoordinates
 		Returns an object with width, height, left, right, top, and bottom, representing the values of the Element
@@ -1886,7 +1886,7 @@ Element.extend({
 		}
 		(end)
 	*/
-	
+
 	getCoordinates: function(overflown){
 		var position = this.getPosition(overflown);
 		var obj = {
@@ -1949,7 +1949,7 @@ Arguments:
 
 Properties:
 	shift - true if the user pressed the shift
-	control - true if the user pressed the control 
+	control - true if the user pressed the control
 	alt - true if the user pressed the alt
 	meta - true if the user pressed the meta key
 	code - the keycode of the key pressed
@@ -2258,7 +2258,7 @@ var Group = new Class({
 		this.events = {};
 		this.checker = {};
 	},
-	
+
 	addEvent: function(type, fn){
 		this.checker[type] = this.checker[type] || {};
 		this.events[type] = this.events[type] || [];
@@ -2269,7 +2269,7 @@ var Group = new Class({
 		}, this);
 		return this;
 	},
-	
+
 	check: function(type, instance, i){
 		this.checker[type][i] = true;
 		var every = this.instances.every(function(current, j){
@@ -2300,8 +2300,8 @@ License:
 
 /* Section: Utility Functions */
 
-/* 
-Function: $E 
+/*
+Function: $E
 	Selects a single (i.e. the first found) Element based on the selector passed in and an optional filter element.
 
 Arguments:
@@ -2348,7 +2348,7 @@ Class: Element
 Element.extend({
 
 	/*
-	Property: getElements 
+	Property: getElements
 		Gets all the elements within an element that match the given (single) selector.
 
 	Arguments:
@@ -2430,8 +2430,8 @@ Element.extend({
 
 document.extend({
 	/*
-	Function: document.getElementsByClassName 
-		Returns all the elements that match a specific class name. 
+	Function: document.getElementsByClassName
+		Returns all the elements that match a specific class name.
 		Here for compatibility purposes. can also be written: document.getElements('.className'), or $$('.className')
 	*/
 
@@ -2447,7 +2447,7 @@ document.extend({
 //dom filters, internal methods.
 
 var Filters = {
-	
+
 	selector: [],
 
 	id: function(el){
@@ -2520,7 +2520,7 @@ Example:
 var Hash = new Class({
 
 	length: 0,
-	
+
 	obj: {},
 
 	initialize: function(obj){
@@ -2688,7 +2688,7 @@ License:
 /*
 Class: Color
 	Creates a new Color Object, which is an array with some color specific methods.
-	
+
 Arguments:
 	color - the hex, the RGB array or the HSB array of the color to create. For HSB colors, you need to specify the second argument.
 	type - a string representing the type of the color to create. needs to be specified if you intend to create the color with HSB values, or an array of HEX values. Can be 'rgb', 'hsb' or 'hex'.
@@ -2726,16 +2726,16 @@ var Color = new Class({
 		rgb.hsb = hsb;
 		return Object.extend(rgb, Color.prototype);
 	},
-	
+
 	/*
 	Property: mix
 		Mixes two or more colors with the Color.
-		
+
 	Arguments:
 		color - a color to mix. you can use as arguments how many colors as you want to mix with the original one.
 		alpha - if you use a number as the last argument, it will be threated as the amount of the color to mix.
 	*/
-	
+
 	mix: function(){
 		var colors = $A(arguments);
 		var alpha = ($type(colors[colors.length-1]) == 'number') ? colors.pop() : 50;
@@ -2746,7 +2746,7 @@ var Color = new Class({
 		});
 		return new Color(rgb, 'rgb');
 	},
-	
+
 	/*
 	Property: invert
 		Inverts the Color.
@@ -2757,11 +2757,11 @@ var Color = new Class({
 			return 255 - value;
 		}));
 	},
-	
+
 	/*
 	Property: setHue
 		Modifies the hue of the Color, and returns a new one.
-		
+
 	Arguments:
 		value - the hue to set
 	*/
@@ -2769,11 +2769,11 @@ var Color = new Class({
 	setHue: function(value){
 		return new Color([value, this.hsb[1], this.hsb[2]], 'hsb');
 	},
-	
+
 	/*
 	Property: setSaturation
 		Changes the saturation of the Color, and returns a new one.
-		
+
 	Arguments:
 		percent - the percentage of the saturation to set
 	*/
@@ -2781,11 +2781,11 @@ var Color = new Class({
 	setSaturation: function(percent){
 		return new Color([this.hsb[0], percent, this.hsb[2]], 'hsb');
 	},
-	
+
 	/*
 	Property: setBrightness
 		Changes the brightness of the Color, and returns a new one.
-		
+
 	Arguments:
 		percent - the percentage of the brightness to set
 	*/
@@ -2820,7 +2820,7 @@ Class: Array
 */
 
 Array.extend({
-	
+
 	/*
 	Property: rgbToHsb
 		Converts a RGB array to an HSB array.
@@ -2828,7 +2828,7 @@ Array.extend({
 	Returns:
 		the HSB array.
 	*/
-	
+
 	rgbToHsb: function(){
 		var red = this[0], green = this[1], blue = this[2];
 		var hue, saturation, brightness;
@@ -2850,7 +2850,7 @@ Array.extend({
 		}
 		return [Math.round(hue * 360), Math.round(saturation * 100), Math.round(brightness * 100)];
 	},
-	
+
 	/*
 	Property: hsbToRgb
 		Converts an HSB array to an RGB array.
@@ -2858,7 +2858,7 @@ Array.extend({
 	Returns:
 		the RGB array.
 	*/
-	
+
 	hsbToRgb: function(){
 		var br = Math.round(this[2] / 100 * 255);
 		if (this[1] == 0){
@@ -2886,7 +2886,7 @@ Array.extend({
 /*
 Script: Window.Base.js
 	Contains Window.onDomReady
-	
+
 Authors:
 	- Christophe Beyls, <http://www.digitalia.be>
 	- Valerio Proietti, <http://mad4milk.net>
@@ -2901,7 +2901,7 @@ Class: Window
 */
 
 window.extend({
-	
+
 	/*
 	Property: window.addEvent
 		same as <Element.addEvent> but allows the event 'domready', which is the same as <window.onDomReady>
@@ -4123,7 +4123,7 @@ Drag.Base = new Class({
 		this.attach();
 		if (this.options.initialize) this.options.initialize.call(this);
 	},
-	
+
 	attach: function(){
 		this.handle.addEvent('mousedown', this.bound.start);
 	},
@@ -4182,7 +4182,7 @@ Drag.Base = new Class({
 		this.fireEvent('onDrag', this.element);
 		event.stop();
 	},
-	
+
 	detach: function(){
 		this.handle.removeEvent('mousedown', this.bound.start);
 	},
@@ -4374,7 +4374,7 @@ Class: XHR
 	Basic XMLHttpRequest Wrapper.
 
 Arguments:
-	
+
 
 Options:
 	method - 'post' or 'get' - the prototcol for the request; optional, defaults to 'post'.
@@ -4421,11 +4421,11 @@ var XHR = new Class({
 		else this.onFailure();
 		this.transport.onreadystatechange = Class.empty;
 	},
-	
+
 	isSuccess: function(status){
 		return ((status >= 200) && (status < 300));
 	},
-	
+
 	onSuccess: function(){
 		this.response = {
 			'text': this.transport.responseText,
@@ -4434,7 +4434,7 @@ var XHR = new Class({
 		this.fireEvent('onSuccess', [this.response.text, this.response.xml]);
 		this.callChain();
 	},
-	
+
 	onFailure: function(){
 		this.fireEvent('onFailure', this.transport);
 	},
@@ -4668,7 +4668,7 @@ Script: Cookie.js
 Author:
 	Christophe Beyls, <http://www.digitalia.be>
 
-Credits: 
+Credits:
 	based on the functions by Peter-Paul Koch (http://quirksmode.org)
 */
 
@@ -5241,7 +5241,7 @@ Arguments:
 Options:
 	onChange - a function to fire when the value changes.
 	onComplete - a function to fire when you're done dragging.
-	onTick - optionally, you can alter the onTick behavior, for example displaying an effect of the knob moving to the desired position. 
+	onTick - optionally, you can alter the onTick behavior, for example displaying an effect of the knob moving to the desired position.
 		Passes as parameter the new position.
 	steps - the number of steps for your slider.
 	mode - either 'horizontal' or 'vertical'. defaults to horizontal.
@@ -5529,13 +5529,13 @@ var Sortables = new Class({
 		}
 		event.stop();
 	},
-	
+
 	detach: function(){
 		this.elements.each(function(el, i){
 			this.handles[i].removeEvent('mousedown', this.bound.start[i]);
 		}, this);
 	},
-	
+
 	serialize: function(){
 		var serial = [];
 		this.list.getChildren().each(function(el, i){
@@ -5573,7 +5573,7 @@ Credits:
 Class: Tips
 	Display a tip on any element with a title and/or href.
 
-Arguments: 
+Arguments:
 	elements - a collection of elements to apply the tooltips to on mouseover.
 	options - an object. See options Below.
 
@@ -5587,7 +5587,7 @@ Options:
 	showDelay - the delay the onShow method is called. (defaults to 100 ms)
 	hideDelay - the delay the onHide method is called. (defaults to 100 ms)
 
-	className - the prefix for your tooltip classNames. defaults to 'tool'. 
+	className - the prefix for your tooltip classNames. defaults to 'tool'.
 		the whole tooltip will have as classname: tool-tip
 		the title will have as classname: tool-title
 		the text will have as classname: tool-text
@@ -5633,7 +5633,6 @@ var Tips = new Class({
 			'top': '0',
 			'left': '0',
 			'visibility': 'hidden',
-			'z-inde': '100000'
 		}).injectInside(document.body);
 		this.wrapper = new Element('div').injectInside(this.toolTip);
 		$each(elements, function(el){
