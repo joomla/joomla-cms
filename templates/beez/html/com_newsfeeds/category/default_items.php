@@ -4,7 +4,9 @@ defined('_JEXEC') or die('Restricted access');
 if ($this->params->get('display')) {
 	echo '<div class="display">';
 	echo '<form action="index.php" method="post" name="adminForm">';
-	echo JText :: _('Display Num') . '&nbsp;';
+	echo '<label for="limit">';
+ 	echo JText :: _('Display Num') . '&nbsp;';
+	echo '<label>';
 	echo $this->pagination->getLimitBox();
 	echo '</form>';
 	echo '</div>';
@@ -17,15 +19,16 @@ if ($this->params->get('headings')) {
 	echo JText :: _('Num');
 	echo '</th>';
 	if ($this->params->get('name')) {
-		echo '<tr><th width="90% class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" id="name">';
+		echo '<th width="90% class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" id="name">';
 		echo JText :: _('Feed Name');
 		echo '</th>';
 	}
 	if ($this->params->get('articles')) {
-		echo '<tr><th width="10% class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" nowrap="nowrap" id="num_a">';
+		echo '<th width="10% class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" nowrap="nowrap" id="num_a">';
 		echo JText :: _('Num Articles');
 		echo '</th>';
 	}
+	echo '</tr>';
 }
 foreach ($this->items as $item) {
 	$odd=$item->odd + 1;

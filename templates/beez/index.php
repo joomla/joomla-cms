@@ -8,6 +8,10 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
+
+defined('_JEXEC') or die('Restricted access');
+
+$url = clone(JURI::getInstance());
 ?>
 <?php echo '<?xml version="1.0" encoding="utf-8"?' .'>'; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -26,16 +30,15 @@
 	<script type="text/javascript" language="javascript" src="templates/<?php echo $this->template ?>/javascript/md_stylechanger.js"></script>
 </head>
 <body>
-
 	<div id="all">
 		<div id="header">
 			<h1 id="logo"><img src="templates/<?php echo $this->template ?>/images/logo.gif" border="0" alt="Logo Beez, 3 freche Bienchen" width="300" height="97" />
 			<span class="header1">Joomla! accessible Template Beta 1</span>
 			</h1>
 			<p>
-				<a href="#content" class="u2">skip to content</a><span class="unsichtbar">.</span>
-				<a href="#mainmenu" class="u2">Jump to main navigation and Login</a><span class="unsichtbar">.</span>
-				<a href="#additional" class="u2">Jump to additional Informations</a><span class="unsichtbar">.</span>
+				<a href="<?php $url->setFragment('content'); echo $url->toString();?>" class="u2">skip to content</a><span class="unsichtbar">.</span>
+				<a href="<?php $url->setFragment('mainmenu'); echo $url->toString();?>" class="u2">Jump to main navigation and Login</a><span class="unsichtbar">.</span>
+				<a href="<?php $url->setFragment('additional'); echo $url->toString();?>" class="u2">Jump to additional Informations</a><span class="unsichtbar">.</span>
 			</p>
 			<h2 class="unsichtbar">Navigation, Search and View</h2>
 

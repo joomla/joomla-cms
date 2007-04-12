@@ -53,10 +53,10 @@ function validateForm( frm ) {
 <?php
 if(isset($this->message))
 {
-	$this->loadTemplate('message');
+	$this->display('message');
 }
 
-echo '<form action="'.JRoute::_( 'index.php?option=com_user&amp;task=register' ).'" method="post" id="josForm" name="josForm" class="registration">';
+echo '<form action="'.JRoute::_( 'index.php?option=com_user' ).'" method="post" id="josForm" name="josForm" class="form-validate">';
 echo '<h'.$hlevel.' class="componentheading">'. JText::_( 'Registration' ).'</h'.$hlevel.'>';
 
 echo '<p>'.JText::_( 'REGISTER_REQUIRED' ).'</p>';
@@ -78,7 +78,7 @@ echo '<input class="inputbox validate required passverify pw2msg" type="password
 
 
 echo '<button class="button" type="submit" onclick="validateForm( this.form );return false;">'. JText::_('Register').'</button>';
-echo '<input type="hidden" name="task" value="save" />';
+echo '<input type="hidden" name="task" value="register_save" />';
 echo '<input type="hidden" name="id" value="0" />';
 echo '<input type="hidden" name="gid" value="0" />';
 echo '<input type="hidden" name="'.JUtility::getToken().'" value="1" />';

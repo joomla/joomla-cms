@@ -117,7 +117,7 @@ echo JOutputFilter::ampReplace($this->item->text);
 
 if ($this->params->get('readmore') && $this->params->get('intro_only') && $this->item->readmore_text) {
 	echo '<p>';
-	echo '<a href="' . JRoute::_($this->item->readmore_link) . '" class="readon' . $this->params->get('pageclass_sfx') . '">';
+	echo '<a href="' . $this->item->readmore_link . '" class="readon' . $this->params->get('pageclass_sfx') . '">';
 	$alias = JOutputFilter :: stringURLSafe($this->item->title);
 	if ($this->item->title_alias === $alias) {
 		echo $this->item->readmore_text;
