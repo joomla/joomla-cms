@@ -461,7 +461,7 @@ class ContentModelArticle extends JModel
 
 		if (!$user->authorize('action', 'edit', 'content', 'all'))
 		{
-			$where .= ' AND ( a.state = 1 OR a.state = -1 )' .
+			$where .= ' AND ( a.state = 1 OR a.state = 0 )' .
 					' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )' .
 					' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )';
 		}
