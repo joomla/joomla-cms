@@ -342,18 +342,3 @@ Public License instead of this License.
 Linking Joomla! statically or dynamically with other modules is making
 a combined work based on Joomla!.  Thus, the terms and conditions of
 the GNU General Public License cover the whole combination.
-
-In addition, as a special exception, the copyright holders of Joomla!
-give you permission to combine Joomla! with free software programs or
-libraries that are released under the GNU LGPL and with independent
-extensions that communicate with Joomla! solely through the Joomla!
-extension interface.  You may copy and distribute such a system following
-the terms of the GNU GPL for Joomla! and the licenses of the extension,
-even if you do not include the source code of that extension.
-
-Note that people who make modified versions of Joomla! are not
-obligated to grant this special exception for their modified versions;
-it is their choice whether to do so.  The GNU General Public License
-gives permission to release a modified version without this exception;
-this exception also makes it possible to release a modified version
-which carries forward this exception.
