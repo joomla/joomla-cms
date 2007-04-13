@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Apr-2007 Enno Klasing
+ + Added 'PATH' filter to JInputFilter
+
 12-Apr-2007 Jason Kendall
  # Fixed [#15] - global checkin now available to admins
  # Fixed [topic,159199] - ordering of <= 0 items - Thanks Ian

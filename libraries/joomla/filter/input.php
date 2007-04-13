@@ -145,6 +145,15 @@ class JInputFilter extends JObject
 				$result = (array) $source;
 				break;
 
+			case 'PATH' :
+				$pattern = '/^[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
+				if (preg_match($pattern, $source, $matches)) {
+					$result = (string) $matches[0];
+				} else {
+					$result = '';
+				}
+				break;
+
 			default :
 				// Are we dealing with an array?
 				if (is_array($source)) {

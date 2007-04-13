@@ -108,8 +108,8 @@ class JApplicationHelper
 		if ( !$user_option && !$check ) {
 			$user_option = JRequest::getWord('option');
 		} else {
-			/** @TODO Need new filter type for valid filenames? */
-			//$user_option = preg_replace('/[^A-Z0-9_\.-]/i', '', $user_option);
+			$filter = JInputFilter::getInstance();
+			$user_option = $filter->clean($user_option, 'path');
 		}
 
 		$result = null;
