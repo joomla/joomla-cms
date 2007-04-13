@@ -69,8 +69,10 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$strHtml .= $tab . '<meta name="description" content="' . $document->getDescription() . '" />' . $lnEnd;
 
 		// Generate META tags
-		foreach ($document->_metaTags as $type => $tag) {
-			foreach ($tag as $name => $content) {
+		foreach ($document->_metaTags as $type => $tag)
+		{
+			foreach ($tag as $name => $content)
+			{
 				if ($type == 'http-equiv') {
 					$strHtml .= $tab . "<meta http-equiv=\"$name\" content=\"$content\"" . $tagEnd . $lnEnd;
 				} elseif ($type == 'standard') {
@@ -85,7 +87,8 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		// Generate stylesheet links
-		foreach ($document->_styleSheets as $strSrc => $strAttr ) {
+		foreach ($document->_styleSheets as $strSrc => $strAttr )
+		{
 			$strHtml .= $tab . "<link rel=\"stylesheet\" href=\"$strSrc\" type=\"".$strAttr['mime'].'"';
 			if (!is_null($strAttr['media'])){
 				$strHtml .= ' media="'.$strAttr['media'].'" ';
@@ -97,8 +100,10 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		// Generate stylesheet declarations
-		foreach ($document->_style as $styledecl) {
-			foreach ($styledecl as $type => $content) {
+		foreach ($document->_style as $styledecl)
+		{
+			foreach ($styledecl as $type => $content)
+			{
 				$strHtml .= $tab . '<style type="' . $type . '">' . $lnEnd;
 
 				// This is for full XHTML support.
@@ -126,8 +131,10 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		// Generate script declarations
-		foreach ($document->_script as $script) {
-			foreach ($script as $type => $content) {
+		foreach ($document->_script as $script)
+		{
+			foreach ($script as $type => $content)
+			{
 				$strHtml .= $tab . '<script type="' . $type . '">' . $lnEnd;
 
 				// This is for full XHTML support.

@@ -315,7 +315,7 @@ class JPagination extends JObject
 		$list['limitstart']		= $this->limitstart;
 		$list['total']			= $this->total;
 		$list['limitfield']		= $this->getLimitBox();
-		$list['pagescounter']	= $this->getPagesCounter();
+		$list['pagescounter']		= $this->getPagesCounter();
 		$list['pageslinks']		= $this->getPagesLinks();
 
 		$chromePath = JPATH_BASE.'/templates/'.$mainframe->getTemplate().'/html/pagination.php';
@@ -643,7 +643,7 @@ class JPagination extends JObject
  * Pagination object representing a particular item in the pagination lists
  *
  * @author		Louis Landry <louis.landry@joomla.org>
- * @package 	Joomla.Framework
+ * @package 		Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
  */

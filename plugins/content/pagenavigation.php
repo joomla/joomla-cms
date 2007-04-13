@@ -26,18 +26,18 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 	if ($params->get('showItemNavigation') && ($view == 'article'))
 	{
 		jimport('joomla.utilities.date');
-		$html 	= '';
-		$db 		= & JFactory::getDBO();
+		$html 		= '';
+		$db 			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$nullDate	= $db->getNullDate();
 
 		$date		= new JDate();
-		$config 	= & JFactory::getConfig();
+		$config 		= & JFactory::getConfig();
 		$now 		= $date->toMySQL();
 
 		$uid 		= $row->id;
-		$option 	= 'com_content';
-		$canPublish = $user->authorize('action', 'publish', 'content', 'all');
+		$option 		= 'com_content';
+		$canPublish 	= $user->authorize('action', 'publish', 'content', 'all');
 
 		// the following is needed as different menu items types utilise a different param to control ordering
 		// for Blogs the `orderby_sec` param is the order controlling param
@@ -119,6 +119,7 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		if ( !is_array($list) ) {
 			$list = array();
 		}
+
 		// location of current content item in array list
 		$location = array_search($uid, $list);
 
@@ -128,6 +129,7 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 			// the previous content item cannot be in the array position -1
 			$row->prev = $list[$location -1];
 		}
+
 		if (($location +1) < count($list)) {
 			// the next content item cannot be in an array position greater than the number of array postions
 			$row->next = $list[$location +1];
@@ -143,6 +145,7 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		} else {
 			$row->prev = '';
 		}
+
 		if ($row->next) {
 			$row->next = JRoute::_('index.php?option=com_content&view=article&id='.$row->next);
 		} else {
@@ -151,12 +154,14 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 
 
 		// output
-		if ($row->prev || $row->next) {
+		if ($row->prev || $row->next)
+		{
 			$html = '
 			<table align="center" class="pagenav">
 			<tr>'
 			;
-			if ($row->prev) {
+			if ($row->prev)
+			{
 				$html .= '
 				<th class="pagenav_prev">
 					<a href="'. $row->prev .'">'
@@ -165,7 +170,8 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 				;
 			}
 
-			if ($row->prev && $row->next) {
+			if ($row->prev && $row->next)
+			{
 				$html .= '
 				<td width="50">
 					&nbsp;
@@ -173,7 +179,8 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 				;
 			}
 
-			if ($row->next) {
+			if ($row->next)
+			{
 				$html .= '
 				<th class="pagenav_next">
 					<a href="'. $row->next .'">'
@@ -188,7 +195,7 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 
 			// Get the plugin parameters
 			$pluginParams = new JParameter( $plugin->params );
-			$position = $pluginParams->get('position', 1);
+			$position 	 = $pluginParams->get('position', 1);
 
 			if ($position) {
 			// display after content

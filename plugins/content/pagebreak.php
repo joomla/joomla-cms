@@ -36,10 +36,10 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
  	$regex = '#<hr class=\"system-pagebreak\"(.*)\/>#iU';
 
 	// Get Plugin info
- 	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak');
+ 	$plugin 		 =& JPluginHelper::getPlugin('content', 'pagebreak');
  	$pluginParams = new JParameter( $plugin->params );
 
-	$print = JRequest::getVar('print');
+	$print   = JRequest::getVar('print');
 	$showall = JRequest::getVar('showall');
 
 	if (!$pluginParams->get('enabled', 1)) {
@@ -74,7 +74,8 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 	$matches = array();
 	preg_match_all( $regex, $row->text, $matches, PREG_SET_ORDER );
 
-	if (($showall && $pluginParams->get('showall', 1) )) {
+	if (($showall && $pluginParams->get('showall', 1) ))
+	{
 		$hasToc = $pluginParams->get( 'multipage_toc', 1 );
 		if ( $hasToc ) {
 			// display TOC
@@ -102,10 +103,12 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 		$hasToc = $pluginParams->get( 'multipage_toc', 1 );
 
 	 	// adds heading or title to <site> Title
-	 	if ( $title ) {
+	 	if ( $title )
+	 	{
 			$page_text = $page + 1;
 			$row->page_title = JText::sprintf( 'Page #', $page_text );
-			if ( !$page ) {
+			if ( !$page )
+			{
 				// processing for first page
 				$attrs = JUtility::parseAttributes($matches[0][1]);
 
@@ -114,7 +117,9 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 				} else {
 					$row->page_title = '';
 				}
-			} else if ( @$matches[$page-1][2] ) {
+			}
+			else if ( @$matches[$page-1][2] )
+			{
 				$attrs = JUtility::parseAttributes($matches[$page-1][1]);
 
 				if ( @$attrs['title'] ) {
@@ -126,8 +131,8 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 		// reset the text, we already hold it in the $text array
 		$row->text = '';
 
+		// display TOC
 		if ( $hasToc ) {
-			// display TOC
 			plgContentCreateTOC( $row, $matches, $page );
 		} else {
 			$row->toc = '';
@@ -156,7 +161,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 		// page links shown at bottom of page if TOC disabled
 		if (!$hasToc) {
-			$row->text .= $pageNav->getPagesLinks( 'index.php?option=com_content&view=article&id='. $row->id  );
+			$row->text .= $pageNav->getPagesLinks( 'index.php?option=com_content&view=article&id='. $row->slug  );
 		}
 
 		$row->text .= '</div><br />';
@@ -167,12 +172,13 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 function plgContentCreateTOC( &$row, &$matches, &$page )
 {
-	$nonseflink = 'index.php?option=com_content&view=article&id='. $row->id;
-	$link = JRoute::_( 'index.php?option=com_content&view=article&id='. $row->id );
+	$nonseflink = 'index.php?option=com_content&view=article&id='. $row->slug;
+	$link = JRoute::_( 'index.php?option=com_content&view=article&id='. $row->slug );
 
 	$heading = $row->title;
 	// allows customization of first page title by checking for `heading` attribute in first bot
-	if ( @$matches[0][1] ) {
+	if ( @$matches[0][1] )
+	{
 		$attrs = JUtility::parseAttributes($matches[0][1]);
 		if ( @$attrs['alt'] ) {
 			$heading = $attrs['alt'];
@@ -205,12 +211,14 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
 	foreach ( $matches as $bot )
 	{
-		$link = JRoute::_( $nonseflink .'&limit=1&limitstart='. ($i-1) );
+		$link = JRoute::_( $nonseflink .'&limitstart='. ($i-1) );
 
-		if ( @$bot[1] ) {
+		if ( @$bot[1] )
+		{
 			$attrs2 = JUtility::parseAttributes($bot[1]);
 
-			if ( @$attrs2['title'] ) {
+			if ( @$attrs2['title'] )
+			{
 				$row->toc .= '
 				<tr>
 					<td>
@@ -220,7 +228,9 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 					</td>
 				</tr>
 				';
-			} else {
+			}
+			else
+			{
 				$row->toc .= '
 				<tr>
 					<td>
@@ -231,7 +241,9 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 				</tr>
 				';
 			}
-		} else {
+		}
+		else
+		{
 			$row->toc .= '
 			<tr>
 				<td>
@@ -244,6 +256,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 		}
 		$i++;
 	}
+
 	// Get Plugin info
  	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak');
 
@@ -251,7 +264,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
 	if ($params->get('showall') )
 	{
-		$link = JRoute::_( 'index.php?option=com_content&view=article&id='. $row->id . '&showall=1');
+		$link = JRoute::_( 'index.php?option=com_content&view=article&id='. $row->slug . '&showall=1');
 		$row->toc .= '
 		<tr>
 			<td>
@@ -267,13 +280,13 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
 function plgContentCreateNavigation( &$row, $page, $n )
 {
-	$link = 'index.php?option=com_content&view=article&id='. $row->id ;
+	$link = 'index.php?option=com_content&view=article&id='. $row->slug ;
 
 	$pnSpace = "";
 	if (JText::_( '&lt' ) || JText::_( '&gt' )) $pnSpace = " ";
 
 	if ( $page < $n-1 ) {
-		$link_next = JRoute::_( $link .'&limit=1&limitstart='. ( $page + 1 ) );
+		$link_next = JRoute::_( $link .'&limitstart='. ( $page + 1 ) );
 		// Next >>
 		$next = '<a href="'. $link_next .'">' . JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ) . JText::_( '&gt' ) .'</a>';
 	} else {
@@ -281,7 +294,7 @@ function plgContentCreateNavigation( &$row, $page, $n )
 	}
 
 	if ( $page > 0 ) {
-		$link_prev = JRoute::_(  $link .'&limit=1&limitstart='. ( $page - 1 ) );
+		$link_prev = JRoute::_(  $link .'&limitstart='. ( $page - 1 ) );
 		// << Prev
 		$prev = '<a href="'. $link_prev .'">'. JText::_( '&lt' ) . JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ) .'</a>';
 	} else {
