@@ -72,14 +72,14 @@ class JDatabase extends JObject
 	/**
 	* Database object constructor
 	*
-	* @param string Database host
-	* @param string Database user name
-	* @param string Database user password
-	* @param string Database name
-	* @param string Common prefix for all tables
+	* @access	public
+	* @param	array	List of options used to configure the connection
+	* @since	1.5
 	*/
-	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='')
+	function __construct( $options )
 	{
+		$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
+		
 		// Determine utf-8 support
 		$this->_utf = $this->hasUTF();
 
@@ -88,7 +88,7 @@ class JDatabase extends JObject
 			$this->setUTF();
 		}
 
-		$this->_table_prefix	= $table_prefix;
+		$this->_table_prefix	= $prefix;
 		$this->_ticker			= 0;
 		$this->_errorNum		= 0;
 		$this->_log				= array();
@@ -114,7 +114,7 @@ class JDatabase extends JObject
 	 * @return JDatabase A database object
 	 * @since 1.5
 	*/
-	function &getInstance( $driver='mysql', $host='localhost', $user, $pass, $db='', $table_prefix='' )
+	function &getInstance( $options	= array() )
 	{
 		static $instances;
 
@@ -122,26 +122,33 @@ class JDatabase extends JObject
 			$instances = array();
 		}
 
-		$signature = serialize(array($driver, $host, $user, $pass, $db, $table_prefix));
+		$signature = serialize( $options );
 
 		if (empty($instances[$signature]))
 		{
+			$driver		= array_key_exists('driver', $options) 		? $options['driver']	: 'mysql';
+			$select		= array_key_exists('select', $options)		? $options['select']	: true;	
+			$database	= array_key_exists('database', $options)	? $options['database']	: null;
+			
 			$driver = preg_replace('/[^A-Z0-9_\.-]/i', '', $driver);
-			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'database'.DS.$driver.'.php';
+			$path	= JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'database'.DS.$driver.'.php';
 
 			if (file_exists($path)) {
 				require_once $path;
 			} else {
-				/** @TODO: Call JError::raiseError as soon as it's fixed (infinite loop) */
-				//JError::raiseError(500, 'Unable to load Database Driver: '.$driver);
-				die('Unable to load Database Driver: '.$driver);
+				$error = new JException( E_ERROR, 500, 'Unable to load Database Driver: '.$driver);
+				return $error;
+				//die('Unable to load Database Driver: '.$driver);
 			}
 
-			$adapter = 'JDatabase'.$driver;
-			$instance = new $adapter($host, $user, $pass, $db, $table_prefix);
+			$adapter	= 'JDatabase'.$driver;
+			$instance	= new $adapter($options);
+
 			if ( $error = $instance->getErrorMsg() )
 			{
-				die('Unable to connect to the database: '.$error);
+				$error = new JException( E_ERROR, 500, 'Unable to connect to the database: '.$error);
+				return $error;
+				//die('Unable to connect to the database: '.$error);
 			}
 
 			$instances[$signature] = & $instance;

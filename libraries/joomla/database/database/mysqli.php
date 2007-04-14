@@ -33,14 +33,21 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	* Database object constructor
-	* @param string Database host
-	* @param string Database user name
-	* @param string Database user password
-	* @param string Database name
-	* @param string Common prefix for all tables
+	* 
+	* @access	public
+	* @param	array	List of options used to configure the connection
+	* @since	1.5
+	* @see		JDatabase
 	*/
-	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='')
+	function __construct( $options )
 	{
+		$host		= array_key_exists('host', $options)	? $options['host']		: 'localhost';
+		$user		= array_key_exists('user', $options)	? $options['user']		: '';
+		$password	= array_key_exists('password',$options)	? $options['password']	: '';
+		$database	= array_key_exists('database',$options)	? $options['database']	: '';
+		$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
+		$select		= array_key_exists('select', $options)	? $options['select']	: true;	
+
 		// Unlike mysql_connect(), mysqli_connect() takes the port and socket
 		// as separate arguments. Therefore, we have to extract them from the
 		// host string.
@@ -61,30 +68,28 @@ class JDatabaseMySQLi extends JDatabase
 				$host = 'localhost';
 		}
 
-		// perform a number of fatality checks, then die gracefully
+		// perform a number of fatality checks, then return gracefully
 		if (!function_exists( 'mysqli_connect' )) {
 			$this->_errorNum = 1;
 			$this->_errorMsg = 'The MySQL adapter "mysqli" is not available.';
 			return;
 		}
-		if (!($this->_resource = @mysqli_connect($host, $user, $pass, NULL, $port, $socket))) {
+		
+		// connect to the server
+		if (!($this->_resource = @mysqli_connect($host, $user, $password, NULL, $port, $socket))) {
 			$this->_errorNum = 2;
 			$this->_errorMsg = 'Could not connect to MySQL';
 			return;
 		}
-		if ($db != '' && !mysqli_select_db($this->_resource, $db)) {
-			$this->_errorNum = 3;
-			$this->_errorMsg = 'Could not connect to database';
-			return;
-		}
 
-		// if running mysql 5, set sql-mode to mysql40 - thereby circumventing strict mode problems
-		if ( strpos( $this->getVersion(), '5' ) === 0 ) {
-			$this->setQuery( "SET sql_mode = 'MYSQL40'" );
-			$this->query();
-		}
+		// finalize initialization
+		parent::__construct( $options );
 
-		parent::__construct($host, $user, $pass, $db, $table_prefix);
+		// select the database
+		if ( $select )
+		{
+			$this->select($database);
+		}
 	}
 
 	/**
@@ -126,6 +131,36 @@ class JDatabaseMySQLi extends JDatabase
 	function connected()
 	{
 		return $this->_resource->ping();
+	}
+	
+	/**
+	 * Select a database for use
+	 *
+	 * @access	public
+	 * @param	string $database
+	 * @return	boolean True if the database has been successfully selected
+	 * @since	1.5
+	 */
+	function select($database)
+	{
+		if ( ! $database )
+		{
+			return false;
+		}
+		
+		if ( !mysqli_select_db($this->_resource, $database)) {
+			$this->_errorNum = 3;
+			$this->_errorMsg = 'Could not connect to database';
+			return false;
+		}
+
+		// if running mysql 5, set sql-mode to mysql40 - thereby circumventing strict mode problems
+		if ( strpos( $this->getVersion(), '5' ) === 0 ) {
+			$this->setQuery( "SET sql_mode = 'MYSQL40'" );
+			$this->query();
+		}
+
+		return true;
 	}
 
 

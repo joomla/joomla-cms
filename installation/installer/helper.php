@@ -274,8 +274,7 @@ class JInstallationHelper
 		$cryptpass = md5($adminPassword);
 		$vars['adminLogin'] = 'admin';
 
-		jimport('joomla.database.database');
-		$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+		$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 		// create the admin user
 		$installdate 	= date('Y-m-d H:i:s');
@@ -315,6 +314,20 @@ class JInstallationHelper
 			echo $db->getErrorMsg();
 			return;
 		}
+	}
+	
+	function & getDBO($driver, $host, $user, $password, $database, $prefix, $select = true)
+	{
+		static $db;
+		
+		if ( ! $db )
+		{
+			jimport('joomla.database.database');
+			$options	= array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix, 'select' => $select	);
+			$db = & JDatabase::getInstance( $options );
+		}
+		
+		return $db;
 	}
 
 	/**
@@ -678,8 +691,7 @@ class JInstallationHelper
 			$script = $package['folder'].$package['script'];
 		}
 
-		jimport('joomla.database.database');
-		$db = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
+		$db = & JInstallationHelper::getDBO($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 
 		/*
 		 * If migration perform manipulations on script file before population

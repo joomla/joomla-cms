@@ -36,7 +36,10 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
-
+14-Apr-2007
+ # Fixed [#306] Post Installation Error - installer updated
+ ^ JDatabase::getInstance() accepts $options parameter, may return JException
+ 
 14-Apr-2007 Enno Klasing
  + Added 'PATH' filter to JInputFilter
 

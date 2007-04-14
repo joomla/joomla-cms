@@ -33,40 +33,44 @@ class JDatabaseMySQL extends JDatabase
 
 	/**
 	* Database object constructor
-	* @param string Database host
-	* @param string Database user name
-	* @param string Database user password
-	* @param string Database name
-	* @param string Common prefix for all tables
+	* 
+	* @access	public
+	* @param	array	List of options used to configure the connection
+	* @since	1.5
+	* @see		JDatabase
 	*/
-	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='')
+	function __construct( $options )
 	{
-		// perform a number of fatality checks, then die gracefully
+		$host		= array_key_exists('host', $options)	? $options['host']		: 'localhost';
+		$user		= array_key_exists('user', $options)	? $options['user']		: '';
+		$password	= array_key_exists('password',$options)	? $options['password']	: '';
+		$database	= array_key_exists('database',$options)	? $options['database']	: '';
+		$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
+		$select		= array_key_exists('select', $options)	? $options['select']	: true;	
+		
+		// perform a number of fatality checks, then return gracefully
 		if (!function_exists( 'mysql_connect' )) {
 			$this->_errorNum = 1;
 			$this->_errorMsg = 'The MySQL adapter "mysql" is not available.';
 			return;
 		}
 
-		if (!($this->_resource = @mysql_connect( $host, $user, $pass, true ))) {
+		// connect to the server
+		if (!($this->_resource = @mysql_connect( $host, $user, $password, true ))) {
 			$this->_errorNum = 2;
 			$this->_errorMsg = 'Could not connect to MySQL';
 			return;
 		}
-
-		if ($db != '' && !mysql_select_db( $db, $this->_resource )) {
-			$this->_errorNum = 3;
-			$this->_errorMsg = 'Could not connect to database';
-			return;
+		
+		// finalize initializations
+		parent::__construct($options);
+		
+		// select the database
+		if ( $select )
+		{
+			$this->select($database);
 		}
 
-		// if running mysql 5, set sql-mode to mysql40 - thereby circumventing strict mode problems
-		if ( strpos( $this->getVersion(), '5' ) === 0 ) {
-			$this->setQuery( "SET sql_mode = 'MYSQL40'" );
-			$this->query();
-		}
-
-		parent::__construct($host, $user, $pass, $db, $table_prefix);
 	}
 
 	/**
@@ -106,6 +110,36 @@ class JDatabaseMySQL extends JDatabase
 	function connected()
 	{
 		return mysql_ping($this->_resource);
+	}
+	
+	/**
+	 * Select a database for use
+	 *
+	 * @access	public
+	 * @param	string $database
+	 * @return	boolean True if the database has been successfully selected
+	 * @since	1.5
+	 */
+	function select($database)
+	{
+		if ( ! $database )
+		{
+			return false;
+		}
+		
+		if ( !mysql_select_db( $database, $this->_resource )) {
+			$this->_errorNum = 3;
+			$this->_errorMsg = 'Could not connect to database';
+			return false;
+		}
+
+		// if running mysql 5, set sql-mode to mysql40 - thereby circumventing strict mode problems
+		if ( strpos( $this->getVersion(), '5' ) === 0 ) {
+			$this->setQuery( "SET sql_mode = 'MYSQL40'" );
+			$this->query();
+		}
+
+		return true;
 	}
 
 	/**

@@ -433,16 +433,25 @@ class JFactory
 		$host 		= $conf->getValue('config.host');
 		$user 		= $conf->getValue('config.user');
 		$password 	= $conf->getValue('config.password');
-		$db   		= $conf->getValue('config.db');
-		$dbprefix 	= $conf->getValue('config.dbprefix');
-		$dbtype 	= $conf->getValue('config.dbtype');
+		$database	= $conf->getValue('config.db');
+		$prefix 	= $conf->getValue('config.dbprefix');
+		$driver 	= $conf->getValue('config.dbtype');
 		$debug 		= $conf->getValue('config.debug');
+		
+		$options	= array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix );
 
-		$db =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
+		$db =& JDatabase::getInstance( $options );
+		
+		if ( JError::isError($db) )
+		{
+			die("Database Error: ".$db->toString() );
+		}
 
-		if ($db->getErrorNum() > 0) {
+		if ($db->getErrorNum() > 0) 
+		{
 			JError::raiseError('joomla.library:'.$db->getErrorNum(), 'JDatabase::getInstance: Could not connect to database <br/>' . $db->getErrorMsg() );
 		}
+		
 		$db->debug( $debug );
 		return $db;
 	}

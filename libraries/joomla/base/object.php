@@ -89,7 +89,7 @@ class JObject
 		// Find the error
 		if ( $i === null) {
 			// Default, return the last message
-			$error =& end($this->_errors);
+			$error = end($this->_errors);
 		}
 		else	
 		if ( ! array_key_exists($i, $this->_errors) ) {
@@ -97,7 +97,7 @@ class JObject
 			return false;
 		}
 		else {
-			$error	=& $this->_errors[$i];
+			$error	= $this->_errors[$i];
 		}
 		
 		// Check if only the string is requested

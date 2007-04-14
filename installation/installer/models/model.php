@@ -323,38 +323,51 @@ class JInstallationModel extends JModel
 
 		if (!$DBcreated)
 		{
-			jimport('joomla.database.database');
-			$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+			$DBselect	= false;
+			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, null, $DBPrefix, $DBselect);
 
+			if ( JError::isError($db) ) {
+				// connection failed
+				$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->toString()));
+				$this->setData('back', 'dbconfig');
+				$this->setData('errors', $db->toString());
+				return false;
+			}
+			
 			if ($err = $db->getErrorNum()) {
-				if ($err == 3) {
-					// connection ok, need to create database
-					if (JInstallationHelper::createDatabase($db, $DBname, $DButfSupport)) {
-						// make the new connection to the new database
-						$db = NULL;
-						$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
-					} else {
-						$this->setError(JText::sprintf('WARNCREATEDB', $DBname));
-						$this->setData('back', 'dbconfig');
-						$this->setData('errors', $db->getErrorMsg());
-						return false;
-						//return JInstallationView::error($vars, array (JText::sprintf('WARNCREATEDB', $DBname)), 'dbconfig', $error);
-					}
+				// connection failed
+				$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->getErrorNum()));
+				$this->setData('back', 'dbconfig');
+				$this->setData('errors', $db->getErrorMsg());
+				return false;
+			}
+			
+			// Try to select the database
+			if ( ! $db->select($DBname) )
+			{
+				if (JInstallationHelper::createDatabase($db, $DBname, $DButfSupport)) 
+				{
+					$db->select($DBname);
+					/*
+					// make the new connection to the new database
+					$db = NULL;
+					$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+					*/
 				} else {
-					// connection failed
-					$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->getErrorNum()));
+					$this->setError(JText::sprintf('WARNCREATEDB', $DBname));
 					$this->setData('back', 'dbconfig');
 					$this->setData('errors', $db->getErrorMsg());
 					return false;
-					//return JInstallationView::error($vars, array (JText::sprintf('WARNNOTCONNECTDB', $db->getErrorNum())), 'dbconfig', $db->getErrorMsg());
-				}
+					//return JInstallationView::error($vars, array (JText::sprintf('WARNCREATEDB', $DBname)), 'dbconfig', $error);
+				}					
 			} else {
+
 				// pre-existing database - need to set character set to utf8
 				// will only affect MySQL 4.1.2 and up
 				JInstallationHelper::setDBCharset($db, $DBname);
 			}
 
-			$db = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 			if ($DBOld == 'rm') {
 				if (JInstallationHelper::deleteDatabase($db, $DBname, $DBPrefix, $errors)) {

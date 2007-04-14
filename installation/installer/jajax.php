@@ -146,7 +146,7 @@ class JAJAXHandler
 		}
 		$dbsample = '../sql'.DS.$type.DS.'sample_data.sql';
 
-		$db = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
+		$db = & JInstallationHelper::getDBO($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		$result = JInstallationHelper::populateDatabase($db, $dbsample, $errors);
 
 		/*

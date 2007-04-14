@@ -41,6 +41,8 @@ class JInstallation extends JApplication
 	function __construct( )
 	{
 		parent::__construct(2);
+		
+		JError::setErrorHandling(E_ALL, 'Ignore');
 		$this->_createConfiguration();
 	}
 	
