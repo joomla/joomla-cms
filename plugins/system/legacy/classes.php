@@ -15,7 +15,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.database.database' );
+jimport( 'joomla.database.database.mysql' );
 jimport( 'joomla.database.table' );
 
 /**
@@ -553,8 +553,9 @@ class mosUser extends JTableUser
  */
 class database extends JDatabaseMySQL
 {
-	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {
-		parent::__construct( $host, $user, $pass, $db, $table_prefix );
+	function __construct ($host='localhost', $user, $password, $database='', $prefix='', $offline = true) {
+		$options        = array ( 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix );
+		parent::__construct( $options );
 	}
 
 	/**
