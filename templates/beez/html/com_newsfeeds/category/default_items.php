@@ -6,7 +6,7 @@ if ($this->params->get('display')) {
 	echo '<form action="index.php" method="post" name="adminForm">';
 	echo '<label for="limit">';
  	echo JText :: _('Display Num') . '&nbsp;';
-	echo '<label>';
+	echo '</label>';
 	echo $this->pagination->getLimitBox();
 	echo '</form>';
 	echo '</div>';
