@@ -134,7 +134,8 @@ class JDatabase extends JObject
 			$path	= JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'database'.DS.$driver.'.php';
 
 			if (file_exists($path)) {
-				require_once $path;
+				$path	= "joomla.database.database.$driver";
+				jimport( $path );
 			} else {
 				$error = new JException( E_ERROR, 500, 'Unable to load Database Driver: '.$driver);
 				return $error;
