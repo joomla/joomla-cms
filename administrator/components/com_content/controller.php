@@ -271,7 +271,7 @@ class ContentController extends JController
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
-		$query = 'SELECT c.*, g.name AS groupname, cc.name, v.name AS author, s.name AS sectname' .
+		$query = 'SELECT c.*, g.name AS groupname, cc.name, v.name AS author, s.title AS sectname' .
 				' FROM #__content AS c' .
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
 				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
@@ -1020,11 +1020,11 @@ class ContentController extends JController
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
 
-		$query = 'SELECT CONCAT_WS( ", ", s.id, c.id ) AS `value`, CONCAT_WS( "/", s.name, c.name ) AS `text`' .
+		$query = 'SELECT CONCAT_WS( ", ", s.id, c.id ) AS `value`, CONCAT_WS( "/", s.title, c.title ) AS `text`' .
 				' FROM #__sections AS s' .
 				' INNER JOIN #__categories AS c ON c.section = s.id' .
 				' WHERE s.scope = "content"' .
-				' ORDER BY s.name, c.name';
+				' ORDER BY s.title, c.title';
 		$db->setQuery($query);
 		$rows[] = JHTMLSelect::option("0, 0", 'Static Content');
 		$rows = array_merge($rows, $db->loadObjectList());
@@ -1140,11 +1140,11 @@ class ContentController extends JController
 		$items = $db->loadObjectList();
 
 		## Section & Category query
-		$query = 'SELECT CONCAT_WS(",",s.id,c.id) AS `value`, CONCAT_WS(" // ", s.name, c.name) AS `text`' .
+		$query = 'SELECT CONCAT_WS(",",s.id,c.id) AS `value`, CONCAT_WS(" // ", s.title, c.title) AS `text`' .
 				' FROM #__sections AS s' .
 				' INNER JOIN #__categories AS c ON c.section = s.id' .
 				' WHERE s.scope = "content"' .
-				' ORDER BY s.name, c.name';
+				' ORDER BY s.title, c.title';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 		// build the html select list
@@ -1178,14 +1178,14 @@ class ContentController extends JController
 		}
 
 		// find section name
-		$query = 'SELECT a.name' .
+		$query = 'SELECT a.title' .
 				' FROM #__sections AS a' .
 				' WHERE a.id = '. $newsect;
 		$db->setQuery($query);
 		$section = $db->loadResult();
 
 		// find category name
-		$query = 'SELECT a.name' .
+		$query = 'SELECT a.title' .
 				' FROM #__categories AS a' .
 				' WHERE a.id = '. $newcat;
 		$db->setQuery($query);
