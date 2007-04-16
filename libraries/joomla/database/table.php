@@ -567,7 +567,7 @@ class JTable extends JObject
 			;
 			$this->_db->setQuery( $query );
 
-			if ($obj = $this->_db->loadObject())
+			if (!$obj = $this->_db->loadObject())
 			{
 				$this->setError($this->_db->getErrorMsg());
 				$this->setErrorNum($this->_db->getErrorNum());
