@@ -36,7 +36,6 @@ class JElementList extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$size = $node->attributes('size');
 		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="inputbox"' );
 
 		$options = array ();
