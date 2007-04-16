@@ -39,7 +39,7 @@ class JElementFolderlist extends JElement
 		jimport( 'joomla.filesystem.folder' );
 
 		// path to images directory
-		$path		= JPATH_ROOT.$node->attributes('directory');
+		$path		= JPATH_ROOT.DS.$node->attributes('directory');
 		$filter		= $node->attributes('filter');
 		$exclude	= $node->attributes('exclude');
 		$folders	= JFolder::folders($path, $filter);
@@ -49,19 +49,18 @@ class JElementFolderlist extends JElement
 		{
 			if ($exclude)
 			{
-				if (preg_match( chr( 1 ) . $exclude . chr( 1 ), $folder ))
-				{
+				if (preg_match( chr( 1 ) . $exclude . chr( 1 ), $folder )) {
 					continue;
 				}
 			}
 			$options[] = JHTMLSelect::option($folder, $folder);
 		}
-		if (!$node->attributes('hide_none'))
-		{
+		
+		if (!$node->attributes('hide_none')) {
 			array_unshift($options, JHTMLSelect::option('-1', '- '.JText::_('Do not use').' -'));
 		}
-		if (!$node->attributes('hide_default'))
-		{
+		
+		if (!$node->attributes('hide_default')) {
 			array_unshift($options, JHTMLSelect::option('', '- '.JText::_('Use default').' -'));
 		}
 
