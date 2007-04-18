@@ -67,14 +67,14 @@ class ContentViewArticle extends JView
 		$linkText	= null;
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-
+		
 		//set breadcrumbs
 		if($item->query['view'] != 'article')
 		{
 			switch ($item->query['view'])
 			{
 				case 'section':
-					$pathway->addItem($article->category, JRoute::_('index.php?option=com_content&view=category&id='.$article->catid));
+					$pathway->addItem($article->category, 'index.php?view=category&id='.$article->catslug);
 					$pathway->addItem($article->title, '');
 					break;
 				case 'category':

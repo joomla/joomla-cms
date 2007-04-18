@@ -36,7 +36,7 @@ class mosPageNav extends JPagination
 	 * @deprecated as of 1.5
 	 */
 	function writeLimitBox($link = null) {
-		echo $this->getLimitBox($link);
+		echo $this->getLimitBox();
 	}
 
 	/**
@@ -56,7 +56,7 @@ class mosPageNav extends JPagination
 	 * @deprecated as of 1.5
 	 */
 	function writePagesLinks($link = null) {
-		echo $this->getPagesLinks($link);
+		echo $this->getPagesLinks();
 	}
 
 	/**

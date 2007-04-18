@@ -67,7 +67,7 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
-	 * Get the document head data
+	 * Get the html document head data
 	 *
 	 * @access	public
 	 * @return	array	The document head data in array form
@@ -76,30 +76,30 @@ class JDocumentHTML extends JDocument
 	{
 		$data = array();
 		$data['title']		= $this->title;
-		$data['description']	= $this->description;
+		$data['description']= $this->description;
 		$data['link']		= $this->link;
 		$data['metaTags']	= $this->_metaTags;
 		$data['links']		= $this->_links;
-		$data['styleSheets']	= $this->_styleSheets;
+		$data['styleSheets']= $this->_styleSheets;
 		$data['style']		= $this->_style;
-		$data['scripts']		= $this->_scripts;
+		$data['scripts']	= $this->_scripts;
 		$data['script']		= $this->_script;
 		$data['custom']		= $this->_custom;
 		return $data;
 	}
 
 	/**
-	 * Set the document head data
+	 * Set the html document head data
 	 *
 	 * @access	public
 	 * @param	array	$data	The document head data in array form
 	 */
 	function setHeadData($data)
 	{
-		$this->title			= (isset($data['title'])) ? $data['title'] : $this->title;
+		$this->title		= (isset($data['title'])) ? $data['title'] : $this->title;
 		$this->description	= (isset($data['description'])) ? $data['description'] : $this->description;
 		$this->link			= (isset($data['link'])) ? $data['link'] : $this->link;
-		$this->_metaTags		= (isset($data['metaTags'])) ? $data['metaTags'] : $this->_metaTags;
+		$this->_metaTags	= (isset($data['metaTags'])) ? $data['metaTags'] : $this->_metaTags;
 		$this->_links		= (isset($data['links'])) ? $data['links'] : $this->_links;
 		$this->_styleSheets	= (isset($data['styleSheets'])) ? $data['styleSheets'] : $this->_styleSheets;
 		$this->_style		= (isset($data['style'])) ? $data['style'] : $this->_style;

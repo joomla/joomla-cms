@@ -25,7 +25,11 @@ function SearchBuildRoute(&$query)
 
 function SearchParseRoute($segments)
 {
+	$vars = array();
+	
 	$searchword	= array_shift($segments);
-	JRequest::setVar('searchword', $searchword, 'get');
+	$vars['searchword'] = $searchword;
+	
+	return $vars;
 }
 ?>

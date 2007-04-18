@@ -200,7 +200,7 @@ class WeblinksModelCategory extends JModel
 		{
 			// current category info
 			$query = 'SELECT c.*, ' .
-				' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\'-\', c.id, c.alias) ELSE c.id END as slug '.
+				' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as slug '.
 				' FROM #__categories AS c' .
 				' WHERE c.id = '. $this->_id .
 				' AND c.section = "com_weblinks"';

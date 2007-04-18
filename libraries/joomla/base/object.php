@@ -34,6 +34,7 @@ class JObject
 	
 	/**
 	 * A hack to support __construct() on PHP 4
+	 * 
 	 * Hint: descendant classes have no PHP4 class_name() constructors,
 	 * so this constructor gets called first and calls the top-layer __construct()
 	 * which (if present) should call parent::__construct()

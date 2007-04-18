@@ -31,7 +31,7 @@ class modBreadCrumbsHelper
 		// Get the PathWay object from the application
 		$pathway = & $mainframe->getPathWay();
 		$items = $pathway->getPathWay($showHome);
-
+		
 		if ($showHome) 
 		{
 			$items[0]->name = $params->get('homeText');
@@ -49,7 +49,7 @@ class modBreadCrumbsHelper
 			$items[$i]->name = stripslashes(htmlspecialchars($items[$i]->name));
 
 			// If a link is present create an html link, if not just use the name
-			if (empty ($items[$i]->link) || $count == $i +1) {
+			if (empty ($items[$i]->link) || $count == $i + 1) {
 				$items[$i]->link = $items[$i]->name;
 			} else {
 				$items[$i]->link = '<a href="'.JRoute::_($items[$i]->link).'" class="pathway">'.$items[$i]->name.'</a>';

@@ -328,7 +328,8 @@ class ContentModelArticle extends JModel
 			$where	= $this->_buildContentWhere();
 
 			$query = 'SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section,' .
-					' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS("-", a.id, a.alias) ELSE a.id END as slug,'.
+					' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
+					' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
 					' g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access'.$voting['select'].
 					' FROM #__content AS a' .
 					' LEFT JOIN #__categories AS cc ON cc.id = a.catid' .
@@ -340,8 +341,7 @@ class ContentModelArticle extends JModel
 			$this->_db->setQuery($query);
 			$this->_article = $this->_db->loadObject();
 
-			if ( ! $this->_article )
-			{
+			if ( ! $this->_article ) {
 				return false;
 			}
 

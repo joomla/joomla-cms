@@ -237,30 +237,29 @@ class JController extends JObject
 
 		$task = strtolower( $task );
 		if (isset( $this->_taskMap[$task] )) {
-			// We have a method in the map to this task
-			$doTask = $this->_taskMap[$task];
+			$doTask = $this->_taskMap[$task]; 
 		} elseif (isset( $this->_taskMap['__default'] )) {
-			// Didn't find the method, but we do have a default method
 			$doTask = $this->_taskMap['__default'];
 		} else {
-			// Don't have a default method either...
 			return JError::raiseError( 404, JText::_('Task ['.$task.'] not found') );
 		}
 
 		// Record the actual task being fired
 		$this->_doTask = $doTask;
 
-		// Time to make sure we have access to do what we want to do...
-		if ($this->authorize( $doTask )) {
-			// Yep, lets do it already
+		// Make sure we have access
+		if ($this->authorize( $doTask )) 
+		{
 			$retval = $this->$doTask();
-			if (($task != 'display') && (@$this->_eventMap[$task] == true)) {
+			if (($task != 'display') && (@$this->_eventMap[$task] == true)) 
+			{
 				$dispatcher = &JEventDispatcher::getInstance();
 				$dispatcher->trigger('onExecute', array($this->_name, $doTask, $this->_eventData));
 			}
 			return $retval;
-		} else {
-			// No access... better luck next time
+		} 
+		else 
+		{
 			return JError::raiseError( 403, JText::_('Access Forbidden') );
 		}
 	}
@@ -442,7 +441,8 @@ class JController extends JObject
 			$prefix = $this->_name . 'View';
 		}
 
-		if ( empty( $views[$name] ) ) {
+		if ( empty( $views[$name] ) ) 
+		{
 			if ( $view = & $this->_createView( $name, $prefix, $type, $config ) ) {
 				$views[$name] = & $view;
 			} else {
@@ -604,13 +604,15 @@ class JController extends JObject
 		// Build the model class name
 		$modelClass = $classPrefix . $modelName;
 
-		if ( !class_exists( $modelClass ) ) {
+		if ( !class_exists( $modelClass ) ) 
+		{
 			jimport( 'joomla.filesystem.path' );
 			$path = JPath::find(
 				$this->_path['model'],
 				$this->_createFileName( 'model', array( 'name' => $modelName ) )
 			);
-			if ( $path ) {
+			if ( $path ) 
+			{
 				require $path;
 				if ( !class_exists( $modelClass ) ) {
 					JError::raiseWarning(
@@ -657,7 +659,8 @@ class JController extends JObject
 		// Build the view class name
 		$viewClass = $classPrefix . $viewName;
 
-		if ( !class_exists( $viewClass ) ) {
+		if ( !class_exists( $viewClass ) ) 
+		{
 			jimport( 'joomla.filesystem.path' );
 			$path = JPath::find(
 				$this->_path['view'],

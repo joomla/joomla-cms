@@ -96,7 +96,7 @@ class WeblinksModelCategories extends JModel
 
 		//Query to retrieve all categories that belong under the web links section and that are published.
 		$query = 'SELECT *, COUNT(a.id) AS numlinks,'
-			.' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(\'-\', cc.id, cc.alias) ELSE cc.id END as slug'
+			.' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(\':\', cc.id, cc.alias) ELSE cc.id END as slug'
 			.' FROM #__categories AS cc'
 			.' LEFT JOIN #__weblinks AS a ON a.catid = cc.id'
 			.' WHERE a.published = 1'

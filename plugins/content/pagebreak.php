@@ -161,7 +161,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 		// page links shown at bottom of page if TOC disabled
 		if (!$hasToc) {
-			$row->text .= $pageNav->getPagesLinks( 'index.php?option=com_content&view=article&id='. $row->slug  );
+			$row->text .= $pageNav->getPagesLinks();
 		}
 
 		$row->text .= '</div><br />';
@@ -172,10 +172,8 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 function plgContentCreateTOC( &$row, &$matches, &$page )
 {
-	$nonseflink = 'index.php?option=com_content&view=article&id='. $row->slug;
-	$link = JRoute::_( 'index.php?option=com_content&view=article&id='. $row->slug );
-
 	$heading = $row->title;
+	
 	// allows customization of first page title by checking for `heading` attribute in first bot
 	if ( @$matches[0][1] )
 	{
@@ -200,7 +198,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 	$row->toc .= '
 	<tr>
 		<td>
-		<a href="'. $link .'" class="toclink">'
+		<a href="'. JRoute::_( '&limitstart=0') .'" class="toclink">'
 		. $heading .
 		'</a>
 		</td>
@@ -211,7 +209,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
 	foreach ( $matches as $bot )
 	{
-		$link = JRoute::_( $nonseflink .'&limitstart='. ($i-1) );
+		$link = JRoute::_( '&limitstart='. ($i-1) );
 
 		if ( @$bot[1] )
 		{
@@ -264,7 +262,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
 	if ($params->get('showall') )
 	{
-		$link = JRoute::_( 'index.php?option=com_content&view=article&id='. $row->slug . '&showall=1');
+		$link = JRoute::_( '&showall=1');
 		$row->toc .= '
 		<tr>
 			<td>
@@ -280,13 +278,11 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
 function plgContentCreateNavigation( &$row, $page, $n )
 {
-	$link = 'index.php?option=com_content&view=article&id='. $row->slug ;
-
 	$pnSpace = "";
 	if (JText::_( '&lt' ) || JText::_( '&gt' )) $pnSpace = " ";
 
 	if ( $page < $n-1 ) {
-		$link_next = JRoute::_( $link .'&limitstart='. ( $page + 1 ) );
+		$link_next = JRoute::_( '&limitstart='. ( $page + 1 ) );
 		// Next >>
 		$next = '<a href="'. $link_next .'">' . JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ) . JText::_( '&gt' ) .'</a>';
 	} else {
@@ -294,7 +290,7 @@ function plgContentCreateNavigation( &$row, $page, $n )
 	}
 
 	if ( $page > 0 ) {
-		$link_prev = JRoute::_(  $link .'&limitstart='. ( $page - 1 ) );
+		$link_prev = JRoute::_(  '&limitstart='. ( $page - 1 ) );
 		// << Prev
 		$prev = '<a href="'. $link_prev .'">'. JText::_( '&lt' ) . JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ) .'</a>';
 	} else {

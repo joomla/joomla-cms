@@ -22,8 +22,8 @@ jimport('joomla.application.plugin.*');
 * Base class for a Joomla! application.
 *
 * Acts as a Factory class for application specific objects and provides many
-* supporting API functions. Derived clases should supply the execute() and dispaly()
-* functions.
+* supporting API functions. Derived clases should supply the route(), dispatch()
+* and render() functions.
 *
 * @abstract
 * @package		Joomla.Framework
@@ -417,7 +417,8 @@ class JApplication extends JObject
 			if (!in_array(false, $results, true)) {
 
 				// Set the remember me cookie if enabled
-				if ($remember) {
+				if ($remember) 
+				{
 					jimport('joomla.utilities.simplecrypt');
 					jimport('joomla.utilities.utility');
 					$crypt = new JSimpleCrypt();
@@ -600,13 +601,6 @@ class JApplication extends JObject
 		if (!$storage->insert( $session->getId(), $this->getClientId())) {
 			die( $storage->getError());
 		}
-
-		//TODO::Fix remember me (harden and move out of function)
-		//$usercookie = JRequest::getCmd( 'usercookie', null, 'COOKIE' );
-		//if ($usercookie) {
-			// Remember me cookie exists. Login with usercookie info.
-		//	$this->login( $usercookie['username'], $usercookie['password'] );
-		//}
 
 		return $session;
 	}

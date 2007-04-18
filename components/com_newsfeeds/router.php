@@ -34,6 +34,8 @@ function NewsfeedsBuildRoute(&$query)
 
 function NewsfeedsParseRoute($segments)
 {
+	$vars = array();
+	
 	$menu =& JMenu::getInstance();
 	$item =& $menu->getActive();
 
@@ -46,26 +48,25 @@ function NewsfeedsParseRoute($segments)
 		case 'categories' :
 		{
 			if($count == 1) {
-				$view = 'category';
+				$vars['view'] = 'category';
 			}
 
 			if($count == 2) {
-				$view = 'newsfeed';
+				$vars['view'] = 'newsfeed';
 			}
 
-			$id = $segments[$count-1];
+			$vars['id'] = $segments[$count-1];
 
 		} break;
 
 		case 'category'   :
 		{
-			$id   = $segments[$count-1];
-			$view = 'newsfeed';
+			$vars['id']   = $segments[$count-1];
+			$vars['view'] = 'newsfeed';
 
 		} break;
 	}
 
-	JRequest::setVar('view' , $view, 'get');
-	JRequest::setVar('id'   , $id, 'get');
+	return $vars;
 }
 ?>

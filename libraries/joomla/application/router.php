@@ -109,6 +109,14 @@ class JRouter extends JObject
 	 * @var integer
 	 */
 	var $_mode = null;
+	
+	/**
+	 * An array of variables 
+	 *
+	 * @access protected
+	 * @var array
+	 */
+	var $_vars = null;
 
 	/**
 	 * Class constructor
@@ -121,6 +129,12 @@ class JRouter extends JObject
 			$this->_mode = $options['mode'];
 		} else {
 			$this->_mode = 0;
+		}
+		
+		if(isset($options['vars'])) {
+			$this->_vars = $options['vars'];
+		} else {
+			$this->_vars = array();
 		}
 	}
 
@@ -168,34 +182,42 @@ class JRouter extends JObject
 			$item = $menu->getActive();
 
 			//Set request information
-			JRequest::set($item->query, 'get', false);
-			return;
+			$this->_vars = $item->query;
+			
+			//Set the information in the request
+			JRequest::set($this->_vars, 'get', false);
 		}
 
 		/*
 		 * Handle routed URL
 		 */
-		$menu =& JMenu::getInstance();
-
-		// Get the base and full URLs
-		$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
-		$base = $uri->base();
-
-		$url = urldecode(trim(str_replace($base, '', $full), '/'));
-		$url = str_replace('index.php/', '', $url);
-
-		// Set document link
-		$doc = & JFactory::getDocument();
-		$doc->setLink($base);
-
-		// Parse the route
-		if (!empty($url))
+		if(!$itemid = (int) $uri->getVar('Itemid'))
 		{
-			// Parse application route
-			$this->_parseApplicationRoute($url);
+			$menu =& JMenu::getInstance();
 
-			//Parse component route
-			$this->_parseComponentRoute($url);
+			// Get the base and full URLs
+			$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
+			$base = $uri->base();
+
+			$url = urldecode(trim(str_replace($base, '', $full), '/'));
+			$url = str_replace('index.php/', '', $url);
+
+			// Set document link
+			$doc = & JFactory::getDocument();
+			$doc->setLink($base);
+
+			// Parse the route
+			if (!empty($url))
+			{
+				// Parse application route
+				$this->_parseApplicationRoute($url);
+
+				//Parse component route
+				$this->_parseComponentRoute($url);
+			}
+			
+			//Set the information in the request
+			JRequest::set($this->_vars, 'get', true);
 		}
 	}
 
@@ -208,8 +230,6 @@ class JRouter extends JObject
 	 */
 	function build($value)
 	{
-		global $mainframe, $Itemid, $option;
-
 		static $strings;
 
 		if (!$strings) {
@@ -218,6 +238,16 @@ class JRouter extends JObject
 
 		// Replace all &amp; with & - ensures cache integrity
 		$string = str_replace('&amp;', '&', $value);
+		
+		// Create full URL if we are only appending variables to it
+		if(substr($string, 0, 1) == '&') 
+		{
+			$vars = array();
+			parse_str($string, $vars);
+				
+			$vars = array_merge($this->_vars, $vars);
+			$string = 'index.php?'.JURI::_buildQuery($vars);
+		}
 
 		if (!isset( $strings[$string] ))
 		{
@@ -300,9 +330,11 @@ class JRouter extends JObject
 			$segments = explode('/', $url);
 			$url = str_replace('component/'.$segments[1], '', $url);;
 
-			JRequest::setVar('option', 'com_'.$segments[1]);
+			//Store parses query variables
+			$this->_vars['option'] = 'com_'.$segments[1];
 		}
-		else
+		
+		if(substr($url, 0, 9) != 'component')
 		{
 			$menu  =& JMenu::getInstance();
 
@@ -325,7 +357,10 @@ class JRouter extends JObject
 
 			//Set request information
 			JRequest::set($item->query, 'get', false);
-			JRequest::setVar('Itemid', $itemid);
+			
+			//Store parses query variables
+			$this->_vars['option'] = $item->component;
+			$this->_vars['Itemid'] = $itemid;
 		}
 	}
 
@@ -346,7 +381,7 @@ class JRouter extends JObject
 		}
 
 		// Handle component	route
-		$component = JRequest::getWord('option');
+		$component = $this->_vars['option'];
 
 		// Use the component routing handler if it exists
 		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
@@ -358,7 +393,9 @@ class JRouter extends JObject
 
 			require_once $path;
 			$function =  substr($component, 4).'ParseRoute';
-			$function($segments);
+			$vars =  $function($segments);
+				
+			$this->_vars = array_merge($this->_vars, $vars);
 		}
 	}
 
@@ -428,9 +465,8 @@ class JRouter extends JObject
 	function _encodeSegments($segments)
 	{
 		$total = count($segments);
-		for($i=0; $i<$total; $i++)
-		{
-
+		for($i=0; $i<$total; $i++) {
+			$segments[$i] = str_replace(':', '-', $segments[$i]);
 		}
 
 		return $segments;
@@ -440,7 +476,7 @@ class JRouter extends JObject
 	{
 		$total = count($segments);
 		for($i=0; $i<$total; $i++)  {
-
+			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
 		}
 
 		return $segments;

@@ -46,6 +46,8 @@ function BannersBuildRoute(&$query)
  */
 function BannersParseRoute($segments)
 {
+	$vars = array();
+	
 	// view is always the first element of the array
 	$count = count($segments);
 
@@ -54,9 +56,9 @@ function BannersParseRoute($segments)
 		$count--;
 		$segment = array_shift($segments);
 		if (is_numeric( $segment )) {
-			JRequest::setVar('bid', $segment, 'get');
+			$vars['bid'] = $segment;
 		} else {
-			JRequest::getVar('task', $segment, 'get');
+			$vars['task'] = $segment;
 		}
 	}
 
@@ -65,8 +67,10 @@ function BannersParseRoute($segments)
 		$count--;
 		$segment = array_shift($segments);
 		if (is_numeric( $segment )) {
-			JRequest::setVar('bid', $segment, 'get');
+			$vars['bid'] = $segment;
 		}
 	}
+	
+	return $vars;
 }
 ?>

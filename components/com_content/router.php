@@ -42,6 +42,8 @@ function ContentBuildRoute(&$query)
 
 function ContentParseRoute($segments)
 {
+	$vars = array();
+	
 	//Get the active menu item
 	$menu =& JMenu::getInstance();
 	$item =& $menu->getActive();
@@ -55,39 +57,39 @@ function ContentParseRoute($segments)
 		case 'section' :
 		{
 			if($count == 1) {
-				$view = 'category';
+				$vars['view'] = 'category';
 			}
 
 			if($count == 2) {
-				$view = 'article';
+				$vars['view']  = 'article';
+				$vars['catid'] = $segments[$count-2];
 			}
 
-			$id = $segments[$count-1];
+			$vars['id']    = $segments[$count-1];
 
 		} break;
 
 		case 'category'   :
 		{
-			$id   = $segments[$count-1];
-			$view = 'article';
+			$vars['id']   = $segments[$count-1];
+			$vars['view'] = 'article';
 
 		} break;
 		
 		case 'frontpage'   :
 		{
-			$id   = $segments[$count-1];
-			$view = 'article';
+			$vars['id']   = $segments[$count-1];
+			$vars['view'] = 'article';
 
 		} break;
 
 		case 'article' :
 		{
-			$id	= $segments[$count-1];
-			$view	= 'article';
+			$vars['id']	  = $segments[$count-1];
+			$vars['view'] = 'article';
 		} break;
 	}
-
-	JRequest::setVar('view', $view, 'get');
-	JRequest::setVar('id'  , $id, 'get');
+	
+	return $vars;
 }
 ?>
