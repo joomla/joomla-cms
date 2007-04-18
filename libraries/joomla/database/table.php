@@ -757,7 +757,8 @@ class JTable extends JObject
 			return  false;
 		}
 
-		return true;
+		$session =& JTable::getInstance('session');
+		return $session->exists($against);
 	}
 
 	/**
