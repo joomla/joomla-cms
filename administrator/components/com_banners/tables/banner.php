@@ -34,7 +34,7 @@ class TableBanner extends JTable
 	/** @var int */
 	var $imptotal			= 0;
 	/** @var int */
-	var $impmade				= 0;
+	var $impmade			= 0;
 	/** @var int */
 	var $clicks				= 0;
 	/** @var string */
@@ -46,17 +46,17 @@ class TableBanner extends JTable
 	/** @var int */
 	var $showBanner			= 0;
 	/** @var int */
-	var $checked_out			= 0;
+	var $checked_out		= 0;
 	/** @var date */
-	var $checked_out_time		= 0;
+	var $checked_out_time	= 0;
 	/** @var string */
 	var $editor				= '';
 	/** @var string */
-	var $custombannercode		= '';
+	var $custombannercode	= '';
 	/** @var int */
 	var $catid				= null;
 	/** @var string */
-	var $description			= null;
+	var $description		= null;
 	/** @var int */
 	var $sticky				= null;
 	/** @var int */
@@ -70,13 +70,17 @@ class TableBanner extends JTable
 	/** @var string */
 	var $params				= null;
 
-	function __construct( &$_db ) {
+	function __construct( &$_db ) 
+	{
 		parent::__construct( '#__banner', 'bid', $_db );
+		
 		jimport('joomla.utilities.date');
-		$this->set( 'date', JDate::toMySQL() );
+		$now = new JDate();
+		$this->set( 'date', $now->toMySQL() );
 	}
 
-	function clicks() {
+	function clicks() 
+	{
 		$query = 'UPDATE #__banner'
 		. ' SET clicks = ( clicks + 1 )'
 		. ' WHERE bid = ' . (int) $this->bid
