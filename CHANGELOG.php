@@ -36,6 +36,10 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+18-Apr-2007
+ + JController::getView() takes $config argument which is passed to the view's constructor
+
 14-Apr-2007
  # Fixed [#306] Post Installation Error - installer updated
  ^ JDatabase::getInstance() accepts $options parameter, may return JException

@@ -254,6 +254,17 @@ class JRequest
 		return (string) JRequest::getVar($name, $default, $hash, 'string', $mask);
 	}
 
+	/**
+	 * Set a variabe in on of the request variables
+	 * 
+	 * @access	public
+	 * @param	string	$name		Name
+	 * @param	string	$value		Value
+	 * @param	string	$hash		Hash
+	 * @param	boolean	$overwrite	Boolean
+	 * @return	string	Previous value
+	 * @since	1.5
+	 */
 	function setVar($name, $value = null, $hash = 'default', $overwrite = true)
 	{
 		//If overwrite is true, makes sure the variable hasn't been set yet
@@ -269,6 +280,9 @@ class JRequest
 		if ($hash === 'METHOD') {
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		}
+		
+		$previous	= array_key_exists($name, $_REQUEST) ? $_REQUEST[$name] : null;
+		
 		switch ($hash)
 		{
 			case 'GET' :
@@ -294,7 +308,7 @@ class JRequest
 				break;
 		}
 
-		return $value;
+		return $previous;
 	}
 
 	/**

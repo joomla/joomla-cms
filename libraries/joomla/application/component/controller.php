@@ -422,10 +422,11 @@ class JController extends JObject
 	 * name.
 	 * @param	string	The view type. Optional.
 	 * @param	string	The class prefix. Optional.
+	 * @param	array	Configuration array for view. Optional.
 	 * @return	object	Reference to the view or an error.
 	 * @since	1.5
 	 */
-	function &getView( $name = '', $type = '', $prefix = '' )
+	function &getView( $name = '', $type = '', $prefix = '', $config = array() )
 	{
 		static $views;
 
@@ -442,7 +443,7 @@ class JController extends JObject
 		}
 
 		if ( empty( $views[$name] ) ) {
-			if ( $view = & $this->_createView( $name, $prefix, $type ) ) {
+			if ( $view = & $this->_createView( $name, $prefix, $type, $config ) ) {
 				$views[$name] = & $view;
 			} else {
 				$result = JError::raiseError(
@@ -639,10 +640,12 @@ class JController extends JObject
 	 * @access	private
 	 * @param	string	The name of the view.
 	 * @param	string	Optional prefix for the view class name.
+	 * @param	string	The type of view.
+	 * @param	array	Configuration array for the view. Optional.
 	 * @return	mixed	View object on success; null or error result on failure.
 	 * @since	1.5
 	 */
-	function &_createView( $name, $prefix = '', $type = '' )
+	function &_createView( $name, $prefix = '', $type = '', $config = array() )
 	{
 		$result = null;
 
@@ -674,7 +677,7 @@ class JController extends JObject
 			}
 		}
 
-		$result = new $viewClass();
+		$result = new $viewClass($config);
 		return $result;
 	}
 
