@@ -28,7 +28,7 @@
 				<?php echo $lists['cache_handlers']; ?>
 			</td>
 		</tr>
-		<?php if ($row->cache_handler == 'memcache') : ?>
+		<?php if ($row->cache_handler == 'memcache' || $row->session_handler == 'memcache') : ?>
 		<tr>
 			<td class="key">
 				<?php echo JText::_( 'Memcache Persistent' ); ?>
