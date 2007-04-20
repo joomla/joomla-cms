@@ -1,0 +1,208 @@
+<?php
+/**
+* @version		$Id:eaccelerator.php 6961 2007-03-15 16:06:53Z tcp $
+* @package		Joomla.Framework
+* @subpackage	Environment
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+// Check to ensure this file is within the rest of the framework
+defined('JPATH_BASE') or die();
+
+/**
+ * Memcache session storage handler for PHP
+ *
+ * -- Inspired in both design and implementation by the Horde memcache handler --
+ *
+ * @author		Louis Landry <louis.landry@joomla.org>
+ * @author		Mitch Pirtle
+ * @package		Joomla.Framework
+ * @subpackage	Environment
+ * @since		1.5
+ * @see http://www.php.net/manual/en/function.session-set-save-handler.php
+ */
+class JSessionStorageMemcache extends JSessionStorage
+{
+	/**
+	 * Resource for the current memcached connection.
+	 * @var resource
+	 */
+	var $_db;
+
+	/**
+	 * Use compression?
+	 * @var int
+	 */
+	var $_compress = null;
+
+	/**
+	 * Use persistent connections
+	 * @var boolean
+	 */
+	var $_persistent = false;
+
+	/**
+	* Constructor
+	*
+	* @access protected
+	* @param array $options optional parameters
+	*/
+	function __construct( $options = array() )
+	{
+		if (!$this->test()) {
+            return JError::raiseError(404, "The memcache extension isn't available");
+        }
+
+		parent::__construct($options);
+
+		$config =& JFactory::getConfig();
+		$params	= $config->getValue('config.memcache_settings');
+		if (!$params) {
+			$params = array();
+		}
+
+		$this->_compress	= (isset($params['compression'])) ? $params['comopression'] : 0;
+		$this->_persistent	= (isset($params['persistent'])) ? $params['persistent'] : false;
+
+		// This will be an array of loveliness
+		$this->_servers	= (isset($params['servers'])) ? $params['servers'] : array();
+	}
+
+	/**
+	 * Open the SessionHandler backend.
+	 *
+	 * @access public
+	 * @param string $save_path     The path to the session object.
+	 * @param string $session_name  The name of the session.
+	 * @return boolean  True on success, false otherwise.
+	 */
+	function open($save_path, $session_name)
+	{
+		$this->_db = new Memcache;
+		for ($i=0, $n=count($this->_servers); $i < $n; $i++)
+		{
+			$server = $this->_servers[$i];
+			$this->_db->addServer($server['host'], $server['port'], $this->_persistent);
+		}
+		return true;
+	}
+
+	/**
+	 * Close the SessionHandler backend.
+	 *
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 */
+	function close()
+	{
+		return $this->_db->close();
+	}
+
+ 	/**
+ 	 * Read the data for a particular session identifier from the
+ 	 * SessionHandler backend.
+ 	 *
+ 	 * @access public
+ 	 * @param string $id  The session identifier.
+ 	 * @return string  The session data.
+ 	 */
+	function read($id)
+	{
+		$sess_id = 'sess_'.$id;
+		$this->_setExpire($sess_id);
+		return (string) $this->_db->get($sess_id);
+	}
+
+	/**
+	 * Write session data to the SessionHandler backend.
+	 *
+	 * @access public
+	 * @param string $id            The session identifier.
+	 * @param string $session_data  The session data.
+	 * @return boolean  True on success, false otherwise.
+	 */
+	function write($id, $session_data)
+	{
+		$sess_id = 'sess_'.$id;
+		$this->_db->set($sess_id.'_expire', time(), 0, 0);
+		return $this->_db->set($sess_id, $session_data, $this->_compress, 0);
+	}
+
+	/**
+	  * Destroy the data for a particular session identifier in the
+	  * SessionHandler backend.
+	  *
+	  * @access public
+	  * @param string $id  The session identifier.
+	  * @return boolean  True on success, false otherwise.
+	  */
+	function destroy($id)
+	{
+		$sess_id = 'sess_'.$id;
+		$this->_db->delete($sess_id.'_expire');
+		return $this->_db->delete($sess_id);
+	}
+
+	/**
+	 * Garbage collect stale sessions from the SessionHandler backend.
+	 *
+	 *	-- Not Applicable in memcache --
+	 *
+	 * @access public
+	 * @param integer $maxlifetime  The maximum age of a session.
+	 * @return boolean  True on success, false otherwise.
+	 */
+	function gc($maxlifetime)
+	{
+		return true;
+	}
+
+	/**
+	 * Test to see if the SessionHandler is available.
+	 *
+	 * @static
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 */
+	function test() {
+		return (extension_loaded('memcache') && class_exists('Memcache'));
+	}
+
+	/**
+	 * Set expire time on each call since memcache sets it on cache creation.
+	 *
+	 * @access private
+	 *
+	 * @param string  $key   Cache key to expire.
+	 * @param integer $lifetime  Lifetime of the data in seconds.
+	 */
+	function _setExpire($key)
+	{
+		$lifetime	= ini_get("session.gc_maxlifetime");
+		$expire		= $this->_db->get($key.'_expire');
+
+		if ($expire == 0) {
+			// alreay checked
+			return true;
+		}
+
+		// set prune period
+		if ($expire + $lifetime < time()) {
+			$lifetime = 0;
+		} else {
+			$this->_db->replace($key.'_expire', 0);
+			$lifetime = ($expire + $lifetime) - time();
+		}
+
+		$this->_db->delete($key, $lifetime);
+		$this->_db->delete($key.'_expire', $lifetime);
+
+		return $lifetime;
+	}
+}
