@@ -20,6 +20,44 @@
 					<?php echo JText::_( 'seconds' ); ?>
 			</td>
 		</tr>
+		<tr>
+			<td class="key">
+				<?php echo JText::_( 'Cache Handler' ); ?>
+			</td>
+			<td>
+				<?php echo $lists['cache_handlers']; ?>
+			</td>
+		</tr>
+		<?php if ($row->cache_handler == 'memcache') : ?>
+		<tr>
+			<td class="key">
+				<?php echo JText::_( 'Memcache Persistent' ); ?>
+			</td>
+			<td>
+				<?php echo $lists['memcache_persist']; ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="key">
+				<?php echo JText::_( 'Memcache Compression' ); ?>
+			</td>
+			<td>
+				<?php echo $lists['memcache_compress']; ?>
+			</td>
+		</tr>
+		<tr>
+			<td class="key">
+				<?php echo JText::_( 'Memcache Server' ); ?>
+			</td>
+			<td>
+				<?php echo JText::_( 'Host' ); ?>:
+				<input class="text_area" type="text" name="memcache_settings[servers][][host]" size="25" value="<?php echo @$row->memcache_settings['servers'][0]['host']; ?>" />
+				<br /><br />
+				<?php echo JText::_( 'Port' ); ?>:
+				<input class="text_area" type="text" name="memcache_settings[servers][][port]" size="6" value="<?php echo @$row->memcache_settings['servers'][0]['port']; ?>" />
+			</td>
+		</tr>
+		<?php endif; ?>
 		</tbody>
 	</table>
 </fieldset>

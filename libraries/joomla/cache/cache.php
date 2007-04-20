@@ -83,6 +83,32 @@ class JCache extends JObject
 	}
 
 	/**
+	 * Get the storage handlers
+	 *
+	 * @access public
+	 * @return array An array of available storage handlers
+	 */
+	function getStores()
+	{
+		jimport('joomla.filesystem.folder');
+		jimport('joomla.cache.storage');
+		$handlers = JFolder::files(dirname(__FILE__).DS.'storage', '.php$');
+
+		$names = array();
+		foreach($handlers as $handler)
+		{
+			$name = substr($handler, 0, strrpos($handler, '.'));
+			jimport('joomla.cache.storage.'.$name);
+			$class = 'JCacheStorage'.$name;
+			if(call_user_func_array( array( trim($class), 'test' ), null)) {
+				$names[] = $name;
+			}
+		}
+
+		return $names;
+	}
+
+	/**
 	 * Set caching enabled state
 	 *
 	 * @access	public

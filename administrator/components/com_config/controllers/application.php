@@ -156,6 +156,20 @@ class ConfigControllerApplication extends ConfigController
 
 		// CACHE SETTINGS
 		$lists['caching'] 		= JHTMLSelect::yesnoList('caching', 'class="inputbox"', $row->caching);
+		jimport('joomla.cache.cache');
+		$stores = JCache::getStores();
+		$options = array();
+		foreach($stores as $store) {
+			$options[] = JHTMLSelect::option($store, ucfirst($store));
+		}
+		$lists['cache_handlers'] = JHTMLSelect::genericList($options, 'cache_handler', 'class="inputbox" size="1"', 'value', 'text', $row->cache_handler);
+
+		// MEMCACHE SETTINGS
+		if (!empty($row->memcache_settings) && !is_array($row->memcache_settings)) {
+			$row->memcache_settings = unserialize(stripslashes($row->memcache_settings));
+		}
+		$lists['memcache_persist'] = JHTMLSelect::yesnoList('memcache_settings[persistent]', 'class="inputbox"', @$row->memcache_settings['persistent']);
+		$lists['memcache_compress'] = JHTMLSelect::yesnoList('memcache_settings[compression]', 'class="inputbox"', @$row->memcache_settings['compression']);
 
 		// META SETTINGS
 		$lists['MetaAuthor'] 	= JHTMLSelect::yesnoList('MetaAuthor', 'class="inputbox"', $row->MetaAuthor);
@@ -175,7 +189,7 @@ class ConfigControllerApplication extends ConfigController
 		$stores = JSession::getStores();
 		$options = array();
 		foreach($stores as $store) {
-			$options[] = JHTMLSelect::option($store, $store);
+			$options[] = JHTMLSelect::option($store, ucfirst($store));
 		}
 		$lists['session_handlers'] = JHTMLSelect::genericList($options, 'session_handler', 'class="inputbox" size="1"', 'value', 'text', $row->session_handler);
 
@@ -265,7 +279,9 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['offset'] 	= JRequest::getVar('offset', 0, 'post');
 
 		// CACHE SETTINGS
-		$config_array['caching'] 	= JRequest::getVar('caching', 0, 'post');
+		$config_array['caching'] 		= JRequest::getVar('caching', 0, 'post');
+		$config_array['cache_handler'] 	= JRequest::getVar('cache_handler', 'file', 'post');
+		$config_array['memcache_settings'] = serialize(JRequest::getVar('memcache_settings', array(), 'post'));
 
 		// FTP SETTINGS
 		$config_array['ftp_enable'] 	= JRequest::getVar('ftp_enable', 0, 'post');
