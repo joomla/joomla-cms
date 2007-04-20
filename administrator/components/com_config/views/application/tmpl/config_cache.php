@@ -51,10 +51,10 @@
 			</td>
 			<td>
 				<?php echo JText::_( 'Host' ); ?>:
-				<input class="text_area" type="text" name="memcache_settings[servers][][host]" size="25" value="<?php echo @$row->memcache_settings['servers'][0]['host']; ?>" />
+				<input class="text_area" type="text" name="memcache_settings[servers][0][host]" size="25" value="<?php echo @$row->memcache_settings['servers'][0]['host']; ?>" />
 				<br /><br />
 				<?php echo JText::_( 'Port' ); ?>:
-				<input class="text_area" type="text" name="memcache_settings[servers][][port]" size="6" value="<?php echo @$row->memcache_settings['servers'][0]['port']; ?>" />
+				<input class="text_area" type="text" name="memcache_settings[servers][0][port]" size="6" value="<?php echo @$row->memcache_settings['servers'][0]['port']; ?>" />
 			</td>
 		</tr>
 		<?php endif; ?>
