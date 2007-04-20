@@ -64,7 +64,7 @@ class JCacheStorageMemcache extends JCacheStorage
 			$params = array();
 		}
 
-		$this->_compress	= (isset($params['compression'])) ? $params['comopression'] : 0;
+		$this->_compress	= (isset($params['compression'])) ? $params['compression'] : 0;
 		$this->_persistent	= (isset($params['persistent'])) ? $params['persistent'] : false;
 
 		// This will be an array of loveliness
