@@ -130,8 +130,17 @@ class JSessionStorageMemcache extends JSessionStorage
 	function write($id, $session_data)
 	{
 		$sess_id = 'sess_'.$id;
-		$this->_db->set($sess_id.'_expire', time(), 0, 0);
-		return $this->_db->set($sess_id, $session_data, $this->_compress, 0);
+		if ($this->_db->get($sess_id.'_expire')) {
+			$this->_db->replace($sess_id.'_expire', time(), 0);
+		} else {
+			$this->_db->set($sess_id.'_expire', time(), 0);
+		}
+		if ($this->_db->get($sess_id)) {
+			$this->_db->replace($sess_id, $session_data, $this->_compress);
+		} else {
+			$this->_db->set($sess_id, $session_data, $this->_compress);
+		}
+		return;
 	}
 
 	/**
@@ -170,7 +179,8 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test() {
+	function test()
+	{
 		return (extension_loaded('memcache') && class_exists('Memcache'));
 	}
 
@@ -187,22 +197,12 @@ class JSessionStorageMemcache extends JSessionStorage
 		$lifetime	= ini_get("session.gc_maxlifetime");
 		$expire		= $this->_db->get($key.'_expire');
 
-		if ($expire == 0) {
-			// alreay checked
-			return true;
-		}
-
 		// set prune period
 		if ($expire + $lifetime < time()) {
-			$lifetime = 0;
+			$this->_db->delete($key);
+			$this->_db->delete($key.'_expire');
 		} else {
-			$this->_db->replace($key.'_expire', 0);
-			$lifetime = ($expire + $lifetime) - time();
+			$this->_db->replace($key.'_expire', time());
 		}
-
-		$this->_db->delete($key, $lifetime);
-		$this->_db->delete($key.'_expire', $lifetime);
-
-		return $lifetime;
 	}
 }

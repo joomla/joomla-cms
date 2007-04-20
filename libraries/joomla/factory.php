@@ -383,7 +383,7 @@ class JFactory
 		//get the editor configuration setting
 		$conf =& JFactory::getConfig();
 		$handler =  $conf->getValue('config.session_handler', 'none');
-		$options['expire'] = $conf->getValue('config.lifetime', 15);
+		$options['expire'] = ($conf->getValue('config.lifetime')) ? $conf->getValue('config.lifetime') * 60 : 900;
 
 		$session = JSession::getInstance($handler, $options);
 		if ($session->getState() == 'expired') {
@@ -437,21 +437,21 @@ class JFactory
 		$prefix 	= $conf->getValue('config.dbprefix');
 		$driver 	= $conf->getValue('config.dbtype');
 		$debug 		= $conf->getValue('config.debug');
-		
+
 		$options	= array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix );
 
 		$db =& JDatabase::getInstance( $options );
-		
+
 		if ( JError::isError($db) )
 		{
 			die("Database Error: ".$db->toString() );
 		}
 
-		if ($db->getErrorNum() > 0) 
+		if ($db->getErrorNum() > 0)
 		{
 			JError::raiseError('joomla.library:'.$db->getErrorNum(), 'JDatabase::getInstance: Could not connect to database <br/>' . $db->getErrorMsg() );
 		}
-		
+
 		$db->debug( $debug );
 		return $db;
 	}

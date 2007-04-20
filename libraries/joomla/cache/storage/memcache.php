@@ -185,23 +185,13 @@ class JCacheStorageMemcache extends JCacheStorage
 		$lifetime	= $this->_lifetime;
 		$expire		= $this->_db->get($key.'_expire');
 
-		if ($expire == 0) {
-			// alreay checked
-			return true;
-		}
-
 		// set prune period
 		if ($expire + $lifetime < time()) {
-			$lifetime = 0;
+			$this->_db->delete($key);
+			$this->_db->delete($key.'_expire');
 		} else {
-			$this->_db->replace($key.'_expire', 0);
-			$lifetime = ($expire + $lifetime) - time();
+			$this->_db->replace($key.'_expire', time());
 		}
-
-		$this->_db->delete($key, $lifetime);
-		$this->_db->delete($key.'_expire', $lifetime);
-
-		return $lifetime;
 	}
 
 	/**
