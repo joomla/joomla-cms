@@ -67,7 +67,7 @@ $mainframe->triggerEvent('onAfterRoute');
  * NOTE :
  */
 $option = JAdministratorHelper::findOption();
-$mainframe->dispatch();
+$mainframe->dispatch($option);
 
 // trigger the onAfterDisplay events
 JDEBUG ? $_PROFILER->mark('afterDispatch') : null;

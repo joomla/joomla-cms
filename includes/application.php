@@ -89,11 +89,8 @@ class JSite extends JApplication
 	*
 	* @access public
 	*/
-	function dispatch()
+	function dispatch($component)
 	{
-		//get the component to dispatch too
-		$component = JRequest::getVar('option', null, '', 'word');
-
 		// Build the application pathway
 		$this->_createPathWay();
 
@@ -383,82 +380,6 @@ class JSite extends JApplication
 			}
 		}
 		return $this->_pathway;
-	}
-}
-
-/**
- * @package		Joomla
- * @static
- */
-class JSiteHelper
-{
-	/**
-	 * Return the application itemid
-	 *
-	 * @access public
-	 * @return string Option
-	 * @since 1.5
-	 */
-	function findItemid()
-	{
-		$itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
-		$option = strtolower(JRequest::getVar('option', null, '', 'word'));
-
-		$menus =& JMenu::getInstance();
-		if(!is_object($menus->getItem($itemid)) || $itemid === 0)
-		{
-			$item	=& $menus->getDefault();
-			$itemid	= $item->id;
-		}
-
-		return JRequest::setVar( 'Itemid', $itemid );
-	}
-
-	/**
-	 * Return the application option string [main component]
-	 *
-	 * @access public
-	 * @return string Option
-	 * @since 1.5
-	 */
-	function findOption()
-	{
-		$option = strtolower(JRequest::getVar('option', null, '', 'word'));
-
-		if(empty($option))
-		{
-			$menu =& JMenu::getInstance();
-			$item =& $menu->getItem(JSiteHelper::findItemid());
-
-			$component =& JTable::getInstance( 'component');
-			$component->load($item->componentid);
-
-			$option = $component->option;
-
-			// Lets set any request variables from the menu item url
-			$parts = parse_url($item->link);
-			if ($parts['query']) {
-				$vars = array();
-				parse_str($parts['query'], $vars);
-				foreach ($vars as $k => $v) {
-					JRequest::setVar($k, $v);
-				}
-			}
-		}
-
-		//provide backwards compatibility for frontpage component
-		//TODO :: these should be redirects
-		if($option == 'com_frontpage') {
-			$option = 'com_content';
-			JRequest::setVar('view', 'frontpage');
-		}
-
-		if($option == 'com_login') {
-			$option = 'com_user';
-			JRequest::setVar('view', 'login');
-		}
-
-		return JRequest::setVar('option', $option);
 	}
 }
 ?>

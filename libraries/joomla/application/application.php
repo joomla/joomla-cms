@@ -624,6 +624,13 @@ class JApplication extends JObject
 		if($this->getCfg('sef_rewrite')) {
 			$options['mode'] = 2;
 		}
+		
+		// Set default router parameters
+		$menu =& JMenu::getInstance();
+		$item = $menu->getDefault();
+			
+		$options['vars']           = $item->query;
+		$options['vars']['Itemid'] = $item->id;
 
 		// Create a JRouter object
 		$this->_router = JRouter::getInstance($options);

@@ -56,7 +56,7 @@ $mainframe->triggerEvent('onAfterInitialise');
 $mainframe->route();
 
 // authorization
-$Itemid = JSiteHelper::findItemid();
+$Itemid = JRequest::getInt( 'Itemid');
 $mainframe->authorize($Itemid);
 
 // trigger the onAfterDisplay events
@@ -68,8 +68,8 @@ $mainframe->triggerEvent('onAfterRoute');
  *
  * NOTE :
  */
-$option = JSiteHelper::findOption();
-$mainframe->dispatch();
+$option = JRequest::getWord('option');
+$mainframe->dispatch($option);
 
 // trigger the onAfterDisplay events
 JDEBUG ? $_PROFILER->mark('afterDispatch') : null;

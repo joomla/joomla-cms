@@ -145,16 +145,17 @@ class JMenu extends JObject
 	 *
 	 * @param int The item id
 	 * @access public
-	 * @return True, if succesfull
+	 * @return If successfull the active item, otherwise null
 	 */
-	function setActive($id)
+	function &setActive($id)
 	{
 		if(isset($this->_items[$id])) {
 			$this->_active = $id;
-			return true;
+			$result = &$this->_items[$id];
+			return $result;
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
@@ -276,8 +277,6 @@ class JMenu extends JObject
 			JError::raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
 			return false;
 		}
-
-		jimport('joomla.filter.output');
 
 		foreach($menus as $key => $menu)
 		{

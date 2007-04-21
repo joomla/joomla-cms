@@ -36,7 +36,7 @@ class  plgSystemLegacy extends JPlugin
 	function plgSystemLegacy(& $subject)
 	{
 		parent::__construct($subject);
-
+		
 		// Define the 1.0 legacy mode constant
 		define('_J_LEGACY', '1.0');
 
@@ -162,7 +162,7 @@ class  plgSystemLegacy extends JPlugin
 		if ($mainframe->isAdmin() || (!$this->_params->get('route'))) {
 			return;
 		}
-
+		
 		switch(JRequest::getVar('option'))
 		{
 			case 'com_content'   :
@@ -174,7 +174,15 @@ class  plgSystemLegacy extends JPlugin
 			case 'com_weblinks' :
 				$this->routeWeblinks();
 				break;
-		}
+			case 'com_frontpage' :
+				JRequest::setVar('option', 'com_content');
+				JRequest::setVar('view', 'frontpage');
+				break;
+			case 'com_login'     : 
+				JRequest::setVar('option', 'com_user');
+				JRequest::setVar('view', 'login');
+				break;
+ 		}
 	}
 
 	function routeContent()

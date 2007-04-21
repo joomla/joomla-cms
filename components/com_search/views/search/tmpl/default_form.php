@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<form action="<?php echo JRoute::_('index.php'); ?>" method="post">
+<form action="index.php" method="post">
 <table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<td nowrap="nowrap">

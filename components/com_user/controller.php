@@ -112,10 +112,11 @@ class UserController extends JController
 		$return		= JRequest::getVar( 'return', false, '' );
 		$return		= str_replace( ' ', '+', $return );
 		$return		= preg_replace( '/[^A-Z0-9+\/\=]/i', '', $return );
+		
 		if ($return) {
 			$return = base64_decode($return);
 		}
-
+		
 		//check the token before we do anything else
 		//$token	= JUtility::getToken();
 		//if(!JRequest::getVar( $token, 0, 'post' )) {

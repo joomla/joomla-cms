@@ -152,8 +152,7 @@ class JRequest
 	 * @return	integer	Requested variable
 	 * @since	1.5
 	 */
-	function getInt($name, $default = null, $hash = 'default')
-	{
+	function getInt($name, $default = null, $hash = 'default') {
 		return JRequest::getVar($name, $default, $hash, 'int');
 	}
 
@@ -171,8 +170,7 @@ class JRequest
 	 * @return	float	Requested variable
 	 * @since	1.5
 	 */
-	function getFloat($name, $default = null, $hash = 'default')
-	{
+	function getFloat($name, $default = null, $hash = 'default') {
 		return JRequest::getVar($name, $default, $hash, 'float');
 	}
 
@@ -190,8 +188,7 @@ class JRequest
 	 * @return	bool		Requested variable
 	 * @since	1.5
 	 */
-	function getBool($name, $default = null, $hash = 'default')
-	{
+	function getBool($name, $default = null, $hash = 'default') {
 		return JRequest::getVar($name, $default, $hash, 'bool');
 	}
 
@@ -209,8 +206,7 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getWord($name, $default = null, $hash = 'default')
-	{
+	function getWord($name, $default = null, $hash = 'default') {
 		return JRequest::getVar($name, $default, $hash, 'word');
 	}
 
@@ -228,8 +224,7 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getCmd($name, $default = null, $hash = 'default')
-	{
+	function getCmd($name, $default = null, $hash = 'default') {
 		return JRequest::getVar($name, $default, $hash, 'cmd');
 	}
 

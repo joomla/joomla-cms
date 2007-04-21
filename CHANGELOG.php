@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Apr-2007 Johan Janssens
+ ^ Fixed various problems with URL routing
+
 18-Apr-2007 Johan Janssens
  ^ Fixed problems with the pagebreak plugin and the pagination handling
  ^ Changed ComponentParseRoute function implementation, function now needs to return array 

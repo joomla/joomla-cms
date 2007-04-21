@@ -50,7 +50,7 @@ function ContentParseRoute($segments)
 
 	// Count route segments
 	$count = count($segments);
-
+	
 	//Handle View and Identifier
 	switch($item->query['view'])
 	{

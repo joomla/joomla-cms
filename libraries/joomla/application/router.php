@@ -149,7 +149,7 @@ class JRouter extends JObject
 	 * @return	JRouter	The Router object.
 	 * @since	1.5
 	 */
-	function & getInstance($options = array())
+	function &getInstance($options = array())
 	{
 		static $instance;
 
@@ -167,58 +167,75 @@ class JRouter extends JObject
 	 */
 	function parse($url)
 	{
-		//Create the URI object based on the passed in URL
-		$uri = JURI::getInstance($url);
-
-		/*
-		 * Handle raw URL
+		$uri  =& JURI::getInstance($url);
+		$menu =& JMenu::getInstance();
+		
+		// Get the base and full URLs
+		$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
+		$base = $uri->base();
+		
+		$url = urldecode(str_replace($base, '', $full));
+		$url = str_replace('index.php', '', $url);
+		$url = trim($url , '/');
+		
+		/* 
+		 * Handle empty URL : mysite/ or mysite/index.php 
 		 */
-		if($itemid = (int) $uri->getVar('Itemid'))
+		if(empty($url) && !$uri->getQuery()) 
 		{
-			//Set active menu item
-			$menu  =& JMenu::getInstance();
-			$menu->setActive($itemid);
-
-			$item = $menu->getActive();
-
-			//Set request information
-			$this->_vars = $item->query;
-			
-			//Set the information in the request
-			JRequest::set($this->_vars, 'get', false);
+			JRequest::set($this->_vars, 'get', false );
+			return;
 		}
-
+		
+		$this->_vars = array();
+		
 		/*
-		 * Handle routed URL
+		 * Handle routed URL : mysite/index.php/route?var=x
 		 */
-		if(!$itemid = (int) $uri->getVar('Itemid'))
-		{
-			$menu =& JMenu::getInstance();
-
-			// Get the base and full URLs
-			$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
-			$base = $uri->base();
-
-			$url = urldecode(trim(str_replace($base, '', $full), '/'));
-			$url = str_replace('index.php/', '', $url);
-
+		if(!empty($url)&& !(int) $uri->getVar('Itemid'))
+		{	
 			// Set document link
 			$doc = & JFactory::getDocument();
 			$doc->setLink($base);
 
-			// Parse the route
-			if (!empty($url))
-			{
+			if (!empty($url)) 
+			{	
 				// Parse application route
 				$this->_parseApplicationRoute($url);
+				
+				// Set the active menu item
+				$menu->setActive($this->_vars['itemid']);
 
-				//Parse component route
+				// Parsz component route
 				$this->_parseComponentRoute($url);
 			}
 			
+			//Set active menu item
+			$item =&$menu->getActive();
+		
 			//Set the information in the request
-			JRequest::set($this->_vars, 'get', true);
+			JRequest::set($item->query, 'get', true );
+			JRequest::set($this->_vars, 'get', true );
+		
+			//Set the itemid in the request
+			unset($this->_vars['itemid']);
+			JRequest::setVar('Itemid', $item->id);
+			
+			return;
 		}
+		
+		/*
+		 * Handle unrouted URL : mysite/index.php?var=x&var=y
+		 */
+		if($itemid = (int) $uri->getVar('Itemid'))
+		{	
+			// Set the active menu item
+			$item =& $menu->setActive($itemid);
+			
+			//Set the information in the request
+			JRequest::set($item->query, 'get', false );
+			return;
+		}  
 	}
 
 	/**
@@ -244,7 +261,7 @@ class JRouter extends JObject
 		{
 			$vars = array();
 			parse_str($string, $vars);
-				
+			
 			$vars = array_merge($this->_vars, $vars);
 			$string = 'index.php?'.JURI::_buildQuery($vars);
 		}
@@ -325,43 +342,42 @@ class JRouter extends JObject
 	*/
 	function _parseApplicationRoute(&$url)
 	{
+		$menu  =& JMenu::getInstance();
+		
+		$itemid = null;
+		$option = null;
+		
 		if(substr($url, 0, 9) == 'component')
 		{
 			$segments = explode('/', $url);
 			$url = str_replace('component/'.$segments[1], '', $url);;
 
-			//Store parses query variables
-			$this->_vars['option'] = 'com_'.$segments[1];
+			//Get the option
+			$option = 'com_'.$segments[1];
+			$item   = $menu->getDefault();
+			$itemid = $item->id;
 		}
-		
-		if(substr($url, 0, 9) != 'component')
-		{
-			$menu  =& JMenu::getInstance();
-
+		else
+		{	
 			//Need to reverse the array (highest sublevels first)
 			$items = array_reverse($menu->getMenu());
 
-			$itemid = null;
 			foreach ($items as $item)
 			{
-				if(strlen($item->route) > 0 && strpos($url, $item->route) === 0)
+				if(strlen($item->route) > 0 && strpos($url, $item->route) === 0) 
 				{
-					$itemid = $item->id;
 					$url    = str_replace($item->route, '', $url);
 					break;
 				}
 			}
 
-			//Set active menu item
-			$menu->setActive($itemid);
-
-			//Set request information
-			JRequest::set($item->query, 'get', false);
-			
-			//Store parses query variables
-			$this->_vars['option'] = $item->component;
-			$this->_vars['Itemid'] = $itemid;
+			//Get the option
+			$itemid = $item->id;
+			$option = $item->component;
 		}
+		
+		$this->_vars['itemid'] = $itemid;
+		$this->_vars['option'] = $option;
 	}
 
 	/**

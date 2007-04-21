@@ -161,7 +161,7 @@ class SearchController
 		$uri = new JURI();
 		$uri->setQuery($post);
 
-		$mainframe->redirect('index.php?'.$uri->getQuery());
+		$mainframe->redirect(JRoute::_('index.php?'.$uri->getQuery(), false));
 
 	}
 

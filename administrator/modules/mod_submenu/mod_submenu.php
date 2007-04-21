@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // Lets get some variables we will need to render the menu
 $lang	=& JFactory::getLanguage();
-$doc		=& JFactory::getDocument();
+$doc	=& JFactory::getDocument();
 $user	=& JFactory::getUser();
 
 // If hidemainmenu is true, we don't want to render this module at all
@@ -71,23 +71,19 @@ class JAdminSubMenu
 			$txt .= "<li>\n";
 			if ($hide)
 			{
-				if (isset ($item[2]) && $item[2] == 1)
-				{
+				if (isset ($item[2]) && $item[2] == 1) {
 					$txt .= "<span class=\"nolink active\">".$item[0]."</span>\n";
 				}
-				else
-				{
+				else {
 					$txt .= "<span class=\"nolink\">".$item[0]."</span>\n";
 				}
 			}
 			else
 			{
-				if (isset ($item[2]) && $item[2] == 1)
-				{
+				if (isset ($item[2]) && $item[2] == 1) {
 					$txt .= "<a class=\"active\" href=\"".$item[1]."\">".$item[0]."</a>\n";
 				}
-				else
-				{
+				else {
 					$txt .= "<a href=\"".$item[1]."\">".$item[0]."</a>\n";
 				}
 			}
@@ -116,8 +112,10 @@ class JAdminSubMenu
 		// Process the items
 		$subMenuList = array();
 
-		foreach ($items as $item) {
-			if (trim($item->admin_menu_link)) {
+		foreach ($items as $item) 
+		{
+			if (trim($item->admin_menu_link)) 
+			{
 				// handling for active sub menu item
 				$active = 0;
 				if (strpos( @$_SERVER['QUERY_STRING'], $item->admin_menu_link ) !== false ) {

@@ -47,14 +47,14 @@ class UserViewLogin extends JView
 		$params->def( 'header_logout', 			$item->name );
 		$params->def( 'pageclass_sfx', 			'' );
 		$params->def( 'login', 					'index.php' );
-		$params->def( 'logout', 					'index.php' );
+		$params->def( 'logout', 				'index.php' );
 		$params->def( 'description_login', 		1 );
 		$params->def( 'description_logout', 		1 );
 		$params->def( 'description_login_text', 	JText::_( 'LOGIN_DESCRIPTION' ) );
 		$params->def( 'description_logout_text',	JText::_( 'LOGOUT_DESCRIPTION' ) );
 		$params->def( 'image_login', 				'key.jpg' );
-		$params->def( 'image_logout', 			'key.jpg' );
-		$params->def( 'image_login_align', 		'right' );
+		$params->def( 'image_logout', 				'key.jpg' );
+		$params->def( 'image_login_align', 			'right' );
 		$params->def( 'image_logout_align', 		'right' );
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 		$params->def( 'registration', 				$usersConfig->get( 'allowUserRegistration' ) );

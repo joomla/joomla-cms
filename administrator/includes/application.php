@@ -91,9 +91,8 @@ class JAdministrator extends JApplication
 	*
 	* @access public
 	*/
-	function dispatch()
+	function dispatch($component)
 	{
-		$component   = JRequest::getVar('option', null, 'default', 'word');
 		$document	=& JFactory::getDocument();
 		$config		=& JFactory::getConfig();
 		$user		=& JFactory::getUser();
@@ -378,7 +377,8 @@ class JAdministratorHelper
 			$option = 'com_cpanel';
 		}
 
-		return JRequest::setVar('option', $option);
+		JRequest::setVar('option', $option);
+		return $option;
 	}
 }
 ?>
