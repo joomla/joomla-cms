@@ -247,7 +247,7 @@ class JMenu extends JObject
 	function authorize($id, $accessid = 0)
 	{
 		$menu =& $this->getItem($id);
-		return ($menu->access <= $accessid);
+		return ((isset($menu->access) ? $menu->access : 0) <= $accessid);
 	}
 
 	/**
