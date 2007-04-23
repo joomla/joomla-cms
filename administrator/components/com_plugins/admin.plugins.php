@@ -89,11 +89,11 @@ function viewPlugins( $option, $client )
 
 	$db =& JFactory::getDBO();
 
-	JMenuBar::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
-	JMenuBar::publishList();
-	JMenuBar::unpublishList();
-	JMenuBar::editListX();
-	JMenuBar::help( 'screen.plugins' );
+	JToolBarHelper::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
+	JToolBarHelper::publishList();
+	JToolBarHelper::unpublishList();
+	JToolBarHelper::editListX();
+	JToolBarHelper::help( 'screen.plugins' );
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order", 		'filter_order', 	'p.folder' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'' );
@@ -247,11 +247,11 @@ function editPlugin( )
 		$cid = array(0);
 	}
 
-	JMenuBar::title( JText::_( 'Plugin' ) .': <small><small>[' .JText::_('Edit'). ']</small></small>', 'plugin.png' );
-	JMenuBar::save();
-	JMenuBar::apply();
-	JMenuBar::cancel( 'cancel', 'Close' );
-	JMenuBar::help( 'screen.plugins.edit' );
+	JToolBarHelper::title( JText::_( 'Plugin' ) .': <small><small>[' .JText::_('Edit'). ']</small></small>', 'plugin.png' );
+	JToolBarHelper::save();
+	JToolBarHelper::apply();
+	JToolBarHelper::cancel( 'cancel', 'Close' );
+	JToolBarHelper::help( 'screen.plugins.edit' );
 
 	$lists 	= array();
 	$row 	=& JTable::getInstance('plugin');

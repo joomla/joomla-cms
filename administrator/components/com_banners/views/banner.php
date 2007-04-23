@@ -23,15 +23,15 @@ class BannersViewBanner
 {
 	function setBannersToolbar()
 	{
-		JMenuBar::title( JText::_( 'Banner Manager' ), 'generic.png' );
-		JMenuBar::publishList();
-		JMenuBar::unpublishList();
-		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
-		JMenuBar::deleteList();
-		JMenuBar::editListX();
-		JMenuBar::addNewX();
-		JMenuBar::preferences('com_banners', '500');
-		JMenuBar::help( 'screen.banners' );
+		JToolBarHelper::title( JText::_( 'Banner Manager' ), 'generic.png' );
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
+		JToolBarHelper::deleteList();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::preferences('com_banners', '500');
+		JToolBarHelper::help( 'screen.banners' );
 	}
 
 	function banners( &$rows, &$pageNav, &$lists )
@@ -196,11 +196,11 @@ class BannersViewBanner
 	{
 		$task = JRequest::getVar( 'task', '', 'method', 'string');
 
-		JMenuBar::title( $task == 'add' ? JText::_( 'New Banner' ) : JText::_( 'Edit Banner' ), 'generic.png' );
-		JMenuBar::save( 'save' );
-		JMenuBar::apply('apply');
-		JMenuBar::cancel( 'cancel' );
-		JMenuBar::help( 'screen.banners.edit' );
+		JToolBarHelper::title( $task == 'add' ? JText::_( 'New Banner' ) : JText::_( 'Edit Banner' ), 'generic.png' );
+		JToolBarHelper::save( 'save' );
+		JToolBarHelper::apply('apply');
+		JToolBarHelper::cancel( 'cancel' );
+		JToolBarHelper::help( 'screen.banners.edit' );
 	}
 
 	function banner( &$row, &$lists )

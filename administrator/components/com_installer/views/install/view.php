@@ -32,8 +32,8 @@ class InstallerViewInstall extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JMenuBar::title( JText::_( 'Extension Manager' ), 'install.png' );
-		JMenuBar::help( 'screen.installer' );
+		JToolBarHelper::title( JText::_( 'Extension Manager' ), 'install.png' );
+		JToolBarHelper::help( 'screen.installer' );
 
 		// Get data from the model
 		$state = &$this->get('State');
@@ -58,8 +58,8 @@ class InstallerViewInstall extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JMenuBar::title( JText::_( 'Extension Manager' ), 'install.png' );
-		JMenuBar::help( 'screen.installer' );
+		JToolBarHelper::title( JText::_( 'Extension Manager' ), 'install.png' );
+		JToolBarHelper::help( 'screen.installer' );
 
 		// Get data from the model
 		$state = &$this->get('State');

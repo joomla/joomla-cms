@@ -28,38 +28,38 @@ class TOOLBAR_sections {
 
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JMenuBar::title( JText::_( 'Section' ).': <small><small>[ '. $text.' ]</small></small>', 'sections.png' );
-		JMenuBar::save();
-		JMenuBar::apply();
+		JToolBarHelper::title( JText::_( 'Section' ).': <small><small>[ '. $text.' ]</small></small>', 'sections.png' );
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
 		if ( $cid[0] ) {
 			// for existing items the button is renamed `close`
-			JMenuBar::cancel( 'cancel', 'Close' );
+			JToolBarHelper::cancel( 'cancel', 'Close' );
 		} else {
-			JMenuBar::cancel();
+			JToolBarHelper::cancel();
 		}
-		JMenuBar::help( 'screen.sections.edit' );
+		JToolBarHelper::help( 'screen.sections.edit' );
 	}
 	/**
 	* Draws the menu for Copying existing sections
 	* @param int The published state (to display the inverse button)
 	*/
 	function _COPY() {
-		JMenuBar::title( JText::_( 'Copy Section' ), 'sections.png' );
-		JMenuBar::save( 'copysave' );
-		JMenuBar::cancel();
+		JToolBarHelper::title( JText::_( 'Copy Section' ), 'sections.png' );
+		JToolBarHelper::save( 'copysave' );
+		JToolBarHelper::cancel();
 	}
 	/**
 	* Draws the menu for Editing an existing category
 	*/
 	function _DEFAULT(){
-		JMenuBar::title( JText::_( 'Section Manager' ), 'sections.png' );
-		JMenuBar::publishList();
-		JMenuBar::unpublishList();
-		JMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );
-		JMenuBar::deleteList();
-		JMenuBar::editListX();
-		JMenuBar::addNewX();
-		JMenuBar::help( 'screen.sections' );
+		JToolBarHelper::title( JText::_( 'Section Manager' ), 'sections.png' );
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );
+		JToolBarHelper::deleteList();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::help( 'screen.sections' );
 	}
 }
 ?>

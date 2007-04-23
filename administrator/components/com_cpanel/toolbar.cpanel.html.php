@@ -22,8 +22,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TOOLBAR_cpanel
 {
 	function _DEFAULT() {
-		JMenuBar::title( JText::_( 'Control Panel' ), 'cpanel.png' );
-		JMenuBar::help( 'screen.cpanel' );
+		JToolBarHelper::title( JText::_( 'Control Panel' ), 'cpanel.png' );
+		JToolBarHelper::help( 'screen.cpanel' );
 	}
 }
 ?>

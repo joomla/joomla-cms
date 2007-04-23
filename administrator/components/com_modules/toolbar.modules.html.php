@@ -22,10 +22,10 @@ class TOOLBAR_modules {
 	*/
 	function _NEW($client)
 	{
-		JMenuBar::title( JText::_( 'Module Manager' ) . ' - <span>' . JText::_( 'New Module' ) . '</span>', 'module.png' );
-		JMenuBar::customX( 'edit', 'forward.png', 'forward_f2.png', 'Next', true );
-		JMenuBar::cancel();
-		JMenuBar::help( 'screen.modules.new' );
+		JToolBarHelper::title( JText::_( 'Module Manager' ) . ' - <span>' . JText::_( 'New Module' ) . '</span>', 'module.png' );
+		JToolBarHelper::customX( 'edit', 'forward.png', 'forward_f2.png', 'Next', true );
+		JToolBarHelper::cancel();
+		JToolBarHelper::help( 'screen.modules.new' );
 	}
 
 	/**
@@ -36,32 +36,32 @@ class TOOLBAR_modules {
 		$cid 		= JRequest::getVar( 'cid', array(0));
 		$moduleType = JRequest::getVar( 'module' );
 
-		JMenuBar::title( JText::_( 'Module Manager' ) .' - <span>' . JText::_( 'Edit Module' ) . '</span>', 'module.png' );
+		JToolBarHelper::title( JText::_( 'Module Manager' ) .' - <span>' . JText::_( 'Edit Module' ) . '</span>', 'module.png' );
 
 		if($moduleType == 'custom') {
-			JMenuBar::Preview('index.php?option=com_modules&tmpl=component&client='.$client.'&pollid='.$cid[0]);
+			JToolBarHelper::Preview('index.php?option=com_modules&tmpl=component&client='.$client.'&pollid='.$cid[0]);
 		}
 
-		JMenuBar::save();
-		JMenuBar::apply();
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
 		if ( $cid[0] ) {
 			// for existing items the button is renamed `close`
-			JMenuBar::cancel( 'cancel', 'Close' );
+			JToolBarHelper::cancel( 'cancel', 'Close' );
 		} else {
-			JMenuBar::cancel();
+			JToolBarHelper::cancel();
 		}
-		JMenuBar::help( 'screen.modules.edit' );
+		JToolBarHelper::help( 'screen.modules.edit' );
 	}
 
 	function _DEFAULT($client)
 	{
-		JMenuBar::title( JText::_( 'Module Manager' ), 'module.png' );
-		JMenuBar::publishList();
-		JMenuBar::unpublishList();
-		JMenuBar::custom( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
-		JMenuBar::deleteList();
-		JMenuBar::editListX();
-		JMenuBar::addNewX();
-		JMenuBar::help( 'screen.modules' );
+		JToolBarHelper::title( JText::_( 'Module Manager' ), 'module.png' );
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::custom( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
+		JToolBarHelper::deleteList();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::help( 'screen.modules' );
 	}
 }

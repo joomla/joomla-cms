@@ -23,33 +23,33 @@ class TOOLBAR_messages
 {
 	function _VIEW() {
 
-		JMenuBar::title(  JText::_( 'View Private Message' ), 'inbox.png' );
-		JMenuBar::customX('reply', 'restore.png', 'restore_f2.png', 'Reply', false );
-		JMenuBar::deleteList();
-		JMenuBar::cancel();
+		JToolBarHelper::title(  JText::_( 'View Private Message' ), 'inbox.png' );
+		JToolBarHelper::customX('reply', 'restore.png', 'restore_f2.png', 'Reply', false );
+		JToolBarHelper::deleteList();
+		JToolBarHelper::cancel();
 	}
 
 	function _EDIT() {
 
-		JMenuBar::title(  JText::_( 'Write Private Message' ), 'inbox.png' );
-		JMenuBar::save( 'save', 'Send' );
-		JMenuBar::cancel();
-		JMenuBar::help( 'screen.messages.edit' );
+		JToolBarHelper::title(  JText::_( 'Write Private Message' ), 'inbox.png' );
+		JToolBarHelper::save( 'save', 'Send' );
+		JToolBarHelper::cancel();
+		JToolBarHelper::help( 'screen.messages.edit' );
 	}
 
 	function _CONFIG() {
-		JMenuBar::title(  JText::_( 'Private Messaging Configuration' ), 'inbox.png' );
-		JMenuBar::save( 'saveconfig' );
-		JMenuBar::cancel( 'cancelconfig' );
-		JMenuBar::help( 'screen.messages.conf' );
+		JToolBarHelper::title(  JText::_( 'Private Messaging Configuration' ), 'inbox.png' );
+		JToolBarHelper::save( 'saveconfig' );
+		JToolBarHelper::cancel( 'cancelconfig' );
+		JToolBarHelper::help( 'screen.messages.conf' );
 	}
 
 	function _DEFAULT() {
-		JMenuBar::title(  JText::_( 'Private Messaging' ), 'inbox.png' );
-		JMenuBar::deleteList();
-		JMenuBar::addNewX();
-		JMenuBar::custom('config', 'config.png', 'config_f2.png', 'Settings', false, false);
-		JMenuBar::help( 'screen.messages.inbox' );
+		JToolBarHelper::title(  JText::_( 'Private Messaging' ), 'inbox.png' );
+		JToolBarHelper::deleteList();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::custom('config', 'config.png', 'config_f2.png', 'Settings', false, false);
+		JToolBarHelper::help( 'screen.messages.inbox' );
 	}
 }
 ?>

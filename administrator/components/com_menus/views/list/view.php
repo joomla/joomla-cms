@@ -37,18 +37,18 @@ class MenusViewList extends JView
 		 */
 		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 
-		JMenuBar::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
+		JToolBarHelper::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
 		$bar = & JToolBar::getInstance('JComponent');
 		$bar->appendButton( 'Link', 'menus', 'Menus', "index.php?option=com_menus" );
-		JMenuBar::makeDefault( 'setdefault' );
-		JMenuBar::publishList();
-		JMenuBar::unpublishList();
-		JMenuBar::customX( 'move', 'move.png', 'move_f2.png', 'Move', true );
-		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
-		JMenuBar::trash();
-		JMenuBar::editListX();
-		JMenuBar::addNewX('type');
-		JMenuBar::help( 'screen.menus' );
+		JToolBarHelper::makeDefault( 'setdefault' );
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::customX( 'move', 'move.png', 'move_f2.png', 'Move', true );
+		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
+		JToolBarHelper::trash();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX('type');
+		JToolBarHelper::help( 'screen.menus' );
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('View Menu Items'));
@@ -84,10 +84,10 @@ class MenusViewList extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JMenuBar::title( JText::_( 'Copy Menu Items' ) );
-		JMenuBar::custom( 'doCopy', 'copy.png', 'copy_f2.png', 'Copy', false );
-		JMenuBar::cancel('cancelItem');
-		JMenuBar::help( 'screen.menus.copy' );
+		JToolBarHelper::title( JText::_( 'Copy Menu Items' ) );
+		JToolBarHelper::custom( 'doCopy', 'copy.png', 'copy_f2.png', 'Copy', false );
+		JToolBarHelper::cancel('cancelItem');
+		JToolBarHelper::help( 'screen.menus.copy' );
 
 		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');
@@ -120,10 +120,10 @@ class MenusViewList extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JMenuBar::title( JText::_( 'Move Menu Items' ) );
-		JMenuBar::custom( 'doMove', 'move.png', 'move_f2.png', 'Move', false );
-		JMenuBar::cancel('cancelItem');
-		JMenuBar::help( 'screen.menus.move' );
+		JToolBarHelper::title( JText::_( 'Move Menu Items' ) );
+		JToolBarHelper::custom( 'doMove', 'move.png', 'move_f2.png', 'Move', false );
+		JToolBarHelper::cancel('cancelItem');
+		JToolBarHelper::help( 'screen.menus.move' );
 
 		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');

@@ -97,12 +97,12 @@ function viewFrontPage( $option )
 	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 
-	JMenuBar::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );
-	JMenuBar::archiveList();
-	JMenuBar::publishList();
-	JMenuBar::unpublishList();
-	JMenuBar::custom('remove','delete.png','delete_f2.png','Remove', true);
-	JMenuBar::help( 'screen.frontpage' );
+	JToolBarHelper::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );
+	JToolBarHelper::archiveList();
+	JToolBarHelper::publishList();
+	JToolBarHelper::unpublishList();
+	JToolBarHelper::custom('remove','delete.png','delete_f2.png','Remove', true);
+	JToolBarHelper::help( 'screen.frontpage' );
 
 	$where = array(
 		"c.state >= 0"

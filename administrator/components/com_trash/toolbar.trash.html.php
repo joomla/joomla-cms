@@ -28,20 +28,20 @@ class TOOLBAR_Trash {
 			$text = ': <small><small>['. JText::_( 'Articles' ) .']</small></small>';
 		}
 
-		JMenuBar::title( JText::_( 'Trash Manager' ) . $text, 'trash.png' );
-		JMenuBar::custom('restoreconfirm','restore.png','restore_f2.png', 'Restore', true);
-		JMenuBar::custom('deleteconfirm','delete.png','delete_f2.png', 'Delete', true);
-		JMenuBar::help( 'screen.trashmanager' );
+		JToolBarHelper::title( JText::_( 'Trash Manager' ) . $text, 'trash.png' );
+		JToolBarHelper::custom('restoreconfirm','restore.png','restore_f2.png', 'Restore', true);
+		JToolBarHelper::custom('deleteconfirm','delete.png','delete_f2.png', 'Delete', true);
+		JToolBarHelper::help( 'screen.trashmanager' );
 	}
 
 	function _RESTORE() {
-		JMenuBar::title( JText::_( 'Restore Items' ), 'restoredb.png' );
-		JMenuBar::cancel();
+		JToolBarHelper::title( JText::_( 'Restore Items' ), 'restoredb.png' );
+		JToolBarHelper::cancel();
 	}
 
 	function _DELETE() {
-		JMenuBar::title( JText::_( 'Delete Items' ), 'delete_f2.png' );
-		JMenuBar::cancel();
+		JToolBarHelper::title( JText::_( 'Delete Items' ), 'delete_f2.png' );
+		JToolBarHelper::cancel();
 	}
 }
 ?>

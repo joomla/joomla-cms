@@ -31,12 +31,12 @@ class MenusViewMenus extends JView
 		$this->_layout = 'default';
 
 		// Set toolbar items for the page
-		JMenuBar::title( JText::_( 'Menu Manager' ), 'menumgr.png' );
-		JMenuBar::customX( 'copyMenu', 'copy.png', 'copy_f2.png', 'Copy', true );
-		JMenuBar::customX( 'deleteMenu', 'delete.png', 'delete_f2.png', 'Delete', true );
-		JMenuBar::editListX('editMenu');
-		JMenuBar::addNewX('editMenu');
-		JMenuBar::help( 'screen.menumanager' );
+		JToolBarHelper::title( JText::_( 'Menu Manager' ), 'menumgr.png' );
+		JToolBarHelper::customX( 'copyMenu', 'copy.png', 'copy_f2.png', 'Copy', true );
+		JToolBarHelper::customX( 'deleteMenu', 'delete.png', 'delete_f2.png', 'Delete', true );
+		JToolBarHelper::editListX('editMenu');
+		JToolBarHelper::addNewX('editMenu');
+		JToolBarHelper::help( 'screen.menumanager' );
 
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('View Menus'));
@@ -68,10 +68,10 @@ class MenusViewMenus extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JMenuBar::title(  JText::_( 'Copy Menu' ) );
-		JMenuBar::custom( 'doCopyMenu', 'copy.png', 'copy_f2.png', 'Copy', false );
-		JMenuBar::cancel();
-		JMenuBar::help( 'screen.menumanager.copy' );
+		JToolBarHelper::title(  JText::_( 'Copy Menu' ) );
+		JToolBarHelper::custom( 'doCopyMenu', 'copy.png', 'copy_f2.png', 'Copy', false );
+		JToolBarHelper::cancel();
+		JToolBarHelper::help( 'screen.menumanager.copy' );
 
 		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');
@@ -91,10 +91,10 @@ class MenusViewMenus extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JMenuBar::title(  JText::_( 'Delete Menu' ) );
-		JMenuBar::custom( 'doDeleteMenu', 'delete.png', 'delete_f2.png', 'Delete', false );
-		JMenuBar::cancel();
-		JMenuBar::help( 'screen.menumanager.delete' );
+		JToolBarHelper::title(  JText::_( 'Delete Menu' ) );
+		JToolBarHelper::custom( 'doDeleteMenu', 'delete.png', 'delete_f2.png', 'Delete', false );
+		JToolBarHelper::cancel();
+		JToolBarHelper::help( 'screen.menumanager.delete' );
 
 		// view data
 		$table		= $this->get('Table');
@@ -126,10 +126,10 @@ class MenusViewMenus extends JView
 		 * Set toolbar items for the page
 		 */
 		$text = ( ($table->id != 0) ? JText::_( 'Edit' ) : JText::_( 'New' ) );
-		JMenuBar::title( JText::_( 'Menu Details' ).': <small><small>[ '. $text.' ]</small></small>', 'menumgr.png' );
-		JMenuBar::custom( 'savemenu', 'save.png', 'save_f2.png', 'Save', false );
-		JMenuBar::cancel();
-		JMenuBar::help( 'screen.menumanager.new' );
+		JToolBarHelper::title( JText::_( 'Menu Details' ).': <small><small>[ '. $text.' ]</small></small>', 'menumgr.png' );
+		JToolBarHelper::custom( 'savemenu', 'save.png', 'save_f2.png', 'Save', false );
+		JToolBarHelper::cancel();
+		JToolBarHelper::help( 'screen.menumanager.new' );
 
 		$this->assignRef('row', $table);
 		$this->assign('isnew', ($table->id == 0));

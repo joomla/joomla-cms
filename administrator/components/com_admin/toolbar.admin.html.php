@@ -23,24 +23,24 @@ class TOOLBAR_admin
 {
 	function _SYSINFO() {
 
-		JMenuBar::title( JText::_( 'Information' ), 'systeminfo.png' );
-		JMenuBar::help( 'screen.system.info' );
+		JToolBarHelper::title( JText::_( 'Information' ), 'systeminfo.png' );
+		JToolBarHelper::help( 'screen.system.info' );
 	}
 
 	function _CPANEL() {
 
-		JMenuBar::title( JText::_( 'Control Panel' ), 'cpanel.png' );
-		JMenuBar::help( 'screen.cpanel' );
+		JToolBarHelper::title( JText::_( 'Control Panel' ), 'cpanel.png' );
+		JToolBarHelper::help( 'screen.cpanel' );
 	}
 
 	function _HELP() {
 
-		JMenuBar::title( JText::_( 'Help' ), 'help_header.png' );
+		JToolBarHelper::title( JText::_( 'Help' ), 'help_header.png' );
 	}
 
 	function _PREVIEW() {
 
-		JMenuBar::title( JText::_( 'Preview' ) );
+		JToolBarHelper::title( JText::_( 'Preview' ) );
 	}
 
 	function _DEFAULT() {

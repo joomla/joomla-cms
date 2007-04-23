@@ -25,11 +25,11 @@ class TOOLBAR_massmail {
 	*/
 	function _DEFAULT() {
 
-		JMenuBar::title( JText::_( 'Mass Mail' ), 'massemail.png' );
-		JMenuBar::custom('send','send.png','send_f2.png','Send Mail',false);
-		JMenuBar::cancel();
-		JMenuBar::preferences('com_massmail', 300);
-		JMenuBar::help( 'screen.users.massmail' );
+		JToolBarHelper::title( JText::_( 'Mass Mail' ), 'massemail.png' );
+		JToolBarHelper::custom('send','send.png','send_f2.png','Send Mail',false);
+		JToolBarHelper::cancel();
+		JToolBarHelper::preferences('com_massmail', 300);
+		JToolBarHelper::help( 'screen.users.massmail' );
 	}
 }
 ?>

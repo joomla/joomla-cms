@@ -32,14 +32,14 @@ class WeblinksViewWeblinks extends JView
 		global $mainframe, $option;
 
 		// Set toolbar items for the page
-		JMenuBar::title(   JText::_( 'Weblink Manager' ), 'generic.png' );
-		JMenuBar::publishList();
-		JMenuBar::unpublishList();
-		JMenuBar::deleteList();
-		JMenuBar::editListX();
-		JMenuBar::addNewX();
-		JMenuBar::preferences('com_weblinks', '200');
-		JMenuBar::help( 'screen.weblink' );
+		JToolBarHelper::title(   JText::_( 'Weblink Manager' ), 'generic.png' );
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::preferences('com_weblinks', '200');
+		JToolBarHelper::help( 'screen.weblink' );
 
 		$db		=& JFactory::getDBO();
 		$uri	=& JFactory::getURI();

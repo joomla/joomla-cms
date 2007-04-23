@@ -70,15 +70,15 @@ class WeblinksViewWeblink extends JView
 
 		// Set toolbar items for the page
 		$text = $isNew ? JText::_( 'New' ) : JText::_( 'Edit' );
-		JMenuBar::title(   JText::_( 'Weblink' ).': <small><small>[ ' . $text.' ]</small></small>' );
-		JMenuBar::save();
+		JToolBarHelper::title(   JText::_( 'Weblink' ).': <small><small>[ ' . $text.' ]</small></small>' );
+		JToolBarHelper::save();
 		if ($isNew)  {
-			JMenuBar::cancel();
+			JToolBarHelper::cancel();
 		} else {
 			// for existing items the button is renamed `close`
-			JMenuBar::cancel( 'cancel', 'Close' );
+			JToolBarHelper::cancel( 'cancel', 'Close' );
 		}
-		JMenuBar::help( 'screen.weblink.edit' );
+		JToolBarHelper::help( 'screen.weblink.edit' );
 
 		// Edit or Create?
 		if (!$isNew)

@@ -25,9 +25,9 @@ class TOOLBAR_cache {
 	*/
 	function _DEFAULT() {
 
-		JMenuBar::title( JText::_( 'Cache Manager' ), 'cache.png' );
-		JMenuBar::custom( 'delete', 'delete.png', 'delete_f2.png', 'Delete', true );
-		JMenuBar::help( 'screen.cache' );
+		JToolBarHelper::title( JText::_( 'Cache Manager' ), 'cache.png' );
+		JToolBarHelper::custom( 'delete', 'delete.png', 'delete_f2.png', 'Delete', true );
+		JToolBarHelper::help( 'screen.cache' );
 	}
 }
 ?>

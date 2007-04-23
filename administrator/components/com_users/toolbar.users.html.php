@@ -27,26 +27,26 @@ class TOOLBAR_users {
 		$cid = JRequest::getVar( 'cid', array(0) );
 		$text = intval($cid[0]) ? JText::_( 'Edit' ) : JText::_( 'Add' );
 
-		JMenuBar::title( JText::_( 'User Manager' ) .' - <span>'. $text.'</span>', 'user.png' );
-		JMenuBar::save();
-		JMenuBar::apply();
+		JToolBarHelper::title( JText::_( 'User Manager' ) .' - <span>'. $text.'</span>', 'user.png' );
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
 		if ( $cid[0] ) {
 			// for existing items the button is renamed `close`
-			JMenuBar::cancel( 'cancel', 'Close' );
+			JToolBarHelper::cancel( 'cancel', 'Close' );
 		} else {
-			JMenuBar::cancel();
+			JToolBarHelper::cancel();
 		}
-		JMenuBar::help( 'screen.users.edit' );
+		JToolBarHelper::help( 'screen.users.edit' );
 	}
 
 	function _DEFAULT() {
 
-		JMenuBar::title( JText::_( 'User Manager' ), 'user.png' );
-		JMenuBar::custom( 'logout', 'cancel.png', 'cancel_f2.png', 'Logout' );
-		JMenuBar::deleteList();
-		JMenuBar::editListX();
-		JMenuBar::addNewX();
-		JMenuBar::help( 'screen.users' );
+		JToolBarHelper::title( JText::_( 'User Manager' ), 'user.png' );
+		JToolBarHelper::custom( 'logout', 'cancel.png', 'cancel_f2.png', 'Logout' );
+		JToolBarHelper::deleteList();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::help( 'screen.users' );
 	}
 }
 ?>

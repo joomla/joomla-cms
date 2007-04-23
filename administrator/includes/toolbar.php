@@ -21,7 +21,7 @@ jimport('joomla.html.toolbar');
 *
 * @package		Joomla
 */
-class JMenuBar
+class JToolBarHelper
 {
 
 	/**
@@ -482,55 +482,6 @@ class JMenuBar
 		// Add a configuration button
 		$bar->appendButton( 'Popup', 'config', $alt, 'index.php?option=com_config&controller=component&component='.$component.'&path='.$path, $width, $height );
 	}
-}
-
-/**
- * Legacy class, use JMenuBar instead
- * @deprecated As of version 1.5
- */
-class mosMenuBar extends JMenuBar
-{
-	/**
-	* @deprecated As of Version 1.5
-	*/
-	function startTable() {
-		return;
-	}
-
-	/**
-	* @deprecated As of Version 1.5
-	*/
-	function endTable() {
-		return;
-	}
-
-	/**
-	 * Default $task has been changed to edit instead of new
-	 *
-	 * @deprecated As of Version 1.5
-	 */
-	function addNew($task = 'new', $alt = 'New') {
-		parent::addNew($task, $alt);
-	}
-
-	/**
-	 * Default $task has been changed to edit instead of new
-	 *
-	 * @deprecated As of Version 1.5
-	 */
-	function addNewX($task = 'new', $alt = 'New') {
-		parent::addNew($task, $alt);
-	}
-
-	/**
-	 * Deprecated
-	 *
-	 * @deprecated As of Version 1.5
-	 */
-	function saveedit() {
-		parent::save('saveedit');
-	}
-
 }
 
 /**

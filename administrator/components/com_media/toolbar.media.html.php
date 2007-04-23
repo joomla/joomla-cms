@@ -25,9 +25,9 @@ class TOOLBAR_media {
 	* Draws the menu for a New Media
 	*/
 	function _upload() {
-		JMenuBar::title( JText::_( 'Media Manager' ) . '- <span>' . JText::_( 'Upload' ) . '</span' , 'mediamanager.png');
-		JMenuBar::cancel('cancel', 'Close' );
-		JMenuBar::help( 'screen.mediamanager' );
+		JToolBarHelper::title( JText::_( 'Media Manager' ) . '- <span>' . JText::_( 'Upload' ) . '</span' , 'mediamanager.png');
+		JToolBarHelper::cancel('cancel', 'Close' );
+		JToolBarHelper::help( 'screen.mediamanager' );
 	}
 
 	/**
@@ -39,7 +39,7 @@ class TOOLBAR_media {
 		$bar = & JToolBar::getInstance('JComponent');
 
 		// Set the titlebar text
-		JMenuBar::title( JText::_( 'Media Manager' ), 'mediamanager.png');
+		JToolBarHelper::title( JText::_( 'Media Manager' ), 'mediamanager.png');
 
 		// Add a delete button
 		$bar = & JToolBar::getInstance('JComponent');
@@ -50,7 +50,7 @@ class TOOLBAR_media {
 		$bar->appendButton( 'Custom', $dhtml, 'delete' );
 
 		// Add a popup configuration button
-		JMenuBar::help( 'screen.mediamanager' );
+		JToolBarHelper::help( 'screen.mediamanager' );
 	}
 }
 ?>

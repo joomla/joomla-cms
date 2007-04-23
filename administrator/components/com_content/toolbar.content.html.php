@@ -25,39 +25,39 @@ class TOOLBAR_content
 
 		$text = ( $cid ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JMenuBar::title( JText::_( 'Article' ).': <small><small>[ '. $text.' ]</small></small>', 'addedit.png' );
-		JMenuBar::preview( 'index.php?option=com_content&id='.$cid.'&tmpl=component', true );
-		JMenuBar::save();
-		JMenuBar::apply();
+		JToolBarHelper::title( JText::_( 'Article' ).': <small><small>[ '. $text.' ]</small></small>', 'addedit.png' );
+		JToolBarHelper::preview( 'index.php?option=com_content&id='.$cid.'&tmpl=component', true );
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
 		if ( $cid ) {
 			// for existing articles the button is renamed `close`
-			JMenuBar::cancel( 'cancel', 'Close' );
+			JToolBarHelper::cancel( 'cancel', 'Close' );
 		} else {
-			JMenuBar::cancel();
+			JToolBarHelper::cancel();
 		}
-		JMenuBar::help( 'screen.content.edit' );
+		JToolBarHelper::help( 'screen.content.edit' );
 	}
 /*
 	function _ARCHIVE() {
 
-		JMenuBar::title( JText::_( 'Archive Manager' ), 'addedit.png' );
-		JMenuBar::unarchiveList();
-		JMenuBar::custom( 'remove', 'delete.png', 'delete_f2.png', 'Trash', false );
-		JMenuBar::help( 'screen.content.archive' );
+		JToolBarHelper::title( JText::_( 'Archive Manager' ), 'addedit.png' );
+		JToolBarHelper::unarchiveList();
+		JToolBarHelper::custom( 'remove', 'delete.png', 'delete_f2.png', 'Trash', false );
+		JToolBarHelper::help( 'screen.content.archive' );
 	}
 */
 	function _MOVE() {
 
-		JMenuBar::title( JText::_( 'Move Articles' ), 'move_f2.png' );
-		JMenuBar::custom( 'movesectsave', 'save.png', 'save_f2.png', 'Save', false );
-		JMenuBar::cancel();
+		JToolBarHelper::title( JText::_( 'Move Articles' ), 'move_f2.png' );
+		JToolBarHelper::custom( 'movesectsave', 'save.png', 'save_f2.png', 'Save', false );
+		JToolBarHelper::cancel();
 	}
 
 	function _COPY() {
 
-		JMenuBar::title( JText::_( 'Copy Articles' ), 'copy_f2.png' );
-		JMenuBar::custom( 'copysave', 'save.png', 'save_f2.png', 'Save', false );
-		JMenuBar::cancel();
+		JToolBarHelper::title( JText::_( 'Copy Articles' ), 'copy_f2.png' );
+		JToolBarHelper::custom( 'copysave', 'save.png', 'save_f2.png', 'Save', false );
+		JToolBarHelper::cancel();
 	}
 
 	function _DEFAULT() {
@@ -65,24 +65,24 @@ class TOOLBAR_content
 
 		$user =& JFactory::getUser();
 
-		JMenuBar::title( JText::_( 'Article Manager' ), 'addedit.png' );
+		JToolBarHelper::title( JText::_( 'Article Manager' ), 'addedit.png' );
 		if ($filter_state == 'A' || $filter_state == NULL) {
-			JMenuBar::unarchiveList();
+			JToolBarHelper::unarchiveList();
 		}
 		if ($filter_state != 'A') {
-			JMenuBar::archiveList();
+			JToolBarHelper::archiveList();
 		}
-		JMenuBar::publishList();
-		JMenuBar::unpublishList();
-		JMenuBar::customX( 'movesect', 'move.png', 'move_f2.png', 'Move' );
-		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
-		JMenuBar::trash();
-		JMenuBar::editListX();
-		JMenuBar::addNewX();
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::customX( 'movesect', 'move.png', 'move_f2.png', 'Move' );
+		JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
+		JToolBarHelper::trash();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
 		if ($user->get('gid') == 25) {
-			JMenuBar::preferences('com_content', '450');
+			JToolBarHelper::preferences('com_content', '450');
 		}
-		JMenuBar::help( 'screen.content' );
+		JToolBarHelper::help( 'screen.content' );
 	}
 }
 ?>

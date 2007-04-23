@@ -40,19 +40,19 @@ class MenusViewItem extends JView
 
 		// Set toolbar items for the page
 		if (!$item->id) {
-			JMenuBar::title( JText::_( 'New Menu Item' ), 'menu.png' );
+			JToolBarHelper::title( JText::_( 'New Menu Item' ), 'menu.png' );
 		} else {
-			JMenuBar::title( JText::_( 'Edit Menu Item' ), 'menu.png' );
+			JToolBarHelper::title( JText::_( 'Edit Menu Item' ), 'menu.png' );
 		}
-		JMenuBar::save();
-		JMenuBar::apply();
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
 		if ($item->id) {
 			// for existing items the button is renamed `close`
-			JMenuBar::cancel( 'cancelItem', 'Close' );
+			JToolBarHelper::cancel( 'cancelItem', 'Close' );
 		} else {
-			JMenuBar::cancel('cancelItem');
+			JToolBarHelper::cancel('cancelItem');
 		}
-		JMenuBar::help( 'screen.menus.edit' );
+		JToolBarHelper::help( 'screen.menus.edit' );
 
 		// Load component language files
 		$component		= &$this->get('Component');
@@ -125,14 +125,14 @@ class MenusViewItem extends JView
 
 		// Set toolbar items for the page
 		if (!$item->id) {
-			JMenuBar::title(  JText::_( 'Add Menu Item' ), 'menu.png' );
+			JToolBarHelper::title(  JText::_( 'Add Menu Item' ), 'menu.png' );
 		} else {
-			JMenuBar::title(  JText::_( 'Change Menu Item' ), 'menu.png' );
+			JToolBarHelper::title(  JText::_( 'Change Menu Item' ), 'menu.png' );
 		}
 
 		// Set toolbar items for the page
-		JMenuBar::cancel('view');
-		JMenuBar::help( 'screen.menus.type' );
+		JToolBarHelper::cancel('view');
+		JToolBarHelper::help( 'screen.menus.type' );
 
 		// Add scripts and stylesheets to the document
 		$document	= & JFactory::getDocument();

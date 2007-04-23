@@ -25,9 +25,9 @@ class TOOLBAR_languages
 {
 	function _DEFAULT(&$client)
 	{
-		JMenuBar::title( JText::_( 'Language Manager' ), 'langmanager.png' );
-		JMenuBar::publishList('publish', 'Default');
-		JMenuBar::help( 'screen.languages' );
+		JToolBarHelper::title( JText::_( 'Language Manager' ), 'langmanager.png' );
+		JToolBarHelper::publishList('publish', 'Default');
+		JToolBarHelper::help( 'screen.languages' );
 	}
 }
 ?>

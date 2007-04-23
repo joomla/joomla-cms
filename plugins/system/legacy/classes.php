@@ -1756,14 +1756,14 @@ class mosAdminMenus
 class MENU_Default
 {
 	function MENU_Default() {
-		JMenuBar::startTable();
-		JMenuBar::publishList();
-		JMenuBar::unpublishList();
-		JMenuBar::addNew();
-		JMenuBar::editList();
-		JMenuBar::deleteList();
-		JMenuBar::spacer();
-		JMenuBar::endTable();
+		JToolBarHelper::startTable();
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::spacer();
+		JToolBarHelper::endTable();
 	}
 }
 
@@ -1835,5 +1835,57 @@ class patFactory
 		}
 		return $tmpl;
 	}
+}
+
+/**
+ * Legacy class, use {@link JToolBarHelper} instead
+ *
+ * @deprecated	As of version 1.5
+ * @package	Joomla.Legacy
+ * @subpackage	1.5
+ */
+class mosMenuBar extends JToolBarHelper
+{
+	/**
+	* @deprecated As of Version 1.5
+	*/
+	function startTable() {
+		return;
+	}
+
+	/**
+	* @deprecated As of Version 1.5
+	*/
+	function endTable() {
+		return;
+	}
+
+	/**
+	 * Default $task has been changed to edit instead of new
+	 *
+	 * @deprecated As of Version 1.5
+	 */
+	function addNew($task = 'new', $alt = 'New') {
+		parent::addNew($task, $alt);
+	}
+
+	/**
+	 * Default $task has been changed to edit instead of new
+	 *
+	 * @deprecated As of Version 1.5
+	 */
+	function addNewX($task = 'new', $alt = 'New') {
+		parent::addNew($task, $alt);
+	}
+
+	/**
+	 * Deprecated
+	 *
+	 * @deprecated As of Version 1.5
+	 */
+	function saveedit() {
+		parent::save('saveedit');
+	}
+
 }
 ?>

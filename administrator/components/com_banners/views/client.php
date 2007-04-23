@@ -20,11 +20,11 @@ class BannersViewClients
 {
 	function setClientsToolbar()
 	{
-		JMenuBar::title( JText::_( 'Banner Client Manager' ), 'generic.png' );
-		JMenuBar::deleteList( '', 'remove' );
-		JMenuBar::editListX( 'edit' );
-		JMenuBar::addNewX( 'add' );
-		JMenuBar::help( 'screen.banners.client' );
+		JToolBarHelper::title( JText::_( 'Banner Client Manager' ), 'generic.png' );
+		JToolBarHelper::deleteList( '', 'remove' );
+		JToolBarHelper::editListX( 'edit' );
+		JToolBarHelper::addNewX( 'add' );
+		JToolBarHelper::help( 'screen.banners.client' );
 	}
 
 	function clients( &$rows, &$pageNav, &$lists )
@@ -135,11 +135,11 @@ class BannersViewClients
 	{
 		$task = JRequest::getVar( 'task', '', 'method', 'string');
 
-		JMenuBar::title( $task == 'add' ? JText::_( 'New Banner Client' ) : JText::_( 'Edit Banner Client' ), 'generic.png' );
-		JMenuBar::save( 'save' );
-		JMenuBar::apply('apply');
-		JMenuBar::cancel( 'cancel' );
-		JMenuBar::help( 'screen.banners.client.edit' );
+		JToolBarHelper::title( $task == 'add' ? JText::_( 'New Banner Client' ) : JText::_( 'Edit Banner Client' ), 'generic.png' );
+		JToolBarHelper::save( 'save' );
+		JToolBarHelper::apply('apply');
+		JToolBarHelper::cancel( 'cancel' );
+		JToolBarHelper::help( 'screen.banners.client.edit' );
 	}
 
 	function client( &$row )

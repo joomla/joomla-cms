@@ -28,32 +28,32 @@ class TOOLBAR_contact {
 
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JMenuBar::title( JText::_( 'Contact' ) .': <small><small>[ '. $text .' ]</small></small>', 'generic.png' );
+		JToolBarHelper::title( JText::_( 'Contact' ) .': <small><small>[ '. $text .' ]</small></small>', 'generic.png' );
 
-		//JMenuBar::custom( 'save2new', 'new.png', 'new_f2.png', 'Save & New', false,  false );
-		//JMenuBar::custom( 'save2copy', 'copy.png', 'copy_f2.png', 'Save To Copy', false,  false );
-		JMenuBar::save();
-		JMenuBar::apply();
+		//JToolBarHelper::custom( 'save2new', 'new.png', 'new_f2.png', 'Save & New', false,  false );
+		//JToolBarHelper::custom( 'save2copy', 'copy.png', 'copy_f2.png', 'Save To Copy', false,  false );
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
 		if ( $cid[0] ) {
 			// for existing items the button is renamed `close`
-			JMenuBar::cancel( 'cancel', 'Close' );
+			JToolBarHelper::cancel( 'cancel', 'Close' );
 		} else {
-			JMenuBar::cancel();
+			JToolBarHelper::cancel();
 		}
-		JMenuBar::help( 'screen.contactmanager.edit' );
+		JToolBarHelper::help( 'screen.contactmanager.edit' );
 	}
 
 	function _DEFAULT() {
 
-		JMenuBar::title( JText::_( 'Contact Manager' ), 'generic.png' );
-		JMenuBar::publishList();
-		JMenuBar::unpublishList();
-		JMenuBar::deleteList();
-		JMenuBar::editListX();
-		JMenuBar::addNewX();
-		JMenuBar::preferences('com_contact', '500');
+		JToolBarHelper::title( JText::_( 'Contact Manager' ), 'generic.png' );
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::preferences('com_contact', '500');
 
-		JMenuBar::help( 'screen.contactmanager' );
+		JToolBarHelper::help( 'screen.contactmanager' );
 	}
 }
 ?>

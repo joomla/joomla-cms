@@ -32,9 +32,9 @@ class InstallerViewLanguages extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JMenuBar::title( JText::_( 'Extension Manager'), 'install.png' );
-		JMenuBar::deleteList( '', 'remove', 'Uninstall' );
-		JMenuBar::help( 'screen.installer2' );
+		JToolBarHelper::title( JText::_( 'Extension Manager'), 'install.png' );
+		JToolBarHelper::deleteList( '', 'remove', 'Uninstall' );
+		JToolBarHelper::help( 'screen.installer2' );
 
 		// Document
 		$document = & JFactory::getDocument();

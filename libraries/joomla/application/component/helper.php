@@ -171,7 +171,6 @@ class JComponentHelper
 			$task		= JRequest::getString( 'task' );
 
 			// Make the toolbar
-			require_once( JPATH_ADMINISTRATOR.DS.'includes'.DS.'menubar.html.php' );
 			include_once( $path );
 		}
 

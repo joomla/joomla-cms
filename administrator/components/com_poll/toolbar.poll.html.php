@@ -29,27 +29,27 @@ class TOOLBAR_poll {
 
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JMenuBar::title(  JText::_( 'Poll' ).': <small><small>[ ' . $text.' ]</small></small>' );
-		JMenuBar::Preview('index.php?option=com_poll&tmpl=component&pollid='.$pollid);
-		JMenuBar::save();
-		JMenuBar::apply();
+		JToolBarHelper::title(  JText::_( 'Poll' ).': <small><small>[ ' . $text.' ]</small></small>' );
+		JToolBarHelper::Preview('index.php?option=com_poll&tmpl=component&pollid='.$pollid);
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
 		if ($cid[0]) {
 			// for existing items the button is renamed `close`
-			JMenuBar::cancel( 'cancel', 'Close' );
+			JToolBarHelper::cancel( 'cancel', 'Close' );
 		} else {
-			JMenuBar::cancel();
+			JToolBarHelper::cancel();
 		}
-		JMenuBar::help( 'screen.polls.edit' );
+		JToolBarHelper::help( 'screen.polls.edit' );
 	}
 
 	function _DEFAULT() {
-		JMenuBar::title(  JText::_( 'Poll Manager' ) );
-		JMenuBar::publishList();
-		JMenuBar::unpublishList();
-		JMenuBar::deleteList();
-		JMenuBar::editListX();
-		JMenuBar::addNewX();
-		JMenuBar::help( 'screen.polls' );
+		JToolBarHelper::title(  JText::_( 'Poll Manager' ) );
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::help( 'screen.polls' );
 	}
 }
 ?>

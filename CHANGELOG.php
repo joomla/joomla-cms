@@ -41,6 +41,7 @@ Legend:
  ^ Moved event and plugin classes into their own event package
  ^ Moved session classes into their own session package
  ^ Moved functions from JAdminMenus to JAdministratorHelper
+ ^ Renamed JMenuBar to JToolBarHelper
 
 21-Apr-2007 Johan Janssens
  ^ Fixed various problems with URL routing
@@ -388,7 +389,7 @@ You have to open the article preferences and change the setting to show and save
  # Fixed [artf7503] : Readmore and Pagebreak don't work in editor in IE7
 
 10-Feb-2007 Hannes Papenberg
- ^ Changed JMenuBar::configuration to preferences
+ ^ Changed JToolBarHelper::configuration to preferences
  - removed obsolete module position code in com_templates
  - removed Apply button in com_weblinks
  # Fixed print function in com_content

@@ -23,57 +23,57 @@ class TOOLBAR_templates
 {
 	function _DEFAULT(&$client)
 	{
-		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
+		JToolBarHelper::title( JText::_( 'Template Manager' ), 'thememanager' );
 
 		if ($client->id == '1') {
-			JMenuBar::makeDefault('publish');
+			JToolBarHelper::makeDefault('publish');
 		} else {
-			JMenuBar::makeDefault();
+			JToolBarHelper::makeDefault();
 		}
-		JMenuBar::editListX( 'edit', 'Edit' );
-		//JMenuBar::addNew();
-		JMenuBar::help( 'screen.templates' );
+		JToolBarHelper::editListX( 'edit', 'Edit' );
+		//JToolBarHelper::addNew();
+		JToolBarHelper::help( 'screen.templates' );
 	}
  	function _VIEW(&$client){
 
-		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
-		JMenuBar::back();
+		JToolBarHelper::title( JText::_( 'Template Manager' ), 'thememanager' );
+		JToolBarHelper::back();
 	}
 
 	function _EDIT_SOURCE(&$client){
 
-		JMenuBar::title( JText::_( 'Template HTML Editor' ), 'thememanager' );
-		JMenuBar::save( 'save_source' );
-		JMenuBar::apply( 'apply_source' );
-		JMenuBar::cancel('edit');
-		JMenuBar::help( 'screen.templates' );
+		JToolBarHelper::title( JText::_( 'Template HTML Editor' ), 'thememanager' );
+		JToolBarHelper::save( 'save_source' );
+		JToolBarHelper::apply( 'apply_source' );
+		JToolBarHelper::cancel('edit');
+		JToolBarHelper::help( 'screen.templates' );
 	}
 
 	function _EDIT(&$client){
 
-		JMenuBar::title( JText::_( 'Template Parameters' ), 'thememanager' );
-		JMenuBar::custom('preview', 'preview.png', 'preview_f2.png', 'Preview', false, false);
-		JMenuBar::custom( 'edit_source', 'html.png', 'html_f2.png', 'Edit HTML', false, false );
-		JMenuBar::custom( 'choose_css', 'css.png', 'css_f2.png', 'Edit CSS', false, false );
-		JMenuBar::save( 'save' );
-		JMenuBar::apply();
-		JMenuBar::cancel( 'cancel', 'Close' );
-		JMenuBar::help( 'screen.templates' );
+		JToolBarHelper::title( JText::_( 'Template Parameters' ), 'thememanager' );
+		JToolBarHelper::custom('preview', 'preview.png', 'preview_f2.png', 'Preview', false, false);
+		JToolBarHelper::custom( 'edit_source', 'html.png', 'html_f2.png', 'Edit HTML', false, false );
+		JToolBarHelper::custom( 'choose_css', 'css.png', 'css_f2.png', 'Edit CSS', false, false );
+		JToolBarHelper::save( 'save' );
+		JToolBarHelper::apply();
+		JToolBarHelper::cancel( 'cancel', 'Close' );
+		JToolBarHelper::help( 'screen.templates' );
 	}
 
 	function _CHOOSE_CSS(&$client){
-		JMenuBar::title( JText::_( 'Template CSS Editor' ), 'thememanager' );
-		JMenuBar::custom( 'edit_css', 'edit.png', 'edit_f2.png', 'Edit', true );
-		JMenuBar::cancel('edit');
-		JMenuBar::help( 'screen.templates' );
+		JToolBarHelper::title( JText::_( 'Template CSS Editor' ), 'thememanager' );
+		JToolBarHelper::custom( 'edit_css', 'edit.png', 'edit_f2.png', 'Edit', true );
+		JToolBarHelper::cancel('edit');
+		JToolBarHelper::help( 'screen.templates' );
 	}
 
 	function _EDIT_CSS(&$client){
-		JMenuBar::title( JText::_( 'Template Manager' ), 'thememanager' );
-		JMenuBar::save( 'save_css' );
-		JMenuBar::apply( 'apply_css');
-		JMenuBar::cancel('choose_css');
-		JMenuBar::help( 'screen.templates' );
+		JToolBarHelper::title( JText::_( 'Template Manager' ), 'thememanager' );
+		JToolBarHelper::save( 'save_css' );
+		JToolBarHelper::apply( 'apply_css');
+		JToolBarHelper::cancel('choose_css');
+		JToolBarHelper::help( 'screen.templates' );
 	}
 }
 ?>

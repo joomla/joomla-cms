@@ -23,11 +23,11 @@ class TOOLBAR_config
 {
 	function _DEFAULT() {
 
-		JMenuBar::title( JText::_( 'Global Configuration' ), 'config.png' );
-		JMenuBar::save();
-		JMenuBar::apply();
-		JMenuBar::cancel('cancel', 'Close');
-		JMenuBar::help( 'screen.config' );
+		JToolBarHelper::title( JText::_( 'Global Configuration' ), 'config.png' );
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
+		JToolBarHelper::cancel('cancel', 'Close');
+		JToolBarHelper::help( 'screen.config' );
 	}
 }
 ?>

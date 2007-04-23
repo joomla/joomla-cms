@@ -27,16 +27,16 @@ class TOOLBAR_categories {
 
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JMenuBar::title( JText::_( 'Category' ) .': <small><small>[ '. $text.' ]</small></small>', 'categories.png' );
-		JMenuBar::save();
-		JMenuBar::apply();
+		JToolBarHelper::title( JText::_( 'Category' ) .': <small><small>[ '. $text.' ]</small></small>', 'categories.png' );
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
 		if ($cid[0]) {
 			// for existing articles the button is renamed `close`
-			JMenuBar::cancel( 'cancel', 'Close' );
+			JToolBarHelper::cancel( 'cancel', 'Close' );
 		} else {
-			JMenuBar::cancel();
+			JToolBarHelper::cancel();
 		}
-		JMenuBar::help( 'screen.categories.edit' );
+		JToolBarHelper::help( 'screen.categories.edit' );
 	}
 
 	/**
@@ -45,9 +45,9 @@ class TOOLBAR_categories {
 	*/
 	function _MOVE() {
 
-		JMenuBar::title( JText::_( 'Move Category' ) );
-		JMenuBar::save( 'movesave' );
-		JMenuBar::cancel();
+		JToolBarHelper::title( JText::_( 'Move Category' ) );
+		JToolBarHelper::save( 'movesave' );
+		JToolBarHelper::cancel();
 	}
 
 	/**
@@ -56,9 +56,9 @@ class TOOLBAR_categories {
 	*/
 	function _COPY() {
 
-		JMenuBar::title( JText::_( 'Copy Category' ) );
-		JMenuBar::save( 'copysave' );
-		JMenuBar::cancel();
+		JToolBarHelper::title( JText::_( 'Copy Category' ) );
+		JToolBarHelper::save( 'copysave' );
+		JToolBarHelper::cancel();
 	}
 
 	/**
@@ -68,18 +68,18 @@ class TOOLBAR_categories {
 	{
 		$section = JRequest::getVar( 'section' );
 
-		JMenuBar::title( JText::_( 'Category Manager' ) .': <small><small>[ '. JText::_(JString::substr($section, 4)).' ]</small></small>', 'categories.png' );
-		JMenuBar::publishList();
-		JMenuBar::unpublishList();
+		JToolBarHelper::title( JText::_( 'Category Manager' ) .': <small><small>[ '. JText::_(JString::substr($section, 4)).' ]</small></small>', 'categories.png' );
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
 		
 		if ( $section == 'com_content' || ( $section > 0 ) ) {
-			JMenuBar::customX( 'moveselect', 'move.png', 'move_f2.png', 'Move', true );
-			JMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );
+			JToolBarHelper::customX( 'moveselect', 'move.png', 'move_f2.png', 'Move', true );
+			JToolBarHelper::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );
 		}
-		JMenuBar::deleteList();
-		JMenuBar::editListX();
-		JMenuBar::addNewX();
-		JMenuBar::help( 'screen.categories' );
+		JToolBarHelper::deleteList();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::help( 'screen.categories' );
 	}
 }
 ?>

@@ -23,13 +23,13 @@ class TOOLBAR_newsfeeds
 {
 	function _DEFAULT()
 	{
-		JMenuBar::title(  JText::_( 'Newsfeed Manager' ) );
-		JMenuBar::publishList();
-		JMenuBar::unpublishList();
-		JMenuBar::deleteList();
-		JMenuBar::editListX();
-		JMenuBar::addNewX();
-		JMenuBar::help( 'screen.newsfeeds' );
+		JToolBarHelper::title(  JText::_( 'Newsfeed Manager' ) );
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::help( 'screen.newsfeeds' );
 	}
 
 	function _EDIT()
@@ -38,16 +38,16 @@ class TOOLBAR_newsfeeds
 
 		$text 	= ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JMenuBar::title(  JText::_( 'Newsfeed' ).': <small><small>[ '. $text.' ]</small></small>' );
-		JMenuBar::save();
-		JMenuBar::apply();
+		JToolBarHelper::title(  JText::_( 'Newsfeed' ).': <small><small>[ '. $text.' ]</small></small>' );
+		JToolBarHelper::save();
+		JToolBarHelper::apply();
 		if ($cid[0]) {
 			// for existing items the button is renamed `close`
-			JMenuBar::cancel( 'cancel', 'Close' );
+			JToolBarHelper::cancel( 'cancel', 'Close' );
 		} else {
-			JMenuBar::cancel();
+			JToolBarHelper::cancel();
 		}
-		JMenuBar::help( 'screen.newsfeeds.edit' );
+		JToolBarHelper::help( 'screen.newsfeeds.edit' );
 	}
 }
 ?>
