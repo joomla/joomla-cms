@@ -149,7 +149,7 @@ class JSite extends JApplication
 				$params = array(
 					'format' => JRequest::getVar( 'type', 'rss2.0', '', 'string' )
 				);
-			}
+			} break;
 
 			case 'html' :
 			default     :
@@ -160,7 +160,7 @@ class JSite extends JApplication
 				if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
 					$file = 'offline';
 				}
-				if (!is_dir( JPATH_SITE . '/templates/' . $template ) && !$this->getCfg('offline')) {
+				if (!is_dir( JPATH_SITE.DS.'templates'.DS.$template ) && !$this->getCfg('offline')) {
 					$file = 'component';
 				}
 				$params = array(
@@ -168,7 +168,7 @@ class JSite extends JApplication
 					'file'		=> $file.'.php',
 					'directory'	=> JPATH_THEMES
 				);
-			}
+			} break;
  		}
 
 		$data = $document->render( $this->getCfg('caching'), $params);
