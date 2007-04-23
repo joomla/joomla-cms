@@ -129,7 +129,7 @@ class ContactController extends JController
 		}
 
 		// Passed Validation: Process the contact plugins to integrate with other applications
-		JPluginHelper::importPlugin( 'contact', null, false );
+		JPluginHelper::importPlugin( 'contact');
 		$dispatcher	=& JEventDispatcher::getInstance();
 		$results	= $dispatcher->trigger( 'onSubmitContact', array( &$contact ) );
 
