@@ -16,7 +16,7 @@
 defined('JPATH_BASE') or die();
 
 // Include library dependencies
-jimport('joomla.application.plugin.*');
+jimport('joomla.event.*');
 
 /**
 * Base class for a Joomla! application.

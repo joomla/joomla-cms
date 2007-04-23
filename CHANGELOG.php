@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Apr-2007 Johan Janssens
+ ^ Moved event and plugin classes into their own event package
+
 21-Apr-2007 Johan Janssens
  ^ Fixed various problems with URL routing
 

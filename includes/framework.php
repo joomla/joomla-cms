@@ -69,7 +69,7 @@ if (JDEBUG) {
 
 jimport( 'joomla.environment.response'   );
 jimport( 'joomla.application.application' );
-jimport( 'joomla.application.event' );
+jimport( 'joomla.event.event' );
 jimport( 'joomla.application.menu' ); 		//needs to be loaded later
 jimport( 'joomla.database.table' );
 jimport( 'joomla.user.user');

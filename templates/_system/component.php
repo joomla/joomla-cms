@@ -13,8 +13,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="head" />
-	<link rel="stylesheet" href="templates/_system/css/template.css" type="text/css" />
-	<link rel="stylesheet" href="templates/<?php echo $mainframe->getTemplate(); ?>/css/template.css" type="text/css" />
+	<link rel="stylesheet" href="templates/_system/css/general.css" type="text/css" />
+	<link rel="stylesheet" href="templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+
+<?php if($this->direction == 'rtl') : ?>
+	<link rel="stylesheet" href="templates/<?php echo $this->template ?>/css/template_rtl.css" type="text/css" />
+<?php endif; ?>
 </head>
 <body class="contentpane">
 	<jdoc:include type="message" />

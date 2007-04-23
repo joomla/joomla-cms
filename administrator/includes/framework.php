@@ -68,7 +68,7 @@ if (JDEBUG) {
 jimport( 'joomla.environment.response'   );
 jimport( 'joomla.application.application' );
 jimport( 'joomla.application.helper' );
-jimport( 'joomla.application.event' );
+jimport( 'joomla.event.event' );
 jimport( 'joomla.application.menu' );
 jimport( 'joomla.database.table' );
 jimport( 'joomla.user.user');

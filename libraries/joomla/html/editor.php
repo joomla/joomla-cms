@@ -15,7 +15,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport('joomla.application.event');
+jimport('joomla.event.event');
 
 /**
  * JEditor class to handle WYSIWYG editors

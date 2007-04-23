@@ -14,7 +14,7 @@
 // Do not allow direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.application.plugin.plugin');
+jimport('joomla.event.plugin');
 
 /**
  * TinyMCE WYSIWYG Editor Plugin

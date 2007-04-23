@@ -21,7 +21,7 @@ defined('JPATH_BASE') or die();
 * @static
 * @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
-* @subpackage	Application
+* @subpackage	Event
 * @since		1.5
 */
 class JPluginHelper

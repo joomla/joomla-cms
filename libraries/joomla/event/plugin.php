@@ -23,7 +23,7 @@ jimport( 'joomla.base.observer' );
  * @abstract
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
- * @subpackage	Application
+ * @subpackage	Event
  * @since		1.5
  */
 class JPlugin extends JObserver
