@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id:eaccelerator.php 6961 2007-03-15 16:06:53Z tcp $
+* @version		$Id:database.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	Environment
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -16,31 +16,16 @@
 defined('JPATH_BASE') or die();
 
 /**
-* eAccelerator session storage handler for PHP
+* Database session storage handler for PHP
 *
 * @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
-* @subpackage	Environment
+* @subpackage	Session
 * @since		1.5
 * @see http://www.php.net/manual/en/function.session-set-save-handler.php
 */
-class JSessionStorageEaccelerator extends JSessionStorage
+class JSessionStorageDatabase extends JSessionStorage
 {
-	/**
-	* Constructor
-	*
-	* @access protected
-	* @param array $options optional parameters
-	*/
-	function __construct( $options = array() )
-	{
-		if (!$this->test()) {
-            return JError::raiseError(404, "The eaccelerator extension isn't available");
-        }
-
-		parent::__construct($options);
-	}
-
 	/**
 	 * Open the SessionHandler backend.
 	 *
@@ -75,8 +60,9 @@ class JSessionStorageEaccelerator extends JSessionStorage
  	 */
 	function read($id)
 	{
-		$sess_id = 'sess_'.$id;
-		return (string) eaccelerator_get($sess_id);
+		$session = & JTable::getInstance('session');
+		$session->load($id);
+		return (string)$session->data;
 	}
 
 	/**
@@ -89,8 +75,12 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	 */
 	function write($id, $session_data)
 	{
-		$sess_id = 'sess_'.$id;
-		return eaccelerator_put($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
+		$session = & JTable::getInstance('session');
+		$session->load($id);
+		$session->data = $session_data;
+		$session->store();
+
+		return true;
 	}
 
 	/**
@@ -103,8 +93,9 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	  */
 	function destroy($id)
 	{
-		$sess_id = 'sess_'.$id;
-		return eaccelerator_rm($sess_id);
+		$session = & JTable::getInstance('session');
+		$session->destroy($id);
+		return true;
 	}
 
 	/**
@@ -116,18 +107,8 @@ class JSessionStorageEaccelerator extends JSessionStorage
 	 */
 	function gc($maxlifetime)
 	{
-		eaccelerator_gc();
+		$session = & JTable::getInstance('session');
+		$session->purge($maxlifetime);
 		return true;
-	}
-
-	/**
-	 * Test to see if the SessionHandler is available.
-	 *
-	 * @static
-	 * @access public
-	 * @return boolean  True on success, false otherwise.
-	 */
-	function test() {
-		return (extension_loaded('eaccelerator') && function_exists('eaccelerator_get'));
 	}
 }

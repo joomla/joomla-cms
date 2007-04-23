@@ -378,7 +378,7 @@ class JFactory
 	 */
 	function &_createSession( $options = array())
 	{
-		jimport('joomla.environment.session');
+		jimport('joomla.session.session');
 
 		//get the editor configuration setting
 		$conf =& JFactory::getConfig();

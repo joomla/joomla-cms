@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id:apc.php 6961 2007-03-15 16:06:53Z tcp $
+* @version		$Id:eaccelerator.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	Environment
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -16,15 +16,15 @@
 defined('JPATH_BASE') or die();
 
 /**
-* APC session storage handler for PHP
+* eAccelerator session storage handler for PHP
 *
 * @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
-* @subpackage	Environment
+* @subpackage	Session
 * @since		1.5
 * @see http://www.php.net/manual/en/function.session-set-save-handler.php
 */
-class JSessionStorageApc extends JSessionStorage
+class JSessionStorageEaccelerator extends JSessionStorage
 {
 	/**
 	* Constructor
@@ -35,7 +35,7 @@ class JSessionStorageApc extends JSessionStorage
 	function __construct( $options = array() )
 	{
 		if (!$this->test()) {
-            return JError::raiseError(404, "The apc extension isn't available");
+            return JError::raiseError(404, "The eaccelerator extension isn't available");
         }
 
 		parent::__construct($options);
@@ -76,7 +76,7 @@ class JSessionStorageApc extends JSessionStorage
 	function read($id)
 	{
 		$sess_id = 'sess_'.$id;
-		return (string) apc_fetch($sess_id);
+		return (string) eaccelerator_get($sess_id);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class JSessionStorageApc extends JSessionStorage
 	function write($id, $session_data)
 	{
 		$sess_id = 'sess_'.$id;
-		return apc_store($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
+		return eaccelerator_put($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
 	}
 
 	/**
@@ -104,7 +104,7 @@ class JSessionStorageApc extends JSessionStorage
 	function destroy($id)
 	{
 		$sess_id = 'sess_'.$id;
-		return apc_delete($sess_id);
+		return eaccelerator_rm($sess_id);
 	}
 
 	/**
@@ -116,6 +116,7 @@ class JSessionStorageApc extends JSessionStorage
 	 */
 	function gc($maxlifetime)
 	{
+		eaccelerator_gc();
 		return true;
 	}
 
@@ -127,6 +128,6 @@ class JSessionStorageApc extends JSessionStorage
 	 * @return boolean  True on success, false otherwise.
 	 */
 	function test() {
-		return extension_loaded('apc');
+		return (extension_loaded('eaccelerator') && function_exists('eaccelerator_get'));
 	}
 }

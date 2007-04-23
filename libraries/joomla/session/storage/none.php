@@ -20,7 +20,7 @@ defined('JPATH_BASE') or die();
 *
 * @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
-* @subpackage	Environment
+* @subpackage	Session
 * @since		1.5
 * @see http://www.php.net/manual/en/function.session-set-save-handler.php
 */

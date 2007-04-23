@@ -15,7 +15,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport('joomla.environment.sessionstorage');
+jimport('joomla.session.storage');
 
 /**
 * Class for managing HTTP sessions
@@ -27,7 +27,7 @@ jimport('joomla.environment.sessionstorage');
 *
 * @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
-* @subpackage	Environment
+* @subpackage	Session
 * @since		1.5
 */
 class JSession extends JObject
@@ -232,13 +232,13 @@ class JSession extends JObject
 	function getStores()
 	{
 		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(dirname(__FILE__).DS.'sessionstorage', '.php$');
+		$handlers = JFolder::files(dirname(__FILE__).DS.'storage', '.php$');
 
 		$names = array();
 		foreach($handlers as $handler)
 		{
 			$name = substr($handler, 0, strrpos($handler, '.'));
-			jimport('joomla.environment.sessionstorage.'.$name);
+			jimport('joomla.session.storage.'.$name);
 			$class = 'JSessionStorage'.$name;
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {
 				$names[] = $name;
