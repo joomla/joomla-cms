@@ -107,7 +107,7 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_( 'Ordering' ); ?>:
 							</td>
 							<td>
-								<?php echo JAdminMenus::Ordering( $this->item, $this->item->id ); ?>
+								<?php echo JAdministratorHelper::Ordering( $this->item, $this->item->id ); ?>
 							</td>
 						</tr>
 						<tr>
@@ -115,7 +115,7 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_( 'Access Level' ); ?>:
 							</td>
 							<td>
-								<?php echo JAdminMenus::Access( $this->item ); ?>
+								<?php echo JAdministratorHelper::Access( $this->item ); ?>
 							</td>
 						</tr>
 						<tr>

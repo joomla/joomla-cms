@@ -436,7 +436,7 @@ class ContentViewArticle extends JView
 
 		// Select List: Category Ordering
 		$query = 'SELECT ordering AS value, title AS text FROM #__content WHERE catid = '.$article->catid.' ORDER BY ordering';
-		$lists['ordering'] = JAdminMenus::SpecificOrdering($article, $article->id, $query, 1);
+		$lists['ordering'] = JAdministratorHelper::SpecificOrdering($article, $article->id, $query, 1);
 
 		// Radio Buttons: Should the article be published
 		$lists['state'] = JHTMLSelect::yesnoList('state', '', $article->state);
@@ -453,7 +453,7 @@ class ContentViewArticle extends JView
 		$lists['frontpage'] = JHTMLSelect::yesnoList('frontpage', '', (boolean) $article->frontpage);
 
 		// Select List: Group Access
-		$lists['access'] = JAdminMenus::Access($article);
+		$lists['access'] = JAdministratorHelper::Access($article);
 
 		return $lists;
 	}

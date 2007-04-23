@@ -488,9 +488,9 @@ class ModulesController extends JController
 				$lists['access'] 		= 'N/A';
 				$lists['selections'] 	= 'N/A';
 			} else {
-				$lists['access'] 		= JAdminMenus::Access( $row );
+				$lists['access'] 		= JAdministratorHelper::Access( $row );
 
-				$selections				= JAdminMenus::MenuLinkOptions();
+				$selections				= JAdministratorHelper::MenuLinkOptions();
 				$lists['selections']	= JHTMLSelect::genericList( $selections, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
 			}
 			$lists['showtitle'] = JHTMLSelect::yesnoList( 'showtitle', 'class="inputbox"', $row->showtitle );

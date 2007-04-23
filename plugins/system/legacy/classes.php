@@ -1376,21 +1376,21 @@ class mosCommonHTML
 class mosAdminMenus
 {
 	/**
- 	 * Legacy function, use {@link JAdminMenus::Ordering()} instead
+ 	 * Legacy function, use {@link JAdministratorHelper::Ordering()} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function Ordering( &$row, $id ) {
-		return JAdminMenus::Ordering($row, $id);
+		return JAdministratorHelper::Ordering($row, $id);
 	}
 
 	/**
- 	 * Legacy function, use {@link JAdminMenus::Access()} instead
+ 	 * Legacy function, use {@link JAdministratorHelper::Access()} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function Access( &$row ) {
-		return JAdminMenus::Access($row);
+		return JAdministratorHelper::Access($row);
 	}
 
 	/**
@@ -1408,8 +1408,9 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {
-		$options = JAdminMenus::MenuLinkOptions($lookup, $all, $none|$unassigned);
+	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) 
+	{
+		$options = JAdministratorHelper::MenuLinkOptions($lookup, $all, $none|$unassigned);
 		if (empty( $lookup )) {
 			$lookup = array( JHTMLSelect::option( -1 ) );
 		}
@@ -1522,57 +1523,57 @@ class mosAdminMenus
 
 
 	/**
- 	 * Legacy function, use {@link JAdminMenus::Images()} instead
+ 	 * Legacy function, use {@link JAdministratorHelper::Images()} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
-		return JAdminMenus::Images($name, $active, $javascript, $directory);
+		return JAdministratorHelper::Images($name, $active, $javascript, $directory);
 	}
 
 	/**
- 	 * Legacy function, use {@link JAdminMenus::SpecificOrdering()} instead
+ 	 * Legacy function, use {@link JAdministratorHelper::SpecificOrdering()} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) {
-		return JAdminMenus::SpecificOrdering($row, $id, $query, $neworder);
+		return JAdministratorHelper::SpecificOrdering($row, $id, $query, $neworder);
 	}
 
 	/**
- 	 * Legacy function, use {@link JAdminMenus::UserSelect()} instead
+ 	 * Legacy function, use {@link JAdministratorHelper::UserSelect()} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
-		return JAdminMenus::UserSelect($name, $active, $nouser, $javascript, $order, $reg);
+		return JAdministratorHelper::UserSelect($name, $active, $nouser, $javascript, $order, $reg);
 	}
 
 	/**
- 	 * Legacy function, use {@link JAdminMenus::Positions()} instead
+ 	 * Legacy function, use {@link JAdministratorHelper::Positions()} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false ) {
-		return JAdminMenus::Positions($name, $active, $javascript, $none, $center, $left, $right, $id);
+		return JAdministratorHelper::Positions($name, $active, $javascript, $none, $center, $left, $right, $id);
 	}
 
 	/**
- 	 * Legacy function, use {@link JAdminMenus::ComponentCategory()} instead
+ 	 * Legacy function, use {@link JAdministratorHelper::ComponentCategory()} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) {
-		return JAdminMenus::ComponentCategory($name, $section, $active, $javascript, $order, $size, $sel_cat);
+		return JAdministratorHelper::ComponentCategory($name, $section, $active, $javascript, $order, $size, $sel_cat);
 	}
 
 	/**
- 	 * Legacy function, use {@link JAdminMenus::SelectSection()} instead
+ 	 * Legacy function, use {@link JAdministratorHelper::SelectSection()} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
-		return JAdminMenus::SelectSection($name, $active, $javascript, $order);
+		return JAdministratorHelper::SelectSection($name, $active, $javascript, $order);
 	}
 
 	/**

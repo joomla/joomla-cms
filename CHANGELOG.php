@@ -40,6 +40,7 @@ Legend:
 23-Apr-2007 Johan Janssens
  ^ Moved event and plugin classes into their own event package
  ^ Moved session classes into their own session package
+ ^ Moved functions from JAdminMenus to JAdministratorHelper
 
 21-Apr-2007 Johan Janssens
  ^ Fixed various problems with URL routing

@@ -521,13 +521,13 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 )
 }
 
 /**
- * Legacy function, use {@link JAdminMenus::GenericOrdering()} instead
+ * Legacy function, use {@link JAdministratorHelper::GenericOrdering()} instead
  *
  * @deprecated	As of version 1.5
  */
 function mosGetOrderingList( $sql, $chop='30' )
 {
-	JAdminMenus::GenericOrdering($sql, $chop);
+	JAdministratorHelper::GenericOrdering($sql, $chop);
 }
 
 /**

@@ -178,7 +178,7 @@ function viewFrontPage( $option )
 
 	// get list of sections for dropdown filter
 	$javascript			= 'onchange="document.adminForm.submit();"';
-	$lists['sectionid']	= JAdminMenus::SelectSection( 'filter_sectionid', $filter_sectionid, $javascript );
+	$lists['sectionid']	= JAdministratorHelper::SelectSection( 'filter_sectionid', $filter_sectionid, $javascript );
 
 	// get list of Authors for dropdown filter
 	$query = 'SELECT c.created_by, u.name'

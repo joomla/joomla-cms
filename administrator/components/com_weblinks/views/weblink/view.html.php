@@ -99,10 +99,10 @@ class WeblinksViewWeblink extends JView
 			. ' FROM #__weblinks'
 			. ' WHERE catid = ' . (int) $weblink->catid
 			. ' ORDER BY ordering';
-		$lists['ordering'] 			= JAdminMenus::SpecificOrdering( $weblink, $weblink->id, $query, 1 );
+		$lists['ordering'] 			= JAdministratorHelper::SpecificOrdering( $weblink, $weblink->id, $query, 1 );
 
 		// build list of categories
-		$lists['catid'] 			= JAdminMenus::ComponentCategory( 'catid', $option, intval( $weblink->catid ) );
+		$lists['catid'] 			= JAdministratorHelper::ComponentCategory( 'catid', $option, intval( $weblink->catid ) );
 		// build the html select list
 		$lists['published'] 		= JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $weblink->published );
 

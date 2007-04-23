@@ -34,7 +34,7 @@ class JElementAuthor extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		return JAdminMenus::UserSelect($control_name.'['.$name.']', $value);
+		return JAdministratorHelper::UserSelect($control_name.'['.$name.']', $value);
 	}
 }
 ?>

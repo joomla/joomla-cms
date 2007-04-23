@@ -141,9 +141,6 @@ class JToolBar extends JObject
 	 */
 	function render()
 	{
-		/*
-		 * Initialize variables
-		 */
 		$html = array ();
 
 		// Start toolbar div

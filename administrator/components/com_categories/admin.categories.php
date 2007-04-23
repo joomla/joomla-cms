@@ -255,7 +255,7 @@ function showCategories( $section, $option )
 
 	// get list of sections for dropdown filter
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['sectionid']	= JAdminMenus::SelectSection( 'sectionid', $sectionid, $javascript );
+	$lists['sectionid']	= JAdministratorHelper::SelectSection( 'sectionid', $sectionid, $javascript );
 
 	// state filter
 	$lists['state']	= JCommonHTML::selectState( $filter_state );
@@ -365,15 +365,15 @@ function editCategory( )
 	. ' WHERE section = "'.$row->section.'"'
 	. ' ORDER BY ordering'
 	;
-	$lists['ordering'] 			= JAdminMenus::SpecificOrdering( $row, $cid[0], $query );
+	$lists['ordering'] 			= JAdministratorHelper::SpecificOrdering( $row, $cid[0], $query );
 
 	// build the select list for the image positions
 	$active =  ( $row->image_position ? $row->image_position : 'left' );
-	$lists['image_position'] 	= JAdminMenus::Positions( 'image_position', $active, NULL, 0, 0 );
+	$lists['image_position'] 	= JAdministratorHelper::Positions( 'image_position', $active, NULL, 0, 0 );
 	// Imagelist
-	$lists['image'] 			= JAdminMenus::Images( 'image', $row->image );
+	$lists['image'] 			= JAdministratorHelper::Images( 'image', $row->image );
 	// build the html select list for the group access
-	$lists['access'] 			= JAdminMenus::Access( $row );
+	$lists['access'] 			= JAdministratorHelper::Access( $row );
 	// build the html radio buttons for published
 	$lists['published'] 		= JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
 
