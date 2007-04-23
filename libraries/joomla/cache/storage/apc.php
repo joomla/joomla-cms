@@ -26,11 +26,11 @@ defined('JPATH_BASE') or die();
 class JCacheStorageApc extends JCacheStorage
 {
 	/**
-	* Constructor
-	*
-	* @access protected
-	* @param array $options optional parameters
-	*/
+	 * Constructor
+	 *
+	 * @access protected
+	 * @param array $options optional parameters
+	 */
 	function __construct( $options = array() )
 	{
 		parent::__construct($options);
@@ -52,6 +52,7 @@ class JCacheStorageApc extends JCacheStorage
 	function get($id, $group, $checkTime)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+		$this->_setExpire($cache_id);
 		return apc_fetch($cache_id);
 	}
 
@@ -68,6 +69,7 @@ class JCacheStorageApc extends JCacheStorage
 	function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+		apc_store($cache_id.'_expire', time());
 		return apc_store($cache_id, $data, $this->_lifetime);
 	}
 
@@ -83,6 +85,7 @@ class JCacheStorageApc extends JCacheStorage
 	function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+		apc_delete($cache_id.'_expire');
 		return apc_delete($cache_id);
 	}
 
@@ -100,19 +103,7 @@ class JCacheStorageApc extends JCacheStorage
 	 */
 	function clean($group, $mode)
 	{
-		$return = true;
-		$folder	= md5($group.'-'.$this->_hash);
-		switch ($mode)
-		{
-			case 'notgroup':
-				// Get list of cache entries by folder and delete those not in $folder
-				break;
-			case 'group':
-			default:
-				// Get list of cache entries by folder and delete those in $folder
-				break;
-		}
-		return $return;
+		return true;
 	}
 
 	/**
@@ -128,6 +119,28 @@ class JCacheStorageApc extends JCacheStorage
 	}
 
 	/**
+	 * Set expire time on each call since memcache sets it on cache creation.
+	 *
+	 * @access private
+	 *
+	 * @param string  $key   Cache key to expire.
+	 * @param integer $lifetime  Lifetime of the data in seconds.
+	 */
+	function _setExpire($key)
+	{
+		$lifetime	= $this->_lifetime;
+		$expire		= apc_fetch($key.'_expire');
+
+		// set prune period
+		if ($expire + $lifetime < time()) {
+			apc_delete($key);
+			apc_delete($key.'_expire');
+		} else {
+			apc_store($key.'_expire',  time());
+		}
+	}
+
+	/**
 	 * Get a cache_id string from an id/group pair
 	 *
 	 * @access	private
@@ -139,6 +152,6 @@ class JCacheStorageApc extends JCacheStorage
 	function _getCacheId($id, $group)
 	{
 		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
-		return 'cache_'.$group.DS.$name;
+		return 'cache_'.$group.'-'.$name;
 	}
 }

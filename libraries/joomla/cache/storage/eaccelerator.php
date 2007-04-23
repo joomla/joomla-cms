@@ -52,6 +52,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	function get($id, $group, $checkTime)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+		$this->_setExpire($cache_id);
 		return eaccelerator_get($cache_id);
 	}
 
@@ -68,6 +69,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+		eaccelerator_put($cache_id.'_expire', time());
 		return eaccelerator_put($cache_id, $data, $this->_lifetime);
 	}
 
@@ -83,6 +85,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+		eaccelerator_rm($cache_id.'_expire');
 		return eaccelerator_rm($cache_id);
 	}
 
@@ -100,19 +103,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 */
 	function clean($group, $mode)
 	{
-		$return = true;
-		$folder	= md5($group.'-'.$this->_hash);
-		switch ($mode)
-		{
-			case 'notgroup':
-				// Get list of cache entries by folder and delete those not in $folder
-				break;
-			case 'group':
-			default:
-				// Get list of cache entries by folder and delete those in $folder
-				break;
-		}
-		return $return;
+		return true;
 	}
 
 	/**
@@ -139,6 +130,28 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	}
 
 	/**
+	 * Set expire time on each call since memcache sets it on cache creation.
+	 *
+	 * @access private
+	 *
+	 * @param string  $key   Cache key to expire.
+	 * @param integer $lifetime  Lifetime of the data in seconds.
+	 */
+	function _setExpire($key)
+	{
+		$lifetime	= $this->_lifetime;
+		$expire		= eaccelerator_get($key.'_expire');
+
+		// set prune period
+		if ($expire + $lifetime < time()) {
+			eaccelerator_rm($key);
+			eaccelerator_rm($key.'_expire');
+		} else {
+			eaccelerator_put($key.'_expire',  time());
+		}
+	}
+
+	/**
 	 * Get a cache_id string from an id/group pair
 	 *
 	 * @access	private
@@ -150,6 +163,6 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	function _getCacheId($id, $group)
 	{
 		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
-		return 'cache_'.$group.DS.$name;
+		return 'cache_'.$group.'-'.$name;
 	}
 }
