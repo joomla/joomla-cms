@@ -47,6 +47,9 @@ Legend:
 
 18-Apr-2007 Toby Patterson
  + JController::getView() takes $config argument which is passed to the view's constructor
+ 
+14-Apr-2007 Johan Janssens
+ - Removed rider from license for futher review
 
 14-Apr-2007 Toby Patterson
  # Fixed [#306] Post Installation Error - installer updated
