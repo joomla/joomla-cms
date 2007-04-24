@@ -88,6 +88,18 @@ class  plgSystemDebug extends JPlugin
 
 		if ($this->_params->get('language', 1))
 		{
+			echo '<p><h4>'.JText::_( 'Language Files Loaded' ).'</h4>';
+			echo '<ul>';
+			$extensions	= $lang->getPaths();
+			foreach ( $extensions as $extension => $files)
+			{
+				foreach ( $files as $file => $status )
+				{
+					echo "<li>$file $status</li>";
+				}
+			}
+			echo '</ul>';
+			
 			echo '<p><h4>'.JText::_( 'Untranslated strings' ).'</h4>';
 			echo '<pre>';
 			$orphans = $lang->getOrphans();
