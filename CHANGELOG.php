@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Apr-2007 Johan Janssens
+ + Added cache_handler configuration variable
+ ! Changes require a reinstall
+
 23-Apr-2007 Johan Janssens
  ^ Moved event and plugin classes into their own event package
  ^ Moved session classes into their own session package
