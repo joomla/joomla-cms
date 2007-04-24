@@ -116,7 +116,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	{
 		$sess_id = 'sess_'.$id;
 		$this->_setExpire($sess_id);
-		return (string) $this->_db->get($sess_id);
+		return $this->_db->get($sess_id);
 	}
 
 	/**
