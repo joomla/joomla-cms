@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Apr-2007 Louis Landry
+ + Added memcache support for JCache and JSession -- thanks for the help Mitch
+ + Global config setting for cache storage engine
+
 24-Apr-2007 Johan Janssens
  + Added cache_handler configuration variable
  ! Changes require a reinstall
@@ -52,19 +56,19 @@ Legend:
 
 18-Apr-2007 Johan Janssens
  ^ Fixed problems with the pagebreak plugin and the pagination handling
- ^ Changed ComponentParseRoute function implementation, function now needs to return array 
+ ^ Changed ComponentParseRoute function implementation, function now needs to return array
    of variables.
 
 18-Apr-2007 Toby Patterson
  + JController::getView() takes $config argument which is passed to the view's constructor
- 
+
 14-Apr-2007 Johan Janssens
  - Removed rider from license for futher review
 
 14-Apr-2007 Toby Patterson
  # Fixed [#306] Post Installation Error - installer updated
  ^ JDatabase::getInstance() accepts $options parameter, may return JException
- 
+
 14-Apr-2007 Enno Klasing
  + Added 'PATH' filter to JInputFilter
 
@@ -89,7 +93,7 @@ Legend:
 10-Apr-2007 Andrew Eddie
  ^ Renamed ContactController::sendmail method to ContactController::submit
  + Added onSubmitContact trigger for custom contact handler plugins
- + Added Contact Component configuration setting to turn off the built in reply 
+ + Added Contact Component configuration setting to turn off the built in reply
   (and allow completly custom handling)
 
 10-Apr-2007 Sam Moffatt
@@ -112,7 +116,7 @@ Legend:
  ^ Split out options rendering in JHTMLSelect::genericList to JHTMLSelect::options
 
 05-Apr-2007 Andrew Eddie
- + Added JView::setLayoutExt to allow a designer, for example, to set .html (default .php) 
+ + Added JView::setLayoutExt to allow a designer, for example, to set .html (default .php)
    for layout files
 
 04-Apr-2007 Jason Kendall
@@ -178,7 +182,7 @@ Legend:
 
 23-Mar-2007 Rastin Mehr
  # Fixed [track41] No "Copy | Move" buttons on Category Manager [Content] toolbar
- # Fixed [track16] All the ADMIN side list limits are now using 'global.list.limit' session 
+ # Fixed [track16] All the ADMIN side list limits are now using 'global.list.limit' session
    name to hold the $limit value
 
 21-Mar-2007 Rastin Mehr
@@ -268,7 +272,7 @@ Legend:
  + Added new Beeze accessible template, contributed by the design and accessibility working group
 
 26-Feb-2007 Toby Patterson
- + JLanguage will try to load a default language file ( 'en-GB' ) if a localized version cannot 
+ + JLanguage will try to load a default language file ( 'en-GB' ) if a localized version cannot
    be loaded
 
 25-Feb-2007 Johan Janssens
