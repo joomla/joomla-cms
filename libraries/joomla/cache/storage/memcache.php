@@ -96,7 +96,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$this->_setExpire($cache_id);
-		return (string) $this->_db->get($cache_id);
+		return $this->_db->get($cache_id);
 	}
 
 	/**
