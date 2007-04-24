@@ -51,7 +51,14 @@ class  plgSystemDebug extends JPlugin
 	{
 		global $_PROFILER, $mainframe;
 
+		// Do not render if debugging is not enabled
 		if(!JDEBUG) { return; }
+		
+		$document	=& JFactory::getDocument();
+		$doctype	= $document->getType();
+		
+		// Only render for HTML output
+		if ( $doctype !== 'html' ) { return; }
 
 		$db			=& JFactory::getDBO();
 		$profiler	=& $_PROFILER;
