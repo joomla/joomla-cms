@@ -22,7 +22,7 @@ $total = $this->total;
 
 $colcount=$this->params->def('columns', 2);
 
-if ($columns == 0) {$colcount = 1;}
+if ($colcount == 0) {$colcount = 1;}
 
 if ($this->params->get('page_title')) {
 	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';

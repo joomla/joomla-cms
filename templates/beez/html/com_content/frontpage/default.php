@@ -20,7 +20,7 @@ $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 $total = $this->total;
 $colcount=$this->params->def('columns', 2);
-if ($columns == 0) {$colcount = 1;}
+if ($colcount == 0) {$colcount = 1;}
 
 if ($this->params->get('show_header')) {
 	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';

@@ -38,7 +38,8 @@ Legend:
 ! -> Note
 
 26-Apr-2007 Toby Patterson
- # Fixed [topic,163256] Wrong title displayed for category.
+ # Fixed [topic 163256] Wrong title displayed for category.
+ # Fixed [art #405] Warnings w/ com_content and BEEZ, patch applied - thanks lukewill
 
 24-Apr-2007 Louis Landry
  + Added memcache support for JCache and JSession -- thanks for the help Mitch
