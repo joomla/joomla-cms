@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Apr-2007 Toby Patterson
+ # Fixed [topic,163256] Wrong title displayed for category.
+
 24-Apr-2007 Louis Landry
  + Added memcache support for JCache and JSession -- thanks for the help Mitch
  + Global config setting for cache storage engine
