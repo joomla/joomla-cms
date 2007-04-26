@@ -17,7 +17,10 @@ defined('_JEXEC') or die('Restricted access');
 
 // Require the com_content helper library
 require_once(JPATH_COMPONENT.DS.'controller.php');
+require_once(JPATH_COMPONENT.DS.'helpers'.DS.'controller.php');
 require_once(JPATH_COMPONENT.DS.'helpers'.DS.'content.php');
+require_once(JPATH_COMPONENT.DS.'helpers'.DS.'model.php');
+require_once(JPATH_COMPONENT.DS.'helpers'.DS.'html.php');
 
 // Component Helper
 jimport('joomla.application.component.helper');

@@ -33,12 +33,12 @@ class ContentViewArticle extends JView
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
 		$dispatcher	=& JEventDispatcher::getInstance();
-		$pathway	=& $mainframe->getPathWay();
+		$pathway		=& $mainframe->getPathWay();
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 
 		// Initialize variables
 		$article	=& $this->get('Article');
-		$params		=& $article->parameters;
+		$params	=& $article->parameters;
 
 		// Get the menu object of the active menu item
 		$menu   	=& JMenu::getInstance();
@@ -67,7 +67,7 @@ class ContentViewArticle extends JView
 		$linkText	= null;
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		
+
 		//set breadcrumbs
 		if($item->query['view'] != 'article')
 		{
@@ -105,7 +105,7 @@ class ContentViewArticle extends JView
 
 		// Create a user access object for the current user
 		$access = new stdClass();
-		$access->canEdit	= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn	= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish	= $user->authorize('action', 'publish', 'content', 'all');
 
@@ -169,121 +169,6 @@ class ContentViewArticle extends JView
 		$this->assignRef('print', $print);
 
 		parent::display($tpl);
-	}
-
-	function getIcon($type, $attribs = array())
-	{
-		 global $mainframe, $Itemid;
-
-		$url	= '';
-		$text	= '';
-
-		$article = &$this->article;
-
-		switch($type)
-		{
-			case 'pdf' :
-			{
-				$url	= 'index.php?option=com_content&view=article&id='.$article->id.'&format=pdf';
-				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-
-				// checks template image directory for image, if non found default are loaded
-				if ($this->params->get('icons')) {
-					$text = JAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
-				} else {
-					$text = JText::_('PDF').'&nbsp;';
-				}
-
-				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
-				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
-
-				$output = JHTML::Link($url, $text, $attribs);
-			} break;
-
-			case 'print' :
-			{
-				$url	= 'index.php?option=com_content&view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $this->request->limitstart;
-				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-
-				// checks template image directory for image, if non found default are loaded
-				if ( $this->params->get( 'icons' ) ) {
-					$text = JAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
-				} else {
-					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
-				}
-
-				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
-				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
-
-				$output = JHTML::Link($url, $text, $attribs);
-			} break;
-
-			case 'email' :
-			{
-				$url	= 'index.php?option=com_mailto&tmpl=component&link='.base64_encode( JRequest::getURI());
-				$status = 'width=400,height=300,menubar=yes,resizable=yes';
-
-				if ($this->params->get('icons')) 	{
-					$text = JAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
-				} else {
-					$text = '&nbsp;'.JText::_('Email');
-				}
-
-				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
-				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
-
-				$output = JHTML::Link($url, $text, $attribs);
-			} break;
-
-			case 'edit' :
-			{
-				if ($this->params->get('popup')) {
-					return;
-				}
-				if ($article->state < 0) {
-					return;
-				}
-				if (!$this->access->canEdit && !($this->access->canEditOwn && $article->created_by == $this->user->get('id'))) {
-					return;
-				}
-				jimport('joomla.html.tooltips');
-				$url = 'index.php?option=com_content&view=article&layout=form&id='.$article->id.'&Returnid='.$Itemid;
-				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
-
-				if ($article->state == 0) {
-					$overlib = JText::_('Unpublished');
-				} else {
-					$overlib = JText::_('Published');
-				}
-				$date = JHTML::Date($article->created);
-				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
-
-				$overlib .= '<br />';
-				$overlib .= $article->groups;
-				$overlib .= '<br />';
-				$overlib .= $date;
-				$overlib .= '<br />';
-				$overlib .= $author;
-
-				$button = JHTML::Link($url, $text);
-
-				$output = '<span class="hasTip" title="'.JText::_( 'Edit Item' ).' :: '.$overlib.'">'.$button.'</span>';
-			} break;
-
-			case 'print_screen' :
-			{
-				// checks template image directory for image, if non found default are loaded
-				if ( $this->params->get( 'icons' ) ) {
-					$text = JAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
-				} else {
-					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
-				}
-				$output = '<a href="#" onclick="window.print();return false;">'.$text.'</a>';
-			}
-		}
-
-
-		return $output;
 	}
 
 	function _displayForm($tpl)

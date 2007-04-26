@@ -103,7 +103,7 @@ class modLatestNewsHelper
 		$lists	= array();
 		foreach ( $rows as $row )
 		{
-			$lists[$i]->link = JContentHelper::getArticleRoute($row->slug, $row->catslug, $row->sectionid);
+			$lists[$i]->link = ContentHelper::getArticleRoute($row->slug, $row->catslug, $row->sectionid);
 			$lists[$i]->text = htmlspecialchars( $row->title );
 			$i++;
 		}

@@ -21,7 +21,7 @@
  * @subpackage	Content
  * @since 1.5
  */
-class JContentHelper
+class ContentHelper
 {
 	function saveContentPrep( &$row )
 	{

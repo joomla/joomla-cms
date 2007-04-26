@@ -26,6 +26,8 @@ defined('JPATH_BASE') or die();
 */
 class JSessionStorageDatabase extends JSessionStorage
 {
+	var $_data = null;
+
 	/**
 	 * Open the SessionHandler backend.
 	 *

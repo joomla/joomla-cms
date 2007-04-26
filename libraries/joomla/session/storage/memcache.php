@@ -31,18 +31,21 @@ class JSessionStorageMemcache extends JSessionStorage
 {
 	/**
 	 * Resource for the current memcached connection.
+	 *
 	 * @var resource
 	 */
 	var $_db;
 
 	/**
 	 * Use compression?
+	 *
 	 * @var int
 	 */
 	var $_compress = null;
 
 	/**
 	 * Use persistent connections
+	 *
 	 * @var boolean
 	 */
 	var $_persistent = false;

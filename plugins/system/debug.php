@@ -76,12 +76,19 @@ class  plgSystemDebug extends JPlugin
 
 		if ($this->_params->get('queries', 1))
 		{
+			jimport('geshi.geshi');
+			jimport('domit.xml_saxy_shared');
+
 			echo '<p>';
 			echo '<h4>'.JText::sprintf( 'Queries logged',  $db->_ticker ).'</h4>';
 			echo '<ol>';
-			foreach ($db->_log as $k=>$sql) {
-				$text = $db->beautify( $sql );
-				echo '<li><pre>'.$text.'</pre></li>';
+			foreach ($db->_log as $k=>$sql)
+			{
+				$geshi = new GeSHi( $sql, 'sql' );
+				$geshi->set_header_type(GESHI_HEADER_DIV);
+				//$geshi->enable_line_numbers( GESHI_FANCY_LINE_NONE );
+				$text = $geshi->parse_code();
+				echo '<li>'.$text.'</li>';
 			}
 			echo '</ol></p>';
 		}

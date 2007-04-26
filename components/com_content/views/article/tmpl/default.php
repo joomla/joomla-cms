@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ($this->user->authorize('action', 'edit', 'content', 'all') && !$this->print) : ?>
 	<div class="contentpaneopen_edit<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="float: left;">
-		<?php echo $this->getIcon('edit'); ?>
+		<?php echo ContentHelperHTML::Icon('edit', $this->article, $this->params, $this->access); ?>
 	</div>
 <?php endif; ?>
 
@@ -23,24 +23,24 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php if (!$this->print) : ?>
 	<?php if ($this->params->get('pdf')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php echo $this->getIcon('pdf'); ?>
+	<?php echo ContentHelperHTML::Icon('pdf',  $this->article, $this->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
 
 	<?php if ( $this->params->get( 'print' )) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php echo $this->getIcon('print'); ?>
+	<?php echo ContentHelperHTML::Icon('print',  $this->article, $this->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
 
 	<?php if ($this->params->get('email')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php echo $this->getIcon('email'); ?>
+	<?php echo ContentHelperHTML::Icon('email',  $this->article, $this->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
 	<?php else : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php echo $this->getIcon('print_screen'); ?>
+	<?php echo ContentHelperHTML::Icon('print_screen',  $this->article, $this->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
 </tr>

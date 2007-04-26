@@ -83,6 +83,4 @@ jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.utilities.string' );		//needs to be loaded later
 jimport( 'joomla.version' );				//needs to be loaded later
 
-
-JDEBUG ? $_PROFILER->mark( 'afterLoadFramework' ) : null;
 ?>

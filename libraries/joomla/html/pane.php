@@ -176,8 +176,8 @@ class JPaneTabs extends JPane
 		$document =& JFactory::getDocument();
 
 		$options = '{';
-		$opt['onActive']	= (isset($params['onActive'])) ? $params['onActive'] : null ;
-		$opt['onBackground']= (isset($params['onBackground'])) ? $params['onBackground'] : null ;
+		$opt['onActive']		= (isset($params['onActive'])) ? $params['onActive'] : null ;
+		$opt['onBackground'] = (isset($params['onBackground'])) ? $params['onBackground'] : null ;
 		$opt['display']		= (isset($params['startOffset'])) ? (int)$params['startOffset'] : null ;
 		foreach ($opt as $k => $v)
 		{
@@ -269,16 +269,14 @@ class JPaneSliders extends JPane
 	*/
 	function _loadBehavior($params = array())
 	{
-		global $mainframe;
-
 		$document =& JFactory::getDocument();
 
 		$options = '{';
-		$opt['onActive']	= 'function(toggler, i) { toggler.addClass(\'jpane-toggler-down\'); toggler.removeClass(\'jpane-toggler\'); }';
-		$opt['onBackground']= 'function(toggler, i) { toggler.addClass(\'jpane-toggler\'); toggler.removeClass(\'jpane-toggler-down\'); }';
-		$opt['duration']	= (isset($params['duration'])) ? (int)$params['duration'] : 300;
+		$opt['onActive']		= 'function(toggler, i) { toggler.addClass(\'jpane-toggler-down\'); toggler.removeClass(\'jpane-toggler\'); }';
+		$opt['onBackground'] = 'function(toggler, i) { toggler.addClass(\'jpane-toggler\'); toggler.removeClass(\'jpane-toggler-down\'); }';
+		$opt['duration']		= (isset($params['duration'])) ? (int)$params['duration'] : 300;
 		$opt['display']		= (isset($params['startOffset']) && ($params['startTransition'])) ? (int)$params['startOffset'] : null ;
-		$opt['show']		= (isset($params['startOffset']) && (!$params['startTransition'])) ? (int)$params['startOffset'] : null ;
+		$opt['show']			= (isset($params['startOffset']) && (!$params['startTransition'])) ? (int)$params['startOffset'] : null ;
 		$opt['opacity']		= (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false' ;
 		$opt['alwaysHide']	= (isset($params['allowAllClose']) && ($params['allowAllClose'])) ? 'true' : null ;
 		foreach ($opt as $k => $v)

@@ -417,7 +417,7 @@ class JApplication extends JObject
 			if (!in_array(false, $results, true)) {
 
 				// Set the remember me cookie if enabled
-				if ($remember) 
+				if ($remember)
 				{
 					jimport('joomla.utilities.simplecrypt');
 					jimport('joomla.utilities.utility');
@@ -624,11 +624,11 @@ class JApplication extends JObject
 		if($this->getCfg('sef_rewrite')) {
 			$options['mode'] = 2;
 		}
-		
+
 		// Set default router parameters
 		$menu =& JMenu::getInstance();
 		$item = $menu->getDefault();
-			
+
 		$options['vars']           = $item->query;
 		$options['vars']['Itemid'] = $item->id;
 
@@ -889,11 +889,11 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Deprecated, use JContentHelper::getItemid instead.
+	 * Deprecated, use ContentHelper::getItemid instead.
 	 *
 	 * @since 1.0
 	 * @deprecated As of version 1.5
-	 * @see JContentHelper::getItemid()
+	 * @see ContentHelper::getItemid()
 	 */
 	function getItemid( $id )
 	{
@@ -903,7 +903,7 @@ class JApplication extends JObject
 		$article =& JTable::getInstance('content');
 		$article->load($id);
 
-		$info = JContentHelper::_getArticleMenuInfo($id, $article->catid, $article->sectionid);
+		$info = ContentHelper::_getArticleMenuInfo($id, $article->catid, $article->sectionid);
 		return $info->id;
 	}
 }

@@ -157,7 +157,7 @@ class ContentController extends JController
 				' FROM #__categories AS cc' .
 				' INNER JOIN #__sections AS s ON s.id = cc.section '.$filter .
 				' ORDER BY s.ordering, cc.ordering';
-		$lists['catid'] = JContentHelper::filterCategory($query, $catid);
+		$lists['catid'] = ContentHelper::filterCategory($query, $catid);
 
 		// get list of sections for dropdown filter
 		$javascript = 'onchange="document.adminForm.submit();"';
@@ -291,7 +291,7 @@ class ContentController extends JController
 		$query = 'SELECT c.id AS value, c.title AS text' .
 				' FROM #__categories AS c'.$filter .
 				' ORDER BY c.ordering';
-		$lists['catid'] = JContentHelper::filterCategory($query, $catid);
+		$lists['catid'] = ContentHelper::filterCategory($query, $catid);
 
 		// get list of sections for dropdown filter
 		$javascript = 'onchange="document.adminForm.submit();"';
@@ -674,7 +674,7 @@ class ContentController extends JController
 		}
 
 		// Prepare the content for saving to the database
-		JContentHelper::saveContentPrep( $row );
+		ContentHelper::saveContentPrep( $row );
 
 		// Make sure the data is valid
 		if (!$row->check()) {
@@ -745,11 +745,11 @@ class ContentController extends JController
 				break;
 
 			case 'menulink' :
-				JContentHelper::menuLink($redirect, $row->id);
+				ContentHelper::menuLink($redirect, $row->id);
 				break;
 
 			case 'resethits' :
-				JContentHelper::resetHits($redirect, $row->id);
+				ContentHelper::resetHits($redirect, $row->id);
 				break;
 
 			case 'apply' :

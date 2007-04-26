@@ -744,5 +744,7 @@ td.key {
 }
 
 /* Debug */
-#system-debug { color: grey; background-color: white; padding: 10px; margin: 10px; }
+#system-debug     { color: grey; background-color: white; padding: 10px; margin: 10px; }
+#system-debug div { font-size: 11px;}
+
 

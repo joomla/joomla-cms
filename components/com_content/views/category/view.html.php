@@ -74,8 +74,7 @@ class ContentViewCategory extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//set breadcrumbs
-		if($item->query['view'] != 'category')
-		{
+		if($item->query['view'] != 'category') {
 			$pathway->addItem($category->title, '');
 		}
 
@@ -84,20 +83,20 @@ class ContentViewCategory extends JView
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('title',			1);
 		$params->def('hits',			$contentConfig->get('hits'));
-		$params->def('showAuthor',		$contentConfig->get('showAuthor'));
+		$params->def('showAuthor',	$contentConfig->get('showAuthor'));
 		$params->def('date',			$contentConfig->get('showCreateDate'));
-		$params->def('date_format',		JText::_('DATE_FORMAT_LC'));
-		$params->def('navigation',		2);
-		$params->def('display',			1);
-		$params->def('display_num',		$mainframe->getCfg('list_limit'));
+		$params->def('date_format',	JText::_('DATE_FORMAT_LC'));
+		$params->def('navigation',	2);
+		$params->def('display',		1);
+		$params->def('display_num',	$mainframe->getCfg('list_limit'));
 		$params->def('empty_cat',		0);
 		$params->def('cat_items',		1);
 		$params->def('cat_description',0);
 		$params->def('pageclass_sfx',	'');
 		$params->def('headings',		1);
-		$params->def('filter',			1);
-		$params->def('filter_type',		'title');
-		$params->set('intro_only', 		1);
+		$params->def('filter',		1);
+		$params->def('filter_type',	'title');
+		$params->set('intro_only', 	1);
 
 		if ($params->def('page_title', 1)) {
 			$params->def('header', $item->name);
@@ -117,121 +116,6 @@ class ContentViewCategory extends JView
 		$this->assignRef('request_url',	$uri->toString());
 
 		parent::display($tpl);
-	}
-
-	function getIcon($type, $attribs = array())
-	{
-		global $mainframe, $Itemid;
-
-		$url	= '';
-		$text	= '';
-		$output	= '';
-
-		$article = $this->item;
-
-		switch($type)
-		{
-			case 'new' :
-			{
-				$url = 'index.php?task=new&id=0&sectionid='.$article->sectionid;
-
-				if ($this->params->get('icons')) {
-					$text = JAdminMenus::ImageCheck('new.png', '/images/M_images/', NULL, NULL, JText::_('New'), JText::_('New'). $article->id );
-				} else {
-					$text = JText::_('New').'&nbsp;';
-				}
-
-				$attribs	= array( 'title' => '"'.JText::_( 'New' ).'"');
-				$output = JHTML::Link($url, $text, $attribs);
-			} break;
-
-			case 'edit' :
-			{
-				if ($this->params->get('popup')) {
-					return;
-				}
-				if ($article->state < 0) {
-					return;
-				}
-				if (!$this->access->canEdit && !($this->access->canEditOwn && $article->created_by == $this->user->get('id'))) {
-					return;
-				}
-
-
-				$url = 'index.php?view=article&id='.$article->id.'&task=edit&Returnid='.$Itemid;
-				jimport('joomla.html.tooltips');
-				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
-
-				if ($article->state == 0) {
-					$overlib = JText::_('Unpublished');
-				} else {
-					$overlib = JText::_('Published');
-				}
-				$date = JHTML::Date($article->created);
-				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
-
-				$overlib .= '<br />'.$article->groups.'<br />'.$date.'<br />'.$author;
-
-				$button = JHTML::Link($url, $text);
-
-				$output = '<span class="hasTip" title="'.JText::_( 'Edit Item' ).' :: '.$overlib.'">'.$button.'</span>';
-			} break;
-
-			case 'pdf' :
-			{
-				$url	= 'index.php?view=article&id='.$article->id.'&format=pdf';
-				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-
-				// checks template image directory for image, if non found default are loaded
-				if ($this->params->get('icons')) {
-					$text = JAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
-				} else {
-					$text = JText::_('PDF').'&nbsp;';
-				}
-
-				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
-				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
-				$output = JHTML::Link($url, $text, $attribs);
-
-			} break;
-
-			case 'print' :
-			{
-				$url	= 'index.php?view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $this->request->limitstart;
-				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-
-				// checks template image directory for image, if non found default are loaded
-				if ( $this->params->get( 'icons' ) ) {
-					$text = JAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
-				} else {
-					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
-				}
-
-				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
-				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
-				$output = JHTML::Link($url, $text, $attribs);
-
-			} break;
-
-			case 'email' :
-			{
-				$url	= 'index.php?option=com_mailto&tmpl=component&link='.base64_encode( JRequest::getURI());
-				$status = 'width=400,height=300,menubar=yes,resizable=yes';
-
-				if ($this->params->get('icons')) 	{
-					$text = JAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
-				} else {
-					$text = '&nbsp;'.JText::_('Email');
-				}
-
-				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
-				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
-				$output = JHTML::Link($url, $text, $attribs);
-
-			} break;
-		}
-
-		return $output;
 	}
 
 	function &getItems()

@@ -96,13 +96,12 @@ class ContentController extends JController
 		 * Create a user access object for the user
 		 */
 		$access					= new stdClass();
-		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		$row = & JTable::getInstance('content');
-		if (!$row->bind(JRequest::get('post')))
-		{
+		if (!$row->bind(JRequest::get('post'))) {
 			JError::raiseError( 500, $row->getError());
 		}
 
@@ -113,8 +112,7 @@ class ContentController extends JController
 		if ($isNew)
 		{
 			// new record
-			if (!($access->canEdit || $access->canEditOwn))
-			{
+			if (!($access->canEdit || $access->canEditOwn)) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 			$row->created 		= gmdate('Y-m-d H:i:s');
@@ -123,8 +121,7 @@ class ContentController extends JController
 		else
 		{
 			// existing record
-			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id'))))
-			{
+			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id')))) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 			$row->modified 		= gmdate('Y-m-d H:i:s');
@@ -189,15 +186,13 @@ class ContentController extends JController
 		}
 
 		// Prepare content  for save
-		JContentHelper::saveContentPrep($row);
+		ContentHelperController::saveContentPrep($row);
 
-		if (!$row->check())
-		{
+		if (!$row->check()) {
 			JError::raiseError( 500, $row->getError());
 		}
 		$row->version++;
-		if (!$row->store())
-		{
+		if (!$row->store()) {
 			JError::raiseError( 500, $row->getError());
 		}
 
@@ -215,8 +210,7 @@ class ContentController extends JController
 				$query = 'INSERT INTO #__content_frontpage' .
 						' VALUES ( '.$row->id.', 1 )';
 				$db->setQuery($query);
-				if (!$db->query())
-				{
+				if (!$db->query()) {
 					JError::raiseError( 500, $db->stderror());
 				}
 				$fp->ordering = 1;
@@ -317,7 +311,7 @@ class ContentController extends JController
 		$user	= & JFactory::getUser();
 
 		// At some point in the future these will be in a request object
-		$Itemid		= JRequest::getVar('Returnid', '0', 'post', 'int');
+		$Itemid	= JRequest::getVar('Returnid', '0', 'post', 'int');
 
 		// Get an article table object and bind post variabes to it [We don't need a full model here]
 		$article = & JTable::getInstance('content');
@@ -382,8 +376,7 @@ class ContentController extends JController
 		$keyref	= $db->getEscaped($keyref);
 
 		// If no keyref left, throw 404
-		if( empty($keyref) === true )
-		{
+		if( empty($keyref) === true ) {
 			JError::raiseError( 404, JText::_("Key Not Found") );
 		}
 

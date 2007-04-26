@@ -79,7 +79,7 @@ class JDatabase extends JObject
 	function __construct( $options )
 	{
 		$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
-		
+
 		// Determine utf-8 support
 		$this->_utf = $this->hasUTF();
 
@@ -127,9 +127,9 @@ class JDatabase extends JObject
 		if (empty($instances[$signature]))
 		{
 			$driver		= array_key_exists('driver', $options) 		? $options['driver']	: 'mysql';
-			$select		= array_key_exists('select', $options)		? $options['select']	: true;	
+			$select		= array_key_exists('select', $options)		? $options['select']	: true;
 			$database	= array_key_exists('database', $options)	? $options['database']	: null;
-			
+
 			$driver = preg_replace('/[^A-Z0-9_\.-]/i', '', $driver);
 			$path	= JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'database'.DS.$driver.'.php';
 
@@ -476,41 +476,6 @@ class JDatabase extends JObject
 		return $text;
 
 	}
-
-	/**
-	 * Beautify SQL (Add line breaks and highlighting)
-	 *
-	 * @access public
-	 * @param string sql to work with
-	 * @return string beautified text
-	 */
-	function beautify($sqltext) {
-
-		// Start by finding what we are doing
-		// SELECT, DELETE, INSERT
-/*		$pieces = explode ( " ", $sqltext );
-		switch (strtoupper( $pieces[0] )) {
-			case "SELECT":
-				$pieces[0] = "SELECT\n\t";
-				$sqltext = implode ( " ", $pieces);
-				break;
-			case "DELETE":
-				break;
-			case "INSERT":
-				break;
-			default:
-				// do nothing, we don't know what we are looking for
-		}
-*/
-		jimport('geshi.geshi');
-		jimport('domit.xml_saxy_shared');
-		$geshi = new GeSHi( $sqltext, 'sql' );
-		$geshi->set_header_type(GESHI_HEADER_PRE);
-		$geshi->enable_line_numbers( GESHI_NORMAL_LINE_NUMBERS );
-		$text = $geshi->parse_code();
-		return $text;
-	}
-
 
 	/**
 	 * Execute the query

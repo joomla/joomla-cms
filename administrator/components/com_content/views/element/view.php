@@ -191,7 +191,7 @@ class ContentViewElement extends JView
 		$query = 'SELECT cc.id AS value, cc.title AS text, section FROM #__categories AS cc' .
 				' INNER JOIN #__sections AS s ON s.id = cc.section '.$filter .
 				' ORDER BY s.ordering, cc.ordering';
-		$lists['catid'] = JContentHelper::filterCategory($query, $catid);
+		$lists['catid'] = ContentHelper::filterCategory($query, $catid);
 
 		// get list of sections for dropdown filter
 		$javascript = 'onchange="document.adminForm.submit();"';
