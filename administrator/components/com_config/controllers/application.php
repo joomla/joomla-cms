@@ -352,7 +352,7 @@ class ConfigControllerApplication extends ConfigController
 
 		// Try to make configuration.php writeable
 		jimport('joomla.filesystem.path');
-		if (!$ftp['enabled'] && !JPath::setPermissions($fname, '0755')) {
+		if (!$ftp['enabled'] && JPath::isOwner($fname) && !JPath::setPermissions($fname, '0644')) {
 			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make configuration.php writeable');
 		}
 
@@ -378,7 +378,7 @@ class ConfigControllerApplication extends ConfigController
 		}
 
 		// Try to make configuration.php unwriteable
-		if (!$ftp['enabled'] && !JPath::setPermissions($fname, '0555')) {
+		if (!$ftp['enabled'] && JPath::isOwner($fname) && !JPath::setPermissions($fname, '0444')) {
 			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make configuration.php unwriteable');
 		}
 	}
