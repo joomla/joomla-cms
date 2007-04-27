@@ -230,7 +230,7 @@ class ContentModelArticle extends JModel
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Method to checkout/lock the article
 	 *
@@ -253,6 +253,127 @@ class ContentModelArticle extends JModel
 			return $article->checkout($uid, $this->_id);
 		}
 		return false;
+	}
+	
+	/**
+	 * Method to store the article
+	 *
+	 * @access	public
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	function store($data)
+	{
+		global $mainframe;
+		
+		$article  =& JTable::getInstance('content');
+		$user     =& JFactory::getUser();
+
+		// Bind the form fields to the web link table
+		if (!$article->bind($data, "published")) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+
+		// sanitise id field
+		$article->id = (int) $article->id;
+
+		$isNew = ($article->id < 1);
+		if ($isNew)
+		{
+			$article->created 		= gmdate('Y-m-d H:i:s');
+			$article->created_by 	= $user->get('id');
+		}
+		else
+		{
+			$article->modified 		= gmdate('Y-m-d H:i:s');
+			$article->modified_by 	= $user->get('id');
+		}
+
+		// Append time if not added to publish date
+		if (strlen(trim($article->publish_up)) <= 10) {
+			$article->publish_up .= ' 00:00:00';
+		}
+
+		jimport( 'joomla.utilities.date' );
+		$date = new JDate($article->publish_up);
+		$date->setOffset( -$mainframe->getCfg('offset'));
+		$article->publish_up = $date->toMySQL();
+
+		// Handle never unpublish date
+		if (trim($article->publish_down) == JText::_('Never') || trim( $article->publish_down ) == '')
+		{
+			$article->publish_down = $this->_db->getNullDate();;
+		}
+		else
+		{
+			if (strlen(trim( $article->publish_down )) <= 10) {
+				$article->publish_down .= ' 00:00:00';
+			}
+
+			$date = new JDate($article->publish_down);
+			$date->setOffset( -$mainframe->getCfg('offset'));
+			$article->publish_down = $date->toMySQL();
+		}
+
+		jimport('joomla.filter.output');
+		$article->title = JOutputFilter::ampReplace($article->title);
+
+		// Publishing state hardening for Authors
+		if (!$user->authorize('action', 'publish', 'content', 'all'))
+		{
+			if ($isNew)
+			{
+				// For new items - author is not allowed to publish - prevent them from doing so
+				$article->state = 0;
+			}
+			else
+			{
+				// For existing items keep existing state - author is not allowed to change status
+				$query = 'SELECT state' .
+						' FROM #__content' .
+						' WHERE id = '.$row->id;
+				$this->_db->setQuery($query);
+				$state = $this->_db->loadResult();
+
+				if ($state) {
+					$article->state = 1;
+				}
+				else {
+					$article->state = 0;
+				}
+			}
+		}
+
+		// Search for the {readmore} tag and split the text up accordingly.
+		$text = str_replace('<br>', '<br />', $data['text']);
+		
+		$tagPos = JString::strpos($text, '<hr id="system-readmore" />');
+
+		if ($tagPos === false)	{
+			$article->introtext = $text;
+		} else 	{
+			$article->introtext = JString::substr($text, 0, $tagPos);
+			$article->fulltext = JString::substr($text, $tagPos +27);
+		}
+
+		// Make sure the web link table is valid
+		if (!$article->check()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+		
+		$article->version++;
+
+		// Store the web link table to the database
+		if (!$article->store()) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+		
+		$article->reorder("catid = " . (int) $post['catid']);
+
+		return true;
 	}
 
 	/**

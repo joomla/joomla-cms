@@ -83,7 +83,6 @@ class ContentController extends JController
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
-		$nullDate	= $db->getNullDate();
 		$task		= JRequest::getVar('task', null, 'default', 'cmd');
 
 		// Make sure you are logged in and have the necessary access rights
@@ -92,31 +91,27 @@ class ContentController extends JController
 			return;
 		}
 
-		/*
-		 * Create a user access object for the user
-		 */
+		// Create a user access object for the user
 		$access					= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		$row = & JTable::getInstance('content');
-		if (!$row->bind(JRequest::get('post'))) {
-			JError::raiseError( 500, $row->getError());
-		}
-
-		// sanitise id field
-		$row->id = (int) $row->id;
-
-		$isNew = ($row->id < 1);
+		
+		//get data from the request
+		$model = $this->getModel('article');
+		
+		//get data from request
+		$post = JRequest::get('post');
+		$post['text'] = JRequest::getVar('text', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		
+		//preform access checks
+		$isNew = ((int) $post['id'] < 1);
 		if ($isNew)
 		{
 			// new record
 			if (!($access->canEdit || $access->canEditOwn)) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
-			$row->created 		= gmdate('Y-m-d H:i:s');
-			$row->created_by 	= $user->get('id');
 		}
 		else
 		{
@@ -124,76 +119,12 @@ class ContentController extends JController
 			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id')))) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
-			$row->modified 		= gmdate('Y-m-d H:i:s');
-			$row->modified_by 	= $user->get('id');
 		}
 
-		// Append time if not added to publish date
-		if (strlen(trim($row->publish_up)) <= 10) {
-			$row->publish_up .= ' 00:00:00';
-		}
-
-		jimport( 'joomla.utilities.date' );
-		$date = new JDate($row->publish_up);
-		$date->setOffset( -$mainframe->getCfg('offset'));
-		$row->publish_up = $date->toMySQL();
-
-		// Handle never unpublish date
-		if (trim($row->publish_down) == JText::_('Never') || trim( $row->publish_down ) == '')
-		{
-			$row->publish_down = $nullDate;
-		}
-		else
-		{
-			if (strlen(trim( $row->publish_down )) <= 10) {
-				$row->publish_down .= ' 00:00:00';
-			}
-
-			$date = new JDate($row->publish_down);
-			$date->setOffset( -$mainframe->getCfg('offset'));
-			$row->publish_down = $date->toMySQL();
-		}
-
-		jimport('joomla.filter.output');
-		$row->title = JOutputFilter::ampReplace($row->title);
-
-		// Publishing state hardening for Authors
-		if (!$access->canPublish)
-		{
-			if ($isNew)
-			{
-				// For new items - author is not allowed to publish - prevent them from doing so
-				$row->state = 0;
-			}
-			else
-			{
-				// For existing items keep existing state - author is not allowed to change status
-				$query = 'SELECT state' .
-						' FROM #__content' .
-						' WHERE id = '.$row->id;
-				$db->setQuery($query);
-				$state = $db->loadResult();
-
-				if ($state)
-				{
-					$row->state = 1;
-				}
-				else
-				{
-					$row->state = 0;
-				}
-			}
-		}
-
-		// Prepare content  for save
-		ContentHelperController::saveContentPrep($row);
-
-		if (!$row->check()) {
-			JError::raiseError( 500, $row->getError());
-		}
-		$row->version++;
-		if (!$row->store()) {
-			JError::raiseError( 500, $row->getError());
+		if ($model->store($post)) {
+			$msg = JText::_( 'Article Saved' );
+		} else {
+			$msg = JText::_( 'Error Saving Article' );
 		}
 
 		// manage frontpage items
@@ -204,14 +135,14 @@ class ContentController extends JController
 		if (JRequest::getVar('frontpage', false, '', 'boolean'))
 		{
 			// toggles go to first place
-			if (!$fp->load($row->id))
+			if (!$fp->load($post['id']))
 			{
 				// new entry
 				$query = 'INSERT INTO #__content_frontpage' .
-						' VALUES ( '.$row->id.', 1 )';
+						' VALUES ( '.$post['id'].', 1 )';
 				$db->setQuery($query);
 				if (!$db->query()) {
-					JError::raiseError( 500, $db->stderror());
+					JError::raiseError( 500, $db->stderr());
 				}
 				$fp->ordering = 1;
 			}
@@ -219,28 +150,27 @@ class ContentController extends JController
 		else
 		{
 			// no frontpage mask
-			if (!$fp->delete($row->id)) {
+			if (!$fp->delete($post['id'])) {
 				$msg .= $fp->stderr();
 			}
 			$fp->ordering = 0;
 		}
 		$fp->reorder();
 
-		$row->checkin();
-		$row->reorder("catid = " . (int) $row->catid );
+		$model->checkin();
 
 		// gets section name of item
 		$query = 'SELECT s.title' .
 				' FROM #__sections AS s' .
 				' WHERE s.scope = "content"' .
-				' AND s.id = ' . (int) $row->sectionid;
+				' AND s.id = ' . (int) $post['sectionid'];
 		$db->setQuery($query);
 		// gets category name of item
 		$section = $db->loadResult();
 
 		$query = 'SELECT c.title' .
 				' FROM #__categories AS c' .
-				' WHERE c.id = ' . (int) $row->catid;
+				' WHERE c.id = ' . (int) $post['catid'];
 		$db->setQuery($query);
 		$category = $db->loadResult();
 
@@ -256,7 +186,7 @@ class ContentController extends JController
 			foreach ($users as $user_id)
 			{
 				$msg = new TableMessage($db);
-				$msg->send($user->get('id'), $user_id, "New Item", JText::sprintf('ON_NEW_CONTENT', $user->get('username'), $row->title, $section, $category));
+				$msg->send($user->get('id'), $user_id, "New Item", JText::sprintf('ON_NEW_CONTENT', $user->get('username'), $post['title'], $section, $category));
 			}
 		} else {
 			// If the article isn't new, then we need to clean the cache so that our changes appear realtime :)
@@ -282,16 +212,16 @@ class ContentController extends JController
 
 			case 'apply_new' :
 				$Itemid = JRequest::getVar('Returnid', $Itemid, 'post', 'int');
-				$link = 'index.php?option=com_content&task=edit&id='.$row->id.'&Itemid='.$Itemid;
+				$link = JRoute::_('index.php?task=edit&id='.$post['id']);
 				break;
 
 			case 'save' :
 			default :
 				$Itemid = JRequest::getVar('Returnid', '', 'post','int');
 				if (!$isNew) {
-					$link = 'index.php?option=com_content&view=article&id='.$row->id.'&Itemid='.$Itemid;
+					$link = JRoute::_('index.php?view=article&id='.$post['id']);
 				} else {
-					$link = 'index.php?option=com_content&view=article&id='.$row->id;
+					$link = JRoute::_('index.php?view=article&id='.$post['id']);
 				}
 				break;
 		}
@@ -345,7 +275,7 @@ class ContentController extends JController
 	*/
 	function vote()
 	{
-		$url		= JRequest::getVar('url', '', 'default', 'string');
+		$url	= JRequest::getVar('url', '', 'default', 'string');
 		$rating	= JRequest::getVar('user_rating', 0, '', 'int');
 		$id		= JRequest::getVar('cid', 0, '', 'int');
 
