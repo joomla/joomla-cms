@@ -1,6 +1,8 @@
 /* CSS Document */
 html {
 	height: 100%;
+	text-align: right;
+	direction:rtl;
 }
 
 body {

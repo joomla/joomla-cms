@@ -9,7 +9,7 @@
 		<name>Newsfeed Layout</name>
 		<description>NEWSFEED SINGLE LAYOUT DESC</description>
 		<url addParameterDir="/administrator/components/com_newsfeeds/elements">
-			<param name="feedid" type="newsfeed" default="0" label="Feed" description="A feed" />
+			<param name="id" type="newsfeed" default="0" label="Feed" description="A feed" />
 		</url>
 		<params>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
