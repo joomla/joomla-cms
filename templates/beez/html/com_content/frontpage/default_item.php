@@ -18,10 +18,10 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $image = 'templates' . DS . $mainframe->getTemplate() . DS . 'images' . DS . 'trans.gif';
 
-if ($this->user->authorize('action', 'edit', 'content', 'all')) {
-	echo '<div class="contentpaneopen_edit' . $this->params->get('pageclass_sfx') . '" style="float: left;">';
-	echo $this->getIcon('edit');
-	echo '</div>';
+if ($this->user->authorize('action', 'edit', 'content', 'all') ) {
+        echo '<div class="contentpaneopen_edit' . $this->params->get('pageclass_sfx') . '" style="float: left;">';
+      echo ContentHelperHTML::Icon('edit', $this->article, $this->params, $this->access);
+        echo '</div>';
 }
 
 if ($this->params->get('item_title')) {
@@ -40,26 +40,23 @@ if (!$this->params->get('intro_only')) {
 	echo $this->item->event->afterDisplayTitle;
 }
 
-if (isset($this->print) && $this->print) {
-	echo '<p class="buttonheading">';
-	echo $this->getIcon('print_screen');
-	echo '</p>';
-} else {
-	if ($this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) {
-		echo '<p class="buttonheading">';
-		echo '<img src="' . $image . '" alt="' . JText :: _('attention open in a new window') . '" />';
-		if ($this->params->get('pdf')) {
-			echo $this->getIcon('pdf');
-		}
-		if ($this->params->get('print')) {
-			echo $this->getIcon('print');
-		}
-		if ($this->params->get('email')) {
-			echo $this->getIcon('email');
-		}
-		echo '</p>';
-	}
-}
+if ($this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) {
+                echo '<p class="buttonheading">';
+                echo '<img src="' . $image . '" alt="' . JText :: _('attention open in a new window') . '" />';
+                if ($this->params->get('pdf')) {
+                        echo ContentHelperHTML::Icon('pdf',  $this->article, $this->params, $this->access);
+                }
+                if ($this->params->get('print')) {
+                        echo ContentHelperHTML::Icon('print',  $this->article, $this->params, $this->access);
+                }
+                if ($this->params->get('email')) {
+                        echo ContentHelperHTML::Icon('email', $this->item, $this->params, $this->access);
+                }
+
+                echo '</p>';
+        }
+
+
 
 if (($this->params->get('section') && $this->item->sectionid) || ($this->params->get('category') && $this->item->catid)) {
 	echo '<p class="pageinfo">';

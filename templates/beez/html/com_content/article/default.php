@@ -21,11 +21,12 @@ $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 $image = 'templates' . DS . $mainframe->getTemplate() . DS . 'images' . DS . 'trans.gif';
 
 echo '<div id="page">';
-if ($this->user->authorize('action', 'edit', 'content', 'all')) {
-	echo '<div class="contentpaneopen_edit' . $this->params->get('pageclass_sfx') . '" style="float: left;">';
-	echo $this->getIcon('edit');
-	echo '</div>';
+if ($this->user->authorize('action', 'edit', 'content', 'all') && !($this->print)) {
+        echo '<div class="contentpaneopen_edit' . $this->params->get('pageclass_sfx') . '" style="float: left;">';
+      echo ContentHelperHTML::Icon('edit', $this->article, $this->params, $this->access);
+        echo '</div>';
 }
+
 $hopen = '<h' . $ptlevel . '>';
 if ($this->params->get('section') && $this->article->sectionid) {
 	echo '<h' . $ptlevel . '>';
@@ -61,24 +62,25 @@ if (!$this->params->get('intro_only')) {
 }
 
 if ($this->print) {
-	echo '<p class="buttonheading">';
-	echo $this->getIcon('print_screen');
-	echo '</p>';
+        echo '<p class="buttonheading">';
+          echo ContentHelperHTML::Icon('print',  $this->article, $this->params, $this->access);
+        echo '</p>';
 } else {
-	if ($this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) {
-		echo '<p class="buttonheading">';
-		echo '<img src="' . $image . '" alt="' . JText :: _('attention open in a new window') . '" />';
-		if ($this->params->get('pdf')) {
-			echo $this->getIcon('pdf');
-		}
-		if ($this->params->get('print')) {
-			echo $this->getIcon('print');
-		}
-		if ($this->params->get('email')) {
-			echo $this->getIcon('email');
-		}
-		echo '</p>';
-	}
+        if ($this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) {
+                echo '<p class="buttonheading">';
+                echo '<img src="' . $image . '" alt="' . JText :: _('attention open in a new window') . '" />';
+                if ($this->params->get('pdf')) {
+                        echo ContentHelperHTML::Icon('pdf',  $this->article, $this->params, $this->access);
+                }
+                if ($this->params->get('print')) {
+                        echo ContentHelperHTML::Icon('print',  $this->article, $this->params, $this->access);
+                }
+                if ($this->params->get('email')) {
+                       echo ContentHelperHTML::Icon('email',  $this->article, $this->params, $this->access);
+                }
+
+                echo '</p>';
+        }
 }
 
 if ((!empty ($this->article->modified) && $this->params->get('modifydate')) || ($this->params->get('showAuthor') && ($this->article->author != "")) || ($this->params->get('createdate'))) {
