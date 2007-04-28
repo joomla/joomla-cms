@@ -182,6 +182,10 @@ class  plgSystemLegacy extends JPlugin
 				JRequest::setVar('option', 'com_user');
 				JRequest::setVar('view', 'login');
 				break;
+			case 'com_registration'     : 
+				JRequest::setVar('option', 'com_user');
+				JRequest::setVar('view', 'register');
+				break;
  		}
 	}
 

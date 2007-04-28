@@ -73,7 +73,7 @@
 </tr>
 </table>
 
-<input type="hidden" name="option" value="com_login" />
+<input type="hidden" name="option" value="com_user" />
 <input type="hidden" name="task" value="login" />
 <input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('login')); ?>" />
 <input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
