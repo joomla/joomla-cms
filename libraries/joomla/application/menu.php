@@ -61,8 +61,6 @@ class JMenu extends JObject
 	{
 		$this->_items = $this->_load();
 
-		$home = 0;
-		$n = count($this->_items );
 		foreach ($this->_items as $k => $item)
 		{
 			if ($item->home) {
@@ -266,7 +264,7 @@ class JMenu extends JObject
 		// Initialize some variables
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
-		$sql	= 'SELECT m.*, c.option as component' .
+		$sql	= 'SELECT m.*, c.`option` as component' .
 				' FROM #__menu AS m' .
 				' LEFT JOIN #__components AS c ON m.componentid = c.id'.
 				' WHERE m.published = 1'.
