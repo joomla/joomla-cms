@@ -53,8 +53,8 @@ if (count($this->categories))
 	foreach ( $this->categories as $category )
 	{
     	echo '<li>';
-        echo '<a href="'. JRoute::_($category->link).'" class="category'. $this->params->get( 'pageclass_sfx' ).'">';
-        echo $category->name;
+        echo '<a href="'. $category->link.'" class="category'. $this->params->get( 'pageclass_sfx' ).'">';
+        echo $category->title;
     	echo '</a>&nbsp;<span class="small">('.$category->numlinks.')</span>';
       	echo '</li>';
 	}
