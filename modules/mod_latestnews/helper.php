@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_SITE . '/components/com_content/helpers/content.php');
+require_once (JPATH_SITE . '/components/com_content/helpers/route.php');
 
 class modLatestNewsHelper
 {
@@ -103,7 +103,7 @@ class modLatestNewsHelper
 		$lists	= array();
 		foreach ( $rows as $row )
 		{
-			$lists[$i]->link = ContentHelper::getArticleRoute($row->slug, $row->catslug, $row->sectionid);
+			$lists[$i]->link = ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid);
 			$lists[$i]->text = htmlspecialchars( $row->title );
 			$i++;
 		}

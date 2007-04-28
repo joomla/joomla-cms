@@ -210,8 +210,8 @@ class SearchController
 				// determines Itemid for articles where itemid has not been included
 				if ( !empty($link) && @$link['task'] == 'view' && isset($link['id']) && !isset($link['Itemid']) ) {
 					$itemid = '';
-					if (ContentHelper::getItemid( $link['id'] )) {
-						$itemid = '&Itemid='. ContentHelper::getItemid( $link['id'] );
+					if (ContentHelperRoute::getArticleRoute( $link['id'] )) {
+						$itemid = '&Itemid='. ContentHelperRoute::getArticleRoute( $link['id'] );
 					}
 					$rows[$i]->href = $rows[$i]->href . $itemid;
 				}

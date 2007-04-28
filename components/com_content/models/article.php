@@ -443,7 +443,7 @@ class ContentModelArticle extends JModel
 		if (empty($this->_article))
 		{
 			// If voting is turned on, get voting data as well for the article
-			$voting	= ContentHelperModel::buildVotingQuery();
+			$voting	= ContentHelperQuery::buildVotingQuery();
 
 			// Get the WHERE clause
 			$where	= $this->_buildContentWhere();
@@ -532,12 +532,12 @@ class ContentModelArticle extends JModel
 
 		// Set the Section name as a link if needed
 		if ($params->get('section_link') && $this->_article->sectionid) {
-			$this->_article->section = ContentHelperModel::getSectionLink($this->_article);
+			$this->_article->section = ContentHelperRoute::getSectionRoute($this->_article);
 		}
 
 		// Set the Category name as a link if needed
 		if ($params->get('category_link') && $this->_article->catid) {
-			$this->_article->category = ContentHelpeModel::getCategoryLink($this->_article);
+			$this->_article->category = ContentHelpeRoute::getCategoryRoute($this->_article);
 		}
 
 		// Show or Hide the introtext column

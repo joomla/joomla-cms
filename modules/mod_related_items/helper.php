@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_SITE . '/components/com_content/helpers/content.php');
+require_once (JPATH_SITE . '/components/com_content/helpers/route.php');
 
 class modRelatedItemsHelper
 {
@@ -81,7 +81,7 @@ class modRelatedItemsHelper
 						{
 							if (($row->cat_state == 1 || $row->cat_state == '') && ($row->sec_state == 1 || $row->sec_state == '') && ($row->cat_access <= $user->get('aid', 0) || $row->cat_access == '') && ($row->sec_access <= $user->get('aid', 0) || $row->sec_access == ''))
 							{
-								$row->route = ContentHelper::getArticleRoute($row->id);
+								$row->route = ContentHelperRoute::getArticleRoute($row->id);
 								$related[] = $row;
 							}
 						}

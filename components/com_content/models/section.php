@@ -271,7 +271,7 @@ class ContentModelSection extends JModel
 
 			// Ordering control
 			$orderby = $params->get('orderby', '');
-			$orderby = ContentHelperModel::orderbySecondary($orderby);
+			$orderby = ContentHelperQuery::orderbySecondary($orderby);
 
 			// Handle the access permissions part of the main database query
 			if ($user->authorize('action', 'edit', 'content', 'all')) {
@@ -387,7 +387,7 @@ class ContentModelSection extends JModel
 	function _buildQuery($state = 1)
 	{
 		// If voting is turned on, get voting data as well for the content items
-		$voting	= ContentHelperModel::buildVotingQuery();
+		$voting	= ContentHelperQuery::buildVotingQuery();
 
 		// Get the WHERE and ORDER BY clauses for the query
 		$where		= $this->_buildContentWhere($state);
@@ -429,15 +429,15 @@ class ContentModelSection extends JModel
 			case -1:
 				// Special ordering for archive articles
 				$orderby_sec	= $params->def('orderby', 'rdate');
-				$order_sec		= ContentHelperModel::orderbySecondary($orderby_sec);
+				$order_sec		= ContentHelperQuery::orderbySecondary($orderby_sec);
 				break;
 			case 1:
 			default:
 				$orderby_sec	= $params->def('orderby_sec', 'rdate');
 				$orderby_sec	= ($orderby_sec == 'front') ? '' : $orderby_sec;
 				$orderby_pri	= $params->def('orderby_pri', '');
-				$secondary	= ContentHelperModel::orderbySecondary($orderby_sec);
-				$primary		= ContentHelperModel::orderbyPrimary($orderby_pri);
+				$secondary		= ContentHelperQuery::orderbySecondary($orderby_sec);
+				$primary		= ContentHelperQuery::orderbyPrimary($orderby_pri);
 				break;
 		}
 		$orderby .= "$primary $secondary";
@@ -450,13 +450,11 @@ class ContentModelSection extends JModel
 		global $mainframe;
 		$user		=& JFactory::getUser();
 		$aid		= $user->get('aid', 0);
-		// TODO: Should we be using requestTime here? or is JDate ok?
-		// $now		= $mainframe->get('requestTime');
-
+	
 		jimport('joomla.utilities.date');
 		$jnow		= new JDate();
-		$now			= $jnow->toMySQL();
-		$params 		= &JComponentHelper::getParams( 'com_content' );
+		$now		= $jnow->toMySQL();
+		$params 	= &JComponentHelper::getParams( 'com_content' );
 		$noauth		= !$params->get('shownoauth');
 		$nullDate	= $this->_db->getNullDate();
 

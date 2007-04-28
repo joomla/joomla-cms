@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: content.php 7054 2007-03-28 23:54:44Z louis $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -15,112 +15,43 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+// Component Helper
+jimport('joomla.application.component.helper');
+
 /**
- * Content Component Helper Model
+ * Content Component Route Helper
  *
  * @static
  * @package		Joomla
  * @subpackage	Content
  * @since 1.5
  */
-class ContentHelperModel
+class ContentHelperRoute
 {
-	function orderbyPrimary($orderby)
+	/**
+	 * @param	int	The route of the content item
+	 */
+	function getArticleRoute($id, $catid = 0, $sectionid = 0)
 	{
-		switch ($orderby)
-		{
-			case 'alpha' :
-				$orderby = 'cc.title, ';
-				break;
+		$item = ContentHelperRoute::_getArticleMenuInfo((int)$id, (int)$catid, (int)$sectionid);
 
-			case 'ralpha' :
-				$orderby = 'cc.title DESC, ';
-				break;
-
-			case 'order' :
-				$orderby = 'cc.ordering, ';
-				break;
-
-			default :
-				$orderby = '';
-				break;
+		$link = 'index.php?option=com_content&view=article';
+		if(@$item->link_parts['view'] == 'article') {
+			$link .=  '&Itemid='. $item->id;
 		}
 
-		return $orderby;
-	}
-
-	function orderbySecondary($orderby)
-	{
-		switch ($orderby)
-		{
-			case 'date' :
-				$orderby = 'a.created';
-				break;
-
-			case 'rdate' :
-				$orderby = 'a.created DESC';
-				break;
-
-			case 'alpha' :
-				$orderby = 'a.title';
-				break;
-
-			case 'ralpha' :
-				$orderby = 'a.title DESC';
-				break;
-
-			case 'hits' :
-				$orderby = 'a.hits DESC';
-				break;
-
-			case 'rhits' :
-				$orderby = 'a.hits';
-				break;
-
-			case 'order' :
-				$orderby = 'a.ordering';
-				break;
-
-			case 'author' :
-				$orderby = 'a.created_by_alias, u.name';
-				break;
-
-			case 'rauthor' :
-				$orderby = 'a.created_by_alias DESC, u.name DESC';
-				break;
-
-			case 'front' :
-				$orderby = 'f.ordering';
-				break;
-
-			default :
-				$orderby = 'a.ordering';
-				break;
+		if(@$item->link_parts['view'] == 'category') {
+			$link .= '&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
 		}
 
-		return $orderby;
-	}
-
-	function buildVotingQuery()
-	{
-		$params = &JComponentHelper::getParams( 'com_content' );
-		$voting = $params->get('vote');
-
-		if ($voting) {
-			// calculate voting count
-			$select = ' , ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count';
-			$join = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
-		} else {
-			$select = '';
-			$join = '';
+		if(@$item->link_parts['view'] == 'section') {
+			$link .= '&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
 		}
 
-		$results = array ('select' => $select, 'join' => $join);
-
-		return $results;
+		return JRoute::_( $link );
 	}
-
-	function getSectionLink(& $row)
+	
+	function getSectionRoute(& $row)
 	{
 		$db =& JFactory::getDBO();
 		static $links;
@@ -165,7 +96,7 @@ class ContentHelperModel
 		return $links[$row->sectionid];
 	}
 
-	function getCategoryLink(& $row)
+	function getCategoryRoute(& $row)
 	{
 		$db =& JFactory::getDBO();
 		static $links;
@@ -231,6 +162,55 @@ class ContentHelperModel
 		}
 
 		return $links[$row->catid];
+	}
+
+	/**
+	 * @param	int	The menu information based on the article identifiers
+	 */
+	function _getArticleMenuInfo($id, $catid = 0, $sectionid = 0)
+	{
+		$component	=& JComponentHelper::getInfo('com_content');
+
+		$menus		=& JMenu::getInstance();
+		$items		= $menus->getItems('componentid', $component->id);
+
+		$n = count( $items );
+		if (!$n) {
+			return null;
+		}
+
+		for ($i = 0; $i < $n; $i++)
+		{
+			$item = &$items[$i];
+			$url = str_replace('index.php?', '', $item->link);
+			$url = str_replace('&amp;', '&', $url);
+			$parts = null;
+			parse_str($url, $parts);
+
+			if(!isset($parts['id'])) {
+				continue;
+			}
+
+			// set the link parts
+			$item->link_parts = $parts;
+
+			// Do we have a content item linked to the menu with this id?
+			if (($item->published) && ($item->link_parts['id'] == $id) && ($item->link_parts['view'] = 'article')) {
+				return $item;
+			}
+
+			// Check to see if it is in a published category
+			if (($item->published) && ($item->link_parts['id'] == $catid) && $item->link_parts['view'] == 'category') {
+				return $item;
+			}
+
+			// Check to see if it is in a published section
+			if (($item->published) && ($item->link_parts['id'] == $sectionid) && $item->link_parts['view'] == 'section') {
+				return $item;
+			}
+		}
+
+		return null;
 	}
 }
 ?>

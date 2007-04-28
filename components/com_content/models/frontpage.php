@@ -116,7 +116,7 @@ class ContentModelFrontpage extends JModel
 	function _buildQuery()
 	{
 		// Voting is turned on, get voting data as well for the content items
-		$voting	= ContentHelperModel::buildVotingQuery();
+		$voting	= ContentHelperQuery::buildVotingQuery();
 
 		// Get the WHERE and ORDER BY clauses for the query
 		$where	 = $this->_buildContentWhere();
@@ -149,8 +149,8 @@ class ContentModelFrontpage extends JModel
 
 		$orderby_sec	= $params->def('orderby_sec', '');
 		$orderby_pri	= $params->def('orderby_pri', '');
-		$secondary	= ContentHelperModel::orderbySecondary($orderby_sec);
-		$primary		= ContentHelperModel::orderbyPrimary($orderby_pri);
+		$secondary		= ContentHelperQuery::orderbySecondary($orderby_sec);
+		$primary		= ContentHelperQuery::orderbyPrimary($orderby_pri);
 
 		$orderby = ' ORDER BY '.$primary.' '.$secondary;
 

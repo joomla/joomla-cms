@@ -16,7 +16,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Content Component Helper View
+ * Content Component HTML Helper
  *
  * @static
  * @package		Joomla

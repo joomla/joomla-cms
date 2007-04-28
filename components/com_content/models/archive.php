@@ -90,7 +90,7 @@ class ContentModelArchive extends JModel
 	function _buildQuery()
 	{
 		// If voting is turned on, get voting data as well for the content items
-		$voting	= ContentHelperModel::buildVotingQuery();
+		$voting	= ContentHelperQuery::buildVotingQuery();
 
 		// Get the WHERE and ORDER BY clauses for the query
 		$where		= $this->_buildContentWhere();
@@ -129,7 +129,7 @@ class ContentModelArchive extends JModel
 
 		// Special ordering for archive articles
 		$orderby_sec	= $params->def('orderby', 'rdate');
-		$primary		= ContentHelperModel::orderbySecondary($orderby_sec);
+		$primary		= ContentHelperQuery::orderbySecondary($orderby_sec);
 		$orderby		.= $primary;
 
 		return $orderby;

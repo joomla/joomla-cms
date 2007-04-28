@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Apr-2007 Johan Janssens
+ ^ Refactored com_content helper classes, added html, route and query helpers
+
 26-Apr-2007 Toby Patterson
  # Fixed [topic 163256] Wrong title displayed for category.
  # Fixed [art #405] Warnings w/ com_content and BEEZ, patch applied - thanks lukewill
