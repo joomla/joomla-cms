@@ -65,15 +65,13 @@ class HTML_modules
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
-					<?php JCommonHTML::tableOrdering( 'Module Name', 'm.title', $lists ); ?>
+					<?php JHTML::element( 'grid_sort', 'Module Name', 'm.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th nowrap="nowrap" width="7%">
-					<?php JCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
+					<?php JHTML::element( 'grid_sort', 'Published', 'm.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="80" nowrap="nowrap">
-					<a href="javascript:tableOrdering('m.position','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
-						<?php echo JText::_( 'Order' ); ?>
-					</a>
+					<?php JHTML::element( 'grid_sort', 'Order', 'm.position', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="1%">
 					<?php JCommonHTML::saveorderButton( $rows ); ?>
@@ -82,22 +80,22 @@ class HTML_modules
 				if ( $client->id == 0 ) {
 					?>
 					<th nowrap="nowrap" width="7%">
-						<?php JCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<?php
 				}
 				?>
 				<th nowrap="nowrap" width="3%">
-					<?php JCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
+					<?php JHTML::element( 'grid_sort', 'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th nowrap="nowrap" width="7%">
-					<?php JCommonHTML::tableOrdering( 'Position', 'm.position', $lists ); ?>
+					<?php JHTML::element( 'grid_sort', 'Position', 'm.position', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th nowrap="nowrap" width="5%">
-					<?php JCommonHTML::tableOrdering( 'Pages', 'pages', $lists ); ?>
+					<?php JHTML::element( 'grid_sort', 'Pages', 'pages', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th nowrap="nowrap" width="10%"  class="title">
-					<?php JCommonHTML::tableOrdering( 'Type', 'm.module', $lists ); ?>
+					<?php JHTML::element( 'grid_sort', 'Type', 'm.module', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 			</tr>
 			</thead>

@@ -22,7 +22,7 @@ class JHTMLGrid_sort
 {
 	/**
 	 * @param	string	The link title
-	 * @param	string	The order setting for the column
+	 * @param	string	The order field for the column
 	 * @param	string	The current direction
 	 * @param	string	The selected ordering
 	 * @param	string	An optional task override

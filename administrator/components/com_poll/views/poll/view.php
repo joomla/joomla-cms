@@ -54,22 +54,22 @@ class PollView
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th  class="title">
-						<?php JCommonHTML::tableOrdering( 'Poll Title', 'm.title', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Poll Title', 'm.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php JCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Published', 'm.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php JCommonHTML::tableOrdering( 'Votes', 'm.voters', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Votes', 'm.voters', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php JCommonHTML::tableOrdering( 'Options', 'numoptions', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Options', 'numoptions', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php JCommonHTML::tableOrdering( 'Lag', 'm.lag', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Lag', 'm.lag', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="1%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>

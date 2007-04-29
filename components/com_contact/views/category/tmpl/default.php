@@ -60,11 +60,11 @@ endif; ?>
 				<?php echo JText::_('Num'); ?>
 			</td>
 			<td height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php JCommonHTML::tableOrdering( 'Name', 'cd.name', $this->lists ); ?>
+				<?php JHTML::element('grid_sort', 'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</td>
 			<?php if ( $this->params->get( 'position' ) ) : ?>
 			<td height="20" class="sectiontableheader<?php echo  $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php JCommonHTML::tableOrdering( 'Position', 'cd.con_position', $this->lists ); ?>
+				<?php JHTML::element('grid_sort', 'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</td>
 			<?php endif; ?>
 			<?php if ( $this->params->get( 'email' ) ) : ?>

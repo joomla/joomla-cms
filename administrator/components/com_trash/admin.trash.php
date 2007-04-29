@@ -129,12 +129,8 @@ function viewTrashContent( $option )
 	}
 
 	// table ordering
-	if ( $filter_order_Dir == 'DESC' ) {
-		$lists['order_Dir'] = 'ASC';
-	} else {
-		$lists['order_Dir'] = 'DESC';
-	}
-	$lists['order'] = $filter_order;
+	$lists['order_Dir']	= $filter_order_Dir;
+	$lists['order']		= $filter_order;
 
 	// search filter
 	$lists['search']= $search;
@@ -190,12 +186,8 @@ function viewTrashMenu( $option )
 	$menus = $db->loadObjectList();
 
 	// table ordering
-	if ( $filter_order_Dir == 'DESC' ) {
-		$lists['order_Dir'] = 'ASC';
-	} else {
-		$lists['order_Dir'] = 'DESC';
-	}
-	$lists['order'] = $filter_order;
+	$lists['order_Dir']	= $filter_order_Dir;
+	$lists['order']		= $filter_order;
 
 	// search filter
 	$lists['search']= $search;

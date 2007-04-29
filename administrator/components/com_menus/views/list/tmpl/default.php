@@ -28,28 +28,28 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 			</th>
 			<th class="title" width="30%">
-				<?php JCommonHTML::tableOrdering( 'Menu Item', 'm.name', $this->lists, 'view' ); ?>
+				<?php JHTML::element( 'grid_sort', 'Menu Item', 'm.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
 			<th width="5%">
 				<?php echo JText::_( 'Default' ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php JCommonHTML::tableOrdering( 'Published', 'm.published', $this->lists, 'view' ); ?>
+				<?php JHTML::element( 'grid_sort', 'Published', 'm.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
 			<th width="80" nowrap="nowrap">
-				<a href="javascript:tableOrdering('m.ordering','ASC', 'view');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>"><?php echo JText::_( 'Order' ); ?></a>
+				<?php JHTML::element( 'grid_sort', 'Order by', 'm.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
 			<th width="1%">
 				<?php JCommonHTML::saveorderButton( $this->items ); ?>
 			</th>
 			<th width="10%">
-				<?php JCommonHTML::tableOrdering( 'Access', 'groupname', $this->lists, 'view' ); ?>
+				<?php JHTML::element( 'grid_sort', 'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
 			<th width="10%" class="title">
-				<?php JCommonHTML::tableOrdering( 'Type', 'm.type', $this->lists, 'view' ); ?>
+				<?php JHTML::element( 'grid_sort', 'Type', 'm.type', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
 			<th nowrap="nowrap">
-				<?php JCommonHTML::tableOrdering( 'Itemid', 'm.id', $this->lists, 'view' ); ?>
+				<?php JHTML::element( 'grid_sort', 'Itemid', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 			</th>
 		</tr>
 	</thead>

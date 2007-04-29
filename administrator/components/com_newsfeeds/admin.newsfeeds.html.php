@@ -61,30 +61,28 @@ class HTML_newsfeeds
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th class="title">
-						<?php JCommonHTML::tableOrdering( 'News Feed', 'a.name', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'News Feed', 'a.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="7%">
-						<?php JCommonHTML::tableOrdering( 'Published', 'a.published', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Published', 'a.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="80" nowrap="nowrap">
-						<a href="javascript:tableOrdering('a.ordering','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
-							<?php echo JText::_( 'Order' );?>
-						</a>
+						<?php JHTML::element( 'grid_sort', 'Order', 'a.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
 		 			</th>
 					<th width="1%">
 						<?php JCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'ID', 'a.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="17%">
-						<?php JCommonHTML::tableOrdering( 'Category', 'catname', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Category', 'catname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Num Articles', 'a.numarticles', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Num Articles', 'a.numarticles', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%">
-						<?php JCommonHTML::tableOrdering( 'Cache time', 'a.cache_time', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Cache time', 'a.cache_time', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>

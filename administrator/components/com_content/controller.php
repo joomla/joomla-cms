@@ -181,12 +181,8 @@ class ContentController extends JController
 		$lists['state'] = JCommonHTML::selectState($filter_state, 'Published', 'Unpublished', 'Archived');
 
 		// table ordering
-		if ($filter_order_Dir == 'DESC') {
-			$lists['order_Dir'] = 'ASC';
-		} else {
-			$lists['order_Dir'] = 'DESC';
-		}
-		$lists['order'] = $filter_order;
+		$lists['order_Dir']	= $filter_order_Dir;
+		$lists['order']		= $filter_order;
 
 		// search filter
 		$lists['search'] = $search;
@@ -314,15 +310,8 @@ class ContentController extends JController
 		$lists['authorid'] = JHTMLSelect::genericList($authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
 
 		// table ordering
-		if ($filter_order_Dir == 'DESC')
-		{
-			$lists['order_Dir'] = 'ASC';
-		}
-		else
-		{
-			$lists['order_Dir'] = 'DESC';
-		}
-		$lists['order'] = $filter_order;
+		$lists['order_Dir']	= $filter_order_Dir;
+		$lists['order']		= $filter_order;
 
 		// search filter
 		$lists['search'] = $search;

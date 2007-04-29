@@ -55,16 +55,16 @@ class HTML_trash
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $contents );?>);" />
 					</th>
 					<th class="title">
-						<?php JCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="70">
-						<?php JCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="25%">
-						<?php JCommonHTML::tableOrdering( 'Section', 'sectname', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Section', 'sectname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="25%">
-						<?php JCommonHTML::tableOrdering( 'Category', 'catname', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Category', 'catname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -177,16 +177,16 @@ class HTML_trash
 						<input type="checkbox" name="toggle1" value="" onclick="checkAll_xtd(<?php echo count( $menus );?>);" />
 					</th>
 					<th class="title">
-						<?php JCommonHTML::tableOrdering( 'Name', 'm.name', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Name', 'm.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="70">
-						<?php JCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="25%">
-						<?php JCommonHTML::tableOrdering( 'Menu', 'm.menutype', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Menu', 'm.menutype', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="25%">
-						<?php JCommonHTML::tableOrdering( 'Type', 'm.type', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Type', 'm.type', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>

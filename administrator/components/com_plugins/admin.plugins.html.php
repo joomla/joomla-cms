@@ -64,30 +64,28 @@ class HTML_modules {
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 					</th>
 					<th class="title">
-						<?php JCommonHTML::tableOrdering( 'Plugin Name', 'p.name', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Plugin Name', 'p.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap" width="5%">
-						<?php JCommonHTML::tableOrdering( 'Published', 'p.published', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Published', 'p.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="80" nowrap="nowrap">
-						<a href="javascript:tableOrdering('p.folder','ASC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
-							<?php echo JText::_( 'Order' );?>
-						</a>
+						<?php JHTML::element( 'grid_sort', 'Order', 'p.folder', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="1%">
 						<?php JCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th nowrap="nowrap" width="7%">
-						<?php JCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap"  width="3%" class="title">
-						<?php JCommonHTML::tableOrdering( 'ID', 'p.id', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'ID', 'p.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap"  width="13%" class="title">
-						<?php JCommonHTML::tableOrdering( 'Type', 'p.folder', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Type', 'p.folder', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap"  width="13%" class="title">
-						<?php JCommonHTML::tableOrdering( 'File', 'p.element', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'File', 'p.element', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>

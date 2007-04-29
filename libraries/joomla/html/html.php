@@ -529,33 +529,6 @@ class JCommonHTML
 			<?php echo $image; ?></a>
 		<?php
 	}
-
-	/*
-	 * Function is used only in the administrator : move to JHTMLGrid
-	 */
-	function tableOrdering( $text, $ordering, &$lists, $task=NULL )
-	{
-		?>
-		<a href="javascript:tableOrdering('<?php echo $ordering; ?>','<?php echo $lists['order_Dir']; ?>','<?php echo $task; ?>');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( $text ); ?>">
-			<?php echo JText::_( $text ); ?>
-			<?php JCommonHTML::tableOrdering_img( $ordering, $lists ); ?></a>
-		<?php
-	}
-
-	/*
-	 * Function is used only in the administrator : move to JHTMLGrid
-	 */
-	function tableOrdering_img( $current, &$lists )
-	{
-		if ( $current == $lists['order']) {
-			if ( $lists['order_Dir'] == 'ASC' ) {
-				$image = 'sort_desc.png';
-			} else {
-				$image = 'sort_asc.png';
-			}
-			echo JAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, '', '', 1 );
-		}
-	}
 }
 
 /**

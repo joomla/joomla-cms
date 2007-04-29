@@ -44,22 +44,22 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 	<?php if ($this->params->get('title')) : ?>
  	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="45%">
-		<?php JCommonHTML::tableOrdering( 'Item Title', 'a.title', $this->lists ); ?>
+		<?php JHTML::element('grid_sort', 'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('date')) : ?>
 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="25%">
-		<?php JCommonHTML::tableOrdering( 'Date', 'a.created', $this->lists ); ?>
+		<?php JHTML::element('grid_sort', 'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('showAuthor')) : ?>
 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>"  width="20%">
-		<?php JCommonHTML::tableOrdering( 'Author', 'author', $this->lists ); ?>
+		<?php JHTML::element('grid_sort', 'Author', 'author', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('hits')) : ?>
 	<td align="center" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="5%" nowrap="nowrap">
-		<?php JCommonHTML::tableOrdering( 'Hits', 'a.hits', $this->lists ); ?>
+		<?php JHTML::element('grid_sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
 </tr>

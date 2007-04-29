@@ -59,28 +59,28 @@ class HTML_users {
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 					</th>
 					<th class="title">
-						<?php JCommonHTML::tableOrdering( 'Name', 'a.name', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Name', 'a.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="15%" class="title" >
-						<?php JCommonHTML::tableOrdering( 'Username', 'a.username', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Username', 'a.username', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" class="title" nowrap="nowrap">
 						<?php echo JText::_( 'Logged In' ); ?>
 					</th>
 					<th width="5%" class="title" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Enabled', 'a.block', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Enabled', 'a.block', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="15%" class="title">
-						<?php JCommonHTML::tableOrdering( 'Group', 'groupname', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Group', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="15%" class="title">
-						<?php JCommonHTML::tableOrdering( 'E-Mail', 'a.email', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'E-Mail', 'a.email', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%" class="title">
-						<?php JCommonHTML::tableOrdering( 'Last Visit', 'a.lastvisitDate', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Last Visit', 'a.lastvisitDate', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="1%" class="title" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'ID', 'a.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>

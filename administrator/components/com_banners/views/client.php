@@ -58,16 +58,16 @@ class BannersViewClients
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th nowrap="nowrap" class="title">
-					<?php JCommonHTML::tableOrdering( 'Client Name', 'a.name', $lists ); ?>
+					<?php JHTML::element( 'grid_sort', 'Client Name', 'a.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th nowrap="nowrap" class="title" width="35%">
-					<?php JCommonHTML::tableOrdering( 'Contact', 'a.contact', $lists ); ?>
+					<?php JHTML::element( 'grid_sort', 'Contact', 'a.contact', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th align="center" nowrap="nowrap" width="5%">
-					<?php JCommonHTML::tableOrdering( 'No. of Active Banners', 'bid', $lists ); ?>
+					<?php JHTML::element( 'grid_sort', 'No. of Active Banners', 'bid', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
-					<?php JCommonHTML::tableOrdering( 'ID', 'a.cid', $lists ); ?>
+					<?php JHTML::element( 'grid_sort', 'ID', 'a.cid', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 			</tr>
 			</thead>

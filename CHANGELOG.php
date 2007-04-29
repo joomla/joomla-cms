@@ -37,8 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Apr-2007 Andrew Eddie
+ ^ Fully converted JHTMLCommon::tableOrdering to JHTML adapter pattern 
+
 29-Apr-2007 Louis Landry
-- Removed unused pcl libraries
+ - Removed unused pcl libraries
 
 28-Apr-2007 Johan Janssens
  ^ Refactored com_content helper classes, added html, route and query helpers

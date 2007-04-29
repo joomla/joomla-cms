@@ -73,42 +73,40 @@ class ContentView
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th class="title">
-						<?php JCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="1%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Published', 'c.state', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Published', 'c.state', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap" width="1%">
-						<?php JCommonHTML::tableOrdering( 'Front Page', 'frontpage', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Front Page', 'frontpage', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="80">
-						<a href="javascript:tableOrdering('section_name','DESC');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( 'Order' ); ?>">
-							<?php echo JText::_( 'Order' ); ?>
-						</a>
+						<?php JHTML::element( 'grid_sort', 'Order', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="1%">
 						<?php JCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th width="7%">
-						<?php JCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="2%" class="title">
-						<?php JCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="8%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th  class="title" width="8%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Category', 'cc.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th  class="title" width="8%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Author', 'author', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th align="center" width="10">
-						<?php JCommonHTML::tableOrdering( 'Date', 'c.created', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th align="center" width="10">
-						<?php JCommonHTML::tableOrdering( 'Hits', 'c.hits', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Hits', 'c.hits', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -333,22 +331,22 @@ class ContentView
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th class="title">
-					<?php JCommonHTML::tableOrdering( 'Title', 'c.title', $lists, 'showarchive' ); ?>
+					<?php JHTML::element( 'grid_sort', 'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="3%"  class="title">
-					<?php JCommonHTML::tableOrdering( 'ID', 'c.id', $lists, 'showarchive' ); ?>
+					<?php JHTML::element( 'grid_sort', 'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php JCommonHTML::tableOrdering( 'Section', 'sectname', $lists, 'showarchive' ); ?>
+					<?php JHTML::element( 'grid_sort', 'Section', 'sectname', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php JCommonHTML::tableOrdering( 'Category', 'cc.name', $lists, 'showarchive' ); ?>
+					<?php JHTML::element( 'grid_sort', 'Category', 'cc.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php JCommonHTML::tableOrdering( 'Author', 'author', $lists, 'showarchive' ); ?>
+					<?php JHTML::element( 'grid_sort', 'Author', 'author', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th align="center" width="10">
-					<?php JCommonHTML::tableOrdering( 'Date', 'c.created', $lists, 'showarchive' ); ?>
+					<?php JHTML::element( 'grid_sort', 'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 			</tr>
 			<?php

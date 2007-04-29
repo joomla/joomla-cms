@@ -195,12 +195,8 @@ class ModulesController extends JController
 		$lists['assigned']	= JHTMLSelect::genericList( $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_assigned" );
 
 		// table ordering
-		if ( $filter_order_Dir == 'DESC' ) {
-			$lists['order_Dir'] = 'ASC';
-		} else {
-			$lists['order_Dir'] = 'DESC';
-		}
-		$lists['order'] = $filter_order;
+		$lists['order_Dir']	= $filter_order_Dir;
+		$lists['order']		= $filter_order;
 
 		// search filter
 		$lists['search']= $search;

@@ -42,22 +42,22 @@ echo JText :: _('Num');
 echo '</th>';
 if ($this->params->get('title')) {
 echo '<th class="sectiontableheader' . $this->params->get('pageclass_sfx') . '"  id="tableOrdering">';
-JCommonHTML :: tableOrdering('Item Title', 'a.title', $this->lists);
+JHTML::element('grid_sort', 'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] );
 echo '</th>';
 }
 if ($this->params->get('date')) {
 echo '<th class="sectiontableheader' . $this->params->get('pageclass_sfx') . '"  id="tableOrdering2">';
-JCommonHTML :: tableOrdering('Date', 'a.created', $this->lists);
+JHTML::element('grid_sort', 'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order'] );
 echo '</th>';
 }
 if ($this->params->get('showAuthor')) {
 echo '<th class="sectiontableheader' . $this->params->get('pageclass_sfx') . '"   id="author">';
-JCommonHTML :: tableOrdering('Author', 'author', $this->lists);
+JHTML::element('grid_sort', 'Author', 'author', $this->lists['order_Dir'], $this->lists['order'] );
 echo '</th>';
 }
 if ($this->params->get('hits')) {
 echo '<th align="center" class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" width="5%" nowrap="nowrap" id="hits">';
-JCommonHTML :: tableOrdering('Hits', 'a.hits', $this->lists);
+JHTML::element('grid_sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] );
 echo '</th>';
 }
 echo '</tr>';

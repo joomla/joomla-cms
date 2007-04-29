@@ -25,12 +25,12 @@
 		<?php echo JText::_('Num'); ?>
 	</td>
 	<td width="90%" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<?php JCommonHTML::tableOrdering( 'Web Link', 'title', $this->lists ); ?>
+		<?php JHTML::element('grid_sort', 'Web Link', 'title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php if ( $this->params->get( 'hits' ) ) : ?>
 
 	<td width="30" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" align="right" nowrap="nowrap">
-		<?php JCommonHTML::tableOrdering( 'Hits', 'hits', $this->lists ); ?>
+		<?php JHTML::element('grid_sort', 'Hits', 'hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
 </tr>

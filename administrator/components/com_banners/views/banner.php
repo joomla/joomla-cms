@@ -68,35 +68,35 @@ class BannersViewBanner
 						<input type="checkbox" name="toggle" value=""  onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th nowrap="nowrap" class="title">
-						<?php JCommonHTML::tableOrdering( 'Name', 'b.name', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Name', 'b.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Client', 'c.name', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Client', 'c.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Category', 'cc.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Published', 'b.showBanner', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Published', 'b.showBanner', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Order', 'b.ordering', $lists );?>
+						<?php JHTML::element( 'grid_sort', 'Order', 'b.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
 						<?php JCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Sticky', 'b.sticky', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Sticky', 'b.Sticky', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Impressions', 'b.impmade', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Impressions', 'b.impmade', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="80">
-						<?php JCommonHTML::tableOrdering( 'Clicks', 'b.clicks', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Clicks', 'b.clicks', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
 						<?php echo JText::_( 'Tags' ); ?>
 					</th>
 					<th width="1%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'ID', 'b.bid', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'ID', 'b.bid', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>

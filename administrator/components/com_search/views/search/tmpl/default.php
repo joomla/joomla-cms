@@ -34,10 +34,10 @@
 						<?php echo JText::_( 'NUM' ); ?>
 					</th>
 					<th class="title">
-						<?php JCommonHTML::tableOrdering( 'Search Text', 'search_term', $this->lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Search Text', 'search_term', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap" width="20%">
-						<?php JCommonHTML::tableOrdering( 'Times Requested', 'hits', $this->lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Times Requested', 'hits', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<?php
 					if ( $this->showResults ) {

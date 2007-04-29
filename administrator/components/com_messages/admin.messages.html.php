@@ -55,16 +55,16 @@ class HTML_messages
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 					</th>
 					<th width="50%" class="title">
-						<?php JCommonHTML::tableOrdering( 'Subject', 'a.subject', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Subject', 'a.subject', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" class="title" align="center">
-						<?php JCommonHTML::tableOrdering( 'Read', 'a.state', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Read', 'a.state', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="25%" class="title">
-						<?php JCommonHTML::tableOrdering( 'From', 'user_from', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'From', 'user_from', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="15%" class="title" nowrap="nowrap" align="center">
-						<?php JCommonHTML::tableOrdering( 'Date', 'a.date_time', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Date', 'a.date_time', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			<thead>

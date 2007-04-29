@@ -80,22 +80,22 @@ class ContentViewElement extends JView
 						<?php echo JText::_( 'Num' ); ?>
 					</th>
 					<th class="title">
-						<?php JCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="7%">
-						<?php JCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="2%" class="title">
-						<?php JCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="15%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th  class="title" width="15%" nowrap="nowrap">
-						<?php JCommonHTML::tableOrdering( 'Category', 'cc.title', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Category', 'cc.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th align="center" width="10">
-						<?php JCommonHTML::tableOrdering( 'Date', 'c.created', $lists ); ?>
+						<?php JHTML::element( 'grid_sort', 'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -198,12 +198,8 @@ class ContentViewElement extends JView
 		$lists['sectionid'] = JAdministratorHelper::SelectSection('filter_sectionid', $filter_sectionid, $javascript);
 
 		// table ordering
-		if ($filter_order_Dir == 'DESC') {
-			$lists['order_Dir'] = 'ASC';
-		} else {
-			$lists['order_Dir'] = 'DESC';
-		}
-		$lists['order'] = $filter_order;
+		$lists['order_Dir']	= $filter_order_Dir;
+		$lists['order']		= $filter_order;
 
 		// search filter
 		$lists['search'] = $search;
