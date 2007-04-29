@@ -69,7 +69,7 @@ echo '<tr class="sectiontableentry' . $oddoreven . $this->params->get('pageclass
 echo '<td headers="count">' . $this->pagination->getRowOffset($item->count) . '</td>';
 if ($this->params->get('title')) {
 if ($item->access <= $this->user->get('aid', 0)) {
-echo '<td headers="tableOrdering"><a href="' . JRoute::_($item->link) . '">' . $item->title . '</a>' . $this->getIcon($item, 'edit') . '</td>';
+echo '<td headers="tableOrdering"><a href="' . JRoute::_($item->link) . '">' . $item->title . '</a>' . ContentHelperHTML::Icon('edit', $item, $this->params, $this->access) . '</td>';
 } else {
 echo '<td headers="tableOrdering1">' . $item->title . ' : ';
 $link = JRoute::_('index.php?option=com_user&amp;task=register');
@@ -101,9 +101,7 @@ echo $this->pagination->getPagesLinks();
 echo '<input type="hidden" name="id" value="' . $this->category->id . '" />';
 echo '<input type="hidden" name="sectionid" value="' . $this->category->sectionid . '" />';
 echo '<input type="hidden" name="task" value="' . $this->lists['task'] . '" />';
-echo '<input type="hidden" name="option" value="com_content" />';
 echo '<input type="hidden" name="filter_order" value="' . $this->lists['order'] . '" />';
 echo '<input type="hidden" name="filter_order_Dir" value="" />';
-echo '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
 echo '</form>';
 ?>

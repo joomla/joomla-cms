@@ -21,7 +21,7 @@ $image = 'templates' . DS . $mainframe->getTemplate() . DS . 'images' . DS . 'tr
 
 if ($this->user->authorize('action', 'edit', 'content', 'all') ) {
         echo '<div class="contentpaneopen_edit' . $this->params->get('pageclass_sfx') . '" style="float: left;">';
-      echo ContentHelperHTML::Icon('edit', $this->article, $this->params, $this->access);
+      echo ContentHelperHTML::Icon('edit', $this->item, $this->params, $this->access);
         echo '</div>';
 }
 
@@ -43,7 +43,7 @@ if (!$this->params->get('intro_only')) {
 
 if ($this->params->get( 'print' )) {
         echo '<p class="buttonheading">';
-          echo ContentHelperHTML::Icon('print',  $this->article, $this->params, $this->access);
+          echo ContentHelperHTML::Icon('print',  $this->item, $this->params, $this->access);
         echo '</p>';
 } else {
         if ($this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) {

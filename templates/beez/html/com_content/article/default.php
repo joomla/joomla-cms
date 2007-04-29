@@ -63,7 +63,7 @@ if (!$this->params->get('intro_only')) {
 
 if ($this->print) {
         echo '<p class="buttonheading">';
-          echo ContentHelperHTML::Icon('print',  $this->article, $this->params, $this->access);
+          echo ContentHelperHTML::Icon('print_screen',  $this->article, $this->params, $this->access);
         echo '</p>';
 } else {
         if ($this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) {

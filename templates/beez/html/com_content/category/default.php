@@ -44,7 +44,7 @@ $this->items = & $this->getItems();
 echo $this->loadTemplate('items');
 
 if ($this->access->canEdit || $this->access->canEditOwn) {
-	echo $this->getIcon($this->items[0], 'new');
+	echo ContentHelperHTML::Icon('new', $this->category  , $this->params, $this->access);
 }
 ?>
 
