@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Apr-2007 Louis Landry
+- Removed unused pcl libraries
+
 28-Apr-2007 Johan Janssens
  ^ Refactored com_content helper classes, added html, route and query helpers
 
