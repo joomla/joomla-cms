@@ -104,7 +104,7 @@ class modMenuHelper
 			$menu->addChild(new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus', 'class:menu'));
 		}
 		if ($manageTrash) {
-			$menu->addChild(new JMenuNode(JText::_('Trash Manager'), 'index.php?option=com_trash&task=viewMenu', 'class:trash'));
+			$menu->addChild(new JMenuNode(JText::_('Menu Trash'), 'index.php?option=com_trash&task=viewMenu', 'class:trash'));
 		}
 
 		if($manageTrash || $manageMenuMan) {
