@@ -921,13 +921,10 @@ class JTable extends JObject
 				$dir = trim($dir);
 
 				// add to the top of the search dirs
-				//array_unshift($paths, $dir);
-				$paths[] = $dir;
+				// so that custom paths are searched before core paths
+				array_unshift($paths, $dir);
 			}
-
-
 		}
 		return $paths;
-
 	}
 }
