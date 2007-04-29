@@ -46,7 +46,8 @@ class mosMainFrame extends JApplication
 	 * @param string The url option [DEPRECATED]
 	 * @param string The path of the mos directory [DEPRECATED]
 	 */
-	function __construct( &$db, $option, $basePath=null, $client=0 ) {
+	function __construct( &$db, $option, $basePath=null, $client=0 )
+	{
 		parent::__construct( $client );
 	}
 
@@ -56,7 +57,8 @@ class mosMainFrame extends JApplication
 	 * @param string The url option [DEPRECATED]
 	 * @param string The path of the mos directory [DEPRECATED]
 	 */
-	function mosMainFrame( &$db, $option, $basePath=null, $client=0 ) {
+	function mosMainFrame( &$db, $option, $basePath=null, $client=0 )
+	{
 		parent::__construct( $client );
 	}
 
@@ -68,7 +70,8 @@ class mosMainFrame extends JApplication
 	 * If a new session, a session id is generated and a record is created in
 	 * the mos_sessions table.
 	 */
-	function initSession( ) {
+	function initSession( )
+	{
 		// TODO: Quick fix to preserve session when going to https
 		global $mainframe;
 		$this->setSession(str_replace( 'https:', 'http:', $mainframe->getCfg('live_site') ).$this->getClientId());
@@ -81,7 +84,8 @@ class mosMainFrame extends JApplication
 	 */
 	function getBasePath( $client=0, $addTrailingSlash=true )
 	{
-		switch ($client) {
+		switch ($client)
+		{
 			case '0':
 			case 'site':
 			case 'front':
@@ -109,7 +113,8 @@ class mosMainFrame extends JApplication
 	* @since 1.5
 	* @deprecated As of version 1.5
 	*/
-	function setPageTitle( $title=null ) {
+	function setPageTitle( $title=null )
+	{
 		$document=& JFactory::getDocument();
 		$document->setTitle($title);
 	}
@@ -119,7 +124,8 @@ class mosMainFrame extends JApplication
 	* @since 1.5
 	* @deprecated As of version 1.5
 	*/
-	function getPageTitle() {
+	function getPageTitle()
+	{
 		$document=& JFactory::getDocument();
 		return $document->getTitle();
 	}
@@ -137,11 +143,13 @@ class mosDBTable extends JTable
 	/**
 	 * Constructor
 	 */
-	function __construct($table, $key, &$db) {
+	function __construct($table, $key, &$db)
+	{
 		parent::__construct( $table, $key, $db );
 	}
 
-	function mosDBTable($table, $key, &$db) {
+	function mosDBTable($table, $key, &$db)
+	{
 		parent::__construct( $table, $key, $db );
 	}
 
@@ -149,7 +157,8 @@ class mosDBTable extends JTable
 	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
 	 */
-	function updateOrder( $where='' )	{
+	function updateOrder( $where='' )
+	{
 		return $this->reorder( $where );
 	}
 
@@ -157,7 +166,8 @@ class mosDBTable extends JTable
 	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
 	 */
-	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+	function publish_array( $cid=null, $publish=1, $user_id=0 )
+	{
 		$this->publish( $cid, $publish, $user_id );
 	}
 
@@ -194,11 +204,13 @@ class mosCategory extends JTableCategory
 	/**
 	 * Constructor
 	 */
-	function __construct( &$db) {
+	function __construct( &$db)
+	{
 		parent::__construct( $db );
 	}
 
-	function mosCategory(&$db) {
+	function mosCategory(&$db)
+	{
 		parent::__construct( $db );
 	}
 
@@ -206,7 +218,8 @@ class mosCategory extends JTableCategory
 	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
 	 */
-	function updateOrder( $where='' )	{
+	function updateOrder( $where='' )
+	{
 		return $this->reorder( $where );
 	}
 
@@ -214,7 +227,8 @@ class mosCategory extends JTableCategory
 	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
 	 */
-	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+	function publish_array( $cid=null, $publish=1, $user_id=0 )
+	{
 		$this->publish( $cid, $publish, $user_id );
 	}
 }
@@ -231,11 +245,13 @@ class mosComponent extends JTableComponent
 	/**
 	 * Constructor
 	 */
-	function __construct(&$db) {
+	function __construct(&$db)
+	{
 		parent::__construct( $db );
 	}
 
-	function mosComponent( &$db) {
+	function mosComponent( &$db)
+	{
 		parent::__construct( $db );
 	}
 
@@ -243,7 +259,8 @@ class mosComponent extends JTableComponent
 	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
 	 */
-	function updateOrder( $where='' )	{
+	function updateOrder( $where='' )
+	{
 		return $this->reorder( $where );
 	}
 
@@ -251,7 +268,8 @@ class mosComponent extends JTableComponent
 	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
 	 */
-	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+	function publish_array( $cid=null, $publish=1, $user_id=0 )
+	{
 		$this->publish( $cid, $publish, $user_id );
 	}
 }
@@ -268,11 +286,13 @@ class mosContent extends JTableContent
 	/**
 	 * Constructor
 	 */
-	function __construct( &$db ) {
+	function __construct( &$db )
+	{
 		parent::__construct( $db );
 	}
 
-	function mosComponent( &$db ) {
+	function mosComponent( &$db )
+	{
 		parent::__construct($db );
 	}
 
@@ -280,7 +300,8 @@ class mosContent extends JTableContent
 	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
 	 */
-	function updateOrder( $where='' )	{
+	function updateOrder( $where='' )
+	{
 		return $this->reorder( $where );
 	}
 
@@ -288,7 +309,8 @@ class mosContent extends JTableContent
 	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
 	 */
-	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+	function publish_array( $cid=null, $publish=1, $user_id=0 )
+	{
 		$this->publish( $cid, $publish, $user_id );
 	}
 }
@@ -305,11 +327,13 @@ class mosMambot extends JTablePlugin
 	/**
 	 * Constructor
 	 */
-	function __construct(&$db) {
+	function __construct(&$db)
+	{
 		parent::__construct( $db );
 	}
 
-	function mosMambot(&$db) {
+	function mosMambot(&$db)
+	{
 		parent::__construct( $db );
 	}
 
@@ -317,7 +341,8 @@ class mosMambot extends JTablePlugin
 	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
 	 */
-	function updateOrder( $where='' )	{
+	function updateOrder( $where='' )
+	{
 		return $this->reorder( $where );
 	}
 
@@ -325,7 +350,8 @@ class mosMambot extends JTablePlugin
 	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
 	 */
-	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+	function publish_array( $cid=null, $publish=1, $user_id=0 )
+	{
 		$this->publish( $cid, $publish, $user_id );
 	}
 }
@@ -342,11 +368,13 @@ class mosMenu extends JTableMenu
 	/**
 	 * Constructor
 	 */
-	function __construct(&$db) {
+	function __construct(&$db)
+	{
 		parent::__construct( $db );
 	}
 
-	function mosMenu(&$db) {
+	function mosMenu(&$db)
+	{
 		parent::__construct( $db );
 	}
 
@@ -354,7 +382,8 @@ class mosMenu extends JTableMenu
 	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
 	 */
-	function updateOrder( $where='' )	{
+	function updateOrder( $where='' )
+	{
 		return $this->reorder( $where );
 	}
 
@@ -362,7 +391,8 @@ class mosMenu extends JTableMenu
 	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
 	 */
-	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+	function publish_array( $cid=null, $publish=1, $user_id=0 )
+	{
 		$this->publish( $cid, $publish, $user_id );
 	}
 }
@@ -379,11 +409,13 @@ class mosModule extends JTableModule
 	/**
 	 * Constructor
 	 */
-	function __construct(&$db) {
+	function __construct(&$db)
+	{
 		parent::__construct( $db );
 	}
 
-	function mosModule(&$db) {
+	function mosModule(&$db)
+	{
 		parent::__construct( $db );
 	}
 
@@ -391,7 +423,8 @@ class mosModule extends JTableModule
 	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
 	 */
-	function updateOrder( $where='' )	{
+	function updateOrder( $where='' )
+	{
 		return $this->reorder( $where );
 	}
 
@@ -399,7 +432,8 @@ class mosModule extends JTableModule
 	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
 	 */
-	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+	function publish_array( $cid=null, $publish=1, $user_id=0 )
+	{
 		$this->publish( $cid, $publish, $user_id );
 	}
 }
@@ -416,11 +450,13 @@ class mosSection extends JTableSection
 	/**
 	 * Constructor
 	 */
-	function __construct(&$db) {
+	function __construct(&$db)
+	{
 		parent::__construct( $db );
 	}
 
-	function mosSection(&$db) {
+	function mosSection(&$db)
+	{
 		parent::__construct( $db );
 	}
 
@@ -428,7 +464,8 @@ class mosSection extends JTableSection
 	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
 	 */
-	function updateOrder( $where='' )	{
+	function updateOrder( $where='' )
+	{
 		return $this->reorder( $where );
 	}
 
@@ -436,7 +473,8 @@ class mosSection extends JTableSection
 	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
 	 */
-	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+	function publish_array( $cid=null, $publish=1, $user_id=0 )
+	{
 		$this->publish( $cid, $publish, $user_id );
 	}
 }
@@ -453,11 +491,13 @@ class mosSession extends JTableSession
 	/**
 	 * Constructor
 	 */
-	function __construct(&$db) {
+	function __construct(&$db)
+	{
 		parent::__construct(  $db );
 	}
 
-	function mosSession(&$db) {
+	function mosSession(&$db)
+	{
 		parent::__construct( $db );
 	}
 
@@ -495,7 +535,8 @@ class mosSession extends JTableSession
 	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
 	 */
-	function updateOrder( $where='' )	{
+	function updateOrder( $where='' )
+	{
 		return $this->reorder( $where );
 	}
 
@@ -503,7 +544,8 @@ class mosSession extends JTableSession
 	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
 	 */
-	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+	function publish_array( $cid=null, $publish=1, $user_id=0 )
+	{
 		$this->publish( $cid, $publish, $user_id );
 	}
 }
@@ -520,11 +562,13 @@ class mosUser extends JTableUser
 	/**
 	 * Constructor
 	 */
-	function __construct(&$db) {
+	function __construct(&$db)
+	{
 		parent::__construct( $db );
 	}
 
-	function mosUser(&$db) {
+	function mosUser(&$db)
+	{
 		parent::__construct( $db);
 	}
 
@@ -532,7 +576,8 @@ class mosUser extends JTableUser
 	 * Legacy Method, use {@link JTable::reorder()} instead
 	 * @deprecated As of 1.5
 	 */
-	function updateOrder( $where='' )	{
+	function updateOrder( $where='' )
+	{
 		return $this->reorder( $where );
 	}
 
@@ -540,7 +585,8 @@ class mosUser extends JTableUser
 	 * Legacy Method, use {@link JTable::publish()} instead
 	 * @deprecated As of 1.0.3
 	 */
-	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+	function publish_array( $cid=null, $publish=1, $user_id=0 )
+	{
 		$this->publish( $cid, $publish, $user_id );
 	}
 }
@@ -554,7 +600,8 @@ class mosUser extends JTableUser
  */
 class database extends JDatabaseMySQL
 {
-	function __construct ($host='localhost', $user, $password, $database='', $prefix='', $offline = true) {
+	function __construct ($host='localhost', $user, $password, $database='', $prefix='', $offline = true)
+	{
 		$options        = array ( 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix );
 		parent::__construct( $options );
 	}
@@ -599,7 +646,8 @@ class database extends JDatabaseMySQL
 	* @access public
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
-	function query_batch( $abort_on_error=true, $p_transaction_safe = false) {
+	function query_batch( $abort_on_error=true, $p_transaction_safe = false)
+	{
 		return parent::queryBatch( $abort_on_error, $p_transaction_safe);
 	}
 }
@@ -616,13 +664,15 @@ class mosCache
 	/**
 	* @return object A function cache object
 	*/
-	function &getCache(  $group=''  ) {
+	function &getCache(  $group=''  )
+	{
 		return JFactory::getCache($group);
 	}
 	/**
 	* Cleans the cache
 	*/
-	function cleanCache( $group=false ) {
+	function cleanCache( $group=false )
+	{
 		$cache =& JFactory::getCache($group);
 		$cache->clean($group);
 	}
@@ -641,7 +691,8 @@ class mosProfiler extends JProfiler
 	/**
 	* @return object A function cache object
 	*/
-	function JProfiler (  $prefix=''  ) {
+	function JProfiler (  $prefix=''  )
+	{
 		parent::__construct($prefix);
 	}
 }
@@ -660,7 +711,8 @@ class mosParameters extends JParameter
 	* @param string Path to the xml setup file
 	* @param string The type of setup file
 	*/
-	function __construct($text, $path = '', $type = 'component') {
+	function __construct($text, $path = '', $type = 'component')
+	{
 		parent::__construct($text, $path);
 	}
 
@@ -669,7 +721,8 @@ class mosParameters extends JParameter
 	 *
 	 * @deprecated As of version 1.5
 	 */
-	function toObject() {
+	function toObject()
+	{
 		parent::toObject();
 	}
 
@@ -678,7 +731,8 @@ class mosParameters extends JParameter
 	 *
 	 * @deprecated As of version 1.5
 	 */
-	function toArray() {
+	function toArray()
+	{
 		parent::toArray();
 	}
 
@@ -704,7 +758,8 @@ class mosParameters extends JParameter
 	/**
 	* Special handling for textarea param
 	*/
-	function textareaHandling( &$txt ) {
+	function textareaHandling( &$txt )
+	{
 		$total = count( $txt );
 		for( $i=0; $i < $total; $i++ ) {
 			if ( strstr( $txt[$i], "\n" ) ) {
@@ -724,8 +779,10 @@ class mosParameters extends JParameter
  * @package	Joomla.Legacy
  * @subpackage	1.5
  */
-class mosAbstractTasker {
-	function mosAbstractTasker() {
+class mosAbstractTasker
+{
+	function mosAbstractTasker()
+	{
 		die( 'mosAbstractTasker deprecated, use JController instead' );
 	}
 }
@@ -739,7 +796,8 @@ class mosAbstractTasker {
  */
 class mosMambotHandler extends JEventDispatcher
 {
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 	}
 
@@ -747,7 +805,8 @@ class mosMambotHandler extends JEventDispatcher
 	* Loads all the bot files for a particular group
 	* @param string The group name, relates to the sub-directory in the plugins directory
 	*/
-	function loadBotGroup( $group ) {
+	function loadBotGroup( $group )
+	{
 		return JPluginHelper::importPlugin($group, null, false);
 	}
 	/**
@@ -757,7 +816,8 @@ class mosMambotHandler extends JEventDispatcher
 	 * @param int Published state
 	 * @param string The params for the bot
 	 */
-	function loadBot( $folder, $element, $published, $params='' ) {
+	function loadBot( $folder, $element, $published, $params='' )
+	{
 		return JPluginHelper::_import($folder, $element, $published, $params='' );
 	}
 
@@ -767,7 +827,8 @@ class mosMambotHandler extends JEventDispatcher
 	* @param string The event name
 	* @param string The function name
 	*/
-	function registerFunction( $event, $function ) {
+	function registerFunction( $event, $function )
+	{
 		 JApplication::registerEvent( $event, $function );
 	}
 
@@ -798,10 +859,12 @@ class mosMambotHandler extends JEventDispatcher
  */
 class mosEmpty
 {
-	function def( $key, $value='' ) {
+	function def( $key, $value='' )
+	{
 		return 1;
 	}
-	function get( $key, $default='' ) {
+	function get( $key, $default='' )
+	{
 		return 1;
 	}
 }
@@ -820,7 +883,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
+	function makeOption( $value, $text='', $value_name='value', $text_name='text' )
+	{
 		return JHTMLSelect::option($value, $text, $value_name, $text_name);
 	}
 
@@ -829,7 +893,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) {
+	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false )
+	{
 		return JHTMLSelect::genericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected, $idtag, $flag );
 	}
 
@@ -838,7 +903,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )  {
+	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )
+	{
 		return JHTMLSelect::integerList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format) ;
 	}
 
@@ -847,7 +913,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )  {
+	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )
+	{
 		return JHTMLSelect::radioList( $arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag) ;
 	}
 
@@ -856,7 +923,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false )  {
+	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false )
+	{
 		return JHTMLSelect::yesnoList( $tag_name, $tag_attribs, $selected, $yes, $no, $id ) ;
 	}
 
@@ -892,7 +960,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function monthSelectList( $tag_name, $tag_attribs, $selected ) {
+	function monthSelectList( $tag_name, $tag_attribs, $selected )
+	{
 		$arr = array(
 			mosHTML::makeOption( '01', JText::_( 'JAN' ) ),
 			mosHTML::makeOption( '02', JText::_( 'FEB' ) ),
@@ -916,7 +985,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function treeSelectList( &$src_list, $src_id, $tgt_list, $tag_name, $tag_attribs, $key, $text, $selected ) {
+	function treeSelectList( &$src_list, $src_id, $tgt_list, $tag_name, $tag_attribs, $key, $text, $selected )
+	{
 
 		// establish the hierarchy of the menu
 		$children = array();
@@ -954,7 +1024,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function yesnoSelectList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no' ) {
+	function yesnoSelectList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no' )
+	{
 		$arr = array(
 			mosHTML::makeOption( 0, JText::_( $no ) ),
 			mosHTML::makeOption( 1, JText::_( $yes ) ),
@@ -968,7 +1039,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' ) {
+	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' )
+	{
 		return JHTML::idBox($rowNum, $recId, $checkedOut, $name);
 	}
 
@@ -1012,7 +1084,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function CloseButton ( &$params, $hide_js=NULL ) {
+	function CloseButton ( &$params, $hide_js=NULL )
+	{
 
 		// displays close button in Pop-up window
 		if ( $params->get( 'popup' ) && !$hide_js ) {
@@ -1038,7 +1111,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function BackButton ( &$params, $hide_js=NULL ) {
+	function BackButton ( &$params, $hide_js=NULL )
+	{
 
 		// Back Button
 		if ( $params->get( 'back_button' ) && !$params->get( 'popup' ) && !$hide_js) {
@@ -1056,7 +1130,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function cleanText ( &$text ) {
+	function cleanText ( &$text )
+	{
 		jimport('joomla.filter.output');
 		return JOutputFilter::cleanText($text);
 	}
@@ -1066,7 +1141,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function PrintIcon( &$row, &$params, $hide_js, $link, $status=NULL ) {
+	function PrintIcon( &$row, &$params, $hide_js, $link, $status=NULL )
+	{
 
 		if ( $params->get( 'print' )  && !$hide_js ) {
 			// use default settings if none declared
@@ -1110,7 +1186,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
+	function emailCloaking( $mail, $mailto=1, $text='', $email=1 )
+	{
 		return JHTML::emailCloaking($mail, $mailto, $text, $email);
 	}
 
@@ -1119,7 +1196,8 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function keepAlive() {
+	function keepAlive()
+	{
 		JHTML::keepAlive();
 	}
 }
@@ -1138,7 +1216,8 @@ class mosCommonHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function ContentLegend( ) {
+	function ContentLegend( )
+	{
 		JCommonHTML::ContentLegend();
 	}
 
@@ -1288,7 +1367,8 @@ class mosCommonHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function checkedOut( &$row, $overlib=1 ) {
+	function checkedOut( &$row, $overlib=1 )
+	{
 		return JCommonHTML::checkedOut($row, $overlib);
 	}
 
@@ -1297,7 +1377,8 @@ class mosCommonHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function loadOverlib() {
+	function loadOverlib()
+	{
 		jimport('joomla.html.tooltips');
 	}
 
@@ -1306,7 +1387,8 @@ class mosCommonHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function loadCalendar() {
+	function loadCalendar()
+	{
 		JCommonHTML::loadCalendar();
 	}
 
@@ -1315,7 +1397,8 @@ class mosCommonHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function AccessProcessing( &$row, $i, $archived=NULL ) {
+	function AccessProcessing( &$row, $i, $archived=NULL )
+	{
 		return JCommonHTML::AccessProcessing($row, $i, $archived);
 	}
 
@@ -1324,7 +1407,8 @@ class mosCommonHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function CheckedOutProcessing( &$row, $i ) {
+	function CheckedOutProcessing( &$row, $i )
+	{
 		return JCommonHTML::CheckedOutProcessing($row, $i);
 	}
 
@@ -1333,7 +1417,8 @@ class mosCommonHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png' ) {
+	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png' )
+	{
 		return JCommonHTML::PublishedProcessing($row, $i, $imgY, $imgX);
 	}
 
@@ -1342,7 +1427,8 @@ class mosCommonHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished', $archived=NULL )	{
+	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished', $archived=NULL )
+	{
 		return JCommonHTML::selectState($filter_state, $published, $unpublished, $archived);
 	}
 
@@ -1351,7 +1437,8 @@ class mosCommonHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function saveorderButton( $rows, $image='filesave.png' ) {
+	function saveorderButton( $rows, $image='filesave.png' )
+	{
 		JCommonHTML::saveorderButton($rows, $image);
 	}
 
@@ -1360,7 +1447,9 @@ class mosCommonHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {
+	function tableOrdering( $text, $ordering, &$lists, $task=NULL )
+	{
+		// TODO: We may have to invert order_Dir here because this control now does the flip for you
 		JHTML::element('sort', $text, $ordering, @$lists['order_Dir'], @$lists['order'], $task);
 	}
 }
@@ -1381,7 +1470,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function Ordering( &$row, $id ) {
+	function Ordering( &$row, $id )
+	{
 		return JAdministratorHelper::Ordering($row, $id);
 	}
 
@@ -1390,7 +1480,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function Access( &$row ) {
+	function Access( &$row )
+	{
 		return JAdministratorHelper::Access($row);
 	}
 
@@ -1399,7 +1490,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function Published( &$row ) {
+	function Published( &$row )
+	{
 		$published = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
 		return $published;
 	}
@@ -1528,7 +1620,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
+	function Images( $name, &$active, $javascript=NULL, $directory=NULL )
+	{
 		return JAdministratorHelper::Images($name, $active, $javascript, $directory);
 	}
 
@@ -1537,7 +1630,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) {
+	function SpecificOrdering( &$row, $id, $query, $neworder=0 )
+	{
 		return JAdministratorHelper::SpecificOrdering($row, $id, $query, $neworder);
 	}
 
@@ -1546,7 +1640,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
+	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 )
+	{
 		return JAdministratorHelper::UserSelect($name, $active, $nouser, $javascript, $order, $reg);
 	}
 
@@ -1555,7 +1650,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false ) {
+	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false )
+	{
 		return JAdministratorHelper::Positions($name, $active, $javascript, $none, $center, $left, $right, $id);
 	}
 
@@ -1564,7 +1660,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) {
+	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 )
+	{
 		return JAdministratorHelper::ComponentCategory($name, $section, $active, $javascript, $order, $size, $sel_cat);
 	}
 
@@ -1573,7 +1670,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
+	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' )
+	{
 		return JAdministratorHelper::SelectSection($name, $active, $javascript, $order);
 	}
 
@@ -1582,7 +1680,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function Links2Menu( $type, $and ) {
+	function Links2Menu( $type, $and )
+	{
 		$db =& JFactory::getDBO();
 
 		$query = 'SELECT * '
@@ -1614,7 +1713,8 @@ class mosAdminMenus
 		$menus = $db->loadObjectList();
 		$total = count( $menus );
 		$menuselect = array();
-		for( $i = 0; $i < $total; $i++ ) {
+		for( $i = 0; $i < $total; $i++ )
+		{
 			$registry = new JRegistry();
 			$registry->loadINI($menus[$i]->params);
 			$params = $registry->toObject( );
@@ -1640,7 +1740,8 @@ class mosAdminMenus
 		jimport( 'joomla.filesystem.folder' );
 		$imgFiles = JFolder::files( $imagePath );
 
-		foreach ($imgFiles as $file) {
+		foreach ($imgFiles as $file)
+		{
 			$ff_ 	= $folderPath.DS.$file;
 			$ff 	= $folderPath.DS.$file;
 			$i_f 	= $imagePath .'/'. $file;
@@ -1715,7 +1816,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' ) {
+	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' )
+	{
 		return JAdminMenus::ImageCheck($file, $directory, $param, $param_directory, $alt, $name, $type, $align);
 	}
 
@@ -1724,7 +1826,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )	{
+	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )
+	{
 		return JAdminMenus::ImageCheckAdmin($file, $directory, $param, $param_directory, $alt, $name, $type, $align);
 	}
 
@@ -1733,7 +1836,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function menutypes() {
+	function menutypes()
+	{
 		JError::raiseNotice( 0, 'mosAdminMenus::menutypes method deprecated' );
 	}
 
@@ -1742,7 +1846,8 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function menuItem( $item ) {
+	function menuItem( $item )
+	{
 		JError::raiseNotice( 0, 'mosAdminMenus::menuItem method deprecated' );
 	}
 }
@@ -1756,7 +1861,8 @@ class mosAdminMenus
  */
 class MENU_Default
 {
-	function MENU_Default() {
+	function MENU_Default()
+	{
 		JToolBarHelper::startTable();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
@@ -1780,15 +1886,18 @@ class mosTabs extends JPaneTabs
 {
 	var $useCookies = false;
 
-	function __construct( $useCookies, $xhtml = null) {
+	function __construct( $useCookies, $xhtml = null)
+	{
 		parent::__construct( array('useCookies' => $useCookies) );
 	}
 
-	function startTab( $tabText, $paneid ) {
+	function startTab( $tabText, $paneid )
+	{
 		$this->startPanel( $tabText, $paneid);
 	}
 
-	function endTab()  {
+	function endTab() 
+	{
 		$this->endPanel();
 	}
 }
@@ -1850,14 +1959,16 @@ class mosMenuBar extends JToolBarHelper
 	/**
 	* @deprecated As of Version 1.5
 	*/
-	function startTable() {
+	function startTable()
+	{
 		return;
 	}
 
 	/**
 	* @deprecated As of Version 1.5
 	*/
-	function endTable() {
+	function endTable()
+	{
 		return;
 	}
 
@@ -1866,7 +1977,8 @@ class mosMenuBar extends JToolBarHelper
 	 *
 	 * @deprecated As of Version 1.5
 	 */
-	function addNew($task = 'new', $alt = 'New') {
+	function addNew($task = 'new', $alt = 'New')
+	{
 		parent::addNew($task, $alt);
 	}
 
@@ -1875,7 +1987,8 @@ class mosMenuBar extends JToolBarHelper
 	 *
 	 * @deprecated As of Version 1.5
 	 */
-	function addNewX($task = 'new', $alt = 'New') {
+	function addNewX($task = 'new', $alt = 'New')
+	{
 		parent::addNew($task, $alt);
 	}
 
@@ -1884,9 +1997,9 @@ class mosMenuBar extends JToolBarHelper
 	 *
 	 * @deprecated As of Version 1.5
 	 */
-	function saveedit() {
+	function saveedit()
+	{
 		parent::save('saveedit');
 	}
 
 }
-?>
