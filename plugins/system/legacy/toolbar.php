@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: HTML_toolbar.php 5369 2006-10-08 00:36:33Z Jinx $
+* @version		$Id$
 * @package		Joomla.Legacy
 * @subpackage	1.5
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
