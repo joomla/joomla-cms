@@ -471,10 +471,9 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return string The current value of the internal SQL vairable
 	 */
-	function getQuery() {
-		$text = $this->beautify($this->_sql);
-		return $text;
-
+	function getQuery()
+	{
+		return $this->_sql;
 	}
 
 	/**
@@ -484,7 +483,8 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return mixed A database resource if successful, FALSE if not.
 	 */
-	function query() {
+	function query()
+	{
 		return;
 	}
 
