@@ -559,7 +559,7 @@ class JView extends JObject
 		$this->_template = JPath::find($this->_path['template'], $this->_createFileName('template', array('name' => $file)));
 		if ($this->_template == false)
 		{
-			$file2 = isset($tpl) ? 'default_'.$tpl : 'default';
+			$file2 = !count($tpl) ? 'default_'.$tpl : 'default';
 			$this->_template = JPath::find($this->_path['template'], $this->_createFileName('template', array('name' => $file2)));
 		}
 
