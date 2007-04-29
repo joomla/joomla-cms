@@ -49,7 +49,7 @@ if (count($this->results)) {
 	echo '<ol class="list' . $this->params->get('pageclass_sfx') . '" start="' . $start . '">';
 	foreach ($this->results as $result) {
 		echo '<li>';
-		echo '<span class="small' . $this->params->get('pageclass_sfx') . '"></span>';
+		echo '<span class="small' . $this->params->get('pageclass_sfx') . '">'. $result->count.'</span>';
 		if ($result->href) {
 			if ($result->browsernav == 1) {
 				$level = $hlevel +2;

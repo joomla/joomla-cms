@@ -1,9 +1,7 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
 
-if ( ( $this->contact->params->get( 'address_check' ) > 0 ) &&
-	 ( $this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode )
-   )
+if ( ( $this->contact->params->get( 'address_check' ) > 0 ) && ( $this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode )  )
 {
 	echo '<div class="contact_address"><address>';
 	if ( $this->contact->params->get( 'address_check' ) > 0 )
@@ -35,6 +33,7 @@ if ( ( $this->contact->params->get( 'address_check' ) > 0 ) &&
 	{
 		echo  '<p>'.$this->contact->postcode.'</p>';
 	}
+	echo '</address></div>';
 }
 
 if ( ($this->contact->email_to && $this->contact->params->get( 'email' )) || $this->contact->telephone  || $this->contact->fax )
@@ -77,5 +76,4 @@ if ( $this->contact->misc && $this->contact->params->get( 'misc' ) )
 	echo $this->contact->misc .'</p>';
 }
 
-echo '</address></div>';
 ?>
