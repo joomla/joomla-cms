@@ -37,8 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Apr-2007 Jason Kendall
+ - Spoke to Louis, readded pcl due to leggacy, but patched security bug
+
 30-Apr-2007 Andrew Eddie
- ^ Fully converted JHTMLCommon::tableOrdering to JHTML adapter pattern 
+ ^ Fully converted JHTMLCommon::tableOrdering to JHTML adapter pattern
 
 29-Apr-2007 Louis Landry
  - Removed unused pcl libraries
