@@ -41,7 +41,7 @@
 //
 
 /** The version of this GeSHi file */
-define('GESHI_VERSION', '1.0.7.18');
+define('GESHI_VERSION', '1.0.7.19');
 
 // Define the root directory for the GeSHi code tree
 if (!defined('GESHI_ROOT')) {
@@ -1396,6 +1396,7 @@ class GeSHi {
         // Whether to highlight inside a block of code
         $HIGHLIGHT_INSIDE_STRICT = false;
         $HARDQUOTE_OPEN = false;
+        $STRICTATTRS = '';
         $stuff_to_parse   = '';
         $result           = '';
 
@@ -1496,6 +1497,7 @@ class GeSHi {
                             $attributes = ' class="sc' . $script_key . '"';
                         }
                         $result .= "<span$attributes>";
+                        $STRICTATTRS = $attributes;
                     }
                 }
 
@@ -1785,7 +1787,11 @@ class GeSHi {
                     $stuff_to_parse = '';
                 }
                 else {
-                    $result .= GeSHi::hsc($part);
+                    if ($STRICTATTRS != '') {
+                        $part = str_replace("\n", "</span>\n<span$STRICTATTRS>", GeSHi::hsc($part));
+                        $STRICTATTRS = '';
+                    }
+                    $result .= $part;
                 }
                 // Close the <span> that surrounds the block
                 if ($this->strict_mode && $this->language_data['STYLES']['SCRIPT'][$script_key] != '' &&
@@ -1826,80 +1832,80 @@ class GeSHi {
      * @access private
      */
     function indent($result) {
-            /// Replace tabs with the correct number of spaces
-            if (false !== strpos($result, "\t")) {
-                $lines = explode("\n", $result);
-                foreach ($lines as $key => $line) {
-                    if (false === strpos($line, "\t")) {
-                        $lines[$key] = $line;
-                        continue;
-                    }
-
-                    $pos = 0;
-                    $tab_width = $this->tab_width;
-                    $length = strlen($line);
-                    $result_line = '';
-
-                    $IN_TAG = false;
-                    for ($i = 0; $i < $length; $i++) {
-                        $char = substr($line, $i, 1);
-                        // Simple engine to work out whether we're in a tag.
-                        // If we are we modify $pos. This is so we ignore HTML
-                        // in the line and only workout the tab replacement
-                        // via the actual content of the string
-                        // This test could be improved to include strings in the
-                        // html so that < or > would be allowed in user's styles
-                        // (e.g. quotes: '<' '>'; or similar)
-                        if ($IN_TAG && '>' == $char) {
-                            $IN_TAG = false;
-                            $result_line .= '>';
-                            ++$pos;
-                        }
-                        else if (!$IN_TAG && '<' == $char) {
-                            $IN_TAG = true;
-                            $result_line .= '<';
-                            ++$pos;
-                        }
-                        else if (!$IN_TAG && '&' == $char) {
-                            $substr = substr($line, $i + 3, 4);
-                            //$substr_5 = substr($line, 5, 1);
-                            $posi = strpos($substr, ';');
-                            if (false !== $posi) {
-                                $pos += $posi + 3;
-                            }
-                            $result_line .= '&';
-                        }
-                        else if (!$IN_TAG && "\t" == $char) {
-                            $str = '';
-                            // OPTIMISE - move $strs out. Make an array:
-                            // $tabs = array(
-                            //  1 => '&nbsp;',
-                            //  2 => '&nbsp; ',
-                            //  3 => '&nbsp; &nbsp;' etc etc
-                            // to use instead of building a string every time
-                            $strs = array(0 => '&nbsp;', 1 => ' ');
-                            for ($k = 0; $k < ($tab_width - (($i - $pos) % $tab_width)); $k++) $str .= $strs[$k % 2];
-                            $result_line .= $str;
-                            $pos++;
-
-                            if (false === strpos($line, "\t", $i + 1)) {
-                                $result_line .= substr($line, $i + 1);
-                                break;
-                            }
-                        }
-                        else if ($IN_TAG) {
-                            ++$pos;
-                            $result_line .= $char;
-                        }
-                        else {
-                            $result_line .= $char;
-                            //++$pos;
-                        }
-                    }
-                    $lines[$key] = $result_line;
+        /// Replace tabs with the correct number of spaces
+        if (false !== strpos($result, "\t")) {
+            $lines = explode("\n", $result);
+            foreach ($lines as $key => $line) {
+                if (false === strpos($line, "\t")) {
+                    $lines[$key] = $line;
+                    continue;
                 }
-                $result = implode("\n", $lines);
+
+                $pos = 0;
+                $tab_width = $this->tab_width;
+                $length = strlen($line);
+                $result_line = '';
+
+                $IN_TAG = false;
+                for ($i = 0; $i < $length; $i++) {
+                    $char = substr($line, $i, 1);
+                    // Simple engine to work out whether we're in a tag.
+                    // If we are we modify $pos. This is so we ignore HTML
+                    // in the line and only workout the tab replacement
+                    // via the actual content of the string
+                    // This test could be improved to include strings in the
+                    // html so that < or > would be allowed in user's styles
+                    // (e.g. quotes: '<' '>'; or similar)
+                    if ($IN_TAG && '>' == $char) {
+                        $IN_TAG = false;
+                        $result_line .= '>';
+                        ++$pos;
+                    }
+                    else if (!$IN_TAG && '<' == $char) {
+                        $IN_TAG = true;
+                        $result_line .= '<';
+                        ++$pos;
+                    }
+                    else if (!$IN_TAG && '&' == $char) {
+                        $substr = substr($line, $i + 3, 4);
+                        //$substr_5 = substr($line, 5, 1);
+                        $posi = strpos($substr, ';');
+                        if (false !== $posi) {
+                            $pos += $posi + 3;
+                        }
+                        $result_line .= '&';
+                    }
+                    else if (!$IN_TAG && "\t" == $char) {
+                        $str = '';
+                        // OPTIMISE - move $strs out. Make an array:
+                        // $tabs = array(
+                        //  1 => '&nbsp;',
+                        //  2 => '&nbsp; ',
+                        //  3 => '&nbsp; &nbsp;' etc etc
+                        // to use instead of building a string every time
+                        $strs = array(0 => '&nbsp;', 1 => ' ');
+                        for ($k = 0; $k < ($tab_width - (($i - $pos) % $tab_width)); $k++) $str .= $strs[$k % 2];
+                        $result_line .= $str;
+                        $pos++;
+
+                        if (false === strpos($line, "\t", $i + 1)) {
+                            $result_line .= substr($line, $i + 1);
+                            break;
+                        }
+                    }
+                    else if ($IN_TAG) {
+                        ++$pos;
+                        $result_line .= $char;
+                    }
+                    else {
+                        $result_line .= $char;
+                        //++$pos;
+                    }
+                }
+                $lines[$key] = $result_line;
             }
+            $result = implode("\n", $lines);
+        }
         // Other whitespace
         $result = str_replace('  ', '&nbsp; ', $result);
         $result = str_replace('  ', ' &nbsp;', $result);
@@ -1975,7 +1981,7 @@ class GeSHi {
                 return '';
             // HTML fix. Again, dirty hackage...
             }
-            else if (!($this->language == 'html4strict' && '&gt;' == $keyword)) {
+            else if (!($this->language == 'html4strict' && ('&gt;' == $keyword || '&lt;' == $keyword))) {
                 return '</a>';
             }
         }
@@ -2530,13 +2536,16 @@ class GeSHi {
         $keywords = $replacements = array();
 
         $keywords[] = '<TIME>';
-        $replacements[] = number_format($this->get_time(), 3);
+        $keywords[] = '{TIME}';
+        $replacements[] = $replacements[] = number_format($this->get_time(), 3);
 
         $keywords[] = '<LANGUAGE>';
-        $replacements[] = $this->language;
+        $keywords[] = '{LANGUAGE}';
+        $replacements[] = $replacements[] = $this->language;
 
         $keywords[] = '<VERSION>';
-        $replacements[] = GESHI_VERSION;
+        $keywords[] = '{VERSION}';
+        $replacements[] = $replacements[] = GESHI_VERSION;
 
         return str_replace($keywords, $replacements, $instr);
     }

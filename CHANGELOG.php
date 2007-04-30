@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Apr-2007 Johan Janssens
+ ^ Updated Geshi library to version 1.0.7.19
+
 30-Apr-2007 Jason Kendall
  - Spoke to Louis, readded pcl due to leggacy, but patched security bug
 
