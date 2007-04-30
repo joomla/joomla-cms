@@ -119,16 +119,7 @@ class ContentViewElement extends JView
 					<td>
 						<?php echo $page->getRowOffset( $i ); ?>
 					</td>
-						<?php
-						if ( $row->title_alias ) {
-							?>
-							<td>
-							<?php
-						}
-						else{
-							echo "<td>";
-						}
-						?>
+					<td>
 						<a onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo addSlashes($row->title); ?>');">
 							<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?>
 						</a>

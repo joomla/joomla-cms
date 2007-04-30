@@ -192,15 +192,8 @@ class ContentView
 					<td align="center">
 						<?php echo $checked; ?>
 					</td>
-						<?php
-						if ( $row->title_alias ) {
-							?>
-							<td>
-							<?php
-						}
-						else{
-							echo "<td>";
-						}
+					<td>
+					<?php
 						if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out ) ) {
 							echo $row->title;
 						} else if ($row->state == -1) {
