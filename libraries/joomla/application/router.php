@@ -273,10 +273,12 @@ class JRouter extends JObject
 			$menu =& JMenu::getInstance();
 
 			// If the itemid isn't set in the URL use default
-			if(!$itemid = $uri->getVar('Itemid')) {
-				$uri->setVar('Itemid', JRequest::getInt('Itemid', $menu->getDefault()));
+			if(!$itemid = $uri->getVar('Itemid')) 
+			{
+				$default = $menu->getDefault();
+				$uri->setVar('Itemid', JRequest::getInt('Itemid', $default->id));
 			}
-
+			
 			// Get the active menu item
 			$item = $menu->getItem($uri->getVar('Itemid'));
 
