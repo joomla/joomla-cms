@@ -265,11 +265,11 @@ class JRouter extends JObject
 			$vars = array_merge($this->_vars, $vars);
 			$string = 'index.php?'.JURI::_buildQuery($vars);
 		}
-
+		
 		if (!isset( $strings[$string] ))
-		{
+		{	
 			// Decompose link into url component parts
-			$uri  =& JURI::getInstance($string);
+			$uri  =& JURI::getInstance(JURI::base().$string);
 			$menu =& JMenu::getInstance();
 
 			// If the itemid isn't set in the URL use default
@@ -329,7 +329,7 @@ class JRouter extends JObject
 				return $url;
 			}
 
-			$strings[$string] = $uri->toString();
+			$strings[$string] = $uri->toString(array('path', 'query', 'fragment'));
 		}
 
 		return $strings[$string];
