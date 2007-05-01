@@ -23,9 +23,7 @@ echo '</h' . $hlevel . '>';
 echo '<ul>';
 foreach ($this->links as $link) {
 	echo '<li>';
-	echo '<a class="blogsection" href="';
-	echo JRoute :: _('index.php?option=com_content&amp;task=view&amp;id=' . $link->id . '&amp;Itemid=' . $Itemid);
-	echo ' ">';
+	echo '<a class="blogsection" href="'. JRoute ::_('index.php?view=article&id='.$link->slug).'">';
 	echo $link->title;
 	echo '</a>';
 	echo '</li>';

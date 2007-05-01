@@ -17,18 +17,18 @@ if ($content = @ file_get_contents($filename)) {
  */
 
 $hlevel = $templateParams->get('headerLevelComponent', '2');
-$image = 'templates' . DS . $mainframe->getTemplate() . DS . 'images' . DS . 'trans.gif';
+$image = 'templates/' . $mainframe->getTemplate() . '/images/trans.gif';
 
 if ($this->user->authorize('action', 'edit', 'content', 'all')) {
 	echo '<div class="contentpaneopen_edit' . $this->params->get('pageclass_sfx') . '" style="float: left;">';
-	echo $this->getIcon('edit');
+	echo ContentHelperHTML::Icon('edit', $this->item, $this->params, $this->access);
 	echo '</div>';
 }
 
 if ($this->params->get('item_title')) {
 	echo '<h' . $hlevel . ' class="contentheading' . $this->params->get('pageclass_sfx') . '">';
 	if ($this->params->get('link_titles') && $this->item->readmore_link != '') {
-		echo '<a href="' . JRoute::_($this->item->readmore_link) . '" class="contentpagetitle' . $this->params->get('pageclass_sfx') . '">';
+		echo '<a href="' . $this->item->readmore_link . '" class="contentpagetitle' . $this->params->get('pageclass_sfx') . '">';
 		echo $this->item->title;
 		echo '</a>';
 	} else {
@@ -41,25 +41,19 @@ if (!$this->params->get('intro_only')) {
 	echo $this->item->event->afterDisplayTitle;
 }
 
-if ($this->print) {
+if ($this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) {
 	echo '<p class="buttonheading">';
-	echo $this->getIcon('print_screen');
-	echo '</p>';
-} else {
-	if ($this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) {
-		echo '<p class="buttonheading">';
-		echo '<img src="' . $image . '" alt="' . JText :: _('attention open in a new window') . '" />';
-		if ($this->params->get('pdf')) {
-			echo $this->getIcon('pdf');
-		}
-		if ($this->params->get('print')) {
-			echo $this->getIcon('print');
-		}
-		if ($this->params->get('email')) {
-			echo $this->getIcon('email');
-		}
-		echo '</p>';
+	echo '<img src="' . $image . '" alt="' . JText :: _('attention open in a new window') . '" />';
+	if ($this->params->get('pdf')) {
+		echo ContentHelperHTML::Icon('pdf', $this->item, $this->params, $this->access);
 	}
+	if ($this->params->get('print')) {
+		echo ContentHelperHTML::Icon('print', $this->item, $this->params, $this->access);
+	}
+	if ($this->params->get('email')) {
+		echo ContentHelperHTML::Icon('email', $this->item, $this->params, $this->access);
+	}
+	echo '</p>';
 }
 
 if (($this->params->get('section') && $this->item->sectionid) || ($this->params->get('category') && $this->item->catid)) {
@@ -117,16 +111,14 @@ if (isset ($this->item->toc)) {
 echo JOutputFilter::ampReplace($this->item->text);
 
 if ($this->params->get('readmore') && $this->params->get('intro_only') && $this->item->readmore_text) {
-	echo '<p>';
-	echo '<a href="' . $this->item->readmore_link . '" class="readon' . $this->params->get('pageclass_sfx') . '">';
-	$alias = JOutputFilter :: stringURLSafe($this->title);
-	if ($this->item->title_alias && $this->title_alias !== $alias) {
+	echo '<p><a href="' . $this->item->readmore_link . '" class="readon' . $this->params->get('pageclass_sfx') . '">';
+	$alias = JOutputFilter :: stringURLSafe($this->item->title);
+	if ($this->item->title_alias != '' && $this->item->title_alias == $alias) {
 		echo $this->item->title_alias;
 	} else {
 		echo $this->item->readmore_text;
 	}
-	echo '</a>';
-	echo '</p>';
+	echo '</a></p>';
 }
 
 echo $this->item->event->afterDisplayContent;

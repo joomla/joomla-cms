@@ -85,7 +85,7 @@ echo $item->created_by_alias ? $item->created_by_alias : $item->author;
 echo '</td>';
 }
 if ($this->params->get('hits')) {
-echo '<td headers="hits">:';
+echo '<td headers="hits">';
 echo $item->hits ? $item->hits : '-';
 echo '</td>';
 }

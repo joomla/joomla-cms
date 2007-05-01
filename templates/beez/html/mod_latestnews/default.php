@@ -7,7 +7,7 @@ if (count($list))
 	foreach ($list as $item)
 	{
 		echo '<li class="latestnews'. $params->get('moduleclass_sfx').'">';
-		echo '<a href="'.JRoute::_($item->link).'" class="latestnews'.$params->get('moduleclass_sfx').'>">';
+		echo '<a href="'.$item->link.'" class="latestnews'.$params->get('moduleclass_sfx').'>">';
 		echo $item->text;
 		echo '</a></li>';
 	}

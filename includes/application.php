@@ -317,6 +317,8 @@ class JSite extends JApplication
 			$template = $templates[0]->template;
 		}
 
+		$template = JRequest::getVar('template', $template);
+
 		$template = preg_replace('/[^A-Z0-9_\.-]/i', '', $template);
 		return $template;
 	}
