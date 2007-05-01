@@ -19,16 +19,16 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
-if ($this->params->get('page_title'))
+if ($this->params->get('show_page_title', 1))
 {
         echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
-        echo $this->params->get('header');
+        echo $this->params->get('page_title');
         echo '</h' . $ptlevel . '>';
 }
 
 echo '<div class="weblinks'. $this->params->get( 'pageclass_sfx' ).'">';
 
-if ($this->params->def('description', 1) || $this->params->def('image', -1) != -1)
+if ($this->params->def('show_comp_description', 1) || $this->params->def('image', -1) != -1)
 {
 	$wrap='';
 	echo '<div class="contentdescription'.$this->params->get( 'pageclass_sfx' ).'">';
@@ -38,9 +38,9 @@ if ($this->params->def('description', 1) || $this->params->def('image', -1) != -
 		echo '<img src="images/stories/' . $this->params->get('image') . '" class="image_' . $this->params->image_align . '" />';
 	}
 
-	if ($this->params->get('description') && $this->params->get('description_text'))
+	if ($this->params->get('show_comp_description') && $this->params->get('comp_description'))
 	{
-		echo $this->params->get('description_text');
+		echo $this->params->get('comp_description');
 	}
 	echo $wrap;
 	echo '</div>';

@@ -19,9 +19,9 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
-if ($this->params->get('page_title')) {
+if ($this->params->get('show_page_title', 1)) {
 	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
-	echo $this->category->name;
+	echo $this->category->title;
 	echo '</h' . $ptlevel . '>';
 }
 echo '<div class="weblinks' . $this->params->get('pageclass_sfx') . '">';
@@ -38,9 +38,7 @@ if (@ $this->_models->weblinksmodelcategory->_category->image || @ $this->catego
 		echo '<img src="images/stories/' . $image . '" class="image_' . $image_align . '" />';
 	}
 
-	if ($this->params->get('description') && $this->category->description) {
-		echo $this->category->description;
-	}
+	echo $this->category->description;
 	echo $wrap;
 	echo '</div>';
 }

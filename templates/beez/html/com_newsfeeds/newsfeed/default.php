@@ -38,7 +38,7 @@ echo '</a></h' . $hlevel . '>';
 if ($this->params->get('feed_descr')) {
 	echo str_replace('&apos;', "'", $this->newsfeed->channel['description']);
 }
-if (isset ($this->newsfeed->image['url']) && isset ($this->newsfeed->image['title']) && $this->params->get('feed_image')) {
+if (isset ($this->newsfeed->image['url']) && isset ($this->newsfeed->image['title']) && $this->params->get('show_feed_image')) {
 	echo '<img src="' . $this->newsfeed->image['url'] . '" alt="' . $this->newsfeed->image['title'] . '" />';
 
 }
@@ -51,9 +51,9 @@ if (count($this->newsfeed->items)) {
 			echo $item->get_title();
 			echo '</a>';
 		}
-		if ($this->params->get('item_descr') && $item->get_description()) {
+		if ($this->params->get('show_item_description') && $item->get_description()) {
 			echo '<br />';
-			$text = $this->limitText($item->get_description(), $this->params->get('word_count'));
+			$text = $this->limitText($item->get_description(), $this->params->get('feed_word_count'));
 			echo str_replace('&apos;', "'", $text);
 			echo '<br /><br />';
 		}

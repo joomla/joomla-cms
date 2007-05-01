@@ -16,27 +16,24 @@ defined('_JEXEC') or die('Restricted access');
 </script>
 <?php
 
-if ($this->params->get('display')) {
-	echo '<div class="display">';
-	echo '<form action="'.JRoute::_($this->request_url).'" method="post" name="adminForm">';
-	echo JText :: _('Display Num') . '&nbsp;';
-	echo $this->pagination->getLimitBox();
-	echo '<input type="hidden" name="filter_order" value="'.$this->lists['order'].'" />';
-	echo '<input type="hidden" name="filter_order_Dir" value="" />';
-	echo '</form>';
-	echo '</div>';
-}
+echo '<div class="display">';
+echo '<form action="'.JRoute::_($this->request_url).'" method="post" name="adminForm">';
+echo JText :: _('Display Num') . '&nbsp;';
+echo $this->pagination->getLimitBox();
+echo '<input type="hidden" name="filter_order" value="'.$this->lists['order'].'" />';
+echo '<input type="hidden" name="filter_order_Dir" value="" />';
+echo '</form></div>';
 
 echo '<table class="weblinks">';
 
-if ($this->params->def( 'headings', 1 )) {
+if ($this->params->def( 'show_headings', 1 )) {
 	echo '<tr><th class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" width="5" id="num">';
 	echo JText :: _('Num');
 	echo '</th>';
 	echo '<th width="90% class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" id="title">';
 	JHTML::element('grid_sort', 'Web Link', 'title', $this->lists['order_Dir'], $this->lists['order'] );
 	echo '</th>';
-	if ($this->params->get('hits')) {
+	if ($this->params->get('show_link_hits')) {
 		echo '<th width="10% class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" nowrap="nowrap" id="hits">';
 		JHTML::element('grid_sort', 'Hits', 'hits', $this->lists['order_Dir'], $this->lists['order'] );
 		echo '</th>';
