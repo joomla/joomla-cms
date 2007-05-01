@@ -28,10 +28,10 @@ if ($this->user->authorize('action', 'edit', 'content', 'all') && !($this->print
 }
 
 $hopen = '<h' . $ptlevel . '>';
-if ($this->params->get('section') && $this->article->sectionid) {
+if ($this->params->get('show_section') && $this->article->sectionid) {
 	echo '<h' . $ptlevel . '>';
 	echo $this->article->section;
-	if ($this->params->get('category') && $this->article->catid) {
+	if ($this->params->get('show_category') && $this->article->catid) {
 		echo ' - ';
 		$hopen = '';
 	} else {
@@ -39,13 +39,13 @@ if ($this->params->get('section') && $this->article->sectionid) {
 	}
 }
 
-if ($this->params->get('category') && $this->article->catid) {
+if ($this->params->get('show_category') && $this->article->catid) {
 	echo $hopen;
 	echo $this->article->category;
 	echo '</h' . $ptlevel . '>';
 }
 
-if ($this->params->get('item_title')) {
+if ($this->params->get('show_title')) {
 	echo '<h' . $hlevel . ' class="contentheading' . $this->params->get('pageclass_sfx') . '">';
 	if ($this->params->get('link_titles') && $this->article->readmore_link != '') {
 		echo '<a href="' . $this->article->readmore_link . '" class="contentpagetitle' . $this->params->get('pageclass_sfx') . '">';
@@ -57,7 +57,7 @@ if ($this->params->get('item_title')) {
 	echo '</h' . $hlevel . '>';
 }
 
-if (!$this->params->get('intro_only')) {
+if (!$this->params->get('show_intro')) {
 	echo $this->article->event->afterDisplayTitle;
 }
 
@@ -66,36 +66,36 @@ if ($this->print) {
 	echo ContentHelperHTML::Icon('print_screen',  $this->article, $this->params, $this->access);
 	echo '</p>';
 } else {
-	if ($this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) {
+	if ($this->params->get('show_pdf_icon') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) {
 		echo '<p class="buttonheading">';
 		echo '<img src="' . $image . '" alt="' . JText :: _('attention open in a new window') . '" />';
-		if ($this->params->get('pdf')) {
+		if ($this->params->get('show_pdf_icon')) {
 			echo ContentHelperHTML::Icon('pdf',  $this->article, $this->params, $this->access);
 		}
-		if ($this->params->get('print')) {
+		if ($this->params->get('show_print_icon')) {
 			echo ContentHelperHTML::Icon('print',  $this->article, $this->params, $this->access);
 		}
-		if ($this->params->get('email')) {
+		if ($this->params->get('show_email_icon')) {
 			echo ContentHelperHTML::Icon('email',  $this->article, $this->params, $this->access);
 		}
 		echo '</p>';
 	}
 }
 
-if ((!empty ($this->article->modified) && $this->params->get('modifydate')) || ($this->params->get('showAuthor') && ($this->article->author != "")) || ($this->params->get('createdate'))) {
+if ((!empty ($this->article->modified) && $this->params->get('show_modify_date')) || ($this->params->get('show_author') && ($this->article->author != "")) || ($this->params->get('show_create_date'))) {
 	echo '<p class="iteminfo">';
 
-	if (!empty ($this->article->modified) && $this->params->get('modifydate')) {
+	if (!empty ($this->article->modified) && $this->params->get('show_modify_date')) {
 		echo '<span class="modifydate">';
 		echo JText :: _('Last Updated') . ' (' . JHTML :: Date($this->article->modified, DATE_FORMAT_LC2) . ')';
 		echo '</span>';
 	}
-	if (($this->params->get('showAuthor')) && ($this->article->author != "")) {
+	if (($this->params->get('show_author')) && ($this->article->author != "")) {
 		echo '<span class="createdby">';
 		JText :: printf('Written by', ($this->article->created_by_alias ? $this->article->created_by_alias : $this->article->author));
 		echo '</span>';
 	}
-	if ($this->params->get('createdate')) {
+	if ($this->params->get('show_create_date')) {
 		echo '<span class="createdate">';
 		echo JHTML :: Date($this->article->created, DATE_FORMAT_LC2);
 		echo '</span>';
@@ -105,7 +105,7 @@ if ((!empty ($this->article->modified) && $this->params->get('modifydate')) || (
 
 echo $this->article->event->beforeDisplayContent;
 
-if ($this->params->get('url') && $this->article->urls) {
+if ($this->params->get('show_url') && $this->article->urls) {
 	echo '<span class="small">';
 	/* sefreltoabs ??? */
 	echo '<a href="' . JRoute::_($this->article->urls) . '" target="_blank">';
@@ -118,7 +118,7 @@ if (isset ($this->article->toc)) {
 
 echo JOutputFilter::ampReplace($this->article->text);
 
-if ($this->params->get('readmore') && $this->params->get('intro_only') && $this->article->readmore_text) {
+if ($this->params->get('show_readmore') && $this->params->get('show_intro') && $this->article->readmore_text) {
 	echo '<p><a href="' . $this->article->readmore_link . '" class="readon' . $this->params->get('pageclass_sfx') . '">';
 	$alias = JOutputFilter :: stringURLSafe($this->item->title);
 	if ($this->article->title_alias == $alias || $this->article->title_alias == '') {

@@ -19,21 +19,21 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
-if ($this->params->get('page_title')) {
+if ($this->params->get('show_page_title')) {
 	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
 	echo $this->category->name;
 	echo '</h' . $ptlevel . '>';
 }
 
-if ($this->params->def('description', 1) || $this->params->def('description_image', 1)) {
+if ($this->params->def('show_description', 1) || $this->params->def('show_description_image', 1)) {
 	$wrap = '';
 	echo '<div class="contentdescription' . $this->params->get('pageclass_sfx') . '">';
-	if ($this->params->get('description_image') && $this->category->image) {
+	if ($this->params->get('show_description_image') && $this->category->image) {
 		$wrap = '<div class="wrap_image">&nbsp;</div>';
 		echo '<img src="images/stories/' . $this->category->image . '" class="image_' . $this->category->image_position . '" />';
 	}
 
-	if ($this->params->get('description') && $this->category->description) {
+	if ($this->params->get('show_description') && $this->category->description) {
 		echo $this->category->description;
 	}
 	echo $wrap;

@@ -28,7 +28,7 @@ if(isset($this->error))
 }
 
 echo '<div class="contentdescription">';
-echo '<p>'.$this->contact->params->get( 'email_description_text' ). '</p>';
+echo '<p>'.$this->contact->params->get( 'email_description' ). '</p>';
 echo '</div>';
 echo '<form action="'.JRoute::_('index.php').'"  class="form-validate" method="post" name="emailForm" target="_top" id="emailForm">';
 echo '<div class="contact_email'.$this->params->get( 'pageclass_sfx' ).'">';
@@ -48,7 +48,7 @@ echo '<div class="contact_email'.$this->params->get( 'pageclass_sfx' ).'"><label
 echo JText::_( 'Enter your message' ).'*:</label>';
 echo '<textarea name="text" id="contact_text" class="inputbox validate required none contact_textmsg"></textarea>';
 echo '</div>';
-if ($this->contact->params->get( 'email_copy' ))
+if ($this->contact->params->get( 'show_email_copy' ))
 {
 	echo '<div class="contact_email_checkbox'.$this->params->get( 'pageclass_sfx' ).'">';
 	echo '<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />';

@@ -19,35 +19,35 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 $total = $this->total;
-$colcount=$this->params->def('columns', 2);
+$colcount=$this->params->def('num_columns', 2);
 if ($colcount == 0) {$colcount = 1;}
 
-if ($this->params->get('page_title')) {
+if ($this->params->get('show_page_title')) {
 	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
-	echo $this->params->get('header');
+	echo $this->params->get('show_page_title');
 	echo '</h' . $ptlevel . '>';
 }
 echo '<div class="blog' . $this->params->get('pageclass_sfx') . '">';
-if ($this->params->def('description', 1) || $this->params->def('description_image', 1)) {
+if ($this->params->def('show_description', 1) || $this->params->def('show_description_image', 1)) {
 	$wrap = '';
 	echo '<div class="contentdescription' . $this->params->get('pageclass_sfx') . '">';
-	if ($this->params->get('description_image') && $this->section->image) {
+	if ($this->params->get('show_description_image') && $this->section->image) {
 		$wrap = '<div class="wrap_image">&nbsp;</div>';
 		echo '<img src="images/stories/' . $this->image . '" class="image_' . $this->section->image_position . '" />';
 	}
 
-	if ($this->params->get('description') && $this->section->description) {
+	if ($this->params->get('show_description') && $this->section->description) {
 		echo $this->section->description;
 	}
 	echo $wrap;
 	echo '</div>';
 }
 $i = 0;
-if ($this->params->def('leading', 1)) {
-	$rowcount = (int) $this->params->get('leading');
+if ($this->params->def('num_leading_articles', 1)) {
+	$rowcount = (int) $this->params->get('num_leading_articles');
 	for ($y = 0; $y < $rowcount && $i < $total; $y++) {
 		echo '<div class="leading' . $this->params->get('pageclass_sfx') . '">';
-		if (($i < $this->params->get('leading')) && ($i < $total)) {
+		if (($i < $this->params->get('num_leading_articles')) && ($i < $total)) {
 			$this->item = & $this->getItem($i, $this->params);
 			echo $this->loadTemplate('item');
 			$i++;
@@ -58,10 +58,10 @@ if ($this->params->def('leading', 1)) {
 } else {
 	$i = 0;
 }
-if ($this->params->def('intro', 4) && ($i < $total)) {
+if ($this->params->def('num_intro_articles', 4) && ($i < $total)) {
 	// get count of rows to display = count intro divided columns
 	// display only if we have article to display
-	$rowcount = (int) $this->params->get('intro') / $colcount;
+	$rowcount = (int) $this->params->get('num_intro_articles') / $colcount;
 	$ii = 0;
 	for ($y = 0; $y < $rowcount && $i < $total; $y++) {
 		echo '<div class="article_row' . $this->params->get('pageclass_sfx') . '">';
@@ -69,7 +69,7 @@ if ($this->params->def('intro', 4) && ($i < $total)) {
 		for ($z = 0; $z < $colcount; $z++) {
 			$columnnumber = $z +1;
 			echo '<div  class="article_column column' . $columnnumber . ' cols' . $colcount . '" >';
-			if ($ii < $this->params->get('intro') && ($i < $total)) {
+			if ($ii < $this->params->get('num_intro_articles') && ($i < $total)) {
 				$this->item = & $this->getItem($i, $this->params);
 				echo $this->loadTemplate('item');
 				$i++;
@@ -84,9 +84,9 @@ if ($this->params->def('intro', 4) && ($i < $total)) {
 	}
 }
 
-if ($this->params->def('link', 4) && ($i < $total)) {
+if ($this->params->def('num_links', 4) && ($i < $total)) {
 	echo '<div class="blog_more' . $this->params->get('pageclass_sfx') . '" >';
-	$numberitems4links = $this->params->get('link');
+	$numberitems4links = $this->params->get('num_links');
 	if ($i + $numberitems4links > $total) {
 		$numberitems4links = $total - $i;
 	}
@@ -94,12 +94,12 @@ if ($this->params->def('link', 4) && ($i < $total)) {
 	echo $this->loadTemplate('links');
 	echo '</div>';
 }
-if ($this->params->def('pagination_results', 1)) {
+if ($this->params->def('show_pagination_results', 1)) {
 	echo '<p class="counter">';
 	echo $this->pagination->getPagesCounter();
 	echo "</p>";
 }
-if ($this->params->def('pagination', 2)) {
+if ($this->params->def('show_pagination', 2)) {
 	echo $this->pagination->getPagesLinks();
 }
 

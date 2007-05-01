@@ -18,10 +18,10 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
-if ($this->params->get('page_title'))
+if ($this->params->get('show_page_title'))
 {
         echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
-        echo $this->params->get( 'header' );
+        echo $this->params->get( 'page_title' );
         echo '</h' . $ptlevel . '>';
 }
 
@@ -40,7 +40,7 @@ if ($this->category->image || $this->category->description)
                 echo '<img src="images/stories/' . $this->category->image . '" class="image_' . $this->category->image_position . '" alt="'.JText::_( 'Contacts' ).'"/>';
         }
 
-    if ($this->params->get('description_text') && $this->category->description) {
+    if ($this->category->description) {
             echo $this->category->description;
     }
         echo $wrap;
@@ -76,13 +76,13 @@ echo '<input type="hidden" name="filter_order_Dir" value="" />';
 echo '</form>';
 
 echo '<table class="category'.$this->params->get( 'pageclass_sfx').'" >';
-if ($this->params->get( 'headings' ))
+if ($this->params->get( 'show_headings' ))
 {
         echo '<tr><th  id="Count"  class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
         echo JText::_('Num');
         echo '</th>';
 
-        if ( $this->params->get( 'position' ) )
+        if ( $this->params->get( 'show_position' ) )
         {
                 echo '<th id="Position" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
 				JHTML::element('grid_sort', 'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] );
@@ -91,28 +91,28 @@ if ($this->params->get( 'headings' ))
                      echo '<th  id="Name" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
 		JHTML::element('grid_sort', 'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] );
         echo '</th>';
-        if ( $this->params->get( 'email' ) )
+        if ( $this->params->get( 'show_email' ) )
         {
                 echo '<th id="Mail" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
                 echo JText::_( 'Email' );
                 echo '</th>';
         }
 
-        if ( $this->params->get( 'telephone' ) )
+        if ( $this->params->get( 'show_telephone' ) )
         {
                 echo '<th id="Phone" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
                 echo JText::_( 'Phone' );
                 echo '</th>';
         }
 
-        if ( $this->params->get( 'mobile' ) )
+        if ( $this->params->get( 'show_mobile' ) )
         {
                 echo '<th id="mobile" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
                 echo JText::_( 'Mobile' );
                 echo '</th>';
         }
 
-        if ( $this->params->get( 'fax' ) )
+        if ( $this->params->get( 'show_fax' ) )
         {
                 echo '<th id="Fax" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
                 echo JText::_( 'Fax' );
