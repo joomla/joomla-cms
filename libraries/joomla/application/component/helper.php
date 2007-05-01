@@ -100,7 +100,7 @@ class JComponentHelper
 			return;
 		}
 
-		$task		= JRequest::getString( 'task' );
+		$task = JRequest::getString( 'task' );
 
 		// Build the component path
 		$name = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
@@ -168,7 +168,7 @@ class JComponentHelper
 		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {
 
 			// Get the task again, in case it has changed
-			$task		= JRequest::getString( 'task' );
+			$task = JRequest::getString( 'task' );
 
 			// Make the toolbar
 			include_once( $path );

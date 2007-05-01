@@ -118,7 +118,9 @@ class JApplication extends JObject
 		$uri  =& JURI::getInstance();
 
 		$router =& $this->getRouter();
-		$router->parse($uri->toString());
+		if(!$router->parse($uri->toString())) {
+			JError::raiseError( 404, JText::_('Unable to route request') );
+		}
  	}
 
  	/**
@@ -624,13 +626,6 @@ class JApplication extends JObject
 		if($this->getCfg('sef_rewrite')) {
 			$options['mode'] = 2;
 		}
-
-		// Set default router parameters
-		$menu =& JMenu::getInstance();
-		$item = $menu->getDefault();
-
-		$options['vars']           = $item->query;
-		$options['vars']['Itemid'] = $item->id;
 
 		// Create a JRouter object
 		$this->_router = JRouter::getInstance($options);

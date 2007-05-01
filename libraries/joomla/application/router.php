@@ -130,12 +130,6 @@ class JRouter extends JObject
 		} else {
 			$this->_mode = 0;
 		}
-		
-		if(isset($options['vars'])) {
-			$this->_vars = $options['vars'];
-		} else {
-			$this->_vars = array();
-		}
 	}
 
 	/**
@@ -183,12 +177,19 @@ class JRouter extends JObject
 		 */
 		if(empty($url) && !$uri->getQuery()) 
 		{
-			JRequest::set($this->_vars, 'get', false );
-			return;
+			// Set default router parameters
+			$item = $menu->getDefault();
+			
+			// Set the active menu item
+			$menu->setActive($item->id);
+
+			$vars           = $item->query;
+			$vars['Itemid'] = $item->id;
+			
+			JRequest::set($vars, 'get', false );
+			return true;
 		}
-		
-		$this->_vars = array();
-		
+			
 		/*
 		 * Handle routed URL : mysite/index.php/route?var=x
 		 */
@@ -201,41 +202,49 @@ class JRouter extends JObject
 			if (!empty($url)) 
 			{	
 				// Parse application route
-				$this->_parseApplicationRoute($url);
+				if(!$itemid = $this->_parseApplicationRoute($url)) {
+					return false; 
+				}
 				
 				// Set the active menu item
-				$menu->setActive($this->_vars['itemid']);
+				$menu->setActive($itemid);
 
-				// Parsz component route
+				// Parse component route
 				$this->_parseComponentRoute($url);
 			}
 			
 			//Set active menu item
-			$item =&$menu->getActive();
-		
+			$item =& $menu->getActive();
+			
 			//Set the information in the request
 			JRequest::set($item->query, 'get', true );
 			JRequest::set($this->_vars, 'get', true );
 		
 			//Set the itemid in the request
-			unset($this->_vars['itemid']);
 			JRequest::setVar('Itemid', $item->id);
 			
-			return;
+			return true;
 		}
 		
 		/*
-		 * Handle unrouted URL : mysite/index.php?var=x&var=y
+		 * Handle unrouted URL : mysite/index.php?option=x&var=y(&Itemid=z)
 		 */
-		if($itemid = (int) $uri->getVar('Itemid'))
+		if($itemid = (int) $uri->getVar('Itemid') || $uri->getVar('option'))
 		{	
+			// No Itemid set, use default
+			if(!$itemid) {
+				$itemid = $menu->getDefault();
+			}
+			
 			// Set the active menu item
 			$item =& $menu->setActive($itemid);
 			
 			//Set the information in the request
 			JRequest::set($item->query, 'get', false );
-			return;
+			return true;
 		}  
+		
+		return false;
 	}
 
 	/**
@@ -369,17 +378,18 @@ class JRouter extends JObject
 				if(strlen($item->route) > 0 && strpos($url, $item->route) === 0) 
 				{
 					$url    = str_replace($item->route, '', $url);
+					
+					$itemid = $item->id;
+					$option = $item->component;
 					break;
 				}
 			}
-
-			//Get the option
-			$itemid = $item->id;
-			$option = $item->component;
 		}
 		
-		$this->_vars['itemid'] = $itemid;
+		//Set the option in the variables array
 		$this->_vars['option'] = $option;
+		
+		return $itemid;
 	}
 
 	/**

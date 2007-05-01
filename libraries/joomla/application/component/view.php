@@ -77,7 +77,8 @@ class JView extends JObject
 	* @access protected
 	*/
 	var $_path = array(
-		'template' => array()
+		'template' => array(),
+		'helper' => array()
 	);
 
    /**
@@ -133,6 +134,14 @@ class JView extends JObject
 			$this->_setPath('template', $config['template_path']);
 		} else {
 			$this->_setPath('template', null);
+		}
+		
+		// set the default template search path
+		if (isset($config['helper_path'])) {
+			// user-defined dirs
+			$this->_setPath('helper', $config['helper_path']);
+		} else {
+			$this->_setPath('helper', null);
 		}
 
 		// set the layout
@@ -483,6 +492,17 @@ class JView extends JObject
 	{
 		$this->_addPath('template', $path);
 	}
+	
+	/**
+	 * Adds to the stack of helper script paths in LIFO order.
+	 *
+	 * @param string|array The directory (-ies) to add.
+	 * @return void
+	 */
+	function addHelperPath($path)
+	{
+		$this->_addPath('helper', $path);
+	}
 
 	/**
 	* Clears then sets the callbacks to use when calling JView::escape().
@@ -611,17 +631,24 @@ class JView extends JObject
 		switch (strtolower($type))
 		{
 			case 'template':
+			{
 				// the current directory
 				$viewName = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_name);
 				$this->_addPath($type, JPATH_COMPONENT.DS.'views'.DS.$viewName.DS.'tmpl');
 
 				// set the alternative template search dir
-				if (isset($mainframe)) {
+				if (isset($mainframe)) 
+				{
 					$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
 					$fallback = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$viewName;
 					$this->_addPath('template', $fallback);
 				}
-				break;
+			}	break;
+				
+			case 'helper':
+			{
+				$this->_addPath($type, JPATH_COMPONENT.DS.'helpers');
+			} break;
 		}
 
 		// actually add the user-specified directories

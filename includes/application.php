@@ -54,7 +54,8 @@ class JSite extends JApplication
 	{
 		// if a language was specified it has priority
 		// otherwise use user or default language settings
-		if (empty($options['language'])) {
+		if (empty($options['language'])) 
+		{
 			$user = & JFactory::getUser();
 			$lang	= $user->getParam( 'language' );
 
@@ -394,10 +395,10 @@ class JSite extends JApplication
 		// Create a JPathWay object
 		$this->_pathway = new JPathWay();
 
-		$menu   	=& JMenu::getInstance();
-		$item   	= $menu->getActive();
+		$menu   =& JMenu::getInstance();
+		$item   = $menu->getActive();
 		$menus	= $menu->getMenu();
-		$home		= $menu->getDefault();
+		$home	= $menu->getDefault();
 
 		// Add the home item to the pathway
 		if( $item->id == $home->id ) {
