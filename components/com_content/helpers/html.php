@@ -91,7 +91,7 @@ class ContentHelperHTML
 				$url	    = 'index.php?option=com_mailto&tmpl=component&link='.base64_encode( JRequest::getURI());
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
-				if ($params->get('icons')) 	{
+				if ($params->get('show_icons')) 	{
 					$text = JAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
 				} else {
 					$text = '&nbsp;'.JText::_('Email');

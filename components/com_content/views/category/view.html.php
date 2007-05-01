@@ -43,6 +43,10 @@ class ContentViewCategory extends JView
 			$params = &JComponentHelper::getParams('com_content');
 		}
 
+		// Get the menu item object
+		$menus	= &JMenu::getInstance();
+		$menu	= &$menus->getActive();
+
 		// Request variables
 		$task 		= JRequest::getVar('task');
 		$limit       = $mainframe->getUserStateFromRequest('com_content.limit', 'limit', $params->def('display_num', 0));
@@ -76,25 +80,14 @@ class ContentViewCategory extends JView
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		//set breadcrumbs
-		if($item->query['view'] != 'category') {
+		if($menu->query['view'] != 'category') {
 			$pathway->addItem($category->title, '');
 		}
 
-		$mainframe->setPageTitle($item->name);
+		$mainframe->setPageTitle($menu->name);
 
 		$params->def('date_format',	JText::_('DATE_FORMAT_LC'));
-		$params->def('navigation',	2);
-		$params->def('display',		1);
-		$params->def('display_num',	$mainframe->getCfg('list_limit'));
-		$params->def('empty_cat',		0);
-		$params->def('cat_items',		1);
-		$params->def('cat_description',0);
-		$params->def('filter',		1);
-		$params->def('filter_type',	'title');
-
-		if ($params->def('page_title', 1)) {
-			$params->def('header', $item->name);
-		}
+		$params->def('page_title', $menu->name);
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);

@@ -38,7 +38,11 @@ class ContentViewArticle extends JView
 
 		// Initialize variables
 		$article	=& $this->get('Article');
-		$params	=& $article->parameters;
+		$params		=& $article->parameters;
+
+		// Get the menu item object
+		$menus	= &JMenu::getInstance();
+		$menu	= &$menus->getActive();
 
 		// Get the page/component configuration
 		$state  = &$this->get('State');
@@ -69,9 +73,9 @@ class ContentViewArticle extends JView
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		//set breadcrumbs
-		if($item->query['view'] != 'article')
+		if($menu->query['view'] != 'article')
 		{
-			switch ($item->query['view'])
+			switch ($menu->query['view'])
 			{
 				case 'section':
 					$pathway->addItem($article->category, 'index.php?view=category&id='.$article->catslug);
