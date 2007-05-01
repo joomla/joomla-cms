@@ -109,9 +109,9 @@ class JRouter extends JObject
 	 * @var integer
 	 */
 	var $_mode = null;
-	
+
 	/**
-	 * An array of variables 
+	 * An array of variables
 	 *
 	 * @access protected
 	 * @var array
@@ -163,87 +163,87 @@ class JRouter extends JObject
 	{
 		$uri  =& JURI::getInstance($url);
 		$menu =& JMenu::getInstance();
-		
+
 		// Get the base and full URLs
 		$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
 		$base = $uri->base();
-		
+
 		$url = urldecode(str_replace($base, '', $full));
 		$url = str_replace('index.php', '', $url);
 		$url = trim($url , '/');
-		
-		/* 
-		 * Handle empty URL : mysite/ or mysite/index.php 
+
+		/*
+		 * Handle empty URL : mysite/ or mysite/index.php
 		 */
-		if(empty($url) && !$uri->getQuery()) 
+		if(empty($url) && !$uri->getQuery())
 		{
 			// Set default router parameters
 			$item = $menu->getDefault();
-			
+
 			// Set the active menu item
 			$menu->setActive($item->id);
 
 			$vars           = $item->query;
 			$vars['Itemid'] = $item->id;
-			
+
 			JRequest::set($vars, 'get', false );
 			return true;
 		}
-			
+
 		/*
 		 * Handle routed URL : mysite/index.php/route?var=x
 		 */
 		if(!empty($url)&& !(int) $uri->getVar('Itemid'))
-		{	
+		{
 			// Set document link
 			$doc = & JFactory::getDocument();
 			$doc->setLink($base);
 
-			if (!empty($url)) 
-			{	
+			if (!empty($url))
+			{
 				// Parse application route
 				if(!$itemid = $this->_parseApplicationRoute($url)) {
-					return false; 
+					return false;
 				}
-				
+
 				// Set the active menu item
 				$menu->setActive($itemid);
 
 				// Parse component route
 				$this->_parseComponentRoute($url);
 			}
-			
+
 			//Set active menu item
 			$item =& $menu->getActive();
-			
+
 			//Set the information in the request
 			JRequest::set($item->query, 'get', true );
 			JRequest::set($this->_vars, 'get', true );
-		
+
 			//Set the itemid in the request
 			JRequest::setVar('Itemid', $item->id);
-			
+
 			return true;
 		}
-		
+
 		/*
 		 * Handle unrouted URL : mysite/index.php?option=x&var=y(&Itemid=z)
 		 */
-		if($itemid = (int) $uri->getVar('Itemid') || $uri->getVar('option'))
-		{	
+		if(($itemid = (int) $uri->getVar('Itemid')) || $uri->getVar('option'))
+		{
 			// No Itemid set, use default
 			if(!$itemid) {
 				$itemid = $menu->getDefault();
 			}
-			
+
 			// Set the active menu item
 			$item =& $menu->setActive($itemid);
-			
+
 			//Set the information in the request
 			JRequest::set($item->query, 'get', false );
 			return true;
-		}  
-		
+		}
+
 		return false;
 	}
 
@@ -264,30 +264,30 @@ class JRouter extends JObject
 
 		// Replace all &amp; with & - ensures cache integrity
 		$string = str_replace('&amp;', '&', $value);
-		
+
 		// Create full URL if we are only appending variables to it
-		if(substr($string, 0, 1) == '&') 
+		if(substr($string, 0, 1) == '&')
 		{
 			$vars = array();
 			parse_str($string, $vars);
-			
+
 			$vars = array_merge($this->_vars, $vars);
 			$string = 'index.php?'.JURI::_buildQuery($vars);
 		}
-		
+
 		if (!isset( $strings[$string] ))
-		{	
+		{
 			// Decompose link into url component parts
 			$uri  =& JURI::getInstance(JURI::base().$string);
 			$menu =& JMenu::getInstance();
 
 			// If the itemid isn't set in the URL use default
-			if(!$itemid = $uri->getVar('Itemid')) 
+			if(!$itemid = $uri->getVar('Itemid'))
 			{
 				$default = $menu->getDefault();
 				$uri->setVar('Itemid', JRequest::getInt('Itemid', $default->id));
 			}
-			
+
 			// Get the active menu item
 			$item = $menu->getItem($uri->getVar('Itemid'));
 
@@ -354,10 +354,10 @@ class JRouter extends JObject
 	function _parseApplicationRoute(&$url)
 	{
 		$menu  =& JMenu::getInstance();
-		
+
 		$itemid = null;
 		$option = null;
-		
+
 		if(substr($url, 0, 9) == 'component')
 		{
 			$segments = explode('/', $url);
@@ -369,26 +369,26 @@ class JRouter extends JObject
 			$itemid = $item->id;
 		}
 		else
-		{	
+		{
 			//Need to reverse the array (highest sublevels first)
 			$items = array_reverse($menu->getMenu());
 
 			foreach ($items as $item)
 			{
-				if(strlen($item->route) > 0 && strpos($url, $item->route) === 0) 
+				if(strlen($item->route) > 0 && strpos($url, $item->route) === 0)
 				{
 					$url    = str_replace($item->route, '', $url);
-					
+
 					$itemid = $item->id;
 					$option = $item->component;
 					break;
 				}
 			}
 		}
-		
+
 		//Set the option in the variables array
 		$this->_vars['option'] = $option;
-		
+
 		return $itemid;
 	}
 
@@ -422,7 +422,7 @@ class JRouter extends JObject
 			require_once $path;
 			$function =  substr($component, 4).'ParseRoute';
 			$vars =  $function($segments);
-				
+
 			$this->_vars = array_merge($this->_vars, $vars);
 		}
 	}
