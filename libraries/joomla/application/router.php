@@ -116,7 +116,7 @@ class JRouter extends JObject
 	 * @access protected
 	 * @var array
 	 */
-	var $_vars = null;
+	var $_vars = array();
 
 	/**
 	 * Class constructor

@@ -88,9 +88,9 @@ class NewsfeedsViewNewsfeed extends JView
 		$mainframe->setPageTitle( $menu->name. ' - ' .$newsfeed->name );
 
 		//set breadcrumbs
-		if($item->query['view'] != 'newsfeed')
+		if($menu->query['view'] != 'newsfeed')
 		{
-			switch ($item->query['view'])
+			switch ($menu->query['view'])
 			{
 				case 'categories':
 					$pathway->addItem($newsfeed->category, JRoute::_('index.php?option=com_newsfeeds&view=category&catid='.$newsfeed->catslug));

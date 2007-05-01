@@ -52,7 +52,7 @@ class NewsfeedsViewCategory extends JView
 		$document->setTitle( $menu->name. ' - ' .$category->title );
 
 		//set breadcrumbs
-		if($item->query['view'] != 'category')
+		if($menu->query['view'] != 'category')
 		{
 			$pathway->addItem($category->title, '');
 		}
