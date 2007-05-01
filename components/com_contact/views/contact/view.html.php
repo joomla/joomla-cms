@@ -33,17 +33,19 @@ class ContactViewContact extends JView
 		$model		= &$this->getModel();
 
 		// Get the paramaters of the active menu item
-		$menu    =& JMenu::getInstance();
-		$item    = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
-		$params->def('header', $item->name );
+		$menus	= &JMenu::getInstance();
+		$menu    = $menus->getActive();
+
+		$pparams = &$mainframe->getPageParameters('com_contact');
+
+		$pparams->def('page_title', $menu->name );
 
 		// Push a model into the view
 		$model		= &$this->getModel();
 		$modelCat	= &$this->getModel( 'ContactModelCategory' );
 
 		// Selected Request vars
-		$contactId	= JRequest::getVar( 'id', $params->get('id', 0 ), '', 'int' );
+		$contactId	= JRequest::getVar( 'id', 0, '', 'int' );
 
 		// query options
 		$options['id']	= $contactId;
@@ -73,7 +75,7 @@ class ContactViewContact extends JView
 
 		// Adds parameter handling
 		$contact->params = new JParameter($contact->params);
-		if ($contact->email_to && $params->get('show_email')) {
+		if ($contact->email_to && $pparams->get('show_email')) {
 			$contact->email = JHTML::emailCloaking($contact->email_to);
 		}
 
@@ -126,7 +128,7 @@ class ContactViewContact extends JView
 
 		$this->assignRef('contacts' , $contacts);
 		$this->assignRef('contact'  , $contact);
-		$this->assignRef('params'   , $params);
+		$this->assignRef('params'   , $pparams);
 
 		parent::display($tpl);
 	}

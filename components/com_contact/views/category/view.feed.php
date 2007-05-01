@@ -43,7 +43,6 @@ class ContactViewCategory extends JView
 
 		$query = 'SELECT'
 		. ' a.name AS title,'
-		. ' CONCAT( "'.$link.'", a.catid, "&id=", a.id ) AS link,'
 		. ' CONCAT( a.con_position, ' - ',a.misc ) AS description,'
 		. ' "" AS date,'
 		. ' c.title AS category,'

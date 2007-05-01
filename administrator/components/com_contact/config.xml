@@ -39,14 +39,20 @@
 		</param>
 
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="bannedEmail" type="textarea" default="" label="BANNED EMAIL LABEL" rows="3" cols="30" description="BANNED EMAIL DESC" />
-		<param name="bannedSubject" type="textarea" default="" label="BANNED SUBJECT LABEL" rows="3" cols="30" description="BANNED SUBJECT DESC" />
-		<param name="bannedText" type="textarea" default="" label="BANNED TEXT LABEL" rows="3" cols="30" description="BANNED TEXT DESC" />
-		<param name="session" type="radio" default="1" label="SESSION CHECK LABEL" description="SESSION CHECK DESC">
+		<param name="allow_vcard" type="radio" default="0" label="Enable vcard" description="Enable vcard support for contacts">
 			<option value="0">NO</option>
 			<option value="1">YES</option>
 		</param>
-		<param name="customReply" type="radio" default="0" label="Custom Reply" description="Custom Reply Desc">
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="banned_email" type="textarea" default="" label="BANNED EMAIL LABEL" rows="3" cols="30" description="BANNED EMAIL DESC" />
+		<param name="banned_subject" type="textarea" default="" label="BANNED SUBJECT LABEL" rows="3" cols="30" description="BANNED SUBJECT DESC" />
+		<param name="banned_text" type="textarea" default="" label="BANNED TEXT LABEL" rows="3" cols="30" description="BANNED TEXT DESC" />
+		<param name="validate_session" type="radio" default="1" label="SESSION CHECK LABEL" description="SESSION CHECK DESC">
+			<option value="0">NO</option>
+			<option value="1">YES</option>
+		</param>
+		<param name="custom_reply" type="radio" default="0" label="Custom Reply" description="Custom Reply Desc">
 			<option value="0">NO</option>
 			<option value="1">YES</option>
 		</param>

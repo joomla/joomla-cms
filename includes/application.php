@@ -255,13 +255,15 @@ class JSite extends JApplication
 	* @return object The page parameters object
 	* @since 1.5
 	*/
-	function &getPageParameters()
+	function &getPageParameters($option=null)
 	{
 		static $params;
 
 		if (!is_object($params)) {
 			// Get component parameters
-			$option = JRequest::getVar('option');
+			if (!$option) {
+				$option = JRequest::getVar('option');
+			}
 			$params = &JComponentHelper::getParams($option);
 
 			// Get menu parameters

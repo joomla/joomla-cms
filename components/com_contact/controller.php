@@ -129,47 +129,47 @@ class ContactController extends JController
 		}
 
 		// Passed Validation: Process the contact plugins to integrate with other applications
-		JPluginHelper::importPlugin( 'contact');
+		JPluginHelper::importPlugin('contact');
 		$dispatcher	=& JEventDispatcher::getInstance();
 		$results	= $dispatcher->trigger( 'onSubmitContact', array( &$contact ) );
 
-		$config	= &JComponentHelper::getParams( 'com_contact' );
-		if (!$config->get( 'customReply' ))
+		$pparams = &$mainframe->getPageParameters('com_contact');
+		if (!$pparams->get( 'custom_reply' ))
 		{
 			// Prepare email body
 			$prefix = JText::sprintf('ENQUIRY_TEXT', JURI::base());
 			$body 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
-	
+
 			$mail = new JMail();
-	
+
 			$mail->addRecipient( $contact->email_to );
 			$mail->setSender( array( $email, $name ) );
 			$mail->setSubject( $FromName.': '.$subject );
 			$mail->setBody( $body );
-	
+
 			$sent = $mail->Send();
-	
+
 			/*
 			 * If we are supposed to copy the admin, do so.
 			 */
 			// parameter check
-			$menuParams 		= new JParameter( $contact->params );
-			$emailcopyCheck = $menuParams->get( 'email_copy', 0 );
-	
+			$params = new JParameter( $contact->params );
+			$emailcopyCheck = $params->get( 'email_copy', 0 );
+
 			// check whether email copy function activated
 			if ( $emailCopy && $emailcopyCheck )
 			{
 				$copyText 		= JText::sprintf('Copy of:', $contact->name, $SiteName);
 				$copyText 		.= "\r\n\r\n".$body;
 				$copySubject 	= JText::_('Copy of:')." ".$subject;
-	
+
 				$mail = new JMail();
-	
+
 				$mail->addRecipient( $email );
 				$mail->setSender( array( $MailFrom, $FromName ) );
 				$mail->setSubject( $copySubject );
 				$mail->setBody( $copyText );
-	
+
 				$sent = $mail->Send();
 			}
 		}
@@ -199,11 +199,10 @@ class ContactController extends JController
 		$contact->load($contactId);
 
 		// Get the contact detail parameters
-		$menuParams = new JParameter($contact->params);
-		$show 	= $menuParams->get('vcard', 0);
+		$pparams = &$mainframe->getPageParameters('com_contact');
 
 		// Should we show the vcard?
-		if ($show)
+		if ($pparams->get('allow_vcard', 0))
 		{
 			// Parse the contact name field and build the nam information for the vcard.
 			$firstname 	= null;
@@ -286,6 +285,8 @@ class ContactController extends JController
 	 */
 	function _validateInputs( $contact, $email, $subject, $body )
 	{
+		global $mainframe;
+
 		$session =& JFactory::getSession();
 
 		/**
@@ -296,11 +297,11 @@ class ContactController extends JController
 		**/
 
 		// Get params and component configurations
-		$contactParams	= new JParameter($contact->params);
-		$config 		= &JComponentHelper::getParams( 'com_contact' );
+		$params		= new JParameter($contact->params);
+		$pparams	= &$mainframe->getPageParameters('com_contact');
 
 		// check for session cookie
-		$sessionCheck 	= $config->get( 'session', 	1 );
+		$sessionCheck 	= $pparams->get( 'validate_session', 1 );
 		$sessionName	= $session->getName();
 		if  ( $sessionCheck ) {
 			if ( !isset($_COOKIE[$sessionName]) ) {
@@ -310,8 +311,8 @@ class ContactController extends JController
 		}
 
 		// Determine banned e-mails
-		$configEmail	= $config->get( 'bannedEmail', '' );
-		$paramsEmail	= $contactParams->get( 'bannedEmail', '' );
+		$configEmail	= $pparams->get( 'banned_email', '' );
+		$paramsEmail	= $params->get( 'banned_mail', '' );
 		$bannedEmail 	= $configEmail . ($paramsEmail ? ';'.$paramsEmail : '');
 
 		// Prevent form submission if one of the banned text is discovered in the email field
@@ -327,8 +328,8 @@ class ContactController extends JController
 		}
 
 		// Determine banned subjects
-		$configSubject	= $config->get( 'bannedSubject', '' );
-		$paramsSubject	= $contactParams->get( 'bannedSubject', '' );
+		$configSubject	= $pparams->get( 'banned_subject', '' );
+		$paramsSubject	= $params->get( 'banned_subject', '' );
 		$bannedSubject 	= $configSubject . ( $paramsSubject ? ';'.$paramsSubject : '');
 
 		// Prevent form submission if one of the banned text is discovered in the subject field
@@ -343,8 +344,8 @@ class ContactController extends JController
 		}
 
 		// Determine banned Text
-		$configText		= $config->get( 'bannedText', '' );
-		$paramsText		= $contactParams->get( 'bannedText', '' );
+		$configText		= $pparams->get( 'banned_text', '' );
+		$paramsText		= $params->get( 'banned_text', '' );
 		$bannedText 	= $configText . ( $paramsText ? ';'.$paramsText : '' );
 
 		// Prevent form submission if one of the banned text is discovered in the text field
@@ -364,7 +365,6 @@ class ContactController extends JController
 			$this->setError( JText::_( 'You cannot enter more than one email address', true ) );
 			return false;
 		}
-
 
 		return true;
 	}
