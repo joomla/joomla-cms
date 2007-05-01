@@ -68,10 +68,14 @@ class JPagination extends JObject
 		// Value/Type checking
 		$this->total		= (int) $total;
 		$this->limitstart	= (int) max($limitstart, 0);
-		$this->limit		= (int) max($limit, 1);
+		$this->limit		= (int) max($limit, 0);
 
 		if ($this->limit > $this->total) {
 			$this->limitstart = 0;
+		}
+		
+		if (!$this->limit) {
+			$this->limit = $total;
 		}
 
 		if ($this->limitstart > $this->total) {

@@ -39,7 +39,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <?php if ($this->params->get('headings')) : ?>
 <tr>
-	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="5">
+	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="5%">
 		<?php echo JText::_('Num'); ?>
 	</td>
 	<?php if ($this->params->get('title')) : ?>

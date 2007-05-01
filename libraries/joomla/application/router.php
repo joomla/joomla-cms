@@ -331,7 +331,7 @@ class JRouter extends JObject
 				return $url;
 			}
 
-			$strings[$string] = $uri->toString(array('path', 'query', 'fragment'));
+			$strings[$string] = 'index.php'.$uri->toString(array('query', 'fragment'));
 		}
 
 		return $strings[$string];
