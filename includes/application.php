@@ -104,7 +104,7 @@ class JSite extends JApplication
 			{
 				//set metadata
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
-				
+
 				// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
 				$konkcheck = phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];
 				$konkcheck = strpos (strtolower($konkcheck), "konqueror");
@@ -265,11 +265,13 @@ class JSite extends JApplication
 			$params = &JComponentHelper::getParams($option);
 
 			// Get menu parameters
-			$menu = &JMenu::getInstance();
-			$item = $menu->getActive();
+			$menus	= &JMenu::getInstance();
+			$menu	= $menus->getActive();
 
-			// Lets cascade the parameters
-			$params->merge(new JParameter($item->params));
+			// Lets cascade the parameters if we have menu item parameters
+			if (is_object($menu)) {
+				$params->merge(new JParameter($item->params));
+			}
 		}
 
 		return $params;
