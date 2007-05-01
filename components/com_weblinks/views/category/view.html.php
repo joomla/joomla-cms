@@ -140,12 +140,12 @@ class WeblinksViewCategory extends JView
 			$k = 1 - $k;
 		}
 
-		$this->assignRef('lists',			$lists);
+		$this->assignRef('lists',		$lists);
 		$this->assignRef('params',		$params);
-		$this->assignRef('category',		$category);
-		$this->assignRef('items',			$items);
+		$this->assignRef('category',	$category);
+		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('request_url',	$uri->toString());
+		$this->assignRef('action',		$uri->toString());
 
 		parent::display($tpl);
 	}

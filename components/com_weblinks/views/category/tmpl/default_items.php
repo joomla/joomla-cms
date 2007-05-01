@@ -9,7 +9,7 @@
 }
 </script>
 
-<form action="<?php echo $this->request_url; ?>" method="post" name="adminForm">
+<form action="<?php echo $this->action; ?>" method="post" name="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td align="right" colspan="4">

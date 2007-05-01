@@ -23,7 +23,6 @@ class TableBannerClient extends JTable
 {
 	var	$cid 				= null;
 	var $name 				= '';
-	var $alias				= '';
 	var $contact 			= '';
 	var $email 				= '';
 	var $extrainfo 			= '';

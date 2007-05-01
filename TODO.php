@@ -59,7 +59,7 @@ To be able to handle all languages correctly we are moving towards UTF-8. It's c
 this transistion will go with a few roadbumps. We predict problems with upgrading from an
 existing db, and the use of some string related PHP functions. We are aware of these issues.
 
-The reason for the alpha is to get them identified. U can help us by clearly stating problems
+The reason for the beta is to get them identified. U can help us by clearly stating problems
 u are experiencing. For now we advice u to stay away from upgrading an existing site.
 Upgrading problems will be handled after we identified and fixed any problems with translations
 and new installs.
@@ -69,11 +69,11 @@ and new installs.
 
 - Bug and problems
 Forum   : <a target="_blank" href="http://forum.joomla.org/index.php/board,179.0.html">Quality Assurance and Testing</a>
-Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/listArtifacts/projects.joomla/tracker.bug_tracker_1_1_x">Bug Tracker</a>
+Tracker : <a target="_blank" href="http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemBrowse&tracker_id=32">Bug Tracker</a>
 
 - Feature requests
 Forum   : <a target="_blank" href="http://forum.joomla.org/index.php/board,38.0.html">Wishlist and Feature requests</a>
-Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/listArtifacts/projects.joomla/tracker.feature_requests">Feature Requests</a>
+Tracker : <a target="_blank" href="http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemBrowse&tracker_id=20">Feature Requests</a>
 
 <hr/>
 <span class="todotitle">CHANGES</span>
@@ -99,6 +99,8 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 	* Changed CSS editor, can edit all css files now
 	* Added statistics reset functions
 	* Added new com_syndicate
+	* Session timeout issues
+	* Core extension refactoring to MVC
 
 - Contacts Component
 	* Added field for mobile numbers and webpage
@@ -130,24 +132,6 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 
 - Removed components
 	* /components/com_rss/..
-
-<hr/>
-<span class="todotitle">TODO</span>
-
-- Languages
-	* Component language installation
-
-- Other
-	* Feature requests on the tracker
-	* Session timeout issues
-	* Core extension refactoring
-
-- User Interface
-	* Usability changes
-	* Media manager improvements
-
-
-<hr/>
-
+	
 </pre>
 </div>

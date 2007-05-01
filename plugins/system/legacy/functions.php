@@ -478,8 +478,9 @@ function mosGetBrowser( $agent ) {
  * @deprecated	As of version 1.5
  */
 function mosGetOS( $agent ) {
-	$browser = JApplication::getBrowser();
-	return $browser->getPlatform();
+	jimport('joomla.environment.browser');
+	$instance =& JBrowser::getInstance();
+	return $instance->getPlatform();
 }
 
 /**
@@ -527,7 +528,7 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 )
  */
 function mosGetOrderingList( $sql, $chop='30' )
 {
-	JAdministratorHelper::GenericOrdering($sql, $chop);
+	return JAdministratorHelper::GenericOrdering($sql, $chop);
 }
 
 /**

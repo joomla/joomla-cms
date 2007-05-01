@@ -101,8 +101,10 @@ class JSite extends JApplication
 		switch($document->getType())
 		{
 			case 'html':
+			{
 				//set metadata
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
+				
 				// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
 				$konkcheck = phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];
 				$konkcheck = strpos (strtolower($konkcheck), "konqueror");
@@ -116,7 +118,7 @@ class JSite extends JApplication
 				if ( $user->get('id') ) {
 					$document->addScript( 'includes/js/joomla.javascript.js');
 				}
-				break;
+			} break;
 
 			default: break;
 		}

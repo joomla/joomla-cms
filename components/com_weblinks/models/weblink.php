@@ -136,7 +136,7 @@ class WeblinksModelWeblink extends JModel
 		if ($this->_loadData())
 		{
 			if ($uid) {
-				return ($this->_data->checked_out && $this->_weblink->checked_out != $uid);
+				return ($this->_data->checked_out && $this->_data->checked_out != $uid);
 			} else {
 				return $this->_data->checked_out;
 			}

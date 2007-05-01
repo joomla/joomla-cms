@@ -109,11 +109,10 @@ class ContentViewCategory extends JView
 
 		$this->assignRef('items',		$items);
 		$this->assignRef('category',	$category);
-		$this->assignRef('params',	$params);
+		$this->assignRef('params',		$params);
 		$this->assignRef('user',		$user);
-		$this->assignRef('access',	$access);
-		$this->assignRef('pagination',$pagination);
-		$this->assignRef('request_url',	$uri->toString());
+		$this->assignRef('access',		$access);
+		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
 	}

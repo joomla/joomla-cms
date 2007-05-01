@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-May-2007 Johan Janssens
+ # Fixed [#381] Reset-button does'nt work in Module- and Plugin Manager
+ # Fixed [#496] TableBannerClient::store - fails when adding new client - Unknown column 'alias'
+ # Fixed [#479] Weblink model isCkheckout function 
+ # Fixed [#383] Read More in Category Blog Layout results in Error
+ # Fixed [#396] Bug in com_component
+ 
 30-Apr-2007 Johan Janssens
  ^ Updated Geshi library to version 1.0.7.19
 

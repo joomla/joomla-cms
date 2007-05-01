@@ -59,7 +59,7 @@ class SearchViewSearch extends JView
 		}
 
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->assignRef('action', 	   $uri->toString());
 
 		parent::display($tpl);
 	}
