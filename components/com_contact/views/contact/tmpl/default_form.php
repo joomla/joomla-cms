@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td colspan="2">
 	<br />
-	<?php echo $this->contact->params->get( 'email_description_text' ) ?>
+	<?php echo $this->contact->params->get( 'email_description' ) ?>
 	<br /><br />
 	<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="emailForm" target="_top" id="emailForm" class="form-validate">
 		<div class="contact_email<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
@@ -53,7 +53,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</label>
 			<br />
 			<textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox required"></textarea>
-			<?php if ($this->contact->params->get( 'email_copy' )) : ?>
+			<?php if ($this->contact->params->get( 'show_email_copy' )) : ?>
 			<br />
 				<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
 				<label for="contact_email_copy">

@@ -75,6 +75,22 @@ class ContactViewContact extends JView
 
 		// Adds parameter handling
 		$contact->params = new JParameter($contact->params);
+
+		// Handle component/menu overides for some contact parameters if set
+		$contact->params->def('contact_icons',	$pparams->get('contact_icons'));
+		$contact->params->def('icon_address',	$pparams->get('icon_address'));
+		$contact->params->def('icon_email',		$pparams->get('icon_email'));
+		$contact->params->def('icon_telephone',	$pparams->get('icon_telephone'));
+		$contact->params->def('icon_fax',		$pparams->get('icon_fax'));
+		$contact->params->def('icon_misc',		$pparams->get('icon_misc'));
+		$contact->params->def('show_position',	$pparams->get('show_position'));
+		$contact->params->def('show_email',		$pparams->get('show_email'));
+		$contact->params->def('show_telephone',	$pparams->get('show_telephone'));
+		$contact->params->def('show_mobile',	$pparams->get('show_mobile'));
+		$contact->params->def('show_fax',		$pparams->get('show_fax'));
+		$contact->params->def('allow_vcard',	$pparams->get('allow_vcard'));
+
+		// Handle email cloaking
 		if ($contact->email_to && $pparams->get('show_email')) {
 			$contact->email = JHTML::emailCloaking($contact->email_to);
 		}

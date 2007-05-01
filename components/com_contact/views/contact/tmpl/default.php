@@ -19,14 +19,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->name && $this->contact->params->get( 'name' ) ) : ?>
+<?php if ( $this->contact->name && $this->contact->params->get( 'show_name' ) ) : ?>
 <tr>
 	<td width="100%" class="contentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<?php echo $this->contact->name; ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->con_position && $this->contact->params->get( 'position' ) ) : ?>
+<?php if ( $this->contact->con_position && $this->contact->params->get( 'show_position' ) ) : ?>
 <tr>
 	<td colspan="2">
 	<?php echo $this->contact->con_position; ?>
@@ -40,7 +40,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>
 			<td></td>
 			<td rowspan="2" align="right" valign="top">
-			<?php if ( $this->contact->image && $this->contact->params->get( 'image' ) ) : ?>
+			<?php if ( $this->contact->image && $this->contact->params->get( 'show_image' ) ) : ?>
 				<div style="float: right;">
 					<img src="images/stories/<?php echo $this->contact->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
 				</div>
@@ -56,18 +56,18 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 	<td>&nbsp;</td>
 </tr>
-<?php if ( $this->contact->params->get( 'vcard' ) ) : ?>
+<?php if ( $this->contact->params->get( 'allow_vcard' ) ) : ?>
 <tr>
 	<td colspan="2">
 	<?php echo JText::_( 'Download information as a' );?>
-		<a href="index2.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $this->contact->id; ?>&amp;format=raw">
+		<a href="index.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $this->contact->id; ?>&amp;format=raw&amp;tmpl=component">
 		<?php echo JText::_( 'VCard' );?>
 		</a>
 	</td>
 </tr>
 <?php endif;
 
-if ( $this->contact->params->get('email_form') )
+if ( $this->contact->params->get('show_email_form') )
 	echo $this->loadTemplate('form');
 ?>
 </table>

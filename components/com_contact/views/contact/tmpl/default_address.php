@@ -9,35 +9,35 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->address && $this->contact->params->get( 'street_address' ) ) : ?>
+<?php if ( $this->contact->address && $this->contact->params->get( 'show_street_address' ) ) : ?>
 <tr>
 	<td valign="top">
 		<?php echo nl2br($this->contact->address); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->suburb && $this->contact->params->get( 'suburb' ) ) : ?>
+<?php if ( $this->contact->suburb && $this->contact->params->get( 'show_suburb' ) ) : ?>
 <tr>
 	<td valign="top">
 		<?php echo $this->contact->suburb; ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->state && $this->contact->params->get( 'state' ) ) : ?>
+<?php if ( $this->contact->state && $this->contact->params->get( 'show_state' ) ) : ?>
 <tr>
 	<td valign="top">
 		<?php echo $this->contact->state; ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->postcode && $this->contact->params->get( 'postcode' ) ) : ?>
+<?php if ( $this->contact->postcode && $this->contact->params->get( 'show_postcode' ) ) : ?>
 <tr>
 	<td valign="top">
 		<?php echo $this->contact->postcode; ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->country && $this->contact->params->get( 'country' ) ) : ?>
+<?php if ( $this->contact->country && $this->contact->params->get( 'show_country' ) ) : ?>
 <tr>
 	<td valign="top">
 		<?php echo $this->contact->country; ?>
@@ -47,9 +47,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </table>
 <br />
 <?php endif; ?>
-<?php if ( ($this->contact->email_to && $this->contact->params->get( 'email' )) || $this->contact->telephone  || $this->contact->fax ) : ?>
+<?php if ( ($this->contact->email_to && $this->contact->params->get( 'show_email' )) || $this->contact->telephone  || $this->contact->fax ) : ?>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<?php if ( $this->contact->email_to && $this->contact->params->get( 'email' ) ) : ?>
+<?php if ( $this->contact->email_to && $this->contact->params->get( 'show_email' ) ) : ?>
 <tr>
 	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
 		<?php echo $this->contact->params->get( 'marker_email' ); ?>
@@ -59,7 +59,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->telephone && $this->contact->params->get( 'telephone' ) ) : ?>
+<?php if ( $this->contact->telephone && $this->contact->params->get( 'show_telephone' ) ) : ?>
 <tr>
 	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
 		<?php echo $this->contact->params->get( 'marker_telephone' ); ?>
@@ -69,7 +69,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->fax && $this->contact->params->get( 'fax' ) ) : ?>
+<?php if ( $this->contact->fax && $this->contact->params->get( 'show_fax' ) ) : ?>
 <tr>
 	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
 		<?php echo $this->contact->params->get( 'marker_fax' ); ?>
@@ -79,7 +79,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->mobile && $this->contact->params->get( 'mobile' ) ) :?>
+<?php if ( $this->contact->mobile && $this->contact->params->get( 'show_mobile' ) ) :?>
 <tr>
 	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
 	</td>
@@ -88,7 +88,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->contact->webpage && $this->contact->params->get( 'webpage' )) : ?>
+<?php if ( $this->contact->webpage && $this->contact->params->get( 'show_webpage' )) : ?>
 <tr>
 	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
 	</td>
@@ -102,7 +102,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </table>
 <?php endif; ?>
 <br />
-<?php if ( $this->contact->misc && $this->contact->params->get( 'misc' ) ) : ?>
+<?php if ( $this->contact->misc && $this->contact->params->get( 'show_misc' ) ) : ?>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" valign="top" >
