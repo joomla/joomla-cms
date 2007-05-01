@@ -522,7 +522,7 @@ class JTableARO extends JTable
  * @subpackage	User
  * @since		1.5
  */
- class JTableAroGroup extends JTable
+ class JTableAROGroup extends JTable
  {
 /** @var int Primary key */
 	var $id=null;
