@@ -36,9 +36,9 @@ class NewsfeedsViewCategory extends JView
 		$document	= & JFactory::getDocument();
 
 		// Get the paramaters of the active menu item
-		$menu   =& JMenu::getInstance();
-		$item   = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		$menus	= &JMenu::getInstance();
+		$menu	= $menus->getActive();
+		$params	= &$menus->getParams($menu->id);
 
 		$category	= $this->get('category');
 		$items		= $this->get('data');
@@ -46,10 +46,10 @@ class NewsfeedsViewCategory extends JView
 		$pagination	= &$this->get('pagination');
 
 		// Parameters
-		$params->def( 'page_title', $item->name );
+		$params->def( 'page_title', $menu->name );
 
 		// Set page title per category
-		$document->setTitle( $item->name. ' - ' .$category->title );
+		$document->setTitle( $menu->name. ' - ' .$category->title );
 
 		//set breadcrumbs
 		if($item->query['view'] != 'category')

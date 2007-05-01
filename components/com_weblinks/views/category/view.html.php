@@ -37,8 +37,8 @@ class WeblinksViewCategory extends JView
 		$pathway	= &$mainframe->getPathWay();
 
 		// Get the paramaters of the active menu item
-		$menu = &JMenu::getInstance();
-		$item = $menu->getActive();
+		$menus = &JMenu::getInstance();
+		$menu  = $menus->getActive();
 
 		// Get some data from the model
 		$items		= &$this->get('data' );
@@ -46,7 +46,13 @@ class WeblinksViewCategory extends JView
 		$pagination	= &$this->get('pagination');
 		$category	= &$this->get('category' );
 		$state		= &$this->get('state');
-		$params		= $state->get('parameters.menu');
+
+		// Get the page/component configuration
+		$params = &$state->get('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_weblinks');
+		}
+
 		$category->total = $total;
 
 		// Add alternate feed link
@@ -57,7 +63,7 @@ class WeblinksViewCategory extends JView
 		$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 
 		//set breadcrumbs
-		if($item->query['view'] != 'category')
+		if($menu->query['view'] != 'category')
 		{
 			$pathway->addItem($category->title, '');
 		}
@@ -72,7 +78,7 @@ class WeblinksViewCategory extends JView
 		$lists['order'] = $state->get('filter_order');
 
 		// Set some defaults if not set for params
-		$params->def('page_title', $item->name);
+		$params->def('page_title', $menu->name);
 		$params->def('com_description', JText::_('WEBLINKS_DESC'));
 
 		// Define image tag attributes

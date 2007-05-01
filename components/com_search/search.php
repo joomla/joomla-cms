@@ -69,13 +69,11 @@ class SearchController
 		$mainframe->setPageTitle(JText::_('Search'));
 
 		// Get the paramaters of the active menu item
-		$menu   =& JMenu::getInstance();
-		$item   = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		$menus  = &JMenu::getInstance();
+		$menu   = $menus->getActive();
+		$params	= &$menus->getParams($menu->id);
 
-		$params->def( 'page_title', 1 );
-		$params->def( 'pageclass_sfx', '' );
-		$params->def( 'header', $item->name, JText::_( 'Search' ) );
+		$params->def( 'page_title', $menu->name );
 
 		// built select lists
 		$orders = array();

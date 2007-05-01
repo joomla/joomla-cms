@@ -42,12 +42,14 @@ class WrapperController
 	{
 		global $mainframe, $option;
 
-		$menu	= &JMenu::getInstance();
-		$item	= $menu->getActive();
-		$params = new JParameter( $item->params );
+		$menus	= &JMenu::getInstance();
+		$menu	= $menus->getActive();
+
+		// Get the page/component configuration
+		$params = new JParameter( $menu->params );
 
 		//set page title
-		$mainframe->SetPageTitle($item->name);
+		$mainframe->SetPageTitle($menu->name);
 
 		$url = $params->def( 'url', '' );
 

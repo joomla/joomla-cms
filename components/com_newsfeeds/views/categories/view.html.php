@@ -33,14 +33,14 @@ class NewsfeedsViewCategories extends JView
 		global $mainframe;
 
 		// Load the menu object and parameters
-		$menu   = &JMenu::getInstance();
-		$item   = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		$menus	= &JMenu::getInstance();
+		$menu	= $menus->getActive();
+		$params	= &$menus->getParams($menu->id);
 
 		$categories =& $this->get('data');
 
 		// Parameters
-		$params->def( 'page_title', $item->name );
+		$params->def( 'page_title', $menu->name );
 
 		for($i = 0; $i < count($categories); $i++)
 		{

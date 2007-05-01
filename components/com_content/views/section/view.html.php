@@ -88,14 +88,10 @@ class ContentViewSection extends JView
 			$category->link = JRoute::_('index.php?view=category&id='.$category->slug);
 		}
 
-		$params->def('empty_cat_section', 	0);
-		$params->def('other_cat', 			1);
-		$params->def('empty_cat', 			0);
-		$params->def('cat_items', 			1);
 		$params->def('page_title', $menu->name);
 
 		if ($total == 0) {
-			$params->set('other_cat_section', false);
+			$params->set('show_categories', false);
 		}
 
 
