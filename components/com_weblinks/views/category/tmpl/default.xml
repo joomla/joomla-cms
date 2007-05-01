@@ -12,42 +12,13 @@
 			<param name="id" type="category" section="com_weblinks" default="0" label="Category" description="PARAMCATSELECT" />
 		</url>
 		<params>
-			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
 			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
 				<option value="-1">Off</option>
 				<option value="0">Ignore</option>
 				<option value="1">On</option>
 			</param>
-			<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
-			<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="hits" type="list" default="" label="Hits Column" description="Show/Hide the Hits column">
-				<option value="">Use Global</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="item_description" type="radio" default="1" label="Link Descriptions" description="PARAMSHOWHIDELINKS">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="other_cat" type="radio" default="1" label="Other Categories" description="PARAMWHENVIEWCAT">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="weblink_icons" type="imagelist" directory="/images/M_images" default="" label="Icon" description="PARAMICONIMG" />
 		</params>
-		<advanced>
-		</advanced>
 	</state>
 </metadata>

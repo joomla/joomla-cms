@@ -44,17 +44,7 @@ class ContactViewCategory extends JView
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 	'ASC');
 
 		// Set some defaults against system variables
-		$params->def('header', 			$item->name);
-		$params->def('headings', 			1);
-		$params->def('position', 			1);
-		$params->def('email', 			1);
-		$params->def('telephone', 		1);
-		$params->def('fax', 				1);
-		$params->def('page_title',			1);
-		$params->def('back_button', 		$mainframe->getCfg('back_button'));
-		$params->def('description_text', 	JText::_('The Contact list for this Website.'));
-		$params->def('image_align', 		'right');
-		$params->def('display_num', 		$limit);
+		$params->def('page_title',	$item->name);
 
 		// query options
 		$options['aid'] 		= $user->get('aid', 0);

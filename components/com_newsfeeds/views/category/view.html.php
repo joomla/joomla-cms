@@ -43,30 +43,10 @@ class NewsfeedsViewCategory extends JView
 		$category	= $this->get('category');
 		$items		= $this->get('data');
 		$total		= $this->get('total');
-		$pagination	=& $this->get('pagination');
+		$pagination	= &$this->get('pagination');
 
 		// Parameters
-		$params->def( 'page_title', 		1 );
-		$params->def( 'header', 			$item->name );
-		$params->def( 'pageclass_sfx', 	'' );
-		$params->def( 'headings', 		1 );
-		$params->def( 'back_button', 		$mainframe->getCfg( 'back_button' ) );
-		$params->def( 'description_text', '' );
-		$params->def( 'image', 			-1 );
-		$params->def( 'image_align', 		'right' );
-		$params->def( 'other_cat_section', 1 );
-		// Category List Display control
-		$params->def( 'other_cat', 		1 );
-		$params->def( 'cat_description', 	1 );
-		$params->def( 'cat_items', 		1 );
-		// Table Display control
-		$params->def( 'headings', 		1 );
-		$params->def( 'name',				1 );
-		$params->def( 'articles', 		1 );
-		$params->def( 'link', 			1 );
-		// pagination parameters
-		$params->def('display', 			1 );
-		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
+		$params->def( 'page_title', $item->name );
 
 		// Set page title per category
 		$document->setTitle( $item->name. ' - ' .$category->title );

@@ -30,7 +30,7 @@ class MenusViewItem extends JView
 	function edit($tpl = null)
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		global $mainframe;
 
 		$lang =& JFactory::getLanguage();
@@ -62,6 +62,7 @@ class MenusViewItem extends JView
 		$urlparams		= $this->get( 'UrlParams' );
 		$params			= $this->get( 'StateParams' );
 		$advanced		= $this->get( 'AdvancedParams' );
+		$component		= $this->get( 'ComponentParams' );
 		$name			= $this->get( 'StateName' );
 		$description	= $this->get( 'StateDescription' );
 		$menuTypes 		= JMenuHelper::getMenuTypeList();
@@ -101,6 +102,7 @@ class MenusViewItem extends JView
 		$this->assignRef('urlparams', $urlparams);
 		$this->assignRef('params'	, $params);
 		$this->assignRef('advanced'	, $advanced);
+		$this->assignRef('comp'		, $component);
 		$this->assignRef('menutypes', $menuTypes);
 		$this->assignRef('name'		, $name);
 		$this->assignRef('description', $description);
@@ -115,7 +117,7 @@ class MenusViewItem extends JView
 	function type($tpl = null)
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		global $mainframe;
 
 		$lang =& JFactory::getLanguage();

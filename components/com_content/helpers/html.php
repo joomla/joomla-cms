@@ -40,7 +40,7 @@ class ContentHelperHTML
 			{
 				$url = 'index.php?task=new&id=0&sectionid='.$article->sectionid;
 
-				if ($params->get('icons')) {
+				if ($params->get('show_icons')) {
 					$text = JAdminMenus::ImageCheck('new.png', '/images/M_images/', NULL, NULL, JText::_('New'), JText::_('New'). $article->id );
 				} else {
 					$text = JText::_('New').'&nbsp;';
@@ -56,7 +56,7 @@ class ContentHelperHTML
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
-				if ($params->get('icons')) {
+				if ($params->get('show_icons')) {
 					$text = JAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
 				} else {
 					$text = JText::_('PDF').'&nbsp;';
@@ -74,7 +74,7 @@ class ContentHelperHTML
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
-				if ( $params->get( 'icons' ) ) {
+				if ( $params->get( 'show_icons' ) ) {
 					$text = JAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
 				} else {
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
@@ -141,7 +141,7 @@ class ContentHelperHTML
 			case 'print_screen' :
 			{
 				// checks template image directory for image, if non found default are loaded
-				if ( $params->get( 'icons' ) ) {
+				if ( $params->get( 'show_icons' ) ) {
 					$text = JAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
 				} else {
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );

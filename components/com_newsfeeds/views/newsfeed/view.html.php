@@ -82,18 +82,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$newsfeed->items = array_slice($newsfeed->items, 0, $newsfeed->numarticles);
 
 		// Adds parameter handling
-		$params->def( 'page_title', 1 );
-		$params->def( 'header', $item->name );
-		$params->def( 'pageclass_sfx', '' );
-		// Feed Display control
-		$params->def( 'feed_image', 1 );
-		$params->def( 'feed_descr', 1 );
-		$params->def( 'item_descr', 1 );
-		$params->def( 'word_count', 0 );
-
-		if ( !$params->get( 'page_title' ) ) {
-			$params->set( 'header', '' );
-		}
+		$params->def( 'page_title', $item->name );
 
 		// Set page title per category
 		$mainframe->setPageTitle( $item->name. ' - ' .$newsfeed->name );

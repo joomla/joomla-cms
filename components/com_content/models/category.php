@@ -250,8 +250,14 @@ class ContentModelCategory extends JModel
 		if (empty($this->_siblings))
 		{
 			$user	 =& JFactory::getUser();
-			$params  = &JComponentHelper::getParams( 'com_content' );
-			$noauth	 = !$params->get('shownoauth');
+
+			// Get the page/component configuration
+			$params = &$this->getState('parameters.menu');
+			if (!is_object($params)) {
+				$params = &JComponentHelper::getParams('com_content');
+			}
+
+			$noauth	 = !$params->get('show_noauth');
 			$gid		 = (int) $user->get('aid', 0);
 			$now		 = $mainframe->get('requestTime');
 			$nullDate = $this->_db->getNullDate();
@@ -328,8 +334,14 @@ class ContentModelCategory extends JModel
 
 	function _buildQuery($state = 1)
 	{
+		// Get the page/component configuration
+		$params = &$this->getState('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_content');
+		}
+
 		// If voting is turned on, get voting data as well for the content items
-		$voting	= ContentHelperQuery::buildVotingQuery();
+		$voting	= ContentHelperQuery::buildVotingQuery($params);
 
 		// Get the WHERE and ORDER BY clauses for the query
 		$where		= $this->_buildContentWhere($state);
@@ -352,10 +364,11 @@ class ContentModelCategory extends JModel
 
 	function _buildContentOrderBy($state = 1)
 	{
-		// Get the paramaters of the active menu item
-		$menu	=& JMenu::getInstance();
-		$item    = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		// Get the page/component configuration
+		$params = &$this->getState('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_content');
+		}
 
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
@@ -403,14 +416,14 @@ class ContentModelCategory extends JModel
 		jimport('joomla.utilities.date');
 		$jnow		= new JDate();
 		$now			= $jnow->toMySQL();
-		$params 		= &JComponentHelper::getParams( 'com_content' );
-		$noauth		= !$params->get('shownoauth');
-		$nullDate	= $this->_db->getNullDate();
 
-		// Get the paramaters of the active menu item
-		$menu	=& JMenu::getInstance();
-		$item    = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		// Get the page/component configuration
+		$params = &$this->getState('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_content');
+		}
+		$noauth		= !$params->get('show_noauth');
+		$nullDate	= $this->_db->getNullDate();
 
 		// First thing we need to do is assert that the articles are in the current category
 		$where = ' WHERE a.access <= '.(int) $gid;
@@ -482,4 +495,3 @@ class ContentModelCategory extends JModel
 		return $where;
 	}
 }
-?>

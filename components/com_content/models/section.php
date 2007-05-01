@@ -258,8 +258,13 @@ class ContentModelSection extends JModel
 		if (empty($this->_categories))
 		{
 			$user	=& JFactory::getUser();
-			$params 	= &JComponentHelper::getParams( 'com_content' );
-			$noauth	= !$params->get('shownoauth');
+
+			$params = &$this->getState('parameters.menu');
+			if (!is_object($params)) {
+				$params = &JComponentHelper::getParams('com_content');
+			}
+
+			$noauth	= !$params->get('show_noauth');
 			$gid		= $user->get('aid', 0);
 			$now		= $mainframe->get('requestTime');
 			$nullDate	= $this->_db->getNullDate();
@@ -386,8 +391,14 @@ class ContentModelSection extends JModel
 
 	function _buildQuery($state = 1)
 	{
+		// Get the page/component configuration
+		$params = &$this->getState('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_content');
+		}
+
 		// If voting is turned on, get voting data as well for the content items
-		$voting	= ContentHelperQuery::buildVotingQuery();
+		$voting	= ContentHelperQuery::buildVotingQuery($params);
 
 		// Get the WHERE and ORDER BY clauses for the query
 		$where		= $this->_buildContentWhere($state);
@@ -450,12 +461,18 @@ class ContentModelSection extends JModel
 		global $mainframe;
 		$user		=& JFactory::getUser();
 		$aid		= $user->get('aid', 0);
-	
+
 		jimport('joomla.utilities.date');
 		$jnow		= new JDate();
 		$now		= $jnow->toMySQL();
-		$params 	= &JComponentHelper::getParams( 'com_content' );
-		$noauth		= !$params->get('shownoauth');
+
+		// Get the page/component configuration
+		$params = &$this->getState('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_content');
+		}
+
+		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
 
 		// First thing we need to do is assert that the articles are in the current category
@@ -501,12 +518,6 @@ class ContentModelSection extends JModel
 		 * If we have a filter, and this is enabled... lets tack the AND clause
 		 * for the filter onto the WHERE clause of the content item query.
 		 */
-
-		// Get the paramaters of the active menu item
-		$menu	=& JMenu::getInstance();
-		$item    = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
-
 		if ($params->get('filter'))
 		{
 			$filter = JRequest::getVar('filter', '', 'request');

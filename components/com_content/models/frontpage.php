@@ -115,8 +115,14 @@ class ContentModelFrontpage extends JModel
 
 	function _buildQuery()
 	{
+		// Get the page/component configuration
+		$params = &$this->getState('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_content');
+		}
+
 		// Voting is turned on, get voting data as well for the content items
-		$voting	= ContentHelperQuery::buildVotingQuery();
+		$voting	= ContentHelperQuery::buildVotingQuery($params);
 
 		// Get the WHERE and ORDER BY clauses for the query
 		$where	 = $this->_buildContentWhere();
@@ -142,10 +148,11 @@ class ContentModelFrontpage extends JModel
 
 	function _buildContentOrderBy()
 	{
-		// Get the menu object of the active menu item
-		$menu	=& JMenu::getInstance();
-		$item    = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		// Get the page/component configuration
+		$params = &$this->getState('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_content');
+		}
 
 		$orderby_sec	= $params->def('orderby_sec', '');
 		$orderby_pri	= $params->def('orderby_pri', '');
@@ -169,8 +176,14 @@ class ContentModelFrontpage extends JModel
 		jimport('joomla.utilities.date');
 		$jnow		= new JDate();
 		$now			= $jnow->toMySQL();
-		$params 		= &JComponentHelper::getParams( 'com_content' );
-		$noauth		= !$params->get('shownoauth');
+
+		// Get the page/component configuration
+		$params = &$this->getState('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_content');
+		}
+
+		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
 
 		//First thing we need to do is assert that the articles are in the current category
@@ -192,4 +205,3 @@ class ContentModelFrontpage extends JModel
 		return $where;
 	}
 }
-?>

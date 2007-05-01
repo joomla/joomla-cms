@@ -41,10 +41,12 @@ class ContentViewArchive extends JView
 		$document	=& JFactory::getDocument();
 		$pathway	= & $mainframe->getPathWay();
 
-		// Get the menu object of the active menu item
-		$menu   =& JMenu::getInstance();
-		$item   = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		// Get the page/component configuration
+		$state  = &$this->get('State');
+		$params = &$state->get('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_content');
+		}
 
 		// Request variables
 		$task 		= JRequest::getVar('task');
@@ -63,34 +65,8 @@ class ContentViewArchive extends JView
 
 		$mainframe->setPageTitle($item->name);
 
-		$intro		= $params->def('intro', 	4);
-		$leading	= $params->def('leading', 	1);
-		$links		= $params->def('link', 		4);
-
-		$contentConfig = &JComponentHelper::getParams( 'com_content' );
-		$params->def('title',			1);
-		$params->def('hits',			$contentConfig->get('hits'));
-		$params->def('showAuthor',		$contentConfig->get('showAuthor'));
-		$params->def('date',			$contentConfig->get('showCreateDate'));
-		$params->def('date_format',		JText::_('DATE_FORMAT_LC'));
-		$params->def('navigation',		2);
-		$params->def('display',			1);
-		$params->def('display_num',		$mainframe->getCfg('list_limit'));
-		$params->def('empty_cat',		0);
-		$params->def('cat_items',		1);
-		$params->def('cat_description',0);
-		$params->def('pageclass_sfx',	'');
-		$params->def('headings',		1);
 		$params->def('filter',			1);
 		$params->def('filter_type',		'title');
-		$params->set('intro_only', 		1);
-
-		if ($params->def('page_title', 1)) {
-			$params->def('header', $item->name);
-		}
-
-		$limit	= $intro + $leading + $links;
-		$i		= $limitstart;
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);

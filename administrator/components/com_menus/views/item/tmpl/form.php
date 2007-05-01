@@ -142,13 +142,17 @@ function submitbutton(pressbutton) {
 					endif;
 					echo $this->pane->endPanel();
 
-					echo $this->pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
 					if($params = $this->advanced->render('params')) :
+						echo $this->pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
 						echo $params;
-					else :
-						echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no advanced parameters for this item')."</div>";
+						echo $this->pane->endPanel();
 					endif;
-					echo $this->pane->endPanel();
+
+					if ($this->comp && ($params = $this->comp->render('params'))) :
+						echo $this->pane->startPanel(JText :: _('Component Configuration'), "component-page");
+						echo $params;
+						echo $this->pane->endPanel();
+					endif;
 					echo $this->pane->endPane();
 				?>
 			</td>

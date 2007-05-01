@@ -52,7 +52,7 @@ class WrapperController
 		$url = $params->def( 'url', '' );
 
 		$row = new stdClass();
-		if ( $params->def( 'add', 1 ) )
+		if ( $params->def( 'add_scheme', 1 ) )
 		{
 			// adds 'http://' if none is set
 			if ( substr( $url, 0, 1 ) == '/' )

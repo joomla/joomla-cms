@@ -1,11 +1,11 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php if ( $this->params->get( 'page_title' ) ) : ?>
+<?php if ( $this->params->get( 'show_page_title' ) ) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <?php if ($this->category->title) :
-	echo $this->params->get('header').' - '.$this->category->title;
+	echo $this->params->get('page_title').' - '.$this->category->title;
 else :
-	echo $this->params->get('header');
+	echo $this->params->get('page_title');
 endif; ?>
 </div>
 <?php endif; ?>
@@ -17,7 +17,7 @@ endif; ?>
 	<?php elseif ($this->category->image) : ?>
 		<img src="images/stories/<?php echo $this->category->image; ?>" align="<?php echo $this->category->image_position; ?>" hspace="6" alt="<?php echo JText::_( 'Contacts' ); ?>" />
 	<?php endif; ?>
-	<?php echo $this->params->get('description_text', $this->category->description); ?>
+	<?php echo $this->category->description; ?>
 	</div>
 <?php endif; ?>
 <script language="javascript" type="text/javascript">
@@ -34,7 +34,7 @@ endif; ?>
 	<thead>
 		<tr>
 			<td align="right" colspan="6">
-			<?php if ($this->params->get('display')) :
+			<?php if ($this->params->get('show_limit')) :
 				echo JText::_('Display Num') .'&nbsp;';
 				echo $this->pagination->getLimitBox();
 			endif; ?>
@@ -54,7 +54,7 @@ endif; ?>
 		</tr>
 	</tfoot>
 	<tbody>
-	<?php if ($this->params->get( 'headings' )) : ?>
+	<?php if ($this->params->get( 'show_headings' )) : ?>
 		<tr>
 			<td width="5" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 				<?php echo JText::_('Num'); ?>
@@ -62,27 +62,27 @@ endif; ?>
 			<td height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 				<?php JHTML::element('grid_sort', 'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</td>
-			<?php if ( $this->params->get( 'position' ) ) : ?>
+			<?php if ( $this->params->get( 'show_position' ) ) : ?>
 			<td height="20" class="sectiontableheader<?php echo  $this->params->get( 'pageclass_sfx' ); ?>">
 				<?php JHTML::element('grid_sort', 'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</td>
 			<?php endif; ?>
-			<?php if ( $this->params->get( 'email' ) ) : ?>
+			<?php if ( $this->params->get( 'show_email' ) ) : ?>
 			<td height="20" width="20%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 				<?php echo JText::_( 'Email' ); ?>
 			</td>
 			<?php endif; ?>
-			<?php if ( $this->params->get( 'telephone' ) ) : ?>
+			<?php if ( $this->params->get( 'show_telephone' ) ) : ?>
 			<td height="20" width="15%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 				<?php echo JText::_( 'Phone' ); ?>
 			</td>
 			<?php endif; ?>
-			<?php if ( $this->params->get( 'mobile' ) ) : ?>
+			<?php if ( $this->params->get( 'show_mobile' ) ) : ?>
 			<td height="20" width="15%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 				<?php echo JText::_( 'Mobile' ); ?>
 			</td>
 			<?php endif; ?>
-			<?php if ( $this->params->get( 'fax' ) ) : ?>
+			<?php if ( $this->params->get( 'show_fax' ) ) : ?>
 				<td height="20" width="15%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 					<?php echo JText::_( 'Fax' ); ?>
 				</td>

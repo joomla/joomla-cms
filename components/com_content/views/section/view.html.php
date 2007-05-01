@@ -35,19 +35,25 @@ class ContentViewSection extends JView
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
 
-		// Get the menu object of the active menu item
-		$menu    =& JMenu::getInstance();
-		$item    = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		// Get the page/component configuration
+		$state  = &$this->get('State');
+		$params = &$state->get('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_content');
+		}
+
+		// Load the menu object and parameters
+		$menus	= &JMenu::getInstance();
+		$menu	= $menus->getActive();
 
 		// Request variables
 		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		//parameters
-		$intro		= $params->def('intro', 	4);
-		$leading	= $params->def('leading', 	1);
-		$links		= $params->def('link', 		4);
+		$intro		= $params->def('num_intro_articles', 	4);
+		$leading	= $params->def('num_leading_articles', 	1);
+		$links		= $params->def('num_links', 			4);
 
 		$limit	= $intro + $leading + $links;
 		JRequest::setVar('limit', $limit);
@@ -72,8 +78,8 @@ class ContentViewSection extends JView
 		$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 
 		// Set the page title
-		if (!empty ($item->name)) {
-			$mainframe->setPageTitle($item->name);
+		if (!empty ($menu->name)) {
+			$mainframe->setPageTitle($menu->name);
 		}
 
 		for($i = 0; $i < count($categories); $i++)
@@ -86,16 +92,12 @@ class ContentViewSection extends JView
 		$params->def('other_cat', 			1);
 		$params->def('empty_cat', 			0);
 		$params->def('cat_items', 			1);
-		$params->def('pageclass_sfx', 		'');
-		$params->set('intro_only', 			1);
+		$params->def('page_title', $menu->name);
 
 		if ($total == 0) {
 			$params->set('other_cat_section', false);
 		}
 
-		if ($params->def('page_title', 1)) {
-			$params->def('header', $item->name);
-		}
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
@@ -127,31 +129,30 @@ class ContentViewSection extends JView
 
 		$linkOn		= null;
 		$linkText	= null;
-		$contentConfig = &JComponentHelper::getParams( 'com_content' );
-		// Get some parameters from global configuration
-		$params->def('link_titles',	$contentConfig->get('link_titles'));
-		$params->def('showAuthor',	$contentConfig->get('showAuthor'));
-		$params->def('createdate',	$contentConfig->get('showCreateDate'));
-		$params->def('modifydate',	$contentConfig->get('showModifyDate'));
-		$params->def('print',		$contentConfig->get('showPrint'));
-		$params->def('pdf',		$contentConfig->get('showPdf'));
-		$params->def('email',		$contentConfig->get('showEmail'));
-		$params->def('rating',		$contentConfig->get('vote'));
-		$params->def('icons',		$contentConfig->get('icons'));
-		$params->def('readmore',	$contentConfig->get('readmore'));
-		$params->def('back_button', 	$contentConfig->get('back_button'));
 
-		// Get some item specific parameters
-		$params->def('image',			1);
-		$params->def('section',			0);
-		$params->def('section_link',	0);
-		$params->def('category',		0);
-		$params->def('category_link',	0);
-		$params->def('introtext',		1);
-		$params->def('pageclass_sfx',	'');
-		$params->def('item_title',		1);
-		$params->def('url',				1);
-		$params->set('image',			1);
+		// Get the page/component configuration
+		$state  = &$this->get('State');
+		$pparams = &$state->get('parameters.menu');
+		if (!is_object($pparams)) {
+			$pparams = &JComponentHelper::getParams('com_content');
+		}
+
+		// Handle global overides for some article parameters if set
+		$params->def('link_titles',			$pparams->get('link_titles'));
+		$params->def('show_author',			$pparams->get('show_author'));
+		$params->def('show_create_date',	$pparams->get('show_create_date'));
+		$params->def('show_modify_date',	$pparams->get('show_modify_date'));
+		$params->def('show_print_icon',		$pparams->get('show_print_icon'));
+		$params->def('show_pdf_icon',		$pparams->get('show_pdf_icon'));
+		$params->def('show_email_icon',		$pparams->get('show_email_icon'));
+		$params->def('show_vote',			$pparams->get('show_vote'));
+		$params->def('show_icons',			$pparams->get('show_icons'));
+		$params->def('show_readmore',		$pparams->get('show_readmore'));
+		$params->def('show_intro',			$pparams->get('show_intro'));
+		$params->def('show_section',		$pparams->get('show_section'));
+		$params->def('show_category',		$pparams->get('show_category'));
+		$params->def('link_section',		$pparams->get('link_section'));
+		$params->def('link_category',		$pparams->get('link_category'));
 
 		$item =& $this->items[$index];
 		$item->text = $item->introtext;
@@ -161,21 +162,18 @@ class ContentViewSection extends JView
 		$results = $dispatcher->trigger('onPrepareContent', array (& $item, & $params, 0));
 
 		// Build the link and text of the readmore button
-		if (($params->get('readmore') && @ $item->readmore) || $params->get('link_titles'))
+		if (($params->get('show_readmore') && @ $item->readmore) || $params->get('link_titles'))
 		{
-			if ($params->get('intro_only'))
+			// checks if the item is a public or registered/special item
+			if ($item->access <= $user->get('aid', 0))
 			{
-				// checks if the item is a public or registered/special item
-				if ($item->access <= $user->get('aid', 0))
-				{
-					$linkOn = JRoute::_("index.php?view=article&id=".$item->slug);
-					$linkText = JText::_('Read more...');
-				}
-				else
-				{
-					$linkOn = JRoute::_("index.php?option=com_user&task=register");
-					$linkText = JText::_('Register to read more...');
-				}
+				$linkOn = JRoute::_("index.php?view=article&id=".$item->slug);
+				$linkText = JText::_('Read more...');
+			}
+			else
+			{
+				$linkOn = JRoute::_("index.php?option=com_user&task=register");
+				$linkText = JText::_('Register to read more...');
 			}
 		}
 
@@ -196,105 +194,4 @@ class ContentViewSection extends JView
 
 		return $item;
 	}
-
-	function getIcon($type, $attribs = array())
-	{
-		 global $mainframe, $Itemid;
-
-		$url	= '';
-		$text	= '';
-
-		$article = $this->item;
-
-		switch($type)
-		{
-			case 'pdf' :
-			{
-				$url	= 'index.php?view=article&id='.$article->id.'&format=pdf';
-				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-
-				// checks template image directory for image, if non found default are loaded
-				if ($this->params->get('icons')) {
-					$text = JAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
-				} else {
-					$text = JText::_('PDF').'&nbsp;';
-				}
-
-				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
-				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
-				$output = JHTML::Link($url, $text, $attribs);
-
-			} break;
-
-			case 'print' :
-			{
-				$url	= 'index.php?view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $this->request->limitstart;
-				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-
-				// checks template image directory for image, if non found default are loaded
-				if ( $this->params->get( 'icons' ) ) {
-					$text = JAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
-				} else {
-					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
-				}
-
-				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
-				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
-				$output = JHTML::Link($url, $text, $attribs);
-
-			} break;
-
-			case 'email' :
-			{
-				$url	= 'index.php?option=com_mailto&tmpl=component&link='.base64_encode( JRequest::getURI());
-				$status = 'width=400,height=300,menubar=yes,resizable=yes';
-
-				if ($this->params->get('icons')) 	{
-					$text = JAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
-				} else {
-					$text = '&nbsp;'.JText::_('Email');
-				}
-
-				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
-				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
-				$output = JHTML::Link($url, $text, $attribs);
-
-			} break;
-
-			case 'edit' :
-			{
-				if ($this->params->get('popup')) {
-					return;
-				}
-				if ($article->state < 0) {
-					return;
-				}
-				if (!$this->access->canEdit && !($this->access->canEditOwn && $article->created_by == $this->user->get('id'))) {
-					return;
-				}
-
-				jimport('joomla.html.tooltips');
-
-				$url = 'index.php?option=com_content&task=edit&id='.$article->id.'&Returnid='.$Itemid;
-				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
-
-				if ($article->state == 0) {
-					$overlib = JText::_('Unpublished');
-				} else {
-					$overlib = JText::_('Published');
-				}
-				$date = JHTML::Date($article->created);
-				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
-
-				$overlib .= '<br />'.$article->groups.'<br />'.$date.'<br />'.$author;
-
-				$button = JHTML::Link($url, $text);
-
-				$output = '<span class="hasTip" title="'.JText::_( 'Edit Item' ).' :: '.$overlib.'">'.$button.'</span>';
-			} break;
-		}
-
-		return $output;
-	}
 }
-?>

@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <form action="index.php" method="post" name="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-<?php if ($this->params->get('display')) : ?>
+<?php if ($this->params->get('show_limit')) : ?>
 <tr>
 	<td align="right" colspan="4">
 	<?php
@@ -12,17 +12,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ( $this->params->get( 'headings' ) ) : ?>
+<?php if ( $this->params->get( 'show_headings' ) ) : ?>
 <tr>
 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="5">
 		<?php echo JText::_('Num'); ?>
 	</td>
-	<?php if ( $this->params->get( 'name' ) ) : ?>
+	<?php if ( $this->params->get( 'show_name' ) ) : ?>
 	<td height="20" width="90%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<?php echo JText::_( 'Feed Name' ); ?>
 	</td>
 	<?php endif; ?>
-	<?php if ( $this->params->get( 'articles' ) ) : ?>
+	<?php if ( $this->params->get( 'show_articles' ) ) : ?>
 	<td height="20" width="10%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" align="center" nowrap="nowrap">
 		<?php echo JText::_( 'Num Articles' ); ?>
 	</td>
@@ -34,14 +34,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td align="center" width="5">
 		<?php echo $item->count + 1; ?>
 	</td>
-	<?php if ( $this->params->get( 'name' ) ) : ?>
+	<?php if ( $this->params->get( 'show_name' ) ) : ?>
 	<td height="20" width="90%">
 		<a href="<?php echo $item->link; ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 			<?php echo $item->name; ?>
 		</a>
 	</td>
 	<?php endif; ?>
-	<?php if ( $this->params->get( 'articles' ) ) : ?>
+	<?php if ( $this->params->get( 'show_articles' ) ) : ?>
 	<td height="20" width="10%" align="center">
 		<?php echo $item->numarticles; ?>
 	</td>

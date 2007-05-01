@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<params>
-		<param name="shownoauth" type="radio" default="0" label="Show UnAuthorized Links" description="TIPLINKS">
+		<param name="show_noauth" type="radio" default="0" label="Show UnAuthorized Links" description="TIPLINKS">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
@@ -9,48 +9,73 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="readmore" type="radio" default="1" label="Read More Link" description="TIPIFSETTOSHOWREADMORELINK">
+		<param name="show_intro" type="radio" default="1" label="Show Intro Text" description="Show/Hide the intro text">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="vote" type="radio" default="0" label="Item Rating/Voting" description="TIPIFSETTOSHOWVOTING">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="showAuthor" type="radio" default="1" label="Author Names" description="TIPIFSETTOSHOWAUTHOR">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="showCreateDate" type="radio" default="1" label="Created Date and Time" description="TIPIFSETTOSHOWDATETIMECREATED">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="showModifyDate" type="radio" default="1" label="Modified Date and Time" description="TIPIFSETTOSHOWDATETIMEMODIFIED">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="showItemNavigation" type="radio" default="0" label="Show Navigation" description="PARAMNAVIGATIONARTICLE">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
+
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="icons" type="radio" default="1" label="Icons" description="TIPPRINTPDFEMAIL">
+		<param name="show_section" type="radio" default="0" label="Section Name" description="PARAMSECTION">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="showPdf" type="radio" default="1" label="PDF Icon" description="">
+		<param name="link_section" type="radio" default="0" label="Section Name Linkable" description="PARAMSECTIONLINK">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="show_category" type="radio" default="0" label="Category Name" description="PARAMCATEG">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="showPrint" type="radio" default="1" label="Print Icon" description="">
+		<param name="link_category" type="radio" default="0" label="Category Name Linkable" description="PARAMCATEGLINK">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_author" type="radio" default="1" label="Author Names" description="TIPIFSETTOSHOWAUTHOR">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="showEmail" type="radio" default="1" label="Email Icon" description="">
+		<param name="show_create_date" type="radio" default="1" label="Created Date and Time" description="TIPIFSETTOSHOWDATETIMECREATED">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="hits" type="radio" default="1" label="Hits" description="TIPIFSETTOSHOWHITS">
+		<param name="show_modify_date" type="radio" default="1" label="Modified Date and Time" description="TIPIFSETTOSHOWDATETIMEMODIFIED">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_item_navigation" type="radio" default="0" label="Show Navigation" description="PARAMNAVIGATIONARTICLE">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_readmore" type="radio" default="1" label="Read More Link" description="TIPIFSETTOSHOWREADMORELINK">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_vote" type="radio" default="0" label="Item Rating/Voting" description="TIPIFSETTOSHOWVOTING">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_icons" type="radio" default="1" label="Icons" description="TIPPRINTPDFEMAIL">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_pdf_icon" type="radio" default="1" label="PDF Icon" description="">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_print_icon" type="radio" default="1" label="Print Icon" description="">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_email_icon" type="radio" default="1" label="Email Icon" description="">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_hits" type="radio" default="1" label="Hits" description="TIPIFSETTOSHOWHITS">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

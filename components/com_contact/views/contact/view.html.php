@@ -73,7 +73,7 @@ class ContactViewContact extends JView
 
 		// Adds parameter handling
 		$contact->params = new JParameter($contact->params);
-		if ($contact->email_to && $params->get('email')) {
+		if ($contact->email_to && $params->get('show_email')) {
 			$contact->email = JHTML::emailCloaking($contact->email_to);
 		}
 

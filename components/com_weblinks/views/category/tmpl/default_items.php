@@ -13,13 +13,13 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td align="right" colspan="4">
-	<?php if ($this->params->get('display')) :
+	<?php
 		echo JText::_('Display Num') .'&nbsp;';
 		echo $this->pagination->getLimitBox();
-	endif; ?>
+	?>
 	</td>
 </tr>
-<?php if ( $this->params->def( 'headings', 1 ) ) : ?>
+<?php if ( $this->params->def( 'show_headings', 1 ) ) : ?>
 <tr>
 	<td width="10" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<?php echo JText::_('Num'); ?>
@@ -45,12 +45,12 @@
 		&nbsp;&nbsp;<?php echo $item->image;?>&nbsp;&nbsp;
 		<?php endif; ?>
 		<?php echo $item->link; ?>
-		<?php if ( $this->params->get( 'item_description' ) ) : ?>
+		<?php if ( $this->params->get( 'show_link_description' ) ) : ?>
 		<br />
 		<?php echo nl2br($item->description); ?>
 		<?php endif; ?>
 	</td>
-	<?php if ( $this->params->get( 'hits' ) ) : ?>
+	<?php if ( $this->params->get( 'show_link_hits' ) ) : ?>
 	<td align="center">
 		<?php echo $item->hits; ?>
 	</td>

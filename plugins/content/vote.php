@@ -24,7 +24,7 @@ function plgContentVote( &$row, &$params, $page=0 )
 	$html 	= '';
 
 
-	if ($params->get( 'rating' ) && !$params->get( 'popup' ))
+	if ($params->get( 'show_vote' ) && !$params->get( 'popup' ))
 	{
 		$html .= '<form method="post" action="' . JRoute::_( 'index.php' ) . '">';
 		$img = '';

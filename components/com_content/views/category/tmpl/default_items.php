@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=category&id='.$this->category->slug) ?>" method="post" name="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-<?php if ($this->params->get('filter') || $this->params->get('display')) : ?>
+<?php if ($this->params->get('filter') || $this->params->get('show_pagination_limit')) : ?>
 <tr>
 	<td colspan="5">
 		<table>
@@ -24,7 +24,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<input type="text" name="filter" value="<?php echo $this->lists['filter'];?>" class="inputbox" onchange="document.adminForm.submit();" />
 			</td>
 		<?php endif; ?>
-		<?php if ($this->params->get('display')) : ?>
+		<?php if ($this->params->get('show_pagination_limit')) : ?>
 			<td align="right" width="40%" nowrap="nowrap">
 			<?php
 				echo '&nbsp;&nbsp;&nbsp;'.JText::_('Display Num').'&nbsp;';
@@ -37,27 +37,27 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ($this->params->get('headings')) : ?>
+<?php if ($this->params->get('show_headings')) : ?>
 <tr>
 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="5%">
 		<?php echo JText::_('Num'); ?>
 	</td>
-	<?php if ($this->params->get('title')) : ?>
+	<?php if ($this->params->get('show_title')) : ?>
  	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="45%">
 		<?php JHTML::element('grid_sort', 'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
-	<?php if ($this->params->get('date')) : ?>
+	<?php if ($this->params->get('show_date')) : ?>
 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="25%">
 		<?php JHTML::element('grid_sort', 'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
-	<?php if ($this->params->get('showAuthor')) : ?>
+	<?php if ($this->params->get('show_author')) : ?>
 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>"  width="20%">
 		<?php JHTML::element('grid_sort', 'Author', 'author', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
-	<?php if ($this->params->get('hits')) : ?>
+	<?php if ($this->params->get('show_hits')) : ?>
 	<td align="center" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="5%" nowrap="nowrap">
 		<?php JHTML::element('grid_sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
@@ -69,7 +69,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td align="center">
 		<?php echo $this->pagination->getRowOffset( $item->count ); ?>
 	</td>
-	<?php if ($this->params->get('title')) : ?>
+	<?php if ($this->params->get('show_title')) : ?>
 	<?php if ($item->access <= $this->user->get('aid', 0)) : ?>
 	<td>
 		<a href="<?php echo $item->link; ?>">
@@ -88,24 +88,24 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 	<?php endif; ?>
 	<?php endif; ?>
-	<?php if ($this->params->get('date')) : ?>
+	<?php if ($this->params->get('show_date')) : ?>
 	<td>
 		<?php echo $item->created; ?>
 	</td>
 	<?php endif; ?>
-	<?php if ($this->params->get('showAuthor')) : ?>
+	<?php if ($this->params->get('show_author')) : ?>
 	<td >
 		<?php echo $item->created_by_alias ? $item->created_by_alias : $item->author; ?>
 	</td>
 	<?php endif; ?>
-	<?php if ($this->params->get('hits')) : ?>
+	<?php if ($this->params->get('show_hits')) : ?>
 	<td align="center">
 		<?php echo $item->hits ? $item->hits : '-'; ?>
 	</td>
 	<?php endif; ?>
 </tr>
 <?php endforeach; ?>
-<?php if ($this->params->get('navigation')) : ?>
+<?php if ($this->params->get('show_pagination')) : ?>
 <tr>
 	<td colspan="5">&nbsp;</td>
 </tr>

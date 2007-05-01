@@ -37,7 +37,7 @@ class JElementContact extends JElement
 		$db->setQuery( $query );
 		$options = $db->loadObjectList( );
 
-		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="inputbox" size="10"', 'id', 'text', $value, $control_name.$name );
+		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'text', $value, $control_name.$name );
 	}
 }
 ?>

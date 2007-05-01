@@ -52,10 +52,11 @@ class ContentModelArchive extends JModel
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
 		{
-			// Get the menu object of the active menu item
-			$menu	=& JMenu::getInstance();
-			$item    = $menu->getActive();
-			$params	=& $menu->getParams($item->id);
+			// Get the page/component configuration
+			$params = &$this->getState('parameters.menu');
+			if (!is_object($params)) {
+				$params = &JComponentHelper::getParams('com_content');
+			}
 
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
@@ -89,8 +90,14 @@ class ContentModelArchive extends JModel
 
 	function _buildQuery()
 	{
+		// Get the page/component configuration
+		$params = &$this->getState('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_content');
+		}
+
 		// If voting is turned on, get voting data as well for the content items
-		$voting	= ContentHelperQuery::buildVotingQuery();
+		$voting	= ContentHelperQuery::buildVotingQuery($params);
 
 		// Get the WHERE and ORDER BY clauses for the query
 		$where		= $this->_buildContentWhere();
@@ -122,10 +129,11 @@ class ContentModelArchive extends JModel
 			$orderby .= $filter_order.' '.$filter_order_Dir.', ';
 		}
 
-		// Get the paramaters of the active menu item
-		$menu	=& JMenu::getInstance();
-		$item    = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		// Get the page/component configuration
+		$params = &$this->getState('parameters.menu');
+		if (!is_object($params)) {
+			$params = &JComponentHelper::getParams('com_content');
+		}
 
 		// Special ordering for archive articles
 		$orderby_sec	= $params->def('orderby', 'rdate');
@@ -169,10 +177,11 @@ class ContentModelArchive extends JModel
 			// clean filter variable
 			$filter = JString::strtolower($filter);
 
-			// Get the paramaters of the active menu item
-			$menu	=& JMenu::getInstance();
-			$item    = $menu->getActive();
-			$params	=& $menu->getParams($item->id);
+			// Get the page/component configuration
+			$params = &$this->getState('parameters.menu');
+			if (!is_object($params)) {
+				$params = &JComponentHelper::getParams('com_content');
+			}
 			switch ($params->get('filter_type', 'title'))
 			{
 				case 'title' :
@@ -191,4 +200,3 @@ class ContentModelArchive extends JModel
 		return $where;
 	}
 }
-?>

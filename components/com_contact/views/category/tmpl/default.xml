@@ -12,67 +12,33 @@
 			<param name="catid" type="category" scope="com_contact_details" default="0" label="Select Category" description="A contacts category" />
 		</url>
 		<params>
+			<param name="show_page_title" type="radio" default="1" label="Show Page Title" description="Show/Hide the pages Title">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="page_title" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
+
 			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Image" description="PARAMIMAGE" />
+			<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
+				<option value="left">Left</option>
+				<option value="right">Right</option>
+			</param>
+
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="show_limit" type="radio" default="0" label="Limit Box" description="PARAMSHOWLIMIT">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
 			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
 				<option value="-1">Off</option>
 				<option value="0">Ignore</option>
 				<option value="1">On</option>
 			</param>
-			<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
-			<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="other_cat" type="radio" default="1" label="Other Categories" description="PARAMWHENVIEWCAT">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="cat_description" type="radio" default="0" label="Category Description" description="PARAMCATDESC">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="cat_items" type="radio" default="1" label="Num Category Items" description="PARAMCATITEMS">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="position" type="radio" default="1" label="Position Column" description="Show/Hide the Position column">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="email" type="radio" default="0" label="Email Column" description="Show/Hide the Email column">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="telephone" type="radio" default="1" label="Telephone Column" description="Show/Hide the Telephone column">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="mobile" type="radio" default="1" label="Mobile Column" description="Show/Hide the Mobile column">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="fax" type="radio" default="1" label="Fax Column" description="Show/Hide the Fax column">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
 		</params>
-		<advanced>
-			<param name="bannedEmail" type="text" default="" label="Banned Email Label" size="40" description="Banned Email Desc" />
-			<param name="bannedSubject" type="text" default="" label="Banned Subject Label" size="40" description="Banned Subject Desc" />
-			<param name="bannedText" type="text" default="" label="Banned Text Label" size="40" description="Banned Text Desc" />
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="session" type="radio" default="1" label="Session Check Label" description="Session Check Desc">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-		</advanced>
 	</state>
 </metadata>

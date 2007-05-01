@@ -69,7 +69,7 @@ class NewsfeedsModelCategory extends JModel
 		$config = JFactory::getConfig();
 
 		// Get the pagination request variables
-		$this->setState('limit', $mainframe->getUserStateFromRequest('com_weblinks.limit', 'limit', $config->getValue('config.list_limit')));
+		$this->setState('limit', $mainframe->getUserStateFromRequest('com_newsfeeds.limit', 'limit', $config->getValue('config.list_limit')));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
 		$id = JRequest::getVar('id', 0, '', 'int');

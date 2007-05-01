@@ -40,17 +40,17 @@ class ContentViewArticle extends JView
 		$article	=& $this->get('Article');
 		$params	=& $article->parameters;
 
-		// Get the menu object of the active menu item
-		$menu   	=& JMenu::getInstance();
-		$item   	= $menu->getActive();
-		$menuparams = $menu->getParams($item->id);
+		// Get the page/component configuration
+		$state  = &$this->get('State');
+		$pparams = &$state->get('parameters.menu');
+		if (!is_object($pparams)) {
+			$pparams = &JComponentHelper::getParams('com_content');
+		}
 
 		if($this->getLayout() == 'pagebreak') {
 			$this->_displayPagebreak($tpl);
 			return;
 		}
-
-		$params->def('showItemNavigation', $menuparams->get('showItemNavigation', $contentConfig->get('showItemNavigation')));
 
 		if($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);
@@ -113,9 +113,9 @@ class ContentViewArticle extends JView
 		JPluginHelper::importPlugin('content');
 		$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
 
-		if ($params->get('readmore') || $params->get('link_titles'))
+		if ($params->get('show_readmore') || $params->get('link_titles'))
 		{
-			if ($params->get('intro_only'))
+			if ($params->get('show_intro'))
 			{
 				// Check to see if the user has access to view the full article
 				if ($article->access <= $user->get('aid', 0))

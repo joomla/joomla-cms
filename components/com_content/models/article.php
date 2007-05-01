@@ -230,7 +230,7 @@ class ContentModelArticle extends JModel
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to checkout/lock the article
 	 *
@@ -254,7 +254,7 @@ class ContentModelArticle extends JModel
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method to store the article
 	 *
@@ -265,7 +265,7 @@ class ContentModelArticle extends JModel
 	function store($data)
 	{
 		global $mainframe;
-		
+
 		$article  =& JTable::getInstance('content');
 		$user     =& JFactory::getUser();
 
@@ -347,7 +347,7 @@ class ContentModelArticle extends JModel
 
 		// Search for the {readmore} tag and split the text up accordingly.
 		$text = str_replace('<br>', '<br />', $data['text']);
-		
+
 		$tagPos = JString::strpos($text, '<hr id="system-readmore" />');
 
 		if ($tagPos === false)	{
@@ -362,7 +362,7 @@ class ContentModelArticle extends JModel
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		
+
 		$article->version++;
 
 		// Store the web link table to the database
@@ -370,8 +370,8 @@ class ContentModelArticle extends JModel
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		
-		$article->reorder("catid = " . (int) $post['catid']);
+
+		$article->reorder("catid = " . (int) $data['catid']);
 
 		return true;
 	}
@@ -442,8 +442,14 @@ class ContentModelArticle extends JModel
 		// Load the content if it doesn't already exist
 		if (empty($this->_article))
 		{
+			// Get the page/component configuration
+			$params = &$this->getState('parameters.menu');
+			if (!is_object($params)) {
+				$params = &JComponentHelper::getParams('com_content');
+			}
+
 			// If voting is turned on, get voting data as well for the article
-			$voting	= ContentHelperQuery::buildVotingQuery();
+			$voting	= ContentHelperQuery::buildVotingQuery($params);
 
 			// Get the WHERE clause
 			$where	= $this->_buildContentWhere();
@@ -486,14 +492,18 @@ class ContentModelArticle extends JModel
 	{
 		global $mainframe;
 
-		$user	=& JFactory::getUser();
-		$pop	= JRequest::getVar('pop', 0, '', 'int');
-
 		// Create a new parameters object for the article
 		$params = new JParameter($this->_article->attribs);
 
+		// Get the page/component configuration
+		$pparams = &$this->getState('parameters.menu');
+		if (!is_object($params)) {
+			$pparams = &JComponentHelper::getParams('com_content');
+		}
+
 		// Default setting
-		$params->set('intro_only', 0);
+		$pop = JRequest::getVar('pop', 0, '', 'int');
+		$params->set('popup', $pop);
 
 		// Set some metatag information if needed
 		if ($mainframe->getCfg('MetaTitle') == '1') {
@@ -504,47 +514,37 @@ class ContentModelArticle extends JModel
 		}
 
 		// Handle global overides for some article parameters if set
-		$contentConfig = &JComponentHelper::getParams( 'com_content' );
-		$params->def('link_titles',	$contentConfig->get('link_titles'));
-		$params->def('showAuthor',	$contentConfig->get('showAuthor'));
-		$params->def('createdate',	$contentConfig->get('showCreateDate'));
-		$params->def('modifydate',	$contentConfig->get('showModifyDate'));
-		$params->def('print',		$contentConfig->get('showPrint'));
-		$params->def('pdf',			$contentConfig->get('showPdf'));
-		$params->def('email',		$contentConfig->get('showEmail'));
-		$params->def('rating',		$contentConfig->get('vote'));
+		$params->def('link_titles',			$pparams->get('link_titles'));
+		$params->def('show_author',			$pparams->get('show_author'));
+		$params->def('show_create_date',	$pparams->get('show_create_date'));
+		$params->def('show_modify_date',	$pparams->get('show_modify_date'));
+		$params->def('show_print_icon',		$pparams->get('show_print_icon'));
+		$params->def('show_pdf_icon',		$pparams->get('show_pdf_icon'));
+		$params->def('show_email_icon',		$pparams->get('show_email_icon'));
+		$params->def('show_vote',			$pparams->get('show_vote'));
+		$params->def('show_icons',			$pparams->get('show_icons'));
+		$params->def('show_readmore',		$pparams->get('show_readmore'));
+		$params->def('show_intro',			$pparams->get('show_intro'));
+		$params->def('show_section',		$pparams->get('show_section'));
+		$params->def('show_category',		$pparams->get('show_category'));
+		$params->def('link_section',		$pparams->get('link_section'));
+		$params->def('link_category',		$pparams->get('link_category'));
 
-		$params->def('back_button', $contentConfig->get('back_button'));
-		$params->def('icons',		$contentConfig->get('icons'));
-		$params->def('readmore',	$contentConfig->get('readmore'));
-
-		// Get some article specific parameter defaults
-		$params->def('image',			1);
-		$params->def('section',			0);
-		$params->def('popup',			$pop);
-		$params->def('section_link',	0);
-		$params->def('category',		0);
-		$params->def('category_link',	0);
-		$params->def('introtext',		1);
-		$params->def('pageclass_sfx',	'');
-		$params->def('item_title',		1);
-		$params->def('url',				1);
 
 		// Set the Section name as a link if needed
-		if ($params->get('section_link') && $this->_article->sectionid) {
+		if ($params->get('link_section') && $this->_article->sectionid) {
 			$this->_article->section = ContentHelperRoute::getSectionRoute($this->_article);
 		}
 
 		// Set the Category name as a link if needed
-		if ($params->get('category_link') && $this->_article->catid) {
+		if ($params->get('link_category') && $this->_article->catid) {
 			$this->_article->category = ContentHelpeRoute::getCategoryRoute($this->_article);
 		}
 
-		// Show or Hide the introtext column
-		if ($params->get('introtext')) {
-			$this->_article->text = $this->_article->introtext . ($params->get('intro_only') ? '' : chr(13).chr(13).$this->_article->fulltext);
-		}
-		else {
+		// Are we showing introtext with the article
+		if ($params->get('show_intro')) {
+			$this->_article->text = $this->_article->introtext . chr(13).chr(13) . $this->_article->fulltext;
+		} else {
 			$this->_article->text = $this->_article->fulltext;
 		}
 
@@ -590,4 +590,3 @@ class ContentModelArticle extends JModel
 		return $where;
 	}
 }
-?>

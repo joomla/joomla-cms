@@ -1,8 +1,8 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 <form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">
-<?php if ($this->params->get('header')) : ?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->params->get('header'); ?></div>
+<?php if ($this->params->get('show_page_title')) : ?>
+	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->params->get('page_title'); ?></div>
 <?php endif; ?>
 	<p>
 		<?php if ($this->params->get('filter')) : ?>

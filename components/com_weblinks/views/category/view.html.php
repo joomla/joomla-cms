@@ -32,21 +32,21 @@ class WeblinksViewCategory extends JView
 		global $mainframe;
 
 		// Initialize some variables
-		$document	= & JFactory::getDocument();
-		$uri 		=& JFactory::getURI();
-		$pathway	= & $mainframe->getPathWay();
+		$document	= &JFactory::getDocument();
+		$uri 		= &JFactory::getURI();
+		$pathway	= &$mainframe->getPathWay();
 
 		// Get the paramaters of the active menu item
 		$menu = &JMenu::getInstance();
 		$item = $menu->getActive();
 
 		// Get some data from the model
-		$items		=& $this->get('data' );
-		$total		=& $this->get('total');
-		$pagination	=& $this->get('pagination');
-		$category	=& $this->get('category' );
-		$state		=& $this->get('state');
-		$params		=  $state->get('parameters.menu');
+		$items		= &$this->get('data' );
+		$total		= &$this->get('total');
+		$pagination	= &$this->get('pagination');
+		$category	= &$this->get('category' );
+		$state		= &$this->get('state');
+		$params		= $state->get('parameters.menu');
 		$category->total = $total;
 
 		// Add alternate feed link
@@ -71,21 +71,9 @@ class WeblinksViewCategory extends JView
 
 		$lists['order'] = $state->get('filter_order');
 
-		$selected = '';
-		$contentConfig = &JComponentHelper::getParams( 'com_weblinks' );
-
-		$params->def('header', $item->name);
-		$params->def('pageclass_sfx', '');
-		$params->def('hits', $contentConfig->get('hits'));
-		$params->def('item_description', 1);
-		$params->def('other_cat_section', 1);
-		$params->def('other_cat', 1);
-		$params->def('description', 1);
-		$params->def('description_text', JText::_('WEBLINKS_DESC'));
-		$params->def('image', -1);
-		$params->def('weblink_icons', '');
-		$params->def('image_align', 'right');
-		$params->def('display', 1);
+		// Set some defaults if not set for params
+		$params->def('page_title', $item->name);
+		$params->def('com_description', JText::_('WEBLINKS_DESC'));
 
 		// Define image tag attributes
 		if (isset ($category->image))
@@ -98,7 +86,7 @@ class WeblinksViewCategory extends JView
 		}
 
 		// icon in table display
-		if ( $params->get( 'weblink_icons' ) <> -1 ) {
+		if ( $params->get( 'link_icons' ) <> -1 ) {
 			$image = JAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
 		}
 
@@ -113,7 +101,7 @@ class WeblinksViewCategory extends JView
 			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
 
 			$itemParams = new JParameter($item->params);
-			switch ($itemParams->get( 'target' ))
+			switch ($itemParams->get('link_target', $params->get('link_target')))
 			{
 				// cases are slightly different
 				case 1:

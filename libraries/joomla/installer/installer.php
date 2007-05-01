@@ -937,6 +937,14 @@ class JInstaller extends JObject
 					JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('File does not exist', $filesource));
 					return false;
 				} elseif (file_exists($filedest) && !$overwrite) {
+
+						/*
+						 * It's okay if the manifest already exists
+						 */
+						if ($this->getPath( 'manifest' ) == $filesource) {
+							continue;
+						}
+
 						/*
 						 * The destination file already exists and the overwrite flag is false.
 						 * Set an error and return false.

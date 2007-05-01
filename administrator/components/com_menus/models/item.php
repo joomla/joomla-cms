@@ -188,6 +188,27 @@ class MenusModelItem extends JModel
 		return $params;
 	}
 
+	function &getComponentParams()
+	{
+		// Initialize variables
+		$params	= null;
+		$item	= &$this->getItem();
+
+		if ($item->type == 'component') {
+			$comp	= &$this->getComponent();
+			$option	= preg_replace( '#\W#', '', $comp->option );
+			$path	= JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'config.xml';
+
+			if (file_exists( $path )) {
+				$params = new JParameter( $comp->params, $path );
+			} else {
+				$params = new JParameter( $comp->params );
+			}
+			$params->merge(new JParameter($item->params));
+		}
+		return $params;
+	}
+
 	function getStateName()
 	{
 		$name = null;

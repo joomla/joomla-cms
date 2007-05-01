@@ -12,12 +12,45 @@
 			<param name="id" type="category" label="Category" description="Choose a category..." />
 		</url>
 		<params>
-			<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
+			<param name="show_page_title" type="radio" default="1" label="Show Page Title" description="Show/Hide the pages Title">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
+			<param name="page_title" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
+
 			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="orderby_sec" type="list" default="" label="Order by" description="PARAMORDERBY">
+			<param name="show_headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_date" type="list" default="" label="Date Column" description="Show/Hide the Date column">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="date_format" type="text" size="15" default="" label="Date Format" description="PARAMDATEFORMAT" />
+
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="filter" type="radio" default="1" label="Filter" description="Show/Hide the Filter ability">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="filter_type" type="list" default="title" label="Filter Field" description="Which field shall the filter apply to">
+				<option value="title">Title</option>
+				<option value="author">Author</option>
+				<option value="hits">Hits</option>
+			</param>
+
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
+				<option value="-1">Off</option>
+				<option value="0">Ignore</option>
+				<option value="1">On</option>
+			</param>
+		</params>
+		<advanced>
+			<param name="orderby_sec" type="list" default="" label="Primary Order" description="Order that the items will be displayed in.">
 				<option value="">Default</option>
 				<option value="date">Oldest first</option>
 				<option value="rdate">Most recent first</option>
@@ -29,82 +62,15 @@
 				<option value="rhits">Least Hits</option>
 				<option value="order">Ordering</option>
 			</param>
-			<param name="date_format" type="text" size="15" default="" label="Date Format" description="PARAMDATEFORMAT" />
-			<param name="date" type="list" default="" label="Date Column" description="Show/Hide the Date column">
-				<option value="">Use Global</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="showAuthor" type="list" default="" label="Author Column" description="Show/Hide the Author column">
-				<option value="">Use Global</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="hits" type="list" default="" label="Hits Column" description="Show/Hide the Hits column">
-				<option value="">Use Global</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="navigation" type="radio" default="1" label="Navigation Bar" description="Show/Hide the Navigation bar">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="display" type="radio" default="1" label="Display Select" description="Show/Hide the Display Select dropdown">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="display_num" type="list" default="50" label="Display Number" description="PARAMDISPLAYNUM">
-				<option value="5">5</option>
-				<option value="10">10</option>
-				<option value="15">15</option>
-				<option value="20">20</option>
-				<option value="25">25</option>
-				<option value="30">30</option>
-				<option value="50">50</option>
-			</param>
-			<param name="filter" type="radio" default="1" label="Filter" description="Show/Hide the Filter ability">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="filter_type" type="list" default="title" label="Filter Field" description="Which field shall the filter apply to">
-				<option value="title">Title</option>
-				<option value="author">Author</option>
-				<option value="hits">Hits</option>
-			</param>
+
 			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="other_cat" type="radio" default="1" label="Other Categories" description="Show/Hide the listing of other Categories">
+			<param name="show_pagination" type="list" default="1" label="Pagination" description="Show/Hide Pagination support">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="empty_cat" type="radio" default="0" label="Empty Categories" description="Show/Hide empty(no items) categories">
+			<param name="show_pagination_limit" type="radio" default="1" label="Display Select" description="Show/Hide the Display Select dropdown">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
-			</param>
-			<param name="cat_items" type="radio" default="1" label="Num Category Items" description="PARAMCATITEMS">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="cat_description" type="radio" default="1" label="Category Description" description="PARAMSHOWHIDE">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-			<param name="showItemNavigation" type="list" default="" label="Show Navigation" description="PARAMNAVIGATIONARTICLE">
-				<option value="">Use Global</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
-		</params>
-		<advanced>
-			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
-			<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
-			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
-				<option value="-1">Off</option>
-				<option value="0">Ignore</option>
-				<option value="1">On</option>
 			</param>
 		</advanced>
 	</state>

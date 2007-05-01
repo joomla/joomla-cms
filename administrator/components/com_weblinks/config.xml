@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
- <params>
-  <param name="hits" type="radio" default="1" label="Hits" description="TIPIFSETTOSHOWHITS">
-   <option value="0">Hide</option>
-   <option value="1">Show</option>
-  </param>
-  <param name="description_text" type="textarea" default="WEBLINKS_DESC" label="Weblinks Intro" rows="3" cols="50" description="WEBLINKS_INTRO_DESC" />
- </params>
+	<params>
+		<param name="show_comp_description" type="radio" default="1" label="Description" description="Show/Hide the Description below">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="comp_description" type="textarea" default="WEBLINKS_DESC" label="Weblinks Intro" rows="3" cols="50" description="WEBLINKS_INTRO_DESC" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_link_hits" type="radio" default="1" label="Hits" description="TIPIFSETTOSHOWHITS">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_link_description" type="radio" default="1" label="Link Descriptions" description="PARAMSHOWHIDELINKS">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_other_cats" type="radio" default="1" label="Other Categories" description="PARAMWHENVIEWCAT">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="link_target" type="list" default="0" label="Target" description="Target window when the link is clicked">
+			<option value="0">Parent Window With Browser Navigation</option>
+			<option value="1">New Window With Browser Navigation</option>
+			<option value="2">New Window Without Browser Navigation</option>
+		</param>
+		<param name="link_icons" type="imagelist" directory="/images/M_images" default="" label="Icon" description="PARAMICONIMG" />
+	</params>
 </config>

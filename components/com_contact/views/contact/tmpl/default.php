@@ -1,12 +1,12 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php if ( $this->params->get( 'page_title' ) && !$this->contact->params->get( 'popup' ) ) : ?>
+<?php if ( $this->params->get( 'show_page_title' ) && !$this->contact->params->get( 'popup' ) ) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-	<?php echo $this->params->get( 'header' ); ?>
+	<?php echo $this->params->get( 'page_title' ); ?>
 </div>
 <?php endif; ?>
 <table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-<?php if ( $this->contact->params->get( 'drop_down' ) && count( $this->contacts ) > 1) : ?>
+<?php if ( $this->contact->params->get( 'show_contact_list' ) && count( $this->contacts ) > 1) : ?>
 <tr>
 	<td colspan="2" align="center">
 		<br />

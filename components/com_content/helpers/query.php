@@ -101,10 +101,12 @@ class ContentHelperQuery
 		return $orderby;
 	}
 
-	function buildVotingQuery()
+	function buildVotingQuery($params=null)
 	{
-		$params = &JComponentHelper::getParams( 'com_content' );
-		$voting = $params->get('vote');
+		if (!$params) {
+			$params = &JComponentHelper::getParams( 'com_content' );
+		}
+		$voting = $params->get('show_vote');
 
 		if ($voting) {
 			// calculate voting count

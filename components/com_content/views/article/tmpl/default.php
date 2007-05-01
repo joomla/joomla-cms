@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</div>
 <?php endif; ?>
 
-<?php if ($this->params->get('item_title') || $this->params->get('pdf') || $this->params->get('print') || $this->params->get('email')) : ?>
+<?php if ($this->params->get('item_title') || $this->params->get('show_pdf_icon') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
 <table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<?php if ($this->params->get('item_title')) : ?>
@@ -21,19 +21,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 	<?php endif; ?>
 	<?php if (!$this->print) : ?>
-	<?php if ($this->params->get('pdf')) : ?>
+	<?php if ($this->params->get('show_pdf_icon')) : ?>
 	<td align="right" width="100%" class="buttonheading">
 	<?php echo ContentHelperHTML::Icon('pdf',  $this->article, $this->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
 
-	<?php if ( $this->params->get( 'print' )) : ?>
+	<?php if ( $this->params->get( 'show_print_icon' )) : ?>
 	<td align="right" width="100%" class="buttonheading">
 	<?php echo ContentHelperHTML::Icon('print',  $this->article, $this->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('email')) : ?>
+	<?php if ($this->params->get('show_email_icon')) : ?>
 	<td align="right" width="100%" class="buttonheading">
 	<?php echo ContentHelperHTML::Icon('email',  $this->article, $this->params, $this->access); ?>
 	</td>
@@ -47,7 +47,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </table>
 <?php endif; ?>
 
-<?php  if (!$this->params->get('intro_only')) :
+<?php  if (!$this->params->get('show_intro')) :
 	echo $this->article->event->afterDisplayTitle;
 endif; ?>
 
@@ -56,16 +56,16 @@ endif; ?>
 <?php if (($this->params->get('section') && $this->article->sectionid) || ($this->params->get('category') && $this->article->catid)) : ?>
 <tr>
 	<td>
-		<?php if ($this->params->get('section') && $this->article->sectionid) : ?>
+		<?php if ($this->params->get('show_section') && $this->article->sectionid) : ?>
 		<span>
 			<?php echo $this->article->section; ?>
-			<?php if ($this->params->get('category')) : ?>
+			<?php if ($this->params->get('show_category')) : ?>
 				<?php echo ' - '; ?>
 			<?php endif; ?>
 		</span>
 		<?php endif; ?>
 
-		<?php if ($this->params->get('category') && $this->article->catid) : ?>
+		<?php if ($this->params->get('show_category') && $this->article->catid) : ?>
 		<span>
 			<?php echo $this->article->category; ?>
 		</span>
@@ -74,7 +74,7 @@ endif; ?>
 </tr>
 <?php endif; ?>
 
-<?php if (($this->params->get('showAuthor')) && ($this->article->author != "")) : ?>
+<?php if (($this->params->get('show_author')) && ($this->article->author != "")) : ?>
 <tr>
 	<td width="70%"  valign="top" colspan="2">
 		<span class="small">
@@ -85,7 +85,7 @@ endif; ?>
 </tr>
 <?php endif; ?>
 
-<?php if ($this->params->get('createdate')) : ?>
+<?php if ($this->params->get('show_create_date')) : ?>
 <tr>
 	<td valign="top" colspan="2" class="createdate">
 		<?php echo $this->article->created; ?>
@@ -93,7 +93,7 @@ endif; ?>
 </tr>
 <?php endif; ?>
 
-<?php if ($this->params->get('url') && $this->article->urls) : ?>
+<?php if ($this->params->get('show_url') && $this->article->urls) : ?>
 <tr>
 	<td valign="top" colspan="2">
 		<a href="http://<?php echo $this->article->urls ; ?>" target="_blank">
@@ -111,7 +111,7 @@ endif; ?>
 </td>
 </tr>
 
-<?php if ( $this->article->mod_date !='' && $this->params->get('modifydate')) : ?>
+<?php if ( $this->article->mod_date !='' && $this->params->get('show_modify_date')) : ?>
 <tr>
 	<td colspan="2"  class="modifydate">
 		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo $this->article->modified; ?> )
@@ -119,7 +119,7 @@ endif; ?>
 </tr>
 <?php endif; ?>
 
-<?php if ($this->params->get('readmore') && $this->params->get('intro_only') && $this->article->readmore_text) : ?>
+<?php if ($this->params->get('show_readmore') && $this->params->get('show_intro') && $this->article->readmore_text) : ?>
 <tr>
 	<td  colspan="2">
 		<a href="<?php echo $this->article->readmore_link; ?>" class="readon<?php echo $this->params->get( 'pageclass_sfx' ); ?>">

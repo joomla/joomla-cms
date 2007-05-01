@@ -35,15 +35,6 @@ class ContentViewArticle extends JView
 		// Initialize some variables
 		$article	= & $this->get( 'Article' );
 		$params 	= & $article->parameters;
-		$params->def('introtext', 1);
-		$params->set('intro_only', 0);
-
-		// show/hides the intro text
-		if ($params->get('introtext')) {
-			$article->text = $article->introtext. ($params->get('intro_only') ? '' : chr(13).chr(13).$article->fulltext);
-		} else {
-			$article->text = $article->fulltext;
-		}
 
 		// process the new plugins
 		JPluginHelper::importPlugin('content', 'image');
@@ -68,7 +59,7 @@ class ContentViewArticle extends JView
 		// Initialize some variables
 		$text = '';
 
-		if ($params->get('showAuthor')) {
+		if ($params->get('show_author')) {
 			// Display Author name
 			if ($article->usertype == 'administrator' || $article->usertype == 'superadministrator') {
 				$text .= "\n";
@@ -79,12 +70,12 @@ class ContentViewArticle extends JView
 			}
 		}
 
-		if ($params->get('createdate') && $params->get('showAuthor')) {
+		if ($params->get('show_create_date') && $params->get('show_author')) {
 			// Display Separator
 			$text .= "\n";
 		}
 
-		if ($params->get('createdate')) {
+		if ($params->get('show_create_date')) {
 			// Display Created Date
 			if (intval($article->created)) {
 				$create_date = JHTML::Date($article->created);
@@ -92,12 +83,12 @@ class ContentViewArticle extends JView
 			}
 		}
 
-		if ($params->get('modifydate') && ($params->get('showAuthor') || $params->get('createdate'))) {
+		if ($params->get('show_modify_date') && ($params->get('show_author') || $params->get('show_create_date'))) {
 			// Display Separator
 			$text .= " - ";
 		}
 
-		if ($params->get('modifydate')) {
+		if ($params->get('show_modify_date')) {
 			// Display Modified Date
 			if (intval($article->modified)) {
 				$mod_date = JHTML::Date($article->modified);

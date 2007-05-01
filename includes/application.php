@@ -250,6 +250,32 @@ class JSite extends JApplication
 	}
 
 	/**
+	* Get Page Parameters
+	*
+	* @return object The page parameters object
+	* @since 1.5
+	*/
+	function &getPageParameters()
+	{
+		static $params;
+
+		if (!is_object($params)) {
+			// Get component parameters
+			$option = JRequest::getVar('option');
+			$params = &JComponentHelper::getParams($option);
+
+			// Get menu parameters
+			$menu = &JMenu::getInstance();
+			$item = $menu->getActive();
+
+			// Lets cascade the parameters
+			$params->merge(new JParameter($item->params));
+		}
+
+		return $params;
+	}
+
+	/**
 	 * Set the configuration
 	 *
 	 * @access public

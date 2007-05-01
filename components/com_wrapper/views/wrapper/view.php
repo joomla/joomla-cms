@@ -29,15 +29,7 @@ class WrapperViewWrapper extends JView
 		$menu =& JMenu::getInstance();
 		$item =& $menu->getActive();
 
-		$this->params->def( 'header', $item->name );
-		$this->params->def( 'scrolling', 'auto' );
-		$this->params->def( 'page_title', '1' );
-		$this->params->def( 'pageclass_sfx', '' );
-		$this->params->def( 'height', '500' );
-		$this->params->def( 'height_auto', '0' );
-		$this->params->def( 'width', '100%' );
-		$this->params->def( 'add', '1' );
-
+		$this->params->def( 'page_title', $item->name );
 
 		// auto height control
 		if ( $this->params->def( 'height_auto' ) ) {

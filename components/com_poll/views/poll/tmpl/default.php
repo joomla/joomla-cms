@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 //-->
 </script>
 <form action="index.php" method="post" name="poll" id="poll">
-<?php if ($this->params->get( 'page_title')) : ?>
+<?php if ($this->params->get( 'show_page_title')) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ) ?>">
 	<?php echo $this->poll->title; ?>
 </div>

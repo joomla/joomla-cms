@@ -40,26 +40,7 @@ class NewsfeedsViewCategories extends JView
 		$categories =& $this->get('data');
 
 		// Parameters
-		$params->def( 'page_title', 		1 );
-		$params->def( 'header', 			$item->name );
-		$params->def( 'pageclass_sfx', 	'' );
-		$params->def( 'headings', 		1 );
-		$params->def( 'description_text', '' );
-		$params->def( 'image', 			-1 );
-		$params->def( 'image_align', 		'right' );
-		$params->def( 'other_cat_section', 1 );
-		// Category List Display control
-		$params->def( 'other_cat', 		1 );
-		$params->def( 'cat_description', 	1 );
-		$params->def( 'cat_items', 		1 );
-		// Table Display control
-		$params->def( 'headings', 		1 );
-		$params->def( 'name',				1 );
-		$params->def( 'articles', 		1 );
-		$params->def( 'link', 			1 );
-		// pagination parameters
-		$params->def('display', 			1 );
-		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
+		$params->def( 'page_title', $item->name );
 
 		for($i = 0; $i < count($categories); $i++)
 		{
@@ -76,7 +57,7 @@ class NewsfeedsViewCategories extends JView
 			$image = JHTML::Image('/images/stories/'.$params->get('image'), JText::_('NEWS_FEEDS'), $attribs);
 		}
 
-		$this->assignRef('image',			$image);
+		$this->assignRef('image',		$image);
 		$this->assignRef('params',		$params);
 		$this->assignRef('categories',	$categories);
 

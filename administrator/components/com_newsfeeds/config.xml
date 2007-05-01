@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<params>
+		<param name="show_headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_name" type="radio" default="1" label="Name Column" description="Show/Hide the Feed Name column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_articles" type="radio" default="1" label="Num Articles Column" description="PARAMARTICLES">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_link" type="radio" default="1" label="Link Column" description="Show/Hide the Feed Link column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_other_cats" type="radio" default="1" label="Other Categories" description="PARAMWHENVIEWCAT">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_cat_description" type="radio" default="1" label="Category Description" description="PARAMCATDESC">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_cat_items" type="radio" default="1" label="Num Category Items" description="PARAMCATITEMS">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_feed_image" type="radio" default="1" label="Feed Image" description="Show/Hide the image of the feed">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_feed_description" type="radio" default="1" label="Feed Description" description="PARAMFEEDDESC">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="show_item_description" type="radio" default="1" label="Item Description" description="PARAMITEMDESC">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="feed_word_count" type="text" size="6" default="0" label="Word Count" description="PARAMWORDCOUNT" />
+	</params>
+</config>
