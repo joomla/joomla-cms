@@ -54,7 +54,7 @@ class JSite extends JApplication
 	{
 		// if a language was specified it has priority
 		// otherwise use user or default language settings
-		if (empty($options['language'])) 
+		if (empty($options['language']))
 		{
 			$user = & JFactory::getUser();
 			$lang	= $user->getParam( 'language' );
@@ -273,7 +273,7 @@ class JSite extends JApplication
 
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu)) {
-				$params->merge(new JParameter($item->params));
+				$params->merge(new JParameter($menu->params));
 			}
 		}
 
