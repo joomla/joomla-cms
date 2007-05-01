@@ -31,7 +31,6 @@ class WeblinksViewCategories extends JView
 	{
 		global $mainframe;
 
-		// Load the menu object and parameters
 		$menu = &JMenu::getInstance();
 		$item = $menu->getActive();
 
@@ -40,10 +39,7 @@ class WeblinksViewCategories extends JView
 		$state		=& $this->get('state');
 
 		// Get the page/component configuration
-		$params = &$state->get('parameters.menu');
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_weblinks');
-		}
+		$params = &$mainframe->getPageParameters();
 
 		// Set some defaults if not set for params
 		$params->def('page_title', $item->name);
@@ -52,7 +48,7 @@ class WeblinksViewCategories extends JView
 		// Define image tag attributes
 		if ($params->get('image') != -1)
 		{
-			$attribs['align'] = '"'. $params->get('image_align').'"';
+			$attribs['align'] = '"'. $pparams->get('image_align').'"';
 			$attribs['hspace'] = '"6"';
 
 			// Use the static HTML library to build the image tag

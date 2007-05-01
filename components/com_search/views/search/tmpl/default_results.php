@@ -59,11 +59,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<?php endif; ?>
 			</div>
 			<div>
-				<?php echo JRoute::_( $result->text );?>
+				<?php echo $result->text;?>
 			</div>
 			<?php
-				$contentConfig = &JComponentHelper::getParams( 'com_content' );
-				if ( $contentConfig->get( 'showCreateDate' )) : ?>
+				if ( $this->params->get( 'show_date' )) : ?>
 			<div class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 				<?php echo $result->created; ?>
 			</div>

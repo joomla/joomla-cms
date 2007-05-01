@@ -66,7 +66,7 @@ class PollController
 		// Adds parameter handling
 		$menu   =& JMenu::getInstance();
 		$item   = $menu->getActive();
-		$params = new JParameter( $item->params );
+		$params = $mainframe->getPageParameters();
 
 		//Set page title information
 		$mainframe->SetPageTitle($poll->title);

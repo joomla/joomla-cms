@@ -25,10 +25,6 @@ class WrapperViewWrapper extends JView
 {
 	function display( $tpl = null )
 	{
-		// get menu
-		$menus =& JMenu::getInstance();
-		$menu =& $menus->getActive();
-
 		$this->params->def( 'page_title', $menu->name );
 
 		// auto height control

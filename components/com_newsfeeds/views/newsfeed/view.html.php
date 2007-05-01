@@ -45,7 +45,7 @@ class NewsfeedsViewNewsfeed extends JView
 		// Get the current menu item
 		$menus	= &JMenu::getInstance();
 		$menu	= $menus->getActive();
-		$params	= &$menus->getParams($menu->id);
+		$params	= &$mainframe->getPageParameters();
 
 		//get the newsfeed
 		$newsfeed =& $this->get('data');

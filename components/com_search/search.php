@@ -71,7 +71,7 @@ class SearchController
 		// Get the paramaters of the active menu item
 		$menus  = &JMenu::getInstance();
 		$menu   = $menus->getActive();
-		$params	= &$menus->getParams($menu->id);
+		$params	= &$mainframe->getPageParameters();
 
 		$params->def( 'page_title', $menu->name );
 

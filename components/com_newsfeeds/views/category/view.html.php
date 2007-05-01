@@ -38,7 +38,7 @@ class NewsfeedsViewCategory extends JView
 		// Get the paramaters of the active menu item
 		$menus	= &JMenu::getInstance();
 		$menu	= $menus->getActive();
-		$params	= &$menus->getParams($menu->id);
+		$params	= &$mainframe->getPageParameters();
 
 		$category	= $this->get('category');
 		$items		= $this->get('data');

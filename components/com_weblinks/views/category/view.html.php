@@ -48,10 +48,7 @@ class WeblinksViewCategory extends JView
 		$state		= &$this->get('state');
 
 		// Get the page/component configuration
-		$params = &$state->get('parameters.menu');
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_weblinks');
-		}
+		$params = &$mainframe->getPageParameter();
 
 		$category->total = $total;
 
