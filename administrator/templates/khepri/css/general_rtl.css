@@ -228,8 +228,9 @@ table.toolbar a:hover {
 }
 
 /** for massmail component **/
+td#mm_pane			{ width: 90%; }
 input#mm_subject    { width: 200px; }
-textarea#mm_message { width: 200px; }
+textarea#mm_message { width: 100%; }
 
 /* pane-sliders  */
 .pane-sliders .title {

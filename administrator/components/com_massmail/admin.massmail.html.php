@@ -108,7 +108,7 @@ class HTML_massmail {
 							<?php echo JText::_( 'Message' ); ?>:
 						</label>
 					</td>
-					<td>
+					<td id="mm_pane" >
 						<textarea rows="20" cols="150" name="mm_message" id="mm_message" class="inputbox"></textarea>
 					</td>
 				</tr>
