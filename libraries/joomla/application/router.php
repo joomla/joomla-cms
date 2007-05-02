@@ -445,7 +445,7 @@ class JRouter extends JObject
 		$menu =& JMenu::getInstance();
 		$item = $menu->getItem($query['Itemid']);
 
-		if ($query['option'] == $item->component) {
+		if ($query['option'] == $item->component && @$query['view'] == @$item->query['view']) {
 			$route = $item->route;
 		} else {
 			$route = 'component/'.substr($query['option'], 4);

@@ -33,19 +33,25 @@ class ContentHelperRoute
 	 */
 	function getArticleRoute($id, $catid = 0, $sectionid = 0)
 	{
-		$item = ContentHelperRoute::_getArticleMenuInfo((int)$id, (int)$catid, (int)$sectionid);
+		$item = ContentHelperRoute::_getArticleMenuInfo((int)$id, (int)$catid, (int)$sectionid);	
 
 		$link = 'index.php?option=com_content&view=article';
-		if(@$item->link_parts['view'] == 'article') {
-			$link .=  '&Itemid='. $item->id;
-		}
+		
+		if(isset($item)) 
+		{
+			if($item->link_parts['view'] == 'article') {
+				$link .=  '&Itemid='. $item->id;
+			}
 
-		if(@$item->link_parts['view'] == 'category') {
-			$link .= '&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
-		}
+			if($item->link_parts['view'] == 'category') {
+				$link .= '&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
+			}
 
-		if(@$item->link_parts['view'] == 'section') {
-			$link .= '&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
+			if($item->link_parts['view'] == 'section') {
+				$link .= '&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
+			}
+		} else {
+			$link .= '&catid='.$catid.'&id='. $id;
 		}
 
 		return JRoute::_( $link );
