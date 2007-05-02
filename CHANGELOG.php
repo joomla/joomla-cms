@@ -39,6 +39,7 @@ Legend:
 
 02-May-2007 Johan Janssens
  + Added helper suppport to JView class, see loadHelper function
+ + Added JPATH_XMLRPC define
 
 01-May-2007 Johan Janssens
  # Fixed [#381] Reset-button does'nt work in Module- and Plugin Manager
