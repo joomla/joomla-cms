@@ -39,7 +39,7 @@ class modMostReadHelper
 
 		//Content Items only
 		$query = 'SELECT a.*,' .
-			' CASE WHEN CHAR_LENGTH(a.title_alias) THEN CONCAT_WS(":", a.id, a.title_alias) ELSE a.id END as slug,'.
+			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
 			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug'.
 			' FROM #__content AS a' .
 			' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' .
