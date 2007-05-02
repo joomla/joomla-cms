@@ -183,10 +183,12 @@ class JRouter extends JObject
 			// Set the active menu item
 			$menu->setActive($item->id);
 
-			$vars           = $item->query;
-			$vars['Itemid'] = $item->id;
+			//Set the information in the request
+			JRequest::set($item->query, 'get', false );
+			
+			//Set the itemid in the request
+			JRequest::setVar('Itemid',  $item->id);
 
-			JRequest::set($vars, 'get', false );
 			return true;
 		}
 
@@ -242,6 +244,9 @@ class JRouter extends JObject
 
 			//Set the information in the request
 			JRequest::set($item->query, 'get', false );
+			
+			//Set the itemid in the request
+			JRequest::setVar('Itemid', $itemid);
 			return true;
 		}
 
