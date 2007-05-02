@@ -154,7 +154,8 @@ class JMenu extends JObject
 			return $result;
 		}
 
-		return null;
+		$result = null;
+		return $result;
 	}
 
 	/**
@@ -171,7 +172,8 @@ class JMenu extends JObject
 			return $item;
 		}
 		
-		return null;
+		$result = null;
+		return $result;
 	}
 
 	/**

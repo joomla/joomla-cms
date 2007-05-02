@@ -233,9 +233,10 @@ class JRouter extends JObject
 		{
 			// No Itemid set, use default
 			if(!$itemid) {
-				$itemid = $menu->getDefault();
+				$default = $menu->getDefault();
+				$itemid = $default->id;
 			}
-
+			
 			// Set the active menu item
 			$item =& $menu->setActive($itemid);
 

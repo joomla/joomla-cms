@@ -68,8 +68,7 @@ class ContactViewContact extends JView
 		$mainframe->setPageTitle(JText::_('Contact').' - '.$contact->name);
 
 		//set breadcrumbs
-		if($item->query['view'] != 'contact')
-		{
+		if($item->query['view'] != 'contact'){
 			$pathway->addItem($contact->name, '');
 		}
 
