@@ -5,6 +5,10 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		<param name="show_title" type="radio" default="1" label="Show Article Title" description="Show/Hide the article title">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
 		<param name="link_titles" type="radio" default="0" label="Linked Titles" description="TIPIFYESTITLECONTENTITEMS">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
