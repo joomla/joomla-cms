@@ -297,19 +297,19 @@ function saveContact( $task )
 	{
 		case 'apply':
 		case 'save2copy':
-			$msg = JText::_( 'Changes to Contact saved' );
-			$link = 'index.php?option=com_contact&task=edit&cid[]='. $row->id .'';
+			$msg	= JText::sprintf( 'Changes to X saved', 'Contact' );
+			$link	= 'index.php?option=com_contact&task=edit&cid[]='. $row->id .'';
 			break;
 
 		case 'save2new':
-			$msg = JText::_( 'Changes to Contact saved' );
-			$link = 'index.php?option=com_contact&task=edit';
+			$msg	= JText::sprintf( 'Changes to X saved', 'Contact' );
+			$link	= 'index.php?option=com_contact&task=edit';
 			break;
 
 		case 'save':
 		default:
-			$msg = JText::_( 'Contact saved' );
-			$link = 'index.php?option=com_contact';
+			$msg	= JText::_( 'Contact saved' );
+			$link	= 'index.php?option=com_contact';
 			break;
 	}
 
