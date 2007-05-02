@@ -65,7 +65,7 @@ class ContentController extends JController
 
 		$limit		= (int) $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart	= (int) $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0);
-		
+
 		//$where[] = "c.state >= 0";
 		$where[] = 'c.state != -2';
 
@@ -127,12 +127,12 @@ class ContentController extends JController
 				$where;
 		$db->setQuery($query);
 		$total = $db->loadResult();
-		
-		
+
+
 		// Create the pagination object
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
-		
+
 		// Get the articles
 		$query = 'SELECT c.*, g.name AS groupname, cc.title AS name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author' .
 				' FROM #__content AS c' .
@@ -634,7 +634,7 @@ class ContentController extends JController
 
 		// Get a state and parameter variables from the request
 		$row->state	= JRequest::getVar( 'state', 0, '', 'int' );
-		$params		= JRequest::getVar( 'params', '', 'post' );
+		$params		= JRequest::getVar( 'params', '', 'post', 'array' );
 
 		// Build parameter INI string
 		if (is_array($params))
