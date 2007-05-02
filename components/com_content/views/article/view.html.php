@@ -47,6 +47,7 @@ class ContentViewArticle extends JView
 		// Get the page/component configuration
 		$state  = &$this->get('State');
 		$pparams = &$state->get('parameters.menu');
+		
 		if (!is_object($pparams)) {
 			$pparams = &JComponentHelper::getParams('com_content');
 		}
@@ -171,6 +172,9 @@ class ContentViewArticle extends JView
 		$this->assignRef('user'   , $user);
 		$this->assignRef('access' , $access);
 		$this->assignRef('print', $print);
+		
+		//Load the html helper for the view
+		$this->loadHelper('html');
 
 		parent::display($tpl);
 	}

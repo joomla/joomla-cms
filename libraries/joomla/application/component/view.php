@@ -556,8 +556,8 @@ class JView extends JObject
 	/**
 	 * Load a template file -- first look in the templates folder for an override
 	 *
-	 * @access	protected
-	 * @param string $_tpl The name of the template source file ...
+	 * @access	public
+	 * @param string $tpl The name of the template source file ...
 	 * automatically searches the template paths and compiles as needed.
 	 * @return string The output of the the template script.
 	 */
@@ -609,6 +609,30 @@ class JView extends JObject
 		}
 		else {
 			return JError::raiseError( 500, 'Layout "' . $file . '" not found' );
+		}
+	}
+	
+	/**
+	 * Load a helper file
+	 *
+	 * @access	public
+	 * @param string $tpl The name of the helper source file ...
+	 * automatically searches the helper paths and compiles as needed.
+	 * @return boolean Returns true if the file was loaded
+	 */
+	function loadHelper( $hlp = null)
+	{
+		// clean the file name
+		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
+		
+		// load the template script
+		jimport('joomla.filesystem.path');
+		$helper = JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
+			
+		if ($helper != false)
+		{
+			// include the requested template filename in the local scope
+			include_once $helper;
 		}
 	}
 
@@ -701,7 +725,10 @@ class JView extends JObject
 			case 'template' :
 				$filename = strtolower($parts['name']).'.'.$this->_layoutExt;
 				break;
-
+			
+			default :
+				$filename = strtolower($parts['name']).'.php';
+				break;
 		}
 		return $filename;
 	}

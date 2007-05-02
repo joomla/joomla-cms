@@ -108,7 +108,7 @@ class ContentViewArchive extends JView
 		$this->assignRef('params',		$params);
 		$this->assignRef('user',		$user);
 		$this->assignRef('pagination',	$pagination);
-
+		
 		parent::display($tpl);
 	}
 }

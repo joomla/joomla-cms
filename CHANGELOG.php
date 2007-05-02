@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-May-2007 Johan Janssens
+ + Added helper suppport to JView class, see loadHelper function
+
 01-May-2007 Johan Janssens
  # Fixed [#381] Reset-button does'nt work in Module- and Plugin Manager
  # Fixed [#496] TableBannerClient::store - fails when adding new client - Unknown column 'alias'
