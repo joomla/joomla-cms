@@ -31,6 +31,15 @@ defined('JPATH_BASE') or die();
  */
 class JController extends JObject
 {
+	
+	/**
+	 * The base path of the controller
+	 *
+	 * @var		string
+	 * @access 	protected
+	 */
+	var $_basePath = null;
+	
 	/**
 	 * The name of the controller
 	 *
@@ -196,7 +205,14 @@ class JController extends JObject
 				$this->_name = strtolower( $r[1] );
 			}
 		}
-
+		
+		// Set a base path for use by the controller
+		if (isset($config['base_path'])) {
+			$this->_basePath	= $config['base_path'];
+		} else {
+			$this->_basePath	= JPATH_COMPONENT;
+		}
+		
 		// If the default task is set, register it as such
 		if ( isset( $config['default_task'] ) ) {
 			$this->registerDefaultTask( $config['default_task'] );
@@ -702,12 +718,12 @@ class JController extends JObject
 		{
 			case 'view':
 				// the current directory
-				$this->_addPath( $type, JPATH_COMPONENT . DS . 'views' );
+				$this->_addPath( $type, $this->_basePath . DS . 'views' );
 			break;
 
 			case 'model':
 				// the current directory
-				$this->_addPath( $type, JPATH_COMPONENT . DS . 'models' );
+				$this->_addPath( $type, $this->_basePath . DS . 'models' );
 				break;
 		}
 
