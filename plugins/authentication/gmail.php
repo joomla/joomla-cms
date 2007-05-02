@@ -54,8 +54,6 @@ class plgAuthenticationGMail extends JPlugin
 	function onAuthenticate( $username, $password, &$response )
 	{
 		// load plugin parameters
-	 	$plugin =& JPluginHelper::getPlugin('authentication', 'gmail');
-	 	$pluginParams = new JParameter( $plugin->params );
 		$return = new JAuthenticationResponse('gmail');
 
 		$curl = curl_init('https://mail.google.com/gmail/feed/atom');

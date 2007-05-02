@@ -130,8 +130,17 @@ class JPluginHelper
 					}
 
 					$className = 'plg'.$plugin->folder.$plugin->element;
-					if(class_exists($className)) {
-						$plugin = new $className($dispatcher);
+					if(class_exists($className)) 
+					{
+						// create the plugin
+						$instance = new $className($dispatcher);
+						
+						// load plugin parameters
+						$plugin =& JPluginHelper::getPlugin($plugin->folder, $plugin->element);
+						$params = new JParameter($plugin->params);
+						
+						// push the parameters in the plugin
+						$instance->set('params', $params);
 					}
 				}
 			}

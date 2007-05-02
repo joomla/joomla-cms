@@ -63,10 +63,6 @@ class plgAuthenticationOpenID extends JPlugin
 		// Access the session data
 		$session =& JFactory::getSession();
 
-		// load plugin parameters
-		$plugin =& JPluginHelper::getPlugin('authentication', 'openid');
-		$params = new JParameter( $plugin->params );
-
 		// Need to check for bcmath or gmp - if not, use the dumb mode.
 		// TODO: Should dump an error to debug saying we are dumb
 
@@ -126,8 +122,8 @@ class plgAuthenticationOpenID extends JPlugin
 			{
 				$sreg = $result->extensionResponse('sreg');
 
-				$response->status		= JAUTHENTICATE_STATUS_SUCCESS;
-				$response->email		= isset($sreg['email'])	? $sreg['email']	: "";
+				$response->status	= JAUTHENTICATE_STATUS_SUCCESS;
+				$response->email	= isset($sreg['email'])	? $sreg['email']	: "";
 				$response->fullname	= isset($sreg['fullname']) ? $sreg['fullname'] : "";
 				$response->language	= isset($sreg['language']) ? $sreg['language'] : "";
 				$response->timezone	= isset($sreg['timezone']) ? $sreg['timezone'] : "";

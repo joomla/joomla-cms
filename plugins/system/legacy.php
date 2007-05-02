@@ -44,10 +44,6 @@ class  plgSystemLegacy extends JPlugin
 		$config = &JFactory::getConfig();
 		$config->setValue('config.legacy', 1);
 
-		// load plugin parameters
-		$this->_plugin = & JPluginHelper::getPlugin('system', 'legacy');
-		$this->_params = new JParameter($this->_plugin->params);
-
 		// Import library dependencies
 		require_once(dirname(__FILE__).DS.'legacy'.DS.'classes.php');
 		require_once(dirname(__FILE__).DS.'legacy'.DS.'functions.php');
@@ -159,7 +155,7 @@ class  plgSystemLegacy extends JPlugin
 	function onAfterRoute()
 	{
 		global $mainframe;
-		if ($mainframe->isAdmin() || (!$this->_params->get('route'))) {
+		if ($mainframe->isAdmin() || (!$this->params->get('route'))) {
 			return;
 		}
 		

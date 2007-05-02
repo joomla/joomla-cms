@@ -43,10 +43,6 @@ class  plgSystemCache extends JPlugin
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
-		$this->_plugin = & JPluginHelper::getPlugin('system', 'cache');
-		$this->_params = new JParameter($this->_plugin->params);
-
 		$user =& JFactory::getUser();
 
 		$options = array(

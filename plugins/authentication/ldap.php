@@ -67,16 +67,12 @@ class plgAuthenticationLdap extends JPlugin
 			return false;
 		}
 
-		// load plugin parameters
-	 	$plugin =& JPluginHelper::getPlugin('authentication', 'ldap');
-	 	$params = new JParameter( $plugin->params );
+		$ldap_email 	= $this->params->get('ldap_email');
+		$ldap_fullname	= $this->params->get('ldap_fullname');
+		$ldap_uid		= $this->params->get('ldap_uid');
+		$auth_method	= $this->params->get('auth_method');
 
-		$ldap_email 		= $params->get('ldap_email');
-		$ldap_fullname	= $params->get('ldap_fullname');
-		$ldap_uid		= $params->get('ldap_uid');
-		$auth_method		= $params->get('auth_method');
-
-		$ldap = new JLDAP($params);
+		$ldap = new JLDAP($this->params);
 
 		if (!$ldap->connect())
 		{
@@ -102,7 +98,7 @@ class plgAuthenticationLdap extends JPlugin
 				if($bindtest)
 				{
 					// Search for users DN
-					$binddata = $ldap->simple_search(str_replace("[search]", $username, $params->get('search_string')));
+					$binddata = $ldap->simple_search(str_replace("[search]", $username, $this->params->get('search_string')));
 					// Verify Users Credentials
 					$success = $ldap->bind($binddata[0]['dn'],$password,1);
 					// Get users details
@@ -119,7 +115,7 @@ class plgAuthenticationLdap extends JPlugin
 			{
 				// We just accept the result here
 				$success = $ldap->bind($username,$password);
-				$userdetails = $ldap->simple_search(str_replace("[search]", $username, $params->get('search_string')));
+				$userdetails = $ldap->simple_search(str_replace("[search]", $username, $this->params->get('search_string')));
 			}	break;
 		}
 

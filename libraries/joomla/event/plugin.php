@@ -28,7 +28,16 @@ jimport( 'joomla.event.handler' );
  */
 class JPlugin extends JEventHandler
 {
-
+	/**
+	 * A JParameter object holding the parameters for the plugin
+	 * 
+	 * @var		A JParameter object 
+	 * @access	public
+	 * @since	1.5
+	 */
+	var	$params	= null;
+	
+	
 	/**
 	 * Constructor
 	 *

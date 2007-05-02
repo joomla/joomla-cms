@@ -169,7 +169,8 @@ class plgEditorXstandard extends JPlugin {
 		return $html;
 	}
 
-	function _getTemplateCss() {
+	function _getTemplateCss() 
+	{
 		global $mainframe;
 
 		$db			=& JFactory::getDBO();

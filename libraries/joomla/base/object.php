@@ -153,7 +153,8 @@ class JObject
 	 * @return	mixed Previous value of the property
 	 * @since	1.5
 	 */
-	function set( $property, $value=null ) {
+	function set( $property, $value = null ) 
+	{
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
 		return $previous;

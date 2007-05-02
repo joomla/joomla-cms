@@ -75,10 +75,6 @@ class plgUserJoomla extends JPlugin
 	{
 		jimport('joomla.user.helper');
 
-		// load plugin parameters
-	 	$plugin =& JPluginHelper::getPlugin('user', 'joomla');
-	 	$params = new JParameter( $plugin->params );
-
 		$my = new JUser();
 		if($id = intval(JUserHelper::getUserId($user['username'])))  {
 			$my->load($id);
@@ -93,7 +89,7 @@ class plgUserJoomla extends JPlugin
 			$my->set( 'usertype'	, 'Registered' ); 	//Make configurable
 
 			//If autoregister is set let's register the user
-			if($params->get('autoregister', 1) == 1)
+			if($this->params->get('autoregister', 1) == 1)
 			{
 				if(!$my->save()) {
 					return false;

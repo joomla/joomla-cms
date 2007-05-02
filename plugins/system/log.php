@@ -34,13 +34,8 @@ class  plgSystemLog extends JPlugin
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
-	function plgSystemLog(& $subject)
-	{
+	function plgSystemLog(& $subject) {
 		parent::__construct($subject);
-
-		// load plugin parameters
-		$this->_plugin = & JPluginHelper::getPlugin('system', 'log');
-		$this->_params = new JParameter($this->_plugin->params);
 	}
 
 	function onLoginFailure($response)

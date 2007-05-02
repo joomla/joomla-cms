@@ -34,13 +34,8 @@ class plgSystemRemember extends JPlugin
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
-	function plgSystemRemember(& $subject)
-	{
+	function plgSystemRemember(& $subject) {
 		parent::__construct($subject);
-
-		// load plugin parameters
-		$this->_plugin = & JPluginHelper::getPlugin('system', 'remember');
-		$this->_params = new JParameter($this->_plugin->params);
 	}
 
 	function onAfterInitialise()

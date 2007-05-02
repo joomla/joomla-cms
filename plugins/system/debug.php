@@ -34,13 +34,8 @@ class  plgSystemDebug extends JPlugin
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
-	function plgSystemDebug(& $subject)
-	{
+	function plgSystemDebug(& $subject) {
 		parent::__construct($subject);
-
-		// load plugin parameters
-		$this->_plugin = & JPluginHelper::getPlugin('system', 'debug');
-		$this->_params = new JParameter($this->_plugin->params);
 	}
 
 	/**
@@ -69,12 +64,12 @@ class  plgSystemDebug extends JPlugin
 		echo '<div id="system-debug" class="profiler">';
 		echo implode( '', $profiler->getBuffer() );
 
-		if ($this->_params->get('memory', 1)) {
+		if ($this->params->get('memory', 1)) {
 			echo '<p><h4>'.JText::_( 'Memory Usage' ).'</h4>';
 			echo $profiler->getMemory().'</p>';
 		}
 
-		if ($this->_params->get('queries', 1))
+		if ($this->params->get('queries', 1))
 		{
 			jimport('geshi.geshi');
 			jimport('domit.xml_saxy_shared');
@@ -93,7 +88,7 @@ class  plgSystemDebug extends JPlugin
 			echo '</ol></p>';
 		}
 
-		if ($this->_params->get('language', 1))
+		if ($this->params->get('language', 1))
 		{
 			echo '<p><h4>'.JText::_( 'Language Files Loaded' ).'</h4>';
 			echo '<ul>';
