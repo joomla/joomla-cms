@@ -41,12 +41,12 @@ class ContentViewArchive extends JView
 		$document	=& JFactory::getDocument();
 		$pathway	= & $mainframe->getPathWay();
 
+		// Get the menu item object
+		$menus = &JMenu::getInstance();
+		$menu  = $menus->getActive();
+
 		// Get the page/component configuration
-		$state  = &$this->get('State');
-		$params = &$state->get('parameters.menu');
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
-		}
+		$params = &$mainframe->getPageParameters('com_content');
 
 		// Request variables
 		$task 		= JRequest::getVar('task');
@@ -57,13 +57,14 @@ class ContentViewArchive extends JView
 		$filter		= JRequest::getVar( 'filter' );
 
 		// Get some data from the model
+		$state = & $this->get( 'state' );
 		$items = & $this->get( 'data'  );
 		$total = & $this->get( 'total' );
 
 		// Add item to pathway
 		$pathway->addItem(JText::_('Archive'), '');
 
-		$mainframe->setPageTitle($item->name);
+		$mainframe->setPageTitle($menu->name);
 
 		$params->def('filter',			1);
 		$params->def('filter_type',		'title');
@@ -108,7 +109,7 @@ class ContentViewArchive extends JView
 		$this->assignRef('params',		$params);
 		$this->assignRef('user',		$user);
 		$this->assignRef('pagination',	$pagination);
-		
+
 		parent::display($tpl);
 	}
 }

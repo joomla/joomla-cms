@@ -41,16 +41,11 @@ class ContentViewArticle extends JView
 		$params		=& $article->parameters;
 
 		// Get the menu item object
-		$menus	= &JMenu::getInstance();
-		$menu	= &$menus->getActive();
+		$menus = &JMenu::getInstance();
+		$menu  = $menus->getActive();
 
 		// Get the page/component configuration
-		$state  = &$this->get('State');
-		$pparams = &$state->get('parameters.menu');
-		
-		if (!is_object($pparams)) {
-			$pparams = &JComponentHelper::getParams('com_content');
-		}
+		$params = &$mainframe->getPageParameters('com_content');
 
 		if($this->getLayout() == 'pagebreak') {
 			$this->_displayPagebreak($tpl);
@@ -172,7 +167,7 @@ class ContentViewArticle extends JView
 		$this->assignRef('user'   , $user);
 		$this->assignRef('access' , $access);
 		$this->assignRef('print', $print);
-		
+
 		//Load the html helper for the view
 		$this->loadHelper('html');
 

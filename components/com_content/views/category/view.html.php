@@ -36,16 +36,12 @@ class ContentViewCategory extends JView
 		$uri 		=& JFactory::getURI();
 		$pathway	= & $mainframe->getPathWay();
 
-		// Get the page/component configuration
-		$state  = &$this->get('State');
-		$params = &$state->get('parameters.menu');
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
-		}
-
 		// Get the menu item object
-		$menus	= &JMenu::getInstance();
-		$menu	= &$menus->getActive();
+		$menus = &JMenu::getInstance();
+		$menu  = $menus->getActive();
+
+		// Get the page/component configuration
+		$params = &$mainframe->getPageParameters('com_content');
 
 		// Request variables
 		$task 		= JRequest::getVar('task');
@@ -100,7 +96,7 @@ class ContentViewCategory extends JView
 		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('pagination',	$pagination);
-		
+
 		//Load the html helper for the view
 		$this->loadHelper('html');
 

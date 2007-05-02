@@ -41,16 +41,12 @@ class ContentViewFrontpage extends JView
 		$limit		= JRequest::getVar('limit', 5, '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-		// Load the menu object and parameters
-		$menus	= &JMenu::getInstance();
-		$menu	= $menus->getActive();
+		// Get the menu item object
+		$menus = &JMenu::getInstance();
+		$menu  = $menus->getActive();
 
 		// Get the page/component configuration
-		$state  = &$this->get('State');
-		$params = &$state->get('parameters.menu');
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
-		}
+		$params = &$mainframe->getPageParameters('com_content');
 
 		// parameters
 		$intro			= $params->def('num_intro_articles',	4);
@@ -127,7 +123,7 @@ class ContentViewFrontpage extends JView
 		$this->assignRef('params',		$params);
 		$this->assignRef('items',		$items);
 		$this->assignRef('frontpage',	$frontpage);
-		
+
 		//Load the html helper for the view
 		$this->loadHelper('html');
 
