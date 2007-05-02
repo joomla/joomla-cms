@@ -130,7 +130,7 @@ class ContentViewFrontpage extends JView
 		parent::display($tpl);
 	}
 
-	function &getItem($index = 0, &$params)
+	function &getItem($index = 0, &$aparams)
 	{
 		global $mainframe;
 
@@ -146,28 +146,10 @@ class ContentViewFrontpage extends JView
 		$linkText	= null;
 
 		// Get the page/component configuration
-		$state  = &$this->get('State');
-		$pparams = &$state->get('parameters.menu');
-		if (!is_object($pparams)) {
-			$pparams = &JComponentHelper::getParams('com_content');
-		}
+		$params = clone($mainframe->getPageParameters('com_content'));
 
-		// Handle global overides for some article parameters if set
-		$params->def('link_titles',			$pparams->get('link_titles'));
-		$params->def('show_author',			$pparams->get('show_author'));
-		$params->def('show_create_date',	$pparams->get('show_create_date'));
-		$params->def('show_modify_date',	$pparams->get('show_modify_date'));
-		$params->def('show_print_icon',		$pparams->get('show_print_icon'));
-		$params->def('show_pdf_icon',		$pparams->get('show_pdf_icon'));
-		$params->def('show_email_icon',		$pparams->get('show_email_icon'));
-		$params->def('show_vote',			$pparams->get('show_vote'));
-		$params->def('show_icons',			$pparams->get('show_icons'));
-		$params->def('show_readmore',		$pparams->get('show_readmore'));
-		$params->def('show_intro',			$pparams->get('show_intro'));
-		$params->def('show_section',		$pparams->get('show_section'));
-		$params->def('show_category',		$pparams->get('show_category'));
-		$params->def('link_section',		$pparams->get('link_section'));
-		$params->def('link_category',		$pparams->get('link_category'));
+		// Merge article parameters into the page configuration
+		$params->merge($aparams);
 
 		$item =& $this->items[$index];
 		$item->text = $item->introtext;

@@ -492,19 +492,6 @@ class ContentModelArticle extends JModel
 	{
 		global $mainframe;
 
-		// Create a new parameters object for the article
-		$params = new JParameter($this->_article->attribs);
-
-		// Get the page/component configuration
-		$pparams = &$this->getState('parameters.menu');
-		if (!is_object($params)) {
-			$pparams = &JComponentHelper::getParams('com_content');
-		}
-
-		// Default setting
-		$pop = JRequest::getVar('pop', 0, '', 'int');
-		$params->set('popup', $pop);
-
 		// Set some metatag information if needed
 		if ($mainframe->getCfg('MetaTitle') == '1') {
 			$mainframe->addMetaTag('title', $this->_article->title);
@@ -513,23 +500,15 @@ class ContentModelArticle extends JModel
 			$mainframe->addMetaTag('author', $this->_article->author);
 		}
 
-		// Handle global overides for some article parameters if set
-		$params->def('link_titles',			$pparams->get('link_titles'));
-		$params->def('show_author',			$pparams->get('show_author'));
-		$params->def('show_create_date',	$pparams->get('show_create_date'));
-		$params->def('show_modify_date',	$pparams->get('show_modify_date'));
-		$params->def('show_print_icon',		$pparams->get('show_print_icon'));
-		$params->def('show_pdf_icon',		$pparams->get('show_pdf_icon'));
-		$params->def('show_email_icon',		$pparams->get('show_email_icon'));
-		$params->def('show_vote',			$pparams->get('show_vote'));
-		$params->def('show_icons',			$pparams->get('show_icons'));
-		$params->def('show_readmore',		$pparams->get('show_readmore'));
-		$params->def('show_intro',			$pparams->get('show_intro'));
-		$params->def('show_section',		$pparams->get('show_section'));
-		$params->def('show_category',		$pparams->get('show_category'));
-		$params->def('link_section',		$pparams->get('link_section'));
-		$params->def('link_category',		$pparams->get('link_category'));
+		// Get the page/component configuration
+		$params = clone($mainframe->getPageParameters('com_content'));
 
+		// Merge article parameters into the page configuration
+		$params->merge(new JParameter($this->_article->attribs));
+
+		// Set the popup configuration option based on the request
+		$pop = JRequest::getVar('pop', 0, '', 'int');
+		$params->set('popup', $pop);
 
 		// Set the Section name as a link if needed
 		if ($params->get('link_section') && $this->_article->sectionid) {
