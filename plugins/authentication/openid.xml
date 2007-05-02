@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin"  group="auth">
-	<name>Authentication - GMail</name>
+	<name>Authentication - OpenID</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2006</creationDate>
 	<copyright>(C) 2007 Open Source Matters. All rights reserved.</copyright>

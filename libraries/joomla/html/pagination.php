@@ -383,75 +383,7 @@ class JPagination extends JObject
 
 		return $html;
 	}
-
-	/**
-	 * Return the icon to move an item UP
-	 *
-	 * @access public
-	 * @param int $id The row index
-	 * @param int $order The ordering value for the item
-	 * @param boolean $condition [Does Not Appear To Be Used]
-	 * @param string $task The task to fire
-	 * @param string $alt The image alternate text string
-	 * @return string Either the icon to move an item up or a space
-	 * @since 1.0
-	 */
-	function orderUpIcon2($id, $order, $condition = true, $task = 'orderup', $alt = '#')
-	{
-		// handling of default value
-		if ($alt = '#') {
-			$alt = JText::_('Move Up');
-		}
-
-		if ($order == 0) {
-			$img = 'uparrow0.png';
-		} else {
-			if ($order < 0) {
-				$img = 'uparrow-1.png';
-			} else {
-				$img = 'uparrow.png';
-			}
-		}
-		$output = '<a href="javascript:void listItemTask(\'cb'.$id.'\',\'orderup\')" title="'.$alt.'">';
-		$output .= '<img src="images/'.$img.'" width="16" height="16" border="0" alt="'.$alt.'" title="'.$alt.'" /></a>';
-
-		return $output;
-	}
-
-	/**
-	 * Return the icon to move an item DOWN
-	 *
-	 * @access public
-	 * @param int $id The row index
-	 * @param int $order The ordering value for the item
-	 * @param boolean $condition [Does Not Appear To Be Used]
-	 * @param string $task The task to fire
-	 * @param string $alt The image alternate text string
-	 * @return string Either the icon to move an item down or a space
-	 * @since 1.0
-	 */
-	function orderDownIcon2($id, $order, $condition = true, $task = 'orderdown', $alt = '#')
-	{
-		// handling of default value
-		if ($alt = '#') {
-			$alt = JText::_('Move Down');
-		}
-
-		if ($order == 0) {
-			$img = 'downarrow0.png';
-		} else {
-			if ($order < 0) {
-				$img = 'downarrow-1.png';
-			} else {
-				$img = 'downarrow.png';
-			}
-		}
-		$output = '<a href="javascript:void listItemTask(\'cb'.$id.'\',\'orderdown\')" title="'.$alt.'">';
-		$output .= '<img src="images/'.$img.'" width="16" height="16" border="0" alt="'.$alt.'" title="'.$alt.'" /></a>';
-
-		return $output;
-	}
-
+	
 	function _list_footer($list)
 	{
 		// Initialize variables
