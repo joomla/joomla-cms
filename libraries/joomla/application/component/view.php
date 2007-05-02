@@ -45,6 +45,14 @@ class JView extends JObject
 	 * @access protected
 	 */
 	var $_models = array();
+	
+	/**
+	 * The base path of the view
+	 *
+	 * @var		string
+	 * @access 	protected
+	 */
+	var $_basePath = null;
 
 	/**
 	 * The default model
@@ -126,6 +134,13 @@ class JView extends JObject
 				}
 				$this->_name = strtolower( $r[3] );
 			}
+		}
+		
+		// Set a base path for use by the view
+		if (isset($config['base_path'])) {
+			$this->_basePath	= $config['base_path'];
+		} else {
+			$this->_basePath	= JPATH_COMPONENT;
 		}
 
 		// set the default template search path
@@ -658,7 +673,7 @@ class JView extends JObject
 			{
 				// the current directory
 				$viewName = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_name);
-				$this->_addPath($type, JPATH_COMPONENT.DS.'views'.DS.$viewName.DS.'tmpl');
+				$this->_addPath($type, $this->_basePath.DS.'views'.DS.$viewName.DS.'tmpl');
 
 				// set the alternative template search dir
 				if (isset($mainframe)) 
@@ -671,7 +686,7 @@ class JView extends JObject
 				
 			case 'helper':
 			{
-				$this->_addPath($type, JPATH_COMPONENT.DS.'helpers');
+				$this->_addPath($type, $this->_basePath.DS.'helpers');
 			} break;
 		}
 
