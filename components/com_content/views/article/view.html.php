@@ -44,9 +44,6 @@ class ContentViewArticle extends JView
 		$menus = &JMenu::getInstance();
 		$menu  = $menus->getActive();
 
-		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters('com_content');
-
 		if($this->getLayout() == 'pagebreak') {
 			$this->_displayPagebreak($tpl);
 			return;

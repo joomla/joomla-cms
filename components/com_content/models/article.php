@@ -504,7 +504,8 @@ class ContentModelArticle extends JModel
 		$params = clone($mainframe->getPageParameters('com_content'));
 
 		// Merge article parameters into the page configuration
-		$params->merge(new JParameter($this->_article->attribs));
+		$aparams = new JParameter($this->_article->attribs);
+		$params->merge($aparams);
 
 		// Set the popup configuration option based on the request
 		$pop = JRequest::getVar('pop', 0, '', 'int');

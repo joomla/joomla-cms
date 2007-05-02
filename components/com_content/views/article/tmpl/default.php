@@ -6,10 +6,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</div>
 <?php endif; ?>
 
-<?php if ($this->params->get('item_title') || $this->params->get('show_pdf_icon') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
+<?php if ($this->params->get('show_title') || $this->params->get('show_pdf_icon') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
 <table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
-	<?php if ($this->params->get('item_title')) : ?>
+	<?php if ($this->params->get('show_title')) : ?>
 	<td class="contentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="100%">
 		<?php if ($this->params->get('link_titles') && $this->article->readmore_link != '') : ?>
 		<a href="<?php echo $this->article->readmore_link; ?>" class="contentpagetitle<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
