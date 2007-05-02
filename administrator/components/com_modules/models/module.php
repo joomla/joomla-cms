@@ -88,7 +88,7 @@ class ModulesModelModule extends JModel
 		jimport('joomla.filesystem.folder');
 		// Attempt to map the client to a base path
 		jimport('joomla.application.helper');
-		$client = JApplicationHelper::getClientInfo($module->client_id);
+		$client = JApplicationHelper::getClientInfo($this->getState('clientId'));
 		if ($client === false) {
 			return false;
 		}

@@ -186,7 +186,7 @@ class ModulesController extends JController
 		$lists['state']	= JCommonHTML::selectState( $filter_state );
 
 		// template assignment filter
-		$query = 'SELECT DISTINCT(template) AS text, template AS value'. 
+		$query = 'SELECT DISTINCT(template) AS text, template AS value'.
 				' FROM #__templates_menu' .
 				' WHERE client_id = ' . $client->id;
 		$db->setQuery( $query );
