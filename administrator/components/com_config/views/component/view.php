@@ -37,7 +37,7 @@ class ConfigViewComponent extends JView
 		$document->addStyleSheet('../includes/js/joomla/modal.css');
 		jimport('joomla.html.tooltips');
 ?>
-	<form action="index3.php" method="post" name="adminForm" autocomplete="off">
+	<form action="index.php" method="post" name="adminForm" autocomplete="off">
 		<fieldset>
 			<div style="float: right">
 				<button type="button" onclick="submitbutton('save');window.setTimeout('window.top.document.popup.hide(null, true)',700);">
@@ -62,6 +62,7 @@ class ConfigViewComponent extends JView
 
 		<input type="hidden" name="controller" value="component" />
 		<input type="hidden" name="option" value="com_config" />
+		<input type="hidden" name="tmpl" value="component" />
 		<input type="hidden" name="task" value="" />
 	</form>
 <?php

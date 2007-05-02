@@ -59,7 +59,7 @@ echo $this->loadTemplate('address');
 
 if ( $this->contact->params->get( 'allow_vcard' ) )
 {
-	echo '<p>'.JText::_( 'Download information as a' ).'<a href="index2.php?option=com_contact&amp;task=vcard&amp;contact_id='.$this->contact->id.'&amp;format=raw" >';
+	echo '<p>'.JText::_( 'Download information as a' ).'<a href="index.php?option=com_contact&amp;task=vcard&amp;contact_id='.$this->contact->id.'&amp;format=raw" >';
 	echo JText::_( 'VCard' );
 	echo '</a></p>';
 }

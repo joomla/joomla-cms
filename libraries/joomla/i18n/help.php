@@ -63,14 +63,14 @@ class JHelp
 			// Online help site as defined in GC
 			$version = new JVersion();
 			$ref .= $version->getHelpVersion();
-			$url = $userHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
+			$url = $userHelpUrl . '/index.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref=' . urlencode( $ref );
 		}
 		else if ( $globalHelpUrl )
 		{
 			// Online help site as defined in GC
 			$version = new JVersion();
 			$ref .= $version->getHelpVersion();
-			$url = $globalHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
+			$url = $globalHelpUrl . '/index.php?option=com_content&amp;task=findkey&amp;tmpl=component;1&amp;keyref=' . urlencode( $ref );
 		}
 		else
 		{

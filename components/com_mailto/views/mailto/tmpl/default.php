@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 $data	= $this->get('data');
 ?>
 
-<form action="index2.php?option=com_mailto&amp;task=send" name="mailtoform" method="post" onSubmit="return submitbutton();">
+<form action="index.php" name="mailtoform" method="post" onSubmit="return submitbutton();">
 
 <div style="padding: 10px;">
 	<div style="text-align:right">
@@ -65,6 +65,7 @@ $data	= $this->get('data');
 
 	<input type="hidden" name="option" value="com_mailto" />
 	<input type="hidden" name="task" value="send" />
+	<input type="hidden" name="tmpl" value="component" />
 	<input type="hidden" name="link" value="<?php echo $data->link; ?>" />
 	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>
