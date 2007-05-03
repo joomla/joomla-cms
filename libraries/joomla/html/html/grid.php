@@ -22,46 +22,6 @@
  */
 class JHTMLGrid
 {
-	
-	function Legend( )
-	{
-		?>
-		<table cellspacing="0" cellpadding="4" border="0" align="center">
-		<tr align="center">
-			<td>
-			<img src="images/publish_y.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Pending' ); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_( 'Published, but is' ); ?> <u><?php echo JText::_( 'Pending' ); ?></u> |
-			</td>
-			<td>
-			<img src="images/publish_g.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Visible' ); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_( 'Published and is' ); ?> <u><?php echo JText::_( 'Current' ); ?></u> |
-			</td>
-			<td>
-			<img src="images/publish_r.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Finished' ); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_( 'Published, but has' ); ?> <u><?php echo JText::_( 'Expired' ); ?></u> |
-			</td>
-			<td>
-			<img src="images/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Finished' ); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_( 'Not Published' ); ?>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="8" align="center">
-			<?php echo JText::_( 'Click on icon to toggle state.' ); ?>
-			</td>
-		</tr>
-		</table>
-		<?php
-	}
-	
 	/**
 	 * @param	string	The link title
 	 * @param	string	The order field for the column
@@ -210,4 +170,3 @@ class JHTMLGrid
 		return $checked;
 	}
 }
-

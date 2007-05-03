@@ -1218,6 +1218,7 @@ class mosCommonHTML
  	*/
 	function ContentLegend( )
 	{
+		JHTML::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_content'.DS.'html' );
 		JHTML::_('grid.legend');
 	}
 

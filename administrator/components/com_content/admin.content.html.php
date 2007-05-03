@@ -40,6 +40,7 @@ class ContentView
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
 
+		JHTML::addIncludePath( JPATH_COMPONENT.DS.'html' );
 		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_content" method="post" name="adminForm">
@@ -257,7 +258,7 @@ class ContentView
 			?>
 			</tbody>
 			</table>
-			<?php JHTML::_('grid.legend'); ?>
+			<?php JHTML::_('articles.legend'); ?>
 
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="task" value="" />

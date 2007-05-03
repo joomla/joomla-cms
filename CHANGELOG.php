@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-May-2007 Andrew Eddie
+ ^ Moved admin articles list legend to component included html element
+
 03-May-2007 Louis Landry
  ^ Menu Parameters / Component Configuration rework
  ! Either resave all data in backend or reinstall :)
