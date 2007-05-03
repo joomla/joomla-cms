@@ -26,10 +26,6 @@ if(isset($this->error))
 
         echo '<p class="error">'. $this->error.'</p>';
 }
-
-echo '<div class="contentdescription">';
-echo '<p>'.$this->contact->params->get( 'email_description' ). '</p>';
-echo '</div>';
 echo '<form action="'.JRoute::_('index.php').'"  class="form-validate" method="post" name="emailForm" target="_top" id="emailForm">';
 echo '<div class="contact_email'.$this->params->get( 'pageclass_sfx' ).'">';
 echo '<label for="contact_name">';
@@ -58,12 +54,9 @@ if ($this->contact->params->get( 'show_email_copy' ))
 	echo '</div>';
 }
 echo '<button class="button validate" type="submit">'.JText::_('Send').'</button>';
-
-echo '<input type="hidden" name="option" value="com_contact" />';
 echo '<input type="hidden" name="view" value="contact" />';
 echo '<input type="hidden" name="id" value="'.$this->contact->id.'" />';
 echo '<input type="hidden" name="task" value="sendmail" />';
-echo '<input type="hidden" name="Itemid" value="'.$Itemid .'" />';
 echo '<input type="hidden" name="'.JUtility::getToken().'" value="1" />';
 echo '</form>';
 ?>
