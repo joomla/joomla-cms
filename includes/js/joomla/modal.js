@@ -215,7 +215,7 @@ JPopup.prototype = {
 			this.container.style.top =  scTop + ((fullHeight - (height+titleBarHeight)) / 2) + "px";
 			this.container.style.left = scLeft + ((fullWidth - width) / 2) + "px";
 
-			this.mask.style.height = fullWidth + "px";
+			this.mask.style.height = fullHeight + "px";
 			this.mask.style.width = fullWidth + "px";
 			//alert(fullWidth + " " + width + " " + this.container.style.left);
 		}
