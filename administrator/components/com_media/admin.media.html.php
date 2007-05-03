@@ -138,7 +138,7 @@ class MediaViews
 		<input type="hidden" name="dirpath" id="dirpath" value="<?php echo $current; ?>" />
 		</form>
 		<?php
-		JHTML::keepAlive();
+		JHTML::_('behavior.keepalive');
 	}
 
 	/**
