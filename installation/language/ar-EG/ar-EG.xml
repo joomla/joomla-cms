@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5" client="installation" >
+    <name>Arabic (العالم العربى)</name>
+    <version>1.5.0</version>
+    <creationDate>May 2007</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description>Arabic language file for the web installer</description>
+    <metadata>
+    	<name>Arabic (العالم العربى)</name>
+    	<tag>ar-EG</tag>
+    	<rtl>1</rtl>
+    	<locale>ar, ar-EG, eg, ara_EG, ar_EG, arabic, arabic-eg, ar, ar_EG.utf8, egypt, Arabic_Egypt</locale>
+    	<winCodePage>windows-1256</winCodePage>
+    	<backwardLang>arabic</backwardLang>
+    </metadata>
+    <params />
+</metafile>

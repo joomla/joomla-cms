@@ -156,6 +156,10 @@ class ContentViewCategory extends JView
 		$item 		=& $this->items[$index];
 		$item->text = $item->introtext;
 
+		$category	= & $this->get( 'Category' );
+		$item->category = $category->title;
+		$item->section  = $category->sectiontitle;
+
 		// Get the page/component configuration and article parameters
 		$params	 = clone($params);
 		$aparams = new JParameter($item->attribs);
@@ -181,6 +185,15 @@ class ContentViewCategory extends JView
 				$linkOn = JRoute::_("index.php?option=com_user&task=register");
 				$linkText = JText::_('Register to read more...');
 			}
+		}
+
+		// Set the Section name as a link if needed
+		if ($params->get('link_section') && $item->sectionid) {
+			$item->section = ContentHelperRoute::getSectionRoute($item);
+		}
+		// Set the Category name as a link if needed
+		if ($params->get('link_category') && $item->catid) {
+			$item->category = ContentHelperRoute::getCategoryRoute($item);
 		}
 
 		$item->readmore_link = $linkOn;

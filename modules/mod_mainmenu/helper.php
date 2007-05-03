@@ -100,11 +100,13 @@ class modMainMenuHelper
 				}
 			}
 			if ((!is_a($doc, 'JSimpleXMLElement')) || (!$found) || ($root)) {
-				$doc = new JSimpleXMLElement('ul');
+				$doc = false;
 			}
 		}
 
-		$doc->map($decorator, array('end'=>$end, 'children'=>$sChild));
+		if ($doc) {
+			$doc->map($decorator, array('end'=>$end, 'children'=>$sChild));
+		}
 		return $doc;
 	}
 
@@ -134,7 +136,9 @@ class modMainMenuHelper
 				// Include the new menu class
 				// require_once(dirname(__FILE__).DS.'menu.php');
 				$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
-				echo JOutputFilter::ampReplace($xml->asXML());
+				if ($xml) {
+					echo JOutputFilter::ampReplace($xml->asXML());
+				}
 				break;
 		}
 	}
@@ -252,7 +256,7 @@ class JMenuTree extends JTree
 		{
 			$menu = &JMenu::getInstance();
 			if ($tmp = $menu->getItem($item->link)) {
-				$tmp->name	 = '<![CDATA['.$item->name.']]>';
+				$tmp->name	 = '<span><![CDATA['.$item->name.']]></span>';
 				$tmp->mid	 = $item->id;
 				$tmp->parent = $item->parent;
 			} else {
@@ -260,7 +264,7 @@ class JMenuTree extends JTree
 			}
 		} else {
 			$tmp = $item;
-			$tmp->name = '<![CDATA['.$item->name.']]>';
+			$tmp->name = '<span><![CDATA['.$item->name.']]></span>';
 		}
 
 		$iParams =& new JParameter($tmp->params);
