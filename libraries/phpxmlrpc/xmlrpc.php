@@ -160,8 +160,15 @@ $cp1252_to_htmlent =
 
 	$GLOBALS['xmlrpcerr']['unknown_method']=1;
 	$GLOBALS['xmlrpcstr']['unknown_method']='Unknown method';
-	$GLOBALS['xmlrpcerr']['invalid_return']=2;
-	$GLOBALS['xmlrpcstr']['invalid_return']='Invalid return payload: enable debugging to examine incoming payload';
+
+	// eddieajau: Custom codes to help with debugging
+	$GLOBALS['xmlrpcerr']['invalid_return1']=2.1;
+	$GLOBALS['xmlrpcstr']['invalid_return1']='Invalid return payload (XML not well formed): enable debugging to examine incoming payload';
+	$GLOBALS['xmlrpcerr']['invalid_return2']=2.2;
+	$GLOBALS['xmlrpcstr']['invalid_return2']='Invalid return payload (XML contains invalid markup): enable debugging to examine incoming payload';
+	$GLOBALS['xmlrpcerr']['invalid_return3']=2.3;
+	$GLOBALS['xmlrpcstr']['invalid_return3']='Invalid return payload (something strange going on): enable debugging to examine incoming payload';
+	
 	$GLOBALS['xmlrpcerr']['incorrect_params']=3;
 	$GLOBALS['xmlrpcstr']['incorrect_params']='Incorrect parameters passed to method';
 	$GLOBALS['xmlrpcerr']['introspect_unknown']=4;
@@ -1810,6 +1817,7 @@ $cp1252_to_htmlent =
 		{
 			if($fcode != 0)
 			{
+				$this->val = $val;
 				// error response
 				$this->errno = $fcode;
 				$this->errstr = $fstr;
@@ -2267,7 +2275,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 								else
 								{
 									error_log('XML-RPC: xmlrpcmsg::parseResponse: errors occurred when trying to decode the deflated data received from server');
-									$r = new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['decompress_fail'], $GLOBALS['xmlrpcstr']['decompress_fail']);
+									$r = new xmlrpcresp($data, $GLOBALS['xmlrpcerr']['decompress_fail'], $GLOBALS['xmlrpcstr']['decompress_fail']);
 									return $r;
 								}
 							}
@@ -2417,7 +2425,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 						xml_get_current_line_number($parser), xml_get_current_column_number($parser));
 				}
 				error_log($errstr);
-				$r=&new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['invalid_return'], $GLOBALS['xmlrpcstr']['invalid_return'].' ('.$errstr.')');
+				$r=&new xmlrpcresp($data, $GLOBALS['xmlrpcerr']['invalid_return1'], $GLOBALS['xmlrpcstr']['invalid_return1'].' ('.$errstr.')');
 				xml_parser_free($parser);
 				if($this->debug)
 				{
@@ -2436,8 +2444,8 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 					/// @todo echo something for user?
 				}
 
-				$r = new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['invalid_return'],
-				$GLOBALS['xmlrpcstr']['invalid_return'] . ' ' . $GLOBALS['_xh']['isf_reason']);
+				$r = new xmlrpcresp($data, $GLOBALS['xmlrpcerr']['invalid_return2'],
+				$GLOBALS['xmlrpcstr']['invalid_return2'] . ' ' . $GLOBALS['_xh']['isf_reason']);
 			}
 			// third error check: parsing of the response has somehow gone boink.
 			// NB: shall we omit this check, since we trust the parsing code?
@@ -2446,8 +2454,8 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 				// something odd has happened
 				// and it's time to generate a client side error
 				// indicating something odd went on
-				$r=&new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['invalid_return'],
-				$GLOBALS['xmlrpcstr']['invalid_return']);
+				$r=&new xmlrpcresp($data, $GLOBALS['xmlrpcerr']['invalid_return3'],
+				$GLOBALS['xmlrpcstr']['invalid_return3']);
 			}
 			else
 			{
