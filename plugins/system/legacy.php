@@ -155,7 +155,7 @@ class  plgSystemLegacy extends JPlugin
 	function onAfterRoute()
 	{
 		global $mainframe;
-		if ($mainframe->isAdmin() || (!$this->params->get('route'))) {
+		if ($mainframe->isAdmin()) {
 			return;
 		}
 		
