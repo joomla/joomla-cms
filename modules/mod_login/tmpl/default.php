@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 	<input type="hidden" name="option" value="com_user" />
 	<input type="hidden" name="task" value="logout" />
-	<input type="hidden" name="return" value="<?php echo base64_encode(JRoute::_($return, false)); ?>" />
+	<input type="hidden" name="return" value="<?php echo base64_encode($return); ?>" />
 </form>
 <?php else : ?>
 <form action="index.php" method="post" name="login" >
@@ -57,7 +57,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	
 	<input type="hidden" name="option" value="com_user" />
 	<input type="hidden" name="task" value="login" />
-	<input type="hidden" name="return" value="<?php echo base64_encode(JRoute::_($return, false)); ?>" />
+	<input type="hidden" name="return" value="<?php echo base64_encode($return); ?>" />
 	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>
 <?php endif; ?>
