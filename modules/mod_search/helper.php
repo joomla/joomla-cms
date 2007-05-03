@@ -33,7 +33,7 @@ class modSearchHelper
 		{
 			if ($imagebutton)
 			{
-				$img = JAdminMenus::ImageCheck('searchButton.gif', '/images/M_images/', NULL, NULL, $button_text, $button_text, 0);
+				$img = JHTML::_('image.site', 'searchButton.gif', '/images/M_images/', NULL, NULL, $button_text, $button_text, 0);
 				$button = '<input type="image" value="'.$button_text.'" class="button'.$moduleclass_sfx.'" src="'.$img.'"/>';
 			}
 			else

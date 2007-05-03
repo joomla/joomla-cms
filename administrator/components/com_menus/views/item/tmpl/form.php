@@ -107,7 +107,7 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_( 'Ordering' ); ?>:
 							</td>
 							<td>
-								<?php echo JHTML::_('list.menuordering', $this->item, $this->item->id ); ?>
+								<?php echo JHTML::_('menu.ordering', $this->item, $this->item->id ); ?>
 							</td>
 						</tr>
 						<tr>

@@ -78,7 +78,6 @@ jimport( 'joomla.html.html' );
 jimport( 'joomla.html.parameter' );
 jimport( 'joomla.utilities.array' );
 jimport( 'joomla.utilities.error' );
-jimport( 'joomla.utilities.functions' );
 jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.utilities.string' );
 jimport( 'joomla.version' );

@@ -20,7 +20,7 @@ defined('JPATH_BASE') or die();
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage		Parameter
+ * @subpackage	Parameter
  * @since		1.5
  */
 
@@ -83,7 +83,7 @@ class JElementMenuItem extends JElement
 		}
 
 		// second pass - get an indent list of the items
-		$list = mosTreeRecurse( 0, '', array(), $children, 9999, 0, 0 );
+		$list = JHTML::_('menu.treerecurse', 0, '', array(), $children, 9999, 0, 0 );
 
 		// assemble into menutype groups
 		$n = count( $list );

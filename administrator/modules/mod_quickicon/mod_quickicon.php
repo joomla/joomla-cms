@@ -14,7 +14,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-if (!defined( '_JOS_QUICKICON_MODULE' )) {
+if (!defined( '_JOS_QUICKICON_MODULE' )) 
+{
 	/** ensure that functions are declared only once */
 	define( '_JOS_QUICKICON_MODULE', 1 );
 
@@ -27,7 +28,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 		<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
 			<div class="icon">
 				<a href="<?php echo $link; ?>">
-					<?php echo JAdminMenus::ImageCheck( $image, '/templates/'. $template .'/images/header/', NULL, NULL, $text ); ?>
+					<?php echo JHTML::_('image.site',  $image, '/templates/'. $template .'/images/header/', NULL, NULL, $text ); ?>
 					<span><?php echo $text; ?></span>
 				</a>
 			</div>

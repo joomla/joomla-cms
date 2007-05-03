@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-May-2007 Johan Janssens
+ ^ JHTML optimisation, finished
+
 02-May-2007 Johan Janssens
  + Added helper suppport to JView class, see loadHelper function
  + Added JPATH_XMLRPC define

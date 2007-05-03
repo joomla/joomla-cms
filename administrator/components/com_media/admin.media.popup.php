@@ -239,7 +239,7 @@ class MediaViews
 		<table id="toolbar">
 		<tr>
 			<td>
-				<?php echo JAdminMenus::ImageCheck( 'module.png', '/administrator/images/', NULL, NULL, $_LANG->_( 'Upload a File' ), 'upload' ); ?>
+				<?php echo JHTML::_('image.site',  'module.png', '/administrator/images/', NULL, NULL, $_LANG->_( 'Upload a File' ), 'upload' ); ?>
 			</td>
 			<td class="title">
 				<?php echo  JText::_( 'Create a Directory' ); ?>

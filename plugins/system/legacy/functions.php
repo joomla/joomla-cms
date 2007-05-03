@@ -831,4 +831,15 @@ function ampReplace( $text )
 	return JOutputFilter::ampReplace($text);
 }
 
+/**
+ * Legacy function to replaces &amp; with & for xhtml compliance
+ *
+ * @deprecated	As of version 1.5
+ */
+function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 ) 
+{	
+	jimport('joomla.html.html');
+	JHTML::_('menu.treerecurse', $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1);
+}
+
 ?>

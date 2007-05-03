@@ -80,7 +80,7 @@ class JHTMLGrid
 		<?php
 		echo JText::_( $title );
 		if ($order == $selected ) {
-			echo JAdminMenus::ImageCheckAdmin( $images[$index], '/images/', NULL, NULL, '', '', 1 );
+			echo JHTML::_('image.administrator',  $images[$index], '/images/', NULL, NULL, '', '', 1 );
 		}
 		echo '</a>';
 	}
@@ -185,7 +185,7 @@ class JHTMLGrid
 	
 	function Order( $rows, $image='filesave.png', $task="saveorder" )
 	{
-		$image = JAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
+		$image = JHTML::_('image.administrator',  $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
 		?>
 		<a href="javascript:saveorder(<?php echo count( $rows )-1; ?>, '<?php echo $task; ?>')" title="<?php echo JText::_( 'Save Order' ); ?>">
 			<?php echo $image; ?></a>

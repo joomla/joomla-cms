@@ -94,7 +94,8 @@ class JMenuHelper
 		// establish the hierarchy of the menu
 		$children = array();
 
-		if ( $mitems ) {
+		if ( $mitems ) 
+		{
 			// first pass - collect children
 			foreach ( $mitems as $v )
 			{
@@ -106,7 +107,7 @@ class JMenuHelper
 		}
 
 		// second pass - get an indent list of the items
-		$list = mosTreeRecurse( 0, '', array(), $children, 9999, 0, 0 );
+		$list = JHTML::_('menu.treerecurse', 0, '', array(), $children, 9999, 0, 0 );
 
 		// assemble menu items to the array
 		$mitems 	= array();

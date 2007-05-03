@@ -78,7 +78,6 @@ jimport( 'joomla.factory' );
 jimport( 'joomla.html.html' );		  		//needs to be loaded later
 jimport( 'joomla.utilities.array' );	  		//needs to be loaded later
 jimport( 'joomla.utilities.error' );
-jimport( 'joomla.utilities.functions' ); 	//needs to be loaded later
 jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.utilities.string' );		//needs to be loaded later
 jimport( 'joomla.version' );				//needs to be loaded later

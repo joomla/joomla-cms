@@ -41,7 +41,7 @@ class ContentHelperHTML
 				$url = 'index.php?task=new&id=0&sectionid='.$article->sectionid;
 
 				if ($params->get('show_icons')) {
-					$text = JAdminMenus::ImageCheck('new.png', '/images/M_images/', NULL, NULL, JText::_('New'), JText::_('New'). $article->id );
+					$text = JHTML::_('image.site', 'new.png', '/images/M_images/', NULL, NULL, JText::_('New'), JText::_('New'). $article->id );
 				} else {
 					$text = JText::_('New').'&nbsp;';
 				}
@@ -57,7 +57,7 @@ class ContentHelperHTML
 
 				// checks template image directory for image, if non found default are loaded
 				if ($params->get('show_icons')) {
-					$text = JAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
+					$text = JHTML::_('image.site', 'pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
 				} else {
 					$text = JText::_('PDF').'&nbsp;';
 				}
@@ -76,7 +76,7 @@ class ContentHelperHTML
 
 				// checks template image directory for image, if non found default are loaded
 				if ( $params->get( 'show_icons' ) ) {
-					$text = JAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
+					$text = JHTML::_('image.site',  'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
 				} else {
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}
@@ -93,7 +93,7 @@ class ContentHelperHTML
 				$status = 'width=400,height=300,menubar=yes,resizable=yes';
 
 				if ($params->get('show_icons')) 	{
-					$text = JAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
+					$text = JHTML::_('image.site', 'emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
 				} else {
 					$text = '&nbsp;'.JText::_('Email');
 				}
@@ -117,7 +117,7 @@ class ContentHelperHTML
 				}
 				JHTML::_('behavior.tooltip');
 				$url = 'index.php?view=article&&id='.$article->id.'&task=edit&Returnid='.$Itemid;
-				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
+				$text = JHTML::_('image.site', 'edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 				if ($article->state == 0) {
 					$overlib = JText::_('Unpublished');
@@ -143,7 +143,7 @@ class ContentHelperHTML
 			{
 				// checks template image directory for image, if non found default are loaded
 				if ( $params->get( 'show_icons' ) ) {
-					$text = JAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
+					$text = JHTML::_('image.site',  'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
 				} else {
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}

@@ -112,7 +112,7 @@ class TemplatesHelper
 		}
 
 		// build the html select list
-		$options	= JHTML::_('list.menulinkoptions');
+		$options	= JHTML::_('menu.linkoptions');
 		$result		= JHTML::_('select.genericlist',   $options, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
 		return $result;
 	}

@@ -998,7 +998,7 @@ class mosHTML
 			$children[$pt] = $list;
 		}
 		// second pass - get an indent list of the items
-		$ilist = mosTreeRecurse( 0, '', array(), $children );
+		$ilist = JHTML::_('menu.treerecurse', 0, '', array(), $children );
 
 		// assemble menu items to the array
 		$this_treename = '';
@@ -1466,13 +1466,13 @@ class mosCommonHTML
 class mosAdminMenus
 {
 	/**
- 	 * Legacy function, use {@link JHTML::_('list.menuordering')} instead
+ 	 * Legacy function, use {@link JHTML::_('menu.ordering')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function Ordering( &$row, $id )
 	{
-		return JHTML::_('list.menuordering', $row, $id);
+		return JHTML::_('menu.ordering', $row, $id);
 	}
 
 	/**
@@ -1503,7 +1503,7 @@ class mosAdminMenus
  	*/
 	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) 
 	{
-		$options = JHTML::_('list.menulinkoptions', $lookup, $all, $none|$unassigned);
+		$options = JHTML::_('menu.linkoptions', $lookup, $all, $none|$unassigned);
 		if (empty( $lookup )) {
 			$lookup = array( JHTML::_('select.option',  -1 ) );
 		}
@@ -1812,23 +1812,23 @@ class mosAdminMenus
 	}
 
 	/**
- 	 * Legacy function, use {@link JAdminMenus::ImageCheck()} instead
+ 	 * Legacy function, use {@link JHTML::_('image.site')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' )
 	{
-		return JAdminMenus::ImageCheck($file, $directory, $param, $param_directory, $alt, $name, $type, $align);
+		return JHTML::_('image.site', $file, $directory, $param, $param_directory, $alt, $name, $type, $align);
 	}
 
 	/**
- 	 * Legacy function, use {@link JAdminMenus::ImageCheckAdmin()} instead
+ 	 * Legacy function, use {@link JHTML::_('image.administrator')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )
 	{
-		return JAdminMenus::ImageCheckAdmin($file, $directory, $param, $param_directory, $alt, $name, $type, $align);
+		return JHTML::_('image.administrator', $file, $directory, $param, $param_directory, $alt, $name, $type, $align);
 	}
 
 	/**

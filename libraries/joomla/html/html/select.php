@@ -94,7 +94,7 @@ class JHTMLSelect
 
 		return $html;
 	}
-
+	
 	/**
 	 * Generates an HTML select list
 	 *
