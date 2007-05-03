@@ -57,10 +57,18 @@ class JHTML
 				return false;
 			}
 		}
-		
-		$args = func_get_args();
-		array_shift( $args );
-		return call_user_func_array( array( $className, $func ), $args );
+
+		if (is_callable( array( $className, $func ) ))
+		{
+			$args = func_get_args();
+			array_shift( $args );
+			return call_user_func_array( array( $className, $func ), $args );
+		}
+		else
+		{
+			JError::raiseWarning( 0, $className.'::'.$func.' not supported.' );
+			return false;
+		}
 	}
 
 	/**
