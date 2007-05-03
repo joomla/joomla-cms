@@ -73,7 +73,7 @@ class InstallerViewTemplates extends JView
 			$item->cbd		= null;
 			$item->style	= null;
 		}
-		$item->author_info = @$item->authorEmail .'<br />'. @$item->authorUrl;
+		$item->author_information = @$item->authorEmail .'<br />'. @$item->authorUrl;
 
 		$this->assignRef('item', $item);
 	}
