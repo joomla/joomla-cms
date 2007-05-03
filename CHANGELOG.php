@@ -39,6 +39,7 @@ Legend:
 
 04-May-2007 Andrew Eddie
  ^ Moved admin articles list legend to component included html element
+ ^ favicon moved to template folder to address browser caching anomalies
 
 03-May-2007 Louis Landry
  ^ Menu Parameters / Component Configuration rework
