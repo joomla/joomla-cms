@@ -62,6 +62,7 @@ function plgContentEmailCloak( &$row, &$params, $page=0 )
 		$row->text 	= str_replace( $regs[0], $replacement, $row->text );
 	}
 
+	jimport('joomla.html.html.email');
 	// search for derivativs of link code <a href="mailto:email@amail.com">anytext</a>
 	$pattern = plgContentEmailCloak_searchPattern( $search_email, $search_text );
 	while( eregi( $pattern, $row->text, $regs ) ) {
