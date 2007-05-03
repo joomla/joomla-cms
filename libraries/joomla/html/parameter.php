@@ -61,7 +61,7 @@ class JParameter extends JRegistry
 	* @var		array
 	* @since	1.5
 	*/
-	var $_elementDirs = array();
+	var $_elementPath = array();
 
 	/**
 	 * Constructor
@@ -73,11 +73,10 @@ class JParameter extends JRegistry
 	 */
 	function __construct($data, $path = '')
 	{
-		if( !defined( 'JPARAMETER_INCLUDE_PATH' ) ) {
-			define( 'JPARAMETER_INCLUDE_PATH', dirname( __FILE__ ).DS.'parameter'.DS.'element' );
-		}
-
 		parent::__construct('_default');
+		
+		// Set base path
+		$this->_elementPath[] = dirname( __FILE__ ).DS.'parameter'.DS.'element';
 
 		if (trim( $data )) {
 			$this->loadINI($data);
@@ -154,7 +153,7 @@ class JParameter extends JRegistry
 				$this->_xml['_default'] = $xml;
 			}
 			if ($dir = $xml->attributes( 'addparameterdir' )) {
-				$this->addParameterDir( JPATH_ROOT . str_replace('/', DS, $dir) );
+				$this->addElementPath( JPATH_ROOT . str_replace('/', DS, $dir) );
 			}
 		}
 	}
@@ -393,13 +392,11 @@ class JParameter extends JRegistry
 		$elementClass	=	'JElement'.$type;
 		if( !class_exists( $elementClass ) )
 		{
-			if( isset( $this->_elementDirs ) ) {
-				$dirs = $this->_elementDirs;
+			if( isset( $this->_elementPath ) ) {
+				$dirs = $this->_elementPath;
 			} else {
 				$dirs = array();
 			}
-
-			array_push( $dirs, $this->getIncludePath());
 
 			$found = false;
 			foreach( $dirs as $dir )
@@ -441,23 +438,12 @@ class JParameter extends JRegistry
 	* @param	string|array	directory or directories to search.
 	* @since	1.5
 	*/
-	function addParameterDir( $dir )
+	function addElementPath( $path )
 	{
-		if( is_array( $dir ) ) {
-			$this->_elementDirs = array_merge( $this->_elementDirs, $dir );
+		if( is_array( $path ) ) {
+			$this->_elementPath = array_merge( $this->_elementPath, $path );
 		} else {
-			array_push( $this->_elementDirs, $dir );
+			array_push( $this->_elementPath, $path );
 		}
-	}
-
-   /**
-	* Get the include path
-	*
-	* @access	public
-	* @return	 string
-	* @since	1.5
-	*/
-	function getIncludePath() {
-		return	JPARAMETER_INCLUDE_PATH;
 	}
 }

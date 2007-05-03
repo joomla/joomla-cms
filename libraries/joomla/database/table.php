@@ -906,7 +906,7 @@ class JTable extends JObject
 		static $paths;
 
 		if (!isset($paths)) {
-			$paths = array( JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table' );
+			$paths = array( dirname( __FILE__ ).DS.'table' );
 		}
 
 		// just force path to array

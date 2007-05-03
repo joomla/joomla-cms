@@ -55,7 +55,7 @@ class JToolBar extends JObject
 	 * @access	private
 	 * @var		array
 	 */
-	var $_buttonDirs = array ();
+	var $_buttonPath = array ();
 
 	/**
 	 * Constructor
@@ -69,9 +69,10 @@ class JToolBar extends JObject
 		$this->_name = $name;
 
 		jimport('joomla.html.toolbar.button');
-		if (!defined('JBUTTON_INCLUDE_PATH')) {
-			define('JBUTTON_INCLUDE_PATH', dirname(__FILE__).DS.'toolbar'.DS.'button');
-		}
+		
+		// Set base path to find buttons
+		$this->_buttonPath[] = dirname(__FILE__).DS.'toolbar'.DS.'button';
+	
 	}
 
 	/**
@@ -208,12 +209,10 @@ class JToolBar extends JObject
 		$buttonClass = 'JButton'.$type;
 		if (!class_exists($buttonClass))
 		{
-			if (isset ($this->_buttonDirs))
-				$dirs = $this->_buttonDirs;
+			if (isset ($this->_buttonPath))
+				$dirs = $this->_buttonPath;
 			else
 				$dirs = array ();
-
-			array_push($dirs, $this->getIncludePath());
 
 			$found = false;
 			foreach ($dirs as $dir)
@@ -256,23 +255,12 @@ class JToolBar extends JObject
 	 * @param	string|array	directory or directories to search.
 	 * @since	1.5
 	 */
-	function addButtonDir($dir)
+	function addButtonPath($path)
 	{
-		if (is_array($dir)) {
-			$this->_buttonDirs = array_merge($this->_buttonDirs, $dir);
+		if (is_array($path)) {
+			$this->_buttonPath = array_merge($this->_buttonPath, $path);
 		} else {
-			array_push($this->_buttonDirs, $dir);
+			array_push($this->_buttonPath, $path);
 		}
-	}
-
-	/**
-	 * Get the include path
-	 *
-	 * @access	public
-	 * @return	string
-	 * @since	1.5
-	 */
-	function getIncludePath() {
-		return JBUTTON_INCLUDE_PATH;
 	}
 }
