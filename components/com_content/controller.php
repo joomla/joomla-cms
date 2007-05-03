@@ -211,18 +211,12 @@ class ContentController extends JController
 				break;
 
 			case 'apply_new' :
-				$Itemid = JRequest::getVar('Returnid', $Itemid, 'post', 'int');
 				$link = JRoute::_('index.php?task=edit&id='.$post['id']);
 				break;
 
 			case 'save' :
 			default :
-				$Itemid = JRequest::getVar('Returnid', '', 'post','int');
-				if (!$isNew) {
-					$link = JRoute::_('index.php?view=article&id='.$post['id']);
-				} else {
-					$link = JRoute::_('index.php?view=article&id='.$post['id']);
-				}
+				$link = JRoute::_('index.php?view=article&id='.$post['id']);
 				break;
 		}
 		$this->setRedirect($link, $msg);
