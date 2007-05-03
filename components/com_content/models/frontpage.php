@@ -115,11 +115,9 @@ class ContentModelFrontpage extends JModel
 
 	function _buildQuery()
 	{
+		global $mainframe;
 		// Get the page/component configuration
-		$params = &$this->getState('parameters.menu');
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
-		}
+		$params = &$mainframe->getPageParameters();
 
 		// Voting is turned on, get voting data as well for the content items
 		$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -148,8 +146,9 @@ class ContentModelFrontpage extends JModel
 
 	function _buildContentOrderBy()
 	{
+		global $mainframe;
 		// Get the page/component configuration
-		$params = &$this->getState('parameters.menu');
+		$params = &$mainframe->getPageParameters();
 		if (!is_object($params)) {
 			$params = &JComponentHelper::getParams('com_content');
 		}
@@ -178,10 +177,7 @@ class ContentModelFrontpage extends JModel
 		$now			= $jnow->toMySQL();
 
 		// Get the page/component configuration
-		$params = &$this->getState('parameters.menu');
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
-		}
+		$params = &$mainframe->getPageParameters();
 
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();

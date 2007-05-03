@@ -252,10 +252,7 @@ class ContentModelCategory extends JModel
 			$user	 =& JFactory::getUser();
 
 			// Get the page/component configuration
-			$params = &$this->getState('parameters.menu');
-			if (!is_object($params)) {
-				$params = &JComponentHelper::getParams('com_content');
-			}
+			$params = &$mainframe->getPageParameters();
 
 			$noauth	 = !$params->get('show_noauth');
 			$gid		 = (int) $user->get('aid', 0);
@@ -334,11 +331,9 @@ class ContentModelCategory extends JModel
 
 	function _buildQuery($state = 1)
 	{
+		global $mainframe;
 		// Get the page/component configuration
-		$params = &$this->getState('parameters.menu');
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
-		}
+		$params = &$mainframe->getPageParameters();
 
 		// If voting is turned on, get voting data as well for the content items
 		$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -364,11 +359,9 @@ class ContentModelCategory extends JModel
 
 	function _buildContentOrderBy($state = 1)
 	{
+		global $mainframe;
 		// Get the page/component configuration
-		$params = &$this->getState('parameters.menu');
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
-		}
+		$params = &$mainframe->getPageParameters();
 
 		$filter_order		= JRequest::getVar('filter_order');
 		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
@@ -418,10 +411,7 @@ class ContentModelCategory extends JModel
 		$now			= $jnow->toMySQL();
 
 		// Get the page/component configuration
-		$params = &$this->getState('parameters.menu');
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
-		}
+		$params = &$mainframe->getPageParameters();
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
 

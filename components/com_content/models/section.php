@@ -260,9 +260,6 @@ class ContentModelSection extends JModel
 			$user	=& JFactory::getUser();
 
 			$params = &$mainframe->getPageParameters();
-			if (!is_object($params)) {
-				$params = &JComponentHelper::getParams('com_content');
-			}
 
 			$noauth	= !$params->get('show_noauth');
 			$gid		= $user->get('aid', 0);
@@ -396,9 +393,6 @@ class ContentModelSection extends JModel
 
 		// Get the page/component configuration
 		$params = &$mainframe->getPageParameters();
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
-		}
 
 		// If voting is turned on, get voting data as well for the content items
 		$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -471,9 +465,6 @@ class ContentModelSection extends JModel
 
 		// Get the page/component configuration
 		$params = &$mainframe->getPageParameters();
-		if (!is_object($params)) {
-			$params = &JComponentHelper::getParams('com_content');
-		}
 
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();

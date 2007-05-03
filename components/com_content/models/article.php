@@ -439,14 +439,12 @@ class ContentModelArticle extends JModel
 	 */
 	function _loadArticle()
 	{
+		global $mainframe;
 		// Load the content if it doesn't already exist
 		if (empty($this->_article))
 		{
 			// Get the page/component configuration
-			$params = &$this->getState('parameters.menu');
-			if (!is_object($params)) {
-				$params = &JComponentHelper::getParams('com_content');
-			}
+			$params = &$mainframe->getPageParameters();
 
 			// If voting is turned on, get voting data as well for the article
 			$voting	= ContentHelperQuery::buildVotingQuery($params);
