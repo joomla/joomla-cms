@@ -258,6 +258,7 @@ class JDocument extends JObject
 				require_once $path;
 			} else {
 				// No call to JError::raiseError here, as it depends on JDocumentError
+				JSession::close();
 				die('Unable to load Document Type: '.$type);
 			}
 
