@@ -485,8 +485,8 @@ class MenusController extends JController
 
 			// change menutype of all menuitems using old menutype
 			$query = 'UPDATE #__menu'
-			. ' SET menutype = "'.$menutype.'"'
-			. ' WHERE menutype = "'.$old_menutype.'"'
+			. ' SET menutype = "'.$newTerm.'"'
+			. ' WHERE menutype = "'.$oldTerm.'"'
 			;
 			$db->setQuery( $query );
 			$db->query();
