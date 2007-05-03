@@ -371,7 +371,8 @@ function editCategory( )
 	// build the html select list for the group access
 	$lists['access'] 			= JAdministratorHelper::Access( $row );
 	// build the html radio buttons for published
-	$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
+	$published = ($row->id) ? $row->published : 1;
+	$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $published );
 
 	$row->checkout($uid);
  	categories_html::edit( $row, $lists, $redirect );
