@@ -138,7 +138,7 @@ class ContentViewCategory extends JView
 		return $this->items;
 	}
 
-	function &getItem($index = 0, $aparams)
+	function &getItem($index = 0, &$params)
 	{
 		global $mainframe;
 
@@ -153,14 +153,15 @@ class ContentViewCategory extends JView
 		$linkOn		= null;
 		$linkText	= null;
 
-		// Get the page/component configuration
-		$params = clone($mainframe->getPageParameters('com_content'));
+		$item 		=& $this->items[$index];
+		$item->text = $item->introtext;
+
+		// Get the page/component configuration and article parameters
+		$params	 = clone($params);
+		$aparams = new JParameter($item->attribs);
 
 		// Merge article parameters into the page configuration
 		$params->merge($aparams);
-
-		$item 		=& $this->items[$index];
-		$item->text = $item->introtext;
 
 		// Process the content preparation plugins
 		JPluginHelper::importPlugin('content');
