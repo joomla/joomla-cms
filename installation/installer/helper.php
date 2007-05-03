@@ -315,18 +315,18 @@ class JInstallationHelper
 			return;
 		}
 	}
-	
+
 	function & getDBO($driver, $host, $user, $password, $database, $prefix, $select = true)
 	{
 		static $db;
-		
+
 		if ( ! $db )
 		{
 			jimport('joomla.database.database');
 			$options	= array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix, 'select' => $select	);
 			$db = & JDatabase::getInstance( $options );
 		}
-		
+
 		return $db;
 	}
 
@@ -421,6 +421,7 @@ class JInstallationHelper
 		foreach ($ftpPaths as $tmpPath)
 		{
 			$filePath = rtrim($tmpPath, '/').'/libraries/joomla/version.php';
+			$buffer = null;
 			@$ftp->read($filePath, $buffer);
 			if ($buffer == $checkValue)
 			{
@@ -499,6 +500,7 @@ class JInstallationHelper
 		}
 
 		// Verify RETR function
+		$buffer = null;
 		if ($ftp->read($root.'/libraries/joomla/version.php', $buffer) === false) {
 			return JError::raiseError('SOME_ERROR_CODE', 'NORETR');
 		}
