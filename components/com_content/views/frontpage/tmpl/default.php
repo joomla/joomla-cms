@@ -45,7 +45,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			for ($z = 0; $z < $this->params->def('num_columns', 2); $z ++) :
 				if ($z > 0) : $divider = " column_separator"; endif; ?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
-				<?php for ($y = 0; $y < $this->params->get('intro') / $this->params->get('num_columns'); $y ++) :
+				<?php for ($y = 0; $y < $this->params->get('num_intro_articles') / $this->params->get('num_columns'); $y ++) :
 					if ($i < $this->total) :
 						$this->item =& $this->getItem($i, $this->params);
 						echo $this->loadTemplate('item');
