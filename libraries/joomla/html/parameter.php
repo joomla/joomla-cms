@@ -176,8 +176,6 @@ class JParameter extends JRegistry
 		} else {
 			return $this->loadINI($data, $group);
 		}
-
-		return false;
 	}
 
 	/**
