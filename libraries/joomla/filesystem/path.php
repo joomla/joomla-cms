@@ -189,7 +189,7 @@ class JPath
 	 */
 	function isOwner($path)
 	{
-		return (posix_getuid() == fileowner($path));
+		return (getmyuid() == fileowner($path));
 	}
 
 	/**
