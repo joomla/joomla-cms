@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: it-IT.xml 6169 2007-01-04 11:06:32Z vamba $ -->
+<metafile version="1.5" client="installation" >
+	<name>Italian (Italy)</name>
+	<version>1.5.0</version>
+	<creationDate>Nov 2005</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<description>Italian language file for web installer</description>
+	<metadata>
+		<name>Italian (Italy)</name>
+		<tag>it-IT</tag>
+		<rtl>0</rtl>
+		<locale>it_IT.utf8, it_IT.UTF-8, it_IT.UTF-8@euro, it, ita_IT, it_IT, it-IT, Italian_Standard, italian, italian-it, IT, ita, </locale>
+		<winCodePage>iso-8859-1</winCodePage>
+		<backwardLang>italian</backwardLang>
+	</metadata>
+	<params />
+</metafile>

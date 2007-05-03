@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metafile version="1.5" client="installation" >
+    <name>Montenegrin(Montenegro)</name>
+    <version>1.5.0-Beta 1</version>
+    <creationDate>Jan 2007</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>leftfield@joomlamontenegro.com</authorEmail>
+    <authorUrl>www.joomlamontenegro.com.com</authorUrl>
+    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description>Ijekavski za web instaler</description>
+    <metadata>
+    	<name>Montenegrin (Montenegro)</name>
+    	<tag>sr-ME</tag>
+    	<rtl>0</rtl>
+    	<locale>sr_RS, sr-ME, srb_RS, sr, srb, Serbian, serbian, sr_RS.utf8, srpski, Srpski</locale>
+    	<winCodePage>UTF-8</winCodePage>
+    	<backwardLang>ijekavski</backwardLang>
+    </metadata>
+    <params />
+</metafile>

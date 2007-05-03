@@ -1,0 +1,384 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+<!-- ViewCVS - http://viewcvs.sourceforge.net/
+by Greg Stein - mailto:gstein@lyra.org -->
+<html>
+<head>
+<title>SourceForge : Log of /he-IL/index.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="/integration/content/styles.css">
+<link rel="stylesheet" type="text/css" href="/integration/css/styles_new.css">
+<script language="JavaScript" src="/integration/js/sf_functions.js" type="text/javascript"></script>
+</head>
+<body text="#000000" bgcolor="#ffffff">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- SourceForge masthead begin -->
+
+
+<script type="text/javascript" src="/sf-help/RoboHelp_CSH.js"></script>
+<script type="text/javascript">
+                      var helpRoot = '/sf-help/en/index.htm>HelpWin';
+    
+    // show help for a topic
+    function showTopicHelp(topicId) {
+	// First, close the help menu
+	closeMenu(activeButton);
+	RH_ShowHelp(0, helpRoot, HH_HELP_CONTEXT, topicId);
+    }
+
+    // show help for a topic
+    function showTopicHelpDirectly(topicId) {
+	RH_ShowHelp(0, helpRoot, HH_HELP_CONTEXT, topicId);
+    }
+
+    // show the help table of contents
+    function showHelpContents() {
+	// First, close the help menu
+	closeMenu(activeButton);
+	RH_ShowHelp(0, helpRoot, HH_DISPLAY_TOC, 0);
+    }
+
+    // show the help index
+    function showHelpIndex() {
+	// First, close the help menu
+	closeMenu(activeButton);
+	RH_ShowHelp(0, helpRoot, HH_DISPLAY_INDEX, 0);
+    }
+
+    // show the help index (not from a menu)
+    function showHelpIndexFromLink() {
+	RH_ShowHelp(0, helpRoot, HH_DISPLAY_INDEX, 0);
+    }
+</script>
+
+<div id="ProjectMenu" class="menu">
+      <a class="menuItem" href="http://forge.joomla.org/sf/projects/joomla_translations">Joomla! Accredited Translations</a>
+      <a class="menuItem" href="http://forge.joomla.org/sf/projects/joomla_official_documentation_pr">Joomla! Official Documentation</a>
+      <div class="menuItemSep"></div>
+    <a class="menuItem" href="http://forge.joomla.org/sf/sfmain/do/myProjects?selectedTab=my">My Projects</a>
+    <a class="menuItem" href="http://forge.joomla.org/sf/sfmain/do/myProjects?selectedTab=all">All Projects</a>
+</div>
+
+<div id="SearchMenu" class="menu">
+  <a class="menuItem" href="http://forge.joomla.org/sf/search/do/quickJump" onClick="window.open('http://forge.joomla.org/sf/search/do/quickJump', 'quickjumpwindow', 'width=540,height=263'); closeMenu(activeButton); return false">Quick Jump</a>
+  <a class="menuItem" id="search" href="http://forge.joomla.org/sf/search/do/search">Search</a>
+</div>
+
+<div id="HelpMenu2" class="menu">
+    <a class="menuItem" href="javascript:showTopicHelp(26)">Help for this Page</a>
+<a class="menuItem" href="javascript:showHelpContents()">Help Contents</a>
+<a class="menuItem" href="javascript:showHelpIndex()">Help Index</a>
+<a class="menuItem" href="/sf-help/en/doc/User_Guide.pdf">User Guide</a>
+<div class="menuItemSep"></div>
+<a class="menuItem" href="http://forge.joomla.org/sf/global/do/about" onclick="javascript:closeMenu(activeButton); window.open('http://forge.joomla.org/sf/global/do/about','sfpabout','height=450,width=600'); return false;">About SourceForge</a>
+</div>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="mastHeadBackground">
+ <tr>
+  <td>
+   <table width="300" border="0" cellpadding="0" cellspacing="0" class="mastHeadLink">
+     <tr class="mastHeadLinkSpacing">
+       <td nowrap="nowrap" valign="middle"><a href="http://forge.joomla.org/sf/sfmain/do/home" target="_top"><img src="http://forge.joomla.org/sf-images/masthead/logo-custom.gif" border="0" align="absmiddle"><img src="http://forge.joomla.org/sf-images/masthead/logo.gif" border="0" align="absmiddle"></a></td>
+                    <td nowrap="nowrap" class="mastHeadLink"><a href="http://forge.joomla.org/sf/sfmain/do/home" target="_top">Home</a></td>
+       <td nowrap="nowrap" class="mastHeadLinkSpacing"> </td>
+
+                          <td nowrap="nowrap" class="mastHeadLink"><a href="http://forge.joomla.org/sf/categorization/do/browse/projects/categorization.root" target="_top">Project Categories</a></td>
+         <td nowrap="nowrap" class="mastHeadLinkSpacing"> </td>
+       
+               <td nowrap="nowrap" class="mastHeadLink"><a href="http://forge.joomla.org/sf/sfmain/do/myPage" target="_top">My&nbsp;Workspace</a></td>
+       <td nowrap="nowrap" class="mastHeadLinkSpacing"> </td>
+       
+               <td nowrap="nowrap" class="mastHeadLinkSelected"><a href="#" onclick="return buttonClick(this, 'ProjectMenu');">Projects<img src="http://forge.joomla.org/sf-images/masthead/dropdown.gif" width="7" height="4" hspace="2" border="0"></a></td>
+       <td nowrap="nowrap" class="mastHeadLinkSpacing"> </td>
+               <td nowrap="nowrap" class="mastHeadLink"><a href="#" onclick="return buttonClick(this, 'SearchMenu');">Search<img src="http://forge.joomla.org/sf-images/masthead/dropdown.gif" width="7" height="4" hspace="2" border="0"></a></td>
+
+     
+          
+                 
+     </tr>
+   </table>
+  </td>
+  <td align="right">
+    <table border="0" cellspacing="0" cellpadding="0" class="mastHeadLink">
+      <tr class="mastHeadLink">
+                  <td nowrap="nowrap" id="UserLoggedIn">Logged In:&nbsp;Jean-Marie Simonet&nbsp;<div id="CurrentUsername" style="display: none;">infograf768</div></td>
+          <td nowrap="nowrap"><img src="http://forge.joomla.org/sf-images/masthead/vertical_line.gif" width="1" height="19" hspace="4"></td>
+          <td nowrap="nowrap">&nbsp;<a href="#" onclick="return buttonClick(this, 'HelpMenu2');"><img src="http://forge.joomla.org/sf-images/masthead/help.gif" width="21" height="21" border="0"></a></td>
+          <td nowrap="nowrap">&nbsp;<a href="http://forge.joomla.org/sf/sfmain/do/logout" target="_top"><img src="http://forge.joomla.org/sf-images/masthead/logout.gif" alt="Logout" width="19" height="21" border="0"></a></td>
+              </tr>
+    </table>
+  </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="black"><img src="http://forge.joomla.org/sf-images/misc/pixel.gif" width="1" height="1"></td>
+  </tr>
+</table>
+
+<!-- SourceForge masthead end -->
+
+
+
+  <!-- SourceForge buttonbar begin -->
+  <table class="TopMenu">
+    <tr class="ButtonRow">
+        <td class="VerticalSeparatorNoBorder"><img src="/sf-images/misc/white.gif" border="0" height="40" width="1"></td>
+                   <td class="Button " onclick="window.location = 'http://forge.joomla.org/sf/projects/joomla_translations'; return false;"><a href="http://forge.joomla.org/sf/projects/joomla_translations" target="_top"><img src="http://forge.joomla.org/sf-images/project/project-homeicon.gif" width="25" height="20" border="0"><br>Project&nbsp;Home</a></td>
+                  <td class="VerticalSeparator"><img src="/sf-images/misc/white.gif" border="0" height="40" width="1"></td>
+                             <td class="Button " onclick="window.location = 'http://forge.joomla.org/sf/tracker/do/listTrackers/projects.joomla_translations/tracker'; return false;"><a href="http://forge.joomla.org/sf/tracker/do/listTrackers/projects.joomla_translations/tracker" target="_top"><img src="http://forge.joomla.org/sf-images/project/project-trackericon.gif" width="25" height="20" border="0"><br>Tracker</a></td>
+                  <td class="VerticalSeparator"><img src="/sf-images/misc/white.gif" border="0" height="40" width="1"></td>
+                             <td class="Button " onclick="window.location = 'http://forge.joomla.org/sf/docman/do/listDocuments/projects.joomla_translations/docman.root'; return false;"><a href="http://forge.joomla.org/sf/docman/do/listDocuments/projects.joomla_translations/docman.root" target="_top"><img src="http://forge.joomla.org/sf-images/project/project-documentsicon.gif" width="25" height="20" border="0"><br>Documents</a></td>
+                  <td class="VerticalSeparator"><img src="/sf-images/misc/white.gif" border="0" height="40" width="1"></td>
+                             <td class="Button " onclick="window.location = 'http://forge.joomla.org/sf/taskmgr/do/viewSummary/projects.joomla_translations/taskmgr'; return false;"><a href="http://forge.joomla.org/sf/taskmgr/do/viewSummary/projects.joomla_translations/taskmgr" target="_top"><img src="http://forge.joomla.org/sf-images/project/project-tasksicon.gif" width="25" height="20" border="0"><br>Tasks</a></td>
+                                    <td class="SelectedLeft"><img src="/sf-images/misc/pixel.gif" border="0" height="1" width="4"></td>
+           <td class="Button Selected" onclick="window.location = 'http://forge.joomla.org/sf/scm/do/listRepositories/projects.joomla_translations/scm'; return false;"><a href="http://forge.joomla.org/sf/scm/do/listRepositories/projects.joomla_translations/scm" target="_top"><img src="http://forge.joomla.org/sf-images/project/project-scmicon.gif" width="25" height="20" border="0"><br>Source&nbsp;Code</a></td>
+           <td class="SelectedRight"><img src="/sf-images/misc/pixel.gif" border="0" height="1" width="4"/></td>
+                  <td class="VerticalSeparatorNoBorder"><img src="/sf-images/misc/white.gif" border="0" height="40" width="1"></td>
+                             <td class="Button " onclick="window.location = 'http://forge.joomla.org/sf/discussion/do/listForums/projects.joomla_translations/discussion'; return false;"><a href="http://forge.joomla.org/sf/discussion/do/listForums/projects.joomla_translations/discussion" target="_top"><img src="http://forge.joomla.org/sf-images/project/project-forumsicon.gif" width="25" height="20" border="0"><br>Discussions</a></td>
+                  <td class="VerticalSeparator"><img src="/sf-images/misc/white.gif" border="0" height="40" width="1"></td>
+                             <td class="Button " onclick="window.location = 'http://forge.joomla.org/sf/reporting/do/listReports/projects.joomla_translations/reporting'; return false;"><a href="http://forge.joomla.org/sf/reporting/do/listReports/projects.joomla_translations/reporting" target="_top"><img src="http://forge.joomla.org/sf-images/project/project-reportsicon.gif" width="25" height="20" border="0"><br>Reports</a></td>
+                  <td class="VerticalSeparator"><img src="/sf-images/misc/white.gif" border="0" height="40" width="1"></td>
+                             <td class="Button " onclick="window.location = 'http://forge.joomla.org/sf/frs/do/viewSummary/projects.joomla_translations/frs'; return false;"><a href="http://forge.joomla.org/sf/frs/do/viewSummary/projects.joomla_translations/frs" target="_top"><img src="http://forge.joomla.org/sf-images/project/project-releasesicon.gif" width="25" height="20" border="0"><br>File Releases</a></td>
+                  <td class="VerticalSeparator"><img src="/sf-images/misc/white.gif" border="0" height="40" width="1"></td>
+                             <td class="Button " onclick="window.location = 'http://forge.joomla.org/sf/wiki/do/viewPage/projects.joomla_translations/wiki/HomePage'; return false;"><a href="http://forge.joomla.org/sf/wiki/do/viewPage/projects.joomla_translations/wiki/HomePage" target="_top"><img src="http://forge.joomla.org/sf-images/project/project-wikiicon.gif" width="25" height="20" border="0"><br>Wiki</a></td>
+                  <td class="VerticalSeparator"><img src="/sf-images/misc/white.gif" border="0" height="40" width="1"></td>
+                             <td class="Button " onclick="window.location = 'http://forge.joomla.org/sf/sfmain/do/projectAdmin/projects.joomla_translations'; return false;"><a href="http://forge.joomla.org/sf/sfmain/do/projectAdmin/projects.joomla_translations" target="_top"><img src="http://forge.joomla.org/sf-images/project/project-projectadminicon.gif" width="25" height="20" border="0"><br>Project&nbsp;Admin</a></td>
+                  <td class="VerticalSeparator"><img src="/sf-images/misc/white.gif" border="0" height="40" width="1"></td>
+                           <td class="ButtonEnd"></td>
+             </tr>
+
+  <tr class="ShadowRow">
+        
+                  <td colspan="8"></td>
+            <td class="SelectedLeft"></td>
+      <td class="Selected"></td>
+      <td class="SelectedRight"></td>
+              <td colspan="12"></td>
+  </tr>
+  </table>
+
+  <!-- SourceForge buttonbar end -->
+
+
+<table class="Paddedtable" width="100%">
+<tr>
+<td><p><b>
+
+<a href="/integration/viewcvs/viewcvs.cgi/?root=j15install&amp;rev=141&amp;system=exsy1002">
+
+[j15install]</a>
+/
+
+<a href="/integration/viewcvs/viewcvs.cgi/he-IL/?root=j15install&amp;rev=141&amp;system=exsy1002">
+
+he-IL</a>
+/
+
+
+
+index.html
+
+
+</b></p>
+
+<a href="/integration/viewcvs/viewcvs.cgi/he-IL/?root=j15install&amp;system=exsy1002"><img src="/integration/content/images/back_small.png" width=16 height=16 border=0> Parent Directory</a>
+
+
+
+<hr noshade>
+<p>No default branch<br>
+Bookmark a link to HEAD:
+(<a href="/integration/viewcvs/viewcvs.cgi/he-IL/index.html?root=j15install&amp;system=exsy1002&amp;view=markup">view</a>)
+(<a href="/integration/viewcvs/viewcvs.cgi/*checkout*/he-IL/index.html?root=j15install&amp;system=exsy1002">download</a>)
+(<a href="/integration/viewcvs/viewcvs.cgi/*checkout*/he-IL/index.html?root=j15install&amp;content-type=text%2Fplain&amp;system=exsy1002">as text</a>)
+
+</p>
+
+
+
+ 
+
+
+
+<hr size=1 noshade>
+
+
+
+
+<a name="rev141"></a>
+
+
+Revision <a href="/integration/viewcvs/viewcvs.cgi?root=j15install&amp;rev=141&amp;system=exsy1002&amp;view=rev"><b>141</b></a>
+ -
+(<a href="/integration/viewcvs/viewcvs.cgi/he-IL/index.html?root=j15install&amp;rev=141&amp;system=exsy1002&amp;view=markup">view</a>)
+(<a href="/integration/viewcvs/viewcvs.cgi/*checkout*/he-IL/index.html?root=j15install&amp;rev=141&amp;system=exsy1002">download</a>)
+(<a href="/integration/viewcvs/viewcvs.cgi/*checkout*/he-IL/index.html?rev=141&amp;content-type=text%2Fplain&amp;system=exsy1002&amp;root=j15install">as text</a>)
+
+
+
+
+- <a href="/integration/viewcvs/viewcvs.cgi/he-IL/index.html?r1=141&amp;rev=141&amp;system=exsy1002&amp;root=j15install&amp;view=log">[select for diffs]</a>
+
+
+
+
+<br>
+
+Modified
+
+<i>Sat Aug 19 11:59:12 2006 PDT</i> (6 months, 3 weeks ago) by <i>davidgal</i>
+
+
+
+
+
+
+
+
+<br>File length: 44 byte(s)</b>
+
+
+
+
+
+
+<br>Diff to <a href="/integration/viewcvs/viewcvs.cgi/he-IL/index.html?p1=hb-IL%2Findex.html&amp;r1=1&amp;r2=141&amp;rev=141&amp;system=exsy1002&amp;root=j15install">previous 1</a>
+
+
+
+
+
+
+
+<pre class="vc_log"></pre>
+
+<hr size=1 noshade>
+
+Filename: hb-IL/index.html<br>
+
+
+<a name="rev1"></a>
+
+
+Revision <a href="/integration/viewcvs/viewcvs.cgi?root=j15install&amp;rev=1&amp;system=exsy1002&amp;view=rev"><b>1</b></a>
+ -
+(<a href="/integration/viewcvs/viewcvs.cgi/hb-IL/index.html?root=j15install&amp;rev=1&amp;system=exsy1002&amp;view=markup">view</a>)
+(<a href="/integration/viewcvs/viewcvs.cgi/*checkout*/hb-IL/index.html?root=j15install&amp;rev=1&amp;system=exsy1002">download</a>)
+(<a href="/integration/viewcvs/viewcvs.cgi/*checkout*/hb-IL/index.html?rev=1&amp;content-type=text%2Fplain&amp;system=exsy1002&amp;root=j15install">as text</a>)
+
+
+
+
+- <a href="/integration/viewcvs/viewcvs.cgi/he-IL/index.html?p1=hb-IL%2Findex.html&amp;r1=1&amp;rev=141&amp;system=exsy1002&amp;root=j15install&amp;view=log">[select for diffs]</a>
+
+
+
+
+<br>
+
+Added
+
+<i>Thu Apr 20 14:25:53 2006 PDT</i> (10 months, 3 weeks ago) by <i>davidgal</i>
+
+
+
+
+
+
+<br>File length: 44 byte(s)</b>
+
+
+
+
+
+
+
+
+
+
+<pre class="vc_log">Added a folder remotely</pre>
+
+ 
+
+
+
+<a name="diff"></a>
+<hr noshade>
+This form allows you to request diffs between any two revisions of
+a file. You may select a symbolic revision name using the selection
+box or you may type in a numeric name using the type-in text box.
+<p>
+<form method="get" action="/integration/viewcvs/viewcvs.cgi/he-IL/index.html" name="diff_select">
+<input type="hidden" name="system" value="exsy1002" /><input type="hidden" name="root" value="j15install" />
+<table border="0" cellpadding="2" cellspacing="0">
+<tr>
+<td>&nbsp;</td>
+<td>
+Diffs between
+
+<input type="text" size="12" name="r1" value="1">
+
+and
+
+<input type="text" size="12" name="r2" value="1">
+
+</td>
+</tr>
+<tr>
+<td><input type="checkbox" name="makepatch" id="makepatch" value="1"></td>
+<td><label for="makepatch">Generate output suitable for use with a patch
+program</label></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>
+Type of Diff should be a
+<select name="diff_format" onchange="submit()">
+<option value="h" selected>Colored Diff</option>
+<option value="l" >Long Colored Diff</option>
+<option value="u" >Unidiff</option>
+<option value="c" >Context Diff</option>
+<option value="s" >Side by Side</option>
+</select>
+<input type="submit" value=" Get Diffs ">
+</td>
+</tr>
+</table>
+</form>
+
+
+
+
+<hr noshade>
+<a name=logsort></a>
+<form method=get action="/integration/viewcvs/viewcvs.cgi/he-IL/index.html">
+<input type="hidden" name="root" value="j15install" /><input type="hidden" name="system" value="exsy1002" />
+Sort log by:
+<select name="logsort" onchange="submit()">
+<option value="cvs" >Not sorted</option>
+<option value="date" selected>Commit date</option>
+<option value="rev" >Revision</option>
+</select>
+<input type=submit value=" Sort ">
+</form>
+
+
+</td></tr></table>
+</body>
+</html>
+

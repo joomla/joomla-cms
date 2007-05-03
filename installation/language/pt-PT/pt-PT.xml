@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: pt-PT.xml 6169 2007-03-31 01:16:01Z horus_68 $ -->
+<metafile version="1.5" client="installation" >
+	<name>Português(Portugal)</name>
+	<version>1.5.0</version>
+	<creationDate>Nov 2005</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<description>Pacote de idioma Português (Portugal) para o instalador web do Joomla</description>
+	<metadata>
+		<name>Português (Portugal)</name>
+		<tag>pt-PT</tag>
+		<rtl>0</rtl>
+		<locale>Portuguese_Standard, pt_PT, pt_PT@euro, pt_PT.iso88591, pt_PT.iso885915@euro, pt_PT.utf8, pt_PT.ISO8859-1, pt_PT.ISO8859-15, pt_PT.UTF-8, pt_PT.UTF-8@euro, Portuguese</locale>
+		<winCodePage>iso-8859-1</winCodePage>
+		<backwardLang>portuguese</backwardLang>
+	</metadata>
+	<params />
+</metafile>

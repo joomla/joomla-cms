@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5" client="installation" >
+    <name>Nederlands (NL-BE)</name>
+    <version>1.5.0</version>
+    <creationDate>2007-01-25</creationDate> 
+    <author>Joomla! Nederlands</author>
+    <authorEmail>webmaster@spacepage.be</authorEmail>
+    <authorUrl>http://joomlacode.org/gf/project/nederlands/</authorUrl>
+    <copyright>(C) 2007 Vancanneyt Sander. Alle rechten voorbehouden.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description></description>
+    <metadata>
+    	<name>Nederlands (NL-BE)</name>
+    	<tag>nl-NL</tag>
+    	<rtl>0</rtl>
+    	<locale>nl-NL, dut_BE, dut-NL, nl_NL, nl, dutch, dutch-be, dutch-nl, nl, belgium, netherlands, nld_NLD, nl_NL@euro, nl_NL.ISO8859-1</locale>
+    	<winCodePage>iso-8859-1</winCodePage>
+    	<backwardLang>dutch</backwardLang>
+    </metadata>
+    <params />
+</metafile>

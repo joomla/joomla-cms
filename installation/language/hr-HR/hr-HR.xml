@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5" client="installation" >
+	<name>Croatian</name>
+	<version>1.5.0</version>
+	<creationDate>Nov 2005</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<description>Hrvatski jezik za web instaler</description>
+	<metadata>
+		<name>Croatian (Hr)</name>
+		<tag>hr-HR</tag>
+		<rtl>0</rtl>
+		<locale>hr_HR.utf8, hr, hrv, hrv_HR, hr_HR, Croatian, croatian, hrvatski, Hrvatski</locale>
+		<winCodePage>windows-1250</winCodePage>
+		<backwardLang>hrvatski</backwardLang>
+	</metadata>
+	<params />
+</metafile>

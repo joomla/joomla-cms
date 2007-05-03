@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.1" client="installation" >
+	<name>Greek</name>
+	<version>1.5.0</version>
+	<creationDate>May 2007</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<description>Greek language file for web installer</description>
+	<metadata>
+		<name>Greek</name>
+		<tag>el-GR</tag>
+		<rtl>0</rtl>
+		<locale>el, gr, el_GR, gr_GR, el_GRE, gr_GRE, greek, greece, hellas, hellenic</locale>
+		<winCodePage>iso-8859-7</winCodePage>
+		<backwardLang>greek</backwardLang>
+	</metadata>
+	<params />
+</metafile>

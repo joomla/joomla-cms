@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5"  client="installation" >
+	<tag>da-DK</tag>
+	<name>Danish(DK)</name>
+	<description>Dansk sprogfil til webinstallationen</description>
+	<version>1.5.0</version>
+	<creationdate>Nov 2005</creationdate>
+	<author>Danish Translation project (Transl.:Mikael Jensen, Corr.:Ronny Buelund, Packg.:Translation Component)</author>
+	<authorurl>www.joomla.dk</authorurl>
+	<authoremail>admin@joomla.org</authoremail>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<metadata>
+		<name>Danish(DK)</name>
+		<tag>da-DK</tag>
+		<rtl>0</rtl>
+		<locale>da, dk, dan_DK, da-DK, da_DK, danish</locale>
+		<wincodepage>iso-8859-1</wincodepage>
+		<backwardlang>danish</backwardlang>
+		<pdffontname>vera</pdffontname>
+	</metadata>
+	<params></params>
+</metafile>

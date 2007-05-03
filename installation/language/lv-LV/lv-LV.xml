@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5"  client="installation" >
+	<tag>lv-LV</tag>
+	<name>Latvian</name>
+	<description>Latvian language file for web installer</description>
+	<version>1.5.0</version>
+	<creationdate>17.02.2007</creationdate>
+	<author>Joomla! Project</author>
+	<authorurl>www.joomla.org</authorurl>
+	<authoremail>admin@joomla.org</authoremail>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<metadata>
+		<name>Latvian</name>
+		<tag>lv-LV</tag>
+		<rtl>0</rtl>
+		<locale>lv_LV.utf8, lv_LV.UTF-8, lv_LV</locale>
+		<wincodepage>utf-8</wincodepage>
+		<backwardlang>english</backwardlang>
+		<pdffontname>vera</pdffontname>
+	</metadata>
+	<params></params>
+</metafile>

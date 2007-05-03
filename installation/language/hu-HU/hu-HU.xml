@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5" client="installation" >
+	<name>Magyar (Hungary)</name>
+	<version>1.5.0</version>
+	<creationDate>Nov 2005</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<description>Magyar nyelvi fájl a webes telepítőhöz</description>
+	<metadata>
+		<name>Magyar (Hungary)</name>
+		<tag>hu-HU</tag>
+		<rtl>0</rtl>
+		<locale>hu, hun, hun_HU, hu_HU, magyar, magyar-hu, hungary, magyarország</locale>
+		<winCodePage>iso-8859-2</winCodePage>
+		<backwardLang>magyar</backwardLang>
+	</metadata>
+	<params />
+</metafile>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5" client="installation" >
+	<name>Finnish (Suomi)</name>
+	<version>1.5.0</version>
+	<creationDate>Nov 2005</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<description>Finnish language file for web installer</description>
+	<metadata>
+		<name>Finnish (Suomi)</name>
+		<tag>fi-FI</tag>
+		<rtl>0</rtl>
+		<locale>fi_FI.utf8,fi_FI.UTF-8,finnish, fi_FI, fin_FI, fi</locale>
+		<winCodePage>iso-8859-1</winCodePage>
+		<backwardLang>finnish</backwardLang>
+	</metadata>
+	<params />
+</metafile>

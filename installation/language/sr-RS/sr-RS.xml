@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5" client="installation" >
+    <name>Serbian</name>
+    <version>1.5.0</version>
+    <creationDate>May 1, 2007</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>marko@joomlaserbia.com</authorEmail>
+    <authorUrl>www.joomlaserbia.com</authorUrl>
+    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description>Serbian language file for web installer</description>
+    <metadata>
+       <name>Serbian (RS)</name>
+       <tag>sr-RS</tag>
+       <rtl>0</rtl>
+              <locale>sr_RS, srb_RS, sr, srb, Serbian, serbian, sr_RS.utf8, srpski, Srpski</locale>
+      <winCodePage>utf-8</winCodePage>
+                <backwardLang>serbian</backwardLang>
+    </metadata>
+    <params />
+</metafile>
