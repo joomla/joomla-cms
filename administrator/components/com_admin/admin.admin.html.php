@@ -193,30 +193,30 @@ class HTML_admin_misc
 							<?php
 							if ($helpurl) {
 							?>
-							<?php echo JHTML::Link($fullhelpurl.'joomla.glossary', JText::_( 'Glossary' ), array('target' => '"helpFrame"')) ?>
+							<?php echo JHTML::_('link', $fullhelpurl.'joomla.glossary', JText::_( 'Glossary' ), array('target' => '"helpFrame"')) ?>
 							|
-							<?php echo JHTML::Link($fullhelpurl.'joomla.credits', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::_('link', $fullhelpurl.'joomla.credits', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo JHTML::Link($fullhelpurl.'joomla.support', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::_('link', $fullhelpurl.'joomla.support', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
 							<?php
 							} else {
 							?>
-							<?php echo JHTML::Link(JURI::base() .'help/'.$langTag.'/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::_('link', JURI::base() .'help/'.$langTag.'/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo JHTML::Link(JURI::base() .'help/'.$langTag.'/joomla.credits.html', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::_('link', JURI::base() .'help/'.$langTag.'/joomla.credits.html', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo JHTML::Link(JURI::base() .'help/'.$langTag.'/joomla.support.html', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::_('link', JURI::base() .'help/'.$langTag.'/joomla.support.html', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
 							<?php
 							}
 							?>
 							|
-							<?php echo JHTML::Link('http://www.gnu.org/copyleft/gpl.html', JText::_( 'License' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::_('link', 'http://www.gnu.org/copyleft/gpl.html', JText::_( 'License' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo JHTML::Link('http://help.joomla.org', 'help.joomla.org', array('target' => '"_blank"')) ?>
+							<?php echo JHTML::_('link', 'http://help.joomla.org', 'help.joomla.org', array('target' => '"_blank"')) ?>
 							|
-							<?php echo JHTML::Link('index.php?option=com_admin&amp;task=changelog&amp;tmpl=component', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::_('link', 'index.php?option=com_admin&amp;task=changelog&amp;tmpl=component', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo JHTML::Link('http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '"_blank"')) ?>
+							<?php echo JHTML::_('link', 'http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '"_blank"')) ?>
 						</td>
 					</tr>
 				</table>
@@ -236,11 +236,11 @@ class HTML_admin_misc
 						foreach ($toc as $k=>$v) {
 							if ($helpurl) {
 								echo '<li>';
-								echo JHTML::Link($fullhelpurl . urlencode( $k ), $v, array('target' => "'helpFrame'"));
+								echo JHTML::_('link', $fullhelpurl . urlencode( $k ), $v, array('target' => "'helpFrame'"));
 								echo '</li>';
 							} else {
 								echo '<li>';
-								echo JHTML::Link(JURI::base() .'help/'.$langTag.'/'.$k, $v, array('target' => "'helpFrame'"));
+								echo JHTML::_('link', JURI::base() .'help/'.$langTag.'/'.$k, $v, array('target' => "'helpFrame'"));
 								echo '</li>';
 							}
 						}

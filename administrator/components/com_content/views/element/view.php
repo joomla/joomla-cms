@@ -112,7 +112,7 @@ class ContentViewElement extends JView
 				$row = &$rows[$i];
 
 				$link 	= '';
-				$date	= JHTML::Date( $row->created, DATE_FORMAT_LC4 );
+				$date	= JHTML::_('date',  $row->created, DATE_FORMAT_LC4 );
 				$access	= JHTML::_('grid.access',   $row, $i, $row->state );
 				?>
 				<tr class="<?php echo "row$k"; ?>">

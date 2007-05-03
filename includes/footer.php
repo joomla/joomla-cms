@@ -20,7 +20,7 @@ $version = new JVersion();
 // NOTE - You may change this file to suit your site needs
 ?>
 <div align="center">
-	&copy; <?php echo JHTML::Date( 'now', '%Y' ) . ' ' . $mainframe->getCfg('sitename'); ?>
+	&copy; <?php echo JHTML::_('date',  'now', '%Y' ) . ' ' . $mainframe->getCfg('sitename'); ?>
 </div>
 
 <div align="center">

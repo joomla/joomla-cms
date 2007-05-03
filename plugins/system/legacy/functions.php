@@ -614,16 +614,16 @@ function mosObjectToArray( $p_obj, $recurse = true, $regex = null )
 }
 
 /**
- * Legacy function, use {@link JHTML::Date()} instead
+ * Legacy function, use {@link JHTML::_('date', )} instead
  *
  * @deprecated	As of version 1.5
  */
 function mosFormatDate( $date = 'now', $format = DATE_FORMAT_LC, $offset = null )  {
-	return JHTML::Date($date, $format, $offset);
+	return JHTML::_('date', $date, $format, $offset);
 }
 
 /**
- * Legacy function, use {@link JHTML::Date()} instead
+ * Legacy function, use {@link JHTML::_('date', )} instead
  *
  * @deprecated	As of version 1.5
  */
@@ -633,7 +633,7 @@ function mosCurrentDate( $format="" )
 		$format = JText::_( 'DATE_FORMAT_LC' );
 	}
 
-	return JHTML::Date('now', $format);
+	return JHTML::_('date', 'now', $format);
 }
 
 /**
@@ -807,7 +807,7 @@ function loadOverlib() {
 * @deprecated	As of version 1.5
 */
 function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='', $link=1 ) {
-	return JHTML::ToolTip($tooltip, $title, $image, $text, $href, $link);
+	return JHTML::_('tooltip', $tooltip, $title, $image, $text, $href, $link);
 }
 
 /**

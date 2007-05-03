@@ -139,10 +139,10 @@ class ContentViewArticle extends JView
 		}
 		$article->mod_date = '';
 		if (intval($article->modified) != 0) {
-			$article->mod_date = JHTML::Date($article->modified);
+			$article->mod_date = JHTML::_('date', $article->modified);
 		}
 		if (intval($article->created) != 0) {
-			$article->created = JHTML::Date($article->created);
+			$article->created = JHTML::_('date', $article->created);
 		}
 
 		$article->readmore_link = $linkOn;

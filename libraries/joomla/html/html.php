@@ -24,10 +24,17 @@ class JHTML
 {
 	function _( $type )
 	{
-		$parts = explode('.', $type);
+		//Initialise variables
+		$file = '';
+		$func = $type;
 		
-		$file		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
-		$func		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
+		// Check to see if we need to load a helper file
+		if(substr_count($type, '.')) 
+		{
+			$parts = explode('.', $type);
+			$file		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
+			$func		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
+		}
 		
 		$className	= 'JHTML'.ucfirst($file);
 		
@@ -99,28 +106,6 @@ class JHTML
 
 		return '<img src="'.$src.'" alt="'.$alt.'" '.$attribs.' />';
 
-	}
-
-	/**
-	 * Write a <script></script> element
-	 *
-	 * @access public
-	 * @param string 	The relative URL to use for the src attribute
-	 * @param string	The target attribute to use
-	 * @param array		An associative array of attributes to add
-	 * @since 1.5
-	 */
-	function Script($url, $attribs = null)
-	{
-		global $mainframe;
-
-		$src = $mainframe->getCfg('live_site') . $url;
-
-		 if (is_array($attribs)) {
-			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
-		 }
-
-		return '<script type="text/javascript" src="'.$src.'" '.$attribs.'></script>';
 	}
 
 	/**

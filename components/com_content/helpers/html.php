@@ -47,7 +47,7 @@ class ContentHelperHTML
 				}
 
 				$attribs	= array( 'title' => '"'.JText::_( 'New' ).'"');
-				$output = JHTML::Link($url, $text, $attribs);
+				$output = JHTML::_('link', $url, $text, $attribs);
 			} break;
 
 			case 'pdf' :
@@ -66,7 +66,7 @@ class ContentHelperHTML
 				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
 				$attribs['rel']     = 'nofollow';
 				
-				$output = JHTML::Link($url, $text, $attribs);
+				$output = JHTML::_('link', $url, $text, $attribs);
 			} break;
 
 			case 'print' :
@@ -84,7 +84,7 @@ class ContentHelperHTML
 				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
 				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
 
-				$output = JHTML::Link($url, $text, $attribs);
+				$output = JHTML::_('link', $url, $text, $attribs);
 			} break;
 
 			case 'email' :
@@ -101,7 +101,7 @@ class ContentHelperHTML
 				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
 				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
 
-				$output = JHTML::Link($url, $text, $attribs);
+				$output = JHTML::_('link', $url, $text, $attribs);
 			} break;
 
 			case 'edit' :
@@ -124,7 +124,7 @@ class ContentHelperHTML
 				} else {
 					$overlib = JText::_('Published');
 				}
-				$date = JHTML::Date($article->created);
+				$date = JHTML::_('date', $article->created);
 				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
 				$overlib .= '<br />';
@@ -134,7 +134,7 @@ class ContentHelperHTML
 				$overlib .= '<br />';
 				$overlib .= $author;
 
-				$button = JHTML::Link($url, $text);
+				$button = JHTML::_('link', $url, $text);
 
 				$output = '<span class="hasTip" title="'.JText::_( 'Edit Item' ).' :: '.$overlib.'">'.$button.'</span>';
 			} break;

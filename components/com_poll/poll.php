@@ -96,8 +96,8 @@ class PollController
 			$dates = $db->loadObject();
 
 			if (isset( $dates->mindate )) {
-				$first_vote = JHTML::Date( $dates->mindate, DATE_FORMAT_LC2 );
-				$last_vote 	= JHTML::Date( $dates->maxdate, DATE_FORMAT_LC2 );
+				$first_vote = JHTML::_('date',  $dates->mindate, DATE_FORMAT_LC2 );
+				$last_vote 	= JHTML::_('date',  $dates->maxdate, DATE_FORMAT_LC2 );
 			}
 
 			$query = 'SELECT a.id, a.text, a.hits, b.voters'

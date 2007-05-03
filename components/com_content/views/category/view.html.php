@@ -126,7 +126,7 @@ class ContentViewCategory extends JView
 			$item =& $this->items[$i];
 
 			$item->link		= JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
-			$item->created	= JHTML::Date($item->created, $this->params->get('date_format'));
+			$item->created	= JHTML::_('date', $item->created, $this->params->get('date_format'));
 
 			$item->odd		= $k;
 			$item->count	= $i;

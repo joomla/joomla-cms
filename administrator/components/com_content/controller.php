@@ -543,8 +543,8 @@ class ContentController extends JController
 		$form->set('access', $row->access);
 		$form->set('created_by_alias', $row->created_by_alias);
 
-		$form->set('created', JHTML::Date($row->created, '%Y-%m-%d %H:%M:%S'));
-		$form->set('publish_up', JHTML::Date($row->publish_up, '%Y-%m-%d %H:%M:%S'));
+		$form->set('created', JHTML::_('date', $row->created, '%Y-%m-%d %H:%M:%S'));
+		$form->set('publish_up', JHTML::_('date', $row->publish_up, '%Y-%m-%d %H:%M:%S'));
 		$form->set('publish_down', $row->publish_down);
 
 		// Advanced Group
@@ -1376,10 +1376,10 @@ class ContentController extends JController
 	{
 		$db =& JFactory::getDBO();
 
-		if (JHTML::Date($date, '%Y') == 1969 || $date == $db->getNullDate()) {
+		if (JHTML::_('date', $date, '%Y') == 1969 || $date == $db->getNullDate()) {
 			$newDate = JText::_('Never');
 		} else {
-			$newDate = JHTML::Date($date, '%Y-%m-%d %H:%M:%S');
+			$newDate = JHTML::_('date', $date, '%Y-%m-%d %H:%M:%S');
 		}
 
 		return $newDate;

@@ -232,12 +232,12 @@ class TemplatesView
 					<?php echo JText::_( 'Site Preview' ); ?>
 				</th>
 				<th width="50%" style="text-align:right">
-					<?php echo JHTML::Link($url.'index.php?tp='.$tp.'&amp;template='.$template, JText::_( 'Open in new window' ), array('target' => '_blank')); ?>
+					<?php echo JHTML::_('link', $url.'index.php?tp='.$tp.'&amp;template='.$template, JText::_( 'Open in new window' ), array('target' => '_blank')); ?>
 				</th>
 			</tr>
 			<tr>
 				<td width="100%" valign="top" colspan="2">
-					<?php echo JHTML::Iframe($url.'index.php?tp='.$tp.'&amp;template='.$template,'previewFrame',  array('class' => 'previewFrame')) ?>
+					<?php echo JHTML::_('iframe', $url.'index.php?tp='.$tp.'&amp;template='.$template,'previewFrame',  array('class' => 'previewFrame')) ?>
 				</td>
 			</tr>
 		</table>
