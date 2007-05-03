@@ -62,14 +62,13 @@ function plgContentEmailCloak( &$row, &$params, $page=0 )
 		$row->text 	= str_replace( $regs[0], $replacement, $row->text );
 	}
 
-	jimport('joomla.html.html.email');
 	// search for derivativs of link code <a href="mailto:email@amail.com">anytext</a>
 	$pattern = plgContentEmailCloak_searchPattern( $search_email, $search_text );
 	while( eregi( $pattern, $row->text, $regs ) ) {
 		$mail 		= $regs[2] . $regs[3] . $regs[4];
 		$mail_text 	= $regs[5];
 
-		$replacement = JHTML::emailCloaking( $mail, $mode, $mail_text, 0 );
+		$replacement = JHTML::_('email.cloak', $mail, $mode, $mail_text, 0 );
 
 		// replace the found address with the js cloacked email
 		$row->text 	= str_replace( $regs[0], $replacement, $row->text );
@@ -85,9 +84,9 @@ function plgContentEmailCloak( &$row, &$params, $page=0 )
 
 		// check to see if mail text is different from mail addy
 		if ( $mail_text ) {
-			$replacement = JHTML::emailCloaking( $mail, $mode, $mail_text );
+			$replacement = JHTML::_('email.cloak', $mail, $mode, $mail_text );
 		} else {
-			$replacement = JHTML::emailCloaking( $mail, $mode );
+			$replacement = JHTML::_('email.cloak', $mail, $mode );
 		}
 
 
@@ -103,7 +102,7 @@ function plgContentEmailCloak( &$row, &$params, $page=0 )
 		//needed for handling of Body parameter
 		$mail 		= str_replace( '&amp;', '&', $mail );
 
-		$replacement = JHTML::emailCloaking( $mail, $mode, $mail_text, 0 );
+		$replacement = JHTML::_('email.cloak', $mail, $mode, $mail_text, 0 );
 
 		// replace the found address with the js cloacked email
 		$row->text	 = str_replace( $regs[0], $replacement, $row->text );
@@ -113,7 +112,7 @@ function plgContentEmailCloak( &$row, &$params, $page=0 )
 	while( eregi( $search_email, $row->text, $regs ) ) {
 		$mail = $regs[0];
 
-		$replacement = JHTMLEmail::Cloak( $mail, $mode );
+		$replacement = JHTML::_('email.cloak', $mail, $mode );
 
 		// replace the found address with the js cloacked email
 		$row->text = str_replace( $regs[0], $replacement, $row->text );
