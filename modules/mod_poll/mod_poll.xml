@@ -12,7 +12,7 @@
 	<files>
 	<filename module="mod_poll">mod_poll.php</filename>
 	</files>
-	<params addParameterDir="/administrator/components/com_poll/elements">
+	<params addpath="/administrator/components/com_poll/elements">
 		<param name="id" type="poll" default="" label="Poll" description="PARAMMODULEPOLL" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>

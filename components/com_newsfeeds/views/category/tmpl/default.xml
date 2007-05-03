@@ -8,7 +8,7 @@
 	<state>
 		<name>Newsfeed Category Layout</name>
 		<description>NEWSFEED CATEGORY LAYOUT DESC</description>
-		<url addParameterDir="/administrator/components/com_newsfeeds/elements">
+		<url addpath="/administrator/components/com_newsfeeds/elements">
 			<param name="id" type="category" section="com_newsfeeds" default="0" label="Category" description="PARAMCATSELECT" />
 		</url>
 		<params>

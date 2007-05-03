@@ -12,7 +12,7 @@
 	<files>
 		<filename module="mod_banners">mod_banners.php</filename>
 	</files>
-	<params addparameterdir="/administrator/components/com_banners/elements">
+	<params addpath="/administrator/components/com_banners/elements">
 		<param name="target" type="list" default="1" label="Target" description="PARAMTARGET">
 			<option value="0">Parent Window With Browser Navigation</option>
 			<option value="1">New Window With Browser Navigation</option>

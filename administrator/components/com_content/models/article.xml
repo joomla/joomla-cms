@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<name>Article Edit Form</name>
-	<params addparameterdir="/administrator/components/com_content/elements">
+	<params addpath="/administrator/components/com_content/elements">
 		<param name="created_by" type="author" default="" label="Author" description="DETAILAUTHOR" />
 		<param name="created_by_alias" type="text" size="20" default="" label="Author Alias" description="DETAILAUTHORALIAS" />
 		<param name="access" type="list" size="20" default="0" label="Access Level" description="DETAILACCESS">

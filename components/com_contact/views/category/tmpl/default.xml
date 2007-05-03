@@ -8,7 +8,7 @@
 	<state>
 		<name>Contacts Category Layout</name>
 		<description>CONTACT CATEGORY LAYOUT DESC</description>
-		<url addParameterDir="/administrator/components/com_contact/elements">
+		<url addpath="/administrator/components/com_contact/elements">
 			<param name="catid" type="category" scope="com_contact_details" default="0" label="Select Category" description="A contacts category" />
 		</url>
 		<params>

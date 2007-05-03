@@ -39,6 +39,7 @@ Legend:
 
 03-May-2007 Johan Janssens
  ^ JHTML optimisation, finished
+ ^ Changed JParameter xml path attribute from addparameterdir to addpath
 
 02-May-2007 Johan Janssens
  + Added helper suppport to JView class, see loadHelper function

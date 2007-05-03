@@ -8,7 +8,7 @@
 	<state>
 		<name>Standard Contact Layout</name>
 		<description>STANDARD CONTACT LAYOUT DESC</description>
-		<url addParameterDir="/administrator/components/com_contact/elements">
+		<url addpath="/administrator/components/com_contact/elements">
 			<param name="id" type="contact" default="" label="Select Contact" description="The contact to link to" />
 		</url>
 		<params>
