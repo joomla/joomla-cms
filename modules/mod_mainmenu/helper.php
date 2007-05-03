@@ -225,7 +225,7 @@ class JMenuTree extends JTree
 		$this->_buffer .= '<li access="'.$this->_current->access.'" level="'.$depth.'" id="'.$this->_current->id.'">';
 
 		// Append item data
-		$this->_buffer .= '<![CDATA['.$this->_current->link.']]>';
+		$this->_buffer .= $this->_current->link;
 
 		// Recurse through item's children if they exist
 		while ($this->_current->hasChildren())
@@ -252,7 +252,7 @@ class JMenuTree extends JTree
 		{
 			$menu = &JMenu::getInstance();
 			if ($tmp = $menu->getItem($item->link)) {
-				$tmp->name	 = $item->name;
+				$tmp->name	 = '<![CDATA['.$item->name.']]>';
 				$tmp->mid	 = $item->id;
 				$tmp->parent = $item->parent;
 			} else {
@@ -260,6 +260,7 @@ class JMenuTree extends JTree
 			}
 		} else {
 			$tmp = $item;
+			$tmp->name = '<![CDATA['.$item->name.']]>';
 		}
 
 		$iParams =& new JParameter($tmp->params);
