@@ -251,19 +251,20 @@ class JDocument extends JObject
 
 		$signature = serialize(array($type, $attributes));
 
-		if (empty($instances[$signature])) {
+		if (empty($instances[$signature])) 
+		{
 			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'document'.DS.$type.DS.$type.'.php';
+			
 			if (file_exists($path)) {
 				require_once $path;
-			} else {
+			} 
+			else 
+			{
 				// No call to JError::raiseError here, as it depends on JDocumentError
-				//JSession::close();
-				global $mainframe;
-				$message	= 'Unable to load Document Type: '.$type;
-				echo $message;
-				$mainframe->close();
-				//die($message);
+				jimport('joomla.session.session');
+				JSession::close();
+				exit('Unable to load Document Type: '.$type);
 			}
 
 			$class = 'JDocument'.$type;
