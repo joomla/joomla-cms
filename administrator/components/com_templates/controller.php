@@ -36,9 +36,9 @@ class TemplatesController
 		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 0);
 		$limitstart = $mainframe->getUserStateFromRequest( $option.'.'.$client->id.'.limitstart', 'limitstart', 0 );
 
-		$select[] 			= JHTMLSelect::option('0', JText::_('Site'));
-		$select[] 			= JHTMLSelect::option('1', JText::_('Administrator'));
-		$lists['client'] 	= JHTMLSelect::genericList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
+		$select[] 			= JHTML::_('select.option', '0', JText::_('Site'));
+		$select[] 			= JHTML::_('select.option', '1', JText::_('Administrator'));
+		$lists['client'] 	= JHTML::_('select.genericlist',  $select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
 
 		$tBaseDir = $client->path.DS.'templates';
 
@@ -155,7 +155,7 @@ class TemplatesController
 
 		$assigned = TemplatesHelper::isTemplateAssigned($row->directory);
 		$default = TemplatesHelper::isTemplateDefault($row->directory, $client->id);
-		$lists['default'] = JHTMLSelect::yesnoList( 'default', 'class="inputbox"', $default);
+		$lists['default'] = JHTML::_('select.booleanlist',  'default', 'class="inputbox"', $default);
 
 		if($client->id == '1')  {
 			$lists['selections'] =  JText::_("Can't assign an administrator template");

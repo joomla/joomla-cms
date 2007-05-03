@@ -47,14 +47,14 @@ class InstallerViewPlugins extends JView
 		$groups		= &$this->get('Groups');
 
 		$fields = new stdClass();
-		$fields->groups = JHTMLSelect::genericList( $groups, 'group', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $state->get('filter.group') );
+		$fields->groups = JHTML::_('select.genericlist',   $groups, 'group', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $state->get('filter.group') );
 
 		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('fields',		$fields);
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 		parent::display($tpl);
 	}
 

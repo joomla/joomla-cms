@@ -66,7 +66,7 @@ class JAdministratorHelper
 			. ' AND published != -2'
 			. ' ORDER BY ordering';
 			$order = JAdministratorHelper::GenericOrdering( $query );
-			$ordering = JHTMLSelect::genericList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+			$ordering = JHTML::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
 			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSLAST' );
 		}
@@ -89,7 +89,7 @@ class JAdministratorHelper
 		;
 		$db->setQuery( $query );
 		$groups = $db->loadObjectList();
-		$access = JHTMLSelect::genericList( $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
+		$access = JHTML::_('select.genericlist',   $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
 
 		return $access;
 	}
@@ -133,16 +133,16 @@ class JAdministratorHelper
 
 		$mitems = array();
 		if ($all | $unassigned) {
-			$mitems[] = JHTMLSelect::option( '<OPTGROUP>', JText::_( 'Menus' ) );
+			$mitems[] = JHTML::_('select.option',  '<OPTGROUP>', JText::_( 'Menus' ) );
 
 			if ( $all ) {
-				$mitems[] = JHTMLSelect::option( 0, JText::_( 'All' ) );
+				$mitems[] = JHTML::_('select.option',  0, JText::_( 'All' ) );
 			}
 			if ( $unassigned ) {
-				$mitems[] = JHTMLSelect::option( -1, JText::_( 'Unassigned' ) );
+				$mitems[] = JHTML::_('select.option',  -1, JText::_( 'Unassigned' ) );
 			}
 
-			$mitems[] = JHTMLSelect::option( '</OPTGROUP>' );
+			$mitems[] = JHTML::_('select.option',  '</OPTGROUP>' );
 		}
 
 		$lastMenuType	= null;
@@ -152,17 +152,17 @@ class JAdministratorHelper
 			if ($list_a->menutype != $lastMenuType)
 			{
 				if ($tmpMenuType) {
-					$mitems[] = JHTMLSelect::option( '</OPTGROUP>' );
+					$mitems[] = JHTML::_('select.option',  '</OPTGROUP>' );
 				}
-				$mitems[] = JHTMLSelect::option( '<OPTGROUP>', $list_a->menutype );
+				$mitems[] = JHTML::_('select.option',  '<OPTGROUP>', $list_a->menutype );
 				$lastMenuType = $list_a->menutype;
 				$tmpMenuType  = $list_a->menutype;
 			}
 
-			$mitems[] = JHTMLSelect::option( $list_a->id, $list_a->treename );
+			$mitems[] = JHTML::_('select.option',  $list_a->id, $list_a->treename );
 		}
 		if ($lastMenuType !== null) {
-			$mitems[] = JHTMLSelect::option( '</OPTGROUP>' );
+			$mitems[] = JHTML::_('select.option',  '</OPTGROUP>' );
 		}
 
 		return $mitems;
@@ -186,13 +186,13 @@ class JAdministratorHelper
 
 		jimport( 'joomla.filesystem.folder' );
 		$imageFiles = JFolder::files( JPATH_SITE.DS.$directory );
-		$images 	= array(  JHTMLSelect::option( '', '- '. JText::_( 'Select Image' ) .' -' ) );
+		$images 	= array(  JHTML::_('select.option',  '', '- '. JText::_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
 			if ( eregi( "bmp|gif|jpg|png", $file ) ) {
-				$images[] = JHTMLSelect::option( $file );
+				$images[] = JHTML::_('select.option',  $file );
 			}
 		}
-		$images = JHTMLSelect::genericList( $images, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$images = JHTML::_('select.genericlist',   $images, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $images;
 	}
@@ -217,11 +217,11 @@ class JAdministratorHelper
 				echo $db->stderr();
 				return false;
 			} else {
-				$order[] = JHTMLSelect::option( 1, JText::_( 'first' ) );
+				$order[] = JHTML::_('select.option',  1, JText::_( 'first' ) );
 				return $order;
 			}
 		}
-		$order[] = JHTMLSelect::option( 0, '0 '. JText::_( 'first' ) );
+		$order[] = JHTML::_('select.option',  0, '0 '. JText::_( 'first' ) );
 		for ($i=0, $n=count( $orders ); $i < $n; $i++) {
 
 			if (JString::strlen($orders[$i]->text) > $chop) {
@@ -230,9 +230,9 @@ class JAdministratorHelper
 				$text = $orders[$i]->text;
 			}
 
-			$order[] = JHTMLSelect::option( $orders[$i]->value, $orders[$i]->value.' ('.$text.')' );
+			$order[] = JHTML::_('select.option',  $orders[$i]->value, $orders[$i]->value.' ('.$text.')' );
 		}
-		$order[] = JHTMLSelect::option( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_( 'last' ) );
+		$order[] = JHTML::_('select.option',  $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_( 'last' ) );
 
 		return $order;
 	}
@@ -249,7 +249,7 @@ class JAdministratorHelper
 
 		if ( $id ) {
 			$order = JAdministratorHelper::GenericOrdering( $query );
-			$ordering = JHTMLSelect::genericList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+			$ordering = JHTML::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
 			if ( $neworder ) {
 				$text = JText::_( 'descNewItemsFirst' );
@@ -285,13 +285,13 @@ class JAdministratorHelper
 		;
 		$db->setQuery( $query );
 		if ( $nouser ) {
-			$users[] = JHTMLSelect::option( '0', '- '. JText::_( 'No User' ) .' -' );
+			$users[] = JHTML::_('select.option',  '0', '- '. JText::_( 'No User' ) .' -' );
 			$users = array_merge( $users, $db->loadObjectList() );
 		} else {
 			$users = $db->loadObjectList();
 		}
 
-		$users = JHTMLSelect::genericList( $users, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$users = JHTML::_('select.genericlist',   $users, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $users;
 	}
@@ -305,19 +305,19 @@ class JAdministratorHelper
 	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false )
 	{
 		if ( $none ) {
-			$pos[] = JHTMLSelect::option( '', JText::_( 'None' ) );
+			$pos[] = JHTML::_('select.option',  '', JText::_( 'None' ) );
 		}
 		if ( $center ) {
-			$pos[] = JHTMLSelect::option( 'center', JText::_( 'Center' ) );
+			$pos[] = JHTML::_('select.option',  'center', JText::_( 'Center' ) );
 		}
 		if ( $left ) {
-			$pos[] = JHTMLSelect::option( 'left', JText::_( 'Left' ) );
+			$pos[] = JHTML::_('select.option',  'left', JText::_( 'Left' ) );
 		}
 		if ( $right ) {
-			$pos[] = JHTMLSelect::option( 'right', JText::_( 'Right' ) );
+			$pos[] = JHTML::_('select.option',  'right', JText::_( 'Right' ) );
 		}
 
-		$positions = JHTMLSelect::genericList( $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active, $id );
+		$positions = JHTML::_('select.genericlist',   $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active, $id );
 
 		return $positions;
 	}
@@ -342,7 +342,7 @@ class JAdministratorHelper
 		;
 		$db->setQuery( $query );
 		if ( $sel_cat ) {
-			$categories[] = JHTMLSelect::option( '0', '- '. JText::_( 'Select a Category' ) .' -' );
+			$categories[] = JHTML::_('select.option',  '0', '- '. JText::_( 'Select a Category' ) .' -' );
 			$categories = array_merge( $categories, $db->loadObjectList() );
 		} else {
 			$categories = $db->loadObjectList();
@@ -352,7 +352,7 @@ class JAdministratorHelper
 			$mainframe->redirect( 'index.php?option=com_categories&section='. $section, JText::_( 'You must create a category first.' ) );
 		}
 
-		$category = JHTMLSelect::genericList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
+		$category = JHTML::_('select.genericlist',   $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
 
 		return $category;
 	}
@@ -367,8 +367,8 @@ class JAdministratorHelper
 	{
 		$db =& JFactory::getDBO();
 
-		$categories[] = JHTMLSelect::option( '-1', '- '. JText::_( 'Select Section' ) .' -' );
-		$categories[] = JHTMLSelect::option( '0', JText::_( 'Uncategorized' ) );
+		$categories[] = JHTML::_('select.option',  '-1', '- '. JText::_( 'Select Section' ) .' -' );
+		$categories[] = JHTML::_('select.option',  '0', JText::_( 'Uncategorized' ) );
 		$query = 'SELECT id AS value, title AS text'
 		. ' FROM #__sections'
 		. ' WHERE published = 1'
@@ -377,7 +377,7 @@ class JAdministratorHelper
 		$db->setQuery( $query );
 		$sections = array_merge( $categories, $db->loadObjectList() );
 
-		$category = JHTMLSelect::genericList( $sections, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$category = JHTML::_('select.genericlist',   $sections, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $category;
 	}

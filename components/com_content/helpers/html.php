@@ -114,7 +114,7 @@ class ContentHelperHTML
 				if (!$access->canEdit && !($access->canEditOwn && $article->created_by == $user->get('id'))) {
 					return;
 				}
-				jimport('joomla.html.tooltips');
+				JHTML::_('behavior.tooltip');
 				$url = 'index.php?view=article&&id='.$article->id.'&task=edit&Returnid='.$Itemid;
 				$text = JAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 

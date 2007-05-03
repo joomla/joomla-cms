@@ -32,7 +32,7 @@ if ( $this->contact->params->get( 'show_contact_list' ) && count( $this->contact
 	echo '<form method="post" name="selectForm" target="_top" id="selectForm">';
 	echo JText::_( 'Select Contact' );
 	echo '<br />';
-	echo JHTMLSelect::genericList($this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);
+	echo JHTML::_('select.genericlist',  $this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);
     echo '<input type="hidden" name="option" value="com_contact" />';
     echo '<input type="hidden" name="Itemid" value="'.$Itemid.' " />';
 	echo '</form>';

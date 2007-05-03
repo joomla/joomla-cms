@@ -39,7 +39,7 @@
 			</label>
 		</td>
 		<td>
-			<input class="inputbox" type="text" name="menutype" id="menutype" size="30" maxlength="25" value="<?php echo $this->row->menutype; ?>" />			<?php echo JCommonHTML::ToolTip(JText::_( 'TIPNAMEUSEDTOIDENTIFYMENU' )); ?>
+			<input class="inputbox" type="text" name="menutype" id="menutype" size="30" maxlength="25" value="<?php echo $this->row->menutype; ?>" />			<?php echo JHTML::ToolTip(JText::_( 'TIPNAMEUSEDTOIDENTIFYMENU' )); ?>
 		</td>
 	</tr>
 	<tr>
@@ -50,7 +50,7 @@
 		</td>
 		<td>
 			<input class="inputbox" type="text" name="title" id="title" size="30" maxlength="255" value="<?php echo $this->row->title; ?>" />
-			<?php echo JCommonHTML::ToolTip( JText::_( 'A proper title for the Menu' ) ); ?>
+			<?php echo JHTML::ToolTip( JText::_( 'A proper title for the Menu' ) ); ?>
 		</td>
 	</tr>
 	<tr>
@@ -61,7 +61,7 @@
 		</td>
 		<td>
 			<input class="inputbox" type="text" name="description" id="description" size="30" maxlength="255" value="<?php echo $this->row->description; ?>" />
-			<?php echo JCommonHTML::ToolTip( JText::_( 'A description for the Menu' ) ); ?>
+			<?php echo JHTML::ToolTip( JText::_( 'A description for the Menu' ) ); ?>
 		</td>
 	</tr>
 	<?php if ($this->isnew) : ?>
@@ -73,7 +73,7 @@
 		</td>
 		<td>
 			<input class="inputbox" type="text" name="module_title" id="module_title" size="30" value="" />
-			<?php echo JCommonHTML::ToolTip( JText::_( 'TIPTITLEMAINMENUMODULEREQUIRED' ) ); ?>
+			<?php echo JHTML::ToolTip( JText::_( 'TIPTITLEMAINMENUMODULEREQUIRED' ) ); ?>
 		</td>
 	</tr>
 	<?php endif; ?>

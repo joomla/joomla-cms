@@ -72,11 +72,11 @@ if ($task)
 				$var = new xmlrpcval($array[$i]);
 				$array_method = $var->scalarval();
 
-				$methods[$i] = JHTMLSelect::option($array_method->scalarval());
+				$methods[$i] = JHTML::_('select.option', $array_method->scalarval());
 			}
 
 			$output = 'Methods<br />';
-			$output .= JHTMLSelect::genericList( $methods, 'method', 'size="10"', 'value', 'text' );
+			$output .= JHTML::_('select.genericlist',   $methods, 'method', 'size="10"', 'value', 'text' );
 			$output .= ' <input name="args" type="text" />';
 			$output .= ' <input name="task" type="submit" value="exec" />';
 

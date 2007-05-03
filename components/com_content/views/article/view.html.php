@@ -196,7 +196,7 @@ class ContentViewArticle extends JView
 		$returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
 
 		// Add the Calendar includes to the document <head> section
-		JCommonHTML::loadCalendar();
+		JHTML::_('behavior.calendar');
 
 		if ($isNew)
 		{
@@ -257,10 +257,10 @@ class ContentViewArticle extends JView
 				' ORDER BY s.ordering';
 		$db->setQuery($query);
 
-		$sections[] = JHTMLSelect::option('-1', '- '.JText::_('Select Section').' -', 'id', 'title');
-		$sections[] = JHTMLSelect::option('0', JText::_('Uncategorized'), 'id', 'title');
+		$sections[] = JHTML::_('select.option', '-1', '- '.JText::_('Select Section').' -', 'id', 'title');
+		$sections[] = JHTML::_('select.option', '0', JText::_('Uncategorized'), 'id', 'title');
 		$sections = array_merge($sections, $db->loadObjectList());
-		$lists['sectionid'] = JHTMLSelect::genericList($sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($article->sectionid));
+		$lists['sectionid'] = JHTML::_('select.genericlist',  $sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($article->sectionid));
 
 		foreach ($sections as $section)
 		{
@@ -279,7 +279,7 @@ class ContentViewArticle extends JView
 
 		$sectioncategories = array ();
 		$sectioncategories[-1] = array ();
-		$sectioncategories[-1][] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'title');
+		$sectioncategories[-1][] = JHTML::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
 		$section_list = implode('\', \'', $section_list);
 
 		$query = 'SELECT id, title, section' .
@@ -306,7 +306,7 @@ class ContentViewArticle extends JView
 				}
 			}
 			foreach ($rows2 as $row2) {
-				$sectioncategories[$section->id][] = JHTMLSelect::option($row2->id, $row2->title, 'id', 'title');
+				$sectioncategories[$section->id][] = JHTML::_('select.option', $row2->id, $row2->title, 'id', 'title');
 			}
 		}
 
@@ -316,9 +316,9 @@ class ContentViewArticle extends JView
 				$categories[] = $cat;
 		}
 
-		$categories[] = JHTMLSelect::option('-1', JText::_( 'Select Category' ), 'id', 'title');
+		$categories[] = JHTML::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
 		$lists['sectioncategories'] = $sectioncategories;
-		$lists['catid'] = JHTMLSelect::genericList($categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($article->catid));
+		$lists['catid'] = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($article->catid));
 
 		// Select List: Category Ordering
 		$query = 'SELECT ordering AS value, title AS text FROM #__content WHERE catid = '.$article->catid.' ORDER BY ordering';
@@ -326,7 +326,7 @@ class ContentViewArticle extends JView
 		$lists['ordering'] = JAdministratorHelper::SpecificOrdering($article, $article->id, $query, 1);
 
 		// Radio Buttons: Should the article be published
-		$lists['state'] = JHTMLSelect::yesnoList('state', '', $article->state);
+		$lists['state'] = JHTML::_('select.booleanlist', 'state', '', $article->state);
 
 		// Radio Buttons: Should the article be added to the frontpage
 		if($article->id) {
@@ -337,7 +337,7 @@ class ContentViewArticle extends JView
 			$article->frontpage = 0;
 		}
 
-		$lists['frontpage'] = JHTMLSelect::yesnoList('frontpage', '', (boolean) $article->frontpage);
+		$lists['frontpage'] = JHTML::_('select.booleanlist', 'frontpage', '', (boolean) $article->frontpage);
 
 		// Select List: Group Access
 		require_once(JPATH_ADMINISTRATOR.DS.'includes'.DS.'helper.php');

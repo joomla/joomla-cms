@@ -95,14 +95,14 @@ class JElementMenuItem extends JElement
 
 		// assemble menu items to the array
 		$options 	= array();
-		$options[]	= JHTMLSelect::option('', '- '.JText::_('Select Item').' -');
+		$options[]	= JHTML::_('select.option', '', '- '.JText::_('Select Item').' -');
 
 		foreach ($menuTypes as $type)
 		{
 			if ($menuType == '')
 			{
-				$options[]	= JHTMLSelect::option( '0', '&nbsp;' );
-				$options[]	= JHTMLSelect::option( $type->menutype, $type->title . ' - ' . JText::_( 'Top' ) );
+				$options[]	= JHTML::_('select.option',  '0', '&nbsp;' );
+				$options[]	= JHTML::_('select.option',  $type->menutype, $type->title . ' - ' . JText::_( 'Top' ) );
 			}
 			if (isset( $groupedList[$type->menutype] ))
 			{
@@ -110,12 +110,12 @@ class JElementMenuItem extends JElement
 				for ($i = 0; $i < $n; $i++)
 				{
 					$item = &$groupedList[$type->menutype][$i];
-					$options[] = JHTMLSelect::option( $item->id, '&nbsp;&nbsp;&nbsp;' .$item->treename );
+					$options[] = JHTML::_('select.option',  $item->id, '&nbsp;&nbsp;&nbsp;' .$item->treename );
 
 				}
 			}
 		}
 
-		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
+		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
 	}
 }

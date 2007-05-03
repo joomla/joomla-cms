@@ -104,7 +104,7 @@ class WeblinksViewWeblink extends JView
 		// build list of categories
 		$lists['catid'] 			= JAdministratorHelper::ComponentCategory( 'catid', $option, intval( $weblink->catid ) );
 		// build the html select list
-		$lists['published'] 		= JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $weblink->published );
+		$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $weblink->published );
 
 		//clean weblink data
 		jimport('joomla.filter.output');

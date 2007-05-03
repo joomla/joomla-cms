@@ -798,7 +798,7 @@ function josSpoofValue($alt = NULL)
  * @deprecated	As of version 1.5
  */
 function loadOverlib() {
-	jimport('joomla.html.tooltips');
+	JHTML::_('behavior.tooltip');
 }
 
 /**
@@ -807,7 +807,7 @@ function loadOverlib() {
 * @deprecated	As of version 1.5
 */
 function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='', $link=1 ) {
-	return JCommonHTML::ToolTip($tooltip, $title, $image, $text, $href, $link);
+	return JHTML::ToolTip($tooltip, $title, $image, $text, $href, $link);
 }
 
 /**

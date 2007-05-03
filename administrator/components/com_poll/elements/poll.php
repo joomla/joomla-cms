@@ -36,9 +36,9 @@ class JElementPoll extends JElement
 		$db->setQuery( $query );
 		$options = $db->loadObjectList();
 
-		array_unshift($options, JHTMLSelect::option('0', '- '.JText::_('Select Poll').' -', 'id', 'title'));
+		array_unshift($options, JHTML::_('select.option', '0', '- '.JText::_('Select Poll').' -', 'id', 'title'));
 
-		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value, $control_name.$name );
+		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value, $control_name.$name );
 	}
 }
 ?>

@@ -157,8 +157,8 @@ function editConfig( $option )
 	}
 
 	$vars 					= array();
-	$vars['lock'] 			= JHTMLSelect::yesnoList( "vars[lock]", '', $data['lock']->cfg_value, 'yes', 'no', 'varslock' );
-	$vars['mail_on_new'] 	= JHTMLSelect::yesnoList( "vars[mail_on_new]", '', $data['mail_on_new']->cfg_value, 'yes', 'no', 'varsmail_on_new' );
+	$vars['lock'] 			= JHTML::_('select.booleanlist',  "vars[lock]", '', $data['lock']->cfg_value, 'yes', 'no', 'varslock' );
+	$vars['mail_on_new'] 	= JHTML::_('select.booleanlist',  "vars[mail_on_new]", '', $data['mail_on_new']->cfg_value, 'yes', 'no', 'varsmail_on_new' );
 	$vars['auto_purge'] 	= $data['auto_purge']->cfg_value;
 
 	HTML_messages::editConfig( $vars, $option );
@@ -202,7 +202,7 @@ function newMessage( $option, $user, $subject )
 	$gids 	= implode( ',', $gids );
 
 	// get list of usernames
-	$recipients = array( JHTMLSelect::option( '0', '- '. JText::_( 'Select User' ) .' -' ) );
+	$recipients = array( JHTML::_('select.option',  '0', '- '. JText::_( 'Select User' ) .' -' ) );
 	$query = 'SELECT id AS value, username AS text FROM #__users'
 	. ' WHERE gid IN ( '.$gids.' )'
 	. ' ORDER BY name'
@@ -211,7 +211,7 @@ function newMessage( $option, $user, $subject )
 	$recipients = array_merge( $recipients, $db->loadObjectList() );
 
 	$recipientslist =
-		JHTMLSelect::genericList(
+		JHTML::_('select.genericlist',  
 			$recipients,
 			'user_id_to',
 			'class="inputbox" size="1"',

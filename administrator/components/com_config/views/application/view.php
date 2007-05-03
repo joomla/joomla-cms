@@ -26,7 +26,7 @@ class ConfigApplicationView
 		global $mainframe;
 
 		// Load tooltips behavior
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 
 		// Load component specific configurations
 		$table =& JTable::getInstance('component');

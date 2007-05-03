@@ -46,17 +46,17 @@ class InstallerViewLanguages extends JView
 		$pagination	= &$this->get('Pagination');
 
 		$lists = new stdClass();
-		$select[] = JHTMLSelect::option('-1', JText::_('All'));
-		$select[] = JHTMLSelect::option('0', JText::_('Site Languages'));
-		$select[] = JHTMLSelect::option('1', JText::_('Admin Languages'));
-		$lists->client = JHTMLSelect::genericList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
+		$select[] = JHTML::_('select.option', '-1', JText::_('All'));
+		$select[] = JHTML::_('select.option', '0', JText::_('Site Languages'));
+		$select[] = JHTML::_('select.option', '1', JText::_('Admin Languages'));
+		$lists->client = JHTML::_('select.genericlist',  $select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
 
 		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('lists',		$lists);
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 		parent::display($tpl);
 	}
 

@@ -76,11 +76,11 @@ class ContentHelper
 		// Initialize variables
 		$db	= & JFactory::getDBO();
 
-		$categories[] = JHTMLSelect::option('0', '- '.JText::_('Select Category').' -');
+		$categories[] = JHTML::_('select.option', '0', '- '.JText::_('Select Category').' -');
 		$db->setQuery($query);
 		$categories = array_merge($categories, $db->loadObjectList());
 
-		$category = JHTMLSelect::genericList($categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $active);
+		$category = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $active);
 
 		return $category;
 	}

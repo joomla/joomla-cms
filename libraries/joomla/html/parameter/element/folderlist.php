@@ -53,17 +53,17 @@ class JElementFolderlist extends JElement
 					continue;
 				}
 			}
-			$options[] = JHTMLSelect::option($folder, $folder);
+			$options[] = JHTML::_('select.option', $folder, $folder);
 		}
 		
 		if (!$node->attributes('hide_none')) {
-			array_unshift($options, JHTMLSelect::option('-1', '- '.JText::_('Do not use').' -'));
+			array_unshift($options, JHTML::_('select.option', '-1', '- '.JText::_('Do not use').' -'));
 		}
 		
 		if (!$node->attributes('hide_default')) {
-			array_unshift($options, JHTMLSelect::option('', '- '.JText::_('Use default').' -'));
+			array_unshift($options, JHTML::_('select.option', '', '- '.JText::_('Use default').' -'));
 		}
 
-		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
+		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
 	}
 }

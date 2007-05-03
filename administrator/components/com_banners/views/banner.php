@@ -38,7 +38,7 @@ class BannersViewBanner
 	{
 		BannersViewBanner::setBannersToolbar();
 		$user =& JFactory::getUser();
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_banners" method="post" name="adminForm">
 		<table>

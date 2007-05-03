@@ -31,7 +31,7 @@ class BannersViewClients
 	{
 		BannersViewClients::setClientsToolbar();
 		$user =& JFactory::getUser();
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php" method="post" name="adminForm">
 

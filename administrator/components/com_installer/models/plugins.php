@@ -60,7 +60,7 @@ class InstallerModelPlugins extends InstallerModel
 				' ORDER BY folder';
 		$db->setQuery( $query );
 
-		$types[] = JHTMLSelect::option( '', JText::_( 'All' ) );
+		$types[] = JHTML::_('select.option',  '', JText::_( 'All' ) );
 		$types = array_merge( $types, $db->loadObjectList() );
 
 		return $types;

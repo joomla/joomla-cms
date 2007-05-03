@@ -77,20 +77,20 @@ class SearchController
 
 		// built select lists
 		$orders = array();
-		$orders[] = JHTMLSelect::option( 'newest', JText::_( 'Newest first' ) );
-		$orders[] = JHTMLSelect::option( 'oldest', JText::_( 'Oldest first' ) );
-		$orders[] = JHTMLSelect::option( 'popular', JText::_( 'Most popular' ) );
-		$orders[] = JHTMLSelect::option( 'alpha', JText::_( 'Alphabetical' ) );
-		$orders[] = JHTMLSelect::option( 'category', JText::_( 'Section/Category' ) );
+		$orders[] = JHTML::_('select.option',  'newest', JText::_( 'Newest first' ) );
+		$orders[] = JHTML::_('select.option',  'oldest', JText::_( 'Oldest first' ) );
+		$orders[] = JHTML::_('select.option',  'popular', JText::_( 'Most popular' ) );
+		$orders[] = JHTML::_('select.option',  'alpha', JText::_( 'Alphabetical' ) );
+		$orders[] = JHTML::_('select.option',  'category', JText::_( 'Section/Category' ) );
 		$ordering = JRequest::getVar( 'ordering', 'newest');
 		$lists = array();
-		$lists['ordering'] = JHTMLSelect::genericList( $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
+		$lists['ordering'] = JHTML::_('select.genericlist',   $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
 
 		$searchphrases 		= array();
-		$searchphrases[] 	= JHTMLSelect::option( 'any', JText::_( 'Any words' ) );
-		$searchphrases[] 	= JHTMLSelect::option( 'all', JText::_( 'All words' ) );
-		$searchphrases[] 	= JHTMLSelect::option( 'exact', JText::_( 'Exact phrase' ) );
-		$lists['searchphrase' ]= JHTMLSelect::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
+		$searchphrases[] 	= JHTML::_('select.option',  'any', JText::_( 'Any words' ) );
+		$searchphrases[] 	= JHTML::_('select.option',  'all', JText::_( 'All words' ) );
+		$searchphrases[] 	= JHTML::_('select.option',  'exact', JText::_( 'Exact phrase' ) );
+		$lists['searchphrase' ]= JHTML::_('select.radiolist',  $searchphrases, 'searchphrase', '', $searchphrase );
 
 		$areas = array();
 		$areas['active'] = $activeareas;

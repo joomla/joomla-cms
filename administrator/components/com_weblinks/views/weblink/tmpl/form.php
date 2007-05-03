@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php jimport('joomla.html.tooltips'); ?>
+<?php JHTML::_('behavior.tooltip'); ?>
 <script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;

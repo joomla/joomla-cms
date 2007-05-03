@@ -62,9 +62,9 @@ class ConfigControllerApplication extends ConfigController
 
 		// -- Show/Hide --
 
-		$show_hide		= array (JHTMLSelect::option(1, JText::_('Hide')), JHTMLSelect::option(0, JText::_('Show')),);
+		$show_hide		= array (JHTML::_('select.option', 1, JText::_('Hide')), JHTML::_('select.option', 0, JText::_('Show')),);
 
-		$show_hide_r 	= array (JHTMLSelect::option(0, JText::_('Hide')), JHTMLSelect::option(1, JText::_('Show')),);
+		$show_hide_r 	= array (JHTML::_('select.option', 0, JText::_('Hide')), JHTML::_('select.option', 1, JText::_('Show')),);
 
 		// -- menu items --
 
@@ -78,120 +78,120 @@ class ConfigControllerApplication extends ConfigController
 		$menuitems = array_merge($menuitems, $db->loadObjectList());
 
 		// SITE SETTINGS
-		$lists['offline'] = JHTMLSelect::yesnoList('offline', 'class="inputbox"', $row->offline);
+		$lists['offline'] = JHTML::_('select.booleanlist', 'offline', 'class="inputbox"', $row->offline);
 		if (!$row->editor) {
 			$row->editor = '';
 		}
 		// build the html select list
-		$lists['editor'] 		= JHTMLSelect::genericList($edits, 'editor', 'class="inputbox" size="1"', 'value', 'text', $row->editor);
-		$listLimit 				= array (JHTMLSelect::option(5, 5), JHTMLSelect::option(10, 10), JHTMLSelect::option(15, 15), JHTMLSelect::option(20, 20), JHTMLSelect::option(25, 25), JHTMLSelect::option(30, 30), JHTMLSelect::option(50, 50), JHTMLSelect::option(100, 100),);
-		$lists['list_limit'] 	= JHTMLSelect::genericList($listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->list_limit ? $row->list_limit : 50));
+		$lists['editor'] 		= JHTML::_('select.genericlist',  $edits, 'editor', 'class="inputbox" size="1"', 'value', 'text', $row->editor);
+		$listLimit 				= array (JHTML::_('select.option', 5, 5), JHTML::_('select.option', 10, 10), JHTML::_('select.option', 15, 15), JHTML::_('select.option', 20, 20), JHTML::_('select.option', 25, 25), JHTML::_('select.option', 30, 30), JHTML::_('select.option', 50, 50), JHTML::_('select.option', 100, 100),);
+		$lists['list_limit'] 	= JHTML::_('select.genericlist',  $listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->list_limit ? $row->list_limit : 50));
 
 		jimport('joomla.i18n.help');
 		$helpsites 				= array ();
 		$helpsites 				= JHelp::createSiteList(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $row->helpurl);
-		array_unshift($helpsites, JHTMLSelect::option('', JText::_('local')));
-		$lists['helpsites'] 	= JHTMLSelect::genericList($helpsites, 'helpurl', ' class="inputbox"', 'value', 'text', $row->helpurl);
+		array_unshift($helpsites, JHTML::_('select.option', '', JText::_('local')));
+		$lists['helpsites'] 	= JHTML::_('select.genericlist',  $helpsites, 'helpurl', ' class="inputbox"', 'value', 'text', $row->helpurl);
 
 		// DEBUG
-		$lists['debug'] 		= JHTMLSelect::yesnoList('debug', 'class="inputbox"', $row->debug);
-		$lists['debug_db'] 		= JHTMLSelect::yesnoList('debug_db', 'class="inputbox"', $row->debug_db);
-		$lists['debug_lang'] 	= JHTMLSelect::yesnoList('debug_lang', 'class="inputbox"', $row->debug_lang);
+		$lists['debug'] 		= JHTML::_('select.booleanlist', 'debug', 'class="inputbox"', $row->debug);
+		$lists['debug_db'] 		= JHTML::_('select.booleanlist', 'debug_db', 'class="inputbox"', $row->debug_db);
+		$lists['debug_lang'] 	= JHTML::_('select.booleanlist', 'debug_lang', 'class="inputbox"', $row->debug_lang);
 
 		// DATABASE SETTINGS
 
 		// SERVER SETTINGS
-		$lists['gzip'] 			= JHTMLSelect::yesnoList('gzip', 'class="inputbox"', $row->gzip);
-		$errors 				= array (JHTMLSelect::option(-1, JText::_('System Default')), JHTMLSelect::option(0, JText::_('None')), JHTMLSelect::option(E_ERROR | E_WARNING | E_PARSE, JText::_('Simple')), JHTMLSelect::option(E_ALL, JText::_('Maximum')));
-		$lists['xmlrpc_server'] = JHTMLSelect::yesnoList('xmlrpc_server', 'class="inputbox"', $row->xmlrpc_server);
-		$lists['error_reporting'] = JHTMLSelect::genericList($errors, 'error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->error_reporting);
-		$lists['enable_ftp'] 	= JHTMLSelect::yesnoList('ftp_enable', 'class="inputbox"', intval($row->ftp_enable));
+		$lists['gzip'] 			= JHTML::_('select.booleanlist', 'gzip', 'class="inputbox"', $row->gzip);
+		$errors 				= array (JHTML::_('select.option', -1, JText::_('System Default')), JHTML::_('select.option', 0, JText::_('None')), JHTML::_('select.option', E_ERROR | E_WARNING | E_PARSE, JText::_('Simple')), JHTML::_('select.option', E_ALL, JText::_('Maximum')));
+		$lists['xmlrpc_server'] = JHTML::_('select.booleanlist', 'xmlrpc_server', 'class="inputbox"', $row->xmlrpc_server);
+		$lists['error_reporting'] = JHTML::_('select.genericlist',  $errors, 'error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->error_reporting);
+		$lists['enable_ftp'] 	= JHTML::_('select.booleanlist', 'ftp_enable', 'class="inputbox"', intval($row->ftp_enable));
 
 		// LOCALE SETTINGS
-		$timeoffset = array (	JHTMLSelect::option(-12, JText::_('(UTC -12:00) International Date Line West')),
-								JHTMLSelect::option(-11, JText::_('(UTC -11:00) Midway Island, Samoa')),
-								JHTMLSelect::option(-10, JText::_('(UTC -10:00) Hawaii')),
-								JHTMLSelect::option(-9.5, JText::_('(UTC -09:30) Taiohae, Marquesas Islands')),
-								JHTMLSelect::option(-9, JText::_('(UTC -09:00) Alaska')),
-								JHTMLSelect::option(-8, JText::_('(UTC -08:00) Pacific Time (US &amp; Canada)')),
-								JHTMLSelect::option(-7, JText::_('(UTC -07:00) Mountain Time (US &amp; Canada)')),
-								JHTMLSelect::option(-6, JText::_('(UTC -06:00) Central Time (US &amp; Canada), Mexico City')),
-								JHTMLSelect::option(-5, JText::_('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima')),
-								JHTMLSelect::option(-4, JText::_('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz')),
-								JHTMLSelect::option(-3.5, JText::_('(UTC -03:30) St. John`s, Newfoundland and Labrador')),
-								JHTMLSelect::option(-3, JText::_('(UTC -03:00) Brazil, Buenos Aires, Georgetown')),
-								JHTMLSelect::option(-2, JText::_('(UTC -02:00) Mid-Atlantic')),
-								JHTMLSelect::option(-1, JText::_('(UTC -01:00) Azores, Cape Verde Islands')),
-								JHTMLSelect::option(0, JText::_('(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca')),
-								JHTMLSelect::option(1, JText::_('(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris')),
-								JHTMLSelect::option(2, JText::_('(UTC +02:00) Jerusalem, Kaliningrad, South Africa')),
-								JHTMLSelect::option(3, JText::_('(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg')),
-								JHTMLSelect::option(3.5, JText::_('(UTC +03:30) Tehran')),
-								JHTMLSelect::option(4, JText::_('(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi')),
-								JHTMLSelect::option(4.5, JText::_('(UTC +04:30) Kabul')),
-								JHTMLSelect::option(5, JText::_('(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent')),
-								JHTMLSelect::option(5.5, JText::_('(UTC +05:30) Bombay, Calcutta, Madras, New Delhi')),
-								JHTMLSelect::option(5.75, JText::_('(UTC +05:45) Kathmandu')),
-								JHTMLSelect::option(6, JText::_('(UTC +06:00) Almaty, Dhaka, Colombo')),
-								JHTMLSelect::option(6.30, JText::_('(UTC +06:30) Yagoon')),
-								JHTMLSelect::option(7, JText::_('(UTC +07:00) Bangkok, Hanoi, Jakarta')),
-								JHTMLSelect::option(8, JText::_('(UTC +08:00) Beijing, Perth, Singapore, Hong Kong')),
-								JHTMLSelect::option(8.75, JText::_('(UTC +08:00) Western Australia')),
-								JHTMLSelect::option(9, JText::_('(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk')),
-								JHTMLSelect::option(9.5, JText::_('(UTC +09:30) Adelaide, Darwin, Yakutsk')),
-								JHTMLSelect::option(10, JText::_('(UTC +10:00) Eastern Australia, Guam, Vladivostok')),
-								JHTMLSelect::option(10.5, JText::_('(UTC +10:30) Lord Howe Island (Australia)')),
-								JHTMLSelect::option(11, JText::_('(UTC +11:00) Magadan, Solomon Islands, New Caledonia')),
-								JHTMLSelect::option(11.30, JText::_('(UTC +11:30) Norfolk Island')),
-								JHTMLSelect::option(12, JText::_('(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka')),
-								JHTMLSelect::option(12.75, JText::_('(UTC +12:45) Chatham Island')),
-								JHTMLSelect::option(13, JText::_('(UTC +13:00) Tonga')),
-								JHTMLSelect::option(14, JText::_('(UTC +14:00) Kiribati')),);
-		$lists['offset'] 		= JHTMLSelect::genericList($timeoffset, 'offset', 'class="inputbox" size="1"', 'value', 'text', $row->offset);
+		$timeoffset = array (	JHTML::_('select.option', -12, JText::_('(UTC -12:00) International Date Line West')),
+								JHTML::_('select.option', -11, JText::_('(UTC -11:00) Midway Island, Samoa')),
+								JHTML::_('select.option', -10, JText::_('(UTC -10:00) Hawaii')),
+								JHTML::_('select.option', -9.5, JText::_('(UTC -09:30) Taiohae, Marquesas Islands')),
+								JHTML::_('select.option', -9, JText::_('(UTC -09:00) Alaska')),
+								JHTML::_('select.option', -8, JText::_('(UTC -08:00) Pacific Time (US &amp; Canada)')),
+								JHTML::_('select.option', -7, JText::_('(UTC -07:00) Mountain Time (US &amp; Canada)')),
+								JHTML::_('select.option', -6, JText::_('(UTC -06:00) Central Time (US &amp; Canada), Mexico City')),
+								JHTML::_('select.option', -5, JText::_('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima')),
+								JHTML::_('select.option', -4, JText::_('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz')),
+								JHTML::_('select.option', -3.5, JText::_('(UTC -03:30) St. John`s, Newfoundland and Labrador')),
+								JHTML::_('select.option', -3, JText::_('(UTC -03:00) Brazil, Buenos Aires, Georgetown')),
+								JHTML::_('select.option', -2, JText::_('(UTC -02:00) Mid-Atlantic')),
+								JHTML::_('select.option', -1, JText::_('(UTC -01:00) Azores, Cape Verde Islands')),
+								JHTML::_('select.option', 0, JText::_('(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca')),
+								JHTML::_('select.option', 1, JText::_('(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris')),
+								JHTML::_('select.option', 2, JText::_('(UTC +02:00) Jerusalem, Kaliningrad, South Africa')),
+								JHTML::_('select.option', 3, JText::_('(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg')),
+								JHTML::_('select.option', 3.5, JText::_('(UTC +03:30) Tehran')),
+								JHTML::_('select.option', 4, JText::_('(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi')),
+								JHTML::_('select.option', 4.5, JText::_('(UTC +04:30) Kabul')),
+								JHTML::_('select.option', 5, JText::_('(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent')),
+								JHTML::_('select.option', 5.5, JText::_('(UTC +05:30) Bombay, Calcutta, Madras, New Delhi')),
+								JHTML::_('select.option', 5.75, JText::_('(UTC +05:45) Kathmandu')),
+								JHTML::_('select.option', 6, JText::_('(UTC +06:00) Almaty, Dhaka, Colombo')),
+								JHTML::_('select.option', 6.30, JText::_('(UTC +06:30) Yagoon')),
+								JHTML::_('select.option', 7, JText::_('(UTC +07:00) Bangkok, Hanoi, Jakarta')),
+								JHTML::_('select.option', 8, JText::_('(UTC +08:00) Beijing, Perth, Singapore, Hong Kong')),
+								JHTML::_('select.option', 8.75, JText::_('(UTC +08:00) Western Australia')),
+								JHTML::_('select.option', 9, JText::_('(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk')),
+								JHTML::_('select.option', 9.5, JText::_('(UTC +09:30) Adelaide, Darwin, Yakutsk')),
+								JHTML::_('select.option', 10, JText::_('(UTC +10:00) Eastern Australia, Guam, Vladivostok')),
+								JHTML::_('select.option', 10.5, JText::_('(UTC +10:30) Lord Howe Island (Australia)')),
+								JHTML::_('select.option', 11, JText::_('(UTC +11:00) Magadan, Solomon Islands, New Caledonia')),
+								JHTML::_('select.option', 11.30, JText::_('(UTC +11:30) Norfolk Island')),
+								JHTML::_('select.option', 12, JText::_('(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka')),
+								JHTML::_('select.option', 12.75, JText::_('(UTC +12:45) Chatham Island')),
+								JHTML::_('select.option', 13, JText::_('(UTC +13:00) Tonga')),
+								JHTML::_('select.option', 14, JText::_('(UTC +14:00) Kiribati')),);
+		$lists['offset'] 		= JHTML::_('select.genericlist',  $timeoffset, 'offset', 'class="inputbox" size="1"', 'value', 'text', $row->offset);
 
 		// MAIL SETTINGS
-		$mailer 				= array (JHTMLSelect::option('mail', JText::_('PHP mail function')), JHTMLSelect::option('sendmail', JText::_('Sendmail')), JHTMLSelect::option('smtp', JText::_('SMTP Server')));
-		$lists['mailer'] 		= JHTMLSelect::genericList($mailer, 'mailer', 'class="inputbox" size="1"', 'value', 'text', $row->mailer);
-		$lists['smtpauth'] 		= JHTMLSelect::yesnoList('smtpauth', 'class="inputbox"', $row->smtpauth);
+		$mailer 				= array (JHTML::_('select.option', 'mail', JText::_('PHP mail function')), JHTML::_('select.option', 'sendmail', JText::_('Sendmail')), JHTML::_('select.option', 'smtp', JText::_('SMTP Server')));
+		$lists['mailer'] 		= JHTML::_('select.genericlist',  $mailer, 'mailer', 'class="inputbox" size="1"', 'value', 'text', $row->mailer);
+		$lists['smtpauth'] 		= JHTML::_('select.booleanlist', 'smtpauth', 'class="inputbox"', $row->smtpauth);
 
 		// CACHE SETTINGS
-		$lists['caching'] 		= JHTMLSelect::yesnoList('caching', 'class="inputbox"', $row->caching);
+		$lists['caching'] 		= JHTML::_('select.booleanlist', 'caching', 'class="inputbox"', $row->caching);
 		jimport('joomla.cache.cache');
 		$stores = JCache::getStores();
 		$options = array();
 		foreach($stores as $store) {
-			$options[] = JHTMLSelect::option($store, ucfirst($store));
+			$options[] = JHTML::_('select.option', $store, ucfirst($store));
 		}
-		$lists['cache_handlers'] = JHTMLSelect::genericList($options, 'cache_handler', 'class="inputbox" size="1"', 'value', 'text', $row->cache_handler);
+		$lists['cache_handlers'] = JHTML::_('select.genericlist',  $options, 'cache_handler', 'class="inputbox" size="1"', 'value', 'text', $row->cache_handler);
 
 		// MEMCACHE SETTINGS
 		if (!empty($row->memcache_settings) && !is_array($row->memcache_settings)) {
 			$row->memcache_settings = unserialize(stripslashes($row->memcache_settings));
 		}
-		$lists['memcache_persist'] = JHTMLSelect::yesnoList('memcache_settings[persistent]', 'class="inputbox"', @$row->memcache_settings['persistent']);
-		$lists['memcache_compress'] = JHTMLSelect::yesnoList('memcache_settings[compression]', 'class="inputbox"', @$row->memcache_settings['compression']);
+		$lists['memcache_persist'] = JHTML::_('select.booleanlist', 'memcache_settings[persistent]', 'class="inputbox"', @$row->memcache_settings['persistent']);
+		$lists['memcache_compress'] = JHTML::_('select.booleanlist', 'memcache_settings[compression]', 'class="inputbox"', @$row->memcache_settings['compression']);
 
 		// META SETTINGS
-		$lists['MetaAuthor'] 	= JHTMLSelect::yesnoList('MetaAuthor', 'class="inputbox"', $row->MetaAuthor);
-		$lists['MetaTitle'] 	= JHTMLSelect::yesnoList('MetaTitle', 'class="inputbox"', $row->MetaTitle);
+		$lists['MetaAuthor'] 	= JHTML::_('select.booleanlist', 'MetaAuthor', 'class="inputbox"', $row->MetaAuthor);
+		$lists['MetaTitle'] 	= JHTML::_('select.booleanlist', 'MetaTitle', 'class="inputbox"', $row->MetaTitle);
 
 		// SEO SETTINGS
-		$lists['sef'] 			= JHTMLSelect::yesnoList('sef', 'class="inputbox"', $row->sef);
-		$lists['sef_rewrite'] 	= JHTMLSelect::yesnoList('sef_rewrite', 'class="inputbox"', $row->sef_rewrite);
+		$lists['sef'] 			= JHTML::_('select.booleanlist', 'sef', 'class="inputbox"', $row->sef);
+		$lists['sef_rewrite'] 	= JHTML::_('select.booleanlist', 'sef_rewrite', 'class="inputbox"', $row->sef_rewrite);
 
 		// FEED SETTINGS
-		$formats	= array (JHTMLSelect::option('RSS2.0', JText::_('RSS')), JHTMLSelect::option('Atom', JText::_('Atom')));
-		$summary	= array (JHTMLSelect::option(1, JText::_('Full Text')), JHTMLSelect::option(0, JText::_('Intro Text')),);
-		$lists['feed_limit']	= JHTMLSelect::genericList($listLimit, 'feed_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
-		$lists['feed_summary']	= JHTMLSelect::radioList($summary, 'feed_summary', 'class="inputbox"', $row->feed_summary);
+		$formats	= array (JHTML::_('select.option', 'RSS2.0', JText::_('RSS')), JHTML::_('select.option', 'Atom', JText::_('Atom')));
+		$summary	= array (JHTML::_('select.option', 1, JText::_('Full Text')), JHTML::_('select.option', 0, JText::_('Intro Text')),);
+		$lists['feed_limit']	= JHTML::_('select.genericlist',  $listLimit, 'feed_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
+		$lists['feed_summary']	= JHTML::_('select.radiolist', $summary, 'feed_summary', 'class="inputbox"', $row->feed_summary);
 
 		// SESSION SETTINGS
 		$stores = JSession::getStores();
 		$options = array();
 		foreach($stores as $store) {
-			$options[] = JHTMLSelect::option($store, ucfirst($store));
+			$options[] = JHTML::_('select.option', $store, ucfirst($store));
 		}
-		$lists['session_handlers'] = JHTMLSelect::genericList($options, 'session_handler', 'class="inputbox" size="1"', 'value', 'text', $row->session_handler);
+		$lists['session_handlers'] = JHTML::_('select.genericlist',  $options, 'session_handler', 'class="inputbox" size="1"', 'value', 'text', $row->session_handler);
 
 		// SHOW EDIT FORM
 		ConfigApplicationView::showConfig($row, $lists);

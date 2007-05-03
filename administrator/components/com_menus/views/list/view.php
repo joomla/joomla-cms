@@ -62,7 +62,7 @@ class MenusViewList extends JView
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'm.ordering');
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 
 		$this->assignRef('items', $items);
 		$this->assignRef('pagination', $pagination);
@@ -97,9 +97,9 @@ class MenusViewList extends JView
 		// Build the menutypes select list
 		$menuTypes 	= JMenuHelper::getMenuTypes();
 		foreach ( $menuTypes as $menuType ) {
-			$menu[] = JHTMLSelect::option( $menuType, $menuType );
+			$menu[] = JHTML::_('select.option',  $menuType, $menuType );
 		}
-		$MenuList = JHTMLSelect::genericList( $menu, 'menu', 'class="inputbox" size="10"', 'value', 'text', null );
+		$MenuList = JHTML::_('select.genericlist',   $menu, 'menu', 'class="inputbox" size="10"', 'value', 'text', null );
 
 		$items = &$this->get('ItemsFromRequest');
 
@@ -133,9 +133,9 @@ class MenusViewList extends JView
 		// Build the menutypes select list
 		$menuTypes 	= JMenuHelper::getMenuTypes();
 		foreach ( $menuTypes as $menuType ) {
-			$menu[] = JHTMLSelect::option( $menuType, $menuType );
+			$menu[] = JHTML::_('select.option',  $menuType, $menuType );
 		}
-		$MenuList = JHTMLSelect::genericList( $menu, 'menu', 'class="inputbox" size="10"', 'value', 'text', null );
+		$MenuList = JHTML::_('select.genericlist',   $menu, 'menu', 'class="inputbox" size="10"', 'value', 'text', null );
 
 		$items = &$this->get('ItemsFromRequest');
 
@@ -161,7 +161,7 @@ class MenusViewList extends JView
 		$search 			= $db->getEscaped( JString::strtolower( $search ) );
 
 		// level limit filter
-		$lists['levellist'] = JHTMLSelect::integerList( 1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
+		$lists['levellist'] = JHTML::_('select.integerlist',    1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
 
 		// state filter
 		$lists['state']	= JHTML::_('grid.state',  $filter_state );

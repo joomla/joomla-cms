@@ -40,7 +40,7 @@ class ContentView
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_content" method="post" name="adminForm">
 
@@ -439,8 +439,8 @@ class ContentView
 		$editor =& JFactory::getEditor();
 		$pane	=& JPane::getInstance('sliders');
 
-		jimport('joomla.html.tooltips');
-		JCommonHTML::loadCalendar();
+		JHTML::_('behavior.tooltip');
+		JHTML::_('behavior.calendar');
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--
@@ -543,7 +543,7 @@ class ContentView
 		<input type="hidden" name="task" value="" />
 		</form>
 		<?php
-		JHTML::keepAlive();
+		JHTML::_('behavior.keepalive');
 	}
 
 

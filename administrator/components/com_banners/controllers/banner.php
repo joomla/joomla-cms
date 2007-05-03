@@ -152,9 +152,9 @@ class BannerControllerBanner extends JController
 			return JError::raiseWarning( 500, $db->getErrorMsg() );
 		}
 
-		$clientlist[] 		= JHTMLSelect::option( '0', JText::_( 'Select Client' ), 'cid', 'name' );
+		$clientlist[] 		= JHTML::_('select.option',  '0', JText::_( 'Select Client' ), 'cid', 'name' );
 		$clientlist 		= array_merge( $clientlist, $db->loadObjectList() );
-		$lists['cid'] 		= JHTMLSelect::genericList( $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid );
+		$lists['cid'] 		= JHTML::_('select.genericlist',   $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid );
 
 		// Imagelist
 		$javascript 		= 'onchange="changeDisplayImage();"';
@@ -165,10 +165,10 @@ class BannerControllerBanner extends JController
 		$lists['catid']		= JAdministratorHelper::ComponentCategory( 'catid', 'com_banner', intval( $row->catid ) );
 
 		// sticky
-		$lists['sticky']	= JHTMLSelect::yesnoList( 'sticky', 'class="inputbox"', $row->sticky );
+		$lists['sticky']	= JHTML::_('select.booleanlist',  'sticky', 'class="inputbox"', $row->sticky );
 
 		// published
-		$lists['showBanner'] = JHTMLSelect::yesnoList( 'showBanner', '', $row->showBanner );
+		$lists['showBanner'] = JHTML::_('select.booleanlist',  'showBanner', '', $row->showBanner );
 
 		require_once(JPATH_COMPONENT.DS.'views'.DS.'banner.php');
 		BannersViewBanner::banner( $row, $lists );

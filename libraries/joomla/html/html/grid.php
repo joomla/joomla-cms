@@ -171,16 +171,16 @@ class JHTMLGrid
 	
 	function State( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL )
 	{
-		$state[] = JHTMLSelect::option( '', '- '. JText::_( 'Select State' ) .' -' );
-		$state[] = JHTMLSelect::option( '*', JText::_( 'Any' ) );
-		$state[] = JHTMLSelect::option( 'P', JText::_( $published ) );
-		$state[] = JHTMLSelect::option( 'U', JText::_( $unpublished ) );
+		$state[] = JHTML::_('select.option',  '', '- '. JText::_( 'Select State' ) .' -' );
+		$state[] = JHTML::_('select.option',  '*', JText::_( 'Any' ) );
+		$state[] = JHTML::_('select.option',  'P', JText::_( $published ) );
+		$state[] = JHTML::_('select.option',  'U', JText::_( $unpublished ) );
 
 		if ($archived) {
-			$state[] = JHTMLSelect::option( 'A', JText::_( $archived ) );
+			$state[] = JHTML::_('select.option',  'A', JText::_( $archived ) );
 		}
 
-		return JHTMLSelect::genericList( $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );
+		return JHTML::_('select.genericlist',   $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );
 	}
 	
 	function Order( $rows, $image='filesave.png', $task="saveorder" )

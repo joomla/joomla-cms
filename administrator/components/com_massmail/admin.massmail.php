@@ -44,13 +44,13 @@ function messageForm( $option )
 	$acl =& JFactory::getACL();
 
 	$gtree = array(
-		JHTMLSelect::option( 0, '- '. JText::_( 'All User Groups' ) .' -' )
+		JHTML::_('select.option',  0, '- '. JText::_( 'All User Groups' ) .' -' )
 	);
 
 	// get list of groups
 	$lists = array();
 	$gtree = array_merge( $gtree, $acl->get_group_children_tree( null, 'users', false ) );
-	$lists['gid'] = JHTMLSelect::genericList( $gtree, 'mm_group', 'size="10"', 'value', 'text', 0 );
+	$lists['gid'] = JHTML::_('select.genericlist',   $gtree, 'mm_group', 'size="10"', 'value', 'text', 0 );
 
 	HTML_massmail::messageForm( $lists, $option );
 }

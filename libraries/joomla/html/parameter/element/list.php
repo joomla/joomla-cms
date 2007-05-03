@@ -43,9 +43,9 @@ class JElementList extends JElement
 		{
 			$val	= $option->attributes('value');
 			$text	= $option->data();
-			$options[] = JHTMLSelect::option($val, JText::_($text));
+			$options[] = JHTML::_('select.option', $val, JText::_($text));
 		}
 
-		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', $class, 'value', 'text', $value, $control_name.$name);
+		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', $class, 'value', 'text', $value, $control_name.$name);
 	}
 }

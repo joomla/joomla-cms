@@ -165,10 +165,10 @@ class ModulesController extends JController
 		. ' GROUP BY t.position'
 		. ' ORDER BY t.position'
 		;
-		$positions[] = JHTMLSelect::option( '0', '- '. JText::_( 'Select Position' ) .' -' );
+		$positions[] = JHTML::_('select.option',  '0', '- '. JText::_( 'Select Position' ) .' -' );
 		$db->setQuery( $query );
 		$positions = array_merge( $positions, $db->loadObjectList() );
-		$lists['position']	= JHTMLSelect::genericList( $positions, 'filter_position', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_position" );
+		$lists['position']	= JHTML::_('select.genericlist',   $positions, 'filter_position', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_position" );
 
 		// get list of Positions for dropdown filter
 		$query = 'SELECT module AS value, module AS text'
@@ -178,9 +178,9 @@ class ModulesController extends JController
 		. ' ORDER BY module'
 		;
 		$db->setQuery( $query );
-		$types[] 		= JHTMLSelect::option( '0', '- '. JText::_( 'Select Type' ) .' -' );
+		$types[] 		= JHTML::_('select.option',  '0', '- '. JText::_( 'Select Type' ) .' -' );
 		$types 			= array_merge( $types, $db->loadObjectList() );
-		$lists['type']	= JHTMLSelect::genericList( $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_type" );
+		$lists['type']	= JHTML::_('select.genericlist',   $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_type" );
 
 		// state filter
 		$lists['state']	= JHTML::_('grid.state',  $filter_state );
@@ -190,9 +190,9 @@ class ModulesController extends JController
 				' FROM #__templates_menu' .
 				' WHERE client_id = ' . $client->id;
 		$db->setQuery( $query );
-		$assigned[]		= JHTMLSelect::option( '0', '- '. JText::_( 'Select Template' ) .' -' );
+		$assigned[]		= JHTML::_('select.option',  '0', '- '. JText::_( 'Select Template' ) .' -' );
 		$assigned 		= array_merge( $assigned, $db->loadObjectList() );
-		$lists['assigned']	= JHTMLSelect::genericList( $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_assigned" );
+		$lists['assigned']	= JHTML::_('select.genericlist',   $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_assigned" );
 
 		// table ordering
 		$lists['order_Dir']	= $filter_order_Dir;
@@ -435,7 +435,7 @@ class ModulesController extends JController
 		$pos 		= array();
 		foreach ($positions as $position) {
 			$orders2[$position->position] = array();
-			$pos[] = JHTMLSelect::option( $position->position, $position->description );
+			$pos[] = JHTML::_('select.option',  $position->position, $position->description );
 		}
 
 		$l = 0;
@@ -446,13 +446,13 @@ class ModulesController extends JController
 				$ord =count( array_keys( $orders2[$orders[$i]->position] ) ) + 1;
 			}
 
-			$orders2[$orders[$i]->position][] = JHTMLSelect::option( $ord, $ord.'::'.addslashes( $orders[$i]->title ) );
+			$orders2[$orders[$i]->position][] = JHTML::_('select.option',  $ord, $ord.'::'.addslashes( $orders[$i]->title ) );
 		}
 
 		// build the html select list
 		$pos_select 		= 'onchange="changeDynaList(\'ordering\',orders,document.adminForm.position.options[document.adminForm.position.selectedIndex].value, originalPos, originalOrder)"';
 		$active 			= ( $row->position ? $row->position : 'left' );
-		$lists['position'] 	= JHTMLSelect::genericList( $pos, 'position', 'class="inputbox" size="1" '. $pos_select, 'value', 'text', $active );
+		$lists['position'] 	= JHTML::_('select.genericlist',   $pos, 'position', 'class="inputbox" size="1" '. $pos_select, 'value', 'text', $active );
 
 		// get selected pages for $lists['selections']
 		if ( $cid[0] ) {
@@ -463,7 +463,7 @@ class ModulesController extends JController
 			$db->setQuery( $query );
 			$lookup = $db->loadObjectList();
 			if (empty( $lookup )) {
-				$lookup = array( JHTMLSelect::option( '-1' ) );
+				$lookup = array( JHTML::_('select.option',  '-1' ) );
 				$row->pages = 'none';
 			} elseif (count($lookup) == 1 && $lookup[0]->value == 0) {
 				$row->pages = 'all';
@@ -471,7 +471,7 @@ class ModulesController extends JController
 				$row->pages = null;
 			}
 		} else {
-			$lookup = array( JHTMLSelect::option( 0, JText::_( 'All' ) ) );
+			$lookup = array( JHTML::_('select.option',  0, JText::_( 'All' ) ) );
 			$row->pages = 'all';
 		}
 
@@ -487,13 +487,13 @@ class ModulesController extends JController
 				$lists['access'] 		= JAdministratorHelper::Access( $row );
 
 				$selections				= JAdministratorHelper::MenuLinkOptions();
-				$lists['selections']	= JHTMLSelect::genericList( $selections, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
+				$lists['selections']	= JHTML::_('select.genericlist',   $selections, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
 			}
-			$lists['showtitle'] = JHTMLSelect::yesnoList( 'showtitle', 'class="inputbox"', $row->showtitle );
+			$lists['showtitle'] = JHTML::_('select.booleanlist',  'showtitle', 'class="inputbox"', $row->showtitle );
 		}
 
 		// build the html select list for published
-		$lists['published'] = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
+		$lists['published'] = JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
 
 		$row->description = '';
 

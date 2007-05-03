@@ -38,6 +38,6 @@ class JElementSQL extends JElement
 	{
 		$db			= & JFactory::getDBO();
 		$db->setQuery($node->attributes('query'));
-		return JHTMLSelect::genericList($db->loadObjectList(), ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', $name, $value, $control_name.$name);
+		return JHTML::_('select.genericlist',  $db->loadObjectList(), ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', $name, $value, $control_name.$name);
 	}
 }

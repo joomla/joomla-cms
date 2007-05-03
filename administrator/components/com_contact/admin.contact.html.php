@@ -28,7 +28,7 @@ class HTML_contact
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'cd.ordering');
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_contact" method="post" name="adminForm">
 
@@ -170,7 +170,7 @@ class HTML_contact
 			$row->image = 'blank.png';
 		}
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 		jimport('joomla.html.pane');
 		$pane =& JPane::getInstance('sliders');
 

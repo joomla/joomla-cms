@@ -377,7 +377,7 @@ class JAuthorization extends gacl_api
 			$groupName = JText::_( $tree[$i]->name );
 			//$list[$i] = $tree[$i]->level.$shim.$twist.$tree[$i]->name;
 			if ($html) {
-				$list[$i] = JHTMLSelect::option( $tree[$i]->id, $shim.$twist.$groupName );
+				$list[$i] = JHTML::_('select.option',  $tree[$i]->id, $shim.$twist.$groupName );
 			} else {
 				$list[$i] = array( 'value'=>$tree[$i]->id, 'text'=>$shim.$twist.$groupName );
 			}

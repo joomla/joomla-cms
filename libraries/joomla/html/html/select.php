@@ -22,47 +22,14 @@
  */
 class JHTMLSelect
 {
-	function option( $value, $text='', $value_name='value', $text_name='text' )
+	function Option( $value, $text='', $value_name='value', $text_name='text' )
 	{
 		$obj = new stdClass;
 		$obj->$value_name = $value;
 		$obj->$text_name = trim( $text ) ? $text : $value;
 		return $obj;
 	}
-
-	/**
-	 * Generates an HTML select list
-	 *
-	 * @param	array	An array of objects
-	 * @param	string	The value of the HTML name attribute
-	 * @param	string	Additional HTML attributes for the <select> tag
-	 * @param	string	The name of the object variable for the option value
-	 * @param	string	The name of the object variable for the option text
-	 * @param	mixed	The key that is selected (accepts an array or a string)
-	 * @returns	string	HTML for the select list
-	 */
-	function genericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false )
-	{
-		// check if array
-		if ( is_array( $arr ) ) {
-			reset( $arr );
-		}
-
-		$id = $tag_name;
-		if ( $idtag ) {
-			$id = $idtag;
-		}
-		$id = str_replace('[','',$id);
-		$id = str_replace(']','',$id);
-
-		$html = '<select name="'. $tag_name .'" id="'. $id .'" '. $tag_attribs .'>';
-//		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
-		$html .= JHTMLSelect::options( $arr, $key, $text, $selected, $flag );
-		$html .= '</select>';
-
-		return $html;
-	}
-
+	
 	/**
 	 * Generates just the option tags for an HTML select list
 	 *
@@ -72,7 +39,7 @@ class JHTMLSelect
 	 * @param	mixed	The key that is selected (accepts an array or a string)
 	 * @returns	string	HTML for the select list
 	 */
-	function options( $arr, $key, $text, $selected=null, $flag=false )
+	function Options( $arr, $key, $text, $selected=null, $flag=false )
 	{
 		$html = '';
 
@@ -129,6 +96,41 @@ class JHTMLSelect
 	}
 
 	/**
+	 * Generates an HTML select list
+	 *
+	 * @param	array	An array of objects
+	 * @param	string	The value of the HTML name attribute
+	 * @param	string	Additional HTML attributes for the <select> tag
+	 * @param	string	The name of the object variable for the option value
+	 * @param	string	The name of the object variable for the option text
+	 * @param	mixed	The key that is selected (accepts an array or a string)
+	 * @returns	string	HTML for the select list
+	 */
+	function GenericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false )
+	{
+		// check if array
+		if ( is_array( $arr ) ) {
+			reset( $arr );
+		}
+
+		$id = $tag_name;
+		if ( $idtag ) {
+			$id = $idtag;
+		}
+		$id = str_replace('[','',$id);
+		$id = str_replace(']','',$id);
+
+		$html = '<select name="'. $tag_name .'" id="'. $id .'" '. $tag_attribs .'>';
+//		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
+		$html .= JHTMLSelect::Options( $arr, $key, $text, $selected, $flag );
+		$html .= '</select>';
+
+		return $html;
+	}
+
+	
+
+	/**
 	* Generates a select list of integers
 	*
 	* @param int The start integer
@@ -140,7 +142,7 @@ class JHTMLSelect
 	* @param string The printf format to be applied to the number
 	* @returns string HTML for the select list
 	*/
-	function integerList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )
+	function IntegerList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )
 	{
 		$start 	= intval( $start );
 		$end 	= intval( $end );
@@ -149,10 +151,10 @@ class JHTMLSelect
 
 		for ($i=$start; $i <= $end; $i+=$inc) {
 			$fi = $format ? sprintf( "$format", $i ) : "$i";
-			$arr[] = JHTMLSelect::option( $fi, $fi );
+			$arr[] = JHTML::_('select.option',  $fi, $fi );
 		}
 
-		return JHTMLSelect::genericList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
+		return JHTML::_('select.genericlist',   $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
 	}
 
 	/**
@@ -166,7 +168,7 @@ class JHTMLSelect
 	* @param string The name of the object variable for the option text
 	* @returns string HTML for the select list
 	*/
-	function radioList( $arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )
+	function RadioList( $arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )
 	{
 		reset( $arr );
 		$html = '';
@@ -209,13 +211,13 @@ class JHTMLSelect
 	* @param mixed The key that is selected
 	* @returns string HTML for the radio list
 	*/
-	function yesnoList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false ) {
+	function BooleanList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false ) {
 
 		$arr = array(
-			JHTMLSelect::Option( '0', JText::_( $no ) ),
-			JHTMLSelect::Option( '1', JText::_( $yes ) )
+			JHTML::_('select.option',  '0', JText::_( $no ) ),
+			JHTML::_('select.option',  '1', JText::_( $yes ) )
 		);
-		return JHTMLSelect::radioList( $arr, $tag_name, $tag_attribs, (int) $selected, 'value', 'text', $id );
+		return JHTML::_('select.radiolist',  $arr, $tag_name, $tag_attribs, (int) $selected, 'value', 'text', $id );
 	}
 }
 

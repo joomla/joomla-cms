@@ -879,53 +879,53 @@ class mosEmpty
 class mosHTML
 {
 	/**
- 	 * Legacy function, use {@link JHTMLSelect::option()} instead
+ 	 * Legacy function, use {@link JHTML::_('select.option')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function makeOption( $value, $text='', $value_name='value', $text_name='text' )
 	{
-		return JHTMLSelect::option($value, $text, $value_name, $text_name);
+		return JHTML::_('select.option', $value, $text, $value_name, $text_name);
 	}
 
 	/**
- 	 * Legacy function, use {@link JHTMLSelect::genericList()} instead
+ 	 * Legacy function, use {@link JHTML::_('select.genericlist')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false )
 	{
-		return JHTMLSelect::genericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected, $idtag, $flag );
+		return JHTML::_('select.genericlist', $arr, $tag_name, $tag_attribs, $key, $text, $selected, $idtag, $flag );
 	}
 
 	/**
- 	 * Legacy function, use {@link JHTMLSelect::integerList()} instead
+ 	 * Legacy function, use {@link JHTML::_('select.integerlist')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function integerSelectList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )
 	{
-		return JHTMLSelect::integerList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format) ;
+		return JHTML::_('select.integerlist', $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format) ;
 	}
 
 	/**
- 	 * Legacy function, use {@link JHTMLSelect::radioList()} instead
+ 	 * Legacy function, use {@link JHTML::_('select.radiolist')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )
 	{
-		return JHTMLSelect::radioList( $arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag) ;
+		return JHTML::_('select.radiolist', $arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag) ;
 	}
 
 	/**
- 	 * Legacy function, use {@link JHTMLSelect::yesnoList()} instead
+ 	 * Legacy function, use {@link JHTML::_('select.booleanlist')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false )
 	{
-		return JHTMLSelect::yesnoList( $tag_name, $tag_attribs, $selected, $yes, $no, $id ) ;
+		return JHTML::_('select.booleanlist',  $tag_name, $tag_attribs, $selected, $yes, $no, $id ) ;
 	}
 
 	/**
@@ -1192,18 +1192,18 @@ class mosHTML
 	}
 
 	/**
- 	 * Legacy function, use {@link JHTML::keepAlive()} instead
+ 	 * Legacy function, use {@link JHTML::_('behavior.keepalive')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function keepAlive()
 	{
-		JHTML::keepAlive();
+		JHTML::_('behavior.keepalive');
 	}
 }
 
 /**
- * Legacy class, use {@link JCommonHTML} instead
+ * Legacy class, use {@link JHTML::_()} instead
  *
  * @deprecated	As of version 1.5
  * @package	Joomla.Legacy
@@ -1373,23 +1373,23 @@ class mosCommonHTML
 	}
 
 	/**
- 	 * Legacy function, use {@link JCommonHTML::loadOverlib()} instead
+ 	 * Legacy function, use {@link JHTML::_('behavior.tooltip')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function loadOverlib()
 	{
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 	}
 
 	/**
- 	 * Legacy function, use {@link JCommonHTML::loadCalendar()} instead
+ 	 * Legacy function, use {@link JHTML::_('behavior.calendar')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function loadCalendar()
 	{
-		JCommonHTML::loadCalendar();
+		JHTML::_('behavior.calendar');
 	}
 
 	/**
@@ -1492,7 +1492,7 @@ class mosAdminMenus
  	*/
 	function Published( &$row )
 	{
-		$published = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
+		$published = JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
 		return $published;
 	}
 
@@ -1505,9 +1505,9 @@ class mosAdminMenus
 	{
 		$options = JAdministratorHelper::MenuLinkOptions($lookup, $all, $none|$unassigned);
 		if (empty( $lookup )) {
-			$lookup = array( JHTMLSelect::option( -1 ) );
+			$lookup = array( JHTML::_('select.option',  -1 ) );
 		}
-		$pages = JHTMLSelect::genericList( $options, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
+		$pages = JHTML::_('select.genericlist',   $options, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
 		return $pages;
 	}
 
@@ -1530,7 +1530,7 @@ class mosAdminMenus
 		$rows = $db->loadObjectList();
 		$category = '';
 
-		$category .= JHTMLSelect::genericList( $rows, 'componentid', 'class="inputbox" size="10"'. $javascript, 'value', 'text', $menu->componentid );
+		$category .= JHTML::_('select.genericlist',   $rows, 'componentid', 'class="inputbox" size="10"'. $javascript, 'value', 'text', $menu->componentid );
 		$category .= '<input type="hidden" name="link" value="" />';
 
 		return $category;
@@ -1552,13 +1552,13 @@ class mosAdminMenus
 		;
 		$db->setQuery( $query );
 		if ( $all ) {
-			$rows[] = JHTMLSelect::option( 0, '- '. JText::_( 'All Sections' ) .' -' );
+			$rows[] = JHTML::_('select.option',  0, '- '. JText::_( 'All Sections' ) .' -' );
 			$rows = array_merge( $rows, $db->loadObjectList() );
 		} else {
 			$rows = $db->loadObjectList();
 		}
 
-		$section = JHTMLSelect::genericList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
+		$section = JHTML::_('select.genericlist',   $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
 		$section .= '<input type="hidden" name="link" value="" />';
 
 		return $section;
@@ -1581,7 +1581,7 @@ class mosAdminMenus
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList( );
 
-		$component = JHTMLSelect::genericList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid, '', 1 );
+		$component = JHTML::_('select.genericlist',   $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid, '', 1 );
 
 		return $component;
 	}
@@ -1725,7 +1725,7 @@ class mosAdminMenus
 		// sort array of objects
 		JArrayHelper::sortObjects( $menuselect, 'text', 1 );
 
-		$menus = JHTMLSelect::genericList( $menuselect, $name, 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
+		$menus = JHTML::_('select.genericlist',   $menuselect, $name, 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
 
 		return $menus;
 	}
@@ -1747,12 +1747,12 @@ class mosAdminMenus
 			$i_f 	= $imagePath .'/'. $file;
 
 			if ( is_dir( $i_f ) && $file <> 'CVS' && $file <> '.svn') {
-				$folders[] = JHTMLSelect::option( $ff_ );
+				$folders[] = JHTML::_('select.option',  $ff_ );
 				mosAdminMenus::ReadImages( $i_f, $ff_, $folders, $images );
 			} else if ( eregi( "bmp|gif|jpg|png", $file ) && is_file( $i_f ) ) {
 				// leading / we don't need
 				$imageFile = substr( $ff, 1 );
-				$images[$folderPath][] = JHTMLSelect::option( $imageFile, $file );
+				$images[$folderPath][] = JHTML::_('select.option',  $imageFile, $file );
 			}
 		}
 	}
@@ -1765,7 +1765,7 @@ class mosAdminMenus
 	function GetImageFolders( &$folders, $path )
 	{
 		$javascript 	= "onchange=\"changeDynaList( 'imagefiles', folderimages, document.adminForm.folders.options[document.adminForm.folders.selectedIndex].value, 0, 0);  previewImage( 'imagefiles', 'view_imagefiles', '$path/' );\"";
-		$getfolders 	= JHTMLSelect::genericList( $folders, 'folders', 'class="inputbox" size="1" '. $javascript, 'value', 'text', '/' );
+		$getfolders 	= JHTML::_('select.genericlist',   $folders, 'folders', 'class="inputbox" size="1" '. $javascript, 'value', 'text', '/' );
 		return $getfolders;
 	}
 
@@ -1777,12 +1777,12 @@ class mosAdminMenus
 	function GetImages( &$images, $path )
 	{
 		if ( !isset($images['/'] ) ) {
-			$images['/'][] = JHTMLSelect::option( '' );
+			$images['/'][] = JHTML::_('select.option',  '' );
 		}
 
 		//$javascript	= "onchange=\"previewImage( 'imagefiles', 'view_imagefiles', '$path/' )\" onfocus=\"previewImage( 'imagefiles', 'view_imagefiles', '$path/' )\"";
 		$javascript	= "onchange=\"previewImage( 'imagefiles', 'view_imagefiles', '$path/' )\"";
-		$getimages	= JHTMLSelect::genericList( $images['/'], 'imagefiles', 'class="inputbox" size="10" multiple="multiple" '. $javascript , 'value', 'text', null );
+		$getimages	= JHTML::_('select.genericlist',   $images['/'], 'imagefiles', 'class="inputbox" size="10" multiple="multiple" '. $javascript , 'value', 'text', null );
 
 		return $getimages;
 	}
@@ -1802,11 +1802,11 @@ class mosAdminMenus
 			} else {
 				$filename = $temp[0];
 			}
-			$images2[] = JHTMLSelect::option( $file, $filename );
+			$images2[] = JHTML::_('select.option',  $file, $filename );
 		}
 		//$javascript	= "onchange=\"previewImage( 'imagelist', 'view_imagelist', '$path/' ); showImageProps( '$path/' ); \" onfocus=\"previewImage( 'imagelist', 'view_imagelist', '$path/' )\"";
 		$javascript	= "onchange=\"previewImage( 'imagelist', 'view_imagelist', '$path/' ); showImageProps( '$path/' ); \"";
-		$imagelist 	= JHTMLSelect::genericList( $images2, 'imagelist', 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
+		$imagelist 	= JHTML::_('select.genericlist',   $images2, 'imagelist', 'class="inputbox" size="10" '. $javascript, 'value', 'text' );
 
 		return $imagelist;
 	}

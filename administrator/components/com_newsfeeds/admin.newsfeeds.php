@@ -200,7 +200,7 @@ function editNewsFeed(  )
 	// build list of categories
 	$lists['category'] 			= JAdministratorHelper::ComponentCategory( 'catid', $option, intval( $row->catid ) );
 	// build the html select list
-	$lists['published'] 		= JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
+	$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
 
 	HTML_newsfeeds::editNewsFeed( $row, $lists, $option );
 }

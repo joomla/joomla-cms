@@ -225,9 +225,9 @@ function editContact( )
 	// build the html select list for the group access
 	$lists['access'] 			= JAdministratorHelper::Access( $row );
 	// build the html radio buttons for published
-	$lists['published'] 		= JHTMLSelect::yesnoList( 'published', '', $row->published );
+	$lists['published'] 		= JHTML::_('select.booleanlist',  'published', '', $row->published );
 	// build the html radio buttons for default
-	$lists['default_con'] 		= JHTMLSelect::yesnoList( 'default_con', '', $row->default_con );
+	$lists['default_con'] 		= JHTML::_('select.booleanlist',  'default_con', '', $row->default_con );
 
 	// get params definitions
 	$file 	= JPATH_ADMINISTRATOR .'/components/com_contact/contact_items.xml';

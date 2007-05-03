@@ -12,8 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.html.html.select' );
-
 /**
  * Utility class for all HTML drawing classes
  *
@@ -31,24 +29,31 @@ class JHTML
 		$file		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
 		$func		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
 		
-		$className	= 'JHTML'.$file;
+		$className	= 'JHTML'.ucfirst($file);
 		
 		if (!class_exists( $className ))
 		{
-			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html'.DS.$file.'.php';
-			if (file_exists( $path )) {
-				require_once( $path );
+			jimport('joomla.filesystem.path');
+			if ($path = JPath::find(JHTML::addIncludePath(), strtolower($file).'.php'))
+			{
+				require_once $path;
+
+				if (!class_exists( $className ))
+				{
+					JError::raiseWarning( 0, 'JHTM '. $className.'::' .$func. ' not found in file.' );
+					return false;
+				} 
+			}
+			else
+			{
+				JError::raiseWarning( 0, 'JHTML ' . $file . ' not supported. File not found.' );
+				return false;
 			}
 		}
-
-		if (class_exists( $className ))
-		{
-			$args = func_get_args();
-			array_shift( $args );
-			return call_user_func_array( array( $className, $func ), $args );
-		} else {
-			return JError::raiseError( 500, 'JHTML'.$type.'::'.$func.' not found' );
-		}
+		
+		$args = func_get_args();
+		array_shift( $args );
+		return call_user_func_array( array( $className, $func ), $args );
 	}
 
 	/**
@@ -164,58 +169,19 @@ class JHTML
 
 		return $instance->toFormat($format);
 	}
-
 	
-
 	/**
-	 * Keep session alive, for example, while editing or creating an article.
-	 */
-	function keepAlive()
-	{
-		$js = "
-				function keepAlive() {
-					setTimeout('frames[\'keepAliveFrame\'].location.href=\'index.php?option=com_admin&tmpl=component&task=keepalive\';', 60000);
-				}";
-
-		$html = "<iframe id=\"keepAliveFrame\" name=\"keepAliveFrame\" " .
-				"style=\"width:0px; height:0px; border: 0px\" " .
-				"src=\"index.php?option=com_admin&tmpl=component&task=keepalive\" " .
-				"onload=\"keepAlive();\"></iframe>";
-
-		$doc =& JFactory::getDocument();
-		$doc->addScriptDeclaration($js);
-		echo $html;
-	}
-
-	function _implode_assoc($inner_glue = "=", $outer_glue = "\n", $array = null, $keepOuterKey = false)
-	{
-		$output = array();
-
-		foreach($array as $key => $item)
-		if (is_array ($item)) {
-			if ($keepOuterKey)
-				$output[] = $key;
-			// This is value is an array, go and do it again!
-			$output[] = JHTML::_implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
-		} else
-			$output[] = $key . $inner_glue . $item;
-
-		return implode($outer_glue, $output);
-	}
-}
-
-/**
- * Utility class for drawing common HTML elements
- *
- * @static
- * @package 	Joomla.Framework
- * @subpackage	HTML
- * @since		1.5
- */
-class JCommonHTML
-{
-	/*
 	 * Creates a tooltip with an image as button
+	 *
+	 * @access public
+	 * @param string 
+	 * @param string
+	 * @param string 
+	 * @param string
+	 * @param string
+	 * @param boolean   
+	 * @returns
+	 * @since 1.5
 	 */
 	function ToolTip($tooltip, $title='', $image='tooltip.png', $text='', $href='', $link=1)
 	{
@@ -251,29 +217,44 @@ class JCommonHTML
 
 		return $tip;
 	}
-
-	/*
-	* Loads all necessary files for JS Calendar
-	*/
-	/*
-	 * Function is used in the administrator/site : move into JCalendar
+	
+	/**
+	 * Add a directory where JHTML should search for helpers. You may
+	 * either pass a string or an array of directories.
+	 *
+	 * @access	public
+	 * @param	string	A path to search.
+	 * @return	array	An array with directory elements
+	 * @since	1.5
 	 */
-	function loadCalendar()
+	function addIncludePath( $path='' )
 	{
-		global $mainframe;
-
-		$doc =& JFactory::getDocument();
-		$lang =& JFactory::getLanguage();
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		$doc->addStyleSheet( $url. 'includes/js/calendar/calendar-mos.css', 'text/css', null, array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
-		$doc->addScript( $url. 'includes/js/calendar/calendar_mini.js' );
-		$langScript = JPATH_SITE.DS.'includes'.DS.'js'.DS.'calendar'.DS.'lang'.DS.'calendar-'.$lang->getTag().'.js';
-		if( file_exists( $langScript ) ){
-			$doc->addScript( $url. 'includes/js/calendar/lang/calendar-'.$lang->getTag().'.js' );
-		} else {
-			$doc->addScript( $url. 'includes/js/calendar/lang/calendar-en-GB.js' );
+		static $paths;
+	
+		if (!isset($paths)) {
+			$paths = array( JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html' );
 		}
+		
+		if (!empty( $path ) && !in_array( $path, $paths )) {
+			array_unshift($paths, JPath::clean( $path ));
+		}
+		return $paths;
+	}
+
+	function _implode_assoc($inner_glue = "=", $outer_glue = "\n", $array = null, $keepOuterKey = false)
+	{
+		$output = array();
+
+		foreach($array as $key => $item)
+		if (is_array ($item)) {
+			if ($keepOuterKey)
+				$output[] = $key;
+			// This is value is an array, go and do it again!
+			$output[] = JHTML::_implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
+		} else
+			$output[] = $key . $inner_glue . $item;
+
+		return implode($outer_glue, $output);
 	}
 }
 

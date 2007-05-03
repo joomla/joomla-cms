@@ -32,7 +32,7 @@ class HTML_modules
 		//Ordering allowed ?
 		$ordering = (($lists['order'] == 'm.position'));
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_modules" method="post" name="adminForm">
 
@@ -220,7 +220,7 @@ class HTML_modules
 		$pane =& JPane::getInstance('sliders');
 		$editor 	=& JFactory::getEditor();
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -521,7 +521,7 @@ class HTML_modules
 	*/
 	function add( &$modules, $client )
 	{
- 		jimport('joomla.html.tooltips');
+ 		JHTML::_('behavior.tooltip');
 
 		?>
 		<form action="index.php" method="post" name="adminForm">

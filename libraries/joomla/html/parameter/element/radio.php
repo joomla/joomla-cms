@@ -41,9 +41,9 @@ class JElementRadio extends JElement
 		{
 			$val	= $option->attributes('value');
 			$text	= $option->data();
-			$options[] = JHTMLSelect::option($val, JText::_($text));
+			$options[] = JHTML::_('select.option', $val, JText::_($text));
 		}
 
-		return JHTMLSelect::radioList($options, ''.$control_name.'['.$name.']', '', $value, 'value', 'text', $control_name.$name );
+		return JHTML::_('select.radiolist', $options, ''.$control_name.'['.$name.']', '', $value, 'value', 'text', $control_name.$name );
 	}
 }

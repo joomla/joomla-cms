@@ -68,7 +68,7 @@ class MenusViewItem extends JView
 		$menuTypes 		= JMenuHelper::getMenuTypeList();
 		$components		= JMenuHelper::getComponentList();
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 
 		$document = & JFactory::getDocument();
 		if ($item->id) {
@@ -148,7 +148,7 @@ class MenusViewItem extends JView
 		} else {
 			$document->addStyleSheet('components/com_menus/assets/type.css');
 		}
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 
 		// Load component language files
 		$components	= JMenuHelper::getComponentList();

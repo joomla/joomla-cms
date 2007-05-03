@@ -182,17 +182,17 @@ function showUsers( )
 	. ' AND name != "USERS"'
 	;
 	$db->setQuery( $query );
-	$types[] 		= JHTMLSelect::option( '0', '- '. JText::_( 'Select Group' ) .' -' );
+	$types[] 		= JHTML::_('select.option',  '0', '- '. JText::_( 'Select Group' ) .' -' );
 	foreach( $db->loadObjectList() as $obj )
 	{
-		$types[] = JHTMLSelect::option( $obj->value, JText::_( $obj->text ) );
+		$types[] = JHTML::_('select.option',  $obj->value, JText::_( $obj->text ) );
 	}
-	$lists['type'] 	= JHTMLSelect::genericList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
+	$lists['type'] 	= JHTML::_('select.genericlist',   $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
 
 	// get list of Log Status for dropdown filter
-	$logged[] = JHTMLSelect::option( 0, '- '. JText::_( 'Select Log Status' ) .' -');
-	$logged[] = JHTMLSelect::option( 1, JText::_( 'Logged In' ) );
-	$lists['logged'] = JHTMLSelect::genericList( $logged, 'filter_logged', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_logged" );
+	$logged[] = JHTML::_('select.option',  0, '- '. JText::_( 'Select Log Status' ) .' -');
+	$logged[] = JHTML::_('select.option',  1, JText::_( 'Logged In' ) );
+	$lists['logged'] = JHTML::_('select.genericlist',   $logged, 'filter_logged', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_logged" );
 
 	// table ordering
 	$lists['order_Dir']	= $filter_order_Dir;
@@ -296,13 +296,13 @@ function editUser( )
 		//	}
 		//}
 
-		$lists['gid'] 	= JHTMLSelect::genericList( $gtree, 'gid', 'size="10"', 'value', 'text', $user->get('gid') );
+		$lists['gid'] 	= JHTML::_('select.genericlist',   $gtree, 'gid', 'size="10"', 'value', 'text', $user->get('gid') );
 	}
 
 	// build the html select list
-	$lists['block'] 	= JHTMLSelect::yesnoList( 'block', 'class="inputbox" size="1"', $user->get('block') );
+	$lists['block'] 	= JHTML::_('select.booleanlist',  'block', 'class="inputbox" size="1"', $user->get('block') );
 	// build the html select list
-	$lists['sendEmail'] = JHTMLSelect::yesnoList( 'sendEmail', 'class="inputbox" size="1"', $user->get('sendEmail') );
+	$lists['sendEmail'] = JHTML::_('select.booleanlist',  'sendEmail', 'class="inputbox" size="1"', $user->get('sendEmail') );
 
 	HTML_users::edituser( $user, $contact, $lists, $option );
 }

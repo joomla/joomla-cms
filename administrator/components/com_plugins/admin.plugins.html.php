@@ -34,7 +34,7 @@ class HTML_modules {
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'p.folder');
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_plugins" method="post" name="adminForm">
 			<table>
@@ -182,7 +182,7 @@ class HTML_modules {
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 
 		$row->nameA = '';
 		if ( $row->id ) {

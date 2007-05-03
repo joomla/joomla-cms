@@ -50,12 +50,12 @@ class JElementFilelist extends JElement
 
 		if (!$node->attributes('hide_none'))
 		{
-			$options[] = JHTMLSelect::option('-1', '- '.JText::_('Do not use').' -');
+			$options[] = JHTML::_('select.option', '-1', '- '.JText::_('Do not use').' -');
 		}
 
 		if (!$node->attributes('hide_default'))
 		{
-			$options[] = JHTMLSelect::option('', '- '.JText::_('Use default').' -');
+			$options[] = JHTML::_('select.option', '', '- '.JText::_('Use default').' -');
 		}
 
 		if ( is_array($files) )
@@ -73,10 +73,10 @@ class JElementFilelist extends JElement
 				{
 					$file = JFile::stripExt( $file );
 				}
-				$options[] = JHTMLSelect::option($file, $file);
+				$options[] = JHTML::_('select.option', $file, $file);
 			}
 		}
 
-		return JHTMLSelect::genericList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
+		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
 	}
 }

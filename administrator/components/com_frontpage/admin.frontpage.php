@@ -172,9 +172,9 @@ function viewFrontPage( $option )
 	. ' ORDER BY s.ordering, cc.ordering'
 	;
 	$db->setQuery( $query );
-	$categories[] 	= JHTMLSelect::option( '0', '- '. JText::_( 'Select Category' ) .' -' );
+	$categories[] 	= JHTML::_('select.option',  '0', '- '. JText::_( 'Select Category' ) .' -' );
 	$categories 	= array_merge( $categories, $db->loadObjectList() );
-	$lists['catid'] = JHTMLSelect::genericList( $categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $catid );
+	$lists['catid'] = JHTML::_('select.genericlist',   $categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $catid );
 
 	// get list of sections for dropdown filter
 	$javascript			= 'onchange="document.adminForm.submit();"';
@@ -191,9 +191,9 @@ function viewFrontPage( $option )
 	. ' ORDER BY u.name'
 	;
 	$db->setQuery( $query );
-	$authors[] 			= JHTMLSelect::option( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
+	$authors[] 			= JHTML::_('select.option',  '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
 	$authors 			= array_merge( $authors, $db->loadObjectList() );
-	$lists['authorid']	= JHTMLSelect::genericList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
+	$lists['authorid']	= JHTML::_('select.genericlist',   $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
 
 	// state filter
 	$lists['state']	= JHTML::_('grid.state',  $filter_state );

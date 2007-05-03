@@ -38,7 +38,7 @@ class TemplatesView
 			$row->authorUrl = str_replace('http://', '', $row->authorUrl);
 		}
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 ?>
 		<form action="index.php" method="post" name="adminForm">
 
@@ -254,7 +254,7 @@ class TemplatesView
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
 		
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 ?>
 		<form action="index.php" method="post" name="adminForm">
 

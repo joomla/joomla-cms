@@ -50,7 +50,7 @@ class MenusViewMenus extends JView
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('limitstart', $limitstart);
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 
 		parent::display($tpl);
 	}
@@ -134,7 +134,7 @@ class MenusViewMenus extends JView
 		$this->assignRef('row', $table);
 		$this->assign('isnew', ($table->id == 0));
 
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 
 		parent::display($tpl);
 	}

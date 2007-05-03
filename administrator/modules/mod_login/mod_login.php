@@ -21,8 +21,8 @@ $lang =& JFactory::getLanguage();
 
 $languages = array();
 $languages = JLanguageHelper::createLanguageList($browserLang );
-array_unshift( $languages, JHTMLSelect::option( '', JText::_( 'Default' ) ) );
-$langs = JHTMLSelect::genericList( $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
+array_unshift( $languages, JHTML::_('select.option',  '', JText::_( 'Default' ) ) );
+$langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
 ?>
 
 <form action="index.php" method="post" name="loginForm" id="loginForm" style="clear: both;">

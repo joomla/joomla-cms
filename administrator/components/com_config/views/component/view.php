@@ -35,7 +35,7 @@ class ConfigViewComponent extends JView
 		$document = & JFactory::getDocument();
 		$document->setTitle( JText::_('Edit Preferences') );
 		$document->addStyleSheet('../includes/js/joomla/modal.css');
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 ?>
 	<form action="index.php" method="post" name="adminForm" autocomplete="off">
 		<fieldset>

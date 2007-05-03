@@ -164,10 +164,10 @@ function viewPlugins( $option, $client )
 	. ' GROUP BY folder'
 	. ' ORDER BY folder'
 	;
-	$types[] = JHTMLSelect::option( 1, '- '. JText::_( 'Select Type' ) .' -' );
+	$types[] = JHTML::_('select.option',  1, '- '. JText::_( 'Select Type' ) .' -' );
 	$db->setQuery( $query );
 	$types 			= array_merge( $types, $db->loadObjectList() );
-	$lists['type']	= JHTMLSelect::genericList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
+	$lists['type']	= JHTML::_('select.genericlist',   $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
 
 	// state filter
 	$lists['state']	= JHTML::_('grid.state',  $filter_state );
@@ -292,7 +292,7 @@ function editPlugin( )
 			. ' ORDER BY ordering'
 			;
 			$order = JAdministratorHelper::GenericOrdering( $query );
-			$lists['ordering'] = JHTMLSelect::genericList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+			$lists['ordering'] = JHTML::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
 			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
 		}
@@ -311,7 +311,7 @@ function editPlugin( )
 		$row->description 	= '';
 	}
 
-	$lists['published'] = JHTMLSelect::yesnoList( 'published', 'class="inputbox"', $row->published );
+	$lists['published'] = JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
 
 	// get params definitions
 	$params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ), 'plugin' );

@@ -52,7 +52,7 @@ class ContentViewElement extends JView
 
 		$rows = &$this->get('List');
 		$page = &$this->get('Pagination');
-		jimport('joomla.html.tooltips');
+		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_content&amp;task=element&amp;tmpl=component" method="post" name="adminForm">
 
