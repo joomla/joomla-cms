@@ -47,7 +47,7 @@ if ($this->params->def('show_categories', 1)) {
 
 			echo '<li>';
 			echo '<a href="' . JRoute::_($category->link) . '" class="category" >';
-			echo $category->name;
+			echo $category->title;
 			echo '</a>';
 			if ($this->params->get('show_cat_num_articles')) {
 				echo '&nbsp;<span class="small">( ';

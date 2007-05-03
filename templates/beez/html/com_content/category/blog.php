@@ -69,7 +69,7 @@ if ($this->params->def('num_intro_articles', 4) && ($i < $total)) {
 		for ($z = 0; $z < $colcount; $z++) {
 			$columnnumber = $z +1;
 			echo '<div  class="article_column column' . $columnnumber . ' cols' . $colcount . '" >';
-			if ($ii < $this->params->get('show_intro') && ($i < $total)) {
+			if ($ii < $this->params->get('num_intro_articles') && ($i < $total)) {
 				$this->item = & $this->getItem($i, $this->params);
 				echo $this->loadTemplate('item');
 				$i++;
