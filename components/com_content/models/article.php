@@ -516,7 +516,7 @@ class ContentModelArticle extends JModel
 
 		// Set the Category name as a link if needed
 		if ($params->get('link_category') && $this->_article->catid) {
-			$this->_article->category = ContentHelpeRoute::getCategoryRoute($this->_article);
+			$this->_article->category = ContentHelperRoute::getCategoryRoute($this->_article);
 		}
 
 		// Are we showing introtext with the article
