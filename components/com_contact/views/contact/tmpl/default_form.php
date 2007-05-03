@@ -25,8 +25,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <tr>
 	<td colspan="2">
-	<br />
-	<?php echo $this->contact->params->get( 'email_description' ) ?>
 	<br /><br />
 	<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="emailForm" target="_top" id="emailForm" class="form-validate">
 		<div class="contact_email<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
