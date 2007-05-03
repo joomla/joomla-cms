@@ -44,10 +44,10 @@ if ($this->params->get('show_pdf_icon') || $this->params->get('show_print_icon')
 	echo '<p class="buttonheading">';
 	echo '<img src="' . $image . '" alt="' . JText :: _('attention open in a new window') . '" />';
 	if ($this->params->get('show_pdf_icon')) {
-		echo ContentHelperHTML::Icon('pdf',  $this->article, $this->params, $this->access);
+		echo ContentHelperHTML::Icon('pdf',  $this->item, $this->params, $this->access);
 	}
 	if ($this->params->get('show_print_icon')) {
-		echo ContentHelperHTML::Icon('print',  $this->article, $this->params, $this->access);
+		echo ContentHelperHTML::Icon('print',  $this->item, $this->params, $this->access);
 	}
 	if ($this->params->get('show_email_icon')) {
 		echo ContentHelperHTML::Icon('email', $this->item, $this->params, $this->access);
