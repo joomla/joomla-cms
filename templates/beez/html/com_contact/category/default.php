@@ -60,7 +60,7 @@ if ($this->category->image || $this->category->description)
 }
 </script>
 <?php
-echo '<form action="'. $this->request_url.'" method="post" name="adminForm">';
+echo '<form action="'. $this->action.'" method="post" name="adminForm">';
 
 if ($this->params->get('display'))
 {       echo '<div class="display">';
@@ -68,9 +68,7 @@ if ($this->params->get('display'))
     echo $this->pagination->getLimitBox();
     echo '</div>';
 }
-echo '<input type="hidden" name="option" value="com_contact" />';
 echo '<input type="hidden" name="catid" value="'.$this->category->id.'" />';
-echo '<input type="hidden" name="Itemid" value="'.$Itemid.'" />';
 echo '<input type="hidden" name="filter_order" value="'.$this->lists['order'].'" />';
 echo '<input type="hidden" name="filter_order_Dir" value="" />';
 echo '</form>';

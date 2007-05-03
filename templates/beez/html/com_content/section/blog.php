@@ -24,7 +24,7 @@ if ($colcount == 0) {$colcount = 1;}
 
 if ($this->params->get('show_page_title')) {
 	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
-	echo $this->params->get('show_page_title');
+	echo $this->params->get('page_title');
 	echo '</h' . $ptlevel . '>';
 }
 echo '<div class="blog' . $this->params->get('pageclass_sfx') . '">';

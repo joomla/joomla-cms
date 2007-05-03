@@ -259,7 +259,7 @@ class ContentModelSection extends JModel
 		{
 			$user	=& JFactory::getUser();
 
-			$params = &$this->getState('parameters.menu');
+			$params = &$mainframe->getPageParameters();
 			if (!is_object($params)) {
 				$params = &JComponentHelper::getParams('com_content');
 			}
@@ -338,6 +338,7 @@ class ContentModelSection extends JModel
 		if (empty($this->_data[$state]))
 		{
 			// Get the pagination request variables
+
 			$limit		= JRequest::getVar('limit', 0, '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -391,8 +392,10 @@ class ContentModelSection extends JModel
 
 	function _buildQuery($state = 1)
 	{
+		global $mainframe;
+
 		// Get the page/component configuration
-		$params = &$this->getState('parameters.menu');
+		$params = &$mainframe->getPageParameters();
 		if (!is_object($params)) {
 			$params = &JComponentHelper::getParams('com_content');
 		}
@@ -467,7 +470,7 @@ class ContentModelSection extends JModel
 		$now		= $jnow->toMySQL();
 
 		// Get the page/component configuration
-		$params = &$this->getState('parameters.menu');
+		$params = &$mainframe->getPageParameters();
 		if (!is_object($params)) {
 			$params = &JComponentHelper::getParams('com_content');
 		}

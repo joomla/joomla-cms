@@ -43,7 +43,7 @@ class WeblinksViewCategories extends JView
 
 		// Set some defaults if not set for params
 		$params->def('page_title', $item->name);
-		$params->def('com_description', JText::_('WEBLINKS_DESC'));
+		$params->def('comp_description', JText::_('WEBLINKS_DESC'));
 
 		// Define image tag attributes
 		if ($params->get('image') != -1)

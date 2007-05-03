@@ -19,7 +19,7 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
-if ($this->params->get('show_page_title') && $option == 'com_search' && $Itemid != "0") {
+if ($this->params->get('show_page_title') && $option == 'com_search') {
 	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
 	echo $this->params->get('page_title');
 	echo '</h' . $ptlevel . '>';

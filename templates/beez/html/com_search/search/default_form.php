@@ -54,7 +54,5 @@ if ($this->params->get('search_areas', 1)) {
 	echo '</fieldset>';
 }
 echo '<p><input type="submit" name="submit" value="' . JText :: _('Search') . '" class="button" /></p>';
-echo '<input type="hidden" name="option" value="com_search" />';
-echo '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
 echo '</form>';
 ?>

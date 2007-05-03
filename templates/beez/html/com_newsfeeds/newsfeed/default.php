@@ -47,7 +47,7 @@ if (count($this->newsfeed->items)) {
 	foreach ($this->newsfeed->items as $item) {
 		echo '<li>';
 		if (!is_null($item->get_link())) {
-			echo '<a href="' . JRoute::_($item->get_link()) . '" target="_blank">';
+			echo '<a href="' . $item->get_link() . '" target="_blank">';
 			echo $item->get_title();
 			echo '</a>';
 		}

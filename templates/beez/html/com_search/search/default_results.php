@@ -38,8 +38,7 @@ if (count($this->results)) {
 	echo '<div class="display">';
 	echo '<form  action="index.php" method="get" class="limit">';
 	echo '<label for="limit">' . JText :: _('Display Num') . '</label>';
-	$link = $this->pagination->_link;
-	echo $this->pagination->getLimitBox($link);
+	echo $this->pagination->getLimitBox();
 	echo '<p>';
 	echo $this->pagination->getPagesCounter();
 	echo '</p>';
