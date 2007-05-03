@@ -42,6 +42,7 @@ Legend:
  + Added JPATH_XMLRPC define
  ^ Changed plugin auto-registration to push plugin paramaters into plugin class scope.
  - Removed Cache_Lite package from the framework.
+ ^ JHTML optimisation, work in progress
 
 01-May-2007 Johan Janssens
  # Fixed [#381] Reset-button does'nt work in Module- and Plugin Manager

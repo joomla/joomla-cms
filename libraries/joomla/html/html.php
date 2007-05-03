@@ -12,6 +12,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.html.html.select' );
+
 /**
  * Utility class for all HTML drawing classes
  *
@@ -22,13 +24,18 @@
  */
 class JHTML
 {
-	function element( $type )
+	function _( $type )
 	{
-		$type		= preg_replace( '#[^A-Z0-9_]#i', '', $type );
-		$className	= 'JHTML'.$type;
+		$parts = explode('.', $type);
+		
+		$file		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
+		$func		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
+		
+		$className	= 'JHTML'.$file;
+		
 		if (!class_exists( $className ))
 		{
-			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'element'.DS.$type.'.php';
+			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html'.DS.$file.'.php';
 			if (file_exists( $path )) {
 				require_once( $path );
 			}
@@ -38,9 +45,9 @@ class JHTML
 		{
 			$args = func_get_args();
 			array_shift( $args );
-			return call_user_func_array( array( $className, 'display' ), $args );
+			return call_user_func_array( array( $className, $func ), $args );
 		} else {
-			return JError::raiseError( 500, 'JHTML Element '.$type.' not found' );
+			return JError::raiseError( 500, 'JHTML'.$type.'::'.$func.' not found' );
 		}
 	}
 
@@ -158,89 +165,7 @@ class JHTML
 		return $instance->toFormat($format);
 	}
 
-
-
-	/**
-	* @param int The row index
-	* @param int The record id
-	* @param boolean
-	* @param string The name of the form element
-	* @return string
-	*/
-	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' )
-	{
-		if ( $checkedOut ) {
-			return '';
-		} else {
-			return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" />';
-		}
-	}
-
-	/**
-	* simple Javascript Cloaking
-	* email cloacking
- 	* by default replaces an email with a mailto link with email cloacked
-	*/
-	function emailCloaking( $mail, $mailto=1, $text='', $email=1 )
-	{
-		// convert text
-		$mail 			= JHTML::_encoding_converter( $mail );
-		// split email by @ symbol
-		$mail			= explode( '@', $mail );
-		$mail_parts		= explode( '.', $mail[1] );
-		// random number
-		$rand			= rand( 1, 100000 );
-
-		$replacement 	= "\n <script language='JavaScript' type='text/javascript'>";
-		$replacement 	.= "\n <!--";
-		$replacement 	.= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
-		$replacement 	.= "\n var path = 'hr' + 'ef' + '=';";
-		$replacement 	.= "\n var addy". $rand ." = '". @$mail[0] ."' + '&#64;';";
-		$replacement 	.= "\n addy". $rand ." = addy". $rand ." + '". implode( "' + '&#46;' + '", $mail_parts ) ."';";
-
-		if ( $mailto ) {
-			// special handling when mail text is different from mail addy
-			if ( $text ) {
-				if ( $email ) {
-					// convert text
-					$text 			= JHTML::_encoding_converter( $text );
-					// split email by @ symbol
-					$text 			= explode( '@', $text );
-					$text_parts		= explode( '.', $text[1] );
-					$replacement 	.= "\n var addy_text". $rand ." = '". @$text[0] ."' + '&#64;' + '". implode( "' + '&#46;' + '", @$text_parts ) ."';";
-				} else {
-					$replacement 	.= "\n var addy_text". $rand ." = '". $text ."';";
-				}
-				$replacement 	.= "\n document.write( '<a ' + path + '\'' + prefix + ':' + addy". $rand ." + '\'>' );";
-				$replacement 	.= "\n document.write( addy_text". $rand ." );";
-				$replacement 	.= "\n document.write( '<\/a>' );";
-			} else {
-				$replacement 	.= "\n document.write( '<a ' + path + '\'' + prefix + ':' + addy". $rand ." + '\'>' );";
-				$replacement 	.= "\n document.write( addy". $rand ." );";
-				$replacement 	.= "\n document.write( '<\/a>' );";
-			}
-		} else {
-			$replacement 	.= "\n document.write( addy". $rand ." );";
-		}
-		$replacement 	.= "\n //-->";
-		$replacement 	.= '\n </script>';
-
-		// XHTML compliance `No Javascript` text handling
-		$replacement 	.= "<script language='JavaScript' type='text/javascript'>";
-		$replacement 	.= "\n <!--";
-		$replacement 	.= "\n document.write( '<span style=\'display: none;\'>' );";
-		$replacement 	.= "\n //-->";
-		$replacement 	.= "\n </script>";
-		$replacement 	.= JText::_('CLOAKING');
-		$replacement 	.= "\n <script language='JavaScript' type='text/javascript'>";
-		$replacement 	.= "\n <!--";
-		$replacement 	.= "\n document.write( '</' );";
-		$replacement 	.= "\n document.write( 'span>' );";
-		$replacement 	.= "\n //-->";
-		$replacement 	.= "\n </script>";
-
-		return $replacement;
-	}
+	
 
 	/**
 	 * Keep session alive, for example, while editing or creating an article.
@@ -262,18 +187,6 @@ class JHTML
 		echo $html;
 	}
 
-	function _encoding_converter( $text )
-	{
-		// replace vowels with character encoding
-		$text 	= str_replace( 'a', '&#97;', $text );
-		$text 	= str_replace( 'e', '&#101;', $text );
-		$text 	= str_replace( 'i', '&#105;', $text );
-		$text 	= str_replace( 'o', '&#111;', $text );
-		$text	= str_replace( 'u', '&#117;', $text );
-
-		return $text;
-	}
-
 	function _implode_assoc($inner_glue = "=", $outer_glue = "\n", $array = null, $keepOuterKey = false)
 	{
 		$output = array();
@@ -291,9 +204,6 @@ class JHTML
 	}
 }
 
-// Temp placeholder
-jimport( 'joomla.html.element.select' );
-
 /**
  * Utility class for drawing common HTML elements
  *
@@ -304,68 +214,6 @@ jimport( 'joomla.html.element.select' );
  */
 class JCommonHTML
 {
-	/*
-	 * Function is only used in the administrator
-	 */
-	function ContentLegend( )
-	{
-		?>
-		<table cellspacing="0" cellpadding="4" border="0" align="center">
-		<tr align="center">
-			<td>
-			<img src="images/publish_y.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Pending' ); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_( 'Published, but is' ); ?> <u><?php echo JText::_( 'Pending' ); ?></u> |
-			</td>
-			<td>
-			<img src="images/publish_g.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Visible' ); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_( 'Published and is' ); ?> <u><?php echo JText::_( 'Current' ); ?></u> |
-			</td>
-			<td>
-			<img src="images/publish_r.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Finished' ); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_( 'Published, but has' ); ?> <u><?php echo JText::_( 'Expired' ); ?></u> |
-			</td>
-			<td>
-			<img src="images/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Finished' ); ?>" />
-			</td>
-			<td>
-			<?php echo JText::_( 'Not Published' ); ?>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="8" align="center">
-			<?php echo JText::_( 'Click on icon to toggle state.' ); ?>
-			</td>
-		</tr>
-		</table>
-		<?php
-	}
-
-	/*
-	 * Function is only used in the administrator
-	 */
-	function checkedOut( &$row, $overlib=1 )
-	{
-		$hover = '';
-		if ( $overlib ) {
-
-			$text = addslashes(htmlspecialchars($row->editor));
-
-			$date 				= JHTML::Date( $row->checked_out_time, '%A, %d %B %Y' );
-			$time				= JHTML::Date( $row->checked_out_time, '%H:%M' );
-
-			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
-		}
-		$checked = $hover .'<img src="images/checked_out.png"/></span>';
-
-		return $checked;
-	}
-
 	/*
 	 * Creates a tooltip with an image as button
 	 */
@@ -426,108 +274,6 @@ class JCommonHTML
 		} else {
 			$doc->addScript( $url. 'includes/js/calendar/lang/calendar-en-GB.js' );
 		}
-	}
-
-	/*
-	 * Function is used only in the administrator : move to JHTMLGrid
-	 */
-	function AccessProcessing( &$row, $i, $archived=NULL )
-	{
-		if ( !$row->access ) {
-			$color_access = 'style="color: green;"';
-			$task_access = 'accessregistered';
-		} else if ( $row->access == 1 ) {
-			$color_access = 'style="color: red;"';
-			$task_access = 'accessspecial';
-		} else {
-			$color_access = 'style="color: black;"';
-			$task_access = 'accesspublic';
-		}
-
-		if ($archived == -1) {
-			$href = JText::_( $row->groupname );
-		} else {
-			$href = '
-			<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task_access .'\')" '. $color_access .'>
-			'. JText::_( $row->groupname ) .'
-			</a>'
-			;
-		}
-
-		return $href;
-	}
-
-	/*
-	 * Function is used only in the administrator : move to JHTMLGrid
-	 */
-	function CheckedOutProcessing( &$row, $i, $identifier = 'id' )
-	{
-		$user   =& JFactory::getUser();
-		$userid = $user->get('id');
-
-		$result = false;
-		if(is_a($row, 'JTable')) {
-			$result = $row->isCheckedOut($userid);
-		} else {
-			$result = JTable::isCheckedOut($userid, $row->checked_out);
-		}
-
-		$checked = '';
-		if ( $result ) {
-			$checked = JCommonHTML::checkedOut( $row );
-		} else {
-			$checked = JHTML::idBox( $i, $row->$identifier );
-		}
-
-		return $checked;
-	}
-
-	/*
-	 * Function is used only in the administrator : move to JHTMLGrid
-	 */
-	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png', $prefix='' )
-	{
-		$img 	= $row->published ? $imgY : $imgX;
-		$task 	= $row->published ? 'unpublish' : 'publish';
-		$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-		$action = $row->published ? JText::_( 'Unpublish Item' ) : JText::_( 'Publish item' );
-
-		$href = '
-		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
-		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
-		</a>'
-		;
-
-		return $href;
-	}
-
-	/*
-	 * Function is used only in the administrator : move to JHTMLGrid
-	 */
-	function selectState( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL )
-	{
-		$state[] = JHTMLSelect::option( '', '- '. JText::_( 'Select State' ) .' -' );
-		$state[] = JHTMLSelect::option( '*', JText::_( 'Any' ) );
-		$state[] = JHTMLSelect::option( 'P', JText::_( $published ) );
-		$state[] = JHTMLSelect::option( 'U', JText::_( $unpublished ) );
-
-		if ($archived) {
-			$state[] = JHTMLSelect::option( 'A', JText::_( $archived ) );
-		}
-
-		return JHTMLSelect::genericList( $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );
-	}
-
-	/*
-	 * Function is used only in the administrator : move to JHTMLGrid
-	 */
-	function saveorderButton( $rows, $image='filesave.png', $task="saveorder" )
-	{
-		$image = JAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
-		?>
-		<a href="javascript:saveorder(<?php echo count( $rows )-1; ?>, '<?php echo $task; ?>')" title="<?php echo JText::_( 'Save Order' ); ?>">
-			<?php echo $image; ?></a>
-		<?php
 	}
 }
 

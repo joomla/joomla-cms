@@ -70,28 +70,28 @@ class categories_html
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
-					<?php JHTML::element( 'grid_sort', 'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="10%">
-					<?php JHTML::element( 'grid_sort', 'Published', 'c.published', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'Published', 'c.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="80" nowrap="nowrap">
-					<?php JHTML::element( 'grid_sort', 'Order by', 'c.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'Order by', 'c.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="1%">
-					<?php JCommonHTML::saveorderButton( $rows ); ?>
+					<?php JHTML::_('grid.order',  $rows ); ?>
 				</th>
 				<th width="7%">
-					<?php JHTML::element( 'grid_sort', 'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php JHTML::element( 'grid_sort', 'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<?php
 				if ( $section == 'com_content') {
 					?>
 					<th width="20%"  class="title">
-						<?php JHTML::element( 'grid_sort', 'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<?php
 				}
@@ -126,9 +126,9 @@ class categories_html
 
 			$link = 'index.php?option=com_categories&section='. $section .'&task=edit&cid[]='. $row->id;
 
-			$access 	= JCommonHTML::AccessProcessing( $row, $i );
-			$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
-			$published 	= JCommonHTML::PublishedProcessing( $row, $i );
+			$access 	= JHTML::_('grid.access',   $row, $i );
+			$checked 	= JHTML::_('grid.checkedout',   $row, $i );
+			$published 	= JHTML::_('grid.published', $row, $i );
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td>

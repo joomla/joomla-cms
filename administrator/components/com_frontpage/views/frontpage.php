@@ -69,31 +69,31 @@ class FrontpageView
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th class="title">
-						<?php JHTML::element( 'grid_sort', 'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Published', 'c.state', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Published', 'c.state', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="80" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Order', 'fpordering', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Order', 'fpordering', @$lists['order_Dir'], @$lists['order'] ); ?>
 		 			</th>
 					<th width="1%">
-						<?php JCommonHTML::saveorderButton( $rows ); ?>
+						<?php JHTML::_('grid.order',  $rows ); ?>
 					</th>
 					<th width="8%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="2%" class="title" align="center" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%" class="title">
-						<?php JHTML::element( 'grid_sort', 'Section', 'sect_name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Section', 'sect_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%" class="title">
-						<?php JHTML::element( 'grid_sort', 'Category', 'cc.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Category', 'cc.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%" class="title">
-						<?php JHTML::element( 'grid_sort', 'Author', 'author', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Author', 'author', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -141,8 +141,8 @@ class FrontpageView
 						}
 				}
 
-				$access 	= JCommonHTML::AccessProcessing( $row, $i );
-				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
+				$access 	= JHTML::_('grid.access',   $row, $i );
+				$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
@@ -231,9 +231,7 @@ class FrontpageView
 			?>
 			</tbody>
 			</table>
-			<?php
-			JCommonHTML::ContentLegend();
-			?>
+			<?php JHTML::_('grid.legend'); ?>
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />

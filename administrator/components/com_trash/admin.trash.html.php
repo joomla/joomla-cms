@@ -55,16 +55,16 @@ class HTML_trash
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $contents );?>);" />
 					</th>
 					<th class="title">
-						<?php JHTML::element( 'grid_sort', 'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="70">
-						<?php JHTML::element( 'grid_sort', 'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="25%">
-						<?php JHTML::element( 'grid_sort', 'Section', 'sectname', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Section', 'sectname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="25%">
-						<?php JHTML::element( 'grid_sort', 'Category', 'catname', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Category', 'catname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -80,7 +80,7 @@ class HTML_trash
 							<?php echo $i + 1 + $pageNav->limitstart;?>
 						</td>
 						<td align="center">
-							<?php echo JHTML::idBox( $i, $row->id ); ?>
+							<?php echo JHTML::_('grid.id', $i, $row->id ); ?>
 						</td>
 						<td nowrap="nowrap">
 							<?php echo $row->title; ?>
@@ -177,16 +177,16 @@ class HTML_trash
 						<input type="checkbox" name="toggle1" value="" onclick="checkAll_xtd(<?php echo count( $menus );?>);" />
 					</th>
 					<th class="title">
-						<?php JHTML::element( 'grid_sort', 'Name', 'm.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Name', 'm.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="70">
-						<?php JHTML::element( 'grid_sort', 'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="25%">
-						<?php JHTML::element( 'grid_sort', 'Menu', 'm.menutype', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Menu', 'm.menutype', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="25%">
-						<?php JHTML::element( 'grid_sort', 'Type', 'm.type', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Type', 'm.type', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>

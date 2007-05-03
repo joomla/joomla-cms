@@ -148,7 +148,7 @@ function showNewsFeeds(  )
 	$lists['catid'] = JAdministratorHelper::ComponentCategory( 'filter_catid', 'com_newsfeeds', $filter_catid, $javascript );
 
 	// state filter
-	$lists['state']	= JCommonHTML::selectState( $filter_state );
+	$lists['state']	= JHTML::_('grid.state',  $filter_state );
 
 	// table ordering
 	$lists['order_Dir']	= $filter_order_Dir;

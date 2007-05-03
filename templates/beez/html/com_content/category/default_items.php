@@ -42,22 +42,22 @@ echo JText :: _('Num');
 echo '</th>';
 if ($this->params->get('show_title')) {
 echo '<th class="sectiontableheader' . $this->params->get('pageclass_sfx') . '"  id="tableOrdering">';
-JHTML::element('grid_sort', 'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] );
+JHTML::_('grid.sort',  'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] );
 echo '</th>';
 }
 if ($this->params->get('show_date')) {
 echo '<th class="sectiontableheader' . $this->params->get('pageclass_sfx') . '"  id="tableOrdering2">';
-JHTML::element('grid_sort', 'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order'] );
+JHTML::_('grid.sort',  'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order'] );
 echo '</th>';
 }
 if ($this->params->get('show_author')) {
 echo '<th class="sectiontableheader' . $this->params->get('pageclass_sfx') . '"   id="author">';
-JHTML::element('grid_sort', 'Author', 'author', $this->lists['order_Dir'], $this->lists['order'] );
+JHTML::_('grid.sort',  'Author', 'author', $this->lists['order_Dir'], $this->lists['order'] );
 echo '</th>';
 }
 if ($this->params->get('show_hits')) {
 echo '<th align="center" class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" width="5%" nowrap="nowrap" id="hits">';
-JHTML::element('grid_sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] );
+JHTML::_('grid.sort',  'a.hits', $this->lists['order_Dir'], $this->lists['order'] );
 echo '</th>';
 }
 echo '</tr>';

@@ -55,16 +55,16 @@ class HTML_messages
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 					</th>
 					<th width="50%" class="title">
-						<?php JHTML::element( 'grid_sort', 'Subject', 'a.subject', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Subject', 'a.subject', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" class="title" align="center">
-						<?php JHTML::element( 'grid_sort', 'Read', 'a.state', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Read', 'a.state', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="25%" class="title">
-						<?php JHTML::element( 'grid_sort', 'From', 'user_from', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'From', 'user_from', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="15%" class="title" nowrap="nowrap" align="center">
-						<?php JHTML::element( 'grid_sort', 'Date', 'a.date_time', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Date', 'a.date_time', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			<thead>
@@ -89,7 +89,7 @@ class HTML_messages
 						<?php echo $i+1+$pageNav->limitstart;?>
 					</td>
 					<td>
-						<?php echo JHTML::idBox( $i, $row->message_id ); ?>
+						<?php echo JHTML::_('grid.id', $i, $row->message_id ); ?>
 					</td>
 					<td>
 						<a href="#edit" onclick="hideMainMenu();return listItemTask('cb<?php echo $i;?>','view')">

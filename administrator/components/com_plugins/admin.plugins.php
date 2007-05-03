@@ -170,7 +170,7 @@ function viewPlugins( $option, $client )
 	$lists['type']	= JHTMLSelect::genericList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
 
 	// state filter
-	$lists['state']	= JCommonHTML::selectState( $filter_state );
+	$lists['state']	= JHTML::_('grid.state',  $filter_state );
 
 
 	// table ordering

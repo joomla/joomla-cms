@@ -27,17 +27,17 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 	{
 		jimport('joomla.utilities.date');
 		$html 		= '';
-		$db 			= & JFactory::getDBO();
+		$db 		= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$nullDate	= $db->getNullDate();
 
 		$date		= new JDate();
-		$config 		= & JFactory::getConfig();
+		$config 	= & JFactory::getConfig();
 		$now 		= $date->toMySQL();
 
 		$uid 		= $row->id;
-		$option 		= 'com_content';
-		$canPublish 	= $user->authorize('action', 'publish', 'content', 'all');
+		$option 	= 'com_content';
+		$canPublish = $user->authorize('action', 'publish', 'content', 'all');
 
 		// the following is needed as different menu items types utilise a different param to control ordering
 		// for Blogs the `orderby_sec` param is the order controlling param

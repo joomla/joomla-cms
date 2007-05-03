@@ -73,40 +73,40 @@ class ContentView
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th class="title">
-						<?php JHTML::element( 'grid_sort', 'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="1%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Published', 'c.state', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Published', 'c.state', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap" width="1%">
-						<?php JHTML::element( 'grid_sort', 'Front Page', 'frontpage', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Front Page', 'frontpage', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="80">
-						<?php JHTML::element( 'grid_sort', 'Order', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Order', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="1%">
-						<?php JCommonHTML::saveorderButton( $rows ); ?>
+						<?php JHTML::_('grid.order',  $rows ); ?>
 					</th>
 					<th width="7%">
-						<?php JHTML::element( 'grid_sort', 'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="2%" class="title">
-						<?php JHTML::element( 'grid_sort', 'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="8%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th  class="title" width="8%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Category', 'cc.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Category', 'cc.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th  class="title" width="8%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Author', 'author', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Author', 'author', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th align="center" width="10">
-						<?php JHTML::element( 'grid_sort', 'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th align="center" width="10">
-						<?php JHTML::element( 'grid_sort', 'Hits', 'c.hits', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Hits', 'c.hits', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -182,8 +182,8 @@ class ContentView
 					}
 				}
 
-				$access 	= JCommonHTML::AccessProcessing( $row, $i, $row->state );
-				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
+				$access 	= JHTML::_('grid.access',   $row, $i, $row->state );
+				$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -257,7 +257,7 @@ class ContentView
 			?>
 			</tbody>
 			</table>
-			<?php JCommonHTML::ContentLegend(); ?>
+			<?php JHTML::_('grid.legend'); ?>
 
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="task" value="" />
@@ -324,22 +324,22 @@ class ContentView
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th class="title">
-					<?php JHTML::element( 'grid_sort', 'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="3%"  class="title">
-					<?php JHTML::element( 'grid_sort', 'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php JHTML::element( 'grid_sort', 'Section', 'sectname', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'Section', 'sectname', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php JHTML::element( 'grid_sort', 'Category', 'cc.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'Category', 'cc.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php JHTML::element( 'grid_sort', 'Author', 'author', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'Author', 'author', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th align="center" width="10">
-					<?php JHTML::element( 'grid_sort', 'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 			</tr>
 			<?php
@@ -371,7 +371,7 @@ class ContentView
 						<?php echo $pageNav->getRowOffset( $i ); ?>
 					</td>
 					<td width="20">
-						<?php echo JHTML::idBox( $i, $row->id ); ?>
+						<?php echo JHTML::_('grid.id', $i, $row->id ); ?>
 					</td>
 					<td>
 						<?php echo $row->title; ?>

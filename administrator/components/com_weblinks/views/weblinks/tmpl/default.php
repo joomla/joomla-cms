@@ -35,26 +35,26 @@ jimport('joomla.html.tooltips');
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
 			</th>
 			<th class="title">
-				<?php JHTML::element('grid_sort', 'Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php JHTML::_('grid.sort',  'Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 				
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php JHTML::element('grid_sort', 'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php JHTML::_('grid.sort',  'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 			<th width="80" nowrap="nowrap">
-				<?php JHTML::element('grid_sort', 'Order', 'a.ordering', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php JHTML::_('grid.sort',  'Order', 'a.ordering', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 		 	</th>
 			<th width="1%">
-				<?php JCommonHTML::saveorderButton( $this->items ); ?>
+				<?php JHTML::_('grid.order',  $this->items ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php JHTML::element('grid_sort', 'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php JHTML::_('grid.sort',  'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 			<th width="25%"  class="title">
-				<?php JHTML::element('grid_sort', 'Category', 'category', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php JHTML::_('grid.sort',  'Category', 'category', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 			<th width="5%">
-				<?php JHTML::element('grid_sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php JHTML::_('grid.sort',  'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -66,8 +66,8 @@ jimport('joomla.html.tooltips');
 
 		$link 	= JRoute::_( 'index.php?option=com_weblinks&controller=weblink&task=edit&cid[]='. $row->id );
 
-		$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
-		$published 	= JCommonHTML::PublishedProcessing( $row, $i );
+		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
+		$published 	= JHTML::_('grid.published', $row, $i );
 
 		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_weblinks&task=edit&id='. $row->catid );
 		?>

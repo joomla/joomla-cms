@@ -80,22 +80,22 @@ class ContentViewElement extends JView
 						<?php echo JText::_( 'Num' ); ?>
 					</th>
 					<th class="title">
-						<?php JHTML::element( 'grid_sort', 'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="7%">
-						<?php JHTML::element( 'grid_sort', 'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="2%" class="title">
-						<?php JHTML::element( 'grid_sort', 'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="15%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th  class="title" width="15%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Category', 'cc.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Category', 'cc.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th align="center" width="10">
-						<?php JHTML::element( 'grid_sort', 'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -113,7 +113,7 @@ class ContentViewElement extends JView
 
 				$link 	= '';
 				$date	= JHTML::Date( $row->created, DATE_FORMAT_LC4 );
-				$access	= JCommonHTML::AccessProcessing( $row, $i, $row->state );
+				$access	= JHTML::_('grid.access',   $row, $i, $row->state );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>

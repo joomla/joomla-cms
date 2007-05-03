@@ -183,7 +183,7 @@ class ModulesController extends JController
 		$lists['type']	= JHTMLSelect::genericList( $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', "$filter_type" );
 
 		// state filter
-		$lists['state']	= JCommonHTML::selectState( $filter_state );
+		$lists['state']	= JHTML::_('grid.state',  $filter_state );
 
 		// template assignment filter
 		$query = 'SELECT DISTINCT(template) AS text, template AS value'.

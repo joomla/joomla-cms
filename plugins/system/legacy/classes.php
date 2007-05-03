@@ -1035,13 +1035,13 @@ class mosHTML
 	}
 
 	/**
- 	 * Legacy function, use {@link JHTML::idBox()} instead
+ 	 * Legacy function, use {@link JHTML::_('grid.id')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function idBox( $rowNum, $recId, $checkedOut=false, $name='cid' )
 	{
-		return JHTML::idBox($rowNum, $recId, $checkedOut, $name);
+		return JHTML::_('grid.id', $rowNum, $recId, $checkedOut, $name);
 	}
 
 	/**
@@ -1182,13 +1182,13 @@ class mosHTML
 	}
 
 	/**
- 	 * Legacy function, use {@link JHTML::emailCloaking()} instead
+ 	 * Legacy function, use {@link JHTML::_('email.cloak')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 )
 	{
-		return JHTML::emailCloaking($mail, $mailto, $text, $email);
+		return JHTML::_('email.cloak', $mail, $mailto, $text, $email);
 	}
 
 	/**
@@ -1212,13 +1212,13 @@ class mosHTML
 class mosCommonHTML
 {
 	/**
- 	 * Legacy function, use {@link JCommonHTML::ContentLegend()} instead
+ 	 * Legacy function, use {@link JHTML::_('legend');} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function ContentLegend( )
 	{
-		JCommonHTML::ContentLegend();
+		JHTML::_('grid.legend');
 	}
 
 	/**
@@ -1363,13 +1363,13 @@ class mosCommonHTML
 	}
 
 	/**
- 	 * Legacy function, use {@link JCommonHTML::checkedOut()} instead
+ 	 * Legacy function, use {@link JHTMLGrid::checkedOut()} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function checkedOut( &$row, $overlib=1 )
 	{
-		return JCommonHTML::checkedOut($row, $overlib);
+		return JHTMLGrid::_checkedOut($row, $overlib);
 	}
 
 	/**
@@ -1393,64 +1393,64 @@ class mosCommonHTML
 	}
 
 	/**
- 	 * Legacy function, use {@link JCommonHTML::AccessProcessing()} instead
+ 	 * Legacy function, use {@link JHTML::_('grid.access')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function AccessProcessing( &$row, $i, $archived=NULL )
 	{
-		return JCommonHTML::AccessProcessing($row, $i, $archived);
+		return JHTML::_('grid.access',  $row, $i, $archived);
 	}
 
 	/**
- 	 * Legacy function, use {@link JCommonHTML::CheckedOutProcessing()} instead
+ 	 * Legacy function, use {@link JHTML::_('grid.checkedout')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function CheckedOutProcessing( &$row, $i )
 	{
-		return JCommonHTML::CheckedOutProcessing($row, $i);
+		return JHTML::_('grid.checkedout',  $row, $i);
 	}
 
 	/**
- 	 * Legacy function, use {@link JCommonHTML::PublishedProcessing()} instead
+ 	 * Legacy function, use {@link JHTML::_('grid.published')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png' )
 	{
-		return JCommonHTML::PublishedProcessing($row, $i, $imgY, $imgX);
+		return JHTML::_('grid.published',$row, $i, $imgY, $imgX);
 	}
 
 	/**
- 	 * Legacy function, use {@link JCommonHTML::selectState()} instead
+ 	 * Legacy function, use {@link JHTML::_('grid.state')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished', $archived=NULL )
 	{
-		return JCommonHTML::selectState($filter_state, $published, $unpublished, $archived);
+		return JHTML::_('grid.state', $filter_state, $published, $unpublished, $archived);
 	}
 
 	/**
- 	 * Legacy function, use {@link JCommonHTML::saveorderButton()} instead
+ 	 * Legacy function, use {@link JHTML::_('grid.order')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function saveorderButton( $rows, $image='filesave.png' )
 	{
-		JCommonHTML::saveorderButton($rows, $image);
+		JHTML::_('grid.order', $rows, $image);
 	}
 
 	/**
- 	 * Legacy function, use {@link JHTML::element('sort')} instead
+ 	 * Legacy function, use {@link JHTML::_('grid.sort')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function tableOrdering( $text, $ordering, &$lists, $task=NULL )
 	{
 		// TODO: We may have to invert order_Dir here because this control now does the flip for you
-		JHTML::element('sort', $text, $ordering, @$lists['order_Dir'], @$lists['order'], $task);
+		JHTML::_('grid.sort',  $text, $ordering, @$lists['order_Dir'], @$lists['order'], $task);
 	}
 }
 

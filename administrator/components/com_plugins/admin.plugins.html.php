@@ -64,28 +64,28 @@ class HTML_modules {
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 					</th>
 					<th class="title">
-						<?php JHTML::element( 'grid_sort', 'Plugin Name', 'p.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Plugin Name', 'p.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap" width="5%">
-						<?php JHTML::element( 'grid_sort', 'Published', 'p.published', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Published', 'p.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="80" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Order', 'p.folder', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Order', 'p.folder', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="1%">
-						<?php JCommonHTML::saveorderButton( $rows ); ?>
+						<?php JHTML::_('grid.order',  $rows ); ?>
 					</th>
 					<th nowrap="nowrap" width="7%">
-						<?php JHTML::element( 'grid_sort', 'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap"  width="3%" class="title">
-						<?php JHTML::element( 'grid_sort', 'ID', 'p.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'ID', 'p.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap"  width="13%" class="title">
-						<?php JHTML::element( 'grid_sort', 'Type', 'p.folder', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Type', 'p.folder', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap"  width="13%" class="title">
-						<?php JHTML::element( 'grid_sort', 'File', 'p.element', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'File', 'p.element', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -102,9 +102,9 @@ class HTML_modules {
 
 				$link = JRoute::_( 'index.php?option=com_plugins&client='. $client .'&task=edit&cid[]='. $row->id );
 
-				$access 	= JCommonHTML::AccessProcessing( $row, $i );
-				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
-				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
+				$access 	= JHTML::_('grid.access',   $row, $i );
+				$checked 	= JHTML::_('grid.checkedout',   $row, $i );
+				$published 	= JHTML::_('grid.published', $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="right">

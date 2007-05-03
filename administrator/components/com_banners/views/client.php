@@ -58,16 +58,16 @@ class BannersViewClients
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th nowrap="nowrap" class="title">
-					<?php JHTML::element( 'grid_sort', 'Client Name', 'a.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'Client Name', 'a.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th nowrap="nowrap" class="title" width="35%">
-					<?php JHTML::element( 'grid_sort', 'Contact', 'a.contact', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'Contact', 'a.contact', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th align="center" nowrap="nowrap" width="5%">
-					<?php JHTML::element( 'grid_sort', 'No. of Active Banners', 'bid', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'No. of Active Banners', 'bid', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
-					<?php JHTML::element( 'grid_sort', 'ID', 'a.cid', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort',   'ID', 'a.cid', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 			</tr>
 			</thead>
@@ -79,7 +79,7 @@ class BannersViewClients
 				$row->id 		= $row->cid;
 				$link 			= JRoute::_( 'index.php?option=com_banners&c=client&task=edit&cid[]='. $row->id );
 
-				$checked 		= JCommonHTML::CheckedOutProcessing( $row, $i );
+				$checked 		= JHTML::_('grid.checkedout',   $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">

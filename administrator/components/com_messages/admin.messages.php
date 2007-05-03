@@ -121,7 +121,7 @@ function showMessages( $option )
 	}
 
 	// state filter
-	$lists['state']	= JCommonHTML::selectState( $filter_state, 'Read', 'Unread' );
+	$lists['state']	= JHTML::_('grid.state',  $filter_state, 'Read', 'Unread' );
 
 	// table ordering
 	$lists['order_Dir']	= $filter_order_Dir;

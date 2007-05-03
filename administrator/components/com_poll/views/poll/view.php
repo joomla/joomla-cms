@@ -54,22 +54,22 @@ class PollView
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th  class="title">
-						<?php JHTML::element( 'grid_sort', 'Poll Title', 'm.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Poll Title', 'm.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php JHTML::element( 'grid_sort', 'Published', 'm.published', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Published', 'm.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php JHTML::element( 'grid_sort', 'Votes', 'm.voters', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Votes', 'm.voters', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php JHTML::element( 'grid_sort', 'Options', 'numoptions', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Options', 'numoptions', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php JHTML::element( 'grid_sort', 'Lag', 'm.lag', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Lag', 'm.lag', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="1%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -81,8 +81,8 @@ class PollView
 
 				$link 		= JRoute::_( 'index.php?option=com_poll&task=edit&cid[]='. $row->id );
 
-				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
-				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
+				$checked 	= JHTML::_('grid.checkedout',   $row, $i );
+				$published 	= JHTML::_('grid.published', $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>

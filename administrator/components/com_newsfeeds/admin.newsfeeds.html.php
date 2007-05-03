@@ -61,28 +61,28 @@ class HTML_newsfeeds
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th class="title">
-						<?php JHTML::element( 'grid_sort', 'News Feed', 'a.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'News Feed', 'a.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="7%">
-						<?php JHTML::element( 'grid_sort', 'Published', 'a.published', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Published', 'a.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="80" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Order', 'a.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Order', 'a.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
 		 			</th>
 					<th width="1%">
-						<?php JCommonHTML::saveorderButton( $rows ); ?>
+						<?php JHTML::_('grid.order',  $rows ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'ID', 'a.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'ID', 'a.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="17%">
-						<?php JHTML::element( 'grid_sort', 'Category', 'catname', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Category', 'catname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Num Articles', 'a.numarticles', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Num Articles', 'a.numarticles', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%">
-						<?php JHTML::element( 'grid_sort', 'Cache time', 'a.cache_time', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Cache time', 'a.cache_time', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -93,8 +93,8 @@ class HTML_newsfeeds
 
 				$link 		= JRoute::_( 'index.php?option=com_newsfeeds&task=edit&cid[]='. $row->id );
 
-				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
-				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
+				$checked 	= JHTML::_('grid.checkedout',   $row, $i );
+				$published 	= JHTML::_('grid.published', $row, $i );
 
 				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_newsfeeds&task=edit&cid[]='. $row->catid );
 				?>

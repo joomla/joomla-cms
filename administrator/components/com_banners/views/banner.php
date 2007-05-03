@@ -68,35 +68,35 @@ class BannersViewBanner
 						<input type="checkbox" name="toggle" value=""  onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th nowrap="nowrap" class="title">
-						<?php JHTML::element( 'grid_sort', 'Name', 'b.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',  'Name', 'b.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Client', 'c.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Client', 'c.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Category', 'cc.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Category', 'cc.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Published', 'b.showBanner', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Published', 'b.showBanner', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Order', 'b.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
-						<?php JCommonHTML::saveorderButton( $rows ); ?>
+						<?php JHTML::_('grid.sort',   'Order', 'b.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.order',  $rows ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Sticky', 'b.Sticky', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Sticky', 'b.Sticky', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Impressions', 'b.impmade', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Impressions', 'b.impmade', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="80">
-						<?php JHTML::element( 'grid_sort', 'Clicks', 'b.clicks', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Clicks', 'b.clicks', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
 						<?php echo JText::_( 'Tags' ); ?>
 					</th>
 					<th width="1%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'ID', 'b.bid', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'ID', 'b.bid', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -120,8 +120,8 @@ class BannersViewBanner
 				}
 
 				$row->published = $row->showBanner;
-				$published 		= JCommonHTML::PublishedProcessing( $row, $i );
-				$checked 		= JCommonHTML::CheckedOutProcessing( $row, $i );
+				$published 		= JHTML::_('grid.published', $row, $i );
+				$checked 		= JHTML::_('grid.checkedout',   $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">

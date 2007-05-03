@@ -59,28 +59,28 @@ class HTML_contact
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 					</th>
 					<th class="title">
-						<?php JHTML::element( 'grid_sort', 'Name', 'cd.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Name', 'cd.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" class="title" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Published', 'cd.published', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Published', 'cd.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap" width="80">
-						<?php JHTML::element( 'grid_sort', 'Order by', 'cd.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Order by', 'cd.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
 		 			</th>
 					<th width="1%">
-						<?php JCommonHTML::saveorderButton( $rows ); ?>
+						<?php JHTML::_('grid.order',  $rows ); ?>
 					</th>
 					<th width="7%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'Access', 'cd.access', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Access', 'cd.access', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
-						<?php JHTML::element( 'grid_sort', 'ID', 'cd.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'ID', 'cd.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="15%" class="title">
-						<?php JHTML::element( 'grid_sort', 'Category', 'category', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Category', 'category', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" nowrap="nowrap" width="15%">
-						<?php JHTML::element( 'grid_sort', 'Linked to User', 'user', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort',   'Linked to User', 'user', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -91,9 +91,9 @@ class HTML_contact
 
 				$link 		= JRoute::_( 'index.php?option=com_contact&task=edit&cid[]='. $row->id );
 
-				$checked 	= JCommonHTML::CheckedOutProcessing( $row, $i );
-				$access 	= JCommonHTML::AccessProcessing( $row, $i );
-				$published 	= JCommonHTML::PublishedProcessing( $row, $i );
+				$checked 	= JHTML::_('grid.checkedout',   $row, $i );
+				$access 	= JHTML::_('grid.access',   $row, $i );
+				$published 	= JHTML::_('grid.published', $row, $i );
 
 				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_contact_details&task=editA&cid[]='. $row->catid );
 				$row->user_link	= JRoute::_( 'index.php?option=com_users&task=editA&cid[]='. $row->user_id );

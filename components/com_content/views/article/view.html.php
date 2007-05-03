@@ -89,7 +89,8 @@ class ContentViewArticle extends JView
 
 		$mdata = new JParameter($article->metadata);
 		$mdata = $mdata->toArray();
-		foreach ($mdata as $k => $v) {
+		foreach ($mdata as $k => $v) 
+		{
 			if ($v) {
 				$document->setMetadata($k, $v);
 			}

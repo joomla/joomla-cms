@@ -53,9 +53,9 @@ function plgContentEmailCloak( &$row, &$params, $page=0 )
 
 		// check to see if mail text is different from mail addy
 		if ( $mail_text ) {
-			$replacement = JHTML::emailCloaking( $mail, $mode, $mail_text );
+			$replacement = JHTML::_('email.cloak', $mail, $mode, $mail_text );
 		} else {
-			$replacement = JHTML::emailCloaking( $mail, $mode );
+			$replacement = JHTML::_('email.cloak', $mail, $mode );
 		}
 
 		// replace the found address with the js cloacked email
