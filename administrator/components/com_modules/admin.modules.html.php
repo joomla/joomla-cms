@@ -65,13 +65,13 @@ class HTML_modules
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
-					<?php JHTML::_('grid.sort',   'grid_sort', 'Module Name', 'm.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort', 'Module Name', 'm.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th nowrap="nowrap" width="7%">
-					<?php JHTML::_('grid.sort',   'grid_sort', 'Published', 'm.published', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort', 'Published', 'm.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="80" nowrap="nowrap">
-					<?php JHTML::_('grid.sort',   'grid_sort', 'Order', 'm.position', @$lists['order_Dir'], @$lists['order'] ); ?>
+					<?php JHTML::_('grid.sort', 'Order', 'm.position', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="1%">
 					<?php JHTML::_('grid.order',  $rows ); ?>
@@ -80,7 +80,7 @@ class HTML_modules
 				if ( $client->id == 0 ) {
 					?>
 					<th nowrap="nowrap" width="7%">
-						<?php JHTML::_('grid.sort',   'grid_sort', 'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php JHTML::_('grid.sort', 'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<?php
 				}
