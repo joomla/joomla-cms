@@ -101,7 +101,7 @@ class BannerControllerBanner extends JController
 
 		// build list of categories
 		$javascript 	= 'onchange="document.adminForm.submit();"';
-		$lists['catid'] = JAdministratorHelper::ComponentCategory( 'filter_catid', 'com_banner', (int) $filter_catid, $javascript );
+		$lists['catid'] = JHTML::_('list.category',  'filter_catid', 'com_banner', (int) $filter_catid, $javascript );
 
 		// state filter
 		$lists['state']	= JHTML::_('grid.state',  $filter_state );
@@ -159,10 +159,10 @@ class BannerControllerBanner extends JController
 		// Imagelist
 		$javascript 		= 'onchange="changeDisplayImage();"';
 		$directory 			= '/images/banners';
-		$lists['imageurl'] 	= JAdministratorHelper::Images( 'imageurl', $row->imageurl, $javascript, $directory );
+		$lists['imageurl'] 	= JHTML::_('list.images',  'imageurl', $row->imageurl, $javascript, $directory );
 
 		// build list of categories
-		$lists['catid']		= JAdministratorHelper::ComponentCategory( 'catid', 'com_banner', intval( $row->catid ) );
+		$lists['catid']		= JHTML::_('list.category',  'catid', 'com_banner', intval( $row->catid ) );
 
 		// sticky
 		$lists['sticky']	= JHTML::_('select.booleanlist',  'sticky', 'class="inputbox"', $row->sticky );

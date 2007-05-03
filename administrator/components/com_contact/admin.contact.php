@@ -160,7 +160,7 @@ function showContacts( $option )
 
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['catid'] = JAdministratorHelper::ComponentCategory( 'filter_catid', 'com_contact_details', intval( $filter_catid ), $javascript );
+	$lists['catid'] = JHTML::_('list.category',  'filter_catid', 'com_contact_details', intval( $filter_catid ), $javascript );
 
 	// state filter
 	$lists['state']	= JHTML::_('grid.state',  $filter_state );
@@ -214,16 +214,16 @@ function editContact( )
 	. ' AND catid = "'.$row->catid.'"'
 	. ' ORDER BY ordering'
 	;
-	$lists['ordering'] 			= JAdministratorHelper::SpecificOrdering( $row, $cid[0], $query, 1 );
+	$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query, 1 );
 
 	// build list of users
-	$lists['user_id'] 			= JAdministratorHelper::UserSelect( 'user_id', $row->user_id, 1, NULL, 'name', 0 );
+	$lists['user_id'] 			= JHTML::_('list.users',  'user_id', $row->user_id, 1, NULL, 'name', 0 );
 	// build list of categories
-	$lists['catid'] 			= JAdministratorHelper::ComponentCategory( 'catid', 'com_contact_details', intval( $row->catid ) );
+	$lists['catid'] 			= JHTML::_('list.category',  'catid', 'com_contact_details', intval( $row->catid ) );
 	// build the html select list for images
-	$lists['image'] 			= JAdministratorHelper::Images( 'image', $row->image );
+	$lists['image'] 			= JHTML::_('list.images',  'image', $row->image );
 	// build the html select list for the group access
-	$lists['access'] 			= JAdministratorHelper::Access( $row );
+	$lists['access'] 			= JHTML::_('list.accesslevel',  $row );
 	// build the html radio buttons for published
 	$lists['published'] 		= JHTML::_('select.booleanlist',  'published', '', $row->published );
 	// build the html radio buttons for default

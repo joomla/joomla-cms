@@ -186,7 +186,7 @@ class ContentViewElement extends JView
 
 		// get list of sections for dropdown filter
 		$javascript = 'onchange="document.adminForm.submit();"';
-		$lists['sectionid'] = JAdministratorHelper::SelectSection('filter_sectionid', $filter_sectionid, $javascript);
+		$lists['sectionid'] = JHTML::_('list.section', 'filter_sectionid', $filter_sectionid, $javascript);
 
 		// table ordering
 		$lists['order_Dir']	= $filter_order_Dir;

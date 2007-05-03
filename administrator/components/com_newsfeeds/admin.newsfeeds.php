@@ -145,7 +145,7 @@ function showNewsFeeds(  )
 
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['catid'] = JAdministratorHelper::ComponentCategory( 'filter_catid', 'com_newsfeeds', $filter_catid, $javascript );
+	$lists['catid'] = JHTML::_('list.category',  'filter_catid', 'com_newsfeeds', $filter_catid, $javascript );
 
 	// state filter
 	$lists['state']	= JHTML::_('grid.state',  $filter_state );
@@ -195,10 +195,10 @@ function editNewsFeed(  )
 	. ' FROM #__newsfeeds AS a'
 	. ' ORDER BY a.ordering'
 	;
-	$lists['ordering'] 			= JAdministratorHelper::SpecificOrdering( $row, $cid[0], $query, 1 );
+	$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query, 1 );
 
 	// build list of categories
-	$lists['category'] 			= JAdministratorHelper::ComponentCategory( 'catid', $option, intval( $row->catid ) );
+	$lists['category'] 			= JHTML::_('list.category',  'catid', $option, intval( $row->catid ) );
 	// build the html select list
 	$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
 

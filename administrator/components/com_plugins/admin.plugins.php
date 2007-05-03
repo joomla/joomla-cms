@@ -273,7 +273,7 @@ function editPlugin( )
 		$lists['access'] = 'Administrator<input type="hidden" name="access" value="99" />';
 	} else {
 		// build the html select list for the group access
-		$lists['access'] = JAdministratorHelper::Access( $row );
+		$lists['access'] = JHTML::_('list.accesslevel',  $row );
 	}
 
 	if ($cid[0])
@@ -291,7 +291,7 @@ function editPlugin( )
 			. ' AND ordering < 10000'
 			. ' ORDER BY ordering'
 			;
-			$order = JAdministratorHelper::GenericOrdering( $query );
+			$order = JHTML::_('list.genericordering',  $query );
 			$lists['ordering'] = JHTML::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
 			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );

@@ -522,13 +522,13 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 )
 }
 
 /**
- * Legacy function, use {@link JAdministratorHelper::GenericOrdering()} instead
+ * Legacy function, use {@link JHTML::_('list.genericordering', )} instead
  *
  * @deprecated	As of version 1.5
  */
 function mosGetOrderingList( $sql, $chop='30' )
 {
-	return JAdministratorHelper::GenericOrdering($sql, $chop);
+	return JHTML::_('list.genericordering', $sql, $chop);
 }
 
 /**

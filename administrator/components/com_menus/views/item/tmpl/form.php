@@ -107,7 +107,7 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_( 'Ordering' ); ?>:
 							</td>
 							<td>
-								<?php echo JAdministratorHelper::Ordering( $this->item, $this->item->id ); ?>
+								<?php echo JHTML::_('list.menuordering', $this->item, $this->item->id ); ?>
 							</td>
 						</tr>
 						<tr>
@@ -115,7 +115,7 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_( 'Access Level' ); ?>:
 							</td>
 							<td>
-								<?php echo JAdministratorHelper::Access( $this->item ); ?>
+								<?php echo JHTML::_('list.accesslevel',  $this->item ); ?>
 							</td>
 						</tr>
 						<tr>

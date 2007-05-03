@@ -162,7 +162,7 @@ class ContentController extends JController
 
 		// get list of sections for dropdown filter
 		$javascript = 'onchange="document.adminForm.submit();"';
-		$lists['sectionid'] = JAdministratorHelper::SelectSection('filter_sectionid', $filter_sectionid, $javascript);
+		$lists['sectionid'] = JHTML::_('list.section', 'filter_sectionid', $filter_sectionid, $javascript);
 
 		// get list of Authors for dropdown filter
 		$query = 'SELECT c.created_by, u.name' .
@@ -516,7 +516,7 @@ class ContentController extends JController
 				' WHERE catid = ' . (int) $row->catid .
 				' AND state >= 0' .
 				' ORDER BY ordering';
-		$lists['ordering'] = JAdministratorHelper::SpecificOrdering($row, $id, $query, 1);
+		$lists['ordering'] = JHTML::_('list.specificordering', $row, $id, $query, 1);
 
 		// build the html radio buttons for frontpage
 		$lists['frontpage'] = JHTML::_('select.booleanlist', 'frontpage', '', $row->frontpage);

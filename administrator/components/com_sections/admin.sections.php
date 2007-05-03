@@ -249,15 +249,15 @@ function editSection( )
 	. ' FROM #__sections'
 	. ' WHERE scope="'.$row->scope.'" ORDER BY ordering'
 	;
-	$lists['ordering'] 			= JAdministratorHelper::SpecificOrdering( $row, $cid[0], $query );
+	$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
 
 	// build the select list for the image positions
 	$active =  ( $row->image_position ? $row->image_position : 'left' );
-	$lists['image_position'] 	= JAdministratorHelper::Positions( 'image_position', $active, NULL, 0 );
+	$lists['image_position'] 	= JHTML::_('list.positions',  'image_position', $active, NULL, 0 );
 	// build the html select list for images
-	$lists['image'] 			= JAdministratorHelper::Images( 'image', $row->image );
+	$lists['image'] 			= JHTML::_('list.images',  'image', $row->image );
 	// build the html select list for the group access
-	$lists['access'] 			= JAdministratorHelper::Access( $row );
+	$lists['access'] 			= JHTML::_('list.accesslevel',  $row );
 	// build the html radio buttons for published
 	$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
 

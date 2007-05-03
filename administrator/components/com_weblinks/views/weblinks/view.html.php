@@ -58,7 +58,7 @@ class WeblinksViewWeblinks extends JView
 
 		// build list of categories
 		$javascript 	= 'onchange="document.adminForm.submit();"';
-		$lists['catid'] = JAdministratorHelper::ComponentCategory( 'filter_catid', $option, intval( $filter_catid ), $javascript );
+		$lists['catid'] = JHTML::_('list.category',  'filter_catid', $option, intval( $filter_catid ), $javascript );
 
 		// state filter
 		$lists['state']	= JHTML::_('grid.state',  $filter_state );

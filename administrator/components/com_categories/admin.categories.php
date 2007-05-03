@@ -255,7 +255,7 @@ function showCategories( $section, $option )
 
 	// get list of sections for dropdown filter
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['sectionid']	= JAdministratorHelper::SelectSection( 'sectionid', $sectionid, $javascript );
+	$lists['sectionid']	= JHTML::_('list.section',  'sectionid', $sectionid, $javascript );
 
 	// state filter
 	$lists['state']	= JHTML::_('grid.state',  $filter_state );
@@ -361,15 +361,15 @@ function editCategory( )
 	. ' WHERE section = "'.$row->section.'"'
 	. ' ORDER BY ordering'
 	;
-	$lists['ordering'] 			= JAdministratorHelper::SpecificOrdering( $row, $cid[0], $query );
+	$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
 
 	// build the select list for the image positions
 	$active =  ( $row->image_position ? $row->image_position : 'left' );
-	$lists['image_position'] 	= JAdministratorHelper::Positions( 'image_position', $active, NULL, 0, 0 );
+	$lists['image_position'] 	= JHTML::_('list.positions',  'image_position', $active, NULL, 0, 0 );
 	// Imagelist
-	$lists['image'] 			= JAdministratorHelper::Images( 'image', $row->image );
+	$lists['image'] 			= JHTML::_('list.images',  'image', $row->image );
 	// build the html select list for the group access
-	$lists['access'] 			= JAdministratorHelper::Access( $row );
+	$lists['access'] 			= JHTML::_('list.accesslevel',  $row );
 	// build the html radio buttons for published
 	$published = ($row->id) ? $row->published : 1;
 	$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $published );
