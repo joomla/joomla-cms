@@ -112,8 +112,7 @@ class JMenuHelper
 		$mitems 	= array();
 		$mitems[] 	= JHTML::_('select.option',  '0', JText::_( 'Top' ) );
 
-		foreach ( $list as $item )
-		{
+		foreach ( $list as $item ) {
 			$mitems[] = JHTML::_('select.option',  $item->id, '&nbsp;&nbsp;&nbsp;'. $item->treename );
 		}
 

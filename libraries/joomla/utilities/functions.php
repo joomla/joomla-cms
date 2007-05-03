@@ -15,9 +15,12 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 ) {
-	if (@$children[$id] && $level <= $maxlevel) {
-		foreach ($children[$id] as $v) {
+function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 ) 
+{	
+	if (@$children[$id] && $level <= $maxlevel) 
+	{
+		foreach ($children[$id] as $v) 
+		{
 			$id = $v->id;
 
 			if ( $type ) {

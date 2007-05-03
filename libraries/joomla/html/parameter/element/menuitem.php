@@ -88,8 +88,7 @@ class JElementMenuItem extends JElement
 		// assemble into menutype groups
 		$n = count( $list );
 		$groupedList = array();
-		foreach ($list as $k => $v)
-		{
+		foreach ($list as $k => $v) {
 			$groupedList[$v->menutype][] = &$list[$k];
 		}
 
