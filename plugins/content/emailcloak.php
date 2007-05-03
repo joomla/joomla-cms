@@ -112,7 +112,7 @@ function plgContentEmailCloak( &$row, &$params, $page=0 )
 	while( eregi( $search_email, $row->text, $regs ) ) {
 		$mail = $regs[0];
 
-		$replacement = JHTML::emailCloaking( $mail, $mode );
+		$replacement = JHTMLEmail::Cloak( $mail, $mode );
 
 		// replace the found address with the js cloacked email
 		$row->text = str_replace( $regs[0], $replacement, $row->text );
