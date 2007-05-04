@@ -48,6 +48,6 @@ JDescriptionSwitcher.prototype =
 	}
 }
 
-document.addLoadEvent(function() {
- 	document.descriptionswitcher = new JDescriptionSwitcher();
+Window.onDomReady(function(){
+	document.descriptionswitcher = new JDescriptionSwitcher();
 });

@@ -373,6 +373,6 @@ JMediaPreview.prototype = {
 }
 
 document.mediapreview = null;
-//document.addLoadEvent(function() {
-// 	document.mediapreview = new JMediaPreview();
-//});
+Window.onDomReady(function(){
+	document.mediapreview = new JMediaPreview();
+});

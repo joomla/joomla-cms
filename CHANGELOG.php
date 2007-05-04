@@ -48,6 +48,8 @@ Legend:
 03-May-2007 Johan Janssens
  ^ JHTML optimisation, finished
  ^ Changed JParameter xml path attribute from addparameterdir to addpath
+ - Removed moo.fx package
+ - Removed common.js file, functionality already available in mootools framework
 
 02-May-2007 Johan Janssens
  + Added helper suppport to JView class, see loadHelper function

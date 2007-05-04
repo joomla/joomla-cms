@@ -17,13 +17,17 @@ defined('_JEXEC') or die('Restricted access');
 
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
-if ($mainframe->isAdmin()) {
+
+if ($mainframe->isAdmin()) 
+{
 	if (!$user->authorize( 'com_media', 'manage' )) {
 		$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 	}
 	define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
 	define('COM_MEDIA_BASEURL', $mainframe->getSiteURL().'images');
-} else {
+} 
+else 
+{
 	if (!$user->authorize( 'com_media', 'popup' )) {
 		$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 	}
@@ -380,6 +384,7 @@ class MediaController
 		if (isset ($file) && is_array($file) && isset ($folder)) {
 
 			$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($file['name']));
+			jimport('joomla.filesystem.file');
 			if (JFile::exists($filepath)) {
 				MediaController::showUpload(JText::_('Upload FAILED. File already exists'));
 				return;

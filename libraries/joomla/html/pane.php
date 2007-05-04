@@ -272,13 +272,13 @@ class JPaneSliders extends JPane
 		$document =& JFactory::getDocument();
 
 		$options = '{';
-		$opt['onActive']		= 'function(toggler, i) { toggler.addClass(\'jpane-toggler-down\'); toggler.removeClass(\'jpane-toggler\'); }';
+		$opt['onActive']	 = 'function(toggler, i) { toggler.addClass(\'jpane-toggler-down\'); toggler.removeClass(\'jpane-toggler\'); }';
 		$opt['onBackground'] = 'function(toggler, i) { toggler.addClass(\'jpane-toggler\'); toggler.removeClass(\'jpane-toggler-down\'); }';
-		$opt['duration']		= (isset($params['duration'])) ? (int)$params['duration'] : 300;
-		$opt['display']		= (isset($params['startOffset']) && ($params['startTransition'])) ? (int)$params['startOffset'] : null ;
-		$opt['show']			= (isset($params['startOffset']) && (!$params['startTransition'])) ? (int)$params['startOffset'] : null ;
-		$opt['opacity']		= (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false' ;
-		$opt['alwaysHide']	= (isset($params['allowAllClose']) && ($params['allowAllClose'])) ? 'true' : null ;
+		$opt['duration']	 = (isset($params['duration'])) ? (int)$params['duration'] : 300;
+		$opt['display']		 = (isset($params['startOffset']) && ($params['startTransition'])) ? (int)$params['startOffset'] : null ;
+		$opt['show']		 = (isset($params['startOffset']) && (!$params['startTransition'])) ? (int)$params['startOffset'] : null ;
+		$opt['opacity']		 = (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false' ;
+		$opt['alwaysHide']	 = (isset($params['allowAllClose']) && ($params['allowAllClose'])) ? 'true' : null ;
 		foreach ($opt as $k => $v)
 		{
 			if ($v) {

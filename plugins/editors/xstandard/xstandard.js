@@ -60,7 +60,8 @@ XStandardLite.prototype.save = function()
 
 // -- Loader-----------------------------------
 
-document.addLoadEvent(function() {
- 	xstandard_lite = new XStandardLite();
+
+Window.onDomReady(function(){
+	xstandard_lite = new XStandardLite();
 	xstandard_lite.init();
 });

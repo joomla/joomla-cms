@@ -47,4 +47,6 @@
 });
 
 document.imageupload = null;
-document.onload = function(){ document.imageupload = new JImageUpload(); };
+Window.onDomReady(function(){
+	document.imageupload = new JImageUpload();
+});

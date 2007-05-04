@@ -291,6 +291,6 @@ JFormValidator.prototype = {
 }
 
 document.formvalidator = null;
-document.addLoadEvent(function() {
- 	document.formvalidator = new JFormValidator();
+Window.onDomReady(function(){
+	document.formvalidator = new JFormValidator();
 });

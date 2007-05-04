@@ -1,7 +1,7 @@
 <script language="javascript" type="text/javascript">
 	<!--
-		document.addLoadEvent(function() {
-		 	//document.treemanager.expandAll('menu-item');
+		Window.onDomReady(function(){
+			//document.treemanager.expandAll('menu-item');
 		});
 	//-->
 </script>

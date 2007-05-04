@@ -4,17 +4,20 @@
 		<jdoc:include type="head" />
 
 		<?php if($this->direction == 'rtl') : ?>
-			<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
+		<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
 		<?php else : ?>
-			<link href="template/css/template.css" rel="stylesheet" type="text/css" />
+		<link href="template/css/template.css" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
 		<script type="text/javascript" src="includes/js/installation.js"></script>
-		<script type="text/javascript" src="../includes/js/joomla/common.js"></script>
-		<script type="text/javascript" src="../includes/js/moofx/moo.fx.js"></script>
-		<script type="text/javascript" src="../includes/js/moofx/moo.fx.pack.js"></script>
-		<script type="text/javascript" src="template/js/moo.fx.effect.js"></script>
+		<script type="text/javascript" src="../includes/js/mootools.js"></script>
 		<script type="text/javascript" src="template/js/validation.js"></script>
+		
+		<script type="text/javascript">
+    	// <!--
+			Window.onDomReady(function(){ new Accordion($$('.panel h3.moofx-toggler'), $$('.panel div.moofx-slider'), {onActive: function(toggler, i) { toggler.addClass('moofx-toggler-down'); toggler.removeClass('moofx-toggler'); },onBackground: function(toggler, i) { toggler.addClass('moofx-toggler'); toggler.removeClass('moofx-toggler-down'); },duration: 300,opacity: false}); });
+    	// -->
+  		</script>
 	</head>
 	<body>
 		<div id="header1">
@@ -38,8 +41,5 @@
 		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
 			<?php echo JText::_('ISFREESOFTWARE') ?>
 		</div>
-		<script type="text/javascript">
-			init_moofx();
-		</script>
 	</body>
 </html>

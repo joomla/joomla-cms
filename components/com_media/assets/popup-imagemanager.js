@@ -203,6 +203,6 @@ var JImageManager = new Class({
 });
 
 document.imagemanager = null;
-document.addLoadEvent = function() {
- 	document.imagemanager = new JImageManager();
-};
+Window.onDomReady(function(){
+	document.imagemanager = new JImageManager();
+});

@@ -238,6 +238,6 @@ JTreeManager.prototype =
 	}
 }
 
-document.addLoadEvent(function() {
- 	document.treemanager = new JTreeManager();
+Window.onDomReady(function(){
+	document.treemanager = new JTreeManager();
 });

@@ -65,10 +65,12 @@ JImageUpload.prototype = {
 		
 		submitform('upload');
 		
-		Element.addClassName(this.upload, 'uploading');
-		this.upload.setAttribute('disabled', 'disabled');	
+		$('upload').addClass('uploading');
+		$('upload').setProperty('disabled', 'disabled');	
 	}
 }
 
 document.imageupload = null;
-document.onload = function(){ document.imageupload = new JImageUpload(); };
+Window.onDomReady(function(){
+	document.imageupload = new JImageUpload();
+});
