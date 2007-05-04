@@ -139,7 +139,6 @@ class MenusViewItem extends JView
 		// Add scripts and stylesheets to the document
 		$document	= & JFactory::getDocument();
 		$url		= $mainframe->getSiteURL();
-		$document->addScript($url.'includes/js/joomla/common.js');
 		$document->addScript($url.'includes/js/joomla/cookie.js');
 		$document->addScript('components/com_menus/assets/tree.js');
 		$document->addScript('components/com_menus/assets/description.js');
