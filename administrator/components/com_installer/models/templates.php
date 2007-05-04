@@ -158,7 +158,11 @@ class InstallerModelTemplates extends InstallerModel
 			}
 		}
 		$this->setState('pagination.total', count($rows));
-		$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
+		if($this->_state->get('pagination.limit') > 0) {
+			$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
+		} else {
+			$this->_items = $rows;
+		}
 	}
 }
 ?>

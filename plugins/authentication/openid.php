@@ -56,8 +56,10 @@ class plgAuthenticationOpenID extends JPlugin
 	function onAuthenticate( $username, $password, &$response )
 	{
 		global $mainframe;
-
-	 	 // Require the OpenID consumer.
+		
+		define ("Auth_OpenID_RAND_SOURCE", null);
+		
+		 // Require the OpenID consumer.
 		jimport ('openid.consumer');
 
 		// Access the session data
@@ -71,7 +73,9 @@ class plgAuthenticationOpenID extends JPlugin
 		if (!isset($ext['extension']) || !isset($ext['class'])) {
 			define ("Auth_OpenID_NO_MATH_SUPPORT", true);
 		}
-
+	
+		
+	
 		// Create and/or start using the data store
 		$store_path = JPATH_ROOT . '/tmp/_joomla_openid_store';
 		if (!file_exists($store_path) && !mkdir($store_path)) {
@@ -102,7 +106,7 @@ class plgAuthenticationOpenID extends JPlugin
 			$uri =& JFactory::getURI();
 			$url = $uri->toString();
 
-			$process_url = sprintf("index.php?option=com_login&task=login&username=%s&return=%s", $username, $url);
+			$process_url = sprintf("index.php?option=com_user&task=login&username=%s&return=%s", $username, $url);
 			$redirect_url = $request->redirectURL(JURI::base(), JURI::base().$process_url);
 
 			$session->set('trust_url', JURI::base());

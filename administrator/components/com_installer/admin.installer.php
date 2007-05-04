@@ -33,8 +33,7 @@ $subMenus = array(
 	'Templates' => 'templates');
 
 JSubMenu::addEntry(JText::_( 'Install' ), '#" onclick="javascript:document.adminForm.type.value=\'\';submitbutton(\'installer\');', !in_array( $ext, $subMenus));
-foreach ($subMenus as $name => $extension)
-{
+foreach ($subMenus as $name => $extension) {
 	JSubMenu::addEntry(JText::_( $name ), '#" onclick="javascript:document.adminForm.type.value=\''.$extension.'\';submitbutton(\'manage\');', ($extension == $ext));
 }
 

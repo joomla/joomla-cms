@@ -136,7 +136,8 @@ class InstallerModelComponents extends InstallerModel
 				$xmlFilesInDir = null;
 			}
 
-			if (count($xmlFilesInDir)) {
+			if (count($xmlFilesInDir)) 
+			{
 				foreach ($xmlFilesInDir as $xmlfile)
 				{
 					if ($data = JApplicationHelper::parseXMLInstallFile($folder.DS.$xmlfile)) {
@@ -149,7 +150,11 @@ class InstallerModelComponents extends InstallerModel
 			}
 		}
 		$this->setState('pagination.total', $numRows);
-		$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
+		if($this->_state->get('pagination.limit') > 0) {
+			$this->_items = array_slice( $rows, $this->_state->get('pagination.offset'), $this->_state->get('pagination.limit') );
+		} else {
+			$this->_items = $rows;
+		}
 	}
 }
 ?>
