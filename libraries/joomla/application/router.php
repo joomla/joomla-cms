@@ -212,7 +212,10 @@ class JRouter extends JObject
 				$menu->setActive($itemid);
 
 				// Parse component route
-				$this->_parseComponentRoute($url);
+				$vars = $this->_parseComponentRoute($url);
+				
+				//Set the variables
+				$this->_vars = array_merge($this->_vars, $vars);
 			}
 
 			//Set active menu item
@@ -234,14 +237,27 @@ class JRouter extends JObject
 		if(($itemid = (int) $uri->getVar('Itemid')) || $uri->getVar('option'))
 		{
 			// No Itemid set, use default
-			if(!$itemid) {
+			if(!$itemid) 
+			{
 				$default = $menu->getDefault();
 				$itemid = $default->id;
 			}
 			
 			// Set the active menu item
 			$item =& $menu->setActive($itemid);
-
+			
+			//Set the variables
+			$vars = JRequest::get('get');
+			
+			foreach($vars as $key => $value) 
+			{
+				$this->_vars[$key] = $value;
+				
+				if($key === 'Itemid') {
+					break;
+				}
+			}
+			
 			//Set the information in the request
 			JRequest::set($item->query, 'get', false );
 			
@@ -250,7 +266,7 @@ class JRouter extends JObject
 			return true;
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -276,7 +292,7 @@ class JRouter extends JObject
 		{
 			$vars = array();
 			parse_str($string, $vars);
-
+			
 			$vars = array_merge($this->_vars, $vars);
 			$string = 'index.php?'.JURI::_buildQuery($vars);
 		}
@@ -302,7 +318,9 @@ class JRouter extends JObject
 				$uri->setVar('option', $item->component);
 			}
 
-			// rewite URL
+			/*
+		 	 * Build routed URL : mysite/route/index.php?var=x
+		 	 */
 			if ($this->_mode && !preg_match('/^(([^:\/\?#]+):)/i', $string) && !strcasecmp(substr($string, 0, 9), 'index.php'))
 			{
 				$route = ''; //the route created
@@ -405,6 +423,8 @@ class JRouter extends JObject
 	*/
 	function _parseComponentRoute($url)
 	{
+		$vars = array();
+		
 		$segments = explode('/', $url);
 		array_shift($segments);
 
@@ -428,9 +448,9 @@ class JRouter extends JObject
 			require_once $path;
 			$function =  substr($component, 4).'ParseRoute';
 			$vars =  $function($segments);
-
-			$this->_vars = array_merge($this->_vars, $vars);
 		}
+		
+		return $vars;
 	}
 
 	/**
