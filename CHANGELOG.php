@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.0 Beta 2 Released [04-May-2007] ------------------------
+
 04-May-2007 Johan Janssens
  ^ Updated installation languages packs and removed old ones
 
