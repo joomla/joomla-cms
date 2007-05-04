@@ -52,6 +52,7 @@ class ContentViewCategory extends JView
 		$intro		= $params->def('num_intro_articles', 	0);
 		$leading	= $params->def('num_leading_articles', 	0);
 		$links		= $params->def('num_links', 			0);
+		$headings	= $params->def('show_headings', 		1);
 
 		//In case we are in a blog view set the limit
 		if($limit ==  0) $limit = $intro + $leading + $links;
