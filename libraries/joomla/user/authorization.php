@@ -27,8 +27,8 @@ jimport('phpgacl.gacl_api');
  */
 class JAuthorization extends gacl_api
 {
-	var $acl=null;
-	var $acl_count=0;
+	var $acl       = null;
+	var $acl_count = 0;
 
 	/**
 	 * Constructor
@@ -44,164 +44,164 @@ class JAuthorization extends gacl_api
 		$this->acl = array();
 
 		// my details
-		$this->_mos_add_acl( 'mydetails', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'mydetails', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'mydetails', 'manage', 'users', 'manager' );
-		$this->_mos_add_acl( 'mydetails', 'author', 'users', 'author' );
-		$this->_mos_add_acl( 'mydetails', 'author', 'users', 'editor' );
-		$this->_mos_add_acl( 'mydetails', 'author', 'users', 'publisher' );
-		$this->_mos_add_acl( 'mydetails', 'registered', 'users', 'registered' );
+		$this->addACL( 'mydetails', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'mydetails', 'manage', 'users', 'administrator' );
+		$this->addACL( 'mydetails', 'manage', 'users', 'manager' );
+		$this->addACL( 'mydetails', 'author', 'users', 'author' );
+		$this->addACL( 'mydetails', 'author', 'users', 'editor' );
+		$this->addACL( 'mydetails', 'author', 'users', 'publisher' );
+		$this->addACL( 'mydetails', 'registered', 'users', 'registered' );
 
 		// backend login
-		$this->_mos_add_acl( 'login', 'administrator', 'users', 'administrator' );
-		$this->_mos_add_acl( 'login', 'administrator', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'login', 'administrator', 'users', 'manager' );
+		$this->addACL( 'login', 'administrator', 'users', 'administrator' );
+		$this->addACL( 'login', 'administrator', 'users', 'super administrator' );
+		$this->addACL( 'login', 'administrator', 'users', 'manager' );
 
-		$this->_mos_add_acl( 'login', 'site', 'users', 'administrator' );
-		$this->_mos_add_acl( 'login', 'site', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'login', 'site', 'users', 'manager' );
+		$this->addACL( 'login', 'site', 'users', 'administrator' );
+		$this->addACL( 'login', 'site', 'users', 'super administrator' );
+		$this->addACL( 'login', 'site', 'users', 'manager' );
 
-		$this->_mos_add_acl( 'login', 'site', 'users', 'registered' );
-		$this->_mos_add_acl( 'login', 'site', 'users', 'author' );
-		$this->_mos_add_acl( 'login', 'site', 'users', 'editor' );
-		$this->_mos_add_acl( 'login', 'site', 'users', 'publisher' );
+		$this->addACL( 'login', 'site', 'users', 'registered' );
+		$this->addACL( 'login', 'site', 'users', 'author' );
+		$this->addACL( 'login', 'site', 'users', 'editor' );
+		$this->addACL( 'login', 'site', 'users', 'publisher' );
 		// backend menus
 
-		$this->_mos_add_acl( 'com_banners', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_banners', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_banners', 'manage', 'users', 'manager' );
+		$this->addACL( 'com_banners', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_banners', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_banners', 'manage', 'users', 'manager' );
 
-		$this->_mos_add_acl( 'com_checkin', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_checkin', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_checkin', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_checkin', 'manage', 'users', 'administrator' );
 
-		$this->_mos_add_acl( 'com_cache', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_cache', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_cache', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_cache', 'manage', 'users', 'administrator' );
 
-		$this->_mos_add_acl( 'com_config', 'manage', 'users', 'super administrator' );
-		//$this->_mos_add_acl( 'com_config', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_config', 'manage', 'users', 'super administrator' );
+		//$this->addACL( 'com_config', 'manage', 'users', 'administrator' );
 
-		$this->_mos_add_acl( 'com_contact', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_contact', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_contact', 'manage', 'users', 'manager' );
+		$this->addACL( 'com_contact', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_contact', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_contact', 'manage', 'users', 'manager' );
 
-		$this->_mos_add_acl( 'com_components', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_components', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_components', 'manage', 'users', 'manager' );
+		$this->addACL( 'com_components', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_components', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_components', 'manage', 'users', 'manager' );
 
-		$this->_mos_add_acl( 'com_frontpage', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_frontpage', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_frontpage', 'manage', 'users', 'manager' );
-		$this->_mos_add_acl( 'com_frontpage', 'edit', 'users', 'manager' );
+		$this->addACL( 'com_frontpage', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_frontpage', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_frontpage', 'manage', 'users', 'manager' );
+		$this->addACL( 'com_frontpage', 'edit', 'users', 'manager' );
 
 		// access to installers and base installer
-		$this->_mos_add_acl( 'com_installer', 'installer', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_installer', 'installer', 'users', 'super administrator' );
+		$this->addACL( 'com_installer', 'installer', 'users', 'administrator' );
+		$this->addACL( 'com_installer', 'installer', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'com_installer', 'component', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_installer', 'component', 'users', 'super administrator' );
+		$this->addACL( 'com_installer', 'component', 'users', 'administrator' );
+		$this->addACL( 'com_installer', 'component', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'com_installer', 'language', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_installer', 'language', 'users', 'administrator' );
+		$this->addACL( 'com_installer', 'language', 'users', 'super administrator' );
+		$this->addACL( 'com_installer', 'language', 'users', 'administrator' );
 
-		$this->_mos_add_acl( 'com_installer', 'module', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_installer', 'module', 'users', 'super administrator' );
+		$this->addACL( 'com_installer', 'module', 'users', 'administrator' );
+		$this->addACL( 'com_installer', 'module', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'com_installer', 'plugin', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_installer', 'plugin', 'users', 'super administrator' );
+		$this->addACL( 'com_installer', 'plugin', 'users', 'administrator' );
+		$this->addACL( 'com_installer', 'plugin', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'com_installer', 'template', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_installer', 'template', 'users', 'administrator' );
+		$this->addACL( 'com_installer', 'template', 'users', 'super administrator' );
+		$this->addACL( 'com_installer', 'template', 'users', 'administrator' );
 
-		$this->_mos_add_acl( 'com_languages', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_languages', 'manage', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'com_plugins', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_plugins', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_plugins', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_plugins', 'manage', 'users', 'administrator' );
 		// uncomment following to allow managers to edit modules
 		//array( 'administration', 'edit', 'users', 'manager', 'modules', 'all' );
 
-		$this->_mos_add_acl( 'com_massmail', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_massmail', 'manage', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'com_media', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_media', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_media', 'manage', 'users', 'manager' );
-		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'manager' );
-		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'registered' );
-		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'author' );
-		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'editor' );
-		$this->_mos_add_acl( 'com_media', 'popup', 'users', 'publisher' );
+		$this->addACL( 'com_media', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_media', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_media', 'manage', 'users', 'manager' );
+		$this->addACL( 'com_media', 'popup', 'users', 'super administrator' );
+		$this->addACL( 'com_media', 'popup', 'users', 'administrator' );
+		$this->addACL( 'com_media', 'popup', 'users', 'manager' );
+		$this->addACL( 'com_media', 'popup', 'users', 'registered' );
+		$this->addACL( 'com_media', 'popup', 'users', 'author' );
+		$this->addACL( 'com_media', 'popup', 'users', 'editor' );
+		$this->addACL( 'com_media', 'popup', 'users', 'publisher' );
 
-		$this->_mos_add_acl( 'com_menumanager', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_menumanager', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_menumanager', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_menumanager', 'manage', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'com_modules', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_modules', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_modules', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_modules', 'manage', 'users', 'administrator' );
 
-		$this->_mos_add_acl( 'com_newsfeeds', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_newsfeeds', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_newsfeeds', 'manage', 'users', 'manager' );
+		$this->addACL( 'com_newsfeeds', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_newsfeeds', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_newsfeeds', 'manage', 'users', 'manager' );
 
-		$this->_mos_add_acl( 'com_poll', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_poll', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_poll', 'manage', 'users', 'manager' );
+		$this->addACL( 'com_poll', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_poll', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_poll', 'manage', 'users', 'manager' );
 
-		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'manager' );
+		$this->addACL( 'com_syndicate', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_syndicate', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_syndicate', 'manage', 'users', 'manager' );
 
-		$this->_mos_add_acl( 'com_templates', 'manage', 'users', 'super administrator' );
-		//$this->_mos_add_acl( 'com_templates', 'manage', 'user', 'administrator' )
+		$this->addACL( 'com_templates', 'manage', 'users', 'super administrator' );
+		//$this->addACL( 'com_templates', 'manage', 'user', 'administrator' )
 
-		$this->_mos_add_acl( 'com_trash', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_trash', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_trash', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_trash', 'manage', 'users', 'super administrator' );
 
 		// email block users property
-		$this->_mos_add_acl( 'com_users', 'block user', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_users', 'block user', 'users', 'super administrator' );
+		$this->addACL( 'com_users', 'block user', 'users', 'administrator' );
+		$this->addACL( 'com_users', 'block user', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'com_users', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_users', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_users', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_users', 'manage', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'com_weblinks', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_weblinks', 'manage', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_weblinks', 'manage', 'users', 'manager' );
+		$this->addACL( 'com_weblinks', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_weblinks', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_weblinks', 'manage', 'users', 'manager' );
 
 		// email system events
-		$this->_mos_add_acl( 'com_users', 'email_events', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_users', 'email_events', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'workflow', 'email_events', 'users', 'administrator', null, null );
-		$this->_mos_add_acl( 'workflow', 'email_events', 'users', 'super administrator', null, null );
+		$this->addACL( 'com_users', 'email_events', 'users', 'administrator' );
+		$this->addACL( 'com_users', 'email_events', 'users', 'super administrator' );
+		$this->addACL( 'workflow', 'email_events', 'users', 'administrator', null, null );
+		$this->addACL( 'workflow', 'email_events', 'users', 'super administrator', null, null );
 
 		// actions
-		$this->_mos_add_acl( 'action', 'add', 'users', 'author', 'content', 'all' );
-		$this->_mos_add_acl( 'action', 'add', 'users', 'editor', 'content', 'all' );
-		$this->_mos_add_acl( 'action', 'add', 'users', 'publisher', 'content', 'all' );
-		$this->_mos_add_acl( 'action', 'edit', 'users', 'author', 'content', 'own' );
-		$this->_mos_add_acl( 'action', 'edit', 'users', 'editor', 'content', 'all' );
-		$this->_mos_add_acl( 'action', 'edit', 'users', 'publisher', 'content', 'all' );
-		$this->_mos_add_acl( 'action', 'publish', 'users', 'publisher', 'content', 'all' );
+		$this->addACL( 'action', 'add', 'users', 'author', 'content', 'all' );
+		$this->addACL( 'action', 'add', 'users', 'editor', 'content', 'all' );
+		$this->addACL( 'action', 'add', 'users', 'publisher', 'content', 'all' );
+		$this->addACL( 'action', 'edit', 'users', 'author', 'content', 'own' );
+		$this->addACL( 'action', 'edit', 'users', 'editor', 'content', 'all' );
+		$this->addACL( 'action', 'edit', 'users', 'publisher', 'content', 'all' );
+		$this->addACL( 'action', 'publish', 'users', 'publisher', 'content', 'all' );
 
-		$this->_mos_add_acl( 'action', 'add', 'users', 'manager', 'content', 'all' );
-		$this->_mos_add_acl( 'action', 'edit', 'users', 'manager', 'content', 'all' );
-		$this->_mos_add_acl( 'action', 'publish', 'users', 'manager', 'content', 'all' );
+		$this->addACL( 'action', 'add', 'users', 'manager', 'content', 'all' );
+		$this->addACL( 'action', 'edit', 'users', 'manager', 'content', 'all' );
+		$this->addACL( 'action', 'publish', 'users', 'manager', 'content', 'all' );
 
-		$this->_mos_add_acl( 'action', 'add', 'users', 'administrator', 'content', 'all' );
-		$this->_mos_add_acl( 'action', 'edit', 'users', 'administrator', 'content', 'all' );
-		$this->_mos_add_acl( 'action', 'publish', 'users', 'administrator', 'content', 'all' );
+		$this->addACL( 'action', 'add', 'users', 'administrator', 'content', 'all' );
+		$this->addACL( 'action', 'edit', 'users', 'administrator', 'content', 'all' );
+		$this->addACL( 'action', 'publish', 'users', 'administrator', 'content', 'all' );
 
-		$this->_mos_add_acl( 'action', 'add', 'users', 'super administrator', 'content', 'all' );
-		$this->_mos_add_acl( 'action', 'edit', 'users', 'super administrator', 'content', 'all' );
-		$this->_mos_add_acl( 'action', 'publish', 'users', 'super administrator', 'content', 'all' );
+		$this->addACL( 'action', 'add', 'users', 'super administrator', 'content', 'all' );
+		$this->addACL( 'action', 'edit', 'users', 'super administrator', 'content', 'all' );
+		$this->addACL( 'action', 'publish', 'users', 'super administrator', 'content', 'all' );
 
 		// Legacy ACL's for backward compat
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'super administrator', 'components', 'all' );
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'administrator', 'components', 'all' );
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'super administrator', 'user properties', 'block_user' );
-		$this->_mos_add_acl( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_users' );
-		$this->_mos_add_acl( 'administration', 'manage', 'users', 'administrator', 'components', 'com_users' );
-		$this->_mos_add_acl( 'administration', 'config', 'users', 'super administrator' );
-		//$this->_mos_add_acl( 'administration', 'config', 'users', 'administrator' );
+		$this->addACL( 'administration', 'edit', 'users', 'super administrator', 'components', 'all' );
+		$this->addACL( 'administration', 'edit', 'users', 'administrator', 'components', 'all' );
+		$this->addACL( 'administration', 'edit', 'users', 'super administrator', 'user properties', 'block_user' );
+		$this->addACL( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_users' );
+		$this->addACL( 'administration', 'manage', 'users', 'administrator', 'components', 'com_users' );
+		$this->addACL( 'administration', 'config', 'users', 'super administrator' );
+		//$this->addACL( 'administration', 'config', 'users', 'administrator' );
 
 		$this->acl_count = count( $this->acl );
 	}
@@ -211,9 +211,8 @@ class JAuthorization extends gacl_api
 	 * modules and components.  NOTE: this information will be compiled in the db
 	 * in future versions
 	 */
-	function _mos_add_acl( $aco_section_value, $aco_value,
-		$aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL ) {
-
+	function addACL( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL ) 
+	{
 		$this->acl[] = array( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value );
 		$this->acl_count = count( $this->acl );
 	}
@@ -232,9 +231,8 @@ class JAuthorization extends gacl_api
 	* @param integer The group id of the AXO ??Mike?? (optional)
 	* @return mixed Generally a zero (0) or (1) or the extended return value of the ACL
 	*/
-	function acl_check( $aco_section_value, $aco_value,
-		$aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL ) {
-
+	function acl_check( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL ) 
+	{
 		$this->debug_text( "\n<br> ACO=$aco_section_value:$aco_value, ARO=$aro_section_value:$aro_value, AXO=$axo_section_value|$axo_value" );
 
 		$acl_result = 0;
@@ -268,7 +266,8 @@ class JAuthorization extends gacl_api
 	 * @param string The type: [ARO]|AXO
 	 * @return string
 	 */
-	function get_group_name($group_id = null, $group_type = 'ARO') {
+	function get_group_name($group_id = null, $group_type = 'ARO') 
+	{
 		$data = $this->get_group_data( $group_id, 'ARO' );
 		return $data[3];
 	}
@@ -441,7 +440,8 @@ class JAuthorization extends gacl_api
 		Function:	get_group_children()
 		Purpose:	Gets a groups child IDs
 	\*======================================================================*/
-	function get_group_parents($group_id, $group_type = 'ARO', $recurse = 'NO_RECURSE') {
+	function get_group_parents($group_id, $group_type = 'ARO', $recurse = 'NO_RECURSE') 
+	{
 		$this->debug_text("get_group_parents(): Group_ID: $group_id Group Type: $group_type Recurse: $recurse");
 
 		switch (strtolower(trim($group_type))) {
@@ -491,7 +491,6 @@ class JAuthorization extends gacl_api
 
 }
 
-
 /**
  * Required for both Classess below
  */
@@ -504,13 +503,13 @@ jimport('joomla.database.table');
  */
 class JTableARO extends JTable
 {
-/** @var int Primary key */
-	var $id=null;
-	var $section_value=null;
-	var $value=null;
-	var $order_value=null;
-	var $name=null;
-	var $hidden=null;
+	/** @var int Primary key */
+	var $id			  	= null;
+	var $section_value	= null;
+	var $value			= null;
+	var $order_value	= null;
+	var $name			= null;
+	var $hidden			= null;
 
 	function __construct( &$db ) {
 		parent::__construct( '#__core_acl_aro', 'aro_id', $db );
@@ -524,13 +523,13 @@ class JTableARO extends JTable
  */
  class JTableAROGroup extends JTable
  {
-/** @var int Primary key */
-	var $id=null;
-	var $parent_id=null;
-	var $name=null;
-	var $value=null;
-	var $lft=null;
-	var $rgt=null;
+	/** @var int Primary key */
+	var $id			= null;
+	var $parent_id	= null;
+	var $name		= null;
+	var $value		= null;
+	var $lft		= null;
+	var $rgt		= null;
 
 	function __construct( &$db ) {
 		parent::__construct( '#__core_acl_aro_groups', 'group_id', $db );
