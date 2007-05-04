@@ -22,7 +22,10 @@ if (!$user->authorize( 'com_frontpage', 'manage' )) {
 }
 
 // Set the table directory
-JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables');
+JTable::addIncludePath(JPATH_COMPONENT.DS.DS.'tables');
+
+// Set the helper directory
+JHTML::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_content'.DS.'helper' );
 
 $cid = JRequest::getVar( 'cid', array(0), 'post' );
 if (!is_array( $cid )) {

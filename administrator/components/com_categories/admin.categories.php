@@ -318,6 +318,12 @@ function editCategory( )
 		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The category' ), $row->title );
 		$mainframe->redirect( 'index.php?option=categories&section='. $row->section, $msg );
 	}
+	
+	if ( $cid[0] ) {
+		$row->checkout( $user->get('id') );
+	} else {
+		$row->published 	= 1;
+	}
 
 
 	// make order list
@@ -374,7 +380,6 @@ function editCategory( )
 	$published = ($row->id) ? $row->published : 1;
 	$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $published );
 
-	$row->checkout($uid);
  	categories_html::edit( $row, $lists, $redirect );
 }
 

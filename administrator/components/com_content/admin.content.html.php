@@ -38,7 +38,7 @@ class ContentView
 		$user	=& JFactory::getUser();
 
 		//Ordering allowed ?
-		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'ASC');
+		$ordering = ($lists['order'] == 'section_name' && $lists['order_Dir'] == 'asc');
 		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_content" method="post" name="adminForm">
