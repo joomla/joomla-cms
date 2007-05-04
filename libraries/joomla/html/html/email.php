@@ -27,7 +27,7 @@ class JHTMLEmail
 	*
  	* By default replaces an email with a mailto link with email cloacked
 	*/
-	function Cloak( $mail, $mailto=1, $text='', $email=1 )
+	function cloak( $mail, $mailto=1, $text='', $email=1 )
 	{
 		// convert text
 		$mail 			= JHTMLEmail::_convertEncoding( $mail );

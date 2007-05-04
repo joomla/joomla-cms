@@ -22,7 +22,7 @@
  */
 class JHTMLBehavior
 {
-	function Tooltip($selector='.hasTip', $params=array())
+	function tooltip($selector='.hasTip', $params=array())
 	{
 		static $tips;
 
@@ -66,7 +66,7 @@ class JHTMLBehavior
 		return;
 	}
 	
-	function Calendar()
+	function calendar()
 	{
 		global $mainframe;
 
@@ -87,7 +87,7 @@ class JHTMLBehavior
 	/**
 	 * Keep session alive, for example, while editing or creating an article.
 	 */
-	function KeepAlive()
+	function keepalive()
 	{
 		$js = "
 				function keepAlive() {

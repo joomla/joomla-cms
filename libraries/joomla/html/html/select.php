@@ -22,7 +22,7 @@
  */
 class JHTMLSelect
 {
-	function Option( $value, $text='', $value_name='value', $text_name='text' )
+	function option( $value, $text='', $value_name='value', $text_name='text' )
 	{
 		$obj = new stdClass;
 		$obj->$value_name = $value;
@@ -39,7 +39,7 @@ class JHTMLSelect
 	 * @param	mixed	The key that is selected (accepts an array or a string)
 	 * @returns	string	HTML for the select list
 	 */
-	function Options( $arr, $key, $text, $selected=null, $flag=false )
+	function options( $arr, $key, $text, $selected=null, $flag=false )
 	{
 		$html = '';
 
@@ -106,7 +106,7 @@ class JHTMLSelect
 	 * @param	mixed	The key that is selected (accepts an array or a string)
 	 * @returns	string	HTML for the select list
 	 */
-	function GenericList( $arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false )
+	function genericlist( $arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false )
 	{
 		// check if array
 		if ( is_array( $arr ) ) {
@@ -142,7 +142,7 @@ class JHTMLSelect
 	* @param string The printf format to be applied to the number
 	* @returns string HTML for the select list
 	*/
-	function IntegerList( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )
+	function integerlist( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )
 	{
 		$start 	= intval( $start );
 		$end 	= intval( $end );
@@ -168,7 +168,7 @@ class JHTMLSelect
 	* @param string The name of the object variable for the option text
 	* @returns string HTML for the select list
 	*/
-	function RadioList( $arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )
+	function radiolist( $arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )
 	{
 		reset( $arr );
 		$html = '';
@@ -211,7 +211,7 @@ class JHTMLSelect
 	* @param mixed The key that is selected
 	* @returns string HTML for the radio list
 	*/
-	function BooleanList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false ) {
+	function booleanlist( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false ) {
 
 		$arr = array(
 			JHTML::_('select.option',  '0', JText::_( $no ) ),
