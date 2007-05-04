@@ -82,7 +82,7 @@ class JHTML
 	 * @since 1.5
 	 */
 
-	function Link($url, $text, $attribs = null, $ssl = 0)
+	function link($url, $text, $attribs = null, $ssl = 0)
 	{
 		$href = JRoute::_($url, true, $ssl);
 
@@ -102,7 +102,7 @@ class JHTML
 	 * @param array		An associative array of attributes to add
 	 * @since 1.5
 	 */
-	function Image($url, $alt, $attribs = null)
+	function image($url, $alt, $attribs = null)
 	{
 		global $mainframe;
 
@@ -126,7 +126,7 @@ class JHTML
 	 * @param integer	Set the SSL functionality
 	 * @since 1.5
 	 */
-	function Iframe($url, $name, $attribs = null, $ssl = 0)
+	function iframe($url, $name, $attribs = null, $ssl = 0)
 	{
 		$src = JRoute::_($url, true, $ssl);
 
@@ -148,7 +148,7 @@ class JHTML
 	 * @see strftime
 	 * @since 1.5
 	 */
-	function Date($date, $format = DATE_FORMAT_LC, $offset = NULL)
+	function date($date, $format = DATE_FORMAT_LC, $offset = NULL)
 	{
 		jimport('joomla.utilities.date');
 
@@ -176,7 +176,7 @@ class JHTML
 	 * @returns
 	 * @since 1.5
 	 */
-	function ToolTip($tooltip, $title='', $image='tooltip.png', $text='', $href='', $link=1)
+	function tooltip($tooltip, $title='', $image='tooltip.png', $text='', $href='', $link=1)
 	{
 		global $mainframe;
 
