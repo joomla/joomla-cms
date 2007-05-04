@@ -49,6 +49,7 @@ class ContentViewFrontpage extends JView
 		$params = &$mainframe->getPageParameters('com_content');
 
 		// parameters
+		$title			= $params->def('page_title',	$mainframe->getCfg('sitename' ));
 		$intro			= $params->def('num_intro_articles',	4);
 		$leading		= $params->def('num_leading_articles',	1);
 		$links			= $params->def('num_links', 			4);
@@ -111,7 +112,7 @@ class ContentViewFrontpage extends JView
 		}
 
 		$document = &JFactory::getDocument();
-		$document->setTitle($params->get('title'));
+		$document->setTitle($title);
 
 		jimport('joomla.html.pagination');
 		$this->pagination = new JPagination($total, $limitstart, $limit);
