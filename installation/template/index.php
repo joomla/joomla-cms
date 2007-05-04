@@ -15,7 +15,7 @@
 		
 		<script type="text/javascript">
     	// <!--
-			Window.onDomReady(function(){ new Accordion($$('.panel h3.moofx-toggler'), $$('.panel div.moofx-slider'), {onActive: function(toggler, i) { toggler.addClass('moofx-toggler-down'); toggler.removeClass('moofx-toggler'); },onBackground: function(toggler, i) { toggler.addClass('moofx-toggler'); toggler.removeClass('moofx-toggler-down'); },duration: 300,opacity: false}); });
+			Window.onDomReady(function(){ new Accordion($$('h3.moofx-toggler'), $$('div.moofx-slider'), {onActive: function(toggler, i) { toggler.addClass('moofx-toggler-down'); },onBackground: function(toggler, i) { toggler.removeClass('moofx-toggler-down'); },duration: 300,opacity: false, alwaysHide:true, show: 1}); });
     	// -->
   		</script>
 	</head>
