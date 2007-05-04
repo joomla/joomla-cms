@@ -13,7 +13,7 @@
     	<name>Arabic (العالم العربى)</name>
     	<tag>ar-EG</tag>
     	<rtl>1</rtl>
-    	<locale>ar, ar-EG, eg, ara_EG, ar_EG, arabic, arabic-eg, ar, ar_EG.utf8, egypt, Arabic_Egypt</locale>
+    	<locale>ar_EG.utf8, ar, ar-EG, eg, ara_EG, ar_EG, arabic, arabic-eg, ar, egypt, Arabic_Egypt</locale>
     	<winCodePage>windows-1256</winCodePage>
     	<backwardLang>arabic</backwardLang>
     </metadata>
