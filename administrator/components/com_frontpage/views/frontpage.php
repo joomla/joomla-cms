@@ -36,7 +36,6 @@ class FrontpageView
 		//Ordering allowed ?
 		$ordering = (($lists['order'] == 'fpordering'));
 
-		JHTML::addIncludePath( dirname( JPATH_COMPONENT ).DS.'com_content'.DS.'html' );
 		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_frontpage" method="post" name="adminForm">
@@ -232,7 +231,7 @@ class FrontpageView
 			?>
 			</tbody>
 			</table>
-			<?php JHTML::_('articles.legend'); ?>
+			<?php JHTML::_('content.legend'); ?>
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />

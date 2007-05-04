@@ -313,12 +313,14 @@ class JPagination extends JObject
 		$limits[] = JHTML::_('select.option', '50');
 		$limits[] = JHTML::_('select.option', '100');
 		$limits[] = JHTML::_('select.option', '0', 'all');
+			
+		$selected = $this->_viewall ? 0 : $this->limit;
 
 		// Build the select list
 		if ($mainframe->isAdmin()) {
-			$html = JHTML::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="submitform();"', 'value', 'text', $this->limit);
+			$html = JHTML::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="submitform();"', 'value', 'text', $selected);
 		} else {
-			$html = JHTML::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $this->limit);
+			$html = JHTML::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected);
 		}
 		return $html;
 	}
