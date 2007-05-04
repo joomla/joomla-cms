@@ -96,7 +96,7 @@ function showNewsFeeds(  )
 
 	$where = array();
 	if ( $filter_catid ) {
-		$where[] = 'a.catid = $filter_catid';
+		$where[] = 'a.catid ='. $filter_catid;
 	}
 	if ($search) {
 		$where[] = 'LOWER(a.name) LIKE "%'.$search.'%"';

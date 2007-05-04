@@ -51,12 +51,13 @@ class searchViewSearch extends JView
 
 		$search 		= $mainframe->getUserStateFromRequest( "com_search.search", 'search', '' );
 
-		$this->assignRef('items', $items);
+		$this->assignRef('items', 	$items);
 		$this->assignRef('enabled', $enabled);
 		$this->assignRef('pageNav', $pageNav);
 		$this->assignRef('showResults', $showResults);
-		$this->assignRef('search', $search );
-		$this->assignRef('lists', $model->lists );
+		$this->assignRef('search', 	$search );
+		$this->assignRef('lists',	$model->lists );
+		
 		parent::display($tpl);
 	}
 

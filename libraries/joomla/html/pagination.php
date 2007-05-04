@@ -69,7 +69,7 @@ class JPagination extends JObject
 		$this->total		= (int) $total;
 		$this->limitstart	= (int) max($limitstart, 0);
 		$this->limit		= (int) max($limit, 0);
-
+		
 		if ($this->limit > $this->total) {
 			$this->limitstart = 0;
 		}
@@ -83,8 +83,11 @@ class JPagination extends JObject
 		}
 
 		// Set the total pages and current page values
-		$this->set( 'pages.total', ceil($this->total / $this->limit));
-		$this->set( 'pages.current', ceil(($this->limitstart + 1) / $this->limit));
+		if($this->limit > 0) 
+		{
+			$this->set( 'pages.total', ceil($this->total / $this->limit));
+			$this->set( 'pages.current', ceil(($this->limitstart + 1) / $this->limit));
+		}
 
 		// Set the pagination iteration loop values
 		$displayedPages	= 10;
