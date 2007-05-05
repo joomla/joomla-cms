@@ -113,6 +113,14 @@ class  plgSystemLegacy extends JPlugin
 		global $mainframe;
 		$GLOBALS['cur_template']	= $mainframe->getTemplate();
 
+		//Insert configuration values into global scope (for backwards compatibility)
+		$temp = new JConfig;
+		foreach (get_object_vars($temp) as $k => $v) {
+			$name = 'mosConfig_'.$k;
+			$GLOBALS[$name] = $v;
+		}
+
+		$GLOBALS['mosConfig_live_site']		= substr_replace($mainframe->getSiteURL(), '', -1, 1);
 		$GLOBALS['mosConfig_absolute_path']	= JPATH_SITE;
 		/**
 		 * Legacy global, use JFactory::getUser() instead

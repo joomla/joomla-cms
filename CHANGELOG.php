@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-May-2007 Andrew Eddie
+ # Fixed undeclared $mosConfig* variables
+
 -------------------- 1.5.0 Beta 2 Released [04-May-2007] ------------------------
 
 04-May-2007 Johan Janssens
