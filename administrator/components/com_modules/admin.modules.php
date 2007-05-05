@@ -281,7 +281,8 @@ class ModulesController extends JController
 
 		$post	= JRequest::get( 'post' );
 		// fix up special html fields
-		$post['content'] = JRequest::getVar( 'content', '', 'post', 'string', JREQUEST_ALLOWRAW );
+		$post['content']   = JRequest::getVar( 'content', '', 'post', 'string', JREQUEST_ALLOWRAW );
+		$post['client_id'] = $client->id;
 
 		$row =& JTable::getInstance('module');
 

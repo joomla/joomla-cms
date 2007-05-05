@@ -120,7 +120,8 @@ class  plgSystemLegacy extends JPlugin
 			$GLOBALS[$name] = $v;
 		}
 
-		$GLOBALS['mosConfig_live_site']		= substr_replace($mainframe->getSiteURL(), '', -1, 1);
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base(); 
+		$GLOBALS['mosConfig_live_site']		= substr_replace($url, '', -1, 1);
 		$GLOBALS['mosConfig_absolute_path']	= JPATH_SITE;
 		/**
 		 * Legacy global, use JFactory::getUser() instead

@@ -82,17 +82,6 @@ class JTableModule extends JTable
 			return false;
 		}
 
-		// limitation has been removed
-		// check for existing title
-		//$this->_db->setQuery( 'SELECT id FROM #__modules'
-		//. ' WHERE title="'.$this->title.'"'
-		//);
-		// check for module of same name
-		//$xid = intval( $this->_db->loadResult() );
-		//if ($xid && $xid != intval( $this->id )) {
-		//	$this->_error = "There is a module already with that name, please try again.";
-		//	return false;
-		//}
 		return true;
 	}
 

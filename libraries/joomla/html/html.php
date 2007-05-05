@@ -78,19 +78,16 @@ class JHTML
 	 * @param string 	The relative URL to use for the href attribute
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
-	 * @param integer	Set the SSL functionality
 	 * @since 1.5
 	 */
 
-	function link($url, $text, $attribs = null, $ssl = 0)
+	function link($url, $text, $attribs = null)
 	{
-		$href = JRoute::_($url, true, $ssl);
-
 		if (is_array($attribs)) {
 			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
-		return '<a href="'.$href.'" '.$attribs.'>'.$text.'</a>';
+		return '<a href="'.$url.'" '.$attribs.'>'.$text.'</a>';
 	}
 
 	/**
