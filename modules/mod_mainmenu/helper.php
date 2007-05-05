@@ -80,7 +80,8 @@ class modMainMenuHelper
 		$path	= array();
 
 		// Get subtree
-		if ($start) {
+		if ($start) 
+		{
 			$found = false;
 			$root = true;
 			$path = $active->tree;
@@ -134,7 +135,6 @@ class modMainMenuHelper
 
 			default :
 				// Include the new menu class
-				// require_once(dirname(__FILE__).DS.'menu.php');
 				$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
 				if ($xml) {
 					echo JOutputFilter::ampReplace($xml->asXML());
