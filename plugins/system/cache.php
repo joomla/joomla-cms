@@ -23,7 +23,7 @@ jimport('joomla.cache.cache');
  * @package		Joomla
  * @subpackage	System
  */
-class  plgSystemCache extends JPlugin
+class  plgCache extends JPlugin
 {
 
 	var $_cache = null;
@@ -39,9 +39,13 @@ class  plgSystemCache extends JPlugin
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
-	function plgSystemCache(& $subject)
+	function plgCache(& $subject)
 	{
 		parent::__construct($subject);
+
+		// load plugin parameters
+		$this->_plugin = & JPluginHelper::getPlugin('system', 'cache');
+		$this->_params = new JParameter($this->_plugin->params);
 
 		$user =& JFactory::getUser();
 
@@ -78,11 +82,12 @@ class  plgSystemCache extends JPlugin
 			JResponse::setBody($data);
 			echo JResponse::toString($mainframe->getCfg('gzip'));
 
-			if (JDEBUG) {
+			if(JDEBUG) 
+			{	
 				$_PROFILER->mark('afterCache');
-				echo implode( '', $_PROFILER->getBuffer() );
+				echo implode( '', $_PROFILER->getBuffer());
 			}
-
+			
 			$mainframe->close();
 		}
 	}
@@ -98,3 +103,7 @@ class  plgSystemCache extends JPlugin
 		$this->_cache->store();
 	}
 }
+
+// Attach sef handler to event dispatcher
+$dispatcher = & JEventDispatcher::getInstance();
+$dispatcher->attach(new plgCache($dispatcher));
