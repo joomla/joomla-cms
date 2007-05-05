@@ -236,9 +236,13 @@ class JRouter extends JObject
 		 */
 		if(($itemid = (int) $uri->getVar('Itemid')) || $uri->getVar('option'))
 		{
+			//Itemid set, make sure it exists
+			if($itemid && !($menu->getItem($itemid))) {
+				return false;
+			}
+			
 			// No Itemid set, use default
-			if(!$itemid) 
-			{
+			if(!$itemid)  {
 				$default = $menu->getDefault();
 				$itemid = $default->id;
 			}
@@ -249,10 +253,10 @@ class JRouter extends JObject
 			//Set the variables
 			$vars = JRequest::get('get');
 			
+			// Removed any appended variables
 			foreach($vars as $key => $value) 
 			{
 				$this->_vars[$key] = $value;
-				
 				if($key === 'Itemid') {
 					break;
 				}
