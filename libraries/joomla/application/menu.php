@@ -147,7 +147,7 @@ class JMenu extends JObject
 	 */
 	function &setActive($id)
 	{
-		if(isset($this->_items[$id])) 
+		if(isset($this->_items[$id]))
 		{
 			$this->_active = $id;
 			$result = &$this->_items[$id];
@@ -171,7 +171,7 @@ class JMenu extends JObject
 			$item =& $this->_items[$this->_active];
 			return $item;
 		}
-		
+
 		$result = null;
 		return $result;
 	}

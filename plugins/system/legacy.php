@@ -36,7 +36,7 @@ class  plgSystemLegacy extends JPlugin
 	function plgSystemLegacy(& $subject)
 	{
 		parent::__construct($subject);
-		
+
 		// Define the 1.0 legacy mode constant
 		define('_J_LEGACY', '1.0');
 
@@ -120,7 +120,7 @@ class  plgSystemLegacy extends JPlugin
 			$GLOBALS[$name] = $v;
 		}
 
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base(); 
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		$GLOBALS['mosConfig_live_site']		= substr_replace($url, '', -1, 1);
 		$GLOBALS['mosConfig_absolute_path']	= JPATH_SITE;
 		/**
@@ -167,7 +167,7 @@ class  plgSystemLegacy extends JPlugin
 		if ($mainframe->isAdmin()) {
 			return;
 		}
-		
+
 		switch(JRequest::getVar('option'))
 		{
 			case 'com_content'   :
@@ -183,11 +183,11 @@ class  plgSystemLegacy extends JPlugin
 				JRequest::setVar('option', 'com_content');
 				JRequest::setVar('view', 'frontpage');
 				break;
-			case 'com_login'     : 
+			case 'com_login'     :
 				JRequest::setVar('option', 'com_user');
 				JRequest::setVar('view', 'login');
 				break;
-			case 'com_registration'     : 
+			case 'com_registration'     :
 				JRequest::setVar('option', 'com_user');
 				JRequest::setVar('view', 'register');
 				break;

@@ -35,7 +35,7 @@ function WeblinksBuildRoute(&$query)
 function WeblinksParseRoute($segments)
 {
 	$vars = array();
-	
+
 	//Get the active menu item
 	$menu =& JMenu::getInstance();
 	$item =& $menu->getActive();
@@ -67,7 +67,7 @@ function WeblinksParseRoute($segments)
 
 		} break;
 	}
-	
+
 	return $vars;
 }
 ?>

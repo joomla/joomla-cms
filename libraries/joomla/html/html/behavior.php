@@ -65,7 +65,7 @@ class JHTMLBehavior
 		$tips[$sig] = true;
 		return;
 	}
-	
+
 	function calendar()
 	{
 		global $mainframe;
@@ -83,7 +83,7 @@ class JHTMLBehavior
 			$doc->addScript( $url. 'includes/js/calendar/lang/calendar-en-GB.js' );
 		}
 	}
-	
+
 	/**
 	 * Keep session alive, for example, while editing or creating an article.
 	 */

@@ -157,7 +157,7 @@ class HTML_users {
 	function edituser( &$user, &$contact, &$lists, $option )
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		global $mainframe;
 
 		/*

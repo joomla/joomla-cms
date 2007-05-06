@@ -253,7 +253,7 @@ class TemplatesView
 	function editTemplate($row, $lists, & $params, $option, & $client, & $ftp)
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		JHTML::_('behavior.tooltip');
 ?>
 		<form action="index.php" method="post" name="adminForm">
@@ -419,7 +419,7 @@ class TemplatesView
 	function editTemplateSource($template, & $content, $option, & $client, & $ftp)
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		$template_path = $client->path .DS. 'templates' .DS. $template .DS. 'index.php';
 ?>
 		<form action="index.php" method="post" name="adminForm">
@@ -548,7 +548,7 @@ class TemplatesView
 	function editCSSSource($template, $filename, & $content, $option, & $client, & $ftp)
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		$css_path = $client->path . $filename;
 
 ?>

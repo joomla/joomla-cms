@@ -36,7 +36,7 @@ JHTML::_('behavior.tooltip');
 			</th>
 			<th class="title">
 				<?php JHTML::_('grid.sort',  'Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-				
+
 			</th>
 			<th width="5%" nowrap="nowrap">
 				<?php JHTML::_('grid.sort',  'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>

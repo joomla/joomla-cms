@@ -233,7 +233,7 @@ function savePlugin( $option, $client, $task )
 function editPlugin( )
 {
 	global $option, $mainframe;
-	
+
 	$db		=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
 
@@ -256,7 +256,7 @@ function editPlugin( )
 	$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
-	
+
 	if ($row->isCheckedOut( $user->get('id') )) {
 		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The plugin' ), $row->title );
 		$mainframe->redirect( 'index.php?option='. $option .'&client='. $client, $msg, 'error' );

@@ -74,7 +74,7 @@ class JParameter extends JRegistry
 	function __construct($data, $path = '')
 	{
 		parent::__construct('_default');
-		
+
 		// Set base path
 		$this->_elementPath[] = dirname( __FILE__ ).DS.'parameter'.DS.'element';
 

@@ -57,7 +57,7 @@ class searchViewSearch extends JView
 		$this->assignRef('showResults', $showResults);
 		$this->assignRef('search', 	$search );
 		$this->assignRef('lists',	$model->lists );
-		
+
 		parent::display($tpl);
 	}
 

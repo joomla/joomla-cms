@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPMailer language file.  
+ * PHPMailer language file.
  * English Version
  */
 

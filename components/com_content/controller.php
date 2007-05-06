@@ -96,14 +96,14 @@ class ContentController extends JController
 		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-		
+
 		//get data from the request
 		$model = $this->getModel('article');
-		
+
 		//get data from request
 		$post = JRequest::get('post');
 		$post['text'] = JRequest::getVar('text', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		
+
 		//preform access checks
 		$isNew = ((int) $post['id'] < 1);
 		if ($isNew)

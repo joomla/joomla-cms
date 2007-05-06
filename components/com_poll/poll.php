@@ -155,12 +155,12 @@ class PollController
 	function vote()
 	{
 		global $mainframe;
-		
+
 		//check the token before we do anything else
 		$token = JUtility::getToken();
 		if(!JRequest::getVar( $token, 0, 'post' )) {
 			JError::raiseError(403, 'Request Forbidden');
-		} 
+		}
 
 		$db			=& JFactory::getDBO();
 

@@ -318,7 +318,7 @@ function editCategory( )
 		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The category' ), $row->title );
 		$mainframe->redirect( 'index.php?option=categories&section='. $row->section, $msg );
 	}
-	
+
 	if ( $cid[0] ) {
 		$row->checkout( $user->get('id') );
 	} else {

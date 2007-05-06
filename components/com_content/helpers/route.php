@@ -33,11 +33,11 @@ class ContentHelperRoute
 	 */
 	function getArticleRoute($id, $catid = 0, $sectionid = 0)
 	{
-		$item = ContentHelperRoute::_getArticleMenuInfo((int)$id, (int)$catid, (int)$sectionid);	
+		$item = ContentHelperRoute::_getArticleMenuInfo((int)$id, (int)$catid, (int)$sectionid);
 
 		$link = 'index.php?option=com_content&view=article';
-		
-		if(isset($item)) 
+
+		if(isset($item))
 		{
 			if($item->link_parts['view'] == 'article') {
 				$link .=  '&Itemid='. $item->id;
@@ -56,7 +56,7 @@ class ContentHelperRoute
 
 		return JRoute::_( $link );
 	}
-	
+
 	function getSectionRoute(& $row)
 	{
 		$db =& JFactory::getDBO();

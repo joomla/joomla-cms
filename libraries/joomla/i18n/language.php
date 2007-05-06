@@ -153,10 +153,10 @@ class JLanguage extends JObject
 	 * @since	1.5
 	 */
 	var $_strings = null;
-	
+
 	/**
 	 * An array of used text, used during debugging
-	 * 
+	 *
 	 * @var		array
 	 * @access	protected
 	 * @since	1.5
@@ -216,36 +216,36 @@ class JLanguage extends JObject
 		if (isset ($this->_strings[$key]))
 		{
 			$string = $this->_debug ? "&bull;".$this->_strings[$key]."&bull;" : $this->_strings[$key];
-			
+
 			// Store debug information
 			if ( $this->_debug ) {
-				
+
 				$caller = $this->_getCallerInfo();
-				
+
 				if ( ! array_key_exists($key, $this->_used ) )
 				{
 					$this->_used[$key] = array();
 				}
- 
+
 				$this->_used[$key][] = $caller;
 			}
-			
+
 		}
 		else
 		{
 			if (defined($string)) {
 				$string = $this->_debug ? '!!'.constant($string).'!!' : constant($string);
-				
+
 				// Store debug information
 				if ( $this->_debug ) {
-	
+
 					$caller = $this->_getCallerInfo();
-				
+
 					if ( ! array_key_exists($key, $this->_used ) )
 					{
 						$this->_used[$key] = array();
 					}
- 
+
 					$this->_used[$key][] = $caller;
 				}
 			}
@@ -254,14 +254,14 @@ class JLanguage extends JObject
 				if ($this->_debug)
 				{
 					$string = '??'.$string.'??';
-					
+
 					$caller	= $this->_getCallerInfo();
-					
+
 					if ( ! array_key_exists($key, $this->_orphans ) )
 					{
 						$this->_orphans[$key] = array();
 					}
-					
+
 					$this->_orphans[$key][] = $caller;
 				}
 			}
@@ -355,7 +355,7 @@ class JLanguage extends JObject
 
 	/**
 	* Loads a language file
-	* 
+	*
 	* This method will not note the successful loading of a file - use load() instead
 	*
 	* @access	private
@@ -368,25 +368,25 @@ class JLanguage extends JObject
 	function _load( $filename, $extension = 'unknown' )
 	{
 		$result	= true;
-		
+
 		if ($content = @file_get_contents( $filename ))
 		{
 			$registry	= new JRegistry();
 			$registry->loadINI($content);
 			$newStrings	= $registry->toArray( );
-			
+
 			if ( is_array( $newStrings) )
 			{
 				$this->_strings = array_merge( $this->_strings, $newStrings);
 				$result = true;
 			}
 		}
-		
+
 		// Record the result of loading the extension's file.
 		if ( ! isset($this->_paths[$extension])) {
 			$this->_paths[$extension] = array();
 		}
-	
+
 		$this->_paths[$extension][$filename] = $result;
 
 		return $result;
@@ -408,10 +408,10 @@ class JLanguage extends JObject
 		}
 		return $default;
 	}
-	
+
 	/**
 	 * Determine who called JLanguage or JText
-	 * 
+	 *
 	 * @access	private
 	 * @return	array Caller information
 	 * @since	1.5
@@ -432,21 +432,21 @@ class JLanguage extends JObject
 		while ( $continue && next($backtrace) ) {
 			$step		= current($backtrace);
 			$class		= @ $step['class'];
-			
+
 			// We're looking for something outside of language.php
 			if ( $class != 'JLanguage' && $class != 'JText') {
 				$info['function']	= @ $step['function'];
 				$info['class']		= $class;
 				$info['step']		= prev($backtrace);
-				
+
 				// Determine the file and name of the file
 				$info['file']		= @ $step['file'];
 				$info['line']		= @ $step['line'];
 
-				$continue = false;	
+				$continue = false;
 			}
 		}
-		
+
 		return $info;
 	}
 
@@ -618,12 +618,12 @@ class JLanguage extends JObject
 	function getOrphans() {
 		return $this->_orphans;
 	}
-	
+
 	/**
 	 * Get the list of used strings
-	 * 
+	 *
 	 * Used strings are those strings requested and found either as a string or a constant
-	 * 
+	 *
 	 * @access	public
 	 * @return	array	Used strings
 	 * @since	1.5

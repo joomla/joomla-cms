@@ -158,7 +158,7 @@ function showUsers( )
 	. $where
 	. ' GROUP BY a.id'
 	. $orderby
-	;	
+	;
 	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $db->loadObjectList();
 
@@ -209,7 +209,7 @@ function showUsers( )
  */
 function editUser( )
 {
-	
+
 	$option 	= JRequest::getVar( 'option');
 	$cid 		= JRequest::getVar( 'cid', array(), '', 'array' );
 	$userId		= (int) @$cid[0];
@@ -226,7 +226,7 @@ function editUser( )
 	{
 		$user->bind($post);
 	}
-	
+
 	if ( $user->get('id') )
 	{
 		$query = 'SELECT *'
@@ -376,7 +376,7 @@ function saveUser(  )
 		JRequest::setVar( 'task', 'edit');
 		return editUser();
 	}
-	
+
 	/*
 	 * Change the user object in the session
 	 */
@@ -385,7 +385,7 @@ function saveUser(  )
 		$session	= JFactory::getSession();
 		$user->_bind($me);
 		$session->set('user', $user);
-	} 
+	}
 
 
 	/*

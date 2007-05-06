@@ -103,7 +103,7 @@ class Services_Yadis_ParseHTML {
     }
 
     /**
-     * Create a regular expression that will match an opening 
+     * Create a regular expression that will match an opening
      * or closing tag from a set of names.
      *
      * @access private
@@ -189,7 +189,7 @@ class Services_Yadis_ParseHTML {
 
         $link_data = array();
         $link_matches = array();
-        
+
         if (!preg_match_all($this->tagPattern('meta', false, 'maybe'),
                             $html_string, $link_matches)) {
             return array();

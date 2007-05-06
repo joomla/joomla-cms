@@ -1502,7 +1502,7 @@ class mosAdminMenus
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) 
+	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 )
 	{
 		$options = JHTML::_('menu.linkoptions', $lookup, $all, $none|$unassigned);
 		if (empty( $lookup )) {
@@ -1897,7 +1897,7 @@ class mosTabs extends JPaneTabs
 		$this->startPanel( $tabText, $paneid);
 	}
 
-	function endTab() 
+	function endTab()
 	{
 		$this->endPanel();
 	}

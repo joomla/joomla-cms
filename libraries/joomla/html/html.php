@@ -27,17 +27,17 @@ class JHTML
 		//Initialise variables
 		$file = '';
 		$func = $type;
-		
+
 		// Check to see if we need to load a helper file
-		if(substr_count($type, '.')) 
+		if(substr_count($type, '.'))
 		{
 			$parts = explode('.', $type);
 			$file		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
 			$func		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
 		}
-		
+
 		$className	= 'JHTML'.ucfirst($file);
-		
+
 		if (!class_exists( $className ))
 		{
 			jimport('joomla.filesystem.path');
@@ -49,7 +49,7 @@ class JHTML
 				{
 					JError::raiseWarning( 0, 'JHTM '. $className.'::' .$func. ' not found in file.' );
 					return false;
-				} 
+				}
 			}
 			else
 			{
@@ -159,17 +159,17 @@ class JHTML
 
 		return $instance->toFormat($format);
 	}
-	
+
 	/**
 	 * Creates a tooltip with an image as button
 	 *
 	 * @access public
-	 * @param string 
-	 * @param string
-	 * @param string 
 	 * @param string
 	 * @param string
-	 * @param boolean   
+	 * @param string
+	 * @param string
+	 * @param string
+	 * @param boolean
 	 * @returns
 	 * @since 1.5
 	 */
@@ -207,7 +207,7 @@ class JHTML
 
 		return $tip;
 	}
-	
+
 	/**
 	 * Add a directory where JHTML should search for helpers. You may
 	 * either pass a string or an array of directories.
@@ -220,11 +220,11 @@ class JHTML
 	function addIncludePath( $path='' )
 	{
 		static $paths;
-	
+
 		if (!isset($paths)) {
 			$paths = array( JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html' );
 		}
-		
+
 		if (!empty( $path ) && !in_array( $path, $paths )) {
 			array_unshift($paths, JPath::clean( $path ));
 		}

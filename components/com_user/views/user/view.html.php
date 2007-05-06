@@ -30,38 +30,38 @@ class UserViewUser extends JView
 	function display( $tpl = null)
 	{
 		global $mainframe;
-		
+
 		if($this->getLayout() == 'form') {
 			$this->_displayForm($tpl);
 			return;
 		}
-		
+
 		$user =& JFactory::getUser();
 
-		// Set pathway information		
+		// Set pathway information
 		$this->assignRef('user'   , $user);
-		
+
 		parent::display($tpl);
 	}
-	
+
 	function _displayForm($tpl = null)
 	{
 		global $mainframe;
-		
+
 		$user =& JFactory::getUser();
-		
+
 		// Get the paramaters of the active menu item
 		$menu = &JMenu::getInstance();
 		$item = $menu->getActive();
-		
+
 		// Set page title
 		$mainframe->setPageTitle( $item->name );
 
 		// check to see if Frontend User Params have been enabled
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 		$check = $usersConfig->get('frontend_userparams');
-		
-		if ($check == '1' || $check == 1 || $check == NULL) 
+
+		if ($check == '1' || $check == 1 || $check == NULL)
 		{
 			$params = $user->getParameters();
 			if( $user->authorize( 'mydetails', 'manage' ) ){
@@ -75,7 +75,7 @@ class UserViewUser extends JView
 
 		$this->assignRef('user'  , $user);
 		$this->assignRef('params', $params);
-		
+
 		parent::display($tpl);
 	}
 }

@@ -459,13 +459,13 @@ class JFolder
 
 	/**
 	 * Lists folder in format suitable for tree display
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$path		The path of the folder to read
 	 * @param	string	$filter		A filter for folder names
 	 * @param	integer	$maxLevel	The maximum number of levels to recursively read, default 3
 	 * @param	integer	$level		The current level, optional
-	 * @param	integer	$parent		
+	 * @param	integer	$parent
 	 * @return	array	Folders in the given folder
 	 * @since	1.5
 	 */
@@ -489,7 +489,7 @@ class JFolder
 		}
 		return $dirs;
 	}
-	
+
 	/**
 	 * Makes path name safe to use
 	 *

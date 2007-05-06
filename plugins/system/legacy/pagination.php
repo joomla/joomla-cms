@@ -78,7 +78,7 @@ class mosPageNav extends JPagination
 	function rowNumber($index) {
 		return $index +1 + $this->limitstart;
 	}
-	
+
 	/**
 	 * Return the icon to move an item UP
 	 *

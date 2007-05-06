@@ -31,7 +31,7 @@ defined('JPATH_BASE') or die();
  */
 class JController extends JObject
 {
-	
+
 	/**
 	 * The base path of the controller
 	 *
@@ -39,7 +39,7 @@ class JController extends JObject
 	 * @access 	protected
 	 */
 	var $_basePath = null;
-	
+
 	/**
 	 * The name of the controller
 	 *
@@ -205,14 +205,14 @@ class JController extends JObject
 				$this->_name = strtolower( $r[1] );
 			}
 		}
-		
+
 		// Set a base path for use by the controller
 		if (isset($config['base_path'])) {
 			$this->_basePath	= $config['base_path'];
 		} else {
 			$this->_basePath	= JPATH_COMPONENT;
 		}
-		
+
 		// If the default task is set, register it as such
 		if ( isset( $config['default_task'] ) ) {
 			$this->registerDefaultTask( $config['default_task'] );
@@ -253,7 +253,7 @@ class JController extends JObject
 
 		$task = strtolower( $task );
 		if (isset( $this->_taskMap[$task] )) {
-			$doTask = $this->_taskMap[$task]; 
+			$doTask = $this->_taskMap[$task];
 		} elseif (isset( $this->_taskMap['__default'] )) {
 			$doTask = $this->_taskMap['__default'];
 		} else {
@@ -264,17 +264,17 @@ class JController extends JObject
 		$this->_doTask = $doTask;
 
 		// Make sure we have access
-		if ($this->authorize( $doTask )) 
+		if ($this->authorize( $doTask ))
 		{
 			$retval = $this->$doTask();
-			if (($task != 'display') && (@$this->_eventMap[$task] == true)) 
+			if (($task != 'display') && (@$this->_eventMap[$task] == true))
 			{
 				$dispatcher = &JEventDispatcher::getInstance();
 				$dispatcher->trigger('onExecute', array($this->_name, $doTask, $this->_eventData));
 			}
 			return $retval;
-		} 
-		else 
+		}
+		else
 		{
 			return JError::raiseError( 403, JText::_('Access Forbidden') );
 		}
@@ -457,7 +457,7 @@ class JController extends JObject
 			$prefix = $this->_name . 'View';
 		}
 
-		if ( empty( $views[$name] ) ) 
+		if ( empty( $views[$name] ) )
 		{
 			if ( $view = & $this->_createView( $name, $prefix, $type, $config ) ) {
 				$views[$name] = & $view;
@@ -620,14 +620,14 @@ class JController extends JObject
 		// Build the model class name
 		$modelClass = $classPrefix . $modelName;
 
-		if ( !class_exists( $modelClass ) ) 
+		if ( !class_exists( $modelClass ) )
 		{
 			jimport( 'joomla.filesystem.path' );
 			$path = JPath::find(
 				$this->_path['model'],
 				$this->_createFileName( 'model', array( 'name' => $modelName ) )
 			);
-			if ( $path ) 
+			if ( $path )
 			{
 				require $path;
 				if ( !class_exists( $modelClass ) ) {
@@ -675,7 +675,7 @@ class JController extends JObject
 		// Build the view class name
 		$viewClass = $classPrefix . $viewName;
 
-		if ( !class_exists( $viewClass ) ) 
+		if ( !class_exists( $viewClass ) )
 		{
 			jimport( 'joomla.filesystem.path' );
 			$path = JPath::find(

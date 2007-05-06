@@ -47,7 +47,7 @@ function BannersBuildRoute(&$query)
 function BannersParseRoute($segments)
 {
 	$vars = array();
-	
+
 	// view is always the first element of the array
 	$count = count($segments);
 
@@ -70,7 +70,7 @@ function BannersParseRoute($segments)
 			$vars['bid'] = $segment;
 		}
 	}
-	
+
 	return $vars;
 }
 ?>

@@ -30,10 +30,10 @@ class UserViewLostpass extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
-		
+
 		$breadcrumbs =& $mainframe->getPathWay();
 		$breadcrumbs->addItem( JText::_( 'Lost your Password?' ));
-		
+
 		parent::display($tpl);
 	}
 }

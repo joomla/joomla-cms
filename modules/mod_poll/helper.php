@@ -19,7 +19,7 @@ class modPollHelper
 	function getList(&$params)
 	{
 		global $mainframe;
-		
+
 		$db		=& JFactory::getDBO();
 		$result	= array();
 

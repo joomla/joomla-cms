@@ -87,7 +87,7 @@ class JHTMLEmail
 
 		return $replacement;
 	}
-	
+
 	function _convertEncoding( $text )
 	{
 		// replace vowels with character encoding

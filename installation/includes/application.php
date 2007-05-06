@@ -41,11 +41,11 @@ class JInstallation extends JApplication
 	function __construct( )
 	{
 		parent::__construct(2);
-		
+
 		JError::setErrorHandling(E_ALL, 'Ignore');
 		$this->_createConfiguration();
 	}
-	
+
 	/**
 	 * Render the application
 	 *
@@ -67,7 +67,7 @@ class JInstallation extends JApplication
 
 			default: break;
 		}
-		
+
 		// Define component path
 		define( 'JPATH_COMPONENT',					JPATH_BASE.DS.'installer');
 		define( 'JPATH_COMPONENT_SITE',				JPATH_SITE.DS.'installer');
@@ -89,7 +89,7 @@ class JInstallation extends JApplication
 		$document->setTitle(JText::_('PAGE_TITLE'));
 		JResponse::setBody($document->render( false, $params));
 	}
-	
+
 	/**
 	* Initialise the application.
 	*
@@ -107,7 +107,7 @@ class JInstallation extends JApplication
 				$options['language']	= $varLang;
 			}
 		}
-		
+
 		// Check the application state - useful when the user has previously set the language preference
 		if(empty($options['language']))
 		{
@@ -117,7 +117,7 @@ class JInstallation extends JApplication
 				$options['language']	= $configLang;
 			}
 		}
-		
+
 		// This could be a first-time visit - try to determine what the client accepts
 		if(empty($options['language']))
 		{
@@ -228,7 +228,7 @@ class JInstallation extends JApplication
 		return  $ret;
 
 	}
-	
+
 	/**
 	* Get the url of the site
 	*

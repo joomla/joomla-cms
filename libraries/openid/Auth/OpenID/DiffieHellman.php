@@ -134,7 +134,7 @@ class Auth_OpenID_DiffieHellman {
         } else {
             $gen = null;
         }
-        
+
         $cpub64 = @$consumer_args['openid.dh_consumer_public'];
         if (!isset($cpub64)) {
             return false;

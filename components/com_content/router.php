@@ -14,7 +14,7 @@
 function ContentBuildRoute(&$query)
 {
 	$segments = array();
-	
+
 	if(isset($query['catid'])) {
 		$segments[] = $query['catid'];
 		unset($query['catid']);
@@ -34,7 +34,7 @@ function ContentBuildRoute(&$query)
 		$segments[] = $query['month'];
 		unset($query['month']);
 	};
-	
+
 	unset($query['view']);
 
 	return $segments;
@@ -43,14 +43,14 @@ function ContentBuildRoute(&$query)
 function ContentParseRoute($segments)
 {
 	$vars = array();
-	
+
 	//Get the active menu item
 	$menu =& JMenu::getInstance();
 	$item =& $menu->getActive();
 
 	// Count route segments
 	$count = count($segments);
-	
+
 	//Handle View and Identifier
 	switch($item->query['view'])
 	{
@@ -75,7 +75,7 @@ function ContentParseRoute($segments)
 			$vars['view'] = 'article';
 
 		} break;
-		
+
 		case 'frontpage'   :
 		{
 			$vars['id']   = $segments[$count-1];
@@ -89,7 +89,7 @@ function ContentParseRoute($segments)
 			$vars['view'] = 'article';
 		} break;
 	}
-	
+
 	return $vars;
 }
 ?>

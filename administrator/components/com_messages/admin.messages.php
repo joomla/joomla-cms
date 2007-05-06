@@ -211,7 +211,7 @@ function newMessage( $option, $user, $subject )
 	$recipients = array_merge( $recipients, $db->loadObjectList() );
 
 	$recipientslist =
-		JHTML::_('select.genericlist',  
+		JHTML::_('select.genericlist',
 			$recipients,
 			'user_id_to',
 			'class="inputbox" size="1"',

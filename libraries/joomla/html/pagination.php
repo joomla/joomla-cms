@@ -73,7 +73,7 @@ class JPagination extends JObject
 		if ($this->limit > $this->total) {
 			$this->limitstart = 0;
 		}
-		
+
 		if (!$this->limit) {
 			$this->limit = $total;
 		}
@@ -83,7 +83,7 @@ class JPagination extends JObject
 		}
 
 		// Set the total pages and current page values
-		if($this->limit > 0) 
+		if($this->limit > 0)
 		{
 			$this->set( 'pages.total', ceil($this->total / $this->limit));
 			$this->set( 'pages.current', ceil(($this->limitstart + 1) / $this->limit));
@@ -316,7 +316,7 @@ class JPagination extends JObject
 		$limits[] = JHTML::_('select.option', '50');
 		$limits[] = JHTML::_('select.option', '100');
 		$limits[] = JHTML::_('select.option', '0', 'all');
-			
+
 		$selected = $this->_viewall ? 0 : $this->limit;
 
 		// Build the select list
@@ -388,7 +388,7 @@ class JPagination extends JObject
 
 		return $html;
 	}
-	
+
 	function _list_footer($list)
 	{
 		// Initialize variables
@@ -479,7 +479,7 @@ class JPagination extends JObject
 	{
 		// Initialize variables
 		$data = new stdClass();
-		
+
 		$data->all	= new JPaginationObject(JText::_('View All'));
 		if (!$this->_viewall) {
 			$data->all->base	= '0';

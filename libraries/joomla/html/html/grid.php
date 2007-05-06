@@ -44,13 +44,13 @@ class JHTMLGrid
 		}
 		echo '</a>';
 	}
-	
+
 	/**
 	* @param int The row index
 	* @param int The record id
 	* @param boolean
 	* @param string The name of the form element
-	* 
+	*
 	* @return string
 	*/
 	function id( $rowNum, $recId, $checkedOut=false, $name='cid' )
@@ -61,7 +61,7 @@ class JHTMLGrid
 			return '<input type="checkbox" id="cb'.$rowNum.'" name="'.$name.'[]" value="'.$recId.'" onclick="isChecked(this.checked);" />';
 		}
 	}
-	
+
 	function access( &$row, $i, $archived = NULL )
 	{
 		if ( !$row->access )  {
@@ -75,11 +75,11 @@ class JHTMLGrid
 			$task_access = 'accesspublic';
 		}
 
-		if ($archived == -1) 
+		if ($archived == -1)
 		{
 			$href = JText::_( $row->groupname );
-		} 
-		else 
+		}
+		else
 		{
 			$href = '
 			<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task_access .'\')" '. $color_access .'>
@@ -90,7 +90,7 @@ class JHTMLGrid
 
 		return $href;
 	}
-	
+
 	function checkedOut( &$row, $i, $identifier = 'id' )
 	{
 		$user   =& JFactory::getUser();
@@ -112,7 +112,7 @@ class JHTMLGrid
 
 		return $checked;
 	}
-	
+
 	function published( &$row, $i, $imgY = 'tick.png', $imgX = 'publish_x.png', $prefix='' )
 	{
 		$img 	= $row->published ? $imgY : $imgX;
@@ -128,7 +128,7 @@ class JHTMLGrid
 
 		return $href;
 	}
-	
+
 	function state( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL )
 	{
 		$state[] = JHTML::_('select.option',  '', '- '. JText::_( 'Select State' ) .' -' );
@@ -142,7 +142,7 @@ class JHTMLGrid
 
 		return JHTML::_('select.genericlist',   $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );
 	}
-	
+
 	function order( $rows, $image='filesave.png', $task="saveorder" )
 	{
 		$image = JHTML::_('image.administrator',  $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
@@ -152,11 +152,11 @@ class JHTMLGrid
 		<?php
 	}
 
-	
+
 	function _checkedOut( &$row, $overlib = 1 )
 	{
 		$hover = '';
-		if ( $overlib ) 
+		if ( $overlib )
 		{
 			$text = addslashes(htmlspecialchars($row->editor));
 

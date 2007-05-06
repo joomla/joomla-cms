@@ -70,16 +70,16 @@ class TableBanner extends JTable
 	/** @var string */
 	var $params				= null;
 
-	function __construct( &$_db ) 
+	function __construct( &$_db )
 	{
 		parent::__construct( '#__banner', 'bid', $_db );
-		
+
 		jimport('joomla.utilities.date');
 		$now = new JDate();
 		$this->set( 'date', $now->toMySQL() );
 	}
 
-	function clicks() 
+	function clicks()
 	{
 		$query = 'UPDATE #__banner'
 		. ' SET clicks = ( clicks + 1 )'

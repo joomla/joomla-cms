@@ -82,12 +82,12 @@ class  plgCache extends JPlugin
 			JResponse::setBody($data);
 			echo JResponse::toString($mainframe->getCfg('gzip'));
 
-			if(JDEBUG) 
-			{	
+			if(JDEBUG)
+			{
 				$_PROFILER->mark('afterCache');
 				echo implode( '', $_PROFILER->getBuffer());
 			}
-			
+
 			$mainframe->close();
 		}
 	}

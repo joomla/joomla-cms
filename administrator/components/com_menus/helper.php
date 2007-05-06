@@ -94,7 +94,7 @@ class JMenuHelper
 		// establish the hierarchy of the menu
 		$children = array();
 
-		if ( $mitems ) 
+		if ( $mitems )
 		{
 			// first pass - collect children
 			foreach ( $mitems as $v )

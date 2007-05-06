@@ -7,7 +7,7 @@
 // Version     : 1.0.000
 // License     : GNU LGPL (http://www.gnu.org/copyleft/lesser.html)
 //
-// Description : This is a PHP4 function that redefine the 
+// Description : This is a PHP4 function that redefine the
 //               standard html_entity_decode function to support
 //               UTF-8 encoding.
 //

@@ -25,16 +25,16 @@ class JObject
 
 	/**
 	 * An array of errors
-	 * 
+	 *
 	 * @var		array of error messages or JExceptions objects
 	 * @access	protected
 	 * @since	1.0
 	 */
 	var		$_errors		= array();
-	
+
 	/**
 	 * A hack to support __construct() on PHP 4
-	 * 
+	 *
 	 * Hint: descendant classes have no PHP4 class_name() constructors,
 	 * so this constructor gets called first and calls the top-layer __construct()
 	 * which (if present) should call parent::__construct()
@@ -57,7 +57,7 @@ class JObject
 	 */
 	function __construct() {}
 
-	
+
 	/**
 	 * Returns a property of the object or the default value if the property is not set.
 	 *
@@ -92,7 +92,7 @@ class JObject
 			// Default, return the last message
 			$error = end($this->_errors);
 		}
-		else	
+		else
 		if ( ! array_key_exists($i, $this->_errors) ) {
 			// If $i has been specified but does not exist, return false
 			return false;
@@ -100,14 +100,14 @@ class JObject
 		else {
 			$error	= $this->_errors[$i];
 		}
-		
+
 		// Check if only the string is requested
 		if ( JError::isError($error) && $toString ) {
 			return $error->toString();
 		}
-		
+
 		return $error;
-	} 
+	}
 
 	/**
 	 * Return all errors, if any
@@ -120,7 +120,7 @@ class JObject
 	{
 		return $this->_errors;
 	}
-	
+
 	/**
 	 * Returns an array of public properties
 	 *
@@ -153,7 +153,7 @@ class JObject
 	 * @return	mixed Previous value of the property
 	 * @since	1.5
 	 */
-	function set( $property, $value = null ) 
+	function set( $property, $value = null )
 	{
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
@@ -170,7 +170,7 @@ class JObject
 	function setError($error)
 	{
 		array_push($this->_errors, $error);
-	} 
+	}
 
 	/**
 	 * Object-to-string conversion.

@@ -20,13 +20,13 @@ class modLoginHelper
 	{
 		// url of current page that user will be returned to after login
 		$url =  $params->get($type);
-		
+
 		if($url == ''){
 			$uri =& JURI::getInstance();
 		} else {
 			$uri =& JURI::getInstance($url);
 		}
-		
+
 		return $uri->toString();;
 	}
 

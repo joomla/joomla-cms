@@ -45,13 +45,13 @@ class  plgSystemDebug extends JPlugin
 	function onAfterRender()
 	{
 		global $_PROFILER, $mainframe;
-		
+
 		// Do not render if debugging is not enabled
 		if(!JDEBUG) { return; }
-		
+
 		$document	=& JFactory::getDocument();
 		$doctype	= $document->getType();
-		
+
 		// Only render for HTML output
 		if ( $doctype !== 'html' ) { return; }
 
@@ -101,7 +101,7 @@ class  plgSystemDebug extends JPlugin
 				}
 			}
 			echo '</ul>';
-			
+
 			echo '<p><h4>'.JText::_( 'Untranslated strings' ).'</h4>';
 			echo '<pre>';
 			$orphans = $lang->getOrphans();

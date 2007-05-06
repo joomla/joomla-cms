@@ -47,7 +47,7 @@ class JLoader
 			{
 				$base =  dirname( __FILE__ );
 			}
-			
+
 			if(array_pop( $parts ) == '*')
 			{
 				$path = $base . DS . implode( DS, $parts );

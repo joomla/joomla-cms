@@ -333,7 +333,7 @@ class JInstallationModel extends JModel
 				$this->setData('errors', $db->toString());
 				return false;
 			}
-			
+
 			if ($err = $db->getErrorNum()) {
 				// connection failed
 				$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->getErrorNum()));
@@ -341,11 +341,11 @@ class JInstallationModel extends JModel
 				$this->setData('errors', $db->getErrorMsg());
 				return false;
 			}
-			
+
 			// Try to select the database
 			if ( ! $db->select($DBname) )
 			{
-				if (JInstallationHelper::createDatabase($db, $DBname, $DButfSupport)) 
+				if (JInstallationHelper::createDatabase($db, $DBname, $DButfSupport))
 				{
 					$db->select($DBname);
 					/*
@@ -359,7 +359,7 @@ class JInstallationModel extends JModel
 					$this->setData('errors', $db->getErrorMsg());
 					return false;
 					//return JInstallationView::error($vars, array (JText::sprintf('WARNCREATEDB', $DBname)), 'dbconfig', $error);
-				}					
+				}
 			} else {
 
 				// pre-existing database - need to set character set to utf8

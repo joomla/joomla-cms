@@ -31,7 +31,7 @@ class JHTMLMenu
 	{
 		$db =& JFactory::getDBO();
 
-		if ( $id ) 
+		if ( $id )
 		{
 			$query = 'SELECT ordering AS value, name AS text'
 			. ' FROM #__menu'
@@ -41,14 +41,14 @@ class JHTMLMenu
 			. ' ORDER BY ordering';
 			$order = JHTML::_('list.genericordering',  $query );
 			$ordering = JHTML::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
-		} 
-		else 
+		}
+		else
 		{
 			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSLAST' );
 		}
 		return $ordering;
 	}
-	
+
 	/**
 	* Build the multiple select list for Menu Links/Pages
 	*/
@@ -119,12 +119,12 @@ class JHTMLMenu
 
 		return $mitems;
 	}
-	
-	function treerecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 ) 
-	{	
-		if (@$children[$id] && $level <= $maxlevel) 
+
+	function treerecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 )
+	{
+		if (@$children[$id] && $level <= $maxlevel)
 		{
-			foreach ($children[$id] as $v) 
+			foreach ($children[$id] as $v)
 			{
 				$id = $v->id;
 

@@ -115,7 +115,7 @@ class MenusViewMenus extends JView
 	function editForm($tpl=null)
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
-		
+
 		global $mainframe;
 
 		$this->_layout = 'edit';

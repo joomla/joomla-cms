@@ -48,7 +48,7 @@ class MailtoViewMailto extends JView
 		$sender 			= JRequest::getVar( 'sender', '', 'post' );
 		$from 				= JRequest::getVar( 'from', '', 'post' );
 		$subject 			= JRequest::getVar( 'subject', '', 'post' );
-		
+
 		if ($user->get('id') > 0) {
 			$data->sender	= $user->get('name');
 			$data->from		= $user->get('email');
@@ -58,7 +58,7 @@ class MailtoViewMailto extends JView
 			$data->sender	= $sender;
 			$data->from		= $from;
 		}
-		
+
 		$data->subject	= $subject;
 		$data->mailto	= $mailto;
 

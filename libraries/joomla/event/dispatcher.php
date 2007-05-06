@@ -115,7 +115,7 @@ class JEventDispatcher extends JObservable
 		if ($args === null) {
 			$args = array ();
 		}
-		
+
 		/*
 		 * We need to iterate through all of the registered observers and
 		 * trigger the event for each observer that handles the event.

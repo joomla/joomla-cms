@@ -69,10 +69,10 @@ class JToolBar extends JObject
 		$this->_name = $name;
 
 		jimport('joomla.html.toolbar.button');
-		
+
 		// Set base path to find buttons
 		$this->_buttonPath[] = dirname(__FILE__).DS.'toolbar'.DS.'button';
-	
+
 	}
 
 	/**

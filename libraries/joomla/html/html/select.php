@@ -29,7 +29,7 @@ class JHTMLSelect
 		$obj->$text_name = trim( $text ) ? $text : $value;
 		return $obj;
 	}
-	
+
 	/**
 	 * Generates just the option tags for an HTML select list
 	 *
@@ -94,7 +94,7 @@ class JHTMLSelect
 
 		return $html;
 	}
-	
+
 	/**
 	 * Generates an HTML select list
 	 *
@@ -128,7 +128,7 @@ class JHTMLSelect
 		return $html;
 	}
 
-	
+
 
 	/**
 	* Generates a select list of integers

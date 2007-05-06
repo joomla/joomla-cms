@@ -33,7 +33,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	* Database object constructor
-	* 
+	*
 	* @access	public
 	* @param	array	List of options used to configure the connection
 	* @since	1.5
@@ -46,7 +46,7 @@ class JDatabaseMySQLi extends JDatabase
 		$password	= array_key_exists('password',$options)	? $options['password']	: '';
 		$database	= array_key_exists('database',$options)	? $options['database']	: '';
 		$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
-		$select		= array_key_exists('select', $options)	? $options['select']	: true;	
+		$select		= array_key_exists('select', $options)	? $options['select']	: true;
 
 		// Unlike mysql_connect(), mysqli_connect() takes the port and socket
 		// as separate arguments. Therefore, we have to extract them from the
@@ -74,7 +74,7 @@ class JDatabaseMySQLi extends JDatabase
 			$this->_errorMsg = 'The MySQL adapter "mysqli" is not available.';
 			return;
 		}
-		
+
 		// connect to the server
 		if (!($this->_resource = @mysqli_connect($host, $user, $password, NULL, $port, $socket))) {
 			$this->_errorNum = 2;
@@ -132,7 +132,7 @@ class JDatabaseMySQLi extends JDatabase
 	{
 		return $this->_resource->ping();
 	}
-	
+
 	/**
 	 * Select a database for use
 	 *
@@ -147,7 +147,7 @@ class JDatabaseMySQLi extends JDatabase
 		{
 			return false;
 		}
-		
+
 		if ( !mysqli_select_db($this->_resource, $database)) {
 			$this->_errorNum = 3;
 			$this->_errorMsg = 'Could not connect to database';

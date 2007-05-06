@@ -36,7 +36,7 @@ class modMainMenuHelper
 
 		// Get Menu Items
 		$rows = $items->getItems('menutype', $params->get('menutype'));
-		
+
 		// Build Menu Tree root down (orphan proof - child might have lower id than parent)
 		$user =& JFactory::getUser();
 		$ids = array();
@@ -80,7 +80,7 @@ class modMainMenuHelper
 		$path	= array();
 
 		// Get subtree
-		if ($start) 
+		if ($start)
 		{
 			$found = false;
 			$root = true;

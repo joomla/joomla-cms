@@ -141,9 +141,9 @@ class JApplication extends JObject
 	/**
 	* Render the application.
 	*
-	* Rendering is the process of pushing the document buffers into the template 
-	* placeholders, retrieving data from the document and pushing it into the into 
-	* the JResponse buffer. 
+	* Rendering is the process of pushing the document buffers into the template
+	* placeholders, retrieving data from the document and pushing it into the into
+	* the JResponse buffer.
 	*
 	* @abstract
 	* @access public

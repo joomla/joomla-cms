@@ -136,7 +136,7 @@ class InstallerModelComponents extends InstallerModel
 				$xmlFilesInDir = null;
 			}
 
-			if (count($xmlFilesInDir)) 
+			if (count($xmlFilesInDir))
 			{
 				foreach ($xmlFilesInDir as $xmlfile)
 				{

@@ -26,10 +26,10 @@ function SearchBuildRoute(&$query)
 function SearchParseRoute($segments)
 {
 	$vars = array();
-	
+
 	$searchword	= array_shift($segments);
 	$vars['searchword'] = $searchword;
-	
+
 	return $vars;
 }
 ?>

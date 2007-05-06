@@ -251,7 +251,7 @@ class JRequest
 
 	/**
 	 * Set a variabe in on of the request variables
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$name		Name
 	 * @param	string	$value		Value
@@ -275,9 +275,9 @@ class JRequest
 		if ($hash === 'METHOD') {
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		}
-		
+
 		$previous	= array_key_exists($name, $_REQUEST) ? $_REQUEST[$name] : null;
-		
+
 		switch ($hash)
 		{
 			case 'GET' :

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: html.php 6776 2007-03-05 04:00:54Z friesengeist $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Installation
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -26,13 +26,13 @@ class JInstallationView extends JView
 {
 	/**
 	 * The installation steps
-	 * 
+	 *
 	 * @var		array
 	 * @access	protected
 	 * @since	1.5
 	 */
 	var $_steps		= null;
-	
+
 	/**
 	 * The templabe object
 	 *
@@ -41,7 +41,7 @@ class JInstallationView extends JView
 	 * @since	1.5
 	 */
 	var $_template		= null;
-	
+
 	/**
 	 * Language page
 	 *
@@ -65,7 +65,7 @@ class JInstallationView extends JView
 
 		return $this->display();
 	}
-	
+
 	/**
 	 * Create a template object
 	 *
@@ -90,7 +90,7 @@ class JInstallationView extends JView
 		}
 
 	}
-	
+
 	/**
 	 * The DB Config page
 	 *
@@ -112,7 +112,7 @@ class JInstallationView extends JView
 
 		return $this->display();
 	}
-	
+
 	/**
 	 * Display the template
 	 *
@@ -130,9 +130,9 @@ class JInstallationView extends JView
 		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
 		$tmpl->addVar( 'body', 'lang', $lang->getTag() );
 		$tmpl->addVars( 'body', $vars, 'var_' );
-		
+
 		echo $tmpl->fetch( 'page' );
-		
+
 		return true;
 	}
 
@@ -149,7 +149,7 @@ class JInstallationView extends JView
 		$model	=& $this->getModel();
 		$vars	=& $model->getVars();
 		$tmpl	=& $this->getTemplate( 'error.html' );
-		
+
 		$msg	= $model->getError();
 		$back	= $model->getData('back');
 		$xmsg	= $model->getData('errors');
@@ -163,10 +163,10 @@ class JInstallationView extends JView
 
 		$tmpl->addVar( 'buttons', 'back', $back );
 		$tmpl->addVars( 'body', $vars, 'var_' );
-		
+
 		return $this->display();
 	}
-	
+
 	/**
 	 * The the final page
 	 *
@@ -182,7 +182,7 @@ class JInstallationView extends JView
 		$tmpl	=& $this->getTemplate( 'finish.html' );
 
 		$buffer	= $model->getData('buffer');
-		
+
 		$steps['finish'] = 'on';
 
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
@@ -196,7 +196,7 @@ class JInstallationView extends JView
 
 	/**
 	 * Show the FTP config page
-	 * 
+	 *
 	 * @return	boolean True if successful
 	 * @access	public
 	 * @since	1.5
@@ -214,17 +214,17 @@ class JInstallationView extends JView
 
 		return $this->display();
 	}
-	
+
 	/**
 	 * Get the installation steps
-	 * 
+	 *
 	 * @return	array
 	 * @access	protected
 	 * @since	1.5
 	 */
 	function & getSteps()
 	{
-		if ( is_null($this->_steps) ) 
+		if ( is_null($this->_steps) )
 		{
 			$this->_steps = array(
 				'lang' => 'off',
@@ -236,13 +236,13 @@ class JInstallationView extends JView
 				'finish' => 'off'
 			);
 		}
-			
+
 		return $this->_steps;
 	}
 
 	/**
 	 * Get the templata object
-	 * 
+	 *
 	 * @param	string The name of the body html file
 	 * @return	patTemplate
 	 * @access	protected
@@ -251,9 +251,9 @@ class JInstallationView extends JView
 	function & getTemplate( $bodyHtml = null )
 	{
 		static $current;
-		
+
 		$change	= false;
-		
+
 		// Record the current template body
 		if ( is_null($current) && $bodyHtml)
 		{
@@ -261,7 +261,7 @@ class JInstallationView extends JView
 
 			$change		= true;
 		}
-		
+
 		// Check if we need to create the body, possibly anew
 		if ( is_null( $this->_template) || $change )
 		{
@@ -307,7 +307,7 @@ class JInstallationView extends JView
 		$steps['mainconfig'] = 'on';
 
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
-		
+
 		$tmpl->addVar( 'buttons', 'previous', 'ftpconfig');
 		//		$tmpl->addRows( 'folder-perms', $lists['folderPerms'] );
 
@@ -316,7 +316,7 @@ class JInstallationView extends JView
 		 */
 		$encodings = array( 'iso-8859-1','iso-8859-2','iso-8859-3','iso-8859-4','iso-8859-5','iso-8859-6','iso-8859-7','iso-8859-8','iso-8859-9','iso-8859-10','iso-8859-13','iso-8859-14','iso-8859-15','cp874','windows-1250','windows-1251','windows-1252','windows-1253','windows-1254','windows-1255','windows-1256','windows-1257','windows-1258','utf-8','big5','euc-jp','euc-kr','euc-tw','iso-2022-cn','iso-2022-jp-2','iso-2022-jp','iso-2022-kr','iso-10646-ucs-2','iso-10646-ucs-4','koi8-r','koi8-ru','ucs2-internal','ucs4-internal','unicode-1-1-utf-7','us-ascii','utf-16' );
 		$tmpl->addVar( 'encoding_options', 'value', $encodings );
-		
+
 		return $this->display();
 	}
 

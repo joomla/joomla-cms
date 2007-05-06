@@ -185,7 +185,7 @@ class JRouter extends JObject
 
 			//Set the information in the request
 			JRequest::set($item->query, 'get', false );
-			
+
 			//Set the itemid in the request
 			JRequest::setVar('Itemid',  $item->id);
 
@@ -213,7 +213,7 @@ class JRouter extends JObject
 
 				// Parse component route
 				$vars = $this->_parseComponentRoute($url);
-				
+
 				//Set the variables
 				$this->_vars = array_merge($this->_vars, $vars);
 			}
@@ -240,36 +240,36 @@ class JRouter extends JObject
 			if($menu->getItem($itemid)) {
 				return false;
 			}
-			
+
 			// Set the active menu item
 			$item =& $menu->setActive($itemid);
-			
+
 			//Set the variables
 			$vars = JRequest::get('get');
-			
+
 			// Removed any appended variables
-			foreach($vars as $key => $value) 
+			foreach($vars as $key => $value)
 			{
 				$this->_vars[$key] = $value;
 				if($key === 'Itemid') {
 					break;
 				}
 			}
-			
+
 			//Set the information in the request
 			JRequest::set($item->query, 'get', false );
-			
+
 			//Set the itemid in the request
 			JRequest::setVar('Itemid', $itemid);
 			return true;
 		}
-		 
+
 		$default = $menu->getDefault();
 		$itemid = $default->id;
-			
+
 		// Set the active menu item
 		$menu->setActive($itemid);
-			
+
 		//Set the itemid in the request
 		JRequest::setVar('Itemid', $itemid);
 
@@ -299,7 +299,7 @@ class JRouter extends JObject
 		{
 			$vars = array();
 			parse_str($string, $vars);
-			
+
 			$vars = array_merge($this->_vars, $vars);
 			$string = 'index.php?'.JURI::_buildQuery($vars);
 		}
@@ -431,7 +431,7 @@ class JRouter extends JObject
 	function _parseComponentRoute($url)
 	{
 		$vars = array();
-		
+
 		$segments = explode('/', $url);
 		array_shift($segments);
 
@@ -456,7 +456,7 @@ class JRouter extends JObject
 			$function =  substr($component, 4).'ParseRoute';
 			$vars =  $function($segments);
 		}
-		
+
 		return $vars;
 	}
 

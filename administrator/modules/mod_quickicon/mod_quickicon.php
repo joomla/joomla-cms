@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-if (!defined( '_JOS_QUICKICON_MODULE' )) 
+if (!defined( '_JOS_QUICKICON_MODULE' ))
 {
 	/** ensure that functions are declared only once */
 	define( '_JOS_QUICKICON_MODULE', 1 );

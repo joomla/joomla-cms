@@ -35,7 +35,7 @@ function NewsfeedsBuildRoute(&$query)
 function NewsfeedsParseRoute($segments)
 {
 	$vars = array();
-	
+
 	$menu =& JMenu::getInstance();
 	$item =& $menu->getActive();
 

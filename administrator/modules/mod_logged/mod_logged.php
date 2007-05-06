@@ -116,7 +116,7 @@ foreach ( $rows as $row )
 		{
 			?>
 			<td>
-			
+
 			</td>
 			<?php
 		}

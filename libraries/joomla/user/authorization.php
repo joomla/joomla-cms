@@ -211,7 +211,7 @@ class JAuthorization extends gacl_api
 	 * modules and components.  NOTE: this information will be compiled in the db
 	 * in future versions
 	 */
-	function addACL( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL ) 
+	function addACL( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL )
 	{
 		$this->acl[] = array( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value );
 		$this->acl_count = count( $this->acl );
@@ -231,7 +231,7 @@ class JAuthorization extends gacl_api
 	* @param integer The group id of the AXO ??Mike?? (optional)
 	* @return mixed Generally a zero (0) or (1) or the extended return value of the ACL
 	*/
-	function acl_check( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL ) 
+	function acl_check( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL )
 	{
 		$this->debug_text( "\n<br> ACO=$aco_section_value:$aco_value, ARO=$aro_section_value:$aro_value, AXO=$axo_section_value|$axo_value" );
 
@@ -266,7 +266,7 @@ class JAuthorization extends gacl_api
 	 * @param string The type: [ARO]|AXO
 	 * @return string
 	 */
-	function get_group_name($group_id = null, $group_type = 'ARO') 
+	function get_group_name($group_id = null, $group_type = 'ARO')
 	{
 		$data = $this->get_group_data( $group_id, 'ARO' );
 		return $data[3];
@@ -440,7 +440,7 @@ class JAuthorization extends gacl_api
 		Function:	get_group_children()
 		Purpose:	Gets a groups child IDs
 	\*======================================================================*/
-	function get_group_parents($group_id, $group_type = 'ARO', $recurse = 'NO_RECURSE') 
+	function get_group_parents($group_id, $group_type = 'ARO', $recurse = 'NO_RECURSE')
 	{
 		$this->debug_text("get_group_parents(): Group_ID: $group_id Group Type: $group_type Recurse: $recurse");
 

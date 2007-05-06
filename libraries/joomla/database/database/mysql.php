@@ -33,7 +33,7 @@ class JDatabaseMySQL extends JDatabase
 
 	/**
 	* Database object constructor
-	* 
+	*
 	* @access	public
 	* @param	array	List of options used to configure the connection
 	* @since	1.5
@@ -46,8 +46,8 @@ class JDatabaseMySQL extends JDatabase
 		$password	= array_key_exists('password',$options)	? $options['password']	: '';
 		$database	= array_key_exists('database',$options)	? $options['database']	: '';
 		$prefix		= array_key_exists('prefix', $options)	? $options['prefix']	: 'jos_';
-		$select		= array_key_exists('select', $options)	? $options['select']	: true;	
-		
+		$select		= array_key_exists('select', $options)	? $options['select']	: true;
+
 		// perform a number of fatality checks, then return gracefully
 		if (!function_exists( 'mysql_connect' )) {
 			$this->_errorNum = 1;
@@ -61,10 +61,10 @@ class JDatabaseMySQL extends JDatabase
 			$this->_errorMsg = 'Could not connect to MySQL';
 			return;
 		}
-		
+
 		// finalize initializations
 		parent::__construct($options);
-		
+
 		// select the database
 		if ( $select )
 		{
@@ -111,7 +111,7 @@ class JDatabaseMySQL extends JDatabase
 	{
 		return mysql_ping($this->_resource);
 	}
-	
+
 	/**
 	 * Select a database for use
 	 *
@@ -126,7 +126,7 @@ class JDatabaseMySQL extends JDatabase
 		{
 			return false;
 		}
-		
+
 		if ( !mysql_select_db( $database, $this->_resource )) {
 			$this->_errorNum = 3;
 			$this->_errorMsg = 'Could not connect to database';

@@ -31,8 +31,8 @@ class modBreadCrumbsHelper
 		// Get the PathWay object from the application
 		$pathway = & $mainframe->getPathWay();
 		$items = $pathway->getPathWay($showHome);
-		
-		if ($showHome) 
+
+		if ($showHome)
 		{
 			$items[0]->name = $params->get('homeText');
 			if (empty ($items[0]->link)) {

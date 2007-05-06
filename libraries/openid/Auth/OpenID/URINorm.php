@@ -88,7 +88,7 @@ function Auth_OpenID_pct_encoded_replace($mo)
 function Auth_OpenID_remove_dot_segments($path)
 {
     $result_segments = array();
-    
+
     while ($path) {
         if (Services_Yadis_startswith($path, '../')) {
             $path = substr($path, 3);

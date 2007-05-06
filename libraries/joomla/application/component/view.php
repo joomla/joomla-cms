@@ -45,7 +45,7 @@ class JView extends JObject
 	 * @access protected
 	 */
 	var $_models = array();
-	
+
 	/**
 	 * The base path of the view
 	 *
@@ -135,7 +135,7 @@ class JView extends JObject
 				$this->_name = strtolower( $r[3] );
 			}
 		}
-		
+
 		// Set a base path for use by the view
 		if (isset($config['base_path'])) {
 			$this->_basePath	= $config['base_path'];
@@ -150,7 +150,7 @@ class JView extends JObject
 		} else {
 			$this->_setPath('template', null);
 		}
-		
+
 		// set the default template search path
 		if (isset($config['helper_path'])) {
 			// user-defined dirs
@@ -416,7 +416,7 @@ class JView extends JObject
 
 	/**
 	 * Allows a different extension for the layout files to be used
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	The extension
 	 * @return	string	Previous value
@@ -507,7 +507,7 @@ class JView extends JObject
 	{
 		$this->_addPath('template', $path);
 	}
-	
+
 	/**
 	 * Adds to the stack of helper script paths in LIFO order.
 	 *
@@ -626,7 +626,7 @@ class JView extends JObject
 			return JError::raiseError( 500, 'Layout "' . $file . '" not found' );
 		}
 	}
-	
+
 	/**
 	 * Load a helper file
 	 *
@@ -639,11 +639,11 @@ class JView extends JObject
 	{
 		// clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
-		
+
 		// load the template script
 		jimport('joomla.filesystem.path');
 		$helper = JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
-			
+
 		if ($helper != false)
 		{
 			// include the requested template filename in the local scope
@@ -676,14 +676,14 @@ class JView extends JObject
 				$this->_addPath($type, $this->_basePath.DS.'views'.DS.$viewName.DS.'tmpl');
 
 				// set the alternative template search dir
-				if (isset($mainframe)) 
+				if (isset($mainframe))
 				{
 					$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
 					$fallback = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$viewName;
 					$this->_addPath('template', $fallback);
 				}
 			}	break;
-				
+
 			case 'helper':
 			{
 				$this->_addPath($type, $this->_basePath.DS.'helpers');
@@ -740,7 +740,7 @@ class JView extends JObject
 			case 'template' :
 				$filename = strtolower($parts['name']).'.'.$this->_layoutExt;
 				break;
-			
+
 			default :
 				$filename = strtolower($parts['name']).'.php';
 				break;

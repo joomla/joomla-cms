@@ -56,9 +56,9 @@ class plgAuthenticationOpenID extends JPlugin
 	function onAuthenticate( $username, $password, &$response )
 	{
 		global $mainframe;
-		
+
 		define ("Auth_OpenID_RAND_SOURCE", null);
-		
+
 		 // Require the OpenID consumer.
 		jimport ('openid.consumer');
 
@@ -73,9 +73,9 @@ class plgAuthenticationOpenID extends JPlugin
 		if (!isset($ext['extension']) || !isset($ext['class'])) {
 			define ("Auth_OpenID_NO_MATH_SUPPORT", true);
 		}
-	
-		
-	
+
+
+
 		// Create and/or start using the data store
 		$store_path = JPATH_ROOT . '/tmp/_joomla_openid_store';
 		if (!file_exists($store_path) && !mkdir($store_path)) {

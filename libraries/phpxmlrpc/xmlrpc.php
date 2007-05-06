@@ -168,7 +168,7 @@ $cp1252_to_htmlent =
 	$GLOBALS['xmlrpcstr']['invalid_return2']='Invalid return payload (XML contains invalid markup): enable debugging to examine incoming payload';
 	$GLOBALS['xmlrpcerr']['invalid_return3']=2.3;
 	$GLOBALS['xmlrpcstr']['invalid_return3']='Invalid return payload (something strange going on): enable debugging to examine incoming payload';
-	
+
 	$GLOBALS['xmlrpcerr']['incorrect_params']=3;
 	$GLOBALS['xmlrpcstr']['incorrect_params']='Incorrect parameters passed to method';
 	$GLOBALS['xmlrpcerr']['introspect_unknown']=4;

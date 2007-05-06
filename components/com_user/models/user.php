@@ -106,10 +106,10 @@ class UserModelUser extends JModel
 			$this->setError( $user->getError() );
 			return false;
 		}
-		
+
 		$session =& JFactory::getSession();
 		$session->set('user', $user);
-			
+
 		// check if username has been changed
 		if ( $username != $user->get('username') )
 		{
@@ -119,7 +119,7 @@ class UserModelUser extends JModel
 			$table->store();
 
 		}
-		
+
 		return true;
 	}
 

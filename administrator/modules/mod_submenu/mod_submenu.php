@@ -112,9 +112,9 @@ class JAdminSubMenu
 		// Process the items
 		$subMenuList = array();
 
-		foreach ($items as $item) 
+		foreach ($items as $item)
 		{
-			if (trim($item->admin_menu_link)) 
+			if (trim($item->admin_menu_link))
 			{
 				// handling for active sub menu item
 				$active = 0;
