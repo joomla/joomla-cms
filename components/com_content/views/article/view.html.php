@@ -84,12 +84,16 @@ class ContentViewArticle extends JView
 		$document->setTitle($article->title);
 
 		// Handle metadata
-		$document->setDescription( $article->metadesc );
-		$document->setMetadata('keywords', $article->metakey);
-
+		if ($article->metadesc) {
+			$document->setDescription( $article->metadesc );
+		}
+		if ($article->metakey) {
+			$document->setMetadata('keywords', $article->metakey);
+		}
+		// Other metadata
 		$mdata = new JParameter($article->metadata);
 		$mdata = $mdata->toArray();
-		foreach ($mdata as $k => $v) 
+		foreach ($mdata as $k => $v)
 		{
 			if ($v) {
 				$document->setMetadata($k, $v);
