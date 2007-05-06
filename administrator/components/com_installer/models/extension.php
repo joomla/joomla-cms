@@ -47,9 +47,9 @@ class InstallerModel extends JModel
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('pagination.limit', $mainframe->getUserStateFromRequest("com_installer.limit", 'limit', $mainframe->getCfg('list_limit'), 0));
-		$this->setState('pagination.offset', JRequest::getVar('limitstart', 0, '', 'int'));
-		$this->setState('pagination.total', 0);
+		$this->setState('pagination.limit',	$mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit')));
+		$this->setState('pagination.offset',$mainframe->getUserStateFromRequest('com_installer.limitstart.'.$this->_type, 'limitstart', 0));
+		$this->setState('pagination.total',	0);
 	}
 
 	function &getItems()

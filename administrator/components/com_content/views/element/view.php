@@ -173,7 +173,7 @@ class ContentViewElement extends JView
 		$catid				= $mainframe->getUserStateFromRequest("articleelement.catid", 'catid', 0);
 		$filter_authorid	= $mainframe->getUserStateFromRequest("articleelement.filter_authorid", 'filter_authorid', 0);
 		$filter_sectionid	= $mainframe->getUserStateFromRequest("articleelement.filter_sectionid", 'filter_sectionid', -1);
-		$limit				= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'));
+		$limit				= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
 		$limitstart			= $mainframe->getUserStateFromRequest("articleelement.limitstart", 'limitstart', 0);
 		$search				= $mainframe->getUserStateFromRequest("articleelement.search", 'search', '');
 		$search				= $db->getEscaped(trim(JString::strtolower($search)));

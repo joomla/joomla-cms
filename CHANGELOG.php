@@ -39,6 +39,7 @@ Legend:
 
 07-May-2007 Andrew Eddie
  # Fixed "Menu Type" label in the menu manager view.
+ # Fixed bug in pagination (all mode)
 
 05-May-2007 Andrew Eddie
  # Fixed undeclared $mosConfig* variables

@@ -75,7 +75,7 @@ class CacheController
 			JSubMenu::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1');
 		}
 
-		$limit		= $mainframe->getUserStateFromRequest("$option.limit", 'limit', $mainframe->getCfg('list_limit'), 0);
+		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
 		$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
 
 		$cmData = new CacheData($client->path.DS.'cache');

@@ -69,7 +69,7 @@ class JPagination extends JObject
 		$this->total		= (int) $total;
 		$this->limitstart	= (int) max($limitstart, 0);
 		$this->limit		= (int) max($limit, 0);
-		
+
 		if ($this->limit > $this->total) {
 			$this->limitstart = 0;
 		}
@@ -99,7 +99,7 @@ class JPagination extends JObject
 		}
 
 		// If we are viewing all records set the view all flag to true
-		if (JRequest::getVar('limit', 0, '', 'int') == 0 && $this->limitstart == 0) {
+		if ($this->limit == $total && $this->limitstart == 0) {
 			$this->_viewall = true;
 		}
 	}

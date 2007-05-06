@@ -59,10 +59,10 @@ class MenusModelList extends JModel
 		$filter_order		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_order', 		'filter_order', 	'm.ordering' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_order_Dir',	'filter_order_Dir',	'ASC' );
 		$filter_state		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_state', 		'filter_state', 	'*' );
-		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 									'limit', 			$mainframe->getCfg( 'list_limit' ) );
-		$limitstart 		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.limitstart', 			'limitstart', 		0 );
-		$levellimit 		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.levellimit', 			'levellimit', 		10 );
-		$search 			= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.search', 				'search', 			'' );
+		$limit 				= $mainframe->getUserStateFromRequest( 'global.list.limit', 						'limit', 			$mainframe->getCfg( 'list_limit' ) );
+		$limitstart 		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.limitstart', 		'limitstart', 		0 );
+		$levellimit 		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.levellimit', 		'levellimit', 		10 );
+		$search 			= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.search', 			'search', 			'' );
 		$search 			= $db->getEscaped( JString::strtolower( $search ) );
 
 		$and = '';
