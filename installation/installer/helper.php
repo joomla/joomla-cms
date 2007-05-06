@@ -484,7 +484,7 @@ class JInstallationHelper
 		}
 
 		// Verify LIST function
-		if ($ftp->listNames() === false) {
+		if ($ftp->listDetails() === false) {
 			return JError::raiseError('SOME_ERROR_CODE', 'NOLIST');
 		}
 
@@ -494,7 +494,7 @@ class JInstallationHelper
 		}
 
 		// Verify valid root path, part one
-		$checkList = array('CHANGELOG.php', 'COPYRIGHT.php', 'installation', 'index.php', 'INSTALL.php', 'LICENSE.php');
+		$checkList = array('CHANGELOG.php', 'COPYRIGHT.php', 'index.php', 'INSTALL.php', 'LICENSE.php');
 		if (count(array_diff($checkList, $rootList))) {
 			return JError::raiseWarning('31', 'INVALIDROOT');
 		}

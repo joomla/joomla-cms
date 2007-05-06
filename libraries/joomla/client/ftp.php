@@ -991,7 +991,10 @@ class JFTP extends JObject {
 	}
 
 	/**
-	 * Method to list the file/folder names of the contents of a directory on the FTP server
+	 * Method to list the filenames of the contents of a directory on the FTP server
+	 *
+	 * Note: Some servers also return folder names. However, to be sure to list folders on all
+	 * servers, you should use listDetails() instead, if you also need to deal with folders
 	 *
 	 * @access public
 	 * @param string $path Path local file to store on the FTP server
@@ -1011,6 +1014,10 @@ class JFTP extends JObject {
 			}
 
 			if (($list = @ftp_nlist($this->_conn,$path)) === false) {
+				// Workaround for empty directories on some servers
+				if ($this->listDetails($path, 'files') === array()) {
+					return array();
+				}
 				JError::raiseWarning('35', 'JFTP::listNames: Bad response' );
 				return false;
 			}
@@ -1037,8 +1044,12 @@ class JFTP extends JObject {
 		}
 
 		if (!$this->_putCmd('NLST'.$path, array (150, 125))) {
-			JError::raiseWarning('35', 'JFTP::listNames: Bad response', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$path );
 			@ fclose($this->_dataconn);
+			// Workaround for empty directories on some servers
+			if ($this->listDetails($path, 'files') === array()) {
+				return array();
+			}
+			JError::raiseWarning('35', 'JFTP::listNames: Bad response', 'Server response: '.$this->_response.' [Expected: 150 or 125] Path sent: '.$path );
 			return false;
 		}
 
@@ -1139,6 +1150,14 @@ class JFTP extends JObject {
 		// If we received the listing of an emtpy directory, we are done as well
 		if (empty($contents[0])) {
 			return $dir_list;
+		}
+
+		// If the server returned the number of results in the first response, let's dump it
+		if (strtolower(substr($contents[0], 0, 6)) == 'total ') {
+			array_shift($contents);
+			if (!isset($contents[0]) || empty($contents[0])) {
+				return $dir_list;
+			}
 		}
 
 		// Regular expressions for the directory listing parsing
@@ -1361,18 +1380,18 @@ class JFTP extends JObject {
 		}
 
 		// Separate the code from the message
-		$responseCode = $parts[1];
-		$responseMsg = $parts[0];
+		$this->_responseCode = $parts[1];
+		$this->_responseMsg = $parts[0];
 
 		// If it's not 227, we weren't given an IP and port, which means it failed.
-		if ($responseCode != '227') {
-			JError::raiseWarning('36', 'JFTP::_passive: Unable to obtain IP and port for data transfer', 'Server response: '.$responseMsg );
+		if ($this->_responseCode != '227') {
+			JError::raiseWarning('36', 'JFTP::_passive: Unable to obtain IP and port for data transfer', 'Server response: '.$this->_responseMsg);
 			return false;
 		}
 
 		// Snatch the IP and port information, or die horribly trying...
-		if (preg_match('~\((\d+),\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))\)~', $responseMsg, $match) == 0) {
-			JError::raiseWarning('36', 'JFTP::_passive: IP and port for data transfer not valid', 'Server response: '.$responseMsg );
+		if (preg_match('~\((\d+),\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))\)~', $this->_responseMsg, $match) == 0) {
+			JError::raiseWarning('36', 'JFTP::_passive: IP and port for data transfer not valid', 'Server response: '.$this->_responseMsg);
 			return false;
 		}
 
