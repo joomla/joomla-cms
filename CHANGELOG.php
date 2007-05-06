@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-May-2007 Andrew Eddie
+ # Fixed "Menu Type" label in the menu manager view.
+
 05-May-2007 Andrew Eddie
  # Fixed undeclared $mosConfig* variables
 

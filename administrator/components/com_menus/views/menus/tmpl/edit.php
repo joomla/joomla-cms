@@ -35,7 +35,7 @@
 	<tr>
 		<td width="100" >
 			<label for="menutype">
-				<strong><?php echo JText::_( 'Module Name' ); ?>:</strong>
+				<strong><?php echo JText::_( 'Menu Type' ); ?>:</strong>
 			</label>
 		</td>
 		<td>
