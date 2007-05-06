@@ -37,7 +37,7 @@ class JVersion
 	/** @var string Codename */
 	var $CODENAME 	= 'Khepri';
 	/** @var string Date */
-	var $RELDATE 	= '04-Oct-2007';
+	var $RELDATE 	= '04-May-2007';
 	/** @var string Time */
 	var $RELTIME 	= '00:00';
 	/** @var string Timezone */
