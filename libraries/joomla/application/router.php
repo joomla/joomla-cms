@@ -232,19 +232,13 @@ class JRouter extends JObject
 		}
 
 		/*
-		 * Handle unrouted URL : mysite/index.php?option=x&var=y(&Itemid=z)
+		 * Handle unrouted URL : mysite/index.php?option=x&var=y&Itemid=z
 		 */
-		if(($itemid = (int) $uri->getVar('Itemid')) || $uri->getVar('option'))
+		if(($itemid = (int) $uri->getVar('Itemid')))
 		{
-			//Itemid set, make sure it exists
-			if($itemid && !($menu->getItem($itemid))) {
+			//Make sure the itemid exists
+			if($menu->getItem($itemid)) {
 				return false;
-			}
-			
-			// No Itemid set, use default
-			if(!$itemid)  {
-				$default = $menu->getDefault();
-				$itemid = $default->id;
 			}
 			
 			// Set the active menu item
@@ -269,6 +263,15 @@ class JRouter extends JObject
 			JRequest::setVar('Itemid', $itemid);
 			return true;
 		}
+		 
+		$default = $menu->getDefault();
+		$itemid = $default->id;
+			
+		// Set the active menu item
+		$menu->setActive($itemid);
+			
+		//Set the itemid in the request
+		JRequest::setVar('Itemid', $itemid);
 
 		return true;
 	}

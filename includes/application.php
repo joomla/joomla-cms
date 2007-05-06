@@ -394,8 +394,7 @@ class JSite extends JApplication
 
 		if( $item->id != $home->id)
 		{
-			foreach($item->tree as $menupath)
-			{
+			foreach($item->tree as $menupath) {
 				$this->_pathway->addItem( $menus[$menupath]->name, 'index.php?Itemid='.$menupath);
 			}
 		}
