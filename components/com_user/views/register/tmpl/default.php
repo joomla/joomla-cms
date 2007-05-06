@@ -5,27 +5,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	Window.onDomReady(function(){
 		document.formvalidator.setHandler('passverify', function (value) { return ($('password').value == value); }	);
 	});
-
-function validateForm( frm ) {
-	var valid = document.formvalidator.isValid(frm);
-	if (valid == false) {
-		// do field validation
-		if (frm.name.invalid) {
-			alert( "<?php echo JText::_( 'Please enter your name.', true );?>" );
-		} else if (frm.username.invalid) {
-			alert( "<?php echo JText::_( 'Please enter a user name.', true );?>" );
-		} else if (frm.email.invalid) {
-			alert( "<?php echo JText::_( 'Please enter a valid e-mail address.', true );?>" );
-		} else if (frm.password.invalid) {
-			alert( "<?php echo JText::_( 'REGWARN_PASS', true );?>" );
-		} else if (frm.password2.invalid) {
-			alert( "<?php echo JText::_( 'Please verify the password.', true );?>" );
-		}
-		return false;
-	} else {
-		frm.submit();
-	}
-}
 // -->
 </script>
 

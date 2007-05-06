@@ -73,7 +73,7 @@ var JFormValidator = new Class({
 		$A(form.elements).each(function(el){
 			if ((el.getTag() == 'input' || el.getTag() == 'button') && el.getProperty('type') == 'submit') {
 				if (el.hasClass('validate')) {
-					el.addEvent('click', function(){return document.formvalidator.isValid(this.form);});
+					el.onclick = function(){return document.formvalidator.isValid(this.form);};
 				}
 			} else {
 				el.addEvent('blur', function(){return document.formvalidator.validate(this);});
@@ -99,7 +99,7 @@ var JFormValidator = new Class({
 		}
 
 		// Check the additional validation types
-		if ((handler) && (handler != 'none') && (this.handlers[handler]) && (this.handlers[handler].enabled)) {
+		if ((handler) && (handler != 'none') && (this.handlers[handler])) {
 			// Execute the validation handler and return result
 			if (this.handlers[handler].exec($(el).getValue()) != true) {
 				this.handleResponse(false, el);
