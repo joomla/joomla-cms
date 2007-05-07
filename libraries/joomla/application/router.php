@@ -237,7 +237,7 @@ class JRouter extends JObject
 		if(($itemid = (int) $uri->getVar('Itemid')))
 		{
 			//Make sure the itemid exists
-			if($menu->getItem($itemid)) {
+			if(!$menu->getItem($itemid)) {
 				return false;
 			}
 
