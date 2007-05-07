@@ -64,7 +64,7 @@ class ContentHelperHTML
 
 				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
 				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
-				$attribs['rel']     = 'nofollow';
+				$attribs['rel']     = '"nofollow"';
 
 				$output = JHTML::_('link', $url, $text, $attribs);
 			} break;
