@@ -17,7 +17,7 @@ document.adminForm.submit( task );
 <?php
 
 
-echo '<form action="' . JRoute::_($this->request_url) . '" method="post" name="adminForm">';
+echo '<form action="' .JRoute::_('index.php?option=com_content&view=category&id='.$this->category->slug). '" method="post" name="adminForm">';
 
 if ($this->params->get('filter') || $this->params->get('show_pagination_limit')) {
 if ($this->params->get('filter')) {
@@ -57,7 +57,7 @@ echo '</th>';
 }
 if ($this->params->get('show_hits')) {
 echo '<th align="center" class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" width="5%" nowrap="nowrap" id="hits">';
-JHTML::_('grid.sort',  'a.hits', $this->lists['order_Dir'], $this->lists['order'] );
+JHTML::_('grid.sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] );
 echo '</th>';
 }
 echo '</tr>';
