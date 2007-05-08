@@ -35,7 +35,7 @@ class modBreadCrumbsHelper
 		if ($showHome)
 		{
 			$items[0]->name = $params->get('homeText');
-			if (empty ($items[0]->link)) {
+			if (empty ($items[0]->link) && !isset ($items[1])) {
 				$items[0]->link = $items[0]->name;
 			} else {
 				$items[0]->link = '<a href="'.JURI::base().'" class="pathway">'.$items[0]->name.'</a>';

@@ -35,7 +35,7 @@ if ($this->params->def('show_comp_description', 1) || $this->params->def('image'
 	if ($this->params->def('image', -1) != -1)
 	{
 		$wrap = '<div class="wrap_image">&nbsp;</div>';
-		echo '<img src="images/stories/' . $this->params->get('image') . '" class="image_' . $this->params->image_align . '" />';
+		echo '<img src="images/stories/' . $this->params->get('image') . '" class="image_' . $this->params->get('image_align') . '" />';
 	}
 
 	if ($this->params->get('show_comp_description') && $this->params->get('comp_description'))

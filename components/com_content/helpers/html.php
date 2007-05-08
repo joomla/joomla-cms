@@ -116,7 +116,7 @@ class ContentHelperHTML
 					return;
 				}
 				JHTML::_('behavior.tooltip');
-				$url = 'index.php?view=article&&id='.$article->id.'&task=edit&Returnid='.$Itemid;
+				$url = 'index.php?view=article&id='.$article->id.'&task=edit&Returnid='.$Itemid;
 				$text = JHTML::_('image.site', 'edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 				if ($article->state == 0) {

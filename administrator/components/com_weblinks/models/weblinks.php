@@ -127,7 +127,7 @@ class WeblinksModelWeblinks extends JModel
 		$where		= $this->_buildContentWhere();
 		$orderby	= $this->_buildContentOrderBy();
 
-		$query = ' SELECT a.*, cc.name AS category, u.name AS editor '
+		$query = ' SELECT a.*, cc.title AS category, u.name AS editor '
 			. ' FROM #__weblinks AS a '
 			. ' LEFT JOIN #__categories AS cc ON cc.id = a.catid '
 			. ' LEFT JOIN #__users AS u ON u.id = a.checked_out '

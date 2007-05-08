@@ -23,6 +23,10 @@
  			<option value="0">Off</option>
  			<option value="1">On</option>
  		</param>
+ 		<param name="cleanup_entities" type="radio" default="1" label="Do not clean entities" description="PARAMENTITIECLEANUP">
+ 			<option value="0">Yes</option>
+ 			<option value="1">No</option>
+ 		</param>
  		<param name="autosave" type="radio" default="0" label="Save Warning" description="Save warning - gives warning if you cancel without saving changes">
  			<option value="0">Off</option>
  			<option value="1">On</option>
@@ -105,6 +109,10 @@
  		<param name="preview" type="radio" default="1" label="Preview" description="PARAMPREVIEW">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
+ 		</param>
+ 		<param name="element_path" type="radio" default="0" label="Element Path" description="PARAMELEMENTPATH">
+ 			<option value="0">Off</option>
+ 			<option value="1">On</option>
  		</param>
  		<param name="insertdate" type="radio" default="1" label="Insert Date" description="PARAMINSERTDATE">
  			<option value="0">Hide</option>

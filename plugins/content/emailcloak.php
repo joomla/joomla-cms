@@ -102,7 +102,7 @@ function plgContentEmailCloak( &$row, &$params, $page=0 )
 		//needed for handling of Body parameter
 		$mail 		= str_replace( '&amp;', '&', $mail );
 
-		$replacement = JHTML::_('email.cloak', $mail, $mode, $mail_text, 0 );
+		$replacement = JHTML::_('email.cloak', $mail);
 
 		// replace the found address with the js cloacked email
 		$row->text	 = str_replace( $regs[0], $replacement, $row->text );

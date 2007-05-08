@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 201 2007-02-12 15:56:56Z spocke $
+ * $Id: editor_plugin_src.js 264 2007-04-26 20:53:09Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
@@ -73,6 +73,9 @@ var TinyMCE_ContextMenuPlugin = {
 	},
 
 	_showContextMenu : function(e, inst) {
+		if (e.ctrlKey)
+			return true;
+
 		function getAttrib(elm, name) {
 			return elm.getAttribute(name) ? elm.getAttribute(name) : "";
 		}

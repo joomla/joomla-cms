@@ -131,6 +131,14 @@ function init() {
 	window.focus();
 }
 
+function checkPrefix(n) {
+	if (Validator.isEmail(n) && !/^\s*mailto:/i.test(n.value) && confirm(tinyMCE.getLang('lang_is_email')))
+		n.value = 'mailto:' + n.value;
+
+	if (/^\s*www./i.test(n.value) && confirm(tinyMCE.getLang('lang_is_external')))
+		n.value = 'http://' + n.value;
+}
+
 function setFormValue(name, value) {
 	document.forms[0].elements[name].value = value;
 }
@@ -391,15 +399,14 @@ function setAttrib(elm, attrib, value) {
 
 function getAnchorListHTML(id, target) {
 	var inst = tinyMCE.getInstanceById(tinyMCE.getWindowArg('editor_id'));
-	var nodes = inst.getBody().getElementsByTagName("a");
-
+	var nodes = inst.getBody().getElementsByTagName("a"), name, i;
 	var html = "";
 
 	html += '<select id="' + id + '" name="' + id + '" class="mceAnchorList" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="this.form.' + target + '.value=';
 	html += 'this.options[this.selectedIndex].value;">';
 	html += '<option value="">---</option>';
 
-	for (var i=0; i<nodes.length; i++) {
+	for (i=0; i<nodes.length; i++) {
 		if ((name = tinyMCE.getAttrib(nodes[i], "name")) != "")
 			html += '<option value="#' + name + '">' + name + '</option>';
 	}
@@ -412,6 +419,8 @@ function getAnchorListHTML(id, target) {
 function insertAction() {
 	var inst = tinyMCE.getInstanceById(tinyMCE.getWindowArg('editor_id'));
 	var elm = inst.getFocusElement();
+
+	checkPrefix(document.forms[0].href);
 
 	elm = tinyMCE.getParentElement(elm, "a");
 
@@ -428,7 +437,16 @@ function insertAction() {
 		for (var i=0; i<elementArray.length; i++) {
 			var elm = elementArray[i];
 
+			// Move cursor to end
+			try {
+				tinyMCE.selectedInstance.selection.collapse(false);
+			} catch (ex) {
+				// Ignore
+			}
+
 			// Move cursor behind the new anchor
+			// Don't remember why this was needed so it's now removed
+			/*
 			if (tinyMCE.isGecko) {
 				var sp = inst.getDoc().createTextNode(" ");
 
@@ -447,6 +465,7 @@ function insertAction() {
 				sel.removeAllRanges();
 				sel.addRange(rng);
 			}
+			*/
 
 			setAllAttribs(elm);
 		}

@@ -74,6 +74,7 @@ class plgEditorTinymce extends JPlugin
 		$langPrefix			= $this->params->def( 'lang_code', 'en' );
 		$langMode			= $this->params->def( 'lang_mode', 0 );
 		$relative_urls		= $this->params->def( 'relative_urls', 		0 );
+		$clear_entities		= $this->params->def( 'clear_entities', 0 );
 
 		$plugins 	= array();
 		$buttons2	= array();
@@ -193,6 +194,16 @@ class plgEditorTinymce extends JPlugin
 			$text_direction = 'ltr';
 		}
 
+		$entities = '';
+		if ($clear_entities) {
+			$entities = 'entities : "160,nbsp,38,amp,34,quot,162,cent,8364,euro,163,pound,165,yen,169,copy,174,reg,8482,trade,8240,permil,60,lt,62,gt,8804,le,8805,ge,176,deg,8722,minus",';
+		}
+
+		$element_path = '';
+		if($this->params->get('element_path', 0)) {
+			$element_path = "theme_advanced_statusbar_location : \"bottom\", theme_advanced_path : true,";
+		}
+
 		if ( $langMode ) {
 			$langPrefix = substr( $language->getTag(), 0, strpos( $language->getTag(), '-' ) );
 		}
@@ -292,6 +303,8 @@ class plgEditorTinymce extends JPlugin
 			plugin_insertdate_dateFormat : \"$format_date\",
 			plugin_insertdate_timeFormat : \"$format_time\",
 			extended_valid_elements : \"hr[id|class|title], a[class|name|href|target|title|onclick], img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name], $elements\",
+			$entities
+			$element_path
 			fullscreen_settings : {
 				theme_advanced_path_location : \"top\"
 			}
