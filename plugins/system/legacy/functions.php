@@ -839,7 +839,7 @@ function ampReplace( $text )
 function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 )
 {
 	jimport('joomla.html.html');
-	JHTML::_('menu.treerecurse', $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1);
+	JHTML::_('menu.treerecurse', $id, $indent, $list, $children, $maxlevel, $level, $type);
 }
 
 ?>
