@@ -157,13 +157,13 @@ class JSite extends JApplication
 			case 'html' :
 			default     :
 			{
-				$template	= JRequest::getVar( 'template', $this->getTemplate(), 'default', 'cmd' );
-				$file 		= JRequest::getVar( 'tmpl', 'index', '', 'cmd'  );
+				$template	= $this->getTemplate();
+				$file 		= JRequest::getCmd('tmpl', 'index');
 
 				if ($this->getCfg('offline') && $user->get('gid') < '23' ) {
 					$file = 'offline';
 				}
-				if (!is_dir( JPATH_SITE.DS.'templates'.DS.$template ) && !$this->getCfg('offline')) {
+				if (!is_dir( JPATH_THEMES.DS.$template ) && !$this->getCfg('offline')) {
 					$file = 'component';
 				}
 				$params = array(
@@ -335,7 +335,7 @@ class JSite extends JApplication
 			$template = $templates[0]->template;
 		}
 
-		$template = JRequest::getVar('template', $template);
+		$template = JRequest::getCmd('template', $template);
 
 		$template = preg_replace('/[^A-Z0-9_\.-]/i', '', $template);
 		return $template;
@@ -348,8 +348,8 @@ class JSite extends JApplication
 	 */
 	function setTemplate( $template )
 	{
-		if (is_dir( JPATH_SITE . '/templates/' . $template )) {
-			$this->setUserState( 'setTemplate', $template );
+		if (is_dir(JPATH_THEMES.DS.$template)) {
+			$this->setUserState('setTemplate', $template);
 		}
 	}
 

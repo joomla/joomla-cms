@@ -567,7 +567,7 @@ class JError
 		$document->setTitle(JText::_('Error').': '.$error->code);
 		$data = $document->render(false, array (
 			'template' => $template,
-			'directory' => JPATH_BASE.DS.'templates',
+			'directory' => JPATH_THEMES,
 			'debug' => $config->getValue('config.debug')
 		));
 

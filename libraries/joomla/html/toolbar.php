@@ -195,6 +195,8 @@ class JToolBar extends JObject
 	 */
 	function & loadButtonType($type, $new = false)
 	{
+		$false = false;
+
 		$signature = md5($type);
 		if (isset ($this->_buttons[$signature]) && $new === false) {
 			return $this->_buttons[$signature];
@@ -203,39 +205,33 @@ class JToolBar extends JObject
 		if (!class_exists('JButton'))
 		{
 			JError::raiseWarning( 'SOME_ERROR_CODE', 'Could not load button base class.' );
-			return false;
+			return $false;
 		}
 
 		$buttonClass = 'JButton'.$type;
 		if (!class_exists($buttonClass))
 		{
-			if (isset ($this->_buttonPath))
+			if (isset ($this->_buttonPath)) {
 				$dirs = $this->_buttonPath;
-			else
+			} else {
 				$dirs = array ();
-
-			$found = false;
-			foreach ($dirs as $dir)
-			{
-				$buttonFile = sprintf('%s'.DS.'%s.php', $dir, str_replace('_', DS, strtolower($type)));
-				if (@ include_once $buttonFile)
-				{
-					$found = true;
-					break;
-				}
 			}
 
-			if (!$found)
-			{
-				JError::raiseWarning( 'SOME_ERROR_CODE', "Could not load module $buttonClass ($buttonFile)." );
-				return false;
+			$file = JInputFilter::clean(str_replace('_', DS, strtolower($type)).'.php', 'path');
+
+			jimport('joomla.filesystem.path');
+			if ($buttonFile = JPath::find($dirs, $file)) {
+				include_once $buttonFile;
+			} else {
+				JError::raiseWarning('SOME_ERROR_CODE', "Could not load module $buttonClass ($buttonFile).");
+				return $false;
 			}
 		}
 
 		if (!class_exists($buttonClass))
 		{
 			//return	JError::raiseError( 'SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass." );
-			return false;
+			return $false;
 		}
 		$this->_buttons[$signature] = new $buttonClass($this);
 

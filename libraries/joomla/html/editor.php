@@ -240,7 +240,8 @@ class JEditor extends JObservable
 		jimport('joomla.filesystem.file');
 
 		// Build the path to the needed editor plugin
-		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$this->_name.'.php';
+		$name = JInputFilter::clean($this->_name, 'cmd');
+		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$name.'.php';
 
 		if ( ! JFile::exists($path) )
 		{
@@ -250,7 +251,7 @@ class JEditor extends JObservable
 		}
 
 		// Require plugin file
-		require_once ($path);
+		require_once $path;
 
 		// Build editor plugin classname
 		$name = 'plgEditor'.$this->_name;

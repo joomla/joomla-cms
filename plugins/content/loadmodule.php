@@ -89,7 +89,7 @@ function plgContentProcessPositions ( &$row, &$matches, $count, $regex, $style )
 function plgContentLoadPosition( $position, $style=-2 )
 {
 	$document	= &JFactory::getDocument();
-	$renderer	= $document->loadRenderer( 'module');
+	$renderer	= $document->loadRenderer('module');
 	$params		= array('style'=>$style);
 
 	$contents = '';

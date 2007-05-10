@@ -257,10 +257,10 @@ class JAdministrator extends JApplication
 
 		$template = preg_replace('/[^A-Z0-9_\.-]/i', '', $templates[0]);
 
-		$path = JPATH_ADMINISTRATOR .'/templates/'.$template.'/index.php';
+		$path = JPATH_THEMES.DS.$template.DS.'index.php';
 
-		if (!file_exists( $path )) {
-			$cur_template = 'khepri';
+		if (!file_exists($path)) {
+			$template = 'khepri';
 		}
 
 		return $template;

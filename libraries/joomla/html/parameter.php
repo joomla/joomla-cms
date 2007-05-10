@@ -398,19 +398,12 @@ class JParameter extends JRegistry
 				$dirs = array();
 			}
 
-			$found = false;
-			foreach( $dirs as $dir )
-			{
-				$elementFile	= sprintf( '%s'.DS.'%s.php', $dir, str_replace( '_', DS, $type ) );
+			$file = JInputFilter::clean(str_replace('_', DS, $type).'.php', 'path');
 
-				if (@include_once $elementFile)
-				{
-					$found = true;
-					break;
-				}
-			}
-
-			if( !$found ) {
+			jimport('joomla.filesystem.path');
+			if ($elementFile = JPath::find($dirs, $file)) {
+				include_once $elementFile;
+			} else {
 				return $false;
 			}
 		}

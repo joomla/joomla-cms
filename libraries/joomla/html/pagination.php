@@ -201,7 +201,7 @@ class JPagination extends JObject
 		$itemOverride = false;
 		$listOverride = false;
 
-		$chromePath = JPATH_BASE.'/templates/'.$mainframe->getTemplate().'/html/pagination.php';
+		$chromePath = JPATH_THEMES.DS.$mainframe->getTemplate().DS.'html'.DS.'pagination.php';
 		if (file_exists($chromePath)) {
 			require_once ($chromePath);
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive')) {
@@ -285,7 +285,7 @@ class JPagination extends JObject
 		$list['pagescounter']	= $this->getPagesCounter();
 		$list['pageslinks']		= $this->getPagesLinks();
 
-		$chromePath = JPATH_BASE.'/templates/'.$mainframe->getTemplate().'/html/pagination.php';
+		$chromePath = JPATH_THEMES.DS.$mainframe->getTemplate().DS.'html'.DS.'pagination.php';
 		if (file_exists($chromePath)) {
 			require_once ($chromePath);
 			if (function_exists('pagination_list_footer')) {

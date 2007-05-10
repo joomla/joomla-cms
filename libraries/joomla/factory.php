@@ -35,11 +35,12 @@ class JFactory
 	{
 		static $instance;
 
-		if(is_null($file)) {
-			$file = dirname(__FILE__) .DS. 'config.php';
-		}
+		if (!is_object($instance))
+		{
+			if ($file === null) {
+				$file = dirname(__FILE__).DS.'config.php';
+			}
 
-		if (!is_object($instance)) {
 			$instance = JFactory::_createConfig($file, $type);
 		}
 
@@ -354,10 +355,10 @@ class JFactory
 	{
 		jimport('joomla.registry.registry');
 
-		require_once( $file );
+		require_once $file;
 
 		// Create the registry with a default namespace of config
-		$registry = new JRegistry( 'config');
+		$registry = new JRegistry('config');
 
 		// Create the JConfig object
 		$config = new JFrameworkConfig();
@@ -582,8 +583,8 @@ class JFactory
 		$lang	=& JFactory::getLanguage();
 
 		//Keep backwards compatibility with Joomla! 1.0
-		$raw	  = JRequest::getInt('no_html', 0);
-		$type = JRequest::getWord('format', $raw ? 'raw' : 'html');
+		$raw	= JRequest::getInt('no_html', 0);
+		$type	= JRequest::getWord('format', $raw ? 'raw' : 'html');
 
 		$attributes = array (
 			'charset'	=> 'utf-8',
