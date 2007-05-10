@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <div class="bannergroup<?php echo $params->get( 'moduleclass_sfx' ) ?>">
 
-<?php if ($footerText) : ?>
+<?php if ($headerText) : ?>
 	<div class="bannerheader"><?php echo $headerText ?></div>
 <?php endif;
 
