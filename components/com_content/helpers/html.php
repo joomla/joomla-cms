@@ -52,7 +52,10 @@ class ContentHelperHTML
 
 			case 'pdf' :
 			{
-				$url	    = 'index.php?view=article&id='.$article->id.'&format=pdf';
+				$url	  = 'index.php?view=article;' .
+				$url .=  @$article->catslug ? '&catid='.$article->catslug : '';
+				$url .= '&id='.$article->slug.'&format=pdf';
+
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
@@ -71,7 +74,10 @@ class ContentHelperHTML
 
 			case 'print' :
 			{
-				$url    = 'index.php?view=article&id='.$article->id.'&tmpl=component&print=1&page='.@ $request->limitstart;
+				$url	  = 'index.php?view=article;' .
+				$url .=  @$article->catslug ? '&catid='.$article->catslug : '';
+				$url .= '&id='.$article->slug.'&tmpl=component&print=1&page='.@ $request->limitstart;
+
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 				// checks template image directory for image, if non found default are loaded
