@@ -81,6 +81,8 @@ class plgAuthenticationJoomla extends JPlugin
 
 		if($result)
 		{
+			$email = JUser::getInstance($result); // Bring this in line with the rest of the system
+			$response->email = $email->email;
 			$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 		}
 		else
