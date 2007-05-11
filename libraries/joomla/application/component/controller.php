@@ -319,7 +319,7 @@ class JController extends JObject
 
 		$viewType	= $document->getType();
 		$viewName	= JRequest::getWord( 'view', $this->_name );
-		$viewLayout = JRequest::getWord( 'layout', 'default' );
+		$viewLayout  = JRequest::getWord( 'layout', 'default' );
 
 		$view = & $this->getView( $viewName, $viewType);
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: request.php 5921 2006-12-04 16:12:21Z chrisdavenport $
+ * @version		$Id:response.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Environment
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -16,9 +16,9 @@
  * Create the response global object
  */
 $GLOBALS['_JRESPONSE'] = new stdClass();
-$GLOBALS['_JRESPONSE']->cachable = true;
+$GLOBALS['_JRESPONSE']->cachable = false;
 $GLOBALS['_JRESPONSE']->headers  = array();
-$GLOBALS['_JRESPONSE']->body	 = array();
+$GLOBALS['_JRESPONSE']->body	   = array();
 
  /**
  * JResponse Class
@@ -188,17 +188,19 @@ class JResponse
 	function toString($compress = false)
 	{
 		$data = JResponse::getBody();
+
 		// Don't compress something if the server is going todo it anyway. Waste of time.
 		if($compress && !ini_get('zlib.output_compression') && ini_get('output_handler')!='ob_gzhandler') {
 			$data = JResponse::_compress($data);
 		}
 
-		if (JResponse::allowCache() === false) {
-			JResponse::setHeader( 'Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true ); // Expires in the past
-			JResponse::setHeader( 'Last-Modified', gmdate("D, d M Y H:i:s") . ' GMT', true ); // Always modified
-			JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate', true ); // Extra CYA
-			JResponse::setHeader( 'Cache-Control', 'post-check=0, pre-check=0', false ); // HTTP/1.1
-			JResponse::setHeader( 'Pragma', 'no-cache' ); // HTTP 1.0
+		if (JResponse::allowCache() === false)
+		{
+			JResponse::setHeader( 'Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true ); 				// Expires in the past
+			JResponse::setHeader( 'Last-Modified', gmdate("D, d M Y H:i:s") . ' GMT', true ); 		// Always modified
+			JResponse::setHeader( 'Cache-Control', 'no-store, no-cache, must-revalidate', true ); 	// Extra CYA
+			JResponse::setHeader( 'Cache-Control', 'post-check=0, pre-check=0', false ); 			// HTTP/1.1
+			JResponse::setHeader( 'Pragma', 'no-cache' ); 											// HTTP 1.0
 		}
 
 		JResponse::sendHeaders();
