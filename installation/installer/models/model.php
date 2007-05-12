@@ -275,10 +275,12 @@ class JInstallationModel extends JModel
 	 * @access	public
 	 * @since	1.5
 	 */
-	function makeDB()
+	function makeDB($vars = false)
 	{
 		// Initialize variables
-		$vars		= $this->getVars();
+		if ($vars === false) {
+			$vars	= $this->getVars();
+		}
 		$errors 	= null;
 
 		$lang 		= JArrayHelper::getValue($vars, 'lang', 'en-GB');
