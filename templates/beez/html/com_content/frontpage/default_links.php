@@ -23,13 +23,13 @@ echo JText :: _('Read more...');
 echo '</h' . $hlevel . '>';
 echo '<ul>';
 foreach ($this->links as $link) {
-	echo '<li>';
-	echo '<a class="blogsection" href="';
-	echo JRoute :: _('index.php?option=com_content&amp;task=view&amp;id=' . $link->id);
-	echo ' ">';
-	echo $link->title;
-	echo '</a>';
-	echo '</li>';
+        echo '<li>';
+        echo '<a class="blogsection" href="';
+        echo JRoute::_('index.php?view=article&id='.$link->slug);
+        echo ' ">';
+        echo $link->title;
+        echo '</a>';
+        echo '</li>';
 }
 echo '</ul>';
 ?>

@@ -21,7 +21,7 @@ $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
 if ($this->params->get('page_title')) {
 	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
-	echo $this->category->name;
+	echo $this->category->title;
 	echo '</h' . $ptlevel . '>';
 }
 

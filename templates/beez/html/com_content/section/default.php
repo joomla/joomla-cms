@@ -20,9 +20,9 @@ $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
 if ($this->params->get('show_page_title')) {
-	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
-	echo $this->section->name;
-	echo '</h' . $ptlevel . '>';
+        echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
+        echo $this->section->title;
+        echo '</h' . $ptlevel . '>';
 }
 
 if ($this->params->def('show_description', 1) || $this->params->def('show_description_image', 1)) {
