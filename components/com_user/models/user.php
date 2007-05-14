@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: weblink.php 6160 2007-01-03 07:43:52Z eddiea $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	User
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
