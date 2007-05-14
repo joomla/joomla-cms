@@ -1,5 +1,5 @@
 /**
-* @version		$Id: validation.js 6188 2007-01-05 22:49:47Z facedancer $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
