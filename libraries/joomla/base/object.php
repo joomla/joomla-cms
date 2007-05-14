@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id:object.php 6961 2007-03-15 16:06:53Z tcp $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Base
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
