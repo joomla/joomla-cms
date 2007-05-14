@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: sef.php 5747 2006-11-12 21:49:30Z louis $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
