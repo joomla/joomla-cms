@@ -281,7 +281,7 @@ class JUser extends JObject
 	 * @return	object	The user parameters object
 	 * @since	1.5
 	 */
-	function getParameters()
+	function &getParameters()
 	{
 		return $this->_params;
 	}
@@ -314,7 +314,8 @@ class JUser extends JObject
 	function setParameters($data, $path = null)
 	{
 		// Assume we are using the xml file from com_users if no other xml file has been set
-		if (is_null($path)) {
+		if (is_null($path)) 
+		{
 			jimport( 'joomla.application.helper' );
 			$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
 		}
@@ -357,8 +358,7 @@ class JUser extends JObject
 			 */
 
 			// First the password
-			if (empty($array['password']))
-			{
+			if (empty($array['password'])) {
 				$array['password'] = JUserHelper::genRandomPassword();
 			}
 			$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
