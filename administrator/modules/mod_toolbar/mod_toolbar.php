@@ -18,8 +18,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.html.toolbar');
 
 // Get the JComponent instance of JToolBar
-$bar = & JToolBar::getInstance('JComponent');
+$bar = & JToolBar::getInstance('toolbar');
 
 // Render the toolbar
-echo $bar->render('JComponent');
+echo $bar->render('toolbar');
 ?>

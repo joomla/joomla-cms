@@ -68,11 +68,11 @@ class CacheController
 		$submenu = JRequest::getVar('client', '0', '', 'int');
 		$client	= JApplicationHelper::getClientInfo($submenu);
 		if ($submenu == 1) {
-			JSubMenu::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0');
-			JSubMenu::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1', true);
+			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0');
+			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1', true);
 		} else {
-			JSubMenu::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0', true);
-			JSubMenu::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1');
+			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0', true);
+			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1');
 		}
 
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'));

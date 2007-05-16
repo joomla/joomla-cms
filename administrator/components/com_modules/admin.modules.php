@@ -821,11 +821,11 @@ class ModulesController extends JController
 
 $client	= JRequest::getVar('client', 0, '', 'int');
 if ($client == 1) {
-	JSubMenu::addEntry(JText::_('Site'), 'index.php?option=com_modules&client_id=0');
-	JSubMenu::addEntry(JText::_('Administrator'), 'index.php?option=com_modules&client=1', true );
+	JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_modules&client_id=0');
+	JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_modules&client=1', true );
 } else {
-	JSubMenu::addEntry(JText::_('Site'), 'index.php?option=com_modules&client_id=0', true );
-	JSubMenu::addEntry(JText::_('Administrator'), 'index.php?option=com_modules&client=1');
+	JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_modules&client_id=0', true );
+	JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_modules&client=1');
 }
 
 // Create the controller

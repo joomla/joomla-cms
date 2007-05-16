@@ -32,10 +32,10 @@ $subMenus = array(
 	'Languages' => 'languages',
 	'Templates' => 'templates');
 
-JSubMenu::addEntry(JText::_( 'Install' ), '#" onclick="javascript:document.adminForm.type.value=\'\';submitbutton(\'installer\');', !in_array( $ext, $subMenus));
+JSubMenuHelper::addEntry(JText::_( 'Install' ), '#" onclick="javascript:document.adminForm.type.value=\'\';submitbutton(\'installer\');', !in_array( $ext, $subMenus));
 foreach ($subMenus as $name => $extension) {
-	//JSubMenu::addEntry(JText::_( $name ), '#" onclick="javascript:document.adminForm.type.value=\''.$extension.'\';submitbutton(\'manage\');', ($extension == $ext));
-	JSubMenu::addEntry(JText::_( $name ), 'index.php?option=com_installer&type='.$extension.'&task=manage', ($extension == $ext));
+	//JSubMenuHelper::addEntry(JText::_( $name ), '#" onclick="javascript:document.adminForm.type.value=\''.$extension.'\';submitbutton(\'manage\');', ($extension == $ext));
+	JSubMenuHelper::addEntry(JText::_( $name ), 'index.php?option=com_installer&type='.$extension.'&task=manage', ($extension == $ext));
 }
 
 require_once( JPATH_COMPONENT.DS.'controller.php' );

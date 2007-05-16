@@ -35,14 +35,14 @@ $task = JRequest::getVar('task');
 $client	= JRequest::getVar('client', 0, '', 'int');
 
 if ($client == 1) {
-	JSubMenu::addEntry(JText::_('Site'), 'index.php?option=com_templates&client=0');
-	JSubMenu::addEntry(JText::_('Administrator'), 'index.php?option=com_templates&client=1', true);
+	JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_templates&client=0');
+	JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_templates&client=1', true);
 } elseif ($client == 0 && !$task) {
-	JSubMenu::addEntry(JText::_('Site'), 'index.php?option=com_templates&client=0', true);
-	JSubMenu::addEntry(JText::_('Administrator'), 'index.php?option=com_templates&client=1');
+	JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_templates&client=0', true);
+	JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_templates&client=1');
 } else {
-	JSubMenu::addEntry(JText::_('Site'), 'index.php?option=com_templates&client=0');
-	JSubMenu::addEntry(JText::_('Administrator'), 'index.php?option=com_templates&client=1');
+	JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_templates&client=0');
+	JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_templates&client=1');
 }
 
 switch ($task)
