@@ -128,7 +128,7 @@ class JHTML
 			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
-		return '<iframe src="'.$url.'" '.$attribs.'name="'.$name.'" />';
+		return '<iframe src="'.$url.'" '.$attribs.' name="'.$name.'" />';
 
 	}
 
