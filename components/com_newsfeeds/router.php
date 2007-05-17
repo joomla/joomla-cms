@@ -28,7 +28,7 @@ function NewsfeedsBuildRoute(&$query)
 	};
 
 	unset($query['view']);
-
+	
 	return $segments;
 }
 

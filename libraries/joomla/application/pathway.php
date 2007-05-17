@@ -155,7 +155,7 @@ class JPathWay extends JObject
 		$item = new stdClass();
 		$item->name = JOutputFilter::ampReplace(html_entity_decode($name));
 		$item->link = $link;
-
+		
 		return $item;
 	}
 }

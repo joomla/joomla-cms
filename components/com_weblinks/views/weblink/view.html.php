@@ -83,7 +83,7 @@ class WeblinksViewWeblink extends JView
 				switch ($item->query['view'])
 				{
 					case 'categories':
-						$pathway->addItem($weblink->category, JRoute::_('index.php?option=com_weblinks&view=category&id='.$weblink->catid));
+						$pathway->addItem($weblink->category, 'index.php?view=category&id='.$weblink->catid);
 						$pathway->addItem(JText::_('Edit').' '.$weblink->title, '');
 						break;
 					case 'category':
