@@ -120,18 +120,15 @@ class JHTML
 	 * @param string 	The relative URL to use for the src attribute
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
-	 * @param integer	Set the SSL functionality
 	 * @since 1.5
 	 */
-	function iframe($url, $name, $attribs = null, $ssl = 0)
+	function iframe($url, $name, $attribs = null)
 	{
-		$src = JRoute::_($url, true, $ssl);
-
 		 if (is_array($attribs)) {
 			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
-		return '<iframe src="'.$src.'" '.$attribs.' />';
+		return '<iframe src="'.$url.'" '.$attribs.'name="'.$name.'" />';
 
 	}
 
