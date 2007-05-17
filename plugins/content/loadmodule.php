@@ -67,19 +67,15 @@ function plgContentProcessPositions ( &$row, &$matches, $count, $regex, $style )
 	$db->setQuery( $query );
  	$positions 	= $db->loadResultArray();
 
- 	for ( $i=0; $i < $count; $i++ ) {
+ 	for ( $i=0; $i < $count; $i++ ) 
+	{
  		$load = str_replace( 'loadposition', '', $matches[0][$i] );
  		$load = str_replace( '{', '', $load );
  		$load = str_replace( '}', '', $load );
  		$load = trim( $load );
 
-		foreach ( $positions as $position ) {
-	 		if ( $position == @$load ) {
-				$modules	= plgContentLoadPosition( $load, $style );
-				$row->text 	= preg_replace( '{'. $matches[0][$i] .'}', $modules, $row->text );
-				break;
-	 		}
- 		}
+		$modules	= plgContentLoadPosition( $load, $style );
+		$row->text 	= preg_replace( '{'. $matches[0][$i] .'}', $modules, $row->text );
  	}
 
   	// removes tags without matching module positions
