@@ -158,12 +158,11 @@ class ModulesController extends JController
 		}
 
 		// get list of Positions for dropdown filter
-		$query = 'SELECT t.position AS value, t.position AS text'
-		. ' FROM #__template_positions as t'
-		. ' LEFT JOIN #__modules AS m ON m.position = t.position'
+		$query = 'SELECT m.position AS value, m.position AS text'
+		. ' FROM #__modules as m'
 		. ' WHERE m.client_id = '. $client->id
-		. ' GROUP BY t.position'
-		. ' ORDER BY t.position'
+		. ' GROUP BY m.position'
+		. ' ORDER BY m.position'
 		;
 		$positions[] = JHTML::_('select.option',  '0', '- '. JText::_( 'Select Position' ) .' -' );
 		$db->setQuery( $query );
@@ -371,6 +370,10 @@ class ModulesController extends JController
 		$module = JRequest::getVar( 'module' );
 		$id 	= JRequest::getVar( 'id', 0, 'method', 'int' );
 		$cid 	= JRequest::getVar( 'cid', array( $id ), 'method', 'array' );
+		
+		$model	= &$this->getModel('module');
+		$model->setState( 'id',			$cid[0] );
+		$model->setState( 'clientId',	$client->id );
 
 		$lists 	= array();
 		$row 	=& JTable::getInstance('module');
@@ -423,21 +426,7 @@ class ModulesController extends JController
 			return false;
 		}
 
-		$query = 'SELECT position, description'
-		. ' FROM #__template_positions'
-		. ' WHERE position <> ""'
-		. ' ORDER BY position'
-		;
-		$db->setQuery( $query );
-		// hard code options for now
-		$positions = $db->loadObjectList();
-
 		$orders2 	= array();
-		$pos 		= array();
-		foreach ($positions as $position) {
-			$orders2[$position->position] = array();
-			$pos[] = JHTML::_('select.option',  $position->position, $position->description );
-		}
 
 		$l = 0;
 		$r = 0;
@@ -449,11 +438,6 @@ class ModulesController extends JController
 
 			$orders2[$orders[$i]->position][] = JHTML::_('select.option',  $ord, $ord.'::'.addslashes( $orders[$i]->title ) );
 		}
-
-		// build the html select list
-		$pos_select 		= 'onchange="changeDynaList(\'ordering\',orders,document.adminForm.position.options[document.adminForm.position.selectedIndex].value, originalPos, originalOrder)"';
-		$active 			= ( $row->position ? $row->position : 'left' );
-		$lists['position'] 	= JHTML::_('select.genericlist',   $pos, 'position', 'class="inputbox" size="1" '. $pos_select, 'value', 'text', $active );
 
 		// get selected pages for $lists['selections']
 		if ( $cid[0] ) {
@@ -519,10 +503,6 @@ class ModulesController extends JController
 				$row->$key = $value;
 			}
 		}
-
-		$model	= &$this->getModel('module');
-		$model->setState( 'id',			$cid[0] );
-		$model->setState( 'clientId',	$client->id );
 
 		// get params definitions
 		$params = new JParameter( $row->params, $xmlfile, 'module' );

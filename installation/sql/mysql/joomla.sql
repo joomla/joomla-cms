@@ -674,58 +674,6 @@ INSERT INTO `#__templates_menu` VALUES ('khepri', '0', '1');
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__template_positions`
-#
-
-CREATE TABLE `#__template_positions` (
-  `id` int(11) NOT NULL auto_increment,
-  `position` varchar(50) NOT NULL default '',
-  `description` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
-
-#
-# Dumping data for table `#__template_positions`
-#
-
-INSERT INTO `#__template_positions` VALUES (0, 'left', '');
-INSERT INTO `#__template_positions` VALUES (0, 'right', '');
-INSERT INTO `#__template_positions` VALUES (0, 'top', '');
-INSERT INTO `#__template_positions` VALUES (0, 'bottom', '');
-INSERT INTO `#__template_positions` VALUES (0, 'inset', '');
-INSERT INTO `#__template_positions` VALUES (0, 'banner', '');
-INSERT INTO `#__template_positions` VALUES (0, 'header', '');
-INSERT INTO `#__template_positions` VALUES (0, 'footer', '');
-INSERT INTO `#__template_positions` VALUES (0, 'newsflash', '');
-INSERT INTO `#__template_positions` VALUES (0, 'legals', '');
-INSERT INTO `#__template_positions` VALUES (0, 'pathway', '');
-INSERT INTO `#__template_positions` VALUES (0, 'breadcrumb', '');
-INSERT INTO `#__template_positions` VALUES (0, 'toolbar', '');
-INSERT INTO `#__template_positions` VALUES (0, 'menu', '');
-INSERT INTO `#__template_positions` VALUES (0, 'cpanel', '');
-INSERT INTO `#__template_positions` VALUES (0, 'user1', '');
-INSERT INTO `#__template_positions` VALUES (0, 'user2', '');
-INSERT INTO `#__template_positions` VALUES (0, 'user3', '');
-INSERT INTO `#__template_positions` VALUES (0, 'user4', '');
-INSERT INTO `#__template_positions` VALUES (0, 'user5', '');
-INSERT INTO `#__template_positions` VALUES (0, 'user6', '');
-INSERT INTO `#__template_positions` VALUES (0, 'user7', '');
-INSERT INTO `#__template_positions` VALUES (0, 'user8', '');
-INSERT INTO `#__template_positions` VALUES (0, 'user9', '');
-INSERT INTO `#__template_positions` VALUES (0, 'advert1', '');
-INSERT INTO `#__template_positions` VALUES (0, 'advert2', '');
-INSERT INTO `#__template_positions` VALUES (0, 'advert3', '');
-INSERT INTO `#__template_positions` VALUES (0, 'icon', '');
-INSERT INTO `#__template_positions` VALUES (0, 'debug', '');
-INSERT INTO `#__template_positions` VALUES (0, 'submenu', '');
-INSERT INTO `#__template_positions` VALUES (0, 'status', '');
-INSERT INTO `#__template_positions` VALUES (0, 'title', '');
-INSERT INTO `#__template_positions` VALUES (0, 'syndicate', '');
-INSERT INTO `#__template_positions` VALUES (0, 'cp_shell', '');
-
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__users`
 #
 

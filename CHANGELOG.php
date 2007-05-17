@@ -39,6 +39,7 @@ Legend:
 
 17-May-2007 Johan Janssens
  ^ JHTMLGrid::sort and JHTMLGrid::order now return instead of echoing 
+ - Removed template_positions table and cleaned up com_modules code
 
 07-May-2007 Johan Janssens
  # Fixed [#4693] PDF nofollow malformed

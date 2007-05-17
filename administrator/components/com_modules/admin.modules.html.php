@@ -300,8 +300,7 @@ class HTML_modules
 							<input type="text" id="position" class="combobox" name="position" value="<?php echo $row->position; ?>" />
 							<ul id="combobox-position" style="display:none;"><?php
 							$positions = $model->getPositions();
-							for ($i=0,$n=count($positions);$i<$n;$i++)
-							{
+							for ($i=0,$n=count($positions);$i<$n;$i++) {
 								echo '<li>',$positions[$i],'</li>';
 							}
 							?></ul>
