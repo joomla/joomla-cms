@@ -77,7 +77,7 @@ class JDate extends JObject
 
 		if (is_numeric($date))
 		{
-			$this->_date = $date + ($this->_offset * 3600);
+			$this->_date = $date + ($tzOffset * 3600);
 			return;
 		}
 
