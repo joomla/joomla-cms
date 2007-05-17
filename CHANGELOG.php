@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-May-2007 Johan Janssens
+ ^ JHTMLGrid::sort and JHTMLGrid::order now return instead of echoing 
+
 07-May-2007 Johan Janssens
  # Fixed [#4693] PDF nofollow malformed
  # Fixed [#4700] rider still present in installation folder

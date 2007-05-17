@@ -59,28 +59,28 @@ class HTML_users {
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 					</th>
 					<th class="title">
-						<?php JHTML::_('grid.sort',   'Name', 'a.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Name', 'a.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="15%" class="title" >
-						<?php JHTML::_('grid.sort',   'Username', 'a.username', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Username', 'a.username', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" class="title" nowrap="nowrap">
 						<?php echo JText::_( 'Logged In' ); ?>
 					</th>
 					<th width="5%" class="title" nowrap="nowrap">
-						<?php JHTML::_('grid.sort',   'Enabled', 'a.block', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Enabled', 'a.block', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="15%" class="title">
-						<?php JHTML::_('grid.sort',   'Group', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Group', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="15%" class="title">
-						<?php JHTML::_('grid.sort',   'E-Mail', 'a.email', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'E-Mail', 'a.email', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%" class="title">
-						<?php JHTML::_('grid.sort',   'Last Visit', 'a.lastvisitDate', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Last Visit', 'a.lastvisitDate', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="1%" class="title" nowrap="nowrap">
-						<?php JHTML::_('grid.sort',   'ID', 'a.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'ID', 'a.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>

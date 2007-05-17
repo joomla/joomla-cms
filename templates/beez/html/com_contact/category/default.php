@@ -83,11 +83,11 @@ if ($this->params->get( 'show_headings' ))
         if ( $this->params->get( 'show_position' ) )
         {
                 echo '<th id="Position" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
-				JHTML::_('grid.sort',  'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] );
+				echo JHTML::_('grid.sort',  'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] );
                 echo '</th>';
         }
                      echo '<th  id="Name" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
-		JHTML::_('grid.sort',  'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] );
+		echo JHTML::_('grid.sort',  'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] );
         echo '</th>';
         if ( $this->params->get( 'show_email' ) )
         {

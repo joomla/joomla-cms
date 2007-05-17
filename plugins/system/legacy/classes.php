@@ -1440,18 +1440,18 @@ class mosCommonHTML
  	*/
 	function saveorderButton( $rows, $image='filesave.png' )
 	{
-		JHTML::_('grid.order', $rows, $image);
+		echo JHTML::_('grid.order', $rows, $image);
 	}
 
 	/**
- 	 * Legacy function, use {@link JHTML::_('grid.sort')} instead
+ 	 * Legacy function, use {@link echo JHTML::_('grid.sort')} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function tableOrdering( $text, $ordering, &$lists, $task=NULL )
 	{
 		// TODO: We may have to invert order_Dir here because this control now does the flip for you
-		JHTML::_('grid.sort',  $text, $ordering, @$lists['order_Dir'], @$lists['order'], $task);
+		echo JHTML::_('grid.sort',  $text, $ordering, @$lists['order_Dir'], @$lists['order'], $task);
 	}
 }
 

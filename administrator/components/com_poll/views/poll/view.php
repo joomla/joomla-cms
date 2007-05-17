@@ -54,22 +54,22 @@ class PollView
 						<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 					</th>
 					<th  class="title">
-						<?php JHTML::_('grid.sort',   'Poll Title', 'm.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Poll Title', 'm.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php JHTML::_('grid.sort',   'Published', 'm.published', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Published', 'm.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php JHTML::_('grid.sort',   'Votes', 'm.voters', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Votes', 'm.voters', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php JHTML::_('grid.sort',   'Options', 'numoptions', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Options', 'numoptions', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="8%" align="center">
-						<?php JHTML::_('grid.sort',   'Lag', 'm.lag', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Lag', 'm.lag', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="1%" nowrap="nowrap">
-						<?php JHTML::_('grid.sort',   'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>

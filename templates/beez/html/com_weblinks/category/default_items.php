@@ -31,11 +31,11 @@ if ($this->params->def( 'show_headings', 1 )) {
 	echo JText :: _('Num');
 	echo '</th>';
 	echo '<th width="90%" class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" id="title">';
-	JHTML::_('grid.sort',  'Web Link', 'title', $this->lists['order_Dir'], $this->lists['order'] );
+	echo JHTML::_('grid.sort',  'Web Link', 'title', $this->lists['order_Dir'], $this->lists['order'] );
 	echo '</th>';
 	if ($this->params->get('show_link_hits')) {
 		echo '<th width="10%" class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" nowrap="nowrap" id="hits">';
-		JHTML::_('grid.sort',  'Hits', 'hits', $this->lists['order_Dir'], $this->lists['order'] );
+		echo JHTML::_('grid.sort',  'Hits', 'hits', $this->lists['order_Dir'], $this->lists['order'] );
 		echo '</th>';
 	}
 }

@@ -35,14 +35,13 @@ class JHTMLGrid
 		$images		= array( 'sort_asc.png', 'sort_desc.png' );
 		$index		= intval( $direction == 'desc' );
 		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
-		?>
-		<a href="javascript:tableOrdering('<?php echo $order; ?>','<?php echo $direction; ?>','<?php echo $task; ?>');" title="<?php echo JText::_( 'Click to sort this column' ); ?>">
-		<?php
-		echo JText::_( $title );
+		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
+		$html .= JText::_( $title );
 		if ($order == $selected ) {
-			echo JHTML::_('image.administrator',  $images[$index], '/images/', NULL, NULL, '', '', 1 );
+			$html .= JHTML::_('image.administrator',  $images[$index], '/images/', NULL, NULL, '', '', 1 );
 		}
-		echo '</a>';
+		$html .= '</a>';
+		return $html;
 	}
 
 	/**
@@ -146,10 +145,8 @@ class JHTMLGrid
 	function order( $rows, $image='filesave.png', $task="saveorder" )
 	{
 		$image = JHTML::_('image.administrator',  $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
-		?>
-		<a href="javascript:saveorder(<?php echo count( $rows )-1; ?>, '<?php echo $task; ?>')" title="<?php echo JText::_( 'Save Order' ); ?>">
-			<?php echo $image; ?></a>
-		<?php
+		$href = '<a href="javascript:saveorder('.(count( $rows )-1).', \''.$task.'\')" title="'.JText::_( 'Save Order' ).'">'.$image.'</a>';
+		return $href;
 	}
 
 
