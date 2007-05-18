@@ -73,6 +73,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 	function _buildXMLstringLevel($object, $depth) {
 		// Initialize variables
 		$retval = '';
+		$tab	= '';
 		for($i=1;$i <= $depth; $i++) {
 			$tab .= "\t";
 		}
