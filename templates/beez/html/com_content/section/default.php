@@ -44,9 +44,9 @@ if ($this->params->def('show_categories', 1)) {
 	if (count($this->categories)) {
 		echo '<ul>';
 		foreach ($this->categories as $category) {
-
+			if (!$this->params->get('show_empty_categories') && !$category->numitems) continue;
 			echo '<li>';
-			echo '<a href="' . JRoute::_($category->link) . '" class="category" >';
+			echo '<a href="' . $category->link . '" class="category" >';
 			echo $category->title;
 			echo '</a>';
 			if ($this->params->get('show_cat_num_articles')) {
