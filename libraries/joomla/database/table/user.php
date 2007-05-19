@@ -137,23 +137,23 @@ class JTableUser extends JTable
 	{
 		// Validate user information
 		if (trim( $this->name ) == '') {
-			$this->_error = JText::_( 'Please enter your name.' );
+			$this->setError( JText::_( 'Please enter your name.' ) );
 			return false;
 		}
 
 		if (trim( $this->username ) == '') {
-			$this->_error = JText::_( 'Please enter a user name.');
+			$this->setError( JText::_( 'Please enter a user name.') );
 			return false;
 		}
 
 
 		if (eregi( "[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", $this->username) || JString::strlen( $this->username ) < 2) {
-			$this->_error = JText::sprintf( 'VALID_AZ09', JText::_( 'Username' ), 2 );
+			$this->setError( JText::sprintf( 'VALID_AZ09', JText::_( 'Username' ), 2 ) );
 			return false;
 		}
 
 		if ((trim($this->email == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $this->email )==false)) {
-			$this->_error = JText::_( 'WARNREG_MAIL' );
+			$this->setError( JText::_( 'WARNREG_MAIL' ) );
 			return false;
 		}
 
@@ -166,7 +166,7 @@ class JTableUser extends JTable
 		$this->_db->setQuery( $query );
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = JText::_( 'WARNREG_INUSE' );
+			$this->setError( JText::_( 'WARNREG_INUSE' ) );
 			return false;
 		}
 
@@ -180,7 +180,7 @@ class JTableUser extends JTable
 		$this->_db->setQuery( $query );
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = JText::_( 'WARNREG_EMAIL_INUSE' );
+			$this->setError( JText::_( 'WARNREG_EMAIL_INUSE' ) );
 			return false;
 		}
 
@@ -222,7 +222,7 @@ class JTableUser extends JTable
 
 		if( !$ret )
 		{
-			$this->_error = strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $this->_db->getErrorMsg();
+			$this->setError( strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $this->_db->getErrorMsg() );
 			return false;
 		}
 		else
@@ -256,7 +256,7 @@ class JTableUser extends JTable
 			;
 			$this->_db->setQuery( $query );
 			if (!$this->_db->query()) {
-				$this->_error = $this->_db->getErrorMsg();
+				$this->setError( $this->_db->getErrorMsg() );
 				return false;
 			}
 			$query = 'DELETE FROM #__messages'
@@ -264,13 +264,13 @@ class JTableUser extends JTable
 			;
 			$this->_db->setQuery( $query );
 			if (!$this->_db->query()) {
-				$this->_error = $this->_db->getErrorMsg();
+				$this->setError( $this->_db->getErrorMsg() );
 				return false;
 			}
 
 			return true;
 		} else {
-			$this->_error = $this->_db->getErrorMsg();
+			$this->setError( $this->_db->getErrorMsg() );
 			return false;
 		}
 	}
@@ -309,7 +309,7 @@ class JTableUser extends JTable
 		;
 		$this->_db->setQuery( $query );
 		if (!$this->_db->query()) {
-			$this->_error = $this->_db->getErrorMsg();
+			$this->setError( $this->_db->getErrorMsg() );
 			return false;
 		}
 
