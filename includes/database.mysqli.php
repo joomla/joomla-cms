@@ -1,10 +1,14 @@
-<?php // compatibility
-require_once( dirname(__FILE__)  .'/../libraries/loader.php' );
-
+<?php
 /**
-* Legacy class, derive from JTable instead
-* @deprecated As of version 1.5
-*/
+ * Legacy Mode compatibility
+ * @version		$Id$
+ * @package		Joomla.Legacy
+ * @deprecated	As of version 1.5
+ */
+
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 jimport( 'joomla.database.database' );
 jimport( 'joomla.database.database.mysqli' );
 /**

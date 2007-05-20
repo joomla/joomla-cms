@@ -1,3 +1,7 @@
-<?php // compatibility
-require_once( dirname(__FILE__)  .'/../../libraries/pear/pear.php' );
-?>
+<?php
+/**
+ * Legacy Mode compatibility
+ * @version		$Id$
+ * @package		Joomla.Legacy
+ */
+require_once( dirname(__FILE__)  .'/../../libraries/pear/PEAR.php' );

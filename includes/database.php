@@ -1,8 +1,13 @@
-<?php // compatibility
+<?php
 /**
- * @package		Joomla
- * @deprecated As of version 1.5
+ * Legacy Mode compatibility
+ * @version		$Id$
+ * @package		Joomla.Legacy
+ * @deprecated	As of version 1.5
  */
+
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( dirname(__FILE__)  .'/../libraries/loader.php' );
 
@@ -19,4 +24,3 @@ class database extends JDatabase {
 		parent::__construct( 'mysql', $host, $user, $pass, $db, $table_prefix );
 	}
 }
-?>
