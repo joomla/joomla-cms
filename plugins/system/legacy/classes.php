@@ -1887,19 +1887,24 @@ class mosTabs extends JPaneTabs
 {
 	var $useCookies = false;
 
-	function __construct( $useCookies, $xhtml = null)
-	{
+	function __construct( $useCookies, $xhtml = null) {
 		parent::__construct( array('useCookies' => $useCookies) );
 	}
 
-	function startTab( $tabText, $paneid )
-	{
-		$this->startPanel( $tabText, $paneid);
+	function startTab( $tabText, $paneid ) {
+		echo $this->startPanel( $tabText, $paneid);
 	}
 
-	function endTab()
-	{
-		$this->endPanel();
+	function endTab() {
+		echo $this->endPanel();
+	}
+	
+	function startPane( $id ){
+		echo parent::startPane( $tabText );
+	}
+	
+	function endPane(){
+		echo parent::endPane();
 	}
 }
 
