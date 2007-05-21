@@ -169,37 +169,45 @@ class PollView
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
 				<table class="admintable">
-				<tr>
-					<td width="110" class="key">
-						<label for="title">
-							<?php echo JText::_( 'Title' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="title" id="title" size="60" value="<?php echo $row->title; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td width="110" class="key">
-						<label for="alias">
-							<?php echo JText::_( 'Alias' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="alias" id="alias" size="60" value="<?php echo $row->alias; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td class="key">
-						<label for="lag">
-							<?php echo JText::_( 'Lag' ); ?>:
-						</label>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="lag" id="lag" size="10" value="<?php echo $row->lag; ?>" />
-						<?php echo JText::_( '(seconds between votes)' ); ?>
-					</td>
-				</tr>
+					<tr>
+						<td width="110" class="key">
+							<label for="title">
+								<?php echo JText::_( 'Title' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="title" id="title" size="60" value="<?php echo $row->title; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td width="110" class="key">
+							<label for="alias">
+								<?php echo JText::_( 'Alias' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="alias" id="alias" size="60" value="<?php echo $row->alias; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td class="key">
+							<label for="lag">
+								<?php echo JText::_( 'Lag' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="lag" id="lag" size="10" value="<?php echo $row->lag; ?>" />
+							<?php echo JText::_( '(seconds between votes)' ); ?>
+						</td>
+					</tr>
+					<tr>
+						<td width="120" class="key">
+							<?php echo JText::_( 'Published' ); ?>:
+						</td>
+						<td>
+							<?php echo JHTML::_( 'select.booleanlist',  'published', 'class="inputbox"', $row->published ); ?>
+						</td>
+					</tr>
 				</table>
 			</fieldset>
 		</div>

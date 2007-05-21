@@ -45,6 +45,7 @@ Legend:
  # Fixed bug in Newsfeeds list: Category used 'name' instead of 'title' field
  # Fixed problem with JHTML::_implode_assoc yeilding invalid attributes and malformed iframe syntax (from ianmac)
  # Fixed bug in poll selector (patch from ianmac)
+ # Fixed missing published radio in poll edit form
 
 17-May-2007 Johan Janssens
  ^ JHTMLGrid::sort and JHTMLGrid::order now return instead of echoing 

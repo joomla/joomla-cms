@@ -138,6 +138,12 @@ class PollController extends JController
 			$this->setRedirect( 'index.php?option='. $option, $msg );
 		}
 
+		if ($row->id == 0)
+		{
+			// defaults
+			$row->published	= 1;
+		}
+
 		$options = array();
 
 		if ($uid)
