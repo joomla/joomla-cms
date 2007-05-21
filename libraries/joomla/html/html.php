@@ -83,9 +83,9 @@ class JHTML
 
 	function link($url, $text, $attribs = null)
 	{
-		if (is_array($attribs)) {
-			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
-		 }
+		if (is_array( $attribs )) {
+			$attribs = JHTML::_implode_assoc( $attribs );
+		}
 
 		return '<a href="'.$url.'" '.$attribs.'>'.$text.'</a>';
 	}
@@ -105,9 +105,9 @@ class JHTML
 
 		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
 
-		 if (is_array($attribs)) {
-			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
-		 }
+		if (is_array($attribs)) {
+			$attribs = JHTML::_implode_assoc( $attribs );
+		}
 
 		return '<img src="'.$src.'" alt="'.$alt.'" '.$attribs.' />';
 
@@ -116,20 +116,19 @@ class JHTML
 	/**
 	 * Write a <iframe></iframe> element
 	 *
-	 * @access public
-	 * @param string 	The relative URL to use for the src attribute
-	 * @param string	The target attribute to use
-	 * @param array		An associative array of attributes to add
-	 * @since 1.5
+	 * @access	public
+	 * @param	string 	The relative URL to use for the src attribute
+	 * @param	string	The target attribute to use
+	 * @param	array	An associative array of attributes to add
+	 * @param	string	The message to display if the iframe tag is not supported
+	 * @since	1.5
 	 */
-	function iframe($url, $name, $attribs = null)
+	function iframe( $url, $name, $attribs = null, $noFrames = '' )
 	{
-		 if (is_array($attribs)) {
-			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
-		 }
-
-		return '<iframe src="'.$url.'" '.$attribs.' name="'.$name.'" />';
-
+		if (is_array( $attribs )) {
+			$attribs = JHTML::_implode_assoc( $attribs );
+		}
+		return '<iframe src="'.$url.'" '.$attribs.' name="'.$name.'">'.$noFrames.'</iframe>';
 	}
 
 	/**
@@ -160,15 +159,15 @@ class JHTML
 	/**
 	 * Creates a tooltip with an image as button
 	 *
-	 * @access public
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param boolean
-	 * @returns
-	 * @since 1.5
+	 * @access	public
+	 * @param	string
+	 * @param	string
+	 * @param	string
+	 * @param	string
+	 * @param	string
+	 * @param	boolean
+	 * @return	string
+	 * @since	1.5
 	 */
 	function tooltip($tooltip, $title='', $image='tooltip.png', $text='', $href='', $link=1)
 	{
@@ -228,19 +227,33 @@ class JHTML
 		return $paths;
 	}
 
-	function _implode_assoc($inner_glue = "=", $outer_glue = "\n", $array = null, $keepOuterKey = false)
+	/**
+	 * Implodes an array in attribute format
+	 * @param	array	An assoc array of name=>value pairs
+	 * @param	string	The glue between name and value
+	 * @param	string	The glue between each pair
+	 * @param	boolean	?? No idea, Jinx ??
+	 * @return	string
+	 * @since	1.5
+	 */
+	function _implode_assoc( $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )
 	{
 		$output = array();
 
-		foreach($array as $key => $item)
-		if (is_array ($item)) {
-			if ($keepOuterKey)
-				$output[] = $key;
-			// This is value is an array, go and do it again!
-			$output[] = JHTML::_implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
-		} else
-			$output[] = $key . $inner_glue . $item;
-
-		return implode($outer_glue, $output);
+		foreach ($array as $key => $item)
+		{
+			if (is_array ($item))
+			{
+				if ($keepOuterKey) {
+					$output[] = $key;
+				}
+				// This is value is an array, go and do it again!
+				$output[] = JHTML::_implode_assoc( $item, $inner_glue, $outer_glue, $keepOuterKey);
+			}
+			else {
+				$output[] = $key.$inner_glue.'"'.$item.'"';
+			}
+		}
+		return implode( $outer_glue, $output);
 	}
 }
