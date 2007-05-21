@@ -33,6 +33,8 @@ class SearchViewSearch extends JView
 
 		$uri =& JFactory::getURI();
 
+		$this->searchword = htmlentities($this->searchword);
+
 		$searchword		= $this->searchword;
 		$searchphrase	= $this->searchphrase;
 		$ordering		= $this->ordering;
@@ -41,7 +43,7 @@ class SearchViewSearch extends JView
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($this->total, $this->limitstart, $this->limit);
 
-		$this->result	= JText::sprintf( 'TOTALRESULTSFOUND', $this->total, htmlentities($this->searchword) );
+		$this->result	= JText::sprintf( 'TOTALRESULTSFOUND', $this->total, $this->searchword );
 		$this->image	= JHTML::_('image.site',  'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
 
 		for($i = 0; $i < count($this->results); $i++ )
