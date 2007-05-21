@@ -22,11 +22,32 @@
  */
 class JHTMLSelect
 {
+	/**
+	 * @param	string	The value of the option
+	 * @param	string	The text for the option
+	 * @param	string	The returned object property name for the value
+	 * @param	string	The returned object property name for the text
+	 * @return	object
+	 */
 	function option( $value, $text='', $value_name='value', $text_name='text' )
 	{
 		$obj = new stdClass;
-		$obj->$value_name = $value;
-		$obj->$text_name = trim( $text ) ? $text : $value;
+		$obj->$value_name	= $value;
+		$obj->$text_name	= trim( $text ) ? $text : $value;
+		return $obj;
+	}
+
+	/**
+	 * @param	string	The text for the option
+	 * @param	string	The returned object property name for the value
+	 * @param	string	The returned object property name for the text
+	 * @return	object
+	 */
+	function optgroup( $text, $value_name='value', $text_name='text' )
+	{
+		$obj = new stdClass;
+		$obj->$value_name	= '<OPTGROUP>';
+		$obj->$text_name	= $text;
 		return $obj;
 	}
 
@@ -43,15 +64,19 @@ class JHTMLSelect
 	{
 		$html = '';
 
-		while(current($arr) !== FALSE) {
+		while(current($arr) !== FALSE)
+		{
 			$element =& $arr[key($arr)]; // since current doesn't return a reference, need to do this
 
 			$isArray = is_array( $element );
-			if ($isArray) {
+			if ($isArray)
+			{
 				$k 		= $element[$key];
 				$t	 	= $element[$text];
 				$id 	= ( isset( $element['id'] ) ? $element['id'] : null );
-			} else {
+			}
+			else
+			{
 				$k 		= $element->$key;
 				$t	 	= $element->$text;
 				$id 	= ( isset( $element->id ) ? $element->id : null );
@@ -63,7 +88,9 @@ class JHTMLSelect
 				$html .= '<optgroup label="' . $t . '">';
 			} else if ($k === '</OPTGROUP>') {
 				$html .= '</optgroup>';
-			} else {
+			}
+			else
+			{
 				//if no string after hypen - take hypen out
 				$splitText = explode( " - ", $t, 2 );
 				$t = $splitText[0];
@@ -71,10 +98,13 @@ class JHTMLSelect
 
 				$extra = '';
 				//$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
-				if (is_array( $selected )) {
-					foreach ($selected as $obj) {
-						$k2 = $obj->$key;
-						if ($k == $k2) {
+				if (is_array( $selected ))
+				{
+					foreach ($selected as $val)
+					{
+						$k2 = is_object( $val ) ? $val->$key : $val;
+						if ($k == $k2)
+						{
 							$extra .= ' selected="selected"';
 							break;
 						}
@@ -117,18 +147,14 @@ class JHTMLSelect
 		if ( $idtag ) {
 			$id = $idtag;
 		}
-		$id = str_replace('[','',$id);
-		$id = str_replace(']','',$id);
-
-		$html = '<select name="'. $tag_name .'" id="'. $id .'" '. $tag_attribs .'>';
-//		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
-		$html .= JHTMLSelect::Options( $arr, $key, $text, $selected, $flag );
-		$html .= '</select>';
+		$id		= str_replace('[','',$id);
+		$id		= str_replace(']','',$id);
+		$html	= '<select name="'. $tag_name .'" id="'. $id .'" '. $tag_attribs .'>';
+		$html	.= JHTMLSelect::Options( $arr, $key, $text, $selected, $flag );
+		$html	.= '</select>';
 
 		return $html;
 	}
-
-
 
 	/**
 	* Generates a select list of integers
@@ -149,7 +175,8 @@ class JHTMLSelect
 		$inc 	= intval( $inc );
 		$arr 	= array();
 
-		for ($i=$start; $i <= $end; $i+=$inc) {
+		for ($i=$start; $i <= $end; $i+=$inc)
+		{
 			$fi = $format ? sprintf( "$format", $i ) : "$i";
 			$arr[] = JHTML::_('select.option',  $fi, $fi );
 		}
@@ -178,17 +205,21 @@ class JHTMLSelect
 			$id_text = $idtag;
 		}
 
-		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
-			$k = $arr[$i]->$key;
-			$t = $arr[$i]->$text;
-			$id = ( isset($arr[$i]->id) ? @$arr[$i]->id : null);
+		for ($i=0, $n=count( $arr ); $i < $n; $i++ )
+		{
+			$k	= $arr[$i]->$key;
+			$t	= $arr[$i]->$text;
+			$id	= ( isset($arr[$i]->id) ? @$arr[$i]->id : null);
 
-			$extra = '';
-			$extra .= $id ? " id=\"" . $arr[$i]->id . "\"" : '';
-			if (is_array( $selected )) {
-				foreach ($selected as $obj) {
-					$k2 = $obj->$key;
-					if ($k == $k2) {
+			$extra	= '';
+			$extra	.= $id ? " id=\"" . $arr[$i]->id . "\"" : '';
+			if (is_array( $selected ))
+			{
+				foreach ($selected as $val)
+				{
+					$k2 = is_object( $val ) ? $val->$key : $val;
+					if ($k == $k2)
+					{
 						$extra .= " selected=\"selected\"";
 						break;
 					}
@@ -211,8 +242,8 @@ class JHTMLSelect
 	* @param mixed The key that is selected
 	* @returns string HTML for the radio list
 	*/
-	function booleanlist( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false ) {
-
+	function booleanlist( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false )
+	{
 		$arr = array(
 			JHTML::_('select.option',  '0', JText::_( $no ) ),
 			JHTML::_('select.option',  '1', JText::_( $yes ) )
@@ -220,4 +251,3 @@ class JHTMLSelect
 		return JHTML::_('select.radiolist',  $arr, $tag_name, $tag_attribs, (int) $selected, 'value', 'text', $id );
 	}
 }
-

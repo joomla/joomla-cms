@@ -39,6 +39,8 @@ Legend:
 
 21-May-2007 Andrew Eddie
  # Fixed PEAR.php case problem
+ + Added JHTMLSelect::optgroup to better handle option groups and allow for forward compatibility
+ ^ When JHTMLSelect::options receives an array for multiple selected values, the array also be a column of scaler values now
 
 17-May-2007 Johan Janssens
  ^ JHTMLGrid::sort and JHTMLGrid::order now return instead of echoing 
