@@ -748,7 +748,7 @@ class JTable extends JObject
 	 */
 	function isCheckedOut( $with = 0, $against = null)
 	{
-		if(is_null($against)) {
+		if(is_object($this) && is_null($against)) {
 			$against = $this->get( 'checked_out' );
 		}
 
