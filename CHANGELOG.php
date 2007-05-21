@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 21-May-2007 Andrew Eddie
+ # Fixed bug in Banners list: Category used 'name' instead of 'title' field
+
+21-May-2007 Andrew Eddie
  # Fixed PEAR.php case problem
  + Added JHTMLSelect::optgroup to better handle option groups and allow for forward compatibility
  ^ When JHTMLSelect::options receives an array for multiple selected values, the array also be a column of scalar values now

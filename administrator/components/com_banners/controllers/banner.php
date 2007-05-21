@@ -88,7 +88,7 @@ class BannerControllerBanner extends JController
 		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( $total, $limitstart, $limit );
 
-		$query = 'SELECT b.*, c.name AS client_name, cc.name AS category_name, u.name AS editor'
+		$query = 'SELECT b.*, c.name AS client_name, cc.title AS category_name, u.name AS editor'
 		. ' FROM #__banner AS b'
 		. ' INNER JOIN #__bannerclient AS c ON c.cid = b.cid'
 		. ' LEFT JOIN #__categories AS cc ON cc.id = b.catid'
