@@ -42,6 +42,7 @@ Legend:
  + Added JHTMLSelect::optgroup to better handle option groups and allow for forward compatibility
  ^ When JHTMLSelect::options receives an array for multiple selected values, the array also be a column of scaler values now
  # Improved display of article last modified date
+ # Fixed bug in Newsfeeds list: Category used 'name' instead of 'title' field
 
 17-May-2007 Johan Janssens
  ^ JHTMLGrid::sort and JHTMLGrid::order now return instead of echoing 

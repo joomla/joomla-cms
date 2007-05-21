@@ -128,7 +128,7 @@ function showNewsFeeds(  )
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// get the subset (based on limits) of required records
-	$query = 'SELECT a.*, c.name AS catname, u.name AS editor'
+	$query = 'SELECT a.*, c.title AS catname, u.name AS editor'
 	. ' FROM #__newsfeeds AS a'
 	. ' LEFT JOIN #__categories AS c ON c.id = a.catid'
 	. ' LEFT JOIN #__users AS u ON u.id = a.checked_out'
