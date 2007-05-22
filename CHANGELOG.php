@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-May-2007 Johan Janssens
+ ^ Added ini_set('zend.ze1_compatibility_mode', '0') to all framework.php files
+   to force PHP5 to run in none compatibility mode. (default setting)
+
 22-May-2007 Rob Schley
  * Fixed two minor XSS vulnerabilities in com_mailto
  * Fixed a couple of unfiltered inputs in com_content

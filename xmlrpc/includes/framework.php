@@ -21,6 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 error_reporting( E_ALL );
 @set_magic_quotes_runtime( 0 );
+@ini_set('zend.ze1_compatibility_mode', '0');
 
 if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10)) {
 	// TODO: Throw 500 error

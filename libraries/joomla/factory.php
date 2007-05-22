@@ -267,7 +267,9 @@ class JFactory
 		{
 			case 'RSS' :
 			case 'Atom' :
-				if (!is_null( $options['rssUrl'] )) {
+			{
+				if (!is_null( $options['rssUrl'] )) 
+				{
 					jimport ('simplepie.simplepie');
 					$simplepie = new SimplePie();
 					$simplepie->feed_url($options['rssUrl']);
@@ -280,15 +282,17 @@ class JFactory
 					// Raise Error
 					}
 				}
-				break;
+			}	break;
 
 			case 'Simple' :
+			{
 				jimport('joomla.utilities.simplexml');
 				$doc = new JSimpleXML();
-				break;
+			}	break;
 
 			case 'DOM'  :
 			default :
+			{
 				if (!isset($options['lite']) || $options['lite'])
 				{
 					jimport('domit.xml_domit_lite_include');
@@ -299,6 +303,7 @@ class JFactory
 					jimport('domit.xml_domit_include');
 					$doc = new DOMIT_Document();
 				}
+			}
 		}
 
 		return $doc;
