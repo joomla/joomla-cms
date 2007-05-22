@@ -44,14 +44,14 @@ class ContentViewArticle extends JView
 
 		// set document information
 		$document->setTitle($article->title);
-		$document->setName($article->title_alias);
+		$document->setName($article->alias);
 		$document->setDescription($article->metadesc);
 		$document->setMetaData('keywords', $article->metakey);
 
 		// prepare header lines
 		$document->setHeader($this->_getHeaderText($article, $params));
-
-		$document->setData($article->text);
+		
+		echo $article->text;
 	}
 
 	function _getHeaderText(& $article, & $params)

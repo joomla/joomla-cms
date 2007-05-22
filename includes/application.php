@@ -173,7 +173,7 @@ class JSite extends JApplication
 				);
 			} break;
  		}
-
+	
 		$data = $document->render( $this->getCfg('caching'), $params);
 		JResponse::setBody($data);
 	}

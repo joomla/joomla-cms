@@ -27,7 +27,9 @@ defined('JPATH_BASE') or die();
 class JDocumentPDF extends JDocument
 {
 	var $_engine	= null;
+	
 	var $_name		= 'joomla';
+	
 	var $_header	= null;
 
 	var $_margin_header	= 5;
@@ -100,7 +102,6 @@ class JDocumentPDF extends JDocument
 		define("K_PATH_URL", JPATH_BASE);
 
 		// Fonts path
-		$lang = &JFactory::getLanguage();
 		define("FPDF_FONTPATH", JPATH_SITE.DS.'language'.DS."pdf_fonts".DS);
 
 		// Cache directory path
@@ -149,11 +150,6 @@ class JDocumentPDF extends JDocument
 		$this->_engine->setImageScale($this->_image_scale);
 	}
 
-	function & getEngine()
-	{
-		return $this->_engine;
-	}
-
 	 /**
 	 * Sets the document name
 	 *
@@ -161,8 +157,7 @@ class JDocumentPDF extends JDocument
 	 * @access  public
 	 * @return  void
 	 */
-	function setName($name = 'joomla')
-	{
+	function setName($name = 'joomla') {
 		$this->_name = $name;
 	}
 
@@ -172,8 +167,7 @@ class JDocumentPDF extends JDocument
 	 * @access public
 	 * @return string
 	 */
-	function getName()
-	{
+	function getName() {
 		return $this->_name;
 	}
 
@@ -184,8 +178,7 @@ class JDocumentPDF extends JDocument
 	 * @access  public
 	 * @return  void
 	 */
-	function setHeader($text)
-	{
+	function setHeader($text) {
 		$this->_header = $text;
 	}
 
@@ -195,41 +188,10 @@ class JDocumentPDF extends JDocument
 	 * @access public
 	 * @return string
 	 */
-	function getHeader()
-	{
+	function getHeader() {
 		return $this->_header;
 	}
-
-	/**
-	 * Get the contents of the document buffer
-	 *
-	 * @access public
-	 * @return 	The contents of the document buffer
-	 */
-	function getData() {
-		return $this->_data;
-	}
-
-	/**
-	 * Set the contents of the document buffer
-	 *
-	 * @access public
-	 * @param string 	$content	The content to be set in the buffer
-	 */
-	function setData($content) {
-		$this->_data = $content;
-	}
-
-	/**
-	 * Set the contents of the document buffer
-	 *
-	 * @access public
-	 * @param string 	$content	The content to be set in the buffer
-	 */
-	function appendData($content) {
-		$this->_data .= $content;
-	}
-
+	
 	/**
 	 * Render the document.
 	 *
@@ -263,11 +225,11 @@ class JDocumentPDF extends JDocument
 		// Initialize PDF Document
 		$pdf->AliasNbPages();
 		$pdf->AddPage();
-
+		
 		// Build the PDF Document string from the document buffer
-		$pdf->WriteHTML($this->getData(), true);
+		$pdf->WriteHTML($this->getBuffer(), true);
 		$data = $pdf->Output('', 'S');
-
+		
 		// Set document type headers
 		parent::render();
 		//JResponse::setHeader('Content-Length', strlen($data), true);
