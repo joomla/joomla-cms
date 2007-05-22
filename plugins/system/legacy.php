@@ -270,7 +270,7 @@ class  plgSystemLegacy extends JPlugin
 
 			default:
 			{
-				if($catid = JRequest::getVar( 'catid', 0)) {
+				if($catid = JRequest::getVar( 'catid', 0) && !JRequest::getVar( 'view')) {
 					$viewName = 'category';
 					JRequest::setVar('id', $catid);
 				}
