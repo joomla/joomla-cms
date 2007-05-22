@@ -66,7 +66,7 @@ class modMainMenuHelper
 			$string = $cache->call(array('modMainMenuHelper', 'buildXML'), $params);
 			$xmls[$type] = $string;
 		}
-
+		
 		// Get document
 		$xml = JFactory::getXMLParser('Simple');
 		$xml->loadString($xmls[$type]);
@@ -300,7 +300,7 @@ class JMenuTree extends JTree
 			if (strcasecmp(substr($tmp->url, 0, 4), 'http') && (strpos($tmp->link, 'index.php?') !== false)) {
 				$tmp->url = JRoute::_($tmp->url, true, $iSecure);
 			} else {
-				$tmp->url = str_replace('&', '&amp', $tmp->url);
+				$tmp->url = str_replace('&', '&amp;', $tmp->url);
 			}
 
 			switch ($tmp->browserNav)
