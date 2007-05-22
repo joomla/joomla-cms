@@ -150,7 +150,7 @@ function viewFrontPage( $option )
 	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
-	$query = 'SELECT c.*, g.name AS groupname, cc.title as name, s.name AS sect_name, u.name AS editor, f.ordering AS fpordering, v.name AS author'
+	$query = 'SELECT c.*, g.name AS groupname, cc.title as name, s.title AS sect_name, u.name AS editor, f.ordering AS fpordering, v.name AS author'
 	. ' FROM #__content AS c'
 	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
 	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope="content"'
