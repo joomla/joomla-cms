@@ -60,7 +60,7 @@ class MailtoController extends JController
 		$MailFrom 	= $mainframe->getCfg('mailfrom');
 		$FromName 	= $mainframe->getCfg('fromname');
 
-		$link 		= base64_decode( JRequest::getVar( 'link', '', 'post' ) );
+		$link 		= base64_decode( JRequest::getVar( 'link', '', 'post', 'base64' ) );
 
 		// An array of e-mail headers we do not want to allow as input
 		$headers = array (	'Content-Type:',

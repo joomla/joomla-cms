@@ -37,7 +37,7 @@ class ContentViewFrontpage extends JView
 		$document	=& JFactory::getDocument();
 
 		// Request variables
-		$id			= JRequest::getVar('id');
+		$id			= JRequest::getVar('id', null, '', 'int');
 		$limit		= JRequest::getVar('limit', 5, '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 

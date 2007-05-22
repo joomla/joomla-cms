@@ -133,8 +133,16 @@ class JInputFilter extends JObject
 				$result = (string) preg_replace( '/[^A-Z_]/i', '', $source );
 				break;
 
+			case 'ALNUM' :
+				$result = (string) preg_replace( '/[^A-Z0-9]/i', '', $source );
+				break;
+
 			case 'CMD' :
 				$result = (string) preg_replace( '/[^A-Z0-9_\.-]/i', '', $source );
+				break;
+
+			case 'BASE64' :
+				$result = (string) preg_replace( '/[^A-Z0-9\/+=]/i', '', $source );
 				break;
 
 			case 'STRING' :

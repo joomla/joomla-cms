@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-May-2007 Rob Schley
+ * Fixed two minor XSS vulnerabilities in com_mailto
+ * Fixed a couple of unfiltered inputs in com_content
+ + Added two new filter types to JInputFilter::clean(): ALNUM for alphanumeric and BASE64 for base64 encoded information
+
 21-May-2007 Andrew Eddie
  # Fixed bug in Banners list: Category used 'name' instead of 'title' field
 
@@ -51,7 +56,7 @@ Legend:
  # Fixed missing published radio in poll edit form
 
 17-May-2007 Johan Janssens
- ^ JHTMLGrid::sort and JHTMLGrid::order now return instead of echoing 
+ ^ JHTMLGrid::sort and JHTMLGrid::order now return instead of echoing
  - Removed template_positions table and cleaned up com_modules code
 
 07-May-2007 Johan Janssens
