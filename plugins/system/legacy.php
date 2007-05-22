@@ -36,6 +36,8 @@ class  plgSystemLegacy extends JPlugin
 	function plgSystemLegacy(& $subject)
 	{
 		parent::__construct($subject);
+		
+		global $mainframe;
 
 		// Define the 1.0 legacy mode constant
 		define('_J_LEGACY', '1.0');
@@ -104,14 +106,6 @@ class  plgSystemLegacy extends JPlugin
 		$user				=& JFactory::getUser();
 		$GLOBALS['my']		= clone($user->getTable());
 		$GLOBALS['my']->gid	= $user->get('aid', 0);
-
-		/**
-		 * Legacy global, use JApplication::getTemplate() instead
-		 * @name $cur_template
-		 * @deprecated	As of version 1.5
-		 */
-		global $mainframe;
-		$GLOBALS['cur_template']	= $mainframe->getTemplate();
 
 		//Insert configuration values into global scope (for backwards compatibility)
 		$temp = new JConfig;
@@ -192,6 +186,13 @@ class  plgSystemLegacy extends JPlugin
 				JRequest::setVar('view', 'register');
 				break;
  		}
+		
+		/**
+		 * Legacy global, use JApplication::getTemplate() instead
+		 * @name $cur_template
+		 * @deprecated	As of version 1.5
+		 */
+		$GLOBALS['cur_template'] = $mainframe->getTemplate();
 	}
 
 	function routeContent()
