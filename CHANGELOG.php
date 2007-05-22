@@ -40,7 +40,11 @@ Legend:
 22-May-2007 Johan Janssens
  ^ Added ini_set('zend.ze1_compatibility_mode', '0') to all framework.php files
    to force PHP5 to run in none compatibility mode. (default setting)
-
+ # Fixed [#4759] function routeNewsfeeds()
+ # Fixed [#4822] undeclared variable in com_wrapper view.php
+ # Fixed [#5300] Web links not loading just refreshes the page
+ # Fixed [#5320] XML Parsing Error at 1:1674. Error 26: Undeclared entity error
+ 
 22-May-2007 Rob Schley
  * Fixed two minor XSS vulnerabilities in com_mailto
  * Fixed a couple of unfiltered inputs in com_content

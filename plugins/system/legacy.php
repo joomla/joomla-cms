@@ -248,7 +248,7 @@ class  plgSystemLegacy extends JPlugin
 
 			default:
 			{
-				if(JRequest::getVar( 'catid', 0)) {
+				if(JRequest::getVar( 'catid', 0) && !JRequest::getVar( 'view')) {
 					$viewName = 'category';
 				}
 			}
