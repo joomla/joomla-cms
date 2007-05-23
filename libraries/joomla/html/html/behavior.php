@@ -22,7 +22,7 @@
  */
 class JHTMLBehavior
 {
-	function tooltip($selector='.hasTip', $params=array())
+	function tooltip($selector='.hasTip', $params = array())
 	{
 		static $tips;
 
@@ -38,7 +38,7 @@ class JHTMLBehavior
 		// Setup options object
 		$options = '{';
 		$opt['maxTitleChars']	= (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int)$params['maxTitleChars'] : 50 ;
-		$opt['timeOut']			= (isset($params['timeOut'])) ? (int)$params['timeOut'] : null;
+		$opt['offsets']			= (isset($params['offsets'])) ? (int)$params['offsets'] : null;
 		$opt['showDelay']		= (isset($params['showDelay'])) ? (int)$params['showDelay'] : null;
 		$opt['hideDelay']		= (isset($params['hideDelay'])) ? (int)$params['hideDelay'] : null;
 		$opt['className']		= (isset($params['className'])) ? $params['className'] : null;
@@ -101,7 +101,7 @@ class JHTMLBehavior
 
 		$doc =& JFactory::getDocument();
 		$doc->addScriptDeclaration($js);
-		echo $html;
+		return $html;
 	}
 }
 
