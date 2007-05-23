@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-May-2007 Rastin Mehr
+^ mootools 1.0 has been upgraded to mootools 1.1
+
 22-May-2007 Johan Janssens
  ^ Added ini_set('zend.ze1_compatibility_mode', '0') to all framework.php files
    to force PHP5 to run in none compatibility mode. (default setting)
