@@ -18,7 +18,7 @@ defined('_JEXEC') or die();
 jimport('joomla.application.component.model');
 
 /**
- * Newsfeeds Component Newsfeeds Model
+ * Weblinks Component Weblink Model
  *
  * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla

@@ -80,7 +80,7 @@ class WeblinksModelWeblink extends JModel
 			// Initialize some variables
 			$user = &JFactory::getUser();
 
-			// Make sure the category is published
+			// Make sure the weblink is published
 			if (!$this->_data->published) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
