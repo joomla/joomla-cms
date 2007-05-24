@@ -445,7 +445,7 @@ class JUser extends JObject
 	/**
 	 * Method to save the JUser object to the database
 	 *
-	 * @access 	private
+	 * @access 	public
 	 * @param 	boolean $updateOnly Save the object only if not a new user
 	 * @return 	boolean 			True on success
 	 * @since 1.5
