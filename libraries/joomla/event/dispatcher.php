@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla.Framework
-* @subpackage	Application
+* @subpackage	Event
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
