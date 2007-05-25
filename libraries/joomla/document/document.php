@@ -377,11 +377,11 @@ class JDocument extends JObject
 	 *
 	 * @access   public
 	 * @param	string  $content   Script
-	 * @param	string  $type		Scripting mime (defaults to 'text/javascript')
+	 * @param	string  $type	Scripting mime (defaults to 'text/javascript')
 	 * @return   void
 	 */
 	function addScriptDeclaration($content, $type = 'text/javascript') {
-		$this->_script[][strtolower($type)] =& $content;
+		$this->_script[][strtolower($type)] = $content;
 	}
 
 	/**
