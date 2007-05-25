@@ -45,10 +45,10 @@ class JHTMLList
    /**
 	* Build the select list to choose an image
 	*/
-	function images( $name, &$active, $javascript=NULL, $directory=NULL )
+	function images( $name, $active = NULL, $javascript = NULL, $directory = NULL )
 	{
 		if ( !$directory ) {
-			$directory = '/images/stories/';
+			$directory = DS.'images'.DS.'stories';
 		}
 
 		if ( !$javascript ) {
@@ -63,7 +63,7 @@ class JHTMLList
 				$images[] = JHTML::_('select.option',  $file );
 			}
 		}
-		$images = JHTML::_('select.genericlist',   $images, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$images = JHTML::_('select.genericlist',  $images, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $images;
 	}
