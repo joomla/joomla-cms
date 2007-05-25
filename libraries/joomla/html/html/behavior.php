@@ -89,19 +89,26 @@ class JHTMLBehavior
 	 */
 	function keepalive()
 	{
-		$js = "
-				function keepAlive() {
-					setTimeout('frames[\'keepAliveFrame\'].location.href=\'index.php?option=com_admin&tmpl=component&task=keepalive\';', 60000);
-				}";
-
-		$html = "<iframe id=\"keepAliveFrame\" name=\"keepAliveFrame\" " .
-				"style=\"width:0px; height:0px; border: 0px\" " .
-				"src=\"index.php?option=com_admin&tmpl=component&task=keepalive\" " .
-				"onload=\"keepAlive();\"></iframe>";
-
-		$doc =& JFactory::getDocument();
-		$doc->addScriptDeclaration($js);
-		return $html;
+		$config =& JFactory::getConfig();
+		$lifetime = ( $config->getValue('lifetime') * 60000 );
+		$refreshTime =  ( $lifetime < 120000 ) ? 120000 : $lifetime - 120000;
+		//refresh time is 2 minutes less than the liftime assined in the configuration.php file
+		?>
+		<script language="javascript">
+		function keepAlive( refreshTime )
+		{
+			var url = "index.php?option=com_admin&tmpl=component&task=keepalive";
+			var myAjax = new Ajax( url, { method: "get", update: $("keepAliveLayer") } ).request();
+			setTimeout('keepAlive()', refreshTime );
+		}
+		
+		window.addEvent('domready', function()
+			{ keepAlive( <?php echo $refreshTime; ?> ); }
+		);
+		</script>
+		<div id="keepAliveLayer"></div>
+		<?php
+		return;
 	}
 }
 

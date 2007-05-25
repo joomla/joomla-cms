@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-May-2007 Rastin Mehr
+^ function JHTMLBehavior::keepalive is now using mootools ajax calls, and the ( config file liftime value - 2min ) for refresh rate
+ 
+
 23-May-2007 Rastin Mehr
 ^ mootools 1.0 has been upgraded to mootools 1.1
 
