@@ -90,7 +90,7 @@ class SearchController
 		$searchphrases[] 	= JHTML::_('select.option',  'any', JText::_( 'Any words' ) );
 		$searchphrases[] 	= JHTML::_('select.option',  'all', JText::_( 'All words' ) );
 		$searchphrases[] 	= JHTML::_('select.option',  'exact', JText::_( 'Exact phrase' ) );
-		$lists['searchphrase' ]= JHTML::_('select.radiolist',  $searchphrases, 'searchphrase', '', $searchphrase );
+		$lists['searchphrase' ]= JHTML::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $searchphrase );
 
 		$areas = array();
 		$areas['active'] = $activeareas;

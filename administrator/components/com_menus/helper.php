@@ -149,7 +149,7 @@ class JMenuHelper
 		} else {
 			$row->published = 1;
 		}
-		$published = JHTML::_('select.radiolist',  $put, 'published', '', $row->published );
+		$published = JHTML::_('select.radiolist',  $put, 'published', '', 'value', 'text', $row->published );
 		return $published;
 	}
 }

@@ -183,7 +183,7 @@ class ConfigControllerApplication extends ConfigController
 		$formats	= array (JHTML::_('select.option', 'RSS2.0', JText::_('RSS')), JHTML::_('select.option', 'Atom', JText::_('Atom')));
 		$summary	= array (JHTML::_('select.option', 1, JText::_('Full Text')), JHTML::_('select.option', 0, JText::_('Intro Text')),);
 		$lists['feed_limit']	= JHTML::_('select.genericlist',  $listLimit, 'feed_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->feed_limit ? $row->feed_limit : 10));
-		$lists['feed_summary']	= JHTML::_('select.radiolist', $summary, 'feed_summary', 'class="inputbox"', $row->feed_summary);
+		$lists['feed_summary']	= JHTML::_('select.radiolist', $summary, 'feed_summary', 'class="inputbox"', 'value', 'text', $row->feed_summary);
 
 		// SESSION SETTINGS
 		$stores = JSession::getStores();

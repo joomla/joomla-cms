@@ -447,7 +447,7 @@ class JView extends JObject
 	{
 		$name = strtolower(get_class($model));
 		$this->_models[$name] = &$model;
-
+		
 		if ($default) {
 			$this->_defaultModel = $name;
 		}

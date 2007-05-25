@@ -915,7 +915,7 @@ class mosHTML
  	*/
 	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )
 	{
-		return JHTML::_('select.radiolist', $arr, $tag_name, $tag_attribs, $selected, $key, $text, $idtag) ;
+		return JHTML::_('select.radiolist', $arr, $tag_name, $tag_attribs, $key, $text,  $selected, $idtag) ;
 	}
 
 	/**
