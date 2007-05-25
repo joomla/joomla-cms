@@ -216,7 +216,7 @@ class JHTMLSelect
 		}
 
 		for ($i=0, $n=count( $arr ); $i < $n; $i++ )
-		{
+		{			
 			$k	= $arr[$i]->$key;
 			$t	= $arr[$i]->$text;
 			$id	= ( isset($arr[$i]->id) ? @$arr[$i]->id : null);
@@ -258,6 +258,6 @@ class JHTMLSelect
 			JHTML::_('select.option',  '0', JText::_( $no ) ),
 			JHTML::_('select.option',  '1', JText::_( $yes ) )
 		);
-		return JHTML::_('select.radiolist',  $arr, $name, $attribs, (int) $selected, 'value', 'text', $id );
+		return JHTML::_('select.radiolist',  $arr, $name, $attribs, 'value', 'text', (int) $selected, $id );
 	}
 }
