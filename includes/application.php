@@ -324,7 +324,7 @@ class JSite extends JApplication
 			$templates = $db->loadObjectList('menuid');
 		}
 
-		if ($template = $this->getUserState( 'setTemplate' ))
+		if ($template = $this->get( 'setTemplate' ))
 		{
 			// ok, allows for an override of the template from a component
 			// eg, $mainframe->setTemplate( 'solar-flare-ii' );
@@ -349,7 +349,7 @@ class JSite extends JApplication
 	function setTemplate( $template )
 	{
 		if (is_dir(JPATH_THEMES.DS.$template)) {
-			$this->setUserState('setTemplate', $template);
+			$this->set('setTemplate', $template);
 		}
 	}
 
