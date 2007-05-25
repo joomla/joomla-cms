@@ -75,7 +75,7 @@ class JHTMLList
  	 * @param integer The length of the truncated headline
  	 * @since 1.5
  	 */
-	function genericordering( $sql, $chop='30' )
+	function genericordering( $sql, $chop = '30' )
 	{
 		$db =& JFactory::getDBO();
 		$order = array();
@@ -108,7 +108,7 @@ class JHTMLList
    /**
 	* Build the select list for Ordering of a specified Table
 	*/
-	function specificordering( &$row, $id, $query, $neworder=0 )
+	function specificordering( &$row, $id, $query, $neworder = 0 )
 	{
 		$db =& JFactory::getDBO();
 
@@ -129,7 +129,7 @@ class JHTMLList
    /**
 	* Select list of active users
 	*/
-	function users( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 )
+	function users( $name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1 )
 	{
 		$db =& JFactory::getDBO();
 
@@ -161,7 +161,7 @@ class JHTMLList
    /**
 	* Select list of positions - generally used for location of images
 	*/
-	function positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false )
+	function positions( $name, $active = NULL, $javascript = NULL, $none = 1, $center = 1, $left = 1, $right = 1, $id = false )
 	{
 		if ( $none ) {
 			$pos[] = JHTML::_('select.option',  '', JText::_( 'None' ) );
@@ -184,7 +184,7 @@ class JHTMLList
    /**
 	* Select list of active categories for components
 	*/
-	function category( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 )
+	function category( $name, $section, $active = NULL, $javascript = NULL, $order = 'ordering', $size = 1, $sel_cat = 1 )
 	{
 		global $mainframe;
 
@@ -216,7 +216,7 @@ class JHTMLList
    /**
 	* Select list of active sections
 	*/
-	function section( $name, $active=NULL, $javascript=NULL, $order='ordering' )
+	function section( $name, $active = NULL, $javascript = NULL, $order = 'ordering' )
 	{
 		$db =& JFactory::getDBO();
 

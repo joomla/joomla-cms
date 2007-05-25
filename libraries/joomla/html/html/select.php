@@ -43,7 +43,7 @@ class JHTMLSelect
 	 * @param	string	The returned object property name for the text
 	 * @return	object
 	 */
-	function optgroup( $text, $value_name='value', $text_name='text' )
+	function optgroup( $text, $value_name = 'value', $text_name = 'text' )
 	{
 		$obj = new stdClass;
 		$obj->$value_name	= '<OPTGROUP>';
@@ -60,7 +60,7 @@ class JHTMLSelect
 	 * @param	mixed	The key that is selected (accepts an array or a string)
 	 * @returns	string	HTML for the select list
 	 */
-	function options( $arr, $key, $text, $selected=null, $flag=false )
+	function options( $arr, $key = 'value', $text = 'text', $selected = null, $flag = false )
 	{
 		$html = '';
 
@@ -136,20 +136,26 @@ class JHTMLSelect
 	 * @param	mixed	The key that is selected (accepts an array or a string)
 	 * @returns	string	HTML for the select list
 	 */
-	function genericlist( $arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false )
+	function genericlist( $arr, $name, $attribs = null, $key = 'value', $text = 'text', $selected = NULL, $idtag = false, $flag = false )
 	{
-		// check if array
 		if ( is_array( $arr ) ) {
 			reset( $arr );
 		}
+		
+		if (is_array($attribs)) {
+			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
+		 }
 
-		$id = $tag_name;
+		$id = $name;
+		
 		if ( $idtag ) {
 			$id = $idtag;
 		}
+		
 		$id		= str_replace('[','',$id);
 		$id		= str_replace(']','',$id);
-		$html	= '<select name="'. $tag_name .'" id="'. $id .'" '. $tag_attribs .'>';
+		
+		$html	= '<select name="'. $name .'" id="'. $id .'" '. $attribs .'>';
 		$html	.= JHTMLSelect::Options( $arr, $key, $text, $selected, $flag );
 		$html	.= '</select>';
 
@@ -168,7 +174,7 @@ class JHTMLSelect
 	* @param string The printf format to be applied to the number
 	* @returns string HTML for the select list
 	*/
-	function integerlist( $start, $end, $inc, $tag_name, $tag_attribs, $selected, $format="" )
+	function integerlist( $start, $end, $inc, $name, $attribs = null, $selected = null, $format = "" )
 	{
 		$start 	= intval( $start );
 		$end 	= intval( $end );
@@ -181,7 +187,7 @@ class JHTMLSelect
 			$arr[] = JHTML::_('select.option',  $fi, $fi );
 		}
 
-		return JHTML::_('select.genericlist',   $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
+		return JHTML::_('select.genericlist',   $arr, $name, $attribs, 'value', 'text', $selected );
 	}
 
 	/**
@@ -195,12 +201,16 @@ class JHTMLSelect
 	* @param string The name of the object variable for the option text
 	* @returns string HTML for the select list
 	*/
-	function radiolist( $arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false )
+	function radiolist( $arr, $name, $attribs = null, $key = 'value', $text = 'text', $selected = null, $idtag = false, $flag = false )
 	{
 		reset( $arr );
 		$html = '';
+		
+		if (is_array($attribs)) {
+			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
+		 }
 
-		$id_text = $tag_name;
+		$id_text = $name;
 		if ( $idtag ) {
 			$id_text = $idtag;
 		}
@@ -227,7 +237,7 @@ class JHTMLSelect
 			} else {
 				$extra .= ($k == $selected ? " checked=\"checked\"" : '');
 			}
-			$html .= "\n\t<input type=\"radio\" name=\"$tag_name\" id=\"$id_text$k\" value=\"".$k."\"$extra $tag_attribs />";
+			$html .= "\n\t<input type=\"radio\" name=\"$name\" id=\"$id_text$k\" value=\"".$k."\"$extra $attribs />";
 			$html .= "\n\t<label for=\"$id_text$k\">$t</label>";
 		}
 		$html .= "\n";
@@ -242,12 +252,12 @@ class JHTMLSelect
 	* @param mixed The key that is selected
 	* @returns string HTML for the radio list
 	*/
-	function booleanlist( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false )
+	function booleanlist( $name, $attribs = null, $selected = null, $yes='yes', $no='no', $id=false )
 	{
 		$arr = array(
 			JHTML::_('select.option',  '0', JText::_( $no ) ),
 			JHTML::_('select.option',  '1', JText::_( $yes ) )
 		);
-		return JHTML::_('select.radiolist',  $arr, $tag_name, $tag_attribs, (int) $selected, 'value', 'text', $id );
+		return JHTML::_('select.radiolist',  $arr, $name, $attribs, (int) $selected, 'value', 'text', $id );
 	}
 }
