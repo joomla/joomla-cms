@@ -239,7 +239,7 @@ class JSession extends JObject
 		{
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			jimport('joomla.session.storage.'.$name);
-			$class = 'JSessionStorage'.$name;
+			$class = 'JSessionStorage'.ucfirst($name);
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {
 				$names[] = $name;
 			}
