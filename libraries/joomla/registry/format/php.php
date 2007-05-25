@@ -1,4 +1,4 @@
-as<?php
+<?php
 /**
  * @version		$Id$
  * @package		Joomla.Framework

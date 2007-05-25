@@ -280,7 +280,7 @@ class JRegistry extends JObject
 	function loadFile($file, $format = 'INI', $namespace = null)
 	{
 		// Load a file into the given namespace [or default namespace if not given]
-		$handler =& $this->_loadFormat($format);
+		$handler =& JRegistryFormat::getInstance($format);
 
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -438,7 +438,6 @@ class JRegistry extends JObject
 	 */
 	function toString($format = 'INI', $namespace = null, $params = null)
 	{
-		jimport('joomla.registry.format');
 		// Return a namespace in a given format
 		$handler =& JRegistryFormat::getInstance($format);
 
@@ -498,26 +497,5 @@ class JRegistry extends JObject
 		$ns = & $this->_registry[$namespace]['data'];
 
 		return $ns;
-	}
-
-	/**
-	 * Return the relevant JRegistryFormat object
-	 *
-	 * @access	private
-	 * @param	string	$format	The format to return
-	 * @return	object	Formatting object
-	 */
-	function &_loadFormat($format)
-	{
-		$lformat = JString::strtolower($format);
-		if(jimport('joomla.registry.format.'.$lformat))
-		{
-			$return = null;
-			$class =  'JRegistryFormat'.$format;
-			$return = new $class();
-			return $return;
-		} else {
-			JError::raiseError(500,JText::_('Unable to load format'));
-		}
 	}
 }

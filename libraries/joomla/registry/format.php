@@ -45,7 +45,14 @@ class JRegistryFormat extends JObject
 
 		if (empty ($instances[$format])) {
 			$adapter = 'JRegistryFormat'.$format;
-			jimport('joomla.registry.format.'.strtolower($format));
+			$lformat = strtolower(JInputFilter::clean($format, 'word'));
+
+			if (file_exists(JPATH_LIBRARIES.DS.'joomla'.DS.'registry'.DS.'format'.DS.$lformat.'.php')) {
+				jimport('joomla.registry.format.'.$lformat);
+			} else {
+				JError::raiseError(500,JText::_('Unable to load format'));
+			}
+
 			$instances[$format] = new $adapter ();
 		}
 		return $instances[$format];
