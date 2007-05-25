@@ -338,7 +338,7 @@ class JUser extends JObject
 	/**
 	 * Method to bind an associative array of data to a user object
 	 *
-	 * @access 	private
+	 * @access 	public
 	 * @param 	array 	$array 	The associative array to bind to the object
 	 * @return 	boolean 		True on success
 	 * @since 1.5
@@ -526,7 +526,7 @@ class JUser extends JObject
 	/**
 	 * Method to delete the JUser object from the database
 	 *
-	 * @access 	private
+	 * @access 	public
 	 * @param 	boolean $updateOnly Save the object only if not a new user
 	 * @return 	boolean 			True on success
 	 * @since 1.5
