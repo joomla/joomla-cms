@@ -42,7 +42,7 @@ class ContactViewContact extends JView
 
 		// Push a model into the view
 		$model		= &$this->getModel();
-		$modelCat	= &$this->getModel( 'ContactModelCategory' );
+		$modelCat	= &$this->getModel( 'Category' );
 
 		// Selected Request vars
 		$contactId	= JRequest::getVar( 'id', 0, '', 'int' );

@@ -149,8 +149,7 @@ class JToolBar extends JObject
 		$html[] = '<table class="toolbar"><tr>';
 
 		// Render each button in the toolbar
-		foreach ($this->_bar as $button)
-		{
+		foreach ($this->_bar as $button) {
 			$html[] = $this->renderButton($button);
 		}
 
@@ -178,8 +177,7 @@ class JToolBar extends JObject
 		/**
 		 * Error Occurred
 		 */
-		if ($button === false)
-		{
+		if ($button === false) {
 			return JText::_('Button not defined for type').' = '.$type;
 		}
 		return $button->render($node);

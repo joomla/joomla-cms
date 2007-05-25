@@ -445,9 +445,9 @@ class JView extends JObject
 	 */
 	function &setModel( &$model, $default = false )
 	{
-		$name = strtolower(get_class($model));
+		$name = strtolower($model->getName());
 		$this->_models[$name] = &$model;
-		
+
 		if ($default) {
 			$this->_defaultModel = $name;
 		}
@@ -495,6 +495,21 @@ class JView extends JObject
 	function getLayout()
 	{
 		return $this->_layout;
+	}
+
+	/**
+	 * Method to get the view name
+	 *
+	 * The model name by default parsed using the classname, or it can be set
+	 * by passing a $config['nameÕ] in the class constructor
+	 *
+	 * @access	public
+	 * @return	string The name of the model
+	 * @since	1.5
+	 */
+	function getName()
+	{
+		return $this->_name;
 	}
 
 	/**

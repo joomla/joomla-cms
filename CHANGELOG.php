@@ -37,12 +37,15 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-May-2007 Johan Janssens
+ + Added getName function to JController, JModel and JView. 
+
 25-May-2007 Rastin Mehr
-^ function JHTMLBehavior::keepalive is now using mootools ajax calls, and the ( config file liftime value - 2min ) for refresh rate
- 
+^ function JHTMLBehavior::keepalive is now using mootools ajax calls, and the
+  ( config file liftime value - 2min ) for refresh rate
 
 23-May-2007 Rastin Mehr
-^ mootools 1.0 has been upgraded to mootools 1.1
+ ^ Updated Mootools Library to version 1.1
 
 22-May-2007 Johan Janssens
  ^ Added ini_set('zend.ze1_compatibility_mode', '0') to all framework.php files
@@ -51,7 +54,7 @@ Legend:
  # Fixed [#4822] undeclared variable in com_wrapper view.php
  # Fixed [#5300] Web links not loading just refreshes the page
  # Fixed [#5320] XML Parsing Error at 1:1674. Error 26: Undeclared entity error
- 
+
 22-May-2007 Rob Schley
  * Fixed two minor XSS vulnerabilities in com_mailto
  * Fixed a couple of unfiltered inputs in com_content

@@ -167,6 +167,21 @@ class JModel extends JObject
 	}
 
 	/**
+	 * Method to get the model name
+	 *
+	 * The model name by default parsed using the classname, or it can be set
+	 * by passing a $config['nameÕ] in the class constructor
+	 *
+	 * @access	public
+	 * @return	string The name of the model
+	 * @since	1.5
+	 */
+	function getName()
+	{
+		return $this->_name;
+	}
+
+	/**
 	 * Method to get a table object, load it if necessary.
 	 *
 	 * @access	public

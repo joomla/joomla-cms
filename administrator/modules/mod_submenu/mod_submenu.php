@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // Lets get some variables we will need to render the menu
 $lang	=& JFactory::getLanguage();
-$doc	=& JFactory::getDocument();
+$doc		=& JFactory::getDocument();
 $user	=& JFactory::getUser();
 
 // If hidemainmenu is true, we don't want to render this module at all
