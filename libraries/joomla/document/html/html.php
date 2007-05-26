@@ -209,11 +209,14 @@ class JDocumentHTML extends JDocument
 	{
 		// check
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
-		$template	= $params['template'];
-		$file		= $params['file'];
+		$template	= JInputFilter::clean($params['template'], 'cmd');
+		$file		= JInputFilter::clean($params['file'], 'cmd');
 
-		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
+		if ( !file_exists( $directory.DS.$template) ) {
 			$template = '_system';
+		}
+		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
+			$file = 'index.php';
 		}
 
 		// Parse the template INI file if it exists for parameters and insert
@@ -297,7 +300,7 @@ class JDocumentHTML extends JDocument
 
 			//get the file content
 			ob_start();
-			require_once($directory.DS.$filename );
+			require_once $directory.DS.$filename;
 			$contents = ob_get_contents();
 			ob_end_clean();
 		}

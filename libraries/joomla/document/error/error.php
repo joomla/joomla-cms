@@ -105,7 +105,7 @@ class JDocumentError extends JDocument
 
 		// check template
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
-		$template	= isset($params['template']) ? $params['template'] : '_system';
+		$template	= isset($params['template']) ? JInputFilter::clean($params['template'], 'cmd') : '_system';
 
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = '_system';
@@ -142,7 +142,7 @@ class JDocumentError extends JDocument
 
 			//get the file content
 			ob_start();
-			require_once($directory.DS.$filename );
+			require_once $directory.DS.$filename;
 			$contents = ob_get_contents();
 			ob_end_clean();
 		}
