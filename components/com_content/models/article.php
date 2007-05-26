@@ -151,7 +151,7 @@ class ContentModelArticle extends JModel
 			$limitstart	= JRequest::getVar('limitstart',	0, '', 'int');
 			if (!$this->_article->parameters->get('intro_only') && ($limitstart == 0))
 			{
-				$this->incrementHit();
+				$this->hit();
 			}
 
 		}
@@ -178,7 +178,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function incrementHit()
+	function hit()
 	{
 		global $mainframe;
 
