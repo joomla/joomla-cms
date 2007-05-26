@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-May-2007 Enno Klasing
+ + Added optional filter parameter to JApplication::getUserStateFromRequest
+
 25-May-2007 Johan Janssens
  + Added getName function to JController, JModel and JView. 
 

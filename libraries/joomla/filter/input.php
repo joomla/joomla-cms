@@ -101,7 +101,7 @@ class JInputFilter extends JObject
 	 *
 	 * @access	public
 	 * @param	mixed	$source	Input string/array-of-string to be 'cleaned'
-	 * @param	string	$type	Return type for the variable (INT, FLOAT, BOOLEAN, WORD, CMD, STRING, ARRAY, NONE)
+	 * @param	string	$type	Return type for the variable (INT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
 	 * @return	mixed	'Cleaned' version of input parameter
 	 * @since	1.5
 	 */
@@ -155,11 +155,8 @@ class JInputFilter extends JObject
 
 			case 'PATH' :
 				$pattern = '/^[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
-				if (preg_match($pattern, $source, $matches)) {
-					$result = (string) $matches[0];
-				} else {
-					$result = '';
-				}
+				@ preg_match($pattern, $source, $matches);
+				$result = @ (string) $matches[0];
 				break;
 
 			default :
