@@ -311,7 +311,13 @@ class JController extends JObject
 
 	/**
 	 * Typical view method for MVC based architecture
-	 *
+	 * 
+	 * This function is provide as a default implementation, in most cases 
+	 * you will need to override it in your own controllers.
+	 * 
+	 * @access	public
+	 * @param	string	$cachable	If true, the view output will be cached
+	 * @since	1.5
 	 */
 	function display($cachable=false)
 	{
