@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-May-2007 Enno Klasing
+ # Fixed [#5391] Cannot install sample data
+
 26-May-2007 Enno Klasing
  + Added optional filter parameter to JApplication::getUserStateFromRequest
 
