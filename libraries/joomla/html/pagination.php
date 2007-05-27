@@ -285,14 +285,15 @@ class JPagination extends JObject
 		$list['pagescounter']	= $this->getPagesCounter();
 		$list['pageslinks']		= $this->getPagesLinks();
 
-		$chromePath = JPATH_THEMES.DS.$mainframe->getTemplate().DS.'html'.DS.'pagination.php';
-		if (file_exists($chromePath)) {
-			require_once ($chromePath);
-			if (function_exists('pagination_list_footer')) {
-				$listOverride = true;
+		$chromePath		= JPATH_THEMES.DS.$mainframe->getTemplate().DS.'html'.DS.'pagination.php';
+		if (file_exists( $chromePath ))
+		{
+			require_once( $chromePath );
+			if (function_exists( 'pagination_list_footer' )) {
+				return pagination_list_footer( $list );
 			}
 		}
-		return ($listOverride) ? pagination_list_footer($list) : $this->_list_footer($list);
+		return $this->_list_footer($list);
 	}
 
 	/**

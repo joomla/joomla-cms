@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-May-2007 Andrew Eddie
+ # Fixed undeclared variable when not over-riding pagination
+
 27-May-2007 Enno Klasing
  # Fixed [#5391] Cannot install sample data
 
