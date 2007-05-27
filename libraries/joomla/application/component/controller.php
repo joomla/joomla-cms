@@ -224,7 +224,7 @@ class JController extends JObject
 			// user-defined dirs
 			$this->_setPath( 'model', $config['model_path'] );
 		} else {
-			$this->_setPath( 'model', null );
+			$this->_setPath( 'model', $this->_basePath.DS.'models' );
 		}
 
 		// set the default view search path
@@ -232,7 +232,7 @@ class JController extends JObject
 			// user-defined dirs
 			$this->_setPath( 'view', $config['view_path'] );
 		} else {
-			$this->_setPath( 'view', null );
+			$this->_setPath( 'view', $this->_basePath.DS.'views' );
 		}
 	}
 
@@ -311,10 +311,10 @@ class JController extends JObject
 
 	/**
 	 * Typical view method for MVC based architecture
-	 * 
-	 * This function is provide as a default implementation, in most cases 
+	 *
+	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
-	 * 
+	 *
 	 * @access	public
 	 * @param	string	$cachable	If true, the view output will be cached
 	 * @since	1.5
@@ -732,20 +732,6 @@ class JController extends JObject
 	{
 		// clear out the prior search dirs
 		$this->_path[$type] = array();
-
-		// always add the fallback directories as last resort
-		switch ( strtolower($type) )
-		{
-			case 'view':
-				// the current directory
-				$this->_addPath( $type, $this->_basePath . DS . 'views' );
-			break;
-
-			case 'model':
-				// the current directory
-				$this->_addPath( $type, $this->_basePath . DS . 'models' );
-				break;
-		}
 
 		// actually add the user-specified directories
 		$this->_addPath( $type, $path );

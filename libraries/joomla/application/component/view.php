@@ -68,7 +68,7 @@ class JView extends JObject
 	 * @var		string
 	 * @access 	protected
 	 */
-	var $_layout = 'default';
+	var $_layout = '';
 
 	/**
 	 * Layout extension
@@ -148,20 +148,22 @@ class JView extends JObject
 			// user-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		} else {
-			$this->_setPath('template', null);
+			$this->_setPath('template', $this->_basePath.DS.'views'.DS.$this->_name.DS.'tmpl');
 		}
 
-		// set the default template search path
+		// set the default helper search path
 		if (isset($config['helper_path'])) {
 			// user-defined dirs
 			$this->_setPath('helper', $config['helper_path']);
 		} else {
-			$this->_setPath('helper', null);
+			$this->_setPath('helper', $this->_basePath.DS.'helpers');
 		}
 
 		// set the layout
 		if (isset($config['layout'])) {
 			$this->setLayout($config['layout']);
+		} else {
+			$this->_layout = 'default';
 		}
 	}
 
@@ -607,6 +609,7 @@ class JView extends JObject
 		// load the template script
 		jimport('joomla.filesystem.path');
 		$this->_template = JPath::find($this->_path['template'], $this->_createFileName('template', array('name' => $file)));
+
 		if ($this->_template == false)
 		{
 			$file2 = !count($tpl) ? 'default_'.$tpl : 'default';
@@ -681,32 +684,23 @@ class JView extends JObject
 		// clear out the prior search dirs
 		$this->_path[$type] = array();
 
+		// actually add the user-specified directories
+		$this->_addPath($type, $path);
+
 		// always add the fallback directories as last resort
 		switch (strtolower($type))
 		{
 			case 'template':
 			{
-				// the current directory
-				$viewName = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_name);
-				$this->_addPath($type, $this->_basePath.DS.'views'.DS.$viewName.DS.'tmpl');
-
 				// set the alternative template search dir
 				if (isset($mainframe))
 				{
 					$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
-					$fallback = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$viewName;
+					$fallback = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_name;
 					$this->_addPath('template', $fallback);
 				}
 			}	break;
-
-			case 'helper':
-			{
-				$this->_addPath($type, $this->_basePath.DS.'helpers');
-			} break;
 		}
-
-		// actually add the user-specified directories
-		$this->_addPath($type, $path);
 	}
 
    /**
