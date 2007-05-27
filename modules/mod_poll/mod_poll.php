@@ -25,11 +25,14 @@ $itemid = isset($items[0]) ? $items[0]->id : '0';
 
 $list = modPollHelper::getList($params);
 $layout = JModuleHelper::getLayoutPath('mod_poll');
+$siteName = $mainframe->getCfg('live_site');
 
 foreach ($list as $item)
 {
 	$tabcnt 	= 0;
-	$voted 	= JRequest::getVar( "voted$item->id", 'z', 'COOKIE' );
+
+	$cookieName = JUtility::getHash($siteName.'poll'.$item->id);
+	$voted = JRequest::getInt($cookieName, '0', 'COOKIE');
 
 	if ($item->id && $item->title)  {
 		$options = modPollHelper::getPollOptions($item->id);

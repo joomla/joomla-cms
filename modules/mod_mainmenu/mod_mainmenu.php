@@ -39,5 +39,5 @@ $params->def('startLevel', 			0);
 $params->def('endLevel', 			0);
 $params->def('showAllChildren', 	0);
 
-require(JModuleHelper::getLayoutPath('mod_mainmenu', 'default'));
+require(JModuleHelper::getLayoutPath('mod_mainmenu'));
 ?>

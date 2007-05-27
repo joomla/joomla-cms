@@ -29,8 +29,6 @@ $access->canEdit	= 0;
 $access->canEditOwn = 0;
 $access->canPublish = 0;
 
-$layout 		= $params->get('layout', 'default');
-
 $list = modNewsFlashHelper::getList($params, $access);
 
 // check if any results returned
@@ -39,4 +37,9 @@ if (!$items) {
 	return;
 }
 
-require(JModuleHelper::getLayoutPath('mod_newsflash', $layout));
+$layout = $params->get('layout', 'default');
+$layout = JInputFilter::clean($layout, 'word');
+$path = JModuleHelper::getLayoutPath('mod_newsflash', $layout);
+if (file_exists($path)) {
+	require($path);
+}

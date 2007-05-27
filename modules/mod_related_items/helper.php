@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JPATH_SITE . '/components/com_content/helpers/route.php');
+require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
 
 class modRelatedItemsHelper
 {
@@ -25,10 +25,10 @@ class modRelatedItemsHelper
 		$db					=& JFactory::getDBO();
 		$user				=& JFactory::getUser();
 
-		$option				= JRequest::getVar( 'option', '' );
-		$task				= JRequest::getVar( 'task' );
+		$option				= JRequest::getCmd('option');
+		$task				= JRequest::getCmd('task');
 
-		$id					= JRequest::getVar( 'id', 0, '', 'int' );
+		$id					= JRequest::getInt('id');
 		$showDate			= $params->get('showDate', 0);
 
 		$now				= date('Y-m-d H:i:s', time());
