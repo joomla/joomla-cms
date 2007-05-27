@@ -113,14 +113,14 @@ class JInputFilter extends JObject
 			case 'INT' :
 			case 'INTEGER' :
 				// Only use the first integer value
-				@ preg_match('/-?[0-9]+/', $source, $matches);
+				preg_match('/-?[0-9]+/', (string) $source, $matches);
 				$result = @ (int) $matches[0];
 				break;
 
 			case 'FLOAT' :
 			case 'DOUBLE' :
 				// Only use the first floating point value
-				@ preg_match('/-?[0-9]+(\.[0-9]+)?/', $source, $matches);
+				preg_match('/-?[0-9]+(\.[0-9]+)?/', (string) $source, $matches);
 				$result = @ (float) $matches[0];
 				break;
 
@@ -155,7 +155,7 @@ class JInputFilter extends JObject
 
 			case 'PATH' :
 				$pattern = '/^[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
-				@ preg_match($pattern, $source, $matches);
+				preg_match($pattern, (string) $source, $matches);
 				$result = @ (string) $matches[0];
 				break;
 
