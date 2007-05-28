@@ -89,7 +89,7 @@ class JRequest
 			$hash = strtoupper( $_SERVER['REQUEST_METHOD'] );
 		}
 		$type	= strtoupper( $type );
-		$sig	= $hash.$mask;
+		$sig	= $hash.$type.$mask;
 
 		// Get the input hash
 		switch ($hash)

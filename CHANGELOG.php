@@ -39,6 +39,7 @@ Legend:
 
 28-May-2007 Andrew Eddie
  # Fixed undeclared variable when not over-riding pagination
+ # JRequest::getVar $sig needed $type added to for example cover case where $task may be an array (used to translate input buttons correctly)
 
 27-May-2007 Enno Klasing
  # Fixed [#5391] Cannot install sample data
