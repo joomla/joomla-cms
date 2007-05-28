@@ -143,7 +143,7 @@ class JHTMLSelect
 		}
 		
 		if (is_array($attribs)) {
-			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
+			$attribs = JArrayHelper::toString($attribs);
 		 }
 
 		$id = $name;
@@ -207,7 +207,7 @@ class JHTMLSelect
 		$html = '';
 		
 		if (is_array($attribs)) {
-			$attribs = JHTML::_implode_assoc('=', ' ', $attribs);
+			$attribs = JArrayHelper::toString($attribs);
 		 }
 
 		$id_text = $name;

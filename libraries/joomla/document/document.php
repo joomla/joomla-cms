@@ -700,31 +700,3 @@ class JDocument extends JObject
 		JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
 	}
 }
-
-/**
- * Document helper functions
- *
- * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
- * @package		Joomla.Framework
- * @subpackage	Document
- * @since		1.5
- */
- class JDocumentHelper
- {
-	function implodeAttribs($inner_glue = "=", $outer_glue = "\n", $array = null, $keepOuterKey = false)
-	{
-		$output = array();
-
-		foreach($array as $key => $item)
-		if (is_array ($item)) {
-			if ($keepOuterKey)
-				$output[] = $key;
-			// This is value is an array, go and do it again!
-			$output[] = JDocumentHelper::implodeAttribs($inner_glue, $outer_glue, $item, $keepOuterKey);
-		} else
-			$output[] = $key . $inner_glue . '"'.$item.'"';
-
-		return implode($outer_glue, $output);
-	}
- }

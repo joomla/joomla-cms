@@ -542,7 +542,7 @@ class ContentView
 		<input type="hidden" name="task" value="" />
 		</form>
 		<?php
-		JHTML::_('behavior.keepalive');
+		echo JHTML::_('behavior.keepalive');
 	}
 
 

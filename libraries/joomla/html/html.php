@@ -84,7 +84,7 @@ class JHTML
 	function link($url, $text, $attribs = null)
 	{
 		if (is_array( $attribs )) {
-			$attribs = JHTML::_implode_assoc( $attribs );
+			$attribs = JArrayHelper::toString( $attribs );
 		}
 
 		return '<a href="'.$url.'" '.$attribs.'>'.$text.'</a>';
@@ -106,7 +106,7 @@ class JHTML
 		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
 
 		if (is_array($attribs)) {
-			$attribs = JHTML::_implode_assoc( $attribs );
+			$attribs = JArrayHelper::toString( $attribs );
 		}
 
 		return '<img src="'.$src.'" alt="'.$alt.'" '.$attribs.' />';
@@ -126,7 +126,7 @@ class JHTML
 	function iframe( $url, $name, $attribs = null, $noFrames = '' )
 	{
 		if (is_array( $attribs )) {
-			$attribs = JHTML::_implode_assoc( $attribs );
+			$attribs = JArrayHelper::toString( $attribs );
 		}
 		return '<iframe src="'.$url.'" '.$attribs.' name="'.$name.'">'.$noFrames.'</iframe>';
 	}
@@ -225,35 +225,5 @@ class JHTML
 			array_unshift($paths, JPath::clean( $path ));
 		}
 		return $paths;
-	}
-
-	/**
-	 * Implodes an array in attribute format
-	 * @param	array	An assoc array of name=>value pairs
-	 * @param	string	The glue between name and value
-	 * @param	string	The glue between each pair
-	 * @param	boolean	?? No idea, Jinx ??
-	 * @return	string
-	 * @since	1.5
-	 */
-	function _implode_assoc( $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )
-	{
-		$output = array();
-
-		foreach ($array as $key => $item)
-		{
-			if (is_array ($item))
-			{
-				if ($keepOuterKey) {
-					$output[] = $key;
-				}
-				// This is value is an array, go and do it again!
-				$output[] = JHTML::_implode_assoc( $item, $inner_glue, $outer_glue, $keepOuterKey);
-			}
-			else {
-				$output[] = $key.$inner_glue.'"'.$item.'"';
-			}
-		}
-		return implode( $outer_glue, $output);
 	}
 }

@@ -75,6 +75,27 @@ class JArrayHelper
 		}
 		return $obj;
 	}
+	
+	function toString( $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )
+	{
+		$output = array();
+
+		foreach ($array as $key => $item)
+		{
+			if (is_array ($item))
+			{
+				if ($keepOuterKey) {
+					$output[] = $key;
+				}
+				// This is value is an array, go and do it again!
+				$output[] = JArrayHelper::toString( $item, $inner_glue, $outer_glue, $keepOuterKey);
+			}
+			else {
+				$output[] = $key.$inner_glue.'"'.$item.'"';
+			}
+		}
+		return implode( $outer_glue, $output);
+	}
 
 	/**
 	 * Utility function to map an object to an array

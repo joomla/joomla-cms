@@ -1198,7 +1198,7 @@ class mosHTML
  	*/
 	function keepAlive()
 	{
-		JHTML::_('behavior.keepalive');
+		echo JHTML::_('behavior.keepalive');
 	}
 }
 
