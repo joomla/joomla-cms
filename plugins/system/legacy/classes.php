@@ -1899,7 +1899,7 @@ class mosTabs extends JPaneTabs
 		echo $this->endPanel();
 	}
 	
-	function startPane( $id ){
+	function startPane( $tabText ){
 		echo parent::startPane( $tabText );
 	}
 	
