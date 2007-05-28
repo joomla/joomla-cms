@@ -548,6 +548,21 @@ class mosSession extends JTableSession
 	{
 		$this->publish( $cid, $publish, $user_id );
 	}
+	
+	/**
+	 * Legacy Method, use {@link JTable::publish()} instead
+	 * @deprecated As of 1.5
+	 */
+	function setFromRequest( $key, $varName, $default=null ) 
+	{
+		if (isset( $_REQUEST[$varName] )) {
+			return $_SESSION[$key] = $_REQUEST[$varName];
+		} else if (isset( $_SESSION[$key] )) {
+			return $_SESSION[$key];
+		} else {
+			return $_SESSION[$key] = $default;
+		}
+	}
 }
 
 /**
