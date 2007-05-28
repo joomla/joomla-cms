@@ -139,6 +139,7 @@ class JInputFilter extends JObject
 
 			case 'CMD' :
 				$result = (string) preg_replace( '/[^A-Z0-9_\.-]/i', '', $source );
+				$result = ltrim($result, '.');
 				break;
 
 			case 'BASE64' :
