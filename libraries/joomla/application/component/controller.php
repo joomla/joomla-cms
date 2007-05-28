@@ -182,26 +182,14 @@ class JController extends JObject
 				$this->_taskMap[strtolower( $method )] = $method;
 			}
 		}
-
-		//Set the controller name
-		if ( empty( $this->_name ) )
+		
+		//set the view name
+		if (empty( $this->_name ))
 		{
-			if ( isset( $config['name'] ) )
-			{
+			if (isset($config['name']))  {
 				$this->_name = $config['name'];
-			}
-			else
-			{
-				$r = null;
-				if ( !preg_match( '/(.*)Controller/i', get_class( $this ), $r ) ) {
-					JError::raiseError(
-						500, JText::_(
-							'JController::__construct() :'
-							.' Can\'t get or parse class name.'
-						)
-					);
-				}
-				$this->_name = strtolower( $r[1] );
+			} else {
+				$this->_name = $this->getName();
 			}
 		}
 
@@ -447,7 +435,18 @@ class JController extends JObject
 	 */
 	function getName()
 	{
-		return $this->_name;
+		$name = $this->_name;
+		
+		if (empty( $name ))
+		{
+			$r = null;
+			if ( !preg_match( '/(.*)Controller/i', get_class( $this ), $r ) ) {
+				JError::raiseError(500, "JController::__construct() : Can\'t get or parse class name.");
+			}
+			$name = strtolower( $r[1] );
+		}
+		
+		return $name;
 	}
 
 	/**

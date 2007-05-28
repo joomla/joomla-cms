@@ -68,7 +68,7 @@ class JView extends JObject
 	 * @var		string
 	 * @access 	protected
 	 */
-	var $_layout = '';
+	var $_layout = 'default';
 
 	/**
 	 * Layout extension
@@ -125,14 +125,8 @@ class JView extends JObject
 		{
 			if (isset($config['name']))  {
 				$this->_name = $config['name'];
-			}
-			else
-			{
-				$r = null;
-				if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r)) {
-					JError::raiseError (500, "JView::__construct() : Can't get or parse class name.");
-				}
-				$this->_name = strtolower( $r[3] );
+			} else {
+				$this->_name = $this->getName();
 			}
 		}
 
@@ -163,7 +157,7 @@ class JView extends JObject
 		if (isset($config['layout'])) {
 			$this->setLayout($config['layout']);
 		} else {
-			$this->_layout = 'default';
+			$this->setLayout('default');
 		}
 	}
 
@@ -503,7 +497,7 @@ class JView extends JObject
 	 * Method to get the view name
 	 *
 	 * The model name by default parsed using the classname, or it can be set
-	 * by passing a $config['nameÕ] in the class constructor
+	 * by passing a $config['name'] in the class constructor
 	 *
 	 * @access	public
 	 * @return	string The name of the model
@@ -511,7 +505,18 @@ class JView extends JObject
 	 */
 	function getName()
 	{
-		return $this->_name;
+		$name = $this->_name;
+		
+		if (empty( $name ))
+		{
+			$r = null;
+			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r)) {
+				JError::raiseError (500, "JView::__construct() : Can't get or parse class name.");
+			}
+			$name = strtolower( $r[3] );
+		}
+		
+		return $name;
 	}
 
 	/**
