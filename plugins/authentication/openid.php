@@ -106,7 +106,7 @@ class plgAuthenticationOpenID extends JPlugin
 			$uri =& JFactory::getURI();
 			$url = $uri->toString();
 
-			$process_url = sprintf("index.php?option=com_user&task=login&username=%s&return=%s", $username, $url);
+			$process_url = sprintf("index.php?option=com_user&task=login&username=%s&return=%s", $username, base64_encode($url));
 			$redirect_url = $request->redirectURL(JURI::base(), JURI::base().$process_url);
 
 			$session->set('trust_url', JURI::base());
