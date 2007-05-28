@@ -57,6 +57,17 @@ $rows = $db->loadObjectList();
 ?>
 
 <table class="adminlist">
+<tr>
+	<td class="title">
+		<strong><?php echo JText::_( 'Latest Items' ); ?></strong>
+	</td>
+	<td class="title">
+		<strong><?php echo JText::_( 'Created' ); ?></strong>
+	</td>
+	<td class="title">
+		<strong><?php echo JText::_( 'Creator' ); ?></strong>
+	</td>
+</tr>
 <?php
 if (count( $rows ))
 {
