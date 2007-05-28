@@ -39,6 +39,7 @@ Legend:
 
 28-May-2007 Enno Klasing
  ^ The 'CMD' input filter does not allow leading full stops anymore
+ # Fixed problem with JRequest::setVar making JRequest::getVar return unfiltered input
 
 28-May-2007 Andrew Eddie
  # Fixed undeclared variable when not over-riding pagination

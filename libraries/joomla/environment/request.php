@@ -108,10 +108,11 @@ class JRequest
 				break;
 			default:
 				$input = &$_REQUEST;
+				$hash = 'REQUEST';
 				break;
 		}
 
-		if (isset($GLOBALS['_JREQUEST'][$name]) && ($GLOBALS['_JREQUEST'][$name] == 'SET')) {
+		if (isset($GLOBALS['_JREQUEST'][$name]['SET.'.$hash]) && ($GLOBALS['_JREQUEST'][$name]['SET.'.$hash] === true)) {
 			// Get the variable from the input hash
 			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
 		}
@@ -152,7 +153,7 @@ class JRequest
 	 * @return	integer	Requested variable
 	 * @since	1.5
 	 */
-	function getInt($name, $default = null, $hash = 'default') {
+	function getInt($name, $default = 0, $hash = 'default') {
 		return JRequest::getVar($name, $default, $hash, 'int');
 	}
 
@@ -170,7 +171,7 @@ class JRequest
 	 * @return	float	Requested variable
 	 * @since	1.5
 	 */
-	function getFloat($name, $default = null, $hash = 'default') {
+	function getFloat($name, $default = 0.0, $hash = 'default') {
 		return JRequest::getVar($name, $default, $hash, 'float');
 	}
 
@@ -188,7 +189,7 @@ class JRequest
 	 * @return	bool		Requested variable
 	 * @since	1.5
 	 */
-	function getBool($name, $default = null, $hash = 'default') {
+	function getBool($name, $default = false, $hash = 'default') {
 		return JRequest::getVar($name, $default, $hash, 'bool');
 	}
 
@@ -206,7 +207,7 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getWord($name, $default = null, $hash = 'default') {
+	function getWord($name, $default = '', $hash = 'default') {
 		return JRequest::getVar($name, $default, $hash, 'word');
 	}
 
@@ -224,7 +225,7 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getCmd($name, $default = null, $hash = 'default') {
+	function getCmd($name, $default = '', $hash = 'default') {
 		return JRequest::getVar($name, $default, $hash, 'cmd');
 	}
 
@@ -243,7 +244,7 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getString($name, $default = null, $hash = 'default', $mask = 0)
+	function getString($name, $default = '', $hash = 'default', $mask = 0)
 	{
 		// Cast to string, in case JREQUEST_ALLOWRAW was specified for mask
 		return (string) JRequest::getVar($name, $default, $hash, 'string', $mask);
@@ -268,7 +269,7 @@ class JRequest
 		}
 
 		// Clean global request var
-		$GLOBALS['_JREQUEST'][$name] = 'SET';
+		$GLOBALS['_JREQUEST'][$name] = array();
 
 		// Get the request hash value
 		$hash = strtoupper($hash);
@@ -300,8 +301,14 @@ class JRequest
 				$_GET[$name] = $value;
 				$_POST[$name] = $value;
 				$_REQUEST[$name] = $value;
+				$GLOBALS['_JREQUEST'][$name]['SET.GET'] = true;
+				$GLOBALS['_JREQUEST'][$name]['SET.POST'] = true;
 				break;
 		}
+
+		// Mark this variable as 'SET'
+		$GLOBALS['_JREQUEST'][$name]['SET.'.$hash] = true;
+		$GLOBALS['_JREQUEST'][$name]['SET.REQUEST'] = true;
 
 		return $previous;
 	}
