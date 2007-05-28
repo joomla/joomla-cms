@@ -200,14 +200,14 @@ class JRouter extends JObject
 			// Set document link
 			$doc = & JFactory::getDocument();
 			$doc->setLink($base);
-
+			
 			if (!empty($url))
 			{
 				// Parse application route
 				if(!$itemid = $this->_parseApplicationRoute($url)) {
 					return false;
 				}
-
+				
 				// Set the active menu item
 				$menu->setActive($itemid);
 
@@ -403,10 +403,11 @@ class JRouter extends JObject
 		{
 			//Need to reverse the array (highest sublevels first)
 			$items = array_reverse($menu->getMenu());
-
+			
 			foreach ($items as $item)
-			{
-				if(strlen($item->route) > 0 && strcmp($url, $item->route) === 0)
+			{	
+				echo $item->route;
+				if(strlen($item->route) > 0 && strpos($url, $item->route) === 0)
 				{
 					$url    = str_replace($item->route, '', $url);
 
