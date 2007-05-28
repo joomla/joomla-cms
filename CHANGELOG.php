@@ -41,6 +41,8 @@ Legend:
  - Removed JHTML::_implode_assoc and JDocumentHelper::implodeAttribs functions
  + Added JArrayHelper::toString function
  # Fixed [#5404] OpenID redirection problem upon successful authentication
+ # Fixed [#5421] application router makes ambiguous check against menu route
+ 
 
 28-May-2007 Enno Klasing
  ^ The 'CMD' input filter does not allow leading full stops anymore

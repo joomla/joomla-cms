@@ -406,7 +406,7 @@ class JRouter extends JObject
 
 			foreach ($items as $item)
 			{
-				if(strlen($item->route) > 0 && strpos($url, $item->route) === 0)
+				if(strlen($item->route) > 0 && strcmp($url, $item->route) === 0)
 				{
 					$url    = str_replace($item->route, '', $url);
 
