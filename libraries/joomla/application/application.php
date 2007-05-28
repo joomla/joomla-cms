@@ -133,9 +133,15 @@ class JApplication extends JObject
 	* @abstract
 	* @access public
 	*/
- 	function dispatch()
+ 	function dispatch($component)
  	{
+		$document	=& JFactory::getDocument();
+		
+		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
+		$document->setDescription( $this->getCfg('MetaDesc') );
 
+		$contents = JComponentHelper::renderComponent($component);
+		$document->setBuffer($contents, 'component');
  	}
 
 	/**
@@ -150,7 +156,15 @@ class JApplication extends JObject
 	*/
 	function render()
 	{
+		$params = array(
+			'template' 	=> $this->getTemplate(),
+			'file'		=> 'index.php',
+			'directory'	=> JPATH_THEMES
+		);
 
+		$document =& JFactory::getDocument();
+		$data = $document->render($this->getCfg('caching'), $params );
+		JResponse::setBody($data);
 	}
 
 	/**
