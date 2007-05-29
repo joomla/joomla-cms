@@ -47,7 +47,7 @@ class JHTML
 
 				if (!class_exists( $className ))
 				{
-					JError::raiseWarning( 0, 'JHTM '. $className.'::' .$func. ' not found in file.' );
+					JError::raiseWarning( 0, 'JHTML '. $className.'::' .$func. ' not found in file.' );
 					return false;
 				}
 			}
