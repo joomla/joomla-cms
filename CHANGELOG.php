@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-May-2007 Sam Moffatt
+ + Added JFile::getFileName($file) to allow easy determination of a file
+ # Removed JArchive blind assumption that .gz/.bz2 files always hold tar files
+
 28-May-2007 Rob Schley
  # Fixed [#4878] Small typo in libraries/joomla/database/table.php
  # Fixed [#4908] Small typo in libraries/joomla/utilities/error.php

@@ -346,4 +346,16 @@ class JFile
 	{
 		return is_file(JPath::clean($file));
 	}
+	
+	/**
+	 * Returns the name, sans any path
+	 * 
+	 * param string $file File path
+	 * @return string filename
+	 * @since 1.5
+	 */
+	function getFileName($file) {
+		$slash = strrpos($file, DS) + 1;
+		return substr($file, $slash);
+	}
 }

@@ -31,8 +31,11 @@ class JArchive
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
-
+		$untar = false;
 		$ext = JFile::getExt(strtolower($archivename));
+		// check if a tar is embedded...gzip/bzip2 can just be plain files!
+		if(JFile::getExt(JFile::stripExt(strtolower($archivename))) == 'tar') $untar = true;
+		
 		switch ($ext)
 		{
 			case 'zip':
@@ -47,8 +50,9 @@ class JArchive
 					$result = $adapter->extract($archivename, $extractdir);
 				}
 				break;
-			case 'gz';
 			case 'tgz';
+				$untar = true;	// This format is a tarball gzip'd
+			case 'gz';	// This may just be an individual file (e.g. sql script)
 			case 'gzip';
 				$adapter =& JArchive::getAdapter('gzip');
 				if ($adapter) {
@@ -59,16 +63,23 @@ class JArchive
 						@unlink($tmpfname);
 						return false;
 					}
-					// Try to untar the file
-					$tadapter =& JArchive::getAdapter('tar');
-					if ($tadapter) {
-						$result = $tadapter->extract($tmpfname, $extractdir);
+					if($untar) {
+						// Try to untar the file
+						$tadapter =& JArchive::getAdapter('tar');
+						if ($tadapter) {
+							$result = $tadapter->extract($tmpfname, $extractdir);
+						}
+					} else {
+						$path = JPath::clean($extractdir);
+						JFolder::create($path);
+						JFile::copy($tmpfname,$path.DS.JFile::stripExt(JFile::getFileName(strtolower($archivename))));
 					}
 					@unlink($tmpfname);
 				}
 				break;
-			case 'bz2';
 			case 'tbz2';
+				$untar = true; // This format is a tarball bzip2'd
+			case 'bz2';	// This may just be an individual file (e.g. sql script)
 			case 'bzip2';
 				$adapter =& JArchive::getAdapter('bzip2');
 				if ($adapter) {
@@ -79,10 +90,16 @@ class JArchive
 						@unlink($tmpfname);
 						return false;
 					}
-					// Try to untar the file
-					$tadapter =& JArchive::getAdapter('tar');
-					if ($tadapter) {
-						$result = $tadapter->extract($tmpfname, $extractdir);
+					if($untar) {
+						// Try to untar the file
+						$tadapter =& JArchive::getAdapter('tar');
+						if ($tadapter) {
+							$result = $tadapter->extract($tmpfname, $extractdir);
+						}
+					} else {
+						$path = JPath::clean($extractdir);
+						JFolder::create($path);
+						JFile::move($tmpfname,$path.DS.JFile::stripExt(strtolower($archivename)));
 					}
 					@unlink($tmpfname);
 				}
