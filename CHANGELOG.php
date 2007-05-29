@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-May-2007 Rob Schley
+ # Fixed [#4853] Small typos in language/en-GB/en-GB.ini and administrator/language/en-GB/en-GB.ini
+
 29-May-2007 Sam Moffatt
  + Added JFile::getFileName($file) to allow easy determination of a file
  # Removed JArchive blind assumption that .gz/.bz2 files always hold tar files
