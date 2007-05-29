@@ -18,7 +18,7 @@ $mainframe->registerEvent( 'onBeforeDisplayContent', 'plgContentNavigation' );
 
 function plgContentNavigation( &$row, &$params, $page=0 )
 {
-	$view		= JRequest::getVar( 'view' );
+	$view		= JRequest::getCmd('view');
 
 	// Get Plugin info
 	$plugin =& JPluginHelper::getPlugin('content', 'pagenavigation');

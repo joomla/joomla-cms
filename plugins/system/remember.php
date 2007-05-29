@@ -51,13 +51,13 @@ class plgSystemRemember extends JPlugin
 		if (!$user->get('gid'))
 		{
 			jimport('joomla.utilities.utility');
-			$hash = JUTility::getHash('JLOGIN_REMEMBER');
+			$hash = JUtility::getHash('JLOGIN_REMEMBER');
 
-			if (isset($_COOKIE[$hash]))
+			if ($str = JRequest::getString($hash, '', 'cookie', JREQUEST_ALLOWRAW | JREQUEST_NOTRIM))
 			{
 				jimport('joomla.utilities.simplecrypt');
 				$crypt	= new JSimpleCrypt();
-				$str	= $crypt->decrypt($_COOKIE[$hash]);
+				$str	= $crypt->decrypt($str);
 				if (strpos($str, ':|:'))
 				{
 					$credentials = explode(':|:', $str);

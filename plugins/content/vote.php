@@ -20,7 +20,7 @@ function plgContentVote( &$row, &$params, $page=0 )
 {
 	$id 	= $row->id;
 	$option = 'com_content';
-	$task 	= JRequest::getVar( 'task' );
+	$task 	= JRequest::getCmd('task');
 	$html 	= '';
 
 
@@ -43,8 +43,7 @@ function plgContentVote( &$row, &$params, $page=0 )
 		$html .= JText::_( 'User Rating' ) .':'. $img .'&nbsp;/&nbsp;';
 		$html .= intval( $row->rating_count );
 		$html .= "</span>\n<br />\n";
-		$url = @$_SERVER['REQUEST_URI'];
-		$url = str_replace('&', '&amp;',  $url );
+		$url = JRoute::_('index.php');
 
 		if (!$params->get( 'intro_only' ) && $task != "blogsection") {
 			$html .= '<span class="content_vote">';

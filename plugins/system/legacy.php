@@ -129,18 +129,19 @@ class  plgSystemLegacy extends JPlugin
 		 * @name $task
 		 * @deprecated	As of version 1.5
 		 */
-		$GLOBALS['task'] = JRequest::getVar('task');
+		$GLOBALS['task'] = JRequest::getString('task');
 
 		/**
 		 * Load the site language file (the old way - to be deprecated)
 		 * @deprecated	As of version 1.5
 		 */
 		global $mosConfig_lang;
-		$file = JPATH_SITE .'/language/' . $mosConfig_lang .'.php';
+		$mosConfig_lang = JInputFilter::clean($mosConfig_lang, 'cmd');
+		$file = JPATH_SITE.DS.'language'.DS.$mosConfig_lang.'.php';
 		if (file_exists( $file )) {
 			require_once( $file);
 		} else {
-			$file = JPATH_SITE .'/language/english.php';
+			$file = JPATH_SITE.DS.'language'.DS.'english.php';
 			if (file_exists( $file )) {
 				require_once( $file );
 			}
@@ -162,7 +163,7 @@ class  plgSystemLegacy extends JPlugin
 			return;
 		}
 
-		switch(JRequest::getVar('option'))
+		switch(JRequest::getCmd('option'))
 		{
 			case 'com_content'   :
 				$this->routeContent();
@@ -197,11 +198,11 @@ class  plgSystemLegacy extends JPlugin
 
 	function routeContent()
 	{
-		$viewName	= JRequest::getVar( 'view', 'article' );
-		$layout		= JRequest::getVar( 'layout', 'default' );
+		$viewName	= JRequest::getCmd( 'view', 'article' );
+		$layout		= JRequest::getCmd( 'layout', 'default' );
 
 		// interceptors to support legacy urls
-		switch( JRequest::getVar('task'))
+		switch( JRequest::getCmd('task'))
 		{
 			//index.php?option=com_content&task=x&id=x&Itemid=x
 			case 'blogsection':
@@ -236,10 +237,10 @@ class  plgSystemLegacy extends JPlugin
 
 	function routeNewsfeeds()
 	{
-		$viewName = JRequest::getVar( 'view', 'categories' );
+		$viewName = JRequest::getCmd( 'view', 'categories' );
 
 		// interceptors to support legacy urls
-		switch( JRequest::getVar('task'))
+		switch( JRequest::getCmd('task'))
 		{
 			//index.php?option=com_newsfeeds&task=x&catid=xid=x&Itemid=x
 			case 'view':
@@ -248,7 +249,7 @@ class  plgSystemLegacy extends JPlugin
 
 			default:
 			{
-				if(JRequest::getVar( 'catid', 0) && !JRequest::getVar( 'view')) {
+				if(JRequest::getInt('catid') && !JRequest::getCmd('view')) {
 					$viewName = 'category';
 				}
 			}
@@ -259,10 +260,10 @@ class  plgSystemLegacy extends JPlugin
 
 	function routeWeblinks()
 	{
-		$viewName = JRequest::getVar( 'view', 'categories' );
+		$viewName = JRequest::getCmd( 'view', 'categories' );
 
 		// interceptors to support legacy urls
-		switch( JRequest::getVar('task'))
+		switch( JRequest::getCmd('task'))
 		{
 			//index.php?option=com_weblinks&task=x&catid=xid=x
 			case 'view':
@@ -271,7 +272,7 @@ class  plgSystemLegacy extends JPlugin
 
 			default:
 			{
-				if($catid = JRequest::getVar( 'catid', 0) && !JRequest::getVar( 'view')) {
+				if(($catid = JRequest::getInt('catid')) && !JRequest::getCmd('view')) {
 					$viewName = 'category';
 					JRequest::setVar('id', $catid);
 				}

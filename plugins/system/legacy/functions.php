@@ -552,7 +552,11 @@ function mosLoadComponent( $name )
 {
 	// set up some global variables for use by the frontend component
 	global $mainframe, $database;
-	include( $mainframe->getCfg( 'absolute_path' )."/components/com_$name/$name.php" );
+	$name = JInputFilter::clean($name, 'cmd');
+	$path = JPATH_SITE.DS.'components'.DS.'com_'.$name.DS.$name.'.php';
+	if (file_exists($path)) {
+		include $path;
+	}
 }
 
 /**
@@ -744,7 +748,7 @@ function josSpoofCheck( $header=false, $alternate=false )
 	// Lets make sure they saw the html form
 	$check = true;
 	$hash	= josSpoofValue();
-	$valid	= JRequest::getVar( $hash, 0, 'post' );
+	$valid	= JRequest::getBool( $hash, 0, 'post' );
 	if (!$valid) {
 		$check = false;
 	}

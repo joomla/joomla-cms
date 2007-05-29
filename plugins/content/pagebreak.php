@@ -32,18 +32,18 @@ $mainframe->registerEvent( 'onPrepareContent', 'plgContentPagebreak' );
 */
 function plgContentPagebreak( &$row, &$params, $page=0 )
 {
- 	// expression to search for
- 	$regex = '#<hr class=\"system-pagebreak\"(.*)\/>#iU';
+	// expression to search for
+	$regex = '#<hr class=\"system-pagebreak\"(.*)\/>#iU';
 
 	// Get Plugin info
- 	$plugin 		 =& JPluginHelper::getPlugin('content', 'pagebreak');
- 	$pluginParams = new JParameter( $plugin->params );
+	$plugin			=& JPluginHelper::getPlugin('content', 'pagebreak');
+	$pluginParams	= new JParameter( $plugin->params );
 
-	$print   = JRequest::getVar('print');
-	$showall = JRequest::getVar('showall');
+	$print   = JRequest::getBool('print');
+	$showall = JRequest::getBool('showall');
 
 	if (!$pluginParams->get('enabled', 1)) {
-		$print = 1;
+		$print = true;
 	}
 
 	if ($print) {
@@ -57,7 +57,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 	}
 
 	$db		=& JFactory::getDBO();
-	$full 	= JRequest::getVar('fullview', 0, '', 'int');
+	$full 	= JRequest::getBool('fullview');
 
 	if(!$page) {
 		$page = 0;
@@ -65,7 +65,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 
 	// check whether plugin has been unpublished
- 	if (!$plugin->published || $params->get( 'intro_only' )|| $params->get( 'popup' ) || $full) {
+	if (!$plugin->published || $params->get( 'intro_only' )|| $params->get( 'popup' ) || $full) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return;
 	}
@@ -98,13 +98,13 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 	if ($n > 1) {
 
 		// Get plugin parameters
-	 	$pluginParams = new JParameter( $plugin->params );
-	 	$title	= $pluginParams->get( 'title', 1 );
+		$pluginParams = new JParameter( $plugin->params );
+		$title	= $pluginParams->get( 'title', 1 );
 		$hasToc = $pluginParams->get( 'multipage_toc', 1 );
 
-	 	// adds heading or title to <site> Title
-	 	if ( $title )
-	 	{
+		// adds heading or title to <site> Title
+		if ( $title )
+		{
 			$page_text = $page + 1;
 			$row->page_title = JText::sprintf( 'Page #', $page_text );
 			if ( !$page )
@@ -126,7 +126,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 					$row->page_title = $attrs['title'];
 				}
 			}
-	 	}
+		}
 
 		// reset the text, we already hold it in the $text array
 		$row->text = '';
@@ -256,9 +256,9 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 	}
 
 	// Get Plugin info
- 	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak');
+	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak');
 
- 	$params = new JParameter( $plugin->params );
+	$params = new JParameter( $plugin->params );
 
 	if ($params->get('showall') )
 	{
