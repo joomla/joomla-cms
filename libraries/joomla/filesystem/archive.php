@@ -99,7 +99,7 @@ class JArchive
 					} else {
 						$path = JPath::clean($extractdir);
 						JFolder::create($path);
-						JFile::move($tmpfname,$path.DS.JFile::stripExt(strtolower($archivename)));
+						JFile::copy($tmpfname,$path.DS.JFile::stripExt(JFile::getFileName(strtolower($archivename))));
 					}
 					@unlink($tmpfname);
 				}
