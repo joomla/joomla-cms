@@ -106,10 +106,9 @@ class JApplicationHelper
 		$check = ( ( $varname == 'mod0_xml' ) || ( $varname == 'mod1_xml' ) );
 
 		if ( !$user_option && !$check ) {
-			$user_option = JRequest::getWord('option');
+			$user_option = JRequest::getCmd('option');
 		} else {
-			$filter = JInputFilter::getInstance();
-			$user_option = $filter->clean($user_option, 'path');
+			$user_option = JInputFilter::clean($user_option, 'path');
 		}
 
 		$result = null;

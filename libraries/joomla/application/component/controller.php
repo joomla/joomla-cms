@@ -312,8 +312,8 @@ class JController extends JObject
 		$document =& JFactory::getDocument();
 
 		$viewType	= $document->getType();
-		$viewName	= JRequest::getWord( 'view', $this->_name );
-		$viewLayout	= JRequest::getWord( 'layout', 'default' );
+		$viewName	= JRequest::getCmd( 'view', $this->_name );
+		$viewLayout	= JRequest::getCmd( 'layout', 'default' );
 
 		$view = & $this->getView( $viewName, $viewType);
 

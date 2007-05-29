@@ -90,7 +90,7 @@ class JModuleHelper
 			global $my, $database, $acl;
 
 			// Get the task variable for local scope
-			$task = JRequest::getVar( 'task' );
+			$task = JRequest::getString('task');
 
 			// For backwards compatibility extract the config vars as globals
 			$registry =& JFactory::getConfig();

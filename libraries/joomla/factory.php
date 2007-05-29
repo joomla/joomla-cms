@@ -588,7 +588,7 @@ class JFactory
 		$lang	=& JFactory::getLanguage();
 
 		//Keep backwards compatibility with Joomla! 1.0
-		$raw	= JRequest::getInt('no_html', 0);
+		$raw	= JRequest::getBool('no_html');
 		$type	= JRequest::getWord('format', $raw ? 'raw' : 'html');
 
 		$attributes = array (
