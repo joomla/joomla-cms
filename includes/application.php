@@ -263,7 +263,7 @@ class JSite extends JApplication
 		if (!is_object($params)) {
 			// Get component parameters
 			if (!$option) {
-				$option = JRequest::getVar('option');
+				$option = JRequest::getCmd('option');
 			}
 			$params = &JComponentHelper::getParams($option);
 
@@ -298,46 +298,50 @@ class JSite extends JApplication
 	}
 
 	/**
-	* Get the template
-	*
-	* @return string The template name
-	* @since 1.0
-	*/
+	 * Get the template
+	 *
+	 * @return string The template name
+	 * @since 1.0
+	 */
 	function getTemplate()
 	{
+		// Allows for overriding the active template from a component, and caches the result of this function
+		// e.g. $mainframe->setTemplate('solar-flare-ii');
+		if ($template = $this->get('setTemplate')) {
+			return $template;
+		}
+
+		// Load template entries for each menuid
+		$db =& JFactory::getDBO();
+		$query = 'SELECT template, menuid'
+			. ' FROM #__templates_menu'
+			. ' WHERE client_id = 0'
+			;
+		$db->setQuery( $query );
+		$templates = $db->loadObjectList('menuid');
+
+		// Get the id of the active menu item
 		$menu =& JMenu::getInstance();
 		$item = $menu->getActive();
 
-		static $templates;
-
-		if (!isset ($templates))
-		{
-			$templates = array();
-
-			// Load template entries for each menuid
-			$db =& JFactory::getDBO();
-			$query = 'SELECT template, menuid'
-				. ' FROM #__templates_menu'
-				. ' WHERE client_id = 0'
-				;
-			$db->setQuery( $query );
-			$templates = $db->loadObjectList('menuid');
-		}
-
-		if ($template = $this->get( 'setTemplate' ))
-		{
-			// ok, allows for an override of the template from a component
-			// eg, $mainframe->setTemplate( 'solar-flare-ii' );
-		}
-		else if (!empty($item->id) && (isset($templates[$item->id]))) {
+		// Find out the assigned template for the active menu item
+		if (!empty($item->id) && (isset($templates[$item->id]))) {
 			$template = $templates[$item->id]->template;
 		} else {
 			$template = $templates[0]->template;
 		}
 
+		// Allows for overriding the active template from the request
 		$template = JRequest::getCmd('template', $template);
+		$template = JInputFilter::clean($template, 'cmd'); // need to filter the default value as well
 
-		$template = preg_replace('/[^A-Z0-9_\.-]/i', '', $template);
+		// Fallback template
+		if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
+			$template = 'rhuk_milkyway';
+		}
+
+		// Cache the result
+		$this->set('setTemplate', $template);
 		return $template;
 	}
 

@@ -132,9 +132,9 @@ class JAdministrator extends JApplication
 	*/
 	function render()
 	{
-		$component	= JRequest::getVar( 'option', null, '', 'word' );
-		$template	= JRequest::getVar( 'template', $this->getTemplate(), '', 'cmd' );
-		$file 		= JRequest::getVar( 'tmpl', 'index',  '', 'cmd' );
+		$component	= JRequest::getCmd('option');
+		$template	= $this->getTemplate();
+		$file 		= JRequest::getCmd('tmpl', 'index');
 
 		if($component == 'com_login') {
 			$file = 'login';
@@ -231,20 +231,18 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Get the template
-	*
-	* @return string The template name
-	* @since 1.0
-	*/
+	 * Get the template
+	 *
+	 * @return string The template name
+	 * @since 1.0
+	 */
 	function getTemplate()
 	{
-		static $templates;
+		static $template;
 
-		if (!isset ($templates))
+		if (!isset($template))
 		{
-			$templates = array();
-
-			// Load template entries for each menuid
+			// Load the template name from the database
 			$db =& JFactory::getDBO();
 			$query = 'SELECT template'
 				. ' FROM #__templates_menu'
@@ -252,15 +250,13 @@ class JAdministrator extends JApplication
 				. ' AND menuid = 0'
 				;
 			$db->setQuery( $query );
-			$templates[0] = $db->loadResult();
-		}
+			$template = $db->loadResult();
 
-		$template = preg_replace('/[^A-Z0-9_\.-]/i', '', $templates[0]);
+			$template = JInputFilter::clean($template, 'cmd');
 
-		$path = JPATH_THEMES.DS.$template.DS.'index.php';
-
-		if (!file_exists($path)) {
-			$template = 'khepri';
+			if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
+				$template = 'khepri';
+			}
 		}
 
 		return $template;
