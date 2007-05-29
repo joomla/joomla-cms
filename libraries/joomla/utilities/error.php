@@ -75,7 +75,7 @@ class JError
 			return false;
 		}
 		// supports PHP 5 exception handling
-		return is_a($object, 'JException') | is_a($object, 'Exception');
+		return is_a($object, 'JException') || is_a($object, 'Exception');
 	}
 
 	/**

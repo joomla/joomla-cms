@@ -39,6 +39,7 @@ Legend:
 
 28-May-2007 Rob Schley
  # Fixed [#4878] Small typo in libraries/joomla/database/table.php
+ # Fixed [#4908] Small typo in libraries/joomla/utilities/error.php
 
 28-May-2007 Johan Janssens
  - Removed JHTML::_implode_assoc and JDocumentHelper::implodeAttribs functions
