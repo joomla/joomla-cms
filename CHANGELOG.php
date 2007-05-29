@@ -37,12 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-May-2007 Rob Schley
+ # Fixed [#4878] Small typo in libraries/joomla/database/table.php
+
 28-May-2007 Johan Janssens
  - Removed JHTML::_implode_assoc and JDocumentHelper::implodeAttribs functions
  + Added JArrayHelper::toString function
  # Fixed [#5404] OpenID redirection problem upon successful authentication
  # Fixed [#5421] application router makes ambiguous check against menu route
- 
 
 28-May-2007 Enno Klasing
  ^ The 'CMD' input filter does not allow leading full stops anymore
@@ -50,7 +52,7 @@ Legend:
 
 28-May-2007 Andrew Eddie
  # Fixed undeclared variable when not over-riding pagination
- # JRequest::getVar $sig needed $type added to for example cover case where $task may be an array 
+ # JRequest::getVar $sig needed $type added to for example cover case where $task may be an array
    (used to translate input buttons correctly)
 
 27-May-2007 Enno Klasing
@@ -60,7 +62,7 @@ Legend:
  + Added optional filter parameter to JApplication::getUserStateFromRequest
 
 25-May-2007 Johan Janssens
- + Added getName function to JController, JModel and JView. 
+ + Added getName function to JController, JModel and JView.
 
 25-May-2007 Rastin Mehr
 ^ function JHTMLBehavior::keepalive is now using mootools ajax calls, and the

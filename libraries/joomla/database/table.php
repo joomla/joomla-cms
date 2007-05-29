@@ -339,7 +339,7 @@ class JTable extends JObject
 		}
 		else
 		{
-			$sql .= 'WHERE ordering = '. $this->ordering;
+			$sql .= ' WHERE ordering = '. $this->ordering;
 			$sql .= ($where ? ' AND '.$where : '');
 			$sql .= ' ORDER BY ordering';
 		}
