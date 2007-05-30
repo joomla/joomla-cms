@@ -408,31 +408,22 @@ class JAuthorization extends gacl_api
 				break;
 		}
 
+		$query = 'SELECT COUNT(*) '.
+				 'FROM '.$table.' AS g1 '.
+				 'LEFT JOIN '.$table.' AS g2 ON (g1.lft > g2.lft AND g1.lft < g2.rgt) ';
+
 		if (is_int( $grp_src ) && is_int($grp_tgt)) {
-			$db->setQuery( 'SELECT COUNT(*)'
-				. ' FROM $table AS g1'
-				. ' LEFT JOIN '. $table .' AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt '
-				. ' WHERE g1.id='. $grp_src .' AND g2.id= '. $grp_tgt
-			);
+			$query .= 'WHERE g1.id = '.$grp_src.' AND g2.id = '.$grp_tgt;
 		} else if (is_string( $grp_src ) && is_string($grp_tgt)) {
-			$db->setQuery( 'SELECT COUNT(*)'
-				. ' FROM '. $table .' AS g1 '
-				. ' LEFT JOIN '. $table .' AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt'
-				. ' WHERE g1.name="'.$grp_src .'" AND g2.name="' . $grp_tgt . '"'
-			);
+			$query .= 'WHERE g1.name = '.$db->Quote($grp_src).' AND g2.name = '.$db->Quote($grp_tgt);
 		} else if (is_int( $grp_src ) && is_string($grp_tgt)) {
-			$db->setQuery( 'SELECT COUNT(*)'
-				. 'FROM $table AS g1'
-				. 'LEFT JOIN '. $table .' AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt'
-				. 'WHERE g1.id="' . $grp_src . '" AND g2.name="' . $grp_tgt. '"'
-			);
+			$query .= 'WHERE g1.id = '.$grp_src.' AND g2.name = '.$db->Quote($grp_tgt);
 		} else {
-			$db->setQuery( 'SELECT COUNT(*)'
-				. 'FROM $table AS g1'
-				. 'LEFT JOIN $table AS g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt'
-				. 'WHERE g1.name= "' . $grp_src . '" AND g2.id="' . $grp_tgt . '"'
-			);
+			$query .= 'WHERE g1.name = '.$db->Quote($grp_src).' AND g2.id = '.$grp_tgt;
 		}
+
+		$db->setQuery($query);
+
 		return $db->loadResult();
 	}
 
