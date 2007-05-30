@@ -40,6 +40,7 @@ Legend:
 30-May-2007 Enno Klasing
  # Fixed [#4866] Hardcoded string in administration - Banners
  # Fixed [#4867] Hardcoded string in administration - Contacts
+ # Fixed [#4868] Hardcoded string in lists
 
 29-May-2007 Rob Schley
  # Fixed [#4853] Small typos in language/en-GB/en-GB.ini and administrator/language/en-GB/en-GB.ini
