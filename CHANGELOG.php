@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-May-2007 Enno Klasing
+ # Set default charset for the PHPMailer class to utf-8
+
 30-May-2007 Louis Landry
  # Fixed [#443] Bug with highliting in mod_mainmenu
  # Fixed [#5431] is_group_child_of mysql query always returning false
