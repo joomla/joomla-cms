@@ -264,13 +264,15 @@ function mosShowVIMenu(& $params)
 	$rows = $menu->getItems('menutype', $params->get('menutype'));
 
 	// first pass - collect children
-	foreach ($rows as $v) {
-		if ($v->access <= $user->get('aid', 0)) {
+	$cacheIndex = array();
+	foreach ($rows as $index => $v) {
+		if ($v->access <= $user->get('gid')) {
 			$pt = $v->parent;
 			$list = @ $children[$pt] ? $children[$pt] : array ();
 			array_push($list, $v);
 			$children[$pt] = $list;
 		}
+		$cacheIndex[$v->id] = $index;
 	}
 
 	// second pass - collect 'open' menus
@@ -280,12 +282,16 @@ function mosShowVIMenu(& $params)
 	$count = 20; // maximum levels - to prevent runaway loop
 	$id = $Itemid;
 
-	while (-- $count) {
-		if (isset ($rows[$id]) && $rows[$id]->parent > 0) {
-			$id = $rows[$id]->parent;
-			$open[] = $id;
-		} else {
-			break;
+	while (-- $count)
+	{
+		if (isset($cacheIndex[$id])) {
+			$index = $cacheIndex[$id];
+			if (isset ($rows[$index]) && $rows[$index]->parent > 0) {
+				$id = $rows[$index]->parent;
+				$open[] = $id;
+			} else {
+				break;
+			}
 		}
 	}
 
@@ -412,3 +418,70 @@ function ItemidContained($link, $Itemid)
 	}
 }
 ?>
+There is maybe a bug. The highlighting don't work. I've replaced at line 268 in the file modules/mod_mainmenu/legacy.php :
+
+---------------------------------------
+	// first pass - collect children
+	foreach ($rows as $v) {
+		if ($v->access <= $user->get('gid')) {
+			$pt = $v->parent;
+			$list = @ $children[$pt] ? $children[$pt] : array ();
+			array_push($list, $v);
+			$children[$pt] = $list;
+		}
+	}
+
+	// second pass - collect 'open' menus
+	$open = array (
+		$Itemid
+	);
+	$count = 20; // maximum levels - to prevent runaway loop
+	$id = $Itemid;
+
+	while (-- $count) {
+		if (isset ($rows[$id]) && $rows[$id]->parent > 0) {
+			$id = $rows[$id]->parent;
+			$open[] = $id;
+		} else {
+			break;
+		}
+	}
+---------------------------------------
+
+with :
+
+---------------------------------------
+
+	// first pass - collect children
+        $cacheIndex=array();
+	foreach ($rows as $index => $v) {
+		if ($v->access <= $user->get('gid')) {
+			$pt = $v->parent;
+			$list = @ $children[$pt] ? $children[$pt] : array ();
+			array_push($list, $v);
+			$children[$pt] = $list;
+		}
+                $cacheIndex[$v->id]=$index;
+	}
+	// second pass - collect 'open' menus
+	$open = array (
+		$Itemid
+	);
+	$count = 20; // maximum levels - to prevent runaway loop
+	$id = $Itemid;
+
+	while (-- $count) {
+
+                if (isset($cacheIndex[$id]))
+                {
+                        $index=$cacheIndex[$id];
+                        if (isset ($rows[$index]) && $rows[$index]->parent > 0)
+                        {
+                                $id = $rows[$index]->parent;
+                                $open[] = $id;
+                        } else {
+                                break;
+                        }
+                }
+	}
+---------------------------------------

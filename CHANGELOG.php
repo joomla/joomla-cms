@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-May-2007 Louis Landry
+ # Fixed [#443] Bug with highliting in mod_mainmenu
+
 30-May-2007 Enno Klasing
  # Fixed [#4866] Hardcoded string in administration - Banners
  # Fixed [#4867] Hardcoded string in administration - Contacts
