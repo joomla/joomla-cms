@@ -111,7 +111,6 @@ class WeblinksViewWeblink extends JView
 		}
 
 		// build list of categories
-		require_once(JPATH_ADMINISTRATOR.DS.'includes'.DS.'helper.php');
 		$lists['catid'] = JHTML::_('list.category', 'jform[catid]', 'com_weblinks', intval($weblink->catid));
 
 		jimport('joomla.filter.output');

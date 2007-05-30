@@ -89,8 +89,8 @@ class JHTMLBehavior
 	 */
 	function keepalive()
 	{
-		$config =& JFactory::getConfig();
-		$lifetime = ( $config->getValue('lifetime') * 60000 );
+		$config 		=& JFactory::getConfig();
+		$lifetime 	= ( $config->getValue('lifetime') * 60000 );
 		$refreshTime =  ( $lifetime < 120000 ) ? 120000 : $lifetime - 120000;
 		//refresh time is 2 minutes less than the liftime assined in the configuration.php file
 		?>
@@ -101,7 +101,7 @@ class JHTMLBehavior
 			var myAjax = new Ajax( url, { method: "get", update: $("keepAliveLayer") } ).request();
 			setTimeout('keepAlive()', refreshTime );
 		}
-		
+
 		window.addEvent('domready', function()
 			{ keepAlive( <?php echo $refreshTime; ?> ); }
 		);

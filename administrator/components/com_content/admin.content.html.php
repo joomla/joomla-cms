@@ -439,7 +439,6 @@ class ContentView
 		$pane	=& JPane::getInstance('sliders');
 
 		JHTML::_('behavior.tooltip');
-		JHTML::_('behavior.calendar');
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--

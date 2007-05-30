@@ -326,7 +326,6 @@ class ContentViewArticle extends JView
 
 		// Select List: Category Ordering
 		$query = 'SELECT ordering AS value, title AS text FROM #__content WHERE catid = '.$article->catid.' ORDER BY ordering';
-		require_once(JPATH_ADMINISTRATOR.DS.'includes'.DS.'helper.php');
 		$lists['ordering'] = JHTML::_('list.specificordering', $article, $article->id, $query, 1);
 
 		// Radio Buttons: Should the article be published
@@ -344,7 +343,6 @@ class ContentViewArticle extends JView
 		$lists['frontpage'] = JHTML::_('select.booleanlist', 'frontpage', '', (boolean) $article->frontpage);
 
 		// Select List: Group Access
-		require_once(JPATH_ADMINISTRATOR.DS.'includes'.DS.'helper.php');
 		$lists['access'] = JHTML::_('list.accesslevel', $article);
 
 		return $lists;

@@ -481,54 +481,6 @@ class JTable extends JObject
 		}
 
 	return true;
-
-
-//		$shift = 0;
-//		$n=count( $orders );
-//		for ($i=0; $i < $n; $i++)
-//		{
-//			//echo "i=$i id=".$orders[$i]->$k." order=".$orders[$i]->ordering;
-//			if ($orders[$i]->$k == $this->$k)
-//			{
-//				// place 'this' record in the desired location
-//				$orders[$i]->ordering = min( $this->ordering, $n );
-//				$shift = 1;
-//			}
-//			else if ($orders[$i]->ordering >= $this->ordering && $this->ordering > 0)
-//			{
-//				$orders[$i]->ordering++;
-//			}
-//		}
-//	//echo '<pre>';print_r($orders);echo '</pre>';
-//		// compact once more until I can find a better algorithm
-//		for ($i=0, $n=count( $orders ); $i < $n; $i++)
-//		{
-//			if ($orders[$i]->ordering >= 0)
-//			{
-//				$orders[$i]->ordering = $i+1;
-//				$query = "UPDATE $this->_tbl"
-//				. "\n SET ordering = '". $orders[$i]->ordering ."'"
-//				. "\n WHERE $k = '". $orders[$i]->$k ."'"
-//				;
-//				$this->_db->setQuery( $query);
-//				$this->_db->query();
-//	//echo '<br />'.$this->_db->getQuery();
-//			}
-//		}
-//
-//		// if we didn't reorder the current record, make it last
-//		if ($shift == 0)
-//		{
-//			$order = $n+1;
-//			$query = "UPDATE $this->_tbl"
-//			. "\n SET ordering = '$order'"
-//			. "\n WHERE $k = '". $this->$k ."'"
-//			;
-//			$this->_db->setQuery( $query );
-//			$this->_db->query();
-//	//echo '<br />'.$this->_db->getQuery();
-//		}
-//		return true;
 	}
 
 	/**

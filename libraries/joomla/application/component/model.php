@@ -64,7 +64,7 @@ class JModel extends JObject
 	{
 		$this->_db	= &JFactory::getDBO();
 		$this->_state = new JObject();
-		
+
 		//set the view name
 		if (empty( $this->_name ))
 		{
@@ -173,7 +173,7 @@ class JModel extends JObject
 	function getName()
 	{
 		$name = $this->_name;
-		
+
 		if (empty( $name ))
 		{
 			$r = null;
@@ -182,7 +182,7 @@ class JModel extends JObject
 			}
 			$name = strtolower( $r[1] );
 		}
-		
+
 		return $name;
 	}
 
@@ -292,7 +292,7 @@ class JModel extends JObject
 		$result = null;
 
 		// Clean the model name
-		$tableName		= preg_replace( '/[^A-Z0-9_]/i', '', $name );
+		$tableName	= preg_replace( '/[^A-Z0-9_]/i', '', $name );
 		$classPrefix	= preg_replace( '/[^A-Z0-9_]/i', '', $prefix );
 
 		// Build the model class name
