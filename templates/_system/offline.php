@@ -45,9 +45,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<input type="submit" name="Submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
 		</p>
 	</fieldset>
-	<input type="hidden" name="option" value="com_login" />
+	<input type="hidden" name="option" value="com_user" />
 	<input type="hidden" name="task" value="login" />
-	<input type="hidden" name="return" value="index.php" />
 	</form>
 	</div>
 </body>
