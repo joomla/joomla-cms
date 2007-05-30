@@ -94,7 +94,6 @@ $mainframe->triggerEvent('onAfterRender');
  */
 JSession::close();
 
-
 /**
  * RETURN THE RESPONSE
  */

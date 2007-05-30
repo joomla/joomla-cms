@@ -66,8 +66,7 @@ class JDatabaseMySQL extends JDatabase
 		parent::__construct($options);
 
 		// select the database
-		if ( $select )
-		{
+		if ( $select ) {
 			$this->select($database);
 		}
 
@@ -109,7 +108,10 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	function connected()
 	{
-		return mysql_ping($this->_resource);
+		if(is_resource($this->_resource)) {
+			return mysql_ping($this->_resource);
+		}
+		return false;
 	}
 
 	/**

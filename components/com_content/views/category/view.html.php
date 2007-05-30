@@ -62,7 +62,7 @@ class ContentViewCategory extends JView
 		$items		= & $this->get( 'Data' );
 		$total		= & $this->get( 'Total' );
 		$category	= & $this->get( 'Category' );
-
+		
 		//add alternate feed link
 		$link	= 'index.php?option=com_content&view=category&format=feed&id='.$category->id;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
