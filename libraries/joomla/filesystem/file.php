@@ -354,7 +354,7 @@ class JFile
 	 * @return string filename
 	 * @since 1.5
 	 */
-	function getFileName($file) {
+	function getName($file) {
 		$slash = strrpos($file, DS) + 1;
 		return substr($file, $slash);
 	}
