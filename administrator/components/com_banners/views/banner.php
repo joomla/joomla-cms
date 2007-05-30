@@ -110,7 +110,7 @@ class BannersViewBanner
 
 				$impleft 	= $row->imptotal - $row->impmade;
 				if( $impleft < 0 ) {
-					$impleft 	= "unlimited";
+					$impleft 	=  JText::_('unlimited');
 				}
 
 				if ( $row->impmade != 0 ) {
@@ -158,7 +158,7 @@ class BannersViewBanner
 						<?php echo $row->sticky ? JText::_( 'Yes' ) : 'No';?>
 					</td>
 					<td align="center">
-						<?php echo $row->impmade;?> of <?php echo JText::_( $impleft );?>
+						<?php echo $row->impmade.' '.JText::_('of').' '.$impleft?>
 					</td>
 					<td align="center">
 						<?php echo $row->clicks;?> -
