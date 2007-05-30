@@ -229,7 +229,7 @@ class BannersViewClients
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Extra Info' ); ?></legend>
 
-				<table class="admintable">
+				<table class="admintable" width="100%">
 				<tr>
 					<td width="100%" valign="top">
 						<textarea class="inputbox" name="extrainfo" id="extrainfo" cols="40" rows="10" style="width:90%"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
