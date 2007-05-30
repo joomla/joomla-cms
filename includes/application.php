@@ -128,7 +128,7 @@ class JSite extends JApplication
 		$document->setTitle( $this->getCfg('sitename' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
 
-		$contents = JComponentHelper::renderComponent($component, array('outline' => JRequest::getVar('tp', 0 )));
+		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer( $contents, 'component');
 	}
 
@@ -139,19 +139,17 @@ class JSite extends JApplication
 	*/
 	function render()
 	{
-		// get the formet to render
-		$format = JRequest::getVar( 'format', 'html', '', 'string' );
-
 		$document =& JFactory::getDocument();
 		$user     =& JFactory::getUser();
+
+		// get the format to render
+		$format = $document->getType();
 
 		switch($format)
 		{
 			case 'feed' :
 			{
-				$params = array(
-					'format' => JRequest::getVar( 'type', 'rss2.0', '', 'string' )
-				);
+				$params = array();
 			} break;
 
 			case 'html' :
@@ -203,9 +201,9 @@ class JSite extends JApplication
 	*/
 	function login($username=null, $password=null, $remember=null)
 	{
-		$username = trim( JRequest::getVar( 'username', $username, 'post' ) );
-		$password = trim( JRequest::getVar( 'passwd', $password, 'post' ) );
-		$remember = JRequest::getVar( 'remember', $remember, 'post' );
+		$username = JRequest::getString('username', $username, 'post');
+		$password = JRequest::getString('passwd', $password, 'post', JREQUEST_ALLOWRAW);
+		$remember = JRequest::getBool('remember', $remember, 'post');
 
 		return parent::login($username, $password, $remember);
 	}

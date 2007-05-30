@@ -161,15 +161,15 @@ class JAdministrator extends JApplication
 	*/
 	function login($username=null, $password=null, $remember = false)
 	{
-		$username = trim( JRequest::getVar( 'username', $username, 'post' ) );
-		$password = trim( JRequest::getVar( 'passwd', $password, 'post' ) );
-		$remember = JRequest::getVar( 'remember', $remember, 'post', 'word' );
+		$username = JRequest::getString('username', $username, 'post');
+		$password = JRequest::getString('passwd', $password, 'post', JREQUEST_ALLOWRAW);
+		$remember = JRequest::getBool('remember', $remember);
 
 		$result = parent::login($username, $password, $remember);
 
 		if(!JError::isError($result))
 		{
-			$lang = JRequest::getVar( 'lang' );
+			$lang = JRequest::getCmd('lang');
 			$lang = preg_replace( '/[^A-Z-]/i', '', $lang );
 			$this->setUserState( 'application.lang', $lang  );
 

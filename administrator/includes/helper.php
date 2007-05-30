@@ -33,7 +33,7 @@ class JAdministratorHelper
 	 */
 	function findOption()
 	{
-		$option = strtolower(JRequest::getCmd('option', null, ''));
+		$option = strtolower(JRequest::getCmd('option'));
 
 		$user =& JFactory::getUser();
 		if ($user->get('guest')) {

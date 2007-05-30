@@ -71,7 +71,7 @@ $mainframe->triggerEvent('onAfterRoute');
  *
  * NOTE :
  */
-$option = JRequest::getWord('option');
+$option = JRequest::getCmd('option');
 $mainframe->dispatch($option);
 
 // trigger the onAfterDisplay events
