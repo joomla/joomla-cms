@@ -41,6 +41,7 @@ Legend:
  # Fixed [#4866] Hardcoded string in administration - Banners
  # Fixed [#4867] Hardcoded string in administration - Contacts
  # Fixed [#4868] Hardcoded string in lists
+ # Fixed [#4869] Hardcoded string in administration - Search
 
 29-May-2007 Rob Schley
  # Fixed [#4853] Small typos in language/en-GB/en-GB.ini and administrator/language/en-GB/en-GB.ini
