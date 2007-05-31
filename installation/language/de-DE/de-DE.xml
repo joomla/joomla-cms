@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5" client="installation" >
+    <name>German (Germany)</name>
+    <version>1.5.0</version>
+    <creationDate>04.05.2007</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description>German language file for Web Installer</description>
+    <metadata>
+    	<name>German(De)</name>
+    	<tag>de-DE</tag>
+    	<rtl>0</rtl>
+    	<locale>de-DE.utf8, de-DE.utf8@euro, ger, de, ger_DE, de_DE, german, german-de, germany</locale>
+     	<winCodePage>iso-8859-1</winCodePage>
+    	<backwardLang>german</backwardLang>
+    </metadata>
+    <params />
+</metafile>
