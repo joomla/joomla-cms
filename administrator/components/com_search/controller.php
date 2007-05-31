@@ -39,7 +39,7 @@ class SearchController extends JController
 	/**
 	 * Reset Statistics
 	 */
-	function resetStats()
+	function reset()
 	{
 		$model	=& $this->getModel( 'Search' );
 		$model->reset();

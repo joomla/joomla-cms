@@ -29,7 +29,7 @@ class searchViewSearch extends JView
 		global $mainframe;
 
 		JToolBarHelper::title( JText::_( 'Search Statistics' ), 'searchtext.png' );
-		JToolBarHelper::custom( 'resetStats', 'delete.png', 'delete_f2.png', 'Reset', false );
+		JToolBarHelper::custom( 'reset', 'delete.png', 'delete_f2.png', 'Reset', false );
 		JToolBarHelper::preferences( 'com_search' );
 		JToolBarHelper::help( 'screen.stats.searches' );
 
@@ -37,7 +37,7 @@ class searchViewSearch extends JView
 		$document->setTitle(JText::_('Search Statistics'));
 
 		$limit 		= $mainframe->getUserStateFromRequest( 'global.list.limit',	'limit', $mainframe->getCfg('list_limit') );
-		$limitstart		= $mainframe->getUserStateFromRequest( "com_search.limitstart", 'limitstart',	0 );
+		$limitstart	= $mainframe->getUserStateFromRequest( "com_search.limitstart", 'limitstart',	0 );
 
 		$model = $this->getModel();
 		$items = $model->getItems();
