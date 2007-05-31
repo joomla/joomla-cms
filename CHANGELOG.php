@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Jun-2007 Enno Klasing
+ # Default value of first call to JRequest::getVar is not used as the return value of subsequent calls for the same input variable anymore
+
 31-May-2007 Johan Janssens
  # Fixed [#5452] In backend com_search Reset icon not working
 

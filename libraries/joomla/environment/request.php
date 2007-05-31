@@ -118,17 +118,19 @@ class JRequest
 		}
 		elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig]))
 		{
-			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
-			// Get the variable from the input hash
-			$var = JRequest::_cleanVar($var, $mask, $type);
+			if (isset($input[$name]) && $input[$name] !== null) {
+				// Get the variable from the input hash and clean it
+				$var = JRequest::_cleanVar($input[$name], $mask, $type);
 
-			// Handle magic quotes compatability
-			if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES') )
-			{
-				$var = JRequest::_stripSlashesRecursive( $var );
-			}
-			if ($var !== null) {
+				// Handle magic quotes compatability
+				if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES')) {
+					$var = JRequest::_stripSlashesRecursive( $var );
+				}
+
 				$GLOBALS['_JREQUEST'][$name][$sig] = $var;
+			} elseif ($default !== null) {
+				// Clean the default value
+				$var = JRequest::_cleanVar($default, $mask, $type);
 			} else {
 				$var = $default;
 			}
