@@ -44,6 +44,7 @@ Legend:
  # Fixed [#5436] Wrong formated PDF/Print/Mail Links
  # Fixed [#4894] XHTML Validation Bug
  # Fixed [#5398] Email to friend broken, returns a 403 error
+ # Fixed [#267] Incorrect using of forms[0] in javascript
 
 30-May-2007 Johan Janssens
  # Fixed [#5445] Site Offline has no effect, users still can view the site when offline

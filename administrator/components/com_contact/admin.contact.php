@@ -27,6 +27,7 @@ require_once( JApplicationHelper::getPath( 'admin_html' ) );
 // Set the table directory
 JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
 
+$task	= JRequest::getCmd( 'task', null);
 $id 	= JRequest::getVar(  'id', 0, 'get', 'int' );
 $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 if (!is_array( $cid )) {

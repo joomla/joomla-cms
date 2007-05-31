@@ -429,7 +429,7 @@ class HTML_contact
 				<tr>
 					<td colspan="2">
 						<script language="javascript" type="text/javascript">
-						if (document.forms[0].image.options.value!=''){
+						if (document.forms.adminForm.image.options.value!=''){
 							jsimg='../images/stories/' + getSelectedValue( 'adminForm', 'image' );
 						} else {
 							jsimg='../images/M_images/blank.png';
