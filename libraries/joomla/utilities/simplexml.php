@@ -510,7 +510,7 @@ class JSimpleXMLElement extends JObject
 	 * @param int 	 $level
 	 * @return JSimpleXMLElement 	The added child object
 	 */
-	function &addChild($name, $attrs, $level)
+	function &addChild($name, $attrs = array(), $level = null)
 	{
 		//If there is no array already set for the tag name being added,
 		//create an empty array for it
