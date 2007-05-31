@@ -36,7 +36,7 @@ class MailtoViewMailto extends JView
 		$user =& JFactory::getUser();
 		$data = new stdClass();
 
-		$data->link = urldecode( JRequest::getVar( 'link', '', 'post', 'base64' ) );
+		$data->link = urldecode( JRequest::getVar( 'link', '', 'method', 'base64' ) );
 		if ($data->link == '') {
 			JError::raiseError( 403, 'Link is missing' );
 			$false = false;

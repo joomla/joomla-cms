@@ -46,7 +46,7 @@ class ContentHelperHTML
 					$text = JText::_('New').'&nbsp;';
 				}
 
-				$attribs	= array( 'title' => '"'.JText::_( 'New' ).'"');
+				$attribs	= array( 'title' => JText::_( 'New' ));
 				$output = JHTML::_('link', JRoute::_($url), $text, $attribs);
 			} break;
 
@@ -65,9 +65,9 @@ class ContentHelperHTML
 					$text = JText::_('PDF').'&nbsp;';
 				}
 
-				$attribs['title']	= '"'.JText::_( 'PDF' ).'"';
-				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
-				$attribs['rel']     = '"nofollow"';
+				$attribs['title']	= JText::_( 'PDF' );
+				$attribs['onclick'] = "window.open(this.href,'win2','".$status."'); return false;";
+				$attribs['rel']     = 'nofollow';
 
 				$output = JHTML::_('link', JRoute::_($url), $text, $attribs);
 			} break;
@@ -87,8 +87,8 @@ class ContentHelperHTML
 					$text = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 				}
 
-				$attribs['title']	= '"'.JText::_( 'Print' ).'"';
-				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
+				$attribs['title']	= JText::_( 'Print' );
+				$attribs['onclick'] = "window.open(this.href,'win2','".$status."'); return false;";
 
 				$output = JHTML::_('link', JRoute::_($url), $text, $attribs);
 			} break;
@@ -104,8 +104,8 @@ class ContentHelperHTML
 					$text = '&nbsp;'.JText::_('Email');
 				}
 
-				$attribs['title']	= '"'.JText::_( 'Email ' ).'"';
-				$attribs['onclick'] = "\"window.open(this.href,'win2','".$status."'); return false;\"";
+				$attribs['title']	= JText::_( 'Email ' );
+				$attribs['onclick'] = "window.open(this.href,'win2','".$status."'); return false;";
 
 				$output = JHTML::_('link', JRoute::_($url), $text, $attribs);
 			} break;
