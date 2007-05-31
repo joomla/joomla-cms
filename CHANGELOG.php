@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-May-2007 Johan Janssens
+ # Fixed [#5452] In backend com_search Reset icon not working
 
 31-May-2007 Louis Landry
  # Fixed [#5436] Wrong formated PDF/Print/Mail Links
