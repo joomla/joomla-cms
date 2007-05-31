@@ -1471,7 +1471,7 @@ class MBOXCreator extends FeedCreator {
 
 	function MBOXCreator() {
 		$this->contentType = "text/plain";
-		$this->encoding = "ISO-8859-15";
+		$this->encoding = "utf-8";
 	}
 
 	function qp_enc($input = "", $line_max = 76) {
