@@ -222,7 +222,7 @@ $cp1252_to_htmlent =
 	// String values received as xml will be converted to this, and php strings will be converted to xml
 
 	// as if having been coded with this
-	$GLOBALS['xmlrpc_internalencoding']='ISO-8859-1';
+	$GLOBALS['xmlrpc_internalencoding']='UTF-8';
 
 	$GLOBALS['xmlrpcName']='XML-RPC for PHP';
 	$GLOBALS['xmlrpcVersion']='2.0';
