@@ -130,11 +130,14 @@
 		<site tag="rs-RS" url="http://www.joomlaserbia.com">
 			Serbian - www.joomlaserbia.com
 		</site>
-		<site tag="es-ES"  url="http://www.joomlaspanish.org">
-			Spanish (ES) - www.joomlaspanish.org/
+		<site tag="sk-SK"  url="http://www.joomlahelp.sk">
+			Slovak - www.joomlahelp.sk
 		</site>
-		<site tag="es-ES" url="http://www.joomlahispano.org">
-			Spanish (ES) - www.joomlahispano.org
+		<site tag="es-ES" url="http://www.joomlaspanish.org">
+			Spanish (ES) - www.joomlaspanish.org
+		</site>
+		<site tag="es-ES" url="http://ayuda.joomlahispano.org">
+			Spanish (ES) - ayuda.joomlahispano.org
 		</site>
 		<site tag="sv-SE"  url="http://www.svenskjoomla.se">
 			Swedish - www.svenskjoomla.se
