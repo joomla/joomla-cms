@@ -384,7 +384,7 @@ class GeSHi {
      * NOTE: no longer used
      * @var string
      */
-    var $encoding = 'ISO-8859-1';
+    var $encoding = 'utf-8';
 
     /**
      * Should keywords be linked?
