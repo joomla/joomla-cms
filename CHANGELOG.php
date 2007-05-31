@@ -37,9 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+30-May-2007 Johan Janssens
+ # Fixed [#5445] Site Offline has no effect, users still can view the site when offline
+
 31-May-2007 Enno Klasing
  # Set default charset for the PHPMailer class to utf-8
-
+ 
 30-May-2007 Louis Landry
  # Fixed [#443] Bug with highliting in mod_mainmenu
  # Fixed [#5431] is_group_child_of mysql query always returning false
