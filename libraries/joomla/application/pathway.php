@@ -53,18 +53,12 @@ class JPathWay extends JObject
 	 * Return the JPathWay items array
 	 *
 	 * @access public
-	 * @param boolean $showHome True to show the home element of the JPathWay array
-	 * @param boolean $showComponent True to show the component element of the JPathWay array
 	 * @return array Array of pathway items
 	 * @since 1.5
 	 */
-	function getPathWay($showHome = true)
+	function getPathWay()
 	{
 		$pw = $this->_pathway;
-
-		if ($showHome == false) {
-			unset($pw[0]);
-		}
 
 		// Use array_values to reset the array keys numerically
 		return array_values($pw);
@@ -74,12 +68,10 @@ class JPathWay extends JObject
 	 * Create and return an array of the pathway names.
 	 *
 	 * @access public
-	 * @param boolean $showHome True to show the home element of the JPathWay array
-	 * @param boolean $showComponent True to show the component element of the JPathWay array
 	 * @return array Array of names of pathway items
 	 * @since 1.5
 	 */
-	function getPathWayNames($showHome = true)
+	function getPathWayNames()
 	{
 		// Initialize variables
 		$names = array (null);
@@ -87,10 +79,6 @@ class JPathWay extends JObject
 		// Build the names array using just the names of each pathway item
 		foreach ($this->_pathway as $item) {
 			$names[] = $item->name;
-		}
-
-		if ($showHome == false) {
-			unset($names[0]);
 		}
 
 		//Use array_values to reset the array keys numerically

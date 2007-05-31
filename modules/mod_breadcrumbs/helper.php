@@ -31,31 +31,21 @@ class modBreadCrumbsHelper
 		// Get the PathWay object from the application
 		$pathway = & $mainframe->getPathWay();
 		$items = $pathway->getPathWay($showHome);
-
-		if ($showHome)
-		{
-			$items[0]->name = $params->get('homeText');
-			if (empty ($items[0]->link) && !isset ($items[1])) {
-				$items[0]->link = $items[0]->name;
-			} else {
-				$items[0]->link = '<a href="'.JURI::base().'" class="pathway">'.$items[0]->name.'</a>';
-			}
-		}
-
-
+		
+		// Set the hometext
+		$items[0]->name = $params->get('homeText');
+		
+		if (!$showHome) {
+			array_shift($items);
+		} 
+			
 		$count = count($items);
-		for ($i = 1; $i < $count; $i ++)
+		for ($i = 0; $i < $count; $i ++)
 		{
 			$items[$i]->name = stripslashes(htmlspecialchars($items[$i]->name));
-
-			// If a link is present create an html link, if not just use the name
-			if (empty ($items[$i]->link) || $count == $i + 1) {
-				$items[$i]->link = $items[$i]->name;
-			} else {
-				$items[$i]->link = '<a href="'.JRoute::_($items[$i]->link).'" class="pathway">'.$items[$i]->name.'</a>';
-			}
+			$items[$i]->link = '<a href="'.JRoute::_($items[$i]->link).'" class="pathway">'.$items[$i]->name.'</a>';
 		}
-
+		
 		return $items;
 	}
 

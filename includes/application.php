@@ -389,9 +389,9 @@ class JSite extends JApplication
 
 		// Add the home item to the pathway
 		if( $item->id == $home->id ) {
-			$this->_pathway->addItem( JText::_('Home'), '' );
+			$this->_pathway->addItem( JText::_('Home'), JURI::base() );
 		} else {
-			$this->_pathway->addItem( JText::_('Home'), 'index.php' );
+			$this->_pathway->addItem( JText::_('Home'), JURI::base() );
 		}
 
 		if( $item->id != $home->id)
