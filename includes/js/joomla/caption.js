@@ -46,7 +46,7 @@ var JCaption = new Class({
 		if ( element.title != "" ) {
 			container.appendChild(text);
 		}
-		container.className   = this.selector;
+		container.className   = this.selector.replace('.', '_');
 		container.setAttribute("style","float:"+align);
 		container.style.width = width + "px";
 
