@@ -29,11 +29,12 @@ class JHTMLSelect
 	 * @param	string	The returned object property name for the text
 	 * @return	object
 	 */
-	function option( $value, $text='', $value_name='value', $text_name='text' )
+	function option( $value, $text='', $value_name='value', $text_name='text', $disable=false )
 	{
 		$obj = new stdClass;
 		$obj->$value_name	= $value;
 		$obj->$text_name	= trim( $text ) ? $text : $value;
+		$obj->disable		= $disable;
 		return $obj;
 	}
 
@@ -69,17 +70,24 @@ class JHTMLSelect
 			$element =& $arr[key($arr)]; // since current doesn't return a reference, need to do this
 
 			$isArray = is_array( $element );
+			$extra	 = '';
 			if ($isArray)
 			{
 				$k 		= $element[$key];
 				$t	 	= $element[$text];
 				$id 	= ( isset( $element['id'] ) ? $element['id'] : null );
+				if($element['disable']) {
+					$extra .= ' disabled="disabled"';
+				}
 			}
 			else
 			{
 				$k 		= $element->$key;
 				$t	 	= $element->$text;
 				$id 	= ( isset( $element->id ) ? $element->id : null );
+				if($element['disable']) {
+					$extra .= ' disabled="disabled"';
+				}
 			}
 
 			// This is real dirty, open to suggestions,
@@ -96,7 +104,7 @@ class JHTMLSelect
 				$t = $splitText[0];
 				if(isset($splitText[1])){ $t .= " - ". $splitText[1]; }
 
-				$extra = '';
+				//$extra = '';
 				//$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
 				if (is_array( $selected ))
 				{
@@ -112,6 +120,7 @@ class JHTMLSelect
 				} else {
 					$extra .= ( $k == $selected ? ' selected="selected"' : '' );
 				}
+
 				//if flag translate text
 				if ($flag) {
 					$t = JText::_( $t );
@@ -141,20 +150,20 @@ class JHTMLSelect
 		if ( is_array( $arr ) ) {
 			reset( $arr );
 		}
-		
+
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
 		 }
 
 		$id = $name;
-		
+
 		if ( $idtag ) {
 			$id = $idtag;
 		}
-		
+
 		$id		= str_replace('[','',$id);
 		$id		= str_replace(']','',$id);
-		
+
 		$html	= '<select name="'. $name .'" id="'. $id .'" '. $attribs .'>';
 		$html	.= JHTMLSelect::Options( $arr, $key, $text, $selected, $flag );
 		$html	.= '</select>';
@@ -205,7 +214,7 @@ class JHTMLSelect
 	{
 		reset( $arr );
 		$html = '';
-		
+
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
 		 }
@@ -216,7 +225,7 @@ class JHTMLSelect
 		}
 
 		for ($i=0, $n=count( $arr ); $i < $n; $i++ )
-		{			
+		{
 			$k	= $arr[$i]->$key;
 			$t	= $arr[$i]->$text;
 			$id	= ( isset($arr[$i]->id) ? @$arr[$i]->id : null);
