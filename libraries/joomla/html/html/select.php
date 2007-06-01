@@ -85,7 +85,7 @@ class JHTMLSelect
 				$k 		= $element->$key;
 				$t	 	= $element->$text;
 				$id 	= ( isset( $element->id ) ? $element->id : null );
-				if(isset($element['disable'])) {
+				if(isset( $element->disable )) {
 					$extra .= ' disabled="disabled"';
 				}
 			}
