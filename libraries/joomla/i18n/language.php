@@ -869,9 +869,15 @@ class JLanguageHelper
 
 				foreach($systemLangs as $systemLang => $metadata)
 				{
-					if($primary_browserLang == substr( $metadata['tag'], 0, 2 )) {
+					if (strtolower($browserLang) == strtolower(substr($metadata['tag'], 0, strlen($browserLang)))) {
 						return $systemLang;
+					} elseif ($primary_browserLang == substr($metadata['tag'], 0, 2)) {
+						$primaryDetectedLang = $systemLang;
 					}
+				}
+
+				if (isset($primaryDetectedLang)) {
+					return $primaryDetectedLang;
 				}
 			}
 		}
