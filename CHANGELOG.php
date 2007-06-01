@@ -39,6 +39,7 @@ Legend:
 
 01-June-2007 Johan Janssens
  + Added JElementCalendar class and JHTML::calendar function
+ # Fixed [#5468] Drop down lists in backend don't allow selection
 
 01-Jun-2007 Enno Klasing
  # Default value of first call to JRequest::getVar is not used as the return value of subsequent 
