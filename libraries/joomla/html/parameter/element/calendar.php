@@ -39,8 +39,7 @@ class JElementCalendar extends JElement
 		$format = ( $node->attributes('format') ? $node->attributes('format') : '%Y-%m-%d %H:%M:%S' );
 		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="inputbox"' );
 
-		return '<input type="text" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.htmlspecialchars($value).'" '.$class.' />'.
-				 '<a href="#" onclick="return showCalendar(\''.$control_name.$name.'\', \'y-mm-dd\');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>';
+		return JHTML::_('calendar', $value, $name, $format, array('class' => $class), $control_name);
 	}
 }
 ?>

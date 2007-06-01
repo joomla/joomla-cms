@@ -203,6 +203,26 @@ class JHTML
 
 		return $tip;
 	}
+	
+	function calendar($value, $name, $format = '%Y-%m-%d %H:%M:%S', $attribs = null, $control_name = '')
+	{
+		JHTML::_('behavior.calendar'); //load the calendar behavior
+		
+		if (is_array($attribs)) {
+			$attribs = JArrayHelper::toString( $attribs );
+		}
+		
+		// make id same as name
+		$id = $name;
+		
+		if($control_name) {
+			$name = $control_name.'['.$name.']';
+			$id   = $control_name.$name;
+		}
+
+		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value).'" '.$attribs.' />'.
+				 '<a href="#" onclick="return showCalendar(\''.$control_name.$name.'\', \'y-mm-dd\');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>';
+	}
 
 	/**
 	 * Add a directory where JHTML should search for helpers. You may

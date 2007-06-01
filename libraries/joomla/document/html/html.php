@@ -235,7 +235,7 @@ class JDocumentHTML extends JDocument
 
 		// parse
 		$data = $this->_parseTemplate($data);
-
+		
 		//output
 		parent::render();
 		return $data;

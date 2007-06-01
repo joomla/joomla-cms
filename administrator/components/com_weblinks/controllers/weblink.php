@@ -29,7 +29,7 @@ class WeblinksControllerWeblink extends WeblinksController
 		parent::__construct();
 
 		// Register Extra tasks
-		$this->registerTask( 'add'  , 	'edit' );
+		$this->registerTask( 'add', 'edit' );
 	}
 
 	function edit()
