@@ -39,10 +39,10 @@ class JAdminSubMenu
 		$list = $menu->_bar;
 		if(!is_array($list) || !count($list))
 		{
-			$option = JRequest::getVar('option', null, '', 'word');
+			$option = JRequest::getCmd('option');
 			if($option == 'com_categories')
 			{
-				$section = JRequest::getVar('section', null, '', 'cmd');
+				$section = JRequest::getCmd('section');
 				if ($section) {
 					if ($section != 'content') {
 						// special handling for specific core components
@@ -60,7 +60,7 @@ class JAdminSubMenu
 			return null;
 		}
 
-		$hide = JRequest::getVar('hidemainmenu', 0, '', 'int');
+		$hide = JRequest::getInt('hidemainmenu');
 		$txt = "<ul id=\"submenu\">\n";
 
 		/*

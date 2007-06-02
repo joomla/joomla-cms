@@ -20,8 +20,8 @@ $db				=& JFactory::getDBO();
 $user			=& JFactory::getUser();
 
 // TODO -  pagination needs to be completed in module
-$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-$limitstart 		= $mainframe->getUserStateFromRequest( 'mod_logged.limitstart', 'limitstart', 0 );
+$limit 		= $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+$limitstart = $mainframe->getUserStateFromRequest('mod_logged.limitstart', 'limitstart', 0, 'int');
 
 // hides Administrator or Super Administrator from list depending on usertype
 $and = '';

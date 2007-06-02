@@ -21,7 +21,7 @@ $config		=& JFactory::getConfig();
 $user		=& JFactory::getUser();
 $db			=& JFactory::getDBO();
 $lang		=& JFactory::getLanguage();
-$session		=& JFactory::getSession();
+$session	=& JFactory::getSession();
 
 $sid	= $session->getId();
 $output = array();
@@ -42,7 +42,7 @@ $query = 'SELECT COUNT(*)'
 $db->setQuery( $query );
 $unread = $db->loadResult();
 
-if (JRequest::getVar('hidemainmenu')) {
+if (JRequest::getInt('hidemainmenu')) {
 	$inboxLink = '<a>';
 } else {
 	$inboxLink = '<a href="index.php?option=com_messages">';

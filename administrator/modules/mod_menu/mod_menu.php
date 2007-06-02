@@ -16,7 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( dirname(__FILE__).DS.'helper.php' );
 
-$hide	= JRequest::getVar( 'hidemainmenu', 0, '', 'int' );
+$hide	= JRequest::getInt('hidemainmenu');
 
 if ( $hide ) {
 	modMenuHelper::buildDisabledMenu();
