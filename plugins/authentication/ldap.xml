@@ -28,8 +28,7 @@
 			<option value="1">Yes</option>
 		</param>
 		<param name="auth_method" default="bind" type="list" label="Authorization Method" description="PARAMAUTHMETHOD">
-			<option value="anonymous">Anonymous Bind and Search</option>
-			<option value="authenticated">Authenticated Bind and Search</option>
+			<option value="search">Bind and Search</option>
 			<option value="bind">Bind Directly As User</option>
 		</param>
 		<param name="base_dn" type="text" size="20" default="" label="Base DN" description="PARAMBASEDN" />

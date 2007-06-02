@@ -86,18 +86,11 @@ class plgAuthenticationLdap extends JPlugin
 
 		switch($auth_method)
 		{
-			case 'anonymous':
-			case 'authenticated':
+			case 'search':
 			{
-				if ($auth_method == 'anonymous')
-				{
-					// Bind anonymously
-					$bindtest = $ldap->anonymous_bind();
-				} else {
-					// Bind using Connect Username/password
-					$bindtest = $ldap->bind();
-				}
-
+				// Bind using Connect Username/password
+				$bindtest = $ldap->bind();
+				
 				if($bindtest)
 				{
 					// Search for users DN
@@ -122,7 +115,6 @@ class plgAuthenticationLdap extends JPlugin
 			}	break;
 		}
 		
-
 		if(!$success)
 		{
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
