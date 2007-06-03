@@ -15,7 +15,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+require_once (JPATH_COMPONENT.DS.'view.php');
 
 /**
  * HTML View class for the Content component
@@ -24,7 +24,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Content
  * @since 1.5
  */
-class ContentViewCategory extends JView
+class ContentViewCategory extends ContentView
 {
 	function display($tpl = null)
 	{
@@ -62,7 +62,7 @@ class ContentViewCategory extends JView
 		$items		= & $this->get( 'Data' );
 		$total		= & $this->get( 'Total' );
 		$category	= & $this->get( 'Category' );
-		
+
 		//add alternate feed link
 		$link	= 'index.php?option=com_content&view=category&format=feed&id='.$category->id;
 		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');

@@ -15,7 +15,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+require_once (JPATH_COMPONENT.DS.'view.php');
 
 /**
  * HTML Article View class for the Content component
@@ -24,7 +24,7 @@ jimport( 'joomla.application.component.view');
  * @subpackage	Content
  * @since 1.5
  */
-class ContentViewArticle extends JView
+class ContentViewArticle extends ContentView
 {
 	function display($tpl = null)
 	{

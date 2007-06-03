@@ -74,7 +74,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td>
 		<a href="<?php echo $item->link; ?>">
 			<?php echo $item->title; ?></a>
-			<?php $this->item = $item; echo ContentHelperHTML::Icon('edit', $item, $this->params, $this->access) ?>
+			<?php $this->item = $item; echo JHTML::_('icon.edit', $item, $this->params, $this->access) ?>
 	</td>
 	<?php else : ?>
 	<td>

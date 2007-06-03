@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	?>
 
 	<?php if ($this->access->canEdit || $this->access->canEditOwn) :
-			echo ContentHelperHTML::Icon('new', $this->category  , $this->params, $this->access);
+			echo JHTML::_('icon.create', $this->category  , $this->params, $this->access);
 	endif; ?>
 	</td>
 </tr>
