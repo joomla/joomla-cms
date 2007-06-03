@@ -56,7 +56,7 @@ defined('JPATH_BASE') or die();
  * // read and write a document
  * $xml = new JSimpleXML;
  * $xml->loadFile('simple.xml');
- * print $xml->asXML();
+ * print $xml->toString();
  *
  * // access a given node's CDATA
  * print $xml->root->node->child[0]->data(); // Tom Foo
@@ -170,6 +170,11 @@ class JSimpleXML extends JObject
 	 */
 	function loadFile($path, $classname = null)
 	{
+		//Check to see of the path exists
+		if ( !file_exists( $path ) )  {
+			return false;
+		}
+		
 		//Get the XML document loaded into a variable
 		$xml = trim( file_get_contents($path) );
 		if ($xml == '')
@@ -278,14 +283,12 @@ class JSimpleXML extends JObject
 	 */
 	function _startElement($parser, $name, $attrs = array())
 	{
-		//Make the name of the tag lower case
-		$name = strtolower($name);
-
 		//Check to see if tag is root-level
 		if (count($this->_stack) == 0)
 		{
 			//If so, set the document as the current tag
-			$this->document = new JSimpleXMLElement($name, $attrs);
+			$classname = get_class( $this ) . 'Element';
+			$this->document = new $classname($name, $attrs);
 
 			//And start out the stack with the document tag
 			$this->_stack = array('document');
@@ -330,7 +333,7 @@ class JSimpleXML extends JObject
 		$tag = $this->_getStackLocation();
 
 		//Assign data to it
-		eval('$this->'.$tag.'->_data .= trim($data);');
+		eval('$this->'.$tag.'->_data .= $data;');
 	}
 }
 
@@ -524,7 +527,8 @@ class JSimpleXMLElement extends JObject
 		}
 
 		//Create the child object itself
-		$child = new JSimpleXMLElement($name, $attrs, $level);
+		$classname = get_class( $this );
+		$child = new $classname( $name, $attrs, $level );
 
 		//Add the reference of it to the end of an array member named for the elements name
 		$this->{$name}[] =& $child;
@@ -593,6 +597,13 @@ class JSimpleXMLElement extends JObject
 		return $ref;
 	}
 
+	/**
+	 * traverses the tree calling the $callback( JSimpleXMLElement 
+	 * $this, mixed $args=array() ) function with each JSimpleXMLElement.
+	 *
+	 * @param string $callback function name
+	 * @param array $args
+	 */
 	function map($callback, $args=array())
 	{
 		$callback($this, $args);
@@ -610,7 +621,7 @@ class JSimpleXMLElement extends JObject
 	 *
 	 * @return string
 	 */
-	function asXML($whitespace=true)
+	function toString($whitespace=true)
 	{
 		//Start a new line, indent by the number indicated in $this->level, add a <, and add the name of the tag
 		if ($whitespace) {
@@ -621,7 +632,7 @@ class JSimpleXMLElement extends JObject
 
 		//For each attribute, add attr="value"
 		foreach($this->_attributes as $attr => $value)
-			$out .= ' '.$attr.'="'.$value.'"';
+			$out .= ' '.$attr.'="'.htmlspecialchars($value).'"';
 
 		//If there are no children and it contains no data, end it off with a />
 		if(empty($this->_children) && empty($this->_data))
@@ -638,7 +649,7 @@ class JSimpleXMLElement extends JObject
 
 				//For each child, call the asXML function (this will ensure that all children are added recursively)
 				foreach($this->_children as $child)
-					$out .= $child->asXML($whitespace);
+					$out .= $child->toString($whitespace);
 
 				//Add the newline and indentation to go along with the close tag
 				if ($whitespace) {
@@ -648,7 +659,7 @@ class JSimpleXMLElement extends JObject
 
 			//If there is data, close off the start tag and add the data
 			elseif(!empty($this->_data))
-				$out .= '>'.$this->_data;
+				$out .= '>'.htmlspecialchars($this->_data);
 
 			//Add the end tag
 			$out .= '</'.$this->_name.'>';
