@@ -65,7 +65,7 @@ class ContactViewContact extends JView
 		$contacts = $modelCat->getContacts( $options );
 
 		// Set the document page title
-		$mainframe->setPageTitle(JText::_('Contact').' - '.$contact->name);
+		$document->setTitle(JText::_('Contact').' - '.$contact->name);
 
 		//set breadcrumbs
 		if($menu->query['view'] != 'contact'){

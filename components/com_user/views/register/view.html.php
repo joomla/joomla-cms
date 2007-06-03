@@ -31,10 +31,11 @@ class UserViewRegister extends JView
 	{
 		global $mainframe;
 
-		$pathway =& $mainframe->getPathWay();
+		$pathway  =& $mainframe->getPathWay();
+		$document =& JFactory::getDocument();
 
 	 	// Page Title
-	 	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
+	 	$document->setTitle( JText::_( 'Registration' ) );
 		$pathway->addItem( JText::_( 'New' ));
 
 		$doc = & JFactory::getDocument();

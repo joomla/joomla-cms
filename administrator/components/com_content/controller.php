@@ -1366,9 +1366,8 @@ class ContentController extends JController
 
 	function insertPagebreak()
 	{
-		global $mainframe;
-
-		$mainframe->setPageTitle(JText::_('PGB ARTICLE PAGEBRK'));
+		$document =& JFactory::getDocument();
+		$document->setTitle(JText::_('PGB ARTICLE PAGEBRK'));
 		ContentView::insertPagebreak();
 	}
 

@@ -307,6 +307,7 @@ class UserController extends JController
 		$pathway 	=& $mainframe->getPathWay();
 		$config		=& JFactory::getConfig();
 		$authorize	=& JFactory::getACL();
+		$document   =& JFactory::getDocument();
 
 		// If user registration is not allowed, show 403 not authorized.
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
@@ -351,7 +352,7 @@ class UserController extends JController
 		// If there was an error with registration, set the message and display form
 		if ( !$user->save() ) {
 		 	// Page Title
-		 	$mainframe->setPageTitle( JText::_( 'Registration' ) );
+		 	$document->setTitle( JText::_( 'Registration' ) );
 			// Breadcrumb
 			$pathway->addItem( JText::_( 'New' ) );
 
@@ -371,7 +372,7 @@ class UserController extends JController
 		// Everything went fine, set relevant message depending upon user activation state and display message
 		if ( $useractivation == 1 ) {
 			// Page Title
-			$mainframe->SetPageTitle( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ) );
+			$document->setTitle( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ) );
 			// Breadcrumb
 			$pathway->addItem( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ));
 
@@ -379,7 +380,7 @@ class UserController extends JController
 			$message->text = JText::_( 'REG_COMPLETE_ACTIVATE' );
 		} else {
 			// Page Title
-			$mainframe->SetPageTitle( JText::_( 'REG_COMPLETE_TITLE' ) );
+			$document->setTitle( JText::_( 'REG_COMPLETE_TITLE' ) );
 			// Breadcrumb
 			$pathway->addItem( JText::_( 'REG_COMPLETE_TITLE' ));
 
@@ -398,6 +399,7 @@ class UserController extends JController
 		// Initialize some variables
 		$db			=& JFactory::getDBO();
 		$user 		=& JFactory::getUser();
+		$document   =& JFactory::getDocument();
 		$pathway 	=& $mainframe->getPathWay();
 
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
@@ -428,7 +430,7 @@ class UserController extends JController
 		if (empty( $activation ))
 		{
 			// Page Title
-			$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
+			$document->setTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
 			// Breadcrumb
 			$pathway->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
 
@@ -444,7 +446,7 @@ class UserController extends JController
 		if (JUserHelper::activateUser($activation))
 		{
 			// Page Title
-			$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ) );
+			$document->setTitle( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ) );
 			// Breadcrumb
 			$pathway->addItem( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ));
 
@@ -454,7 +456,7 @@ class UserController extends JController
 		else
 		{
 			// Page Title
-			$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
+			$document->setTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
 			// Breadcrumb
 			$pathway->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
 

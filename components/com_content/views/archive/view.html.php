@@ -64,7 +64,7 @@ class ContentViewArchive extends ContentView
 		// Add item to pathway
 		$pathway->addItem(JText::_('Archive'), '');
 
-		$mainframe->setPageTitle($menu->name);
+		$document->setTitle($menu->name);
 
 		$params->def('filter',			1);
 		$params->def('filter_type',		'title');

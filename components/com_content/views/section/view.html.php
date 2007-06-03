@@ -75,7 +75,7 @@ class ContentViewSection extends ContentView
 
 		// Set the page title
 		if (!empty ($menu->name)) {
-			$mainframe->setPageTitle($menu->name);
+			$document->setTitle($menu->name);
 		}
 
 		for($i = 0; $i < count($categories); $i++)

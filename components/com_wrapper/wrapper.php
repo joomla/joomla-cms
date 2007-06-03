@@ -41,15 +41,17 @@ class WrapperController
 	function display()
 	{
 		global $mainframe, $option;
+		
+		$document =& JFactory::getDocument();
 
 		$menus	= &JMenu::getInstance();
 		$menu	= $menus->getActive();
 
 		// Get the page/component configuration
 		$params = &$mainframe->getPageParameters();
-
+		
 		//set page title
-		$mainframe->SetPageTitle($menu->name);
+		$document->setTitle($menu->name);
 
 		$url = $params->def( 'url', '' );
 

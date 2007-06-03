@@ -311,10 +311,9 @@ class PollController extends JController
 
 	function previewPoll()
 	{
-		global $mainframe;
-
-		$mainframe->setPageTitle(JText::_('Poll Preview'));
-
+		$document =& JFactory::getDocument();
+		$document->setTitle(JText::_('Poll Preview'));
+		
 		$db 	=& JFactory::getDBO();
 		$pollid = JRequest::getVar( 'pollid', 0, '', 'int' );
 		$css	= JRequest::getVar( 't', '' );

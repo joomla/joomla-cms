@@ -48,14 +48,15 @@ class UserViewUser extends JView
 	{
 		global $mainframe;
 
-		$user =& JFactory::getUser();
+		$user     =& JFactory::getUser();
+		$document =& JFactory::getDocument();
 
 		// Get the paramaters of the active menu item
 		$menu = &JMenu::getInstance();
 		$item = $menu->getActive();
 
 		// Set page title
-		$mainframe->setPageTitle( $item->name );
+		$document->setTitle( $item->name );
 
 		// check to see if Frontend User Params have been enabled
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );

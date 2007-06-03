@@ -81,7 +81,7 @@ class ContentViewCategory extends ContentView
 			$pathway->addItem($category->title, '');
 		}
 
-		$mainframe->setPageTitle($menu->name);
+		$document->setTitle($menu->name);
 
 		$params->def('date_format',	JText::_('DATE_FORMAT_LC'));
 		$params->def('page_title', $menu->name);

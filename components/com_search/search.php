@@ -49,8 +49,9 @@ class SearchController
 		global $mainframe;
 
 		// Initialize some variables
-		$db 	=& JFactory::getDBO();
-		$pathway =& $mainframe->getPathWay();
+		$db 	  =& JFactory::getDBO();
+		$document =& JFactory::getDocument();
+		$pathway  =& $mainframe->getPathWay();
 
 		$error	= '';
 		$rows	= null;
@@ -66,7 +67,7 @@ class SearchController
 		$limitstart 	= JRequest::getVar( 'limitstart', 0, 'get', 'int' );
 
 		// Set page title information
-		$mainframe->setPageTitle(JText::_('Search'));
+		$document->setTitle(JText::_('Search'));
 
 		// Get the paramaters of the active menu item
 		$menus  = &JMenu::getInstance();

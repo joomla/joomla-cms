@@ -219,36 +219,6 @@ class JSite extends JApplication
 	}
 
 	/**
-	* Set Page Title
-	*
-	* @param string $title The title for the page
-	* @since 1.5
-	*/
-	function setPageTitle( $title=null ) {
-
-		$site = $this->getCfg('sitename');
-
-		if($this->getCfg('offline')) {
-			$site .= ' [Offline]';
-		}
-
-		$document=& JFactory::getDocument();
-		$document->setTitle( $site.' - '.$title);
-	}
-
-	/**
-	* Get Page title
-	*
-	* @return string The page title
-	* @since 1.5
-	*/
-	function getPageTitle()
-	{
-		$document=& JFactory::getDocument();
-		return $document->getTitle();
-	}
-
-	/**
 	* Get Page Parameters
 	*
 	* @return object The page parameters object

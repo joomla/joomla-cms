@@ -40,7 +40,8 @@ class NewsfeedsViewNewsfeed extends JView
 		}
 
 		// Get some objects from the JApplication
-		$pathway =& $mainframe->getPathWay();
+		$pathway  =& $mainframe->getPathWay();
+		$document =& JFactory::getDocument();
 
 		// Get the current menu item
 		$menus	= &JMenu::getInstance();
@@ -85,7 +86,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$params->def( 'page_title', $menu->name );
 
 		// Set page title per category
-		$mainframe->setPageTitle( $menu->name. ' - ' .$newsfeed->name );
+		$document->setTitle( $menu->name. ' - ' .$newsfeed->name );
 		
 
 		//set breadcrumbs

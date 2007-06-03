@@ -924,4 +924,30 @@ class JApplication extends JObject
 		$info = ContentHelper::_getArticleMenuInfo($id, $article->catid, $article->sectionid);
 		return $info->id;
 	}
+	
+	/**
+	 * Deprecated, use JDocument::setTitle instead.
+	 *
+	 * @since 1.0
+	 * @deprecated As of version 1.5
+	 * @see JDocument::setTitle()
+	 */
+	function setPageTitle( $title=null )
+	{
+		$document=& JFactory::getDocument();
+		$document->setTitle($title);
+	}
+
+	/**
+	 * Deprecated, use JDocument::getTitle instead.
+	 *
+	 * @since 1.0
+	 * @deprecated As of version 1.5
+	 * @see JDocument::getTitle()
+	 */
+	function getPageTitle()
+	{
+		$document=& JFactory::getDocument();
+		return $document->getTitle();
+	}
 }

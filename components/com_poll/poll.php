@@ -49,8 +49,9 @@ class PollController
 	{
 		global $mainframe;
 
-		$db 	=& JFactory::getDBO();
-		$pathway =& $mainframe->getPathWay();
+		$db 	  =& JFactory::getDBO();
+		$document =& JFactory::getDocument();
+		$pathway  =& $mainframe->getPathWay();
 
 		$poll_id = JRequest::getVar( 'id', 0, '', 'int' );
 
@@ -69,7 +70,7 @@ class PollController
 		$params = $mainframe->getPageParameters();
 
 		//Set page title information
-		$mainframe->SetPageTitle($poll->title);
+		$document->setTitle($poll->title);
 
 		//Set pathway information
 		$pathway->addItem($poll->title, '');

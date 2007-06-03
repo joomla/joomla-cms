@@ -27,9 +27,10 @@ class ContactViewCategory extends JView
 	{
 		global $mainframe, $option;
 
-		$user	 = &JFactory::getUser();
-		$uri 	 =& JFactory::getURI();
-		$model	 = &$this->getModel();
+		$user	  = &JFactory::getUser();
+		$uri 	  =& JFactory::getURI();
+		$model	  = &$this->getModel();
+		$document =& JFactory::getDocument();
 
 		// Get the paramaters of the active menu item
 		$menus	=& JMenu::getInstance();
@@ -90,9 +91,9 @@ class ContactViewCategory extends JView
 		if ($category->title)
 		{
 			// Add the category breadcrumbs item
-			$mainframe->setPageTitle(JText::_('Contact').' - '.$category->title);
+			$document->setTitle(JText::_('Contact').' - '.$category->title);
 		} else {
-			$mainframe->SetPageTitle(JText::_('Contact'));
+			$document->setTitle(JText::_('Contact'));
 		}
 
 		// table ordering

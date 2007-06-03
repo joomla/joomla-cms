@@ -268,12 +268,14 @@ class MediaController
 	function imgManager($listFolder)
 	{
 		global $mainframe;
-
+		
+		$document =& JFactory::getDocument();
+		
 		$lang = & JFactory::getLanguage();
 		$lang->load('', JPATH_ADMINISTRATOR);
 		$lang->load(JRequest::getVar( 'option' ), JPATH_ADMINISTRATOR);
 
-		$mainframe->setPageTitle(JText::_('Insert Image'));
+		$document->setTitle(JText::_('Insert Image'));
 
 		// Load the admin popup view
 		require_once (dirname(__FILE__).DS.'admin.media.popup.php');

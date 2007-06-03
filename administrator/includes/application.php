@@ -190,30 +190,6 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Set Page Title
-	*
-	* @param string $title The title for the page
-	* @since 1.5
-	*/
-	function setPageTitle( $title=null )
-	{
-		$document=& JFactory::getDocument();
-		$document->setTitle($title);
-	}
-
-	/**
-	* Get Page title
-	*
-	* @return string The page title
-	* @since 1.5
-	*/
-	function getPageTitle()
-	{
-		$document=& JFactory::getDocument();
-		return $document->getTitle();
-	}
-
-	/**
 	 * Set the configuration
 	 *
 	 * @access public

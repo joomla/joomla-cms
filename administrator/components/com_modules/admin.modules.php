@@ -791,9 +791,9 @@ class ModulesController extends JController
 
 	function preview()
 	{
-		global $mainframe;
-		$mainframe->setPageTitle(JText::_('Module Preview'));
-
+		$document =& JFactory::getDocument();
+		$document->setTitle(JText::_('Module Preview'));
+		
 		require_once( JApplicationHelper::getPath( 'admin_html' ) );
 		HTML_modules::preview( );
 	}

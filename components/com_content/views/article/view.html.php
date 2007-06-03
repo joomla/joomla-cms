@@ -350,8 +350,8 @@ class ContentViewArticle extends ContentView
 
 	function _displayPagebreak($tpl)
 	{
-		global $mainframe;
-		$mainframe->setPageTitle(JText::_('PGB ARTICLE PAGEBRK'));
+		$document =& JFactory::getDocument();
+		$document->setTitle(JText::_('PGB ARTICLE PAGEBRK'));
 
 		parent::display($tpl);
 	}
