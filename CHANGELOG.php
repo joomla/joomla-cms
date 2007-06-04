@@ -45,6 +45,8 @@ Legend:
  # Upgrade phpGACL to version 3.3.7
  # Unused JTableUser::getUserListFromGroup moved to legacy class
  # Unused JTableUser::getUserList moved to legacy class
+ # Moved legacy ACL's to legacy plugin
+ # Optimised internal ACL counter
 
 01-June-2007 Johan Janssens
  + Added JElementCalendar class and JHTML::calendar function

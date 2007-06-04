@@ -193,17 +193,6 @@ class JAuthorization extends gacl_api
 		$this->addACL( 'action', 'add', 'users', 'super administrator', 'content', 'all' );
 		$this->addACL( 'action', 'edit', 'users', 'super administrator', 'content', 'all' );
 		$this->addACL( 'action', 'publish', 'users', 'super administrator', 'content', 'all' );
-
-		// Legacy ACL's for backward compat
-		$this->addACL( 'administration', 'edit', 'users', 'super administrator', 'components', 'all' );
-		$this->addACL( 'administration', 'edit', 'users', 'administrator', 'components', 'all' );
-		$this->addACL( 'administration', 'edit', 'users', 'super administrator', 'user properties', 'block_user' );
-		$this->addACL( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_users' );
-		$this->addACL( 'administration', 'manage', 'users', 'administrator', 'components', 'com_users' );
-		$this->addACL( 'administration', 'config', 'users', 'super administrator' );
-		//$this->addACL( 'administration', 'config', 'users', 'administrator' );
-
-		$this->acl_count = count( $this->acl );
 	}
 
 	/**
@@ -214,7 +203,7 @@ class JAuthorization extends gacl_api
 	function addACL( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL )
 	{
 		$this->acl[] = array( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value );
-		$this->acl_count = count( $this->acl );
+		$this->acl_count++;
 	}
 
 	/**

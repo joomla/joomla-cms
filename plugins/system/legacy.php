@@ -122,7 +122,17 @@ class  plgSystemLegacy extends JPlugin
 		 * @name $acl
 		 * @deprecated	As of version 1.5
 		 */
-		$GLOBALS['acl'] =& JFactory::getACL();
+		$acl =& JFactory::getACL();
+
+		// Legacy ACL's for backward compat
+		$acl->addACL( 'administration', 'edit', 'users', 'super administrator', 'components', 'all' );
+		$acl->addACL( 'administration', 'edit', 'users', 'administrator', 'components', 'all' );
+		$acl->addACL( 'administration', 'edit', 'users', 'super administrator', 'user properties', 'block_user' );
+		$acl->addACL( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_users' );
+		$acl->addACL( 'administration', 'manage', 'users', 'administrator', 'components', 'com_users' );
+		$acl->addACL( 'administration', 'config', 'users', 'super administrator' );
+		//$this->addACL( 'administration', 'config', 'users', 'administrator' );
+		$GLOBALS['acl'] =& $acl;
 
 		/**
 		 * Legacy global
