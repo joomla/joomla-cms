@@ -30,10 +30,10 @@ class ContentViewArticle extends ContentView
 	{
 		global $mainframe;
 
-		$user		=& JFactory::getUser();
-		$document	=& JFactory::getDocument();
-		$dispatcher	=& JEventDispatcher::getInstance();
-		$pathway		=& $mainframe->getPathWay();
+		$user		   =& JFactory::getUser();
+		$document	   =& JFactory::getDocument();
+		$dispatcher	   =& JEventDispatcher::getInstance();
+		$pathway	   =& $mainframe->getPathWay();
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 
 		// Initialize variables
