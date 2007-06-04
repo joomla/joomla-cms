@@ -143,6 +143,10 @@ class MenusHelper
 		$put[] = JHTML::_('select.option',  '0', JText::_( 'No' ));
 		$put[] = JHTML::_('select.option',  '1', JText::_( 'Yes' ));
 
+		// If not a new item, trash is not an option
+		if ( !$row->id ) {
+			$row->published = 1;
+		}
 		$published = JHTML::_('select.radiolist',  $put, 'published', '', 'value', 'text', $row->published );
 		return $published;
 	}
