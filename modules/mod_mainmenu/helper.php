@@ -137,7 +137,7 @@ class modMainMenuHelper
 				// Include the new menu class
 				$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
 				if ($xml) {
-					echo JOutputFilter::ampReplace($xml->asXML());
+					echo JOutputFilter::ampReplace($xml->toString());
 				}
 				break;
 		}
