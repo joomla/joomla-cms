@@ -276,7 +276,7 @@ class ContentModelSection extends JModel
 			$orderby = ContentHelperQuery::orderbySecondary($orderby);
 
 			// Handle the access permissions part of the main database query
-			if ($user->authorize('action', 'edit', 'content', 'all')) {
+			if ($user->authorize('com_content', 'edit', 'content', 'all')) {
 				$xwhere = '';
 				$xwhere2 = ' AND b.state >= 0';
 			} else {
@@ -484,7 +484,7 @@ class ContentModelSection extends JModel
 		switch ($state)
 		{
 			case 1:
-				if ($user->authorize('action', 'edit', 'content', 'all')) {
+				if ($user->authorize('com_content', 'edit', 'content', 'all')) {
 					$where .= ' AND a.state >= 0';
 				} else {
 					$where .= ' AND a.state = 1' .

@@ -95,7 +95,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 		<?php echo $this->lists['catid']; ?>
 	</td>
 </tr>
-<?php if ($this->user->authorize('action', 'publish', 'content', 'all')) : ?>
+<?php if ($this->user->authorize('com_content', 'publish', 'content', 'all')) : ?>
 <tr>
 	<td class="key">
 		<label for="state">

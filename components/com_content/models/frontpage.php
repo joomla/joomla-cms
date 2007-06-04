@@ -190,7 +190,7 @@ class ContentModelFrontpage extends JModel
 			$where .= ' AND a.access <= '.(int) $gid;
 		}
 
-		if ($user->authorize('action', 'edit', 'content', 'all')) {
+		if ($user->authorize('com_content', 'edit', 'content', 'all')) {
 			$where .= ' AND a.state >= 0';
 		} else {
 			$where .= ' AND a.state = 1' .

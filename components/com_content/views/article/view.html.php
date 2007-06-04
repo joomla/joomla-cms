@@ -107,9 +107,9 @@ class ContentViewArticle extends ContentView
 
 		// Create a user access object for the current user
 		$access = new stdClass();
-		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn	= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish	= $user->authorize('action', 'publish', 'content', 'all');
+		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
+		$access->canEditOwn	= $user->authorize('com_content', 'edit', 'content', 'own');
+		$access->canPublish	= $user->authorize('com_content', 'publish', 'content', 'all');
 
 		// Process the content plugins
 		JPluginHelper::importPlugin('content');

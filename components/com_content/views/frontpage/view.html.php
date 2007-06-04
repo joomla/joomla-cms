@@ -68,9 +68,9 @@ class ContentViewFrontpage extends ContentView
 
 		// Create a user access object for the user
 		$access				= new stdClass();
-		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn	= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish	= $user->authorize('action', 'publish', 'content', 'all');
+		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
+		$access->canEditOwn	= $user->authorize('com_content', 'edit', 'content', 'own');
+		$access->canPublish	= $user->authorize('com_content', 'publish', 'content', 'all');
 
 		//add alternate feed link
 		$link	= JRoute::_('index.php?option=com_content&view=frontpage&format=feed');

@@ -37,7 +37,7 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 
 		$uid 		= $row->id;
 		$option 	= 'com_content';
-		$canPublish = $user->authorize('action', 'publish', 'content', 'all');
+		$canPublish = $user->authorize('com_content', 'publish', 'content', 'all');
 
 		// the following is needed as different menu items types utilise a different param to control ordering
 		// for Blogs the `orderby_sec` param is the order controlling param

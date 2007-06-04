@@ -47,6 +47,7 @@ Legend:
  # Unused JTableUser::getUserList moved to legacy class
  # Moved legacy ACL's to legacy plugin
  # Optimised internal ACL counter
+ # Renamed ACL seciton 'action' to contextually correct 'com_content', added 'action' to legacy plugin
 
 01-June-2007 Johan Janssens
  + Added JElementCalendar class and JHTML::calendar function

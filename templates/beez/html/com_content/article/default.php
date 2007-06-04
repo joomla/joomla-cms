@@ -21,7 +21,7 @@ $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 $image = 'templates/' . $mainframe->getTemplate() . '/images/trans.gif';
 
 echo '<div id="page">';
-if ($this->user->authorize('action', 'edit', 'content', 'all') && !($this->print)) {
+if ($this->user->authorize('com_content', 'edit', 'content', 'all') && !($this->print)) {
 	echo '<div class="contentpaneopen_edit' . $this->params->get('pageclass_sfx') . '" style="float: left;">';
 	echo JHTML::_('icon.edit', $this->article, $this->params, $this->access);
 	echo '</div>';

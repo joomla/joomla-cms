@@ -93,9 +93,9 @@ class ContentController extends JController
 
 		// Create a user access object for the user
 		$access					= new stdClass();
-		$access->canEdit		= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
+		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
+		$access->canEditOwn		= $user->authorize('com_content', 'edit', 'content', 'own');
+		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
 
 		//get data from the request
 		$model = $this->getModel('article');
@@ -241,7 +241,7 @@ class ContentController extends JController
 		$article = & JTable::getInstance('content');
 		$article->bind(JRequest::get('post'));
 
-		if ($user->authorize('action', 'edit', 'content', 'all') || ($user->authorize('action', 'edit', 'content', 'own') && $article->created_by == $user->get('id'))) {
+		if ($user->authorize('com_content', 'edit', 'content', 'all') || ($user->authorize('com_content', 'edit', 'content', 'own') && $article->created_by == $user->get('id'))) {
 			$article->checkin();
 		}
 

@@ -19,7 +19,7 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $image = 'templates/' . $mainframe->getTemplate() . '/images/trans.gif';
 
-if ($this->user->authorize('action', 'edit', 'content', 'all')) {
+if ($this->user->authorize('com_content', 'edit', 'content', 'all')) {
 	echo '<div class="contentpaneopen_edit' . $this->params->get('pageclass_sfx') . '" style="float: left;">';
 	echo JHTML::_('icon.edit', $this->item, $this->params, $this->access);
 	echo '</div>';

@@ -132,6 +132,27 @@ class  plgSystemLegacy extends JPlugin
 		$acl->addACL( 'administration', 'manage', 'users', 'administrator', 'components', 'com_users' );
 		$acl->addACL( 'administration', 'config', 'users', 'super administrator' );
 		//$this->addACL( 'administration', 'config', 'users', 'administrator' );
+
+		$this->addACL( 'action', 'add', 'users', 'author', 'content', 'all' );
+		$this->addACL( 'action', 'add', 'users', 'editor', 'content', 'all' );
+		$this->addACL( 'action', 'add', 'users', 'publisher', 'content', 'all' );
+		$this->addACL( 'action', 'edit', 'users', 'author', 'content', 'own' );
+		$this->addACL( 'action', 'edit', 'users', 'editor', 'content', 'all' );
+		$this->addACL( 'action', 'edit', 'users', 'publisher', 'content', 'all' );
+		$this->addACL( 'action', 'publish', 'users', 'publisher', 'content', 'all' );
+
+		$this->addACL( 'action', 'add', 'users', 'manager', 'content', 'all' );
+		$this->addACL( 'action', 'edit', 'users', 'manager', 'content', 'all' );
+		$this->addACL( 'action', 'publish', 'users', 'manager', 'content', 'all' );
+
+		$this->addACL( 'action', 'add', 'users', 'administrator', 'content', 'all' );
+		$this->addACL( 'action', 'edit', 'users', 'administrator', 'content', 'all' );
+		$this->addACL( 'action', 'publish', 'users', 'administrator', 'content', 'all' );
+
+		$this->addACL( 'action', 'add', 'users', 'super administrator', 'content', 'all' );
+		$this->addACL( 'action', 'edit', 'users', 'super administrator', 'content', 'all' );
+		$this->addACL( 'action', 'publish', 'users', 'super administrator', 'content', 'all' );
+
 		$GLOBALS['acl'] =& $acl;
 
 		/**

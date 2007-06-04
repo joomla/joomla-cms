@@ -265,7 +265,7 @@ class ContentModelCategory extends JModel
 			$item    = $menu->getActive();
 			$params	=& $menu->getParams($item->id);
 
-			if ($user->authorize('action', 'edit', 'content', 'all'))
+			if ($user->authorize('com_content', 'edit', 'content', 'all'))
 			{
 				$xwhere = '';
 				$xwhere2 = ' AND b.state >= 0';
@@ -426,7 +426,7 @@ class ContentModelCategory extends JModel
 		switch ($state)
 		{
 			case 1:
-				if ($user->authorize('action', 'edit', 'content', 'all'))
+				if ($user->authorize('com_content', 'edit', 'content', 'all'))
 				{
 					$where .= ' AND a.state >= 0';
 				}
