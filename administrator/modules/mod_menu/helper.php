@@ -69,8 +69,8 @@ class modMenuHelper
 		}
 
 		// Menu Types
-		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helper.php' );
-		$menuTypes 	= JMenuHelper::getMenuTypelist();
+		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php' );
+		$menuTypes 	= MenusHelper::getMenuTypelist();
 
 		/*
 	 	 * Get the menu object

@@ -38,8 +38,8 @@ class JElementMenu extends JElement
 	{
 		$db =& JFactory::getDBO();
 
-		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helper.php' );
-		$menuTypes 	= JMenuHelper::getMenuTypes();
+		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php' );
+		$menuTypes 	= MenusHelper::getMenuTypes();
 
 		foreach ($menuTypes as $menutype) {
 			$options[] = JHTML::_('select.option', $menutype, $menutype);

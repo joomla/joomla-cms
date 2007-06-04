@@ -1848,7 +1848,7 @@ class mosAdminMenus
 	}
 
 	/**
- 	 * Legacy function, use {@link JMenuHelper::getMenuTypes()} instead
+ 	 * Legacy function, use {@link MenusHelper::getMenuTypes()} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
@@ -1858,7 +1858,7 @@ class mosAdminMenus
 	}
 
 	/**
- 	 * Legacy function, use {@link JMenuHelper::menuItem()} instead
+ 	 * Legacy function, use {@link MenusHelper::menuItem()} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
