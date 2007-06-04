@@ -42,6 +42,9 @@ Legend:
 
 05-June-2007 Andrew Eddie
  # Fixed PK field name in jos_core_acl_aro_sections and removed bogus indexes
+ # Upgrade phpGACL to version 3.3.7
+ # Unused JTableUser::getUserListFromGroup moved to legacy class
+ # Unused JTableUser::getUserList moved to legacy class
 
 01-June-2007 Johan Janssens
  + Added JElementCalendar class and JHTML::calendar function

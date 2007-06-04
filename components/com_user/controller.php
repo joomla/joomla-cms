@@ -331,7 +331,7 @@ class UserController extends JController
 		// Set some initial user values
 		$user->set('id', 0);
 		$user->set('usertype', '');
-		$user->set('gid', $authorize->get_group_id( $newUsertype, 'ARO' ));
+		$user->set('gid', $authorize->get_group_id( '', $newUsertype, 'ARO' ));
 		$user->set('registerDate', date('Y-m-d H:i:s'));
 
 		// If user activation is turned on, we need to set the activation information

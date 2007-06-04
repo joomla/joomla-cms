@@ -604,6 +604,54 @@ class mosUser extends JTableUser
 	{
 		$this->publish( $cid, $publish, $user_id );
 	}
+
+	/**
+	 * Returns a complete user list
+	 *
+	 * @return array
+	 * @deprecated As of 1.5
+	 */
+	function getUserList()
+	{
+		$this->_db->setQuery("SELECT username FROM #__users");
+		return $this->_db->loadAssocList();
+	}
+
+	/**
+	 * Gets the users from a group
+	 *
+	 * @param	string	The value for the group
+	 * @param	string	The name for the group
+	 * @param	string	If RECURSE, will drill into child groups
+	 * @param	string	Ordering for the list
+	 * @return	array
+	 * @deprecated As of 1.5
+	 */
+	function getUserListFromGroup( $value, $name, $recurse='NO_RECURSE', $order='name' )
+	{
+		$acl =& JFactory::getACL();
+
+		// Change back in
+		$group_id = $acl->get_group_id( $value, $name, 'ARO');
+		$objects = $acl->get_group_objects( $group_id, 'ARO', 'RECURSE');
+
+		if (isset( $objects['users'] ))
+		{
+			$gWhere = '(id =' . implode( ' OR id =', $objects['users'] ) . ')';
+
+			$query = 'SELECT id AS value, name AS text'
+			. ' FROM #__users'
+			. ' WHERE block = "0"'
+			. ' AND ' . $gWhere
+			. ' ORDER BY '. $order
+			;
+			$this->_db->setQuery( $query );
+			$options = $this->_db->loadObjectList();
+			return $options;
+		} else {
+			return array();
+		}
+	}
 }
 
 /**

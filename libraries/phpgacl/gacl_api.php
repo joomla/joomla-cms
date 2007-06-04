@@ -160,6 +160,8 @@ class gacl_api extends gacl {
 
 		$this->debug_text("consolidated_edit_acl(): ACO Section Value: $aco_section_value ACO Value: $aco_value ARO Section Value: $aro_section_value ARO Value: $aro_value Return Value: $return_value");
 
+		$acl_ids = array();
+
 		if (empty($aco_section_value) ) {
 			$this->debug_text("consolidated_edit_acl(): ACO Section Value ($aco_section_value) is empty, this is required!");
 			return false;
@@ -232,7 +234,8 @@ class gacl_api extends gacl {
 		} else {
 			$this->debug_text("add_consolidated_acl(): Didn't find any current ACLs with a single ACO. ");
 		}
-		unset($acl_ids);
+		//unset($acl_ids);
+    $acl_ids = array();
 		unset($acl_ids_count);
 
 		//At this point there should be no conflicting ACLs, searching for an existing ACL with the new values.
@@ -327,7 +330,7 @@ class gacl_api extends gacl {
 				SELECT		a.id
 				FROM		'. $this->_db_table_prefix .'acl a';
 
-		$where_query = array ();
+		$where_query = array();
 
 		// ACO
 		if ($aco_section_value !== FALSE AND $aco_value !== FALSE) {
@@ -423,6 +426,8 @@ class gacl_api extends gacl {
 	function append_acl($acl_id, $aro_array=NULL, $aro_group_ids=NULL, $axo_array=NULL, $axo_group_ids=NULL, $aco_array=NULL) {
 		$this->debug_text("append_acl(): ACL_ID: $acl_id");
 
+		$update = 0;
+
 		if (empty($acl_id)) {
 			$this->debug_text("append_acl(): No ACL_ID specified! ACL_ID: $acl_id");
 			return false;
@@ -447,7 +452,7 @@ class gacl_api extends gacl {
 						}
 					} else { //Array is empty so add this aro value.
 						$acl_array['aro'][$aro_section_value][] = $aro_value;
-						$update=1;
+						$update = 1;
 					}
 				}
 			}
@@ -460,7 +465,7 @@ class gacl_api extends gacl {
 				if (!is_array($acl_array['aro_groups']) OR !in_array($aro_group_id, $acl_array['aro_groups'])) {
 					$this->debug_text("append_acl(): ARO Group ID: $aro_group_id");
 					$acl_array['aro_groups'][] = $aro_group_id;
-					$update=1;
+					$update = 1;
 				} else {
 					$this->debug_text("append_acl(): Duplicate ARO_Group_ID, ignoring... ");
 				}
@@ -475,7 +480,7 @@ class gacl_api extends gacl {
 					if (!in_array($axo_value, $acl_array['axo'][$axo_section_value])) {
 						$this->debug_text("append_acl(): AXO Section Value: $axo_section_value AXO VALUE: $axo_value");
 						$acl_array['axo'][$axo_section_value][] = $axo_value;
-						$update=1;
+						$update = 1;
 					} else {
 						$this->debug_text("append_acl(): Duplicate AXO, ignoring... ");
 					}
@@ -490,7 +495,7 @@ class gacl_api extends gacl {
 				if (!is_array($acl_array['axo_groups']) OR !in_array($axo_group_id, $acl_array['axo_groups'])) {
 					$this->debug_text("append_acl(): AXO Group ID: $axo_group_id");
 					$acl_array['axo_groups'][] = $axo_group_id;
-					$update=1;
+					$update = 1;
 				} else {
 					$this->debug_text("append_acl(): Duplicate ARO_Group_ID, ignoring... ");
 				}
@@ -505,7 +510,7 @@ class gacl_api extends gacl {
 					if (!in_array($aco_value, $acl_array['aco'][$aco_section_value])) {
 						$this->debug_text("append_acl(): ACO Section Value: $aco_section_value ACO VALUE: $aco_value");
 						$acl_array['aco'][$aco_section_value][] = $aco_value;
-						$update=1;
+						$update = 1;
 					} else {
 						$this->debug_text("append_acl(): Duplicate ACO, ignoring... ");
 					}
@@ -541,6 +546,8 @@ class gacl_api extends gacl {
 	function shift_acl($acl_id, $aro_array=NULL, $aro_group_ids=NULL, $axo_array=NULL, $axo_group_ids=NULL, $aco_array=NULL) {
 		$this->debug_text("shift_acl(): ACL_ID: $acl_id");
 
+		$update = 0;
+
 		if (empty($acl_id)) {
 			$this->debug_text("shift_acl(): No ACL_ID specified! ACL_ID: $acl_id");
 			return false;
@@ -557,6 +564,7 @@ class gacl_api extends gacl {
 			while (list($aro_section_value,$aro_value_array) = @each($aro_array)) {
 				foreach ($aro_value_array as $aro_value) {
 					$this->debug_text("shift_acl(): ARO Section Value: $aro_section_value ARO VALUE: $aro_value");
+
 					//Only search if aro array contains data.
 					if ( count($acl_array['aro'][$aro_section_value]) != 0 ) {
 						$aro_key = array_search($aro_value, $acl_array['aro'][$aro_section_value]);
@@ -564,7 +572,7 @@ class gacl_api extends gacl {
 						if ($aro_key !== FALSE) {
 							$this->debug_text("shift_acl(): Removing ARO. ($aro_key)");
 							unset($acl_array['aro'][$aro_section_value][$aro_key]);
-							$update=1;
+							$update = 1;
 						} else {
 							$this->debug_text("shift_acl(): ARO doesn't exist, can't remove it.");
 						}
@@ -584,7 +592,7 @@ class gacl_api extends gacl {
 				if ($aro_group_key !== FALSE) {
 					$this->debug_text("shift_acl(): Removing ARO Group. ($aro_group_key)");
 					unset($acl_array['aro_groups'][$aro_group_key]);
-					$update=1;
+					$update = 1;
 				} else {
 					$this->debug_text("shift_acl(): ARO Group doesn't exist, can't remove it.");
 				}
@@ -602,7 +610,7 @@ class gacl_api extends gacl {
 					if ($axo_key !== FALSE) {
 						$this->debug_text("shift_acl(): Removing AXO. ($axo_key)");
 						unset($acl_array['axo'][$axo_section_value][$axo_key]);
-						$update=1;
+						$update = 1;
 					} else {
 						$this->debug_text("shift_acl(): AXO doesn't exist, can't remove it.");
 					}
@@ -620,7 +628,7 @@ class gacl_api extends gacl {
 				if ($axo_group_key !== FALSE) {
 					$this->debug_text("shift_acl(): Removing AXO Group. ($axo_group_key)");
 					unset($acl_array['axo_groups'][$axo_group_key]);
-					$update=1;
+					$update = 1;
 				} else {
 					$this->debug_text("shift_acl(): AXO Group doesn't exist, can't remove it.");
 				}
@@ -638,7 +646,7 @@ class gacl_api extends gacl {
 					if ($aco_key !== FALSE) {
 						$this->debug_text("shift_acl(): Removing ACO. ($aco_key)");
 						unset($acl_array['aco'][$aco_section_value][$aco_key]);
-						$update=1;
+						$update = 1;
 					} else {
 						$this->debug_text("shift_acl(): ACO doesn't exist, can't remove it.");
 					}
@@ -677,7 +685,7 @@ class gacl_api extends gacl {
 	 *
 	 * Grabs ACL data.
 	 *
-	 * @return array Associative Array with the following items:
+	 * @return mixed	bool FALSE if not found, or Associative Array with the following items:
 	 *
 	 *	- 'aco' => Associative array, item={Section Value}, key={Array of Object Values} i.e. ["<Section Value>" => ["<Value 1>", "<Value 2>", "<Value 3>"], ...]
 	 *	- 'aro' => Associative array, item={Section Value}, key={Array of Object Values} i.e. ["<Section Value>" => ["<Value 1>", "<Value 2>", "<Value 3>"], ...]
@@ -720,6 +728,7 @@ class gacl_api extends gacl {
 		$rs = $this->db->Execute($query);
 		$rows = $rs->GetRows();
 
+		$retarr['aco'] = array();
 		while (list(,$row) = @each($rows)) {
 			list($section_value, $value, $section, $aco) = $row;
 			$this->debug_text("Section Value: $section_value Value: $value Section: $section ACO: $aco");
@@ -735,6 +744,7 @@ class gacl_api extends gacl {
 		$rs = $this->db->Execute($query);
 		$rows = $rs->GetRows();
 
+		$retarr['aro'] = array();
 		while (list(,$row) = @each($rows)) {
 			list($section_value, $value, $section, $aro) = $row;
 			$this->debug_text("Section Value: $section_value Value: $value Section: $section ARO: $aro");
@@ -750,6 +760,7 @@ class gacl_api extends gacl {
 		$rs = $this->db->Execute($query);
 		$rows = $rs->GetRows();
 
+		$retarr['axo'] = array();
 		while (list(,$row) = @each($rows)) {
 			list($section_value, $value, $section, $axo) = $row;
 			$this->debug_text("Section Value: $section_value Value: $value Section: $section AXO: $axo");
@@ -760,11 +771,13 @@ class gacl_api extends gacl {
 		//showarray($options_aro);
 
 		//Grab selected ARO groups.
+		$retarr['aro_groups'] = array();
 		$query = "select distinct group_id from ".$this->_db_table_prefix."aro_groups_map where  acl_id = $acl_id";
 		$retarr['aro_groups'] = $this->db->GetCol($query);
 		//showarray($selected_groups);
 
 		//Grab selected AXO groups.
+		$retarr['axo_groups'] = array();
 		$query = "select distinct group_id from ".$this->_db_table_prefix."axo_groups_map where  acl_id = $acl_id";
 		$retarr['axo_groups'] = $this->db->GetCol($query);
 		//showarray($selected_groups);
@@ -1145,7 +1158,7 @@ class gacl_api extends gacl {
 	 *
 	 * Edit's an ACL, ACO_IDS, ARO_IDS, GROUP_IDS must all be arrays.
 	 *
-	 * @return bool Return ACL ID of new ACL if successful, FALSE otherewise.
+	 * @return bool Return TRUE if successful, FALSE otherewise.
 	 *
 	 * @param int ACL ID # to edit
 	 * @param array Associative array, item={Section Value}, key={Array of Object Values} i.e. ["<Section Value>" => ["<Value 1>", "<Value 2>", "<Value 3>"], ...]
@@ -1420,9 +1433,9 @@ class gacl_api extends gacl {
 	 * @param string Group Name
 	 * @param string Group Type, either 'ARO' or 'AXO'
 	 */
-	function get_group_id($name = null, $group_type = 'ARO') {
+	function get_group_id($value = NULL, $name = NULL, $group_type = 'ARO') {
 
-		$this->debug_text("get_group_id(): Name: $name");
+		$this->debug_text("get_group_id(): Value: $value, Name: $name, Type: $group_type" );
 
 		switch(strtolower(trim($group_type))) {
 			case 'axo':
@@ -1434,15 +1447,22 @@ class gacl_api extends gacl {
 		}
 
 		$name = trim($name);
+		$value = trim($value);
 
-		if (empty($name) ) {
-			$this->debug_text("get_group_id(): name ($name) is empty, this is required");
+		if (empty($name) AND empty($value) ) {
+			$this->debug_text("get_group_id(): name and value, at least one is required");
 			return false;
 		}
 
-		$this->db->setQuery( "SELECT id FROM $table WHERE name='$name'" );
+		$query = 'SELECT id FROM '. $table .' WHERE ';
+		if ( !empty($value) ) {
+		  $query .= ' value='. $this->db->quote($value);
+		} else {
+		  $query .= ' name='. $this->db->quote($name);
+		}
+		$this->db->setQuery( $query );
 
-		$rows = $this->db->loadRowList();
+		$rows = $this->db->loadResultArray();
 		if ($this->db->getErrorNum()) {
 			$this->debug_db('get_group_id');
 			return false;
@@ -1875,7 +1895,7 @@ class gacl_api extends gacl {
 		} else {
 			$query .= '
 				FROM		'. $map_table .' AS gm
-				LEFT JOIN		'. $object_table .' AS o ON o.id=gm.'. $group_type .'_id
+				JOIN		'. $object_table .' AS o ON o.id=gm.'. $group_type .'_id
 				WHERE		gm.group_id='. (int) $group_id;
 		}
 
@@ -2619,18 +2639,17 @@ class gacl_api extends gacl {
 						   return FALSE;
 		   }
 
-		   $this->debug_text("get_ungrouped_objects(): Section Value: $section_value Object Type: $object_type");
+		   $this->debug_text("get_ungrouped_objects(): Object Type: $object_type");
 
 		   $query = 'SELECT id FROM '. $table . '
 						   LEFT JOIN groups_' . $table . '_map
-						   ON ' . $table . '.id = groups_' . $table . '_map.' . $table . '_id
-						   ';
+						   ON ' . $table . '.id = groups_' . $table . '_map.' . $table . '_id';
 
 		   $where = array();
 		   $where[] = 'groups_' . $table . '_map.group_id IS NULL';
 
 		   if ($return_hidden==0) {
-				   $where[] = 'hidden=0';
+				   $where[] = 'a.hidden=0';
 		   }
 
 		   if (!empty($where)) {
@@ -3799,6 +3818,65 @@ class gacl_api extends gacl {
 			}
 
 		}
+
+		return false;
+	}
+
+	/**
+	 * get_section_data()
+	 *
+	 * Gets the section data given the Section Value
+	 *
+	 * @return array Returns numerically indexed array with the following columns:
+	 *	- array[0] = (int) Section ID #
+	 *	- array[1] = (string) Section Value
+	 *	- array[2] = (int) Section Order
+	 *	- array[3] = (string) Section Name
+	 *	- array[4] = (int) Section Hidden?
+	 * @param string Section Value
+	 * @param string Object Type, either 'ACO', 'ARO', or 'AXO'
+	 */
+	function get_section_data($section_value, $object_type=NULL) {
+
+		switch(strtolower(trim($object_type))) {
+			case 'aco':
+				$object_type = 'aco';
+				$table = $this->_db_table_prefix .'aco_sections';
+				break;
+			case 'aro':
+				$object_type = 'aro';
+				$table = $this->_db_table_prefix .'aro_sections';
+				break;
+			case 'axo':
+				$object_type = 'axo';
+				$table = $this->_db_table_prefix .'axo_sections';
+				break;
+			default:
+				$this->debug_text('get_section_data(): Invalid Object Type: '. $object_type);
+				return FALSE;
+		}
+
+		$this->debug_text("get_section_data(): Section Value: $section_value Object Type: $object_type");
+
+		if (empty($section_value) ) {
+			$this->debug_text("get_section_data(): Section Value ($section_value) is empty, this is required");
+			return false;
+		}
+
+		if (empty($object_type) ) {
+			$this->debug_text("get_section_data(): Object Type ($object_type) is empty, this is required");
+			return false;
+		}
+
+		$query = 'SELECT id, value, order_value, name, hidden FROM '. $table .' WHERE value='.$this->db->Quote( $section_value );
+		$row = $this->db->GetRow($query);
+
+		if ($row) {
+			return $row;
+		}
+
+		$this->debug_text("get_section_data(): Section does not exist.");
+		return false;
 	}
 
 	/**
@@ -3809,26 +3887,26 @@ class gacl_api extends gacl {
 	 * @return bool Returns TRUE if successful, FALSE otherwise
 	 *
 	 */
-    function clear_database(){
-
+    function clear_database()
+    {
         $tablesToClear = array(
-                $this->_db_table_prefix.'acl',
-                $this->_db_table_prefix.'aco',
-                $this->_db_table_prefix.'aco_map',
-                $this->_db_table_prefix.'aco_sections',
-                $this->_db_table_prefix.'aro',
-                $this->_db_table_prefix.'aro_groups',
-                $this->_db_table_prefix.'aro_groups_map',
-                $this->_db_table_prefix.'aro_map',
-                $this->_db_table_prefix.'aro_sections',
-                $this->_db_table_prefix.'axo',
-                $this->_db_table_prefix.'axo_groups',
-                $this->_db_table_prefix.'axo_groups_map',
-                $this->_db_table_prefix.'axo_map',
-                $this->_db_table_prefix.'axo_sections',
-                $this->_db_table_prefix.'groups_aro_map',
-                $this->_db_table_prefix.'groups_axo_map'
-                );
+            $this->_db_table_prefix.'acl',
+            $this->_db_table_prefix.'aco',
+            $this->_db_table_prefix.'aco_map',
+            $this->_db_table_prefix.'aco_sections',
+            $this->_db_table_prefix.'aro',
+            $this->_db_table_prefix.'aro_groups',
+            $this->_db_table_prefix.'aro_groups_map',
+            $this->_db_table_prefix.'aro_map',
+            $this->_db_table_prefix.'aro_sections',
+            $this->_db_table_prefix.'axo',
+            $this->_db_table_prefix.'axo_groups',
+            $this->_db_table_prefix.'axo_groups_map',
+            $this->_db_table_prefix.'axo_map',
+            $this->_db_table_prefix.'axo_sections',
+            $this->_db_table_prefix.'groups_aro_map',
+            $this->_db_table_prefix.'groups_axo_map'
+            );
 
         // Get all the table names and loop
         $tableNames = $this->db->MetaTables('TABLES');
@@ -3860,4 +3938,3 @@ class gacl_api extends gacl {
 		return $id;
 	}
 }
-?>

@@ -197,7 +197,7 @@ function newMessage( $option, $user, $subject )
 	$acl	=& JFactory::getACL();
 
 	// get available backend user groups
-	$gid 	= $acl->get_group_id( 'Public Backend', '', 'ARO' );
+	$gid 	= $acl->get_group_id( '', 'Public Backend', 'ARO' );
 	$gids 	= $acl->get_group_children( $gid, 'ARO', 'RECURSE' );
 	$gids 	= implode( ',', $gids );
 
