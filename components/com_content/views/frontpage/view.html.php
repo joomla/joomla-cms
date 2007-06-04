@@ -27,7 +27,6 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  */
 class ContentViewFrontpage extends ContentView
 {
-
 	function display($tpl = null)
 	{
 		global $mainframe, $option;
@@ -124,9 +123,6 @@ class ContentViewFrontpage extends ContentView
 		$this->assignRef('params',		$params);
 		$this->assignRef('items',		$items);
 		$this->assignRef('frontpage',	$frontpage);
-
-		//Load the html helper for the view
-		$this->loadHelper('html');
 
 		parent::display($tpl);
 	}

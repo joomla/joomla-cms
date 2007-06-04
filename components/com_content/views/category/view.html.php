@@ -98,9 +98,6 @@ class ContentViewCategory extends ContentView
 		$this->assignRef('access',		$access);
 		$this->assignRef('pagination',	$pagination);
 
-		//Load the html helper for the view
-		$this->loadHelper('html');
-
 		parent::display($tpl);
 	}
 

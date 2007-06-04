@@ -246,19 +246,8 @@ class ContentController extends JController
 		}
 
 		// If the task was edit or cancel, we go back to the content item
-		if (($this->_task == 'edit' || $this->_task == 'cancel') && $article->id) {
-			$referer = 'index.php?option=com_content&view=article&id='.$article->id.'&Itemid='.$Itemid;
-		} else {
-			$referer = JRequest::getVar('referer', JURI::Base() .'index.php', 'post');
-		}
-
-		// If the task was not new, we go back to the referrer
-		if ($referer) {
-			$this->setRedirect($referer);
-		}
-		else {
-			$this->setRedirect('index.php');
-		}
+		$referer = JRequest::getVar('referer', JURI::Base() .'index.php', 'post');
+		$this->setRedirect($referer);
 	}
 
 	/**

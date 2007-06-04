@@ -170,9 +170,6 @@ class ContentViewArticle extends ContentView
 		$this->assignRef('access' , $access);
 		$this->assignRef('print', $print);
 
-		//Load the html helper for the view
-		$this->loadHelper('html');
-
 		parent::display($tpl);
 	}
 

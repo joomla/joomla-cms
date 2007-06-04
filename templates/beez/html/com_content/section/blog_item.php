@@ -21,7 +21,7 @@ $image = 'templates/' . $mainframe->getTemplate() . '/images/trans.gif';
 
 if ($this->user->authorize('action', 'edit', 'content', 'all')) {
 	echo '<div class="contentpaneopen_edit' . $this->params->get('pageclass_sfx') . '" style="float: left;">';
-	echo ContentHelperHTML::Icon('edit', $this->item, $this->params, $this->access);
+	echo JHTML::_('icon.edit', $this->item, $this->params, $this->access);
 	echo '</div>';
 }
 
@@ -45,13 +45,13 @@ if ($this->params->get('show_pdf_icon') || $this->params->get('show_print_icon')
 	echo '<p class="buttonheading">';
 	echo '<img src="' . $image . '" alt="' . JText :: _('attention open in a new window') . '" />';
 	if ($this->params->get('show_pdf_icon')) {
-		echo ContentHelperHTML::Icon('pdf', $this->item, $this->params, $this->access);
+		echo JHTML::_('icon.pdf', $this->item, $this->params, $this->access);
 	}
 	if ($this->params->get('show_print_icon')) {
-		echo ContentHelperHTML::Icon('print', $this->item, $this->params, $this->access);
+		echo JHTML::_('icon.print_popup', $this->item, $this->params, $this->access);
 	}
 	if ($this->params->get('show_email_icon')) {
-		echo ContentHelperHTML::Icon('email', $this->item, $this->params, $this->access);
+		echo JHTML::_('icon.email', $this->item, $this->params, $this->access);
 	}
 	echo '</p>';
 }

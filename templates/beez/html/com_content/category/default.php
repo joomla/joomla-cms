@@ -44,7 +44,7 @@ $this->items = & $this->getItems();
 echo $this->loadTemplate('items');
 
 if ($this->access->canEdit || $this->access->canEditOwn) {
-	echo ContentHelperHTML::Icon('new', $this->category  , $this->params, $this->access);
+	echo JHTML::_('icon.create', $this->category  , $this->params, $this->access);
 }
 ?>
 
