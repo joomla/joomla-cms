@@ -49,7 +49,7 @@ class JHTMLList
 	function images( $name, $active = NULL, $javascript = NULL, $directory = NULL )
 	{
 		if ( !$directory ) {
-			$directory = DS.'images'.DS.'stories';
+			$directory = '/images/stories/';
 		}
 
 		if ( !$javascript ) {

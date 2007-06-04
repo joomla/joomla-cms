@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 05-June-2007 Johan Janssens
+ # Fixed [#5510] Image preview not work in Section and Category Edit screen
+
+05-June-2007 Andrew Eddie
  # Fixed PK field name in jos_core_acl_aro_sections and removed bogus indexes
 
 01-June-2007 Johan Janssens
