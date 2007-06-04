@@ -792,15 +792,13 @@ CREATE TABLE `#__core_acl_groups_aro_map` (
 # Table structure for table `#__core_acl_aro_sections`
 #
 CREATE TABLE `#__core_acl_aro_sections` (
-  `section_id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL auto_increment,
   `value` varchar(230) NOT NULL default '',
   `order_value` int(11) NOT NULL default '0',
   `name` varchar(230) NOT NULL default '',
   `hidden` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`section_id`),
-  UNIQUE KEY `value_aro_sections` (`value`),
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `#__gacl_value_aro_sections` (`value`),
-  KEY `hidden_aro_sections` (`hidden`),
   KEY `#__gacl_hidden_aro_sections` (`hidden`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 

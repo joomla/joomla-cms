@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-June-2007 Johan Janssens
+ # Fixed PK field name in jos_core_acl_aro_sections and removed bogus indexes
+
 01-June-2007 Johan Janssens
  + Added JElementCalendar class and JHTML::calendar function
  # Fixed [#5468] Drop down lists in backend don't allow selection
