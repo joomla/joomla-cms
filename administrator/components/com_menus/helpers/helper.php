@@ -18,7 +18,7 @@
  * @subpackage	Menus
  * @author Andrew Eddie
  */
-class JMenuHelper
+class MenusHelper
 {
 	/**
 	 * Get a list of the menu_types records
@@ -143,12 +143,6 @@ class JMenuHelper
 		$put[] = JHTML::_('select.option',  '0', JText::_( 'No' ));
 		$put[] = JHTML::_('select.option',  '1', JText::_( 'Yes' ));
 
-		// If not a new item, trash is not an option
-		if ( $row->id ) {
-			$put[] = JHTML::_('select.option',  '-1', JText::_( 'Trash' ));
-		} else {
-			$row->published = 1;
-		}
 		$published = JHTML::_('select.radiolist',  $put, 'published', '', 'value', 'text', $row->published );
 		return $published;
 	}

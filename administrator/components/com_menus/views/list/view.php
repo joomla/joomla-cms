@@ -97,7 +97,7 @@ class MenusViewList extends JView
 		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 
 		// Build the menutypes select list
-		$menuTypes 	= JMenuHelper::getMenuTypes();
+		$menuTypes 	= MenusHelper::getMenuTypes();
 		foreach ( $menuTypes as $menuType ) {
 			$menu[] = JHTML::_('select.option',  $menuType, $menuType );
 		}
@@ -133,7 +133,7 @@ class MenusViewList extends JView
 		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
 
 		// Build the menutypes select list
-		$menuTypes 	= JMenuHelper::getMenuTypes();
+		$menuTypes 	= MenusHelper::getMenuTypes();
 		foreach ( $menuTypes as $menuType ) {
 			$menu[] = JHTML::_('select.option',  $menuType, $menuType );
 		}

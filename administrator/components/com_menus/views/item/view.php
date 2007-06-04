@@ -65,8 +65,8 @@ class MenusViewItem extends JView
 		$component		= $this->get( 'ComponentParams' );
 		$name			= $this->get( 'StateName' );
 		$description	= $this->get( 'StateDescription' );
-		$menuTypes 		= JMenuHelper::getMenuTypeList();
-		$components		= JMenuHelper::getComponentList();
+		$menuTypes 		= MenusHelper::getMenuTypeList();
+		$components		= MenusHelper::getComponentList();
 
 		JHTML::_('behavior.tooltip');
 
@@ -82,7 +82,7 @@ class MenusViewItem extends JView
 			$item->published = 0;
 		}
 		$lists = new stdClass();
-		$lists->published = JMenuHelper::Published($item);
+		$lists->published = MenusHelper::Published($item);
 		$lists->disabled = ($item->type != 'url' ? 'disabled="true"' : '');
 
 		$item->expansion = null;
@@ -150,7 +150,7 @@ class MenusViewItem extends JView
 		JHTML::_('behavior.tooltip');
 
 		// Load component language files
-		$components	= JMenuHelper::getComponentList();
+		$components	= MenusHelper::getComponentList();
 		$n = count($components);
 		for($i = 0; $i < $n; $i++)
 		{
@@ -166,7 +166,7 @@ class MenusViewItem extends JView
 		$component		= &$this->get('Component');
 		$name			= $this->get( 'StateName' );
 		$description	= $this->get( 'StateDescription' );
-		$menuTypes 		= JMenuHelper::getMenuTypeList();
+		$menuTypes 		= MenusHelper::getMenuTypeList();
 
 		// Set document title
 		if ($item->id) {

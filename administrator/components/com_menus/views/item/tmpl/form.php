@@ -91,7 +91,7 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_( 'Parent Item' ); ?>:
 							</td>
 							<td>
-								<?php echo JMenuHelper::Parent( $this->item ); ?>
+								<?php echo MenusHelper::Parent( $this->item ); ?>
 							</td>
 						</tr>
 						<tr>
@@ -123,7 +123,7 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_( 'On Click, Open in' ); ?>:
 							</td>
 							<td>
-								<?php echo JMenuHelper::Target( $this->item ); ?>
+								<?php echo MenusHelper::Target( $this->item ); ?>
 							</td>
 						</tr>
 					</table>

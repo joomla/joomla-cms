@@ -84,7 +84,7 @@ class MenusModelMenutype extends JModel
 		$db->setQuery( $query );
 		$trash = $db->loadObjectList( 'menutype' );
 
-		$menuTypes 	= JMenuHelper::getMenuTypeList();
+		$menuTypes 	= MenusHelper::getMenuTypeList();
 		$total		= count( $menuTypes );
 		$i			= 0;
 		for ($i = 0;  $i < $total; $i++) {
@@ -120,7 +120,7 @@ class MenusModelMenutype extends JModel
 	{
 		global $mainframe;
 
-		$menutypes 	= JMenuHelper::getMenuTypeList();
+		$menutypes 	= MenusHelper::getMenuTypeList();
 		$total		= count( $menutypes );
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit') );
 		$limitstart = $mainframe->getUserStateFromRequest( 'com_menus.limitstart', 'limitstart', 0 );
