@@ -66,9 +66,9 @@ class JInstallerComponent extends JObject
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
 		if (is_a($description, 'JSimpleXMLElement')) {
-			$this->parent->set('message', $this->get('name').'<p>'.$description->data().'</p>');
+			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', $this->get('name'));
+			$this->parent->set('message', '' );
 		}
 
 		// Get some important manifest elements

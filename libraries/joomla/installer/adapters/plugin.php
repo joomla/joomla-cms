@@ -66,9 +66,9 @@ class JInstallerPlugin extends JObject
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
 		if (is_a($description, 'JSimpleXMLElement')) {
-			$this->parent->set('message', $this->get('name').'<p>'.$description->data().'</p>');
+			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', $this->get('name'));
+			$this->parent->set('message', '' );
 		}
 
 		/*
@@ -152,9 +152,14 @@ class JInstallerPlugin extends JObject
 
 		// Was there a module already installed with the same name?
 		if ($id) {
-			// Install failed, roll back changes
-			$this->parent->abort('Plugin Install: '.JText::_('Plugin').' "'.$pname.'" '.JText::_('already exists!'));
-			return false;
+			
+			if (!$this->parent->getOverwrite())
+			{
+				// Install failed, roll back changes
+				$this->parent->abort('Plugin Install: '.JText::_('Plugin').' "'.$pname.'" '.JText::_('already exists!'));
+				return false;
+			}
+			
 		} else {
 			$row =& JTable::getInstance('plugin');
 			$row->name = $this->get('name');

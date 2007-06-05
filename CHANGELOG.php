@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-June-2007 Toby Patterson
+ # Added checks to JArchive that will return false if an archive does not exist
+ # Updated installer framework files to address various issues
+ ! Update to administator installer component forthcoming
+
 05-June-2007 Rob Schley
  # Fixed [#4824] The Move Categories screen doesn't display the data about categories that are being moved
 

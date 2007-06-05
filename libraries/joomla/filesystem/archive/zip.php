@@ -124,6 +124,12 @@ class JArchiveZip extends JObject
 	 */
 	function extract($archive, $destination, $options = array ())
 	{
+		if ( ! is_file($archive) )
+		{
+			$this->set('error.message', 'Archive does not exist');
+			return false;
+		}
+		
 		if ($this->hasNativeSupport()) {
 			return ($this->_extractNative($archive, $destination, $options))? true : JError::raiseWarning(100, $this->get('error.message'));
 		} else {

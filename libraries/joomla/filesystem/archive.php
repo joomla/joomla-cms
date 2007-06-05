@@ -110,7 +110,7 @@ class JArchive
 				break;
 		}
 
-		if (JError::isError($result)) {
+		if (! $result || JError::isError($result)) {
 			return false;
 		}
 		return true;

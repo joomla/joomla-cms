@@ -296,11 +296,13 @@ class JInstaller extends JObject
 		if ($path && JFolder::exists($path)) {
 			$this->setPath('source', $path);
 		} else {
-			return $this->abort(JText::_('Install path does not exist'));
+			$this->abort(JText::_('Install path does not exist'));
+			return false;
 		}
 
 		if (!$this->setupInstall()) {
-			return $this->abort(JText::_('Unable to detect manifest file'));
+			$this->abort(JText::_('Unable to detect manifest file'));
+			return false;
 		}
 
 		/*
@@ -311,7 +313,8 @@ class JInstaller extends JObject
 		$rootName	= $root->name();
 		$config		= &JFactory::getConfig();
 		if ((version_compare($version, '1.5', '<') || $rootName == 'mosinstall') && !$config->getValue('config.legacy')) {
-			return $this->abort(JText::_('MUSTENABLELEGACY'));
+			$this->abort(JText::_('MUSTENABLELEGACY'));
+			return false;
 		}
 
 		$type = $root->attributes('type');

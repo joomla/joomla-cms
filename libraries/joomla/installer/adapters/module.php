@@ -66,9 +66,9 @@ class JInstallerModule extends JObject
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
 		if (is_a($description, 'JSimpleXMLElement')) {
-			$this->parent->set('message', $this->get('name').'<p>'.$description->data().'</p>');
+			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', $this->get('name'));
+			$this->parent->set('message', '' );
 		}
 
 		/**
@@ -124,7 +124,7 @@ class JInstallerModule extends JObject
 		 * module is already installed or another module is using that
 		 * directory.
 		 */
-		if (file_exists($this->parent->getPath('extension_root'))) {
+		if (file_exists($this->parent->getPath('extension_root'))&&!$this->parent->getOverwrite()) {
 			$this->parent->abort('Module Install: '.JText::_('Another module is already using directory').': "'.$this->parent->getPath('extension_root').'"');
 			return false;
 		}
@@ -182,9 +182,15 @@ class JInstallerModule extends JObject
 
 		// Was there a module already installed with the same name?
 		if ($id) {
-			// Install failed, roll back changes
-			$this->parent->abort('Module Install: '.JText::_('Module').' "'.$mname.'" '.JText::_('already exists!'));
-			return false;
+			
+			if ( ! $this->parent->getOverwrite())
+			{
+				// Install failed, roll back changes
+				$this->parent->abort('Module Install: '.JText::_('Module').' "'.$mname.'" '.JText::_('already exists!'));
+				return false;
+			}
+			
+			
 		} else {
 			$row = & JTable::getInstance('module');
 			$row->title = $this->get('name');

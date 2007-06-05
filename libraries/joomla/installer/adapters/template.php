@@ -123,9 +123,9 @@ class JInstallerTemplate extends JObject
 		// Get the template description
 		$description = & $root->getElementByPath('description');
 		if (is_a($description, 'JSimpleXMLElement')) {
-			$this->parent->set('message', $this->get('name').'<p>'.$description->data().'</p>');
+			$this->parent->set('message', $description->data());
 		} else {
-			$this->parent->set('message', $this->get('name'));
+			$this->parent->set('message', '' );
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
