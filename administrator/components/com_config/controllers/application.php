@@ -350,16 +350,8 @@ class ConfigControllerApplication extends ConfigController
 		// Get the path of the configuration file
 		$fname = JPATH_CONFIGURATION.DS.'configuration.php';
 
-		// Change the current configuration to allow the user to save locally when ftp is broken
-		$FTPOptions =& JClientHelper::getCredentials('ftp', true);
-		/*
-		$FTPOptions['enabled']	= $config_array['ftp_enable'];
-		$FTPOptions['host']		= $config_array['ftp_host'];
-		$FTPOptions['port']		= $config_array['ftp_port'];
-		$FTPOptions['user']		= $config_array['ftp_user'];
-		$FTPOptions['pass']		= $config_array['ftp_pass'];
-		$FTPOptions['root']		= $config_array['ftp_root'];
-		*/
+		// Update the credentials with the new settings
+		JClientHelper::getCredentials('ftp', true);
 		
 		// Try to make configuration.php writeable
 		jimport('joomla.filesystem.path');
