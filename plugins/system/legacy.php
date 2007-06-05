@@ -152,6 +152,10 @@ class  plgSystemLegacy extends JPlugin
 		$acl->addACL( 'action', 'add', 'users', 'super administrator', 'content', 'all' );
 		$acl->addACL( 'action', 'edit', 'users', 'super administrator', 'content', 'all' );
 		$acl->addACL( 'action', 'publish', 'users', 'super administrator', 'content', 'all' );
+		
+		$this->addACL( 'com_syndicate', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_syndicate', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_syndicate', 'manage', 'users', 'manager' );
 
 		$GLOBALS['acl'] =& $acl;
 
