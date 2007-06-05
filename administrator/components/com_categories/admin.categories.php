@@ -642,7 +642,7 @@ function moveCategorySelect( $option, $cid, $sectionOld )
 
 	## query to list selected categories
 	$cids = implode( ',', $cid );
-	$query = 'SELECT a.name, a.section'
+	$query = 'SELECT a.title, a.section'
 	. ' FROM #__categories AS a'
 	. ' WHERE a.id IN ( '.$cids.' )'
 	;
@@ -659,10 +659,10 @@ function moveCategorySelect( $option, $cid, $sectionOld )
 	$contents = $db->loadObjectList();
 
 	## query to choose section to move to
-	$query = 'SELECT a.name AS text, a.id AS value'
+	$query = 'SELECT a.title AS text, a.id AS value'
 	. ' FROM #__sections AS a'
 	. ' WHERE a.published = 1'
-	. ' ORDER BY a.name'
+	. ' ORDER BY a.title'
 	;
 	$db->setQuery( $query );
 	$sections = $db->loadObjectList();
@@ -706,7 +706,7 @@ function moveCategorySave( $cid, $sectionOld )
 	$sectionNew =& JTable::getInstance('section');
 	$sectionNew->load( $sectionMove );
 
-	$msg = JText::sprintf( 'Categories moved to', $sectionNew->name );
+	$msg = JText::sprintf( 'Categories moved to', $sectionNew->title );
 	$mainframe->redirect( 'index.php?option=com_categories&section='. $sectionOld, $msg );
 }
 

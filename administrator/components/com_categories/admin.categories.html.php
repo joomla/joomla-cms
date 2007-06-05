@@ -432,7 +432,7 @@ class categories_html
 			<?php
 			echo "<ol>";
 			foreach ( $items as $item ) {
-				echo "<li>". $item->name ."</li>";
+				echo "<li>". $item->title ."</li>";
 			}
 			echo "</ol>";
 			?>
@@ -497,7 +497,7 @@ class categories_html
 			<?php
 			echo "<ol>";
 			foreach ( $items as $item ) {
-				echo "<li>". $item->name ."</li>";
+				echo "<li>". $item->title ."</li>";
 			}
 			echo "</ol>";
 			?>

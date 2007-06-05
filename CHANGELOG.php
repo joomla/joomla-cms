@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-June-2007 Rob Schley
+ # Fixed [#4824] The Move Categories screen doesn't display the data about categories that are being moved
+
 05-June-2007 Johan Janssens
  # Fixed [#5510] Image preview not work in Section and Category Edit screen
 
