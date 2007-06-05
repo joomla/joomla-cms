@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 05-June-2007 Toby Patterson
+ # com_config will force update of FTP credentials so that one can disable FTP
  # Added checks to JArchive that will return false if an archive does not exist
  # Updated installer framework files to address various issues
  ! Update to administator installer component forthcoming
