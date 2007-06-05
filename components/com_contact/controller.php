@@ -84,7 +84,7 @@ class ContactController extends JController
 
 		//check the token before we do anything else
 		$token	= JUtility::getToken();
-		if(!JRequest::getVar( $token, 0, 'post' )) {
+		if(!JRequest::getVar( $token, 0, 'post', 'alnum' )) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
 

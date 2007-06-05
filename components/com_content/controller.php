@@ -125,6 +125,7 @@ class ContentController extends JController
 			$msg = JText::_( 'Article Saved' );
 		} else {
 			$msg = JText::_( 'Error Saving Article' );
+			JError::raiseError( 500, $model->getError() );
 		}
 
 		// manage frontpage items

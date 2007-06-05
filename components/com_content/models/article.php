@@ -317,7 +317,7 @@ class ContentModelArticle extends JModel
 		}
 
 		jimport('joomla.filter.output');
-		$article->title = JOutputFilter::ampReplace($article->title);
+		$article->title = trim( JOutputFilter::ampReplace($article->title) );
 
 		// Publishing state hardening for Authors
 		if (!$user->authorize('com_content', 'publish', 'content', 'all'))
@@ -357,15 +357,15 @@ class ContentModelArticle extends JModel
 			$article->fulltext = JString::substr($text, $tagPos +27);
 		}
 
-		// Make sure the web link table is valid
+		// Make sure the article table is valid
 		if (!$article->check()) {
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($article->getError());
 			return false;
 		}
 
 		$article->version++;
 
-		// Store the web link table to the database
+		// Store the article table to the database
 		if (!$article->store()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;

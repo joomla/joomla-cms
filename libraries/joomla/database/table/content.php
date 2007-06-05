@@ -120,12 +120,22 @@ class JTableContent extends JTable
 		jimport('joomla.filter.output');
 		$alias = JOutputFilter::stringURLSafe($this->title);
 
+		if(empty($this->title)) {
+			$this->setError(JText::_('Article must have a title'));
+			return false;
+		}
+
 		if(empty($this->alias) || $this->alias === $alias ) {
 			$this->alias = $alias;
 		}
 
 		if (trim( str_replace( '&nbsp;', '', $this->fulltext ) ) == '') {
 			$this->fulltext = '';
+		}
+
+		if(empty($this->introtext) && empty($this->fulltext)) {
+			$this->setError(JText::_('Article must have some text'));
+			return false;
 		}
 
 		return true;
