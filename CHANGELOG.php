@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-June-2007 Johan Janssens
+ ^ Removed legacy positions from rhuk_milkyway, legacy position are not only added to the 
+   module positions if legacy mode is enabled.
+
 05-June-2007 Toby Patterson
  # com_config will force update of FTP credentials so that one can disable FTP
  # Added checks to JArchive that will return false if an archive does not exist

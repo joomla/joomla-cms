@@ -62,27 +62,10 @@
 		<position>left</position>
 		<position>right</position>
 		<position>top</position>
-		<position>bottom</position>
-		<position>inset</position>
-		<position>banner</position>
-		<position>header</position>
-		<position>footer</position>
-		<position>newsflash</position>
-		<position>legals</position>
-		<position>pathway</position>
-		<position>breadcrumb</position>
 		<position>user1</position>
 		<position>user2</position>
 		<position>user3</position>
 		<position>user4</position>
-		<position>user5</position>
-		<position>user6</position>
-		<position>user7</position>
-		<position>user8</position>
-		<position>user9</position>
-		<position>advert1</position>
-		<position>advert2</position>
-		<position>advert3</position>
 		<position>debug</position>
 		<position>syndicate</position>
 	</positions>

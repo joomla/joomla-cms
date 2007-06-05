@@ -27,8 +27,8 @@ $sid	= $session->getId();
 $output = array();
 
 // Legacy Mode
-if (defined('_J_LEGACY')) {
-	$output[] = '<span class="legacy-mode">'.JText::_('Legacy').': '._J_LEGACY.'</span>';
+if (defined('_JLEGACY')) {
+	$output[] = '<span class="legacy-mode">'.JText::_('Legacy').': '._JLEGACY.'</span>';
 }
 
 // Print the preview button

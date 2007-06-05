@@ -40,7 +40,7 @@ class  plgSystemLegacy extends JPlugin
 		global $mainframe;
 
 		// Define the 1.0 legacy mode constant
-		define('_J_LEGACY', '1.0');
+		define('_JLEGACY', '1.0');
 
 		// Set global configuration var for legacy mode
 		$config = &JFactory::getConfig();

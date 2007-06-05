@@ -111,6 +111,38 @@ class ModulesModelModule extends JModel
 				}
 			}
 		}
+		
+		if(_JLEGACY == '1.0')
+		{
+			$positions[] = 'left'; 
+			$positions[] = 'right';
+			$positions[] = 'top';
+			$positions[] = 'bottom';
+			$positions[] = 'inset';
+			$positions[] = 'banner';
+			$positions[] = 'header';
+			$positions[] = 'footer';
+			$positions[] = 'newsflash';
+			$positions[] = 'legals';
+			$positions[] = 'pathway';
+			$positions[] = 'breadcrumb';
+			$positions[] = 'user1';
+			$positions[] = 'user2';
+			$positions[] = 'user3';
+			$positions[] = 'user4';
+			$positions[] = 'user5';
+			$positions[] = 'user6';
+			$positions[] = 'user7';
+			$positions[] = 'user8';
+			$positions[] = 'user9';
+			$positions[] = 'advert1';
+			$positions[] = 'advert2';
+			$positions[] = 'advert3';
+			$positions[] = 'debug';
+			$positions[] = 'syndicate';
+		}
+		
+		$positions = array_unique($positions);
 		sort($positions);
 		return $positions;
 	}
