@@ -9,7 +9,7 @@
 		<tr>
 			<th><?php echo $message1 ?></th>
 		</tr>
-		<?php endif ?>
+		<?php endif; ?>
 		<?php if($message2) : ?>
 		<tr>
 			<td><?php echo $message2 ?></td>
