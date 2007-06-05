@@ -64,13 +64,15 @@ class UserViewUser extends JView
 
 		if ($check == '1' || $check == 1 || $check == NULL)
 		{
-			$params = $user->getParameters();
-			if( $user->authorize( 'mydetails', 'manage' ) ){
-				$params->loadSetupFile(JPATH_ADMINISTRATOR . '/components/com_users/users.xml');
-			} else if ( $user->authorize( 'mydetails', 'author' ) ){
-				$params->loadSetupFile(JPATH_ADMINISTRATOR . '/components/com_users/users_author.xml');
-			} else if ( $user->authorize( 'mydetails', 'registered' ) ){
-				$params->loadSetupFile(JPATH_ADMINISTRATOR . '/components/com_users/users_registered.xml');
+			$params		= $user->getParameters();
+			$result		= $user->authorize( 'com_user', 'edit' );
+			// TODO: We should really act on a $result = 0 which is not authorised to change details
+			$setupFile	= 'users_'.preg_replace( '#[^A-Z0-9]#i', '_', strtolower( $result ) );
+
+			if (file_exists( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.$setupFile.'.xml' )) {
+				$params->loadSetupFile( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.$setupFile.'.xml' );
+			} else {
+				$params->loadSetupFile( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'users.xml' );
 			}
 		}
 
@@ -80,4 +82,3 @@ class UserViewUser extends JView
 		parent::display($tpl);
 	}
 }
-?>

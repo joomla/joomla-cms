@@ -43,14 +43,15 @@ class JAuthorization extends gacl_api
 		// No hierarchial inheritance so have to do that the long way
 		$this->acl = array();
 
-		// my details
-		$this->addACL( 'mydetails', 'manage', 'users', 'super administrator' );
-		$this->addACL( 'mydetails', 'manage', 'users', 'administrator' );
-		$this->addACL( 'mydetails', 'manage', 'users', 'manager' );
-		$this->addACL( 'mydetails', 'author', 'users', 'author' );
-		$this->addACL( 'mydetails', 'author', 'users', 'editor' );
-		$this->addACL( 'mydetails', 'author', 'users', 'publisher' );
-		$this->addACL( 'mydetails', 'registered', 'users', 'registered' );
+		// special ACl with return value to edit user
+		$this->addACL( 'com_user', 'edit', 'users', 'super administrator', null, null, '' );
+		$this->addACL( 'com_user', 'edit', 'users', 'administrator', null, null, '' );
+		$this->addACL( 'com_user', 'edit', 'users', 'manager', null, null, '' );
+		// return value defines xml setup file variant
+		$this->addACL( 'com_user', 'edit', 'users', 'author', null, null, 'author' );
+		$this->addACL( 'com_user', 'edit', 'users', 'editor', null, null, 'author' );
+		$this->addACL( 'com_user', 'edit', 'users', 'publisher', null, null, 'author' );
+		$this->addACL( 'com_user', 'edit', 'users', 'registered', null, null, 'registered' );
 
 		// backend login
 		$this->addACL( 'login', 'administrator', 'users', 'administrator' );
@@ -199,10 +200,18 @@ class JAuthorization extends gacl_api
 	 * This is a temporary function to allow 3PD's to add basic ACL checks for their
 	 * modules and components.  NOTE: this information will be compiled in the db
 	 * in future versions
+	 * 
+	 * @param	string	The ACO section value
+	 * @param	string	The ACO value
+	 * @param	string	The ARO section value
+	 * @param	string	The ARO section
+	 * @param	string	The AXO section value (optional)
+	 * @param	string	The AXO section value (optional)
+	 * @param	string	The return value for the ACL (optional)
 	 */
-	function addACL( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL )
+	function addACL( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL, $return_value=NULL )
 	{
-		$this->acl[] = array( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value );
+		$this->acl[] = array( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $return_value );
 		$this->acl_count++;
 	}
 
@@ -225,20 +234,22 @@ class JAuthorization extends gacl_api
 		$this->debug_text( "\n<br> ACO=$aco_section_value:$aco_value, ARO=$aro_section_value:$aro_value, AXO=$axo_section_value|$axo_value" );
 
 		$acl_result = 0;
-		for ($i=0; $i < $this->acl_count; $i++) {
-			if (strcasecmp( $aco_section_value, $this->acl[$i][0] ) == 0) {
-				if (strcasecmp( $aco_value, $this->acl[$i][1] ) == 0) {
-					if (strcasecmp( $aro_section_value, $this->acl[$i][2] ) == 0) {
-						if (strcasecmp( $aro_value, $this->acl[$i][3] ) == 0) {
-							if ($axo_section_value && $this->acl[$i][4]) {
-								if (strcasecmp( $axo_section_value, $this->acl[$i][4] ) == 0) {
-									if (strcasecmp( $axo_value, $this->acl[$i][5] ) == 0) {
-										$acl_result = 1;
+		for ($i=0; $i < $this->acl_count; $i++)
+		{
+			$acl =& $this->acl[$i];
+			if (strcasecmp( $aco_section_value, $acl[0] ) == 0) {
+				if (strcasecmp( $aco_value, $acl[1] ) == 0) {
+					if (strcasecmp( $aro_section_value, $acl[2] ) == 0) {
+						if (strcasecmp( $aro_value, $acl[3] ) == 0) {
+							if ($axo_section_value && $acl[4]) {
+								if (strcasecmp( $axo_section_value, $acl[4] ) == 0) {
+									if (strcasecmp( $axo_value, $acl[5] ) == 0) {
+										$acl_result = @$acl[6] ? $acl[6] : 1;
 										break;
 									}
 								}
 							} else {
-								$acl_result = 1;
+								$acl_result = @$acl[6] ? $acl[6] : 1;
 								break;
 							}
 						}
