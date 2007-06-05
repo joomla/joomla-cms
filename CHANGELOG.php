@@ -59,6 +59,7 @@ Legend:
 04-June-2007 Louis Landry
  # Fixed [#5393] Using com_content&layout=edit causes php stack overflow
  # Fixed [#4844] JRequest::getVar freezes on unclosed tag and mask=JREQUEST_ALLOWHTML
+ # Fixed [#4865] Uploading more then one file doesn't works in media manager
 
 01-June-2007 Johan Janssens
  + Added JElementCalendar class and JHTML::calendar function
