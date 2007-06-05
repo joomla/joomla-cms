@@ -52,7 +52,13 @@ class JHTMLContent
 			<img src="images/publish_x.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Finished' ); ?>" />
 			</td>
 			<td>
-			<?php echo JText::_( 'Not Published' ); ?>
+			<?php echo JText::_( 'Not Published' ); ?> |
+			</td>
+			<td>
+			<img src="images/disabled.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Archived' ); ?>" />
+			</td>
+			<td>
+			<?php echo JText::_( 'Archived' ); ?>
 			</td>
 		</tr>
 		<tr>
