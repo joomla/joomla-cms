@@ -63,7 +63,8 @@ Legend:
  # Moved legacy ACL's to legacy plugin
  # Optimised internal ACL counter
  # Renamed ACL seciton 'action' to contextually correct 'com_content', added 'action' to legacy plugin
- # Refactored mydetails setup file switcher, added return value to JAuthorization::addACL (per native phpGACL library) to handle this better
+ # Refactored mydetails setup file switcher, added return value to JAuthorization::addACL 
+   (per native phpGACL library) to handle this better
 
 04-June-2007 Rob Schley
  # Fixed [#5394] Can submit an article without a title

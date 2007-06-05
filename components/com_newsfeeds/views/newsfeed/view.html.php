@@ -86,7 +86,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$params->def( 'page_title', $menu->name );
 
 		// Set page title per category
-		$document->setTitle( $menu->name. ' - ' .$newsfeed->name );
+		$document->setTitle( $newsfeed->name . ' - '. $params->get( 'page_title'));
 		
 
 		//set breadcrumbs
