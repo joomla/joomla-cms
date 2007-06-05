@@ -27,8 +27,23 @@ jimport('phpgacl.gacl_api');
  */
 class JAuthorization extends gacl_api
 {
+	/**
+	 * Access control list
+	 * @var	array
+	 */
 	var $acl       = null;
+
+	/**
+	 * Internal counter
+	 * @var	int
+	 */
 	var $acl_count = 0;
+
+	/**
+	 * The check mode.  0 = Joomla!, 1 = phpGACL
+	 * @var	int
+	 */
+	var $_checkMode = 0;
 
 	/**
 	 * Constructor
@@ -216,6 +231,21 @@ class JAuthorization extends gacl_api
 	}
 
 	/**
+	 * Sets the check mode.
+	 * 
+	 * Only used if the full implementation of the phpGACL library is installed and configured
+	 * 
+	 * @param	int		0 = Joomla!, 1 = phpGACL native
+	 * @return	int		The previous value
+	 */
+	function setCheckMode( $value )
+	{
+		$old				= $this->_checkMode;
+		$this->_checkMode	= (int) $value;
+		return $old;
+	}
+
+	/**
 	* Wraps the actual acl_query() function.
 	*
 	* It is simply here to return TRUE/FALSE accordingly.
@@ -229,8 +259,12 @@ class JAuthorization extends gacl_api
 	* @param integer The group id of the AXO ??Mike?? (optional)
 	* @return mixed Generally a zero (0) or (1) or the extended return value of the ACL
 	*/
-	function acl_check( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL )
+	function acl_check( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL, $root_aro_group=NULL, $root_axo_group=NULL )
 	{
+		if ($this->_checkMode === 1) {
+			return parent::acl_check( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $root_aro_group, $root_axo_group );
+		}
+
 		$this->debug_text( "\n<br> ACO=$aco_section_value:$aco_value, ARO=$aro_section_value:$aro_value, AXO=$axo_section_value|$axo_value" );
 
 		$acl_result = 0;
@@ -502,7 +536,8 @@ class JTableARO extends JTable
 	var $name			= null;
 	var $hidden			= null;
 
-	function __construct( &$db ) {
+	function __construct( &$db )
+	{
 		parent::__construct( '#__core_acl_aro', 'aro_id', $db );
 	}
 }
@@ -522,7 +557,8 @@ class JTableARO extends JTable
 	var $lft		= null;
 	var $rgt		= null;
 
-	function __construct( &$db ) {
+	function __construct( &$db )
+	{
 		parent::__construct( '#__core_acl_aro_groups', 'group_id', $db );
 	}
 }
