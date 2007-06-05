@@ -238,6 +238,7 @@ class JInputFilter extends JObject
 		 */
 		$preTag		= null;
 		$postTag	= $source;
+		$currentSpace = false;
 
 		// Is there a tag? If so it will certainly start with a '<'
 		$tagOpen_start	= strpos($source, '<');
@@ -276,7 +277,7 @@ class JInputFilter extends JObject
 			$currentSpace	= strpos($tagLeft, ' ');
 
 			// Are we an open tag or a close tag?
-			if (substr($currentTag, 0, 1) == "/") {
+			if (substr($currentTag, 0, 1) == '/') {
 				// Close Tag
 				$isCloseTag		= true;
 				list ($tagName)	= explode(' ', $currentTag);
@@ -327,11 +328,13 @@ class JInputFilter extends JObject
 					 * No more equal signs so add any extra text in the tag into
 					 * the attribute array [eg. checked]
 					 */
-					$attr = substr($fromSpace, 0, $nextSpace);
+					if ($fromSpace != '/') {
+						$attr = substr($fromSpace, 0, $nextSpace);
+					}
 				}
 
 				// Last Attribute Pair
-				if (!$attr) {
+				if (!$attr && $fromSpace != '/') {
 					$attr = $fromSpace;
 				}
 
@@ -360,7 +363,7 @@ class JInputFilter extends JObject
 					}
 
 					// Reformat single tags to XHTML
-					if (strpos($fromTagOpen, "</".$tagName)) {
+					if (strpos($fromTagOpen, '</'.$tagName)) {
 						$preTag .= '>';
 					} else {
 						$preTag .= ' />';
