@@ -53,6 +53,7 @@ Legend:
 04-June-2007 Rob Schley
  # Fixed [#5394] Can submit an article without a title
  # Fixed [#5397] Frontpage article submission problem
+ # Fixed [#5345] Error in mod_related_items
  # Fixed two input requests without filter types
 
 04-June-2007 Louis Landry

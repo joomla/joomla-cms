@@ -33,6 +33,7 @@ class modRelatedItemsHelper
 
 		$now				= date('Y-m-d H:i:s', time());
 		$nullDate			= $db->getNullDate();
+		$related			= array();
 
 		if ($option == 'com_content' && $task == 'view' && $id)
 		{
@@ -74,7 +75,6 @@ class modRelatedItemsHelper
 					$db->setQuery($query);
 					$temp = $db->loadObjectList();
 
-					$related = array ();
 					if (count($temp))
 					{
 						foreach ($temp as $row)
