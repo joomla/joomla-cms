@@ -123,6 +123,10 @@ class ContentController extends JController
 
 		if ($model->store($post)) {
 			$msg = JText::_( 'Article Saved' );
+
+			if($isNew) {
+				$post['id'] = (int) $db->insertid();
+			}
 		} else {
 			$msg = JText::_( 'Error Saving Article' );
 			JError::raiseError( 500, $model->getError() );
