@@ -506,7 +506,7 @@ class JView extends JObject
 	function getName()
 	{
 		$name = $this->_name;
-		
+
 		if (empty( $name ))
 		{
 			$r = null;
@@ -515,7 +515,7 @@ class JView extends JObject
 			}
 			$name = strtolower( $r[3] );
 		}
-		
+
 		return $name;
 	}
 
@@ -617,7 +617,7 @@ class JView extends JObject
 
 		if ($this->_template == false)
 		{
-			$file2 = !count($tpl) ? 'default_'.$tpl : 'default';
+			$file2 = (!$tpl) ? 'default_'.$tpl : 'default';
 			$this->_template = JPath::find($this->_path['template'], $this->_createFileName('template', array('name' => $file2)));
 		}
 

@@ -49,12 +49,15 @@ Legend:
  # Optimised internal ACL counter
  # Renamed ACL seciton 'action' to contextually correct 'com_content', added 'action' to legacy plugin
 
+04-June-2007 Louis Landry
+ # Fixed [#5393] Using com_content&layout=edit causes php stack overflow
+
 01-June-2007 Johan Janssens
  + Added JElementCalendar class and JHTML::calendar function
  # Fixed [#5468] Drop down lists in backend don't allow selection
 
 01-Jun-2007 Enno Klasing
- # Default value of first call to JRequest::getVar is not used as the return value of subsequent 
+ # Default value of first call to JRequest::getVar is not used as the return value of subsequent
    calls for the same input variable anymore
 
 31-May-2007 Johan Janssens
