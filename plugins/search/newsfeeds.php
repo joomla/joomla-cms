@@ -15,14 +15,14 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $mainframe->registerEvent( 'onSearch', 'plgSearchNewsfeedslinks' );
-$mainframe->registerEvent( 'onSearchAreas', 'plgSearchNewfeedAreas' );
+$mainframe->registerEvent( 'onSearchAreas', 'plgSearchNewsfeedAreas' );
 $lang =& JFactory::getLanguage();
 $lang->load( 'plg_search_newsfeeds' );
 
 /**
  * @return array An array of search areas
  */
-function &plgSearchNewfeedAreas() {
+function &plgSearchNewsfeedAreas() {
 	static $areas = array(
 		'newsfeeds' => 'Newsfeeds'
 	);
@@ -45,7 +45,7 @@ function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	$user	=& JFactory::getUser();
 
 	if (is_array( $areas )) {
-		if (!array_intersect( $areas, array_keys( plgSearchNewfeedAreas() ) )) {
+		if (!array_intersect( $areas, array_keys( plgSearchNewsfeedAreas() ) )) {
 			return array();
 		}
 	}

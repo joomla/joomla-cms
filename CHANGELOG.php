@@ -49,6 +49,7 @@ Legend:
  ! Removal of unused installer view templates in progress
 
 05-June-2007 Rob Schley
+ # Fixed [#5553] Typo in function name, newsfeeds.php search plugin file
  # Fixed [#4824] The Move Categories screen doesn't display the data about categories that are being moved
 
 05-June-2007 Johan Janssens
