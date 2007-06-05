@@ -513,6 +513,18 @@ class JAuthorization extends gacl_api
 		$this->db->setQuery( $query );
 		return $this->db->loadResultArray();
 	}
+	
+	
+	/**
+	 * Deprecated, use JAuthorisation::addACL() instead.
+	 *
+	 * @since 1.0
+	 * @deprecated As of version 1.5
+	 * @see JAuthorisation::addACL()
+	 */
+	function _mos_add_acl( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL, $return_value=NULL ) {
+		$this->addACL($aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $return_value);
+	}
 
 }
 
