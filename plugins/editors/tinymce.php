@@ -277,7 +277,8 @@ class plgEditorTinymce extends JPlugin
 			tinyMCE.init({
 			theme : \"$theme\",
 			language : \"". $langPrefix . "\",
-			mode : \"specific_textareas\",
+			mode : \"textareas\",
+			editor_selector : \"mce_editable\",
 			document_base_url : \"". $url ."\",
 			entities : \"60,lt,62,gt\",
 			relative_urls : $relative_urls,
@@ -408,7 +409,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 
-		$return = "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" mce_editable=\"true\">$content</textarea>\n" . $return;
+		$return = "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" class=\"mce_editable=\">$content</textarea>\n" . $return;
 
 		return $return;
 	}
