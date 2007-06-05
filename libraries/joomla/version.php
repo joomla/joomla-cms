@@ -29,11 +29,11 @@ class JVersion
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.5';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Beta 2';
+	var $DEV_STATUS = 'Development';
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '0';
 	/** @var int build Number */
-	var $BUILD	 	= '$Revision: 7357$';
+	var $BUILD	 	= '';
 	/** @var string Codename */
 	var $CODENAME 	= 'Khepri';
 	/** @var string Date */
