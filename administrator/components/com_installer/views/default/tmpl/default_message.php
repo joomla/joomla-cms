@@ -12,8 +12,8 @@
 		<?php endif; ?>
 		<?php if($message2) : ?>
 		<tr>
-			<td><?php echo $message2 ?></td>
+			<td><?php echo $message2; ?></td>
 		</tr>
-		<?php endif ?>
+		<?php endif; ?>
 	</tbody>
 </table>
