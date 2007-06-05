@@ -15,8 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.application.component.view');
-
 /**
  * Extension Manager Install View
  *
@@ -25,65 +23,26 @@ jimport('joomla.application.component.view');
  * @subpackage	Installer
  * @since		1.5
  */
-class InstallerViewInstall extends JView
+
+include_once(dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php');
+
+class InstallerViewInstall extends InstallerViewDefault
 {
 	function display($tpl=null)
 	{
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title( JText::_( 'Extension Manager' ), 'install.png' );
 		JToolBarHelper::help( 'screen.installer' );
-
-		// Get data from the model
-		$state = &$this->get('State');
-
-		JHTML::_('behavior.tooltip');
-
-		$document = & JFactory::getDocument();
-		$document->setTitle(JText::_( 'Extension Manager' ));
 
 		$paths = new stdClass();
 		$paths->first = '';
 
-		$this->assign('message', false);
 		$this->assignRef('paths', $paths);
 		$this->assignRef('state', $state);
 
 		parent::display($tpl);
 	}
 
-	function results($tpl=null)
-	{
-		/*
-		 * Set toolbar items for the page
-		 */
-		JToolBarHelper::title( JText::_( 'Extension Manager' ), 'install.png' );
-		JToolBarHelper::help( 'screen.installer' );
-
-		// Get data from the model
-		$state = &$this->get('State');
-
-		JHTML::_('behavior.tooltip');
-
-		$document = & JFactory::getDocument();
-		$document->setTitle($state->get('message'));
-
-		$install = new stdClass();
-		$install->message = $state->get('message');
-		$install->ext_message = $state->get('extension.message', '');
-
-		if ($install->message) {
-			$showMessage = true;
-		} else {
-			$showMessage = false;
-		}
-
-		$this->assign('message', $showMessage);
-		$this->assignRef('install', $install);
-		$this->assignRef('state', $state);
-
-		parent::display($tpl);
-	}
 }
 ?>

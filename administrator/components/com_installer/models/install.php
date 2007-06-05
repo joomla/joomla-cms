@@ -47,6 +47,8 @@ class InstallerModelInstall extends JModel
 
 	function install()
 	{
+		global $mainframe;
+		
 		$this->setState('action', 'install');
 
 		switch(JRequest::getVar('installtype'))
@@ -93,7 +95,10 @@ class InstallerModelInstall extends JModel
 		}
 
 		// Set some model state values
-		$this->setState('message', $msg);
+		$mainframe->enqueueMessage($msg);
+		$this->setState('name', $installer->get('name'));
+		$this->setState('result', $result);
+		$this->setState('message', $installer->message);
 		$this->setState('extension.message', $installer->get('extension.message'));
 
 		// Cleanup the install files

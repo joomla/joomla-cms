@@ -41,7 +41,12 @@ Legend:
  # com_config will force update of FTP credentials so that one can disable FTP
  # Added checks to JArchive that will return false if an archive does not exist
  # Updated installer framework files to address various issues
- ! Update to administator installer component forthcoming
+ # Updated admin's com_installer to reduce duplicate templates and logic
+ # Fixed [#4737] Output from com_uninstall() never displayed
+ # Fixed [#4861] Error, when trying to install a language
+ # Fixed error when uninstaling language, will remove core language
+ ^ modules and plugins now support the update method
+ ! Removal of unused installer view templates in progress
 
 05-June-2007 Rob Schley
  # Fixed [#4824] The Move Categories screen doesn't display the data about categories that are being moved

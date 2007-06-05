@@ -69,7 +69,7 @@ class InstallerController extends JController
 		}
 
 		$view->setModel( $model, true );
-		$view->results();
+		$view->display();
 	}
 
 	/**
@@ -165,4 +165,3 @@ class InstallerController extends JController
 		$view->display();
 	}
 }
-?>

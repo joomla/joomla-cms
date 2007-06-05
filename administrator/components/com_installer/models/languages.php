@@ -188,7 +188,7 @@ class InstallerModelLanguages extends InstallerModel
 		foreach ($eid as $id)
 		{
 			$item = $this->_items[$id];
-			$result = $installer->uninstall( $item->language );
+			$result = $installer->uninstall( 'language', $item->language );
 
 			// Build an array of extensions that failed to uninstall
 			if ($result === false) {

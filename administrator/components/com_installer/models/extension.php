@@ -130,7 +130,9 @@ class InstallerModel extends JModel
 
 		$mainframe->enqueueMessage($msg);
 		$this->setState('action', 'remove');
+		$this->setState('name', $installer->get('name'));
 		$this->setState('message', $installer->message);
+		$this->setState('extension.message', $installer->get('extension.message'));
 
 		return $result;
 	}

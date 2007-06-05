@@ -1,5 +1,5 @@
 <form action="index.php" method="post" name="adminForm">
-	<?php if ($this->state->get('message')) : ?>
+	<?php if ($this->showMessage) : ?>
 		<?php echo $this->loadTemplate('message'); ?>
 	<?php endif; ?>
 

@@ -15,8 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.application.component.view');
-
 /**
  * Extension Manager Components View
  *
@@ -25,31 +23,27 @@ jimport('joomla.application.component.view');
  * @subpackage	Installer
  * @since		1.5
  */
-class InstallerViewComponents extends JView
+
+include_once(dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php');
+
+class InstallerViewComponents extends InstallerViewDefault
 {
 	function display($tpl=null)
 	{
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title( JText::_( 'Extension Manager'), 'install.png' );
 		JToolBarHelper::deleteList( '', 'remove', 'Uninstall' );
 		JToolBarHelper::help( 'screen.installer2' );
-
-		// Document
-		$document = & JFactory::getDocument();
-		$document->setTitle(JText::_('Extension Manager').' : '.JText::_('Components'));
 
 		// Get data from the model
 		$state		= &$this->get('State');
 		$items		= &$this->get('Items');
 		$pagination	= &$this->get('Pagination');
 
-		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 
-		JHTML::_('behavior.tooltip');
 		parent::display($tpl);
 	}
 

@@ -25,20 +25,18 @@ jimport('joomla.application.component.view');
  * @subpackage	Installer
  * @since		1.5
  */
-class InstallerViewModules extends JView
+
+include_once(dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php');
+
+class InstallerViewModules extends InstallerViewDefault
 {
 	function display($tpl=null)
 	{
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title( JText::_( 'Extension Manager'), 'install.png' );
 		JToolBarHelper::deleteList( '', 'remove', 'Uninstall' );
 		JToolBarHelper::help( 'screen.installer2' );
-
-		// Document
-		$document = & JFactory::getDocument();
-		$document->setTitle(JText::_('Extension Manager').' : '.JText::_('Modules'));
 
 		// Get data from the model
 		$state		= &$this->get('State');
@@ -51,7 +49,6 @@ class InstallerViewModules extends JView
 		$select[] = JHTML::_('select.option', '1', JText::_('Admin Modules'));
 		$lists->client = JHTML::_('select.genericlist',  $select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
 
-		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 		$this->assignRef('lists',		$lists);
