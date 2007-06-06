@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-June-2007 Toby Patterson
+ # Fixed [#4686] Missing error check in Extensions Installer causes error during component install
+ + mosInstaller class and deldir function to legacy plugin
+ - installer.class.php from admin com_installer
+
 06-June-2007 Johan Janssens
  ^ Removed legacy positions from rhuk_milkyway, legacy position are not only added to the 
    module positions if legacy mode is enabled.
@@ -50,7 +55,7 @@ Legend:
  # Fixed [#4861] Error, when trying to install a language
  # Fixed error when uninstaling language, will remove core language
  ^ modules and plugins now support the update method
- ! Removal of unused installer view templates in progress
+ - Removed templates from installer views now shared from default view
 
 05-June-2007 Rob Schley
  # Fixed [#5553] Typo in function name, newsfeeds.php search plugin file

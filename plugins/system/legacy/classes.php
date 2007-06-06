@@ -1265,6 +1265,22 @@ class mosHTML
 	}
 }
 
+jimport('joomla.installer.installer');
+
+/**
+ * Legacy class, use JInstaller instead
+ * @deprecated	As of version 1.5
+ * @package		Joomla.Legacy
+ * @subpackage	1.5
+ * 
+ */
+class mosInstaller extends JInstaller
+{
+	function __construct() {
+		parent::__construct();
+	}
+}
+
 /**
  * Legacy class, use {@link JHTML::_()} instead
  *
