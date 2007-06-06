@@ -43,7 +43,7 @@ Legend:
  - installer.class.php from admin com_installer
 
 06-June-2007 Johan Janssens
- ^ Removed legacy positions from rhuk_milkyway, legacy position are not only added to the 
+ ^ Removed legacy positions from rhuk_milkyway, legacy position are now only added to the
    module positions if legacy mode is enabled.
 
 05-June-2007 Toby Patterson
@@ -72,7 +72,7 @@ Legend:
  # Moved legacy ACL's to legacy plugin
  # Optimised internal ACL counter
  # Renamed ACL seciton 'action' to contextually correct 'com_content', added 'action' to legacy plugin
- # Refactored mydetails setup file switcher, added return value to JAuthorization::addACL 
+ # Refactored mydetails setup file switcher, added return value to JAuthorization::addACL
    (per native phpGACL library) to handle this better
 
 04-June-2007 Rob Schley
