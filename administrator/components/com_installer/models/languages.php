@@ -216,4 +216,3 @@ class InstallerModelLanguages extends InstallerModel
 	}
 
 }
-?>

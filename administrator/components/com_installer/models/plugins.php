@@ -122,4 +122,3 @@ class InstallerModelPlugins extends InstallerModel
 		}
 	}
 }
-?>

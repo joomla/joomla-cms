@@ -142,4 +142,3 @@ class InstallerModel extends JModel
 		return JError::raiseError( 500, JText::_('Method Not Implemented'));
 	}
 }
-?>

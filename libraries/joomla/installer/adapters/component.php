@@ -82,6 +82,19 @@ class JInstallerComponent extends JObject
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
+		 * Basic Checks Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+		
+		// Make sure that we have an admin element
+		if ( ! is_a($this->adminElement, 'JSimpleXMLElement') )
+		{
+			JError::raiseWarning(1, 'Component Install: '.JText::_('The XML file did not contain an administration element'));
+			return false;
+		}
+		
+		/**
+		 * ---------------------------------------------------------------------------------------------
 		 * Filesystem Processing Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
@@ -142,6 +155,7 @@ class JInstallerComponent extends JObject
 				}
 			}
 		}
+		
 		foreach ($this->adminElement->children() as $child)
 		{
 			if (is_a($child, 'JSimpleXMLElement') && $child->name() == 'files') {

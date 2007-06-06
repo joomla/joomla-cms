@@ -108,4 +108,3 @@ class InstallerModelModules extends InstallerModel
 		}
 	}
 }
-?>

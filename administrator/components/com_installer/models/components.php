@@ -157,4 +157,3 @@ class InstallerModelComponents extends InstallerModel
 		}
 	}
 }
-?>

@@ -227,4 +227,3 @@ class InstallerModelInstall extends JModel
 		return $package;
 	}
 }
-?>

@@ -165,4 +165,3 @@ class InstallerModelTemplates extends InstallerModel
 		}
 	}
 }
-?>
