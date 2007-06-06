@@ -45,6 +45,7 @@ Legend:
 06-June-2007 Johan Janssens
  ^ Removed legacy positions from rhuk_milkyway, legacy position are now only added to the
    module positions if legacy mode is enabled.
+ ^ Only load the positions from default and assigned templates in the module manager
 
 05-June-2007 Toby Patterson
  # com_config will force update of FTP credentials so that one can disable FTP

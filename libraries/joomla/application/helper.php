@@ -25,7 +25,6 @@ defined('JPATH_BASE') or die();
  */
 class JApplicationHelper
 {
-
 	/**
 	 * Gets information on a specific client id.  This method will be useful in
 	 * future versions when we start mapping applications in the database.
