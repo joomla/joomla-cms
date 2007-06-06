@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td colspan="2">
 	<br /><br />
-	<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="emailForm" target="_top" id="emailForm" class="form-validate">
+	<form action="index.php" method="post" name="emailForm" target="_top" id="emailForm" class="form-validate">
 		<div class="contact_email<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 			<label for="contact_name">
 				&nbsp;<?php echo JText::_( 'Enter your name' );?>:
