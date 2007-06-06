@@ -213,17 +213,17 @@ class JLanguage extends JObject
 		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br>'.$key;
 		$key = strtoupper($string);
 		$key = substr($key, 0, 1) == '_' ? substr($key, 1) : $key;
+
 		if (isset ($this->_strings[$key]))
 		{
 			$string = $this->_debug ? "&bull;".$this->_strings[$key]."&bull;" : $this->_strings[$key];
 
 			// Store debug information
-			if ( $this->_debug ) {
-
+			if ( $this->_debug )
+			{
 				$caller = $this->_getCallerInfo();
 
-				if ( ! array_key_exists($key, $this->_used ) )
-				{
+				if ( ! array_key_exists($key, $this->_used ) ) {
 					$this->_used[$key] = array();
 				}
 
@@ -237,12 +237,11 @@ class JLanguage extends JObject
 				$string = $this->_debug ? '!!'.constant($string).'!!' : constant($string);
 
 				// Store debug information
-				if ( $this->_debug ) {
-
+				if ( $this->_debug )
+				{
 					$caller = $this->_getCallerInfo();
 
-					if ( ! array_key_exists($key, $this->_used ) )
-					{
+					if ( ! array_key_exists($key, $this->_used ) ) {
 						$this->_used[$key] = array();
 					}
 
@@ -257,8 +256,7 @@ class JLanguage extends JObject
 
 					$caller	= $this->_getCallerInfo();
 
-					if ( ! array_key_exists($key, $this->_orphans ) )
-					{
+					if ( ! array_key_exists($key, $this->_orphans ) ) {
 						$this->_orphans[$key] = array();
 					}
 
@@ -338,7 +336,8 @@ class JLanguage extends JObject
 			$result = $this->_load( $filename, $extension );
 
 			// Check if there was a problem with loading the file
-			if ( $result === false ) {
+			if ( $result === false )
+			{
 				// No strings, which probably means that the language file does not exist
 				$path		= JLanguage::getLanguagePath( $basePath, $this->_default);
 				$filename	= ( $extension == 'joomla' ) ?  $this->_default : $this->_default . '.' . $extension ;
@@ -419,8 +418,7 @@ class JLanguage extends JObject
 	function _getCallerInfo()
 	{
 			// Try to determine the source if none was provided
-		if ( ! function_exists('debug_backtrace') )
-		{
+		if ( ! function_exists('debug_backtrace') ) {
 			return null;
 		}
 
@@ -429,7 +427,8 @@ class JLanguage extends JObject
 
 		// Search through the backtrace to our caller
 		$continue = true;
-		while ( $continue && next($backtrace) ) {
+		while ( $continue && next($backtrace) )
+		{
 			$step		= current($backtrace);
 			$class		= @ $step['class'];
 
@@ -824,8 +823,8 @@ class JLanguageHelper
 	 * @param	array	An array of arrays ( text, value, selected )
 	 * @since	1.5
 	 */
-	function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = true) {
-
+	function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = true)
+	{
 		$list = array ();
 
 		// cache activation
