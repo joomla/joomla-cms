@@ -111,7 +111,7 @@ class WeblinksControllerWeblink extends WeblinksController
 			JUtility::sendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $post['title'], $user->get('username'), JURI::base());
 		}
 
-		$this->setRedirect('index.php?option=com_weblinks&view=categories', $msg);
+		$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=categories', false), $msg);
 	}
 
 	/**
@@ -135,7 +135,7 @@ class WeblinksControllerWeblink extends WeblinksController
 		$model = $this->getModel('weblink');
 		$model->checkin();
 
-		$this->setRedirect('index.php');
+		$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=categories', false));
 	}
 }
 
