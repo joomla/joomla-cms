@@ -46,7 +46,10 @@ class JPathWay extends JObject
 	/**
 	 * Class constructor
 	 */
-	function __construct() {
+	function __construct() 
+	{
+		//Initialise the array
+		$this->_pathway = array();
 	}
 
 	/**

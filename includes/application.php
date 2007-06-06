@@ -357,13 +357,6 @@ class JSite extends JApplication
 		$menus	= $menu->getMenu();
 		$home	= $menu->getDefault();
 
-		// Add the home item to the pathway
-		if( $item->id == $home->id ) {
-			$this->_pathway->addItem( JText::_('Home'), JURI::base() );
-		} else {
-			$this->_pathway->addItem( JText::_('Home'), JURI::base() );
-		}
-
 		if( $item->id != $home->id)
 		{
 			foreach($item->tree as $menupath) {
