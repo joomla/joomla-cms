@@ -267,7 +267,7 @@ class MenusModelItem extends JModel
 			case 'url':
 				break;
 			case 'menulink':
-				$post['link'] = $post['params']['menu_item'];
+				$post['link'] = 'index.php?Itemid='.$post['params']['menu_item'];
 				break;
 			case 'component':
 				break;
