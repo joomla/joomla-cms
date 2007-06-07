@@ -197,9 +197,11 @@ function newMessage( $option, $user, $subject )
 	$acl	=& JFactory::getACL();
 
 	// get available backend user groups
-	$gid 	= $acl->get_group_id( '', 'Public Backend', 'ARO' );
+	$gid 	= $acl->get_group_id( 'Public Backend', 'ARO' );
 	$gids 	= $acl->get_group_children( $gid, 'ARO', 'RECURSE' );
 	$gids 	= implode( ',', $gids );
+	
+	echo var_dump($gid);
 
 	// get list of usernames
 	$recipients = array( JHTML::_('select.option',  '0', '- '. JText::_( 'Select User' ) .' -' ) );
@@ -211,14 +213,7 @@ function newMessage( $option, $user, $subject )
 	$recipients = array_merge( $recipients, $db->loadObjectList() );
 
 	$recipientslist =
-		JHTML::_('select.genericlist',
-			$recipients,
-			'user_id_to',
-			'class="inputbox" size="1"',
-			'value',
-			'text',
-			$user
-		);
+		JHTML::_('select.genericlist', $recipients, 'user_id_to', 'class="inputbox" size="1"', 'value', 'text', $user);
 	HTML_messages::newMessage($option, $recipientslist, $subject );
 }
 

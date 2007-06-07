@@ -9,7 +9,7 @@ if ($type == 'logout') {
 	echo '<p><input type="submit" name="Submit" class="button" value="' . JText :: _('BUTTON_LOGOUT') . '" /></p>';
 	echo '<input type="hidden" name="option" value="com_user" />';
 	echo '<input type="hidden" name="task" value="logout" />';
-	echo '<input type="hidden" name="return" value="' .base64_encode(JRoute::_($return, false)). '" />';
+	echo '<input type="hidden" name="return" value="' .$return. '" />';
 	echo '</form>';
 } else {
 	echo '<form action="index.php" method="post" name="login" class="login" >';
@@ -33,7 +33,7 @@ if ($type == 'logout') {
 	echo $params->get('posttext');
 	echo '<input type="hidden" name="option" value="com_user" />';
 	echo '<input type="hidden" name="task" value="login" />';
-	echo '<input type="hidden" name="return" value="' . base64_encode(JRoute::_($return, false)) . '" />';
+	echo '<input type="hidden" name="return" value="'.$return.'" />';
 	echo '<input type="hidden" name="' . JUtility :: getToken() . '" value="1" />';
 	echo '</form>';
 }

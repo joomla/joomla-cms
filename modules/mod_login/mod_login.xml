@@ -20,8 +20,8 @@
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="pretext" type="textarea" cols="20" rows="5" default="" label="Pre-text" description="PARAMPRETEXT" />
 		<param name="posttext" type="textarea" cols="20" rows="5" label="Post-text" description="PARAMPOSTTEXT" />
-		<param name="login" type="text" default="" label="Login Redirection URL" description="PARAMLOGINREDIRECTURL" />
-		<param name="logout" type="text" default="" label="Logout Redirection URL" description="PARAMLOGOUTREDIRECTURL" />
+		<param name="login" type="menuitem" default="" label="Login Redirection URL" description="PARAMLOGINREDIRECTURL" />
+		<param name="logout" type="menuitem" default="" label="Logout Redirection URL" description="PARAMLOGOUTREDIRECTURL" />
 		<param name="greeting" type="radio" default="1" label="Greeting" description="Show/Hide the simple greeting text">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
