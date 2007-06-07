@@ -9,5 +9,4 @@
   <authorUrl>www.joomla.org</authorUrl>
   <version>1.5.0</version>
   <description>This component manages banners and banner clients</description>
-  <params />
 </install>
