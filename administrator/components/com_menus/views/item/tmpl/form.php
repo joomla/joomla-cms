@@ -133,7 +133,7 @@ function submitbutton(pressbutton) {
 			<td width="40%">
 				<?php
 					echo $this->pane->startPane("menu-pane");
-					echo $this->pane->startPanel(JText :: _('Menu Item Parameters'), "param-page");
+					echo $this->pane->startPanel(JText :: _('Basic Parameters'), "param-page");
 					echo $this->urlparams->render('urlparams');
 					if($params = $this->params->render('params')) :
 						echo $params;
@@ -149,7 +149,7 @@ function submitbutton(pressbutton) {
 					endif;
 
 					if ($this->comp && ($params = $this->comp->render('params'))) :
-						echo $this->pane->startPanel(JText :: _('Component Configuration'), "component-page");
+						echo $this->pane->startPanel(JText :: _('Component Parameters'), "component-page");
 						echo $params;
 						echo $this->pane->endPanel();
 					endif;

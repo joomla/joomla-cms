@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-June-2007 Louis Landry
+ ^ Allow component configuration passthrough to menu items for list/radio types
+
 07-June-2007 Johan Janssens
  # Fixed [#5551] Clicking on a contact found using the contact search plugin results in 500 View Not Found
 

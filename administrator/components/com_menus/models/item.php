@@ -199,12 +199,26 @@ class MenusModelItem extends JModel
 			$option	= preg_replace( '#\W#', '', $comp->option );
 			$path	= JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'config.xml';
 
+			$params = new JParameter( $item->params );
 			if (file_exists( $path )) {
-				$params = new JParameter( $comp->params, $path );
-			} else {
-				$params = new JParameter( $comp->params );
+				$xml =& JFactory::getXMLParser('Simple');
+				if ($xml->loadFile($path)) {
+					$document =& $xml->document;
+
+					if (isset($document->params[0]->param)) {
+						for ($i=0,$n=count($document->params[0]->param); $i<$n; $i++)
+						{
+							if ($document->params[0]->param[$i]->attributes('type') == 'radio' || $document->params[0]->param[$i]->attributes('type') == 'list') {
+								$document->params[0]->param[$i]->addAttribute('default', '');
+								$document->params[0]->param[$i]->addAttribute('type', 'list');
+								$child = &$document->params[0]->param[$i]->addChild('option', array('value' => ''));
+								$child->setData('Use Global');
+							}
+						}
+					}
+					$params->setXML($document->params[0]);
+				}
 			}
-			$params->merge(new JParameter($item->params));
 		}
 		return $params;
 	}
