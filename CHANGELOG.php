@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-June-2007 Johan Janssens
+ # Fixed [#5551] Clicking on a contact found using the contact search plugin results in 500 View Not Found
+
 06-June-2007 Toby Patterson
  # Fixed [#4686] Missing error check in Extensions Installer causes error during component install
  + mosInstaller class and deldir function to legacy plugin

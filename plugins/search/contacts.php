@@ -83,7 +83,7 @@ function plgSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 	. ' "" AS created,'
 	. ' CONCAT_WS( " / ", "'.$section.'", b.title ) AS section,'
 	. ' "2" AS browsernav,'
-	. ' CONCAT( "index.php?option=com_contact&view=article&id=", a.id ) AS href'
+	. ' CONCAT( "index.php?option=com_contact&view=contact&id=", a.id ) AS href'
 	. ' FROM #__contact_details AS a'
 	. ' INNER JOIN #__categories AS b ON b.id = a.catid'
 	. ' WHERE ( a.name LIKE "%'.$text.'%"'
