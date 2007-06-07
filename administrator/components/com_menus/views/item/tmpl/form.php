@@ -153,6 +153,12 @@ function submitbutton(pressbutton) {
 						echo $params;
 						echo $this->pane->endPanel();
 					endif;
+
+					if ($this->sysparams && ($params = $this->sysparams->render('params'))) :
+						echo $this->pane->startPanel(JText :: _('System Parameters'), "system-page");
+						echo $params;
+						echo $this->pane->endPanel();
+					endif;
 					echo $this->pane->endPane();
 				?>
 			</td>

@@ -61,6 +61,7 @@ class MenusViewItem extends JView
 		// Initialize variables
 		$urlparams		= $this->get( 'UrlParams' );
 		$params			= $this->get( 'StateParams' );
+		$sysparams			= $this->get( 'SystemParams' );
 		$advanced		= $this->get( 'AdvancedParams' );
 		$component		= $this->get( 'ComponentParams' );
 		$name			= $this->get( 'StateName' );
@@ -100,6 +101,7 @@ class MenusViewItem extends JView
 		$this->assignRef('lists'	, $lists);
 		$this->assignRef('item'		, $item);
 		$this->assignRef('urlparams', $urlparams);
+		$this->assignRef('sysparams', $sysparams);
 		$this->assignRef('params'	, $params);
 		$this->assignRef('advanced'	, $advanced);
 		$this->assignRef('comp'		, $component);

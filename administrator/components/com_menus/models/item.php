@@ -223,6 +223,27 @@ class MenusModelItem extends JModel
 		return $params;
 	}
 
+
+	function &getSystemParams()
+	{
+		// Initialize variables
+		$params	= null;
+		$item	= &$this->getItem();
+
+		$params = new JParameter( $item->params );
+		if ($item->type == 'component') {
+			$path = JPATH_BASE.DS.'components'.DS.'com_menus'.DS.'models'.DS.'metadata'.DS.'component.xml';
+			if (file_exists( $path )) {
+				$xml =& JFactory::getXMLParser('Simple');
+				if ($xml->loadFile($path)) {
+					$document =& $xml->document;
+					$params->setXML($document->getElementByPath('state/params'));
+				}
+			}
+		}
+		return $params;
+	}
+
 	function getStateName()
 	{
 		$name = null;
