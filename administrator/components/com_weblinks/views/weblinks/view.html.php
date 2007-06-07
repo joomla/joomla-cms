@@ -38,7 +38,7 @@ class WeblinksViewWeblinks extends JView
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
-		JToolBarHelper::preferences('com_weblinks', '200');
+		JToolBarHelper::preferences('com_weblinks', '360');
 		JToolBarHelper::help( 'screen.weblink' );
 
 		$db		=& JFactory::getDBO();

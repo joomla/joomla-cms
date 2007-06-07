@@ -38,32 +38,31 @@ class TOOLBAR_content
 		JToolBarHelper::help( 'screen.content.edit' );
 	}
 /*
-	function _ARCHIVE() {
-
+	function _ARCHIVE() 
+	{
 		JToolBarHelper::title( JText::_( 'Archive Manager' ), 'addedit.png' );
 		JToolBarHelper::unarchiveList();
 		JToolBarHelper::custom( 'remove', 'delete.png', 'delete_f2.png', 'Trash', false );
 		JToolBarHelper::help( 'screen.content.archive' );
 	}
 */
-	function _MOVE() {
-
+	function _MOVE() 
+	{
 		JToolBarHelper::title( JText::_( 'Move Articles' ), 'move_f2.png' );
 		JToolBarHelper::custom( 'movesectsave', 'save.png', 'save_f2.png', 'Save', false );
 		JToolBarHelper::cancel();
 	}
 
-	function _COPY() {
-
+	function _COPY() 
+	{
 		JToolBarHelper::title( JText::_( 'Copy Articles' ), 'copy_f2.png' );
 		JToolBarHelper::custom( 'copysave', 'save.png', 'save_f2.png', 'Save', false );
 		JToolBarHelper::cancel();
 	}
 
-	function _DEFAULT() {
+	function _DEFAULT() 
+	{
 		global $filter_state;
-
-		$user =& JFactory::getUser();
 
 		JToolBarHelper::title( JText::_( 'Article Manager' ), 'addedit.png' );
 		if ($filter_state == 'A' || $filter_state == NULL) {
@@ -79,9 +78,7 @@ class TOOLBAR_content
 		JToolBarHelper::trash();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
-		if ($user->get('gid') == 25) {
-			JToolBarHelper::preferences('com_content', '450');
-		}
+		JToolBarHelper::preferences('com_content', '550');
 		JToolBarHelper::help( 'screen.content' );
 	}
 }

@@ -17,7 +17,6 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="show_section" type="radio" default="0" label="Section Name" description="PARAMSECTION">
 			<option value="0">Hide</option>
