@@ -131,7 +131,8 @@ class JHTMLGrid
 	function state( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL )
 	{
 		$state[] = JHTML::_('select.option',  '', '- '. JText::_( 'Select State' ) .' -' );
-		$state[] = JHTML::_('select.option',  '*', JText::_( 'Any' ) );
+		//Jinx : Why is this used ?
+		//$state[] = JHTML::_('select.option',  '*', JText::_( 'Any' ) );
 		$state[] = JHTML::_('select.option',  'P', JText::_( $published ) );
 		$state[] = JHTML::_('select.option',  'U', JText::_( $unpublished ) );
 
