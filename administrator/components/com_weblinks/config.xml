@@ -23,10 +23,6 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="link_target" type="list" default="0" label="Target" description="Target window when the link is clicked">
 			<option value="0">Parent Window With Browser Navigation</option>
