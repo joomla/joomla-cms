@@ -44,10 +44,10 @@ class MailtoViewMailto extends JView
 		}
 
 		// Load with previous data, if it exists
-		$mailto				= JRequest::getVar( 'mailto', '', 'post' );
-		$sender 			= JRequest::getVar( 'sender', '', 'post' );
-		$from 				= JRequest::getVar( 'from', '', 'post' );
-		$subject 			= JRequest::getVar( 'subject', '', 'post' );
+		$mailto				= JRequest::getString('mailto', '', 'post');
+		$sender 			= JRequest::getString('sender', '', 'post');
+		$from 				= JRequest::getString('from', '', 'post');
+		$subject 			= JRequest::getString('subject', '', 'post');
 
 		if ($user->get('id') > 0) {
 			$data->sender	= $user->get('name');

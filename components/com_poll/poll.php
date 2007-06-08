@@ -23,7 +23,7 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
  *
  * Each view is determined by the $task variable
  */
-switch ( JRequest::getVar( 'task' ) )
+switch (JRequest::getCmd('task'))
 {
 	case 'vote':
 		PollController::vote();
@@ -160,7 +160,7 @@ class PollController
 
 		//check the token before we do anything else
 		$token = JUtility::getToken();
-		if(!JRequest::getVar( $token, 0, 'post' )) {
+		if(!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
 

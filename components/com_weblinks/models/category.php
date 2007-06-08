@@ -76,12 +76,12 @@ class WeblinksModelCategory extends JModel
 		$config = JFactory::getConfig();
 
 		// Get the pagination request variables
-		$this->setState('limit', $mainframe->getUserStateFromRequest('com_weblinks.limit', 'limit', $config->getValue('config.list_limit')));
+		$this->setState('limit', $mainframe->getUserStateFromRequest('com_weblinks.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
 		// Get the filter request variables
-		$this->setState('filter_order', JRequest::getVar('filter_order', 'ordering'));
-		$this->setState('filter_order_dir', JRequest::getVar('filter_order_Dir', 'ASC'));
+		$this->setState('filter_order', JRequest::getCmd('filter_order', 'ordering'));
+		$this->setState('filter_order_dir', JRequest::getCmd('filter_order_Dir', 'ASC'));
 
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId((int)$id);

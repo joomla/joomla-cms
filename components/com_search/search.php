@@ -22,7 +22,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php' );
  *
  * Each view is determined by the $task variable
  */
-switch ( JRequest::getVar( 'task' ) )
+switch (JRequest::getCmd('task'))
 {
 	case 'search' :
 		SearchController::search();
@@ -58,18 +58,18 @@ class SearchController
 		$total	= 0;
 
 		// Get some request variables
-		$searchword 	= JRequest::getVar( 'searchword' );
-		$phrase 		= JRequest::getVar( 'searchphrase' );
-		$searchphrase 	= JRequest::getVar( 'searchphrase', 'any' );
-		$ordering 		= JRequest::getVar( 'ordering', 'newest' );
-		$activeareas 	= JRequest::getVar( 'areas' );
-		$limit			= JRequest::getVar( 'limit', $mainframe->getCfg( 'list_limit' ), 'get', 'int' );
-		$limitstart 	= JRequest::getVar( 'limitstart', 0, 'get', 'int' );
+		$searchword		= JRequest::getString('searchword');
+		$phrase			= JRequest::getWord('searchphrase');
+		$searchphrase	= JRequest::getWord('searchphrase', 'any');
+		$ordering		= JRequest::getWord('ordering', 'newest');
+		$activeareas	= JRequest::getVar('areas');
+		$limit			= JRequest::getVar('limit', $mainframe->getCfg('list_limit'), 'get', 'int');
+		$limitstart		= JRequest::getVar('limitstart', 0, 'get', 'int');
 
 		// Set page title information
 		$document->setTitle(JText::_('Search'));
 
-		// Get the paramaters of the active menu item
+		// Get the parameters of the active menu item
 		$menus  = &JMenu::getInstance();
 		$menu   = $menus->getActive();
 		$params	= &$mainframe->getPageParameters();
@@ -83,7 +83,6 @@ class SearchController
 		$orders[] = JHTML::_('select.option',  'popular', JText::_( 'Most popular' ) );
 		$orders[] = JHTML::_('select.option',  'alpha', JText::_( 'Alphabetical' ) );
 		$orders[] = JHTML::_('select.option',  'category', JText::_( 'Section/Category' ) );
-		$ordering = JRequest::getVar( 'ordering', 'newest');
 		$lists = array();
 		$lists['ordering'] = JHTML::_('select.genericlist',   $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
 

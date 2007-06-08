@@ -48,7 +48,7 @@ class MailtoController extends JController
 
 		//check the token before we do anything else
 		$token	= JUtility::getToken();
-		if(!JRequest::getVar( $token, 0, 'post' )) {
+		if(!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
 
@@ -97,11 +97,11 @@ class MailtoController extends JController
 		 */
 		unset ($headers, $fields);
 
-		$email 				= JRequest::getVar( 'mailto', '', 'post' );
-		$sender 			= JRequest::getVar( 'sender', '', 'post' );
-		$from 				= JRequest::getVar( 'from', '', 'post' );
+		$email 				= JRequest::getString('mailto', '', 'post');
+		$sender 			= JRequest::getString('sender', '', 'post');
+		$from 				= JRequest::getString('from', '', 'post');
 		$subject_default 	= JText::sprintf('Item sent by', $sender);
-		$subject 			= JRequest::getVar( 'subject', $subject_default, 'post' );
+		$subject 			= JRequest::getString('subject', $subject_default, 'post');
 
 		// Check for a valid to address
 		$error	= false;

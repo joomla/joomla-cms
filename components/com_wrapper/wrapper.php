@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  *
  * Each view is determined by the $task variable
  */
-switch ( JRequest::getVar( 'task' ) )
+switch (JRequest::getCmd('task'))
 {
 	default:
 		WrapperController::display();
