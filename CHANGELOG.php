@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Jun-2007
+ + Added second arguement ($strict) to JComponentHelper methods
+
 07-June-2007 Louis Landry
  ^ Allow component configuration passthrough to menu items for list/radio types
 

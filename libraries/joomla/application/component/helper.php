@@ -26,15 +26,16 @@ class JComponentHelper
 	/**
 	 * Get the component info
 	 *
-	 * @access public
-	 * @param string $name 	The component name
-	 * @return object A JComponent object
+	 * @access	public
+	 * @param	string $name 	The component name
+	 * @param 	boolean	$string	If set and a component does not exist, the enabled attribue will be set to false
+	 * @return	object A JComponent object
 	 */
-	function &getInfo( $name )
+	function &getInfo( $name, $strict = false )
 	{
 		static $instances;
 
-		if (!isset( $instances[$name] ))
+		if (!isset( $instances ))
 		{
 			$db = &JFactory::getDBO();
 
@@ -52,7 +53,7 @@ class JComponentHelper
 		else
 		{
 			$result				= new stdClass();
-			$result->enabled	= true;
+			$result->enabled	= $strict ? false : true;
 			$result->params		= null;
 		}
 
@@ -62,15 +63,16 @@ class JComponentHelper
 	/**
 	 * Checks if the component is enabled
 	 *
-	 * @access public
-	 * @param string $name The component name
-	 * @return boolean
+	 * @access	public
+	 * @param	string	$name The component name
+	 * @param 	boolean	$string	If set and a component does not exist, false will be returned
+	 * @return	boolean
 	 */
-	function isEnabled( $name )
+	function isEnabled( $name, $strict = false )
 	{
 		global $mainframe;
 
-		$component = &JComponentHelper::getInfo( $name );
+		$component = &JComponentHelper::getInfo( $name, $strict );
 		return ($component->enabled | $mainframe->isAdmin());
 	}
 
