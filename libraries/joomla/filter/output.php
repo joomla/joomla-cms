@@ -72,7 +72,7 @@ class JOutputFilter
 	}
 
 	/**
-	 * This method processes a string all replaces all accented UTF-8 characters by unaccented
+	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
 	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercased.
 	 *
 	 * @static
