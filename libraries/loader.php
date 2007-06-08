@@ -71,11 +71,11 @@ class JLoader
 				while ($file = $dir->read()) {
 					if (preg_match( '#(.*?)\.php$#', $file, $m )) {
 						$nPath = str_replace( '*', $m[1], $filePath );
+						$keyPath	= $key . $nPath;
 						// we need to check each file again incase one has a jimport
-						if (!isset($paths[$nPath]))
+						if (!isset($paths[$keyPath]))
 						{
 							require $path . DS . $file;
-							$keyPath	= $key . $nPath;
 							$paths[$keyPath] = true;
 						}
 					}
