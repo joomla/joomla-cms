@@ -339,55 +339,43 @@ class JRequest
 	 */
 	function get($hash = 'default', $mask = 0)
 	{
-		static $hashes;
+		$hash = strtoupper($hash);
 
-		if (!isset($hashes)) {
-			$hashes = array();
+		if ($hash === 'METHOD') {
+			$hash = strtoupper( $_SERVER['REQUEST_METHOD'] );
 		}
 
-		$hash		= strtoupper( $hash );
-		$signature	= $hash.$mask;
-		if (!isset($hashes[$signature]))
+		switch ($hash)
 		{
-			$result		= null;
-			$matches	= array();
+			case 'GET' :
+				$input = $_GET;
+				break;
 
-			if ($hash === 'METHOD') {
-				$hash = strtoupper( $_SERVER['REQUEST_METHOD'] );
-			}
+			case 'POST' :
+				$input = $_POST;
+				break;
 
-			switch ($hash)
-			{
-				case 'GET' :
-					$input = $_GET;
-					break;
+			case 'FILES' :
+				$input = $_FILES;
+				break;
 
-				case 'POST' :
-					$input = $_POST;
-					break;
+			case 'COOKIE' :
+				$input = $_COOKIE;
+				break;
 
-				case 'FILES' :
-					$input = $_FILES;
-					break;
-
-				case 'COOKIE' :
-					$input = $_COOKIE;
-					break;
-
-				default:
-					$input = $_REQUEST;
-					break;
-			}
-
-			$result = JRequest::_cleanVar($input, $mask);
-
-			// Handle magic quotes compatability
-			if (get_magic_quotes_gpc()) {
-				$result = JRequest::_stripSlashesRecursive( $result );
-			}
-			$hashes[$signature] = &$result;
+			default:
+				$input = $_REQUEST;
+				break;
 		}
-		return $hashes[$signature];
+
+		$result = JRequest::_cleanVar($input, $mask);
+
+		// Handle magic quotes compatability
+		if (get_magic_quotes_gpc() && ($hash != 'FILES')) {
+			$result = JRequest::_stripSlashesRecursive( $result );
+		}
+
+		return $result;
 	}
 
 	function set($array, $hash = 'default', $overwrite = true)

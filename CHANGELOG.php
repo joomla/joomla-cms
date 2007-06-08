@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Jun-2007 Enno Klasing
+ # Fixed problems with XMLRPC server when JRequest::clean() was called
+ # Fixed [#5427] JRequest::get() improperly cacheing results
+
 07-Jun-2007
  + Added second arguement ($strict) to JComponentHelper methods
  + JFolder::folders() and files() methods can search recursively to a specified depth
