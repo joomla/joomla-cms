@@ -509,7 +509,7 @@
 		function service($data=null)
 		{
 			if ($data === null) {
-				$data = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : '';
+				$data = file_get_contents('php://input');
 			}
 
 			// reset internal debug info

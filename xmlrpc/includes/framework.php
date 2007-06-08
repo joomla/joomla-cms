@@ -34,15 +34,15 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
  */
 
 // System includes
-require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
+require_once JPATH_LIBRARIES.DS.'loader.php';
 
 // Clean the request before anything else is loaded
 jimport( 'joomla.base.object' );
 jimport( 'joomla.environment.request' );
-// TODO: Check why there is a problem here
-//JRequest::clean();
+// ALERT! DO NOT CALL JRequest::clean ANY LATER IN EXECUTION!
+JRequest::clean();
 
-require_once( JPATH_LIBRARIES	. DS . 'loader.php' );
+require_once JPATH_LIBRARIES.DS.'loader.php';
 
 // File includes
 define( 'JPATH_INCLUDES', dirname(__FILE__) );

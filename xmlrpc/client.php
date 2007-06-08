@@ -17,11 +17,9 @@ define( "_JEXEC", 1 );
 define( 'JPATH_BASE', dirname(__FILE__) );
 define( 'DS', DIRECTORY_SEPARATOR );
 
-error_reporting( E_ALL );
-
-require_once( JPATH_BASE.'/includes/defines.php' );
-require_once( JPATH_BASE.'/includes/framework.php' );
-require_once( JPATH_BASE.'/includes/application.php' );
+require_once JPATH_BASE.DS.'includes'.DS.'defines.php';
+require_once JPATH_BASE.DS.'includes'.DS.'framework.php';
+require_once JPATH_BASE.DS.'includes'.DS.'application.php';
 
 //if (!$mainframe->getCfg('xmlrpc_server')) {
 //	die( 'XML-RPC server not enabled.' );
@@ -29,8 +27,8 @@ require_once( JPATH_BASE.'/includes/application.php' );
 
 jimport('phpxmlrpc.xmlrpc');
 
-$host 	= JRequest::getVar( 'host', $_SERVER['HTTP_HOST'], 'post' );
-$path 	= JRequest::getVar( 'path', '', 'post' );
+$host 	= JRequest::getString( 'host', $_SERVER['HTTP_HOST'], 'post' );
+$path 	= JRequest::getString( 'path', '', 'post' );
 $debug 	= JRequest::getVar( 'debug', 0, 'post', 'int' );
 $task 	= JRequest::getVar( 'task', 0, 'post', 'cmd' );
 
