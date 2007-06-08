@@ -97,7 +97,10 @@ class JAdminSubMenu
 
 	function _loadDBList( $componentOption )
 	{
-		$db = & JFactory::getDBO();
+		$db   =& JFactory::getDBO();
+		$lang =& JFactory::getLanguage();
+
+		$lang->load($componentOption.'.menu');
 
 		$query = 'SELECT a.name, a.admin_menu_link, a.admin_menu_img' .
 		' FROM #__components AS a' .
@@ -122,7 +125,8 @@ class JAdminSubMenu
 					$active = 1;
 				}
 
-				$subMenuItem[0]	= JText::_( $item->name );
+				$key = $componentOption.'.'.$item->name;
+				$subMenuItem[0]	= $lang->hasKey($key) ? JText::_($key) : $item->name;
 				$subMenuItem[1]	= 'index.php?'. $item->admin_menu_link;
 				$subMenuItem[2]	= $active;
 

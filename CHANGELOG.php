@@ -44,6 +44,7 @@ Legend:
 08-Jun-2007 Enno Klasing
  # Fixed problems with XMLRPC server when JRequest::clean() was called
  # Fixed [#5427] JRequest::get() improperly cacheing results
+ # Fixed [#4863] Component name not being translated in the menu
 
 07-Jun-2007 Toby Patterson
  + Added second arguement ($strict) to JComponentHelper methods

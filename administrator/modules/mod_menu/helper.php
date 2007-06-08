@@ -29,23 +29,23 @@ class modMenuHelper
 		$lang		= & JFactory::getLanguage();
 		$user		= & JFactory::getUser();
 		$db			= & JFactory::getDBO();
-		$caching		= $mainframe->getCfg('caching');
-		$usertype    = $user->get('usertype');
+		$caching	= $mainframe->getCfg('caching');
+		$usertype	= $user->get('usertype');
 
 		// cache some acl checks
 		$canCheckin			= $user->authorize('com_checkin', 'manage');
 		$canConfig			= $user->authorize('com_config', 'manage');
-		$manageTemplates		= $user->authorize('com_templates', 'manage');
-		$manageTrash			= $user->authorize('com_trash', 'manage');
+		$manageTemplates	= $user->authorize('com_templates', 'manage');
+		$manageTrash		= $user->authorize('com_trash', 'manage');
 		$manageMenuMan		= $user->authorize('com_menumanager', 'manage');
-		$manageLanguages		= $user->authorize('com_languages', 'manage');
+		$manageLanguages	= $user->authorize('com_languages', 'manage');
 		$installModules		= $user->authorize('com_installer', 'module');
 		$editAllModules		= $user->authorize('com_modules', 'manage');
 		$installPlugins		= $user->authorize('com_installer', 'plugin');
 		$editAllPlugins		= $user->authorize('com_plugins', 'manage');
 		$installComponents	= $user->authorize('com_installer', 'component');
 		$editAllComponents	= $user->authorize('com_components', 'manage');
-		$canMassMail			= $user->authorize('com_massmail', 'manage');
+		$canMassMail		= $user->authorize('com_massmail', 'manage');
 		$canManageUsers		= $user->authorize('com_users', 'manage');
 
 		$query = 'SELECT a.id, a.title, a.name, COUNT( DISTINCT c.id ) AS numcat, COUNT( DISTINCT b.id ) AS numarc' .
@@ -73,13 +73,13 @@ class modMenuHelper
 		$menuTypes 	= MenusHelper::getMenuTypelist();
 
 		/*
-	 	 * Get the menu object
-	 	 */
+		 * Get the menu object
+		 */
 		$menu = new JAdminCSSMenu();
 
 		/*
-	 	 * Site SubMenu
-	 	 */
+		 * Site SubMenu
+		 */
 		$menu->addChild(new JMenuNode(JText::_('Site')), true);
 		$menu->addChild(new JMenuNode(JText::_('Control Panel'), 'index.php', 'class:cpanel'));
 		$menu->addSeparator();
@@ -97,8 +97,8 @@ class modMenuHelper
 		$menu->getParent();
 
 		/*
-	 	 * Menus SubMenu
-	 	 */
+		 * Menus SubMenu
+		 */
 		$menu->addChild(new JMenuNode(JText::_('Menus')), true);
 		if ($manageMenuMan) {
 			$menu->addChild(new JMenuNode(JText::_('Menu Manager'), 'index.php?option=com_menus', 'class:menu'));
@@ -111,8 +111,8 @@ class modMenuHelper
 			$menu->addSeparator();
 		}
 		/*
-	 	 * SPLIT HR
-	 	 */
+		 * SPLIT HR
+		 */
 		if (count($menuTypes)) {
 			foreach ($menuTypes as $menuType) {
 				$menu->addChild(new JMenuNode($menuType->title, 'index.php?option=com_menus&task=view&menutype='.$menuType->menutype, 'class:menu'));
@@ -122,8 +122,8 @@ class modMenuHelper
 		$menu->getParent();
 
 		/*
-	  	 * Content SubMenu
-	 	 */
+		 * Content SubMenu
+		 */
 		$menu->addChild(new JMenuNode(JText::_('Content')), true);
 		$menu->addChild(new JMenuNode(JText::_('Article Manager'), 'index.php?option=com_content', 'class:article'));
 		if ($manageTrash) {
@@ -138,8 +138,8 @@ class modMenuHelper
 		$menu->getParent();
 
 		/*
-	 	 * Components SubMenu
-	 	 */
+		 * Components SubMenu
+		 */
 		if ($editAllComponents) {
 			$menu->addChild(new JMenuNode(JText::_('Components')), true);
 
@@ -151,7 +151,9 @@ class modMenuHelper
 				' ORDER BY ordering, name';
 			$db->setQuery($query);
 			$comps = $db->loadObjectList(); // component list
-			$subs = array (); // sub menus
+			$subs = array(); // sub menus
+			$langs = array(); // additional language files to load
+
 			// first pass to collect sub-menu items
 			foreach ($comps as $row)
 			{
@@ -161,26 +163,39 @@ class modMenuHelper
 						$subs[$row->parent] = array ();
 					}
 					$subs[$row->parent][] = $row;
+					$langs[$row->option.'.menu'] = true;
+				} elseif (trim($row->admin_menu_link)) {
+					$langs[$row->option.'.menu'] = true;
 				}
 			}
+
+			// Load additional language files
+			if (array_key_exists('.menu', $langs)) {
+				unset($langs['.menu']);
+			}
+			foreach ($langs as $lang_name => $nothing) {
+				$lang->load($lang_name);
+			}
+
 			foreach ($comps as $row)
 			{
 				if ($editAllComponents | $user->authorize('administration', 'edit', 'components', $row->option))
 				{
 					if ($row->parent == 0 && (trim($row->admin_menu_link) || array_key_exists($row->id, $subs)))
 					{
-						$alt = $row->admin_menu_alt;
+						$text = $lang->hasKey($row->option) ? JText::_($row->option) : $row->name;
 						$link = $row->admin_menu_link ? "index.php?$row->admin_menu_link" : "index.php?option=$row->option";
-						if (array_key_exists($row->id, $subs)) 	{
-							$menu->addChild(new JMenuNode(JText::_($row->name), $link, $row->admin_menu_img), true);
+						if (array_key_exists($row->id, $subs)) {
+							$menu->addChild(new JMenuNode($text, $link, $row->admin_menu_img), true);
 							foreach ($subs[$row->id] as $sub) {
-								$alt = $sub->admin_menu_alt;
+								$key  = $row->option.'.'.$sub->name;
+								$text = $lang->hasKey($key) ? JText::_($key) : $sub->name;
 								$link = $sub->admin_menu_link ? "index.php?$sub->admin_menu_link" : null;
-								$menu->addChild(new JMenuNode(JText::_($sub->name), $link, $sub->admin_menu_img));
+								$menu->addChild(new JMenuNode($text, $link, $sub->admin_menu_img));
 							}
 							$menu->getParent();
 						} else {
-							$menu->addChild(new JMenuNode(JText::_($row->name), $link, $row->admin_menu_img));
+							$menu->addChild(new JMenuNode($text, $link, $row->admin_menu_img));
 						}
 					}
 				}
@@ -189,8 +204,8 @@ class modMenuHelper
 		}
 
 		/*
-	 	 * Extensions SubMenu
-	 	*/
+		 * Extensions SubMenu
+		 */
 		if ($installModules)
 		{
 			$menu->addChild(new JMenuNode(JText::_('Extensions')), true);
@@ -213,8 +228,8 @@ class modMenuHelper
 		}
 
 		/*
-	 	 * System SubMenu
-	 	 */
+		 * System SubMenu
+		 */
 		if ($canConfig || $canCheckin)
 		{
 			$menu->addChild(new JMenuNode(JText::_('Tools')), true);
@@ -240,8 +255,8 @@ class modMenuHelper
 		}
 
 		/*
-	 	 * Help SubMenu
-	 	 */
+		 * Help SubMenu
+		 */
 		$menu->addChild(new JMenuNode(JText::_('Help')), true);
 		$menu->addChild(new JMenuNode(JText::_('Joomla! Help'), 'index.php?option=com_admin&task=help', 'class:help'));
 		$menu->addChild(new JMenuNode(JText::_('System Info'), 'index.php?option=com_admin&task=sysinfo', 'class:info'));
