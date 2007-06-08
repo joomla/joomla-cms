@@ -30,7 +30,6 @@ JDEBUG ? $_PROFILER->mark( 'afterLoad' ) : null;
  * NOTE :
  */
 $mainframe = new JSite();
-JSite::import('libraries.joomla.base.object');
 
 // looad the configuration settings
 $mainframe->loadConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
