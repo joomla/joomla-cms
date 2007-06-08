@@ -23,12 +23,13 @@ class JLoader
 	 /**
 	 * Loads a class from specified directories.
 	 *
-	 * @param string $name The class name to look for.
-	 * @param string $base Search this directory for the class.
+	 * @param string $name	The class name to look for ( dot notation ).
+	 * @param string $base	Search this directory for the class.
+	 * @param string $key	String used as a prefix to denote the full path of the file ( dot notation ).
 	 * @return void
 	 * @since 1.5
 	 */
-	function import( $filePath, $base = null )
+	function import( $filePath, $base = null, $key = null )
 	{
 		static $paths;
 
@@ -36,10 +37,20 @@ class JLoader
 		{
 			$paths = array();
 		}
-
-		if (!isset($paths[$filePath]))
+		
+		//$keyPath	= $key ? $key . $filePath : $filePath;
+		if ( $key )
 		{
-			$paths[$filePath] = true;
+			$keyPath = $key . $filePath;
+		}
+		else
+		{
+			$keyPath = $filePath;
+		}
+
+		if (!isset($paths[$keyPath]))
+		{
+			$paths[$keyPath] = true;
 
 			$parts = explode( '.', $filePath );
 
@@ -64,7 +75,8 @@ class JLoader
 						if (!isset($paths[$nPath]))
 						{
 							require $path . DS . $file;
-							$paths[$nPath] = true;
+							$keyPath	= $key . $nPath;
+							$paths[$keyPath] = true;
 						}
 					}
 				}
@@ -127,6 +139,5 @@ class JLoader
  * @since 1.5
  */
 function jimport( $path ) {
-	return JLoader::import($path);
+	return JLoader::import($path, null, 'libraries.' );
 }
-?>
