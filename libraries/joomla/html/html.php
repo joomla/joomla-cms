@@ -216,8 +216,8 @@ class JHTML
 		$id = $name;
 		
 		if($control_name) {
-			$name = $control_name.'['.$name.']';
 			$id   = $control_name.$name;
+			$name = $control_name.'['.$name.']';
 		}
 
 		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value).'" '.$attribs.' />'.
