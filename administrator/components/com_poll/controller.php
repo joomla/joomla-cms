@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: index.php 5201 2006-09-27 01:40:52Z Jinx $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Config
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

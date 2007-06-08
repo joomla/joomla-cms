@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: xmlrpc.client.php 5382 2006-10-09 23:08:34Z Laurens $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php

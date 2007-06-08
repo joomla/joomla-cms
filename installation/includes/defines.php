@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: defines.php 974 2005-11-11 03:38:53Z Jinx $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Installation
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

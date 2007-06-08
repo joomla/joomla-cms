@@ -2,7 +2,7 @@
 /**
  * patTemplate output filter that creates PDF files from latex
  *
- * $Id: PdfLatex.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Filters
@@ -15,7 +15,7 @@ defined('JPATH_BASE') or die();
 /**
  * patTemplate output filter that creates PDF files from latex
  *
- * $Id: PdfLatex.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Filters

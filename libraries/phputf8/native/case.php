@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: case.php,v 1.4 2006/02/25 13:54:31 harryf Exp $
+* @version $Id$
 * @package utf8
 * @subpackage strings
 */

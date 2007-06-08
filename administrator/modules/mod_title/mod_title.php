@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: mod_toolbar.php 1879 2006-01-17 20:35:15Z webImagery $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php

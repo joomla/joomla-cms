@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: pcltar.php 6140 2007-01-02 03:44:18Z eddiea $
+* @version $Id$
 * @package		Joomla
 */
 

@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate input filter
  *
- * $Id: InputFilter.php 219 2004-05-25 20:38:38Z schst $
+ * $Id$
  *
  * An input filter is used to modify the stream
  * before it has been processed by patTemplate_Reader.
@@ -18,7 +18,7 @@ defined('JPATH_BASE') or die();
 /**
  * Base class for patTemplate input filter
  *
- * $Id: InputFilter.php 219 2004-05-25 20:38:38Z schst $
+ * $Id$
  *
  * An input filter is used to modify the stream
  * before it has been processed by patTemplate_Reader.

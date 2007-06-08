@@ -4,7 +4,7 @@
  *
  * It automatically retrieves the width and height of the image.
  *
- * $Id: Img.php 109 2004-04-11 08:47:45Z schst $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Modifiers
@@ -19,7 +19,7 @@ defined('JPATH_BASE') or die();
  *
  * It automatically retrieves the width and height of the image.
  *
- * $Id: Img.php 109 2004-04-11 08:47:45Z schst $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Modifiers

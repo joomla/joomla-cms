@@ -3,7 +3,7 @@
  * patTemplate function that calculates the current time
  * or any other time and returns it in the specified format.
  *
- * $Id: Time.php 95 2004-04-06 18:50:25Z schst $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
  * patTemplate function that calculates the current time
  * or any other time and returns it in the specified format.
  *
- * $Id: Time.php 95 2004-04-06 18:50:25Z schst $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Functions

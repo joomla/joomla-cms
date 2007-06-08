@@ -1,11 +1,11 @@
 <?php
 /**
-* @version $Id: zip.php 6140 2007-01-02 03:44:18Z eddiea $
+* @version $Id$
 * @package		Joomla
 */
 
 
-// $Id: zip.php 6140 2007-01-02 03:44:18Z eddiea $
+// $Id$
 //
 // The "GNU General Public License" (GPL) is available at
 // http://www.gnu.org/copyleft/gpl.html.

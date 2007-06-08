@@ -2,7 +2,7 @@
 /**
  * patTemplate StripComments input filter
  *
- * $Id: StripComments.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id$
  *
  * Will remove all HTML comments.
  *
@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
 /**
  * patTemplate StripComments output filter
  *
- * $Id: StripComments.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id$
  *
  * Will remove all HTML comments.
  *

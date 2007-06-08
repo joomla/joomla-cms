@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: plugin.php 7180 2007-04-23 16:51:53Z jinx $
+* @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Event
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

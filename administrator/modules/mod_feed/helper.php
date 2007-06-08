@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: helper.php 5872 2006-11-28 18:03:34Z louis $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php

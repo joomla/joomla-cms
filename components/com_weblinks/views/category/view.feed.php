@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: view.php 4854 2006-08-31 11:29:11Z Jinx $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Weblinks
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

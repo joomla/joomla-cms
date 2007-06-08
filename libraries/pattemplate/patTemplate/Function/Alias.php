@@ -2,7 +2,7 @@
 /**
  * creates a new function alias
  *
- * $Id: Alias.php 283 2004-09-07 19:09:56Z schst $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -19,7 +19,7 @@ defined('JPATH_BASE') or die();
  * - alias => new alias
  * - function => function to call
  *
- * $Id: Alias.php 283 2004-09-07 19:09:56Z schst $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Functions

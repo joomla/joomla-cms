@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: strlen.php,v 1.4 2006/02/26 23:59:50 harryf Exp $
+* @version $Id$
 * @package utf8
 * @subpackage strings
 */

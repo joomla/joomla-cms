@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: mod_rssfeed.php 588 2005-10-23 15:20:09Z stingrey $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php

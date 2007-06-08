@@ -2,7 +2,7 @@
 /**
  * patTemplate
  *
- * $Id: patTemplate.php 560 2005-10-19 17:22:00Z Jinx $
+ * $Id$
  *
  * powerful templating engine
  *

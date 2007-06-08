@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate output cache
  *
- * $Id: OutputCache.php 219 2004-05-25 20:38:38Z schst $
+ * $Id$
  *
  * An output cache is used to cache the data before
  * the template has been read.
@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
 /**
  * Base class for patTemplate output cache
  *
- * $Id: OutputCache.php 219 2004-05-25 20:38:38Z schst $
+ * $Id$
  *
  * An output cache is used to cache the data before
  * the template has been read.

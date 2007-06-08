@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: eaccelerator.php 7074 2007-03-31 15:37:23Z jinx $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: log.php 7104 2007-04-08 16:17:14Z jinx $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php

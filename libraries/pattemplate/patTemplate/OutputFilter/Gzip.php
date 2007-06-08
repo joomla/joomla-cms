@@ -2,7 +2,7 @@
 /**
  * patTemplate GZip output filter
  *
- * $Id: Gzip.php 359 2005-02-18 19:01:54Z schst $
+ * $Id$
  *
  * Checks the accept encoding of the browser and
  * compresses the data before sending it to the client.
@@ -18,7 +18,7 @@ defined('JPATH_BASE') or die();
 /**
  * patTemplate GZip output filter
  *
- * $Id: Gzip.php 359 2005-02-18 19:01:54Z schst $
+ * $Id$
  *
  * Checks the accept encoding of the browser and
  * compresses the data before sending it to the client.

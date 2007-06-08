@@ -3,7 +3,7 @@
  * patTemplate function that returns a complete imagetag and
  * width and height are extracted from the image
  *
- * $Id: Img.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
  * patTemplate function that returns a complete imagetag and
  * width and height are extracted from the image
  *
- * $Id: Img.php 47 2005-09-15 02:55:27Z rhuk $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Functions

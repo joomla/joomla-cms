@@ -1,5 +1,5 @@
 <?php
-// $Id: gacl.class.php,v 1.51 2005/09/03 22:01:25 ipso Exp $
+// $Id$
 
 /**
  * phpGACL - Generic Access Control List

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: section.php 4754 2006-08-25 11:53:46Z Jinx $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

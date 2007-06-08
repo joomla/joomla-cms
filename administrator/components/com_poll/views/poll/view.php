@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: vw_global.php 3692 2006-05-27 05:07:39Z eddieajau $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Config
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

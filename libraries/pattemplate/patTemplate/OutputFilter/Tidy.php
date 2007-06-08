@@ -2,7 +2,7 @@
 /**
  * patTemplate Tidy output filter
  *
- * $Id: Tidy.php 357 2005-02-04 15:07:43Z schst $
+ * $Id$
  *
  * Used to tidy up your resulting HTML document,
  * requires ext/tidy.
@@ -23,7 +23,7 @@ define( 'PATTEMPLATE_OUTPUTFILTER_TIDY_ERROR_NOT_SUPPORTED', 'patTemplate::Outpu
 /**
  * patTemplate Tidy output filter
  *
- * $Id: Tidy.php 357 2005-02-04 15:07:43Z schst $
+ * $Id$
  *
  * Used to tidy up your resulting HTML document,
  * requires ext/tidy.

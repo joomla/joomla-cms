@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: controller.php 6291 2007-01-16 04:40:06Z Jinx $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Search
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights

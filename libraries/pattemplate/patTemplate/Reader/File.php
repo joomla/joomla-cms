@@ -2,7 +2,7 @@
 /**
  * patTemplate Reader that reads from a file
  *
- * $Id: File.php 413 2005-08-05 13:51:01Z schst $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Readers
@@ -15,7 +15,7 @@ defined('JPATH_BASE') or die();
 /**
  * patTemplate Reader that reads from a file
  *
- * $Id: File.php 413 2005-08-05 13:51:01Z schst $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Readers

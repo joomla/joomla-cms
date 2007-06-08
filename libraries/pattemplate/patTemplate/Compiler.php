@@ -2,7 +2,7 @@
 /**
  * Compiler for patTemplate
  *
- * $Id: Compiler.php 206 2004-05-14 16:49:34Z schst $
+ * $Id$
  *
  * WARNING: This is still experimental!
  *
@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
 /**
  * Compiler for patTemplate
  *
- * $Id: Compiler.php 206 2004-05-14 16:49:34Z schst $
+ * $Id$
  *
  * WARNING: This is still experimental!
  *

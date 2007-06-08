@@ -2,7 +2,7 @@
 /**
  * patTemplate HighlightPHP filter
  *
- * $Id: HighlightPhp.php 378 2005-03-26 08:38:51Z schst $
+ * $Id$
  *
  * Highlights PHP code in the output.
  *
@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
 /**
  * patTemplate HighlightPHP filter
  *
- * $Id: HighlightPhp.php 378 2005-03-26 08:38:51Z schst $
+ * $Id$
  *
  * Highlights PHP code in the output.
  *

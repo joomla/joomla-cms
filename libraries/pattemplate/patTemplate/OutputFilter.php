@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate output filter
  *
- * $Id: OutputFilter.php 219 2004-05-25 20:38:38Z schst $
+ * $Id$
  *
  * An output filter is used to modify the output
  * after it has been processed by patTemplate, but before
@@ -19,7 +19,7 @@ defined('JPATH_BASE') or die();
 /**
  * Base class for patTemplate output filter
  *
- * $Id: OutputFilter.php 219 2004-05-25 20:38:38Z schst $
+ * $Id$
  *
  * An output filter is used to modify the output
  * after it has been processed by patTemplate, but before
