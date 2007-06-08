@@ -141,8 +141,13 @@ class JHTML
 	 * @see strftime
 	 * @since 1.5
 	 */
-	function date($date, $format = DATE_FORMAT_LC, $offset = NULL)
+	function date($date, $format = null, $offset = NULL)
 	{
+		if ( ! $format )
+		{
+			$format = JText::_('DATE_FORMAT_LC1');
+		}
+		
 		jimport('joomla.utilities.date');
 
 		if(is_null($offset))

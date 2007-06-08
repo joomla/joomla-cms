@@ -73,13 +73,13 @@ class  plgSystemLegacy extends JPlugin
 		 * Legacy constant, use DATE_FORMAT_LC instead
 		 * @deprecated	As of version 1.5
 		 */
-		DEFINE('_DATE_FORMAT_LC',"%A, %d %B %Y"); //Uses PHP's strftime Command Format
+		DEFINE('_DATE_FORMAT_LC', JText::_('DATE_FORMAT_LC1') ); //Uses PHP's strftime Command Format
 
 		/**
 		 * Legacy constant, use DATE_FORMAT_LC2 instead
 		 * @deprecated	As of version 1.5
 		 */
-		DEFINE('_DATE_FORMAT_LC2',"%A, %d %B %Y %H:%M");
+		DEFINE('_DATE_FORMAT_LC2', JText::_('DATE_FORMAT_LC2'));
 
 		/**
 		 * Legacy global, use JVersion->getLongVersion() instead

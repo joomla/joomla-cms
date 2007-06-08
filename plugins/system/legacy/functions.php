@@ -622,7 +622,13 @@ function mosObjectToArray( $p_obj, $recurse = true, $regex = null )
  *
  * @deprecated	As of version 1.5
  */
-function mosFormatDate( $date = 'now', $format = DATE_FORMAT_LC, $offset = null )  {
+function mosFormatDate( $date = 'now', $format = null, $offset = null )  {
+	
+	if ( ! $format )
+	{
+		$format = JText::_('DATE_FORMAT_LC1');
+	}
+	
 	return JHTML::_('date', $date, $format, $offset);
 }
 
@@ -634,7 +640,7 @@ function mosFormatDate( $date = 'now', $format = DATE_FORMAT_LC, $offset = null 
 function mosCurrentDate( $format="" )
 {
 	if ($format=="") {
-		$format = JText::_( 'DATE_FORMAT_LC' );
+		$format = JText::_( 'DATE_FORMAT_LC1' );
 	}
 
 	return JHTML::_('date', 'now', $format);

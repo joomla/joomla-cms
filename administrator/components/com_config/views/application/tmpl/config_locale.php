@@ -4,7 +4,7 @@
 		<tbody>
 		<tr>
 			<td width="185" class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Time Zone' ); ?>::<?php echo JText::_( 'Current date/time configured to display' ) .': '. JHTML::_('date',  'now', DATE_FORMAT_LC2); ?>">
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Time Zone' ); ?>::<?php echo JText::_( 'Current date/time configured to display' ) .': '. JHTML::_('date',  'now', JText::_('DATE_FORMAT_LC2')); ?>">
 					<?php echo JText::_( 'Time Zone' ); ?>
 				</span>
 			</td>

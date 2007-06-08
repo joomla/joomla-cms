@@ -83,7 +83,7 @@ class ContentViewCategory extends ContentView
 
 		$document->setTitle($menu->name);
 
-		$params->def('date_format',	JText::_('DATE_FORMAT_LC'));
+		$params->def('date_format',	JText::_('DATE_FORMAT_LC1'));
 		$params->def('page_title', $menu->name);
 
 		jimport('joomla.html.pagination');

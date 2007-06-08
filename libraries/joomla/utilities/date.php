@@ -15,6 +15,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
+/*
 if(!defined('DATE_FORMAT_LC')) {
 	define('DATE_FORMAT_LC', '%A, %d %B %Y');
 }
@@ -30,6 +31,7 @@ if(!defined('DATE_FORMAT_LC3')) {
 if(!defined('DATE_FORMAT_LC4')) {
 	define('DATE_FORMAT_LC4', '%d.%m.%y');
 }
+*/
 
 /**
  * JDate is a class that stores a date

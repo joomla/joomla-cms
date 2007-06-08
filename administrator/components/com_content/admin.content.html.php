@@ -244,7 +244,7 @@ class ContentView
 						<?php echo $author; ?>
 					</td>
 					<td nowrap="nowrap">
-						<?php echo JHTML::_('date',  $row->created, DATE_FORMAT_LC4 ); ?>
+						<?php echo JHTML::_('date',  $row->created, JText::_('DATE_FORMAT_LC4') ); ?>
 					</td>
 					<td nowrap="nowrap" align="center">
 						<?php echo $row->hits ?>
@@ -884,7 +884,7 @@ class ContentView
 				if ( $row->created == $nullDate ) {
 					echo JText::_( 'New document' );
 				} else {
-					echo JHTML::_('date',  $row->created,  DATE_FORMAT_LC2);
+					echo JHTML::_('date',  $row->created,  JText::_('DATE_FORMAT_LC2') );
 				}
 				?>
 			</td>
@@ -898,7 +898,7 @@ class ContentView
 					if ( $row->modified == $nullDate ) {
 						echo JText::_( 'Not modified' );
 					} else {
-						echo JHTML::_('date',  $row->modified, DATE_FORMAT_LC2);
+						echo JHTML::_('date',  $row->modified, JText::_('DATE_FORMAT_LC2'));
 					}
 				?>
 			</td>

@@ -37,11 +37,15 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Jun-2007 Toby Patterson
+ # Fixed [#4485] language/en-GB/en-GB.ini "DATE_FORMAT_LC3" and "DATE_FORMAT_LC4" are missing
+ ! Various format strings ( eg DATE_FORMAT_LC4 ) no longer defined in the framework - use JText::_() instead
+
 08-Jun-2007 Enno Klasing
  # Fixed problems with XMLRPC server when JRequest::clean() was called
  # Fixed [#5427] JRequest::get() improperly cacheing results
 
-07-Jun-2007
+07-Jun-2007 Toby Patterson
  + Added second arguement ($strict) to JComponentHelper methods
  + JFolder::folders() and files() methods can search recursively to a specified depth
  + JInstaller::_fineManifest() looks for manifest file to depth of '1' - could change to '0' ???

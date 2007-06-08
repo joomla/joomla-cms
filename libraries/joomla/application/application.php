@@ -87,10 +87,10 @@ class JApplication extends JObject
 		$lang->setDebug($this->getCfg('debug_lang'));
 
 		//define date formats
-		define('DATE_FORMAT_LC' , JText::_('DATE_FORMAT_LC' ));
-		define('DATE_FORMAT_LC2', JText::_('DATE_FORMAT_LC2'));
-		define('DATE_FORMAT_LC3', JText::_('DATE_FORMAT_LC3'));
-		define('DATE_FORMAT_LC4', JText::_('DATE_FORMAT_LC4'));
+		//define('DATE_FORMAT_LC' , JText::_('DATE_FORMAT_LC' ));
+		//define('DATE_FORMAT_LC2', JText::_('DATE_FORMAT_LC2'));
+		//define('DATE_FORMAT_LC3', JText::_('DATE_FORMAT_LC3'));
+		//define('DATE_FORMAT_LC4', JText::_('DATE_FORMAT_LC4'));
 
 		// create the backward compatible language value for old 3PD components
 		if($conf->getValue('config.legacy')) {
