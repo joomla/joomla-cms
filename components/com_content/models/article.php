@@ -71,7 +71,7 @@ class ContentModelArticle extends JModel
 	 */
 	function set( $property, $value=null )
 	{
-		if ($this->_loadContent()) {
+		if ($this->_loadArticle()) {
 			$this->_article->$property = $value;
 			return true;
 		} else {
@@ -90,7 +90,7 @@ class ContentModelArticle extends JModel
 	 */
 	function get($property, $default=null)
 	{
-		if ($this->_loadContent()) {
+		if ($this->_loadArticle()) {
 			if(isset($this->_article->$property)) {
 				return $this->_article->$property;
 			}
