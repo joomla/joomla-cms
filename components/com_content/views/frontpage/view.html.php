@@ -60,7 +60,7 @@ class ContentViewFrontpage extends ContentView
 		$params->def('page_title', $menu->name);
 
 		$limit = $intro + $leading + $links;
-		JRequest::setVar('limit', $limit);
+		JRequest::setVar('limit', (int) $limit);
 
 		//set data model
 		$items =& $this->get('data' );
@@ -68,7 +68,7 @@ class ContentViewFrontpage extends ContentView
 
 		// Create a user access object for the user
 		$access				= new stdClass();
-		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
+		$access->canEdit	= $user->authorize('com_content', 'edit', 'content', 'all');
 		$access->canEditOwn	= $user->authorize('com_content', 'edit', 'content', 'own');
 		$access->canPublish	= $user->authorize('com_content', 'publish', 'content', 'all');
 
@@ -137,7 +137,7 @@ class ContentViewFrontpage extends ContentView
 
 		$SiteName	= $mainframe->getCfg('sitename');
 
-		$task		= JRequest::getVar( 'task' );
+		$task		= JRequest::getCmd('task');
 
 		$linkOn		= null;
 		$linkText	= null;

@@ -251,7 +251,7 @@ class ContentController extends JController
 		}
 
 		// If the task was edit or cancel, we go back to the content item
-		$referer = JRequest::getVar('referer', JURI::Base() .'index.php', 'post');
+		$referer = JRequest::getVar('referer', JURI::Base() .'index.php', 'post', 'string');
 		$this->setRedirect($referer);
 	}
 
@@ -288,9 +288,8 @@ class ContentController extends JController
 	{
 		// Initialize variables
 		$db		= & JFactory::getDBO();
-		$keyref	= JRequest::getVar('keyref', null, 'default', 'string');
-		$keyref	= preg_replace('/[^A-Z0-9.-_]/i', '', $keyref);
-		$keyref	= JRequest::setVar('keyref', $keyref);
+		$keyref	= JRequest::getVar('keyref', null, 'default', 'cmd');
+		JRequest::setVar('keyref', $keyref);
 		$keyref	= $db->getEscaped($keyref);
 
 		// If no keyref left, throw 404

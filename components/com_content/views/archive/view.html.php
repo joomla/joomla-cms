@@ -49,12 +49,12 @@ class ContentViewArchive extends ContentView
 		$params = &$mainframe->getPageParameters('com_content');
 
 		// Request variables
-		$task 		= JRequest::getVar('task');
+		$task 		= JRequest::getCmd('task');
 		$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		$month		= JRequest::getVar( 'month' );
-		$year		= JRequest::getVar( 'year' );
-		$filter		= JRequest::getVar( 'filter' );
+		$month		= JRequest::getInt( 'month' );
+		$year		= JRequest::getInt( 'year' );
+		$filter		= JRequest::getString( 'filter' );
 
 		// Get some data from the model
 		$state = & $this->get( 'state' );

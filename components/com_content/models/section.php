@@ -419,8 +419,8 @@ class ContentModelSection extends JModel
 
 	function _buildContentOrderBy($state = 1)
 	{
-		$filter_order		= JRequest::getVar('filter_order');
-		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
+		$filter_order		= JRequest::getCmd('filter_order');
+		$filter_order_Dir	= JRequest::getCmd('filter_order_Dir');
 
 		$orderby = ' ORDER BY ';
 		if ($filter_order && $filter_order_Dir) {
@@ -496,8 +496,8 @@ class ContentModelSection extends JModel
 			// Archive Content
 			case -1:
 				// Get some request vars specific to this state
-				$year	= JRequest::getVar( 'year', date('Y') );
-				$month	= JRequest::getVar( 'month', date('m') );
+				$year	= JRequest::getInt( 'year', date('Y') );
+				$month	= JRequest::getInt( 'month', date('m') );
 
 				$where .= ' AND a.state = "-1"';
 				$where .= ' AND YEAR( a.created ) = '.$year;
@@ -514,7 +514,7 @@ class ContentModelSection extends JModel
 		 */
 		if ($params->get('filter'))
 		{
-			$filter = JRequest::getVar('filter', '', 'request');
+			$filter = JRequest::getString('filter', '', 'request');
 			if ($filter) {
 				// clean filter variable
 				$filter = JString::strtolower($filter);

@@ -52,7 +52,7 @@ class ContentViewSection extends ContentView
 		$links		= $params->def('num_links', 			4);
 
 		$limit	= $intro + $leading + $links;
-		JRequest::setVar('limit', $limit);
+		JRequest::setVar('limit', (int) $limit);
 
 		// Get some data from the model
 		$items		= & $this->get( 'Data');
@@ -117,7 +117,7 @@ class ContentViewSection extends ContentView
 
 		$SiteName	= $mainframe->getCfg('sitename');
 
-		$task		= JRequest::getVar( 'task' );
+		$task		= JRequest::getCmd('task');
 
 		$linkOn		= null;
 		$linkText	= null;

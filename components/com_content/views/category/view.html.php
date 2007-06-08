@@ -44,8 +44,8 @@ class ContentViewCategory extends ContentView
 		$params = &$mainframe->getPageParameters('com_content');
 
 		// Request variables
-		$task 		= JRequest::getVar('task');
-		$limit       = $mainframe->getUserStateFromRequest('com_content.limit', 'limit', $params->def('display_num', 0));
+		$task		= JRequest::getCmd('task');
+		$limit		= $mainframe->getUserStateFromRequest('com_content.limit', 'limit', $params->def('display_num', 0), 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// parameters
@@ -56,7 +56,7 @@ class ContentViewCategory extends ContentView
 
 		//In case we are in a blog view set the limit
 		if($limit ==  0) $limit = $intro + $leading + $links;
-		JRequest::setVar('limit', $limit);
+		JRequest::setVar('limit', (int) $limit);
 
 		// Get some data from the model
 		$items		= & $this->get( 'Data' );
@@ -146,7 +146,7 @@ class ContentViewCategory extends ContentView
 
 		$SiteName	= $mainframe->getCfg('sitename');
 
-		$task		= JRequest::getVar( 'task' );
+		$task		= JRequest::getCmd('task');
 
 		$linkOn		= null;
 		$linkText	= null;
@@ -215,9 +215,9 @@ class ContentViewCategory extends ContentView
 	function _buildSortLists()
 	{
 		// Table ordering values
-		$filter				= JRequest::getVar('filter');
-		$filter_order		= JRequest::getVar('filter_order');
-		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
+		$filter				= JRequest::getString('filter');
+		$filter_order		= JRequest::getCmd('filter_order');
+		$filter_order_Dir	= JRequest::getCmd('filter_order_Dir');
 
 		$lists['task'] = 'category';
 		$lists['filter'] = $filter;

@@ -117,8 +117,8 @@ class ContentModelArchive extends JModel
 
 	function _buildContentOrderBy()
 	{
-		$filter_order		= JRequest::getVar('filter_order');
-		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
+		$filter_order		= JRequest::getCmd('filter_order');
+		$filter_order_Dir	= JRequest::getCmd('filter_order_Dir');
 
 		$orderby = ' ORDER BY ';
 		if ($filter_order && $filter_order_Dir) {
@@ -155,11 +155,11 @@ class ContentModelArchive extends JModel
 		$where .= ' AND cc.published = 1';
 
 		$where .= ' AND a.state = \'-1\'';
-		$year	= JRequest::getVar( 'year' );
+		$year	= JRequest::getInt( 'year' );
 		if ($year) {
 			$where .= ' AND YEAR( a.created ) = \''.$year.'\'';
 		}
-		$month	= JRequest::getVar( 'month' );
+		$month	= JRequest::getInt( 'month' );
 		if ($month) {
 			$where .= ' AND MONTH( a.created ) = \''.$month.'\'';
 		}
@@ -168,7 +168,7 @@ class ContentModelArchive extends JModel
 		 * If we have a filter... lets tack the AND clause
 		 * for the filter onto the WHERE clause of the archive query.
 		 */
-		$filter = JRequest::getVar('filter', '', 'post');
+		$filter = JRequest::getString('filter', '', 'post');
 		if ($filter) {
 			// clean filter variable
 			$filter = JString::strtolower($filter);

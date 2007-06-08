@@ -162,7 +162,7 @@ class ContentViewArticle extends ContentView
 		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $article, & $params, $limitstart));
 		$article->event->afterDisplayContent = trim(implode("\n", $results));
 
-		$print = JRequest::getVar('print', '0');
+		$print = JRequest::getBool('print');
 
 		$this->assignRef('article', $article);
 		$this->assignRef('params' , $params);
