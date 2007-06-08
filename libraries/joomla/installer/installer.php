@@ -1124,7 +1124,7 @@ class JInstaller extends JObject
 	function _findManifest()
 	{
 		// Get an array of all the xml files from teh installation directory
-		$xmlfiles = JFolder::files($this->getPath('source'), '.xml$', true, true);
+		$xmlfiles = JFolder::files($this->getPath('source'), '.xml$', 1, true);
 		// If at least one xml file exists
 		if (count($xmlfiles) > 0) {
 			foreach ($xmlfiles as $file)
