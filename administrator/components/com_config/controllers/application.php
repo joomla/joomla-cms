@@ -281,7 +281,7 @@ class ConfigControllerApplication extends ConfigController
 		// CACHE SETTINGS
 		$config_array['caching'] 		= JRequest::getVar('caching', 0, 'post');
 		$config_array['cache_handler'] 	= JRequest::getVar('cache_handler', 'file', 'post');
-		$config_array['memcache_settings'] = serialize(JRequest::getVar('memcache_settings', array(), 'post'));
+		$config_array['memcache_settings'] = JRequest::getVar('memcache_settings', array(), 'post');
 
 		// FTP SETTINGS
 		$config_array['ftp_enable'] 	= JRequest::getVar('ftp_enable', 0, 'post');
@@ -352,7 +352,7 @@ class ConfigControllerApplication extends ConfigController
 
 		// Update the credentials with the new settings
 		JClientHelper::getCredentials('ftp', true);
-		
+
 		// Try to make configuration.php writeable
 		jimport('joomla.filesystem.path');
 		//if (!$ftp['enabled'] && JPath::isOwner($fname) && !JPath::setPermissions($fname, '0644')) {

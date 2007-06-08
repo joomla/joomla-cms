@@ -59,7 +59,12 @@ class JCacheStorageMemcache extends JCacheStorage
 		parent::__construct($options);
 
 		$config =& JFactory::getConfig();
-		$params	= unserialize(stripslashes($config->getValue('config.memcache_settings')));
+
+		$params = $config->getValue('config.memcache_settings');
+		if (!is_array($params)) {
+			$params = unserialize(stripslashes($params));
+		}
+
 		if (!$params) {
 			$params = array();
 		}
