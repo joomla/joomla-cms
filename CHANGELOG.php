@@ -39,6 +39,8 @@ Legend:
 
 07-Jun-2007
  + Added second arguement ($strict) to JComponentHelper methods
+ + JFolder::folders() and files() methods can search recursively to a specified depth
+ + JInstaller::_fineManifest() looks for manifest file to depth of '1' - could change to '0' ???
 
 07-June-2007 Louis Landry
  ^ Allow component configuration passthrough to menu items for list/radio types

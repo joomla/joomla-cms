@@ -78,7 +78,7 @@ class InstallerModelInstall extends JModel
 		}
 
 		// Get a database connector
-		$db = & JFactory::getDBO();
+		//$db = & JFactory::getDBO();
 
 		// Get an installer instance
 		$installer =& JInstaller::getInstance();

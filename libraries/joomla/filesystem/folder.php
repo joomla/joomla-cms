@@ -415,7 +415,7 @@ class JFolder
 	 *
 	 * @param	string	$path		The path of the folder to read
 	 * @param	string	$filter		A filter for folder names
-	 * @param	boolean	$recurse	True to recursively search into sub-folders
+	 * @param	mixed	$recurse	True to recursively search into sub-folders, or an integer to specify the maximum depth
 	 * @param	boolean	$fullpath	True to return the full path to the folders
 	 * @return	array	Folders in the given folder
 	 * @since 1.5
@@ -449,6 +449,9 @@ class JFolder
 					}
 				}
 				if ($recurse) {
+					if (is_integer($recurse)) {
+						$recurse--;
+					}
 					$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath);
 					$arr = array_merge($arr, $arr2);
 				}

@@ -1356,7 +1356,7 @@ class JInstallerHelper
 	function detectType($p_dir)
 	{
 		// Search the install dir for an xml file
-		$files = JFolder::files($p_dir, '\.xml$', true, true);
+		$files = JFolder::files($p_dir, '\.xml$', 1, true);
 
 		if (count($files) > 0)
 		{
