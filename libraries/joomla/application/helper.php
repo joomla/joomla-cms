@@ -223,7 +223,7 @@ class JApplicationHelper
 		$data['name'] = $element ? $element->data() : '';
 		$data['type'] = $element ? $xml->document->attributes("type") : '';
 
-		$element = & $xml->document->creationdate[0];
+		$element = & $xml->document->creationDate[0];
 		$data['creationdate'] = $element ? $element->data() : 'Unknown';
 
 		$element = & $xml->document->author[0];
