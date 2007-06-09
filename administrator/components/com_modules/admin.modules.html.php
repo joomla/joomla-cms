@@ -120,7 +120,7 @@ class HTML_modules
 					<td align="right">
 						<?php echo $page->getRowOffset( $i ); ?>
 					</td>
-					<td>
+					<td width="20">
 						<?php echo $checked; ?>
 					</td>
 					<td>
