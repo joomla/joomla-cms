@@ -1014,8 +1014,9 @@ class gacl_api extends gacl {
 
 				//Double check the ACL ID was generated.
 				if (empty($acl_id)) {
-					$this->debug_text("add_acl(): ACL_ID generation failed!");
-					return false;
+					// Not Required in Joomla! (yet)
+					//$this->debug_text("add_acl(): ACL_ID generation failed!");
+					//return false;
 				}
 			}
 

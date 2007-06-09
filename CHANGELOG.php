@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Jun-2007 Andrew Eddie
+ ^ Disabled ID check in gacl_api::add_acl method (not require in Joomla! yet)
+
 08-Jun-2007 Toby Patterson
  # Fixed [#4485] language/en-GB/en-GB.ini "DATE_FORMAT_LC3" and "DATE_FORMAT_LC4" are missing
  ! Various format strings ( eg DATE_FORMAT_LC4 ) no longer defined in the framework - use JText::_() instead
