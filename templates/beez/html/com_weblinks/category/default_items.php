@@ -52,13 +52,13 @@ foreach ($this->items as $item)
 		echo $item->image;
 	}
 	echo $item->link;
-	if ( $this->params->get( 'item_description' ) )
+	if ( $this->params->get( 'show_link_description' ) )
 	{
 		echo '<br />';
 		echo nl2br($item->description);
 	}
 	echo '</td>';
-	if ( $this->params->get( 'hits' ) )
+	if ( $this->params->get( 'show_link_hits' ) )
 	{
 		echo '<td headers="hits">' . $item->hits . '</td>';
 	}

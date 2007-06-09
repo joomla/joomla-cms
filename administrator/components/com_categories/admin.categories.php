@@ -514,7 +514,7 @@ function removeCategories( $section, $cid )
 		if ($row->numcat == 0) {
 			$cid[] = $row->id;
 		} else {
-			$err[] = $row->name;
+			$err[] = $row->title;
 		}
 	}
 

@@ -108,10 +108,7 @@ class HTML_newsfeeds
 					<td>
 						<?php
 						if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out ) ) {
-							?>
-							<?php echo $row->name; ?>
-							&nbsp;[ <i><?php echo JText::_( 'Checked Out' ); ?></i> ]
-							<?php
+							echo $row->name; 
 						} else {
 							?>
 							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Newsfeed' ); ?>">

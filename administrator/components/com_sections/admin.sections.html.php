@@ -121,7 +121,7 @@ class sections_html
 					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Title' );?>::<?php echo $row->title; ?>">
 					<?php
 					if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out ) ) {
-						echo $row->name;
+						echo $row->title;
 					} else {
 						?>
 						<a href="<?php echo JRoute::_( $link ); ?>">

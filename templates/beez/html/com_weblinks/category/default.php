@@ -35,7 +35,7 @@ if (@ $this->_models->weblinksmodelcategory->_category->image || @ $this->catego
 
 	if (isset ($image)) {
 		$wrap = '<div class="wrap_image">&nbsp;</div>';
-		echo '<img src="images/stories/' . $image . '" class="image_' . $image_align . '" />';
+		echo $image;
 	}
 
 	echo $this->category->description;
