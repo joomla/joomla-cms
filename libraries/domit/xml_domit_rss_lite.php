@@ -12,7 +12,7 @@
 **/
 
 if (!defined('DOMIT_RSS_INCLUDE_PATH')) {
-	define('DOMIT_RSS_INCLUDE_PATH', (dirname(__FILE__) . DS));
+	define('DOMIT_RSS_INCLUDE_PATH', (dirname(__FILE__) . DIRECTORY_SEPARATOR));
 }
 
 /** current version of DOMIT! RSS Lite */

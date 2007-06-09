@@ -30,6 +30,8 @@
  *
  ************************************************************************************/
 
+defined('GESHI_COMMENTS') or die();
+
 $language_data = array (
   'LANG_NAME' => 'MySQL',
   'COMMENT_SINGLE' => array(1 =>'--', 2 => '#'),

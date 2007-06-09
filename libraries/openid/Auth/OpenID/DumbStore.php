@@ -1,4 +1,6 @@
 <?php
+// Check to ensure this file is within the rest of the framework
+defined('JPATH_BASE') or die();
 
 /**
  * This file supplies a dumb store backend for OpenID servers and

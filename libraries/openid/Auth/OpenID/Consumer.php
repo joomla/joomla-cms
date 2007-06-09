@@ -1,4 +1,6 @@
 <?php
+// Check to ensure this file is within the rest of the framework
+defined('JPATH_BASE') or die();
 
 /**
  * This module documents the main interface with the OpenID consumer
