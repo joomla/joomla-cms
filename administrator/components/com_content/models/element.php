@@ -45,7 +45,7 @@ class ContentModelElement extends JModel
 	function getList()
 	{
 		global $mainframe;
-
+		
 		if (!empty($this->_list)) {
 			return $this->_list;
 		}
@@ -60,7 +60,6 @@ class ContentModelElement extends JModel
 		$option				= JRequest::getVar( 'option' );
 		$filter_order		= $mainframe->getUserStateFromRequest("articleelement.filter_order", 'filter_order', '');
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest("articleelement.filter_order_Dir", 'filter_order_Dir', '');
-		$filter_state		= $mainframe->getUserStateFromRequest("articleelement.filter_state", 'filter_state', '*');
 		$catid				= $mainframe->getUserStateFromRequest("articleelement.catid", 'catid', 0);
 		$filter_authorid	= $mainframe->getUserStateFromRequest("articleelement.filter_authorid", 'filter_authorid', 0);
 		$filter_sectionid	= $mainframe->getUserStateFromRequest("articleelement.filter_sectionid", 'filter_sectionid', -1);
@@ -100,20 +99,10 @@ class ContentModelElement extends JModel
 		if ($filter_authorid > 0) {
 			$where[] = 'c.created_by = '.$filter_authorid;
 		}
-		// Content state filter
-		if ($filter_state) {
-			if ($filter_state == 'P') {
-				$where[] = 'c.state = 1';
-			} else {
-				if ($filter_state == 'U') {
-					$where[] = 'c.state = 0';
-				} else if ($filter_state == 'A') {
-					$where[] = 'c.state = -1';
-				} else {
-					$where[] = 'c.state != -2';
-				}
-			}
-		}
+		
+		// Only published articles
+		$where[] = 'c.state = 1';
+			
 		// Keyword filter
 		if ($search) {
 			$where[] = 'LOWER( c.title ) LIKE "%'.$search.'%"';
