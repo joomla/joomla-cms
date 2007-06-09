@@ -366,7 +366,7 @@ class JLanguage extends JObject
 	*/
 	function _load( $filename, $extension = 'unknown' )
 	{
-		$result	= true;
+		$result	= false;
 
 		if ($content = @file_get_contents( $filename ))
 		{
