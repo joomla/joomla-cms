@@ -40,6 +40,7 @@ Legend:
 08-Jun-2007 Toby Patterson
  # Fixed [#4485] language/en-GB/en-GB.ini "DATE_FORMAT_LC3" and "DATE_FORMAT_LC4" are missing
  ! Various format strings ( eg DATE_FORMAT_LC4 ) no longer defined in the framework - use JText::_() instead
+ # Fixed [#4744] Error messages prevent successful installation
 
 08-Jun-2007 Enno Klasing
  # Fixed problems with XMLRPC server when JRequest::clean() was called

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version		$Id: classes.php 6774 2007-03-05 02:42:09Z friesengeist $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Installation
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -32,5 +32,3 @@ $controller->addModelPath( $here.DS.'models' );
 // Process the request
 $task	= JRequest::getVar( 'task' );
 $controller->execute( $task );
-
-?>

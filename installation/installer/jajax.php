@@ -365,4 +365,3 @@ class JAJAXLang extends JObject
  */
 $xajax->cleanBufferOff(); //Needed for suPHP compilance
 $xajax->processRequests();
-?>

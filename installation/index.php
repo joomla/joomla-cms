@@ -34,4 +34,3 @@ $mainframe->render();
  * RETURN THE RESPONSE
  */
 echo JResponse::toString();
-?>

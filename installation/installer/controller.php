@@ -53,17 +53,15 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		$result = $model->dbConfig();
-
-		if ( ! $result )
+		if ( ! $model->dbConfig() )
 		{
-			return $view->error();
-
+			$view->error();
+			return false;
 		}
 
 		$view->dbConfig();
 
-		return $result;
+		return true;
 	}
 
 	/**
@@ -84,13 +82,13 @@ class JInstallationController extends JController
 		{
 
 			/**
-			 * To get past this point, a language must be carried in the user's state.
+			 * To get past this point, a cookietest must be carried in the user's state.
 			 * If the state is not set, then cookies are probably disabled.
 			 **/
 
-			$confLang = $mainframe->getUserState('application.lang');
-
-			if ( ! $confLang && false )
+			$goodEnoughForMe = $mainframe->getUserState('application.cookietest');
+			
+			if ( ! $goodEnoughForMe )
 			{
 				$model	=& $this->getModel();
 				$model->setError(JText::_('WARNCOOKIESNOTENABLED'));
@@ -106,6 +104,9 @@ class JInstallationController extends JController
 			$session	=& JFactory::getSession();
 			$registry	=& $session->get('registry');
 			$registry->makeNameSpace('application');
+			
+			// Set the cookie test seed
+			$mainframe->setUserState('application.cookietest', 1);
 		}
 
 		parent::execute($task);
@@ -135,17 +136,15 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		$result =  $model->ftpConfig();
-
-		if ( ! $result )
+		if ( ! $model->ftpConfig() )
 		{
-			return $view->error();
-
+			$view->error();
+			return false;
 		}
 
 		$view->ftpConfig();
 
-		return $result;
+		return true;
 	}
 
 	/**
@@ -199,17 +198,15 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		$result = $model->license();
-
-		if ( ! $result )
+		if ( ! $model->license() )
 		{
-			return $view->error();
-
+			$view->error();
+			return false;
 		}
 
 		$view->license();
 
-		return $result;
+		return true;
 	}
 
 	/**
@@ -225,18 +222,16 @@ class JInstallationController extends JController
 	{
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
-
-		$result = $model->chooseLanguage();
-
-		if ( ! $result )
+		
+		if ( ! $model->chooseLanguage() )
 		{
-			return $view->error();
-
+			$view->error();
+			return false;
 		}
 
 		$view->chooseLanguage();
 
-		return $result;
+		return true;
 	}
 
 	/**
@@ -251,23 +246,21 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		$result = $model->makeDB();
-
-		if ( ! $result )
+		if ( ! $model->makeDB())
 		{
-			return $view->error();
+			$view->error();
+			return false;
 		}
 
-		$result = $model->ftpConfig( 1 );
-
-		if ( ! $result )
+		if ( ! $model->ftpConfig( 1 ) )
 		{
-			return $view->error();
+			$view->error();
+			return false;
 		}
 
 		$view->ftpConfig();
 
-		return $result;
+		return true;
 	}
 
 	/**
@@ -282,16 +275,15 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		$result =  $model->mainConfig();
-
-		if ( ! $result )
+		if ( ! $model->mainConfig() )
 		{
-			return $view->error();
+			$view->error();
+			return false;
 		}
 
 		$view->mainConfig();
 
-		return $result;
+		return true;
 	}
 
 	/**
@@ -308,16 +300,15 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		$result =  $model->preInstall();
-
-		if ( ! $result )
+		if ( ! $model->preInstall() )
 		{
-			return $view->error();
+			$view->error();
+			return true;
 		}
 
 		$view->preInstall();
 
-		return $result;
+		return true;
 	}
 
 	/**
@@ -332,24 +323,21 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		$result = $model->saveConfig();
-
-		if ( ! $result )
+		if ( ! $model->saveConfig() )
 		{
-			return $view->error();
+			$view->error();
+			return false;
 		}
 
-		$result = $model->finish();
-
-		if ( ! $result )
+		if ( ! $model->finish() )
 		{
-			return $view->error();
+			$view->error();
+			return false;
 		}
 
 		$view->finish();
 
-		return $result;
+		return true;
 	}
 
 }
-?>

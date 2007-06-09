@@ -787,7 +787,3 @@ class JInstallationModel extends JModel
 	}
 
 }
-
-
-
-?>
