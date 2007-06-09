@@ -187,8 +187,6 @@ class JHTMLList
 	*/
 	function category( $name, $section, $active = NULL, $javascript = NULL, $order = 'ordering', $size = 1, $sel_cat = 1 )
 	{
-		global $mainframe;
-
 		$db =& JFactory::getDBO();
 
 		$query = 'SELECT id AS value, title AS text'
@@ -205,12 +203,7 @@ class JHTMLList
 			$categories = $db->loadObjectList();
 		}
 
-		if ( count( $categories ) < 1 ) {
-			$mainframe->redirect( 'index.php?option=com_categories&section='. $section, JText::_( 'You must create a category first.' ) );
-		}
-
 		$category = JHTML::_('select.genericlist',   $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
-
 		return $category;
 	}
 
