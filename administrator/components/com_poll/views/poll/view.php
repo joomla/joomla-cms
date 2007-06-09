@@ -23,6 +23,8 @@ class PollView
 {
 	function showPolls( &$rows, &$pageNav, $option, &$lists )
 	{
+		$user =& JFactory::getUser();
+		
 		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_poll" method="post" name="adminForm">
@@ -92,8 +94,15 @@ class PollView
 						<?php echo $checked; ?>
 					</td>
 					<td>
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Poll' ); ?>">
+					<?php if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out )  ) {
+						echo $row->title;
+					} else {
+						?>
+						<a href="<?php echo JRoute::_( $link ); ?>" title="<?php echo JText::_( 'Edit Poll' ); ?>">
 							<?php echo $row->title; ?></a>
+						<?php
+					}
+					?>
 					</td>
 					<td align="center">
 						<?php echo $published;?>

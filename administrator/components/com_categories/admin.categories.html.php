@@ -140,8 +140,8 @@ class categories_html
 				<td>
 					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Title' );?>::<?php echo $row->title; ?>">
 					<?php
-					if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out_contact_category )  ) {
-						echo $row->name;
+					if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out )  ) {
+						echo $row->title;
 					} else {
 						?>
 						<a href="<?php echo JRoute::_( $link ); ?>">

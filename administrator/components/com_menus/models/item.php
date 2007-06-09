@@ -287,12 +287,31 @@ class MenusModelItem extends JModel
 		$component->load( $id );
 		return $component;
 	}
+	
+	function checkout($uid = null)
+	{
+		$id = JRequest::getVar('cid');
+		
+		// Make sure we have a user id to checkout the article with
+		if (is_null($uid)) {
+			$user	=& JFactory::getUser();
+			$uid	= $user->get('id');
+		}
+		// Lets get to it and checkout the thing...
+		$item	=& $this->getItem();
+		if(!$item->checkout($uid, $id[0])) {
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+
+		return true;
+	}
 
 	function store()
 	{
 		// Initialize variables
 		$db		=& JFactory::getDBO();
-		$row		=& $this->getItem();
+		$row	=& $this->getItem();
 		$post	= $this->_state->get( 'request' );
 
 		switch ($post['type'])
@@ -440,7 +459,7 @@ class MenusModelItem extends JModel
 
 		return true;
 	}
-
+	
 	/**
 	 * Delete menu items by type
 	 */

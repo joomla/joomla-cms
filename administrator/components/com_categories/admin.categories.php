@@ -209,7 +209,7 @@ function showCategories( $section, $option )
 	jimport('joomla.html.pagination');
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
-	$query = 'SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, COUNT( DISTINCT s2.checked_out ) AS checked_out'
+	$query = 'SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, COUNT( DISTINCT s2.checked_out ) AS checked_out_count'
 	. $content_add
 	. ' FROM #__categories AS c'
 	. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
@@ -320,7 +320,7 @@ function editCategory( )
 	}
 
 	if ( $cid[0] ) {
-		$row->checkout( $user->get('id') );
+		$row->checkout( $user->get('id'));
 	} else {
 		$row->published 	= 1;
 	}

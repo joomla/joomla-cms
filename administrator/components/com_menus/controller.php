@@ -44,6 +44,8 @@ class MenusController extends JController
 	function edit()
 	{
 		$model	=& $this->getModel( 'Item' );
+		$model->checkout();
+		
 		$view =& $this->getView( 'Item' );
 		$view->setModel( $model, true );
 		// Set the layout and display
