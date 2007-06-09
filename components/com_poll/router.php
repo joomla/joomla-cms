@@ -19,13 +19,7 @@
 function PollBuildRoute( &$query )
 {
 	$segments = array();
-
-	if (isset( $query['task'] ))
-	{
-		$segments[] = $query['task'];
-		unset($query['task']);
-	};
-
+	
 	if (isset( $query['id'] ))
 	{
 		$segments[] = $query['id'];
@@ -51,11 +45,7 @@ function PollParseRoute( $segments )
 
 	// Count route segments
 	$count	= count( $segments );
-	if ($count == 2) {
-		$vars['id']		= $segments[$count-1];
-		$vars['task']	= $segments[$count-2];
-	}
-	//Handle View and Identifier
+	$vars['id']		= $segments[$count-1];
 
 	return $vars;
 }

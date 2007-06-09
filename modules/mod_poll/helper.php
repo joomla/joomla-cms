@@ -25,7 +25,8 @@ class modPollHelper
 
 		if ($id = $params->get( 'id', 0 ))
 		{
-			$query = 'SELECT id, title'
+			$query = 'SELECT id, title,'
+			.' CASE WHEN CHAR_LENGTH(alias) THEN CONCAT_WS(\':\', id, alias) ELSE id END as slug '
 			.' FROM #__polls'
 			.' WHERE id = '.(int) $id
 			.' AND published = 1'

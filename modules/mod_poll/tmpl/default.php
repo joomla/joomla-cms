@@ -36,7 +36,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<div align="center">
 				<input type="submit" name="task_button" class="button" value="<?php echo JText::_('Vote'); ?>" />
 				&nbsp;
-				<input type="button" name="option" class="button" value="<?php echo JText::_('Results'); ?>" onclick="document.location.href='<?php echo JRoute::_("index.php?option=com_poll&task=results&id=$item->id"); ?>'" />
+				<input type="button" name="option" class="button" value="<?php echo JText::_('Results'); ?>" onclick="document.location.href='<?php echo JRoute::_("index.php?option=com_poll&id=$item->slug"); ?>'" />
 			</div>
 		</td>
 	</tr>

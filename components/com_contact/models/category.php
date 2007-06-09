@@ -79,7 +79,8 @@ class ContactModelCategory extends JModel
 		$orderBy	= @$options['order by'];
 
 		$select = 'cd.*, ' .
-				'cc.name AS category_name, cc.description AS category_description, cc.image AS category_image';
+				'cc.name AS category_name, cc.description AS category_description, cc.image AS category_image,'.
+				' CASE WHEN CHAR_LENGTH(cd.alias) THEN CONCAT_WS(\':\', cd.id, cd.alias) ELSE cd.id END as slug ';
 		$from	= '#__contact_details AS cd';
 
 		$joins[] = 'INNER JOIN #__categories AS cc on cd.catid = cc.id';
@@ -111,7 +112,6 @@ class ContactModelCategory extends JModel
 				($groupBy ? ' GROUP BY ' . $groupBy : '').
 				($orderBy ? ' ORDER BY ' . $orderBy : '');
 
-		//echo "<pre>$query</pre>";
 		return $query;
 	}
 

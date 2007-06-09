@@ -32,9 +32,9 @@ class ContactModelContact extends JModel
 	function _getContactQuery( &$options )
 	{
 		// TODO: Cache on the fingerprint of the arguments
-		$db		=& JFactory::getDBO();
+		$db			=& JFactory::getDBO();
 		$aid		= @$options['aid'];
-		$id		= @$options['id'];
+		$id			= @$options['id'];
 		$groupBy	= @$options['group by'];
 		$orderBy	= @$options['order by'];
 

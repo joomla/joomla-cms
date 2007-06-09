@@ -23,7 +23,7 @@ $menu 	= &JMenu::getInstance();
 $items	= $menu->getItems('link', 'index.php?option=com_poll');
 $itemid = isset($items[0]) ? $items[0]->id : '0';
 
-$list = modPollHelper::getList($params);
+$list   = modPollHelper::getList($params);
 $layout = JModuleHelper::getLayoutPath('mod_poll');
 $siteName = $mainframe->getCfg('live_site');
 

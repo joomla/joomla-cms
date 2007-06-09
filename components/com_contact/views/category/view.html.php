@@ -65,7 +65,7 @@ class ContactViewCategory extends JView
 		{
 			$contact =& $contacts[$i];
 
-			$contact->link	= JRoute::_('index.php?option=com_contact&view=contact&id='.$contact->id);
+			$contact->link	= JRoute::_('index.php?option=com_contact&view=contact&id='.$contact->slug);
 
 			$contact->odd	= $k;
 			$contact->count = $i;
