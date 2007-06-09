@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Jun-2007 Enno Klasing
+ # Disabled XML-RPC Server and Client when they are disabled in configuration.php, Client only reachable when debugging is on
+
 09-Jun-2007 Andrew Eddie
  ^ Disabled ID check in gacl_api::add_acl method (not require in Joomla! yet)
 

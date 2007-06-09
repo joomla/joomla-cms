@@ -19,7 +19,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Joomla! system checks
  */
 
-error_reporting( E_ALL );
 @set_magic_quotes_runtime( 0 );
 @ini_set('zend.ze1_compatibility_mode', '0');
 
@@ -35,6 +34,7 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
 
 // System includes
 require_once JPATH_LIBRARIES.DS.'loader.php';
+require_once JPATH_CONFIGURATION.DS.'configuration.php';
 
 // Clean the request before anything else is loaded
 jimport( 'joomla.base.object' );
@@ -42,10 +42,16 @@ jimport( 'joomla.environment.request' );
 // ALERT! DO NOT CALL JRequest::clean ANY LATER IN EXECUTION!
 JRequest::clean();
 
-require_once JPATH_LIBRARIES.DS.'loader.php';
+// System configuration
+$CONFIG = new JConfig();
 
-// File includes
-define( 'JPATH_INCLUDES', dirname(__FILE__) );
+if (@$CONFIG->error_reporting === 0) {
+	error_reporting( 0 );
+} else if (@$CONFIG->error_reporting > 0) {
+	error_reporting( $CONFIG->error_reporting );
+}
+
+unset( $CONFIG );
 
 /*
  * Joomla! framework loading

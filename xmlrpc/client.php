@@ -11,9 +11,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-/** Set flag that this is a parent file */
-define( "_JEXEC", 1 );
-
+// Set flag that this is a parent file
+define( '_JEXEC', 1 );
 define( 'JPATH_BASE', dirname(__FILE__) );
 define( 'DS', DIRECTORY_SEPARATOR );
 
@@ -21,16 +20,35 @@ require_once JPATH_BASE.DS.'includes'.DS.'defines.php';
 require_once JPATH_BASE.DS.'includes'.DS.'framework.php';
 require_once JPATH_BASE.DS.'includes'.DS.'application.php';
 
-//if (!$mainframe->getCfg('xmlrpc_server')) {
-//	die( 'XML-RPC server not enabled.' );
-//}
+// Templates etc. are not available for the XMLRPC application, therefore this simple error handler
+JError::setErrorHandling( E_ERROR,	 'die' );
+JError::setErrorHandling( E_WARNING, 'echo' );
+JError::setErrorHandling( E_NOTICE,	 'echo' );
 
+// create the mainframe object
+$mainframe = new JXMLRPC(3);
+
+// load the configuration
+$mainframe->loadConfiguration( JPATH_CONFIGURATION.DS.'configuration.php' );
+
+// Ensure that this application is enabled
+if (!($mainframe->getCfg('xmlrpc_server') && $mainframe->getCfg('debug'))) {
+	JError::raiseError(403, 'XML-RPC Client or Debugging not enabled.');
+}
+
+// Includes the required class file for the XML-RPC Client
 jimport('phpxmlrpc.xmlrpc');
 
-$host 	= JRequest::getString( 'host', $_SERVER['HTTP_HOST'], 'post' );
-$path 	= JRequest::getString( 'path', '', 'post' );
-$debug 	= JRequest::getVar( 'debug', 0, 'post', 'int' );
-$task 	= JRequest::getVar( 'task', 0, 'post', 'cmd' );
+// Get default values for the XMLRPC server host and path
+$uri	= JURI::getInstance();
+$host	= $uri->getHost();
+$path	= $uri->getPath();
+$path	= dirname($path).'/';
+
+$host	= JRequest::getString( 'host', $host, 'post' );
+$path	= JRequest::getString( 'path', $path, 'post' );
+$debug	= JRequest::getVar( 'debug', 0, 'post', 'int' );
+$task	= JRequest::getVar( 'task', 0, 'post', 'cmd' );
 
 $output	= '';
 $array	= array();
@@ -65,6 +83,7 @@ if ($task)
 				print $xmlrpcdoc->faultString();
 			}
 
+			$methods = array();
 			for ($i=0; $i < sizeof($array); $i++)
 			{
 				$var = new xmlrpcval($array[$i]);
@@ -108,8 +127,8 @@ if ($task)
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<meta name="generator" content="PSPad editor, www.pspad.com">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="PSPad editor, www.pspad.com" />
 	<title>Joomla! XML-RPC Test Client</title>
 	<style type="text/css">
 	body {
