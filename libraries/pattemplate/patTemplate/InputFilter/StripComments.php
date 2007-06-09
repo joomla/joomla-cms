@@ -45,8 +45,6 @@ class patTemplate_InputFilter_StripComments extends patTemplate_InputFilter
 	*/
 	function apply( $data )
 	{
-		//$data = preg_replace( 'ï¿½<!--.*-->ï¿½msU', '', $data );
-		//$data = preg_replace( 'ï¿½/\*.*\*/ï¿½msU', '', $data );
 		$data = preg_replace( '°<!--.*-->°msU', '', $data );
 		$data = preg_replace( '°/\*.*\*/°msU', '', $data );
 

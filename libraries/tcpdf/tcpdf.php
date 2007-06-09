@@ -1649,7 +1649,12 @@ if(!class_exists('TCPDF')) {
 				$file = str_replace(' ', '', $family).'.php';
 			}
 
-			include($this->_getfontpath().$file);
+			$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
+			if (file_exists($this->_getfontpath().$file)) {
+				include($this->_getfontpath().$file);
+			} else {
+				$this->Error('Could not include font definition file');
+			}
 
 			if(!isset($name) AND !isset($fpdf_charwidths)) {
 				$this->Error('Could not include font definition file');
@@ -1781,7 +1786,12 @@ if(!class_exists('TCPDF')) {
 							$file = $family;
 							$fontkey = $family;
 						}
-						include($this->_getfontpath().$file.'.php');
+						$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
+						if (file_exists($this->_getfontpath().$file.'.php')) {
+							include($this->_getfontpath().$file.'.php');
+						} else {
+							$this->Error("Could not include font metric file [".$fontkey."]: ".$this->_getfontpath().$file.".php");
+						}
 						if (($this->isunicode AND !isset($ctg)) OR ((!$this->isunicode) AND (!isset($fpdf_charwidths[$fontkey]))) ) {
 							$this->Error("Could not include font metric file [".$fontkey."]: ".$this->_getfontpath().$file.".php");
 						}

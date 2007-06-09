@@ -3,6 +3,9 @@
 // <edd@usefulinc.com>
 // $Id$
 
+// Check to ensure this file is within the rest of the framework
+defined('JPATH_BASE') or die();
+
 // Copyright (c) 1999,2000,2002 Edd Dumbill.
 // All rights reserved.
 //
