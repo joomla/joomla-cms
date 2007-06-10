@@ -54,20 +54,20 @@ class JArrayHelper
 	 *
 	 * @static
 	 * @param	array	$array		The array to map.
-	 * @param	boolean	$jobject	Optionally create a JObject
+	 * @param	string	$calss 		Name of the class to create
 	 * @return	object	The object mapped from the given array
 	 * @since	1.5
 	 */
-	function toObject(&$array, $toJObject = false)
+	function toObject(&$array, $class = 'stdClass')
 	{
 		$obj = null;
 		if (is_array($array))
 		{
-			$obj = $toJObject ? new JObject() : new stdClass();
+			$obj = new $class();
 			foreach ($array as $k => $v)
 			{
 				if (is_array($v)) {
-					$obj->$k = JArrayHelper::toObject($v, $toJObject);
+					$obj->$k = JArrayHelper::toObject($v, $class);
 				} else {
 					$obj->$k = $v;
 				}
