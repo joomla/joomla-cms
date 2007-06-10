@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Jun-2007
+ # Installer reports a more descriptive error when a file cannot be uploaded.
+
 09-Jun-2007 Enno Klasing
  # Disabled XML-RPC Server and Client when they are disabled in configuration.php, Client only reachable when debugging is on
 

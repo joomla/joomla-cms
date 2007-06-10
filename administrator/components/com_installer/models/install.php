@@ -131,6 +131,13 @@ class InstallerModelInstall extends JModel
 			return false;
 		}
 
+		// Check if there was a problem uploading the file.
+		if ( $userfile['error'] )
+		{
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('WARNINSTALLUPLOADERROR'));
+			return false;
+		}
+		
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile) || $userfile['size'] < 1) {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('No file selected'));
