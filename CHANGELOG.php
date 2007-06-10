@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Jun-2007 Rastin Mehr
+ # Fixed [#4694] Com_contact broken
+ ^ Modified sample_data.sql file to fix the issue
+
 10-Jun-2007
  # Installer reports a more descriptive error when a file cannot be uploaded.
 
