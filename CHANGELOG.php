@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Jun-2007 Rob Schley
+ # Fixed [#5646] Repeated strings at site admin file en-GB.com_installer.ini
+
 10-Jun-2007 Rastin Mehr
  # Fixed [#5628] gacl_api::get_group_id( ... ) now returns the right value, that was causing the registration process not going through properly.
  # Fixed [#4694] Com_contact broken
