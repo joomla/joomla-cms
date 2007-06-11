@@ -41,13 +41,13 @@ class BannerControllerClient extends JController
 		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
 		$context			= 'com_banners.bannerclient.list.';
-		$filter_order		= $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order', 	'a.name' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir',	'' );
-		$search 			= $mainframe->getUserStateFromRequest( $context.'search', 			'search', 			'' );
-		$search 			= $db->getEscaped( JString::strtolower( $search ) );
+		$filter_order		= $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order',		'a.name',	'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir',	'',			'word' );
+		$search				= $mainframe->getUserStateFromRequest( $context.'search',			'search',			'',			'string' );
+		$search				= $db->getEscaped( JString::strtolower( $search ) );
 
-		$limit		= (int) $mainframe->getUserStateFromRequest( 'global.list.limit',	'limit',		$mainframe->getCfg('list_limit'));
-		$limitstart	= (int) $mainframe->getUserStateFromRequest( $context.'limitstart',	'limitstart',	0);
+		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit',		'limit',		$mainframe->getCfg('list_limit'), 'int' );
+		$limitstart	= $mainframe->getUserStateFromRequest( $context.'limitstart',	'limitstart',	0, 'int' );
 
 		$where = array();
 
@@ -147,7 +147,7 @@ class BannerControllerClient extends JController
 		}
 		$table->checkin();
 
-		switch (JRequest::getVar( 'task' ))
+		switch (JRequest::getCmd( 'task' ))
 		{
 			case 'apply':
 				$this->setRedirect( 'index.php?option=com_banners&c=client&task=edit&cid[]='. $table->cid );

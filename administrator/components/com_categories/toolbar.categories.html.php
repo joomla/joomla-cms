@@ -23,7 +23,7 @@ class TOOLBAR_categories {
 	*/
 	function _EDIT()
 	{
-		$cid = JRequest::getVar( 'cid', array(0));
+		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
@@ -66,7 +66,7 @@ class TOOLBAR_categories {
 	*/
 	function _DEFAULT()
 	{
-		$section = JRequest::getVar( 'section' );
+		$section = JRequest::getCmd( 'section' );
 
 		JToolBarHelper::title( JText::_( 'Category Manager' ) .': <small><small>[ '. JText::_(JString::substr($section, 4)).' ]</small></small>', 'categories.png' );
 		JToolBarHelper::publishList();

@@ -46,14 +46,14 @@ class BannerControllerBanner extends JController
 		$db =& JFactory::getDBO();
 
 		$context			= 'com_banners.banner.list.';
-		$filter_order		= $mainframe->getUserStateFromRequest( $context.'filter_order', 	'filter_order', 	'cc.name' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir',	'' );
-		$filter_catid		= $mainframe->getUserStateFromRequest( $context.'filter_catid',		'filter_catid',		'' );
-		$filter_state 		= $mainframe->getUserStateFromRequest( $context.'filter_state', 	'filter_state', 	'*' );
-		$search 			= $mainframe->getUserStateFromRequest( $context.'search', 			'search', 			'' );
+		$filter_order		= $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order',		'cc.name',	'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir',	'',			'word' );
+		$filter_catid		= $mainframe->getUserStateFromRequest( $context.'filter_catid',		'filter_catid',		'',			'int' );
+		$filter_state 		= $mainframe->getUserStateFromRequest( $context.'filter_state',		'filter_state',		'',			'word' );
+		$search 			= $mainframe->getUserStateFromRequest( $context.'search',			'search',			'',			'string' );
 
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
-		$limitstart = $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0 );
+		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+		$limitstart = $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0, 'int' );
 
 		$where = array();
 
@@ -124,11 +124,12 @@ class BannerControllerBanner extends JController
 
 		if ($this->_task == 'edit') {
 			$cid 	= JRequest::getVar('cid', array(0), 'method', 'array');
+			$cid	= array((int) $cid[0]);
 		} else {
 			$cid 	= array( 0 );
 		}
 
-		$option = JRequest::getVar('option');
+		$option = JRequest::getCmd('option');
 
 		$lists = array();
 
@@ -195,7 +196,7 @@ class BannerControllerBanner extends JController
 		}
 
 		// Resets clicks when `Reset Clicks` button is used instead of `Save` button
-		$task = JRequest::getVar( 'task' );
+		$task = JRequest::getCmd( 'task' );
 		if ( $task == 'resethits' )
 		{
 			$row->clicks = 0;
@@ -203,7 +204,7 @@ class BannerControllerBanner extends JController
 		}
 
 		// Sets impressions to unlimited when `unlimited` checkbox ticked
-		$unlimited = JRequest::getVar( 'unlimited', 0 );
+		$unlimited = JRequest::getBool('unlimited');
 		if ($unlimited) {
 			$row->imptotal = 0;
 		}
@@ -300,7 +301,7 @@ class BannerControllerBanner extends JController
 		$db  		=& JFactory::getDBO();
 		$user		=& JFactory::getUser();
 		$cid 		= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$task		= JRequest::getVar( 'task' );
+		$task		= JRequest::getCmd( 'task' );
 		$publish	= ($task == 'publish');
 		$n			= count( $cid );
 

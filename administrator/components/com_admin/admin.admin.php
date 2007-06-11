@@ -19,7 +19,7 @@ require_once( JApplicationHelper::getPath( 'admin_html' ) );
 switch ($task) {
 
 	case 'redirect':
-		$goto = trim( JString::strtolower( JRequest::getVar( 'link' ) ) );
+		$goto = trim( JString::strtolower( JRequest::getString( 'link' ) ) );
 		if ($goto == 'null') {
 			$msg = JText::_( 'There is no link associated with this item' );
 			$mainframe->redirect( 'index.php?option=com_admin&task=listcomponents', $msg );

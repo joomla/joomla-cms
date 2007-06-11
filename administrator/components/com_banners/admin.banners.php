@@ -24,7 +24,7 @@ if (!$user->authorize( 'com_banners', 'manage' )) {
 // Set the table directory
 JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_banners'.DS.'tables');
 
-$controllerName = JRequest::getVar( 'c', 'banner' );
+$controllerName = JRequest::getCmd( 'c', 'banner' );
 
 if($controllerName == 'client') {
 	JSubMenuHelper::addEntry(JText::_('Banners'), 'index.php?option=com_banners');
@@ -45,7 +45,7 @@ switch ($controllerName)
 	case 'banner' :
 	case 'client':
 		// Temporary interceptor
-		$task = JRequest::getVar('task');
+		$task = JRequest::getCmd('task');
 		if ($task == 'listclients') {
 			$controllerName = 'client';
 		}
@@ -57,7 +57,7 @@ switch ($controllerName)
 		$controller = new $controllerName();
 
 		// Perform the Request task
-		$controller->execute( JRequest::getVar('task') );
+		$controller->execute( JRequest::getCmd('task') );
 
 		// Redirect if set by the controller
 		$controller->redirect();

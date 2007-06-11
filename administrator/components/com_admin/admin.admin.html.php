@@ -162,8 +162,8 @@ class HTML_admin_misc
 		}
 		$fullhelpurl = $helpurl . '/index.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=';
 
-		$helpsearch = JRequest::getVar( 'helpsearch' );
-		$page 		= JRequest::getVar( 'page', 'joomla.whatsnew15.html' );
+		$helpsearch = JRequest::getString('helpsearch');
+		$page 		= JRequest::getCmd('page', 'joomla.whatsnew15.html');
 		$toc 		= getHelpToc( $helpsearch );
 		$lang		=& JFactory::getLanguage();
 		$langTag = $lang->getTag();
