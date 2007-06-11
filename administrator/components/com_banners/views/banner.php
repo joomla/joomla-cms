@@ -108,9 +108,8 @@ class BannersViewBanner
 				$row->id 	= $row->bid;
 				$link 		= JRoute::_( 'index.php?option=com_banners&task=edit&cid[]='. $row->id );
 
-				$impleft 	= $row->imptotal - $row->impmade;
-				if( $impleft < 0 ) {
-					$impleft 	=  JText::_('unlimited');
+				if( $row->imptotal <= 0 ) {
+					$row->imptotal 	=  JText::_('unlimited');
 				}
 
 				if ( $row->impmade != 0 ) {
@@ -158,7 +157,7 @@ class BannersViewBanner
 						<?php echo $row->sticky ? JText::_( 'Yes' ) : 'No';?>
 					</td>
 					<td align="center">
-						<?php echo $row->impmade.' '.JText::_('of').' '.$impleft?>
+						<?php echo $row->impmade.' '.JText::_('of').' '.$row->imptotal?>
 					</td>
 					<td align="center">
 						<?php echo $row->clicks;?> -
