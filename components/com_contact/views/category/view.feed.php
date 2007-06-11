@@ -29,7 +29,7 @@ class ContactViewCategory extends JView
 
 		$db			=& JFactory::getDBO();
 		$document	=& JFactory::getDocument();
-		$document->link = JRoute::_( JURI::base().'index.php?option=com_contact&view=category&catid='.JRequest::getVar('catid', null, '', 'int'));
+		$document->link = JURI::base().JRoute::_('index.php?option=com_contact&view=category&catid='.JRequest::getVar('catid',null, '', 'int'));
 
 		$limit 		= JRequest::getVar('limit', 0, '', 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
@@ -62,7 +62,7 @@ class ContactViewCategory extends JView
 			$title = html_entity_decode( $title );
 
 			// url link to article
-			$link = JRoute::_( JURI::base().'index.php?option=com_contact&view=contact&id='. $row->id . '&catid='.$row->catid );
+			$link = JURI::base().JRoute::_('index.php?option=com_contact&view=contact&id='. $row->id .'&catid='.$row->catid );
 
 			// strip html from feed item description text
 			$description = $row->description;

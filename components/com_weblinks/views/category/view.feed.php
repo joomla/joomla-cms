@@ -33,7 +33,7 @@ class WeblinksViewCategory extends JView
 
 		$document =& JFactory::getDocument();
 
-		$document->link = JRoute::_( JURI::base().'index.php?option=com_weblinks&view=category&id='.JRequest::getVar('id', null, '', 'int'));
+		$document->link = JURI::base().JRoute::_('index.php?option=com_weblinks&view=category&id='.JRequest::getVar('id',null, '', 'int'));
 		$limit = '10';
 		JRequest::setVar('limit', $limit);
 
@@ -48,7 +48,7 @@ class WeblinksViewCategory extends JView
 			$title = html_entity_decode( $title );
 
 			// url link to article
-			$link = JRoute::_( JURI::base().'index.php?option=com_weblinks&view=weblink&id='. $item->id );
+			$link = JURI::base().JRoute::_('index.php?option=com_weblinks&view=weblink&id='. $item->id );
 
 			// strip html from feed item description text
 			$description = $item->description;

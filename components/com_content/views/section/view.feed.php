@@ -33,7 +33,7 @@ class ContentViewSection extends JView
 
 		// Lets get our data from the model
 		$rows = & $this->get( 'Data' );
-		$doc->link = JRoute::_( JURI::base().'index.php?option=com_content&view=section&id='.JRequest::getVar('id', null, '', 'int'));
+		$doc->link = JURI::base().JRoute::_('index.php?option=com_content&view=section&id='.JRequest::getVar('id',null, '', 'int'));
 
 		foreach ( $rows as $row )
 		{
@@ -43,7 +43,7 @@ class ContentViewSection extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$link = JRoute::_( JURI::base().'index.php?option=com_content&view=article&id='. $row->id );
+			$link = JURI::base().JRoute::_('index.php?option=com_content&view=article&id='. $row->id );
 
 			// strip html from feed item description text
 			$description	= $row->introtext;

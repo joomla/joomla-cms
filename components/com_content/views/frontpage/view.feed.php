@@ -35,7 +35,7 @@ class ContentViewFrontpage extends JView
 		$db			=& JFactory::getDBO();
 		$document	=& JFactory::getDocument();
 		$limit		= '10';
-		$document->link = JRoute::_(JURI::base().'index.php?option=com_content&view=frontpage');
+		$document->link = JURI::base().JRoute::_('index.php?option=com_content&view=frontpage');
 
 		JRequest::setVar('limit', $limit);
 		$rows = $this->get('data');
@@ -48,7 +48,7 @@ class ContentViewFrontpage extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$link = JRoute::_( JURI::base().'index.php?option=com_content&view=article&id='. $row->id );
+			$link = JURI::base().JRoute::_('index.php?option=com_content&view=article&id='. $row->id );
 
 			// strip html from feed item description text
 			$description	= $row->introtext;
