@@ -99,6 +99,12 @@ class HTML_users {
 				$task 	= $row->block ? 'unblock' : 'block';
 				$alt 	= $row->block ? JText::_( 'Enabled' ) : JText::_( 'Blocked' );
 				$link 	= 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $row->id. '';
+
+				if ($row->lastvisitDate == "0000-00-00 00:00:00") {
+					$lvisit = "Never";
+				} else {
+					$lvisit	= $row->lastvisitDate; //= JHTML::_('date',  $row->lastvisitDate, JText::_('DATE_FORMAT_LC4'));
+				}
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -129,7 +135,7 @@ class HTML_users {
 							<?php echo $row->email; ?></a>
 					</td>
 					<td nowrap="nowrap">
-						<?php echo JHTML::_('date',  $row->lastvisitDate, JText::_('DATE_FORMAT_LC4') ); ?>
+						<?php echo $lvisit; ?>
 					</td>
 					<td>
 						<?php echo $row->id; ?>
@@ -168,6 +174,11 @@ class HTML_users {
 		JHTML::_('behavior.tooltip');
 		$canBlockUser 	= $user->authorize( 'com_user', 'block user' );
 		$canEmailEvents = $acl->acl_check( 'workflow', 'email_events', 'users', $acl->get_group_name( $user->get('gid'), 'ARO' ) );
+
+		$lvisit = $user->get('lastvisitDate');
+		if ($lvisit == "0000-00-00 00:00:00") {
+			$lvisit = "Never";
+		}
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -313,7 +324,7 @@ class HTML_users {
 								<?php echo JText::_( 'Last Visit Date' ); ?>
 							</td>
 							<td>
-								<?php echo $user->get('lastvisitDate');?>
+								<?php echo $lvisit; ?>
 							</td>
 						</tr>
 						<?php
