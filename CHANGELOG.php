@@ -39,6 +39,7 @@ Legend:
 
 11-Jun-2007 Jason Kendall
  # Fixed [#5324] Section Blog layout date fix
+ # Fixed [#5322] Section Blog Layout - Catagory was not showing
 
 11-Jun-2007 Rob Schley
  # Fixed [#5646] Repeated strings at site admin file en-GB.com_installer.ini
