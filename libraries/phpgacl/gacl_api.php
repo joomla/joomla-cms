@@ -1461,6 +1461,7 @@ class gacl_api extends gacl {
 		} else {
 		  $query .= ' name='. $this->db->quote($name);
 		}
+		
 		$this->db->setQuery( $query );
 
 		$rows = $this->db->loadResultArray();
@@ -1480,11 +1481,9 @@ class gacl_api extends gacl {
 			$this->debug_text("get_group_id(): Returned $row_count rows");
 			return false;
 		}
-
-		$row = $rows[0];
-
+		
 		//Return the ID.
-		return $row[0];
+		return $rows[0];
 	}
 
 	/**

@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 10-Jun-2007 Rastin Mehr
+ # Fixed [#5628] gacl_api::get_group_id( ... ) now returns the right value, that was causing the registration process not going through properly.
  # Fixed [#4694] Com_contact broken
  ^ Modified sample_data.sql file to fix the issue
 
