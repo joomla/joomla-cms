@@ -226,7 +226,7 @@ class JHTML
 		}
 
 		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value).'" '.$attribs.' />'.
-				 '<a href="#" onclick="return showCalendar(\''.$control_name.$name.'\', \'y-mm-dd\');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>';
+				 '<a href="#" onclick="return showCalendar(\''.$id.'\', \'y-mm-dd\');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>';
 	}
 
 	/**
