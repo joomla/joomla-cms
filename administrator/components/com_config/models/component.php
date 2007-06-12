@@ -32,13 +32,13 @@ class ConfigModelComponent extends JModel
 
 		if ($instance == null)
 		{
-			$component	= JRequest::getVar( 'component' );
+			$component	= JRequest::getCmd( 'component' );
 
 			$table =& JTable::getInstance('component');
 			$table->loadByOption( $component );
 
 			// work out file path
-			if ($path = JRequest::getVar( 'path' )) {
+			if ($path = JRequest::getString( 'path' )) {
 				$path = JPath::clean( JPATH_SITE.DS.$path );
 				JPath::check( $path );
 			} else {

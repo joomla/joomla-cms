@@ -39,7 +39,7 @@ class ConfigControllerComponent extends JController
 	function edit()
 	{
 		JRequest::setVar('tmpl', 'component'); //force the component template
-		$component = JRequest::getVar( 'component' );
+		$component = JRequest::getCmd( 'component' );
 
 		if (empty( $component ))
 		{
@@ -71,7 +71,7 @@ class ConfigControllerComponent extends JController
 	 */
 	function save()
 	{
-		$component = JRequest::getVar( 'component' );
+		$component = JRequest::getCmd( 'component' );
 
 		$table =& JTable::getInstance('component');
 		if (!$table->loadByOption( $component ))

@@ -212,7 +212,7 @@ class ConfigControllerApplication extends ConfigController
 		//Save user and media manager settings
 		$table =& JTable::getInstance('component');
 
-		$userpost['params'] = JRequest::getVar('userparams');
+		$userpost['params'] = JRequest::getVar('userparams', array(), 'post', 'array');
 		$userpost['option'] = 'com_users';
 		$table->loadByOption( 'com_users' );
 		$table->bind( $userpost );
@@ -229,7 +229,7 @@ class ConfigControllerApplication extends ConfigController
 			return false;
 		}
 
-		$mediapost['params'] = JRequest::getVar('mediaparams');
+		$mediapost['params'] = JRequest::getVar('mediaparams', array(), 'post', 'array');
 		$mediapost['option'] = 'com_media';
 		$table->loadByOption( 'com_media' );
 		$table->bind( $mediapost );
@@ -250,71 +250,71 @@ class ConfigControllerApplication extends ConfigController
 		$config_array = array();
 
 		// SITE SETTINGS
-		$config_array['offline'] 	= JRequest::getVar('offline', 0, 'post');
-		$config_array['editor'] 	= JRequest::getVar('editor', 'tinymce', 'post');
-		$config_array['list_limit'] 	= JRequest::getVar('list_limit', 20, 'post');
-		$config_array['helpurl'] 	= JRequest::getVar('helpurl', 'http://help.joomla.org', 'post');
+		$config_array['offline']	= JRequest::getVar('offline', 0, 'post', 'int');
+		$config_array['editor']		= JRequest::getVar('editor', 'tinymce', 'post', 'cmd');
+		$config_array['list_limit']	= JRequest::getVar('list_limit', 20, 'post', 'int');
+		$config_array['helpurl']	= JRequest::getVar('helpurl', 'http://help.joomla.org', 'post', 'string');
 
 		// DEBUG
-		$config_array['debug'] 		= JRequest::getVar('debug', 0, 'post');
-		$config_array['debug_db'] 	= JRequest::getVar('debug_db', 0, 'post');
-		$config_array['debug_lang'] 	= JRequest::getVar('debug_lang', 0, 'post');
+		$config_array['debug']		= JRequest::getVar('debug', 0, 'post', 'int');
+		$config_array['debug_db']	= JRequest::getVar('debug_db', 0, 'post', 'int');
+		$config_array['debug_lang']	= JRequest::getVar('debug_lang', 0, 'post', 'int');
 
 		// SEO SETTINGS
-		$config_array['sef'] 			= JRequest::getVar('sef', 0, 'post');
-		$config_array['sef_rewrite'] 	= JRequest::getVar('sef_rewrite', 0, 'post');
+		$config_array['sef']			= JRequest::getVar('sef', 0, 'post', 'int');
+		$config_array['sef_rewrite']	= JRequest::getVar('sef_rewrite', 0, 'post', 'int');
 
 		// FEED SETTINGS
-		$config_array['feed_limit']		= JRequest::getVar('feed_limit', 10, 'post');
-		$config_array['feed_summary']	= JRequest::getVar('feed_summary', 0, 'post');
+		$config_array['feed_limit']		= JRequest::getVar('feed_limit', 10, 'post', 'int');
+		$config_array['feed_summary']	= JRequest::getVar('feed_summary', 0, 'post', 'int');
 
 		// SERVER SETTINGS
-		$config_array['gzip'] 		= JRequest::getVar('gzip', 0, 'post');
-		$config_array['error_reporting'] = JRequest::getVar('error_reporting', -1, 'post');
-		$config_array['xmlrpc_server'] = JRequest::getVar('xmlrpc_server', 0, 'post');
-		$config_array['log_path']	= JRequest::getVar('log_path', JPATH_ROOT.DS.'logs', 'post');
-		$config_array['tmp_path']	= JRequest::getVar('tmp_path', JPATH_ROOT.DS.'tmp', 'post');
+		$config_array['gzip']				= JRequest::getVar('gzip', 0, 'post', 'int');
+		$config_array['error_reporting']	= JRequest::getVar('error_reporting', -1, 'post', 'int');
+		$config_array['xmlrpc_server']		= JRequest::getVar('xmlrpc_server', 0, 'post', 'int');
+		$config_array['log_path']			= JRequest::getVar('log_path', JPATH_ROOT.DS.'logs', 'post', 'string');
+		$config_array['tmp_path']			= JRequest::getVar('tmp_path', JPATH_ROOT.DS.'tmp', 'post', 'string');
 
 		// LOCALE SETTINGS
-		$config_array['offset'] 	= JRequest::getVar('offset', 0, 'post');
+		$config_array['offset']				= JRequest::getVar('offset', 0, 'post', 'int');
 
 		// CACHE SETTINGS
-		$config_array['caching'] 		= JRequest::getVar('caching', 0, 'post');
-		$config_array['cache_handler'] 	= JRequest::getVar('cache_handler', 'file', 'post');
-		$config_array['memcache_settings'] = JRequest::getVar('memcache_settings', array(), 'post');
+		$config_array['caching']			= JRequest::getVar('caching', 0, 'post', 'int');
+		$config_array['cache_handler']		= JRequest::getVar('cache_handler', 'file', 'post', 'word');
+		$config_array['memcache_settings']	= JRequest::getVar('memcache_settings', array(), 'post');
 
 		// FTP SETTINGS
-		$config_array['ftp_enable'] 	= JRequest::getVar('ftp_enable', 0, 'post');
-		$config_array['ftp_host'] 	= JRequest::getVar('ftp_host', '', 'post');
-		$config_array['ftp_port'] 	= JRequest::getVar('ftp_port', '', 'post');
-		$config_array['ftp_user'] 	= JRequest::getVar('ftp_user', '', 'post');
-		$config_array['ftp_pass'] 	= JRequest::getVar('ftp_pass', '', 'post');
-		$config_array['ftp_root'] 	= JRequest::getVar('ftp_root', '', 'post');
+		$config_array['ftp_enable']	= JRequest::getVar('ftp_enable', 0, 'post', 'int');
+		$config_array['ftp_host']	= JRequest::getVar('ftp_host', '', 'post', 'string');
+		$config_array['ftp_port']	= JRequest::getVar('ftp_port', '', 'post', 'int');
+		$config_array['ftp_user']	= JRequest::getVar('ftp_user', '', 'post', 'string');
+		$config_array['ftp_pass']	= JRequest::getVar('ftp_pass', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$config_array['ftp_root']	= JRequest::getVar('ftp_root', '', 'post', 'string');
 
 		// DATABASE SETTINGS
-		$config_array['dbtype'] 		= JRequest::getVar('dbtype', 'mysql', 'post');
-		$config_array['host'] 		= JRequest::getVar('host', 'localhost', 'post');
-		$config_array['user'] 		= JRequest::getVar('user', '', 'post');
-		$config_array['db'] 			= JRequest::getVar('db', '', 'post');
-		$config_array['db_prefix'] 	= JRequest::getVar('db_prefix', 'jos_', 'post');
+		$config_array['dbtype']		= JRequest::getVar('dbtype', 'mysql', 'post', 'word');
+		$config_array['host']		= JRequest::getVar('host', 'localhost', 'post', 'string');
+		$config_array['user']		= JRequest::getVar('user', '', 'post', 'string');
+		$config_array['db']			= JRequest::getVar('db', '', 'post', 'string');
+		$config_array['db_prefix']	= JRequest::getVar('db_prefix', 'jos_', 'post', 'string');
 
 		// MAIL SETTINGS
-		$config_array['mailer'] 		= JRequest::getVar('mailer', 'mail', 'post');
-		$config_array['mailfrom'] 	= JRequest::getVar('mailfrom', '', 'post');
-		$config_array['fromname'] 	= JRequest::getVar('fromname', 'Joomla 1.5', 'post');
-		$config_array['sendmail'] 	= JRequest::getVar('sendmail', '/usr/sbin/sendmail', 'post');
-		$config_array['smtpauth'] 	= JRequest::getVar('smtpauth', 0, 'post');
-		$config_array['smtpuser'] 	= JRequest::getVar('smtpuser', '', 'post');
-		$config_array['smtppass'] 	= JRequest::getVar('smtppass', '', 'post');
-		$config_array['smtphost'] 	= JRequest::getVar('smtphost', '', 'post');
+		$config_array['mailer']		= JRequest::getVar('mailer', 'mail', 'post', 'word');
+		$config_array['mailfrom']	= JRequest::getVar('mailfrom', '', 'post', 'string');
+		$config_array['fromname']	= JRequest::getVar('fromname', 'Joomla 1.5', 'post', 'string');
+		$config_array['sendmail']	= JRequest::getVar('sendmail', '/usr/sbin/sendmail', 'post', 'string');
+		$config_array['smtpauth']	= JRequest::getVar('smtpauth', 0, 'post', 'int');
+		$config_array['smtpuser']	= JRequest::getVar('smtpuser', '', 'post', 'string');
+		$config_array['smtppass']	= JRequest::getVar('smtppass', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$config_array['smtphost']	= JRequest::getVar('smtphost', '', 'post', 'string');
 
 		// META SETTINGS
-		$config_array['MetaAuthor'] 	= JRequest::getVar('MetaAuthor', 1, 'post');
-		$config_array['MetaTitle'] 	= JRequest::getVar('MetaTitle', 1, 'post');
+		$config_array['MetaAuthor']	= JRequest::getVar('MetaAuthor', 1, 'post', 'int');
+		$config_array['MetaTitle']	= JRequest::getVar('MetaTitle', 1, 'post', 'int');
 
 		// SESSION SETTINGS
-		$config_array['lifetime'] 			= JRequest::getVar('lifetime', 0, 'post');
-		$config_array['session_handler'] 	= JRequest::getVar('session_handler', 'none', 'post');
+		$config_array['lifetime']			= JRequest::getVar('lifetime', 0, 'post', 'int');
+		$config_array['session_handler']	= JRequest::getVar('session_handler', 'none', 'post', 'word');
 
 		$config->loadArray($config_array);
 
@@ -322,19 +322,19 @@ class ConfigControllerApplication extends ConfigController
 		$config->setValue('config.password', $mainframe->getCfg('password'));
 
 		// handling of special characters
-		$sitename			= htmlspecialchars( JRequest::getVar( 'sitename', '', 'post' ) );
+		$sitename			= htmlspecialchars( JRequest::getVar( 'sitename', '', 'post', 'string' ) );
 		$config->setValue('config.sitename', $sitename);
 
-		$MetaDesc			= htmlspecialchars( JRequest::getVar( 'MetaDesc', '', 'post' ) );
+		$MetaDesc			= htmlspecialchars( JRequest::getVar( 'MetaDesc', '', 'post', 'string' ) );
 		$config->setValue('config.MetaDesc', $MetaDesc);
 
-		$MetaKeys			= htmlspecialchars( JRequest::getVar( 'MetaKeys', '', 'post' ) );
+		$MetaKeys			= htmlspecialchars( JRequest::getVar( 'MetaKeys', '', 'post', 'string' ) );
 		$config->setValue('config.MetaKeys', $MetaKeys);
 
 		// handling of quotes (double and single) and amp characters
 		// htmlspecialchars not used to preserve ability to insert other html characters
 		jimport('joomla.filter.output');
-		$offline_message	= JRequest::getVar( 'offline_message', '', 'post' );
+		$offline_message	= JRequest::getVar( 'offline_message', '', 'post', 'string' );
 		$offline_message	= JOUtputFilter::ampReplace( $offline_message );
 		$offline_message	= str_replace( '"', '&quot;', $offline_message );
 		$offline_message	= str_replace( "'", '&#039;', $offline_message );
