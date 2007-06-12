@@ -55,7 +55,7 @@ Legend:
  # Fixed [#4694] Com_contact broken
  ^ Modified sample_data.sql file to fix the issue
 
-10-Jun-2007
+10-Jun-2007 Toby Patterson
  # Installer reports a more descriptive error when a file cannot be uploaded.
 
 09-Jun-2007 Enno Klasing
