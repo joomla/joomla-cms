@@ -43,6 +43,7 @@ Legend:
  # Fixed [#5426] Incorrect building of URL for feeds - Thanks IAN
  # Fixed [#5442] Banner impressions left was incorrect
  # Fixed [#4747] Last visit date should read never if the user never activated account
+ # Fixed [#4862] Weblinks search was incorrectly building URL
 
 11-Jun-2007 Rob Schley
  # Fixed [#5646] Repeated strings at site admin file en-GB.com_installer.ini

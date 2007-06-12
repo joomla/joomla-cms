@@ -115,7 +115,7 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	. ' a.date AS created,'
 	. ' CONCAT_WS( " / ", "'.$section.'", b.title ) AS section,'
 	. ' "1" AS browsernav,'
-	. ' a.url AS href'
+	. ' CONCAT("index.php?option=com_weblinks&view=weblink&id=", a.id ) AS href'
 	. ' FROM #__weblinks AS a'
 	. ' INNER JOIN #__categories AS b ON b.id = a.catid'
 	. ' WHERE ('. $where .')'
