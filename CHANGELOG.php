@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Jun-2007 Toby Patterson
+ # Fixed [#532] Missing parameter for setting date format in showCalendar() javascript function
+ ! New DATE_FORMAT_JS1 key in en-GB.ini used to provide data format for JavaScript, used by calendar parameter
+
 11-Jun-2007 Jason Kendall
  # Fixed [#5324] Section Blog layout date fix
  # Fixed [#5322] Section Blog Layout - Catagory was not showing

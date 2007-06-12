@@ -9,9 +9,9 @@
 			<option value="1">Registered</option>
 			<option value="2">Special</option>
 		</param>
-		<param name="created" type="calendar" format="%Y-%m-%d %H:%M:%S" default="" label="Created Date" description="DETAILCREATED" />
-		<param name="publish_up" type="calendar" format="%Y-%m-%d %H:%M:%S" default="" label="Start Publishing" description="DETAILSTART" />
-		<param name="publish_down" type="calendar" format="%Y-%m-%d %H:%M:%S" default="" label="Finish Publishing" description="DETAILFINISH" />
+		<param name="created" type="calendar" default="" label="Created Date" description="DETAILCREATED" />
+		<param name="publish_up" type="calendar" default="" label="Start Publishing" description="DETAILSTART" />
+		<param name="publish_down" type="calendar" default="" label="Finish Publishing" description="DETAILFINISH" />
 	</params>
 	<params group="advanced">
 		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />

@@ -209,7 +209,7 @@ class JHTML
 		return $tip;
 	}
 	
-	function calendar($value, $name, $format = '%Y-%m-%d %H:%M:%S', $attribs = null, $control_name = '')
+	function calendar($value, $name, $format = 'y-mm-dd', $attribs = null, $control_name = '')
 	{
 		JHTML::_('behavior.calendar'); //load the calendar behavior
 		
@@ -226,7 +226,7 @@ class JHTML
 		}
 
 		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value).'" '.$attribs.' />'.
-				 '<a href="#" onclick="return showCalendar(\''.$id.'\', \'y-mm-dd\');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>';
+				 '<a href="#" onclick="return showCalendar(\''.$id.'\', \''.$format.'\');"><img class="calendar" src="images/blank.png" alt="calendar" /></a>';
 	}
 
 	/**

@@ -386,7 +386,7 @@ function checkCalendar(ev) {
 // This function shows the calendar under the element having the given id.
 // It takes care of catching "mousedown" signals on document and hiding the
 // calendar if the click was outside.
-function showCalendar(id) {
+function showCalendar(id, dateFormat) {
 	var el = document.getElementById(id);
 	if (calendar != null) {
 		// we already have one created, so just update it.
@@ -397,6 +397,12 @@ function showCalendar(id) {
 		var cal = new Calendar(true, null, selected, closeHandler);
 		calendar = cal;		// remember the calendar in the global
 		cal.setRange(1900, 2070);	// min/max year allowed
+		
+		if ( dateFormat )	// optional date format
+		{
+			cal.setDateFormat(dateFormat);
+		}
+		
 		calendar.create();		// create a popup calendar
 		calendar.parseDate(el.value); // set it to a new date
 	}
