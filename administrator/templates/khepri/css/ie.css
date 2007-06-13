@@ -6,5 +6,9 @@ div#toolbar-box {
 }
 
 #content-box {
-  float: left;
+	float: left;
+}
+
+input {
+	border: 0;
 }
