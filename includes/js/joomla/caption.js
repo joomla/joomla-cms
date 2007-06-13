@@ -47,6 +47,7 @@ var JCaption = new Class({
 			container.appendChild(text);
 		}
 		container.className   = this.selector.replace('.', '_');
+		container.className   = container.className + " " + align;
 		container.setAttribute("style","float:"+align);
 		container.style.width = width + "px";
 
@@ -54,7 +55,7 @@ var JCaption = new Class({
 });
 
 document.caption = null
-Window.onDomReady(function(){
+window.addEvent('load', function() {
   var caption = new JCaption('img.caption')
   document.caption = caption
 });
