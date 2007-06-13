@@ -576,7 +576,8 @@ class gacl {
 			 * 21-Jan-2006
 			 */
 			for ($i = 0; $i < count($rs->data); $i++) {
-				$retarr[] = $rs->data[$i]['id'];
+				//$retarr[] = $rs->data[$i]['id'];
+				$retarr[] = reset( $rs->data[$i] );
 			}
 
 			//Cache data.

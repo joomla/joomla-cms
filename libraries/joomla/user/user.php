@@ -253,8 +253,10 @@ class JUser extends JObject
 	 */
 	function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
 	{
-		$acl = & JFactory::getACL();
-		return $acl->acl_check( $acoSection, $aco,	'users', $this->usertype, $axoSection, $axo );
+		$acl	= & JFactory::getACL();
+		// the native calls (Check Mode 1) work on the user id, not the user type
+		$value	= $acl->getCheckMode() == 1 ? $this->id : $this->usertype;
+		return $acl->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
 	}
 
 	/**

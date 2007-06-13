@@ -227,6 +227,15 @@ class JAuthorization extends gacl_api
 	}
 
 	/**
+	 * Gets the chec mode
+	 * @return	int
+	 */
+	function getCheckMode()
+	{
+		return $this->_checkMode;
+	}
+
+	/**
 	 * Sets the check mode.
 	 * 
 	 * Only used if the full implementation of the phpGACL library is installed and configured
