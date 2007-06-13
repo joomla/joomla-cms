@@ -9,6 +9,5 @@ div#toolbar-box {
 	float: left;
 }
 
-input {
-	border: 0;
-}
+input { border-width: expression(this.type=="radio"?'0px':'1px'); }
+input { border-width: expression(this.type=="checkbox"?'0px':'1px'); }
