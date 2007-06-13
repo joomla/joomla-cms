@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Jun-2007 Laurens Vandeput
+ ^ Updated the phpxmlrpc library to version 2.2
+
 13-Jun-2007 Andy Miller
  # Fixed [#21] Caption CSS
  # Fixed issue with images getting overlayed with text on first load
@@ -637,7 +640,7 @@ You have to open the article preferences and change the setting to show and save
  ^ Removed JURI::resolve, moved functionality into JRoute::_()
 
 15-Feb-2007 Laurens Vandeput
-# Fixed [artf7572] : XML-RPC server fixed
+ # Fixed [artf7572] : XML-RPC server fixed
 
 15-Feb-2007 Andrew Eddie
  # Error deleting section
