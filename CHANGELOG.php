@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Jun-2007 Andy Miller
+ # Fixed [#21] Caption CSS
+ # Fixed issue with images getting overlayed with text on first load
+ # Fixed [#12] IE6 radio buttons and checkboxes with border
+
 12-Jun-2007 Toby Patterson
  # Fixed [#532] Missing parameter for setting date format in showCalendar() javascript function
  ! New DATE_FORMAT_JS1 key in en-GB.ini used to provide data format for JavaScript, used by calendar parameter
