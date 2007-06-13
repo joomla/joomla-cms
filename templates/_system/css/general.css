@@ -110,6 +110,27 @@ div.tooltip p {
 	margin: 0;
 }
 
+/* Caption fixes */
+.img_caption.left {
+	float: left;
+	margin-right: 1em;
+}
+
+.img_caption.right {
+	float: right;
+	margin-left: 1em;
+}
+
+.img_caption.left p {
+	clear: left;
+	text-align: center;
+}
+
+.img_caption.right p {
+	clear: right;
+	text-align: center;
+}
+
 /* Calendar */
 a img.calendar {
 	width: 16px;
