@@ -23,7 +23,7 @@
 			</tr>
 			<tr>
 				<td class="key">
-					<?php echo JText::_( 'Enable XML-RPC' ); ?>
+					<?php echo JText::_( 'ENABLE WEB SERVICES' ); ?>
 				</td>
 				<td>
 					<?php echo $lists['xmlrpc_server']; ?>
