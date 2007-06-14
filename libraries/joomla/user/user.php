@@ -362,7 +362,13 @@ class JUser extends JObject
 			// First the password
 			if (empty($array['password'])) {
 				$array['password'] = JUserHelper::genRandomPassword();
+			} 
+			else if ($array['password'] != $array['password2']) 
+			{
+					$this->_setError( JText::_( 'PASSWORD DO NOT MATCH.' ) );
+					return false;
 			}
+			
 			$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
 			$array['password'] = JUserHelper::getCryptedPassword($array['password']);
 
@@ -390,6 +396,12 @@ class JUser extends JObject
 			// We are updating an existing user.. so lets get down to it.
 			if (!empty($array['password']))
 			{
+				if ( $array['password'] != $array['password2'] ) 
+				{
+					$this->_setError( JText::_( 'PASSWORD DO NOT MATCH.' ) );
+					return false;
+				}
+				
 				$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
 				$array['password'] = JUserHelper::getCryptedPassword($array['password']);
 			}
