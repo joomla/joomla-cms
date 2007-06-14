@@ -53,18 +53,18 @@ class ContentController extends JController
 		// Get some variables from the request
 		$sectionid			= JRequest::getVar( 'sectionid', -1, '', 'int' );
 		$redirect			= $sectionid;
-		$option				= JRequest::getVar( 'option' );
+		$option				= JRequest::getCmd( 'option' );
 		$context			= 'com_content.viewcontent';
-		$filter_order		= $mainframe->getUserStateFromRequest( $context.'filter_order', 'filter_order', '');
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir', 'filter_order_Dir', '');
-		$filter_state		= $mainframe->getUserStateFromRequest( $context.'filter_state', 'filter_state', '*');
-		$catid				= $mainframe->getUserStateFromRequest( $context.'catid', 'catid', 0);
-		$filter_authorid	= $mainframe->getUserStateFromRequest( $context.'filter_authorid', 'filter_authorid', 0);
-		$filter_sectionid	= $mainframe->getUserStateFromRequest( $context.'filter_sectionid', 'filter_sectionid', -1);
-		$search				= $mainframe->getUserStateFromRequest( $context.'search', 'search', '');
+		$filter_order		= $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order',		'',	'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir',	'',	'word' );
+		$filter_state		= $mainframe->getUserStateFromRequest( $context.'filter_state',		'filter_state',		'',	'word' );
+		$catid				= $mainframe->getUserStateFromRequest( $context.'catid',			'catid',			0,	'int' );
+		$filter_authorid	= $mainframe->getUserStateFromRequest( $context.'filter_authorid',	'filter_authorid',	0,	'int' );
+		$filter_sectionid	= $mainframe->getUserStateFromRequest( $context.'filter_sectionid',	'filter_sectionid',	-1,	'int' );
+		$search				= $mainframe->getUserStateFromRequest( $context.'search',			'search',			'',	'string' );
 
-		$limit		= (int) $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
-		$limitstart	= (int) $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0);
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart	= $mainframe->getUserStateFromRequest($context.'limitstart', 'limitstart', 0, 'int');
 
 		//$where[] = "c.state >= 0";
 		$where[] = 'c.state != -2';
@@ -203,16 +203,16 @@ class ContentController extends JController
 		$db						=& JFactory::getDBO();
 
 		$sectionid				= JRequest::getVar( 'sectionid', 0, '', 'int' );
-		$option					= JRequest::getVar( 'option' );
+		$option					= JRequest::getCmd( 'option' );
 
-		$filter_order			= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_order", 'filter_order', 'sectname');
-		$filter_order_Dir		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_order_Dir", 'filter_order_Dir', '');
-		$catid					= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.catid", 'catid', 0);
-		$limit					= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
-		$limitstart				= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.limitstart", 'limitstart', 0);
-		$filter_authorid		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_authorid", 'filter_authorid', 0);
-		$filter_sectionid		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_sectionid", 'filter_sectionid', 0);
-		$search					= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.search", 'search', '');
+		$filter_order			= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_order",		'filter_order',		'sectname',	'cmd');
+		$filter_order_Dir		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_order_Dir",	'filter_order_Dir',	'',			'word');
+		$catid					= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.catid",				'catid',			0,			'int');
+		$limit					= $mainframe->getUserStateFromRequest('global.list.limit',									'limit',			$mainframe->getCfg('list_limit'), 'int');
+		$limitstart				= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.limitstart",			'limitstart',		0,			'int');
+		$filter_authorid		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_authorid",		'filter_authorid',	0,			'int');
+		$filter_sectionid		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_sectionid",	'filter_sectionid',	0,			'int');
+		$search					= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.search",				'search',			'',			'string');
 		$search					= $db->getEscaped(JString::strtolower($search));
 		$redirect				= $sectionid;
 
@@ -336,11 +336,12 @@ class ContentController extends JController
 		$user			= & JFactory::getUser();
 
 		$cid			= JRequest::getVar( 'cid', array(0), '', 'array' );
-		$id				= JRequest::getVar( 'id', @$cid[0], '', 'int' );
-		$option			= JRequest::getVar( 'option' );
+		JArrayHelper::toInteger($cid, array(0));
+		$id				= JRequest::getVar( 'id', $cid[0], '', 'int' );
+		$option			= JRequest::getCmd( 'option' );
 		$nullDate		= $db->getNullDate();
-		$contentSection = '';
-		$sectionid  	= 0;
+		$contentSection	= '';
+		$sectionid		= 0;
 
 		// Create and load the content table row
 		$row = & JTable::getInstance('content');
@@ -411,15 +412,15 @@ class ContentController extends JController
 		}
 		else
 		{
-			if (!$sectionid && @ JRequest::getVar('filter_sectionid')) {
-				$sectionid =JRequest::getVar('filter_sectionid');
+			if (!$sectionid && JRequest::getInt('filter_sectionid')) {
+				$sectionid =JRequest::getInt('filter_sectionid');
 			}
 
-			if (@JRequest::getVar('catid'))
+			if (JRequest::getInt('catid'))
 			{
-				$row->catid	 = JRequest::getVar('catid');
+				$row->catid	 = JRequest::getInt('catid');
 				$category 	 = & JTable::getInstance('category');
-				$category->load(JRequest::getVar('catid'));
+				$category->load($row->catid);
 				$sectionid = $category->section;
 			} else {
 				$row->catid = NULL;
@@ -573,12 +574,12 @@ class ContentController extends JController
 		$user		= & JFactory::getUser();
 
 		$details	= JRequest::getVar( 'details', array(), 'post', 'array');
-		$option		= JRequest::getVar( 'option' );
-		$task		= JRequest::getVar( 'task' );
+		$option		= JRequest::getCmd( 'option' );
+		$task		= JRequest::getCmd( 'task' );
 		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
-		$redirect	= JRequest::getVar( 'redirect', $sectionid, 'post' );
-		$menu		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
-		$menuid		= JRequest::getVar( 'menuid', 0, 'post' );
+		$redirect	= JRequest::getVar( 'redirect', $sectionid, 'post', 'int' );
+		$menu		= JRequest::getVar( 'menu', 'mainmenu', 'post', 'cmd' );
+		$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 		$nullDate	= $db->getNullDate();
 
 		$row = & JTable::getInstance('content');
@@ -634,7 +635,7 @@ class ContentController extends JController
 
 		// Get a state and parameter variables from the request
 		$row->state	= JRequest::getVar( 'state', 0, '', 'int' );
-		$params		= JRequest::getVar( 'params', '', 'post', 'array' );
+		$params		= JRequest::getVar( 'params', null, 'post', 'array' );
 
 		// Build parameter INI string
 		if (is_array($params))
@@ -647,7 +648,7 @@ class ContentController extends JController
 		}
 
 		// Get metadata string
-		$metadata = JRequest::getVar( 'meta', array(), 'post', 'array');
+		$metadata = JRequest::getVar( 'meta', null, 'post', 'array');
 		if (is_array($params))
 		{
 			$txt = array();
@@ -772,18 +773,17 @@ class ContentController extends JController
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
 
-		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$option	= JRequest::getVar( 'option' );
-		$task	= JRequest::getVar( 'task' );
-		$rtask	= JRequest::getVar( 'returntask', '', 'post' );
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+		$option	= JRequest::getCmd( 'option' );
+		$task	= JRequest::getCmd( 'task' );
+		$rtask	= JRequest::getCmd( 'returntask', '', 'post' );
 		if ($rtask) {
 			$rtask = '&task='.$rtask;
-		} else {
-			$rtask = '';
 		}
 
 		if (count($cid) < 1) {
-			$redirect	= JRequest::getVar( 'redirect', '', 'post' );
+			$redirect	= JRequest::getVar( 'redirect', '', 'post', 'int' );
 			$action		= ($state == 1) ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
 			$msg		= JText::_('Select an item to') . ' ' . JText::_($action);
 			$mainframe->redirect('index.php?option='.$option.$rtask.'&sectionid='.$redirect, $msg, 'error');
@@ -832,7 +832,7 @@ class ContentController extends JController
 		$cache->clean();
 
 		// Get some return/redirect information from the request
-		$redirect	= JRequest::getVar( 'redirect', $row->sectionid, 'post' );
+		$redirect	= JRequest::getVar( 'redirect', $row->sectionid, 'post', 'int' );
 
 		$mainframe->redirect('index.php?option='.$option.$rtask.'&sectionid='.$redirect, $msg);
 	}
@@ -848,9 +848,11 @@ class ContentController extends JController
 		// Initialize variables
 		$db		=& JFactory::getDBO();
 
-		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$option	= JRequest::getVar( 'option' );
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$option	= JRequest::getCmd( 'option' );
 		$msg	= null;
+
+		JArrayHelper::toInteger($cid);
 
 		if (count($cid) < 1) {
 			$msg = JText::_('Select an item to toggle');
@@ -901,15 +903,16 @@ class ContentController extends JController
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
-		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$option		= JRequest::getVar( 'option' );
-		$return		= JRequest::getVar( 'returntask', '', 'post' );
+		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$option		= JRequest::getCmd( 'option' );
+		$return		= JRequest::getCmd( 'returntask', '', 'post' );
 		$nullDate	= $db->getNullDate();
+
+		JArrayHelper::toInteger($cid);
 
 		if (count($cid) < 1) {
 			$msg =  JText::_('Select an item to delete');
 			$mainframe->redirect('index.php?option='.$option, $msg, 'error');
-
 		}
 
 		// Removed content gets put in the trash [state = -2] and ordering is always set to 0
@@ -994,13 +997,14 @@ class ContentController extends JController
 		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
 
+		JArrayHelper::toInteger($cid);
+
 		if (count($cid) < 1) {
 			$msg = JText::_('Select an item to move');
 			$mainframe->redirect('index.php?option=com_content', $msg, 'error');
 		}
 
 		//seperate contentids
-		JArrayHelper::toInteger( $cid );
 		$cids = implode(',', $cid);
 		// Articles query
 		$query = 'SELECT a.title' .
@@ -1037,24 +1041,28 @@ class ContentController extends JController
 
 		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
-		$option		= JRequest::getVar( 'option' );
+		$option		= JRequest::getCmd( 'option' );
 
-		$sectcat = JRequest::getVar( 'sectcat', '', 'post' );
-		list ($newsect, $newcat) = explode(',', $sectcat);
+		JArrayHelper::toInteger($cid, array(0));
 
-		if (!$newsect && !$newcat) {
+		$sectcat = JRequest::getVar( 'sectcat', '', 'post', 'string' );
+		$sectcat = explode(',', $sectcat);
+		$newsect = (int) @$sectcat[0];
+		$newcat = (int) @$sectcat[1];
+
+		if ((!$newsect || !$newcat) && ($sectcat !== array('0', ' 0'))) {
 			$mainframe->redirect("index.php?option=com_content&sectionid=$sectionid", JText::_('An error has occurred'));
 		}
 
 		// find section name
-		$query = 'SELECT a.name' .
+		$query = 'SELECT a.title' .
 				' FROM #__sections AS a' .
 				' WHERE a.id = '. $newsect;
 		$db->setQuery($query);
 		$section = $db->loadResult();
 
 		// find category name
-		$query = 'SELECT  a.name' .
+		$query = 'SELECT a.title' .
 				' FROM #__categories AS a' .
 				' WHERE a.id = '. $newcat;
 		$db->setQuery($query);
@@ -1096,7 +1104,7 @@ class ContentController extends JController
 		if ($section && $category) {
 			$msg = JText::sprintf('Item(s) successfully moved to Section', $total, $section, $category);
 		} else {
-			$msg = JText::_('Item(s) successfully moved to Static Content');
+			$msg = JText::sprintf('Item(s) successfully moved to Static Content', $total);
 		}
 
 		$mainframe->redirect('index.php?option='.$option.'&sectionid='.$sectionid, $msg);
@@ -1110,11 +1118,13 @@ class ContentController extends JController
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
-		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
-		$option		= JRequest::getVar( 'option' );
+		$option		= JRequest::getCmd( 'option' );
 
-		if (!is_array($cid) || count($cid) < 1) {
+		JArrayHelper::toInteger($cid);
+
+		if (count($cid) < 1) {
 			$msg = JText::_('Select an item to move');
 			$mainframe->redirect('index.php?option='.$option, $msg, 'error');
 		}
@@ -1153,17 +1163,20 @@ class ContentController extends JController
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
-		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
-		$option		= JRequest::getVar( 'option' );
+		$option		= JRequest::getCmd( 'option' );
+
+		JArrayHelper::toInteger($cid);
 
 		$item	= null;
-		$sectcat = JRequest::getVar( 'sectcat', '', 'post' );
+		$sectcat = JRequest::getVar( 'sectcat', '', 'post', 'string' );
 		//seperate sections and categories from selection
 		$sectcat = explode(',', $sectcat);
-		list ($newsect, $newcat) = $sectcat;
+		$newsect = (int) @$sectcat[0];
+		$newcat = (int) @$sectcat[1];
 
-		if (!$newsect && !$newcat) {
+		if (!$newsect || !$newcat) {
 			$mainframe->redirect('index.php?option=com_content&sectionid='.$sectionid, JText::_('An error has occurred'));
 		}
 
@@ -1251,12 +1264,12 @@ class ContentController extends JController
 		$db		= & JFactory::getDBO();
 
 		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$option	= JRequest::getVar( 'option' );
-		$uid	= $cid[0];
+		$option	= JRequest::getCmd( 'option' );
+		$cid	= $cid[0];
 
 		// Create and load the article table object
 		$row = & JTable::getInstance('content');
-		$row->load($uid);
+		$row->load($cid);
 		$row->access = $access;
 
 		// Ensure the article object is valid
@@ -1286,10 +1299,13 @@ class ContentController extends JController
 
 		$cid		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		$order		= JRequest::getVar( 'order', array (0), 'post', 'array' );
-		$redirect	= JRequest::getVar( 'redirect', 0, 'post' );
-		$rettask	= JRequest::getVar( 'returntask', '', 'post' );
+		$redirect	= JRequest::getVar( 'redirect', 0, 'post', 'int' );
+		$rettask	= JRequest::getVar( 'returntask', '', 'post', 'cmd' );
 		$total		= count($cid);
 		$conditions	= array ();
+
+		JArrayHelper::toInteger($cid, array(0));
+		JArrayHelper::toInteger($order, array(0));
 
 		// Instantiate an article table object
 		$row = & JTable::getInstance('content');
@@ -1346,7 +1362,7 @@ class ContentController extends JController
 		$document		=& JFactory::getDocument();
 		$db 			=& JFactory::getDBO();
 		$id				= JRequest::getVar( 'id', 0, '', 'int' );
-		$option			= JRequest::getVar( 'option' );
+		$option			= JRequest::getCmd( 'option' );
 
 		// Get the current default template
 		$query = 'SELECT template' .

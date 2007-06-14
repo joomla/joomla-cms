@@ -24,7 +24,7 @@ class TOOLBAR_contact {
 	* Draws the menu for a New Contact
 	*/
 	function _EDIT() {
-		$cid = JRequest::getVar( 'cid', array(0));
+		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 

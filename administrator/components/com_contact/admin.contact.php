@@ -27,12 +27,10 @@ require_once( JApplicationHelper::getPath( 'admin_html' ) );
 // Set the table directory
 JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
 
-$task	= JRequest::getCmd( 'task', null);
-$id 	= JRequest::getVar(  'id', 0, 'get', 'int' );
-$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-if (!is_array( $cid )) {
-	$cid = array(0);
-}
+$task	= JRequest::getCmd('task');
+$id 	= JRequest::getVar('id', 0, 'get', 'int');
+$cid 	= JRequest::getVar('cid', array(0), 'post', 'array');
+JArrayHelper::toInteger($cid, array(0));
 
 switch ($task)
 {
@@ -102,15 +100,15 @@ function showContacts( $option )
 	global $mainframe;
 
 	$db					=& JFactory::getDBO();
-	$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order', 		'filter_order', 	'cd.ordering' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( $option.'filter_state', 		'filter_state', 	'*' );
-	$filter_catid 		= $mainframe->getUserStateFromRequest( $option.'filter_catid', 		'filter_catid',		0 );
-	$search 			= $mainframe->getUserStateFromRequest( $option.'search', 			'search', 			'' );
+	$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order', 		'filter_order', 	'cd.ordering',	'cmd' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( $option.'filter_state', 		'filter_state', 	'',				'word' );
+	$filter_catid 		= $mainframe->getUserStateFromRequest( $option.'filter_catid', 		'filter_catid',		0,				'int' );
+	$search 			= $mainframe->getUserStateFromRequest( $option.'search', 			'search', 			'',				'string' );
 	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
-	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
-	$limitstart	= (int) $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0);
+	$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+	$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
 
 	$where = array();
 
@@ -186,12 +184,10 @@ function editContact( )
 	$db		=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
 
-	$cid 	= JRequest::getVar( 'cid', array(0));
-	$option = JRequest::getVar( 'option');
+	$cid 	= JRequest::getVar('cid', array(0), '', 'array');
+	$option = JRequest::getCmd('option');
 
-	if (!is_array( $cid )) {
-		$cid = array(0);
-	}
+	JArrayHelper::toInteger($cid, array(0));
 
 	$row =& JTable::getInstance('contact', 'Table');
 	// load the row from the db table
@@ -448,6 +444,8 @@ function saveOrder( &$cid )
 	$db			=& JFactory::getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
+	JArrayHelper::toInteger($order, array(0));
+
 	$row =& JTable::getInstance('contact', 'Table');
 	$groupings = array();
 

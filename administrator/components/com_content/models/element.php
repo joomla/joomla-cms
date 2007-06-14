@@ -57,17 +57,16 @@ class ContentModelElement extends JModel
 		// Get some variables from the request
 		$sectionid			= JRequest::getVar( 'sectionid', -1, '', 'int' );
 		$redirect			= $sectionid;
-		$option				= JRequest::getVar( 'option' );
-		$filter_order		= $mainframe->getUserStateFromRequest("articleelement.filter_order", 'filter_order', '');
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest("articleelement.filter_order_Dir", 'filter_order_Dir', '');
-		$catid				= $mainframe->getUserStateFromRequest("articleelement.catid", 'catid', 0);
-		$filter_authorid	= $mainframe->getUserStateFromRequest("articleelement.filter_authorid", 'filter_authorid', 0);
-		$filter_sectionid	= $mainframe->getUserStateFromRequest("articleelement.filter_sectionid", 'filter_sectionid', -1);
-		$limit				= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
-		$limitstart			= $mainframe->getUserStateFromRequest("articleelement.limitstart", 'limitstart', 0);
-		$search				= $mainframe->getUserStateFromRequest("articleelement.search", 'search', '');
+		$option				= JRequest::getCmd( 'option' );
+		$filter_order		= $mainframe->getUserStateFromRequest('articleelement.filter_order',		'filter_order',		'',	'cmd');
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest('articleelement.filter_order_Dir',	'filter_order_Dir',	'',	'word');
+		$catid				= $mainframe->getUserStateFromRequest('articleelement.catid',				'catid',			0,	'int');
+		$filter_authorid	= $mainframe->getUserStateFromRequest('articleelement.filter_authorid',		'filter_authorid',	0,	'int');
+		$filter_sectionid	= $mainframe->getUserStateFromRequest('articleelement.filter_sectionid',	'filter_sectionid',	-1,	'int');
+		$limit				= $mainframe->getUserStateFromRequest('global.list.limit',					'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart			= $mainframe->getUserStateFromRequest('articleelement.limitstart',			'limitstart',		0,	'int');
+		$search				= $mainframe->getUserStateFromRequest('articleelement.search',				'search',			'',	'string');
 		$search				= $db->getEscaped(trim(JString::strtolower($search)));
-
 
 		//$where[] = "c.state >= 0";
 		$where[] = "c.state != -2";

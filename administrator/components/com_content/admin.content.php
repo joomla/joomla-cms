@@ -24,7 +24,7 @@ require_once (JApplicationHelper::getPath('admin_html'));
 JHTML::addIncludePath( JPATH_COMPONENT.DS.'helper' );
 
 $controller = new ContentController();
-$task = JRequest::getVar('task');
+$task = JRequest::getCmd('task');
 switch (strtolower($task))
 {
 	case 'element':
