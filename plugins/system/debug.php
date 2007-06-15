@@ -127,6 +127,9 @@ class  plgSystemDebug extends JPlugin
 		echo '</div>';
 
 		$debug = ob_get_clean();
-		JResponse::appendBody($debug);
+		
+		$body = JResponse::getBody();
+		$body = str_replace('</body>', $debug.'</body>', $body);
+		JResponse::setBody($body);
 	}
 }
