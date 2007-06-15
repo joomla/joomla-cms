@@ -115,7 +115,7 @@ class TableWeblink extends JTable
 	 * @param object Database connector object
 	 * @since 1.0
 	 */
-	function TableWeblink(& $db) {
+	function __construct(& $db) {
 		parent::__construct('#__weblinks', 'id', $db);
 	}
 
