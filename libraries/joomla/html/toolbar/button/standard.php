@@ -37,7 +37,7 @@ class JButtonStandard extends JButton
 	{
 		$text	= JText::_($text);
 		$class	= $this->fetchIconClass($name);
-		$doTask	= $this->_getCommand($name, $task, $list, $hideMenu);
+		$doTask	= $this->_getCommand($text, $task, $list, $hideMenu);
 
 		$html	= "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
 		$html .= "<span class=\"$class\" title=\"$text\">\n";
@@ -74,7 +74,7 @@ class JButtonStandard extends JButton
 	function _getCommand($name, $task, $list, $hide)
 	{
 		$mesg		= JText::_( 'Please make a selection from the list to', true );
-		$todo		= JText::_( $name, true );
+		$todo		= JText::_( strtolower($name), true );
 		$hidecode	= $hide ? 'hideMainMenu();' : '';
 
 		if ($list) {
