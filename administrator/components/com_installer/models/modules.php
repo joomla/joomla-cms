@@ -44,8 +44,8 @@ class InstallerModelModules extends InstallerModel
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest( 'com_installer.modules.string', 'filter' ));
-		$this->setState('filter.client', $mainframe->getUserStateFromRequest( 'com_installer.modules.client', 'client', -1 ));
+		$this->setState('filter.string', $mainframe->getUserStateFromRequest( 'com_installer.modules.string', 'filter', '', 'string' ));
+		$this->setState('filter.client', $mainframe->getUserStateFromRequest( 'com_installer.modules.client', 'client', -1, 'int' ));
 	}
 
 	function _loadItems()

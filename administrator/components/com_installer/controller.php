@@ -81,7 +81,7 @@ class InstallerController extends JController
 	 */
 	function manage()
 	{
-		$type	= JRequest::getVar('type', 'components');
+		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel( $type );
 		$view	= &$this->getView( $type );
 
@@ -101,7 +101,7 @@ class InstallerController extends JController
 	 */
 	function enable()
 	{
-		$type	= JRequest::getVar('type', 'components');
+		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel( $type );
 		$view	= &$this->getView( $type );
 
@@ -110,6 +110,7 @@ class InstallerController extends JController
 
 		if (method_exists($model, 'enable')) {
 			$eid = JRequest::getVar('eid', array(), '', 'array');
+			JArrayHelper::toInteger($eid, array());
 			$model->enable($eid);
 		}
 
@@ -126,7 +127,7 @@ class InstallerController extends JController
 	 */
 	function disable()
 	{
-		$type	= JRequest::getVar('type', 'components');
+		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel( $type );
 		$view	= &$this->getView( $type );
 
@@ -135,6 +136,7 @@ class InstallerController extends JController
 
 		if (method_exists($model, 'disable')) {
 			$eid = JRequest::getVar('eid', array(), '', 'array');
+			JArrayHelper::toInteger($eid, array());
 			$model->disable($eid);
 		}
 
@@ -151,7 +153,7 @@ class InstallerController extends JController
 	 */
 	function remove()
 	{
-		$type	= JRequest::getVar('type', 'components');
+		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel( $type );
 		$view	= &$this->getView( $type );
 
@@ -159,6 +161,7 @@ class InstallerController extends JController
 		$view->assignRef('ftp', $ftp);
 
 		$eid = JRequest::getVar('eid', array(), '', 'array');
+		JArrayHelper::toInteger($eid, array());
 		$result = $model->remove($eid);
 
 		$view->setModel( $model, true );

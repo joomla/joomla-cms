@@ -27,12 +27,10 @@ JTable::addIncludePath(JPATH_COMPONENT.DS.DS.'tables');
 // Set the helper directory
 JHTML::addIncludePath( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_content'.DS.'helper' );
 
-$cid = JRequest::getVar( 'cid', array(0), 'post' );
-if (!is_array( $cid )) {
-	$cid = array(0);
-}
+$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
+JArrayHelper::toInteger($cid, array(0));
 
-switch ( JRequest::getVar( 'task' ) )
+switch ( JRequest::getCmd( 'task' ) )
 {
 	case 'publish':
 		changeFrontPage( $cid, 1, $option );
@@ -87,18 +85,18 @@ function viewFrontPage( $option )
 {
 	global $mainframe;
 
-	$db 				=& JFactory::getDBO();
-	$filter_order		= $mainframe->getUserStateFromRequest( $option.'.filter_order', 		'filter_order', 	'fpordering' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( $option.'.filter_state', 		'filter_state', 	'*' );
-	$catid 				= $mainframe->getUserStateFromRequest( $option.'.catid', 			'catid', 			0 );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( $option.'.filter_authorid', 	'filter_authorid', 	0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( $option.'.filter_sectionid', 	'filter_sectionid', 0 );
-	$search 			= $mainframe->getUserStateFromRequest( $option.'.search', 			'search', 			'' );
-	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$db					=& JFactory::getDBO();
+	$filter_order		= $mainframe->getUserStateFromRequest( $option.'.filter_order',		'filter_order',		'fpordering',	'cmd' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'.filter_order_Dir',	'filter_order_Dir',	'',				'word' );
+	$filter_state		= $mainframe->getUserStateFromRequest( $option.'.filter_state',		'filter_state',		'',				'word' );
+	$catid				= $mainframe->getUserStateFromRequest( $option.'.catid',			'catid',			0,				'int' );
+	$filter_authorid	= $mainframe->getUserStateFromRequest( $option.'.filter_authorid',	'filter_authorid',	0,				'int' );
+	$filter_sectionid	= $mainframe->getUserStateFromRequest( $option.'.filter_sectionid',	'filter_sectionid',	0,				'int' );
+	$search				= $mainframe->getUserStateFromRequest( $option.'.search',			'search',			'',				'string' );
+	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
-	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
-	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
+	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+	$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
 	JToolBarHelper::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );
 	JToolBarHelper::archiveList();

@@ -45,8 +45,8 @@ class InstallerModelLanguages extends InstallerModel
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest( "com_installer.languages.string", 'filter' ));
-		$this->setState('filter.client', $mainframe->getUserStateFromRequest( "com_installer.languages.client", 'client', -1 ));
+		$this->setState('filter.string', $mainframe->getUserStateFromRequest( "com_installer.languages.string", 'filter', '', 'string' ));
+		$this->setState('filter.client', $mainframe->getUserStateFromRequest( "com_installer.languages.client", 'client', -1, 'int' ));
 	}
 
 	function _loadItems()

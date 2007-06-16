@@ -44,8 +44,8 @@ class InstallerModelPlugins extends InstallerModel
 		parent::__construct();
 
 		// Set state variables from the request
-		$this->setState('filter.group', $mainframe->getUserStateFromRequest( "com_installer.plugins.group", 'group' ));
-		$this->setState('filter.string', $mainframe->getUserStateFromRequest( "com_installer.plugins.string", 'filter' ));
+		$this->setState('filter.group', $mainframe->getUserStateFromRequest( "com_installer.plugins.group", 'group', '', 'cmd' ));
+		$this->setState('filter.string', $mainframe->getUserStateFromRequest( "com_installer.plugins.string", 'filter', '', 'string' ));
 	}
 
 	function &getGroups()

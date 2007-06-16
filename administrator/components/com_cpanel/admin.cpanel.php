@@ -16,7 +16,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-switch (JRequest::getVar('task'))
+switch (JRequest::getCmd('task'))
 {
 	default:
 	{
