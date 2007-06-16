@@ -25,12 +25,9 @@ if (!$user->authorize( 'com_languages', 'manage' )) {
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-$task 	= trim( strtolower( JRequest::getVar( 'task' ) ) );
+$task 	= strtolower( JRequest::getCmd( 'task' ) );
 $cid 	= JRequest::getVar( 'cid', array(0), '', 'array' );
-
-if (!is_array( $cid )) {
-	$cid = array(0);
-}
+JArrayHelper::toInteger($cid, array(0));
 
 $client	= JRequest::getVar('client', 0, '', 'int');
 if ($client == 1) {
@@ -64,8 +61,8 @@ function viewLanguages()
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	$rows	= array ();
 
-	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'));
-	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
+	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
 	$rowid = 0;
 

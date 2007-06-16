@@ -15,15 +15,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$client = JRequest::getVar( 'client', 'site' );
-
 /**
 * @package		Joomla
 * @subpackage	Languages
 */
 class TOOLBAR_languages
 {
-	function _DEFAULT(&$client)
+	function _DEFAULT()
 	{
 		JToolBarHelper::title( JText::_( 'Language Manager' ), 'langmanager.png' );
 		JToolBarHelper::publishList('publish', 'Default');

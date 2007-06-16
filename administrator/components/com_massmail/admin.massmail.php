@@ -63,18 +63,17 @@ function sendMail()
 	$user 				=& JFactory::getUser();
 	$acl 				=& JFactory::getACL();
 
-	$mode				= JRequest::getVar( 'mm_mode', 0, 'post' );
-	$subject			= JRequest::getVar( 'mm_subject', '', 'post' );
-	$gou				= JRequest::getVar( 'mm_group', '0', 'post' );
-	$recurse			= JRequest::getVar( 'mm_recurse', 'NO_RECURSE', 'post' );
+	$mode				= JRequest::getVar( 'mm_mode', 0, 'post', 'int' );
+	$subject			= JRequest::getVar( 'mm_subject', '', 'post', 'string' );
+	$gou				= JRequest::getVar( 'mm_group', '0', 'post', 'int' );
+	$recurse			= JRequest::getVar( 'mm_recurse', 'NO_RECURSE', 'post', 'word' );
 	// pulls message inoformation either in text or html format
 	if ( $mode ) {
-		$message_body	= $_POST['mm_message'];
+		$message_body	= JRequest::getVar( 'mm_message', '', 'post', 'string', JREQUEST_ALLOWRAW );
 	} else {
 		// automatically removes html formatting
-		$message_body	= JRequest::getVar( 'mm_message', '', 'post' );
+		$message_body	= JRequest::getVar( 'mm_message', '', 'post', 'string' );
 	}
-	$message_body 		= stripslashes( $message_body );
 
 	if (!$message_body || !$subject) {
 		$mainframe->redirect( 'index.php?option=com_massmail', JText::_( 'Please fill in the form correctly' ) );
@@ -84,7 +83,7 @@ function sendMail()
 	$to = $acl->get_group_objects( $gou, 'ARO', $recurse );
 
 	$rows = array();
-	if ( count( $to['users'] ) || $gou === '0' ) {
+	if ( count( $to['users'] ) || $gou === 0 ) {
 		// Get sending email address
 		$query = 'SELECT email'
 		. ' FROM #__users'
@@ -97,7 +96,7 @@ function sendMail()
 		$query = 'SELECT email'
 		. ' FROM #__users'
 		. ' WHERE id != ' .$user->get('id')
-		. ( $gou !== '0' ? ' AND id IN (' . implode( ',', $to['users'] ) . ')' : '' )
+		. ( $gou !== 0 ? ' AND id IN (' . implode( ',', $to['users'] ) . ')' : '' )
 		;
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList();
