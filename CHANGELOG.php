@@ -37,7 +37,7 @@ Legend:
 - -> Removed
 ! -> Note
 
-=======
+
 14-Jun-2007 Laurens Vandeput
  ^ Updated the phpxmlrpc library to version 2.2
 
@@ -49,7 +49,6 @@ Legend:
  # Fixed issue with images getting overlayed with text on first load
  # Fixed [#12] IE6 radio buttons and checkboxes with border
 
->>>>>>> .r7745
 12-Jun-2007 Toby Patterson
  # Fixed [#532] Missing parameter for setting date format in showCalendar() javascript function
  ! New DATE_FORMAT_JS1 key in en-GB.ini used to provide data format for JavaScript, used by calendar parameter
