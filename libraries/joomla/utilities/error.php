@@ -716,9 +716,17 @@ class JException extends JObject
 	*/
 	function getBacktrace( $formatted=false )
 	{
-		if ($formatted && is_array( $this->backtrace )) {
+		if (isset( $this->backtrace )) {
+			$trace = &$this->backtrace;
+		} else {
+			$trace = function_exists( 'debug_backtrace' ) ? debug_backtrace() : null;
+		}
+			
+		if ($formatted && is_array( $trace ))
+		{
 			$result = '';
-			foreach( $this->backtrace as $back) {
+			foreach ($trace as $back)
+			{
 				if (isset($back['file']) && strpos($back['file'], 'error.php') === false) {
 					$result .= '<br />'.$back['file'].':'.$back['line'];
 				}

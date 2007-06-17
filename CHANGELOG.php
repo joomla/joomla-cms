@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Jun-2007 Andrew Eddie
+ ^ Allowed JException::getBacktrace to be called statically
 
 14-Jun-2007 Laurens Vandeput
  ^ Updated the phpxmlrpc library to version 2.2
