@@ -53,13 +53,6 @@ class ContentController extends JController
 	{
 		$user	=& JFactory::getUser();
 		// Create a user access object for the user
-		
-		// Make sure you are logged in and have the necessary access rights
-		if ($user->get('gid') < 19) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-			return;
-		}
-		
 		$access					= new stdClass();
 		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('com_content', 'edit', 'content', 'own');
@@ -76,7 +69,7 @@ class ContentController extends JController
 			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}
 		
-		if( $model->get('id') > 1 && $model->get('created_by') != $user->id ) {
+		if( $model->get('id') > 1 && $user->get('gid') <= 19 && $model->get('created_by') != $user->id ) {
 			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}
 
@@ -119,6 +112,9 @@ class ContentController extends JController
 		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('com_content', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
+		if (!($access->canEdit || $access->canEditOwn)) {
+			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
+		}
 
 		//get data from the request
 		$model = $this->getModel('article');
@@ -129,20 +125,7 @@ class ContentController extends JController
 
 		//preform access checks
 		$isNew = ((int) $post['id'] < 1);
-		if ($isNew)
-		{
-			// new record
-			if (!($access->canEdit || $access->canEditOwn)) {
-				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
-			}
-		}
-		else
-		{
-			// existing record
-			if (!($access->canEdit || ($access->canEditOwn)) && $model->get('created_by') != $user->id ) {
-				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
-			}
-		}
+		
 
 		if ($model->store($post)) {
 			$msg = JText::_( 'Article Saved' );
