@@ -38,8 +38,11 @@ class JElementCalendar extends JElement
 
 		$format	= ( $node->attributes('format') ? $node->attributes('format') : 'y-mm-dd' );
 		$class	= $node->attributes('class') ? $node->attributes('class') : 'inputbox';
-
-		return JHTML::_('calendar', $value, $name, $format, array('class' => $class), $control_name);
+		
+		$id   = $control_name.$name;
+		$name = $control_name.'['.$name.']';
+	
+		return JHTML::_('calendar', $value, $name, $id, $format, array('class' => $class));
 	}
 }
 ?>

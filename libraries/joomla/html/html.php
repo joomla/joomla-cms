@@ -209,20 +209,12 @@ class JHTML
 		return $tip;
 	}
 
-	function calendar($value, $name, $format = 'y-mm-dd', $attribs = null, $control_name = '')
+	function calendar($value, $name, $id, $format = 'y-mm-dd', $attribs = null)
 	{
 		JHTML::_('behavior.calendar'); //load the calendar behavior
 
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString( $attribs );
-		}
-
-		// make id same as name
-		$id = $name;
-
-		if($control_name) {
-			$id   = $control_name.$name;
-			$name = $control_name.'['.$name.']';
 		}
 
 		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value).'" '.$attribs.' />'.
