@@ -51,11 +51,34 @@ class ContentController extends JController
 	*/
 	function edit()
 	{
+		$user	=& JFactory::getUser();
+		// Create a user access object for the user
+		
+		// Make sure you are logged in and have the necessary access rights
+		if ($user->get('gid') < 19) {
+			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			return;
+		}
+		
+		$access					= new stdClass();
+		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
+		$access->canEditOwn		= $user->authorize('com_content', 'edit', 'content', 'own');
+		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
+		
 		// Create the view
 		$view = & $this->getView('article', 'html');
 
 		// Get/Create the model
 		$model = & $this->getModel('Article');
+		
+		// new record
+		if (!($access->canEdit || $access->canEditOwn)) {
+			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
+		}
+		
+		if( $model->get('id') > 1 && $model->get('created_by') != $user->id ) {
+			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
+		}
 
 		// Get the id of the article to display and set the model
 		$id = JRequest::getVar('id', 0, '', 'int');
@@ -116,7 +139,7 @@ class ContentController extends JController
 		else
 		{
 			// existing record
-			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id')))) {
+			if (!($access->canEdit || ($access->canEditOwn)) && $model->get('created_by') != $user->id ) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 			}
 		}

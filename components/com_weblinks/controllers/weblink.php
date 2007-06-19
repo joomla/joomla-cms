@@ -111,7 +111,7 @@ class WeblinksControllerWeblink extends WeblinksController
 			JUtility::sendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $post['title'], $user->get('username'), JURI::base());
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=categories', false), $msg);
+		$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblink', false), $msg);
 	}
 
 	/**

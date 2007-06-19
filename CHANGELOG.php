@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Jun-2007 Rastin Mehr
+ # Fixed unreported bug, Whe front-end user submits a weblink they get an error view "form" does not exist
+ # Fixed [#169] Article submission fails for both users "Registered" and "Author"
+ * Fixed security flaw so Authors and Registered users would not be able to edit articles that don't belong to them
+ ^ in the SITE ContentController::edit implemented security checking to make sure user has the right to edit, doesn't attempt to edit an article that doesn't belong to her
+
 18-Jun-2007 Andrew Eddie
  ^ Allowed JException::getBacktrace to be called statically
 
