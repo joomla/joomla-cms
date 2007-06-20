@@ -220,14 +220,14 @@ class JRouter extends JObject
 
 			//Set active menu item
 			$item =& $menu->getActive();
-
+			
 			//Set the information in the request
 			JRequest::set($item->query, 'get', true );
 			JRequest::set($this->_vars, 'get', true );
-
+			
 			//Set the itemid in the request
 			JRequest::setVar('Itemid', $item->id);
-
+			
 			return true;
 		}
 

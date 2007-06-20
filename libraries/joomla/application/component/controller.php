@@ -175,7 +175,8 @@ class JController extends JObject
 		$methods[] = 'display';
 
 		// Iterate through methods and map tasks
-		foreach ( $methods as $method ) {
+		foreach ( $methods as $method ) 
+		{
 			if ( substr( $method, 0, 1 ) != '_' ) {
 				$this->_methods[] = strtolower( $method );
 				// auto register public methods as tasks
@@ -426,11 +427,11 @@ class JController extends JObject
 	/**
 	 * Method to get the controller name
 	 *
-	 * The model name by default parsed using the classname, or it can be set
-	 * by passing a $config['name’] in the class constructor
+	 * The dispatcher name by default parsed using the classname, or it can be set
+	 * by passing a $config['name'] in the class constructor
 	 *
 	 * @access	public
-	 * @return	string The name of the model
+	 * @return	string The name of the dispatcher
 	 * @since	1.5
 	 */
 	function getName()

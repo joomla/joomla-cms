@@ -62,7 +62,7 @@ class JModel extends JObject
 	 */
 	function __construct($config = array())
 	{
-		$this->_db	= &JFactory::getDBO();
+		$this->_db	  = &JFactory::getDBO();
 		$this->_state = new JObject();
 
 		//set the view name

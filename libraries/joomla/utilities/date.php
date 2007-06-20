@@ -221,9 +221,8 @@ class JDate extends JObject
 		$tz = date('O');
 
 		$tzOffset = ((intval(substr($tz,1,2))*60) + intval(substr($tz,-2)))*60;
-		if (substr($tz,0,1) == '-')
-		{
-		$tzOffset = -$tzOffset;
+		if (substr($tz,0,1) == '-') {
+			$tzOffset = -$tzOffset;
 		}
 
 		return $tzOffset;
