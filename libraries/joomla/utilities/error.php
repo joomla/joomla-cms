@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 // Import library dependencies
 jimport('joomla.i18n.language');
 
-define('JERR_PHP5', version_compare(phpversion(), '5') >= 0);
 // Error Definition: Illegal Options
 define( 'JERR_ILLEGAL_OPTIONS', 1 );
 // Error Definition: Callback does not exist
