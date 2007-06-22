@@ -27,8 +27,10 @@ class MenusHelper
 	function getMenuTypeList()
 	{
 		$db = &JFactory::getDBO();
-		$query = 'SELECT *' .
-				' FROM #__menu_types';
+		$query = 'SELECT a.*, SUM(b.home) AS home' .
+				' FROM #__menu_types AS a' .
+				' LEFT JOIN #__menu AS b ON b.menutype = a.menutype' .
+				' GROUP BY a.id';
 		$db->setQuery( $query );
 		return $db->loadObjectList();
 	}
