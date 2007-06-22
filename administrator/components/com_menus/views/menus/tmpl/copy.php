@@ -34,7 +34,7 @@
 		<td valign="top" width="25%">
 			<strong><?php echo JText::_( 'Menu being copied' ); ?>:</strong>
 			<br />
-			<font color="#000066"><strong><?php echo $this->table->type; ?></strong></font>
+			<font color="#000066"><strong><?php echo $this->table->menutype; ?></strong></font>
 			<br /><br />
 			<strong><?php echo JText::_( 'Menu Items being copied' ); ?>:</strong>
 			<br />
@@ -56,5 +56,5 @@
 
 <input type="hidden" name="option" value="com_menus" />
 <input type="hidden" name="task" value="" />
-<input type="hidden" name="type" value="<?php echo $this->table->type; ?>" />
+<input type="hidden" name="type" value="<?php echo $this->table->menutype; ?>" />
 </form>

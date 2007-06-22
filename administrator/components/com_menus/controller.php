@@ -92,7 +92,7 @@ class MenusController extends JController
 	function cancelItem()
 	{
 		global $mainframe;
-		$menutype = $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu' );
+		$menutype = $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu', 'string' );
 		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype);
 	}
 
@@ -121,8 +121,9 @@ class MenusController extends JController
 	function doCopy()
 	{
 		// Get some variables from the request
-		$menu	= JRequest::getVar( 'menu', '', 'post' );
-		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$menu	= JRequest::getVar( 'menu', '', 'post', 'string' );
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
 
 		$model	=& $this->getModel( 'List' );
 
@@ -151,8 +152,9 @@ class MenusController extends JController
 	function doMove()
 	{
 		// Get some variables from the request
-		$menu	= JRequest::getVar( 'menu', '', 'post' );
-		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$menu	= JRequest::getVar( 'menu', '', 'post', 'string' );
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
 
 		$model	=& $this->getModel( 'List' );
 
@@ -170,8 +172,9 @@ class MenusController extends JController
 	function publish()
 	{
 		// Get some variables from the request
+		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$menutype	= JRequest::getVar('menutype');
+		JArrayHelper::toInteger($cid);
 
 		$model =& $this->getModel( 'List' );
 		if ($model->setItemState($cid, 1)) {
@@ -179,7 +182,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
 	}
 
 	/**
@@ -188,8 +191,9 @@ class MenusController extends JController
 	function unpublish()
 	{
 		// Get some variables from the request
+		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$menutype	= JRequest::getVar('menutype');
+		JArrayHelper::toInteger($cid);
 
 		$model =& $this->getModel( 'List' );
 		if ($model->setItemState($cid, 0)) {
@@ -197,7 +201,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
 	}
 
 	/**
@@ -205,12 +209,14 @@ class MenusController extends JController
 	*/
 	function orderup()
 	{
-		$menutype	= JRequest::getVar('menutype');
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
-		if ($cid[0]) {
+		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+
+		if (isset($cid[0]) && $cid[0]) {
 			$id = $cid[0];
 		} else {
-			$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, JText::_('No Items Selected') );
+			$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, JText::_('No Items Selected') );
 			return false;
 		}
 
@@ -220,7 +226,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
 	}
 
 	/**
@@ -228,12 +234,14 @@ class MenusController extends JController
 	*/
 	function orderdown()
 	{
-		$menutype	= JRequest::getVar('menutype');
-		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
-		if ($cid[0]) {
+		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+
+		if (isset($cid[0]) && $cid[0]) {
 			$id = $cid[0];
 		} else {
-			$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, JText::_('No Items Selected') );
+			$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, JText::_('No Items Selected') );
 			return false;
 		}
 
@@ -243,7 +251,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
 	}
 
 	/**
@@ -251,8 +259,9 @@ class MenusController extends JController
 	*/
 	function saveorder()
 	{
-		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$menutype	= JRequest::getVar('menutype');
+		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
 
 		$model =& $this->getModel( 'List' );
 		if ($model->setOrder($cid, $menutype)) {
@@ -260,7 +269,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
 	}
 
 	/**
@@ -269,8 +278,9 @@ class MenusController extends JController
 	function accesspublic()
 	{
 		// Get some variables from the request
+		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$menutype	= JRequest::getVar('menutype');
+		JArrayHelper::toInteger($cid);
 
 		$model =& $this->getModel( 'List' );
 		if ($model->setAccess($cid, 0)) {
@@ -278,7 +288,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
 	}
 
 	/**
@@ -287,8 +297,9 @@ class MenusController extends JController
 	function accessregistered()
 	{
 		// Get some variables from the request
+		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$menutype	= JRequest::getVar('menutype');
+		JArrayHelper::toInteger($cid);
 
 		$model =& $this->getModel( 'List' );
 		if ($model->setAccess($cid, 1)) {
@@ -296,7 +307,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
 	}
 
 	/**
@@ -305,8 +316,9 @@ class MenusController extends JController
 	function accessspecial()
 	{
 		// Get some variables from the request
+		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$menutype	= JRequest::getVar('menutype');
+		JArrayHelper::toInteger($cid);
 
 		$model =& $this->getModel( 'List' );
 		if ($model->setAccess($cid, 2)) {
@@ -314,7 +326,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
 	}
 
 	/**
@@ -323,23 +335,37 @@ class MenusController extends JController
 	function setdefault()
 	{
 		// Get some variables from the request
+		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$menutype	= JRequest::getVar('menutype');
+		JArrayHelper::toInteger($cid);
+
+		if (isset($cid[0]) && $cid[0]) {
+			$id = $cid[0];
+		} else {
+			$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, JText::_('No Items Selected') );
+			return false;
+		}
 
 		$model =& $this->getModel( 'List' );
-		if ($model->setHome($cid[0])) {
+		if ($model->setHome($id)) {
 			$msg = JText::_( 'Default Menu Item Set' );
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
 	}
 
 	function remove()
 	{
 		// Get some variables from the request
+		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$menutype	= JRequest::getVar('menutype');
+		JArrayHelper::toInteger($cid);
+
+		if (!count($cid)) {
+			$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, JText::_('No Items Selected') );
+			return false;
+		}
 
 		$model =& $this->getModel( 'List' );
 		if ($n = $model->toTrash($cid)) {
@@ -347,7 +373,7 @@ class MenusController extends JController
 		} else {
 			$msg = $model->getError();
 		}
-		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menutype, $msg );
+		$this->setRedirect( 'index.php?option=com_menus&task=view&menutype='.$menu, $msg );
 	}
 
 	/**
@@ -395,7 +421,7 @@ class MenusController extends JController
 		global $mainframe;
 
 		$db		=& JFactory::getDBO();
-		$id		= JRequest::getVar( 'id', 0, '', 'int' );
+		$id		= JRequest::getVar( 'id', 0, 'post', 'int' );
 
 		$oldType =& JTable::getInstance('menutypes' );
 		$oldType->load( $id );
@@ -416,7 +442,7 @@ class MenusController extends JController
 
 		if ($isNew)
 		{
-			if ($title = JRequest::getVar( 'module_title', $menuType->menutype, 'post' ))
+			if ($title = JRequest::getVar( 'module_title', $menuType->menutype, 'post', 'string' ))
 			{
 				$module =& JTable::getInstance( 'module');
 				$module->title 		= $title;
@@ -515,7 +541,7 @@ class MenusController extends JController
 	 */
 	function doDeleteMenu()
 	{
-		$id = (int) JRequest::getVar( 'id', 0 );
+		$id = JRequest::getVar( 'id', 0, '', 'int' );
 		if ($id <= 0) {
 			JError::raiseError( 500, JText::_( 'Invalid ID provided' ) );
 			return false;
@@ -552,9 +578,9 @@ class MenusController extends JController
 		global $mainframe;
 
 		$db				=& JFactory::getDBO();
-		$type	 		= JRequest::getVar( 'type', null, 'post' );
-		$menu_name 		= JRequest::getVar( 'menu_name', 'New Menu', 'post' );
-		$module_name 	= JRequest::getVar( 'module_name', 'New Module', 'post' );
+		$type			= JRequest::getVar( 'type', '', 'post', 'string' );
+		$menu_name		= JRequest::getVar( 'menu_name', 'New Menu', 'post', 'string' );
+		$module_name	= JRequest::getVar( 'module_name', 'New Module', 'post', 'string' );
 
 		// check for unique menutype for new menu copy
 		$query = 'SELECT params' .
@@ -574,6 +600,7 @@ class MenusController extends JController
 
 		// copy the menu items
 		$mids 		= JRequest::getVar( 'mids', array(), 'post', 'array' );
+		JArrayHelper::toInteger($mids);
 		$total 		= count( $mids );
 		$copy 		=& JTable::getInstance('menu');
 		$original 	=& JTable::getInstance('menu');
