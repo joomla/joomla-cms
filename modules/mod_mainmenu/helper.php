@@ -66,7 +66,7 @@ class modMainMenuHelper
 			$string = $cache->call(array('modMainMenuHelper', 'buildXML'), $params);
 			$xmls[$type] = $string;
 		}
-		
+
 		// Get document
 		$xml = JFactory::getXMLParser('Simple');
 		$xml->loadString($xmls[$type]);
@@ -137,6 +137,9 @@ class modMainMenuHelper
 				// Include the new menu class
 				$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
 				if ($xml) {
+					if ($class = $params->get('class_sfx')) {
+						$xml->addAttribute('class', $class);
+					}
 					echo JOutputFilter::ampReplace($xml->toString());
 				}
 				break;

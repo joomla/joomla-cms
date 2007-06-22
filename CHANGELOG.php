@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Jun-2007 Andrew Eddie
+ + Added support to set the class of the <ul> in mod_mainmenu via the class suffix parameter
+
 19-Jun-2007 Rastin Mehr
  # Fixed unreported bug, Whe front-end user submits a weblink they get an error view "form" does not exist
  # Fixed [#169] Article submission fails for both users "Registered" and "Author"
