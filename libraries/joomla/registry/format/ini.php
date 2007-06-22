@@ -43,19 +43,28 @@ class JRegistryFormatINI extends JRegistryFormat {
 		$prepend = '';
 
 		// First handle groups (or first level key/value pairs)
-		foreach (get_object_vars( $object ) as $key => $level1) {
-
-			if (is_object($level1)) {
+		foreach (get_object_vars( $object ) as $key => $level1)
+		{
+			if (is_object($level1))
+			{
 				// This field is an object, so we treat it as a section
 				$retval .= "[".$key."]\n";
-				foreach (get_object_vars( $level1 ) as $key => $level2) {
-					if (!is_object($level2) && !is_array($level2)) {
+				foreach (get_object_vars( $level1 ) as $key => $level2)
+				{
+					if (!is_object($level2) && !is_array($level2))
+					{
+						// Join lines
+						$level2		= str_replace( array( "\r\n", "\n" ), '\\n', $level2 );
 						$retval .= $key."=".$level2."\n";
 					}
 				}
 				$retval .= "\n";
-			} else {
-				$prepend .= $key."=".$level1."\n";
+			}
+			else
+			{
+				// Join lines
+				$level1		= str_replace( array( "\r\n", "\n" ), '\\n', $level1 );
+				$prepend	.= $key."=".$level1."\n";
 			}
 		}
 		return $prepend."\n".$retval;
