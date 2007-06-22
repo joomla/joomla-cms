@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Jun-2007 Toby Patterson
+ # Fixed [#5700] Vote button on poll is rating article
+
 22-Jun-2007 Andrew Eddie
  + Added support to set the class of the <ul> in mod_mainmenu via the class suffix parameter
  # Fixed truncation of multi-line (eg, textbox) parameters
