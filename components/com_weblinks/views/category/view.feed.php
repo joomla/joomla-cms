@@ -48,7 +48,7 @@ class WeblinksViewCategory extends JView
 			$title = html_entity_decode( $title );
 
 			// url link to article
-			$link = JURI::base().JRoute::_('index.php?option=com_weblinks&view=weblink&id='. $item->id );
+			$link = JRoute::_('index.php?option=com_weblinks&view=weblink&id='. $item->id );
 
 			// strip html from feed item description text
 			$description = $item->description;

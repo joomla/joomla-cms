@@ -43,7 +43,7 @@ class ContentViewSection extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$link = JURI::base().JRoute::_('index.php?option=com_content&view=article&id='. $row->id );
+			$link = JRoute::_('index.php?option=com_content&view=article&id='. $row->id );
 
 			// strip html from feed item description text
 			$description	= $row->introtext;

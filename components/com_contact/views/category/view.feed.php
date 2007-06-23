@@ -62,7 +62,7 @@ class ContactViewCategory extends JView
 			$title = html_entity_decode( $title );
 
 			// url link to article
-			$link = JURI::base().JRoute::_('index.php?option=com_contact&view=contact&id='. $row->id .'&catid='.$row->catid );
+			$link = JRoute::_('index.php?option=com_contact&view=contact&id='. $row->id .'&catid='.$row->catid );
 
 			// strip html from feed item description text
 			$description = $row->description;
