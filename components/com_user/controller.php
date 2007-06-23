@@ -154,8 +154,7 @@ class UserController extends JController
 		if(!JError::isError($error))
 		{
 			$return	= JRequest::getVar( 'return', false, '' );
-			$return	= str_replace( ' ', '+', $return );
-			$return	= preg_replace( '/[^A-Z0-9+\/\=]/i', '', $return );
+			
 			if ($return) {
 				$return = base64_decode($return);
 			}
