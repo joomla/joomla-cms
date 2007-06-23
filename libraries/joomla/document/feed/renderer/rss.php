@@ -53,7 +53,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed.= "	<channel>\n";
 		$feed.= "		<title>".$data->title."</title>\n";
 		$feed.= "		<description>".$data->description."</description>\n";
-		$feed.= "		<link>".$data->link."</link>\n";
+		$feed.= "		<link>".JURI::base().$data->link."</link>\n";
 		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822())."</lastBuildDate>\n";
 		$feed.= "		<generator>".$data->getGenerator()."</generator>\n";
 
@@ -113,7 +113,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		{
 			$feed.= "		<item>\n";
 			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title))."</title>\n";
-			$feed.= "			<link>".$data->items[$i]->link."</link>\n";
+			$feed.= "			<link>".JURI::base().$data->items[$i]->link."</link>\n";
 			$feed.= "			<description><![CDATA[".$data->items[$i]->description."]]></description>\n";
 
 			if ($data->items[$i]->author!="") {
