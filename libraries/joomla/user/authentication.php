@@ -34,7 +34,7 @@ define('JAUTHENTICATE_STATUS_FAILURE', 4);
  * Authenthication class, provides an interface for the Joomla authentication system
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
- * @package 		Joomla.Framework
+ * @package 	Joomla.Framework
  * @subpackage	User
  * @since		1.5
  */

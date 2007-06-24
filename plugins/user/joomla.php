@@ -71,7 +71,7 @@ class plgUserJoomla extends JPlugin
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function onLoginUser($user, $remember)
+	function onLoginUser($user, $remember, $autoregister = null)
 	{
 		jimport('joomla.user.helper');
 
@@ -87,10 +87,11 @@ class plgUserJoomla extends JPlugin
 			$my->set( 'email'		, $user['email'] );	// Result should contain an email (check)
 			$my->set( 'gid'			, 18 );				//Make configurable
 			$my->set( 'usertype'	, 'Registered' ); 	//Make configurable
-
+			
 			//If autoregister is set let's register the user
-			if($this->params->get('autoregister', 1) == 1)
-			{
+			$autoregister = isset($autoregister) ? $autoregister :  $this->params->get('autoregister', 1);
+			
+			if($autoregister) {
 				if(!$my->save()) {
 					return false;
 				}

@@ -404,16 +404,12 @@ class JApplication extends JObject
 	 * @access public
 	 * @since 1.5
 	 */
-	function login($username, $password, $remember)
+	function login($username, $password, $remember, $autoregister)
 	{
-		// Build the credentials array
-		$credentials['username'] = $username;
-		$credentials['password'] = $password;
-		
 		// Get the global JAuthentication object
 		jimport( 'joomla.user.authentication');
 		$authenticate = & JAuthentication::getInstance();
-		$response	 = $authenticate->authenticate($username, $password);
+		$response	  = $authenticate->authenticate($username, $password);
 
 		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 		{
@@ -421,7 +417,7 @@ class JApplication extends JObject
 			JPluginHelper::importPlugin('user');
 			
 			// OK, the credentials are authenticated.  Lets fire the onLogin event
-			$results = $this->triggerEvent('onLoginUser', array((array)$response, $remember));
+			$results = $this->triggerEvent('onLoginUser', array((array)$response, $remember, $autoregister));
 
 			/*
 			 * If any of the user plugins did not successfully complete the login routine

@@ -161,7 +161,7 @@ class JAdministrator extends JApplication
 	*/
 	function login($username=null, $password=null, $remember = false)
 	{
-		$result = parent::login($username, $password, $remember);
+		$result = parent::login($username, $password, $remember, false);
 
 		if(!JError::isError($result))
 		{

@@ -110,16 +110,16 @@ class UserController extends JController
 		$username = JRequest::getString('username');
 		$password = JRequest::getString('passwd', '', 'post', JREQUEST_ALLOWRAW);
 		$remember = JRequest::getBool('remember', false, 'post');
-
+		
 		if ($return = JRequest::getVar( 'return', false, '' )) {
 			$return = base64_decode($return);
 		}
-
+		
 		//check the token before we do anything else
-		//$token	= JUtility::getToken();
-		//if(!JRequest::getVar( $token, 0, 'post' )) {
-		//	JError::raiseError(403, 'Request Forbidden');
-		//}
+		$token	= JUtility::getToken();
+		if(!JRequest::getVar( $token, 0, 'post' )) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 		
 		//preform the login action
 		$error = $mainframe->login($username, $password, $remember);
