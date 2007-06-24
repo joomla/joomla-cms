@@ -53,8 +53,8 @@ class LoginController
 	{
 		global $mainframe;
 
-		$username	= JRequest::getVar( 'username' );
-		$password	= JRequest::getVar( 'password' );
+		$username = JRequest::getString('username');
+		$password = JRequest::getString('passwd', '', 'post', JREQUEST_ALLOWRAW);
 
 		$result = $mainframe->login($username, $password);
 

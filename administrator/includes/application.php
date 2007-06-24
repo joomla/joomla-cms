@@ -161,10 +161,6 @@ class JAdministrator extends JApplication
 	*/
 	function login($username=null, $password=null, $remember = false)
 	{
-		$username = JRequest::getString('username', $username, 'post');
-		$password = JRequest::getString('passwd', $password, 'post', JREQUEST_ALLOWRAW);
-		$remember = JRequest::getBool('remember', $remember);
-
 		$result = parent::login($username, $password, $remember);
 
 		if(!JError::isError($result))

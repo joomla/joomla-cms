@@ -199,12 +199,8 @@ class JSite extends JApplication
 	* @access public
 	* @see JApplication::login
 	*/
-	function login($username=null, $password=null, $remember=null)
+	function login($username = null, $password = null, $remember = null)
 	{
-		$username = JRequest::getString('username', $username, 'post');
-		$password = JRequest::getString('passwd', $password, 'post', JREQUEST_ALLOWRAW);
-		$remember = JRequest::getBool('remember', $remember, 'post');
-
 		return parent::login($username, $password, $remember);
 	}
 

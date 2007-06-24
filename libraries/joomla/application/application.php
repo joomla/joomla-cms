@@ -406,18 +406,10 @@ class JApplication extends JObject
 	 */
 	function login($username, $password, $remember)
 	{
-		/*if (empty($username))  {
-			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_USERNAME'));
-		}
-
-		if(empty($password)) {
-			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_PASSWORD'));
-		}*/
-
 		// Build the credentials array
 		$credentials['username'] = $username;
 		$credentials['password'] = $password;
-
+		
 		// Get the global JAuthentication object
 		jimport( 'joomla.user.authentication');
 		$authenticate = & JAuthentication::getInstance();
@@ -427,7 +419,7 @@ class JApplication extends JObject
 		{
 			// Import the user plugin group
 			JPluginHelper::importPlugin('user');
-
+			
 			// OK, the credentials are authenticated.  Lets fire the onLogin event
 			$results = $this->triggerEvent('onLoginUser', array((array)$response, $remember));
 

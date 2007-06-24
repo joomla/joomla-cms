@@ -106,14 +106,12 @@ class UserController extends JController
 	function login()
 	{
 		global $mainframe;
+		
+		$username = JRequest::getString('username');
+		$password = JRequest::getString('passwd', '', 'post', JREQUEST_ALLOWRAW);
+		$remember = JRequest::getBool('remember', false, 'post');
 
-		$username	= JRequest::getVar( 'username' );
-		$password	= JRequest::getVar( 'password' );
-		$return		= JRequest::getVar( 'return', false, '' );
-		$return		= str_replace( ' ', '+', $return );
-		$return		= preg_replace( '/[^A-Z0-9+\/\=]/i', '', $return );
-
-		if ($return) {
+		if ($return = JRequest::getVar( 'return', false, '' )) {
 			$return = base64_decode($return);
 		}
 
@@ -122,9 +120,9 @@ class UserController extends JController
 		//if(!JRequest::getVar( $token, 0, 'post' )) {
 		//	JError::raiseError(403, 'Request Forbidden');
 		//}
-
+		
 		//preform the login action
-		$error = $mainframe->login($username, $password);
+		$error = $mainframe->login($username, $password, $remember);
 
 		if(!JError::isError($error))
 		{

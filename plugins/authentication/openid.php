@@ -74,8 +74,6 @@ class plgAuthenticationOpenID extends JPlugin
 			define ("Auth_OpenID_NO_MATH_SUPPORT", true);
 		}
 
-
-
 		// Create and/or start using the data store
 		$store_path = JPATH_ROOT . '/tmp/_joomla_openid_store';
 		if (!file_exists($store_path) && !mkdir($store_path)) {
@@ -119,7 +117,7 @@ class plgAuthenticationOpenID extends JPlugin
 		}
 
 		$result = $consumer->complete(JRequest::get('get'));
-
+		
 		switch ($result->status)
 		{
 			case Auth_OpenID_SUCCESS :
