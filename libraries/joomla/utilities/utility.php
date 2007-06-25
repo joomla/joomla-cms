@@ -169,4 +169,14 @@ class JUtility
 	function isWinOS() {
 		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 	}
+
+	/**
+	 * @param	mixed	A variable
+	 * @param	boolean	True to ensure all characters are htmlsafe
+	 */
+	function dump( &$var, $htmlSafe = true )
+	{
+		$result = var_export( $var, true );
+		return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
+	}
 }

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Jun-2007 Andrew Eddie
+ + New method JUtility dump
+
 25-Jun-2007 Mateusz Krzeszowiec
  # Fixed [#5757] com_content view=category does not show registered article link to nonregistered user when Show UnAuthorized Links set to Yes
 
