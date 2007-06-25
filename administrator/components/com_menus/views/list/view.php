@@ -35,7 +35,7 @@ class MenusViewList extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+		$menutype 	= $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu', 'string' );
 
 		JToolBarHelper::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
 		
@@ -94,7 +94,7 @@ class MenusViewList extends JView
 		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');
 
-		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+		$menutype 	= $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu', 'string' );
 
 		// Build the menutypes select list
 		$menuTypes 	= MenusHelper::getMenuTypes();
@@ -130,7 +130,7 @@ class MenusViewList extends JView
 		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');
 
-		$menutype 	= $mainframe->getUserStateFromRequest( "com_menus.menutype", 'menutype', 'mainmenu' );
+		$menutype 	= $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu', 'string' );
 
 		// Build the menutypes select list
 		$menuTypes 	= MenusHelper::getMenuTypes();
@@ -154,13 +154,13 @@ class MenusViewList extends JView
 		global $mainframe;
 		$db		=& JFactory::getDBO();
 
-		$menutype 			= $mainframe->getUserStateFromRequest( "com_menus.menutype",				 	'menutype', 		'mainmenu' );
-		$filter_order		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order", 		'filter_order', 	'm.ordering' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order_Dir",	'filter_order_Dir',	'ASC' );
-		$filter_state		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_state", 		'filter_state', 	'*' );
-		$levellimit 		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.levellimit", 		'levellimit', 		10 );
-		$search 			= $mainframe->getUserStateFromRequest( "com_menus.$menutype.search", 			'search', 			'' );
-		$search 			= $db->getEscaped( JString::strtolower( $search ) );
+		$menutype			= $mainframe->getUserStateFromRequest( "com_menus.menutype",					'menutype',			'mainmenu',		'string' );
+		$filter_order		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order",		'filter_order',		'm.ordering',	'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_order_Dir",	'filter_order_Dir',	'ASC',			'word' );
+		$filter_state		= $mainframe->getUserStateFromRequest( "com_menus.$menutype.filter_state",		'filter_state',		'',				'word' );
+		$levellimit			= $mainframe->getUserStateFromRequest( "com_menus.$menutype.levellimit",		'levellimit',		10,				'int' );
+		$search				= $mainframe->getUserStateFromRequest( "com_menus.$menutype.search",			'search',			'',				'string' );
+		$search				= $db->getEscaped( JString::strtolower( $search ) );
 
 		// level limit filter
 		$lists['levellist'] = JHTML::_('select.integerlist',    1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );

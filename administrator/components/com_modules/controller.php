@@ -57,17 +57,17 @@ class ModulesController extends JController
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$option	= 'com_modules';
 
-		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order', 		'filter_order', 	'm.position' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'' );
-		$filter_state 		= $mainframe->getUserStateFromRequest( $option.'filter_state', 		'filter_state', 	'*' );
-		$filter_position 	= $mainframe->getUserStateFromRequest( $option.'filter_position', 	'filter_position', 	0 );
-		$filter_type	 	= $mainframe->getUserStateFromRequest( $option.'filter_type', 		'filter_type', 		0 );
-		$filter_assigned 	= $mainframe->getUserStateFromRequest( $option.'filter_assigned',	'filter_assigned',	0 );
-		$search 			= $mainframe->getUserStateFromRequest( $option.'search', 			'search', 			'' );
-		$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'm.position',	'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
+		$filter_state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
+		$filter_position	= $mainframe->getUserStateFromRequest( $option.'filter_position',	'filter_position',	'',				'cmd' );
+		$filter_type		= $mainframe->getUserStateFromRequest( $option.'filter_type',		'filter_type',		'',				'cmd' );
+		$filter_assigned	= $mainframe->getUserStateFromRequest( $option.'filter_assigned',	'filter_assigned',	'',				'cmd' );
+		$search				= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
+		$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit') );
-		$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
+		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+		$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
 		$where[] = 'm.client_id = '.$client->id;
 
@@ -185,7 +185,8 @@ class ModulesController extends JController
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
-		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
 
 		if (empty( $cid )) {
 			return JError::raiseWarning( 500, JText::_( 'No items selected' ) );
@@ -273,8 +274,9 @@ class ModulesController extends JController
 		}
 		$row->checkin();
 
-		$menus = JRequest::getVar( 'menus', '', 'post' );
+		$menus = JRequest::getVar( 'menus', '', 'post', 'word' );
 		$selections = JRequest::getVar( 'selections', array(), 'post', 'array' );
+		JArrayHelper::toInteger($selections);
 
 		// delete old module to menu item associations
 		$query = 'DELETE FROM #__modules_menu'
@@ -336,10 +338,11 @@ class ModulesController extends JController
 		$user 	=& JFactory::getUser();
 
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$module = JRequest::getVar( 'module' );
+		$module = JRequest::getVar( 'module', '', '', 'cmd' );
 		$id 	= JRequest::getVar( 'id', 0, 'method', 'int' );
 		$cid 	= JRequest::getVar( 'cid', array( $id ), 'method', 'array' );
-		
+		JArrayHelper::toInteger($cid, array(0));
+
 		$model	= &$this->getModel('module');
 		$model->setState( 'id',			$cid[0] );
 		$model->setState( 'clientId',	$client->id );
@@ -598,6 +601,8 @@ class ModulesController extends JController
 		$cache->clean( 'com_content' );
 
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+
 		$task	= $this->getTask();
 		$publish	= ($task == 'publish');
 
@@ -654,6 +659,8 @@ class ModulesController extends JController
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+
 		$task	= $this->getTask();
 		$inc	= ($task == 'orderup' ? -1 : 1);
 
@@ -680,7 +687,9 @@ class ModulesController extends JController
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$task	= JRequest::getVar( 'task' );
+		JArrayHelper::toInteger($cid);
+
+		$task	= JRequest::getCmd( 'task' );
 
 		if (empty( $cid )) {
 			return JError::raiseWarning( 500, 'No items selected' );
@@ -724,15 +733,18 @@ class ModulesController extends JController
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
 
 		if (empty( $cid )) {
 			return JError::raiseWarning( 500, 'No items selected' );
 		}
 
 		$total		= count( $cid );
-		$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 		$row 		=& JTable::getInstance('module');
 		$groupings = array();
+
+		$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
+		JArrayHelper::toInteger($order);
 
 		// update ordering values
 		for ($i = 0; $i < $total; $i++)

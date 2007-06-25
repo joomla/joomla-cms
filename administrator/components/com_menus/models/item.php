@@ -63,17 +63,18 @@ class MenusModelItem extends JModel
 
 		// Load the current item if it has been defined
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
+		JArrayHelper::toInteger($cid, array(0));
 		if ($cid[0]) {
 			$table->load($cid[0]);
 		}
 
 		// Override the current item's type field if defined in the request
-		if ($type = JRequest::getVar('type', false)) {
+		if ($type = JRequest::getString('type')) {
 			$table->type = $type;
 		}
 
 		// Override the current item's menutype field if defined in the request
-		if ($menu_type = JRequest::getVar('menutype', false)) {
+		if ($menu_type = JRequest::getString('menutype')) {
 			$table->menutype = $menu_type;
 		}
 
@@ -119,8 +120,8 @@ class MenusModelItem extends JModel
 	function &getExpansion()
 	{
 		$item				= &$this->getItem();
-		$return['option']	= JRequest::getVar('expand');
-		$menutype			= JRequest::getVar('menutype');
+		$return['option']	= JRequest::getCmd('expand');
+		$menutype			= JRequest::getString('menutype');
 
 		if ($return['option'])
 		{
@@ -287,11 +288,12 @@ class MenusModelItem extends JModel
 		$component->load( $id );
 		return $component;
 	}
-	
+
 	function checkout($uid = null)
 	{
-		$id = JRequest::getVar('cid');
-		
+		$id = JRequest::getVar('cid', array(0), '', 'array');
+		JArrayHelper::toInteger($cid, array(0));
+
 		// Make sure we have a user id to checkout the article with
 		if (is_null($uid)) {
 			$user	=& JFactory::getUser();

@@ -17,12 +17,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-$task	= JRequest::getVar( 'task' );
-$cid	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
-
-if (!is_array( $cid )) {
-	$cid = array ( 0 );
-}
+$task	= JRequest::getCmd( 'task' );
+$cid	= JRequest::getVar( 'cid', array(0), '', 'array' );
+JArrayHelper::toInteger($cid, array(0));
 
 switch ($task)
 {
@@ -38,7 +35,7 @@ switch ($task)
 		newMessage(
 			$option,
 			JRequest::getVar( 'userid', 0, '', 'int' ),
-			JRequest::getVar( 'subject', '' )
+			JRequest::getString( 'subject' )
 		);
 		break;
 
@@ -71,13 +68,13 @@ function showMessages( $option )
 	$user 				=& JFactory::getUser();
 
 	$context			= 'com_messages.list';
-	$filter_order		= $mainframe->getUserStateFromRequest( $context.'.filter_order', 	'filter_order', 	'a.date_time' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'.filter_order_Dir','filter_order_Dir',	'DESC' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( $context.'.filter_state', 	'filter_state', 	'*' );
-	$limit 				= $mainframe->getUserStateFromRequest( 'global.list.limit', 		'limit',  			$mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( $context.'.limitstart', 		'limitstart', 		0 );
-	$search 			= $mainframe->getUserStateFromRequest( $context.'search', 			'search', 			'' );
-	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$filter_order		= $mainframe->getUserStateFromRequest( $context.'.filter_order',	'filter_order',		'a.date_time',	'cmd' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'.filter_order_Dir','filter_order_Dir',	'DESC',			'word' );
+	$filter_state		= $mainframe->getUserStateFromRequest( $context.'.filter_state',	'filter_state',		'',				'word' );
+	$limit				= $mainframe->getUserStateFromRequest( 'global.list.limit',			'limit',			$mainframe->getCfg('list_limit'), 'int' );
+	$limitstart			= $mainframe->getUserStateFromRequest( $context.'.limitstart',		'limitstart',		0,				'int' );
+	$search				= $mainframe->getUserStateFromRequest( $context.'search',			'search',			'',				'string' );
+	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where = array();
 	$where[] = ' a.user_id_to="' .$user->get('id'). '"';
@@ -200,8 +197,6 @@ function newMessage( $option, $user, $subject )
 	$gid 	= $acl->get_group_id( 'Public Backend', 'ARO' );
 	$gids 	= $acl->get_group_children( $gid, 'ARO', 'RECURSE' );
 	$gids 	= implode( ',', $gids );
-	
-	echo var_dump($gid);
 
 	// get list of usernames
 	$recipients = array( JHTML::_('select.option',  '0', '- '. JText::_( 'Select User' ) .' -' ) );

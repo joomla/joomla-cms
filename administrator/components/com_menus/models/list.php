@@ -55,15 +55,15 @@ class MenusModelList extends JModel
 
 		$db =& $this->getDBO();
 
-		$menutype 			= $mainframe->getUserStateFromRequest( "com_menus.menutype",				 		'menutype', 		'mainmenu' );
-		$filter_order		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_order', 		'filter_order', 	'm.ordering' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_order_Dir',	'filter_order_Dir',	'ASC' );
-		$filter_state		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_state', 		'filter_state', 	'*' );
-		$limit 				= $mainframe->getUserStateFromRequest( 'global.list.limit', 						'limit', 			$mainframe->getCfg( 'list_limit' ) );
-		$limitstart 		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.limitstart', 		'limitstart', 		0 );
-		$levellimit 		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.levellimit', 		'levellimit', 		10 );
-		$search 			= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.search', 			'search', 			'' );
-		$search 			= $db->getEscaped( JString::strtolower( $search ) );
+		$menutype			= $mainframe->getUserStateFromRequest( "com_menus.menutype",						'menutype',			'mainmenu',		'string' );
+		$filter_order		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_order',		'filter_order',		'm.ordering',	'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_order_Dir',	'filter_order_Dir',	'ASC',			'word' );
+		$filter_state		= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.filter_state',		'filter_state',		'',				'word' );
+		$limit				= $mainframe->getUserStateFromRequest( 'global.list.limit',							'limit',			$mainframe->getCfg( 'list_limit' ),	'int' );
+		$limitstart			= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.limitstart',		'limitstart',		0,				'int' );
+		$levellimit			= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.levellimit',		'levellimit',		10,				'int' );
+		$search				= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.search',			'search',			'',				'string' );
+		$search				= $db->getEscaped( JString::strtolower( $search ) );
 
 		$and = '';
 		if ( $filter_state )
@@ -197,7 +197,9 @@ class MenusModelList extends JModel
 		}
 
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
-		if (!is_array( $cid ) || count( $cid ) < 1) {
+		JArrayHelper::toInteger($cid);
+
+		if (count($cid) < 1) {
 			$this->setError(JText::_( 'Select an item to move'));
 			return false;
 		}
@@ -511,9 +513,11 @@ class MenusModelList extends JModel
 	function setOrder($items, $menutype)
 	{
 		$total		= count( $items );
-		$order 		= JRequest::getVar( 'order', array(), 'post', 'array' );
 		$row		=& $this->getTable();
-		$groupings = array();
+		$groupings	= array();
+
+		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
+		JArrayHelper::toInteger($order);
 
 		// update ordering values
 		for( $i=0; $i < $total; $i++ ) {
@@ -526,7 +530,6 @@ class MenusModelList extends JModel
 					$this->setError($row->getError());
 					return false;
 				}
-
 			} // if
 		} // for
 

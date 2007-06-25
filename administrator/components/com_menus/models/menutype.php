@@ -122,8 +122,8 @@ class MenusModelMenutype extends JModel
 
 		$menutypes 	= MenusHelper::getMenuTypeList();
 		$total		= count( $menutypes );
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit') );
-		$limitstart = $mainframe->getUserStateFromRequest( 'com_menus.limitstart', 'limitstart', 0 );
+		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+		$limitstart = $mainframe->getUserStateFromRequest( 'com_menus.limitstart', 'limitstart', 0, 'int' );
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination( $total, $limitstart, $limit );
@@ -139,7 +139,7 @@ class MenusModelMenutype extends JModel
 	{
 		$table = & $this->getTable();
 		if ($table->menutype == '') {
-			$table->menutype = JRequest::getVar('menutype');
+			$table->menutype = JRequest::getString('menutype');
 		}
 
 		$db = &$this->getDBO();

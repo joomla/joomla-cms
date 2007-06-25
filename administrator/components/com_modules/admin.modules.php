@@ -24,17 +24,11 @@ if (!$user->authorize( 'com_modules', 'manage' )) {
 // Require the base controller
 require_once (JPATH_COMPONENT.DS.'controller.php');
 
-// Require specific controller if requested
-if($controller = JRequest::getVar('controller')) {
-	require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
-}
-
 // Create the controller
-$classname	= 'ModulesController'.$controller;
-$controller	= new $classname( array( 'default_task' => 'view' ));
+$controller	= new ModulesController( array( 'default_task' => 'view' ));
 
 // Perform the Request task
-$controller->execute( JRequest::getVar('task', 'view') );
+$controller->execute( JRequest::getCmd('task', 'view') );
 
 // Redirect if set by the controller
 $controller->redirect();

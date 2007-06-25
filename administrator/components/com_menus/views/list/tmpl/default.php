@@ -28,28 +28,28 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 			</th>
 			<th class="title" width="30%">
-				<?php echo JHTML::_('grid.sort',   'Menu Item', 'm.name', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<?php echo JHTML::_('grid.sort',   'Menu Item', 'm.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="5%">
 				<?php echo JText::_( 'Default' ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'Published', 'm.published', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<?php echo JHTML::_('grid.sort',   'Published', 'm.published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="80" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'Order by', 'm.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<?php echo JHTML::_('grid.sort',   'Order by', 'm.ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="1%">
 				<?php echo JHTML::_('grid.order',  $this->items ); ?>
 			</th>
 			<th width="10%">
-				<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="10%" class="title">
-				<?php echo JHTML::_('grid.sort',   'Type', 'm.type', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<?php echo JHTML::_('grid.sort',   'Type', 'm.type', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'Itemid', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+				<?php echo JHTML::_('grid.sort',   'Itemid', 'm.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 		</tr>
 	</thead>

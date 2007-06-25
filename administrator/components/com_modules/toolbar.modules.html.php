@@ -33,13 +33,14 @@ class TOOLBAR_modules {
 	*/
 	function _EDIT( $client )
 	{
-		$cid 		= JRequest::getVar( 'cid', array(0));
-		$moduleType = JRequest::getVar( 'module' );
+		$moduleType = JRequest::getCmd( 'module' );
+		$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
+		JArrayHelper::toInteger($cid, array(0));
 
 		JToolBarHelper::title( JText::_( 'Module Manager' ) .' - <span>' . JText::_( 'Edit Module' ) . '</span>', 'module.png' );
 
 		if($moduleType == 'custom') {
-			JToolBarHelper::Preview('index.php?option=com_modules&tmpl=component&client='.$client.'&pollid='.$cid[0]);
+			JToolBarHelper::Preview('index.php?option=com_modules&tmpl=component&client='.$client->id.'&pollid='.$cid[0]);
 		}
 
 		JToolBarHelper::save();
