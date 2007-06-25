@@ -90,8 +90,8 @@ function viewPlugins( $option, $client )
 	$db =& JFactory::getDBO();
 
 	JToolBarHelper::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
-	JToolBarHelper::publishList();
-	JToolBarHelper::unpublishList();
+	JToolBarHelper::publishList( 'publish', 'Enable' );
+	JToolBarHelper::unpublishList( 'unpublish', 'Disable' );
 	JToolBarHelper::editListX();
 	JToolBarHelper::help( 'screen.plugins' );
 

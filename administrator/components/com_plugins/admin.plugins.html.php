@@ -67,7 +67,7 @@ class HTML_modules {
 						<?php echo JHTML::_('grid.sort',   'Plugin Name', 'p.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap" width="5%">
-						<?php echo JHTML::_('grid.sort',   'Published', 'p.published', @$lists['order_Dir'], @$lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort',   'Enabled', 'p.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="80" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Order', 'p.folder', @$lists['order_Dir'], @$lists['order'] ); ?>
@@ -226,7 +226,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" class="key">
-						<?php echo JText::_( 'Published' ); ?>:
+						<?php echo JText::_( 'Enabled' ); ?>:
 					</td>
 					<td>
 						<?php echo $lists['published']; ?>

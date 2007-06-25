@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Jun-2007 Chris Davenport
+ + Added ENABLE and DISABLE tags to admin en-GB.ini
+ ^ Changed 'Publish/Unpublish' to 'Enable/Disable' for modules, plugins and languages
+
 22-Jun-2007 Toby Patterson
  # Fixed [#5700] Vote button on poll is rating article
 
