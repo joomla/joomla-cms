@@ -171,8 +171,13 @@ class JUtility
 	}
 
 	/**
+	 * Method to dump the structure of a variable for debugging purposes
+	 *
 	 * @param	mixed	A variable
 	 * @param	boolean	True to ensure all characters are htmlsafe
+	 * @return	string
+	 * @since	1.5
+	 * @static
 	 */
 	function dump( &$var, $htmlSafe = true )
 	{
