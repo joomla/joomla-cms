@@ -415,11 +415,11 @@ class ContentModelCategory extends JModel
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
 
+		$where = $noauth ? ' WHERE a.access <= '.(int) $gid . ' AND ' : ' WHERE ' ;
 		// First thing we need to do is assert that the articles are in the current category
-		$where = ' WHERE a.access <= '.(int) $gid;
 		if ($this->_id)
 		{
-			$where .= ' AND a.catid = '. $this->_id;
+			$where .= ' a.catid = '. $this->_id;
 		}
 
 		// Regular Published Content

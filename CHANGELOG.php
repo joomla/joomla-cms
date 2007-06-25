@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Jun-2007 Mateusz Krzeszowiec
+ # Fixed [#5757] com_content view=category does not show registered article link to nonregistered user when Show UnAuthorized Links set to Yes
+
 25-Jun-2007 Chris Davenport
  + Added ENABLE and DISABLE tags to admin en-GB.ini
  ^ Changed 'Publish/Unpublish' to 'Enable/Disable' for modules, plugins and languages
