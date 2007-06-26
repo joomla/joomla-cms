@@ -26,7 +26,7 @@ class JLoader
 	 * @param string $name	The class name to look for ( dot notation ).
 	 * @param string $base	Search this directory for the class.
 	 * @param string $key	String used as a prefix to denote the full path of the file ( dot notation ).
-	 * @return void
+	 * @return boolean True if the requested class has been successfully included
 	 * @since 1.5
 	 */
 	function import( $filePath, $base = null, $key = null )
