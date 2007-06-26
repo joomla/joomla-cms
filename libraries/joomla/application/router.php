@@ -299,7 +299,7 @@ class JRouter extends JObject
 		{
 			$vars = array();
 			parse_str($string, $vars);
-
+			
 			$vars = array_merge($this->_vars, $vars);
 			$string = 'index.php?'.JURI::_buildQuery($vars);
 		}
