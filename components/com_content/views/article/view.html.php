@@ -141,6 +141,8 @@ class ContentViewArticle extends ContentView
 				}
 			}
 		}
+		
+		/* moved to template - tcp June 27 2007
 		$article->mod_date = '';
 		if (intval($article->modified) != 0) {
 			$article->mod_date = JHTML::_('date', $article->modified);
@@ -148,7 +150,8 @@ class ContentViewArticle extends ContentView
 		if (intval($article->created) != 0) {
 			$article->created = JHTML::_('date', $article->created);
 		}
-
+		*/
+		
 		$article->readmore_link = $linkOn;
 		$article->readmore_text = $linkText;
 

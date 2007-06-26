@@ -37,7 +37,7 @@ class ContentController extends JController
 		// View caching logic -- simple... are we logged in?
 		$user = &JFactory::getUser();
 		if (!$user->get('gid')) {
-			parent::display(true);
+			parent::display(false);
 		} else {
 			parent::display();
 		}

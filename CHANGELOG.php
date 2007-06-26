@@ -43,6 +43,7 @@ Legend:
 26-Jun-2007 Toby Patterson
  ^ JDocument will default to RAW document if the request format is not supported, but document's 
    type will be that of the requested format (see JDocument::getInstance) - Louis's suggestion
+ # Fixed [#5743] Dateformat in category blog layout
 
 26-Jun-2007 Andrew Eddie
  + New method JUtility dump

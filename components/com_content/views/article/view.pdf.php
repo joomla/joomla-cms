@@ -78,7 +78,7 @@ class ContentViewArticle extends JView
 		if ($params->get('show_create_date')) {
 			// Display Created Date
 			if (intval($article->created)) {
-				$create_date = JHTML::_('date', $article->created);
+				$create_date = JHTML::_('date', $article->created, JText::_('DATE_FORMAT_LC2'));
 				$text .= $create_date;
 			}
 		}
