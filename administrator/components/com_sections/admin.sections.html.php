@@ -337,7 +337,7 @@ class sections_html
 			</fieldset>
 
 			<fieldset class="adminform">
-				<legend><?php echo JText::_( 'Details' ); ?></legend>
+				<legend><?php echo JText::_( 'Description' ); ?></legend>
 
 				<table class="admintable">
 				<tr>
