@@ -47,10 +47,12 @@ class JLoader
 		{
 			$keyPath = $filePath;
 		}
+		
+		$trs	= 1;
 
 		if (!isset($paths[$keyPath]))
 		{
-			$paths[$keyPath] = true;
+			
 
 			$parts = explode( '.', $filePath );
 
@@ -75,18 +77,21 @@ class JLoader
 						// we need to check each file again incase one has a jimport
 						if (!isset($paths[$keyPath]))
 						{
-							require $path . DS . $file;
-							$paths[$keyPath] = true;
+							$rs	= include($path . DS . $file);
+							$paths[$keyPath] = $rs;
+							$trs =& $rs;
 						}
 					}
 				}
 				$dir->close();
 			} else {
 				$path = str_replace( '.', DS, $filePath );
-				require $base . DS . $path . '.php';
+				$trs	= include($base . DS . $path . '.php');
 			}
+			
+			$paths[$keyPath] = $trs;
 		}
-		return true;
+		return $trs;
 	}
 
 	/**
