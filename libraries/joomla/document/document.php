@@ -253,25 +253,43 @@ class JDocument extends JObject
 
 		if (empty($instances[$signature]))
 		{
-			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'document'.DS.$type.DS.$type.'.php';
-
-			if (file_exists($path)) {
-				require_once $path;
+			$type	= preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+			$file	= JPATH_LIBRARIES.DS.'joomla'.DS.'document'.DS.$type.DS.$type.'.php';
+			$ntype	= null;
+				
+			// Check if the document type exists
+			if ( ! file_exists($file)) {
+				// Default to the raw format
+				$ntype	= $type;
+				$type	= 'raw';
 			}
-			else
-			{
-				// No call to JError::raiseError here, as it depends on JDocumentError
-				jimport('joomla.session.session');
-				JSession::close();
-				exit('Unable to load Document Type: '.$type);
-			}
-
+			
+			// Determine the path and class
+			$path	= "joomla.document.$type.$type";
 			$class = 'JDocument'.$type;
-			$instances[$signature] = new $class($attributes);
+			
+			jimport($path);
+			$instance	= new $class($attributes);
+			$instances[$signature] =& $instance;
+			
+			if ( !is_null($ntype) )
+			{
+				// Set the type to the Document type originally requested 
+				$instance->setType($ntype);
+			}
 		}
 
 		return $instances[$signature];
+	}
+	
+	/**
+	 * Set the document type
+	 *
+	 * @access	public
+	 * @param	string $type
+	 */
+	function setType($type) {
+		$this->_type = $type;
 	}
 
 	 /**
