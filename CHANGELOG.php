@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Jun-2007 Chris Davenport
+ ^ Changed 'Enable' to 'Default' in Language Manager
+ # Language Manager not retaining change to default language
+
 26-Jun-2007 Johan Janssens
  ^ Fixed [#5748] & appears as *amp; in breadcrumbs
  ^ Fixed remember me functionality for the openid plugin. Changes also have effect on any of the 

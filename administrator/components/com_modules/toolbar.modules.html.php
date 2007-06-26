@@ -57,8 +57,8 @@ class TOOLBAR_modules {
 	function _DEFAULT($client)
 	{
 		JToolBarHelper::title( JText::_( 'Module Manager' ), 'module.png' );
-		JToolBarHelper::publishList( 'publish', 'Enable' );
-		JToolBarHelper::unpublishList( 'unpublish', 'Disable' );
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
 		JToolBarHelper::custom( 'copy', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();

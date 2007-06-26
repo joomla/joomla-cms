@@ -76,7 +76,7 @@ class HTML_languages {
 					<?php echo JText::_( 'Language' ); ?>
 				</th>
 				<th width="5%">
-					<?php echo JText::_( 'Enabled' ); ?>
+					<?php echo JText::_( 'Default' ); ?>
 				</th>
 				<th width="10%">
 					<?php echo JText::_( 'Version' ); ?>
@@ -116,7 +116,7 @@ class HTML_languages {
 					<td width="5%" align="center">
 						<?php
 						if ($row->published == 1) {	 ?>
-							<img src="images/tick.png" alt="<?php echo JText::_( 'Enabled' ); ?>" />
+							<img src="templates/khepri/images/menu/icon-16-default.png" alt="<?php echo JText::_( 'Default' ); ?>" />
 							<?php
 						} else {
 							?>
