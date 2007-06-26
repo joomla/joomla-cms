@@ -38,13 +38,15 @@ Legend:
 ! -> Note
 
 26-Jun-2007 Toby Patterson
- ^ JDocument will default to RAW document if the request format is not supported, but document's type will be that of the requested format (see JDocument::getInstance) - Louis's suggestion
+ ^ JDocument will default to RAW document if the request format is not supported, but document's 
+   type will be that of the requested format (see JDocument::getInstance) - Louis's suggestion
 
 26-Jun-2007 Andrew Eddie
  + New method JUtility dump
 
 25-Jun-2007 Mateusz Krzeszowiec
- # Fixed [#5757] com_content view=category does not show registered article link to nonregistered user when Show UnAuthorized Links set to Yes
+ # Fixed [#5757] com_content view=category does not show registered article link to nonregistered 
+   user when Show UnAuthorized Links set to Yes
 
 25-Jun-2007 Chris Davenport
  + Added ENABLE and DISABLE tags to admin en-GB.ini
@@ -59,10 +61,13 @@ Legend:
  + Added '*' to item that has the default menu item in Admin dorpdown menus list
 
 19-Jun-2007 Rastin Mehr
- # Fixed unreported bug, Whe front-end user submits a weblink they get an error view "form" does not exist
+ # Fixed unreported bug, Whe front-end user submits a weblink they get an error view "form" does 
+   not exist
  # Fixed [#169] Article submission fails for both users "Registered" and "Author"
- * Fixed security flaw so Authors and Registered users would not be able to edit articles that don't belong to them
- ^ in the SITE ContentController::edit implemented security checking to make sure user has the right to edit, doesn't attempt to edit an article that doesn't belong to her
+ * Fixed security flaw so Authors and Registered users would not be able to edit articles that don't 
+   belong to them
+ ^ in the SITE ContentController::edit implemented security checking to make sure user has the right 
+   to edit, doesn't attempt to edit an article that doesn't belong to her
 
 18-Jun-2007 Andrew Eddie
  ^ Allowed JException::getBacktrace to be called statically
@@ -80,7 +85,8 @@ Legend:
 
 12-Jun-2007 Toby Patterson
  # Fixed [#532] Missing parameter for setting date format in showCalendar() javascript function
- ! New DATE_FORMAT_JS1 key in en-GB.ini used to provide data format for JavaScript, used by calendar parameter
+ ! New DATE_FORMAT_JS1 key in en-GB.ini used to provide data format for JavaScript, used by calendar 
+   parameter
 
 11-Jun-2007 Jason Kendall
  # Fixed [#5324] Section Blog layout date fix
@@ -96,7 +102,8 @@ Legend:
  # Fixed [#5641] Repeated strings at site language file en-GB.com_user.ini
 
 10-Jun-2007 Rastin Mehr
- # Fixed [#5628] gacl_api::get_group_id( ... ) now returns the right value, that was causing the registration process not going through properly.
+ # Fixed [#5628] gacl_api::get_group_id( ... ) now returns the right value, that was causing the 
+    registration process not going through properly.
  # Fixed [#4694] Com_contact broken
  ^ Modified sample_data.sql file to fix the issue
 
@@ -104,14 +111,16 @@ Legend:
  # Installer reports a more descriptive error when a file cannot be uploaded.
 
 09-Jun-2007 Enno Klasing
- # Disabled XML-RPC Server and Client when they are disabled in configuration.php, Client only reachable when debugging is on
+ # Disabled XML-RPC Server and Client when they are disabled in configuration.php, Client only 
+   reachable when debugging is on
 
 09-Jun-2007 Andrew Eddie
  ^ Disabled ID check in gacl_api::add_acl method (not require in Joomla! yet)
 
 08-Jun-2007 Toby Patterson
  # Fixed [#4485] language/en-GB/en-GB.ini "DATE_FORMAT_LC3" and "DATE_FORMAT_LC4" are missing
- ! Various format strings ( eg DATE_FORMAT_LC4 ) no longer defined in the framework - use JText::_() instead
+ ! Various format strings ( eg DATE_FORMAT_LC4 ) no longer defined in the framework - use JText::_() 
+   instead
  # Fixed [#4744] Error messages prevent successful installation
 
 08-Jun-2007 Enno Klasing
