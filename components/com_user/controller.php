@@ -106,14 +106,18 @@ class UserController extends JController
 	function login()
 	{
 		global $mainframe;
-		
-		$username = JRequest::getString('username');
-		$password = JRequest::getString('passwd', '', 'post', JREQUEST_ALLOWRAW);
-		$remember = JRequest::getBool('remember', false, 'post');
-		
+				
 		if ($return = JRequest::getVar( 'return', false, '' )) {
 			$return = base64_decode($return);
 		}
+		
+		$options = array();
+		$options['remember'] = JRequest::getBool('remember', false);
+		$options['return'] = $return;
+		
+		$credentials = array();
+		$credentials['username'] = JRequest::getString('username');
+		$credentials['password'] = JRequest::getString('passwd', '', 'default', JREQUEST_ALLOWRAW);
 		
 		//check the token before we do anything else
 		/*$token	= JUtility::getToken();
@@ -122,12 +126,12 @@ class UserController extends JController
 		}*/
 		
 		//preform the login action
-		$error = $mainframe->login($username, $password, $remember);
-
+		$error = $mainframe->login($credentials, $options);
+		
 		if(!JError::isError($error))
 		{
 			// Redirect if the return url is not registration or login
-			if ( $return && !( strpos( $return, 'com_user' ) || strpos( $return, 'com_login' ) ) ) {
+			if ( $return && !( strpos( $return, 'com_user' ))) {
 				$mainframe->redirect( $return );
 			}
 		}
@@ -151,14 +155,12 @@ class UserController extends JController
 
 		if(!JError::isError($error))
 		{
-			$return	= JRequest::getVar( 'return', false, '' );
-			
-			if ($return) {
+			if ($return = JRequest::getVar( 'return', false, '' )) {
 				$return = base64_decode($return);
 			}
 
 			// Redirect if the return url is not registration or login
-			if ( $return && !( strpos( $return, 'com_user' ) || strpos( $return, 'com_login' ) ) ) {
+			if ( $return && !( strpos( $return, 'com_user' )) ) {
 				$mainframe->redirect( $return );
 			}
 		} else {

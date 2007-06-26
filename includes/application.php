@@ -199,9 +199,9 @@ class JSite extends JApplication
 	* @access public
 	* @see JApplication::login
 	*/
-	function login($username = null, $password = null, $remember = null, $autoregister = null)
+	function login($credentials, $options = array())
 	{
-		return parent::login($username, $password, $remember, $autoregister);
+		return parent::login($credentials, $options);
 	}
 
 	/**

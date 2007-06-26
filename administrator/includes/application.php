@@ -159,9 +159,11 @@ class JAdministrator extends JApplication
 	* @access public
 	* @see JApplication::login
 	*/
-	function login($username=null, $password=null, $remember = false)
+	function login($credentials, $options = array())
 	{
-		$result = parent::login($username, $password, $remember, false);
+		$options['autoregister'] = false; //Make sure users are not autoregistered
+		
+		$result = parent::login($credentials, $options);
 
 		if(!JError::isError($result))
 		{

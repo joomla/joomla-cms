@@ -67,11 +67,12 @@ class plgUserJoomla extends JPlugin
 	 * This method should handle any login logic and report back to the subject
 	 *
 	 * @access	public
-	 * @param 	array	holds the user data
+	 * @param   object  a JAuthenticationResponece object
+	 * @param 	array   array holding options (remember, autoregister, ...)
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function onLoginUser($user, $remember, $autoregister = null)
+	function onLoginUser($user, $options = array())
 	{
 		jimport('joomla.user.helper');
 

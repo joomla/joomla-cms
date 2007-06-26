@@ -404,20 +404,20 @@ class JApplication extends JObject
 	 * @access public
 	 * @since 1.5
 	 */
-	function login($username, $password, $remember, $autoregister)
+	function login($credentials, $options = array())
 	{
 		// Get the global JAuthentication object
 		jimport( 'joomla.user.authentication');
 		$authenticate = & JAuthentication::getInstance();
-		$response	  = $authenticate->authenticate($username, $password);
-
+		$response	  = $authenticate->authenticate($credentials, $options);
+		
 		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 		{
 			// Import the user plugin group
 			JPluginHelper::importPlugin('user');
 			
 			// OK, the credentials are authenticated.  Lets fire the onLogin event
-			$results = $this->triggerEvent('onLoginUser', array((array)$response, $remember, $autoregister));
+			$results = $this->triggerEvent('onLoginUser', array((array)$response, $options));
 
 			/*
 			 * If any of the user plugins did not successfully complete the login routine
@@ -430,12 +430,13 @@ class JApplication extends JObject
 			if (!in_array(false, $results, true)) {
 
 				// Set the remember me cookie if enabled
-				if ($remember)
+				if (isset($options['remember']) && $options['remember'])
 				{
 					jimport('joomla.utilities.simplecrypt');
 					jimport('joomla.utilities.utility');
+					
 					$crypt = new JSimpleCrypt();
-					$rcookie = $crypt->encrypt($username.':|:'.$password);
+					$rcookie = $crypt->encrypt(serialize($credentials));
 					$lifetime = time() + 365*24*60*60;
 					setcookie( JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, '/' );
 				}

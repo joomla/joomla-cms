@@ -39,6 +39,8 @@ Legend:
 
 26-Jun-2007 Johan Janssens
  ^ Fixed [#5748] & appears as *amp; in breadcrumbs
+ ^ Fixed remember me functionality for the openid plugin. Changes also have effect on any of the 
+   other authentication and user plugins. 
 
 26-Jun-2007 Toby Patterson
  ^ JDocument will default to RAW document if the request format is not supported, but document's 

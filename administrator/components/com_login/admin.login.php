@@ -52,11 +52,13 @@ class LoginController
 	function login()
 	{
 		global $mainframe;
+		
+		$credentials = array();
 
-		$username = JRequest::getString('username');
-		$password = JRequest::getString('passwd', '', 'post', JREQUEST_ALLOWRAW);
+		$credentials['username'] = JRequest::getString('username');
+		$credentials['password'] = JRequest::getString('passwd', '', 'post', JREQUEST_ALLOWRAW);
 
-		$result = $mainframe->login($username, $password);
+		$result = $mainframe->login($credentials);
 
 		if (!JError::isError($result)) {
 			$mainframe->redirect('index.php');

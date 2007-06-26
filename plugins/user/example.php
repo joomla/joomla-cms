@@ -128,11 +128,12 @@ class plgUserExample extends JPlugin {
 	 * This method should handle any login logic and report back to the subject
 	 *
 	 * @access	public
-	 * @param 	array	holds the user data
+	 * @param 	object   a JAuthenticationResponece	object
+	 * @param 	array    extra options
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function onLoginUser($user, $remember)
+	function onLoginUser($user, $options)
 	{
 		// Initialize variables
 		$success = false;
@@ -148,7 +149,7 @@ class plgUserExample extends JPlugin {
 		 * if the login routine succeeds
 		 */
 
-		 //ThirdPartyApp::loginUser($user['username'], $user['password']);
+		 //ThirdPartyApp::loginUser($user->username, $user->password);
 
 		return $success;
 	}
@@ -157,7 +158,7 @@ class plgUserExample extends JPlugin {
 	 * This method should handle any logout logic and report back to the subject
 	 *
 	 * @access public
-	 * @param  array		holds the user data
+	 * @param object   a JAuthenticationResponece object
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
@@ -173,7 +174,7 @@ class plgUserExample extends JPlugin {
 		 * if the logout routine succeeds
 		 */
 
-			//ThirdPartyApp::loginUser($user['username'], $user['password']);
+			//ThirdPartyApp::loginUser($user->username, $user->password);
 
 		return $success;
 	}

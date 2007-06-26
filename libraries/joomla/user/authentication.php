@@ -86,13 +86,12 @@ class JAuthentication extends JObservable
 	 * objects to run their respective authentication routines.
 	 *
 	 * @access public
-	 * @param string 	The username.
-	 * @param string 	The password.
+	 * @param array 	Array holding the user credentials	
 	 * @return mixed 	Integer userid for valid user if credentials are valid or
 	 * 					boolean false if they are not
 	 * @since 1.5
 	 */
-	function authenticate($username, $password)
+	function authenticate($credentials, $options)
 	{
 		// Initialize variables
 		$auth = false;
@@ -118,17 +117,17 @@ class JAuthentication extends JObservable
 			}
 
 			// Try to authenticate
-			$plugin->onAuthenticate($username, $password, $response);
+			$plugin->onAuthenticate($credentials, $options, $response);
 
 			// If authentication is successfull break out of the loop
 			if($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 			{
 				if(empty($response->username)) {
-					$response->username = $username;
+					$response->username = $credentials['username'];
 				}
 
 				if(empty($response->fullname)) {
-					$response->fullname = $username;
+					$response->fullname = $credentials['username'];
 				}
 
 				break;

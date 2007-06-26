@@ -47,20 +47,20 @@ class plgAuthenticationLdap extends JPlugin
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param	string	$username	Username for authentication
-	 * @param	string	$password	Password for authentication
+	 * @param   array 	$credentials Array holding the user credentials	
+	 * @param 	array   $options     Array of extra options
 	 * @param	object	$response	Authentication response object
 	 * @return	object	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate( $username, $password, &$response )
+	function onAuthenticate( $credentials, $options, &$response )
 	{
 		// Initialize variables
 		$userdetails = null;
 		$success = 0;
 
 		// LDAP does not like Blank passwords (tries to Anon Bind which is bad)
-		if ($password == "")
+		if (empty($credentials['password']))
 		{
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = 'LDAP can not have blank password';
@@ -94,9 +94,9 @@ class plgAuthenticationLdap extends JPlugin
 				if($bindtest)
 				{
 					// Search for users DN
-					$binddata = $ldap->simple_search(str_replace("[search]", $username, $params->get('search_string')));
+					$binddata = $ldap->simple_search(str_replace("[search]", $credentials['username'], $params->get('search_string')));
 					// Verify Users Credentials
-					$success = $ldap->bind($binddata[0]['dn'],$password,1);
+					$success = $ldap->bind($binddata[0]['dn'],$credentials['password'],1);
 					// Get users details
 					$userdetails = $binddata;
 				}
@@ -110,8 +110,8 @@ class plgAuthenticationLdap extends JPlugin
 			case 'bind':
 			{
 				// We just accept the result here
-				$success = $ldap->bind($username,$password);
-				$userdetails = $ldap->simple_search(str_replace("[search]", $username, $params->get('search_string')));
+				$success = $ldap->bind($credentials['username'],$credentials['password']);
+				$userdetails = $ldap->simple_search(str_replace("[search]", $credentials['username'], $params->get('search_string')));
 			}	break;
 		}
 		
@@ -123,19 +123,20 @@ class plgAuthenticationLdap extends JPlugin
 		else
 		{
 			// Grab some details from LDAP and return them
-			if (isset($userdetails[0][$ldap_uid][0]))
-			{
+			if (isset($userdetails[0][$ldap_uid][0])) {
 				$response->username = $userdetails[0][$ldap_uid][0];
 			}
-			if (isset($userdetails[0][$ldap_email][0]))
-			{
+			
+			if (isset($userdetails[0][$ldap_email][0])) {
 				$response->email = $userdetails[0][$ldap_email][0];
 			}
+			
 			if(isset($userdetails[0][$ldap_fullname][0])) {
 				$response->fullname = $userdetails[0][$ldap_fullname][0];
 			} else {
-				$response->fullname = $username;
+				$response->fullname = $credentials['username'];
 			}
+			
 			// Were good - So say so.
 			$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 		}

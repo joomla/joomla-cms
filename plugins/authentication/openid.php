@@ -47,13 +47,13 @@ class plgAuthenticationOpenID extends JPlugin
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param	string	$username	Username for authentication
-	 * @param	string	$password	Password for authentication
+	 * @param   array 	$credentials Array holding the user credentials	
+	 * @param 	array   $options     Array of extra options
 	 * @param	object	$response	Authentication response object
 	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate( $username, $password, &$response )
+	function onAuthenticate( $credentials, $options, &$response )
 	{
 		global $mainframe;
 
@@ -87,10 +87,10 @@ class plgAuthenticationOpenID extends JPlugin
 		// Create a consumer object
 		$consumer = new Auth_OpenID_Consumer($store);
 
-		if (!$_SESSION['_openid_consumer_last_token'])
+		if (!isset($_SESSION['_openid_consumer_last_token']))
 		{
 			// Begin the OpenID authentication process.
-			if(!$request = $consumer->begin($username))
+			if(!$request = $consumer->begin($credentials['username']))
 			{
 				$response->type = JAUTHENTICATE_STATUS_FAILURE;
 				$response->error_message = 'Authentication error : could not connect to the openid server';
@@ -101,10 +101,10 @@ class plgAuthenticationOpenID extends JPlugin
 			$request->addExtensionArg('sreg', 'required' , 'email');
 			$request->addExtensionArg('sreg', 'optional', 'fullname, language, timezone');
 
-			$uri =& JFactory::getURI();
-			$url = $uri->toString();
-
-			$process_url = sprintf("index.php?option=com_user&task=login&username=%s&return=%s", $username, base64_encode($url));
+			$options['return'] = isset($options['return']) ? base64_encode($options['return']) : base64_encode(JURI::base());
+			$process_url  = sprintf("index.php?option=com_user&task=login&username=%s", $credentials['username']);
+			$process_url .= '&'.JURI::_buildQuery($options);
+			
 			$redirect_url = $request->redirectURL(JURI::base(), JURI::base().$process_url);
 
 			$session->set('trust_url', JURI::base());

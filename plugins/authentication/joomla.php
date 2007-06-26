@@ -47,17 +47,25 @@ class plgAuthenticationJoomla extends JPlugin
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param	string	$username	Username for authentication
-	 * @param	string	$password	Password for authentication
-	 * @param	object	$response	Authentication response object
+	 * @param   array 	$credentials Array holding the user credentials	
+	 * @param 	array   $options     Array of extra options
+	 * @param	object	$response	 Authentication response object
 	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate( $username, $password, &$response )
+	function onAuthenticate( $credentials, $options, &$response )
 	{
 		jimport('joomla.user.helper');
 
 		global $mainframe;
+		
+		// Joomla does not like blank passwords 
+		if (empty($credentials['password']))
+		{
+			$response->status = JAUTHENTICATE_STATUS_FAILURE;
+			$response->error_message = 'Joomla can not have blank password';
+			return false;
+		}
 
 		// Initialize variables
 		$conditions = '';
@@ -72,8 +80,8 @@ class plgAuthenticationJoomla extends JPlugin
 
 		$query = 'SELECT `id`'
 			. ' FROM `#__users`'
-			. ' WHERE username=' . $db->Quote( $username )
-			. ' AND password=' . $db->Quote( JUserHelper::getCryptedPassword( $password ) )
+			. ' WHERE username=' . $db->Quote( $credentials['username'] )
+			. ' AND password=' . $db->Quote( JUserHelper::getCryptedPassword( $credentials['password'] ) )
 			. $conditions;
 
 		$db->setQuery( $query );

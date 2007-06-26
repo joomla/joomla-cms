@@ -58,13 +58,7 @@ class plgSystemRemember extends JPlugin
 				jimport('joomla.utilities.simplecrypt');
 				$crypt	= new JSimpleCrypt();
 				$str	= $crypt->decrypt($str);
-				if (strpos($str, ':|:'))
-				{
-					$credentials = explode(':|:', $str);
-					$username = $credentials[0];
-					$password = $credentials[1];
-					$mainframe->login($username, $password, true);
-				}
+				$mainframe->login(unserialize($str));
 			}
 		}
 	}
