@@ -28,6 +28,6 @@ JTable::addIncludePath( JPATH_COMPONENT.DS.'tables' );
 
 $controller = new PollController( array('default_task' => 'showPolls') );
 
-$controller->execute( JRequest::getVar( 'task' ) );
+$controller->execute( JRequest::getCmd( 'task' ) );
 $controller->redirect();
 ?>

@@ -21,9 +21,7 @@ switch ($task)
 {
 	case 'edit':
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
-		if (!is_array( $cid )) {
-			$cid = array(0);
-		}
+		JArrayHelper::toInteger($cid, array(0));
 
 		TOOLBAR_poll::_EDIT( $cid[0] );
 		break;

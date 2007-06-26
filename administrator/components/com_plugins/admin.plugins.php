@@ -25,15 +25,12 @@ if (!$user->authorize( 'com_plugins', 'manage' )) {
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-$option = JRequest::getVar( 'option', '' );
-$client = JRequest::getVar( 'client', 'site' );
+$option = JRequest::getCmd( 'option' );
+$client = JRequest::getWord( 'client', 'site' );
 $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-$id 	= JRequest::getVar( 'id', 0, '', 'int' );
-$task = JRequest::getVar( 'task' );
+$task	= JRequest::getCmd( 'task' );
 
-if (!is_array( $cid )) {
-	$cid = array(0);
-}
+JArrayHelper::toInteger($cid, array(0));
 
 switch ( $task )
 {
@@ -95,15 +92,15 @@ function viewPlugins( $option, $client )
 	JToolBarHelper::editListX();
 	JToolBarHelper::help( 'screen.plugins' );
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order", 		'filter_order', 	'p.folder' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 		'filter_state', 	'*' );
-	$filter_type		= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 		'filter_type', 		1 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.$client.search", 			'search', 			'' );
-	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order",		'filter_order',		'p.folder',	'cmd' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'',			'word' );
+	$filter_state		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state",		'filter_state',		'',			'word' );
+	$filter_type		= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 		'filter_type',		1,			'cmd' );
+	$search				= $mainframe->getUserStateFromRequest( "$option.$client.search",			'search',			'',			'string' );
+	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
-	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
+	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+	$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
 	if ($client == 'admin') {
 		$where[] = 'p.client_id = "1"';
@@ -237,11 +234,9 @@ function editPlugin( )
 	$db		=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
 
-	$client = JRequest::getVar( 'client', 'site' );
-	$cid 	= JRequest::getVar( 'cid', array(0));
-	if (!is_array( $cid )) {
-		$cid = array(0);
-	}
+	$client = JRequest::getWord( 'client', 'site' );
+	$cid 	= JRequest::getVar( 'cid', array(0), '', 'array' );
+	JArrayHelper::toInteger($cid, array(0));
 
 	JToolBarHelper::title( JText::_( 'Plugin' ) .': <small><small>[' .JText::_('Edit'). ']</small></small>', 'plugin.png' );
 	JToolBarHelper::save();
@@ -438,6 +433,8 @@ function saveOrder( &$cid )
 	$db			=& JFactory::getDBO();
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
+	JArrayHelper::toInteger($order, array(0));
+
 	$row 		=& JTable::getInstance('plugin');
 	$conditions = array();
 
@@ -450,7 +447,7 @@ function saveOrder( &$cid )
 				JError::raiseError(500, $db->getErrorMsg() );
 			}
 			// remember to updateOrder this group
-			$condition = 'folder = "'.$row->folder.'" AND ordering > -10000 AND ordering < 10000 AND client_id = $row->client_id';
+			$condition = 'folder = "'.$row->folder.'" AND ordering > -10000 AND ordering < 10000 AND client_id = ' . (int) $row->client_id;
 			$found = false;
 			foreach ( $conditions as $cond )
 				if ($cond[1]==$condition) {

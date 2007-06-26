@@ -49,14 +49,14 @@ class SearchModelSearch extends JModel
 		global $mainframe, $option;
 		$db	=& JFactory::getDBO();
 
-		$filter_order	= $mainframe->getUserStateFromRequest( "com_search.filter_order", 'filter_order', 	'hits' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "com_search.filter_order_Dir", 'filter_order_Dir',	'' );
-		$limit 		= $mainframe->getUserStateFromRequest( 'global.list.limit',	'limit', $mainframe->getCfg('list_limit') );
-		$limitstart		= $mainframe->getUserStateFromRequest( "com_search.limitstart", 'limitstart',	0 );
-		$search 		= $mainframe->getUserStateFromRequest( "com_search.search", 'search', '' );
-		$search 		= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-		$where		= array();
-		$showResults	= JRequest::getVar('search_results', 0);
+		$filter_order		= $mainframe->getUserStateFromRequest( 'com_search.filter_order',		'filter_order',		'hits', 'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( 'com_search.filter_order_Dir',	'filter_order_Dir',	'',		'word' );
+		$limit				= $mainframe->getUserStateFromRequest( 'global.list.limit',				'limit',			$mainframe->getCfg('list_limit'), 'int' );
+		$limitstart			= $mainframe->getUserStateFromRequest( 'com_search.limitstart',			'limitstart',		0,		'int' );
+		$search				= $mainframe->getUserStateFromRequest( 'com_search.search',				'search',			'',		'string' );
+		$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+		$where				= array();
+		$showResults		= JRequest::getInt('search_results');
 
 		// table ordering
 		if ( $filter_order_Dir == 'DESC' ) {

@@ -18,6 +18,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JPATH_COMPONENT.DS.'controller.php' );
 
 $controller = new SearchController();
-$controller->execute( JRequest::getVar( 'task' ) );
+$controller->execute( JRequest::getCmd( 'task' ) );
 $controller->redirect();
 ?>

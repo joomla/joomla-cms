@@ -36,8 +36,8 @@ class searchViewSearch extends JView
 		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('Search Statistics'));
 
-		$limit 		= $mainframe->getUserStateFromRequest( 'global.list.limit',	'limit', $mainframe->getCfg('list_limit') );
-		$limitstart	= $mainframe->getUserStateFromRequest( "com_search.limitstart", 'limitstart',	0 );
+		$limit 		= $mainframe->getUserStateFromRequest( 'global.list.limit',	'limit', $mainframe->getCfg('list_limit'), 'int' );
+		$limitstart	= $mainframe->getUserStateFromRequest( 'com_search.limitstart', 'limitstart', 0, 'int' );
 
 		$model = $this->getModel();
 		$items = $model->getItems();
@@ -47,9 +47,9 @@ class searchViewSearch extends JView
 		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( count($items), $limitstart, $limit );
 
-		$showResults	= JRequest::getVar('search_results', 0);
+		$showResults	= JRequest::getInt('search_results');
 
-		$search 		= $mainframe->getUserStateFromRequest( "com_search.search", 'search', '' );
+		$search 		= $mainframe->getUserStateFromRequest( 'com_search.search', 'search', '', 'string' );
 
 		$this->assignRef('items', 	$items);
 		$this->assignRef('enabled', $enabled);

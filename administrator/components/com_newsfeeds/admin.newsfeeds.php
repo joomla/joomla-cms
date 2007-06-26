@@ -28,7 +28,7 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_newsfeeds'.DS
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-$task 	= JRequest::getVar( 'task');
+$task 	= JRequest::getCmd('task');
 
 switch ($task) {
 
@@ -84,15 +84,15 @@ function showNewsFeeds(  )
 
 	$db					=& JFactory::getDBO();
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'*' );
-	$filter_catid 		= $mainframe->getUserStateFromRequest( "$option.filter_catid", 		'filter_catid',		0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",		'filter_order',		'a.ordering',	'cmd' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'',				'word' );
+	$filter_state		= $mainframe->getUserStateFromRequest( "$option.filter_state",		'filter_state',		'',				'word' );
+	$filter_catid		= $mainframe->getUserStateFromRequest( "$option.filter_catid",		'filter_catid',		0,				'int' );
+	$search				= $mainframe->getUserStateFromRequest( "$option.search",			'search',			'',				'string' );
+	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
-	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
+	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+	$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
 	$where = array();
 	if ( $filter_catid ) {
@@ -169,11 +169,9 @@ function editNewsFeed(  )
 	$user 		=& JFactory::getUser();
 
 	$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
-	$cid 		= JRequest::getVar( 'cid', array(0));
-	$option 	= JRequest::getVar( 'option');
-	if (!is_array( $cid )) {
-		$cid = array(0);
-	}
+	$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
+	$option 	= JRequest::getCmd( 'option' );
+	JArrayHelper::toInteger($cid, array(0));
 
 	$row =& JTable::getInstance( 'newsfeed', 'Table' );
 	// load the row from the db table
@@ -221,8 +219,8 @@ function saveNewsFeed(  )
 	}
 
 	// Sets rtl value when rtl checkbox ticked
-	$isRtl = JRequest::getVar( 'rtl', 0 );
-	if ( $isRtl) {
+	$isRtl = JRequest::getInt('rtl');
+	if ($isRtl) {
 		$row->rtl = 1;
 	}
 
@@ -285,11 +283,9 @@ function changePublishNewsFeeds( $publish )
 	$db 		=& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
 
-	$cid 		= JRequest::getVar( 'cid', array(0));
-	$option = JRequest::getVar( 'option');
-	if (!is_array( $cid )) {
-		$cid = array(0);
-	}
+	$cid		= JRequest::getVar('cid', array(), '', 'array');
+	$option		= JRequest::getCmd('option');
+	JArrayHelper::toInteger($cid);
 
 	if (empty( $cid )) {
 		JError::raiseWarning( 500, 'No items selected' );
@@ -324,24 +320,22 @@ function removeNewsFeeds( )
 	global $mainframe;
 
 	$db 		=& JFactory::getDBO();
-	$cid 		= JRequest::getVar( 'cid', array(0));
-	$option 	= JRequest::getVar( 'option');
-	if (!is_array( $cid )) {
-		$cid = array(0);
+	$cid 		= JRequest::getVar('cid', array(), '', 'array');
+	$option 	= JRequest::getCmd('option');
+	JArrayHelper::toInteger($cid);
+
+	if (count($cid) < 1) {
+		JError::raiseWarning(500, JText::_( 'Select an item to delete', true ) );
+		$mainframe->redirect( 'index.php?option='. $option );
 	}
 
-	if (!is_array( $cid ) || count( $cid ) < 1) {
-		JError::raiseError(500, JText::_( 'Select an item to delete', true ) );
-	}
-	if (count( $cid )) {
-		$cids = implode( ',', $cid );
-		$query = 'DELETE FROM #__newsfeeds'
-		. ' WHERE id IN ( '. $cids .' )'
-		;
-		$db->setQuery( $query );
-		if (!$db->query()) {
-			echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
-		}
+	$cids = implode( ',', $cid );
+	$query = 'DELETE FROM #__newsfeeds'
+	. ' WHERE id IN ( '. $cids .' )'
+	;
+	$db->setQuery( $query );
+	if (!$db->query()) {
+		echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
 	}
 
 	$mainframe->redirect( 'index.php?option='. $option );
@@ -355,7 +349,7 @@ function cancelNewsFeed(  )
 	global $mainframe;
 
 	$db 	=& JFactory::getDBO();
-	$option = JRequest::getVar( 'option');
+	$option = JRequest::getCmd('option');
 
 	$row =& JTable::getInstance( 'newsfeed', 'Table' );
 	$row->bind(JRequest::get('post'));
@@ -386,11 +380,9 @@ function orderNewsFeed( $inc )
 	global $mainframe;
 
 	$db		=& JFactory::getDBO();
-	$cid	= JRequest::getVar( 'cid', array(0));
-	$option = JRequest::getVar( 'option');
-	if (!is_array( $cid )) {
-		$cid = array(0);
-	}
+	$cid	= JRequest::getVar('cid', array(0), '', 'array');
+	$option = JRequest::getCmd('option');
+	JArrayHelper::toInteger($cid, array(0));
 
 	$limit 		= JRequest::getVar( 'limit', 0, '', 'int' );
 	$limitstart = JRequest::getVar( 'limitstart', 0, '', 'int' );
@@ -411,10 +403,13 @@ function saveOrder(  )
 	global $mainframe;
 
 	$db			=& JFactory::getDBO();
-	$cid		= JRequest::getVar( 'cid' );
+	$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
+	JArrayHelper::toInteger($cid);
 
 	$total		= count( $cid );
 	$order		= JRequest::getVar( 'order', array(0), 'post', 'array' );
+	JArrayHelper::toInteger($order, array(0));
+
 	$row =& JTable::getInstance( 'newsfeed', 'Table' );
 	$groupings = array();
 

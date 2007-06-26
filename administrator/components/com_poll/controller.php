@@ -48,14 +48,14 @@ class PollController extends JController
 		global $mainframe, $option;
 
 		$db					=& JFactory::getDBO();
-		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'm.id' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
-		$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'*' );
-		$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-		$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+		$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",		'filter_order',		'm.id',	'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'',		'word' );
+		$filter_state		= $mainframe->getUserStateFromRequest( "$option.filter_state",		'filter_state',		'',		'word' );
+		$search				= $mainframe->getUserStateFromRequest( "$option.search",			'search',			'',		'string' );
+		$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
-		$limit		= JRequest::getVar( 'global.list.limit', $mainframe->getCfg('list_limit'), '', 'int');
-		$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
+		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+		$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
 		$where = array();
 
@@ -125,7 +125,7 @@ class PollController extends JController
 		$user 	=& JFactory::getUser();
 
 		$cid 	= JRequest::getVar( 'cid', array(0), '', 'array' );
-		$option = JRequest::getVar( 'option');
+		$option = JRequest::getCmd( 'option');
 		$uid 	= (int) @$cid[0];
 
 		$row =& JTable::getInstance('poll', 'Table');
@@ -237,7 +237,9 @@ class PollController extends JController
 	{
 		$db		=& JFactory::getDBO();
 		$cid	= JRequest::getVar( 'cid', array(), '', 'array' );
-		$option = JRequest::getVar( 'option', 'com_poll', '', 'string' );
+		$option = JRequest::getCmd( 'option', 'com_poll', '', 'string' );
+
+		JArrayHelper::toInteger($cid);
 		$msg = '';
 
 		for ($i=0, $n=count($cid); $i < $n; $i++)
@@ -266,8 +268,9 @@ class PollController extends JController
 
 		$cid		= JRequest::getVar( 'cid', array(), '', 'array' );
 		$publish	= ( $this->_task == 'publish' ? 1 : 0 );
-		$option		= JRequest::getVar( 'option', 'com_poll', '', 'string' );
-		$catid		= JRequest::getVar( 'catid', array(0), 'post', 'array' );
+		$option		= JRequest::getCmd( 'option', 'com_poll', '', 'string' );
+
+		JArrayHelper::toInteger($cid);
 
 		if (count( $cid ) < 1)
 		{
@@ -275,7 +278,6 @@ class PollController extends JController
 			JError::raiseError(500, JText::_( 'Select an item to '.$action, true ) );
 		}
 
-		JArrayHelper::toInteger( $cid );
 		$cids = implode( ',', $cid );
 
 		$query = 'UPDATE #__polls'

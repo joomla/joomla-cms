@@ -34,7 +34,8 @@ class TOOLBAR_newsfeeds
 
 	function _EDIT()
 	{
-		$cid = JRequest::getVar( 'cid', array(0));
+		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
+		JArrayHelper::toInteger($cid, array(0));
 
 		$text 	= ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 

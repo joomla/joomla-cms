@@ -27,7 +27,10 @@ class SearchHelper
 
 		$search_ignore	= array();
 		$tag			= $lang->getTag();
-		@include $lang->getLanguagePath().$tag.DS.$tag.'.ignore.php' ;
+		$ignoreFile		= $lang->getLanguagePath().DS.$tag.DS.$tag.'.ignore.php';
+		if (file_exists($ignoreFile)) {
+			include $ignoreFile;
+		}
 
 	 	// check for words to ignore
 		$aterms = explode( ' ', JString::strtolower( $searchword ) );
