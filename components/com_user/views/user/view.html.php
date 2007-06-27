@@ -18,7 +18,7 @@ defined('_JEXEC') or die();
 jimport( 'joomla.application.component.view');
 
 /**
- * HTML View class for the WebLinks component
+ * HTML View class for the Users component
  *
  * @static
  * @package		Joomla

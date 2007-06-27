@@ -35,8 +35,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</tr>
 	<tr>
 		<td>
-			<a href="<?php echo JRoute::_( 'index.php?option=com_user&task=lostPassword' ); ?>">
+			<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=reset' ); ?>">
 				<?php echo JText::_( 'Lost Password?'); ?>
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=remind' ); ?>">
+				<?php echo JText::_( 'Forgot Username?'); ?>
 			</a>
 		</td>
 	</tr>

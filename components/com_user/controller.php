@@ -124,7 +124,7 @@ class UserController extends JController
 		if(!JRequest::getVar( $token, 0, 'post' )) {
 			JError::raiseError(403, 'Request Forbidden');
 		}*/
-		
+
 		//preform the login action
 		$error = $mainframe->login($credentials, $options);
 		
@@ -188,104 +188,104 @@ class UserController extends JController
 	}
 
 
-	function lostpassword()
-	{
-		JRequest::setVar('view', 'lostpass');
-		parent::display();
-	}
+//	function lostpassword()
+//	{
+//		JRequest::setVar('view', 'lostpass');
+//		parent::display();
+//	}
 
-	/**
-	 * Sends a new password or username reminder to a verified user
-	 *
-	 * @return	void
-	 * @since	1.5
-	 */
-	function sendreminder()
-	{
-		global $mainframe;
-
-		//check the token before we do anything else
-		$token	= JUtility::getToken();
-		if(!JRequest::getVar( $token, 0, 'post' )) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
-
-		// Initialize variables
-		$siteURL 	= JURI::base();
-		$config		=& JFactory::getConfig();
-		$db 		=& JFactory::getDBO();
-
-		// Get the request variables from the post
-		$username	= JRequest::getVar( 'jusername', '', 'post' );
-		$email		= JRequest::getVar( 'jemail', '', 'post' );
-
-		if ($username)
-		{
-			// We have a username ... send a new password
-			$query = 'SELECT id, email' .
-					' FROM #__users' .
-					' WHERE username = "'.$db->getEscaped($username).'"';
-			$db->setQuery( $query );
-			if (!($user = $db->loadObject()) || !$username) {
-				$mainframe->redirect( 'index.php?option=com_user&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
-			}
-
-			// Generate new password
-			jimport('joomla.user.helper');
-			$newpass = JUserHelper::genRandomPassword();
-
-			// Set new password for the user
-			$query = 'UPDATE #__users' .
-					' SET password = "'.md5($newpass).'"' .
-					' WHERE id = '.$user->id;
-			$db->setQuery( $query );
-			if (!$db->query()) {
-				JError::raiseError( 404, JText::_('SQL error' ) . $db->stderr(true));
-			}
-
-			// Build the email body and subject
-			$message = JText::sprintf( 'NEWPASS_MAIL_MSG', $username, JText::_( 'NEWPASS_MSG1' ), $siteURL, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
-			eval ("\$message = \"$message\";");
-			$subject = JText::sprintf( 'New password for', $config->getValue('config.sitename'), $username );
-			eval ("\$subject = \"$subject\";");
-
-			// Send the new password email
-			JUtility::sendMail($config->getValue('config.mailfrom'), $config->getValue('config.fromname'), $user->email, $subject, $message);
-
-			$mainframe->redirect( 'index.php', JText::_( 'New User Password created and sent!' ) );
-		}
-		else
-		{
-			// No username... do we have an email address?
-			if ($email)
-			{
-				// We have an email address ... is it a valid one?
-				$query = 'SELECT username' .
-						' FROM #__users' .
-						' WHERE email = "'.$db->getEscaped($email)."'";
-				$db->setQuery( $query );
-				if (!($username = $db->loadResult()) || !$email) {
-					$mainframe->redirect( 'index.php?option=com_user&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
-				}
-
-				// Build the email body and subject
-				$message = JText::sprintf( 'RESEND_MAIL_MSG', $username, JText::_( 'RESEND_MSG1' ), $siteURL, JText::_( 'RESEND_MSG2' ), JText::_( 'RESEND_MSG3' ) );
-				eval ("\$message = \"$message\";");
-				$subject = JText::_( 'Resend username for', $config->getValue('config.sitename') );
-				eval ("\$subject = \"$subject\";");
-
-				// Send the username reminder email
-				JUtility::sendMail($config->getValue('config.mailfrom'), $config->getValue('config.fromname'), $email, $subject, $message);
-
-				$mainframe->redirect( 'index.php', JText::_( 'Username resent' ) );
-			}
-			else
-			{
-				// We have nothing ... send fail
-				$mainframe->redirect( 'index.php?option=com_user&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
-			}
-		}
-	}
+//	/**
+//	 * Sends a new password or username reminder to a verified user
+//	 *
+//	 * @return	void
+//	 * @since	1.5
+//	 */
+//	function sendreminder()
+//	{
+//		global $mainframe;
+//
+//		//check the token before we do anything else
+//		$token	= JUtility::getToken();
+//		if(!JRequest::getVar( $token, 0, 'post' )) {
+//			JError::raiseError(403, 'Request Forbidden');
+//		}
+//
+//		// Initialize variables
+//		$siteURL 	= JURI::base();
+//		$config		=& JFactory::getConfig();
+//		$db 		=& JFactory::getDBO();
+//
+//		// Get the request variables from the post
+//		$username	= JRequest::getVar( 'jusername', '', 'post' );
+//		$email		= JRequest::getVar( 'jemail', '', 'post' );
+//
+//		if ($username)
+//		{
+//			// We have a username ... send a new password
+//			$query = 'SELECT id, email' .
+//					' FROM #__users' .
+//					' WHERE username = "'.$db->getEscaped($username).'"';
+//			$db->setQuery( $query );
+//			if (!($user = $db->loadObject()) || !$username) {
+//				$mainframe->redirect( 'index.php?option=com_user&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
+//			}
+//
+//			// Generate new password
+//			jimport('joomla.user.helper');
+//			$newpass = JUserHelper::genRandomPassword();
+//
+//			// Set new password for the user
+//			$query = 'UPDATE #__users' .
+//					' SET password = "'.md5($newpass).'"' .
+//					' WHERE id = '.$user->id;
+//			$db->setQuery( $query );
+//			if (!$db->query()) {
+//				JError::raiseError( 404, JText::_('SQL error' ) . $db->stderr(true));
+//			}
+//
+//			// Build the email body and subject
+//			$message = JText::sprintf( 'NEWPASS_MAIL_MSG', $username, JText::_( 'NEWPASS_MSG1' ), $siteURL, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
+//			eval ("\$message = \"$message\";");
+//			$subject = JText::sprintf( 'New password for', $config->getValue('config.sitename'), $username );
+//			eval ("\$subject = \"$subject\";");
+//
+//			// Send the new password email
+//			JUtility::sendMail($config->getValue('config.mailfrom'), $config->getValue('config.fromname'), $user->email, $subject, $message);
+//
+//			$mainframe->redirect( 'index.php', JText::_( 'New User Password created and sent!' ) );
+//		}
+//		else
+//		{
+//			// No username... do we have an email address?
+//			if ($email)
+//			{
+//				// We have an email address ... is it a valid one?
+//				$query = 'SELECT username' .
+//						' FROM #__users' .
+//						' WHERE email = "'.$db->getEscaped($email)."'";
+//				$db->setQuery( $query );
+//				if (!($username = $db->loadResult()) || !$email) {
+//					$mainframe->redirect( 'index.php?option=com_user&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
+//				}
+//
+//				// Build the email body and subject
+//				$message = JText::sprintf( 'RESEND_MAIL_MSG', $username, JText::_( 'RESEND_MSG1' ), $siteURL, JText::_( 'RESEND_MSG2' ), JText::_( 'RESEND_MSG3' ) );
+//				eval ("\$message = \"$message\";");
+//				$subject = JText::_( 'Resend username for', $config->getValue('config.sitename') );
+//				eval ("\$subject = \"$subject\";");
+//
+//				// Send the username reminder email
+//				JUtility::sendMail($config->getValue('config.mailfrom'), $config->getValue('config.fromname'), $email, $subject, $message);
+//
+//				$mainframe->redirect( 'index.php', JText::_( 'Username resent' ) );
+//			}
+//			else
+//			{
+//				// We have nothing ... send fail
+//				$mainframe->redirect( 'index.php?option=com_user&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
+//			}
+//		}
+//	}
 
 	/**
 	 * Save user registration and notify users and admins if required
@@ -465,6 +465,126 @@ class UserController extends JController
 
 		$view->assign('message', $message);
 		$view->display('message');
+	}
+
+	/**
+	 * Password Reset Request Method
+	 *
+	 * @access	public
+	 */
+	function requestreset()
+	{
+		// Verify the submission
+		if(!JRequest::getVar(JUtility::getToken(), 0, 'post', 'alnum')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
+		// Get the input
+		$username	= JRequest::getVar('username', null, 'post', 'cmd');
+		$email		= JRequest::getVar('email', null, 'post', 'string');
+
+		// Get the model
+		$model = &$this->getModel('Reset');
+
+		// Request a reset
+		if ($model->requestReset($username, $email) === false)
+		{
+			$message = JText::sprintf('PASSWORD_RESET_REQUEST_FAILED', $model->getError());
+			$this->setRedirect('index.php?option=com_user&view=reset', $message);
+			return false;
+		}
+
+		$this->setRedirect('index.php?option=com_user&view=reset&layout=confirm');
+	}
+
+	/**
+	 * Password Reset Confirmation Method
+	 *
+	 * @access	public
+	 */
+	function confirmreset()
+	{
+		// Verify the submission
+		if(!JRequest::getVar(JUtility::getToken(), 0, 'post', 'alnum')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
+		// Get the input
+		$token = JRequest::getVar('token', null, 'post', 'alnum');
+
+		// Get the model
+		$model = &$this->getModel('Reset');
+
+		// Verify the token
+		if ($model->confirmReset($token) === false)
+		{
+			$message = JText::sprintf('PASSWORD_RESET_CONFIRMATION_FAILED', $model->getError());
+			$this->setRedirect('index.php?option=com_user&view=reset&layout=confirm', $message);
+			return false;
+		}
+
+		$this->setRedirect('index.php?option=com_user&view=reset&layout=complete');
+	}
+
+	/**
+	 * Password Reset Completion Method
+	 *
+	 * @access	public
+	 */
+	function completereset()
+	{
+		// Verify the submission
+		if(!JRequest::getVar(JUtility::getToken(), 0, 'post', 'alnum')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
+		// Get the input
+		$password1 = JRequest::getVar('password1', null, 'post', 'string');
+		$password2 = JRequest::getVar('password2', null, 'post', 'string');
+
+		// Get the model
+		$model = &$this->getModel('Reset');
+
+		// Reset the password
+		if ($model->completeReset($password1, $password2) === false)
+		{
+			$message = JText::sprintf('PASSWORD_RESET_FAILED', $model->getError());
+			$this->setRedirect('index.php?option=com_user&view=reset&layout=complete', $message);
+			return false;
+		}
+
+		$message = JText::_('PASSWORD_RESET_SUCCESS');
+		$this->setRedirect('index.php?option=com_user&view=login', $message);
+	}
+
+	/**
+	 * Username Reminder Method
+	 *
+	 * @access	public
+	 */
+	function remindusername()
+	{
+		// Verify the submission
+		if(!JRequest::getVar(JUtility::getToken(), 0, 'post', 'alnum')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
+		// Get the input
+		$email = JRequest::getVar('email', null, 'post', 'string');
+
+		// Get the model
+		$model = &$this->getModel('Remind');
+
+		// Send the reminder
+		if ($model->remindUsername($email) === false)
+		{
+			$message = JText::sprintf('USERNAME_REMINDER_FAILED', $model->getError());
+			$this->setRedirect('index.php?option=com_user&view=remind', $message);
+			return false;
+		}
+
+		$message = JText::sprintf('USERNAME_REMINDER_SUCCESS', $email);
+		$this->setRedirect('index.php?option=com_user&view=login', $message);
 	}
 
 	function _sendMail(&$user, $password)

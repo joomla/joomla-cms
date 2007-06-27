@@ -43,8 +43,12 @@
 				<?php echo JText::_( 'Remember me' ); ?>
 				<input type="checkbox" name="remember" class="inputbox" value="yes" />
 				<br/>
-				<a href="<?php echo JRoute::_( 'index.php?option=com_user&task=lostPassword' ); ?>">
+				<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=reset' ); ?>">
 					<?php echo JText::_( 'Lost Password?' ); ?>
+				</a>
+				<br/>
+				<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=remind' ); ?>">
+					<?php echo JText::_( 'Forgot Username?' ); ?>
 				</a>
 				<?php if ( $this->params->get( 'registration' ) ) : ?>
 				<br/>

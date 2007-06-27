@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Jun-2007 Rob Schley
+ ^ Reworked the password reset work-flow to be more secure
+ ^ Adjusted some of the links in mod_login to point to the new username reminder and password reset features
+ + Added a username reminder feature
+ ! Added several strings to com_user and a couple strings to mod_login
+
 27-Jun-2007 Chris Davenport
  ^ Changed 'Enable' to 'Default' in Language Manager
  # Language Manager not retaining change to default language
@@ -71,12 +77,12 @@ Legend:
  + Added '*' to item that has the default menu item in Admin dorpdown menus list
 
 19-Jun-2007 Rastin Mehr
- # Fixed unreported bug, Whe front-end user submits a weblink they get an error view "form" does 
+ # Fixed unreported bug, Whe front-end user submits a weblink they get an error view "form" does
    not exist
  # Fixed [#169] Article submission fails for both users "Registered" and "Author"
- * Fixed security flaw so Authors and Registered users would not be able to edit articles that don't 
+ * Fixed security flaw so Authors and Registered users would not be able to edit articles that don't
    belong to them
- ^ in the SITE ContentController::edit implemented security checking to make sure user has the right 
+ ^ in the SITE ContentController::edit implemented security checking to make sure user has the right
    to edit, doesn't attempt to edit an article that doesn't belong to her
 
 18-Jun-2007 Andrew Eddie
@@ -95,7 +101,7 @@ Legend:
 
 12-Jun-2007 Toby Patterson
  # Fixed [#532] Missing parameter for setting date format in showCalendar() javascript function
- ! New DATE_FORMAT_JS1 key in en-GB.ini used to provide data format for JavaScript, used by calendar 
+ ! New DATE_FORMAT_JS1 key in en-GB.ini used to provide data format for JavaScript, used by calendar
    parameter
 
 11-Jun-2007 Jason Kendall
@@ -112,7 +118,7 @@ Legend:
  # Fixed [#5641] Repeated strings at site language file en-GB.com_user.ini
 
 10-Jun-2007 Rastin Mehr
- # Fixed [#5628] gacl_api::get_group_id( ... ) now returns the right value, that was causing the 
+ # Fixed [#5628] gacl_api::get_group_id( ... ) now returns the right value, that was causing the
     registration process not going through properly.
  # Fixed [#4694] Com_contact broken
  ^ Modified sample_data.sql file to fix the issue
@@ -121,7 +127,7 @@ Legend:
  # Installer reports a more descriptive error when a file cannot be uploaded.
 
 09-Jun-2007 Enno Klasing
- # Disabled XML-RPC Server and Client when they are disabled in configuration.php, Client only 
+ # Disabled XML-RPC Server and Client when they are disabled in configuration.php, Client only
    reachable when debugging is on
 
 09-Jun-2007 Andrew Eddie
@@ -129,7 +135,7 @@ Legend:
 
 08-Jun-2007 Toby Patterson
  # Fixed [#4485] language/en-GB/en-GB.ini "DATE_FORMAT_LC3" and "DATE_FORMAT_LC4" are missing
- ! Various format strings ( eg DATE_FORMAT_LC4 ) no longer defined in the framework - use JText::_() 
+ ! Various format strings ( eg DATE_FORMAT_LC4 ) no longer defined in the framework - use JText::_()
    instead
  # Fixed [#4744] Error messages prevent successful installation
 
