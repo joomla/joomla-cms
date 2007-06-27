@@ -266,7 +266,7 @@ class JInstallerComponent extends JObject
 				$msg = ob_get_contents();
 				ob_end_clean();
 				if ($msg != '') {
-					$this->parent ->set('extension.message', $msg);
+					$this->parent->set('extension.message', $msg);
 				}
 			}
 		}
