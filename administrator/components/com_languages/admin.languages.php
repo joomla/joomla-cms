@@ -27,7 +27,7 @@ require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 $task 	= strtolower( JRequest::getCmd( 'task' ) );
 $cid 	= JRequest::getVar( 'cid', array(0), '', 'array' );
-//JArrayHelper::toInteger($cid, array(0));
+$cid	= array(JInputFilter::clean(@$cid[0], 'cmd'));
 
 $client	= JRequest::getVar('client', 0, '', 'int');
 if ($client == 1) {

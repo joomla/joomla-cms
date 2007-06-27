@@ -18,14 +18,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 // get parameters from the URL or submitted form
-$scope 		= JRequest::getVar( 'scope' );
+$scope 		= JRequest::getCmd( 'scope' );
 $cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
-$section 	= JRequest::getVar( 'scope' );
-if (!is_array( $cid )) {
-	$cid = array(0);
-}
+JArrayHelper::toInteger($cid, array(0));
 
-$task = JRequest::getVar('task');
+$task = JRequest::getCmd('task');
 
 switch ($task)
 {
@@ -46,7 +43,7 @@ switch ($task)
 		break;
 
 	case 'copyselect':
-		copySectionSelect( $option, $cid, $section );
+		copySectionSelect( $option, $cid, $scope );
 		break;
 
 	case 'copysave':
@@ -105,15 +102,15 @@ function showSections( $scope, $option )
 	global $mainframe;
 
 	$db					=& JFactory::getDBO();
-	$user 				=& JFactory::getUser();
-	$filter_order		= $mainframe->getUserStateFromRequest( $option.'.filter_order', 		'filter_order', 	's.ordering' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'.filter_order_Dir',	'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( $option.'.filter_state', 		'filter_state', 	'*' );
-	$search 			= $mainframe->getUserStateFromRequest( $option.'.search', 			'search', 			'' );
-	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$user				=& JFactory::getUser();
+	$filter_order		= $mainframe->getUserStateFromRequest( $option.'.filter_order',		'filter_order',		's.ordering',	'cmd' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'.filter_order_Dir',	'filter_order_Dir',	'',				'word' );
+	$filter_state		= $mainframe->getUserStateFromRequest( $option.'.filter_state',		'filter_state',		'',				'word' );
+	$search				= $mainframe->getUserStateFromRequest( $option.'.search',			'search',			'',				'string' );
+	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
-	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
+	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+	$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
 	$where[] = 's.scope = "'.$scope.'"';
 
@@ -220,12 +217,10 @@ function editSection( )
 	$db			=& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
 
-	$option 	= JRequest::getVar( 'option');
-	$scope 		= JRequest::getVar( 'scope' );
-	$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
-	if (!is_array( $cid )) {
-		$cid = array(0);
-	}
+	$option		= JRequest::getCmd( 'option');
+	$scope		= JRequest::getCmd( 'scope' );
+	$cid		= JRequest::getVar( 'cid', array(0), '', 'array' );
+	JArrayHelper::toInteger($cid, array(0));
 
 	$row =& JTable::getInstance('section');
 	// load the row from the db table
@@ -274,9 +269,9 @@ function saveSection( $option, $scope, $task )
 	global $mainframe;
 
 	$db			=& JFactory::getDBO();
-	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
+	$menu		= JRequest::getVar( 'menu', 'mainmenu', 'post', 'string' );
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
-	$oldtitle 	= JRequest::getVar( 'oldtitle', '', '', 'post' );
+	$oldtitle	= JRequest::getVar( 'oldtitle', '', '', 'post', 'string' );
 
 	$post = JRequest::get('post');
 
@@ -546,9 +541,11 @@ function copySectionSave( $sectionid )
 	global $mainframe;
 
 	$db			=& JFactory::getDBO();
-	$title 		= JRequest::getVar( 'title' );
-	$contentid 	= JRequest::getVar( 'content' );
+	$title		= JRequest::getString( 'title' );
+	$contentid	= JRequest::getVar( 'content' );
 	$categoryid = JRequest::getVar( 'category' );
+	JArrayHelper::toInteger($contentid);
+	JArrayHelper::toInteger($categoryid);
 
 	// copy section
 	$section =& JTable::getInstance('section');
@@ -658,10 +655,11 @@ function saveOrder( &$cid )
 	global $mainframe;
 
 	$db			=& JFactory::getDBO();
+	$row		=& JTable::getInstance('section');
 
 	$total		= count( $cid );
-	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row 		=& JTable::getInstance('section');
+	$order		= JRequest::getVar( 'order', array(0), 'post', 'array' );
+	JArrayHelper::toInteger($order, array(0));
 
 	// update ordering values
 	for( $i=0; $i < $total; $i++ )
