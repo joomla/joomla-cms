@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Jun-2007 Johan Janssens
+ ^ Reworked editor-xtd handling, added ability to specifiy which editor-xtd plugins you don't want to display.
+
 27-Jun-2007 Rob Schley
  ^ Reworked the password reset work-flow to be more secure
  ^ Adjusted some of the links in mod_login to point to the new username reminder and password reset features
@@ -49,11 +52,11 @@ Legend:
 
 26-Jun-2007 Johan Janssens
  ^ Fixed [#5748] & appears as *amp; in breadcrumbs
- ^ Fixed remember me functionality for the openid plugin. Changes also have effect on any of the 
-   other authentication and user plugins. 
+ ^ Fixed remember me functionality for the openid plugin. Changes also have effect on any of the
+   other authentication and user plugins.
 
 26-Jun-2007 Toby Patterson
- ^ JDocument will default to RAW document if the request format is not supported, but document's 
+ ^ JDocument will default to RAW document if the request format is not supported, but document's
    type will be that of the requested format (see JDocument::getInstance) - Louis's suggestion
  # Fixed [#5743] Dateformat in category blog layout
 
@@ -61,7 +64,7 @@ Legend:
  + New method JUtility dump
 
 25-Jun-2007 Mateusz Krzeszowiec
- # Fixed [#5757] com_content view=category does not show registered article link to nonregistered 
+ # Fixed [#5757] com_content view=category does not show registered article link to nonregistered
    user when Show UnAuthorized Links set to Yes
 
 25-Jun-2007 Chris Davenport

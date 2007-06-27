@@ -363,8 +363,9 @@ class plgEditorTinymce extends JPlugin
 	 * @param string The height of the editor area
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
+	 * @param mixed Can be boolean or array.
 	 */
-	function onDisplay( $name, $content, $width, $height, $col, $row, $buttons = true )
+	function onDisplay( $name, $content, $width, $height, $col, $row, $buttons = true)
 	{
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric( $width )) {
@@ -385,9 +386,9 @@ class plgEditorTinymce extends JPlugin
 			}
 		}
 
-		if($buttons) {
-			$dispatcher =& JEventDispatcher::getInstance();
-			$results = $dispatcher->trigger( 'onCustomEditorButton', array('name' => $name) );
+		if(!empty($buttons))
+		{
+			$results = $this->_subject->getButtons($name, $buttons);
 
 			/*
 			 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX

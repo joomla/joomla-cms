@@ -14,39 +14,53 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onCustomEditorButton', 'plgPagebreakButton' );
+jimport('joomla.event.plugin');
 
 /**
-* mospage button
-* @return array A two element array of ( imageName, textToInsert )
-*/
-function plgPagebreakButton()
+ * Editor Pagebreak buton
+ *
+ * @author Johan Janssens <johan.janssens@joomla.org>
+ * @package Editors-xtd
+ * @since 1.5
+ */
+class plgButtonPagebreak extends JPlugin
 {
-	global $mainframe, $option;
-
-	$doc = & JFactory::getDocument();
-	$template = $mainframe->getTemplate();
-	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-	// button is not active in specific content components
-	switch ( $option )
-	{
-		case 'com_sections'  :
-		case 'com_categories':
-		case 'com_modules'   :
-			$button = array( false );
-			break;
-
-		default:
-			$link = 'index.php?option=com_content&amp;task=ins_pagebreak&amp;tmpl=component';
-
-			$css = "\t.button1-left .pagebreak { background: url($url/plugins/editors-xtd/pagebreak.gif) 100% 0 no-repeat; }";
-			$doc->addStyleDeclaration($css);
-			$doc->addScript($url.'includes/js/joomla/modal.js');
-			$doc->addStyleSheet($url.'includes/js/joomla/modal.css');
-			$button = array( "document.popup.show('$link', 400, 150, null)", JText::_('Pagebreak'), 'pagebreak' );
-			break;
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @since 1.5
+	 */
+	function plgButtonPagebreak(& $subject) {
+		parent::__construct($subject);
 	}
 
-	return $button;
+	/**
+	 * Display the button
+	 *
+	 * @return array A two element array of ( imageName, textToInsert )
+	 */
+	function onDisplay($name)
+	{
+		global $mainframe;
+
+		$doc = & JFactory::getDocument();
+		$template = $mainframe->getTemplate();
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		$link = 'index.php?option=com_content&amp;task=ins_pagebreak&amp;tmpl=component';
+
+		$css = "\t.button1-left .pagebreak { background: url($url/plugins/editors-xtd/pagebreak.gif) 100% 0 no-repeat; }";
+		$doc->addStyleDeclaration($css);
+		$doc->addScript($url.'includes/js/joomla/modal.js');
+		$doc->addStyleSheet($url.'includes/js/joomla/modal.css');
+		$button = array( "document.popup.show('$link', 400, 150, null)", JText::_('Pagebreak'), 'pagebreak' );
+
+		return $button;
+	}
 }
 ?>

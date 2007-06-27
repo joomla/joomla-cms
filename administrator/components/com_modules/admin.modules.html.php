@@ -472,7 +472,7 @@ class HTML_modules
 
 				<?php
 				// parameters : areaname, content, width, height, cols, rows
-				echo $editor->display( 'content', $row->content, '100%', '400', '60', '20' ) ;
+				echo $editor->display( 'content', $row->content, '100%', '400', '60', '20', array('pagebreak', 'readmore') ) ;
 				?>
 
 			</fieldset>

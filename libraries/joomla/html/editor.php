@@ -21,6 +21,7 @@ jimport('joomla.event.dispatcher');
  * JEditor class to handle WYSIWYG editors
  *
  * @author		Louis Landry <louis.landry@joomla.org>
+ * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
@@ -223,6 +224,46 @@ class JEditor extends JObservable
 		}
 		return $return;
 	}
+
+	/**
+	 * Get the editor buttons
+	 *
+	 * @param mixed $buttons Can be boolean or array, if boolean defines if the buttons
+	 *                       are displayed, if array defines a list of buttons not to show.
+	 * @access public
+	 * @since 1.5
+	 */
+	 function getButtons($editor, $buttons = true)
+	 {
+		$result = array();
+
+		if(is_bool($buttons) && !$buttons) {
+			return $result;
+		}
+
+		//Make sure the plugin information is loaded
+		$isLoaded = JPluginHelper::importPlugin('editors-xtd');
+
+		// Get plugins
+		$plugins = JPluginHelper::getPlugin('editors-xtd');
+
+		foreach($plugins as $plugin)
+		{
+			if(is_array($buttons) &&  in_array($plugin->element, $buttons)) {
+				continue;
+			}
+
+			$className = 'plgButton'.$plugin->element;
+			if(class_exists($className)) {
+				$plugin = new $className($this);
+			}
+
+			// Try to authenticate
+			$result[] = $plugin->onDisplay($editor);
+		}
+
+		return $result;
+	 }
 
 	/**
 	 * Load the editor

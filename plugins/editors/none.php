@@ -131,9 +131,9 @@ class plgEditorNone extends JPlugin
 			}
 		}
 
-		if($buttons) {
-			$dispatcher =& JEventDispatcher::getInstance();
-			$results = $dispatcher->trigger( 'onCustomEditorButton', array('name' => $name) );
+		if(!empty($buttons))
+		{
+			$results = $this->_subject->getButtons($name, $buttons);
 
 			/*
 			 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX

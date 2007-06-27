@@ -14,41 +14,54 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onCustomEditorButton', 'plgImageButton' );
+jimport('joomla.event.plugin');
 
 /**
-* Editor Image button
-*
-* @return array A two element array of ( imageName, textToInsert )
-*/
-function plgImageButton()
+ * Editor Image buton
+ *
+ * @author Johan Janssens <johan.janssens@joomla.org>
+ * @package Editors-xtd
+ * @since 1.5
+ */
+class plgButtonImage extends JPlugin
 {
-	global $mainframe, $option;
 
-	$doc 		=& JFactory::getDocument();
-	$template 	= $mainframe->getTemplate();
-
-	$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-	// button is not active in specific content components
-	switch ( $option )
-	{
-		case 'com_sections'   	:
-		case 'com_categories'	:
-			$button = array( false );
-			break;
-
-		default:
-
-			$link = 'index.php?option=com_media&amp;task=imgManager&amp;tmpl=component';
-			$css = "\t.button1-left .image { background: url($url/plugins/editors-xtd/image.gif) 100% 0 no-repeat; }";
-			$doc->addStyleDeclaration($css);
-			$doc->addScript($url.'includes/js/joomla/modal.js');
-			$doc->addStyleSheet($url.'includes/js/joomla/modal.css');
-			$button = array( "document.popup.show('$link', 570, 400, null)", JText::_('Image'), 'image' );
-			break;
+	/**
+	 * Constructor
+	 *
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 *
+	 * @param object $subject The object to observe
+	 * @since 1.5
+	 */
+	function plgButtonImage(& $subject) {
+		parent::__construct($subject);
 	}
 
-	return $button;
+	/**
+	 * Display the button
+	 *
+	 * @return array A two element array of ( imageName, textToInsert )
+	 */
+	function onDisplay($name)
+	{
+		global $mainframe;
+
+		$doc 		=& JFactory::getDocument();
+		$template 	= $mainframe->getTemplate();
+
+		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		$link = 'index.php?option=com_media&amp;task=imgManager&amp;tmpl=component';
+		$css = "\t.button1-left .image { background: url($url/plugins/editors-xtd/image.gif) 100% 0 no-repeat; }";
+		$doc->addStyleDeclaration($css);
+		$doc->addScript($url.'includes/js/joomla/modal.js');
+		$doc->addStyleSheet($url.'includes/js/joomla/modal.css');
+		$button = array( "document.popup.show('$link', 570, 400, null)", JText::_('Image'), 'image' );
+
+		return $button;
+	}
 }
 ?>
