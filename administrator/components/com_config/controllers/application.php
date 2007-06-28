@@ -296,7 +296,7 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['host']		= JRequest::getVar('host', 'localhost', 'post', 'string');
 		$config_array['user']		= JRequest::getVar('user', '', 'post', 'string');
 		$config_array['db']			= JRequest::getVar('db', '', 'post', 'string');
-		$config_array['db_prefix']	= JRequest::getVar('db_prefix', 'jos_', 'post', 'string');
+		$config_array['dbprefix']	= JRequest::getVar('dbprefix', 'jos_', 'post', 'string');
 
 		// MAIL SETTINGS
 		$config_array['mailer']		= JRequest::getVar('mailer', 'mail', 'post', 'word');
