@@ -41,6 +41,7 @@ Legend:
  ^ Reworked editor-xtd handling, added ability to specifiy which editor-xtd plugins you don't want to display.
 
 27-Jun-2007 Rob Schley
+ # Fixed password reset/username remind e-mail links not working with SEF enabled
  ^ Reworked the password reset work-flow to be more secure
  ^ Adjusted some of the links in mod_login to point to the new username reminder and password reset features
  + Added a username reminder feature

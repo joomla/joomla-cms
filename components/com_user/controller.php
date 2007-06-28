@@ -106,19 +106,19 @@ class UserController extends JController
 	function login()
 	{
 		global $mainframe;
-				
+
 		if ($return = JRequest::getVar( 'return', false, '' )) {
 			$return = base64_decode($return);
 		}
-		
+
 		$options = array();
 		$options['remember'] = JRequest::getBool('remember', false);
 		$options['return'] = $return;
-		
+
 		$credentials = array();
 		$credentials['username'] = JRequest::getString('username');
 		$credentials['password'] = JRequest::getString('passwd', '', 'default', JREQUEST_ALLOWRAW);
-		
+
 		//check the token before we do anything else
 		/*$token	= JUtility::getToken();
 		if(!JRequest::getVar( $token, 0, 'post' )) {
@@ -127,7 +127,7 @@ class UserController extends JController
 
 		//preform the login action
 		$error = $mainframe->login($credentials, $options);
-		
+
 		if(!JError::isError($error))
 		{
 			// Redirect if the return url is not registration or login
