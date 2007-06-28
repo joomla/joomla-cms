@@ -41,7 +41,7 @@ class JUserHelper
 		// Lets get the id of the user we want to activate
 		$query = 'SELECT id'
 		. ' FROM #__users'
-		. ' WHERE activation = "'.$activation.'"'
+		. ' WHERE activation = '.$db->Quote($activation)
 		. ' AND block = 1'
 		;
 		$db->setQuery( $query );
@@ -176,7 +176,8 @@ class JUserHelper
 
 			case 'md5-hex' :
 			default :
-				return ($show_encrypt) ? '{MD5}'.md5($plaintext) : md5($plaintext);
+				$encrypted = ($salt) ? md5($plaintext.$salt) : md5($plaintext);
+				return ($show_encrypt) ? '{MD5}'.$encrypted : $encrypted;
 		}
 	}
 
@@ -209,6 +210,7 @@ class JUserHelper
 				} else {
 					return substr(md5(mt_rand()), 0, 2);
 				}
+				break;
 
 			case 'crypt-md5' :
 				if ($seed) {
@@ -216,6 +218,7 @@ class JUserHelper
 				} else {
 					return '$1$'.substr(md5(mt_rand()), 0, 8).'$';
 				}
+				break;
 
 			case 'crypt-blowfish' :
 				if ($seed) {
@@ -223,6 +226,7 @@ class JUserHelper
 				} else {
 					return '$2$'.substr(md5(mt_rand()), 0, 12).'$';
 				}
+				break;
 
 			case 'ssha' :
 				if ($seed) {
@@ -230,6 +234,7 @@ class JUserHelper
 				} else {
 					return mhash_keygen_s2k(MHASH_SHA1, $plaintext, substr(pack('h*', md5(mt_rand())), 0, 8), 4);
 				}
+				break;
 
 			case 'smd5' :
 				if ($seed) {
@@ -237,6 +242,7 @@ class JUserHelper
 				} else {
 					return mhash_keygen_s2k(MHASH_MD5, $plaintext, substr(pack('h*', md5(mt_rand())), 0, 8), 4);
 				}
+				break;
 
 			case 'aprmd5' :
 				/* 64 characters that are valid for APRMD5 passwords. */
@@ -253,9 +259,14 @@ class JUserHelper
 					}
 					return $salt;
 				}
+				break;
 
 			default :
-				return '';
+				if ($seed) {
+					$salt = $seed;
+				}
+				return $salt;
+				break;
 		}
 	}
 

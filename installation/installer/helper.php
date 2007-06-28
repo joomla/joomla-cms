@@ -271,7 +271,13 @@ class JInstallationHelper
 		$adminPassword	= JArrayHelper::getValue($vars, 'adminPassword', '');
 		$adminEmail		= JArrayHelper::getValue($vars, 'adminEmail', '');
 
-		$cryptpass = md5($adminPassword);
+		jimport('joomla.user.helper');
+
+		// Create random salt/password for the admin user
+		$salt = JUserHelper::genRandomPassword(32);
+		$crypt = JUserHelper::getCryptedPassword($adminPassword, $salt);
+		$cryptpass = $crypt.':'.$salt;
+
 		$vars['adminLogin'] = 'admin';
 
 		$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);

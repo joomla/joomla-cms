@@ -45,6 +45,10 @@ Legend:
 28-Jun-2007 Rob Schley
  ^ Removed closing PHP tag from the legacy plugin
 
+28-Jun-2007 Louis Landry
+ ^ Hardened user password storage to use a random generated salt
+ ! Reinstallation required as password strings for all users will be different
+
 27-Jun-2007 Johan Janssens
  ^ Reworked editor-xtd handling, added ability to specifiy which editor-xtd plugins you don't want to display.
 

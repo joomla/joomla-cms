@@ -316,7 +316,7 @@ class JUser extends JObject
 	function setParameters($data, $path = null)
 	{
 		// Assume we are using the xml file from com_users if no other xml file has been set
-		if (is_null($path)) 
+		if (is_null($path))
 		{
 			jimport( 'joomla.application.helper' );
 			$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
@@ -362,15 +362,18 @@ class JUser extends JObject
 			// First the password
 			if (empty($array['password'])) {
 				$array['password'] = JUserHelper::genRandomPassword();
-			} 
-			else if ($array['password'] != $array['password2']) 
+			}
+			else if ($array['password'] != $array['password2'])
 			{
 					$this->_setError( JText::_( 'PASSWORD DO NOT MATCH.' ) );
 					return false;
 			}
-			
+
 			$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
-			$array['password'] = JUserHelper::getCryptedPassword($array['password']);
+
+			$salt = JUserHelper::genRandomPassword(32);
+			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
+			$array['password'] = $crypt.':'.$salt;
 
 			// Next the registration timestamp
 			$this->set( 'registerDate', date( 'Y-m-d H:i:s' ) );
@@ -396,14 +399,17 @@ class JUser extends JObject
 			// We are updating an existing user.. so lets get down to it.
 			if (!empty($array['password']))
 			{
-				if ( $array['password'] != $array['password2'] ) 
+				if ( $array['password'] != $array['password2'] )
 				{
 					$this->_setError( JText::_( 'PASSWORD DO NOT MATCH.' ) );
 					return false;
 				}
-				
+
 				$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
-				$array['password'] = JUserHelper::getCryptedPassword($array['password']);
+
+				$salt = JUserHelper::genRandomPassword(32);
+				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
+				$array['password'] = $crypt.':'.$salt;
 			}
 			else
 			{

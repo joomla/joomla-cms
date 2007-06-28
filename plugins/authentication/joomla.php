@@ -47,7 +47,7 @@ class plgAuthenticationJoomla extends JPlugin
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param   array 	$credentials Array holding the user credentials	
+	 * @param   array 	$credentials Array holding the user credentials
 	 * @param 	array   $options     Array of extra options
 	 * @param	object	$response	 Authentication response object
 	 * @return	boolean
@@ -58,8 +58,8 @@ class plgAuthenticationJoomla extends JPlugin
 		jimport('joomla.user.helper');
 
 		global $mainframe;
-		
-		// Joomla does not like blank passwords 
+
+		// Joomla does not like blank passwords
 		if (empty($credentials['password']))
 		{
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
@@ -78,20 +78,27 @@ class plgAuthenticationJoomla extends JPlugin
 		// Get a database object
 		$db =& JFactory::getDBO();
 
-		$query = 'SELECT `id`'
+		$query = 'SELECT `id`, `password`'
 			. ' FROM `#__users`'
 			. ' WHERE username=' . $db->Quote( $credentials['username'] )
-			. ' AND password=' . $db->Quote( JUserHelper::getCryptedPassword( $credentials['password'] ) )
 			. $conditions;
 
 		$db->setQuery( $query );
-		$result = $db->loadResult();
+		$result = $db->loadObject();
 
 		if($result)
 		{
-			$email = JUser::getInstance($result); // Bring this in line with the rest of the system
-			$response->email = $email->email;
-			$response->status = JAUTHENTICATE_STATUS_SUCCESS;
+			list($crypt, $salt) = explode(':', $result->password);
+			$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt);
+
+			if ($crypt == $testcrypt) {
+				$email = JUser::getInstance($result->id); // Bring this in line with the rest of the system
+				$response->email = $email->email;
+				$response->status = JAUTHENTICATE_STATUS_SUCCESS;
+			} else {
+				$response->status = JAUTHENTICATE_STATUS_FAILURE;
+				$response->error_message = 'Invalid password';
+			}
 		}
 		else
 		{
@@ -100,4 +107,3 @@ class plgAuthenticationJoomla extends JPlugin
 		}
 	}
 }
-?>
