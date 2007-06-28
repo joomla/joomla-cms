@@ -42,6 +42,9 @@ Legend:
  + Added or updated various component xml files so that the components are properly listed in com_installer (topic,154849)
  - Removed com_menumanager from install sql
 
+28-Jun-2007 Rob Schley
+ ^ Removed closing PHP tag from the legacy plugin
+
 27-Jun-2007 Johan Janssens
  ^ Reworked editor-xtd handling, added ability to specifiy which editor-xtd plugins you don't want to display.
 

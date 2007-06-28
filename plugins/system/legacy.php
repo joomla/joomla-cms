@@ -36,7 +36,7 @@ class  plgSystemLegacy extends JPlugin
 	function plgSystemLegacy(& $subject)
 	{
 		parent::__construct($subject);
-		
+
 		global $mainframe;
 
 		// Define the 1.0 legacy mode constant
@@ -152,7 +152,7 @@ class  plgSystemLegacy extends JPlugin
 		$acl->addACL( 'action', 'add', 'users', 'super administrator', 'content', 'all' );
 		$acl->addACL( 'action', 'edit', 'users', 'super administrator', 'content', 'all' );
 		$acl->addACL( 'action', 'publish', 'users', 'super administrator', 'content', 'all' );
-		
+
 		$acl->addACL( 'com_syndicate', 'manage', 'users', 'super administrator' );
 		$acl->addACL( 'com_syndicate', 'manage', 'users', 'administrator' );
 		$acl->addACL( 'com_syndicate', 'manage', 'users', 'manager' );
@@ -222,7 +222,7 @@ class  plgSystemLegacy extends JPlugin
 				JRequest::setVar('view', 'register');
 				break;
  		}
-		
+
 		/**
 		 * Legacy global, use JApplication::getTemplate() instead
 		 * @name $cur_template
@@ -317,4 +317,3 @@ class  plgSystemLegacy extends JPlugin
 		JRequest::setVar('view', $viewName);
 	}
 }
-?>
