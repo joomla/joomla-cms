@@ -156,7 +156,9 @@ class UserModelReset extends JModel
 		$db			= &JFactory::getDBO();
 		$id			= $mainframe->getUserState($this->_namespace.'id');
 		$token		= $mainframe->getUserState($this->_namespace.'token');
-		$password	= JUserHelper::getCryptedPassword($password1);
+		$salt		= JUserHelper::getRandomPassword(32);
+		$crypt		= JUserHelper::getCryptedPassword($password1, $salt);
+		$password	= $crypt.':'.$salt;
 
 		// Build the query
 		$query 	= 'UPDATE #__users'
