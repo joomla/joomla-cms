@@ -23,7 +23,7 @@ jimport('joomla.cache.cache');
  * @package		Joomla
  * @subpackage	System
  */
-class  plgCache extends JPlugin
+class  plgSystemCache extends JPlugin
 {
 
 	var $_cache = null;
