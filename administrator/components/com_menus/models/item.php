@@ -359,7 +359,7 @@ class MenusModelItem extends JModel
 		jimport('joomla.filter.output');
 		$row->name = JOutputFilter::ampReplace( $row->name );
 
-		if (is_array($post['urlparams']))
+		if (isset($post['urlparams']) && is_array($post['urlparams']))
 		{
 			$pos = strpos( $row->link, '?' );
 			if ($pos !== false)
