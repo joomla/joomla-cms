@@ -109,6 +109,8 @@ class InstallerModelComponents extends InstallerModel
 	{
 		global $mainframe, $option;
 
+		jimport('joomla.filesystem.folder');
+		
 		/* Get a database connector */
 		$db =& JFactory::getDBO();
 
@@ -120,20 +122,25 @@ class InstallerModelComponents extends InstallerModel
 		$rows = $db->loadObjectList();
 
 		/* Get the component base directory */
-		$baseDir = JPATH_ADMINISTRATOR .DS. 'components';
-
+		$adminDir = JPATH_ADMINISTRATOR .DS. 'components';
+		$siteDir = JPATH_SITE .DS. 'components';
+		
 		$numRows = count($rows);
 		for($i=0;$i < $numRows; $i++)
 		{
 			$row =& $rows[$i];
 
 			 /* Get the component folder and list of xml files in folder */
-			jimport('joomla.filesystem.folder');
-			$folder = $baseDir.DS.$row->option;
+			$folder = $adminDir.DS.$row->option;
 			if (JFolder::exists($folder)) {
 				$xmlFilesInDir = JFolder::files($folder, '.xml$');
 			} else {
-				$xmlFilesInDir = null;
+				$folder = $siteDir.DS.$row->option;
+				if (JFolder::exists($folder)) {
+					$xmlFilesInDir = JFolder::files($folder, '.xml$');
+				} else {
+					$xmlFilesInDir = null;
+				}
 			}
 
 			if (count($xmlFilesInDir))
