@@ -360,6 +360,7 @@ class TemplatesView
 									echo JText::_('Cannot assign administrator template');
 								  } elseif ($row->pages == 'all') {
 									echo JText::_('Cannot assign default template');
+									echo '<input type="hidden" name="default" value="1" />';
 								  } elseif ($row->pages == 'none') { ?>
 							<label for="menus-none"><input id="menus-none" type="radio" name="menus" value="none" onclick="disableselections();" checked="checked" /><?php echo JText::_( 'None' ); ?></label>
 							<label for="menus-select"><input id="menus-select" type="radio" name="menus" value="select" onclick="enableselections();" /><?php echo JText::_( 'Select From List' ); ?></label>
@@ -514,7 +515,7 @@ class TemplatesView
 ?>
 			<tr class="<?php echo 'row'. $k; ?>">
 				<td width="5%">
-					<input type="radio" id="cb<?php echo $i;?>" name="filename" value="<?php echo '/templates/'. $template .'/css/'. $file; ?>" onClick="isChecked(this.checked);" />
+					<input type="radio" id="cb<?php echo $i;?>" name="filename" value="<?php echo $file; ?>" onClick="isChecked(this.checked);" />
 				</td>
 				<td width="85%">
 					<?php echo $file; ?>

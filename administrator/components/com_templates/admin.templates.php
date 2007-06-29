@@ -30,7 +30,7 @@ JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_templates'.DS
 require_once (JPATH_COMPONENT.DS.'helpers'.DS.'template.php');
 require_once (JPATH_COMPONENT.DS.'controller.php');
 
-$task = JRequest::getVar('task');
+$task = JRequest::getCmd('task');
 
 $client	= JRequest::getVar('client', 0, '', 'int');
 

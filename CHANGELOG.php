@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Jun-2007 Enno Klasing
+ # Fixed: com_templates made every template a default template when saving
+ ^ Reworked com_templates so that editing and saving CSS files does not need the full path
+
 29-Jun-2007 Toby Patterson
  # Fixed [#5738] ConfigControllerApplication: wrong "db_prefix" in generated config file
  + Added or updated various component xml files so that the components are properly listed in com_installer (topic,154849)

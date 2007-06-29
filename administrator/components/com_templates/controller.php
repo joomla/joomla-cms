@@ -33,8 +33,8 @@ class TemplatesController
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		// Initialize the pagination variables
-		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest( $option.'.'.$client->id.'.limitstart', 'limitstart', 0 );
+		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart = $mainframe->getUserStateFromRequest($option.'.'.$client->id.'.limitstart', 'limitstart', 0, 'int');
 
 		$select[] 			= JHTML::_('select.option', '0', JText::_('Site'));
 		$select[] 			= JHTML::_('select.option', '1', JText::_('Administrator'));
@@ -67,7 +67,7 @@ class TemplatesController
 	function previewTemplate()
 	{
 		$template	= JRequest::getVar('id', '', 'method', 'cmd');
-		$option 	= JRequest::getVar('option');
+		$option 	= JRequest::getCmd('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		if (!$template)
@@ -93,21 +93,20 @@ class TemplatesController
 		// Initialize some variables
 		$db		= & JFactory::getDBO();
 		$cid	= JRequest::getVar('cid', array(), 'method', 'array');
-		$option	= JRequest::getVar('option');
+		$cid	= array(JInputFilter::clean(@$cid[0], 'cmd'));
+		$option	= JRequest::getCmd('option');
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-		if (count( $cid ))
+		if ($cid[0])
 		{
-			$template	= preg_replace( '#[^a-zA-Z0-9\-_]#', '', $cid[0] );
-
 			$query = 'DELETE FROM #__templates_menu' .
 					' WHERE client_id = '. $client->id .
-					' AND menuid = 0';
+					' AND (menuid = 0 OR template = '.$db->Quote($cid[0]).')';
 			$db->setQuery($query);
 			$db->query();
 
 			$query = 'INSERT INTO #__templates_menu' .
-					' SET client_id = '. $client->id .', template = '.$db->Quote( $template ).', menuid = 0';
+					' SET client_id = '. $client->id .', template = '.$db->Quote($cid[0]).', menuid = 0';
 			$db->setQuery($query);
 			$db->query();
 		}
@@ -122,16 +121,16 @@ class TemplatesController
 		// Initialize some variables
 		$db			= & JFactory::getDBO();
 		$cid		= JRequest::getVar('cid', array(), 'method', 'array');
-		$option		= JRequest::getVar('option');
+		$cid		= array(JInputFilter::clean(@$cid[0], 'cmd'));
+		$template	= $cid[0];
+		$option		= JRequest::getCmd('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-		if (count( $cid ) == 0)
-		{
+		if (!$cid[0]) {
 			return JError::raiseWarning( 500, 'Template not specified' );
 		}
 
 		$tBaseDir	= JPath::clean($client->path.DS.'templates');
-		$template	= preg_replace( '#\W#', '', $cid[0] );
 
 		if (!is_dir( $tBaseDir . DS . $template )) {
 			return JError::raiseWarning( 500, 'Template not found' );
@@ -155,7 +154,6 @@ class TemplatesController
 
 		$assigned = TemplatesHelper::isTemplateAssigned($row->directory);
 		$default = TemplatesHelper::isTemplateDefault($row->directory, $client->id);
-		$lists['default'] = JHTML::_('select.booleanlist',  'default', 'class="inputbox"', $default);
 
 		if($client->id == '1')  {
 			$lists['selections'] =  JText::_("Can't assign an administrator template");
@@ -189,9 +187,10 @@ class TemplatesController
 		$template	= JRequest::getVar('id', '', 'method', 'cmd');
 		$option		= JRequest::getVar('option', '', '', 'cmd');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$menus		= JRequest::getVar('selections', array (), 'post', 'array');
-		$params		= JRequest::getVar('params', array (), '', 'array');
-		$default	= JRequest::getVar('default', 0);
+		$menus		= JRequest::getVar('selections', array(), 'post', 'array');
+		$params		= JRequest::getVar('params', array(), 'post', 'array');
+		$default	= JRequest::getBool('default');
+		JArrayHelper::toInteger($menus);
 
 		if (!$template) {
 			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
@@ -205,7 +204,7 @@ class TemplatesController
 		$file = $client->path.DS.'templates'.DS.$template.DS.'params.ini';
 
 		jimport('joomla.filesystem.file');
-		if (JFile::exists($file) && is_array($params))
+		if (JFile::exists($file) && count($params))
 		{
 			$txt = null;
 			foreach ($params as $k => $v) {
@@ -259,15 +258,7 @@ class TemplatesController
 			}
 		}
 
-		if (empty($menus) OR (empty($menus) && $default))
-		{
-			$query = 'INSERT INTO #__templates_menu' .
-					' SET client_id = 0, template = '. $db->Quote( $template ) .', menuid = 0 ';
-			$db->setQuery($query);
-			$db->query();
-		}
-
-		$task = JRequest::getVar('task');
+		$task = JRequest::getCmd('task');
 		if($task == 'apply') {
 			$mainframe->redirect('index.php?option='.$option.'&task=edit&cid[]='.$template.'&client='.$client->id);
 		} else {
@@ -280,7 +271,7 @@ class TemplatesController
 		global $mainframe;
 
 		// Initialize some variables
-		$option	= JRequest::getVar('option');
+		$option	= JRequest::getCmd('option');
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		// Set FTP credentials, if given
@@ -295,7 +286,7 @@ class TemplatesController
 		global $mainframe;
 
 		// Initialize some variables
-		$option		= JRequest::getVar('option');
+		$option		= JRequest::getCmd('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template	= JRequest::getVar('id', '', 'method', 'cmd');
 		$file		= $client->path.DS.'templates'.DS.$template.DS.'index.php';
@@ -324,11 +315,10 @@ class TemplatesController
 		global $mainframe;
 
 		// Initialize some variables
-		$option			= JRequest::getVar('option');
+		$option			= JRequest::getCmd('option');
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template		= JRequest::getVar('id', '', 'method', 'cmd');
-		$enableWrite	= JRequest::getVar('enable_write', 0, '', 'int');
-		$filecontent	= JRequest::getVar('filecontent', '', '', '', JREQUEST_ALLOWRAW);
+		$filecontent	= JRequest::getVar('filecontent', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		if (!$template) {
 			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
@@ -360,7 +350,7 @@ class TemplatesController
 
 		if ($return)
 		{
-			$task = JRequest::getVar('task');
+			$task = JRequest::getCmd('task');
 			switch($task)
 			{
 				case 'apply_source':
@@ -383,16 +373,12 @@ class TemplatesController
 		global $mainframe;
 
 		// Initialize some variables
-		$option 	= JRequest::getVar('option');
+		$option 	= JRequest::getCmd('option');
 		$template	= JRequest::getVar('id', '', 'method', 'cmd');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		// Determine template CSS directory
-		if ($client->id == 1) {
-			$dir = JPATH_ADMINISTRATOR.DS.'templates'.DS.$template.DS.'css';
-		} else {
-			$dir = JPATH_SITE.DS.'templates'.DS.$template.DS.'css';
-		}
+		$dir = $client->path.DS.'templates'.DS.$template.DS.'css';
 
 		// List template .css files
 		jimport('joomla.filesystem.folder');
@@ -411,13 +397,19 @@ class TemplatesController
 		global $mainframe;
 
 		// Initialize some variables
-		$option		= JRequest::getVar('option');
+		$option		= JRequest::getCmd('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template	= JRequest::getVar('id', '', 'method', 'cmd');
-		$filename	= JRequest::getVar('filename');
+		$filename	= JRequest::getVar('filename', '', 'method', 'cmd');
 
 		jimport('joomla.filesystem.file');
-		$content = JFile::read($client->path.$filename);
+
+		if (JFile::getExt($filename) !== 'css') {
+			$msg = JText::_('Wrong file type given, only CSS files can be edited.');
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&task=choose_css&id='.$template, $msg, 'error');
+		}
+
+		$content = JFile::read($client->path.DS.'templates'.DS.$template.DS.'css'.DS.$filename);
 
 		if ($content !== false)
 		{
@@ -441,11 +433,11 @@ class TemplatesController
 		global $mainframe;
 
 		// Initialize some variables
-		$option			= JRequest::getVar('option');
+		$option			= JRequest::getCmd('option');
 		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$template		= JRequest::getVar('id', '', 'method', 'cmd');
-		$filename		= JRequest::getVar('filename');
-		$filecontent	= JRequest::getVar('filecontent', '', '', '', JREQUEST_ALLOWRAW);
+		$template		= JRequest::getVar('id', '', 'post', 'cmd');
+		$filename		= JRequest::getVar('filename', '', 'post', 'cmd');
+		$filecontent	= JRequest::getVar('filecontent', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		if (!$template) {
 			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
@@ -460,7 +452,7 @@ class TemplatesController
 		JClientHelper::setCredentialsFromRequest('ftp');
 		$ftp = JClientHelper::getCredentials('ftp');
 
-		$file = $client->path . $filename;
+		$file = $client->path.DS.'templates'.DS.$template.DS.'css'.DS.$filename;
 
 		// Try to make the css file writeable
 		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0755')) {
@@ -477,7 +469,7 @@ class TemplatesController
 
 		if ($return)
 		{
-			$task = JRequest::getVar('task');
+			$task = JRequest::getCmd('task');
 			switch($task)
 			{
 				case 'apply_css':
