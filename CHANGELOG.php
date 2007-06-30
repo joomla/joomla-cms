@@ -38,7 +38,7 @@ Legend:
 ! -> Note
 
 30-Jun-2007 Kevin Devine
- # Fixed [#5773] Error when article is saved without text in the body of article (front and backend)
+ # Fixed [#5773] Error when article is saved without text in the body of article, front and backend
 
 29-Jun-2007 Enno Klasing
  # Fixed: com_templates made every template a default template when saving
