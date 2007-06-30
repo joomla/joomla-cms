@@ -472,6 +472,7 @@ class ContentView
 			}
 
 			// do field validation
+			var text = <?php echo $editor->getContent( 'text' ); ?>
 			if (form.title.value == ""){
 				alert( "<?php echo JText::_( 'Article must have a title', true ); ?>" );
 			} else if (form.sectionid.value == "-1"){
@@ -480,6 +481,8 @@ class ContentView
 				alert( "<?php echo JText::_( 'You must select a Category.', true ); ?>" );
  			} else if (form.catid.value == ""){
  				alert( "<?php echo JText::_( 'You must select a Category.', true ); ?>" );
+			} else if (text == ""){
+				alert( "<?php echo JText::_( 'Article must have some text.', true ); ?>" );
 			} else {
 				<?php
 				echo $editor->save( 'text' );
