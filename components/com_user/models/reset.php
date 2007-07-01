@@ -156,7 +156,7 @@ class UserModelReset extends JModel
 		$db			= &JFactory::getDBO();
 		$id			= $mainframe->getUserState($this->_namespace.'id');
 		$token		= $mainframe->getUserState($this->_namespace.'token');
-		$salt		= JUserHelper::getRandomPassword(32);
+		$salt		= JUserHelper::genRandomPassword(32);
 		$crypt		= JUserHelper::getCryptedPassword($password1, $salt);
 		$password	= $crypt.':'.$salt;
 
@@ -195,7 +195,7 @@ class UserModelReset extends JModel
 	{
 		$config		= &JFactory::getConfig();
 		$uri		= &JFactory::getURI();
-		$url		= JRoute::_('index.php?option=com_user&view=reset&layout=confirm');
+		$url		= 'index.php?option=com_user&view=reset&layout=confirm';
 		$sitename	= $config->getValue('sitename');
 
 		// Set the e-mail parameters
