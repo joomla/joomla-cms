@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-July-2007 Alex Kempkens
+ # fixed duplicate calls of JText in botton rendering
+ + added missing text tags in english language files
+ # removing unneeded new lines in metadata.xml files as they are causing issues during the translation
+ - points in the language tags
+ ! we are still in the process of cleaning all language tags this includes a complete check before the RC too
+
 02-July-2007 Rastin Mehr
 # Fixed [#5636] Modify a category from a custom component
 + '&type='.$type is added to the end of edit link
@@ -45,7 +52,7 @@ Legend:
 + Hit Counter feature is now implemented
 ! Hit Counter feature did not exist, but the existing parameters "counter" and "increase" indicated that feature needs to be in place
 
-1-Jan-2007 Toby Patterson
+1-July-2007 Toby Patterson
  # Fixed issue with GET input being lost when SEO is enabled in JRoute::parse()
 
 01-July-2007 Rastin Mehr
@@ -95,6 +102,7 @@ Legend:
    type will be that of the requested format (see JDocument::getInstance) - Louis's suggestion
  # Fixed [#5743] Dateformat in category blog layout
 
+>>>>>>> .r7813
 26-Jun-2007 Andrew Eddie
  + New method JUtility dump
 

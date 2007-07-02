@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<view title="Archive">
-		<message>
-			<![CDATA[TYPEARCHLAYDESC]]>
-		</message>
+		<message><![CDATA[TYPEARCHLAYDESC]]></message>
 	</view>
 </metadata>

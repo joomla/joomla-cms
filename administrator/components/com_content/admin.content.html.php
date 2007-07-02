@@ -476,13 +476,13 @@ class ContentView
 			if (form.title.value == ""){
 				alert( "<?php echo JText::_( 'Article must have a title', true ); ?>" );
 			} else if (form.sectionid.value == "-1"){
-				alert( "<?php echo JText::_( 'You must select a Section.', true ); ?>" );
+				alert( "<?php echo JText::_( 'You must select a Section', true ); ?>" );
 			} else if (form.catid.value == "-1"){
-				alert( "<?php echo JText::_( 'You must select a Category.', true ); ?>" );
+				alert( "<?php echo JText::_( 'You must select a Category', true ); ?>" );
  			} else if (form.catid.value == ""){
- 				alert( "<?php echo JText::_( 'You must select a Category.', true ); ?>" );
+ 				alert( "<?php echo JText::_( 'You must select a Category', true ); ?>" );
 			} else if (text == ""){
-				alert( "<?php echo JText::_( 'Article must have some text.', true ); ?>" );
+				alert( "<?php echo JText::_( 'Article must have some text', true ); ?>" );
 			} else {
 				<?php
 				echo $editor->save( 'text' );

@@ -35,14 +35,14 @@ class JButtonStandard extends JButton
 
 	function fetchButton( $type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
 	{
-		$text	= JText::_($text);
+		$i18n_text	= JText::_($text);
 		$class	= $this->fetchIconClass($name);
 		$doTask	= $this->_getCommand($text, $task, $list, $hideMenu);
 
 		$html	= "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
-		$html .= "<span class=\"$class\" title=\"$text\">\n";
+		$html .= "<span class=\"$class\" title=\"$i18n_text\">\n";
 		$html .= "</span>\n";
-		$html	.= "$text\n";
+		$html	.= "$i18n_text\n";
 		$html	.= "</a>\n";
 
 		return $html;
