@@ -50,6 +50,7 @@ Legend:
 
 01-July-2007 Rastin Mehr
 # Fixed [#5612] The "Read more... " URL Router cannot working well for "Section Blog Layout"
+# Fixed [#5744] Layout "blog" not found
 
 30-Jun-2007 Kevin Devine
  # Fixed [#5773] Error when article is saved without text in the body of article, front and backend
