@@ -39,6 +39,9 @@ Legend:
 
 02-July-2007 Rastin Mehr
 # Fixed [#5833] Backend -> plugin | buttons & navigation broken
+# Fixed [#5858] Hit Counter wird nicht angezeigt bei Statistik
++ Hit Counter feature is now implemented
+! Hit Counter feature did not exist, but the existing parameters "counter" and "increase" indicated that feature needs to be in place
 
 1-Jan-2007 Toby Patterson
  # Fixed issue with GET input being lost when SEO is enabled in JRoute::parse()

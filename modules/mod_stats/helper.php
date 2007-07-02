@@ -90,6 +90,23 @@ class modStatsHelper
 				$rows[$i]->data 	= $links;
 				$i++;
 			}
+			
+		}
+		
+		if( $counter )
+		{
+			$query = 'SELECT SUM( hits ) AS count_hits'
+			. ' FROM #__content'
+			. ' WHERE state = "1"'
+			;
+			$db->setQuery( $query );
+			$hits = $db->loadResult();
+			
+			if ( $hits ) {
+				$rows[$i]->title 	= JText::_( 'Content View Hits' );
+				$rows[$i]->data 	= $hits + $increase;
+				$i++;
+			}
 		}
 
 		return $rows;
