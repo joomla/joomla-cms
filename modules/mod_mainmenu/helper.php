@@ -258,7 +258,7 @@ class JMenuTree extends JTree
 		if ($item->type == 'menulink')
 		{
 			$menu = &JMenu::getInstance();
-			if ($tmp = $menu->getItem($item->query['Itemid'])) {
+			if ($tmp = clone($menu->getItem($item->query['Itemid']))) {
 				$tmp->name	 = '<span><![CDATA['.$item->name.']]></span>';
 				$tmp->mid	 = $item->id;
 				$tmp->parent = $item->parent;
