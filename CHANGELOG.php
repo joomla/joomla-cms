@@ -38,6 +38,8 @@ Legend:
 ! -> Note
 
 02-July-2007 Rastin Mehr
+# [#5636] Modify a category from a custom component
++ '&type='.$type is added to the end of edit link
 # Fixed [#5833] Backend -> plugin | buttons & navigation broken
 # Fixed [#5858] Hit Counter wird nicht angezeigt bei Statistik
 + Hit Counter feature is now implemented

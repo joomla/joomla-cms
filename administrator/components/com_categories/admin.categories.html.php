@@ -124,7 +124,7 @@ class categories_html
 
 			$row->sect_link = JRoute::_( 'index.php?option=com_sections&task=edit&cid[]='. $row->section );
 
-			$link = 'index.php?option=com_categories&section='. $section .'&task=edit&cid[]='. $row->id;
+			$link = 'index.php?option=com_categories&section='. $section .'&task=edit&cid[]='. $row->id .'&type='.$type;
 
 			$access 	= JHTML::_('grid.access',   $row, $i );
 			$checked 	= JHTML::_('grid.checkedout',   $row, $i );
