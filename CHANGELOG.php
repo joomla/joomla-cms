@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-July-2007 Rastin Mehr
+# Fixed [#5833] Backend -> plugin | buttons & navigation broken
+
 1-Jan-2007 Toby Patterson
  # Fixed issue with GET input being lost when SEO is enabled in JRoute::parse()
 

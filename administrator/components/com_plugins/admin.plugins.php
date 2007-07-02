@@ -217,7 +217,7 @@ function savePlugin( $option, $client, $task )
 		case 'save':
 		default:
 			$msg = JText::sprintf( 'Successfully Saved Plugin', $row->name );
-			$mainframe->redirect( 'index.php?option='. $option .'&client='. $client, $msg );
+			$mainframe->redirect( JRoute::_( 'index.php?option='. $option .'&client='. $client ), $msg );
 			break;
 	}
 }
@@ -363,7 +363,7 @@ function cancelPlugin( $option, $client )
 	$row->bind(JRequest::get('post'));
 	$row->checkin();
 
-	$mainframe->redirect( 'index.php?option='. $option .'&client='. $client );
+	$mainframe->redirect( JRoute::_( 'index.php?option='. $option .'&client='. $client ) );
 }
 
 /**
