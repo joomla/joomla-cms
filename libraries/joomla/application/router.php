@@ -162,7 +162,11 @@ class JRouter extends JObject
 	function parse($url)
 	{
 		$uri  =& JURI::getInstance($url);
-		$menu =& JMenu::getInstance();
+		$menu =& JMenu::getInstance(true);
+		
+		// Set Local Vars passed in via the URL
+		$vars =& $uri->getQuery(true);
+		$this->_vars	= array_merge($this->_vars, $vars);
 
 		// Get the base and full URLs
 		$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
@@ -248,6 +252,7 @@ class JRouter extends JObject
 			$vars = JRequest::get('get');
 
 			// Removed any appended variables
+			/* Do we need this - tcp
 			foreach($vars as $key => $value)
 			{
 				$this->_vars[$key] = $value;
@@ -255,7 +260,8 @@ class JRouter extends JObject
 					break;
 				}
 			}
-
+			*/
+			
 			//Set the information in the request
 			JRequest::set($item->query, 'get', false );
 
@@ -416,7 +422,7 @@ class JRouter extends JObject
 				}
 			}
 		}
-
+		
 		//Set the option in the variables array
 		$this->_vars['option'] = $option;
 

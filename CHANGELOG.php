@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+1-Jan-2007 Toby Patterson
+ # Fixed issue with GET input being lost when SEO is enabled in JRoute::parse()
+
 30-Jun-2007 Kevin Devine
  # Fixed [#5773] Error when article is saved without text in the body of article, front and backend
 
