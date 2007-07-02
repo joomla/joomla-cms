@@ -1,7 +1,11 @@
-<?php // no direct access
+<?php 
+
+// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 
+if ( ! defined('modMainMenuXMLCallbackDefined') )
+{
 function modMainMenuXMLCallback(&$node, $args)
 {
 	$user	= &JFactory::getUser();
@@ -71,6 +75,7 @@ function modMainMenuXMLCallback(&$node, $args)
 	$node->removeAttribute('level');
 	$node->removeAttribute('access');
 }
+	define('modMainMenuXMLCallbackDefined', true);
+}
 
 modMainMenuHelper::render($params, 'modMainMenuXMLCallback');
-?>
