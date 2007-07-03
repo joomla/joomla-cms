@@ -363,7 +363,7 @@ class JUser extends JObject
 			if (empty($array['password'])) {
 				$array['password'] = JUserHelper::genRandomPassword();
 			}
-			else if ($array['password'] != $array['password2'])
+			else if ($array['password'] != $array['verifyPass'])
 			{
 					$this->_setError( JText::_( 'PASSWORD DO NOT MATCH.' ) );
 					return false;
