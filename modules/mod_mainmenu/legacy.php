@@ -26,14 +26,14 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	if ($mitem->type == 'menulink')
 	{
 		$menu = &JMenu::getInstance();
-		if ($tmp = $menu->getItem($mitem->link)) {
-				$name = $mitem->name;
-				$mid = $mitem->id;
-				$parent = $mitem->parent;
-				$mitem = clone($tmp);
-				$mitem->name = $name;
-				$mitem->mid = $mid;
-				$mitem->parent = $parent;
+		if ($tmp = $menu->getItem($mitem->query['Itemid'])) {
+			$name = $mitem->name;
+			$mid = $mitem->id;
+			$parent = $mitem->parent;
+			$mitem = clone($tmp);
+			$mitem->name = $name;
+			$mitem->mid = $mid;
+			$mitem->parent = $parent;
 		} else {
 			return;
 		}
