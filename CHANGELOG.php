@@ -37,12 +37,15 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-July-2007 Rob Schley
+ # Fixed a bug that allowed the password reset token to be used to activate accounts
+ # Fixed the password reset process queries to only work on active accounts.
+
 03-July-2007
  # Fixed up missing $attr in the input filter on some code paths
  ^ Migration System has a major shock and update.
  - 1.5 to 1.5 Transfer system absorbed into greater migrate infrastructure
  + added modified 'bigdump' script to handle large dump files
- 
 
 03-July-2007 Louis Landry
  # Fixed misrouting when components or views don't match
@@ -84,7 +87,7 @@ Legend:
  - Removed com_menumanager from install sql
 
 28-Jun-2007 Rob Schley
- ^ Removed closing PHP tag from the legacy plugin
+ ^ Fixed [topic,185613] Removed closing PHP tag from the legacy plugin
 
 28-Jun-2007 Louis Landry
  ^ Hardened user password storage to use a random generated salt

@@ -79,7 +79,8 @@ class UserModelReset extends JModel
 
 		$query	= 'UPDATE #__users'
 				. ' SET activation = '.$db->Quote($token)
-				. ' WHERE id = '.$db->Quote($id);
+				. ' WHERE id = '.$db->Quote($id)
+				. ' AND block = 0';
 
 		$db->setQuery($query);
 
@@ -113,7 +114,7 @@ class UserModelReset extends JModel
 		global $mainframe;
 
 		$db	= &JFactory::getDBO();
-		$db->setQuery('SELECT id FROM #__users WHERE activation = '.$db->Quote($token));
+		$db->setQuery('SELECT id FROM #__users WHERE block = 0 AND activation = '.$db->Quote($token));
 
 		// Verify the token
 		if (!($id = $db->loadResult()))
@@ -163,8 +164,10 @@ class UserModelReset extends JModel
 		// Build the query
 		$query 	= 'UPDATE #__users'
 				. ' SET password = '.$db->Quote($password)
+				. ' , activation = ""'
 				. ' WHERE id = '.(int) $id
-				. ' AND activation = '.$db->Quote($token);
+				. ' AND activation = '.$db->Quote($token)
+				. ' AND block = 0';
 
 		$db->setQuery($query);
 
