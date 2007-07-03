@@ -136,7 +136,7 @@ class JApplication extends JObject
  	function dispatch($component)
  	{
 		$document	=& JFactory::getDocument();
-		
+
 		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
 
@@ -338,9 +338,6 @@ class JApplication extends JObject
 	 */
 	function getUserStateFromRequest( $key, $request, $default = null, $type = 'none' )
 	{
-		//Force namespace
-		$key = 'request.' . $key;
-
 		$old_state = $this->getUserState( $key );
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
 		$new_state = JRequest::getVar($request, null, 'default', $type);
@@ -410,12 +407,12 @@ class JApplication extends JObject
 		jimport( 'joomla.user.authentication');
 		$authenticate = & JAuthentication::getInstance();
 		$response	  = $authenticate->authenticate($credentials, $options);
-		
+
 		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 		{
 			// Import the user plugin group
 			JPluginHelper::importPlugin('user');
-			
+
 			// OK, the credentials are authenticated.  Lets fire the onLogin event
 			$results = $this->triggerEvent('onLoginUser', array((array)$response, $options));
 
@@ -434,7 +431,7 @@ class JApplication extends JObject
 				{
 					jimport('joomla.utilities.simplecrypt');
 					jimport('joomla.utilities.utility');
-					
+
 					$crypt = new JSimpleCrypt();
 					$rcookie = $crypt->encrypt(serialize($credentials));
 					$lifetime = time() + 365*24*60*60;
@@ -913,7 +910,7 @@ class JApplication extends JObject
 		$info = ContentHelper::_getArticleMenuInfo($id, $article->catid, $article->sectionid);
 		return $info->id;
 	}
-	
+
 	/**
 	 * Deprecated, use JDocument::setTitle instead.
 	 *
