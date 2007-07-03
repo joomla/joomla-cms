@@ -163,7 +163,7 @@ class JRouter extends JObject
 	{
 		$uri  =& JURI::getInstance($url);
 		$menu =& JMenu::getInstance(true);
-		
+
 		// Set Local Vars passed in via the URL
 		$vars =& $uri->getQuery(true);
 		$this->_vars	= array_merge($this->_vars, $vars);
@@ -173,7 +173,7 @@ class JRouter extends JObject
 		$base = $uri->base();
 
 		$url = urldecode(str_replace($base, '', $full));
-		$url = str_replace('index.php', '', $url);
+		$url = preg_replace('/index[\d]?.php/', '', $url);
 		$url = trim($url , '/');
 
 		/*
@@ -204,14 +204,14 @@ class JRouter extends JObject
 			// Set document link
 			$doc = & JFactory::getDocument();
 			$doc->setLink($base);
-			
+
 			if (!empty($url))
 			{
 				// Parse application route
 				if(!$itemid = $this->_parseApplicationRoute($url)) {
 					return false;
 				}
-				
+
 				// Set the active menu item
 				$menu->setActive($itemid);
 
@@ -224,14 +224,21 @@ class JRouter extends JObject
 
 			//Set active menu item
 			$item =& $menu->getActive();
-			
-			//Set the information in the request
-			JRequest::set($item->query, 'get', true );
+
+			// If the option is the same in menu item and in request then set the menu item values to the request
+			if ($item->query['option'] == $this->_vars['option']) {
+				if (isset($this->_vars['view']) && isset($item->query['view']) && ($item->query['view'] != $this->_vars['view'])) {
+					unset($item->query['layout']);
+				}
+				JRequest::set($item->query, 'get', true );
+			}
+
+			//Set the route information in the request
 			JRequest::set($this->_vars, 'get', true );
-			
+
 			//Set the itemid in the request
 			JRequest::setVar('Itemid', $item->id);
-			
+
 			return true;
 		}
 
@@ -261,9 +268,17 @@ class JRouter extends JObject
 				}
 			}
 			*/
-			
-			//Set the information in the request
-			JRequest::set($item->query, 'get', false );
+
+			// If the option is the same in menu item and in request then set the menu item values to the request
+			if ($item->query['option'] == $vars['option']) {
+				if (isset($vars['view']) && isset($item->query['view']) && ($item->query['view'] != $vars['view'])) {
+					unset($item->query['layout']);
+				}
+				JRequest::set($item->query, 'get', true );
+			}
+
+			//Set the route information in the request
+			JRequest::set($vars, 'get', true );
 
 			//Set the itemid in the request
 			JRequest::setVar('Itemid', $itemid);
@@ -305,7 +320,7 @@ class JRouter extends JObject
 		{
 			$vars = array();
 			parse_str($string, $vars);
-			
+
 			$vars = array_merge($this->_vars, $vars);
 			$string = 'index.php?'.JURI::_buildQuery($vars);
 		}
@@ -394,7 +409,7 @@ class JRouter extends JObject
 
 		$itemid = null;
 		$option = null;
-		
+
 		if(substr($url, 0, 9) == 'component')
 		{
 			$segments = explode('/', $url);
@@ -409,9 +424,9 @@ class JRouter extends JObject
 		{
 			//Need to reverse the array (highest sublevels first)
 			$items = array_reverse($menu->getMenu());
-			
+
 			foreach ($items as $item)
-			{	
+			{
 				if(strlen($item->route) > 0 && strpos($url.'/', $item->route.'/') === 0)
 				{
 					$url    = str_replace($item->route, '', $url);
@@ -422,9 +437,11 @@ class JRouter extends JObject
 				}
 			}
 		}
-		
+
 		//Set the option in the variables array
-		$this->_vars['option'] = $option;
+		if (empty($this->_vars['option'])) {
+			$this->_vars['option'] = $option;
+		}
 
 		return $itemid;
 	}
