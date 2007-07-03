@@ -31,6 +31,11 @@
 		<param name="window_open" type="text" default="" label="Target Position" description="PARAMTARGETPOSITION" />
 	</params>
 	<params group="advanced">
+		<param name="show_whitespace" type="list" default="0" label="Show Whitespace" description="Select whether to show whitespace in rendered XHTML">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
 			<option value="1">Use global</option>
 			<option value="0">No caching</option>
