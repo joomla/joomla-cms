@@ -198,7 +198,7 @@ class UserModelReset extends JModel
 	{
 		$config		= &JFactory::getConfig();
 		$uri		= &JFactory::getURI();
-		$url		= 'index.php?option=com_user&view=reset&layout=confirm';
+		$url		= JURI::base().JRoute::_('index.php?option=com_user&view=reset&layout=confirm');
 		$sitename	= $config->getValue('sitename');
 
 		// Set the e-mail parameters
