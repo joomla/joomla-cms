@@ -225,9 +225,9 @@ class HTML_admin_misc
 		</table>
 
 		<div id="treecellhelp">
-			<fieldset title="<?php echo JText::_( 'Index' ); ?>">
+			<fieldset title="<?php echo JText::_( 'Alphabetical Index' ); ?>">
 				<legend>
-					<?php echo JText::_( 'Index' ); ?>
+					<?php echo JText::_( 'Alphabetical Index' ); ?>
 				</legend>
 
 				<div class="helpIndex">
@@ -251,9 +251,9 @@ class HTML_admin_misc
 		</div>
 
 		<div id="datacellhelp">
-			<fieldset title="<?php echo JText::_( 'Details' ); ?>">
+			<fieldset title="<?php echo JText::_( 'View' ); ?>">
 				<legend>
-					<?php echo JText::_( 'Details' ); ?>
+					<?php echo JText::_( 'View' ); ?>
 				</legend>
 				<?php
 				if ($helpurl && $page != 'joomla.whatsnew15.html') {
@@ -292,8 +292,8 @@ class HTML_admin_misc
 
 function writableCell( $folder, $relative=1, $text='', $visible=1 )
 {
-	$writeable 		= '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>';
-	$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';
+	$writeable 		= '<b><font color="green">'. JText::_( 'Writable' ) .'</font></b>';
+	$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwritable' ) .'</font></b>';
 
 	echo '<tr>';
 	echo '<td class="item">';

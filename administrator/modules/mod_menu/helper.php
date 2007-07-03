@@ -89,7 +89,7 @@ class modMenuHelper
 		$menu->addChild(new JMenuNode(JText::_('Media Manager'), 'index.php?option=com_media', 'class:media'));
 		$menu->addSeparator();
 		if ($canConfig) {
-			$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
+			$menu->addChild(new JMenuNode(JText::_('Global Configuration'), 'index.php?option=com_config', 'class:config'));
 			$menu->addSeparator();
 		}
 		$menu->addChild(new JMenuNode(JText::_('Logout'), 'index.php?option=com_login&task=logout', 'class:logout'));
@@ -133,7 +133,7 @@ class modMenuHelper
 		$menu->addChild(new JMenuNode(JText::_('Section Manager'), 'index.php?option=com_sections&scope=content', 'class:section'));
 		$menu->addChild(new JMenuNode(JText::_('Category Manager'), 'index.php?option=com_categories&section=com_content', 'class:category'));
 		$menu->addSeparator();
-		$menu->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index.php?option=com_frontpage', 'class:frontpage'));
+		$menu->addChild(new JMenuNode(JText::_('Front Page Manager'), 'index.php?option=com_frontpage', 'class:frontpage'));
 
 		$menu->getParent();
 
@@ -244,7 +244,7 @@ class modMenuHelper
 				$menu->addSeparator();
 			}
 			if ($canCheckin) {
-				$menu->addChild(new JMenuNode(JText::_('Global Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
+				$menu->addChild(new JMenuNode(JText::_('Global Check-in'), 'index.php?option=com_checkin', 'class:checkin'));
 				$menu->addSeparator();
 			}
 			if ($caching) {

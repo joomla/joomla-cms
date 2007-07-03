@@ -51,6 +51,7 @@ Legend:
  # Fixed misrouting when components or views don't match
  # Fixed routing problems for index2.php -- legacy issue
  # Fixed menu alias rendering
+ # Applied patch from User Doc team with admin language modifications
 
 02-July-2007 Alex Kempkens
  # fixed duplicate calls of JText in botton rendering

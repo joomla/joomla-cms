@@ -18,15 +18,15 @@
 		</thead>
 		<tfoot>
 		<tr>
-			<th colspan="2">
-				&nbsp;
+			<th colspan="2">&nbsp;
+				
 			</th>
 		</tr>
 		</tfoot>
 		<tbody>
 		<tr>
 			<td valign="top">
-				<strong><?php echo JText::_( 'PHP built On' ); ?>:</strong>
+				<strong><?php echo JText::_( 'PHP Built On' ); ?>:</strong>
 			</td>
 			<td>
 				<?php echo php_uname(); ?>
@@ -66,7 +66,7 @@
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'WebServer to PHP interface' ); ?>:</strong>
+				<strong><?php echo JText::_( 'WebServer to PHP Interface' ); ?>:</strong>
 			</td>
 			<td>
 				<?php echo php_sapi_name(); ?>

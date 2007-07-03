@@ -447,7 +447,7 @@ function removeUsers(  )
 	JArrayHelper::toInteger( $cid );
 
 	if (count( $cid ) < 1) {
-		JError::raiseError(500, JText::_( 'Select an item to delete', true ) );
+		JError::raiseError(500, JText::_( 'Select an Item to delete', true ) );
 	}
 
 	foreach ($cid as $id)
@@ -528,7 +528,7 @@ function changeUserBlock( $block=1 )
 	if (count( $cid ) < 1)
 	{
 		$action = $block ? 'block' : 'unblock';
-		JError::raiseError(500, JText::_( 'Select an item to '.$action, true ) );
+		JError::raiseError(500, JText::_( 'Select an Item to '.$action, true ) );
 	}
 
 	$cids = implode( ',', $cid );
@@ -575,7 +575,7 @@ function logoutUser( )
 
 	if ( count( $cids ) < 1 )
 	{
-		$mainframe->redirect( 'index.php?option=com_users', JText::_( 'Please select a user' ) );
+		$mainframe->redirect( 'index.php?option=com_users', JText::_( 'Please select a User' ) );
 	}
 	$cids = implode( ',', $cids );
 
@@ -599,7 +599,7 @@ function logoutUser( )
 		$db->query();
 	}
 
-	$msg = JText::_( 'User Sesssion ended' );
+	$msg = JText::_( 'User Sesssion Ended' );
 	switch ( $task )
 	{
 		case 'flogout':

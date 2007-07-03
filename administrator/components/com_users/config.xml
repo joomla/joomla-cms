@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
  <params>
-  <param name="allowUserRegistration" type="radio" default="1" label="Allow User Registration" description="If yes, allows users to self-register">
+  <param name="allowUserRegistration" type="radio" default="1" label="Allow User Registration" description="If set to Yes,  new Users allowed to self-register">
    <option value="0">No</option>
    <option value="1">Yes</option>
   </param>
@@ -11,11 +11,11 @@
    <option value="Editor">Editor</option>
    <option value="Publisher">Publisher</option>
   </param>
-  <param name="useractivation" type="radio" default="1" label="Use New Account Activation" description="TIPIFYESUSERMAILEDLINK">
+  <param name="useractivation" type="radio" default="1" label=" New User Account Activation" description="TIPIFYESUSERMAILEDLINK">
    <option value="0">No</option>
    <option value="1">Yes</option>
   </param>
-  <param name="frontend_userparams" type="radio" default="1" label="Frontend User Params" description="TIPFRONTENDUSERPARAMS">
+  <param name="frontend_userparams" type="radio" default="1" label="Front-end User Params" description="TIPFRONTENDUSERPARAMS">
    <option value="0">Hide</option>
    <option value="1">Show</option>
   </param>

@@ -13,7 +13,7 @@
 		<param name="admin_language" type="languages" client="administrator" default="" label="Back-end Language" description="paramAdminLanguage" />
 		<param name="language" type="languages" client="site" default="" label="Front-end Language" description="paramLanguage" />
 		<param name="editor" type="editors" default="" label="User Editor" description="WYSYWYG Editor for this User" />
-		<param name="helpsite" type="helpsites" default="" label="Help Site" description="Help site for this User" />
-		<param name="timezone" type="timezones" default="" label="Time Zone" description="Timezone for this User" />
+		<param name="helpsite" type="helpsites" default="" label="Help Site" description="Help Site for this User" />
+		<param name="timezone" type="timezones" default="" label="Time Zone" description="Time Zone for this User" />
 	</params>
 </install>

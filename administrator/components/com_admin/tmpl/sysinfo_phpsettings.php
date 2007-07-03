@@ -18,8 +18,8 @@
 		</thead>
 		<tfoot>
 		<tr>
-			<th colspan="2">
-				&nbsp;
+			<th colspan="2">&nbsp;
+				
 			</th>
 		</tr>
 		</tfoot>
@@ -90,7 +90,7 @@
 		</tr>
 		<tr>
 			<td>
-				<?php echo JText::_( 'Session save path' ); ?>:
+				<?php echo JText::_( 'Session Save Path' ); ?>:
 			</td>
 			<td>
 				<?php echo (($sp=ini_get('session.save_path')) ? $sp : JText::_( 'none' ) ); ?>
@@ -98,7 +98,7 @@
 		</tr>
 		<tr>
 			<td>
-				<?php echo JText::_( 'Session auto start' ); ?>:
+				<?php echo JText::_( 'Session Auto Start' ); ?>:
 			</td>
 			<td>
 				<?php echo intval( ini_get( 'session.auto_start' ) ); ?>
@@ -106,7 +106,7 @@
 		</tr>
 		<tr>
 			<td>
-				<?php echo JText::_( 'XML enabled' ); ?>:
+				<?php echo JText::_( 'XML Enabled' ); ?>:
 			</td>
 			<td>
 			<?php echo extension_loaded('xml') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
@@ -114,7 +114,7 @@
 		</tr>
 		<tr>
 			<td>
-				<?php echo JText::_( 'Zlib enabled' ); ?>:
+				<?php echo JText::_( 'Zlib Enabled' ); ?>:
 			</td>
 			<td>
 				<?php echo extension_loaded('zlib') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
@@ -130,7 +130,7 @@
 		</tr>
 		<tr>
 			<td>
-				<?php echo JText::_( 'Mbstring enabled' ); ?>:
+				<?php echo JText::_( 'Mbstring Enabled' ); ?>:
 			</td>
 			<td>
 				<?php echo extension_loaded('mbstring') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
@@ -138,7 +138,7 @@
 		</tr>
 		<tr>
 			<td>
-				<?php echo JText::_( 'Iconv available' ); ?>:
+				<?php echo JText::_( 'Iconv Available' ); ?>:
 			</td>
 			<td>
 				<?php echo function_exists('iconv') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
