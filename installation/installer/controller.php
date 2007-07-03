@@ -272,6 +272,7 @@ class JInstallationController extends JController
 	 */
 	function mainconfig()
 	{
+		//$this->dumpLoad();
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
@@ -338,6 +339,37 @@ class JInstallationController extends JController
 		$view->finish();
 
 		return true;
+	}
+
+	function dumpLoad() {
+		ob_clean(); // kill off any joomla stuff
+		$model	=& $this->getModel();
+		$model->dumpLoad();
+		die();
+	}
+	
+	function migration() {
+		$model =& $this->getModel();
+		$model->setData('back', 'mainconfig');
+		$view =& $this->getView();
+		if(!$model->checkUpload()) {
+			$view->error();
+			return false;
+		}
+		
+		$view->migrateScreen();
+		return true;
+	}
+	
+	function postmigrate() {
+		//ob_clean(); // kill off any joomla stuff
+		$model =& $this->getModel();
+		$view =& $this->getView();
+		if($model->postMigrate()) {
+			
+			$view->error();
+		}
+		//die();
 	}
 
 }

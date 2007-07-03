@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-July-2007
+ # Fixed up missing $attr in the input filter on some code paths
+ ^ Migration System has a major shock and update.
+ - 1.5 to 1.5 Transfer system absorbed into greater migrate infrastructure
+ + added modified 'bigdump' script to handle large dump files
+ 
+
 03-July-2007 Louis Landry
  # Fixed misrouting when components or views don't match
  # Fixed routing problems for index2.php -- legacy issue

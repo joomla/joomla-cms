@@ -346,6 +346,18 @@ class JInstallationView extends JView
 
 		return $this->display();
 	}
+	
+	function migrateScreen() {
+		$steps	=& $this->getSteps();
+		$model	=& $this->getModel();
+
+		$tmpl		=& $this->getTemplate( 'migration.html' );
+		$scriptpath =& $model->getData('scriptpath');
+		$tmpl->addVars( 'stepbar', 	$steps, 	'step_' );
+		$tmpl->addVar( 'migration', 'migration', JRequest::getVar( 'migration', 0, 'post', 'bool' ));
+		$tmpl->addVar( 'buttons', 'previous', 'mainconfig');
+		return $this->display();		
+	}
 }
 
 ?>

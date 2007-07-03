@@ -458,9 +458,15 @@ class JInstallationModel extends JModel
 			$vars['dataloaded'] = '1';
 			$vars['loadchecked'] = 1;
 		}
-		if (JRequest::getVar( 'migrationupload', 0, 'post', 'int' ) == 1)
+		if ((JRequest::getVar( 'migrationupload', 0, 'post', 'int' ) == 1) && (JRequest::getVar( 'migrationUploaded', 0, 'post', 'int' ) == 0))
 		{
+			die(print_r(JRequest::getVar( 'migrationUploaded', 0, 'post', 'int' )));
 			$vars['migresponse'] = JInstallationHelper::uploadSql( $vars, true );
+			$vars['dataloaded'] = '1';
+			$vars['loadchecked'] = 2;
+		}
+		if(JRequest::getVar( 'migrationUploaded',0,'post','int') == 1) {
+			$vars['migresponse'] = JInstallationHelper::findMigration( $vars );
 			$vars['dataloaded'] = '1';
 			$vars['loadchecked'] = 2;
 		}
@@ -785,5 +791,84 @@ class JInstallationModel extends JModel
 	function setData($key, $value){
 		$this->data[$key]	= $value;
 	}
+	
+	function dumpLoad() {
+		include (JPATH_BASE . '/includes/bigdump.php');
+	}
+	
+	function checkUpload() {
+		// pie
+		$vars	=& $this->getVars();
+		//print_r($vars);
+		$sqlFile	= JRequest::getVar('sqlFile', '', 'files', 'array');
+		if(JRequest::getVar( 'sqlUploaded', 0, 'post', 'bool' ) == false) {
+			/*
+			 * Move uploaded file
+			 */
+			// Set permissions for tmp dir
+			JInstallationHelper::_chmod(JPATH_SITE.DS.'tmp', 0777);
+			jimport('joomla.filesystem.file');
+			$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$sqlFile['name']);
+			
+			if( !eregi('.sql$', $sqlFile['name']) )
+			{
+				$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
+			}
+			else
+			{
+				$script = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
+			}
+	
+			// unpack archived sql files
+			if ($archive )
+			{
+				$package = JInstallationHelper::unpack( $archive, $vars );
+				if ( $package === false )
+				{
+					$this->setError(JText::_('WARNUNPACK'));
+					return false;
+				}
+				$script = $package['folder'].DS.$package['script'];
+			}
+		} else {
+			$script = JPATH_BASE . DS . 'sql' . DS . 'migration' . DS . 'migrate.sql';
+		}
+		$migration = JRequest::getVar( 'migration', 0, 'post', 'bool' );
+		/*
+		 * If migration perform manipulations on script file before population
+		 */
+		if ($migration == true) {
+					$db = & JInstallationHelper::getDBO($vars['DBtype'], $vars['DBhostname'], $vars['DBuserName'], $vars['DBpassword'], $vars['DBname'], $vars['DBPrefix']);
+		$script = JInstallationHelper::preMigrate($script, $vars, $db);
+		if ( $script == false )
+		{
+			$this->setError(JText::_( 'Script operations failed' ));
+			return false;
+		}
+		} // Disable in testing */
+		// Ensure the script is always in the same location
+		if($script != JPATH_BASE . DS . 'sql' . DS . 'migration' . DS . 'migrate.sql') {
+			JFile::move($script, JPATH_BASE . DS . 'sql' . DS . 'migration' . DS . 'migrate.sql');
+		}
+		//$this->setData('scriptpath',$script);
+		$vars['dataloaded'] = '1';
+		$vars['loadchecked'] = '1';
+		$vars['migration'] = $migration;
+		return true;
+	}
 
+
+	function postMigrate() {
+		$migErrors = null;
+		$args =& $this->getVars();
+		$db = & JInstallationHelper::getDBO($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
+		$migResult = JInstallationHelper::postMigrate( $db, $migErrors, $args );
+		if(!$migResult) echo "Migration Successful, press next to continue"; 
+			else {
+				echo 'Migration failed:';
+				echo '<pre>';
+				print_r($migErrors);
+			} 
+		return $migResult;
+	}
 }

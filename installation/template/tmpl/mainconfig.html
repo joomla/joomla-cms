@@ -38,27 +38,19 @@
 		if(frm.what_to_load[0].checked) {
 			frm.instDefault.disabled = false;
 			frm.sqlFile.disabled = true;
-			frm.sqlLoad.disabled = true;
 			frm.oldPrefix.disabled = true;
 			frm.srcEncoding.disabled = true;
-			frm.migrationFile.disabled = true;
 			frm.migrationLoad.disabled = true;
+			frm.migration.disabled = true;
+			frm.sqlUploaded.disabled = true;
 		} else if(frm.what_to_load[1].checked) {
 			frm.instDefault.disabled = true;
 			frm.sqlFile.disabled = false;
-			frm.sqlLoad.disabled = false;
-			frm.oldPrefix.disabled = true;
-			frm.srcEncoding.disabled = true;
-			frm.migrationFile.disabled = true;
-			frm.migrationLoad.disabled = true;
-		} else if(frm.what_to_load[2].checked) {
-			frm.instDefault.disabled = true;
-			frm.sqlFile.disabled = true;
-			frm.sqlLoad.disabled = true;
 			frm.oldPrefix.disabled = false;
 			frm.srcEncoding.disabled = false;
-			frm.migrationFile.disabled = false;
 			frm.migrationLoad.disabled = false;
+			frm.migration.disabled = false;
+			frm.sqlUploaded.disabled = false;
 		}
 	}
 
@@ -80,8 +72,8 @@
 	}
 
 	function migrationSql(frm, task) {
-
-		if (frm.migrationFile.value == '') {
+		
+		if (frm.sqlFile.value == '' && !frm.sqlUploaded.checked) {
 			alert( '<jtmpl:translate escape="yes">No file selected</jtmpl:translate>' );
 			return;
 		} else {
@@ -186,7 +178,7 @@
 				<div class="install-text">
 					<jtmpl:translate key="tipConfSteps">
 					<p>Enter your e-mail address, this will be the e-mail address of the site
-					SuperAdministrator.</p></jtmpl:translate>
+					Super Administrator. If you are migrating you can ignore this section.</p></jtmpl:translate>
 				</div>
 				<div class="install-body">
 				<div class="t">
@@ -295,47 +287,25 @@
 								<td></td>
 								<td></td>
 							</tr>
-
+							
 							<tr>
-								<td>
-									<input id="local_sql" type="radio" name="what_to_load" onclick="selectMode();"/>
-								</td>
-								<td>
-									<label for="local_sql">
-										<jtmpl:translate key="loadJ15Title">Load local Joomla 1.5 SQL script</jtmpl:translate>
-									</label>
-								</td>
-								<td>
-									<em>
-									<jtmpl:translate key="tipLoadSql">The SQL scripts need to be Joomla 1.5 compatible and should have the appropriate table prefix.</jtmpl:translate>
-									</em>
-								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2">
-									<input class="input_box" id="sql_script" name="sqlFile" type="file" size="20"  />
-									<br/>
-									<input class="button" type="button" name="sqlLoad" value="<jtmpl:translate>Upload and execute</jtmpl:translate>" onclick="externalSql(filename, 'mainconfig');" />
-									<br/><br/>
-
-									<span id="theSqlResponse">{VAR_SQLRESPONSE}<span>
-								</td>
-							</tr>
-
-							<tr>
-								<td>
+								<td valign="top">
 									<input id="migrate_sql" type="radio" name="what_to_load" onclick="selectMode();"/>
 								</td>
-								<td>
+								<td valign="top">
 									<label for="migrate_sql">
-										<jtmpl:translate key="migrateTitle">Load migration script</jtmpl:translate>
+										<jtmpl:translate key="migrateTitle">Load script</jtmpl:translate>
 									</label>
 								</td>
 								<td>
 									<em>
-									<jtmpl:translate key="tipLoadMigration">The migration script needs to be created on the old site by the com_migrate_to_j15 tool or created manually to conform.</jtmpl:translate>
+									<jtmpl:translate key="tipLoadMigration">The migration script needs to be created on the old site by the com_migrator tool or created manually to conform.</jtmpl:translate>
 									</em>
+									<br />
+									<em>
+									<jtmpl:translate key="tipLoadSql">Joomla! 1.5 Migration SQL scripts need to be Joomla 1.5 compatible and should have the appropriate table prefix.</jtmpl:translate>
+									</em>
+									
 								</td>
 							</tr>
 							<tr>
@@ -367,15 +337,19 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td>
+								<td valign="top">
 									<label for="migration_script">
 										<jtmpl:translate>Migration Script</jtmpl:translate>
 									</label>
 								</td>
 								<td>
-									<input class="input_box" id="migration_script" name="migrationFile" type="file" size="20"  />
+									<input class="input_box" id="migration_script" name="sqlFile" type="file" size="20"  />
 									<br/>
-									<input class="button" type="button" name="migrationLoad" value="<jtmpl:translate>Upload and execute</jtmpl:translate>" onclick="migrationSql(filename, 'mainconfig');" />
+									<input class="input_box" id="sqlUploaded" name="sqlUploaded" type="checkbox" /><jtmpl:translate key="tipUploaded">I have already uploaded a SQL file</jtmpl:translate>
+									<br/>
+									<input class="input_box" id="migration" name="migration" type="checkbox" /><jtmpl:translate key="tipMigration">This script is a Joomla! 1.0 migration script.</jtmpl:translate>
+									<br/>
+									<input class="button" type="button" name="migrationLoad" value="<jtmpl:translate>Upload and execute</jtmpl:translate>" onclick="migrationSql(filename, 'migration');" />
 									<br/><br/>
 
 									<span id="theMigrationResponse">{VAR_MIGRESPONSE}<span>

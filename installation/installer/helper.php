@@ -179,21 +179,24 @@ class JInstallationHelper
 	/**
 	 *
 	 */
-	function populateDatabase(& $db, $sqlfile, & $errors)
+	function populateDatabase(& $db, $sqlfile, & $errors, $nexttask='mainconfig')
 	{
 		if( !($buffer = file_get_contents($sqlfile)) )
 		{
 			return -1;
 		}
-		$queries = JInstallationHelper::splitSql($buffer);
 
+		$queries = JInstallationHelper::splitSql($buffer);
+		
 		foreach ($queries as $query)
 		{
 			$query = trim($query);
 			if ($query != '' && $query {0} != '#')
 			{
 				$db->setQuery($query);
-				$db->query();
+				//echo $query .'<br />';
+				$db->query() or die($db->getErrorMsg());
+				
 				JInstallationHelper::getDBErrors($errors, $db );
 			}
 		}
@@ -612,6 +615,10 @@ class JInstallationHelper
 		return $ret;
 	}
 
+	function findMigration( &$args ) {
+		print_r($args); die();
+	}
+
 	/**
 	 * Uploads a sql script and executes it. Script can be text file or zip/gz packed
 	 *
@@ -621,7 +628,7 @@ class JInstallationHelper
 	 * @return string Success or error messages
 	 * @since 1.5
 	 */
-	function uploadSql( &$args, $migration = false )
+	function uploadSql( &$args, $migration = false, $preconverted = false )
 	{
 		global $mainframe;
 		$archive = '';
@@ -630,7 +637,7 @@ class JInstallationHelper
 		/*
 		 * Check for iconv
 		 */
-		if ($migration && !function_exists( 'iconv' ) ) {
+		if ($migration && !$preconverted && !function_exists( 'iconv' ) ) {
 			return JText::_( 'WARNICONV' );
 		}
 
@@ -678,7 +685,7 @@ class JInstallationHelper
 		JInstallationHelper::_chmod(JPATH_SITE.DS.'tmp', 0777);
 		jimport('joomla.filesystem.file');
 		$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$sqlFile['name']);
-
+		
 		if( !eregi('.sql$', $sqlFile['name']) )
 		{
 			$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
@@ -696,7 +703,7 @@ class JInstallationHelper
 			{
 				return JText::_('WARNUNPACK');
 			}
-			$script = $package['folder'].$package['script'];
+			$script = $package['folder'].DS.$package['script'];
 		}
 
 		$db = & JInstallationHelper::getDBO($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
@@ -842,6 +849,7 @@ class JInstallationHelper
 	function preMigrate( $scriptName, &$args, $db )
 	{
 		//TODO add error handling
+		//TODO sam: work out who wrote that todo
 		$buffer = '';
 		$newPrefix = $args['DBPrefix'];
 		/*
@@ -870,9 +878,9 @@ class JInstallationHelper
 		 * Create two empty temporary tables
 		 */
 
-		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration';
+/*		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration';
 		$db->setQuery( $query );
-		$db->query();
+		$db->query();*/
 
 		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'menu_migration';
 		$db->setQuery( $query );
@@ -896,7 +904,9 @@ class JInstallationHelper
 		 * convert to utf-8
 		 */
 		$srcEncoding = $args['srcEncoding'];
-		$buffer = iconv( $srcEncoding, 'utf-8//TRANSLIT', $buffer );
+		if(function_exists('iconv')) {
+			$buffer = iconv( $srcEncoding, 'utf-8//TRANSLIT', $buffer );
+		}
 		/*
 		 * write to file
 		 */
@@ -980,14 +990,17 @@ class JInstallationHelper
 		// get com_content id
 		$query = 'SELECT `id` FROM `'.$newPrefix.'components` WHERE `option`="com_content" AND `parent` = 0';
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db );
+
 		$compId = $db->loadResult();
+		JInstallationHelper::getDBErrors($errors, $db );
+		
 
 		// front page
-		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `control` = "view_name=", `link` = "index.php?option=com_content&view=frontpage", `type` = "component", `componentid` = '.$compId.' WHERE `link` LIKE "%option=com_frontpage%"';
-		$db->setQuery( $query );
-		$db->query();
-		JInstallationHelper::getDBErrors($errors, $db );
+		// TODO: Sam: Work out where this came from and what its supposed to do
+//		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `control` = "view_name=", `link` = "index.php?option=com_content&view=frontpage", `type` = "component", `componentid` = '.$compId.' WHERE `link` LIKE "%option=com_frontpage%"';
+//		$db->setQuery( $query );
+//		$db->query();
+//		JInstallationHelper::getDBErrors($errors, $db );
 
 		// content archive category or section
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET  `link` = "index.php?option=com_content&view=archive", `type` = "component", `componentid` = '.$compId.' WHERE (`type` = "content_archive_category" OR `type` = "content_archive_section")';
@@ -1028,8 +1041,9 @@ class JInstallationHelper
 		// get com_newsfeeds id
 		$query = 'SELECT `id` FROM `'.$newPrefix.'components` WHERE `option`="com_newsfeeds" AND `parent` = 0';
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db );
 		$compId = $db->loadResult();
+		JInstallationHelper::getDBErrors($errors, $db );
+		
 
 		// newsfeed categories
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = CONCAT(link, "&view=categories"), `componentid` = '.$compId.' WHERE `type` = "component" AND link LIKE "%option=com_newsfeeds%"';
@@ -1064,8 +1078,8 @@ class JInstallationHelper
 		// get com_weblinks id
 		$query = 'SELECT `id` FROM `'.$newPrefix.'components` WHERE `option`="com_weblinks" AND `parent` = 0';
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db );
 		$compId = $db->loadResult();
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		// weblinks categories
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = CONCAT(link, "&view=categories"), `componentid` = '.$compId.' WHERE `type` = "component" AND link LIKE "%option=com_weblinks%"';
@@ -1100,13 +1114,13 @@ class JInstallationHelper
 		// set default to lowest ordering published on mainmenu
 		$query = 'SELECT MIN( `ordering` ) FROM `'.$newPrefix.'menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = "mainmenu"';
 		$db->setQuery( $query );
+		$minorder = $db->loadResult();		
 		JInstallationHelper::getDBErrors($errors, $db );
-		$minorder = $db->loadResult();
 
 		$query = 'SELECT `id` FROM `'.$newPrefix.'menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = "mainmenu" AND `ordering` = '.$minorder;
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db );
 		$menuitemid = $db->loadResult();
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `home` = 1 WHERE `id` = '.$menuitemid;
 		$db->setQuery( $query );
@@ -1118,28 +1132,28 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
-
 		$query = 'SELECT DISTINCT `option` FROM '.$newPrefix.'components WHERE `option` != ""';
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db );
+
 		$lookup = $db->loadResultArray();
+		JInstallationHelper::getDBErrors($errors, $db );
 		$lookup[] = 'com_user&';
 
 		// prepare to copy across
 		$query = 'SELECT * FROM '.$newPrefix.'menu_migration';
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db );
 		$oldMenuItems = $db->loadObjectList();
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		$query = 'DELETE FROM '.$newPrefix.'menu WHERE 1';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
-
 		$query = 'SELECT * FROM '.$newPrefix.'menu';
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db );
+
 		$newMenuItems = $db->loadObjectList();
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		// filter out links to 3pd components
 		foreach( $oldMenuItems as $item )
@@ -1178,9 +1192,9 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		JInstallationHelper::getDBErrors($errors, $db );
 		$menuTypes = $db->loadResultArray();
-
 		$query = 'TRUNCATE TABLE '.$newPrefix.'menu_types';
 		$db->setQuery($query);
+
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
@@ -1197,28 +1211,29 @@ class JInstallationHelper
 		 */
 		$query = 'SELECT module FROM '.$newPrefix.'modules WHERE client_id = 0 AND module != "mod_mainmenu"';
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db );
 		$lookup = $db->loadResultArray();
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		$query = 'SELECT MAX(id) FROM '.$newPrefix.'modules ';
 		$db->setQuery( $query );
-		JInstallationHelper::getDBErrors($errors, $db );
 		$nextId = $db->loadResult();
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		foreach( $lookup as $module )
 		{
 			$nextId++;
 			$qry = 'SELECT * FROM '.$newPrefix.'modules_migration WHERE module = "'.$module.'" AND client_id = 0';
 			$db->setQuery( $qry );
-			JInstallationHelper::getDBErrors($errors, $db );
+	
 			if ( $row = $db->loadObject() )
 			{
 				$row->id = $nextId;
 				$row->published = 0;
 				$db->insertObject( $newPrefix.'modules', $row );
 				JInstallationHelper::getDBErrors($errors, $db );
-			}
+			} else JInstallationHelper::getDBErrors($errors, $db );
 		}
+		
 		/*
 		 * Clean up
 		 */
@@ -1232,8 +1247,6 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
-
-
 
 		return count( $errors );
 	}

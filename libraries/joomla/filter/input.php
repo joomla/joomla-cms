@@ -239,7 +239,8 @@ class JInputFilter extends JObject
 		$preTag		= null;
 		$postTag	= $source;
 		$currentSpace = false;
-
+		$attr = '';	 // moffats: setting to null due to issues in migration system - undefined variable errors
+		
 		// Is there a tag? If so it will certainly start with a '<'
 		$tagOpen_start	= strpos($source, '<');
 
