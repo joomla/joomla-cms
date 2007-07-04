@@ -996,11 +996,10 @@ class JInstallationHelper
 		
 
 		// front page
-		// TODO: Sam: Work out where this came from and what its supposed to do
-//		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `control` = "view_name=", `link` = "index.php?option=com_content&view=frontpage", `type` = "component", `componentid` = '.$compId.' WHERE `link` LIKE "%option=com_frontpage%"';
-//		$db->setQuery( $query );
-//		$db->query();
-//		JInstallationHelper::getDBErrors($errors, $db );
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = "index.php?option=com_content&view=frontpage", `type` = "component", `componentid` = '.$compId.' WHERE `link` LIKE "%option=com_frontpage%"';
+		$db->setQuery( $query );
+		$db->query();
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		// content archive category or section
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET  `link` = "index.php?option=com_content&view=archive", `type` = "component", `componentid` = '.$compId.' WHERE (`type` = "content_archive_category" OR `type` = "content_archive_section")';
