@@ -21,8 +21,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class TOOLBAR_Trash {
 	function _DEFAULT() {
-		$task = JRequest::getVar('task', 'viewMenu');
-		if ( $task == 'viewMenu') {
+		$task	= JRequest::getVar('task', 'viewMenu');
+		$return	= JRequest::getVar('return', 'viewContent', 'post');
+
+		if ( $task == 'viewMenu' || $return == 'viewMenu') {
 			$text = ': <small><small>['. JText::_( 'Menu Items' ) .']</small></small>';
 		} else {
 			$text = ': <small><small>['. JText::_( 'Articles' ) .']</small></small>';

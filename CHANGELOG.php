@@ -46,6 +46,7 @@ Legend:
  - Removed remnants of the old password reminder system
  # Fixed [topic,187139] Can't copy uncategorized article as new uncategorized article
  # Fixed [topic,187139] Moving article displays uncategorized as static content, changed to uncategorized
+ # Fixed [topic,186789] Issue with heading of "Menu Trash" manager
 
 04-Jul-2007 Andrew Eddie
  # Fixed bug on registration page: verify password had wrong name
