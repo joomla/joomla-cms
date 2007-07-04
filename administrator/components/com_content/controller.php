@@ -1014,7 +1014,7 @@ class ContentController extends JController
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
 
-		$query = 'SELECT CONCAT_WS( ", ", s.id, c.id ) AS `value`, CONCAT_WS( "/", s.title, c.title ) AS `text`' .
+		$query = 'SELECT CONCAT_WS( ", ", s.id, c.id ) AS `value`, CONCAT_WS( " / ", s.title, c.title ) AS `text`' .
 				' FROM #__sections AS s' .
 				' INNER JOIN #__categories AS c ON c.section = s.id' .
 				' WHERE s.scope = "content"' .
@@ -1140,7 +1140,7 @@ class ContentController extends JController
 		$items = $db->loadObjectList();
 
 		## Section & Category query
-		$query = 'SELECT CONCAT_WS(",",s.id,c.id) AS `value`, CONCAT_WS(" // ", s.title, c.title) AS `text`' .
+		$query = 'SELECT CONCAT_WS(",",s.id,c.id) AS `value`, CONCAT_WS(" / ", s.title, c.title) AS `text`' .
 				' FROM #__sections AS s' .
 				' INNER JOIN #__categories AS c ON c.section = s.id' .
 				' WHERE s.scope = "content"' .
