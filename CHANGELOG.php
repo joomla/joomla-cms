@@ -66,6 +66,7 @@ Legend:
  # Fixed routing problems for index2.php -- legacy issue
  # Fixed menu alias rendering
  # Applied patch from User Doc team with admin language modifications
+ # Fixed [#5859] E-Mail this Link to a Friend doesn't work correct
 
 02-Jul-2007 Alex Kempkens
  # fixed duplicate calls of JText in botton rendering
