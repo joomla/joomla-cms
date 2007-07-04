@@ -20,7 +20,7 @@ function submitbutton( pressbutton ) {
 		alert( "<?php printf( JText::_( 'VALID_AZ09', true ), JText::_( 'Username', true ), 3 );?>" );
 	} else if (form.email.value == "") {
 		alert( "<?php echo JText::_( 'Please enter a valid e-mail address.', true );?>" );
-	} else if ((form.password.value != "") && (form.password.value != form.verifyPass.value)){
+	} else if ((form.password.value != "") && (form.password.value != form.password2.value)){
 		alert( "<?php echo JText::_( 'REGWARN_VPASS2', true );?>" );
 	} else if (r.exec(form.password.value)) {
 		alert( "<?php printf( JText::_( 'VALID_AZ09', true ), JText::_( 'Password', true ), 4 );?>" );
@@ -80,7 +80,7 @@ function submitbutton( pressbutton ) {
 		</label>
 	</td>
 	<td>
-		<input class="inputbox" type="password" id="verifyPass" name="verifyPass" size="40" />
+		<input class="inputbox" type="password" id="password2" name="password2" size="40" />
 	</td>
 </tr>
 </table>

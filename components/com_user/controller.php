@@ -54,7 +54,7 @@ class UserController extends JController
 		parent::display();
 	}
 
-	function save( )
+	function save()
 	{
 		//preform token check (prevent spoofing)
 		$token	= JUtility::getToken();
@@ -74,11 +74,11 @@ class UserController extends JController
 		//clean request
 		$post = JRequest::get( 'post' );
 		$post['password']	= JRequest::getVar('password', '', 'post', 'string');
-		$post['verifyPass']	= JRequest::getVar('verifyPass', '', 'post', 'string');
+		$post['password2']	= JRequest::getVar('password2', '', 'post', 'string');
 
 		// do a password safety check
 		if(strlen($post['password'])) { // so that "0" can be used as password e.g.
-			if($post['password'] != $post['verifyPass']) {
+			if($post['password'] != $post['password2']) {
 				$msg	= JText::_( 'Passwords do not match');
 				$this->setRedirect( $_SERVER['HTTP_REFERER'], $msg );
 				return false;
@@ -302,7 +302,7 @@ class UserController extends JController
 		}
 
 		// Get required system objects
-		$user 		=& JFactory::getUser();
+		$user 		= clone(JFactory::getUser());
 		$pathway 	=& $mainframe->getPathWay();
 		$config		=& JFactory::getConfig();
 		$authorize	=& JFactory::getACL();
@@ -406,7 +406,7 @@ class UserController extends JController
 		$allowUserRegistration	= $usersConfig->get('allowUserRegistration');
 
 		// Check to see if they're logged in, because they don't need activating!
-		if($user->get('id')) {
+		if ($user->get('id')) {
 			// They're already logged in, so redirect them to the home page
 			$mainframe->redirect( 'index.php' );
 		}

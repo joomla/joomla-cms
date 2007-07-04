@@ -37,33 +37,38 @@ Legend:
 - -> Removed
 ! -> Note
 
-04-July-2007 Andrew Eddie
+
+04-Jul-2007 Rob Schley
+ # Fixed [#4714] Activation not work in Firefox - IE it works okey.
+ # Fixed inconsistencies in password field naming conventions
+
+04-Jul-2007 Andrew Eddie
  # Fixed bug on registration page: verify password had wrong name
 
-03-July-2007 Rob Schley
+03-Jul-2007 Rob Schley
  # Fixed a bug that allowed the password reset token to be used to activate accounts
  # Fixed the password reset process queries to only work on active accounts.
 
-03-July-2007
+03-Jul-2007
  # Fixed up missing $attr in the input filter on some code paths
  ^ Migration System has a major shock and update.
  - 1.5 to 1.5 Transfer system absorbed into greater migrate infrastructure
  + added modified 'bigdump' script to handle large dump files
 
-03-July-2007 Louis Landry
+03-Jul-2007 Louis Landry
  # Fixed misrouting when components or views don't match
  # Fixed routing problems for index2.php -- legacy issue
  # Fixed menu alias rendering
  # Applied patch from User Doc team with admin language modifications
 
-02-July-2007 Alex Kempkens
+02-Jul-2007 Alex Kempkens
  # fixed duplicate calls of JText in botton rendering
  + added missing text tags in english language files
  # removing unneeded new lines in metadata.xml files as they are causing issues during the translation
  - points in the language tags
  ! we are still in the process of cleaning all language tags this includes a complete check before the RC too
 
-02-July-2007 Rastin Mehr
+02-Jul-2007 Rastin Mehr
 # Fixed [#5636] Modify a category from a custom component
 + '&type='.$type is added to the end of edit link
 # Fixed [#5833] Backend -> plugin | buttons & navigation broken
@@ -71,10 +76,10 @@ Legend:
 + Hit Counter feature is now implemented
 ! Hit Counter feature did not exist, but the existing parameters "counter" and "increase" indicated that feature needs to be in place
 
-1-July-2007 Toby Patterson
+1-Jul-2007 Toby Patterson
  # Fixed issue with GET input being lost when SEO is enabled in JRoute::parse()
 
-01-July-2007 Rastin Mehr
+01-Jul-2007 Rastin Mehr
 # Fixed [#5612] The "Read more... " URL Router cannot working well for "Section Blog Layout"
 # Fixed [#5744] Layout "blog" not found
 
