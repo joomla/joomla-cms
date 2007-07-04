@@ -77,19 +77,19 @@ Legend:
  ! we are still in the process of cleaning all language tags this includes a complete check before the RC too
 
 02-Jul-2007 Rastin Mehr
-# Fixed [#5636] Modify a category from a custom component
-+ '&type='.$type is added to the end of edit link
-# Fixed [#5833] Backend -> plugin | buttons & navigation broken
-# Fixed [#5858] Hit Counter wird nicht angezeigt bei Statistik
-+ Hit Counter feature is now implemented
-! Hit Counter feature did not exist, but the existing parameters "counter" and "increase" indicated that feature needs to be in place
+ # Fixed [#5636] Modify a category from a custom component
+ + '&type='.$type is added to the end of edit link
+ # Fixed [#5833] Backend -> plugin | buttons & navigation broken
+ # Fixed [#5858] Hit Counter wird nicht angezeigt bei Statistik
+ + Hit Counter feature is now implemented
+ ! Hit Counter feature did not exist, but the existing parameters "counter" and "increase" indicated that feature needs to be in place
 
 1-Jul-2007 Toby Patterson
  # Fixed issue with GET input being lost when SEO is enabled in JRoute::parse()
 
 01-Jul-2007 Rastin Mehr
-# Fixed [#5612] The "Read more... " URL Router cannot working well for "Section Blog Layout"
-# Fixed [#5744] Layout "blog" not found
+ # Fixed [#5612] The "Read more... " URL Router cannot working well for "Section Blog Layout"
+ # Fixed [#5744] Layout "blog" not found
 
 30-Jun-2007 Kevin Devine
  # Fixed [#5773] Error when article is saved without text in the body of article, front and backend
@@ -134,7 +134,6 @@ Legend:
    type will be that of the requested format (see JDocument::getInstance) - Louis's suggestion
  # Fixed [#5743] Dateformat in category blog layout
 
->>>>>>> .r7813
 26-Jun-2007 Andrew Eddie
  + New method JUtility dump
 
