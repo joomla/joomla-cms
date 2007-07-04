@@ -43,6 +43,8 @@ Legend:
  # Fixed inconsistencies in password field naming conventions
  # Fixed encoded ampersands in reset/remind e-mails
  - Removed the username field from the password reset process
+ - Removed remnants of the old password reminder system
+ # Fixed [topic,187139] Can't copy uncategorized article as new uncategorized article
 
 04-Jul-2007 Andrew Eddie
  # Fixed bug on registration page: verify password had wrong name

@@ -1146,9 +1146,13 @@ class ContentController extends JController
 				' WHERE s.scope = "content"' .
 				' ORDER BY s.title, c.title';
 		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+
+		// Add a row for uncategorized content
+		$uncat	= JHTML::_('select.option', '0,0', JText::_('Uncategorized'));
+		$rows	= $db->loadObjectList();
+		array_unshift($rows, $uncat);
 		// build the html select list
-		$sectCatList = JHTML::_('select.genericlist',  $rows, 'sectcat', 'class="inputbox" size="10"', 'value', 'text', NULL);
+		$sectCatList = JHTML::_('select.genericlist', $rows, 'sectcat', 'class="inputbox" size="10"', 'value', 'text', NULL);
 
 		ContentView::copySection($option, $cid, $sectCatList, $sectionid, $items);
 	}
@@ -1170,13 +1174,13 @@ class ContentController extends JController
 		JArrayHelper::toInteger($cid);
 
 		$item	= null;
-		$sectcat = JRequest::getVar( 'sectcat', '', 'post', 'string' );
+		$sectcat = JRequest::getVar( 'sectcat', '-1,-1', 'post', 'string' );
 		//seperate sections and categories from selection
 		$sectcat = explode(',', $sectcat);
 		$newsect = (int) @$sectcat[0];
 		$newcat = (int) @$sectcat[1];
 
-		if (!$newsect || !$newcat) {
+		if (($newsect == -1) || ($newcat == -1)) {
 			$mainframe->redirect('index.php?option=com_content&sectionid='.$sectionid, JText::_('An error has occurred'));
 		}
 
@@ -1193,6 +1197,12 @@ class ContentController extends JController
 				' WHERE a.id = '. $newcat;
 		$db->setQuery($query);
 		$category = $db->loadResult();
+
+		if (($newsect == 0) && ($newcat == 0))
+		{
+			$section	= JText::_('Uncategorized');
+			$category	= JText::_('Uncategorized');
+		}
 
 		$total = count($cid);
 		for ($i = 0; $i < $total; $i ++)
