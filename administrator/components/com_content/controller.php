@@ -1020,7 +1020,7 @@ class ContentController extends JController
 				' WHERE s.scope = "content"' .
 				' ORDER BY s.title, c.title';
 		$db->setQuery($query);
-		$rows[] = JHTML::_('select.option', "0, 0", 'Static Content');
+		$rows[] = JHTML::_('select.option', "0, 0", JText::_('UNCATEGORIZED'));
 		$rows = array_merge($rows, $db->loadObjectList());
 		// build the html select list
 		$sectCatList = JHTML::_('select.genericlist',  $rows, 'sectcat', 'class="inputbox" size="8"', 'value', 'text', null);
@@ -1148,7 +1148,7 @@ class ContentController extends JController
 		$db->setQuery($query);
 
 		// Add a row for uncategorized content
-		$uncat	= JHTML::_('select.option', '0,0', JText::_('Uncategorized'));
+		$uncat	= JHTML::_('select.option', '0,0', JText::_('UNCATEGORIZED'));
 		$rows	= $db->loadObjectList();
 		array_unshift($rows, $uncat);
 		// build the html select list
@@ -1200,8 +1200,8 @@ class ContentController extends JController
 
 		if (($newsect == 0) && ($newcat == 0))
 		{
-			$section	= JText::_('Uncategorized');
-			$category	= JText::_('Uncategorized');
+			$section	= JText::_('UNCATEGORIZED');
+			$category	= JText::_('UNCATEGORIZED');
 		}
 
 		$total = count($cid);
