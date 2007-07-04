@@ -62,12 +62,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </tr>
 <tr>
 	<td height="40">
-		<label id="pw2msg" for="password2">
+		<label id="pw2msg" for="verifyPass">
 			<?php echo JText::_( 'Verify Password' ); ?>:
 		</label>
 	</td>
 	<td>
-		<input class="inputbox required validate-passverify" type="password" id="password2" name="password2" size="40" value="" /> *
+		<input class="inputbox required validate-passverify" type="password" id="verifyPass" name="verifyPass" size="40" value="" /> *
 	</td>
 </tr>
 <tr>

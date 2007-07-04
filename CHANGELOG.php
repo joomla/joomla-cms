@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-July-2007 Andrew Eddie
+ # Fixed bug on registration page: verify password had wrong name
+
 03-July-2007 Rob Schley
  # Fixed a bug that allowed the password reset token to be used to activate accounts
  # Fixed the password reset process queries to only work on active accounts.
