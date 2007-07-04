@@ -75,7 +75,7 @@ function submitbutton( pressbutton ) {
 </tr>
 <tr>
 	<td>
-		<label for="verifyPass">
+		<label for="password2">
 			<?php echo JText::_( 'Verify Password' ); ?>:
 		</label>
 	</td>
