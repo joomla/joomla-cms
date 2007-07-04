@@ -47,6 +47,7 @@ Legend:
  # Fixed [topic,187139] Can't copy uncategorized article as new uncategorized article
  # Fixed [topic,187139] Moving article displays uncategorized as static content, changed to uncategorized
  # Fixed [topic,186789] Issue with heading of "Menu Trash" manager
+ * Added a check to strip out any line breaks from JApplication::redirect() to prevent HTTP header injections
 
 04-Jul-2007 Andrew Eddie
  # Fixed bug on registration page: verify password had wrong name

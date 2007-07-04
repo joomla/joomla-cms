@@ -204,6 +204,10 @@ class JApplication extends JObject
 			$url = JURI::base() . $url;
 		}
 
+		// Strip out any line breaks
+		$url = preg_split("/[\r\n]/", $url);
+		$url = $url[0];
+
 		// If the message exists, enqueue it
 		if (trim( $msg )) {
 			$this->enqueueMessage($msg, $msgType);
