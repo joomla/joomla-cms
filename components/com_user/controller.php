@@ -480,14 +480,13 @@ class UserController extends JController
 		}
 
 		// Get the input
-		$username	= JRequest::getVar('username', null, 'post', 'cmd');
 		$email		= JRequest::getVar('email', null, 'post', 'string');
 
 		// Get the model
 		$model = &$this->getModel('Reset');
 
 		// Request a reset
-		if ($model->requestReset($username, $email) === false)
+		if ($model->requestReset($email) === false)
 		{
 			$message = JText::sprintf('PASSWORD_RESET_REQUEST_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_user&view=reset', $message);

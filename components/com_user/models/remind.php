@@ -92,7 +92,7 @@ class UserModelRemind extends JModel
 	{
 		$config		= &JFactory::getConfig();
 		$uri		= &JFactory::getURI();
-		$url		= JURI::base().JRoute::_('index.php?option=com_user&view=login');
+		$url		= JURI::base().JRoute::_('index.php?option=com_user&view=login', false);
 
 		$from		= $config->getValue('mailfrom');
 		$fromname	= $config->getValue('fromname');

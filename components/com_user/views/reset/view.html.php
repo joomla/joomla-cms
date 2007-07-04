@@ -58,10 +58,10 @@ class UserViewReset extends JView
 
 		if ($layout == 'complete')
 		{
-			$username	= $mainframe->getUserState($this->_namespace.'id');
-			$token		= $mainframe->getUserState($this->_namespace.'token');
+			$id		= $mainframe->getUserState($this->_namespace.'id');
+			$token	= $mainframe->getUserState($this->_namespace.'token');
 
-			if (is_null($username) || is_null($token))
+			if (is_null($id) || is_null($token))
 			{
 				$mainframe->redirect('index.php?option=com_user&view=reset');
 			}

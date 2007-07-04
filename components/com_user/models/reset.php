@@ -45,7 +45,7 @@ class UserModelReset extends JModel
 	 * @param	string	E-mail address
 	 * @return	bool	True on success/false on failure
 	 */
-	function requestReset($username, $email)
+	function requestReset($email)
 	{
 		jimport('joomla.utilities.mail');
 		jimport('joomla.user.helper');
@@ -61,8 +61,7 @@ class UserModelReset extends JModel
 
 		// Build a query to find the user
 		$query	= 'SELECT id FROM #__users'
-				. ' WHERE username = '.$db->Quote($username)
-				. ' AND email = '.$db->Quote($email)
+				. ' WHERE email = '.$db->Quote($email)
 				. ' AND block = 0';
 
 		$db->setQuery($query);
@@ -198,7 +197,7 @@ class UserModelReset extends JModel
 	{
 		$config		= &JFactory::getConfig();
 		$uri		= &JFactory::getURI();
-		$url		= JURI::base().JRoute::_('index.php?option=com_user&view=reset&layout=confirm');
+		$url		= JURI::base().JRoute::_('index.php?option=com_user&view=reset&layout=confirm', false);
 		$sitename	= $config->getValue('sitename');
 
 		// Set the e-mail parameters

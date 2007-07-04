@@ -39,15 +39,17 @@ Legend:
 
 
 04-Jul-2007 Rob Schley
- # Fixed [#4714] Activation not work in Firefox - IE it works okey.
+ # Fixed [#4714] Activation not work in Firefox - IE it works okey
  # Fixed inconsistencies in password field naming conventions
+ # Fixed encoded ampersands in reset/remind e-mails
+ - Removed the username field from the password reset process
 
 04-Jul-2007 Andrew Eddie
  # Fixed bug on registration page: verify password had wrong name
 
 03-Jul-2007 Rob Schley
  # Fixed a bug that allowed the password reset token to be used to activate accounts
- # Fixed the password reset process queries to only work on active accounts.
+ # Fixed the password reset process queries to only work on active accounts
 
 03-Jul-2007
  # Fixed up missing $attr in the input filter on some code paths
