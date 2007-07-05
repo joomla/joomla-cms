@@ -49,7 +49,7 @@ class WeblinksControllerWeblink extends WeblinksController
 	{
 		$post	= JRequest::get('post');
 		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$post['id'] = $cid[0];
+		$post['id'] = (int) $cid[0];
 
 		$model = $this->getModel('weblink');
 
@@ -69,9 +69,10 @@ class WeblinksControllerWeblink extends WeblinksController
 	{
 		global $mainframe;
 
-		$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
 
-		if (!is_array( $cid ) || count( $cid ) < 1) {
+		if (count( $cid ) < 1) {
 			JError::raiseError(500, JText::_( 'Select an item to delete' ) );
 		}
 
@@ -88,9 +89,10 @@ class WeblinksControllerWeblink extends WeblinksController
 	{
 		global $mainframe;
 
-		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
 
-		if (!is_array( $cid ) || count( $cid ) < 1) {
+		if (count( $cid ) < 1) {
 			JError::raiseError(500, JText::_( 'Select an item to publish' ) );
 		}
 
@@ -107,9 +109,10 @@ class WeblinksControllerWeblink extends WeblinksController
 	{
 		global $mainframe;
 
-		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
 
-		if (!is_array( $cid ) || count( $cid ) < 1) {
+		if (count( $cid ) < 1) {
 			JError::raiseError(500, JText::_( 'Select an item to unpublish' ) );
 		}
 
@@ -149,8 +152,10 @@ class WeblinksControllerWeblink extends WeblinksController
 
 	function saveorder()
 	{
-		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$order 	= JRequest::getVar( 'order', array(0), 'post', 'array' );
+		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+		JArrayHelper::toInteger($order);
 
 		$model = $this->getModel('weblink');
 		$model->saveorder($cid, $order);

@@ -60,8 +60,8 @@ class WeblinksModelWeblinks extends JModel
 		global $mainframe, $option;
 
 		// Get the pagination request variables
-		$limit	   = $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
+		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+		$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -142,11 +142,11 @@ class WeblinksModelWeblinks extends JModel
 	{
 		global $mainframe, $option;
 
-		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order', 		'filter_order', 	'a.ordering' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'' );
+		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
 
 		if ($filter_order == 'a.ordering'){
-			$orderby 	= ' ORDER BY category, a.ordering ';
+			$orderby 	= ' ORDER BY category, a.ordering '.$filter_order_Dir;
 		} else {
 			$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir.' , category, a.ordering ';
 		}
@@ -158,12 +158,12 @@ class WeblinksModelWeblinks extends JModel
 	{
 		global $mainframe, $option;
 
-		$filter_state 		= $mainframe->getUserStateFromRequest( $option.'filter_state', 		'filter_state', 	'*' );
-		$filter_catid 		= $mainframe->getUserStateFromRequest( $option.'filter_catid', 		'filter_catid', 	0 );
-		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order', 		'filter_order', 	'a.ordering' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'' );
-		$search 			= $mainframe->getUserStateFromRequest( $option.'search', 			'search', 			'' );
-		$search 			= $this->_db->getEscaped( trim( JString::strtolower( $search ) ) );
+		$filter_state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
+		$filter_catid		= $mainframe->getUserStateFromRequest( $option.'filter_catid',		'filter_catid',		0,				'int' );
+		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
+		$search				= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
+		$search				= $this->_db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 		$where = array();
 

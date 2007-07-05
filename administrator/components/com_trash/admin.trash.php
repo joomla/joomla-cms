@@ -28,9 +28,8 @@ require_once( JApplicationHelper::getPath( 'admin_html' ) );
 $cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $mid = JRequest::getVar( 'mid', array(0), 'post', 'array' );
 
-if ( !is_array( $cid ) ) {
-	$cid = array(0);
-}
+JArrayHelper::toInteger($cid, array(0));
+JArrayHelper::toInteger($mid, array(0));
 
 switch ($task)
 {
@@ -59,7 +58,7 @@ switch ($task)
 		break;
 
 	default:
-		$return = JRequest::getVar( 'return', 'viewContent', 'post' );
+		$return = JRequest::getCmd( 'return', 'viewContent', 'post' );
 		if ( $return == 'viewMenu' ) {
 			viewTrashMenu( $option );
 		} else {
@@ -77,13 +76,13 @@ function viewTrashContent( $option )
 	global $mainframe;
 
 	$db					=& JFactory::getDBO();
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order", 		'filter_order', 	'sectname' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order_Dir",	'filter_order_Dir',	'' );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 						'search', 			'' );
-	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order",		'filter_order',		'sectname', 'cmd' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order_Dir",	'filter_order_Dir',	'',			'word' );
+	$search				= $mainframe->getUserStateFromRequest( "$option.search",						'search', 			'',			'string' );
+	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
-	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
+	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
 	$where[] = 'c.state = -2';
 
@@ -146,13 +145,12 @@ function viewTrashMenu( $option )
 	global $mainframe;
 
 	$db					=& JFactory::getDBO();
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order", 	'filter_order', 	'm.menutype' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order_Dir",	'filter_order_Dir',	'' );
-	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewMenu.limitstart", 		'limitstart', 		0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
-	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order",		'filter_order',		'm.menutype',	'cmd' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order_Dir",	'filter_order_Dir',	'',				'word' );
+	$limit				= $mainframe->getUserStateFromRequest( "limit",								'limit',			$mainframe->getCfg('list_limit'), 'int' );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewMenu.limitstart",		'limitstart', 		0,				'int' );
+	$search				= $mainframe->getUserStateFromRequest( "$option.search",					'search',			'',				'string' );
+	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
 
 	$where[] = 'm.published = -2';
 
@@ -204,7 +202,7 @@ function viewdeleteTrash( $cid, $mid, $option )
 	global $mainframe;
 
 	$db =& JFactory::getDBO();
-	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
+	$return = JRequest::getCmd( 'return', 'viewContent', 'post' );
 
 	// seperate contentids
 	$cids = implode( ',', $cid );
@@ -246,8 +244,8 @@ function deleteTrash( $cid, $option )
 	global $mainframe;
 
 	$db		=& JFactory::getDBO();
-	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
-	$type 	= JRequest::getVar( 'type', array(0), 'post' );
+	$return	= JRequest::getCmd( 'return', 'viewContent', 'post' );
+	$type	= JRequest::getCmd( 'type', '', 'post' );
 
 	$total = count( $cid );
 
@@ -282,7 +280,7 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 	global $mainframe;
 
 	$db		=& JFactory::getDBO();
-	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
+	$return = JRequest::getCmd( 'return', 'viewContent', 'post' );
 
 	// seperate contentids
 	$cids = implode( ',', $cid );
@@ -323,7 +321,7 @@ function restoreTrash( $cid, $option ) {
 	global $mainframe;
 
 	$db		= & JFactory::getDBO();
-	$type 	= JRequest::getVar( 'type', array(0), 'post' );
+	$type	= JRequest::getCmd( 'type', '', 'post' );
 
 	$total = count( $cid );
 
