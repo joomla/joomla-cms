@@ -123,7 +123,7 @@
 
 				<h2><jtmpl:translate>Migration Output</jtmpl:translate>:</h2>
 
-				<iframe src="migration.html" name="migrationtarget" class="license" frameborder="0" marginwidth="25px" scrolling="auto"></iframe>
+				<iframe src="migration.html" name="migrationtarget" class="license" frameborder="0" marginwidth="25px" scrolling="none"></iframe>
 
 				<div class="clr"></div>
 		</div>
@@ -159,8 +159,10 @@
   	<input type="hidden" name="ftpUser" value="{VAR_FTPUSER}" />
   	<input type="hidden" name="ftpPassword" value="{VAR_FTPPASSWORD}" />
   	<input type="hidden" name="lang" value="{VAR_LANG}" />
-  	<input type="hidden" name="var[migresponse]" value="Migration completed" />
-  	<input type="hidden" name="var[dataLoaded]" value="1" />
+  	<input type="hidden" name="vars[migresponse]" value="Migration completed" />
+  	<input type="hidden" name="vars[migstatus]" value="1" />
+  	<input type="hidden" name="vars[dataLoaded]" value="1" />
+  	<input type="hidden" name="vars[loadchecked]" value="1" />
 </form>
 <form action="index.php" method="post" name="migrateForm" id="migrateForm" class="form-validate" target="migrationtarget">
 	<input type="hidden" name="task" value="dumpLoad" />

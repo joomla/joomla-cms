@@ -18,6 +18,8 @@
 
 		if (siteName.value == '') {
 			alert( '<jtmpl:translate key="warnSiteName" escape="yes">Please enter a site name</jtmpl:translate>' );
+		} else if (this.document.filename.migstatus.value == '1' && this.document.filename.dataLoaded.value == '1') {
+			submitForm( frm, task ); // Migration doesn't need email or admin passord
 		} else if (adminEmail.value == '') {
 			alert( '<jtmpl:translate key="warnEmailAddress" escape="yes">Please enter a valid email address</jtmpl:translate>' );
 		} else if (adminPassword.value == '') {
@@ -91,7 +93,7 @@
 			adminPassword.value 		= '';
 			confirmAdminPassword.value 	= '';
 		}
-		return;
+		return;	
 	}
 //-->
 </script>
@@ -384,6 +386,7 @@
   			<input type="hidden" name="ftpUser" value="{VAR_FTPUSER}" />
   			<input type="hidden" name="ftpPassword" value="{VAR_FTPPASSWORD}" />
   			<input type="hidden" name="lang" value="{VAR_LANG}" />
+  			<input type="hidden" name="migstatus" value="{VAR_MIGSTATUS}" />
   		</form>
 
 

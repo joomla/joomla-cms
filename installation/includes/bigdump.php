@@ -451,6 +451,6 @@ else
 	if ($file && $gzipmode)
 		gzclose($file);
 
-ob_flush();
-die();
+//ob_flush();
+//die();
 ?>

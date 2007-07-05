@@ -342,10 +342,9 @@ class JInstallationController extends JController
 	}
 
 	function dumpLoad() {
-		ob_clean(); // kill off any joomla stuff
 		$model	=& $this->getModel();
 		$model->dumpLoad();
-		die();
+
 	}
 	
 	function migration() {
@@ -362,14 +361,12 @@ class JInstallationController extends JController
 	}
 	
 	function postmigrate() {
-		//ob_clean(); // kill off any joomla stuff
 		$model =& $this->getModel();
 		$view =& $this->getView();
 		if($model->postMigrate()) {
 			
 			$view->error();
 		}
-		//die();
 	}
 
 }
