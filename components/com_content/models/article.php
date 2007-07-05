@@ -168,6 +168,7 @@ class ContentModelArticle extends JModel
 			$article->text			= '';
 			$this->_article			= $article;
 		}
+
 		return $this->_article;
 	}
 
@@ -455,7 +456,7 @@ class ContentModelArticle extends JModel
 			$query = 'SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section,' .
 					' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
 					' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-					' g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access'.$voting['select'].
+					' g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access '.$voting['select'].
 					' FROM #__content AS a' .
 					' LEFT JOIN #__categories AS cc ON cc.id = a.catid' .
 					' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = "content"' .
@@ -472,6 +473,12 @@ class ContentModelArticle extends JModel
 
 			if($this->_article->publish_down == $this->_db->getNullDate()) {
 				$this->_article->publish_down = JText::_('Never');
+			}
+			
+			// These attributes need to be defined in order for the voting plugin to work
+			if ( count($voting) && is_null($this->_article->rating_count) ) {
+				$this->_article->rating_count	= 0;
+				$this->_article->rating			= 0;
 			}
 
 			return true;
