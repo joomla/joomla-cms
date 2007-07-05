@@ -328,7 +328,7 @@ class JParameter extends JRegistry
 		}
 
 		//get value
-		$value = $this->get($node->attributes('name'), $node->attributes('default'));
+		$value = $this->get($node->attributes('name'), $node->attributes('default'), $group);
 
 		return $element->render($node, $value, $control_name);
 	}
