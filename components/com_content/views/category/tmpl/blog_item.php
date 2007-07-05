@@ -81,7 +81,7 @@ endif; ?>
 <?php if ($this->params->get('show_create_date')) : ?>
 <tr>
 	<td valign="top" colspan="2" class="createdate">
-		<?php echo JHTML::_('date', $this->item->created, JText::_('DATE_FORMAT_LC1') ); ?>
+		<?php echo JHTML::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2') ); ?>
 	</td>
 </tr>
 <?php endif; ?>
@@ -107,7 +107,7 @@ endif; ?>
 <?php if (!empty($this->item->modified) && $this->params->get('show_modify_date')) : ?>
 <tr>
 	<td colspan="2"  class="modifydate">
-		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHTML::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC1') ); ?> )
+		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHTML::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2') ); ?> )
 	</td>
 </tr>
 <?php endif; ?>
