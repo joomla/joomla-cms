@@ -1237,10 +1237,10 @@ class JInstallationHelper
 		 * Clean up
 		 */
 
-		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration';
+		/*$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration';
 		$db->setQuery( $query );
 		$db->query();
-		JInstallationHelper::getDBErrors($errors, $db );
+		JInstallationHelper::getDBErrors($errors, $db );*/
 
 		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'menu_migration';
 		$db->setQuery( $query );

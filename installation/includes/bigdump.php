@@ -387,10 +387,10 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 		// Finish message and restart the script
 
 		if ($linenumber < $_REQUEST["start"] + $linespersession) {
-			echo ("<p class=\"successcentr\">Congratulations: End of file reached, assuming OK</p>\n");
+			echo ("<div id=\"installer\"><p class=\"successcentr\">Congratulations: End of file reached, assuming OK</p>\n");
 			// Do migration
 			if($migration) {
-			?><p>Migration will continue shortly...</p>
+			?><br />Migration will continue shortly...</div>
 						<form action="index.php" method="post" name="migrateForm" id="migrateForm" class="form-validate" target="migrationtarget">
 	<input type="hidden" name="task" value="postmigrate" />
 	<input type="hidden" name="migration" value="<?php echo $migration ?>">
@@ -405,7 +405,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
   	</form>
   	<script language="JavaScript" type="text/javascript">window.setTimeout('submitForm(this.document.migrateForm,"postmigrate")',500);</script>
 			<?php
-			} else echo "Please press next to finalize your install";
+			} else echo '<br />Please press next to finalize your install</div>';
 			//echo ("<p class=\"centr\">Thank you for using this tool! Please rate <a href=\"http://www.hotscripts.com/Detailed/20922.html\" target=\"_blank\">Bigdump at Hotscripts.com</a></p>\n");
 			//echo ("<p class=\"centr\">You can send me some bucks or euros as appreciation <a href=\"http://www.ozerov.de/bigdump.php\" target=\"_blank\">via PayPal</a></p>\n");
 			$error = true;
@@ -413,7 +413,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 			if ($delaypersession != 0)
 				echo ("<p class=\"centr\">Now I'm <b>waiting $delaypersession milliseconds</b> before starting next session...</p>\n");
 			?><script language="JavaScript" type="text/javascript">window.setTimeout('submitForm(this.document.migrateForm,"dumpLoad")',500);</script>
-						
+			<div id="installer"><p>Loading SQL File...please wait.</p></div>
 			
 			<form action="index.php" method="post" name="migrateForm" id="migrateForm" class="form-validate" target="migrationtarget">
 	<input type="hidden" name="task" value="dumpLoad" />
