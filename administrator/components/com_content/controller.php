@@ -628,8 +628,7 @@ class ContentController extends JController
 			if (strlen(trim( $row->publish_down )) <= 10) {
 				$row->publish_down .= ' 00:00:00';
 			}
-			$date = new JDate($row->publish_down);
-			$date->setOffset( -$mainframe->getCfg('offset'));
+			$date = new JDate($row->publish_down, $tzoffset);
 			$row->publish_down = $date->toMySQL();
 		}
 

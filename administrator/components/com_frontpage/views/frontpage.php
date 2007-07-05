@@ -27,11 +27,15 @@ class FrontpageView
 	*/
 	function showList( &$rows, $page, $option, $lists )
 	{
+		jimport('joomla.utilities.date');
+		
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 
 		$user 		=& JFactory::getUser();
 		$db 		=& JFactory::getDBO();
 		$nullDate 	= $db->getNullDate();
+		$config		=& JFactory::getConfig();
+		$now		= new JDate();
 
 		//Ordering allowed ?
 		$ordering = (($lists['order'] == 'fpordering'));
@@ -111,35 +115,40 @@ class FrontpageView
 
 				$link = JRoute::_( 'index.php?option=com_content&task=edit&cid[]='. $row->id );
 
-				$now = date( 'Y-m-d H:i:s' );
-				if ( $now <= $row->publish_up && $row->state == '1' ) {
+				$publish_up = new JDate($row->publish_up);
+				$publish_down = new JDate($row->publish_down);
+				$publish_up->setOffset($config->getValue('config.offset'));
+				$publish_down->setOffset($config->getValue('config.offset'));
+				if ( $now->toUnix() <= $publish_up->toUnix() && $row->state == 1 ) {
 					$img = 'publish_y.png';
 					$alt = JText::_( 'Published' );
-				} else if (($now <= $row->publish_down || $row->publish_down == $nullDate) && $row->state == '1') {
+				} else if ( ( $now->toUnix() <= $publish_down->toUnix() || $row->publish_down == $nullDate ) && $row->state == 1 ) {
 					$img = 'publish_g.png';
 					$alt = JText::_( 'Published' );
-				} else if ( $now > $row->publish_down && $row->state == '1' ) {
+				} else if ( $now->toUnix() > $publish_down->toUnix() && $row->state == 1 ) {
 					$img = 'publish_r.png';
 					$alt = JText::_( 'Expired' );
-				} elseif ( $row->state == "0" ) {
-					$img = "publish_x.png";
+				} else if ( $row->state == 0 ) {
+					$img = 'publish_x.png';
 					$alt = JText::_( 'Unpublished' );
+				} else if ( $row->state == -1 ) {
+					$img = 'disabled.png';
+					$alt = JText::_( 'Archived' );
 				}
-
 				$times = '';
-				if ( isset( $row->publish_up ) ) {
-						if ( $row->publish_up == $nullDate) {
-							$times .= JText::_( 'Start: Always' );
-						} else {
-							$times .= JText::_( 'Start' ) .': '. $row->publish_up;
-						}
+				if (isset($row->publish_up)) {
+					if ($row->publish_up == $nullDate) {
+						$times .= JText::_( 'Start: Always' );
+					} else {
+						$times .= JText::_( 'Start' ) .": ". $publish_up->toFormat();
+					}
 				}
-				if ( isset( $row->publish_down ) ) {
-						if ($row->publish_down == $nullDate) {
-							$times .= '<br />'. JText::_( 'Finish: No Expiry' );
-						} else {
-							$times .= '<br />'. JText::_( 'Finish' ) .': '. $row->publish_down;
-						}
+				if (isset($row->publish_down)) {
+					if ($row->publish_down == $nullDate) {
+						$times .= "<br />". JText::_( 'Finish: No Expiry' );
+					} else {
+						$times .= "<br />". JText::_( 'Finish' ) .": ". $publish_down->toFormat();
+					}
 				}
 
 				$access 	= JHTML::_('grid.access',   $row, $i );

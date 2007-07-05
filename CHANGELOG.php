@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 
+05-Jul-2007 Toby Patterson
+ # Fixed [#5513] "Publishing time" of an article differs on frontpage manager than the actual publish time
+
 04-Jul-2007 Rob Schley
  # Fixed [#4714] Activation not work in Firefox - IE it works okey
  # Fixed inconsistencies in password field naming conventions
