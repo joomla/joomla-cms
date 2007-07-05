@@ -476,7 +476,7 @@ class ContentModelArticle extends JModel
 			}
 			
 			// These attributes need to be defined in order for the voting plugin to work
-			if ( count($voting) && is_null($this->_article->rating_count) ) {
+			if ( count($voting) && ! isset($this->_article->rating_count) ) {
 				$this->_article->rating_count	= 0;
 				$this->_article->rating			= 0;
 			}
