@@ -865,10 +865,11 @@ class JInstallationModel extends JModel
 		$migResult = JInstallationHelper::postMigrate( $db, $migErrors, $args );
 		if(!$migResult) echo "Migration Successful, press next to continue"; 
 			else {
-				echo 'Migration failed:';
-				echo '<pre>';
-				print_r($migErrors);
-			} 
+				echo '<div id="installer">';
+				echo '<p>'.JText::_('Migration failed').':</p>';
+				foreach($migErrors as $error) echo '<p>'.$error['msg'].'</p>';
+				echo '</div>';
+			}
 		return $migResult;
 	}
 }

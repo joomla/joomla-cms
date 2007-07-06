@@ -364,8 +364,7 @@ class JInstallationController extends JController
 		$model =& $this->getModel();
 		$view =& $this->getView();
 		if($model->postMigrate()) {
-			
-			$view->error();
+			// errors!
 		}
 	}
 

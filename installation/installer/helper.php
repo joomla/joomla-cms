@@ -878,9 +878,9 @@ class JInstallationHelper
 		 * Create two empty temporary tables
 		 */
 
-/*		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration';
+		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration';
 		$db->setQuery( $query );
-		$db->query();*/
+		$db->query();
 
 		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'menu_migration';
 		$db->setQuery( $query );
@@ -889,6 +889,10 @@ class JInstallationHelper
 		$query = 'CREATE TABLE '.$newPrefix.'modules_migration SELECT * FROM '.$newPrefix.'modules WHERE 0';
 		$db->setQuery( $query );
 		$db->query();
+		
+		$query = 'CREATE TABLE '.$newPrefix.'modules_migration_menu SELECT * FROM '.$newPrefix.'modules_menu WHERE 0';
+		$db->setQuery( $query );
+		$db->Query();
 
 		$query = 'CREATE TABLE '.$newPrefix.'menu_migration SELECT * FROM '.$newPrefix.'menu WHERE 0';
 		$db->setQuery( $query );
@@ -952,7 +956,6 @@ class JInstallationHelper
 			$db->query();
 			JInstallationHelper::getDBErrors($errors, $db );
 		}
-		//		/*
 
 		/*
 		 * Construct the menu table based on old table references to core items
@@ -1115,16 +1118,18 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		$minorder = $db->loadResult();		
 		JInstallationHelper::getDBErrors($errors, $db );
-
 		$query = 'SELECT `id` FROM `'.$newPrefix.'menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = "mainmenu" AND `ordering` = '.$minorder;
 		$db->setQuery( $query );
 		$menuitemid = $db->loadResult();
 		JInstallationHelper::getDBErrors($errors, $db );
-
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `home` = 1 WHERE `id` = '.$menuitemid;
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
+
+		// login and log out
+		//$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link`';
+
 
 		// tidy up urls with Itemids
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = SUBSTRING(`link`,1,LOCATE("&Itemid",`link`)-1) WHERE `type` = "url" AND `link` LIKE "%&Itemid=%"';
@@ -1133,7 +1138,6 @@ class JInstallationHelper
 		JInstallationHelper::getDBErrors($errors, $db );
 		$query = 'SELECT DISTINCT `option` FROM '.$newPrefix.'components WHERE `option` != ""';
 		$db->setQuery( $query );
-
 		$lookup = $db->loadResultArray();
 		JInstallationHelper::getDBErrors($errors, $db );
 		$lookup[] = 'com_user&';
@@ -1144,12 +1148,15 @@ class JInstallationHelper
 		$oldMenuItems = $db->loadObjectList();
 		JInstallationHelper::getDBErrors($errors, $db );
 
+
 		$query = 'DELETE FROM '.$newPrefix.'menu WHERE 1';
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 		$query = 'SELECT * FROM '.$newPrefix.'menu';
 		$db->setQuery( $query );
+
+
 
 		$newMenuItems = $db->loadObjectList();
 		JInstallationHelper::getDBErrors($errors, $db );
@@ -1165,8 +1172,10 @@ class JInstallationHelper
 			{
 				$newMenuItems[] = $item;
 			}
-			else if ( $item->type == 'component' && JInstallationHelper::isValidItem( $item->link, $lookup ))
+			else if ( $item->type == 'component' ) //&& JInstallationHelper::isValidItem( $item->link, $lookup ))
 			{
+				// unpublish components that don't exist yet
+				if(!JInstallationHelper::isValidItem( $item->link, $lookup )) $item->published = 0; 
 				$newMenuItems[] = $item;
 			}
 		}
@@ -1205,10 +1214,12 @@ class JInstallationHelper
 			JInstallationHelper::getDBErrors($errors, $db );
 		}
 
+		// TODO: SAM: This doesn't work?
 		/*
 		 * Add core client modules from old site to modules table as unpublished
+		 * SAM: Of course this doesn't work since we dont use this table any more!
 		 */
-		$query = 'SELECT module FROM '.$newPrefix.'modules WHERE client_id = 0 AND module != "mod_mainmenu"';
+		$query = 'SELECT id FROM '.$newPrefix.'modules_migration WHERE client_id = 0 '; //AND module != "mod_mainmenu"';
 		$db->setQuery( $query );
 		$lookup = $db->loadResultArray();
 		JInstallationHelper::getDBErrors($errors, $db );
@@ -1220,16 +1231,29 @@ class JInstallationHelper
 
 		foreach( $lookup as $module )
 		{
-			$nextId++;
-			$qry = 'SELECT * FROM '.$newPrefix.'modules_migration WHERE module = "'.$module.'" AND client_id = 0';
+			$qry = 'SELECT * FROM '.$newPrefix.'modules_migration WHERE id = "'.$module.'" AND client_id = 0';
 			$db->setQuery( $qry );
-	
-			if ( $row = $db->loadObject() )
-			{
-				$row->id = $nextId;
-				$row->published = 0;
-				$db->insertObject( $newPrefix.'modules', $row );
-				JInstallationHelper::getDBErrors($errors, $db );
+			if ( $row = $db->loadObject() ) {
+				if($row->module == '') { $row->module = 'mod_custom'; }
+				if(JFolder::exists(JPATH_SITE.DS.'modules'.DS.$row->module)) {
+					$nextId++;
+					$oldid = $row->id;
+					$row->id = $nextId;
+					$row->published = 0;
+					if($db->insertObject( $newPrefix.'modules', $row )) {
+						// Grab the old modules menu links and put them in too!
+						$qry = 'SELECT * FROM '. $newPrefix .'modules_migration_menu WHERE moduleid = '. $oldid;
+						$db->setQuery($qry);
+						$entries = $db->loadObjectList();
+						JInstallationHelper::getDBErrors($errors, $db );
+						
+						foreach($entries as $entry) {
+							$entry->moduleid = $nextId;
+							$db->insertObject($newPrefix.'modules_menu', $entry);
+							JInstallationHelper::getDBErrors($errors, $db );
+						}
+					} else JInstallationHelper::getDBErrors($errors, $db );
+				} // else the module doesn't exist?
 			} else JInstallationHelper::getDBErrors($errors, $db );
 		}
 		
@@ -1237,10 +1261,15 @@ class JInstallationHelper
 		 * Clean up
 		 */
 
-		/*$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration';
+		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration';
 		$db->setQuery( $query );
 		$db->query();
-		JInstallationHelper::getDBErrors($errors, $db );*/
+		JInstallationHelper::getDBErrors($errors, $db );
+		
+		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration_menu';
+		$db->setQuery( $query );
+		$db->query();
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'menu_migration';
 		$db->setQuery( $query );
