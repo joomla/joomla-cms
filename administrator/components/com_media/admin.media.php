@@ -35,19 +35,15 @@ else
 	define('COM_MEDIA_BASEURL', JURI::base().'images/stories');
 }
 
-$cid = JRequest::getVar( 'cid', array (0), 'post', 'array');
-if (!is_array($cid)) {
-	$cid = array (0);
-}
-
-$folder = JRequest::getVar( 'folder', '');
-if (is_int(strpos($folder, "..")) && $folder != '') {
-	$mainframe->redirect('index.php?option=com_media&folder='.$folder, JText::_('NO HACKING PLEASE'));
+$folder			= JRequest::getVar('folder', '', '', 'path');
+$folderCheck	= JRequest::getVar('folder', null, '', 'string', JREQUEST_ALLOWRAW);
+if (($folderCheck !== null) && ($folder !== $folderCheck)) {
+	JError::raiseWarning(403, JText::_('WARNDIRNAME'));
 }
 
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'media.php' );
 
-$task = JRequest::getVar( 'task', '');
+$task = JRequest::getCmd('task');
 switch ($task) {
 
 	case 'upload' :
@@ -169,7 +165,7 @@ class MediaController
 		require_once (JApplicationHelper::getPath('admin_html'));
 
 		// Get current path from request
-		$current = JRequest::getVar( 'folder' );
+		$current = JRequest::getVar( 'folder', '', '', 'path' );
 
 		// Initialize variables
 		if (strlen($current) > 1) {
@@ -231,7 +227,7 @@ class MediaController
 	 */
 	function showUpload($msg = '')
 	{
-		$directory = JRequest::getVar( 'directory', '' );
+		$directory = JRequest::getVar( 'directory', '', '', 'path' );
 
 		// Load the admin popup view
 		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
@@ -273,7 +269,7 @@ class MediaController
 		
 		$lang = & JFactory::getLanguage();
 		$lang->load('', JPATH_ADMINISTRATOR);
-		$lang->load(JRequest::getVar( 'option' ), JPATH_ADMINISTRATOR);
+		$lang->load(JRequest::getCmd( 'option' ), JPATH_ADMINISTRATOR);
 
 		$document->setTitle(JText::_('Insert Image'));
 
@@ -378,29 +374,28 @@ class MediaController
 		global $mainframe;
 
 		$file 		= JRequest::getVar( 'upload', '', 'files', 'array' );
-		$folder		= trim (JRequest::getVar( 'dirpath', '' ), '\\/ ');
+		$folder		= JRequest::getVar( 'dirpath', '', '', 'path' );
 		$err		= null;
 
 		JRequest::setVar('folder', $folder);
 
-		if (isset ($file) && is_array($file) && isset ($folder)) {
-
+		if (isset($file['name'])) {
 			$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($file['name']));
-			jimport('joomla.filesystem.file');
-			if (JFile::exists($filepath)) {
-				MediaController::showUpload(JText::_('Upload FAILED. File already exists'));
-				return;
-			}
 
 			if (!MediaHelper::canUpload( $file, $err )) {
 				MediaController::showUpload(JText::_($err));
 				return;
 			}
 
+			jimport('joomla.filesystem.file');
+			if (JFile::exists($filepath)) {
+				MediaController::showUpload(JText::_('Upload FAILED. File already exists'));
+				return;
+			}
+
 			if (!JFile::upload($file['tmp_name'], $filepath)) {
 				MediaController::showUpload(JText::_('Upload FAILED'));
 				return;
-
 			} else {
 				MediaController::showUpload(JText::_('Upload complete'));
 				return;
@@ -417,23 +412,22 @@ class MediaController
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		$files 			= JRequest::getVar( 'uploads', array(), 'files', 'array' );
-		$folder			= trim (JRequest::getVar( 'dirpath', '' ), '\\/ ');
+		$folder			= JRequest::getVar( 'dirpath', '', '', 'path' );
 		$err			= null;
 		$file['size']	= 0;
 		JRequest::setVar('folder', $folder);
 		jimport('joomla.filesystem.file');
 
-		if (is_array($files) && isset ($folder)) {
+		if (is_array(@$files['name'])) {
 			for ($i=0;$i<count($files['name']);$i++) {
 				$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($files['name'][$i]));
-				if (JFile::exists($filepath)) {
-					return false;
-				}
 				$file['name'] = $files['name'][$i];
 				$file['size'] += (int)$files['size'][$i];
 				if (!MediaHelper::canUpload( $file, $err )) {
 					$mainframe->redirect('index.php?option=com_media&folder='.$folder, JText::_($err));
-					return;
+				}
+				if (JFile::exists($filepath)) {
+					$mainframe->redirect('index.php?option=com_media&folder='.$folder, JText::_('Upload FAILED. File already exists'));
 				}
 				if (!JFile::upload($files['tmp_name'][$i], $filepath)) {
 					$mainframe->redirect('index.php?option=com_media&folder='.$folder, JText::_('Upload FAILED'));
@@ -456,15 +450,17 @@ class MediaController
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$folder = JRequest::getVar( 'foldername', '');
-		$parent = trim (JRequest::getVar( 'dirpath', '' ), '\\/ ');
+		$folder			= JRequest::getCmd( 'foldername', '');
+		$folderCheck	= JRequest::getVar( 'foldername', null, '', 'string', JREQUEST_ALLOWRAW);
+		$parent			= JRequest::getVar( 'dirpath', '', '', 'path' );
 
 		JRequest::setVar('folder', $parent);
 
+		if (($folderCheck !== null) && ($folder !== $folderCheck)) {
+			$mainframe->redirect('index.php?option=com_media&folder='.$parent, JText::_('WARNDIRNAME'));
+		}
+
 		if (strlen($folder) > 0) {
-			if (eregi("[^0-9a-zA-Z_]", $folder)) {
-				$mainframe->redirect('index.php?option=com_media&folder='.$parent, JText::_('WARNDIRNAME'));
-			}
 			$path = JPath::clean(COM_MEDIA_BASE.DS.$parent.DS.$folder);
 			if (!is_dir($path) && !is_file($path))
 			{
@@ -496,6 +492,11 @@ class MediaController
 		if (count($paths)) {
 			foreach ($paths as $path)
 			{
+				if ($path !== JInputFilter::clean($path, 'cmd')) {
+					echo '<font color="red">'.JText::_('Unable to delete:').htmlspecialchars($path).' '.JText::_('WARNFILENAME').'</font><br />';
+					continue;
+				}
+
 				$fullPath = JPath::clean(COM_MEDIA_BASE.DS.$current.DS.$path);
 				if (is_file($fullPath)) {
 					$ret |= !JFile::delete($fullPath);
@@ -510,28 +511,12 @@ class MediaController
 					if ($canDelete) {
 						$ret |= !JFolder::delete($fullPath);
 					} else {
-						echo '<font color="red">'.JText::_('Unable to delete:').$fullPath.' '.JText::_('Not Empty!').'</font>';
+						echo '<font color="red">'.JText::_('Unable to delete:').$fullPath.' '.JText::_('Not Empty!').'</font><br />';
 					}
 				}
 			}
 		}
 		return !$ret;
-	}
-
-	/**
-	 * Deletes a file
-	 *
-	 * @param string $listFolder The image directory to delete a file from
-	 * @since 1.5
-	 */
-	function deleteFile($listdir)
-	{
-		jimport('joomla.filesystem.file');
-
-		$delFile = JRequest::getVar( 'delFile' );
-		$fullPath = COM_MEDIA_BASE.$listdir.DS.$delFile;
-
-		return JFile::delete($fullPath);
 	}
 
 	/**
@@ -545,7 +530,7 @@ class MediaController
 		jimport('joomla.filesystem.folder');
 
 		$canDelete = true;
-		$delFolder = JRequest::getVar( 'delFolder' );
+		$delFolder = JRequest::getVar( 'delFolder', '', '', 'path' );
 		$delFolder = COM_MEDIA_BASE.DS.$listdir.DS.$delFolder;
 
 		$files = JFolder::files($delFolder, '.', true);

@@ -210,7 +210,7 @@ class MediaViews
 		</table>
 
 		<input type="hidden" name="tmpl" value="component" />
-		<input type="hidden" name="dirPath" value="/<?php echo $dirPath ?>" />
+		<input type="hidden" name="dirpath" value="<?php echo $dirPath ?>" />
 		<input type="hidden" name="option" value="com_media" />
 		<input type="hidden" name="task" value="popupUpload" />
 		</form>

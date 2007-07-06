@@ -50,6 +50,11 @@ class MediaHelper
 	{
 		$params = &JComponentHelper::getParams( 'com_media' );
 
+		if ($file['name'] !== JInputFilter::clean($file['name'], 'cmd')) {
+			$err = 'WARNFILENAME';
+			return false;
+		}
+
 		jimport('joomla.filesystem.file');
 		$format = JFile::getExt($file['name']);
 
@@ -60,6 +65,7 @@ class MediaHelper
 			$err = 'This file type is not supported';
 			return false;
 		}
+
 		$maxSize = (int) $params->get( 'upload_maxsize', 0 );
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{

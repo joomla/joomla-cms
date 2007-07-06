@@ -36,11 +36,10 @@ class MediaViews
 		$config		=& JFactory::getConfig();
 		$configMedia	=& JComponentHelper::getParams( 'com_media' );
 		// Get current path from request
-		$current = JRequest::getVar( 'folder' );
+		$current = JRequest::getVar( 'folder', '', '', 'path' );
 		if ($current == '/') {
 			$current = '';
 		}
-		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
 
 		$listStyle = "
 			<ul id=\"submenu\">
@@ -155,11 +154,15 @@ class MediaViews
 		global $mainframe;
 
 		$doc	=& JFactory::getDocument();
-		$style	= $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
+		$style	= $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs', 'word');
 		$doc->addStyleSheet('components/com_media/assets/medialist-'.$style.'.css');
 		$doc->addScript('components/com_media/assets/preview.js');
 
 		$style = ucfirst($style);
+		if (($style != 'Details') && ($style != 'Thumbs')) {
+			$style = 'Thumbs';
+		}
+
 		MediaViews::imageStyle($current);
 
 		if (count($images) > 0 || count($folders) > 0 || count($docs) > 0)
@@ -639,7 +642,7 @@ class MediaViews
 	{
 		global $mainframe;
 
-		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs');
+		$style = $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs', 'word');
 		$base = str_replace("\\","/",JPATH_ROOT);
 		$js = "
 			var basepath = '".$base.'/images'."';
