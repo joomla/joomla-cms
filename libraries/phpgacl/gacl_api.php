@@ -1026,6 +1026,9 @@ class gacl_api extends gacl {
 
 			$query = 'INSERT INTO '.$this->_db_table_prefix."acl (id,section_value,allow,enabled,return_value,note,updated_date) VALUES($acl_id,".$this->db->quote($section_value).",$allow,$enabled,".$this->db->quote($return_value).','.$this->db->quote($note).','.time().')';
 			$result = $this->db->Execute($query);
+
+			// Joomla/MySQL
+			$acl_id = $this->db->insertid();
 		} else {
 			$section_sql = '';
 			if ( !empty($section_value) ) {
@@ -1461,7 +1464,7 @@ class gacl_api extends gacl {
 		} else {
 		  $query .= ' name='. $this->db->quote($name);
 		}
-		
+
 		$this->db->setQuery( $query );
 
 		$rows = $this->db->loadResultArray();
@@ -1481,7 +1484,7 @@ class gacl_api extends gacl {
 			$this->debug_text("get_group_id(): Returned $row_count rows");
 			return false;
 		}
-		
+
 		//Return the ID.
 		return $rows[0];
 	}
