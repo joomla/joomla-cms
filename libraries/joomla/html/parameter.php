@@ -292,7 +292,7 @@ class JParameter extends JRegistry
 		}
 		$results = array();
 		foreach ($this->_xml[$group]->children() as $param)  {
-			$results[] = $this->getParam($param, $name, $group);
+			$results[] = $this->getParam($param, $name);
 		}
 		return $results;
 	}
