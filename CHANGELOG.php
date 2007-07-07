@@ -40,6 +40,7 @@ Legend:
 
 07-Jul-2007 Enno Klasing
  + Added 'username' input filter
+ ^ Renamed administrator pcl files (backwards compatibility)
 
 05-Jul-2007 Toby Patterson
  # Fixed [#5513] "Publishing time" of an article differs on frontpage manager than the actual publish time

@@ -64,11 +64,11 @@ if (!defined("PCL_TAR"))
 
   if (!defined("PCLERROR_LIB"))
   {
-	include(dirname(__FILE__).DIRECTORY_SEPARATOR.'pclerror.php');
+	include(dirname(__FILE__).DIRECTORY_SEPARATOR.'pclerror.lib.php');
   }
   if (!defined("PCLTRACE_LIB"))
   {
-	include(dirname(__FILE__).DIRECTORY_SEPARATOR.'pcltrace.php');
+	include(dirname(__FILE__).DIRECTORY_SEPARATOR.'pcltrace.lib.php');
   }
 
   // --------------------------------------------------------------------------------
