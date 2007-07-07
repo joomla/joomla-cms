@@ -35,11 +35,6 @@ if (!defined("PCL_TAR"))
 {
   define( "PCL_TAR", 1 );
 
-  // ----- Configuration variable
-  // Theses values may be changed by the user of PclTar library
- // if (!isset($g_pcltar_lib_dir))
-	$g_pcltar_lib_dir = "lib";
-
   // ----- Error codes
   //	-1 : Unable to open file in binary write mode
   //	-2 : Unable to open file in binary read mode
@@ -63,21 +58,17 @@ if (!defined("PCL_TAR"))
   // ----- Global variables
   $g_pcltar_version = "1.3";
 
-  // ----- Extract extension type (.php3/.php/...)
-//  $g_pcltar_extension = substr(strrchr(basename($PATH_TRANSLATED), '.'), 1);
-  $g_pcltar_extension = substr(strrchr(basename(@$_SERVER["PATH_TRANSLATED"]), '.'), 1);
-
   // ----- Include other libraries
   // This library should be called by each script before the include of PhpZip
   // Library in order to limit the potential 'lib' directory path problem.
 
   if (!defined("PCLERROR_LIB"))
   {
-	include($g_pcltar_lib_dir."/pclerror.lib.".$g_pcltar_extension);
+	include(dirname(__FILE__).DIRECTORY_SEPARATOR.'pclerror.php');
   }
   if (!defined("PCLTRACE_LIB"))
   {
-	include($g_pcltar_lib_dir."/pcltrace.lib.".$g_pcltar_extension);
+	include(dirname(__FILE__).DIRECTORY_SEPARATOR.'pcltrace.php');
   }
 
   // --------------------------------------------------------------------------------
