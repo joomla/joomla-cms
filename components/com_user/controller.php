@@ -58,7 +58,7 @@ class UserController extends JController
 	{
 		//preform token check (prevent spoofing)
 		$token	= JUtility::getToken();
-		if(!JRequest::getVar( $token, 0, 'post' )) {
+		if(!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
 
@@ -73,8 +73,9 @@ class UserController extends JController
 
 		//clean request
 		$post = JRequest::get( 'post' );
-		$post['password']	= JRequest::getVar('password', '', 'post', 'string');
-		$post['password2']	= JRequest::getVar('password2', '', 'post', 'string');
+		$post['username']	= JRequest::getVar('username', '', 'post', 'username');
+		$post['password']	= JRequest::getVar('password', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		// do a password safety check
 		if(strlen($post['password'])) { // so that "0" can be used as password e.g.
@@ -107,8 +108,9 @@ class UserController extends JController
 	{
 		global $mainframe;
 
-		if ($return = JRequest::getVar( 'return', false, '' )) {
+		if ($return = JRequest::getVar('return', '', 'post', 'base64')) {
 			$return = base64_decode($return);
+			$return = JURI::base().$return;
 		}
 
 		$options = array();
@@ -116,12 +118,12 @@ class UserController extends JController
 		$options['return'] = $return;
 
 		$credentials = array();
-		$credentials['username'] = JRequest::getString('username');
-		$credentials['password'] = JRequest::getString('passwd', '', 'default', JREQUEST_ALLOWRAW);
+		$credentials['username'] = JRequest::getVar('username', '', 'post', 'username');
+		$credentials['password'] = JRequest::getString('passwd', '', 'post', JREQUEST_ALLOWRAW);
 
 		//check the token before we do anything else
 		/*$token	= JUtility::getToken();
-		if(!JRequest::getVar( $token, 0, 'post' )) {
+		if(!JRequest::getInt( $token, 0, 'post' )) {
 			JError::raiseError(403, 'Request Forbidden');
 		}*/
 
@@ -155,8 +157,9 @@ class UserController extends JController
 
 		if(!JError::isError($error))
 		{
-			if ($return = JRequest::getVar( 'return', false, '' )) {
+			if ($return = JRequest::getVar('return', '', 'post', 'base64')) {
 				$return = base64_decode($return);
+				$return = JURI::base().$return;
 			}
 
 			// Redirect if the return url is not registration or login
@@ -197,7 +200,7 @@ class UserController extends JController
 
 		//check the token before we do anything else
 		$token	= JUtility::getToken();
-		if(!JRequest::getVar( $token, 0, 'post' )) {
+		if(!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
 
@@ -265,7 +268,8 @@ class UserController extends JController
 		}
 
 		// Send registration confirmation mail
-		$password = JRequest::getVar( 'password' );
+		$password = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
+		$password = preg_replace('/[\x00-\x1F\x7F]/', '', $password); //Disallow control chars in the email
 		UserController::_sendMail($user, $password);
 
 		// Everything went fine, set relevant message depending upon user activation state and display message
@@ -323,7 +327,7 @@ class UserController extends JController
 		$message = new stdClass();
 
 		// Do we even have an activation string?
-		$activation = JRequest::getVar( 'activation', '' );
+		$activation = JRequest::getVar('activation', '', '', 'alnum' );
 		$activation = $db->getEscaped( $activation );
 
 		if (empty( $activation ))
@@ -438,8 +442,8 @@ class UserController extends JController
 		}
 
 		// Get the input
-		$password1 = JRequest::getVar('password1', null, 'post', 'string');
-		$password2 = JRequest::getVar('password2', null, 'post', 'string');
+		$password1 = JRequest::getVar('password1', null, 'post', 'string', JREQUEST_ALLOWRAW);
+		$password2 = JRequest::getVar('password2', null, 'post', 'string', JREQUEST_ALLOWRAW);
 
 		// Get the model
 		$model = &$this->getModel('Reset');

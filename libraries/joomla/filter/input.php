@@ -160,6 +160,10 @@ class JInputFilter extends JObject
 				$result = @ (string) $matches[0];
 				break;
 
+			case 'USERNAME' :
+				$result = (string) preg_replace( '/[\x00-\x1F\x7F<>"\'%&]/', '', $source );
+				break;
+
 			default :
 				// Are we dealing with an array?
 				if (is_array($source)) {

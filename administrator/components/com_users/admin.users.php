@@ -26,7 +26,7 @@ if (!$user->authorize( 'com_users', 'manage' )) {
 require_once( JPATH_COMPONENT.DS.'admin.users.html.php' );
 require_once( JPATH_COMPONENT.DS.'users.class.php' );
 
-switch (JRequest::getVar('task'))
+switch (JRequest::getCmd('task'))
 {
 	case 'add' :
 	case 'edit':
@@ -83,16 +83,16 @@ function showUsers( )
 	$currentUser	=& JFactory::getUser();
 	$acl			=& JFactory::getACL();
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.name' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
-	$filter_type		= $mainframe->getUserStateFromRequest( "$option.filter_type", 		'filter_type', 		0 );
-	$filter_logged		= $mainframe->getUserStateFromRequest( "$option.filter_logged", 	'filter_logged', 	0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
-	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-	$where 				= array();
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order",		'filter_order',		'a.name',	'cmd' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'',			'word' );
+	$filter_type		= $mainframe->getUserStateFromRequest( "$option.filter_type",		'filter_type', 		0,			'string' );
+	$filter_logged		= $mainframe->getUserStateFromRequest( "$option.filter_logged",		'filter_logged', 	0,			'int' );
+	$search				= $mainframe->getUserStateFromRequest( "$option.search",			'search', 			'',			'string' );
+	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$where				= array();
 
-	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0 );
+	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
 	if (isset( $search ) && $search!= '')
 	{
@@ -210,12 +210,12 @@ function showUsers( )
 function editUser( )
 {
 
-	$option 	= JRequest::getVar( 'option');
-	$cid 		= JRequest::getVar( 'cid', array(), '', 'array' );
-	$userId		= (int) @$cid[0];
+	$option		= JRequest::getCmd( 'option');
+	$cid		= JRequest::getVar( 'cid', array(0), '', 'array' );
+	JArrayHelper::toInteger($cid, array(0));
 
 	$db 		=& JFactory::getDBO();
-	$user 		=& JUser::getInstance( $userId );
+	$user 		=& JUser::getInstance( $cid[0] );
 	$myuser		=& JFactory::getUser();
 	$acl		=& JFactory::getACL();
 
@@ -231,7 +231,7 @@ function editUser( )
 	{
 		$query = 'SELECT *'
 		. ' FROM #__contact_details'
-		. ' WHERE user_id ='. $userId
+		. ' WHERE user_id = '. $cid[0]
 		;
 		$db->setQuery( $query );
 		$contact = $db->loadObjectList();
@@ -314,8 +314,8 @@ function saveUser(  )
 {
 	global $mainframe;
 
-	$task 	= JRequest::getVar( 'task' );
-	$option = JRequest::getVar( 'option');
+	$task 	= JRequest::getCmd( 'task' );
+	$option = JRequest::getCmd( 'option');
 
 	// Initialize some variables
 	$db			= & JFactory::getDBO();
@@ -329,6 +329,9 @@ function saveUser(  )
 	$original_gid = $user->get('gid');
 
 	$post = JRequest::get('post');
+	$post['username']	= JRequest::getVar('username', '', 'post', 'username');
+	$post['password']	= JRequest::getVar('password', '', 'post', 'string', JREQUEST_ALLOWRAW);
+	$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 	if (!$user->bind($post))
 	{
 		$mainframe->enqueueMessage('Cannot save the user information', 'message');
@@ -428,7 +431,7 @@ function cancelUser( )
 {
 	global $mainframe;
 
-	$option = JRequest::getVar( 'option');
+	$option = JRequest::getCmd( 'option');
 	$mainframe->redirect( 'index.php?option='. $option .'&task=view' );
 }
 
@@ -442,7 +445,7 @@ function removeUsers(  )
 	$db 			=& JFactory::getDBO();
 	$currentUser 	=& JFactory::getUser();
 	$acl			=& JFactory::getACL();
-	$cid 			= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
+	$cid 			= JRequest::getVar( 'cid', array(), '', 'array' );
 
 	JArrayHelper::toInteger( $cid );
 
@@ -520,7 +523,7 @@ function changeUserBlock( $block=1 )
 
 	$db =& JFactory::getDBO();
 
-	$option = JRequest::getVar( 'option');
+	$option = JRequest::getCmd( 'option');
 	$cid 	= JRequest::getVar( 'cid', array(), '', 'array' );
 
 	JArrayHelper::toInteger( $cid );
@@ -568,10 +571,12 @@ function logoutUser( )
 	global $currentUser, $mainframe;
 
 	$db		=& JFactory::getDBO();
-	$task 	= JRequest::getVar( 'task' );
+	$task 	= JRequest::getCmd( 'task' );
 	$cids 	= JRequest::getVar( 'cid', array(), '', 'array' );
 	$client = JRequest::getVar( 'client', 0, '', 'int' );
 	$id 	= JRequest::getVar( 'id', 0, '', 'int' );
+
+	JArrayHelper::toInteger($cids);
 
 	if ( count( $cids ) < 1 )
 	{

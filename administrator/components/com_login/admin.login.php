@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-switch ( JRequest::getVar('task'))
+switch ( JRequest::getCmd('task'))
 {
 	case 'login' :
 		LoginController::login();
@@ -55,8 +55,8 @@ class LoginController
 		
 		$credentials = array();
 
-		$credentials['username'] = JRequest::getString('username');
-		$credentials['password'] = JRequest::getString('passwd', '', 'post', JREQUEST_ALLOWRAW);
+		$credentials['username'] = JRequest::getVar('username', '', 'post', 'username');
+		$credentials['password'] = JRequest::getVar('passwd', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		$result = $mainframe->login($credentials);
 
