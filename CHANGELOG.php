@@ -44,6 +44,7 @@ Legend:
 05-Jul-2007 Toby Patterson
  # Fixed [#5513] "Publishing time" of an article differs on frontpage manager than the actual publish time
  # Fixed [#5804] Bug on JParameter method getParam()
+ ! Change to JParameter reverted in r7886
 
 04-Jul-2007 Rob Schley
  # Fixed [#4714] Activation not work in Firefox - IE it works okey
