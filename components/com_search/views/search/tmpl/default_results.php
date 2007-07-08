@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td>
 		<br />
-		<?php eval ('echo "'. $this->result .'";'); ?>
+		<?php echo $this->result; ?>
 		<a href="http://www.google.com/search?q=<?php echo $this->searchword; ?>" target="_blank">
 			<?php echo $this->image; ?>
 		</a>

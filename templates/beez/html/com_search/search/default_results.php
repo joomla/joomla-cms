@@ -22,7 +22,7 @@ $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 if (stripslashes($this->searchword) != '') {
 	echo '<div class="searchintro' . $this->params->get('pageclass_sfx') . '">';
 	echo '<p>' . JText :: _('Search Keyword') . ' <strong>' . stripslashes($this->searchword) . '</strong></p>';
-	echo '<p>' . eval ('echo "' . $this->result . '";');
+	echo '<p>' . $this->result;
 	echo '<a href="http://www.google.com/search?q=' . $this->searchword . '" target="_blank">';
 	echo $this->image . '</a></p>';
 	echo '<p> <a href="#form1" onclick="document.getElementById(' . "'search_searchword'" . ').focus();return false" onkeypress="document.getElementById(' . "'search_searchword'" . ').focus();return false" >' . JText :: _('Search_again') . ' </a></p>';
