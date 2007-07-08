@@ -30,5 +30,5 @@ $controller->addViewPath ( $here.DS.'views'  );
 $controller->addModelPath( $here.DS.'models' );
 
 // Process the request
-$task	= JRequest::getVar( 'task' );
+$task	= JRequest::getCmd( 'task' );
 $controller->execute( $task );

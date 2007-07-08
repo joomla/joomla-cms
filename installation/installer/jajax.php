@@ -14,8 +14,6 @@
 
 define( '_JEXEC', 1 );
 
-
-
 //Global definitions
 define( 'DS', DIRECTORY_SEPARATOR );
 
@@ -32,6 +30,12 @@ define( 'JPATH_CONFIGURATION',	JPATH_ROOT );
 define( 'JPATH_LIBRARIES',		JPATH_ROOT . DS . 'libraries' );
 
 define( 'JXPATH_BASE', JPATH_BASE.DS.'includes' );
+
+// Make sure that Joomla! is not yet installed
+if (file_exists(JPATH_CONFIGURATION.DS.'configuration.php') && (filesize(JPATH_CONFIGURATION.DS.'configuration.php') > 10)) {
+	header( 'Location: ../../index.php' );
+	exit();
+}
 
 // Require the library loader
 require_once( JPATH_LIBRARIES . DS .'loader.php' );

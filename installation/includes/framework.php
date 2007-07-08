@@ -68,7 +68,7 @@ jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.version' );
 
 // JString should only be loaded after pre-install checks
-$task = JRequest::getVar( 'task' );
+$task = JRequest::getCmd( 'task' );
 if (!($task == '' || $task == 'preinstall' || $task == 'lang')) {
 	jimport( 'joomla.utilities.string' );
 }
