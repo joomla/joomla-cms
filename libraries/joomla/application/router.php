@@ -459,7 +459,7 @@ class JRouter extends JObject
 		array_shift($segments);
 
 		// Handle pagination
-		$limitstart = JRequest::getVar('start', null, 'get');
+		$limitstart = JRequest::getVar('start', null, 'get', 'int');
 		if(isset($limitstart)) {
 			JRequest::setVar('limitstart', $limitstart);
 		}
