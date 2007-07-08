@@ -65,11 +65,6 @@ switch ($task) {
 		MediaController::listMedia();
 		break;
 
-	case 'deletefolder' :
-		MediaController::deleteFolder($folder);
-		MediaController::showMedia();
-		break;
-
 	case 'list' :
 		MediaController::listMedia();
 		break;
@@ -517,36 +512,6 @@ class MediaController
 			}
 		}
 		return !$ret;
-	}
-
-	/**
-	 * Delete a folder
-	 *
-	 * @param string $listdir The image directory to delete a folder from
-	 * @since 1.5
-	 */
-	function deleteFolder($listdir)
-	{
-		jimport('joomla.filesystem.folder');
-
-		$canDelete = true;
-		$delFolder = JRequest::getVar( 'delFolder', '', '', 'path' );
-		$delFolder = COM_MEDIA_BASE.DS.$listdir.DS.$delFolder;
-
-		$files = JFolder::files($delFolder, '.', true);
-
-		foreach ($files as $file) {
-			if ($file != 'index.html') {
-				$canDelete = false;
-			}
-		}
-
-		if ($canDelete) {
-			$ret = JFolder::delete($delFolder);
-		} else {
-			echo '<font color="red">'.JText::_('Unable to delete: not empty!').'</font>';
-		}
-		return $ret;
 	}
 
 	function _buildFolderTree($list)

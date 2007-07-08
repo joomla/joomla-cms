@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 
+08-Jul-2007 Enno Klasing
+ - Removed unused code in com_admin, com_media and JLoader
+
 07-Jul-2007 Enno Klasing
  + Added 'username' input filter
  ^ Renamed administrator pcl files (backwards compatibility)

@@ -111,29 +111,6 @@ class JLoader
 		$obj = new $class($options);
 		return $obj;
 	}
-
-	/**
-	 * Custom require_once function to improve preformance
-	 *
-	 * @access private
-	 * @param string $file The path to the file to include
-	 * @since 1.5
-	 * @see require_once
-	 *
-	 */
-	function _requireOnce( $file )
-	{
-		static $paths;
-
-		if (!isset($paths)) {
-			$paths = array();
-		}
-
-		if(!isset($paths[$file])) {
-				require($file);
-			$paths[$file] = true;
-		}
-	}
 }
 
 /**

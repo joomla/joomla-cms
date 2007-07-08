@@ -17,22 +17,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 switch ($task) {
-
-	case 'redirect':
-		$goto = trim( JString::strtolower( JRequest::getString( 'link' ) ) );
-		if ($goto == 'null') {
-			$msg = JText::_( 'There is no link associated with this item' );
-			$mainframe->redirect( 'index.php?option=com_admin&task=listcomponents', $msg );
-			$mainframe->close();
-		}
-		$goto = str_replace( "'", '', $goto );
-		$mainframe->redirect( $goto );
-		break;
-
-	case 'listcomponents':
-		HTML_admin_misc::ListComponents();
-		break;
-
 	case 'sysinfo':
 		HTML_admin_misc::system_info( );
 		break;
@@ -59,11 +43,6 @@ switch ($task) {
 
 	case 'keepalive':
 		return;
-		break;
-
-	case 'cpanel':
-	default:
-		HTML_admin_misc::controlPanel();
 		break;
 }
 ?>

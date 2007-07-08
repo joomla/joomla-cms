@@ -21,19 +21,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_admin_misc
 {
-	/**
-	* Control panel
-	*/
-	function controlPanel()
-	{
-		global $mainframe;
-
-		//$path = JPATH_BASE . '/templates/' . $mainframe->getTemplate() . '/cpanel.php';
-		//if (file_exists( $path )) {
-		//	require_once $path;
-		//}
-	}
-
 	function get_php_setting($val)
 	{
 		$r =  (ini_get($val) == '1' ? 1 : 0);
@@ -126,21 +113,6 @@ class HTML_admin_misc
 		<?php
 	}
 
-	function ListComponents()
-	{
-		$db =& JFactory::getDBO();
-
-		$query = 'SELECT params'
-		. ' FROM #__modules '
-		. ' WHERE module = "mod_components"';
-		;
-		$db->setQuery( $query );
-		$row = $db->loadResult();
-		$params = new JParameter( $row );
-
-		mosLoadAdminModule( 'components', $params );
-	}
-
 	/**
 	 * Display Help Page
 	 *
@@ -167,7 +139,7 @@ class HTML_admin_misc
 		$toc 		= getHelpToc( $helpsearch );
 		$lang		=& JFactory::getLanguage();
 		$langTag = $lang->getTag();
-		if( !JFolder::exists( JPATH_BASE . '/help/' .$langTag ) ) {
+		if( !JFolder::exists( JPATH_BASE.DS.'help'.DS.$langTag ) ) {
 			$langTag = 'en-GB';		// use english as fallback
 		}
 
@@ -274,7 +246,6 @@ class HTML_admin_misc
 		<?php
 	}
 
-
 	/*
 	* Displays contents of Changelog.php file
 	*/
@@ -283,7 +254,7 @@ class HTML_admin_misc
 		?>
 		<pre>
 			<?php
-			readfile( JPATH_SITE.'/CHANGELOG.php' );
+			readfile( JPATH_SITE.DS.'CHANGELOG.php' );
 			?>
 		</pre>
 		<?php
@@ -327,7 +298,7 @@ function getHelpTOC( $helpsearch )
 
 	// Check for files in the actual language
 	$langTag = $lang->getTag();
-	if( !JFolder::exists( JPATH_BASE . '/help/' .$langTag ) ) {
+	if( !JFolder::exists( JPATH_BASE.DS.'help'.DS.$langTag ) ) {
 		$langTag = 'en-GB';		// use english as fallback
 	}
 	$files = JFolder::files( JPATH_BASE.DS.'help'.DS.$langTag, '\.xml$|\.html$' );
