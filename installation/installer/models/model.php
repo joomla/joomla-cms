@@ -820,7 +820,7 @@ class JInstallationModel extends JModel
 			}
 	
 			// unpack archived sql files
-			if ($archive )
+			if (isset($archive) && $archive )
 			{
 				$package = JInstallationHelper::unpack( $archive, $vars );
 				if ( $package === false )

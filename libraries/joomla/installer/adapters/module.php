@@ -168,7 +168,11 @@ class JInstallerModule extends JObject
 		 */
 
 		// Check to see if a module by the same name is already installed
-		$query = 'SELECT `id`' .
+		// Shouldn't this be stopped by the above section?
+		// Commented out pending removal
+		// TODO: Remove this at a later point
+		// see http://groups.google.com/group/joomla-devel/browse_thread/thread/7ef4cd7f80c98e41
+/*		$query = 'SELECT `id`' .
 				' FROM `#__modules` ' .
 				' WHERE module = '.$db->Quote($mname) .
 				' AND client_id = '.(int)$clientId;
@@ -192,6 +196,8 @@ class JInstallerModule extends JObject
 			
 			
 		} else {
+*/
+			
 			$row = & JTable::getInstance('module');
 			$row->title = $this->get('name');
 			$row->ordering = $row->getNextOrder( "position='left'" );
@@ -237,7 +243,7 @@ class JInstallerModule extends JObject
 			 * so that if we have to rollback the changes we can undo it.
 			 */
 			$this->parent->pushStep(array ('type' => 'menu', 'id' => $db->insertid()));
-		}
+//		} // TODO: Remove this re: database check removal
 
 		/**
 		 * ---------------------------------------------------------------------------------------------

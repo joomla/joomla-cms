@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Jul-2007 Sam Moffatt
+ # Fixed up issue where two code paths in libraries/joomla/filesystem/archive failed to return a result
+ - Disabled database check for module installation; file system check handles things; this allows easier module migration
+ ^ Migrating search and login/logout menu items
+ + Extra checks
+ ! Migration system ready?
 
 08-Jul-2007 Enno Klasing
  - Removed unused code in com_admin, com_media and JLoader

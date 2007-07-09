@@ -1003,7 +1003,7 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
-
+		
 		// content archive category or section
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET  `link` = "index.php?option=com_content&view=archive", `type` = "component", `componentid` = '.$compId.' WHERE (`type` = "content_archive_category" OR `type` = "content_archive_section")';
 		$db->setQuery( $query );
@@ -1127,9 +1127,31 @@ class JInstallationHelper
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
-		// login and log out
-		//$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link`';
+		// login and log out; component id and link update
+		$query = 'SELECT id FROM `'.$newPrefix.'components` WHERE link like "option=com_user"';
+		$db->setQuery($query);
+		$componentid = $db->loadResult();
+		JInstallationHelper::getDBErrors($errors, $db );		
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET componentid = '.$componentid .' WHERE link = "index.php?option=com_login"';
+		$db->setQuery($query);
+		$db->query();
+		JInstallationHelper::getDBErrors($errors, $db );
+		
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET link = "index.php?option=com_user&view=login" WHERE link = "index.php?option=com_login"';
+		$db->setQuery($query);
+		$db->query();
+		JInstallationHelper::getDBErrors($errors, $db );
 
+
+		// Search - Component ID Update
+		$query = 'SELECT id FROM `'.$newPrefix.'components` WHERE link like "option=com_search"';
+		$db->setQuery($query);
+		$componentid = $db->loadResult();
+		JInstallationHelper::getDBErrors($errors, $db );		
+		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET componentid = '.$componentid .' WHERE link like "index.php?option=com_search%"';
+		$db->setQuery($query);
+		$db->query();
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		// tidy up urls with Itemids
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = SUBSTRING(`link`,1,LOCATE("&Itemid",`link`)-1) WHERE `type` = "url" AND `link` LIKE "%&Itemid=%"';
@@ -1155,8 +1177,6 @@ class JInstallationHelper
 		JInstallationHelper::getDBErrors($errors, $db );
 		$query = 'SELECT * FROM '.$newPrefix.'menu';
 		$db->setQuery( $query );
-
-
 
 		$newMenuItems = $db->loadObjectList();
 		JInstallationHelper::getDBErrors($errors, $db );

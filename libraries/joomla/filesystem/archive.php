@@ -32,6 +32,7 @@ class JArchive
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
 		$untar = false;
+		$result = false;
 		$ext = JFile::getExt(strtolower($archivename));
 		// check if a tar is embedded...gzip/bzip2 can just be plain files!
 		if(JFile::getExt(JFile::stripExt(strtolower($archivename))) == 'tar') $untar = true;
@@ -72,7 +73,7 @@ class JArchive
 					} else {
 						$path = JPath::clean($extractdir);
 						JFolder::create($path);
-						JFile::copy($tmpfname,$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))));
+						$result = JFile::copy($tmpfname,$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))));
 					}
 					@unlink($tmpfname);
 				}
@@ -99,7 +100,7 @@ class JArchive
 					} else {
 						$path = JPath::clean($extractdir);
 						JFolder::create($path);
-						JFile::copy($tmpfname,$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))));
+						$result = JFile::copy($tmpfname,$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))));
 					}
 					@unlink($tmpfname);
 				}
