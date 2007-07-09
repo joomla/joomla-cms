@@ -50,7 +50,7 @@ var SqueezeBox = {
 		this.listeners = {
 			window: this.reposition.bind(this, [null]),
 			close: this.close.bind(this),
-			key: this.onKey.bind(this)};
+			key: this.onkeypress.bind(this)};
 		this.isOpen = this.isLoading = false;
 		this.window.close = this.listeners.close;
 		return this;
@@ -252,9 +252,10 @@ var SqueezeBox = {
 		this.fx.content.stop().set(0);
 	},
 
-	onKey: function(e) {
+	onkeypress: function(e) {
 		switch (e.key) {
 			case 'esc':
+			case 'x':
 				this.close();
 				break;
 		}

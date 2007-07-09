@@ -60,7 +60,13 @@ class MediaViews
 		}
 		$document->addScript('components/com_media/assets/mediamanager.js');
 		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
-		$document->addStyleSheet('components/com_media/assets/preview.css');
+//		$document->addStyleSheet('components/com_media/assets/preview.css');
+
+		JHTML::_('behavior.modal');
+		$document->addScriptDeclaration("
+		window.addEvent('domready', function() {
+			document.preview = SqueezeBox;
+		});");
 
 		MediaViews::_loadJS();
 		?>
@@ -156,7 +162,16 @@ class MediaViews
 		$doc	=& JFactory::getDocument();
 		$style	= $mainframe->getUserStateFromRequest('media.list.style', 'listStyle', 'thumbs', 'word');
 		$doc->addStyleSheet('components/com_media/assets/medialist-'.$style.'.css');
-		$doc->addScript('components/com_media/assets/preview.js');
+
+		$doc->addScriptDeclaration("
+		window.addEvent('domready', function() {
+			$$('a.preview').each(function(el) {
+				el.addEvent('click', function(e) {
+					new Event(e).stop();
+					window.top.document.preview.fromElement(el);
+				});
+			});
+		});");
 
 		$style = ucfirst($style);
 		if (($style != 'Details') && ($style != 'Thumbs')) {
@@ -302,7 +317,7 @@ class MediaViews
 		<div class="imgOutline">
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
-					<a href="<?php echo $img_url; ?>" title="<?php echo $file; ?>" rel="preview" style="display: block; width: 100%; height: 100%">
+					<a class="preview" href="<?php echo $img_url; ?>" title="<?php echo $file; ?>" style="display: block; width: 100%; height: 100%">
 						<div class="image">
 							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
 						</div>
@@ -425,7 +440,7 @@ class MediaViews
 		?>
 		<tr>
 			<td>
-				<a href="<?php echo $img_url; ?>" title="<?php echo $file;?>" rel="preview"><img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" /></a>
+				<a class="preview" href="<?php echo $img_url; ?>" title="<?php echo $file;?>"><img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" /></a>
 			</td>
 			<td class="description">
 				<a href="<?php echo $img_url; ?>" title="<?php echo $file;?>" rel="preview"><?php echo htmlspecialchars( $file, ENT_QUOTES ); ?></a>
