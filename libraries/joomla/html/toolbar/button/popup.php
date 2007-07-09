@@ -35,11 +35,13 @@ class JButtonPopup extends JButton
 
 	function fetchButton( $type='Popup', $name = '', $text = '', $url = '', $width=640, $height=480, $top=0, $left=0 )
 	{
+		JHTML::_('behavior.modal');
+
 		$text	= JText::_($text);
 		$class	= $this->fetchIconClass($name);
 		$doTask	= $this->_getCommand($name, $url, $width, $height, $top, $left);
 
-		$html	= "<a href=\"#\" onclick=\"$doTask\">\n";
+		$html	= "<a class=\"modal\" href=\"$doTask\" rel=\"{handler: 'iframe', size: {x: $width, y: $height}}\">\n";
 		$html .= "<span class=\"$class\" title=\"$text\">\n";
 		$html .= "</span>\n";
 		$html	.= "$text\n";
@@ -79,14 +81,6 @@ class JButtonPopup extends JButton
 			$url = JURI::base().$url;
 		}
 
-		$baseurl = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		$doc =& JFactory::getDocument();
-		$doc->addScript($baseurl.'includes/js/joomla/modal.js');
-		$doc->addStyleSheet($baseurl.'includes/js/joomla/modal.css');
-
-		$cmd = "document.popup.show('$url', $width, $height, null); return false;";
-
-		return $cmd;
+		return $url;
 	}
 }
