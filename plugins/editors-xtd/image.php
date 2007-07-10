@@ -59,7 +59,13 @@ class plgButtonImage extends JPlugin
 		$doc->addStyleDeclaration($css);
 		$doc->addScript($url.'includes/js/joomla/modal.js');
 		$doc->addStyleSheet($url.'includes/js/joomla/modal.css');
-		$button = array( "document.popup.show('$link', 570, 400, null)", JText::_('Image'), 'image' );
+
+		$button = new JObject();
+		$button->set('modal', true);
+		$button->set('link', $link);
+		$button->set('text', JText::_('Image'));
+		$button->set('name', 'image');
+		$button->set('options', "{handler: 'iframe', size: {x: 570, y: 400}}");
 
 		return $button;
 	}

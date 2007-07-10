@@ -58,7 +58,13 @@ class plgButtonPagebreak extends JPlugin
 		$doc->addStyleDeclaration($css);
 		$doc->addScript($url.'includes/js/joomla/modal.js');
 		$doc->addStyleSheet($url.'includes/js/joomla/modal.css');
-		$button = array( "document.popup.show('$link', 400, 150, null)", JText::_('Pagebreak'), 'pagebreak' );
+
+		$button = new JObject();
+		$button->set('modal', true);
+		$button->set('link', $link);
+		$button->set('text', JText::_('Pagebreak'));
+		$button->set('name', 'pagebreak');
+		$button->set('options', "{handler: 'iframe', size: {x: 400, y: 150}}");
 
 		return $button;
 	}

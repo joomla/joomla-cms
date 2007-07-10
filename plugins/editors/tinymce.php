@@ -367,6 +367,9 @@ class plgEditorTinymce extends JPlugin
 	 */
 	function onDisplay( $name, $content, $width, $height, $col, $row, $buttons = true)
 	{
+		// Load modal popup behavior
+		JHTML::_('behavior.modal', 'a.modal-button');
+
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric( $width )) {
 			$width .= 'px';
@@ -394,16 +397,16 @@ class plgEditorTinymce extends JPlugin
 			 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
 			 */
 			$return .= "\n<div id=\"editor-xtd-buttons\">\n";
-			foreach ($results as $result)
+			foreach ($results as $button)
 			{
 				/*
-				 * Results should be a three offset array consisting of:
-				 * [0] - onclick event
-				 * [1] - button text
-				 * [2] - button icon
+				 * Results should be an object
 				 */
-				if ( $result[0] ) {
-					$return .= "<div class=\"button2-left\"><div class=\"".$result[2]."\"><a title=\"".$result[1]."\" onclick=\"javascript: ".$result[0].";\">".$result[1]."</a></div></div>\n";
+				if ( $button->get('name') ) {
+					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
+					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;
+					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
+					$return .= "<div class=\"button2-left\"><div class=\"".$button->get('name')."\"><a ".$modal." title=\"".$button->get('text')."\" ".$href." ".$onclick." rel=\"".$button->get('options')."\">".$button->get('text')."</a></div></div>\n";
 				}
 			}
 			$return .= "</div>\n";

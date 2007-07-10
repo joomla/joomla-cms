@@ -32,7 +32,7 @@ class ContentView
 	function showContent( &$rows, &$lists, $page, $redirect )
 	{
 		jimport('joomla.utilities.date');
-		
+
 		global $mainframe;
 
 		// Initialize variables
@@ -728,6 +728,7 @@ class ContentView
 				var tag = "<hr class=\"system-pagebreak\" "+title+" "+alt+"/>";
 
 				window.parent.jInsertEditorText(tag);
+				window.parent.document.getElementById('sbox-window').close();
 				return false;
 			}
 		</script>

@@ -39,8 +39,8 @@ class MediaViews
 					<button type="button" id="upbutton" title="<?php echo JText::_('Directory Up') ?>"><?php echo JText::_('Up') ?></button>
 				</div>
 				<div style="float: right">
-					<button type="button" onclick="document.imagemanager.onok();window.top.document.popup.hide();"><?php echo JText::_('Insert') ?></button>
-					<button type="button" onclick="window.top.document.popup.hide();"><?php echo JText::_('Cancel') ?></button>
+					<button type="button" onclick="document.imagemanager.onok();window.parent.document.getElementById('sbox-window').close();"><?php echo JText::_('Insert') ?></button>
+					<button type="button" onclick="window.parent.document.getElementById('sbox-window').close();"><?php echo JText::_('Cancel') ?></button>
 				</div>
 			</fieldset>
 			<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;task=imgManagerList&amp;tmpl=component&amp;folder=<?php echo $folder?>"></iframe>

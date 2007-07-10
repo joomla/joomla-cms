@@ -17,6 +17,7 @@
 				var tag = "<hr class=\"system-pagebreak\" "+title+" "+alt+"/>";
 
 				window.parent.jInsertEditorText(tag);
+				window.parent.document.getElementById('sbox-window').close();
 				return false;
 			}
 		</script>
@@ -45,4 +46,4 @@
 			</tr>
 		</table>
 		</form>
-		<button onclick="insertPagebreak();window.top.document.popup.hide();"><?php echo JText::_( 'PGB INS PAGEBRK' ); ?></button>
+		<button onclick="insertPagebreak();"><?php echo JText::_( 'PGB INS PAGEBRK' ); ?></button>
