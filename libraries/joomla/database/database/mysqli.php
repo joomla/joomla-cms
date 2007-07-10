@@ -83,11 +83,10 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// finalize initialization
-		parent::__construct( $options );
+		parent::__construct($options);
 
 		// select the database
-		if ( $select )
-		{
+		if ( $select ) {
 			$this->select($database);
 		}
 	}
@@ -117,11 +116,6 @@ class JDatabaseMySQLi extends JDatabase
 	function test()
 	{
 		return (function_exists( 'mysqli_connect' ));
-	}
-
-	function _parseHost( $host )
-	{
-
 	}
 
 	/**
@@ -165,7 +159,6 @@ class JDatabaseMySQLi extends JDatabase
 
 		return true;
 	}
-
 
 	/**
 	 * Determines UTF support
@@ -218,7 +211,7 @@ class JDatabaseMySQLi extends JDatabase
 		if (!$this->_cursor)
 		{
 			$this->_errorNum = mysqli_errno( $this->_resource );
-			$this->_errorMsg = mysqli_error( $this->_resource ) . " SQL=$this->_sql";
+			$this->_errorMsg = mysqli_error( $this->_resource )." SQL=$this->_sql";
 
 			if ($this->_debug) {
 				JError::raiseError('joomla.database:'.$this->_errorNum, 'JDatabaseMySQLi::query: '.$this->_errorMsg );
@@ -237,7 +230,7 @@ class JDatabaseMySQLi extends JDatabase
 		return mysqli_affected_rows( $this->_resource );
 	}
 
-   /**
+	/**
 	* Execute a batch query
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
@@ -246,7 +239,7 @@ class JDatabaseMySQLi extends JDatabase
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
 		if ($p_transaction_safe) {
-			$si = mysqli_get_server_info();
+			$si = $this->getVersion();
 			preg_match_all( "/(\d+)\.(\d+)\.(\d+)/i", $si, $m );
 			if ($m[1] >= 4) {
 				$this->_sql = 'START TRANSACTION;' . $this->_sql . '; COMMIT;';
@@ -261,7 +254,7 @@ class JDatabaseMySQLi extends JDatabase
 		foreach ($query_split as $command_line) {
 			$command_line = trim( $command_line );
 			if ($command_line != '') {
-				$this->_cursor = mysqli_query( $command_line, $this->_resource );
+				$this->_cursor = mysqli_query( $this->_resource, $command_line );
 				if (!$this->_cursor) {
 					$error = 1;
 					$this->_errorNum .= mysqli_errno( $this->_resource ) . ' ';
@@ -496,7 +489,7 @@ class JDatabaseMySQLi extends JDatabase
 		if (!$this->query()) {
 			return false;
 		}
-		$id = mysqli_insert_id( $this->_resource );
+		$id = $this->insertid();
 		if ($keyName && $id) {
 			$object->$keyName = $id;
 		}
@@ -540,6 +533,11 @@ class JDatabaseMySQLi extends JDatabase
 		return mysqli_insert_id( $this->_resource );
 	}
 
+	function getVersion()
+	{
+		return mysqli_get_server_info( $this->_resource );
+	}
+
 	/**
 	 * Assumes database collation in use by sampling one text field in one table
 	 * @return string Collation in use
@@ -553,11 +551,6 @@ class JDatabaseMySQLi extends JDatabase
 		} else {
 			return "N/A (mySQL < 4.1.2)";
 		}
-	}
-
-	function getVersion()
-	{
-		return mysqli_get_server_info( $this->_resource );
 	}
 
 	/**

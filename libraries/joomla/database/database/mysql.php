@@ -62,14 +62,13 @@ class JDatabaseMySQL extends JDatabase
 			return;
 		}
 
-		// finalize initializations
+		// finalize initialization
 		parent::__construct($options);
 
 		// select the database
 		if ( $select ) {
 			$this->select($database);
 		}
-
 	}
 
 	/**
@@ -146,6 +145,7 @@ class JDatabaseMySQL extends JDatabase
 
 	/**
 	 * Determines UTF support
+	 * @return boolean True - UTF is supported
 	 */
 	function hasUTF()
 	{
@@ -158,7 +158,6 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	function setUTF()
 	{
-		//mysql_query("SET CHARACTER SET utf8",$this->_resource);
 		mysql_query( "SET NAMES 'utf8'", $this->_resource );
 	}
 
@@ -223,7 +222,7 @@ class JDatabaseMySQL extends JDatabase
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
 		if ($p_transaction_safe) {
-			$si = mysql_get_server_info( $this->_resource );
+			$si = $this->getVersion();
 			preg_match_all( "/(\d+)\.(\d+)\.(\d+)/i", $si, $m );
 			if ($m[1] >= 4) {
 				$this->_sql = 'START TRANSACTION;' . $this->_sql . '; COMMIT;';
@@ -290,6 +289,7 @@ class JDatabaseMySQL extends JDatabase
 
 		return $buffer;
 	}
+
 	/**
 	* @return int The number of rows returned from the most recent query.
 	*/
@@ -487,8 +487,7 @@ class JDatabaseMySQL extends JDatabase
 	{
 		$fmtsql = "UPDATE $table SET %s WHERE %s";
 		$tmp = array();
-		foreach (get_object_vars( $object ) as $k => $v)
-		{
+		foreach (get_object_vars( $object ) as $k => $v) {
 			if( is_array($v) or is_object($v) or $k[0] == '_' ) { // internal or NA field
 				continue;
 			}
@@ -521,6 +520,7 @@ class JDatabaseMySQL extends JDatabase
 	{
 		return mysql_get_server_info( $this->_resource );
 	}
+
 	/**
 	 * Assumes database collation in use by sampling one text field in one table
 	 * @return string Collation in use
