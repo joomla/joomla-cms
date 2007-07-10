@@ -327,19 +327,19 @@ class JTable extends JObject
 
 		if ($dirn < 0)
 		{
-			$sql .= ' WHERE ordering < '.$this->ordering;
-			$sql .= ($where ? '	AND '.$where : '');
+			$sql .= ' WHERE ordering < '.(int) $this->ordering;
+			$sql .= ($where ? ' AND '.$where : '');
 			$sql .= ' ORDER BY ordering DESC';
 		}
 		else if ($dirn > 0)
 		{
-			$sql .= ' WHERE ordering > '.$this->ordering;
-			$sql .= ($where ? '	AND '. $where : '');
+			$sql .= ' WHERE ordering > '.(int) $this->ordering;
+			$sql .= ($where ? ' AND '. $where : '');
 			$sql .= ' ORDER BY ordering';
 		}
 		else
 		{
-			$sql .= ' WHERE ordering = '. $this->ordering;
+			$sql .= ' WHERE ordering = '.(int) $this->ordering;
 			$sql .= ($where ? ' AND '.$where : '');
 			$sql .= ' ORDER BY ordering';
 		}
@@ -352,8 +352,8 @@ class JTable extends JObject
 		if (isset($row))
 		{
 			$query = 'UPDATE '. $this->_tbl
-			. ' SET ordering = "'. $row->ordering. '"'
-			. ' WHERE '. $this->_tbl_key .' = "'. $this->$k . '"'
+			. ' SET ordering = '. (int) $row->ordering
+			. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
 			;
 			$this->_db->setQuery( $query );
 
@@ -364,8 +364,8 @@ class JTable extends JObject
 			}
 
 			$query = 'UPDATE '.$this->_tbl
-			. ' SET ordering = "'.$this->ordering.'"'
-			. ' WHERE '.$this->_tbl_key.' = \''.$row->$k.'\''
+			. ' SET ordering = '.(int) $this->ordering
+			. ' WHERE '.$this->_tbl_key.' = '.$this->_db->Quote($row->$k)
 			;
 			$this->_db->setQuery( $query );
 
@@ -380,8 +380,8 @@ class JTable extends JObject
 		else
 		{
 			$query = 'UPDATE '. $this->_tbl
-			. ' SET ordering = "'.$this->ordering.'"'
-			. ' WHERE '. $this->_tbl_key .' = "'. $this->$k .'"'
+			. ' SET ordering = '.(int) $this->ordering
+			. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
 			;
 			$this->_db->setQuery( $query );
 
@@ -471,8 +471,8 @@ class JTable extends JObject
 				{
 					$orders[$i]->ordering = $i+1;
 					$query = 'UPDATE '.$this->_tbl
-					. ' SET ordering = "'. $orders[$i]->ordering .'"'
-					. ' WHERE '. $k .' = "'. $orders[$i]->$k .'"'
+					. ' SET ordering = '. (int) $orders[$i]->ordering
+					. ' WHERE '. $k .' = '. $this->_db->Quote($orders[$i]->$k)
 					;
 					$this->_db->setQuery( $query);
 					$this->_db->query();
@@ -514,7 +514,7 @@ class JTable extends JObject
 			$query = 'SELECT '. $select
 			. ' FROM '. $this->_tbl
 			. $join
-			. ' WHERE '. $k .' = "'. $this->$k .'"'
+			. ' WHERE '. $k .' = '. $this->_db->Quote($this->$k)
 			. ' GROUP BY '. $k
 			;
 			$this->_db->setQuery( $query );
@@ -770,7 +770,7 @@ class JTable extends JObject
 	 */
 	function publish( $cid=null, $publish=1, $user_id=0 )
 	{
-		JArrayHelper::toInteger( $cid, array() );
+		JArrayHelper::toInteger( $cid );
 		$user_id	= (int) $user_id;
 		$publish	= (int) $publish;
 		$k			= $this->_tbl_key;
@@ -792,7 +792,7 @@ class JTable extends JObject
 		$checkin = in_array( 'checked_out', $this->getPublicProperties() );
 		if ($checkin)
 		{
-			$query .= ' AND (checked_out = 0 OR checked_out = '.$user_id.')';
+			$query .= ' AND (checked_out = 0 OR checked_out = '.(int) $user_id.')';
 		}
 
 		$this->_db->setQuery( $query );

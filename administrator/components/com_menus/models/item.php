@@ -347,8 +347,8 @@ class MenusModelItem extends JModel
 		else
 		{
 			// if new item order last in appropriate group
-			$where = "menutype = '" . $row->menutype . "' AND published >= 0 AND parent = ".$row->parent;
-			$row->ordering = $row->getNextOrder ( $where );
+			$where = "menutype = " . $db->Quote($row->menutype) . " AND published >= 0 AND parent = ".(int) $row->parent;
+			$row->ordering = $row->getNextOrder( $where );
 		}
 
 		if( $row->parent != 0 ) {

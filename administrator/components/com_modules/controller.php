@@ -266,7 +266,7 @@ class ModulesController extends JController
 		// if new item, order last in appropriate group
 		if (!$row->id) {
 			$where = 'position='.$db->Quote( $row->position ).' AND client_id='.(int) $client->id ;
-			$row->ordering = $row->getNextOrder ( $where );
+			$row->ordering = $row->getNextOrder( $where );
 		}
 
 		if (!$row->store()) {

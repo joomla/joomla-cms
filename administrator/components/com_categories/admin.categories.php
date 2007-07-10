@@ -407,8 +407,8 @@ function saveCategory()
 	}
 	// if new item order last in appropriate group
 	if (!$row->id) {
-		$where = "section = '" . $row->section . "'";
-		$row->ordering = $row->getNextOrder ( $where );
+		$where = "section = " . $db->Quote($row->section);
+		$row->ordering = $row->getNextOrder( $where );
 	}
 
 	if (!$row->store()) {

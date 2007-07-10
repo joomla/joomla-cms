@@ -299,8 +299,7 @@ function saveSection( $option, $scope, $task )
 
 	// if new item order last in appropriate group
 	if (!$row->id) {
-		$where = "1";
-		$row->ordering = $row->getNextOrder ( $where );
+		$row->ordering = $row->getNextOrder();
 	}
 
 	if (!$row->store()) {

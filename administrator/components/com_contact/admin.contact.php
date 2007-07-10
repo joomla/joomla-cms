@@ -271,8 +271,8 @@ function saveContact( $task )
 
 	// if new item, order last in appropriate group
 	if (!$row->id) {
-		$where = "catid = " . $row->catid ;
-		$row->ordering = $row->getNextOrder ( $where );
+		$where = "catid = " . (int) $row->catid;
+		$row->ordering = $row->getNextOrder( $where );
 	}
 
 	// save the changes
