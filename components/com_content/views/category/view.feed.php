@@ -52,7 +52,7 @@ class ContentViewCategory extends JView
 
 			// strip html from feed item description text
 			$description	= $row->introtext;
-			$author			= $row->author;
+			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
 			@$date = ( $row->created ? date( 'r', strtotime($row->created) ) : '' );
 
 			// load individual item creator class
