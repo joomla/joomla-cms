@@ -194,7 +194,7 @@ class JParameter extends JRegistry
 		$params = $this->getParams($name, $group);
 
 		$html = array ();
-		$html[] = '<table width="100%" class="paramlist" cellspacing="1">';
+		$html[] = '<table width="100%" class="paramlist admintable" cellspacing="1">';
 
 		if ($description = $this->_xml[$group]->attributes('description')) {
 			// add the params description to the display
