@@ -186,50 +186,57 @@ class ModulesController extends JController
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		JArrayHelper::toInteger($cid);
+		$n		= count( $cid );
 
-		if (empty( $cid )) {
+		if ($n == 0) {
 			return JError::raiseWarning( 500, JText::_( 'No items selected' ) );
 		}
 
 		$row 	=& JTable::getInstance('module');
+		$tuples	= array();
 
-		// load the row from the db table
-		$row->load( (int) $cid[0] );
-		$row->title 		= JText::sprintf( 'Copy of', $row->title );
-		$row->id 			= 0;
-		$row->iscore 		= 0;
-		$row->published 	= 0;
-
-		if (!$row->check()) {
-			return JError::raiseWarning( 500, $row->getError() );
-		}
-		if (!$row->store()) {
-			return JError::raiseWarning( 500, $row->getError() );
-		}
-		$row->checkin();
-
-		$row->reorder( "position='".$row->position."' AND client_id=".$client->id );
-
-		$query = 'SELECT menuid'
-		. ' FROM #__modules_menu'
-		. ' WHERE moduleid = '.(int) $cid[0]
-		;
-		$db->setQuery( $query );
-		$rows = $db->loadResultArray();
-
-		foreach ($rows as $menuid)
+		foreach ($cid as $id)
 		{
-			$query = 'INSERT INTO #__modules_menu'
-			. ' SET moduleid = '.(int) $row->id.', menuid = '.(int) $menuid
+			// load the row from the db table
+			$row->load( (int) $id );
+			$row->title 		= JText::sprintf( 'Copy of', $row->title );
+			$row->id 			= 0;
+			$row->iscore 		= 0;
+			$row->published 	= 0;
+
+			if (!$row->check()) {
+				return JError::raiseWarning( 500, $row->getError() );
+			}
+			if (!$row->store()) {
+				return JError::raiseWarning( 500, $row->getError() );
+			}
+			$row->checkin();
+
+			$row->reorder( 'position='.$db->Quote( $row->position ).' AND client_id='.$client->id );
+
+			$query = 'SELECT menuid'
+			. ' FROM #__modules_menu'
+			. ' WHERE moduleid = '.(int) $cid[0]
 			;
+			$db->setQuery( $query );
+			$rows = $db->loadResultArray();
+
+			foreach ($rows as $menuid) {
+				$tuples[] = '('.(int) $row->id.','.(int) $menuid.')';
+			}
+		}
+
+		if (!empty( $tuples ))
+		{
+			// Module-Menu Mapping: Do it in one query
+			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES '.implode( ',', $tuples );
 			$db->setQuery( $query );
 			if (!$db->query()) {
 				return JError::raiseWarning( 500, $row->getError() );
 			}
 		}
 
-		$msg = JText::sprintf( 'Module Copied', $row->title );
+		$msg = JText::sprintf( 'Items Copied', $n );
 		$this->setRedirect( 'index.php?option=com_modules&client='. $client->id, $msg );
 	}
 
@@ -775,7 +782,7 @@ class ModulesController extends JController
 	{
 		$document =& JFactory::getDocument();
 		$document->setTitle(JText::_('Module Preview'));
-		
+
 		require_once( JApplicationHelper::getPath( 'admin_html' ) );
 		HTML_modules::preview( );
 	}

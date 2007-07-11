@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Jul-2007 Andrew Eddie
+ # Fixed module copy when more than one module selected
+
 09-Jul-2007 Sam Moffatt
  # Fixed up issue where two code paths in libraries/joomla/filesystem/archive failed to return a result
  - Disabled database check for module installation; file system check handles things; this allows easier module migration
