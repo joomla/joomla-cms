@@ -146,8 +146,7 @@ class JTableSession extends JTable
 	function purge( $maxLifetime = 1440 )
 	{
 		$past = time() - $maxLifetime;
-		$query = 'DELETE FROM '. $this->_tbl .' WHERE ( time < '. $past .' )';
-		;
+		$query = 'DELETE FROM '. $this->_tbl .' WHERE ( time < '. (int) $past .' )';
 		$this->_db->setQuery($query);
 
 		return $this->_db->query();

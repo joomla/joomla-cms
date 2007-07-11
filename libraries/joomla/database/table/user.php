@@ -160,8 +160,8 @@ class JTableUser extends JTable
 		// check for existing username
 		$query = 'SELECT id'
 		. ' FROM #__users '
-		. ' WHERE username = "' . $this->username . '"'
-		. ' AND id != '. $this->id;
+		. ' WHERE username = ' . $this->_db->Quote($this->username)
+		. ' AND id != '. (int) $this->id;
 		;
 		$this->_db->setQuery( $query );
 		$xid = intval( $this->_db->loadResult() );
@@ -174,8 +174,8 @@ class JTableUser extends JTable
 		// check for existing email
 		$query = 'SELECT id'
 			. ' FROM #__users '
-			. ' WHERE email = "'. $this->email . '"'
-			. ' AND id != '. $this->id
+			. ' WHERE email = '. $this->_db->Quote($this->email)
+			. ' AND id != '. (int) $this->id
 			;
 		$this->_db->setQuery( $query );
 		$xid = intval( $this->_db->loadResult() );
@@ -243,7 +243,7 @@ class JTableUser extends JTable
 		$acl->del_object( $aro_id, 'ARO', true );
 
 		$query = 'DELETE FROM '. $this->_tbl
-		. ' WHERE  '. $this->_tbl_key .' = "'. $this->$k .'"';
+		. ' WHERE '. $this->_tbl_key .' = '. (int) $this->$k
 		;
 		$this->_db->setQuery( $query );
 
@@ -252,7 +252,7 @@ class JTableUser extends JTable
 
 			// private messaging
 			$query = 'DELETE FROM #__messages_cfg'
-			. ' WHERE user_id = '. $this->$k
+			. ' WHERE user_id = '. (int) $this->$k
 			;
 			$this->_db->setQuery( $query );
 			if (!$this->_db->query()) {
@@ -260,7 +260,7 @@ class JTableUser extends JTable
 				return false;
 			}
 			$query = 'DELETE FROM #__messages'
-			. ' WHERE user_id_to = '. $this->$k
+			. ' WHERE user_id_to = '. (int) $this->$k
 			;
 			$this->_db->setQuery( $query );
 			if (!$this->_db->query()) {
@@ -292,8 +292,6 @@ class JTableUser extends JTable
 				die( 'WARNMOSUSER' );
 			}
 		}
-		// data check
-		$id = intval( $id );
 
 		// if no timestamp value is passed to functon, than current time is used
 		if ( $timeStamp ) {
@@ -304,8 +302,8 @@ class JTableUser extends JTable
 
 		// updates user lastvistdate field with date and time
 		$query = 'UPDATE '. $this->_tbl
-		. ' SET lastvisitDate = "'.$dateTime.'"'
-		. ' WHERE id = '.$id
+		. ' SET lastvisitDate = '.$this->_db->Quote($dateTime)
+		. ' WHERE id = '. (int) $id
 		;
 		$this->_db->setQuery( $query );
 		if (!$this->_db->query()) {

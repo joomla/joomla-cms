@@ -78,8 +78,8 @@ class JTableSection extends JTable
 		// check for existing name
 		/*$query = "SELECT id"
 		. ' FROM #__sections "
-		. ' WHERE title = "'. $this->title .'"'
-		. ' AND scope = "' . $this->scope .'"'
+		. ' WHERE title = '. $this->_db->Quote($this->title)
+		. ' AND scope = ' . $this->_db->Quote($this->scope)
 		;
 		$this->_db->setQuery( $query );
 

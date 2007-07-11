@@ -152,21 +152,21 @@ class JTableContent extends JTable
 		if ($mapKeysToText) {
 			$query = 'SELECT name'
 			. ' FROM #__sections'
-			. ' WHERE id = '. $this->sectionid
+			. ' WHERE id = '. (int) $this->sectionid
 			;
 			$db->setQuery( $query );
 			$this->sectionid = $db->loadResult();
 
 			$query = 'SELECT name'
 			. ' FROM #__categories'
-			. ' WHERE id = '. $this->catid
+			. ' WHERE id = '. (int) $this->catid
 			;
 			$db->setQuery( $query );
 			$this->catid = $db->loadResult();
 
 			$query = 'SELECT name'
 			. ' FROM #__users'
-			. ' WHERE id = ' . $this->created_by
+			. ' WHERE id = ' . (int) $this->created_by
 			;
 			$db->setQuery( $query );
 			$this->created_by = $db->loadResult();
