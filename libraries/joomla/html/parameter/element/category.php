@@ -58,13 +58,13 @@ class JElementCategory extends JElement
 				' FROM #__categories AS c' .
 				' LEFT JOIN #__sections AS s ON s.id=c.section' .
 				' WHERE c.published = 1' .
-				' AND s.scope = "'.$section.'"' .
+				' AND s.scope = '.$db->Quote($section).
 				' ORDER BY c.title';
 		} else {
 			$query = 'SELECT c.id, c.title' .
 				' FROM #__categories AS c' .
 				' WHERE c.published = 1' .
-				' AND c.section = "'.$section.'"' .
+				' AND c.section = '.$db->Quote($section).
 				' ORDER BY c.title';
 		}
 		$db->setQuery($query);

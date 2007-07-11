@@ -40,7 +40,7 @@ class JElementMenuItem extends JElement
 
 		$menuType = $this->_parent->get('menu_type');
 		if (!empty($menuType)) {
-			$where = ' WHERE menutype = "'.$menuType."'";
+			$where = ' WHERE menutype = '.$db->Quote($menuType);
 		} else {
 			$where = ' WHERE 1';
 		}
@@ -54,7 +54,7 @@ class JElementMenuItem extends JElement
 		$menuTypes = $db->loadObjectList();
 
 		if ($state = $node->attributes('state')) {
-			$where .= ' AND published = "'.$state.'"';
+			$where .= ' AND published = '.(int) $state;
 		}
 
 		// load the list of menu items
