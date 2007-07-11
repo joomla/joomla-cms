@@ -279,7 +279,7 @@ function editPlugin( )
 			// build the html select list for ordering
 			$query = 'SELECT ordering AS value, name AS text'
 			. ' FROM #__plugins'
-			. ' WHERE folder = "'.$row->folder.'"'
+			. ' WHERE folder = '.$db->Quote($row->folder)
 			. ' AND published > 0'
 			. ' AND '. $where
 			. ' AND ordering > -10000'

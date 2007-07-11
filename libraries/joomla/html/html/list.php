@@ -191,7 +191,7 @@ class JHTMLList
 
 		$query = 'SELECT id AS value, title AS text'
 		. ' FROM #__categories'
-		. ' WHERE section = "'. $section . '"'
+		. ' WHERE section = '.$db->Quote($section)
 		. ' AND published = 1'
 		. ' ORDER BY '. $order
 		;

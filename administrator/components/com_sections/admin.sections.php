@@ -242,7 +242,7 @@ function editSection( )
 	// build the html select list for ordering
 	$query = 'SELECT ordering AS value, title AS text'
 	. ' FROM #__sections'
-	. ' WHERE scope="'.$row->scope.'" ORDER BY ordering'
+	. ' WHERE scope='.$db->Quote($row->scope).' ORDER BY ordering'
 	;
 	$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
 

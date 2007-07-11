@@ -325,7 +325,7 @@ class ContentViewArticle extends ContentView
 		$lists['catid'] = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($article->catid));
 
 		// Select List: Category Ordering
-		$query = 'SELECT ordering AS value, title AS text FROM #__content WHERE catid = '.$article->catid.' ORDER BY ordering';
+		$query = 'SELECT ordering AS value, title AS text FROM #__content WHERE catid = '.(int) $article->catid.' ORDER BY ordering';
 		$lists['ordering'] = JHTML::_('list.specificordering', $article, $article->id, $query, 1);
 
 		// Radio Buttons: Should the article be published

@@ -223,7 +223,7 @@ class JModuleHelper
 
 		$modules	= array();
 
-		$wheremenu = isset( $Itemid ) ? ' AND ( mm.menuid = '. $Itemid .' OR mm.menuid = 0 )' : '';
+		$wheremenu = isset( $Itemid ) ? ' AND ( mm.menuid = '. (int) $Itemid .' OR mm.menuid = 0 )' : '';
 
 		$query = 'SELECT id, title, module, position, content, showtitle, control, params'
 			. ' FROM #__modules AS m'

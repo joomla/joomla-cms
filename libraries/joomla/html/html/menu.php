@@ -36,8 +36,8 @@ class JHTMLMenu
 		{
 			$query = 'SELECT ordering AS value, name AS text'
 			. ' FROM #__menu'
-			. ' WHERE menutype = \''.$row->menutype
-			. '\' AND parent = '.$row->parent
+			. ' WHERE menutype = '.$db->Quote($row->menutype)
+			. ' AND parent = '.(int) $row->parent
 			. ' AND published != -2'
 			. ' ORDER BY ordering';
 			$order = JHTML::_('list.genericordering',  $query );

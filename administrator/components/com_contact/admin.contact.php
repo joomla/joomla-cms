@@ -208,7 +208,7 @@ function editContact( )
 	$query = 'SELECT ordering AS value, name AS text'
 	. ' FROM #__contact_details'
 	. ' WHERE published >= 0'
-	. ' AND catid = "'.$row->catid.'"'
+	. ' AND catid = '.(int) $row->catid
 	. ' ORDER BY ordering'
 	;
 	$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query, 1 );

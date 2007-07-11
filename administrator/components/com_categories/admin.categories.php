@@ -360,7 +360,7 @@ function editCategory( )
 	// build the html select list for ordering
 	$query = 'SELECT ordering AS value, title AS text'
 	. ' FROM #__categories'
-	. ' WHERE section = "'.$row->section.'"'
+	. ' WHERE section = '.$db->Quote($row->section)
 	. ' ORDER BY ordering'
 	;
 	$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
