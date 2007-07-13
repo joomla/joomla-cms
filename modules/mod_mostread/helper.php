@@ -37,6 +37,17 @@ class modMostReadHelper
 		$nullDate	= $db->getNullDate();
 		$now		= date('Y-m-d H:i:s', time());
 
+		if ($catid) {
+			$ids = explode( ',', $catid );
+			JArrayHelper::toInteger( $ids );
+			$catCondition = ' AND (cc.id=' . implode( ' OR cc.id=', $ids ) . ')';
+		}
+		if ($secid) {
+			$ids = explode( ',', $secid );
+			JArrayHelper::toInteger( $ids );
+			$secCondition = ' AND (s.id=' . implode( ' OR s.id=', $ids ) . ')';
+		}
+
 		//Content Items only
 		$query = 'SELECT a.*,' .
 			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
@@ -46,11 +57,11 @@ class modMostReadHelper
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
 			' INNER JOIN #__sections AS s ON s.id = a.sectionid' .
 			' WHERE ( a.state = 1 AND s.id > 0 )' .
-			' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )' .
-			' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )'.
+			' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )' .
+			' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'.
 			($access ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid. ' AND s.access <= ' .(int) $aid : '').
-			($catid ? ' AND ( cc.id IN ( '.$catid.' ) )' : '').
-			($secid ? ' AND ( s.id IN ( '.$secid.' ) )' : '').
+			($catid ? $catCondition : '').
+			($secid ? $secCondition : '').
 			($show_front == '0' ? ' AND f.content_id IS NULL' : '').
 			' AND s.published = 1' .
 			' AND cc.published = 1' .

@@ -38,7 +38,7 @@ class modStatsHelper
 			$rows[$i]->data 	= phpversion();
 			$i++;
 			$rows[$i]->title 	= JText::_( 'MySQL' );
-			$rows[$i]->data 	= mysql_get_server_info();
+			$rows[$i]->data 	= $db->getVersion();
 			$i++;
 			$rows[$i]->title 	= JText::_( 'Time' );
 			$rows[$i]->data 	= date( 'H:i', time() + ( $mainframe->getCfg('offset') * 60 * 60 ) );

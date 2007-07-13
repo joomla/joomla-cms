@@ -39,18 +39,18 @@ class modLatestNewsHelper
 		$now		= date('Y-m-d H:i:s', time());
 
 		$where		= 'a.state = 1'
-			. ' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )'
-			. ' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )'
+			. ' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )'
+			. ' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'
 			;
 
 		// User Filter
 		switch ($params->get( 'user_id' ))
 		{
 			case 'by_me':
-				$where .= ' AND (created_by = ' . $userId . ' OR modified_by = ' . $userId . ')';
+				$where .= ' AND (created_by = ' . (int) $userId . ' OR modified_by = ' . (int) $userId . ')';
 				break;
 			case 'not_me':
-				$where .= ' AND (created_by <> ' . $userId . ' AND modified_by <> ' . $userId . ')';
+				$where .= ' AND (created_by <> ' . (int) $userId . ' AND modified_by <> ' . (int) $userId . ')';
 				break;
 		}
 
@@ -65,7 +65,6 @@ class modLatestNewsHelper
 				$ordering		= 'a.created DESC';
 				break;
 		}
-
 
 		if ($catid)
 		{

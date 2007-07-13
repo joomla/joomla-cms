@@ -83,9 +83,9 @@ class modNewsFlashHelper
 			' INNER JOIN #__sections AS s ON s.id = a.sectionid' .
 			' WHERE a.state = 1 ' .
 			($noauth ? ' AND a.access <= ' .(int) $aid. ' AND cc.access <= ' .(int) $aid. ' AND s.access <= ' .(int) $aid : '').
-			' AND (a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" ) ' .
-			' AND (a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )' .
-			' AND cc.id = '. $catid .
+			' AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' ) ' .
+			' AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )' .
+			' AND cc.id = '. (int) $catid .
 			' AND cc.section = s.id' .
 			' AND cc.published = 1' .
 			' AND s.published = 1' .

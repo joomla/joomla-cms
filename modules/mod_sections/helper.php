@@ -38,11 +38,11 @@ class modSectionsHelper
 			' FROM #__sections as a' .
 			' LEFT JOIN #__content as b ON a.id = b.sectionid' .
 			($access ? ' AND b.access <= '.(int) $gid : '') .
-			' AND ( b.publish_up = "'.$nullDate.'" OR b.publish_up <= "'.$now.'" )' .
-			' AND ( b.publish_down = "'.$nullDate.'" OR b.publish_down >= "'.$now.'" )' .
+			' AND ( b.publish_up = '.$db->Quote($nullDate).' OR b.publish_up <= '.$db->Quote($now).' )' .
+			' AND ( b.publish_down = '.$db->Quote($nullDate).' OR b.publish_down >= '.$db->Quote($now).' )' .
 			' WHERE a.scope = "content"' .
 			' AND a.published = 1' .
-			($access ? ' AND a.access <= '.$gid : '') .
+			($access ? ' AND a.access <= '.(int) $gid : '') .
 			' GROUP BY a.id '.
 			' HAVING COUNT( b.id ) > 0' .
 			' ORDER BY a.ordering';

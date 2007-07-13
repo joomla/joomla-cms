@@ -48,7 +48,7 @@ class modPollHelper
 
 		$query = 'SELECT id, text' .
 			' FROM #__poll_data' .
-			' WHERE pollid = '.$id .
+			' WHERE pollid = ' . (int) $id .
 			' AND text <> ""' .
 			' ORDER BY id';
 		$db->setQuery($query);

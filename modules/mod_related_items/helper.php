@@ -40,7 +40,7 @@ class modRelatedItemsHelper
 			// select the meta keywords from the item
 			$query = 'SELECT metakey' .
 					' FROM #__content' .
-					' WHERE id = '.$id;
+					' WHERE id = '.(int) $id;
 			$db->setQuery($query);
 
 			if ($metakey = trim($db->loadResult()))
@@ -66,12 +66,12 @@ class modRelatedItemsHelper
 							' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' .
 							' LEFT JOIN #__categories AS cc ON cc.id = a.catid' .
 							' LEFT JOIN #__sections AS s ON s.id = a.sectionid' .
-							' WHERE a.id != '.$id .
+							' WHERE a.id != '.(int) $id .
 							' AND a.state = 1' .
 							' AND a.access <= ' .(int) $user->get('aid', 0) .
 							' AND ( a.metakey LIKE "%'.implode('%" OR a.metakey LIKE "%', $likes).'%" )' .
-							' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )' .
-							' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )';
+							' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )' .
+							' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )';
 					$db->setQuery($query);
 					$temp = $db->loadObjectList();
 
