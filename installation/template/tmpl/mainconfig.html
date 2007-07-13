@@ -9,6 +9,8 @@
 <script language="JavaScript" type="text/javascript">
 <!--
 	function validateForm( frm, task ) {
+
+		document.formvalidator.handlers['adminEmail'] = document.formvalidator.handlers['email'];
 		var valid = document.formvalidator.isValid(frm);
 
 		var siteName 				= getElementByName( frm, 'vars[siteName]' );
@@ -20,7 +22,7 @@
 			alert( '<jtmpl:translate key="warnSiteName" escape="yes">Please enter a site name</jtmpl:translate>' );
 		} else if (this.document.filename.migstatus.value == '1' && this.document.filename.dataLoaded.value == '1') {
 			submitForm( frm, task ); // Migration doesn't need email or admin passord
-		} else if (adminEmail.value == '') {
+		} else if (adminEmail.value == '' || !valid) {
 			alert( '<jtmpl:translate key="warnEmailAddress" escape="yes">Please enter a valid email address</jtmpl:translate>' );
 		} else if (adminPassword.value == '') {
 			alert( '<jtmpl:translate key="warnAdminPassword" escape="yes">Please enter a valid admin password</jtmpl:translate>' );
@@ -74,7 +76,7 @@
 	}
 
 	function migrationSql(frm, task) {
-		
+
 		if (frm.sqlFile.value == '' && !frm.sqlUploaded.checked) {
 			alert( '<jtmpl:translate escape="yes">No file selected</jtmpl:translate>' );
 			return;
@@ -93,7 +95,7 @@
 			adminPassword.value 		= '';
 			confirmAdminPassword.value 	= '';
 		}
-		return;	
+		return;
 	}
 //-->
 </script>
@@ -289,7 +291,7 @@
 								<td></td>
 								<td></td>
 							</tr>
-							
+
 							<tr>
 								<td valign="top">
 									<input id="migrate_sql" type="radio" name="what_to_load" onclick="selectMode();"/>
@@ -307,7 +309,7 @@
 									<em>
 									<jtmpl:translate key="tipLoadSql">Joomla! 1.5 Migration SQL scripts need to be Joomla 1.5 compatible and should have the appropriate table prefix.</jtmpl:translate>
 									</em>
-									
+
 								</td>
 							</tr>
 							<tr>
