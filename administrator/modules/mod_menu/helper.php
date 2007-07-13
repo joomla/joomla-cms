@@ -89,7 +89,7 @@ class modMenuHelper
 		$menu->addChild(new JMenuNode(JText::_('Media Manager'), 'index.php?option=com_media', 'class:media'));
 		$menu->addSeparator();
 		if ($canConfig) {
-			$menu->addChild(new JMenuNode(JText::_('Global Configuration'), 'index.php?option=com_config', 'class:config'));
+			$menu->addChild(new JMenuNode(JText::_('Configuration'), 'index.php?option=com_config', 'class:config'));
 			$menu->addSeparator();
 		}
 		$menu->addChild(new JMenuNode(JText::_('Logout'), 'index.php?option=com_login&task=logout', 'class:logout'));

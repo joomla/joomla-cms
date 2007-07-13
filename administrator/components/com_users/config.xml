@@ -11,7 +11,7 @@
    <option value="Editor">Editor</option>
    <option value="Publisher">Publisher</option>
   </param>
-  <param name="useractivation" type="radio" default="1" label=" New User Account Activation" description="TIPIFYESUSERMAILEDLINK">
+  <param name="useractivation" type="radio" default="1" label="New User Account Activation" description="TIPIFYESUSERMAILEDLINK">
    <option value="0">No</option>
    <option value="1">Yes</option>
   </param>

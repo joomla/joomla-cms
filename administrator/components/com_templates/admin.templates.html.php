@@ -49,7 +49,7 @@ class TemplatesView
 						<?php echo JText::_( 'Num' ); ?>
 					</th>
 					<th class="title" colspan="2">
-						<?php echo JText::_( 'Name' ); ?>
+						<?php echo JText::_( 'Template Name' ); ?>
 					</th>
 					<?php
 

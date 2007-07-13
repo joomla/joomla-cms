@@ -454,7 +454,7 @@ class HTML_contact
 					echo $pane->startPanel(JText :: _('Advanced Parameters'), "param-page");
 					echo $params->render('params', 'advanced');
 					echo $pane->endPanel();
-					echo $pane->startPanel(JText :: _('E-Mail Parameters'), "param-page");
+					echo $pane->startPanel(JText :: _('E-mail Parameters'), "param-page");
 					echo $params->render('params', 'email');
 					echo $pane->endPanel();
 					echo $pane->endPane();
