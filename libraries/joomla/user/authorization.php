@@ -327,7 +327,7 @@ class JAuthorization extends gacl_api
 			. ' FROM #__core_acl_'.$type.'_groups AS g'
 			. ' INNER JOIN #__core_acl_groups_'.$type.'_map AS gm ON gm.group_id = g.id'
 			. ' INNER JOIN #__core_acl_'.$type.' AS ao ON ao.id = gm.'.$type.'_id'
-			. ' WHERE ao.value="'.$value.'"'
+			. ' WHERE ao.value='.$db->Quote($value)
 		);
 		$obj = $db->loadObject(  );
 		return $obj;
@@ -343,7 +343,7 @@ class JAuthorization extends gacl_api
 
 		if ($root_id) {
 		} else if ($root_name) {
-			$query	= "SELECT lft, rgt FROM $table WHERE name = '$root_name' ";
+			$query	= "SELECT lft, rgt FROM $table WHERE name = ".$db->Quote($root_name);
 			$db->setQuery( $query );
 			$root = $db->loadObject();
 		}
@@ -351,7 +351,7 @@ class JAuthorization extends gacl_api
 		$where = '';
 		if ($root->lft+$root->rgt <> 0) {
 			if ($inclusive) {
-				$where = " WHERE g1.lft BETWEEN $root->lft AND $root->rgt ";
+				$where = ' WHERE g1.lft BETWEEN '.(int) $root->lft.' AND '.(int) $root->rgt;
 			} else {
 				$where = ' WHERE g1.lft BETWEEN 3 AND 22 ';
 			}
@@ -458,7 +458,7 @@ class JAuthorization extends gacl_api
 		} else if (is_int( $grp_src ) && is_string($grp_tgt)) {
 			$query .= 'WHERE g1.id = '.$grp_src.' AND g2.name = '.$db->Quote($grp_tgt);
 		} else {
-			$query .= 'WHERE g1.name = '.$db->Quote($grp_src).' AND g2.id = '.$grp_tgt;
+			$query .= 'WHERE g1.name = '.$db->Quote($grp_src).' AND g2.id = '.(int) $grp_tgt;
 		}
 
 		$db->setQuery($query);
@@ -498,17 +498,17 @@ class JAuthorization extends gacl_api
 			case 'RECURSE':
 				$query .= '
 				LEFT JOIN 	'. $table .' g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt
-				WHERE		g1.id='. $group_id;
+				WHERE		g1.id='.(int) $group_id;
 				break;
 			case 'RECURSE_INCL':
 				// inclusive resurse
 				$query .= '
 				LEFT JOIN 	'. $table .' g2 ON g1.lft >= g2.lft AND g1.lft <= g2.rgt
-				WHERE		g1.id='. $group_id;
+				WHERE		g1.id='.(int) $group_id;
 				break;
 			default:
 				$query .= '
-				WHERE		g1.parent_id='. $group_id;
+				WHERE		g1.parent_id='.(int) $group_id;
 		}
 
 		$query .= '
