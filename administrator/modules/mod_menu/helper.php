@@ -244,7 +244,7 @@ class modMenuHelper
 				$menu->addSeparator();
 			}
 			if ($canCheckin) {
-				$menu->addChild(new JMenuNode(JText::_('Global Check-in'), 'index.php?option=com_checkin', 'class:checkin'));
+				$menu->addChild(new JMenuNode(JText::_('Global Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
 				$menu->addSeparator();
 			}
 			if ($caching) {
