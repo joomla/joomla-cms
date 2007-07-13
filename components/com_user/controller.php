@@ -80,8 +80,8 @@ class UserController extends JController
 		// do a password safety check
 		if(strlen($post['password'])) { // so that "0" can be used as password e.g.
 			if($post['password'] != $post['password2']) {
-				$msg	= JText::_( 'Passwords do not match');
-				$this->setRedirect( $_SERVER['HTTP_REFERER'], $msg );
+				$msg	= JText::_('PASSWORDS_DO_NOT_MATCH');
+				$this->setRedirect($_SERVER['HTTP_REFERER'], $msg);
 				return false;
 			}
 		}

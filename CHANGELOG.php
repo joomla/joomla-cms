@@ -39,6 +39,9 @@ Legend:
 
 
 13-Jul-2007 Rob Schley
+ # Fixed [#5853] Repeated strings at site language file: en-GB.com_user.ini
+ ^ Changed language string "PASSWORDS_DO_NOT_MATCH" to "PASSWORDS_DO_NOT_MATCH_LOW" to reflect context
+ ^ Changed language string "PASSWORDS DO NOT MATCH" to "PASSWORDS_DO_NOT_MATCH"
  # Fixed [#5641] Repeated strings at site language file en-GB.com_user.ini
  - Removed language strings "LOST PASSWORD?", "LOST YOUR PASSWORD?" "FORGOT USERNAME"
  + Added language string "FORGOT_YOUR_USERNAME" and "FORGOT_YOUR_PASSWORD"

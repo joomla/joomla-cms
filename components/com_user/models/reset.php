@@ -148,7 +148,7 @@ class UserModelReset extends JModel
 		// Verify that the passwords match
 		if ($password1 != $password2)
 		{
-			$this->setError(JText::_('PASSWORDS_DO_NOT_MATCH'));
+			$this->setError(JText::_('PASSWORDS_DO_NOT_MATCH_LOW'));
 			return false;
 		}
 
