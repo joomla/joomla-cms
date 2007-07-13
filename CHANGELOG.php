@@ -39,6 +39,7 @@ Legend:
 
 
 13-Jul-2007 Rob Schley
+ # Removed backticks (`) from language files.  Do not use them, use single quotes (').
  # Fixed [#6034] No tmp folder in current builds
  # Fixed [#5853] Repeated strings at site language file: en-GB.com_user.ini
  ^ Changed language string "PASSWORDS_DO_NOT_MATCH" to "PASSWORDS_DO_NOT_MATCH_LOW" to reflect context
