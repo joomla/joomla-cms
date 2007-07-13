@@ -48,7 +48,7 @@ echo '<input name="passwd" type="password" class="inputbox" size="20" id="pass" 
 echo '<p><label for="rem">' . JText :: _('Remember me') . '</label>';
 echo '<input type="checkbox" name="remember" class="inputbox" value="yes" id="rem"/></p>';
 echo '<p><a href="' . JRoute :: _('index.php?option=com_user&amp;task=lostPassword') . '">';
-echo JText :: _('Lost Password?');
+echo JText :: _('FORGOT_YOUR_PASSWORD');
 echo '</a></p>';
 
 if ($this->params->get('registration')) {

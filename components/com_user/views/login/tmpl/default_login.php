@@ -44,11 +44,11 @@
 				<input type="checkbox" name="remember" class="inputbox" value="yes" />
 				<br/>
 				<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=reset' ); ?>">
-					<?php echo JText::_( 'Lost Password?' ); ?>
+					<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?>
 				</a>
 				<br/>
 				<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=remind' ); ?>">
-					<?php echo JText::_( 'Forgot Username?' ); ?>
+					<?php echo JText::_('FORGOT_YOUR_USERNAME'); ?>
 				</a>
 				<?php if ( $this->params->get( 'registration' ) ) : ?>
 				<br/>

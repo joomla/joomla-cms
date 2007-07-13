@@ -36,14 +36,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<tr>
 		<td>
 			<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=reset' ); ?>">
-				<?php echo JText::_( 'Lost Password?'); ?>
+				<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?>
 			</a>
 		</td>
 	</tr>
 	<tr>
 		<td>
 			<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=remind' ); ?>">
-				<?php echo JText::_( 'Forgot Username?'); ?>
+				<?php echo JText::_('FORGOT_YOUR_USERNAME'); ?>
 			</a>
 		</td>
 	</tr>
@@ -52,9 +52,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	if ($usersConfig->get('allowUserRegistration')) : ?>
 	<tr>
 		<td>
-			<?php echo JText::_( 'No account yet?'); ?>
+			<?php echo JText::_('No account yet?'); ?>
 			<a href="<?php echo JRoute::_( 'index.php?option=com_user&task=register' ); ?>">
-				<?php echo JText::_( 'Register'); ?>
+				<?php echo JText::_('Register'); ?>
 			</a>
 		</td>
 	</tr>

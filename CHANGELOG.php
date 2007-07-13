@@ -39,6 +39,9 @@ Legend:
 
 
 13-Jul-2007 Rob Schley
+ # Fixed [#5641] Repeated strings at site language file en-GB.com_user.ini
+ - Removed language strings "LOST PASSWORD?", "LOST YOUR PASSWORD?" "FORGOT USERNAME"
+ + Added language string "FORGOT_YOUR_USERNAME" and "FORGOT_YOUR_PASSWORD"
  # Fixed [#4701] Installation: wrong form validation - Thanks Mark Harvey and Matheus Mendes
  # Fixed [#5440] order is 0 for new articles - Thanks Kevn Devine
 

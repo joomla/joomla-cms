@@ -24,7 +24,7 @@ if ($type == 'logout') {
 	echo '<label for="mod_login_remember" class="remember">' . JText :: _('Remember me') . '</label>';
 	echo '<input type="checkbox" name="remember" id="mod_login_remember" class="checkbox" value="yes" alt="' . JText :: _('Remember me') . '" />';
 	echo '<input type="submit" name="Submit" class="button" value="' . JText :: _('BUTTON_LOGIN') . '" />';
-	echo '<p><a href="' . JRoute :: _('index.php?option=com_user&amp;task=lostPassword') . '">' . JText :: _('Lost Password?') . '</a></p>';
+	echo '<p><a href="' . JRoute :: _('index.php?option=com_user&amp;task=lostPassword') . '">' . JText :: _('FORGOT_YOUR_PASSWORD') . '</a></p>';
 	$usersConfig = & JComponentHelper :: getParams('com_users');
 	if ($usersConfig->get('allowUserRegistration')) {
 		echo '<p>' . JText :: _('No account yet?') . ' <a href="' . JRoute :: _('index.php?option=com_user&amp;task=register') . '" >';
