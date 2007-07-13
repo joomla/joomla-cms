@@ -452,7 +452,7 @@ class JTable extends JObject
 
 		$query = 'SELECT '.$this->_tbl_key.', ordering'
 		. ' FROM '. $this->_tbl
-		. ' WHERE ordering >= 1' . ( $where ? ' AND '. $where : '' )
+		. ' WHERE ordering >= 0' . ( $where ? ' AND '. $where : '' )
 		. ' ORDER BY ordering'.$order2
 		;
 		$this->_db->setQuery( $query );

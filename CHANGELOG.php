@@ -37,8 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+13-Jul-2007 Rob Schley
+ # Fixed [#5440] order is 0 for new articles - Thanks Kevn Devine
+
 13-Jul-2007 Andy Wallace
-# Fixed some errors in hard coded language parameters. Updated Admin, Installation, and Site Language files.
+ # Fixed some errors in hard coded language parameters. Updated Admin, Installation, and Site Language files.
 
 11-Jul-2007 Andrew Eddie
  # Fixed module copy when more than one module selected
