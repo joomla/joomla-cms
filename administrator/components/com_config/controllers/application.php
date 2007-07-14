@@ -246,7 +246,7 @@ class ConfigControllerApplication extends ConfigController
 			return false;
 		}
 
-		$config =& JFactory::getConfig();
+		$config = new JRegistry('config');
 		$config_array = array();
 
 		// SITE SETTINGS
@@ -269,6 +269,7 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['feed_summary']	= JRequest::getVar('feed_summary', 0, 'post', 'int');
 
 		// SERVER SETTINGS
+		$config_array['secret']				= JRequest::getVar('secret', 0, 'post', 'string');
 		$config_array['gzip']				= JRequest::getVar('gzip', 0, 'post', 'int');
 		$config_array['error_reporting']	= JRequest::getVar('error_reporting', -1, 'post', 'int');
 		$config_array['xmlrpc_server']		= JRequest::getVar('xmlrpc_server', 0, 'post', 'int');
@@ -280,6 +281,7 @@ class ConfigControllerApplication extends ConfigController
 
 		// CACHE SETTINGS
 		$config_array['caching']			= JRequest::getVar('caching', 0, 'post', 'int');
+		$config_array['cachetime']			= JRequest::getVar('cachetime', 900, 'post', 'int');
 		$config_array['cache_handler']		= JRequest::getVar('cache_handler', 'file', 'post', 'word');
 		$config_array['memcache_settings']	= JRequest::getVar('memcache_settings', array(), 'post');
 
