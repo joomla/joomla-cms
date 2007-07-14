@@ -162,6 +162,12 @@ class MediaController
 		// Get current path from request
 		$current = JRequest::getVar( 'folder', '', '', 'path' );
 
+		// If undefined, set to empty
+		if ($current == 'undefined')
+		{
+			$current = '';
+		}
+
 		// Initialize variables
 		if (strlen($current) > 1) {
 			$basePath = COM_MEDIA_BASE.DS.$current;
@@ -259,9 +265,9 @@ class MediaController
 	function imgManager($listFolder)
 	{
 		global $mainframe;
-		
+
 		$document =& JFactory::getDocument();
-		
+
 		$lang = & JFactory::getLanguage();
 		$lang->load('', JPATH_ADMINISTRATOR);
 		$lang->load(JRequest::getCmd( 'option' ), JPATH_ADMINISTRATOR);

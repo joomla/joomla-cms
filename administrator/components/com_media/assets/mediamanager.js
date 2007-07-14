@@ -78,6 +78,10 @@ var JMediaManager = new Class({
 		var url 	= window.frames['folderframe'].location.search.substring(1);
 		var args	= this.parseQuery(url);
 
+		if (args['folder'] == "undefined") {
+			args['folder'] = "";
+		}
+
 		return args['folder'];
 	},
 

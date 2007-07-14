@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Jul-2007 Rob Schley
+ # Fixed [#6035] Media manager, path is not a folder error
+
 14-Jul-2007 Johan Janssens
  # Fixed [#6038] Section Manager - Delete Section When Not Empty
 
