@@ -165,7 +165,7 @@ class JRouter extends JObject
 		$menu =& JMenu::getInstance(true);
 
 		// Set Local Vars passed in via the URL
-		$vars =& $uri->getQuery(true);
+		$vars = $uri->getQuery(true);
 		$this->_vars	= array_merge($this->_vars, $vars);
 
 		// Get the base and full URLs
