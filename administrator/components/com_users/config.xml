@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
  <params>
-  <param name="allowUserRegistration" type="radio" default="1" label="Allow User Registration" description="If set to Yes,  new Users allowed to self-register">
+  <param name="allowUserRegistration" type="radio" default="1" label="Allow User Registration" description="TIPALLOWUSERREG">
    <option value="0">No</option>
    <option value="1">Yes</option>
   </param>
