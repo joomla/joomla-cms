@@ -16,7 +16,7 @@
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="show_category_crumb" type="radio" default="0" label="Hide Category in Breadcrumbs" description="Show/Hide the category in the breadcrumbs">
+			<param name="show_category_crumb" type="radio" default="0" label="Show Category in Breadcrumbs" description="Show/Hide the category in the breadcrumbs">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>

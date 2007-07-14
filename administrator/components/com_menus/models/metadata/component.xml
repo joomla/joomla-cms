@@ -5,7 +5,7 @@
 		<description>Component Parameters</description>
 		<params>
 			<param name="page_title" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
-			<param name="show_page_title" type="radio" default="1" label="Show Page Title" description="Show/Hide the pages Title">
+			<param name="show_page_title" type="radio" default="1" label="Show Page Title" description="SHOW/HIDE THE PAGES TITLE">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>

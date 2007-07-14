@@ -20,7 +20,7 @@ $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
 echo '<form action="' . JRoute::_('index.php') . '" method="post" name="josForm" class="lost_password" >';
-echo '<h' . $hlevel . ' class="componentheading">' . JText :: _('Lost your Password?') . '</h' . $hlevel . '>';
+echo '<h' . $hlevel . ' class="componentheading">' . JText :: _('FORGOT_YOUR_PASSWORD') . '</h' . $hlevel . '>';
 
 echo '<p>' . JText :: _('NEW_PASS_DESC') . '</p>';
 echo '<p>' . '<label for="jusername">' . JText :: _('Username') . '</label>';

@@ -86,7 +86,7 @@ class JHTMLIcon
 			$text = '&nbsp;'.JText::_('Email');
 		}
 
-		$attribs['title']	= JText::_( 'Email ' );
+		$attribs['title']	= JText::_( 'Email' );
 		$attribs['onclick'] = "window.open(this.href,'win2','".$status."'); return false;";
 
 		$output = JHTML::_('link', JRoute::_($url), $text, $attribs);
