@@ -65,7 +65,7 @@ class plgUserJoomla extends JPlugin
 	 * This method should handle any login logic and report back to the subject
 	 *
 	 * @access	public
-	 * @param   object  a JAuthenticationResponece object
+	 * @param   array   holds the user data
 	 * @param 	array   array holding options (remember, autoregister, ...)
 	 * @return	boolean	True on success
 	 * @since	1.5
@@ -146,7 +146,7 @@ class plgUserJoomla extends JPlugin
 	 * This method should handle any logout logic and report back to the subject
 	 *
 	 * @access public
-	 * @param   array		holds the user data
+	 * @param  array	holds the user data
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
