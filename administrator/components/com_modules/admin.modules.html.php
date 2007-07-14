@@ -292,7 +292,7 @@ class HTML_modules
 					</tr>
 					<tr>
 						<td valign="top" class="key">
-							<label for="position">
+							<label for="position" class="hasTip" title="<?php echo JText::_('MODULE_POSITION_TIP_TITLE', true); ?>::<?php echo JText::_('MODULE_POSITION_TIP_TEXT', true); ?>">
 								<?php echo JText::_( 'Position' ); ?>:
 							</label>
 						</td>
