@@ -72,7 +72,7 @@ class ContentHelperRoute
 					' FROM #__menu' .
 					' WHERE published = 1' .
 					' AND (type = "content_section" OR type = "content_blog_section" )' .
-					' AND componentid = '. $row->sectionid .
+					' AND componentid = '. (int) $row->sectionid .
 					' ORDER BY type DESC, ordering';
 			$db->setQuery($query);
 			$result = $db->loadRow();
@@ -138,7 +138,7 @@ class ContentHelperRoute
 						' FROM #__menu' .
 						' WHERE published = 1' .
 						' AND (type = "content_section" OR type = "content_blog_section" )' .
-						' AND componentid = '. $row->sectionid .
+						' AND componentid = '. (int) $row->sectionid .
 						' ORDER BY type DESC, ordering';
 				$db->setQuery($query);
 				$secLinkID = $db->loadResult();

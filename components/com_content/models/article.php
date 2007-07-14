@@ -333,7 +333,7 @@ class ContentModelArticle extends JModel
 				// For existing items keep existing state - author is not allowed to change status
 				$query = 'SELECT state' .
 						' FROM #__content' .
-						' WHERE id = '.$row->id;
+						' WHERE id = '.(int) $row->id;
 				$this->_db->setQuery($query);
 				$state = $this->_db->loadResult();
 
@@ -393,7 +393,7 @@ class ContentModelArticle extends JModel
 
 			$query = 'SELECT *' .
 					' FROM #__content_rating' .
-					' WHERE content_id = '. $this->_id;
+					' WHERE content_id = '.(int) $this->_id;
 			$this->_db->setQuery($query);
 			$rating = $this->_db->loadObject();
 
@@ -401,7 +401,7 @@ class ContentModelArticle extends JModel
 			{
 				// There are no ratings yet, so lets insert our rating
 				$query = 'INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )' .
-						' VALUES ( '. $this->_id .', "'.$userIP.'", '. $rate .', 1 )';
+						' VALUES ( '.(int) $this->_id.', '.$this->_db->Quote($userIP).', '.(int) $rate.', 1 )';
 				$this->_db->setQuery($query);
 				if (!$this->_db->query()) {
 					JError::raiseError( 500, $this->_db->stderr());
@@ -413,8 +413,8 @@ class ContentModelArticle extends JModel
 				{
 					// We weren't the last voter so lets add our vote to the ratings totals for the article
 					$query = 'UPDATE #__content_rating' .
-							' SET rating_count = rating_count + 1, rating_sum = rating_sum + '.$rate.', lastip = "'.$userIP.'"' .
-							' WHERE content_id = '. $this->_id;
+							' SET rating_count = rating_count + 1, rating_sum = rating_sum + '.(int) $rate.', lastip = '.$this->_db->Quote($userIP) .
+							' WHERE content_id = '.(int) $this->_id;
 					$this->_db->setQuery($query);
 					if (!$this->_db->query()) {
 						JError::raiseError( 500, $this->_db->stderr());
@@ -562,14 +562,14 @@ class ContentModelArticle extends JModel
 		 * First thing we need to do is assert that the content article is the one
 		 * we are looking for and we have access to it.
 		 */
-		$where = ' WHERE a.id = '. $this->_id;
-		$where .= ' AND a.access <= '. $aid;
+		$where = ' WHERE a.id = '. (int) $this->_id;
+		$where .= ' AND a.access <= '. (int) $aid;
 
 		if (!$user->authorize('com_content', 'edit', 'content', 'all'))
 		{
 			$where .= ' AND ( a.state = 1 OR a.state = 0 )' .
-					' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )' .
-					' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )';
+					' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
+					' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
 		}
 
 		return $where;

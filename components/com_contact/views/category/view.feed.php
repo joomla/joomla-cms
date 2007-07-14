@@ -38,12 +38,12 @@ class ContactViewCategory extends JView
 		$where		= ' WHERE a.published = 1';
 
 		if ( $catid ) {
-			$where .= ' AND a.catid = '. $catid;
+			$where .= ' AND a.catid = '. (int) $catid;
 		}
 
 		$query = 'SELECT'
 		. ' a.name AS title,'
-		. ' CONCAT( a.con_position, ' - ',a.misc ) AS description,'
+		. ' CONCAT( a.con_position, \' - \', a.misc ) AS description,'
 		. ' "" AS date,'
 		. ' c.title AS category,'
 		. ' a.id AS id'

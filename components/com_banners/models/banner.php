@@ -107,7 +107,7 @@ class BannersModelBanner extends JModel
 			$query = 'UPDATE #__banner'
 			. ' SET impmade = impmade + 1'
 			. ($expire ? ', showBanner=0' : '')
-			. ' WHERE bid = '. $item->bid
+			. ' WHERE bid = '.(int) $item->bid
 			;
 			$db->setQuery( $query );
 
@@ -124,7 +124,7 @@ class BannersModelBanner extends JModel
 					' banner_id = ' . $item->bid;
 				*/
 				$query = 'INSERT INTO #__bannertrack ( track_type, banner_id, track_date )' .
-					' VALUES ( 1, '.$item->bid.', \''.$trackDate.'\' )'
+					' VALUES ( 1, '.(int) $item->bid.', '.$db->Quote($trackDate).' )'
 					;
 				$db->setQuery( $query );
 
@@ -159,7 +159,7 @@ class BannersModelBanner extends JModel
 		if ($trackClicks)
 		{
 			$query = 'INSERT INTO #__bannertrack ( track_type, banner_id, track_date )' .
-				' VALUES ( 2, '.(int)$id.', \''.$trackDate.'\' )'
+				' VALUES ( 2, '.(int)$id.', '.$db->Quote($trackDate).' )'
 				;
 			$db->setQuery( $query );
 

@@ -150,7 +150,7 @@ class ContentController extends JController
 			{
 				// new entry
 				$query = 'INSERT INTO #__content_frontpage' .
-						' VALUES ( '.$post['id'].', 1 )';
+						' VALUES ( '.(int) $post['id'].', 1 )';
 				$db->setQuery($query);
 				if (!$db->query()) {
 					JError::raiseError( 500, $db->stderr());
@@ -296,7 +296,6 @@ class ContentController extends JController
 		$db		= & JFactory::getDBO();
 		$keyref	= JRequest::getVar('keyref', null, 'default', 'cmd');
 		JRequest::setVar('keyref', $keyref);
-		$keyref	= $db->getEscaped($keyref);
 
 		// If no keyref left, throw 404
 		if( empty($keyref) === true ) {
@@ -305,7 +304,7 @@ class ContentController extends JController
 
 		$query =	'SELECT id' .
 				' FROM #__content' .
-				' WHERE attribs LIKE "%keyref='.$keyref.'%"';
+				' WHERE attribs LIKE "%keyref='.$db->getEscaped($keyref).'%"';
 		$db->setQuery($query);
 		$id = (int) $db->loadResult();
 

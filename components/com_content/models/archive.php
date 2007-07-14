@@ -118,7 +118,7 @@ class ContentModelArchive extends JModel
 	function _buildContentOrderBy()
 	{
 		$filter_order		= JRequest::getCmd('filter_order');
-		$filter_order_Dir	= JRequest::getCmd('filter_order_Dir');
+		$filter_order_Dir	= JRequest::getWord('filter_order_Dir');
 
 		$orderby = ' ORDER BY ';
 		if ($filter_order && $filter_order_Dir) {
