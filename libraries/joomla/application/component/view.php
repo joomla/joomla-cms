@@ -615,11 +615,11 @@ class JView extends JObject
 		jimport('joomla.filesystem.path');
 		$this->_template = JPath::find($this->_path['template'], $this->_createFileName('template', array('name' => $file)));
 
-		if ($this->_template == false)
+		/*if ($this->_template == false)
 		{
 			$file2 = ( $tpl != null ) ? 'default_'.$tpl : 'default';
 			$this->_template = JPath::find($this->_path['template'], $this->_createFileName('template', array('name' => $file2)));
-		}
+		}*/
 
 		if ($this->_template != false)
 		{
