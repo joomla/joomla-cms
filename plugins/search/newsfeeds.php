@@ -64,6 +64,7 @@ function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	$wheres = array();
 	switch ($phrase) {
 		case 'exact':
+			$text = $db->getEscaped($text);
 			$wheres2 	= array();
 			$wheres2[] 	= "LOWER(a.name) LIKE '%$text%'";
 			$wheres2[] 	= "LOWER(a.link) LIKE '%$text%'";
@@ -76,6 +77,7 @@ function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 			$words 	= explode( ' ', $text );
 			$wheres = array();
 			foreach ($words as $word) {
+				$word = $db->getEscaped($word);
 				$wheres2 	= array();
 				$wheres2[] 	= "LOWER(a.name) LIKE '%$word%'";
 				$wheres2[] 	= "LOWER(a.link) LIKE '%$word%'";
@@ -106,7 +108,7 @@ function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	$query = 'SELECT a.name AS title,'
 	. ' "" AS created,'
 	. ' a.link AS text,'
-	. ' CONCAT_WS( " / ","'. $searchNewsfeeds .'", b.title )AS section,'
+	. ' CONCAT_WS( " / ", '. $db->Quote($searchNewsfeeds) .', b.title )AS section,'
 	. ' CONCAT( "index.php?option=com_newsfeeds&view=newsfeed&id=", a.id ) AS href,'
 	. ' "1" AS browsernav'
 	. ' FROM #__newsfeeds AS a'
@@ -114,7 +116,7 @@ function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	. ' WHERE ( '. $where .' )'
 	. ' AND a.published = 1'
 	. ' AND b.published = 1'
-	. ' AND b.access <= ' .$user->get( 'gid' )
+	. ' AND b.access <= '. (int) $user->get( 'aid' )
 	. ' ORDER BY '. $order
 	;
 	$db->setQuery( $query, 0, $limit );

@@ -58,15 +58,6 @@ function plgContentLoadModule( &$row, &$params, $page=0 )
 
 function plgContentProcessPositions ( &$row, &$matches, $count, $regex, $style )
 {
-	$db =& JFactory::getDBO();
-
-	$query = 'SELECT position'
-	. ' FROM #__template_positions'
-	. ' ORDER BY position'
-	;
-	$db->setQuery( $query );
- 	$positions 	= $db->loadResultArray();
-
  	for ( $i=0; $i < $count; $i++ ) 
 	{
  		$load = str_replace( 'loadposition', '', $matches[0][$i] );

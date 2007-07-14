@@ -75,6 +75,7 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 			$order = 'a.name DESC';
 	}
 
+	$text = $db->getEscaped($text);
 	$query = 'SELECT a.name AS title,'
 	. ' a.description AS text,'
 	. ' "" AS created,'
@@ -91,8 +92,8 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 	. ' OR a.description LIKE "%'.$text.'%" )'
 	. ' AND a.published = 1'
 	. ' AND s.published = 1'
-	. ' AND a.access <= ' .$user->get( 'gid' )
-	. ' AND s.access <= ' .$user->get( 'gid' )
+	. ' AND a.access <= '.(int) $user->get('aid')
+	. ' AND s.access <= '.(int) $user->get('aid')
 	. ' AND ( m.type = "content_section" OR m.type = "content_blog_section"'
 	. ' OR m.type = "content_category" OR m.type = "content_blog_category")'
 	. ' GROUP BY a.id'

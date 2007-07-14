@@ -15,10 +15,12 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $db =& JFactory::getDBO();
+$user =& JFactory::getUser();
+
 $query = 'SELECT COUNT(*)'
 . ' FROM #__messages'
 . ' WHERE state = 0'
-. ' AND user_id_to = ' .$user->get('id')
+. ' AND user_id_to = '.(int) $user->get('id')
 ;
 $db->setQuery( $query );
 $unread = $db->loadResult();

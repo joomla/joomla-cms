@@ -22,7 +22,7 @@ $session_id = $session->getId();
 // Get no. of users online not including current session
 $query = 'SELECT COUNT( session_id )'
 . ' FROM #__session'
-. ' WHERE session_id <> "'.$session_id.'"'
+. ' WHERE session_id <> '.$db->Quote($session_id)
 ;
 $db->setQuery($query);
 $online_num = intval( $db->loadResult() );

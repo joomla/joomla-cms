@@ -25,10 +25,10 @@ $where	= 'WHERE a.state <> -2';
 switch ($params->get( 'user_id' ))
 {
 	case 'by_me':
-		$where .= ' AND (created_by = ' . $userId . ' OR modified_by = ' . $userId . ')';
+		$where .= ' AND (created_by = ' . (int) $userId . ' OR modified_by = ' . (int) $userId . ')';
 		break;
 	case 'not_me':
-		$where .= ' AND (created_by <> ' . $userId . ' AND modified_by <> ' . $userId . ')';
+		$where .= ' AND (created_by <> ' . (int) $userId . ' AND modified_by <> ' . (int) $userId . ')';
 		break;
 }
 

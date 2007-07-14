@@ -38,7 +38,7 @@ $output[] = "<span class=\"preview\"><a href=\"".$mainframe->getSiteURL()."\" ta
 $query = 'SELECT COUNT(*)'
 . ' FROM #__messages'
 . ' WHERE state = 0'
-. ' AND user_id_to = '.$user->get('id');
+. ' AND user_id_to = '.(int) $user->get('id');
 $db->setQuery( $query );
 $unread = $db->loadResult();
 
@@ -58,7 +58,7 @@ if ($unread) {
 // Get the number of logged in users
 $query = 'SELECT COUNT( session_id )'
 . ' FROM #__session'
-. ' WHERE guest <> "1"'
+. ' WHERE guest <> 1'
 ;
 $db->setQuery($query);
 $online_num = intval( $db->loadResult() );

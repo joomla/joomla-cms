@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Jul-2007 Enno Klasing
+ # Fixed database error in the 'loadmodule' content plugin which was caused by a missing/removed table
+ # Fixed [#6055] Search plugins return results with access level 'special' to 'registered' users
+ - Removed unnecessary database query from the administrator mod_menu module
 
 13-Jul-2007 Rob Schley
  # Removed backticks (`) from language files.  Do not use them, use single quotes (').

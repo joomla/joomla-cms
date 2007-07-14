@@ -109,7 +109,8 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		$query = 'SELECT a.id'
 		. ' FROM #__content AS a'
 		. ' WHERE a.catid = ' . (int) $row->catid
-		. ' AND a.state = '. $row->state . ($canPublish ? '' : ' AND a.access <= ' .(int) $user->get('aid', 0))
+		. ' AND a.state = '. (int) $row->state
+		. ($canPublish ? '' : ' AND a.access <= ' .(int) $user->get('aid', 0))
 		. $xwhere
 		. ' ORDER BY '. $orderby;
 		$db->setQuery($query);

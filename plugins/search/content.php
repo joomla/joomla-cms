@@ -71,6 +71,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	$wheres = array();
 	switch ($phrase) {
 		case 'exact':
+			$text = $db->getEscaped($text);
 			$wheres2 	= array();
 			$wheres2[] 	= "LOWER(a.title) LIKE '%$text%'";
 			$wheres2[] 	= "LOWER(a.introtext) LIKE '%$text%'";
@@ -86,6 +87,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 			$words = explode( ' ', $text );
 			$wheres = array();
 			foreach ($words as $word) {
+				$word = $db->getEscaped($word);
 				$wheres2 	= array();
 				$wheres2[] 	= 'LOWER(a.title) LIKE "%'.$word.'%"';
 				$wheres2[] 	= 'LOWER(a.introtext) LIKE "%'.$word.'%"';
@@ -140,11 +142,11 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. ' AND a.state = 1'
 		. ' AND u.published = 1'
 		. ' AND b.published = 1'
-		. ' AND a.access <= ' .$user->get( 'gid' )
-		. ' AND b.access <= ' .$user->get( 'gid' )
-		. ' AND u.access <= ' .$user->get( 'gid' )
-		. ' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )'
-		. ' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )'
+		. ' AND a.access <= '.(int) $user->get( 'aid' )
+		. ' AND b.access <= '.(int) $user->get( 'aid' )
+		. ' AND u.access <= '.(int) $user->get( 'aid' )
+		. ' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )'
+		. ' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'
 		. ' GROUP BY a.id'
 		. ' ORDER BY '. $order
 		;
@@ -159,15 +161,15 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		$query = 'SELECT id, a.title AS title, a.created AS created,'
 		. ' a.introtext AS text,'
 		. ' CONCAT( "index.php?option=com_content&view=article&id=", a.id ) AS href,'
-		. ' "2" as browsernav, "'. JText::_('Uncategorised Content') .'" AS section'
+		. ' "2" as browsernav, "'. $db->Quote(JText::_('Uncategorised Content')) .'" AS section'
 		. ' FROM #__content AS a'
 		. ' WHERE ('.$where.')'
 		. ' AND a.state = 1'
-		. ' AND a.access <= ' .$user->get( 'gid' )
+		. ' AND a.access <= '.(int) $user->get( 'aid' )
 		. ' AND a.sectionid = 0'
 		. ' AND a.catid = 0'
-		. ' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )'
-		. ' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )'
+		. ' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )'
+		. ' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'
 		. ' ORDER BY '. ($morder ? $morder : $order)
 		;
 		$db->setQuery( $query, 0, $limit );
@@ -183,7 +185,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		$query = 'SELECT a.title AS title,'
 		. ' a.created AS created,'
 		. ' a.introtext AS text,'
-		. ' CONCAT_WS( "/", "'. $searchArchived .' ", u.title, b.title ) AS section,'
+		. ' CONCAT_WS( "/", '. $db->Quote($searchArchived) .', u.title, b.title ) AS section,'
 		. ' CONCAT("index.php?option=com_content&view=article&id=",a.id) AS href,'
 		. ' "2" AS browsernav'
 		. ' FROM #__content AS a'
@@ -193,11 +195,11 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. ' AND a.state = -1'
 		. ' AND u.published = 1'
 		. ' AND b.published = 1'
-		. ' AND a.access <= ' .$user->get( 'gid' )
-		. ' AND b.access <= ' .$user->get( 'gid' )
-		. ' AND u.access <= ' .$user->get( 'gid' )
-		. ' AND ( a.publish_up = "'.$nullDate.'" OR a.publish_up <= "'.$now.'" )'
-		. ' AND ( a.publish_down = "'.$nullDate.'" OR a.publish_down >= "'.$now.'" )'
+		. ' AND a.access <= '.(int) $user->get( 'aid' )
+		. ' AND b.access <= '.(int) $user->get( 'aid' )
+		. ' AND u.access <= '.(int) $user->get( 'aid' )
+		. ' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )'
+		. ' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )'
 		. ' ORDER BY '. $order
 		;
 		$db->setQuery( $query, 0, $limit );

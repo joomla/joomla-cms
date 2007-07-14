@@ -48,26 +48,6 @@ class modMenuHelper
 		$canMassMail		= $user->authorize('com_massmail', 'manage');
 		$canManageUsers		= $user->authorize('com_users', 'manage');
 
-		$query = 'SELECT a.id, a.title, a.name, COUNT( DISTINCT c.id ) AS numcat, COUNT( DISTINCT b.id ) AS numarc' .
-				' FROM #__sections AS a' .
-				' LEFT JOIN #__categories AS c ON c.section = a.id' .
-				' LEFT JOIN #__content AS b ON b.sectionid = a.id AND b.state = -1' .
-				' WHERE a.scope = "content"' .
-				' GROUP BY a.id' .
-				' ORDER BY a.ordering';
-		$db->setQuery($query);
-		$sections = $db->loadObjectList();
-		$nonemptySections = 0;
-		if (count($sections) > 0)
-		{
-			foreach ($sections as $section)
-			{
-				if ($section->numcat > 0) {
-					$nonemptySections ++;
-				}
-			}
-		}
-
 		// Menu Types
 		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php' );
 		$menuTypes 	= MenusHelper::getMenuTypelist();

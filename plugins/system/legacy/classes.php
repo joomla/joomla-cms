@@ -1766,7 +1766,7 @@ class mosAdminMenus
 
 		$query = 'SELECT * '
 		. ' FROM #__menu '
-		. ' WHERE type = "'.$type.'"'
+		. ' WHERE type = '.$db->Quote($type)
 		. ' AND published = 1'
 		. $and
 		;

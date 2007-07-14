@@ -78,10 +78,11 @@ function plgSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 			$order = 'a.name DESC';
 	}
 
+	$text = $db->getEscaped($text);
 	$query = 'SELECT a.name AS title,'
 	. ' CONCAT_WS( ", ", a.name, a.con_position, a.misc ) AS text,'
 	. ' "" AS created,'
-	. ' CONCAT_WS( " / ", "'.$section.'", b.title ) AS section,'
+	. ' CONCAT_WS( " / ", '.$db->Quote($section).', b.title ) AS section,'
 	. ' "2" AS browsernav,'
 	. ' CONCAT( "index.php?option=com_contact&view=contact&id=", a.id ) AS href'
 	. ' FROM #__contact_details AS a'
@@ -98,8 +99,8 @@ function plgSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 	. ' OR a.fax LIKE "%'.$text.'%" )'
 	. ' AND a.published = 1'
 	. ' AND b.published = 1'
-	. ' AND a.access <= ' .$user->get( 'gid' )
-	. ' AND b.access <= ' .$user->get( 'gid' )
+	. ' AND a.access <= '.(int) $user->get( 'aid' )
+	. ' AND b.access <= '.(int) $user->get( 'aid' )
 	. ' GROUP BY a.id'
 	. ' ORDER BY '. $order
 	;

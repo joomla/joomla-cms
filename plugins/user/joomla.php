@@ -50,8 +50,6 @@ class plgUserJoomla extends JPlugin
 	 */
 	function onBeforeDeleteUser($user)
 	{
-		global $mainframe;
-
 		$db =& JFactory::getDBO();
 		if($user =& JUser::getInstance( $user['id'] )) {
 			$username = $user->get('username');
@@ -59,7 +57,7 @@ class plgUserJoomla extends JPlugin
 			// This should never happen?!?
 			return false;
 		}
-		$db->setQuery('DELETE FROM #__session WHERE username = "'.$username.'"');
+		$db->setQuery('DELETE FROM #__session WHERE username = '.$db->Quote($username));
 		$db->Query();
 	}
 

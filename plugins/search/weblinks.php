@@ -65,6 +65,7 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	$wheres 	= array();
 	switch ($phrase) {
 		case 'exact':
+			$text = $db->getEscaped($text);
 			$wheres2 	= array();
 			$wheres2[] 	= "LOWER(a.url) LIKE '%$text%'";
 			$wheres2[] 	= "LOWER(a.description) LIKE '%$text%'";
@@ -78,6 +79,7 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 			$words 	= explode( ' ', $text );
 			$wheres = array();
 			foreach ($words as $word) {
+				$word = $db->getEscaped($word);
 				$wheres2 	= array();
 				$wheres2[] 	= "LOWER(a.url) LIKE '%$word%'";
 				$wheres2[] 	= "LOWER(a.description) LIKE '%$word%'";
@@ -113,7 +115,7 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	$query = 'SELECT a.title AS title,'
 	. ' a.description AS text,'
 	. ' a.date AS created,'
-	. ' CONCAT_WS( " / ", "'.$section.'", b.title ) AS section,'
+	. ' CONCAT_WS( " / ", '.$db->Quote($section).', b.title ) AS section,'
 	. ' "1" AS browsernav,'
 	. ' CONCAT("index.php?option=com_weblinks&view=weblink&id=", a.id ) AS href'
 	. ' FROM #__weblinks AS a'
@@ -121,7 +123,7 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	. ' WHERE ('. $where .')'
 	. ' AND a.published = 1'
 	. ' AND b.published = 1'
-	. ' AND b.access <= ' .$user->get( 'gid' )
+	. ' AND b.access <= '.(int) $user->get( 'aid' )
 	. ' ORDER BY '. $order
 	;
 	$db->setQuery( $query, 0, $limit );
