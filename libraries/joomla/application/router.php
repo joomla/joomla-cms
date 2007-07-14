@@ -259,7 +259,7 @@ class JRouter extends JObject
 			$vars = JRequest::get('get');
 
 			// Removed any appended variables
-			/* Do we need this - tcp
+			/* Do we need this - tcp -> Yes we do but it's broken ! I'll fix
 			foreach($vars as $key => $value)
 			{
 				$this->_vars[$key] = $value;
