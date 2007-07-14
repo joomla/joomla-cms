@@ -43,7 +43,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php
 			$divider = '';
 			$numIntroArticles = $this->total - $this->params->get('num_leading_articles');
-			$numIntroArticles = $columnArticles < $this->params->get('num_intro_articles') ? $numIntroArticles : $this->params->get('num_intro_articles');
+			$numIntroArticles = $numIntroArticles < $this->params->get('num_intro_articles') ? $numIntroArticles : $this->params->get('num_intro_articles');
 			for ($z = 0; $z < $this->params->def('num_columns', 2); $z ++) :
 				if ($z > 0) : $divider = " column_separator"; endif; ?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
