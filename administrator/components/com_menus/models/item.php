@@ -343,19 +343,35 @@ class MenusModelItem extends JModel
 				// moved to another menu, disconnect the old parent
 				$row->parent = 0;
 			}
+			$query		= 'SELECT parent FROM #__menu WHERE id = '.(int) $row->id;
+			$this->_db->setQuery( $query );
+			$oldParent	= $this->_db->loadResult();
+			if ($oldParent != $row->parent) {
+				// we have changed parents, so we have to fix the submenu values
+				if ($row->parent != 0) {
+					$query	= 'SELECT sublevel FROM #__menu WHERE id = '.(int) $row->parent;
+					$this->_db->setQuery( $query );
+					$sublevel = $this->_db->loadResult() + 1;
+				} else {
+					$sublevel = 0;
+				}
+				$row->sublevel = $sublevel;
+				$this->_setSubLevel( array( (int) $row->id ), $sublevel );
+			}
 		}
 		else
 		{
 			// if new item order last in appropriate group
 			$where = "menutype = " . $db->Quote($row->menutype) . " AND published >= 0 AND parent = ".(int) $row->parent;
 			$row->ordering = $row->getNextOrder( $where );
+
+			if( $row->parent != 0 ) {
+				$query = 'SELECT sublevel FROM #__menu WHERE id = '. (int) $row->parent;
+				$this->_db->setQuery($query);
+				$row->sublevel = $this->_db->loadResult() + 1;
+			}
 		}
 
-		if( $row->parent != 0 ) {
-			$query = 'SELECT sublevel FROM #__menu WHERE id = '. (int) $row->parent;
-			$this->_db->setQuery($query);
-			$row->sublevel = $this->_db->loadResult() + 1;
-		}
 		jimport('joomla.filter.output');
 		$row->name = JOutputFilter::ampReplace( $row->name );
 
@@ -402,6 +418,8 @@ class MenusModelItem extends JModel
 
 		return true;
 	}
+
+
 
 	/**
 	 * Delete one or more menu items
@@ -666,6 +684,28 @@ class MenusModelItem extends JModel
 		return $state;
 	}
 
-
+	/**
+	 * Sets the sublevel for menu items
+	 * 
+	 * @param array id values to set
+	 * @param int level to assign to the sublevel
+	 */
+	function _setSubLevel( $cid, $level ) 
+	{
+		$ids = implode( ',', $cid );
+		
+		$query	= 'UPDATE #__menu SET sublevel = '.(int) $level
+				.' WHERE id IN ('.$ids.')';
+		$this->_db->setQuery( $query );
+		$this->_db->query();
+		
+		$query	= 'SELECT id FROM #__menu WHERE parent IN ('.$ids.')';
+		$this->_db->setQuery( $query );
+		$cids = $this->_db->loadResultArray( 0 );
+		
+		if (!empty( $cids )) {
+			$this->_setSubLevel( $cids, $level + 1 );
+		}
+	}
 }
 ?>
