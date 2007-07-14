@@ -175,15 +175,18 @@ class JRouter extends JObject
 		$url = urldecode(str_replace($base, '', $full));
 		$url = preg_replace('/index[\d]?.php/', '', $url);
 		$url = trim($url , '/');
-
+	
 		/*
 		 * Handle empty URL : mysite/ or mysite/index.php
 		 */
 		if(empty($url) && !$uri->getQuery())
 		{	
-			// Set default router parameters
-			$item = $menu->getDefault();
-
+			if($itemid = JRequest::getVar('Itemid')) {
+				$item = $menu->getItem($itemid);
+			} else {
+				$item = $menu->getDefault();
+			}
+			
 			// Set the active menu item
 			$menu->setActive($item->id);
 
@@ -192,7 +195,7 @@ class JRouter extends JObject
 
 			//Set the itemid in the request
 			JRequest::setVar('Itemid',  $item->id);
-
+			
 			return true;
 		}
 
@@ -204,14 +207,14 @@ class JRouter extends JObject
 			// Set document link
 			$doc = & JFactory::getDocument();
 			$doc->setLink($base);
-
+			
 			if (!empty($url))
 			{
 				// Parse application route
 				if(!$itemid = $this->_parseApplicationRoute($url)) {
 					return false;
 				}
-
+			
 				// Set the active menu item
 				JRequest::setVar('Itemid', $itemid);
 				$menu->setActive($itemid);
@@ -233,10 +236,8 @@ class JRouter extends JObject
 
 				//Set the information in the request
 				JRequest::set($item->query, 'get', true );
+				JRequest::setVar('Itemid', $item->id);
 			}
-
-			//Set the itemid in the request
-			JRequest::setVar('Itemid', $item->id);
 
 			return true;
 		}
@@ -420,7 +421,13 @@ class JRouter extends JObject
 
 			//Get the option
 			$option = 'com_'.$segments[1];
-			$item   = $menu->getDefault();
+			
+			if($itemid = JRequest::getVar('Itemid')) {
+				$item = $menu->getItem($itemid);
+			} else {
+				$item = $menu->getDefault();
+			}
+
 			$itemid = $item->id;
 		}
 		else

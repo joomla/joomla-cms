@@ -142,8 +142,6 @@ class SearchController
 		$view->assignRef('results',		$rows);
 		$view->assignRef('lists',		$lists);
 		$view->assignRef('params',		$params);
-		//$view->assignRef('request' , $request);		// TODO: remove if unneded
-		//$view->assignRef('data'	, $data);			// TODO: remove if unneded
 
 		$view->display();
 	}
@@ -151,16 +149,17 @@ class SearchController
 	function search()
 	{
 		global $mainframe;
+		
 		$post = JRequest::get('post');
-
+		$post['Itemid'] = JRequest::getVar('Itemid');
+		
 		unset($post['task']);
 		unset($post['submit']);
 
 		$uri = new JURI();
 		$uri->setQuery($post);
-
+		
 		$mainframe->redirect(JRoute::_('index.php?'.$uri->getQuery(), false));
-
 	}
 
 	function getResults($searchword, $phrase, $ordering, $areas)
