@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Jul-2007 Johan Janssens
+ # Fixed [#6038] Section Manager - Delete Section When Not Empty
+
 14-Jul-2007 Enno Klasing
  # Fixed database error in the 'loadmodule' content plugin which was caused by a missing/removed table
  # Fixed [#6055] Search plugins return results with access level 'special' to 'registered' users

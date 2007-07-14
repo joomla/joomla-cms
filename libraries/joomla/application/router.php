@@ -180,7 +180,7 @@ class JRouter extends JObject
 		 * Handle empty URL : mysite/ or mysite/index.php
 		 */
 		if(empty($url) && !$uri->getQuery())
-		{
+		{	
 			// Set default router parameters
 			$item = $menu->getDefault();
 
@@ -213,28 +213,27 @@ class JRouter extends JObject
 				}
 
 				// Set the active menu item
+				JRequest::setVar('Itemid', $itemid);
 				$menu->setActive($itemid);
-
+			}
+				
+			if(!empty($url))
+			{
 				// Parse component route
 				$vars = $this->_parseComponentRoute($url);
 
 				//Set the variables
 				$this->_vars = array_merge($this->_vars, $vars);
+				JRequest::set($this->_vars, 'get', true );
 			}
+			else
+			{
+				//Set active menu item
+				$item =& $menu->getActive();
 
-			//Set active menu item
-			$item =& $menu->getActive();
-
-			// If the option is the same in menu item and in request then set the menu item values to the request
-			if ($item->query['option'] == $this->_vars['option']) {
-				if (isset($this->_vars['view']) && isset($item->query['view']) && ($item->query['view'] != $this->_vars['view'])) {
-					unset($item->query['layout']);
-				}
+				//Set the information in the request
 				JRequest::set($item->query, 'get', true );
 			}
-
-			//Set the route information in the request
-			JRequest::set($this->_vars, 'get', true );
 
 			//Set the itemid in the request
 			JRequest::setVar('Itemid', $item->id);
@@ -269,19 +268,15 @@ class JRouter extends JObject
 			}
 			*/
 
-			// If the option is the same in menu item and in request then set the menu item values to the request
-			if ($item->query['option'] == $vars['option']) {
-				if (isset($vars['view']) && isset($item->query['view']) && ($item->query['view'] != $vars['view'])) {
-					unset($item->query['layout']);
-				}
-				JRequest::set($item->query, 'get', true );
-			}
+			//Set the information in the request
+			//JRequest::set($item->query, 'get', false );
+
 
 			//Set the route information in the request
 			JRequest::set($vars, 'get', true );
 
 			//Set the itemid in the request
-			JRequest::setVar('Itemid', $itemid);
+			//JRequest::setVar('Itemid', $itemid);
 			return true;
 		}
 
@@ -306,96 +301,104 @@ class JRouter extends JObject
 	 */
 	function build($value)
 	{
-		static $strings;
-
-		if (!$strings) {
-			$strings = array();
-		}
-
 		// Replace all &amp; with & - ensures cache integrity
-		$string = str_replace('&amp;', '&', $value);
+		$url = str_replace('&amp;', '&', $value);
 
 		// Create full URL if we are only appending variables to it
-		if(substr($string, 0, 1) == '&')
+		if(substr($url, 0, 1) == '&')
 		{
 			$vars = array();
-			parse_str($string, $vars);
+			parse_str($url, $vars);
 
 			$vars = array_merge($this->_vars, $vars);
-			$string = 'index.php?'.JURI::_buildQuery($vars);
+			$url = 'index.php?'.JURI::_buildQuery($vars);
+		}
+		
+		// Can this URL be build
+		if(preg_match('/^(([^:\/\?#]+):)/i', $url) || strcasecmp(substr($url, 0, 9), 'index.php')) {
+			return $url;
 		}
 
-		if (!isset( $strings[$string] ))
+		// Decompose link into url component parts
+		$uri  =& JURI::getInstance(JURI::base().$url);
+		$menu =& JMenu::getInstance();
+		
+		/*
+		 * Build unrouted URL
+		 */ 
+		if(!$this->_mode)
 		{
-			// Decompose link into url component parts
-			$uri  =& JURI::getInstance(JURI::base().$string);
-			$menu =& JMenu::getInstance();
-
-			// If the itemid isn't set in the URL use default
-			if(!$itemid = $uri->getVar('Itemid'))
+			if($uri->getVar('Itemid') && count($uri->getQuery(true)) == 1)
 			{
-				$default = $menu->getDefault();
-				$uri->setVar('Itemid', JRequest::getInt('Itemid', $default->id));
-			}
-
-			// Get the active menu item
-			$item = $menu->getItem($uri->getVar('Itemid'));
-
-			// If the option isn't set in the URL use the itemid
-			if(!$option = $uri->getVar('option')) {
-				$uri->setVar('option', $item->component);
-			}
-
-			/*
-		 	 * Build routed URL : mysite/route/index.php?var=x
-		 	 */
-			if ($this->_mode && !preg_match('/^(([^:\/\?#]+):)/i', $string) && !strcasecmp(substr($string, 0, 9), 'index.php'))
-			{
-				$route = ''; //the route created
-
-				$query = $uri->getQuery(true);
-
-				//Built application route
-				$app_route = $this->_buildApplicationRoute($query);
-
-				//Build component route
-				$com_route = $this->_buildComponentRoute($query);
-
-				//Set query again in the URI
-				$uri->setQuery($query);
-
-				//Check if link contained fragment identifiers (ex. #foo)
-				$fragment = null;
-				if ($fragment = $uri->getFragment())
-				{
-					// ensure fragment identifiers are compatible with HTML4
-					if (preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $fragment)) {
-						$fragment = '#'.$fragment;
-					}
-				}
-
-				//Check if the component has left any query information unhandled
-				if($query = $uri->getQuery()) {
-					$query = '?'.$query;
-				}
-
-				//Create the route
-				$url = $app_route.$com_route.$fragment.$query;
-
-				//Prepend the base URI if we are not using mod_rewrite
-				if ($this->_mode == 1) {
-					$url = 'index.php/'.$url;
-				}
-
-				$strings[$string] = $url;
-
+				// Get the active menu item
+				$itemid = $uri->getVar('Itemid');
+				$item = $menu->getItem($itemid);
+				$uri->setQuery($item->query);
+				$uri->setVar('Itemid', $itemid);
+				$url = $uri->toString();
 				return $url;
-			}
-
-			$strings[$string] = 'index.php'.$uri->toString(array('query', 'fragment'));
+			} 
 		}
 
-		return $strings[$string];
+		// If the itemid isn't set in the URL use default
+		if(!$itemid = $uri->getVar('Itemid'))
+		{
+			$default = $menu->getDefault();
+			$uri->setVar('Itemid', JRequest::getInt('Itemid', $default->id));
+		}
+
+		$item = $menu->getItem($uri->getVar('Itemid'));
+
+		// If the option isn't set in the URL use the itemid
+		if(!$option = $uri->getVar('option')) {
+			$uri->setVar('option', $item->component);
+		}
+		
+		$url = $uri->toString(array('query', 'fragment'));
+		
+		/*
+		 * Build routed URL : mysite/route/index.php?var=x
+		 */
+		if ($this->_mode)
+		{
+			$route = ''; //the route created
+
+			$query = $uri->getQuery(true);
+
+			//Built application route
+			$app_route = $this->_buildApplicationRoute($query);
+
+			//Build component route
+			$com_route = $this->_buildComponentRoute($query);
+
+			//Set query again in the URI
+			$uri->setQuery($query);
+
+			//Check if link contained fragment identifiers (ex. #foo)
+			$fragment = null;
+			if ($fragment = $uri->getFragment())
+			{
+				// ensure fragment identifiers are compatible with HTML4
+				if (preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $fragment)) {
+					$fragment = '#'.$fragment;
+				}
+			}
+
+			//Check if the component has left any query information unhandled
+			if($query = $uri->getQuery()) {
+				$query = '?'.$query;
+			}
+
+			//Create the route
+			$url = $app_route.$com_route.$fragment.$query;
+
+			//Prepend the base URI if we are not using mod_rewrite
+			if ($this->_mode == 1) {
+				$url = 'index.php/'.$url;
+			}
+		}
+		
+		return $url;
 	}
 
 	/**
@@ -442,7 +445,7 @@ class JRouter extends JObject
 		if (empty($this->_vars['option'])) {
 			$this->_vars['option'] = $option;
 		}
-
+		
 		return $itemid;
 	}
 

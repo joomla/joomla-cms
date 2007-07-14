@@ -385,7 +385,7 @@ function removeSections( $cid, $scope, $option )
 	{
 		$cids = implode( ', ', $err );
 		$msg = JText::sprintf( 'DESCCANNOTBEREMOVED', $cids );
-		$mainframe->redirect( 'index.php?option='. $option .'&amp;scope='. $scope, $msg );
+		$mainframe->redirect( 'index.php?option='. $option .'&scope='. $scope, $msg );
 	}
 
 	$names = implode( ', ', $name );
