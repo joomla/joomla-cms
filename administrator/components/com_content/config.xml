@@ -66,15 +66,15 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_pdf_icon" type="radio" default="1" label="PDF Icon" description="">
+		<param name="show_pdf_icon" type="radio" default="1" label="PDF Icon" description="PARAMPDF">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_print_icon" type="radio" default="1" label="Print Icon" description="">
+		<param name="show_print_icon" type="radio" default="1" label="Print Icon" description="PARAMPRINT">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_email_icon" type="radio" default="1" label="Email Icon" description="">
+		<param name="show_email_icon" type="radio" default="1" label="Email Icon" description="PARAMEMAIL">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
