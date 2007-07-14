@@ -138,13 +138,15 @@ class JFile
 		}
 
 		// Do NOT use ftp if it is not enabled
-		if ($FTPOptions['enabled'] == 1) {
+		if ($FTPOptions['enabled'] == 1) 
+		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 		}
 
-		foreach ($files as $file) {
+		foreach ($files as $file) 
+		{
 			$file = JPath::clean($file);
 
 			// In case of restricted permissions we zap it one way or the other

@@ -381,7 +381,8 @@ class JFolder
 
 		// read the source directory
 		$handle = opendir($path);
-		while ($file = readdir($handle)) {
+		while ($file = readdir($handle)) 
+		{
 			$dir = $path.DS.$file;
 			$isDir = is_dir($dir);
 			if (($file != '.') && ($file != '..') && ($file != '.svn') && ($file != 'CVS')) {
