@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die; ?>
 
 <div class="componentheading">
-	<?php echo JText::_('Lost your Password?'); ?>
+	<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?>
 </div>
 
 <form action="index.php?option=com_user&amp;task=requestreset" method="post" class="josForm form-validate">
