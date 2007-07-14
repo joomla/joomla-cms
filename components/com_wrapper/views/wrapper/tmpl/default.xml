@@ -25,7 +25,7 @@
 				<option value="0">No</option>
 				<option value="1">Yes</option>
 			</param>
-			<param name="add_scheme" type="radio" default="1" label="Auto Add HTTP Scheme" description="PARAMADD">
+			<param name="add_scheme" type="radio" default="1" label="Auto Add" description="PARAMADD">
 				<option value="0">No</option>
 				<option value="1">Yes</option>
 			</param>
