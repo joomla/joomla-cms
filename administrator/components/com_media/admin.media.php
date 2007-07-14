@@ -35,7 +35,7 @@ else
 	define('COM_MEDIA_BASEURL', JURI::base().'images/stories');
 }
 
-$folder			= JRequest::getVar('folder', '', '', 'path');
+$folder			= JRequest::getVar('folder', '', '', 'string'); //Jinx : path filter doesn't work
 $folderCheck	= JRequest::getVar('folder', null, '', 'string', JREQUEST_ALLOWRAW);
 if (($folderCheck !== null) && ($folder !== $folderCheck)) {
 	JError::raiseWarning(403, JText::_('WARNDIRNAME'));
