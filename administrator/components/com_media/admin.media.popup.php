@@ -129,17 +129,17 @@ class MediaViews
 	function renderImage($img, $file, $info, $size, $listdir)
 	{
 		$img_file	= basename($img);
-		$insert_url = '/'.rawurlencode($img_file);
 		$filesize	= MediaHelper::parseSize($size);
 
 		if ($listdir)
 		{
-			//$listdir .= '/';
 			$img_url = COM_MEDIA_BASEURL.'/'.$listdir.'/'.rawurlencode($img_file);
+			$insert_url = '/'.rawurlencode($img_file);
 		}
 		else
 		{
 			$img_url = COM_MEDIA_BASEURL.'/'.rawurlencode($img_file);
+			$insert_url = rawurlencode($img_file);
 		}
 
 		if (($info[0] > 70) || ($info[0] > 70)) {

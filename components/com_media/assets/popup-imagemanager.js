@@ -146,15 +146,19 @@ var JImageManager = new Class({
 		}
 
 		var folders = currentFolder.split('/');
-		var search = '/';
+		var search = '';
 
 		for(var i = 0; i < folders.length - 1; i++) {
 			search += folders[i];
+			search += '/';
 		}
+
+		// remove the trailing slash
+		search = search.substring(0, search.length - 1);
 
 		for(var i = 0; i < this.folderlist.length; i++)
 		{
-			var thisFolder = this.folderlist.options[i].text;
+			var thisFolder = this.folderlist.options[i].value;
 			if(thisFolder == search)
 			{
 				this.folderlist.selectedIndex = i;
@@ -166,7 +170,7 @@ var JImageManager = new Class({
 	},
 
 	populateFields: function(file) {
-		$("f_url").value = "images/stories"+this.folderlist.options[this.folderlist.selectedIndex].value+file;
+		$("f_url").value = "images/stories/"+this.folderlist.options[this.folderlist.selectedIndex].value+file;
 	},
 
 	showMessage: function(text)
