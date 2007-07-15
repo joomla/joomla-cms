@@ -252,7 +252,7 @@ class JFolder
 		}
 
 		// Remove all the files in folder if they exist
-		$files = JFolder::files($path, '.', false, true);
+		$files = JFolder::files($path, '.', false, true, array());
 		if (count($files)) {
 			jimport('joomla.filesystem.file');
 			if (JFile::delete($files) !== true) {
@@ -262,7 +262,7 @@ class JFolder
 		}
 
 		// Remove sub-folders of folder
-		$folders = JFolder::folders($path, '.', false, true);
+		$folders = JFolder::folders($path, '.', false, true, array());
 		foreach ($folders as $folder) {
 			if (JFolder::delete($folder) !== true) {
 				// JFolder::delete throws an error
@@ -362,10 +362,11 @@ class JFolder
 	 * @param	string	$filter		A filter for file names
 	 * @param	mixed	$recurse	True to recursively search into sub-folders, or an integer to specify the maximum depth
 	 * @param	boolean	$fullpath	True to return the full path to the file
+	 * @param	array	$exclude	Array with names of files which should not be shown in the result
 	 * @return	array	Files in the given folder
 	 * @since 1.5
 	 */
-	function files($path, $filter = '.', $recurse = false, $fullpath = false)
+	function files($path, $filter = '.', $recurse = false, $fullpath = false, $exclude=array('.svn', 'CVS'))
 	{
 		// Initialize variables
 		$arr = array ();
@@ -385,7 +386,7 @@ class JFolder
 		{
 			$dir = $path.DS.$file;
 			$isDir = is_dir($dir);
-			if (($file != '.') && ($file != '..') && ($file != '.svn') && ($file != 'CVS')) {
+			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude))) {
 				if ($isDir) {
 					if ($recurse) {
 						if (is_integer($recurse)) {
@@ -418,10 +419,11 @@ class JFolder
 	 * @param	string	$filter		A filter for folder names
 	 * @param	mixed	$recurse	True to recursively search into sub-folders, or an integer to specify the maximum depth
 	 * @param	boolean	$fullpath	True to return the full path to the folders
+	 * @param	array	$exclude	Array with names of folders which should not be shown in the result
 	 * @return	array	Folders in the given folder
 	 * @since 1.5
 	 */
-	function folders($path, $filter = '.', $recurse = false, $fullpath = false)
+	function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude=array('.svn', 'CVS'))
 	{
 		// Initialize variables
 		$arr = array ();
@@ -440,7 +442,7 @@ class JFolder
 		while ($file = readdir($handle)) {
 			$dir = $path.DS.$file;
 			$isDir = is_dir($dir);
-			if (($file != '.') && ($file != '..') && ($file != '.svn') && ($file != 'CVS') && $isDir) {
+			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && $isDir) {
 				// removes SVN directores from list
 				if (preg_match("/$filter/", $file)) {
 					if ($fullpath) {

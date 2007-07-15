@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Jul-2007 Enno Klasing
+ # Fixed [#6003] Removing module fails
+ + Added optional "exclude" parameter to JFolder::files and JFolder::folders
+
 14-Jul-2007 Rob Schley
  # Fixed [topic,190665] Error after enabling Cache plugin with Cache enabled at Configuration
  # Fixed [topic,189910] Cant change dir in media manager
