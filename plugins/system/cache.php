@@ -103,7 +103,3 @@ class  plgSystemCache extends JPlugin
 		$this->_cache->store();
 	}
 }
-
-// Attach sef handler to event dispatcher
-$dispatcher = & JEventDispatcher::getInstance();
-$dispatcher->attach(new plgSystemCache($dispatcher));
