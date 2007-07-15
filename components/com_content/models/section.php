@@ -231,7 +231,7 @@ class ContentModelSection extends JModel
 		{
 			// Lets get the information for the current section
 			if ($this->_id) {
-				$where = ' WHERE id = '. $this->_id;
+				$where = ' WHERE id = '. (int) $this->_id;
 			} else {
 				$where = null;
 			}
@@ -282,8 +282,8 @@ class ContentModelSection extends JModel
 			} else {
 				$xwhere = ' AND a.published = 1';
 				$xwhere2 = ' AND b.state = 1' .
-						' AND ( b.publish_up = "'.$nullDate.'" OR b.publish_up <= "'.$now.'" )' .
-						' AND ( b.publish_down = "'.$nullDate.'" OR b.publish_down >= "'.$now.'" )';
+						' AND ( b.publish_up = '.$this->_db->Quote($nullDate).' OR b.publish_up <= '.$this->_db->Quote($now).' )' .
+						' AND ( b.publish_down = '.$this->_db->Quote($nullDate).' OR b.publish_down >= '.$this->_db->Quote($now).' )';
 			}
 
 			// Determine whether to show/hide the empty categories and sections
@@ -307,7 +307,7 @@ class ContentModelSection extends JModel
 					' FROM #__categories AS a' .
 					' LEFT JOIN #__content AS b ON b.catid = a.id'.
 					$xwhere2 .
-					' WHERE a.section = '.$this->_id.
+					' WHERE a.section = '.(int) $this->_id.
 					$xwhere.
 					$access_check .
 					' GROUP BY a.id'.$empty.$empty_sec .
@@ -365,7 +365,7 @@ class ContentModelSection extends JModel
 
 			// Get the information for the current section
 			if ($this->_id) {
-				$and = ' AND a.section = '.$this->_id;
+				$and = ' AND a.section = '.(int) $this->_id;
 			} else {
 				$and = null;
 			}
@@ -375,8 +375,8 @@ class ContentModelSection extends JModel
 				' FROM #__categories AS a' .
 				' INNER JOIN #__content AS b ON b.catid = a.id' .
 				' AND b.state = 1' .
-				' AND ( b.publish_up = "'.$nullDate.'" OR b.publish_up <= "'.$now.'" )' .
-				' AND ( b.publish_down = "'.$nullDate.'" OR b.publish_down >= "'.$now.'" )';
+				' AND ( b.publish_up = '.$this->_db->Quote($nullDate).' OR b.publish_up <= '.$this->_db->Quote($now).' )' .
+				' AND ( b.publish_down = '.$this->_db->Quote($nullDate).' OR b.publish_down >= '.$this->_db->Quote($now).' )';
 				' WHERE a.published = 1' .
 				$and .
 				' AND a.access <= '.(int) $aid .
@@ -420,7 +420,7 @@ class ContentModelSection extends JModel
 	function _buildContentOrderBy($state = 1)
 	{
 		$filter_order		= JRequest::getCmd('filter_order');
-		$filter_order_Dir	= JRequest::getCmd('filter_order_Dir');
+		$filter_order_Dir	= JRequest::getWord('filter_order_Dir');
 
 		$orderby = ' ORDER BY ';
 		if ($filter_order && $filter_order_Dir) {
@@ -437,8 +437,10 @@ class ContentModelSection extends JModel
 			case -1:
 				// Special ordering for archive articles
 				$orderby_sec	= $params->def('orderby', 'rdate');
-				$order_sec		= ContentHelperQuery::orderbySecondary($orderby_sec);
+				$secondary		= ContentHelperQuery::orderbySecondary($orderby_sec);
+				$primary		= '';
 				break;
+
 			case 1:
 			default:
 				$orderby_sec	= $params->def('orderby_sec', 'rdate');
@@ -488,8 +490,8 @@ class ContentModelSection extends JModel
 					$where .= ' AND a.state >= 0';
 				} else {
 					$where .= ' AND a.state = 1' .
-							' AND ( publish_up = "'.$nullDate.'" OR publish_up <= "'.$now.'" )' .
-							' AND ( publish_down = "'.$nullDate.'" OR publish_down >= "'.$now.'" )';
+							' AND ( publish_up = '.$this->_db->Quote($nullDate).' OR publish_up <= '.$this->_db->Quote($now).' )' .
+							' AND ( publish_down = '.$this->_db->Quote($nullDate).' OR publish_down >= '.$this->_db->Quote($now).' )';
 				}
 				break;
 
@@ -499,12 +501,13 @@ class ContentModelSection extends JModel
 				$year	= JRequest::getInt( 'year', date('Y') );
 				$month	= JRequest::getInt( 'month', date('m') );
 
-				$where .= ' AND a.state = "-1"';
-				$where .= ' AND YEAR( a.created ) = '.$year;
-				$where .= ' AND MONTH( a.created ) = '.$month;
+				$where .= ' AND a.state = -1';
+				$where .= ' AND YEAR( a.created ) = '.(int) $year;
+				$where .= ' AND MONTH( a.created ) = '.(int) $month;
 				break;
+
 			default:
-				$where .= ' AND a.state = "'.$state.'"';
+				$where .= ' AND a.state = '.(int) $state;
 				break;
 		}
 
@@ -522,15 +525,15 @@ class ContentModelSection extends JModel
 				switch ($params->get('filter_type'))
 				{
 					case 'title' :
-						$where .= ' AND LOWER( a.title ) LIKE "%'.$filter.'%"';
+						$where .= ' AND LOWER( a.title ) LIKE "%'.$this->_db->getEscaped($filter).'%"';
 						break;
 
 					case 'author' :
-						$where .= ' AND ( ( LOWER( u.name ) LIKE "%'.$filter.'%" ) OR ( LOWER( a.created_by_alias ) LIKE "%'.$filter.'%" ) )';
+						$where .= ' AND ( ( LOWER( u.name ) LIKE "%'.$this->_db->getEscaped($filter).'%" ) OR ( LOWER( a.created_by_alias ) LIKE "%'.$this->_db->getEscaped($filter).'%" ) )';
 						break;
 
 					case 'hits' :
-						$where .= ' AND a.hits LIKE "%'.$filter.'%"';
+						$where .= ' AND a.hits LIKE "%'.$this->_db->getEscaped($filter).'%"';
 						break;
 				}
 			}

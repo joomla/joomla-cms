@@ -174,7 +174,7 @@ class ContentModelFrontpage extends JModel
 
 		jimport('joomla.utilities.date');
 		$jnow		= new JDate();
-		$now			= $jnow->toMySQL();
+		$now		= $jnow->toMySQL();
 
 		// Get the page/component configuration
 		$params = &$mainframe->getPageParameters();
@@ -194,8 +194,8 @@ class ContentModelFrontpage extends JModel
 			$where .= ' AND a.state >= 0';
 		} else {
 			$where .= ' AND a.state = 1' .
-					' AND ( publish_up = \''.$nullDate.'\' OR publish_up <= \''.$now.'\' )' .
-					' AND ( publish_down = \''.$nullDate.'\' OR publish_down >= \''.$now.'\' )';
+					' AND ( publish_up = '.$this->_db->Quote($nullDate).' OR publish_up <= '.$this->_db->Quote($now).' )' .
+					' AND ( publish_down = '.$this->_db->Quote($nullDate).' OR publish_down >= '.$this->_db->Quote($now).' )';
 		}
 
 		return $where;
