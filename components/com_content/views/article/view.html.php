@@ -207,7 +207,7 @@ class ContentViewArticle extends ContentView
 			// TODO: Do we allow non-sectioned articles from the frontend??
 			$article->sectionid = JRequest::getVar('sectionid', 0, '', 'int');
 			$db = JFactory::getDBO();
-			$db->setQuery('SELECT title FROM #__sections WHERE id = '.$article->sectionid);
+			$db->setQuery('SELECT title FROM #__sections WHERE id = '.(int) $article->sectionid);
 			$article->section = $db->loadResult();
 		}
 
@@ -268,7 +268,7 @@ class ContentViewArticle extends ContentView
 
 		foreach ($sections as $section)
 		{
-			$section_list[] = $section->id;
+			$section_list[] = (int) $section->id;
 			// get the type name - which is a special category
 			if ($article->sectionid) {
 				if ($section->id == $article->sectionid) {
@@ -333,7 +333,7 @@ class ContentViewArticle extends ContentView
 
 		// Radio Buttons: Should the article be added to the frontpage
 		if($article->id) {
-			$query = 'SELECT content_id FROM #__content_frontpage WHERE content_id = '. $article->id;
+			$query = 'SELECT content_id FROM #__content_frontpage WHERE content_id = '. (int) $article->id;
 			$db->setQuery($query);
 			$article->frontpage = $db->loadResult();
 		} else {

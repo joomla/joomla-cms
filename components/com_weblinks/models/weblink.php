@@ -244,7 +244,7 @@ class WeblinksModelWeblink extends JModel
 					' cc.published AS cat_pub, cc.access AS cat_access'.
 					' FROM #__weblinks AS w' .
 					' LEFT JOIN #__categories AS cc ON cc.id = w.catid' .
-					' WHERE w.id = '. $this->_id;
+					' WHERE w.id = '. (int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 			return (boolean) $this->_data;

@@ -78,7 +78,7 @@ class UserModelReset extends JModel
 
 		$query	= 'UPDATE #__users'
 				. ' SET activation = '.$db->Quote($token)
-				. ' WHERE id = '.$db->Quote($id)
+				. ' WHERE id = '.(int) $id
 				. ' AND block = 0';
 
 		$db->setQuery($query);

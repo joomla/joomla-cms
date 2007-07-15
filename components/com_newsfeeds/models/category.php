@@ -193,7 +193,7 @@ class NewsfeedsModelCategory extends JModel
 			$query = 'SELECT c.*,' .
 				' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as slug '.
 				' FROM #__categories AS c' .
-				' WHERE c.id = '. $this->_id .
+				' WHERE c.id = '. (int) $this->_id .
 				' AND c.section = "com_newsfeeds"';
 			$this->_db->setQuery($query, 0, 1);
 			$this->_category = $this->_db->loadObject();
@@ -206,7 +206,7 @@ class NewsfeedsModelCategory extends JModel
 		// We need to get a list of all weblinks in the given category
 		$query = 'SELECT *' .
 			' FROM #__newsfeeds' .
-			' WHERE catid = '.$this->_id.
+			' WHERE catid = '.(int) $this->_id.
 			' AND published = 1' .
 			' ORDER BY ordering';
 

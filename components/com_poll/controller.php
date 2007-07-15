@@ -78,7 +78,7 @@ class PollController extends JController
 
 			$query = 'SELECT MIN( date ) AS mindate, MAX( date ) AS maxdate'
 				. ' FROM #__poll_date'
-				. ' WHERE poll_id = '. $poll->id;
+				. ' WHERE poll_id = '. (int) $poll->id;
 			$db->setQuery( $query );
 			$dates = $db->loadObject();
 
@@ -90,7 +90,7 @@ class PollController extends JController
 			$query = 'SELECT a.id, a.text, a.hits, b.voters '
 				. ' FROM #__poll_data AS a'
 				. ' INNER JOIN #__polls AS b ON b.id = a.pollid'
-				. ' WHERE a.pollid = '. $poll->id
+				. ' WHERE a.pollid = '. (int) $poll->id
 				. ' AND a.text <> ""'
 				. ' ORDER BY a.hits DESC';
 			$db->setQuery( $query );

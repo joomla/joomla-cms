@@ -550,7 +550,7 @@ class UserController extends JController
 		{
 			$query = 'SELECT email, sendEmail' .
 					' FROM #__users' .
-					' WHERE id = '. $id;
+					' WHERE id = '. (int) $id;
 			$db->setQuery( $query );
 			$rows = $db->loadObjectList();
 

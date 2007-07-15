@@ -202,7 +202,7 @@ class WeblinksModelCategory extends JModel
 			$query = 'SELECT c.*, ' .
 				' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as slug '.
 				' FROM #__categories AS c' .
-				' WHERE c.id = '. $this->_id .
+				' WHERE c.id = '. (int) $this->_id .
 				' AND c.section = "com_weblinks"';
 			$this->_db->setQuery($query, 0, 1);
 			$this->_category = $this->_db->loadObject();
@@ -215,10 +215,13 @@ class WeblinksModelCategory extends JModel
 		$filter_order		= $this->getState('filter_order');
 		$filter_order_dir	= $this->getState('filter_order_dir');
 
+		$filter_order		= JInputFilter::clean($filter_order, 'cmd');
+		$filter_order_dir	= JInputFilter::clean($filter_order_dir, 'word');
+
 		// We need to get a list of all weblinks in the given category
 		$query = 'SELECT *' .
 			' FROM #__weblinks' .
-			' WHERE catid = '. $this->_id.
+			' WHERE catid = '. (int) $this->_id.
 			' AND published = 1' .
 			' AND archived = 0'.
 			' ORDER BY '. $filter_order .' '. $filter_order_dir .', ordering';

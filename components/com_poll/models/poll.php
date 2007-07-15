@@ -44,13 +44,13 @@ class PollModelPoll extends JModel
 
 		$query = 'UPDATE #__polls'
 			. ' SET voters = voters + 1'
-			. ' WHERE id = ' . $poll_id
+			. ' WHERE id = ' . (int) $poll_id
 			;
 		$db->setQuery( $query );
 		$db->query();
 
 		$query = 'INSERT INTO #__poll_date'
-			. ' SET date = NOW(), vote_id = '. $option_id . ', poll_id = ' . $poll_id
+			. ' SET date = NOW(), vote_id = '. (int) $option_id . ', poll_id = ' . (int) $poll_id
 		;
 		$db->setQuery( $query );
 		$db->query();
