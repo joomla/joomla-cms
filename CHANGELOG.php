@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 14-Jul-2007 Rob Schley
+ # Fixed [topic,190665] Error after enabling Cache plugin with Cache enabled at Configuration
  # Fixed [topic,189910] Cant change dir in media manager
  ! Note: Image upload via the pop-up box is still quite broken.
  # Fixed [topic,189389] Usability and module positions

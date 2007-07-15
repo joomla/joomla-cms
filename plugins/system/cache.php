@@ -39,7 +39,7 @@ class  plgSystemCache extends JPlugin
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
-	function plgCache(& $subject)
+	function plgSystemCache(& $subject)
 	{
 		parent::__construct($subject);
 
@@ -106,4 +106,4 @@ class  plgSystemCache extends JPlugin
 
 // Attach sef handler to event dispatcher
 $dispatcher = & JEventDispatcher::getInstance();
-$dispatcher->attach(new plgCache($dispatcher));
+$dispatcher->attach(new plgSystemCache($dispatcher));
