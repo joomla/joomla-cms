@@ -40,6 +40,7 @@ Legend:
 15-Jul-2007 Enno Klasing
  # Fixed [#6003] Removing module fails
  + Added optional "exclude" parameter to JFolder::files and JFolder::folders
+ ^ SQL queries in the debug plugin are now displayed with linebreaks before keywords
 
 14-Jul-2007 Rob Schley
  # Fixed [topic,190665] Error after enabling Cache plugin with Cache enabled at Configuration

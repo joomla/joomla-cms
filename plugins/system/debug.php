@@ -77,6 +77,11 @@ class  plgSystemDebug extends JPlugin
 			$geshi->set_header_type(GESHI_HEADER_DIV);
 			//$geshi->enable_line_numbers( GESHI_FANCY_LINE_NONE );
 
+			$newlineKeywords = '/<span style="color: #993333; font-weight: bold;">'
+				.'(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)'
+				.'<\\/span>/i'
+			;
+
 			echo '<p>';
 			echo '<h4>'.JText::sprintf( 'Queries logged',  $db->_ticker ).'</h4>';
 			echo '<ol>';
@@ -84,6 +89,7 @@ class  plgSystemDebug extends JPlugin
 			{
 				$geshi->set_source($sql);
 				$text = $geshi->parse_code();
+				$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
 				echo '<li>'.$text.'</li>';
 			}
 			echo '</ol></p>';
