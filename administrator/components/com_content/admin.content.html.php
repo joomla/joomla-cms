@@ -678,7 +678,7 @@ class ContentView
 		$document	=& JFactory::getDocument();
 		$editor		=& JFactory::getEditor();
 
-		$document->addScript('../includes/js/joomla/caption.js');
+		JHTML::_('behavior.caption');
 
 		?>
 		<script>

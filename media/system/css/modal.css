@@ -1,0 +1,72 @@
+.body-overlayed embed, .body-overlayed object, .body-overlayed select
+{
+	visibility:				hidden;
+}
+
+#sbox-window embed, #sbox-window object, #sbox-window select
+{
+	visibility:				visible;
+}
+
+#sbox-overlay
+{
+	position:				absolute;
+	background-color:		#000;
+}
+
+#sbox-window
+{
+	position:				absolute;
+	background-color:		#000;
+	text-align:				left;
+	overflow:				visible;
+	padding:				10px;
+	-moz-border-radius:		3px;
+}
+
+#sbox-btn-close
+{
+	position:				absolute;
+	width:					30px;
+	height:					30px;
+	right:					-15px;
+	top:					-15px;
+	background:				url(../images/closebox.png) no-repeat top left;
+	border:					none;
+}
+
+.sbox-loading #sbox-content
+{
+	background-image:		url(../images/spinner.gif);
+	background-repeat:		no-repeat;
+	background-position:	center;
+}
+
+#sbox-content
+{
+	clear:					both;
+	overflow:				auto;
+	background-color:		#fff;
+	height:					100%;
+	width:					100%;
+}
+
+.sbox-content-image#sbox-content
+{
+	overflow:				visible;
+}
+
+#sbox-image
+{
+	display:				block;
+}
+
+.sbox-content-image img
+{
+	display:				block;
+}
+
+.sbox-content-iframe#sbox-content
+{
+	overflow:				visible;
+}

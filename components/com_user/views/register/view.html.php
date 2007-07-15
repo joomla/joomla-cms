@@ -38,8 +38,8 @@ class UserViewRegister extends JView
 	 	$document->setTitle( JText::_( 'Registration' ) );
 		$pathway->addItem( JText::_( 'New' ));
 
-		$doc = & JFactory::getDocument();
-		$doc->addScript('includes/js/joomla/validate.js');
+		// Load the form validation behavior
+		JHTML::_('behavior.formvalidation');
 
 		$user =& JFactory::getUser();
 		$this->assignRef('user', $user);

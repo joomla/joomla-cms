@@ -56,8 +56,8 @@ class plgButtonPagebreak extends JPlugin
 
 		$css = "\t.button1-left .pagebreak { background: url($url/plugins/editors-xtd/pagebreak.gif) 100% 0 no-repeat; }";
 		$doc->addStyleDeclaration($css);
-		$doc->addScript($url.'includes/js/joomla/modal.js');
-		$doc->addStyleSheet($url.'includes/js/joomla/modal.css');
+
+		JHTML::_('behavior.modal');
 
 		$button = new JObject();
 		$button->set('modal', true);

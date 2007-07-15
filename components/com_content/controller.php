@@ -34,6 +34,8 @@ class ContentController extends JController
 	 */
 	function display()
 	{
+		JHTML::_('behavior.caption');
+
 		// View caching logic -- simple... are we logged in?
 		$user = &JFactory::getUser();
 		if (!$user->get('gid')) {
@@ -57,18 +59,18 @@ class ContentController extends JController
 		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('com_content', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
-		
+
 		// Create the view
 		$view = & $this->getView('article', 'html');
 
 		// Get/Create the model
 		$model = & $this->getModel('Article');
-		
+
 		// new record
 		if (!($access->canEdit || $access->canEditOwn)) {
 			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}
-		
+
 		if( $model->get('id') > 1 && $user->get('gid') <= 19 && $model->get('created_by') != $user->id ) {
 			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}
@@ -125,7 +127,7 @@ class ContentController extends JController
 
 		//preform access checks
 		$isNew = ((int) $post['id'] < 1);
-		
+
 
 		if ($model->store($post)) {
 			$msg = JText::_( 'Article Saved' );

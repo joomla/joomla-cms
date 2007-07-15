@@ -43,10 +43,8 @@ class UserViewRemind extends JView
 	{
 		jimport('joomla.html.html');
 
-		// Get the document object
-		$doc = &JFactory::getDocument();
-		$doc->addScript('includes/js/mootools.js');
-		$doc->addScript('includes/js/joomla/validate.js');
+		// Load the form validation behavior
+		JHTML::_('behavior.formvalidation');
 
 		// Add the tooltip behavior
 		JHTML::_('behavior.tooltip');

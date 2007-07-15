@@ -173,6 +173,9 @@ class JPaneTabs extends JPane
 	{
 		global $mainframe;
 
+		// Include mootools framework
+		JHTML::_('behavior.mootools');
+
 		$document =& JFactory::getDocument();
 
 		$options = '{';
@@ -190,11 +193,11 @@ class JPaneTabs extends JPane
 		}
 		$options .= '}';
 
-		$js = '		Window.onDomReady(function(){ $$(\'dl.tabs\').each(function(tabs){ new JTabs(tabs, '.$options.'); }); });';
+		$js = '		window.addEvent(\'domready\', function(){ $$(\'dl.tabs\').each(function(tabs){ new JTabs(tabs, '.$options.'); }); });';
 
 		$document->addScriptDeclaration( $js );
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-		$document->addScript( $url. 'includes/js/joomla/tabs.js' );
+		$document->addScript( $url. 'media/system/js/tabs.js' );
 	}
 }
 
@@ -269,6 +272,9 @@ class JPaneSliders extends JPane
 	*/
 	function _loadBehavior($params = array())
 	{
+		// Include mootools framework
+		JHTML::_('behavior.mootools');
+
 		$document =& JFactory::getDocument();
 
 		$options = '{';
@@ -290,7 +296,7 @@ class JPaneSliders extends JPane
 		}
 		$options .= '}';
 
-		$js = '		Window.onDomReady(function(){ new Accordion($$(\'.panel h3.jpane-toggler\'), $$(\'.panel div.jpane-slider\'), '.$options.'); });';
+		$js = '		window.addEvent(\'domready\', function(){ new Accordion($$(\'.panel h3.jpane-toggler\'), $$(\'.panel div.jpane-slider\'), '.$options.'); });';
 
 		$document->addScriptDeclaration( $js );
 	}

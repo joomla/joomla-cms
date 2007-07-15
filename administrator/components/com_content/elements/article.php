@@ -48,12 +48,11 @@ class JElementArticle extends JElement
 		}";
 
 		$link = 'index.php?option=com_content&amp;task=element&amp;tmpl=component';
-		$doc->addScriptDeclaration($js);
-		$doc->addScript($url.'includes/js/joomla/modal.js');
-		$doc->addStyleSheet($url.'includes/js/joomla/modal.css');
+
+		JHTML::_('behavior.modal', 'input.modal-button');
 		$html = "\n<div style=\"float: left;\"><input style=\"background: #ffffff;\" type=\"text\" id=\"a_name\" value=\"$article->title\" disabled=\"disabled\" /></div>";
-		$html .= "\n &nbsp; <input class=\"inputbox\" type=\"button\" onclick=\"document.popup.show('$link', 650, 375, null);\" value=\"".JText::_('Select')."\" />";
-//		$html .= "<div class=\"button2-left\"><div class=\"blank\"><a title=\"".JText::_('Select an Article')."\" onclick=\"javascript: document.popup.show('$link', 650, 375, null);\">...</a></div></div>\n";
+//		$html .= "\n &nbsp; <input class=\"inputbox modal-button\" type=\"button\" value=\"".JText::_('Select')."\" />";
+		$html .= "<div class=\"button2-left\"><div class=\"blank\"><a class=\"modal\" title=\"".JText::_('Select an Article')."\"  href=\"$link\" rel=\"{handler: 'iframe', size: {x: 650, y: 375}}\">".JText::_('Select')."</a></div></div>\n";
 		$html .= "\n<input type=\"hidden\" id=\"a_id\" name=\"$fieldName\" value=\"$value\" />";
 
 		return $html;

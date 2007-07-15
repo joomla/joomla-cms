@@ -18,7 +18,7 @@
  * @static
  * @package 	Joomla.Framework
  * @subpackage	HTML
- * @since		1.5
+ * @version		1.5
  */
 class JHTMLBehavior
 {
@@ -29,6 +29,9 @@ class JHTMLBehavior
 		if (!isset($tips)) {
 			$tips = array();
 		}
+
+		// Include mootools framework
+		JHTMLBehavior::mootools();
 
 		$sig = md5(serialize(array($selector,$params)));
 		if (isset($tips[$sig]) && ($tips[$sig])) {
@@ -49,7 +52,7 @@ class JHTMLBehavior
 
 		// Attach tooltips to document
 		$document =& JFactory::getDocument();
-		$tooltipInit = '		Window.onDomReady(function(){ var JTooltips = new Tips($$(\''.$selector.'\'), '.$options.'); });';
+		$tooltipInit = '		window.addEvent(\'domready\', function(){ var JTooltips = new Tips($$(\''.$selector.'\'), '.$options.'); });';
 		$document->addScriptDeclaration($tooltipInit);
 
 		// Set static array
@@ -69,9 +72,13 @@ class JHTMLBehavior
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset($included)) {
 
+			// Include mootools framework
+			JHTMLBehavior::mootools();
+
+			// Load the javascript and css
 			$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-			$document->addScript($url.'includes/js/modal/modal.js');
-			$document->addStyleSheet($url.'includes/js/modal/modal.css');
+			$document->addScript($url.'media/system/js/modal.js');
+			$document->addStyleSheet($url.'media/system/css/modal.css');
 
 			$included = true;
 		}
@@ -117,6 +124,87 @@ class JHTMLBehavior
 		return;
 	}
 
+	/**
+	 * Method to load the mootools framework into the document head
+	 *
+	 * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
+	 *
+	 * @static
+	 * @param	boolean	$debug	Is debugging mode on? [optional]
+	 * @return	void
+	 * @since	1.5
+	 */
+	function mootools($debug=null)
+	{
+		global $mainframe;
+
+		static $loaded;
+
+		// Only load once
+		if ($loaded) {
+			return;
+		}
+
+		// If no debugging value is set, use the configuration setting
+		if ($debug === null) {
+			$config = &JFactory::getConfig();
+			$debug = $config->getValue('config.debug');
+		}
+
+		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
+		$konkcheck = strpos (strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
+
+		// Get the document object and base URL
+		$document =& JFactory::getDocument();
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		if ($debug || $konkcheck) {
+			$document->addScript($url.'media/system/js/mootools-uncompressed.js');
+		} else {
+			$document->addScript($url.'media/system/js/mootools.js');
+		}
+		$loaded = true;
+		return;
+	}
+
+	function caption()
+	{
+		global $mainframe;
+
+		// Include mootools framework
+		JHTMLBehavior::mootools();
+
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		$doc = &JFactory::getDocument();
+		$doc->addScript( $url. 'media/system/js/caption.js' );
+	}
+
+	function formvalidation()
+	{
+		global $mainframe;
+
+		// Include mootools framework
+		JHTMLBehavior::mootools();
+
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		$doc = &JFactory::getDocument();
+		$doc->addScript( $url. 'media/system/js/validate.js' );
+	}
+
+	function combobox()
+	{
+		global $mainframe;
+
+		// Include mootools framework
+		JHTMLBehavior::mootools();
+
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		$doc = &JFactory::getDocument();
+		$doc->addScript( $url. 'media/system/js/combobox.js' );
+	}
+
 	function calendar()
 	{
 		global $mainframe;
@@ -140,6 +228,9 @@ class JHTMLBehavior
 	 */
 	function keepalive()
 	{
+		// Include mootools framework
+		JHTMLBehavior::mootools();
+
 		$config 		=& JFactory::getConfig();
 		$lifetime 	= ( $config->getValue('lifetime') * 60000 );
 		$refreshTime =  ( $lifetime < 120000 ) ? 120000 : $lifetime - 120000;

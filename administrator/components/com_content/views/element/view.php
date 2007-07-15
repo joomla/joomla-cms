@@ -37,8 +37,8 @@ class ContentViewElement extends JView
 
 		$document	= & JFactory::getDocument();
 		$document->setTitle('Article Selection');
-		$document->addScript($url.'includes/js/joomla/modal.js');
-		$document->addStyleSheet($url.'includes/js/joomla/modal.css');
+
+		JHTML::_('behavior.modal');
 
 		$template = $mainframe->getTemplate();
 		$document->addStyleSheet("templates/$template/css/general.css");

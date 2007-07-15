@@ -106,16 +106,6 @@ class JSite extends JApplication
 				//set metadata
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
 
-				// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
-				$konkcheck = phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];
-				$konkcheck = strpos (strtolower($konkcheck), "konqueror");
-				if ($config->getValue('config.debug') || $konkcheck ) {
-					$document->addScript( 'includes/js/mootools-uncompressed.js');
-				} else {
-					$document->addScript( 'includes/js/mootools.js');
-				}
-				$document->addScript( 'includes/js/joomla/caption.js');
-
 				if ( $user->get('id') ) {
 					$document->addScript( 'includes/js/joomla.javascript.js');
 				}
@@ -171,7 +161,7 @@ class JSite extends JApplication
 				);
 			} break;
  		}
-		
+
 		$data = $document->render( $this->getCfg('caching'), $params);
 		JResponse::setBody($data);
 	}

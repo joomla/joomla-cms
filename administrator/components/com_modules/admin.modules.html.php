@@ -214,7 +214,8 @@ class HTML_modules
 		//$path = JApplicationHelper::getPath( 'mod'.$client->id.'_xml', $row->module );
 		//$params = new JParameter( $row->params, $path );
 		$document =& JFactory::getDocument();
-		$document->addScript('../includes/js/joomla/combobox.js');
+
+		JHTML::_('behavior.combobox');
 
 		jimport('joomla.html.pane');
 		$pane =& JPane::getInstance('sliders');
