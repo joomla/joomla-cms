@@ -118,11 +118,11 @@
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
-  		<param name="format_date" type="text" default="%Y-%m-%d" label="Date format" description="Format of inserted Date. Only works in `Advanced` mode"/>
+  		<param name="format_date" type="text" default="%Y-%m-%d" label="Date format" description="Format of inserted Date. Only works in Advanced mode"/>
 		<param name="inserttime" type="radio" default="1" label="Insert Time" description="PARAMINSERTTIME">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
-  		<param name="format_time" type="text" default="%H:%M:%S" label="Time format" description="Format of inserted Time. Only works in `Advanced` mode"/>
+  		<param name="format_time" type="text" default="%H:%M:%S" label="Time format" description="Format of inserted Time. Only works in Advanced mode"/>
    	</params>
 </install>

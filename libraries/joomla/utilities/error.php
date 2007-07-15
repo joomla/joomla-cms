@@ -244,7 +244,7 @@ class JError
 
 		$function = 'handle'.ucfirst($mode);
 		if (!is_callable(array ('JError',$function))) {
-			return JError::raiseError(E_ERROR, 'JError:'.JERR_ILLEGAL_MODE, 'Error Handling mode is not knwon', 'Mode: '.$mode.' is not implemented.');
+			return JError::raiseError(E_ERROR, 'JError:'.JERR_ILLEGAL_MODE, 'Error Handling mode is not known', 'Mode: '.$mode.' is not implemented.');
 		}
 
 		foreach ($levels as $eLevel => $eTitle) {

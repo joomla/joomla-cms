@@ -13,7 +13,7 @@
 		<filename module="mod_mainmenu">mod_mainmenu.php</filename>
 	</files>
 	<params>
-		<param name="menutype" type="mos_menu" default="" label="Menu Name" description="The name of the menu (default is `mainmenu`)" />
+		<param name="menutype" type="mos_menu" default="" label="Menu Name" description="The name of the menu (default is mainmenu)" />
 		<param name="menu_style" type="list" default="list" label="Menu Style" description="The menu style">
 			<option value="list">List</option>
 			<option value="vert_indent">Legacy - Vertical</option>
@@ -31,7 +31,7 @@
 		<param name="window_open" type="text" default="" label="Target Position" description="PARAMTARGETPOSITION" />
 	</params>
 	<params group="advanced">
-		<param name="show_whitespace" type="list" default="0" label="Show Whitespace" description="Select whether to show whitespace in rendered XHTML">
+		<param name="show_whitespace" type="list" default="0" label="Show Whitespace" description="Show Whitespace Desc">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>

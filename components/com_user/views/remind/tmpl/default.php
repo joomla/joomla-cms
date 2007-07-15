@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die; ?>
 
 <div class="componentheading">
-	<?php echo JText::_('Forgot your Username?'); ?>
+	<?php echo JText::_('FORGOT_YOUR_USERNAME'); ?>
 </div>
 
 <form action="index.php?option=com_user&amp;task=remindusername" method="post" class="josForm form-validate">
