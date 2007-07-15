@@ -77,6 +77,7 @@ class MediaViews
 					<iframe src="index.php?option=com_media&amp;task=popupUpload&amp;tmpl=component" id="uploadview" name="uploadview" scrolling="no"></iframe>
 				</div>
 			</div>
+			<input type="hidden" id="dirPath" name="dirPath" />
 			<input type="hidden" id="f_file" name="f_file" />
 			<input type="hidden" id="tmpl" name="component" />
 		</form>
@@ -96,7 +97,7 @@ class MediaViews
 			// Handle the folders
 			if (count($folders)) {
 				foreach ($folders as $folder => $folderName) {
-					MediaViews::renderFolder('/' . $folderName, $folder, $listFolder);
+					MediaViews::renderFolder($folderName, $folder, $listFolder);
 				}
 			}
 
@@ -128,9 +129,18 @@ class MediaViews
 	function renderImage($img, $file, $info, $size, $listdir)
 	{
 		$img_file	= basename($img);
-		$img_url	= COM_MEDIA_BASEURL.$listdir.'/'.rawurlencode($img_file);
 		$insert_url = '/'.rawurlencode($img_file);
 		$filesize	= MediaHelper::parseSize($size);
+
+		if ($listdir)
+		{
+			//$listdir .= '/';
+			$img_url = COM_MEDIA_BASEURL.'/'.$listdir.'/'.rawurlencode($img_file);
+		}
+		else
+		{
+			$img_url = COM_MEDIA_BASEURL.'/'.rawurlencode($img_file);
+		}
 
 		if (($info[0] > 70) || ($info[0] > 70)) {
 			$img_dimensions = MediaHelper::imageResize($info[0], $info[1], 80);
@@ -156,8 +166,9 @@ class MediaViews
 		$num_files	= $count[0];
 		$num_dir	= $count[1];
 
-		if ($listdir == '/') {
-			$listdir = '';
+		if ($listdir)
+		{
+			$listdir .= '/';
 		}
 
 		$link = 'index.php?option=com_media&amp;task=imgManagerList&amp;tmpl=component&amp;folder='.$listdir.$path;

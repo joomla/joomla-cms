@@ -35,7 +35,7 @@ else
 	define('COM_MEDIA_BASEURL', JURI::base().'images/stories');
 }
 
-$folder			= JRequest::getVar('folder', '', '', 'string'); //Jinx : path filter doesn't work
+$folder			= JRequest::getVar('folder', '', '', 'path');
 $folderCheck	= JRequest::getVar('folder', null, '', 'string', JREQUEST_ALLOWRAW);
 if (($folderCheck !== null) && ($folder !== $folderCheck)) {
 	JError::raiseWarning(403, JText::_('WARNDIRNAME'));
@@ -69,17 +69,17 @@ switch ($task) {
 		MediaController::listMedia();
 		break;
 
-		// popup directory creation interface for use by components
+	// popup directory creation interface for use by components
 	case 'popupDirectory' :
 		MediaController::showFolder();
 		break;
 
-		// popup upload interface for use by components
+	// popup upload interface for use by components
 	case 'popupUpload' :
 		MediaController::showUpload();
 		break;
 
-		// popup upload interface for use by components
+	// popup upload interface for use by components
 	case 'imgManager' :
 		MediaController::imgManager(COM_MEDIA_BASE);
 		break;
@@ -285,8 +285,9 @@ class MediaController
 		$folders[] = JHTML::_('select.option', "","/");
 		foreach ($imgFolders as $folder) {
 			$folder 	= str_replace(COM_MEDIA_BASE, "", $folder);
-			$folder 	= str_replace(DS, "/", $folder);
-			$folders[] 	= JHTML::_('select.option', $folder);
+			$value		= substr($folder, 1);
+			$text	 	= str_replace(DS, "/", $folder);
+			$folders[] 	= JHTML::_('select.option', $value, $text);
 		}
 
 		// Sort the folder list array
@@ -315,7 +316,7 @@ class MediaController
 		require_once (dirname(__FILE__).DS.'admin.media.popup.php');
 
 		// Initialize variables
-		$basePath 	= COM_MEDIA_BASE.$listFolder;
+		$basePath 	= COM_MEDIA_BASE.DS.$listFolder;
 		$images 	= array ();
 		$folders 	= array ();
 		$docs 		= array ();

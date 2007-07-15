@@ -38,6 +38,8 @@ Legend:
 ! -> Note
 
 14-Jul-2007 Rob Schley
+ # Fixed [topic,189910] Cant change dir in media manager
+ ! Note: Image upload via the pop-up box is still quite broken.
  # Fixed [topic,189389] Usability and module positions
  # Fixed [#6035] Media manager, path is not a folder error
 
