@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Jul-2007 Johan Janssens
+ + Added debug setting to installation localise.xml file to handle easy language debugging
+   of the installer
+
 15-Jul-2007 Enno Klasing
  # Fixed [#6003] Removing module fails
  + Added optional "exclude" parameter to JFolder::files and JFolder::folders

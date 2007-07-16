@@ -97,6 +97,9 @@ class JInstallation extends JApplication
 	*/
 	function initialise( $options = array())
 	{
+		//Get the localisation information provided in the localise xml file
+		$forced = $this->getLocalise();
+		
 		// Check URL arguement - useful when user has just set the language preferences
 		if(empty($options['language']))
 		{
@@ -112,8 +115,7 @@ class JInstallation extends JApplication
 		if(empty($options['language']))
 		{
 			$configLang = $this->getUserState('application.lang');
-			if ( $configLang )
-			{
+			if ( $configLang ) {
 				$options['language']	= $configLang;
 			}
 		}
@@ -121,7 +123,6 @@ class JInstallation extends JApplication
 		// This could be a first-time visit - try to determine what the client accepts
 		if(empty($options['language']))
 		{
-			$forced = $this->getLocalise();
 			if ( empty($forced['lang'])) {
 				$options['language'] = JLanguageHelper::detectLanguage();
 			} else {
@@ -137,6 +138,7 @@ class JInstallation extends JApplication
 		//Set the language in the class
 		$conf =& JFactory::getConfig();
 		$conf->setValue('config.language', $options['language']);
+		$conf->setValue('config.debug_lang', $forced['debug']);
 	}
 
 	/**
@@ -213,6 +215,7 @@ class JInstallation extends JApplication
 	{
 		jimport('joomla.factory');
 		$xml = & JFactory::getXMLParser('Simple');
+		
 		if (!$xml->loadFile(JPATH_SITE.DS.'installation'.DS.'localise.xml')) {
 			return 'no file'; //null;
 		}
@@ -221,10 +224,12 @@ class JInstallation extends JApplication
 		if ($xml->document->name() != 'localise') {
 			return 'not a localise'; //null;
 		}
+		
 		$tags =  $xml->document->children();
 		$ret = array();
-		$ret['lang'] = $tags[0]->data();
+		$ret['lang'] 	= $tags[0]->data();
 		$ret['helpurl'] = $tags[1]->data();
+		$ret['debug']	= $tags[2]->data();
 		return  $ret;
 
 	}
