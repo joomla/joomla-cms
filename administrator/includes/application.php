@@ -105,6 +105,8 @@ class JAdministrator extends JApplication
 				if ( $user->get('id') ) {
 					$document->addScript( '../includes/js/joomla.javascript.js');
 				}
+				
+				JHTML::_('behavior.mootools');
 			} break;
 
 			default : break;

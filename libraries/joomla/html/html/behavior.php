@@ -134,7 +134,7 @@ class JHTMLBehavior
 	 * @return	void
 	 * @since	1.5
 	 */
-	function mootools($debug=null)
+	function mootools($debug = null)
 	{
 		global $mainframe;
 
@@ -157,6 +157,7 @@ class JHTMLBehavior
 		// Get the document object and base URL
 		$document =& JFactory::getDocument();
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		
 		if ($debug || $konkcheck) {
 			$document->addScript($url.'media/system/js/mootools-uncompressed.js');
 		} else {
