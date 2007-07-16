@@ -67,20 +67,17 @@ class modSearchHelper
 		return $output;
 	}
 
-	function getItemid(&$params)
+	function getItemid()
 	{
 		// set Itemid id for links
-		if (!$itemid	= intval($params->get('set_itemid', 0))) 
-		{
-			$menu = &JMenu::getInstance();
-			$items	= $menu->getItems('link', 'index.php?option=com_search');
+		$menu = &JMenu::getInstance();
+		$items	= $menu->getItems('link', 'index.php?option=com_search');
 			
-			if(isset($items[0])) {
-				$itemid = $items[0]->id;
-			} else {
-				$default = $menu->getDefault();
-				$itemid = $default->id;
-			}
+		if(isset($items[0])) {
+			$itemid = $items[0]->id;
+		} else {
+			$default = $menu->getDefault();
+			$itemid = $default->id;
 		}
 	
 		return $itemid;
