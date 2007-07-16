@@ -251,7 +251,7 @@ class JRouter extends JObject
 			if(!$menu->getItem($itemid)) {
 				return false;
 			}
-
+			
 			// Set the active menu item
 			$item =& $menu->setActive($itemid);
 
@@ -269,15 +269,15 @@ class JRouter extends JObject
 			}
 			*/
 
-			//Set the information in the request
-			//JRequest::set($item->query, 'get', false );
-
+			//We only received an Itemid, set the information from the itemid in the 
+			// request
+			if(count($vars) == 1) {
+				JRequest::set($item->query, 'get', false );
+			}
 
 			//Set the route information in the request
 			JRequest::set($vars, 'get', true );
-
-			//Set the itemid in the request
-			//JRequest::setVar('Itemid', $itemid);
+			
 			return true;
 		}
 
