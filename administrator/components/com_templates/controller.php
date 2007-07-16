@@ -156,7 +156,7 @@ class TemplatesController
 		$default = TemplatesHelper::isTemplateDefault($row->directory, $client->id);
 
 		if($client->id == '1')  {
-			$lists['selections'] =  JText::_("Can't assign an administrator template");
+			$lists['selections'] =  JText::_("Cannot assign an administrator template");
 		} else {
 			$lists['selections'] = TemplatesHelper::createMenuList($template);
 		}

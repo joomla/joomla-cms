@@ -358,7 +358,7 @@ class ConfigControllerApplication extends ConfigController
 		// Try to make configuration.php writeable
 		jimport('joomla.filesystem.path');
 		if (!$ftp['enabled'] && JPath::isOwner($fname) && !JPath::setPermissions($fname, '0644')) {
-			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make configuration.php writeable');
+			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make configuration.php writable');
 		}
 
 		// Get the config registry in PHP class format and write it to configuation.php
