@@ -366,7 +366,7 @@ class JFolder
 	 * @return	array	Files in the given folder
 	 * @since 1.5
 	 */
-	function files($path, $filter = '.', $recurse = false, $fullpath = false, $exclude=array('.svn', 'CVS'))
+	function files($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS'))
 	{
 		// Initialize variables
 		$arr = array ();
@@ -423,7 +423,7 @@ class JFolder
 	 * @return	array	Folders in the given folder
 	 * @since 1.5
 	 */
-	function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude=array('.svn', 'CVS'))
+	function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS'))
 	{
 		// Initialize variables
 		$arr = array ();
@@ -507,7 +507,8 @@ class JFolder
 	 * @return	string The sanitised string
 	 * @since	1.5
 	 */
-	function makeSafe($path) {
+	function makeSafe($path) 
+	{
 		$ds		= ( DS == '\\' ) ? '\\'.DS : DS;
 		$regex = array('#[^A-Za-z0-9:\_\-'.$ds.' ]#');
 		return preg_replace($regex, '', $path);
