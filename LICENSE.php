@@ -338,7 +338,3 @@ proprietary programs.  If your program is a subroutine library, you may
 consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Library General
 Public License instead of this License.
-
-Linking Joomla! statically or dynamically with other modules is making
-a combined work based on Joomla!.  Thus, the terms and conditions of
-the GNU General Public License cover the whole combination.
