@@ -206,6 +206,63 @@ class JHTMLBehavior
 		$doc->addScript( $url. 'media/system/js/combobox.js' );
 	}
 
+	function uploader($id='file-upload', $params = array())
+	{
+		global $mainframe;
+
+		// Include mootools framework
+		JHTMLBehavior::mootools();
+
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		$document = &JFactory::getDocument();
+		$document->addScript( $url. 'media/system/js/swf.js' );
+		$document->addScript( $url. 'media/system/js/uploader.js' );
+
+		static $uploaders;
+
+		if (!isset($uploaders)) {
+			$uploaders = array();
+		}
+
+		if (isset($uploaders[$id]) && ($uploaders[$id])) {
+			return;
+		}
+
+		// Setup options object
+		$opt['url']					= (isset($params['targetURL'])) ? $params['targetURL'] : null ;
+		$opt['swf']					= (isset($params['swf'])) ? $params['swf'] : $url.'media/system/swf/uploader.swf';
+		$opt['multiple']			= (isset($params['multiple']) && !($params['multiple'])) ? '\\false' : '\\true';
+		$opt['queued']				= (isset($params['queued']) && !($params['queued'])) ? '\\false' : '\\true';
+		$opt['queueList']			= (isset($params['queueList'])) ? $params['queueList'] : 'upload-queue';
+		$opt['instantStart']		= (isset($params['instantStart']) && ($params['instantStart'])) ? '\\true' : '\\false';
+		$opt['allowDuplicates']		= (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? '\\false' : '\\true';
+		$opt['limitSize']			= (isset($params['limitSize']) && ($params['limitSize'])) ? (int)$params['limitSize'] : null;
+		$opt['limitFiles']			= (isset($params['limitFiles']) && ($params['limitFiles'])) ? (int)$params['limitFiles'] : null;
+		$opt['optionFxDuration']	= (isset($params['optionFxDuration'])) ? (int)$params['optionFxDuration'] : null;
+		$opt['container']			= (isset($params['container'])) ? '\\$('.$params['container'].')' : null;
+
+
+		// Optional functions
+		$opt['createReplacement']	= (isset($params['createReplacement'])) ? $params['createReplacement'] : null;
+		$opt['onComplete']			= (isset($params['onComplete'])) ? $params['onComplete'] : null;
+		$opt['onAllComplete']		= (isset($params['onAllComplete'])) ? $params['onAllComplete'] : null;
+
+/*  types: Object with (description: extension) pairs, default: Images (*.jpg; *.jpeg; *.gif; *.png)
+ */
+
+		$options = JHTMLBehavior::_getJSObject($opt);
+
+		// Attach tooltips to document
+		$document =& JFactory::getDocument();
+		$tooltipInit = '		window.addEvent(\'load\', function(){ var Uploader = new FancyUpload($(\''.$id.'\'), '.$options.'); console.log(Uploader); });';
+		$document->addScriptDeclaration($tooltipInit);
+
+		// Set static array
+		$uploaders[$id] = true;
+		return;
+	}
+
 	function calendar()
 	{
 		global $mainframe;
@@ -274,11 +331,11 @@ class JHTMLBehavior
 				continue;
 			}
 			if (!is_array($v) && !is_object($v)) {
-				$object .= $k.': ';
-				$object .= (is_numeric($v)) ? $v : "'".$v."'";
+				$object .= ' '.$k.': ';
+				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'".$v."'";
 				$object .= ',';
 			} else {
-				$object .= $k.': '.JHTMLBehavior::_getJSObject($v).',';
+				$object .= ' '.$k.': '.JHTMLBehavior::_getJSObject($v).',';
 			}
 		}
 		if (substr($object, -1) == ',') {

@@ -61,10 +61,10 @@ var JImageManager = new Class({
 		});
 
 		//Setup effect
-		this.uploadpane = $('uploadpane');
-		this.uploadpane.setProperty('height', this.uploadpane.getElement('iframe').getProperty('height'));
-		this.uploadpanefx = new Fx.Slide(this.uploadpane, {opacity:true, duration: 200});
-		this.uploadpanefx.hide();
+//		this.uploadpane = $('uploadpane');
+//		this.uploadpane.setProperty('height', this.uploadpane.getElement('iframe').getProperty('height'));
+//		this.uploadpanefx = new Fx.Slide(this.uploadpane, {opacity:true, duration: 200});
+//		this.uploadpanefx.hide();
 	},
 
 	onloadimageview: function()
@@ -209,6 +209,6 @@ var JImageManager = new Class({
 });
 
 document.imagemanager = null;
-Window.onDomReady(function(){
+window.addEvent('domready', function(){
 	document.imagemanager = new JImageManager();
 });

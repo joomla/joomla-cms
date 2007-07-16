@@ -27,6 +27,8 @@ class MediaViews
 	{
 		global $mainframe;
 
+		JHTML::_('behavior.uploader', 'file-upload');
+		$session = &JFactory::getSession();
 		?>
 		<form action="index.php" id="uploadForm" method="post" enctype="multipart/form-data">
 			<div id="messages" style="display: none;">
@@ -71,15 +73,21 @@ class MediaViews
 					</tr>
 				</table>
 			</fieldset>
-			<div id="uploadpanel">
-				<h3 id="uploadtoggler" class="toggler title"><span><?php echo JText::_('Upload') ?></span></h3>
-				<div id="uploadpane" class="content">
-					<iframe src="index.php?option=com_media&amp;task=popupUpload&amp;tmpl=component" id="uploadview" name="uploadview" scrolling="no"></iframe>
-				</div>
-			</div>
 			<input type="hidden" id="dirPath" name="dirPath" />
 			<input type="hidden" id="f_file" name="f_file" />
 			<input type="hidden" id="tmpl" name="component" />
+		</form>
+		<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=upload&amp;tmpl=component&amp;<?php echo $session->getName().'='.$session->getId(); ?>" id="uploadForm" method="post" enctype="multipart/form-data">
+			<fieldset>
+				<legend><?php echo JText::_('Upload'); ?></legend>
+				<ul class="upload-queue" id="upload-queue">
+					<li style="display: none" />
+				</ul>
+			</fieldset>
+			<fieldset class="actions">
+				<input type="file" id="file-upload" />
+				<input type="submit" id="file-upload-submit" value="Start Upload"/>
+			</fieldset>
 		</form>
 		<?php
 	}
@@ -290,3 +298,4 @@ class MediaViews
 	}
 }
 ?>
+

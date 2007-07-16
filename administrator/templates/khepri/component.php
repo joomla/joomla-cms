@@ -26,7 +26,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <?php endif; ?>
 
 <script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/fat.js"></script>
-<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/component.js"></script>
+<!-- <script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/component.js"></script> -->
 </head>
 <body class="contentpane">
 	<jdoc:include type="message" />

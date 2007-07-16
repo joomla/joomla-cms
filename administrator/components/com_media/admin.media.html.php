@@ -62,6 +62,9 @@ class MediaViews
 			document.preview = SqueezeBox;
 		});");
 
+		JHTML::_('behavior.uploader', 'file-upload');
+		$session = &JFactory::getSession();
+
 		MediaViews::_loadJS();
 		?>
 		<form action="index.php" name="adminForm" id="adminForm" method="post" enctype="multipart/form-data" >
@@ -114,28 +117,26 @@ class MediaViews
 			</td>
 		</tr>
 		</table>
-		<fieldset>
-			<legend><?php echo JText::_( 'Upload File' ); ?> [ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ($configMedia->get('upload_maxsize') / 1000000); ?>M ]</legend>
-			<div id="uploads">
-				<div class="upload">
-
-					<input class="inputbox" name="uploads[]" type="file" size="60" />
-				</div>
-			</div>
-			<div style="padding: 4px;">
-				<button onclick="document.mediamanager.addFile();return false;">
-						+ <?php echo JText::_( 'Add file' ); ?>
-				</button>
-				&nbsp;
-				<button onclick="document.mediamanager.onuploadfiles()" /><?php echo JText::_( 'Upload Files' ); ?></button>
-			</div>
-		</fieldset>
 
 		<input type="hidden" name="option" value="com_media" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="cb1" id="cb1" value="0" />
 		<input type="hidden" name="dirpath" id="dirpath" value="<?php echo $current; ?>" />
 		</form>
+
+		<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=upload&amp;tmpl=component&amp;<?php echo $session->getName().'='.$session->getId(); ?>" id="uploadForm" method="post" enctype="multipart/form-data">
+			<fieldset>
+			<legend><?php echo JText::_( 'Upload File' ); ?> [ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ($configMedia->get('upload_maxsize') / 1000000); ?>M ]</legend>
+				<ul class="upload-queue" id="upload-queue">
+					<li style="display: none" />
+				</ul>
+			</fieldset>
+			<fieldset class="actions">
+				<input type="file" id="file-upload" />
+				<input type="submit" id="file-upload-submit" value="Start Upload"/>
+			</fieldset>
+		</form>
+
 		<?php
 		echo JHTML::_('behavior.keepalive');
 	}
