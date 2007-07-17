@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Jul-2007 Andy Miller
+ ^ Changed link 'disabled' state to 'readonly' when editing menu item
+
 17-Jul-2007 Johan Janssens
  ^ Changed template _system directory to system for consistency reasons
 
