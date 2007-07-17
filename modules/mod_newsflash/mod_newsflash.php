@@ -38,7 +38,7 @@ if (!$items) {
 }
 
 $layout = $params->get('layout', 'default');
-$layout = JInputFilter::clean($layout, 'word');
+$layout = JFilterInput::clean($layout, 'word');
 $path = JModuleHelper::getLayoutPath('mod_newsflash', $layout);
 if (file_exists($path)) {
 	require($path);

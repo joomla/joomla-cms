@@ -246,7 +246,7 @@ class categories_html
 		}
 
 		jimport('joomla.filter.output');
-		JOutputFilter::objectHTMLSafe( $row, ENT_QUOTES, 'description' );
+		JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'description' );
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton, section) {

@@ -105,7 +105,7 @@ class JDocumentError extends JDocument
 
 		// check template
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
-		$template	= isset($params['template']) ? JInputFilter::clean($params['template'], 'cmd') : 'system';
+		$template	= isset($params['template']) ? JFilterInput::clean($params['template'], 'cmd') : 'system';
 
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = 'system';

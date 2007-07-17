@@ -108,7 +108,7 @@ class WeblinksViewWeblink extends JView
 
 		//clean weblink data
 		jimport('joomla.filter.output');
-		JOutputFilter::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
+		JFilterOutput::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
 
 		$file 	= JPATH_ADMINISTRATOR .'/components/com_weblinks/models/weblink.xml';
 		$params = new JParameter( $weblink->params, $file, 'component' );

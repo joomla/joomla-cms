@@ -508,13 +508,13 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 )
 	} elseif ($mask & 4) {
 		// If the allow html flag is set, apply a safe html filter to the variable
 		if (is_null($safeHtmlFilter)) {
-			$safeHtmlFilter = & JInputFilter::getInstance(null, null, 1, 1);
+			$safeHtmlFilter = & JFilterInput::getInstance(null, null, 1, 1);
 		}
 		$var = $safeHtmlFilter->clean($var, 'none');
 	} else {
 		// Since no allow flags were set, we will apply the most strict filter to the variable
 		if (is_null($noHtmlFilter)) {
-			$noHtmlFilter = & JInputFilter::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
+			$noHtmlFilter = & JFilterInput::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
 		}
 		$var = $noHtmlFilter->clean($var, 'none');
 	}
@@ -552,7 +552,7 @@ function mosLoadComponent( $name )
 {
 	// set up some global variables for use by the frontend component
 	global $mainframe, $database;
-	$name = JInputFilter::clean($name, 'cmd');
+	$name = JFilterInput::clean($name, 'cmd');
 	$path = JPATH_SITE.DS.'components'.DS.'com_'.$name.DS.$name.'.php';
 	if (file_exists($path)) {
 		include $path;
@@ -647,13 +647,13 @@ function mosCurrentDate( $format="" )
 }
 
 /**
- * Legacy function, use {@link JOutputFilter::objectHTMLSafe()} instead
+ * Legacy function, use {@link JFilterOutput::objectHTMLSafe()} instead
  *
  * @deprecated	As of version 1.5
  */
 function mosMakeHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' ) {
 	jimport('joomla.filter.output');
-	JOutputFilter::objectHTMLSafe( $mixed, $quote_style, $exclude_keys );
+	JFilterOutput::objectHTMLSafe( $mixed, $quote_style, $exclude_keys );
 }
 
 /**
@@ -862,7 +862,7 @@ function sefRelToAbs($value) {
 function ampReplace( $text )
 {
 	jimport('joomla.filter.output');
-	return JOutputFilter::ampReplace($text);
+	return JFilterOutput::ampReplace($text);
 }
 
 /**

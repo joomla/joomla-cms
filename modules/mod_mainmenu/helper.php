@@ -140,7 +140,7 @@ class modMainMenuHelper
 					$class = $params->get('class_sfx');
 					$xml->addAttribute('class', 'menu'.$class);
 
-					echo JOutputFilter::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
+					echo JFilterOutput::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
 				}
 				break;
 		}

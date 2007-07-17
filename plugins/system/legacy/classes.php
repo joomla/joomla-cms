@@ -180,11 +180,10 @@ class mosDBTable extends JTable
 		$ignore = is_array( $ignoreList );
 
 		jimport('joomla.filter.input');
-		$filter = & JInputFilter::getInstance();
+		$filter = & JFilterInput::getInstance();
 		foreach ($this->getPublicProperties() as $k)
 		{
-			if ($ignore && in_array( $k, $ignoreList ) )
-			{
+			if ($ignore && in_array( $k, $ignoreList ) ) {
 				continue;
 			}
 			$this->$k = $filter->clean( $this->$k );
@@ -1189,14 +1188,14 @@ class mosHTML
 	}
 
 	/**
- 	 * Legacy function, use {@link JOutputFilter::cleanText()} instead
+ 	 * Legacy function, use {@link JFilterOutput::cleanText()} instead
  	 *
  	 * @deprecated	As of version 1.5
  	*/
 	function cleanText ( &$text )
 	{
 		jimport('joomla.filter.output');
-		return JOutputFilter::cleanText($text);
+		return JFilterOutput::cleanText($text);
 	}
 
 	/**

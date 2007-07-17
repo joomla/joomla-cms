@@ -556,7 +556,7 @@ class MediaController
 		if (count($paths)) {
 			foreach ($paths as $path)
 			{
-				if ($path !== JInputFilter::clean($path, 'cmd')) {
+				if ($path !== JFilterInput::clean($path, 'cmd')) {
 					echo '<font color="red">'.JText::_('Unable to delete:').htmlspecialchars($path).' '.JText::_('WARNFILENAME').'</font><br />';
 					continue;
 				}

@@ -398,7 +398,7 @@ class JParameter extends JRegistry
 				$dirs = array();
 			}
 
-			$file = JInputFilter::clean(str_replace('_', DS, $type).'.php', 'path');
+			$file = JFilterInput::clean(str_replace('_', DS, $type).'.php', 'path');
 
 			jimport('joomla.filesystem.path');
 			if ($elementFile = JPath::find($dirs, $file)) {

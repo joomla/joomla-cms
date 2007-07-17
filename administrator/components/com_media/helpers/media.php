@@ -56,7 +56,7 @@ class MediaHelper
 			return false;
 		}
 		
-		if ($file['name'] !== JInputFilter::clean($file['name'], 'cmd')) {
+		if ($file['name'] !== JFilterInput::clean($file['name'], 'cmd')) {
 			$err = 'WARNFILENAME';
 			return false;
 		}

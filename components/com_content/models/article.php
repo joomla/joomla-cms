@@ -318,7 +318,7 @@ class ContentModelArticle extends JModel
 		}
 
 		jimport('joomla.filter.output');
-		$article->title = trim( JOutputFilter::ampReplace($article->title) );
+		$article->title = trim( JFilterOutput::ampReplace($article->title) );
 
 		// Publishing state hardening for Authors
 		if (!$user->authorize('com_content', 'publish', 'content', 'all'))

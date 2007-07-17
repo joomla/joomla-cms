@@ -112,13 +112,13 @@ class JTableContent extends JTable
 		/*
 		TODO: This filter is too rigorous,need to implement more configurable solution
 		// specific filters
-		$filter = & JInputFilter::getInstance( null, null, 1, 1 );
+		$filter = & JFilterInput::getInstance( null, null, 1, 1 );
 		$this->introtext = trim( $filter->clean( $this->introtext ) );
 		$this->fulltext =  trim( $filter->clean( $this->fulltext ) );
 		*/
 
 		jimport('joomla.filter.output');
-		$alias = JOutputFilter::stringURLSafe($this->title);
+		$alias = JFilterOutput::stringURLSafe($this->title);
 
 		if(empty($this->title)) {
 			$this->setError(JText::_('Article must have a title'));

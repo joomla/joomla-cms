@@ -209,8 +209,8 @@ class JDocumentHTML extends JDocument
 	{
 		// check
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
-		$template	= JInputFilter::clean($params['template'], 'cmd');
-		$file		= JInputFilter::clean($params['file'], 'cmd');
+		$template	= JFilterInput::clean($params['template'], 'cmd');
+		$file		= JFilterInput::clean($params['file'], 'cmd');
 
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = 'system';

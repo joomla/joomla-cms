@@ -281,7 +281,7 @@ class JEditor extends JObservable
 		jimport('joomla.filesystem.file');
 
 		// Build the path to the needed editor plugin
-		$name = JInputFilter::clean($this->_name, 'cmd');
+		$name = JFilterInput::clean($this->_name, 'cmd');
 		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$name.'.php';
 
 		if ( ! JFile::exists($path) )

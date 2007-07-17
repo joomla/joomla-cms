@@ -219,7 +219,7 @@ class ContentViewArticle extends ContentView
 
 		// Ensure the row data is safe html
 		jimport('joomla.filter.output');
-		JOutputFilter::objectHTMLSafe( $article);
+		JFilterOutput::objectHTMLSafe( $article);
 
 		// Build the page title string
 		$title = $article->id ? JText::_('Edit') : JText::_('New');

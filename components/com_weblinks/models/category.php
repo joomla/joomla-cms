@@ -215,8 +215,8 @@ class WeblinksModelCategory extends JModel
 		$filter_order		= $this->getState('filter_order');
 		$filter_order_dir	= $this->getState('filter_order_dir');
 
-		$filter_order		= JInputFilter::clean($filter_order, 'cmd');
-		$filter_order_dir	= JInputFilter::clean($filter_order_dir, 'word');
+		$filter_order		= JFilterInput::clean($filter_order, 'cmd');
+		$filter_order_dir	= JFilterInput::clean($filter_order_dir, 'word');
 
 		// We need to get a list of all weblinks in the given category
 		$query = 'SELECT *' .

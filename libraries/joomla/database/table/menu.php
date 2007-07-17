@@ -88,7 +88,7 @@ class JTableMenu extends JTable
 	function check()
 	{
 		jimport('joomla.filter.output');
-		$alias = JOutputFilter::stringURLSafe($this->name);
+		$alias = JFilterOutput::stringURLSafe($this->name);
 
 		if(empty($this->alias) || $this->alias === $alias ) {
 			$this->alias = $alias;

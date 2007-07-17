@@ -43,6 +43,8 @@ Legend:
 17-Jul-2007 Johan Janssens
  ^ Changed template _system directory to system for consistency reasons
  + Added storage paramater to JFactory::getCache to allow different stores to be used
+ ^ Renamed JOutputFilter classname to JFilterOutput to adhere to naming conventions
+ ^ Renamed JInputFilter classname to JFilterInput to adhere to naming conventions 
 
 16-Jul-2007 Johan Janssens
  + Added debug setting to installation localise.xml file to handle easy language debugging

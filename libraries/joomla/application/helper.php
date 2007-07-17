@@ -107,7 +107,7 @@ class JApplicationHelper
 		if ( !$user_option && !$check ) {
 			$user_option = JRequest::getCmd('option');
 		} else {
-			$user_option = JInputFilter::clean($user_option, 'path');
+			$user_option = JFilterInput::clean($user_option, 'path');
 		}
 
 		$result = null;

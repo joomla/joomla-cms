@@ -116,11 +116,11 @@ if (isset ($this->article->toc)) {
 	echo $this->article->toc;
 }
 
-echo JOutputFilter::ampReplace($this->article->text);
+echo JFilterOutput::ampReplace($this->article->text);
 
 if ($this->params->get('show_readmore') && $this->params->get('show_intro') && $this->article->readmore_text) {
 	echo '<p><a href="' . $this->article->readmore_link . '" class="readon' . $this->params->get('pageclass_sfx') . '">';
-	$alias = JOutputFilter :: stringURLSafe($this->item->title);
+	$alias = JFilterOutput :: stringURLSafe($this->item->title);
 	if ($this->article->title_alias == $alias || $this->article->title_alias == '') {
 		echo $this->article->readmore_text;
 	} else {

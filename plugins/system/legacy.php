@@ -171,7 +171,7 @@ class  plgSystemLegacy extends JPlugin
 		 * @deprecated	As of version 1.5
 		 */
 		global $mosConfig_lang;
-		$mosConfig_lang = JInputFilter::clean($mosConfig_lang, 'cmd');
+		$mosConfig_lang = JFilterInput::clean($mosConfig_lang, 'cmd');
 		$file = JPATH_SITE.DS.'language'.DS.$mosConfig_lang.'.php';
 		if (file_exists( $file )) {
 			require_once( $file);

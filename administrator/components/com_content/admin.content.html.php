@@ -433,7 +433,7 @@ class ContentView
 
 		jimport('joomla.html.pane');
 		jimport('joomla.filter.output');
-		JOutputFilter::objectHTMLSafe( $row );
+		JFilterOutput::objectHTMLSafe( $row );
 
 		$db		=& JFactory::getDBO();
 		$editor =& JFactory::getEditor();

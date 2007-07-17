@@ -148,7 +148,7 @@ class TableWeblink extends JTable
 	 */
 	function check()
 	{
-		if (JInputFilter::checkAttribute(array ('href', $this->url))) {
+		if (JFilterInput::checkAttribute(array ('href', $this->url))) {
 			$this->_error = JText::_('Please provide a valid URL');
 			return false;
 		}
@@ -174,7 +174,7 @@ class TableWeblink extends JTable
 		}
 
 		jimport('joomla.filter.output');
-		$alias = JOutputFilter::stringURLSafe($this->title);
+		$alias = JFilterOutput::stringURLSafe($this->title);
 
 		if(empty($this->alias) || $this->alias === $alias ) {
 			$this->alias = $alias;

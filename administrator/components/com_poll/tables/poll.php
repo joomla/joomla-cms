@@ -98,7 +98,7 @@ class TablePoll extends JTable
 		}
 
 		jimport('joomla.filter.output');
-		$alias = JOutputFilter::stringURLSafe($this->title);
+		$alias = JFilterOutput::stringURLSafe($this->title);
 
 		if(empty($this->alias) || $this->alias === $alias ) {
 			$this->alias = $alias;

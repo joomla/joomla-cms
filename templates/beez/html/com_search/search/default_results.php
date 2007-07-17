@@ -68,7 +68,7 @@ if (count($this->results)) {
 				echo ')</span></p>';
 			}
 		}
-		echo JOutputFilter::ampReplace($result->text);
+		echo JFilterOutput::ampReplace($result->text);
 		if (!$mainframe->getCfg('hideCreateDate')) {
 			echo '<span class="small' . $this->params->get('pageclass_sfx') . '">';
 			echo $result->created;

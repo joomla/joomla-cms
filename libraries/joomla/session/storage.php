@@ -55,7 +55,7 @@ class JSessionStorage extends JObject
 			$instances = array ();
 		}
 
-		$name = strtolower(JInputFilter::clean($name, 'word'));
+		$name = strtolower(JFilterInput::clean($name, 'word'));
 		if (empty ($instances[$name]))
 		{
 			if (file_exists(JPATH_LIBRARIES.DS.'joomla'.DS.'session'.DS.'storage'.DS.$name.'.php')) {

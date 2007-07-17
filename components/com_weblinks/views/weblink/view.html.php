@@ -114,7 +114,7 @@ class WeblinksViewWeblink extends JView
 		$lists['catid'] = JHTML::_('list.category', 'jform[catid]', 'com_weblinks', intval($weblink->catid));
 
 		jimport('joomla.filter.output');
-		JOutputFilter::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
+		JFilterOutput::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
 
 		$this->assign('returnid', $returnid);
 

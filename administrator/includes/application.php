@@ -220,7 +220,7 @@ class JAdministrator extends JApplication
 			$db->setQuery( $query );
 			$template = $db->loadResult();
 
-			$template = JInputFilter::clean($template, 'cmd');
+			$template = JFilterInput::clean($template, 'cmd');
 
 			if (!file_exists(JPATH_THEMES.DS.$template.DS.'index.php')) {
 				$template = 'khepri';

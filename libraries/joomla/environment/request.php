@@ -76,7 +76,7 @@ class JRequest
 	 * @param	string	$name		Variable name
 	 * @param	string	$default	Default value if the variable does not exist
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
-	 * @param	string	$type		Return type for the variable, for valid values see {@link JInputFilter::clean()}
+	 * @param	string	$type		Return type for the variable, for valid values see {@link JFilterInput::clean()}
 	 * @param	int		$mask		Filter mask for the variable
 	 * @return	mixed	Requested variable
 	 * @since	1.5
@@ -487,7 +487,7 @@ class JRequest
 		{
 			// If the allow html flag is set, apply a safe html filter to the variable
 			if (is_null($safeHtmlFilter)) {
-				$safeHtmlFilter = & JInputFilter::getInstance(null, null, 1, 1);
+				$safeHtmlFilter = & JFilterInput::getInstance(null, null, 1, 1);
 			}
 			$var = $safeHtmlFilter->clean($var, $type);
 		}
@@ -495,7 +495,7 @@ class JRequest
 		{
 			// Since no allow flags were set, we will apply the most strict filter to the variable
 			if (is_null($noHtmlFilter)) {
-				$noHtmlFilter = & JInputFilter::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
+				$noHtmlFilter = & JFilterInput::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
 			}
 			$var = $noHtmlFilter->clean($var, $type);
 		}

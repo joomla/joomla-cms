@@ -337,7 +337,7 @@ class JApplication extends JObject
 	 * @param string The key of the user state variable.
 	 * @param string The name of the variable passed in a request.
 	 * @param string The default value for the variable if not found. Optional.
-	 * @param string Filter for the variable, for valid values see {@link JInputFilter::clean()}. Optional.
+	 * @param string Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 * @return The request user state.
 	 */
 	function getUserStateFromRequest( $key, $request, $default = null, $type = 'none' )

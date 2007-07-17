@@ -13,7 +13,7 @@
  */
 
 /**
- * JOutputFilter
+ * JFilterOutput
  *
  * @static
  * @author		Louis Landry <louis.landry@joomla.org>
@@ -21,7 +21,7 @@
  * @subpackage	Filter
  * @since		1.5
  */
-class JOutputFilter
+class JFilterOutput
 {
 	/**
 	* Makes an object safe to display in forms
@@ -68,7 +68,7 @@ class JOutputFilter
 	function linkXHTMLSafe($input)
 	{
 		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
-		return preg_replace_callback( "#$regex#i", array('JOutputFilter', '_ampReplaceCallback'), $input );
+		return preg_replace_callback( "#$regex#i", array('JFilterOutput', '_ampReplaceCallback'), $input );
 	}
 
 	/**
