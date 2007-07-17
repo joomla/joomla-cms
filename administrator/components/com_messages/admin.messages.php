@@ -74,13 +74,14 @@ function showMessages( $option )
 	$limit				= $mainframe->getUserStateFromRequest( 'global.list.limit',			'limit',			$mainframe->getCfg('list_limit'), 'int' );
 	$limitstart			= $mainframe->getUserStateFromRequest( $context.'.limitstart',		'limitstart',		0,				'int' );
 	$search				= $mainframe->getUserStateFromRequest( $context.'search',			'search',			'',				'string' );
-	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search				= JString::strtolower( $search );
 
 	$where = array();
-	$where[] = ' a.user_id_to="' .$user->get('id'). '"';
+	$where[] = ' a.user_id_to='.(int) $user->get('id');
 
-	if (isset($search) && $search!= "") {
-		$where[] = '( u.username LIKE "%'.$search.'%" OR email LIKE "%'.$search.'%" OR u.name LIKE "%'.$search.'%" )';
+	if ($search != '') {
+		$searchEscaped = $db->Quote('%'.$search.'%');
+		$where[] = '( u.username LIKE '.$searchEscaped.' OR email LIKE '.$searchEscaped.' OR u.name LIKE '.$searchEscaped.' )';
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
@@ -137,7 +138,7 @@ function editConfig( $option )
 
 	$query = 'SELECT cfg_name, cfg_value'
 	. ' FROM #__messages_cfg'
-	. ' WHERE user_id = ' .$user->get('id')
+	. ' WHERE user_id = '.(int) $user->get('id')
 	;
 	$db->setQuery( $query );
 	$data = $db->loadObjectList( 'cfg_name' );
@@ -170,7 +171,7 @@ function saveConfig( $option )
 	$user	=& JFactory::getUser();
 
 	$query = 'DELETE FROM #__messages_cfg'
-	. ' WHERE user_id = ' .$user->get('id')
+	. ' WHERE user_id = '.(int) $user->get('id')
 	;
 	$db->setQuery( $query );
 	$db->query();
@@ -180,7 +181,7 @@ function saveConfig( $option )
 		$v = $db->getEscaped( $v );
 		$query = 'INSERT INTO #__messages_cfg'
 		. ' ( user_id, cfg_name, cfg_value )'
-		. ' VALUES ( ' .$user->get('id'). ', "' .$k. '", "' .$v. '" )'
+		. ' VALUES ( '.(int) $user->get('id').', '.$db->Quote($k).', '.$db->Quote($v).' )'
 		;
 		$db->setQuery( $query );
 		$db->query();
@@ -196,6 +197,7 @@ function newMessage( $option, $user, $subject )
 	// get available backend user groups
 	$gid 	= $acl->get_group_id( 'Public Backend', 'ARO' );
 	$gids 	= $acl->get_group_children( $gid, 'ARO', 'RECURSE' );
+	JArrayHelper::toInteger($gids, array(0));
 	$gids 	= implode( ',', $gids );
 
 	// get list of usernames
@@ -242,7 +244,7 @@ function viewMessage( $uid='0', $option )
 	$query = 'SELECT a.*, u.name AS user_from'
 	. ' FROM #__messages AS a'
 	. ' INNER JOIN #__users AS u ON u.id = a.user_id_from'
-	. ' WHERE a.message_id = '. $uid
+	. ' WHERE a.message_id = '.(int) $uid
 	. ' ORDER BY date_time DESC'
 	;
 	$db->setQuery( $query );
@@ -250,7 +252,7 @@ function viewMessage( $uid='0', $option )
 
 	$query = 'UPDATE #__messages'
 	. ' SET state = 1'
-	. ' WHERE message_id = '. $uid
+	. ' WHERE message_id = '.(int) $uid
 	;
 	$db->setQuery( $query );
 	$db->query();
@@ -264,7 +266,9 @@ function removeMessage( $cid, $option )
 
 	$db =& JFactory::getDBO();
 
-	if (!is_array( $cid ) || count( $cid ) < 1) {
+	JArrayHelper::toInteger($cid);
+
+	if (count( $cid ) < 1) {
 		JError::raiseError(500, JText::_( 'Select an item to delete' ) );
 	}
 

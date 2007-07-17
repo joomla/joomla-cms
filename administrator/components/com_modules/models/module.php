@@ -98,7 +98,7 @@ class ModulesModelModule extends JModel
 		// template assignment filter
 		$query = 'SELECT DISTINCT(template) AS text, template AS value'.
 				' FROM #__templates_menu' .
-				' WHERE client_id = ' . $client->id;
+				' WHERE client_id = '.(int) $client->id;
 		$db->setQuery( $query );
 		$templates = $db->loadObjectList();
 		

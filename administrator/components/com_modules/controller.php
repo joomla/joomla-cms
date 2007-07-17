@@ -64,12 +64,12 @@ class ModulesController extends JController
 		$filter_type		= $mainframe->getUserStateFromRequest( $option.'filter_type',		'filter_type',		'',				'cmd' );
 		$filter_assigned	= $mainframe->getUserStateFromRequest( $option.'filter_assigned',	'filter_assigned',	'',				'cmd' );
 		$search				= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+		$search				= JString::strtolower( $search );
 
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
 		$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
-		$where[] = 'm.client_id = '.$client->id;
+		$where[] = 'm.client_id = '.(int) $client->id;
 
 		$joins[] = 'LEFT JOIN #__users AS u ON u.id = m.checked_out';
 		$joins[] = 'LEFT JOIN #__groups AS g ON g.id = m.access';
@@ -77,17 +77,17 @@ class ModulesController extends JController
 
 		// used by filter
 		if ( $filter_assigned ) {
-			$joins[] = 'LEFT JOIN #__templates_menu AS t ON t.menuid = m.id';
-			$where[] = 't.template = "'.$filter_assigned.'"';
+			$joins[] = 'LEFT JOIN #__templates_menu AS t ON t.menuid = mm.menuid';
+			$where[] = 't.template = '.$db->Quote($filter_assigned);
 		}
 		if ( $filter_position ) {
-			$where[] = 'm.position = "'.$filter_position.'"';
+			$where[] = 'm.position = '.$db->Quote($filter_position);
 		}
 		if ( $filter_type ) {
-			$where[] = 'm.module = "'.$filter_type.'"';
+			$where[] = 'm.module = '.$db->Quote($filter_type);
 		}
 		if ( $search ) {
-			$where[] = 'LOWER( m.title ) LIKE "%'.$search.'%"';
+			$where[] = 'LOWER( m.title ) LIKE '.$db->Quote('%'.$search.'%');
 		}
 		if ( $filter_state ) {
 			if ( $filter_state == 'P' ) {
@@ -98,12 +98,13 @@ class ModulesController extends JController
 		}
 
 		$where 		= ' WHERE ' . implode( ' AND ', $where );
-		$join 		= ' ' . implode( " ", $joins );
+		$join 		= ' ' . implode( ' ', $joins );
 		$orderby 	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', m.ordering ASC';
 
 		// get the total number of records
-		$query = 'SELECT COUNT(*)'
+		$query = 'SELECT COUNT(DISTINCT m.id)'
 		. ' FROM #__modules AS m'
+		. $join
 		. $where
 		;
 		$db->setQuery( $query );
@@ -129,7 +130,7 @@ class ModulesController extends JController
 		// get list of Positions for dropdown filter
 		$query = 'SELECT m.position AS value, m.position AS text'
 		. ' FROM #__modules as m'
-		. ' WHERE m.client_id = '. $client->id
+		. ' WHERE m.client_id = '.(int) $client->id
 		. ' GROUP BY m.position'
 		. ' ORDER BY m.position'
 		;
@@ -141,7 +142,7 @@ class ModulesController extends JController
 		// get list of Positions for dropdown filter
 		$query = 'SELECT module AS value, module AS text'
 		. ' FROM #__modules'
-		. ' WHERE client_id = '. $client->id
+		. ' WHERE client_id = '.(int) $client->id
 		. ' GROUP BY module'
 		. ' ORDER BY module'
 		;
@@ -156,7 +157,7 @@ class ModulesController extends JController
 		// template assignment filter
 		$query = 'SELECT DISTINCT(template) AS text, template AS value'.
 				' FROM #__templates_menu' .
-				' WHERE client_id = ' . $client->id;
+				' WHERE client_id = '.(int) $client->id;
 		$db->setQuery( $query );
 		$assigned[]		= JHTML::_('select.option',  '0', '- '. JText::_( 'Select Template' ) .' -' );
 		$assigned 		= array_merge( $assigned, $db->loadObjectList() );
@@ -212,7 +213,7 @@ class ModulesController extends JController
 			}
 			$row->checkin();
 
-			$row->reorder( 'position='.$db->Quote( $row->position ).' AND client_id='.$client->id );
+			$row->reorder( 'position='.$db->Quote( $row->position ).' AND client_id='.(int) $client->id );
 
 			$query = 'SELECT menuid'
 			. ' FROM #__modules_menu'
@@ -287,7 +288,7 @@ class ModulesController extends JController
 
 		// delete old module to menu item associations
 		$query = 'DELETE FROM #__modules_menu'
-		. ' WHERE moduleid = '. $row->id
+		. ' WHERE moduleid = '.(int) $row->id
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
@@ -299,7 +300,7 @@ class ModulesController extends JController
 		if ( $menus == 'all' ) {
 			// assign new module to `all` menu item associations
 			$query = 'INSERT INTO #__modules_menu'
-			. ' SET moduleid = '.$row->id.' , menuid = 0'
+			. ' SET moduleid = '.(int) $row->id.' , menuid = 0'
 			;
 			$db->setQuery( $query );
 			if (!$db->query()) {
@@ -314,7 +315,7 @@ class ModulesController extends JController
 				if ( (int) $menuid >= 0 ) {
 					// assign new module to menu item associations
 					$query = 'INSERT INTO #__modules_menu'
-					. ' SET moduleid = '. $row->id .', menuid = '.$menuid
+					. ' SET moduleid = '.(int) $row->id .', menuid = '.(int) $menuid
 					;
 					$db->setQuery( $query );
 					if (!$db->query()) {
@@ -422,7 +423,7 @@ class ModulesController extends JController
 		if ( $cid[0] ) {
 			$query = 'SELECT menuid AS value'
 			. ' FROM #__modules_menu'
-			. ' WHERE moduleid = '. $row->id
+			. ' WHERE moduleid = '.(int) $row->id
 			;
 			$db->setQuery( $query );
 			$lookup = $db->loadObjectList();
@@ -622,7 +623,7 @@ class ModulesController extends JController
 		$query = 'UPDATE #__modules'
 		. ' SET published = ' . intval( $publish )
 		. ' WHERE id IN ( '.$cids.' )'
-		. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get('id'). ' ) )'
+		. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
 		;
 		$db->setQuery( $query );
 		if (!$db->query()) {
@@ -772,7 +773,7 @@ class ModulesController extends JController
 		// execute updateOrder for each parent group
 		$groupings = array_unique( $groupings );
 		foreach ($groupings as $group){
-			$row->reorder("position = '$group' AND client_id = $client->id");
+			$row->reorder('position = '.$db->Quote($group).' AND client_id = '.(int) $client->id);
 		}
 
 		$this->setMessage = JText::_( 'New ordering saved' );

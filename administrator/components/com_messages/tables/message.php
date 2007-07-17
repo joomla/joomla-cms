@@ -131,7 +131,7 @@ class TableMessage extends JTable
 
 		$query = 'SELECT cfg_name, cfg_value' .
 				' FROM #__messages_cfg' .
-				' WHERE user_id = '. $toId;
+				' WHERE user_id = '.(int) $toId;
 		$db->setQuery($query);
 
 		$config = $db->loadObjectList('cfg_name');
@@ -152,7 +152,7 @@ class TableMessage extends JTable
 				{
 					$query = 'SELECT email' .
 							' FROM #__users' .
-							' WHERE id = '. $toId;
+							' WHERE id = '.(int) $toId;
 					$db->setQuery($query);
 					$recipient	= $db->loadResult();
 					$subject	= JText::_('A new private message has arrived');

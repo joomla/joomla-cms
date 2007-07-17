@@ -97,25 +97,25 @@ function viewPlugins( $option, $client )
 	$filter_state		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state",		'filter_state',		'',			'word' );
 	$filter_type		= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 		'filter_type',		1,			'cmd' );
 	$search				= $mainframe->getUserStateFromRequest( "$option.$client.search",			'search',			'',			'string' );
-	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search				= JString::strtolower( $search );
 
 	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
 	$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
 	if ($client == 'admin') {
-		$where[] = 'p.client_id = "1"';
+		$where[] = 'p.client_id = 1';
 		$client_id = 1;
 	} else {
-		$where[] = 'p.client_id = "0"';
+		$where[] = 'p.client_id = 0';
 		$client_id = 0;
 	}
 
 	// used by filter
 	if ( $filter_type != 1 ) {
-		$where[] = 'p.folder = "'.$filter_type.'"';
+		$where[] = 'p.folder = '.$db->Quote($filter_type);
 	}
 	if ( $search ) {
-		$where[] = 'LOWER( p.name ) LIKE "%'.$search.'%"';
+		$where[] = 'LOWER( p.name ) LIKE '.$db->Quote('%'.$search.'%');
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
@@ -157,7 +157,7 @@ function viewPlugins( $option, $client )
 	// get list of Positions for dropdown filter
 	$query = 'SELECT folder AS value, folder AS text'
 	. ' FROM #__plugins'
-	. ' WHERE client_id = "'.$client_id.'"'
+	. ' WHERE client_id = '.(int) $client_id
 	. ' GROUP BY folder'
 	. ' ORDER BY folder'
 	;
@@ -207,7 +207,7 @@ function savePlugin( $option, $client, $task )
 		$where = "client_id=0";
 	}
 
-	$row->reorder( "folder = '$row->folder' AND ordering > -10000 AND ordering < 10000 AND ( $where )" );
+	$row->reorder( 'folder = '.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND ( '.$where.' )' );
 
 	switch ( $task ) {
 		case 'apply':
@@ -327,6 +327,8 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 
+	JArrayHelper::toInteger($cid);
+
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
 		JError::raiseError(500, JText::_( 'Select a plugin to '.$action ) );
@@ -334,9 +336,9 @@ function publishPlugin( $cid=null, $publish=1, $option, $client )
 
 	$cids = implode( ',', $cid );
 
-	$query = 'UPDATE #__plugins SET published = "'. intval( $publish ) .'"'
+	$query = 'UPDATE #__plugins SET published = '.(int) $publish
 	. ' WHERE id IN ( '.$cids.' )'
-	. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get( 'id' ). ' ))'
+	. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ))'
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
@@ -384,7 +386,7 @@ function orderPlugin( $uid, $inc, $option, $client )
 	}
 	$row =& JTable::getInstance('plugin');
 	$row->load( $uid );
-	$row->move( $inc, "folder='$row->folder' AND ordering > -10000 AND ordering < 10000 AND ($where)"  );
+	$row->move( $inc, 'folder='.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND ('.$where.')' );
 
 	$mainframe->redirect( 'index.php?option='. $option );
 }
@@ -447,7 +449,7 @@ function saveOrder( &$cid )
 				JError::raiseError(500, $db->getErrorMsg() );
 			}
 			// remember to updateOrder this group
-			$condition = 'folder = "'.$row->folder.'" AND ordering > -10000 AND ordering < 10000 AND client_id = ' . (int) $row->client_id;
+			$condition = 'folder = '.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND client_id = ' . (int) $row->client_id;
 			$found = false;
 			foreach ( $conditions as $cond )
 				if ($cond[1]==$condition) {

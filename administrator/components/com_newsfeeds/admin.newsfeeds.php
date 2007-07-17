@@ -89,17 +89,17 @@ function showNewsFeeds(  )
 	$filter_state		= $mainframe->getUserStateFromRequest( "$option.filter_state",		'filter_state',		'',				'word' );
 	$filter_catid		= $mainframe->getUserStateFromRequest( "$option.filter_catid",		'filter_catid',		0,				'int' );
 	$search				= $mainframe->getUserStateFromRequest( "$option.search",			'search',			'',				'string' );
-	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search				= JString::strtolower( $search );
 
 	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
 	$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
 	$where = array();
 	if ( $filter_catid ) {
-		$where[] = 'a.catid ='. $filter_catid;
+		$where[] = 'a.catid = '.(int) $filter_catid;
 	}
 	if ($search) {
-		$where[] = 'LOWER(a.name) LIKE "%'.$search.'%"';
+		$where[] = 'LOWER(a.name) LIKE '.$db->Quote('%'.$search.'%');
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
@@ -295,9 +295,9 @@ function changePublishNewsFeeds( $publish )
 	$cids = implode( ',', $cid );
 
 	$query = 'UPDATE #__newsfeeds'
-	. ' SET published = '. intval( $publish )
+	. ' SET published = '.(int) $publish
 	. ' WHERE id IN ( '. $cids .' )'
-	. ' AND ( checked_out = 0 OR ( checked_out = '. $user->get('id') .' ) )'
+	. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id') .' ) )'
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
@@ -390,7 +390,7 @@ function orderNewsFeed( $inc )
 
 	$row =& JTable::getInstance( 'newsfeed', 'Table' );
 	$row->load( $cid[0] );
-	$row->move( $inc, "catid = $row->catid AND published != 0" );
+	$row->move( $inc, 'catid = '.(int) $row->catid.' AND published != 0' );
 
 	$mainframe->redirect( 'index.php?option='. $option );
 }
@@ -430,7 +430,7 @@ function saveOrder(  )
 	// execute updateOrder for each parent group
 	$groupings = array_unique( $groupings );
 	foreach ($groupings as $group){
-		$row->reorder("catid = $group");
+		$row->reorder('catid = '.(int) $group);
 	}
 
 	$msg 	= 'New ordering saved';
