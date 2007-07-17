@@ -84,11 +84,11 @@ class MenusViewItem extends JView
 		}
 		$lists = new stdClass();
 		$lists->published = MenusHelper::Published($item);
-		$lists->disabled = ($item->type != 'url' ? 'disabled="true"' : '');
+		$lists->disabled = ($item->type != 'url' ? 'readonly="true"' : '');
 
 		$item->expansion = null;
 		if ($item->type != 'url') {
-			$lists->disabled = 'disabled="true"';
+			$lists->disabled = 'readonly="true"';
 			$item->linkfield = '<input type="hidden" name="link" value="'.$item->link.'" />';
 			if (($item->id) && ($item->type == 'component')) {
 				$item->expansion = '&amp;expand='.trim(str_replace('com_', '', $item->linkparts['option']));
