@@ -124,12 +124,13 @@ class plgAuthenticationOpenID extends JPlugin
 			{
 				$sreg = $result->extensionResponse('sreg');
 
-				$response->status	= JAUTHENTICATE_STATUS_SUCCESS;
+				$response->status	      = JAUTHENTICATE_STATUS_SUCCESS;
+				$response->error_message  = '';
 				$response->email	= isset($sreg['email'])	? $sreg['email']	: "";
 				$response->fullname	= isset($sreg['fullname']) ? $sreg['fullname'] : "";
 				$response->language	= isset($sreg['language']) ? $sreg['language'] : "";
 				$response->timezone	= isset($sreg['timezone']) ? $sreg['timezone'] : "";
-
+				
 			} break;
 
 			case Auth_OpenID_CANCEL :

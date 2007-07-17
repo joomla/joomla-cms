@@ -108,17 +108,16 @@ class UserController extends JController
 	{
 		global $mainframe;
 
-		if ($return = JRequest::getVar('return', '', 'post', 'base64')) {
+		if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
 			$return = base64_decode($return);
-			$return = JURI::base().$return;
 		}
-
+		
 		$options = array();
 		$options['remember'] = JRequest::getBool('remember', false);
 		$options['return'] = $return;
 
 		$credentials = array();
-		$credentials['username'] = JRequest::getVar('username', '', 'post', 'username');
+		$credentials['username'] = JRequest::getVar('username', '', 'method', 'username');
 		$credentials['password'] = JRequest::getString('passwd', '', 'post', JREQUEST_ALLOWRAW);
 
 		//check the token before we do anything else

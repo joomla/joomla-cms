@@ -118,10 +118,10 @@ class JAuthentication extends JObservable
 
 			// Try to authenticate
 			$plugin->onAuthenticate($credentials, $options, $response);
-
+			
 			// If authentication is successfull break out of the loop
 			if($response->status === JAUTHENTICATE_STATUS_SUCCESS)
-			{
+			{			
 				if(empty($response->username)) {
 					$response->username = $credentials['username'];
 				}
