@@ -41,11 +41,11 @@ class HTML_admin_misc
 	function system_info( )
 	{
 		global $mainframe;
+		
+		//Load switcher behavior
+		JHTML::_('behavior.switcher');
 
 		$db =& JFactory::getDBO();
-
-		$document =& JFactory::getDocument();
-		$document->addScript(JURI::base().'components/com_config/assets/switcher.js');
 
 		$contents = '';
 		ob_start();
@@ -53,6 +53,7 @@ class HTML_admin_misc
 		$contents = ob_get_contents();
 		ob_clean();
 
+		$document =& JFactory::getDocument();
 		$document->setBuffer($contents, 'module', 'submenu');
 		?>
 		<form action="index.php" method="post" name="adminForm">

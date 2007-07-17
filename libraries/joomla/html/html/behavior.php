@@ -192,6 +192,19 @@ class JHTMLBehavior
 		$doc = &JFactory::getDocument();
 		$doc->addScript( $url. 'media/system/js/validate.js' );
 	}
+	
+	function switcher()
+	{
+		global $mainframe;
+
+		// Include mootools framework
+		JHTMLBehavior::mootools();
+
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		$doc = &JFactory::getDocument();
+		$doc->addScript( $url. 'media/system/js/switcher.js' );
+	}
 
 	function combobox()
 	{

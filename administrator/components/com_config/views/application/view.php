@@ -27,6 +27,7 @@ class ConfigApplicationView
 
 		// Load tooltips behavior
 		JHTML::_('behavior.tooltip');
+		JHTML::_('behavior.switcher');
 
 		// Load component specific configurations
 		$table =& JTable::getInstance('component');
@@ -45,7 +46,6 @@ class ConfigApplicationView
 
 		// Set document data
 		$document =& JFactory::getDocument();
-		$document->addScript(JURI::base().'components/com_config/assets/switcher.js');
 		$document->setBuffer($contents, 'module', 'submenu');
 
 		// Load settings for the FTP layer
