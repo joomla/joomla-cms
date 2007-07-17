@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Jul-2007 Johan Janssens
+ ^ Changed template _system directory to system for consistency reasons
+
 16-Jul-2007 Johan Janssens
  + Added debug setting to installation localise.xml file to handle easy language debugging
    of the installer

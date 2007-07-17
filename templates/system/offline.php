@@ -16,8 +16,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="head" />
-	<link rel="stylesheet" href="templates/_system/css/offline.css" type="text/css" />
-	<link rel="stylesheet" href="templates/_system/css/general.css" type="text/css" />
+	<link rel="stylesheet" href="templates/system/css/offline.css" type="text/css" />
+	<link rel="stylesheet" href="templates/system/css/general.css" type="text/css" />
 </head>
 <body>
 <jdoc:include type="message" />

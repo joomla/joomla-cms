@@ -540,7 +540,7 @@ class JApplication extends JObject
 	 */
 	function getTemplate()
 	{
-		return '_system';
+		return 'system';
 	}
 
 	/**

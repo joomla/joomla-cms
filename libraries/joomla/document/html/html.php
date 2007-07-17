@@ -213,7 +213,7 @@ class JDocumentHTML extends JDocument
 		$file		= JInputFilter::clean($params['file'], 'cmd');
 
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
-			$template = '_system';
+			$template = 'system';
 		}
 
 		// Parse the template INI file if it exists for parameters and insert

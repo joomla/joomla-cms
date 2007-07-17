@@ -19,7 +19,7 @@ jimport('joomla.environment.uri');
 <head>
 	<title>403 - <?php echo $this->title; ?></title>
 	<base href="<?php echo JURI::base() ?>" />
-	<link rel="stylesheet" href="templates/_system/css/error.css" type="text/css" />
+	<link rel="stylesheet" href="templates/system/css/error.css" type="text/css" />
 </head>
 <body>
 	<div align="center">

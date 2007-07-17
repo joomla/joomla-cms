@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <head>
 <jdoc:include type="head" />
 
-<link rel="stylesheet" href="templates/_system/css/general.css" type="text/css" />
+<link rel="stylesheet" href="templates/system/css/general.css" type="text/css" />
 <link rel="stylesheet" href="templates/<?php echo $this->template ?>/css/template.css" type="text/css" />
 <link rel="stylesheet" href="templates/<?php echo $this->template ?>/css/<?php echo $this->params->get('colorVariation'); ?>.css" type="text/css" />
 <link rel="stylesheet" href="templates/<?php echo $this->template ?>/css/<?php echo $this->params->get('backgroundVariation'); ?>_bg.css" type="text/css" />

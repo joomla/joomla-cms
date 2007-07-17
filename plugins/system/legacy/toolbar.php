@@ -32,7 +32,7 @@ class mosToolBar {
 		$document = & JFactory::getDocument();
 
 		// load toolbar css
-		$document->addStyleSheet( 'templates/_system/css/toolbar.css' );
+		$document->addStyleSheet( 'templates/system/css/toolbar.css' );
 		?>
 		<table cellpadding="0" cellspacing="3" border="0" id="toolbar">
 		<tr valign="middle" align="center">
