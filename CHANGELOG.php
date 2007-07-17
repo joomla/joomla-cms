@@ -652,7 +652,7 @@ Legend:
  - Removed feed.php file, feeds now use index.php again
 
 25-Mar-2007 Hannes Papenberg
- ^ Finished and improved breadcrumbs refactoring
+ ^ Finished and improved breadcrumbs refactoring.
  ^ Cleaned up installation SQL and removed old {image} tags, replaced them with the proper HTML tags
  ! Reinstalling is advised!
 
