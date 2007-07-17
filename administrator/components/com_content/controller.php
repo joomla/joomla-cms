@@ -62,6 +62,7 @@ class ContentController extends JController
 		$filter_authorid	= $mainframe->getUserStateFromRequest( $context.'filter_authorid',	'filter_authorid',	0,	'int' );
 		$filter_sectionid	= $mainframe->getUserStateFromRequest( $context.'filter_sectionid',	'filter_sectionid',	-1,	'int' );
 		$search				= $mainframe->getUserStateFromRequest( $context.'search',			'search',			'',	'string' );
+		$search				= JString::strtolower($search);
 
 		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart	= $mainframe->getUserStateFromRequest($context.'limitstart', 'limitstart', 0, 'int');
@@ -76,7 +77,7 @@ class ContentController extends JController
 		$all = 1;
 
 		if ($filter_sectionid >= 0) {
-			$filter = ' WHERE cc.section = '. $filter_sectionid;
+			$filter = ' WHERE cc.section = '. (int) $filter_sectionid;
 		}
 		$section->title = 'All Articles';
 		$section->id = 0;
@@ -156,7 +157,8 @@ class ContentController extends JController
 		// get list of categories for dropdown filter
 		$query = 'SELECT cc.id AS value, cc.title AS text, section' .
 				' FROM #__categories AS cc' .
-				' INNER JOIN #__sections AS s ON s.id = cc.section '.$filter .
+				' INNER JOIN #__sections AS s ON s.id = cc.section ' .
+				$filter .
 				' ORDER BY s.ordering, cc.ordering';
 		$lists['catid'] = ContentHelper::filterCategory($query, $catid);
 
@@ -213,7 +215,7 @@ class ContentController extends JController
 		$filter_authorid		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_authorid",		'filter_authorid',	0,			'int');
 		$filter_sectionid		= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.filter_sectionid",	'filter_sectionid',	0,			'int');
 		$search					= $mainframe->getUserStateFromRequest("$option.$sectionid.viewarchive.search",				'search',			'',			'string');
-		$search					= $db->getEscaped(JString::strtolower($search));
+		$search					= JString::strtolower($search);
 		$redirect				= $sectionid;
 
 		// A section id of zero means view all articles [all sections]
@@ -226,8 +228,8 @@ class ContentController extends JController
 		else
 		{
 			 //We are viewing a specific section
-			$where = array ('c.state 	= -1', 'c.catid	= cc.id', 'cc.section	= s.id', 's.scope	= "content"', 'c.sectionid= '.$sectionid);
-			$filter = ' WHERE section = "'.$sectionid.'"';
+			$where = array ('c.state 	= -1', 'c.catid	= cc.id', 'cc.section	= s.id', 's.scope	= "content"', 'c.sectionid= '.(int) $sectionid);
+			$filter = ' WHERE section = '.$db->Quote($sectionid);
 			$all = NULL;
 		}
 
@@ -249,7 +251,7 @@ class ContentController extends JController
 		// Keyword filter
 		if ($search)
 		{
-			$where[] = 'LOWER( c.title ) LIKE "%'.$search.'%"';
+			$where[] = 'LOWER( c.title ) LIKE '.$db->Quote('%'.$search.'%');
 		}
 
 		// TODO: Sanitise $filter_order
@@ -261,7 +263,8 @@ class ContentController extends JController
 		$query = 'SELECT COUNT(*)' .
 				' FROM #__content AS c' .
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
-				' LEFT JOIN #__sections AS s ON s.id = c.sectionid'.$where;
+				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
+				$where;
 		$db->setQuery($query);
 		$total = $db->loadResult();
 
@@ -273,7 +276,9 @@ class ContentController extends JController
 				' LEFT JOIN #__categories AS cc ON cc.id = c.catid' .
 				' LEFT JOIN #__sections AS s ON s.id = c.sectionid' .
 				' LEFT JOIN #__groups AS g ON g.id = c.access' .
-				' LEFT JOIN #__users AS v ON v.id = c.created_by'.$where.$orderby;
+				' LEFT JOIN #__users AS v ON v.id = c.created_by' .
+				$where .
+				$orderby;
 		$db->setQuery($query, $pagination->limitstart, $pagination->limit);
 		$rows = $db->loadObjectList();
 
@@ -286,7 +291,8 @@ class ContentController extends JController
 
 		// get list of categories for dropdown filter
 		$query = 'SELECT c.id AS value, c.title AS text' .
-				' FROM #__categories AS c'.$filter .
+				' FROM #__categories AS c' .
+				$filter .
 				' ORDER BY c.ordering';
 		$lists['catid'] = ContentHelper::filterCategory($query, $catid);
 
@@ -386,7 +392,7 @@ class ContentController extends JController
 
 			$query = 'SELECT name' .
 					' FROM #__users'.
-					' WHERE id = '. $row->created_by;
+					' WHERE id = '. (int) $row->created_by;
 			$db->setQuery($query);
 			$row->creator = $db->loadResult();
 
@@ -396,14 +402,14 @@ class ContentController extends JController
 			} else {
 				$query = 'SELECT name' .
 						' FROM #__users' .
-						' WHERE id = '. $row->modified_by;
+						' WHERE id = '. (int) $row->modified_by;
 				$db->setQuery($query);
 				$row->modifier = $db->loadResult();
 			}
 
 			$query = 'SELECT COUNT(content_id)' .
 					' FROM #__content_frontpage' .
-					' WHERE content_id = '. $row->id;
+					' WHERE content_id = '. (int) $row->id;
 			$db->setQuery($query);
 			$row->frontpage = $db->loadResult();
 			if (!$row->frontpage) {
@@ -456,7 +462,7 @@ class ContentController extends JController
 
 		foreach ($sections as $section)
 		{
-			$section_list[] = $section->id;
+			$section_list[] = (int) $section->id;
 			// get the type name - which is a special category
 			if ($row->sectionid) {
 				if ($section->id == $row->sectionid) {
@@ -683,7 +689,7 @@ class ContentController extends JController
 
 		// Check the article and update item order
 		$row->checkin();
-		$row->reorder("catid = $row->catid AND state >= 0");
+		$row->reorder('catid = '.(int) $row->catid.' AND state >= 0');
 
 		/*
 		 * We need to update frontpage status for the article.
@@ -701,7 +707,7 @@ class ContentController extends JController
 			{
 				// Insert the new entry
 				$query = 'INSERT INTO #__content_frontpage' .
-						' VALUES ( '. $row->id .', 1 )';
+						' VALUES ( '. (int) $row->id .', 1 )';
 				$db->setQuery($query);
 				if (!$db->query())
 				{
@@ -794,8 +800,8 @@ class ContentController extends JController
 		$cids	= implode(',', $cid);
 
 		$query = 'UPDATE #__content' .
-				' SET state = '. $state .
-				' WHERE id IN ( '. $cids .' ) AND ( checked_out = 0 OR (checked_out = '. $uid .' ) )';
+				' SET state = '. (int) $state .
+				' WHERE id IN ( '. $cids .' ) AND ( checked_out = 0 OR (checked_out = '. (int) $uid .' ) )';
 		$db->setQuery($query);
 		if (!$db->query()) {
 			JError::raiseError( 500, $db->getErrorMsg() );
@@ -878,7 +884,7 @@ class ContentController extends JController
 			} else {
 				// new entry
 				$query = 'INSERT INTO #__content_frontpage' .
-						' VALUES ( '. $id .', 0 )';
+						' VALUES ( '. (int) $id .', 0 )';
 				$db->setQuery($query);
 				if (!$db->query()) {
 					JError::raiseError( 500, $db->stderr() );
@@ -923,10 +929,10 @@ class ContentController extends JController
 
 		// Update articles in the database
 		$query = 'UPDATE #__content' .
-				' SET state = '.$state .
-				', ordering = '.$ordering .
-				', checked_out = 0, checked_out_time = "'.$nullDate.
-				'" WHERE id IN ( '. $cids. ' )';
+				' SET state = '.(int) $state .
+				', ordering = '.(int) $ordering .
+				', checked_out = 0, checked_out_time = '.$db->Quote($nullDate).
+				' WHERE id IN ( '. $cids. ' )';
 		$db->setQuery($query);
 		if (!$db->query())
 		{
@@ -1056,14 +1062,14 @@ class ContentController extends JController
 		// find section name
 		$query = 'SELECT a.title' .
 				' FROM #__sections AS a' .
-				' WHERE a.id = '. $newsect;
+				' WHERE a.id = '. (int) $newsect;
 		$db->setQuery($query);
 		$section = $db->loadResult();
 
 		// find category name
 		$query = 'SELECT a.title' .
 				' FROM #__categories AS a' .
-				' WHERE a.id = '. $newcat;
+				' WHERE a.id = '. (int) $newcat;
 		$db->setQuery($query);
 		$category = $db->loadResult();
 
@@ -1078,12 +1084,12 @@ class ContentController extends JController
 			$row->load(intval($id));
 			$row->ordering = 0;
 			$row->store();
-			$row->reorder("catid = $row->catid AND state >= 0");
+			$row->reorder('catid = '.(int) $row->catid.' AND state >= 0');
 		}
 
-		$query = 'UPDATE #__content SET sectionid = '.$newsect.', catid = '.$newcat.
+		$query = 'UPDATE #__content SET sectionid = '.(int) $newsect.', catid = '.(int) $newcat.
 				' WHERE id IN ( '.$cids.' )' .
-				' AND ( checked_out = 0 OR ( checked_out = '.$uid.' ) )';
+				' AND ( checked_out = 0 OR ( checked_out = '.(int) $uid.' ) )';
 		$db->setQuery($query);
 		if (!$db->query())
 		{
@@ -1097,7 +1103,7 @@ class ContentController extends JController
 			$row->load(intval($id));
 			$row->ordering = 0;
 			$row->store();
-			$row->reorder("catid = $row->catid AND state >= 0");
+			$row->reorder('catid = '.(int) $row->catid.' AND state >= 0');
 		}
 
 		if ($section && $category) {
@@ -1186,14 +1192,14 @@ class ContentController extends JController
 		// find section name
 		$query = 'SELECT a.title' .
 				' FROM #__sections AS a' .
-				' WHERE a.id = '. $newsect;
+				' WHERE a.id = '. (int) $newsect;
 		$db->setQuery($query);
 		$section = $db->loadResult();
 
 		// find category name
 		$query = 'SELECT a.title' .
 				' FROM #__categories AS a' .
-				' WHERE a.id = '. $newcat;
+				' WHERE a.id = '. (int) $newcat;
 		$db->setQuery($query);
 		$category = $db->loadResult();
 
@@ -1211,7 +1217,7 @@ class ContentController extends JController
 			// main query
 			$query = 'SELECT a.*' .
 					' FROM #__content AS a' .
-					' WHERE a.id = '.$cid[$i];
+					' WHERE a.id = '.(int) $cid[$i];
 			$db->setQuery($query, 0, 1);
 			$item = $db->loadObject();
 
@@ -1253,7 +1259,7 @@ class ContentController extends JController
 				JError::raiseError( 500, $row->getError() );
 				return false;
 			}
-			$row->reorder("catid='".$row->catid."' AND state >= 0");
+			$row->reorder('catid='.(int) $row->catid.' AND state >= 0');
 		}
 
 		$msg = JText::sprintf('Item(s) successfully copied to Section', $total, $section, $category);
@@ -1330,7 +1336,7 @@ class ContentController extends JController
 					return false;
 				}
 				// remember to updateOrder this group
-				$condition = "catid = $row->catid AND state >= 0";
+				$condition = 'catid = '.(int) $row->catid.' AND state >= 0';
 				$found = false;
 				foreach ($conditions as $cond)
 					if ($cond[1] == $condition) {
