@@ -83,8 +83,8 @@ class WeblinksViewCategory extends JView
 		// Define image tag attributes
 		if (isset ($category->image))
 		{
-			$attribs['align'] = '"'.$category->image_position.'"';
-			$attribs['hspace'] = '"6"';
+			$attribs['align']  = $category->image_position;
+			$attribs['hspace'] = 6;
 
 			// Use the static HTML library to build the image tag
 			$category->image = JHTML::_('image', '/images/stories/'.$category->image, JText::_('Web Links'), $attribs);
