@@ -93,7 +93,7 @@ function viewFrontPage( $option )
 	$filter_authorid	= $mainframe->getUserStateFromRequest( $option.'.filter_authorid',	'filter_authorid',	0,				'int' );
 	$filter_sectionid	= $mainframe->getUserStateFromRequest( $option.'.filter_sectionid',	'filter_sectionid',	0,				'int' );
 	$search				= $mainframe->getUserStateFromRequest( $option.'.search',			'search',			'',				'string' );
-	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search				= JString::strtolower( $search );
 
 	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
 	$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
@@ -111,13 +111,13 @@ function viewFrontPage( $option )
 
 	// used by filter
 	if ( $filter_sectionid > 0 ) {
-		$where[] = 'c.sectionid = "'.$filter_sectionid.'"';
+		$where[] = 'c.sectionid = '.(int) $filter_sectionid;
 	}
 	if ( $catid > 0 ) {
-		$where[] = 'c.catid = "'.$catid.'"';
+		$where[] = 'c.catid = '.(int) $catid;
 	}
 	if ( $filter_authorid > 0 ) {
-		$where[] = 'c.created_by = '. $filter_authorid;
+		$where[] = 'c.created_by = '. (int) $filter_authorid;
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
@@ -222,6 +222,8 @@ function changeFrontPage( $cid=null, $state=0, $option )
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
 
+	JArrayHelper::toInteger($cid);
+
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
 		JError::raiseError(500, JText::_( 'Select an item to '.$action, true ) );
@@ -230,9 +232,9 @@ function changeFrontPage( $cid=null, $state=0, $option )
 	$cids = implode( ',', $cid );
 
 	$query = 'UPDATE #__content'
-	. ' SET state = '.$state
+	. ' SET state = '.(int) $state
 	. ' WHERE id IN ( '. $cids .' )'
-	. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get ('id' ). ' ) )'
+	. ' AND ( checked_out = 0 OR ( checked_out = ' .(int) $user->get('id'). ' ) )'
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {

@@ -72,7 +72,7 @@ class MenusHelper
 
 		// If a not a new item, lets set the menu item id
 		if ( $row->id ) {
-			$id = ' AND id != '.$row->id;
+			$id = ' AND id != '.(int) $row->id;
 		} else {
 			$id = null;
 		}
@@ -86,7 +86,7 @@ class MenusHelper
 		// excluding the current menu item and its child elements
 		$query = 'SELECT m.*' .
 				' FROM #__menu m' .
-				' WHERE menutype = "'.$row->menutype.'"' .
+				' WHERE menutype = '.$db->Quote($row->menutype) .
 				' AND published != -2' .
 				$id .
 				' ORDER BY parent, ordering';

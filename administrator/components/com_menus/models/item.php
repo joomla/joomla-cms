@@ -427,9 +427,7 @@ class MenusModelItem extends JModel
 	 */
 	function delete( $ids )
 	{
-		if (!is_array( $ids )) {
-			$ids = array( $ids );
-		}
+		JArrayHelper::toInteger($ids);
 
 		$db = &$this->getDBO();
 
@@ -692,6 +690,8 @@ class MenusModelItem extends JModel
 	 */
 	function _setSubLevel( $cid, $level ) 
 	{
+		JArrayHelper::toInteger($cid, array(0));
+
 		$ids = implode( ',', $cid );
 		
 		$query	= 'UPDATE #__menu SET sublevel = '.(int) $level

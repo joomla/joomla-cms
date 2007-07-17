@@ -94,7 +94,7 @@ class MenusModelMenutype extends JModel
 			$query = 'SELECT count( id )' .
 					' FROM #__modules' .
 					' WHERE module = "mod_mainmenu"' .
-					' AND params LIKE "%' . $row->menutype . '%"';
+					' AND params LIKE '.$db->Quote('%menutype='.$row->menutype.'%');
 			$db->setQuery( $query );
 			$modules = $db->loadResult();
 
@@ -230,7 +230,7 @@ class MenusModelMenutype extends JModel
 				$this->setError( $moduleTable->getErrorMsg() );
 				return false;
 			}
-			$modulesIds[] = $item->id;
+			$modulesIds[] = (int) $item->id;
 		}
 
 		if (count( $modulesIds )) {

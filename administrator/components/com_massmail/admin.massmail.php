@@ -81,13 +81,14 @@ function sendMail()
 
 	// get users in the group out of the acl
 	$to = $acl->get_group_objects( $gou, 'ARO', $recurse );
+	JArrayHelper::toInteger($to['users']);
 
 	$rows = array();
 	if ( count( $to['users'] ) || $gou === 0 ) {
 		// Get sending email address
 		$query = 'SELECT email'
 		. ' FROM #__users'
-		. ' WHERE id = ' .$user->get('id')
+		. ' WHERE id = '.(int) $user->get('id')
 		;
 		$db->setQuery( $query );
 		$user->set( 'email', $db->loadResult() );
@@ -95,7 +96,7 @@ function sendMail()
 		// Get all users email and group except for senders
 		$query = 'SELECT email'
 		. ' FROM #__users'
-		. ' WHERE id != ' .$user->get('id')
+		. ' WHERE id != '.(int) $user->get('id')
 		. ( $gou !== 0 ? ' AND id IN (' . implode( ',', $to['users'] ) . ')' : '' )
 		;
 		$db->setQuery( $query );

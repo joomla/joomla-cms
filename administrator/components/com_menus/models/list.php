@@ -63,7 +63,7 @@ class MenusModelList extends JModel
 		$limitstart			= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.limitstart',		'limitstart',		0,				'int' );
 		$levellimit			= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.levellimit',		'levellimit',		10,				'int' );
 		$search				= $mainframe->getUserStateFromRequest( 'com_menus.'.$menutype.'.search',			'search',			'',				'string' );
-		$search				= $db->getEscaped( JString::strtolower( $search ) );
+		$search				= JString::strtolower( $search );
 
 		$and = '';
 		if ( $filter_state )
@@ -88,7 +88,7 @@ class MenusModelList extends JModel
 			$query = 'SELECT m.id' .
 					' FROM #__menu AS m' .
 					' WHERE menutype = '.$db->Quote($menutype) .
-					' AND LOWER( m.name ) LIKE '.$db->Quote('%'.JString::strtolower($search).'%') .
+					' AND LOWER( m.name ) LIKE '.$db->Quote('%'.$search.'%') .
 					$and;
 			$db->setQuery( $query );
 			$search_rows = $db->loadResultArray();
@@ -100,7 +100,7 @@ class MenusModelList extends JModel
 				' LEFT JOIN #__groups AS g ON g.id = m.access' .
 				' LEFT JOIN #__content AS c ON c.id = m.componentid AND m.type = "content_typed"' .
 				' LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = "component"' .
-				' WHERE m.menutype = "'.$menutype.'"' .
+				' WHERE m.menutype = '.$db->Quote($menutype) .
 				' AND m.published != -2' .
 				$and .
 				$orderby;
@@ -270,7 +270,7 @@ class MenusModelList extends JModel
 				$this->setError($row->getError());
 				return false;
 			}
-			$curr->reorder( 'menutype = "'.$curr->menutype.'" AND parent = '.$curr->parent );
+			$curr->reorder( 'menutype = '.$this->_db->Quote($curr->menutype).' AND parent = '.(int) $curr->parent );
 		} // foreach
 		return true;
 	}
@@ -315,7 +315,7 @@ class MenusModelList extends JModel
 
 		if ($firstroot) {
 			$row->load( $firstroot );
-			$row->reorder( 'menutype = "'.$row->menutype.'" AND parent = '.$row->parent );
+			$row->reorder( 'menutype = '.$this->_db->Quote($row->menutype).' AND parent = '.(int) $row->parent );
 		} // if
 		return true;
 	}
@@ -333,6 +333,7 @@ class MenusModelList extends JModel
 		}
 
 		// Sent menu items to the trash
+		JArrayHelper::toInteger($items, array(0));
 		$where = ' WHERE (id = ' . implode( ' OR id = ', $items ) . ') AND home = 0';
 		$query = 'UPDATE #__menu' .
 				' SET published = '.(int) $state.', parent = 0, ordering = 0, checked_out = 0, checked_out_time = '.$db->Quote($nd) .
@@ -363,6 +364,7 @@ class MenusModelList extends JModel
 		}
 
 		// Sent menu items to the trash
+		JArrayHelper::toInteger($items, array(0));
 		$where = ' WHERE id = ' . implode( ' OR id = ', $items );
 		$query = 'UPDATE #__menu' .
 				' SET published = '.(int) $state.', parent = 0, ordering = 99999, checked_out = 0, checked_out_time = '.$db->Quote($nd) .
@@ -400,7 +402,7 @@ class MenusModelList extends JModel
 		// Set the given item to home
 		$query = 'UPDATE #__menu' .
 				' SET home = 1' .
-				' WHERE id = '.$item;
+				' WHERE id = '.(int) $item;
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
 			$this->setError($db->getErrorMsg());
@@ -498,7 +500,7 @@ class MenusModelList extends JModel
 	{
 		$row =& $this->getTable();
 		$row->load( $item );
-		if (!$row->move( $movement, "menutype = '$row->menutype' AND parent = $row->parent" )) {
+		if (!$row->move( $movement, 'menutype = '.$this->_db->Quote($row->menutype).' AND parent = '.(int) $row->parent )) {
 			$this->setError($row->getError());
 			return false;
 		}
@@ -536,7 +538,7 @@ class MenusModelList extends JModel
 		// execute updateOrder for each parent group
 		$groupings = array_unique( $groupings );
 		foreach ($groupings as $group){
-			$row->reorder("menutype = '$menutype' AND parent = $group AND published >=0");
+			$row->reorder('menutype = '.$this->_db->Quote($menutype).' AND parent = '.(int) $group.' AND published >=0');
 		}
 
 		// clean menu cache
@@ -552,9 +554,7 @@ class MenusModelList extends JModel
 	 */
 	function delete( $ids )
 	{
-		if (!is_array( $ids )) {
-			$ids = array( $ids );
-		}
+		JArrayHelper::toInteger($ids);
 
 		if (count( $ids )) {
 
@@ -641,7 +641,7 @@ class MenusModelList extends JModel
 		$db =& $this->getDBO();
 		$query = 'SELECT id' .
 				' FROM #__menu' .
-				' WHERE parent = '.$id;
+				' WHERE parent = '.(int) $id;
 		$db->setQuery( $query );
 		$rows = $db->loadObjectList();
 

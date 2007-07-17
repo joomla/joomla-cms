@@ -264,7 +264,7 @@ class MenusController extends JController
 		JArrayHelper::toInteger($cid);
 
 		$model =& $this->getModel( 'List' );
-		if ($model->setOrder($cid, $menutype)) {
+		if ($model->setOrder($cid, $menu)) {
 			$msg = JText::_( 'New ordering saved' );
 		} else {
 			$msg = $model->getError();
@@ -460,7 +460,7 @@ class MenusController extends JController
 					return JError::raiseWarning( 500, $row->getError() );
 				}
 				$module->checkin();
-				$module->reorder( "position='". $module->position ."'" );
+				$module->reorder( 'position='.$db->Quote($module->position) );
 
 				// module assigned to show on All pages by default
 				// Clean up possible garbage first
@@ -489,7 +489,7 @@ class MenusController extends JController
 			$query = 'SELECT id'
 			. ' FROM #__modules'
 			. ' WHERE module = "mod_mainmenu"'
-			. ' AND params LIKE "%menutype='.$oldTerm.'%"'
+			. ' AND params LIKE "%menutype='.$db->getEscaped($oldTerm).'%"'
 			;
 			$db->setQuery( $query );
 			$modules = $db->loadResultArray();
@@ -513,8 +513,8 @@ class MenusController extends JController
 
 			// change menutype of all menuitems using old menutype
 			$query = 'UPDATE #__menu'
-			. ' SET menutype = "'.$newTerm.'"'
-			. ' WHERE menutype = "'.$oldTerm.'"'
+			. ' SET menutype = '.$db->Quote($newTerm)
+			. ' WHERE menutype = '.$db->Quote($oldTerm)
 			;
 			$db->setQuery( $query );
 			$db->query();
@@ -645,11 +645,11 @@ class MenusController extends JController
 			$mainframe->close();
 		}
 		$row->checkin();
-		$row->reorder( "position='$row->position'" );
+		$row->reorder( 'position='.$db->Quote($row->position) );
 		// module assigned to show on All pages by default
 		// ToDO: Changed to become a Joomla! db-object
 		$query = 'INSERT INTO #__modules_menu' .
-				' VALUES ( '.$row->id.', 0 )';
+				' VALUES ( '.(int) $row->id.', 0 )';
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
 			echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
