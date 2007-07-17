@@ -66,7 +66,7 @@ class ContentModelElement extends JModel
 		$limit				= $mainframe->getUserStateFromRequest('global.list.limit',					'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart			= $mainframe->getUserStateFromRequest('articleelement.limitstart',			'limitstart',		0,	'int');
 		$search				= $mainframe->getUserStateFromRequest('articleelement.search',				'search',			'',	'string');
-		$search				= $db->getEscaped(trim(JString::strtolower($search)));
+		$search				= JString::strtolower($search);
 
 		//$where[] = "c.state >= 0";
 		$where[] = "c.state != -2";
@@ -78,7 +78,7 @@ class ContentModelElement extends JModel
 		$all = 1;
 
 		if ($filter_sectionid >= 0) {
-			$filter = ' WHERE cc.section = '. $filter_sectionid;
+			$filter = ' WHERE cc.section = '.$db->Quote($filter_sectionid);
 		}
 		$section->title = 'All Articles';
 		$section->id = 0;
@@ -88,23 +88,23 @@ class ContentModelElement extends JModel
 		 */
 		// Section filter
 		if ($filter_sectionid >= 0) {
-			$where[] = 'c.sectionid = '. $filter_sectionid;
+			$where[] = 'c.sectionid = '.(int) $filter_sectionid;
 		}
 		// Category filter
 		if ($catid > 0) {
-			$where[] = 'c.catid = '.$catid;
+			$where[] = 'c.catid = '.(int) $catid;
 		}
 		// Author filter
 		if ($filter_authorid > 0) {
-			$where[] = 'c.created_by = '.$filter_authorid;
+			$where[] = 'c.created_by = '.(int) $filter_authorid;
 		}
-		
+
 		// Only published articles
 		$where[] = 'c.state = 1';
 			
 		// Keyword filter
 		if ($search) {
-			$where[] = 'LOWER( c.title ) LIKE "%'.$search.'%"';
+			$where[] = 'LOWER( c.title ) LIKE "%'.$db->getEscaped($search).'%"';
 		}
 
 		// Build the where clause of the content record query

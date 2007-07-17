@@ -69,9 +69,9 @@ $nullDate	= $db->getNullDate();
 			$num = $db->getNumRows( $res );
 
 			if ($foundE) {
-				$query = 'UPDATE '.$tn.' SET checked_out = 0, checked_out_time = \''.$nullDate.'\', editor = NULL WHERE checked_out > 0';
+				$query = 'UPDATE '.$tn.' SET checked_out = 0, checked_out_time = '.$db->Quote($nullDate).', editor = NULL WHERE checked_out > 0';
 			} else {
-				$query = 'UPDATE '.$tn.' SET checked_out = 0, checked_out_time = \''.$nullDate.'\' WHERE checked_out > 0';
+				$query = 'UPDATE '.$tn.' SET checked_out = 0, checked_out_time = '.$db->Quote($nullDate).' WHERE checked_out > 0';
 			}
 			$db->setQuery( $query );
 			$res = $db->query();

@@ -161,7 +161,6 @@ class ContentViewElement extends JView
 
 		// Initialize variables
 		$db		= &JFactory::getDBO();
-		$filter	= null;
 
 		// Get some variables from the request
 		$sectionid			= JRequest::getVar( 'sectionid', -1, '', 'int' );
@@ -176,11 +175,11 @@ class ContentViewElement extends JView
 		$limit				= $mainframe->getUserStateFromRequest('global.list.limit',					'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart			= $mainframe->getUserStateFromRequest('articleelement.limitstart',			'limitstart',		0,	'int');
 		$search				= $mainframe->getUserStateFromRequest('articleelement.search',				'search',			'',	'string');
-		$search				= $db->getEscaped(trim(JString::strtolower($search)));
+		$search				= JString::strtolower($search);
 
 		// get list of categories for dropdown filter
 		$query = 'SELECT cc.id AS value, cc.title AS text, section FROM #__categories AS cc' .
-				' INNER JOIN #__sections AS s ON s.id = cc.section '.$filter .
+				' INNER JOIN #__sections AS s ON s.id = cc.section' .
 				' ORDER BY s.ordering, cc.ordering';
 		$lists['catid'] = ContentHelper::filterCategory($query, $catid);
 

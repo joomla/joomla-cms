@@ -105,7 +105,7 @@ function showContacts( $option )
 	$filter_state 		= $mainframe->getUserStateFromRequest( $option.'filter_state', 		'filter_state', 	'',				'word' );
 	$filter_catid 		= $mainframe->getUserStateFromRequest( $option.'filter_catid', 		'filter_catid',		0,				'int' );
 	$search 			= $mainframe->getUserStateFromRequest( $option.'search', 			'search', 			'',				'string' );
-	$search 			= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search 			= JString::strtolower( $search );
 
 	$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 	$limitstart	= $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
@@ -113,10 +113,10 @@ function showContacts( $option )
 	$where = array();
 
 	if ( $search ) {
-		$where[] = 'cd.name LIKE "%'.$search.'%"';
+		$where[] = 'cd.name LIKE "%'.$db->getEscaped($search).'%"';
 	}
 	if ( $filter_catid ) {
-		$where[] = 'cd.catid = "'.$filter_catid.'"';
+		$where[] = 'cd.catid = '.(int) $filter_catid;
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
@@ -283,7 +283,7 @@ function saveContact( $task )
 	if ($row->default_con) {
 		$query = 'UPDATE #__contact_details'
 		. ' SET default_con = 0'
-		. ' WHERE id <> '. $row->id
+		. ' WHERE id <> '. (int) $row->id
 		. ' AND default_con = 1'
 		;
 		$db->setQuery( $query );
@@ -324,6 +324,8 @@ function removeContacts( &$cid )
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
+	JArrayHelper::toInteger($cid);
+
 	if (count( $cid )) {
 		$cids = implode( ',', $cid );
 		$query = 'DELETE FROM #__contact_details'
@@ -351,8 +353,9 @@ function changeContact( $cid=null, $state=0 )
 	// Initialize variables
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
+	JArrayHelper::toInteger($cid);
 
-	if (!is_array( $cid ) || count( $cid ) < 1) {
+	if (count( $cid ) < 1) {
 		$action = $state ? 'publish' : 'unpublish';
 		JError::raiseError(500, JText::_( 'Select an item to '.$action, true ) );
 	}
@@ -360,9 +363,9 @@ function changeContact( $cid=null, $state=0 )
 	$cids = implode( ',', $cid );
 
 	$query = 'UPDATE #__contact_details'
-	. ' SET published = ' . intval( $state )
+	. ' SET published = ' . (int) $state
 	. ' WHERE id IN ( '. $cids .' )'
-	. ' AND ( checked_out = 0 OR ( checked_out = '. $user->get('id') .' ) )'
+	. ' AND ( checked_out = 0 OR ( checked_out = '. (int) $user->get('id') .' ) )'
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
@@ -390,7 +393,7 @@ function orderContacts( $uid, $inc )
 
 	$row =& JTable::getInstance('contact', 'Table');
 	$row->load( $uid );
-	$row->move( $inc, 'catid = '. $row->catid .' AND published != 0' );
+	$row->move( $inc, 'catid = '. (int) $row->catid .' AND published != 0' );
 
 	$mainframe->redirect( 'index.php?option=com_contact' );
 }
@@ -467,7 +470,7 @@ function saveOrder( &$cid )
 	// execute updateOrder for each parent group
 	$groupings = array_unique( $groupings );
 	foreach ($groupings as $group){
-		$row->reorder("catid = $group");
+		$row->reorder('catid = '.(int) $group);
 	}
 
 	$msg 	= 'New ordering saved';
