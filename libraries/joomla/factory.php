@@ -132,26 +132,30 @@ class JFactory
 	/**
 	 * Get a cache object
 	 *
-	 * Returns a reference to the global {@link JCache} object, only creating it
-	 * if it doesn't already exist.
+	 * Returns a reference to the global {@link JCache} object
 	 *
 	 * @access public
 	 * @param string The cache group name
-	 * @param string The cache class name
+	 * @param string The handler to use
+	 * @param string The storage method
 	 * @return object JCache
 	 */
-	function &getCache($group='', $handler = 'callback', $application = 0)
+	function &getCache($group = '', $handler = 'callback', $storage = null)
 	{
 		$handler = ($handler == 'function') ? 'callback' : $handler;
-
+		
 		$conf =& JFactory::getConfig();
+		
+		if(!isset($storage)) {
+			$storage = $conf->getValue('config.cache_handler', 'file');
+		}
 
 		$options = array(
 			'defaultgroup' 	=> $group,
-			'application'	=> $application,
 			'cachebase' 	=> $conf->getValue('config.cache_path'),
 			'lifetime' 		=> $conf->getValue('config.cachetime'),
-			'language' 		=> $conf->getValue('config.language')
+			'language' 		=> $conf->getValue('config.language'),
+			'storage'		=> $storage
 		);
 
 		jimport('joomla.cache.cache');
@@ -448,13 +452,11 @@ class JFactory
 
 		$db =& JDatabase::getInstance( $options );
 
-		if ( JError::isError($db) )
-		{
+		if ( JError::isError($db) ) {
 			die("Database Error: ".$db->toString() );
 		}
 
-		if ($db->getErrorNum() > 0)
-		{
+		if ($db->getErrorNum() > 0) {
 			JError::raiseError('joomla.library:'.$db->getErrorNum(), 'JDatabase::getInstance: Could not connect to database <br/>' . $db->getErrorMsg() );
 		}
 

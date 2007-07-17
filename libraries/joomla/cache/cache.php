@@ -51,10 +51,35 @@ class JCache extends JObject
 		$this->_options =& $options;
 
 		// Get the default group and caching
-		$this->_options['language']		= isset($options['language']) ? $options['language'] : 'en-GB';
-		$this->_options['cachebase']    = isset($options['cachebase']) ? $options['cachebase'] : JPATH_ROOT.DS.'cache';
-		$this->_options['defaultgroup'] = isset($options['defaultgroup']) ? $options['defaultgroup'] : 'default';
-		$this->_options['caching']      = isset($options['caching']) ? $options['caching'] : true;
+		if(isset($options['language'])) {
+			$this->_options['language'] = $options['language'];
+		} else {
+			$options['language'] = 'en-GB';
+		}
+		
+		if(isset($options['cachebase'])) {
+			$this->_options['cachebase'] = $options['cachebase'];
+		} else {
+			$this->_options['cachebase'] = JPATH_ROOT.DS.'cache';
+		}
+		 
+		if(isset($options['defaultgroup'])) {
+			$this->_options['defaultgroup'] = $options['defaultgroup'];
+		} else {
+			$this->_options['defaultgroup'] = 'default';
+		}
+		
+		if(isset($options['caching'])) {
+			$this->_options['caching'] =  $options['caching'];
+		} else {
+			$this->_options['caching'] = true;
+		}
+		  
+		if( isset($options['storage'])) {
+			$this->_options['storage'] = $options['storage'];
+		} else {
+			$this->_options['storage'] = 'file';
+		}
 	}
 
 	/**
@@ -69,11 +94,11 @@ class JCache extends JObject
 	{
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
-		$path = JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'handlers'.DS.$type.'.php';
+		$path = JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'handler'.DS.$type.'.php';
 		if (file_exists($path)) {
 			require_once $path;
 		} else {
-			JError::raiseError(500, 'Unable to load Cache Adapter: '.$type);
+			JError::raiseError(500, 'Unable to load Cache Handler: '.$type);
 		}
 
 		$class = 'JCache'.ucfirst($type);
@@ -162,7 +187,7 @@ class JCache extends JObject
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
 		// Get the storage handler
-		$handler =& $this->_getStorageHandler();
+		$handler =& $this->_getStorage();
 		if (!JError::isError($handler) && $this->_options['caching']) {
 			return $handler->get($id, $group, (isset($this->_options['checkTime']))? $this->_options['checkTime'] : true);
 		}
@@ -185,7 +210,7 @@ class JCache extends JObject
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
 		// Get the storage handler and store the cached data
-		$handler =& $this->_getStorageHandler();
+		$handler =& $this->_getStorage();
 		if (!JError::isError($handler) && $this->_options['caching']) {
 			return $handler->store($id, $group, $data);
 		}
@@ -208,7 +233,7 @@ class JCache extends JObject
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
 		// Get the storage handler
-		$handler =& $this->_getStorageHandler();
+		$handler =& $this->_getStorage();
 		if (!JError::isError($handler)) {
 			return $handler->remove($id, $group);
 		}
@@ -233,7 +258,7 @@ class JCache extends JObject
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
 		// Get the storage handler
-		$handler =& $this->_getStorageHandler();
+		$handler =& $this->_getStorage();
 		if (!JError::isError($handler)) {
 			return $handler->clean($group, $mode);
 		}
@@ -245,27 +270,33 @@ class JCache extends JObject
 	 *
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
+	 * @since	1.5
 	 */
 	function gc()
 	{
 		// Get the storage handler
-		$handler =& $this->_getStorageHandler();
+		$handler =& $this->_getStorage();
 		if (!JError::isError($handler)) {
 			return $handler->gc();
 		}
 		return false;
 	}
 
-	function &_getStorageHandler()
+	/**
+	 * Get the cache storage handler
+	 *
+	 * @access protected
+	 * @return object A JCacheStorage object
+	 * @since	1.5
+	 */
+	function &_getStorage()
 	{
 		if (is_a($this->_handler, 'JCacheStorage')) {
 			return $this->_handler;
 		}
 
-		$config =& JFactory::getConfig();
-		$handler = $config->getValue('config.cache_handler', 'file');
 		jimport('joomla.cache.storage');
-		$this->_handler =& JCacheStorage::getInstance($handler, $this->_options);
+		$this->_handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 		return $this->_handler;
 	}
 }
