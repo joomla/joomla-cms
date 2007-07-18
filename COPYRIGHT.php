@@ -26,7 +26,7 @@ works copyrighted by any or all of the following, from 2000 through 2006:
 Code contributers:
 ------------------
 Alex Kempkens, Blagovest Dacheb, Chris Davenport, Jason Kendall,
-David Gall, Andrew Eddie, Mateusz Kreszowiec, Enno Klassing,
+David Gall, Andrew Eddie, Mateusz Kreszowiec, Enno Klasing,
 Hannes Pappenberg, Johan Janssens, Laurens Vanderput, Levis Bison,
 Louis Landry, Samuel Moffatt, Andy Miller, Rastin Mehr,
 Robin Muilwijk, Rob Schley, Wilco Jansen
