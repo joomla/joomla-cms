@@ -86,9 +86,9 @@ class HTML_users {
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="10">
-						<?php echo $page->getListFooter(); ?>
-					</td>
+				<td colspan="10">
+					<?php echo $page->getListFooter(); ?>
+				</td>
 				</tr>
 			</tfoot>
 			<tbody>
@@ -385,7 +385,7 @@ class HTML_users {
 						</tr>
 						<tr>
 							<td class="key">
-								<?php echo JText::_( 'Position' ); ?>:
+								<?php echo JText::_( 'Position' ); ?>
 							</td>
 							<td >
 								<strong>
@@ -414,7 +414,9 @@ class HTML_users {
 							</td>
 						</tr>
 						<tr>
-							<td class="key">&nbsp;</td>
+							<td class="key">
+									<?php echo JText::_( 'Misc' ); ?>
+							</td>
 							<td >
 								<strong>
 									<?php echo $contact[0]->misc;?>
@@ -425,7 +427,9 @@ class HTML_users {
 						if ($contact[0]->image) {
 							?>
 							<tr>
-								<td class="key">&nbsp;</td>
+								<td class="key">
+								<?php echo JText::_( 'Image' ); ?>
+								</td>
 								<td valign="top">
 									<img src="<?php echo $mainframe->getSiteURL();?>/images/stories/<?php echo $contact[0]->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
 								</td>

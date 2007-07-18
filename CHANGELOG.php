@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Jul-2007 Andy Wallace
+ # Fixed missing JText Image and Misc names in com_user
+ 
 18-Jul-2007 Johan Janssens
  # Fixed [#6093] Saving changes in backend/configuration returns error on JOUputfiler
  + Added configuration file folder and image folder paths
