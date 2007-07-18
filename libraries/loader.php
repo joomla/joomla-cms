@@ -87,24 +87,6 @@ class JLoader
 		}
 		return $trs;
 	}
-
-	/**
-	 * A common object factory.
-	 *
-	 * Assumes that the class constructor takes only one parameter, an associative array of
-	 * construction options. Attempts to load the class automatically.
-	 *
-	 * @access public
-	 * @param string $class The class name to instantiate.
-	 * @param array $options An associative array of options (default null).
-	 * @return object An object instance.
-	 */
-	function &factory($class, $options = null)
-	{
-		JLoader::import($class);
-		$obj = new $class($options);
-		return $obj;
-	}
 }
 
 /**
