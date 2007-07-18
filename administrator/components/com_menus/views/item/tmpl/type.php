@@ -8,7 +8,7 @@
 <form action="index.php" method="post" name="adminForm">
 	<table class="admintable" width="100%">
 		<tr valign="top">
-			<td width="70%">
+			<td width="60%">
 				<!-- Menu Item Type Section -->
 				<fieldset>
 					<legend><?php echo JText::_( 'Select Menu Item Type' ); ?></legend>
@@ -34,14 +34,7 @@
 					</ul>
 				</fieldset>
 			</td>
-			<td width="30%">
-				<!-- Menu Item Type Description -->
-				<fieldset>
-					<legend>
-						<?php echo JText::_( 'Description' ); ?>
-					</legend>
-					<div id="jdescription"></div>
-				</fieldset>
+			<td width="40%">
 			</td>
 		</tr>
 	</table>
