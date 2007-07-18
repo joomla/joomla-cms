@@ -155,9 +155,21 @@ class JModel extends JObject
 	 * @return	object JDatabase connector object
 	 * @since	1.5
 	 */
-	function &getDBO()
+	function &getDBO() 
 	{
 		return $this->_db;
+	}
+	
+	/**
+	 * Method to set the database connector object
+	 *
+	 * @param	object	$db	A JDatabase based object
+	 * @return	void
+	 * @since	1.5
+	 */
+	function setDBO(&$db)
+	{
+		$this->_db =& $db;
 	}
 
 	/**
@@ -255,9 +267,8 @@ class JModel extends JObject
 	 */
 	function &_getList( $query, $limitstart=0, $limit=0 )
 	{
-		$db =& JFactory::getDBO();
-		$db->setQuery( $query, $limitstart, $limit );
-		$result = $db->loadObjectList();
+		$this->_db->setQuery( $query, $limitstart, $limit );
+		$result = $this->_db->loadObjectList();
 
 		return $result;
 	}
@@ -272,11 +283,10 @@ class JModel extends JObject
 	 */
 	function _getListCount( $query )
 	{
-		$db =& JFactory::getDBO();
-		$db->setQuery( $query );
-		$db->query();
+		$this->_db->setQuery( $query );
+		$this->_db->query();
 
-		return $db->getNumRows();
+		return $this->_db->getNumRows();
 	}
 
 	/**
