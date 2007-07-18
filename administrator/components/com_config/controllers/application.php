@@ -337,7 +337,7 @@ class ConfigControllerApplication extends ConfigController
 		// htmlspecialchars not used to preserve ability to insert other html characters
 		jimport('joomla.filter.output');
 		$offline_message	= JRequest::getVar( 'offline_message', '', 'post', 'string' );
-		$offline_message	= JOUtputFilter::ampReplace( $offline_message );
+		$offline_message	= JFilterOutput::ampReplace( $offline_message );
 		$offline_message	= str_replace( '"', '&quot;', $offline_message );
 		$offline_message	= str_replace( "'", '&#039;', $offline_message );
 		$config->setValue('config.offline_message', $offline_message);
