@@ -37,9 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Jul-2007 Johan Janssens
+ # Fixed [#6093] Saving changes in backend/configuration returns error on JOUputfiler
+
 18-Jul-2007 Enno Klasing
  # Fixed [#4864] Hardcoded string in administration, com_media
-
+ 
 17-Jul-2007 Andy Miller
  ^ Changed link 'disabled' state to 'readonly' when editing menu item
 
