@@ -307,7 +307,7 @@ function editCategory( )
 			&& $section != 'com_newsfeeds'
 			&& $section != 'com_contact_details'
 			&& $section != 'com_banner') {
-		JError::raiseError(500, JText::_( 'WARNSECTION', true ));
+		$mainframe->redirect( 'index.php?option=com_categories&section='. $section, JText::_( 'WARNSECTION', true ) );
 	}
 
 	$row =& JTable::getInstance('category');
@@ -317,7 +317,7 @@ function editCategory( )
 	// fail if checked out not by 'me'
 	if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out )) {
 		$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The category' ), $row->title );
-		$mainframe->redirect( 'index.php?option=categories&section='. $row->section, $msg );
+		$mainframe->redirect( 'index.php?option=com_categories&section='. $row->section, $msg );
 	}
 
 	if ( $cid[0] ) {
