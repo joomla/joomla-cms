@@ -46,6 +46,7 @@ Legend:
  # Fixed [#5926] Kepri: <table class="adminlist"> invalid markup
  # Fixed [#5635] reference to Mambelfish
  # Fixed [#5612] The "Read more... " URL Router cannot working well for "Section Blog Layout"
+ # Fixed [#6073] GPL url points to version "latest" (v3) instead of V2 in all files
 
 18-Jul-2007 Enno Klasing
  # Fixed [#4864] Hardcoded string in administration, com_media
