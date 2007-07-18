@@ -157,7 +157,7 @@ class JHTMLBehavior
 		// Get the document object and base URL
 		$document =& JFactory::getDocument();
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-		
+
 		if ($debug || $konkcheck) {
 			$document->addScript($url.'media/system/js/mootools-uncompressed.js');
 		} else {
@@ -192,7 +192,7 @@ class JHTMLBehavior
 		$doc = &JFactory::getDocument();
 		$doc->addScript( $url. 'media/system/js/validate.js' );
 	}
-	
+
 	function switcher()
 	{
 		global $mainframe;
@@ -257,9 +257,9 @@ class JHTMLBehavior
 
 
 		// Optional functions
-		$opt['createReplacement']	= (isset($params['createReplacement'])) ? $params['createReplacement'] : null;
-		$opt['onComplete']			= (isset($params['onComplete'])) ? $params['onComplete'] : null;
-		$opt['onAllComplete']		= (isset($params['onAllComplete'])) ? $params['onAllComplete'] : null;
+		$opt['createReplacement']	= (isset($params['createReplacement'])) ? '\\'.$params['createReplacement'] : null;
+		$opt['onComplete']			= (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
+		$opt['onAllComplete']		= (isset($params['onAllComplete'])) ? '\\'.$params['onAllComplete'] : null;
 
 /*  types: Object with (description: extension) pairs, default: Images (*.jpg; *.jpeg; *.gif; *.png)
  */
@@ -268,7 +268,9 @@ class JHTMLBehavior
 
 		// Attach tooltips to document
 		$document =& JFactory::getDocument();
-		$tooltipInit = '		window.addEvent(\'load\', function(){ var Uploader = new FancyUpload($(\''.$id.'\'), '.$options.'); console.log(Uploader); });';
+		$tooltipInit = '		window.addEvent(\'load\', function(){
+				var Uploader = new FancyUpload($(\''.$id.'\'), '.$options.');
+				$(\'upload-clear\').adopt(new Element(\'input\', { type: \'button\', events: { click: Uploader.clearList.bind(Uploader, [false])}, value: \'Clear Completed\' }));				});';
 		$document->addScriptDeclaration($tooltipInit);
 
 		// Set static array

@@ -62,7 +62,7 @@ class MediaViews
 			document.preview = SqueezeBox;
 		});");
 
-		JHTML::_('behavior.uploader', 'file-upload');
+		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ $(\'folderframe\').src = $(\'folderframe\').src; }'));
 		$session = &JFactory::getSession();
 
 		MediaViews::_loadJS();
@@ -130,10 +130,11 @@ class MediaViews
 				<ul class="upload-queue" id="upload-queue">
 					<li style="display: none" />
 				</ul>
-			</fieldset>
-			<fieldset class="actions">
-				<input type="file" id="file-upload" />
-				<input type="submit" id="file-upload-submit" value="Start Upload"/>
+				<fieldset class="actions">
+					<input type="file" id="file-upload" />
+					<input type="submit" id="file-upload-submit" value="Start Upload"/>
+					<span id="upload-clear"></span>
+				</fieldset>
 			</fieldset>
 		</form>
 
