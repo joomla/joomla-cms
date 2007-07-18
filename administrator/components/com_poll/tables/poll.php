@@ -86,7 +86,7 @@ class TablePoll extends JTable
 		// check for existing title
 		$query = 'SELECT id'
 		. ' FROM #__polls'
-		. ' WHERE title = "'.$this->title.'"'
+		. ' WHERE title = '.$this->_db->Quote($this->title)
 		;
 		$this->_db->setQuery( $query );
 
@@ -117,7 +117,7 @@ class TablePoll extends JTable
 
 		if ( parent::delete( $oid )) {
 			$query = 'DELETE FROM #__poll_data'
-			. ' WHERE pollid = '. $this->$k
+			. ' WHERE pollid = '.(int) $this->$k
 			;
 			$this->_db->setQuery( $query );
 			if ( !$this->_db->query() ) {
@@ -125,7 +125,7 @@ class TablePoll extends JTable
 			}
 
 			$query = 'DELETE FROM #__poll_date'
-			. ' WHERE pollid = '. $this->$k
+			. ' WHERE poll_id = '.(int) $this->$k
 			;
 			$this->_db->setQuery( $query );
 			if ( !$this->_db->query() ) {
@@ -133,7 +133,7 @@ class TablePoll extends JTable
 			}
 
 			$query = 'DELETE from #__poll_menu'
-			. ' WHERE pollid = '. $this->$k
+			. ' WHERE pollid = '.(int) $this->$k
 			;
 			$this->_db->setQuery( $query );
 			if ( !$this->_db->query() ) {

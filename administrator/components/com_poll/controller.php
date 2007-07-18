@@ -52,7 +52,7 @@ class PollController extends JController
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'',		'word' );
 		$filter_state		= $mainframe->getUserStateFromRequest( "$option.filter_state",		'filter_state',		'',		'word' );
 		$search				= $mainframe->getUserStateFromRequest( "$option.search",			'search',			'',		'string' );
-		$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+		$search				= JString::strtolower( $search );
 
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
 		$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
@@ -72,7 +72,7 @@ class PollController extends JController
 		}
 		if ($search)
 		{
-			$where[] = 'LOWER(m.title) LIKE "%'.$search.'%"';
+			$where[] = 'LOWER(m.title) LIKE '.$db->Quote('%'.$search.'%');
 		}
 
 		$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
@@ -151,7 +151,7 @@ class PollController extends JController
 			$row->checkout( $user->get('id') );
 			$query = 'SELECT id, text'
 			. ' FROM #__poll_data'
-			. ' WHERE pollid = '.$uid
+			. ' WHERE pollid = '.(int) $uid
 			. ' ORDER BY id'
 			;
 			$db->setQuery($query);
@@ -194,12 +194,11 @@ class PollController extends JController
 
 		foreach ($options as $i=>$text)
 		{
-			$text = $db->Quote($text);
 			if ($isNew)
 			{
 				$query = 'INSERT INTO #__poll_data'
 				. ' ( pollid, text )'
-				. ' VALUES ( '. $row->id .', '. $text.' )'
+				. ' VALUES ( '.(int) $row->id.', '.$db->Quote($text).' )'
 				;
 				$db->setQuery( $query );
 				$db->query();
@@ -207,9 +206,9 @@ class PollController extends JController
 			else
 			{
 				$query = 'UPDATE #__poll_data'
-				. ' SET text = '. $text
-				. ' WHERE id = '. $i
-				. ' AND pollid = '.  $row->id
+				. ' SET text = '. $db->Quote($text)
+				. ' WHERE id = '. (int) $i
+				. ' AND pollid = '.(int) $row->id
 				;
 				$db->setQuery( $query );
 				$db->query();
@@ -281,9 +280,9 @@ class PollController extends JController
 		$cids = implode( ',', $cid );
 
 		$query = 'UPDATE #__polls'
-		. ' SET published = ' . intval( $publish )
+		. ' SET published = ' . (int) $publish
 		. ' WHERE id IN ( '. $cids .' )'
-		. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get('id'). ' ) )'
+		. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
 		;
 		$db->setQuery( $query );
 		if (!$db->query())
@@ -322,14 +321,14 @@ class PollController extends JController
 
 		$query = 'SELECT title'
 			. ' FROM #__polls'
-			. ' WHERE id = '. $pollid
+			. ' WHERE id = '.(int) $pollid
 		;
 		$db->setQuery( $query );
 		$title = $db->loadResult();
 
 		$query = 'SELECT text'
 			. ' FROM #__poll_data'
-			. ' WHERE pollid = '. $pollid
+			. ' WHERE pollid = '.(int) $pollid
 			. ' ORDER BY id'
 		;
 		$db->setQuery( $query );

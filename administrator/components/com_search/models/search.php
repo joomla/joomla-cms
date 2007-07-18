@@ -54,8 +54,7 @@ class SearchModelSearch extends JModel
 		$limit				= $mainframe->getUserStateFromRequest( 'global.list.limit',				'limit',			$mainframe->getCfg('list_limit'), 'int' );
 		$limitstart			= $mainframe->getUserStateFromRequest( 'com_search.limitstart',			'limitstart',		0,		'int' );
 		$search				= $mainframe->getUserStateFromRequest( 'com_search.search',				'search',			'',		'string' );
-		$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-		$where				= array();
+		$search				= JString::strtolower( $search );
 		$showResults		= JRequest::getInt('search_results');
 
 		// table ordering
@@ -69,8 +68,9 @@ class SearchModelSearch extends JModel
 		// search filter
 		$this->lists['search']= $search;
 
+		$where = array();
 		if ($search) {
-			$where[] = 'LOWER( search_term ) LIKE "%'.$search.'%"';
+			$where[] = 'LOWER( search_term ) LIKE '.$db->Quote('%'.$search.'%');
 		}
 
 		$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
