@@ -41,6 +41,7 @@ Legend:
  + Added print style icon for header/toolbar/menu
  # Fixed some font inconsistencies in milkyway css
  # Fixed [#5851] Insert Image popup is broken under IE7
+ # Fixed [#259] IE 6 freezes when resizing Milky Way template under 750 px width
 
 18-Jul-2007 Andy Wallace
  # Fixed missing JText Image and Misc names in com_user

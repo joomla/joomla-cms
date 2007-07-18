@@ -1,7 +1,7 @@
 /* IE ONLY CSS */
 
 body.width_fmax div#wrapper {
-	width: expression(((document.body.clientWidth)) < 750? "750px": ((document.body.clientWidth)) > 1050? "1050px": "auto" );
+	width: expression(((document.body.clientWidth)) < 751? "750px": ((document.body.clientWidth)) > 1050? "1050px": "auto" );
 }
 
 div.module_menu div div div {
