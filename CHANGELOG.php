@@ -39,7 +39,8 @@ Legend:
 
 18-Jul-2007 Andy Miller
  + Added print style icon for header/toolbar/menu
- # fixed some font inconsistencies in milkyway css
+ # Fixed some font inconsistencies in milkyway css
+ # Fixed [#5851] Insert Image popup is broken under IE7
 
 18-Jul-2007 Andy Wallace
  # Fixed missing JText Image and Misc names in com_user
