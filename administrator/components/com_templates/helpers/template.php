@@ -43,7 +43,7 @@ class TemplatesHelper
 		$query = 'SELECT COUNT(*)' .
 				' FROM #__templates_menu' .
 				' WHERE client_id = 0' .
-				' AND template = "'.$template.'"' .
+				' AND template = '.$db->Quote($template) .
 				' AND menuid <> 0';
 		$db->setQuery($query);
 		return $db->loadResult() ? 1 : 0;
@@ -104,7 +104,7 @@ class TemplatesHelper
 		$query = 'SELECT menuid AS value' .
 				' FROM #__templates_menu' .
 				' WHERE client_id = 0' .
-				' AND template = "'.$template.'"';
+				' AND template = '.$db->Quote($template);
 		$db->setQuery($query);
 		$lookup = $db->loadObjectList();
 		if (empty( $lookup )) {

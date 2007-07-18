@@ -388,7 +388,7 @@ class sections_html
 			<?php
 			echo "<ol>";
 			foreach ( $categories as $category ) {
-				echo "<li>". $category->name ."</li>";
+				echo "<li>". $category->title ."</li>";
 				echo "\n <input type=\"hidden\" name=\"category[]\" value=\"$category->id\" />";
 			}
 			echo "</ol>";

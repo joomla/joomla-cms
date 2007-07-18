@@ -107,12 +107,12 @@ function showSections( $scope, $option )
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'.filter_order_Dir',	'filter_order_Dir',	'',				'word' );
 	$filter_state		= $mainframe->getUserStateFromRequest( $option.'.filter_state',		'filter_state',		'',				'word' );
 	$search				= $mainframe->getUserStateFromRequest( $option.'.search',			'search',			'',				'string' );
-	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search				= JString::strtolower( $search );
 
 	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
 	$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
-	$where[] = 's.scope = "'.$scope.'"';
+	$where[] = 's.scope = '.$db->Quote($scope);
 
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
@@ -122,7 +122,7 @@ function showSections( $scope, $option )
 		}
 	}
 	if ($search) {
-		$where[] = 'LOWER(s.title) LIKE "%'.$search.'%"';
+		$where[] = 'LOWER(s.title) LIKE '.$db->Quote('%'.$search.'%');
 	}
 
 	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
@@ -156,11 +156,11 @@ function showSections( $scope, $option )
 	}
 
 	$count = count( $rows );
-	// number of Active Items
+	// number of Active Categories
 	for ( $i = 0; $i < $count; $i++ ) {
 		$query = 'SELECT COUNT( a.id )'
 		. ' FROM #__categories AS a'
-		. ' WHERE a.section = "'. $rows[$i]->id .'"'
+		. ' WHERE a.section = '.$db->Quote($rows[$i]->id)
 		. ' AND a.published <> -2'
 		;
 		$db->setQuery( $query );
@@ -171,7 +171,7 @@ function showSections( $scope, $option )
 	for ( $i = 0; $i < $count; $i++ ) {
 		$query = 'SELECT COUNT( a.id )'
 		. ' FROM #__content AS a'
-		. ' WHERE a.sectionid = "'. $rows[$i]->id .'"'
+		. ' WHERE a.sectionid = '.(int) $rows[$i]->id
 		. ' AND a.state <> -2'
 		;
 		$db->setQuery( $query );
@@ -182,7 +182,7 @@ function showSections( $scope, $option )
 	for ( $i = 0; $i < $count; $i++ ) {
 		$query = 'SELECT COUNT( a.id )'
 		. ' FROM #__content AS a'
-		. ' WHERE a.sectionid = "'. $rows[$i]->id .'"'
+		. ' WHERE a.sectionid = '.(int) $rows[$i]->id
 		. ' AND a.state = -2'
 		;
 		$db->setQuery( $query );
@@ -288,8 +288,8 @@ function saveSection( $option, $scope, $task )
 	if ( $oldtitle ) {
 		if ( $oldtitle <> $row->title ) {
 			$query = 'UPDATE #__menu'
-			. ' SET name = "'.$row->title.'"'
-			. ' WHERE name = "'.$oldtitle.'"'
+			. ' SET name = '.$db->Quote($row->title)
+			. ' WHERE name = '.$db->Quote($oldtitle)
 			. ' AND type = "content_section"'
 			;
 			$db->setQuery( $query );
@@ -409,7 +409,9 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
 
-	if ( !is_array( $cid ) || count( $cid ) < 1 ) {
+	JArrayHelper::toInteger($cid);
+
+	if ( count( $cid ) < 1 ) {
 		$action = $publish ? 'publish' : 'unpublish';
 		JError::raiseError(500, JText::_( 'Select a section to '.$action, true ) );
 	}
@@ -424,9 +426,9 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 	}
 
 	$query = 'UPDATE #__sections'
-	. ' SET published = ' . intval( $publish )
+	. ' SET published = '.(int) $publish
 	. ' WHERE id IN ( '.$cids.' )'
-	. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get('id'). ' ) )'
+	. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
 	;
 	$db->setQuery( $query );
 	if (!$db->query()) {
@@ -451,8 +453,8 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 		if ($menus) {
 			foreach ($menus as $menu) {
 				$query = 'UPDATE #__menu'
-				. ' SET published = ' . intval( $publish )
-				. ' WHERE id = ' . $menu->id
+				. ' SET published = '.(int) $publish
+				. ' WHERE id = '.(int) $menu->id
 				;
 				$db->setQuery( $query );
 				$db->query();
@@ -492,7 +494,7 @@ function orderSection( $uid, $inc, $option, $scope )
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('section');
 	$row->load( $uid );
-	$row->move( $inc, "scope = '$row->scope'" );
+	$row->move( $inc, 'scope = '.$db->Quote($row->scope) );
 
 	$mainframe->redirect( 'index.php?option='. $option .'&scope='. $scope );
 }
@@ -506,13 +508,16 @@ function copySectionSelect( $option, $cid, $section )
 	global $mainframe;
 
 	$db =& JFactory::getDBO();
-	if (!is_array( $cid ) || count( $cid ) < 1) {
+
+	JArrayHelper::toInteger($cid);
+
+	if ( count( $cid ) < 1) {
 		JError::raiseError(500, JText::_( 'Select an item to move', true ) );
 	}
 
 	## query to list selected categories
 	$cids = implode( ',', $cid );
-	$query = 'SELECT a.name, a.id'
+	$query = 'SELECT a.title, a.id'
 	. ' FROM #__categories AS a'
 	. ' WHERE a.section IN ( '.$cids.' )'
 	;
@@ -561,7 +566,7 @@ function copySectionSave( $sectionid )
 			JError::raiseError(500, $section->getError() );
 		}
 		$section->checkin();
-		$section->reorder( "section = '$section->id'" );
+		$section->reorder( 'scope = '.$db->Quote($section->scope) );
 		// stores original catid
 		$newsectids[]["old"] = $id;
 		// pulls new catid
@@ -588,7 +593,7 @@ function copySectionSave( $sectionid )
 			JError::raiseError(500, $category->getError() );
 		}
 		$category->checkin();
-		$category->reorder( "section = '$category->section'" );
+		$category->reorder( 'section = '.$db->Quote($category->section) );
 		// stores original catid
 		$newcatids[]["old"] = $id;
 		// pulls new catid

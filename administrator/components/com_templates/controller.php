@@ -100,13 +100,13 @@ class TemplatesController
 		if ($cid[0])
 		{
 			$query = 'DELETE FROM #__templates_menu' .
-					' WHERE client_id = '. $client->id .
+					' WHERE client_id = '.(int) $client->id .
 					' AND (menuid = 0 OR template = '.$db->Quote($cid[0]).')';
 			$db->setQuery($query);
 			$db->query();
 
 			$query = 'INSERT INTO #__templates_menu' .
-					' SET client_id = '. $client->id .', template = '.$db->Quote($cid[0]).', menuid = 0';
+					' SET client_id = '.(int) $client->id .', template = '.$db->Quote($cid[0]).', menuid = 0';
 			$db->setQuery($query);
 			$db->query();
 		}
