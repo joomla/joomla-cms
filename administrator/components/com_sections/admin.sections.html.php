@@ -94,9 +94,11 @@ class sections_html
 			</tr>
 		</thead>
 		<tfoot>
-			<td colspan="13">
-				<?php echo $page->getListFooter(); ?>
-			</td>
+			<tr>
+				<td colspan="13">
+					<?php echo $page->getListFooter(); ?>
+				</td>
+			</tr>
 		</tfoot>
 		<tbody>
 		<?php

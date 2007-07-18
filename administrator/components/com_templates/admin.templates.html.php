@@ -84,9 +84,11 @@ class TemplatesView
 				</tr>
 			</thead>
 			<tfoot>
-				<td colspan="8">
-					<?php echo $page->getListFooter(); ?>
-				</td>
+				<tr>
+					<td colspan="8">
+						<?php echo $page->getListFooter(); ?>
+					</td>
+				</tr>
 			</tfoot>
 			<tbody>
 			<?php

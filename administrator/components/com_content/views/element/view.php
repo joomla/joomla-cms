@@ -100,9 +100,11 @@ class ContentViewElement extends JView
 				</tr>
 			</thead>
 			<tfoot>
+			<tr>
 				<td colspan="15">
 					<?php echo $page->getListFooter(); ?>
 				</td>
+			</tr>
 			</tfoot>
 			<tbody>
 			<?php

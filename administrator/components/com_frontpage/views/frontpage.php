@@ -28,7 +28,7 @@ class FrontpageView
 	function showList( &$rows, $page, $option, $lists )
 	{
 		jimport('joomla.utilities.date');
-		
+
 		$limitstart = JRequest::getVar('limitstart', '0', '', 'int');
 
 		$user 		=& JFactory::getUser();
@@ -102,14 +102,16 @@ class FrontpageView
 				</tr>
 			</thead>
 			<tfoot>
+			<tr>
 				<td colspan="13">
 					<?php echo $page->getListFooter(); ?>
 				</td>
+			</tr>
 			</tfoot>
 			<tbody>
 			<?php
 			$k = 0;
-			for ($i=0, $n=count( $rows ); $i < $n; $i++) 
+			for ($i=0, $n=count( $rows ); $i < $n; $i++)
 			{
 				$row = &$rows[$i];
 

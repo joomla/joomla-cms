@@ -58,6 +58,14 @@ JHTML::_('behavior.tooltip');
 			</th>
 		</tr>
 	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="9">
+				<?php echo $this->pagination->getListFooter(); ?>
+			</td>
+		</tr>
+	</tfoot>
+	<tbody>
 	<?php
 	$k = 0;
 	for ($i=0, $n=count( $this->items ); $i < $n; $i++)
@@ -115,11 +123,7 @@ JHTML::_('behavior.tooltip');
 		$k = 1 - $k;
 	}
 	?>
-	<tfoot>
-		<td colspan="9">
-			<?php echo $this->pagination->getListFooter(); ?>
-		</td>
-	</tfoot>
+	</tbody>
 	</table>
 </div>
 

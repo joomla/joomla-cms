@@ -19,7 +19,6 @@
 		<tfoot>
 		<tr>
 			<th colspan="2">&nbsp;
-				
 			</th>
 		</tr>
 		</tfoot>

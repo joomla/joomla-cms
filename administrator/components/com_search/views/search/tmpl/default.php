@@ -50,6 +50,14 @@
 					?>
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="4">
+						<?php echo $this->pageNav->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n = count($this->items); $i < $n; $i++) {
@@ -79,11 +87,7 @@
 				$k = 1 - $k;
 			}
 			?>
-			<tfoot>
-				<td colspan="4">
-					<?php echo $this->pageNav->getListFooter(); ?>
-				</td>
-			</tfoot>
+			</tbody>
 			</table>
 		</div>
 

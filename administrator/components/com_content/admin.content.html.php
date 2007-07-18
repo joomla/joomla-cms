@@ -114,9 +114,11 @@ class ContentView
 				</tr>
 			</thead>
 			<tfoot>
+			<tr>
 				<td colspan="15">
 					<?php echo $page->getListFooter(); ?>
 				</td>
+			</tr>
 			</tfoot>
 			<tbody>
 			<?php
@@ -316,6 +318,7 @@ class ContentView
 
 		<div id="tablecell">
 			<table class="adminlist">
+			<thead>
 			<tr>
 				<th width="5">
 					<?php echo JText::_( 'Num' ); ?>
@@ -342,6 +345,15 @@ class ContentView
 					<?php echo JHTML::_('grid.sort',   'Date', 'c.created', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 			</tr>
+			</thead>
+			<tfoot>
+			<tr>
+				<td colspan="8">
+					<?php echo $pageNav->getListFooter(); ?>
+				</td>
+			</tr>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -398,11 +410,7 @@ class ContentView
 				$k = 1 - $k;
 			}
 			?>
-			<tfoot>
-				<td colspan="8">
-					<?php echo $pageNav->getListFooter(); ?>
-				</td>
-			</tfoot>
+			</tbody>
 			</table>
 		</div>
 

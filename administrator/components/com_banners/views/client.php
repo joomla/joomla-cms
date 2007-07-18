@@ -71,6 +71,14 @@ class BannersViewClients
 				</th>
 			</tr>
 			</thead>
+			<tfoot>
+			<tr>
+				<td colspan="6">
+					<?php echo $pageNav->getListFooter(); ?>
+				</td>
+			</tr>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -114,11 +122,7 @@ class BannersViewClients
 				$k = 1 - $k;
 			}
 			?>
-			<tfoot>
-				<td colspan="6">
-					<?php echo $pageNav->getListFooter(); ?>
-				</td>
-			</tfoot>
+			</tbody>
 			</table>
 
 		<input type="hidden" name="c" value="client" />

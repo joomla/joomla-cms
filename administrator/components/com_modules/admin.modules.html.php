@@ -100,9 +100,11 @@ class HTML_modules
 			</tr>
 			</thead>
 			<tfoot>
+			<tr>
 				<td colspan="12">
 					<?php echo $page->getListFooter(); ?>
 				</td>
+			</tr>
 			</tfoot>
 			<tbody>
 			<?php
@@ -536,11 +538,10 @@ class HTML_modules
 		</thead>
 		<tfoot>
 		<tr>
-			<th colspan="4">
+			<th colspan="4">&nbsp;
 			</th>
 		</tr>
 		</tfoot>
-
 		<tbody>
 		<?php
 		$k 		= 0;

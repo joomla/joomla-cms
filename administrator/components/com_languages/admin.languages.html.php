@@ -93,9 +93,11 @@ class HTML_languages {
 			</tr>
 			</thead>
 			<tfoot>
+			<tr>
 				<td colspan="8">
 					<?php echo $page->getListFooter(); ?>
 				</td>
+			</tr>
 			</tfoot>
 			<tbody>
 			<?php

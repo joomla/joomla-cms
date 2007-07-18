@@ -58,9 +58,11 @@ class CacheView
 			</tr>
 			</thead>
 			<tfoot>
+			<tr>
 				<td colspan="6">
 				<?php echo $page->getListFooter(); ?>
 				</td>
+			</tr>
 			</tfoot>
 			<tbody>
 			<?php

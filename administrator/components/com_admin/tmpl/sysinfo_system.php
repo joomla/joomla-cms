@@ -19,7 +19,6 @@
 		<tfoot>
 		<tr>
 			<th colspan="2">&nbsp;
-				
 			</th>
 		</tr>
 		</tfoot>
@@ -92,5 +91,6 @@
 				<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
 			</td>
 		</tr>
+		</tbody>
 		</table>
 </fieldset>

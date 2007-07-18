@@ -24,7 +24,7 @@ class PollView
 	function showPolls( &$rows, &$pageNav, $option, &$lists )
 	{
 		$user =& JFactory::getUser();
-		
+
 		JHTML::_('behavior.tooltip');
 		?>
 		<form action="index.php?option=com_poll" method="post" name="adminForm">
@@ -75,6 +75,14 @@ class PollView
 					</th>
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="8">
+						<?php echo $pageNav->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++)
@@ -124,11 +132,7 @@ class PollView
 				$k = 1 - $k;
 			}
 			?>
-			<tfoot>
-				<td colspan="8">
-					<?php echo $pageNav->getListFooter(); ?>
-				</td>
-			</tfoot>
+			</tbody>
 			</table>
 		</div>
 

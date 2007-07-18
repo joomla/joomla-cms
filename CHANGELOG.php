@@ -43,6 +43,7 @@ Legend:
  # Fixed [#6088] If no section is created / available creating category results in blank 
    page with error
  # Fixed [#6081] Article selection popup is broken.
+ # Fixed [#5926] Kepri: <table class="adminlist"> invalid markup
 
 18-Jul-2007 Enno Klasing
  # Fixed [#4864] Hardcoded string in administration, com_media

@@ -100,6 +100,14 @@ class BannersViewBanner
 					</th>
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="13">
+						<?php echo $pageNav->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
@@ -174,11 +182,7 @@ class BannersViewBanner
 				$k = 1 - $k;
 			}
 			?>
-			<tfoot>
-				<td colspan="13">
-					<?php echo $pageNav->getListFooter(); ?>
-				</td>
-			</tfoot>
+			</tbody>
 			</table>
 
 		<input type="hidden" name="c" value="banner" />

@@ -7,7 +7,6 @@
 	<legend><?php echo JText::_( 'Directory Permissions' ); ?></legend>
 		<table class="adminlist">
 		<thead>
-		<thead>
 			<tr>
 				<th width="650">
 					<?php echo JText::_( 'Directory' ); ?>
@@ -17,11 +16,12 @@
 				</th>
 			</tr>
 		</thead>
-		</thead>
 		<tfoot>
-			<td colspan="2">
-				&nbsp;
-			</td>
+			<tr>
+				<td colspan="2">
+					&nbsp;
+				</td>
+			</tr>
 		</tfoot>
 		<tbody>
 			<?php

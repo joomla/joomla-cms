@@ -85,9 +85,11 @@ class HTML_users {
 				</tr>
 			</thead>
 			<tfoot>
-				<td colspan="10">
-					<?php echo $page->getListFooter(); ?>
-				</td>
+				<tr>
+					<td colspan="10">
+						<?php echo $page->getListFooter(); ?>
+					</td>
+				</tr>
 			</tfoot>
 			<tbody>
 			<?php

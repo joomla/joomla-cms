@@ -16,6 +16,13 @@
 				</th>
 			</tr>
 		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="2">
+					&nbsp;
+				</td>
+			</tr>
+		</tfoot>
 		<tbody>
 			<tr>
 			<?php
@@ -55,10 +62,5 @@
 			?>
 			</tr>
 		</tbody>
-		<tfoot>
-			<td colspan="2">
-				&nbsp;
-			</td>
-		</tfoot>
 		</table>
 </fieldset>

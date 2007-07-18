@@ -25,7 +25,9 @@
 			</tr>
 		</thead>
 		<tfoot>
-			<td colspan="6"><?php echo $this->pagination->getListFooter(); ?></td>
+			<tr>
+				<td colspan="6"><?php echo $this->pagination->getListFooter(); ?></td>
+			</tr>
 		</tfoot>
 		<tbody>
 		<?php for ($i=0, $n=count($this->items), $rc=0; $i < $n; $i++, $rc = 1 - $rc) : ?>

@@ -67,7 +67,14 @@ class HTML_messages
 						<?php echo JHTML::_('grid.sort',   'Date', 'a.date_time', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
-			<thead>
+			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="6">
+						<?php echo $pageNav->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
 			<tbody>
 			<?php
 			$k = 0;
@@ -110,11 +117,6 @@ class HTML_messages
 				}
 			?>
 			</tbody>
-			<tfoot>
-				<td colspan="6">
-					<?php echo $pageNav->getListFooter(); ?>
-				</td>
-			</tfoot>
 			</table>
 		</div>
 

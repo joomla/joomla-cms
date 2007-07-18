@@ -84,6 +84,14 @@ class HTML_contact
 					</th>
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="10">
+						<?php echo $pageNav->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			for ($i=0, $n=count($rows); $i < $n; $i++) {
@@ -145,11 +153,7 @@ class HTML_contact
 				$k = 1 - $k;
 			}
 			?>
-			<tfoot>
-				<td colspan="10">
-					<?php echo $pageNav->getListFooter(); ?>
-				</td>
-			</tfoot>
+			</tbody>
 			</table>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />

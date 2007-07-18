@@ -68,13 +68,20 @@ class HTML_trash
 					</th>
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="6">
+						<?php echo $pageNav->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			$i = 0;
 			$n = count( $contents );
 			foreach ( $contents as $row ) {
 				?>
-				<tbody>
 					<tr class="<?php echo "row". $k; ?>">
 						<td align="center">
 							<?php echo $i + 1 + $pageNav->limitstart;?>
@@ -95,17 +102,12 @@ class HTML_trash
 							<?php echo $row->catname; ?>
 						</td>
 					</tr>
-				</tbody>
 				<?php
 				$k = 1 - $k;
 				$i++;
 			}
 			?>
-			<tfoot>
-				<td colspan="6">
-					<?php echo $pageNav->getListFooter(); ?>
-				</td>
-			</tfoot>
+			</tbody>
 			</table>
 		</div>
 
@@ -190,6 +192,14 @@ class HTML_trash
 					</th>
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="6">
+						<?php echo $pageNav->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
 			<?php
 			$k = 0;
 			$i = 0;
@@ -221,11 +231,7 @@ class HTML_trash
 				$i++;
 			}
 			?>
-			<tfoot>
-				<td colspan="6">
-					<?php echo $pageNav->getListFooter(); ?>
-				</td>
-			</tfoot>
+			</tbody>
 			</table>
 		</div>
 

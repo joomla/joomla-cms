@@ -62,9 +62,11 @@
 		</tr>
 	</thead>
 	<tfoot>
-		<td colspan="13">
-			<?php echo $this->pagination->getListFooter(); ?>
-		</td>
+		<tr>
+			<td colspan="13">
+				<?php echo $this->pagination->getListFooter(); ?>
+			</td>
+		</tr>
 	</tfoot>
 	<tbody>
 	<?php $i = 0; $k = 0; ?>

@@ -54,9 +54,11 @@
 		</tr>
 	</thead>
 	<tfoot>
-		<td colspan="12">
-			<?php echo $this->pagination->getListFooter(); ?>
-		</td>
+		<tr>
+			<td colspan="12">
+				<?php echo $this->pagination->getListFooter(); ?>
+			</td>
+		</tr>
 	</tfoot>
 	<tbody>
 	<?php
