@@ -133,7 +133,7 @@ function submitbutton(pressbutton) {
 			<td width="40%">
 				<?php
 					echo $this->pane->startPane("menu-pane");
-					echo $this->pane->startPanel(JText :: _('Basic Parameters'), "param-page"); 
+					echo $this->pane->startPanel(JText :: _('Parameters - Basic'), "param-page"); 
 					echo $this->urlparams->render('urlparams');
 					if(count($this->params->getParams('params'))) :
 						echo $this->params->render('params');
@@ -145,19 +145,19 @@ function submitbutton(pressbutton) {
 					echo $this->pane->endPanel();
 
 					if($params = $this->advanced->render('params')) :
-						echo $this->pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
+						echo $this->pane->startPanel(JText :: _('Parameters - Advanced'), "advanced-page");
 						echo $params;
 						echo $this->pane->endPanel();
 					endif;
 
 					if ($this->comp && ($params = $this->comp->render('params'))) :
-						echo $this->pane->startPanel(JText :: _('Component Parameters'), "component-page");
+						echo $this->pane->startPanel(JText :: _('Parameters - Component'), "component-page");
 						echo $params;
 						echo $this->pane->endPanel();
 					endif;
 
 					if ($this->sysparams && ($params = $this->sysparams->render('params'))) :
-						echo $this->pane->startPanel(JText :: _('System Parameters'), "system-page");
+						echo $this->pane->startPanel(JText :: _('Parameters - System'), "system-page");
 						echo $params;
 						echo $this->pane->endPanel();
 					endif;
