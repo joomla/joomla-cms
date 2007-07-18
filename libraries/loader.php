@@ -39,12 +39,9 @@ class JLoader
 		}
 		
 		//$keyPath	= $key ? $key . $filePath : $filePath;
-		if ( $key )
-		{
+		if ( $key ) {
 			$keyPath = $key . $filePath;
-		}
-		else
-		{
+		} else {
 			$keyPath = $filePath;
 		}
 		
@@ -52,12 +49,9 @@ class JLoader
 
 		if (!isset($paths[$keyPath]))
 		{
-			
-
 			$parts = explode( '.', $filePath );
 
-			if ( ! $base )
-			{
+			if ( ! $base ) {
 				$base =  dirname( __FILE__ );
 			}
 
