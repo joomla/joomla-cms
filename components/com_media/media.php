@@ -15,6 +15,77 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+// Make sure the user is authorized to view this page
+$user = & JFactory::getUser();
+
+// Get the media component configuration settings
+$params =& JComponentHelper::getParams('com_media');
+
+if (!$user->authorize( 'com_media', 'popup' )) {
+	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
+}
+
 // Load the admin HTML view
-require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'admin.media.php');
+require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
+
+// Set the path definitions
+define('COM_MEDIA_BASE', JPATH_SITE.DS.$params->get('image_path', 'images'.DS.'stories'));
+define('COM_MEDIA_BASEURL', JURI::base().$params->get('image_path', 'images/stories'));
+
+$folder			= JRequest::getVar('folder', '', '', 'path');
+$folderCheck	= JRequest::getVar('folder', null, '', 'string', JREQUEST_ALLOWRAW);
+if (($folderCheck !== null) && ($folder !== $folderCheck)) {
+	JError::raiseWarning(403, JText::_('WARNDIRNAME'));
+}
+
+require_once( JPATH_COMPONENT.DS.'helpers'.DS.'media.php' );
+
+switch (JRequest::getCmd('task')) 
+{
+	case 'upload' :
+		MediaController::upload();
+		break;
+
+	case 'uploadbatch' :
+		MediaController::batchUpload();
+		MediaController::showMedia();
+		break;
+
+	case 'createfolder' :
+		MediaController::createFolder();
+		MediaController::showMedia();
+		break;
+
+	case 'delete' :
+		MediaController::delete($folder);
+		MediaController::listMedia();
+		break;
+
+	case 'list' :
+		MediaController::listMedia();
+		break;
+
+	// popup directory creation interface for use by components
+	case 'popupDirectory' :
+		MediaController::showFolder();
+		break;
+
+	// popup upload interface for use by components
+	case 'popupUpload' :
+		MediaController::showUpload();
+		break;
+
+	// popup upload interface for use by components
+	case 'imgManager' :
+		MediaController::imgManager(COM_MEDIA_BASE);
+		break;
+
+	case 'imgManagerList' :
+		MediaController::imgManagerList($folder);
+		break;
+
+	default :
+		MediaController::showMedia();
+		break;
+}
 ?>
