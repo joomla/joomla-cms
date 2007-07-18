@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Jul-2007 Andy Miller
+ + Added print style icon for header/toolbar/menu
+ # fixed some font inconsistencies in milkyway css
+
 18-Jul-2007 Andy Wallace
  # Fixed missing JText Image and Misc names in com_user
  
