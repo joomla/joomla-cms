@@ -40,6 +40,8 @@ Legend:
 18-Jul-2007 Johan Janssens
  # Fixed [#6093] Saving changes in backend/configuration returns error on JOUputfiler
  + Added configuration file folder and image folder paths
+ # Fixed [#6088] If no section is created / available creating category results in blank 
+   page with error
 
 18-Jul-2007 Enno Klasing
  # Fixed [#4864] Hardcoded string in administration, com_media
