@@ -7,7 +7,7 @@
     <authorEmail>admin@joomla.org</authorEmail>
     <authorUrl>www.joomla.org</authorUrl>
     <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
-    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>Swedish language file for web installer</description>
     <metadata>
     	<name>Svenska (Sweden)</name>

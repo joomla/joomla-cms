@@ -183,7 +183,7 @@ class HTML_admin_misc
 							}
 							?>
 							|
-							<?php echo JHTML::_('link', 'http://www.gnu.org/copyleft/gpl.html', JText::_( 'License' ), array('target' => "'helpFrame'")) ?>
+							<?php echo JHTML::_('link', 'http://www.gnu.org/licenses/gpl-2.0.html', JText::_( 'License' ), array('target' => "'helpFrame'")) ?>
 							|
 							<?php echo JHTML::_('link', 'http://help.joomla.org', 'help.joomla.org', array('target' => '"_blank"')) ?>
 							|

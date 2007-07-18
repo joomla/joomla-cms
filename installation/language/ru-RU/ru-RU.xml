@@ -7,7 +7,7 @@
     <authorEmail></authorEmail>
     <authorUrl>joomlaportal.ru</authorUrl>
     <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
-    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>Русский языковой файл для web инсталлятора</description>
 		<metadata>
 			<name>Русский (CIS)</name>

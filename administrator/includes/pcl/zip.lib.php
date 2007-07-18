@@ -8,7 +8,7 @@
 // $Id$
 //
 // The "GNU General Public License" (GPL) is available at
-// http://www.gnu.org/copyleft/gpl.html.
+// http://www.gnu.org/licenses/gpl-2.0.html.
 //
 //  http://www.zend.com/codex.php?id=535&single=1
 //	By Eric Mueller <eric@themepark.com>

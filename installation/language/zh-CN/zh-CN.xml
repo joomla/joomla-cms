@@ -7,7 +7,7 @@
     <authorEmail></authorEmail>
     <authorUrl>www.joomla.org.tw</authorUrl>
     <copyright>(C) 2006 TaiwanJoomla.com . All rights reserved.</copyright>
-    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>Traditional Chinese language file for web installer</description>
     <metadata>
     	<name>Simplified Chinese (China)</name>

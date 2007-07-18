@@ -7,7 +7,7 @@
     <authorEmail>project@joomla.jp</authorEmail>
     <authorUrl>www.joomla.jp</authorUrl>
     <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
-    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>Japanese language file for web installer</description>
     <metadata>
     	<name>Japanese(JP)</name>

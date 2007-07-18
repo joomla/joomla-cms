@@ -6,7 +6,7 @@
 	<author></author>
 	<authorEmail>N/A</authorEmail>
 	<authorUrl></authorUrl>
-	<copyright>http://www.gnu.org/copyleft/gpl.html GNU/GPL</copyright>
+	<copyright>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</copyright>
 	<license>LGPL</license>
 	<description>This loads a basic text entry field</description>
 	<files>
