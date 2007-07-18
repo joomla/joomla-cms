@@ -42,9 +42,10 @@ class TOOLBAR_media {
 		JToolBarHelper::title( JText::_( 'Media Manager' ), 'mediamanager.png');
 
 		// Add a delete button
+		$title = JText::_('Delete');
 		$dhtml = "<a href=\"#\" onclick=\"document.mediamanager.submit('delete')\" class=\"toolbar\">
-					<span class=\"icon-32-delete\" title=\"Delete\" type=\"Custom\"></span>
-					Delete
+					<span class=\"icon-32-delete\" title=\"$title\" type=\"Custom\"></span>
+					$title
 				</a>";
 		$bar->appendButton( 'Custom', $dhtml, 'delete' );
 
