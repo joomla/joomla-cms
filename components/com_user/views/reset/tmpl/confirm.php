@@ -16,7 +16,7 @@
 				<label for="token" class="hasTip" title="<?php echo JText::_('RESET_PASSWORD_TOKEN_TIP_TITLE'); ?>::<?php echo JText::_('RESET_PASSWORD_TOKEN_TIP_TEXT'); ?>"><?php echo JText::_('Token'); ?>:</label>
 			</td>
 			<td>
-				<input id="token" name="token" type="text" class="required" size="32" />
+				<input id="token" name="token" type="text" class="required" size="36" />
 			</td>
 		</tr>
 	</table>
