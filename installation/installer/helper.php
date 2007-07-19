@@ -996,7 +996,12 @@ class JInstallationHelper
 
 		$compId = $db->loadResult();
 		JInstallationHelper::getDBErrors($errors, $db );
-		
+
+		// fix up standalone contact
+		$query = 'UPDATE `'. $newPrefix.'menu_migration` SET `link` = "index.php?option=com_contact&view=category" WHERE `link` = "index.php?option=com_contact"';
+		$db->setQuery( $query );
+		$db->query();
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		// front page
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = "index.php?option=com_content&view=frontpage", `type` = "component", `componentid` = '.$compId.' WHERE `link` LIKE "%option=com_frontpage%"';
