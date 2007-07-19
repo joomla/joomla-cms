@@ -56,6 +56,10 @@
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
+			<param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="PARAMSHOWFEEDLINK">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
 		</advanced>
 	</state>
 </metadata>

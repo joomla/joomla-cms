@@ -59,6 +59,16 @@ class ContactViewCategory extends JView
 		$contacts	= $model->getContacts( $options );
 		$total 		= $model->getContactCount( $options );
 
+		//add alternate feed link
+		if($pparams->get('show_feed_link', 1) == 1)
+		{
+			$link	= 'index.php?option=com_contact&view=category&format=feed&id='.$categoryId;
+			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+			$document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
+			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
+		}
+
 		//prepare contacts
 		$k = 0;
 		for($i = 0; $i <  count( $contacts ); $i++)

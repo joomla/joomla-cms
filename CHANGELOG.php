@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Jul-2007 Hannes Papenberg
+ + Added option to switch off feed links
+
 19-Jul-2007 Sam Moffatt
  # JFactory::getXMLParser now case insensitive
 

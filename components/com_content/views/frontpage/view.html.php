@@ -73,11 +73,14 @@ class ContentViewFrontpage extends ContentView
 		$access->canPublish	= $user->authorize('com_content', 'publish', 'content', 'all');
 
 		//add alternate feed link
-		$link	= JRoute::_('index.php?option=com_content&view=frontpage&format=feed');
-		$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-		$document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
-		$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-		$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
+		if($params->get('show_feed_link', 1) == 1)
+		{
+			$link	= JRoute::_('index.php?option=com_content&view=frontpage&format=feed');
+			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+			$document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
+			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
+		}
 
 		// Set section/category description text and images for
 		//TODO :: Fix this !
