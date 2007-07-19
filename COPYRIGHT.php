@@ -31,6 +31,8 @@ Hannes Pappenberg, Johan Janssens, Laurens Vanderput, Levis Bison,
 Louis Landry, Samuel Moffatt, Andy Miller, Rastin Mehr,
 Robin Muilwijk, Rob Schley, Wilco Jansen
 
+Parts of the code copyrighted by the Mambo Foundation under GNU GPL
+
 Documentation Contributers:
 ---------------------------
 Andy Wallace, Ian Maclennan
