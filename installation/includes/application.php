@@ -99,7 +99,7 @@ class JInstallation extends JApplication
 	{
 		//Get the localisation information provided in the localise xml file
 		$forced = $this->getLocalise();
-		
+
 		// Check URL arguement - useful when user has just set the language preferences
 		if(empty($options['language']))
 		{
@@ -215,7 +215,7 @@ class JInstallation extends JApplication
 	{
 		jimport('joomla.factory');
 		$xml = & JFactory::getXMLParser('Simple');
-		
+
 		if (!$xml->loadFile(JPATH_SITE.DS.'installation'.DS.'localise.xml')) {
 			return 'no file'; //null;
 		}
@@ -224,7 +224,7 @@ class JInstallation extends JApplication
 		if ($xml->document->name() != 'localise') {
 			return 'not a localise'; //null;
 		}
-		
+
 		$tags =  $xml->document->children();
 		$ret = array();
 		$ret['lang'] 	= $tags[0]->data();

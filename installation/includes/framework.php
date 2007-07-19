@@ -23,7 +23,10 @@ error_reporting( E_ALL );
 @set_magic_quotes_runtime( 0 );
 @ini_set('zend.ze1_compatibility_mode', '0');
 
-if (file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) && (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) > 10)) {
+/*
+ *
+ */
+if (file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) && (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) > 10) && !file_exists( JPATH_INSTALLATION . DS . 'index.php' )) {
 	header( 'Location: ../index.php' );
 	exit();
 }
@@ -33,7 +36,7 @@ if (file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) && (filesize( 
  */
 
 // System includes
-require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
+require_once( JPATH_LIBRARIES . DS . 'loader.php' );
 
 //clean the request
 jimport( 'joomla.base.object' );

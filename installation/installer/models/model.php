@@ -48,9 +48,7 @@ class JInstallationModel extends JModel
 	 */
 	function __construct($config = array())
 	{
-
 		$this->_state = new JObject();
-
 		//set the view name
 		if (empty( $this->_name ))
 		{
@@ -66,7 +64,6 @@ class JInstallationModel extends JModel
 				$this->_name = strtolower( $r[1] );
 			}
 		}
-
 	}
 
 	/**
@@ -627,6 +624,18 @@ class JInstallationModel extends JModel
 	}
 
 	/**
+	 * Remove directory messages
+	 *
+	 * @return	Boolean True if successful
+	 * @access	public
+	 * @since	1.5
+	 */
+	function removedir()
+	{
+		return true;
+	}
+
+	/**
 	 * Save the configuration information
 	 *
 	 * @return	boolean True if successful
@@ -791,11 +800,11 @@ class JInstallationModel extends JModel
 	function setData($key, $value){
 		$this->data[$key]	= $value;
 	}
-	
+
 	function dumpLoad() {
 		include (JPATH_BASE . '/includes/bigdump.php');
 	}
-	
+
 	function checkUpload() {
 		// pie
 		$vars	=& $this->getVars();
@@ -809,7 +818,7 @@ class JInstallationModel extends JModel
 			JInstallationHelper::_chmod(JPATH_SITE.DS.'tmp', 0777);
 			jimport('joomla.filesystem.file');
 			$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$sqlFile['name']);
-			
+
 			if( !eregi('.sql$', $sqlFile['name']) )
 			{
 				$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
@@ -818,7 +827,7 @@ class JInstallationModel extends JModel
 			{
 				$script = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
 			}
-	
+
 			// unpack archived sql files
 			if (isset($archive) && $archive )
 			{
@@ -863,7 +872,7 @@ class JInstallationModel extends JModel
 		$args =& $this->getVars();
 		$db = & JInstallationHelper::getDBO($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		$migResult = JInstallationHelper::postMigrate( $db, $migErrors, $args );
-		if(!$migResult) echo "Migration Successful, press next to continue"; 
+		if(!$migResult) echo "Migration Successful, press next to continue";
 			else {
 				echo '<div id="installer">';
 				echo '<p>'.JText::_('Migration failed').':</p>';

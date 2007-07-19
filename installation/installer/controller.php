@@ -37,7 +37,6 @@ class JInstallationController extends JController
 	function __construct( $config = array() )
 	{
 		$config['name']	= 'JInstallation';
-
 		parent::__construct( $config );
 	}
 
@@ -78,7 +77,7 @@ class JInstallationController extends JController
 		global $mainframe;
 
 		// Sanity check
-		if ( $task && ( $task != 'lang' ) && ( $task != 'preinstall' ) )
+		if ( $task && ( $task != 'lang' ) && ( $task != 'preinstall' ) && ( $task != 'removedir' ) )
 		{
 
 			/**
@@ -87,7 +86,7 @@ class JInstallationController extends JController
 			 **/
 
 			$goodEnoughForMe = $mainframe->getUserState('application.cookietest');
-			
+
 			if ( ! $goodEnoughForMe )
 			{
 				$model	=& $this->getModel();
@@ -104,7 +103,7 @@ class JInstallationController extends JController
 			$session	=& JFactory::getSession();
 			$registry	=& $session->get('registry');
 			$registry->makeNameSpace('application');
-			
+
 			// Set the cookie test seed
 			$mainframe->setUserState('application.cookietest', 1);
 		}
@@ -222,7 +221,7 @@ class JInstallationController extends JController
 	{
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
-		
+
 		if ( ! $model->chooseLanguage() )
 		{
 			$view->error();
@@ -313,6 +312,29 @@ class JInstallationController extends JController
 	}
 
 	/**
+	 * Remove directory messages
+	 *
+	 * @return	Boolean True if successful
+	 * @access	public
+	 * @since	1.5
+	 */
+	function removedir()
+	{
+		$model	=& $this->getModel();
+		$view	=& $this->getView();
+
+		if ( ! $model->removedir() )
+		{
+			$view->error();
+			return true;
+		}
+
+		$view->removedir();
+
+		return true;
+	}
+
+	/**
 	 *
 	 *
 	 * @return	Boolean True if successful
@@ -346,7 +368,7 @@ class JInstallationController extends JController
 		$model->dumpLoad();
 
 	}
-	
+
 	function migration() {
 		$model =& $this->getModel();
 		$model->setData('back', 'mainconfig');
@@ -355,11 +377,11 @@ class JInstallationController extends JController
 			$view->error();
 			return false;
 		}
-		
+
 		$view->migrateScreen();
 		return true;
 	}
-	
+
 	function postmigrate() {
 		$model =& $this->getModel();
 		$view =& $this->getView();

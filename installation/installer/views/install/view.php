@@ -73,7 +73,7 @@ class JInstallationView extends JView
 	 * @access	private
 	 * @since	1.5
 	 */
-	function _createTemplate( $bodyHtml = null )
+	function _createTemplate( $bodyHtml = null, $mainHtml = 'page.html' )
 	{
 
 		jimport('joomla.template.template');
@@ -83,12 +83,11 @@ class JInstallationView extends JView
 
 		// load the wrapper and common templates
 		$this->_template->setRoot( JPATH_BASE . DS . 'template' . DS. 'tmpl' );
-		$this->_template->readTemplatesFromFile( 'page.html' );
+		$this->_template->readTemplatesFromFile( $mainHtml );
 
 		if ($bodyHtml) {
 			$this->_template->setAttribute( 'body', 'src', $bodyHtml );
 		}
-
 	}
 
 	/**
@@ -241,7 +240,7 @@ class JInstallationView extends JView
 	}
 
 	/**
-	 * Get the templata object
+	 * Get the template object
 	 *
 	 * @param	string The name of the body html file
 	 * @return	patTemplate
@@ -258,7 +257,6 @@ class JInstallationView extends JView
 		if ( is_null($current) && $bodyHtml)
 		{
 			$current	= $bodyHtml;
-
 			$change		= true;
 		}
 
@@ -346,7 +344,26 @@ class JInstallationView extends JView
 
 		return $this->display();
 	}
-	
+
+	/**
+	 * Remove directory messages
+	 *
+	 * @return	Boolean True if successful
+	 * @access	public
+	 * @since	1.5
+	 */
+	function removedir()
+	{
+		$model	=& $this->getModel();
+
+		$this->_createTemplate('', 'removedir.html');
+		$tmpl = $this->_template;
+
+		#$tmpl	=& $this->getTemplate( 'removedir.html' );
+		return $this->display();
+	}
+
+
 	function migrateScreen() {
 		$steps	=& $this->getSteps();
 		$model	=& $this->getModel();
@@ -356,7 +373,7 @@ class JInstallationView extends JView
 		$tmpl->addVars( 'stepbar', 	$steps, 	'step_' );
 		$tmpl->addVar( 'migration', 'migration', JRequest::getVar( 'migration', 0, 'post', 'bool' ));
 		$tmpl->addVar( 'buttons', 'previous', 'mainconfig');
-		return $this->display();		
+		return $this->display();
 	}
 }
 
