@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Jul-2007 Wilco Jansen
+ + Added check for removal of installation directory after installation
+
 19-Jul-2007 Enno Klasing
  ^ Updated and added installer application translations from the Accredited Translation Partners
 
@@ -48,6 +51,9 @@ Legend:
 
 19-Jul-2007 Sam Moffatt
  # Fixed unchecked array access for language option in libraries/joomla/application/application
+
+18-Jul-2007 Andy Miller
+ ^ Updated the COPYRIGHT.php file
 
 18-Jul-2007 Andy Miller
  + Added print style icon for header/toolbar/menu
