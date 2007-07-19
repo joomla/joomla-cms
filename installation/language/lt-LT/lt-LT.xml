@@ -6,7 +6,7 @@
 	<author>Stasys Švabas, Andrius Juškėnas, Antanas Vipartas, Eglė Petniuniene</author>
 	<authorEmail>stasyss@gmail.com</authorEmail>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>Lithuanian language file for web installer</description>
 	<metadata>
 		<name>Lithuanian</name>
