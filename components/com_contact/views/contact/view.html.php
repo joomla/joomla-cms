@@ -68,7 +68,7 @@ class ContactViewContact extends JView
 		$document->setTitle(JText::_('Contact').' - '.$contact->name);
 
 		//set breadcrumbs
-		if($menu->query['view'] != 'contact'){
+		if(!isset($menu->query['view']) && $menu->query['view'] != 'contact'){
 			$pathway->addItem($contact->name, '');
 		}
 
