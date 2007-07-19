@@ -143,9 +143,9 @@ class JFactory
 	function &getCache($group = '', $handler = 'callback', $storage = null)
 	{
 		$handler = ($handler == 'function') ? 'callback' : $handler;
-		
+
 		$conf =& JFactory::getConfig();
-		
+
 		if(!isset($storage)) {
 			$storage = $conf->getValue('config.cache_handler', 'file');
 		}
@@ -267,12 +267,12 @@ class JFactory
 	 {
 		$doc = null;
 
-		switch ($type)
+		switch (strtolower( $type ))
 		{
-			case 'RSS' :
-			case 'Atom' :
+			case 'rss' :
+			case 'atom' :
 			{
-				if (!is_null( $options['rssUrl'] )) 
+				if (!is_null( $options['rssUrl'] ))
 				{
 					jimport ('simplepie.simplepie');
 					$simplepie = new SimplePie();
@@ -288,13 +288,13 @@ class JFactory
 				}
 			}	break;
 
-			case 'Simple' :
+			case 'simple' :
 			{
 				jimport('joomla.utilities.simplexml');
 				$doc = new JSimpleXML();
 			}	break;
 
-			case 'DOM'  :
+			case 'dom'  :
 			default :
 			{
 				if (!isset($options['lite']) || $options['lite'])

@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 19-Jul-2007 Sam Moffatt
+ # JFactory::getXMLParser now case insensitive
+
+19-Jul-2007 Sam Moffatt
  # Fixed unchecked array access for language option in libraries/joomla/application/application
 
 18-Jul-2007 Andy Miller
@@ -48,11 +51,11 @@ Legend:
 
 18-Jul-2007 Andy Wallace
  # Fixed missing JText Image and Misc names in com_user
- 
+
 18-Jul-2007 Johan Janssens
  # Fixed [#6093] Saving changes in backend/configuration returns error on JOUputfiler
  + Added configuration file folder and image folder paths
- # Fixed [#6088] If no section is created / available creating category results in blank 
+ # Fixed [#6088] If no section is created / available creating category results in blank
    page with error
  # Fixed [#6081] Article selection popup is broken.
  # Fixed [#5926] Kepri: <table class="adminlist"> invalid markup
@@ -62,7 +65,7 @@ Legend:
 
 18-Jul-2007 Enno Klasing
  # Fixed [#4864] Hardcoded string in administration, com_media
- 
+
 17-Jul-2007 Andy Miller
  ^ Changed link 'disabled' state to 'readonly' when editing menu item
 
@@ -70,7 +73,7 @@ Legend:
  ^ Changed template _system directory to system for consistency reasons
  + Added storage paramater to JFactory::getCache to allow different stores to be used
  ^ Renamed JOutputFilter classname to JFilterOutput to adhere to naming conventions
- ^ Renamed JInputFilter classname to JFilterInput to adhere to naming conventions 
+ ^ Renamed JInputFilter classname to JFilterInput to adhere to naming conventions
 
 16-Jul-2007 Johan Janssens
  + Added debug setting to installation localise.xml file to handle easy language debugging
