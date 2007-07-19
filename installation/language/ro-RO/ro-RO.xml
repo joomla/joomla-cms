@@ -13,9 +13,9 @@
 		<name>Romanian (Romania)</name>
 		<tag>ro-RO</tag>
 		<rtl>0</rtl>
-		<locale>ro, ron_RO, ro_RO, romanian, romania, ro_RO.utf8, ro_RO.UTF-8</locale>
-		<winCodePage>iso-8859-16</winCodePage>
-		<backwardLang>english</backwardLang>
+		<locale>ro_RO.UTF-8, ro_RO.utf8, ro_RO, ro, RO, ro_RO.ISO8859-2, ro_RO.iso88592, ro_RO.ISO8859-16, Romanian, Romania</locale>
+		<winCodePage>iso-8859-2</winCodePage>
+		<backwardLang>romanian</backwardLang>
 	</metadata>
 	<params />
 </metafile>

@@ -13,7 +13,7 @@
     	<name>Japanese(JP)</name>
     	<tag>ja-JP</tag>
     	<rtl>0</rtl>
-	<locale>jpn_JP, ja_JP.UTF8, ja_JP, jpn, ja, Japanse_Japan, japanse, jp, JP, JA</locale>
+	<locale>ja_JP.UTF8, jpn_JP, ja_JP, jpn, ja, Japanse_Japan, japanse, jp, JP, JA</locale>
     	<winCodePage>SJIS</winCodePage>
     	<backwardLang>japanese</backwardLang>
     </metadata>

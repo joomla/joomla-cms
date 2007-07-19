@@ -13,7 +13,7 @@
 		<name>Greek</name>
 		<tag>el-GR</tag>
 		<rtl>0</rtl>
-		<locale>el, gr, el_GR, gr_GR, el_GRE, gr_GRE, greek, greece, hellas, hellenic</locale>
+		<locale>el_GR.UTF8, el_GR.UTF-8, el_GR.utf8, el, gr, el_GR, gr_GR, el_GRE, gr_GRE, greek, greece, hellas, hellenic</locale>
 		<winCodePage>iso-8859-7</winCodePage>
 		<backwardLang>greek</backwardLang>
 	</metadata>

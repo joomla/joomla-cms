@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: ka-GE.xml 6169 2007-05-17 01:16:01Z eddiea $ -->
+<metafile version="1.5" client="installation" >
+	<name>Georgian(Georgia)</name>
+	<version>1.5.0</version>
+	<creationDate>May 2007</creationDate>
+	<author>Gia Shervashidze</author>
+	<authorEmail>giasher@gmail.com</authorEmail>
+	<authorUrl>www.gia.ge</authorUrl>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<description>Georgian language file for web installer</description>
+	<metadata>
+		<name>Georgian (Georgia)</name>
+		<tag>ka-GE</tag>
+		<rtl>0</rtl>
+		<locale>ka_GE.utf8, ka_GE.UTF-8, georgian.UTF-8, ka.UTF-8, ka_GE.georgianps, GEOSTD8, georgian, ka_GE, kat_GE, ka, georgia, ge, geo</locale>
+		<winCodePage>utf-8</winCodePage>
+		<backwardLang>georgian</backwardLang>
+	</metadata>
+	<params />
+</metafile>

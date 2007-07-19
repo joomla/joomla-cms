@@ -13,8 +13,8 @@
 		<name>Korean (South Korea)</name>
 		<tag>ko-KR</tag>
 		<rtl>0</rtl>
-		<locale>ko_KR.utf8, ko, kr, ko_KR, korean</locale>
-		<winCodePage>cp949</winCodePage>
+		<locale>ko_KR.utf-8, ko, kr, ko_KR, korean</locale>
+		<winCodePage>utf-8</winCodePage>
 		<backwardLang>korean</backwardLang>
 	</metadata>
 	<params />

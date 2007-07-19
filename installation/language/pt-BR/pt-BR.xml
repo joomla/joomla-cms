@@ -9,14 +9,14 @@
     <authorUrl>www.joomla.org</authorUrl>
     <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Pacote de idioma Português (Brasil) para o instalador web do Joomla</description>
+    <description>Pacote de idioma em Português Brasileiro para o instalador web do Joomla!</description>
     <metadata>
-    	<name>Portugues (Brasil)</name>
+    	<name>Português (Brasil)</name>
     	<tag>pt-BR</tag>
     	<rtl>0</rtl>
-    	<locale>Portuguese_Brazilian, por_BR, pt_BR, pt_BR.iso88591, pt_BR.ISO8859-1, pt-BR, ptb</locale>
+      <locale>pt_BR.utf8, pt_BR.UTF-8, Portuguese_Brazilian, pt_BR, por_BR, ptb, pt_BR.iso88591, pt_BR.ISO8859-1</locale>
      	<winCodePage>iso-8859-1</winCodePage>
     	<backwardLang>brazilian_portuguese</backwardLang>
-   </metadata>
+    </metadata>
     <params />
 </metafile>

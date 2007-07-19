@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5" client="installation" >
+	<name>Devanagari/Hindi (India)</name>
+	<version>1.5.0</version>
+	<creationDate>July 2007</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@indicjoomla.org</authorEmail>
+	<authorUrl>www.indicjoomla.org</authorUrl>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<description>Devanagari/Hindi language file for web installer</description>
+	<metadata>
+		<name>Devanagari/Hindi (India)</name>
+		<tag>hi-IN</tag>
+		<rtl>0</rtl>
+		<locale>hin_IN, hi_IN, hi-IN, hin-IN, hi, in, hin, hindi, hindi-in, ind, india</locale>
+		<winCodePage>UTF-8</winCodePage>
+		<backwardLang>hindi</backwardLang>
+	</metadata>
+	<params />
+</metafile>

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Jul-2007 Enno Klasing
+ ^ Updated and added installer application translations from the Accredited Translation Partners
+
 19-Jul-2007 Hannes Papenberg
  + Added option to switch off feed links
 

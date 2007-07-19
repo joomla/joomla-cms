@@ -13,7 +13,7 @@
 		<name>Български (България)</name>
 		<tag>bg-BG</tag>
 		<rtl>0</rtl>
-		<locale>bg, bgr, bg-BG, bg-BG.UTF-8, bg-BG.utf8, bgr-BGR, bgr-BGR.UTF-8, bgr-BGR.utf8, bgr_BGR, bgr_BGR.UTF-8, bgr_BGR.utf8, bg_BG, bg_BG.UTF-8, bg_BG.utf8, bulgarian, bulgarian, bgr, bulgaria</locale>
+		<locale>bg-BG.UTF-8, bgr-BGR.UTF-8, bgr_BGR.UTF-8, bg_BG.UTF-8, bg-BG, bgr-BGR, bgr_BGR, bg_BG, bg-BG.windows-1251, bgr-BGR.windows-1251, bgr_BGR.windows-1251, bg_BG.windows-1251, bg, bgr, bulgarian, bulgaria</locale>
 		<winCodePage>windows-1251</winCodePage>
 		<backwardLang>bulgarian</backwardLang>
 	</metadata>

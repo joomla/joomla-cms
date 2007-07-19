@@ -13,7 +13,7 @@
     	<name>Bengali/Bangla(Bangladesh)</name>
     	<tag>bn-BD</tag>
     	<rtl>0</rtl>
-    	<locale>bn, BD, ben_BD, bn_BD, bengali, bn_BD.utf8, ben_BD.utf8, bengali-bangladesh, bangladesh</locale>
+    	<locale>bn_BD.utf8, ben_BD.utf8, bn, BD, ben_BD, bn_BD, bengali,  bengali-bangladesh, bangladesh</locale>
     	<winCodePage>utf-8</winCodePage>
     	<backwardLang>bengali</backwardLang>
     </metadata>
