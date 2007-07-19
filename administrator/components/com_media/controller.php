@@ -47,7 +47,7 @@ class MediaController
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
 		$imgFolders = JFolder::folders($base, '.', true, true);
-
+		
 		$nodes = array();
 		foreach ($imgFolders as $folder) {
 			$folder 	= str_replace($base, "", $folder);
@@ -510,9 +510,12 @@ class MediaController
 		// id, parent, name, url, title, target
 		$nodes = array();
 		$i = 1;
-		$nodes[''] = array ('id' => "0", 'pid' => -1, 'name' => JText::_('Images Folder'), 'url' => 'index.php?option=com_media&task=list&tmpl=component&folder=', 'title' => '/', 'target' => 'folderframe');
-		if (is_array($list) && count($list)) {
-			foreach ($list as $item) {
+		$nodes[''] = array ('id' => "0", 'pid' => -1, 'name' => basename(COM_MEDIA_BASE), 'url' => 'index.php?option=com_media&task=list&tmpl=component&folder=', 'title' => '/', 'target' => 'folderframe');
+		
+		if (is_array($list) && count($list)) 
+		{
+			foreach ($list as $item) 
+			{
 				// Try to find parent
 				$pivot = strrpos($item, '/');
 				$parent = substr($item, 0, $pivot);
