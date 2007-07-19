@@ -765,7 +765,7 @@ class ContentView
 			</tr>
 		</table>
 		</form>
-		<button onclick="insertPagebreak();window.top.document.popup.hide();"><?php echo JText::_( 'PGB INS PAGEBRK' ); ?></button>
+		<button onclick="insertPagebreak();"><?php echo JText::_( 'PGB INS PAGEBRK' ); ?></button>
 		<?php
 	}
 

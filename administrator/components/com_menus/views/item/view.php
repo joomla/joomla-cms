@@ -142,8 +142,7 @@ class MenusViewItem extends JView
 		$document	= & JFactory::getDocument();
 		$url		= $mainframe->getSiteURL();
 		$document->addScript($url.'includes/js/joomla/cookie.js');
-		//$document->addScript('components/com_menus/assets/tree.js');
-		//$document->addScript('components/com_menus/assets/description.js');
+
 		if($lang->isRTL()){
 			$document->addStyleSheet('components/com_menus/assets/type_rtl.css');
 		} else {

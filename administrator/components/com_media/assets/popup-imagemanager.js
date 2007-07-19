@@ -22,8 +22,6 @@
 var JImageManager = new Class({
 	initialize: function()
 	{
-		this.popup = window.top.document.popup;
-
 		// Setup image manager fields object
 		this.fields			= new Object();
 		this.fields.url		= $("f_url");

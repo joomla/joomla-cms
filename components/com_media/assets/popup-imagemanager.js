@@ -22,8 +22,6 @@
 var JImageManager = new Class({
 	initialize: function()
 	{
-		this.popup = window.top.document.popup;
-
 		// Setup image manager fields object
 		this.fields			= new Object();
 		this.fields.url		= $("f_url");
@@ -44,26 +42,6 @@ var JImageManager = new Class({
 		this.upbutton = $('upbutton');
 		this.upbutton.manager = this;
 		this.upbutton.addEvent('click', function(){ this.manager.upFolder(); });
-
-		// Setup upload form objects
-		this.uploadtoggler = $('uploadtoggler');
-		this.uploadtoggler.manager = this;
-		this.uploadtoggler.addEvent('click', function(){
-			if(this.hasClass('toggler-down')) {
-				this.removeClass('toggler-down');
-//				this.manager.popup.decreaseHeight(50);
-			} else {
-				this.addClass('toggler-down');
-//				this.manager.popup.increaseHeight(50);
-			}
-			this.manager.uploadpanefx.toggle();
-		});
-
-		//Setup effect
-		this.uploadpane = $('uploadpane');
-		this.uploadpane.setProperty('height', this.uploadpane.getElement('iframe').getProperty('height'));
-		this.uploadpanefx = new Fx.Slide(this.uploadpane, {opacity:true, duration: 200});
-		this.uploadpanefx.hide();
 	},
 
 	onloadimageframe: function()
