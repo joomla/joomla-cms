@@ -49,7 +49,7 @@ endif; ?>
 <?php if (($this->params->get('show_section') && $this->item->sectionid) || ($this->params->get('show_category') && $this->item->catid)) : ?>
 <tr>
 	<td>
-		<?php if ($this->params->get('show_section') && $this->item->sectionid) : ?>
+		<?php if ($this->params->get('show_section') && $this->item->sectionid  && isset($this->item->section)) : ?>
 		<span>
 			<?php echo $this->item->section; ?>
 			<?php if ($this->params->get('show_category')) : ?>
