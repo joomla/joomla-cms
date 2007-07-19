@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Jul-2007 Sam Moffatt
+ # Fixed unchecked array access for language option in libraries/joomla/application/application
+
 18-Jul-2007 Andy Miller
  + Added print style icon for header/toolbar/menu
  # Fixed some font inconsistencies in milkyway css

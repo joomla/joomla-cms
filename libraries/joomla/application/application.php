@@ -80,7 +80,8 @@ class JApplication extends JObject
 	{
 		//Set the language in the class
 		$conf =& JFactory::getConfig();
-		$conf->setValue('config.language', $options['language']);
+		// Check that we were given a language in the array (since by default may be blank)
+		if(isset($options['language'])) $conf->setValue('config.language', $options['language']);
 
 		//set language debug -> lazy load it later
 		$lang =& JFactory::getLanguage();
