@@ -13,7 +13,7 @@
     	<name>Montenegrin (Montenegro)</name>
     	<tag>sr-ME</tag>
     	<rtl>0</rtl>
-    	<locale>sr_RS, sr-ME, srb_RS, sr, srb, Serbian, serbian, sr_RS.utf8, srpski, Srpski</locale>
+    	<locale>sr_ME.utf8, sr-ME.UTF8, srb_ME, sr, srb, Serbian, serbian, srpski, Srpski</locale>
     	<winCodePage>UTF-8</winCodePage>
     	<backwardLang>ijekavski</backwardLang>
     </metadata>

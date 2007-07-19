@@ -13,7 +13,7 @@
 		<name>Magyar (Hungary)</name>
 		<tag>hu-HU</tag>
 		<rtl>0</rtl>
-		<locale>hu, hun, hun_HU, hu_HU, magyar, magyar-hu, hungary, magyarország</locale>
+		<locale>hu_HU.utf8, hu_HU.UTF8, hu_HU.utf-8, hu_HU.UTF-8, hu_HU-iso88592, hu_HU.ISO88592, hu_HU.iso8859-2, hu_HU.ISO8859-2, hu_HU, hungarian</locale>
 		<winCodePage>iso-8859-2</winCodePage>
 		<backwardLang>magyar</backwardLang>
 	</metadata>
