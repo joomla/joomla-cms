@@ -39,6 +39,7 @@ Legend:
 
 19-Jul-2007 Wilco Jansen
  + Added check for removal of installation directory after installation
+ ^ Installed new sample data
 
 19-Jul-2007 Enno Klasing
  ^ Updated and added installer application translations from the Accredited Translation Partners
