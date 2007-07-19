@@ -39,9 +39,6 @@ if (!$mainframe->getCfg('xmlrpc_server')) {
 jimport('phpxmlrpc.xmlrpc');
 jimport('phpxmlrpc.xmlrpcs');
 
-// define UTF-8 as the internal encoding for the XML-RPC server
-$xmlrpc_internalencoding = $mainframe->getEncoding();
-
 // load all available remote calls
 JPluginHelper::importPlugin( 'xmlrpc' );
 $allCalls = $mainframe->triggerEvent( 'onGetWebServices' );
@@ -54,6 +51,9 @@ foreach ($allCalls as $calls) {
 $xmlrpcServer = new xmlrpc_server($methodsArray, false);
 // allow casting to be defined by that actual values passed
 $xmlrpcServer->functions_parameters_type = 'phpvals';
+// define UTF-8 as the internal encoding for the XML-RPC server
+$xmlrpcServer->xml_header($mainframe->getEncoding());
+$xmlrpc_internalencoding = $mainframe->getEncoding();
 // debug level
 $xmlrpcServer->setDebug(0);
 // start the service

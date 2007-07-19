@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Jul-2007 Laurens Vandeput
+ # Fixed UTF-8 issues with XML-RPC
+ # Fixed XML-RPC server and upgraded the library to the most recent version
+
 19-Jul-2007 Wilco Jansen
  + Added check for removal of installation directory after installation
  ^ Installed new sample data
