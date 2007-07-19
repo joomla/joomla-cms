@@ -1,7 +1,7 @@
 <?php
 // by Edd Dumbill (C) 1999-2002
 // <edd@usefulinc.com>
-// $Id: xmlrpcs.inc,v 1.66 2006/09/17 21:25:06 ggiunta Exp $
+// $Id: xmlrpcs.inc,v 1.67 2007/05/22 21:31:58 ggiunta Exp $
 
 // Copyright (c) 1999,2000,2002 Edd Dumbill.
 // All rights reserved.
@@ -563,7 +563,16 @@
 		{
 			if ($data === null)
 			{
-				$data = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : '';
+				// workaround for a known bug in php ver. 5.2.2 that broke $HTTP_RAW_POST_DATA
+				$ver = phpversion();
+				if ($ver[0] >= 5)
+				{
+					$data = file_get_contents('php://input');
+				}
+				else
+				{
+					$data = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : '';
+				}
 			}
 			$raw_data = $data;
 
