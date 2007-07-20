@@ -114,6 +114,7 @@ class ContentController extends JController
 		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
 		$access->canEditOwn		= $user->authorize('com_content', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
+		
 		if (!($access->canEdit || $access->canEditOwn)) {
 			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}
@@ -127,7 +128,6 @@ class ContentController extends JController
 
 		//preform access checks
 		$isNew = ((int) $post['id'] < 1);
-
 
 		if ($model->store($post)) {
 			$msg = JText::_( 'Article Saved' );
