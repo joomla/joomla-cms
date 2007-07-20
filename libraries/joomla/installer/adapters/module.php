@@ -324,10 +324,11 @@ class JInstallerModule extends JObject
 
 		// Do we have any module copies?
 		if (count($modules)) {
+			JArrayHelper::toInteger($modules);
 			$modID = implode(',', $modules);
 			$query = 'DELETE' .
 					' FROM #__modules_menu' .
-					' WHERE moduleid IN ("'.$modID.'")';
+					' WHERE moduleid IN ('.$modID.')';
 			$db->setQuery($query);
 			if (!$db->query()) {
 				JError::raiseWarning(100, 'Module Uninstall: '.$db->stderr(true));

@@ -497,7 +497,10 @@ class JInstallerComponent extends JObject
 			$db_enabled = 1;
 
 			$query = 'INSERT INTO #__components' .
-					' VALUES( "", "'.$db_name.'", "'.$db_link.'", '.$db_menuid.', '.$db_parent.', "'.$db_admin_menu_link.'", "'.$db_admin_menu_alt.'", "'.$db_option.'", '.$db_ordering.', "'.$db_admin_menu_img.'", '.$db_iscore.', "'.$db_params.'", "'.$db_enabled.'" )';
+				' VALUES( "", '.$db->Quote($db_name).', '.$db->Quote($db_link).', '.(int) $db_menuid.',' .
+				' '.(int) $db_parent.', '.$db->Quote($db_admin_menu_link).', '.$db->Quote($db_admin_menu_alt).',' .
+				' '.$db->Quote($db_option).', '.(int) $db_ordering.', '.$db->Quote($db_admin_menu_img).',' .
+				' '.(int) $db_iscore.', '.$db->Quote($db_params).', '.(int) $db_enabled.' )';
 			$db->setQuery($query);
 			if (!$db->query()) {
 				// Install failed, rollback changes
@@ -540,7 +543,10 @@ class JInstallerComponent extends JObject
 				$db_enabled = 1;
 
 				$query = 'INSERT INTO #__components' .
-						' VALUES( "", "'.$db_name.'", "'.$db_link.'", '.$db_menuid.', '.$db_parent.', "'.$db_admin_menu_link.'", "'.$db_admin_menu_alt.'", "'.$db_option.'", '.$db_ordering.', "'.$db_admin_menu_img.'", '.$db_iscore.', "'.$db_params.'", "'.$db_enabled.'" )';
+					' VALUES( "", '.$db->Quote($db_name).', '.$db->Quote($db_link).', '.(int) $db_menuid.',' .
+					' '.(int) $db_parent.', '.$db->Quote($db_admin_menu_link).', '.$db->Quote($db_admin_menu_alt).',' .
+					' '.$db->Quote($db_option).', '.(int) $db_ordering.', '.$db->Quote($db_admin_menu_img).',' .
+					' '.(int) $db_iscore.', '.$db->Quote($db_params).', '.(int) $db_enabled.' )';
 				$db->setQuery($query);
 				if (!$db->query()) {
 					// Install failed, rollback changes
