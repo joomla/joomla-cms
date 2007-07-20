@@ -201,7 +201,7 @@ class ContentHelperRoute
 			$item->link_parts = $parts;
 
 			// Do we have a content item linked to the menu with this id?
-			if (($item->published) && ($item->link_parts['id'] == $id) && ($item->link_parts['view'] = 'article')) {
+			if (($item->published) && ($item->link_parts['id'] == $id) && ($item->link_parts['view'] == 'article')) {
 				return $item;
 			}
 
