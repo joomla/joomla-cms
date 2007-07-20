@@ -81,7 +81,6 @@ Legend:
  # Fixed [#5851] Insert Image popup is broken under IE7
  # Fixed [#259] IE 6 freezes when resizing Milky Way template under 750 px width
 
->>>>>>> .r8087
 18-Jul-2007 Andy Wallace
  # Fixed missing JText Image and Misc names in com_user
 
