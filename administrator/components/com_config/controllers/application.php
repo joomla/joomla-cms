@@ -118,7 +118,7 @@ class ConfigControllerApplication extends ConfigController
 								JHTML::_('select.option', -6, JText::_('(UTC -06:00) Central Time (US &amp; Canada), Mexico City')),
 								JHTML::_('select.option', -5, JText::_('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima')),
 								JHTML::_('select.option', -4, JText::_('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz')),
-								JHTML::_('select.option', -3.5, JText::_('(UTC -03:30) St. John`s, Newfoundland and Labrador')),
+								JHTML::_('select.option', -3.5, JText::_('(UTC -03:30) St. John\'s, Newfoundland, Labrador')),
 								JHTML::_('select.option', -3, JText::_('(UTC -03:00) Brazil, Buenos Aires, Georgetown')),
 								JHTML::_('select.option', -2, JText::_('(UTC -02:00) Mid-Atlantic')),
 								JHTML::_('select.option', -1, JText::_('(UTC -01:00) Azores, Cape Verde Islands')),
