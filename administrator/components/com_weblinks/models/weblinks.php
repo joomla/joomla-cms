@@ -163,15 +163,15 @@ class WeblinksModelWeblinks extends JModel
 		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
 		$search				= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$search				= $this->_db->getEscaped( trim( JString::strtolower( $search ) ) );
+		$search				= JString::strtolower( $search );
 
 		$where = array();
 
 		if ($filter_catid > 0) {
-			$where[] = 'a.catid = '.$filter_catid;
+			$where[] = 'a.catid = '.(int) $filter_catid;
 		}
 		if ($search) {
-			$where[] = 'LOWER(a.title) LIKE \'%'.$search.'%\' ';
+			$where[] = 'LOWER(a.title) LIKE '.$this->_db->Quote('%'.$search.'%');
 		}
 		if ( $filter_state ) {
 			if ( $filter_state == 'P' ) {

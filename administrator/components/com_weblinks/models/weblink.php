@@ -220,6 +220,7 @@ class WeblinksModelWeblink extends JModel
 
 		if (count( $cid ))
 		{
+			JArrayHelper::toInteger($cid);
 			$cids = implode( ',', $cid );
 			$query = 'DELETE FROM #__weblinks'
 				. ' WHERE id IN ( '.$cids.' )';
@@ -246,12 +247,13 @@ class WeblinksModelWeblink extends JModel
 
 		if (count( $cid ))
 		{
+			JArrayHelper::toInteger($cid);
 			$cids = implode( ',', $cid );
 
 			$query = 'UPDATE #__weblinks'
-				. ' SET published = ' . intval( $publish )
+				. ' SET published = '.(int) $publish
 				. ' WHERE id IN ( '.$cids.' )'
-				. ' AND ( checked_out = 0 OR ( checked_out = ' .$user->get('id'). ' ) )'
+				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
 			;
 			$this->_db->setQuery( $query );
 			if (!$this->_db->query()) {
@@ -278,7 +280,7 @@ class WeblinksModelWeblink extends JModel
 			return false;
 		}
 
-		if (!$row->move( $direction, ' catid = '.$row->catid.' AND published >= 0 ' )) {
+		if (!$row->move( $direction, ' catid = '.(int) $row->catid.' AND published >= 0 ' )) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
@@ -318,7 +320,7 @@ class WeblinksModelWeblink extends JModel
 		// execute updateOrder for each parent group
 		$groupings = array_unique( $groupings );
 		foreach ($groupings as $group){
-			$row->reorder('catid = '.$group);
+			$row->reorder('catid = '.(int) $group);
 		}
 
 		return true;
@@ -340,7 +342,7 @@ class WeblinksModelWeblink extends JModel
 					' cc.published AS cat_pub, cc.access AS cat_access'.
 					' FROM #__weblinks AS w' .
 					' LEFT JOIN #__categories AS cc ON cc.id = w.catid' .
-					' WHERE w.id = '. $this->_id;
+					' WHERE w.id = '.(int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 			return (boolean) $this->_data;

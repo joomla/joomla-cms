@@ -88,15 +88,16 @@ function showUsers( )
 	$filter_type		= $mainframe->getUserStateFromRequest( "$option.filter_type",		'filter_type', 		0,			'string' );
 	$filter_logged		= $mainframe->getUserStateFromRequest( "$option.filter_logged",		'filter_logged', 	0,			'int' );
 	$search				= $mainframe->getUserStateFromRequest( "$option.search",			'search', 			'',			'string' );
-	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
-	$where				= array();
+	$search				= JString::strtolower( $search );
 
 	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
+	$where = array();
 	if (isset( $search ) && $search!= '')
 	{
-		$where[] = '(a.username LIKE \'%'.$search.'%\' OR a.email LIKE \'%'.$search.'%\' OR a.name LIKE \'%'.$search.'%\')';
+		$searchEscaped = $db->Quote('%'.$search.'%');
+		$where[] = 'a.username LIKE '.$searchEscaped.' OR a.email LIKE '.$searchEscaped.' OR a.name LIKE '.$searchEscaped;
 	}
 	if ( $filter_type )
 	{
@@ -110,7 +111,7 @@ function showUsers( )
 		}
 		else
 		{
-			$where[] = 'a.usertype = LOWER( \''.$filter_type.'\' ) ';
+			$where[] = 'a.usertype = LOWER( '.$db->Quote($filter_type).' ) ';
 		}
 	}
 	if ( $filter_logged == 1 )
@@ -127,7 +128,8 @@ function showUsers( )
 
 	if (is_array( $pgids ) && count( $pgids ) > 0)
 	{
-		$where[] = '(a.gid NOT IN (' . implode( ',', $pgids ) . '))';
+		JArrayHelper::toInteger($pgids);
+		$where[] = 'a.gid NOT IN (' . implode( ',', $pgids ) . ')';
 	}
 	$filter = '';
 	if ($filter_logged == 1 || $filter_logged == 2)
@@ -136,7 +138,7 @@ function showUsers( )
 	}
 
 	$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir;
-	$where = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+	$where = ( count( $where ) ? ' WHERE (' . implode( ') AND (', $where ) . ')' : '' );
 
 	$query = 'SELECT COUNT(a.id)'
 	. ' FROM #__users AS a'
@@ -231,7 +233,7 @@ function editUser( )
 	{
 		$query = 'SELECT *'
 		. ' FROM #__contact_details'
-		. ' WHERE user_id = '. $cid[0]
+		. ' WHERE user_id = '.(int) $cid[0]
 		;
 		$db->setQuery( $query );
 		$contact = $db->loadObjectList();
@@ -537,7 +539,7 @@ function changeUserBlock( $block=1 )
 	$cids = implode( ',', $cid );
 
 	$query = 'UPDATE #__users'
-	. ' SET block = '. $block
+	. ' SET block = '.(int) $block
 	. ' WHERE id IN ( '. $cids .' )'
 	;
 	$db->setQuery( $query );
@@ -553,7 +555,7 @@ function changeUserBlock( $block=1 )
 		foreach( $cid as $id )
 		{
 			JRequest::setVar( 'task', 'block' );
-			JRequest::setVar( 'cid', $id );
+			JRequest::setVar( 'cid', array($id) );
 
 			// delete user acounts active sessions
 			logoutUser();
@@ -584,7 +586,7 @@ function logoutUser( )
 	}
 	$cids = implode( ',', $cids );
 
-	if ($task == 'logout')
+	if ($task == 'logout' || $task == 'block')
 	{
 		$query = 'DELETE FROM #__session'
 		. ' WHERE userid IN ( '.$cids.' )'
@@ -593,8 +595,8 @@ function logoutUser( )
 	else if ($task == 'flogout')
 	{
 		$query = 'DELETE FROM #__session'
-		. ' WHERE userid = '. $cids
-		. ' AND client_id = '. $client
+		. ' WHERE userid = '.(int) $cids
+		. ' AND client_id = '.(int) $client
 		;
 	}
 

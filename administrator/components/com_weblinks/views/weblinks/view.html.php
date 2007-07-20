@@ -49,7 +49,7 @@ class WeblinksViewWeblinks extends JView
 		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
 		$search				= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+		$search				= JString::strtolower( $search );
 
 		// Get data from the model
 		$items		= & $this->get( 'Data');

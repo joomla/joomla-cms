@@ -164,7 +164,7 @@ class TableWeblink extends JTable
 		}
 
 		/** check for existing name */
-		$query = 'SELECT id FROM #__weblinks  WHERE title = "'.$this->title.'" AND catid = ' . $this->catid;
+		$query = 'SELECT id FROM #__weblinks WHERE title = '.$this->_db->Quote($this->title).' AND catid = '.(int) $this->catid;
 		$this->_db->setQuery($query);
 
 		$xid = intval($this->_db->loadResult());
