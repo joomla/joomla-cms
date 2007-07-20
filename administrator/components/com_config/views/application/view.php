@@ -119,7 +119,6 @@ class ConfigApplicationView
 		<input type="hidden" name="lang_administrator" value="<?php echo $row->lang_administrator; ?>" />
 		<input type="hidden" name="language" value="<?php echo $row->language; ?>" />
 		<input type="hidden" name="lang" value="<?php echo $row->lang; ?>" />
-		<input type="hidden" name="offset_user" value="<?php echo $row->offset_user; ?>" />
 		<input type="hidden" name="task" value="" />
 		</form>
 		<?php

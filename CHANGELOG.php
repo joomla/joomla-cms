@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Jul-2007 Johan Janssens
+ # Fixed #6133] After saving global configuration default langauge changes to English language
 
 20-Jul-2007 Robin Muilwijk
  # Fixed several small issues in sample_data.sql
