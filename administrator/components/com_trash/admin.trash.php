@@ -79,7 +79,7 @@ function viewTrashContent( $option )
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order",		'filter_order',		'sectname', 'cmd' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order_Dir",	'filter_order_Dir',	'',			'word' );
 	$search				= $mainframe->getUserStateFromRequest( "$option.search",						'search', 			'',			'string' );
-	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search				= JString::strtolower( $search );
 
 	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
 	$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
@@ -87,7 +87,7 @@ function viewTrashContent( $option )
 	$where[] = 'c.state = -2';
 
 	if ($search) {
-		$where[] = 'LOWER(c.title) LIKE "%'.$search.'%"';
+		$where[] = 'LOWER(c.title) LIKE '.$db->Quote('%'.$search.'%');
 	}
 
 	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
@@ -150,12 +150,12 @@ function viewTrashMenu( $option )
 	$limit				= $mainframe->getUserStateFromRequest( "limit",								'limit',			$mainframe->getCfg('list_limit'), 'int' );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewMenu.limitstart",		'limitstart', 		0,				'int' );
 	$search				= $mainframe->getUserStateFromRequest( "$option.search",					'search',			'',				'string' );
-	$search				= $db->getEscaped( trim( JString::strtolower( $search ) ) );
+	$search				= JString::strtolower( $search );
 
 	$where[] = 'm.published = -2';
 
 	if ($search) {
-		$where[] = 'LOWER(m.name) LIKE "%'.$search.'%"';
+		$where[] = 'LOWER(m.name) LIKE '.$db->Quote('%'.$search.'%');
 	}
 
 	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
@@ -203,6 +203,9 @@ function viewdeleteTrash( $cid, $mid, $option )
 
 	$db =& JFactory::getDBO();
 	$return = JRequest::getCmd( 'return', 'viewContent', 'post' );
+
+	JArrayHelper::toInteger($cid, array(0));
+	JArrayHelper::toInteger($mid, array(0));
 
 	// seperate contentids
 	$cids = implode( ',', $cid );
@@ -282,6 +285,9 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 	$db		=& JFactory::getDBO();
 	$return = JRequest::getCmd( 'return', 'viewContent', 'post' );
 
+	JArrayHelper::toInteger($cid, array(0));
+	JArrayHelper::toInteger($mid, array(0));
+
 	// seperate contentids
 	$cids = implode( ',', $cid );
 	$mids = implode( ',', $mid );
@@ -331,12 +337,14 @@ function restoreTrash( $cid, $option ) {
 
 	if ( $type == 'content' ) {
 		$return = 'viewContent';
+
 		//seperate contentids
+		JArrayHelper::toInteger($cid, array(0));
 		$cids = implode( ',', $cid );
 
 		// query to restore article
 		$query = 'UPDATE #__content'
-		. ' SET state = '.$state.', ordering = '.$ordering
+		. ' SET state = '.(int) $state.', ordering = '.(int) $ordering
 		. ' WHERE id IN ( '.$cids.' )'
 		;
 		$db->setQuery( $query );
