@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Jul-2007 Andy Wallace
+ # Fixed language translation issues in timezone
+ # Further edits of language strings
+ # Fixed hardcoded elements in readmore plugin and admin.trash.php
+
 19-Jul-2007 Laurens Vandeput
  # Fixed UTF-8 issues with XML-RPC
  # Fixed XML-RPC server and upgraded the library to the most recent version
@@ -56,6 +61,9 @@ Legend:
 
 19-Jul-2007 Sam Moffatt
  # Fixed unchecked array access for language option in libraries/joomla/application/application
+ 
+18-Jul-2007 Andy Wallace
+ # Corrected GNU/GPL URL links in en_GB language files and various other files
 
 18-Jul-2007 Andy Miller
  ^ Updated the COPYRIGHT.php file
