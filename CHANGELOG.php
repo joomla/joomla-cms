@@ -37,6 +37,7 @@ Legend:
 - -> Removed
 ! -> Note
 
+
 20-Jul-2007 Robin Muilwijk
  # Fixed several small issues in sample_data.sql
 
@@ -58,6 +59,9 @@ Legend:
 
 19-Jul-2007 Hannes Papenberg
  + Added option to switch off feed links
+ 
+19-Jul-2007 Johan Janssens
+ # Fixed [#5381] Admin template cosmetic issue in IE6/7
 
 19-Jul-2007 Sam Moffatt
  # JFactory::getXMLParser now case insensitive
@@ -77,6 +81,7 @@ Legend:
  # Fixed [#5851] Insert Image popup is broken under IE7
  # Fixed [#259] IE 6 freezes when resizing Milky Way template under 750 px width
 
+>>>>>>> .r8087
 18-Jul-2007 Andy Wallace
  # Fixed missing JText Image and Misc names in com_user
 
