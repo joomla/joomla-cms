@@ -123,7 +123,7 @@ function viewTrashContent( $option )
 
 	for ( $i = 0; $i < count($contents); $i++ ) {
 		if ( ( $contents[$i]->sectionid == 0 ) && ( $contents[$i]->catid == 0 ) ) {
-			$contents[$i]->sectname = 'Typed Content';
+			$contents[$i]->sectname = JText::_('UNCATEGORIZED');
 		}
 	}
 
