@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Jul-2007 Robin Muilwijk
+ # Fixed several small issues in sample_data.sql
+
 20-Jul-2007 Andy Wallace
  # Fixed language translation issues in timezone
  # Further edits of language strings
