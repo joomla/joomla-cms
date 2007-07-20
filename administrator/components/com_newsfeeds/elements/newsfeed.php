@@ -17,9 +17,8 @@ defined('_JEXEC') or die();
 /**
  * Renders a newsfeed selection element
  *
- * @author 		Andrew Eddie <andrew.eddie@jamboworks.com>
  * @package 	Newsfeeds
- * @subpackage		Parameter
+ * @subpackage	Parameter
  * @since		1.5
  */
 
@@ -57,4 +56,3 @@ class JElementNewsfeed extends JElement
 		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'text', $value, $control_name.$name );
 	}
 }
-?>
