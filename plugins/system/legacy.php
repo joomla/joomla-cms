@@ -107,7 +107,11 @@ class  plgSystemLegacy extends JPlugin
 		$GLOBALS['my']		= clone($user->getTable());
 		$GLOBALS['my']->gid	= $user->get('aid', 0);
 
-		//Insert configuration values into global scope (for backwards compatibility)
+		/**
+		 * Insert configuration values into global scope (for backwards compatibility)
+		 * @deprecated	As of version 1.5
+		 */
+		
 		$temp = new JConfig;
 		foreach (get_object_vars($temp) as $k => $v) {
 			$name = 'mosConfig_'.$k;
@@ -117,6 +121,10 @@ class  plgSystemLegacy extends JPlugin
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		$GLOBALS['mosConfig_live_site']		= substr_replace($url, '', -1, 1);
 		$GLOBALS['mosConfig_absolute_path']	= JPATH_SITE;
+		
+		$lang =& JFactory::getLanguage();
+		$GLOBALS['mosConfig_lang']          = $lang->getBackwardLang();
+		
 		/**
 		 * Legacy global, use JFactory::getUser() instead
 		 * @name $acl

@@ -83,20 +83,11 @@ class JApplication extends JObject
 		// Check that we were given a language in the array (since by default may be blank)
 		if(isset($options['language'])) $conf->setValue('config.language', $options['language']);
 
-		//set language debug -> lazy load it later
-		$lang =& JFactory::getLanguage();
-		$lang->setDebug($this->getCfg('debug_lang'));
-
 		//define date formats
 		//define('DATE_FORMAT_LC' , JText::_('DATE_FORMAT_LC' ));
 		//define('DATE_FORMAT_LC2', JText::_('DATE_FORMAT_LC2'));
 		//define('DATE_FORMAT_LC3', JText::_('DATE_FORMAT_LC3'));
 		//define('DATE_FORMAT_LC4', JText::_('DATE_FORMAT_LC4'));
-
-		// create the backward compatible language value for old 3PD components
-		if($conf->getValue('config.legacy')) {
-			$GLOBALS['mosConfig_lang'] = $lang->getBackwardLang();
-		}
 
 		//create the router -> lazy load it later
 		$this->_createRouter();
@@ -136,7 +127,7 @@ class JApplication extends JObject
 	*/
  	function dispatch($component)
  	{
-		$document	=& JFactory::getDocument();
+		$document =& JFactory::getDocument();
 
 		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
