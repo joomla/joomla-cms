@@ -91,7 +91,7 @@ class ContactViewContact extends JView
 
 		// Handle email cloaking
 		if ($contact->email_to && $pparams->get('show_email')) {
-			$contact->email = JHTML::_('email.cloak', $contact->email_to);
+			$contact->email_to = JHTML::_('email.cloak', $contact->email_to);
 		}
 
 		if (!empty ($contact->address) || !empty ($contact->suburb) || !empty ($contact->state) || !empty ($contact->country) || !empty ($contact->postcode)) {
