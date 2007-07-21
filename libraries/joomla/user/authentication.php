@@ -50,7 +50,7 @@ class JAuthentication extends JObservable
 		$isLoaded = JPluginHelper::importPlugin('authentication');
 
 		if (!$isLoaded) {
-			JError::raiseWarning('SOME_ERROR_CODE', 'JAuthenticate::__constructor: Could not load authentication libraries.');
+			JError::raiseWarning('SOME_ERROR_CODE', 'JAuthentication::__construct: Could not load authentication libraries.');
 		}
 	}
 
@@ -59,11 +59,11 @@ class JAuthentication extends JObservable
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $auth = &JAuthenticate::getInstance();</pre>
+	 * 		<pre>  $auth = &JAuthentication::getInstance();</pre>
 	 *
 	 * @static
 	 * @access public
-	 * @return object The global JAuthenticate object
+	 * @return object The global JAuthentication object
 	 * @since 1.5
 	 */
 	function & getInstance()
@@ -106,7 +106,7 @@ class JAuthentication extends JObservable
 		 * Loop through the plugins and check of the creditials can be used to authenticate
 		 * the user
 		 *
-		 * Any errors raised in the plugin should be returned via the JAuthenticateResponse
+		 * Any errors raised in the plugin should be returned via the JAuthenticationResponse
 		 * and handled appropriately.
 		 */
 		foreach($plugins as $plugin)
