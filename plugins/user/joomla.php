@@ -73,7 +73,7 @@ class plgUserJoomla extends JPlugin
 	function onLoginUser($user, $options = array())
 	{
 		jimport('joomla.user.helper');
-
+		
 		$my = new JUser();
 		if($id = intval(JUserHelper::getUserId($user['username'])))  {
 			$my->load($id);
@@ -92,7 +92,7 @@ class plgUserJoomla extends JPlugin
 			
 			if($autoregister) {
 				if(!$my->save()) {
-					return false;
+					return JError::raiseWarning('SOME_ERROR_CODE', $my->getError());
 				}
 			}
 		}
