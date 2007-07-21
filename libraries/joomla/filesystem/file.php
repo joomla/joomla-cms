@@ -86,7 +86,7 @@ class JFile
 
 		//Check src path
 		if (!is_readable($src)) {
-			JError::raiseWarning(21, 'JFile::copy: '.JText::_('Cannot find or read file: '.$src));
+			JError::raiseWarning(21, 'JFile::copy: '.JText::_('Cannot find or read file' . ": '$src'"));
 			return false;
 		}
 
@@ -235,7 +235,7 @@ class JFile
 		$data = null;
 
 		if (false === $fh = fopen($filename, 'rb', $incpath)) {
-			JError::raiseWarning(21, 'JFile::read: '.JText::_('Unable to open file ').$filename);
+			JError::raiseWarning(21, 'JFile::read: '.JText::_('Unable to open file') . ": '$filename'");
 			return false;
 		}
 		clearstatcache();
