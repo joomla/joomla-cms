@@ -148,7 +148,6 @@ INSERT INTO `jos_menu_types` VALUES (3, 'topmenu', 'Top Menu', 'Top level naviga
 INSERT INTO `jos_menu_types` VALUES (4, 'othermenu', 'Other Menu', 'Additional links');
 INSERT INTO `jos_menu_types` VALUES (5, 'ExamplePages', 'Example Pages', 'Example Pages');
 INSERT INTO `jos_menu_types` VALUES (6, 'keyconcepts', 'Key Concepts', 'This describes some critical information for new users.');
-INSERT INTO `jos_menu_types` VALUES (7, 'newmenu', 'main menu', 'main menu');
 
 --
 -- Dumping data for table `jos__modules`
