@@ -25,17 +25,17 @@ works copyrighted by any or all of the following, from 2000 through 2007:
 
 Code contributers:
 ------------------
-Alex Kempkens, Blagovest Dacheb, Chris Davenport, Jason Kendall,
+Alex Kempkens, Blagovest Dacheb, Jason Kendall, Rey Gigataras,
 David Gall, Andrew Eddie, Mateusz Kreszowiec, Enno Klasing,
 Hannes Pappenberg, Johan Janssens, Laurens Vanderput, Levis Bison,
-Louis Landry, Samuel Moffatt, Andy Miller, Rastin Mehr,
-Robin Muilwijk, Rob Schley, Wilco Jansen
+Louis Landry, Marko Schmuck, Samuel Moffatt, Andy Miller, Emir Sakic,
+Rastin Mehr, Robin Muilwijk, Rob Schley, Wilco Jansen, Toby Patterson
 
 Parts of the code copyrighted by the Mambo Foundation under GNU GPL
 
 Documentation Contributers:
 ---------------------------
-Andy Wallace, Ian Maclennan
+Andy Wallace, Ian Maclennan, Chris Davenport
 
 Translation contributers:
 -------------------------
