@@ -29,17 +29,17 @@ class JVersion
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.5';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Development';
+	var $DEV_STATUS = 'Production/Stable';
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '0';
 	/** @var int build Number */
 	var $BUILD	 	= '';
 	/** @var string Codename */
-	var $CODENAME 	= 'Khepri';
+	var $CODENAME 	= 'Mapya';
 	/** @var string Date */
-	var $RELDATE 	= '04-May-2007';
+	var $RELDATE 	= '21-July-2007';
 	/** @var string Time */
-	var $RELTIME 	= '00:00';
+	var $RELTIME 	= '15:00';
 	/** @var string Timezone */
 	var $RELTZ 		= 'GMT';
 	/** @var string Copyright Text */

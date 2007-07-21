@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.0 Release Candidate 1 Released [21-July-2007] ---------------------
+
+21-Jul-2007 Wilco Jansen
+ ^ Changes version file
+
 20-Jul-2007 Johan Janssens
  # Fixed #6133] After saving global configuration default langauge changes to English language
 
@@ -61,7 +66,7 @@ Legend:
 
 19-Jul-2007 Hannes Papenberg
  + Added option to switch off feed links
- 
+
 19-Jul-2007 Johan Janssens
  # Fixed [#5381] Admin template cosmetic issue in IE6/7
 
@@ -70,7 +75,7 @@ Legend:
 
 19-Jul-2007 Sam Moffatt
  # Fixed unchecked array access for language option in libraries/joomla/application/application
- 
+
 18-Jul-2007 Andy Wallace
  # Corrected GNU/GPL URL links in en_GB language files and various other files
 
