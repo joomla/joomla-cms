@@ -58,42 +58,27 @@ class modFeedHelper
 
 			// feed elements
 			$items = array_slice($items, 0, $rssitems);
-			?>
-			<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
-			<?php
+
 			// feed description
 			if (!is_null( $channel['title'] ) && $rsstitle) {
 			?>
-				<tr>
-				<td>
-					<strong>
-						<a href="<?php echo str_replace( '&', '&amp', $channel['link'] ); ?>" target="_blank">
-						<?php echo $channel['title']; ?></a>
-					</strong>
-				</td>
-				</tr>
+			<strong>
+				<a href="<?php echo str_replace( '&', '&amp', $channel['link'] ); ?>" target="_blank">
+				<?php echo $channel['title']; ?></a>
+			</strong><p />
+
 			<?php
 			}
 
 			// feed description
 			if ($rssdesc) {
-			?>
-				<tr>
-					<td>
-						<?php echo $channel['description']; ?>
-					</td>
-				</tr>
-			<?php
+				echo $channel['description'].'<p />';
 			}
 
 			// feed image
 			if ($rssimage && $iUrl) {
 			?>
-				<tr>
-					<td align="center">
-						<image src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
-					</td>
-				</tr>
+				<image src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/><p />
 			<?php
 			}
 
@@ -106,8 +91,6 @@ class modFeedHelper
 				$totalItems = $setItems;
 			}
 			?>
-			<tr>
-			<td>
 				<ul class="newsfeed<?php echo $moduleclass_sfx; ?>"  >
 				<?php
 				for ($j = 0; $j < $totalItems; $j ++)
@@ -157,9 +140,6 @@ class modFeedHelper
 				}
 				?>
 				</ul>
-			</td>
-			</tr>
-		</table>
 		<?php
 		}
 	}
