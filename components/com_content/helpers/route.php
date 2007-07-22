@@ -35,23 +35,23 @@ class ContentHelperRoute
 	{
 		$item = ContentHelperRoute::_getArticleMenuInfo((int)$id, (int)$catid, (int)$sectionid);
 
-		$link = 'index.php?option=com_content&view=article';
+		$link = 'index.php?option=com_content';
 
 		if(isset($item))
 		{
 			if($item->link_parts['view'] == 'article') {
-				$link .=  '&id='.$id.'&Itemid='. $item->id;
+				$link .=  '&Itemid='. $item->id;
 			}
 
 			if($item->link_parts['view'] == 'category') {
-				$link .= '&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
+				$link .= '&view=article&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
 			}
 
 			if($item->link_parts['view'] == 'section') {
-				$link .= '&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
+				$link .= '&view=article&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
 			}
 		} else {
-			$link .= '&catid='.$catid.'&id='. $id;
+			$link .= '&view=article&catid='.$catid.'&id='. $id;
 		}
 
 		return JRoute::_( $link );
