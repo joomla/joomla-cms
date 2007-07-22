@@ -138,18 +138,14 @@ class JDocumentRendererHead extends JDocumentRenderer
 				$strHtml .= $tab . '<script type="' . $type . '">' . $lnEnd;
 
 				// This is for full XHTML support.
-				if ($document->_mime == 'text/html' ) {
-					$strHtml .= $tab . $tab . '// <!--' . $lnEnd;
-				} else {
+				if ($document->_mime != 'text/html' ) {
 					$strHtml .= $tab . $tab . '<![CDATA[' . $lnEnd;
 				}
 
 				$strHtml .= $content . $lnEnd;
 
 				// See above note
-				if ($document->_mime == 'text/html' ) {
-					$strHtml .= $tab . $tab . '// -->' . $lnEnd;
-				} else {
+				if ($document->_mime != 'text/html' ) {
 					$strHtml .= $tab . $tab . '// ]]>' . $lnEnd;
 				}
 				$strHtml .= $tab . '</script>' . $lnEnd;
