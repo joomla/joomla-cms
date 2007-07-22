@@ -16,7 +16,6 @@
 /**
  * @package		Joomla
  * @subpackage	Menus
- * @author Andrew Eddie
  */
 class MenusHelper
 {

@@ -1,11 +1,2 @@
 <?xml version="1.0"?>
-<mosparam type="component" version="1.0.0">
-	<name>Mailto</name>
-	<author>Andrew Eddie</author>
-	<creationDate>13 Mar 2006</creationDate>
-	<copyright>(C) 2005 - 2007 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<authorEmail>admin@joomla.org</authorEmail>
-	<authorUrl>www.joomla.org</authorUrl>
-	<description>Generic mail link to friend form</description>
-</mosparam>
+<metadata />

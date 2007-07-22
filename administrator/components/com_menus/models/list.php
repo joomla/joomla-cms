@@ -21,7 +21,6 @@ jimport( 'joomla.application.component.model' );
 /**
  * @package		Joomla
  * @subpackage	Menus
- * @author Andrew Eddie
  */
 class MenusModelList extends JModel
 {

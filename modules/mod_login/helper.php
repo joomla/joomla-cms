@@ -21,9 +21,9 @@ class modLoginHelper
 		// url of current page that user will be returned to after login
 		$menu =& JMenu::getInstance();
 		$item =& $menu->getDefault();
-		
+
 		$itemid =  $params->get($type, $item->id);
-		
+
 		$url = 'index.php?Itemid='.$itemid;
 		$url = base64_encode(JRoute::_($url, false));
 		return $url;

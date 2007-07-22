@@ -175,18 +175,18 @@ class JRouter extends JObject
 		$url = urldecode(str_replace($base, '', $full));
 		$url = preg_replace('/index[\d]?.php/', '', $url);
 		$url = trim($url , '/');
-	
+
 		/*
 		 * Handle empty URL : mysite/ or mysite/index.php
 		 */
 		if(empty($url) && !$uri->getQuery())
-		{	
+		{
 			if($itemid = JRequest::getVar('Itemid')) {
 				$item = $menu->getItem($itemid);
 			} else {
 				$item = $menu->getDefault();
 			}
-			
+
 			// Set the active menu item
 			$menu->setActive($item->id);
 
@@ -195,7 +195,7 @@ class JRouter extends JObject
 
 			//Set the itemid in the request
 			JRequest::setVar('Itemid',  $item->id);
-			
+
 			return true;
 		}
 
@@ -207,19 +207,19 @@ class JRouter extends JObject
 			// Set document link
 			$doc = & JFactory::getDocument();
 			$doc->setLink($base);
-			
+
 			if (!empty($url))
 			{
 				// Parse application route
 				if(!$itemid = $this->_parseApplicationRoute($url)) {
 					return false;
 				}
-			
+
 				// Set the active menu item
 				JRequest::setVar('Itemid', $itemid);
 				$menu->setActive($itemid);
 			}
-				
+
 			if(!empty($url))
 			{
 				// Parse component route
@@ -314,7 +314,7 @@ class JRouter extends JObject
 			$vars = array_merge($this->_vars, $vars);
 			$url = 'index.php?'.JURI::_buildQuery($vars);
 		}
-		
+
 		// Can this URL be build
 		if(preg_match('/^(([^:\/\?#]+):)/i', $url) || strcasecmp(substr($url, 0, 9), 'index.php')) {
 			return $url;
@@ -323,10 +323,10 @@ class JRouter extends JObject
 		// Decompose link into url component parts
 		$uri  =& JURI::getInstance(JURI::base().$url);
 		$menu =& JMenu::getInstance();
-		
+
 		/*
 		 * Build unrouted URL
-		 */ 
+		 */
 		if(!$this->_mode)
 		{
 			if($uri->getVar('Itemid') && count($uri->getQuery(true)) == 1)
@@ -338,7 +338,7 @@ class JRouter extends JObject
 				$uri->setVar('Itemid', $itemid);
 				$url = $uri->toString();
 				return $url;
-			} 
+			}
 		}
 
 		// If the itemid isn't set in the URL use default
@@ -354,9 +354,9 @@ class JRouter extends JObject
 		if(!$option = $uri->getVar('option')) {
 			$uri->setVar('option', $item->component);
 		}
-		
+
 		$url = $uri->toString(array('query', 'fragment'));
-		
+
 		/*
 		 * Build routed URL : mysite/route/index.php?var=x
 		 */
@@ -398,7 +398,7 @@ class JRouter extends JObject
 				$url = 'index.php/'.$url;
 			}
 		}
-		
+
 		return $url;
 	}
 
@@ -421,7 +421,7 @@ class JRouter extends JObject
 
 			//Get the option
 			$option = 'com_'.$segments[1];
-			
+
 			if($itemid = JRequest::getVar('Itemid')) {
 				$item = $menu->getItem($itemid);
 			} else {
@@ -452,7 +452,7 @@ class JRouter extends JObject
 		if (empty($this->_vars['option'])) {
 			$this->_vars['option'] = $option;
 		}
-		
+
 		return $itemid;
 	}
 

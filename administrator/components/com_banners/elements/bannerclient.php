@@ -18,7 +18,6 @@ defined('_JEXEC') or die();
 /**
  * Renders a category element
  *
- * @author 		Andrew Eddie
  * @package 	Joomla
  * @subpackage	Banners
  * @since		1.5

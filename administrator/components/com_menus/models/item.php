@@ -21,7 +21,6 @@ jimport( 'joomla.application.component.model' );
 /**
  * @package		Joomla
  * @subpackage	Menus
- * @author Andrew Eddie
  */
 class MenusModelItem extends JModel
 {
@@ -477,7 +476,7 @@ class MenusModelItem extends JModel
 
 		return true;
 	}
-	
+
 	/**
 	 * Delete menu items by type
 	 */
@@ -684,25 +683,25 @@ class MenusModelItem extends JModel
 
 	/**
 	 * Sets the sublevel for menu items
-	 * 
+	 *
 	 * @param array id values to set
 	 * @param int level to assign to the sublevel
 	 */
-	function _setSubLevel( $cid, $level ) 
+	function _setSubLevel( $cid, $level )
 	{
 		JArrayHelper::toInteger($cid, array(0));
 
 		$ids = implode( ',', $cid );
-		
+
 		$query	= 'UPDATE #__menu SET sublevel = '.(int) $level
 				.' WHERE id IN ('.$ids.')';
 		$this->_db->setQuery( $query );
 		$this->_db->query();
-		
+
 		$query	= 'SELECT id FROM #__menu WHERE parent IN ('.$ids.')';
 		$this->_db->setQuery( $query );
 		$cids = $this->_db->loadResultArray( 0 );
-		
+
 		if (!empty( $cids )) {
 			$this->_setSubLevel( $cids, $level + 1 );
 		}
