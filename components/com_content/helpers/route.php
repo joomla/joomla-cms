@@ -40,7 +40,7 @@ class ContentHelperRoute
 		if(isset($item))
 		{
 			if($item->link_parts['view'] == 'article') {
-				$link .=  '&Itemid='. $item->id;
+				$link .=  '&id='.$id.'&Itemid='. $item->id;
 			}
 
 			if($item->link_parts['view'] == 'category') {
