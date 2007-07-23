@@ -15,7 +15,7 @@
 		</tr>
 		<tr>
 			<td width="185" class="key">
-				<span class="editlinktip">
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Use mod_rewrite' ); ?>::<?php echo JText::_('TIPUSEMODREWRITE'); ?>">
 					<?php echo JText::_( 'Use mod_rewrite' ); ?>
 				</span>
 			</td>

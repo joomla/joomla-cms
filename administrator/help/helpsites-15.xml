@@ -1,155 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <joshelp>
-	<sites>
-		<site tag="al-AL"  url="http://help.joomalb.com">
-			Albanian - help.joomalb.com
-		</site>
-		<site tag="ar-EG"  url="http://help.joomlatona.org">
-			Arabic - help.joomlatona.org
-		</site>
-		<site tag="mor-PH" url="http://help.joomlamoro.com">
-			Bangsamoro - help.joomlamoro.com
-		</site>
-		<site tag="bn-BD"  url="http://help.joomla-bd.org">
-			Bengali (Bangladesh) - help.joomla-bd.org
-		</site>
-		<site tag="bn-IN"  url="http://www.joomlabengali.org">
-			Bengali (India) - www.joomlabengali.org
-		</site>
-		<site tag="bos-BA" url="http://www.joomla.ba">
-			Bosnian - www.joomla.ba
-		</site>
-		<site tag="bg-BG"  url="http://help.joomla-bg.com">
-			Bulgarian - help.joomla-bg.com
-		</site>
-		<site tag="zh-CN"  url="http://www.joomla.cn">
-			Chinese-Simplified - www.joomla.cn
-		</site>
-		<site tag="zh-TW"  url="http://www.joomla.org.tw">
-			Chinese-Traditional - www.joomla.org.tw
-		</site>
-		<site tag="hr-HR"  url="http://help.crojoomla.com">
-			Croatian - help.crojoomla.com
-		</site>
-		<site tag="cz-CZ" url="http://www.joomla.cz">
-			Czech - www.joomla.cz
-		</site>
-		<site tag="da-DK"  url="http://help.joomla.dk">
-			Danish - help.joomla.dk
-		</site>
-		<site tag="hi-IN" url="http://help.indicjoomla.org">
-			Devanagari/Hindi - help.indicjoomla.org
-		</site>
-		<site tag="nl-NL"  url="http://www.dutchjoomla.org">
-			Dutch (NL) - www.dutchjoomla.org
-		</site>
-		<site tag="nl-NL"  url="http://joomla.taalbestand.nl">
-			Dutch (NL) - joomla.taalbestand.nl
-		</site>
-		<site tag="en-GB"  url="http://help.joomla.org">
-			English (GB) - help.joomla.org
-		</site>
-		<site tag="et-EE" url="http://www.joomlaest.com">
-			Estonian - www.joomlaest.com
-		</site>
-		<site tag="fa-IR" url="http://www.joomla.ir">
-			Farsi - www.joomla.ir
-		</site>
-		<site tag="fil-PH" url="http://www.joomla.org.ph">
-			Filipino - www.joomla.org.ph
-		</site>
-		<site tag="fr-FR"  url="http://www.joomlafacile.com">
-			French - www.joomlafacile.com
-		</site>
-		<site tag="fi-FI"  url="http://help.joomlaportal.fi">
-			Finnish - help.joomlaportal.fi
-		</site>
-		<site tag="de-AT" url="http://help.joomla.at">
-			German (AT) - help.joomla.at
-		</site>
-		<site tag="de-DE" url="http://help.joomla.de">
-			German (DE) - help.joomla.de
-		</site>
-		<site tag="de-CH" url="http://www.joomla.ch">
-			German (CH) - www.joomla.ch
-		</site>
-		<site tag="el-GR"  url="http://myjoomla.onscreen.gr">
-			Greek - myjoomla.onscreen.gr
-		</site>
-		<site tag="he-IL"  url="http://help.joomla.co.il">
-			Hebrew - help.joomla.co.il
-		</site>
-		<site tag="hu-HU"  url="http://www.joomla.hu">
-			Hungarian - www.joomla.hu
-		</site>
-		<site tag="id-ID"  url="http://www.joomla-id.com">
-			Indonesian - www.joomla-id.com
-		</site>
-		<site tag="it-IT" url="http://www.joomla.it">
-			Italian - www.joomla.it
-		</site>
-		<site tag="it-IT" url="http://www.joomlaitalia.com">
-			Italian - www.joomlaitalia.com
-		</site>
-		<site tag="ja-JP" url="http://help.joomla.jp">
-			Japanese - help.joomla.jp
-		</site>
-		<site tag="ko-KR" url="http://www.joomlakorea.org">
-			Korean - www.joomlakorea.org
-		</site>
-		<site tag="ku-KU" url="http://www.kameran.nl">
-			Kurdish - www.kameran.nl
-		</site>
-		<site tag="lv-LV" url="http://www.joomlalv.org">
-			Latvian - www.joomlalv.org
-		</site>
-		<site tag="ms-MY"  url="http://www.joomlamalay.com">
-			Malaysia - joomlamalay.com
-		</site>
-		<site tag="mk-MK"  url="http://www.joomla.org.mk">
-			Macedonian (FYROM) - www.joomla.org.mk
-		</site>
-		<site tag="nb-NO"  url="http://hjelp.joomlainorge.no">
-			Norwegian bokmal - hjelp.joomlainorge.no
-		</site>
-		<site tag="pl-PL"  url="http://www.joomla.pl/pomoc">
-			Polish - www.joomla.pl/pomoc
-		</site>
-		<site tag="pt-PT"  url="http://help.joomlapt.com">
-			Portuguese (PT) - www.joomlapt.com
-		</site>
-		<site tag="pt-BR"  url="http://www.joomlabrasil.org">
-			Portuguese (BR) - www.joomlabrasil.org
-		</site>
-		<site tag="ro-RO"  url="http://www.joomla.ro">
-			Romanian - www.joomla.ro
-		</site>
-		<site tag="ru-RU" url="http://www.joomla.readonly.ru">
-			Russian - www.joomla.readonly.ru
-		</site>
-		<site tag="rs-RS" url="http://www.joomlaserbia.com">
-			Serbian - www.joomlaserbia.com
-		</site>
-		<site tag="sk-SK"  url="http://www.joomlahelp.sk">
-			Slovak - www.joomlahelp.sk
-		</site>
-		<site tag="es-ES" url="http://www.joomlaspanish.org">
-			Spanish (ES) - www.joomlaspanish.org
-		</site>
-		<site tag="es-ES" url="http://ayuda.joomlahispano.org">
-			Spanish (ES) - ayuda.joomlahispano.org
-		</site>
-		<site tag="sv-SE"  url="http://www.svenskjoomla.se">
-			Swedish - www.svenskjoomla.se
-		</site>
-		<site tag="th-TH" url="http://www.joomlacorner.com">
-			Thai - www.joomlacorner.com
-		</site>
-		<site tag="tr-TR"  url="http://www.joomlaturkiye.org">
-			JoomlaTurkiye - www.joomlaturkiye.org
-		</site>
-		<site tag="vi-VN"  url="http://www.joomlaviet.org">
-			Vietnamese - www.joomlaviet.org
-		</site>
-	</sites>
+<sites>
+  <site tag="ar-EG" url="http://help.joomlatona.org">Arabic - help.joomlatona.org</site>
+  <site tag="mor-PH" url="http://www.joomlamoro.com">Bangsamoro - www.joomlamoro.com</site>
+  <site tag="bn-IN" url="http://www.joomlabengali.org">Bengali - www.joomlabengali.org</site>
+  <site tag="bos_BA" url="http://www.joomla.ba">Bosnian - www.joomla.ba</site>
+	<site tag="bg-BG" url="http://help.joomla-bg.com">Bulgarian - help.joomla-bg.com</site>
+  <site tag="zh-CN" url="http://www.joomla.cn">Chinese-Simplified - www.joomla.cn</site>
+  <site tag="zh-TW" url="http://www.taiwanjoomla.com">Chinese-Traditional - www.taiwanjoomla.com</site>
+  <site tag="hr-HR" url="http://help.crojoomla.com">Croatian - help.crojoomla.com</site>
+	<site tag="cze_CZ" url="http://www.joomla.cz">Czech - www.joomla.cz</site>
+ 	<site tag="da-DK" url="http://help.joomla.dk">Danish - help.joomla.dk</site>
+ 	<site tag="hin_IN" url="http://help.indicjoomla.org">Devanagari/Hindi - help.indicjoomla.org</site>
+ 	<site tag="nl-NL" url="http://www.dutchjoomla.org">Dutch (NL) - www.dutchjoomla.org/</site>
+ 	<site tag="en-GB" url="http://help.joomla.org">English (GB) - help.joomla.org</site>
+ 	<site tag="est_EE" url="http://www.joomlaest.com">Estonian - www.joomlaest.com</site>
+ 	<site tag="fas_IR" url="http://www.joomla.ir">Farsi - www.joomla.ir</site>
+ 	<site tag="fil-PH" url="http://www.joomla.org.ph">Filipino - www.joomla.org.ph</site>
+  <site tag="fr-FR" url="http://www.joomlafacile.com">French - www.joomlafacile.com</site>
+ 	<site tag="fi-FI" url="http://help.joomlaportal.fi">Finnish - help.joomlaportal.fi</site>
+ 	<site tag="ger_AT" url="http://www.joomla.at">German (AT) - www.joomla.at</site>
+ 	<site tag="ger_DE" url="http://help.joomla.de">German (DE) - help.joomla.de</site>
+ 	<site tag="el-GR" url="http://myjoomla.onscreen.gr">Greek - myjoomla.onscreen.gr</site>
+ 	<site tag="he-IL" url="http://help.joomla.co.il">Hebrew - help.joomla.co.il</site>
+  <site tag="hu-HU" url="http://sugo.joomla.hu">Hungarian - sugo.joomla.hu</site>
+  <site tag="id-ID" url="http://help.joomla-id.com">Indonesian - help.joomla-id.com</site>
+  <site tag="ita_IT" url="http://www.joomla.it">Italian - www.joomla.it</site>
+  <site tag="ita_IT" url="http://www.joomlaitalia.com">Italian - www.joomlaitalia.com</site>
+  <site tag="jpn_JP" url="http://www.joomla.jp">Japanese - www.joomla.jp</site>
+  <site tag="ms-MY" url="http://www.joomlamalay.com">Malaysia - joomlamalay.com</site>
+  <site tag="nb-NO" url="http://hjelp.joomlainorge.no">Norwegian bokmal - hjelp.joomlainorge.no</site>
+  <site tag="pl-PL" url="http://www.joomla.pl/pomoc">Polish - www.joomla.pl/pomoc</site>
+  <site tag="pt-PT" url="http://help.joomlapt.com">Portuguese (PT) - www.joomlapt.com</site>
+  <site tag="pt-BR" url="http://www.joomlabrasil.org">Portuguese (BR) - www.joomlabrasil.org</site>
+  <site tag="ro-RO" url="http://www.joomla.ro">Romanian - www.joomla.ro</site>
+  <site tag="rus_RU" url="http://www.joomla.readonly.ru">Russian - www.joomla.readonly.ru</site>
+ 	<site tag="scr_CS" url="http://www.joomlaserbia.com">Serbian - www.joomlaserbia.com</site>
+  <site tag="es-ES" url="http://ayuda.joomlaspanish.org">Ayuda en Español (es_ES) - ayuda.joomlaspanish.org/</site>
+ 	<site tag="spa_ES" url="http://www.joomlahispano.org">Spanish (SP) - www.joomlahispano.org</site>
+ 	<site tag="sv-SE" url="http://www.svenskjoomla.se">Swedish - www.svenskjoomla.se</site>
+ 	<site tag="tha_TH" url="http://www.joomlaCorner.com">Thai - www.joomlaCorner.com</site>
+ 	<site tag="tr-TR" url="http://www.joomlaturkiye.org">JoomlaTurkiye - www.joomlaturkiye.org</site>
+</sites>
 </joshelp>

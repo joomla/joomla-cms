@@ -5,7 +5,9 @@
 		<tbody>
 		<tr>
 			<td class="key">
-				<?php echo JText::_( 'Cache' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Cache' ); ?>::<?php echo JText::_( 'TIPCACHE' ); ?>">
+					<?php echo JText::_( 'Cache' ); ?>
+				</span>
 			</td>
 			<td>
 				<?php echo $lists['caching']; ?>
@@ -13,7 +15,9 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<?php echo JText::_( 'Cache Time' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Cache Time' ); ?>::<?php echo JText::_( 'TIPCACHETIME' ); ?>">
+					<?php echo JText::_( 'Cache Time' ); ?>
+				</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="cachetime" size="5" value="<?php echo $row->cachetime; ?>" />
@@ -22,7 +26,9 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<?php echo JText::_( 'Cache Handler' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Cache Handler' ); ?>::<?php echo JText::_( 'TIPCACHEHANDLER' ); ?>">
+					<?php echo JText::_( 'Cache Handler' ); ?>
+				</span>
 			</td>
 			<td>
 				<?php echo $lists['cache_handlers']; ?>

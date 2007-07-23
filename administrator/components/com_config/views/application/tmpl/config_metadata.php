@@ -5,7 +5,9 @@
 		<tbody>
 		<tr>
 			<td width="185" valign="top" class="key">
-				<?php echo JText::_( 'Global Site Meta Description' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Global Site Meta Description' ); ?>::<?php echo JText::_( 'TIPGLOBALSITEMETATADESC' ); ?>">
+					<?php echo JText::_( 'Global Site Meta Description' ); ?>
+				</span>
 			</td>
 			<td>
 				<textarea class="text_area" cols="50" rows="3" style="width:400px; height:50px" name="MetaDesc"><?php echo $row->MetaDesc; ?></textarea>
@@ -13,7 +15,9 @@
 		</tr>
 		<tr>
 			<td valign="top" class="key">
-				<?php echo JText::_( 'Global Site Meta Keywords' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Global Site Meta Keywords' ); ?>::<?php echo JText::_( 'TIPGLOBALSITEMETAKEY' ); ?>">
+					<?php echo JText::_( 'Global Site Meta Keywords' ); ?>
+				</span><
 			</td>
 			<td>
 				<textarea class="text_area" cols="50" rows="3" style="width:400px; height:50px" name="MetaKeys"><?php echo $row->MetaKeys; ?></textarea>
