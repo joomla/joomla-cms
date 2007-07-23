@@ -77,4 +77,3 @@ class ContactModelContact extends JModel
 		return @$result[0];
 	}
 }
-?>

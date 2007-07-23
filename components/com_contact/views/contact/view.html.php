@@ -147,4 +147,3 @@ class ContactViewContact extends JView
 		parent::display($tpl);
 	}
 }
-?>

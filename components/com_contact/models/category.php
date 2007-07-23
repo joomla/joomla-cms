@@ -156,4 +156,3 @@ class ContactModelCategory extends JModel
 		return $this->_getListCount( $query );
 	}
 }
-?>

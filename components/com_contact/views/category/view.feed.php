@@ -81,4 +81,3 @@ class ContactViewCategory extends JView
 		}
 	}
 }
-?>

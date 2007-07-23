@@ -38,7 +38,7 @@ class ContactController extends JController
 		$viewType	= $document->getType();
 
 		// interceptors to support legacy urls
-		switch( $this->getTask())
+		switch ($this->getTask())
 		{
 			//index.php?option=com_contact&task=category&id=0&Itemid=4
 			case 'category':
@@ -84,24 +84,21 @@ class ContactController extends JController
 
 		//check the token before we do anything else
 		$token	= JUtility::getToken();
-		if(!JRequest::getInt($token, 0, 'post')) {
+		if (!JRequest::getInt( $token, 0, 'post' )) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
 
 		// Initialize some variables
 		$db			= & JFactory::getDBO();
+		$SiteName	= $mainframe->getCfg('sitename');
 
-		$SiteName 	= $mainframe->getCfg('sitename');
-		$MailFrom 	= $mainframe->getCfg('mailfrom');
-		$FromName 	= $mainframe->getCfg('fromname');
-
-		$default 	= JText::sprintf('MAILENQUIRY', $SiteName);
-		$contactId 	= JRequest::getVar('id', 			0, 			'post', 'int');
-		$name 		= JRequest::getVar('name', 			'', 		'post');
-		$email 		= JRequest::getVar('email', 		'', 		'post');
-		$subject 	= JRequest::getVar('subject', 		$default, 	'post');
-		$body 		= JRequest::getVar('text', 			'', 		'post');
-		$emailCopy 	= JRequest::getVar('email_copy', 	0, 			'post', 'int');
+		$default	= JText::sprintf( 'MAILENQUIRY', $SiteName );
+		$contactId	= JRequest::getInt( 'id',			0,			'post' );
+		$name		= JRequest::getVar( 'name',			'',			'post' );
+		$email		= JRequest::getVar( 'email',		'',			'post' );
+		$subject	= JRequest::getVar( 'subject',		$default,	'post' );
+		$body		= JRequest::getVar( 'text',			'',			'post' );
+		$emailCopy	= JRequest::getInt( 'email_copy', 	0,			'post' );
 
 		 // load the contact details
 		$model		= &$this->getModel('contact');
@@ -122,20 +119,36 @@ class ContactController extends JController
 			return false;
 		}
 
-		// input validation
+		// Contact plugins
+		JPluginHelper::importPlugin( 'contact' );
+		$dispatcher	=& JEventDispatcher::getInstance();
+
+		// Input validation
 		if  (!$this->_validateInputs( $contact, $email, $subject, $body ) ) {
 			JError::raiseWarning( 0, $this->getError() );
 			return false;
 		}
 
+		// Custom handlers
+		$post		= JRequest::get( 'post' );
+		$results	= $dispatcher->trigger( 'onValidateContact', array( &$contact, &$post ) );
+
+		foreach ($results as $result)
+		{
+			if (JError::isError( $result )) {
+				return false;
+			}
+		}
+
 		// Passed Validation: Process the contact plugins to integrate with other applications
-		JPluginHelper::importPlugin('contact');
-		$dispatcher	=& JEventDispatcher::getInstance();
-		$results	= $dispatcher->trigger( 'onSubmitContact', array( &$contact ) );
+		$results	= $dispatcher->trigger( 'onSubmitContact', array( &$contact, &$post ) );
 
 		$pparams = &$mainframe->getPageParameters('com_contact');
 		if (!$pparams->get( 'custom_reply' ))
 		{
+			$MailFrom 	= $mainframe->getCfg('mailfrom');
+			$FromName 	= $mainframe->getCfg('fromname');
+
 			// Prepare email body
 			$prefix = JText::sprintf('ENQUIRY_TEXT', JURI::base());
 			$body 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
@@ -369,4 +382,3 @@ class ContactController extends JController
 		return true;
 	}
 }
-?>

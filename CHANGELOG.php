@@ -41,6 +41,7 @@ Legend:
  # Fixed bug in JHTMLImage::site giving full image tag in the src attribute
  # Removed eval from JUtility::sendAdminMail method
  # Fixed possible syntax error evaluation in JDocumentHTML::countModules
+ ^ Added validation trigger onValiddateContact for custom form handling (compliments onSubmitContact)
 
 -------------------- 1.5.0 Release Candidate 1 Released [21-July-2007] ---------------------
 
