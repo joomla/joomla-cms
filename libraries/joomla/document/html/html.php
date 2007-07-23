@@ -231,7 +231,7 @@ class JDocumentHTML extends JDocument
 
 		// parse
 		$data = $this->_parseTemplate($data);
-		
+
 		//output
 		parent::render();
 		return $data;
@@ -253,9 +253,15 @@ class JDocumentHTML extends JDocument
 		{
 			if($i % 2 == 0)
 			{
-				//odd parts (modules)
-				$name = strtolower($words[$i]);
-				$words[$i] = count(JModuleHelper::getModules($name));
+				// odd parts (modules)
+				$name		= strtolower($words[$i]);
+				$words[$i]	= count(JModuleHelper::getModules($name));
+			}
+			else
+			{
+				if ($words[$i] != 'and') {
+					$words[$i] = 'or';
+				}
 			}
 		}
 

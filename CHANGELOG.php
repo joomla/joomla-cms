@@ -40,6 +40,7 @@ Legend:
 23-Jul-2007 Andrew Eddie
  # Fixed bug in JHTMLImage::site giving full image tag in the src attribute
  # Removed eval from JUtility::sendAdminMail method
+ # Fixed possible syntax error evaluation in JDocumentHTML::countModules
 
 -------------------- 1.5.0 Release Candidate 1 Released [21-July-2007] ---------------------
 
