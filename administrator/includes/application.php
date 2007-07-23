@@ -54,7 +54,8 @@ class JAdministrator extends JApplication
 	{
 		// if a language was specified it has priority
 		// otherwise use user or default language settings
-		if (empty($options['language'])) {
+		if (empty($options['language'])) 
+		{
 			$user = & JFactory::getUser();
 			$lang	= $user->getParam( 'admin_language' );
 
@@ -62,9 +63,10 @@ class JAdministrator extends JApplication
 			if ( $lang && JLanguage::exists($lang) ) {
 				$options['language'] = $lang;
 			} else {
-				$options['language'] = $this->getCfg('lang_administrator');
+				$params = JComponentHelper::getParams('com_languages');
+				$client	= JApplicationHelper::getClientInfo($this->getClientId());
+				$options['language'] = $params->get($client->name, 'en-GB');
 			}
-
 		}
 
 		// One last check to make sure we have something

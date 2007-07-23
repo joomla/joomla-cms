@@ -115,8 +115,6 @@ class ConfigApplicationView
 		<input type="hidden" name="c" value="global" />
 		<input type="hidden" name="option" value="com_config" />
 		<input type="hidden" name="secret" value="<?php echo $row->secret; ?>" />
-		<input type="hidden" name="lang_site" value="<?php echo $row->lang_site; ?>" />
-		<input type="hidden" name="lang_administrator" value="<?php echo $row->lang_administrator; ?>" />
 		<input type="hidden" name="language" value="<?php echo $row->language; ?>" />
 		<input type="hidden" name="lang" value="<?php echo $row->lang; ?>" />
 		<input type="hidden" name="task" value="" />
