@@ -2,12 +2,11 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?>">
 <?php
-$feed = modFeedHelper::getFeed($params);
 if( $feed != false )
 {
 	//image handling
-	$iUrl 	= isset($feed->image->url) ? $feed->image->url : null;
-	$iTitle 	= isset($feed->image->title) ? $feed->image->title : null;
+	$iUrl 	= isset($feed->image->url)   ? $feed->image->url   : null;
+	$iTitle = isset($feed->image->title) ? $feed->image->title : null;
 	?>
 	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
 	<?php
@@ -44,7 +43,7 @@ if( $feed != false )
 	}
 
 	$actualItems = count( $feed->items );
-	$setItems = $params->get('rssitems', 5);
+	$setItems    = $params->get('rssitems', 5);
 
 	if ($setItems > $actualItems) {
 		$totalItems = $actualItems;
@@ -79,13 +78,14 @@ if( $feed != false )
 					$text = str_replace('&apos;', "'", $text);
 
 					// word limit check
-					if ($words) {
+					if ($words) 
+					{
 						$texts = explode(' ', $text);
 						$count = count($texts);
-						if ($count > $words) {
+						if ($count > $words) 
+						{
 							$text = '';
-							for ($i = 0; $i < $words; $i ++)
-							{
+							for ($i = 0; $i < $words; $i ++) {
 								$text .= ' '.$texts[$i];
 							}
 							$text .= '...';
