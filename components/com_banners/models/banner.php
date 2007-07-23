@@ -198,4 +198,3 @@ class BannersModelBanner extends JModel
 		return $url;
 	}
 }
-?>

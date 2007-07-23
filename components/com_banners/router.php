@@ -1,10 +1,9 @@
 <?php
 /**
  * @version		$Id$
- * @package  Joomla
+ * @package		Joomla
  * @subpackage	Banners
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights
- * reserved.
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -15,10 +14,9 @@
 
 /**
  * @param	array	A named array
- * @param	object
  * @return	array
  */
-function BannersBuildRoute(&$query)
+function BannersBuildRoute( &$query )
 {
 	$segments = array();
 
@@ -36,7 +34,7 @@ function BannersBuildRoute(&$query)
 
 /**
  * @param	array	A named array
- * @param	object
+ * @param	array
  *
  * Formats:
  *
@@ -44,7 +42,7 @@ function BannersBuildRoute(&$query)
  *
  * index.php?/banners/bid/Itemid
  */
-function BannersParseRoute($segments)
+function BannersParseRoute( $segments )
 {
 	$vars = array();
 
@@ -54,7 +52,7 @@ function BannersParseRoute($segments)
 	if ($count)
 	{
 		$count--;
-		$segment = array_shift($segments);
+		$segment = array_shift( $segments );
 		if (is_numeric( $segment )) {
 			$vars['bid'] = $segment;
 		} else {
@@ -65,7 +63,7 @@ function BannersParseRoute($segments)
 	if ($count)
 	{
 		$count--;
-		$segment = array_shift($segments);
+		$segment = array_shift( $segments) ;
 		if (is_numeric( $segment )) {
 			$vars['bid'] = $segment;
 		}
@@ -73,4 +71,3 @@ function BannersParseRoute($segments)
 
 	return $vars;
 }
-?>

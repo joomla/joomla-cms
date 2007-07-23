@@ -1,10 +1,9 @@
 <?php
 /**
  * @version		$Id$
- * @package  Joomla
+ * @package  	Joomla
  * @subpackage	Banners
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights
- * reserved.
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -18,11 +17,18 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.controller' );
 
+/**
+ * Banners Controller
+ *
+ * @package  	Joomla
+ * @subpackage	Banners
+ * @since		1.5
+ */
 class BannersController extends JController
 {
 	function click()
 	{
-		$bid = JRequest::getVar( 'bid', 0, '', 'int' );
+		$bid = JRequest::getInt( 'bid', 0 );
 		if ($bid)
 		{
 			$model = &$this->getModel( 'Banner' );
@@ -31,4 +37,3 @@ class BannersController extends JController
 		}
 	}
 }
-?>

@@ -27,4 +27,3 @@ $controller->execute(JRequest::getVar('task', null, 'default', 'cmd'));
 
 // Redirect if set by the controller
 $controller->redirect();
-?>
