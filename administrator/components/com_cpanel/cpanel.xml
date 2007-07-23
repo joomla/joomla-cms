@@ -8,5 +8,5 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5.0</version>
-	<description>Control Panel</description>
+	<description>The Control Panel is the Home Page of the Joomla! Administrator Back-end</description>
 </install>

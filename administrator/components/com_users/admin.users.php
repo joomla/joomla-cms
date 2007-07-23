@@ -452,7 +452,7 @@ function removeUsers(  )
 	JArrayHelper::toInteger( $cid );
 
 	if (count( $cid ) < 1) {
-		JError::raiseError(500, JText::_( 'Select an Item to delete', true ) );
+		JError::raiseError(500, JText::_( 'Select a User to delete', true ) );
 	}
 
 	foreach ($cid as $id)
@@ -533,7 +533,7 @@ function changeUserBlock( $block=1 )
 	if (count( $cid ) < 1)
 	{
 		$action = $block ? 'block' : 'unblock';
-		JError::raiseError(500, JText::_( 'Select an Item to '.$action, true ) );
+		JError::raiseError(500, JText::_( 'Select a User to '.$action, true ) );
 	}
 
 	$cids = implode( ',', $cid );
