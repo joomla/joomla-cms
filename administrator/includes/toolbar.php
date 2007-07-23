@@ -480,7 +480,7 @@ class JToolBarHelper
 		if ($user->get('gid') != 25) {
 			return;
 		}
-		
+
 		$component	= urlencode( $component );
 		$path		= urlencode( $path );
 		$bar = & JToolBar::getInstance('toolbar');

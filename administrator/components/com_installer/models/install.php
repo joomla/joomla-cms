@@ -48,7 +48,7 @@ class InstallerModelInstall extends JModel
 	function install()
 	{
 		global $mainframe;
-		
+
 		$this->setState('action', 'install');
 
 		switch(JRequest::getWord('installtype'))

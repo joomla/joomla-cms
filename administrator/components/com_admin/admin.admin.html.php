@@ -41,7 +41,7 @@ class HTML_admin_misc
 	function system_info( )
 	{
 		global $mainframe;
-		
+
 		//Load switcher behavior
 		JHTML::_('behavior.switcher');
 
@@ -129,15 +129,15 @@ class HTML_admin_misc
 		jimport( 'joomla.filesystem.folder' );
 
 		// Get Help URL - an empty helpurl is interpreted as locale help files!
-		$helpurl 		= $mainframe->getCfg('helpurl');
+		$helpurl	= $mainframe->getCfg('helpurl');
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
 			$helpurl = 'http://help.joomla.org';
 		}
 		$fullhelpurl = $helpurl . '/index.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=';
 
 		$helpsearch = JRequest::getString('helpsearch');
-		$page 		= JRequest::getCmd('page', 'joomla.whatsnew15.html');
-		$toc 		= getHelpToc( $helpsearch );
+		$page		= JRequest::getCmd('page', 'joomla.whatsnew15.html');
+		$toc		= getHelpToc( $helpsearch );
 		$lang		=& JFactory::getLanguage();
 		$langTag = $lang->getTag();
 		if( !JFolder::exists( JPATH_BASE.DS.'help'.DS.$langTag ) ) {
@@ -264,8 +264,8 @@ class HTML_admin_misc
 
 function writableCell( $folder, $relative=1, $text='', $visible=1 )
 {
-	$writeable 		= '<b><font color="green">'. JText::_( 'Writable' ) .'</font></b>';
-	$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwritable' ) .'</font></b>';
+	$writeable		= '<b><font color="green">'. JText::_( 'Writable' ) .'</font></b>';
+	$unwriteable	= '<b><font color="red">'. JText::_( 'Unwritable' ) .'</font></b>';
 
 	echo '<tr>';
 	echo '<td class="item">';
@@ -276,9 +276,9 @@ function writableCell( $folder, $relative=1, $text='', $visible=1 )
 	echo '</td>';
 	echo '<td >';
 	if ( $relative ) {
-		echo is_writable( "../$folder" ) 	? $writeable : $unwriteable;
+		echo is_writable( "../$folder" )	? $writeable : $unwriteable;
 	} else {
-		echo is_writable( "$folder" ) 		? $writeable : $unwriteable;
+		echo is_writable( "$folder" )		? $writeable : $unwriteable;
 	}
 	echo '</td>';
 	echo '</tr>';
@@ -295,7 +295,7 @@ function getHelpTOC( $helpsearch )
 	$lang =& JFactory::getLanguage();
 	jimport( 'joomla.filesystem.folder' );
 
-	$helpurl 		= $mainframe->getCfg('helpurl');
+	$helpurl		= $mainframe->getCfg('helpurl');
 
 	// Check for files in the actual language
 	$langTag = $lang->getTag();

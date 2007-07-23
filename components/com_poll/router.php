@@ -19,7 +19,7 @@
 function PollBuildRoute( &$query )
 {
 	$segments = array();
-	
+
 	if (isset( $query['id'] ))
 	{
 		$segments[] = $query['id'];

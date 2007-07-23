@@ -125,7 +125,7 @@ class MailtoController extends JController
 
 		// Build the link to send in the email
 		$link	= JRoute::_($link);
-	
+
 		// Build the message to send
 		$msg	= JText :: _('EMAIL_MSG');
 		$body	= sprintf( $msg, $SiteName, $sender, $from, $link);

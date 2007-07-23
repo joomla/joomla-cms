@@ -40,7 +40,7 @@ if (($folderCheck !== null) && ($folder !== $folderCheck)) {
 
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'media.php' );
 
-switch (JRequest::getCmd('task')) 
+switch (JRequest::getCmd('task'))
 {
 	case 'upload' :
 		MediaController::upload();

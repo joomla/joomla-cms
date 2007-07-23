@@ -335,11 +335,11 @@ div#javascript-warning {
 /* corners */
 
 div#stepbar {
-  background: #f7f7f7;  
+  background: #f7f7f7;
 }
 
 div#installer {
-  background: #fff;  
+  background: #fff;
 }
 
 div#installer div.install-body div.m {
@@ -395,7 +395,7 @@ div#stepbar div.b div.b div.b {
 
 div#step,
 div#installer div.install-body {
-  background: #fbfbfb;  
+  background: #fbfbfb;
 }
 
 div#step div.t,

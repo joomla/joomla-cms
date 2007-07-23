@@ -149,16 +149,16 @@ class SearchController
 	function search()
 	{
 		global $mainframe;
-		
+
 		$post = JRequest::get('post');
 		$post['Itemid'] = JRequest::getVar('Itemid');
-		
+
 		unset($post['task']);
 		unset($post['submit']);
 
 		$uri = new JURI();
 		$uri->setQuery($post);
-		
+
 		$mainframe->redirect(JRoute::_('index.php?'.$uri->getQuery(), false));
 	}
 

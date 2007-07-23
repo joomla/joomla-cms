@@ -113,11 +113,11 @@ class BannersViewBanner
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$row->id 	= $row->bid;
-				$link 		= JRoute::_( 'index.php?option=com_banners&task=edit&cid[]='. $row->id );
+				$row->id	= $row->bid;
+				$link		= JRoute::_( 'index.php?option=com_banners&task=edit&cid[]='. $row->id );
 
 				if( $row->imptotal <= 0 ) {
-					$row->imptotal 	=  JText::_('unlimited');
+					$row->imptotal	=  JText::_('unlimited');
 				}
 
 				if ( $row->impmade != 0 ) {
@@ -127,8 +127,8 @@ class BannersViewBanner
 				}
 
 				$row->published = $row->showBanner;
-				$published 		= JHTML::_('grid.published', $row, $i );
-				$checked 		= JHTML::_('grid.checkedout',   $row, $i );
+				$published		= JHTML::_('grid.published', $row, $i );
+				$checked		= JHTML::_('grid.checkedout',   $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">
@@ -354,7 +354,7 @@ class BannersViewBanner
 					<tr >
 						<td valign="top" align="right" class="key">
 							<?php echo JText::_( 'Clicks' ); ?>
-			 			</td>
+						</td>
 						<td colspan="2">
 							<?php echo $row->clicks;?>
 							&nbsp;&nbsp;&nbsp;&nbsp;

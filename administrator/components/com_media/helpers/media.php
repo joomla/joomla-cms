@@ -42,7 +42,7 @@ class MediaHelper
 
 	/**
 	 * Checks if the file can be uploaded
-	 * 
+	 *
 	 * @param array File information
 	 * @param string An error message to be returned
 	 * @return boolean
@@ -55,7 +55,7 @@ class MediaHelper
 			$err = 'Please input a file for upload';
 			return false;
 		}
-		
+
 		if ($file['name'] !== JFilterInput::clean($file['name'], 'cmd')) {
 			$err = 'WARNFILENAME';
 			return false;

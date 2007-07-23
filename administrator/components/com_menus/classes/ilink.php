@@ -383,7 +383,7 @@ class iLinkNode extends JNode
 	 */
 	var $msg = null;
 
-	function __construct($title, $url = null, $msg = null) 
+	function __construct($title, $url = null, $msg = null)
 	{
 		$this->title	= trim($title);
 		$this->url		= $url;

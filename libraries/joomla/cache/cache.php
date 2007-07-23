@@ -56,25 +56,25 @@ class JCache extends JObject
 		} else {
 			$options['language'] = 'en-GB';
 		}
-		
+
 		if(isset($options['cachebase'])) {
 			$this->_options['cachebase'] = $options['cachebase'];
 		} else {
 			$this->_options['cachebase'] = JPATH_ROOT.DS.'cache';
 		}
-		 
+
 		if(isset($options['defaultgroup'])) {
 			$this->_options['defaultgroup'] = $options['defaultgroup'];
 		} else {
 			$this->_options['defaultgroup'] = 'default';
 		}
-		
+
 		if(isset($options['caching'])) {
 			$this->_options['caching'] =  $options['caching'];
 		} else {
 			$this->_options['caching'] = true;
 		}
-		  
+
 		if( isset($options['storage'])) {
 			$this->_options['storage'] = $options['storage'];
 		} else {

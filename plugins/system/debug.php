@@ -72,7 +72,7 @@ class  plgSystemDebug extends JPlugin
 		if ($this->params->get('queries', 1))
 		{
 			jimport('geshi.geshi');
-			
+
 			$geshi = new GeSHi( '', 'sql' );
 			$geshi->set_header_type(GESHI_HEADER_DIV);
 			//$geshi->enable_line_numbers( GESHI_FANCY_LINE_NONE );
@@ -133,7 +133,7 @@ class  plgSystemDebug extends JPlugin
 		echo '</div>';
 
 		$debug = ob_get_clean();
-		
+
 		$body = JResponse::getBody();
 		$body = str_replace('</body>', $debug.'</body>', $body);
 		JResponse::setBody($body);

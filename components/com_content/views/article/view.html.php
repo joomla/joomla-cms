@@ -141,7 +141,7 @@ class ContentViewArticle extends ContentView
 				}
 			}
 		}
-		
+
 		/* moved to template - tcp June 27 2007
 		$article->mod_date = '';
 		if (intval($article->modified) != 0) {
@@ -151,7 +151,7 @@ class ContentViewArticle extends ContentView
 			$article->created = JHTML::_('date', $article->created);
 		}
 		*/
-		
+
 		$article->readmore_link = $linkOn;
 		$article->readmore_text = $linkText;
 

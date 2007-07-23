@@ -183,7 +183,7 @@ class PollController extends JController
 		require_once(JPATH_COMPONENT.DS.'models'.DS.'poll.php');
 		$model = new PollModelPoll();
 		$model->addVote( $poll_id, $option_id );
-		
+
 		$this->setRedirect( JRoute::_('index.php?option=com_poll&id='. $poll_id.':'.$post->alias, false), JText::_( 'Thanks for your vote!' ) );
 	}
 }

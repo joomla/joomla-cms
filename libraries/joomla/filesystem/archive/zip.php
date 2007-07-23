@@ -129,7 +129,7 @@ class JArchiveZip extends JObject
 			$this->set('error.message', 'Archive does not exist');
 			return false;
 		}
-		
+
 		if ($this->hasNativeSupport()) {
 			return ($this->_extractNative($archive, $destination, $options))? true : JError::raiseWarning(100, $this->get('error.message'));
 		} else {

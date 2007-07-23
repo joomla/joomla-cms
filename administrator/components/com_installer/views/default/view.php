@@ -32,7 +32,7 @@ class InstallerViewDefault extends JView
 		parent::__construct($config);
 		$this->_addPath('template', $this->_basePath.DS.'views'.DS.'default'.DS.'tmpl');
 	}
-	
+
 	function display($tpl=null)
 	{
 		/*
@@ -55,10 +55,10 @@ class InstallerViewDefault extends JView
 			$message2		= $state->get('extension.message');
 			$showMessage	= ( $message1 || $message2 );
 		}
-		
+
 		$this->assign('showMessage',	$showMessage);
 		$this->assignRef('state',		$state);
-		
+
 		JHTML::_('behavior.tooltip');
 		parent::display($tpl);
 	}

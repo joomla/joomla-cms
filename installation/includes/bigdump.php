@@ -6,8 +6,8 @@
 // Even through the webservers with hard runtime limit and those in safe mode
 // Works fine with Internet Explorer 7.0 and Firefox 2.x
 
-// Author:       Alexey Ozerov (alexey at ozerov dot de) 
-//               AJAX & CSV functionalities: Krzysiek Herod (kr81uni at wp dot pl) 
+// Author:       Alexey Ozerov (alexey at ozerov dot de)
+//               AJAX & CSV functionalities: Krzysiek Herod (kr81uni at wp dot pl)
 // Copyright:    GPL (C) 2003-2007
 // More Infos:   http://www.ozerov.de/bigdump.php
 
@@ -270,10 +270,10 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 		$DBOld 		= JArrayHelper::getValue($vars, 'DBOld', 'bu');
 		//$migration 		= JArrayHelper::getValue($vars, 'migration', '0');
 		$migration = JRequest::getVar( 'migration', 0, 'post', 'bool' );
-		
+
 			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 			if(JError::isError($db)) die('Error in connecting to database');
-			
+
 //			echo 'Done.<br />';
 			// Execute query if end of query detected (; as last character) AND NOT in parents
 
@@ -383,7 +383,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 		</table>
 		</center>
 		\n");*/
-		
+
 		// Finish message and restart the script
 
 		if ($linenumber < $_REQUEST["start"] + $linespersession) {
@@ -414,7 +414,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 				echo ("<p class=\"centr\">Now I'm <b>waiting $delaypersession milliseconds</b> before starting next session...</p>\n");
 			?><script language="JavaScript" type="text/javascript">window.setTimeout('submitForm(this.document.migrateForm,"dumpLoad")',500);</script>
 			<div id="installer"><p>Loading SQL File...please wait.</p></div>
-			
+
 			<form action="index.php" method="post" name="migrateForm" id="migrateForm" class="form-validate" target="migrationtarget">
 	<input type="hidden" name="task" value="dumpLoad" />
 	<input type="hidden" name="migration" value="<?php echo $migration ?>">
@@ -431,7 +431,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 	<input type="hidden" name="totalqueries" value="<?php echo $totalqueries ?>" />
   </form>
   <?php
-				
+
 				//echo ("<script language=\"JavaScript\" type=\"text/javascript\">window.setTimeout('location.href=\"" . $_SERVER["PHP_SELF"] . "?start=$linenumber&fn=" . $_REQUEST["fn"] . "&foffset=$foffset&totalqueries=$totalqueries\";',500+$delaypersession);</script>\n");
 			//echo ("<noscript>\n");
 			//echo ("<p class=\"centr\"><a href=\"" . $_SERVER["PHP_SELF"] . "?start=$linenumber&amp;fn=" . $_REQUEST["fn"] . "&amp;foffset=$foffset&amp;totalqueries=$totalqueries\">Continue from the line $linenumber</a> (Enable JavaScript to do it automatically)</p>\n");

@@ -211,7 +211,7 @@ class JAuthorization extends gacl_api
 	 * This is a temporary function to allow 3PD's to add basic ACL checks for their
 	 * modules and components.  NOTE: this information will be compiled in the db
 	 * in future versions
-	 * 
+	 *
 	 * @param	string	The ACO section value
 	 * @param	string	The ACO value
 	 * @param	string	The ARO section value
@@ -237,9 +237,9 @@ class JAuthorization extends gacl_api
 
 	/**
 	 * Sets the check mode.
-	 * 
+	 *
 	 * Only used if the full implementation of the phpGACL library is installed and configured
-	 * 
+	 *
 	 * @param	int		0 = Joomla!, 1 = phpGACL native
 	 * @return	int		The previous value
 	 */
@@ -518,8 +518,8 @@ class JAuthorization extends gacl_api
 		$this->db->setQuery( $query );
 		return $this->db->loadResultArray();
 	}
-	
-	
+
+
 	/**
 	 * Deprecated, use JAuthorisation::addACL() instead.
 	 *

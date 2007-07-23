@@ -52,7 +52,7 @@ class LoginController
 	function login()
 	{
 		global $mainframe;
-		
+
 		$credentials = array();
 
 		$credentials['username'] = JRequest::getVar('username', '', 'post', 'username');

@@ -50,12 +50,12 @@
 				} else if (eregi( 'class JConfig {', $v)) {
 					$cf[$k] = '';
 				}
-				$cf[$k] 	= str_replace('var ','',$cf[$k]);
-				$cf[$k] 	= str_replace(';','',$cf[$k]);
-				$cf[$k] 	= str_replace(' = ','</td><td>',$cf[$k]);
-				$cf[$k] 	= '<td>'. $cf[$k] .'</td>';
+				$cf[$k]		= str_replace('var ','',$cf[$k]);
+				$cf[$k]		= str_replace(';','',$cf[$k]);
+				$cf[$k]		= str_replace(' = ','</td><td>',$cf[$k]);
+				$cf[$k]		= '<td>'. $cf[$k] .'</td>';
 				if ($cf[$k] != '<td></td>') {
-					$config_output[] 	= $cf[$k];
+					$config_output[] = $cf[$k];
 				}
 			}
 			echo implode( '</tr><tr>', $config_output );

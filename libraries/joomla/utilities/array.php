@@ -75,7 +75,7 @@ class JArrayHelper
 		}
 		return $obj;
 	}
-	
+
 	function toString( $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )
 	{
 		$output = array();

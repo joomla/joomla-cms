@@ -84,10 +84,10 @@ class BannersViewClients
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 
-				$row->id 		= $row->cid;
-				$link 			= JRoute::_( 'index.php?option=com_banners&c=client&task=edit&cid[]='. $row->id );
+				$row->id		= $row->cid;
+				$link			= JRoute::_( 'index.php?option=com_banners&c=client&task=edit&cid[]='. $row->id );
 
-				$checked 		= JHTML::_('grid.checkedout',   $row, $i );
+				$checked		= JHTML::_('grid.checkedout',   $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">

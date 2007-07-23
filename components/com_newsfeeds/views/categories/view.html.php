@@ -31,19 +31,19 @@ class NewsfeedsViewCategories extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
-		
+
 		$document = &JFactory::getDocument();
 
 		// Load the menu object and parameters
 		$menus	= &JMenu::getInstance();
 		$menu	= $menus->getActive();
 		$params	= &$mainframe->getPageParameters();
-		
+
 		$categories =& $this->get('data');
 
 		// Parameters
 		$params->def( 'page_title', $menu->name );
-		
+
 		// Set the page title
 		$document->setTitle($params->get('page_title'));
 

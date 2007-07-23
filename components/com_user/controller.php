@@ -111,7 +111,7 @@ class UserController extends JController
 		if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
 			$return = base64_decode($return);
 		}
-		
+
 		$options = array();
 		$options['remember'] = JRequest::getBool('remember', false);
 		$options['return'] = $return;

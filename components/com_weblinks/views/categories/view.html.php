@@ -30,7 +30,7 @@ class WeblinksViewCategories extends JView
 	function display( $tpl = null)
 	{
 		global $mainframe;
-		
+
 		$document =& JFactory::getDocument();
 
 		$menu = &JMenu::getInstance();
@@ -46,7 +46,7 @@ class WeblinksViewCategories extends JView
 		// Set some defaults if not set for params
 		$params->def('page_title', $item->name);
 		$params->def('comp_description', JText::_('WEBLINKS_DESC'));
-		
+
 		// Set the page title
 		$document->setTitle($params->get('page_title'));
 

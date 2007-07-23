@@ -187,7 +187,7 @@ class JInstallationHelper
 		}
 
 		$queries = JInstallationHelper::splitSql($buffer);
-		
+
 		foreach ($queries as $query)
 		{
 			$query = trim($query);
@@ -196,7 +196,7 @@ class JInstallationHelper
 				$db->setQuery($query);
 				//echo $query .'<br />';
 				$db->query() or die($db->getErrorMsg());
-				
+
 				JInstallationHelper::getDBErrors($errors, $db );
 			}
 		}
@@ -685,7 +685,7 @@ class JInstallationHelper
 		JInstallationHelper::_chmod(JPATH_SITE.DS.'tmp', 0777);
 		jimport('joomla.filesystem.file');
 		$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$sqlFile['name']);
-		
+
 		if( !eregi('.sql$', $sqlFile['name']) )
 		{
 			$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
@@ -889,7 +889,7 @@ class JInstallationHelper
 		$query = 'CREATE TABLE '.$newPrefix.'modules_migration SELECT * FROM '.$newPrefix.'modules WHERE 0';
 		$db->setQuery( $query );
 		$db->query();
-		
+
 		$query = 'CREATE TABLE '.$newPrefix.'modules_migration_menu SELECT * FROM '.$newPrefix.'modules_menu WHERE 0';
 		$db->setQuery( $query );
 		$db->Query();
@@ -1008,7 +1008,7 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
-		
+
 		// content archive category or section
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET  `link` = "index.php?option=com_content&view=archive", `type` = "component", `componentid` = '.$compId.' WHERE (`type` = "content_archive_category" OR `type` = "content_archive_section")';
 		$db->setQuery( $query );
@@ -1050,7 +1050,7 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		$compId = $db->loadResult();
 		JInstallationHelper::getDBErrors($errors, $db );
-		
+
 
 		// newsfeed categories
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = CONCAT(link, "&view=categories"), `componentid` = '.$compId.' WHERE `type` = "component" AND link LIKE "%option=com_newsfeeds%"';
@@ -1121,7 +1121,7 @@ class JInstallationHelper
 		// set default to lowest ordering published on mainmenu
 		$query = 'SELECT MIN( `ordering` ) FROM `'.$newPrefix.'menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = "mainmenu"';
 		$db->setQuery( $query );
-		$minorder = $db->loadResult();		
+		$minorder = $db->loadResult();
 		JInstallationHelper::getDBErrors($errors, $db );
 		$query = 'SELECT `id` FROM `'.$newPrefix.'menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = "mainmenu" AND `ordering` = '.$minorder;
 		$db->setQuery( $query );
@@ -1136,12 +1136,12 @@ class JInstallationHelper
 		$query = 'SELECT id FROM `'.$newPrefix.'components` WHERE link like "option=com_user"';
 		$db->setQuery($query);
 		$componentid = $db->loadResult();
-		JInstallationHelper::getDBErrors($errors, $db );		
+		JInstallationHelper::getDBErrors($errors, $db );
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET componentid = '.$componentid .' WHERE link = "index.php?option=com_login"';
 		$db->setQuery($query);
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
-		
+
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET link = "index.php?option=com_user&view=login" WHERE link = "index.php?option=com_login"';
 		$db->setQuery($query);
 		$db->query();
@@ -1152,7 +1152,7 @@ class JInstallationHelper
 		$query = 'SELECT id FROM `'.$newPrefix.'components` WHERE link like "option=com_search"';
 		$db->setQuery($query);
 		$componentid = $db->loadResult();
-		JInstallationHelper::getDBErrors($errors, $db );		
+		JInstallationHelper::getDBErrors($errors, $db );
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET componentid = '.$componentid .' WHERE link like "index.php?option=com_search%"';
 		$db->setQuery($query);
 		$db->query();
@@ -1200,7 +1200,7 @@ class JInstallationHelper
 			else if ( $item->type == 'component' ) //&& JInstallationHelper::isValidItem( $item->link, $lookup ))
 			{
 				// unpublish components that don't exist yet
-				if(!JInstallationHelper::isValidItem( $item->link, $lookup )) $item->published = 0; 
+				if(!JInstallationHelper::isValidItem( $item->link, $lookup )) $item->published = 0;
 				$newMenuItems[] = $item;
 			}
 		}
@@ -1271,7 +1271,7 @@ class JInstallationHelper
 						$db->setQuery($qry);
 						$entries = $db->loadObjectList();
 						JInstallationHelper::getDBErrors($errors, $db );
-						
+
 						foreach($entries as $entry) {
 							$entry->moduleid = $nextId;
 							$db->insertObject($newPrefix.'modules_menu', $entry);
@@ -1281,13 +1281,13 @@ class JInstallationHelper
 				} // else the module doesn't exist?
 			} else JInstallationHelper::getDBErrors($errors, $db );
 		}
-		
+
 		// Put in breadcrumb module as per sample data
 		$query = "INSERT INTO `'.$newPrefix .'modules` VALUES (35, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 0, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 1, 0, '');";
 		$db->setQuery($query);
 		$db->Query();
 		JInstallationHelper::getDBErrors($errors, $db);
-		
+
 		/*
 		 * Clean up
 		 */
@@ -1296,7 +1296,7 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
-		
+
 		$query = 'DROP TABLE IF EXISTS '.$newPrefix.'modules_migration_menu';
 		$db->setQuery( $query );
 		$db->query();

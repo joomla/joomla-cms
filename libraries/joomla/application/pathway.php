@@ -46,7 +46,7 @@ class JPathWay extends JObject
 	/**
 	 * Class constructor
 	 */
-	function __construct() 
+	function __construct()
 	{
 		//Initialise the array
 		$this->_pathway = array();
@@ -146,7 +146,7 @@ class JPathWay extends JObject
 		$item = new stdClass();
 		$item->name = html_entity_decode($name);
 		$item->link = $link;
-		
+
 		return $item;
 	}
 }

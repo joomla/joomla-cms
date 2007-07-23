@@ -110,7 +110,7 @@ class InstallerModelComponents extends InstallerModel
 		global $mainframe, $option;
 
 		jimport('joomla.filesystem.folder');
-		
+
 		/* Get a database connector */
 		$db =& JFactory::getDBO();
 
@@ -124,7 +124,7 @@ class InstallerModelComponents extends InstallerModel
 		/* Get the component base directory */
 		$adminDir = JPATH_ADMINISTRATOR .DS. 'components';
 		$siteDir = JPATH_SITE .DS. 'components';
-		
+
 		$numRows = count($rows);
 		for($i=0;$i < $numRows; $i++)
 		{

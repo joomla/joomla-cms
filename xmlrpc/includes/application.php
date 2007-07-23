@@ -32,7 +32,7 @@ class JXMLRPC extends JApplication
 	 * @access protected
 	 */
 	var $_siteURL = null;
-	
+
 	/**
 	 * The encoding (default: UTF-8)
 	 *
@@ -41,7 +41,7 @@ class JXMLRPC extends JApplication
 	 */
 	var $_encoding = null;
 
-	function __construct() 
+	function __construct()
 	{
 		$url = JURI::base();
 		$url = str_replace('xmlrpc/', '', $url);

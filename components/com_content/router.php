@@ -57,7 +57,7 @@ function ContentParseRoute($segments)
 		case 'section' :
 		{
 			if($count == 1) {
-				
+
 				if($item->query['layout'] == 'blog') {
 					$vars['view'] = 'article';
 				} else {

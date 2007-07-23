@@ -30,8 +30,8 @@ class BannerControllerClient extends JController
 	{
 		parent::__construct( $config );
 		// Register Extra tasks
-		$this->registerTask( 'add', 			'edit' );
-		$this->registerTask( 'apply', 			'save' );
+		$this->registerTask( 'add',		'edit' );
+		$this->registerTask( 'apply',	'save' );
 	}
 
 	function display()
@@ -55,7 +55,7 @@ class BannerControllerClient extends JController
 			$where[] = 'LOWER(a.name) LIKE "%'.$db->getEscaped($search).'%"';
 		}
 
-		$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+		$where		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
 		$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', a.cid';
 
 		// get the total number of records
@@ -101,9 +101,9 @@ class BannerControllerClient extends JController
 		$userId	= $user->get ( 'id' );
 
 		if ($this->_task == 'edit') {
-			$cid 	= JRequest::getVar('cid', array(0), 'method', 'array');
+			$cid	= JRequest::getVar('cid', array(0), 'method', 'array');
 		} else {
-			$cid 	= array( 0 );
+			$cid	= array( 0 );
 		}
 
 		$row =& JTable::getInstance('bannerclient', 'Table');
@@ -174,7 +174,7 @@ class BannerControllerClient extends JController
 
 		// Initialize variables
 		$db		=& JFactory::getDBO();
-		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		$table	=& JTable::getInstance('bannerclient', 'Table');
 		$n		= count( $cid );
 

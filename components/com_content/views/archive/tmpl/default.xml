@@ -20,7 +20,7 @@
 				<option value="hits">Most Hits</option>
 				<option value="rhits">Least Hits</option>
 				<option value="order">Ordering</option>
-			</param>	
+			</param>
 		</params>
 	</state>
 </metadata>

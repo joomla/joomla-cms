@@ -186,18 +186,18 @@ class JInstallerModule extends JObject
 
 		// Was there a module already installed with the same name?
 		if ($id) {
-			
+
 			if ( ! $this->parent->getOverwrite())
 			{
 				// Install failed, roll back changes
 				$this->parent->abort('Module Install: '.JText::_('Module').' "'.$mname.'" '.JText::_('already exists!'));
 				return false;
 			}
-			
-			
+
+
 		} else {
 */
-			
+
 			$row = & JTable::getInstance('module');
 			$row->title = $this->get('name');
 			$row->ordering = $row->getNextOrder( "position='left'" );

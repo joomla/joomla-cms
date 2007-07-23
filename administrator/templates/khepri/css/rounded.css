@@ -1,10 +1,10 @@
 /** rounded corners **/
 div#toolbar-box {
-  background: #f7f7f7;  
+  background: #f7f7f7;
 }
 
 div#element-box {
-  background: #fff;  
+  background: #fff;
 }
 
 div#element-box div.section-box div.m {
@@ -59,7 +59,7 @@ div#submenu-box div.b div.b div.b {
 
 div#toolbar-box,
 div#element-box div.section-box {
-  background: #fbfbfb;  
+  background: #fbfbfb;
 }
 
 div#toolbar-box div.t,

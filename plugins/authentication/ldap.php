@@ -47,7 +47,7 @@ class plgAuthenticationLdap extends JPlugin
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param   array 	$credentials Array holding the user credentials	
+	 * @param   array 	$credentials Array holding the user credentials
 	 * @param 	array   $options     Array of extra options
 	 * @param	object	$response	Authentication response object
 	 * @return	object	boolean
@@ -90,7 +90,7 @@ class plgAuthenticationLdap extends JPlugin
 			{
 				// Bind using Connect Username/password
 				$bindtest = $ldap->bind();
-				
+
 				if($bindtest)
 				{
 					// Search for users DN
@@ -114,7 +114,7 @@ class plgAuthenticationLdap extends JPlugin
 				$userdetails = $ldap->simple_search(str_replace("[search]", $credentials['username'], $params->get('search_string')));
 			}	break;
 		}
-		
+
 		if(!$success)
 		{
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
@@ -126,17 +126,17 @@ class plgAuthenticationLdap extends JPlugin
 			if (isset($userdetails[0][$ldap_uid][0])) {
 				$response->username = $userdetails[0][$ldap_uid][0];
 			}
-			
+
 			if (isset($userdetails[0][$ldap_email][0])) {
 				$response->email = $userdetails[0][$ldap_email][0];
 			}
-			
+
 			if(isset($userdetails[0][$ldap_fullname][0])) {
 				$response->fullname = $userdetails[0][$ldap_fullname][0];
 			} else {
 				$response->fullname = $credentials['username'];
 			}
-			
+
 			// Were good - So say so.
 			$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 		}

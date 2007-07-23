@@ -81,12 +81,12 @@ class JFactory
 	{
 		static $instance;
 
-		if (!is_object($instance)) 
+		if (!is_object($instance))
 		{
 			//get the debug configuration setting
 			$conf =& JFactory::getConfig();
 			$debug = $conf->getValue('config.debug_lang');
-			
+
 			$instance = JFactory::_createLanguage();
 			$instance->setDebug($debug);
 		}

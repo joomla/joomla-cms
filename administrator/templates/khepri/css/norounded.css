@@ -30,11 +30,11 @@ div.section-box {
 
 
 div#toolbar-box {
-  background: #f7f7f7;  
+  background: #f7f7f7;
 }
 
 div#element-box {
-  background: #fff;  
+  background: #fff;
 }
 
 div#element-box div.section-box div.m {
@@ -44,7 +44,7 @@ div#element-box div.section-box div.m {
 
 div#toolbar-box,
 div#element-box div.section-box {
-  background: #fbfbfb;  
+  background: #fbfbfb;
 }
 
 div.t, div.b {

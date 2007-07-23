@@ -80,8 +80,8 @@ class JSessionStorageDatabase extends JSessionStorage
 		$db =& JFactory::getDBO();
 		if(!$db->connected()) {
 			return false;
-		} 
-		
+		}
+
 		$session = & JTable::getInstance('session');
 		$session->load($id);
 		$session->data = $session_data;

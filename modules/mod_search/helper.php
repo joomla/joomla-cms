@@ -72,14 +72,14 @@ class modSearchHelper
 		// set Itemid id for links
 		$menu = &JMenu::getInstance();
 		$items	= $menu->getItems('link', 'index.php?option=com_search');
-			
+
 		if(isset($items[0])) {
 			$itemid = $items[0]->id;
 		} else {
 			$default = $menu->getDefault();
 			$itemid = $default->id;
 		}
-	
+
 		return $itemid;
 	}
 }

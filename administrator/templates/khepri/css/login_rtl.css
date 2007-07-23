@@ -17,12 +17,12 @@
  * @since		1.5
  * @version    1.0
  */
- 
-/* -- Imported styles ----------------------------- */ 
- 
-@import url("general_rtl.css"); 
 
-/* -- Specific styles ----------------------------- */ 
+/* -- Imported styles ----------------------------- */
+
+@import url("general_rtl.css");
+
+/* -- Specific styles ----------------------------- */
 
 form  { margin: 0px; padding: 0px; }
 form .inputbox { width: 120px; margin-left: 10px; }
@@ -64,11 +64,11 @@ p {
 }
 
 .button { text-align: right; }
-	
+
 .login-form    { text-align: right; width: 60%; }
 .login-form h1 { display: none; }
 .login-form p { padding: 0 1em 0 1em; }
-	
+
 .login-text { text-align: right; width: 40%; float: right; }
 
 

@@ -158,7 +158,7 @@ class JController extends JObject
 		$methods[] = 'display';
 
 		// Iterate through methods and map tasks
-		foreach ( $methods as $method ) 
+		foreach ( $methods as $method )
 		{
 			if ( substr( $method, 0, 1 ) != '_' ) {
 				$this->_methods[] = strtolower( $method );
@@ -166,7 +166,7 @@ class JController extends JObject
 				$this->_taskMap[strtolower( $method )] = $method;
 			}
 		}
-		
+
 		//set the view name
 		if (empty( $this->_name ))
 		{
@@ -415,7 +415,7 @@ class JController extends JObject
 	function getName()
 	{
 		$name = $this->_name;
-		
+
 		if (empty( $name ))
 		{
 			$r = null;
@@ -424,7 +424,7 @@ class JController extends JObject
 			}
 			$name = strtolower( $r[1] );
 		}
-		
+
 		return $name;
 	}
 

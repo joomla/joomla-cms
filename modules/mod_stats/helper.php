@@ -90,9 +90,9 @@ class modStatsHelper
 				$rows[$i]->data 	= $links;
 				$i++;
 			}
-			
+
 		}
-		
+
 		if( $counter )
 		{
 			$query = 'SELECT SUM( hits ) AS count_hits'
@@ -101,7 +101,7 @@ class modStatsHelper
 			;
 			$db->setQuery( $query );
 			$hits = $db->loadResult();
-			
+
 			if ( $hits ) {
 				$rows[$i]->title 	= JText::_( 'Content View Hits' );
 				$rows[$i]->data 	= $hits + $increase;

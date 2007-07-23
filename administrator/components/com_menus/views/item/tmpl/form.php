@@ -133,12 +133,12 @@ function submitbutton(pressbutton) {
 			<td width="40%">
 				<?php
 					echo $this->pane->startPane("menu-pane");
-					echo $this->pane->startPanel(JText :: _('Parameters - Basic'), "param-page"); 
+					echo $this->pane->startPanel(JText :: _('Parameters - Basic'), "param-page");
 					echo $this->urlparams->render('urlparams');
 					if(count($this->params->getParams('params'))) :
 						echo $this->params->render('params');
 					endif;
-					
+
 					if(!count($this->params->getNumParams('params')) && !count($this->urlparams->getNumParams('urlparams'))) :
 						echo "<div style=\"text-align: center; padding: 5px; \">".JText::_('There are no parameters for this item')."</div>";
 					endif;

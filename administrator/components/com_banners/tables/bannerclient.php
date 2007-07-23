@@ -21,13 +21,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 class TableBannerClient extends JTable
 {
-	var	$cid 				= null;
-	var $name 				= '';
-	var $contact 			= '';
-	var $email 				= '';
-	var $extrainfo 			= '';
-	var $checked_out 		= 0;
-	var $checked_out_time 	= 0;
+	var	$cid				= null;
+	var $name				= '';
+	var $contact			= '';
+	var $email				= '';
+	var $extrainfo			= '';
+	var $checked_out		= 0;
+	var $checked_out_time	= 0;
 	var $editor				= '';
 
 	function __construct( &$_db ) {

@@ -720,7 +720,7 @@ class JException extends JObject
 		} else {
 			$trace = function_exists( 'debug_backtrace' ) ? debug_backtrace() : null;
 		}
-			
+
 		if ($formatted && is_array( $trace ))
 		{
 			$result = '';

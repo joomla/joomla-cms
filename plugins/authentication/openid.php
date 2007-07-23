@@ -47,7 +47,7 @@ class plgAuthenticationOpenID extends JPlugin
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param   array 	$credentials Array holding the user credentials	
+	 * @param   array 	$credentials Array holding the user credentials
 	 * @param 	array   $options     Array of extra options
 	 * @param	object	$response	Authentication response object
 	 * @return	boolean
@@ -104,7 +104,7 @@ class plgAuthenticationOpenID extends JPlugin
 			$options['return'] = isset($options['return']) ? base64_encode($options['return']) : base64_encode(JURI::base());
 			$process_url  = sprintf("index.php?option=com_user&task=login&username=%s", $credentials['username']);
 			$process_url .= '&'.JURI::_buildQuery($options);
-			
+
 			$redirect_url = $request->redirectURL(JURI::base(), JURI::base().$process_url);
 
 			$session->set('trust_url', JURI::base());
@@ -117,7 +117,7 @@ class plgAuthenticationOpenID extends JPlugin
 		}
 
 		$result = $consumer->complete(JRequest::get('get'));
-		
+
 		switch ($result->status)
 		{
 			case Auth_OpenID_SUCCESS :
@@ -130,7 +130,7 @@ class plgAuthenticationOpenID extends JPlugin
 				$response->fullname	= isset($sreg['fullname']) ? $sreg['fullname'] : "";
 				$response->language	= isset($sreg['language']) ? $sreg['language'] : "";
 				$response->timezone	= isset($sreg['timezone']) ? $sreg['timezone'] : "";
-				
+
 			} break;
 
 			case Auth_OpenID_CANCEL :

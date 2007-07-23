@@ -45,7 +45,7 @@ class ContentModelElement extends JModel
 	function getList()
 	{
 		global $mainframe;
-		
+
 		if (!empty($this->_list)) {
 			return $this->_list;
 		}
@@ -101,7 +101,7 @@ class ContentModelElement extends JModel
 
 		// Only published articles
 		$where[] = 'c.state = 1';
-			
+
 		// Keyword filter
 		if ($search) {
 			$where[] = 'LOWER( c.title ) LIKE "%'.$db->getEscaped($search).'%"';

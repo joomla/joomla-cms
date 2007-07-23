@@ -314,7 +314,7 @@ class PollController extends JController
 	{
 		$document =& JFactory::getDocument();
 		$document->setTitle(JText::_('Poll Preview'));
-		
+
 		$db 	=& JFactory::getDBO();
 		$pollid = JRequest::getVar( 'pollid', 0, '', 'int' );
 		$css	= JRequest::getVar( 't', '' );

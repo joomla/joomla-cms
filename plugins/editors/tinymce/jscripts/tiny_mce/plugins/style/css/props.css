@@ -36,7 +36,7 @@ select, #block_text_indent, #box_width, #box_height, #box_padding_top, #box_padd
 }
 
 .tdelim {
-	border-bottom: 1px solid gray;	
+	border-bottom: 1px solid gray;
 }
 
 #block_display {

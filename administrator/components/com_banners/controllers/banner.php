@@ -30,10 +30,10 @@ class BannerControllerBanner extends JController
 	{
 		parent::__construct( $config );
 		// Register Extra tasks
-		$this->registerTask( 'add', 			'edit' );
-		$this->registerTask( 'apply', 			'save' );
-		$this->registerTask( 'resethits',		'save' );
-		$this->registerTask( 'unpublish', 		'publish' );
+		$this->registerTask( 'add',			'edit' );
+		$this->registerTask( 'apply',		'save' );
+		$this->registerTask( 'resethits',	'save' );
+		$this->registerTask( 'unpublish',	'publish' );
 	}
 
 	/**
@@ -49,8 +49,8 @@ class BannerControllerBanner extends JController
 		$filter_order		= $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order',		'cc.name',	'cmd' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir',	'',			'word' );
 		$filter_catid		= $mainframe->getUserStateFromRequest( $context.'filter_catid',		'filter_catid',		'',			'int' );
-		$filter_state 		= $mainframe->getUserStateFromRequest( $context.'filter_state',		'filter_state',		'',			'word' );
-		$search 			= $mainframe->getUserStateFromRequest( $context.'search',			'search',			'',			'string' );
+		$filter_state		= $mainframe->getUserStateFromRequest( $context.'filter_state',		'filter_state',		'',			'word' );
+		$search				= $mainframe->getUserStateFromRequest( $context.'search',			'search',			'',			'string' );
 
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
 		$limitstart = $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0, 'int' );
@@ -73,8 +73,8 @@ class BannerControllerBanner extends JController
 			$where[] = 'LOWER(b.name) LIKE ' . $db->Quote( '%'.$search.'%' );
 		}
 
-		$where 		= count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '';
-		$orderby 	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', b.ordering';
+		$where		= count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '';
+		$orderby	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', b.ordering';
 
 		// get the total number of records
 		$query = 'SELECT COUNT(*)'
@@ -100,7 +100,7 @@ class BannerControllerBanner extends JController
 		$rows = $db->loadObjectList();
 
 		// build list of categories
-		$javascript 	= 'onchange="document.adminForm.submit();"';
+		$javascript		= 'onchange="document.adminForm.submit();"';
 		$lists['catid'] = JHTML::_('list.category',  'filter_catid', 'com_banner', (int) $filter_catid, $javascript );
 
 		// state filter
@@ -123,10 +123,10 @@ class BannerControllerBanner extends JController
 		$user	=& JFactory::getUser();
 
 		if ($this->_task == 'edit') {
-			$cid 	= JRequest::getVar('cid', array(0), 'method', 'array');
+			$cid	= JRequest::getVar('cid', array(0), 'method', 'array');
 			$cid	= array((int) $cid[0]);
 		} else {
-			$cid 	= array( 0 );
+			$cid	= array( 0 );
 		}
 
 		$option = JRequest::getCmd('option');
@@ -153,14 +153,14 @@ class BannerControllerBanner extends JController
 			return JError::raiseWarning( 500, $db->getErrorMsg() );
 		}
 
-		$clientlist[] 		= JHTML::_('select.option',  '0', JText::_( 'Select Client' ), 'cid', 'name' );
-		$clientlist 		= array_merge( $clientlist, $db->loadObjectList() );
-		$lists['cid'] 		= JHTML::_('select.genericlist',   $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid );
+		$clientlist[]		= JHTML::_('select.option',  '0', JText::_( 'Select Client' ), 'cid', 'name' );
+		$clientlist			= array_merge( $clientlist, $db->loadObjectList() );
+		$lists['cid']		= JHTML::_('select.genericlist',   $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid );
 
 		// Imagelist
-		$javascript 		= 'onchange="changeDisplayImage();"';
-		$directory 			= '/images/banners';
-		$lists['imageurl'] 	= JHTML::_('list.images',  'imageurl', $row->imageurl, $javascript, $directory );
+		$javascript			= 'onchange="changeDisplayImage();"';
+		$directory			= '/images/banners';
+		$lists['imageurl']	= JHTML::_('list.images',  'imageurl', $row->imageurl, $javascript, $directory );
 
 		// build list of categories
 		$lists['catid']		= JHTML::_('list.category',  'catid', 'com_banner', intval( $row->catid ) );
@@ -298,9 +298,9 @@ class BannerControllerBanner extends JController
 		$this->setRedirect( 'index.php?option=com_banners' );
 
 		// Initialize variables
-		$db  		=& JFactory::getDBO();
+		$db			=& JFactory::getDBO();
 		$user		=& JFactory::getUser();
-		$cid 		= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$task		= JRequest::getCmd( 'task' );
 		$publish	= ($task == 'publish');
 		$n			= count( $cid );
@@ -357,7 +357,7 @@ class BannerControllerBanner extends JController
 
 		// Initialize variables
 		$db			=& JFactory::getDBO();
-		$cid 		= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
 		$row		=& JTable::getInstance('banner', 'Table');
 		$total		= count( $cid );

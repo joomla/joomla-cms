@@ -138,14 +138,14 @@ class JFile
 		}
 
 		// Do NOT use ftp if it is not enabled
-		if ($FTPOptions['enabled'] == 1) 
+		if ($FTPOptions['enabled'] == 1)
 		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 		}
 
-		foreach ($files as $file) 
+		foreach ($files as $file)
 		{
 			$file = JPath::clean($file);
 
@@ -352,10 +352,10 @@ class JFile
 	{
 		return is_file(JPath::clean($file));
 	}
-	
+
 	/**
 	 * Returns the name, sans any path
-	 * 
+	 *
 	 * param string $file File path
 	 * @return string filename
 	 * @since 1.5

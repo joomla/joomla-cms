@@ -382,7 +382,7 @@ class JFolder
 
 		// read the source directory
 		$handle = opendir($path);
-		while ($file = readdir($handle)) 
+		while ($file = readdir($handle))
 		{
 			$dir = $path.DS.$file;
 			$isDir = is_dir($dir);
@@ -507,7 +507,7 @@ class JFolder
 	 * @return	string The sanitised string
 	 * @since	1.5
 	 */
-	function makeSafe($path) 
+	function makeSafe($path)
 	{
 		$ds		= ( DS == '\\' ) ? '\\'.DS : DS;
 		$regex = array('#[^A-Za-z0-9:\_\-'.$ds.' ]#');

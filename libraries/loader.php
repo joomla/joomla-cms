@@ -37,14 +37,14 @@ class JLoader
 		{
 			$paths = array();
 		}
-		
+
 		//$keyPath	= $key ? $key . $filePath : $filePath;
 		if ( $key ) {
 			$keyPath = $key . $filePath;
 		} else {
 			$keyPath = $filePath;
 		}
-		
+
 		$trs	= 1;
 
 		if (!isset($paths[$keyPath]))
@@ -82,7 +82,7 @@ class JLoader
 				$path = str_replace( '.', DS, $filePath );
 				$trs	= include($base . DS . $path . '.php');
 			}
-			
+
 			$paths[$keyPath] = $trs;
 		}
 		return $trs;

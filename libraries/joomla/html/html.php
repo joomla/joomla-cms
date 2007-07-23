@@ -147,7 +147,7 @@ class JHTML
 		{
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
-		
+
 		jimport('joomla.utilities.date');
 
 		if(is_null($offset))

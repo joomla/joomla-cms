@@ -27,7 +27,7 @@
 	display: block;
 	width: 80px; height: 90px;
 	overflow: hidden;
-	vertical-align: middle;  
+	vertical-align: middle;
 	text-align: center;
 	text-decoration: none;
 	color: black;
@@ -42,11 +42,11 @@ html>body .item img {margin: auto;}
 .item span {
 	line-height: 100%;
 	clear:both;
-	display: block; 
+	display: block;
 	width: 100%;
-	position: absolute; 
+	position: absolute;
 	bottom: 0;
-	left: 0; 
+	left: 0;
 	padding: 2px 0;
 	background-color: #eee;
 	overflow: hidden;

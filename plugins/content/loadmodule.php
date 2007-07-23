@@ -58,7 +58,7 @@ function plgContentLoadModule( &$row, &$params, $page=0 )
 
 function plgContentProcessPositions ( &$row, &$matches, $count, $regex, $style )
 {
- 	for ( $i=0; $i < $count; $i++ ) 
+ 	for ( $i=0; $i < $count; $i++ )
 	{
  		$load = str_replace( 'loadposition', '', $matches[0][$i] );
  		$load = str_replace( '{', '', $load );

@@ -474,7 +474,7 @@ class ContentModelArticle extends JModel
 			if($this->_article->publish_down == $this->_db->getNullDate()) {
 				$this->_article->publish_down = JText::_('Never');
 			}
-			
+
 			// These attributes need to be defined in order for the voting plugin to work
 			if ( count($voting) && ! isset($this->_article->rating_count) ) {
 				$this->_article->rating_count	= 0;

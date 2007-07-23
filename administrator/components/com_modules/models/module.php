@@ -86,35 +86,35 @@ class ModulesModelModule extends JModel
 	{
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.application.helper');
-		
+
 		$client = JApplicationHelper::getClientInfo($this->getState('clientId'));
 		if ($client === false) {
 			return false;
 		}
-		
+
 		//Get the database object
 		$db	=& JFactory::getDBO();
-		
+
 		// template assignment filter
 		$query = 'SELECT DISTINCT(template) AS text, template AS value'.
 				' FROM #__templates_menu' .
 				' WHERE client_id = '.(int) $client->id;
 		$db->setQuery( $query );
 		$templates = $db->loadObjectList();
-		
+
 		// Get a list of all template xml files for a given application
 		$positions = array();
-		
+
 		// Get the xml parser first
 		for ($i = 0, $n = count($templates); $i < $n; $i++ )
 		{
 			$path = $client->path.DS.'templates'.DS.$templates[$i]->value;
-	
+
 			$xml =& JFactory::getXMLParser('Simple');
-			if ($xml->loadFile($path.DS.'templateDetails.xml')) 
+			if ($xml->loadFile($path.DS.'templateDetails.xml'))
 			{
 				$p =& $xml->document->getElementByPath('positions');
-				if (is_a($p, 'JSimpleXMLElement') && count($p->children())) 
+				if (is_a($p, 'JSimpleXMLElement') && count($p->children()))
 				{
 					foreach ($p->children() as $child)
 					{
@@ -125,10 +125,10 @@ class ModulesModelModule extends JModel
 				}
 			}
 		}
-		
+
 		if(defined('_JLEGACY') && _JLEGACY == '1.0')
 		{
-			$positions[] = 'left'; 
+			$positions[] = 'left';
 			$positions[] = 'right';
 			$positions[] = 'top';
 			$positions[] = 'bottom';
@@ -155,10 +155,10 @@ class ModulesModelModule extends JModel
 			$positions[] = 'debug';
 			$positions[] = 'syndicate';
 		}
-		
+
 		$positions = array_unique($positions);
 		sort($positions);
-		
+
 		return $positions;
 	}
 }

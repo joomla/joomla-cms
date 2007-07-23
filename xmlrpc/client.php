@@ -72,7 +72,7 @@ if ($task)
 			jimport( 'joomla.html.html' );
 			$msg = new xmlrpcmsg('system.listMethods');
 			$xmlrpcdoc = $client->send($msg);
-			
+
 			echo var_dump($xmlrpcdoc);
 			die;
 

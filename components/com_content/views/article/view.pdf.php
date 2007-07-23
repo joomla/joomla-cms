@@ -50,7 +50,7 @@ class ContentViewArticle extends JView
 
 		// prepare header lines
 		$document->setHeader($this->_getHeaderText($article, $params));
-		
+
 		echo $article->text;
 	}
 

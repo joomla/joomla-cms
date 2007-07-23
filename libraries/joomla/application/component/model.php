@@ -155,11 +155,11 @@ class JModel extends JObject
 	 * @return	object JDatabase connector object
 	 * @since	1.5
 	 */
-	function &getDBO() 
+	function &getDBO()
 	{
 		return $this->_db;
 	}
-	
+
 	/**
 	 * Method to set the database connector object
 	 *
@@ -176,7 +176,7 @@ class JModel extends JObject
 	 * Method to get the model name
 	 *
 	 * The model name by default parsed using the classname, or it can be set
-	 * by passing a $config['nameÕ] in the class constructor
+	 * by passing a $config['nameï¿½] in the class constructor
 	 *
 	 * @access	public
 	 * @return	string The name of the model
