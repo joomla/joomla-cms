@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla.Framework
-* @subpackage		HTML
+* @subpackage	HTML
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -30,8 +30,16 @@ class JHTMLImage
  	* if it does it loads this image.  Otherwise the default image is loaded.
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
+	*
+	* @param	string	The file name, eg foobar.png
+	* @param	string	The path to the image
+	* @param	int		empty: use $file and $folder, -1: show no image, not-empty: use $altFile and $altFolder
+	* @param	string	Another path.  Only used for the contact us form based on the value of the imagelist parm
+	* @param	string	Alt text
+	* @param	boolean	True (default) to display full tag, false to return just the path
+	* @param	string	Align value
 	*/
-	function site( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' )
+	function site( $file, $folder='/images/M_images/', $altFile=NULL, $altFolder='/images/M_images/', $alt=NULL, $name='image', $asTag=1, $align='top' )
 	{
 		static $paths;
 		global $mainframe;
@@ -42,16 +50,15 @@ class JHTMLImage
 
 		$cur_template = $mainframe->getTemplate();
 
-		// strip html
-		$alt	= html_entity_decode( $alt );
-
-		if ( $param ) {
-			$image = $param_directory . $param;
-			if ( $type ) {
-				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" border="0" />';
-			}
-		} else if ( $param == -1 ) {
-			$image = '';
+		if ( $altFile )
+		{
+			// $param allows for an alternative file to be used
+			$src = $altFolder . $altFile;
+		}
+		else if ( $altFile == -1 )
+		{
+			// Comes from an image list param field with 'Do not use' selected
+			return '';
 		} else {
 			$path = JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file;
 			if (!isset( $paths[$path] ))
@@ -60,22 +67,22 @@ class JHTMLImage
 					$paths[$path] = 'templates/'. $cur_template .'/images/'. $file;
 				} else {
 					// outputs only path to image
-					$paths[$path] = $directory . $file;
+					$paths[$path] = $folder . $file;
 				}
 			}
-			$image = $paths[$path];
+			$src = $paths[$path];
 		}
 
-		if (substr($image, 0, 1 ) == "/") {
-			$image = substr_replace($image, '', 0, 1);
+		if (substr($src, 0, 1 ) == "/") {
+			$src = substr_replace($src, '', 0, 1);
 		}
 
 		// outputs actual html <img> tag
-		if ( $type ) {
-			$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" border="0" />';
+		if ($asTag) {
+			return '<img src="'. $src .'" alt="'. html_entity_decode( $alt ) .'" align="'. $align .'" border="0" />';
+		} else {
+			return $src;
 		}
-
-		return $image;
 	}
 
 	/**
@@ -122,5 +129,3 @@ class JHTMLImage
 		return $image;
 	}
 }
-
-?>

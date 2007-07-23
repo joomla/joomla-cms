@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Jul-2007 Andrew Eddie
+ # Fixed bug in JHTMLImage::site giving full image tag in the src attribute
+
 -------------------- 1.5.0 Release Candidate 1 Released [21-July-2007] ---------------------
 
 21-Jul-2007 Wilco Jansen
