@@ -94,8 +94,6 @@ class JUtility
 		$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
 		$message .= JText::_( 'MAIL_MSG') ."\n";
 
-		eval ("\$message = \"$message\";");
-
 		jimport('joomla.utilities.mail');
 
 	 	// Get a JMail instance
