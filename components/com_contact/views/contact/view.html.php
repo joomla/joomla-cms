@@ -32,7 +32,7 @@ class ContactViewContact extends JView
 		$document	= & JFactory::getDocument();
 		$model		= &$this->getModel();
 
-		// Get the paramaters of the active menu item
+		// Get the parameters of the active menu item
 		$menus	= &JMenu::getInstance();
 		$menu    = $menus->getActive();
 

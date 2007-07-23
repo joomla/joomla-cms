@@ -260,7 +260,7 @@ class ContentModelCategory extends JModel
 			$nullDate = $this->_db->getNullDate();
 			$section	 = $this->_category->section;
 
-			// Get the paramaters of the active menu item
+			// Get the parameters of the active menu item
 			$menu	=& JMenu::getInstance();
 			$item    = $menu->getActive();
 			$params	=& $menu->getParams($item->id);

@@ -35,7 +35,7 @@ class NewsfeedsViewCategory extends JView
 		$pathway 	= & $mainframe->getPathWay();
 		$document	= & JFactory::getDocument();
 
-		// Get the paramaters of the active menu item
+		// Get the parameters of the active menu item
 		$menus	= &JMenu::getInstance();
 		$menu	= $menus->getActive();
 		$params	= &$mainframe->getPageParameters();

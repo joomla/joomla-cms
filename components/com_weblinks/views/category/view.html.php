@@ -36,7 +36,7 @@ class WeblinksViewCategory extends JView
 		$uri 		= &JFactory::getURI();
 		$pathway	= &$mainframe->getPathWay();
 
-		// Get the paramaters of the active menu item
+		// Get the parameters of the active menu item
 		$menus = &JMenu::getInstance();
 		$menu  = $menus->getActive();
 
@@ -64,7 +64,7 @@ class WeblinksViewCategory extends JView
 
 		// Set page title per category
 		$document->setTitle( $category->title. ' - '. $params->get( 'page_title'));
-		
+
 		//set breadcrumbs
 		if($menu->query['view'] != 'category') {
 			$pathway->addItem($category->title, '');

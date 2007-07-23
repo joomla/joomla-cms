@@ -51,7 +51,7 @@ class UserViewUser extends JView
 		$user     =& JFactory::getUser();
 		$document =& JFactory::getDocument();
 
-		// Get the paramaters of the active menu item
+		// Get the parameters of the active menu item
 		$menu = &JMenu::getInstance();
 		$item = $menu->getActive();
 

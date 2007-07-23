@@ -110,7 +110,7 @@ Legend:
 
 17-Jul-2007 Johan Janssens
  ^ Changed template _system directory to system for consistency reasons
- + Added storage paramater to JFactory::getCache to allow different stores to be used
+ + Added storage parameter to JFactory::getCache to allow different stores to be used
  ^ Renamed JOutputFilter classname to JFilterOutput to adhere to naming conventions
  ^ Renamed JInputFilter classname to JFilterInput to adhere to naming conventions
 
@@ -562,7 +562,7 @@ Legend:
 02-May-2007 Johan Janssens
  + Added helper suppport to JView class, see loadHelper function
  + Added JPATH_XMLRPC define
- ^ Changed plugin auto-registration to push plugin paramaters into plugin class scope.
+ ^ Changed plugin auto-registration to push plugin parameters into plugin class scope.
  - Removed Cache_Lite package from the framework.
  ^ JHTML optimisation, work in progress
 
@@ -2677,7 +2677,7 @@ You have to open the article preferences and change the setting to show and save
 
 16-Mar-2005 Johan Janssens
  - Removed administrator/includes/toolbar.html.php
- - Moved paramater package into presentation package
+ - Moved parameter package into presentation package
 
 16-Mar-2005 Louis Landry
  + JMenu class to hold menu item information
@@ -3121,7 +3121,7 @@ You have to open the article preferences and change the setting to show and save
 22-Dec-2005 Johan Janssens
  ^ Implemented adapter pattern for JDocument class
  + Added JDocumentHTML class
- ^ Deprecated mosParamaters, use JParameters instead
+ ^ Deprecated mosParameters, use JParameters instead
  ^ Deprecated mosCategory, use JCategoryModel instead
  ^ Deprecated mosComponent, use JComponentModel instead
  ^ Deprecated mosContent, use JContentModel instead
