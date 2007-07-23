@@ -24,8 +24,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10)) {
 	// TODO: Throw 500 error
-	header( 'Location: ../installation/index.php' );
-	exit();
+	//header( 'Location: ../installation/index.php' );
+	//exit();
 }
 
 /*
