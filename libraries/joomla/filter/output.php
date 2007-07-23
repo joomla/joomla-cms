@@ -82,7 +82,10 @@ class JFilterOutput
 	 */
 	function stringURLSafe($string)
 	{
-		$str = htmlentities(utf8_decode($string));
+		//remove any '-' from the string they will be used as concatonater
+		$str = str_replace('-', ' ', $string);
+		
+		$str = htmlentities(utf8_decode($str));
 		$str = preg_replace(
 			array('/&szlig;/','/&(..)lig;/', '/&([aouAOU])uml;/','/&(.)[^;]*;/'),
 			array('ss',"$1","$1".'e',"$1"),
