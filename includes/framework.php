@@ -24,9 +24,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Installation check, and check on removal of the install directory.
  */
-if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10) || file_exists( JPATH_INSTALLATION . DS . 'index.php' )) {
-	//header( 'Location: installation/index.php' );
-	//exit();
+if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10) /*|| file_exists( JPATH_INSTALLATION . DS . 'index.php' )*/) {
+	header( 'Location: installation/index.php' );
+	exit();
 }
 
 /*
