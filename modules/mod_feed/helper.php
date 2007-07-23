@@ -16,18 +16,10 @@ defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 class modFeedHelper
 {
-	function render($params)
+	function getFeed($params)
 	{
 		// module params
 		$rssurl				= $params->get('rssurl', '');
-		$rssitems			= $params->get('rssitems', 5);
-		$rssdesc			= $params->get('rssdesc', 1);
-		$rssimage			= $params->get('rssimage', 1);
-		$rssitemdesc		= $params->get('rssitemdesc', 1);
-		$words				= $params->def('word_count', 0);
-		$rsstitle			= $params->get('rsstitle', 1);
-		$rssrtl				= $params->get('rssrtl', 0);
-		$moduleclass_sfx	= $params->get('moduleclass_sfx', '');
 
 		//  get RSS parsed object
 		$options = array();
@@ -36,111 +28,30 @@ class modFeedHelper
 
 		$rssDoc =& JFactory::getXMLparser('RSS', $options);
 
+		$feed = new stdclass();
+
 		if ($rssDoc != false)
 		{
 			// channel header and link
-			$channel['title'] = $rssDoc->get_feed_title();
-			$channel['link'] = $rssDoc->get_feed_link();
-			$channel['description'] = $rssDoc->get_feed_description();
+			$feed->title = $rssDoc->get_feed_title();
+			$feed->link = $rssDoc->get_feed_link();
+			$feed->description = $rssDoc->get_feed_description();
 
 			// channel image if exists
 			if ($rssDoc->get_image_exist()) {
-				$image['url'] = $rssDoc->get_image_url();
-				$image['title'] = $rssDoc->get_image_title();
+				$feed->image->url = $rssDoc->get_image_url();
+				$feed->image->title = $rssDoc->get_image_title();
 			}
-
-			//image handling
-			$iUrl 	= isset($image['url']) ? $image['url'] : null;
-			$iTitle = isset($image['title']) ? $image['title'] : null;
 
 			// items
 			$items = $rssDoc->get_items();
 
 			// feed elements
-			$items = array_slice($items, 0, $rssitems);
-
-			// feed description
-			if (!is_null( $channel['title'] ) && $rsstitle) {
-			?>
-			<strong>
-				<a href="<?php echo str_replace( '&', '&amp', $channel['link'] ); ?>" target="_blank">
-				<?php echo $channel['title']; ?></a>
-			</strong><p />
-
-			<?php
-			}
-
-			// feed description
-			if ($rssdesc) {
-				echo $channel['description'].'<p />';
-			}
-
-			// feed image
-			if ($rssimage && $iUrl) {
-			?>
-				<image src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/><p />
-			<?php
-			}
-
-			$actualItems = count( $items );
-			$setItems = $rssitems;
-
-			if ($setItems > $actualItems) {
-				$totalItems = $actualItems;
-			} else {
-				$totalItems = $setItems;
-			}
-			?>
-				<ul class="newsfeed<?php echo $moduleclass_sfx; ?>"  >
-				<?php
-				for ($j = 0; $j < $totalItems; $j ++)
-				{
-					$currItem = & $items[$j];
-					// item title
-					?>
-					<li>
-					<?php
-					if ( !is_null( $currItem->get_link() ) ) {
-					?>
-						<a href="<?php echo $currItem->get_link(); ?>" target="_child">
-						<?php echo $currItem->get_title(); ?>
-						</a>
-					<?php
-					}
-
-					// item description
-					if ($rssitemdesc)
-					{
-						// item description
-						$text = html_entity_decode($currItem->get_description());
-						$text = str_replace('&apos;', "'", $text);
-
-						// word limit check
-						if ($words) {
-							$texts = explode(' ', $text);
-							$count = count($texts);
-							if ($count > $words) {
-								$text = '';
-								for ($i = 0; $i < $words; $i ++)
-								{
-									$text .= ' '.$texts[$i];
-								}
-								$text .= '...';
-							}
-						}
-						?>
-						<div style="text-align: <?php echo $rssrtl ? 'right': 'left'; ?> ! important">
-							<?php echo $text; ?>
-						</div>
-						<?php
-					}
-					?>
-					</li>
-					<?php
-				}
-				?>
-				</ul>
-		<?php
+			$feed->items = array_slice($items, 0, $params->get('rssitems', 5));
+		} else {
+			$feed = false;
 		}
+
+		return $feed;
 	}
 }
