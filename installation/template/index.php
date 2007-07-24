@@ -13,14 +13,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<link href="template/css/template.css" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
+		<script type="text/javascript" src="../media/system/js/mootools.js"></script>
 		<script type="text/javascript" src="includes/js/installation.js"></script>
-		<script type="text/javascript" src="../includes/js/mootools.js"></script>
 		<script type="text/javascript" src="template/js/validation.js"></script>
 
 		<script type="text/javascript">
-    	// <!--
 			Window.onDomReady(function(){ new Accordion($$('h3.moofx-toggler'), $$('div.moofx-slider'), {onActive: function(toggler, i) { toggler.addClass('moofx-toggler-down'); },onBackground: function(toggler, i) { toggler.removeClass('moofx-toggler-down'); },duration: 300,opacity: false, alwaysHide:true, show: 1}); });
-    	// -->
   		</script>
 	</head>
 	<body>
