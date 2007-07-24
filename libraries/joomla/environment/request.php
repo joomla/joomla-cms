@@ -263,7 +263,7 @@ class JRequest
 	 * @return	string	Previous value
 	 * @since	1.5
 	 */
-	function setVar($name, $value = null, $hash = 'default', $overwrite = true)
+	function setVar($name, $value = null, $hash = 'method', $overwrite = true)
 	{
 		//If overwrite is true, makes sure the variable hasn't been set yet
 		if(!$overwrite && isset($_REQUEST[$name])) {
@@ -280,7 +280,7 @@ class JRequest
 		}
 
 		$previous	= array_key_exists($name, $_REQUEST) ? $_REQUEST[$name] : null;
-
+		
 		switch ($hash)
 		{
 			case 'GET' :
@@ -298,13 +298,6 @@ class JRequest
 			case 'COOKIE' :
 				$_COOKIE[$name] = $value;
 				$_REQUEST[$name] = $value;
-				break;
-			default:
-				$_GET[$name] = $value;
-				$_POST[$name] = $value;
-				$_REQUEST[$name] = $value;
-				$GLOBALS['_JREQUEST'][$name]['SET.GET'] = true;
-				$GLOBALS['_JREQUEST'][$name]['SET.POST'] = true;
 				break;
 		}
 
