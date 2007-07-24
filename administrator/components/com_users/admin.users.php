@@ -582,7 +582,7 @@ function logoutUser( )
 
 	if ( count( $cids ) < 1 )
 	{
-		$mainframe->redirect( 'index.php?option=com_users', JText::_( 'Please select a User' ) );
+		$mainframe->redirect( 'index.php?option=com_users', JText::_( 'User Deleted' ) );
 	}
 	$cids = implode( ',', $cids );
 
