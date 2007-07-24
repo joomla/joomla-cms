@@ -606,7 +606,7 @@ function logoutUser( )
 		$db->query();
 	}
 
-	$msg = JText::_( 'User Sesssion Ended' );
+	$msg = JText::_( 'User Session Ended' );
 	switch ( $task )
 	{
 		case 'flogout':
