@@ -32,7 +32,7 @@ class  plgSystemLog extends JPlugin
 	 *
 	 * @access	protected
 	 * @param	object		$subject The object to observe
-	 * @since	1.0
+	 * @since	1.5
 	 */
 	function plgSystemLog(& $subject) {
 		parent::__construct($subject);
@@ -45,7 +45,7 @@ class  plgSystemLog extends JPlugin
 		$log = JLog::getInstance();
 		$errorlog = array();
 
-		switch($response->status)
+		switch($response['status'])
 	    {
 			case JAUTHENTICATE_STATUS_CANCEL :
 			{
