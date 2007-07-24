@@ -129,6 +129,10 @@ class JAuthentication extends JObservable
 				if(empty($response->fullname)) {
 					$response->fullname = $credentials['username'];
 				}
+				
+				if(empty($response->password)) {
+					$response->password = $credentials['password'];
+				}
 
 				break;
 			}
@@ -171,6 +175,14 @@ class JAuthenticationResponse extends JObject
 	 * @access public
 	 */
 	var $username 		= '';
+	
+	/**
+	 * Any UTF-8 string that the End User wants to use as a password.
+	 *
+	 * @var password string
+	 * @access public
+	 */
+	var $password 		= '';
 
 	/**
 	 * The email address of the End User as specified in section 3.4.1 of [RFC2822]
