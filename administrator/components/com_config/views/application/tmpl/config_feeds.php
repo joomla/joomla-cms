@@ -4,7 +4,9 @@
 		<tbody>
 		<tr>
 			<td width="185" class="key">
-				<?php echo JText::_( 'Show the most recent' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Show the most recent' ); ?>::<?php echo JText::_( 'TIPSHOWMOSTRECENT' ); ?>">
+					<?php echo JText::_( 'Show the most recent' ); ?>
+				</span>
 			</td>
 			<td>
 				<?php echo $lists['feed_limit']; ?>
@@ -12,7 +14,9 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<?php echo JText::_( 'For each article, show' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'For each article, show' ); ?>::<?php echo JText::_( 'TIPFOREACHSHOW' ); ?>">
+					<?php echo JText::_( 'For each article, show' ); ?>
+				</span>
 			</td>
 			<td>
 				<?php echo $lists['feed_summary']; ?>

@@ -25,7 +25,9 @@
 			</tr>
 			<tr>
 				<td class="key">
-					<?php echo JText::_( 'Error Reporting' ); ?>
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Error Reporting' ); ?>::<?php echo JText::_( 'TIPERRORREPORTING' ); ?>">
+						<?php echo JText::_( 'Error Reporting' ); ?>
+					</span>
 				</td>
 				<td>
 					<?php echo $lists['error_reporting']; ?>

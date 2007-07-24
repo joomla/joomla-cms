@@ -4,7 +4,9 @@
 		<tbody>
 		<tr>
 			<td width="185" class="key">
-				<?php echo JText::_( 'Database type' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Database type' ); ?>::<?php echo JText::_( 'TIPDTATABASETYPE' ); ?>">
+						<?php echo JText::_( 'Database type' ); ?>
+					</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="dbtype" size="30" value="<?php echo $row->dbtype; ?>" />
@@ -12,7 +14,9 @@
 		</tr>
 		<tr>
 			<td width="185" class="key">
-				<?php echo JText::_( 'Hostname' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Hostname' ); ?>::<?php echo JText::_( 'TIPDATABASEHOSTNAME' ); ?>">
+						<?php echo JText::_( 'Hostname' ); ?>
+					</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="host" size="30" value="<?php echo $row->host; ?>" />
@@ -20,7 +24,9 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<?php echo JText::_( 'Username' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Username' ); ?>::<?php echo JText::_( 'TIPDATABASEUSERNAME' ); ?>">
+						<?php echo JText::_( 'Username' ); ?>
+					</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="user" size="30" value="<?php echo $row->user; ?>" />
@@ -28,7 +34,9 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<?php echo JText::_( 'Database' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Database' ); ?>::<?php echo JText::_( 'TIPDATABASENAME' ); ?>">
+						<?php echo JText::_( 'Database' ); ?>
+					</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="db" size="30" value="<?php echo $row->db; ?>" />
@@ -36,7 +44,9 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<?php echo JText::_( 'Database Prefix' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Database Prefix' ); ?>::<?php echo JText::_( 'TIPDATABASEPREFIX' ); ?>">
+						<?php echo JText::_( 'Database Prefix' ); ?>
+					</span>
 			</td>
 			<td>
 				<input class="text_area" type="text" name="dbprefix" size="10" value="<?php echo $row->dbprefix; ?>" />

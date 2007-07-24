@@ -5,7 +5,9 @@
 		<tbody>
 			<tr>
 				<td width="185" class="key">
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Secret Word' ); ?>::<?php echo JText::_( 'TIPSECRETWORD' ); ?>">
 					<?php echo JText::_( 'Secret Word' ); ?>
+				</span>
 				</td>
 				<td>
 					<strong><?php echo $row->secret; ?></strong>
@@ -23,7 +25,9 @@
 			</tr>
 			<tr>
 				<td class="key">
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'ENABLE WEB SERVICES' ); ?>::<?php echo JText::_( 'TIPENABLEWEBSERVICES' ); ?>">
 					<?php echo JText::_( 'ENABLE WEB SERVICES' ); ?>
+				</span>
 				</td>
 				<td>
 					<?php echo $lists['xmlrpc_server']; ?>
@@ -31,7 +35,9 @@
 			</tr>
 			<tr>
 			<td class="key">
-				<?php echo JText::_( 'Help Server' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Help Server' ); ?>::<?php echo JText::_( 'TIPHELPSERVER' ); ?>">
+					<?php echo JText::_( 'Help Server' ); ?>
+				</span>
 			</td>
 			<td>
 				<?php echo $lists['helpsites']; ?>

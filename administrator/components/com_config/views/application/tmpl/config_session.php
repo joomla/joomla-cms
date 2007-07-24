@@ -15,7 +15,9 @@
 			</tr>
 			<tr>
 				<td class="key">
-					<?php echo JText::_( 'Session Handler' ); ?>
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Session Handler' ); ?>::<?php echo JText::_( 'TIPSESSIONHANDLER' ); ?>">
+						<?php echo JText::_( 'Session Handler' ); ?>
+					</span>
 				</td>
 				<td>
 					<strong><?php echo $lists['session_handlers']; ?></strong>

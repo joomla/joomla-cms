@@ -15,7 +15,9 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<?php echo JText::_( 'Debug Database' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Debug Database' ); ?>::<?php echo JText::_('TIPDEBUGDATABASE'); ?>">
+					<?php echo JText::_( 'Debug Database' ); ?>
+				</span>
 			</td>
 			<td>
 				<?php echo $lists['debug_db']; ?>
@@ -23,7 +25,9 @@
 		</tr>
 			<tr>
 			<td class="key">
-				<?php echo JText::_( 'Debug Language' ); ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Debug Language' ); ?>::<?php echo JText::_('TIPDEBUGLANGUAGE'); ?>">
+					<?php echo JText::_( 'Debug Language' ); ?>
+				</span>
 			</td>
 			<td>
 				<?php echo $lists['debug_lang']; ?>
