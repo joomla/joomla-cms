@@ -43,10 +43,10 @@ class JHTMLBehavior
 		$opt['offsets']			= (isset($params['offsets'])) ? (int)$params['offsets'] : null;
 		$opt['showDelay']		= (isset($params['showDelay'])) ? (int)$params['showDelay'] : null;
 		$opt['hideDelay']		= (isset($params['hideDelay'])) ? (int)$params['hideDelay'] : null;
-		$opt['className']		= (isset($params['className'])) ? "'".$params['className']."'" : null;
-		$opt['fixed']			= (isset($params['fixed']) && ($params['fixed'])) ? 'true' : 'false';
-		$opt['onShow']			= (isset($params['onShow'])) ? $params['onShow'] : null;
-		$opt['onHide']			= (isset($params['onHide'])) ? $params['onHide'] : null;
+		$opt['className']		= (isset($params['className'])) ? $params['className'] : null;
+		$opt['fixed']			= (isset($params['fixed']) && ($params['fixed'])) ? '\\true' : '\\false';
+		$opt['onShow']			= (isset($params['onShow'])) ? '\\'.$params['onShow'] : null;
+		$opt['onHide']			= (isset($params['onHide'])) ? '\\'.$params['onHide'] : null;
 
 		$options = JHTMLBehavior::_getJSObject($opt);
 
