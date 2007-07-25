@@ -19,17 +19,6 @@ defined('JPATH_BASE') or die();
 jimport('joomla.application.component.helper');
 
 /**
-* Module helper class
-*
-* @static
-* @author		Johan Janssens <johan.janssens@joomla.org>
-* @package		Joomla.Framework
-* @subpackage	Application
-* @since		1.5
-*/
-class JModuleHelper
-{
-/**
  * Module helper class
  *
  * @static
