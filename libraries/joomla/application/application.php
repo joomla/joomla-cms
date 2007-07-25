@@ -411,6 +411,9 @@ class JApplication extends JObject
 
 			// OK, the credentials are authenticated.  Lets fire the onLogin event
 			$results = $this->triggerEvent('onLoginUser', array((array)$response, $options));
+			
+			echo var_dump($results);
+		
 
 			/*
 			 * If any of the user plugins did not successfully complete the login routine
@@ -420,8 +423,8 @@ class JApplication extends JObject
 			 * to provide much more information about why the routine may have failed.
 			 */
 
-			if (!in_array(false, $results, true)) {
-
+			if (in_array(true, $results, true)) 
+			{
 				// Set the remember me cookie if enabled
 				if (isset($options['remember']) && $options['remember'])
 				{
@@ -436,7 +439,7 @@ class JApplication extends JObject
 				return true;
 			}
 		}
-
+	
 		// Trigger onLoginFailure Event
 		$this->triggerEvent('onLoginFailure', array((array)$response));
 
