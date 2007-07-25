@@ -29,26 +29,50 @@ jimport('joomla.application.component.helper');
 */
 class JModuleHelper
 {
+/**
+ * Module helper class
+ *
+ * @static
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @since		1.5
+ */
+class JModuleHelper
+{
 	/**
-	 * Get module by name
+	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
 	 *
-	 * @access public
-	 * @param string 	$name	The name of the module
-	 * @return object	The Module object
+	 * @access	public
+	 * @param	string 	$name	The name of the module
+	 * @return	object	The Module object
 	 */
 	function &getModule($name)
 	{
-		$result = null;
-
-		$modules =& JModuleHelper::_load();
-
-		$total = count($modules);
-		for ($i = 0; $i < $total; $i++) {
+		$result		= null;
+		$modules	=& JModuleHelper::_load();
+		$total		= count($modules);
+		for ($i = 0; $i < $total; $i++)
+		{
 			if ($modules[$i]->name == $name)
 			{
 				$result =& $modules[$i];
 				break;
 			}
+		}
+		// if we didn't find it, and the name is mod_something, create a dummy object
+		if (is_null( $result ) && substr( $name, 0, 4 ) == 'mod_')
+		{
+			$result				= new stdClass;
+			$result->id			= 0;
+			$result->title		= '';
+			$result->module		= $name;
+			$result->position	= '';
+			$result->content	= '';
+			$result->showtitle	= 0;
+			$result->control	= '';
+			$result->params		= '';
+			$result->user		= 0;
 		}
 
 		return $result;

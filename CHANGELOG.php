@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Jul-2007 Andrew Eddie
+ # Fixed bug where JModuleHelper::getModule couldn't load module by real name
+
 24-Jul-2007 Johan Janssens
  ^ site_langauage and administrator_language settings are now stored as com_languages paramaters
    instead of in the configuration.php
