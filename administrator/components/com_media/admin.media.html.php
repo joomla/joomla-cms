@@ -62,7 +62,7 @@ class MediaViews
 			document.preview = SqueezeBox;
 		});");
 
-		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ $(\'folderframe\').src = $(\'folderframe\').src; }'));
+		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ document.mediamanager.refreshFrame(); }'));
 		$session = &JFactory::getSession();
 
 		MediaViews::_loadJS();
@@ -479,10 +479,10 @@ class MediaViews
 				<a href="<?php echo $link; ?>" target="folderframe"><?php echo $dir; ?></a>
 			</td>
 			<td>&nbsp;
-				
+
 			</td>
 			<td>&nbsp;
-				
+
 			</td>
 			<td>
 				<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" onclick="confirmDeleteFolder('<?php echo $path; ?>', <?php echo $num_files+$num_dir; ?>);" />
@@ -549,7 +549,7 @@ class MediaViews
 				<?php echo $doc; ?>
 			</td>
 			<td>&nbsp;
-				
+
 			</td>
 			<td>
 				<?php echo $size; ?>

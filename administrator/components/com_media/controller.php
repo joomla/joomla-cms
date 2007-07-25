@@ -301,14 +301,13 @@ class MediaController
 		global $mainframe;
 
 		$file 		= JRequest::getVar( 'Filedata', '', 'files', 'array' );
-		$folder		= JRequest::getVar( 'dirpath', '', '', 'path' );
+		$folder		= JRequest::getVar( 'folder', '', '', 'path' );
+		$format		= JRequest::getVar( 'format', 'html', 'method', 'cmd');
 		$err		= null;
-
-		JRequest::setVar('folder', $folder);
 
 		//jimport('joomla.utilities.log');
 		//$log = &JLog::getInstance();
-		//$log->addEntry(array('comment' => $dump));
+		//$log->addEntry(array('comment' => $folder));
 
 //		if ($_FILES['Filedata']['name'] && ($log = fopen('./upload.log', 'a') ) )
 //		{

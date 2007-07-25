@@ -1,26 +1,26 @@
 /**
  * FancyUpload - Flash meets Ajax for beauty uploads
- * 
+ *
  * Based on Swiff.Base and Swiff.Uploader.
- * 
+ *
  * Its intended that you edit this class to add your
  * own queue layout/text/effects. This is NO include
  * and forget class. If you want custom effects or
  * more output, use Swiff.Uploader as interface
  * for your new class or change this class.
- * 
+ *
  * USAGE:
  *  var inputElement = $E('input[type="file"]');
  * 	new FancyUpload(inputElement, {
  * 		swf: '../swf/Swiff.Uploader.swf'
  * 		// more options
  * 	})
- * 
+ *
  * 	The target element has to be in an form, the upload starts onsubmit
  * 	by default.
- * 
+ *
  * OPTIONS:
- * 
+ *
  * 	url: Upload target URL, default is form-action if given, otherwise current page
  *  swf: Path & filename of the swf file, default: Swiff.Uploader.swf
  *  multiple: Multiple files selection, default: true
@@ -36,19 +36,19 @@
  *  queueList: The Element or ID for the queue list
  *  onComplete: Event fired when one file is completed
  *  onAllComplete: Event fired when all files uploaded
- * 
+ *
  * NOTE:
- * 
+ *
  * 	Flash FileReference is stupid, the request will have no cookies
  * 	or additional post data. Only the file is send in $_FILES['Filedata'],
  * 	with a wrong content-type (application/octet-stream).
  * 	When u have sessions, append them as get-data to the the url.
- * 
- * 
+ *
+ *
  * @version		1.0rc1
- * 
+ *
  * @license		MIT License
- * 
+ *
  * @author		Harald Kirschner <mail [at] digitarald [dot] de>
  * @copyright	Authors
  */
@@ -76,8 +76,8 @@ var FancyUpload = new Class({
 
 	initialize: function(el, options){
 		this.element = $(el);
+		this.form = this.element.form;
 		this.setOptions(options);
-		this.options.url = this.options.url || this.element.form.action || location.href;
 		this.fileList = [];
 
 		this.uploader = new Swiff.Uploader({
@@ -118,6 +118,7 @@ var FancyUpload = new Class({
 
 	upload: function(e) {
 		if (e) e.stop();
+		this.options.url = this.options.url || this.form.action || location.href;
 		this.uploader.send(this.options.url);
 	},
 
@@ -159,7 +160,7 @@ var FancyUpload = new Class({
 
 	/**
 	 * Error codes are just examples, customize them according to your server-errorhandling
-	 * 
+	 *
 	 */
 	onError: function(name, size, error) {
 		var msg = "Upload failed (" + error + ")";

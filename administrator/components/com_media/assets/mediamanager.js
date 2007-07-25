@@ -10,6 +10,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+
 /**
  * JMediaManager behavior for media component
  *
@@ -24,11 +25,14 @@ var JMediaManager = new Class({
 	{
 		this.folderframe  	= $('folderframe');
 		this.folderpath  	= $('folderpath');
+
+		this.frame		= window.frames['folderframe'];
+		this.frameurl	= this.frame.location.href;
 	},
 
 	submit: function(task)
 	{
-		var form = window.frames['folderframe'].document.getElementById('mediamanager-form');
+		form = this.frame.document.getElementById('mediamanager-form');
 		form.task.value = task;
 		if ($('username')) {
 			form.username.value = $('username').value;
@@ -39,6 +43,9 @@ var JMediaManager = new Class({
 
 	onloadframe: function()
 	{
+		// Update the frame url
+		this.frameurl	= this.frame.location.href;
+
 		var folder = this.getFolder();
 		if (folder) {
 			this.folderpath.value = basepath+'/'+folder;
@@ -48,6 +55,19 @@ var JMediaManager = new Class({
 		var node = d.getNodeByTitle(folder);
 		d.openTo(node, true, true);
 		$(viewstyle).addClass('active');
+
+		a = this._getUriObject($('uploadForm').getProperty('action'));
+		q = $H(this._getQueryObject(a.query));
+		q.set('folder', folder);
+		q.set('format', 'json');
+		var query = [];
+		q.each(function(v, k){
+			if ($chk(v)) {
+				this.push(k+'='+v);
+			}
+		}, query);
+		a.query = query.join('&');
+		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+a.path+'?'+a.query);
 	},
 
 	oncreatefolder: function()
@@ -58,24 +78,23 @@ var JMediaManager = new Class({
 		}
 	},
 
-	onuploadfiles: function()
-	{
-		$('dirpath').value = this.getFolder();
-		submitbutton('uploadbatch');
-	},
-
 	setViewType: function(type)
 	{
 		$(type).addClass('active');
 		$(viewstyle).removeClass('active');
 		viewstyle = type;
 		var folder = this.getFolder();
-		window.frames['folderframe'].location.href='index.php?option=com_media&task=list&tmpl=component&folder='+folder+'&listStyle='+type;
+		this._setFrameUrl('index.php?option=com_media&task=list&tmpl=component&folder='+folder+'&listStyle='+type);
+	},
+
+	refreshFrame: function()
+	{
+		this._setFrameUrl();
 	},
 
 	getFolder: function()
 	{
-		var url 	= window.frames['folderframe'].location.search.substring(1);
+		var url 	= this.frame.location.search.substring(1);
 		var args	= this.parseQuery(url);
 
 		if (args['folder'] == "undefined") {
@@ -83,13 +102,6 @@ var JMediaManager = new Class({
 		}
 
 		return args['folder'];
-	},
-
-	addFile: function()
-	{
-		var upload = $('uploads').getFirst().clone();
-		upload.injectInside($('uploads'));
-		return false;
 	},
 
 	parseQuery: function(query)
@@ -110,11 +122,36 @@ var JMediaManager = new Class({
 			params[key] = val;
 	   }
 	   return params;
+	},
+
+	_setFrameUrl: function(url)
+	{
+		if ($chk(url)) {
+			this.frameurl = url;
+		}
+		this.frame.location.href = this.frameurl;
+	},
+
+	_getQueryObject: function(q) {
+		var vars = q.split(/[&;]/);
+		var rs = {};
+		if (vars.length) vars.each(function(val) {
+			var keys = val.split('=');
+			if (keys.length && keys.length == 2) rs[encodeURIComponent(keys[0])] = encodeURIComponent(keys[1]);
+		});
+		return rs;
+	},
+
+	_getUriObject: function(u){
+		var bits = u.match(/^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/);
+		return (bits)
+			? bits.associate(['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'])
+			: null;
 	}
 });
 
 document.mediamanager = null;
-Window.onDomReady(function(){
+window.addEvent('domready', function(){
  	document.mediamanager = new JMediaManager();
  	// Added to populate data on iframe load
  	$('folderframe').onload = function() {document.mediamanager.onloadframe();}

@@ -33,6 +33,9 @@ var JImageManager = new Class({
 		// Setup image listing objects
 		this.folderlist = $('folderlist');
 
+		this.frame		= window.frames['imageframe'];
+		this.frameurl	= this.frame.location.href;
+
 		// Setup imave listing frame
 		this.imageframe = $('imageframe');
 		this.imageframe.manager = this;
@@ -43,16 +46,13 @@ var JImageManager = new Class({
 		this.upbutton.manager = this;
 		this.upbutton.removeEvents('click');
 		this.upbutton.addEvent('click', function(){ this.manager.upFolder(); });
-
-		//Setup effect
-//		this.uploadpane = $('uploadpane');
-//		this.uploadpane.setProperty('height', this.uploadpane.getElement('iframe').getProperty('height'));
-//		this.uploadpanefx = new Fx.Slide(this.uploadpane, {opacity:true, duration: 200});
-//		this.uploadpanefx.hide();
 	},
 
 	onloadimageview: function()
 	{
+		// Update the frame url
+		this.frameurl = this.frame.location.href;
+
 		var folder = this.getImageFolder();
 		for(var i = 0; i < this.folderlist.length; i++)
 		{
@@ -61,11 +61,25 @@ var JImageManager = new Class({
 				break;
 			}
 		}
+
+		a = this._getUriObject($('uploadForm').getProperty('action'));
+		console.log(a);
+		q = $H(this._getQueryObject(a.query));
+		q.set('folder', folder);
+		q.set('format', 'json');
+		var query = [];
+		q.each(function(v, k){
+			if ($chk(v)) {
+				this.push(k+'='+v);
+			}
+		}, query);
+		a.query = query.join('&');
+		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+a.path+'?'+a.query);
 	},
 
 	getImageFolder: function()
 	{
-		var url 	= window.frames['imageframe'].location.search.substring(1);
+		var url 	= this.frame.location.search.substring(1);
 		var args	= this.parseQuery(url);
 
 		return args['folder'];
@@ -116,7 +130,7 @@ var JImageManager = new Class({
 				break;
 			}
 		}
-		window.frames['imageframe'].location.href='index.php?option=com_media&task=imgManagerList&tmpl=component&folder=' + folder;
+		this.frame.location.href='index.php?option=com_media&task=imgManagerList&tmpl=component&folder=' + folder;
 	},
 
 	getFolder: function() {
@@ -155,7 +169,8 @@ var JImageManager = new Class({
 		}
 	},
 
-	populateFields: function(file) {
+	populateFields: function(file)
+	{
 		$("f_url").value = "images/"+this.folderlist.options[this.folderlist.selectedIndex].value+file;
 	},
 
@@ -189,6 +204,36 @@ var JImageManager = new Class({
 			params[key] = val;
 	   }
 	   return params;
+	},
+
+	refreshFrame: function()
+	{
+		this._setFrameUrl();
+	},
+
+	_setFrameUrl: function(url)
+	{
+		if ($chk(url)) {
+			this.frameurl = url;
+		}
+		this.frame.location.href = this.frameurl;
+	},
+
+	_getQueryObject: function(q) {
+		var vars = q.split(/[&;]/);
+		var rs = {};
+		if (vars.length) vars.each(function(val) {
+			var keys = val.split('=');
+			if (keys.length && keys.length == 2) rs[encodeURIComponent(keys[0])] = encodeURIComponent(keys[1]);
+		});
+		return rs;
+	},
+
+	_getUriObject: function(u){
+		var bits = u.match(/^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/);
+		return (bits)
+			? bits.associate(['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'])
+			: null;
 	}
 });
 

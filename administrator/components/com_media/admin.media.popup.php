@@ -27,10 +27,10 @@ class MediaViews
 	{
 		global $mainframe;
 
-		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ $(\'imageframe\').src = $(\'imageframe\').src; }'));
+		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ document.imagemanager.refreshFrame(); }'));
 		$session = &JFactory::getSession();
 		?>
-		<form action="index.php" id="uploadForm" method="post" enctype="multipart/form-data">
+		<form action="index.php" id="imageForm" method="post" enctype="multipart/form-data">
 			<div id="messages" style="display: none;">
 				<span id="message"></span><img src="img/dots.gif" width="22" height="12" alt="..." />
 			</div>
