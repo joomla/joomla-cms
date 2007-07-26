@@ -69,7 +69,7 @@ class plgAuthenticationJoomla extends JPlugin
 
 		// Initialize variables
 		$conditions = '';
-
+		
 		// If we are in the admin panel, make sure we have access to it
 		if($mainframe->isAdmin()) {
 			$conditions = ' AND gid > 22';
@@ -85,7 +85,7 @@ class plgAuthenticationJoomla extends JPlugin
 
 		$db->setQuery( $query );
 		$result = $db->loadObject();
-
+		
 		if($result)
 		{
 			$parts	= explode( ':', $result->password );
