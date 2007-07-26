@@ -192,13 +192,8 @@ class JAdministrator extends JApplication
 	 * @param string	The type of the configuration file
 	 * @since 1.5
 	 */
-	function loadConfiguration($file, $type = 'config')
-	{
+	function loadConfiguration($file, $type = 'config') {
 		parent::loadConfiguration($file, $type);
-
-		$registry =& JFactory::getConfig();
-		$registry->setValue('config.live_site', substr_replace($this->getSiteURL(), '', -1, 1));
-		$registry->setValue('config.absolute_path', JPATH_SITE);
 	}
 
 	/**
