@@ -412,9 +412,6 @@ class JApplication extends JObject
 			// OK, the credentials are authenticated.  Lets fire the onLogin event
 			$results = $this->triggerEvent('onLoginUser', array((array)$response, $options));
 			
-			echo var_dump($results);
-		
-
 			/*
 			 * If any of the user plugins did not successfully complete the login routine
 			 * then the whole method fails.
