@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Jul-2007 Andrew Eddie
+ # Fixed bug in contact us form: cc not working
+
 25-Jul-2007 Andrew Eddie
  # Fixed bug where JModuleHelper::getModule couldn't load module by real name
 

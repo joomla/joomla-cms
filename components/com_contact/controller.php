@@ -167,7 +167,7 @@ class ContactController extends JController
 			 */
 			// parameter check
 			$params = new JParameter( $contact->params );
-			$emailcopyCheck = $params->get( 'email_copy', 0 );
+			$emailcopyCheck = $params->get( 'show_email_copy', 0 );
 
 			// check whether email copy function activated
 			if ( $emailCopy && $emailcopyCheck )
