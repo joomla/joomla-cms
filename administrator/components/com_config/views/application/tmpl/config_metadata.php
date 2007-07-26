@@ -35,7 +35,7 @@
 		</tr>
 		<tr>
 			<td valign="top" class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Show Author Meta Tag' ); ?>::<?php echo JText::_( 'TIPSHOWAUTHORMETATAGITEMS' ); ?>">
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Show Author Meta Tag' ); ?>::<?php echo JText::_( 'TIPSHOWAUTHORMETATAGITEMS' ); ?>"
 					<?php echo JText::_( 'Show Author Meta Tag' ); ?>
 				</span>
 			</td>
