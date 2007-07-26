@@ -97,6 +97,7 @@ class plgAuthenticationJoomla extends JPlugin
 				$email = JUser::getInstance($result->id); // Bring this in line with the rest of the system
 				$response->email = $email->email;
 				$response->status = JAUTHENTICATE_STATUS_SUCCESS;
+				$response->error_message = '';
 			} else {
 				$response->status = JAUTHENTICATE_STATUS_FAILURE;
 				$response->error_message = 'Invalid password';

@@ -138,7 +138,8 @@ class plgAuthenticationLdap extends JPlugin
 			}
 
 			// Were good - So say so.
-			$response->status = JAUTHENTICATE_STATUS_SUCCESS;
+			$response->status        = JAUTHENTICATE_STATUS_SUCCESS;
+			$response->error_message = '';
 		}
 
 		$ldap->close();

@@ -80,7 +80,8 @@ class plgAuthenticationGMail extends JPlugin
 
 		if ($success)
 		{
-			$response->status 	= JAUTHENTICATE_STATUS_SUCCESS;
+			$response->status 	     = JAUTHENTICATE_STATUS_SUCCESS;
+			$response->error_message = '';
 			$response->email 	= $credentials['username'];
 			$response->fullname = $credentials['username'];
 		}
