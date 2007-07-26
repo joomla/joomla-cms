@@ -263,6 +263,7 @@ class JUserHelper
 				break;
 
 			default :
+				$salt = '';
 				if ($seed) {
 					$salt = $seed;
 				}
