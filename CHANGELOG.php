@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 27-Jul-2007 Andrew Eddie
+ + Added example content bot
+
+27-Jul-2007 Andrew Eddie
  # Fixed bug in contact us form: cc not working
 
 25-Jul-2007 Andrew Eddie

@@ -210,4 +210,3 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 
 	return ;
 }
-?>

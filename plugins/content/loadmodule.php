@@ -85,4 +85,3 @@ function plgContentLoadPosition( $position, $style=-2 )
 	}
 	return $contents;
 }
-?>

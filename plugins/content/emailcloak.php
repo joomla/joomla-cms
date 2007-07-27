@@ -125,4 +125,3 @@ function plgContentEmailCloak_searchPattern ( $link, $text ) {
 
 	return $pattern;
 }
-?>

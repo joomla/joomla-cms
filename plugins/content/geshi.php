@@ -86,4 +86,3 @@ function plgContentGeshi_replacer( &$matches )
 
 	return $text;
 }
-?>

@@ -100,4 +100,3 @@ function plgContentSEF_replacer( &$matches )
 		return $original;
 	}
 }
-?>

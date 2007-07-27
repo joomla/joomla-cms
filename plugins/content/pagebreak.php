@@ -299,4 +299,3 @@ function plgContentCreateNavigation( &$row, $page, $n )
 
 	$row->text .= '<div>' . $prev . ' - ' . $next .'</div>';
 }
-?>
