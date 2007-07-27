@@ -40,6 +40,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td>
 		<input type="text" id="username" name="username" size="40" value="<?php echo $this->user->get( 'username' );?>" class="inputbox required validate-username" maxlength="25" /> *
 	</td>
+</tr>
 <tr>
 	<td height="40">
 		<label id="emailmsg" for="email">
