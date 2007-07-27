@@ -571,7 +571,10 @@
 				}
 				else
 				{
-					$data = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : '';
+					// Check if it has a value, if it doesn't have a value try and read php://input but supress the error
+					// this will mimic returning an empty string, without a "cant find wrapper error" and allow backwards compat
+					// php docs are unclear as to when this was added, works on php 4.4 at least, and probably 4.3
+					$data = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : @file_get_contents('php://input');
 				}
 			}
 			$raw_data = $data;

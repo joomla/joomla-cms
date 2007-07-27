@@ -73,8 +73,8 @@ if ($task)
 			$msg = new xmlrpcmsg('system.listMethods');
 			$xmlrpcdoc = $client->send($msg);
 
-			echo var_dump($xmlrpcdoc);
-			die;
+			//echo var_dump($xmlrpcdoc);
+			//die;
 
 			if ($xmlrpcdoc->faultCode() == 0)
 			{
