@@ -32,7 +32,7 @@ function plgContentGeshi( &$row, &$params, $page=0 )
  	$plugin =& JPluginHelper::getPlugin('content', 'geshi');
 
 	// define the regular expression for the bot
-	$regex = "#<pre\s*(.*?)>(.*?)</pre>#s";
+	$regex = "#<pre xml:\s*(.*?)>(.*?)</pre>#s";
 
 	$GLOBALS['_MAMBOT_GESHI_PARAMS'] =& $params;
 
