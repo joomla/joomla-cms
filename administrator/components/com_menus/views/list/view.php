@@ -37,7 +37,7 @@ class MenusViewList extends JView
 		 */
 		$menutype 	= $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu', 'string' );
 
-		JToolBarHelper::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
+		JToolBarHelper::title( JText::_( 'MENU ITEM MANAGER' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
 
 		$bar =& JToolBar::getInstance('toolbar');
 		$bar->appendButton( 'Link', 'menus', 'Menus', "index.php?option=com_menus" );

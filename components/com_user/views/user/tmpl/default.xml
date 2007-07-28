@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="DEFAULT USER LAYOUT">
+		<message>
+			<![CDATA[DEFAULT USER LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>DEFAULT USER LAYOUT</name>
+		<description>DEFAULT USER LAYOUT DESC</description>
+	</state>
+</metadata>

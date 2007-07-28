@@ -312,7 +312,7 @@ class HTML_modules
 					<tr>
 						<td valign="top"  class="key">
 							<label for="ordering">
-								<?php echo JText::_( 'Module Order' ); ?>:
+								<?php echo JText::_( 'Order' ); ?>:
 							</label>
 						</td>
 						<td>

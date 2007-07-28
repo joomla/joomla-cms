@@ -266,7 +266,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" class="key">
-						<?php echo JText::_( 'Plugin Order' ); ?>:
+						<?php echo JText::_( 'Order' ); ?>:
 					</td>
 					<td>
 						<?php echo $lists['ordering']; ?>

@@ -9,7 +9,7 @@ function submitbutton(pressbutton) {
 		return;
 	}
 	if ( (type != "separator") && (trim( form.name.value ) == "") ){
-		alert( "<?php echo JText::_( 'Item must have a name', true ); ?>" );
+		alert( "<?php echo JText::_( 'Item must have a title', true ); ?>" );
 	}
 	<?php if( $this->name == "Standard Article Layout" ){ ?>
 	else if( document.getElementById('a_id').value == 0 ){

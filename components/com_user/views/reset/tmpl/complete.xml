@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COMPLETE RESET LAYOUT">
+		<message>
+			<![CDATA[COMPLETE RESET LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>COMPLETE RESET LAYOUT</name>
+		<description>COMPLETE RESET LAYOUT DESC</description>
+	</state>
+</metadata>

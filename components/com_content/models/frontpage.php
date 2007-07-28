@@ -99,7 +99,7 @@ class ContentModelFrontpage extends JModel
 			$query = $this->_buildQuery();
 			$Arows = $this->_getList($query, $limitstart, $limit);
 
-			// special handling required as static content does not have a section / category id linkage
+			// special handling required as Uncategorized content does not have a section / category id linkage
 			$i = $limitstart;
 			$rows = array();
 			foreach ($Arows as $row)

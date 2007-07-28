@@ -379,7 +379,7 @@ class sections_html
 			<td  valign="top" width="30%">
 			<strong><?php echo JText::_( 'Copy to Section' ); ?>:</strong>
 			<br />
-			<input class="text_area" type="text" name="title" value="" size="35" maxlength="50" title="<?php echo JText::_( 'The new Section name' ); ?>" />
+			<input class="text_area" type="text" name="title" value="" size="35" maxlength="50" title="<?php echo JText::_( 'The new Section Title' ); ?>" />
 			<br /><br />
 			</td>
 			<td  valign="top" width="20%">

@@ -37,6 +37,16 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-July-2007 Andy Wallace
+ # Re-ordered some language files
+ # Amended Lnguage strings
+ - Deleted some old/unused language entries
+ + Added missing strings
+ + Added missing metadata.xml files and other .xml files to sort problems with Menu Item tree listings and added language   references. 
+ + Added appropriate svn keyword: Id to new files.
+ # Amended some titles for consistency
+ # Translated a number of error messages
+
 28-Jul-2007 Rastin Mehr
 # - $params->get( 'moduleclass_sfx') in mod_feed/tmpl/default was declared as $moduleclass_sfx therefore breaking the code
 

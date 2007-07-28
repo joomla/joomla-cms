@@ -40,9 +40,9 @@ class MenusViewItem extends JView
 
 		// Set toolbar items for the page
 		if (!$item->id) {
-			JToolBarHelper::title( JText::_( 'New Menu Item' ), 'menu.png' );
+			JToolBarHelper::title( JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>', 'menu.png' );
 		} else {
-			JToolBarHelper::title( JText::_( 'Edit Menu Item' ), 'menu.png' );
+			JToolBarHelper::title( JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'menu.png' );
 		}
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
@@ -73,9 +73,9 @@ class MenusViewItem extends JView
 
 		$document = & JFactory::getDocument();
 		if ($item->id) {
-			$document->setTitle(JText::_('Edit Menu Item'));
+			$document->setTitle(JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>');
 		} else {
-			$document->setTitle(JText::_('New Menu Item'));
+			$document->setTitle(JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>');
 		}
 
 		// Was showing up null in some cases....
@@ -129,7 +129,7 @@ class MenusViewItem extends JView
 
 		// Set toolbar items for the page
 		if (!$item->id) {
-			JToolBarHelper::title(  JText::_( 'Add Menu Item' ), 'menu.png' );
+			JToolBarHelper::title(  JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>', 'menu.png' );
 		} else {
 			JToolBarHelper::title(  JText::_( 'Change Menu Item' ), 'menu.png' );
 		}
