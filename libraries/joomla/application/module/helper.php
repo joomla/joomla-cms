@@ -100,7 +100,7 @@ class JModuleHelper
 		if ($mainframe->getCfg('legacy'))
 		{
 			// Include legacy globals
-			global $my, $database, $acl;
+			global $my, $database, $acl, $mosConfig_absolute_path;
 
 			// Get the task variable for local scope
 			$task = JRequest::getString('task');
