@@ -29,11 +29,11 @@ jimport('joomla.environment.uri');
 			<div id="errorboxbody">
 			<p><strong><?php echo JText::_('You may not be able to visit this page because of:'); ?></strong></p>
 				<ol>
-					<li><?php echo JText::_('An <strong>out-of-date bookmark/favourite</strong>'); ?></li>
-					<li><?php echo JText::_('A search engine that has an <strong>out-of-date listing for this site</strong>'); ?></li>
-					<li><?php echo JText::_('A <strong>mis-typed address</strong>'); ?></li>
-					<li><?php echo JText::_('You have <strong>no access</strong> to this page'); ?></li>
-					<li><?php echo JText::_('The requested resource was <strong>not found</strong>'); ?></li>
+					<li><?php echo JText::_('An out-of-date bookmark/favourite'); ?></li>
+					<li><?php echo JText::_('A search engine that has an out-of-date listing for this site'); ?></li>
+					<li><?php echo JText::_('A mis-typed address'); ?></li>
+					<li><?php echo JText::_('You have no access to this page'); ?></li>
+					<li><?php echo JText::_('The requested resource was not found'); ?></li>
 				</ol>
 			<p><strong><?php echo JText::_('Please try one of the following pages:'); ?></strong></p>
 			<p>
