@@ -53,7 +53,7 @@ if( $feed != false )
 	?>
 	<tr>
 		<td>
-			<ul class="newsfeed<?php echo $moduleclass_sfx; ?>"  >
+			<ul class="newsfeed<?php echo $params->get( 'moduleclass_sfx'); ?>"  >
 			<?php
 			$words = $params->def('word_count', 0);
 			for ($j = 0; $j < $totalItems; $j ++)

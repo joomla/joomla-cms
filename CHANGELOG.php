@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Jul-2007 Rastin Mehr
+# - $params->get( 'moduleclass_sfx') in mod_feed/tmpl/default was declared as $moduleclass_sfx therefore breaking the code
+
 27-Jul-2007 Andrew Eddie
  + Added example content bot
 
