@@ -125,7 +125,7 @@ class JComponentHelper
 
 		// If component disabled throw error
 		if (!JComponentHelper::isEnabled( $name ) || !file_exists($path)) {
-			JError::raiseError( 404, JText::_('Component Not Found') );
+			JError::raiseError( 404, JText::_( 'Component Not Found' ) );
 		}
 
 		// Handle legacy globals if enabled
