@@ -519,9 +519,11 @@ class categories_html
 			<td valign="top">
 			<?php echo JText::_( 'This will copy the Categories listed' ); ?>
 			<br />
-			<?php echo JText::_( 'and all the items within the category (also listed)' ); ?>
+			<?php echo JText::_( 'and all the items within the Category (also listed)' ); ?>
 			<br />
-			<?php echo JText::_( 'to the selected Section' ); ?>.
+			<?php echo JText::_( 'to the selected Section' ); ?>
+			<br />
+			<?php echo JText::_( 'NOTE: IF NO SECTION' ); ?>.
 			</td>.
 		</tr>
 		</table>

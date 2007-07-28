@@ -45,7 +45,7 @@ class TOOLBAR_categories {
 	*/
 	function _MOVE() {
 
-		JToolBarHelper::title( JText::_( 'Move Category' ) );
+		JToolBarHelper::title( JText::_( 'Category' ) .': <small><small>[ '. JText::_( 'Move' ).' ]</small></small>', 'categories.png' );
 		JToolBarHelper::save( 'movesave' );
 		JToolBarHelper::cancel();
 	}
@@ -55,8 +55,8 @@ class TOOLBAR_categories {
 	* @param int The published state (to display the inverse button)
 	*/
 	function _COPY() {
+		JToolBarHelper::title( JText::_( 'Category' ) .': <small><small>[ '. JText::_( 'Copy' ).' ]</small></small>', 'categories.png' );
 
-		JToolBarHelper::title( JText::_( 'Copy Category' ) );
 		JToolBarHelper::save( 'copysave' );
 		JToolBarHelper::cancel();
 	}
