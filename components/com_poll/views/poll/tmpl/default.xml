@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Poll">
+	<layout title="Poll Layout">
 		<message>
 			<![CDATA[STANDARD POLL LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
-		<name>Poll</name>
+		<name>Poll Layout</name>
 		<description>STANDARD POLL LAYOUT DESC</description>
 		<params>
 		</params>
