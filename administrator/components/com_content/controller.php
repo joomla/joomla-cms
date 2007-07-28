@@ -749,13 +749,13 @@ class ContentController extends JController
 				break;
 
 			case 'apply' :
-				$msg = JText::sprintf('Successfully Saved changes to Item', $row->title);
+				$msg = JText::sprintf('SUCCESSFULLY SAVED CHANGES TO ARTICLE', $row->title);
 				$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect.'&task=edit&cid[]='.$row->id, $msg);
 				break;
 
 			case 'save' :
 			default :
-				$msg = JText::sprintf('Successfully Saved Item', $row->title);
+				$msg = JText::sprintf('Successfully Saved Article', $row->title);
 				$mainframe->redirect('index.php?option=com_content&sectionid='.$redirect, $msg);
 				break;
 		}
@@ -1109,7 +1109,7 @@ class ContentController extends JController
 		if ($section && $category) {
 			$msg = JText::sprintf('Item(s) successfully moved to Section', $total, $section, $category);
 		} else {
-			$msg = JText::sprintf('Item(s) successfully moved to Static Content', $total);
+			$msg = JText::sprintf('ITEM(S) SUCCESSFULLY MOVED TO UNCATEGORIZED', $total);
 		}
 
 		$mainframe->redirect('index.php?option='.$option.'&sectionid='.$sectionid, $msg);
