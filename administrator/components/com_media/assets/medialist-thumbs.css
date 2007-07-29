@@ -43,6 +43,15 @@ div.imgBorder a:hover {
 	cursor: hand;
 }
 
+div.controls {
+	text-align: center;
+	height: 19px;
+}
+
+div.controls:hover {
+	display: block;
+}
+
 div.imginfoBorder {
 	background: #f3f3f3;
 	font-family: Arial, Helvetica, sans-serif;

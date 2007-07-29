@@ -472,13 +472,14 @@ class MediaController
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
+		$msg	= null;
 		$paths	= JRequest::getVar( 'rm', array(), '', 'array' );
 		$ret	= false;
 		if (count($paths)) {
 			foreach ($paths as $path)
 			{
 				if ($path !== JFilterInput::clean($path, 'cmd')) {
-					echo '<font color="red">'.JText::_('Unable to delete:').htmlspecialchars($path).' '.JText::_('WARNFILENAME').'</font><br />';
+					$msg .= '<font color="red">'.JText::_('Unable to delete:').htmlspecialchars($path).' '.JText::_('WARNFILENAME').'</font><br />';
 					continue;
 				}
 
@@ -496,7 +497,7 @@ class MediaController
 					if ($canDelete) {
 						$ret |= !JFolder::delete($fullPath);
 					} else {
-						echo '<font color="red">'.JText::_('Unable to delete:').$fullPath.' '.JText::_('Not Empty!').'</font><br />';
+						$msg .= '<font color="red">'.JText::_('Unable to delete:').$fullPath.' '.JText::_('Not Empty!').'</font><br />';
 					}
 				}
 			}

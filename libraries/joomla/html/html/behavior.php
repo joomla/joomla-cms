@@ -268,10 +268,10 @@ class JHTMLBehavior
 
 		// Attach tooltips to document
 		$document =& JFactory::getDocument();
-		$tooltipInit = '		window.addEvent(\'load\', function(){
+		$uploaderInit = '		window.addEvent(\'load\', function(){
 				var Uploader = new FancyUpload($(\''.$id.'\'), '.$options.');
-				$(\'upload-clear\').adopt(new Element(\'input\', { type: \'button\', events: { click: Uploader.clearList.bind(Uploader, [false])}, value: \'Clear Completed\' }));				});';
-		$document->addScriptDeclaration($tooltipInit);
+				$(\'upload-clear\').adopt(new Element(\'input\', { type: \'button\', events: { click: Uploader.clearList.bind(Uploader, [false])}, value: \''.JText::_('Clear Completed').'\' }));				});';
+		$document->addScriptDeclaration($uploaderInit);
 
 		// Set static array
 		$uploaders[$id] = true;

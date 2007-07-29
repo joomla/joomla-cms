@@ -67,7 +67,11 @@ var JMediaManager = new Class({
 			}
 		}, query);
 		a.query = query.join('&');
+
+		console.log(this.frameurl);
+
 		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+a.path+'?'+a.query);
+		console.log($('uploadForm').getProperty('action'));
 	},
 
 	oncreatefolder: function()

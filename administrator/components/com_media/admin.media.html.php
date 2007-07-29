@@ -129,7 +129,7 @@ class MediaViews
 				<legend><?php echo JText::_( 'Upload File' ); ?> [ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ($configMedia->get('upload_maxsize') / 1000000); ?>M ]</legend>
 				<fieldset class="actions">
 					<input type="file" id="file-upload" />
-					<input type="submit" id="file-upload-submit" value="Start Upload"/>
+					<input type="submit" id="file-upload-submit" value="<?php echo JText::_('Start Upload'); ?>"/>
 					<span id="upload-clear"></span>
 				</fieldset>
 				<ul class="upload-queue" id="upload-queue">
@@ -163,7 +163,7 @@ class MediaViews
 
 		$doc->addScriptDeclaration("
 		window.addEvent('domready', function() {
-			$$('a.preview').each(function(el) {
+			$$('a.img-preview').each(function(el) {
 				el.addEvent('click', function(e) {
 					new Event(e).stop();
 					window.top.document.preview.fromElement(el);
@@ -219,7 +219,14 @@ class MediaViews
 			$method = 'draw'.$style.'Footer';
 			MediaViews::$method();
 		} else {
-			MediaViews::drawNoResults();
+			$method = 'draw'.$style.'Header';
+			MediaViews::$method($current);
+
+			$method = 'showUp'.$style;
+			MediaViews::$method($current);
+
+			$method = 'draw'.$style.'Footer';
+			MediaViews::$method();
 		}
 	}
 
@@ -315,15 +322,19 @@ class MediaViews
 		<div class="imgOutline">
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
-					<a class="preview" href="<?php echo $img_url; ?>" title="<?php echo $file; ?>" style="display: block; width: 100%; height: 100%">
+					<a class="img-preview" href="<?php echo $img_url; ?>" title="<?php echo $file; ?>" style="display: block; width: 100%; height: 100%">
 						<div class="image">
 							<img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" />
 						</div>
 					</a>
 				</div>
 			</div>
+			<div class="controls">
+				<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" onclick="confirmDeleteImage('<?php echo $file; ?>');" />
+				<input type="checkbox" name="rm[]" value="<?php echo $file; ?>" />
+			</div>
 			<div class="imginfoBorder">
-				<a href="<?php echo $img_url; ?>" title="<?php echo $file; ?>" rel="preview"><?php echo htmlspecialchars( substr( $file, 0, 10 ) . ( strlen( $file ) > 10 ? '...' : ''), ENT_QUOTES ); ?></a>
+				<a href="<?php echo $img_url; ?>" title="<?php echo $file; ?>" class="preview"><?php echo htmlspecialchars( substr( $file, 0, 10 ) . ( strlen( $file ) > 10 ? '...' : ''), ENT_QUOTES ); ?></a>
 			</div>
 		</div>
 		<?php
@@ -349,6 +360,10 @@ class MediaViews
 						<img src="components/com_media/images/folder.png" width="80" height="80" border="0" />
 					</a>
 				</div>
+			</div>
+			<div class="controls">
+				<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" onclick="confirmDeleteFolder('<?php echo $path; ?>', <?php echo $num_files+$num_dir; ?>);" />
+				<input type="checkbox" name="rm[]" value="<?php echo $path; ?>" />
 			</div>
 			<div class="imginfoBorder">
 				<a href="<?php echo $link; ?>" target="folderframe"><?php echo substr( $dir, 0, 10 ) . ( strlen( $dir ) > 10 ? '...' : ''); ?></a>
@@ -377,6 +392,9 @@ class MediaViews
 						<img src="components/com_media/images/folderup_32.png" width="32" height="32" border="0" alt=".." />
 					</a>
 				</div>
+			</div>
+			<div class="controls">
+				<span>&nbsp;</span>
 			</div>
 			<div class="imginfoBorder">
 				<a href="<?php echo $link; ?>" target="folderframe">..</a>
@@ -412,6 +430,10 @@ class MediaViews
 					</a>
 				</div>
 			</div>
+			<div class="controls">
+				<img src="components/com_media/images/remove.png" width="16" height="16" border="0" alt="<?php echo JText::_( 'Delete' ); ?>" onclick="confirmDeleteImage('<?php echo $doc; ?>');" />
+				<input type="checkbox" name="rm[]" value="<?php echo $doc; ?>" />
+			</div>
 			<div class="imginfoBorder">
 				<?php echo $doc; ?>
 			</div>
@@ -438,7 +460,7 @@ class MediaViews
 		?>
 		<tr>
 			<td>
-				<a class="preview" href="<?php echo $img_url; ?>" title="<?php echo $file;?>"><img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" /></a>
+				<a class="img-preview" href="<?php echo $img_url; ?>" title="<?php echo $file;?>"><img src="<?php echo $img_url; ?>" <?php echo $img_dimensions; ?> alt="<?php echo $file; ?> - <?php echo $filesize; ?>" border="0" /></a>
 			</td>
 			<td class="description">
 				<a href="<?php echo $img_url; ?>" title="<?php echo $file;?>" rel="preview"><?php echo htmlspecialchars( $file, ENT_QUOTES ); ?></a>

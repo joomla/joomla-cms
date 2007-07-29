@@ -57,7 +57,8 @@ switch (JRequest::getCmd('task')) {
 
 	case 'delete' :
 		MediaController::delete($folder);
-		MediaController::listMedia();
+		$mainframe->redirect('index.php?option=com_media&task=list&tmpl=component&folder='.$folder);
+		//MediaController::listMedia();
 		break;
 
 	case 'list' :
