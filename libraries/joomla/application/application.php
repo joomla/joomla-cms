@@ -403,7 +403,7 @@ class JApplication extends JObject
 		jimport( 'joomla.user.authentication');
 		$authenticate = & JAuthentication::getInstance();
 		$response	  = $authenticate->authenticate($credentials, $options);
-
+		
 		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 		{
 			// Import the user plugin group
@@ -411,7 +411,7 @@ class JApplication extends JObject
 
 			// OK, the credentials are authenticated.  Lets fire the onLogin event
 			$results = $this->triggerEvent('onLoginUser', array((array)$response, $options));
-			
+				
 			/*
 			 * If any of the user plugins did not successfully complete the login routine
 			 * then the whole method fails.
