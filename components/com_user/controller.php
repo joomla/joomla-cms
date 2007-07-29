@@ -158,7 +158,6 @@ class UserController extends JController
 		{
 			if ($return = JRequest::getVar('return', '', 'post', 'base64')) {
 				$return = base64_decode($return);
-				$return = JURI::base().$return;
 			}
 
 			// Redirect if the return url is not registration or login
