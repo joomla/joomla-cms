@@ -420,7 +420,7 @@ class JApplication extends JObject
 			 * to provide much more information about why the routine may have failed.
 			 */
 
-			if (in_array(true, $results, true)) 
+			if (!in_array(false, $results, true)) 
 			{
 				// Set the remember me cookie if enabled
 				if (isset($options['remember']) && $options['remember'])
