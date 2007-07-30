@@ -83,11 +83,9 @@ class modRandomImageHelper
 
 	function getFolder(&$params)
 	{
-		global $mainframe;
-
 		$folder 	= $params->get( 'folder' );
 
-		$LiveSite 	= $mainframe->getCfg('live_site');
+		$LiveSite 	= JURI::base();
 
 		// if folder includes livesite info, remove
 		if ( JString::strpos($folder, $LiveSite) === 0 ) {

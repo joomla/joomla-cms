@@ -178,8 +178,6 @@ class ContentViewFrontpage extends ContentView
 		$item->readmore_link = $linkOn;
 		$item->readmore_text = $linkText;
 
-		$item->print_link = $mainframe->getCfg('live_site').'/index.php?option=com_content&view=article&id='.$item->id.'&tmpl=component';
-
 		$item->event = new stdClass();
 		$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $item, & $params,0));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));

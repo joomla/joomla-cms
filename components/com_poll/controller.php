@@ -161,8 +161,7 @@ class PollController extends JController
 			return;
 		}
 
-		$siteName	= $mainframe->getCfg( 'live_site' );
-		$cookieName	= JUtility::getHash( $siteName . 'poll' . $poll_id );
+		$cookieName	= JUtility::getHash( $mainframe->getClientId() . 'poll' . $poll_id );
 		// ToDo - may be adding those information to the session?
 		$voted = JRequest::getVar( $cookieName, '0', 'COOKIE', 'INT');
 

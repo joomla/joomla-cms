@@ -103,8 +103,6 @@ class JHTML
 	{
 		global $mainframe;
 
-		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
-
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString( $attribs );
 		}
