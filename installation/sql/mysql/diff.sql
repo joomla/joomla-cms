@@ -1,5 +1,10 @@
 # $Id$
 
+# RC 1 to RC 2
+
+ALTER TABLE `jos_session`
+  MODIFY COLUMN `data` LONGTEXT;
+
 # Beta 2 to RC 1
 
 -- Fixes incompatibility with natice phpgacl schema
