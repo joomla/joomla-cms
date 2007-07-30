@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-July-2007 Robin Muilwijk
+ # Fixed [#6210] small typo in /libraries/joomla/utilities/mail.php
+
 29-July-2007 Johan Janssens
  ^ Changed session data table field type from text to longtext, to accomodate session data larger then 64k
 
