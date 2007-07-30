@@ -254,6 +254,7 @@ class JHTMLBehavior
 		$opt['limitFiles']			= (isset($params['limitFiles']) && ($params['limitFiles'])) ? (int)$params['limitFiles'] : null;
 		$opt['optionFxDuration']	= (isset($params['optionFxDuration'])) ? (int)$params['optionFxDuration'] : null;
 		$opt['container']			= (isset($params['container'])) ? '\\$('.$params['container'].')' : null;
+		$opt['types']				= (isset($params['types'])) ?'\\'.$params['types'] : '\\{\'All Files (*.*)\': \'*.*\'}';
 
 
 		// Optional functions

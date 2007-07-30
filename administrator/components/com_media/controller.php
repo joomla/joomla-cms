@@ -305,6 +305,10 @@ class MediaController
 		$format		= JRequest::getVar( 'format', 'html', 'method', 'cmd');
 		$err		= null;
 
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
+
 		//jimport('joomla.utilities.log');
 		//$log = &JLog::getInstance();
 		//$log->addEntry(array('comment' => $folder));
