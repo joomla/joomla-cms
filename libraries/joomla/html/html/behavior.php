@@ -315,7 +315,7 @@ class JHTMLBehavior
 		{
 			var url = "index.php?option=com_admin&tmpl=component&task=keepalive";
 			var myAjax = new Ajax( url, { method: "get", update: $("keepAliveLayer") } ).request();
-			setTimeout('keepAlive()', refreshTime );
+			setTimeout('keepAlive(' + refreshTime + ')', refreshTime);
 		}
 
 		window.addEvent('domready', function()
