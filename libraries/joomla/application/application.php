@@ -695,9 +695,26 @@ class JApplication extends JObject
 			$link = '';
 		}
 
-		// Add item to the pathway object
-		if ($this->_pathway->addItem($name, $link)) {
-			return true;
+		if( defined( '_JLEGACY' ) && $link == '' ) 
+		{
+			$matches = array();
+			
+			$links = preg_match_all ( '/<a[^>]+href="([^"]*)"[^>]*>([^<]*)<\/a>/ui', $name, $matches, PREG_SET_ORDER );
+			
+			foreach( $matches AS $match) {
+				// Add each item to the pathway object
+				if( !$this->_pathway->addItem( $match[2], $match[1] ) ) {
+					return false;
+				}
+			}
+			 return true;
+		} 
+		else 
+		{
+			// Add item to the pathway object
+			if ($this->_pathway->addItem($name, $link)) {
+				return true;
+			}
 		}
 
 		return false;
