@@ -25,9 +25,9 @@ class TOOLBAR_users {
 	*/
 	function _EDIT() {
 		$cid = JRequest::getVar( 'cid', array(0) );
-		$text = intval($cid[0]) ? JText::_( 'Edit' ) : JText::_( 'Add' );
+		$text = intval($cid[0]) ? JText::_( 'Edit' ) : JText::_( 'New' );
 
-		JToolBarHelper::title( JText::_( 'User Manager' ) .' - <span>'. $text.'</span>', 'user.png' );
+		JToolBarHelper::title( JText::_( 'User' ) . ': <small><small>[ '. $text .' ]</small></small>' , 'user.png' );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		if ( $cid[0] ) {

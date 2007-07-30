@@ -122,7 +122,7 @@ class MenusViewList extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title( JText::_( 'Move Menu Items' ) );
+		JToolBarHelper::title( JText::_( 'Menu Items' ) . ': <small><small>[ '. JText::_( 'Move' ) .' ]</small></small>' );
 		JToolBarHelper::custom( 'doMove', 'move.png', 'move_f2.png', 'Move', false );
 		JToolBarHelper::cancel('cancelItem');
 		JToolBarHelper::help( 'screen.menus.move' );

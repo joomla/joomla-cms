@@ -102,7 +102,7 @@ class BannersViewClients
 							echo $row->name;
 						} else {
 							?>
-							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner Client' ); ?>">
+							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Banner Client' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>'; ?>">
 								<?php echo $row->name; ?></a>
 							<?php
 						}
@@ -139,7 +139,7 @@ class BannersViewClients
 	{
 		$task = JRequest::getVar( 'task', '', 'method', 'string');
 
-		JToolBarHelper::title( $task == 'add' ? JText::_( 'New Banner Client' ) : JText::_( 'Edit Banner Client' ), 'generic.png' );
+		JToolBarHelper::title( $task == 'add' ? JText::_( 'Banner Client' ) . ': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>' : JText::_( 'Banner Client' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>', 'generic.png' );
 		JToolBarHelper::save( 'save' );
 		JToolBarHelper::apply('apply');
 		JToolBarHelper::cancel( 'cancel' );

@@ -91,7 +91,7 @@ class MenusViewMenus extends JView
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::title(  JText::_( 'Delete Menu' ) );
+		JToolBarHelper::title(  JText::_( 'Menu' ) . ': <small><small>[ '. JText::_( 'Delete' ) .' ]</small></small>' );
 		JToolBarHelper::custom( 'doDeleteMenu', 'delete.png', 'delete_f2.png', 'Delete', false );
 		JToolBarHelper::cancel();
 		JToolBarHelper::help( 'screen.menumanager.delete' );
