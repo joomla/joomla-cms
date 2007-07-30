@@ -88,7 +88,7 @@ class plgUserJoomla extends JPlugin
 			$my->set( 'usertype'	, 'Registered' ); 	//Make configurable
 
 			//If autoregister is set let's register the user
-			$autoregister = isset($autoregister) ? $autoregister :  $this->params->get('autoregister', 1);
+			$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);
 
 			if($autoregister) {
 				if(!$my->save()) {
