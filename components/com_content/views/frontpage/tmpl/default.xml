@@ -22,12 +22,6 @@
 			<param name="num_intro_articles" type="text" size="3" default="4" label="Num Intro" description="PARAMINTRO" />
 			<param name="num_columns" type="text" size="3" default="2" label="Columns" description="PARAMCOLUMNS" />
 			<param name="num_links" type="text" size="3" default="4" label="Num Links" description="Number of Items to display as Links." />
-
-	 		<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="show_title" type="radio" default="1" label="Article Title" description="Show/Hide the articles title">
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
-			</param>
 		</params>
 		<advanced>
 			<param name="orderby_pri" type="list" default="" label="Category Order" description="Order items by category">
