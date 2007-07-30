@@ -149,7 +149,7 @@ class JModuleHelper
 			$chrome = array();
 		}
 
-		require_once (JPATH_BASE.DS.'modules'.DS.'templates'.DS.'modules.php');
+		require_once (JPATH_BASE.DS.'templates'.DS.'system'.DS.'html'.DS.'modules.php');
 		$chromePath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.'modules.php';
 		if (!isset( $chrome[$chromePath]))
 		{
