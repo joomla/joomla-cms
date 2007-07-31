@@ -955,13 +955,13 @@ class JApplication extends JObject
 	 */
 	function getItemid( $id )
 	{
-		require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'content.php';
+		require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
 		// Load the article data to know what section/category it is in.
 		$article =& JTable::getInstance('content');
 		$article->load($id);
 
-		$info = ContentHelper::_getArticleMenuInfo($id, $article->catid, $article->sectionid);
+		$info = ContentHelperRoute::_getArticleMenuInfo($id, $article->catid, $article->sectionid);
 		return $info->id;
 	}
 
