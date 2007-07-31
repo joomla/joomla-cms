@@ -48,7 +48,9 @@ class mosMainFrame extends JApplication
 	 */
 	function __construct( &$db, $option, $basePath=null, $client=0 )
 	{
-		parent::__construct( $client );
+		$config = array();
+		$config['clientId'] = $client;
+		parent::__construct( $config );
 	}
 
 	/**
@@ -59,7 +61,9 @@ class mosMainFrame extends JApplication
 	 */
 	function mosMainFrame( &$db, $option, $basePath=null, $client=0 )
 	{
-		parent::__construct( $client );
+		$config = array();
+		$config['clientId'] = $client;
+		parent::__construct( $config );
 	}
 
 	/**

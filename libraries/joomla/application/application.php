@@ -72,11 +72,11 @@ class JApplication extends JObject
 	*
 	* @param integer	A client identifier.
 	*/
-	function __construct( $clientId = 0 )
+	function __construct( $config = array())
 	{
 		//set the view name
 		$this->_name     = $this->getName();
-		$this->_clientId = $clientId;
+		$this->_clientId = $config['clientId'];
 		
 		$this->set( 'requestTime', gmdate('Y-m-d H:i') );
 	}

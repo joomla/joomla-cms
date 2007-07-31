@@ -38,11 +38,13 @@ class JSite extends JApplication
 	* Class constructor
 	*
 	* @access protected
-	* @param integer A client id
+	* @param	array An optional associative array of configuration settings.
+	* Recognized key values include 'clientId' (this list is not meant to be comprehensive).
 	*/
-	function __construct()
+	function __construct($config = array())
 	{
-		parent::__construct(0);
+		$config['clientId'] = 0;
+		parent::__construct($config);
 	}
 
 	/**

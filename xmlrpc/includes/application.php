@@ -41,8 +41,18 @@ class JXMLRPC extends JApplication
 	 */
 	var $_encoding = null;
 
-	function __construct()
+	/**
+	* Class constructor
+	*
+	* @access protected
+	* @param	array An optional associative array of configuration settings.
+	* Recognized key values include 'clientId' (this list is not meant to be comprehensive).
+	*/
+	function __construct($config = array())
 	{
+		$config['clientId'] = 4;
+		parent::__construct($config);
+	
 		$url = JURI::base();
 		$url = str_replace('xmlrpc/', '', $url);
 
@@ -75,8 +85,7 @@ class JXMLRPC extends JApplication
 	 * @return string The site URL
 	 * @since 1.5
 	 */
-	function getSiteURL()
-	{
+	function getSiteURL() {
 		return $this->_siteURL;
 	}
 }

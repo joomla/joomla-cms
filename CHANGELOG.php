@@ -44,7 +44,8 @@ Legend:
 31-July-2007 Andrew Eddie
  # Fixed dupe show_title param in default layout, frontpage view of com_content
  + Admin: New user is preset with the default new user group
- # Fixed bug in delete user by adding missing aro_map table (presently not used but included for forward compatibility with next version)
+ # Fixed bug in delete user by adding missing aro_map table (presently not used but 
+   included for forward compatibility with next version)
 
 30-July-2007 Robin Muilwijk
  # Fixed [#6210] small typo in /libraries/joomla/utilities/mail.php
@@ -57,13 +58,15 @@ Legend:
  # Amended Lnguage strings
  - Deleted some old/unused language entries
  + Added missing strings
- + Added missing metadata.xml files and other .xml files to sort problems with Menu Item tree listings and added language   references.
+ + Added missing metadata.xml files and other .xml files to sort problems with Menu Item 
+   tree listings and added language   references.
  + Added appropriate svn keyword: Id to new files.
  # Amended some titles for consistency
  # Translated a number of error messages
 
 28-Jul-2007 Rastin Mehr
- # $params->get( 'moduleclass_sfx') in mod_feed/tmpl/default was declared as $moduleclass_sfx therefore breaking the code
+ # $params->get( 'moduleclass_sfx') in mod_feed/tmpl/default was declared as $moduleclass_sfx 
+   therefore breaking the code
 
 27-Jul-2007 Andrew Eddie
  + Added example content bot

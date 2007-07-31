@@ -37,11 +37,16 @@ class JInstallation extends JApplication
 
 	/**
 	* Class constructor
+	*
+	* @access protected
+	* @param	array An optional associative array of configuration settings.
+	* Recognized key values include 'clientId' (this list is not meant to be comprehensive).
 	*/
-	function __construct( )
+	function __construct($config = array())
 	{
-		parent::__construct(2);
-
+		$config['clientId'] = 3;
+		parent::__construct($config);
+	
 		JError::setErrorHandling(E_ALL, 'Ignore');
 		$this->_createConfiguration();
 	}

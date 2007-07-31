@@ -38,10 +38,13 @@ class JAdministrator extends JApplication
 	* Class constructor
 	*
 	* @access protected
-	* @param integer A client id
+	* @param	array An optional associative array of configuration settings.
+	* Recognized key values include 'clientId' (this list is not meant to be comprehensive).
 	*/
-	function __construct() {
-		parent::__construct(1);
+	function __construct($config = array())
+	{
+		$config['clientId'] = 1;
+		parent::__construct($config);
 	}
 
    /**
