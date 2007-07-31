@@ -43,13 +43,9 @@ class JRouterInstallation extends JObject
 	 * @return	string	The absolute search engine friendly URL
 	 * @since	1.5
 	 */
-	function build($url, $xhtml = true)
+	function build($url)
 	{
 		$url = str_replace('&amp;', '&', $url);
-		
-		if($xhtml) {
-			$url = str_replace( '&', '&amp;', $url );
-		}
 		
 		return $url;
 	}

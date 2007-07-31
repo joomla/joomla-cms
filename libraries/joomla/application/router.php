@@ -46,7 +46,7 @@ class JRoute
 		$router =& $mainframe->getRouter();
 
 		// Build route
-		$url = $router->build($url, $xhtml);
+		$url = $router->build($url);
 
 		/*
 		 * Get the secure/unsecure URLs.
@@ -77,6 +77,10 @@ class JRoute
 		// Ensure that unsecure URL is used if ssl flag is set to unsecure
 		if ($ssl == -1) {
 			$url = $unsecure.$url;
+		}
+		
+		if($xhtml) {
+			$url = str_replace( '&', '&amp;', $url );
 		}
 
 		return $url;
@@ -137,18 +141,13 @@ class JRouter extends JObject
 	 * Function to convert an internal URI to a route
 	 *
 	 * @param	string	$string	The internal URL
-	 * @param 	boolean  $xhtml Replace & by &amp; for xml compilance
 	 * @return	string	The absolute search engine friendly URL
 	 * @since	1.5
 	 */
-	function build($url, $xhtml = true)
+	function build($url)
 	{
 		$url = str_replace('&amp;', '&', $url);
-		
-		if($xhtml) {
-			$url = str_replace( '&', '&amp;', $url );
-		}
-		
+			
 		return $url;
 	}
 

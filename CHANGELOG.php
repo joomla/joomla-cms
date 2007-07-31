@@ -38,7 +38,11 @@ Legend:
 ! -> Note
 
 01-August-2007 Andrew Eddie
- ^ Turned down error handling in JSimpleXML to raiseWarning instead of raiseError - makes it easier find what happened
+ ^ Turned down error handling in JSimpleXML to raiseWarning instead of raiseError - 
+   makes it easier find what happened
+
+31-July-2007 Johan Janssens
+ # Fixed [#5430] _parseApplicationRoute() removing too much of route on match
 
 31-July-2007 Robin Muilwijk
  # Fixed [#6275] incorrect prefix for sample data, changed jos_ to #__

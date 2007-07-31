@@ -206,9 +206,11 @@ class JRouterSite extends JRouter
 
 			foreach ($items as $item)
 			{
-				if(strlen($item->route) > 0 && strpos($url.'/', $item->route.'/') === 0)
+				$lenght = strlen($item->route); //get the lenght of the route
+				
+				if($lenght > 0 && strpos($url.'/', $item->route.'/') === 0)
 				{
-					$url    = str_replace($item->route, '', $url);
+					$url    = substr($url, $lenght);
 
 					$itemid = $item->id;
 					$option = $item->component;
@@ -264,11 +266,10 @@ class JRouterSite extends JRouter
 	 * Function to convert an internal URI to a route
 	 *
 	 * @param	string	$string	The internal URL
-	 * @param 	boolean  $xhtml Replace & by &amp; for xml compilance
 	 * @return	string	The absolute search engine friendly URL
 	 * @since	1.5
 	 */
-	function build($url, $xhtml = true)
+	function build($url)
 	{
 		// Replace all &amp; with & - ensures cache integrity
 		$url = str_replace('&amp;', '&', $url);
@@ -289,7 +290,7 @@ class JRouterSite extends JRouter
 		}
 
 		// Decompose link into url component parts
-		$uri  =& JURI::getInstance(JURI::base().$url);
+		$uri  = JURI::getInstance(JURI::base().$url);
 		$menu =& JMenu::getInstance();
 
 		/*
@@ -367,10 +368,6 @@ class JRouterSite extends JRouter
 			}
 		}
 		
-		if($xhtml) {
-			$url = str_replace( '&', '&amp;', $url );
-		}
-
 		return $url;
 	}
 
