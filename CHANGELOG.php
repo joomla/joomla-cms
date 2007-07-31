@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-July-2007 Robin Muilwijk
+ # Fixed [#6275] incorrect prefix for sample data, changed jos_ to #__
+
 31-July-2007 Andrew Eddie
  # Fixed dupe show_title param in default layout, frontpage view of com_content
  + Admin: New user is preset with the default new user group
