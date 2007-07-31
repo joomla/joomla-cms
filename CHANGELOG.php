@@ -40,6 +40,7 @@ Legend:
 31-July-2007 Andrew Eddie
  # Fixed dupe show_title param in default layout, frontpage view of com_content
  + Admin: New user is preset with the default new user group
+ # Fixed bug in delete user by adding missing aro_map table (presently not used but included for forward compatibility with next version)
 
 30-July-2007 Robin Muilwijk
  # Fixed [#6210] small typo in /libraries/joomla/utilities/mail.php

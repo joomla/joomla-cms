@@ -241,7 +241,7 @@ class JTableUser extends JTable
 		}
 		$aro_id = $acl->get_object_id( 'users', $this->$k, 'ARO' );
 		$acl->del_object( $aro_id, 'ARO', true );
-
+die('here');
 		$query = 'DELETE FROM '. $this->_tbl
 		. ' WHERE '. $this->_tbl_key .' = '. (int) $this->$k
 		;
