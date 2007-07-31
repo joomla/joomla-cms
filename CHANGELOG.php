@@ -39,6 +39,7 @@ Legend:
 
 31-July-2007 Robin Muilwijk
  # Fixed [#6275] incorrect prefix for sample data, changed jos_ to #__
+ # Fixed [topic, 194930] incorrect comment line in /templates/system/css/general.css
 
 31-July-2007 Andrew Eddie
  # Fixed dupe show_title param in default layout, frontpage view of com_content

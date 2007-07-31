@@ -1,8 +1,8 @@
-/* -- form validation */
+/* Form validation */
 .invalid { border-color: #ff0000; }
 label.invalid { color: #ff0000; }
 
-/* -- buttons */
+/* Buttons */
 #editor-xtd-buttons {
 	padding: 5px;
 }
