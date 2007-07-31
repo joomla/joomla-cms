@@ -190,7 +190,7 @@ class JModel extends JObject
 		{
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r)) {
-				JError::raiseError (500, "JModel::__construct() : Can't get or parse class name.");
+				JError::raiseError (500, "JModel::getName() : Can't get or parse class name.");
 			}
 			$name = strtolower( $r[1] );
 		}

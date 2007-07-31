@@ -420,7 +420,7 @@ class JController extends JObject
 		{
 			$r = null;
 			if ( !preg_match( '/(.*)Controller/i', get_class( $this ), $r ) ) {
-				JError::raiseError(500, "JController::__construct() : Can\'t get or parse class name.");
+				JError::raiseError(500, "JController::getName() : Can\'t get or parse class name.");
 			}
 			$name = strtolower( $r[1] );
 		}
