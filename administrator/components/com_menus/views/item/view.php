@@ -73,9 +73,9 @@ class MenusViewItem extends JView
 
 		$document = & JFactory::getDocument();
 		if ($item->id) {
-			$document->setTitle(JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>');
+			$document->setTitle(JText::_( 'Menu Item' ) .': ['. JText::_( 'Edit' ) .']');
 		} else {
-			$document->setTitle(JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>');
+			$document->setTitle(JText::_( 'Menu Item' ) .': ['. JText::_( 'New' ) .']');
 		}
 
 		// Was showing up null in some cases....
@@ -171,9 +171,9 @@ class MenusViewItem extends JView
 
 		// Set document title
 		if ($item->id) {
-			$document->setTitle('Edit Menu Item Type');
+			$document->setTitle(JText::_( 'Menu Item' ) .': ['. JText::_( 'Edit' ) .']');
 		} else {
-			$document->setTitle('New Menu Item Type');
+			$document->setTitle(JText::_( 'Menu Item' ) .': ['. JText::_( 'New' ) .']');
 		}
 
 		$this->assignRef('item',		$item);
