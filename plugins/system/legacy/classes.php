@@ -72,9 +72,7 @@ class mosMainFrame extends JApplication
 	 */
 	function initSession( )
 	{
-		// TODO: Quick fix to preserve session when going to https
-		global $mainframe;
-		$this->setSession(str_replace( 'https:', 'http:', $mainframe->getCfg('live_site') ).$this->getClientId());
+		
 	}
 
 	/**

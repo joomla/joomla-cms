@@ -43,8 +43,14 @@ class JRouterAdministrator extends JObject
 	 * @return	string	The absolute search engine friendly URL
 	 * @since	1.5
 	 */
-	function build($value)
+	function build($url, $xhtml = true)
 	{
-		return $value; //str_replace( '&', '&amp;', str_replace('&amp;', '&', $value));
+		$url = str_replace('&amp;', '&', $url);
+		
+		if($xhtml) {
+			$url = str_replace( '&', '&amp;', $url );
+		}
+		
+		return $url;
 	}
 }

@@ -264,13 +264,14 @@ class JRouterSite extends JRouter
 	 * Function to convert an internal URI to a route
 	 *
 	 * @param	string	$string	The internal URL
+	 * @param 	boolean  $xhtml Replace & by &amp; for xml compilance
 	 * @return	string	The absolute search engine friendly URL
 	 * @since	1.5
 	 */
-	function build($value)
+	function build($url, $xhtml = true)
 	{
 		// Replace all &amp; with & - ensures cache integrity
-		$url = str_replace('&amp;', '&', $value);
+		$url = str_replace('&amp;', '&', $url);
 
 		// Create full URL if we are only appending variables to it
 		if(substr($url, 0, 1) == '&')
@@ -364,6 +365,10 @@ class JRouterSite extends JRouter
 			if ($this->_mode == 1) {
 				$url = 'index.php/'.$url;
 			}
+		}
+		
+		if($xhtml) {
+			$url = str_replace( '&', '&amp;', $url );
 		}
 
 		return $url;

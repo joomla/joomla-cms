@@ -30,7 +30,7 @@ foreach ($list as $item)
 {
 	$tabcnt 	= 0;
 
-	$cookieName = JUtility::getHash($mainframe->getClientId().'poll'.$item->id);
+	$cookieName = JUtility::getHash($mainframe->getName().'poll'.$item->id);
 	$voted = JRequest::getInt($cookieName, '0', 'COOKIE');
 
 	if ($item->id && $item->title)  {

@@ -365,7 +365,7 @@ function cancelPlugin( $option, $client )
 	$row->bind(JRequest::get('post'));
 	$row->checkin();
 
-	$mainframe->redirect( JRoute::_( 'index.php?option='. $option .'&client='. $client ) );
+	$mainframe->redirect( JRoute::_( 'index.php?option='. $option .'&client='. $client, false ) );
 }
 
 /**

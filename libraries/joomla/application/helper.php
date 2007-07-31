@@ -40,10 +40,6 @@ class JApplicationHelper
 
 		static $clients;
 
-		if(!isset($id)) {
-			$id = $mainframe->getClientId();
-		}
-
 		// Only create the array if it does not exist
 		if (!is_array($clients))
 		{

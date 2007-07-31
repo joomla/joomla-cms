@@ -35,7 +35,7 @@ $mainframe = new JSite();
 $mainframe->loadConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
 
 // create the session
-$mainframe->loadSession(JUtility::getHash($mainframe->getClientId()));
+$mainframe->loadSession(JUtility::getHash($mainframe->getName()));
 
 /**
  * INITIALISE THE APPLICATION

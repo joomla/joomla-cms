@@ -91,8 +91,11 @@ class JApplication extends JObject
 	{
 		//Set the language in the class
 		$conf =& JFactory::getConfig();
+		
 		// Check that we were given a language in the array (since by default may be blank)
-		if(isset($options['language'])) $conf->setValue('config.language', $options['language']);
+		if(isset($options['language'])) {
+			$conf->setValue('config.language', $options['language']);
+		}
 
 		//define date formats
 		//define('DATE_FORMAT_LC' , JText::_('DATE_FORMAT_LC' ));
