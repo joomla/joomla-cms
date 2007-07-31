@@ -213,14 +213,14 @@ class TemplatesController
 
 			// Try to make the params file writeable
 			if (!$ftp['enabled'] && !JPath::setPermissions($file, '0755')) {
-				JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template parameter file writeable');
+				JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template parameter file writable');
 			}
 
 			$return = JFile::write($file, $txt);
 
 			// Try to make the params file unwriteable
 			if (!$ftp['enabled'] && !JPath::setPermissions($file, '0555')) {
-				JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template parameter file unwriteable');
+				JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template parameter file unwritable');
 			}
 
 			if (!$return) {
@@ -337,7 +337,7 @@ class TemplatesController
 
 		// Try to make the template file writeable
 		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0755')) {
-			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template file writeable');
+			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template file writable');
 		}
 
 		jimport('joomla.filesystem.file');
@@ -345,7 +345,7 @@ class TemplatesController
 
 		// Try to make the template file unwriteable
 		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0555')) {
-			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template file unwriteable');
+			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template file unwritable');
 		}
 
 		if ($return)
@@ -456,7 +456,7 @@ class TemplatesController
 
 		// Try to make the css file writeable
 		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0755')) {
-			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the css file writeable');
+			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the css file writable');
 		}
 
 		jimport('joomla.filesystem.file');
@@ -464,7 +464,7 @@ class TemplatesController
 
 		// Try to make the css file unwriteable
 		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0555')) {
-			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the css file unwriteable');
+			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the css file unwritable');
 		}
 
 		if ($return)

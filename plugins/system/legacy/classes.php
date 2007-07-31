@@ -997,8 +997,8 @@ class mosHTML
  	*/
 	function writableCell( $folder, $relative=1, $text='', $visible=1 )
 	{
-		$writeable 		= '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>';
-		$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';
+		$writeable 		= '<b><font color="green">'. JText::_( 'Writable' ) .'</font></b>';
+		$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwritable' ) .'</font></b>';
 
 		echo '<tr>';
 		echo '<td class="item">';

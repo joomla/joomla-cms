@@ -389,7 +389,7 @@ class ConfigControllerApplication extends ConfigController
 		// Try to make configuration.php unwriteable
 		//if (!$ftp['enabled'] && JPath::isOwner($fname) && !JPath::setPermissions($fname, '0444')) {
 		if (!$ftp['enabled'] && JPath::isOwner($fname) && !JPath::setPermissions($fname, '0444')) {
-			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make configuration.php unwriteable');
+			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make configuration.php unwritable');
 		}
 	}
 

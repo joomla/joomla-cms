@@ -506,7 +506,7 @@ class TemplatesView
 				<?php echo $t_dir; ?>
 			</th>
 			<th width="10%">
-				<?php echo JText::_( 'Writeable' ); ?>/<?php echo JText::_( 'Unwriteable' ); ?>
+				<?php echo JText::_( 'Writable' ); ?>/<?php echo JText::_( 'Unwritable' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -523,7 +523,7 @@ class TemplatesView
 					<?php echo $file; ?>
 				</td>
 				<td width="10%">
-					<?php echo is_writable($t_dir.DS.$file) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?>
+					<?php echo is_writable($t_dir.DS.$file) ? '<font color="green"> '. JText::_( 'Writable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwritable' ) .'</font>' ?>
 				</td>
 			</tr>
 		<?php

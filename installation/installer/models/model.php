@@ -559,12 +559,12 @@ class JInstallationModel extends JModel
 			'state' => ($sp = ini_get('session.save_path')) ? 'Yes' : 'No'
 			);
 			$phpOptions[] = array (
-			'label' => JText::_('Session path writeable'),
+			'label' => JText::_('Session path writable'),
 			'state' => is_writable($sp) ? 'Yes' : 'No'
 			);*/
 		$cW = (@ file_exists('../configuration.php') && @ is_writable('../configuration.php')) || is_writable('..');
 		$phpOptions[] = array (
-			'label' => 'configuration.php '.JText::_('writeable'),
+			'label' => 'configuration.php '.JText::_('writable'),
 			'state' => $cW ? 'Yes' : 'No',
 			'notice' => $cW ? '' : JText::_('NOTICEYOUCANSTILLINSTALL')
 		);
