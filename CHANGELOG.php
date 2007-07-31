@@ -38,8 +38,9 @@ Legend:
 ! -> Note
 
 01-August-2007 Andrew Eddie
- ^ Turned down error handling in JSimpleXML to raiseWarning instead of raiseError - 
+ ^ Turned down error handling in JSimpleXML to raiseWarning instead of raiseError -
    makes it easier find what happened
+ # Altered Media Manager layout to handle the bleed from large folder trees a bit better
 
 31-July-2007 Johan Janssens
  # Fixed [#5430] _parseApplicationRoute() removing too much of route on match

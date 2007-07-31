@@ -17,9 +17,10 @@
  */
 #treeview {
 	padding: 10px;
-	width: 140px;
+	width: 190px;
 	overflow: auto;
-	height: 390px;
+	/*height: 390px;*/
+	border: 0;
 }
 
 #folderview {
