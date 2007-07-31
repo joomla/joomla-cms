@@ -137,9 +137,9 @@ class JDatabase extends JObject
 				$path	= "joomla.database.database.$driver";
 				jimport( $path );
 			} else {
-				$error = new JException( E_ERROR, 500, 'Unable to load Database Driver: '.$driver);
+				$error = new JException( E_ERROR, 500, 'Unable to load Database Driver:' .$driver);
 				return $error;
-				//die('Unable to load Database Driver: '.$driver);
+				//die('Unable to load Database Driver:' .$driver);
 			}
 
 			$adapter	= 'JDatabase'.$driver;
@@ -147,7 +147,7 @@ class JDatabase extends JObject
 
 			if ( $error = $instance->getErrorMsg() )
 			{
-				$error = new JException( E_ERROR, 500, 'Unable to connect to the database: '.$error);
+				$error = new JException( E_ERROR, 500, 'Unable to connect to the database:' .$error);
 				return $error;
 				//die('Unable to connect to the database: '.$error);
 			}

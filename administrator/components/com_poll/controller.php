@@ -274,7 +274,7 @@ class PollController extends JController
 		if (count( $cid ) < 1)
 		{
 			$action = $publish ? 'publish' : 'unpublish';
-			JError::raiseError(500, JText::_( 'Select an item to '.$action, true ) );
+			JError::raiseError(500, JText::_( 'Select an item to' .$action, true ) );
 		}
 
 		$cids = implode( ',', $cid );

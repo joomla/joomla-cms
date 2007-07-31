@@ -226,7 +226,7 @@ function changeFrontPage( $cid=null, $state=0, $option )
 
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
-		JError::raiseError(500, JText::_( 'Select an item to '.$action, true ) );
+		JError::raiseError(500, JText::_( 'Select an item to' .$action, true ) );
 	}
 
 	$cids = implode( ',', $cid );

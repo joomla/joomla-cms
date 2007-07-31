@@ -357,7 +357,7 @@ function changeContact( $cid=null, $state=0 )
 
 	if (count( $cid ) < 1) {
 		$action = $state ? 'publish' : 'unpublish';
-		JError::raiseError(500, JText::_( 'Select an item to '.$action, true ) );
+		JError::raiseError(500, JText::_( 'Select an item to' .$action, true ) );
 	}
 
 	$cids = implode( ',', $cid );

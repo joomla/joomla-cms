@@ -427,7 +427,7 @@ class ContentModelArticle extends JModel
 			}
 			return true;
 		}
-		JError::raiseWarning( 'SOME_ERROR_CODE', 'Article Rating:: Invalid Rating: '.$rate, "JModelArticle::storeVote($rate)");
+		JError::raiseWarning( 'SOME_ERROR_CODE', 'Article Rating:: Invalid Rating:' .$rate, "JModelArticle::storeVote($rate)");
 		return false;
 	}
 
