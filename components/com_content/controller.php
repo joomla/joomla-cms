@@ -224,12 +224,12 @@ class ContentController extends JController
 				break;
 
 			case 'apply_new' :
-				$link = JRoute::_('index.php?task=edit&id='.$post['id']);
+				$link = JRoute::_('index.php?task=edit&id='.$post['id'], false);
 				break;
 
 			case 'save' :
 			default :
-				$link = JRoute::_('index.php?view=article&id='.$post['id']);
+				$link = JRoute::_('index.php?view=article&id='.$post['id'], false);
 				break;
 		}
 		$this->setRedirect($link, $msg);

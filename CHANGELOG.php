@@ -45,6 +45,7 @@ Legend:
 31-July-2007 Johan Janssens
  # Fixed [#5430] _parseApplicationRoute() removing too much of route on match
  # Fixed [#6060] libraries/joomla/application/application.php
+ # Fixed [#6177] Redirect to a path contain &amp ; instead & after edit at front end
 
 31-July-2007 Robin Muilwijk
  # Fixed [#6275] incorrect prefix for sample data, changed jos_ to #__
