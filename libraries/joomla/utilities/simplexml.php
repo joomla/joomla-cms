@@ -255,7 +255,7 @@ class JSimpleXML extends JObject
 	 */
 	function _handleError($code, $line, $col)
 	{
-		JError::raiseError( 'SOME_ERROR_CODE' , 'XML Parsing Error at '.$line.':'.$col.'. Error '.$code.': '.xml_error_string($code));
+		JError::raiseWarning( 'SOME_ERROR_CODE' , 'XML Parsing Error at '.$line.':'.$col.'. Error '.$code.': '.xml_error_string($code));
 	}
 
 	/**
