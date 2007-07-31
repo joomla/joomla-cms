@@ -2,6 +2,8 @@
 
 # RC 1 to RC 2
 
+-- 29-July-2007 --
+
 ALTER TABLE `jos_session`
   MODIFY COLUMN `data` LONGTEXT;
 
