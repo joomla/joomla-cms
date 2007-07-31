@@ -34,6 +34,10 @@ function ContentBuildRoute(&$query)
 		$segments[] = $query['month'];
 		unset($query['month']);
 	};
+	
+	if(isset($query['layout'])) {
+		unset($query['layout']);
+	};
 
 	unset($query['view']);
 
@@ -58,7 +62,7 @@ function ContentParseRoute($segments)
 		{
 			if($count == 1) {
 
-				if($item->query['layout'] == 'blog') {
+				if(isset($item->query['layout']) && $item->query['layout'] == 'blog') {
 					$vars['view'] = 'article';
 				} else {
 					$vars['view'] = 'category';

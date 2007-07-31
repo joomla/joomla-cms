@@ -58,6 +58,14 @@ class JApplication extends JObject
 	 * @access protected
 	 */
 	var $_messageQueue = array();
+	
+	/**
+	 * The name of the application
+	 *
+	 * @var		array
+	 * @access	protected
+	 */
+	var $_name = null;
 
 	/**
 	* Class constructor.
@@ -66,7 +74,10 @@ class JApplication extends JObject
 	*/
 	function __construct( $clientId = 0 )
 	{
+		//set the view name
+		$this->_name     = $this->getName();
 		$this->_clientId = $clientId;
+		
 		$this->set( 'requestTime', gmdate('Y-m-d H:i') );
 	}
 
@@ -285,6 +296,32 @@ class JApplication extends JObject
 	{
 		$config =& JFactory::getConfig();
 		return $config->getValue('config.' . $varname);
+	}
+	
+	/**
+	 * Method to get the application name
+	 *
+	 * The dispatcher name by default parsed using the classname, or it can be set
+	 * by passing a $config['name'] in the class constructor
+	 *
+	 * @access	public
+	 * @return	string The name of the dispatcher
+	 * @since	1.5
+	 */
+	function getName()
+	{
+		$name = $this->_name;
+
+		if (empty( $name ))
+		{
+			$r = null;
+			if ( !preg_match( '/J(.*)/i', get_class( $this ), $r ) ) {
+				JError::raiseError(500, "JApplication::getName() : Can\'t get or parse class name.");
+			}
+			$name = strtolower( $r[1] );
+		}
+
+		return $name;
 	}
 
 	/**
@@ -622,7 +659,7 @@ class JApplication extends JObject
 	function &_createRouter()
 	{
 		//Load the pathway object
-		jimport( 'joomla.application.router' );
+		require_once(JPATH_BASE.DS.'includes'.DS.'router.php');
 
 		$options = array();
 
@@ -633,7 +670,8 @@ class JApplication extends JObject
 		}
 
 		// Create a JRouter object
-		$this->_router = JRouter::getInstance($options);
+		$classname = 'JRouter'.ucfirst($this->_name);
+		$this->_router = new $classname($options);
 
 		return $this->_router;
 	}
@@ -643,7 +681,7 @@ class JApplication extends JObject
 	 *
 	 * @access	public
 	 * @return	int A client identifier.
-	 * @since		1.5
+	 * @since	1.5
 	 */
 	function getClientId( )
 	{

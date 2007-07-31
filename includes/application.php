@@ -337,14 +337,17 @@ class JSite extends JApplication
 		$this->_pathway = new JPathWay();
 
 		$menu   =& JMenu::getInstance();
-		$item   = $menu->getActive();
-		$menus	= $menu->getMenu();
-		$home	= $menu->getDefault();
-
-		if( $item->id != $home->id)
+		
+		if($item = $menu->getActive()) 
 		{
-			foreach($item->tree as $menupath) {
-				$this->_pathway->addItem( $menus[$menupath]->name, 'index.php?Itemid='.$menupath);
+			$menus	= $menu->getMenu();
+			$home	= $menu->getDefault();
+
+			if( $item->id != $home->id)
+			{
+				foreach($item->tree as $menupath) {
+					$this->_pathway->addItem( $menus[$menupath]->name, 'index.php?Itemid='.$menupath);
+				}
 			}
 		}
 		return $this->_pathway;
