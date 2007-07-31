@@ -241,7 +241,10 @@ function editUser( )
 	else
 	{
 		$contact 	= NULL;
-		$row->block = 0;
+		// Get the default group id for a new user
+		$config		= &JComponentHelper::getParams( 'com_users' );
+		$newGrp		= $config->get( 'new_usertype' );
+		$user->set( 'gid', $acl->get_group_id( $newGrp, null, 'ARO' ) );
 	}
 
 	$userObjectID 	= $acl->get_object_id( 'users', $user->get('id'), 'ARO' );
