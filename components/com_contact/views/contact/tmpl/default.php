@@ -5,7 +5,7 @@
 </div>
 <?php endif; ?>
 <table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-<?php if ( $this->contact->params->get( 'show_contact_list' ) && count( $this->contacts ) > 1) : ?>
+<?php if ( $this->params->get( 'show_contact_list' ) && count( $this->contacts ) > 1) : ?>
 <tr>
 	<td colspan="2" align="center">
 		<br />

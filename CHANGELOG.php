@@ -41,6 +41,7 @@ Legend:
  ^ Turned down error handling in JSimpleXML to raiseWarning instead of raiseError -
    makes it easier find what happened
  # Altered Media Manager layout to handle the bleed from large folder trees a bit better
+ # Fixed contact selector not displaying in Contact View
 
 31-July-2007 Johan Janssens
  # Fixed [#5430] _parseApplicationRoute() removing too much of route on match

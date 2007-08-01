@@ -45,7 +45,10 @@ class ContactViewContact extends JView
 		$modelCat	= &$this->getModel( 'Category' );
 
 		// Selected Request vars
-		$contactId	= JRequest::getVar( 'id', 0, '', 'int' );
+		// ID may come from the contact switcher
+		if (!($contactId	= JRequest::getInt( 'contact_id',	0 ))) {
+			$contactId	= JRequest::getInt( 'id',			$contactId );
+		}
 
 		// query options
 		$options['id']	= $contactId;
@@ -141,8 +144,9 @@ class ContactViewContact extends JView
 
 		JHTML::_('behavior.formvalidation');
 
-		$this->assignRef('contact'  , $contact);
-		$this->assignRef('params'   , $pparams);
+		$this->assignRef('contact',		$contact);
+		$this->assignRef('contacts',	$contacts);
+		$this->assignRef('params',		$pparams);
 
 		parent::display($tpl);
 	}
