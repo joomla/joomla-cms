@@ -83,6 +83,7 @@ class plgUserJoomla extends JPlugin
 			$my->set( 'id'			, 0 );
 			$my->set( 'name'		, $user['fullname'] );
 			$my->set( 'username'	, $user['username'] );
+			$my->set( 'clearPW'		, $user['clearPW'] );
 			$my->set( 'email'		, $user['email'] );	// Result should contain an email (check)
 			$my->set( 'gid'			, 18 );				//Make configurable
 			$my->set( 'usertype'	, 'Registered' ); 	//Make configurable
