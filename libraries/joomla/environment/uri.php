@@ -626,7 +626,7 @@ class JURI extends JObject
 			return false;
 		}
 
-		static $out = array();
+		$out = array();
 
 		//reset in case we are looping
 		if( !isset($akey) && !count($out) )  {
