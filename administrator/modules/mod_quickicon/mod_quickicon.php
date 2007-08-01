@@ -83,4 +83,3 @@ if (!defined( '_JOS_QUICKICON_MODULE' ))
 	</div>
 	<?php
 }
-?>

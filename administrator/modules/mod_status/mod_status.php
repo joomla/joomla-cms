@@ -83,4 +83,3 @@ if ( $lang->isRTL() ) {
 foreach ($output as $item){
 	echo $item;
 }
- ?>

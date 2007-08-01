@@ -21,4 +21,3 @@ $title = $mainframe->get('JComponentTitle');
 if (!empty($title)) {
 	echo $title;
 }
-?>

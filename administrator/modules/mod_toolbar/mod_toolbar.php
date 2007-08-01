@@ -22,4 +22,3 @@ $bar = & JToolBar::getInstance('toolbar');
 
 // Render the toolbar
 echo $bar->render('toolbar');
-?>

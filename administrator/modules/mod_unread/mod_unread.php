@@ -30,4 +30,3 @@ if ($unread) {
 } else {
 	echo "<a href=\"index.php?option=com_messages\" style=\"color: black; text-decoration: none;\">$unread <img src=\"images/nomail.png\" align=\"middle\" border=\"0\" alt=\"". JText::_( 'Mail' ) ."\" /></a>";
 }
-?>

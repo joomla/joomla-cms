@@ -137,4 +137,3 @@ class JAdminSubMenu
 		return $subMenuList;
 	}
 }
-?>
