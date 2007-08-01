@@ -43,6 +43,8 @@ Legend:
  # Altered Media Manager layout to handle the bleed from large folder trees a bit better
  # Fixed contact selector not displaying in Contact View
  # Removed target=_top from contact us forms - prevents use in iframes
+ # Fixed incorrect $url variable in JHTML::image
+ # Fixed image path issues for category image in weblinks and newsfeeds components
 
 31-July-2007 Johan Janssens
  # Fixed [#5430] _parseApplicationRoute() removing too much of route on match
