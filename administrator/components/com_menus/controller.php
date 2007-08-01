@@ -669,4 +669,3 @@ class MenusController extends JController
 		$mainframe->redirect( 'index.php?option=com_menus', $msg );
 	}
 }
-?>

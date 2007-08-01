@@ -266,4 +266,3 @@ class MenusModelMenutype extends JModel
 		return true;
 	}
 }
-?>

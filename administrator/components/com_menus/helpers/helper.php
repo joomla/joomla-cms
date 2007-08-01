@@ -152,4 +152,3 @@ class MenusHelper
 		return $published;
 	}
 }
-?>

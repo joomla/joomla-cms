@@ -182,4 +182,3 @@ class MenusViewItem extends JView
 		parent::display($tpl);
 	}
 }
-?>

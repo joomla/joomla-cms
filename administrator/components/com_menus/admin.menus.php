@@ -23,4 +23,3 @@ $controller = new MenusController( array('default_task' => 'viewMenus') );
 $controller->registerTask('apply', 'save');
 $controller->execute( JRequest::getCmd( 'task' ) );
 $controller->redirect();
-?>

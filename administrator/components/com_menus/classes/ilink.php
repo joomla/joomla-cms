@@ -390,4 +390,3 @@ class iLinkNode extends JNode
 		$this->msg		= trim($msg);
 	}
 }
-?>

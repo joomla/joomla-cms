@@ -670,4 +670,3 @@ class MenusModelList extends JModel
 		return $return;
 	}
 }
-?>

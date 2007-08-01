@@ -223,7 +223,6 @@ class MenusModelItem extends JModel
 		return $params;
 	}
 
-
 	function &getSystemParams()
 	{
 		// Initialize variables
@@ -707,4 +706,3 @@ class MenusModelItem extends JModel
 		}
 	}
 }
-?>
