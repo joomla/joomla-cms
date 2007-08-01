@@ -107,7 +107,7 @@ class JHTML
 			$attribs = JArrayHelper::toString( $attribs );
 		}
 
-		return '<img src="'.$src.'" alt="'.$alt.'" '.$attribs.' />';
+		return '<img src="'.$url.'" alt="'.$alt.'" '.$attribs.' />';
 
 	}
 
