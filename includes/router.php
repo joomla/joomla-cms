@@ -324,7 +324,7 @@ class JRouterSite extends JRouter
 			$uri->setVar('option', $item->component);
 		}
 
-		$url = $uri->toString(array('query', 'fragment'));
+		$url = 'index.php'.$uri->toString(array('query', 'fragment'));
 
 		/*
 		 * Build routed URL : mysite/route/index.php?var=x
