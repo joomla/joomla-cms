@@ -9,7 +9,7 @@
 <tr>
 	<td colspan="2" align="center">
 		<br />
-		<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="selectForm" target="_top" id="selectForm">
+		<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="selectForm" id="selectForm">
 		<?php echo JText::_( 'Select Contact' ); ?>:
 			<br />
 			<?php echo JHTML::_('select.genericlist',  $this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>

@@ -29,7 +29,7 @@ if ($this->params->get('show_page_title'))
 echo '<div class="contact'.$this->params->get( 'pageclass_sfx' ).'">';
 if ( $this->contact->params->get( 'show_contact_list' ) && count( $this->contacts ) > 1)
 {
-	echo '<form method="post" name="selectForm" target="_top" id="selectForm">';
+	echo '<form method="post" name="selectForm" id="selectForm">';
 	echo JText::_( 'Select Contact' );
 	echo '<br />';
 	echo JHTML::_('select.genericlist',  $this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);

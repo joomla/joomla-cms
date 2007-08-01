@@ -26,7 +26,7 @@ if(isset($this->error))
 
         echo '<p class="error">'. $this->error.'</p>';
 }
-echo '<form action="'.JRoute::_('index.php').'"  class="form-validate" method="post" name="emailForm" target="_top" id="emailForm">';
+echo '<form action="'.JRoute::_('index.php').'"  class="form-validate" method="post" name="emailForm" id="emailForm">';
 echo '<div class="contact_email'.$this->params->get( 'pageclass_sfx' ).'">';
 echo '<label for="contact_name">';
 echo JText::_( 'Enter your name' ).'*:</label>';
