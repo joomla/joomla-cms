@@ -41,9 +41,12 @@ class JRouterSite extends JRouter
 	 *
 	 * @access public
 	 */
-	function parse($url)
+	function parse($uri)
 	{
-		$uri  =& JURI::getInstance($url);
+		if(is_string($uri)) {
+			$uri = JURI::getInstance($uri);
+		}
+		
 		$menu =& JMenu::getInstance(true);
 
 		// Set Local Vars passed in via the URL
@@ -244,7 +247,7 @@ class JRouterSite extends JRouter
 		}
 
 		// Handle component	route
-		$component = $this->_vars['option'];
+		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_vars['option']);
 
 		// Use the component routing handler if it exists
 		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
@@ -370,8 +373,6 @@ class JRouterSite extends JRouter
 		
 		return $url;
 	}
-
-	
 
 	/**
 	* Build the application specific route
