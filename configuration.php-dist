@@ -64,8 +64,6 @@ class JConfig {
 	var $log_path	= '/var/logs';
 
 	/* Locale Settings */
-	var $lang_site = 'en-GB';
-	var $lang_administrator = 'en-GB';
 	var $language = 'en-GB';
 	var $lang = 'english';					// Site language
 	var $offset = '0';
@@ -84,6 +82,7 @@ class JConfig {
 	/* Cache Settings */
 	var $caching = '0';
 	var $cachetime = '900';
+	var $cache_handler = 'file';
 
 	/* Debug Settings */
 	var $debug      = '0';
@@ -96,13 +95,9 @@ class JConfig {
 	var $MetaTitle = '1';
 	var $MetaAuthor = '1';
 
-	/* Statistics Settings */
-	var $enable_stats = '0';
-	var $enable_log_items = '0';
-	var $enable_log_searches = '0';
-
 	/* SEO Settings */
 	var $sef = '0';
+	var $sef_rewrite = '0';
 
 	/* Feed Settings */
 	var $feed_limit   = 10;

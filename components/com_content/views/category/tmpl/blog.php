@@ -35,7 +35,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php else : $i = $this->pagination->limitstart; endif; ?>
-
 <?php if ($this->params->def('num_intro_articles', 4) && ($i < $this->total)) : ?>
 <tr>
 	<td valign="top">
@@ -47,7 +46,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				if ($z > 0) : $divider = " column_separator"; endif; ?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
 				<?php for ($y = 0; $y < $this->params->get('num_intro_articles') / $this->params->get('num_columns'); $y ++) :
-					if ($i < $this->total) :
+				if ($i < $this->total) :
 						$this->item =& $this->getItem($i, $this->params);
 						echo $this->loadTemplate('item');
 						$i ++;

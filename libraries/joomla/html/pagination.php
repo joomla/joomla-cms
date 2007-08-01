@@ -103,7 +103,7 @@ class JPagination extends JObject
 		}
 
 		// If we are viewing all records set the view all flag to true
-		if ($this->limit == $total && $this->limitstart == 0) {
+		if ($this->limit == $total) {
 			$this->_viewall = true;
 		}
 	}
@@ -325,7 +325,7 @@ class JPagination extends JObject
 		$limits[] = JHTML::_('select.option', '0', JText::_('all'));
 
 		$selected = $this->_viewall ? 0 : $this->limit;
-
+		
 		// Build the select list
 		if ($mainframe->isAdmin()) {
 			$html = JHTML::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="submitform();"', 'value', 'text', $selected);
