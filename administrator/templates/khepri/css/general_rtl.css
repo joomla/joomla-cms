@@ -478,11 +478,16 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 .button2-left .page a,
 .button2-right .page a,
 .button2-left .page span,
-.button2-right .page span {
+.button2-right .page span,
+.button2-left .blank a,
+.button2-right .blank a,
+.button2-left .blank span,
+.button2-right .blank span {
 	padding: 0 6px;
 }
 
-.page span {
+.page span,
+.blank span {
 	color: #000;
 	font-weight: bold;
 }
@@ -531,7 +536,8 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	background: url(../images/j_button2_last_off.png) 100% 0 no-repeat;
 }
 
-.button2-left .page {
+.button2-left .page,
+.button2-left .blank {
 	background: url(../images/j_button2_left_cap.png) 0 no-repeat;
 }
 
