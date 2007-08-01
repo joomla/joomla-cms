@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Modifier_Translate extends patTemplate_Modifier
 {
-   /**
+	/**
 	* modify the value
 	*
 	* @access	public

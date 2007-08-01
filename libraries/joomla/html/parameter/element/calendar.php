@@ -25,7 +25,7 @@ defined('_JEXEC') or die();
  */
 class JElementCalendar extends JElement
 {
-   /**
+	/**
 	* Element name
 	* @access	protected
 	* @var		string
@@ -45,4 +45,3 @@ class JElementCalendar extends JElement
 		return JHTML::_('calendar', $value, $name, $id, $format, array('class' => $class));
 	}
 }
-?>

@@ -26,7 +26,7 @@ defined('JPATH_BASE') or die();
  */
 class JDocumentRenderer extends JObject
 {
-   /**
+	/**
 	* reference to the JDocument object that instantiated the renderer
 	*
 	* @var		object
@@ -42,7 +42,7 @@ class JDocumentRenderer extends JObject
 	 */
 	 var $_mime = "text/html";
 
-   /**
+	/**
 	* Class constructor
 	*
 	* @access protected

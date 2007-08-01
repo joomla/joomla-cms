@@ -24,12 +24,12 @@ defined('_JEXEC') or die();
  */
 class JElementBannerclient extends JElement
 {
-   /**
-	* Element name
-	*
-	* @access	protected
-	* @var		string
-	*/
+	/**
+	 * Element name
+	 *
+	 * @access	protected
+	 * @var		string
+	 */
 	var	$_name = 'Bannerclient';
 
 	function fetchElement($name, $value, &$node, $control_name)
@@ -47,4 +47,3 @@ class JElementBannerclient extends JElement
 		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'cid', 'name', $value, $control_name.$name );
 	}
 }
-?>

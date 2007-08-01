@@ -26,7 +26,7 @@ defined('JPATH_BASE') or die();
 
 class JElementRadio extends JElement
 {
-   /**
+	/**
 	* Element name
 	*
 	* @access	protected

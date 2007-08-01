@@ -26,7 +26,7 @@ defined('JPATH_BASE') or die();
 
 class JElementCategory extends JElement
 {
-   /**
+	/**
 	* Element name
 	*
 	* @access	protected

@@ -16,12 +16,12 @@ defined('_JEXEC') or die();
 
 class JElementContact extends JElement
 {
-   /**
-	* Element name
-	*
-	* @access	protected
-	* @var		string
-	*/
+	/**
+	 * Element name
+	 *
+	 * @access	protected
+	 * @var		string
+	 */
 	var	$_name = 'Contact';
 
 	function fetchElement($name, $value, &$node, $control_name)
@@ -40,4 +40,3 @@ class JElementContact extends JElement
 		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'text', $value, $control_name.$name );
 	}
 }
-?>

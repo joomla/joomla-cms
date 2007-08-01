@@ -25,7 +25,7 @@ defined('JPATH_BASE') or die();
  */
 class JDocumentRendererComponent extends JDocumentRenderer
 {
-   /**
+	/**
 	 * Renders a component script and returns the results as a string
 	 *
 	 * @access public

@@ -78,7 +78,7 @@ class JView extends JObject
 	 */
 	var $_layoutExt = 'php';
 
-   /**
+	/**
 	* The set of search directories for resources (templates)
 	*
 	* @var array
@@ -89,7 +89,7 @@ class JView extends JObject
 		'helper' => array()
 	);
 
-   /**
+	/**
 	* The name of the default template source file.
 	*
 	* @var string
@@ -97,7 +97,7 @@ class JView extends JObject
 	*/
 	var $_template = null;
 
-   /**
+	/**
 	* The output of the template script.
 	*
 	* @var string
@@ -161,7 +161,7 @@ class JView extends JObject
 		}
 	}
 
-   /**
+	/**
 	* Execute and display a template script.
 	*
 	* @param string $tpl The name of the template file to parse;
@@ -668,7 +668,7 @@ class JView extends JObject
 		}
 	}
 
-   /**
+	/**
 	* Sets an entire array of search paths for templates or resources.
 	*
 	* @access protected
@@ -702,7 +702,7 @@ class JView extends JObject
 		}
 	}
 
-   /**
+	/**
 	* Adds to the search path for templates and resources.
 	*
 	* @access protected

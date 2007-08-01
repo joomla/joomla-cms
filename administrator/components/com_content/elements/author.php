@@ -25,11 +25,11 @@ defined('_JEXEC') or die();
  */
 class JElementAuthor extends JElement
 {
-   /**
-	* Element name
-	* @access	protected
-	* @var		string
-	*/
+	/**
+	 * Element name
+	 * @access	protected
+	 * @var		string
+	 */
 	var	$_name = 'Author';
 
 	function fetchElement($name, $value, &$node, $control_name)
@@ -37,4 +37,3 @@ class JElementAuthor extends JElement
 		return JHTML::_('list.users', $control_name.'['.$name.']', $value);
 	}
 }
-?>

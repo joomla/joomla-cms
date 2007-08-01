@@ -670,7 +670,7 @@ class JController extends JObject
 		return $result;
 	}
 
-   /**
+	/**
 	* Sets an entire array of search paths for resources.
 	*
 	* @access	protected
@@ -687,7 +687,7 @@ class JController extends JObject
 		$this->_addPath( $type, $path );
 	}
 
-   /**
+	/**
 	* Adds to the search path for templates and resources.
 	*
 	* @access	protected

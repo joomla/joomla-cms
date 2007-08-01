@@ -25,7 +25,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 class JHTMLMenu
 {
-   /**
+	/**
 	* Build the select list for Menu Ordering
 	*/
 	function ordering( &$row, $id )
@@ -152,5 +152,3 @@ class JHTMLMenu
 		return $list;
 	}
 }
-
-?>

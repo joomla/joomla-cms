@@ -199,7 +199,7 @@ class JError
 		return $reference;
 	}
 
-   /**
+	/**
 	* Method to get the current error handler settings for a specified error level.
 	*
 	* @static
@@ -281,7 +281,7 @@ class JError
 		return true;
 	}
 
-   /**
+	/**
 	* Method to register a new error level for handling errors
 	*
 	* This allows you to add custom error levels to the built-in
@@ -306,7 +306,7 @@ class JError
 		return true;
 	}
 
-   /**
+	/**
 	* Translate an error level integer to a human readable string
 	* e.g. E_ERROR will be translated to 'Error'
 	*
@@ -593,74 +593,74 @@ class JError
  */
 class JException extends JObject
 {
-   /**
+	/**
 	* Error level
 	* @var string
 	*/
 	var	$level		= null;
 
-   /**
+	/**
 	* Error code
 	* @var string
 	*/
 	var	$code		= null;
 
-   /**
+	/**
 	* Error message
 	* @var string
 	*/
 	var	$message	= null;
 
-   /**
+	/**
 	* Additional info about the error relevant to the developer
 	*  - e.g. if a database connect fails, the dsn used
 	* @var string
 	*/
 	var	$info		= '';
 
-   /**
+	/**
 	* Name of the file the error occurred in [Available if backtrace is enabled]
 	* @var string
 	*/
 	var	$file		= null;
 
-   /**
+	/**
 	* Line number the error occurred in [Available if backtrace is enabled]
 	* @var int
 	*/
 	var	$line		= 0;
 
-   /**
+	/**
 	* Name of the method the error occurred in [Available if backtrace is enabled]
 	* @var string
 	*/
 	var	$function	= null;
 
-   /**
+	/**
 	* Name of the class the error occurred in [Available if backtrace is enabled]
 	* @var string
 	*/
 	var	$class		= null;
 
-   /**
+	/**
     * Error type
 	* @var string
 	*/
 	var	$type		= null;
 
-   /**
+	/**
 	* Arguments recieved by the method the error occurred in [Available if backtrace is enabled]
 	* @var array
 	*/
 	var	$args		= array();
 
-   /**
+	/**
 	* Backtrace information
 	* @var mixed
 	*/
 	var	$backtrace	= false;
 
-   /**
+	/**
 	* Constructor
 	* 	- used to set up the error with all needed error details.
 	*
@@ -706,7 +706,7 @@ class JException extends JObject
 		}
     }
 
-   /**
+	/**
 	* Method to get the backtrace information for an exception object
 	*
 	* @access	public

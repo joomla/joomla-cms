@@ -29,7 +29,7 @@ defined('JPATH_BASE') or die();
 
 class JElement extends JObject
 {
-   /**
+	/**
 	* element name
 	*
 	* This has to be set in the final
@@ -40,7 +40,7 @@ class JElement extends JObject
 	*/
 	var	$_name = null;
 
-   /**
+	/**
 	* reference to the object that instantiated the element
 	*
 	* @access	protected
@@ -57,7 +57,7 @@ class JElement extends JObject
 		$this->_parent = $parent;
 	}
 
-   /**
+	/**
 	* get the element name
 	*
 	* @access	public

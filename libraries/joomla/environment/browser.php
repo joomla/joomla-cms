@@ -244,7 +244,7 @@ class JBrowser extends JObject
 		return $instances[$signature];
 	}
 
-   /**
+	/**
 	 * Parses the user agent string and inititializes the object with
 	 * all the known features and quirks for the given browser.
 	 *

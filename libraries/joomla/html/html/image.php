@@ -25,7 +25,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 class JHTMLImage
 {
-   /**
+	/**
 	* Checks to see if an image exists in the current templates image directory
  	* if it does it loads this image.  Otherwise the default image is loaded.
 	* Also can be used in conjunction with the menulist param to create the chosen image

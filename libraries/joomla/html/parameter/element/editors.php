@@ -26,7 +26,7 @@ defined('JPATH_BASE') or die();
 
 class JElementEditors extends JElement
 {
-   /**
+	/**
 	* Element name
 	*
 	* @access	protected

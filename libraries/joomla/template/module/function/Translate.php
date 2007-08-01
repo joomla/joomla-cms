@@ -24,14 +24,14 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Function_Translate extends patTemplate_Function
 {
-   /**
+	/**
 	* name of the function
 	* @access	private
 	* @var		string
 	*/
 	var $_name	=	'Translate';
 
-   /**
+	/**
 	* call the function
 	*
 	* @access	public

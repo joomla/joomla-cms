@@ -26,7 +26,7 @@ defined('JPATH_BASE') or die();
 
 class JElementHidden extends JElement
 {
-   /**
+	/**
 	* Element name
 	*
 	* @access	protected
@@ -40,7 +40,7 @@ class JElementHidden extends JElement
 
 		return '<input type="hidden" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' />';
 	}
-	
+
 	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
 	{
 		return false;

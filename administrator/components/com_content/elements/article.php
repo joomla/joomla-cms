@@ -16,12 +16,12 @@ defined('_JEXEC') or die();
 
 class JElementArticle extends JElement
 {
-   /**
-	* Element name
-	*
-	* @access	protected
-	* @var		string
-	*/
+	/**
+	 * Element name
+	 *
+	 * @access	protected
+	 * @var		string
+	 */
 	var	$_name = 'Article';
 
 	function fetchElement($name, $value, &$node, $control_name)
@@ -59,4 +59,3 @@ class JElementArticle extends JElement
 		return $html;
 	}
 }
-?>

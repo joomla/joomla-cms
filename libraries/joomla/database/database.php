@@ -500,7 +500,7 @@ class JDatabase extends JObject
 		return;
 	}
 
-   /**
+	/**
 	* Execute a batch query
 	*
 	* @abstract

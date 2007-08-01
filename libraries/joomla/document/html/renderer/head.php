@@ -25,7 +25,7 @@ defined('JPATH_BASE') or die();
  */
 class JDocumentRendererHead extends JDocumentRenderer
 {
-   /**
+	/**
 	 * Renders the document head and returns the results as a string
 	 *
 	 * @access public

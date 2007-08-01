@@ -142,7 +142,7 @@ class JTemplate extends patTemplate
 		return $result;
 	}
 
-   /**
+	/**
 	* enable a template cache
 	*
 	* A template cache will improve performace, as the templates

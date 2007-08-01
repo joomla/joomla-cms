@@ -47,7 +47,7 @@ class JAdministrator extends JApplication
 		parent::__construct($config);
 	}
 
-   /**
+	/**
 	* Initialise the application.
 	*
 	* @access public
@@ -299,5 +299,3 @@ class JAdministrator extends JApplication
 		}
 	}
 }
-
-?>

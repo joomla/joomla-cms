@@ -25,7 +25,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 class JHTMLList
 {
-   /**
+	/**
 	* Build the select list for access level
 	*/
 	function accesslevel( &$row )
@@ -43,7 +43,7 @@ class JHTMLList
 		return $access;
 	}
 
-   /**
+	/**
 	* Build the select list to choose an image
 	*/
 	function images( $name, $active = NULL, $javascript = NULL, $directory = NULL )
@@ -106,7 +106,7 @@ class JHTMLList
 		return $order;
 	}
 
-   /**
+	/**
 	* Build the select list for Ordering of a specified Table
 	*/
 	function specificordering( &$row, $id, $query, $neworder = 0 )
@@ -127,7 +127,7 @@ class JHTMLList
 		return $ordering;
 	}
 
-   /**
+	/**
 	* Select list of active users
 	*/
 	function users( $name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1 )
@@ -159,7 +159,7 @@ class JHTMLList
 		return $users;
 	}
 
-   /**
+	/**
 	* Select list of positions - generally used for location of images
 	*/
 	function positions( $name, $active = NULL, $javascript = NULL, $none = 1, $center = 1, $left = 1, $right = 1, $id = false )
@@ -182,7 +182,7 @@ class JHTMLList
 		return $positions;
 	}
 
-   /**
+	/**
 	* Select list of active categories for components
 	*/
 	function category( $name, $section, $active = NULL, $javascript = NULL, $order = 'ordering', $size = 1, $sel_cat = 1 )
@@ -207,7 +207,7 @@ class JHTMLList
 		return $category;
 	}
 
-   /**
+	/**
 	* Select list of active sections
 	*/
 	function section( $name, $active = NULL, $javascript = NULL, $order = 'ordering' )
@@ -229,5 +229,3 @@ class JHTMLList
 		return $category;
 	}
 }
-
-?>

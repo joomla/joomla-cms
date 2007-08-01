@@ -171,7 +171,7 @@ class JSite extends JApplication
 		JResponse::setBody($data);
 	}
 
-   /**
+	/**
 	* Check if the user can access the application
 	*
 	* @access public
@@ -339,8 +339,8 @@ class JSite extends JApplication
 		$this->_pathway = new JPathWay();
 
 		$menu   =& JMenu::getInstance();
-		
-		if($item = $menu->getActive()) 
+
+		if($item = $menu->getActive())
 		{
 			$menus	= $menu->getMenu();
 			$home	= $menu->getDefault();
@@ -355,4 +355,3 @@ class JSite extends JApplication
 		return $this->_pathway;
 	}
 }
-?>

@@ -570,7 +570,7 @@ class UniversalFeedCreator extends FeedCreator {
 	}
 
 
-   /**
+	/**
 	* Turns on caching and checks if there is a recent version of this feed in the cache.
 	* If there is, an HTTP redirect header is sent.
 	* To effectively use caching, you should create the FeedCreator object and call this method
@@ -588,7 +588,7 @@ class UniversalFeedCreator extends FeedCreator {
    }
 
 
-   /**
+	/**
 	* Outputs feed to the browser - needed for on-the-fly feed generation (like it is done in WordPress, etc.)
 	*
 	* @param	format	string	format the feed should comply to. Valid values are:
@@ -1881,4 +1881,3 @@ echo $rss->saveFeed("RSS0.91", "feed.xml");
 
 
 ***************************************************************************/
-?>

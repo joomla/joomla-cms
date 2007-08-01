@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Modifier_SEF extends patTemplate_Modifier
 {
-   /**
+	/**
 	* modify the value
 	*
 	* @access	public

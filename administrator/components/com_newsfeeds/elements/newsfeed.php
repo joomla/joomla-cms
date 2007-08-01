@@ -24,12 +24,12 @@ defined('_JEXEC') or die();
 
 class JElementNewsfeed extends JElement
 {
-   /**
-	* Element name
-	*
-	* @access	protected
-	* @var		string
-	*/
+	/**
+	 * Element name
+	 *
+	 * @access	protected
+	 * @var		string
+	 */
 	var	$_name = 'Newsfeed';
 
 	function fetchElement($name, $value, &$node, $control_name)

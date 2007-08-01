@@ -26,7 +26,7 @@ defined('JPATH_BASE') or die();
 
 class JElementList extends JElement
 {
-   /**
+	/**
 	* Element type
 	*
 	* @access	protected

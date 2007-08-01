@@ -57,7 +57,7 @@ class JSession extends JObject
 	 */
 	var	$_store	=	null;
 
-   /**
+	/**
 	* security policy
 	*
 	* Default values:
@@ -248,7 +248,7 @@ class JSession extends JObject
 		return $names;
 	}
 
-   /**
+	/**
 	* Check whether this session is currently created
 	*
 	* @access public
@@ -423,7 +423,7 @@ class JSession extends JObject
 		return true;
 	}
 
-   /**
+	/**
     * restart an expired or locked session
 	*
 	* @access public
@@ -566,7 +566,7 @@ class JSession extends JObject
 		return true;
 	}
 
-   /**
+	/**
 	* Set the session timers
 	*
 	* @access protected
