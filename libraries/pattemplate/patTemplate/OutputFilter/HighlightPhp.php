@@ -27,7 +27,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_OutputFilter_HighlightPhp extends patTemplate_OutputFilter
 {
-   /**
+	/**
 	* filter name
 	*
 	* @access	protected
@@ -36,7 +36,7 @@ class patTemplate_OutputFilter_HighlightPhp extends patTemplate_OutputFilter
 	*/
 	var	$_name	=	'HighlightPhp';
 
-   /**
+	/**
 	* remove all whitespace from the output
 	*
 	* @access	public

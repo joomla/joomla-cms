@@ -32,7 +32,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Compiler extends patTemplate
 {
-   /**
+	/**
 	* list of all templates that already have been compiled
 	*
 	* @access	private
@@ -40,7 +40,7 @@ class patTemplate_Compiler extends patTemplate
 	*/
 	var $_compiledTemplates = array();
 
-   /**
+	/**
 	* file pointer to the compiled template
 	*
 	* @access	private
@@ -48,7 +48,7 @@ class patTemplate_Compiler extends patTemplate
 	*/
 	var $_fp;
 
-   /**
+	/**
 	* constructor
 	*
 	* Creates a new patTemplate Compiler
@@ -62,7 +62,7 @@ class patTemplate_Compiler extends patTemplate
 		patTemplate::patTemplate( $type );
 	}
 
-   /**
+	/**
 	* compile the currently loaded templates
 	*
 	* @access	public
@@ -98,7 +98,7 @@ class patTemplate_Compiler extends patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* compile a template
 	*
 	* @access	public
@@ -231,7 +231,7 @@ class patTemplate_Compiler extends patTemplate
 		array_push( $this->_compiledTemplates, $template );
 	}
 
-   /**
+	/**
 	* compile a standard template
 	*
 	* @access	private
@@ -244,7 +244,7 @@ class patTemplate_Compiler extends patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* compile a modulo template
 	*
 	* A modulo template will be compiled into a switch/case
@@ -278,7 +278,7 @@ class patTemplate_Compiler extends patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* compile a simpleCondition template
 	*
 	* A simpleCondition template will be compiled into an 'if'
@@ -306,7 +306,7 @@ class patTemplate_Compiler extends patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* compile a condition template
 	*
 	* A condition template will be compiled into an 'switch/case'
@@ -348,7 +348,7 @@ class patTemplate_Compiler extends patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* compile built-in conditions
 	*
 	* This will create the neccessary PHP code for:
@@ -381,7 +381,7 @@ class patTemplate_Compiler extends patTemplate
 		}
 	}
 
-   /**
+	/**
 	* build PHP code from a template
 	*
 	* This will replace the variables in a template with
@@ -401,7 +401,7 @@ class patTemplate_Compiler extends patTemplate
 	}
 
 
-   /**
+	/**
 	* display the compiled template
 	*
 	* This is a replacement for patTemplate::displayParsedTemplate.
@@ -424,7 +424,7 @@ class patTemplate_Compiler extends patTemplate
 		compiledTemplate::$name();
 	}
 
-   /**
+	/**
 	* add a line to the compiled code
 	*
 	* @access	public
@@ -446,7 +446,7 @@ class patTemplate_Compiler extends patTemplate
 		fputs( $this->_fp, $line."\n" );
 	}
 
-   /**
+	/**
 	* function, used by the compiler to get a value of a variable
 	*
 	* Checks, whether the value is locally or globally set
@@ -468,7 +468,7 @@ class patTemplate_Compiler extends patTemplate
 		return '';
 	}
 
-   /**
+	/**
 	* prepare a template for the compiler
 	*
 	* @access	private

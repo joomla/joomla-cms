@@ -21,7 +21,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Reader_String extends patTemplate_Reader
 {
-   /**
+	/**
 	* Read templates from a string
 	*
 	* @final

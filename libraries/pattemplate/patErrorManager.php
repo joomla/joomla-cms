@@ -80,7 +80,7 @@ $GLOBALS['_pat_errorExpects']	=	array();
  */
 class patErrorManager
 {
-   /**
+	/**
 	* method for checking whether the return value of a pat application method is a pat
 	* error object.
 	*
@@ -106,7 +106,7 @@ class patErrorManager
         return  true;
     }
 
-   /**
+	/**
 	* wrapper for the {@link raise()} method where you do not have to specify the
 	* error level - a {@link patError} object with error level E_ERROR will be returned.
 	*
@@ -124,7 +124,7 @@ class patErrorManager
 		return patErrorManager::raise( E_ERROR, $code, $msg, $info );
 	}
 
-   /**
+	/**
 	* wrapper for the {@link raise()} method where you do not have to specify the
 	* error level - a {@link patError} object with error level E_WARNING will be returned.
 	*
@@ -142,7 +142,7 @@ class patErrorManager
 		return patErrorManager::raise( E_WARNING, $code, $msg, $info );
 	}
 
-   /**
+	/**
 	* wrapper for the {@link raise()} method where you do not have to specify the
 	* error level - a {@link patError} object with error level E_NOTICE will be returned.
 	*
@@ -160,7 +160,7 @@ class patErrorManager
 		return patErrorManager::raise( E_NOTICE, $code, $msg, $info );
 	}
 
-   /**
+	/**
 	* creates a new patError object given the specified information.
 	*
 	* @access	public
@@ -218,7 +218,7 @@ class patErrorManager
 		}
     }
 
-   /**
+	/**
 	* register a new error level
 	*
 	* This allows you to add custom error levels to the built-in
@@ -251,7 +251,7 @@ class patErrorManager
 		return	true;
 	}
 
-   /**
+	/**
 	* sets the way the patErrorManager will handle teh different error levels. Use this
 	* if you want to override the default settings.
 	*
@@ -342,7 +342,7 @@ class patErrorManager
         return  true;
     }
 
-   /**
+	/**
 	* retrieves the current error handling settings for the specified error level.
 	*
 	* @access	public
@@ -354,7 +354,7 @@ class patErrorManager
 		return $GLOBALS['_pat_errorHandling'][$level];
     }
 
-   /**
+	/**
 	* translate an error level
 	*
 	* returns the human-readable name for an error level,
@@ -373,7 +373,7 @@ class patErrorManager
 		return	'Unknown error level';
 	}
 
-   /**
+	/**
 	* setErrorClass
 	*
 	* In order to autoload this class, the filename containing that class must be
@@ -396,7 +396,7 @@ class patErrorManager
 		return true;
     }
 
-   /**
+	/**
 	* add error codes to be ingored
 	*
 	* @static
@@ -417,7 +417,7 @@ class patErrorManager
 		return true;
     }
 
-   /**
+	/**
 	* removeIgnore
 	*
 	*
@@ -449,7 +449,7 @@ class patErrorManager
 		return true;
     }
 
-   /**
+	/**
 	* recieve all registerd error codes that will be ignored
 	*
 	* @static
@@ -461,7 +461,7 @@ class patErrorManager
 		return $GLOBALS['_pat_errorIgnores'];
     }
 
-   /**
+	/**
 	* empty list of errors to be ignored
 	*
 	* @static
@@ -474,7 +474,7 @@ class patErrorManager
 		return true;
     }
 
-   /**
+	/**
 	* add expected errors to stack
 	*
 	* @static
@@ -494,7 +494,7 @@ class patErrorManager
 		return true;
     }
 
-   /**
+	/**
 	* remove top of error-codes from stack
 	*
 	* @static
@@ -512,7 +512,7 @@ class patErrorManager
 		return true;
     }
 
-   /**
+	/**
 	* recieve all registerd error codes that will be ignored
 	*
 	* @static
@@ -524,7 +524,7 @@ class patErrorManager
 		return $GLOBALS['_pat_errorExpects'];
     }
 
-   /**
+	/**
 	* empty list of errors to be ignored
 	*
 	* @static
@@ -537,7 +537,7 @@ class patErrorManager
 		return true;
     }
 
-   /**
+	/**
 	* handleError: Ignore
 	* Does nothing
 	*
@@ -552,7 +552,7 @@ class patErrorManager
 		return $error;
     }
 
-   /**
+	/**
 	* handleError: Echo
 	* display error message
 	*
@@ -586,7 +586,7 @@ class patErrorManager
 		return $error;
     }
 
-   /**
+	/**
 	* handleError: Verbose
 	* display verbose output for developing purpose
 	*
@@ -624,7 +624,7 @@ class patErrorManager
 		return $error;
     }
 
-   /**
+	/**
 	* handleError: die
 	* display error-message and die
 	*
@@ -658,7 +658,7 @@ class patErrorManager
 		return $error;
     }
 
-   /**
+	/**
 	* handleError: trigger
 	* trigger php-error
 	*
@@ -690,7 +690,7 @@ class patErrorManager
 		return $error;
     }
 
-   /**
+	/**
 	* handleError: callback
 	* forward error to custom handler
 	*

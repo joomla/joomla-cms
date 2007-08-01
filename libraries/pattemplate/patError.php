@@ -26,7 +26,7 @@
  */
 class patError
 {
-   /**
+	/**
 	* stores the error level for this error
 	*
 	* @access	private
@@ -34,7 +34,7 @@ class patError
 	*/
 	var	$level  =   null;
 
-   /**
+	/**
 	* stores the code of the error
 	*
 	* @access	private
@@ -42,7 +42,7 @@ class patError
 	*/
 	var	$code  =   null;
 
-   /**
+	/**
 	* stores the error message - this is the message that can also be shown the
 	* user if need be.
 	*
@@ -51,7 +51,7 @@ class patError
 	*/
 	var	$message  =   null;
 
-   /**
+	/**
 	* additional info that is relevant for the developer of the script (e.g. if
 	* a database connect fails, the dsn used) and that the end-user should not
 	* see.
@@ -61,7 +61,7 @@ class patError
 	*/
 	var	$info  =   '';
 
-   /**
+	/**
 	* stores the filename of the file the error occurred in.
 	*
 	* @access	private
@@ -69,7 +69,7 @@ class patError
 	*/
 	var	$file  =   '';
 
-   /**
+	/**
 	* stores the line number the error occurred in.
 	*
 	* @access	private
@@ -77,7 +77,7 @@ class patError
 	*/
 	var	$line  =   0;
 
-   /**
+	/**
 	* stores the name of the method the error occurred in
 	*
 	* @access	private
@@ -85,7 +85,7 @@ class patError
 	*/
 	var	$function  =   '';
 
-   /**
+	/**
 	* stores the name of the class (if any) the error occurred in.
 	*
 	* @access	private
@@ -93,7 +93,7 @@ class patError
 	*/
 	var	$class  =   '';
 
-   /**
+	/**
 	* stores the type of error, as it is listed in the error backtrace
 	*
 	* @access	private
@@ -101,7 +101,7 @@ class patError
 	*/
 	var	$type  =   '';
 
-   /**
+	/**
 	* stores the arguments the method that the error occurred in had received.
 	*
 	* @access	private
@@ -109,7 +109,7 @@ class patError
 	*/
 	var	$args  =   array();
 
-   /**
+	/**
 	* stores the complete debug backtrace (if your PHP version has the
 	* debug_backtrace function)
 	*
@@ -118,7 +118,7 @@ class patError
 	*/
 	var	$backtrace  =   false;
 
-   /**
+	/**
 	* constructor, wrapper for the upcoming PHP5 constructors for upward
 	* compatibility.
 	*
@@ -134,7 +134,7 @@ class patError
 		$this->__construct( $level, $code, $msg, $info );
     }
 
-   /**
+	/**
 	* constructor - used to set up the error with all needed error details.
 	*
 	* @access	public
@@ -192,7 +192,7 @@ class patError
 		}
     }
 
-   /**
+	/**
 	* returns the error level of the error - corresponds to the PHP
 	* error levels (E_ALL, E_NOTICE...)
 	*
@@ -206,7 +206,7 @@ class patError
     }
 
 
-   /**
+	/**
 	* retrieves the error message
 	*
 	* @access	public
@@ -218,7 +218,7 @@ class patError
 		return $this->message;
     }
 
-   /**
+	/**
 	* retrieves the additional error information (information usually
 	* only relevant for developers)
 	*
@@ -231,7 +231,7 @@ class patError
 		return $this->info;
     }
 
-   /**
+	/**
 	* recieve error code
 	*
 	* @access	public
@@ -243,7 +243,7 @@ class patError
 		return $this->code;
     }
 
-   /**
+	/**
 	* get the backtrace
 	*
 	* This is only possible, if debug_backtrace() is available.
@@ -266,7 +266,7 @@ class patError
 		return $this->backtrace;
     }
 
-   /**
+	/**
 	* get the filename in which the error occured
 	*
 	* This is only possible, if debug_backtrace() is available.
@@ -280,7 +280,7 @@ class patError
 		return $this->file;
     }
 
-   /**
+	/**
 	* get the line number in which the error occured
 	*
 	* This is only possible, if debug_backtrace() is available.

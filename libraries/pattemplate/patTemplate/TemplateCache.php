@@ -42,7 +42,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_TemplateCache extends patTemplate_Module
 {
-   /**
+	/**
 	* load template from cache
 	*
 	* @access	public
@@ -55,7 +55,7 @@ class patTemplate_TemplateCache extends patTemplate_Module
 		return false;
 	}
 
-   /**
+	/**
 	* write template to cache
 	*
 	* @access	public
@@ -67,7 +67,7 @@ class patTemplate_TemplateCache extends patTemplate_Module
 		return true;
 	}
 
-   /**
+	/**
 	* get the cache key for the input
 	*
 	* @param	mixed	input to read from.

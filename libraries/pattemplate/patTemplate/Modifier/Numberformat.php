@@ -37,7 +37,7 @@ class patTemplate_Modifier_Numberformat extends patTemplate_Modifier
                         'point'     => '.',
                         'separator' => ','
                     );
-   /**
+	/**
 	* modify the value
 	*
 	* @access	public

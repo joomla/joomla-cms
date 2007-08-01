@@ -32,7 +32,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Stat extends patTemplate_Module
 {
-   /**
+	/**
 	* options, are identical to those of the corresponding reader
 	*
 	* @access	private
@@ -40,7 +40,7 @@ class patTemplate_Stat extends patTemplate_Module
 	*/
 	var $_options = array();
 
-   /**
+	/**
 	* get the modification time of a template
 	*
 	* Needed, if a template cache should be used, that auto-expires
@@ -56,7 +56,7 @@ class patTemplate_Stat extends patTemplate_Module
 		return	-1;
 	}
 
-   /**
+	/**
 	* set options
 	*
 	* @access	public

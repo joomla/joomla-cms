@@ -36,7 +36,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 
 	var $_useBorders	=	false;
 
-   /**
+	/**
 	* display the header
 	*
 	* @access	public
@@ -216,7 +216,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		echo ' <h1 class="patTemplate">patTemplate Dump</h1>';
 	}
 
-   /**
+	/**
 	* dump the global variables
 	*
 	* @access	public
@@ -238,7 +238,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		}
 	}
 
-   /**
+	/**
 	* dump the templates
 	*
 	* @access	public
@@ -443,7 +443,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		}
 	}
 
-   /**
+	/**
 	* display the attributes of a template
 	*
 	* @access   private
@@ -542,7 +542,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 			echo '		  </table>';
 	}
 
-   /**
+	/**
 	* hilight variables in a template
 	*
 	* @access	private
@@ -573,7 +573,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		return $template;
 	}
 
-   /**
+	/**
 	* display a table header
 	*
 	* @access	private
@@ -600,7 +600,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		return $class .= 'Border';
 	}
 
-   /**
+	/**
 	* sets whether to draw borders in the tables generated via the
 	* {@link _displayHead()} and {@link _displayLine()} methods.
 	*
@@ -612,7 +612,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		$this->_useBorders = $state;
 	}
 
-   /**
+	/**
 	* display a line in a table
 	*
 	* @access	private
@@ -643,7 +643,7 @@ class patTemplate_Dump_Html extends patTemplate_Dump
 		echo '  </tr>';
 	}
 
-   /**
+	/**
 	* display the footer
 	*
 	* @access	public

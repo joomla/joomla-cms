@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_OutputFilter_PdfLatex extends patTemplate_OutputFilter
 {
-   /**
+	/**
 	* filter name
 	*
 	* This has to be set in the final
@@ -37,7 +37,7 @@ class patTemplate_OutputFilter_PdfLatex extends patTemplate_OutputFilter
 						   'cacheFolder' => './'
 					   );
 
-   /**
+	/**
 	* tidy the data
 	*
 	* @access	public

@@ -31,7 +31,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Stat_File extends patTemplate_Stat
 {
-   /**
+	/**
 	* get the modification time of a template
 	*
 	* Needed, if a template cache should be used, that auto-expires

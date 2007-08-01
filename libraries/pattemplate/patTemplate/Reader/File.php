@@ -23,14 +23,14 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Reader_File extends patTemplate_Reader
 {
-   /**
+	/**
 	* reader name
 	* @access	private
 	* @var		string
 	*/
 	var	$_name	=	'File';
 
-   /**
+	/**
 	* flag to indicate, that current file is remote
 	*
 	* @access	private
@@ -38,7 +38,7 @@ class patTemplate_Reader_File extends patTemplate_Reader
 	*/
 	var $_isRemote = false;
 
-   /**
+	/**
 	* all files, that have been opened
 	*
 	* @access	private
@@ -46,7 +46,7 @@ class patTemplate_Reader_File extends patTemplate_Reader
 	*/
 	var $_files = array();
 
-   /**
+	/**
 	* read templates from any input
 	*
 	* @final
@@ -81,7 +81,7 @@ class patTemplate_Reader_File extends patTemplate_Reader
 		return	$templates;
 	}
 
-   /**
+	/**
 	* load template from any input
 	*
 	* If the a template is loaded, the content will not get
@@ -105,7 +105,7 @@ class patTemplate_Reader_File extends patTemplate_Reader
 		return $this->_getFileContents( $fullPath );
 	}
 
-   /**
+	/**
 	* resolve path for a template
 	*
 	* @access	private
@@ -141,7 +141,7 @@ class patTemplate_Reader_File extends patTemplate_Reader
 									);
 	}
 
-   /**
+	/**
 	* get the contents of a file
 	*
 	* @access	private

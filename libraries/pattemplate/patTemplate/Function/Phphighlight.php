@@ -23,14 +23,14 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Function_Phphighlight extends patTemplate_Function
 {
-   /**
+	/**
 	* name of the function
 	* @access	private
 	* @var		string
 	*/
 	var $_name	=	'Phphighlight';
 
-   /**
+	/**
 	* call the function
 	*
 	* @access	public

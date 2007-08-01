@@ -33,14 +33,14 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Function_Globalvar extends patTemplate_Function
 {
-   /**
+	/**
 	* name of the function
 	* @access	private
 	* @var		string
 	*/
 	var $_name	=	'Globalvar';
 
-   /**
+	/**
 	* reference to the patTemplate object that instantiated the module
 	*
 	* @access	protected
@@ -48,7 +48,7 @@ class patTemplate_Function_Globalvar extends patTemplate_Function
 	*/
 	var	$_tmpl;
 
-   /**
+	/**
 	* set a reference to the patTemplate object that instantiated the reader
 	*
 	* @access	public
@@ -59,7 +59,7 @@ class patTemplate_Function_Globalvar extends patTemplate_Function
 		$this->_tmpl		=	&$tmpl;
 	}
 
-   /**
+	/**
 	* call the function
 	*
 	* @access	public

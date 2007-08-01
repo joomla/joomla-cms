@@ -36,14 +36,14 @@ define( 'PATTEMPLATE_FUNCTION_CALL_ERROR_NO_TEMPLATE', 'patTemplate::Function::C
  */
 class patTemplate_Function_Call extends patTemplate_Function
 {
-   /**
+	/**
 	* name of the function
 	* @access	private
 	* @var		string
 	*/
 	var $_name	=	'Call';
 
-   /**
+	/**
 	* reference to the patTemplate object that instantiated the module
 	*
 	* @access	protected
@@ -51,7 +51,7 @@ class patTemplate_Function_Call extends patTemplate_Function
 	*/
 	var	$_tmpl;
 
-   /**
+	/**
 	* set a reference to the patTemplate object that instantiated the reader
 	*
 	* @access	public
@@ -62,7 +62,7 @@ class patTemplate_Function_Call extends patTemplate_Function
 		$this->_tmpl = &$tmpl;
 	}
 
-   /**
+	/**
 	* call the function
 	*
 	* @access	public

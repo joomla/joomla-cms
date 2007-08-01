@@ -27,14 +27,14 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Function_Alias extends patTemplate_Function
 {
-   /**
+	/**
 	* name of the function
 	* @access	private
 	* @var		string
 	*/
 	var $_name	=	'Alias';
 
-   /**
+	/**
 	* call the function
 	*
 	* @access	public

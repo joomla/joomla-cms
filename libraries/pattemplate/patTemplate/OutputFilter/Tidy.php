@@ -34,7 +34,7 @@ define( 'PATTEMPLATE_OUTPUTFILTER_TIDY_ERROR_NOT_SUPPORTED', 'patTemplate::Outpu
  */
 class patTemplate_OutputFilter_Tidy extends patTemplate_OutputFilter
 {
-   /**
+	/***
 	* filter name
 	*
 	* This has to be set in the final
@@ -44,7 +44,7 @@ class patTemplate_OutputFilter_Tidy extends patTemplate_OutputFilter
 	*/
 	var	$_name = 'Tidy';
 
-   /**
+	/***
 	* tidy the data
 	*
 	* @access	public

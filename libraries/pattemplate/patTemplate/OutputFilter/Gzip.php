@@ -29,7 +29,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_OutputFilter_Gzip extends patTemplate_OutputFilter
 {
-   /**
+	/**
 	* filter name
 	*
 	* This has to be set in the final
@@ -41,7 +41,7 @@ class patTemplate_OutputFilter_Gzip extends patTemplate_OutputFilter
 	*/
 	var	$_name	=	'Gzip';
 
-   /**
+	/**
 	* compress the data
 	*
 	* @access	public
@@ -68,7 +68,7 @@ class patTemplate_OutputFilter_Gzip extends patTemplate_OutputFilter
 		return $data;
 	}
 
-   /**
+	/**
 	* check, whether client supports compressed data
 	*
 	* @access	private
@@ -86,7 +86,7 @@ class patTemplate_OutputFilter_Gzip extends patTemplate_OutputFilter
 		return  false;
 	}
 
-   /**
+	/**
 	* get value as hex-string
 	*
 	* @access      public

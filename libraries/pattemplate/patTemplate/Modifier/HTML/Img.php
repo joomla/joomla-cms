@@ -27,7 +27,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Modifier_HTML_Img extends patTemplate_Modifier
 {
-   /**
+	/**
 	* modify the value
 	*
 	* @access	public
@@ -43,7 +43,7 @@ class patTemplate_Modifier_HTML_Img extends patTemplate_Modifier
 		return '<img'.$this->arrayToAttributes($params).' />';
 	}
 
-   /**
+	/**
 	* create an attribute list
 	*
 	* @access	private

@@ -28,7 +28,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 {
-   /**
+	/**
 	* filter name
 	*
 	* @access	private
@@ -36,7 +36,7 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	*/
 	var	$_name = 'ShortModifiers';
 
-   /**
+	/**
 	* parameters of the filter
 	*
 	* @access  private
@@ -46,7 +46,7 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 							'copyVars' => true
 						);
 
-   /**
+	/**
 	* namespace
 	*
 	* @access	private
@@ -54,7 +54,7 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	*/
 	var	$_ns = null;
 
-   /**
+	/**
 	* reference to the patTemplate object
 	*
 	* @var	   object patTemplate
@@ -62,7 +62,7 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	*/
 	var $_tmpl = null;
 
-   /**
+	/**
 	* set the template reference
 	*
 	* @access	public
@@ -73,7 +73,7 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 		$this->_tmpl = &$tmpl;
 	}
 
-   /**
+	/**
 	* generate the <patTemplate:var/> tag
 	*
 	* @access	public
@@ -100,7 +100,7 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 		return $replace;
 	}
 
-   /**
+	/**
 	* replace the variables
 	*
 	* @access	public

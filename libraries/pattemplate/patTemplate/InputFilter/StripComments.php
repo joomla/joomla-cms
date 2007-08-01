@@ -27,7 +27,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_InputFilter_StripComments extends patTemplate_InputFilter
 {
-   /**
+	/**
 	* filter name
 	*
 	* @access	protected
@@ -36,7 +36,7 @@ class patTemplate_InputFilter_StripComments extends patTemplate_InputFilter
 	*/
 	var	$_name	=	'StripComments';
 
-   /**
+	/**
 	* compress the data
 	*
 	* @access	public
@@ -45,8 +45,8 @@ class patTemplate_InputFilter_StripComments extends patTemplate_InputFilter
 	*/
 	function apply( $data )
 	{
-		$data = preg_replace( '°<!--.*-->°msU', '', $data );
-		$data = preg_replace( '°/\*.*\*/°msU', '', $data );
+		$data = preg_replace( 'ï¿½<!--.*-->ï¿½msU', '', $data );
+		$data = preg_replace( 'ï¿½/\*.*\*/ï¿½msU', '', $data );
 
 		return $data;
 	}

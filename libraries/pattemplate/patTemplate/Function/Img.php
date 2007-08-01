@@ -24,14 +24,14 @@ defined('JPATH_BASE') or die();
  * @author		Jens Strobel <strobel@pixeldreamz.com>
  */
 class patTemplate_Function_Img extends patTemplate_Function {
-   /**
+	/**
 	* name of the function
 	* @access	private
 	* @var		string
 	*/
 	var $_name	  =	'Img';
 
-   /**
+	/**
 	* defaults for some tags
 	*
 	* @access	protected
@@ -39,7 +39,7 @@ class patTemplate_Function_Img extends patTemplate_Function {
 	*/
 	var $_defaults = array();
 
-   /**
+	/**
 	* call the function
 	*
 	* @access	public

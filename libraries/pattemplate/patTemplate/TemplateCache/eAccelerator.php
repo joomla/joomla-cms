@@ -26,7 +26,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_TemplateCache_eAccelerator extends patTemplate_TemplateCache
 {
-   /**
+	/**
 	* parameters of the cache
 	*
 	* @access	private
@@ -34,7 +34,7 @@ class patTemplate_TemplateCache_eAccelerator extends patTemplate_TemplateCache
 	*/
 	var $_params = array( 'lifetime' => 'auto');
 
-   /**
+	/**
 	* load template from cache
 	*
 	* @access   public
@@ -55,7 +55,7 @@ class patTemplate_TemplateCache_eAccelerator extends patTemplate_TemplateCache
 		}
 	}
 
-   /**
+	/**
 	* write template to cache
 	*
 	* @access   public

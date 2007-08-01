@@ -35,7 +35,7 @@ class patTemplate_Modifier_QuoteLatex extends patTemplate_Modifier
 						'$' => '\$'
 					);
 
-   /**
+	/**
 	* modify the value
 	*
 	* @access	public

@@ -30,7 +30,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_InputFilter extends patTemplate_Module
 {
-   /**
+	/**
 	* apply the filter
 	*
 	* @access	public

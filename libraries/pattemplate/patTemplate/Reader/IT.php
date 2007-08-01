@@ -21,21 +21,21 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Reader_IT extends patTemplate_Reader
 {
-   /**
+	/**
 	* reader name
 	* @access	private
 	* @var		string
 	*/
 	var	$_name	=	'IT';
 
-   /**
+	/**
 	* files that have been used
 	* @access	private
 	* @var		array
 	*/
 	var	$_files	=	array();
 
-   /**
+	/**
 	* parse templates from string
 	*
 	* @access	private
@@ -144,7 +144,7 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 		return	$this->_templates;
 	}
 
-   /**
+	/**
 	* read templates from any input
 	*
 	* @final
@@ -167,7 +167,7 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 		return	$templates;
 	}
 
-   /**
+	/**
 	* load template from any input
 	*
 	* If the a template is loaded, the content will not get
@@ -186,7 +186,7 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 		return $this->_getFileContents( $fullPath );
 	}
 
-   /**
+	/**
 	* resolve path for a template
 	*
 	* @access	private
@@ -200,7 +200,7 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 		return	$fullPath;
 	}
 
-   /**
+	/**
 	* get the contents of a file
 	*
 	* @access	private

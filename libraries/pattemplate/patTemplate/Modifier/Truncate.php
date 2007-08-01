@@ -32,7 +32,7 @@ defined('JPATH_BASE') or die();
 class patTemplate_Modifier_Truncate extends patTemplate_Modifier
 {
 
-   /**
+	/**
 	* modify the value
 	*
 	* @access  public

@@ -73,7 +73,7 @@ define( 'PATTEMPLATE_READER_NOTICE_TEMPLATE_EXISTS', 6051 );
  */
 class patTemplate_Reader extends patTemplate_Module
 {
-   /**
+	/**
 	* reference to the patTemplate object that instantiated the module
 	*
 	* @access	protected
@@ -81,63 +81,63 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	var	$_tmpl;
 
-   /**
+	/**
 	* stack for all open elements
 	* @access	private
 	* @var	array
 	*/
 	var	$_elStack;
 
-   /**
+	/**
 	* stack for all open templates
 	* @access	private
 	* @var	array
 	*/
 	var	$_tmplStack;
 
-   /**
+	/**
 	* character data
 	* @access	private
 	* @var	array
 	*/
 	var	$_data;
 
-   /**
+	/**
 	* tag depth
 	* @access	private
 	* @var	integer
 	*/
 	var	$_depth;
 
-   /**
+	/**
    	* templates that have been found
 	* @access	protected
 	* @var		array
 	*/
 	var $_templates	=	array();
 
-   /**
+	/**
    	* path to the template
 	* @access	protected
 	* @var		array
 	*/
 	var $_path	=	array();
 
-   /**
+	/**
 	* start tag for variables
 	* @access	private
 	* @var		string
 	*/
 	var	$_startTag;
 
-   /**
+	/**
 	* end tag for variables
 	* @access	private
 	* @var		string
 	*/
 	var	$_endTag;
 
-   /**
+	/**
 	* default attributes
 	*
 	* @access	private
@@ -145,7 +145,7 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	var	$_defaultAtts	=	array();
 
-   /**
+	/**
 	* root attributes
 	*
 	* This is used when reading the template content
@@ -156,7 +156,7 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	var	$_rootAtts	=	array();
 
-   /**
+	/**
 	* inherit attributes
 	*
 	* @access	private
@@ -164,7 +164,7 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	var	$_inheritAtts	=	array();
 
-   /**
+	/**
 	* name of the first template that has been found
 	*
 	* @access	private
@@ -172,7 +172,7 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	var	$_root = null;
 
-   /**
+	/**
 	* all data that has been processed
 	*
 	* @access	private
@@ -180,7 +180,7 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	var	$_processedData = null;
 
-   /**
+	/**
 	* current input
 	*
 	* @access	private
@@ -188,7 +188,7 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	var	$_currentInput = null;
 
-   /**
+	/**
 	* all loaded functions
 	*
 	* @access	private
@@ -196,7 +196,7 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	var	$_functions	=	array();
 
-   /**
+	/**
 	* function aliases
 	*
 	* @access   private
@@ -204,7 +204,7 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	var $_funcAliases = array();
 
-   /**
+	/**
 	* options
 	*
 	* @access   private
@@ -212,7 +212,7 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	var $_options = array();
 
-   /**
+	/**
 	* reader is in use
 	*
 	* @access   private
@@ -220,7 +220,7 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	var $_inUse = false;
 
-   /**
+	/**
 	* set a reference to the patTemplate object that instantiated the reader
 	*
 	* @access	public
@@ -231,7 +231,7 @@ class patTemplate_Reader extends patTemplate_Module
 		$this->_tmpl = &$tmpl;
 	}
 
-   /**
+	/**
 	* read templates from any input
 	*
 	* @abstract	must be implemented in the template readers
@@ -245,7 +245,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return array();
 	}
 
-   /**
+	/**
 	* load template from any input
 	*
 	* If the a template is loaded, the content will not get
@@ -262,7 +262,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return $input;
 	}
 
-   /**
+	/**
 	* set options
 	*
 	* @access	public
@@ -281,7 +281,7 @@ class patTemplate_Reader extends patTemplate_Module
 		array_map('strtolower', $this->_funcAliases);
 	}
 
-   /**
+	/**
 	* add an alias for a function
 	*
 	* @access   public
@@ -293,7 +293,7 @@ class patTemplate_Reader extends patTemplate_Module
 		$this->_funcAliases[strtolower($alias)] = $function;
 	}
 
-   /**
+	/**
 	* set the root attributes
 	*
 	* @access	public
@@ -304,7 +304,7 @@ class patTemplate_Reader extends patTemplate_Module
 		$this->_rootAtts = $attributes;
 	}
 
-   /**
+	/**
 	* parse templates from string
 	*
 	* @access	private
@@ -449,7 +449,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return	$this->_templates;
 	}
 
-   /**
+	/**
 	* parse an attribute string and build an array
 	*
 	* @access	private
@@ -475,7 +475,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return	$attributes;
 	}
 
-   /**
+	/**
 	* handle start element
 	*
 	* @access	private
@@ -573,7 +573,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return true;
 	}
 
-   /**
+	/**
 	* handle end element
 	*
 	* @access	private
@@ -665,7 +665,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return true;
 	}
 
-   /**
+	/**
 	* handle character data
 	*
 	* @access	private
@@ -682,7 +682,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return	true;
 	}
 
-   /**
+	/**
 	* handle a Link
 	*
 	* @access	private
@@ -711,7 +711,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return $tmpl;
 	}
 
-   /**
+	/**
 	* close a link template
 	*
 	* It will be added to the dependecies of the parent template.
@@ -733,7 +733,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return true;
 	}
 
-   /**
+	/**
 	* create a new template
 	*
 	* @access	private
@@ -818,7 +818,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return $tmpl;
 	}
 
-   /**
+	/**
 	* prepare attributes
 	*
 	* @access	private
@@ -1009,7 +1009,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return $attributes;
 	}
 
-   /**
+	/**
 	* build a template name
 	*
 	* @access	private
@@ -1020,7 +1020,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return strtolower( uniqid( 'tmpl' ) );
 	}
 
-   /**
+	/**
 	* close the current template
 	*
 	* @access	private
@@ -1095,7 +1095,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return true;
 	}
 
-   /**
+	/**
 	* create a new sub-template
 	*
 	* @access	private
@@ -1173,7 +1173,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return	$subTmpl;
 	}
 
-   /**
+	/**
 	* close subtemplate
 	*
 	* @access	private
@@ -1195,7 +1195,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return true;
 	}
 
-   /**
+	/**
 	* handle a variable
 	*
 	* @access	private
@@ -1280,7 +1280,7 @@ class patTemplate_Reader extends patTemplate_Module
 	}
 
 
-   /**
+	/**
 	* handle a comment
 	*
 	* @access	private
@@ -1293,7 +1293,7 @@ class patTemplate_Reader extends patTemplate_Module
 		$this->_addToParentTag( 'comments', $data );
 	}
 
-   /**
+	/**
 	* get the character data of the element
 	*
 	* @access	private
@@ -1307,7 +1307,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return $this->_data[$this->_depth];
 	}
 
-   /**
+	/**
 	* add to a property of the parent template
 	*
 	* @access	private
@@ -1345,7 +1345,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return	false;
 	}
 
-   /**
+	/**
 	* get a property of the parent template
 	*
 	* @access	private
@@ -1377,7 +1377,7 @@ class patTemplate_Reader extends patTemplate_Module
 	}
 
 
-   /**
+	/**
 	* add to a property of the parent tag
 	*
 	* @access	private
@@ -1407,7 +1407,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return true;
 	}
 
-   /**
+	/**
 	* adjust whitespace in a CData block
 	*
 	* @access	private
@@ -1427,7 +1427,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return	$data;
 	}
 
-   /**
+	/**
 	* inherit attributes from the parent template
 	*
 	* The following attributes are inherited automatically:
@@ -1456,7 +1456,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return	$attributes;
 	}
 
-   /**
+	/**
 	* checks, whether the parent tag is of a certain type
 	*
 	* This is needed to ensure, that subtemplates are only
@@ -1481,7 +1481,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return false;
 	}
 
-   /**
+	/**
 	* get the current line number
 	*
 	* @access	private
@@ -1493,7 +1493,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return $line;
 	}
 
-   /**
+	/**
 	* create an error message
 	*
 	* This method takes an error messages and appends the
@@ -1509,7 +1509,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return sprintf( '%s in %s on line %d', $msg, $this->getCurrentInput(), $this->_getCurrentLine() );
 	}
 
-   /**
+	/**
 	* get the current input
 	*
 	* @access   public
@@ -1520,7 +1520,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return $this->_currentInput;
 	}
 
-   /**
+	/**
 	* tests whether the reader should maintain backwards compatibility
 	*
 	* If enabled, you can still use 'default', 'empty', 'odd' and 'even'
@@ -1539,7 +1539,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return $this->_options['maintainBc'];
 	}
 
-   /**
+	/**
 	* returns, whether the reader currently is in use
 	*
 	* @access   public
@@ -1550,7 +1550,7 @@ class patTemplate_Reader extends patTemplate_Module
 		return $this->_inUse;
 	}
 
-   /**
+	/**
 	* get the template root for this reader
 	*
 	* @access  public

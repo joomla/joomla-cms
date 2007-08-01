@@ -29,7 +29,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_TemplateCache_File extends patTemplate_TemplateCache
 {
-   /**
+	/**
 	* parameters of the cache
 	*
 	* @access	private
@@ -43,7 +43,7 @@ class patTemplate_TemplateCache_File extends patTemplate_TemplateCache
 						);
 
 
-   /**
+	/**
 	* load template from cache
 	*
 	* @access	public
@@ -78,7 +78,7 @@ class patTemplate_TemplateCache_File extends patTemplate_TemplateCache
 		return false;
 	}
 
-   /**
+	/**
 	* write template to cache
 	*
 	* @access	public
@@ -103,7 +103,7 @@ class patTemplate_TemplateCache_File extends patTemplate_TemplateCache
 		return true;
 	}
 
-   /**
+	/**
 	* get the cache filename
 	*
 	* @access	private

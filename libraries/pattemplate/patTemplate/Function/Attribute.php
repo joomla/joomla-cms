@@ -30,14 +30,14 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Function_Attribute extends patTemplate_Function
 {
-   /**
+	/**
 	* name of the function
 	* @access	private
 	* @var		string
 	*/
 	var $_name	=	'Attribute';
 
-   /**
+	/**
 	* call the function
 	*
 	* @access	public

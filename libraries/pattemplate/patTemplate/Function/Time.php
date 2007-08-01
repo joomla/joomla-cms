@@ -25,14 +25,14 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Function_Time extends patTemplate_Function
 {
-   /**
+	/**
 	* name of the function
 	* @access	private
 	* @var		string
 	*/
 	var $_name	=	'Time';
 
-   /**
+	/**
 	* call the function
 	*
 	* @access	public

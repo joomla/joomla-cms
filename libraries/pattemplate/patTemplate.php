@@ -68,7 +68,7 @@ define( 'PATTEMPLATE_ERROR_RECURSION', 6010 );
  */
 class patTemplate
 {
-   /**
+	/**
 	* standard system vars that identify pat tools
 	* @var	array
 	*/
@@ -80,7 +80,7 @@ class patTemplate
 																 )
 									);
 
-   /**
+	/**
 	* default attributes for new templates
 	* @access	private
 	* @var		array
@@ -95,7 +95,7 @@ class patTemplate
 										'autoload'		=>	'on'
 									);
 
-   /**
+	/**
 	* options for patTemplate
 	*
 	* Currently the following options are implemented:
@@ -114,7 +114,7 @@ class patTemplate
 								'defaultFunction'	=> false
 							 );
 
-   /**
+	/**
 	* start tag
 	*
 	* @access	private
@@ -122,7 +122,7 @@ class patTemplate
 	*/
 	var $_startTag = '{';
 
-   /**
+	/**
 	* end tag
 	*
 	* @access	private
@@ -130,7 +130,7 @@ class patTemplate
 	*/
 	var $_endTag = '}';
 
-   /**
+	/**
 	* loaded modules
 	*
 	* Modules are:
@@ -144,42 +144,42 @@ class patTemplate
 	*/
 	var	$_modules		=	array();
 
-   /**
+	/**
 	* directories, where modules can be stored
 	* @access	private
 	* @var		array
 	*/
 	var	$_moduleDirs	=	array();
 
-   /**
+	/**
 	* stores all template names
 	* @access	private
 	* @var		array
 	*/
 	var	$_templateList	=	array();
 
-   /**
+	/**
 	* stores all template data
 	* @access	private
 	* @var		array
 	*/
 	var	$_templates		=	array();
 
-   /**
+	/**
 	* stores all global variables
 	* @access	private
 	* @var		array
 	*/
 	var	$_globals	=	array();
 
-   /**
+	/**
 	* stores all local variables
 	* @access	private
 	* @var		array
 	*/
 	var	$_vars	=	array();
 
-   /**
+	/**
 	* stores the name of the first template that has been
 	* found
 	*
@@ -188,7 +188,7 @@ class patTemplate
 	*/
 	var	$_root;
 
-   /**
+	/**
 	* output filters that should be used
 	*
 	* @access	private
@@ -196,7 +196,7 @@ class patTemplate
 	*/
 	var	$_outputFilters = array();
 
-   /**
+	/**
 	* input filters that should be used
 	*
 	* @access	private
@@ -204,7 +204,7 @@ class patTemplate
 	*/
 	var	$_inputFilters = array();
 
-   /**
+	/**
 	* template cache, that should be used
 	*
 	* @access	private
@@ -212,7 +212,7 @@ class patTemplate
 	*/
 	var	$_tmplCache = null;
 
-   /**
+	/**
 	* placeholders, that have been discovered
 	*
 	* @access	private
@@ -220,7 +220,7 @@ class patTemplate
 	*/
 	var	$_discoveredPlaceholders = array();
 
-   /**
+	/**
 	* Create a new patTemplate instance.
 	*
 	* The constructor accepts the type of the templates as sole parameter.
@@ -242,7 +242,7 @@ class patTemplate
 		$this->setType( $type );
 	}
 
-   /**
+	/**
 	* sets an option
 	*
 	* Currently, the following options are supported
@@ -258,7 +258,7 @@ class patTemplate
 		$this->_options[$option] = $value;
 	}
 
-   /**
+	/**
 	* gets an option
 	*
 	* @access	public
@@ -273,7 +273,7 @@ class patTemplate
 		return $this->_options[$option];
 	}
 
-   /**
+	/**
 	* sets name of directory where templates are stored
 	*
 	* @access	public
@@ -285,7 +285,7 @@ class patTemplate
 		$this->setRoot($basedir);
 	}
 
-   /**
+	/**
 	* sets root base for the template
 	*
 	* The parameter depends on the reader you are using.
@@ -298,7 +298,7 @@ class patTemplate
 		$this->_options['root'][$reader] = $root;
 	}
 
-   /**
+	/**
 	* gets name of root base for the templates
 	*
 	* @access	public
@@ -309,7 +309,7 @@ class patTemplate
 		return	$this->_options['root'][$reader];
 	}
 
-   /**
+	/**
 	* sets namespace of patTemplate tags
 	*
 	* If you want to use more than one namespace, you may set this to
@@ -324,7 +324,7 @@ class patTemplate
 		$this->_options['namespace'] = $ns;
 	}
 
-   /**
+	/**
 	* gets namespace of patTemplate tags
 	*
 	* @access	public
@@ -335,7 +335,7 @@ class patTemplate
 		return $this->_options['namespace'];
 	}
 
-   /**
+	/**
 	* set default attribute
 	*
 	* @access	public
@@ -347,7 +347,7 @@ class patTemplate
 		$this->_defaultAttributes[$name]	=	$value;
 	}
 
-   /**
+	/**
 	* set default attributes
 	*
 	* @access	public
@@ -358,7 +358,7 @@ class patTemplate
 		$this->_defaultAttributes	=	array_merge( $this->_defaultAttributes, $attributes );
 	}
 
-   /**
+	/**
 	* get default attributes
 	*
 	* @access	public
@@ -369,7 +369,7 @@ class patTemplate
 		return	$this->_defaultAttributes;
 	}
 
-   /**
+	/**
 	* set the type for the templates
 	*
 	* @access	public
@@ -395,7 +395,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* set the start and end tag for variables
 	*
 	* @access	public
@@ -413,7 +413,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* get start tag for variables
 	*
 	* @access	public
@@ -424,7 +424,7 @@ class patTemplate
 		return $this->_options['startTag'];
 	}
 
-   /**
+	/**
 	* get end tag for variables
 	*
 	* @access	public
@@ -435,7 +435,7 @@ class patTemplate
 		return $this->_options['endTag'];
 	}
 
-   /**
+	/**
 	* add a directory where patTemplate should search for
 	* modules.
 	*
@@ -460,7 +460,7 @@ class patTemplate
 			array_push( $this->_moduleDirs[$moduleType], $dir );
 	}
 
-   /**
+	/**
 	* Sets an attribute of a template
 	*
 	* supported attributes: visibilty, loop, parse, unusedvars
@@ -487,7 +487,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* Sets several attribute of a template
 	*
 	* $attributes has to be a assotiative arrays containing attribute/value pairs
@@ -519,7 +519,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* Get all attributes of a template
 	*
 	* @param	string	name of the template
@@ -539,7 +539,7 @@ class patTemplate
 		return	$this->_templates[$template]['attributes'];
 	}
 
-   /**
+	/**
 	* Gets an attribute of a template
 	*
 	* supported attributes: visibilty, loop, parse, unusedvars
@@ -564,7 +564,7 @@ class patTemplate
 		return	$this->_templates[$template]['attributes'][$attribute];
 	}
 
-   /**
+	/**
 	* Clears an attribute of a template
 	*
 	* supported attributes: visibilty, loop, parse, unusedvars
@@ -590,7 +590,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* Prepare a template
 	*
 	* This can be used if you want to add variables to
@@ -611,7 +611,7 @@ class patTemplate
 		}
 	}
 
-   /**
+	/**
 	* add a variable to a template
 	*
 	* A variable may also be an indexed array, but _not_
@@ -643,7 +643,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* get the value of a variable
 	*
 	* @access	public
@@ -676,7 +676,7 @@ class patTemplate
 		return null;
 	}
 
-   /**
+	/**
 	* clear the value of a variable
 	*
 	* @access	public
@@ -708,7 +708,7 @@ class patTemplate
 	}
 
 
-   /**
+	/**
 	* Adds several variables to a template
 	*
 	* Each Template can have an unlimited amount of its own variables
@@ -747,7 +747,7 @@ class patTemplate
 		}
 	}
 
-   /**
+	/**
 	* Clear all variables in a template
 	*
 	* This clears only variables, but does
@@ -768,7 +768,7 @@ class patTemplate
 	}
 
 
-   /**
+	/**
 	* Adds several rows of variables to a template
 	*
 	* Each Template can have an unlimited amount of its own variables
@@ -800,7 +800,7 @@ class patTemplate
 		}
 	}
 
-   /**
+	/**
 	* Adds an object to a template
 	*
 	* All properties of the object will be available as template variables.
@@ -827,7 +827,7 @@ class patTemplate
 		return false;
 	}
 
-   /**
+	/**
 	* get the vars from an object
 	*
 	* @access   private
@@ -852,7 +852,7 @@ class patTemplate
 		return $vars;
 	}
 
-   /**
+	/**
 	* Adds a global variable
 	*
 	* Global variables are valid in all templates of this object.
@@ -870,7 +870,7 @@ class patTemplate
 		return	true;
 	}
 
-   /**
+	/**
 	* Clears a global variable
 	*
 	* @access	public
@@ -888,7 +888,7 @@ class patTemplate
 		return	true;
 	}
 
-   /**
+	/**
 	* Clears all global variables
 	*
 	* @access	public
@@ -901,7 +901,7 @@ class patTemplate
 		return	true;
 	}
 
-   /**
+	/**
 	* Adds several global variables
 	*
 	* Global variables are valid in all templates of this object.
@@ -926,7 +926,7 @@ class patTemplate
 		return	true;
 	}
 
-   /**
+	/**
 	* get all global variables
 	*
 	* @access	public
@@ -949,7 +949,7 @@ class patTemplate
 		return	in_array( strtolower( $name ), $this->_templateList );
 	}
 
-   /**
+	/**
 	* enable a template cache
 	*
 	* A template cache will improve performace, as the templates
@@ -973,7 +973,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* enable an output filter
 	*
 	* Output filters are used to modify the template
@@ -1008,7 +1008,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* enable an input filter
 	*
 	* input filters are used to modify the template
@@ -1032,7 +1032,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* open a file and parse for patTemplate tags
 	*
 	* @access		public
@@ -1046,7 +1046,7 @@ class patTemplate
 		return	$this->readTemplatesFromInput( $filename, 'File' );
 	}
 
-   /**
+	/**
 	* open any input and parse for patTemplate tags
 	*
 	* @access	public
@@ -1247,7 +1247,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* load from template cache
 	*
 	* @access	private
@@ -1276,7 +1276,7 @@ class patTemplate
 		return $templates;
 	}
 
-   /**
+	/**
 	* open any input and load content into template
 	*
 	* @access	public
@@ -1314,7 +1314,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* load a template that had autoload="off"
 	*
 	* This is needed, if you change the source of a template and want to
@@ -1348,7 +1348,7 @@ class patTemplate
 		}
 	}
 
-   /**
+	/**
 	* loads a patTemplate module
 	*
 	* Modules are located in the patTemplate folder and include:
@@ -1432,7 +1432,7 @@ class patTemplate
 		return $this->_modules[$moduleType][$sig];
 	}
 
-   /**
+	/**
 	* checks whether a module exists.
 	*
 	* Modules are located in the patTemplate folder and include:
@@ -1490,7 +1490,7 @@ class patTemplate
 		return false;
 	}
 
-   /**
+	/**
 	* parses a template
 	*
 	* Parses a template and stores the parsed content.
@@ -1690,7 +1690,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* Initialize a template
 	*
 	* This method checks the variable specifications and
@@ -1752,7 +1752,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* parse all variables in a template
 	*
 	* @access	private
@@ -1792,7 +1792,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* parse global variables in the template
 	*
 	* @access   private
@@ -1817,7 +1817,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* apply variable modifiers
 	*
 	* The variables will be passed by reference.
@@ -1874,7 +1874,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* parse all dependencies in a template
 	*
 	* @access	private
@@ -1895,7 +1895,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* fetch plain template
 	*
 	* The template content will be stored in the template
@@ -2008,7 +2008,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* check, whether a template contains variables
 	*
 	* @access   private
@@ -2026,7 +2026,7 @@ class patTemplate
 		return false;
 	}
 
-   /**
+	/**
 	* fetch the value of a condition variable
 	*
 	* _fetchVariables() has to be called before this
@@ -2131,7 +2131,7 @@ class patTemplate
 		return false;
 	}
 
-   /**
+	/**
 	* fetch variables for a template
 	*
 	* The variables will be stored in the template
@@ -2231,7 +2231,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* handle all unused variables in a template
 	*
 	* This is influenced by the 'unusedvars' attribute of the
@@ -2269,7 +2269,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* returns a parsed Template
 	*
 	* If the template already has been parsed, it just returns the parsed template.
@@ -2308,7 +2308,7 @@ class patTemplate
 		return $result;
 	}
 
-   /**
+	/**
 	* displays a parsed Template
 	*
 	* If the template has not been loaded, it will be loaded.
@@ -2334,7 +2334,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* parse a template and push the result into a variable of any other
 	* template
 	*
@@ -2367,7 +2367,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* clears a parsed Template
 	*
 	* Parsed Content, variables and the loop attribute are cleared
@@ -2413,7 +2413,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* clears all templates
 	*
 	* @access	public
@@ -2430,7 +2430,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* frees a template
 	*
 	* All memory consumed by the template
@@ -2477,7 +2477,7 @@ class patTemplate
 		return true;
 	}
 
-   /**
+	/**
 	* frees all templates
 	*
 	* All memory consumed by the templates
@@ -2493,7 +2493,7 @@ class patTemplate
 		$this->_templateList = array();
 	}
 
-   /**
+	/**
 	* get _all_ dependencies of a template,
 	* regardless of the subtemplates
 	*
@@ -2519,7 +2519,7 @@ class patTemplate
 		return $deps;
 	}
 
-   /**
+	/**
 	* Displays useful information about all or named templates
 	*
 	* This method breaks BC, as it now awaits an array instead of
@@ -2571,7 +2571,7 @@ class patTemplate
 		return	true;
 	}
 
-   /**
+	/**
 	* get the include path
 	*
 	* @access	public
@@ -2582,7 +2582,7 @@ class patTemplate
 		return	PATTEMPLATE_INCLUDE_PATH;
 	}
 
-   /**
+	/**
 	* apply input filters that have been set
 	*
 	* This is being called by the readers.
@@ -2601,7 +2601,7 @@ class patTemplate
 		return $template;
 	}
 
-   /**
+	/**
 	* checks, whether a placeholder exists in a template
 	*
 	* @access   public
@@ -2645,7 +2645,7 @@ class patTemplate
 		return false;
 	}
 
-   /**
+	/**
 	* Convert the template to its string representation.
 	*
 	* This method allows you to just echo the patTemplate

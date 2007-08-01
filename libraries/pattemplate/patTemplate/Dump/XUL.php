@@ -34,7 +34,7 @@ class patTemplate_Dump_XUL extends patTemplate_Dump
 	var $_addedTemplates = array();
 	var $_vars = array();
 
-   /**
+	/**
 	* display the header
 	*
 	* @access	public
@@ -55,7 +55,7 @@ class patTemplate_Dump_XUL extends patTemplate_Dump
 
 	}
 
-   /**
+	/**
 	* dump the global variables
 	*
 	* @access	public
@@ -84,7 +84,7 @@ class patTemplate_Dump_XUL extends patTemplate_Dump
 
 	}
 
-   /**
+	/**
 	* dump the templates
 	*
 	* @access	public
@@ -202,7 +202,7 @@ class patTemplate_Dump_XUL extends patTemplate_Dump
 		}
 	}
 
-   /**
+	/**
 	* display the footer
 	*
 	* @access	public

@@ -30,7 +30,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Modifier extends patTemplate_Module
 {
-   /**
+	/**
 	* modify the value
 	*
 	* @access	public

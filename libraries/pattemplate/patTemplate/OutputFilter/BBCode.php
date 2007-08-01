@@ -43,7 +43,7 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_OutputFilter_BBCode extends patTemplate_OutputFilter
 {
-   /**
+	/**
 	* filter name
 	*
 	* @access	protected
@@ -52,7 +52,7 @@ class patTemplate_OutputFilter_BBCode extends patTemplate_OutputFilter
 	*/
 	var	$_name	=	'BBCode';
 
-   /**
+	/**
 	* BBCode parser
 	*
 	* @access	private
@@ -60,7 +60,7 @@ class patTemplate_OutputFilter_BBCode extends patTemplate_OutputFilter
 	*/
 	var $BBCode = null;
 
-   /**
+	/**
 	* remove all whitespace from the output
 	*
 	* @access	public
@@ -77,7 +77,7 @@ class patTemplate_OutputFilter_BBCode extends patTemplate_OutputFilter
 		return $data;
 	}
 
-   /**
+	/**
 	* prepare BBCode object
 	*
 	* @access	private
