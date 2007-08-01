@@ -60,6 +60,10 @@ class JPagination extends JObject
 
 	/**
 	 * Constructor
+	 *
+	 * @param	int		The total number of items
+	 * @param	int		The offset of the item to start at
+	 * @param	int		The number of items to display per page
 	 */
 	function __construct($total, $limitstart, $limit)
 	{
@@ -108,11 +112,12 @@ class JPagination extends JObject
 	 * Return the rationalised offset for a row with a given index.
 	 *
 	 * @access	public
-	 * @param	int	$index The row index
-	 * @return	int Rationalised offset for a row with a given index
+	 * @param	int		$index The row index
+	 * @return	int		Rationalised offset for a row with a given index
 	 * @since	1.5
 	 */
-	function getRowOffset($index) {
+	function getRowOffset($index)
+	{
 		return $index +1 + $this->limitstart;
 	}
 
@@ -120,7 +125,7 @@ class JPagination extends JObject
 	 * Return the pagination data object, only creating it if it doesn't already exist
 	 *
 	 * @access	public
-	 * @return	object Pagination data object
+	 * @return	object	Pagination data object
 	 * @since	1.5
 	 */
 	function getData()
@@ -135,9 +140,9 @@ class JPagination extends JObject
 	/**
 	 * Create and return the pagination pages counter string, ie. Page 2 of 4
 	 *
-	 * @access public
-	 * @return string Pagination pages counter string
-	 * @since 1.5
+	 * @access	public
+	 * @return	string	Pagination pages counter string
+	 * @since	1.5
 	 */
 	function getPagesCounter()
 	{
@@ -152,9 +157,9 @@ class JPagination extends JObject
 	/**
 	 * Create and return the pagination result set counter string, ie. Results 1-10 of 42
 	 *
-	 * @access public
-	 * @return string Pagination result set counter string
-	 * @since 1.5
+	 * @access	public
+	 * @return	string	Pagination result set counter string
+	 * @since	1.5
 	 */
 	function getResultsCounter()
 	{
@@ -183,9 +188,9 @@ class JPagination extends JObject
 	/**
 	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x
 	 *
-	 * @access public
-	 * @return string Pagination page list string
-	 * @since 1.0
+	 * @access	public
+	 * @return	string	Pagination page list string
+	 * @since	1.0
 	 */
 	function getPagesLinks()
 	{
@@ -202,7 +207,8 @@ class JPagination extends JObject
 		$listOverride = false;
 
 		$chromePath = JPATH_THEMES.DS.$mainframe->getTemplate().DS.'html'.DS.'pagination.php';
-		if (file_exists($chromePath)) {
+		if (file_exists($chromePath))
+		{
 			require_once ($chromePath);
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive')) {
 				$itemOverride = true;
@@ -269,9 +275,9 @@ class JPagination extends JObject
 	/**
 	 * Return the pagination footer
 	 *
-	 * @access public
-	 * @return string Pagination footer
-	 * @since 1.0
+	 * @access	public
+	 * @return	string	Pagination footer
+	 * @since	1.0
 	 */
 	function getListFooter()
 	{
@@ -299,9 +305,9 @@ class JPagination extends JObject
 	/**
 	 * Creates a dropdown box for selecting how many records to show per page
 	 *
-	 * @access public
-	 * @return string The html for the limit # input box
-	 * @since 1.0
+	 * @access	public
+	 * @return	string	The html for the limit # input box
+	 * @since	1.0
 	 */
 	function getLimitBox()
 	{
@@ -332,13 +338,13 @@ class JPagination extends JObject
 	/**
 	 * Return the icon to move an item UP
 	 *
-	 * @access public
-	 * @param int $i The row index
-	 * @param boolean $condition True to show the icon
-	 * @param string $task The task to fire
-	 * @param string $alt The image alternate text string
-	 * @return string Either the icon to move an item up or a space
-	 * @since 1.0
+	 * @access	public
+	 * @param	int		$i The row index
+	 * @param	boolean	$condition True to show the icon
+	 * @param	string	$task The task to fire
+	 * @param	string	$alt The image alternate text string
+	 * @return	string	Either the icon to move an item up or a space
+	 * @since	1.0
 	 */
 	function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'Move Up', $enabled = true)
 	{
@@ -362,14 +368,14 @@ class JPagination extends JObject
 	/**
 	 * Return the icon to move an item DOWN
 	 *
-	 * @access public
-	 * @param int $i The row index
-	 * @param int $n The number of items in the list
-	 * @param boolean $condition True to show the icon
-	 * @param string $task The task to fire
-	 * @param string $alt The image alternate text string
-	 * @return string Either the icon to move an item down or a space
-	 * @since 1.0
+	 * @access	public
+	 * @param	int		$i The row index
+	 * @param	int		$n The number of items in the list
+	 * @param	boolean	$condition True to show the icon
+	 * @param	string	$task The task to fire
+	 * @param	string	$alt The image alternate text string
+	 * @return	string	Either the icon to move an item down or a space
+	 * @since	1.0
 	 */
 	function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'Move Down', $enabled = true)
 	{

@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	HTML
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	HTML
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
@@ -32,18 +32,19 @@ class JPane extends JObject
 	/**
 	* Constructor
 	*
- 	* @param array 	$params		Associative array of values
+ 	* @param	array	$params		Associative array of values
 	*/
-	function __construct( $params = array() ) {
-
+	function __construct( $params = array() )
+	{
 	}
 
 	/**
 	 * Returns a reference to a JPanel object
 	 *
-	 * @param string 	$behavior   The behavior to use
-	 * @param boolean	$useCookies Use cookies to remember the state of the panel
-	 * @param array 	$params		Associative array of values
+	 * @param	string 	$behavior   The behavior to use
+	 * @param	boolean	$useCookies Use cookies to remember the state of the panel
+	 * @param	array 	$params		Associative array of values
+	 * @return	object
 	 */
 	function &getInstance( $behavior = 'Tabs', $params = array())
 	{
@@ -54,50 +55,55 @@ class JPane extends JObject
 	}
 
 	/**
-	* Creates a pane and creates the javascript object for it
-	*
-	* @abstract
-	* @param string The pane identifier
-	*/
-	function startPane( $id ) {
+	 * Creates a pane and creates the javascript object for it
+	 *
+	 * @abstract
+	 * @param	string	The pane identifier
+	 */
+	function startPane( $id )
+	{
 		return;
 	}
 
 	/**
-	* Ends the pane
-	*
-	* @abstract
-	*/
-	function endPane() {
+	 * Ends the pane
+	 *
+	 * @abstract
+	 */
+	function endPane()
+	{
 		return;
 	}
 
 	/**
-	* Creates a panel with title text and starts that panel
-	*
-	* @abstract
-	* @param text - The panel name and/or title
-	* @param id - The panel identifer
-	*/
-	function startPanel( $text, $id ) {
+	 * Creates a panel with title text and starts that panel
+	 *
+	 * @abstract
+	 * @param	string	$text The panel name and/or title
+	 * @param	string	$id The panel identifer
+	 */
+	function startPanel( $text, $id )
+	{
 		return;
 	}
 
 	/**
-	* Ends a panel
-	*
-	* @abstract
-	*/
-	function endPanel() {
+	 * Ends a panel
+	 *
+	 * @abstract
+	 */
+	function endPanel()
+	{
 		return;
 	}
 
 	/**
-	* Load the javascript behavior and attach it to the document
-	*
-	* @abstract
-	*/
-	function _loadBehavior() {
+	 * Load the javascript behavior and attach it to the document
+	 *
+	 * @abstract
+	 */
+	function _loadBehavior()
+	{
 		return;
 	}
 }
@@ -113,62 +119,64 @@ class JPane extends JObject
 class JPaneTabs extends JPane
 {
 	/**
-	* Constructor
-	*
-	* @param array 	$params		Associative array of values
-	*/
+	 * Constructor
+	 *
+	 * @param	array 	$params		Associative array of values
+	 */
 	function __construct( $params = array() )
 	{
 		static $loaded = false;
 
 		parent::__construct($params);
 
-		if(!$loaded) {
+		if (!$loaded) {
 			$this->_loadBehavior($params);
 			$loaded = true;
 		}
 	}
 
-   /**
-	* Creates a pane and creates the javascript object for it
-	*
-	* @param string The pane identifier
-	*/
+	/**
+	 * Creates a pane and creates the javascript object for it
+	 *
+	 * @param string The pane identifier
+	 */
 	function startPane( $id )
 	{
 		return '<dl class="tabs" id="'.$id.'">';
 	}
 
-   /**
-	* Ends the pane
-	*/
-	function endPane() {
+	/**
+	 * Ends the pane
+	 */
+	function endPane()
+	{
 		return "</dl>";
 	}
 
 	/**
-	* Creates a tab panel with title text and starts that panel
-	*
-	* @param text - The name of the tab
-	* @param id - The tab identifier
-	*/
+	 * Creates a tab panel with title text and starts that panel
+	 *
+	 * @param	string	$text	The name of the tab
+	 * @param	string	$id		The tab identifier
+	 */
 	function startPanel( $text, $id )
 	{
 		return '<dt id="'.$id.'"><span>'.$text.'</span></dt><dd>';
 	}
 
 	/**
-	* Ends a tab page
-	*/
-	function endPanel() {
+	 * Ends a tab page
+	 */
+	function endPanel()
+	{
 		return "</dd>";
 	}
 
 	/**
-	* Load the javascript behavior and attach it to the document
-	*
-	* @param array 	$params		Associative array of values
-	*/
+	 * Load the javascript behavior and attach it to the document
+	 *
+	 * @param	array 	$params		Associative array of values
+	 */
 	function _loadBehavior($params = array())
 	{
 		global $mainframe;
@@ -212,10 +220,10 @@ class JPaneTabs extends JPane
 class JPaneSliders extends JPane
 {
 	/**
-	* Constructor
-	*
-	* @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
-	*/
+	 * Constructor
+	 *
+	 * @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
+	 */
 	function __construct( $params = array() )
 	{
 		static $loaded = false;
@@ -228,29 +236,29 @@ class JPaneSliders extends JPane
 		}
 	}
 
-   /**
-	* Creates a pane and creates the javascript object for it
-	*
-	* @param string The pane identifier
-	*/
+	/**
+	 * Creates a pane and creates the javascript object for it
+	 *
+	 * @param string The pane identifier
+	 */
 	function startPane( $id )
 	{
 		return '<div id="'.$id.'" class="pane-sliders">';
 	}
 
-   /**
-	* Ends the pane
-	*/
+    /**
+	 * Ends the pane
+	 */
 	function endPane() {
 		return '</div>';
 	}
 
 	/**
-	* Creates a tab panel with title text and starts that panel
-	*
-	* @param text - The name of the tab
-	* @param id - The tab identifier
-	*/
+	 * Creates a tab panel with title text and starts that panel
+	 *
+	 * @param	string	$text - The name of the tab
+	 * @param	string	$id - The tab identifier
+	 */
 	function startPanel( $text, $id )
 	{
 		return '<div class="panel">'
@@ -259,17 +267,18 @@ class JPaneSliders extends JPane
 	}
 
 	/**
-	* Ends a tab page
-	*/
-	function endPanel() {
+	 * Ends a tab page
+	 */
+	function endPanel()
+	{
 		return '</div></div>';
 	}
 
 	/**
-	* Load the javascript behavior and attach it to the document
-	*
-	* @param array 	$params		Associative array of values
-	*/
+	 * Load the javascript behavior and attach it to the document
+	 *
+	 * @param	array 	$params		Associative array of values
+	 */
 	function _loadBehavior($params = array())
 	{
 		// Include mootools framework

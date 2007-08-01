@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	HTML
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	HTML
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 /**
  * Utility class for all HTML drawing classes
@@ -22,6 +22,14 @@
  */
 class JHTML
 {
+	/**
+	 * Class loader method
+	 *
+	 * Additional arguments may be supplied and are passed to the sub-class.
+	 * Additional include paths are also able to be specified for third-party use
+	 *
+	 * @param	string	The type of helper method to load
+	 */
 	function _( $type )
 	{
 		//Initialise variables
@@ -74,13 +82,12 @@ class JHTML
 	/**
 	 * Write a <a></a> element
 	 *
-	 *  @access public
-	 * @param string 	The relative URL to use for the href attribute
-	 * @param string	The target attribute to use
-	 * @param array		An associative array of attributes to add
-	 * @since 1.5
+	 * @access	public
+	 * @param	string 	The relative URL to use for the href attribute
+	 * @param	string	The target attribute to use
+	 * @param	array	An associative array of attributes to add
+	 * @since	1.5
 	 */
-
 	function link($url, $text, $attribs = null)
 	{
 		if (is_array( $attribs )) {
@@ -93,11 +100,11 @@ class JHTML
 	/**
 	 * Write a <img></amg> element
 	 *
-	 * @access public
-	 * @param string 	The relative URL to use for the src attribute
-	 * @param string	The target attribute to use
-	 * @param array		An associative array of attributes to add
-	 * @since 1.5
+	 * @access	public
+	 * @param	string 	The relative URL to use for the src attribute
+	 * @param	string	The target attribute to use
+	 * @param	array	An associative array of attributes to add
+	 * @since	1.5
 	 */
 	function image($url, $alt, $attribs = null)
 	{
@@ -108,7 +115,6 @@ class JHTML
 		}
 
 		return '<img src="'.JURI::base().$url.'" alt="'.$alt.'" '.$attribs.' />';
-
 	}
 
 	/**
@@ -126,23 +132,23 @@ class JHTML
 		if (is_array( $attribs )) {
 			$attribs = JArrayHelper::toString( $attribs );
 		}
+
 		return '<iframe src="'.$url.'" '.$attribs.' name="'.$name.'">'.$noFrames.'</iframe>';
 	}
 
 	/**
 	 * Returns formated date according to current local and adds time offset
 	 *
-	 * @access public
-	 * @param string date in an US English date format
-	 * @param string format optional format for strftime
-	 * @returns formated date
-	 * @see strftime
-	 * @since 1.5
+	 * @access	public
+	 * @param	string	date in an US English date format
+	 * @param	string	format optional format for strftime
+	 * @returns	string	formated date
+	 * @see		strftime
+	 * @since	1.5
 	 */
 	function date($date, $format = null, $offset = NULL)
 	{
-		if ( ! $format )
-		{
+		if ( ! $format ) {
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
 
@@ -207,6 +213,15 @@ class JHTML
 		return $tip;
 	}
 
+	/**
+	 * Displays a calendar control field
+	 *
+	 * @param	string	The date value
+	 * @param	string	The name of the text field
+	 * @param	string	The id of the text field
+	 * @param	string	The date format
+	 * @param	array	Additional html attributes
+	 */
 	function calendar($value, $name, $id, $format = 'y-mm-dd', $attribs = null)
 	{
 		JHTML::_('behavior.calendar'); //load the calendar behavior
@@ -239,6 +254,7 @@ class JHTML
 		if (!empty( $path ) && !in_array( $path, $paths )) {
 			array_unshift($paths, JPath::clean( $path ));
 		}
+
 		return $paths;
 	}
 }

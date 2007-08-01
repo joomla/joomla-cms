@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	HTML
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	HTML
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
@@ -31,26 +31,25 @@ class JEditor extends JObservable
 	/**
 	 * Editor Plugin object
 	 *
-	 *
+	 * @var	object
 	 */
 	var $_editor = null;
-
 
 	/**
 	 * Editor Plugin name
 	 *
-	 *
+	 * @var string
 	 */
 	var $_name = null;
 
 	/**
-	* constructor
-	*
-	* @access protected
-	* @param string The editor name
-	*/
-
-	function __construct($editor = 'none') {
+	 * constructor
+	 *
+	 * @access	protected
+	 * @param	string	The editor name
+	 */
+	function __construct($editor = 'none')
+	{
 		$this->_name = $editor;
 	}
 
@@ -61,9 +60,9 @@ class JEditor extends JObservable
 	 * This method must be invoked as:
 	 * 		<pre>  $editor = &JEditor::getInstance([$editor);</pre>
 	 *
-	 * @access public
-	 * @param string $editor  The editor to use.
-	 * @return JEditor  The Editor object.
+	 * @access	public
+	 * @param	string	$editor  The editor to use.
+	 * @return	JEditor	The Editor object.
 	 */
 	function &getInstance($editor = 'none')
 	{
@@ -84,7 +83,6 @@ class JEditor extends JObservable
 
 	/**
 	 * Initialize the editor
-	 *
 	 */
 	function initialise()
 	{
@@ -111,7 +109,13 @@ class JEditor extends JObservable
 	/**
 	 * Present a text area
 	 *
-	 *
+	 * @param	string	The control name
+	 * @param	string	The contents of the text area
+	 * @param	string	The width of the text area (px or %)
+	 * @param	string	The height of the text area (px or %)
+	 * @param	int		The number of columns for the textarea
+	 * @param	int		The number of rows for the textarea
+	 * @param	boolean	True and the editor buttons will be displayed
 	 */
 	function display($name, $html, $width, $height, $col, $row, $buttons = true)
 	{
@@ -122,16 +126,12 @@ class JEditor extends JObservable
 			return;
 		}
 
-		/*
-		 * Backwards compatibility. Width and height should be passed without a semicolon from now on.
-		 * If editor plugins need a unit like "px" for CSS styling, they need to take care of that
-		 */
+		// Backwards compatibility. Width and height should be passed without a semicolon from now on.
+		// If editor plugins need a unit like "px" for CSS styling, they need to take care of that
 		$width	= str_replace( ';', '', $width );
 		$height	= str_replace( ';', '', $height );
 
-		/*
-		 * Initialize variables
-		 */
+		// Initialize variables
 		$return = null;
 
 		$args['name'] 		 = $name;
@@ -145,7 +145,8 @@ class JEditor extends JObservable
 
 		$results[] = $this->_editor->update($args);
 
-		foreach ($results as $result) {
+		foreach ($results as $result)
+		{
 			if (trim($result)) {
 				$return .= $result;
 			}
@@ -156,7 +157,7 @@ class JEditor extends JObservable
 	/**
 	 * Save the editor content
 	 *
-	 *
+	 * @param	string	The name of the editor control
 	 */
 	function save( $editor )
 	{
@@ -183,7 +184,7 @@ class JEditor extends JObservable
 	/**
 	 * Get the editor contents
 	 *
-	 *
+	 * @param	string	The name of the editor control
 	 */
 	function getContent( $editor )
 	{
@@ -205,7 +206,8 @@ class JEditor extends JObservable
 	/**
 	 * Set the editor contents
 	 *
-	 *
+	 * @param	string	The name of the editor control
+	 * @param	string	The contents of the text area
 	 */
 	function setContent( $editor, $html )
 	{
@@ -228,8 +230,7 @@ class JEditor extends JObservable
 	/**
 	 * Get the editor buttons
 	 *
-	 * @param mixed $buttons Can be boolean or array, if boolean defines if the buttons
-	 *                       are displayed, if array defines a list of buttons not to show.
+	 * @param	mixed	$buttons Can be boolean or array, if boolean defines if the buttons are displayed, if array defines a list of buttons not to show.
 	 * @access public
 	 * @since 1.5
 	 */
@@ -268,8 +269,8 @@ class JEditor extends JObservable
 	/**
 	 * Load the editor
 	 *
-	 * @access private
-	 * @since 1.5
+	 * @access	private
+	 * @since	1.5
 	 */
 	function _loadEditor()
 	{

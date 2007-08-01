@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	HTML
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	HTML
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
@@ -104,10 +104,10 @@ class JToolBar extends JObject
 	/**
 	 * Set a value
 	 *
-	 * @access public
-	 * @param string The name of the param
-	 * @param string The value of the parameter
-	 * @return string The set value
+	 * @access	public
+	 * @param	string	The name of the param
+	 * @param	string	The value of the parameter
+	 * @return	string	The set value
 	 */
 	function appendButton()
 	{
@@ -120,10 +120,10 @@ class JToolBar extends JObject
 	/**
 	 * Get a value
 	 *
-	 * @access public
-	 * @param string The name of the param
-	 * @param mixed The default value if not found
-	 * @return string
+	 * @access	public
+	 * @param	string	The name of the param
+	 * @param	mixed	The default value if not found
+	 * @return	string
 	 */
 	function prependButton()
 	{
@@ -136,9 +136,9 @@ class JToolBar extends JObject
 	/**
 	 * Render
 	 *
-	 * @access public
-	 * @param string The name of the control, or the default text area if a setup file is not found
-	 * @return string HTML
+	 * @access	public
+	 * @param	string	The name of the control, or the default text area if a setup file is not found
+	 * @return	string	HTML
 	 */
 	function render()
 	{
@@ -163,9 +163,9 @@ class JToolBar extends JObject
 	/**
 	 * Render a parameter type
 	 *
-	 * @param object A param tag node
-	 * @param string The control name
-	 * @return array Any array of the label, the form element and the tooltip
+	 * @param	object	A param tag node
+	 * @param	string	The control name
+	 * @return	array	Any array of the label, the form element and the tooltip
 	 */
 	function renderButton( &$node )
 	{
@@ -189,7 +189,7 @@ class JToolBar extends JObject
 	 * @access	public
 	 * @param	string	buttonType
 	 * @return	object
-	 * @since 1.5
+	 * @since	1.5
 	 */
 	function & loadButtonType($type, $new = false)
 	{
