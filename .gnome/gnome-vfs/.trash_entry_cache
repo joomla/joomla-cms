@@ -1,5 +1,0 @@
-/dev/shm -
-/lib/modules/2.6.20-16-generic/volatile -
-/proc/bus/usb -
-/var/lock -
-/var/run -

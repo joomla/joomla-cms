@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<gconf>
-        <entry name="navigation_window_saved_maximized" mtime="1184771517" type="bool" value="false">
-        </entry>
-        <entry name="navigation_window_saved_geometry" mtime="1184771517" type="string">
-                <stringvalue>800x550+14+51</stringvalue>
-        </entry>
-</gconf>

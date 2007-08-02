@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<gconf>
-        <entry name="universe_warning" mtime="1184771778" type="int" value="1">
-        </entry>
-        <entry name="filter_applications" mtime="1184771635" type="int" value="2">
-        </entry>
-</gconf>
