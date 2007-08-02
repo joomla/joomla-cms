@@ -125,6 +125,10 @@ class  plgSystemLegacy extends JPlugin
 
 		$lang =& JFactory::getLanguage();
 		$GLOBALS['mosConfig_lang']          = $lang->getBackwardLang();
+		
+		$config->setValue('config.live_site', 		$GLOBALS['mosConfig_live_site']);
+		$config->setValue('config.absolute_path', 	$GLOBALS['mosConfig_absolute_path']);
+		$config->setValue('config.lang', 			$GLOBALS['mosConfig_lang']);
 
 		/**
 		 * Legacy global, use JFactory::getUser() instead
