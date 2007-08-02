@@ -48,7 +48,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<div>
 			<div>
 				<span class="version"><?php echo  JText::_('Version') ?><?php echo  JVERSION; ?></span>
-				<span class="title"><?php echo  JText::_('Administration') ?></span>
+				<span class="title"><?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Administration'); ?></span>
 			</div>
 		</div>
 	</div>
@@ -116,6 +116,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<a href="http://www.joomla.org" target="_blank">Joomla!</a>
 			<?php echo  JText::_('ISFREESOFTWARE') ?>
 		</p>
-	</div>
+	</div><?php ;print_r($this->params);?>
 </body>
 </html>

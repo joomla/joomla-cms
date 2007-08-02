@@ -28,5 +28,9 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		<param name="showSiteName" type="radio" default="0" label="Show Site Name" description="Show the site name in the template header">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 	</params>
 </install>
