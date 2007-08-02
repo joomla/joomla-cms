@@ -283,9 +283,9 @@ class HTML_newsfeeds
 				</tr>
 				<tr>
 					<td class="key">
-						<label for="cache_time">
-							<?php echo JText::_( 'Cache time (in seconds)' ); ?>
-						</label>
+						<span class="editlinktip hasTip" title="<?php echo JText::_( 'TIPCACHETIME' ); ?>">
+					<?php echo JText::_( 'Cache time' ); ?>
+				</span>
 					</td>
 					<td>
 						<input class="inputbox" type="text" size="4" name="cache_time" id="cache_time" value="<?php echo $row->cache_time; ?>" />
