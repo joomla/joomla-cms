@@ -62,6 +62,11 @@ class JSessionStorageDatabase extends JSessionStorage
  	 */
 	function read($id)
 	{
+		$db =& JFactory::getDBO();
+		if(!$db->connected()) {
+			return false;
+		}
+		
 		$session = & JTable::getInstance('session');
 		$session->load($id);
 		return (string)$session->data;
@@ -100,6 +105,11 @@ class JSessionStorageDatabase extends JSessionStorage
 	  */
 	function destroy($id)
 	{
+		$db =& JFactory::getDBO();
+		if(!$db->connected()) {
+			return false;
+		}
+		
 		$session = & JTable::getInstance('session');
 		$session->destroy($id);
 		return true;
@@ -114,6 +124,11 @@ class JSessionStorageDatabase extends JSessionStorage
 	 */
 	function gc($maxlifetime)
 	{
+		$db =& JFactory::getDBO();
+		if(!$db->connected()) {
+			return false;
+		}
+		
 		$session = & JTable::getInstance('session');
 		$session->purge($maxlifetime);
 		return true;

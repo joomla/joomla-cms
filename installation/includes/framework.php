@@ -56,14 +56,12 @@ jimport( 'joomla.utilities.compat.compat' );
 // Joomla! library imports
 jimport( 'joomla.environment.response' );
 jimport( 'joomla.application.application' );
-jimport( 'joomla.event.dispatcher' );
 jimport( 'joomla.database.table' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
-jimport( 'joomla.i18n.language' );
 jimport( 'joomla.html.parameter' );
 jimport( 'joomla.utilities.array' );
 jimport( 'joomla.utilities.error' );

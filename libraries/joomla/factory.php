@@ -444,6 +444,7 @@ class JFactory
 	function &_createDBO()
 	{
 		jimport('joomla.database.database');
+		jimport( 'joomla.database.table' );
 
 		$conf =& JFactory::getConfig();
 

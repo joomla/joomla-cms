@@ -62,13 +62,10 @@ jimport( 'joomla.utilities.compat.compat' );
 
 // Joomla! library imports
 jimport( 'joomla.application.application' );
-jimport( 'joomla.event.dispatcher' );
-jimport( 'joomla.database.table' );
 jimport( 'joomla.environment.uri' );
 jimport( 'joomla.user.user' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
-jimport( 'joomla.i18n.language' );
 jimport( 'joomla.utilities.string' );
 jimport( 'joomla.utilities.error' );
 jimport( 'joomla.event.*');
