@@ -85,5 +85,6 @@ jimport( 'joomla.utilities.error' );
 jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.utilities.string' );		//needs to be loaded later
 jimport( 'joomla.version' );				//needs to be loaded later
+jimport( 'joomla.event.*');
 
 ?>

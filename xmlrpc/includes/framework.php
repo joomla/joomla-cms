@@ -71,4 +71,5 @@ jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.utilities.string' );
 jimport( 'joomla.utilities.error' );
+jimport( 'joomla.event.*');
 ?>
