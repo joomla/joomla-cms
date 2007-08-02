@@ -159,7 +159,7 @@ class JFactory
 		$options = array(
 			'defaultgroup' 	=> $group,
 			'cachebase' 	=> $conf->getValue('config.cache_path'),
-			'lifetime' 		=> $conf->getValue('config.cachetime'),
+			'lifetime' 		=> $conf->getValue('config.cachetime') * 60,	// minutes to seconds
 			'language' 		=> $conf->getValue('config.language'),
 			'storage'		=> $storage
 		);
@@ -399,6 +399,7 @@ class JFactory
 		//get the editor configuration setting
 		$conf =& JFactory::getConfig();
 		$handler =  $conf->getValue('config.session_handler', 'none');
+		// config time is in minutes
 		$options['expire'] = ($conf->getValue('config.lifetime')) ? $conf->getValue('config.lifetime') * 60 : 900;
 
 		$session = JSession::getInstance($handler, $options);

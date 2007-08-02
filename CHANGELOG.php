@@ -39,7 +39,10 @@ Legend:
 
 02-August-2007 Andrew Eddie
  + Added 'Last Activity' column to admin mod_logged (try and help sort out stale session issues)
- 
+ + Added param to kephri template to optionally show the site title in the header
+ # Fixed session purging issues
+ ^ Changes config storage of cache lifetime from seconds to minutes to be the same as the session timeout
+
 01-August-2007 Johan Janssens
  ^ Plugin parameters are now passed through the constructor of the plugin and are available by
    default.

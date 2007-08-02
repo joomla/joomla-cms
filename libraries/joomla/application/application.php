@@ -632,7 +632,7 @@ class JApplication extends JObject
 		$session =& JFactory::getSession($options);
 
 		$storage = & JTable::getInstance('session');
-		$storage->purge($session->getExpire() * 60);
+		$storage->purge($session->getExpire());
 
 		// Session exists and is not expired, update time in session table
 		if ($storage->load($session->getId())) {
