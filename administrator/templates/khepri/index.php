@@ -116,6 +116,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<a href="http://www.joomla.org" target="_blank">Joomla!</a>
 			<?php echo  JText::_('ISFREESOFTWARE') ?>
 		</p>
-	</div><?php ;print_r($this->params);?>
+	</div>
 </body>
 </html>
