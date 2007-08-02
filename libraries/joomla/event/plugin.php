@@ -46,9 +46,23 @@ class JPlugin extends JEventHandler
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
 	 * @param object $subject The object to observe
+	 * @param object $params  The object that holds the plugin parameters
 	 * @since 1.5
 	 */
-	function JPlugin(& $subject) {
+	function JPlugin(& $subject, $params)  {	
 		parent::__construct($subject);
 	}
+	
+	/**
+	 * Constructor
+	 */
+	function __construct(& $subject, $params) 
+	{	
+		//Set the parameters
+		$this->params = $params;
+		
+		parent::__construct($subject);
+	}
+	
+	
 }

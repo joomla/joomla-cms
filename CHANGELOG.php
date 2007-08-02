@@ -39,6 +39,10 @@ Legend:
 
 02-August-2007 Andrew Eddie
  + Added 'Last Activity' column to admin mod_logged (try and help sort out stale session issues)
+ 
+01-August-2007 Johan Janssens
+ ^ Plugin parameters are now passed through the constructor of the plugin and are available by
+   default.
 
 01-August-2007 Andrew Eddie
  ^ Turned down error handling in JSimpleXML to raiseWarning instead of raiseError -

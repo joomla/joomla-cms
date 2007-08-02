@@ -32,10 +32,11 @@ class  plgSystemDebug extends JPlugin
 	 *
 	 * @access	protected
 	 * @param	object		$subject The object to observe
+	 * @param object $params  The object that holds the plugin parameters
 	 * @since	1.0
 	 */
-	function plgSystemDebug(& $subject) {
-		parent::__construct($subject);
+	function plgSystemDebug(& $subject, $params) {
+		parent::__construct($subject, $params);
 	}
 
 	/**
@@ -45,7 +46,7 @@ class  plgSystemDebug extends JPlugin
 	function onAfterRender()
 	{
 		global $_PROFILER, $mainframe;
-
+		
 		// Do not render if debugging is not enabled
 		if(!JDEBUG) { return; }
 

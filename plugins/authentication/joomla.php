@@ -37,10 +37,11 @@ class plgAuthenticationJoomla extends JPlugin
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
 	 * @param object $subject The object to observe
+	 * @param object $params  The object that holds the plugin parameters
 	 * @since 1.5
 	 */
-	function plgAuthenticationJoomla(& $subject) {
-		parent::__construct($subject);
+	function plgAuthenticationJoomla(& $subject, $params) {
+		parent::__construct($subject, $params);
 	}
 
 	/**

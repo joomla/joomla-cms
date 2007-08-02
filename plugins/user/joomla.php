@@ -37,8 +37,8 @@ class plgUserJoomla extends JPlugin
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function plgUserJoomla(& $subject) {
-		parent::__construct($subject);
+	function plgUserJoomla(& $subject, $params) {
+		parent::__construct($subject, $params);
 	}
 
 	/**

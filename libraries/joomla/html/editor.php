@@ -256,7 +256,7 @@ class JEditor extends JObservable
 
 			$className = 'plgButton'.$plugin->element;
 			if(class_exists($className)) {
-				$plugin = new $className($this);
+				$plugin = new $className($this, new JParameter($plugin->params));
 			}
 
 			// Try to authenticate

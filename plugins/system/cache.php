@@ -37,23 +37,20 @@ class  plgSystemCache extends JPlugin
 	 *
 	 * @access	protected
 	 * @param	object		$subject The object to observe
+	 * @param 	object $params  The object that holds the plugin parameters
 	 * @since	1.0
 	 */
-	function plgSystemCache(& $subject)
+	function plgSystemCache(& $subject, $params)
 	{
-		parent::__construct($subject);
-
-		// load plugin parameters
-		$this->_plugin = & JPluginHelper::getPlugin('system', 'cache');
-		$this->_params = new JParameter($this->_plugin->params);
+		parent::__construct($subject, $params);
 
 		$user =& JFactory::getUser();
 
 		$options = array(
 			'cachebase' 	=> JPATH_BASE.DS.'cache',
 			'defaultgroup' 	=> 'page',
-			'lifetime' 		=> $this->_params->get('cachetime', 15) * 60,
-			'browsercache'	=> $this->_params->get('browsercache', false)
+			'lifetime' 		=> $this->params->get('cachetime', 15) * 60,
+			'browsercache'	=> $this->params->get('browsercache', false)
 		);
 
 		$this->_cache =& JCache::getInstance( 'page', $options );

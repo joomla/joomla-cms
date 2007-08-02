@@ -37,10 +37,11 @@ class plgAuthenticationLdap extends JPlugin
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
 	 * @param object $subject The object to observe
+	 * @param object $params  The object that holds the plugin parameters
 	 * @since 1.5
 	 */
-	function plgAuthenticationLdap(& $subject) {
-		parent::__construct($subject);
+	function plgAuthenticationLdap(& $subject, $params) {
+		parent::__construct($subject, $params);
 	}
 
 	/**
@@ -68,14 +69,12 @@ class plgAuthenticationLdap extends JPlugin
 		}
 
 		// load plugin params info
-	 	$plugin =& JPluginHelper::getPlugin('authentication','ldap');
-	 	$params = new JParameter( $plugin->params );
-		$ldap_email 	= $params->get('ldap_email');
-		$ldap_fullname	= $params->get('ldap_fullname');
-		$ldap_uid		= $params->get('ldap_uid');
-		$auth_method	= $params->get('auth_method');
+		$ldap_email 	= $this->params->get('ldap_email');
+		$ldap_fullname	= $this->params->get('ldap_fullname');
+		$ldap_uid		= $this->params->get('ldap_uid');
+		$auth_method	= $this->params->get('auth_method');
 
-		$ldap = new JLDAP($params);
+		$ldap = new JLDAP($this->params);
 
 		if (!$ldap->connect())
 		{
@@ -94,7 +93,7 @@ class plgAuthenticationLdap extends JPlugin
 				if($bindtest)
 				{
 					// Search for users DN
-					$binddata = $ldap->simple_search(str_replace("[search]", $credentials['username'], $params->get('search_string')));
+					$binddata = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
 					// Verify Users Credentials
 					$success = $ldap->bind($binddata[0]['dn'],$credentials['password'],1);
 					// Get users details
@@ -111,7 +110,7 @@ class plgAuthenticationLdap extends JPlugin
 			{
 				// We just accept the result here
 				$success = $ldap->bind($credentials['username'],$credentials['password']);
-				$userdetails = $ldap->simple_search(str_replace("[search]", $credentials['username'], $params->get('search_string')));
+				$userdetails = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
 			}	break;
 		}
 

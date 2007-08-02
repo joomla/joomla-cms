@@ -93,10 +93,6 @@ class JPluginHelper
 	 * Loads the plugin file
 	 *
 	 * @access private
-	 * @param string The folder (group)
-	 * @param string The elements (name of file without extension)
-	 * @param int Published state
-	 * @param string The params for the bot
 	 * @return boolean True if success
 	 */
 	function _import( &$plugin, $autocreate = true, $dispatcher = null )
@@ -132,14 +128,12 @@ class JPluginHelper
 					$className = 'plg'.$plugin->folder.$plugin->element;
 					if(class_exists($className))
 					{
-						// create the plugin
-						$instance = & new $className($dispatcher);
-
 						// load plugin parameters
 						$plugin =& JPluginHelper::getPlugin($plugin->folder, $plugin->element);
-
-						// push the parameters in the plugin
-						$instance->set('params', new JParameter($plugin->params));
+						
+						// create the plugin
+						$instance = new $className($dispatcher, new JParameter($plugin->params));
+						
 					}
 				}
 			}

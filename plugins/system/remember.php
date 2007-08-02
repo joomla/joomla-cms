@@ -34,8 +34,8 @@ class plgSystemRemember extends JPlugin
 	 * @param	object		$subject The object to observe
 	 * @since	1.0
 	 */
-	function plgSystemRemember(& $subject) {
-		parent::__construct($subject);
+	function plgSystemRemember(& $subject, $params) {
+		parent::__construct($subject, $params);
 	}
 
 	function onAfterInitialise()
