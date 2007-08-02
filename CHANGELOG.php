@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-August-2007 Andrew Eddie
+ + Added 'Last Activity' column to admin mod_logged (try and help sort out stale session issues)
+
 01-August-2007 Andrew Eddie
  ^ Turned down error handling in JSimpleXML to raiseWarning instead of raiseError -
    makes it easier find what happened
