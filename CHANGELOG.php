@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-August-2007 Johan Janssens
+ # Fixed [#6344] Editor does not load correctly in legacy component 
+
 02-August-2007 Andrew Eddie
  + Added 'Last Activity' column to admin mod_logged (try and help sort out stale session issues)
  + Added param to kephri template to optionally show the site title in the header

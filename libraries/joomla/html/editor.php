@@ -294,18 +294,15 @@ class JEditor extends JObservable
 
 		// Require plugin file
 		require_once $path;
-
+		
+		// Get the plugin
+		$plugin =& JPluginHelper::getPlugin('editors', $this->_name);
+	
 		// Build editor plugin classname
 		$name = 'plgEditor'.$this->_name;
-		if($this->_editor = new $name ($this))
+		if($this->_editor = new $name ($this, new JParameter($plugin->params)))
 		{
 			// load plugin parameters
-			$plugin =& JPluginHelper::getPlugin('editors', $this->_name);
-			$params = new JParameter($plugin->params);
-
-			// push the parameters in the plugin
-			$this->_editor->set('params', $params);
-
 			$this->initialise();
 			JPluginHelper::importPlugin('editors-xtd');
 		}
