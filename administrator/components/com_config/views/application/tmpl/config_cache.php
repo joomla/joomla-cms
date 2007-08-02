@@ -21,7 +21,7 @@
 			</td>
 			<td>
 				<input class="text_area" type="text" name="cachetime" size="5" value="<?php echo $row->cachetime; ?>" />
-					<?php echo JText::_( 'seconds' ); ?>
+					<?php echo JText::_( 'minutes' ); ?>
 			</td>
 		</tr>
 		<tr>
