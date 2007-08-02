@@ -18,7 +18,7 @@
 $GLOBALS['_JRESPONSE'] = new stdClass();
 $GLOBALS['_JRESPONSE']->cachable = false;
 $GLOBALS['_JRESPONSE']->headers  = array();
-$GLOBALS['_JRESPONSE']->body	   = array();
+$GLOBALS['_JRESPONSE']->body	 = array();
 
  /**
  * JResponse Class
