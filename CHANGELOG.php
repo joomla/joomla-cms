@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-August-2007 Robin Muilwijk
+ # Fixed partially [#6314] duplicate language string, removed
+
 02-August-2007 Johan Janssens
  # Fixed [#6344] Editor does not load correctly in legacy component 
 
