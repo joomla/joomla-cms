@@ -1,0 +1,5 @@
+[$Version]
+update_info=kickerrc.upd:kde_3_1_sizeChanges,kickerrc.upd:kde_3_4_reverseLayout,kickerrc.upd:kde_3_5_kconfigXTize
+
+[menus]
+MenuEntryFormat=NameAndDescription

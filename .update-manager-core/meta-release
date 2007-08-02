@@ -1,0 +1,56 @@
+Dist: warty
+Name: Warty Warthog
+Version: 04.10
+Date: Wed, 20 Oct 2004 07:28:17 UTC
+Supported: 0
+Description: This is the warty warthog release
+Release-File: http://archive.ubuntu.com/ubuntu/dists/warty/Release
+
+Dist: hoary
+Name: Hoary  Hedgehog
+Version: 05.04
+Date: Fri, 08 Apr 2005 08:18:19 UTC
+Supported: 0
+Description: This is the Hoary Hedgehog release
+Release-File: http://archive.ubuntu.com/ubuntu/dists/hoary/Release
+
+Dist: breezy
+Name: Breezy Badger
+Version: 05.10
+Date: Thu, 13 Oct 2005 19:34:42 UTC
+Supported: 0
+Description: This is the Breezy Badger release
+Release-File: http://archive.ubuntu.com/ubuntu/dists/breezy/Release
+
+Dist: dapper
+Name: Dapper Drake
+Version: 6.06 LTS
+Date: Thu, 01 Jun 2006 9:00:00 UTC
+Supported: 1
+Description: This is the Dapper Drake release
+Release-File: http://archive.ubuntu.com/ubuntu/dists/dapper/Release
+ReleaseNotes: http://changelogs.ubuntu.com/DapperReleaseAnnouncement
+UpgradeTool: http://archive.ubuntu.com/ubuntu/dists/dapper/main/dist-upgrader-all/current/dapper.tar.gz
+UpgradeToolSignature: http://archive.ubuntu.com/ubuntu/dists/dapper/main/dist-upgrader-all/current/dapper.tar.gz.gpg
+
+Dist: edgy 
+Name: Edgy Eft
+Version: 6.10
+Date: Thu, 26 Oct 2006 12:00:00 UTC
+Supported: 1
+Description: This is the Edgy Eft release
+Release-File: http://archive.ubuntu.com/ubuntu/dists/edgy/Release
+ReleaseNotes: http://changelogs.ubuntu.com/EdgyReleaseAnnouncement
+UpgradeTool: http://archive.ubuntu.com/ubuntu/dists/edgy-updates/main/dist-upgrader-all/current/edgy.tar.gz
+UpgradeToolSignature: http://archive.ubuntu.com/ubuntu/dists/edgy-updates/main/dist-upgrader-all/current/edgy.tar.gz.gpg
+
+Dist: feisty
+Name: Feisty Fawn
+Version: 7.04
+Date: Thu, 19 Apr 2007 13:00:00 +0200
+Supported: 1
+Description: This is the 7.04 release
+Release-File: http://archive.ubuntu.com/ubuntu/dists/feisty/Release
+ReleaseNotes: http://archive.ubuntu.com/ubuntu/dists/feisty-proposed/main/dist-upgrader-all/current/ReleaseAnnouncement
+UpgradeTool: http://archive.ubuntu.com/ubuntu/dists/feisty-proposed/main/dist-upgrader-all/current/feisty.tar.gz
+UpgradeToolSignature: http://archive.ubuntu.com/ubuntu/dists/feisty-proposed/main/dist-upgrader-all/current/feisty.tar.gz.gpg

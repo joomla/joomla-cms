@@ -1,0 +1,42 @@
+[1]
+description=(Default) Disable focus stealing prevention for OpenOffice.org 2.0
+fsplevel=0
+fsplevelrule=2
+wmclass=vclsalframe openoffice.org 2.0
+wmclasscomplete=true
+wmclassmatch=1
+
+[2]
+description=(Default) Disable focus stealing prevention for Mozilla
+fsplevel=0
+fsplevelrule=2
+wmclass=mozilla-bin
+wmclasscomplete=false
+wmclassmatch=1
+
+[3]
+description=(Default) Disable focus stealing prevention for Firefox
+fsplevel=0
+fsplevelrule=2
+wmclass=firefox-bin
+wmclasscomplete=false
+wmclassmatch=1
+
+[4]
+description=(Default) Disable focus stealing prevention for Thunderbird
+fsplevel=0
+fsplevelrule=2
+wmclass=thunderbird-bin
+wmclasscomplete=false
+wmclassmatch=1
+
+[5]
+description=(Default) Disable focus stealing prevention for XV
+fsplevel=0
+fsplevelrule=2
+wmclass=^xv .*
+wmclasscomplete=true
+wmclassmatch=3
+
+[General]
+count=5

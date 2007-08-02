@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<gconf>
+        <entry name="menu_path" mtime="1184670697" schema="/schemas/apps/panel/objects/menu_path"/>
+        <entry name="locked" mtime="1184670697" schema="/schemas/apps/panel/objects/locked" type="bool" value="true">
+        </entry>
+        <entry name="position" mtime="1184670697" schema="/schemas/apps/panel/objects/position" type="int" value="2">
+        </entry>
+        <entry name="object_type" mtime="1184670697" schema="/schemas/apps/panel/objects/object_type" type="string">
+                <stringvalue>launcher-object</stringvalue>
+        </entry>
+        <entry name="panel_right_stick" mtime="1184670697" schema="/schemas/apps/panel/objects/panel_right_stick" type="bool" value="false">
+        </entry>
+        <entry name="use_menu_path" mtime="1184670697" schema="/schemas/apps/panel/objects/use_menu_path"/>
+        <entry name="custom_icon" mtime="1184670697" schema="/schemas/apps/panel/objects/custom_icon"/>
+        <entry name="tooltip" mtime="1184670697" schema="/schemas/apps/panel/objects/tooltip"/>
+        <entry name="launcher_location" mtime="1184670697" schema="/schemas/apps/panel/objects/launcher_location" type="string">
+                <stringvalue>evolution-mail.desktop</stringvalue>
+        </entry>
+        <entry name="action_type" mtime="1184670697" schema="/schemas/apps/panel/objects/action_type"/>
+        <entry name="use_custom_icon" mtime="1184670697" schema="/schemas/apps/panel/objects/use_custom_icon"/>
+        <entry name="attached_toplevel_id" mtime="1184670697" schema="/schemas/apps/panel/objects/attached_toplevel_id"/>
+        <entry name="bonobo_iid" mtime="1184670697" schema="/schemas/apps/panel/objects/bonobo_iid"/>
+        <entry name="toplevel_id" mtime="1184670697" schema="/schemas/apps/panel/objects/toplevel_id" type="string">
+                <stringvalue>top_panel_screen0</stringvalue>
+        </entry>
+</gconf>

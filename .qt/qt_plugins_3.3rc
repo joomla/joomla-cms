@@ -1,0 +1,8 @@
+[usr]
+lib/kde3/plugins/styles/plastik.so=30307^e3^ei686 Linux g++-4.* full-config^e2007-04-11T05:27:13^e
+lib/qt3/plugins/imageformats/libqmng.so=30307^e3^ei686 Linux g++-4.* full-config^e2007-04-11T04:58:43^e
+lib/qt3/plugins/inputmethods/libqimsw-multi.so=30307^e3^ei686 Linux g++-4.* full-config^e2007-04-11T04:58:43^e
+lib/qt3/plugins/inputmethods/libqimsw-none.so=30307^e3^ei686 Linux g++-4.* full-config^e2007-04-11T04:58:43^e
+lib/qt3/plugins/inputmethods/libqsimple.so=30307^e3^ei686 Linux g++-4.* full-config^e2007-04-11T04:58:43^e
+lib/qt3/plugins/inputmethods/libqxim.so=30307^e3^ei686 Linux g++-4.* full-config^e2007-04-11T04:58:43^e
+

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<gconf>
+        <entry name="current" mtime="1186056435" type="string">
+                <stringvalue>/usr/bin/metacity</stringvalue>
+        </entry>
+        <entry name="default" mtime="1184670695" type="string">
+                <stringvalue>/usr/bin/metacity</stringvalue>
+        </entry>
+</gconf>

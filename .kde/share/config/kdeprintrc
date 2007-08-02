@@ -1,0 +1,5 @@
+[$Version]
+update_info=kdeprintrc.upd:kde-3.1-toolbar
+
+[General]
+ViewToolBar[$d]

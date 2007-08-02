@@ -1,0 +1,65 @@
+// <!-- <mdb:mork:z v="1.4"/> -->
+< <(a=c)> // (f=iso-8859-1)
+  (8A=Typed)(8B=LastPageVisited)(8C=ByteOrder)
+  (80=ns:history:db:row:scope:history:all)
+  (81=ns:history:db:table:kind:history)(82=URL)(83=Referrer)
+  (84=LastVisitDate)(85=FirstVisitDate)(86=VisitCount)(87=Name)
+  (88=Hostname)(89=Hidden)>
+
+<(80=LE)(81=file:///usr/share/ubuntu-artwork/home/locales/index-en_GB.html)
+  (8D=1186056871918616)(82=1184771311192205)(83=)(84
+    =W$00e$00l$00c$00o$00m$00e$00 $00t$00o$00 $00U$00b$00u$00n$00t$00u$00 $007\
+$00.$000$004$00,$00 $00F$00e$00i$00s$00t$00y$00 $00F$00a$00w$00n$00!$00)
+  (89=2)(85=http://localhost/)(86=1184771351592963)(87=localhost)(88=1)
+  (8A=I$00n$00d$00e$00x$00 $00o$00f$00 $00/$00)(8B
+    =http://localhost/apache2-default/)(8C=1184771357563514)(8E
+    =http://joomlacode.org/)(8F=1186056894203742)(90=joomlacode.org)
+  (91=J$00o$00o$00m$00l$00a$00C$00o$00d$00e$00 $00-$00 $00J$00o$00o$00m$00l$00\
+a$00!$00 $00P$00r$00o$00j$00e$00c$00t$00 $00S$00i$00t$00e$00)(92
+    =http://pagead2.googlesyndication.com/pagead/ads?client=ca-pub-11893704089\
+98555&dt=1186056897516&lmt=1185783880&format=468x60_as&output=html&correlator=\
+1186056897166&url=http%3A%2F%2Fjoomlacode.org%2F&color_bg=5e911b&color_text=dd\
+dddd&color_link=ffffff&color_url=ffffff&color_border=5e911b&ad_type=text&cc=10\
+0&flash=0&u_h=768&u_w=1024&u_ah=718&u_aw=1024&u_cd=24&u_tz=60&u_his=2&u_java=t\
+rue&u_nplug=4&u_nmime=17)(93=1186056897928684)(94
+    =pagead2.googlesyndication.com)(95
+    =http://joomlacode.org/gf/project/joomla/)(96=1186056919083101)
+  (97=P$00r$00o$00j$00e$00c$00t$00s$00 $00>$00 $00J$00o$00o$00m$00l$00a$00!$00\
+ $00>$00 $00H$00o$00m$00e$00)(98
+    =http://pagead2.googlesyndication.com/pagead/ads?client=ca-pub-11893704089\
+98555&dt=1186056919287&lmt=1186056919&format=468x60_as&output=html&correlator=\
+1186056919286&url=http%3A%2F%2Fjoomlacode.org%2Fgf%2Fproject%2Fjoomla%2F&color\
+_bg=5e911b&color_text=dddddd&color_link=ffffff&color_url=ffffff&color_border=5\
+e911b&ad_type=text&ref=http%3A%2F%2Fjoomlacode.org%2F&cc=100&flash=0&u_h=768&u\
+_w=1024&u_ah=718&u_aw=1024&u_cd=24&u_tz=60&u_his=3&u_java=true&u_nplug=4&u_nmi\
+me=17)(99=http://joomlacode.org/gf/project/joomla/scmsvn/)(9A
+    =1186056953763453)(9B
+    =P$00r$00o$00j$00e$00c$00t$00s$00 $00>$00 $00J$00o$00o$00m$00l$00a$00!$00 \
+$00>$00 $00S$00V$00N$00 $00>$00 $00B$00r$00o$00w$00s$00e$00 $00r$00e$00p$00o$00\
+s$00i$00t$00o$00r$00y$00)(9C
+    =http://pagead2.googlesyndication.com/pagead/ads?client=ca-pub-11893704089\
+98555&dt=1186056954278&lmt=1186056953&format=468x60_as&output=html&correlator=\
+1186056954276&url=http%3A%2F%2Fjoomlacode.org%2Fgf%2Fproject%2Fjoomla%2Fscmsvn\
+%2F&color_bg=5e911b&color_text=dddddd&color_link=ffffff&color_url=ffffff&color\
+_border=5e911b&ad_type=text&ref=http%3A%2F%2Fjoomlacode.org%2Fgf%2Fproject%2Fj\
+oomla%2F&cc=100&flash=0&u_h=768&u_w=1024&u_ah=718&u_aw=1024&u_cd=24&u_tz=60&u_\
+his=4&u_java=true&u_nplug=4&u_nmime=17)(9D=http://dev.joomla.org/)(9E
+    =1186056967494890)(9F=dev.joomla.org)(A0
+    =J$00o$00o$00m$00l$00a$00!$00 $00D$00e$00v$00e$00l$00o$00p$00e$00r$00 $00N\
+$00e$00t$00w$00o$00r$00k$00)(A1=http://dev.joomla.org/content/view/17/60/)
+  (A2=1186056981576746)(A3
+    =J$00o$00o$00m$00l$00a$00!$00 $00D$00e$00v$00e$00l$00o$00p$00e$00r$00 $00N\
+$00e$00t$00w$00o$00r$00k$00 $00-$00 $00H$00o$00w$00 $00t$00o$00 $00g$00e$00t$00\
+ $00J$00o$00o$00m$00l$00a$00!$00)>
+{1:^80 {(k^81:c)(s=9)[1(^8C=LE)]} 
+  [2(^82^81)(^84^8D)(^85^82)(^88=)(^87^84)(^86=2)]
+  [3(^82^85)(^84^86)(^85^86)(^88^87)(^8A=1)(^86=2)(^87^8A)]
+  [4(^82^8B)(^84^8C)(^85^8C)(^83^85)(^88^87)(^87=)]
+  [5(^82^8E)(^84^8F)(^85^8F)(^88^90)(^8A=1)(^86=2)(^87^91)]
+  [6(^82^92)(^84^93)(^85^93)(^83^8E)(^88^94)(^89=1)(^87=)]
+  [7(^82^95)(^84^96)(^85^96)(^83^8E)(^88^90)(^87^97)]
+  [8(^82^98)(^84^96)(^85^96)(^83^95)(^88^94)(^89=1)(^87=)]
+  [9(^82^99)(^84^9A)(^85^9A)(^83^95)(^88^90)(^87^9B)]
+  [A(^82^9C)(^84^9A)(^85^9A)(^83^99)(^88^94)(^89=1)(^87=)]
+  [B(^82^9D)(^84^9E)(^85^9E)(^83^99)(^88^9F)(^87^A0)]
+  [C(^82^A1)(^84^A2)(^85^A2)(^83^9D)(^88^9F)(^87^A3)]}

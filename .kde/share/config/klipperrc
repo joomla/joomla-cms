@@ -1,0 +1,5 @@
+[$Version]
+update_info=klipperrc.upd:25082001,klipperrc.upd:kde3.1,klippershortcuts.upd:04112002
+
+[General]
+AutoStart=true

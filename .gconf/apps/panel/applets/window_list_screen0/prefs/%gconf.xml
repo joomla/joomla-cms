@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<gconf>
+        <entry name="minimum_size" mtime="1186056441" schema="/schemas/apps/window_list_applet/prefs/minimum_size"/>
+        <entry name="maximum_size" mtime="1186056441" schema="/schemas/apps/window_list_applet/prefs/maximum_size"/>
+        <entry name="group_windows" mtime="1186056441" schema="/schemas/apps/window_list_applet/prefs/group_windows"/>
+        <entry name="display_all_workspaces" mtime="1186056441" schema="/schemas/apps/window_list_applet/prefs/display_all_workspaces"/>
+        <entry name="move_unminimized_windows" mtime="1186056441" schema="/schemas/apps/window_list_applet/prefs/move_unminimized_windows"/>
+</gconf>
