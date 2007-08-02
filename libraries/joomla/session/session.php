@@ -619,7 +619,7 @@ class JSession extends JObject
 		}
 
 		//sync the session maxlifetime
-		ini_set("session.gc_maxlifetime", $this->_expire);
+		ini_set('session.gc_maxlifetime', $this->_expire);
 
 		return true;
 	}
