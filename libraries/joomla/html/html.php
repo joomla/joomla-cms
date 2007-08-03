@@ -251,8 +251,15 @@ class JHTML
 			$paths = array( JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html' );
 		}
 
-		if (!empty( $path ) && !in_array( $path, $paths )) {
-			array_unshift($paths, JPath::clean( $path ));
+		// force path to array
+		settype($path, 'array');
+
+		// loop through the path directories
+		foreach ($path as $dir)
+		{
+			if (!empty($dir) && !in_array($dir, $paths)) {
+				array_unshift($paths, JPath::clean( $dir ));
+			}
 		}
 
 		return $paths;
