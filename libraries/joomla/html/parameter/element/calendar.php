@@ -1,7 +1,7 @@
 <?php
 /**
 * @version		$Id$
-* @package		Joomla
+* @package		Joomla.Framework
 * @subpackage	Articles
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
@@ -19,7 +19,7 @@ defined('_JEXEC') or die();
  * Renders a calendar element
  *
  * @author 		Louis Landry
- * @package 	Joomla
+ * @package 	Joomla.Framework
  * @subpackage	Articles
  * @since		1.5
  */
