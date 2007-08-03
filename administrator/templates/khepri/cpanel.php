@@ -43,7 +43,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<div id="border-top">
 		<div>
 			<div>
-				<span class="version"><?php echo  JText::_('Version') ?><?php echo  JVERSION; ?></span>
+				<span class="version"><?php echo  JText::_('Version') ?> <?php echo  JVERSION; ?></span>
 				<span class="title"><?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Administration'); ?></span>
 			</div>
 		</div>

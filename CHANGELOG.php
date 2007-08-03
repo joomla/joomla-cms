@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-August-2007 Robin Muilwijk
+ # Fixed [#6314] added a space between Version and Version number in backend template
+
 02-August-2007 Robin Muilwijk
  # Fixed partially [#6314] duplicate language string, removed
 
