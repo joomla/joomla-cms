@@ -26,7 +26,7 @@ if (!$user->authorize( 'com_plugins', 'manage' )) {
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 $option = JRequest::getCmd( 'option' );
-$client = JRequest::getWord( 'client', 'site' );
+$client = JRequest::getWord( 'filter_client', 'site' );
 $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $task	= JRequest::getCmd( 'task' );
 

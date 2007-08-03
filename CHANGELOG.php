@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-August-2007 Andrew Eddie
+ # Partial fix to [#6345] 'Close' button not working when editing plugins
+
 03-August-2007 Robin Muilwijk
  # Fixed [#6314] added a space between Version and Version number in backend template
 
@@ -44,7 +47,7 @@ Legend:
  # Fixed partially [#6314] duplicate language string, removed
 
 02-August-2007 Johan Janssens
- # Fixed [#6344] Editor does not load correctly in legacy component 
+ # Fixed [#6344] Editor does not load correctly in legacy component
 
 02-August-2007 Andrew Eddie
  + Added 'Last Activity' column to admin mod_logged (try and help sort out stale session issues)

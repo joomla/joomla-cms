@@ -158,7 +158,7 @@ class HTML_modules {
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="client" value="<?php echo $client;?>" />
+		<input type="hidden" name="filter_client" value="<?php echo $client;?>" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
