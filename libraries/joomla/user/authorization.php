@@ -490,7 +490,7 @@ class JAuthorization extends gacl_api
 		}
 
 		$query = '
-				SELECT		g2.group_id
+				SELECT		g2.id
 				FROM		'. $table .' g1';
 
 		//FIXME-mikeb: Why is group_id in quotes?

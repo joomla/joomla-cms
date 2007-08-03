@@ -39,6 +39,7 @@ Legend:
 
 04-August-2007 Andrew Eddie
  # Partial fix to [#6345] 'Close' button not working when editing plugins
+ # Fixed [Q&T] function get_group_parents doesn't work
 
 03-August-2007 Robin Muilwijk
  # Fixed [#6314] added a space between Version and Version number in backend template
