@@ -40,6 +40,7 @@ Legend:
 06-August-2007 Andrew Eddie
  - Removed js console.log calls - causes error when FireBug not installed/enabled with Fx
  # Fixed "GNU/GPL License" Redundancy
+ + Implemented ignore argument JTable::save patch by acalderon
 
 04-August-2007 Andrew Eddie
  # Partial fix to [#6345] 'Close' button not working when editing plugins

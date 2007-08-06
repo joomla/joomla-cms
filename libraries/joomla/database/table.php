@@ -716,27 +716,24 @@ class JTable extends JObject
 	/**
 	 * Generic save function
 	 *
-	 * @access public
-	 * @param array Source array for binding to class vars
-	 * @param string Filter for the order updating
+	 * @access	public
+	 * @param	array	Source array for binding to class vars
+	 * @param	string	Filter for the order updating
+	 * @param	mixed	An array or space separated list of fields not to bind
 	 * @returns TRUE if completely successful, FALSE if partially or not succesful.
 	 */
-	function save( $source, $order_filter='' )
+	function save( $source, $order_filter='', $ignore='' )
 	{
-		if (!$this->bind( $source ))
-		{
+		if (!$this->bind( $source, $ignore )) {
 			return false;
 		}
-		if (!$this->check())
-		{
+		if (!$this->check()) {
 			return false;
 		}
-		if (!$this->store())
-		{
+		if (!$this->store()) {
 			return false;
 		}
-		if (!$this->checkin())
-		{
+		if (!$this->checkin()) {
 			return false;
 		}
 		if ($order_filter)
