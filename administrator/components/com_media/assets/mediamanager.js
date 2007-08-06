@@ -1,5 +1,5 @@
 /**
-* @version		$Id: popup-imagemanager.js 3604 2006-05-24 00:23:00Z Jinx $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
@@ -68,10 +68,10 @@ var JMediaManager = new Class({
 		}, query);
 		a.query = query.join('&');
 
-		console.log(this.frameurl);
+		//console.log(this.frameurl);
 
 		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+a.path+'?'+a.query);
-		console.log($('uploadForm').getProperty('action'));
+		//console.log($('uploadForm').getProperty('action'));
 	},
 
 	oncreatefolder: function()

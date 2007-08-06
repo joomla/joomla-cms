@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-August-2007 Andrew Eddie
+ - Removed js console.log calls - causes error when FireBug not installed/enabled with Fx
+
 04-August-2007 Andrew Eddie
  # Partial fix to [#6345] 'Close' button not working when editing plugins
  # Fixed [Q&T] function get_group_parents doesn't work

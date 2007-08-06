@@ -63,7 +63,7 @@ var JImageManager = new Class({
 		}
 
 		a = this._getUriObject($('uploadForm').getProperty('action'));
-		console.log(a);
+		//console.log(a);
 		q = $H(this._getQueryObject(a.query));
 		q.set('folder', folder);
 		q.set('format', 'json');
