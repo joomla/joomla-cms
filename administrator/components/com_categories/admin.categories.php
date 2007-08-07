@@ -503,7 +503,7 @@ function removeCategories( $section, $cid )
 		$table = 'content';
 	}
 
-	$query = 'SELECT c.id, c.name, COUNT( s.catid ) AS numcat'
+	$query = 'SELECT c.id, c.name, c.title, COUNT( s.catid ) AS numcat'
 	. ' FROM #__categories AS c'
 	. ' LEFT JOIN #__'.$table.' AS s ON s.catid = c.id'
 	. ' WHERE c.id IN ( '.$cids.' )'
