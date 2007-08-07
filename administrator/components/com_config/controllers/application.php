@@ -277,7 +277,7 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['tmp_path']			= JRequest::getVar('tmp_path', JPATH_ROOT.DS.'tmp', 'post', 'string');
 
 		// LOCALE SETTINGS
-		$config_array['offset']				= JRequest::getVar('offset', 0, 'post', 'int');
+		$config_array['offset']				= JRequest::getVar('offset', 0, 'post', 'float');
 
 		// CACHE SETTINGS
 		$config_array['caching']			= JRequest::getVar('caching', 0, 'post', 'int');
