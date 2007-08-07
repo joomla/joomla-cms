@@ -34,24 +34,14 @@ class JComponentHelper
 	 * @param 	boolean	$string	If set and a component does not exist, the enabled attribue will be set to false
 	 * @return	object A JComponent object
 	 */
-	function &getInfo( $name, $strict = false )
+	function &getComponent( $name, $strict = false )
 	{
-		static $instances;
+		$result = null;
+		$components = JPluginHelper::_load();
 
-		if (!isset( $instances ))
+		if (isset( $components[$name] ))
 		{
-			$db = &JFactory::getDBO();
-
-			$query = 'SELECT *' .
-					' FROM #__components' .
-					' WHERE parent = 0';
-			$db->setQuery( $query );
-			$instances = $db->loadObjectList( 'option' );
-		}
-
-		if (isset( $instances[$name] ))
-		{
-			$result = &$instances[$name];
+			$result = &$components[$name];
 		}
 		else
 		{
@@ -67,16 +57,16 @@ class JComponentHelper
 	 * Checks if the component is enabled
 	 *
 	 * @access	public
-	 * @param	string	$name The component name
+	 * @param	string	$component The component name
 	 * @param 	boolean	$string	If set and a component does not exist, false will be returned
 	 * @return	boolean
 	 */
-	function isEnabled( $name, $strict = false )
+	function isEnabled( $component, $strict = false )
 	{
 		global $mainframe;
 
-		$component = &JComponentHelper::getInfo( $name, $strict );
-		return ($component->enabled | $mainframe->isAdmin());
+		$result = &JComponentHelper::getComponent( $component, $strict );
+		return ($result->enabled | $mainframe->isAdmin());
 	}
 
 	/**
@@ -91,7 +81,7 @@ class JComponentHelper
 		static $instances;
 		if (!isset( $instances[$name] ))
 		{
-			$component = &JComponentHelper::getInfo( $name );
+			$component = &JComponentHelper::getComponent( $name );
 			$instances[$name] = new JParameter($component->params);
 		}
 		return $instances[$name];
@@ -180,5 +170,35 @@ class JComponentHelper
 		}
 
 		return $contents;
+	}
+
+	/**
+	 * Load components
+	 *
+	 * @access	private
+	 * @return	array
+	 */
+	function _load()
+	{
+		static $components;
+
+		if (isset($components)) {
+			return $components;
+		}
+
+		$db = &JFactory::getDBO();
+
+		$query = 'SELECT *' .
+				' FROM #__components' .
+				' WHERE parent = 0';
+		$db->setQuery( $query );
+
+		if (!($components = $db->loadObjectList( 'option' ))) {
+			JError::raiseWarning( 'SOME_ERROR_CODE', "Error loading Components: " . $db->getErrorMsg());
+			return false;
+		}
+
+		return $components;
+
 	}
 }

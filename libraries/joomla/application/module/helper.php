@@ -91,6 +91,19 @@ class JModuleHelper
 		return $result;
 	}
 
+	/**
+	 * Checks if a module is enabled
+	 *
+	 * @access	public
+	 * @param   string 	$module	The module name
+	 * @return	boolean
+	 */
+	function isEnabled( $module )
+	{
+		$result = &JModuleHelper::getModule( $module);
+		return (!is_null($result));
+	}
+
 	function renderModule($module, $attribs = array())
 	{
 		static $chrome;
@@ -248,7 +261,11 @@ class JModuleHelper
 			. ' ORDER BY position, ordering';
 
 		$db->setQuery( $query );
-		$modules = $db->loadObjectList();
+
+		if (!($modules = $db->loadObjectList())) {
+			JError::raiseWarning( 'SOME_ERROR_CODE', "Error loading Modules: " . $db->getErrorMsg());
+			return false;
+		}
 
 		$total = count($modules);
 		for($i = 0; $i < $total; $i++)

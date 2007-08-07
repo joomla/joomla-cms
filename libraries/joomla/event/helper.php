@@ -64,6 +64,20 @@ class JPluginHelper
 	}
 
 	/**
+	 * Checks if a plugin is enabled
+	 *
+	 * @access	public
+	 * @param string 	$group 	The group name, relates to the sub-directory in the plugins directory
+	 * @param string 	$plugin	The plugin name
+	 * @return	boolean
+	 */
+	function isEnabled( $group, $plugin = null )
+	{
+		$result = &JPluginHelper::getPlugin( $group, $plugin);
+		return (!empty($result));
+	}
+
+	/**
 	* Loads all the plugin files for a particular group if no specific plugin is specified
 	* otherwise only the specific pugin is loaded.
 	*
@@ -130,10 +144,10 @@ class JPluginHelper
 					{
 						// load plugin parameters
 						$plugin =& JPluginHelper::getPlugin($plugin->folder, $plugin->element);
-						
+
 						// create the plugin
 						$instance = new $className($dispatcher, new JParameter($plugin->params));
-						
+
 					}
 				}
 			}
@@ -145,7 +159,7 @@ class JPluginHelper
 	}
 
 	/**
-	 * Loads the plugin data
+	 * Loads the published plugins
 	 *
 	 * @access private
 	 */

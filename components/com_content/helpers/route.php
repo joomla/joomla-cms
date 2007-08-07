@@ -175,7 +175,7 @@ class ContentHelperRoute
 	 */
 	function _getArticleMenuInfo($id, $catid = 0, $sectionid = 0)
 	{
-		$component	=& JComponentHelper::getInfo('com_content');
+		$component	=& JComponentHelper::getComponent('com_content');
 
 		$menus		=& JMenu::getInstance();
 		$items		= $menus->getItems('componentid', $component->id);
