@@ -87,6 +87,7 @@ var JImageManager = new Class({
 
 	onok: function()
 	{
+		extra = '';
 		// Get the image tag field information
 		var url		= this.fields.url.getValue();
 		var alt		= this.fields.alt.getValue();
@@ -97,22 +98,24 @@ var JImageManager = new Class({
 		if (url != '') {
 			// Set alt attribute
 			if (alt != '') {
-				var alt = "alt=\""+alt+"\" ";
+				extra = extra + 'alt="'+alt+'" ';
+			} else {
+				extra = extra + 'alt="" ';
 			}
 			// Set align attribute
 			if (align != '') {
-				align = "align=\""+align+"\" ";
+				extra = extra + 'align="'+align+'" ';
 			}
 			// Set align attribute
 			if (title != '') {
-				title = "title=\""+title+"\" ";
+				extra = extra + 'title="'+title+'" ';
 			}
 			// Set align attribute
 			if (caption != '') {
-				caption = 'class="caption"';
+				extra = extra + 'class="caption" ';
 			}
 
-			var tag = "<img src=\""+url+"\" "+alt+align+title+caption+" />";
+			var tag = "<img src=\""+url+"\" "+extra+"/>";
 		}
 
 		window.parent.jInsertEditorText(tag);

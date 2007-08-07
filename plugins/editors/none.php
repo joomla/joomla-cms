@@ -113,6 +113,9 @@ class plgEditorNone extends JPlugin
 	 */
 	function onDisplay( $name, $content, $width, $height, $col, $row, $buttons = true )
 	{
+		// Load modal popup behavior
+		JHTML::_('behavior.modal', 'a.modal-button');
+
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric( $width )) {
 			$width .= 'px';
