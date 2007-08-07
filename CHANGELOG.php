@@ -52,6 +52,7 @@ Legend:
 06-August-2007 Johan Janssens
  + Added isEnabled functions to JPluginHelper and JModuleHelper
  ^ Changed JComponentHelper::getInfo to JComponentHelper::getComponent to maintain consistency
+ # Fixed [#6170] Article pagination not working when SEF is active
 
 06-August-2007 Andrew Eddie
  - Removed js console.log calls - causes error when FireBug not installed/enabled with Fx

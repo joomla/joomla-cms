@@ -46,8 +46,7 @@ class JRouterSite extends JRouter
 		if(is_string($uri)) {
 			$uri = JURI::getInstance($uri);
 		}
-		
-		$menu =& JMenu::getInstance(true);
+
 
 		// Set Local Vars passed in via the URL
 		$vars = $uri->getQuery(true);
@@ -60,6 +59,9 @@ class JRouterSite extends JRouter
 		$url = urldecode(str_replace($base, '', $full));
 		$url = preg_replace('/index[\d]?.php/', '', $url);
 		$url = trim($url , '/');
+
+
+		$menu =& JMenu::getInstance(true);
 
 		/*
 		 * Handle empty URL : mysite/ or mysite/index.php
@@ -93,12 +95,16 @@ class JRouterSite extends JRouter
 			{
 				// Parse application route
 				$vars = $this->_parseApplicationRoute($url);
-					
+
 				// Set the active menu item
 				if(isset($vars['Itemid'])) {
 					$menu->setActive($vars['Itemid']);
 				}
-				
+
+				// Handle pagination
+				$limitstart = JRequest::getVar('start', null, 'get', 'int');
+				$vars['limitstart'] = $limitstart;
+
 				//Set the variables
 				$this->_vars = array_merge($this->_vars, $vars);
 			}
@@ -110,22 +116,22 @@ class JRouterSite extends JRouter
 
 				//Set the variables
 				$this->_vars = array_merge($this->_vars, $vars);
-			} 
-			else 
+			}
+			else
 			{
 				//Set active menu item
-				if($item =& $menu->getActive()) 
+				if($item =& $menu->getActive())
 				{
 					$vars = $item->query;
-				
+
 					//Set the variables
 					$this->_vars = array_merge($this->_vars, $vars);
 				}
 			}
-			
+
 			//Set the information in the request
 			JRequest::set($this->_vars, 'get', true );
-			
+
 			return true;
 		}
 
@@ -179,7 +185,7 @@ class JRouterSite extends JRouter
 
 		return true;
 	}
-	
+
 	/**
 	* Parse a application specific route
 	*
@@ -191,7 +197,7 @@ class JRouterSite extends JRouter
 
 		$itemid = null;
 		$option = null;
-		
+
 		$vars = array();
 
 		if(substr($url, 0, 9) == 'component')
@@ -210,7 +216,7 @@ class JRouterSite extends JRouter
 			foreach ($items as $item)
 			{
 				$lenght = strlen($item->route); //get the lenght of the route
-				
+
 				if($lenght > 0 && strpos($url.'/', $item->route.'/') === 0)
 				{
 					$url    = substr($url, $lenght);
@@ -239,12 +245,6 @@ class JRouterSite extends JRouter
 
 		$segments = explode('/', $url);
 		array_shift($segments);
-
-		// Handle pagination
-		$limitstart = JRequest::getVar('start', null, 'get', 'int');
-		if(isset($limitstart)) {
-			JRequest::setVar('limitstart', $limitstart);
-		}
 
 		// Handle component	route
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_vars['option']);
@@ -370,7 +370,7 @@ class JRouterSite extends JRouter
 				$url = 'index.php/'.$url;
 			}
 		}
-		
+
 		return $url;
 	}
 
