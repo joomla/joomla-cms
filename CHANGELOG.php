@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-August-2007 Robin Muilwijk
+ # Fixed [topic,199155] incorrect message statement for module manager, save ordering message
+
 07-August-2007 Andrew Eddie
  # Fixed unrouted form action in search form
  + Added optional id param to mod_mainmenu

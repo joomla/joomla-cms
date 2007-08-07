@@ -776,7 +776,7 @@ class ModulesController extends JController
 			$row->reorder('position = '.$db->Quote($group).' AND client_id = '.(int) $client->id);
 		}
 
-		$this->setMessage = JText::_( 'New ordering saved' );
+		$this->setMessage (JText::_( 'New ordering saved' ));
 	}
 
 	function preview()
