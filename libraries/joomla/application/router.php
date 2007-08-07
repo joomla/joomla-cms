@@ -41,7 +41,7 @@ class JRoute
 	function _($url, $xhtml = true, $ssl = 0)
 	{
 		global $mainframe;
-		
+
 		// Get the router
 		$router =& $mainframe->getRouter();
 
@@ -78,7 +78,7 @@ class JRoute
 		if ($ssl == -1) {
 			$url = $unsecure.$url;
 		}
-		
+
 		if($xhtml) {
 			$url = str_replace( '&', '&amp;', $url );
 		}
@@ -147,7 +147,7 @@ class JRouter extends JObject
 	function build($url)
 	{
 		$url = str_replace('&amp;', '&', $url);
-			
+
 		return $url;
 	}
 
