@@ -168,6 +168,10 @@ class HTML_users {
 
 		global $mainframe;
 
+		// clean item data
+		jimport('joomla.filter.output');
+		JFilterOutput::objectHTMLSafe( $user, ENT_QUOTES, '' );
+
 		/*
 		 * Initialize variables
 		 */

@@ -42,6 +42,8 @@ Legend:
  + Added optional id param to mod_mainmenu
  # Fixed [#6387] Configuration Doesn't save TimeZones that are not integer
  # Fixed [#6389] Web link component generates image tag if no image set
+ # Fixed output filtering in admin edit forms: com_user, com_templates, com_plugins, com_modules
+ # Fixed [#6110] Double Quotes in menu Title and article Title results
 
 06-August-2007 Johan Janssens
  + Added isEnabled functions to JPluginHelper and JModuleHelper

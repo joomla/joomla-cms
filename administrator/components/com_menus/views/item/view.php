@@ -38,6 +38,10 @@ class MenusViewItem extends JView
 
 		$item = &$this->get('Item');
 
+		// clean item data
+		jimport('joomla.filter.output');
+		JFilterOutput::objectHTMLSafe( $item, ENT_QUOTES, '' );
+
 		// Set toolbar items for the page
 		if (!$item->id) {
 			JToolBarHelper::title( JText::_( 'Menu Item' ) .': <small><small>[ '. JText::_( 'New' ) .' ]</small></small>', 'menu.png' );
