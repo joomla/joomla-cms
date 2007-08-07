@@ -417,4 +417,3 @@ function ItemidContained($link, $Itemid)
 		return false;
 	}
 }
-?>

@@ -41,6 +41,7 @@
 			<option value="0">No caching</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="tag_id" type="text" default="" label="Menu Tag ID" description="PARAMMENUTAGID" />
 		<param name="class_sfx" type="text" default="" label="Menu Class Suffix" description="PARAMMENUCLASSSUFFIX" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>

@@ -39,6 +39,7 @@ Legend:
 
 07-August-2007 Andrew Eddie
  # Fixed unrouted form action in search form
+ + Added optional id param to mod_mainmenu
 
 06-August-2007 Johan Janssens
  + Added isEnabled functions to JPluginHelper and JModuleHelper

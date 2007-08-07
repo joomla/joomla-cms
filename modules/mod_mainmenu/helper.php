@@ -139,6 +139,9 @@ class modMainMenuHelper
 				if ($xml) {
 					$class = $params->get('class_sfx');
 					$xml->addAttribute('class', 'menu'.$class);
+					if ($tagId = $params->get('tag_id')) {
+						$xml->addAttribute('class', $tagId);
+					}
 
 					echo JFilterOutput::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
 				}
@@ -368,4 +371,3 @@ class JMenuNode extends JNode
 		$this->class	= $class;
 	}
 }
-?>
