@@ -25,7 +25,7 @@ JError::setErrorHandling( E_WARNING, 'echo' );
 JError::setErrorHandling( E_NOTICE,	 'echo' );
 
 // create the mainframe object
-$mainframe = new JXMLRPC(3);
+$mainframe = new JXMLRPC();
 
 // load the configuration
 $mainframe->loadConfiguration( JPATH_CONFIGURATION.DS.'configuration.php' );
