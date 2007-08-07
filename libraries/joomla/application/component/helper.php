@@ -37,7 +37,7 @@ class JComponentHelper
 	function &getComponent( $name, $strict = false )
 	{
 		$result = null;
-		$components = JPluginHelper::_load();
+		$components = JComponentHelper::_load();
 
 		if (isset( $components[$name] ))
 		{
