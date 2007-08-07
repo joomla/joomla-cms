@@ -218,4 +218,3 @@ class SearchController
 		return $rows;
 	}
 }
-?>

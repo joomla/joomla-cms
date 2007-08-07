@@ -11,7 +11,11 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-function SearchBuildRoute(&$query)
+/**
+ * @param	array
+ * @return	array
+ */
+function SearchBuildRoute( &$query )
 {
 	$segments = array();
 
@@ -23,7 +27,11 @@ function SearchBuildRoute(&$query)
 	return $segments;
 }
 
-function SearchParseRoute($segments)
+/**
+ * @param	array
+ * @return	array
+ */
+function SearchParseRoute( $segments )
 {
 	$vars = array();
 
@@ -32,4 +40,3 @@ function SearchParseRoute($segments)
 
 	return $vars;
 }
-?>

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-August-2007 Andrew Eddie
+ # Fixed unrouted form action in search form
+
 06-August-2007 Johan Janssens
  + Added isEnabled functions to JPluginHelper and JModuleHelper
  ^ Changed JComponentHelper::getInfo to JComponentHelper::getComponent to maintain consistency
