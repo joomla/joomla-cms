@@ -41,6 +41,7 @@ Legend:
  # Fixed unrouted form action in search form
  + Added optional id param to mod_mainmenu
  # Fixed [#6387] Configuration Doesn't save TimeZones that are not integer
+ # Fixed [#6389] Web link component generates image tag if no image set
 
 06-August-2007 Johan Janssens
  + Added isEnabled functions to JPluginHelper and JModuleHelper

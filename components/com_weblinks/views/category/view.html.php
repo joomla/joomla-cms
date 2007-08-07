@@ -84,7 +84,7 @@ class WeblinksViewCategory extends JView
 		$params->def('com_description', JText::_('WEBLINKS_DESC'));
 
 		// Define image tag attributes
-		if (isset ($category->image))
+		if (isset( $category->image ) && $category->image != '')
 		{
 			$attribs['align']  = $category->image_position;
 			$attribs['hspace'] = 6;
