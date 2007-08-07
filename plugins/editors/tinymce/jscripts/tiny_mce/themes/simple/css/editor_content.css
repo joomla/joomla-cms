@@ -11,6 +11,16 @@ body {
 	border: 1px dashed #BBBBBB;
 }
 
+
+/* STYLES FOR JOOMLA! EDITOR */
+hr#system-readmore {
+	 border: red dashed 1px;
+}
+
+hr.system-pagebreak {
+	 border: gray dashed 1px;
+}
+
 /* MSIE specific */
 
 * html body {
