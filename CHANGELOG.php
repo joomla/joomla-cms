@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-August-2007 Robin Muilwijk
+ # Fixed [#6057] added copyright text to khepri language file for NuoveXT Icons
+ 
 07-August-2007 Robin Muilwijk
  # Fixed [topic,199155] incorrect message statement for module manager, save ordering message
 
