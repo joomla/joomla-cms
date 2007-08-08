@@ -39,6 +39,7 @@ Legend:
 
 08-August-2007 Robin Muilwijk
  # Fixed [#6057] added copyright text to khepri language file for NuoveXT Icons
+ # Fixed [#6438] small typo in contact form file
  
 07-August-2007 Robin Muilwijk
  # Fixed [topic,199155] incorrect message statement for module manager, save ordering message
