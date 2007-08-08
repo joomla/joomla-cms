@@ -27,6 +27,7 @@
 			<?php
 			writableCell( 'administrator/backups' );
 			writableCell( 'administrator/components' );
+			writableCell( 'administrator/language' );
 			writableCell( 'administrator/modules' );
 			writableCell( 'administrator/templates' );
 			writableCell( 'components' );
