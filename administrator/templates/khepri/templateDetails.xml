@@ -32,10 +32,10 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="headerColor" type="list" default="b_green" label="Header Color" description="The color of the bar under the header">
-			<option value="green">Green</option>
-			<option value="teal">Teal</option>
-			<option value="cherry">Cherry</option>
+		<param name="headerColor" type="list" default="h_green" label="Header Color" description="The color of the bar under the header">
+			<option value="h_green">Green</option>
+			<option value="h_teal">Teal</option>
+			<option value="h_cherry">Cherry</option>
 		</param>
 	</params>
 </install>
