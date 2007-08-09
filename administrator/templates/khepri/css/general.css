@@ -80,9 +80,17 @@ textarea:focus { background-color: #ffd }
 
 /* -- overall styles ------------------------------ */
 
-#border-top          { background: url(../images/j_header_middle.png) repeat-x; }
-#border-top div      { background: url(../images/j_header_right.png) 100% 0 no-repeat; }
-#border-top div div  { background: url(../images/j_header_left.png) no-repeat; height: 54px; }
+#border-top.h_green          { background: url(../images/h_green/j_header_middle.png) repeat-x; }
+#border-top.h_green div      { background: url(../images/h_green/j_header_right.png) 100% 0 no-repeat; }
+#border-top.h_green div div  { background: url(../images/h_green/j_header_left.png) no-repeat; height: 54px; }
+
+#border-top.h_teal          { background: url(../images/h_teal/j_header_middle.png) repeat-x; }
+#border-top.h_teal div      { background: url(../images/h_teal/j_header_right.png) 100% 0 no-repeat; }
+#border-top.h_teal div div  { background: url(../images/h_teal/j_header_left.png) no-repeat; height: 54px; }
+
+#border-top.h_cherry          { background: url(../images/h_cherry/j_header_middle.png) repeat-x; }
+#border-top.h_cherry div      { background: url(../images/h_cherry/j_header_right.png) 100% 0 no-repeat; }
+#border-top.h_cherry div div  { background: url(../images/h_cherry/j_header_left.png) no-repeat; height: 54px; }
 
 #border-top .title {
 	font-size: 22px; font-weight: bold; color: #fff; line-height: 44px;

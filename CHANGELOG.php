@@ -39,6 +39,7 @@ Legend:
 
 10-August-2007 Andrew Eddie
  # JRouterSite::build - added clone to JURI::getInstance to account for multiple routes of the same url
+ + Added parameter to admin template to vary the color of the header bar
 
 09-August-2007 Robin Muilwijk
  # Fixed [topic,194994] added to front end plugin language files (content vote, plugin)
