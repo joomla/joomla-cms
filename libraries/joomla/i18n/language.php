@@ -823,16 +823,15 @@ class JLanguageHelper
 	 * @param	array	An array of arrays ( text, value, selected )
 	 * @since	1.5
 	 */
-	function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = true)
+	function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false)
 	{
 		$list = array ();
 
 		// cache activation
-		$cache = & JFactory::getCache('JLanguage');
-		$cache->setCaching($caching);
-		$langs = $cache->call('JLanguage::getKnownLanguages', $basePath);
+		$langs = JLanguage::getKnownLanguages($basePath);
 
-		foreach ($langs as $lang => $metadata) {
+		foreach ($langs as $lang => $metadata)
+		{
 			$option = array ();
 
 			$option['text'] = $metadata['name'];
