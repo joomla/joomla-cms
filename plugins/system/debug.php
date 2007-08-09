@@ -59,7 +59,7 @@ class  plgSystemDebug extends JPlugin
 		$db			=& JFactory::getDBO();
 		$profiler	=& $_PROFILER;
 		$lang		=& JFactory::getLanguage();
-		$lang->load( 'plg_system_debug', JPATH_ADMINISTRATOR );
+		$lang->load( 'plg_system_debug' );
 
 		ob_start();
 		echo '<div id="system-debug" class="profiler">';

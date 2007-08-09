@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-August-2007 Robin Muilwijk
+ # Fixed [topic,194994] added to front end plugin language files (content vote, plugin)
+ 
 08-August-2007 Robin Muilwijk
  # Fixed [#6057] added copyright text to khepri language file for NuoveXT Icons
  # Fixed [#6438] small typo in contact form file
