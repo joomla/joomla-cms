@@ -40,7 +40,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 </head>
 <body>
-	<div id="border-top">
+	<div id="border-top" class="<?php echo $this->params->get('headerColor','green');?>">
 		<div>
 			<div>
 				<span class="version"><?php echo  JText::_('Version') ?> <?php echo  JVERSION; ?></span>
