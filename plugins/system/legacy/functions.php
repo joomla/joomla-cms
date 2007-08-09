@@ -169,7 +169,7 @@ function mosStripslashes( &$value )
 }
 
 /**
- * Legacy function, use {@link JObject::bind() JObject->bind()} instead
+ * Legacy function, use {@link JArrayHelper JArrayHelper->toObject()} instead
  *
  * @deprecated	As of version 1.5
  */
