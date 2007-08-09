@@ -39,6 +39,7 @@ Legend:
 
 09-August-2007 Robin Muilwijk
  # Fixed [topic,194994] added to front end plugin language files (content vote, plugin)
+ # Fixed [topic,200010] typo in front end language file of latest news module
  
 08-August-2007 Robin Muilwijk
  # Fixed [#6057] added copyright text to khepri language file for NuoveXT Icons
