@@ -293,7 +293,8 @@ class JRouterSite extends JRouter
 		}
 
 		// Decompose link into url component parts
-		$uri  = JURI::getInstance(JURI::base().$url);
+		// We need to use a clone otherwise the next getInstance on the same URL will foul up
+		$uri  = clone( JURI::getInstance(JURI::base().$url) );
 		$menu =& JMenu::getInstance();
 
 		/*

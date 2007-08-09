@@ -37,15 +37,18 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-August-2007 Andrew Eddie
+ # JRouterSite::build - added clone to JURI::getInstance to account for multiple routes of the same url
+
 09-August-2007 Robin Muilwijk
  # Fixed [topic,194994] added to front end plugin language files (content vote, plugin)
  # Fixed [topic,200010] typo in front end language file of latest news module
- 
+
 08-August-2007 Robin Muilwijk
  # Fixed [#6057] added copyright text to khepri language file for NuoveXT Icons
  # Fixed [#6438] small typo in contact form file
  # Fixed [#6346] added permission check for administrator/language/ in Help > Sys info > Permissions
- 
+
 07-August-2007 Robin Muilwijk
  # Fixed [topic,199155] incorrect message statement for module manager, save ordering message
 
