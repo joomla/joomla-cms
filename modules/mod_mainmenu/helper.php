@@ -177,10 +177,10 @@ class JMenuTree extends JTree
 
 	function __construct(&$params)
 	{
-		$this->_params =& $params;
-		$this->_root =& new JMenuNode(0, 'ROOT');
-		$this->_nodeHash[0] =& $this->_root;
-		$this->_current = & $this->_root;
+		$this->_params		=& $params;
+		$this->_root		= new JMenuNode(0, 'ROOT');
+		$this->_nodeHash[0]	=& $this->_root;
+		$this->_current		=& $this->_root;
 	}
 
 	function addNode($item)
@@ -189,7 +189,7 @@ class JMenuTree extends JTree
 		$data = $this->_getItemData($item);
 
 		// Create the node and add it
-		$node =& new JMenuNode($item->id, $item->name, $item->access, $data);
+		$node = new JMenuNode($item->id, $item->name, $item->access, $data);
 
 		if (isset($item->mid)) {
 			$nid = $item->mid;
@@ -273,7 +273,7 @@ class JMenuTree extends JTree
 			$tmp->name = '<span><![CDATA['.$item->name.']]></span>';
 		}
 
-		$iParams =& new JParameter($tmp->params);
+		$iParams = new JParameter($tmp->params);
 		if ($iParams->get('menu_image') && $iParams->get('menu_image') != -1) {
 			$image = '<img src="images/stories/'.$iParams->get('menu_image').'" alt="" />';
 		} else {

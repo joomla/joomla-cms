@@ -191,7 +191,7 @@ class JView extends JObject
 	* within the template script itself.
 	*
 	* <code>
-	* $view =& new JView();
+	* $view = new JView();
 	*
 	* // assign directly
 	* $view->var1 = 'something';

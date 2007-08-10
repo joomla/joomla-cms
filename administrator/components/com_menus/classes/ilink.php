@@ -153,7 +153,7 @@ class iLink extends JTree
 
 		// Does the metadata file say no options available?
 		if ($e->attributes('options') == 'none') {
-			$node =& new iLinkNode($e->attributes('name'), $purl, $e->attributes('msg'));
+			$node = new iLinkNode($e->attributes('name'), $purl, $e->attributes('msg'));
 			$parent->addChild($node);
 			return true;
 		}
@@ -166,10 +166,10 @@ class iLink extends JTree
 			{
 				if ($child->name() == 'option') {
 					$url = $purl.'&amp;url['.$options->attributes('var').']='.$child->attributes('value');
-					$node =& new iLinkNode($child->attributes('name'), $url, $child->attributes('msg'));
+					$node = new iLinkNode($child->attributes('name'), $url, $child->attributes('msg'));
 					$parent->addChild($node);
 				} elseif ($child->name() == 'default') {
-					$node =& new iLinkNode($child->attributes('name'), $purl, $child->attributes('msg'));
+					$node = new iLinkNode($child->attributes('name'), $purl, $child->attributes('msg'));
 					$parent->addChild($node);
 				}
 			}
@@ -215,7 +215,7 @@ class iLink extends JTree
 							if ($m) {
 								$message = $m->data();
 							}
-							$node =& new iLinkNode($data->attributes('title'), $url, $message);
+							$node = new iLinkNode($data->attributes('title'), $url, $message);
 							$this->addChild($node);
 							if ($options = $data->getElementByPath('options')) {
 								$this->_getOptions($data, $node, $url);
@@ -225,7 +225,7 @@ class iLink extends JTree
 						}
 					} else {
 						$onclick = null;
-						$node =& new iLinkNode(ucfirst($view), $url);
+						$node = new iLinkNode(ucfirst($view), $url);
 						$this->addChild($node);
 						$this->_getLayouts(dirname($xmlpath), $node);
 					}
@@ -269,12 +269,12 @@ class iLink extends JTree
 								if ($m) {
 									$message = $m->data();
 								}
-								$child =& new iLinkNode($data->attributes('title'), $url, $message);
+								$child = new iLinkNode($data->attributes('title'), $url, $message);
 								$node->addChild($child);
 							}
 						} else {
 							// Add default info for the layout
-							$child =& new iLinkNode(ucfirst($layout).' '.JText::_('Layout'), $url);
+							$child = new iLinkNode(ucfirst($layout).' '.JText::_('Layout'), $url);
 							$node->addChild($child);
 						}
 					}

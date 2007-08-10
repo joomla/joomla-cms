@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-August-2007
+ # Fixed instances of =& new Classname in core code (3rd-party libs are still an issue)
+
 10-August-2007 Toby Patterson
  ^ Updated mail regex in JMailHelper::isEmailAddress() [topic,197027]
  ^ JTableUser uses JMailHelper::isEmailAddress()
