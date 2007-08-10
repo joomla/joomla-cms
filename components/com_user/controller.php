@@ -217,7 +217,6 @@ class UserController extends JController
 		}
 
 		// Initialize new usertype setting
-		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 		$newUsertype = $usersConfig->get( 'new_usertype' );
 		if (!$newUsertype) {
 			$newUsertype = 'Registered';

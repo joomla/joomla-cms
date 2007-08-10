@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-August-2007 Sam Moffatt
+ # Fixed [#6249] New User Registration Type does not effect LDAP User
+
 10-August-2007 Andrew Eddie
  # JRouterSite::build - added clone to JURI::getInstance to account for multiple routes of the same url
  + Added parameter to admin template to vary the color of the header bar
