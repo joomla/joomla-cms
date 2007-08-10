@@ -74,6 +74,11 @@ class JMail extends PHPMailer
 	 */
 	function &Send()
 	{
+		if ( ( $this->Mailer == 'mail' ) && ! function_exists('mail') )
+		{
+			return JError::raiseNotice( 500, 'The mail() function has been disabled and the mail cannot be sent' );
+		}
+		
 		@ $result = parent::Send();
 
 		if ($result == false)
@@ -401,7 +406,8 @@ class JMailHelper
 	function isEmailAddress($email) {
 		$rBool = false;
 
-		if (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $email)) {
+		$regex	= '/^([a-zA-Z0-9]+[\._-]?[a-zA-Z0-9]+)+@([a-zA-Z0-9]+-?[a-zA-Z0-9]+\.)+([a-zA-Z]{2,4})$/';
+		if (preg_match($regex, $email)) {
 			$rBool = true;
 		}
 		return $rBool;

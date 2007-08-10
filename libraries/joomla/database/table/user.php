@@ -135,6 +135,8 @@ class JTableUser extends JTable
 	 */
 	function check()
 	{
+		jimport('joomla.utilities.mail');
+		
 		// Validate user information
 		if (trim( $this->name ) == '') {
 			$this->setError( JText::_( 'Please enter your name.' ) );
@@ -152,7 +154,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		if ((trim($this->email == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $this->email )==false)) {
+		if ((trim($this->email == "")) || ! JMailHelper::isEmailAddress($this->email) ) {
 			$this->setError( JText::_( 'WARNREG_MAIL' ) );
 			return false;
 		}

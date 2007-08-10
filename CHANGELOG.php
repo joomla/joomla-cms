@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-August-2007 Toby Patterson
+ ^ Updated mail regex in JMailHelper::isEmailAddress() [topic,197027]
+ ^ JTableUser uses JMailHelper::isEmailAddress()
+ + Added check to JMail::Send to flag a warning if PHP's mail() function has been disabled ( resulted in PHP Error )
+
 10-August-2007 Sam Moffatt
  # Fixed [#6249] New User Registration Type does not effect LDAP User
 
