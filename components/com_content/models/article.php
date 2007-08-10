@@ -114,6 +114,7 @@ class ContentModelArticle extends JModel
 			if (!$this->_article->cat_pub && $this->_article->catid) {
 				JError::raiseError( 404, JText::_("Article category not published") );
 			}
+			
 			// Is the section published?
 			if ($this->_article->sectionid)
 			{
@@ -133,6 +134,7 @@ class ContentModelArticle extends JModel
 					JError::raiseError( 404, JText::_("Article section not published") );
 				}
 			}
+			
 			// Do we have access to the category?
 			if (($this->_article->cat_access > $user->get('aid', 0)) && $this->_article->catid) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
@@ -567,7 +569,7 @@ class ContentModelArticle extends JModel
 
 		if (!$user->authorize('com_content', 'edit', 'content', 'all'))
 		{
-			$where .= ' AND ( a.state = 1 OR a.state = 0 )' .
+			$where .= ' AND ( a.state = 1 )' .
 					' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
 					' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
 		}
