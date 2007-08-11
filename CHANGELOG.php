@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-August-2007 Johan Janssens
+ + Added JPlugin::loadLanguage to make language loading fro plugins easier
+
 11-August-2007 Robin Muilwijk
  ^ Added the css class .highlight to the milkyway so search results get highlighted
  # Fixed [topic,200743] typo in poll module language file

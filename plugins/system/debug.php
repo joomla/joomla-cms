@@ -35,8 +35,12 @@ class  plgSystemDebug extends JPlugin
 	 * @param object $params  The object that holds the plugin parameters
 	 * @since	1.0
 	 */
-	function plgSystemDebug(& $subject, $params) {
+	function plgSystemDebug(& $subject, $params)
+	{
 		parent::__construct($subject, $params);
+
+		//load the translation
+		$this->loadLanguage( );
 	}
 
 	/**
@@ -46,7 +50,7 @@ class  plgSystemDebug extends JPlugin
 	function onAfterRender()
 	{
 		global $_PROFILER, $mainframe;
-		
+
 		// Do not render if debugging is not enabled
 		if(!JDEBUG) { return; }
 
@@ -58,8 +62,6 @@ class  plgSystemDebug extends JPlugin
 
 		$db			=& JFactory::getDBO();
 		$profiler	=& $_PROFILER;
-		$lang		=& JFactory::getLanguage();
-		$lang->load( 'plg_system_debug' );
 
 		ob_start();
 		echo '<div id="system-debug" class="profiler">';

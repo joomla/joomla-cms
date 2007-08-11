@@ -25,8 +25,7 @@ function plgContentVote( &$row, &$params, $page=0 )
 
 	if (isset($row->rating_count) && $params->get( 'show_vote' ) && !$params->get( 'popup' ))
 	{
-		$lang =& JFactory::getLanguage();
-		$lang->load( 'plg_content_vote' );
+		JPlugin::loadLanguage( 'plg_content_vote' );
 		$html .= '<form method="post" action="' . JRoute::_( 'index.php' ) . '">';
 		$img = '';
 

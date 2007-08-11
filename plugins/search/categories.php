@@ -16,8 +16,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $mainframe->registerEvent( 'onSearch', 'plgSearchCategories' );
 $mainframe->registerEvent( 'onSearchAreas', 'plgSearchCategoryAreas' );
-$lang =& JFactory::getLanguage();
-$lang->load( 'plg_search_categories' );
+
+JPlugin::loadLanguage( 'plg_search_categories' );
 
 /**
  * @return array An array of search areas

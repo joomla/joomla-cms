@@ -49,20 +49,39 @@ class JPlugin extends JEventHandler
 	 * @param object $params  The object that holds the plugin parameters
 	 * @since 1.5
 	 */
-	function JPlugin(& $subject, $params)  {	
+	function JPlugin(& $subject, $params)  {
 		parent::__construct($subject);
 	}
-	
+
 	/**
 	 * Constructor
 	 */
-	function __construct(& $subject, $params) 
-	{	
+	function __construct(& $subject, $params)
+	{
 		//Set the parameters
 		$this->params = $params;
-		
+
 		parent::__construct($subject);
 	}
-	
-	
+
+	/**
+	 * Loads the plugin language file
+	 *
+	 * @access	public
+	 * @param	string 	$extension 	The extension for which a language file should be loaded
+	 * @param	string 	$basePath  	The basepath to use
+	 * @return	boolean	True, if the file has successfully loaded.
+	 * @since	1.5
+	 */
+	function loadLanguage($extension = '', $basePath = JPATH_BASE)
+	{
+		if(empty($extension)) {
+			$extension = 'plg_'.$this->folder.'_'.$this->element;
+		}
+
+		$lang =& JFactory::getLanguage();
+		return $lang->load( $extension);
+	}
+
+
 }
