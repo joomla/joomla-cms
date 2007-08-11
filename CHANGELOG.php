@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 11-August-2007
+ ^ Added the css class .highlight to the milkyway so search results get highlighted
+
+11-August-2007
  # Fixed instances of =& new Classname in core code (3rd-party libs are still an issue)
 
 10-August-2007 Toby Patterson

@@ -580,9 +580,17 @@ table.contentpaneopen h4 {
 	color: #333;
 }
 
+.highlight {
+	background-color: #fffebb;
+}
+
 /* module control elements */
 table.user1user2 div.moduletable {
 	margin-bottom: 0px;
+}
+
+.highlight {
+	background-color: #fffebb;
 }
 
 div.moduletable, div.module {
