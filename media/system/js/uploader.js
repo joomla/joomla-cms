@@ -118,8 +118,8 @@ var FancyUpload = new Class({
 
 	upload: function(e) {
 		if (e) e.stop();
-		this.options.url = this.options.url || this.form.action || location.href;
-		this.uploader.send(this.options.url);
+		url = this.options.url || this.form.action || location.href;
+		this.uploader.send(url);
 	},
 
 	onSelect: function(name, size) {
@@ -167,8 +167,8 @@ var FancyUpload = new Class({
 		switch(error.toInt()) {
 			case 500: msg = "Internal server error, please contact Administrator!"; break;
 			case 400: msg = "Upload failed, please check your filesize!"; break;
-			case 409: msg = "Could not process image, please choose another!"; break;
-			case 415: msg = "Unsupported media type, please upload GIF, PNG, TIFF or JPEG!"; break;
+			case 409: msg = "File already exists."; break;
+			case 415: msg = "Unsupported media type."; break;
 			case 412: msg = "Invalid target, please reload page and try again!"; break;
 			case 417: msg = "Photo too small, please keep our photo manifest in mind!"; break;
 		}

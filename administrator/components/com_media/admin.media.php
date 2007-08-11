@@ -45,6 +45,10 @@ switch (JRequest::getCmd('task')) {
 		MediaController::upload();
 		break;
 
+	case 'setftp' :
+		MediaController::setftp();
+		break;
+
 	case 'uploadbatch' :
 		MediaController::batchUpload();
 		MediaController::showMedia();
@@ -52,6 +56,7 @@ switch (JRequest::getCmd('task')) {
 
 	case 'createfolder' :
 		MediaController::createFolder();
+		$mainframe->redirect('index.php?option=com_media&task=list&tmpl=component&folder='.$folder);
 		MediaController::showMedia();
 		break;
 
