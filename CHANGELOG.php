@@ -40,6 +40,7 @@ Legend:
 11-August-2007 Robin Muilwijk
  ^ Added the css class .highlight to the milkyway so search results get highlighted
  # Fixed [topic,200743] typo in poll module language file
+ # Fixed [topic,200745] typo in random image module language file
 
 11-August-2007
  # Fixed instances of =& new Classname in core code (3rd-party libs are still an issue)
