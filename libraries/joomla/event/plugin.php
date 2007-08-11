@@ -76,7 +76,8 @@ class JPlugin extends JEventHandler
 	function loadLanguage($extension = '', $basePath = JPATH_BASE)
 	{
 		if(empty($extension)) {
-			$extension = 'plg_'.$this->folder.'_'.$this->element;
+			$split_up = preg_split("{(?<=[a-z])(?=[A-Z])}x", get_class($this));
+			$extension = 'plg_'.$split_up[1].'_'.$split_up[2];
 		}
 
 		$lang =& JFactory::getLanguage();
