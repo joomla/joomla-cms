@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $mainframe->registerEvent( 'onSearch', 'plgSearchWeblinks' );
 $mainframe->registerEvent( 'onSearchAreas', 'plgSearchWeblinksAreas' );
 
-JPlugin::loadLangauge( 'plg_search_weblinks' );
+JPlugin::loadLanguage( 'plg_search_weblinks' );
 
 /**
  * @return array An array of search areas
