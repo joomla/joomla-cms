@@ -102,6 +102,7 @@ class  plgSystemDebug extends JPlugin
 		{
 			echo '<p><h4>'.JText::_( 'Language Files Loaded' ).'</h4>';
 			echo '<ul>';
+			$lang = &JFactory::getLanguage();
 			$extensions	= $lang->getPaths();
 			foreach ( $extensions as $extension => $files)
 			{
