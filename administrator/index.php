@@ -44,11 +44,11 @@ $mainframe->loadSession(JUtility::getHash($mainframe->getName()));
  *
  * NOTE :
  */
-JPluginHelper::importPlugin('system');
-
 $mainframe->initialise(array(
 	'language' => $mainframe->getUserState( "application.lang", 'lang' )
 ));
+
+JPluginHelper::importPlugin('system');
 
 // trigger the onAfterInitialise events
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;

@@ -694,7 +694,7 @@ class JLanguage extends JObject
 	function getLanguagePath($basePath = JPATH_BASE, $language = null )
 	{
 		$dir = $basePath.DS.'language';
-		if (isset ($language)) {
+		if (!empty($language)) {
 			$dir .= DS.$language;
 		}
 		return $dir;

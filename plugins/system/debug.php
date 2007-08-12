@@ -104,6 +104,7 @@ class  plgSystemDebug extends JPlugin
 			echo '<ul>';
 			$lang = &JFactory::getLanguage();
 			$extensions	= $lang->getPaths();
+			var_dump($extensions);
 			foreach ( $extensions as $extension => $files)
 			{
 				foreach ( $files as $file => $status )
