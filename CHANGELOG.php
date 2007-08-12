@@ -39,6 +39,7 @@ Legend:
 
 12-August-2007 Robin Muilwijk
  # Fixed [topic,200952] typo in weblink search plugin for JPlugin::loadlanguage()
+ ^ Removed var_dump from debug plugin
 
 11-August-2007 Johan Janssens
  + Added JPlugin::loadLanguage to make language loading fro plugins easier
