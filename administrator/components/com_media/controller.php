@@ -315,8 +315,8 @@ class MediaController
 			if (!MediaHelper::canUpload( $file, $err )) {
 				if ($format == 'json') {
 					jimport('joomla.utilities.log');
-					$log = &JLog::getInstance();
-					$log->addEntry(array('comment' => 'HTTP/1.0 415 Unsupported Media Type'));
+					$log = &JLog::getInstance('upload.error.php');
+					$log->addEntry(array('comment' => 'Invalid: '.$filepath.': '.$err));
 					header('HTTP/1.0 415 Unsupported Media Type');
 					die('Error. Unsupported Media Type');
 				} else {
@@ -329,8 +329,8 @@ class MediaController
 			if (JFile::exists($filepath)) {
 				if ($format == 'json') {
 					jimport('joomla.utilities.log');
-					$log = &JLog::getInstance();
-					$log->addEntry(array('comment' => 'HTTP/1.0 409 Conflict'));
+					$log = &JLog::getInstance('upload.error.php');
+					$log->addEntry(array('comment' => 'File already exists: '.$filepath));
 					header('HTTP/1.0 409 Conflict');
 					die('Error. File already exists');
 				} else {
@@ -342,8 +342,8 @@ class MediaController
 			if (!JFile::upload($file['tmp_name'], $filepath)) {
 				if ($format == 'json') {
 					jimport('joomla.utilities.log');
-					$log = &JLog::getInstance();
-					$log->addEntry(array('comment' => 'HTTP/1.0 400 Bad Request'));
+					$log = &JLog::getInstance('upload.error.php');
+					$log->addEntry(array('comment' => 'Cannot upload: '.$filepath));
 					header('HTTP/1.0 400 Bad Request');
 					die('Error. Unable to upload file');
 				} else {
