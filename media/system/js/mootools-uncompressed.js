@@ -15,8 +15,10 @@ MooTools Credits:
 */
 
 var MooTools = {
-	'version': 1.1
+	version: '1.11'
 };
+
+/* Section: Core Functions */
 
 /*
 Function: $defined
@@ -53,7 +55,6 @@ Returns:
 	'function' - if obj is a function
 	'regexp' - if obj is a regular expression
 	'class' - if obj is a Class. (created with new Class, or the extend of another class).
-	'arguments' - if obj is the arguments object.
 	'collection' - if obj is a native htmlelements collection, such as childNodes, getElementsByTagName .. etc.
 	false - (boolean) if the object is not defined or none of the above.
 */
@@ -65,7 +66,7 @@ function $type(obj){
 	if (type == 'object' && obj.nodeName){
 		switch(obj.nodeType){
 			case 1: return 'element';
-			case 3: return /\S/.test(obj.nodeValue) ? 'textnode' : 'whitespace';
+			case 3: return (/\S/).test(obj.nodeValue) ? 'textnode' : 'whitespace';
 		}
 	}
 	if (type == 'object' || type == 'function'){
@@ -137,7 +138,7 @@ Returns:
 	The first object, extended.
 */
 
-var $extend = Object.extend = function(){
+var $extend = function(){
 	var args = arguments;
 	if (!args[1]) args = [this, args[0]];
 	for (var property in args[1]) args[0][property] = args[1][property];
@@ -148,14 +149,14 @@ var $extend = Object.extend = function(){
 Function: $native
 	Will add a .extend method to the objects passed as a parameter, but the property passed in will be copied to the object's prototype only if non previously existent.
 	Its handy if you dont want the .extend method of an object to overwrite existing methods.
-	Used automatically in mootools to implement Array/String/Function/Number methods to browser that dont support them whitout manual checking.
+	Used automatically in MooTools to implement Array/String/Function/Number methods to browser that dont support them whitout manual checking.
 
 Arguments:
 	a number of classes/native javascript objects
 
 */
 
-var $native = Object.Native = function(){
+var $native = function(){
 	for (var i = 0, l = arguments.length; i < l; i++){
 		arguments[i].extend = function(props){
 			for (var prop in props){
@@ -173,31 +174,6 @@ $native.generic = function(prop){
 };
 
 $native(Function, Array, String, Number);
-
-/*
-Class: Abstract
-	Abstract class, to be used as singleton. Will add .extend to any object
-
-Arguments:
-	an object
-
-Returns:
-	the object with an .extend property, equivalent to <$extend>.
-*/
-
-var Abstract = function(obj){
-	obj = obj || {};
-	obj.extend = $extend;
-	return obj;
-};
-
-//window, document
-
-var Window = new Abstract(window);
-var Document = new Abstract(document);
-document.head = document.getElementsByTagName('head')[0];
-
-/* Section: Utility Functions */
 
 /*
 Function: $chk
@@ -285,8 +261,34 @@ function $clear(timer){
 };
 
 /*
+Class: Abstract
+	Abstract class, to be used as singleton. Will add .extend to any object
+
+Arguments:
+	an object
+
+Returns:
+	the object with an .extend property, equivalent to <$extend>.
+*/
+
+var Abstract = function(obj){
+	obj = obj || {};
+	obj.extend = $extend;
+	return obj;
+};
+
+//window, document
+
+var Window = new Abstract(window);
+var Document = new Abstract(document);
+document.head = document.getElementsByTagName('head')[0];
+
+/*
 Class: window
 	Some properties are attached to the window object by the browser detection.
+	
+Note:
+	browser detection is entirely object-based. We dont sniff.
 
 Properties:
 	window.ie - will be set to true if the current browser is internet explorer (any).
@@ -301,8 +303,16 @@ Properties:
 
 window.xpath = !!(document.evaluate);
 if (window.ActiveXObject) window.ie = window[window.XMLHttpRequest ? 'ie7' : 'ie6'] = true;
-else if (document.childNodes && !document.all && !navigator.taintEnabled) window.khtml = window.webkit = window[window.xpath ? 'webkit420' : 'webkit419'] = true;
+else if (document.childNodes && !document.all && !navigator.taintEnabled) window.webkit = window[window.xpath ? 'webkit420' : 'webkit419'] = true;
 else if (document.getBoxObjectFor != null) window.gecko = true;
+
+/*compatibility*/
+
+window.khtml = window.webkit;
+
+Object.extend = $extend;
+
+/*end compatibility*/
 
 //htmlelement
 
@@ -311,7 +321,7 @@ if (typeof HTMLElement == 'undefined'){
 	if (window.webkit) document.createElement("iframe"); //fixes safari
 	HTMLElement.prototype = (window.webkit) ? window["[[DOMElement.prototype]]"] : {};
 }
-HTMLElement.prototype.htmlElement = true;
+HTMLElement.prototype.htmlElement = function(){};
 
 //enables background image cache for internet explorer 6
 
@@ -519,8 +529,8 @@ var Chain = new Class({
 /*
 Class: Events
 	An "Utility" Class. Its methods can be implemented with <Class.implement> into any <Class>.
-
 	In <Fx.Base> Class, for example, is used to give the possibility add any number of functions to the Effects events, like onComplete, onStart, onCancel.
+	Events in a Class that implements <Events> can be either added as an option, or with addEvent. Never with .options.onEventName.
 
 Example:
 	(start code)
@@ -666,9 +676,10 @@ var Options = new Class({
 
 	setOptions: function(){
 		this.options = $merge.apply(null, [this.options].extend(arguments));
-		if (!this.addEvent) return this;
-		for (var option in this.options){
-			if ($type(this.options[option] == 'function') && option.test(/^on[A-Z]/)) this.addEvent(option, this.options[option]);
+		if (this.addEvent){
+			for (var option in this.options){
+				if ($type(this.options[option] == 'function') && (/^on[A-Z]/).test(option)) this.addEvent(option, this.options[option]);
+			}
 		}
 		return this;
 	}
@@ -704,7 +715,7 @@ Array.extend({
 		bind - the object to bind "this" to (see <Function.bind>)
 
 	Example:
-		>['apple','banana','lemon'].each(function(item, index) {
+		>['apple','banana','lemon'].each(function(item, index){
 		>	alert(index + " = " + item); //alerts "0 = apple" etc.
 		>}, bindObj); //optional second arg for binding, not used here
 	*/
@@ -725,7 +736,7 @@ Array.extend({
 		bind - the object to bind "this" to (see <Function.bind>)
 
 	Example:
-		>var biggerThanTwenty = [10,3,25,100].filter(function(item, index) {
+		>var biggerThanTwenty = [10,3,25,100].filter(function(item, index){
 		> return item > 20;
 		>});
 		>//biggerThanTwenty = [25,100]
@@ -1008,7 +1019,7 @@ Array.extend({
 	*/
 
 	getRandom: function(){
-		return this[$random(0, this.length - 1)] || false;
+		return this[$random(0, this.length - 1)] || null;
 	},
 
 	/*
@@ -1017,7 +1028,7 @@ Array.extend({
 	*/
 
 	getLast: function(){
-		return this[this.length - 1] || false;
+		return this[this.length - 1] || null;
 	}
 
 });
@@ -1025,7 +1036,7 @@ Array.extend({
 //copies
 
 Array.prototype.each = Array.prototype.forEach;
-Array.prototype.test = Array.prototype.contains;
+Array.each = Array.forEach;
 
 /* Section: Utility Functions */
 
@@ -1066,7 +1077,7 @@ Function argument:
 
 Examples:
 	(start code)
-	$each(['Sun','Mon','Tue'], function(day, index) {
+	$each(['Sun','Mon','Tue'], function(day, index){
 		alert('name:' + day + ', index: ' + index);
 	});
 	//alerts "name: Sun, index: 0", "name: Mon, index: 1", etc.
@@ -1080,13 +1091,22 @@ Examples:
 */
 
 function $each(iterable, fn, bind){
-	if (iterable && typeof iterable.length == 'number' && $type(iterable) != 'object') Array.forEach(iterable, fn, bind);
-	else for (var name in iterable) fn.call(bind || iterable, iterable[name], name);
+	if (iterable && typeof iterable.length == 'number' && $type(iterable) != 'object'){
+		Array.forEach(iterable, fn, bind);
+	} else {
+		 for (var name in iterable) fn.call(bind || iterable, iterable[name], name);
+	}
 };
+
+/*compatibility*/
+
+Array.prototype.test = Array.prototype.contains;
+
+/*end compatibility*/
 
 /*
 Script: String.js
-	Contains String prototypes and Number prototypes.
+	Contains String prototypes.
 
 License:
 	MIT-style license.
@@ -1279,7 +1299,7 @@ String.extend({
 		>'a bc'.contains('bc'); //true
 		>'a bc'.contains('b', ' '); //false
 	*/
-	
+
 	contains: function(string, s){
 		return (s) ? (s + this + s).indexOf(s + string + s) > -1 : this.indexOf(string) > -1;
 	},
@@ -1527,6 +1547,14 @@ Function.extend({
 });
 
 /*
+Script: Number.js
+	Contains the Number prototypes.
+
+License:
+	MIT-style license.
+*/
+
+/*
 Class: Number
 	A collection of The Number Object prototype methods.
 */
@@ -1554,14 +1582,14 @@ Number.extend({
 	/*
 	Property: limit
 		Limits the number.
-		
+
 	Arguments:
 		min - number, minimum value
 		max - number, maximum value
-		
+
 	Returns:
 		the number in the given limits.
-		
+
 	Example:
 		>(12).limit(2, 6.5)  // returns 6.5
 		>(-4).limit(2, 6.5)  // returns 2
@@ -1583,7 +1611,7 @@ Number.extend({
 		>12.45.round() // returns 12
 		>12.45.round(1) // returns 12.5
 		>12.45.round(-1) // returns 10
-		
+
 	Returns:
 		The rounded number.
 	*/
@@ -1604,7 +1632,7 @@ Number.extend({
 		>(4).times(alert);
 	*/
 
-	times: function(fn) {
+	times: function(fn){
 		for (var i = 0; i < this; i++) fn(i);
 	}
 
@@ -1738,7 +1766,7 @@ Note:
 */
 
 function $(el){
-	if (!el) return false;
+	if (!el) return null;
 	if (el.htmlElement) return Garbage.collect(el);
 	if ([window, document].contains(el)) return el;
 	var type = $type(el);
@@ -1746,11 +1774,11 @@ function $(el){
 		el = document.getElementById(el);
 		type = (el) ? 'element' : false;
 	}
-	if (type != 'element') return false;
+	if (type != 'element') return null;
 	if (el.htmlElement) return Garbage.collect(el);
 	if (['object', 'embed'].contains(el.tagName.toLowerCase())) return el;
 	$extend(el, Element.prototype);
-	el.htmlElement = true;
+	el.htmlElement = function(){};
 	return Garbage.collect(el);
 };
 
@@ -1813,7 +1841,7 @@ $$.unique = function(array){
 			elements.push(element);
 		}
 	}
-	for (var i = 0, l = elements.length; i < l; i++) elements[i].$included = null;
+	for (var n = 0, d = elements.length; n < d; n++) elements[n].$included = null;
 	return new Elements(elements);
 };
 
@@ -2024,12 +2052,6 @@ Element.extend({
 	*/
 
 	appendText: function(text){
-		if (window.ie){
-			switch(this.getTag()){
-				case 'style': this.styleSheet.cssText = text; return this;
-				case 'script': return this.setProperty('text', text);
-			}
-		}
 		this.appendChild(document.createTextNode(text));
 		return this;
 	},
@@ -2198,7 +2220,7 @@ Element.extend({
 		var result = this.style[property];
 		if (!$chk(result)){
 			if (property == 'opacity') return this.$tmp.opacity;
-			var result = [];
+			result = [];
 			for (var style in Element.Styles){
 				if (property == style){
 					Element.Styles[style].each(function(s){
@@ -2324,7 +2346,7 @@ Element.extend({
 		returns true if the passed in element is a child of the $(element).
 	*/
 
-	hasChild: function(el) {
+	hasChild: function(el){
 		return !!$A(this.getElementsByTagName('*')).contains(el);
 	},
 
@@ -2345,7 +2367,8 @@ Element.extend({
 	getProperty: function(property){
 		var index = Element.Properties[property];
 		if (index) return this[index];
-		if (!window.ie) return this.getAttribute(property);
+		var flag = Element.PropertiesIFlag[property] || 0;
+		if (!window.ie || flag) return this.getAttribute(property, flag);
 		var node = this.attributes[property];
 		return (node) ? node.nodeValue : null;
 	},
@@ -2431,6 +2454,51 @@ Element.extend({
 	},
 
 	/*
+	Property: setText
+		Sets the inner text of the Element.
+
+	Arguments:
+		text - string; the new text content for the element.
+
+	Example:
+		>$('myElement').setText('some text') //the text of myElement is now = 'some text'
+	*/
+
+	setText: function(text){
+		var tag = this.getTag();
+		if (['style', 'script'].contains(tag)){
+			if (window.ie){
+				if (tag == 'style') this.styleSheet.cssText = text;
+				else if (tag ==  'script') this.setProperty('text', text);
+				return this;
+			} else {
+				this.removeChild(this.firstChild);
+				return this.appendText(text);
+			}
+		}
+		this[$defined(this.innerText) ? 'innerText' : 'textContent'] = text;
+		return this;
+	},
+
+	/*
+	Property: getText
+		Gets the inner text of the Element.
+	*/
+
+	getText: function(){
+		var tag = this.getTag();
+		if (['style', 'script'].contains(tag)){
+			if (window.ie){
+				if (tag == 'style') return this.styleSheet.cssText;
+				else if (tag ==  'script') return this.getProperty('text');
+			} else {
+				return this.innerHTML;
+			}
+		}
+		return ($pick(this.innerText, this.textContent));
+	},
+
+	/*
 	Property: getTag
 		Returns the tagName of the element in lower case.
 
@@ -2499,11 +2567,14 @@ Element.setMany = function(el, method, pairs){
 };
 
 Element.Properties = new Abstract({
-	'class': 'className', 'for': 'htmlFor', 'colspan': 'colSpan',
-	'rowspan': 'rowSpan', 'accesskey': 'accessKey', 'tabindex': 'tabIndex',
-	'maxlength': 'maxLength', 'readonly': 'readOnly', 'value': 'value',
-	'disabled': 'disabled', 'checked': 'checked', 'multiple': 'multiple'
+	'class': 'className', 'for': 'htmlFor', 'colspan': 'colSpan', 'rowspan': 'rowSpan',
+	'accesskey': 'accessKey', 'tabindex': 'tabIndex', 'maxlength': 'maxLength',
+	'readonly': 'readOnly', 'frameborder': 'frameBorder', 'value': 'value',
+	'disabled': 'disabled', 'checked': 'checked', 'multiple': 'multiple', 'selected': 'selected'
 });
+Element.PropertiesIFlag = {
+	'href': 2, 'src': 2
+};
 
 Element.Methods = {
 	Listeners: {
@@ -2542,10 +2613,11 @@ var Garbage = {
 			if (!(el = elements[i]) || !el.$tmp) continue;
 			if (el.$events) el.fireEvent('trash').removeEvents();
 			for (var p in el.$tmp) el.$tmp[p] = null;
-			for (var p in Element.prototype) el[p] = null;
+			for (var d in Element.prototype) el[d] = null;
+			Garbage.elements[Garbage.elements.indexOf(el)] = null;
 			el.htmlElement = el.$tmp = el = null;
-			Garbage.elements.remove(el);
 		}
+		Garbage.elements.remove(null);
 	},
 
 	empty: function(){
@@ -2555,7 +2627,6 @@ var Garbage = {
 	}
 
 };
-
 
 window.addListener('beforeunload', function(){
 	window.addListener('unload', Garbage.empty);
@@ -2657,7 +2728,7 @@ var Event = new Class({
 		cross browser method to stop an event
 	*/
 
-	stop: function() {
+	stop: function(){
 		return this.stopPropagation().preventDefault();
 	},
 
@@ -2692,7 +2763,7 @@ Event.fix = {
 	},
 
 	relatedTargetGecko: function(){
-		try {Event.fix.relatedTarget.call(this)} catch(e){this.relatedTarget = this.target};
+		try {Event.fix.relatedTarget.call(this);} catch(e){this.relatedTarget = this.target;}
 	}
 
 };
@@ -2759,7 +2830,7 @@ Element.Methods.Events = {
 		}
 		if (!this.addEventListener) fn = fn.create({'bind': this, 'event': true});
 		this.$events[type].values.push(fn);
-		return this.addListener(realType, fn);
+		return (Element.NativeEvents.contains(realType)) ? this.addListener(realType, fn) : this;
 	},
 
 	/*
@@ -2778,7 +2849,7 @@ Element.Methods.Events = {
 			if (custom.remove) custom.remove.call(this, fn);
 			if (custom.type) type = custom.type;
 		}
-		return this.removeListener(type, value);
+		return (Element.NativeEvents.contains(type)) ? this.removeListener(type, value) : this;
 	},
 
 	/*
@@ -2823,10 +2894,11 @@ Element.Methods.Events = {
 	*/
 
 	fireEvent: function(type, args, delay){
-		if (!this.$events || !this.$events[type]) return this;
-		this.$events[type].keys.each(function(fn){
-			fn.create({'bind': this, 'delay': delay, 'arguments': args})();
-		}, this);
+		if (this.$events && this.$events[type]){
+			this.$events[type].keys.each(function(fn){
+				fn.create({'bind': this, 'delay': delay, 'arguments': args})();
+			}, this);
+		}
 		return this;
 	},
 
@@ -2875,8 +2947,7 @@ Element.Events = new Abstract({
 		type: 'mouseover',
 		map: function(event){
 			event = new Event(event);
-			if (event.relatedTarget == this || this.hasChild(event.relatedTarget)) return;
-			this.fireEvent('mouseenter', event);
+			if (event.relatedTarget != this && !this.hasChild(event.relatedTarget)) this.fireEvent('mouseenter', event);
 		}
 	},
 
@@ -2893,8 +2964,7 @@ Element.Events = new Abstract({
 		type: 'mouseout',
 		map: function(event){
 			event = new Event(event);
-			if (event.relatedTarget == this || this.hasChild(event.relatedTarget)) return;
-			this.fireEvent('mouseleave', event);
+			if (event.relatedTarget != this && !this.hasChild(event.relatedTarget)) this.fireEvent('mouseleave', event);
 		}
 	},
 
@@ -2903,6 +2973,16 @@ Element.Events = new Abstract({
 	}
 
 });
+
+Element.NativeEvents = [
+	'click', 'dblclick', 'mouseup', 'mousedown', //mouse buttons
+	'mousewheel', 'DOMMouseScroll', //mouse wheel
+	'mouseover', 'mouseout', 'mousemove', //mouse movement
+	'keydown', 'keypress', 'keyup', //keys
+	'load', 'unload', 'beforeunload', 'resize', 'move', //window
+	'focus', 'blur', 'change', 'submit', 'reset', 'select', //forms elements
+	'error', 'abort', 'contextmenu', 'scroll' //misc
+];
 
 /*
 Class: Function
@@ -2913,7 +2993,7 @@ Function.extend({
 
 	/*
 	Property: bindWithEvent
-		automatically passes mootools Event Class.
+		automatically passes MooTools Event Class.
 
 	Arguments:
 		bind - optional, the object that the "this" of the function will refer to.
@@ -2926,7 +3006,7 @@ Function.extend({
 		>function myFunction(event){
 		>	alert(event.client.x) //returns the coordinates of the mouse..
 		>};
-		>myElement.onclick = myFunction.bindWithEvent(myElement);
+		>myElement.addEvent('click', myFunction.bindWithEvent(myElement));
 	*/
 
 	bindWithEvent: function(bind, args){
@@ -2934,6 +3014,7 @@ Function.extend({
 	}
 
 });
+
 
 /*
 Script: Element.Filters.js
@@ -3220,20 +3301,6 @@ Element.Methods.Dom = {
 		selector = selector.split(',');
 		for (var i = 0, j = selector.length; i < j; i++) elements = elements.concat(this.getElements(selector[i], true));
 		return (nocash) ? elements : $$.unique(elements);
-	},
-
-	/*
-	Property: getElementsByClassName
-		Returns all the elements that match a specific class name.
-		Here for compatibility purposes. can also be written: document.getElements('.className'), or $$('.className')
-		Returns as <Elements>.
-
-	Arguments:
-		className - string; css classname
-	*/
-
-	getElementsByClassName: function(className){
-		return this.getElements('.' + className);
 	}
 
 };
@@ -3255,7 +3322,13 @@ Element.extend({
 			if (!parent) return false;
 		}
 		return el;
+	}/*compatibility*/,
+	
+	getElementsByClassName: function(className){ 
+		return this.getElements('.' + className); 
 	}
+	
+	/*end compatibility*/
 
 });
 
@@ -3504,10 +3577,10 @@ License:
 
 /*
 Event: domready
-	executes a function when the dom tree is loaded, without waiting for images. Only works when called from window. 
+	executes a function when the dom tree is loaded, without waiting for images. Only works when called from window.
 
 Credits:
-	(c) Dean Edwards/Matthias Miller/John Resig, remastered for mootools.
+	(c) Dean Edwards/Matthias Miller/John Resig, remastered for MooTools.
 
 Arguments:
 	fn - the function to execute when the DOM is ready
@@ -3551,9 +3624,13 @@ Element.Events.domready = {
 
 };
 
-window.onDomReady = function(fn){
-	return this.addEvent('domready', fn);
+/*compatibility*/
+
+window.onDomReady = function(fn){ 
+	return this.addEvent('domready', fn); 
 };
+
+/*end compatibility*/
 
 /*
 Script: Window.Size.js
@@ -3664,32 +3741,35 @@ window.extend({
 	},
 
 	//ignore
-	getPosition: function(){return {'x': 0, 'y': 0}}
+	getPosition: function(){return {'x': 0, 'y': 0};}
 
 });
 
 /*
 Script: Fx.Base.js
-	Contains <Fx.Base> and two Transitions.
+	Contains <Fx.Base>, the foundamentals of the MooTools Effects.
 
 License:
 	MIT-style license.
 */
 
-var Fx = {Shared: {}};
+var Fx = {};
 
 /*
 Class: Fx.Base
-	Base class for the Mootools Effects (Moo.Fx) library.
+	Base class for the Effects.
 
 Options:
-	onStart - the function to execute as the effect begins; nothing (<Class.empty>) by default.
-	onComplete - the function to execute after the effect has processed; nothing (<Class.empty>) by default.
 	transition - the equation to use for the effect see <Fx.Transitions>; default is <Fx.Transitions.Sine.easeInOut>
 	duration - the duration of the effect in ms; 500 is the default.
 	unit - the unit is 'px' by default (other values include things like 'em' for fonts or '%').
 	wait - boolean: to wait or not to wait for a current transition to end before running another of the same instance. defaults to true.
-	fps - the frames per second for the transition; default is 30
+	fps - the frames per second for the transition; default is 50
+	
+Events:
+	onStart - the function to execute as the effect begins; nothing (<Class.empty>) by default.
+	onComplete - the function to execute after the effect has processed; nothing (<Class.empty>) by default.
+	onCancel - the function to execute when you manually stop the effect.
 */
 
 Fx.Base = new Class({
@@ -3743,11 +3823,11 @@ Fx.Base = new Class({
 		this.increase();
 		return this;
 	},
-	
+
 	setNow: function(){
 		this.now = this.compute(this.from, this.to);
 	},
-	
+
 	compute: function(from, to){
 		return (to - from) * this.delta + from;
 	},
@@ -3786,11 +3866,17 @@ Fx.Base = new Class({
 		this.timer = $clear(this.timer);
 		if (!end) this.fireEvent('onCancel', this.element);
 		return this;
+	}/*compatibility*/,
+	
+	custom: function(from, to){
+		return this.start(from, to);
 	},
 
-	//compat
-	custom: function(from, to){return this.start(from, to)},
-	clearTimer: function(end){return this.stop(end)}
+	clearTimer: function(end){
+		return this.stop(end);
+	}
+
+	/*end compatibility*/
 
 });
 
@@ -3808,19 +3894,20 @@ Fx.CSS = {
 
 	select: function(property, to){
 		if (property.test(/color/i)) return this.Color;
-		if (to.contains && to.contains(' ')) return this.Multi;
+		var type = $type(to);
+		if ((type == 'array') || (type == 'string' && to.contains(' '))) return this.Multi;
 		return this.Single;
 	},
 
 	parse: function(el, property, fromTo){
 		if (!fromTo.push) fromTo = [fromTo];
 		var from = fromTo[0], to = fromTo[1];
-		if (!to && to != 0){
+		if (!$chk(to)){
 			to = from;
 			from = el.getStyle(property);
 		}
 		var css = this.select(property, to);
-		return {from: css.parse(from), to: css.parse(to), css: css};
+		return {'from': css.parse(from), 'to': css.parse(to), 'css': css};
 	}
 
 };
@@ -3891,8 +3978,9 @@ License:
 
 /*
 Class: Fx.Style
-	The Style effect; Extends <Fx.Base>, inherits all its properties. Used to transition any css property from one value to another. Includes colors.
+	The Style effect, used to transition any css property from one value to another. Includes colors.
 	Colors must be in hex format.
+	Inherits methods, properties, options and events from <Fx.Base>.
 
 Arguments:
 	el - the $(element) to apply the style transition to
@@ -4010,8 +4098,9 @@ License:
 
 /*
 Class: Fx.Styles
-	Allows you to animate multiple css properties at once; Extends <Fx.Base>, inherits all its properties. Includes colors.
+	Allows you to animate multiple css properties at once;
 	Colors must be in hex format.
+	Inherits methods, properties, options and events from <Fx.Base>.
 
 Arguments:
 	el - the $(element) to apply the styles transition to
@@ -4120,6 +4209,7 @@ License:
 /*
 Class: Fx.Elements
 	Fx.Elements allows you to apply any number of styles transitions to a selection of elements. Includes colors (must be in hex format).
+	Inherits methods, properties, options and events from <Fx.Base>.
 
 Arguments:
 	elements - a collection of elements the effects will be applied to.
@@ -4209,6 +4299,7 @@ License:
 /*
 Class: Fx.Scroll
 	Scroll any element with an overflow, including the window element.
+	Inherits methods, properties, options and events from <Fx.Base>.
 
 Note:
 	Fx.Scroll requires an XHTML doctype.
@@ -4218,7 +4309,7 @@ Arguments:
 	options - optional, see Options below.
 
 Options:
-	all the Fx.Base options, plus:
+	all the Fx.Base options and events, plus:
 	offset - the distance for the scrollTo point/element. an Object with x/y properties.
 	overflown - an array of nested scrolling containers, see <Element.getPosition>
 */
@@ -4227,20 +4318,23 @@ Fx.Scroll = Fx.Base.extend({
 
 	options: {
 		overflown: [],
-		offset: {'x': 0, 'y': 0}
+		offset: {'x': 0, 'y': 0},
+		wheelStops: true
 	},
 
 	initialize: function(element, options){
 		this.now = [];
 		this.element = $(element);
 		this.bound = {'stop': this.stop.bind(this, false)};
-		this.addEvent('onStart', function(){
-			document.addEvent('mousewheel', this.bound.stop);
-		}.bind(this));
-		this.removeEvent('onComplete', function(){
-			document.removeEvent('mousewheel', this.bound.stop);
-		}.bind(this));
 		this.parent(options);
+		if (this.options.wheelStops){
+			this.addEvent('onStart', function(){
+				document.addEvent('mousewheel', this.bound.stop);
+			}.bind(this));
+			this.addEvent('onComplete', function(){
+				document.removeEvent('mousewheel', this.bound.stop);
+			}.bind(this));
+		}
 	},
 
 	setNow: function(){
@@ -4335,7 +4429,8 @@ License:
 
 /*
 Class: Fx.Slide
-	The slide effect; slides an element in horizontally or vertically, the contents will fold inside. Extends <Fx.Base>, inherits all its properties.
+	The slide effect; slides an element in horizontally or vertically, the contents will fold inside.
+	Inherits methods, properties, options and events from <Fx.Base>.
 	
 Note:
 	Fx.Slide requires an XHTML doctype.
@@ -4364,8 +4459,12 @@ Fx.Slide = Fx.Base.extend({
 		this.setOptions(options);
 		this.now = [];
 		this.parent(this.options);
+		this.open = true;
+		this.addEvent('onComplete', function(){
+			this.open = (this.now[0] === 0);
+		});
 		if (window.webkit419) this.addEvent('onComplete', function(){
-			this.element.remove().inject(this.wrapper);
+			if (this.open) this.element.remove().inject(this.wrapper);
 		});
 	},
 
@@ -4421,6 +4520,7 @@ Fx.Slide = Fx.Base.extend({
 
 	hide: function(mode){
 		this[mode || this.options.mode]();
+		this.open = false;
 		return this.set([-this.offset, 0]);
 	},
 
@@ -4434,6 +4534,7 @@ Fx.Slide = Fx.Base.extend({
 
 	show: function(mode){
 		this[mode || this.options.mode]();
+		this.open = true;
 		return this.set([0, this.offset]);
 	},
 
@@ -4519,15 +4620,21 @@ Fx.Transitions = new Abstract({
 Fx.Transitions.extend = function(transitions){
 	for (var transition in transitions){
 		Fx.Transitions[transition] = new Fx.Transition(transitions[transition]);
+		/*compatibility*/
 		Fx.Transitions.compat(transition);
-	};
+		/*end compatibility*/
+	}
 };
+
+/*compatibility*/
 
 Fx.Transitions.compat = function(transition){
 	['In', 'Out', 'InOut'].each(function(easeType){
 		Fx.Transitions[transition.toLowerCase() + easeType] = Fx.Transitions[transition]['ease' + easeType];
 	});
 };
+
+/*end compatibility*/
 
 Fx.Transitions.extend({
 
@@ -4671,7 +4778,10 @@ Fx.Transitions.extend({
 	Fx.Transitions[transition] = new Fx.Transition(function(p){
 		return Math.pow(p, [i + 2]);
 	});
+	
+	/*compatibility*/
 	Fx.Transitions.compat(transition);
+	/*end compatibility*/
 });
 
 /*
@@ -4698,9 +4808,6 @@ Arguments:
 Options:
 	handle - the $(element) to act as the handle for the draggable element. defaults to the $(element) itself.
 	modifiers - an object. see Modifiers Below.
-	onStart - optional, function to execute when the user starts to drag (on mousedown);
-	onComplete - optional, function to execute when the user completes the drag.
-	onDrag - optional, function to execute at every step of the drag
 	limit - an object, see Limit below.
 	grid - optional, distance in px for snap-to-grid dragging
 	snap - optional, the distance you have to drag before the element starts to respond to the drag. defaults to false
@@ -4712,6 +4819,11 @@ Options:
 	limit:
 		x - array with start and end limit relative to modifiers.x
 		y - array with start and end limit relative to modifiers.y
+		
+Events:
+	onStart - optional, function to execute when the user starts to drag (on mousedown);
+	onComplete - optional, function to execute when the user completes the drag.
+	onDrag - optional, function to execute at every step of the drag
 */
 
 Drag.Base = new Class({
@@ -4855,6 +4967,7 @@ License:
 Class: Drag.Move
 	Extends <Drag.Base>, has additional functionality for dragging an element, support snapping and droppables.
 	Drag.move supports either position absolute or relative. If no position is found, absolute will be set.
+	Inherits methods, properties, options and events from <Drag.Base>.
 
 Note:
 	Drag.Move requires an XHTML doctype.
@@ -4885,7 +4998,7 @@ Drag.Move = Drag.Base.extend({
 		this.container = $(this.options.container);
 		this.position = {'element': this.element.getStyle('position'), 'container': false};
 		if (this.container) this.position.container = this.container.getStyle('position');
-		if (!['absolute', 'relative'].contains(this.position.element)) this.position.element = 'absolute';
+		if (!['relative', 'absolute', 'fixed'].contains(this.position.element)) this.position.element = 'absolute';
 		var top = this.element.getStyle('top').toInt();
 		var left = this.element.getStyle('left').toInt();
 		if (this.position.element == 'absolute' && !['relative', 'absolute', 'fixed'].contains(this.position.container)){
@@ -4983,13 +5096,15 @@ Arguments:
 Options:
 	method - 'post' or 'get' - the protocol for the request; optional, defaults to 'post'.
 	async - boolean: asynchronous option; true uses asynchronous requests. Defaults to true.
+	encoding - the encoding, defaults to utf-8.
+	autoCancel - cancels the already running request if another one is sent. defaults to false.
+	headers - accepts an object, that will be set to request headers.
+	
+Events:
 	onRequest - function to execute when the XHR request is fired.
 	onSuccess - function to execute when the XHR request completes.
 	onStateChange - function to execute when the state of the XMLHttpRequest changes.
 	onFailure - function to execute when the state of the XMLHttpRequest changes.
-	encoding - the encoding, defaults to utf-8.
-	autoCancel - cancels the already running request if another one is sent. defaults to false.
-	headers - accepts an object, that will be set to request headers.
 
 Properties:
 	running - true if the request is running.
@@ -5012,7 +5127,7 @@ var XHR = new Class({
 		autoCancel: false,
 		headers: {}
 	},
-	
+
 	setTransport: function(){
 		this.transport = (window.XMLHttpRequest) ? new XMLHttpRequest() : (window.ie ? new ActiveXObject('Microsoft.XMLHTTP') : false);
 		return this;
@@ -5033,7 +5148,7 @@ var XHR = new Class({
 		if (this.transport.readyState != 4 || !this.running) return;
 		this.running = false;
 		var status = 0;
-		try {status = this.transport.status} catch(e){};
+		try {status = this.transport.status;} catch(e){};
 		if (this.options.isSuccess.call(this, status)) this.onSuccess();
 		else this.onFailure();
 		this.transport.onreadystatechange = Class.empty;
@@ -5061,8 +5176,8 @@ var XHR = new Class({
 		Add/modify an header for the request. It will not override headers from the options.
 
 	Example:
-		>var myAjax = new Ajax(url, {method: 'get', headers: {'X-Request': 'JSON'}});
-		>myAjax.setHeader('Last-Modified','Sat, 1 Jan 2005 05:00:00 GMT');
+		>var myXhr = new XHR(url, {method: 'get', headers: {'X-Request': 'JSON'}});
+		>myXhr.setHeader('Last-Modified','Sat, 1 Jan 2005 05:00:00 GMT');
 	*/
 
 	setHeader: function(name, value){
@@ -5087,8 +5202,11 @@ var XHR = new Class({
 		if (this.options.autoCancel) this.cancel();
 		else if (this.running) return this;
 		this.running = true;
-		if (data && this.options.method == 'get') url = url + (url.contains('?') ? '&' : '?') + data, data = null;
-		this.transport.open(this.options.method, url, this.options.async);
+		if (data && this.options.method == 'get'){
+			url = url + (url.contains('?') ? '&' : '?') + data;
+			data = null;
+		}
+		this.transport.open(this.options.method.toUpperCase(), url, this.options.async);
 		this.transport.onreadystatechange = this.onStateChange.bind(this);
 		if ((this.options.method == 'post') && this.transport.overrideMimeType) this.setHeader('Connection', 'close');
 		$extend(this.headers, this.options.headers);
@@ -5134,7 +5252,8 @@ License:
 
 /*
 Class: Ajax
-	An Ajax class, For all your asynchronous needs. Inherits methods, properties and options from <XHR>.
+	An Ajax class, For all your asynchronous needs.
+	Inherits methods, properties, options and events from <XHR>.
 
 Arguments:
 	url - the url pointing to the server-side script.
@@ -5142,10 +5261,12 @@ Arguments:
 
 Options:
 	data - you can write parameters here. Can be a querystring, an object or a Form element.
-	onComplete - function to execute when the ajax request completes.
 	update - $(element) to insert the response text of the XHR into, upon completion of the request.
 	evalScripts - boolean; default is false. Execute scripts in the response text onComplete. When the response is javascript the whole response is evaluated.
 	evalResponse - boolean; default is false. Force global evalulation of the whole response, no matter what content-type it is.
+	
+Events:
+	onComplete - function to execute when the ajax request completes.
 
 Example:
 	>var myAjax = new Ajax(url, {method: 'get'}).request();
@@ -5164,7 +5285,9 @@ var Ajax = XHR.extend({
 	initialize: function(url, options){
 		this.addEvent('onSuccess', this.onComplete);
 		this.setOptions(options);
+		/*compatibility*/
 		this.options.data = this.options.data || this.options.postBody;
+		/*end compatibility*/
 		if (!['post', 'get'].contains(this.options.method)){
 			this._method = '_method=' + this.options.method;
 			this.options.method = 'post';
@@ -5210,9 +5333,11 @@ var Ajax = XHR.extend({
 	*/
 
 	evalScripts: function(){
-		if (this.options.evalResponse || /(ecma|java)script/.test(this.getHeader('Content-type'))) var scripts = this.response.text;
+		var script, scripts;
+		if (this.options.evalResponse || (/(ecma|java)script/).test(this.getHeader('Content-type'))) scripts = this.response.text;
 		else {
-			var script, scripts = [], regexp = /<script[^>]*>([\s\S]*?)<\/script>/gi;
+			scripts = [];
+			var regexp = /<script[^>]*>([\s\S]*?)<\/script>/gi;
 			while ((script = regexp.exec(this.response.text))) scripts.push(script[1]);
 			scripts = scripts.join('\n');
 		}
@@ -5224,7 +5349,7 @@ var Ajax = XHR.extend({
 		Returns the given response header or null
 	*/
 
-	getHeader: function(name) {
+	getHeader: function(name){
 		try {return this.transport.getResponseHeader(name);} catch(e){};
 		return null;
 	}
@@ -5283,7 +5408,7 @@ Element.extend({
 	*/
 
 	send: function(options){
-		return new Ajax(this.getProperty('action'), $merge({postBody: this.toQueryString()}, options, {method: 'post'})).request();
+		return new Ajax(this.getProperty('action'), $merge({data: this.toQueryString()}, options, {method: 'post'})).request();
 	}
 
 });
@@ -5330,8 +5455,8 @@ var Cookie = new Abstract({
 		An object with the options, the key and the value. You can give it as first parameter to Cookie.remove.
 
 	Example:
-		>Cookie.set("username", "Harald", {duration: 1}); //save this for 1 day
-		>Cookie.set("username", "JackBauer", {duration: false}); //session cookie
+		>Cookie.set('username', 'Harald'); // session cookie (duration is false), or ...
+		>Cookie.set('username', 'JackBauer', {duration: 1}); // save this for 1 day
 
 	*/
 
@@ -5361,7 +5486,7 @@ var Cookie = new Abstract({
 		The cookie string value, or false if not found.
 
 	Example:
-		>Cookie.get("username") //returns Aaron
+		>Cookie.get("username") //returns JackBauer
 	*/
 
 	get: function(key){
@@ -5378,8 +5503,9 @@ var Cookie = new Abstract({
 		options - optional. you can also pass the domain and path here. Same as options in <Cookie.set>
 
 	Examples:
-		>Cookie.remove("username") //bye-bye Aaron
-		>var myCookie = Cookie.set('user', 'jackbauer', {domain: 'mootools.net'});
+		>Cookie.remove('username') //bye-bye JackBauer, cya in 24 hours
+		>
+		>var myCookie = Cookie.set('username', 'Aaron', {domain: 'mootools.net'}); // Cookie.set returns an object with all values need to remove the cookie
 		>Cookie.remove(myCookie);
 	*/
 
@@ -5431,6 +5557,10 @@ var Json = {
 				var string = [];
 				for (var property in obj) string.push(Json.toString(property) + ':' + Json.toString(obj[property]));
 				return '{' + string.join(',') + '}';
+			case 'number':
+				if (isFinite(obj)) break;
+			case false:
+				return 'null';
 		}
 		return String(obj);
 	},
@@ -5452,7 +5582,7 @@ var Json = {
 	*/
 
 	evaluate: function(str, secure){
-		return (($type(str) != 'string') || (secure && !str.test(/^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/))) ? false : eval('(' + str + ')');
+		return (($type(str) != 'string') || (secure && !str.test(/^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/))) ? null : eval('(' + str + ')');
 	}
 
 };
@@ -5468,6 +5598,7 @@ License:
 /*
 Class: Json.Remote
 	Wrapped XHR with automated sending and receiving of Javascript Objects in Json Format.
+	Inherits methods, properties, options and events from <XHR>.
 
 Arguments:
 	url - the url you want to send your object to.
@@ -5498,7 +5629,7 @@ Json.Remote = XHR.extend({
 	},
 
 	onComplete: function(){
-		this.fireEvent('onComplete', Json.evaluate(this.response.text, this.options.secure));
+		this.fireEvent('onComplete', [Json.evaluate(this.response.text, this.options.secure)]);
 	}
 
 });
@@ -5738,9 +5869,10 @@ var Hash = new Class({
 	*/
 
 	remove: function(key){
-		if (!this.hasKey(key)) return this;
-		delete this.obj[key];
-		this.length--;
+		if (this.hasKey(key)){
+			delete this.obj[key];
+			this.length--;
+		}
 		return this;
 	},
 
@@ -6159,7 +6291,7 @@ License:
 Class: Scroller
 	The Scroller is a class to scroll any element with an overflow (including the window) when the mouse cursor reaches certain buondaries of that element.
 	You must call its start method to start listening to mouse movements.
-	
+
 Note:
 	The Scroller requires an XHTML doctype.
 
@@ -6170,6 +6302,8 @@ Arguments:
 Options:
 	area - integer, the necessary boundaries to make the element scroll.
 	velocity - integer, velocity ratio, the modifier for the window scrolling speed.
+
+Events:
 	onChange - optionally, when the mouse reaches some boundaries, you can choose to alter some other values, instead of the scrolling offsets.
 		Automatically passes as parameters x and y values.
 */
@@ -6254,13 +6388,15 @@ Arguments:
 	options - see Options below
 
 Options:
+	steps - the number of steps for your slider.
+	mode - either 'horizontal' or 'vertical'. defaults to horizontal.
+	offset - relative offset for knob position. default to 0.
+	
+Events:
 	onChange - a function to fire when the value changes.
 	onComplete - a function to fire when you're done dragging.
 	onTick - optionally, you can alter the onTick behavior, for example displaying an effect of the knob moving to the desired position.
 		Passes as parameter the new position.
-	steps - the number of steps for your slider.
-	mode - either 'horizontal' or 'vertical'. defaults to horizontal.
-	offset - relative offset for knob position. default to 0.
 */
 
 var Slider = new Class({
@@ -6390,6 +6526,7 @@ License:
 /*
 Class: SmoothScroll
 	Auto targets all the anchors in a page and display a smooth scrolling effect upon clicking them.
+	Inherits methods, properties, options and events from <Fx.Scroll>.
 
 Note:
 	SmoothScroll requires an XHTML doctype.
@@ -6438,7 +6575,7 @@ License:
 /*
 Class: Sortables
 	Creates an interface for <Drag.Base> and drop, resorting of a list.
-	
+
 Note:
 	The Sortables require an XHTML doctype.
 
@@ -6448,6 +6585,8 @@ Arguments:
 
 Options:
 	handles - a collection of elements to be used for drag handles. defaults to the elements.
+	
+Events:
 	onStart - function executed when the item starts dragging
 	onComplete - function executed when the item ends dragging
 */
@@ -6488,7 +6627,7 @@ var Sortables = new Class({
 		this.bound.move = this.move.bindWithEvent(this);
 		this.bound.end = this.end.bind(this);
 	},
-	
+
 	attach: function(){
 		this.handles.each(function(handle, i){
 			handle.addEvent('mousedown', this.bound.start[i]);
@@ -6521,7 +6660,7 @@ var Sortables = new Class({
 		this.fireEvent('onStart', el);
 		event.stop();
 	},
-	
+
 	moveGhost: function(event){
 		var value = event.page.y - this.offset;
 		value = value.limit(this.coordinates.top, this.coordinates.bottom - this.ghost.offsetHeight);
@@ -6530,29 +6669,20 @@ var Sortables = new Class({
 	},
 
 	move: function(event){
-		this.active.active = true;
-		this.previous = this.previous || event.page.y;
-		this.now = event.page.y;
-		var direction = ((this.previous - this.now) <= 0) ? 'down' : 'up';
+		var now = event.page.y;
+		this.previous = this.previous || now;
+		var up = ((this.previous - now) > 0);
 		var prev = this.active.getPrevious();
 		var next = this.active.getNext();
-		if (prev && direction == 'up'){
-			var prevPos = prev.getCoordinates();
-			if (event.page.y < prevPos.bottom) this.active.injectBefore(prev);
-		}
-		if (next && direction == 'down'){
-			var nextPos = next.getCoordinates();
-			if (event.page.y > nextPos.top) this.active.injectAfter(next);
-		}
-		this.previous = event.page.y;
+		if (prev && up && now < prev.getCoordinates().bottom) this.active.injectBefore(prev);
+		if (next && !up && now > next.getCoordinates().top) this.active.injectAfter(next);
+		this.previous = now;
 	},
 
-	serialize: function(){
-		var serial = [];
-		this.list.getChildren().each(function(el, i){
-			serial[i] = this.elements.indexOf(el);
+	serialize: function(converter){
+		return this.list.getChildren().map(converter || function(el){
+			return this.elements.indexOf(el);
 		}, this);
-		return serial;
 	},
 
 	end: function(){
@@ -6594,10 +6724,6 @@ Arguments:
 
 Options:
 	maxTitleChars - the maximum number of characters to display in the title of the tip. defaults to 30.
-
-	onShow - optionally you can alter the default onShow behaviour with this option (like displaying a fade in effect);
-	onHide - optionally you can alter the default onHide behaviour with this option (like displaying a fade out effect);
-
 	showDelay - the delay the onShow method is called. (defaults to 100 ms)
 	hideDelay - the delay the onHide method is called. (defaults to 100 ms)
 
@@ -6611,6 +6737,10 @@ Options:
 
 	offsets - the distance of your tooltip from the mouse. an Object with x/y properties.
 	fixed - if set to true, the toolTip will not follow the mouse.
+	
+Events:
+	onShow - optionally you can alter the default onShow behaviour with this option (like displaying a fade in effect);
+	onHide - optionally you can alter the default onHide behaviour with this option (like displaying a fade out effect);
 
 Example:
 	(start code)
@@ -6663,7 +6793,7 @@ var Tips = new Class({
 		el.$tmp.myTitle = (el.href && el.getTag() == 'a') ? el.href.replace('http://', '') : (el.rel || false);
 		if (el.title){
 			var dual = el.title.split('::');
-			if (dual.length > 1) {
+			if (dual.length > 1){
 				el.$tmp.myTitle = dual[0].trim();
 				el.$tmp.myText = dual[1].trim();
 			} else {
@@ -6688,14 +6818,10 @@ var Tips = new Class({
 	start: function(el){
 		this.wrapper.empty();
 		if (el.$tmp.myTitle){
-			this.title = new Element('span').inject(
-				new Element('div', {'class': this.options.className + '-title'}).inject(this.wrapper)
-			).setHTML(el.$tmp.myTitle);
+			this.title = new Element('span').inject(new Element('div', {'class': this.options.className + '-title'}).inject(this.wrapper)).setHTML(el.$tmp.myTitle);
 		}
 		if (el.$tmp.myText){
-			this.text = new Element('span').inject(
-				new Element('div', {'class': this.options.className + '-text'}).inject(this.wrapper)
-			).setHTML(el.$tmp.myText);
+			this.text = new Element('span').inject(new Element('div', {'class': this.options.className + '-text'}).inject(this.wrapper)).setHTML(el.$tmp.myText);
 		}
 		$clear(this.timer);
 		this.timer = this.show.delay(this.options.showDelay, this);
@@ -6806,9 +6932,7 @@ var Group = new Class({
 			return this.checker[type][j] || false;
 		}, this);
 		if (!every) return;
-		this.instances.each(function(current, j){
-			this.checker[type][j] = false;
-		}, this);
+		this.checker[type] = {};
 		this.events[type].each(function(event){
 			event.call(this, this.instances, instance);
 		}, this);
@@ -6827,6 +6951,7 @@ License:
 /*
 Class: Accordion
 	The Accordion class creates a group of elements that are toggled when their handles are clicked. When one elements toggles in, the others toggles back.
+	Inherits methods, properties, options and events from <Fx.Elements>.
 	
 Note:
 	The Accordion requires an XHTML doctype.
@@ -6834,19 +6959,21 @@ Note:
 Arguments:
 	togglers - required, a collection of elements, the elements handlers that will be clickable.
 	elements - required, a collection of elements the transitions will be applied to.
-	options - optional, see options below, and <Fx.Base> options.
+	options - optional, see options below, and <Fx.Base> options and events.
 
 Options:
 	show - integer, the Index of the element to show at start.
 	display - integer, the Index of the element to show at start (with a transition). defaults to 0.
 	fixedHeight - integer, if you want the elements to have a fixed height. defaults to false.
 	fixedWidth - integer, if you want the elements to have a fixed width. defaults to false.
-	onActive - function to execute when an element starts to show
-	onBackground - function to execute when an element starts to hide
 	height - boolean, will add a height transition to the accordion if true. defaults to true.
 	opacity - boolean, will add an opacity transition to the accordion if true. defaults to true.
 	width - boolean, will add a width transition to the accordion if true. defaults to false, css mastery is required to make this work!
 	alwaysHide - boolean, will allow to hide all elements if true, instead of always keeping one element shown. defaults to false.
+	
+Events:
+	onActive - function to execute when an element starts to show
+	onBackground - function to execute when an element starts to hide
 */
 
 var Accordion = Fx.Elements.extend({
@@ -6897,12 +7024,25 @@ var Accordion = Fx.Elements.extend({
 		if (this.options.height) this.effects.height = this.options.fixedHeight ? 'fullHeight' : 'scrollHeight';
 		for (var i = 0, l = this.togglers.length; i < l; i++) this.addSection(this.togglers[i], this.elements[i]);
 		this.elements.each(function(el, i){
-			if (this.options.show === i) this.fireEvent('onActive', [this.togglers[i], el]);
-			else for (var fx in this.effects) el.setStyle(fx, 0);
+			if (this.options.show === i){
+				this.fireEvent('onActive', [this.togglers[i], el]);
+			} else {
+				for (var fx in this.effects) el.setStyle(fx, 0);
+			}
 		}, this);
 		this.parent(this.elements);
 		if ($chk(this.options.display)) this.display(this.options.display);
 	},
+
+	/*
+	Property: addSection
+		Dynamically adds a new section into the accordion at the specified position.
+
+	Arguments:
+		toggler - (dom element) the element that toggles the accordion section open.
+		element - (dom element) the element that stretches open when the toggler is clicked.
+		pos - (integer) the index where these objects are to be inserted within the accordion.
+	*/
 
 	addSection: function(toggler, element, pos){
 		toggler = $(toggler);
@@ -6927,7 +7067,9 @@ var Accordion = Fx.Elements.extend({
 		if (this.options.fixedWidth) element.fullWidth = this.options.fixedWidth;
 		if (this.options.fixedHeight) element.fullHeight = this.options.fixedHeight;
 		element.setStyle('overflow', 'hidden');
-		if (!test) for (var fx in this.effects) element.setStyle(fx, 0);
+		if (!test){
+			for (var fx in this.effects) element.setStyle(fx, 0);
+		}
 		return this;
 	},
 
@@ -6946,18 +7088,14 @@ var Accordion = Fx.Elements.extend({
 		var obj = {};
 		this.elements.each(function(el, i){
 			obj[i] = {};
-			if ((i != index) || (this.options.alwaysHide && (el.offsetHeight > 0))){
-				this.fireEvent('onBackground', [this.togglers[i], el]);
-				for (var fx in this.effects) obj[i][fx] = 0;
-			} else {
-				this.fireEvent('onActive', [this.togglers[i], el]);
-				for (var fx in this.effects) obj[i][fx] = el[this.effects[fx]];
-			}
+			var hide = (i != index) || (this.options.alwaysHide && (el.offsetHeight > 0));
+			this.fireEvent(hide ? 'onBackground' : 'onActive', [this.togglers[i], el]);
+			for (var fx in this.effects) obj[i][fx] = hide ? 0 : el[this.effects[fx]];
 		}, this);
 		return this.start(obj);
 	},
 
-	showThisHideOpen: function(index){return this.display(index)}
+	showThisHideOpen: function(index){return this.display(index);}
 
 });
 
