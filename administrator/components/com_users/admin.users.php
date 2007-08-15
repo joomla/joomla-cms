@@ -405,7 +405,7 @@ function saveUser(  )
 		$adminName	= $me->get('name');
 
 		$subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
-		$message = sprintf ( JText::_('NEW_USER_MESSAGE'), $user->get('name'), $SiteName, $mainframe->getSiteURL(), $user->get('username'), $user->clearPW );
+		$message = sprintf ( JText::_('NEW_USER_MESSAGE'), $user->get('name'), $SiteName, $mainframe->getSiteURL(), $user->get('username'), $user->password_clear );
 
 		if ($MailFrom != '' && $FromName != '')
 		{

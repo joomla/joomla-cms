@@ -44,6 +44,13 @@ Legend:
  # Fixed [topic,200952] typo in weblink search plugin for JPlugin::loadlanguage()
  ^ Removed var_dump from debug plugin
 
+12-August-2007 Johan Janssens
+ + Added JHTML::script and JHTML::stylesheet helper functions to allow easy loading of javascript
+   and stylesheet.
+ + Added cookie support to JSwitcher behavior
+ + Added JOpenID login form behavior to be eligible for the OpenID bounty program
+ - Removed includes/js/cookie.js, functionality already exists in mootools
+
 11-August-2007 Johan Janssens
  + Added JPlugin::loadLanguage to make language loading fro plugins easier
 

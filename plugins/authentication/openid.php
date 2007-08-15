@@ -103,7 +103,8 @@ class plgAuthenticationOpenID extends JPlugin
 			$request->addExtensionArg('sreg', 'optional', 'fullname, language, timezone');
 
 			$options['return'] = isset($options['return']) ? base64_encode($options['return']) : base64_encode(JURI::base());
-			$process_url  = sprintf("index.php?option=com_user&task=login&username=%s", $credentials['username']);
+			$option       = $mainframe->isAdmin() ? 'com_login' : 'com_user';
+			$process_url  = sprintf("index.php?option=%s&task=login&username=%s", $option, $credentials['username']);
 			$process_url .= '&'.JURI::_buildQuery($options);
 
 			$redirect_url = $request->redirectURL(JURI::base(), JURI::base().$process_url);

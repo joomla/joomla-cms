@@ -249,20 +249,11 @@ class JDocumentHTML extends JDocument
 		$result = '';
 
 		$words = explode(' ', $condition);
-		for($i=0; $i < count($words); $i++)
+		for($i = 0; $i < count($words); $i+=2)
 		{
-			if($i % 2 == 0)
-			{
-				// odd parts (modules)
-				$name		= strtolower($words[$i]);
-				$words[$i]	= count(JModuleHelper::getModules($name));
-			}
-			else
-			{
-				if ($words[$i] != 'and') {
-					$words[$i] = 'or';
-				}
-			}
+			// odd parts (modules)
+			$name		= strtolower($words[$i]);
+			$words[$i]	= count(JModuleHelper::getModules($name));
 		}
 
 		$str = 'return '.implode(' ', $words).';';

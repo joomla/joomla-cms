@@ -30,5 +30,4 @@ Window.onDomReady(function(){
 		var menu = new JMenu(element)
 		document.menu = menu
 	}
-	Fat.fade_all();
 });

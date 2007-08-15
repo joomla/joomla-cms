@@ -17,10 +17,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <head>
 <jdoc:include type="head" />
 
+<link rel="stylesheet" href="templates/system/css/general.css" type="text/css" />
+<link href="templates/<?php echo $this->template ?>/css/login.css" rel="stylesheet" type="text/css" />
+
 <?php  if($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo $this->template ?>/css/login_rtl.css" rel="stylesheet" type="text/css" />
-<?php  else : ?>
-	<link href="templates/<?php echo $this->template ?>/css/login.css" rel="stylesheet" type="text/css" />
 <?php  endif; ?>
 
 <!--[if lte IE 6]>
@@ -35,8 +36,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 <script language="javascript" type="text/javascript">
 	function setFocus() {
-		document.loginForm.username.select();
-		document.loginForm.username.focus();
+		document.login.username.select();
+		document.login.username.focus();
 	}
 </script>
 </head>

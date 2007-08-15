@@ -22,6 +22,59 @@
  */
 class JHTMLBehavior
 {
+	/**
+	 * Method to load the mootools framework into the document head
+	 *
+	 * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
+	 *
+	 * @static
+	 * @param	boolean	$debug	Is debugging mode on? [optional]
+	 * @return	void
+	 * @since	1.5
+	 */
+	function mootools($debug = null)
+	{
+		static $loaded;
+
+		// Only load once
+		if ($loaded) {
+			return;
+		}
+
+		// If no debugging value is set, use the configuration setting
+		if ($debug === null) {
+			$config = &JFactory::getConfig();
+			$debug = $config->getValue('config.debug');
+		}
+
+		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
+		$konkcheck = strpos (strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
+
+		if ($debug || $konkcheck) {
+			JHTML::script('mootools-uncompressed', 'media/system/js/', false);
+		} else {
+			JHTML::script('mootools', 'media/system/js/', false);
+		}
+		$loaded = true;
+		return;
+	}
+
+		function caption() {
+		JHTML::script('caption');
+	}
+
+	function formvalidation() {
+		JHTML::script('validate' );
+	}
+
+	function switcher() {
+		JHTML::script('switcher' );
+	}
+
+	function combobox() {
+		JHTML::script('combobox' );
+	}
+
 	function tooltip($selector='.hasTip', $params = array())
 	{
 		static $tips;
@@ -62,8 +115,6 @@ class JHTMLBehavior
 
 	function modal($selector='a.modal', $params = array())
 	{
-		global $mainframe;
-
 		static $modals;
 		static $included;
 
@@ -72,13 +123,9 @@ class JHTMLBehavior
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset($included)) {
 
-			// Include mootools framework
-			JHTMLBehavior::mootools();
-
 			// Load the javascript and css
-			$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-			$document->addScript($url.'media/system/js/modal.js');
-			$document->addStyleSheet($url.'media/system/css/modal.css');
+			JHTML::script('modal');
+			JHTML::stylesheet('modal');
 
 			$included = true;
 		}
@@ -124,113 +171,10 @@ class JHTMLBehavior
 		return;
 	}
 
-	/**
-	 * Method to load the mootools framework into the document head
-	 *
-	 * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
-	 *
-	 * @static
-	 * @param	boolean	$debug	Is debugging mode on? [optional]
-	 * @return	void
-	 * @since	1.5
-	 */
-	function mootools($debug = null)
-	{
-		global $mainframe;
-
-		static $loaded;
-
-		// Only load once
-		if ($loaded) {
-			return;
-		}
-
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null) {
-			$config = &JFactory::getConfig();
-			$debug = $config->getValue('config.debug');
-		}
-
-		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
-		$konkcheck = strpos (strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
-
-		// Get the document object and base URL
-		$document =& JFactory::getDocument();
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		if ($debug || $konkcheck) {
-			$document->addScript($url.'media/system/js/mootools-uncompressed.js');
-		} else {
-			$document->addScript($url.'media/system/js/mootools.js');
-		}
-		$loaded = true;
-		return;
-	}
-
-	function caption()
-	{
-		global $mainframe;
-
-		// Include mootools framework
-		JHTMLBehavior::mootools();
-
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		$doc = &JFactory::getDocument();
-		$doc->addScript( $url. 'media/system/js/caption.js' );
-	}
-
-	function formvalidation()
-	{
-		global $mainframe;
-
-		// Include mootools framework
-		JHTMLBehavior::mootools();
-
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		$doc = &JFactory::getDocument();
-		$doc->addScript( $url. 'media/system/js/validate.js' );
-	}
-
-	function switcher()
-	{
-		global $mainframe;
-
-		// Include mootools framework
-		JHTMLBehavior::mootools();
-
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		$doc = &JFactory::getDocument();
-		$doc->addScript( $url. 'media/system/js/switcher.js' );
-	}
-
-	function combobox()
-	{
-		global $mainframe;
-
-		// Include mootools framework
-		JHTMLBehavior::mootools();
-
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		$doc = &JFactory::getDocument();
-		$doc->addScript( $url. 'media/system/js/combobox.js' );
-	}
-
 	function uploader($id='file-upload', $params = array())
 	{
-		global $mainframe;
-
-		// Include mootools framework
-		JHTMLBehavior::mootools();
-
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		$document = &JFactory::getDocument();
-		$document->addScript( $url. 'media/system/js/swf.js' );
-		$document->addScript( $url. 'media/system/js/uploader.js' );
+		JHTML::script('swf' );
+		JHTML::script('uploader' );
 
 		static $uploaders;
 
@@ -281,19 +225,15 @@ class JHTMLBehavior
 
 	function calendar()
 	{
-		global $mainframe;
-
-		$doc =& JFactory::getDocument();
 		$lang =& JFactory::getLanguage();
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
-		$doc->addStyleSheet( $url. 'includes/js/calendar/calendar-mos.css', 'text/css', null, array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
-		$doc->addScript( $url. 'includes/js/calendar/calendar_mini.js' );
+		JHTML::stylesheet('calendar-mos', 'includes/js/calendar/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
+		JHTML::script( 'calendar_mini', 'includes/js/calendar/' );
 		$langScript = JPATH_SITE.DS.'includes'.DS.'js'.DS.'calendar'.DS.'lang'.DS.'calendar-'.$lang->getTag().'.js';
 		if( file_exists( $langScript ) ){
-			$doc->addScript( $url. 'includes/js/calendar/lang/calendar-'.$lang->getTag().'.js' );
+			JHTML::script( 'calendar-'.$lang->getTag(), 'includes/js/calendar/lang/' );
 		} else {
-			$doc->addScript( $url. 'includes/js/calendar/lang/calendar-en-GB.js' );
+			JHTML::script( 'calendar-en-GB', 'includes/js/calendar/lang/' );
 		}
 	}
 
@@ -307,26 +247,21 @@ class JHTMLBehavior
 
 		$config 		=& JFactory::getConfig();
 		$lifetime 	= ( $config->getValue('lifetime') * 60000 );
-		$refreshTime =  ( $lifetime < 120000 ) ? 120000 : $lifetime - 120000;
-		//refresh time is 2 minutes less than the liftime assined in the configuration.php file
+		$refreshTime =  ( $lifetime <= 60000 ) ? 3000 : $lifetime - 6000;
+		//refresh time is 1 minute less than the liftime assined in the configuration.php file
 		?>
 		<script language="javascript">
-		function keepAlive( refreshTime )
-		{
-			var url = "index.php?option=com_admin&tmpl=component&task=keepalive";
-			var myAjax = new Ajax( url, { method: "get", update: $("keepAliveLayer") } ).request();
-			setTimeout('keepAlive(' + refreshTime + ')', refreshTime);
+		function keepAlive( ) {
+			var myAjax = new Ajax( "index.php", { method: "get" } ).request();
 		}
 
 		window.addEvent('domready', function()
-			{ keepAlive( <?php echo $refreshTime; ?> ); }
+			{ keepAlive.periodical( <?php echo $refreshTime; ?> ); }
 		);
 		</script>
-		<div id="keepAliveLayer"></div>
 		<?php
 		return;
 	}
-
 
 	/**
 	 * Internal method to get a JavaScript object notation string from an array

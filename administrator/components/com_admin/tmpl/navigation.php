@@ -5,7 +5,7 @@
 ?>
 <div class="submenu-box">
 	<div class="submenu-pad">
-		<ul id="submenu">
+		<ul id="submenu" class="information">
 			<li>
 				<a id="site" class="active">
 					<?php echo JText::_( 'System Info' ); ?></a>

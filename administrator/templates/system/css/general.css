@@ -1,0 +1,8 @@
+/* OpenID icon style */
+input.openid {
+   background: url(http://openid.net/login-bg.gif) no-repeat;
+   background-color: #fff;
+   background-position: 0 50%;
+   color: #000;
+   padding-left: 18px;
+}

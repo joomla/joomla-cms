@@ -29,21 +29,24 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<p>
 		<?php echo $mainframe->getCfg('offline_message'); ?>
 	</p>
-	<form action="index.php" method="post" name="login" id="frmlogin">
+	<?php if(JPluginHelper::isEnabled('authentication', 'openid')) : ?>
+	<?php JHTML::_('script', 'openid'); ?>
+<?php endif; ?>
+	<form action="index.php" method="post" name="login" id="form-login">
 	<fieldset class="input">
-		<p>
+		<p id="form-login-username">
 			<label for="username"><?php echo JText::_('Username') ?></label><br />
 			<input name="username" id="username" type="text" class="inputbox" alt="username" size="18" />
 		</p>
-		<p>
+		<p id="form-login-password">
 			<label for="passwd"><?php echo JText::_('Password') ?></label><br />
 			<input type="password" name="passwd" class="inputbox" size="18" alt="password" />
 		</p>
-		<p>
+		<p id="form-login-remember">
 			<label for="remember"><?php echo JText::_('Remember me') ?></label>
 			<input type="checkbox" name="remember" class="inputbox" value="yes" alt="Remember Me" />
-			<input type="submit" name="Submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
 		</p>
+		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
 	</fieldset>
 	<input type="hidden" name="option" value="com_user" />
 	<input type="hidden" name="task" value="login" />

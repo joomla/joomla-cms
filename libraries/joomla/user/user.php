@@ -58,6 +58,12 @@ class JUser extends JObject
 	var $password		= null;
 
 	/**
+	 * Clear password, only available when a new password is set for a user
+	 * @var string
+	 */
+	var $password_clear	= '';
+
+	/**
 	 * Description
 	 * @var string
 	 */
@@ -128,12 +134,6 @@ class JUser extends JObject
 	 * @var string
 	 */
 	var $_errorMsg	= null;
-
-	/**
-	 * Clear password, only available when a new password is set for a user
-	 * @var string
-	 */
-	var $clearPW	= '';
 
 
 	/**
@@ -369,7 +369,7 @@ class JUser extends JObject
 					return false;
 			}
 
-			$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
+			$this->password_clear= JArrayHelper::getValue( $array, 'password', '', 'string' );
 
 			$salt = JUserHelper::genRandomPassword(32);
 			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
@@ -405,7 +405,7 @@ class JUser extends JObject
 					return false;
 				}
 
-				$this->clearPW = JArrayHelper::getValue( $array, 'password', '', 'string' );
+				$this->password_clear= JArrayHelper::getValue( $array, 'password', '', 'string' );
 
 				$salt = JUserHelper::genRandomPassword(32);
 				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);

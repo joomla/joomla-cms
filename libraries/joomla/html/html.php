@@ -137,6 +137,48 @@ class JHTML
 	}
 
 	/**
+	 * Write a <script></script> element
+	 *
+	 * @access	public
+	 * @param	string 	The name of the script file
+	 * * @param	string 	The relative path of the script file
+	 * @param	boolean If true, the mootools library will be loaded
+	 * @since	1.5
+	 */
+	function script($filename, $path = 'media/system/js/', $mootools = true)
+	{
+		global $mainframe;
+
+		// Include mootools framework
+		if($mootools) {
+			JHTML::_('behavior.mootools');
+		}
+
+		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		$document = &JFactory::getDocument();
+		$document->addScript( $base.$path.$filename.'.js' );
+		return;
+	}
+
+	/**
+	 * Write a <link rel="stylesheet" style="text/css" /> element
+	 *
+	 * @access	public
+	 * @param	string 	The relative URL to use for the href attribute
+	 * @since	1.5
+	 */
+	function stylesheet($filename, $path = '/media/system/css/', $attribs = array())
+	{
+		global $mainframe;
+		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		$document = &JFactory::getDocument();
+		$document->addStylesheet( $base.$path.$filename.'.css', 'text/css', null, $attribs );
+		return;
+	}
+
+	/**
 	 * Returns formated date according to current local and adds time offset
 	 *
 	 * @access	public

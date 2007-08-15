@@ -31,7 +31,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 </head>
 <body id="page_bg" class="color_<?php echo $this->params->get('colorVariation'); ?> bg_<?php echo $this->params->get('backgroundVariation'); ?> width_<?php echo $this->params->get('widthStyle'); ?>">
-
 <a name="up" id="up"></a>
 <jdoc:include type="message" />
 

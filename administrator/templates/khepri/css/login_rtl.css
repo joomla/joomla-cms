@@ -72,7 +72,7 @@ p {
 .login-text { text-align: right; width: 40%; float: right; }
 
 
-#loginForm label {
+#form-login label {
 	display: block;
 	float: right;
 	width: 70px;

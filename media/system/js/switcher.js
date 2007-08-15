@@ -20,13 +20,23 @@
  * @since		1.5
  */
 var JSwitcher = new Class({
-	initialize: function(toggler, element)
+
+	toggler : null, //holds the active toggler
+	page    : null, //holds the active page
+
+	options : {
+		cookieName: 'switcher'
+	},
+
+	initialize: function(toggler, element, options)
 	{
+		this.setOptions(options);
+
 		var self = this;
 
 		togglers = $ES('a', toggler);
 		for (i=0; i < togglers.length; i++) {
-			togglers[i].addEvent( 'click', function() { self.switchTo(this.getAttribute('id')); } );
+			togglers[i].addEvent( 'click', function() { self.switchTo(this); } );
 		}
 
 		//hide all
@@ -34,29 +44,38 @@ var JSwitcher = new Class({
 		for (i=0; i < elements.length; i++) {
 			this.hide(elements[i])
 		}
+
+		this.toggler = $E('a.active', toggler);
+		this.page    = $('page-'+ this.toggler.id);
+
+		this.show(this.page);
+
+		if(page = Cookie.get(this.options.cookieName)) {
+			this.switchTo($(page));
+		}
 	},
 
-	switchTo: function(id)
+	switchTo: function(toggler)
 	{
-		toggler = $(id);
-		element = $('page-'+id);
+		page  = $('page-' + toggler.id);
 
-		if(element)
+		if(page && page != this.page)
 		{
 			//hide old element
-			if(this.active) {
-				this.hide(this.active);
+			if(this.page) {
+				this.hide(this.page);
 			}
 
 			//show new element
-			this.show(element);
+			this.show(page);
 
 			toggler.addClass('active');
-			if (this.test) {
-				$(this.test).removeClass('active');
+			if (this.toggler) {
+				this.toggler.removeClass('active');
 			}
-			this.active = element;
-			this.test = id;
+			this.page    = page;
+			this.toggler = toggler;
+			Cookie.set(this.options.cookieName, toggler.id);
 		}
 	},
 
@@ -69,12 +88,13 @@ var JSwitcher = new Class({
 	}
 });
 
+JSwitcher.implement(new Options);
+
 document.switcher = null;
-Window.onDomReady(function(){
+window.addEvent('domready', function(){
  	toggler = $('submenu')
   	element = $('config-document')
   	if(element) {
-  		document.switcher = new JSwitcher(toggler, element)
-  	 	document.switcher.switchTo('site');
+  		document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
   	}
 });

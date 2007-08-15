@@ -80,19 +80,17 @@ class plgUserJoomla extends JPlugin
 		else
 		{
 			$usersConfig = &JComponentHelper::getParams( 'com_users' );
-			$newUsertype = $usersConfig->get( 'new_usertype' );
-			if (!$newUsertype) {
-				$newUsertype = 'Registered';
-			}
+			$newUsertype = $usersConfig->get( 'new_usertype', 'Registered' );
+
 			$authorize	=& JFactory::getACL();
-			
-			$my->set( 'id'			, 0 );
-			$my->set( 'name'		, $user['fullname'] );
-			$my->set( 'username'	, $user['username'] );
-			$my->set( 'clearPW'		, $user['clearPW'] );
-			$my->set( 'email'		, $user['email'] );	// Result should contain an email (check)
-			$my->set( 'gid'			, $authorize->get_group_id( '', $newUsertype, 'ARO' ));
-			$my->set( 'usertype'	, $newUsertype );
+
+			$my->set( 'id'				, 0 );
+			$my->set( 'name'			, $user['fullname'] );
+			$my->set( 'username'		, $user['username'] );
+			$my->set( 'password_clear'	, $user['password_clear'] );
+			$my->set( 'email'			, $user['email'] );	// Result should contain an email (check)
+			$my->set( 'gid'				, $authorize->get_group_id( '', $newUsertype, 'ARO' ));
+			$my->set( 'usertype'		, $newUsertype );
 
 			//If autoregister is set let's register the user
 			$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);

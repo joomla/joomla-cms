@@ -24,14 +24,16 @@ $languages = JLanguageHelper::createLanguageList($browserLang );
 array_unshift( $languages, JHTML::_('select.option',  '', JText::_( 'Default' ) ) );
 $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
 ?>
-
-<form action="index.php" method="post" name="loginForm" id="loginForm" style="clear: both;">
-	<p>
+<?php if(JPluginHelper::isEnabled('authentication', 'openid')) : ?>
+	<?php JHTML::_('script', 'openid'); ?>
+<?php endif; ?>
+<form action="index.php" method="post" name="login" id="form-login" style="clear: both;">
+	<p id="form-login-username">
 		<label for="username"><?php echo JText::_('Username'); ?></label>
 		<input name="username" id="username" type="text" class="inputbox" size="15" />
 	</p>
 
-	<p>
+	<p id="form-login-password">
 		<label for="password"><?php echo JText::_('Password'); ?></label>
 		<input name="passwd" id="password" type="password" class="inputbox" size="15" />
 	</p>
@@ -42,14 +44,14 @@ $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 		echo '<p>';
 	}
 	?>
-	<p>
+	<p id="form-login-lang" style="clear: both;">
 		<label for="lang"><?php echo JText::_('Language'); ?></label>
 		<?php echo $langs; ?>
 	</p>
 	<div style="padding-left: 180px;">
 	<div class="<?php echo $lang->isRTL() ? 'button1-right' : 'button1-left'; ?>">
 		<div class="<?php echo $lang->isRTL() ? 'prev' : 'next'; ?>">
-			<a onclick="loginForm.submit();">
+			<a onclick="login.submit();">
 				<?php echo JText::_( 'Login' ); ?>
 			</a>
 			<input type="submit" style="border: 0; padding: 0; margin: 0; width: 0px; height: 0px;" value="<?php echo JText::_( 'Login' ); ?>" />

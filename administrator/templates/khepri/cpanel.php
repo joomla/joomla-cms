@@ -17,10 +17,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <head>
 <jdoc:include type="head" />
 
+<link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 <?php if($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
-<?php else : ?>
-	<link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
 
 <!--[if lte IE 6]>

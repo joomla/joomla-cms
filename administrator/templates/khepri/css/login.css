@@ -25,9 +25,9 @@
 /* -- Specific styles ----------------------------- */
 
 form  			{ margin: 0px; padding: 0px; }
-form .inputbox { width: 120px; margin-left: 10px; }
-form br 			{ display: none; }
-.login      { margin: 0 auto; width: 500px; margin-bottom: 100px; }
+form .inputbox  { width: 120px; margin-left: 10px; }
+form br 	    { display: none; }
+.login          { margin: 0 auto; width: 500px; margin-bottom: 100px; }
 
 h1 {
   margin: 15px 0;
@@ -70,7 +70,7 @@ p {
 
 .login-text { text-align: left; width: 40%; float: left; }
 
-#loginForm label {
+#form-login label {
 	display: block;
 	float: left;
 	width: 120px;

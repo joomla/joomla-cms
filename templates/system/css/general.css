@@ -2,6 +2,15 @@
 .invalid { border-color: #ff0000; }
 label.invalid { color: #ff0000; }
 
+/* OpenID icon style */
+input.openid {
+   background: url(http://openid.net/login-bg.gif) no-repeat;
+   background-color: #fff;
+   background-position: 0 50%;
+   color: #000;
+   padding-left: 18px;
+}
+
 /* Buttons */
 #editor-xtd-buttons {
 	padding: 5px;
