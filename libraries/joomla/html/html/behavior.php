@@ -186,6 +186,7 @@ class JHTMLBehavior
 			return;
 		}
 
+		global $mainframe;
 		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		// Setup options object
