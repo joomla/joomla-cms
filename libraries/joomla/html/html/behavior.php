@@ -186,9 +186,11 @@ class JHTMLBehavior
 			return;
 		}
 
+		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
 		// Setup options object
 		$opt['url']					= (isset($params['targetURL'])) ? $params['targetURL'] : null ;
-		$opt['swf']					= (isset($params['swf'])) ? $params['swf'] : $url.'media/system/swf/uploader.swf';
+		$opt['swf']					= (isset($params['swf'])) ? $params['swf'] : $base.'media/system/swf/uploader.swf';
 		$opt['multiple']			= (isset($params['multiple']) && !($params['multiple'])) ? '\\false' : '\\true';
 		$opt['queued']				= (isset($params['queued']) && !($params['queued'])) ? '\\false' : '\\true';
 		$opt['queueList']			= (isset($params['queueList'])) ? $params['queueList'] : 'upload-queue';
