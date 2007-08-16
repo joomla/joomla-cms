@@ -1283,7 +1283,7 @@ class JInstallationHelper
 		}
 
 		// Put in breadcrumb module as per sample data
-		$query = "INSERT INTO `".$newPrefix ."modules` VALUES (35, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 0, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 1, 0, '');";
+		$query = "INSERT INTO `".$newPrefix ."modules` VALUES (0, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 0, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 1, 0, '');";
 		$db->setQuery($query);
 		$db->Query();
 		JInstallationHelper::getDBErrors($errors, $db);

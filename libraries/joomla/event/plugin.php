@@ -77,7 +77,7 @@ class JPlugin extends JEventHandler
 	{
 		if(empty($extension)) {
 			$split_up = preg_split("{(?<=[a-z])(?=[A-Z])}x", get_class($this));
-			$extension = 'plg_'.$split_up[1].'_'.$split_up[2];
+			if(count($split_up) > 1) $extension = 'plg_'.$split_up[1].'_'.$split_up[2];
 		}
 
 		$lang =& JFactory::getLanguage();

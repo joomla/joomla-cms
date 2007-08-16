@@ -36,8 +36,8 @@ class PollViewPoll extends JView
 		$tabcnt 	= 0;
 		$colorx 	= 0;
 
-		$maxval		= $this->votes[0]->hits;
-		$sumval		= $this->votes[0]->voters;
+		$maxval		= isset($this->votes[0]) ? $this->votes[0]->hits : 0;
+		$sumval		= isset($this->votes[0]) ? $this->votes[0]->voters : 0;
 
 		$k = 0;
 		for ($i = 0; $i < count( $this->votes ); $i++)

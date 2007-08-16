@@ -40,7 +40,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		</td>
 		<td class="smalldark">
 			&nbsp;:&nbsp;
-			<?php echo $this->votes[0]->voters; ?>
+			<?php if(isset($this->votes[0])) echo $this->votes[0]->voters; ?>
 		</td>
 	</tr>
 	<tr>

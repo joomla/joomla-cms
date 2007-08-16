@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-August-2007 Sam Moffatt
+ # Fixed breadcrumbs module related bug after a migration
+ # Fixed issue with polls
+ ^ Attempting to make the mainconfig installation screen more tolerant
+
 15-August-2007 Robin Muilwijk
  ^ Updated mootools from 1.1 to 1.11
 
