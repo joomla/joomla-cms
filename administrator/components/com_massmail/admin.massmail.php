@@ -83,7 +83,8 @@ function sendMail()
 	$to = $acl->get_group_objects( $gou, 'ARO', $recurse );
 	JArrayHelper::toInteger($to['users']);
 
-	$rows = array();
+	$rows	= array();
+	$rs		= false;
 	if ( count( $to['users'] ) || $gou === 0 ) {
 		// Get sending email address
 		$query = 'SELECT email'
@@ -108,14 +109,22 @@ function sendMail()
 		$mailer->setSender(array($mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname')));
 		$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes( $subject));
 		$mailer->setBody($message_body . $params->get('mailBodySuffix'));
+		$mailer->IsHTML($mode);
 
 		foreach ($rows as $row) {
 			$mailer->addRecipient($row->email);
 		}
-		$mailer->Send();
+		
+		$rs	= $mailer->Send();
 	}
-
-	$msg = JText::sprintf( 'E-mail sent to', count( $rows ) );
+	
+	// Check for an error
+	if ( JError::isError($rs) ) {
+		$msg	= $rs->getError();
+	} else {
+		$msg = $rs ? JText::sprintf( 'E-mail sent to', count( $rows ) ) : JText::_('The mail could not be sent');
+	}
+	
 	$mainframe->redirect( 'index.php?option=com_massmail', $msg );
+	
 }
-?>

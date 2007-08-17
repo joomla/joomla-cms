@@ -249,12 +249,15 @@ class JFactory
 	{
 		static $instance;
 
-		if (is_object($instance))
-			unset($instance);
-
-		$instance = JFactory::_createMailer();
-
-		return $instance;
+		if ( ! is_object($instance) ) { 
+			$instance = JFactory::_createMailer();
+		}
+		
+		// Create a copy of this object - do not return the original because it may be used several times
+		// PHP4 copies objects by value whereas PHP5 copies by reference
+		$copy	= (PHP_VERSION < 5) ? $instance : clone($instance);
+		
+		return $copy;
 	}
 
 	/**

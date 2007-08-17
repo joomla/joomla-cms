@@ -41,6 +41,9 @@ Legend:
  # Fixed [#6181] Joomla! Forge is advertised
  # Fixed [#6569] Menu Links: JError When Session Expires But User Clicks on Link for Registered+ Users
  ! When unregistered user tries to access registered+ menu link, user will be prompted for authentication and redirected
+ # Fixed [#6433] JMail class keeps adding to email recipients
+ ! JFactory::getMailer() will return a copy of the mailer
+ # com_massmail sets phpmailer's IsHTML()
 
 16-August-2007 Sam Moffatt
  # Fixed breadcrumbs module related bug after a migration
