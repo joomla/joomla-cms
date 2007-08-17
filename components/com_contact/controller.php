@@ -153,7 +153,7 @@ class ContactController extends JController
 			$prefix = JText::sprintf('ENQUIRY_TEXT', JURI::base());
 			$body 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
 
-			$mail = new JMail();
+			$mail = JFactory::getMailer();
 
 			$mail->addRecipient( $contact->email_to );
 			$mail->setSender( array( $email, $name ) );
