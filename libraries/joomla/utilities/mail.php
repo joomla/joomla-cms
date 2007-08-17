@@ -403,14 +403,51 @@ class JMailHelper
 	 * @return boolean True if string has the correct format; false otherwise.
 	 * @since 1.5
 	 */
-	function isEmailAddress($email) {
-		$rBool = false;
+	function isEmailAddress($email)
+	{
+		
+		// Split the email into a local and domain
+		$atIndex	= strrpos($email, "@");
+		$domain		= substr($email, $atIndex+1);
+		$local		= substr($email, 0, $atIndex);
 
-		$regex	= '/^([a-zA-Z0-9]+[\._-]?[a-zA-Z0-9]+)+@([a-zA-Z0-9]+-?[a-zA-Z0-9]+\.)+([a-zA-Z]{2,4})$/';
-		if (preg_match($regex, $email)) {
-			$rBool = true;
+		// Check Length of domain
+		$domainLen	= strlen($domain);
+		if ($domainLen < 1 || $domainLen > 255) {
+			return false;
 		}
-		return $rBool;
+		
+		// Check the local address
+		// We're a bit more conservative about what constitutes a "legal" address, that is, A-Za-z0-9!#$%&\'*+/=?^_`{|}~-
+		$allowed	= 'A-Za-z0-9!#&*+=?_-';
+		$regex		= "/^[$allowed][\.$allowed]{0,63}$/";
+		if ( ! preg_match($regex, $local) ) {
+			return false;
+		}
+		
+		// No problem if the domain looks like an IP address, ish
+		$regex		= '/^[0-9\.]+$/';
+		if ( preg_match($regex, $domain)) {
+			return true;
+		}
+		
+		// Check Lengths
+		$localLen	= strlen($local);
+		if ($localLen < 1 || $localLen > 64) {
+			return false;
+		}
+		
+		// Check the domain
+		$domain_array	= explode(".", $domain);
+		//$regex		= '/^[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]$/';
+		$regex			= '/^[A-Za-z][A-Za-z0-9-]{0,62}$/';
+		for ($i = 0; $i < sizeof($domain_array); $i++) {
+			if ( ! preg_match($regex, $domain_array[$i])) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 }
