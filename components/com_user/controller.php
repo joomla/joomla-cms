@@ -103,6 +103,13 @@ class UserController extends JController
 	{
 		$this->setRedirect( 'index.php' );
 	}
+	
+	function authenticate()
+	{
+		JRequest::setVar('layout', 'login');
+
+		parent::display();
+	}
 
 	function login()
 	{
@@ -110,7 +117,7 @@ class UserController extends JController
 
 		if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
 			$return = base64_decode($return);
-		}
+		} 
 
 		$options = array();
 		$options['remember'] = JRequest::getBool('remember', false);
@@ -132,18 +139,21 @@ class UserController extends JController
 		if(!JError::isError($error))
 		{
 			// Redirect if the return url is not registration or login
-			if ( $return && !( strpos( $return, 'com_user' ))) {
-				$mainframe->redirect( $return );
+			if ( ! $return ) {
+				$return	= 'index.php?option=com_user';
 			}
+			
+			$mainframe->redirect( $return );
 		}
 		else
 		{
 			// Facilitate third party login forms
-			if ( $return ) {
-				$mainframe->redirect( $return );
-			} else {
-				parent::display();
+			if ( ! $return ) {
+				$return	= 'index.php?option=com_user&task=authenticate';
 			}
+			
+			// Redirect to a login form
+			$mainframe->redirect( $return );
 		}
 	}
 

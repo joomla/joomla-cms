@@ -31,8 +31,14 @@ class UserViewUser extends JView
 	{
 		global $mainframe;
 
-		if($this->getLayout() == 'form') {
+		$layout	= $this->getLayout();
+		if( $layout == 'form') {
 			$this->_displayForm($tpl);
+			return;
+		}
+		
+		if ( $layout == 'login' ) {
+			parent::display($tpl);
 			return;
 		}
 
