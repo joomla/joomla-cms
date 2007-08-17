@@ -43,7 +43,7 @@ if ($this->params->get('description_logout') || isset ($this->image)) {
 
 echo '<p><input type="submit" name="Submit" class="button" value="' . JText :: _('Logout') . '" /></p>';
 
-echo '<input type="hidden" name="option" value="com_login" />';
+echo '<input type="hidden" name="option" value="com_user" />';
 echo '<input type="hidden" name="task" value="logout" />';
 echo '<input type="hidden" name="return" value="' . JRoute :: _($this->params->get('logout')) . '" />';
 echo '</form>';

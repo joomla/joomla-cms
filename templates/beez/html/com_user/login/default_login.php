@@ -58,7 +58,7 @@ if ($this->params->get('registration')) {
 
 echo '<p><input type="submit" name="submit" class="button" value="' . JText :: _('Login') . '" /></p>';
 echo '<noscript>' . JText :: _('WARNJAVASCRIPT') . '</noscript>';
-echo '<input type="hidden" name="option" value="com_login" />';
+echo '<input type="hidden" name="option" value="com_user" />';
 echo '<input type="hidden" name="task" value="login" />';
 echo '<input type="hidden" name="return" value="' . JRoute::_($this->params->get('login')) . '" />';
 echo '<input type="hidden" name="token" value="' . JUtility :: getToken() . ' " />';
