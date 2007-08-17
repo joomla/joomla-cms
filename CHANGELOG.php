@@ -43,7 +43,8 @@ Legend:
  ! When unregistered user tries to access registered+ menu link, user will be prompted for authentication and redirected
  # Fixed [#6433] JMail class keeps adding to email recipients
  ! JFactory::getMailer() will return a copy of the mailer
- # com_massmail sets phpmailer's IsHTML()
+ # Fixed [no artifact] com_massmail sets phpmailer's IsHTML()
+ # Fixed [#5512] Dropdown not being translated in Global Config
 
 16-August-2007 Sam Moffatt
  # Fixed breadcrumbs module related bug after a migration
