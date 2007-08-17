@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-August-2007 Toby Patterson
+ # Fixed [#6181] Joomla! Forge is advertised
+
 16-August-2007 Sam Moffatt
  # Fixed breadcrumbs module related bug after a migration
  # Fixed issue with polls
