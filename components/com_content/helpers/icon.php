@@ -125,7 +125,7 @@ class JHTMLIcon
 		$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
 		$overlib .= '<br />';
-		$overlib .= $article->groups;
+		$overlib .= JText::_($article->groups);
 		$overlib .= '<br />';
 		$overlib .= $date;
 		$overlib .= '<br />';
