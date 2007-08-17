@@ -769,6 +769,18 @@ function SortArrayObjects( &$a, $k, $sort_direction=1 )
 }
 
 /**
+ * Legacy function, {@link JRequest::getVar()}
+ *
+ * @deprecated	As of version 1.5
+ */
+function josGetArrayInts( $name, $type=NULL ) {
+	
+	$array	=  JRequest::getVar($name, array(), 'default', 'array' );
+	
+	return $array;
+}
+
+/**
  * Legacy function, {@link JSession} transparently checks for spoofing attacks
  *
  * @deprecated	As of version 1.5
