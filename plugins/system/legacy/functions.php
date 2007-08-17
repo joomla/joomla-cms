@@ -894,5 +894,5 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
  * @deprecated	As of version 1.5
  */
 function mosWarning($warning, $title='Joomla! Warning') {
-	return JHTML::tooltip('blah', $title, 'warning.png');
+	return JHTML::tooltip('blah', $title, 'warning.png', null, null, null);
 }
