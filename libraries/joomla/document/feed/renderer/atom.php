@@ -85,7 +85,7 @@ jimport( 'joomla.utilities.date' );
 			$itemDate = new JDate($data->items[$i]->date);
 			$feed.= "		<published>".htmlspecialchars($itemDate->toISO8601())."</published>\n";
 			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601())."</updated>\n";
-			$feed.= "		<id>".htmlspecialchars($data->items[$i]->link)."</id>\n";
+			$feed.= "		<id>".htmlspecialchars(JURI::base().$data->items[$i]->link)."</id>\n";
 
 			if ($data->items[$i]->author!="")
 			{
