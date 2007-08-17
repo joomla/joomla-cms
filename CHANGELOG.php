@@ -46,6 +46,7 @@ Legend:
  # Fixed [no artifact] com_massmail sets phpmailer's IsHTML()
  # Fixed [#5512] Dropdown not being translated in Global Config
  + Fixed [t202745] Added josGetArrayInts() to legacy functions
+ + Fixed [t199890] Added mosWarning() to legacy functions
 
 16-August-2007 Sam Moffatt
  # Fixed breadcrumbs module related bug after a migration

@@ -888,4 +888,11 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
 	return JHTML::_('menu.treerecurse', $id, $indent, $list, $children, $maxlevel, $level, $type);
 }
 
-?>
+/**
+ * Legacy function, use {@link JHTML::tooltip()} instead
+ *
+ * @deprecated	As of version 1.5
+ */
+function mosWarning($warning, $title='Joomla! Warning') {
+	return JHTML::tooltip('blah', $title, 'warning.png');
+}
