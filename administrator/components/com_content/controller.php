@@ -507,7 +507,7 @@ class ContentController extends JController
 				$sectioncategories[$section->id][] = JHTML::_('select.option', $row2->id, $row2->title, 'id', 'title');
 			}
 		}
-
+		$sectioncategories['-1'][] = JHTML::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
 		$categories = array();
 		foreach ($cat_list as $cat) {
 			if($cat->section == $row->sectionid)
