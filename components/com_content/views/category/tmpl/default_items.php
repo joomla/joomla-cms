@@ -115,7 +115,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <tr>
-	<td colspan="5" align="right">
+	<td colspan="5" align="right" class="pagecounter">
 		<?php echo $this->pagination->getPagesCounter(); ?>
 	</td>
 </tr>

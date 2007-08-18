@@ -63,7 +63,7 @@
 	</td>
 </tr>
 <tr>
-	<td colspan="4" align="right">
+	<td colspan="4" align="right" class="pagecounter">
 		<?php echo $this->pagination->getPagesCounter(); ?>
 	</td>
 </tr>
