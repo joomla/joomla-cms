@@ -82,7 +82,7 @@ class MediaViews
 				<legend><?php echo JText::_('Upload'); ?></legend>
 				<fieldset class="actions">
 					<input type="file" id="file-upload" />
-					<input type="submit" id="file-upload-submit" value="Start Upload"/>
+					<input type="submit" id="file-upload-submit" value="<?php echo JText::_('Start Upload'); ?>"/>
 					<span id="upload-clear"></span>
 				</fieldset>
 				<ul class="upload-queue" id="upload-queue">
