@@ -40,7 +40,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	}
 
 	/**
-	 * Get cached data from eAccelerator by id and group
+	 * Get cached data by id and group
 	 *
 	 * @access	public
 	 * @param	string	$id			The cache data id
@@ -57,7 +57,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	}
 
 	/**
-	 * Store the data to eAccelerator by id and group
+	 * Store the data to by id and group
 	 *
 	 * @access	public
 	 * @param	string	$id		The cache data id

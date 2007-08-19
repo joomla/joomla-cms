@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-August-2007 Johan Janssens
+ + Added XCache session and cache store
+
 17-August-2007 Toby Patterson
  # Fixed [#6181] Joomla! Forge is advertised
  # Fixed [#6569] Menu Links: JError When Session Expires But User Clicks on Link for Registered+ Users
