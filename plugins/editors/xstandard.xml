@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <install version="1.5" type="plugin" group="editors">
 	<name>Editor - XStandard Lite for Joomla!</name>
-	<version>1.0 alpha</version>
-	<creationDate>Feb 2006</creationDate>
-	<author>Johan Janssens</author>
-	<authorEmail>johan.janssens@joomla.org</authorEmail>
-	<authorUrl>http://www.joomla.be</authorUrl>
-	<copyright>(C) 2006 Johan Janssens</copyright>
+	<version>1.0</version>
+	<creationDate>Aug 2007</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2005 - 2007 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>DESCXSTANDARD</description>
 	<files>

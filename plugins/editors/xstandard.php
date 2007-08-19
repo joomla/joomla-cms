@@ -128,7 +128,7 @@ class plgEditorXstandard extends JPlugin {
 
 		<div style="border: 1px solid #D5D5D5">
 		<object type="application/x-xstandard" id="xstandard" class="<?php echo $name ?>" width="<?php echo $width ?>" height="<?php echo $height ?>">
- 			<param name="Value" value="<?php echo convertToXML($content) ?>" />
+ 			<param name="Value" value="<?php echo $content ?>" />
 
  			<param name="Lang" value="en" />
  			<param name="Dir" value="<?php echo $text_direction ?>" />
@@ -143,7 +143,7 @@ class plgEditorXstandard extends JPlugin {
  			<param name="ExpandWidth" value="100%" />
  			<param name="ExpandHeight" value="400" />
 
- 			<param name="LatestVersion" value="1.7.1.0" />
+ 			<param name="LatestVersion" value="2.0.0.0" />
 
  			<param name="Namespaces" value="xmlns:joomla='http://joomla.org'" />
 			<param name="CustomBlockElements" value="joomla:pagebreak" />
@@ -200,13 +200,5 @@ class plgEditorXstandard extends JPlugin {
 		return $content_css;
 	}
 
-}
-
-function convertToXML($content)
-{
-	$content = preg_replace( '/{image\s*.*?}/i', '<joomla:image />', $content );
-	$content = preg_replace( '/{pagebreak\s*.*?}/i', '<joomla:pagebreak />', $content );
-	$content = preg_replace( '/{readmore\s*.*?}/i', '<joomla:readmore />', $content );
-	return $content;
 }
 ?>

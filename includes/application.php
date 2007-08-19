@@ -189,7 +189,7 @@ class JSite extends JApplication
 				$uri		= JFactory::getURI();
 				$return		= $uri->toString();
 				$return		= base64_encode($return);
-				$redirect	= 'index.php?option=com_user&view=login&return='.$return;
+				$redirect	= JRoute::_('index.php?option=com_user&view=login&return='.$return, false);
 				$this->redirect($redirect, "You must login first");
 			}
 			else
