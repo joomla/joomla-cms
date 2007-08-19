@@ -67,8 +67,8 @@ class  plgSystemDebug extends JPlugin
 		echo implode( '', $profiler->getBuffer() );
 
 		if ($this->params->get('memory', 1)) {
-			echo '<p><h4>'.JText::_( 'Memory Usage' ).'</h4>';
-			echo $profiler->getMemory().'</p>';
+			echo '<h4>'.JText::_( 'Memory Usage' ).'</h4>';
+			echo $profiler->getMemory();
 		}
 
 		if ($this->params->get('queries', 1))
@@ -83,10 +83,9 @@ class  plgSystemDebug extends JPlugin
 				.'(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)'
 				.'<\\/span>/i'
 			;
-			
+
 			$db	=& JFactory::getDBO();
-			
-			echo '<p>';
+
 			echo '<h4>'.JText::sprintf( 'Queries logged',  $db->_ticker ).'</h4>';
 			echo '<ol>';
 			foreach ($db->_log as $k=>$sql)
@@ -96,14 +95,13 @@ class  plgSystemDebug extends JPlugin
 				$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
 				echo '<li>'.$text.'</li>';
 			}
-			echo '</ol></p>';
-			
-			if(isset($database)) 
+			echo '</ol>';
+
+			if(isset($database))
 			{
-				echo '<p>';
 				echo '<h4>'.JText::sprintf( 'Legacy Queries logged',  $db->_ticker ).'</h4>';
 				echo '<ol>';
-			
+
 					foreach ($database->_log as $k=>$sql)
 					{
 						$geshi->set_source($sql);
@@ -111,14 +109,14 @@ class  plgSystemDebug extends JPlugin
 						$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
 						echo '<li>'.$text.'</li>';
 					}
-				
-				echo '</ol></p>';
+
+				echo '</ol>';
 			}
-		}	
+		}
 
 		if ($this->params->get('language', 1))
 		{
-			echo '<p><h4>'.JText::_( 'Language Files Loaded' ).'</h4>';
+			echo '<h4>'.JText::_( 'Language Files Loaded' ).'</h4>';
 			echo '<ul>';
 			$lang = &JFactory::getLanguage();
 			$extensions	= $lang->getPaths();
@@ -131,7 +129,7 @@ class  plgSystemDebug extends JPlugin
 			}
 			echo '</ul>';
 
-			echo '<p><h4>'.JText::_( 'Untranslated strings' ).'</h4>';
+			echo '<h4>'.JText::_( 'Untranslated strings' ).'</h4>';
 			echo '<pre>';
 			$orphans = $lang->getOrphans();
 			if (count( $orphans ))
@@ -150,7 +148,7 @@ class  plgSystemDebug extends JPlugin
 			else {
 				echo JText::_( 'None' );
 			}
-			echo '</pre></p>';
+			echo '</pre>';
 		}
 		echo '</div>';
 
