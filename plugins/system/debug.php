@@ -49,7 +49,7 @@ class  plgSystemDebug extends JPlugin
 	*/
 	function onAfterRender()
 	{
-		global $_PROFILER, $mainframe;
+		global $_PROFILER, $mainframe, $database;
 
 		// Do not render if debugging is not enabled
 		if(!JDEBUG) { return; }
@@ -60,7 +60,6 @@ class  plgSystemDebug extends JPlugin
 		// Only render for HTML output
 		if ( $doctype !== 'html' ) { return; }
 
-		$db			=& JFactory::getDBO();
 		$profiler	=& $_PROFILER;
 
 		ob_start();
@@ -84,7 +83,9 @@ class  plgSystemDebug extends JPlugin
 				.'(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND)'
 				.'<\\/span>/i'
 			;
-
+			
+			$db	=& JFactory::getDBO();
+			
 			echo '<p>';
 			echo '<h4>'.JText::sprintf( 'Queries logged',  $db->_ticker ).'</h4>';
 			echo '<ol>';
@@ -94,6 +95,15 @@ class  plgSystemDebug extends JPlugin
 				$text = $geshi->parse_code();
 				$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
 				echo '<li>'.$text.'</li>';
+			}
+			if(isset($database)) {
+				foreach ($database->_log as $k=>$sql)
+				{
+					$geshi->set_source($sql);
+					$text = $geshi->parse_code();
+					$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
+					echo '<li>'.$text.'</li>';
+				}
 			}
 			echo '</ol></p>';
 		}
