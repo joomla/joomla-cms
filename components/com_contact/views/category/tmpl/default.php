@@ -47,7 +47,7 @@ endif; ?>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="6" align="right" class="pagecounter">
+			<td colspan="6" align="right">
 				<?php echo $this->pagination->getPagesCounter(); ?>
 			</td>
 		</tr>

@@ -81,7 +81,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <?php if ($this->params->def('show_pagination_results', 1)) : ?>
 <tr>
-	<td valign="top" align="center" class="pagecounter">
+	<td valign="top" align="center">
 		<?php echo $this->pagination->getPagesCounter(); ?>
 	</td>
 </tr>
