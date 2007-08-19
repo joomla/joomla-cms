@@ -178,19 +178,22 @@ class JSite extends JApplication
 	*/
 	function authorize($itemid)
 	{
-		//TODO :: should we show a login screen here ?
 		$menus	=& JMenu::getInstance();
 		$user	=& JFactory::getUser();
 		$aid	= $user->get('aid');
-		if(!$menus->authorize($itemid, $aid)) {
-			if ( ! $aid ) {
+		if(!$menus->authorize($itemid, $aid))
+		{
+			if ( ! $aid )
+			{
 				// Redirect to login
 				$uri		= JFactory::getURI();
 				$return		= $uri->toString();
 				$return		= base64_encode($return);
-				$redirect	= 'index.php?option=com_user&task=authenticate&return='.$return;
+				$redirect	= 'index.php?option=com_user&view=login&return='.$return;
 				$this->redirect($redirect, "You must login first");
-			} else {
+			}
+			else
+			{
 				$menu	= $menus->getItem($itemid);
 				JError::raiseError( 403, JText::_('Not Authorised') );
 			}
