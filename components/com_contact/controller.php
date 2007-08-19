@@ -107,6 +107,12 @@ class ContactController extends JController
 		$qOptions['id']	= $contactId;
 		$contact		= $model->getContact( $qOptions );
 
+		if($contact->email_to == '' && $contact->user_id != 0)
+		{
+			$contact_user = JUser::getInstance($contact->user_id);
+			$contact->email_to = $contact_user->get('email');
+		}
+
 		/*
 		 * If there is no valid email address or message body then we throw an
 		 * error and return false.

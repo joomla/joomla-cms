@@ -65,7 +65,7 @@
 	</td>
 </tr>
 <?php endif;
-if ( $this->contact->params->get('show_email_form') )
+if ( $this->contact->params->get('show_email_form') && ($this->contact->email_to || $this->contact->user_id))
 	echo $this->loadTemplate('form');
 ?>
 </table>
