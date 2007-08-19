@@ -96,17 +96,25 @@ class  plgSystemDebug extends JPlugin
 				$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
 				echo '<li>'.$text.'</li>';
 			}
-			if(isset($database)) {
-				foreach ($database->_log as $k=>$sql)
-				{
-					$geshi->set_source($sql);
-					$text = $geshi->parse_code();
-					$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
-					echo '<li>'.$text.'</li>';
-				}
-			}
 			echo '</ol></p>';
-		}
+			
+			if(isset($database)) 
+			{
+				echo '<p>';
+				echo '<h4>'.JText::sprintf( 'Legacy Queries logged',  $db->_ticker ).'</h4>';
+				echo '<ol>';
+			
+					foreach ($database->_log as $k=>$sql)
+					{
+						$geshi->set_source($sql);
+						$text = $geshi->parse_code();
+						$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
+						echo '<li>'.$text.'</li>';
+					}
+				
+				echo '</ol></p>';
+			}
+		}	
 
 		if ($this->params->get('language', 1))
 		{
