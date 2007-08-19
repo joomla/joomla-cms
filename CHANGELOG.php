@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-August-2007 Robin Muilwijk
+ # Fixed [#6599] typo in installation language file
+
 19-August-2007 Johan Janssens
  + Added XCache session and cache store
 
