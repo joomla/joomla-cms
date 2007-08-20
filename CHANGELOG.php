@@ -43,7 +43,7 @@ Legend:
 
 20-August-2007 Andrew Eddie
  # Added JArchive::create back (based on Tar until we can rewrite it)
-
+ # Fixed bug in JArchiveTar::extract that ignored 'Unix file' types
 
 19-August-2007 Robin Muilwijk
  # Fixed [#6599] typo in installation language file
