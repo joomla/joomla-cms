@@ -170,6 +170,27 @@ class JSite extends JApplication
 		$data = $document->render( $this->getCfg('caching'), $params);
 		JResponse::setBody($data);
 	}
+	
+	/**
+	 * Request that the user logins
+	 * 
+	 * @param	string $return The URL to which the user should be returned to
+	 * @access	public
+	 * @since	1.5
+	 */
+	function requestLogin($return = null)
+	{
+		$url		= 'index.php?option=com_user&view=login';
+		
+		if ( $return ) {
+			$return		= base64_encode($return);
+			$url		.= '&return='.$return;
+		}
+		
+		//$redirect	= JRoute::_($url, false);
+		$redirect	= $url;
+		$this->redirect($redirect, "You must login first");
+	}
 
 	/**
 	* Check if the user can access the application
@@ -188,9 +209,7 @@ class JSite extends JApplication
 				// Redirect to login
 				$uri		= JFactory::getURI();
 				$return		= $uri->toString();
-				$return		= base64_encode($return);
-				$redirect	= JRoute::_('index.php?option=com_user&view=login&return='.$return, false);
-				$this->redirect($redirect, "You must login first");
+				$this->requestLogin($return);
 			}
 			else
 			{

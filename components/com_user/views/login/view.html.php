@@ -92,5 +92,22 @@ class UserViewLogin extends JView
 
 		parent::display($tpl);
 	}
+	
+	/**
+	 * Get the return URL for the login form
+	 *
+	 * @return string encoded url
+	 * @access public
+	 * @since 1.5
+	 */
+	function getReturnURL()
+	{
+		$url	= JRequest::getVar('return', '', 'method', 'base64');
+		if ( $url ) {
+			return $url;
+		}
+		
+		return base64_dencode($this->params->get('login'));
+	}
 }
-?>
+
