@@ -39,6 +39,7 @@ Legend:
 
 20-August-2007 Robin Muilwijk
 # Fixed [#5769] added an extra if statement to prevent empty ordered list in debug plugin
+# Fixed [#6343] incorrect display of article modified date
 
 20-August-2007 Toby Patterson
  # Fixed [t194459] Joomla! 1.5 RC1 - Com_contact doesn't send emails for me
