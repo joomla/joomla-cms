@@ -142,7 +142,7 @@ class UserController extends JController
 		{
 			// Facilitate third party login forms
 			if ( ! $return ) {
-				$return	= 'index.php?option=com_user&task=authenticate';
+				$return	= 'index.php?option=com_user&view=login';
 			}
 
 			// Redirect to a login form
