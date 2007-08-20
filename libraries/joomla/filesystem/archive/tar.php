@@ -87,25 +87,32 @@ class JArchiveTar extends JObject
 		$this->_data = null;
 		$this->_metadata = null;
 
-		if (!$this->_data = JFile::read($archive)) {
+		if (!$this->_data = JFile::read($archive))
+		{
 			$this->set('error.message', 'Unable to read archive');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
-		if (!$this->_getTarInfo($this->_data)) {
+		if (!$this->_getTarInfo($this->_data))
+		{
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
-		for ($i=0,$n=count($this->_metadata);$i<$n;$i++) {
-			if ($this->_metadata[$i]['type'] == 'File') {
+		for ($i=0,$n=count($this->_metadata);$i<$n;$i++)
+		{
+			$type	= strtolower( $this->_metadata[$i]['type'] );
+			if ($type == 'file' || $type == 'unix file')
+			{
 				$buffer = $this->_metadata[$i]['data'];
 				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name']);
 				// Make sure the destination folder exists
-				if (!JFolder::create(dirname($path))) {
+				if (!JFolder::create(dirname($path)))
+				{
 					$this->set('error.message', 'Unable to create destination');
 					return JError::raiseWarning(100, $this->get('error.message'));
 				}
-				if (JFile::write($path, $buffer) === false) {
+				if (JFile::write($path, $buffer) === false)
+				{
 					$this->set('error.message', 'Unable to write entry');
 					return JError::raiseWarning(100, $this->get('error.message'));
 				}
