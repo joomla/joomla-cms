@@ -137,4 +137,34 @@ class JArchive
 		}
 		return $adapters[$type];
 	}
+
+	/**
+	 * @param	string	The name of the archive
+	 * @param	mixed	The name of a single file or an array of files
+	 * @param	string	The compression for the archive
+	 * @param	string	Path to add within the archive
+	 * @param	string	Path to remove within the archive
+	 * @param	boolean	Automatically append the extension for the archive
+	 * @param	boolean	Remove for source files
+	 */
+	function create($archive, $files, $compress = 'tar', $addPath = '', $removePath = '', $autoExt = false, $cleanUp = false)
+	{
+		jimport( 'archive.tar' );
+
+		if (is_string($files)) {
+			$files = array ($files);
+		}
+		if ($autoExt) {
+			$archive .= '.'.$compress;
+		}
+
+		$tar = new Archive_Tar( $archive, $compress );
+		$tar->setErrorHandling(PEAR_ERROR_PRINT);
+		$tar->createModify( $files, $addPath, $removePath );
+
+		if ($cleanUp) {
+			JFile::delete( $files );
+		}
+		return $tar;
+	}
 }

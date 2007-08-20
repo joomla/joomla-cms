@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-August-2007 Andrew Eddie
+ # Added JArchive::create back (based on Tar until we can rewrite it)
+
 19-August-2007 Robin Muilwijk
  # Fixed [#6599] typo in installation language file
 
