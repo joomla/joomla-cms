@@ -172,27 +172,6 @@ class JSite extends JApplication
 	}
 	
 	/**
-	 * Request that the user logins
-	 * 
-	 * @param	string $return The URL to which the user should be returned to
-	 * @access	public
-	 * @since	1.5
-	 */
-	function requestLogin($return = null)
-	{
-		$url		= 'index.php?option=com_user&view=login';
-		
-		if ( $return ) {
-			$return		= base64_encode($return);
-			$url		.= '&return='.$return;
-		}
-		
-		//$redirect	= JRoute::_($url, false);
-		$redirect	= $url;
-		$this->redirect($redirect, "You must login first");
-	}
-
-	/**
 	* Check if the user can access the application
 	*
 	* @access public
@@ -202,6 +181,7 @@ class JSite extends JApplication
 		$menus	=& JMenu::getInstance();
 		$user	=& JFactory::getUser();
 		$aid	= $user->get('aid');
+		
 		if(!$menus->authorize($itemid, $aid))
 		{
 			if ( ! $aid )
@@ -209,7 +189,12 @@ class JSite extends JApplication
 				// Redirect to login
 				$uri		= JFactory::getURI();
 				$return		= $uri->toString();
-				$this->requestLogin($return);
+				
+				$url  = 'index.php?option=com_user&view=login';
+				$url .= '&return='.base64_encode($return);;
+			
+				$redirect	= JRoute::_($url, false);
+				$this->redirect($redirect, "You must login first");
 			}
 			else
 			{

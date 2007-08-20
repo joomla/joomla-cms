@@ -159,7 +159,7 @@ class UserController extends JController
 
 		if(!JError::isError($error))
 		{
-			if ($return = JRequest::getVar('return', '', 'post', 'base64')) {
+			if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
 				$return = base64_decode($return);
 			}
 

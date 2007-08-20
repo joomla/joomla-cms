@@ -47,7 +47,6 @@ class JRouterSite extends JRouter
 			$uri = JURI::getInstance($uri);
 		}
 
-
 		// Set Local Vars passed in via the URL
 		$vars = $uri->getQuery(true);
 		$this->_vars = array_merge($this->_vars, $vars);
@@ -382,17 +381,23 @@ class JRouterSite extends JRouter
 	*/
 	function _buildApplicationRoute(&$query)
 	{
-		$route = '';
+		//Create default route
+		$route = 'component/'.substr($query['option'], 4);
 
+		//Create itemid specific route 
 		$menu =& JMenu::getInstance();
 		$item = $menu->getItem($query['Itemid']);
-
-		if ($query['option'] == $item->component /*&& @$query['view'] == @$item->query['view']*/) {
+		
+		if ($query['option'] == $item->component) 
+		{
 			$route = $item->route;
-		} else {
-			$route = 'component/'.substr($query['option'], 4);
-		}
-
+			
+			//If view does not match revert to default route
+			if(isset($query['view']) && isset($item->query['view']) && $query['view'] != $item->query['view']) {
+				$route = 'component/'.substr($query['option'], 4);
+			}
+		} 
+			
 		return $route;
 	}
 

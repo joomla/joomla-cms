@@ -18,15 +18,19 @@ class modLoginHelper
 {
 	function getReturnURL($params, $type)
 	{
-		// url of current page that user will be returned to after login
-		$menu =& JMenu::getInstance();
-		$item =& $menu->getDefault();
+		if($itemid =  $params->get($type)) 
+		{
+			$url = 'index.php?Itemid='.$itemid;
+			$url = JRoute::_($url, false);
+		}
+		else
+		{
+			// Redirect to login
+			$uri = JFactory::getURI();
+			$url = $uri->toString();
+		}
 
-		$itemid =  $params->get($type, $item->id);
-
-		$url = 'index.php?Itemid='.$itemid;
-		$url = base64_encode(JRoute::_($url, false));
-		return $url;
+		return base64_encode($url);
 	}
 
 	function getType()

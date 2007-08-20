@@ -83,31 +83,21 @@ class UserViewLogin extends JView
 			$image = 'images/stories/'. $params->get( 'image_'.$type );
 			$image = '<img src="'. $image  .'" align="'. $params->get( 'image_'.$type.'_align' ) .'" hspace="10" alt="" />';
 		}
-
+		
+		// Get the return URL
+		if (!$url = JRequest::getVar('return', '', 'method', 'base64')) {
+			$url = base64_encode($this->params->get($type));
+		}
+	
 		$errors =& JError::getErrors();
 
-		$this->assign('image', $image);
-		$this->assign('type', $type);
+		$this->assign('image' , $image);
+		$this->assign('type'  , $type);
+		$this->assign('return', $url);
+		
 		$this->assignRef('params', $params);
 
 		parent::display($tpl);
-	}
-	
-	/**
-	 * Get the return URL for the login form
-	 *
-	 * @return string encoded url
-	 * @access public
-	 * @since 1.5
-	 */
-	function getReturnURL()
-	{
-		$url	= JRequest::getVar('return', '', 'method', 'base64');
-		if ( $url ) {
-			return $url;
-		}
-		
-		return base64_dencode($this->params->get('login'));
 	}
 }
 
