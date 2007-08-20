@@ -510,10 +510,10 @@ class JFactory
 				$mail->useSMTP($smtpauth, $smtphost, $smtpuser, $smtppass);
 				break;
 			case 'sendmail' :
-				$mail->useSendmail();
+				$mail->useSendmail(true);
 				break;
 			default :
-				$mail->IsMail();
+				$mail->IsMail(true);
 				break;
 		}
 

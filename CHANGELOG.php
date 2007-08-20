@@ -37,8 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+20-August-2007 Toby Patterson
+ # Fixed [t194459] Joomla! 1.5 RC1 - Com_contact doesn't send emails for me
+
 20-August-2007 Andrew Eddie
  # Added JArchive::create back (based on Tar until we can rewrite it)
+
 
 19-August-2007 Robin Muilwijk
  # Fixed [#6599] typo in installation language file

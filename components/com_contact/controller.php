@@ -182,7 +182,7 @@ class ContactController extends JController
 				$copyText 		.= "\r\n\r\n".$body;
 				$copySubject 	= JText::_('Copy of:')." ".$subject;
 
-				$mail = new JMail();
+				$mail = JFactory::getMailer();
 
 				$mail->addRecipient( $email );
 				$mail->setSender( array( $MailFrom, $FromName ) );
