@@ -42,6 +42,7 @@ Legend:
  + Added editor-xtd button suppport to the XStandard plugin
  # Fixed [#4709] No article preview with XStandard Lite 1.7
  # Fixed [#6169] XStandard shown up despite its plugin is disabled
+ # Fixed [#6416] Mod_login fault
  
 20-August-2007 Robin Muilwijk
 # Fixed [#5769] added an extra if statement to prevent empty ordered list in debug plugin
