@@ -539,6 +539,9 @@ class JApplication extends JObject
 		// Set user specific editor
 		$user		=& JFactory::getUser();
 		$editor		= $user->getParam('editor', $this->getCfg('editor'));
+		
+		// Make sure the editor is enabled
+		$editor = JPLuginHelper::isEnabled('editor', $editor) ? $editor : $this->getCfg('editor');
 
 		$config		=& JFactory::getConfig();
 		$config->setValue('config.editor', $editor);

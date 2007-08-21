@@ -17,6 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <head>
 <jdoc:include type="head" />
 
+<link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 <?php if($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
@@ -33,8 +34,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <?php endif; ?>
 
 <script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/menu.js"></script>
-
-<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/fat.js"></script>
 <script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/index.js"></script>
 
 </head>
