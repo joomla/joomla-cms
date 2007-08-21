@@ -46,7 +46,7 @@ class mosPageNav extends JPagination
 	 * @deprecated as of 1.5
 	 */
 	function writePagesCounter() {
-		echo $this->getPagesCounter();
+		return $this->getPagesCounter();
 	}
 
 	/**
@@ -56,7 +56,7 @@ class mosPageNav extends JPagination
 	 * @deprecated as of 1.5
 	 */
 	function writePagesLinks($link = null) {
-		echo $this->getPagesLinks();
+		return $this->getPagesLinks();
 	}
 
 	/**
@@ -66,7 +66,7 @@ class mosPageNav extends JPagination
 	 * @deprecated as of 1.5
 	 */
 	function writeLeafsCounter() {
-		echo $this->getPagesCounter();
+		return $this->getPagesCounter();
 	}
 
 	/**
