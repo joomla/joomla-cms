@@ -30,7 +30,7 @@ JCombobox.prototype = {
 		this.is_opera = (agt.indexOf("opera") != -1);
 		this.is_safari = (agt.indexOf("safari") != -1);
 
-		var boxes = document.getElementsByClassName('combobox');
+		var boxes = document.getElements('.combobox');
 		for ( var i=0; i < boxes.length; i++) {
 			if (boxes[i].tagName == 'INPUT' && boxes[i].type == 'text') {
 				this.populate(boxes[i]);
