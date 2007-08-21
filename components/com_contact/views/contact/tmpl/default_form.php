@@ -19,7 +19,7 @@
 </script>
 <?php if(isset($this->error)) : ?>
 <tr>
-	<p><?php echo $this->error; ?></p>
+	<td><?php echo $this->error; ?></td>
 </tr>
 <?php endif; ?>
 <tr>
