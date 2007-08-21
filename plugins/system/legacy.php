@@ -122,6 +122,7 @@ class  plgSystemLegacy extends JPlugin
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		$GLOBALS['mosConfig_live_site']		= substr_replace($url, '', -1, 1);
 		$GLOBALS['mosConfig_absolute_path']	= JPATH_SITE;
+		$GLOBALS['mosConfig_cache_path']	= JPATH_BASE.DS.'cache';
 
 		$lang =& JFactory::getLanguage();
 		$GLOBALS['mosConfig_lang']          = $lang->getBackwardLang();
