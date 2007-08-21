@@ -86,7 +86,7 @@ class UserViewLogin extends JView
 		
 		// Get the return URL
 		if (!$url = JRequest::getVar('return', '', 'method', 'base64')) {
-			$url = base64_encode($this->params->get($type));
+			$url = base64_encode($params->get($type));
 		}
 	
 		$errors =& JError::getErrors();

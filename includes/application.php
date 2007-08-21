@@ -193,7 +193,7 @@ class JSite extends JApplication
 				$url  = 'index.php?option=com_user&view=login';
 				$url .= '&return='.base64_encode($return);;
 			
-				$redirect	= JRoute::_($url, false);
+				//$redirect	= JRoute::_($url, false);
 				$this->redirect($redirect, "You must login first");
 			}
 			else
