@@ -71,7 +71,7 @@ class plgEditorXstandard extends JPlugin {
 	 * @param string 	The name of the editor
 	 */
 	function onGetContent( $editor ) {
-		return;
+		return "$('xstandard').value;";
 	}
 
 	/**
@@ -80,7 +80,7 @@ class plgEditorXstandard extends JPlugin {
 	 * @param string 	The name of the editor
 	 */
 	function onSetContent( $editor, $html ) {
-		return ;
+		return "$('xstandard').value =". $html .";";
 	}
 
 	/**
@@ -90,7 +90,7 @@ class plgEditorXstandard extends JPlugin {
 	 */
 	function onSave( $editor ) {
 
-		$js = "var editor = document.getElementById('xstandard');\n";
+		$js = "var editor = $('xstandard');\n";
 		$js .= "editor.EscapeUnicode = true;";
 		$js .= "$('text').value = editor.value;";
 
@@ -107,21 +107,55 @@ class plgEditorXstandard extends JPlugin {
 	 * @param string The height of the editor area
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
+	 * @param mixed Can be boolean or array.
 	 */
-	function onDisplay( $name, $content, $width, $height, $col, $row )
+	function onDisplay( $name, $content, $width, $height, $col, $row, $buttons = true )
 	{
 		global $mainframe;
+		
+		// Load modal popup behavior
+		JHTML::_('behavior.modal', 'a.modal-button');
+		
+		// Only add "px" to width and height if they are not given as a percentage
+		if (is_numeric( $width )) {
+			$width .= 'px';
+		}
+		if (is_numeric( $height )) {
+			$height .= 'px';
+		}
 
 		jimport('joomla.environment.browser');
 		$instance	=& JBrowser::getInstance();
 		$language	=& JFactory::getLanguage();
+		$db			=& JFactory::getDBO();
 		$url		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
+		
+		$lang = substr( $language->getTag(), 0, strpos( $language->getTag(), '-' ) );
+		
 		if ($language->isRTL()) {
-			$text_direction = 'rtl';
+			$direction = 'rtl';
 		} else {
-			$text_direction = 'ltr';
+			$direction = 'ltr';
 		}
+		
+		/*
+		 * Lets get the default template for the site application
+		 */
+		$query = 'SELECT template'
+			. ' FROM #__templates_menu'
+			. ' WHERE client_id = 0'
+			. ' AND menuid = 0'
+			;
+		$db->setQuery( $query );
+		$template = $db->loadResult();
+
+		$file_path = JPATH_SITE .'/templates/'. $template .'/css/';
+		if ( !file_exists( $file_path .DS. 'editor.css' ) ) {
+			$template = 'system';
+		} 
+				
+		$css =  $url .'templates/'. $template . '/css/editor.css';
+		
 		$html = '';
 		ob_start();
 		?>
@@ -130,26 +164,22 @@ class plgEditorXstandard extends JPlugin {
 		<object type="application/x-xstandard" id="xstandard" class="<?php echo $name ?>" width="<?php echo $width ?>" height="<?php echo $height ?>">
  			<param name="Value" value="<?php echo $content ?>" />
 
- 			<param name="Lang" value="en" />
- 			<param name="Dir" value="<?php echo $text_direction ?>" />
+ 			<param name="Lang" value="<?php echo $lang ?>" />
+ 			<param name="Dir" value="<?php echo $direction ?>" />
+ 			<param name="EditorCSS" value="<?php echo $css ?>" />
 			<param name="EnablePasteMarkup" value="yes" />
 			<param name="EnableTimestamp" value="no" />
 			<param name="EscapeUnicode" value="no" />
 			<param name="Options" value="32768" />
-			<param name="Toolbar" value="numbering, bullets, , draw-layout-table, draw-data-table, image, line, hyperlink, attachment, directory, undo, , wysiwyg, source, preview, screen-reader, ,expand" />
+			<param name="ToolbarWysiwyg" value="line, hyperlink, attachment, directory, undo, , wysiwyg, source, preview, screen-reader, ,expand; strong, em, underline, strikethrough, , align-left, align-center, align-right, , blockquote, undo-blockquote, ,numbering, bullets, , undo, redo, ,layout-table, data-table, draw-layout-table, draw-data-table" />
+			<param name="BackgroundColor" value="#F9F9F9" />
 
  			<param name="BorderColor" value="#FFF" />
  			<param name="Base" value="<?php echo $url ?>" />
- 			<param name="ExpandWidth" value="100%" />
- 			<param name="ExpandHeight" value="400" />
+ 			<param name="ExpandWidth" value="800" />
+ 			<param name="ExpandHeight" value="600" />
 
  			<param name="LatestVersion" value="2.0.0.0" />
-
- 			<param name="Namespaces" value="xmlns:joomla='http://joomla.org'" />
-			<param name="CustomBlockElements" value="joomla:pagebreak" />
-			<param name="CustomInlineElements" value="joomla:readmore,joomla:image" />
-
-			<param name="CustomEmptyElements" value="joomla:readmore,joomla:image" />
 
  			<param name="CMSCode" value="065126D6-357D-46FC-AF74-A1F5B2D5036E" />
  			<param name="CMSImageLibraryURL" value="<?php echo $url ?>plugins/editors/xstandard/imagelibrary.php" />
@@ -166,8 +196,23 @@ class plgEditorXstandard extends JPlugin {
 		<?php
 		$html = ob_get_contents();
 		ob_end_clean();
+		
+		$html .= $this->_displayButtons($name, $buttons);
 
 		return $html;
+	}
+	
+	function onGetInsertMethod($name)
+	{
+		$doc = & JFactory::getDocument();
+
+		$js= "function jInsertEditorText( text ) {
+			var editor = document.getElementById('xstandard');
+			editor.InsertXML(text);
+		}";
+		$doc->addScriptDeclaration($js);
+
+		return true;
 	}
 
 	function _getTemplateCss()
@@ -198,6 +243,49 @@ class plgEditorXstandard extends JPlugin {
 		}
 
 		return $content_css;
+	}
+	
+	function _displayButtons($name, $buttons)
+	{
+		// Load modal popup behavior
+		JHTML::_('behavior.modal', 'a.modal-button');
+
+		$args['name'] = $name;
+		$args['event'] = 'onGetInsertMethod';
+
+		$return = '';
+		$results[] = $this->update($args);
+		foreach ($results as $result) {
+			if (is_string($result) && trim($result)) {
+				$return .= $result;
+			}
+		}
+
+		if(!empty($buttons))
+		{
+			$results = $this->_subject->getButtons($name, $buttons);
+
+			/*
+			 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
+			 */
+			$return .= "\n<div id=\"editor-xtd-buttons\">\n";
+			foreach ($results as $button)
+			{
+				/*
+				 * Results should be an object
+				 */
+				if ( $button->get('name') ) 
+				{
+					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
+					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;
+					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
+					$return .= "<div class=\"button2-left\"><div class=\"".$button->get('name')."\"><a ".$modal." title=\"".$button->get('text')."\" ".$href." ".$onclick." rel=\"".$button->get('options')."\">".$button->get('text')."</a></div></div>\n";
+				}
+			}
+			$return .= "</div>\n";
+		}
+		
+		return $return;
 	}
 
 }

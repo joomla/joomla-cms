@@ -53,12 +53,9 @@ class plgButtonImage extends JPlugin
 		$doc 		=& JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 
-		$url 		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		$link = 'index.php?option=com_media&amp;task=imgManager&amp;tmpl=component';
-		$css = "\t.button1-left .image { background: url($url/plugins/editors-xtd/image.gif) 100% 0 no-repeat; }";
-		$doc->addStyleDeclaration($css);
-
+		
 		JHTML::_('behavior.modal');
 
 		$button = new JObject();

@@ -56,14 +56,14 @@ var JOpenID = new Class({
 
 		if(state == 0)
 		{
-			username.removeClass('openid');
+			username.removeClass('system-openid');
 			var text = 'Login with an OpenID';
 			//this.link.remove();
 			password.effect('height',  {duration: time}).start(0, this.lenght);
 		}
 		else
 		{
-			username.addClass('openid');
+			username.addClass('system-openid');
 			var text = 'Go back to normal login';
 			//this.link.inject($('form-login-username'));
 			password.effect('height',  {duration: time}).start(this.lenght, 0);

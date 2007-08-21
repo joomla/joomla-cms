@@ -1,5 +1,5 @@
 /**
- * @version		$Id: tinymce.php 1820 2006-01-14 20:29:16Z stingrey $
+ * @version		$Id$
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
@@ -10,58 +10,41 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
+/**
+ * JXStandard javascript behavior
+ *
+ * @author		Johan Janssens <johan.janssens@joomla.org>
+ * @package		Joomla
+ * @since		1.5
+ * @version     1.0
+ */
+var JXStandard = new Class({
 
-// -- XStandard Lite prototype -------------------
+	instances : null,		
 
-function XStandardLite ()
-{
-	this.instances = null;	
-}
-
-XStandardLite.prototype.init = function()
-{
-	 this.instances = this.getInstances();
-	
-	 var self = this;
-	 document.adminForm.onsubmit = function() {
-	 		self.save();
-	 }
-}
-
-XStandardLite.prototype.getInstances = function() 
-{
-	var objects = new Array();
-	var elements = document.getElementsByTagName('OBJECT');
-	for (var i = 0; i < elements.length; i++) {
-    if (elements[i].type == 'application/x-xstandard' ) {
-		objects.push(elements[i]);
-    }
-  }
-  
-  return objects;
-}
-
-XStandardLite.prototype.save = function() 
-{
-	for(var instance in this.instances) 
+	initialize: function()
 	{
-		var object = this.instances[instance];
-		object.EscapeUnicode = false;
-		
-		var contents = object.value;
-		
-		contents = contents.replace(/<joomla:image\s*.*?\/>/gi, '{image}');
-		contents = contents.replace(/<joomla:pagebreak\s*.*?\/>/gi, '{pagebreak}');
-		contents = contents.replace(/<joomla:readmore\s*.*?\/>/gi, '{readmore}');
+	 	this.instances = $ES('object[type=application/x-xstandard]');
 	
-		document.getElementById(object.className).value = contents;
+	 	var self = this;
+	 	document.adminForm.onsubmit = function() {
+	 		self.save();
+		 }
+	},
+
+	save: function() 
+	{
+		this.instances.each(function(instance)
+		{
+			instance.EscapeUnicode = false;
+			var contents = instance.value;
+			$(instance.className).value = contents;
+		});
 	}
 }
 
-// -- Loader-----------------------------------
-
-
-Window.onDomReady(function(){
-	xstandard_lite = new XStandardLite();
-	xstandard_lite.init();
+document.xstandard = null
+window.addEvent('domready', function(){
+  var xstandard = new JXStandard();
+  document.xstandard = xstandard;
 });

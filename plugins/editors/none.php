@@ -113,9 +113,6 @@ class plgEditorNone extends JPlugin
 	 */
 	function onDisplay( $name, $content, $width, $height, $col, $row, $buttons = true )
 	{
-		// Load modal popup behavior
-		JHTML::_('behavior.modal', 'a.modal-button');
-
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric( $width )) {
 			$width .= 'px';
@@ -123,6 +120,29 @@ class plgEditorNone extends JPlugin
 		if (is_numeric( $height )) {
 			$height .= 'px';
 		}
+
+		$buttons = $this->_displayButtons($name, $buttons);
+		$editor  = "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>" . $buttons;
+
+		return $editor;
+	}
+
+	function onGetInsertMethod($name)
+	{
+		$doc = & JFactory::getDocument();
+
+		$js= "\tfunction jInsertEditorText( text ) {
+			insertAtCursor( document.adminForm.".$name.", text );
+		}";
+		$doc->addScriptDeclaration($js);
+
+		return true;
+	}
+	
+	function _displayButtons($name, $buttons)
+	{
+		// Load modal popup behavior
+		JHTML::_('behavior.modal', 'a.modal-button');
 
 		$args['name'] = $name;
 		$args['event'] = 'onGetInsertMethod';
@@ -148,7 +168,8 @@ class plgEditorNone extends JPlugin
 				/*
 				 * Results should be an object
 				 */
-				if ( $button->get('name') ) {
+				if ( $button->get('name') ) 
+				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
 					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
@@ -157,22 +178,8 @@ class plgEditorNone extends JPlugin
 			}
 			$return .= "</div>\n";
 		}
-
-		$return = "<textarea name=\"$name\" id=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>" . $return;
-
+		
 		return $return;
-	}
-
-	function onGetInsertMethod($name)
-	{
-		$doc = & JFactory::getDocument();
-
-		$js= "\tfunction jInsertEditorText( text ) {
-			insertAtCursor( document.adminForm.".$name.", text );
-		}";
-		$doc->addScriptDeclaration($js);
-
-		return true;
 	}
 }
 ?>

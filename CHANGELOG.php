@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-August-2007 Johan Janssens
+ ^ Updated XStandard support to version 2.0
+ + Added editor-xtd button suppport to the XStandard plugin
+ 
 20-August-2007 Robin Muilwijk
 # Fixed [#5769] added an extra if statement to prevent empty ordered list in debug plugin
 # Fixed [#6343] incorrect display of article modified date

@@ -51,12 +51,9 @@ class plgButtonPagebreak extends JPlugin
 
 		$doc = & JFactory::getDocument();
 		$template = $mainframe->getTemplate();
+		
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
 		$link = 'index.php?option=com_content&amp;task=ins_pagebreak&amp;tmpl=component';
-
-		$css = "\t.button1-left .pagebreak { background: url($url/plugins/editors-xtd/pagebreak.gif) 100% 0 no-repeat; }";
-		$doc->addStyleDeclaration($css);
 
 		JHTML::_('behavior.modal');
 
@@ -65,7 +62,7 @@ class plgButtonPagebreak extends JPlugin
 		$button->set('link', $link);
 		$button->set('text', JText::_('Pagebreak'));
 		$button->set('name', 'pagebreak');
-		$button->set('options', "{handler: 'iframe', size: {x: 400, y: 150}}");
+		$button->set('options', "{handler: 'iframe', size: {x: 400, y: 85}}");
 
 		return $button;
 	}

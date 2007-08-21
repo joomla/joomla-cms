@@ -98,7 +98,7 @@ echo "<library>";
 				echo ("<icon>flag</icon>");
 			echo ("</container>");*/
 		}
-		echo ("<object>");
+		/*echo ("<object>");
 			echo ("<label>Page break placeholder</label>");
 			echo ("<data>".xs_xhtml_escape('<hr id="system-pagebreak" />')."</data>");
 			echo ("<icon>pagebreak</icon>");
@@ -107,7 +107,7 @@ echo "<library>";
 			echo ("<label>Read more placeholder</label>");
 			echo ("<data>".xs_xhtml_escape('<hr id="system-readmore" />')."</data>");
 			echo ("<icon>readmore</icon>");
-		echo ("</object>");
+		echo ("</object>");*/
 	echo ("</containers>");
 	echo ("<objects>");
 

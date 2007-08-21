@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <head>
 <jdoc:include type="head" />
 
-<link rel="stylesheet" href="templates/system/css/general.css" type="text/css" />
+<link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 <link href="templates/<?php echo $this->template ?>/css/login.css" rel="stylesheet" type="text/css" />
 
 <?php  if($this->direction == 'rtl') : ?>

@@ -68,8 +68,6 @@ class plgButtonReadmore extends JPlugin
 			}
 			";
 
-		$css = "\t.button1-left .readmore { background: url($url/plugins/editors-xtd/readmore.png) 100% 0 no-repeat; }";
-		$doc->addStyleDeclaration($css);
 		$doc->addScriptDeclaration($js);
 
 		$button = new JObject();

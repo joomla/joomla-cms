@@ -211,8 +211,9 @@ class plgEditorTinymce extends JPlugin
 		// loading of css file for `styles` dropdown
 		if ( $content_css_custom ) {
 			$content_css = 'content_css : "'. $content_css_custom .'", ';
-		} else {
-
+		} 
+		else
+		{	
 			/*
 			 * Lets get the default template for the site application
 			 */
@@ -224,17 +225,14 @@ class plgEditorTinymce extends JPlugin
 			$db->setQuery( $query );
 			$template = $db->loadResult();
 
-
 			if($content_css)
 			{
-				$content_css = 'content_css : "'. $url .'templates/'. $template .'/css/';
-
 				$file_path = JPATH_SITE .'/templates/'. $template .'/css/';
-				if ( file_exists( $file_path .DS. 'editor.css' ) ) {
-					$content_css = $content_css . 'editor.css' .'", ';
-				} else {
-					$content_css = $content_css . 'template_css.css", ';
-				}
+				if ( !file_exists( $file_path .DS. 'editor.css' ) ) {
+					$template = 'system';
+				} 
+				
+				$content_css = 'content_css : "' . $url .'templates/'. $template . '/css/editor.css",';
 			} else {
 				$content_css = '';
 			}
@@ -279,6 +277,7 @@ class plgEditorTinymce extends JPlugin
 			theme : \"$theme\",
 			language : \"". $langPrefix . "\",
 			mode : \"textareas\",
+			gecko_spellcheck : \"true\",
 			editor_selector : \"mce_editable\",
 			document_base_url : \"". $url ."\",
 			entities : \"60,lt,62,gt\",
@@ -368,9 +367,6 @@ class plgEditorTinymce extends JPlugin
 	 */
 	function onDisplay( $name, $content, $width, $height, $col, $row, $buttons = true)
 	{
-		// Load modal popup behavior
-		JHTML::_('behavior.modal', 'a.modal-button');
-
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric( $width )) {
 			$width .= 'px';
@@ -378,6 +374,29 @@ class plgEditorTinymce extends JPlugin
 		if (is_numeric( $height )) {
 			$height .= 'px';
 		}
+
+		$buttons = $this->_displayButtons($name, $buttons);
+		$editor  = "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" class=\"mce_editable=\">$content</textarea>\n" . $buttons;
+
+		return $editor;
+	}
+	
+	function onGetInsertMethod($name)
+	{
+		$doc = & JFactory::getDocument();
+
+		$js= "function jInsertEditorText( text ) {
+			tinyMCE.execInstanceCommand('mce_editor_0', 'mceInsertContent',false,text);
+		}";
+		$doc->addScriptDeclaration($js);
+
+		return true;
+	}
+	
+	function _displayButtons($name, $buttons)
+	{
+		// Load modal popup behavior
+		JHTML::_('behavior.modal', 'a.modal-button');
 
 		$args['name'] = $name;
 		$args['event'] = 'onGetInsertMethod';
@@ -403,7 +422,8 @@ class plgEditorTinymce extends JPlugin
 				/*
 				 * Results should be an object
 				 */
-				if ( $button->get('name') ) {
+				if ( $button->get('name') ) 
+				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
 					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
@@ -412,23 +432,8 @@ class plgEditorTinymce extends JPlugin
 			}
 			$return .= "</div>\n";
 		}
-
-
-		$return = "<textarea id=\"$name\" name=\"$name\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}; height:{$height};\" class=\"mce_editable=\">$content</textarea>\n" . $return;
-
+		
 		return $return;
-	}
-
-	function onGetInsertMethod($name)
-	{
-		$doc = & JFactory::getDocument();
-
-		$js= "function jInsertEditorText( text ) {
-			tinyMCE.execInstanceCommand('mce_editor_0', 'mceInsertContent',false,text);
-		}";
-		$doc->addScriptDeclaration($js);
-
-		return true;
 	}
 }
 ?>

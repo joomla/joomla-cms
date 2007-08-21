@@ -46,3 +46,7 @@ a:hover {
 div.caption       { padding: 0 10px 0 10px; }
 div.caption img   { border: 1px solid #CCC; }
 div.caption p     { font-size: .90em; color: #666; text-align: center; }
+
+/* STYLES FOR JOOMLA! EDITOR */
+hr#system-readmore  { border: red dashed 1px; color: red; }
+hr.system-pagebreak { border: gray dashed 1px; color: gray; }

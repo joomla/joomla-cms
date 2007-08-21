@@ -777,8 +777,4 @@ td.key {
 	margin: 0;
 }
 
-/* Debug */
-#system-debug     { color: grey; background-color: white; padding: 10px; margin: 10px; }
-#system-debug div { font-size: 11px;}
-
 
