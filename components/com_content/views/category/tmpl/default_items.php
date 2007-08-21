@@ -39,7 +39,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <?php if ($this->params->get('show_headings')) : ?>
 <tr>
-	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="5%">
+	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" align="right" width="5%">
 		<?php echo JText::_('Num'); ?>
 	</td>
 	<?php if ($this->params->get('show_title')) : ?>
@@ -66,7 +66,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 <?php foreach ($this->items as $item) : ?>
 <tr class="sectiontableentry<?php echo ($item->odd +1 ) . $this->params->get( 'pageclass_sfx' ); ?>" >
-	<td align="center">
+	<td align="right">
 		<?php echo $this->pagination->getRowOffset( $item->count ); ?>
 	</td>
 	<?php if ($this->params->get('show_title')) : ?>

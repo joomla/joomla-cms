@@ -21,7 +21,7 @@
 </tr>
 <?php if ( $this->params->def( 'show_headings', 1 ) ) : ?>
 <tr>
-	<td width="10" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<td width="10" align="right" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<?php echo JText::_('Num'); ?>
 	</td>
 	<td width="90%" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
@@ -37,7 +37,7 @@
 <?php endif; ?>
 <?php foreach ($this->items as $item) : ?>
 <tr class="sectiontableentry<?php echo $item->odd + 1; ?>">
-	<td align="center">
+	<td align="right">
 		<?php echo $this->pagination->getRowOffset( $item->count ); ?>
 	</td>
 	<td height="20">

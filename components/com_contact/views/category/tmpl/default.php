@@ -55,7 +55,7 @@ endif; ?>
 	<tbody>
 	<?php if ($this->params->get( 'show_headings' )) : ?>
 		<tr>
-			<td width="5" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+			<td width="5" align="right" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 				<?php echo JText::_('Num'); ?>
 			</td>
 			<td height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">

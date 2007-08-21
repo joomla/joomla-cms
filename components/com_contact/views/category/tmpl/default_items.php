@@ -1,7 +1,7 @@
 <?php /** $Id$ */ defined( '_JEXEC' ) or die(); ?>
 <?php foreach($this->items as $item) : ?>
 <tr>
-	<td align="center" width="5">
+	<td align="right" width="5">
 		<?php echo $item->count +1; ?>
 	</td>
 	<td height="20" class="sectiontableentry<?php echo $item->odd; ?>">
