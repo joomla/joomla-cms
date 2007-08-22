@@ -100,12 +100,12 @@ class JPlugin extends JEventHandler
 	 * @return	boolean	True, if the file has successfully loaded.
 	 * @since	1.5
 	 */
-	function loadLanguage($extension = '', $basePath = null)
+	function loadLanguage($extension = '', $basePath = JPATH_BASE)
 	{
 		if(empty($extension)) {
 			$extension = 'plg_'.$this->_type.'_'.$this->_name;
 		}
-		
+
 		$lang =& JFactory::getLanguage();
 		return $lang->load( strtolower($extension), $basePath);
 	}
