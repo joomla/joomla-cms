@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Aug-2007 Rob Schley
+ ^ Changed front-end rhuk_milkyway template default colors back to blue/blue.
+
 22-Aug-2007 Johan Janssens
  # Fixed [#6090] E-mail this Link to a Friend, generates wrong URL
 
@@ -50,7 +53,7 @@ Legend:
  # Fixed [#4709] No article preview with XStandard Lite 1.7
  # Fixed [#6169] XStandard shown up despite its plugin is disabled
  # Fixed [#6416] Mod_login fault
- 
+
 20-August-2007 Robin Muilwijk
 # Fixed [#5769] added an extra if statement to prevent empty ordered list in debug plugin
 # Fixed [#6343] incorrect display of article modified date
