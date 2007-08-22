@@ -243,7 +243,7 @@ class JEditor extends JObservable
 		}
 
 		//Make sure the plugin information is loaded
-		$isLoaded = JPluginHelper::importPlugin('editors-xtd');
+		$isLoaded = JPluginHelper::importPlugin('editors-xtd', null, false);
 
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('editors-xtd');
