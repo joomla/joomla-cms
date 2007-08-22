@@ -242,9 +242,6 @@ class JEditor extends JObservable
 			return $result;
 		}
 
-		//Make sure the plugin information is loaded
-		$isLoaded = JPluginHelper::importPlugin('editors-xtd', null, false);
-
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('editors-xtd');
 
@@ -253,6 +250,8 @@ class JEditor extends JObservable
 			if(is_array($buttons) &&  in_array($plugin->name, $buttons)) {
 				continue;
 			}
+			
+			$isLoaded = JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
 
 			$className = 'plgButton'.$plugin->name;
 			if(class_exists($className)) {
