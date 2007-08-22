@@ -256,7 +256,7 @@ class JEditor extends JObservable
 
 			$className = 'plgButton'.$plugin->name;
 			if(class_exists($className)) {
-				$plugin = new $className($this, $plugin);
+				$plugin = new $className($this, (array)$plugin);
 			}
 
 			// Try to authenticate
@@ -297,7 +297,7 @@ class JEditor extends JObservable
 		
 		// Get the plugin
 		$plugin =& JPluginHelper::getPlugin('editors', $this->_name);
-	
+		
 		// Build editor plugin classname
 		$name = 'plgEditor'.$this->_name;
 		if($this->_editor = new $name ($this, (array)$plugin))

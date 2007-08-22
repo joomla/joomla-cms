@@ -36,10 +36,8 @@ function plgContentSEF( &$row, &$params, $page=0 )
 		return true;
 	}
 
-	$plugin =& JPluginHelper::getPlugin('content', 'sef');
-
 	// check whether plugin has been unpublished
-	if ( !$plugin->published ) {
+	if ( !JPluginHelper::isEnabled('content', 'sef')) {
 		return true;
 	}
 

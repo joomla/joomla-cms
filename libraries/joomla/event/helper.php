@@ -40,10 +40,10 @@ class JPluginHelper
 		$result = array();
 
 		$plugins = JPluginHelper::_load();
-
+		
 		$total = count($plugins);
-		for($i = 0; $i < $total; $i++) {
-
+		for($i = 0; $i < $total; $i++) 
+		{
 			if(is_null($plugin))
 			{
 				if($plugins[$i]->type == $type) {
@@ -59,7 +59,7 @@ class JPluginHelper
 			}
 
 		}
-
+		
 		return $result;
 	}
 
@@ -145,10 +145,9 @@ class JPluginHelper
 					{
 						// load plugin parameters
 						$plugin =& JPluginHelper::getPlugin($plugin->type, $plugin->name);
-
+						
 						// create the plugin
 						$instance = new $className($dispatcher, (array)($plugin));
-
 					}
 				}
 			}
