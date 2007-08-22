@@ -36,6 +36,9 @@ class  plgSystemLegacy extends JPlugin
 	 */
 	function plgSystemLegacy(& $subject, $params)
 	{
+		$this->_name	= 'Legacy';
+		$this->_type	= 'System';
+		
 		parent::__construct($subject, $params);
 
 		global $mainframe;

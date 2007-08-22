@@ -37,6 +37,9 @@ class  plgSystemDebug extends JPlugin
 	 */
 	function plgSystemDebug(& $subject, $params)
 	{
+		$this->_name	= 'Debug';
+		$this->_type	= 'System';
+		
 		parent::__construct($subject, $params);
 
 		//load the translation

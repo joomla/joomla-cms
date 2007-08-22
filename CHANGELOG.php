@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Aug-2007 Toby Patterson
+ # Fixed [#6544] JPlugin::loadLanguage("") fails
+ ! JPlugin offers $_name and $_type
+
 21-August-2007 Johan Janssens
  ^ Updated XStandard support to version 2.0
  + Added editor-xtd button suppport to the XStandard plugin

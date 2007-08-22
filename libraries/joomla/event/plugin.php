@@ -37,7 +37,10 @@ class JPlugin extends JEventHandler
 	 */
 	var	$params	= null;
 
-
+	var $_name	= null;
+	
+	var $_type	= null;
+	
 	/**
 	 * Constructor
 	 *
@@ -73,15 +76,28 @@ class JPlugin extends JEventHandler
 	 * @return	boolean	True, if the file has successfully loaded.
 	 * @since	1.5
 	 */
-	function loadLanguage($extension = '', $basePath = JPATH_BASE)
+	function loadLanguage($extension = '', $basePath = null)
 	{
-		if(empty($extension)) {
-			$split_up = preg_split("{(?<=[a-z])(?=[A-Z])}x", get_class($this));
-			if(count($split_up) > 1) $extension = 'plg_'.$split_up[1].'_'.$split_up[2];
+		if( ! $extension ) {
+			if ( $this->_name && $this->_type ) {
+				$extension = 'plg_'.$this->_type.'_'.$this->_name;
+			} else {
+				$class		= get_class($this);
+				$regex		= '/plg(authentication|content|editors|editors-xtd|search|system|user|xmlrpc)?([a-z])?/i';
+				$extension = preg_replace($regex, 'plg_\1_\2', $class);
+				/*
+				$split_up	= preg_split("{(?<=[a-z])(?=[A-Z])}x", $class);
+				if( count($split_up) > 1) {
+					$extension = 'plg_'.$split_up[1].'_'.$split_up[2];
+				}
+				*/
+			}
+			
+			$extension	= strtolower($extension);
 		}
 
 		$lang =& JFactory::getLanguage();
-		return $lang->load( $extension);
+		return $lang->load( $extension, $basePath);
 	}
 
 
