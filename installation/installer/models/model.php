@@ -435,6 +435,10 @@ class JInstallationModel extends JModel
 		if($vars['ftpEnable']) {
 			JInstallationHelper::setFTPCfg( $vars );
 		}
+		
+		// TODO: Add is_writeable checks
+		//if(is_writeable())
+		//$vars[''] = ;
 
 		// Require the xajax library
 		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );

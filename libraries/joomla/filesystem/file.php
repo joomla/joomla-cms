@@ -328,7 +328,7 @@ class JFile
 				JError::raiseWarning(21, JText::_('WARNFS_ERR02'));
 			}
 		} else {
-			if (move_uploaded_file($src, $dest)) {
+			if (is_writeable($baseDir) && move_uploaded_file($src, $dest)) { // Short circuit to prevent file permission errors
 				if (JPath::setPermissions($dest)) {
 					$ret = true;
 				} else {

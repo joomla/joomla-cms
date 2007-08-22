@@ -855,7 +855,9 @@ class JInstallationHelper
 		/*
 		 * read script file into buffer
 		 */
-		$buffer = file_get_contents( $scriptName );
+		if(is_file($scriptName)) {
+			$buffer = file_get_contents( $scriptName );
+		} else return false;
 		if(  $buffer == false )
 		{
 			return false;
