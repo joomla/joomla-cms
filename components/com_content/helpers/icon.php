@@ -144,7 +144,7 @@ class JHTMLIcon
 
 		$user =& JFactory::getUser();
 
-		$url  = 'index.php?view=article;';
+		$url  = 'index.php?view=article';
 		$url .=  @$article->catslug ? '&catid='.$article->catslug : '';
 		$url .= '&id='.$article->slug.'&tmpl=component&print=1&page='.@ $request->limitstart;
 

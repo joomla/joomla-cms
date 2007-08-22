@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Aug-2007 Johan Janssens
+ # Fixed [#6090] E-mail this Link to a Friend, generates wrong URL
+
 22-Aug-2007 Toby Patterson
  # Fixed [#6544] JPlugin::loadLanguage("") fails
  ! JPlugin offers $_name and $_type
