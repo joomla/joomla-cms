@@ -81,11 +81,11 @@ class JPlugin extends JEventHandler
 		}
 		
 		if ( isset( $config['name'] ) ) {
-			$this->name = $config['name'];
+			$this->_name = $config['name'];
 		}
 		
 		if ( isset( $config['type'] ) ) {
-			$this->type = $config['type'];
+			$this->_type = $config['type'];
 		}
 
 		parent::__construct($subject);
