@@ -37,8 +37,8 @@ class plgXMLRPCJoomla extends JPlugin
 	 * @param object $params  The object that holds the plugin parameters
 	 * @since 1.5
 	 */
-	function plgXMLRPCJoomla(& $subject, $params) {
-		parent::__construct($subject, $params);
+	function plgXMLRPCJoomla(& $subject, $config) {
+		parent::__construct($subject, $config);
 	}
 
 	/**

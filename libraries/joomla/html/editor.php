@@ -250,13 +250,13 @@ class JEditor extends JObservable
 
 		foreach($plugins as $plugin)
 		{
-			if(is_array($buttons) &&  in_array($plugin->element, $buttons)) {
+			if(is_array($buttons) &&  in_array($plugin->name, $buttons)) {
 				continue;
 			}
 
-			$className = 'plgButton'.$plugin->element;
+			$className = 'plgButton'.$plugin->name;
 			if(class_exists($className)) {
-				$plugin = new $className($this, new JParameter($plugin->params));
+				$plugin = new $className($this, $plugin);
 			}
 
 			// Try to authenticate
@@ -300,7 +300,7 @@ class JEditor extends JObservable
 	
 		// Build editor plugin classname
 		$name = 'plgEditor'.$this->_name;
-		if($this->_editor = new $name ($this, new JParameter($plugin->params)))
+		if($this->_editor = new $name ($this, (array)$plugin))
 		{
 			// load plugin parameters
 			$this->initialise();

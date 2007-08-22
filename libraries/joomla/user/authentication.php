@@ -111,9 +111,9 @@ class JAuthentication extends JObservable
 		 */
 		foreach($plugins as $plugin)
 		{
-			$className = 'plg'.$plugin->folder.$plugin->element;
+			$className = 'plg'.$plugin->type.$plugin->name;
 			if(class_exists($className)) {
-				$plugin = new $className($this, new JParameter($plugin->params));
+				$plugin = new $className($this, (array)$plugin);
 			}
 
 			// Try to authenticate

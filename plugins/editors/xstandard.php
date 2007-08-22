@@ -32,12 +32,12 @@ class plgEditorXstandard extends JPlugin {
 	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
-	 * @param object $subject The object to observe
-	 * @param object $params  The object that holds the plugin parameters
+	 * @param 	object $subject The object to observe
+	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since 1.5
 	 */
-	function plgEditorXstandard(& $subject, $params) {
-		parent::__construct($subject, $params);
+	function plgEditorXstandard(& $subject, $config) {
+		parent::__construct($subject, $config);
 	}
 
 	/**

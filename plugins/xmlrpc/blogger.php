@@ -16,8 +16,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 class plgXMLRPCBlogger extends JPlugin
 {
-	function plgXMLRPCBlogger(&$subject, $params) {
-		parent::__construct($subject, $params);
+	function plgXMLRPCBlogger(&$subject, $config) {
+		parent::__construct($subject, $config);
 	}
 
 	/**

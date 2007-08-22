@@ -27,15 +27,15 @@ defined('JPATH_BASE') or die();
 class JPluginHelper
 {
 	/**
-	 * Get the plugin data of a group if no specific plugin is specified
+	 * Get the plugin data of a specific type if no specific plugin is specified
 	 * otherwise only the specific plugin data is returned
 	 *
 	 * @access public
-	 * @param string 	$group 	The group name, relates to the sub-directory in the plugins directory
+	 * @param string 	$type 	The plugin type, relates to the sub-directory in the plugins directory
 	 * @param string 	$plugin	The plugin name
 	 * @return mixed 	An array of plugin data objects, or a plugin data object
 	 */
-	function &getPlugin($group, $plugin = null)
+	function &getPlugin($type, $plugin = null)
 	{
 		$result = array();
 
@@ -46,13 +46,13 @@ class JPluginHelper
 
 			if(is_null($plugin))
 			{
-				if($plugins[$i]->folder == $group) {
+				if($plugins[$i]->type == $type) {
 					$result[] = $plugins[$i];
 				}
 			}
 			else
 			{
-				if($plugins[$i]->folder == $group && $plugins[$i]->element == $plugin) {
+				if($plugins[$i]->type == $type && $plugins[$i]->name == $plugin) {
 					$result = $plugins[$i];
 					break;
 				}
@@ -67,26 +67,26 @@ class JPluginHelper
 	 * Checks if a plugin is enabled
 	 *
 	 * @access	public
-	 * @param string 	$group 	The group name, relates to the sub-directory in the plugins directory
+	 * @param string 	$type 	The plugin type, relates to the sub-directory in the plugins directory
 	 * @param string 	$plugin	The plugin name
 	 * @return	boolean
 	 */
-	function isEnabled( $group, $plugin = null )
+	function isEnabled( $type, $plugin = null )
 	{
-		$result = &JPluginHelper::getPlugin( $group, $plugin);
+		$result = &JPluginHelper::getPlugin( $type, $plugin);
 		return (!empty($result));
 	}
 
 	/**
-	* Loads all the plugin files for a particular group if no specific plugin is specified
+	* Loads all the plugin files for a particular type if no specific plugin is specified
 	* otherwise only the specific pugin is loaded.
 	*
 	* @access public
-	* @param string 	$group 	The group name, relates to the sub-directory in the plugins directory
+	* @param string 	$type 	The plugin type, relates to the sub-directory in the plugins directory
 	* @param string 	$plugin	The plugin name
 	* @return boolean True if success
 	*/
-	function importPlugin($group, $plugin = null, $autocreate = true, $dispatcher = null)
+	function importPlugin($type, $plugin = null, $autocreate = true, $dispatcher = null)
 	{
 		$result = false;
 
@@ -94,7 +94,7 @@ class JPluginHelper
 
 		$total = count($plugins);
 		for($i = 0; $i < $total; $i++) {
-			if($plugins[$i]->folder == $group && ($plugins[$i]->element == $plugin ||  $plugin === null)) {
+			if($plugins[$i]->type == $type && ($plugins[$i]->name == $plugin ||  $plugin === null)) {
 				JPluginHelper::_import( $plugins[$i], $autocreate, $dispatcher );
 				$result = true;
 			}
@@ -118,9 +118,10 @@ class JPluginHelper
 		}
 
 		$result	= false;
-		$plugin->folder = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->folder);
-		$plugin->element = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->element);
-		$path	= JPATH_PLUGINS.DS.$plugin->folder.DS.$plugin->element.'.php';
+		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
+		$plugin->name  = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
+		
+		$path	= JPATH_PLUGINS.DS.$plugin->type.DS.$plugin->name.'.php';
 
 		if (!isset( $paths[$path] ))
 		{
@@ -139,14 +140,14 @@ class JPluginHelper
 						$dispatcher = & JEventDispatcher::getInstance();
 					}
 
-					$className = 'plg'.$plugin->folder.$plugin->element;
+					$className = 'plg'.$plugin->type.$plugin->name;
 					if(class_exists($className))
 					{
 						// load plugin parameters
-						$plugin =& JPluginHelper::getPlugin($plugin->folder, $plugin->element);
+						$plugin =& JPluginHelper::getPlugin($plugin->type, $plugin->name);
 
 						// create the plugin
-						$instance = new $className($dispatcher, new JParameter($plugin->params));
+						$instance = new $className($dispatcher, (array)($plugin));
 
 					}
 				}
@@ -178,7 +179,7 @@ class JPluginHelper
 		{
 			$aid = $user->get('aid', 0);
 
-			$query = 'SELECT id, name, folder, element, published, params'
+			$query = 'SELECT folder AS type, element AS name, params'
 				. ' FROM #__plugins'
 				. ' WHERE published >= 1'
 				. ' AND access <= ' . (int) $aid
@@ -186,7 +187,7 @@ class JPluginHelper
 		}
 		else
 		{
-			$query = 'SELECT id, name, folder, element, published, params'
+			$query = 'SELECT folder AS type, element AS name, params'
 				. ' FROM #__plugins'
 				. ' WHERE published >= 1'
 				. ' ORDER BY ordering';

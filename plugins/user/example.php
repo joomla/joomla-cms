@@ -35,11 +35,11 @@ class plgUserExample extends JPlugin {
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
 	 * @param object $subject The object to observe
-	 * @param object $params  The object that holds the plugin parameters
+	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since 1.5
 	 */
-	function plgUserExample(& $subject, $params) {
-		parent::__construct($subject, $params);
+	function plgUserExample(& $subject, $config) {
+		parent::__construct($subject, $config);
 	}
 
 	/**

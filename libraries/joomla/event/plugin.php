@@ -21,7 +21,7 @@ jimport( 'joomla.event.handler' );
  * JPlugin Class
  *
  * @abstract
- * @author		Louis Landry <louis.landry@joomla.org>
+ * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Event
  * @since		1.5
@@ -37,8 +37,20 @@ class JPlugin extends JEventHandler
 	 */
 	var	$params	= null;
 
+	/**
+	 * The name of the plugin
+	 *
+	 * @var		sring
+	 * @access	protected
+	 */
 	var $_name	= null;
 	
+	/**
+	 * The plugin type
+	 *
+	 * @var		string
+	 * @access	protected
+	 */
 	var $_type	= null;
 	
 	/**
@@ -49,20 +61,32 @@ class JPlugin extends JEventHandler
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
 	 * @param object $subject The object to observe
-	 * @param object $params  The object that holds the plugin parameters
+	 * @param array  $config  An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'group', 'params'
+	 * (this list is not meant to be comprehensive).
 	 * @since 1.5
 	 */
-	function JPlugin(& $subject, $params)  {
+	function JPlugin(& $subject, $config = array())  {
 		parent::__construct($subject);
 	}
 
 	/**
 	 * Constructor
 	 */
-	function __construct(& $subject, $params)
+	function __construct(& $subject, $config = array())
 	{
 		//Set the parameters
-		$this->params = $params;
+		if ( isset( $config['params'] ) ) {
+			$this->params = new JParameter($config['params']);
+		}
+		
+		if ( isset( $config['name'] ) ) {
+			$this->name = $config['name'];
+		}
+		
+		if ( isset( $config['type'] ) ) {
+			$this->type = $config['type'];
+		}
 
 		parent::__construct($subject);
 	}
@@ -78,26 +102,12 @@ class JPlugin extends JEventHandler
 	 */
 	function loadLanguage($extension = '', $basePath = null)
 	{
-		if( ! $extension ) {
-			if ( $this->_name && $this->_type ) {
-				$extension = 'plg_'.$this->_type.'_'.$this->_name;
-			} else {
-				$class		= get_class($this);
-				$regex		= '/plg(authentication|content|editors|editors-xtd|search|system|user|xmlrpc)?([a-z])?/i';
-				$extension = preg_replace($regex, 'plg_\1_\2', $class);
-				/*
-				$split_up	= preg_split("{(?<=[a-z])(?=[A-Z])}x", $class);
-				if( count($split_up) > 1) {
-					$extension = 'plg_'.$split_up[1].'_'.$split_up[2];
-				}
-				*/
-			}
-			
-			$extension	= strtolower($extension);
+		if(empty($extension)) {
+			$extension = 'plg_'.$this->_type.'_'.$this->_name;
 		}
-
+		
 		$lang =& JFactory::getLanguage();
-		return $lang->load( $extension, $basePath);
+		return $lang->load( strtolower($extension), $basePath);
 	}
 
 

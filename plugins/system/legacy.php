@@ -31,15 +31,12 @@ class  plgSystemLegacy extends JPlugin
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 *
 	 * @param	object		$subject The object to observe
-	 * @param object $params  The object that holds the plugin parameters
+	  * @param 	array  		$config  An array that holds the plugin configuration
 	 * @since	1.0
 	 */
-	function plgSystemLegacy(& $subject, $params)
+	function plgSystemLegacy(& $subject, $config)
 	{
-		$this->_name	= 'Legacy';
-		$this->_type	= 'System';
-		
-		parent::__construct($subject, $params);
+		parent::__construct($subject, $config);
 
 		global $mainframe;
 
