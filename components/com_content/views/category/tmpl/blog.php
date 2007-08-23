@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td valign="top">
 	<?php if ($this->params->get('show_description_image') && $this->category->image) : ?>
-		<img src="images/stories/<?php echo $category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="" />
+		<img src="images/stories/<?php echo $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="" />
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 		<?php echo $this->category->description; ?>
