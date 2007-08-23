@@ -14,7 +14,6 @@
 		<param name="publish_down" type="calendar" default="" label="Finish Publishing" description="DETAILFINISH" />
 	</params>
 	<params group="advanced">
-		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
 		<param name="show_title" type="radio" default="1" label="Show Title" description="Show/Hide the items title">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
