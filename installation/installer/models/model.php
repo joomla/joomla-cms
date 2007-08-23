@@ -823,6 +823,10 @@ class JInstallationModel extends JModel
 			JInstallationHelper::_chmod(JPATH_SITE.DS.'tmp', 0777);
 			jimport('joomla.filesystem.file');
 			$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$sqlFile['name']);
+			if(!$uploaded) {
+				$this->setError(JText::_('WARNUPLOADFAILURE'));
+				return false;
+			}
 
 			if( !eregi('.sql$', $sqlFile['name']) )
 			{

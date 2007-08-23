@@ -685,7 +685,10 @@ class JInstallationHelper
 		JInstallationHelper::_chmod(JPATH_SITE.DS.'tmp', 0777);
 		jimport('joomla.filesystem.file');
 		$uploaded = JFile::upload($sqlFile['tmp_name'], JPATH_SITE.DS.'tmp'.DS.$sqlFile['name']);
-
+		if(!$uploaded) {
+			return JText::_('WARNUPLOADFAILURE');
+		}
+		
 		if( !eregi('.sql$', $sqlFile['name']) )
 		{
 			$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
