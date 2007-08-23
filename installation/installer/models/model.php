@@ -438,7 +438,7 @@ class JInstallationModel extends JModel
 		
 		// Check a few directories are writeable as this may cause issues
 		if(!is_writeable(JPATH_SITE.DS.'tmp') || !is_writeable(JPATH_SITE.DS.'installation'.DS.'sql'.DS.'migration')) {
-			$vars['dircheck'] = JText::_('Some paths may be unwriteable');
+			$vars['dircheck'] = JText::_('Some paths may be unwritable');
 		}
 
 		// Require the xajax library
