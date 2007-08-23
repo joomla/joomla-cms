@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Aug-2007 Toby Patterson
+ # Fixed [193612] RC1 - Mass mail throws language string error
+
 22-Aug-2007 Rob Schley
  ^ Changed front-end rhuk_milkyway template default colors back to blue/blue.
 
