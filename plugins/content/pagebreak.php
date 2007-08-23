@@ -65,7 +65,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 
 	// check whether plugin has been unpublished
-	if (!$plugin->published || $params->get( 'intro_only' )|| $params->get( 'popup' ) || $full) {
+	if (!JPluginHelper::isEnabled('content', 'pagebreak') || $params->get( 'intro_only' )|| $params->get( 'popup' ) || $full) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return;
 	}
