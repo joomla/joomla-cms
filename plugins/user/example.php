@@ -47,7 +47,7 @@ class plgUserExample extends JPlugin {
 	 *
 	 * Method is called before user data is stored in the database
 	 *
-	 * @param 	array		holds the user data
+	 * @param 	array		holds the old user data
 	 * @param 	boolean		true if a new user is stored
 	 */
 	function onBeforeStoreUser($user, $isnew)
@@ -61,7 +61,7 @@ class plgUserExample extends JPlugin {
 	 *
 	 * Method is called after user data is stored in the database
 	 *
-	 * @param 	array		holds the user data
+	 * @param 	array		holds the new user data
 	 * @param 	boolean		true if a new user is stored
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message

@@ -46,6 +46,8 @@ Legend:
  ^ Improved user synchronisation and user plugin support for com_user, block and logout users 
     tasks now also trigger the user plugins
  ^ JApplication::logout now accepts userid variable to allow a force logout of any user.
+ ^ Improved user onBeforeStore and onAfterStore events, the onBeforeStore event now receives
+   the old user data which can be used to create assynchronous application bridges
  + Added Editor mode parameter to XStandard plugin
  
 23-Aug-2007 Toby Patterson

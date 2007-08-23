@@ -351,34 +351,29 @@ class JUser extends JObject
 		jimport( 'joomla.utilities.array' );
 
 		// Lets check to see if the user is new or not
-		if (empty($this->id) /*&& $array['id']*/)
+		if (empty($this->id))
 		{
-			/*
-			 * Since we have a new user, and we are going to create it... we
-			 * need to check a few things and set some defaults if we don't
-			 * already have them.
-			 */
-
-			// First the password
+			// Check the password and create the crypted password
 			if (empty($array['password'])) {
-				$array['password'] = JUserHelper::genRandomPassword();
+				$array['password']  = JUserHelper::genRandomPassword();
+				$array['password2'] = $array['password'];
 			}
-			else if ($array['password'] != $array['password2'])
-			{
+			
+			if ($array['password'] != $array['password2']) {
 					$this->_setError( JText::_( 'PASSWORD DO NOT MATCH.' ) );
 					return false;
 			}
 
-			$this->password_clear= JArrayHelper::getValue( $array, 'password', '', 'string' );
+			$this->password_clear = JArrayHelper::getValue( $array, 'password', '', 'string' );
 
-			$salt = JUserHelper::genRandomPassword(32);
+			$salt  = JUserHelper::genRandomPassword(32);
 			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
 			$array['password'] = $crypt.':'.$salt;
 
-			// Next the registration timestamp
+			// Set the registration timestamp
 			$this->set( 'registerDate', date( 'Y-m-d H:i:s' ) );
 
-			// check that username is not greater than 25 characters
+			// Check that username is not greater than 25 characters
 			$username = $this->get( 'username' );
 			if ( strlen($username) > 150 )
 			{
@@ -386,7 +381,7 @@ class JUser extends JObject
 				$this->set( 'username', $username );
 			}
 
-			// check that password is not greater than 50 characters
+			// Check that password is not greater than 50 characters
 			$password = $this->get( 'password' );
 			if ( strlen($password) > 100 )
 			{
@@ -396,16 +391,15 @@ class JUser extends JObject
 		}
 		else
 		{
-			// We are updating an existing user.. so lets get down to it.
+			// Updating an existing user
 			if (!empty($array['password']))
 			{
-				if ( $array['password'] != $array['password2'] )
-				{
+				if ( $array['password'] != $array['password2'] ) {
 					$this->_setError( JText::_( 'PASSWORD DO NOT MATCH.' ) );
 					return false;
 				}
 
-				$this->password_clear= JArrayHelper::getValue( $array, 'password', '', 'string' );
+				$this->password_clear = JArrayHelper::getValue( $array, 'password', '', 'string' );
 
 				$salt = JUserHelper::genRandomPassword(32);
 				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
@@ -417,11 +411,7 @@ class JUser extends JObject
 			}
 		}
 
-		/*
-		 * NOTE
-		 * TODO
-		 * @todo: this will be deprecated as of the ACL implementation
-		 */
+		// TODO: this will be deprecated as of the ACL implementation
 		$db =& JFactory::getDBO();
 
 		$gid	= array_key_exists('gid', $array ) ? $array['gid'] : $this->get('gid');
@@ -446,11 +436,7 @@ class JUser extends JObject
 			$this->params = $params;
 		}
 
-		/*
-		 * Lets first try to bind the array to us... if that fails
-		 * then we can certainly fail the whole method as we've done absolutely
-		 * no good :)
-		 */
+		// Bind the array 
 		if (!$this->_bind($array, 'aid guest')) {
 			$this->_setError("Unable to bind array to user object");
 			return false;
@@ -485,8 +471,8 @@ class JUser extends JObject
 		}
 
 		// If user is made a Super Admin group and user is NOT a Super Admin
-		$me =& JFactory::getUser();
-		if ( $this->get('gid') == 25 && $me->get('gid') != 25 )
+		$my =& JFactory::getUser();
+		if ( $this->get('gid') == 25 && $my->get('gid') != 25 )
 		{
 			// disallow creation of Super Admin by non Super Admin users
 			$this->_setError(JText::_( 'WARNSUPERADMINCREATE' ));
@@ -496,25 +482,25 @@ class JUser extends JObject
 		//are we creating a new user
 		$isnew = !$this->id;
 
-		// If we aren't allowed to create new and we are  about to... return true .. job done
+		// If we aren't allowed to create new users return
 		if ($isnew && $updateOnly) {
 			return true;
 		}
+		
+		// Get the old user 
+		$old = new JUser($this->id);
 
 		// Fire the onBeforeStoreUser event.
 		JPluginHelper::importPlugin( 'user' );
 		$dispatcher =& JEventDispatcher::getInstance();
-		$dispatcher->trigger( 'onBeforeStoreUser', array( $this->getPublicProperties(true), $isnew ) );
+		$dispatcher->trigger( 'onBeforeStoreUser', array( $old->getPublicProperties(true), $isnew ) );
 
-		$result = false;
+		//Store the user data in the database
 		if (!$result = $table->store()) {
 			$this->_setError($table->getError());
 		}
 
-		/*
-		 * If the id is not set, set the id for the JUser object.  This might happen if we just 
-		 * inserted a new user and need to update this objects id value with the inserted id.
-		 */
+		// Set the id for the JUser object in case we created a new user. 
 		if (empty($this->id)) {
 			$this->id = $table->get( 'id' );
 		}
@@ -570,8 +556,7 @@ class JUser extends JObject
 		$table 	=& JTable::getInstance( 'user');
 
 		 // Load the JUserModel object based on the user id or throw a warning.
-		 if(!$table->load($id))
-		 {
+		 if(!$table->load($id)) {
 			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with id: '.$id );
 			return false;
 		}
