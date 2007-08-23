@@ -436,9 +436,10 @@ class JInstallationModel extends JModel
 			JInstallationHelper::setFTPCfg( $vars );
 		}
 		
-		// TODO: Add is_writeable checks
-		//if(is_writeable())
-		//$vars[''] = ;
+		// Check a few directories are writeable as this may cause issues
+		if(!is_writeable(JPATH_SITE.DS.'tmp') || !is_writeable(JPATH_SITE.DS.'installation'.DS.'sql'.DS.'migration')) {
+			$vars['dircheck'] = JText::_('Some paths may be unwriteable');
+		}
 
 		// Require the xajax library
 		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
