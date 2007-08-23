@@ -39,6 +39,7 @@ Legend:
 
 23-Aug-2007 Johan Janssens
  # Fixed [#6649] wrong image path in category blog
+ # Fixed [#6641] Usermanager: user can block himself
  ^ Improved user synchronisation and user plugin support for com_user, block and logout users 
     tasks now also trigger the user plugins
  ^ JApplication::logout now accepts userid variable to allow a force logout of any user.
