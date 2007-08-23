@@ -28,7 +28,7 @@ $url = clone(JURI::getInstance());
 	<!--[if IE 7]>
 		<link href="templates/<?php echo $this->template ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
 	<![endif]-->
-	<script type="text/javascript" language="javascript" src="templates/<?php echo $this->template ?>/javascript/md_stylechanger.js"></script>
+	<script type="text/javascript" src="templates/<?php echo $this->template ?>/javascript/md_stylechanger.js"></script>
 </head>
 <body>
 	<div id="all">
