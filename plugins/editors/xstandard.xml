@@ -14,5 +14,10 @@
 		<filename plugin="xstandard">xstandard.php</filename>
 	</files>
 	<params>
+		<param name="mode" type="list" default="wysiwyg" label="Editor Mode" description="PARAMEDITORMODE">
+ 			<option value="wysiwyg">Wysiwyg</option>
+ 			<option value="source">Source</option>
+ 			<option value="screen-reader">Screen-Reader</option>
+ 		</param>
 	</params>
 </install>

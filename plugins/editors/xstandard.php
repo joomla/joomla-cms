@@ -170,9 +170,13 @@ class plgEditorXstandard extends JPlugin {
 			<param name="EnablePasteMarkup" value="yes" />
 			<param name="EnableTimestamp" value="no" />
 			<param name="EscapeUnicode" value="no" />
-			<param name="Options" value="32768" />
-			<param name="ToolbarWysiwyg" value="line, hyperlink, attachment, directory, undo, , wysiwyg, source, preview, screen-reader, ,expand; strong, em, underline, strikethrough, , align-left, align-center, align-right, , blockquote, undo-blockquote, ,numbering, bullets, , undo, redo, ,layout-table, data-table, draw-layout-table, draw-data-table" />
+			<param name="ToolbarWysiwyg" value="line, hyperlink, attachment, directory, undo, , wysiwyg, source, screen-reader, ,expand; strong, em, underline, strikethrough, , align-left, align-center, align-right, , blockquote, undo-blockquote, ,numbering, bullets, , undo, redo, ,layout-table, data-table, draw-layout-table, draw-data-table" />
+			<param name="ToolbarSource" value="indent, whitespace, word-wrap, dim-tags, validate,, wysiwyg, source, screen-reader, , expand" />
+			<param name="ToolbarPreview" value="wysiwyg, source, screen-reader, ,expand" />
+			<param name="ToolbarScreenReader" value="wysiwyg, source, screen-reader, , expand" />
 			<param name="BackgroundColor" value="#F9F9F9" />
+			<param name="Mode" value="<?php echo $this->params->get('mode', 'wysiwyg'); ?>" />
+			<param name="IndentOutput" value="yes" />
 
  			<param name="BorderColor" value="#FFF" />
  			<param name="Base" value="<?php echo $url ?>" />
