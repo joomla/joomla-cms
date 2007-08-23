@@ -205,29 +205,6 @@ class JSite extends JApplication
 	}
 
 	/**
-	* Login authentication function
-	*
-	* @param string The username
-	* @param string The password
-	* @access public
-	* @see JApplication::login
-	*/
-	function login($credentials, $options = array())
-	{
-		return parent::login($credentials, $options);
-	}
-
-	/**
-	* Logout authentication function
-	*
-	* @access public
-	* @see JApplication::login
-	*/
-	function logout($return = null) {
-		return parent::logout();
-	}
-
-	/**
 	* Get Page Parameters
 	*
 	* @return object The page parameters object

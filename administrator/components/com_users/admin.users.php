@@ -497,7 +497,7 @@ function removeUsers(  )
 
 			if ( $count <= 1 && $user->get( 'gid' ) == 25 )
 			{
-			// cannot delete Super Admin where it is the only one that exists
+				// cannot delete Super Admin where it is the only one that exists
 				$msg = "You cannot delete this Super Administrator as it is the only active Super Administrator for your site";
 			}
 			else
@@ -522,50 +522,83 @@ function removeUsers(  )
 * Blocks or Unblocks one or more user records
 * @param integer 0 if unblock, 1 if blocking
 */
-function changeUserBlock( $block=1 )
+function changeUserBlock( $block = 1 )
 {
 	global $mainframe;
 
-	$db =& JFactory::getDBO();
+	$db 			=& JFactory::getDBO();
+	$acl			=& JFactory::getACL();
+	$currentUser 	=& JFactory::getUser();
 
-	$option = JRequest::getCmd( 'option');
 	$cid 	= JRequest::getVar( 'cid', array(), '', 'array' );
 
 	JArrayHelper::toInteger( $cid );
 
-	if (count( $cid ) < 1)
-	{
+	if (count( $cid ) < 1) {
 		$action = $block ? 'block' : 'unblock';
 		JError::raiseError(500, JText::_( 'Select a User to '.$action, true ) );
 	}
-
-	$cids = implode( ',', $cid );
-
-	$query = 'UPDATE #__users'
-	. ' SET block = '.(int) $block
-	. ' WHERE id IN ( '. $cids .' )'
-	;
-	$db->setQuery( $query );
-
-	if (!$db->query())
+	foreach ($cid as $id)
 	{
-		JError::raiseError(500, $db->getErrorMsg() );
-	}
+		// check for a super admin ... can't delete them
+		$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );
+		$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
+		$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
 
-	// if action is to block a user
-	if ( $block == 1 )
-	{
-		foreach( $cid as $id )
+		$success = false;
+		if ( $this_group == 'super administrator' )
 		{
-			JRequest::setVar( 'task', 'block' );
-			JRequest::setVar( 'cid', array($id) );
+			$msg = JText::_( 'You cannot block a Super Administrator' );
+		}
+		else if ( $id == $currentUser->get( 'id' ) )
+		{
+			$msg = JText::_( 'You cannot block Yourself!' );
+		}
+		else if ( ( $this_group == 'administrator' ) && ( $currentUser->get( 'gid' ) == 24 ) )
+		{
+			$msg = JText::_( 'WARNBLOCK' );
+		}
+		else
+		{
+			$user =& JUser::getInstance((int)$id);
+			$count = 2;
 
-			// delete user acounts active sessions
-			logoutUser();
+			if ( $user->get( 'gid' ) == 25 )
+			{
+				// count number of active super admins
+				$query = 'SELECT COUNT( id )'
+				. ' FROM #__users'
+				. ' WHERE gid = 25'
+				. ' AND block = 0'
+				;
+				$db->setQuery( $query );
+				$count = $db->loadResult();
+			}
+
+			if ( $count <= 1 && $user->get( 'gid' ) == 25 )
+			{
+				// cannot delete Super Admin where it is the only one that exists
+				$msg = "You cannot block this Super Administrator as it is the only active Super Administrator for your site";
+			}
+			else
+			{
+				$user =& JUser::getInstance((int)$id);
+				$user->block = $block;
+				$user->save();
+		
+				if($block) 
+				{
+					JRequest::setVar( 'task', 'block' );
+					JRequest::setVar( 'cid', array($id) );
+
+					// delete user acounts active sessions
+					logoutUser();
+				}
+			}
 		}
 	}
-
-	$mainframe->redirect( 'index.php?option='. $option );
+	
+	$mainframe->redirect( 'index.php?option=com_users', $msg);
 }
 
 /**
@@ -580,34 +613,29 @@ function logoutUser( )
 	$cids 	= JRequest::getVar( 'cid', array(), '', 'array' );
 	$client = JRequest::getVar( 'client', 0, '', 'int' );
 	$id 	= JRequest::getVar( 'id', 0, '', 'int' );
+	
+	
 
 	JArrayHelper::toInteger($cids);
 
-	if ( count( $cids ) < 1 )
-	{
+	if ( count( $cids ) < 1 ) {
 		$mainframe->redirect( 'index.php?option=com_users', JText::_( 'User Deleted' ) );
 	}
-	$cids = implode( ',', $cids );
 
-	if ($task == 'logout' || $task == 'block')
+	foreach($cids as $cid)
 	{
-		$query = 'DELETE FROM #__session'
-		. ' WHERE userid IN ( '.$cids.' )'
-		;
-	}
-	else if ($task == 'flogout')
-	{
-		$query = 'DELETE FROM #__session'
-		. ' WHERE userid = '.(int) $cids
-		. ' AND client_id = '.(int) $client
-		;
+		$options = array();
+		
+		if ($task == 'logout' || $task == 'block') {
+			$options['clientid'][] = 0; //site
+			$options['clientid'][] = 1; //administrator
+		} else if ($task == 'flogout') {
+			$options['clientid'][] = $client;
+		}
+		
+		$mainframe->logout((int)$cid, $options);
 	}
 
-	if (isset( $query ))
-	{
-		$db->setQuery( $query );
-		$db->query();
-	}
 
 	$msg = JText::_( 'User Session Ended' );
 	switch ( $task )

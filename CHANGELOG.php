@@ -39,6 +39,9 @@ Legend:
 
 23-Aug-2007 Johan Janssens
  # Fixed [#6649] wrong image path in category blog
+ ^ Improved user synchronisation and user plugin support for com_user, block and logout users 
+    tasks now also trigger the user plugins
+ ^ JApplication::logout now accepts userid variable to allow a force logout of any user.
  
 23-Aug-2007 Toby Patterson
  # Fixed [193612] RC1 - Mass mail throws language string error

@@ -120,18 +120,28 @@ class JFactory
 	 * Returns a reference to the global {@link JUser} object, only creating it
 	 * if it doesn't already exist.
 	 *
+	 * @param 	int 	$id 	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
+	 *
 	 * @access public
 	 * @return object JUser
 	 */
-	function &getUser()
+	function &getUser($id = null)
 	{
 		jimport('joomla.user.user');
-		$session  =& JFactory::getSession();
-		$instance =& $session->get('user');
-		if (!is_a($instance, 'JUser')) {
-			$instance = new JUser();
-		}
-
+		
+		if(is_null($id)) 
+		{
+			$session  =& JFactory::getSession();
+			$instance =& $session->get('user');
+			if (!is_a($instance, 'JUser')) {
+				$instance =& JUser::getInstance();
+			}
+		} 
+		else
+		{
+			$instance =& JUser::getInstance($id);
+		} 
+		
 		return $instance;
 	}
 
@@ -402,6 +412,7 @@ class JFactory
 		//get the editor configuration setting
 		$conf =& JFactory::getConfig();
 		$handler =  $conf->getValue('config.session_handler', 'none');
+		
 		// config time is in minutes
 		$options['expire'] = ($conf->getValue('config.lifetime')) ? $conf->getValue('config.lifetime') * 60 : 900;
 

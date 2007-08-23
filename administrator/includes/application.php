@@ -178,16 +178,6 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Logout authentication function
-	*
-	* @access public
-	* @see JApplication::login
-	*/
-	function logout() {
-		return parent::logout();
-	}
-
-	/**
 	 * Set the configuration
 	 *
 	 * @access public

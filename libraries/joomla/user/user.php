@@ -478,24 +478,14 @@ class JUser extends JObject
 		$table 	=& JTable::getInstance( 'user');
 		$table->bind(JArrayHelper::fromObject($this, false));
 
-		/*
-		 * We need to get the JUser object for the current installed user, but
-		 * might very well be modifying that user... and isn't it ironic...
-		 * don't ya think?
-		 */
-		$me =& JFactory::getUser();
-
-		/*
-		 * Now that we have gotten all the field handling out of the way, time
-		 * to check and store the object.
-		 */
-		if (!$table->check())
-		{
+		// Check and store the object.
+		if (!$table->check()) {
 			$this->_setError($table->getError());
 			return false;
 		}
 
-		// if user is made a Super Admin group and user is NOT a Super Admin
+		// If user is made a Super Admin group and user is NOT a Super Admin
+		$me =& JFactory::getUser();
 		if ( $this->get('gid') == 25 && $me->get('gid') != 25 )
 		{
 			// disallow creation of Super Admin by non Super Admin users
@@ -511,34 +501,26 @@ class JUser extends JObject
 			return true;
 		}
 
-		/*
-		 * Since we have passed all checks lets load the user plugin group and
-		 * fire the onBeforeStoreUser event.
-		 */
+		// Fire the onBeforeStoreUser event.
 		JPluginHelper::importPlugin( 'user' );
 		$dispatcher =& JEventDispatcher::getInstance();
-		$dispatcher->trigger( 'onBeforeStoreUser', array( get_object_vars( $table ), $isnew ) );
+		$dispatcher->trigger( 'onBeforeStoreUser', array( $this->getPublicProperties(true), $isnew ) );
 
-		/*
-		 * Time for the real thing... are you ready for the real thing?  Store
-		 * the JUserModel ... if a fail condition exists throw a warning
-		 */
 		$result = false;
 		if (!$result = $table->store()) {
 			$this->_setError($table->getError());
 		}
 
 		/*
-		 * If the id is not set, lets set the id for the JUser object.  This
-		 * might happen if we just inserted a new user... and need to update
-		 * this objects id value with the inserted id.
+		 * If the id is not set, set the id for the JUser object.  This might happen if we just 
+		 * inserted a new user and need to update this objects id value with the inserted id.
 		 */
 		if (empty($this->id)) {
 			$this->id = $table->get( 'id' );
 		}
 
-		// We stored the user... lets tell everyone about it.
-		$dispatcher->trigger( 'onAfterStoreUser', array( get_object_vars( $table ), $isnew, $result, $this->getError() ) );
+		// Fire the onAftereStoreUser event
+		$dispatcher->trigger( 'onAfterStoreUser', array( $this->getPublicProperties(true), $isnew, $result, $this->getError() ) );
 
 		return $result;
 	}
@@ -557,7 +539,7 @@ class JUser extends JObject
 
 		//trigger the onBeforeDeleteUser event
 		$dispatcher =& JEventDispatcher::getInstance();
-		$dispatcher->trigger( 'onBeforeDeleteUser', array( array( 'id' => $this->id ) ) );
+		$dispatcher->trigger( 'onBeforeDeleteUser', array( $this->getPublicProperties(true) ) );
 
 		// Create the user table object
 		$table 	=& JTable::getInstance( 'user');
@@ -568,7 +550,7 @@ class JUser extends JObject
 		}
 
 		//trigger the onAfterDeleteUser event
-		$dispatcher->trigger( 'onAfterDeleteUser', array( array('id' => $this->id), $result, $this->getError()) );
+		$dispatcher->trigger( 'onAfterDeleteUser', array( $this->getPublicProperties(true), $result, $this->getError()) );
 		return $result;
 
 	}

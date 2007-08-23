@@ -44,21 +44,23 @@ class plgUserJoomla extends JPlugin
 	/**
 	 * Remove all sessions for the user name
 	 *
-	 * Method is called before user data is deleted from the database
+	 * Method is called after user data is deleted from the database
 	 *
-	 * @param 	array		holds the user data
+	 * @param 	array	  	holds the user data
+	 * @param	boolean		true if user was succesfully stored in the database
+	 * @param	string		message
 	 */
-	function onBeforeDeleteUser($user)
+	function onAfterDeleteUser($user, $succes, $msg)
 	{
-		$db =& JFactory::getDBO();
-		if($user =& JUser::getInstance( $user['id'] )) {
-			$username = $user->get('username');
-		} else {
-			// This should never happen?!?
+		if(!$succes) {
 			return false;
 		}
-		$db->setQuery('DELETE FROM #__session WHERE username = '.$db->Quote($username));
+		
+		$db =& JFactory::getDBO();
+		$db->setQuery('DELETE FROM #__session WHERE userid = '.$db->Quote($user['id']));
 		$db->Query();
+		
+		return true;
 	}
 
 	/**
@@ -153,19 +155,28 @@ class plgUserJoomla extends JPlugin
 	 *
 	 * @access public
 	 * @param  array	holds the user data
-	 * @return boolean True on success
+	 * @param 	array   array holding options (client, ...)
+	 * @return boolean  True on success
 	 * @since 1.5
 	 */
-	function onLogoutUser($user)
+	function onLogoutUser($user, $options = array())
 	{
-  		$session =& JFactory::getSession();
-
 		// Remove the session from the session table
 		$table = & JTable::getInstance('session');
-		$table->destroy($session->getId());
+		$table->destroy($user['id'], $options['clientid']);
 
-		// Destroy the php session for this user
-		$session->destroy();
+		$my =& JFactory::getUser();
+		if($my->get('id') == $user['id']) 
+		{
+			// Hit the user last visit field
+			$my->setLastVisit();
+			
+			// Destroy the php session for this user
+			$session =& JFactory::getSession();
+			$session->destroy();
+		}
+		
+		return true;
 	}
 }
 

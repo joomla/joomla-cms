@@ -486,28 +486,33 @@ class JApplication extends JObject
 	 * Passed the current user information to the onLogoutUser event and reverts the current
 	 * session record back to 'anonymous' parameters.
 	 *
+	  * @param 	int 	$userid   The user to load - Can be an integer or string - If string, it is converted to ID automatically
+	 * @param	array 	$options  Array( 'clientid' => array of client id's )
+	 *
 	 * @access public
 	 */
-	function logout()
+	function logout($userid = null, $options = array())
 	{
 		// Initialize variables
 		$retval = false;
-
+		
 		// Get a user object from the JApplication
-		$user = &JFactory::getUser();
-
-		// Hit the user last visit field
-		$user->setLastVisit();
-
+		$user = &JFactory::getUser($userid);
+			
 		// Build the credentials array
 		$parameters['username']	= $user->get('username');
 		$parameters['id']		= $user->get('id');
+		
+		// Set clientid in the options array if it hasn't been set already
+		if(empty($options['clientid'])) {
+			$options['clientid'][] = $this->getClientId();
+		}
 
 		// Import the user plugin group
 		JPluginHelper::importPlugin('user');
 
 		// OK, the credentials are built. Lets fire the onLogout event
-		$results = $this->triggerEvent('onLogoutUser', array($parameters));
+		$results = $this->triggerEvent('onLogoutUser', array($parameters, $options));
 
 		/*
 		 * If any of the authentication plugins did not successfully complete
@@ -541,6 +546,7 @@ class JApplication extends JObject
 		$editor		= $user->getParam('editor', $this->getCfg('editor'));
 		
 		// Make sure the editor is enabled
+		jimport('joomla.event.helper');
 		$editor = JPLuginHelper::isEnabled('editor', $editor) ? $editor : $this->getCfg('editor');
 
 		$config		=& JFactory::getConfig();

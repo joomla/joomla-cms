@@ -123,10 +123,14 @@ class JTableSession extends JTable
 	/**
 	 * Destroys the pesisting session
 	 */
-	function destroy($sessionId)
+	function destroy($userId, $clientIds = array())
 	{
+		$clientIds = implode( ',', $clientIds );
+		
 		$query = 'DELETE FROM #__session'
-			. ' WHERE session_id = '. $this->_db->Quote( $sessionId );
+			. ' WHERE userid = '. $this->_db->Quote( $userId )
+			. ' AND client_id IN ( '.$clientIds.' )'
+			;
 		$this->_db->setQuery( $query );
 
 		if ( !$this->_db->query() ) {
