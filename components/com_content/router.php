@@ -82,7 +82,7 @@ function ContentParseRoute($segments)
 		{
 			$vars['id']   = $segments[$count-1];
 			$vars['view'] = 'article';
-
+		
 		} break;
 
 		case 'frontpage'   :

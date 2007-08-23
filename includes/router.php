@@ -26,7 +26,6 @@ jimport( 'joomla.application.router' );
  */
 class JRouterSite extends JRouter
 {
-
 	/**
 	 * Class constructor
 	 *

@@ -25,8 +25,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<link href="templates/<?php echo  $this->template ?>/css/component_rtl.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
 
-<script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/fat.js"></script>
-<!-- <script type="text/javascript" src="templates/<?php echo  $this->template ?>/js/component.js"></script> -->
 </head>
 <body class="contentpane">
 	<jdoc:include type="message" />

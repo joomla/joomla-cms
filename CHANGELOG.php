@@ -40,6 +40,9 @@ Legend:
 23-Aug-2007 Johan Janssens
  # Fixed [#6649] wrong image path in category blog
  # Fixed [#6641] Usermanager: user can block himself
+ # Fixed [#6636] fat.js missing in khepri
+ # Fixed [#6573] Legacy - pagination.php vs pageNavigation.php 
+ # Fixed [#6572] Legacy - mosWarning 
  ^ Improved user synchronisation and user plugin support for com_user, block and logout users 
     tasks now also trigger the user plugins
  ^ JApplication::logout now accepts userid variable to allow a force logout of any user.
@@ -90,7 +93,6 @@ Legend:
  # Fixed [no artifact] com_massmail sets phpmailer's IsHTML()
  # Fixed [#5512] Dropdown not being translated in Global Config
  + Fixed [t202745] Added josGetArrayInts() to legacy functions
- + Fixed [t199890] Added mosWarning() to legacy functions
 
 16-August-2007 Sam Moffatt
  # Fixed breadcrumbs module related bug after a migration
