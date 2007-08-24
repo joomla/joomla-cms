@@ -278,7 +278,7 @@ class HTML_messages
 				<?php echo JText::_( 'Message' ); ?>:
 			</td>
 			<td width="100%">
-				<textarea name="message" style="width:100%" rows="30" class="inputbox"></textarea>
+				<textarea name="message" style="width:95%" rows="30" class="inputbox"></textarea>
 			</td>
 		</tr>
 		</table>

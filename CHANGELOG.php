@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-aug-2007 Johan Janssens
+ # Fixed [#5396] Section description will not process with IMG
+ # Fixed [#5453] Image lightbox popup window acts differently in each browser
+
 24-Aug-2007 Toby Patterson
  + re: topic 173244 Added setError() and getError() methods to JTable
  ! Use these methods in preference of accessing the $_error attribute directly.

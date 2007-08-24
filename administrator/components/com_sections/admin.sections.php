@@ -276,7 +276,7 @@ function saveSection( $option, $scope, $task )
 	$post = JRequest::get('post');
 
 	// fix up special html fields
-	$post['description'] = JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWHTML );
+	$post['description'] = JRequest::getVar( 'description', '', 'post', 'string', JREQUEST_ALLOWRAW );
 
 	$row =& JTable::getInstance('section');
 	if (!$row->bind($post)) {

@@ -337,6 +337,7 @@ function saveUser(  )
 	$post['username']	= JRequest::getVar('username', '', 'post', 'username');
 	$post['password']	= JRequest::getVar('password', '', 'post', 'string', JREQUEST_ALLOWRAW);
 	$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
+	
 	if (!$user->bind($post))
 	{
 		$mainframe->enqueueMessage('Cannot save the user information', 'message');
@@ -379,12 +380,10 @@ function saveUser(  )
 	{
 		$mainframe->enqueueMessage('Cannot save the user information', 'message');
 		$mainframe->enqueueMessage($user->getError(), 'error');
-		//$mainframe->redirect( 'index.php?option=com_users', $user->getError() );
-		//return false;
 		JRequest::setVar( 'task', 'edit');
 		return editUser();
 	}
-
+	
 	/*
 	 * Change the user object in the session
 	 */

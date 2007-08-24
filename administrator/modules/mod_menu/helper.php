@@ -120,7 +120,8 @@ class modMenuHelper
 		/*
 		 * Components SubMenu
 		 */
-		if ($editAllComponents) {
+		if ($editAllComponents) 
+		{
 			$menu->addChild(new JMenuNode(JText::_('Components')), true);
 
 			$query = 'SELECT *' .

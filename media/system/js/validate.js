@@ -99,7 +99,7 @@ var JFormValidator = new Class({
 		}
 
 		// Check the additional validation types
-		if ((handler) && (handler != 'none') && (this.handlers[handler])) {
+		if ((handler) && (handler != 'none') && (this.handlers[handler]) && $(el).getValue()) {
 			// Execute the validation handler and return result
 			if (this.handlers[handler].exec($(el).getValue()) != true) {
 				this.handleResponse(false, el);

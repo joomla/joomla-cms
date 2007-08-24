@@ -22,21 +22,20 @@ html, body {
 	background-color: #F0F0F0;
 	color: ButtonText;
 	font: 11px Tahoma, Verdana, sans-serif;
-	margin: 0; padding: 0;
+	margin: 0px !important; padding: 0px !important;
 }
 
 img      { border: 0 none; }
 
-form     { padding: 0px; margin: 0 auto; width: 530px; padding-top: 5px; }
-fieldset { margin-top: 0.5em; border: 1px solid #CCCCCC; padding-top: 10px; }
+form     { padding: 0px; margin: 0 auto; width: 100%; }
+fieldset {  border-top: 1px solid #CCCCCC; border-bottom: 1px solid #CCCCCC; }
 button   { padding: 3px; border: 1px solid #CCCCCC; font-weight: bold; color: #0B55C4; background-color: white; }
 button:hover { border: 1px solid #0B55C4; }
 
 select,input,button { font: 11px Tahoma, Verdana, sans-serif; }
 
-iframe { width: 100%;  overflow-x: false; border: 0 none;  margin: 0; padding: 0; margin-top: 0.5em;}
-iframe#imageframe  { height: 175px; }
-iframe#uploadview { height: 40px; }
+iframe { width: 100%;  overflow-x: false; border: 0 none;  margin: 0 0 0.5em 0; padding: 0;}
+iframe#imageframe { height: 195px; }
 
 a       { padding: 5px; border: 1px solid ButtonFace; }
 a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight; }
@@ -73,7 +72,7 @@ a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighligh
 
 .upload-queue li {
 	background: url(upload.png) no-repeat 0 5px;
-	padding: 5px 0 5px 22px;
+	padding: 5px 0 5px 5px;
 }
 
 .upload-queue .queue-file {

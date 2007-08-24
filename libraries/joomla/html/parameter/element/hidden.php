@@ -41,8 +41,7 @@ class JElementHidden extends JElement
 		return '<input type="hidden" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' />';
 	}
 
-	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
-	{
+	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='') {
 		return false;
 	}
 }
