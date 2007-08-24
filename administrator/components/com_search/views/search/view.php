@@ -60,6 +60,5 @@ class searchViewSearch extends JView
 
 		parent::display($tpl);
 	}
-
 }
 ?>
