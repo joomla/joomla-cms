@@ -1,23 +1,23 @@
 body {
-        background: #000;
-        font-family: Arial,sans-serif;
-        line-height: 1.3em;
-        font-size: 96%;
-        color: #333;
+	background: #000;
+	font-family: Arial,sans-serif;
+	line-height: 1.3em;
+	font-size: 96%;
+	color: #333;
 }
 
 h1 {
-        font-family:Helvetica ,Arial,sans-serif;
-        font-size: 16px;
-        font-weight: bold;
-        color: #ff0000;
+	font-family:Helvetica ,Arial,sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #ff0000;
 }
 
 h2 {
-        font-family: Arial, Helvetica,sans-serif;
-        font-size: 14px;;
-        font-weight: normal;
-        color: #333;
+	font-family: Arial, Helvetica,sans-serif;
+	font-size: 14px;;
+	font-weight: normal;
+	color: #333;
 }
 
 h3 {
@@ -28,19 +28,19 @@ h3 {
 }
 
 h4 {
-        font-weight: bold;
-        font-family: Arial, Helvetica, sans-serif;
-        color: #333;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333;
 }
 
 a:link, a:visited {
-        color: #1B57B1; text-decoration: none;
-        font-weight: normal;
+	color: #1B57B1; text-decoration: none;
+	font-weight: normal;
 }
 
 a:hover {
-        color: #00c;        text-decoration: underline;
-        font-weight: normal;
+	color: #00c;	text-decoration: underline;
+	font-weight: normal;
 }
 
 div.caption       { padding: 0 10px 0 10px; }

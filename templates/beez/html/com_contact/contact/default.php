@@ -7,9 +7,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 $filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
 if ($content = @ file_get_contents($filename)) {
-        $templateParams = new JParameter($content);
+	$templateParams = new JParameter($content);
 } else {
-        $templateParams = null;
+	$templateParams = null;
 }
 /*
  * hope to get a better solution very soon
@@ -20,32 +20,35 @@ $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
 if ($this->params->get('show_page_title'))
 {
-        echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
-        echo $this->params->get( 'page_title' );
-        echo '</h' . $ptlevel . '>';
+	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
+	echo $this->params->get( 'page_title' );
+	echo '</h' . $ptlevel . '>';
 }
 
 
 echo '<div class="contact'.$this->params->get( 'pageclass_sfx' ).'">';
-if ( $this->contact->params->get( 'show_contact_list' ) && count( $this->contacts ) > 1)
+if ( $this->params->get( 'show_contact_list' ) && count( $this->contacts ) > 1)
 {
 	echo '<form method="post" name="selectForm" id="selectForm">';
 	echo JText::_( 'Select Contact' );
 	echo '<br />';
 	echo JHTML::_('select.genericlist',  $this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);
-    echo '<input type="hidden" name="option" value="com_contact" />';
-    echo '<input type="hidden" name="Itemid" value="'.$Itemid.' " />';
+	echo '<input type="hidden" name="option" value="com_contact" />';
 	echo '</form>';
 }
 
 if ( $this->contact->name && $this->contact->params->get( 'show_name' ) )
 {
+	echo '<p>';
 	echo $this->contact->name;
+	echo '</p>';
 }
 
 if ( $this->contact->con_position && $this->contact->params->get( 'show_position' ) )
 {
+	echo '<p>';
 	echo $this->contact->con_position;
+	echo '</p>';
 }
 
 if ( $this->contact->image && $this->contact->params->get( 'show_image' ) )
@@ -66,7 +69,7 @@ if ( $this->contact->params->get( 'allow_vcard' ) )
 
 if ( $this->contact->params->get('show_email_form') )
 {
-        echo $this->loadTemplate('form');
+	echo $this->loadTemplate('form');
 }
 echo '</div>';
 ?>

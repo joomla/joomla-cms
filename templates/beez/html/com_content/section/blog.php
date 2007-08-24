@@ -33,7 +33,7 @@ if ($this->params->def('show_description', 1) || $this->params->def('show_descri
 	echo '<div class="contentdescription' . $this->params->get('pageclass_sfx') . '">';
 	if ($this->params->get('show_description_image') && $this->section->image) {
 		$wrap = '<div class="wrap_image">&nbsp;</div>';
-		echo '<img src="images/stories/' . $this->image . '" class="image_' . $this->section->image_position . '" />';
+		echo '<img src="images/stories/' . $this->section->image . '" class="image_' . $this->section->image_position . '" />';
 	}
 
 	if ($this->params->get('show_description') && $this->section->description) {

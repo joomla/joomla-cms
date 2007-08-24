@@ -19,7 +19,6 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 ?>
-<div style="direction: <?php echo $this->newsfeed->rtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $this->newsfeed->rtl ? 'right' :'left'; ?>">
 
 
 <?php
@@ -31,17 +30,19 @@ if ($this->params->get('header')) {
 }
 
 echo '<h' . $hlevel . ' class="contentheading' . $this->params->get('pageclass_sfx') . '">';
-echo '<a href="' . JRoute::_($this->newsfeed->channel['link']) . '" target="_blank">';
+echo '<a href="' . $this->newsfeed->channel['link'] . '" target="_blank">';
 echo str_replace('&apos;', "'", $this->newsfeed->channel['title']);
 echo '</a></h' . $hlevel . '>';
 
-if ($this->params->get('feed_descr')) {
+if ( $this->params->get( 'show_feed_description' ) )  {
+	echo '<div class="feed_description">';
 	echo str_replace('&apos;', "'", $this->newsfeed->channel['description']);
+	echo ' </div>';
 }
 if (isset ($this->newsfeed->image['url']) && isset ($this->newsfeed->image['title']) && $this->params->get('show_feed_image')) {
 	echo '<img src="' . $this->newsfeed->image['url'] . '" alt="' . $this->newsfeed->image['title'] . '" />';
-
 }
+
 if (count($this->newsfeed->items)) {
 	echo '<ul>';
 	foreach ($this->newsfeed->items as $item) {
@@ -61,5 +62,5 @@ if (count($this->newsfeed->items)) {
 	}
 	echo '</ul>';
 }
-echo '</div>';
+
 ?>

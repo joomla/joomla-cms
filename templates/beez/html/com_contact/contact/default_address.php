@@ -33,7 +33,7 @@ if ( ( $this->contact->params->get( 'address_check' ) > 0 ) && ( $this->contact-
 	{
 		echo  '<p>'.$this->contact->postcode.'</p>';
 	}
-	echo '</address></div>';
+	echo '</address>';
 }
 
 if ( ($this->contact->email_to && $this->contact->params->get( 'show_email' )) || $this->contact->telephone  || $this->contact->fax )
@@ -68,12 +68,14 @@ if ( ($this->contact->email_to && $this->contact->params->get( 'show_email' )) |
 	}
 }
 
-echo '<br />';
+
 
 if ( $this->contact->misc && $this->contact->params->get( 'show_misc' ) )
 {
 	echo '<p><span class="marker">'.$this->contact->params->get( 'marker_misc' ).'</span>';
 	echo $this->contact->misc .'</p>';
 }
+
+echo '</div>';
 
 ?>

@@ -86,6 +86,8 @@ body
 	margin: 0px 240px 0 22%;
 	padding: 25px 20px 20px 20px;
 	position: relative;
+	min-height:520px;
+
 }
 
 #main

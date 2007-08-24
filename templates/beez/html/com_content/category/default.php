@@ -47,4 +47,3 @@ if ($this->access->canEdit || $this->access->canEditOwn) {
 	echo JHTML::_('icon.create', $this->category  , $this->params, $this->access);
 }
 ?>
-

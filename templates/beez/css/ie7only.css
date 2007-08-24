@@ -16,19 +16,17 @@
 
 #right form.poll
 {
-                        /* nur fuer IE-Win;
-                         * definierte groe�e (height or witdh)
-                         * fuer automatisches einbeziehen
-                         * der Float-Container (auto-clearing);
-                         *
-                         * verbergen IE-Mac \*/
-                        height: 1%;
-                        /* ende verbergen IE-Mac */
-                        }
+	/* nur fuer IE-Win;
+	 * definierte groe�e (height or witdh)
+	 * fuer automatisches einbeziehen
+	 * der Float-Container (auto-clearing);
+	 *
+	 * verbergen IE-Mac \*/
+	height: 1%;
+	/* ende verbergen IE-Mac */
+}
 
 form.login input
 {
-       margin:0 0 0 -10px
-
-
+	margin:0 0 0 -10px
 }

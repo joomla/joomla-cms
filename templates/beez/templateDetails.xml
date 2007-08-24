@@ -16,6 +16,7 @@
 		<filename>css/ieonly.css</filename>
 		<filename>css/ie7only.css</filename>
 		<filename>css/print.css</filename>
+		<filename>css/general.css</filename>
 		<filename>css/index.html</filename>
 		<filename>html/com_contact/category/default.php</filename>
 		<filename>html/com_contact/category/default_items.php</filename>
@@ -27,6 +28,7 @@
 		<filename>html/com_contact/index.html</filename>
 		<filename>html/com_content/article/default.php</filename>
 		<filename>html/com_content/article/index.html</filename>
+		<filename>html/com_content/article/form.php</filename>
 		<filename>html/com_content/category/blog.php</filename>
 		<filename>html/com_content/category/blog_item.php</filename>
 		<filename>html/com_content/category/blog_links.php</filename>
@@ -86,15 +88,32 @@
 		<filename>html/com_weblinks/weblinks/form.php</filename>
 		<filename>html/com_weblinks/weblinks/index.html</filename>
 		<filename>html/com_weblinks/index.html</filename>
+		<filename>html/com_user/user/index.html</filename>
+		<filename>html/com_user/user/default.php</filename>
+		<filename>html/com_user/user/form.php</filename>
 		<filename>html/com_user/login/index.html</filename>
 		<filename>html/com_user/login/default_login.php</filename>
+		<filename>html/com_user/login/default.php</filename>
 		<filename>html/com_user/login/default_logout.php</filename>
 		<filename>html/com_user/register/default.php</filename>
 		<filename>html/com_user/register/index.html</filename>
 		<filename>html/com_user/register/default_message.php</filename>
-		<filename>html/com_user/lostpass/default.php</filename>
-		<filename>html/com_user/lostpass/index.html</filename>
 		<filename>html/com_user/index.html</filename>
+		<filename>html/com_user/remind/index.html</filename>
+		<filename>html/com_user/remind/default.php</filename>
+		<filename>html/com_user/remind/default_message.php</filename>
+		<filename>html/com_user/reset/index.html</filename>
+		<filename>html/com_user/reset/default.php</filename>
+		<filename>html/com_user/reset/confirm.php</filename>
+		<filename>html/com_user/reset/complete.php</filename>
+		<filename>images_general/index.html</filename>
+		<filename>images_general/calendar.png</filename>
+		<filename>images_general/j_button2_blank.png</filename>
+		<filename>images_general/j_button2_image.png</filename>
+		<filename>images_general/j_button2_left.png</filename>
+		<filename>images_general/j_button2_pagebreak.png</filename>
+		<filename>images_general/j_button2_readmore.png</filename>
+		<filename>images_general/selector-arrow.png</filename>
 		<filename>images/arrow.png</filename>
 		<filename>images/pfeil.gif</filename>
 		<filename>images/trans.gif</filename>
@@ -116,7 +135,8 @@
 		<filename>params.ini</filename>
 		<filename>templateDetails.xml</filename>
 		<filename>template_thumbnail.png</filename>
-		<filename>todo.txt</filename>
+		<filename>favicon.ico</filename>
+		<filename>component.php</filename>
 	</files>
 	<positions>
 		<position>left</position>

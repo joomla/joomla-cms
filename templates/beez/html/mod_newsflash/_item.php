@@ -37,7 +37,7 @@ if (!$params->get('intro_only')) {
 echo $item->beforeDisplayContent;
 echo JFilterOutput::ampReplace($item->text);
 if (isset ($item->linkOn) && $item->readmore) {
-	echo '<a href="' . $item->linkOn . '">' . JText :: _('Read more') . '</a>';
+	echo '<a href="' . $item->linkOn . '" class="readon">' . JText :: _('Read more') . '</a>';
 }
 // AJE: Don't think this is relevent in the context of this module??
 //echo $item->afterDisplayContent;

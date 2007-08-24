@@ -8,9 +8,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 $filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
 if ($content = @ file_get_contents($filename)) {
-        $templateParams = new JParameter($content);
+	$templateParams = new JParameter($content);
 } else {
-        $templateParams = null;
+	$templateParams = null;
 }
 /*
  * hope to get a better solution very soon
@@ -22,12 +22,12 @@ $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 ?>
 <script type = "text/javascript">
 <!--
-        var link = document.createElement('link');
-        link.setAttribute('href', 'components/com_poll/assets/poll_bars.css');
-        link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('type', 'text/css');
-        var head = document.getElementsByTagName('head').item(0);
-        head.appendChild(link);
+	var link = document.createElement('link');
+	link.setAttribute('href', 'components/com_poll/assets/poll_bars.css');
+	link.setAttribute('rel', 'stylesheet');
+	link.setAttribute('type', 'text/css');
+	var head = document.getElementsByTagName('head').item(0);
+	head.appendChild(link);
 //-->
 </script>
 

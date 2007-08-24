@@ -39,28 +39,30 @@ if ($this->params->get('description_login') || isset ($this->image)) {
 	echo $wrap;
 	echo '</div>';
 }
+echo '<fieldset>';
+echo '<div class="name"><label for="user" >' . JText :: _('Username') . '</label>';
+echo '<input name="username" type="text" class="inputbox" size="20"  id="user"/></div>';
+echo '<div class="pass"><label for="pass" >' . JText :: _('Password') . '</label>';
+echo '<input name="passwd" type="password" class="inputbox" size="20" id="pass" /></div>';
 
-echo '<p><label for="user" >' . JText :: _('Username') . '</label>';
-echo '<input name="username" type="text" class="inputbox" size="20"  id="user"/></p>';
-echo '<p><label for="pass" >' . JText :: _('Password') . '</label>';
-echo '<input name="passwd" type="password" class="inputbox" size="20" id="pass" /></p>';
-
-echo '<p><label for="rem">' . JText :: _('Remember me') . '</label>';
-echo '<input type="checkbox" name="remember" class="inputbox" value="yes" id="rem"/></p>';
+echo '<div class="remember"><label for="rem">' . JText :: _('Remember me') . '</label>';
+echo '<input type="checkbox" name="remember" class="inputbox" value="yes" id="rem"/></div>';
+echo '</fieldset>';
 echo '<p><a href="' . JRoute :: _('index.php?option=com_user&amp;task=lostPassword') . '">';
-echo JText :: _('FORGOT_YOUR_PASSWORD');
-echo '</a></p>';
+echo JText :: _('Lost Password?');
+echo '</a>';
 
 if ($this->params->get('registration')) {
 	echo JText :: _('No account yet?');
-	echo '<p><a href="' . JRoute :: _('index.php?option=com_user&amp;task=register') . '">' . JText :: _('Register') . '</a></p>';
+	echo '<a href="' . JRoute :: _('index.php?option=com_user&amp;task=register') . '">' . JText :: _('Register') . '</a>';
 }
+echo '</p>';
 
-echo '<p><input type="submit" name="submit" class="button" value="' . JText :: _('Login') . '" /></p>';
+echo '<input type="submit" name="submit" class="button" value="' . JText :: _('Login') . '" />';
 echo '<noscript>' . JText :: _('WARNJAVASCRIPT') . '</noscript>';
 echo '<input type="hidden" name="option" value="com_user" />';
 echo '<input type="hidden" name="task" value="login" />';
-echo '<input type="hidden" name="return" value="' . JRoute::_($this->params->get('login')) . '" />';
+echo '<input type="hidden" name="return" value="'. $this->return .'" />';
 echo '<input type="hidden" name="token" value="' . JUtility :: getToken() . ' " />';
 
 echo '</form>';

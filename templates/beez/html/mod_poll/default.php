@@ -21,7 +21,7 @@ $hlevel++;
 $hlevel++;
 
 echo "<h$hlevel>" . $item->title . "</h$hlevel>";
-echo '<form name="form2" method="post" action="'.JRoute::_('index.php').'" class="poll">';
+echo '<form name="form2" method="post" action="index.php" class="poll">';
 echo '<fieldset>';
 for ($i = 0, $n = count($options); $i < $n; $i++) {
 	echo '<input type="radio" name="voteid" id="voteid' . $options[$i]->id . '" value="' . $options[$i]->id . '" alt="' . $options[$i]->id . '" />';

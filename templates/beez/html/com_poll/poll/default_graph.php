@@ -8,9 +8,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 $filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
 if ($content = @ file_get_contents($filename)) {
-        $templateParams = new JParameter($content);
+	$templateParams = new JParameter($content);
 } else {
-        $templateParams = null;
+	$templateParams = null;
 }
 /*
  * hope to get a better solution very soon
@@ -19,7 +19,7 @@ if ($content = @ file_get_contents($filename)) {
 $hlevel = $templateParams->get('headerLevelComponent', '2');
 $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
-echo '<dl>';
+echo '<dl class="poll">';
 echo '<dt>'.JText::_( 'Number of Voters' ).'</dt><dd>'.$this->votes[0]->voters.'</dd>';
 echo '<dt>'.JText::_( 'First Vote' ).'</dt><dd>'.$this->first_vote.'</dd>';
 echo '<dt>'. JText::_( 'Last Vote' ).'</dt><dd>'.$this->last_vote.'</dd>';
@@ -38,15 +38,15 @@ for ($i=0;$i<count($this->votes);$i++)
 	$vote=$this->votes[$i];
 	echo '<tr><td colspan="3" id="question'.$i.'" class="question">';
 	echo $vote->text.'</td></tr>';
-    echo '<tr class="sectiontableentry'.$vote->odd.'">';
+	echo '<tr class="sectiontableentry'.$vote->odd.'">';
 	echo '<td headers="itema question'.$i.'"  class="td_1">';
 	echo $vote->hits;
 	echo '</td>';
 	echo '<td  headers="itemb question'. $i.'"  class="td_2">';
 	echo $vote->percent.'%';
- 	echo '</td>';
+	echo '</td>';
 	echo '<td  headers="itemc question'. $i.'" class="td_3">';
- 	echo '<div class="'. $vote->class.'" style="height:'. $vote->barheight .'px;width:'. $vote->percent .'% !important"></div>';
+	echo '<div class="'. $vote->class.'" style="height:'. $vote->barheight .'px;width:'. $vote->percent .'% !important"></div>';
 	echo '</td></tr>';
 }
 echo '</table>';

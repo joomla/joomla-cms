@@ -8,9 +8,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 $filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
 if ($content = @ file_get_contents($filename)) {
-        $templateParams = new JParameter($content);
+	$templateParams = new JParameter($content);
 } else {
-        $templateParams = null;
+	$templateParams = null;
 }
 /*
  * hope to get a better solution very soon

@@ -37,7 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-24-aug-2007 Johan Janssens
+24-Aug-2007 Enno Klasing
+ ^ Updated Beez template, contributed by the Design and Accessibility working group
+
+24-Aug-2007 Johan Janssens
  # Fixed [#5396] Section description will not process with IMG
  # Fixed [#5453] Image lightbox popup window acts differently in each browser
  # Fixed [#4870] Component Preferences: Title not translated

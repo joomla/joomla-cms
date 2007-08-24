@@ -21,9 +21,9 @@ $ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 
 if (stripslashes($this->searchword) != '') {
 	echo '<div class="searchintro' . $this->params->get('pageclass_sfx') . '">';
-	echo '<p>' . JText :: _('Search Keyword') . ' <strong>' . stripslashes($this->searchword) . '</strong></p>';
-	echo '<p>' . $this->result;
-	echo '<a href="http://www.google.com/search?q=' . $this->searchword . '" target="_blank">';
+	echo '<p>' . JText :: _('Search Keyword') . ' <strong>' . stripslashes($this->searchword) . '</strong>';
+	echo $this->result;
+	echo '<a href="http://www.google.com/search?q=' . $this->searchword . '" target="_blank"> ';
 	echo $this->image . '</a></p>';
 	echo '<p> <a href="#form1" onclick="document.getElementById(' . "'search_searchword'" . ').focus();return false" onkeypress="document.getElementById(' . "'search_searchword'" . ').focus();return false" >' . JText :: _('Search_again') . ' </a></p>';
 	echo '</div>';
@@ -36,7 +36,7 @@ if (count($this->results)) {
 	echo JText :: _('Search_result');
 	echo '</h' . $level . '>';
 	echo '<div class="display">';
-	echo '<form  action="index.php" method="get" class="limit">';
+	echo '<form action="index.php" method="post" class="limit">';
 	echo '<label for="limit">' . JText :: _('Display Num') . '</label>';
 	echo $this->pagination->getLimitBox();
 	echo '<p>';
@@ -48,7 +48,7 @@ if (count($this->results)) {
 	echo '<ol class="list' . $this->params->get('pageclass_sfx') . '" start="' . $start . '">';
 	foreach ($this->results as $result) {
 		echo '<li>';
-		echo '<span class="small' . $this->params->get('pageclass_sfx') . '">'. $result->count.'</span>';
+		// echo '<span class="small' . $this->params->get('pageclass_sfx') . '">'. $result->count.'</span>';
 		if ($result->href) {
 			if ($result->browsernav == 1) {
 				$level = $hlevel +2;

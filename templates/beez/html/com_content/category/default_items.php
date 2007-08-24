@@ -8,8 +8,8 @@ function tableOrdering( order, dir, task )
 {
 var form = document.adminForm;
 
-form.filter_order.value         = order;
-form.filter_order_Dir.value        = dir;
+form.filter_order.value = order;
+form.filter_order_Dir.value = dir;
 document.adminForm.submit( task );
 }
 // -->
@@ -17,7 +17,7 @@ document.adminForm.submit( task );
 <?php
 
 
-echo '<form action="' .JRoute::_('index.php?option=com_content&view=category&id='.$this->category->slug). '" method="post" name="adminForm">';
+echo '<form action="' .JRoute::_('index.php?option=com_content&amp;view=category&amp;id='.$this->category->slug). '" method="post" name="adminForm">';
 
 if ($this->params->get('filter') || $this->params->get('show_pagination_limit')) {
 if ($this->params->get('filter')) {

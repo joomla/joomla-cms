@@ -4,36 +4,36 @@ var currentFontSize = defaultFontSize;
 
 function revertStyles(){
 
-        currentFontSize = defaultFontSize;
-        changeFontSize(0);
+	currentFontSize = defaultFontSize;
+	changeFontSize(0);
 
 }
 
 function toggleColors(){
-        if(currentStyle == "White"){
-                setColor("Black");
-        }else{
-                setColor("White");
-        }
+	if(currentStyle == "White"){
+		setColor("Black");
+	}else{
+		setColor("White");
+	}
 }
 
 function changeFontSize(sizeDifference){
-        currentFontSize = parseInt(currentFontSize) + parseInt(sizeDifference * 5);
+	currentFontSize = parseInt(currentFontSize) + parseInt(sizeDifference * 5);
 
-        if(currentFontSize > 220){
-                currentFontSize = 220;
-        }else if(currentFontSize < 60){
-                currentFontSize = 60;
-        }
+	if(currentFontSize > 220){
+		currentFontSize = 220;
+	}else if(currentFontSize < 60){
+		currentFontSize = 60;
+	}
 
-        setFontSize(currentFontSize);
+	setFontSize(currentFontSize);
 };
 
 function setFontSize(fontSize){
-        var stObj = (document.getElementById) ? document.getElementById('content_area') : document.all('content_area');
-        document.body.style.fontSize = fontSize + '%';
+	var stObj = (document.getElementById) ? document.getElementById('content_area') : document.all('content_area');
+	document.body.style.fontSize = fontSize + '%';
 
-        //alert (document.body.style.fontSize);
+	//alert (document.body.style.fontSize);
 };
 
 
@@ -61,14 +61,14 @@ function readCookie(name) {
 window.onload = setUserOptions;
 
 function setUserOptions(){
-        if(!prefsLoaded){
+	if(!prefsLoaded){
 
-                cookie = readCookie("fontSize");
-                currentFontSize = cookie ? cookie : defaultFontSize;
-                setFontSize(currentFontSize);
+		cookie = readCookie("fontSize");
+		currentFontSize = cookie ? cookie : defaultFontSize;
+		setFontSize(currentFontSize);
 
-                prefsLoaded = true;
-        }
+		prefsLoaded = true;
+	}
 
 }
 

@@ -87,7 +87,7 @@ if ((!empty ($this->article->modified) && $this->params->get('show_modify_date')
 
 	if (!empty ($this->article->modified) && $this->params->get('show_modify_date')) {
 		echo '<span class="modifydate">';
-		echo JText :: _('Last Updated') . ' (' . JHTML :: Date($this->article->modified, JText::_('DATE_FORMAT_LC2')) . ')';
+		echo JText :: _('Last Updated') . ' (' .JHTML::_('date', $this->article->modified, JText::_('DATE_FORMAT_LC2')) . ')';
 		echo '</span>';
 	}
 	if (($this->params->get('show_author')) && ($this->article->author != "")) {
@@ -97,7 +97,7 @@ if ((!empty ($this->article->modified) && $this->params->get('show_modify_date')
 	}
 	if ($this->params->get('show_create_date')) {
 		echo '<span class="createdate">';
-		echo JHTML :: Date($this->article->created, JText::_('DATE_FORMAT_LC2'));
+		echo JHTML::_('date', $this->article->created, JText::_('DATE_FORMAT_LC2'));
 		echo '</span>';
 	}
 	echo '</p>';
@@ -108,7 +108,7 @@ echo $this->article->event->beforeDisplayContent;
 if ($this->params->get('show_url') && $this->article->urls) {
 	echo '<span class="small">';
 	/* sefreltoabs ??? */
-	echo '<a href="' . JRoute::_($this->article->urls) . '" target="_blank">';
+	echo '<a href="' . $this->article->urls . '" target="_blank">';
 	echo $this->article->urls . '</a></span>';
 }
 

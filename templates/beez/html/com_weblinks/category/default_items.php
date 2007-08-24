@@ -6,18 +6,18 @@ defined('_JEXEC') or die('Restricted access');
 <script language="javascript" type="text/javascript">
 <!--
 	function tableOrdering( order, dir, task ) {
-        var form = document.adminForm;
+	var form = document.adminForm;
 
-        form.filter_order.value         = order;
-        form.filter_order_Dir.value        = dir;
-        document.adminForm.submit( task );
+	form.filter_order.value = order;
+	form.filter_order_Dir.value = dir;
+	document.adminForm.submit( task );
 	}
 // -->
 </script>
 <?php
 
 echo '<div class="display">';
-echo '<form action="'.$this->action.'" method="post" name="adminForm">';
+echo '<form action="'.htmlspecialchars($this->action).'" method="post" name="adminForm">';
 echo JText :: _('Display Num') . '&nbsp;';
 echo $this->pagination->getLimitBox();
 echo '<input type="hidden" name="filter_order" value="'.$this->lists['order'].'" />';
@@ -38,12 +38,13 @@ if ($this->params->def( 'show_headings', 1 )) {
 		echo JHTML::_('grid.sort',  'Hits', 'hits', $this->lists['order_Dir'], $this->lists['order'] );
 		echo '</th>';
 	}
+	echo '</tr>';
 }
 foreach ($this->items as $item)
 {
 	$odd=$item->odd + 1;
 	echo '<tr class="sectiontableentry' . $odd . '">';
-    echo '<td align="center" headers="num">';
+	echo '<td align="center" headers="num">';
 	echo $this->pagination->getRowOffset( $item->count );
 	echo '</td>';
 	echo '<td  headers="title">';

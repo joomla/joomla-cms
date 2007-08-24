@@ -26,12 +26,12 @@ if ($this->params->get('show_page_title', 1)) {
 }
 echo '<div class="weblinks' . $this->params->get('pageclass_sfx') . '">';
 
-if (@ $this->_models->weblinksmodelcategory->_category->image || @ $this->category->description) {
+if ( $this->category->image || $this->category->description) {
 	echo '<div  class="contentdescription' . $this->params->get('pageclass_sfx') . '">';
 	$wrap = '';
 	/* we use the model data, the normal object has only the complete img-tag */
-	$image = $this->_models['category']->_category->image;
-	$image_align = $this->_models['category']->_category->image_position;
+	$image = $this->category->image;
+	$image_align = $this->category->image_position;
 
 	if (isset ($image)) {
 		$wrap = '<div class="wrap_image">&nbsp;</div>';
