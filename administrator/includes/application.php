@@ -161,6 +161,7 @@ class JAdministrator extends JApplication
 	*/
 	function login($credentials, $options = array())
 	{
+		$credentials['group']    = '22';  //The minimum group identifier
 		$options['autoregister'] = false; //Make sure users are not autoregistered
 
 		$result = parent::login($credentials, $options);

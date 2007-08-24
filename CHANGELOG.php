@@ -44,6 +44,9 @@ Legend:
  # Fixed [#5396] Section description will not process with IMG
  # Fixed [#5453] Image lightbox popup window acts differently in each browser
  # Fixed [#4870] Component Preferences: Title not translated
+ ^ Decoupled joomla authentication plugin from $mainframe, the authentication credentials 
+   array now accepts an group varable that defines the minumum groupid the user needs to be 
+   in for succesfull authentication
 
 24-Aug-2007 Toby Patterson
  + re: topic 173244 Added setError() and getError() methods to JTable

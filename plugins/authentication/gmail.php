@@ -75,7 +75,6 @@ class plgAuthenticationGMail extends JPlugin
 			break;
 			default:
 				$message = 'Result unknown, access denied.';
-
 				break;
 		}
 
