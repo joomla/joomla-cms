@@ -144,7 +144,7 @@ class JDocumentHTML extends JDocument
 	function addFavicon($href, $type = 'image/x-icon', $relation = 'shortcut icon')
 	{
 		$href = str_replace( '\\', '/', $href );
-		$this->_links[] = '<link href="'.JURI::base().$href.'" rel="'.$relation.'" type="'.$type.'"';
+		$this->_links[] = '<link href="'.$href.'" rel="'.$relation.'" type="'.$type.'"';
 	}
 
 	/**
