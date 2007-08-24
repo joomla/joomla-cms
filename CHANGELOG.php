@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Aug-2007 Toby Patterson
+ + re: topic 173244 Added setError() and getError() methods to JTable
+ ! Use these methods in preference of accessing the $_error attribute directly.
+   These overloaded methods will be removed and the methods in JObject will be used instead.
+
 23-Aug-2007 Johan Janssens
  # Fixed [#6649] wrong image path in category blog
  # Fixed [#6641] Usermanager: user can block himself

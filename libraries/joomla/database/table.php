@@ -46,6 +46,15 @@ class JTable extends JObject
 	var $_tbl_key	= '';
 
 	/**
+	 * Error Message
+	 * 
+	 * @var		string
+	 * @access	protected
+	 * @todo	remove the local implementation in preference of the one defined in JObject
+	 */
+	var $_error		= null;
+	
+	/**
 	 * Error number
 	 *
 	 * @var		int
@@ -162,7 +171,24 @@ class JTable extends JObject
 	{
 		return $this->_tbl_key;
 	}
-
+	
+	/**
+	 * Get the most recent error message
+	 *
+	 * Use this method in preference of accessing the $_error attribute directly!
+	 * 
+	 * @param	int		Not Used
+	 * @param	boolean	Not Used
+	 * @return	string	Error message
+	 * @access	public
+	 * @since	1.5
+	 * @todo 	Change dependent code to call the API, not access $_error directly
+	 */
+	function getError($i = null, $toString = true )
+	{
+		return $this->_error;
+	}
+	
 	/**
 	 * Returns the error number
 	 *
@@ -744,6 +770,21 @@ class JTable extends JObject
 		$this->setError('');
 		$this->setErrorNum(0);
 		return true;
+	}
+	
+	/**
+	 * Set an error message
+	 *
+	 * Use this method in preference of accessing the $_error attribute directly!
+	 * 
+	 * @param	string $error Error message
+	 * @access	public
+	 * @since	1.5
+	 * @todo 	Change dependent code to call the API, not access $_error directly
+	 */
+	function setError($error)
+	{
+		$this->_error	= $error;
 	}
 
 	/**
