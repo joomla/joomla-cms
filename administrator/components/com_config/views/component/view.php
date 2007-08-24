@@ -45,7 +45,7 @@ class ConfigViewComponent extends JView
 					<?php echo JText::_( 'Cancel' );?></button>
 			</div>
 			<div class="configuration" >
-				<?php echo $this->component->name ?>
+				<?php echo JText::_($this->component->name) ?>
 			</div>
 		</fieldset>
 
