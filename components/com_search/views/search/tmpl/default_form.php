@@ -71,5 +71,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php echo $this->pagination->getPagesCounter(); ?>
 	</div>
 </div>
-<input type="hidden" name="task"   value="search" />
+
+<input type="hidden" name="view"   value="search" />
 </form>
