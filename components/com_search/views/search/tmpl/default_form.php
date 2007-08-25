@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<form action="<?php echo JRoute::_( 'index.php?option=com_search' );?>" method="post">
+<form action="<?php echo JRoute::_( 'index.php?option=com_search' );?>" method="post" name="adminForm">
 	<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<tr>
 			<td nowrap="nowrap">
@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo $this->searchword; ?>" class="inputbox" />
 			</td>
 			<td width="100%" nowrap="nowrap">
-				<input type="submit" name="submit" value="<?php echo JText::_( 'Search' );?>" class="button" />
+				<input type="submit" name="submit2" value="<?php echo JText::_( 'Search' );?>" class="button" />
 			</td>
 		</tr>
 		<tr>
@@ -40,5 +40,36 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			</label>
 		<?php endforeach; ?>
 	<?php endif; ?>
-	<input type="hidden" name="task"   value="search" />
+	
+	
+	<table class="searchintro<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<tr>
+		<td colspan="3" >
+			<?php echo JText::_( 'Search Keyword' ) .' <b>'. stripslashes($this->searchword) .'</b>'; ?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<br />
+			<?php echo $this->result; ?>
+			<a href="http://www.google.com/search?q=<?php echo $this->searchword; ?>" target="_blank">
+				<?php echo $this->image; ?>
+			</a>
+		</td>
+	</tr>
+</table>
+
+<br />
+<div align="center">
+	<div style="float: right;">
+		<label for="limit">
+			<?php echo JText::_( 'Display Num' ); ?>
+		</label>
+		<?php echo $this->pagination->getLimitBox( ); ?>
+	</div>
+	<div>
+		<?php echo $this->pagination->getPagesCounter(); ?>
+	</div>
+</div>
+<input type="hidden" name="task"   value="search" />
 </form>

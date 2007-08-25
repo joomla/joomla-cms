@@ -40,6 +40,7 @@ Legend:
 24-Aug-2007 Rastin Mehr
  # Fixed [#5996] Related item module broken
  ! Thank you Kevin Devine for pointing out the issue regarding the article id
+ # Fixed [#5925] Search display drop down causes js error
 
 24-Aug-2007 Enno Klasing
  ^ Updated Beez template, contributed by the Design and Accessibility working group
