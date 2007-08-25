@@ -63,8 +63,8 @@ class SearchController
 		$searchphrase	= JRequest::getWord('searchphrase', 'any');
 		$ordering		= JRequest::getWord('ordering', 'newest');
 		$activeareas	= JRequest::getVar('areas');
-		$limit			= JRequest::getVar('limit', $mainframe->getCfg('list_limit'), 'get', 'int');
-		$limitstart		= JRequest::getVar('limitstart', 0, 'get', 'int');
+		$limit			= JRequest::getInt('limit', $mainframe->getCfg('list_limit'));
+		$limitstart		= JRequest::getInt('limitstart', 0 );
 
 		// Set page title information
 		$document->setTitle(JText::_('Search'));
