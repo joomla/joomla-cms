@@ -117,7 +117,7 @@ class JMenu extends JObject
 	 */
 	function setDefault($id)
 	{
-		if(exists($this->_items[$id])) {
+		if(isset($this->_items[$id])) {
 			$this->_default = $id;
 			return true;
 		}

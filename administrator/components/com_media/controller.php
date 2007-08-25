@@ -85,13 +85,12 @@ class MediaController
 		$current = JRequest::getVar( 'folder', '', '', 'path' );
 
 		// If undefined, set to empty
-		if ($current == 'undefined')
-		{
+		if ($current == 'undefined') {
 			$current = '';
 		}
 
 		// Initialize variables
-		if (strlen($current) > 1) {
+		if (strlen($current) > 0) {
 			$basePath = COM_MEDIA_BASE.DS.$current;
 		} else {
 			$basePath = COM_MEDIA_BASE;

@@ -39,6 +39,9 @@ Legend:
 
 25-Aug-2007 Johan Janssens
  # Fixed [#4713] Preview article doesn't publish graphics...
+ # Fixed [#6110] Double Quotes in menu Title and article Title results 
+ # Fixed [#6347] com_media folder content display issue
+ # Fixed [#6086] Newsflash and Latest News modules won't display current created articles.
 
 25-Aug-2007 Toby Patterson
  # Fixed [t182533] Illegal character in component name?

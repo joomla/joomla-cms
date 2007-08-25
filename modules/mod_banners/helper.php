@@ -31,7 +31,7 @@ class modBannersHelper
 		if ($params->get( 'tag_search' ))
 		{
 			$document		=& JFactory::getDocument();
-			$keywords		=& $document->getMetaData( 'keywords' );
+			$keywords		=  $document->getMetaData( 'keywords' );
 
 			$vars['tag_search'] = BannerHelper::getKeywords( $keywords );
 		}

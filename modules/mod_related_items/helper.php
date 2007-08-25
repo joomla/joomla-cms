@@ -34,8 +34,12 @@ class modRelatedItemsHelper
 		
 		$showDate			= $params->get('showDate', 0);
 
-		$now				= date('Y-m-d H:i:s', time());
 		$nullDate			= $db->getNullDate();
+		
+		jimport('joomla.utilities.date');
+		$date = new JDate();
+		$now  = $date->toMySQL();
+		
 		$related			= array();
 
 		if ($option == 'com_content' && $view == 'article' && $id)

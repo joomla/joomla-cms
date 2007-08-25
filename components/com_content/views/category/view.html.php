@@ -220,16 +220,10 @@ class ContentViewCategory extends ContentView
 		$filter_order		= JRequest::getCmd('filter_order');
 		$filter_order_Dir	= JRequest::getCmd('filter_order_Dir');
 
-		$lists['task'] = 'category';
-		$lists['filter'] = $filter;
-
-		if ($filter_order_Dir == 'DESC') {
-			$lists['order_Dir'] = 'ASC';
-		} else {
-			$lists['order_Dir'] = 'DESC';
-		}
-
-		$lists['order'] = $filter_order;
+		$lists['task']      = 'category';
+		$lists['filter']    = $filter;
+		$lists['order']     = $filter_order;
+		$lists['order_Dir'] = $filter_order_Dir;
 
 		return $lists;
 	}

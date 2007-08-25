@@ -36,7 +36,9 @@ class modLatestNewsHelper
 		$access		= !$contentConfig->get('shownoauth');
 
 		$nullDate	= $db->getNullDate();
-		$now		= date('Y-m-d H:i:s', time());
+		jimport('joomla.utilities.date');
+		$date = new JDate();
+		$now = $date->toMySQL();
 
 		$where		= 'a.state = 1'
 			. ' AND ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )'

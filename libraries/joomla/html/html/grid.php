@@ -29,12 +29,13 @@ class JHTMLGrid
 	 * @param	string	The selected ordering
 	 * @param	string	An optional task override
 	 */
-	function sort( $title, $order, $direction, $selected, $task=NULL )
+	function sort( $title, $order, $direction = 'asc', $selected = 0, $task=NULL )
 	{
 		$direction	= strtolower( $direction );
 		$images		= array( 'sort_asc.png', 'sort_desc.png' );
 		$index		= intval( $direction == 'desc' );
 		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
+		
 		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
 		$html .= JText::_( $title );
 		if ($order == $selected ) {

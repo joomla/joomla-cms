@@ -184,7 +184,7 @@ class SearchController
 				$searchwords = array($searchword);
 				$needle = $searchword;
 			} else {
-				$searchwords = explode(' ', $searchword);
+				$searchwords = preg_split("/\s+/", $searchword);
 				$needle = $searchwords[0];
 			}
 
