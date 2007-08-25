@@ -66,7 +66,6 @@ var JImageManager = new Class({
 		//console.log(a);
 		q = $H(this._getQueryObject(a.query));
 		q.set('folder', folder);
-		q.set('format', 'json');
 		var query = [];
 		q.each(function(v, k){
 			if ($chk(v)) {

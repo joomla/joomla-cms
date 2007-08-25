@@ -126,7 +126,7 @@ class MediaViews
 						<fieldset>
 							<legend><?php echo JText::_( 'Upload File' ); ?> [ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ($configMedia->get('upload_maxsize') / 1000000); ?>M ]</legend>
 							<fieldset class="actions">
-								<input type="file" id="file-upload" />
+								<input type="file" id="file-upload" name="Filedata" />
 								<input type="submit" id="file-upload-submit" value="<?php echo JText::_('Start Upload'); ?>"/>
 								<span id="upload-clear"></span>
 							</fieldset>
@@ -134,6 +134,7 @@ class MediaViews
 								<li style="display: none" />
 							</ul>
 						</fieldset>
+						<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
 					</form>
 				</td>
 			</tr>

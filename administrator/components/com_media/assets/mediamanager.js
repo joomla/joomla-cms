@@ -59,7 +59,6 @@ var JMediaManager = new Class({
 		a = this._getUriObject($('uploadForm').getProperty('action'));
 		q = $H(this._getQueryObject(a.query));
 		q.set('folder', folder);
-		q.set('format', 'json');
 		var query = [];
 		q.each(function(v, k){
 			if ($chk(v)) {

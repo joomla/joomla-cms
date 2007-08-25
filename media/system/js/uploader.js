@@ -119,7 +119,7 @@ var FancyUpload = new Class({
 	upload: function(e) {
 		if (e) e.stop();
 		url = this.options.url || this.form.action || location.href;
-		this.uploader.send(url);
+		this.uploader.send(url+'&format=json');
 	},
 
 	onSelect: function(name, size) {

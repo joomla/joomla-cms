@@ -302,6 +302,7 @@ class MediaController
 		$file 		= JRequest::getVar( 'Filedata', '', 'files', 'array' );
 		$folder		= JRequest::getVar( 'folder', '', '', 'path' );
 		$format		= JRequest::getVar( 'format', 'html', '', 'cmd');
+		$return		= JRequest::getVar( 'return-url', null, 'post', 'base64' );
 		$err		= null;
 
 		// Set FTP credentials, if given
@@ -319,7 +320,11 @@ class MediaController
 					header('HTTP/1.0 415 Unsupported Media Type');
 					die('Error. Unsupported Media Type');
 				} else {
-					MediaController::showUpload(JText::_($err));
+					JError::raiseNotice(100, JText::_($err));
+					// REDIRECT
+					if ($return) {
+						$mainframe->redirect(base64_decode($return).'&folder='.$folder);
+					}
 					return;
 				}
 			}
@@ -333,7 +338,11 @@ class MediaController
 					header('HTTP/1.0 409 Conflict');
 					die('Error. File already exists');
 				} else {
-					MediaController::showUpload(JText::_('Upload FAILED. File already exists'));
+					JError::raiseNotice(100, JText::_('Error. File already exists'));
+					// REDIRECT
+					if ($return) {
+						$mainframe->redirect(base64_decode($return).'&folder='.$folder);
+					}
 					return;
 				}
 			}
@@ -346,7 +355,11 @@ class MediaController
 					header('HTTP/1.0 400 Bad Request');
 					die('Error. Unable to upload file');
 				} else {
-					MediaController::showUpload(JText::_('Upload FAILED'));
+					JError::raiseWarning(100, JText::_('Error. Unable to upload file'));
+					// REDIRECT
+					if ($return) {
+						$mainframe->redirect(base64_decode($return).'&folder='.$folder);
+					}
 					return;
 				}
 			} else {
@@ -356,10 +369,16 @@ class MediaController
 					$log->addEntry(array('comment' => $folder));
 					die('Upload complete');
 				} else {
-					MediaController::showUpload(JText::_('Upload complete'));
+					$mainframe->enqueueMessage(JText::_('Upload complete'));
+					// REDIRECT
+					if ($return) {
+						$mainframe->redirect(base64_decode($return).'&folder='.$folder);
+					}
 					return;
 				}
 			}
+		} else {
+			$mainframe->redirect('index.php', 'Invalid Request', 'error');
 		}
 	}
 
