@@ -236,6 +236,18 @@ class JLDAP
 		}
 		return $attributes;
 	}
+	
+	/**
+	 * Replace an entry and return a true or false result
+	 *
+	 * @param string dn The DN which contains the attribute you want to compare
+	 * @param string attribute The attribute values you want to replace
+	 * @return mixed result of comparison (true, false, -1 on error)
+	 */
+
+	function replace($dn, $attribute) {
+		return ldap_mod_replace($this->_resource, $dn, $attribute);
+	}
 
 	/**
 	 * Compare an entry and return a true or false result
