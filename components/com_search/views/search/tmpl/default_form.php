@@ -72,5 +72,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</div>
 </div>
 
-<input type="hidden" name="view"   value="search" />
+<input type="hidden" name="task"   value="search" />
 </form>

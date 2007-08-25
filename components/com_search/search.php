@@ -59,6 +59,7 @@ class SearchController
 
 		// Get some request variables
 		$searchword		= JRequest::getString('searchword');
+		
 		$phrase			= JRequest::getWord('searchphrase');
 		$searchphrase	= JRequest::getWord('searchphrase', 'any');
 		$ordering		= JRequest::getWord('ordering', 'newest');
