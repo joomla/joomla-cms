@@ -69,9 +69,9 @@ class plgAuthenticationJoomla extends JPlugin
 		// Initialize variables
 		$conditions = '';
 		
-		// If we are in the admin panel, make sure we have access to it
-		if(isset($credentials['group'])) {
-			$conditions = ' AND gid > '.$credentials['group'];
+		//Make sure the group exists
+		if(!isset($credentials['group'])) {
+			$credentials['group'] = 0; 
 		}
 
 		// Get a database object
@@ -86,7 +86,7 @@ class plgAuthenticationJoomla extends JPlugin
 		
 		if($result)
 		{
-			if(isset($credentials['group']) && $result->gid > $credentials['group']) 
+			if($result->gid > $credentials['group']) 
 			{
 				$parts	= explode( ':', $result->password );
 				$crypt	= $parts[0];
