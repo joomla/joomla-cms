@@ -683,9 +683,13 @@ class ContentView
 
 	function previewContent()
 	{
-		$document	=& JFactory::getDocument();
+		global $mainframe;
+		
 		$editor		=& JFactory::getEditor();
-
+		
+		$document	=& JFactory::getDocument();
+		$document->setLink($mainframe->getSiteURL());
+		
 		JHTML::_('behavior.caption');
 
 		?>
@@ -695,10 +699,9 @@ class ContentView
 
 		var alltext = window.top.<?php echo $editor->getContent('text') ?>;
 		alltext = alltext.replace('<hr id=\"system-readmore\" \/>', '');
+	
 		</script>
-
-
-
+		
 		<table align="center" width="90%" cellspacing="2" cellpadding="2" border="0">
 			<tr>
 				<td class="contentheading" colspan="2"><script>document.write(title);</script></td>

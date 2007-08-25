@@ -468,7 +468,7 @@ class ContentModelArticle extends JModel
 					$where;
 			$this->_db->setQuery($query);
 			$this->_article = $this->_db->loadObject();
-
+			
 			if ( ! $this->_article ) {
 				return false;
 			}
@@ -569,7 +569,7 @@ class ContentModelArticle extends JModel
 
 		if (!$user->authorize('com_content', 'edit', 'content', 'all'))
 		{
-			$where .= ' AND ( a.state = 1 )' .
+			$where .= ' AND ( a.state = 1 OR a.state = -1)' .
 					' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
 					' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
 		}

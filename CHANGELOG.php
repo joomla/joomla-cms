@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Aug-2007 Johan Janssens
+ # Fixed [#4713] Preview article doesn't publish graphics...
+
 25-Aug-2007 Toby Patterson
  # Fixed [t182533] Illegal character in component name?
  # Fixed [t199839] extension installer - can't install extentions get No file selected

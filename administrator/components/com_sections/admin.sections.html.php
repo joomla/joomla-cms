@@ -218,19 +218,6 @@ class sections_html
 				return;
 			}
 
-			if ( pressbutton == 'menulink' ) {
-				if ( form.menuselect.value == '' ) {
-					alert( "<?php echo JText::_( 'Please select a Menu', true ); ?>" );
-					return;
-				} else if ( form.link_type.value == "" ) {
-					alert( "<?php echo JText::_( 'Please select a menu type', true ); ?>" );
-					return;
-				} else if ( form.link_name.value == "" ) {
-					alert( "<?php echo JText::_( 'Please enter a Name for this menu item', true ); ?>" );
-					return;
-				}
-			}
-
 			if ( form.title.value == '' ){
 				alert("<?php echo JText::_( 'Section must have a title', true ); ?>");
 			} else {
