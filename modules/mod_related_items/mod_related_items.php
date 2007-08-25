@@ -23,4 +23,6 @@ if (!count($list)) {
 	return;
 }
 
+$showDate			= $params->get('showDate', 0);
+
 require(JModuleHelper::getLayoutPath('mod_related_items'));

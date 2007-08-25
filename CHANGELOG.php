@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Aug-2007
+ # Fixed [#5996] Related item module broken
+ ! Thank you Kevin Devine for pointing out the issue regarding the article id
+
 24-Aug-2007 Enno Klasing
  ^ Updated Beez template, contributed by the Design and Accessibility working group
 

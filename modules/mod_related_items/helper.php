@@ -26,17 +26,20 @@ class modRelatedItemsHelper
 		$user				=& JFactory::getUser();
 
 		$option				= JRequest::getCmd('option');
-		$task				= JRequest::getCmd('task');
+		$view				= JRequest::getCmd('view');
 
-		$id					= JRequest::getInt('id');
+		$temp				= JRequest::getString('id');
+		$temp				= explode(':', $temp);
+		$id					= $temp[0];
+		
 		$showDate			= $params->get('showDate', 0);
 
 		$now				= date('Y-m-d H:i:s', time());
 		$nullDate			= $db->getNullDate();
 		$related			= array();
 
-		if ($option == 'com_content' && $task == 'view' && $id)
-		{
+		if ($option == 'com_content' && $view == 'article' && $id)
+		{	
 			// select the meta keywords from the item
 			$query = 'SELECT metakey' .
 					' FROM #__content' .
