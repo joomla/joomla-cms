@@ -56,9 +56,9 @@ class SearchController
 		$error	= '';
 		$rows	= null;
 		$total	= 0;
-
+	
 		// Get some request variables
-		$searchword		= JRequest::getString('searchword');
+		$searchword		= urldecode(JRequest::getString('searchword'));
 		
 		$phrase			= JRequest::getWord('searchphrase');
 		$searchphrase	= JRequest::getWord('searchphrase', 'any');
@@ -129,7 +129,7 @@ class SearchController
 
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'search'.DS.'view.php');
 		$view = new SearchViewSearch();
-
+		
 		$view->assign('limit',			$limit);
 		$view->assign('limitstart',		$limitstart);
 		$view->assign('ordering',		$ordering);
@@ -150,7 +150,7 @@ class SearchController
 	function search()
 	{
 		global $mainframe;
-
+		
 		$post = JRequest::get('post');
 		$post['Itemid'] = JRequest::getVar('Itemid');
 
@@ -159,7 +159,7 @@ class SearchController
 
 		$uri = new JURI();
 		$uri->setQuery($post);
-
+		
 		$mainframe->redirect(JRoute::_('index.php?'.$uri->getQuery(), false));
 	}
 

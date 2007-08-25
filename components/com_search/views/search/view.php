@@ -33,12 +33,10 @@ class SearchViewSearch extends JView
 
 		$uri =& JFactory::getURI();
 
-		$this->searchword = htmlentities($this->searchword);
-
 		$searchword		= $this->searchword;
 		$searchphrase	= $this->searchphrase;
 		$ordering		= $this->ordering;
-
+		
 		//create pagination
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($this->total, $this->limitstart, $this->limit);
@@ -62,7 +60,7 @@ class SearchViewSearch extends JView
 
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('action', 	   $uri->toString());
-
+		
 		parent::display($tpl);
 	}
 }
