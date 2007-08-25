@@ -69,9 +69,10 @@ class JInstallerTemplate extends JObject
 			$clientId = 0;
 		}
 
-		// Get the template name
-		$name =& $root->getElementByPath('name');
-		$this->set('name', $name->data());
+		// Set the extensions name
+		$name =& $this->manifest->getElementByPath('name');
+		$name = JFilterInput::clean($name->data(), 'cmd');
+		$this->set('name', $name);
 
 		// Set the template root path
 		$this->parent->setPath('extension_root', $basePath.DS.'templates'.DS.strtolower(str_replace(" ", "_", $this->get('name'))));

@@ -78,8 +78,10 @@ class JInstallerLanguage extends JObject
 		}
 
 		// Get the language name
-		$name =& $root->getElementByPath('name');
-		$this->set('name', $name->data());
+		// Set the extensions name
+		$name =& $this->manifest->getElementByPath('name');
+		$name = JFilterInput::clean($name->data(), 'cmd');
+		$this->set('name', $name);
 
 		// Get the Language tag [ISO tag, eg. en-GB]
 		$tag =& $root->getElementByPath('tag');

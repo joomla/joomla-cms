@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Aug-2007 Toby Patterson
+ # Fixed [t182533] Illegal character in component name?
+ # Fixed [t199839] extension installer - can't install extentions get No file selected
+
 24-Aug-2007 Rastin Mehr
  # Fixed [#5996] Related item module broken
  ! Thank you Kevin Devine for pointing out the issue regarding the article id
