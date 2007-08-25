@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo $this->searchword; ?>" class="inputbox" />
 			</td>
 			<td width="100%" nowrap="nowrap">
-				<input type="submit" name="submit2" value="<?php echo JText::_( 'Search' );?>" class="button" />
+				<button name="Search" onClick="this.submit.form()" class="button"><?php echo JText::_( 'Search' );?></button>
 			</td>
 		</tr>
 		<tr>
