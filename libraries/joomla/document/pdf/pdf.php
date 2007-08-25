@@ -232,7 +232,9 @@ class JDocumentPDF extends JDocument
 
 		// Set document type headers
 		parent::render();
+		
 		//JResponse::setHeader('Content-Length', strlen($data), true);
+	
 		JResponse::setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.pdf"', true);
 
 		//Close and output PDF document

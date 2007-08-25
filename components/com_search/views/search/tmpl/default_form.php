@@ -60,6 +60,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </table>
 
 <br />
+<?php if($this->result > 0) : ?>
 <div align="center">
 	<div style="float: right;">
 		<label for="limit">
@@ -71,6 +72,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php echo $this->pagination->getPagesCounter(); ?>
 	</div>
 </div>
+<?php endif; ?>
 
 <input type="hidden" name="task"   value="search" />
 </form>

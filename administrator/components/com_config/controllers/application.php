@@ -319,8 +319,8 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['session_handler']	= JRequest::getVar('session_handler', 'none', 'post', 'word');
 
 		//LANGUAGE SETTINGS
-		$config_array['lang']				= JRequest::getVar('lang', 'none', 'english', 'cmd');
-		$config_array['language']			= JRequest::getVar('language', 'en-GB', 'post', 'cmd');
+		//$config_array['lang']				= JRequest::getVar('lang', 'none', 'english', 'cmd');
+		//$config_array['language']			= JRequest::getVar('language', 'en-GB', 'post', 'cmd');
 
 		$config->loadArray($config_array);
 

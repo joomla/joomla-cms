@@ -67,7 +67,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	if ($text == '') {
 		return array();
 	}
-
+	
 	$wheres = array();
 	switch ($phrase) {
 		case 'exact':

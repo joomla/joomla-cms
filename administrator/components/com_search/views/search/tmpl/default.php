@@ -14,14 +14,11 @@
     </td>
     <td nowrap="nowrap" align="right">
 	<?php
-	if ( $this->showResults ) {
-	?>
+	if ( $this->showResults ) : ?>
 	<a href="index.php?option=com_search&amp;search_results=0"><?php echo JText::_( 'Hide Search Results' ); ?></a>
-	<?php
-	} else {
-	?>
+	<?php else : ?>
 	<a href="index.php?option=com_search&amp;search_results=1"><?php echo JText::_( 'Show Search Results' ); ?></a>
-	<?php } ?>
+	<?php endif; ?>
 	</td>
 	</tr>
 </table>
@@ -40,13 +37,11 @@
 						<?php echo JHTML::_('grid.sort',   'Times Requested', 'hits', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 					</th>
 					<?php
-					if ( $this->showResults ) {
-						?>
+					if ( $this->showResults ) : ?>
 						<th nowrap="nowrap" width="20%">
 							<?php echo JText::_( 'Results Returned' ); ?>
 						</th>
-						<?php
-					}
+					<?php endif; ?>
 					?>
 				</tr>
 			</thead>
@@ -74,14 +69,11 @@
 						<?php echo $row->hits; ?>
 					</td>
 					<?php
-					if ( $this->showResults ) {
-						?>
+					if ( $this->showResults ) : ?>
 						<td align="center">
 							<?php echo $row->returns; ?>
 						</td>
-						<?php
-					}
-					?>
+					<?php endif; ?>
 				</tr>
 				<?php
 				$k = 1 - $k;

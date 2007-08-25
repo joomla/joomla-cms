@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php endif; ?>
 
 <?php echo $this->loadTemplate('form'); ?>
-<?php if(!$this->error) :
+<?php if(!$this->error && $this->result > 0) :
 	echo $this->loadTemplate('results');
 else :
 	echo $this->loadTemplate('error');
