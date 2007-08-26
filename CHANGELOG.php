@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Aug-2007 Robin Muilwijk
+ # Fixed [topic,167080] incorrect sample data
+
 26-Aug-2007 Johan Janssens
  - Removed JApplication::loadConfiguration and loadSession, both are now handled by the 
    constructor
