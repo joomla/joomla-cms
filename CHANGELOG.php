@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Aug-2007 Johan Janssens
+ # Fixed frontpage duplicate content issues with readmore links. Read more links now
+   redirect correctly.
+ # Fixed issues with relative links in feeds, added xml:base tag to Atom and added 
+   relative to absolute link convertor to RSS.
+
 27-Aug-2007 Andrew Eddie
  + Added Alias column to admin list views where appropriate
  ^ Moved ID field consistently to last column of admin list views

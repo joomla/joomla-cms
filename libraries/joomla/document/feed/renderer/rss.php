@@ -114,7 +114,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "		<item>\n";
 			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title))."</title>\n";
 			$feed.= "			<link>".JURI::base().$data->items[$i]->link."</link>\n";
-			$feed.= "			<description><![CDATA[".$data->items[$i]->description."]]></description>\n";
+			$feed.= "			<description><![CDATA[".$this->_relToAbs($data->items[$i]->description)."]]></description>\n";
 
 			if ($data->items[$i]->author!="") {
 				$feed.= "			<author>".htmlspecialchars($data->items[$i]->author)."</author>\n";
@@ -154,5 +154,19 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed.= "	</channel>\n";
 		$feed.= "</rss>\n";
 		return $feed;
+	}
+	
+	/**
+	 * Convert links in a text from relative to absolute
+	 *
+	 * @access public
+	 * @return	string
+	 */
+	function _relToAbs($text)
+	{
+		$base = JURI::base();
+  		$text = preg_replace("/(href|src)=\"(?!http|ftp|https)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
+			
+		return $text;
 	}
 }
