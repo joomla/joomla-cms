@@ -243,7 +243,7 @@ class plgXMLRPCBloggerServices
 		//TODO::implement content access check
 
 		//lock the item
-		$item->checkout();
+		$item->checkout($user->id);
 
 		$item->title	 = plgXMLRPCBloggerHelper::getPostTitle($content);
 		$item->introtext = plgXMLRPCBloggerHelper::getPostIntroText($content);

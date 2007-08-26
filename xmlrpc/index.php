@@ -27,9 +27,6 @@ JError::setErrorHandling( E_NOTICE,	 'echo' );
 // create the mainframe object
 $mainframe = new JXMLRPC();
 
-// load the configuration
-$mainframe->loadConfiguration( JPATH_CONFIGURATION.DS.'configuration.php' );
-
 // Ensure that this application is enabled
 if (!$mainframe->getCfg('xmlrpc_server')) {
 	JError::raiseError(403, 'XML-RPC Server not enabled.');

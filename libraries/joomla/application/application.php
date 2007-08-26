@@ -39,7 +39,6 @@ class JApplication extends JObject
 	 */
 	var $_clientId = null;
 
-
 	/**
 	 * The router object
 	 *
@@ -74,7 +73,30 @@ class JApplication extends JObject
 		//set the view name
 		$this->_name		= $this->getName();
 		$this->_clientId	= $config['clientId'];
-
+		
+		//Enable sessions by default
+		if(!isset($config['session'])) {
+			$config['session'] = true;
+		}
+		
+		//Set the session default name
+		if(!isset($config['session_name'])) {
+			 $config['session_name'] = $this->_name;
+		}
+		
+		//Set the default configuration file
+		if(!isset($config['config_file'])) {
+			$config['config_file'] = 'configuration.php';
+		}
+		
+		//create the configuration object
+		$this->_createConfiguration(JPATH_CONFIGURATION.DS.$config['config_file']);
+		
+		//create the session if a session name is passed
+		if($config['session'] !== false) {
+			$this->_createSession(JUtility::getHash($config['session_name']));
+		}
+		
 		$this->set( 'requestTime', gmdate('Y-m-d H:i') );
 	}
 
@@ -86,19 +108,25 @@ class JApplication extends JObject
 	*/
 	function initialise($options = array())
 	{
+		jimport('joomla.event.helper');
+		
 		//Set the language in the class
-		$conf =& JFactory::getConfig();
+		$config =& JFactory::getConfig();
 
 		// Check that we were given a language in the array (since by default may be blank)
 		if(isset($options['language'])) {
-			$conf->setValue('config.language', $options['language']);
+			$config->setValue('config.language', $options['language']);
 		}
-
-		//define date formats
-		//define('DATE_FORMAT_LC' , JText::_('DATE_FORMAT_LC' ));
-		//define('DATE_FORMAT_LC2', JText::_('DATE_FORMAT_LC2'));
-		//define('DATE_FORMAT_LC3', JText::_('DATE_FORMAT_LC3'));
-		//define('DATE_FORMAT_LC4', JText::_('DATE_FORMAT_LC4'));
+		
+		// Set user specific editor
+		$user	 =& JFactory::getUser();
+		$editor	 = $user->getParam('editor', $this->getCfg('editor'));
+		$editor = JPLuginHelper::isEnabled('editors', $editor) ? $editor : $this->getCfg('editor');
+		$config->setValue('config.editor', $editor);
+		
+		// Set the database debug
+		$db =& JFactory::getDBO();
+		//$db->debug( $config->debug_db );
 
 		//create the router -> lazy load it later
 		$this->_createRouter();
@@ -176,10 +204,7 @@ class JApplication extends JObject
 	* @access	public
 	* @param	int	Exit code
 	*/
-	function close( $code = 0 )
-	{
-		$session =& JFactory::getSession();
-		$session->close();
+	function close( $code = 0 ) {
 		exit($code);
 	}
 
@@ -529,45 +554,6 @@ class JApplication extends JObject
 		$this->triggerEvent('onLogoutFailure', array($parameters));
 
 		return false;
-	}
-
-	/**
-	 * Load the user session.
-	 *
-	 * @access public
-	 * @param string The session's name.
-	 */
-	function loadSession($name)
-	{
-		$session	=& $this->_createSession($name);
-
-		// Set user specific editor
-		$user		=& JFactory::getUser();
-		$editor		= $user->getParam('editor', $this->getCfg('editor'));
-		
-		// Make sure the editor is enabled
-		jimport('joomla.event.helper');
-		$editor = JPLuginHelper::isEnabled('editor', $editor) ? $editor : $this->getCfg('editor');
-
-		$config		=& JFactory::getConfig();
-		$config->setValue('config.editor', $editor);
-	}
-
-	/**
-	 * Load the configuration
-	 *
-	 * @access	public
-	 * @param	string	The path to the configuration file
-	 * @param	string	The type of the configuration file
-	 * @since	1.5
-	 */
-	function loadConfiguration($file)
-	{
-		$config =& $this->_createConfiguration($file);
-
-		// Set the database debug
-		$db =& JFactory::getDBO();
-		$db->debug( $config->debug_db );
 	}
 
 	/**

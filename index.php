@@ -31,12 +31,6 @@ JDEBUG ? $_PROFILER->mark( 'afterLoad' ) : null;
  */
 $mainframe = new JSite();
 
-// looad the configuration settings
-$mainframe->loadConfiguration(JPATH_CONFIGURATION.DS.'configuration.php');
-
-// create the session
-$mainframe->loadSession(JUtility::getHash($mainframe->getName()));
-
 /**
  * INITIALISE THE APPLICATION
  *
@@ -88,11 +82,6 @@ $mainframe->render();
 // trigger the onAfterDisplay events
 JDEBUG ? $_PROFILER->mark('afterRender') : null;
 $mainframe->triggerEvent('onAfterRender');
-
-/**
- * CLOSE THE SESSION
- */
-JSession::close();
 
 /**
  * RETURN THE RESPONSE

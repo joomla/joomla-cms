@@ -235,18 +235,6 @@ class JSite extends JApplication
 	}
 
 	/**
-	 * Set the configuration
-	 *
-	 * @access public
-	 * @param string	The path to the configuration file
-	 * @param string	The type of the configuration file
-	 * @since 1.5
-	 */
-	function loadConfiguration($file, $type = 'config') {
-		parent::loadConfiguration($file, $type);
-	}
-
-	/**
 	 * Get the template
 	 *
 	 * @return string The template name

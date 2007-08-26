@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Aug-2007 Johan Janssens
+ - Removed JApplication::loadConfiguration and loadSession, both are now handled by the 
+   constructor
+ ^ Changed JSession to close and write the session store on object destruction. This change
+   removes the need to call JSession::close or JApplication::close manualy.
+
 25-Aug-2007 Johan Janssens
  # Fixed [#4713] Preview article doesn't publish graphics...
  # Fixed [#6110] Double Quotes in menu Title and article Title results 

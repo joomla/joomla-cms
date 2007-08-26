@@ -20,9 +20,6 @@ require_once( JPATH_BASE .'/includes/application.php' );
 // create the mainframe object
 $mainframe = new JInstallation();
 
-// create the session
-$mainframe->loadSession('installation');
-
 // initialuse the application
 $mainframe->initialise();
 
