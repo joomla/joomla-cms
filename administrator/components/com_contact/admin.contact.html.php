@@ -61,32 +61,33 @@ class HTML_contact
 					<th class="title">
 						<?php echo JHTML::_('grid.sort',   'Name', 'cd.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
+					<th width="10%" class="title" nowrap="nowrap">
+						<?php echo JHTML::_('grid.sort',   'Alias', 'cd.alias', @$lists['order_Dir'], @$lists['order'] ); ?>
+					</th>
 					<th width="5%" class="title" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Published', 'cd.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th nowrap="nowrap" width="80">
+					<th nowrap="nowrap" width="8%">
 						<?php echo JHTML::_('grid.sort',   'Order by', 'cd.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
-		 			</th>
-					<th width="1%">
 						<?php echo JHTML::_('grid.order',  $rows ); ?>
 					</th>
-					<th width="7%" nowrap="nowrap">
+					<th width="8%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Access', 'cd.access', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="5%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'ID', 'cd.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
-					<th width="15%" class="title">
+					<th width="10%" class="title">
 						<?php echo JHTML::_('grid.sort',   'Category', 'category', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th class="title" nowrap="nowrap" width="15%">
+					<th class="title" nowrap="nowrap" width="10%">
 						<?php echo JHTML::_('grid.sort',   'Linked to User', 'user', @$lists['order_Dir'], @$lists['order'] ); ?>
+					</th>
+					<th width="1%" nowrap="nowrap">
+						<?php echo JHTML::_('grid.sort',   'ID', 'cd.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="10">
+					<td colspan="11">
 						<?php echo $pageNav->getListFooter(); ?>
 					</td>
 				</tr>
@@ -115,20 +116,23 @@ class HTML_contact
 					</td>
 					<td>
 					<?php
-					if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out ) ) {
+					if (JTable::isCheckedOut($user->get ('id'), $row->checked_out )) :
 						echo $row->name;
-					} else {
+					else :
 						?>
 						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Contact' ); ?>">
 							<?php echo $row->name; ?></a>
 						<?php
-					}
+					endif;
 					?>
+					</td>
+					<td>
+						<?php echo $row->alias;?>
 					</td>
 					<td align="center">
 						<?php echo $published;?>
 					</td>
-					<td class="order" colspan="2">
+					<td class="order">
 						<span><?php echo $pageNav->orderUpIcon( $i, ( $row->catid == @$rows[$i-1]->catid ), 'orderup', 'Move Up', $ordering ); ?></span>
 						<span><?php echo $pageNav->orderDownIcon( $i, $n, ( $row->catid == @$rows[$i+1]->catid ), 'orderdown', 'Move Down', $ordering ); ?></span>
 						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
@@ -137,9 +141,6 @@ class HTML_contact
 					<td align="center">
 						<?php echo $access;?>
 					</td>
-					<td align="center">
-						<?php echo $row->id; ?>
-					</td>
 					<td>
 						<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
 							<?php echo $row->category; ?></a>
@@ -147,6 +148,9 @@ class HTML_contact
 					<td>
 						<a href="<?php echo $row->user_link; ?>" title="<?php echo JText::_( 'Edit User' ); ?>">
 							<?php echo $row->user; ?></a>
+					</td>
+					<td align="center">
+						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php

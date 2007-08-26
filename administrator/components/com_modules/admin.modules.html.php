@@ -85,9 +85,6 @@ class HTML_modules
 					<?php
 				}
 				?>
-				<th nowrap="nowrap" width="3%">
-					<?php echo JHTML::_('grid.sort',   'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-				</th>
 				<th nowrap="nowrap" width="7%">
 					<?php echo JHTML::_('grid.sort',   'Position', 'm.position', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
@@ -96,6 +93,9 @@ class HTML_modules
 				</th>
 				<th nowrap="nowrap" width="10%"  class="title">
 					<?php echo JHTML::_('grid.sort',   'Type', 'm.module', @$lists['order_Dir'], @$lists['order'] ); ?>
+				</th>
+				<th nowrap="nowrap" width="1%">
+					<?php echo JHTML::_('grid.sort',   'ID', 'm.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 			</tr>
 			</thead>
@@ -157,9 +157,6 @@ class HTML_modules
 					}
 					?>
 					<td align="center">
-						<?php echo $row->id;?>
-					</td>
-					<td align="center">
 						<?php echo $row->position; ?>
 					</td>
 					<td align="center">
@@ -175,6 +172,9 @@ class HTML_modules
 					</td>
 					<td>
 						<?php echo $row->module ? $row->module : JText::_( 'User' );?>
+					</td>
+					<td>
+						<?php echo $row->id;?>
 					</td>
 				</tr>
 				<?php

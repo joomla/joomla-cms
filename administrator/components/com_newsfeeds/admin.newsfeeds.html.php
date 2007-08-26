@@ -63,26 +63,27 @@ class HTML_newsfeeds
 					<th class="title">
 						<?php echo JHTML::_('grid.sort',   'News Feed', 'a.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="7%">
+					<th width="15%">
+						<?php echo JHTML::_('grid.sort',   'Alias', 'a.alias', @$lists['order_Dir'], @$lists['order'] ); ?>
+					</th>
+					<th width="5%">
 						<?php echo JHTML::_('grid.sort',   'Published', 'a.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="80" nowrap="nowrap">
+					<th width="8%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Order', 'a.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
-		 			</th>
-					<th width="1%">
 						<?php echo JHTML::_('grid.order',  $rows ); ?>
 					</th>
-					<th width="5%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'ID', 'a.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
-					<th class="title" width="17%">
+					<th class="title" width="10%">
 						<?php echo JHTML::_('grid.sort',   'Category', 'catname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="5%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Num Articles', 'a.numarticles', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="10%">
+					<th width="5%">
 						<?php echo JHTML::_('grid.sort',   'Cache time', 'a.cache_time', @$lists['order_Dir'], @$lists['order'] ); ?>
+					</th>
+					<th width="1%" nowrap="nowrap">
+						<?php echo JHTML::_('grid.sort',   'ID', 'a.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -125,17 +126,17 @@ class HTML_newsfeeds
 						}
 						?>
 					</td>
-					<td width="10%" align="center">
+					<td>
+						<?php echo $row->alias;?>
+					</td>
+					<td align="center">
 						<?php echo $published;?>
 					</td>
-					<td class="order" colspan="2">
+					<td class="order">
 						<span><?php echo $pageNav->orderUpIcon($i, ($row->catid == @$rows[$i-1]->catid), 'orderup', 'Move Up', $ordering ); ?></span>
 						<span><?php echo $pageNav->orderDownIcon($i, $n, ($row->catid == @$rows[$i+1]->catid), 'orderdown', 'Move Down', $ordering ); ?></span>
 						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
-					</td>
-					<td align="center">
-						<?php echo $row->id; ?>
 					</td>
 					<td>
 						<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
@@ -146,6 +147,9 @@ class HTML_newsfeeds
 					</td>
 					<td align="center">
 						<?php echo $row->cache_time;?>
+					</td>
+					<td align="center">
+						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php

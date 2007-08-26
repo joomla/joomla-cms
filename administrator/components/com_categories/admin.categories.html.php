@@ -73,19 +73,17 @@ class categories_html
 					<?php echo JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<th width="10%">
+					<?php echo JHTML::_('grid.sort',   'Alias', 'c.alias', @$lists['order_Dir'], @$lists['order'] ); ?>
+				</th>
+				<th width="5%">
 					<?php echo JHTML::_('grid.sort',   'Published', 'c.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
-				<th width="80" nowrap="nowrap">
+				<th width="8%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort',   'Order by', 'c.ordering', @$lists['order_Dir'], @$lists['order'] ); ?>
-				</th>
-				<th width="1%">
 					<?php echo JHTML::_('grid.order',  $rows ); ?>
 				</th>
 				<th width="7%">
 					<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
-				</th>
-				<th width="2%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
 				<?php
 				if ( $section == 'com_content') {
@@ -108,6 +106,9 @@ class categories_html
 					<?php
 				}
 				?>
+				<th width="1%" nowrap="nowrap">
+					<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
+				</th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -152,10 +153,13 @@ class categories_html
 					}
 					?></span>
 				</td>
+				<td>
+					<?php echo $row->alias;?>
+				</td>
 				<td align="center">
 					<?php echo $published;?>
 				</td>
-				<td class="order" colspan="2">
+				<td class="order">
 					<span><?php echo $page->orderUpIcon( $i, ($row->section == @$rows[$i-1]->section), 'orderup', 'Move Up', $ordering ); ?></span>
 					<span><?php echo $page->orderDownIcon( $i, $n, ($row->section == @$rows[$i+1]->section), 'orderdown', 'Move Down', $ordering ); ?></span>
 					<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
@@ -163,9 +167,6 @@ class categories_html
 				</td>
 				<td align="center">
 					<?php echo $access;?>
-				</td>
-				<td align="center">
-					<?php echo $row->id; ?>
 				</td>
 				<?php
 				if ( $section == 'com_content' ) {
@@ -191,6 +192,9 @@ class categories_html
 				}
 				$k = 1 - $k;
 				?>
+				<td align="center">
+					<?php echo $row->id; ?>
+				</td>
 			</tr>
 			<?php
 		}

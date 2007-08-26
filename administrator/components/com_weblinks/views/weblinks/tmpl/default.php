@@ -36,25 +36,25 @@ JHTML::_('behavior.tooltip');
 			</th>
 			<th class="title">
 				<?php echo JHTML::_('grid.sort',  'Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-
+			</th>
+			<th width="15%" nowrap="nowrap">
+				<?php echo JHTML::_('grid.sort',  'Alias', 'a.alias', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
 				<?php echo JHTML::_('grid.sort',  'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
-			<th width="80" nowrap="nowrap">
+			<th width="8%" nowrap="nowrap">
 				<?php echo JHTML::_('grid.sort',  'Order', 'a.ordering', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-		 	</th>
-			<th width="1%">
 				<?php echo JHTML::_('grid.order',  $this->items ); ?>
 			</th>
-			<th width="5%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',  'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-			</th>
-			<th width="25%"  class="title">
+			<th width="15%"  class="title">
 				<?php echo JHTML::_('grid.sort',  'Category', 'category', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 			<th width="5%">
 				<?php echo JHTML::_('grid.sort',  'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+			</th>
+			<th width="1%" nowrap="nowrap">
+				<?php echo JHTML::_('grid.sort',  'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -98,17 +98,17 @@ JHTML::_('behavior.tooltip');
 				}
 				?>
 			</td>
+			<td>
+				<?php echo $row->alias;?>
+			</td>
 			<td align="center">
 				<?php echo $published;?>
 			</td>
-			<td class="order" colspan="2">
+			<td class="order">
 				<span><?php echo $this->pagination->orderUpIcon( $i, ($row->catid == @$this->items[$i-1]->catid),'orderup', 'Move Up', $ordering ); ?></span>
 				<span><?php echo $this->pagination->orderDownIcon( $i, $n, ($row->catid == @$this->items[$i+1]->catid), 'orderdown', 'Move Down', $ordering ); ?></span>
 				<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
 				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
-			</td>
-			<td align="center">
-				<?php echo $row->id; ?>
 			</td>
 			<td>
 				<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
@@ -117,6 +117,9 @@ JHTML::_('behavior.tooltip');
 			</td>
 			<td align="center">
 				<?php echo $row->hits; ?>
+			</td>
+			<td align="center">
+				<?php echo $row->id; ?>
 			</td>
 		</tr>
 		<?php

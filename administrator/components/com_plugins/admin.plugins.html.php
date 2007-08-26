@@ -69,23 +69,21 @@ class HTML_modules {
 					<th nowrap="nowrap" width="5%">
 						<?php echo JHTML::_('grid.sort',   'Published', 'p.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="80" nowrap="nowrap">
+					<th width="8%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Order', 'p.folder', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
-					<th width="1%">
 						<?php echo JHTML::_('grid.order',  $rows ); ?>
 					</th>
-					<th nowrap="nowrap" width="7%">
+					<th nowrap="nowrap" width="10%">
 						<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th nowrap="nowrap"  width="3%" class="title">
-						<?php echo JHTML::_('grid.sort',   'ID', 'p.id', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
-					<th nowrap="nowrap"  width="13%" class="title">
+					<th nowrap="nowrap"  width="10%" class="title">
 						<?php echo JHTML::_('grid.sort',   'Type', 'p.folder', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th nowrap="nowrap"  width="13%" class="title">
+					<th nowrap="nowrap"  width="10%" class="title">
 						<?php echo JHTML::_('grid.sort',   'File', 'p.element', @$lists['order_Dir'], @$lists['order'] ); ?>
+					</th>
+					<th nowrap="nowrap"  width="1%" class="title">
+						<?php echo JHTML::_('grid.sort',   'ID', 'p.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -130,7 +128,7 @@ class HTML_modules {
 					<td align="center">
 						<?php echo $published;?>
 					</td>
-					<td class="order" colspan="2">
+					<td class="order">
 						<span><?php echo $page->orderUpIcon( $i, ($row->folder == @$rows[$i-1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderup', 'Move Up', $ordering ); ?></span>
 						<span><?php echo $page->orderDownIcon( $i, $n, ($row->folder == @$rows[$i+1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderdown', 'Move Down', $ordering ); ?></span>
 						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
@@ -140,13 +138,13 @@ class HTML_modules {
 						<?php echo $access;?>
 					</td>
 					<td nowrap="nowrap">
-						<?php echo $row->id;?>
-					</td>
-					<td nowrap="nowrap">
 						<?php echo $row->folder;?>
 					</td>
 					<td nowrap="nowrap">
 						<?php echo $row->element;?>
+					</td>
+					<td align="center">
+						<?php echo $row->id;?>
 					</td>
 				</tr>
 				<?php

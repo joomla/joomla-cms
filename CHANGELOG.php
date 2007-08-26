@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Aug-2007 Andrew Eddie
+ + Added Alias column to admin list views where appropriate
+ ^ Moved ID field consistently to last column of admin list views
+
 26-Aug-2007 Robin Muilwijk
  # Fixed [topic,167080] incorrect sample data
  # Fixed [topic,205985] incorrect image path name in admin popup

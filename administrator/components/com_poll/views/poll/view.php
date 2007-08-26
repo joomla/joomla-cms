@@ -58,16 +58,19 @@ class PollView
 					<th  class="title">
 						<?php echo JHTML::_('grid.sort',   'Poll Title', 'm.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="8%" align="center">
+					<th width="15%" align="center">
+						<?php echo JHTML::_('grid.sort',   'Alias', 'm.alias', @$lists['order_Dir'], @$lists['order'] ); ?>
+					</th>
+					<th width="5%" align="center">
 						<?php echo JHTML::_('grid.sort',   'Published', 'm.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="8%" align="center">
+					<th width="5%" align="center">
 						<?php echo JHTML::_('grid.sort',   'Votes', 'm.voters', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="8%" align="center">
+					<th width="5%" align="center">
 						<?php echo JHTML::_('grid.sort',   'Options', 'numoptions', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="8%" align="center">
+					<th width="5%" align="center">
 						<?php echo JHTML::_('grid.sort',   'Lag', 'm.lag', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="1%" nowrap="nowrap">
@@ -77,7 +80,7 @@ class PollView
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="8">
+					<td colspan="9">
 						<?php echo $pageNav->getListFooter(); ?>
 					</td>
 				</tr>
@@ -111,6 +114,9 @@ class PollView
 						<?php
 					}
 					?>
+					</td>
+					<td>
+						<?php echo $row->alias;?>
 					</td>
 					<td align="center">
 						<?php echo $published;?>

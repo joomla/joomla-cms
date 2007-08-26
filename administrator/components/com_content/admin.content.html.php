@@ -77,6 +77,7 @@ class ContentView
 					</th>
 					<th class="title">
 						<?php echo JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
+						/ <?php echo JText::_( 'Alias' );?>
 					</th>
 					<th width="1%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Published', 'c.state', @$lists['order_Dir'], @$lists['order'] ); ?>
@@ -84,17 +85,12 @@ class ContentView
 					<th nowrap="nowrap" width="1%">
 						<?php echo JHTML::_('grid.sort',   'Front Page', 'frontpage', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="80">
+					<th width="8%">
 						<?php echo JHTML::_('grid.sort',   'Order', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
-					<th width="1%">
 						<?php echo JHTML::_('grid.order',  $rows ); ?>
 					</th>
 					<th width="7%">
 						<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
-					<th width="2%" class="title">
-						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th class="title" width="8%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Section', 'section_name', @$lists['order_Dir'], @$lists['order'] ); ?>
@@ -110,6 +106,9 @@ class ContentView
 					</th>
 					<th align="center" width="10">
 						<?php echo JHTML::_('grid.sort',   'Hits', 'c.hits', @$lists['order_Dir'], @$lists['order'] ); ?>
+					</th>
+					<th width="1%" class="title">
+						<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 				</tr>
 			</thead>
@@ -207,6 +206,7 @@ class ContentView
 								<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?></a>
 							<?php
 						}
+						echo '<br />'.$row->alias;
 						?>
 					</td>
 					<?php
@@ -223,7 +223,7 @@ class ContentView
 						<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_frontpage')" title="<?php echo ( $row->frontpage ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>">
 							<img src="images/<?php echo ( $row->frontpage ) ? 'tick.png' : ( $row->state != -1 ? 'publish_x.png' : 'disabled.png' );?>" width="16" height="16" border="0" alt="<?php echo ( $row->frontpage ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
 					</td>
-					<td class="order" colspan="2">
+					<td class="order">
 						<span><?php echo $page->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid), 'orderup', 'Move Up', $ordering); ?></span>
 						<span><?php echo $page->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid), 'orderdown', 'Move Down', $ordering ); ?></span>
 						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
@@ -231,9 +231,6 @@ class ContentView
 					</td>
 					<td align="center">
 						<?php echo $access;?>
-					</td>
-					<td>
-						<?php echo $row->id; ?>
 					</td>
 						<td>
 							<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
@@ -251,6 +248,9 @@ class ContentView
 					</td>
 					<td nowrap="nowrap" align="center">
 						<?php echo $row->hits ?>
+					</td>
+					<td>
+						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php
@@ -684,12 +684,12 @@ class ContentView
 	function previewContent()
 	{
 		global $mainframe;
-		
+
 		$editor		=& JFactory::getEditor();
-		
+
 		$document	=& JFactory::getDocument();
 		$document->setLink($mainframe->getSiteURL());
-		
+
 		JHTML::_('behavior.caption');
 
 		?>
@@ -699,9 +699,9 @@ class ContentView
 
 		var alltext = window.top.<?php echo $editor->getContent('text') ?>;
 		alltext = alltext.replace('<hr id=\"system-readmore\" \/>', '');
-	
+
 		</script>
-		
+
 		<table align="center" width="90%" cellspacing="2" cellpadding="2" border="0">
 			<tr>
 				<td class="contentheading" colspan="2"><script>document.write(title);</script></td>
