@@ -111,7 +111,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		}
 		
 		$session = & JTable::getInstance('session');
-		$session->destroy($id);
+		$session->delete($id);
 		return true;
 	}
 

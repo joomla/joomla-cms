@@ -657,7 +657,8 @@ class JDatabase extends JObject
 	 * @param boolean If TRUE, displays the last SQL statement sent to the database
 	 * @return string A standised error message
 	 */
-	function stderr( $showSQL = false ) {
+	function stderr( $showSQL = false ) 
+	{
 		if ( $this->_errorNum != 0 ) {
 			return "DB function failed with error number $this->_errorNum"
 			."<br /><font color=\"red\">$this->_errorMsg</font>"

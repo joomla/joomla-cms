@@ -112,7 +112,7 @@ class JApplication extends JObject
 		
 		//Set the language in the class
 		$config =& JFactory::getConfig();
-
+		
 		// Check that we were given a language in the array (since by default may be blank)
 		if(isset($options['language'])) {
 			$config->setValue('config.language', $options['language']);
@@ -126,7 +126,7 @@ class JApplication extends JObject
 		
 		// Set the database debug
 		$db =& JFactory::getDBO();
-		//$db->debug( $config->debug_db );
+		$db->debug( $config->get('debug_db'));
 
 		//create the router -> lazy load it later
 		$this->_createRouter();

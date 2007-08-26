@@ -487,7 +487,8 @@ class JDatabaseMySQL extends JDatabase
 	{
 		$fmtsql = "UPDATE $table SET %s WHERE %s";
 		$tmp = array();
-		foreach (get_object_vars( $object ) as $k => $v) {
+		foreach (get_object_vars( $object ) as $k => $v) 
+		{
 			if( is_array($v) or is_object($v) or $k[0] == '_' ) { // internal or NA field
 				continue;
 			}

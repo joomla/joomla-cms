@@ -523,10 +523,10 @@ class JTable extends JObject
 	function canDelete( $oid=null, $joins=null )
 	{
 		$k = $this->_tbl_key;
-		if ($oid)
-		{
+		if ($oid) {
 			$this->$k = intval( $oid );
 		}
+		
 		if (is_array( $joins ))
 		{
 			$select = "$k";
@@ -592,8 +592,7 @@ class JTable extends JObject
 		//}
 
 		$k = $this->_tbl_key;
-		if ($oid)
-		{
+		if ($oid) {
 			$this->$k = intval( $oid );
 		}
 
