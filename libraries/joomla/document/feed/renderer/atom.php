@@ -53,7 +53,7 @@ jimport( 'joomla.utilities.date' );
 		$now	= new JDate();
 		$data	=& $this->_doc;
 
-		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\"";
+		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" xml:base=\"".JURI::base()."\"";
 		if ($data->language!="") {
 			$feed.= " xml:lang=\"".$data->language."\"";
 		}
@@ -85,7 +85,7 @@ jimport( 'joomla.utilities.date' );
 			$itemDate = new JDate($data->items[$i]->date);
 			$feed.= "		<published>".htmlspecialchars($itemDate->toISO8601())."</published>\n";
 			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601())."</updated>\n";
-			$feed.= "		<id>".htmlspecialchars(JURI::base().$data->items[$i]->link)."</id>\n";
+			$feed.= "		<id>".htmlspecialchars($data->items[$i]->link)."</id>\n";
 
 			if ($data->items[$i]->author!="")
 			{
