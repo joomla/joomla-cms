@@ -39,6 +39,7 @@ Legend:
 
 26-Aug-2007 Robin Muilwijk
  # Fixed [topic,167080] incorrect sample data
+ # Fixed [topic,205985] incorrect image path name in admin popup
 
 26-Aug-2007 Johan Janssens
  - Removed JApplication::loadConfiguration and loadSession, both are now handled by the 

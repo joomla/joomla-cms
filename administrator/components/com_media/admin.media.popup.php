@@ -32,7 +32,7 @@ class MediaViews
 		?>
 		<form action="index.php" id="imageForm" method="post" enctype="multipart/form-data">
 			<div id="messages" style="display: none;">
-				<span id="message"></span><img src="img/dots.gif" width="22" height="12" alt="..." />
+				<span id="message"></span><img src="images/dots.gif" width="22" height="12" alt="..." />
 			</div>
 			<fieldset>
 				<div style="float: left">
