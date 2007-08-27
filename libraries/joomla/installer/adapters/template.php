@@ -70,7 +70,7 @@ class JInstallerTemplate extends JObject
 		}
 
 		// Set the extensions name
-		$name =& $this->manifest->getElementByPath('name');
+		$name =& $root->getElementByPath('name');
 		$name = JFilterInput::clean($name->data(), 'cmd');
 		$this->set('name', $name);
 
@@ -118,8 +118,10 @@ class JInstallerTemplate extends JObject
 			return false;
 		}
 
-		// Copy media files
+		// Parse optional tags
 		$this->parent->parseFiles($root->getElementByPath('media'), $clientId);
+		$this->parent->parseLanguages($root->getElementByPath('languages'));
+		$this->parent->parseLanguages($root->getElementByPath('administration/languages'), 1);
 
 		// Get the template description
 		$description = & $root->getElementByPath('description');
@@ -178,6 +180,8 @@ class JInstallerTemplate extends JObject
 
 		// Remove files
 		$this->parent->removeFiles($root->getElementByPath('media'), $clientId);
+		$this->parent->removeFiles($root->getElementByPath('languages'));
+		$this->parent->removeFiles($root->getElementByPath('administration/languages'), 1);
 
 		// Delete the template directory
 		if (JFolder::exists($this->parent->getPath('extension_root'))) {

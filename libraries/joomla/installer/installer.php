@@ -1067,6 +1067,11 @@ class JInstaller extends JObject
 			 */
 			if ($file->name() == 'language' && $file->attributes('tag') != '') {
 				$path = $source.DS.$file->attributes('tag').DS.basename($file->data());
+
+				// If the language folder is not present, then the core pack hasn't been installed... ignore
+				if (!JFolder::exists(dirname($path))) {
+					continue;
+				}
 			} else {
 				$path = $source.DS.$file->data();
 			}

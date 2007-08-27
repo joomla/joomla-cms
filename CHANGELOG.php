@@ -37,13 +37,16 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Aug-2007 Rob Schley
+ # Fixed [topic,191592] Template installer can not install language files
+
 27-Aug-2007 Robin Muilwijk
  # Fixed [topic,206302] incorrect sample data, modules
 
 27-Aug-2007 Johan Janssens
  # Fixed frontpage duplicate content issues with readmore links. Read more links now
    redirect correctly.
- # Fixed issues with relative links in feeds, added xml:base tag to Atom and added 
+ # Fixed issues with relative links in feeds, added xml:base tag to Atom and added
    relative to absolute link convertor to RSS.
 
 27-Aug-2007 Andrew Eddie
@@ -55,14 +58,14 @@ Legend:
  # Fixed [topic,205985] incorrect image path name in admin popup
 
 26-Aug-2007 Johan Janssens
- - Removed JApplication::loadConfiguration and loadSession, both are now handled by the 
+ - Removed JApplication::loadConfiguration and loadSession, both are now handled by the
    constructor
  ^ Changed JSession to close and write the session store on object destruction. This change
    removes the need to call JSession::close or JApplication::close manualy.
 
 25-Aug-2007 Johan Janssens
  # Fixed [#4713] Preview article doesn't publish graphics...
- # Fixed [#6110] Double Quotes in menu Title and article Title results 
+ # Fixed [#6110] Double Quotes in menu Title and article Title results
  # Fixed [#6347] com_media folder content display issue
  # Fixed [#6086] Newsflash and Latest News modules won't display current created articles.
 
@@ -82,8 +85,8 @@ Legend:
  # Fixed [#5396] Section description will not process with IMG
  # Fixed [#5453] Image lightbox popup window acts differently in each browser
  # Fixed [#4870] Component Preferences: Title not translated
- ^ Decoupled joomla authentication plugin from $mainframe, the authentication credentials 
-   array now accepts an group varable that defines the minumum groupid the user needs to be 
+ ^ Decoupled joomla authentication plugin from $mainframe, the authentication credentials
+   array now accepts an group varable that defines the minumum groupid the user needs to be
    in for succesfull authentication
 
 24-Aug-2007 Toby Patterson
@@ -95,15 +98,15 @@ Legend:
  # Fixed [#6649] wrong image path in category blog
  # Fixed [#6641] Usermanager: user can block himself
  # Fixed [#6636] fat.js missing in khepri
- # Fixed [#6573] Legacy - pagination.php vs pageNavigation.php 
- # Fixed [#6572] Legacy - mosWarning 
- ^ Improved user synchronisation and user plugin support for com_user, block and logout users 
+ # Fixed [#6573] Legacy - pagination.php vs pageNavigation.php
+ # Fixed [#6572] Legacy - mosWarning
+ ^ Improved user synchronisation and user plugin support for com_user, block and logout users
     tasks now also trigger the user plugins
  ^ JApplication::logout now accepts userid variable to allow a force logout of any user.
  ^ Improved user onBeforeStore and onAfterStore events, the onBeforeStore event now receives
    the old user data which can be used to create assynchronous application bridges
  + Added Editor mode parameter to XStandard plugin
- 
+
 23-Aug-2007 Toby Patterson
  # Fixed [193612] RC1 - Mass mail throws language string error
 
