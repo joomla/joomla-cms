@@ -212,19 +212,19 @@ class TemplatesController
 			}
 
 			// Try to make the params file writeable
-			if (!$ftp['enabled'] && !JPath::setPermissions($file, '0755')) {
+			if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
 				JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template parameter file writable');
 			}
 
 			$return = JFile::write($file, $txt);
 
 			// Try to make the params file unwriteable
-			if (!$ftp['enabled'] && !JPath::setPermissions($file, '0555')) {
+			if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0555')) {
 				JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template parameter file unwritable');
 			}
 
 			if (!$return) {
-				$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
+				$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::sprintf('Failed to open file for writing.', $file));
 			}
 		}
 

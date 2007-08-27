@@ -38,6 +38,10 @@ Legend:
 ! -> Note
 
 27-Aug-2007 Rob Schley
+ ^ Changed JPath::isOwner() to hopefully be more reliable.
+ ^ Changed administrator/com_templates language string "FAILED TO OPEN FILE FOR WRITING." to accept a file name.
+ # Fixed com_templates not notifying you which file it failed to open for writing.
+ # Fixed [topic,200825] Template editing, double notice
  # Fixed administrator directory permission listing not displaying language directories
  # Fixed [topic,191592] Template installer can not install language files
 
