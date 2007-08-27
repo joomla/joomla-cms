@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 27-Aug-2007 Rob Schley
+ # Fixed administrator directory permission listing not displaying language directories
  # Fixed [topic,191592] Template installer can not install language files
 
 27-Aug-2007 Robin Muilwijk
