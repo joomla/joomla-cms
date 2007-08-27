@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Aug-2007 Robin Muilwijk
+ # Fixed [topic,206302] incorrect sample data, modules
+
 27-Aug-2007 Johan Janssens
  # Fixed frontpage duplicate content issues with readmore links. Read more links now
    redirect correctly.
