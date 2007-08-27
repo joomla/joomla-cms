@@ -40,6 +40,7 @@ class JElementNewsfeed extends JElement
 		. ' FROM #__newsfeeds AS a'
 		. ' INNER JOIN #__categories AS c ON a.catid = c.id'
 		. ' WHERE a.published = 1'
+		. ' AND c.published = 1'
 		. ' ORDER BY a.catid, a.name'
 		;
 		$db->setQuery( $query );
