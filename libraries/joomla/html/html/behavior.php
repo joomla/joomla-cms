@@ -250,7 +250,7 @@ class JHTMLBehavior
 
 		$config 		=& JFactory::getConfig();
 		$lifetime 	= ( $config->getValue('lifetime') * 60000 );
-		$refreshTime =  ( $lifetime <= 60000 ) ? 3000 : $lifetime - 6000;
+		$refreshTime =  ( $lifetime <= 60000 ) ? 30000 : $lifetime - 60000;
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
 		?>
 		<script language="javascript">
