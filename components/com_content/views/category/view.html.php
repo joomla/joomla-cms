@@ -188,15 +188,6 @@ class ContentViewCategory extends ContentView
 			}
 		}
 
-		// Set the Section name as a link if needed
-		if ($params->get('link_section') && $item->sectionid) {
-			$item->section = ContentHelperRoute::getSectionRoute($item);
-		}
-		// Set the Category name as a link if needed
-		if ($params->get('link_category') && $item->catid) {
-			$item->category = ContentHelperRoute::getCategoryRoute($item);
-		}
-
 		$item->readmore_link = $linkOn;
 		$item->readmore_text = $linkText;
 
