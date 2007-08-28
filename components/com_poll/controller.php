@@ -108,9 +108,9 @@ class PollController extends JController
 		$db->setQuery( $query );
 		$pList = $db->loadObjectList();
 
-		foreach ($pList as $p)
+		foreach ($pList as $k=>$p)
 		{
-			$p->url = JRoute::_('index.php?option=com_poll&task=results&id='.$p->id);
+			$pList[$k]->url = JRoute::_('index.php?option=com_poll&task=results&id='.$p->id);
 		}
 
 		array_unshift( $pList, JHTML::_('select.option',  '', JText::_( 'Select Poll from the list' ), 'url', 'title' ));
