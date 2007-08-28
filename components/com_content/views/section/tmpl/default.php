@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </tr>
 <tr>
 	<td colspan="2">
-	<?php if ($this->params->def('show_categories', 1)) : ?>
+	<?php if ($this->params->get('show_categories', 1)) : ?>
 	<ul>
 	<?php foreach ($this->categories as $category) : ?>
 		<?php if (!$this->params->get('show_empty_categories') && !$category->numitems) continue; ?>
