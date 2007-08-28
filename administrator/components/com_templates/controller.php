@@ -455,7 +455,7 @@ class TemplatesController
 		$file = $client->path.DS.'templates'.DS.$template.DS.'css'.DS.$filename;
 
 		// Try to make the css file writeable
-		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0755')) {
+		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
 			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the css file writable');
 		}
 
@@ -463,7 +463,7 @@ class TemplatesController
 		$return = JFile::write($file, $filecontent);
 
 		// Try to make the css file unwriteable
-		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0555')) {
+		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0555')) {
 			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the css file unwritable');
 		}
 
@@ -483,7 +483,7 @@ class TemplatesController
 			}
 		}
 		else {
-			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id.'&id='.$template.'&task=choose_css', JText::_('Operation Failed').': '.JText::sprintf('Failed to open file for writing.', $file));
 		}
 	}
 }
