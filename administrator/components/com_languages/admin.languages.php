@@ -126,15 +126,15 @@ function publishLanguage( $language )
 
 	// Initialize some variables
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-	
+
 	$params = JComponentHelper::getParams('com_languages');
 	$params->set($client->name, $language);
 
 	$table =& JTable::getInstance('component');
 	$table->loadByOption( 'com_languages' );
-	
+
 	$table->params = $params->toString();
-		
+
 	// pre-save checks
 	if (!$table->check()) {
 		JError::raiseWarning( 500, $table->getError() );
@@ -146,7 +146,7 @@ function publishLanguage( $language )
 		JError::raiseWarning( 500, $table->getError() );
 		return false;
 	}
-	
+
 	$mainframe->redirect('index.php?option=com_languages&client='.$client->id);
 }
 ?>

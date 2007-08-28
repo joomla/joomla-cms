@@ -272,19 +272,20 @@ class JApplicationHelper
 		$data['name'] = $element ? $element->data() : '';
 		$data['type'] = $element ? $xml->document->attributes("type") : '';
 
-		$element = & $xml->document->creationdate[0];
+		$element = & $xml->document->creationDate[0];
 		$data['creationdate'] = $element ? $element->data() : 'Unknown';
 
 		$element = & $xml->document->author[0];
+
 		$data['author'] = $element ? $element->data() : 'Unknown';
 
 		$element = & $xml->document->copyright[0];
 		$data['copyright'] = $element ? $element->data() : '';
 
-		$element = & $xml->document->authoremail[0];
+		$element = & $xml->document->authorEmail[0];
 		$data['authorEmail'] = $element ? $element->data() : '';
 
-		$element = & $xml->document->authorurl[0];
+		$element = & $xml->document->authorUrl[0];
 		$data['authorUrl'] = $element ? $element->data() : '';
 
 		$element = & $xml->document->version[0];
