@@ -623,6 +623,7 @@ class JApplication extends JObject
 
 		$session =& JFactory::getSession($options);
 
+		jimport('joomla.database.table');
 		$storage = & JTable::getInstance('session');
 		$storage->purge($session->getExpire());
 
