@@ -110,7 +110,7 @@ class PollController extends JController
 
 		foreach ($pList as $k=>$p)
 		{
-			$pList[$k]->url = JRoute::_('index.php?option=com_poll&task=results&id='.$p->id);
+			$pList[$k]->url = JRoute::_('index.php?option=com_poll&id='.$p->id);
 		}
 
 		array_unshift( $pList, JHTML::_('select.option',  '', JText::_( 'Select Poll from the list' ), 'url', 'title' ));
@@ -121,7 +121,7 @@ class PollController extends JController
 		$lists['polls'] = JHTML::_('select.genericlist',   $pList, 'id',
 			'class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=this.options[selectedIndex].value}"',
  			'url', 'title',
- 			JRoute::_('index.php?option=com_poll&task=results&id='.$poll_id)
+ 			JRoute::_('index.php?option=com_poll&id='.$poll_id)
  			);
 
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'poll'.DS.'view.php');
