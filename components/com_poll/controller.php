@@ -106,19 +106,22 @@ class PollController extends JController
 			. ' ORDER BY id'
 		;
 		$db->setQuery( $query );
-		$polls = $db->loadObjectList();
+		$pList = $db->loadObjectList();
 
-		$lists = array();
+		foreach ($pList as $p)
+		{
+			$p->url = JRoute::_('index.php?option=com_poll&task=results&id='.$p->id);
+		}
+
+		array_unshift( $pList, JHTML::_('select.option',  '', JText::_( 'Select Poll from the list' ), 'url', 'title' ));
 
 		// dropdown output
-		$link = JRoute::_( 'index.php?option=com_poll&task=results' );
+		$lists = array();
 
-		array_unshift( $polls, JHTML::_('select.option',  '', JText::_( 'Select Poll from the list' ), 'id', 'title' ));
-
-		$lists['polls'] = JHTML::_('select.genericlist',   $polls, 'id',
-			'class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\''. $link .'\'+ \'&amp;id=\' + this.options[selectedIndex].value}"',
- 			'id', 'title',
- 			$poll->id
+		$lists['polls'] = JHTML::_('select.genericlist',   $pList, 'id',
+			'class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=this.options[selectedIndex].value}"',
+ 			'url', 'title',
+ 			JRoute::_('index.php?option=com_poll&task=results&id='.$poll_id)
  			);
 
 		require_once (JPATH_COMPONENT.DS.'views'.DS.'poll'.DS.'view.php');
