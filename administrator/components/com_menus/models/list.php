@@ -446,7 +446,8 @@ class MenusModelList extends JModel
 						return false;
 					}
 				} else {
-					JError::raiseWarning( 'SOME_ERROR_CODE', 'You cannot unpublish the default menu item'  );
+					JError::raiseWarning( 'SOME_ERROR_CODE', 'You cannot unpublish the default menu item');
+					return false;
 				}
 			}
 		}

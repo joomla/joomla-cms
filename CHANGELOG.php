@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Aug-2007 Rob Schley
+ # Fixed [#6112] Wrong message when trying to unpublish default menu item and more
+
 27-Aug-2007 Rob Schley
  # Fixed [#6724] Component com_poll poll selection forms bad URL
  # Fixed [#6230] Date of language package "unknown" and no "Author E-mail"
