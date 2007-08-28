@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 27-Aug-2007 Rob Schley
+ # Fixed [#6724] Component com_poll poll selection forms bad URL
  # Fixed [#6230] Date of language package "unknown" and no "Author E-mail"
  ^ Changed JPath::isOwner() to hopefully be more reliable.
  ^ Changed administrator/com_templates language string "FAILED TO OPEN FILE FOR WRITING." to accept a file name.

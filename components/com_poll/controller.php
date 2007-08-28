@@ -111,13 +111,12 @@ class PollController extends JController
 		$lists = array();
 
 		// dropdown output
-		//$link = JRoute::_( 'index.php?option=com_poll&task=results&id='.$poll->id );
-		$link = JRoute::_( 'index.php?option=com_poll&task=results&id=' );
+		$link = JRoute::_( 'index.php?option=com_poll&task=results' );
 
 		array_unshift( $polls, JHTML::_('select.option',  '', JText::_( 'Select Poll from the list' ), 'id', 'title' ));
 
 		$lists['polls'] = JHTML::_('select.genericlist',   $polls, 'id',
-			'class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\''. $link .'\' + this.options[selectedIndex].value}"',
+			'class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\''. $link .'\'+ \'&amp;id=\' + this.options[selectedIndex].value}"',
  			'id', 'title',
  			$poll->id
  			);
