@@ -198,7 +198,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 	$row->toc .= '
 	<tr>
 		<td>
-		<a href="'. JRoute::_( '&limitstart=0') .'" class="toclink">'
+		<a href="'. JRoute::_( '&showall=&limitstart=0') .'" class="toclink">'
 		. $heading .
 		'</a>
 		</td>
@@ -209,7 +209,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
 	foreach ( $matches as $bot )
 	{
-		$link = JRoute::_( '&limitstart='. ($i-1) );
+		$link = JRoute::_( '&showall=&limitstart='. ($i-1) );
 
 		if ( @$bot[1] )
 		{
@@ -262,7 +262,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 
 	if ($params->get('showall') )
 	{
-		$link = JRoute::_( '&showall=1');
+		$link = JRoute::_( '&showall=1&limitstart=');
 		$row->toc .= '
 		<tr>
 			<td>

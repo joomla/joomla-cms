@@ -149,19 +149,7 @@ class JRouterSite extends JRouter
 			//Set the variables
 			$vars = JRequest::get('get');
 
-			// Removed any appended variables
-			/* Do we need this - tcp -> Yes we do but it's broken ! I'll fix
-			foreach($vars as $key => $value)
-			{
-				$this->_vars[$key] = $value;
-				if($key === 'Itemid') {
-					break;
-				}
-			}
-			*/
-
-			//We only received an Itemid, set the information from the itemid in the
-			// request
+			//We only received an Itemid, set the information from the itemid in the request
 			if(count($vars) == 1) {
 				JRequest::set($item->query, 'get', false );
 			}
@@ -282,6 +270,14 @@ class JRouterSite extends JRouter
 			parse_str($url, $vars);
 
 			$vars = array_merge($this->_vars, $vars);
+			
+			foreach($vars as $key => $var) 
+			{
+				if(empty($var)) {
+					unset($vars[$key]);
+				}
+			}
+			
 			$url = 'index.php?'.JURI::_buildQuery($vars);
 		}
 
