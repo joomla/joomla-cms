@@ -198,7 +198,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 	$row->toc .= '
 	<tr>
 		<td>
-		<a href="'. JRoute::_( '&showall=&limitstart=0') .'" class="toclink">'
+		<a href="'. JRoute::_( '&showall=&limitstart=') .'" class="toclink">'
 		. $heading .
 		'</a>
 		</td>
