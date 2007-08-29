@@ -31,7 +31,7 @@ if ($this->params->get('show_page_title') && $option == 'com_search') {
 
 echo '<div id="page">';
 
-if (!$this->error) {
+if (!$this->error && count($this->results) > 0) {
 	echo $this->loadTemplate('results');
 } else {
 	echo $this->loadTemplate('error');

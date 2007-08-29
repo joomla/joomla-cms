@@ -52,9 +52,9 @@ class SearchController extends JController
 		unset($post['task']);
 		unset($post['submit']);
 
-		$uri = new JURI();
+		$uri = JURI::getInstance();
 		$uri->setQuery($post);
 		
-		$this->setRedirect(JRoute::_('index.php?'.$uri->getQuery(), false));
+		$this->setRedirect(JRoute::_('index.php'.$uri->toString(array('query', 'fragment')), false));
 	}
 }

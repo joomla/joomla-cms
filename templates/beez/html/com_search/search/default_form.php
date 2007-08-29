@@ -1,58 +1,33 @@
-<?php
-defined('_JEXEC') or die('Restricted access');
+<?php defined('_JEXEC') or die('Restricted access'); ?>
+<form action="<?php echo JRoute::_( 'index.php?option=com_search#content' ) ?>" method="post" class="search_result<?php echo $this->params->get('pageclass_sfx') ?>">
+<a name="form1"></a>
+<h3><?php echo JText::_('search_again'); ?></h3>
+<fieldset class="word">
+<label for="search_searchword"><?php echo JText::_('Search Keyword') ?> </label>
+<input type="text" name="searchword" id="search_searchword"  maxlength="20" value="<?php echo $this->searchword ?>" class="inputbox" />
+</fieldset>
 
-/*
- *
- * Get the template parameters
- *
- */
-$filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
-if ($content = @ file_get_contents($filename)) {
-	$templateParams = new JParameter($content);
-} else {
-	$templateParams = null;
-}
-/*
- * hope to get a better solution very soon
- */
+<fieldset class="phrase">
+<legend><?php echo JText::_('Search Parameters') ?> </legend>
+<?php echo $this->lists['searchphrase']; ?>
+<br /><br />
+<label for="ordering" class="ordering"><?php echo JText::_('Ordering') ?>:</label>
+<?php echo $this->lists['ordering']; ?>
+</fieldset>
 
-$hlevel = $templateParams->get('headerLevelComponent', '2');
-$ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
-
-echo '<form action="'. JRoute::_( 'index.php?option=com_search' ) .'#content" method="post" class="search_result' . $this->params->get('pageclass_sfx') . '">';
-echo '<a name="form1"></a>';
-
-if (count($this->results)) {
-	$level = $hlevel +1;
-	echo '<h' . $level . '>';
-	echo JText :: _('search_again');
-	echo '</h' . $level . '>';
-}
-
-echo '<fieldset class="word">';
-echo '<label for="search_searchword">' . JText :: _('Search Keyword') . '</label>';
-echo '<input type="text" name="searchword" id="search_searchword"  maxlength="20" value="' . $this->searchword . '" class="inputbox" />';
-echo '</fieldset>';
-
-echo '<fieldset class="phrase">';
-echo '<legend>' . JText :: _('Search Parameters') . '</legend>';
-echo $this->lists['searchphrase'];
-echo '<br /><br />';
-echo '<label for="ordering" class="ordering">' . JText :: _('Ordering') . ':</label>';
-echo $this->lists['ordering'];
-echo '</fieldset>';
-
-if ($this->params->get('search_areas', 1)) {
-	echo '<fieldset class="only"><legend>' . JText :: _('Search Only') . ':' . '</legend>';
-	foreach ($this->searchareas['search'] as $val => $txt) {
-		$checked = is_array($this->searchareas['active']) && in_array($val, $this->searchareas['active']) ? 'checked="true"' : '';
-		echo '<input type="checkbox" name="areas[]" value="' . $val . '" id="area_' . $val . '" ' . $checked . ' />';
-		echo '<label for="area_' . $val . '">';
-		echo $txt;
-		echo '</label><br />';
-	}
-	echo '</fieldset>';
-}
-echo '<p><input type="submit" name="submit" value="' . JText :: _('Search') . '" class="button" /></p>';
-echo '</form>';
-?>
+<?php if ($this->params->get('search_areas', 1)) : ?>
+<fieldset class="only"><legend><?php echo JText::_('Search Only') ?>:</legend>
+	<?php foreach ($this->searchareas['search'] as $val => $txt) : ?>
+		<?php $checked = is_array($this->searchareas['active']) && in_array($val, $this->searchareas['active']) ? 'checked="true"' : ''; ?>
+		<input type="checkbox" name="areas[]" value="<?php echo $val ?>" id="area_<?php echo $val ?>" <?php echo $checked ?> />
+		<label for="area_<?php echo $val ?>">
+		<?php echo $txt; ?>
+		</label><br />
+	<?php endforeach; ?>
+</fieldset>
+<?php endif; ?>
+<p>
+	<input type="submit" name="submit" value="<?php echo JText::_('Search') ?>" class="button" />
+</p>
+<input type="hidden" name="task"   value="search" />
+</form>

@@ -1,83 +1,58 @@
-<?php
-defined('_JEXEC') or die('Restricted access');
+<?php defined('_JEXEC') or die('Restricted access'); ?>
 
-/*
- *
- * Get the template parameters
- *
- */
-$filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
-if ($content = @ file_get_contents($filename)) {
-	$templateParams = new JParameter($content);
-} else {
-	$templateParams = null;
-}
-/*
- * hope to get a better solution very soon
- */
+<?php if (!empty($this->searchword)) : ?>
+<div class="searchintro<?php echo $this->params->get('pageclass_sfx') ?>">
+	<p>
+		<?php echo JText::_('Search Keyword') ?><strong><? $this->searchword ?></strong>
+		<?php echo $this->result ?>
+		<a href="http://www.google.com/search?q=<?php echo $this->searchword ?>" target="_blank"> 
+			<?php echo $this->image ?>
+		</a>
+	</p>
+	<p>
+		<a href="#form1" onclick="document.getElementById('search_searchword').focus();return false" onkeypress="document.getElementById('search_searchword').focus();return false" ><?php echo JText::_('Search_again') ?></a>
+	</p>
+</div>
+<?php endif; ?>
 
-$hlevel = $templateParams->get('headerLevelComponent', '2');
-$ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
+<?php if (count($this->results)) : ?>
+<div class="results">
+	<h3><?php echo JText :: _('Search_result'); ?></h3>
+	<div class="display">
+	<form action="index.php" method="post" class="limit">
+		<label for="limit"><?php echo JText :: _('Display Num') ?></label>
+		<?php echo $this->pagination->getLimitBox(); ?>
+		<p>
+			<?php echo $this->pagination->getPagesCounter(); ?>
+		</p>
+	</form>
+	</div>
+	<?php $start = $this->pagination->limitstart + 1; ?>
+	<ol class="list<?php echo $this->params->get('pageclass_sfx') ?>" start="<?php $start ?>">
+		<?php foreach ($this->results as $result) : ?>
+		<li>
+			<?php if ($result->href) : ?>
+			<h4>
+				<a href="<?php echo JRoute :: _($result->href) ?> <?php echo ($result->browsernav == 1) ? 'target="_blank"' : ''; ?>" >
+					<?php echo $result->title; ?>
+				</a>
+			</h4>
+			<?php endif; ?>
+			<?php if ($result->section) : ?>
+			<p><?php echo JText::_('Category') ?>:
+				<span class="small<?php echo $this->params->get('pageclass_sfx') ?>">
+					<?php echo $result->section; ?>
+				</span>
+			</p>
+			<?php endif; ?>
 
-if (stripslashes($this->searchword) != '') {
-	echo '<div class="searchintro' . $this->params->get('pageclass_sfx') . '">';
-	echo '<p>' . JText :: _('Search Keyword') . ' <strong>' . stripslashes($this->searchword) . '</strong>';
-	echo $this->result;
-	echo '<a href="http://www.google.com/search?q=' . $this->searchword . '" target="_blank"> ';
-	echo $this->image . '</a></p>';
-	echo '<p> <a href="#form1" onclick="document.getElementById(' . "'search_searchword'" . ').focus();return false" onkeypress="document.getElementById(' . "'search_searchword'" . ').focus();return false" >' . JText :: _('Search_again') . ' </a></p>';
-	echo '</div>';
-}
-
-if (count($this->results)) {
-	echo '<div class="results">';
-	$level = $hlevel +1;
-	echo '<h' . $level . '>';
-	echo JText :: _('Search_result');
-	echo '</h' . $level . '>';
-	echo '<div class="display">';
-	echo '<form action="index.php" method="post" class="limit">';
-	echo '<label for="limit">' . JText :: _('Display Num') . '</label>';
-	echo $this->pagination->getLimitBox();
-	echo '<p>';
-	echo $this->pagination->getPagesCounter();
-	echo '</p>';
-	echo '</form>';
-	echo '</div>';
-	$start = $this->pagination->limitstart + 1;
-	echo '<ol class="list' . $this->params->get('pageclass_sfx') . '" start="' . $start . '">';
-	foreach ($this->results as $result) {
-		echo '<li>';
-		// echo '<span class="small' . $this->params->get('pageclass_sfx') . '">'. $result->count.'</span>';
-		if ($result->href) {
-			if ($result->browsernav == 1) {
-				$level = $hlevel +2;
-				echo '<h' . $level . '>';
-				echo '<a href="' . JRoute :: _($result->href) . '" target="_blank">';
-			} else {
-				$level = $hlevel +2;
-				echo '<h' . $level . '>';
-				echo '<a href="' . JRoute :: _($result->href) . '">';
-			}
-			echo $result->title;
-			echo '</h' . $level . '>';
-			echo '</a>';
-			if ($result->section) {
-				echo '<p>' . JText :: _('Category') . ':<span class="small' . $this->params->get('pageclass_sfx') . '">(';
-				echo $result->section;
-				echo ')</span></p>';
-			}
-		}
-		echo JFilterOutput::ampReplace($result->text);
-		if (!$mainframe->getCfg('hideCreateDate')) {
-			echo '<span class="small' . $this->params->get('pageclass_sfx') . '">';
-			echo $result->created;
-			echo '</span>';
-		}
-		echo '</li>';
-	}
-	echo '</ol>';
-	echo $this->pagination->getPagesLinks();
-	echo "</div>";
-}
-?>
+			<?php echo JFilterOutput::ampReplace($result->text); ?>
+			<span class="small<?php echo $this->params->get('pageclass_sfx') ?>">
+				<?php echo $result->created; ?>
+			</span>
+		</li>
+		<?php endforeach; ?>
+	</ol>
+	<?php echo $this->pagination->getPagesLinks(); ?>
+</div>
+<?php endif; ?>
