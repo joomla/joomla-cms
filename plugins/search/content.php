@@ -128,7 +128,8 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	$rows = array();
 
 	// search articles
-	if ( $sContent ) {
+	if ( $sContent ) 
+	{
 		$query = 'SELECT a.title AS title,'
 		. ' a.created AS created,'
 		. ' CONCAT(a.introtext, a.`fulltext`) AS text,'
@@ -157,7 +158,8 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// search uncategorised content
-	if ( $sUncategorised ) {
+	if ( $sUncategorised ) 
+	{
 		$query = 'SELECT id, a.title AS title, a.created AS created,'
 		. ' a.introtext AS text,'
 		. ' CONCAT( "index.php?option=com_content&view=article&id=", a.id ) AS href,'
@@ -179,7 +181,8 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// search archived content
-	if ( $sArchived ) {
+	if ( $sArchived ) 
+	{
 		$searchArchived = JText::_( 'Archived' );
 
 		$query = 'SELECT a.title AS title,'

@@ -79,12 +79,11 @@ function plgSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	$text = $db->getEscaped($text);
-	$query = 'SELECT a.name AS title,'
+	$query = 'SELECT a.name AS title, "" AS created,' 
+	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 	. ' CONCAT_WS( ", ", a.name, a.con_position, a.misc ) AS text,'
-	. ' "" AS created,'
 	. ' CONCAT_WS( " / ", '.$db->Quote($section).', b.title ) AS section,'
-	. ' "2" AS browsernav,'
-	. ' CONCAT( "index.php?option=com_contact&view=contact&id=", a.id ) AS href'
+	. ' "2" AS browsernav'
 	. ' FROM #__contact_details AS a'
 	. ' INNER JOIN #__categories AS b ON b.id = a.catid'
 	. ' WHERE ( a.name LIKE "%'.$text.'%"'
@@ -106,6 +105,10 @@ function plgSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 	;
 	$db->setQuery( $query, 0, $limit );
 	$rows = $db->loadObjectList();
+	
+	foreach($rows as $key => $row) {
+		$rows[$key]->href = 'index.php?option=com_contact&view=contact&id='.$row->slug;
+	}
 
 	return $rows;
 }

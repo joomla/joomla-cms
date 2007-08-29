@@ -33,7 +33,7 @@
 		<li>
 			<?php if ($result->href) : ?>
 			<h4>
-				<a href="<?php echo JRoute :: _($result->href) ?> <?php echo ($result->browsernav == 1) ? 'target="_blank"' : ''; ?>" >
+				<a href="<?php echo JRoute :: _($result->href) ?>" <?php echo ($result->browsernav == 1) ? 'target="_blank"' : ''; ?>" >
 					<?php echo $result->title; ?>
 				</a>
 			</h4>

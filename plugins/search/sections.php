@@ -75,19 +75,16 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	$text = $db->getEscaped($text);
-	$query = 'SELECT a.name AS title,'
-	. ' a.description AS text,'
+	$query = 'SELECT a.name AS title, a.description AS text,'
 	. ' "" AS created,'
 	. ' "2" AS browsernav,'
-	. ' a.id AS secid, m.id AS menuid, m.type AS menutype'
+	. ' a.id AS secid'
 	. ' FROM #__sections AS a'
-	. ' LEFT JOIN #__menu AS m ON m.componentid = a.id'
 	. ' WHERE ( a.name LIKE "%'.$text.'%"'
 	. ' OR a.title LIKE "%'.$text.'%"'
 	. ' OR a.description LIKE "%'.$text.'%" )'
 	. ' AND a.published = 1'
 	. ' AND a.access <= '.(int) $user->get( 'aid' )
-	. ' AND ( m.type = "content_section" OR m.type = "content_blog_section" )'
 	. ' GROUP BY a.id'
 	. ' ORDER BY '. $order
 	;
@@ -95,15 +92,10 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 	$rows = $db->loadObjectList();
 
 	$count = count( $rows );
-	for ( $i = 0; $i < $count; $i++ ) {
-		if ( $rows[$i]->menutype == 'content_section' ) {
-			$rows[$i]->href 	= 'index.php?option=com_content&task=section&id='. $rows[$i]->secid .'&Itemid='. $rows[$i]->menuid;
-			$rows[$i]->section 	= JText::_( 'Section List' );
-		}
-		if ( $rows[$i]->menutype == 'content_blog_section' ) {
-			$rows[$i]->href 	= 'index.php?option=com_content&task=blogsection&id='. $rows[$i]->secid .'&Itemid='. $rows[$i]->menuid;
-			$rows[$i]->section 	= JText::_( 'Section Blog' );
-		}
+	for ( $i = 0; $i < $count; $i++ ) 
+	{
+		$rows[$i]->href 	= 'index.php?option=com_content&task=section&id='. $rows[$i]->secid;
+		$rows[$i]->section 	= JText::_( 'Section' );
 	}
 
 	return $rows;

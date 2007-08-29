@@ -123,27 +123,6 @@ class SearchViewSearch extends JView
 					$hlword = htmlspecialchars( stripslashes( $hlword ) );
 					$row = eregi_replace( $hlword, '<span class="highlight">\0</span>', $row );
 				}
-
-				if ( strpos( $results[$i]->href, 'http' ) == false )
-				{
-					$url = parse_url( $results[$i]->href );
-					
-					if( !empty( $url['query'] ) ) {
-						$link = null;
-						parse_str( $url['query'], $link );
-					} else {
-						$link = '';
-					}
-
-					// determines Itemid for articles where itemid has not been included
-					if ( !empty($link) && @$link['task'] == 'view' && isset($link['id']) && !isset($link['Itemid']) ) {
-						$itemid = '';
-						if (ContentHelperRoute::getArticleRoute( $link['id'] )) {
-							$itemid = '&Itemid='. ContentHelperRoute::getArticleRoute( $link['id'] );
-						}
-						$results[$i]->href = $rows[$i]->href . $itemid;
-					}
-				}
 			}
 		}
 
