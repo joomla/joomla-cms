@@ -1,5 +1,4 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<tr>

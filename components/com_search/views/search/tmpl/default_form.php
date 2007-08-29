@@ -1,5 +1,5 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die('Restricted access'); ?>
+
 <form action="<?php echo JRoute::_( 'index.php?option=com_search' );?>" method="post" name="adminForm">
 	<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<tr>

@@ -54,6 +54,8 @@ class SearchController extends JController
 
 		$uri = JURI::getInstance();
 		$uri->setQuery($post);
+		$uri->setVar('option', 'com_search');
+		
 		
 		$this->setRedirect(JRoute::_('index.php'.$uri->toString(array('query', 'fragment')), false));
 	}
