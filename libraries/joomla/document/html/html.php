@@ -223,6 +223,10 @@ class JDocumentHTML extends JDocument
 			$content = file_get_contents($directory.DS.$template.DS.'params.ini');
 			$this->params = new JParameter($content);
 		}
+		
+		// Load the language file for the template
+		$lang =& JFactory::getLanguage();
+		$lang->load( 'tpl_'.$template );
 
 		$this->template =& $template;
 

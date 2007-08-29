@@ -39,6 +39,8 @@ Legend:
 
 29-Aug-2007 Johan Janssens
  ^ Refactored frontend search component to a full MVC implementation
+ # Fixed [#6763] sessionhandler="none" breaks site
+ # Fixed [#6703] Please add language ini functionality in template installer
 
 29-Aug-2007 Enno Klasing
  + Added module chrome to Beez
