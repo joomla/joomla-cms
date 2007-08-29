@@ -67,13 +67,13 @@ class SearchViewSearch extends JView
 		$orders[] = JHTML::_('select.option',  'category', JText::_( 'Section/Category' ) );
 		
 		$lists = array();
-		$lists['ordering'] = JHTML::_('select.genericlist',   $orders, 'ordering', 'class="inputbox"', 'value', 'text', $state->get('ordering)') );
+		$lists['ordering'] = JHTML::_('select.genericlist',   $orders, 'ordering', 'class="inputbox"', 'value', 'text', $state->get('ordering') );
 
 		$searchphrases 		= array();
 		$searchphrases[] 	= JHTML::_('select.option',  'any', JText::_( 'Any words' ) );
 		$searchphrases[] 	= JHTML::_('select.option',  'all', JText::_( 'All words' ) );
 		$searchphrases[] 	= JHTML::_('select.option',  'exact', JText::_( 'Exact phrase' ) );
-		$lists['searchphrase' ]= JHTML::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match)') );
+		$lists['searchphrase' ]= JHTML::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match') );
 
 		// log the search
 		SearchHelper::logSearch( $state->get('keyword'));
