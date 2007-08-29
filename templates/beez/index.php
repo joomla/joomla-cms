@@ -49,16 +49,13 @@ $showRightColumn = JRequest::getCmd('layout') != 'form' && $task != 'edit';
 			<h2 class="unsichtbar">Search, View and Navigation</h2>
 
 			<div id="fontsize">
-			<script type="text/javascript"><!--
-				var size =['<h3>Font-size:</h3><p class="fontsize">']
-				var bigger  =['<a href="index.php" title="Increase size" onclick="changeFontSize(2);return false;" class="larger"> bigger</a><span class="unsichtbar">&nbsp;</span> ']  ;
-				var smaller =['<a href="index.php" title="Decrease size" onclick="changeFontSize(-2);return false;" class="smaller"> smaller</a><span class="unsichtbar">&nbsp;</span> ']  ;
-				var reset = ['<a href="index.php" title="Revert styles to default" onclick="revertStyles(); return false;" class="reset">  reset</a></p> '];
-				document.write(size);
-				document.write(bigger);
-				document.write(smaller);
-				document.write(reset);
-			-->
+			<script type="text/javascript">
+			//<![CDATA[
+				document.write('<h3>Font-size:</h3><p class="fontsize">');
+				document.write('<a href="index.php" title="Increase size" onclick="changeFontSize(2); return false;" class="larger">bigger</a><span class="unsichtbar">&nbsp;</span>');
+				document.write('<a href="index.php" title="Decrease size" onclick="changeFontSize(-2); return false;" class="smaller">smaller</a><span class="unsichtbar">&nbsp;</span>');
+				document.write('<a href="index.php" title="Revert styles to default" onclick="revertStyles(); return false;" class="reset">reset</a></p>');
+			//]]>
 			</script>
 			</div>
 

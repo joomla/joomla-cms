@@ -1,4 +1,7 @@
 <?php
+/**
+ * @version $Id$
+ */
 defined('_JEXEC') or die('Restricted access');
 
 /*
@@ -16,38 +19,49 @@ if ($content = @ file_get_contents($filename)) {
  * hope to get a better solution very soon
  */
 
-$hlevel = $templateParams->get('headerLevelComponent', '2');
-$ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
-
-echo '<dl class="poll">';
-echo '<dt>'.JText::_( 'Number of Voters' ).'</dt><dd>'.$this->votes[0]->voters.'</dd>';
-echo '<dt>'.JText::_( 'First Vote' ).'</dt><dd>'.$this->first_vote.'</dd>';
-echo '<dt>'. JText::_( 'Last Vote' ).'</dt><dd>'.$this->last_vote.'</dd>';
-echo '</dl>';
-$polltitlelevel = $hlevel + 1;
-
-echo '<h'.$polltitlelevel.'>';
-echo $this->poll->title;
-echo '</h'.$polltitlelevel.'>';
-
-echo '<table class="pollstableborder">';
-/* Translation is missing */
-echo '<tr><th id="itema" class="td_1">hits</th><th id="itemb" class="td_2">Prozent</th><th id="itemc" class="td_3">Graph</th></tr>';
-for ($i=0;$i<count($this->votes);$i++)
-{
-	$vote=$this->votes[$i];
-	echo '<tr><td colspan="3" id="question'.$i.'" class="question">';
-	echo $vote->text.'</td></tr>';
-	echo '<tr class="sectiontableentry'.$vote->odd.'">';
-	echo '<td headers="itema question'.$i.'"  class="td_1">';
-	echo $vote->hits;
-	echo '</td>';
-	echo '<td  headers="itemb question'. $i.'"  class="td_2">';
-	echo $vote->percent.'%';
-	echo '</td>';
-	echo '<td  headers="itemc question'. $i.'" class="td_3">';
-	echo '<div class="'. $vote->class.'" style="height:'. $vote->barheight .'px;width:'. $vote->percent .'% !important"></div>';
-	echo '</td></tr>';
-}
-echo '</table>';
+$hLevel = $templateParams->get( 'headerLevelComponent', '2' );
+$ptLevel = $templateParams->get( 'pageTitleHeaderLevel', '1' );
+$pollTitleOpen = '<h' . ($hLevel + 1) . '>';
+$pollTitleClose = '</h' . ($hLevel + 1) . '>';
 ?>
+
+<dl class="poll">
+	<dt><?php echo JText::_( 'Number of Voters' ); ?></dt>
+	<dd><?php echo $this->votes[0]->voters; ?></dd>
+	<dt><?php echo JText::_( 'First Vote' ); ?></dt>
+	<dd><?php echo $this->first_vote; ?></dd>
+	<dt><?php echo JText::_( 'Last Vote' ); ?></dt>
+	<dd><?php echo $this->last_vote; ?></dd>
+</dl>
+
+<?php echo $pollTitleOpen; ?>
+	<?php echo $this->poll->title; ?>
+<?php echo $pollTitleClose; ?>
+
+<table class="pollstableborder">
+	<tr>
+		<th id="itema" class="td_1"><?php echo JText::_( 'Hits' ); ?></th>
+		<th id="itemb" class="td_2"><?php echo JText::_( 'Percent' ); ?></th>
+		<th id="itemc" class="td_3"><?php echo JText::_( 'Graph' ); ?></th>
+	</tr>
+	<?php for ( $row = 0; $row < count( $this->votes ); $row++ ) :
+		$vote = $this->votes[$row];
+	?>
+	<tr>
+		<td colspan="3" id="question<?php echo $row; ?>" class="question">
+			<?php echo $vote->text; ?>
+		</td>
+	</tr>
+	<tr class="sectiontableentry<?php echo $vote->odd; ?>">
+		<td headers="itema question<?php echo $row; ?>" class="td_1">
+			<?php echo $vote->hits; ?>
+		</td>
+		<td headers="itemb question<?php echo $row; ?>" class="td_2">
+			<?php echo $vote->percent.'%' ?>
+		</td>
+		<td headers="itemc question<?php echo $row; ?>" class="td_3">
+			<div class="<?php echo $vote->class; ?>" style="height:<?php echo $vote->barheight; ?>px;width:<?php echo $vote->percent; ?>% !important"></div>
+		</td>
+	</tr>
+	<?php endfor; ?>
+</table>

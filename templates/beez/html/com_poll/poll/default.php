@@ -1,4 +1,7 @@
 <?php
+/**
+ * @version $Id$
+ */
 defined('_JEXEC') or die('Restricted access');
 
 /*
@@ -16,45 +19,37 @@ if ($content = @ file_get_contents($filename)) {
  * hope to get a better solution very soon
  */
 
-$hlevel = $templateParams->get('headerLevelComponent', '2');
-$ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
+$ptLevel = $templateParams->get('pageTitleHeaderLevel', '1');
+$headerOpen = '<h' . $ptLevel . ' class="componentheading' . $this->params->get( 'pageclass_sfx' ).'">';
+$headerClose = '</h' . $ptLevel . '>';
 
 ?>
 <script type = "text/javascript">
-<!--
+//<![CDATA[
 	var link = document.createElement('link');
 	link.setAttribute('href', 'components/com_poll/assets/poll_bars.css');
 	link.setAttribute('rel', 'stylesheet');
 	link.setAttribute('type', 'text/css');
 	var head = document.getElementsByTagName('head').item(0);
 	head.appendChild(link);
-//-->
+//]]>
 </script>
 
-<?php
+<?php echo $headerOpen; ?>
+	<?php if ($this->params->get( 'title' )) : ?>
+	<?php echo $this->poll->title ? $this->poll->title : JText::_( 'Select Poll' ); ?>
+	<?php else : ?>
+	<?php echo JText::_('Poll'); ?>
+	<?php endif; ?>
+<?php echo $headerClose; ?>
 
-if ($this->params->get( 'title'))
-{
-	echo '<h'.$ptlevel .' class="componentheading'. $this->params->get( 'pageclass_sfx' ).'">';
-	echo $this->poll->title ? $this->poll->title : JText::_('Select Poll') ;
-	echo '</h'.$ptlevel .'>';
-} else 	{
-	echo '<h'.$ptlevel .' class="componentheading'. $this->params->get( 'pageclass_sfx' ).'">';
-	echo JText::_('Poll') ;
-	echo '</h'.$ptlevel .'>';
-}
-
-echo '<div class="poll'.$this->params->get( 'pageclass_sfx' ).'">';
-echo '<form action="index.php" method="post" name="poll" id="poll">';
-echo '<label for="id">';
-echo JText::_('Select Poll') .'&nbsp;';
-echo $this->lists['polls'];
-echo '</label>';
-echo '</form>';
-
-if (count($this->votes))
-{
-	echo $this->loadTemplate('graph');
-}
-echo '</div>';
-?>
+<div class="poll<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<form action="index.php" method="post" name="poll" id="poll">
+		<label for="id">
+			<?php echo JText::_( 'Select Poll' ); ?>&nbsp;<?php echo $this->lists['polls']; ?>
+		</label>
+	</form>
+	<?php if (count($this->votes)) : ?>
+	<?php echo $this->loadTemplate( 'graph' ); ?>
+	<?php endif; ?>
+</div>
