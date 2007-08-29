@@ -21,7 +21,7 @@ require_once (JPATH_COMPONENT.DS.'controller.php');
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 
 // Create the controller
-$controller = new NewsfeedsController( );
+$controller = new SearchController( );
 
 // Perform the Request task
 $controller->execute('');

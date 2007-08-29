@@ -39,10 +39,15 @@ class SearchController extends JController
 	
 	function search()
 	{
-		global $mainframe;
-		
 		$post = JRequest::get('post');
-		$post['Itemid'] = JRequest::getVar('Itemid');
+		
+		// set Itemid id for links
+		$menu = &JMenu::getInstance();
+		$items	= $menu->getItems('link', 'index.php?option=com_search&view=search');
+
+		if(isset($items[0])) {
+			$post['Itemid'] = $items[0]->id;
+		}
 
 		unset($post['task']);
 		unset($post['submit']);

@@ -54,7 +54,9 @@ class SearchViewSearch extends JView
 		$menu   = $menus->getActive();
 		$params	= &$mainframe->getPageParameters();
 
-		$params->def( 'page_title', $menu->name );
+		if(isset($menu)) {
+			$params->def( 'page_title', $menu->name );
+		}
 
 		// built select lists
 		$orders = array();

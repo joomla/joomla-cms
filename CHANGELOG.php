@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Aug-2007 Johan Janssens
+ ^ Refactored frontend search component to a full MVC implementation
+
 29-Aug-2007 Enno Klasing
  + Added module chrome to Beez
 

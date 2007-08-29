@@ -18,6 +18,5 @@ defined('_JEXEC') or die('Restricted access');
 require_once( dirname(__FILE__).DS.'helper.php' );
 
 $inputfield	= modSearchHelper::renderInputField($params);
-$itemid		= modSearchHelper::getItemid();
 
 require(JModuleHelper::getLayoutPath('mod_search'));
