@@ -42,11 +42,11 @@ $showRightColumn = JRequest::getCmd('layout') != 'form' && $task != 'edit';
 			</h1>
 			<ul>
 				<li><a href="<?php $url->setFragment('content'); echo htmlspecialchars($url->toString());?>" class="u2">skip to content</a></li>
-				<li> <a href="<?php $url->setFragment('mainmenu'); echo htmlspecialchars($url->toString());?>" class="u2">Jump to main navigation and Login</a> </li>
-				<li> <a href="<?php $url->setFragment('additional'); echo htmlspecialchars($url->toString());?>" class="u2">Jump to additional Informations</a> </li>
+				<li><a href="<?php $url->setFragment('mainmenu'); echo htmlspecialchars($url->toString());?>" class="u2">Jump to main navigation and Login</a></li>
+				<li><a href="<?php $url->setFragment('additional'); echo htmlspecialchars($url->toString());?>" class="u2">Jump to additional Informations</a></li>
 			</ul>
 
-			<h2 class="unsichtbar">Search, View and Navigation </h2>
+			<h2 class="unsichtbar">Search, View and Navigation</h2>
 
 			<div id="fontsize">
 			<script type="text/javascript"><!--
@@ -62,11 +62,11 @@ $showRightColumn = JRequest::getCmd('layout') != 'form' && $task != 'edit';
 			</script>
 			</div>
 
-			<jdoc:include type="modules" name="user3"  />
+			<jdoc:include type="modules" name="user3" />
 			<jdoc:include type="modules" name="user4" />
 
 			<div id="breadcrumbs">
-				<p> You are here: <jdoc:include type="module" name="breadcrumbs" /></p>
+				<p>You are here: <jdoc:include type="module" name="breadcrumbs" /></p>
 			</div>
 			<div class="wrap">&nbsp;</div>
 		</div> <!-- end header -->
@@ -78,7 +78,7 @@ $showRightColumn = JRequest::getCmd('layout') != 'form' && $task != 'edit';
 <?php endif; ?>
 		<a name="mainmenu"></a>
 		<div id="left">
-			<jdoc:include type="modules" name="left" style="xhtml" />
+			<jdoc:include type="modules" name="left" style="beezDivision" headerLevel="3" />
 		</div> <!-- left -->
 
 		<a name="content"></a>
@@ -104,19 +104,19 @@ $showRightColumn = JRequest::getCmd('layout') != 'form' && $task != 'edit';
 		<a name="additional"></a>
 		<h2 class="unsichtbar">additional informations</h2>
 		<?php if ($this->countModules('top')) : ?>
-		<jdoc:include type="modules" name="top" style="xhtml" />
+		<jdoc:include type="modules" name="top" style="beezDivision" headerLevel="3" />
 		<?php endif; ?>
 
 		<?php if ($this->countModules('user1')) : ?>
-		<jdoc:include type="modules" name="user1" style="xhtml" />
+		<jdoc:include type="modules" name="user1" style="beezDivision" headerLevel="3" />
 		<?php endif; ?>
 
 		<?php if ($this->countModules('user2')) : ?>
-		<jdoc:include type="modules" name="user2" style="xhtml" />
+		<jdoc:include type="modules" name="user2" style="beezDivision" headerLevel="3" />
 		<?php endif; ?>
 
 		<?php if ($this->countModules('right')) : ?>
-		<jdoc:include type="modules" name="right" style="xhtml"/>
+		<jdoc:include type="modules" name="right" style="beezDivision" headerLevel="3" />
 		<?php endif; ?>
 		</div> <!-- right -->
 	<?php endif; ?>

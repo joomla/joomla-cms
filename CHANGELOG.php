@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Aug-2007 Enno Klasing
+ + Added module chrome to Beez
+
 28-Aug-2007 Rob Schley
  # Fixed [topic,205896] Polls results giving error
  # Fixed [#6112] Wrong message when trying to unpublish default menu item and more
