@@ -233,7 +233,8 @@ class JLanguage extends JObject
 		}
 		else
 		{
-			if (defined($string)) {
+			if (defined($string)) 
+			{
 				$string = $this->_debug ? '!!'.constant($string).'!!' : constant($string);
 
 				// Store debug information
