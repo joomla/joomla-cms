@@ -10,7 +10,7 @@
 	<version>1.5.0</version>
 	<description>Smart Syndication module that creates syndicated feed for the page where the module is displayed</description>
 	<files>
-		<filename module="mod_syndicate">mod_sydicate.php</filename>
+		<filename module="mod_syndicate">mod_syndicate.php</filename>
 	</files>
 	<params>
 		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">

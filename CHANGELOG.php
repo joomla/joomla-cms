@@ -41,6 +41,7 @@ Legend:
  ^ Refactored frontend search component to a full MVC implementation
  # Fixed [#6763] sessionhandler="none" breaks site
  # Fixed [#6703] Please add language ini functionality in template installer
+ # Fixed [#6777] mistake in name mod_syndicate 
 
 29-Aug-2007 Enno Klasing
  + Added module chrome to Beez
