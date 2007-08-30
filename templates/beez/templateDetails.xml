@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="template">
 	<name>beez</name>
 	<version>1.0.0</version>
@@ -151,21 +151,5 @@
 		<position>syndicate</position>
 	</positions>
 	<params>
-		<param name="headerLevelComponent" type="list" default="2"
-			label="header level Component" description="">
-			<option value="1">h1</option>
-			<option value="2">h2</option>
-			<option value="3">h3</option>
-			<option value="4">h4</option>
-			<option value="5">h5</option>
-		</param>
-		<param name="pageTitleHeaderLevel" type="list" default="1"
-			label="header level page title" description="">
-			<option value="1">h1</option>
-			<option value="2">h2</option>
-			<option value="3">h3</option>
-			<option value="4">h4</option>
-			<option value="5">h5</option>
-		</param>
 	</params>
 </install>
