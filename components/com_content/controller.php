@@ -140,7 +140,7 @@ class ContentController extends JController
 			$msg = JText::_( 'Article Saved' );
 
 			if($isNew) {
-				$post['id'] = (int) $db->insertid();
+				$post['id'] = (int) $model->get('id');
 			}
 		} else {
 			$msg = JText::_( 'Error Saving Article' );

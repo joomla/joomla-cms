@@ -374,6 +374,11 @@ class ContentModelArticle extends JModel
 			return false;
 		}
 
+		if ($isNew)
+		{
+			$this->_id = $article->_db->insertId();
+		}
+
 		$article->reorder("catid = " . (int) $data['catid']);
 
 		return true;
