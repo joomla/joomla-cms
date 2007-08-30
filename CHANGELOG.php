@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Aug-2007 Toby Patterson
+ # Fixed [#5695] Installer doesn't show output messages in PHP 4
+
 30-Aug-2007 Rob Schley
  * Fixed several potential full path disclosure vulnerabilities
  * Fixed XSS vulnerability in com_content
