@@ -1,30 +1,31 @@
 <?php
+/**
+ * @version $Id$
+ */
+
 defined('_JEXEC') or die('Restricted access');
 
-// temp fix
-$level = 4;
-
-if ($params->get('item_title')) {
-	if ($params->get('link_titles') && $linkOn != '') {
-		echo '<h' . $level . '><a href="' . JRoute::_($linkOn) . '" class="contentpagetitle' . $params->get('moduleclass_sfx') . '">';
+if ($params->get('item_title')) : ?>
+<h4>
+	<?php if ($params->get('link_titles') && $linkOn != '') : ?>
+	<a href="<?php echo JRoute::_($linkOn); ?>" class="contentpagetitle<?php echo $params->get('moduleclass_sfx'); ?>">
+		<?php echo $item->title; ?>
+	</a>
+	<?php else :
 		echo $item->title;
-		echo '</a></h' . $level . '>';
-	} else {
-		echo '<h' . $level . '>' . $item->title . '</h' . $level . '>';
-	}
+	endif; ?>
+</h4>
+<?php endif; ?>
 
-}
-
-if (!$params->get('intro_only')) {
+<?php if (!$params->get('intro_only')) :
 	echo $item->afterDisplayTitle;
-}
+endif; ?>
 
-echo $item->beforeDisplayContent;
+<?php echo $item->beforeDisplayContent;
 echo JFilterOutput::ampReplace($item->text);
-if (isset ($item->linkOn) && $item->readmore) {
-	echo '<a href="' . $item->linkOn . '" class="readon">' . JText :: _('Read more') . '</a>';
-}
-// AJE: Don't think this is relevent in the context of this module??
-//echo $item->afterDisplayContent;
-echo '<span class="article_separator">&nbsp;</span>';
-?>
+if (isset($item->linkOn) && $item->readmore) : ?>
+<a href="<?php $item->linkOn; ?>" class="readon">
+	<?php echo JText::_('Read more'); ?>
+</a>
+<?php endif; ?>
+<span class="article_separator">&nbsp;</span>

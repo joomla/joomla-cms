@@ -1,45 +1,35 @@
 <?php
+/**
+ * @version $Id$
+ */
+
 defined('_JEXEC') or die('Restricted access');
 
-/*
- *
- * Get the template parameters
- *
- */
-$filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
-if ($content = @ file_get_contents($filename)) {
-	$templateParams = new JParameter($content);
-} else {
-	$templateParams = null;
-}
-/*
- * hope to get a better solution very soon
- */
-
-$hlevel = $templateParams->get('headerLevelComponent', '2');
-$hlevel++;
-$hlevel++;
-
-echo "<h$hlevel>" . $item->title . "</h$hlevel>";
-echo '<form name="form2" method="post" action="index.php" class="poll">';
-echo '<fieldset>';
-for ($i = 0, $n = count($options); $i < $n; $i++) {
-	echo '<input type="radio" name="voteid" id="voteid' . $options[$i]->id . '" value="' . $options[$i]->id . '" alt="' . $options[$i]->id . '" />';
-	echo '<label for="voteid' . $options[$i]->id . '">';
-	echo $options[$i]->text;
-	echo '</label><br />';
-}
-echo '</fieldset>';
-
-echo '<input type="submit" name="task_button" class="button" value="' . JText :: _('Vote') . '" />';
-echo '<a href="' . JRoute :: _("index.php?option=com_poll&task=results&id=$item->id#content") . '">';
-echo JText :: _('Results');
-echo '</a>';
-
-echo '<input type="hidden" name="option" value="com_poll" />';
-echo '<input type="hidden" name="Itemid" value="' . $itemid . '" />';
-echo '<input type="hidden" name="id" value="' . $item->id . '" />';
-echo '<input type="hidden" name="task" value="vote" />';
-echo '<input type="hidden" name="' . JUtility :: getToken() . '" value="1" />';
-echo '</form>';
 ?>
+
+<h4>
+	<?php echo $item->title; ?>
+</h4>
+
+<form name="form2" method="post" action="index.php" class="poll">
+	<fieldset>
+		<?php for ($i = 0, $n = count($options); $i < $n; $i++) : ?>
+		<input type="radio" name="voteid" id="voteid<?php echo $options[$i]->id; ?>" value="<?php echo $options[$i]->id; ?>" alt="<?php echo $options[$i]->id; ?>" />
+		<label for="voteid<?php echo $options[$i]->id; ?>">
+			<?php echo $options[$i]->text; ?>
+		</label>
+		<br />
+		<?php endfor; ?>
+	</fieldset>
+
+	<input type="submit" name="task_button" class="button" value="<?php echo JText::_('Vote'); ?>" />
+	<a href="<?php echo JRoute::_('index.php?option=com_poll&id='.$item->id.'#content'); ?>">
+		<?php echo JText::_('Results'); ?>
+	</a>
+
+	<input type="hidden" name="option" value="com_poll" />
+	<input type="hidden" name="Itemid" value="<?php echo $itemid; ?>" />
+	<input type="hidden" name="id" value="<?php echo $item->id; ?>" />
+	<input type="hidden" name="task" value="vote" />
+	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+</form>

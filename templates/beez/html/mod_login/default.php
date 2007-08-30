@@ -1,47 +1,71 @@
 <?php
+/**
+ * @version $Id$
+ */
+
 defined('_JEXEC') or die('Restricted access');
 
-if ($type == 'logout') {
-	echo '<form action="index.php" method="post" name="login" class="log">';
-	if ($params->get('greeting')) {
-		echo '<p>' . sprintf(JText :: _('HINAME'), $user->get('name')) . '</p>';
-	}
-	echo '<p><input type="submit" name="Submit" class="button" value="' . JText :: _('BUTTON_LOGOUT') . '" /></p>';
-	echo '<input type="hidden" name="option" value="com_user" />';
-	echo '<input type="hidden" name="task" value="logout" />';
-	echo '<input type="hidden" name="return" value="' . $return. '" />';
-	echo '</form>';
-} else {
-	echo '<form action="index.php" method="post" name="login" class="login" >';
-	if ($params->get('pretext')) {
-		echo '<p>' . $params->get('pretext') . '</p>';
-	}
-	echo '<fieldset>';
-	echo '<label for="mod_login_username">' . JText :: _('Username') . '</label>';
-	echo '<input name="username" id="mod_login_username" type="text" class="inputbox" alt="' . JText :: _('Username') . '"  />';
-	echo '<label for="mod_login_password">';
-	echo '' . JText :: _('Password') . '</label>';
-	echo '<input type="password" id="mod_login_password" name="passwd" class="inputbox"  alt="' . JText :: _('Password') . '" />';
-	echo ' </fieldset>';
-	echo '<label for="mod_login_remember" class="remember">' . JText :: _('Remember me') . '</label>';
-	echo '<input type="checkbox" name="remember" id="mod_login_remember" class="checkbox" value="yes" alt="' . JText :: _('Remember me') . '" />';
-	echo '<input type="submit" name="Submit" class="button" value="' . JText :: _('BUTTON_LOGIN') . '" />';
-	echo '<p><a href="'. JRoute::_( 'index.php?option=com_user&view=reset#content').'">' . JText::_('FORGOT_YOUR_PASSWORD') . '</a></p>';
-	echo '<p><a href="'. JRoute::_( 'index.php?option=com_user&view=remind#content').'">';
-	echo JText::_('FORGOT_YOUR_USERNAME');
-	echo '</a></p>';
-	$usersConfig = & JComponentHelper :: getParams('com_users');
-	if ($usersConfig->get('allowUserRegistration')) {
-		echo '<p>' . JText :: _('No account yet?') . ' <a href="index.php?option=com_user&amp;task=register#content" >';
+$return = base64_encode(base64_decode($return).'#content');
 
-		echo JText :: _('Register') . '</a></p>';
-	}
-	echo $params->get('posttext');
-	echo '<input type="hidden" name="option" value="com_user" />';
-	echo '<input type="hidden" name="task" value="login" />';
-	$return = base64_encode(base64_decode($return).'#content');
-	echo '<input type="hidden" name="return" value="'.$return.'" />';
-	echo '<input type="hidden" name="' . JUtility :: getToken() . '" value="1" />';
-	echo '</form>';
-}
-?>
+if ($type == 'logout') : ?>
+<form action="index.php" method="post" name="login" class="log">
+	<?php if ($params->get('greeting')) : ?>
+	<p>
+		<?php echo JText::sprintf('HINAME', $user->get('name')); ?>
+	</p>
+	<?php endif; ?>
+	<p>
+		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('BUTTON_LOGOUT'); ?>" />
+	</p>
+	<input type="hidden" name="option" value="com_user" />
+	<input type="hidden" name="task" value="logout" />
+	<input type="hidden" name="return" value="<?php echo $return; ?>" />
+</form>
+<?php else : ?>
+<form action="index.php" method="post" name="login" class="login">
+	<?php if ($params->get('pretext')) : ?>
+	<p>
+		<?php echo $params->get('pretext'); ?>
+	</p>
+	<?php endif; ?>
+	<fieldset>
+		<label for="mod_login_username">
+			<?php echo JText::_('Username'); ?>
+		</label>
+		<input name="username" id="mod_login_username" type="text" class="inputbox" alt="<?php echo JText::_('Username'); ?>" />
+		<label for="mod_login_password">
+			<?php echo JText::_('Password'); ?>
+		</label>
+		<input type="password" id="mod_login_password" name="passwd" class="inputbox"  alt="<?php echo JText::_('Password'); ?>" />
+	</fieldset>
+	<label for="mod_login_remember" class="remember">
+		<?php echo JText::_('Remember me'); ?>
+	</label>
+	<input type="checkbox" name="remember" id="mod_login_remember" class="checkbox" value="yes" alt="<?php echo JText::_('Remember me'); ?>" />
+	<input type="submit" name="Submit" class="button" value="<?php echo JText::_('BUTTON_LOGIN'); ?>" />
+	<p>
+		<a href="<?php echo JRoute::_('index.php?option=com_user&view=reset'); ?>#content">
+			<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?>
+		</a>
+	</p>
+	<p>
+		<a href="<?php echo JRoute::_('index.php?option=com_user&view=remind'); ?>#content">
+			<?php echo JText::_('FORGOT_YOUR_USERNAME'); ?>
+		</a>
+	</p>
+	<?php $usersConfig =& JComponentHelper::getParams('com_users');
+	if ($usersConfig->get('allowUserRegistration')) : ?>
+	<p>
+		<?php echo JText::_('No account yet?'); ?>
+		<a href="<?php echo JRoute::_('index.php?option=com_user&amp;task=register'); ?>#content">
+			<?php echo JText::_('Register'); ?>
+		</a>
+	</p>
+	<?php endif;
+	echo $params->get('posttext'); ?>
+	<input type="hidden" name="option" value="com_user" />
+	<input type="hidden" name="task" value="login" />
+	<input type="hidden" name="return" value="<?php echo $return; ?>" />
+	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+</form>
+<?php endif;

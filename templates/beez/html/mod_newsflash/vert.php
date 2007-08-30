@@ -1,17 +1,19 @@
 <?php
+/**
+ * @version $Id$
+ */
+
 defined('_JEXEC') or die('Restricted access');
 
-if (count($list)) {
-	if (count($list) == 1) {
-		$item = $list[0];
-		modNewsFlashHelper :: renderItem($item, $params, $access);
-	} else {
-		echo '<ul class="vert' . $params->get('moduleclass_sfx') . '">';
-		foreach ($list as $item) {
-			echo '<li>';
-			modNewsFlashHelper :: renderItem($item, $params, $access);
-			echo '</li>';
-		}
-	}
-}
-?>
+if (count($list) == 1) :
+	$item = $list[0];
+	modNewsFlashHelper::renderItem($item, $params, $access);
+elseif (count($list) > 1) : ?>
+<ul class="vert<?php echo $params->get('moduleclass_sfx'); ?>">
+	<?php foreach ($list as $item) : ?>
+	<li>
+		<?php modNewsFlashHelper::renderItem($item, $params, $access); ?>
+	</li>
+	<?php endforeach; ?>
+</ul>
+<?php endif;
