@@ -7,7 +7,7 @@
 	<tbody>
 		<?php if($message1) : ?>
 		<tr>
-			<th><?php echo $message1 ?></th>
+			<th><?php echo JText::_($message1) ?></th>
 		</tr>
 		<?php endif; ?>
 		<?php if($message2) : ?>
