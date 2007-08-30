@@ -19,26 +19,26 @@ defined('JPATH_BASE') or die();
 jimport('joomla.i18n.language');
 
 // Error Definition: Illegal Options
-define( 'JERR_ILLEGAL_OPTIONS', 1 );
+define( 'JERROR_ILLEGAL_OPTIONS', 1 );
 // Error Definition: Callback does not exist
-define( 'JERR_CALLBACK_NOT_CALLABLE', 2 );
+define( 'JERROR_CALLBACK_NOT_CALLABLE', 2 );
 // Error Definition: Illegal Handler
-define( 'JERR_ILLEGAL_MODE', 3 );
+define( 'JERROR_ILLEGAL_MODE', 3 );
 
 /*
  * JError exception stack
  */
-$GLOBALS['_JError_Stack'] = array();
+$GLOBALS['_JERROR_STACK'] = array();
 
 /*
  * Default available error levels
  */
-$GLOBALS['_JError_Levels'] = array( E_NOTICE => 'Notice', E_WARNING => 'Warning', E_ERROR => 'Error' );
+$GLOBALS['_JERROR_LEVELS'] = array( E_NOTICE => 'Notice', E_WARNING => 'Warning', E_ERROR => 'Error' );
 
 /*
  * Default error handlers
  */
-$GLOBALS['_JError_Handlers'] = array( E_NOTICE => array( 'mode' => 'message' ), E_WARNING => array( 'mode' => 'message' ), E_ERROR => array( 'mode' => 'callback', 'options' => array('JError','customErrorPage') ) );
+$GLOBALS['_JERROR_HANDLERS'] = array( E_NOTICE => array( 'mode' => 'message' ), E_WARNING => array( 'mode' => 'message' ), E_ERROR => array( 'mode' => 'callback', 'options' => array('JError','customErrorPage') ) );
 
 /**
  * Error Handling Class
@@ -87,14 +87,14 @@ class JError
 	 */
 	function & getError($unset = false)
 	{
-		if (!isset($GLOBALS['_JError_Stack'][0])) {
+		if (!isset($GLOBALS['_JERROR_STACK'][0])) {
 			$false = false;
 			return $false;
 		}
 		if ($unset) {
-			$error = array_shift($GLOBALS['_JError_Stack']);
+			$error = array_shift($GLOBALS['_JERROR_STACK']);
 		} else {
-			$error = &$GLOBALS['_JError_Stack'][0];
+			$error = &$GLOBALS['_JERROR_STACK'][0];
 		}
 		return $error;
 	}
@@ -109,7 +109,7 @@ class JError
 	 */
 	function & getErrors()
 	{
-		return $GLOBALS['_JError_Stack'];
+		return $GLOBALS['_JERROR_STACK'];
 	}
 
 	/**
@@ -147,7 +147,7 @@ class JError
 		}
 
 		//store and return the error
-		$GLOBALS['_JError_Stack'][] =& $reference;
+		$GLOBALS['_JERROR_STACK'][] =& $reference;
 		return $reference;
 	}
 
@@ -209,7 +209,7 @@ class JError
 	*/
     function getErrorHandling( $level )
     {
-		return $GLOBALS['_JError_Handlers'][$level];
+		return $GLOBALS['_JERROR_HANDLERS'][$level];
     }
 
 	/**
@@ -240,11 +240,11 @@ class JError
 	 */
 	function setErrorHandling($level, $mode, $options = null)
 	{
-		$levels = $GLOBALS['_JError_Levels'];
+		$levels = $GLOBALS['_JERROR_LEVELS'];
 
 		$function = 'handle'.ucfirst($mode);
 		if (!is_callable(array ('JError',$function))) {
-			return JError::raiseError(E_ERROR, 'JError:'.JERR_ILLEGAL_MODE, 'Error Handling mode is not known', 'Mode: '.$mode.' is not implemented.');
+			return JError::raiseError(E_ERROR, 'JError:'.JERROR_ILLEGAL_MODE, 'Error Handling mode is not known', 'Mode: '.$mode.' is not implemented.');
 		}
 
 		foreach ($levels as $eLevel => $eTitle) {
@@ -255,7 +255,7 @@ class JError
 			// set callback options
 			if ($mode == 'callback') {
 				if (!is_array($options)) {
-					return JError::raiseError(E_ERROR, 'JError:'.JERR_ILLEGAL_OPTIONS, 'Options for callback not valid');
+					return JError::raiseError(E_ERROR, 'JError:'.JERROR_ILLEGAL_OPTIONS, 'Options for callback not valid');
 				}
 
 				if (!is_callable($options)) {
@@ -267,14 +267,14 @@ class JError
 						$tmp[1] = $options;
 					}
 
-					return JError::raiseError(E_ERROR, 'JError:'.JERR_CALLBACK_NOT_CALLABLE, 'Function is not callable', 'Function:'.$tmp[1].' scope '.$tmp[0].'.');
+					return JError::raiseError(E_ERROR, 'JError:'.JERROR_CALLBACK_NOT_CALLABLE, 'Function is not callable', 'Function:'.$tmp[1].' scope '.$tmp[0].'.');
 				}
 			}
 
 			// save settings
-			$GLOBALS['_JError_Handlers'][$eLevel] = array ('mode' => $mode);
+			$GLOBALS['_JERROR_HANDLERS'][$eLevel] = array ('mode' => $mode);
 			if ($options != null) {
-				$GLOBALS['_JError_Handlers'][$eLevel]['options'] = $options;
+				$GLOBALS['_JERROR_HANDLERS'][$eLevel]['options'] = $options;
 			}
 		}
 
@@ -298,10 +298,10 @@ class JError
 	*/
 	function registerErrorLevel( $level, $name, $handler = 'ignore' )
 	{
-		if( isset($GLOBALS['_JError_Levels'][$level]) ) {
+		if( isset($GLOBALS['_JERROR_LEVELS'][$level]) ) {
 			return false;
 		}
-		$GLOBALS['_JError_Levels'][$level] = $name;
+		$GLOBALS['_JERROR_LEVELS'][$level] = $name;
 		JError::setErrorHandling($level, $handler);
 		return true;
 	}
@@ -317,8 +317,8 @@ class JError
 	*/
 	function translateErrorLevel( $level )
 	{
-		if( isset($GLOBALS['_JError_Levels'][$level]) ) {
-			return $GLOBALS['_JError_Levels'][$level];
+		if( isset($GLOBALS['_JERROR_LEVELS'][$level]) ) {
+			return $GLOBALS['_JERROR_LEVELS'][$level];
 		}
 		return false;
 	}
