@@ -3,32 +3,12 @@
  * @version $Id$
  */
 defined('_JEXEC') or die('Restricted access');
-
-/*
- *
- * Get the template parameters
- *
- */
-$filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
-if ($content = @ file_get_contents($filename)) {
-	$templateParams = new JParameter($content);
-} else {
-	$templateParams = null;
-}
-/*
- * hope to get a better solution very soon
- */
-
-$ptLevel = $templateParams->get('pageTitleHeaderLevel', '1');
-$headerOpen		= '<h'.$ptLevel.' class="componentheading'.$this->params->get('pageclass_sfx').'">';
-$headerClose	= '</h'.$ptLevel.'>';
 ?>
 
-
-<?php if ($this->params->get('show_page_title', 1)) : ?>
-<?php echo $headerOpen; ?>
+<?php if ($this->params->get('show_page_title')) : ?>
+<h1 class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
 	<?php echo $this->params->get('page_title'); ?>
-<?php echo $headerClose; ?>
+</h1>
 <?php endif; ?>
 
 
@@ -41,9 +21,9 @@ $headerClose	= '</h'.$ptLevel.'>';
 		<img src="images/stories/<?php echo $this->params->get('image'); ?>" alt="" class="image_<?php echo $this->params->get('image_align'); ?>" />
 		<?php endif; ?>
 
-		<?php if ($this->params->get('show_comp_description')) : ?>
-		<?php echo $this->params->get('comp_description'); ?>
-		<?php endif; ?>
+		<?php if ($this->params->get('show_comp_description')) :
+			echo $this->params->get('comp_description');
+		endif; ?>
 
 		<?php if ($this->params->def('image', -1) != -1) : ?>
 		<div class="wrap_image">&nbsp;</div>

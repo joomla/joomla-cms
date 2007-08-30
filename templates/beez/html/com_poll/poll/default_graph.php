@@ -4,25 +4,6 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
-/*
- *
- * Get the template parameters
- *
- */
-$filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
-if ($content = @ file_get_contents($filename)) {
-	$templateParams = new JParameter($content);
-} else {
-	$templateParams = null;
-}
-/*
- * hope to get a better solution very soon
- */
-
-$hLevel = $templateParams->get( 'headerLevelComponent', '2' );
-$ptLevel = $templateParams->get( 'pageTitleHeaderLevel', '1' );
-$pollTitleOpen = '<h' . ($hLevel + 1) . '>';
-$pollTitleClose = '</h' . ($hLevel + 1) . '>';
 ?>
 
 <dl class="poll">
@@ -34,9 +15,9 @@ $pollTitleClose = '</h' . ($hLevel + 1) . '>';
 	<dd><?php echo $this->last_vote; ?></dd>
 </dl>
 
-<?php echo $pollTitleOpen; ?>
+<h3>
 	<?php echo $this->poll->title; ?>
-<?php echo $pollTitleClose; ?>
+</h3>
 
 <table class="pollstableborder">
 	<tr>

@@ -1,23 +1,8 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
 
-/*
- *
- * Get the template parameters
- *
- */
-$filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
-if ($content = @ file_get_contents($filename)) {
-	$templateParams = new JParameter($content);
-} else {
-	$templateParams = null;
-}
-/*
- * hope to get a better solution very soon
- */
-
-$hlevel = $templateParams->get('headerLevelComponent', '2');
-$level = $hlevel +2;
+// temp fix
+$level = 4;
 
 if ($params->get('item_title')) {
 	if ($params->get('link_titles') && $linkOn != '') {

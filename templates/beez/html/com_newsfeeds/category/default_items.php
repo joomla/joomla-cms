@@ -1,55 +1,70 @@
 <?php
-defined('_JEXEC') or die('Restricted access');
+/**
+ * @version $Id$
+ */
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
-if ($this->params->get('show_limit')) {
-	echo '<div class="display">';
-	echo '<form action="index.php" method="post" name="adminForm">';
-	echo '<label for="limit">';
-	echo JText :: _('Display Num') . '&nbsp;';
-	echo '</label>';
-	echo $this->pagination->getLimitBox();
-	echo '</form>';
-	echo '</div>';
-}
-
-echo '<table class="newsfeeds">';
-
-if ($this->params->get('show_headings')) {
-	echo '<tr><th class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" width="5" id="num">';
-	echo JText :: _('Num');
-	echo '</th>';
-	if ($this->params->get('show_name')) {
-		echo '<th width="90%" class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" id="name">';
-		echo JText :: _('Feed Name');
-		echo '</th>';
-	}
-	if ($this->params->get('show_articles')) {
-		echo '<th width="10%" class="sectiontableheader' . $this->params->get('pageclass_sfx') . '" nowrap="nowrap" id="num_a">';
-		echo JText :: _('Num Articles');
-		echo '</th>';
-	}
-	echo '</tr>';
-}
-foreach ($this->items as $item) {
-	$odd=$item->odd + 1;
-	echo '<tr class="sectiontableentry'. $odd . '">';
-	echo '<td align="center" width="5" headers="num">';
-	echo $item->count + 1;
-	echo '</td>';
-	if ($this->params->get('show_name')) {
-		echo '<td  width="90%" headers="name"><a href="' . $item->link . '" class="category' . $this->params->get('pageclass_sfx') . '">';		echo $item->name;
-		echo '</a></td>';
-	}
-	if ($this->params->get('show_articles')) {
-		echo '<td width="10%"  headers="num_a">' . $item->numarticles . '</td>';
-	}
-
-	echo '</tr>';
-}
-echo '</table>';
-
-echo '<p class="counter">';
-echo $this->pagination->getPagesCounter();
-echo '</p>';
-echo $this->pagination->getPagesLinks();
 ?>
+
+<?php if ( $this->params->get( 'show_limit' ) ) : ?>
+<div class="display">
+	<form action="index.php" method="post" name="adminForm">
+		<label for="limit"><?php echo JText::_( 'Display Num' ); ?>&nbsp;</label>
+		<?php echo $this->pagination->getLimitBox(); ?>
+	</form>
+</div>
+<?php endif; ?>
+
+
+<table class="newsfeeds">
+
+	<?php if ( $this->params->get( 'show_headings' ) ) : ?>
+	<tr>
+
+		<th class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="5" id="num">
+			<?php echo JText::_( 'Num' ); ?>
+		</th>
+
+		<?php if ( $this->params->get( 'show_name' ) ) : ?>
+		<th width="90%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" id="name">
+			<?php echo JText::_( 'Feed Name' ); ?>
+		</th>
+		<?php endif; ?>
+
+		<?php if ( $this->params->get( 'show_articles' ) ) : ?>
+		<th width="10%" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" nowrap="nowrap" id="num_a">
+			<?php echo JText::_('Num Articles'); ?>
+		</th>
+		<?php endif; ?>
+
+	</tr>
+	<?php endif; ?>
+
+	<?php foreach ( $this->items as $item ) : ?>
+	<tr class="sectiontableentry<?php echo $item->odd + 1; ?>">
+
+		<td align="center" width="5" headers="num">
+			<?php echo $item->count + 1; ?>
+		</td>
+
+		<?php if ( $this->params->get( 'show_name' ) ) : ?>
+		<td width="90%" headers="name">
+			<a href="<?php echo $item->link; ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+				<?php echo $item->name; ?>
+			</a>
+		</td>
+		<?php endif; ?>
+
+		<?php if ( $this->params->get( 'show_articles' ) ) : ?>
+		<td width="10%" headers="num_a"><?php echo $item->numarticles; ?></td>
+		<?php endif; ?>
+
+	</tr>
+	<?php endforeach; ?>
+
+</table>
+
+<p class="counter">
+	<?php echo $this->pagination->getPagesCounter(); ?>
+</p>
+<?php echo $this->pagination->getPagesLinks(); ?>

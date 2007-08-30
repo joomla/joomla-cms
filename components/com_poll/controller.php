@@ -61,8 +61,8 @@ class PollController extends JController
 		//Set pathway information
 		$pathway->addItem($poll->title, '');
 
-		$params->def( 'page_title',	1 );
-		$params->def( 'header', $item->name );
+		$params->def( 'show_page_title', 1 );
+		$params->def( 'page_title', $item->name );
 
 		$first_vote = '';
 		$last_vote 	= '';

@@ -57,14 +57,14 @@ defined('_JEXEC') or die('Restricted access');
 		</td>
 
 		<td headers="title">
-			<?php if ($item->image) : ?>
-			<?php echo $item->image; ?>
-			<?php endif; ?>
-			<?php echo $item->link; ?>
-			<?php if ($this->params->get('show_link_description')) : ?>
+			<?php if ($item->image) :
+				echo $item->image;
+			endif;
+			echo $item->link;
+			if ($this->params->get('show_link_description')) : ?>
 			<br />
-			<?php echo nl2br($item->description); ?>
-			<?php endif; ?>
+			<?php echo nl2br($item->description);
+			endif; ?>
 		</td>
 
 		<?php if ($this->params->get('show_link_hits')) : ?>
