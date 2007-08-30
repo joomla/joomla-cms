@@ -111,9 +111,7 @@ class MediaHelper
 		$width = round($width * $percentage);
 		$height = round($height * $percentage);
 
-		//returns the new sizes in html image tag format...this is so you
-		//can plug this function inside an image tag and just get the
-		return "width=\"$width\" height=\"$height\"";
+		return array($width, $height);
 	}
 
 	function countFiles( $dir )

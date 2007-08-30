@@ -54,8 +54,8 @@ class plgButtonImage extends JPlugin
 		$template 	= $mainframe->getTemplate();
 
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-		$link = 'index.php?option=com_media&amp;task=imgManager&amp;tmpl=component';
-		
+		$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component';
+
 		JHTML::_('behavior.modal');
 
 		$button = new JObject();

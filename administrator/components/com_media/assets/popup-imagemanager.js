@@ -19,7 +19,7 @@
  * @subpackage	Media
  * @since		1.5
  */
-var JImageManager = new Class({
+var ImageManager = {
 	initialize: function()
 	{
 		// Setup image manager fields object
@@ -39,13 +39,12 @@ var JImageManager = new Class({
 		// Setup imave listing frame
 		this.imageframe = $('imageframe');
 		this.imageframe.manager = this;
-		this.imageframe.addEvent('load', function(){ this.manager.onloadimageview(); });
+		this.imageframe.addEvent('load', function(){ ImageManager.onloadimageview(); });
 
 		// Setup folder up button
 		this.upbutton = $('upbutton');
-		this.upbutton.manager = this;
 		this.upbutton.removeEvents('click');
-		this.upbutton.addEvent('click', function(){ this.manager.upFolder(); });
+		this.upbutton.addEvent('click', function(){ ImageManager.upFolder(); });
 	},
 
 	onloadimageview: function()
@@ -132,7 +131,7 @@ var JImageManager = new Class({
 				break;
 			}
 		}
-		this.frame.location.href='index.php?option=com_media&task=imgManagerList&tmpl=component&folder=' + folder;
+		this.frame.location.href='index.php?option=com_media&view=imagesList&tmpl=component&folder=' + folder;
 	},
 
 	getFolder: function() {
@@ -173,7 +172,7 @@ var JImageManager = new Class({
 
 	populateFields: function(file)
 	{
-		$("f_url").value = "images/"+this.folderlist.options[this.folderlist.selectedIndex].value+file;
+		$("f_url").value = "images/"+file;
 	},
 
 	showMessage: function(text)
@@ -237,9 +236,8 @@ var JImageManager = new Class({
 			? bits.associate(['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'])
 			: null;
 	}
-});
+};
 
-document.imagemanager = null;
 window.addEvent('domready', function(){
-	document.imagemanager = new JImageManager();
+	ImageManager.initialize();
 });

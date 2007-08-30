@@ -17,75 +17,119 @@ defined('_JEXEC') or die('Restricted access');
 
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
-
-// Get the media component configuration settings
-$params =& JComponentHelper::getParams('com_media');
-
 if (!$user->authorize( 'com_media', 'popup' )) {
 	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
-// Load the admin HTML view
-require_once (JPATH_COMPONENT_ADMINISTRATOR.DS.'controller.php');
+// Get the media component configuration settings
+$params =& JComponentHelper::getParams('com_media');
 
 // Set the path definitions
 define('COM_MEDIA_BASE', JPATH_SITE.DS.$params->get('image_path', 'images'.DS.'stories'));
 define('COM_MEDIA_BASEURL', JURI::base().$params->get('image_path', 'images/stories'));
 
-$folder			= JRequest::getVar('folder', '', '', 'path');
-$folderCheck	= JRequest::getVar('folder', null, '', 'string', JREQUEST_ALLOWRAW);
-if (($folderCheck !== null) && ($folder !== $folderCheck)) {
-	JError::raiseWarning(403, JText::_('WARNDIRNAME'));
-}
+// Load the admin HTML view
+require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'media.php' );
 
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'media.php' );
+jimport( 'joomla.application.component.controller' );
 
-switch (JRequest::getCmd('task'))
+/**
+ * Media Manager Component Controller
+ *
+ * @package		Joomla
+ * @subpackage	Media
+ * @version 1.5
+ */
+class MediaController extends JController
 {
-	case 'upload' :
-		MediaController::upload();
-		break;
+	/**
+	 * Display the view
+	 */
+	function display()
+	{
+		global $mainframe;
 
-	case 'uploadbatch' :
-		MediaController::batchUpload();
-		MediaController::showMedia();
-		break;
+		$vName = JRequest::getCmd('view', 'images');
+		switch ($vName)
+		{
+			case 'imagesList':
+				$mName = 'list';
+				$vLayout = JRequest::getCmd( 'layout', 'default' );
 
-	case 'createfolder' :
-		MediaController::createFolder();
-		MediaController::showMedia();
-		break;
+				break;
 
-	case 'delete' :
-		MediaController::delete($folder);
-		MediaController::listMedia();
-		break;
+			case 'images':
+			default:
+				$vLayout = JRequest::getCmd( 'layout', 'default' );
+				$mName = 'manager';
+				$vName = 'images';
 
-	case 'list' :
-		MediaController::listMedia();
-		break;
+				break;
+		}
 
-	// popup directory creation interface for use by components
-	case 'popupDirectory' :
-		MediaController::showFolder();
-		break;
+		$document = &JFactory::getDocument();
+		$vType		= $document->getType();
 
-	// popup upload interface for use by components
-	case 'popupUpload' :
-		MediaController::showUpload();
-		break;
+		// Get/Create the view
+		$view = &$this->getView( $vName, $vType);
+		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.$vName.DS.'tmpl');
 
-	// popup upload interface for use by components
-	case 'imgManager' :
-		MediaController::imgManager(COM_MEDIA_BASE);
-		break;
+		// Get/Create the model
+		if ($model = &$this->getModel($mName)) {
+			// Push the model into the view (as default)
+			$view->setModel($model, true);
+		}
 
-	case 'imgManagerList' :
-		MediaController::imgManagerList($folder);
-		break;
+		// Set the layout
+		$view->setLayout($vLayout);
 
-	default :
-		MediaController::showMedia();
-		break;
+		// Display the view
+		$view->display();
+	}
+
+	function ftpValidate()
+	{
+		// Set FTP credentials, if given
+		jimport('joomla.client.helper');
+		JClientHelper::setCredentialsFromRequest('ftp');
+	}
 }
-?>
+
+$cmd = JRequest::getCmd('task', null);
+if (strpos($cmd, '.') != false && false) {
+	// We have a defined controller/task pair -- lets split them out
+	list($controllerName, $task) = explode('.', $cmd);
+
+	// Define the controller name and path
+	$controllerName	= strtolower($controllerName);
+	$controllerPath	= JPATH_COMPONENT_ADMINISTRATOR.DS.'controllers'.DS.$controllerName.'.php';
+
+	// If the controller file path exists, include it ... else lets die with a 500 error
+	if (file_exists($controllerPath)) {
+		require_once($controllerPath);
+	} else {
+		JError::raiseError(500, 'Invalid Controller');
+	}
+} else {
+	// Base controller, just set the task :)
+	$controllerName = null;
+	$task = $cmd;
+}
+
+// Set the name for the controller and instantiate it
+$controllerClass = 'MediaController'.ucfirst($controllerName);
+if (class_exists($controllerClass)) {
+	$controller = new $controllerClass();
+} else {
+	JError::raiseError(500, 'Invalid Controller Class');
+}
+
+// Set the model and view paths to the administrator folders
+$controller->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views');
+$controller->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
+
+// Perform the Request task
+$controller->execute($task);
+
+// Redirect if set by the controller
+$controller->redirect();

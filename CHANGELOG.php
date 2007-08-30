@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Aug-2007 Louis Landry
+ ^ Refactor of Media Manager to a new and improved MVC architecture ... we can sort out the uglies for the next RC
+
 30-Aug-2007 Enno Klasing, Alan Langford, Jonah Braun
  # Cleenup of Beez template overrides [WIP, com_contact, com_content and com_user not finished yet]
 

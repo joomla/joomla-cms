@@ -20,14 +20,19 @@
  * @subpackage	Media
  * @since		1.5
  */
-var JMediaManager = new Class({
+var MediaManager = {
+
 	initialize: function()
 	{
 		this.folderframe  	= $('folderframe');
 		this.folderpath  	= $('folderpath');
 
+		this.updatepaths	= $$('input.update-folder');
+
 		this.frame		= window.frames['folderframe'];
 		this.frameurl	= this.frame.location.href;
+
+
 	},
 
 	submit: function(task)
@@ -48,12 +53,13 @@ var JMediaManager = new Class({
 
 		var folder = this.getFolder();
 		if (folder) {
+			this.updatepaths.each(function(path){ path.value =folder; });
 			this.folderpath.value = basepath+'/'+folder;
 		} else {
+			this.updatepaths.each(function(path){ path.value = ''; });
 			this.folderpath.value = basepath;
 		}
-		var node = d.getNodeByTitle(folder);
-		d.openTo(node, true, true);
+
 		$(viewstyle).addClass('active');
 
 		a = this._getUriObject($('uploadForm').getProperty('action'));
@@ -84,7 +90,7 @@ var JMediaManager = new Class({
 		$(viewstyle).removeClass('active');
 		viewstyle = type;
 		var folder = this.getFolder();
-		this._setFrameUrl('index.php?option=com_media&task=list&tmpl=component&folder='+folder+'&listStyle='+type);
+		this._setFrameUrl('index.php?option=com_media&view=mediaList&tmpl=component&folder='+folder+'&layout='+type);
 	},
 
 	refreshFrame: function()
@@ -148,12 +154,11 @@ var JMediaManager = new Class({
 			? bits.associate(['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'])
 			: null;
 	}
-});
+};
 
-document.mediamanager = null;
 window.addEvent('domready', function(){
- 	document.mediamanager = new JMediaManager();
+ 	MediaManager.initialize();
  	// Added to populate data on iframe load
- 	$('folderframe').onload = function() {document.mediamanager.onloadframe();}
- 	document.mediamanager.onloadframe();
+ 	$('folderframe').onload = function() { MediaManager.onloadframe();}
+ 	MediaManager.onloadframe();
 });
