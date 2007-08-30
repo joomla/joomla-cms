@@ -138,6 +138,14 @@
 		<filename>favicon.ico</filename>
 		<filename>component.php</filename>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.tpl_beez.ini</language>
+	</languages>
+	<administration>
+    	<languages folder="admin">
+			<language tag="en-GB">en-GB.tpl_beez.ini</language>
+		</languages>
+    </administration>
 	<positions>
 		<position>left</position>
 		<position>right</position>
