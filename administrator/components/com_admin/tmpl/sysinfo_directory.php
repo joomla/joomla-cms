@@ -2,6 +2,8 @@
 /**
  * @version		$Id$
  */
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.filesystem.folder');
 ?>

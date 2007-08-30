@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Aug-2007 Rob Schley
+ * Fixed several potential full path disclosure vulnerabilities
+ * Fixed XSS vulnerability in com_content
+ * Fixed SQL injection vulnerability in com_content
+
 30-Aug-2007
  # Fixed gacl_api::add_group not returning the id of the new group
 

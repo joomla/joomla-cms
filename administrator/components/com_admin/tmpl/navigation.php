@@ -2,6 +2,9 @@
 /**
  * @version		$Id$
  */
+// No direct access
+defined('_JEXEC') or die('Restricted access');
+
 ?>
 <div class="submenu-box">
 	<div class="submenu-pad">

@@ -1,3 +1,5 @@
+<?php defined('_JEXEC') or die('Restricted access'); ?>
+
 <script language="javascript" type="text/javascript">
 	<!--
 		Window.onDomReady(function(){

@@ -145,6 +145,7 @@ class ContentModelArchive extends JModel
 
 		// Initialize some variables
 		$user	=& JFactory::getUser();
+		$db		=& JFactory::getDBO();
 		$aid	= (int) $user->get('aid', 0);
 
 		// First thing we need to do is build the access section of the clause
@@ -172,6 +173,7 @@ class ContentModelArchive extends JModel
 		if ($filter) {
 			// clean filter variable
 			$filter = JString::strtolower($filter);
+			$filter	= $db->getEscaped($filter);
 
 			// Get the page/component configuration
 			$params = &$mainframe->getPageParameters();
