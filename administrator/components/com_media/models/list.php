@@ -29,15 +29,6 @@ jimport('joomla.filesystem.file');
  */
 class MediaModelList extends JModel
 {
-	/**
-	 * Constructor
-	 *
-	 * @since 1.5
-	 */
-	function __construct()
-	{
-		parent::__construct();
-	}
 
 	function getState($property = null)
 	{
@@ -198,60 +189,5 @@ class MediaModelList extends JModel
 		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images);
 
 		return $list;
-	}
-
-	function getImageList()
-	{
-		global $mainframe;
-
-		// Initialize variables
-		$basePath 	= COM_MEDIA_BASE.DS.$listFolder;
-		$images 	= array ();
-		$folders 	= array ();
-		$docs 		= array ();
-
-		// Get the list of files and folders from the given folder
-		jimport('joomla.filesystem.folder');
-		$fileList 	= JFolder::files($basePath);
-		$folderList = JFolder::folders($basePath);
-
-		// Iterate over the files if they exist
-		if ($fileList !== false) {
-			foreach ($fileList as $file)
-			{
-				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
-					if (MediaHelper::isImage($file)) {
-						$imageInfo = @ getimagesize($basePath.DS.$file);
-						$fileDetails['file'] = JPath::clean($basePath.DS.$file);
-						$fileDetails['imgInfo'] = $imageInfo;
-						$fileDetails['size'] = filesize($basePath.DS.$file);
-						$images[$file] = $fileDetails;
-					} else {
-						// Not a known image file so we will call it a document
-						$fileDetails['size'] = filesize($basePath.DS.$file);
-						$fileDetails['file'] = JPath::clean($basePath.DS.$file);
-						$docs[$file] = $fileDetails;
-					}
-				}
-			}
-		}
-
-		// Iterate over the folders if they exist
-		if ($folderList !== false) {
-			foreach ($folderList as $folder) {
-				$folders[$folder] = $folder;
-			}
-		}
-
-		//attach stylesheet to document
-		$doc = & JFactory::getDocument();
-		$doc->addStyleSheet('components/com_media/assets/popup-imagelist.css');
-
-		// If there are no errors then lets list the media
-		if ($folderList !== false && $fileList !== false) {
-			MediaViews::imgManagerList($listFolder, $folders, $images);
-		} else {
-			MediaViews::listError();
-		}
 	}
 }
