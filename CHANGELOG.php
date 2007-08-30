@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Aug-2007 Enno Klasing, Alan Langford, Jonah Braun
+ # Cleenup of Beez template overrides [WIP, com_contact, com_content and com_user not finished yet]
+
 30-Aug-2007 Toby Patterson
  # Fixed [t207417] - Fatal error when installing language
  # Fixed [#5695] Installer doesn't show output messages in PHP 4

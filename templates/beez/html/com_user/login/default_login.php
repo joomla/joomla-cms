@@ -1,54 +1,62 @@
 <?php
-defined('_JEXEC') or die('Restricted access');
+/**
+ * @version $Id$
+ */
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// temporary fix
-$hlevel = 2;
-$ptlevel = 1;
+?>
+<form action="index.php" method="post" name="login" id="login" class="login_form<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<?php if ( $this->params->get( 'page_title' ) ) : ?>
+	<h1 class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<?php echo $this->params->get( 'header_login' ); ?>
+	</h1>
+	<?php endif; ?>
 
-echo '<form action="index.php" method="post" name="login" id="login" class="login_form' . $this->params->get('pageclass_sfx') . '">';
-if ($this->params->get('page_title')) {
-	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
-	echo $this->params->get('header_login');
-	echo '</h' . $ptlevel . '>';
-}
+	<?php if ( $this->params->get( 'description_login' ) || isset( $this->image ) ) : ?>
+		<div class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' );?>">
+			<?php if (isset ($this->image)) :
+				echo $this->image;
+			endif;
+			if ($this->params->get('description_login')) : ?>
+			<p>
+				<?php echo $this->params->get('description_login_text'); ?>
+			</p>
+			<?php endif;
+			if (isset ($this->image)) : ?>
+			<div class="wrap_image">&nbsp;</div>
+			<?php endif; ?>
+		</div>
+	<?php endif; ?>
+	<fieldset>
+		<div class="name">
+			<label for="user" ><?php echo JText::_( 'Username' ); ?></label>
+			<input name="username" type="text" class="inputbox" size="20"  id="user" />
+		</div>
+		<div class="pass">
+			<label for="pass" ><?php echo JText::_( 'Password' ); ?></label>
+			<input name="passwd" type="password" class="inputbox" size="20" id="pass" />
+		</div>
+		<div class="remember">
+			<label for="rem"><?php echo JText::_( 'Remember me' ); ?></label>
+			<input type="checkbox" name="remember" class="inputbox" value="yes" id="rem" />
+		</div>
+	</fieldset>
+	<p>
+		<a href="<?php echo JRoute::_( 'index.php?option=com_user&amp;task=lostPassword' ); ?>">
+			<?php echo JText::_('Lost Password?'); ?>
+		</a>
+		<?php if ( $this->params->get( 'registration' ) ) : ?>
+		<?php echo JText::_('No account yet?'); ?>
+		<a href="<?php echo JRoute::_( 'index.php?option=com_user&amp;task=register' ); ?>">
+			<?php echo JText::_( 'Register' ); ?>
+		</a>
+		<?php endif; ?>
+	</p>
 
-if ($this->params->get('description_login') || isset ($this->image)) {
-	$wrap = '';
-	echo '<div class="contentdescription' . $this->params->get('pageclass_sfx') . '">';
-	if (isset ($this->image)) {
-		echo $this->image;
-		$wrap = '<div class="wrap_image">&nbsp;</div>';
-	}
-	if ($this->params->get('description_login')) {
-		echo '<p>' . $this->params->get('description_login_text') . '</p>';
-	}
-	echo $wrap;
-	echo '</div>';
-}
-echo '<fieldset>';
-echo '<div class="name"><label for="user" >' . JText :: _('Username') . '</label>';
-echo '<input name="username" type="text" class="inputbox" size="20"  id="user"/></div>';
-echo '<div class="pass"><label for="pass" >' . JText :: _('Password') . '</label>';
-echo '<input name="passwd" type="password" class="inputbox" size="20" id="pass" /></div>';
-
-echo '<div class="remember"><label for="rem">' . JText :: _('Remember me') . '</label>';
-echo '<input type="checkbox" name="remember" class="inputbox" value="yes" id="rem"/></div>';
-echo '</fieldset>';
-echo '<p><a href="' . JRoute :: _('index.php?option=com_user&amp;task=lostPassword') . '">';
-echo JText :: _('Lost Password?');
-echo '</a>';
-
-if ($this->params->get('registration')) {
-	echo JText :: _('No account yet?');
-	echo '<a href="' . JRoute :: _('index.php?option=com_user&amp;task=register') . '">' . JText :: _('Register') . '</a>';
-}
-echo '</p>';
-
-echo '<input type="submit" name="submit" class="button" value="' . JText :: _('Login') . '" />';
-echo '<noscript>' . JText :: _('WARNJAVASCRIPT') . '</noscript>';
-echo '<input type="hidden" name="option" value="com_user" />';
-echo '<input type="hidden" name="task" value="login" />';
-echo '<input type="hidden" name="return" value="'. $this->return .'" />';
-echo '<input type="hidden" name="token" value="' . JUtility :: getToken() . ' " />';
-
-echo '</form>';
+	<input type="submit" name="submit" class="button" value="<?php echo JText::_( 'Login' ); ?>" />
+	<noscript><?php echo JText::_( 'WARNJAVASCRIPT' ); ?></noscript>
+	<input type="hidden" name="option" value="com_user" />
+	<input type="hidden" name="task" value="login" />
+	<input type="hidden" name="return" value="<?php echo $this->return; ?>" />
+	<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
+</form>
