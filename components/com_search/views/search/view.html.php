@@ -45,6 +45,7 @@ class SearchViewSearch extends JView
 		// Get some data from the model
 		$areas      = &$this->get('areas');
 		$state 		= &$this->get('state');
+		$searchword = $state->get('keyword');
 		
 		// Set page title information
 		$document->setTitle(JText::_('Search'));
@@ -76,19 +77,20 @@ class SearchViewSearch extends JView
 		$lists['searchphrase' ]= JHTML::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match') );
 
 		// log the search
-		SearchHelper::logSearch( $state->get('keyword'));
+		SearchHelper::logSearch( $searchword);
 
 		//limit searchword
-		if(SearchHelper::limitSearchWord($state->get('keyword'))) {
+		
+		if(SearchHelper::limitSearchWord($searchword)) {
 			$error = JText::_( 'SEARCH_MESSAGE' );
 		}
 
 		//sanatise searchword
-		if(SearchHelper::santiseSearchWord($state->get('keyword'), $state->get('match'))) {
+		if(SearchHelper::santiseSearchWord($searchword, $state->get('match'))) {
 			$error = JText::_( 'IGNOREKEYWORD' );
 		}
 
-		if (!$state->get('keyword') && count( JRequest::get('post') ) ) {
+		if (!$searchword && count( JRequest::get('post') ) ) {
 			//$error = JText::_( 'Enter a search keyword' );
 		}
 
@@ -97,7 +99,6 @@ class SearchViewSearch extends JView
 			$results	= &$this->get('data' );
 			$total		= &$this->get('total');
 			$pagination	= &$this->get('pagination');
-			$searchword = $state->get('keyword');
 			
 			require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
 		
@@ -149,7 +150,7 @@ class SearchViewSearch extends JView
 		$this->assignRef('params',		$params);
 		
 		$this->assign('ordering',		$state->get('ordering'));
-		$this->assign('searchword',		$state->get('keyword'));
+		$this->assign('searchword',		$searchword);
 		$this->assign('searchphrase',	$state->get('match'));
 		$this->assign('searchareas',	$areas);
 
