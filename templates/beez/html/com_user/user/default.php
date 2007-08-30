@@ -1,23 +1,10 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-/*
- *
- * Get the template parameters
- *
- */
-$filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
-if ($content = @ file_get_contents($filename)) {
-	$templateParams = new JParameter($content);
-} else {
-	$templateParams = null;
-}
-/*
- * hope to get a better solution very soon
- */
+// temporary fix
+$hlevel = 2;
+$ptlevel = 1;
 
-$hlevel = $templateParams->get('headerLevelComponent', '2');
-$ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
 echo '<h' . $ptlevel . ' class="componentheading">';
 echo JText::_( 'Welcome!' );
 echo '</h' . $ptlevel . '>';

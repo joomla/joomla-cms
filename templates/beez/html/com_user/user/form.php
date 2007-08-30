@@ -32,23 +32,10 @@ function submitbutton( pressbutton ) {
 
 
 <?php
-/*
- *
- * Get the template parameters
- *
- */
-$filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
-if ($content = @ file_get_contents($filename)) {
-	$templateParams = new JParameter($content);
-} else {
-	$templateParams = null;
-}
-/*
- * hope to get a better solution very soon
- */
 
-$hlevel = $templateParams->get('headerLevelComponent', '2');
-$ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
+// temporary fix
+$hlevel = 2;
+$ptlevel = 1;
 
 echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
 echo JText::_( 'Edit Your Details' );

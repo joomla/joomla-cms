@@ -1,22 +1,8 @@
 <?php defined('_JEXEC') or die;
 
-/*
- *
- * Get the template parameters
- *
- */
-$filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
-if ($content = @ file_get_contents($filename)) {
-	$templateParams = new JParameter($content);
-} else {
-	$templateParams = null;
-}
-/*
- * hope to get a better solution very soon
- */
-
-$hlevel = $templateParams->get('headerLevelComponent', '2');
-$ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
+// temporary fix
+$hlevel = 2;
+$ptlevel = 1;
  echo '<h'.$ptlevel.' class="componentheading">'. JText::_( 'FORGOT_YOUR_PASSWORD' ).'</h'.$ptlevel.'>';
 ?>
 

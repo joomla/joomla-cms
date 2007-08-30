@@ -1,23 +1,9 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
 
-/*
- *
- * Get the template parameters
- *
- */
-$filename = JPATH_ROOT . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'params.ini';
-if ($content = @ file_get_contents($filename)) {
-	$templateParams = new JParameter($content);
-} else {
-	$templateParams = null;
-}
-/*
- * hope to get a better solution very soon
- */
-
-$hlevel = $templateParams->get('headerLevelComponent', '2');
-$ptlevel = $templateParams->get('pageTitleHeaderLevel', '1');
+// temporary fix
+$hlevel = 2;
+$ptlevel = 1;
 
 echo '<form action="index.php" method="post" name="login" id="login" class="login_form' . $this->params->get('pageclass_sfx') . '">';
 if ($this->params->get('page_title')) {
