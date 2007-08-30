@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 30-Aug-2007 Toby Patterson
+ # Fixed [t207417] - Fatal error when installing language
  # Fixed [#5695] Installer doesn't show output messages in PHP 4
  # Fixed [#6705] Installing extensions, description issues using language file
 

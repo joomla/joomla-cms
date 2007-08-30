@@ -57,6 +57,7 @@ class JInstallerLanguage extends JObject
 		// Get database connector object
 		$db =& $this->parent->getDBO();
 		$manifest =& $this->parent->getManifest();
+		$this->manifest =& $manifest->document;
 		$root =& $manifest->document;
 
 		// Get the client application target
