@@ -1842,6 +1842,9 @@ class gacl_api extends gacl {
 
 		$this->db->CommitTrans();
 
+		// Joomla/MySQL
+		$insert_id = $this->db->insertid();
+
 		$this->debug_text('add_group (): Added group as ID: '. $insert_id);
 		return $insert_id;
 	}

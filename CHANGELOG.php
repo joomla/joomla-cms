@@ -37,11 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Aug-2007
+ # Fixed gacl_api::add_group not returning the id of the new group
+
 29-Aug-2007 Johan Janssens
  ^ Refactored frontend search component to a full MVC implementation
  # Fixed [#6763] sessionhandler="none" breaks site
  # Fixed [#6703] Please add language ini functionality in template installer
- # Fixed [#6777] mistake in name mod_syndicate 
+ # Fixed [#6777] mistake in name mod_syndicate
 
 29-Aug-2007 Enno Klasing
  + Added module chrome to Beez
