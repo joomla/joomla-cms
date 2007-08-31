@@ -37,7 +37,7 @@ Legend:
 - -> Removed
 ! -> Note
 
---
+---
 
 31-Aug-2007 Johan Janssens
  ^ Added support for charsets to JView, charset is used by the JView::escape function
