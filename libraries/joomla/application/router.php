@@ -16,80 +16,15 @@
 defined('JPATH_BASE') or die();
 
 /**
- * Route handling class
- *
- * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
- * @package 	Joomla.Framework
- * @subpackage	Application
- * @since		1.5
+ * Set the available masks for the routing mode
  */
-class JRoute
-{
-	/**
-	 * Translates an internal Joomla URL to a humanly readible URL.
-	 *
-	 * @access public
-	 * @param 	string 	 $url 	Absolute or Relative URI to Joomla resource
-	 * @param 	boolean  $xhtml Replace & by &amp; for xml compilance
-	 * @param	int		 $ssl	Secure state for the resolved URI
-	 * 		 1: Make URI secure using global secure site URI
-	 * 		 0: Leave URI in the same secure state as it was passed to the function
-	 * 		-1: Make URI unsecure using the global unsecure site URI
-	 * @return The translated humanly readible URL
-	 */
-	function _($url, $xhtml = true, $ssl = 0)
-	{
-		global $mainframe;
-
-		// Get the router
-		$router =& $mainframe->getRouter();
-
-		// Build route
-		$url = $router->build($url);
-
-		/*
-		 * Get the secure/unsecure URLs.
-
-		 * If the first 5 characters of the BASE are 'https', then we are on an ssl connection over
-		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
-		 * 'http', then we need to do a quick string manipulation to switch schemes.
-		 */
-
-		$base = JURI::base(); //get base URL
-
-		if ( substr( $base, 0, 5 ) == 'https' )
-		{
-			$secure 	= $base;
-			$unsecure	= 'http'.substr( $base, 5 );
-		}
-		elseif ( substr( $base, 0, 4 ) == 'http' )
-		{
-			$secure		= 'https'.substr( $base, 4 );
-			$unsecure	= $base;
-		}
-
-		// Ensure that proper secure URL is used if ssl flag set secure
-		if ($ssl == 1) {
-			$url = $secure.$url;
-		}
-
-		// Ensure that unsecure URL is used if ssl flag is set to unsecure
-		if ($ssl == -1) {
-			$url = $unsecure.$url;
-		}
-
-		if($xhtml) {
-			$url = str_replace( '&', '&amp;', $url );
-		}
-
-		return $url;
-	}
-}
+define('JROUTER_MODE_RAW', 0);
+define('JROUTER_MODE_SEF', 1);
 
 /**
  * Class to create and parse routes
  *
+ * @abstract
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
@@ -112,7 +47,15 @@ class JRouter extends JObject
 	 * @var array
 	 */
 	var $_vars = array();
-
+	
+	/**
+	 * An route prefix
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	var $_prefix = null;
+	
 	/**
 	 * Class constructor
 	 *
@@ -120,17 +63,58 @@ class JRouter extends JObject
 	 */
 	function __construct($options = array())
 	{
-		if(isset($options['mode'])) {
+		if(array_key_exists('mode', $options)) {
 			$this->_mode = $options['mode'];
 		} else {
-			$this->_mode = 0;
+			$this->_mode = JROUTER_MODE_RAW;
 		}
+		
+		if(array_key_exists('prefix', $options)) {
+			$this->_prefix = $options['prefix'];
+		} 
+	}
+	
+	/**
+	 * Returns a reference to the global JRouter object, only creating it if it
+	 * doesn't already exist.
+	 *
+	 * This method must be invoked as:
+	 * 		<pre>  $menu = &JRouter::getInstance();</pre>
+	 *
+	 * @access	public
+	 * @param string  $client  The name of the client
+	 * @param array   $options An associative array of options
+	 * @return	JRouter	A router object.
+	 * @since	1.5
+	 */
+	function &getInstance($client, $options = array())
+	{
+		//Load the router object
+		$info =& JApplicationHelper::getClientInfo($client, true);
+			
+		$path = $info->path.DS.'includes'.DS.'router.php';
+		if(file_exists($path)) 
+		{
+			require_once $path;
+				
+			// Create a JRouter object
+			$classname = 'JRouter'.ucfirst($client);
+			$instance = new $classname($options);
+		} 
+		else 
+		{
+			$error = new JException( E_ERROR, 500, 'Unable to load router: '.$classname);
+			return $error;
+		}
+			
+		return $instance;
 	}
 
 	/**
 	 * Route a request
 	 *
 	 * @access public
+	 * @since	1.5
 	 */
 	function parse($url)
 	{
@@ -150,7 +134,120 @@ class JRouter extends JObject
 
 		return $url;
 	}
+	
+	/**
+	 * Get the router mode
+	 *
+	 * @access public
+	 */
+	function getMode() {
+		return $this->_mode;
+	}
+	
+	/**
+	 * Get the router mode
+	 *
+	 * @access public
+	 */
+	function setMode($mode) {
+		$this->_mode = $mode;
+	}
+	
+	/**
+	 * Set a router variable, creating it if it doesn't exist
+	 *
+	 * @access	public
+	 * @param	string  $key    The name of the variable
+	 * @param	mixed   $value  The value of the variable
+	 * @param	boolean $create If True, the variable will be created if it doesn't exist yet
+	 * @since	1.5
+ 	 */
+	function setVar($key, $value, $create = true) {
+		
+		if(!$create && array_key_exists($key, $this->_vars)) {
+			$this->_vars[$key] = $value;
+		} else {
+			$this->_vars[$key] = $value;
+		}
+	}
+	
+	/**
+	 * Set the router variable array
+	 *
+	 * @access	public
+	 * @param	array   $vars   An associative array with variables
+	 * @param	boolean $create If True, the array will be merged instead of overwritten
+	 * @since	1.5
+ 	 */
+	function setVars($vars = array(), $merge = true) {
+		
+		if($merge) {
+			$this->_vars = array_merge($this->_vars, $vars);
+		} else {
+			$this->_vars = $vars;
+		}
+	}
+	
+	/**
+	 * Get a router variable
+	 *
+	 * @access	public
+	 * @param	string $key   The name of the variable
+	 * $return  mixed  Value of the variable
+	 * @since	1.5
+ 	 */
+	function getVar($key) 
+	{
+		$result = null;
+		if(isset($this->_vars, $key)) {
+			$result = $this->_vars[$key];
+		}
+		return $result;
+	}
+	
+	/**
+	 * Get the router variable array
+	 *
+	 * @access	public
+	 * @return  array An associative array of router variables
+	 * @since	1.5
+ 	 */
+	function getVars() {
+		return $this->_vars;
+	}
+	
+	/**
+	 * Create a uri based on a full or partial url string
+	 *
+	 * @access	protected
+	 * @return  JURI  A JURI object
+	 * @since	1.5
+ 	 */
+	function &_createURI($url)
+	{
+		// Create full URL if we are only appending variables to it
+		if(substr($url, 0, 1) == '&')
+		{
+			$vars = array();
+			parse_str($url, $vars);
 
+			$vars = array_merge($this->getVars(), $vars);
+			
+			foreach($vars as $key => $var) 
+			{
+				if(empty($var)) {
+					unset($vars[$key]);
+				}
+			}
+			
+			$url = 'index.php?'.JURI::_buildQuery($vars);
+		}
+		
+		// Decompose link into url component parts
+		$uri = new JURI(JURI::base().$url);
+		return $uri;
+	}
+	
 	function _encodeSegments($segments)
 	{
 		$total = count($segments);

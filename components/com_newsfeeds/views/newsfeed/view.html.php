@@ -40,7 +40,7 @@ class NewsfeedsViewNewsfeed extends JView
 		}
 
 		// Get some objects from the JApplication
-		$pathway  =& $mainframe->getPathWay();
+		$pathway  =& $mainframe->getPathway();
 		$document =& JFactory::getDocument();
 
 		// Get the current menu item

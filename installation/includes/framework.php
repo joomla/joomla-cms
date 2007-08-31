@@ -61,6 +61,7 @@ jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.factory' );
+jimport( 'joomla.methods' );
 jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.html.parameter' );
 jimport( 'joomla.utilities.array' );

@@ -68,7 +68,7 @@ class JAdministrator extends JApplication
 			} else {
 				jimport('joomla.application.helper');
 				$params = JComponentHelper::getParams('com_languages');
-				$client	= JApplicationHelper::getClientInfo($this->getClientId());
+				$client	=& JApplicationHelper::getClientInfo($this->getClientId());
 				$options['language'] = $params->get($client->name, 'en-GB');
 			}
 		}

@@ -4,7 +4,7 @@
 <h3><?php echo JText::_('search_again'); ?></h3>
 <fieldset class="word">
 <label for="search_searchword"><?php echo JText::_('Search Keyword') ?> </label>
-<input type="text" name="searchword" id="search_searchword"  maxlength="20" value="<?php echo $this->searchword ?>" class="inputbox" />
+<input type="text" name="searchword" id="search_searchword"  maxlength="20" value="<?php echo $this->escape($this->searchword) ?>" class="inputbox" />
 </fieldset>
 
 <fieldset class="phrase">
@@ -21,7 +21,7 @@
 		<?php $checked = is_array($this->searchareas['active']) && in_array($val, $this->searchareas['active']) ? 'checked="true"' : ''; ?>
 		<input type="checkbox" name="areas[]" value="<?php echo $val ?>" id="area_<?php echo $val ?>" <?php echo $checked ?> />
 		<label for="area_<?php echo $val ?>">
-		<?php echo $txt; ?>
+		<?php echo JText::_($txt); ?>
 		</label><br />
 	<?php endforeach; ?>
 </fieldset>

@@ -77,11 +77,13 @@ jimport( 'joomla.application.menu' ); 		//needs to be loaded later
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
 jimport( 'joomla.factory' );
+jimport( 'joomla.methods' );
 jimport( 'joomla.html.html' );		  		//needs to be loaded later
 jimport( 'joomla.utilities.array' );	  		//needs to be loaded later
 jimport( 'joomla.utilities.error' );
 jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.utilities.string' );		//needs to be loaded later
+jimport( 'joomla.filter.output' );
 jimport( 'joomla.version' );				//needs to be loaded later
 jimport( 'joomla.event.*');
 

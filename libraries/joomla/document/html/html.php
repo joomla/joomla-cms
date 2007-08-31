@@ -215,7 +215,7 @@ class JDocumentHTML extends JDocument
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = 'system';
 		}
-
+		
 		// Parse the template INI file if it exists for parameters and insert
 		// them into the template.
 		if (is_readable( $directory.DS.$template.DS.'params.ini' ) )
@@ -232,10 +232,10 @@ class JDocumentHTML extends JDocument
 
 		// load
 		$data = $this->_loadTemplate($directory.DS.$template, $file);
-
+		
 		// parse
 		$data = $this->_parseTemplate($data);
-
+		
 		//output
 		parent::render();
 		return $data;

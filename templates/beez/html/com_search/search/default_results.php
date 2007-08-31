@@ -3,9 +3,9 @@
 <?php if (!empty($this->searchword)) : ?>
 <div class="searchintro<?php echo $this->params->get('pageclass_sfx') ?>">
 	<p>
-		<?php echo JText::_('Search Keyword') ?><strong><? $this->searchword ?></strong>
+		<?php echo JText::_('Search Keyword') ?><strong><? $this->escape($this->searchword) ?></strong>
 		<?php echo $this->result ?>
-		<a href="http://www.google.com/search?q=<?php echo $this->searchword ?>" target="_blank"> 
+		<a href="http://www.google.com/search?q=<?php echo $this->escape($this->searchword) ?>" target="_blank"> 
 			<?php echo $this->image ?>
 		</a>
 	</p>
@@ -34,19 +34,19 @@
 			<?php if ($result->href) : ?>
 			<h4>
 				<a href="<?php echo JRoute :: _($result->href) ?>" <?php echo ($result->browsernav == 1) ? 'target="_blank"' : ''; ?>" >
-					<?php echo $result->title; ?>
+					<?php echo $this->escape($result->title); ?>
 				</a>
 			</h4>
 			<?php endif; ?>
 			<?php if ($result->section) : ?>
 			<p><?php echo JText::_('Category') ?>:
 				<span class="small<?php echo $this->params->get('pageclass_sfx') ?>">
-					<?php echo $result->section; ?>
+					<?php echo $this->escape($result->section); ?>
 				</span>
 			</p>
 			<?php endif; ?>
 
-			<?php echo JFilterOutput::ampReplace($result->text); ?>
+			<?php echo $this->escape($result->text); ?>
 			<span class="small<?php echo $this->params->get('pageclass_sfx') ?>">
 				<?php echo $result->created; ?>
 			</span>

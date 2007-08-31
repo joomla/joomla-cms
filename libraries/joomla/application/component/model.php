@@ -68,7 +68,7 @@ class JModel extends JObject
 		//set the view name
 		if (empty( $this->_name ))
 		{
-			if (isset($config['name']))  {
+			if (array_key_exists('name', $config))  {
 				$this->_name = $config['name'];
 			} else {
 				$this->_name = $this->getName();
@@ -76,7 +76,7 @@ class JModel extends JObject
 		}
 
 		// set the default view search path
-		if (isset($config['table_path'])) {
+		if (array_key_exists('table_path', $config)) {
 			$this->addTablePath($config['table_path']);
 		} else if (defined( 'JPATH_COMPONENT_ADMINISTRATOR' )){
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');

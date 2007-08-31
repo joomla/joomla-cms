@@ -39,7 +39,7 @@ class ContentViewArchive extends ContentView
 		// Initialize some variables
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
-		$pathway	= & $mainframe->getPathWay();
+		$pathway	=& $mainframe->getPathway();
 
 		// Get the menu item object
 		$menus = &JMenu::getInstance();

@@ -9,7 +9,7 @@
 				</label>
 			</td>
 			<td nowrap="nowrap">
-				<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo $this->searchword; ?>" class="inputbox" />
+				<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox" />
 			</td>
 			<td width="100%" nowrap="nowrap">
 				<button name="Search" onClick="this.submit.form()" class="button"><?php echo JText::_( 'Search' );?></button>
@@ -45,14 +45,14 @@
 	<table class="searchintro<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<tr>
 		<td colspan="3" >
-			<?php echo JText::_( 'Search Keyword' ) .' <b>'. $this->searchword .'</b>'; ?>
+			<?php echo JText::_( 'Search Keyword' ) .' <b>'. $this->escape($this->searchword) .'</b>'; ?>
 		</td>
 	</tr>
 	<tr>
 		<td>
 			<br />
-			<?php echo $this->result; ?>
-			<a href="http://www.google.com/search?q=<?php echo $this->searchword; ?>" target="_blank">
+			<?php echo $this->escape($this->result); ?>
+			<a href="http://www.google.com/search?q=<?php echo $this->escape($this->searchword); ?>" target="_blank">
 				<?php echo $this->image; ?>
 			</a>
 		</td>

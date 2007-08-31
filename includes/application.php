@@ -27,14 +27,6 @@ jimport('joomla.application.component.helper');
 class JSite extends JApplication
 {
 	/**
-	 * The pathway store (for breadcrumb generation).
-	 *
-	 * @var object  JPathWay object
-	 * @access protected
-	 */
-	var $_pathway = null;
-
-	/**
 	* Class constructor
 	*
 	* @access protected
@@ -66,8 +58,8 @@ class JSite extends JApplication
 				$options['language'] = $lang;
 			} else {
 				jimport( 'joomla.application.helper' );
-				$params = JComponentHelper::getParams('com_languages');
-				$client	= JApplicationHelper::getClientInfo($this->getClientId());
+				$params =  JComponentHelper::getParams('com_languages');
+				$client	=& JApplicationHelper::getClientInfo($this->getClientId());
 				$options['language'] = $params->get($client->name, 'en-GB');
 			}
 
@@ -77,7 +69,7 @@ class JSite extends JApplication
 		if ( ! JLanguage::exists($options['language']) ) {
 			$options['language'] = 'en-GB';
 		}
-
+		
 		parent::initialise($options);
 	}
 
@@ -97,13 +89,11 @@ class JSite extends JApplication
 	*/
 	function dispatch($component)
 	{
-		// Build the application pathway
-		$this->_createPathWay();
-
 		$document	=& JFactory::getDocument();
 		$config		=& JFactory::getConfig();
 		$user		=& JFactory::getUser();
-
+		$router     =& $this->getRouter();
+		
 		switch($document->getType())
 		{
 			case 'html':
@@ -114,6 +104,15 @@ class JSite extends JApplication
 				if ( $user->get('id') ) {
 					$document->addScript( 'includes/js/joomla.javascript.js');
 				}
+				
+				if($router->getMode() == JROUTER_MODE_SEF) {
+					$document->setBase(JURI::base());
+				}
+			} break;
+			
+			case 'feed':
+			{
+				$document->setBase(JURI::base());
 			} break;
 
 			default: break;
@@ -122,7 +121,7 @@ class JSite extends JApplication
 
 		$document->setTitle( $this->getCfg('sitename' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
-
+			
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer( $contents, 'component');
 	}
@@ -139,7 +138,7 @@ class JSite extends JApplication
 
 		// get the format to render
 		$format = $document->getType();
-
+		
 		switch($format)
 		{
 			case 'feed' :
@@ -166,7 +165,7 @@ class JSite extends JApplication
 				);
 			} break;
  		}
-
+		
 		$data = $document->render( $this->getCfg('caching'), $params);
 		JResponse::setBody($data);
 	}
@@ -295,7 +294,7 @@ class JSite extends JApplication
 	}
 
 	/**
-	 * Return a reference to the JPathWay object.
+	 * Return a reference to the JPathway object.
 	 *
 	 * @access public
 	 * @return object JPathway.
@@ -303,38 +302,30 @@ class JSite extends JApplication
 	 */
 	function &getPathWay()
 	{
-		return $this->_pathway;
+		$options = array();
+		$pathway =& parent::getPathway($options);
+		return $pathway;
 	}
-
+	
 	/**
-	 * Create a JPathWay object and set the home/component items of the pathway.
+	 * Return a reference to the JRouter object.
 	 *
-	 * @access private
-	 * @return object JPathway.
-	 * @since 1.5
+	 * @access	public
+	 * @return	JRouter.
+	 * @since	1.5
 	 */
-	function &_createPathWay()
+	function &getRouter()
 	{
-		//Load the pathway object
-		jimport( 'joomla.application.pathway' );
-
-		// Create a JPathWay object
-		$this->_pathway = new JPathWay();
-
-		$menu   =& JMenu::getInstance();
-
-		if($item = $menu->getActive())
+		if(!isset($this->_router)) 
 		{
-			$menus	= $menu->getMenu();
-			$home	= $menu->getDefault();
-
-			if( $item->id != $home->id)
-			{
-				foreach($item->tree as $menupath) {
-					$this->_pathway->addItem( $menus[$menupath]->name, 'index.php?Itemid='.$menupath);
-				}
+			$options['mode'] = $this->getCfg('sef');
+			if(!$this->getCfg('sef_rewrite')) {
+				$options['prefix'] = 'index.php';
 			}
+		
+			parent::getRouter($options);
 		}
-		return $this->_pathway;
+		
+		return $this->_router;
 	}
 }

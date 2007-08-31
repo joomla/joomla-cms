@@ -60,9 +60,9 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$tagEnd		= ' />';
 		$strHtml	= $tab . '<title>' . htmlspecialchars($document->getTitle()) . '</title>' . $lnEnd;
 
-		$link = $document->getLink();
-		if(!empty($link)) {
-			$strHtml .= $tab . '<base href="' . $document->getLink() . '" />' . $lnEnd;
+		$base = $document->getBase();
+		if(!empty($base)) {
+			$strHtml .= $tab . '<base href="' . $document->getBase() . '" />' . $lnEnd;
 		}
 
 		$strHtml .= $tab . '<meta name="description" content="' . $document->getDescription() . '" />' . $lnEnd;

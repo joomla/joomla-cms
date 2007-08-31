@@ -27,7 +27,7 @@ jimport( 'joomla.utilities.date' );
  * @author	Johan Janssens <johan.janssens@joomla.org>
  *
  * @package 	Joomla.Framework
- * @subpackage		Document
+ * @subpackage	Document
  * @see http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  * @since	1.5
  */
@@ -53,7 +53,7 @@ jimport( 'joomla.utilities.date' );
 		$now	= new JDate();
 		$data	=& $this->_doc;
 
-		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" xml:base=\"".JURI::base()."\"";
+		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" xml:base=\"".$data->getBase()."\"";
 		if ($data->language!="") {
 			$feed.= " xml:lang=\"".$data->language."\"";
 		}

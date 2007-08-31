@@ -17,7 +17,7 @@
 							<a href="<?php echo JRoute::_($result->href); ?>">
 						<?php endif;
 
-						echo $result->title;
+						echo $this->escape($result->title);
 
 						if ( $result->href ) : ?>
 							</a>
@@ -25,13 +25,13 @@
 						if ( $result->section ) : ?>
 							<br />
 							<span class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-								(<?php echo $result->section; ?>)
+								(<?php echo $this->escape($result->section); ?>)
 							</span>
 						<?php endif; ?>
 					<?php endif; ?>
 				</div>
 				<div>
-					<?php echo $result->text;?>
+					<?php echo $this->escape($result->text); ?>
 				</div>
 				<?php
 					if ( $this->params->get( 'show_date' )) : ?>

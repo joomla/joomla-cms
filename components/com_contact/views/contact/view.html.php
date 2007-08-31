@@ -28,7 +28,7 @@ class ContactViewContact extends JView
 		global $mainframe;
 
 		$user		= &JFactory::getUser();
-		$pathway	= & $mainframe->getPathWay();
+		$pathway	= &$mainframe->getPathway();
 		$document	= & JFactory::getDocument();
 		$model		= &$this->getModel();
 

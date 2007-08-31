@@ -106,12 +106,20 @@ class JView extends JObject
 	var $_output = null;
 
 	/**
-	* Array of callbacks used to escape output.
-	*
-	* @var array
-	* @access private
-	*/
-	var $_escape = array('htmlspecialchars');
+     * Callback for escaping.
+     *
+     * @var string
+     * @access private
+     */
+    var $_escape = 'htmlspecialchars';
+	
+	 /**
+     * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
+     * 
+     * @var string
+     * @access private 
+     */
+    var $_charset = 'UTF-8';
 
 	/**
 	 * Constructor
@@ -123,22 +131,32 @@ class JView extends JObject
 		//set the view name
 		if (empty( $this->_name ))
 		{
-			if (isset($config['name']))  {
+			if (array_key_exists('name', $config))  {
 				$this->_name = $config['name'];
 			} else {
 				$this->_name = $this->getName();
 			}
 		}
+		
+		 // set the charset (used by the variable escaping functions)
+        if (array_key_exists('charset', $config)) {
+            $this->_charset = $config['charset'];
+        }
+		
+		 // user-defined escaping callback
+        if (array_key_exists('escape', $config)) {
+            $this->setEscape($config['escape']);
+        }
 
 		// Set a base path for use by the view
-		if (isset($config['base_path'])) {
+		if (array_key_exists('base_path', $config)) {
 			$this->_basePath	= $config['base_path'];
 		} else {
 			$this->_basePath	= JPATH_COMPONENT;
 		}
 
 		// set the default template search path
-		if (isset($config['template_path'])) {
+		if (array_key_exists('template_path', $config)) {
 			// user-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		} else {
@@ -146,7 +164,7 @@ class JView extends JObject
 		}
 
 		// set the default helper search path
-		if (isset($config['helper_path'])) {
+		if (array_key_exists('helper_path', $config)) {
 			// user-defined dirs
 			$this->_setPath('helper', $config['helper_path']);
 		} else {
@@ -154,7 +172,7 @@ class JView extends JObject
 		}
 
 		// set the layout
-		if (isset($config['layout'])) {
+		if (array_key_exists('layout', $config)) {
 			$this->setLayout($config['layout']);
 		} else {
 			$this->setLayout('default');
@@ -299,70 +317,23 @@ class JView extends JObject
 	}
 
 	/**
-	* Applies escaping to a value.
-	*
-	* You can override the predefined escaping callbacks by passing
-	* added parameters as replacement callbacks.
-	*
-	* <code>
-	* // use predefined callbacks
-	* $result = $view->escape($value);
-	*
-	* // use replacement callbacks
-	* $result = $view->escape(
-	*	 $value,
-	*	 'stripslashes',
-	*	 'htmlspecialchars',
-	*	 array('StaticClass', 'method'),
-	*	 array($object, $method)
-	* );
-	* </code>
-	*
-	* @access public
-	* @param mixed $value The value to be escaped.
-	* @return mixed
-	*/
-	function escape($value)
-	{
-		// were custom callbacks passed?
-		if (func_num_args() == 1)
-		{
-			// no, only a value was passed.
-			// loop through the predefined callbacks.
-			foreach ($this->_escape as $func)
-			{
-				// this if() shaves 0.001sec off of 300 calls.
-				if (is_string($func)) {
-					$value = $func($value);
-				} else {
-					$value = call_user_func($func, $value);
-				}
-			}
-		}
-		else
-		{
-			// yes, use the custom callbacks
-			$callbacks = func_get_args();
+     * Escapes a value for output in a view script.
+     *
+     * If escaping mechanism is one of htmlspecialchars or htmlentities, uses 
+     * {@link $_encoding} setting.
+     *
+     * @param  mixed $var The output to escape.
+     * @return mixed The escaped value.
+     */
+    function escape($var)
+    {
+        if (in_array($this->_escape, array('htmlspecialchars', 'htmlentities'))) {
+            return call_user_func($this->_escape, $var, ENT_COMPAT, $this->_charset);
+        }
 
-			// drop $value
-			array_shift($callbacks);
-
-			// loop through custom callbacks.
-			foreach ($callbacks as $func)
-			{
-				// this if() shaves 0.001sec off of 300 calls.
-				if (is_string($func)) {
-					$value = $func($value);
-				} else {
-					$value = call_user_func($func, $value);
-				}
-			}
-
-		}
-
-		return $value;
-	}
-
+        return call_user_func($this->_escape, $var);
+    }
+	
 	/**
 	 * Method to get data from a registered model
 	 *
@@ -411,46 +382,6 @@ class JView extends JObject
 	}
 
 	/**
-	 * Allows a different extension for the layout files to be used
-	 *
-	 * @access	public
-	 * @param	string	The extension
-	 * @return	string	Previous value
-	 * @since	1.5
-	 */
-	function setLayoutExt( $value )
-	{
-		$previous	= $this->_layoutExt;
-		if ($value = preg_replace( '#[^A-Za-z0-9]#', '', trim( $value ) )) {
-			$this->_layoutExt = $value;
-		}
-		return $previous;
-	}
-
-	/**
-	 * Method to add a model to the view.  We support a multiple model single
-	 * view system by which models are referenced by classname.  A caveat to the
-	 * classname referencing is that any classname prepended by JModel will be
-	 * referenced by the name without JModel, eg. JModelCategory is just
-	 * Category.
-	 *
-	 * @access	public
-	 * @param	object	$model		The model to add to the view.
-	 * @param	boolean	$default	Is this the default model?
-	 * @return	object				The added model
-	 */
-	function &setModel( &$model, $default = false )
-	{
-		$name = strtolower($model->getName());
-		$this->_models[$name] = &$model;
-
-		if ($default) {
-			$this->_defaultModel = $name;
-		}
-		return $model;
-	}
-
-	/**
 	 * Method to get the model object
 	 *
 	 * @access	public
@@ -464,23 +395,7 @@ class JView extends JObject
 		}
 		return $this->_models[strtolower( $name )];
 	}
-
-	/**
-	* Sets the layout name to use
-	*
-	* @access	public
-	* @param	string $template The template name.
-	* @return	string Previous value
-	* @since	1.5
-	*/
-
-	function setLayout($layout)
-	{
-		$previous		= $this->_layout;
-		$this->_layout = $layout;
-		return $previous;
-	}
-
+	
 	/**
 	* Get the layout.
 	*
@@ -492,7 +407,7 @@ class JView extends JObject
 	{
 		return $this->_layout;
 	}
-
+	
 	/**
 	 * Method to get the view name
 	 *
@@ -518,6 +433,72 @@ class JView extends JObject
 
 		return $name;
 	}
+	
+	/**
+	 * Method to add a model to the view.  We support a multiple model single
+	 * view system by which models are referenced by classname.  A caveat to the
+	 * classname referencing is that any classname prepended by JModel will be
+	 * referenced by the name without JModel, eg. JModelCategory is just
+	 * Category.
+	 *
+	 * @access	public
+	 * @param	object	$model		The model to add to the view.
+	 * @param	boolean	$default	Is this the default model?
+	 * @return	object				The added model
+	 */
+	function &setModel( &$model, $default = false )
+	{
+		$name = strtolower($model->getName());
+		$this->_models[$name] = &$model;
+
+		if ($default) {
+			$this->_defaultModel = $name;
+		}
+		return $model;
+	}
+
+	/**
+	* Sets the layout name to use
+	*
+	* @access	public
+	* @param	string $template The template name.
+	* @return	string Previous value
+	* @since	1.5
+	*/
+
+	function setLayout($layout)
+	{
+		$previous		= $this->_layout;
+		$this->_layout = $layout;
+		return $previous;
+	}
+
+	/**
+	 * Allows a different extension for the layout files to be used
+	 *
+	 * @access	public
+	 * @param	string	The extension
+	 * @return	string	Previous value
+	 * @since	1.5
+	 */
+	function setLayoutExt( $value )
+	{
+		$previous	= $this->_layoutExt;
+		if ($value = preg_replace( '#[^A-Za-z0-9]#', '', trim( $value ) )) {
+			$this->_layoutExt = $value;
+		}
+		return $previous;
+	}
+	
+	 /**
+     * Sets the _escape() callback.
+     *
+     * @param mixed $spec The callback for _escape() to use.
+     */
+    function setEscape($spec)
+    {
+        $this->_escape = $spec;
+    }
 
 	/**
 	 * Adds to the stack of view script paths in LIFO order.
@@ -539,55 +520,6 @@ class JView extends JObject
 	function addHelperPath($path)
 	{
 		$this->_addPath('helper', $path);
-	}
-
-	/**
-	* Clears then sets the callbacks to use when calling JView::escape().
-	*
-	* Each parameter passed to this function is treated as a separate
-	* callback.  For example:
-	*
-	* <code>
-	* $view->setEscape(
-	*	 'stripslashes',
-	*	 'htmlspecialchars',
-	*	 array('StaticClass', 'method'),
-	*	 array($object, $method)
-	* );
-	* </code>
-	*
-	* @access public
-	*/
-	function setEscape()
-	{
-		$this->_escape = (array) @func_get_args();
-	}
-
-
-	/**
-	* Adds to the callbacks used when calling JView::escape().
-	*
-	* Each parameter passed to this function is treated as a separate
-	* callback.  For example:
-	*
-	* <code>
-	* $savant->addEscape(
-	*	 'stripslashes',
-	*	 'htmlspecialchars',
-	*	 array('StaticClass', 'method'),
-	*	 array($object, $method)
-	* );
-	* </code>
-	*
-	* @access public
-	*
-	* @return void
-	*
-	*/
-	function addEscape()
-	{
-		$args = (array) @func_get_args();
-		$this->_escape = array_merge($this->_escape, $args);
 	}
 
 	/**

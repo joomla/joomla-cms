@@ -57,8 +57,8 @@ function viewLanguages()
 	global $mainframe, $option;
 
 	// Initialize some variables
-	$db		= & JFactory::getDBO();
-	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+	$db		=& JFactory::getDBO();
+	$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	$rows	= array ();
 
 	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
@@ -125,7 +125,7 @@ function publishLanguage( $language )
 	global $mainframe;
 
 	// Initialize some variables
-	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+	$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$params = JComponentHelper::getParams('com_languages');
 	$params->set($client->name, $language);

@@ -35,7 +35,7 @@ class SearchViewSearch extends JView
 		
 		// Initialize some variables
 		$document =& JFactory::getDocument();
-		$pathway  =& $mainframe->getPathWay();
+		$pathway  =& $mainframe->getPathway();
 		$uri      =& JFactory::getURI();
 
 		$error	= '';

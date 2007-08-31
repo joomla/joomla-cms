@@ -92,7 +92,7 @@ class InstallerModelTemplates extends InstallerModel
 				}
 			}
 		} else {
-			$clientInfo = JApplicationHelper::getClientInfo($this->_state->get('filter.client'));
+			$clientInfo =& JApplicationHelper::getClientInfo($this->_state->get('filter.client'));
 			$client = $clientInfo->name;
 			$templateDirs = JFolder::folders($clientInfo->path.DS.'templates');
 

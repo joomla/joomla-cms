@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: router.php 8180 2007-07-23 05:52:29Z eddieajau $
+* @version		$Id: pathway.php 8180 2007-07-23 05:52:29Z eddieajau $
 * @package		Joomla.Framework
 * @subpackage	Application
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -16,35 +16,35 @@
 defined('JPATH_BASE') or die();
 
 /**
- * Class to create and parse routes
+ * Class to manage the site application pathway
  *
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla
  * @since		1.5
  */
-class JRouterAdministrator extends JObject
+class JPathwaySite extends JPathway
 {
 	/**
-	 * Function to convert a route to an internal URI
-	 *
-	 * @access public
+	 * Class constructor
 	 */
-	function parse($url)
+	function __construct($options = array())
 	{
-		return true;
-	}
-
-	/**
-	 * Function to convert an internal URI to a route
-	 *
-	 * @param	string	$string	The internal URL
-	 * @return	string	The absolute search engine friendly URL
-	 * @since	1.5
-	 */
-	function build($url)
-	{
-		$url = str_replace('&amp;', '&', $url);
+		//Initialise the array
+		$this->_pathway = array();
 		
-		return $url;
+		$menu   =& JMenu::getInstance();
+
+		if($item = $menu->getActive())
+		{
+			$menus	= $menu->getMenu();
+			$home	= $menu->getDefault();
+			
+			if( $item->id != $home->id)
+			{
+				foreach($item->tree as $menupath) {
+					$this->addItem( $menus[$menupath]->name, 'index.php?Itemid='.$menupath);
+				}
+			}
+		}
 	}
 }

@@ -52,9 +52,9 @@ class WeblinksViewWeblink extends JView
 		global $mainframe;
 
 		// Get some objects from the JApplication
-		$pathway	=& $mainframe->getPathWay();
+		$pathway	=& $mainframe->getPathway();
 		$document	=& JFactory::getDocument();
-		$model	=& $this->getModel();
+		$model		=& $this->getModel();
 		$user		=& JFactory::getUser();
 
 		// Make sure you are logged in and have the necessary access rights

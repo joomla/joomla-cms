@@ -84,7 +84,7 @@ class InstallerModelLanguages extends InstallerModel
 		}
 		else
 		{
-			$clientInfo = JApplicationHelper::getClientInfo($this->_state->get('filter.client'));
+			$clientInfo =& JApplicationHelper::getClientInfo($this->_state->get('filter.client'));
 			$client = $clientInfo->name;
 			$langBDir = JLanguage::getLanguagePath($clientInfo->path);
 			$langDirs = JFolder::folders($langBDir);
@@ -131,7 +131,7 @@ class InstallerModelLanguages extends InstallerModel
 				}
 
 				// if current than set published
-				$clientVals = JApplicationHelper::getClientInfo($row->client_id);
+				$clientVals =& JApplicationHelper::getClientInfo($row->client_id);
 				$lang = 'lang_'.$clientVals->name;
 				if ( $mainframe->getCfg($lang) == basename( $row->language ) ) {
 					$row->published	= 1;

@@ -35,7 +35,7 @@
 			$name 	= $row->username;
 		endif;
 
-		$clientInfo = JApplicationHelper::getClientInfo($row->client_id);
+		$clientInfo =& JApplicationHelper::getClientInfo($row->client_id);
 		?>
 		<tr>
 			<td width="5%">

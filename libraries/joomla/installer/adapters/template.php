@@ -55,7 +55,7 @@ class JInstallerTemplate extends JObject
 		if ($cname = $root->attributes('client')) {
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
-			$client = JApplicationHelper::getClientInfo($cname, true);
+			$client =& JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false) {
 				$this->parent->abort('Template Install: '.JText::_('Unknown client type').' ['.$cname.']');
 				return false;
@@ -161,7 +161,7 @@ class JInstallerTemplate extends JObject
 		}
 
 		// Get the template root path
-		$client = JApplicationHelper::getClientInfo( $clientId );
+		$client =& JApplicationHelper::getClientInfo( $clientId );
 		if (!$client) {
 			JError::raiseWarning(100, 'Template Uninstall: '.JText::_('Invalid application'));
 			return false;

@@ -46,6 +46,14 @@ class JApplication extends JObject
 	 * @access	protected
 	 */
 	var $_router = null;
+	
+	/**
+	 * The pathway object
+	 *
+	 * @var		JPathway
+	 * @access	protected
+	 */
+	var $_pathway = null;
 
 	/**
 	 * The application message queue.
@@ -62,15 +70,14 @@ class JApplication extends JObject
 	 * @access	protected
 	 */
 	var $_name = null;
-
+	
 	/**
 	* Class constructor.
 	*
 	* @param	integer	A client identifier.
 	*/
-	function __construct( $config = array())
+	function __construct($config = array())
 	{
-		
 		jimport('joomla.utilities.utility');
 		
 		//set the view name
@@ -102,6 +109,54 @@ class JApplication extends JObject
 		
 		$this->set( 'requestTime', gmdate('Y-m-d H:i') );
 	}
+	
+	/**
+	 * Returns a reference to the global JApplication object, only creating it if it
+	 * doesn't already exist.
+	 *
+	 * This method must be invoked as:
+	 * 		<pre>  $menu = &JApplication::getInstance();</pre>
+	 *
+	 * @access	public
+	 * @param	integer	$id 		A client identifier.
+	 * @param	array	$config 	An optional associative array of configuration settings.
+	 * @return	JApplication	The appliction object.
+	 * @since	1.5
+	 */
+	function &getInstance($client, $config = array())
+	{
+		static $instances;
+
+		if (!isset( $instances )) {
+			$instances = array();
+		}
+
+		if (empty($instances[$client]))
+		{	
+			//Load the router object
+			jimport('joomla.application.helper');
+			$info =& JApplicationHelper::getClientInfo($client, true);
+			
+			$path = $info->path.DS.'includes'.DS.'application.php';
+			if(file_exists($path)) 
+			{
+				require_once $path;
+				
+				// Create a JRouter object
+				$classname = 'J'.ucfirst($client);
+				$instance = new $classname($config);
+			} 
+			else 
+			{
+				$error = new JException( E_ERROR, 500, 'Unable to load application: '.$classname);
+				return $error;
+			}
+			
+			$instances[$client] = & $instance;
+		}
+
+		return $instances[$client];
+	}
 
 	/**
 	* Initialise the application.
@@ -130,9 +185,6 @@ class JApplication extends JObject
 		// Set the database debug
 		$db =& JFactory::getDBO();
 		$db->debug( $config->get('debug_db'));
-
-		//create the router -> lazy load it later
-		$this->_createRouter();
 	}
 
 	/**
@@ -570,15 +622,40 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Return a reference to the JRouter object.
+	 * Return a reference to the application JRouter object.
 	 *
 	 * @access	public
+	 * @param  array	$options 	An optional associative array of configuration settings.
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
-	function &getRouter()
+	function &getRouter($options = array())
 	{
+		if(!isset($this->_router)) 
+		{
+			jimport( 'joomla.application.router' );
+			$this->_router =& JRouter::getInstance($this->_name, $options);
+		}
 		return $this->_router;
+	}
+	
+	/**
+	 * Return a reference to the application JPathway object.
+	 *
+	 * @access public
+	 * @param  array	$options 	An optional associative array of configuration settings.
+	 * @return object JPathway.
+	 * @since 1.5
+	 */
+	function &getPathway($options = array())
+	{
+		if(!isset($this->_pathway)) 
+		{
+			jimport( 'joomla.application.pathway' );
+			$this->_pathway =& JPathway::getInstance($this->_name, $options);
+		}
+		
+		return $this->_pathway;
 	}
 
 	/**
@@ -647,32 +724,6 @@ class JApplication extends JObject
 		return $session;
 	}
 
-	/**
-	 * Create a JRouter object
-	 *
-	 * @access private
-	 * @return object JRouter.
-	 * @since 1.5
-	 */
-	function &_createRouter()
-	{
-		//Load the pathway object
-		require_once(JPATH_BASE.DS.'includes'.DS.'router.php');
-
-		$options = array();
-
-		// Get routing mode
-		$options['mode'] = $this->getCfg('sef');
-		if($this->getCfg('sef_rewrite')) {
-			$options['mode'] = 2;
-		}
-
-		// Create a JRouter object
-		$classname = 'JRouter'.ucfirst($this->_name);
-		$this->_router = new $classname($options);
-
-		return $this->_router;
-	}
 
 	/**
 	 * Gets the client id of the current running application.
@@ -757,7 +808,7 @@ class JApplication extends JObject
   }
 
 	/**
-	 * Deprecated, use JPathWay->getPathWayNames() method instead.
+	 * Deprecated, use JPathway->getPathWayNames() method instead.
 	 *
 	 * @since 1.0
 	 * @deprecated As of version 1.5
@@ -765,7 +816,8 @@ class JApplication extends JObject
 	 */
 	function getCustomPathWay()
 	{
-		return $this->_pathway->getPathWayNames();
+		$pathway = $this->getPathway();
+		return $pathway->getPathWayNames();
 	}
 
 	/**

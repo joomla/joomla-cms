@@ -82,7 +82,7 @@ class JInstallerModule extends JObject
 		if ($cname = $this->manifest->attributes('client')) {
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
-			$client = JApplicationHelper::getClientInfo($cname, true);
+			$client =& JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false) {
 				$this->parent->abort('Module Install: '.JText::_('Unknown client type').' ['.$client->name.']');
 				return false;
@@ -291,7 +291,7 @@ class JInstallerModule extends JObject
 
 		// Get the extension root path
 		jimport('joomla.application.helper');
-		$client = JApplicationHelper::getClientInfo($row->client_id);
+		$client =& JApplicationHelper::getClientInfo($row->client_id);
 		if ($client === false) {
 			$this->parent->abort('Module Uninstall: '.JText::_('Unknown client type').' ['.$row->client_id.']');
 			return false;

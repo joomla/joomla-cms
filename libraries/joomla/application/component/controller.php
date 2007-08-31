@@ -170,7 +170,7 @@ class JController extends JObject
 		//set the view name
 		if (empty( $this->_name ))
 		{
-			if (isset($config['name']))  {
+			if (array_key_exists('name', $config))  {
 				$this->_name = $config['name'];
 			} else {
 				$this->_name = $this->getName();
@@ -178,21 +178,21 @@ class JController extends JObject
 		}
 
 		// Set a base path for use by the controller
-		if (isset($config['base_path'])) {
+		if (array_key_exists('base_path', $config)) {
 			$this->_basePath	= $config['base_path'];
 		} else {
 			$this->_basePath	= JPATH_COMPONENT;
 		}
 
 		// If the default task is set, register it as such
-		if ( isset( $config['default_task'] ) ) {
+		if ( array_key_exists( 'default_task', $config ) ) {
 			$this->registerDefaultTask( $config['default_task'] );
 		} else {
 			$this->registerDefaultTask( 'display' );
 		}
 
 		// set the default model search path
-		if ( isset( $config['model_path'] ) ) {
+		if ( array_key_exists( 'model_path', $config ) ) {
 			// user-defined dirs
 			$this->_setPath( 'model', $config['model_path'] );
 		} else {
@@ -200,7 +200,7 @@ class JController extends JObject
 		}
 
 		// set the default view search path
-		if ( isset( $config['view_path'] ) ) {
+		if ( array_key_exists( 'view_path', $config ) ) {
 			// user-defined dirs
 			$this->_setPath( 'view', $config['view_path'] );
 		} else {

@@ -207,7 +207,7 @@ class UserController extends JController
 
 		// Get required system objects
 		$user 		= clone(JFactory::getUser());
-		$pathway 	=& $mainframe->getPathWay();
+		$pathway 	=& $mainframe->getPathway();
 		$config		=& JFactory::getConfig();
 		$authorize	=& JFactory::getACL();
 		$document   =& JFactory::getDocument();

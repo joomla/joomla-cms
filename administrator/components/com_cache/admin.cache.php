@@ -66,7 +66,7 @@ class CacheController
 	{
 		global $mainframe, $option;
 		$submenu = JRequest::getVar('client', '0', '', 'int');
-		$client	= JApplicationHelper::getClientInfo($submenu);
+		$client	 =& JApplicationHelper::getClientInfo($submenu);
 		if ($submenu == 1) {
 			JSubMenuHelper::addEntry(JText::_('Site'), 'index.php?option=com_cache&client=0');
 			JSubMenuHelper::addEntry(JText::_('Administrator'), 'index.php?option=com_cache&client=1', true);
@@ -88,7 +88,7 @@ class CacheController
 
 	function deleteCache($cid)
 	{
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		$cmData = new CacheData($client->path.DS.'cache');
 		$cmData->cleanCacheList( $cid );

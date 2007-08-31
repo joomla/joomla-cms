@@ -266,7 +266,7 @@ class JRequest
 	function setVar($name, $value = null, $hash = 'method', $overwrite = true)
 	{
 		//If overwrite is true, makes sure the variable hasn't been set yet
-		if(!$overwrite && isset($_REQUEST[$name])) {
+		if(!$overwrite && array_key_exists($name, $_REQUEST)) {
 			return $_REQUEST[$name];
 		}
 

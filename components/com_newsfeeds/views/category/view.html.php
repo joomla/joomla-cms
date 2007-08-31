@@ -32,7 +32,7 @@ class NewsfeedsViewCategory extends JView
 	{
 		global $mainframe;
 
-		$pathway 	= & $mainframe->getPathWay();
+		$pathway 	= & $mainframe->getPathway();
 		$document	= & JFactory::getDocument();
 
 		// Get the parameters of the active menu item

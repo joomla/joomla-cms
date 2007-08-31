@@ -37,7 +37,7 @@ class PollController extends JController
 
 		$db 	  =& JFactory::getDBO();
 		$document =& JFactory::getDocument();
-		$pathway  =& $mainframe->getPathWay();
+		$pathway  =& $mainframe->getPathway();
 
 		$poll_id = JRequest::getVar( 'id', 0, '', 'int' );
 

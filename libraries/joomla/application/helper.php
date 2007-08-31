@@ -30,11 +30,12 @@ class JApplicationHelper
 	 * future versions when we start mapping applications in the database.
 	 *
 	 * @access	public
-	 * @param	int		$id	A client identifier
+	 * @param	int			$id		A client identifier
+	 * @param	boolean		$byName	If True, find the client by it's name
 	 * @return	mixed	Object describing the client or false if not known
 	 * @since	1.5
 	 */
-	function getClientInfo($id = null, $byName = false)
+	function &getClientInfo($id = null, $byName = false)
 	{
 		global $mainframe;
 
@@ -63,27 +64,30 @@ class JApplicationHelper
 			$obj->path	= JPATH_INSTALLATION;
 			$clients[2] = clone($obj);
 		}
+		
+		//If no client id has been passed return the whole array
+		if(is_null($id)) {
+			return $clients;
+		}
 
-		/*
-		 * Are we looking for client information by id or by name?
-		 */
+		// Are we looking for client information by id or by name?
 		if (!$byName)
 		{
-			if (!isset($clients[$id])){
-				return false;
-			} else {
+			if (isset($clients[$id])){
 				return $clients[$id];
 			}
 		}
 		else
 		{
-			foreach ($clients as $client) {
+			foreach ($clients as $client) 
+			{
 				if ($client->name == strtolower($id)) {
 					return $client;
 				}
 			}
-			return false;
 		}
+		
+		return null;
 	}
 
 	/**

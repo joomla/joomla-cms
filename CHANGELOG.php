@@ -37,14 +37,27 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Aug-2007 Johan Janssens
+ ^ Added support for charsets to JView, charset is used by the JView::escape function
+   when escaping using htmlspecialchars or htmlentities.
+ ^ Fixed com_search to use proper output escaping using JView::escape.
+ + Added JDocument::setBase and getBase functions to allow setting the document base uri
+ ! JRouter has been completely refactored.
+ ^ JApplicationHelper::getClientInfo now returns a reference to the client array instead
+   of a copy of the array. This allows to dynamically set client information at runtime
+ ^ Moved JText and JRoute to joomla.methods, to support lazy loading of JLanguage and JRouter
+ + Added getInstance functions to JApplication, JRouter and JPathway
+ - Removed JSearch class, not used in 1.5
+ 
 31-Aug-2007 Enno Klasing
  ^ Updated, added and deleted installer application translations from the Accredited Translation Partners
 
 31-Aug-2007 Mateusz Krzeszowiec
  # Fixed "View not found" error in com_media under Linux. View directories renamed to lowercase
-
+ 
 30-Aug-2007 Louis Landry
- ^ Refactor of Media Manager to a new and improved MVC architecture ... we can sort out the uglies for the next RC
+ ^ Refactor of Media Manager to a new and improved MVC architecture ... we can sort out 
+   the uglies for the next RC
 
 30-Aug-2007 Enno Klasing, Alan Langford, Jonah Braun
  # Cleenup of Beez template overrides [WIP, com_contact, com_content and com_user not finished yet]
@@ -59,7 +72,7 @@ Legend:
  * Fixed XSS vulnerability in com_content
  * Fixed SQL injection vulnerability in com_content
 
-30-Aug-2007
+30-Aug-2007 Andrew Eddie
  # Fixed gacl_api::add_group not returning the id of the new group
 
 29-Aug-2007 Johan Janssens

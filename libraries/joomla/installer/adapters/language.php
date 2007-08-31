@@ -64,7 +64,7 @@ class JInstallerLanguage extends JObject
 		if ($cname = $root->attributes('client')) {
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
-			$client = JApplicationHelper::getClientInfo($cname, true);
+			$client =& JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false) {
 				$this->parent->abort('Language Install: '.JText::_('Unknown client type').' ['.$cname.']');
 				return false;

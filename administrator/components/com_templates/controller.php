@@ -30,7 +30,7 @@ class TemplatesController
 
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		// Initialize the pagination variables
 		$limit		= $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
@@ -68,7 +68,7 @@ class TemplatesController
 	{
 		$template	= JRequest::getVar('id', '', 'method', 'cmd');
 		$option 	= JRequest::getCmd('option');
-		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		if (!$template)
 		{
@@ -95,7 +95,7 @@ class TemplatesController
 		$cid	= JRequest::getVar('cid', array(), 'method', 'array');
 		$cid	= array(JFilterInput::clean(@$cid[0], 'cmd'));
 		$option	= JRequest::getCmd('option');
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		if ($cid[0])
 		{
@@ -124,7 +124,7 @@ class TemplatesController
 		$cid		= array(JFilterInput::clean(@$cid[0], 'cmd'));
 		$template	= $cid[0];
 		$option		= JRequest::getCmd('option');
-		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		if (!$cid[0]) {
 			return JError::raiseWarning( 500, 'Template not specified' );
@@ -186,7 +186,7 @@ class TemplatesController
 
 		$template	= JRequest::getVar('id', '', 'method', 'cmd');
 		$option		= JRequest::getVar('option', '', '', 'cmd');
-		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$menus		= JRequest::getVar('selections', array(), 'post', 'array');
 		$params		= JRequest::getVar('params', array(), 'post', 'array');
 		$default	= JRequest::getBool('default');
@@ -272,7 +272,7 @@ class TemplatesController
 
 		// Initialize some variables
 		$option	= JRequest::getCmd('option');
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -287,7 +287,7 @@ class TemplatesController
 
 		// Initialize some variables
 		$option		= JRequest::getCmd('option');
-		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template	= JRequest::getVar('id', '', 'method', 'cmd');
 		$file		= $client->path.DS.'templates'.DS.$template.DS.'index.php';
 
@@ -316,7 +316,7 @@ class TemplatesController
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');
-		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client			=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template		= JRequest::getVar('id', '', 'method', 'cmd');
 		$filecontent	= JRequest::getVar('filecontent', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
@@ -375,7 +375,7 @@ class TemplatesController
 		// Initialize some variables
 		$option 	= JRequest::getCmd('option');
 		$template	= JRequest::getVar('id', '', 'method', 'cmd');
-		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		// Determine template CSS directory
 		$dir = $client->path.DS.'templates'.DS.$template.DS.'css';
@@ -398,7 +398,7 @@ class TemplatesController
 
 		// Initialize some variables
 		$option		= JRequest::getCmd('option');
-		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template	= JRequest::getVar('id', '', 'method', 'cmd');
 		$filename	= JRequest::getVar('filename', '', 'method', 'cmd');
 
@@ -434,7 +434,7 @@ class TemplatesController
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');
-		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client			=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template		= JRequest::getVar('id', '', 'post', 'cmd');
 		$filename		= JRequest::getVar('filename', '', 'post', 'cmd');
 		$filecontent	= JRequest::getVar('filecontent', '', 'post', 'string', JREQUEST_ALLOWRAW);

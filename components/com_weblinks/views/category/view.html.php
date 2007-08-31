@@ -34,7 +34,7 @@ class WeblinksViewCategory extends JView
 		// Initialize some variables
 		$document	= &JFactory::getDocument();
 		$uri 		= &JFactory::getURI();
-		$pathway	= &$mainframe->getPathWay();
+		$pathway	= &$mainframe->getPathway();
 
 		// Get the parameters of the active menu item
 		$menus = &JMenu::getInstance();

@@ -25,7 +25,7 @@ JError::setErrorHandling( E_WARNING, 'echo' );
 JError::setErrorHandling( E_NOTICE,	 'echo' );
 
 // create the mainframe object
-$mainframe = new JXMLRPC();
+$mainframe =& JApplication::getInstance('xmlrpc');
 
 // Ensure that this application is enabled
 if (!$mainframe->getCfg('xmlrpc_server')) {

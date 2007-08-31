@@ -4,5 +4,5 @@
 	<?php echo JText::_('Error') ?>
 </h2>
 <div class="error<?php echo $this->params->get( 'pageclass_sfx' ) ?>">
-	<p><?php $this->error; ?></p>
+	<p><?php $this->escape($this->error); ?></p>
 </div>

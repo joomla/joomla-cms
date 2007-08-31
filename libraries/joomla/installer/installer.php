@@ -566,7 +566,7 @@ class JInstaller extends JObject
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client = JApplicationHelper::getClientInfo($cid);
+		$client =& JApplicationHelper::getClientInfo($cid);
 
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -695,7 +695,7 @@ class JInstaller extends JObject
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client = JApplicationHelper::getClientInfo($cid);
+		$client =& JApplicationHelper::getClientInfo($cid);
 
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -794,7 +794,7 @@ class JInstaller extends JObject
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client = JApplicationHelper::getClientInfo($cid);
+		$client =& JApplicationHelper::getClientInfo($cid);
 
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -1011,7 +1011,7 @@ class JInstaller extends JObject
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client = JApplicationHelper::getClientInfo($cid);
+		$client =& JApplicationHelper::getClientInfo($cid);
 
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -1106,7 +1106,7 @@ class JInstaller extends JObject
 	{
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client = JApplicationHelper::getClientInfo($cid);
+		$client =& JApplicationHelper::getClientInfo($cid);
 
 		$path['src'] = $this->getPath('manifest');
 

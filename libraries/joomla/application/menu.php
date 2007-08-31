@@ -77,7 +77,7 @@ class JMenu extends JObject
 	 * 		<pre>  $menu = &JMenu::getInstance();</pre>
 	 *
 	 * @access	public
-	 * @return	JMenu	The Menu object.
+	 * @return	JMenu	The menu object.
 	 * @since	1.5
 	 */
 	function &getInstance()

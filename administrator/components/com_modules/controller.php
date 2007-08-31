@@ -54,7 +54,7 @@ class ModulesController extends JController
 
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$option	= 'com_modules';
 
 		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'm.position',	'cmd' );
@@ -183,7 +183,7 @@ class ModulesController extends JController
 	{
 		// Initialize some variables
 		$db 	=& JFactory::getDBO();
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
@@ -253,7 +253,7 @@ class ModulesController extends JController
 
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
 		$post	= JRequest::get( 'post' );
@@ -345,7 +345,7 @@ class ModulesController extends JController
 		$db 	=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();
 
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$module = JRequest::getVar( 'module', '', '', 'cmd' );
 		$id 	= JRequest::getVar( 'id', 0, 'method', 'int' );
 		$cid 	= JRequest::getVar( 'cid', array( $id ), 'method', 'array' );
@@ -500,7 +500,7 @@ class ModulesController extends JController
 
 		// Initialize some variables
 		$modules	= array();
-		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		// path to search for modules
 		if ($client->id == '1') {
@@ -552,7 +552,7 @@ class ModulesController extends JController
 
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
@@ -602,7 +602,7 @@ class ModulesController extends JController
 		// Initialize some variables
 		$db 	=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
 		$cache = & JFactory::getCache();
@@ -645,7 +645,7 @@ class ModulesController extends JController
 
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
 		$row =& JTable::getInstance('module');
@@ -663,7 +663,7 @@ class ModulesController extends JController
 
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
@@ -691,7 +691,7 @@ class ModulesController extends JController
 
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
@@ -737,7 +737,7 @@ class ModulesController extends JController
 	{
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
-		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$this->setRedirect( 'index.php?option=com_modules&client='.$client->id );
 
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
