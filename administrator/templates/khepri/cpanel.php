@@ -23,8 +23,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
 
+<!--[if IE 7]>
+<link href="templates/<?php echo  $this->template ?>/css/ie7.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
 <!--[if lte IE 6]>
-<link href="templates/<?php echo  $this->template ?>/css/ie.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
 <?php if($this->params->get('useRoundedCorners')) : ?>
