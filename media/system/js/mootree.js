@@ -125,7 +125,7 @@ var MooTreeControl = new Class({
 
 	select: function(node, noClick) {
 		if (!$chk(noClick)) {
-			this.onClick(node); node.onClick(); // fire click events
+//			this.onClick(node); node.onClick(); // fire click events
 		}
 		if (this.selected === node) return; // already selected
 		if (this.selected) {
