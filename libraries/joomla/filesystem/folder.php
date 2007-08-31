@@ -382,7 +382,7 @@ class JFolder
 
 		// read the source directory
 		$handle = opendir($path);
-		while ($file = readdir($handle))
+		while (($file = readdir($handle)) !== false)
 		{
 			$dir = $path.DS.$file;
 			$isDir = is_dir($dir);
@@ -439,7 +439,8 @@ class JFolder
 
 		// read the source directory
 		$handle = opendir($path);
-		while ($file = readdir($handle)) {
+		while (($file = readdir($handle)) !== false) 
+		{
 			$dir = $path.DS.$file;
 			$isDir = is_dir($dir);
 			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && $isDir) {
