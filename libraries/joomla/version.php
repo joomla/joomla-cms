@@ -35,9 +35,9 @@ class JVersion
 	/** @var int build Number */
 	var $BUILD	 	= '';
 	/** @var string Codename */
-	var $CODENAME 	= 'Mapya';
+	var $CODENAME 	= 'Endeleo';
 	/** @var string Date */
-	var $RELDATE 	= '21-July-2007';
+	var $RELDATE 	= '1-September-2007';
 	/** @var string Time */
 	var $RELTIME 	= '15:00';
 	/** @var string Timezone */
