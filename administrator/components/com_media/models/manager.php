@@ -114,6 +114,9 @@ class MediaModelManager extends JModel
 			$tmp = &$tree;
 			for ($i=0,$n=count($path); $i<$n; $i++)
 			{
+				if (!isset($tmp['children'])) {
+					$tmp['children'] = array();
+				}
 				if ($i == $n-1) {
 					// We need to place the node
 					$tmp['children'][$relative] = array('data' =>$node, 'children' => array());
