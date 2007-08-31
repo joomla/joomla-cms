@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Aug-2007 Mateusz Krzeszowiec
+ # Fixed "View not found" error in com_media under Linux. View directories renamed to lowercase
+
 30-Aug-2007 Louis Landry
  ^ Refactor of Media Manager to a new and improved MVC architecture ... we can sort out the uglies for the next RC
 
