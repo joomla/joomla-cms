@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+--
+
 31-Aug-2007 Johan Janssens
  ^ Added support for charsets to JView, charset is used by the JView::escape function
    when escaping using htmlspecialchars or htmlentities.
@@ -48,15 +50,15 @@ Legend:
  ^ Moved JText and JRoute to joomla.methods, to support lazy loading of JLanguage and JRouter
  + Added getInstance functions to JApplication, JRouter and JPathway
  - Removed JSearch class, not used in 1.5
- 
+
 31-Aug-2007 Enno Klasing
  ^ Updated, added and deleted installer application translations from the Accredited Translation Partners
 
 31-Aug-2007 Mateusz Krzeszowiec
  # Fixed "View not found" error in com_media under Linux. View directories renamed to lowercase
- 
+
 30-Aug-2007 Louis Landry
- ^ Refactor of Media Manager to a new and improved MVC architecture ... we can sort out 
+ ^ Refactor of Media Manager to a new and improved MVC architecture ... we can sort out
    the uglies for the next RC
 
 30-Aug-2007 Enno Klasing, Alan Langford, Jonah Braun
