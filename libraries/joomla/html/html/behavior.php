@@ -250,7 +250,7 @@ class JHTMLBehavior
 		$opt['div']		= (array_key_exists('div', $params)) ? $params['div'] : $id.'_tree';
 		$opt['mode']	= (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
 		$opt['grid']	= (array_key_exists('grid', $params)) ? '\\'.$params['grid'] : '\\true';
-		$opt['theme']	= (array_key_exists('theme', $params)) ? $params['theme'] : $base.'/media/system/images/mootree.gif';
+		$opt['theme']	= (array_key_exists('theme', $params)) ? $params['theme'] : $base.'media/system/images/mootree.gif';
 
 		// Event handlers
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\'.$params['onExpand'] : null;

@@ -32,6 +32,8 @@ var MediaManager = {
 		this.frame		= window.frames['folderframe'];
 		this.frameurl	= this.frame.location.href;
 
+		this.tree = new MooTreeControl({ div: 'media-tree_tree', mode: 'folders', grid: true, theme: 'components/com_media/assets/mootree.gif', onClick: function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : '_self'); }},{ text: 'Media', open: true, data: { url: 'index.php?option=com_media&view=mediaList&tmpl=component', target: 'folderframe'}});
+		this.tree.adopt('media-tree');
 
 	},
 
