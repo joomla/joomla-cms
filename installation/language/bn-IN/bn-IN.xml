@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: bn-IN.xml 8041 2007-07-30 10:25:00Z romit1 $ -->
 <metafile version="1.5" client="installation" >
-	<name>Bengali (India)</name>
+	<name>Bengali(India)</name>
 	<version>1.5.0</version>
 	<creationDate>May 2007</creationDate>
-	<author>Joomla! Project</author>
-	<authorEmail>admin@joomla.org</authorEmail>
+	<author>Romit Chatterjee</author>
+	<authorEmail>romit@romitchat.com</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
@@ -15,7 +16,7 @@
 		<rtl>0</rtl>
 		<locale>bn_IN.utf8,ben_IN, bng_IN, bn_IN, bn-IN, ben-IN, bng-IN, bn, in, ben, bng, bengali, bengali-in, ind, india</locale>
 		<winCodePage>iso-8859-1</winCodePage>
-		<backwardLang>Bengali India</backwardLang>
+		<backwardLang>bengali india</backwardLang>
 	</metadata>
 	<params />
 </metafile>

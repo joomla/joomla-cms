@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="1.5" client="installation" >
+<metafile version="1.5" client="installation">
     <name>Norsk bokmål (Norway)</name>
     <version>1.5.0</version>
     <creationDate>Nov 2005</creationDate>
-    <author>Joomla! Project</author>
-    <authorEmail>admin@joomla.org</authorEmail>
+    <author>Joomla! i Norge</author>
+    <authorEmail>oversettelser@joomlainorge.no</authorEmail>
     <authorUrl>www.joomla.org</authorUrl>
     <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>

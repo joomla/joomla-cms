@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile version="1.5" client="installation" >
-    <name>Thai(ThaiLand)</name>
+    <name>Thai(ภาษาไทย)</name>
     <version>1.5.0</version>
     <creationDate>September 2006</creationDate>
     <author>Joomla! Project</author>
@@ -10,7 +10,7 @@
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>Thai language file for web installer </description>
     <metadata>
-    	<name>Thai (ThaiLand)</name>
+    	<name>Thai (ภาษาไทย)</name>
     	<tag>th-TH</tag>
     	<rtl>0</rtl>
     	<locale>th_TH.UTF-8, th_TH, th, TH, thai</locale>

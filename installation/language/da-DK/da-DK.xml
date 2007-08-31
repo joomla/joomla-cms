@@ -9,12 +9,12 @@
 	<authorurl>www.joomla.org</authorurl>
 	<authoremail>admin@joomla.org</authoremail>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html</license>
 	<metadata>
 		<name>Danish(DK)</name>
 		<tag>da-DK</tag>
 		<rtl>0</rtl>
-		<locale>da_DK.utf8,den, da, den_DK, da_DK, danish, danish-dk, denmark</locale>
+		<locale>da_DK.UTF-8, da_DK.utf8, da_DK, danish, dansk</locale>
 		<wincodepage>iso-8859-1</wincodepage>
 		<backwardlang>danish</backwardlang>
 		<pdffontname>vera</pdffontname>

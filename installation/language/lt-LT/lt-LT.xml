@@ -3,8 +3,9 @@
 	<name>Lithuanian</name>
 	<version>1.5.0</version>
 	<creationDate>Mar 2007</creationDate>
-	<author>Stasys Švabas, Andrius Juškėnas, Antanas Vipartas, Eglė Petniuniene</author>
+	<author>Stasys Švabas, Antanas Vipartas, Andrius Juškėnas, Eglė Petniuniene</author>
 	<authorEmail>stasyss@gmail.com</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>Lithuanian language file for web installer</description>

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Aug-2007 Enno Klasing
+ ^ Updated, added and deleted installer application translations from the Accredited Translation Partners
+
 31-Aug-2007 Mateusz Krzeszowiec
  # Fixed "View not found" error in com_media under Linux. View directories renamed to lowercase
 

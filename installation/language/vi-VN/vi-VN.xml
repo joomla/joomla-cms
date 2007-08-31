@@ -2,10 +2,10 @@
 <metafile version="1.5" client="installation" >
     <name>Tiếng Việt (Vietnamese)</name>
     <version>1.5.0</version>
-    <creationDate>Mar 2007</creationDate>
+    <creationDate>July 2007</creationDate>
     <author>Joomla Việt Nam</author>
     <authorEmail>admin@joomlaviet.org</authorEmail>
-    <authorUrl>www.joomlaviet.org</authorUrl>
+    <authorUrl>www.joomla.org</authorUrl>
     <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>Vietnamese for Joomla 1.5 installer</description>

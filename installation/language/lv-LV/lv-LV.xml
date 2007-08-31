@@ -5,11 +5,11 @@
 	<description>Latvian language file for web installer</description>
 	<version>1.5.0</version>
 	<creationdate>17.02.2007</creationdate>
-	<author>Joomla! Project</author>
+	<author>Latvian Joomla! Project</author>
 	<authorurl>www.joomla.org</authorurl>
-	<authoremail>admin@joomla.org</authoremail>
+	<authoremail>joomlalv@gmail.com</authoremail>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL V2</license>
 	<metadata>
 		<name>Latvian</name>
 		<tag>lv-LV</tag>

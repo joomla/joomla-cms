@@ -2,13 +2,13 @@
 <metafile version="1.5" client="installation" >
     <name>Nederlands (NL-BE)</name>
     <version>1.5.0</version>
-    <creationDate>2007-01-25</creationDate>
-    <author>Joomla! Nederlands</author>
-    <authorEmail>webmaster@spacepage.be</authorEmail>
-    <authorUrl>http://joomlacode.org/gf/project/nederlands/</authorUrl>
-    <copyright>(C) 2007 Vancanneyt Sander. Alle rechten voorbehouden.</copyright>
+    <creationDate>2007-01-25</creationDate> 
+	<author>Joomla! Nederlands</author>
+	<authorEmail>sander@taalbestand.nl</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description></description>
+    <description>Dutch language file for web installer</description>
     <metadata>
     	<name>Nederlands (NL-BE)</name>
     	<tag>nl-NL</tag>
