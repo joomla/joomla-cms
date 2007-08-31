@@ -96,6 +96,7 @@ class MediaModelManager extends JModel
 		if (empty($base)) {
 			$base = COM_MEDIA_BASE;
 		}
+		$mediaBase = str_replace(DS, '/', COM_MEDIA_BASE.'/');
 
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
@@ -106,7 +107,7 @@ class MediaModelManager extends JModel
 		{
 			$folder		= str_replace(DS, '/', $folder);
 			$name		= substr($folder, strrpos($folder, '/') + 1);
-			$relative	= str_replace($base.'/', '', $folder);
+			$relative	= str_replace($mediaBase, '', $folder);
 			$absolute	= $folder;
 			$path		= explode('/', $relative);
 			$node		= (object) array('name' => $name, 'relative' => $relative, 'absolute' => $absolute);
