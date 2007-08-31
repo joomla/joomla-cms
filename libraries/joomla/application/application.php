@@ -70,6 +70,9 @@ class JApplication extends JObject
 	*/
 	function __construct( $config = array())
 	{
+		
+		jimport('joomla.utilities.utility');
+		
 		//set the view name
 		$this->_name		= $this->getName();
 		$this->_clientId	= $config['clientId'];
