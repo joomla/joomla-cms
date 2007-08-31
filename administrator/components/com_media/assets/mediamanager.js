@@ -57,10 +57,15 @@ var MediaManager = {
 		if (folder) {
 			this.updatepaths.each(function(path){ path.value =folder; });
 			this.folderpath.value = basepath+'/'+folder;
+			node = this.tree.get('node_'+folder);
 		} else {
 			this.updatepaths.each(function(path){ path.value = ''; });
 			this.folderpath.value = basepath;
+			node = this.tree.root;
 		}
+
+		node.toggle(false, true);
+		this.tree.select(node, true);
 
 		$(viewstyle).addClass('active');
 
