@@ -133,13 +133,13 @@ class MediaModelList extends JModel
 
 							$filesize		= MediaHelper::parseSize($tmp->size);
 
-							if (($info[0] > 70) || ($info[1] > 70)) {
-								$dimensions = MediaHelper::imageResize($info[0], $info[1], 70);
-								$tmp->width_80 = $dimensions[0];
-								$tmp->height_80 = $dimensions[1];
+							if (($info[0] > 60) || ($info[1] > 60)) {
+								$dimensions = MediaHelper::imageResize($info[0], $info[1], 60);
+								$tmp->width_60 = $dimensions[0];
+								$tmp->height_60 = $dimensions[1];
 							} else {
-								$tmp->width_80 = $tmp->width;
-								$tmp->height_80 = $tmp->height;
+								$tmp->width_60 = $tmp->width;
+								$tmp->height_60 = $tmp->height;
 							}
 
 							if (($info[0] > 16) || ($info[1] > 16)) {
