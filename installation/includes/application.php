@@ -15,8 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JPATH_BASE.DS.'includes'.DS.'framework.php' );
-
 /**
 * Joomla! Application class
 *
