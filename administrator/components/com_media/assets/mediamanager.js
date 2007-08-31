@@ -65,7 +65,7 @@ var MediaManager = {
 			node = this.tree.root;
 		}
 
-		if ($chk(node)) {
+		if (node) {
 			this.tree.select(node, true);
 		}
 
