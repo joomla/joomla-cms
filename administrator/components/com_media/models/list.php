@@ -93,6 +93,8 @@ class MediaModelList extends JModel
 		} else {
 			$basePath = COM_MEDIA_BASE;
 		}
+		$mediaBase = str_replace(DS, '/', COM_MEDIA_BASE.'/');
+
 		$images 	= array ();
 		$folders 	= array ();
 		$docs 		= array ();
@@ -108,8 +110,8 @@ class MediaModelList extends JModel
 				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
 					$tmp = new JObject();
 					$tmp->name = $file;
-					$tmp->path = JPath::clean($basePath.DS.$file);
-					$tmp->path_relative = str_replace(COM_MEDIA_BASE.DS, '', $tmp->path);
+					$tmp->path = str_replace(DS, '/', JPath::clean($basePath.DS.$file));
+					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$tmp->size = filesize($tmp->path);
 
 					$ext = strtolower(JFile::getExt($file));
@@ -176,8 +178,8 @@ class MediaModelList extends JModel
 			foreach ($folderList as $folder) {
 				$tmp = new JObject();
 				$tmp->name = basename($folder);
-				$tmp->path = JPath::clean($basePath.DS.$folder);
-				$tmp->path_relative = str_replace(COM_MEDIA_BASE.DS, '', $tmp->path);
+				$tmp->path = str_replace(DS, '/', JPath::clean($basePath.DS.$folder));
+				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 				$count = MediaHelper::countFiles($tmp->path);
 				$tmp->files = $count[0];
 				$tmp->folders = $count[1];
