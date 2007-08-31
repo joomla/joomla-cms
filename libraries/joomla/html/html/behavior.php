@@ -226,6 +226,61 @@ class JHTMLBehavior
 		return;
 	}
 
+	function tree($id, $params = array(), $root = array())
+	{
+		static $trees;
+
+		if (!isset($trees)) {
+			$trees = array();
+		}
+
+		// Include mootools framework
+		JHTMLBehavior::mootools();
+		JHTML::script('mootree');
+		JHTML::stylesheet('mootree');
+
+		if (isset($trees[$id]) && ($trees[$id])) {
+			return;
+		}
+
+		global $mainframe;
+		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+
+		// Setup options object
+		$opt['div']		= (array_key_exists('div', $params)) ? $params['div'] : $id.'_tree';
+		$opt['mode']	= (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
+		$opt['grid']	= (array_key_exists('grid', $params)) ? '\\'.$params['grid'] : '\\true';
+		$opt['theme']	= (array_key_exists('theme', $params)) ? $params['theme'] : $base.'/media/system/images/mootree.gif';
+
+		// Event handlers
+		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\'.$params['onExpand'] : null;
+		$opt['onSelect']	= (array_key_exists('onSelect', $params)) ? '\\'.$params['onSelect'] : null;
+		$opt['onClick']		= (array_key_exists('onClick', $params)) ? '\\'.$params['onClick'] : '\\function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : \'_self\'); }';
+		$options = JHTMLBehavior::_getJSObject($opt);
+
+		// Setup root node
+		$rt['text']		= (array_key_exists('text', $root)) ? $root['text'] : 'Root';
+		$rt['id']		= (array_key_exists('id', $root)) ? $root['id'] : null;
+		$rt['color']	= (array_key_exists('color', $root)) ? $root['color'] : null;
+		$rt['open']		= (array_key_exists('open', $root)) ? '\\'.$root['open'] : '\\true';
+		$rt['icon']		= (array_key_exists('icon', $root)) ? $root['icon'] : null;
+		$rt['openicon']	= (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
+		$rt['data']		= (array_key_exists('data', $root)) ? $root['data'] : null;
+		$rootNode = JHTMLBehavior::_getJSObject($rt);
+
+		$js = '		window.addEvent(\'domready\', function(){
+			tree = new MooTreeControl('.$options.','.$rootNode.');
+			tree.adopt(\''.$id.'\');})';
+
+		// Attach tooltips to document
+		$document =& JFactory::getDocument();
+		$document->addScriptDeclaration($js);
+
+		// Set static array
+		$trees[$id] = true;
+		return;
+	}
+
 	function calendar()
 	{
 		$lang =& JFactory::getLanguage();

@@ -4,10 +4,8 @@
 		<td width="200px">
 			<fieldset id="treeview">
 				<legend><?php echo JText::_( 'Folders' ); ?></legend>
-				<ul class="folderTree">
-					<li><a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component" target="folderframe"><?php echo JText::_('Media'); ?></a>
-					<?php echo $this->loadTemplate('folders'); ?></li>
-				</ul>
+				<div id="media-tree_tree"></div>
+				<?php echo $this->loadTemplate('folders'); ?>
 			</fieldset>
 		</td>
 		<td>

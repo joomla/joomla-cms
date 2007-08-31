@@ -53,6 +53,8 @@ class MediaViewMedia extends JView
 			document.preview = SqueezeBox;
 		});");
 
+		JHTML::_('behavior.tree', 'media-tree', array(), array('text' => JText::_('Media'), 'data' => array('url' => 'index.php?option=com_media&view=mediaList&tmpl=component', 'target', 'folderframe')));
+
 		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
 
 		$base = str_replace("\\","/",JPATH_ROOT);
@@ -73,6 +75,7 @@ class MediaViewMedia extends JView
 		$this->assignRef('config', JComponentHelper::getParams('com_media'));
 		$this->assignRef('state', $this->get('state'));
 		$this->assign('require_ftp', $ftp);
+		$this->assign('folders_id', ' id="media-tree"');
 		$this->assign('folders', $this->get('folderTree'));
 
 		// Set the toolbar
@@ -104,6 +107,7 @@ class MediaViewMedia extends JView
 
 	function getFolderLevel($folder)
 	{
+		$this->folders_id = null;
 		$txt = null;
 		if (isset($folder['children']) && count($folder['children'])) {
 			$tmp = $this->folders;
