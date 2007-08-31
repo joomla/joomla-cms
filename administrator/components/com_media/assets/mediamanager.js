@@ -32,8 +32,8 @@ var MediaManager = {
 		this.frame		= window.frames['folderframe'];
 		this.frameurl	= this.frame.location.href;
 
-		this.tree = new MooTreeControl({ div: 'media-tree_tree', mode: 'folders', grid: true, theme: 'components/com_media/assets/mootree.gif', onClick: function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : '_self'); }},{ text: 'Media', open: true, data: { url: 'index.php?option=com_media&view=mediaList&tmpl=component', target: 'folderframe'}});
-		this.tree.adopt('media-tree');
+//		this.tree = new MooTreeControl({ div: 'media-tree_tree', mode: 'folders', grid: true, theme: 'components/com_media/assets/mootree.gif', onClick: function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : '_self'); }},{ text: 'Media', open: true, data: { url: 'index.php?option=com_media&view=mediaList&tmpl=component', target: 'folderframe'}});
+//		this.tree.adopt('media-tree');
 
 	},
 
@@ -57,16 +57,16 @@ var MediaManager = {
 		if (folder) {
 			this.updatepaths.each(function(path){ path.value =folder; });
 			this.folderpath.value = basepath+'/'+folder;
-			node = this.tree.get('node_'+folder);
-			node.toggle(false, true);
+//			node = this.tree.get('node_'+folder);
+//			node.toggle(false, true);
 		} else {
 			this.updatepaths.each(function(path){ path.value = ''; });
 			this.folderpath.value = basepath;
-			node = this.tree.root;
+//			node = this.tree.root;
 		}
 
 		if (node) {
-			this.tree.select(node, true);
+//			this.tree.select(node, true);
 		}
 
 		$(viewstyle).addClass('active');
