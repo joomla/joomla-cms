@@ -10,6 +10,9 @@
  * Notice: This script defaults the button_tile_map option to true for extra performance.
  */
 
+	// Set the error reporting to minimal.
+	@error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
 	// Get input
 	$plugins = explode(',', getParam("plugins", ""));
 	$languages = explode(',', getParam("languages", ""));
@@ -17,11 +20,14 @@
 	$diskCache = getParam("diskcache", "") == "true";
 	$isJS = getParam("js", "") == "true";
 	$compress = getParam("compress", "true") == "true";
-	$suffix = getParam("suffix", "") == "_src" ? "_src" : "";
+	$suffix = getParam("suffix", "_src") == "_src" ? "_src" : "";
 	$cachePath = realpath("."); // Cache path, this is where the .gz files will be stored
 	$expiresOffset = 3600 * 24 * 10; // Cache for 10 days in browser cache
 	$content = "";
-
+	$encodings = array();
+	$supportsGzip = false;
+	$enc = "";
+	$cacheKey = "";
 
 	// Custom extra javascripts to pack
 	$custom = array(/*
@@ -141,14 +147,14 @@
 	function getFileContents($path) {
 		$path = realpath($path);
 
-		if (!$path)
+		if (!$path || !@is_file($path))
 			return "";
 
 		if (function_exists("file_get_contents"))
-			return file_get_contents($path);
+			return @file_get_contents($path);
 
 		$content = "";
-		$fp = fopen($path, "r");
+		$fp = @fopen($path, "r");
 		if (!$fp)
 			return "";
 
@@ -162,7 +168,7 @@
 
 	function putFileContents($path, $content) {
 		if (function_exists("file_put_contents"))
-			return file_put_contents($path, $content);
+			return @file_put_contents($path, $content);
 
 		$fp = @fopen($path, "wb");
 		if ($fp) {

@@ -139,7 +139,7 @@ class plgEditorTinymce extends JPlugin
 
 		// rtl/ltr buttons
 		$directionality		=  $this->params->def( 'directionality', 1 );
-		if ( $fullscreen ) {
+		if ( $directionality ) {
 			$plugins[] = 'directionality';
 			$buttons2[] = 'ltr,rtl';
 		}
