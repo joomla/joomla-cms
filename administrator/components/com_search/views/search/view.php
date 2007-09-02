@@ -22,7 +22,7 @@ jimport('joomla.application.component.view');
  * @subpackage	Search
  * @since 1.5
  */
-class searchViewSearch extends JView
+class SearchViewSearch extends JView
 {
 	function display($tpl=null)
 	{
