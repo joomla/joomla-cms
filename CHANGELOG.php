@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Sep-2007 Robin Muilwijk
+ # Fixed [topic,208302] code typo in content default category template
+
 02-Sep-2007 Johan Janssens
  + Added JFactory::getApplication method
  ^ Made smaller improvements and did final cleanup in JRouter
