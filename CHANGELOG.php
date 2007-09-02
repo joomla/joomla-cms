@@ -39,6 +39,7 @@ Legend:
 
 02-Sep-2007 Robin Muilwijk
  # Fixed [topic,208302] code typo in content default category template
+ # Fixed [topic,208312] installation broken, removed use of DS in includes
 
 02-Sep-2007 Johan Janssens
  + Added JFactory::getApplication method
