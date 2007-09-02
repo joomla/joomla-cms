@@ -91,6 +91,19 @@ class JAdministrator extends JApplication
 	}
 
 	/**
+	 * Return a reference to the JRouter object.
+	 *
+	 * @access	public
+	 * @return	JRouter.
+	 * @since	1.5
+	 */
+	function &getRouter()
+	{
+		$router =& parent::getRouter('administrator');
+		return $router;
+	}
+
+	/**
 	* Dispatch the application
 	*
 	* @access public
