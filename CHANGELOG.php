@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Sep-2007 Andrew Eddie
+ # Patch: Added JAdminstrator::getRouter
+ # Patch: JController::getModel relies on JSite which throws errors in the administrator
+
 02-Sep-2007 Robin Muilwijk
  # Fixed [topic,208302] code typo in content default category template
  # Fixed [topic,208312] installation broken, removed use of DS in includes
