@@ -86,6 +86,7 @@
 		</param>
 		<param name="language" type="languages" client="site" label="Content language" description="PARAMCONTENTLANGUAGE" />
 		<param name="keyref" type="text" size="25" default="" label="Key Reference" description="PARAMKEYREF" />
+		<param name="readmore" type="text" size="25" default="" label="Alternative Read more text" description="PARAMALTREADMORE" />
 	</params>
 	<params group="metadata">
 		<param name="description" type="textarea" rows="5" cols="30" default="" label="Description" description="METADESC" />

@@ -166,7 +166,7 @@ class ContentViewFrontpage extends ContentView
 			if ($item->access <= $user->get('aid', 0))
 			{
 				$linkOn = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
-				$linkText = JText::_('Read more...');
+				$linkText = JText::sprintf('Read more', $params->get('readmore', $item->title));
 			}
 			else
 			{

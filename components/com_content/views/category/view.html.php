@@ -179,7 +179,7 @@ class ContentViewCategory extends ContentView
 			if ($item->access <= $user->get('aid', 0))
 			{
 				$linkOn = JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
-				$linkText = JText::_('Read more...');
+				$linkText = JText::sprintf('Read more', $params->get('readmore', $item->title));
 			}
 			else
 			{

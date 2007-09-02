@@ -95,14 +95,12 @@ class JParameter extends JRegistry
 	 * @access	public
 	 * @param	string The name of the param
 	 * @param	string The value of the parameter
-	 * @return	string The previous value
+	 * @return	string The set value
 	 * @since	1.5
 	 */
 	function set($key, $value = '', $group = '_default')
 	{
-		$oldValue	= $this->getValue($group.'.'.$key);
-		$this->setValue($group.'.'.$key, (string) $value);
-		return $oldValue;
+		return $this->setValue($group.'.'.$key, (string) $value);
 	}
 
 	/**

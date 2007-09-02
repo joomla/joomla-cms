@@ -193,10 +193,9 @@ class JRegistry extends JObject
 		}
 
 		// Get the old value if exists so we can return it
-		@$retval =& $ns->$nodes[$i];
 		$ns->$nodes[$i] =& $value;
 
-		return $retval;
+		return $ns->$nodes[$i];
 	}
 
 	/**
