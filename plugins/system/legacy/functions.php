@@ -602,7 +602,7 @@ function editorArea($name, $content, $hiddenField, $width, $height, $col, $row)
 function mosMenuCheck( $Itemid, $menu_option, $task, $gid )
 {
 	$user =& JFactory::getUser();
-	$menus =& JMenu::getInstance();
+	$menus =& JSite::getMenu();
 	$menus->authorize($Itemid, $user->get('aid'));
 }
 

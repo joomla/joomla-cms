@@ -267,7 +267,7 @@ class ContentModelSection extends JModel
 			$nullDate	= $this->_db->getNullDate();
 
 			// Get the parameters of the active menu item
-			$menu	=& JMenu::getInstance();
+			$menu	=& JSite::getMenu();
 			$item    = $menu->getActive();
 			$params	=& $menu->getParams($item->id);
 
@@ -428,7 +428,7 @@ class ContentModelSection extends JModel
 		}
 
 		// Get the parameters of the active menu item
-		$menu	=& JMenu::getInstance();
+		$menu	=& JSite::getMenu();
 		$item    = $menu->getActive();
 		$params	=& $menu->getParams($item->id);
 

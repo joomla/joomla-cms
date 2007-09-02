@@ -32,7 +32,7 @@ class modMainMenuHelper
 	function buildXML(&$params)
 	{
 		$menu = new JMenuTree($params);
-		$items = &JMenu::getInstance();
+		$items = &JSite::getMenu();
 
 		// Get Menu Items
 		$rows = $items->getItems('menutype', $params->get('menutype'));
@@ -72,7 +72,7 @@ class modMainMenuHelper
 		$xml->loadString($xmls[$type]);
 		$doc = &$xml->document;
 
-		$menu	= &JMenu::getInstance();
+		$menu	= &JSite::getMenu();
 		$active	= $menu->getActive();
 		$start	= $params->get('startLevel');
 		$end	= $params->get('endLevel');
@@ -260,7 +260,7 @@ class JMenuTree extends JTree
 		// Menu Link is a special type that is a link to another item
 		if ($item->type == 'menulink')
 		{
-			$menu = &JMenu::getInstance();
+			$menu = &JSite::getMenu();
 			if ($tmp = clone($menu->getItem($item->query['Itemid']))) {
 				$tmp->name	 = '<span><![CDATA['.$item->name.']]></span>';
 				$tmp->mid	 = $item->id;

@@ -1,4 +1,4 @@
-<?php
+ se<?php
 /**
 * @version		$Id$
 * @package		Joomla
@@ -36,6 +36,11 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+02-Sep-2007 Johan Janssens
+ + Added JFactory::getApplication method
+ ^ Made smaller improvements and did final cleanup in JRouter
+ + Added getInstance method to JMenu
 
 -------------------- 1.5.0 Release Candidate 2 Released [1-September-2007] ---------------------
 

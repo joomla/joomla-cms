@@ -66,25 +66,36 @@ class JPathway extends JObject
 	 */
 	function &getInstance($client, $options = array())
 	{
-		//Load the router object
-		$info =& JApplicationHelper::getClientInfo($client, true);
-			
-		$path = $info->path.DS.'includes'.DS.'pathway.php';
-		if(file_exists($path)) 
-		{
-			require_once $path;
-				
-			// Create a JPathway object
-			$classname = 'JPathway'.ucfirst($client);
-			$instance = new $classname($options);
-		} 
-		else 
-		{
-			$error = new JException( E_ERROR, 500, 'Unable to load pathway: '.$classname);
-			return $error;
+		static $instances;
+
+		if (!isset( $instances )) {
+			$instances = array();
 		}
+		
+		if (empty($instances[$client]))
+		{
+			//Load the router object
+			$info =& JApplicationHelper::getClientInfo($client, true);
 			
-		return $instance;
+			$path = $info->path.DS.'includes'.DS.'pathway.php';
+			if(file_exists($path)) 
+			{
+				require_once $path;
+				
+				// Create a JPathway object
+				$classname = 'JPathway'.ucfirst($client);
+				$instance = new $classname($options);
+			} 
+			else 
+			{
+				$error = new JException( E_ERROR, 500, 'Unable to load pathway: '.$client);
+				return $error;
+			}
+			
+			$instances[$client] = & $instance;
+		}
+		
+		return $instances[$client];
 	}
 
 	/**

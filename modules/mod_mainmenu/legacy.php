@@ -25,7 +25,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 	// Menu Link is a special type that is a link to another item
 	if ($mitem->type == 'menulink')
 	{
-		$menu = &JMenu::getInstance();
+		$menu = &JSite::getMenu();
 		if ($tmp = $menu->getItem($mitem->query['Itemid'])) {
 			$name = $mitem->name;
 			$mid = $mitem->id;
@@ -333,7 +333,7 @@ function mosRecurseVIMenu($id, $level, & $children, & $open, & $indents, & $para
 */
 function mosShowHFMenu(& $params, $style = 0)
 {
-	$menu = & JMenu::getInstance();
+	$menu = & JSite::getMenu();
 	$user = & JFactory::getUser();
 
 	//get menu items

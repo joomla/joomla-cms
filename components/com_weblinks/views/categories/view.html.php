@@ -33,7 +33,7 @@ class WeblinksViewCategories extends JView
 
 		$document =& JFactory::getDocument();
 
-		$menu = &JMenu::getInstance();
+		$menu = &JSite::getMenu();
 		$item = $menu->getActive();
 
 		$categories	=& $this->get('data');

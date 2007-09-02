@@ -71,8 +71,6 @@ if (JDEBUG) {
 
 // Joomla! library imports
 jimport( 'joomla.environment.response'   );
-jimport( 'joomla.application.application' );
-jimport( 'joomla.application.helper' );
 jimport( 'joomla.application.menu' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );

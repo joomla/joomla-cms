@@ -57,7 +57,6 @@ class JSite extends JApplication
 			if ( $lang && JLanguage::exists($lang) ) {
 				$options['language'] = $lang;
 			} else {
-				jimport( 'joomla.application.helper' );
 				$params =  JComponentHelper::getParams('com_languages');
 				$client	=& JApplicationHelper::getClientInfo($this->getClientId());
 				$options['language'] = $params->get($client->name, 'en-GB');
@@ -177,7 +176,7 @@ class JSite extends JApplication
 	*/
 	function authorize($itemid)
 	{
-		$menus	=& JMenu::getInstance();
+		$menus	=& JSite::getMenu();
 		$user	=& JFactory::getUser();
 		$aid	= $user->get('aid');
 		
@@ -221,7 +220,7 @@ class JSite extends JApplication
 			$params = &JComponentHelper::getParams($option);
 
 			// Get menu parameters
-			$menus	= &JMenu::getInstance();
+			$menus	= &JSite::getMenu();
 			$menu	= $menus->getActive();
 
 			// Lets cascade the parameters if we have menu item parameters
@@ -257,7 +256,7 @@ class JSite extends JApplication
 		$templates = $db->loadObjectList('menuid');
 
 		// Get the id of the active menu item
-		$menu =& JMenu::getInstance();
+		$menu =& JSite::getMenu();
 		$item = $menu->getActive();
 
 		// Find out the assigned template for the active menu item
@@ -292,6 +291,20 @@ class JSite extends JApplication
 			$this->set('setTemplate', $template);
 		}
 	}
+	
+	/**
+	 * Return a reference to the JPathway object.
+	 *
+	 * @access public
+	 * @return object JPathway.
+	 * @since 1.5
+	 */
+	function &getMenu()
+	{
+		$options = array();
+		$menu =& parent::getMenu('site', $options);
+		return $menu;
+	}
 
 	/**
 	 * Return a reference to the JPathway object.
@@ -303,7 +316,7 @@ class JSite extends JApplication
 	function &getPathWay()
 	{
 		$options = array();
-		$pathway =& parent::getPathway($options);
+		$pathway =& parent::getPathway('site', $options);
 		return $pathway;
 	}
 	
@@ -316,16 +329,12 @@ class JSite extends JApplication
 	 */
 	function &getRouter()
 	{
-		if(!isset($this->_router)) 
-		{
-			$options['mode'] = $this->getCfg('sef');
-			if(!$this->getCfg('sef_rewrite')) {
-				$options['prefix'] = 'index.php';
-			}
-		
-			parent::getRouter($options);
+		$options['mode'] = $this->getCfg('sef');
+		if(!$this->getCfg('sef_rewrite')) {
+			$options['prefix'] = 'index.php';
 		}
 		
-		return $this->_router;
+		$router =& parent::getRouter('site', $options);
+		return $router;
 	}
 }

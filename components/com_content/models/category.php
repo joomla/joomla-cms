@@ -261,7 +261,7 @@ class ContentModelCategory extends JModel
 			$section	 = $this->_category->section;
 
 			// Get the parameters of the active menu item
-			$menu	=& JMenu::getInstance();
+			$menu	=& JSite::getMenu();
 			$item    = $menu->getActive();
 			$params	=& $menu->getParams($item->id);
 

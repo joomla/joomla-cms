@@ -42,7 +42,7 @@ class SearchController extends JController
 		$post = JRequest::get('post');
 		
 		// set Itemid id for links
-		$menu = &JMenu::getInstance();
+		$menu = &JSite::getMenu();
 		$items	= $menu->getItems('link', 'index.php?option=com_search&view=search');
 
 		if(isset($items[0])) {

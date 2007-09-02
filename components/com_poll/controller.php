@@ -51,7 +51,7 @@ class PollController extends JController
 		}
 
 		// Adds parameter handling
-		$menu   =& JMenu::getInstance();
+		$menu   =& JSite::getMenu();
 		$item   = $menu->getActive();
 		$params = $mainframe->getPageParameters();
 

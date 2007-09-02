@@ -85,7 +85,6 @@ class ModulesModelModule extends JModel
 	function getPositions()
 	{
 		jimport('joomla.filesystem.folder');
-		jimport('joomla.application.helper');
 
 		$client =& JApplicationHelper::getClientInfo($this->getState('clientId'));
 		if ($client === false) {

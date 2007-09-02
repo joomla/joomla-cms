@@ -42,7 +42,7 @@ class ContentViewArchive extends ContentView
 		$pathway	=& $mainframe->getPathway();
 
 		// Get the menu item object
-		$menus = &JMenu::getInstance();
+		$menus = &JSite::getMenu();
 		$menu  = $menus->getActive();
 
 		// Get the page/component configuration

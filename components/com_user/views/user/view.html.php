@@ -58,7 +58,7 @@ class UserViewUser extends JView
 		$document =& JFactory::getDocument();
 
 		// Get the parameters of the active menu item
-		$menu = &JMenu::getInstance();
+		$menu = &JSite::getMenu();
 		$item = $menu->getActive();
 
 		// Set page title

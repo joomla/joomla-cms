@@ -37,7 +37,7 @@ class WeblinksViewCategory extends JView
 		$pathway	= &$mainframe->getPathway();
 
 		// Get the parameters of the active menu item
-		$menus = &JMenu::getInstance();
+		$menus = &JSite::getMenu();
 		$menu  = $menus->getActive();
 
 		// Get some data from the model

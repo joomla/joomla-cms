@@ -51,7 +51,7 @@ class SearchViewSearch extends JView
 		$document->setTitle(JText::_('Search'));
 
 		// Get the parameters of the active menu item
-		$menus  = &JMenu::getInstance();
+		$menus  = &JSite::getMenu();
 		$menu   = $menus->getActive();
 		$params	= &$mainframe->getPageParameters();
 

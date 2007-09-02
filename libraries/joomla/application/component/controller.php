@@ -352,7 +352,7 @@ class JController extends JObject
 			$model->setState( 'task', $this->_task );
 
 			// Get menu item information if Itemid exists
-			$menu	=& JMenu::getInstance();
+			$menu	=& JSite::getMenu();
 			if (is_object( $menu ))
 			{
 				if ($item = $menu->getActive())

@@ -41,7 +41,7 @@ class ContentViewArticle extends ContentView
 		$params		=& $article->parameters;
 
 		// Get the menu item object
-		$menus = &JMenu::getInstance();
+		$menus = &JSite::getMenu();
 		$menu  = $menus->getActive();
 
 		if($this->getLayout() == 'pagebreak') {

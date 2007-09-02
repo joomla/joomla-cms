@@ -26,7 +26,7 @@ class WrapperViewWrapper extends JView
 	function display( $tpl = null )
 	{
 		// Get the parameters of the active menu item
-		$menus = &JMenu::getInstance();
+		$menus = &JSite::getMenu();
 		$menu  = $menus->getActive();
 
 		$this->params->def( 'page_title', $menu->name );

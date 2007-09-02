@@ -72,7 +72,6 @@ if (JDEBUG) {
 // Joomla! library imports;
 
 jimport( 'joomla.environment.response'   );
-jimport( 'joomla.application.application' );
 jimport( 'joomla.application.menu' ); 		//needs to be loaded later
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );

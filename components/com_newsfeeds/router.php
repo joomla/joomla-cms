@@ -36,7 +36,7 @@ function NewsfeedsParseRoute($segments)
 {
 	$vars = array();
 
-	$menu =& JMenu::getInstance();
+	$menu =& JSite::getMenu();
 	$item =& $menu->getActive();
 
 	// Count route parts

@@ -40,22 +40,6 @@ class JApplication extends JObject
 	var $_clientId = null;
 
 	/**
-	 * The router object
-	 *
-	 * @var		JRouter
-	 * @access	protected
-	 */
-	var $_router = null;
-	
-	/**
-	 * The pathway object
-	 *
-	 * @var		JPathway
-	 * @access	protected
-	 */
-	var $_pathway = null;
-
-	/**
 	 * The application message queue.
 	 *
 	 * @var		array
@@ -118,7 +102,7 @@ class JApplication extends JObject
 	 * 		<pre>  $menu = &JApplication::getInstance();</pre>
 	 *
 	 * @access	public
-	 * @param	integer	$id 		A client identifier.
+	 * @param	mixed	$id 		A client identifier or name.
 	 * @param	array	$config 	An optional associative array of configuration settings.
 	 * @return	JApplication	The appliction object.
 	 * @since	1.5
@@ -207,6 +191,8 @@ class JApplication extends JObject
 		if(!$router->parse($uri)) {
 			JError::raiseError( 404, JText::_('Unable to route request') );
 		}
+		
+		JRequest::set($router->getVars(), 'get', false );
  	}
 
  	/**
@@ -629,14 +615,15 @@ class JApplication extends JObject
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
-	function &getRouter($options = array())
+	function &getRouter($name, $options = array())
 	{
-		if(!isset($this->_router)) 
-		{
-			jimport( 'joomla.application.router' );
-			$this->_router =& JRouter::getInstance($this->_name, $options);
+		if(!isset($name)) {
+			return null;
 		}
-		return $this->_router;
+		
+		jimport( 'joomla.application.router' );
+		$router =& JRouter::getInstance($this->_name, $options);
+		return $router;
 	}
 	
 	/**
@@ -647,15 +634,34 @@ class JApplication extends JObject
 	 * @return object JPathway.
 	 * @since 1.5
 	 */
-	function &getPathway($options = array())
+	function &getPathway($name, $options = array())
 	{
-		if(!isset($this->_pathway)) 
-		{
-			jimport( 'joomla.application.pathway' );
-			$this->_pathway =& JPathway::getInstance($this->_name, $options);
+		if(!isset($name)) {
+			return null;
 		}
 		
-		return $this->_pathway;
+		jimport( 'joomla.application.pathway' );
+		$pathway =& JPathway::getInstance($this->_name, $options);
+		return $pathway;
+	}
+	
+	/**
+	 * Return a reference to the application JPathway object.
+	 *
+	 * @access public
+	 * @param  array	$options 	An optional associative array of configuration settings.
+	 * @return object JMenu.
+	 * @since 1.5
+	 */
+	function &getMenu($name, $options = array())
+	{		
+		if(!isset($name)) {
+			return null;
+		}
+		
+		jimport( 'joomla.application.menu' );
+		$menu =& JMenu::getInstance($name, $options);
+		return $menu;
 	}
 
 	/**
@@ -781,6 +787,8 @@ class JApplication extends JObject
 		if ($link == null) {
 			$link = '';
 		}
+		
+		$pathway =& $this->getPathway();
 
 		if( defined( '_JLEGACY' ) && $link == '' )
 		{
@@ -790,7 +798,7 @@ class JApplication extends JObject
 
 			foreach( $matches AS $match) {
 				// Add each item to the pathway object
-				if( !$this->_pathway->addItem( $match[2], $match[1] ) ) {
+				if( !$pathway->addItem( $match[2], $match[1] ) ) {
 					return false;
 				}
 			}
@@ -799,7 +807,7 @@ class JApplication extends JObject
 		else
 		{
 			// Add item to the pathway object
-			if ($this->_pathway->addItem($name, $link)) {
+			if ($pathway->addItem($name, $link)) {
 				return true;
 			}
 		}
@@ -903,7 +911,7 @@ class JApplication extends JObject
 	 */
 	function getBlogSectionCount( )
 	{
-		$menus = &JMenu::getInstance();
+		$menus = &JSite::getMenu();
 		return count($menus->getItems('type', 'content_blog_section'));
 	}
 
@@ -915,7 +923,7 @@ class JApplication extends JObject
 	 */
 	function getBlogCategoryCount( )
 	{
-		$menus = &JMenu::getInstance();
+		$menus = &JSite::getMenu();
 		return count($menus->getItems('type', 'content_blog_category'));
 	}
 
@@ -927,7 +935,7 @@ class JApplication extends JObject
 	 */
 	function getGlobalBlogSectionCount( )
 	{
-		$menus = &JMenu::getInstance();
+		$menus = &JSite::getMenu();
 		return count($menus->getItems('type', 'content_blog_section'));
 	}
 
@@ -939,7 +947,7 @@ class JApplication extends JObject
 	 */
 	function getStaticContentCount( )
 	{
-		$menus = &JMenu::getInstance();
+		$menus = &JSite::getMenu();
 		return count($menus->getItems('type', 'content_typed'));
 	}
 
@@ -951,7 +959,7 @@ class JApplication extends JObject
 	 */
 	function getContentItemLinkCount( )
 	{
-		$menus = &JMenu::getInstance();
+		$menus = &JSite::getMenu();
 		return count($menus->getItems('type', 'content_item_link'));
 	}
 

@@ -30,7 +30,7 @@ JDEBUG ? $_PROFILER->mark( 'afterLoad' ) : null;
  *
  * NOTE :
  */
-$mainframe =& JApplication::getInstance('administrator');
+$mainframe =& JFactory::getApplication('administrator');
 
 /**
  * INITIALISE THE APPLICATION

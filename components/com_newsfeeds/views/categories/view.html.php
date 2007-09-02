@@ -35,7 +35,7 @@ class NewsfeedsViewCategories extends JView
 		$document = &JFactory::getDocument();
 
 		// Load the menu object and parameters
-		$menus	= &JMenu::getInstance();
+		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();
 		$params	= &$mainframe->getPageParameters();
 

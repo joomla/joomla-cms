@@ -177,7 +177,7 @@ class ContentHelperRoute
 	{
 		$component	=& JComponentHelper::getComponent('com_content');
 
-		$menus		=& JMenu::getInstance();
+		$menus		=& JSite::getMenu();
 		$items		= $menus->getItems('componentid', $component->id);
 
 		$n = count( $items );

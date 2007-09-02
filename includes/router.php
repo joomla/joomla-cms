@@ -33,50 +33,11 @@ class JRouterSite extends JRouter
 		parent::__construct($options);
 	}
 
-	/**
-	 * Route a request
-	 *
-	 * @access public
-	 */
-	function parse($uri)
-	{
-		$result = false;
-		
-		//If the uri is not an object create one
-		if(is_string($uri)) {
-			$uri = JURI::getInstance($uri);
-		}
-
-		// Parse RAW URL
-		if($this->_mode == JROUTER_MODE_RAW) {
-			$result = $this->_parseRawRoute($uri);
-		}
-		
-		// Parse SEF URL
-		if($this->_mode == JROUTER_MODE_SEF) {
-			$result = $this->_parseSefRoute($uri);
-		}
-		
-		// Handle pagination
-		if($start = JRequest::getVar('start', null, 'get', 'int'))
-		{
-			$this->setVar('limitstart', $start);
-			unset($this->_vars['start']);
-		}
-		
-		//Set the information in the request
-		if($result) {
-			JRequest::set($this->getVars(), 'get', false );
-		}
-
-		return $result;
-	}
-	
 	function _parseRawRoute(&$uri)
 	{
 		$vars   = array();
 		
-		$menu =& JMenu::getInstance(true);
+		$menu =& JSite::getMenu(true);
 		
 		//Handle an empty URL (special case)
 		if(!$uri->getQuery())
@@ -122,7 +83,7 @@ class JRouterSite extends JRouter
 	{
 		$vars   = array();
 		
-		$menu =& JMenu::getInstance(true);
+		$menu =& JSite::getMenu(true);
 		
 		// Get the base and full URLs
 		$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
@@ -231,54 +192,13 @@ class JRouterSite extends JRouter
 		return true;
 	}
 	
-	/**
-	 * Function to convert an internal URI to a route
-	 *
-	 * @param	string	$string	The internal URL
-	 * @return	string	The absolute search engine friendly URL
-	 * @since	1.5
-	 */
-	function build($url)
-	{
-		// Replace all &amp; with &
-		$url = str_replace('&amp;', '&', $url);
-		
-		//Create the URI object
-		$uri =& $this->_createURI($url);
-
-		// Build RAW URL
-		if($this->_mode == JROUTER_MODE_RAW) {
-			$route = $this->_buildRawRoute($uri);
-		}
-
-		// Build SEF URL : mysite/route/index.php?var=x
-		if ($this->_mode == JROUTER_MODE_SEF) {
-			$route = $this->_buildSefRoute($uri);
-		}
-		
-		//Process rules
-		if ($limitstart = $uri->getVar('limitstart'))
-		{
-			$uri->setVar('start', (int) $limitstart);
-			$uri->delVar('limitstart');
-		}
-		
-		//Prepend the route with a delimiter
-		$route = !empty($route) ? '/'.$route : ''; 
-		
-		//Create the route
-		$url = $this->_prefix.$route.$uri->toString(array('query', 'fragment'));
-
-		return $url;
-	}
-	
 	function _buildRawRoute(&$uri)
 	{
 		$route = ''; //the route created
 		
 		if($uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
 		{
-			$menu =& JMenu::getInstance();
+			$menu =& JSite::getMenu();
 			
 			// Get the active menu item
 			$itemid = $uri->getVar('Itemid');
@@ -295,7 +215,7 @@ class JRouterSite extends JRouter
 	{
 		$route = ''; //the route created
 		
-		$menu =& JMenu::getInstance();
+		$menu =& JSite::getMenu();
 		
 		//Get the query data
 		$query = $uri->getQuery(true);
@@ -345,6 +265,26 @@ class JRouterSite extends JRouter
 		
 		return $route;
 	}
+	
+	function _processParseRules()
+	{
+		//Process rules
+		if($start = JRequest::getVar('start', null, 'get', 'int'))
+		{
+			$this->setVar('limitstart', $start);
+			unset($this->_vars['start']);
+		}
+	}
+	
+	function _processBuildRules(&$uri)
+	{
+		//Process rules
+		if ($limitstart = $uri->getVar('limitstart'))
+		{
+			$uri->setVar('start', (int) $limitstart);
+			$uri->delVar('limitstart');
+		}
+	}
 
 	function &_createURI($url)
 	{
@@ -352,7 +292,7 @@ class JRouterSite extends JRouter
 		$uri =& parent::_createURI($url);
 		
 		// Set URI defaults
-		$menu =& JMenu::getInstance();
+		$menu =& JSite::getMenu();
 		
 		if(!$itemid = $uri->getVar('Itemid'))
 		{

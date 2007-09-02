@@ -40,7 +40,7 @@ function PollParseRoute( $segments )
 	$vars = array();
 
 	//Get the active menu item
-	$menu	=& JMenu::getInstance();
+	$menu	=& JSite::getMenu();
 	$item	=& $menu->getActive();
 
 	// Count route segments

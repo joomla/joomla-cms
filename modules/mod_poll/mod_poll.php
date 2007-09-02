@@ -19,7 +19,7 @@ require_once (dirname(__FILE__).DS.'helper.php');
 
 $tabclass_arr = array ('sectiontableentry2', 'sectiontableentry1');
 
-$menu 	= &JMenu::getInstance();
+$menu 	= &JSite::getMenu();
 $items	= $menu->getItems('link', 'index.php?option=com_poll');
 $itemid = isset($items[0]) ? $items[0]->id : '0';
 

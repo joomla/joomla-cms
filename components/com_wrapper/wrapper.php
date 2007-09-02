@@ -44,7 +44,7 @@ class WrapperController
 
 		$document =& JFactory::getDocument();
 
-		$menus	= &JMenu::getInstance();
+		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();
 
 		// Get the page/component configuration

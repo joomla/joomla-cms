@@ -28,7 +28,7 @@ JDEBUG ? $_PROFILER->mark( 'afterLoad' ) : null;
  *
  * NOTE :
  */
-$mainframe =& JApplication::getInstance('site');
+$mainframe =& JFactory::getApplication('site');
 
 /**
  * INITIALISE THE APPLICATION
