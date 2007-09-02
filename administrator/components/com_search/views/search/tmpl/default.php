@@ -44,7 +44,6 @@
 							<?php echo JText::_( 'Results Returned' ); ?>
 						</th>
 					<?php endif; ?>
-					?>
 				</tr>
 			</thead>
 			<tfoot>
