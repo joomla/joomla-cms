@@ -178,7 +178,7 @@ class JRouter extends JObject
 		$this->_processBuildRules($uri);
 	
 		//Prepend the route with a delimiter
-		$route = !empty($route) ? '/'.$route : ''; 
+		$route = !empty($route) ? $route : ''; 
 		
 		//Create the route
 		$url = $this->_prefix.$route.$uri->toString(array('query', 'fragment'));
