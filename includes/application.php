@@ -330,7 +330,7 @@ class JSite extends JApplication
 	function &getRouter()
 	{
 		$options['mode'] = $this->getCfg('sef');
-		if(!$this->getCfg('sef_rewrite')) {
+		if($options['mode'] && !$this->getCfg('sef_rewrite')) {
 			$options['prefix'] = 'index.php/';
 		}
 
