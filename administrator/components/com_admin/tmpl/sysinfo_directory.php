@@ -52,7 +52,7 @@ jimport('joomla.filesystem.folder');
 			$site_langs	= JFolder::folders(JPATH_SITE.DS.'language');
 			foreach ($site_langs as $slang)
 			{
-				writableCell( 'administrator/language/'.$slang );
+				writableCell( 'language/'.$slang );
 			}
 
 			writableCell( 'modules' );

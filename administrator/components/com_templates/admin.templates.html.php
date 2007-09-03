@@ -252,7 +252,7 @@ class TemplatesView
 	* @param string Source code
 	* @param string The option
 	*/
-	function editTemplate($row, $lists, & $params, $option, & $client, & $ftp)
+	function editTemplate($row, $lists, & $params, $option, & $client, & $ftp, & $template)
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
 
@@ -392,7 +392,8 @@ class TemplatesView
 		<div class="col50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
-
+				<?php $templatefile = $client->path.DS.'templates'.DS.$template.DS.'params.ini';
+				echo is_writable($templatefile) ? JText::sprintf('PARAMSWRITABLE', $templatefile):JText::sprintf('PARAMSUNWRITABLE', $templatefile); ?>
 				<table class="admintable">
 				<tr>
 					<td>

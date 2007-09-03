@@ -174,7 +174,7 @@ class TemplatesController
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 
 		require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
-		TemplatesView::editTemplate($row, $lists, $params, $option, $client, $ftp);
+		TemplatesView::editTemplate($row, $lists, $params, $option, $client, $ftp, $template);
 	}
 
 	function saveTemplate()
