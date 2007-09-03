@@ -40,13 +40,14 @@ class JRoute
 	 */
 	function _($url, $xhtml = true, $ssl = 0)
 	{
-		global $mainframe;
-
 		// Get the router
-		$router =& $mainframe->getRouter();
+		$app	= &JFactory::getApplication();
+		$router = &$app->getRouter();
 
 		// Build route
-		$url = $router->build($url);
+		if ($router) {
+			$url = $router->build($url);
+		}
 
 		/*
 		 * Get the secure/unsecure URLs.

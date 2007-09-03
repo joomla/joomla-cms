@@ -68,7 +68,7 @@ class JSite extends JApplication
 		if ( ! JLanguage::exists($options['language']) ) {
 			$options['language'] = 'en-GB';
 		}
-		
+
 		parent::initialise($options);
 	}
 
@@ -92,7 +92,7 @@ class JSite extends JApplication
 		$config		=& JFactory::getConfig();
 		$user		=& JFactory::getUser();
 		$router     =& $this->getRouter();
-		
+
 		switch($document->getType())
 		{
 			case 'html':
@@ -103,12 +103,12 @@ class JSite extends JApplication
 				if ( $user->get('id') ) {
 					$document->addScript( 'includes/js/joomla.javascript.js');
 				}
-				
+
 				if($router->getMode() == JROUTER_MODE_SEF) {
 					$document->setBase(JURI::base());
 				}
 			} break;
-			
+
 			case 'feed':
 			{
 				$document->setBase(JURI::base());
@@ -120,7 +120,7 @@ class JSite extends JApplication
 
 		$document->setTitle( $this->getCfg('sitename' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
-			
+
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer( $contents, 'component');
 	}
@@ -137,7 +137,7 @@ class JSite extends JApplication
 
 		// get the format to render
 		$format = $document->getType();
-		
+
 		switch($format)
 		{
 			case 'feed' :
@@ -164,11 +164,11 @@ class JSite extends JApplication
 				);
 			} break;
  		}
-		
+
 		$data = $document->render( $this->getCfg('caching'), $params);
 		JResponse::setBody($data);
 	}
-	
+
 	/**
 	* Check if the user can access the application
 	*
@@ -179,7 +179,7 @@ class JSite extends JApplication
 		$menus	=& JSite::getMenu();
 		$user	=& JFactory::getUser();
 		$aid	= $user->get('aid');
-		
+
 		if(!$menus->authorize($itemid, $aid))
 		{
 			if ( ! $aid )
@@ -187,10 +187,10 @@ class JSite extends JApplication
 				// Redirect to login
 				$uri		= JFactory::getURI();
 				$return		= $uri->toString();
-				
+
 				$url  = 'index.php?option=com_user&view=login';
 				$url .= '&return='.base64_encode($return);;
-			
+
 				//$url	= JRoute::_($url, false);
 				$this->redirect($url, "You must login first");
 			}
@@ -291,7 +291,7 @@ class JSite extends JApplication
 			$this->set('setTemplate', $template);
 		}
 	}
-	
+
 	/**
 	 * Return a reference to the JPathway object.
 	 *
@@ -319,7 +319,7 @@ class JSite extends JApplication
 		$pathway =& parent::getPathway('site', $options);
 		return $pathway;
 	}
-	
+
 	/**
 	 * Return a reference to the JRouter object.
 	 *
@@ -331,9 +331,9 @@ class JSite extends JApplication
 	{
 		$options['mode'] = $this->getCfg('sef');
 		if(!$this->getCfg('sef_rewrite')) {
-			$options['prefix'] = 'index.php';
+			$options['prefix'] = 'index.php/';
 		}
-		
+
 		$router =& parent::getRouter('site', $options);
 		return $router;
 	}
