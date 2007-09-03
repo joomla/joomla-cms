@@ -102,7 +102,7 @@ class BannersViewClients
 							echo $row->name;
 						} else {
 							?>
-							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Banner Client' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>'; ?>">
+							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Banner Client' ) . ': [ '. JText::_( 'Edit' ) .' ]'; ?>">
 								<?php echo $row->name; ?></a>
 							<?php
 						}
