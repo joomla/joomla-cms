@@ -31,7 +31,7 @@
 					<?php endif; ?>
 				</div>
 				<div>
-					<?php echo $this->escape($result->text); ?>
+					<?php echo $result->text; ?>
 				</div>
 				<?php
 					if ( $this->params->get( 'show_date' )) : ?>

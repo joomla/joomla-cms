@@ -35,7 +35,7 @@ class ContentViewFrontpage extends JView
 		$db			=& JFactory::getDBO();
 		$document	=& JFactory::getDocument();
 		$limit		= '10';
-		$document->link = JRoute::_('index.php?option=com_content&view=frontpage');
+		$document->link = JURI::base().JRoute::_('index.php?option=com_content&view=frontpage');
 
 		JRequest::setVar('limit', $limit);
 		$rows = $this->get('data');
@@ -58,10 +58,9 @@ class ContentViewFrontpage extends JView
 			// load individual item creator class
 			$item = new JFeedItem();
 			$item->title 		= $title;
-			$item->link 		= $link;
+			$item->link 		= JURI::base().$link;
 			$item->description 	= $description;
 			$item->date			= $date;
-			$item->author		= $author;
 			$item->category   	= 'frontpage';
 
 			// loads item info into rss array

@@ -33,7 +33,7 @@ class ContentViewSection extends JView
 
 		// Lets get our data from the model
 		$rows = & $this->get( 'Data' );
-		$doc->link = JRoute::_('index.php?option=com_content&view=section&id='.JRequest::getVar('id',null, '', 'int'));
+		$doc->link = JURI::base().JRoute::_('index.php?option=com_content&view=section&id='.JRequest::getVar('id',null, '', 'int'));
 
 		foreach ( $rows as $row )
 		{
@@ -53,10 +53,9 @@ class ContentViewSection extends JView
 			// load individual item creator class
 			$item = new JFeedItem();
 			$item->title 		= $title;
-			$item->link 		= $link;
+			$item->link 		= JURI::base().$link;
 			$item->description 	= $description;
 			$item->date			= $date;
-			$item->author		= $author;
 			$item->category   	= $row->category;
 
 			// loads item info into rss array

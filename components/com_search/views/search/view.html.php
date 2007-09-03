@@ -122,12 +122,12 @@ class SearchViewSearch extends JView
 				foreach ($searchwords as $hlword) 
 				{
 					$hlword = htmlspecialchars( stripslashes( $hlword ) );
-					$row = eregi_replace( $hlword, '<span class="highlight">\0</span>', $row );
+					$row = eregi_replace( $this->escape($hlword), '<span class="highlight">\0</span>', $row );
 				}
 			}
 		}
 
-		$this->result	= JText::sprintf( 'TOTALRESULTSFOUND', $total, $state->get('text') );
+		$this->result	= JText::sprintf( 'TOTALRESULTSFOUND', $total, $this->escape($searchword) );
 		$this->image	= JHTML::_('image.site',  'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
 
 		for($i = 0; $i < count($results); $i++ )
