@@ -615,14 +615,18 @@ class JApplication extends JObject
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
-	function &getRouter($name, $options = array())
+	function &getRouter($name=null, $options = array())
 	{
 		if(!isset($name)) {
-			return null;
+			$name = $this->_name;
 		}
 
 		jimport( 'joomla.application.router' );
-		$router =& JRouter::getInstance($this->_name, $options);
+		$router =& JRouter::getInstance($name, $options);
+		if (JError::isError($router)) {
+			$null = null;
+			return $null;
+		}
 		return $router;
 	}
 
@@ -634,14 +638,18 @@ class JApplication extends JObject
 	 * @return object JPathway.
 	 * @since 1.5
 	 */
-	function &getPathway($name, $options = array())
+	function &getPathway($name=null, $options = array())
 	{
 		if(!isset($name)) {
-			return null;
+			$name = $this->_name;
 		}
 
 		jimport( 'joomla.application.pathway' );
-		$pathway =& JPathway::getInstance($this->_name, $options);
+		$pathway =& JPathway::getInstance($name, $options);
+		if (JError::isError($pathway)) {
+			$null = null;
+			return $null;
+		}
 		return $pathway;
 	}
 
@@ -653,14 +661,18 @@ class JApplication extends JObject
 	 * @return object JMenu.
 	 * @since 1.5
 	 */
-	function &getMenu($name, $options = array())
+	function &getMenu($name=null, $options = array())
 	{
 		if(!isset($name)) {
-			return null;
+			$name = $this->_name;
 		}
 
 		jimport( 'joomla.application.menu' );
 		$menu =& JMenu::getInstance($name, $options);
+		if (JError::isError($menu)) {
+			$null = null;
+			return $null;
+		}
 		return $menu;
 	}
 
