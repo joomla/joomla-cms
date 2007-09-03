@@ -358,7 +358,7 @@ class JUser extends JObject
 				$array['password']  = JUserHelper::genRandomPassword();
 				$array['password2'] = $array['password'];
 			}
-			
+
 			if ($array['password'] != $array['password2']) {
 					$this->_setError( JText::_( 'PASSWORD DO NOT MATCH.' ) );
 					return false;
@@ -436,7 +436,7 @@ class JUser extends JObject
 			$this->params = $params;
 		}
 
-		// Bind the array 
+		// Bind the array
 		if (!$this->_bind($array, 'aid guest')) {
 			$this->_setError("Unable to bind array to user object");
 			return false;
@@ -462,6 +462,7 @@ class JUser extends JObject
 
 		// Create the user table object
 		$table 	=& JTable::getInstance( 'user');
+		$this->params = $this->_params->toString();
 		$table->bind(JArrayHelper::fromObject($this, false));
 
 		// Check and store the object.
@@ -486,8 +487,8 @@ class JUser extends JObject
 		if ($isnew && $updateOnly) {
 			return true;
 		}
-		
-		// Get the old user 
+
+		// Get the old user
 		$old = new JUser($this->id);
 
 		// Fire the onBeforeStoreUser event.
@@ -500,7 +501,7 @@ class JUser extends JObject
 			$this->_setError($table->getError());
 		}
 
-		// Set the id for the JUser object in case we created a new user. 
+		// Set the id for the JUser object in case we created a new user.
 		if (empty($this->id)) {
 			$this->id = $table->get( 'id' );
 		}
