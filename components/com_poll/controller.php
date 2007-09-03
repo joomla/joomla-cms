@@ -62,7 +62,7 @@ class PollController extends JController
 		$pathway->addItem($poll->title, '');
 
 		$params->def( 'show_page_title', 1 );
-		$params->def( 'page_title', $item->name );
+		$params->def( 'page_title', $poll->title );
 
 		$first_vote = '';
 		$last_vote 	= '';
