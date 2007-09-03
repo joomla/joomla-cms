@@ -75,7 +75,7 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	$text = $db->getEscaped($text);
-	$query = 'SELECT a.name AS title, a.description AS text,'
+	$query = 'SELECT a.title AS title, a.description AS text,'
 	. ' "" AS created,'
 	. ' "2" AS browsernav,'
 	. ' a.id AS secid'
