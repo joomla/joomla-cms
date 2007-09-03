@@ -69,7 +69,6 @@ class plgEditorTinymce extends JPlugin
 		$content_css_custom	= $this->params->def( 'content_css_custom', '' );
 		$invalid_elements	= $this->params->def( 'invalid_elements', 'script,applet,iframe' );
 		$newlines			= $this->params->def( 'newlines', 0 );
-		$cleanup			= $this->params->def( 'cleanup', 1 );
 		$cleanup_startup	= $this->params->def( 'cleanup_startup', 0 );
 		$compressed			= $this->params->def( 'compressed', 0 );
 		$langPrefix			= $this->params->def( 'lang_code', 'en' );
@@ -293,7 +292,7 @@ class plgEditorTinymce extends JPlugin
 			force_p_newlines : \"$p_newlines\",
 			$content_css
 			debug : false,
-			cleanup : $cleanup,
+			cleanup : true,
 			cleanup_on_startup : $cleanup_startup,
 			safari_warning : false,
 			plugins : \"advlink, advimage, $plugins\",
