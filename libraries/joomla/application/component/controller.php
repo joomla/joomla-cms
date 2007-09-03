@@ -351,19 +351,16 @@ class JController extends JObject
 			// task is a reserved state
 			$model->setState( 'task', $this->_task );
 
-			// Get menu item information if Itemid exists
-			if (class_exists( 'JSite' ))
+			// Lets get the application object and set menu information if its available
+			$app	= &JFactory::getApplication();
+			$menu	= &$app->getMenu();
+			if (is_object( $menu ))
 			{
-				// FIXME: This block should not fire outside of the site
-				$menu	=& JSite::getMenu();
-				if (is_object( $menu ))
+				if ($item = $menu->getActive())
 				{
-					if ($item = $menu->getActive())
-					{
-						$params	=& $menu->getParams($item->id);
-						// Set Default State Data
-						$model->setState( 'parameters.menu', $params );
-					}
+					$params	=& $menu->getParams($item->id);
+					// Set Default State Data
+					$model->setState( 'parameters.menu', $params );
 				}
 			}
 		}

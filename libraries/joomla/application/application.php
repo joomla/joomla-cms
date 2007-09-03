@@ -54,7 +54,7 @@ class JApplication extends JObject
 	 * @access	protected
 	 */
 	var $_name = null;
-	
+
 	/**
 	* Class constructor.
 	*
@@ -63,37 +63,37 @@ class JApplication extends JObject
 	function __construct($config = array())
 	{
 		jimport('joomla.utilities.utility');
-		
+
 		//set the view name
 		$this->_name		= $this->getName();
 		$this->_clientId	= $config['clientId'];
-		
+
 		//Enable sessions by default
 		if(!isset($config['session'])) {
 			$config['session'] = true;
 		}
-		
+
 		//Set the session default name
 		if(!isset($config['session_name'])) {
 			 $config['session_name'] = $this->_name;
 		}
-		
+
 		//Set the default configuration file
 		if(!isset($config['config_file'])) {
 			$config['config_file'] = 'configuration.php';
 		}
-		
+
 		//create the configuration object
 		$this->_createConfiguration(JPATH_CONFIGURATION.DS.$config['config_file']);
-		
+
 		//create the session if a session name is passed
 		if($config['session'] !== false) {
 			$this->_createSession(JUtility::getHash($config['session_name']));
 		}
-		
+
 		$this->set( 'requestTime', gmdate('Y-m-d H:i') );
 	}
-	
+
 	/**
 	 * Returns a reference to the global JApplication object, only creating it if it
 	 * doesn't already exist.
@@ -116,26 +116,26 @@ class JApplication extends JObject
 		}
 
 		if (empty($instances[$client]))
-		{	
+		{
 			//Load the router object
 			jimport('joomla.application.helper');
 			$info =& JApplicationHelper::getClientInfo($client, true);
-			
+
 			$path = $info->path.DS.'includes'.DS.'application.php';
-			if(file_exists($path)) 
+			if(file_exists($path))
 			{
 				require_once $path;
-				
+
 				// Create a JRouter object
 				$classname = 'J'.ucfirst($client);
 				$instance = new $classname($config);
-			} 
-			else 
+			}
+			else
 			{
-				$error = new JException( E_ERROR, 500, 'Unable to load application: '.$classname);
+				$error = new JException( E_ERROR, 500, 'Unable to load application: '.$client);
 				return $error;
 			}
-			
+
 			$instances[$client] = & $instance;
 		}
 
@@ -151,21 +151,21 @@ class JApplication extends JObject
 	function initialise($options = array())
 	{
 		jimport('joomla.event.helper');
-		
+
 		//Set the language in the class
 		$config =& JFactory::getConfig();
-		
+
 		// Check that we were given a language in the array (since by default may be blank)
 		if(isset($options['language'])) {
 			$config->setValue('config.language', $options['language']);
 		}
-		
+
 		// Set user specific editor
 		$user	 =& JFactory::getUser();
 		$editor	 = $user->getParam('editor', $this->getCfg('editor'));
 		$editor = JPLuginHelper::isEnabled('editors', $editor) ? $editor : $this->getCfg('editor');
 		$config->setValue('config.editor', $editor);
-		
+
 		// Set the database debug
 		$db =& JFactory::getDBO();
 		$db->debug( $config->get('debug_db'));
@@ -191,7 +191,7 @@ class JApplication extends JObject
 		if(!$router->parse($uri)) {
 			JError::raiseError( 404, JText::_('Unable to route request') );
 		}
-		
+
 		JRequest::set($router->getVars(), 'get', false );
  	}
 
@@ -505,7 +505,7 @@ class JApplication extends JObject
 		jimport( 'joomla.user.authentication');
 		$authenticate = & JAuthentication::getInstance();
 		$response	  = $authenticate->authenticate($credentials, $options);
-		
+
 		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 		{
 			// Import the user plugin group
@@ -561,14 +561,14 @@ class JApplication extends JObject
 	{
 		// Initialize variables
 		$retval = false;
-		
+
 		// Get a user object from the JApplication
 		$user = &JFactory::getUser($userid);
-			
+
 		// Build the credentials array
 		$parameters['username']	= $user->get('username');
 		$parameters['id']		= $user->get('id');
-		
+
 		// Set clientid in the options array if it hasn't been set already
 		if(empty($options['clientid'])) {
 			$options['clientid'][] = $this->getClientId();
@@ -620,12 +620,12 @@ class JApplication extends JObject
 		if(!isset($name)) {
 			return null;
 		}
-		
+
 		jimport( 'joomla.application.router' );
 		$router =& JRouter::getInstance($this->_name, $options);
 		return $router;
 	}
-	
+
 	/**
 	 * Return a reference to the application JPathway object.
 	 *
@@ -639,12 +639,12 @@ class JApplication extends JObject
 		if(!isset($name)) {
 			return null;
 		}
-		
+
 		jimport( 'joomla.application.pathway' );
 		$pathway =& JPathway::getInstance($this->_name, $options);
 		return $pathway;
 	}
-	
+
 	/**
 	 * Return a reference to the application JPathway object.
 	 *
@@ -654,11 +654,11 @@ class JApplication extends JObject
 	 * @since 1.5
 	 */
 	function &getMenu($name, $options = array())
-	{		
+	{
 		if(!isset($name)) {
 			return null;
 		}
-		
+
 		jimport( 'joomla.application.menu' );
 		$menu =& JMenu::getInstance($name, $options);
 		return $menu;
@@ -787,7 +787,7 @@ class JApplication extends JObject
 		if ($link == null) {
 			$link = '';
 		}
-		
+
 		$pathway =& $this->getPathway();
 
 		if( defined( '_JLEGACY' ) && $link == '' )

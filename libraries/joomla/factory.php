@@ -31,18 +31,21 @@ class JFactory
 	 * @param	array	$config 	An optional associative array of configuration settings.
 	 * @return object JApplication
 	 */
-	function &getApplication($id, $config = array())
+	function &getApplication($id=null, $config = array())
 	{
 		static $instance;
 
 		if (!is_object($instance)) {
 			jimport( 'joomla.application.application' );
+			if (!$id) {
+				JError::raiseError(500, 'Application Instantiation Error');
+			}
 			$instance = JApplication::getInstance($id, $config);
 		}
 
 		return $instance;
 	}
-	
+
 	/**
 	 * Get a configuration object
 	 *
@@ -151,20 +154,20 @@ class JFactory
 	function &getUser($id = null)
 	{
 		jimport('joomla.user.user');
-		
-		if(is_null($id)) 
+
+		if(is_null($id))
 		{
 			$session  =& JFactory::getSession();
 			$instance =& $session->get('user');
 			if (!is_a($instance, 'JUser')) {
 				$instance =& JUser::getInstance();
 			}
-		} 
+		}
 		else
 		{
 			$instance =& JUser::getInstance($id);
-		} 
-		
+		}
+
 		return $instance;
 	}
 
@@ -282,14 +285,14 @@ class JFactory
 	{
 		static $instance;
 
-		if ( ! is_object($instance) ) { 
+		if ( ! is_object($instance) ) {
 			$instance = JFactory::_createMailer();
 		}
-		
+
 		// Create a copy of this object - do not return the original because it may be used several times
 		// PHP4 copies objects by value whereas PHP5 copies by reference
 		$copy	= (PHP_VERSION < 5) ? $instance : clone($instance);
-		
+
 		return $copy;
 	}
 
@@ -435,7 +438,7 @@ class JFactory
 		//get the editor configuration setting
 		$conf =& JFactory::getConfig();
 		$handler =  $conf->getValue('config.session_handler', 'none');
-		
+
 		// config time is in minutes
 		$options['expire'] = ($conf->getValue('config.lifetime')) ? $conf->getValue('config.lifetime') * 60 : 900;
 
