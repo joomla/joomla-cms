@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Sep-2007 Nur Aini Rakhmawati
+ # Fixed[#6937] Notice on com_user&view=login
+
 04-Sep-2007 Toby Patterson
  # Fixed problem w/ installation losing language choice on Step 2
 

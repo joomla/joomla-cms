@@ -37,14 +37,27 @@ class UserViewLogin extends JView
 
 		$menu   =& JSite::getMenu();
 		$item   = $menu->getActive();
-		$params	=& $menu->getParams($item->id);
+		if($item)
+			$params	=& $menu->getParams($item->id);
+		else
+			$params	=& $menu->getParams(null);
+
 
 		$type = (!$user->get('guest')) ? 'logout' : 'login';
 
 		// Set some default page parameters if not set
 		$params->def( 'page_title', 				1 );
+		if($item)
+		{
 		$params->def( 'header_login', 			$item->name );
 		$params->def( 'header_logout', 			$item->name );
+		}
+		else
+		{
+		$params->def( 'header_login', 			'' );
+		$params->def( 'header_logout', 			'' );
+
+		}
 		$params->def( 'pageclass_sfx', 			'' );
 		$params->def( 'login', 					'index.php' );
 		$params->def( 'logout', 				'index.php' );
@@ -83,19 +96,20 @@ class UserViewLogin extends JView
 			$image = 'images/stories/'. $params->get( 'image_'.$type );
 			$image = '<img src="'. $image  .'" align="'. $params->get( 'image_'.$type.'_align' ) .'" hspace="10" alt="" />';
 		}
-		
+
 		// Get the return URL
 		if (!$url = JRequest::getVar('return', '', 'method', 'base64')) {
 			$url = base64_encode($params->get($type));
 		}
-	
+
 		$errors =& JError::getErrors();
 
 		$this->assign('image' , $image);
 		$this->assign('type'  , $type);
 		$this->assign('return', $url);
-		
+
 		$this->assignRef('params', $params);
+
 
 		parent::display($tpl);
 	}
