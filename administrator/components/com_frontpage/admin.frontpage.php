@@ -91,7 +91,7 @@ function viewFrontPage( $option )
 	$filter_state		= $mainframe->getUserStateFromRequest( $option.'.filter_state',		'filter_state',		'',				'word' );
 	$catid				= $mainframe->getUserStateFromRequest( $option.'.catid',			'catid',			0,				'int' );
 	$filter_authorid	= $mainframe->getUserStateFromRequest( $option.'.filter_authorid',	'filter_authorid',	0,				'int' );
-	$filter_sectionid	= $mainframe->getUserStateFromRequest( $option.'.filter_sectionid',	'filter_sectionid',	0,				'int' );
+	$filter_sectionid	= $mainframe->getUserStateFromRequest( $option.'.filter_sectionid',	'filter_sectionid',	-1,				'int' );
 	$search				= $mainframe->getUserStateFromRequest( $option.'.search',			'search',			'',				'string' );
 	$search				= JString::strtolower( $search );
 
@@ -110,7 +110,7 @@ function viewFrontPage( $option )
 	);
 
 	// used by filter
-	if ( $filter_sectionid > 0 ) {
+	if ( $filter_sectionid >= 0 ) {
 		$where[] = 'c.sectionid = '.(int) $filter_sectionid;
 	}
 	if ( $catid > 0 ) {
@@ -173,7 +173,7 @@ function viewFrontPage( $option )
 	. ' ORDER BY s.ordering, cc.ordering'
 	;
 	$db->setQuery( $query );
-	$categories[] 	= JHTML::_('select.option',  '0', '- '. JText::_( 'Select Category' ) .' -' );
+	$categories[] 	= JHTML::_('select.option',  '-1', '- '. JText::_( 'Select Category' ) .' -' );
 	$categories 	= array_merge( $categories, $db->loadObjectList() );
 	$lists['catid'] = JHTML::_('select.genericlist',   $categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $catid );
 
