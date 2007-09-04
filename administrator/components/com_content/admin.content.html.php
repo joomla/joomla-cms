@@ -594,7 +594,7 @@ class ContentView
 			<br /><br />
 			</td>
 			<td  valign="top">
-			<strong><?php echo JText::_( 'Items being Moved' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Articles being Moved' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
@@ -655,7 +655,7 @@ class ContentView
 			<br /><br />
 			</td>
 			<td  valign="top">
-			<strong><?php echo JText::_( 'Items being copied' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Articles being copied' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
