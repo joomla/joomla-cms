@@ -104,7 +104,7 @@ class HTML_contact
 				$access 	= JHTML::_('grid.access',   $row, $i );
 				$published 	= JHTML::_('grid.published', $row, $i );
 
-				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_contact_details&task=editA&cid[]='. $row->catid );
+				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_contact_details&task=edit&type=other&cid[]='. $row->catid );
 				$row->user_link	= JRoute::_( 'index.php?option=com_users&task=editA&cid[]='. $row->user_id );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
