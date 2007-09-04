@@ -34,6 +34,7 @@ class UserViewLogin extends JView
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
 		$pathway	=& $mainframe->getPathway();
+		$image		= '';
 
 		$menu   =& JSite::getMenu();
 		$item   = $menu->getActive();
