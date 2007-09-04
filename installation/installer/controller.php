@@ -77,7 +77,7 @@ class JInstallationController extends JController
 		global $mainframe;
 
 		// Sanity check
-		if ( $task && ( $task != 'lang' ) && ( $task != 'preinstall' ) && ( $task != 'removedir' ) )
+		if ( $task && ( $task != 'lang' ) && ( $task != 'removedir' ) )
 		{
 
 			/**

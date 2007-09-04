@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Sep-2007 Toby Patterson
+ # Fixed problem w/ installation losing language choice on Step 2
+
 03-Sep-2007 Andrew Eddie
  # Patch: Added JAdminstrator::getRouter
  # Patch: JController::getModel relies on JSite which throws errors in the administrator
