@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 04-Sep-2007 Rob Schley
+ # Fixed notices in the Frontpage Manager when uncategorized content is in the list.
  # Fixed [topic,207901] Contact Manager quick link to category edit wrong link
  + Fixed [topic,207969] Added new language string to administrator com_template language file: THERE ARE NO PARAMETERS FOR THIS ITEM.
  # Fixed some various issues with Login/Logout page parameters

@@ -226,12 +226,16 @@ class FrontpageView
 						<?php echo $row->id;?>
 					</td>
 					<td>
-						<a href="<?php echo $row->sect_link; ?>" title="<?php echo $title_sec; ?>">
-							<?php echo $row->sect_name; ?></a>
+						<?php if ($row->sectionid) : ?>
+							<a href="<?php echo $row->sect_link; ?>" title="<?php echo $title_sec; ?>">
+								<?php echo $row->sect_name; ?></a>
+						<?php endif; ?>
 					</td>
 					<td>
-						<a href="<?php echo $row->cat_link; ?>" title="<?php echo $title_cat; ?>">
-							<?php echo $row->name; ?></a>
+						<?php if ($row->catid) : ?>
+							<a href="<?php echo $row->cat_link; ?>" title="<?php echo $title_cat; ?>">
+								<?php echo $row->name; ?></a>
+						<?php endif; ?>
 					</td>
 					<td>
 						<?php echo $author; ?>
