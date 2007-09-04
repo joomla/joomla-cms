@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 04-Sep-2007 Rob Schley
+ # Fixed [topic,207904] Weblink Manager shortcuts to edit category have wrong url
  ^ Added a prefix parameter for the application class name to JApplication::getApplication()
 
 04-Sep-2007 Nur Aini Rakhmawati

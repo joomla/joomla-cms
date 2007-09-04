@@ -77,7 +77,7 @@ JHTML::_('behavior.tooltip');
 		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 		$published 	= JHTML::_('grid.published', $row, $i );
 
-		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_weblinks&task=edit&id='. $row->catid );
+		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_weblinks&task=edit&type=other&cid[]='. $row->catid );
 		?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td>
