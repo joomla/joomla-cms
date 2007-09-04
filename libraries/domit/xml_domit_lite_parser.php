@@ -580,7 +580,8 @@ class DOMIT_Lite_ChildNodes_Interface extends DOMIT_Lite_Node {
 			if ($nodelist->getLength() > 0) {
 				return $nodelist->item(0);
 			}
-			return null;
+            $null = null;
+			return $null;
 		}
 
 		return $nodelist;

@@ -86,8 +86,8 @@ class JApplicationHelper
 				}
 			}
 		}
-		
-		return null;
+		$null = null;
+		return $null;
 	}
 
 	/**

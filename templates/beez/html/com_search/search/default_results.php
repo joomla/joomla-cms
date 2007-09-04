@@ -46,7 +46,7 @@
 			</p>
 			<?php endif; ?>
 
-			<?php echo $this->escape($result->text); ?>
+			<?php echo $result->text; ?>
 			<span class="small<?php echo $this->params->get('pageclass_sfx') ?>">
 				<?php echo $result->created; ?>
 			</span>

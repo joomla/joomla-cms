@@ -217,7 +217,8 @@ class JModel extends JObject
 			return $table;
 		} else {
 			JError::raiseError( 0, 'Table ' . $name . ' not supported. File not found.' );
-			return null;
+			$null = null;
+            return $null;
 		}
 	}
 
