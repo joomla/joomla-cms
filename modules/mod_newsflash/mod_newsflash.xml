@@ -19,7 +19,7 @@
 			<option value="horiz">Horizontal</option>
 			<option value="vert">Vertical</option>
 		</param>
-		<param name="image" type="radio" default="0" label="Show images" description="Display content item images">
+		<param name="image" type="radio" default="0" label="Show images" description="Display Article images">
 			<option value="1">Yes</option>
 			<option value="0">No</option>
 		</param>
