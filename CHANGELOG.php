@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Sep-2007 Rob Schley
+ ^ Added a prefix parameter for the application class name to JApplication::getApplication()
+
 04-Sep-2007 Nur Aini Rakhmawati
  # Fixed[#6937] Notice on com_user&view=login
 

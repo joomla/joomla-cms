@@ -107,7 +107,7 @@ class JApplication extends JObject
 	 * @return	JApplication	The appliction object.
 	 * @since	1.5
 	 */
-	function &getInstance($client, $config = array())
+	function &getInstance($client, $config = array(), $prefix = 'J')
 	{
 		static $instances;
 
@@ -127,16 +127,16 @@ class JApplication extends JObject
 				require_once $path;
 
 				// Create a JRouter object
-				$classname = 'J'.ucfirst($client);
+				$classname = $prefix.ucfirst($client);
 				$instance = new $classname($config);
 			}
 			else
 			{
-				$error = new JException( E_ERROR, 500, 'Unable to load application: '.$client);
+				$error = new JException(E_ERROR, 500, 'Unable to load application: '.$client);
 				return $error;
 			}
 
-			$instances[$client] = & $instance;
+			$instances[$client] =& $instance;
 		}
 
 		return $instances[$client];
