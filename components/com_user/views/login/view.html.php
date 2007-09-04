@@ -48,17 +48,12 @@ class UserViewLogin extends JView
 
 		// Set some default page parameters if not set
 		$params->def( 'page_title', 				1 );
-		if($item)
+		if(!$item)
 		{
-		$params->def( 'header_login', 			$item->name );
-		$params->def( 'header_logout', 			$item->name );
+			$params->def( 'header_login', 			'' );
+			$params->def( 'header_logout', 			'' );
 		}
-		else
-		{
-		$params->def( 'header_login', 			'' );
-		$params->def( 'header_logout', 			'' );
 
-		}
 		$params->def( 'pageclass_sfx', 			'' );
 		$params->def( 'login', 					'index.php' );
 		$params->def( 'logout', 				'index.php' );

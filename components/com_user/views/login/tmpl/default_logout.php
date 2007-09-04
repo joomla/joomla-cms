@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <form action="index.php" method="post" name="login" id="login">
-<?php if ( $this->params->get( 'page_title' ) ) : ?>
+<?php if ( $this->params->get( 'show_logout_title' ) ) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php echo $this->params->get( 'header_logout' ); ?>
 </div>

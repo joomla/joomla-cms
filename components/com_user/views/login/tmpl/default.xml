@@ -9,17 +9,10 @@
 		<name>Default Login Layout</name>
 		<description>DEFAULT LOGIN LAYOUT DESC</description>
 		<params>
-			<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
-			<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
-				<option value="-1">Off</option>
-				<option value="0">Ignore</option>
-				<option value="1">On</option>
-			</param>
-			<param name="page_title" type="radio" default="1" label="Show Page Title" description="Show/Hide the pages Title">
+			<param name="show_login_title" type="radio" default="1" label="Show Login Page Title" description="Show/Hide the Login Page Title">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>
 			</param>
-			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="header_login" type="text" size="30" default="" label="Login Page Title" description="PARAMPAGETITLE" />
 			<param name="login" type="text" size="30"  default="" label="Login Redirection URL" description="PARAMLOGINURL" />
 			<param name="login_message" type="radio" default="0" label="Login JS Message" description="PARAMLOGINJSMESSAGE">
@@ -37,6 +30,10 @@
 				<option value="right">Right</option>
 			</param>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="show_logout_title" type="radio" default="1" label="Show Logout Page Title" description="Show/Hide the Logout Page Title">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
 			<param name="header_logout" type="text" size="30" default="" label="Logout Page Title" description="PARAMLOGOUTPAGETITLE" />
 			<param name="logout" type="text" size="30"  default="" label="Logout Redirection URL" description="PARAMLOGOUTURL" />
 			<param name="logout_message" type="radio" default="1" label="Logout JS Message" description="PARAMLOGOUTJSMESSAGE">

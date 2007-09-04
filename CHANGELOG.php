@@ -38,6 +38,8 @@ Legend:
 ! -> Note
 
 04-Sep-2007 Rob Schley
+ # Fixed some various issues with Login/Logout page parameters
+ ^ Note: The menu manager has no way to disable the system page title option which is not applicable to the login/logout views.
  # Fixed [topic,208954] No parameters found when creating a link to the user->login
  # Fixed [topic,207904] Weblink Manager shortcuts to edit category have wrong url
  ^ Added a prefix parameter for the application class name to JApplication::getApplication()
