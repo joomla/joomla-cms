@@ -27,7 +27,19 @@
 </fieldset>
 <?php endif; ?>
 <p>
-	<input type="submit" name="submit" value="<?php echo JText::_('Search') ?>" class="button" />
+	<button name="Search" onClick="this.form.submit()" class="button"><?php echo JText::_( 'Search' );?></button>
 </p>
+
+
+<?php if (count($this->results)) : ?>
+<div class="display">
+<label for="limit"><?php echo JText :: _('Display Num') ?></label>
+	<?php echo $this->pagination->getLimitBox(); ?>
+	<p>
+		<?php echo $this->pagination->getPagesCounter(); ?>
+	</p>
+</div>
+<?php endif; ?>
+
 <input type="hidden" name="task"   value="search" />
 </form>

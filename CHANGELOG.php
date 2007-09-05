@@ -40,6 +40,8 @@ Legend:
 04-Sep-2007 Rastin Mehr
 # Fixed unreported bug. In file components/com_search/views/search/tmpl/default_form.php
 ^ this.submit.form() into this.form.submit() for the Search button
+# Fixed [#6708] Searching phrase from search results page displays 500 Error page
+! there was an Error in the Beez template and reported in this tracker item which I have fixed. The 500 Error bug was already resolved.
 
 04-Sep-2007 Rob Schley
  # Fixed the section filter in the Frontpage Manager when listing uncategorized content.

@@ -3,7 +3,7 @@
 <?php if (!empty($this->searchword)) : ?>
 <div class="searchintro<?php echo $this->params->get('pageclass_sfx') ?>">
 	<p>
-		<?php echo JText::_('Search Keyword') ?><strong><? $this->escape($this->searchword) ?></strong>
+		<?php echo JText::_('Search Keyword') ?> <strong><?php echo $this->escape($this->searchword) ?></strong>
 		<?php echo $this->result ?>
 		<a href="http://www.google.com/search?q=<?php echo $this->escape($this->searchword) ?>" target="_blank"> 
 			<?php echo $this->image ?>
@@ -18,15 +18,6 @@
 <?php if (count($this->results)) : ?>
 <div class="results">
 	<h3><?php echo JText :: _('Search_result'); ?></h3>
-	<div class="display">
-	<form action="index.php" method="post" class="limit">
-		<label for="limit"><?php echo JText :: _('Display Num') ?></label>
-		<?php echo $this->pagination->getLimitBox(); ?>
-		<p>
-			<?php echo $this->pagination->getPagesCounter(); ?>
-		</p>
-	</form>
-	</div>
 	<?php $start = $this->pagination->limitstart + 1; ?>
 	<ol class="list<?php echo $this->params->get('pageclass_sfx') ?>" start="<?php $start ?>">
 		<?php foreach ($this->results as $result) : ?>
