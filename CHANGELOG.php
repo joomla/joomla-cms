@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Sep-2007 Rastin Mehr
+# Fixed unreported bug. In file components/com_search/views/search/tmpl/default_form.php
+^ this.submit.form() into this.form.submit() for the Search button
+
 04-Sep-2007 Rob Schley
  # Fixed the section filter in the Frontpage Manager when listing uncategorized content.
  # Fixed notices in the Frontpage Manager when uncategorized content is in the list.
