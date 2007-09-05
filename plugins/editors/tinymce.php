@@ -237,13 +237,6 @@ class plgEditorTinymce extends JPlugin
 			}
 		}
 
-
-		if ( $cleanup ) {
-			$cleanup	= 'true';
-		} else {
-			$cleanup	= 'false';
-		}
-
 		if ( $cleanup_startup ) {
 			$cleanup_startup = 'true';
 		} else {

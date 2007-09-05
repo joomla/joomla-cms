@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Sep-2007 Rastin Mehr
+! the undeclared and unused variable $cleanup in plugins/editors/tinymce.php line 241 has been removed
+
 04-Sep-2007 Rastin Mehr
 # Fixed unreported bug. In file components/com_search/views/search/tmpl/default_form.php
 ^ this.submit.form() into this.form.submit() for the Search button
