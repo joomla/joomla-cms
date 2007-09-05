@@ -1,4 +1,4 @@
- se<?php
+<?php
 /**
 * @version		$Id$
 * @package		Joomla
