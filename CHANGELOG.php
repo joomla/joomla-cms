@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Sep-2007 Robin Muilwijk
+ # Fixed [topic,209803] legacy variable for the cache path is named incorrectly 
+
 06-Sep-2007 Andrew Eddie
  # Fixed bug in TinyMCE extended valid elements (do not put a space after the comma!)
  + Added extended valid elements area for TinyMCE plugin
