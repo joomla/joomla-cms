@@ -75,11 +75,12 @@ class plgEditorTinymce extends JPlugin
 		$langMode			= $this->params->def( 'lang_mode', 0 );
 		$relative_urls		= $this->params->def( 'relative_urls', 		0 );
 		$clear_entities		= $this->params->def( 'clear_entities', 0 );
+		$extended_elements	= $this->params->def( 'extended_elements', '' );
 
 		$plugins 	= array();
 		$buttons2	= array();
 		$buttons3	= array();
-		$elements	= array();
+		$elements	= explode( ',', $extended_elements );
 
 		// search & replace
 		$searchreplace 		=  $this->params->def( 'searchreplace', 1 );
@@ -210,9 +211,9 @@ class plgEditorTinymce extends JPlugin
 		// loading of css file for `styles` dropdown
 		if ( $content_css_custom ) {
 			$content_css = 'content_css : "'. $content_css_custom .'", ';
-		} 
+		}
 		else
-		{	
+		{
 			/*
 			 * Lets get the default template for the site application
 			 */
@@ -229,8 +230,8 @@ class plgEditorTinymce extends JPlugin
 				$file_path = JPATH_SITE .'/templates/'. $template .'/css/';
 				if ( !file_exists( $file_path .DS. 'editor.css' ) ) {
 					$template = 'system';
-				} 
-				
+				}
+
 				$content_css = 'content_css : "' . $url .'templates/'. $template . '/css/editor.css",';
 			} else {
 				$content_css = '';
@@ -258,10 +259,10 @@ class plgEditorTinymce extends JPlugin
 			$load = "\t<script type=\"text/javascript\" src=\"".$url."plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
 		}
 
-		$buttons2 	= implode( ', ', $buttons2 );
-		$buttons3 	= implode( ', ', $buttons3 );
-		$plugins 	= implode( ', ', $plugins );
-		$elements 	= implode( ', ', $elements );
+		$buttons2 	= implode( ',', $buttons2 );
+		$buttons3 	= implode( ',', $buttons3 );
+		$plugins 	= implode( ',', $plugins );
+		$elements 	= implode( ',', $elements );
 
 		$return = $load .
 			"\t<script type=\"text/javascript\">
@@ -277,6 +278,7 @@ class plgEditorTinymce extends JPlugin
 			remove_script_host : false,
 			save_callback : \"TinyMCE_Save\",
 			invalid_elements : \"$invalid_elements\",
+			extended_valid_elements : \"hr[id|class|title|alt],a[class|name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],$elements\",
 			theme_advanced_toolbar_location : \"$toolbar\",
 			theme_advanced_source_editor_height : \"$html_height\",
 			theme_advanced_source_editor_width : \"$html_width\",
@@ -295,7 +297,6 @@ class plgEditorTinymce extends JPlugin
 			theme_advanced_disable : \"help\",
 			plugin_insertdate_dateFormat : \"$format_date\",
 			plugin_insertdate_timeFormat : \"$format_time\",
-			extended_valid_elements : \"hr[id|class|title|alt], a[class|name|href|target|title|onclick], img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name], $elements\",
 			$entities
 			$element_path
 			fullscreen_settings : {
@@ -372,7 +373,7 @@ class plgEditorTinymce extends JPlugin
 
 		return $editor;
 	}
-	
+
 	function onGetInsertMethod($name)
 	{
 		$doc = & JFactory::getDocument();
@@ -384,7 +385,7 @@ class plgEditorTinymce extends JPlugin
 
 		return true;
 	}
-	
+
 	function _displayButtons($name, $buttons)
 	{
 		// Load modal popup behavior
@@ -414,7 +415,7 @@ class plgEditorTinymce extends JPlugin
 				/*
 				 * Results should be an object
 				 */
-				if ( $button->get('name') ) 
+				if ( $button->get('name') )
 				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
 					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;
@@ -424,7 +425,7 @@ class plgEditorTinymce extends JPlugin
 			}
 			$return .= "</div>\n";
 		}
-		
+
 		return $return;
 	}
 }

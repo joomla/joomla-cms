@@ -56,6 +56,7 @@
  			<option value="1">BR Elements</option>
  			<option value="0">P Elements</option>
  		</param>
+  		<param name="extended_elements" type="textarea" rows="3" cols="30" default="" label="Extended Valid Elements" description="PARAMEXTVALIDELEMENTS"/>
    	</params>
    	<params group="advanced">
  		<param name="toolbar" type="list" default="top" label="Toolbar" description="Position of the toolbar">

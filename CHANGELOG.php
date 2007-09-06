@@ -37,14 +37,18 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Sep-2007 Andrew Eddie
+ # Fixed bug in TinyMCE extended valid elements (do not put a space after the comma!)
+ + Added extended valid elements area for TinyMCE plugin
+
 05-Sep-2007 Rastin Mehr
-! the undeclared and unused variable $cleanup in plugins/editors/tinymce.php line 241 has been removed
+ ! the undeclared and unused variable $cleanup in plugins/editors/tinymce.php line 241 has been removed
 
 04-Sep-2007 Rastin Mehr
-# Fixed unreported bug. In file components/com_search/views/search/tmpl/default_form.php
-^ this.submit.form() into this.form.submit() for the Search button
-# Fixed [#6708] Searching phrase from search results page displays 500 Error page
-! there was an Error in the Beez template and reported in this tracker item which I have fixed. The 500 Error bug was already resolved.
+ # Fixed unreported bug. In file components/com_search/views/search/tmpl/default_form.php
+ ^ this.submit.form() into this.form.submit() for the Search button
+ # Fixed [#6708] Searching phrase from search results page displays 500 Error page
+ ! there was an Error in the Beez template and reported in this tracker item which I have fixed. The 500 Error bug was already resolved.
 
 04-Sep-2007 Rob Schley
  # Fixed the section filter in the Frontpage Manager when listing uncategorized content.
