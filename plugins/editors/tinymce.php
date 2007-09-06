@@ -120,8 +120,10 @@ class plgEditorTinymce extends JPlugin
 		$hr 				=  $this->params->def( 'hr', 1 );
 		if ( $hr ) {
 			$plugins[]	= 'advhr';
-			$elements[] = 'hr[class|width|size|noshade]';
+			$elements[] = 'hr[id|title|alt|class|width|size|noshade]';
 			$buttons3[]	= 'advhr';
+		} else {
+			$elements[] = 'hr[id|class|title|alt]';
 		}
 
 		// table
@@ -278,7 +280,7 @@ class plgEditorTinymce extends JPlugin
 			remove_script_host : false,
 			save_callback : \"TinyMCE_Save\",
 			invalid_elements : \"$invalid_elements\",
-			extended_valid_elements : \"hr[id|class|title|alt],a[class|name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],$elements\",
+			extended_valid_elements : \"a[class|name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],$elements\",
 			theme_advanced_toolbar_location : \"$toolbar\",
 			theme_advanced_source_editor_height : \"$html_height\",
 			theme_advanced_source_editor_width : \"$html_width\",
