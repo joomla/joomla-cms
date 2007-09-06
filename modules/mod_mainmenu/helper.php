@@ -269,7 +269,7 @@ class JMenuTree extends JTree
 				return false;
 			}
 		} else {
-			$tmp = $item;
+			$tmp = clone($item);
 			$tmp->name = '<span><![CDATA['.$item->name.']]></span>';
 		}
 
