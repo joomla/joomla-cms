@@ -75,6 +75,7 @@ class plgButtonReadmore extends JPlugin
 		$button->set('onclick', 'insertReadmore();');
 		$button->set('text', JText::_('Readmore'));
 		$button->set('name', 'readmore');
+		$button->set('link', 'javascript:void();');
 
 		return $button;
 	}
