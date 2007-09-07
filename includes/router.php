@@ -149,8 +149,10 @@ class JRouterSite extends JRouter
 		}
 
 		// Set the active menu item
-		$menu->setActive( isset($vars['Itemid']) ? $vars['Itemid'] : 0);
-		
+		if ( isset($vars['Itemid']) ) {
+			$menu->setActive(  $vars['Itemid'] );
+		}
+			
 		//Set the variables
 		$this->setVars($vars);
 
