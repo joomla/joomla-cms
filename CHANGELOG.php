@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Sep-2007 Sam Moffatt
+ ^ Updated installer language files to add a few missing entries
+ ! Added TODO: Should this be JDate tag to suspicious date usages [#7004]
+
 07-Sep-2007 Toby Patterson
  # Fixed [#6586] Language string failed to load: instantiate
 

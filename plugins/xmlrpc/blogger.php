@@ -197,7 +197,7 @@ class plgXMLRPCBloggerServices
 
 		$item->catid	 	= $cat->id;
 		$item->sectionid 	= $cat->section;
-
+		// TODO: Should this be JDate?
 		$item->created		= date('Y-m-d H:i:s');
 		$item->created_by	= $user->get('id');
 

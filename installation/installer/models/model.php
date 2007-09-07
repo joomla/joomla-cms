@@ -881,7 +881,7 @@ class JInstallationModel extends JModel
 		$args =& $this->getVars();
 		$db = & JInstallationHelper::getDBO($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'], $args['DBname'], $args['DBPrefix']);
 		$migResult = JInstallationHelper::postMigrate( $db, $migErrors, $args );
-		if(!$migResult) echo "Migration Successful, press next to continue";
+		if(!$migResult) echo JText::_("Migration Successful");
 			else {
 				echo '<div id="installer">';
 				echo '<p>'.JText::_('Migration failed').':</p>';

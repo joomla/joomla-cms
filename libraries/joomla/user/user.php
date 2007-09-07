@@ -371,6 +371,7 @@ class JUser extends JObject
 			$array['password'] = $crypt.':'.$salt;
 
 			// Set the registration timestamp
+			// TODO: Should this be JDate?
 			$this->set( 'registerDate', date( 'Y-m-d H:i:s' ) );
 
 			// Check that username is not greater than 25 characters

@@ -54,7 +54,7 @@ $db_password = 'joomlauser';
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Migration load script</title>
+<title><?php JText::_('Migration load script') ?></title>
 <script type="text/javascript" src="includes/js/installation.js"></script>
 </head>
 <body>
@@ -129,9 +129,9 @@ if (!$error && isset ($_REQUEST["fn"])) {
 	else
 		$gzipmode = false;
 	if ((!$gzipmode && !$file = fopen($_REQUEST["fn"], "rt")) || ($gzipmode && !$file = gzopen($_REQUEST["fn"], "rt"))) {
-		echo ("<p class=\"error\">Can't open " . $_REQUEST["fn"] . " for import</p>\n");
-		echo ("<p>Please, check that your dump file name contains only alphanumerical characters, and rename it accordingly, for example: " .
-		$_REQUEST["fn"] . " .<br>Or, you have to upload the " . $_REQUEST["fn"] . " to the server</p>\n");
+		echo ("<p class=\"error\">". JText::sprintf("Cant open file for import", $_REQUEST["fn"]) ."</p>\n");
+		echo ("<p>". JText::_('CHECKDUMPFILE') .
+		" .<br>". JText::_('NEEDTOUPLOADFILE')."</p>\n");
 		$error = true;
 	}
 
@@ -144,7 +144,7 @@ if (!$error && isset ($_REQUEST["fn"])) {
 			else
 				$filesize = gztell($file); // Always zero, ignore
 		} else {
-			echo ("<p class=\"error\">I can't get the filesize of " . $_REQUEST["fn"] . "</p>\n");
+			echo ("<p class=\"error\">". JText::_('FILESIZEUNKNOWN') . $_REQUEST["fn"] . "</p>\n");
 			$error = true;
 		}
 }
@@ -157,7 +157,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 	// Check start and foffset are numeric values
 
 	if (!is_numeric($_REQUEST["start"]) || !is_numeric($_REQUEST["foffset"])) {
-		echo ("<p class=\"error\">UNEXPECTED: Non-numeric values for start and foffset</p>\n");
+		echo ("<p class=\"error\">". JText::_('NONNUMERICOFFSET') ."</p>\n");
 		$error = true;
 	}
 
@@ -169,14 +169,14 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 	// Check $_REQUEST["foffset"] upon $filesize (can't do it on gzipped files)
 
 	if (!$error && !$gzipmode && $_REQUEST["foffset"] > $filesize) {
-		echo ("<p class=\"error\">UNEXPECTED: Can't set file pointer behind the end of file</p>\n");
+		echo ("<p class=\"error\">".JText::_('POINTEREOF')."</p>\n");
 		$error = true;
 	}
 
 	// Set file pointer to $_REQUEST["foffset"]
 
 	if (!$error && ((!$gzipmode && fseek($file, $_REQUEST["foffset"]) != 0) || ($gzipmode && gzseek($file, $_REQUEST["foffset"]) != 0))) {
-		echo ("<p class=\"error\">UNEXPECTED: Can't set file pointer to offset: " . $_REQUEST["foffset"] . "</p>\n");
+		echo ("<p class=\"error\">". JText::_('UNABLETOSETOFFSET') . $_REQUEST["foffset"] . "</p>\n");
 		$error = true;
 	}
 
@@ -254,9 +254,8 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 			// Stop if query contains more lines as defined by MAX_QUERY_LINES
 
 			if ($querylines > MAX_QUERY_LINES) {
-				echo ("<p class=\"error\">Stopped at the line $linenumber. </p>");
-				echo ("<p>At this place the current query includes more than " . MAX_QUERY_LINES . " dump lines. This most likely due to a large\n");
-				echo ("content item or perhaps a forum post</p>\n");
+				echo ("<p class=\"error\">". JText::_('STOPPEDATLINE') ." $linenumber. </p>");
+				echo ("<p>". JText::sprintf('TOOMANYLINES',MAX_QUERY_LINES)."</p>");
 				$error = true;
 				break;
 			}
@@ -272,7 +271,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 		$migration = JRequest::getVar( 'migration', 0, 'post', 'bool' );
 
 			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
-			if(JError::isError($db)) die('Error in connecting to database');
+			if(JError::isError($db)) die(JText::_('CONNECTION FAIL'));
 
 //			echo 'Done.<br />';
 			// Execute query if end of query detected (; as last character) AND NOT in parents
@@ -306,7 +305,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 		else
 			$foffset = gztell($file);
 		if (!$foffset) {
-			echo ("<p class=\"error\">UNEXPECTED: Can't read the file pointer offset</p>\n");
+			echo ("<p class=\"error\">".JText::_('CANTREADPOINTER')."</p>\n");
 			$error = true;
 		}
 	}
@@ -387,7 +386,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 		// Finish message and restart the script
 
 		if ($linenumber < $_REQUEST["start"] + $linespersession) {
-			echo ("<div id=\"installer\"><p class=\"successcentr\">Congratulations: End of file reached, assuming OK</p>\n");
+			echo ("<div id=\"installer\"><p class=\"successcentr\">".JText::_('CONGRATSEOF')."</p>\n");
 			// Do migration
 			if($migration) {
 			?><br />Migration will continue shortly...</div>
@@ -405,15 +404,15 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
   	</form>
   	<script language="JavaScript" type="text/javascript">window.setTimeout('submitForm(this.document.migrateForm,"postmigrate")',500);</script>
 			<?php
-			} else echo '<br />Please press next to finalize your install</div>';
+			} else echo '<br />'. JText::_('FINALIZEINSTALL').'</div>';
 			//echo ("<p class=\"centr\">Thank you for using this tool! Please rate <a href=\"http://www.hotscripts.com/Detailed/20922.html\" target=\"_blank\">Bigdump at Hotscripts.com</a></p>\n");
 			//echo ("<p class=\"centr\">You can send me some bucks or euros as appreciation <a href=\"http://www.ozerov.de/bigdump.php\" target=\"_blank\">via PayPal</a></p>\n");
 			$error = true;
 		} else {
 			if ($delaypersession != 0)
-				echo ("<p class=\"centr\">Now I'm <b>waiting $delaypersession milliseconds</b> before starting next session...</p>\n");
+				echo ("<p class=\"centr\">".JText::sprintf('DELAYMSG',$delaypersession)."</p>\n");
 			?><script language="JavaScript" type="text/javascript">window.setTimeout('submitForm(this.document.migrateForm,"dumpLoad")',500);</script>
-			<div id="installer"><p>Loading SQL File...please wait.</p></div>
+			<div id="installer"><p><?php echo JText::_('LOADSQLFILE') ?></p></div>
 
 			<form action="index.php" method="post" name="migrateForm" id="migrateForm" class="form-validate" target="migrationtarget">
 	<input type="hidden" name="task" value="dumpLoad" />
@@ -440,7 +439,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 			//echo ("<p class=\"centr\">Press <b><a href=\"" . $_SERVER["PHP_SELF"] . "\">STOP</a></b> to abort the import <b>OR WAIT!</b></p>\n");
 		}
 	} else
-		echo ("<p class=\"error\">Stopped on error</p>\n");
+		echo ("<p class=\"error\">".JText::_('STOPPEDONERROR')."</p>\n");
 
 }
 

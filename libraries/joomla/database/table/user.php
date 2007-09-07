@@ -299,6 +299,7 @@ class JTableUser extends JTable
 		if ( $timeStamp ) {
 			$dateTime = date( 'Y-m-d H:i:s', $timeStamp );
 		} else {
+			// TODO: Should this be JDate?
 			$dateTime = date( 'Y-m-d H:i:s' );
 		}
 

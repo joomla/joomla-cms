@@ -994,18 +994,18 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
+		
+		// fix up standalone contact
+		$query = 'UPDATE `'. $newPrefix.'menu_migration` SET `link` = "index.php?option=com_contact&view=category" WHERE `link` = "index.php?option=com_contact"';
+		$db->setQuery( $query );
+		$db->query();
+		JInstallationHelper::getDBErrors($errors, $db );		
 
 		// get com_content id
 		$query = 'SELECT `id` FROM `'.$newPrefix.'components` WHERE `option`="com_content" AND `parent` = 0';
 		$db->setQuery( $query );
 
 		$compId = $db->loadResult();
-		JInstallationHelper::getDBErrors($errors, $db );
-
-		// fix up standalone contact
-		$query = 'UPDATE `'. $newPrefix.'menu_migration` SET `link` = "index.php?option=com_contact&view=category" WHERE `link` = "index.php?option=com_contact"';
-		$db->setQuery( $query );
-		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
 
 		// front page

@@ -473,6 +473,7 @@ class JError
 
 		if ($log == null) {
 			jimport('joomla.utilities.log');
+			// TODO: Should this be JDate?
 			$fileName = date('Y-m-d').'.error.log';
 			$options['format'] = "{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}";
 			$log = & JLog::getInstance($fileName, $options);
