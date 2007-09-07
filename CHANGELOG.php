@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Sep-2007 Toby Patterson
+ # Fixed [#6586] Language string failed to load: instantiate
+
 06-Sep-2007 Robin Muilwijk
  # Fixed [topic,209803] legacy variable for the cache path is named incorrectly 
 

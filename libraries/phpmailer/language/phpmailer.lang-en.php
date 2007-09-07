@@ -20,4 +20,3 @@ $PHPMAILER_LANG["connect_host"] = 'SMTP Error: Could not connect to SMTP host.';
 $PHPMAILER_LANG["file_access"] = 'Could not access file: ';
 $PHPMAILER_LANG["file_open"] = 'File Error: Could not open file: ';
 $PHPMAILER_LANG["encoding"] = 'Unknown encoding: ';
-?>
