@@ -39,7 +39,7 @@ Legend:
 
 07-Sep-2007 Rastin Mehr
 # Fixed [#6867] Uncategorized articles don't show up (anymore) on Frontpage
-^ used UNION in the query to include both articles that belong to a category, and those which are orphans.
+^ used UNION in the query to include both articles that belong to categories, and those which are orphans.
 
 07-Sep-2007 Sam Moffatt
  ^ Updated installer language files to add a few missing entries
