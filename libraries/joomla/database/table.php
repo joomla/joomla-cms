@@ -672,7 +672,7 @@ class JTable extends JObject
 		}
 
 		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ).
-				' SET checked_out = 0, checked_out_time = '.$this->_db->Quote($this->_db->_nullDate) .
+				' SET checked_out = 0, checked_out_time = '.$this->_db->Quote($this->_db->getNullDate()) .
 				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 

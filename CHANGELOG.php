@@ -40,6 +40,8 @@ Legend:
 07-Sep-2007 Rastin Mehr
 # Fixed [#6867] Uncategorized articles don't show up (anymore) on Frontpage
 ^ used UNION in the query to include both articles that belong to categories, and those which are orphans.
+# Fixed [#6874] With simple fix: Access to a private variable from JTable to JDatabase
+! fix was submited by 'Beat' and I think he should get the credit for it. I just applied the fix
 
 07-Sep-2007 Sam Moffatt
  ^ Updated installer language files to add a few missing entries
