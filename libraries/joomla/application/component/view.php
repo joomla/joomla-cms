@@ -545,7 +545,8 @@ class JView extends JObject
 
 		// load the template script
 		jimport('joomla.filesystem.path');
-		$this->_template = JPath::find($this->_path['template'], $this->_createFileName('template', array('name' => $file)));
+		$filetofind	= $this->_createFileName('template', array('name' => $file));
+		$this->_template = JPath::find($this->_path['template'], $filetofind);
 
 		if ($this->_template != false)
 		{
