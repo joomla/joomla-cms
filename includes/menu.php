@@ -41,7 +41,6 @@ class JMenuSite extends JMenu
 		}
 		// Initialize some variables
 		$db		= & JFactory::getDBO();
-		$user	= & JFactory::getUser();
 		$sql	= 'SELECT m.*, c.`option` as component' .
 				' FROM #__menu AS m' .
 				' LEFT JOIN #__components AS c ON m.componentid = c.id'.

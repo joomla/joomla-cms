@@ -89,7 +89,6 @@ class JSite extends JApplication
 	function dispatch($component)
 	{
 		$document	=& JFactory::getDocument();
-		$config		=& JFactory::getConfig();
 		$user		=& JFactory::getUser();
 		$router     =& $this->getRouter();
 
@@ -196,7 +195,6 @@ class JSite extends JApplication
 			}
 			else
 			{
-				$menu	= $menus->getItem($itemid);
 				JError::raiseError( 403, JText::_('Not Authorised') );
 			}
 		}
