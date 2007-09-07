@@ -247,7 +247,7 @@ class JRouter extends JObject
 	function getVar($key) 
 	{
 		$result = null;
-		if(isset($this->_vars, $key)) {
+		if(isset($this->_vars[$key])) {
 			$result = $this->_vars[$key];
 		}
 		return $result;
