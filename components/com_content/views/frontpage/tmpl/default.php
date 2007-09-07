@@ -49,7 +49,7 @@ if ($numIntroArticles && ($i < $this->total)) : ?>
 				if ($z > 0) : $divider = " column_separator"; endif; ?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
 				<?php for ($y = 0; $y < $numIntroArticles / $this->params->get('num_columns'); $y ++) :
-					if ($i < $this->total) :
+					if ($i < $this->total && $i < ($this->params->get('num_leading_articles') + $this->params->get('num_intro_articles'))) :
 						$this->item =& $this->getItem($i, $this->params);
 						echo $this->loadTemplate('item');
 						$i ++;
