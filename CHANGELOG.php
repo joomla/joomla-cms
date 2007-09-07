@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Sep-2007 Andrew Eddie
+ # Fixed [topic,210138] Easy fix needed for valid HTML in login module
+
 07-Sep-2007 Rastin Mehr
 # Fixed [#6867] Uncategorized articles don't show up (anymore) on Frontpage
 ^ used UNION in the query to include both articles that belong to categories, and those which are orphans.
@@ -51,7 +54,7 @@ Legend:
  # Fixed [#6586] Language string failed to load: instantiate
 
 06-Sep-2007 Robin Muilwijk
- # Fixed [topic,209803] legacy variable for the cache path is named incorrectly 
+ # Fixed [topic,209803] legacy variable for the cache path is named incorrectly
 
 06-Sep-2007 Andrew Eddie
  # Fixed bug in TinyMCE extended valid elements (do not put a space after the comma!)

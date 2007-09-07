@@ -21,17 +21,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php echo $params->get('pretext'); ?>
 	<fieldset class="input">
 	<p id="form-login-username">
-		<label for="username"><?php echo JText::_('Username') ?></label><br />
-		<input name="username" id="username" type="text" class="inputbox" alt="username" size="18" />
+		<label for="modlgn_username"><?php echo JText::_('Username') ?></label><br />
+		<input id="modlgn_username" type="text" class="inputbox" alt="username" size="18" />
 	</p>
 	<p id="form-login-password">
-		<label for="passwd"><?php echo JText::_('Password') ?></label><br />
-		<input type="password" name="passwd" class="inputbox" size="18" alt="password" />
+		<label for="modlgn_passwd"><?php echo JText::_('Password') ?></label><br />
+		<input id="modlgn_passwd" type="password" name="passwd" class="inputbox" size="18" alt="password" />
 	</p>
 	<?php if(JPluginHelper::isEnabled('system', 'remember')) : ?>
 	<p id="form-login-remember">
-		<label for="remember"><?php echo JText::_('Remember me') ?></label>
-		<input type="checkbox" name="remember" class="inputbox" value="yes" alt="Remember Me" />
+		<label for="modlgn_remember"><?php echo JText::_('Remember me') ?></label>
+		<input id="modlgn_remember" type="checkbox" name="remember" class="inputbox" value="yes" alt="Remember Me" />
 	</p>
 	<?php endif; ?>
 	<input type="submit" name="Submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
