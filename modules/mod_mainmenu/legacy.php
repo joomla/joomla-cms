@@ -162,7 +162,7 @@ function mosShowVIMenu(& $params)
 	global $mainframe, $Itemid;
 
 	$template = $mainframe->getTemplate();
-	$menu = JMenu :: getInstance();
+	$menu =& JSite::getMenu();
 	$user =& JFactory::getUser();
 
 	// indent icons
