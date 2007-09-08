@@ -211,6 +211,8 @@ class ContentModelArticle extends JModel
 			} else {
 				return $this->_article->checked_out;
 			}
+		} elseif ($this->_id < 1) {
+			return false;
 		} else {
 			JError::raiseWarning( 0, 'Unable to Load Data');
 			return false;
@@ -448,6 +450,12 @@ class ContentModelArticle extends JModel
 	function _loadArticle()
 	{
 		global $mainframe;
+
+		if($this->_id == '0')
+		{
+			return false;
+		}
+
 		// Load the content if it doesn't already exist
 		if (empty($this->_article))
 		{
