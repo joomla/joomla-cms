@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<fieldset class="input">
 	<p id="form-login-username">
 		<label for="modlgn_username"><?php echo JText::_('Username') ?></label><br />
-		<input id="modlgn_username" type="text" class="inputbox" alt="username" size="18" />
+		<input id="modlgn_username" type="text" name="username" class="inputbox" alt="username" size="18" />
 	</p>
 	<p id="form-login-password">
 		<label for="modlgn_passwd"><?php echo JText::_('Password') ?></label><br />
