@@ -151,9 +151,10 @@ class JModuleHelper
 			$lang =& JFactory::getLanguage();
 			$lang->load($module->module);
 
+			$content = '';
 			ob_start();
 			require $path;
-			$module->content = ob_get_contents();
+			$module->content = ob_get_contents().$content;
 			ob_end_clean();
 		}
 

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Sep-2007 Toby Patterzone
+ # Fixed [PATCH] Legacy module rendering
+
 08-Sep-2007 Andrew Eddie
  # Fixed [topic,210138] Easy fix needed for valid HTML in login module
 
