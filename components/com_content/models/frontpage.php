@@ -126,9 +126,6 @@ class ContentModelFrontpage extends JModel
 		$where	= $this->_buildContentWhere();
 		$orderby 			= $this->_buildContentOrderBy();
 		
-		// the alias.attribute wouldn't work with the unions
-		$orderby = str_replace('.', '_', $orderby);
-
 		$query = ' SELECT a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
 			' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.metakey, a.metadesc, a.access,' .
 			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
