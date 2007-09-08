@@ -218,12 +218,10 @@ class ContentModelFrontpage extends JModel
 		if ($user->authorize('com_content', 'edit', 'content', 'all')) {
 			$where .= ' AND a.state >= 0';
 		} else {
-			$where .= ' AND a.state = 1';
-			if( $hasParents )
-			{
-				$where	.=	' AND ( cc.published = 1 )'.
-							' AND ( s.published = 1 )';
-			}
+			$where .= ' AND a.state = 1'.
+					' AND (( cc.published = 1'.
+					' AND s.published = 1 )'.
+					' OR ( a.catid = 0 AND a.sectionid = 0 ) )';
 			
 			$where .= ' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
 					  ' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
