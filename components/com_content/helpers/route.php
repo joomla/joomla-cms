@@ -44,7 +44,7 @@ class ContentHelperRoute
 			}
 
 			if($item->link_parts['view'] == 'category') {
-				$link .= '&view=article&catid='.$catid.'&id='. $id . '&Itemid='. $item->id;
+				$link .= '&view=article&catid='.$catid.'&id='. $id .'&Itemid='. $item->id;
 			}
 
 			if($item->link_parts['view'] == 'section') {
@@ -57,117 +57,40 @@ class ContentHelperRoute
 		return JRoute::_( $link );
 	}
 
-	function getSectionRoute(& $row)
+	function getSectionRoute(& $sectionid)
 	{
-		$db =& JFactory::getDBO();
-		static $links;
+		$item = ContentHelperRoute::_getSectionMenuInfo((int)$sectionid);
 
-		if (!isset ($links)) {
-			$links = array ();
-		}
+		$link = 'index.php?option=com_content&view=category&id='.$sectionid;
 
-		if (empty ($links[$row->sectionid]))
+		if(isset($item))
 		{
-			$query = 'SELECT id, link' .
-					' FROM #__menu' .
-					' WHERE published = 1' .
-					' AND (type = "content_section" OR type = "content_blog_section" )' .
-					' AND componentid = '. (int) $row->sectionid .
-					' ORDER BY type DESC, ordering';
-			$db->setQuery($query);
-			$result = $db->loadRow();
-
-			$secLinkID = $result[0];
-			$secLinkURL = $result[1];
-
-			$Itemid = null;
-			if ($secLinkID)
-			{
-				$Itemid = '&Itemid='.(int) $secLinkID;
-
-				if ($secLinkURL) {
-					$link = JRoute::_($secLinkURL.$Itemid);
-				} else {
-					$link = JRoute::_('index.php?option=com_content&task=section&id='.$row->sectionid.$Itemid);
-				}
-
-				$links[$row->sectionid] = '<a href="'.$link.'">'.$row->section.'</a>';
-			}
-			else
-			{
-				$links[$row->sectionid] = $row->section;
-			}
+			$link .= '&layout='.$item->link_parts['layout'].'&Itemid='. $item->id;
 		}
 
-		return $links[$row->sectionid];
+		return JRoute::_( $link );
 	}
 
-	function getCategoryRoute(& $row)
+	function getCategoryRoute(& $catid, & $sectionid)
 	{
-		$db =& JFactory::getDBO();
-		static $links;
+		$item = ContentHelperRoute::_getCategoryMenuInfo((int)$catid, (int)$sectionid);
 
-		if (!isset ($links)) {
-			$links = array ();
+		$link = 'index.php?option=com_content';
+
+		if(isset($item))
+		{
+			if($item->link_parts['view'] == 'category') {
+				$link .= '&view=category&id='.$catid.'&layout='.$item->link_parts['layout'].'&Itemid='. $item->id;
+			}
+
+			if($item->link_parts['view'] == 'section') {
+				$link .= '&view=category&id='.$catid.'&layout='.$item->link_parts['layout'].'&Itemid='. $item->id;
+			}
+		} else {
+			$link .= '&view=category&id='.$catid;
 		}
 
-		if (empty ($links[$row->catid])) {
-
-			$query = 'SELECT id, link' .
-					' FROM #__menu' .
-					' WHERE published = 1' .
-					' AND (type = "content_category" OR type = "content_blog_category" )' .
-					' AND componentid = ' . (int) $row->catid .
-					' ORDER BY type DESC, ordering';
-			$db->setQuery($query);
-			$result = $db->loadRow();
-
-			$catLinkID = $result[0];
-			$catLinkURL = $result[1];
-
-			// Did we find an Itemid for the category?
-			$Itemid = null;
-			if ($catLinkID)
-			{
-				$Itemid = '&amp;Itemid='.(int) $catLinkID;
-			}
-			else
-			{
-				// Nope, lets try to find it by section...
-				$query = 'SELECT id, link' .
-						' FROM #__menu' .
-						' WHERE published = 1' .
-						' AND (type = "content_section" OR type = "content_blog_section" )' .
-						' AND componentid = '. (int) $row->sectionid .
-						' ORDER BY type DESC, ordering';
-				$db->setQuery($query);
-				$secLinkID = $db->loadResult();
-
-				// Find it by section?
-				if ($secLinkID)	{
-					$Itemid = '&amp;Itemid='.$secLinkID;
-				}
-			}
-
-			if ($Itemid !== null)
-			{
-				if ($catLinkURL) {
-					$link = JRoute::_($catLinkURL.$Itemid);
-				} else {
-					$link = JRoute::_('index.php?option=com_content&task=category&sectionid='.$row->sectionid.'&id='.$row->catid.$Itemid);
-				}
-
-				// We found an Itemid... build the link
-				$links[$row->catid] = '<a href="'.$link.'">'.$row->category.'</a>';
-			}
-			else
-			{
-				// Didn't find an Itemid.. set the section name as the link
-				$links[$row->catid] = $row->category;
-			}
-		}
-
-		return $links[$row->catid];
+		return JRoute::_( $link );
 	}
 
 	/**
@@ -218,5 +141,89 @@ class ContentHelperRoute
 
 		return null;
 	}
+
+	/**
+	 * @param	int	The menu information based on the category identifiers
+	 */
+	function _getCategoryMenuInfo($catid, $sectionid = 0)
+	{
+		$component	=& JComponentHelper::getComponent('com_content');
+
+		$menus		=& JSite::getMenu();
+		$items		= $menus->getItems('componentid', $component->id);
+
+		$n = count( $items );
+		if (!$n) {
+			return null;
+		}
+
+		for ($i = 0; $i < $n; $i++)
+		{
+			$item = &$items[$i];
+			$url = str_replace('index.php?', '', $item->link);
+			$url = str_replace('&amp;', '&', $url);
+			$parts = null;
+			parse_str($url, $parts);
+
+			if(!isset($parts['id'])) {
+				continue;
+			}
+
+			// set the link parts
+			$item->link_parts = $parts;
+
+			// Check to see if it is in a published category
+			if (($item->published) && ($item->link_parts['id'] == $catid) && $item->link_parts['view'] == 'category') {
+				return $item;
+			}
+
+			// Check to see if it is in a published section
+			if (($item->published) && ($item->link_parts['id'] == $sectionid) && $item->link_parts['view'] == 'section') {
+				return $item;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param	int	The menu information based on the category identifiers
+	 */
+	function _getSectionMenuInfo($sectionid)
+	{
+		$component	=& JComponentHelper::getComponent('com_content');
+
+		$menus		=& JSite::getMenu();
+		$items		= $menus->getItems('componentid', $component->id);
+
+		$n = count( $items );
+		if (!$n) {
+			return null;
+		}
+
+		for ($i = 0; $i < $n; $i++)
+		{
+			$item = &$items[$i];
+			$url = str_replace('index.php?', '', $item->link);
+			$url = str_replace('&amp;', '&', $url);
+			$parts = null;
+			parse_str($url, $parts);
+
+			if(!isset($parts['id'])) {
+				continue;
+			}
+
+			// set the link parts
+			$item->link_parts = $parts;
+
+			// Check to see if it is in a published section
+			if (($item->published) && ($item->link_parts['id'] == $sectionid) && $item->link_parts['view'] == 'section') {
+				return $item;
+			}
+		}
+
+		return null;
+	}
+
 }
 ?>

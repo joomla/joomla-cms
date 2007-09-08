@@ -52,7 +52,7 @@ endif; ?>
 		<?php if ($this->params->get('show_section') && $this->item->sectionid && isset($this->item->section)) : ?>
 		<span>
 			<?php if ($this->params->get('link_section')) : ?>
-				<?php echo '<a href="'.ContentHelperRoute::getSectionRoute($this->item).'">'; ?>
+				<?php echo '<a href="'.ContentHelperRoute::getSectionRoute($this->item->sectionid).'">'; ?>
 			<?php endif; ?>
 			<?php echo $this->item->section; ?>
 			<?php if ($this->params->get('link_section')) : ?>
@@ -66,7 +66,7 @@ endif; ?>
 		<?php if ($this->params->get('show_category') && $this->item->catid) : ?>
 		<span>
 			<?php if ($this->params->get('link_category')) : ?>
-				<?php echo '<a href="'.ContentHelperRoute::getCategoryRoute($this->item).'">'; ?>
+				<?php echo '<a href="'.ContentHelperRoute::getCategoryRoute($this->item->catid, $this->item->sectionid).'">'; ?>
 			<?php endif; ?>
 			<?php echo $this->item->category; ?>
 			<?php if ($this->params->get('link_section')) : ?>
