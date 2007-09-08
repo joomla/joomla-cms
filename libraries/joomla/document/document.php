@@ -64,7 +64,7 @@ class JDocument extends JObject
 	 * @var	 string
 	 * @access  public
 	 */
-	var $language = 'en';
+	var $language = 'en-gb';
 
 	/**
 	 * Contains the document direction setting
@@ -463,12 +463,12 @@ class JDocument extends JObject
 	}
 
 	/**
-	 * Sets the global document language declaration. Default is English (en).
+	 * Sets the global document language declaration. Default is English (en-gb).
 	 *
 	 * @access public
 	 * @param   string   $lang
 	 */
-	function setLanguage($lang = "en") {
+	function setLanguage($lang = "en-gb") {
 		$this->language = strtolower($lang);
 	}
 
