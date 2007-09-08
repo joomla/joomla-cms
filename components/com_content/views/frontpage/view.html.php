@@ -117,7 +117,7 @@ class ContentViewFrontpage extends ContentView
 		$document->setTitle($title);
 
 		jimport('joomla.html.pagination');
-		$this->pagination = new JPagination($total, $limitstart, $limit);
+		$this->pagination = new JPagination($total, $limitstart, $limit - $links);
 
 		$this->assign('total',			$total);
 

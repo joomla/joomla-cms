@@ -90,7 +90,7 @@ class ContentViewCategory extends ContentView
 		$params->def('page_title', $menu->name);
 
 		jimport('joomla.html.pagination');
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit - $links);
 
 		$this->assign('total',		$total);
 

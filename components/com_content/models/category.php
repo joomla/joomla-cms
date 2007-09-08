@@ -322,8 +322,19 @@ class ContentModelCategory extends JModel
 			$limit		= JRequest::getVar('limit', 0, '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-			$query = $this->_buildQuery($state);
-			$this->_data[$state] = $this->_getList($query, $limitstart, $limit);
+			$query = $this->_buildQuery();
+			$Arows = $this->_getList($query, $limitstart, $limit);
+
+			// special handling required as Uncategorized content does not have a section / category id linkage
+			$i = $limitstart;
+			$rows = array();
+			foreach ($Arows as $row)
+			{
+				// check to determine if section or category has proper access rights
+				$rows[$i] = $row;
+				$i ++;
+			}
+			$this->_data[$state] = $rows;
 		}
 		return true;
 	}

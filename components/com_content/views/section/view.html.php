@@ -94,7 +94,7 @@ class ContentViewSection extends ContentView
 
 
 		jimport('joomla.html.pagination');
-		$pagination = new JPagination($total, $limitstart, $limit);
+		$pagination = new JPagination($total, $limitstart, $limit - $links);
 
 		$this->assign('total',			$total);
 
