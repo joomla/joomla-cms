@@ -531,16 +531,6 @@ class ContentModelArticle extends JModel
 		$pop = JRequest::getVar('pop', 0, '', 'int');
 		$params->set('popup', $pop);
 
-		// Set the Section name as a link if needed
-		if ($params->get('link_section') && $this->_article->sectionid) {
-			$this->_article->section = ContentHelperRoute::getSectionRoute($this->_article);
-		}
-
-		// Set the Category name as a link if needed
-		if ($params->get('link_category') && $this->_article->catid) {
-			$this->_article->category = ContentHelperRoute::getCategoryRoute($this->_article);
-		}
-
 		// Are we showing introtext with the article
 		if ($params->get('show_intro')) {
 			$this->_article->text = $this->_article->introtext . chr(13).chr(13) . $this->_article->fulltext;
