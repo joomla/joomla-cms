@@ -51,7 +51,7 @@ class ContentViewFrontpage extends JView
 			$link = ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid);
 
 			// strip html from feed item description text
-			$description	= ($mainframe->getCfg('feed_summary') ? $row->introtext.$row->fulltext : $row->introtext);
+			$description	= ($mainframe->getCfg('feed_summary') ? $row->introtext : $row->introtext.$row->fulltext);
 			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
 			@$date			= ( $row->created ? date( 'r', strtotime($row->created) ) : '' );
 
