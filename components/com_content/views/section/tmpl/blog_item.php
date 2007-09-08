@@ -65,7 +65,7 @@ endif; ?>
 		<?php if ($this->params->get('show_category') && $this->item->catid) : ?>
 		<span>
 			<?php if ($this->params->get('link_category')) : ?>
-				<?php echo '<a href="'.ContentHelperRoute::getCategoryRoute($this->item->catid, $this->item->sectionid).'">'; ?>
+				<?php echo '<a href="'.ContentHelperRoute::getCategoryRoute($this->item->catslug, $this->item->sectionid).'">'; ?>
 			<?php endif; ?>
 			<?php echo $this->item->category; ?>
 			<?php if ($this->params->get('link_section')) : ?>

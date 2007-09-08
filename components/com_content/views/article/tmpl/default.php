@@ -72,7 +72,7 @@ endif; ?>
 		<?php if ($this->params->get('show_category') && $this->article->catid) : ?>
 		<span>
 			<?php if ($this->params->get('link_category')) : ?>
-				<?php echo '<a href="'.ContentHelperRoute::getCategoryRoute($this->article->catid, $this->article->sectionid).'">'; ?>
+				<?php echo '<a href="'.ContentHelperRoute::getCategoryRoute($this->article->catslug, $this->article->sectionid).'">'; ?>
 			<?php endif; ?>
 			<?php echo $this->article->category; ?>
 			<?php if ($this->params->get('link_section')) : ?>
