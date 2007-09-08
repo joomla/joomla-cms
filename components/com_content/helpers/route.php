@@ -57,7 +57,7 @@ class ContentHelperRoute
 		return JRoute::_( $link );
 	}
 
-	function getSectionRoute(& $sectionid)
+	function getSectionRoute($sectionid)
 	{
 		$item = ContentHelperRoute::_getSectionMenuInfo((int)$sectionid);
 
@@ -71,7 +71,7 @@ class ContentHelperRoute
 		return JRoute::_( $link );
 	}
 
-	function getCategoryRoute(& $catid, & $sectionid)
+	function getCategoryRoute($catid, $sectionid)
 	{
 		$item = ContentHelperRoute::_getCategoryMenuInfo((int)$catid, (int)$sectionid);
 
