@@ -342,12 +342,12 @@ class JRouter extends JObject
 		{
 			$vars = array();
 			parse_str($url, $vars);
-
+			
 			$vars = array_merge($this->getVars(), $vars);
 			
 			foreach($vars as $key => $var) 
 			{
-				if(empty($var)) {
+				if($var == "") {
 					unset($vars[$key]);
 				}
 			}
