@@ -54,6 +54,17 @@
 				<?php echo $lists['list_limit']; ?>
 			</td>
 		</tr>
+		<tr>
+			<td width="185" class="key">
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Feedlimit' ); ?>::<?php echo JText::_( 'TIPFEEDLIMIT' ); ?>">
+					<?php echo JText::_( 'Feed Length' ); ?>
+				</span>
+			</td>
+			<td>
+				<?php echo $lists['feed_limit']; ?>
+			</td>
+		</tr>
+
 	</tbody>
 	</table>
 </fieldset>

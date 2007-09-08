@@ -31,14 +31,12 @@ class ContentViewCategory extends JView
 		global $mainframe;
 
 		$doc =& JFactory::getDocument();
+		$params =& $mainframe->getPageParameters();
 		$doc->link = JURI::base().JRoute::_('index.php?option=com_content&view=category&id='.JRequest::getVar('id',null, '', 'int'));
 
 		// Get some data from the model
-		$limit = '10';
-
-		JRequest::setVar('limit', $limit);
+		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
 		$rows 		= & $this->get( 'Data' );
-
 
 		foreach ( $rows as $row )
 		{
@@ -51,7 +49,7 @@ class ContentViewCategory extends JView
 			$link = JRoute::_('index.php?option=com_content&view=article&id='. $row->id );
 
 			// strip html from feed item description text
-			$description	= ($mainframe->getCfg('feed_summary') ? $row->introtext : $row->introtext.$row->fulltext);
+			$description	= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
 			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
 			@$date = ( $row->created ? date( 'r', strtotime($row->created) ) : '' );
 

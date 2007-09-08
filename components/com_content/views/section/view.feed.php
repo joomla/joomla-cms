@@ -29,7 +29,13 @@ class ContentViewSection extends JView
 {
 	function display()
 	{
+		global $mainframe;
 		$doc =& JFactory::getDocument();
+		$params =& $mainframe->getPageParameters();
+
+		// Get some data from the model
+		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
+		$rows 		= & $this->get( 'Data' );
 
 		// Lets get our data from the model
 		$rows = & $this->get( 'Data' );
@@ -46,7 +52,7 @@ class ContentViewSection extends JView
 			$link = JRoute::_('index.php?option=com_content&view=article&id='. $row->id );
 
 			// strip html from feed item description text
-			$description	= ($mainframe->getCfg('feed_summary') ? $row->introtext : $row->introtext.$row->fulltext);
+			$description	= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
 			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
 			@$date = ( $row->created ? date( 'r', strtotime($row->created) ) : '' );
 

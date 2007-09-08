@@ -34,12 +34,12 @@ class ContentViewFrontpage extends JView
 		// parameters
 		$db			=& JFactory::getDBO();
 		$document	=& JFactory::getDocument();
-		$limit		= '10';
+		$params =& $mainframe->getPageParameters();
 		$document->link = JURI::base().JRoute::_('index.php?option=com_content&view=frontpage');
 
-		JRequest::setVar('limit', $limit);
-		$rows = $this->get('data');
-
+		// Get some data from the model
+		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
+		$rows 		= & $this->get( 'Data' );
 		foreach ( $rows as $row )
 		{
 			// strip html from feed item title
@@ -51,7 +51,7 @@ class ContentViewFrontpage extends JView
 			$link = ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid);
 
 			// strip html from feed item description text
-			$description	= ($mainframe->getCfg('feed_summary') ? $row->introtext : $row->introtext.$row->fulltext);
+			$description	= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
 			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
 			@$date			= ( $row->created ? date( 'r', strtotime($row->created) ) : '' );
 

@@ -29,13 +29,13 @@ class WeblinksViewCategory extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
+		global $mainframe;
 
 		$document =& JFactory::getDocument();
 
 		$document->link = JRoute::_('index.php?option=com_weblinks&view=category&id='.JRequest::getVar('id',null, '', 'int'));
-		$limit = '10';
-		JRequest::setVar('limit', $limit);
+
+		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
 
 		// Get some data from the model
 		$items		=& $this->get( 'data' );
