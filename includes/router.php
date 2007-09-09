@@ -238,7 +238,6 @@ class JRouterSite extends JRouter
 
 		// Unset unneeded query information
 		unset($query['option']);
-		unset($query['Itemid']);
 		
 		// Use the custom request handler if it exists
 		if (file_exists($path) && !empty($query))
@@ -253,6 +252,9 @@ class JRouterSite extends JRouter
 			$result  = implode('/', $parts);
 			$route  .= ($result != "") ? '/'.$result : null;
 		}
+		
+		// Unset unneeded query information
+		unset($query['Itemid']);
 		
 		//Set query again in the URI
 		$uri->setQuery($query);

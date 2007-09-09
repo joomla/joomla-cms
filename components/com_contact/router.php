@@ -15,13 +15,20 @@ function ContactBuildRoute(&$query)
 {
 	$segments = array();
 
+	if(isset($query['view'])) 
+	{
+		if(!isset($query['Itemid'])) {
+			$segments[] = $query['view'];
+		} 
+		
+		unset($query['view']);
+	};
+	
 	if(isset($query['id']))
 	{
 		$segments[] = $query['id'];
 		unset($query['id']);
 	};
-
-	unset($query['view']);
 
 	return $segments;
 }
@@ -36,6 +43,14 @@ function ContactParseRoute($segments)
 
 	// Count route segments
 	$count = count($segments);
+	
+	//Standard routing for articles
+	if(!isset($item)) 
+	{
+		$vars['view']  = $segments[$count - 2];;
+		$vars['id']    = $segments[$count - 1];
+		return $vars;
+	}
 
 	//Handle View and Identifier
 	switch($item->query['view'])

@@ -15,6 +15,15 @@ function ContentBuildRoute(&$query)
 {
 	$segments = array();
 	
+	if(isset($query['view'])) 
+	{
+		if(!isset($query['Itemid'])) {
+			$segments[] = $query['view'];
+		} 
+		
+		unset($query['view']);
+	};
+	
 	if(isset($query['catid'])) {
 		$segments[] = $query['catid'];
 		unset($query['catid']);
@@ -35,11 +44,12 @@ function ContentBuildRoute(&$query)
 		unset($query['month']);
 	};
 	
-	if(isset($query['layout'])) {
-		unset($query['layout']);
+	if(isset($query['layout'])) 
+	{	
+		if(isset($query['Itemid'])) {
+			unset($query['layout']);
+		}
 	};
-
-	unset($query['view']);
 	
 	return $segments;
 }
@@ -51,9 +61,17 @@ function ContentParseRoute($segments)
 	//Get the active menu item
 	$menu =& JSite::getMenu();
 	$item =& $menu->getActive();
-
+	
 	// Count route segments
 	$count = count($segments);
+	
+	//Standard routing for articles
+	if(!isset($item)) 
+	{
+		$vars['view']  = $segments[$count - 2];;
+		$vars['id']    = $segments[$count - 1];
+		return $vars;
+	}
 
 	//Handle View and Identifier
 	switch($item->query['view'])
