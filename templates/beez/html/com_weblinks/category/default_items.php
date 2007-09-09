@@ -1,12 +1,8 @@
-<?php
-/**
- * @version $Id$
- */
+<?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
 ?>
 
 <script type="text/javascript">
-//<![CDATA[
 	function tableOrdering(order, dir, task) {
 		var form = document.adminForm;
 
@@ -14,7 +10,6 @@ defined('_JEXEC') or die('Restricted access');
 		form.filter_order_Dir.value = dir;
 		document.adminForm.submit(task);
 	}
-//]]>
 </script>
 
 <div class="display">

@@ -1,11 +1,8 @@
-<?php
-/**
- * @version $Id$
- */
-
+<?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
+?>
 
-if (count($list) == 1) :
+<?php if (count($list) == 1) :
 	$item = $list[0];
 	modNewsFlashHelper::renderItem($item, $params, $access);
 elseif (count($list) > 1) : ?>

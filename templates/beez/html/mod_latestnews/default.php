@@ -1,10 +1,8 @@
-<?php
-/**
- * @version $Id$
- */
+<?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
+?>
 
-if (count($list)) : ?>
+<?php if (count($list)) : ?>
 <ul class="latestnews<?php echo $params->get('pageclass_sfx'); ?>">
 	<?php foreach ($list as $item) : ?>
 	<li class="latestnews<?php echo $params->get('pageclass_sfx'); ?>">

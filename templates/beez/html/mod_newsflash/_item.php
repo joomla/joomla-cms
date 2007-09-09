@@ -1,11 +1,8 @@
-<?php
-/**
- * @version $Id$
- */
-
+<?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
+?>
 
-if ($params->get('item_title')) : ?>
+<?php if ($params->get('item_title')) : ?>
 <h4>
 	<?php if ($params->get('link_titles') && $linkOn != '') : ?>
 	<a href="<?php echo JRoute::_($linkOn); ?>" class="contentpagetitle<?php echo $params->get('moduleclass_sfx'); ?>">

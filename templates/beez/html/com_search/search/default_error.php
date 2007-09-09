@@ -1,4 +1,6 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php // @version $Id$
+defined('_JEXEC') or die('Restricted access');
+?>
 
 <h2 class="error<?php $this->params->get( 'pageclass_sfx' ) ?>">
 	<?php echo JText::_('Error') ?>

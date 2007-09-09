@@ -1,4 +1,7 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php // @version $Id$
+defined('_JEXEC') or die('Restricted access');
+?>
+
 <form action="<?php echo JRoute::_( 'index.php?option=com_search#content' ) ?>" method="post" class="search_result<?php echo $this->params->get('pageclass_sfx') ?>">
 <a name="form1"></a>
 <h3><?php echo JText::_('search_again'); ?></h3>

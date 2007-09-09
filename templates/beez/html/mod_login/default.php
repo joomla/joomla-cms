@@ -1,10 +1,8 @@
-<?php
-/**
- * @version $Id$
- */
-
+<?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
+?>
 
+<?php 
 $return = base64_encode(base64_decode($return).'#content');
 
 if ($type == 'logout') : ?>

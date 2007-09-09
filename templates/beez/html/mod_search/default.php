@@ -1,4 +1,7 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php
+// @version $Id$
+defined('_JEXEC') or die('Restricted access'); 
+?>
 
 <form action="index.php"  method="post" class="search<?php echo $params->get('moduleclass_sfx'); ?>">
 	<label for="mod_search_searchword">	

@@ -1,4 +1,6 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php // @version $Id$
+defined('_JEXEC') or die('Restricted access');
+?>
 
 <?php if (!empty($this->searchword)) : ?>
 <div class="searchintro<?php echo $this->params->get('pageclass_sfx') ?>">

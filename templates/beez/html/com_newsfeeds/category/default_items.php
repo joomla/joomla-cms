@@ -1,9 +1,5 @@
-<?php
-/**
- * @version $Id$
- */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
+<?php // @version $Id$
+defined('_JEXEC') or die('Restricted access');
 ?>
 
 <?php if ( $this->params->get( 'show_limit' ) ) : ?>

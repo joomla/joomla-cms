@@ -1,13 +1,9 @@
-<?php
-/**
- * @version $Id$
- */
+<?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
 ?>
 
 <script type="text/javascript">
 function submitbutton(pressbutton)
-//<![CDATA[
 {
 	var form = document.adminForm;
 	if (pressbutton == 'cancel') {
@@ -26,7 +22,6 @@ function submitbutton(pressbutton)
 		submitform( pressbutton );
 	}
 }
-//]]>
 </script>
 
 <form action="<?php JRoute::_('index.php') ?>" method="post" name="adminForm" id="adminForm">

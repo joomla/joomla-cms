@@ -1,4 +1,6 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php // @version $Id$
+defined('_JEXEC') or die('Restricted access');
+?>
 
 <?php if($this->params->get('show_page_title')) : ?>
 <h2 class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">

@@ -1,7 +1,4 @@
-<?php
-/**
- * @version $Id$
- */
+<?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
 ?>
 
