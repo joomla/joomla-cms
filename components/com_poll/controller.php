@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: poll.php 7692 2007-06-08 20:41:29Z tcp $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Polls
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -15,9 +15,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
-
 jimport('joomla.application.component.controller');
 
 /**
@@ -31,112 +28,15 @@ jimport('joomla.application.component.controller');
  */
 class PollController extends JController
 {
+	/**
+	 * Method to show the search view
+	 *
+	 * @access	public
+	 * @since	1.5
+	 */
 	function display()
 	{
-		global $mainframe;
-
-		$db 	  =& JFactory::getDBO();
-		$document =& JFactory::getDocument();
-		$pathway  =& $mainframe->getPathway();
-
-		$poll_id = JRequest::getVar( 'id', 0, '', 'int' );
-
-		$poll =& JTable::getInstance('poll', 'Table');
-		$poll->load( $poll_id );
-
-		// if id value is passed and poll not published then exit
-		if ($poll->id > 0 && $poll->published != 1) {
-			JError::raiseError( 403, JText::_('Access Forbidden') );
-			return;
-		}
-
-		// Adds parameter handling
-		$menu   =& JSite::getMenu();
-		$item   = $menu->getActive();
-		$params = $mainframe->getPageParameters();
-
-		//Set page title information
-		$document->setTitle($poll->title);
-
-		//Set pathway information
-		$pathway->addItem($poll->title, '');
-
-		$params->def( 'show_page_title', 1 );
-		$params->def( 'page_title', $poll->title );
-
-		$first_vote = '';
-		$last_vote 	= '';
-		$votes		= '';
-
-		// Check if there is a poll corresponding to id and if poll is published
-		if ($poll->id > 0)
-		{
-			if (empty( $poll->title )) {
-				$poll->id = 0;
-				$poll->title = JText::_( 'Select Poll from the list' );
-			}
-
-			$query = 'SELECT MIN( date ) AS mindate, MAX( date ) AS maxdate'
-				. ' FROM #__poll_date'
-				. ' WHERE poll_id = '. (int) $poll->id;
-			$db->setQuery( $query );
-			$dates = $db->loadObject();
-
-			if (isset( $dates->mindate )) {
-				$first_vote = JHTML::_('date',  $dates->mindate, JText::_('DATE_FORMAT_LC2') );
-				$last_vote 	= JHTML::_('date',  $dates->maxdate, JText::_('DATE_FORMAT_LC2') );
-			}
-
-			$query = 'SELECT a.id, a.text, a.hits, b.voters '
-				. ' FROM #__poll_data AS a'
-				. ' INNER JOIN #__polls AS b ON b.id = a.pollid'
-				. ' WHERE a.pollid = '. (int) $poll->id
-				. ' AND a.text <> ""'
-				. ' ORDER BY a.hits DESC';
-			$db->setQuery( $query );
-			$votes = $db->loadObjectList();
-		} else {
-			$votes = array();
-		}
-
-		// list of polls for dropdown selection
-		$query = 'SELECT id, title'
-			. ' FROM #__polls'
-			. ' WHERE published = 1'
-			. ' ORDER BY id'
-		;
-		$db->setQuery( $query );
-		$pList = $db->loadObjectList();
-
-		foreach ($pList as $k=>$p)
-		{
-			$pList[$k]->url = JRoute::_('index.php?option=com_poll&id='.$p->id);
-		}
-
-		array_unshift( $pList, JHTML::_('select.option',  '', JText::_( 'Select Poll from the list' ), 'url', 'title' ));
-
-		// dropdown output
-		$lists = array();
-
-		$lists['polls'] = JHTML::_('select.genericlist',   $pList, 'id',
-			'class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=this.options[selectedIndex].value}"',
- 			'url', 'title',
- 			JRoute::_('index.php?option=com_poll&id='.$poll_id)
- 			);
-
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'poll'.DS.'view.php');
-		$view = new PollViewPoll();
-
-		$view->assign('first_vote',	$first_vote);
-		$view->assign('last_vote',	$last_vote);
-
-		$view->assignRef('lists',	$lists);
-		$view->assignRef('params',	$params);
-		//$view->assignRef('data',	$data);
-		$view->assignRef('poll',	$poll);
-		$view->assignRef('votes',	$votes);
-
-		$view->display();
+		parent::display();
 	}
 
 	/**
@@ -183,9 +83,17 @@ class PollController extends JController
 
 		require_once(JPATH_COMPONENT.DS.'models'.DS.'poll.php');
 		$model = new PollModelPoll();
-		$model->addVote( $poll_id, $option_id );
+		$model->vote( $poll_id, $option_id );
+		
+		// set Itemid id for links
+		$menu = &JSite::getMenu();
+		$items	= $menu->getItems('link', 'index.php?option=com_poll&view=poll');
 
-		$this->setRedirect( JRoute::_('index.php?option=com_poll&id='. $poll_id.':'.$post->alias, false), JText::_( 'Thanks for your vote!' ) );
+		if(isset($items[0])) {
+			$itemid = $items[0]->id;
+		}
+
+		$this->setRedirect( JRoute::_('index.php?option=com_poll&id='. $poll_id.':'.$poll->alias.'&Itemid='.$itemid, false), JText::_( 'Thanks for your vote!' ) );
 	}
 }
 ?>

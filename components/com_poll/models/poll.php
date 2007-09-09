@@ -28,7 +28,7 @@ class PollModelPoll extends JModel
 	 * @param int The id of the poll
 	 * @param int The id of the option selected
 	 */
-	function addVote( $poll_id, $option_id )
+	function vote( $poll_id, $option_id )
 	{
 		$db = $this->getDBO();
 		$poll_id	= (int) $poll_id;
