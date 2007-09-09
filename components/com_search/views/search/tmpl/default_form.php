@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<form action="<?php echo JRoute::_( 'index.php?option=com_search' );?>" method="post" name="searchForm">
+<form id="searchForm" action="<?php echo JRoute::_( 'index.php?option=com_search' );?>" method="post" name="searchForm">
 	<table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<tr>
 			<td nowrap="nowrap">
@@ -45,6 +45,7 @@
 	<table class="searchintro<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<tr>
 		<td colspan="3" >
+			<br />
 			<?php echo JText::_( 'Search Keyword' ) .' <b>'. $this->escape($this->searchword) .'</b>'; ?>
 		</td>
 	</tr>

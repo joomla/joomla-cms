@@ -37,6 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Sep-2007 Andy Miller
+ # Centered Banner image in milkyway
+ # Fixed path alignment in milkyway
+ # Fixed some extraneous spaces in Search component
+ # Other minor CSS fixes for milkyway
+ # Stripped RTL CSS file to just overrides
+ # Moved System Message into main body area of milkyway
+
 08-Sep-2007 Toby Patterzone
  # Fixed [PATCH] Legacy module rendering
 
