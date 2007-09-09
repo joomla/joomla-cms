@@ -61,16 +61,11 @@ class JConfig {
 	var $ftp_enable = '';
 	var $tmp_path	= '/tmp';
 	var $log_path	= '/var/logs';
+	var $offset = '0';
 	
 	/* Session settings */
 	var $lifetime = '15';					// Session time
 	var $session_handler = 'database';
-
-	/* Locale Settings */
-	var $language = 'en-GB';
-	var $lang = 'english';					// Site language
-	var $offset = '0';
-	var $offset_user = '0';
 
 	/* Mail Settings */
 	var $mailer = 'mail';
