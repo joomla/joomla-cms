@@ -1,15 +1,9 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<script type = "text/javascript">
-<!--
-	var link = document.createElement('link');
-	link.setAttribute('href', 'components/com_poll/assets/poll_bars.css');
-	link.setAttribute('rel', 'stylesheet');
-	link.setAttribute('type', 'text/css');
-	var head = document.getElementsByTagName('head').item(0);
-	head.appendChild(link);
-//-->
-</script>
+defined('_JEXEC') or die('Restricted access'); 
+?>
+
+<?php JHTML::_('stylesheet', 'poll_bars', 'components/com_poll/assets/'); ?>
+
 <form action="index.php" method="post" name="poll" id="poll">
 <?php if ($this->params->get( 'show_page_title')) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ) ?>">
