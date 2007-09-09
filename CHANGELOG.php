@@ -37,7 +37,7 @@ Legend:
 - -> Removed
 ! -> Note
 
-08-Sep-2007 Andy Miller
+09-Sep-2007 Andy Miller
  # Centered Banner image in milkyway
  # Fixed path alignment in milkyway
  # Fixed some extraneous spaces in Search component
