@@ -1,11 +1,11 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
 
-// temporary fix
+// temp fix
 $hlevel = 2;
 $image = 'templates/' . $mainframe->getTemplate() . '/images/trans.gif';
 
-if ($this->user->authorize('com_content', 'edit', 'content', 'all')) {
+if ($this->user->authorize('com_content', 'edit', 'content', 'all') ) {
 	echo '<div class="contentpaneopen_edit' . $this->params->get('pageclass_sfx') . '" style="float: left;">';
 	echo JHTML::_('icon.edit', $this->item, $this->params, $this->access);
 	echo '</div>';
@@ -14,7 +14,7 @@ if ($this->user->authorize('com_content', 'edit', 'content', 'all')) {
 if ($this->params->get('show_title')) {
 	echo '<h' . $hlevel . ' class="contentheading' . $this->params->get('pageclass_sfx') . '">';
 	if ($this->params->get('link_titles') && $this->item->readmore_link != '') {
-		echo '<a href="' . $this->item->readmore_link . '" class="contentpagetitle' . $this->params->get('pageclass_sfx') . '">';
+		echo '<a href="' .$this->item->readmore_link. '" class="contentpagetitle' . $this->params->get('pageclass_sfx') . '">';
 		echo $this->item->title;
 		echo '</a>';
 	} else {
@@ -98,14 +98,8 @@ echo JFilterOutput::ampReplace($this->item->text);
 
 if ($this->params->get('show_readmore') && $this->item->readmore_text && $this->item->readmore) {
 	echo '<p><a href="' . $this->item->readmore_link . '" class="readon' . $this->params->get('pageclass_sfx') . '">';
-	$alias = JFilterOutput :: stringURLSafe($this->item->title);
-	if ($this->item->title_alias != '' && $this->item->title_alias == $alias) {
-		echo $this->item->title_alias;
-	} else {
-		echo $this->item->readmore_text;
-	}
+	echo $this->item->readmore_text;
 	echo '</a></p>';
 }
 
 echo $this->item->event->afterDisplayContent;
-?>

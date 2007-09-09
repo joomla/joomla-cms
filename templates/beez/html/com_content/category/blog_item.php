@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die('Restricted access');
 
-// temporary fix
+// temp fix
 $hlevel = 2;
 $image = 'templates/' . $mainframe->getTemplate() . '/images/trans.gif';
 
@@ -41,6 +41,7 @@ if ($this->params->get('show_pdf_icon') || $this->params->get('show_print_icon')
 	}
 	echo '</p>';
 }
+
 if (($this->params->get('show_section') && $this->item->sectionid) || ($this->params->get('show_category') && $this->item->catid)) {
 	echo '<p class="pageinfo">';
 	if ($this->params->get('show_section') && $this->item->sectionid) {
@@ -85,7 +86,7 @@ echo $this->item->event->beforeDisplayContent;
 
 if ($this->params->get('show_url') && $this->item->urls) {
 	echo '<span class="small">';
-	echo '<a href="' . $this->item->urls . '" target="_blank">';
+	echo '<a href="' .$this->item->urls. '" target="_blank">';
 	echo $this->item->urls . '</a></span>';
 }
 
@@ -97,15 +98,8 @@ echo JFilterOutput::ampReplace($this->item->text);
 
 if ($this->params->get('show_readmore') && $this->item->readmore_text && $this->item->readmore) {
 	echo '<p><a href="' . $this->item->readmore_link . '" class="readon' . $this->params->get('pageclass_sfx') . '">';
-	$alias = JFilterOutput :: stringURLSafe($this->item->title);
-	if ($this->item->title_alias == $alias || $this->item->title_alias == '') {
-		echo $this->item->readmore_text;
-	} else {
-		echo $this->item->title_alias;
-	}
-	echo '</a>';
-	echo '</p>';
+	echo $this->item->readmore_text;
+	echo '</a></p>';
 }
 
 echo $this->item->event->afterDisplayContent;
-?>
