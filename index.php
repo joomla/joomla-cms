@@ -71,6 +71,8 @@ $mainframe->dispatch($option);
 JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
 $mainframe->triggerEvent('onAfterDispatch');
 
+echo JRoute::_( 'index.php?option=com_hello&view=hello&layout=default&Itemid=2&rg=hello, there&test=test', false );
+
 /**
  * RENDER  THE APPLICATION
  *

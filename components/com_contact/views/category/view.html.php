@@ -62,7 +62,7 @@ class ContactViewCategory extends JView
 		//add alternate feed link
 		if($pparams->get('show_feed_link', 1) == 1)
 		{
-			$link	= 'index.php?option=com_contact&view=category&format=feed&id='.$categoryId;
+			$link	= '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 			$document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
