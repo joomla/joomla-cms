@@ -259,7 +259,7 @@ class JRouterSite extends JRouter
 			$parts = $this->_encodeSegments($parts);
 
 			$result  = implode('/', $parts);
-			$route  .= ($result) ? '/'.$result : null;
+			$route  .= ($result != "") ? '/'.$result : null;
 		}
 		
 		//Set query again in the URI
