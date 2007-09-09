@@ -70,9 +70,10 @@ class JMenuSite extends JMenu
 			//Create route
 			$route = $parent_route.$menus[$key]->alias;
 			$menus[$key]->route  = $route;
-
-			$url = JURI::getInstance($menus[$key]->link);
-			$menus[$key]->query = $url->getQuery(true);
+			
+			//Create the query array
+			$url = str_replace('index.php?', '', $menus[$key]->link);
+			parse_str($url, $menus[$key]->query);
 		}
 
 		return $menus;
