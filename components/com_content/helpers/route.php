@@ -33,88 +33,82 @@ class ContentHelperRoute
 	 */
 	function getArticleRoute($id, $catid = 0, $sectionid = 0)
 	{
-		$parts = array((int) $sectionid => 'section', (int) $catid => 'category', (int) $id => 'article');
-
+		$needles = array(
+			'article'  => (int) $id,
+			'category' => (int) $catid, 
+			'section'  => (int) $sectionid, 
+		);
+		
+		$item = ContentHelperRoute::_findItem($needles);
+		
+		//Create the link
 		$link = 'index.php?option=com_content&view=article&catid='.$catid.'&id='. $id;
+		
+		if($item = ContentHelperRoute::_findItem($needles)) {
+			$link .= '&Itemid='.$item->id;
+		};
 
-		return JRoute::_( ContentHelperRoute::_checkMenuItems($link, $parts) );
+		return JRoute::_( $link );
 	}
 
 	function getSectionRoute($sectionid)
 	{
-		$parts = array((int) $sectionid => 'section');
-
+		$needles = array(
+			'section' => (int) $sectionid
+		);
+		
+		$item = ContentHelperRoute::_findItem($needles);
+		
+		//Create the link
 		$link = 'index.php?option=com_content&view=section&id='.$sectionid;
-
-		return JRoute::_( ContentHelperRoute::_checkMenuItems($link, $parts) );
+		
+		if($item = ContentHelperRoute::_findItem($needles)) {
+			$link .= '&Itemid='.$item->id;
+		};
+	
+		return JRoute::_( $link );
 	}
 
 	function getCategoryRoute($catid, $sectionid)
 	{
-		$parts = array((int) $sectionid => 'section', (int) $catid => 'category');
+		$needles = array(
+			'category' => (int) $catid,
+			'section'  => (int) $sectionid
+		);
+		
+		//Create the link
+		$item = ContentHelperRoute::_findItem($needles);
 
 		$link = 'index.php?option=com_content&view=category&id='.$catid;
-
-		return JRoute::_( ContentHelperRoute::_checkMenuItems($link, $parts) );
+		
+		return JRoute::_( $link );
 	}
 
-	function _checkMenuItems($link, $parts)
+	function _findItem($needles)
 	{
-		$items = ContentHelperRoute::_getComponentMenuItems('com_content');
+		$component =& JComponentHelper::getComponent('com_content');
 
-		foreach($parts as $id => $part)
+		$menus	=& JSite::getMenu();
+		$items	= $menus->getItems('componentid', $component->id);
+		
+		$match = null;
+
+		foreach($needles as $needle => $id)
 		{
-			if(isset($items[$part]))
+			foreach($items as $item)
 			{
-				foreach($items[$part] as $item)
-				{
-					if (($item->published) && (@$item->link_parts['id'] == $id)) {
-						$match = $item;
-						break;
-					}
+				if ((@$item->query['view'] == $needle) && (@$item->query['id'] == $id)) {
+					$match = $item;
+					break;
 				}
 			}
-			if(isset($match))
-			{
+			
+			if(isset($match)) {
 				break;
 			}
 		}
 		
-		if(isset($match))
-		{
-			if(isset($item->link_parts['layout']))
-			{
-				$link .= '&layout='.$item->link_parts['layout'];
-			}
-			$link .= '&Itemid='. $item->id;
-		}
-			
-		return $link;
-	}
-
-	function & _getComponentMenuItems($component)
-	{
-		static $items;
-
-		if(!$items)
-		{
-			$comp	=& JComponentHelper::getComponent($component);
-
-			$menus		=& JSite::getMenu();
-			$menuitems		= $menus->getItems('componentid', $comp->id);
-
-			foreach($menuitems as $menuitem)
-			{
-				$url = str_replace('index.php?', '', $menuitem->link);
-				$url = str_replace('&amp;', '&', $url);
-				$parts = null;
-				parse_str($url, $parts);
-				$menuitem->link_parts = $parts;
-
-				$items[$menuitem->link_parts['view']][] = $menuitem;
-			} 
-		}
-		return $items;
+		return $match;
 	}
 }
 ?>
