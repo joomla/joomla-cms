@@ -6,19 +6,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 </div>
 <?php endif; ?>
 <table class="blog<?php echo $this->params->get('pageclass_sfx') ?>" cellpadding="0" cellspacing="0">
-<?php if (isset($this->frontpage->description)) : ?>
-<tr>
-	<td valign="top">
-	<?php if ($this->params->get('show_description_image') && $this->frontpage->description->image) : ?>
-		<img src="<?php echo $this->frontpage->description->link ?>" align="<?php echo $this->frontpage->description->image_position ?>" hspace="6" alt="" />
-	<?php endif; ?>
-	<?php if ($this->params->get('show_description') && $this->frontpage->description->text) : ?>
-		<?php echo $this->frontpage->description->text; ?>
-	<?php endif; ?>
-	<br/><br/>
-	</td>
-</tr>
-<?php endif; ?>
 <?php if ($this->params->def('num_leading_articles', 1)) : ?>
 <tr>
 	<td valign="top">

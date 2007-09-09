@@ -82,37 +82,6 @@ class ContentViewFrontpage extends ContentView
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
 
-		// Set section/category description text and images for
-		//TODO :: Fix this !
-		$frontpage = new stdClass();
-		if ($menu && $menu->componentid && ($descrip || $descrip_image))
-		{
-			switch ($menu->type)
-			{
-				case 'content_blog_section' :
-					$section = & JTable::getInstance('section');
-					$section->load($menu->componentid);
-
-					$description = new stdClass();
-					$description->text = $section->description;
-					$description->link = 'images/stories/'.$section->image;
-
-					$frontpage->description = $description;
-					break;
-
-				case 'content_blog_category' :
-					$category = & JTable::getInstance('category');
-					$category->load($menu->componentid);
-
-					$description = new stdClass();
-					$description->text = $category->description;
-					$description->link = 'images/stories/'.$description->image;
-
-					$frontpage->description = $description;
-					break;
-			}
-		}
-
 		$document = &JFactory::getDocument();
 		$document->setTitle($title);
 

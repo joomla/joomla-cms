@@ -9,15 +9,6 @@
 		<name>Frontpage Blog Layout</name>
 		<description>FRONTPAGE BLOG LAYOUT DESC</description>
 		<params>
-	 		<param name="show_description" type="radio" default="0" label="Description" description="Show/Hide the Category Description">
-	 			<option value="0">Hide</option>
-	 			<option value="1">Show</option>
-	 		</param>
-			<param name="show_description_image" type="radio" default="0" label="Description Image" description="Show/Hide the Category Description">
-	 			<option value="0">Hide</option>
-	 			<option value="1">Show</option>
-	 		</param>
-			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="num_leading_articles" type="text" size="3" default="1" label="Num Leading" description="PARAMLEADING" />
 			<param name="num_intro_articles" type="text" size="3" default="4" label="Num Intro" description="PARAMINTRO" />
 			<param name="num_columns" type="text" size="3" default="2" label="Columns" description="PARAMCOLUMNS" />
