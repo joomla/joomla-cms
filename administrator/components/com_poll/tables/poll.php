@@ -28,15 +28,15 @@ class TablePoll extends JTable
 	/** @var string */
 	var $alias				= '';
 	/** @var string */
-	var $checked_out			= 0;
+	var $checked_out		= 0;
 	/** @var time */
-	var $checked_out_time		= 0;
+	var $checked_out_time	= 0;
 	/** @var boolean */
 	var $published			= 0;
 	/** @var int */
 	var $access				= 0;
 	/** @var int */
-	var $lag					= 0;
+	var $lag				= 0;
 
 	/**
 	* @param database A database connector object
@@ -115,7 +115,8 @@ class TablePoll extends JTable
 			$this->$k = intval( $oid );
 		}
 
-		if ( parent::delete( $oid )) {
+		if ( parent::delete( $oid )) 
+		{
 			$query = 'DELETE FROM #__poll_data'
 			. ' WHERE pollid = '.(int) $this->$k
 			;
@@ -141,9 +142,9 @@ class TablePoll extends JTable
 			}
 
 			return true;
-		} else {
-			return false;
-		}
+		} 
+		
+		return false;
 	}
 }
 ?>

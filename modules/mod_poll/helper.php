@@ -16,29 +16,24 @@ defined('_JEXEC') or die('Restricted access');
 
 class modPollHelper
 {
-	function getList(&$params)
+	function getPoll($id)
 	{
-		global $mainframe;
-
 		$db		=& JFactory::getDBO();
-		$result	= array();
+		$result	= null;
 
-		if ($id = $params->get( 'id', 0 ))
-		{
-			$query = 'SELECT id, title,'
+		$query = 'SELECT id, title,'
 			.' CASE WHEN CHAR_LENGTH(alias) THEN CONCAT_WS(\':\', id, alias) ELSE id END as slug '
 			.' FROM #__polls'
 			.' WHERE id = '.(int) $id
 			.' AND published = 1'
 			;
-			$db->setQuery($query);
-			$result = $db->loadObjectList();
+		$db->setQuery($query);
+		$result = $db->loadObject();
 
-			if ($db->getErrorNum()) {
-				JError::raiseWarning( 500, $db->stderr(true) );
-			}
+		if ($db->getErrorNum()) {
+			JError::raiseWarning( 500, $db->stderr(true) );
 		}
-
+	
 		return $result;
 	}
 

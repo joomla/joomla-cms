@@ -20,22 +20,16 @@ require_once (dirname(__FILE__).DS.'helper.php');
 $tabclass_arr = array ('sectiontableentry2', 'sectiontableentry1');
 
 $menu 	= &JSite::getMenu();
-$items	= $menu->getItems('link', 'index.php?option=com_poll');
-$itemid = isset($items[0]) ? $items[0]->id : '0';
+$items	= $menu->getItems('link', 'index.php?option=com_poll&view=poll');
+$itemid = isset($items[0]) ? '&Itemid='.$items[0]->id : '';
 
-$list   = modPollHelper::getList($params);
+$poll   = modPollHelper::getPoll($params->get( 'id', 0 ));
 $layout = JModuleHelper::getLayoutPath('mod_poll');
 
-foreach ($list as $item)
-{
-	$tabcnt 	= 0;
+$tabcnt 	= 0;
 
-	$cookieName = JUtility::getHash($mainframe->getName().'poll'.$item->id);
-	$voted = JRequest::getInt($cookieName, '0', 'COOKIE');
-
-	if ($item->id && $item->title)  {
-		$options = modPollHelper::getPollOptions($item->id);
-	}
-
-	require($layout);
+if ($poll->id)  {
+	$options = modPollHelper::getPollOptions($poll->id);
 }
+
+require($layout);

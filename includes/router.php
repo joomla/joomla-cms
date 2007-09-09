@@ -196,7 +196,7 @@ class JRouterSite extends JRouter
 	
 	function _buildRawRoute(&$uri)
 	{
-		$route = ''; //the route created
+		$route = 'index.php'; //the route created
 		
 		if($uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
 		{
