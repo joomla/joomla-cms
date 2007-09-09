@@ -50,7 +50,6 @@ class JConfig {
 	/* Server Settings */
 	var $secret = 'FBVtggIk5lAzEU9H'; 		//Change this to something more secure
 	var $gzip = '0';
-	var $lifetime = '900';					// Session time
 	var $error_reporting = '-1';
 	var $helpurl = 'http://help.joomla.org';
 	var $xmlrpc_server = '1';
@@ -62,6 +61,10 @@ class JConfig {
 	var $ftp_enable = '';
 	var $tmp_path	= '/tmp';
 	var $log_path	= '/var/logs';
+	
+	/* Session settings */
+	var $lifetime = '15';					// Session time
+	var $session_handler = 'database';
 
 	/* Locale Settings */
 	var $language = 'en-GB';
@@ -101,6 +104,5 @@ class JConfig {
 
 	/* Feed Settings */
 	var $feed_limit   = 10;
-	var $feed_summary = 0;
 }
 ?>
