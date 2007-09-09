@@ -33,66 +33,35 @@ class ContentHelperRoute
 	 */
 	function getArticleRoute($id, $catid = 0, $sectionid = 0)
 	{
-		$items = ContentHelperRoute::_getComponentMenuItems('com_content');
-
 		$parts = array((int) $sectionid => 'section', (int) $catid => 'category', (int) $id => 'article');
-
-		$item = ContentHelperRoute::_checkMenuItems($items, $parts);
 
 		$link = 'index.php?option=com_content&view=article&catid='.$catid.'&id='. $id;
 
-		if(isset($item))
-		{
-			$link .= '&Itemid='. $item->id;
-		}
-		return JRoute::_( $link );
+		return JRoute::_( ContentHelperRoute::_checkMenuItems($link, $parts) );
 	}
 
 	function getSectionRoute($sectionid)
 	{
-		$items = ContentHelperRoute::_getComponentMenuItems('com_content');
-
 		$parts = array((int) $sectionid => 'section');
-
-		$item = ContentHelperRoute::_checkMenuItems($items, $parts);
 
 		$link = 'index.php?option=com_content&view=section&id='.$sectionid;
 
-		if(isset($item))
-		{
-			if(isset($item->link_parts['layout']))
-			{
-				$link .= '&layout='.$item->link_parts['layout'];
-			}
-			$link .= '&Itemid='. $item->id;
-		}
-
-		return JRoute::_( $link );
+		return JRoute::_( ContentHelperRoute::_checkMenuItems($link, $parts) );
 	}
 
 	function getCategoryRoute($catid, $sectionid)
 	{
-		$items = ContentHelperRoute::_getComponentMenuItems('com_content');
-
 		$parts = array((int) $sectionid => 'section', (int) $catid => 'category');
-
-		$item = ContentHelperRoute::_checkMenuItems($items, $parts);
 
 		$link = 'index.php?option=com_content&view=category&id='.$catid;
 
-		if(isset($item))
-		{
-			if(isset($item->link_parts['layout']))
-			{
-				$link .= '&layout='.$item->link_parts['layout'];
-			}
-			$link .= '&Itemid='. $item->id;
-		}
-		return JRoute::_( $link );
+		return JRoute::_( ContentHelperRoute::_checkMenuItems($link, $parts) );
 	}
 
-	function _checkMenuItems(& $items, $parts)
+	function _checkMenuItems($link, $parts)
 	{
+		$items = ContentHelperRoute::_getComponentMenuItems('com_content');
+
 		foreach($parts as $id => $part)
 		{
 			if(isset($items[$part]))
@@ -100,12 +69,27 @@ class ContentHelperRoute
 				foreach($items[$part] as $item)
 				{
 					if (($item->published) && (@$item->link_parts['id'] == $id)) {
-						return $item;
+						$match = $item;
+						break;
 					}
 				}
 			}
+			if(isset($match))
+			{
+				break;
+			}
+		}
+		
+		if(isset($match))
+		{
+			if(isset($item->link_parts['layout']))
+			{
+				$link .= '&layout='.$item->link_parts['layout'];
+			}
+			$link .= '&Itemid='. $item->id;
 		}
 			
+		return $link;
 	}
 
 	function & _getComponentMenuItems($component)
