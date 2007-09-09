@@ -147,7 +147,7 @@ class JRouter extends JObject
 		// Process the parsed variables based on custom defined rules
 		$this->_processParseRules();
 		
-		return $result;
+		return array_merge($this->getVars(), $result);
 	}
 	
 	/**

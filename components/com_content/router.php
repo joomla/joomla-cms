@@ -14,7 +14,7 @@
 function ContentBuildRoute(&$query)
 {
 	$segments = array();
-
+	
 	if(isset($query['catid'])) {
 		$segments[] = $query['catid'];
 		unset($query['catid']);
@@ -40,7 +40,7 @@ function ContentBuildRoute(&$query)
 	};
 
 	unset($query['view']);
-
+	
 	return $segments;
 }
 

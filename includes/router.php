@@ -53,30 +53,26 @@ class JRouterSite extends JRouter
 			// Set the active menu item
 			$menu->setActive($vars['Itemid']);
 			
-			// Set the variables
-			$this->setVars($vars);
-			return true;
+			return $vars;
 		} 
 		
 		//Get the variables from the request
-		$vars = JRequest::get('get');
+		$this->setVars(JRequest::get('get'));
 			
 		//Get the itemid, if it hasn't been set force it to null
-		$vars['Itemid'] = JRequest::getInt('Itemid', null);
+		$this->setVar('Itemid', JRequest::getInt('Itemid', null));
 			
 		//Only an Itemid ? Get the full information from the itemid
-		if(count($vars) == 1) 
+		if(count($this->getVars()) == 1) 
 		{
-			$item = $menu->getItem($vars['Itemid']);
+			$item = $menu->getItem($this->getVar('Itemid'));
 			$vars = $vars + $item->query;
 		}
 		
 		// Set the active menu item
-		$menu->setActive($vars['Itemid']);
+		$menu->setActive($this->getVar('Itemid'));
 		
-		// Set the variables
-		$this->setVars($vars);
-		return true;
+		return $vars;
 	}
 	
 	function _parseSefRoute(&$uri)
@@ -107,10 +103,7 @@ class JRouterSite extends JRouter
 			// Set the active menu item
 			$menu->setActive($vars['Itemid']);
 			
-			// Set the variables
-			$this->setVars($vars);
-			
-			return true;
+			return $vars;
 		} 
 		
 		//Get the variables from the request
@@ -178,6 +171,8 @@ class JRouterSite extends JRouter
 				require_once $path;
 				$function =  substr($component, 4).'ParseRoute';
 				$vars =  $function($segments);
+				
+				$this->setVars($vars);
 			}
 		}
 		else
@@ -188,10 +183,7 @@ class JRouterSite extends JRouter
 			}
 		}
 		
-		//Set the variables
-		$this->setVars($vars);
-
-		return true;
+		return $vars;
 	}
 	
 	function _buildRawRoute(&$uri)
@@ -221,7 +213,7 @@ class JRouterSite extends JRouter
 		
 		//Get the query data
 		$query = $uri->getQuery(true);
-
+		
 		/*
 		 * Built the application route
 		 */
@@ -244,20 +236,20 @@ class JRouterSite extends JRouter
 		// Use the component routing handler if it exists
 		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
 
+		// Unset unneeded query information
+		unset($query['option']);
+		unset($query['Itemid']);
+		
 		// Use the custom request handler if it exists
-		if (file_exists($path))
+		if (file_exists($path) && !empty($query))
 		{
-			// Unset unneeded query information
-			unset($query['option']);
-			unset($query['Itemid']);
-			
 			require_once $path;
 			$function	= substr($component, 4).'BuildRoute';
 			$parts		= $function($query);
 
 			//encode the route segments
 			$parts = $this->_encodeSegments($parts);
-
+			
 			$result  = implode('/', $parts);
 			$route  .= ($result != "") ? '/'.$result : null;
 		}

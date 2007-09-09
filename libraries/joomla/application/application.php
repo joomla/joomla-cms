@@ -188,11 +188,9 @@ class JApplication extends JObject
 		$uri  =& JURI::getInstance();
 
 		$router =& $this->getRouter();
-		if(!$router->parse($uri)) {
-			JError::raiseError( 404, JText::_('Unable to route request') );
-		}
-
-		JRequest::set($router->getVars(), 'get', false );
+		$result = $router->parse($uri);
+		
+		JRequest::set($result, 'get', false );
  	}
 
  	/**
