@@ -59,14 +59,14 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		$tagEnd		= ' />';
 		
+		$strHtml = '';
+		
 		// Generate base tag (need to happen first)
 		$base = $document->getBase();
 		if(!empty($base)) {
 			$strHtml .= $tab . '<base href="' . $document->getBase() . '" />' . $lnEnd;
 		}
-		
-		$strHtml = '';
-		
+			
 		// Generate META tags (needs to happen as early as possible in the head)
 		foreach ($document->_metaTags as $type => $tag)
 		{
