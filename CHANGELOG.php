@@ -37,6 +37,24 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Sep-2007 Hannes Papenberg
+ # [7012] Fixed markup of com_search (escaping was to rigorous)
+ # [7025] Fixed Section and Category links below Article titles
+ # [6985] Fixed Section links in mod_section
+ # Fixed links in com_search for com_content results (now routes to correct menu item)
+ # [7027] Fixed links for Articles on frontpage to route to correct Menuitem
+ # Fixed Blog views of com_content to calculate the items in leading, intro and links correctly, also columns
+ # [6860] Fixed pagination in com_content
+ # [6901] Fixed reference issues
+ # Fixed readmore in beez
+ # Fixed model of frontpage. Now it also shows uncategorized content
+ # Fixed submitting new articles from frontend
+ # Fixed login module. name of username field was missing
+ # Fixed feed settings in global configuration. feed_limit was moved below list_limit. feed_summary was moved to com_content preferences.
+ # Fixed breadcrumbs reference issue. Thanks jenscski
+ # Fixed inserting readmore in IE7 in tinymce
+ # Fixed extended_valid_elements in tinymce
+
 09-Sep-2007 Andy Miller
  # Centered Banner image in milkyway
  # Fixed path alignment in milkyway
