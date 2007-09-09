@@ -57,6 +57,14 @@ class JRouter extends JObject
 	var $_prefix = null;
 	
 	/**
+	 * An route suffix
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	var $_suffix = null;
+	
+	/**
 	 * Class constructor
 	 *
 	 * @access public
@@ -71,6 +79,10 @@ class JRouter extends JObject
 		
 		if(array_key_exists('prefix', $options)) {
 			$this->_prefix = $options['prefix'];
+		} 
+		
+		if(array_key_exists('suffix', $options)) {
+			$this->_suffix = $options['suffix'];
 		} 
 	}
 	
@@ -181,7 +193,7 @@ class JRouter extends JObject
 		$route = !empty($route) ? $route : ''; 
 		
 		//Create the route
-		$url = $this->_prefix.$route.$uri->toString(array('query', 'fragment'));
+		$url = $this->_prefix.$route.$this->_suffix.$uri->toString(array('query', 'fragment'));
 
 		return $url;
 	}

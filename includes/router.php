@@ -85,7 +85,7 @@ class JRouterSite extends JRouter
 		$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
 		$base = $uri->base();
 
-		$url = str_replace($base, '', $full);
+		$url = str_replace(array($base, $this->_suffix), '', $full);
 		$url = preg_replace('/index[\d]?.php/', '', $url);
 		$url = trim($url , '/');
 			
