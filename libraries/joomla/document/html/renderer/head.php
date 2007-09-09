@@ -58,17 +58,16 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$tab = $document->_getTab();
 
 		$tagEnd		= ' />';
-		$strHtml	= $tab . '<title>' . htmlspecialchars($document->getTitle()) . '</title>' . $lnEnd;
-
+		
+		// Generate base tag (need to happen first)
 		$base = $document->getBase();
 		if(!empty($base)) {
 			$strHtml .= $tab . '<base href="' . $document->getBase() . '" />' . $lnEnd;
 		}
-
-		$strHtml .= $tab . '<meta name="description" content="' . $document->getDescription() . '" />' . $lnEnd;
-		$strHtml .= $tab . '<meta name="generator" content="' . $document->getGenerator() . '" />' . $lnEnd;
-
-		// Generate META tags
+		
+		$strHtml = '';
+		
+		// Generate META tags (needs to happen as early as possible in the head)
 		foreach ($document->_metaTags as $type => $tag)
 		{
 			foreach ($tag as $name => $content)
@@ -80,6 +79,11 @@ class JDocumentRendererHead extends JDocumentRenderer
 				}
 			}
 		}
+		
+		$strHtml .= $tab . '<meta name="description" content="' . $document->getDescription() . '" />' . $lnEnd;
+		$strHtml .= $tab . '<meta name="generator" content="' . $document->getGenerator() . '" />' . $lnEnd;
+		
+		$strHtml .= $tab . '<title>' . htmlspecialchars($document->getTitle()) . '</title>' . $lnEnd;
 
 		// Generate link declarations
 		foreach ($document->_links as $link) {
