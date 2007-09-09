@@ -71,8 +71,6 @@ $mainframe->dispatch($option);
 JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
 $mainframe->triggerEvent('onAfterDispatch');
 
-echo JRoute::_( 'index.php?option=com_content&view=article&id=46&layout=blog' );
-
 /**
  * RENDER  THE APPLICATION
  *
