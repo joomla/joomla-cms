@@ -4,7 +4,7 @@
 
 html {
   height: 100%;
-  margin-bottom: 0px;
+  margin-bottom: 1px;
 }
 
 form {
@@ -303,6 +303,8 @@ td.pill_r {
 
 #maincolumn_full {
 	margin-left: 0;
+	padding: 0;	
+	width: 100%;
 }
 
 table.nopad {
