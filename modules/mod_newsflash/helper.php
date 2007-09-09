@@ -39,7 +39,7 @@ class modNewsFlashHelper
 			{
 				// Check to see if the user has access to view the full article
 				if ($item->access <= $user->get('aid', 0)) {
-					$linkOn = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
+					$linkOn = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
 				} else {
 					$linkOn = JRoute::_('index.php?option=com_user&task=register');
 				}

@@ -44,6 +44,8 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 
+	require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( plgSearchSectionAreas() ) )) {
 			return array();
@@ -94,7 +96,7 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 	$count = count( $rows );
 	for ( $i = 0; $i < $count; $i++ ) 
 	{
-		$rows[$i]->href 	= 'index.php?option=com_content&task=section&id='. $rows[$i]->secid;
+		$rows[$i]->href 	= ContentHelperRoute::getSectionRoute($rows[$i]->secid);
 		$rows[$i]->section 	= JText::_( 'Section' );
 	}
 

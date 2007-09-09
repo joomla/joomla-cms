@@ -38,9 +38,7 @@ class ContentHelperRoute
 			'category' => (int) $catid, 
 			'section'  => (int) $sectionid, 
 		);
-		
-		$item = ContentHelperRoute::_findItem($needles);
-		
+				
 		//Create the link
 		$link = 'index.php?option=com_content&view=article&catid='.$catid.'&id='. $id;
 		
@@ -48,7 +46,7 @@ class ContentHelperRoute
 			$link .= '&Itemid='.$item->id;
 		};
 
-		return JRoute::_( $link );
+		return $link;
 	}
 
 	function getSectionRoute($sectionid)
@@ -57,16 +55,17 @@ class ContentHelperRoute
 			'section' => (int) $sectionid
 		);
 		
-		$item = ContentHelperRoute::_findItem($needles);
-		
 		//Create the link
 		$link = 'index.php?option=com_content&view=section&id='.$sectionid;
 		
 		if($item = ContentHelperRoute::_findItem($needles)) {
+			if($item->query['layout']) {
+				$link .= '&layout='.$item->query['layout'];
+			}
 			$link .= '&Itemid='.$item->id;
 		};
 	
-		return JRoute::_( $link );
+		return $link;
 	}
 
 	function getCategoryRoute($catid, $sectionid)
@@ -75,13 +74,18 @@ class ContentHelperRoute
 			'category' => (int) $catid,
 			'section'  => (int) $sectionid
 		);
-		
-		//Create the link
-		$item = ContentHelperRoute::_findItem($needles);
 
+		//Create the link
 		$link = 'index.php?option=com_content&view=category&id='.$catid;
+
+		if($item = ContentHelperRoute::_findItem($needles)) {
+			if($item->query['layout']) {
+				$link .= '&layout='.$item->query['layout'];
+			}
+			$link .= '&Itemid='.$item->id;
+		};
 		
-		return JRoute::_( $link );
+		return $link;
 	}
 
 	function _findItem($needles)

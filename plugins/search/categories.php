@@ -45,6 +45,8 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 
+	require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( plgSearchCategoryAreas() ) )) {
 			return array();
@@ -97,7 +99,7 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 
 	$count = count( $rows );
 	for ( $i = 0; $i < $count; $i++ ) {
-		$rows[$i]->href = 'index.php?option=com_content&view=category&id='. $rows[$i]->catid;
+		$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug, $rows[$i]->secid);
 		$rows[$i]->section 	= JText::_( 'Category' );
 	}
 

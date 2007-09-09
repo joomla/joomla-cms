@@ -45,6 +45,8 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 
+	require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( plgSearchContentAreas() ) )) {
 			return array();
@@ -134,7 +136,9 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. ' a.created AS created,'
 		. ' CONCAT(a.introtext, a.`fulltext`) AS text,'
 		. ' CONCAT_WS( "/", u.title, b.title ) AS section,'
-		. ' CONCAT( "index.php?option=com_content&view=article&id=", a.id ) AS href,'
+		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
+		. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug,'
+		. ' u.id AS sectionid,'
 		. ' "2" AS browsernav'
 		. ' FROM #__content AS a'
 		. ' INNER JOIN #__categories AS b ON b.id=a.catid'
@@ -154,6 +158,13 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		$db->setQuery( $query, 0, $limit );
 		$list = $db->loadObjectList();
 
+		if(isset($list))
+		{
+			foreach($list as &$item)
+			{
+				$item->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
+			}
+		}
 		$rows[] = $list;
 	}
 
@@ -162,7 +173,6 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	{
 		$query = 'SELECT id, a.title AS title, a.created AS created,'
 		. ' a.introtext AS text,'
-		. ' CONCAT( "index.php?option=com_content&view=article&id=", a.id ) AS href,'
 		. ' "2" as browsernav, "'. $db->Quote(JText::_('Uncategorised Content')) .'" AS section'
 		. ' FROM #__content AS a'
 		. ' WHERE ('.$where.')'
@@ -177,6 +187,14 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		$db->setQuery( $query, 0, $limit );
 		$list2 = $db->loadObjectList();
 
+		if(isset($list2))
+		{
+			foreach($list2 as &$item)
+			{
+				$item->href = ContentHelperRoute::getArticleRoute($item->id);
+			}
+		}
+
 		$rows[] = $list2;
 	}
 
@@ -188,8 +206,9 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		$query = 'SELECT a.title AS title,'
 		. ' a.created AS created,'
 		. ' a.introtext AS text,'
-		. ' CONCAT_WS( "/", '. $db->Quote($searchArchived) .', u.title, b.title ) AS section,'
-		. ' CONCAT("index.php?option=com_content&view=article&id=",a.id) AS href,'
+		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
+		. ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'
+		. ' u.id AS sectionid,'
 		. ' "2" AS browsernav'
 		. ' FROM #__content AS a'
 		. ' INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= ' .$user->get( 'gid' )
@@ -207,6 +226,14 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		;
 		$db->setQuery( $query, 0, $limit );
 		$list3 = $db->loadObjectList();
+
+		if(isset($list3))
+		{
+			foreach($list3 as &$item)
+			{
+				$item->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
+			}
+		}
 
 		$rows[] = $list3;
 	}

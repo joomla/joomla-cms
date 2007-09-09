@@ -48,7 +48,7 @@ class ContentViewFrontpage extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$link = ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid);
+			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid));
 
 			// strip html from feed item description text
 			$description	= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
