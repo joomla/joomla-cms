@@ -33,7 +33,11 @@ class ContentHelperRoute
 	 */
 	function getArticleRoute($id, $catid = 0, $sectionid = 0)
 	{
-		$item = ContentHelperRoute::_getArticleMenuInfo((int)$id, (int)$catid, (int)$sectionid);
+		$items = ContentHelperRoute::_getComponentMenuItems('com_content');
+
+		$parts = array((int) $sectionid => 'section', (int) $catid => 'category', (int) $id => 'article');
+
+		$item = ContentHelperRoute::_checkMenuItems($items, $parts);
 
 		$link = 'index.php?option=com_content&view=article&catid='.$catid.'&id='. $id;
 
@@ -46,13 +50,21 @@ class ContentHelperRoute
 
 	function getSectionRoute($sectionid)
 	{
-		$item = ContentHelperRoute::_getSectionMenuInfo((int)$sectionid);
+		$items = ContentHelperRoute::_getComponentMenuItems('com_content');
+
+		$parts = array((int) $sectionid => 'section');
+
+		$item = ContentHelperRoute::_checkMenuItems($items, $parts);
 
 		$link = 'index.php?option=com_content&view=section&id='.$sectionid;
 
 		if(isset($item))
 		{
-			$link .= '&layout='.$item->link_parts['layout'].'&Itemid='. $item->id;
+			if(isset($item->link_parts['layout']))
+			{
+				$link .= '&layout='.$item->link_parts['layout'];
+			}
+			$link .= '&Itemid='. $item->id;
 		}
 
 		return JRoute::_( $link );
@@ -60,102 +72,40 @@ class ContentHelperRoute
 
 	function getCategoryRoute($catid, $sectionid)
 	{
-		$item = ContentHelperRoute::_getCategoryMenuInfo((int)$catid, (int)$sectionid);
+		$items = ContentHelperRoute::_getComponentMenuItems('com_content');
+
+		$parts = array((int) $sectionid => 'section', (int) $catid => 'category');
+
+		$item = ContentHelperRoute::_checkMenuItems($items, $parts);
 
 		$link = 'index.php?option=com_content&view=category&id='.$catid;
 
 		if(isset($item))
 		{
-			$link .= '&layout='.$item->link_parts['layout'].'&Itemid='. $item->id;
+			if(isset($item->link_parts['layout']))
+			{
+				$link .= '&layout='.$item->link_parts['layout'];
+			}
+			$link .= '&Itemid='. $item->id;
 		}
 		return JRoute::_( $link );
 	}
 
-	/**
-	 * @param	int	The menu information based on the article identifiers
-	 */
-	function _getArticleMenuInfo($id, $catid = 0, $sectionid = 0)
+	function _checkMenuItems(& $items, $parts)
 	{
-		$items = ContentHelperRoute::_getComponentMenuItems('com_content');
-
-		if(isset($items['section']))
+		foreach($parts as $id => $part)
 		{
-			foreach($items['section'] as $item)
+			if(isset($items[$part]))
 			{
-				if (($item->published) && ($item->link_parts['id'] == $sectionid)) {
-					return $item;
+				foreach($items[$part] as $item)
+				{
+					if (($item->published) && (@$item->link_parts['id'] == $id)) {
+						return $item;
+					}
 				}
 			}
 		}
-
-		if(isset($items['category']))
-		{
-			foreach($items['category'] as $item)
-			{
-				if (($item->published) && ($item->link_parts['id'] == $catid)) {
-					return $item;
-				}
-			}
-		}
-
-		if(isset($items['article']))
-		{
-			foreach($items['article'] as $item)
-			{
-				if (($item->published) && ($item->link_parts['id'] == $id)) {
-					return $item;
-				}
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * @param	int	The menu information based on the category identifiers
-	 */
-	function _getCategoryMenuInfo($catid, $sectionid = 0)
-	{
-		$items = ContentHelperRoute::_getComponentMenuItems('com_content');
-
-		if(isset($items['section']))
-		{
-			foreach($items['section'] as $item)
-			{
-				if (($item->published) && ($item->link_parts['id'] == $sectionid)) {
-					return $item;
-				}
-			}
-		}
-
-		if(isset($items['category']))
-		{
-			foreach($items['category'] as $item)
-			{
-				if (($item->published) && ($item->link_parts['id'] == $catid)) {
-					return $item;
-				}
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * @param	int	The menu information based on the category identifiers
-	 */
-	function _getSectionMenuInfo($sectionid)
-	{
-		$items = ContentHelperRoute::_getComponentMenuItems('com_content');
-
-		if(isset($items['section']))
-		{
-			foreach($items['section'] as $item)
-			{
-				if (($item->published) && ($item->link_parts['id'] == $sectionid) && $item->link_parts['view'] == 'section') {
-					return $item;
-				}
-			}
-		}
-		return null;
+			
 	}
 
 	function & _getComponentMenuItems($component)
