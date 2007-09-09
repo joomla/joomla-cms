@@ -44,6 +44,7 @@ Legend:
  # Other minor CSS fixes for milkyway
  # Stripped RTL CSS file to just overrides
  # Moved System Message into main body area of milkyway
+ # Fixed minor layout issues in weblinks
 
 08-Sep-2007 Toby Patterzone
  # Fixed [PATCH] Legacy module rendering

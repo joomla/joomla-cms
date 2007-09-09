@@ -713,6 +713,12 @@ div.message {
 	text-align: left;
 }
 
+/* WebLinks */
+span.description {
+	display:block;
+	padding-left: 30px;
+}
+
 /* Frontend Editing*/
 fieldset {
 	border: 1px solid #ccc;

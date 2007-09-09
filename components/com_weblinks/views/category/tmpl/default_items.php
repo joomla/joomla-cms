@@ -21,7 +21,7 @@
 </tr>
 <?php if ( $this->params->def( 'show_headings', 1 ) ) : ?>
 <tr>
-	<td width="10" align="right" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<td width="10" style="text-align:center;" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<?php echo JText::_('Num'); ?>
 	</td>
 	<td width="90%" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
@@ -29,7 +29,7 @@
 	</td>
 	<?php if ( $this->params->get( 'show_link_hits' ) ) : ?>
 
-	<td width="30" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" align="right" nowrap="nowrap">
+	<td width="30" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="text-align:center;" nowrap="nowrap">
 		<?php echo JHTML::_('grid.sort',  'Hits', 'hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
@@ -46,8 +46,7 @@
 		<?php endif; ?>
 		<?php echo $item->link; ?>
 		<?php if ( $this->params->get( 'show_link_description' ) ) : ?>
-		<br />
-		<?php echo nl2br($item->description); ?>
+		<br /><span class="description"><?php echo nl2br($item->description); ?></span>		
 		<?php endif; ?>
 	</td>
 	<?php if ( $this->params->get( 'show_link_hits' ) ) : ?>
