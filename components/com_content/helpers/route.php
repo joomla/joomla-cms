@@ -59,7 +59,7 @@ class ContentHelperRoute
 		$link = 'index.php?option=com_content&view=section&id='.$sectionid;
 		
 		if($item = ContentHelperRoute::_findItem($needles)) {
-			if($item->query['layout']) {
+			if(isset($item->query['layout'])) {
 				$link .= '&layout='.$item->query['layout'];
 			}
 			$link .= '&Itemid='.$item->id;
@@ -79,7 +79,7 @@ class ContentHelperRoute
 		$link = 'index.php?option=com_content&view=category&id='.$catid;
 
 		if($item = ContentHelperRoute::_findItem($needles)) {
-			if($item->query['layout']) {
+			if(isset($item->query['layout'])) {
 				$link .= '&layout='.$item->query['layout'];
 			}
 			$link .= '&Itemid='.$item->id;
