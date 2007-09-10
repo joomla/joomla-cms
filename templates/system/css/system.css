@@ -7,6 +7,14 @@ input.system-openid {
    padding-left: 18px;
 }
 
+
+/* Unpublished */
+.system-unpublished {
+background: #e8edf1;
+border-top: 4px solid #c4d3df;
+border-bottom: 4px solid #c4d3df;
+}
+
 /* System Messages */
 #system-message    { margin-bottom: 10px; padding: 0;}
 #system-message dt { font-weight: bold; }
