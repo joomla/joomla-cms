@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 10-Sep-2007 Toby Patterson
+ # Fixed [#6873] Legacy : mosToolTip broken
  ! Updated JProfiler and system debug module to provide info about memory usage
 
 09-Sep-2007 Johan Janssens

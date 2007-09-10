@@ -852,7 +852,14 @@ function loadOverlib() {
 *
 * @deprecated	As of version 1.5
 */
-function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='', $link=1 ) {
+function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='', $link=1 )
+{
+	// Initialize the toolips if required
+	static $init;
+	if ( ! $init ) {			JHTML::_('behavior.tooltip');
+		$init = true;
+	}
+		
 	return JHTML::_('tooltip', $tooltip, $title, $image, $text, $href, $link);
 }
 

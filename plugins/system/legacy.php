@@ -124,6 +124,8 @@ class  plgSystemLegacy extends JPlugin
 		$GLOBALS['mosConfig_absolute_path']	= JPATH_SITE;
 		$GLOBALS['mosConfig_cachepath']	= JPATH_BASE.DS.'cache';
 
+		$GLOBALS['mosConfig_offset_user']	= 0;
+
 		$lang =& JFactory::getLanguage();
 		$GLOBALS['mosConfig_lang']          = $lang->getBackwardLang();
 		
