@@ -58,5 +58,5 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<input type="hidden" name="option" value="com_user" />
 	<input type="hidden" name="task" value="login" />
 	<input type="hidden" name="return" value="<?php echo $this->return; ?>" />
-	<input type="hidden" name="token" value="<?php echo JUtility::getToken(); ?>" />
+	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>
