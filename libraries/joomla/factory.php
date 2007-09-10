@@ -31,19 +31,19 @@ class JFactory
 	 * @param	array	$config 	An optional associative array of configuration settings.
 	 * @return object JApplication
 	 */
-	function &getApplication($id = null, $config = array())
+	function &getApplication($id = null, $config = array(), $prefix='J')
 	{
 		static $instance;
 
-		if (!is_object($instance)) 
+		if (!is_object($instance))
 		{
 			jimport( 'joomla.application.application' );
-			
+
 			if (!$id) {
 				JError::raiseError(500, 'Application Instantiation Error');
 			}
-			
-			$instance = JApplication::getInstance($id, $config);
+
+			$instance = JApplication::getInstance($id, $config, $prefix);
 		}
 
 		return $instance;
