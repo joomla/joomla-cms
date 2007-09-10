@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Sep-2007 Johan Janssens
+ ^ Updated SimplePie library to version 1.0.1
+ ! For upgrading instruction from SimplePie 1.0 beta to stable see http://simplepie.org/wiki/setup/upgrade
+
 10-Sep-2007 Toby Patterson
  # Fixed [#6873] Legacy : mosToolTip broken
  ! Updated JProfiler and system debug module to provide info about memory usage

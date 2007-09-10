@@ -199,7 +199,7 @@ class JSimpleXML extends JObject
 	 * @param string   	currently ignored
 	 * @return object 	JSimpleXMLElement
 	 */
-	function importDom($node, $classname = null) {
+	function importDOM($node, $classname = null) {
 		return false;
 	}
 

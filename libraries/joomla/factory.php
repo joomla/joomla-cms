@@ -323,9 +323,8 @@ class JFactory
 				if (!is_null( $options['rssUrl'] ))
 				{
 					jimport ('simplepie.simplepie');
-					$simplepie = new SimplePie();
-					$simplepie->feed_url($options['rssUrl']);
-					$simplepie->cache_location(JPATH_BASE.DS.'cache');
+					$simplepie = new SimplePie($options['rssUrl']);
+					$simplepie->set_cache_location(JPATH_BASE.DS.'cache');
 					$simplepie->init();
 					$simplepie->handle_content_type();
 					if ($simplepie->data) {

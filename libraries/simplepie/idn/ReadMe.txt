@@ -2,9 +2,10 @@
 *                                                                             *
 *                    IDNA Convert (idna_convert.class.php)                    *
 *                                                                             *
-* http://idnaconv.phlymail.de                         mailto:team@phlymail.de *
+* http://idnaconv.phlymail.de                     mailto:phlymail@phlylabs.de *
 *******************************************************************************
-* (c) 2004-2005 phlyLabs, Berlin                                              *
+* (c) 2004-2007 phlyLabs, Berlin                                              *
+* This file is encoded in UTF-8                                               *
 *******************************************************************************
 
 Introduction
@@ -20,34 +21,36 @@ what you would expect them to do. You are allowed to use complete domain names,
 simple strings and complete email addresses as well. That means, that you might
 use any of the following notations:
 
-- www.nörgler.com
+- www.nÃ¶rgler.com
 - xn--nrgler-wxa
 - xn--brse-5qa.xn--knrz-1ra.info
 
 Errors, incorrectly encoded or invalid strings will lead to either a FALSE
 response (when in strict mode) or to only partially converted strings.
-You can query the occured error by calling the method get_last_error() when
-using the PHP4 version or through exceptions when the PHP5 version is used.
+You can query the occured error by calling the method get_last_error().
 
 Unicode strings are expected to be either UTF-8 strings, UCS-4 strings or UCS-4
 arrays. The default format is UTF-8. For setting different encodings, you can
 call the method setParams() - please see the inline documentation for details.
 ACE strings (the Punycode form) are always 7bit ASCII strings.
 
+ATTENTION: We no longer supply the PHP5 version of the class. It is not
+necessary for achieving a successfull conversion, since the supplied PHP code is
+compatible with both PHP4 and PHP5. We expect to see no compatibility issues
+with the upcoming PHP6, too.
+
 
 Files
 -----
 
 idna_convert.class.php         - The actual class
-idna_convert.class.php5.php    - A PHP5 version, contributed by Marcus Nix
 idna_convert.create.npdata.php - Useful for (re)creating the NPData file
 npdata.ser                     - Serialized data for NamePrep
 example.php                    - An example web page for converting
 ReadMe.txt                     - This file
 LICENCE                        - The LGPL licence file
 
-For using the class, you will have to either use idna_convert.class.php or
-idna_convert.class.php5.php from your application.
+The class is contained in idna_convert.class.php.
 MAKE SURE to copy the npdata.ser file into the same folder as the class file
 itself!
 
@@ -55,22 +58,18 @@ itself!
 Examples
 --------
 
-1. Say we wish to encode the domain name nörgler.com:
+1. Say we wish to encode the domain name nÃ¶rgler.com:
 
 // Include the class
 include_once('idna_convert.class.php');
 // Instantiate it *
 $IDN = new idna_convert();
 // The input string, if input is not UTF-8 or UCS-4, it must be converted before
-$input = utf8_encode('nörgler.com');
+$input = utf8_encode('nÃ¶rgler.com');
 // Encode it to its punycode presentation
 $output = $IDN->encode($input);
 // Output, what we got now
 echo $output; // This will read: xn--nrgler-wxa.com
-
-* If you wish to use the PHP5 version of the class, be aware, that the constructor
-  is named Net_IDNA_php5() since this file is used in the PEAR version of this class.
-  Likeweise, you can also instantiate the PHP4 version with new Net_IDNA_php4().
 
 
 2. We received an email from a punycoded domain and are willing to learn, how
@@ -79,14 +78,14 @@ echo $output; // This will read: xn--nrgler-wxa.com
 // Include the class
 include_once('idna_convert.class.php');
 // Instantiate it (depending on the version you are using) with
-$IDN = new Net_IDNA_php4();
+$IDN = new idna_convert();
 // The input string
 $input = 'andre@xn--brse-5qa.xn--knrz-1ra.info';
 // Encode it to its punycode presentation
 $output = $IDN->decode($input);
 // Output, what we got now, if output should be in a format different to UTF-8
 // or UCS-4, you will have to convert it before outputting it
-echo utf8_decode($output); // This will read: andre@börse.knürz.info
+echo utf8_decode($output); // This will read: andre@bÃ¶rse.knÃ¶rz.info
 
 
 3. The input is read from a UCS-4 coded file and encoded line by line. By
@@ -96,7 +95,7 @@ echo utf8_decode($output); // This will read: andre@börse.knürz.info
 // Include the class
 include_once('idna_convert.class.php');
 // Instantiate it
-$IDN = new Net_IDNA_php4();
+$IDN = new dinca_convert();
 // Iterate through the input file line by line
 foreach (file('ucs4-domains.txt') as $line) {
     echo $IDN->encode(trim($line), 'ucs4_string');
@@ -119,5 +118,6 @@ Contact us
 In case of errors, bugs, questions, wishes, please don't hesitate to contact us
 under the email address above.
 
-The team of
-phlymail.de
+The team of phlyLabs
+http://phlylabs.de
+mailto:phlymail@phlylabs.de

@@ -19,7 +19,7 @@ class modFeedHelper
 	function getFeed($params)
 	{
 		// module params
-		$rssurl				= $params->get('rssurl', '');
+		$rssurl	= $params->get('rssurl', '');
 
 		//  get RSS parsed object
 		$options = array();
@@ -33,16 +33,14 @@ class modFeedHelper
 		if ($rssDoc != false)
 		{
 			// channel header and link
-			$feed->title = $rssDoc->get_feed_title();
-			$feed->link = $rssDoc->get_feed_link();
-			$feed->description = $rssDoc->get_feed_description();
+			$feed->title = $rssDoc->get_title();
+			$feed->link = $rssDoc->get_link();
+			$feed->description = $rssDoc->get_description();
 
 			// channel image if exists
-			if ($rssDoc->get_image_exist()) {
-				$feed->image->url = $rssDoc->get_image_url();
-				$feed->image->title = $rssDoc->get_image_title();
-			}
-
+			$feed->image->url = $rssDoc->get_image_url();
+			$feed->image->title = $rssDoc->get_image_title();
+		
 			// items
 			$items = $rssDoc->get_items();
 

@@ -66,15 +66,17 @@ class NewsfeedsViewNewsfeed extends JView
 		$lists = array();
 
 		// channel header and link
-		$newsfeed->channel['title'] = $rssDoc->get_feed_title();
-		$newsfeed->channel['link'] = $rssDoc->get_feed_link();
-		$newsfeed->channel['description'] = $rssDoc->get_feed_description();
+		$newsfeed->channel['title'] 	  = $rssDoc->get_title();
+		$newsfeed->channel['link'] 		  = $rssDoc->get_link();
+		$newsfeed->channel['description'] = $rssDoc->get_description();
+		$newsfeed->channel['language'] 	  = $rssDoc->get_language();
 
 		// channel image if exists
-		if ($rssDoc->get_image_exist()) {
-			$newsfeed->image['url'] = $rssDoc->get_image_url();
-			$newsfeed->image['title'] = $rssDoc->get_image_title();
-		}
+		$newsfeed->image['url']    = $rssDoc->get_image_url();
+		$newsfeed->image['title']  = $rssDoc->get_image_title();
+		$newsfeed->image['link']   = $rssDoc->get_image_link();
+		$newsfeed->image['height'] = $rssDoc->get_image_height();
+		$newsfeed->image['width']  = $rssDoc->get_image_width();
 
 		// items
 		$newsfeed->items = $rssDoc->get_items();
