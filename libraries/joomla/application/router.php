@@ -364,7 +364,7 @@ class JRouter extends JObject
 				}
 			}
 			
-			$url = 'index.php?'.JURI::_buildQuery($vars);
+			$url = 'index.php?'.JURI::buildQuery($vars);
 		}
 		
 		// Decompose link into url component parts

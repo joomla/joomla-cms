@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Sep-2007 Johan Janssens
+ ^ Changed JURI::_buildQuery from private to public
+
 09-Sep-2007 Hannes Papenberg
  # [7012] Fixed markup of com_search (escaping was to rigorous)
  # [7025] Fixed Section and Category links below Article titles

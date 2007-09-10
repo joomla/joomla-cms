@@ -197,7 +197,7 @@ class JRouterSite extends JRouter
 			// Get the active menu item
 			$itemid = $uri->getVar('Itemid');
 			$item   = $menu->getItem($itemid);
-		
+			
 			$uri->setQuery($item->query);
 			$uri->setVar('Itemid', $itemid);
 		}
