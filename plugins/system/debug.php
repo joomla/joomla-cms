@@ -64,7 +64,10 @@ class  plgSystemDebug extends JPlugin
 
 		ob_start();
 		echo '<div id="system-debug" class="profiler">';
-		echo implode( '', $profiler->getBuffer() );
+		echo '<h4>'.JText::_( 'Profile Information' ).'</h4>';
+		foreach ( $profiler->getBuffer() as $mark ) {
+			echo '<div>'.$mark.'</div>';
+		}
 
 		if ($this->params->get('memory', 1)) {
 			echo '<h4>'.JText::_( 'Memory Usage' ).'</h4>';
