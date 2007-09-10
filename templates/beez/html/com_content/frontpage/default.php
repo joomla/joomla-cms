@@ -14,20 +14,6 @@ if ($this->params->get('show_page_title')) {
 	echo '</h' . $ptlevel . '>';
 }
 echo '<div class="blog' . $this->params->get('pageclass_sfx') . '">';
-if (isset ($this->frontpage->description) && ($this->params->def('show_description', 1) || $this->params->def('show_description_image', 1))) {
-	$wrap = '';
-	echo '<div class="contentdescription' . $this->params->get('pageclass_sfx') . '">';
-
-	if ($this->params->get('show_description_image') && $this->frontpage->description->image) {
-		$wrap = '<div class="wrap_image">&nbsp;</div>';
-		echo '<img src="images/stories/' . $this->image . '" class="image_' . $this->frontpage->image_position . '" />';
-	}
-	if ($this->params->get('show_description') && $this->frontpage->description->text) {
-		echo $this->frontpage->description->text;
-	}
-	echo $wrap;
-	echo '</div>';
-}
 $i = 0;
 if ($this->params->def('num_leading_articles', 1)) {
 
