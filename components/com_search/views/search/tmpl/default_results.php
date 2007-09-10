@@ -8,7 +8,7 @@
 			<fieldset>
 				<div>
 					<span class="small<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-						<?php echo $result->count.'. ';?>
+						<?php echo $this->pagination->limitstart + $result->count.'. ';?>
 					</span>
 					<?php if ( $result->href ) :
 						if ($result->browsernav == 1 ) : ?>

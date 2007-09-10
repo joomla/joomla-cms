@@ -160,9 +160,9 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 
 		if(isset($list))
 		{
-			foreach($list as &$item)
+			foreach($list as $key => $item)
 			{
-				$item->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
+				$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
 			}
 		}
 		$rows[] = $list;
@@ -189,9 +189,9 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 
 		if(isset($list2))
 		{
-			foreach($list2 as &$item)
+			foreach($list2 as $key => $item)
 			{
-				$item->href = ContentHelperRoute::getArticleRoute($item->id);
+				$list2[$key]->href = ContentHelperRoute::getArticleRoute($item->id);
 			}
 		}
 
@@ -229,9 +229,9 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 
 		if(isset($list3))
 		{
-			foreach($list3 as &$item)
+			foreach($list3 as $key => $item)
 			{
-				$item->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
+				$list3[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid);
 			}
 		}
 

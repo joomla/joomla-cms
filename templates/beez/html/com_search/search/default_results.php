@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 <div class="results">
 	<h3><?php echo JText :: _('Search_result'); ?></h3>
 	<?php $start = $this->pagination->limitstart + 1; ?>
-	<ol class="list<?php echo $this->params->get('pageclass_sfx') ?>" start="<?php $start ?>">
+	<ol class="list<?php echo $this->params->get('pageclass_sfx') ?>" start="<?php echo  $start ?>">
 		<?php foreach ($this->results as $result) : ?>
 		<li>
 			<?php if ($result->href) : ?>
