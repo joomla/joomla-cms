@@ -57,7 +57,11 @@ class plgSystemRemember extends JPlugin
 			if ($str = JRequest::getString($hash, '', 'cookie', JREQUEST_ALLOWRAW | JREQUEST_NOTRIM))
 			{
 				jimport('joomla.utilities.simplecrypt');
-				$crypt	= new JSimpleCrypt();
+				
+				//Create the encryption key, apply extra hardening using the user agent string
+				$key = JUtility::getHash(@$_SERVER['HTTP_USER_AGENT']);
+				
+				$crypt	= new JSimpleCrypt($key);
 				$str	= $crypt->decrypt($str);
 				$mainframe->login(unserialize($str));
 			}
