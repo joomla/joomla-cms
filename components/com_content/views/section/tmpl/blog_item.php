@@ -4,7 +4,9 @@
 		<?php echo JHTML::_('icon.edit', $this->item, $this->params, $this->access); ?>
 	</div>
 <?php endif; ?>
-
+<?php if ($this->item->state == 0) : ?>
+<div class="system-unpublished">
+<?php endif; ?>
 <?php if ($this->params->get('show_title') || $this->params->get('show_pdf_icon') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
 <table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
@@ -132,5 +134,8 @@ endif; ?>
 <?php endif; ?>
 
 </table>
+<?php if ($this->item->state == 0) : ?>
+</div>
+<?php endif; ?>
 <span class="article_separator">&nbsp;</span>
 <?php echo $this->item->event->afterDisplayContent; ?>

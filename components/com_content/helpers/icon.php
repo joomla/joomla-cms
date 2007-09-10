@@ -114,7 +114,8 @@ class JHTMLIcon
 		JHTML::_('behavior.tooltip');
 
 		$url = 'index.php?view=article&id='.$article->id.'&task=edit&Returnid='.$Itemid;
-		$text = JHTML::_('image.site', 'edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
+		$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
+		$text = JHTML::_('image.site', $icon, '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $article->id );
 
 		if ($article->state == 0) {
 			$overlib = JText::_('Unpublished');
