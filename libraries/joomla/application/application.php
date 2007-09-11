@@ -1028,9 +1028,15 @@ class JApplication extends JObject
 		// Load the article data to know what section/category it is in.
 		$article =& JTable::getInstance('content');
 		$article->load($id);
-
-		$info = ContentHelperRoute::_getArticleMenuInfo($id, $article->catid, $article->sectionid);
-		return $info->id;
+		
+		$needles = array(
+			'article'  => (int) $id,
+			'category' => (int) $article->catid, 
+			'section'  => (int) $article->sectionid, 
+		);
+				
+		$item = ContentHelperRoute::_findItem($needles);
+		return $item->id;
 	}
 
 	/**
