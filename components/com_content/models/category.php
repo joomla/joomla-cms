@@ -220,7 +220,7 @@ class ContentModelCategory extends JModel
 		if (empty($this->_category))
 		{
 			// Lets get the information for the current category
-			$query = 'SELECT c.*, s.id sectionid, s.title as sectiontitle,' .
+			$query = 'SELECT c.*, s.id as sectionid, s.title as sectiontitle,' .
 					' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug'.
 					' FROM #__categories AS c' .
 					' INNER JOIN #__sections AS s ON s.id = c.section' .

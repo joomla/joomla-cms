@@ -1,4 +1,5 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ($this->user->authorize('com_content', 'edit', 'content', 'all')) : ?>
 	<div class="contentpaneopen_edit<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="float: left;">
 		<?php echo JHTML::_('icon.edit', $this->item, $this->params, $this->access); ?>
@@ -92,7 +93,7 @@ endif; ?>
 <?php if ($this->params->get('show_create_date')) : ?>
 <tr>
 	<td valign="top" colspan="2" class="createdate">
-		<?php echo JHTML::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
+		<?php echo JHTML::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2') ); ?>
 	</td>
 </tr>
 <?php endif; ?>
@@ -118,12 +119,12 @@ endif; ?>
 <?php if (!empty($this->item->modified) && $this->params->get('show_modify_date')) : ?>
 <tr>
 	<td colspan="2"  class="modifydate">
-		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHTML::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2')); ?> )
+		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHTML::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2') ); ?> )
 	</td>
 </tr>
 <?php endif; ?>
 
-<?php if ($this->params->get('show_readmore') && $this->item->readmore_text) : ?>
+<?php if ($this->params->get('show_readmore') && $this->item->readmore_text && $this->item->readmore) : ?>
 <tr>
 	<td  colspan="2">
 		<a href="<?php echo $this->item->readmore_link; ?>" class="readon<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
