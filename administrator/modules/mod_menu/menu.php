@@ -111,7 +111,8 @@ class JAdminCSSMenu extends JTree
 		while ($this->_current->hasChildren())
 		{
 			if ($this->_current->class) {
-				echo '<ul id="menu-'.strtolower($this->_current->class).'">'."\n";
+				echo '<ul id="menu-'.strtolower($this->_current->id).'"'.
+					' class="menu-component">'."\n";
 			} else {
 				echo '<ul>'."\n";
 			}
@@ -188,6 +189,12 @@ class JMenuNode extends JNode
 	var $title = null;
 
 	/**
+	 * Node Id
+	 */
+	var $id = null;
+
+
+	/**
 	 * Node Link
 	 */
 	var $link = null;
@@ -202,12 +209,15 @@ class JMenuNode extends JNode
 	 */
 	var $active = false;
 
+
 	function __construct($title, $link = null, $class = null, $active = false)
 	{
 		$this->title	= $title;
 		$this->link		= $link;
 		$this->class	= $class;
 		$this->active	= $active;
+		$this->id		= str_replace(" ","-",$title);
+
 	}
 }
 ?>

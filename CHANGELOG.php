@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Sep-2007 Nur Aini Rakhmawati
+# fixed [#6104] Components menu with invalid + duplicate id attributes
+
 10-Sep-2007 Johan Janssens
  ^ Updated SimplePie library to version 1.0.1
  ! For upgrading instruction from SimplePie 1.0 beta to stable see http://simplepie.org/wiki/setup/upgrade
