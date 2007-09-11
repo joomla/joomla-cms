@@ -224,32 +224,25 @@ class JTable extends JObject
 	 * @param	$ignore	mixed	An array or space separated list of fields not to bind
 	 * @return	boolean
 	 */
-	function bind( $from, $ignore=array() )
+	function bind( $from, $ignore = array() )
 	{
-		$fromArray	= is_array( $from );
-		$fromObject	= is_object( $from );
+		$fromArray	= (array) $from; //explicit cast to array
 
-		if (!$fromArray && !$fromObject)
-		{
-			$this->setError( get_class( $this ).'::bind failed. Invalid from argument' );
-			$this->setErrorNum(20);
-			return false;
-		}
 		if (!is_array( $ignore )) {
 			$ignore = explode( ' ', $ignore );
 		}
-		foreach ($this->getPublicProperties() as $k)
+		
+		foreach ($this->getProperties() as $k => $v)
 		{
 			// internal attributes of an object are ignored
 			if (!in_array( $k, $ignore ))
 			{
-				if ($fromArray && isset( $from[$k] )) {
-					$this->$k = $from[$k];
-				} else if ($fromObject && isset( $from->$k )) {
-					$this->$k = $from->$k;
+				if(isset( $fromArray[$k] )) {
+					$this->set($k, $from[$k]);
 				}
 			}
 		}
+		
 		return true;
 	}
 
@@ -427,7 +420,7 @@ class JTable extends JObject
 	 */
 	function getNextOrder ( $where='' )
 	{
-		if (!in_array( 'ordering', $this->getPublicProperties() ))
+		if (!in_array( 'ordering', array_keys($this->getProperties()) ))
 		{
 			$this->setError( get_class( $this ).' does not support ordering' );
 			$this->setErrorNum(21);
@@ -460,7 +453,7 @@ class JTable extends JObject
 	{
 		$k = $this->_tbl_key;
 
-		if (!in_array( 'ordering', $this->getPublicProperties() ))
+		if (!in_array( 'ordering', array_keys($this->getProperties()) ))
 		{
 			$this->setError( get_class( $this ).' does not support ordering');
 			$this->setErrorNum(21);
@@ -622,7 +615,7 @@ class JTable extends JObject
 	 */
 	function checkout( $who, $oid = null )
 	{
-		if (!in_array( 'checked_out', $this->getPublicProperties() )) {
+		if (!in_array( 'checked_out', array_keys($this->getProperties()) )) {
 			return true;
 		}
 
@@ -655,8 +648,8 @@ class JTable extends JObject
 	function checkin( $oid=null )
 	{
 		if (!(
-			in_array( 'checked_out', $this->getPublicProperties() ) ||
-	 		in_array( 'checked_out_time', $this->getPublicProperties() )
+			in_array( 'checked_out', array_keys($this->getProperties()) ) ||
+	 		in_array( 'checked_out_time', array_keys($this->getProperties()) )
 		)) {
 			return true;
 		}
@@ -691,7 +684,7 @@ class JTable extends JObject
 	 */
 	function hit( $oid=null, $log=false )
 	{
-		if (!in_array( 'hits', $this->getPublicProperties() )) {
+		if (!in_array( 'hits', array_keys($this->getProperties()) )) {
 			return;
 		}
 
@@ -826,7 +819,7 @@ class JTable extends JObject
 		. ' WHERE ('.$cids.')'
 		;
 
-		$checkin = in_array( 'checked_out', $this->getPublicProperties() );
+		$checkin = in_array( 'checked_out', array_keys($this->getProperties()) );
 		if ($checkin)
 		{
 			$query .= ' AND (checked_out = 0 OR checked_out = '.(int) $user_id.')';

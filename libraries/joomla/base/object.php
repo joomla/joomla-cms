@@ -65,7 +65,7 @@ class JObject
 	 * @param	string $property The name of the property
 	 * @param	mixed  $default The default value
 	 * @return	mixed The value of the property
-	 * @see		get(), getPublicProperties()
+	 * @see		getProperties()
 	 * @since	1.5
  	 */
 	function get($property, $default=null)
@@ -74,6 +74,32 @@ class JObject
 			return $this->$property;
 		}
 		return $default;
+	}
+	
+	/**
+	 * Returns an associative array of object properties
+	 *
+	 * @access	public
+	 * @param	boolean $public If true, returns only the public properties
+	 * @return	array
+	 * @see		get()
+	 * @since	1.5
+ 	 */
+	function getProperties( $public = true )
+	{
+		$vars  = get_object_vars($this);
+		
+        if($public) 
+		{
+			foreach ($vars as $key => $value) 
+			{
+				if ('_' == substr($key, 0, 1)) {
+					unset($vars[$key]);
+				}
+			}
+		}
+
+        return $vars;
 	}
 
 	/**
@@ -121,28 +147,6 @@ class JObject
 		return $this->_errors;
 	}
 
-	/**
-	 * Returns an array of public properties
-	 *
-	 * @access	public
-	 * @param	boolean $assoc If true, returns an associative key=>value array
-	 * @return	array
-	 * @see		get(), toString()
-	 * @since	1.5
- 	 */
-	function getPublicProperties( $assoc = false )
-	{
-		$vars = array(array(),array());
-		foreach (get_object_vars( $this ) as $key => $val)
-		{
-			if (substr( $key, 0, 1 ) != '_')
-			{
-				$vars[0][] = $key;
-				$vars[1][$key] = $val;
-			}
-		}
-		return $vars[$assoc ? 1 : 0];
-	}
 
 	/**
 	 * Modifies a property of the object, creating it if it does not already exist.
@@ -151,6 +155,7 @@ class JObject
 	 * @param	string $property The name of the property
 	 * @param	mixed  $value The value of the property to set
 	 * @return	mixed Previous value of the property
+	 * @see		setProperties()
 	 * @since	1.5
 	 */
 	function set( $property, $value = null )
@@ -158,6 +163,31 @@ class JObject
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
 		return $previous;
+	}
+	
+	/**
+	* Set the object properties based on a named array/hash
+	*
+	* @access	protected
+	* @param	$array  mixed Either and associative array or another object
+	* @return	boolean
+	* @see		set()
+	* @since	1.5
+	*/
+	function setProperties( $properties )
+	{
+		$properties = (array) $properties; //cast to an array
+		
+		if (is_array($properties))
+		{
+			foreach ($properties as $k => $v) {
+				$this->$k = $v;
+			}
+			
+			return true;
+		}
+				
+		return false;
 	}
 
 	/**

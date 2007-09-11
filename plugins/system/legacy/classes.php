@@ -183,13 +183,23 @@ class mosDBTable extends JTable
 
 		jimport('joomla.filter.input');
 		$filter = & JFilterInput::getInstance();
-		foreach ($this->getPublicProperties() as $k)
+		foreach ($this->getProperties() as $k => $v)
 		{
 			if ($ignore && in_array( $k, $ignoreList ) ) {
 				continue;
 			}
 			$this->$k = $filter->clean( $this->$k );
 		}
+	}
+	
+	/**
+	 * Legacy Method, use {@link JObject::getProperties()}  instead
+	 * @deprecated As of 1.5
+	 */
+	function getPublicProperties() 
+	{
+		$properties = $this->getProperties();
+		return array_keys($properties);
 	}
 }
 

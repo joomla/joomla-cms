@@ -37,8 +37,15 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Sep-2007 Johan Janssens
+ - Removed getPublicProperties from JObject and moved to mosDBTable legacy functions
+ + Added JObject::setProperties and JObject::getProperties
+ ^ Refactored JUser to use JObject setError and improved flexibility of the user data
+   store through JUser::getTable function. This change allows to easily extend the user
+   database tables
+
 11-Sep-2007 Nur Aini Rakhmawati
-# fixed [#6104] Components menu with invalid + duplicate id attributes
+ # Fixed [#6104] Components menu with invalid + duplicate id attributes
 
 10-Sep-2007 Johan Janssens
  ^ Updated SimplePie library to version 1.0.1

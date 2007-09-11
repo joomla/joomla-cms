@@ -71,7 +71,6 @@ $mainframe->dispatch($option);
 JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
 $mainframe->triggerEvent('onAfterDispatch');
 
-
 /**
  * RENDER  THE APPLICATION
  *

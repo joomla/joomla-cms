@@ -253,9 +253,10 @@ class JUser extends JObject
 	 */
 	function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
 	{
-		$acl	= & JFactory::getACL();
 		// the native calls (Check Mode 1) work on the user id, not the user type
+		$acl	= & JFactory::getACL();
 		$value	= $acl->getCheckMode() == 1 ? $this->id : $this->usertype;
+		
 		return $acl->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
 	}
 
@@ -270,7 +271,7 @@ class JUser extends JObject
 	function setLastVisit($timestamp=null)
 	{
 		// Create the user table object
-		$table 	=& JTable::getInstance( 'user');
+		$table 	=& $this->getTable();
 		$table->load($this->id);
 
 		return $table->setLastVisit($timestamp);
@@ -295,12 +296,22 @@ class JUser extends JObject
 	 * @return	object	The user table object
 	 * @since	1.5
 	 */
-	function &getTable()
+	function &getTable($type = null)
 	{
+		static $tabletype;
+		
+		//Set the default tabletype;
+		if(!isset($tabletype)) {
+			$tabletype = 'user';
+		}
+		
+		//Set a custom table type is defined
+		if(isset($type)) {
+			$tabletype = $type;
+		}
+		
 		// Create the user table object
-		$table 	=& JTable::getInstance( 'user');
-		$table->load($this->id);
-
+		$table 	=& JTable::getInstance( $tabletype);
 		return $table;
 	}
 
@@ -327,17 +338,6 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Method to get JUser error message
-	 *
-	 * @access 	public
-	 * @return	string	The error message
-	 * @since	1.5
-	 */
-	function getError() {
-		return $this->_errorMsg;
-	}
-
-	/**
 	 * Method to bind an associative array of data to a user object
 	 *
 	 * @access 	public
@@ -360,7 +360,7 @@ class JUser extends JObject
 			}
 
 			if ($array['password'] != $array['password2']) {
-					$this->_setError( JText::_( 'PASSWORD DO NOT MATCH.' ) );
+					$this->setError( JText::_( 'PASSWORD DO NOT MATCH.' ) );
 					return false;
 			}
 
@@ -396,7 +396,7 @@ class JUser extends JObject
 			if (!empty($array['password']))
 			{
 				if ( $array['password'] != $array['password2'] ) {
-					$this->_setError( JText::_( 'PASSWORD DO NOT MATCH.' ) );
+					$this->setError( JText::_( 'PASSWORD DO NOT MATCH.' ) );
 					return false;
 				}
 
@@ -438,8 +438,8 @@ class JUser extends JObject
 		}
 
 		// Bind the array
-		if (!$this->_bind($array, 'aid guest')) {
-			$this->_setError("Unable to bind array to user object");
+		if (!$this->setProperties($array)) {
+			$this->setError("Unable to bind array to user object");
 			return false;
 		}
 
@@ -462,13 +462,13 @@ class JUser extends JObject
 		jimport( 'joomla.utilities.array' );
 
 		// Create the user table object
-		$table 	=& JTable::getInstance( 'user');
+		$table 	=& $this->getTable();
 		$this->params = $this->_params->toString();
-		$table->bind(JArrayHelper::fromObject($this, false));
+		$table->bind($this->getProperties());
 
 		// Check and store the object.
 		if (!$table->check()) {
-			$this->_setError($table->getError());
+			$this->setError($table->getError());
 			return false;
 		}
 
@@ -477,7 +477,7 @@ class JUser extends JObject
 		if ( $this->get('gid') == 25 && $my->get('gid') != 25 )
 		{
 			// disallow creation of Super Admin by non Super Admin users
-			$this->_setError(JText::_( 'WARNSUPERADMINCREATE' ));
+			$this->setError(JText::_( 'WARNSUPERADMINCREATE' ));
 			return false;
 		}
 
@@ -495,11 +495,11 @@ class JUser extends JObject
 		// Fire the onBeforeStoreUser event.
 		JPluginHelper::importPlugin( 'user' );
 		$dispatcher =& JEventDispatcher::getInstance();
-		$dispatcher->trigger( 'onBeforeStoreUser', array( $old->getPublicProperties(true), $isnew ) );
+		$dispatcher->trigger( 'onBeforeStoreUser', array( $old->getProperties(), $isnew ) );
 
 		//Store the user data in the database
 		if (!$result = $table->store()) {
-			$this->_setError($table->getError());
+			$this->setError($table->getError());
 		}
 
 		// Set the id for the JUser object in case we created a new user.
@@ -508,7 +508,7 @@ class JUser extends JObject
 		}
 
 		// Fire the onAftereStoreUser event
-		$dispatcher->trigger( 'onAfterStoreUser', array( $this->getPublicProperties(true), $isnew, $result, $this->getError() ) );
+		$dispatcher->trigger( 'onAfterStoreUser', array( $this->getProperties(), $isnew, $result, $this->getError() ) );
 
 		return $result;
 	}
@@ -527,18 +527,18 @@ class JUser extends JObject
 
 		//trigger the onBeforeDeleteUser event
 		$dispatcher =& JEventDispatcher::getInstance();
-		$dispatcher->trigger( 'onBeforeDeleteUser', array( $this->getPublicProperties(true) ) );
+		$dispatcher->trigger( 'onBeforeDeleteUser', array( $this->getProperties() ) );
 
 		// Create the user table object
-		$table 	=& JTable::getInstance( 'user');
+		$table 	=& $this->getTable();
 
 		$result = false;
 		if (!$result = $table->delete($this->id)) {
-			$this->_setError($table->getError());
+			$this->setError($table->getError());
 		}
 
 		//trigger the onAfterDeleteUser event
-		$dispatcher->trigger( 'onAfterDeleteUser', array( $this->getPublicProperties(true), $result, $this->getError()) );
+		$dispatcher->trigger( 'onAfterDeleteUser', array( $this->getProperties(), $result, $this->getError()) );
 		return $result;
 
 	}
@@ -555,7 +555,7 @@ class JUser extends JObject
 	function load($id)
 	{
 		// Create the user table object
-		$table 	=& JTable::getInstance( 'user');
+		$table 	=& $this->getTable();
 
 		 // Load the JUserModel object based on the user id or throw a warning.
 		 if(!$table->load($id)) {
@@ -569,71 +569,10 @@ class JUser extends JObject
 		 * user parameters, but for right now we'll leave it how it is.
 		 */
 		$this->_params->loadINI($table->params);
-
+		
 		// Assuming all is well at this point lets bind the data
-		$this->_bind(JArrayHelper::fromObject($table, false));
+		$this->setProperties($table->getProperties());
 
 		return true;
-	}
-
-	/**
-	* Binds a named array/hash to this object
-	*
-	* @access	protected
-	* @param	$array  mixed Either and associative array or another object
-	* @param	$ignore string	Space separated list of fields not to bind
-	* @return	boolean
-	* @since	1.5
-	*/
-	function _bind( $from, $ignore='' )
-	{
-		if (!is_array( $from ) && !is_object( $from )) {
-			$this->_setError(strtolower(get_class( $this ))."::bind failed.");
-			return false;
-		}
-
-		$fromArray  = is_array( $from );
-		$fromObject = is_object( $from );
-
-		if ($fromArray || $fromObject)
-		{
-			foreach (get_object_vars($this) as $k => $v)
-			{
-				// only bind to public variables
-				if( substr( $k, 0, 1 ) != '_' )
-				{
-					// internal attributes of an object are ignored
-					if (strpos( $ignore, $k) === false)
-					{
-						$ak = $k;
-
-						if ($fromArray && isset( $from[$ak] )) {
-							$this->$k = $from[$ak];
-						} else if ($fromObject && isset( $from->$ak )) {
-							$this->$k = $from->$ak;
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to set an error message
-	 *
-	 * @access	private
-	 * @param	string	$msg	The message to append to the error message
-	 * @return	void
-	 * @since	1.5
-	 */
-	function _setError( $msg )
-	{
-		$this->_errorMsg .= $msg."\n";
 	}
 }
