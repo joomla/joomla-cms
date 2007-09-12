@@ -32,7 +32,6 @@ class ContentViewCategory extends ContentView
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
-		$document	=& JFactory::getDocument();
 		$uri 		=& JFactory::getURI();
 		$pathway	=& $mainframe->getPathway();
 
@@ -41,7 +40,7 @@ class ContentViewCategory extends ContentView
 		$menu  = $menus->getActive();
 
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters('com_content');
+		$params = &$mainframe->getParams('com_content');
 
 		// Request variables
 		$task		= JRequest::getCmd('task');
@@ -84,10 +83,7 @@ class ContentViewCategory extends ContentView
 			$pathway->addItem($category->title, '');
 		}
 
-		$document->setTitle($menu->name);
-
 		$params->def('date_format',	JText::_('DATE_FORMAT_LC1'));
-		$params->def('page_title', $menu->name);
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit - $links);

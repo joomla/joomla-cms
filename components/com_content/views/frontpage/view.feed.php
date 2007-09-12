@@ -34,7 +34,7 @@ class ContentViewFrontpage extends JView
 		// parameters
 		$db			=& JFactory::getDBO();
 		$document	=& JFactory::getDocument();
-		$params =& $mainframe->getPageParameters();
+		$params =& $mainframe->getParams();
 		$document->link = JURI::base().JRoute::_('index.php?option=com_content&view=frontpage');
 
 		// Get some data from the model

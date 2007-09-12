@@ -48,7 +48,7 @@ class WeblinksViewCategory extends JView
 		$state		= &$this->get('state');
 
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters();
+		$params = &$mainframe->getParams();
 
 		$category->total = $total;
 
@@ -80,7 +80,6 @@ class WeblinksViewCategory extends JView
 		$lists['order'] = $state->get('filter_order');
 
 		// Set some defaults if not set for params
-		$params->def('page_title', $menu->name);
 		$params->def('com_description', JText::_('WEBLINKS_DESC'));
 
 		// Define image tag attributes

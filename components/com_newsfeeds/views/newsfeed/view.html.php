@@ -46,7 +46,7 @@ class NewsfeedsViewNewsfeed extends JView
 		// Get the current menu item
 		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();
-		$params	= &$mainframe->getPageParameters();
+		$params	= &$mainframe->getParams();
 
 		//get the newsfeed
 		$newsfeed =& $this->get('data');
@@ -84,12 +84,8 @@ class NewsfeedsViewNewsfeed extends JView
 		// feed elements
 		$newsfeed->items = array_slice($newsfeed->items, 0, $newsfeed->numarticles);
 
-		// Adds parameter handling
-		$params->def( 'page_title', $menu->name );
-
 		// Set page title per category
 		$document->setTitle( $newsfeed->name . ' - '. $params->get( 'page_title'));
-
 
 		//set breadcrumbs
 		if($menu->query['view'] != 'newsfeed')

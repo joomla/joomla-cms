@@ -31,72 +31,12 @@ define('COM_MEDIA_BASEURL', JURI::base().$params->get('image_path', 'images/stor
 // Load the admin HTML view
 require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'media.php' );
 
-jimport( 'joomla.application.component.controller' );
-
-/**
- * Media Manager Component Controller
- *
- * @package		Joomla
- * @subpackage	Media
- * @version 1.5
- */
-class MediaController extends JController
-{
-	/**
-	 * Display the view
-	 */
-	function display()
-	{
-		global $mainframe;
-
-		$vName = JRequest::getCmd('view', 'images');
-		switch ($vName)
-		{
-			case 'imagesList':
-				$mName = 'list';
-				$vLayout = JRequest::getCmd( 'layout', 'default' );
-
-				break;
-
-			case 'images':
-			default:
-				$vLayout = JRequest::getCmd( 'layout', 'default' );
-				$mName = 'manager';
-				$vName = 'images';
-
-				break;
-		}
-
-		$document = &JFactory::getDocument();
-		$vType		= $document->getType();
-
-		// Get/Create the view
-		$view = &$this->getView( $vName, $vType);
-		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.$vName.DS.'tmpl');
-
-		// Get/Create the model
-		if ($model = &$this->getModel($mName)) {
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
-		}
-
-		// Set the layout
-		$view->setLayout($vLayout);
-
-		// Display the view
-		$view->display();
-	}
-
-	function ftpValidate()
-	{
-		// Set FTP credentials, if given
-		jimport('joomla.client.helper');
-		JClientHelper::setCredentialsFromRequest('ftp');
-	}
-}
+// Require the base controller
+require_once (JPATH_COMPONENT.DS.'controller.php');
 
 $cmd = JRequest::getCmd('task', null);
-if (strpos($cmd, '.') != false && false) {
+if (strpos($cmd, '.') != false && false) 
+{
 	// We have a defined controller/task pair -- lets split them out
 	list($controllerName, $task) = explode('.', $cmd);
 
@@ -110,7 +50,9 @@ if (strpos($cmd, '.') != false && false) {
 	} else {
 		JError::raiseError(500, 'Invalid Controller');
 	}
-} else {
+} 
+else 
+{
 	// Base controller, just set the task :)
 	$controllerName = null;
 	$task = $cmd;

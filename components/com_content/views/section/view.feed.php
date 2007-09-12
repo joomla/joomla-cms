@@ -31,7 +31,7 @@ class ContentViewSection extends JView
 	{
 		global $mainframe;
 		$doc =& JFactory::getDocument();
-		$params =& $mainframe->getPageParameters();
+		$params =& $mainframe->getParams();
 
 		// Get some data from the model
 		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));

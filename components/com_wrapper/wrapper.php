@@ -48,7 +48,7 @@ class WrapperController
 		$menu	= $menus->getActive();
 
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters();
+		$params = &$mainframe->getParams();
 
 		//set page title
 		$document->setTitle($menu->name);

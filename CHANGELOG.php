@@ -43,6 +43,7 @@ Legend:
  ^ Refactored JUser to use JObject setError and improved flexibility of the user data
    store through JUser::getTable function. This change allows to easily extend the user
    database tables
+ ^ Renamed JSite::getPageParameters to getParams to maintain consistency
 
 11-Sep-2007 Nur Aini Rakhmawati
  # Fixed [#6104] Components menu with invalid + duplicate id attributes

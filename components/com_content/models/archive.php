@@ -54,7 +54,7 @@ class ContentModelArchive extends JModel
 		if (empty($this->_data))
 		{
 			// Get the page/component configuration
-			$params = &$mainframe->getPageParameters();
+			$params = &$mainframe->getParams();
 
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
@@ -90,7 +90,7 @@ class ContentModelArchive extends JModel
 	{
 		global $mainframe;
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters();
+		$params = &$mainframe->getParams();
 
 		// If voting is turned on, get voting data as well for the content items
 		$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -176,7 +176,7 @@ class ContentModelArchive extends JModel
 			$filter	= $db->getEscaped($filter);
 
 			// Get the page/component configuration
-			$params = &$mainframe->getPageParameters();
+			$params = &$mainframe->getParams();
 			switch ($params->get('filter_type', 'title'))
 			{
 				case 'title' :

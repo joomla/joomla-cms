@@ -252,7 +252,7 @@ class ContentModelCategory extends JModel
 			$user	 =& JFactory::getUser();
 
 			// Get the page/component configuration
-			$params = &$mainframe->getPageParameters();
+			$params = &$mainframe->getParams();
 
 			$noauth	 = !$params->get('show_noauth');
 			$gid		 = (int) $user->get('aid', 0);
@@ -343,7 +343,7 @@ class ContentModelCategory extends JModel
 	{
 		global $mainframe;
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters();
+		$params = &$mainframe->getParams();
 
 		// If voting is turned on, get voting data as well for the content items
 		$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -372,7 +372,7 @@ class ContentModelCategory extends JModel
 	{
 		global $mainframe;
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters();
+		$params = &$mainframe->getParams();
 
 		$filter_order		= JRequest::getCmd('filter_order');
 		$filter_order_Dir	= JRequest::getWord('filter_order_Dir');
@@ -424,7 +424,7 @@ class ContentModelCategory extends JModel
 		$now			= $jnow->toMySQL();
 
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters();
+		$params = &$mainframe->getParams();
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
 

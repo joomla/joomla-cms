@@ -34,7 +34,6 @@ class SearchViewSearch extends JView
 		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php' );
 		
 		// Initialize some variables
-		$document =& JFactory::getDocument();
 		$pathway  =& $mainframe->getPathway();
 		$uri      =& JFactory::getURI();
 
@@ -47,17 +46,8 @@ class SearchViewSearch extends JView
 		$state 		= &$this->get('state');
 		$searchword = $state->get('keyword');
 		
-		// Set page title information
-		$document->setTitle(JText::_('Search'));
-
 		// Get the parameters of the active menu item
-		$menus  = &JSite::getMenu();
-		$menu   = $menus->getActive();
-		$params	= &$mainframe->getPageParameters();
-
-		if(isset($menu)) {
-			$params->def( 'page_title', $menu->name );
-		}
+		$params	= &$mainframe->getParams();
 
 		// built select lists
 		$orders = array();

@@ -38,15 +38,12 @@ class NewsfeedsViewCategory extends JView
 		// Get the parameters of the active menu item
 		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();
-		$params	= &$mainframe->getPageParameters();
+		$params	= &$mainframe->getParams();
 
 		$category	= $this->get('category');
 		$items		= $this->get('data');
 		$total		= $this->get('total');
 		$pagination	= &$this->get('pagination');
-
-		// Parameters
-		$params->def( 'page_title', $menu->name );
 
 		// Set page title per category
 		$document->setTitle( $category->title. ' - '. $params->get( 'page_title'));

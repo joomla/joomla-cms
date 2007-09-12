@@ -36,9 +36,7 @@ class ContactViewContact extends JView
 		$menus	= &JSite::getMenu();
 		$menu    = $menus->getActive();
 
-		$pparams = &$mainframe->getPageParameters('com_contact');
-
-		$pparams->def('page_title', $menu->name );
+		$pparams = &$mainframe->getParams();
 
 		// Push a model into the view
 		$model		= &$this->getModel();

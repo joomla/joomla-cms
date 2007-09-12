@@ -38,15 +38,10 @@ class ContentViewArchive extends ContentView
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
-		$document	=& JFactory::getDocument();
 		$pathway	=& $mainframe->getPathway();
 
-		// Get the menu item object
-		$menus = &JSite::getMenu();
-		$menu  = $menus->getActive();
-
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters('com_content');
+		$params = &$mainframe->getParams('com_content');
 
 		// Request variables
 		$task 		= JRequest::getCmd('task');
@@ -63,8 +58,6 @@ class ContentViewArchive extends ContentView
 
 		// Add item to pathway
 		$pathway->addItem(JText::_('Archive'), '');
-
-		$document->setTitle($menu->name);
 
 		$params->def('filter',			1);
 		$params->def('filter_type',		'title');

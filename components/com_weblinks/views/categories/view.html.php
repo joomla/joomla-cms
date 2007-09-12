@@ -33,22 +33,15 @@ class WeblinksViewCategories extends JView
 
 		$document =& JFactory::getDocument();
 
-		$menu = &JSite::getMenu();
-		$item = $menu->getActive();
-
 		$categories	=& $this->get('data');
 		$total		=& $this->get('total');
 		$state		=& $this->get('state');
 
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters();
+		$params = &$mainframe->getParams();
 
 		// Set some defaults if not set for params
-		$params->def('page_title', $item->name);
 		$params->def('comp_description', JText::_('WEBLINKS_DESC'));
-
-		// Set the page title
-		$document->setTitle($params->get('page_title'));
 
 		// Define image tag attributes
 		if ($params->get('image') != -1)

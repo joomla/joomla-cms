@@ -149,7 +149,7 @@ class ContactController extends JController
 		// Passed Validation: Process the contact plugins to integrate with other applications
 		$results	= $dispatcher->trigger( 'onSubmitContact', array( &$contact, &$post ) );
 
-		$pparams = &$mainframe->getPageParameters('com_contact');
+		$pparams = &$mainframe->getParams('com_contact');
 		if (!$pparams->get( 'custom_reply' ))
 		{
 			$MailFrom 	= $mainframe->getCfg('mailfrom');
@@ -218,7 +218,7 @@ class ContactController extends JController
 		$contact->load($contactId);
 
 		// Get the contact detail parameters
-		$pparams = &$mainframe->getPageParameters('com_contact');
+		$pparams = &$mainframe->getParams('com_contact');
 
 		// Should we show the vcard?
 		if ($pparams->get('allow_vcard', 0))
@@ -317,7 +317,7 @@ class ContactController extends JController
 
 		// Get params and component configurations
 		$params		= new JParameter($contact->params);
-		$pparams	= &$mainframe->getPageParameters('com_contact');
+		$pparams	= &$mainframe->getParams('com_contact');
 
 		// check for session cookie
 		$sessionCheck 	= $pparams->get( 'validate_session', 1 );

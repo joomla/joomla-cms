@@ -35,12 +35,8 @@ class ContentViewSection extends ContentView
 		$user		=& JFactory::getUser();
 		$document	=& JFactory::getDocument();
 
-		// Get the menu item object
-		$menus = &JSite::getMenu();
-		$menu  = $menus->getActive();
-
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters('com_content');
+		$params = &$mainframe->getParams();
 
 		// Request variables
 		$limit		= JRequest::getVar('limit', $params->get('display_num'), '', 'int');
@@ -75,18 +71,12 @@ class ContentViewSection extends ContentView
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
-		// Set the page title
-		if (!empty ($menu->name)) {
-			$document->setTitle($menu->name);
-		}
-
+	
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
 			$category->link = JRoute::_('index.php?view=category&id='.$category->slug);
 		}
-
-		$params->def('page_title', $menu->name);
 
 		if ($total == 0) {
 			$params->set('show_categories', false);

@@ -460,7 +460,7 @@ class ContentModelArticle extends JModel
 		if (empty($this->_article))
 		{
 			// Get the page/component configuration
-			$params = &$mainframe->getPageParameters();
+			$params = &$mainframe->getParams();
 
 			// If voting is turned on, get voting data as well for the article
 			$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -521,7 +521,7 @@ class ContentModelArticle extends JModel
 		}
 
 		// Get the page/component configuration
-		$params = clone($mainframe->getPageParameters('com_content'));
+		$params = clone($mainframe->getParams('com_content'));
 
 		// Merge article parameters into the page configuration
 		$aparams = new JParameter($this->_article->attribs);

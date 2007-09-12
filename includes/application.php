@@ -91,6 +91,7 @@ class JSite extends JApplication
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
 		$router     =& $this->getRouter();
+		$params     =& $this->getParams();
 
 		switch($document->getType())
 		{
@@ -117,8 +118,8 @@ class JSite extends JApplication
 		}
 
 
-		$document->setTitle( $this->getCfg('sitename' ));
-		$document->setDescription( $this->getCfg('MetaDesc') );
+		$document->setTitle( $params->get('page_title') );
+		$document->setDescription( $params->get('page_description') );
 
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer( $contents, 'component');
@@ -201,16 +202,17 @@ class JSite extends JApplication
 	}
 
 	/**
-	* Get Page Parameters
+	* Get the appliaction parameters
 	*
-	* @return object The page parameters object
+	* @return object The parameters object
 	* @since 1.5
 	*/
-	function &getPageParameters($option=null)
+	function &getParams($option = null)
 	{
 		static $params;
 
-		if (!is_object($params)) {
+		if (!is_object($params)) 
+		{
 			// Get component parameters
 			if (!$option) {
 				$option = JRequest::getCmd('option');
@@ -220,11 +222,20 @@ class JSite extends JApplication
 			// Get menu parameters
 			$menus	= &JSite::getMenu();
 			$menu	= $menus->getActive();
-
+			
+			$title       = $this->getCfg('sitename' );
+			$description = $this->getCfg('MetaDesc');
+			
 			// Lets cascade the parameters if we have menu item parameters
-			if (is_object($menu)) {
+			if (is_object($menu)) 
+			{
 				$params->merge(new JParameter($menu->params));
+				$title = $menu->name;
+				
 			}
+			
+			$params->def( 'page_title'      , $title );
+			$params->def( 'page_description', $description );
 		}
 
 		return $params;

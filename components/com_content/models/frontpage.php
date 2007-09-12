@@ -117,7 +117,7 @@ class ContentModelFrontpage extends JModel
 	{
 		global $mainframe;
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters();
+		$params = &$mainframe->getParams();
 
 		// Voting is turned on, get voting data as well for the content items
 		$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -151,7 +151,7 @@ class ContentModelFrontpage extends JModel
 	{
 		global $mainframe;
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters();
+		$params = &$mainframe->getParams();
 		if (!is_object($params)) {
 			$params = &JComponentHelper::getParams('com_content');
 		}
@@ -180,7 +180,7 @@ class ContentModelFrontpage extends JModel
 		$now		= $jnow->toMySQL();
 
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters();
+		$params = &$mainframe->getParams();
 
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();

@@ -25,12 +25,6 @@ class WrapperViewWrapper extends JView
 {
 	function display( $tpl = null )
 	{
-		// Get the parameters of the active menu item
-		$menus = &JSite::getMenu();
-		$menu  = $menus->getActive();
-
-		$this->params->def( 'page_title', $menu->name );
-
 		// auto height control
 		if ( $this->params->def( 'height_auto' ) ) {
 			$this->wrapper->load = 'onload="iFrameHeight()"';

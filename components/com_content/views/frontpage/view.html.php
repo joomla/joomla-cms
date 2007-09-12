@@ -40,15 +40,10 @@ class ContentViewFrontpage extends ContentView
 		$limit		= JRequest::getVar('limit', 5, '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-		// Get the menu item object
-		$menus = &JSite::getMenu();
-		$menu  = $menus->getActive();
-
 		// Get the page/component configuration
-		$params = &$mainframe->getPageParameters('com_content');
+		$params = &$mainframe->getParams();
 
 		// parameters
-		$title			= $params->def('page_title',	$mainframe->getCfg('sitename' ));
 		$intro			= $params->def('num_intro_articles',	4);
 		$leading		= $params->def('num_leading_articles',	1);
 		$links			= $params->def('num_links', 			4);
@@ -57,7 +52,6 @@ class ContentViewFrontpage extends ContentView
 		$descrip_image	= $params->def('show_description_image',1);
 
 		$params->set('show_intro', 	1);
-		$params->def('page_title', $menu->name);
 
 		$limit = $intro + $leading + $links;
 		JRequest::setVar('limit', (int) $limit);
@@ -81,9 +75,6 @@ class ContentViewFrontpage extends ContentView
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
-
-		$document = &JFactory::getDocument();
-		$document->setTitle($title);
 
 		jimport('joomla.html.pagination');
 		$this->pagination = new JPagination($total, $limitstart, $limit - $links);

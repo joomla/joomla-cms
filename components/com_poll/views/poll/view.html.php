@@ -47,9 +47,7 @@ class PollViewPoll extends JView
 		}
 
 		// Adds parameter handling
-		$menu   =& JSite::getMenu();
-		$item   = $menu->getActive();
-		$params = $mainframe->getPageParameters();
+		$params = $mainframe->getParams();
 
 		//Set page title information
 		$document->setTitle($poll->title);
