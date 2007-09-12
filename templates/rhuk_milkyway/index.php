@@ -125,6 +125,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 										<?php if($this->params->get('showComponent')) : ?>
 											<jdoc:include type="component" />
 										<?php endif; ?>
+										<jdoc:include type="modules" name="footer" style="xhtml"/>
 									</td>
 									<?php if($this->countModules('right') and JRequest::getCmd('layout') != 'form') : ?>
 										<td class="greyline">&nbsp;</td>
