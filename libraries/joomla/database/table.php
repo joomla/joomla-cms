@@ -238,7 +238,7 @@ class JTable extends JObject
 		if (!is_array( $ignore )) {
 			$ignore = explode( ' ', $ignore );
 		}
-		foreach ($this->getPublicProperties() as $k)
+		foreach ($this->getProperties() as $k => $v)
 		{
 			// internal attributes of an object are ignored
 			if (!in_array( $k, $ignore ))
