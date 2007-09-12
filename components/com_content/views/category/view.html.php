@@ -33,6 +33,7 @@ class ContentViewCategory extends ContentView
 		// Initialize some variables
 		$user		=& JFactory::getUser();
 		$uri 		=& JFactory::getURI();
+		$document	=& JFactory::getDocument();
 		$pathway	=& $mainframe->getPathway();
 
 		// Get the menu item object
