@@ -201,7 +201,7 @@ function showCategories( $section, $option )
 		}
 	}
 	if ($search) {
-		$filter .= ' AND LOWER(c.name) LIKE "%'.$db->getEscaped($search).'%"';
+		$filter .= ' AND LOWER(c.title) LIKE "%'.$db->getEscaped($search).'%"';
 	}
 
 	jimport('joomla.html.pagination');
