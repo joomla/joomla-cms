@@ -34,5 +34,5 @@ border-bottom: 4px solid #c4d3df;
 #system-message dd.notice ul { color: #c00; background: #EFE7B8; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
 
 /* Debug */
-#system-debug     { color: grey; background-color: white; padding: 10px; margin: 10px; }
+#system-debug     { color: #ccc; background-color: #fff; padding: 10px; margin: 10px; }
 #system-debug div { font-size: 11px;}
