@@ -224,25 +224,32 @@ class JTable extends JObject
 	 * @param	$ignore	mixed	An array or space separated list of fields not to bind
 	 * @return	boolean
 	 */
-	function bind( $from, $ignore = array() )
+	function bind( $from, $ignore=array() )
 	{
-		$fromArray	= (array) $from; //explicit cast to array
+		$fromArray	= is_array( $from );
+		$fromObject	= is_object( $from );
 
+		if (!$fromArray && !$fromObject)
+		{
+			$this->setError( get_class( $this ).'::bind failed. Invalid from argument' );
+			$this->setErrorNum(20);
+			return false;
+		}
 		if (!is_array( $ignore )) {
 			$ignore = explode( ' ', $ignore );
 		}
-		
-		foreach ($this->getProperties() as $k => $v)
+		foreach ($this->getPublicProperties() as $k)
 		{
 			// internal attributes of an object are ignored
 			if (!in_array( $k, $ignore ))
 			{
-				if(isset( $fromArray[$k] )) {
-					$this->set($k, $from[$k]);
+				if ($fromArray && isset( $from[$k] )) {
+					$this->$k = $from[$k];
+				} else if ($fromObject && isset( $from->$k )) {
+					$this->$k = $from->$k;
 				}
 			}
 		}
-		
 		return true;
 	}
 
