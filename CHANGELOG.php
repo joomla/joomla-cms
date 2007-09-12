@@ -39,6 +39,7 @@ Legend:
 
 12-Sep-2007 Robin Muilwijk
  # Fixed [#6512] incorrect sql for category component, filter field
+ # Fixed [#6932] help pages not showing inside admin site
 
 11-Sep-2007 Johan Janssens
  - Removed getPublicProperties from JObject and moved to mosDBTable legacy functions
