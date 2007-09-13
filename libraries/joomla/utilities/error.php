@@ -33,12 +33,20 @@ $GLOBALS['_JERROR_STACK'] = array();
 /*
  * Default available error levels
  */
-$GLOBALS['_JERROR_LEVELS'] = array( E_NOTICE => 'Notice', E_WARNING => 'Warning', E_ERROR => 'Error' );
+$GLOBALS['_JERROR_LEVELS'] = array( 
+	E_NOTICE 	=> 'Notice', 
+	E_WARNING	=> 'Warning', 
+	E_ERROR 	=> 'Error' 
+);
 
 /*
  * Default error handlers
  */
-$GLOBALS['_JERROR_HANDLERS'] = array( E_NOTICE => array( 'mode' => 'message' ), E_WARNING => array( 'mode' => 'message' ), E_ERROR => array( 'mode' => 'callback', 'options' => array('JError','customErrorPage') ) );
+$GLOBALS['_JERROR_HANDLERS'] = array( 
+	E_NOTICE 	=> array( 'mode' => 'message' ), 
+	E_WARNING 	=> array( 'mode' => 'message' ), 
+	E_ERROR 	=> array( 'mode' => 'callback', 'options' => array('JError','customErrorPage') ) 
+);
 
 /**
  * Error Handling Class
@@ -198,7 +206,7 @@ class JError
 		$reference = & JError::raise(E_NOTICE, $code, $msg, $info);
 		return $reference;
 	}
-
+	
 	/**
 	* Method to get the current error handler settings for a specified error level.
 	*
@@ -222,7 +230,6 @@ class JError
 	 * - die
 	 * - message
 	 * - log
-	 * - trigger
 	 * - callback
 	 *
 	 * You may also set the error handling for several modes at once using PHP's bit operations.
@@ -279,6 +286,28 @@ class JError
 		}
 
 		return true;
+	}
+	
+	/** 
+  	 * Method that attaches the error handler to JError 
+  	 * 
+  	 * @access public 
+  	 * @see set_error_handler
+  	 */ 
+	function attachHandler()
+	{
+		set_error_handler(array('JError', 'customErrorHandler'));
+	}
+	
+	/** 
+  	 * Method that dettaches the error handler from JError 
+  	 * 
+  	 * @access public 
+  	 * @see restore_error_handler
+  	 */ 
+	function detachHandler()
+	{
+		restore_error_handler(); 
 	}
 
 	/**
@@ -471,7 +500,8 @@ class JError
 	{
 		static $log;
 
-		if ($log == null) {
+		if ($log == null) 
+		{
 			jimport('joomla.utilities.log');
 			// TODO: Should this be JDate?
 			$fileName = date('Y-m-d').'.error.log';
@@ -486,40 +516,6 @@ class JError
 
 		return $error;
 	}
-
-	/**
-	 * Trigger error handler
-	 * 	- Triggers a PHP native error with the error message
-	 *
-	 * @static
-	 * @param	object	$error		Exception object to handle
-	 * @param	array	$options	Handler options
-	 * @return	object	The exception object
-	 * @since	1.5
-	 *
-	 * @see	raise()
-	 */
-    function &handleTrigger( &$error, $options )
-    {
-		switch( $error->get('level') )
-		{
-			case	E_NOTICE:
-				$level	=	E_USER_NOTICE;
-				break;
-			case	E_WARNING:
-				$level	=	E_USER_WARNING;
-				break;
-			case	E_NOTICE:
-				$level =	E_NOTICE;
-				break;
-			default:
-				$level	=	E_USER_ERROR;
-				break;
-		}
-
-		trigger_error( $error->get('message'), $level );
-		return $error;
-    }
 
  	/**
 	 * Callback error handler
@@ -575,7 +571,15 @@ class JError
 		echo JResponse::toString();
 		$mainframe->close(0);
 	}
+	
+	function customErrorHandler($level, $msg)
+	{
+		JError::raise($level, '', $msg);
+	}
 }
+
+//JError::attachHandler();
+
 
 /**
  * Joomla! Exception object.

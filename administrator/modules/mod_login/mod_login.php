@@ -25,7 +25,7 @@ array_unshift( $languages, JHTML::_('select.option',  '', JText::_( 'Default' ) 
 $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
 ?>
 <?php if(JPluginHelper::isEnabled('authentication', 'openid')) : ?>
-	<?php JHTML::_('script', 'openid'); ?>
+	<?php JHTML::_('script', 'openid.js'); ?>
 <?php endif; ?>
 <form action="index.php" method="post" name="login" id="form-login" style="clear: both;">
 	<p id="form-login-username">

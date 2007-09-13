@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access'); 
 ?>
 
-<?php JHTML::_('stylesheet', 'poll_bars', 'components/com_poll/assets/'); ?>
+<?php JHTML::_('stylesheet', 'poll_bars.css', 'components/com_poll/assets/'); ?>
 
 <form action="index.php" method="post" name="poll" id="poll">
 <?php if ($this->params->get( 'show_page_title')) : ?>

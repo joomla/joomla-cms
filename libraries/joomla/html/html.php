@@ -157,7 +157,7 @@ class JHTML
 		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$document = &JFactory::getDocument();
-		$document->addScript( $base.$path.$filename.'.js' );
+		$document->addScript( $base.$path.$filename );
 		return;
 	}
 
@@ -174,7 +174,7 @@ class JHTML
 		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$document = &JFactory::getDocument();
-		$document->addStylesheet( $base.$path.$filename.'.css', 'text/css', null, $attribs );
+		$document->addStylesheet( $base.$path.$filename, 'text/css', null, $attribs );
 		return;
 	}
 
