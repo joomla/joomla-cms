@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software and parts of it may contain or be derived from the
 * GNU General Public License or other free or open source software licenses.
@@ -11,7 +11,7 @@
 * -------------------------------------------------------------------------
 * THIS SHOULD ONLY BE USED AS A LAST RESORT WHEN THE WEB INSTALLER FAILS
 *
-* If you are installing Joomla manually i.e. not using the web installer
+* If you are installing Joomla! manually i.e. not using the web browser installer
 * then rename this file to configuration.php e.g.
 *
 * UNIX -> mv configuration.php-dist configuration.php
@@ -79,7 +79,7 @@ class JConfig {
 
 	/* Cache Settings */
 	var $caching = '0';
-	var $cachetime = '900';
+	var $cachetime = '15';
 	var $cache_handler = 'file';
 
 	/* Debug Settings */
