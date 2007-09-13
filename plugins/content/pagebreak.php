@@ -281,19 +281,29 @@ function plgContentCreateNavigation( &$row, $page, $n )
 	$pnSpace = "";
 	if (JText::_( '&lt' ) || JText::_( '&gt' )) $pnSpace = " ";
 
-	if ( $page < $n-1 ) {
-		$link_next = JRoute::_( '&limitstart='. ( $page + 1 ) );
+	if ( $page < $n-1 ) 
+	{
+		$page = $page + 1;
+		
+		$link_next = JRoute::_( '&limitstart='. ( $page ) );
 		// Next >>
 		$next = '<a href="'. $link_next .'">' . JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ) . JText::_( '&gt' ) .'</a>';
-	} else {
+	} 
+	else 
+	{
 		$next = JText::_( 'Next' );
 	}
 
-	if ( $page > 0 ) {
-		$link_prev = JRoute::_(  '&limitstart='. ( $page - 1 ) );
+	if ( $page > 0 ) 
+	{
+		$page = $page - 1 == 0 ? "" : $page - 1;  
+		
+		$link_prev = JRoute::_(  '&limitstart='. ( $page) );
 		// << Prev
 		$prev = '<a href="'. $link_prev .'">'. JText::_( '&lt' ) . JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ) .'</a>';
-	} else {
+	} 
+	else 
+	{
 		$prev = JText::_( 'Prev' );
 	}
 
