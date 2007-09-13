@@ -75,7 +75,7 @@ class JObject
 		}
 		return $default;
 	}
-	
+
 	/**
 	 * Returns an associative array of object properties
 	 *
@@ -88,10 +88,10 @@ class JObject
 	function getProperties( $public = true )
 	{
 		$vars  = get_object_vars($this);
-		
-        if($public) 
+
+        if($public)
 		{
-			foreach ($vars as $key => $value) 
+			foreach ($vars as $key => $value)
 			{
 				if ('_' == substr($key, 0, 1)) {
 					unset($vars[$key]);
@@ -100,6 +100,19 @@ class JObject
 		}
 
         return $vars;
+	}
+
+	/**
+	 * Returns an associative array of public object properties
+	 *
+	 * @access	public
+	 * @return	array
+	 * @see		get()
+	 * @since	1.5
+ 	 */
+	function getPublicProperties()
+	{
+		return $this->getProperties();
 	}
 
 	/**
@@ -164,7 +177,7 @@ class JObject
 		$this->$property = $value;
 		return $previous;
 	}
-	
+
 	/**
 	* Set the object properties based on a named array/hash
 	*
@@ -177,16 +190,16 @@ class JObject
 	function setProperties( $properties )
 	{
 		$properties = (array) $properties; //cast to an array
-		
+
 		if (is_array($properties))
 		{
 			foreach ($properties as $k => $v) {
 				$this->$k = $v;
 			}
-			
+
 			return true;
 		}
-				
+
 		return false;
 	}
 
