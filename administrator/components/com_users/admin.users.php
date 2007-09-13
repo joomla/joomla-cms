@@ -390,7 +390,7 @@ function saveUser(  )
 	if ( $me->get('id') == $user->get('id') )
 	{
 		$session	= JFactory::getSession();
-		$user->_bind($me);
+		$user->bind($me);
 		$session->set('user', $user);
 	}
 
