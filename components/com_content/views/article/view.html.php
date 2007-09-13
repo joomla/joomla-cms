@@ -66,7 +66,7 @@ class ContentViewArticle extends ContentView
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		//set breadcrumbs
-		if($menu->query['view'] != 'article')
+		if($menu && $menu->query['view'] != 'article')
 		{
 			switch ($menu->query['view'])
 			{

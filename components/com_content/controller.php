@@ -36,6 +36,12 @@ class ContentController extends JController
 	{
 		JHTML::_('behavior.caption');
 
+		// Set a default view if none exists
+		if ( ! JRequest::getCmd( 'view' ) ) {
+			$default	= JRequest::getInt('id') ? 'article' : 'frontpage';
+			JRequest::setVar('view', $default );
+		}
+		
 		// View caching logic -- simple... are we logged in?
 		$user = &JFactory::getUser();
 		if (!$user->get('gid')) {

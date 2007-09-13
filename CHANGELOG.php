@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Sep-2007 Toby Patterson
+ # Fixed [topic,173848] index2.php deprecated ? ( com_content has no default view )
+ # Fixed PHP notices when Itemid is not passed to com_content's article view
+ ! Added code to generate a default view if none is provided
+
 13-Sep-2007 Wilco Jansen
  # Fixed [#7106] incorrect data in installation SQL after addition of backlink support plugin
 
