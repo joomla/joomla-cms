@@ -23,7 +23,7 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 	// Get Plugin info
 	$plugin =& JPluginHelper::getPlugin('content', 'pagenavigation');
 
-	if ($params->get('showItemNavigation') && ($view == 'article'))
+	if ($params->get('show_item_navigation') && ($view == 'article'))
 	{
 		jimport('joomla.utilities.date');
 		$html 		= '';
@@ -106,34 +106,42 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		' AND ( publish_down = '.$db->Quote($nullDate).' OR publish_down >= '.$db->Quote($now).' )';
 
 		// array of articles in same category correctly ordered
-		$query = 'SELECT a.id'
+		$query = 'SELECT a.id,'
+		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
+		. ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug'
 		. ' FROM #__content AS a'
+		. ' LEFT JOIN #__categories AS cc ON cc.id = a.catid'
 		. ' WHERE a.catid = ' . (int) $row->catid
 		. ' AND a.state = '. (int) $row->state
 		. ($canPublish ? '' : ' AND a.access <= ' .(int) $user->get('aid', 0))
 		. $xwhere
 		. ' ORDER BY '. $orderby;
 		$db->setQuery($query);
-		$list = $db->loadResultArray();
-
+		$list = $db->loadObjectList('id');
+		
 		// this check needed if incorrect Itemid is given resulting in an incorrect result
 		if ( !is_array($list) ) {
 			$list = array();
 		}
+		
+		reset($list);
 
 		// location of current content item in array list
-		$location = array_search($uid, $list);
-
+		$location = array_search($uid, array_keys($list));
+			
+		$rows = array_values($list);
+		
 		$row->prev = null;
 		$row->next = null;
+		
 		if ($location -1 >= 0) 	{
 			// the previous content item cannot be in the array position -1
-			$row->prev = $list[$location -1];
+			$row->prev = $rows[$location -1];
 		}
 
-		if (($location +1) < count($list)) {
+		if (($location +1) < count($rows)) {
 			// the next content item cannot be in an array position greater than the number of array postions
-			$row->next = $list[$location +1];
+			$row->next = $rows[$location +1];
 		}
 
 		$pnSpace = "";
@@ -142,13 +150,13 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		}
 
 		if ($row->prev) {
-			$row->prev = JRoute::_('index.php?option=com_content&view=article&id='.$row->prev);
+			$row->prev = JRoute::_('index.php?option=com_content&view=article&catid='.$row->prev->catslug.'&id='.$row->prev->slug);
 		} else {
 			$row->prev = '';
 		}
 
 		if ($row->next) {
-			$row->next = JRoute::_('index.php?option=com_content&view=article&id='.$row->next);
+			$row->next = JRoute::_('index.php?option=com_content&view=article&catid='.$row->next->catslug.'&id='.$row->next->slug);
 		} else {
 			$row->next = '';
 		}
