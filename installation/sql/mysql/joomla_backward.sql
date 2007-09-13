@@ -361,7 +361,7 @@ INSERT INTO `#__plugins` VALUES (29, 'System - Legacy', 'legacy', 'system', 0, 2
 INSERT INTO `#__plugins` VALUES (30, 'System - Cache', 'cache', 'system', 0, 3, 0, 1, 0, 0, '0000-00-00 00:00:00', 'browsercache=0\ncachetime=15\n\n');
 INSERT INTO `#__plugins` VALUES (31, 'System - Log', 'log', 'system', 0, 4, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (32, 'System - Remember Me', 'remember', 'system', 0, 5, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__plugins` VALUES (32, 'System - Backlink', 'backlink', 'system', 0, 6, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (33, 'System - Backlink', 'backlink', 'system', 0, 6, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 
 # --------------------------------------------------------
 
