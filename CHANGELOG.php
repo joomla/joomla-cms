@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Sep-2007 Johan Janssens 
+ # Fixed [#7085] Refactored JHTML::calendar() does not include all the necessary Javascript libraries
+ # Fixed [#7115] router.php break on front page action links with SEF enabled
+
 14-Sep-2007 Andrew Eddie
  # Reinstated JObject::getPublicProperties as an alias of JObject::getProperties
  # Reinstated JSite::getPageParameters as an alias of JSite::getParams
