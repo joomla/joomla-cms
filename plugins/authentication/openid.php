@@ -58,7 +58,9 @@ class plgAuthenticationOpenID extends JPlugin
 	{
 		global $mainframe;
 
-		define ("Auth_OpenID_RAND_SOURCE", null);
+		if ( !defined('Auth_OpenID_RAND_SOURCE') ) {
+			define ("Auth_OpenID_RAND_SOURCE", null);
+		}
 
 		 // Require the OpenID consumer.
 		jimport ('openid.consumer');
