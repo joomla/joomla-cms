@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Sep-2007 Andrew Eddie
+ # Reinstated JObject::getPublicProperties as an alias of JObject::getProperties
+ # Reinstated JSite::getPageParameters as an alias of JSite::getParams
+
 13-Sep-2007 Toby Patterson
  # Fixed [topic,173848] index2.php deprecated ? ( com_content has no default view )
  # Fixed PHP notices when Itemid is not passed to com_content's article view
