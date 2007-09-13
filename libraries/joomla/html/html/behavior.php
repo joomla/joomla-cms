@@ -287,6 +287,8 @@ class JHTMLBehavior
 
 		JHTML::stylesheet('calendar-mos.css', 'includes/js/calendar/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
 		JHTML::script( 'calendar_mini.js', 'includes/js/calendar/' );
+		JHTML::script( 'joomla.javascript.js', 'includes/js/' );
+		
 		$langScript = JPATH_SITE.DS.'includes'.DS.'js'.DS.'calendar'.DS.'lang'.DS.'calendar-'.$lang->getTag().'.js';
 		if( file_exists( $langScript ) ){
 			JHTML::script( 'calendar-'.$lang->getTag().'.js', 'includes/js/calendar/lang/' );
