@@ -168,7 +168,7 @@ class JHTML
 	 * @param	string 	The relative URL to use for the href attribute
 	 * @since	1.5
 	 */
-	function stylesheet($filename, $path = '/media/system/css/', $attribs = array())
+	function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
 	{
 		global $mainframe;
 		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
