@@ -105,7 +105,8 @@ class  plgSystemLegacy extends JPlugin
 		 * @deprecated	As of version 1.5
 		 */
 		$user				=& JFactory::getUser();
-		$GLOBALS['my']		= clone($user->getTable());
+		$table				= clone($user->getTable());
+		$BLOBALS['my']      = $table->load($user->id);
 		$GLOBALS['my']->gid	= $user->get('aid', 0);
 
 		/**
