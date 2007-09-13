@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Sep-2007 Wilco Jansen
+ # Fixed [#7106] incorrect data in installation SQL after addition of backlink support plugin
+
 13-Sep-2007 Sam Moffatt
  + Added backlink support plugin
 
