@@ -51,28 +51,28 @@ class JHTMLBehavior
 		$konkcheck = strpos (strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
 
 		if ($debug || $konkcheck) {
-			JHTML::script('mootools-uncompressed', 'media/system/js/', false);
+			JHTML::script('mootools-uncompressed.js', 'media/system/js/', false);
 		} else {
-			JHTML::script('mootools', 'media/system/js/', false);
+			JHTML::script('mootools.js', 'media/system/js/', false);
 		}
 		$loaded = true;
 		return;
 	}
 
 		function caption() {
-		JHTML::script('caption');
+		JHTML::script('caption.js');
 	}
 
 	function formvalidation() {
-		JHTML::script('validate' );
+		JHTML::script('validate.js' );
 	}
 
 	function switcher() {
-		JHTML::script('switcher' );
+		JHTML::script('switcher.js' );
 	}
 
 	function combobox() {
-		JHTML::script('combobox' );
+		JHTML::script('combobox.js' );
 	}
 
 	function tooltip($selector='.hasTip', $params = array())
@@ -124,8 +124,8 @@ class JHTMLBehavior
 		if (!isset($included)) {
 
 			// Load the javascript and css
-			JHTML::script('modal');
-			JHTML::stylesheet('modal');
+			JHTML::script('modal.js');
+			JHTML::stylesheet('modal.css');
 
 			$included = true;
 		}
@@ -173,8 +173,8 @@ class JHTMLBehavior
 
 	function uploader($id='file-upload', $params = array())
 	{
-		JHTML::script('swf' );
-		JHTML::script('uploader' );
+		JHTML::script('swf.js' );
+		JHTML::script('uploader.js' );
 
 		static $uploaders;
 
@@ -236,8 +236,8 @@ class JHTMLBehavior
 
 		// Include mootools framework
 		JHTMLBehavior::mootools();
-		JHTML::script('mootree');
-		JHTML::stylesheet('mootree');
+		JHTML::script('mootree.js');
+		JHTML::stylesheet('mootree.css');
 
 		if (isset($trees[$id]) && ($trees[$id])) {
 			return;
@@ -285,13 +285,13 @@ class JHTMLBehavior
 	{
 		$lang =& JFactory::getLanguage();
 
-		JHTML::stylesheet('calendar-mos', 'includes/js/calendar/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
-		JHTML::script( 'calendar_mini', 'includes/js/calendar/' );
+		JHTML::stylesheet('calendar-mos.css', 'includes/js/calendar/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
+		JHTML::script( 'calendar_mini.js', 'includes/js/calendar/' );
 		$langScript = JPATH_SITE.DS.'includes'.DS.'js'.DS.'calendar'.DS.'lang'.DS.'calendar-'.$lang->getTag().'.js';
 		if( file_exists( $langScript ) ){
-			JHTML::script( 'calendar-'.$lang->getTag(), 'includes/js/calendar/lang/' );
+			JHTML::script( 'calendar-'.$lang->getTag().'.js', 'includes/js/calendar/lang/' );
 		} else {
-			JHTML::script( 'calendar-en-GB', 'includes/js/calendar/lang/' );
+			JHTML::script( 'calendar-en-GB.js', 'includes/js/calendar/lang/' );
 		}
 	}
 
