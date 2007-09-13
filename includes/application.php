@@ -202,16 +202,17 @@ class JSite extends JApplication
 	}
 
 	/**
-	* Get the appliaction parameters
-	*
-	* @return object The parameters object
-	* @since 1.5
-	*/
+	 * Get the appliaction parameters
+	 *
+	 * @param	string	The component option
+	 * @return	object	The parameters object
+	 * @since	1.5
+	 */
 	function &getParams($option = null)
 	{
 		static $params;
 
-		if (!is_object($params)) 
+		if (!is_object($params))
 		{
 			// Get component parameters
 			if (!$option) {
@@ -222,23 +223,35 @@ class JSite extends JApplication
 			// Get menu parameters
 			$menus	= &JSite::getMenu();
 			$menu	= $menus->getActive();
-			
+
 			$title       = $this->getCfg('sitename' );
 			$description = $this->getCfg('MetaDesc');
-			
+
 			// Lets cascade the parameters if we have menu item parameters
-			if (is_object($menu)) 
+			if (is_object($menu))
 			{
 				$params->merge(new JParameter($menu->params));
 				$title = $menu->name;
-				
+
 			}
-			
+
 			$params->def( 'page_title'      , $title );
 			$params->def( 'page_description', $description );
 		}
 
 		return $params;
+	}
+
+	/**
+	 * Get the appliaction parameters
+	 *
+	 * @param	string	The component option
+	 * @return	object	The parameters object
+	 * @since	1.5
+	 */
+	function &getPageParameters( $option = null )
+	{
+		return $this->getParams( $option );
 	}
 
 	/**
@@ -339,11 +352,11 @@ class JSite extends JApplication
 	function &getRouter()
 	{
 		$options['mode'] = $this->getCfg('sef');
-		
+
 		if($options['mode']) {
 			$options['suffix'] = '.html';
 		}
-		
+
 		if($options['mode'] && !$this->getCfg('sef_rewrite')) {
 			$options['prefix'] = 'index.php';
 		}
