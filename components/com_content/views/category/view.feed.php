@@ -30,9 +30,9 @@ class ContentViewCategory extends JView
 	{
 		global $mainframe;
 
-		$doc =& JFactory::getDocument();
+		$doc     =& JFactory::getDocument();
 		$params =& $mainframe->getParams();
-		$doc->link = JURI::base().JRoute::_('index.php?option=com_content&view=category&id='.JRequest::getVar('id',null, '', 'int'));
+		$doc->link = JRoute::_('index.php?option=com_content&view=category&id='.JRequest::getVar('id',null, '', 'int'));
 
 		// Get some data from the model
 		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
@@ -51,12 +51,12 @@ class ContentViewCategory extends JView
 			// strip html from feed item description text
 			$description	= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
 			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
-			@$date = ( $row->created ? date( 'r', strtotime($row->created) ) : '' );
+			@$date 			= ( $row->created ? date( 'r', strtotime($row->created) ) : '' );
 
 			// load individual item creator class
 			$item = new JFeedItem();
 			$item->title 		= $title;
-			$item->link 		= JURI::base().$link;
+			$item->link 		= $link;
 			$item->description 	= $description;
 			$item->date			= $date;
 			$item->category   	= $row->category;
