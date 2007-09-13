@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Sep-2007 Sam Moffatt
+ + Added backlink support plugin
+
 12-Sep-2007 Robin Muilwijk
  # Fixed [#6512] incorrect sql for category component, filter field
  # Fixed [#6932] help pages not showing inside admin site

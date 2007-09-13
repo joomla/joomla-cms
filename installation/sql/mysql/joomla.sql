@@ -361,6 +361,7 @@ INSERT INTO `#__plugins` VALUES (29, 'System - Legacy', 'legacy', 'system', 0, 2
 INSERT INTO `#__plugins` VALUES (30, 'System - Cache', 'cache', 'system', 0, 3, 0, 1, 0, 0, '0000-00-00 00:00:00', 'browsercache=0\ncachetime=15\n\n');
 INSERT INTO `#__plugins` VALUES (31, 'System - Log', 'log', 'system', 0, 4, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (32, 'System - Remember Me', 'remember', 'system', 0, 5, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (32, 'System - Backlink', 'backlink', 'system', 0, 6, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 
 # --------------------------------------------------------
 
@@ -816,5 +817,20 @@ CREATE TABLE `#__core_acl_aro_sections` (
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 INSERT INTO `#__core_acl_aro_sections` VALUES (10,'users',1,'Users',0);
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `#__migration_backlinks`
+#
+CREATE TABLE #__migration_backlinks (
+	`itemid` INT(11) NOT NULL,
+	`name` VARCHAR(100) NOT NULL,
+	`url` TEXT NOT NULL,
+	`sefurl` TEXT NOT NULL,
+	`newurl` TEXT NOT NULL,
+	PRIMARY KEY(`itemid`)
+) TYPE=MyISAM CHARACTER SET `utf8`;
+
 
 # --------------------------------------------------------
