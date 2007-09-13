@@ -31,12 +31,12 @@ if ($this->params->def('show_description', 1) || $this->params->def('show_descri
 	echo '</div>';
 }
 
-$i = 0;
+$i = $this->pagination->limitstart;
 if ($this->params->def('num_leading_articles', 1)) {
 	$rowcount = (int) $this->params->get('num_leading_articles');
 	for ($y = 0; $y < $rowcount && $i < $total; $y++) {
 		echo '<div  class="leading' . $this->params->get('pageclass_sfx') . '" >';
-		if (($i < $this->params->get('num_leading_articles')) && ($i < $total)) {
+		if (($i < ($this->pagination->limitstart + $this->params->get('num_leading_articles'))) && ($i < $total)) {
 			$this->item = & $this->getItem($i, $this->params);
 			echo $this->loadTemplate('item');
 			$i++;
@@ -45,7 +45,7 @@ if ($this->params->def('num_leading_articles', 1)) {
 		echo '<span class="leading_separator' . $this->params->get('pageclass_sfx') . '">&nbsp;</span>';
 	}
 } else {
-	$i = 0;
+	$i = $this->pagination->limitstart;
 }
 if ($this->params->def('num_intro_articles', 4) && ($i < $total)) {
 	$rowcount = (int) $this->params->get('num_intro_articles') / $colcount;
