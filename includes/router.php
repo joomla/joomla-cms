@@ -40,7 +40,7 @@ class JRouterSite extends JRouter
 		$menu =& JSite::getMenu(true);
 		
 		//Handle an empty URL (special case)
-		if(!$uri->getQuery())
+		if(!$uri->getVar('Itemid') && !$uri->getVar('option'))
 		{
 			$item = $menu->getDefault();
 			
@@ -90,7 +90,7 @@ class JRouterSite extends JRouter
 		$url = trim($url , '/');
 			
 		//Handle an empty URL (special case)
-		if(empty($url) && !$uri->getQuery())
+		if(empty($url))
 		{
 			$item = $menu->getDefault();
 			
@@ -209,10 +209,14 @@ class JRouterSite extends JRouter
 	{
 		$route = ''; //the route created
 		
-		$menu =& JSite::getMenu();
-		
 		//Get the query data
 		$query = $uri->getQuery(true);
+		
+		if(!isset($query['option'])) {
+			return $route;
+		}
+		
+		$menu =& JSite::getMenu();
 		
 		/*
 		 * Built the application route
@@ -301,7 +305,10 @@ class JRouterSite extends JRouter
 			}
 			else
 			{
-				$uri->setVar('option', $this->getVar('option'));
+				if($option = $this->getVar('option')) {
+					$uri->setVar('option', $option);
+				}
+				
 				if($itemid = $this->getVar('Itemid')) {
 					$uri->setVar('Itemid', $itemid);
 				}

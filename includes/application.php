@@ -345,7 +345,7 @@ class JSite extends JApplication
 		}
 		
 		if($options['mode'] && !$this->getCfg('sef_rewrite')) {
-			$options['prefix'] = 'index.php/';
+			$options['prefix'] = 'index.php';
 		}
 
 		$router =& parent::getRouter('site', $options);

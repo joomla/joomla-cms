@@ -189,11 +189,18 @@ class JRouter extends JObject
 		//Process the uri information based on custom defined rules
 		$this->_processBuildRules($uri);
 	
-		//Prepend the route with a delimiter
-		$route = !empty($route) ? $route : ''; 
+		//Append and prepend informatio to the route
+		if(!empty($route)) 
+		{ 
+			//Append the route with the suffix
+			$route = $route.$this->_suffix;
+			
+			//Prepend the route with a delimiter if needed
+			$route = !empty($this->_prefix) ? '/'.$route : $route;
+		}
 		
 		//Create the route
-		$url = $this->_prefix.$route.$this->_suffix.$uri->toString(array('query', 'fragment'));
+		$url = $this->_prefix.$route.$uri->toString(array('query', 'fragment'));
 
 		return $url;
 	}
