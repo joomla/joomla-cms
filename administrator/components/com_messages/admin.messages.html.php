@@ -99,7 +99,7 @@ class HTML_messages
 						<?php echo JHTML::_('grid.id', $i, $row->message_id ); ?>
 					</td>
 					<td>
-						<a href="#edit" onclick="hideMainMenu();return listItemTask('cb<?php echo $i;?>','view')">
+						<a href="#edit" onclick="return listItemTask('cb<?php echo $i;?>','view')">
 							<?php echo $row->subject; ?></a>
 					</td>
 					<td align="center">

@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-global $task, $hidemainmenu;
+global $task;
 
 // Initialize some variables
 $config		=& JFactory::getConfig();
@@ -66,7 +66,7 @@ $online_num = intval( $db->loadResult() );
 //Print the logged in users message
 $output[] = "<span class=\"loggedin-users\">".$online_num."</span>";
 
-if ($task == 'edit' || $task == 'editA' || $hidemainmenu ) {
+if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu') ) {
 	 // Print the logout message
 	 $output[] = "<span class=\"logout\">".JText::_('Logout')."</span>";
 } else {
