@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Sep-2007 Toby Patterson 
+ + Implemented menu attribute MenusModelItem (com_menu)
+ ! In config.xml, use '<config menu="hide" >' to disable showing of the component params in the menu manager
+
 14-Sep-2007 Johan Janssens 
  # Fixed [#7085] Refactored JHTML::calendar() does not include all the necessary Javascript libraries
  # Fixed [#7115] router.php break on front page action links with SEF enabled

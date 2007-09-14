@@ -207,7 +207,15 @@ class MenusModelItem extends JModel
 				if ($xml->loadFile($path)) 
 				{
 					$document =& $xml->document;
-
+					
+					// if hide is set, don't show the component configuration while editing menu item
+					$menu = $document->attributes('menu');
+					if ( isset($menu) && $menu == 'hide' )
+					{
+						$params = null;
+						return $params;
+					}
+					
 					if (isset($document->params[0]->param)) 
 					{
 						for ($i=0,$n=count($document->params[0]->param); $i<$n; $i++)
