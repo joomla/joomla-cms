@@ -41,7 +41,7 @@ var JXStandard = new Class({
 			$(instance.className).value = contents;
 		});
 	}
-}
+})
 
 document.xstandard = null
 window.addEvent('domready', function(){
