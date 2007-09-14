@@ -83,19 +83,6 @@ class TablePoll extends JTable
 			$this->_error = JText::_( 'Your Poll must have a non-zero lag time.' );
 			return false;
 		}
-		// check for existing title
-		$query = 'SELECT id'
-		. ' FROM #__polls'
-		. ' WHERE title = '.$this->_db->Quote($this->title)
-		;
-		$this->_db->setQuery( $query );
-
-		$xid = intval( $this->_db->loadResult() );
-		if ( $xid && $xid != intval( $this->id ) )
-		{
-			$this->_error = JText::sprintf( 'WARNNAMETRYAGAIN', JText::_( 'Module') );
-			return false;
-		}
 
 		jimport('joomla.filter.output');
 		$alias = JFilterOutput::stringURLSafe($this->title);
