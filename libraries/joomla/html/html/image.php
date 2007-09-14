@@ -36,16 +36,20 @@ class JHTMLImage
 	* @param	int		empty: use $file and $folder, -1: show no image, not-empty: use $altFile and $altFolder
 	* @param	string	Another path.  Only used for the contact us form based on the value of the imagelist parm
 	* @param	string	Alt text
+	* @param	array	An associative array of attributes to add
 	* @param	boolean	True (default) to display full tag, false to return just the path
-	* @param	string	Align value
 	*/
-	function site( $file, $folder='/images/M_images/', $altFile=NULL, $altFolder='/images/M_images/', $alt=NULL, $name='image', $asTag=1, $align='top' )
+	function site( $file, $folder='/images/M_images/', $altFile=NULL, $altFolder='/images/M_images/', $alt=NULL, $attribs = null, $asTag = 1)
 	{
 		static $paths;
 		global $mainframe;
 
 		if (!$paths) {
 			$paths = array();
+		}
+		
+		if (is_array( $attribs )) {
+			$attribs = JArrayHelper::toString( $attribs );
 		}
 
 		$cur_template = $mainframe->getTemplate();
@@ -79,10 +83,10 @@ class JHTMLImage
 
 		// outputs actual html <img> tag
 		if ($asTag) {
-			return '<img src="'. $src .'" alt="'. html_entity_decode( $alt ) .'" align="'. $align .'" border="0" />';
-		} else {
-			return $src;
+			return '<img src="'. $src .'" alt="'. html_entity_decode( $alt ) .'" '.$attribs.' />';
 		}
+			
+		return $src;
 	}
 
 	/**
@@ -90,10 +94,22 @@ class JHTMLImage
 	* if it does it loads this image.  Otherwise the default image is loaded.
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
+	* 
+	* @param	string	The file name, eg foobar.png
+	* @param	string	The path to the image
+	* @param	int		empty: use $file and $folder, -1: show no image, not-empty: use $altFile and $altFolder
+	* @param	string	Another path.  Only used for the contact us form based on the value of the imagelist parm
+	* @param	string	Alt text
+	* @param	array	An associative array of attributes to add
+	* @param	boolean	True (default) to display full tag, false to return just the path
 	*/
-	function administrator( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )
+	function administrator( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt = NULL, $attribs = null, $type = 1 )
 	{
 		global $mainframe;
+		
+		if (is_array( $attribs )) {
+			$attribs = JArrayHelper::toString( $attribs );
+		}
 
 		$cur_template = $mainframe->getTemplate();
 
@@ -123,7 +139,7 @@ class JHTMLImage
 
 		// outputs actual html <img> tag
 		if ( $type ) {
-			$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" border="0" />';
+			$image = '<img src="'. $image .'" alt="'. $alt .'" '.$attribs.' />';
 		}
 
 		return $image;

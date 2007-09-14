@@ -118,7 +118,7 @@ class SearchViewSearch extends JView
 		}
 
 		$this->result	= JText::sprintf( 'TOTALRESULTSFOUND', $total, $this->escape($searchword) );
-		$this->image	= JHTML::_('image.site',  'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
+		$this->image	= JHTML::_('image.site',  'google.png', '/images/M_images/', NULL, NULL, 'Google' );
 
 		for($i = 0; $i < count($results); $i++ )
 		{

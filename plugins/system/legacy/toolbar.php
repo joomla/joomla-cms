@@ -50,7 +50,7 @@ class mosToolBar {
 	function custom( $task='', $icon=NULL, $iconOver='', $alt='', $listSelect=true ) {
 
 		$icon 	= ( $iconOver ? $iconOver : $icon );
-		$image 	= JHTML::_('image.site',  $icon, '/images/', NULL, NULL, $alt, $task, 1 );
+		$image 	= JHTML::_('image.site',  $icon, '/images/', NULL, NULL, $alt );
 
 		if ($listSelect) {
 			$onclick = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( $alt, true ). "');}else{submitbutton('$task')}";
@@ -235,7 +235,7 @@ class mosToolBar {
 		$cur_template = $db->loadResult();
 
 		$alt	= JText::_( 'Preview' );
-		$image 	= JHTML::_('image.site',  'preview_f2.png', 'images/', NULL, NULL, $alt, 'preview', 1 );
+		$image 	= JHTML::_('image.site',  'preview_f2.png', 'images/', NULL, NULL, $alt );
 		?>
 		<td>
 			<a class="toolbar" onclick="window.open('popups/<?php echo $popup;?>.php?t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');" >
@@ -250,7 +250,7 @@ class mosToolBar {
 	*/
 	function back() {
 		$alt= JText::_( 'back' );
-		$image = JHTML::_('image.site',  'back_f2.png', '/images/', NULL, NULL, $alt, 'cancel', 1 );
+		$image = JHTML::_('image.site',  'back_f2.png', '/images/', NULL, NULL, $alt );
 		?>
 		<td>
 			<a class="toolbar" href="javascript:window.history.back();" >
@@ -277,7 +277,7 @@ class mosToolBar {
 	*/
 	function media_manager( $directory = '' ) {
 		$alt= JText::_( 'Upload Image' );
-		$image = JHTML::_('image.site',  'upload_f2.png', '/images/', NULL, NULL, $alt, 'uploadPic', 1 );
+		$image = JHTML::_('image.site',  'upload_f2.png', '/images/', NULL, NULL, $alt );
 		?>
 		<td>
 			<a class="toolbar" onclick="popupWindow('popups/uploadimage.php?directory=<?php echo $directory; ?>','win1',250,100,'no');">

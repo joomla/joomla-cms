@@ -1909,7 +1909,8 @@ class mosAdminMenus
  	*/
 	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='top' )
 	{
-		return JHTML::_('image.site', $file, $directory, $param, $param_directory, $alt, $name, $type, $align);
+		$attribs = array('align' => $align);
+		return JHTML::_('image.site', $file, $directory, $param, $param_directory, $alt, $attribs, $type);
 	}
 
 	/**
@@ -1919,7 +1920,8 @@ class mosAdminMenus
  	*/
 	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )
 	{
-		return JHTML::_('image.administrator', $file, $directory, $param, $param_directory, $alt, $name, $type, $align);
+		$attribs = array('align' => $align);
+		return JHTML::_('image.administrator', $file, $directory, $param, $param_directory, $alt, $attribs, $type);
 	}
 
 	/**
