@@ -206,7 +206,7 @@ class JRegistryFormatINI extends JRegistryFormat
 				}
 			}
 		}
-		$inistocache[$hash] =& $obj;
+		$inistocache[$hash] = clone($obj);
 		return $obj;
 	}
 }
