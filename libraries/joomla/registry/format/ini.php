@@ -80,15 +80,25 @@ class JRegistryFormatINI extends JRegistryFormat {
 	 */
 	function &stringToObject( $data, $process_sections = false )
 	{
+		static $inistocache;
+
+		if (!isset( $inistocache )) {
+			$inistocache = array();
+		}
+		
 		if (is_string($data)) {
 			$lines = explode("\n", $data);
+			$hash = md5($data); 
 		} else {
 			if (is_array($data)) {
 				$lines = $data;
 			} else {
 				$lines = array ();
 			}
+			$hash = md5(implode("\n",$lines));
 		}
+		if(array_key_exists($hash, $inistocache)) return $inistocache[$hash];
+		
 		$obj = new stdClass();
 
 		$sec_name = '';
@@ -169,6 +179,7 @@ class JRegistryFormatINI extends JRegistryFormat {
 				}
 			}
 		}
+		$inistocache[$hash] =& $obj;
 		return $obj;
 	}
 }
