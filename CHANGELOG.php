@@ -40,6 +40,7 @@ Legend:
 14-Sep-2007 Johan Janssens 
  # Fixed [#7085] Refactored JHTML::calendar() does not include all the necessary Javascript libraries
  # Fixed [#7115] router.php break on front page action links with SEF enabled
+ # Fixed [#7106] Error message on installation after addtion of new plugin
 
 14-Sep-2007 Andrew Eddie
  # Reinstated JObject::getPublicProperties as an alias of JObject::getProperties
