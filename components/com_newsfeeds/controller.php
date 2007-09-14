@@ -34,6 +34,11 @@ class NewsfeedsController extends JController
 	 */
 	function display()
 	{
+		// Set a default view if none exists
+		if ( ! JRequest::getCmd( 'view' ) ) {
+			JRequest::setVar('view', 'categories' );
+		}
+		
 		parent::display();
 	}
 }

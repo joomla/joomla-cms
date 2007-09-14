@@ -34,6 +34,11 @@ class WeblinksController extends JController
 	 */
 	function display()
 	{
+		// Set a default view if none exists
+		if ( ! JRequest::getCmd( 'view' ) ) {
+			JRequest::setVar('view', 'categories' );
+		}
+		
 		//update the hit count for the weblink
 		if(JRequest::getCmd('view') == 'weblink')
 		{
