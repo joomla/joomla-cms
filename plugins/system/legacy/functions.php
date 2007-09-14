@@ -856,7 +856,9 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 {
 	// Initialize the toolips if required
 	static $init;
-	if ( ! $init ) {			JHTML::_('behavior.tooltip');
+	if ( ! $init ) 
+	{			
+		JHTML::_('behavior.tooltip');
 		$init = true;
 	}
 		
