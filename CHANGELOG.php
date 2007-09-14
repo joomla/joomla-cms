@@ -37,9 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+
 14-Sep-2007 Toby Patterson 
  + Implemented menu attribute MenusModelItem (com_menu)
- ! In config.xml, use '<config menu="hide" >' to disable showing of the component params in the menu manager
+ ! In config.xml, use '<config menu="hide" >' to disable showing of the component params in the menu 
+   manager
 
 14-Sep-2007 Johan Janssens 
  # Fixed [#7085] Refactored JHTML::calendar() does not include all the necessary Javascript libraries
@@ -47,7 +50,11 @@ Legend:
  # Fixed [#7106] Error message on installation after addtion of new plugin
  ^ Updated TCPDF to version 1.53.0.TC034_PHP4
  - Removed $name parameter and added $attribs parameter from JHTMLImage::site and administrator functions
- - Removed border="0" from JHTMLImage::site and administrator functions  
+ - Removed border="0" from JHTMLImage::site and administrator functions 
+ # Fixed [#4483] JRoute does not build correct URL 
+ # Fixed [#5403] JUser class getError and setError methods for returning errors
+ # Fixed [#5998] PDF creating - Find function, Copy function not working
+ # Fixed [#6639] JSiteRouter::parse() should create document after parsing.
 
 14-Sep-2007 Andrew Eddie
  # Reinstated JObject::getPublicProperties as an alias of JObject::getProperties

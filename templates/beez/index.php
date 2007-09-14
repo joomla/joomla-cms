@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $url = clone(JURI::getInstance());
-$showRightColumn = (bool) $this->countModules('user1 + user2 + right + top');
+$showRightColumn = $this->countModules('user1 or user2 or right or top');
 $showRightColumn &= JRequest::getCmd('layout') != 'form';
 $showRightColumn &= JRequest::getCmd('task') != 'edit'
 ?>

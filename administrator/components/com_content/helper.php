@@ -32,7 +32,6 @@ class ContentHelper
 		// Clean text for xhtml transitional compliance
 		jimport('joomla.filter.output');
 		$text		= str_replace( '<br>', '<br />', $text );
-		$row->title	= JFilterOutput::ampReplace($row->title);
 
 		// Search for the {readmore} tag and split the text up accordingly.
 		$tagPos	= JString::strpos( $text, '<hr id="system-readmore" />' );
