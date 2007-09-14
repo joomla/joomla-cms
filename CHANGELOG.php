@@ -42,7 +42,7 @@ Legend:
  # Fixed [#7115] router.php break on front page action links with SEF enabled
  # Fixed [#7106] Error message on installation after addtion of new plugin
  ^ Updated TCPDF to version 1.53.0.TC034_PHP4
- - Removed $name parameter and added $attribs parameter to JHTMLImage::site and administrator functions
+ - Removed $name parameter and added $attribs parameter from JHTMLImage::site and administrator functions
  - Removed border="0" from JHTMLImage::site and administrator functions  
 
 14-Sep-2007 Andrew Eddie
