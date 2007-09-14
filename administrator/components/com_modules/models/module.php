@@ -101,8 +101,15 @@ class ModulesModelModule extends JModel
 		$db->setQuery( $query );
 		$templates = $db->loadObjectList();
 
+		// Get a list of all module positions as set in the database
+		$query = 'SELECT DISTINCT(position)'.
+				' FROM #__modules' .
+				' WHERE client_id = '.(int) $client->id;
+		$db->setQuery( $query );
+		$positions = $db->loadResultArray();
+		$positions = (is_array($positions)) ? $positions : array();
+
 		// Get a list of all template xml files for a given application
-		$positions = array();
 
 		// Get the xml parser first
 		for ($i = 0, $n = count($templates); $i < $n; $i++ )
