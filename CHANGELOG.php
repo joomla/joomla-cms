@@ -3137,46 +3137,46 @@ You have to open the article preferences and change the setting to show and save
 21-Mar-2006 Johan Janssens
  + Added JSimpleXML class to utilities package
 
-21-Mar-2005 Louis Landry
+21-Mar-2006 Louis Landry
  ^ Renamed JModel to JTable and added to the database package
  ^ Use josRedirect instead of mosRedirect in codebase
  ^ Moved deprecated methods out of JTable class and getPublicProperties() into JObject
 
-20-Mar-2005 Louis Landry
+20-Mar-2006 Louis Landry
  ^ Use JRequest::getVar instead of mosGetParam in codebase
 
-20-Mar-2005 Johan Janssens
+20-Mar-2006 Johan Janssens
  # Fixed [artf3938] : addHeadLink does not properly format output when additional attributes are specified.
  - Removed legacy usertypes db table
 
-19-Mar-2005 Louis Landry
+19-Mar-2006 Louis Landry
  + CSS driven full admin menu module
 
-17-Mar-2005 Johan Janssens
+17-Mar-2006 Johan Janssens
  ! Overall preformance improvements
  ^ Feature request [artf1796] : Admin: Items -> sort by pressing on tableheader
 
-17-Mar-2005 Andrew Eddie
+17-Mar-2006 Andrew Eddie
  ^ Upgraded mod_banners to allow for multiple banners to be shown
  ^ For review: In component navigation for com_banners
  ^ For review: In component navigation for com_templates
  ^ For review: Code snippets in template HTML editor
 
-16-Mar-2005 Johan Janssens
+16-Mar-2006 Johan Janssens
  - Removed administrator/includes/toolbar.html.php
  - Moved parameter package into presentation package
 
-16-Mar-2005 Louis Landry
+16-Mar-2006 Louis Landry
  + JMenu class to hold menu item information
  ^ Implemented caching in com_content
  ^ Implemented caching in mod_newsflash
  ^ Various performance improvements
 
-15-Mar-2005 Louis Landry
+15-Mar-2006 Louis Landry
  + JMessage class to utility package
  ^ com_content restructuring
 
-15-Mar-2005 Andrew Eddie
+15-Mar-2006 Andrew Eddie
  + Added webpage and mobile fields to contacts table
  ^ Widen several narrow fields in contacts table to allow for more characters
  ^ Contact position, address and phone number edit fields changes to textareas
