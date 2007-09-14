@@ -85,17 +85,17 @@ if (!defined("K_TCPDF_EXTERNAL_CONFIG")) {
 	/**
 	 * document creator
 	 */
-	define("PDF_CREATOR", "pdf creator");
+	define("PDF_CREATOR", "TCPDF");
 
 	/**
 	 * document author
 	 */
-	define("PDF_AUTHOR", "pdf author");
+	define("PDF_AUTHOR", "TCPDF");
 
 	/**
 	 * header title
 	 */
-	define("PDF_HEADER_TITLE", "first row\nsecond row\nthird row");
+	define("PDF_HEADER_TITLE", "header title");
 
 	/**
 	 * header description string

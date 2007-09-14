@@ -5,10 +5,10 @@ Name:
 	TCPDF
 
 Version:
-	1.53.0.TC030_PHP4
+	1.53.0.TC034_PHP4
 	
 Release date:
-	2007-03-06
+	2007-09-12
 
 Author:
 	Nicola Asuni 
