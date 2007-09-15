@@ -488,6 +488,10 @@ td.buttonheading {
 
 }
 
+td.buttonheading img {
+	border:none;
+}
+
 .clr {
 	clear: both;
 }
