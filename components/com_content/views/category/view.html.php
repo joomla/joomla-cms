@@ -49,10 +49,13 @@ class ContentViewCategory extends ContentView
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// parameters
+
 		$intro		= $params->def('num_intro_articles', 	0);
 		$leading	= $params->def('num_leading_articles', 	0);
 		$links		= $params->def('num_links', 			0);
 		$headings	= $params->def('show_headings', 		1);
+		$contentConfig = &JComponentHelper::getParams( 'com_content' );
+		$params->def('show_title', 			$contentConfig->get('show_title'));
 
 		//In case we are in a blog view set the limit
 		if($limit ==  0) $limit = $intro + $leading + $links;
