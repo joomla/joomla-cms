@@ -163,7 +163,7 @@ class JApplication extends JObject
 		// Set user specific editor
 		$user	 =& JFactory::getUser();
 		$editor	 = $user->getParam('editor', $this->getCfg('editor'));
-		$editor = JPLuginHelper::isEnabled('editors', $editor) ? $editor : $this->getCfg('editor');
+		$editor = JPluginHelper::isEnabled('editors', $editor) ? $editor : $this->getCfg('editor');
 		$config->setValue('config.editor', $editor);
 
 		// Set the database debug
@@ -172,12 +172,12 @@ class JApplication extends JObject
 	}
 
 	/**
-	* Route the applicaiton.
+	* Route the application.
 	*
 	* Routing is the process of examining the request environment to determine which
-	* which component should receive the request. This component optional parameters
+	* component should receive the request. The component optional parameters
 	* are then set in the request object to be processed when the application is being
-	* dispatched
+	* dispatched.
 	*
 	* @abstract
 	* @access	public
@@ -197,8 +197,8 @@ class JApplication extends JObject
 	* Dispatch the applicaiton.
 	*
 	* Dispatching is the process of pulling the option from the request object and
-	* mapping them to a component. If the component do not exist, it handles
-	* determining a default component to dispatch
+	* mapping them to a component. If the component does not exist, it handles
+	* determining a default component to dispatch.
 	*
 	* @abstract
 	* @access	public
@@ -218,7 +218,7 @@ class JApplication extends JObject
 	* Render the application.
 	*
 	* Rendering is the process of pushing the document buffers into the template
-	* placeholders, retrieving data from the document and pushing it into the into
+	* placeholders, retrieving data from the document and pushing it into
 	* the JResponse buffer.
 	*
 	* @abstract

@@ -103,14 +103,11 @@ class JDatabase extends JObject
 
 	/**
 	 * Returns a reference to the global Database object, only creating it
-	 * if it doesn't already exist.
+	 * if it doesn't already exist.  The 'driver' entry in the parameters array
+	 * specifies the database driver to be used (defaults to 'mysql' if omitted).
+	 * All other parameters are database driver dependent.
 	 *
-	 * @param string  Database driver
-	 * @param string Database host
-	 * @param string Database user name
-	 * @param string Database user password
-	 * @param string Database name
-	 * @param string Common prefix for all tables
+	 * @param array Parameters to be passed to the database driver
 	 * @return JDatabase A database object
 	 * @since 1.5
 	*/
