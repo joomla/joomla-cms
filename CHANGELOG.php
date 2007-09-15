@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Sep-2007 Andy Wallace
+ ^ Amended en-GB ini files utf-8 message to include "No BOM"
+
 15-Sep-2007 Nur Aini Rakhmawati
  # Fixed [#7066] show_title parameter is unavailable
 
