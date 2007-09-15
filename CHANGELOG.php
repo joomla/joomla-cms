@@ -3324,12 +3324,12 @@ You have to open the article preferences and change the setting to show and save
  ^ Modified JString to load after pre-installation check (phputf8 will crash on wrong settings)
  + Added local mbstring environmental settings in htaccess.txt ready for uncommenting if needed
 
-08-Feb-2005 Louis Landry
+08-Feb-2006 Louis Landry
  # Fixed [artf3432] : Administrator toolbar items do not contain port number
 
 -------------------- 1.5.0 Alpha 2 Released -- [06-Feb-2006 00:00 UTC] ------------------
 
-04-Feb-2005 Johan Janssens
+04-Feb-2006 Johan Janssens
  # Fixed [artf3368] : $url not set in mosAdminMenus::ImageCheckAdmin and administrator-dir handling is wrong
 
 03-Feb 2006 Rey Gigataras
