@@ -159,6 +159,7 @@ class ContentModelArticle extends JModel
 		}
 		else
 		{
+			$user =& JFactory::getUser();
 			$article =& JTable::getInstance('content');
 			$article->state			= 1;
 			$article->cat_pub		= null;
@@ -166,6 +167,7 @@ class ContentModelArticle extends JModel
 			$article->cat_access	= null;
 			$article->sec_access	= null;
 			$article->author		= null;
+			$article->created_by	= $user->get('id');
 			$article->parameters	= new JParameter( '' );
 			$article->text			= '';
 			$this->_article			= $article;
