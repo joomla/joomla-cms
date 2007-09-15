@@ -95,7 +95,8 @@ class modMainMenuHelper
 						break;
 					}
 				}
-				if (( $i?$i:1 ) == $start) {
+			
+				if ($i == $start-1) {
 					$found = true;
 					break;
 				}

@@ -37,7 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
-
+14-Sep-2007 Andy Miller
+ # Fixed bug with 3rd level+ split menu with mod_mainmenu
 
 14-Sep-2007 Toby Patterson 
  + Implemented menu attribute MenusModelItem (com_menu)
