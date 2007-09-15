@@ -499,11 +499,11 @@ class UserController extends JController
 
 		$name 		= $user->get('name');
 		$email 		= $user->get('email');
-		$username 	= $user->get('username');
+		$username 		= $user->get('username');
 
-		$usersConfig = &JComponentHelper::getParams( 'com_users' );
+		$usersConfig 	= &JComponentHelper::getParams( 'com_users' );
 		$sitename 		= $mainframe->getCfg( 'sitename' );
-		$useractivation = $usersConfig->get( 'useractivation' );
+		$useractivation 	= $usersConfig->get( 'useractivation' );
 		$mailfrom 		= $mainframe->getCfg( 'mailfrom' );
 		$fromname 		= $mainframe->getCfg( 'fromname' );
 		$siteURL		= JURI::base();
@@ -518,24 +518,21 @@ class UserController extends JController
 		}
 
 		$message = html_entity_decode($message, ENT_QUOTES);
+
+		//get all super administrator
+		$query = 'SELECT name, email, sendEmail' .
+				' FROM #__users' .
+				' WHERE LOWER( usertype ) = "super administrator"';
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList();
+
 		// Send email to user
 		if ($mailfrom != "" && $fromname != "") {
-			$adminName2 = $fromname;
-			$adminEmail2 = $mailfrom;
-		} else {
-			$query = 'SELECT name, email' .
-					' FROM #__users' .
-					' WHERE LOWER( usertype ) = "superadministrator"' .
-					' OR LOWER( usertype ) = "super administrator"';
-			$db->setQuery( $query );
-			$rows = $db->loadObjectList();
-
-			$row2 			= $rows[0];
-			$adminName2 	= $row2->name;
-			$adminEmail2 	= $row2->email;
+			$fromname = $rows[0]->name;
+			$mailfrom = $rows[0]->email;
 		}
 
-		JUtility::sendMail($adminEmail2, $adminName2, $email, $subject, $message);
+		JUtility::sendMail($mailfrom, $fromname, $email, $subject, $message);
 
 		// Send notification to all administrators
 		$subject2 = sprintf ( JText::_( 'Account details for %s at %s' ), $name, $sitename);
@@ -544,21 +541,10 @@ class UserController extends JController
 		$message2 = html_entity_decode($message2, ENT_QUOTES);
 
 		// get superadministrators id
-		$authorize =& JFactory::getACL();
-		$admins = $authorize->get_group_objects( 25, 'ARO' );
-
-		foreach ( $admins['users'] AS $id )
+		foreach ( $rows as $row )
 		{
-			$query = 'SELECT email, sendEmail' .
-					' FROM #__users' .
-					' WHERE id = '. (int) $id;
-			$db->setQuery( $query );
-			$rows = $db->loadObjectList();
-
-			$row = $rows[0];
-
 			if ($row->sendEmail) {
-				JUtility::sendMail($adminEmail2, $adminName2, $row->email, $subject2, $message2);
+				JUtility::sendMail($mailfrom, $fromname, $row->email, $subject2, $message2);
 			}
 		}
 	}
