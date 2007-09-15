@@ -154,7 +154,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		if ((trim($this->email == "")) || ! JMailHelper::isEmailAddress($this->email) ) {
+		if ((trim($this->email) == "") || ! JMailHelper::isEmailAddress($this->email) ) {
 			$this->setError( JText::_( 'WARNREG_MAIL' ) );
 			return false;
 		}
