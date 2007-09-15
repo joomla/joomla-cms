@@ -1460,6 +1460,7 @@ class mosCommonHTML
  	*/
 	function checkedOut( &$row, $overlib=1 )
 	{
+		jimport('joomla.html.html.grid');
 		return JHTMLGrid::_checkedOut($row, $overlib);
 	}
 
