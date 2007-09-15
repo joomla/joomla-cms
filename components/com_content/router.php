@@ -68,7 +68,7 @@ function ContentParseRoute($segments)
 	//Standard routing for articles
 	if(!isset($item)) 
 	{
-		$vars['view']  = $segments[0];;
+		$vars['view']  = $segments[0];
 		$vars['id']    = $segments[$count - 1];
 		return $vars;
 	}
