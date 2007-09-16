@@ -279,20 +279,66 @@ class JUser extends JObject
 
 	/**
 	 * Method to get the user parameters
+	 * 
+	 * This function tries to load an xml file based on the users usertype. The filename of the xml
+	 * file is the same as the usertype. The functionals has a static variable to store the parameters 
+	 * setup file base path. You can call this function statically to set the base path if needed.
 	 *
 	 * @access 	public
+	 * @param	boolean	If true, loads the parameters setup file. Default is true.
+	 * @param	path	Set the parameters setup file base path to be used to load the user parameters.
 	 * @return	object	The user parameters object
 	 * @since	1.5
 	 */
-	function &getParameters()
-	{
+	function &getParameters($loadsetupfile = false, $path = null)
+	{	
+		static $parampath;
+		
+		//Set the default parampath;
+		if(!isset($path)) {
+			$parampath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'models';
+		}
+		
+		//Set a custom parampath is defined
+		if(isset($path)) {
+			$parampath = $path;
+		}
+		
+		if($loadsetupfile) 
+		{
+			$type = $this->usertype;
+			
+			$file = $parampath.DS.$type.'.xml';
+			if(!file_exists($file)) {
+				$file = $parampath.DS.'user.xml';
+			}
+			
+			$this->_params->loadSetupFile($file);
+		}	
 		return $this->_params;
+	}
+	
+	/**
+	 * Method to get the user parameters
+	 *
+	 * @access 	public
+	 * @param	object	The user parameters object
+	 * @since	1.5
+	 */
+	function setParameters($params )
+	{	
+		$this->_params = $params;
 	}
 
 	/**
 	 * Method to get the user table object
+	 * 
+	 * This function uses a static variable to store the table name of the user table to 
+	 * it instantiates. You can call this function statically to set the table name if
+	 * needed.
 	 *
 	 * @access 	public
+	 * @param	string	The user table name to be used
 	 * @return	object	The user table object
 	 * @since	1.5
 	 */
@@ -313,28 +359,6 @@ class JUser extends JObject
 		// Create the user table object
 		$table 	=& JTable::getInstance( $tabletype);
 		return $table;
-	}
-
-	/**
-	 * Method to set the user parameters
-	 *
-	 *
-	 * @access 	public
-	 * @param 	string 	$data 	The paramters string in INI format
-	 * @param 	string 	$path 	Path to the parameters xml file [optional]
-	 * @since 	1.5
-	 */
-	function setParameters($data, $path = null)
-	{
-		// Assume we are using the xml file from com_users if no other xml file has been set
-		if (is_null($path))
-		{
-			jimport( 'joomla.application.helper' );
-			$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
-		}
-
-		$this->_params->loadSetupFile($path);
-		$this->_params->loadINI($data);
 	}
 
 	/**

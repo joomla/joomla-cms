@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Sep-2007 Johan Janssens
+ + Added $path parameter to JUser::getParameters. This change allows to easily extend the user
+   parameters and allow the use of a custom parameters xml file for each usertype. 
+
 15-Sep-2007 Andy Wallace
  ^ Amended en-GB ini files utf-8 message to include "No BOM"
 
