@@ -5,10 +5,6 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_name" type="radio" default="1" label="Name Column" description="Show/Hide the Feed Name column">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="show_articles" type="radio" default="1" label="Num Articles Column" description="PARAMARTICLES">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
