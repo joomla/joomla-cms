@@ -306,7 +306,7 @@ class JUser extends JObject
 		
 		if($loadsetupfile) 
 		{
-			$type = $this->usertype;
+			$type = str_replace(' ', '_', strtolower($this->usertype));
 			
 			$file = $parampath.DS.$type.'.xml';
 			if(!file_exists($file)) {
