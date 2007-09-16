@@ -37,7 +37,7 @@ Legend:
 - -> Removed
 ! -> Note
 
-15-Sep-2007 Johan Janssens
+16-Sep-2007 Johan Janssens
  + Added $path parameter to JUser::getParameters. This change allows to easily extend the user
    parameters and allow the use of a custom parameters xml file for each usertype. 
 
