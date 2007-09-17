@@ -81,15 +81,18 @@ class WeblinksViewCategory extends JView
 
 		// Set some defaults if not set for params
 		$params->def('com_description', JText::_('WEBLINKS_DESC'));
-
 		// Define image tag attributes
 		if (isset( $category->image ) && $category->image != '')
 		{
 			$attribs['align']  = $category->image_position;
 			$attribs['hspace'] = 6;
 
+			$table =& JTable::getInstance('component');
+			$table->loadByOption( 'com_media' );
+			$mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_media'.DS.'config.xml' );
+        	$image_path = $mediaparams->get('image_path');
 			// Use the static HTML library to build the image tag
-			$category->image = JHTML::_('image', 'images/stories/'.$category->image, JText::_('Web Links'), $attribs);
+			$category->image = JHTML::_('image', $image_path.'/'.$category->image, JText::_('Web Links'), $attribs);
 		}
 
 		// icon in table display
@@ -140,7 +143,7 @@ class WeblinksViewCategory extends JView
 		$this->assignRef('category',	$category);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-		
+
 		$this->assign('action',	$uri->toString());
 
 		parent::display($tpl);
