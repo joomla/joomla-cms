@@ -39,6 +39,7 @@ Legend:
 
 17-Sep-2007 Toby Patterson
  # Fixed [#7118] Cannot register user from frontend or backend due to email addresses not being accepted. 
+ # Fixed [#6969] if a single quotation mark (') exists in the article name it could not be selected to be linked to a menu item
 
 16-Sep-2007 Johan Janssens
  + Added $path parameter to JUser::getParameters. This change allows to easily extend the user
