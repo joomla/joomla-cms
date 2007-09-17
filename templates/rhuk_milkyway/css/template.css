@@ -30,14 +30,11 @@ a:hover {
 	font-weight: normal;
 }
 
-input.button {
- cursor: pointer;
-}
+input.button { cursor: pointer; }
 
-p {
-  margin-top: 0;
-  margin-bottom: 5px;
-}
+p { margin-top: 0; margin-bottom: 5px; }
+
+img { border: 0 none; }
 
 /*****************************************/
 /*** Template specific layout elements ***/
