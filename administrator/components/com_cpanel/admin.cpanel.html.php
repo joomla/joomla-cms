@@ -37,7 +37,7 @@ class HTML_cpanel
 
 		foreach ($modules as $module) {
 			$title = $module->title ;
-			echo $pane->startPanel( $title, "cpanel-panel" );
+			echo $pane->startPanel( $title, 'cpanel-panel-'.$module->name );
 			echo JModuleHelper::renderModule($module);
 			echo $pane->endPanel();
 		}
@@ -45,5 +45,3 @@ class HTML_cpanel
 		echo $pane->endPane();
 	}
 }
-
-?>

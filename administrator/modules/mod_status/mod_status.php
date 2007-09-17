@@ -71,7 +71,7 @@ if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu') ) {
 	 $output[] = "<span class=\"logout\">".JText::_('Logout')."</span>";
 } else {
 	// Print the logout message
-	$output[] = "<span class=\"logout\"><a href=\"index.php?option=com_login&task=logout\">".JText::_('Logout')."</a></span>";
+	$output[] = "<span class=\"logout\"><a href=\"index.php?option=com_login&amp;task=logout\">".JText::_('Logout')."</a></span>";
 }
 
 // reverse rendering order for rtl display
