@@ -240,7 +240,7 @@ class JLDAP
 	/**
 	 * Replace an entry and return a true or false result
 	 *
-	 * @param string dn The DN which contains the attribute you want to compare
+	 * @param string dn The DN which contains the attribute you want to replace
 	 * @param string attribute The attribute values you want to replace
 	 * @return mixed result of comparison (true, false, -1 on error)
 	 */
@@ -248,9 +248,34 @@ class JLDAP
 	function replace($dn, $attribute) {
 		return ldap_mod_replace($this->_resource, $dn, $attribute);
 	}
+	
+	
+	/**
+	 * Modifies an entry and return a true or false result
+	 *
+	 * @param string dn The DN which contains the attribute you want to modify
+	 * @param string attribute The attribute values you want to modify
+	 * @return mixed result of comparison (true, false, -1 on error)
+	 */
+	function modify($dn, $attribute) {
+		return ldap_modify($this->_resource, $dn, $attribute);
+	}
+
+	/**
+	 * Removes attribute value from given dn and return a true or false result
+	 *
+	 * @param string dn The DN which contains the attribute you want to remove
+	 * @param string attribute The attribute values you want to remove
+	 * @return mixed result of comparison (true, false, -1 on error)
+	 */
+	function remove($dn, $attribute) {
+		$resource = $this->_resource;
+		return ldap_mod_del($resource, $dn, $attribute);
+	}
 
 	/**
 	 * Compare an entry and return a true or false result
+	 * 
 	 * @param string dn The DN which contains the attribute you want to compare
 	 * @param string attribute The attribute whose value you want to compare
 	 * @param string value The value you want to check against the LDAP attribute
@@ -259,9 +284,31 @@ class JLDAP
 	function compare($dn, $attribute, $value) {
 		return ldap_compare($this->_resource, $dn, $attribute, $value);
 	}
+	
+	/**
+	 * Read all or specified attributes of given dn
+	 *
+	 * @param string dn The DN of the object you want to read
+	 * @param string attribute The attribute values you want to read (Optional)
+	 * @return array of attributes or -1 on error
+	 */
+	function read($dn, $attribute = array()) 
+	{
+		$base = substr($dn,strpos($dn,',')+1);
+		$cn = substr($dn,0,strpos($dn,','));
+		$result = ldap_read($this->_resource, $base, $cn);
+		
+		if ($result) {
+			// TODO: instead of just returning array of attributes, convert to object before returning
+			return ldap_get_entries($this->_resource, $result);
+		} else {
+			return $result;
+		}
+	}
 
 	/**
 	 * Converts a dot notation IP address to net address (e.g. for Netware, etc)
+	 * 
 	 * @param string IP Address (e.g. xxx.xxx.xxx.xxx)
 	 * @return string Net address
 	 * @access public
@@ -285,6 +332,7 @@ class JLDAP
 	 * extract readable network address from the LDAP encoded networkAddress attribute.
 	 * @author Jay Burrell, Systems & Networks, Mississippi State University
 	 * Please keep this document block and author attribution in place.
+	 * 
 	 *  Novell Docs, see: http://developer.novell.com/ndk/doc/ndslib/schm_enu/data/sdk5624.html#sdk5624
 	 *  for Address types: http://developer.novell.com/ndk/doc/ndslib/index.html?page=/ndk/doc/ndslib/schm_enu/data/sdk4170.html
 	 *  LDAP Format, String:
@@ -293,14 +341,21 @@ class JLDAP
 	 *	 byte 1 = char = "#" - separator
 	 *	 byte 2+ = octetstring - the ordinal value of the address
 	 *   Note: with eDirectory 8.6.2, the IP address (type 1) returns
-	 *				 correctly, however, an IPX address does not seem to.  eDir 8.7 may
-	 *				correct this.
+	 *				 correctly, however, an IPX address does not seem to.  eDir 8.7 may correct this.
+	 *  Enhancement made by Merijn van de Schoot:
+	 *	 If addresstype is 8 (UDP) or 9 (TCP) do some additional parsing like still returning the IP address
+	 *	 TODO: Return an extra value with UDP or TCP portnumber
 	 */
 	function LDAPNetAddr($networkaddress)
 	{
 		$addr = "";
 		$addrtype = intval(substr($networkaddress, 0, 1));
 		$networkaddress = substr($networkaddress, 2); // throw away bytes 0 and 1 which should be the addrtype and the "#" separator
+		
+		if (($addrtype == 8) || ($addrtype = 9)) {    // if udp or tcp, (TODO fill addrport and) strip portnumber information from address
+			$networkaddress = substr($networkaddress, (strlen($networkaddress)-4));
+		}
+		
 		$addrtypes = array (
 			'IPX',
 			'IP',
@@ -325,11 +380,11 @@ class JLDAP
 			{
 				$byte = substr($networkaddress, $i, 1);
 				$addr .= ord($byte);
-				if ($addrtype == 1) { // dot separate IP addresses...
+				if ( ($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9) ) { // dot separate IP addresses...
 					$addr .= ".";
 				}
 			}
-			if ($addrtype == 1) { // strip last period from end of $addr
+			if ( ($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9) ) { // strip last period from end of $addr
 				$addr = substr($addr, 0, strlen($addr) - 1);
 			}
 		} else {
