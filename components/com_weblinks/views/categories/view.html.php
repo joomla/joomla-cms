@@ -49,8 +49,13 @@ class WeblinksViewCategories extends JView
 			$attribs['align'] = '"'. $params->get('image_align').'"';
 			$attribs['hspace'] = '"6"';
 
+			$table =& JTable::getInstance('component');
+			$table->loadByOption( 'com_media' );
+			$mediaparams = new JParameter( $table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_media'.DS.'config.xml' );
+        	$image_path = $mediaparams->get('image_path');
+
 			// Use the static HTML library to build the image tag
-			$image = JHTML::_('image', 'images/stories/'.$params->get('image'), JText::_('Web Links'), $attribs);
+			$image = JHTML::_('image', $image_path.'/'.$params->get('image'), JText::_('Web Links'), $attribs);
 		}
 
 		for($i = 0; $i < count($categories); $i++)
