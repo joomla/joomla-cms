@@ -439,8 +439,7 @@ class JMailHelper
 		
 		// Check the domain
 		$domain_array	= explode(".", $domain);
-		//$regex		= '/^[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]$/';
-		$regex			= '/^[A-Za-z][A-Za-z0-9-]{0,62}$/';
+		$regex		= '/^[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]$/';
 		for ($i = 0; $i < sizeof($domain_array); $i++) {
 			if ( ! preg_match($regex, $domain_array[$i])) {
 				return false;

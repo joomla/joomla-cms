@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Sep-2007 Toby Patterson
+ # Fixed [#7118] Cannot register user from frontend or backend due to email addresses not being accepted. 
+
 16-Sep-2007 Johan Janssens
  + Added $path parameter to JUser::getParameters. This change allows to easily extend the user
    parameters and allow the use of a custom parameters xml file for each usertype. 
