@@ -57,6 +57,7 @@ JError::setErrorHandling(E_WARNING, 'callback', array('JAJAXHandler','handleErro
 JError::setErrorHandling(E_NOTICE, 'callback', array('JAJAXHandler','handleError'));
 jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.filter.input' );
+jimport( 'joomla.utilities.compat.compat' );
 
 /**
  * AJAX Task handler class
