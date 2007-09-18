@@ -95,7 +95,7 @@ class modMainMenuHelper
 						break;
 					}
 				}
-			
+
 				if ($i == $start-1) {
 					$found = true;
 					break;
@@ -304,7 +304,9 @@ class JMenuTree extends JTree
 		{
 			// Handle SSL links
 			$iSecure = $iParams->def('secure', 0);
-			if (strcasecmp(substr($tmp->url, 0, 4), 'http') && (strpos($tmp->link, 'index.php?') !== false)) {
+			if ($tmp->home == 1) {
+				$tmp->url = '';
+			} elseif (strcasecmp(substr($tmp->url, 0, 4), 'http') && (strpos($tmp->link, 'index.php?') !== false)) {
 				$tmp->url = JRoute::_($tmp->url, true, $iSecure);
 			} else {
 				$tmp->url = str_replace('&', '&amp;', $tmp->url);
