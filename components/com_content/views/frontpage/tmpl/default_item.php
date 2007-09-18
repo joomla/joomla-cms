@@ -126,11 +126,15 @@ endif; ?>
 </tr>
 <?php endif; ?>
 
-<?php if ($this->params->get('show_readmore') && $this->item->readmore_text && $this->item->readmore) : ?>
+<?php if ($this->params->get('show_readmore') && $this->item->readmore) : ?>
 <tr>
 	<td  colspan="2">
 		<a href="<?php echo $this->item->readmore_link; ?>" class="readon<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $this->item->readmore_text; ?>
+			<?php if (this->item->readmore_text) : ?>
+				<?php echo JText::_('Read more...'); ?>
+			<?php else : ?>
+				<?php echo JText::_('Register to read more...'); ?>
+			<?php endif; ?>
 		</a>
 	</td>
 </tr>

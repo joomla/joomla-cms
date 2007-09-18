@@ -8,6 +8,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ($this->item->state == 0) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
+
 <?php if ($this->params->get('show_title') || $this->params->get('show_pdf_icon') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
 <table class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
@@ -25,7 +26,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 	<?php if ($this->params->get('show_pdf_icon')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php  echo JHTML::_('icon.pdf', $this->item, $this->params, $this->access); ?>
+	<?php echo JHTML::_('icon.pdf', $this->item, $this->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
 
@@ -79,6 +80,7 @@ endif; ?>
 	</td>
 </tr>
 <?php endif; ?>
+
 <?php if (($this->params->get('show_author')) && ($this->item->author != "")) : ?>
 <tr>
 	<td width="70%"  valign="top" colspan="2">
@@ -93,7 +95,7 @@ endif; ?>
 <?php if ($this->params->get('show_create_date')) : ?>
 <tr>
 	<td valign="top" colspan="2" class="createdate">
-		<?php echo JHTML::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2') ); ?>
+		<?php echo JHTML::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
 	</td>
 </tr>
 <?php endif; ?>
@@ -116,19 +118,23 @@ endif; ?>
 </td>
 </tr>
 
-<?php if (!empty($this->item->modified) && $this->params->get('show_modify_date')) : ?>
+<?php if ( intval($this->item->modified) != 0 && $this->params->get('show_modify_date')) : ?>
 <tr>
 	<td colspan="2"  class="modifydate">
-		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHTML::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2') ); ?> )
+		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHTML::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2')); ?> )
 	</td>
 </tr>
 <?php endif; ?>
 
-<?php if ($this->params->get('show_readmore') && $this->item->readmore_text && $this->item->readmore) : ?>
+<?php if ($this->params->get('show_readmore') && $this->item->readmore) : ?>
 <tr>
 	<td  colspan="2">
 		<a href="<?php echo $this->item->readmore_link; ?>" class="readon<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $this->item->readmore_text; ?>
+			<?php if (this->item->readmore_text) : ?>
+				<?php echo JText::_('Read more...'); ?>
+			<?php else : ?>
+				<?php echo JText::_('Register to read more...'); ?>
+			<?php endif; ?>
 		</a>
 	</td>
 </tr>

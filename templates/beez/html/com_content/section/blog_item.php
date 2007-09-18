@@ -96,10 +96,14 @@ endif; ?>
 
 <?php echo JFilterOutput::ampReplace($this->item->text); ?>
 
-<?php if ($this->params->get('show_readmore') && $this->item->readmore_text && $this->item->readmore) : ?>
+<?php if ($this->params->get('show_readmore') && $this->item->readmore) : ?>
 <p>
 	<a href="<?php echo $this->item->readmore_link; ?>" class="readon<?php echo $this->params->get('pageclass_sfx'); ?>">
-		<?php echo $this->item->readmore_text; ?>
+			<?php if (this->item->readmore_text) : ?>
+				<?php echo JText::sprintf('Read more', $this->params->get('readmore', $this->item->title)); ?>
+			<?php else : ?>
+				<?php echo JText::_('Register to read more...'); ?>
+			<?php endif; ?>
 	</a>
 </p>
 <?php endif; ?>

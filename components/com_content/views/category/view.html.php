@@ -179,12 +179,12 @@ class ContentViewCategory extends ContentView
 			if ($item->access <= $user->get('aid', 0))
 			{
 				$linkOn = JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
-				$linkText = JText::sprintf('Read more', $params->get('readmore', $item->title));
+				$linkText = true;
 			}
 			else
 			{
 				$linkOn = JRoute::_("index.php?option=com_user&task=register");
-				$linkText = JText::_('Register to read more...');
+				$linkText = false;
 			}
 		}
 
