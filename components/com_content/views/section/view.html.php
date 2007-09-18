@@ -71,7 +71,7 @@ class ContentViewSection extends ContentView
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
-	
+
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
@@ -82,6 +82,9 @@ class ContentViewSection extends ContentView
 			$params->set('show_categories', false);
 		}
 
+		// Keep a copy for safe keeping this is soooooo dirty -- must deal with in a later version
+		// @todo -- oh my god we need to find this reference issue in 1.6 :)
+		$this->_params = $params->toArray();
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit - $links);
@@ -118,7 +121,8 @@ class ContentViewSection extends ContentView
 		$item->text = $item->introtext;
 
 		// Get the page/component configuration and article parameters
-		$params	 = clone($params);
+		$params = new JParameter('');
+		$params->loadArray($this->_params);
 		$aparams = new JParameter($item->attribs);
 
 		// Merge article parameters into the page configuration

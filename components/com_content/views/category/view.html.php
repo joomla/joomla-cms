@@ -41,7 +41,7 @@ class ContentViewCategory extends ContentView
 		$menu  = $menus->getActive();
 
 		// Get the page/component configuration
-		$params = &$mainframe->getParams('com_content');
+		$params = clone($mainframe->getParams('com_content'));
 
 		// Request variables
 		$task		= JRequest::getCmd('task');
@@ -89,14 +89,18 @@ class ContentViewCategory extends ContentView
 
 		$params->def('date_format',	JText::_('DATE_FORMAT_LC1'));
 
+		// Keep a copy for safe keeping this is soooooo dirty -- must deal with in a later version
+		// @todo -- oh my god we need to find this reference issue in 1.6 :)
+		$this->_params = $params->toArray();
+
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit - $links);
 
 		$this->assign('total',		$total);
 
 		$this->assignRef('items',		$items);
-		$this->assignRef('category',	$category);
 		$this->assignRef('params',		$params);
+		$this->assignRef('category',	$category);
 		$this->assignRef('user',		$user);
 		$this->assignRef('access',		$access);
 		$this->assignRef('pagination',	$pagination);
@@ -162,8 +166,9 @@ class ContentViewCategory extends ContentView
 		$item->section  = $category->sectiontitle;
 
 		// Get the page/component configuration and article parameters
-		$params	 = clone($params);
 		$aparams = new JParameter($item->attribs);
+		$params = new JParameter('');
+		$params->loadArray($this->_params);
 
 		// Merge article parameters into the page configuration
 		$params->merge($aparams);

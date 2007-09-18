@@ -76,6 +76,10 @@ class ContentViewFrontpage extends ContentView
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
 
+		// Keep a copy for safe keeping this is soooooo dirty -- must deal with in a later version
+		// @todo -- oh my god we need to find this reference issue in 1.6 :)
+		$this->_params = $params->toArray();
+
 		jimport('joomla.html.pagination');
 		$this->pagination = new JPagination($total, $limitstart, $limit - $links);
 
@@ -85,7 +89,6 @@ class ContentViewFrontpage extends ContentView
 		$this->assignRef('access',		$access);
 		$this->assignRef('params',		$params);
 		$this->assignRef('items',		$items);
-		$this->assignRef('frontpage',	$frontpage);
 
 		parent::display($tpl);
 	}
@@ -109,7 +112,8 @@ class ContentViewFrontpage extends ContentView
 		$item->text = $item->introtext;
 
 		// Get the page/component configuration and article parameters
-		$params	 = clone($params);
+		$params = new JParameter('');
+		$params->loadArray($this->_params);
 		$aparams = new JParameter($item->attribs);
 
 		// Merge article parameters into the page configuration
