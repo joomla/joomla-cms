@@ -37,16 +37,19 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Sep-2007 Louis Landry
+ ! Made SEF URL suffix a configurable option in global config. [Be careful when choosing .php and not using mod_rewrite]
+
 17-Sep-2007 Enno Klasing, Alan Langford, Jonah Braun
  # Cleenup of Beez template overrides (finished com_contact, com_content and com_user)
 
 17-Sep-2007 Toby Patterson
- # Fixed [#7118] Cannot register user from frontend or backend due to email addresses not being accepted. 
+ # Fixed [#7118] Cannot register user from frontend or backend due to email addresses not being accepted.
  # Fixed [#6969] if a single quotation mark (') exists in the article name it could not be selected to be linked to a menu item
 
 16-Sep-2007 Johan Janssens
  + Added $path parameter to JUser::getParameters. This change allows to easily extend the user
-   parameters and allow the use of a custom parameters xml file for each usertype. 
+   parameters and allow the use of a custom parameters xml file for each usertype.
 
 15-Sep-2007 Andy Wallace
  ^ Amended en-GB ini files utf-8 message to include "No BOM"

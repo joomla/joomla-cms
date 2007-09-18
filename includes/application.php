@@ -353,8 +353,8 @@ class JSite extends JApplication
 	{
 		$options['mode'] = $this->getCfg('sef');
 
-		if($options['mode']) {
-			$options['suffix'] = '.html';
+		if($options['mode'] && $this->getCfg('sef_suffix')) {
+			$options['suffix'] = $this->getCfg('sef_suffix');
 		}
 
 		if($options['mode'] && !$this->getCfg('sef_rewrite')) {

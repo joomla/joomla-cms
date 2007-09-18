@@ -262,6 +262,7 @@ class ConfigControllerApplication extends ConfigController
 		// SEO SETTINGS
 		$config_array['sef']			= JRequest::getVar('sef', 0, 'post', 'int');
 		$config_array['sef_rewrite']	= JRequest::getVar('sef_rewrite', 0, 'post', 'int');
+		$config_array['sef_suffix']		= JRequest::getVar('sef_suffix', 0, 'post', 'string');
 
 		// FEED SETTINGS
 		$config_array['feed_limit']		= JRequest::getVar('feed_limit', 10, 'post', 'int');
