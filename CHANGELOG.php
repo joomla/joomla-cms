@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Sep-2007 Nur Aini Rakhmawati
+# Fixed [#7084] enabling/dissabling FTP on com_config problem
+
 18-Sep-2007 Louis Landry
  ! Made SEF URL suffix a configurable option in global config. [Be careful when choosing .php and not using mod_rewrite]
 
