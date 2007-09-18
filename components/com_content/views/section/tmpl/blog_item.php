@@ -130,7 +130,7 @@ endif; ?>
 <tr>
 	<td  colspan="2">
 		<a href="<?php echo $this->item->readmore_link; ?>" class="readon<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-			<?php if (this->item->readmore_text) : ?>
+			<?php if ($this->item->readmore_text) : ?>
 				<?php echo JText::_('Read more...'); ?>
 			<?php else : ?>
 				<?php echo JText::_('Register to read more...'); ?>
