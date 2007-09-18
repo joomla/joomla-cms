@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Sep-2007 Enno Klasing, Alan Langford, Jonah Braun
+ # Cleenup of Beez template overrides (finished com_contact, com_content and com_user)
+
 17-Sep-2007 Toby Patterson
  # Fixed [#7118] Cannot register user from frontend or backend due to email addresses not being accepted. 
  # Fixed [#6969] if a single quotation mark (') exists in the article name it could not be selected to be linked to a menu item

@@ -1,118 +1,105 @@
-<?php
+<?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
-
-// temporary fix
-$hlevel = 2;
-$ptlevel = 1;
-
-if ($this->params->get('show_page_title'))
-{
-	echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
-	echo $this->params->get( 'page_title' );
-	echo '</h' . $ptlevel . '>';
-}
-
-if ($this->category->image || $this->category->description)
-{
-	$wrap='';
-	echo '<div class="contentdescription'.$this->params->get( 'pageclass_sfx' ).'" >';
-	if ($this->params->get('image') != -1 && $this->params->get('image') != '')
-	{
-		$wrap = '<div class="wrap_image">&nbsp;</div>';
-		echo '<img src="images/stories/' . $this->params->get('image') . '" class="image_' . $this->params->get('image_align') . '" alt="'.JText::_( 'Contacts' ).'"/>';
-	}
-	elseif ($this->category->image)
-	{
-		$wrap = '<div class="wrap_image">&nbsp;</div>';
-		echo '<img src="images/stories/' . $this->category->image . '" class="image_' . $this->category->image_position . '" alt="'.JText::_( 'Contacts' ).'"/>';
-	}
-
-	if ($this->category->description) {
-		echo $this->category->description;
-	}
-	echo $wrap;
-	echo '</div>';
-}
 ?>
 
+<?php if ($this->params->get('show_page_title')) : ?>
+<h1 class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
+	<?php echo $this->params->get('page_title'); ?>
+</h1>
+<?php endif; ?>
+
+<?php if ($this->category->image || $this->category->description) : ?>
+<div class="contentdescription<?php echo $this->params->get('pageclass_sfx'); ?>">
+
+	<?php if ($this->params->get('image') != -1 && $this->params->get('image') != '') : ?>
+	<img src="images/stories/<?php echo $this->params->get('image'); ?>" class="image_<?php echo $this->params->get('image_align'); ?>" alt="<?php echo JText::_('Contacts'); ?>" />
+	<?php elseif($this->category->image): ?>
+	<img src="images/stories/<?php echo $this->category->image; ?>" class="image_<?php echo $this->category->image_position; ?>" alt="<?php echo JText::_('Contacts'); ?>" />
+	<?php endif; ?>
+
+	<?php echo $this->category->description; ?>
+
+	<?php if (($this->params->get('image') != -1 && $this->params->get('image') != '') || $this->category->image) : ?>
+	<div class="wrap_image">&nbsp;</div>
+	<?php endif; ?>
+
+</div>
+<?php endif; ?>
+
 <script language="javascript" type="text/javascript">
-<!--
-	function tableOrdering( order, dir, task ) {
+function tableOrdering( order, dir, task )
+{
 	var form = document.adminForm;
 
 	form.filter_order.value	 = order;
 	form.filter_order_Dir.value	= dir;
 	document.adminForm.submit( task );
-// -->
 }
 </script>
-<?php
-echo '<form action="'. $this->action.'" method="post" name="adminForm">';
 
-if ($this->params->get('display'))
-{
-	echo '<div class="display">';
-	echo JText::_('Display Num') .'&nbsp;';
-	echo $this->pagination->getLimitBox();
-	echo '</div>';
-}
-echo '<input type="hidden" name="catid" value="'.$this->category->id.'" />';
-echo '<input type="hidden" name="filter_order" value="'.$this->lists['order'].'" />';
-echo '<input type="hidden" name="filter_order_Dir" value="" />';
-echo '</form>';
+<form action="<?php echo $this->action; ?>" method="post" name="adminForm">
 
-echo '<table class="category'.$this->params->get( 'pageclass_sfx').'" >';
-if ($this->params->get( 'show_headings' ))
-{
-	echo '<tr><th  id="Count"  class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
-	echo JText::_('Num');
-	echo '</th>';
+	<?php if ($this->params->get('display')) : ?>
+	<div class="display">
+		<?php echo JText::_('Display Num'); ?>&nbsp;
+	</div>
+	<?php endif; ?>
 
-	if ( $this->params->get( 'show_position' ) )
-	{
-		echo '<th id="Position" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
-		echo JHTML::_('grid.sort',  'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] );
-		echo '</th>';
-	}
-	echo '<th  id="Name" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
-	echo JHTML::_('grid.sort',  'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] );
-	echo '</th>';
-	if ( $this->params->get( 'show_email' ) )
-	{
-		echo '<th id="Mail" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
-		echo JText::_( 'Email' );
-		echo '</th>';
-	}
+	<input type="hidden" name="catid" value="<?php echo $this->category->id; ?>" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="" />
 
-	if ( $this->params->get( 'show_telephone' ) )
-	{
-		echo '<th id="Phone" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
-		echo JText::_( 'Phone' );
-		echo '</th>';
-	}
+</form>
 
-	if ( $this->params->get( 'show_mobile' ) )
-	{
-		echo '<th id="mobile" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
-		echo JText::_( 'Mobile' );
-		echo '</th>';
-	}
+<table class="category<?php echo $this->params->get('pageclass_sfx'); ?>">
 
-	if ( $this->params->get( 'show_fax' ) )
-	{
-		echo '<th id="Fax" class="sectiontableheader'.$this->params->get( 'pageclass_sfx').'" >';
-		echo JText::_( 'Fax' );
-		echo '</th>';
-	}
-	echo '</tr>';
-}
+	<?php if ($this->params->get('show_headings')) : ?>
+	<tr>
+		<th id="Count" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
+			<?php echo JText::_('Num'); ?>
+		</th>
 
-echo $this->loadTemplate('items');
+		<?php if ($this->params->get('show_position')) : ?>
+		<th id="Position" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
+			<?php echo JHTML::_('grid.sort', 'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+		</th>
+		<?php endif; ?>
 
-echo '</table>';
+		<th id="Name" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
+			<?php echo JHTML::_('grid.sort', 'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+		</th>
 
-echo '<p class="counter">';
-echo $this->pagination->getPagesCounter();
-echo '</p>';
-echo $this->pagination->getPagesLinks();
-?>
+		<?php if ($this->params->get('show_email')) : ?>
+		<th id="Mail" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
+			<?php echo JText::_('Email'); ?>
+		</th>
+		<?php endif; ?>
+
+		<?php if ( $this->params->get('show_telephone')) : ?>
+		<th id="Phone" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
+			<?php echo JText::_('Phone'); ?>
+		</th>
+		<?php endif; ?>
+
+		<?php if ($this->params->get('show_mobile')) : ?>
+		<th id="mobile" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
+			<?php echo JText::_('Mobile'); ?>
+		</th>
+		<?php endif; ?>
+
+		<?php if ( $this->params->get('show_fax')) : ?>
+		<th id="Fax" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
+			<?php echo JText::_('Fax'); ?>
+		</th>
+		<?php endif; ?>
+	</tr>
+	<?php endif; ?>
+	
+	<?php echo $this->loadTemplate('items'); ?>
+</table>
+
+<p class="counter">
+	<?php echo $this->pagination->getPagesCounter(); ?>
+</p>
+
+<?php echo $this->pagination->getPagesLinks(); ?>

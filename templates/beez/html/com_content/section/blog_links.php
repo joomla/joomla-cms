@@ -1,19 +1,17 @@
-<?php
+<?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
-
-// temporary fix
-$hlevel = 2;
-
-echo '<h' . $hlevel . '>';
-echo JText :: _('Read more...');
-echo '</h' . $hlevel . '>';
-echo '<ul>';
-foreach ($this->links as $link) {
-	echo '<li>';
-	echo '<a class="blogsection" href="'. JRoute ::_('index.php?view=article&id='.$link->slug).'">';
-	echo $link->title;
-	echo '</a>';
-	echo '</li>';
-}
-echo '</ul>';
 ?>
+
+<h2>
+	<?php echo JText::_('Read more...'); ?>
+</h2>
+
+<ul>
+	<?php foreach ($this->links as $link) : ?>
+	<li>
+		<a class="blogsection" href="<?php echo JRoute::_('index.php?view=article&id='.$link->slug); ?>">
+			<?php echo $link->title; ?>
+		</a>
+	</li>
+	<?php endforeach; ?>
+</ul>

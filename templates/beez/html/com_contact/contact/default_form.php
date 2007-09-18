@@ -1,4 +1,4 @@
-<?php
+<?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
 ?>
 
@@ -20,39 +20,36 @@ defined('_JEXEC') or die('Restricted access');
 	}
 // -->
 </script>
-<?php
 
-echo '<form action="'.JRoute::_('index.php').'"  class="form-validate" method="post" name="emailForm" id="emailForm">';
-echo '<div class="contact_email'.$this->params->get( 'pageclass_sfx' ).'">';
-echo '<label for="contact_name">';
-echo JText::_( 'Enter your name' ).':</label>';
-echo '<input type="text" name="name" id="contact_name" size="30" class="inputbox" value="" />';
-echo '</div>';
-echo '<div class="contact_email'. $this->params->get( 'pageclass_sfx' ).'"><label id="contact_emailmsg" for="contact_email">';
-echo JText::_( 'Email address' ).'*:</label>';
-echo '<input type="text" id="contact_email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />';
-echo '</div>';
-echo '<div class="contact_email'. $this->params->get( 'pageclass_sfx' ).'"><label for="contact_subject">';
-echo JText::_( 'Message subject' ).':</label>';
-echo '<input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />';
-echo '</div>';
-echo '<div class="contact_email'.$this->params->get( 'pageclass_sfx' ).'"><label id="contact_textmsg" for="contact_text" class="textarea">';
-echo JText::_( 'Enter your message' ).'*:</label>';
-echo '<textarea name="text" id="contact_text" class="inputbox required"></textarea>';
-echo '</div>';
-if ($this->contact->params->get( 'show_email_copy' ))
-{
-	echo '<div class="contact_email_checkbox'.$this->params->get( 'pageclass_sfx' ).'">';
-	echo '<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />';
-	echo '<label for="contact_email_copy" class="copy">';
-	echo JText::_( 'EMAIL_A_COPY' );
-	echo '</label>';
-	echo '</div>';
-}
-echo '<button class="button validate" type="submit">'.JText::_('Send').'</button>';
-echo '<input type="hidden" name="view" value="contact" />';
-echo '<input type="hidden" name="id" value="'.$this->contact->id.'" />';
-echo '<input type="hidden" name="task" value="submit" /> ';
-echo '<input type="hidden" name="'.JUtility::getToken().'" value="1" />';
-echo '</form>';
-?>
+<form action="<?php echo JRoute::_('index.php'); ?>" class="form-validate" method="post" name="emailForm" id="emailForm">
+	<div class="contact_email<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<label for="contact_name">
+		<?php echo JText::_( 'Enter your name' ); ?>:</label>
+		<input type="text" name="name" id="contact_name" size="30" class="inputbox" value="" />
+	</div>
+	<div class="contact_email<?php echo  $this->params->get( 'pageclass_sfx' ); ?>"><label id="contact_emailmsg" for="contact_email">
+		<?php echo JText::_( 'Email address' ); ?>*:</label>
+		<input type="text" id="contact_email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />
+	</div>
+	<div class="contact_email<?php echo  $this->params->get( 'pageclass_sfx' ); ?>"><label for="contact_subject">
+		<?php echo JText::_( 'Message subject' ); ?>:</label>
+		<input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />
+	</div>
+		<div class="contact_email<?php echo $this->params->get( 'pageclass_sfx' ); ?>"><label id="contact_textmsg" for="contact_text" class="textarea">
+		<?php echo JText::_( 'Enter your message' ); ?>*:</label>
+		<textarea name="text" id="contact_text" class="inputbox required"></textarea>
+	</div>
+	<?php if ($this->contact->params->get( 'show_email_copy' )): ?>
+	<div class="contact_email_checkbox<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
+	<label for="contact_email_copy" class="copy">
+	<?php echo JText::_( 'EMAIL_A_COPY' ); ?>
+	</label>
+	</div>
+	<?php endif; ?>
+	<button class="button validate" type="submit"><?php echo JText::_('Send'); ?></button>
+	<input type="hidden" name="view" value="contact" />
+	<input type="hidden" name="id" value="<?php echo $this->contact->id; ?>" />
+	<input type="hidden" name="task" value="submit" /> 
+	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+</form>

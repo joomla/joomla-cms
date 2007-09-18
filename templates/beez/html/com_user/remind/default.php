@@ -1,10 +1,8 @@
-<?php defined('_JEXEC') or die;
-
-// temporary fix
-$hlevel = 2;
-$ptlevel = 1;
- echo '<h'.$ptlevel.' class="componentheading">'. JText::_( 'FORGOT_YOUR_USERNAME' ).'</h'.$ptlevel.'>';
+<?php // @version $Id: default.php$
+defined('_JEXEC') or die('Restricted access');
 ?>
+
+<h1 class="componentheading"><?php echo JText::_('FORGOT_YOUR_USERNAME'); ?></h1>
 
 <form action="index.php?option=com_user&amp;task=remindusername" method="post" class="josForm form-validate">
 	<p><?php echo JText::_('REMIND_USERNAME_DESCRIPTION'); ?></p>

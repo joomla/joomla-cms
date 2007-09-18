@@ -1,9 +1,5 @@
-<?php
-/**
- * @version $Id$
- */
+<?php // @version $Id$
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
 ?>
 
 <form action="index.php" method="post" name="login" id="login" class="logout_form<?php echo $this->params->get( 'pageclass_sfx' ); ?>">

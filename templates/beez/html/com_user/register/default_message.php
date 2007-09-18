@@ -1,11 +1,11 @@
-<?php
-defined('_JEXEC') or die('Restricted access');
-
-echo '<h3>';
-echo $this->message->title ;
-echo '</h3>';
-
-echo '<p class="message">';
-echo  $this->message->text ;
-echo '</p>';
+<?php // @version $Id$
+defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
+
+<h3>
+	<?php echo $this->message->title; ?>
+</h3>
+
+<p class="message">
+	<?php echo $this->message->text; ?>
+</p>

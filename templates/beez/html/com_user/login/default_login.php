@@ -1,10 +1,7 @@
-<?php
-/**
- * @version $Id$
- */
+<?php // @version $Id$
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
 ?>
+
 <form action="index.php" method="post" name="login" id="login" class="login_form<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php if ( $this->params->get( 'page_title' ) ) : ?>
 	<h1 class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">

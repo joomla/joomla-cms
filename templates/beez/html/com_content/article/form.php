@@ -1,5 +1,6 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+<?php // @version: $Id$
+defined('_JEXEC') or die('Restricted access');
+?>
 <script language="javascript" type="text/javascript">
 <!--
 function setgood() {

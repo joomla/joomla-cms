@@ -1,4 +1,6 @@
-<?php defined('_JEXEC') or die; ?>
+<?php // @version $Id: confirm.php  $
+defined('_JEXEC') or die('Restricted access');
+?>
 
 <div class="componentheading">
 	<?php echo JText::_('Confirm your Account'); ?>

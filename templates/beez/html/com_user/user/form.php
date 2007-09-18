@@ -1,6 +1,9 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+<?php // @version $Id: default.php  $
+defined('_JEXEC') or die('Restricted access');
+?>
+
 <script language="javascript" type="text/javascript">
+//<![CDATA[
 function submitbutton( pressbutton ) {
 	var form = document.userform;
 	var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", "i");
@@ -28,36 +31,30 @@ function submitbutton( pressbutton ) {
 		form.submit();
 	}
 }
+//]]>
 </script>
 
+<h1 class="componentheading">
+	<?php echo JText::_( 'Edit Your Details' ); ?>
+</h1>
 
-<?php
-
-// temporary fix
-$hlevel = 2;
-$ptlevel = 1;
-
-echo '<h' . $ptlevel . ' class="componentheading' . $this->params->get('pageclass_sfx') . '">';
-echo JText::_( 'Edit Your Details' );
-echo '</h' . $ptlevel . '>';
-
-?>
 <form action="index.php" method="post" name="userform" autocomplete="off" class="user">
 
 	<div class="name">
-		<label for="name"> <?php echo JText::_( 'Your Name' ); ?>:  </label>
+		<label for="name"><?php echo JText::_( 'Your Name' ); ?>: </label>
 		<input class="inputbox" type="text" id="name" name="name" value="<?php echo $this->user->get('name');?>" size="40" />
 	</div>
 
 	<div class="email">
-		<label for="email"> <?php echo JText::_( 'email' ); ?>: </label>
-		<input class="inputbox" type="text" id="email" name="email" value="<?php echo $this->user->get('email');?>" size="40"   />
+		<label for="email"><?php echo JText::_( 'email' ); ?>: </label>
+		<input class="inputbox" type="text" id="email" name="email" value="<?php echo $this->user->get('email');?>" size="40" />
 	</div>
 
 	<div class="user_name">
 		<label for="username"><?php echo JText::_( 'User Name' ); ?>: </label>
-		<input class="inputbox" type="text" id="username" name="username" value="<?php echo $this->user->get('username');?>" size="40"  />
+		<input class="inputbox" type="text" id="username" name="username" value="<?php echo $this->user->get('username'); ?>" size="40" />
 	</div>
+
 	<div class="pass">
 		<label for="password"><?php echo JText::_( 'Password' ); ?>: </label>
 		<input class="inputbox" type="password" id="password" name="password" value="" size="40" />
@@ -68,13 +65,16 @@ echo '</h' . $ptlevel . '>';
 		<input class="inputbox" type="password" id="verifyPass" name="verifyPass" size="40" />
 	</div>
 
-<?php if(isset($this->params)) : echo $this->params->render( 'params' ); endif; ?>
+	<?php if(isset($this->params)) :
+		echo $this->params->render( 'params' );
+	endif; ?>
 
-<button class="button" type="submit" onclick="submitForm( this.form );return false;"><?php echo JText::_('Save'); ?></button>
+	<button class="button" type="submit" onclick="submitForm( this.form );return false;"><?php echo JText::_( 'Save' ); ?></button>
+	
+	<input type="hidden" name="id" value="<?php echo $this->user->get('id');?>" />
+	<input type="hidden" name="gid" value="<?php echo $this->user->get('gid');?>" />
+	<input type="hidden" name="option" value="com_user" />
+	<input type="hidden" name="task" value="save" />
+	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 
-<input type="hidden" name="id" value="<?php echo $this->user->get('id');?>" />
-<input type="hidden" name="gid" value="<?php echo $this->user->get('gid');?>" />
-<input type="hidden" name="option" value="com_user" />
-<input type="hidden" name="task" value="save" />
-<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>
