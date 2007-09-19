@@ -12,6 +12,8 @@ INSERT INTO `#__banner` VALUES (3, 1, '', 'Joomla!', 'joomla', 0, 11, 0, '', 'ht
 INSERT INTO `#__banner` VALUES (4, 1, '', 'JoomlaCode', 'joomlacode', 0, 11, 0, '', 'http://joomlacode.org', '2006-05-29 14:19:26', 1, 0, '0000-00-00 00:00:00', '', '<a href="{CLICKURL}" target="_blank">{NAME}</a>\r\n<br/>\r\nJoomlaCode, development and distribution made easy.', 14, '', 0, 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '');
 INSERT INTO `#__banner` VALUES (5, 1, '', 'Joomla! Extensions', 'joomla-extensions', 0, 6, 0, '', 'http://extensions.joomla.org', '2006-05-29 14:23:21', 1, 0, '0000-00-00 00:00:00', '', '<a href="{CLICKURL}" target="_blank">{NAME}</a>\r\n<br/>\r\nJoomla! components, modules, plugins and languages by the bucket load.', 14, '', 0, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '');
 INSERT INTO `#__banner` VALUES (6, 1, '', 'Joomla! Shop', 'joomla-shop', 0, 6, 0, '', 'http://shop.joomla.org', '2006-05-29 14:23:21', 1, 0, '0000-00-00 00:00:00', '', '<a href="{CLICKURL}" target="_blank">{NAME}</a>\r\n<br/>\r\nFor all your Joomla! merchandise.', 14, '', 0, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '');
+INSERT INTO `#__banner` VALUES (7, 1, '', 'Joomla Promo Shop', 'joomla-promo-shop', 0, 5, 1, 'shop-ad.jpg', 'http://shop.joomla.org', '2007-09-19 17:26:24', 1, 0, '0000-00-00 00:00:00', '', '', 33, '', 0, 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '');
+INSERT INTO `#__banner` VALUES (8, 1, '', 'Joomla Promo Books', 'joomla-promo-books', 0, 4, 0, 'shop-ad-books.jpg', 'http://shop.joomla.org/index.php?option=com_wrapper&Itemid=8', '2007-09-19 17:28:01', 1, 0, '0000-00-00 00:00:00', '', '', 33, '', 0, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '');
 
 --
 -- Dumping data for table `#__bannerclient`
@@ -44,6 +46,7 @@ INSERT INTO `#__categories` VALUES (27, 0, 'New to Joomla', '', 'new-to-joomla',
 INSERT INTO `#__categories` VALUES (30, 0, 'The Community', '', 'the-community', '', '4', 'left', 'About the millions of Joomla! users and websites<br />', 1, 0, '0000-00-00 00:00:00', NULL, 3, 0, 0, '');
 INSERT INTO `#__categories` VALUES (31, 0, 'General', '', 'general', '', '3', 'left', 'General questions about the Joomla! CMS', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
 INSERT INTO `#__categories` VALUES (32, 0, 'Languages', '', 'languages', '', '3', 'left', 'Questions related to localisation and languages', 1, 0, '0000-00-00 00:00:00', NULL, 4, 0, 0, '');
+INSERT INTO `#__categories` VALUES (33, 0, 'Joomla Promo', '', 'joomla-promo', '', 'com_banner', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
 
 --
 -- Dumping data for table `#__contact_details`
@@ -170,10 +173,10 @@ INSERT INTO `#__modules` VALUES (26, 'Related Items', '', 11, 'left', 0, '0000-0
 INSERT INTO `#__modules` VALUES (27, 'Search', '', 1, 'user4', 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 0, 0, 'cache=1', 0, 0, '');
 INSERT INTO `#__modules` VALUES (28, 'Random Image', '', 9, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_random_image', 0, 0, 1, '', 0, 0, '');
 INSERT INTO `#__modules` VALUES (29, 'Top Menu', '', 1, 'user3', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'cache=1\nmenutype=topmenu\nmenu_style=list_flat\nmenu_images=n\nmenu_images_align=left\nexpand_menu=n\nclass_sfx=-nav\nmoduleclass_sfx=\nindent_image1=0\nindent_image2=0\nindent_image3=0\nindent_image4=0\nindent_image5=0\nindent_image6=0', 1, 0, '');
-INSERT INTO `#__modules` VALUES (30, 'Banners', '', 1, 'banner', 0, '0000-00-00 00:00:00', 1, 'mod_banners', 0, 0, 0, 'banner_cids=\nmoduleclass_sfx=\n', 1, 0, '');
+INSERT INTO `#__modules` VALUES (30, 'Banners', '', 2, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_banners', 0, 0, 0, 'target=1\ncount=1\ncid=1\ncatid=33\ntag_search=0\nordering=random\nheader_text=\nfooter_text=\nmoduleclass_sfx=\ncache=1\ncache_time=900\n\n', 1, 0, '');
 INSERT INTO `#__modules` VALUES (31, 'Other Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'menutype=othermenu\nmenu_style=list\ncache=1\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nclass_sfx=\nmoduleclass_sfx=\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=\nmoduleclass_sfx=_menu\n', 0, 0, '');
 INSERT INTO `#__modules` VALUES (32, 'Wrapper', '', 12, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_wrapper', 0, 0, 1, '', 0, 0, '');
-INSERT INTO `#__modules` VALUES (33, 'Footer', '', 1, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 0, '');
+INSERT INTO `#__modules` VALUES (33, 'Footer', '', 1, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 0, 'cache=1\n\n', 1, 0, '');
 INSERT INTO `#__modules` VALUES (34, 'Feed Display', '', 13, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_feed', 0, 0, 1, '', 1, 0, '');
 INSERT INTO `#__modules` VALUES (35, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 0, 1, 'moduleclass_sfx=\ncache=0\nshowHome=1\nhomeText=Home\nshowComponent=1\nseparator=\n\n', 1, 0, '');
 INSERT INTO `#__modules` VALUES (36, 'Syndication', '', 3, 'syndicate', 0, '0000-00-00 00:00:00', 1, 'mod_syndicate', 0, 0, 0, '', 1, 0, '');

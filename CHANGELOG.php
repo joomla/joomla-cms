@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Sep-2007 Robin Muilwijk
+ + Added two banner clients for shop and book promos
+
 19-Sep-2007 Nur Aini Rakhmawati
 # Fixed[#7007][#7187] error on javascript IF condition
 
