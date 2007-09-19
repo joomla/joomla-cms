@@ -39,7 +39,8 @@ Legend:
 
 19-Sep-2007 Johan Janssens
  ! Aye mateys, 't talk like a pirate day t'day. Aaargh !
- # Fixed [#7043] Database debug bug  
+ # Fixed [#7043] Database debug bug 
+ # Fixed [#7219] XMLRPC broken as it can't extend the JApplication class 
 
 19-Sep-2007 Charl van Niekerk
  # Fixed [#6903] Unnecessary definitions in en-GB.mod_feed.ini
