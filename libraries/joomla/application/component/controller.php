@@ -294,7 +294,7 @@ class JController extends JObject
 		$viewName	= JRequest::getCmd( 'view', $this->_name );
 		$viewLayout	= JRequest::getCmd( 'layout', 'default' );
 
-		$view = & $this->getView( $viewName, $viewType);
+		$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
 
 		// Get/Create the model
 		if ($model = & $this->getModel($viewName)) {
