@@ -153,6 +153,7 @@ function moveInList( frmName, srcListName, index, to) {
 	   }
 	}
 	srcList.focus();
+	return true;
 }
 
 function getSelectedOption( frmName, srcListName ) {
@@ -397,12 +398,12 @@ function showCalendar(id, dateFormat) {
 		var cal = new Calendar(true, null, selected, closeHandler);
 		calendar = cal;		// remember the calendar in the global
 		cal.setRange(1900, 2070);	// min/max year allowed
-		
+
 		if ( dateFormat )	// optional date format
 		{
 			cal.setDateFormat(dateFormat);
 		}
-		
+
 		calendar.create();		// create a popup calendar
 		calendar.parseDate(el.value); // set it to a new date
 	}
@@ -480,13 +481,13 @@ function mosDHTML(){
 		document.getElementById(elem).className = style;
 	}
 	this.showElem = function(id) {
-		if (elem = document.getElementById(id)) {
+		if (elem == document.getElementById(id)) {
 			elem.style.visibility = 'visible';
 			elem.style.display = 'block';
 		}
 	}
 	this.hideElem = function(id) {
-		if (elem = document.getElementById(id)) {
+		if (elem == document.getElementById(id)) {
 			elem.style.visibility = 'hidden';
 			elem.style.display = 'none';
 		}
@@ -521,7 +522,7 @@ function saveorder( n,  task ) {
 
 //needed by saveorder function
 function checkAll_button( n, task ) {
-    
+
     if (!task ) {
 		task = 'saveorder';
 	}

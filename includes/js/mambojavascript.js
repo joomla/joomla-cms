@@ -448,13 +448,13 @@ function mosDHTML(){
 		document.getElementById(elem).className = style;
 	}
 	this.showElem = function(id) {
-		if (elem = document.getElementById(id)) {
+		if (elem == document.getElementById(id)) {
 			elem.style.visibility = 'visible';
 			elem.style.display = 'block';
 		}
 	}
 	this.hideElem = function(id) {
-		if (elem = document.getElementById(id)) {
+		if (elem == document.getElementById(id)) {
 			elem.style.visibility = 'hidden';
 			elem.style.display = 'none';
 		}

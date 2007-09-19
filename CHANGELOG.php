@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Sep-2007 Nur Aini Rakhmawati
+# Fixed[#7007][#7187] error on javascript IF condition
+
 18-Sep-2007 Nur Aini Rakhmawati
 # Fixed [#7084] enabling/dissabling FTP on com_config problem
 
