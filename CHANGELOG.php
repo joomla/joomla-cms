@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Sep-2007 Johan Janssens
+ ! Aye mateys, 't talk like a pirate day t'day. Aaargh !
+ # Fixed [#7043] Database debug bug  
+
 19-Sep-2007 Charl van Niekerk
  # Fixed [#6903] Unnecessary definitions in en-GB.mod_feed.ini
 
@@ -47,7 +51,7 @@ Legend:
 # Fixed[#7007][#7187] error on javascript IF condition
 
 18-Sep-2007 Nur Aini Rakhmawati
-# Fixed [#7084] enabling/dissabling FTP on com_config problem
+ # Fixed [#7084] enabling/dissabling FTP on com_config problem
 
 18-Sep-2007 Louis Landry
  ! Made SEF URL suffix a configurable option in global config. [Be careful when choosing .php and not using mod_rewrite]

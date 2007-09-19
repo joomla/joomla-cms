@@ -165,10 +165,6 @@ class JApplication extends JObject
 		$editor	 = $user->getParam('editor', $this->getCfg('editor'));
 		$editor = JPluginHelper::isEnabled('editors', $editor) ? $editor : $this->getCfg('editor');
 		$config->setValue('config.editor', $editor);
-
-		// Set the database debug
-		$db =& JFactory::getDBO();
-		$db->debug( $config->get('debug_db'));
 	}
 
 	/**

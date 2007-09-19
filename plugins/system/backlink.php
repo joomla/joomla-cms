@@ -17,7 +17,8 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.menu');
 
-class plgSystemBacklink extends JPlugin {
+class plgSystemBacklink extends JPlugin 
+{
 
 	var $_db = null;
 
@@ -33,17 +34,22 @@ class plgSystemBacklink extends JPlugin {
 	 * @param 	array   $config  An array that holds the plugin configuration
 	 * @since	1.0
 	 */
-	function plgSystemBacklink(& $subject, $config) {
+	function plgSystemBacklink(& $subject, $config) 
+	{
 		$this->_db = JFactory :: getDBO();
 		parent :: __construct($subject, $config);
 	}
 
-	function onAfterInitialise() {
+	function onAfterInitialise() 
+	{
 		global $mainframe;
-		if ($mainframe->isAdmin())
+		if ($mainframe->isAdmin()) {
 			return; // Dont run in admin
+		}
+		
 		$sef = $this->params->get('sef', 1);
 		$url = $this->params->get('url', 1);
+		
 		$legacysef = $this->params->get('legacysef', 1);
 		if (!$sef && !$url && !$legacysef)
 			return; // None of the options enabled, bail!
@@ -67,43 +73,61 @@ class plgSystemBacklink extends JPlugin {
 		// 1: SEF is enabled
 		// 2: Legacy SEF Plugin Param is set
 		// 3: And there is no backlink
-		if ($mainframe->getCfg('sef') 
+		if ($mainframe->getCfg('sef')  
 			&& $legacysef 
 			&& !strstr($_SERVER['REQUEST_URI'],'nobacklink')
-			&& !strlen($_SERVER['QUERY_STRING'])) $this->_legacysef();
+			&& !strlen($_SERVER['QUERY_STRING'])) {
+			$this->_legacysef();
+		}
 		
 	}
 
-	function _lookup($searchstring) {
+	function _lookup($searchstring) 
+	{
 		// return blank strings and just index.php on its own...
-		if (!strlen($searchstring) || $searchstring == trim('index.php',' ?'))
+		if (!strlen($searchstring) || $searchstring == trim('index.php',' ?')) {
 			return;
+		}
+		
 		$sef = $this->params->get('sef', 1);
 		$url = $this->params->get('url', 1);
-		if (!$sef && !$url)
+		
+		if (!$sef && !$url) {
 			return; // Neither option enabled, bail!
+		}
+		
 		$query = 'SELECT * FROM #__migration_backlinks WHERE ';
 		$where = Array ();
-		if ($url)
+		
+		if ($url) {
 			$where[] = 'url LIKE "%' . $this->_db->getEscaped($searchstring) . '%"';
-		if ($sef)
+		}
+		if ($sef) {
 			$where[] = 'sefurl LIKE "%' . $this->_db->getEscaped($searchstring) . '%"';
+		}
+		
 		$query .= implode(' OR ', $where);
 		$this->_db->setQuery($query);
 		$results = $this->_db->loadAssocList();
+		
 		if (count($results)) {
 			// Get the first one...
 			$this->_redirect($results[0]['itemid'], $results[0]['name'], $results[0]['newurl']);
 		}
 	}
 
-	function _redirect($Itemid, $name, $url = null) {
+	function _redirect($Itemid, $name, $url = null) 
+	{
 		global $mainframe;
-		if (!strlen($url)) {
+		
+		if (!strlen($url))
+		{
 			$menu = & JSite :: getMenu();
 			$item = $menu->getItem($Itemid);
 			//$url = $item->link;
-			switch ($item->type) {
+			
+			switch ($item->type) 
+			{
 				case 'url' :
 					if ((strpos($item->link, 'index.php?') !== false) && (strpos($item->link, 'Itemid=') === false)) {
 						$url = $item->link . '&amp;Itemid=' . $item->id;
@@ -123,21 +147,26 @@ class plgSystemBacklink extends JPlugin {
 			$name = $item->name;
 		}
 		// Check we're not redirecting to ourselves
-		if(!stristr($url,$_SERVER['REQUEST_URI']) && !stristr($url,$_SERVER['SCRIPT_NAME'].'/'.$_SERVER['QUERY_STRING'])) return;
+		if(!stristr($url,$_SERVER['REQUEST_URI']) && !stristr($url,$_SERVER['SCRIPT_NAME'].'/'.$_SERVER['QUERY_STRING'])) { 
+			return;
+		}
+		
 		$name = $name ? $name : "Unknown";
+		
 		header('Location: ' . str_replace('&amp;','&',$url)); // redirect and kill of and &amp;
 		die(JText :: sprintf('"%s" has moved to <a href="%s">%s</a>. Click the link if your browser does not redirect you automatically.', $name, $url, $url));
 	}
 
-	function _legacysef() {
+	function _legacysef() 
+	{
 		global $mainframe;
 		
 		$mosConfig_absolute_path = JPATH_SITE;
 		$mosConfig_live_site = JURI :: base();
 		$url_array = explode('/', $_SERVER['REQUEST_URI']);
 
-		if (in_array('content', $url_array)) {
-
+		if (in_array('content', $url_array)) 
+		{
 			/**
 			* Content
 			* http://www.domain.com/$option/$task/$sectionid/$id/$Itemid/$limit/$limitstart
@@ -151,10 +180,13 @@ class plgSystemBacklink extends JPlugin {
 
 			// language hook for content
 			$lang = '';
-			foreach ($url_array as $key => $value) {
-				if (!strcasecmp(substr($value, 0, 5), 'lang,')) {
+			foreach ($url_array as $key => $value) 
+			{
+				if (!strcasecmp(substr($value, 0, 5), 'lang,')) 
+				{
 					$temp = explode(',', $value);
-					if (isset ($temp[0]) && $temp[0] != '' && isset ($temp[1]) && $temp[1] != '') {
+					if (isset ($temp[0]) && $temp[0] != '' && isset ($temp[1]) && $temp[1] != '') 
+					{
 						$_GET['lang'] = $temp[1];
 						$_REQUEST['lang'] = $temp[1];
 						$lang = $temp[1];
@@ -163,7 +195,8 @@ class plgSystemBacklink extends JPlugin {
 				}
 			}
 
-			if (isset ($url_array[$pos +8]) && $url_array[$pos +8] != '' && in_array('category', $url_array) && (strpos($url_array[$pos +5], 'order,') !== false) && (strpos($url_array[$pos +6], 'filter,') !== false)) {
+			if (isset ($url_array[$pos +8]) && $url_array[$pos +8] != '' && in_array('category', $url_array) && (strpos($url_array[$pos +5], 'order,') !== false) && (strpos($url_array[$pos +6], 'filter,') !== false)) 
+			{
 				// $option/$task/$sectionid/$id/$Itemid/$order/$filter/$limit/$limitstart
 				$task = $url_array[$pos +1];
 				$sectionid = $url_array[$pos +2];
@@ -193,7 +226,9 @@ class plgSystemBacklink extends JPlugin {
 				$_REQUEST['limitstart'] = $limitstart;
 
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&order=$order&filter=$filter&limit=$limit&limitstart=$limitstart";
-			} else if (isset ($url_array[$pos +7]) && $url_array[$pos +7] != '' && $url_array[$pos +5] > 1000 && (in_array('archivecategory', $url_array) || in_array('archivesection', $url_array))) {
+			} 
+			else if (isset ($url_array[$pos +7]) && $url_array[$pos +7] != '' && $url_array[$pos +5] > 1000 && (in_array('archivecategory', $url_array) || in_array('archivesection', $url_array))) 
+			{
 				// $option/$task/$id/$limit/$limitstart/year/month/module
 				$task = $url_array[$pos +1];
 				$id = $url_array[$pos +2];
@@ -220,7 +255,9 @@ class plgSystemBacklink extends JPlugin {
 				$_REQUEST['module'] = $module;
 
 				$QUERY_STRING = "option=com_content&task=$task&id=$id&limit=$limit&limitstart=$limitstart&year=$year&month=$month&module=$module";
-			} else if (isset ($url_array[$pos +7]) && $url_array[$pos +7] != '' && $url_array[$pos +6] > 1000 && (in_array('archivecategory', $url_array) || in_array('archivesection', $url_array))) {
+			} 
+			else if (isset ($url_array[$pos +7]) && $url_array[$pos +7] != '' && $url_array[$pos +6] > 1000 && (in_array('archivecategory', $url_array) || in_array('archivesection', $url_array))) 
+			{
 				// $option/$task/$id/$Itemid/$limit/$limitstart/year/month
 				$task = $url_array[$pos +1];
 				$id = $url_array[$pos +2];
@@ -247,7 +284,9 @@ class plgSystemBacklink extends JPlugin {
 				$_REQUEST['month'] = $month;
 
 				$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart&year=$year&month=$month";
-			} else if (isset ($url_array[$pos +7]) && $url_array[$pos +7] != '' && in_array('category', $url_array) && (strpos($url_array[$pos +5], 'order,') !== false)) {
+			} 
+			else if (isset ($url_array[$pos +7]) && $url_array[$pos +7] != '' && in_array('category', $url_array) && (strpos($url_array[$pos +5], 'order,') !== false)) 
+			{
 				// $option/$task/$sectionid/$id/$Itemid/$order/$limit/$limitstart
 				$task = $url_array[$pos +1];
 				$sectionid = $url_array[$pos +2];
@@ -274,7 +313,9 @@ class plgSystemBacklink extends JPlugin {
 				$_REQUEST['limitstart'] = $limitstart;
 
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&order=$order&limit=$limit&limitstart=$limitstart";
-			} else if (isset ($url_array[$pos +6]) && $url_array[$pos +6] != '') {
+			} 
+			else if (isset ($url_array[$pos +6]) && $url_array[$pos +6] != '') 
+			{
 				// $option/$task/$sectionid/$id/$Itemid/$limit/$limitstart
 				$task = $url_array[$pos +1];
 				$sectionid = $url_array[$pos +2];
@@ -298,7 +339,9 @@ class plgSystemBacklink extends JPlugin {
 				$_REQUEST['limitstart'] = $limitstart;
 
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart";
-			} else if (isset ($url_array[$pos +5]) && $url_array[$pos +5] != '') {
+			} 
+			else if (isset ($url_array[$pos +5]) && $url_array[$pos +5] != '') 
+			{
 				// $option/$task/$id/$Itemid/$limit/$limitstart
 				$task = $url_array[$pos +1];
 				$id = $url_array[$pos +2];
@@ -319,7 +362,9 @@ class plgSystemBacklink extends JPlugin {
 				$_REQUEST['limitstart'] = $limitstart;
 
 				$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart";
-			} else if (isset ($url_array[$pos +4]) && $url_array[$pos +4] != '' && (in_array('archivecategory', $url_array) || in_array('archivesection', $url_array))) {
+			} 
+			else if (isset ($url_array[$pos +4]) && $url_array[$pos +4] != '' && (in_array('archivecategory', $url_array) || in_array('archivesection', $url_array))) 
+			{
 				// $option/$task/$year/$month/$module
 				$task = $url_array[$pos +1];
 				$year = $url_array[$pos +2];
@@ -337,7 +382,9 @@ class plgSystemBacklink extends JPlugin {
 				$_REQUEST['module'] = $module;
 
 				$QUERY_STRING = "option=com_content&task=$task&year=$year&month=$month&module=$module";
-			} else if (!(isset ($url_array[$pos +5]) && $url_array[$pos +5] != '') && isset ($url_array[$pos +4]) && $url_array[$pos +4] != '') {
+			} 
+			else if (!(isset ($url_array[$pos +5]) && $url_array[$pos +5] != '') && isset ($url_array[$pos +4]) && $url_array[$pos +4] != '') 
+			{
 				// $option/$task/$sectionid/$id/$Itemid
 				$task = $url_array[$pos +1];
 				$sectionid = $url_array[$pos +2];
@@ -355,7 +402,9 @@ class plgSystemBacklink extends JPlugin {
 				$_REQUEST['Itemid'] = $Itemid;
 
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid";
-			} else if (!(isset ($url_array[$pos +4]) && $url_array[$pos +4] != '') && (isset ($url_array[$pos +3]) && $url_array[$pos +3] != '')) {
+			} 
+			else if (!(isset ($url_array[$pos +4]) && $url_array[$pos +4] != '') && (isset ($url_array[$pos +3]) && $url_array[$pos +3] != '')) 
+			{
 				// $option/$task/$id/$Itemid
 				$task = $url_array[$pos +1];
 				$id = $url_array[$pos +2];
@@ -370,7 +419,9 @@ class plgSystemBacklink extends JPlugin {
 				$_REQUEST['Itemid'] = $Itemid;
 				
 				$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid";
-			} else if (!(isset ($url_array[$pos +3]) && $url_array[$pos +3] != '') && (isset ($url_array[$pos +2]) && $url_array[$pos +2] != '')) {
+			} 
+			else if (!(isset ($url_array[$pos +3]) && $url_array[$pos +3] != '') && (isset ($url_array[$pos +2]) && $url_array[$pos +2] != '')) 
+			{
 				// $option/$task/$id
 				$task = $url_array[$pos +1];
 				$id = $url_array[$pos +2];
@@ -382,7 +433,9 @@ class plgSystemBacklink extends JPlugin {
 				$_REQUEST['id'] = $id;
 
 				$QUERY_STRING = "option=com_content&task=$task&id=$id";
-			} else if (!(isset ($url_array[$pos +2]) && $url_array[$pos +2] != '') && (isset ($url_array[$pos +1]) && $url_array[$pos +1] != '')) {
+			} 
+			else if (!(isset ($url_array[$pos +2]) && $url_array[$pos +2] != '') && (isset ($url_array[$pos +1]) && $url_array[$pos +1] != '')) 
+			{
 				// $option/$task
 				$task = $url_array[$pos +1];
 
@@ -400,7 +453,9 @@ class plgSystemBacklink extends JPlugin {
 			$REQUEST_URI = $uri[0] . 'index.php?' . $QUERY_STRING;
 			$_SERVER['REQUEST_URI'] = $REQUEST_URI;
 
-		} else if (in_array('component', $url_array)) {
+		} 
+		else if (in_array('component', $url_array)) 
+		{
 			$name = 'component';
 			/*
 			Components
@@ -413,9 +468,11 @@ class plgSystemBacklink extends JPlugin {
 			// needed for check if component exists
 			$path = $mosConfig_absolute_path . '/components';
 			$dirlist = array ();
-			if (is_dir($path)) {
+			if (is_dir($path)) 
+			{
 				$base = opendir($path);
-				while (false !== ($dir = readdir($base))) {
+				while (false !== ($dir = readdir($base))) 
+				{
 					if ($dir !== '.' && $dir !== '..' && is_dir($path . '/' . $dir) && strtolower($dir) !== 'cvs' && strtolower($dir) !== '.svn') {
 						$dirlist[] = $dir;
 					}
@@ -423,14 +480,17 @@ class plgSystemBacklink extends JPlugin {
 				closedir($base);
 			}
 
-			foreach ($uri_array as $value) {
+			foreach ($uri_array as $value) 
+			{
 				$temp = explode(',', $value);
-				if (isset ($temp[0]) && $temp[0] != '' && isset ($temp[1]) && $temp[1] != '') {
+				if (isset ($temp[0]) && $temp[0] != '' && isset ($temp[1]) && $temp[1] != '') 
+				{
 					$_GET[$temp[0]] = $temp[1];
 					$_REQUEST[$temp[0]] = $temp[1];
 
 					// check to ensure component actually exists
-					if ($temp[0] == 'option') {
+					if ($temp[0] == 'option') 
+					{
 						$check = '';
 						if (count($dirlist)) {
 							foreach ($dirlist as $dir) {
@@ -441,7 +501,8 @@ class plgSystemBacklink extends JPlugin {
 							}
 						}
 						// redirect to 404 page if no component found to match url
-						if (!$check) {
+						if (!$check) 
+						{
 							header('HTTP/1.0 404 Not Found');
 							require_once ($mosConfig_absolute_path . '/templates/404.php');
 							exit (404);
