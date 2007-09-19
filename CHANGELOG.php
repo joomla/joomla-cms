@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Sep-2007 Charl van Niekerk
+ # Fixed [#6903] Unnecessary definitions in en-GB.mod_feed.ini
+
 19-Sep-2007 Robin Muilwijk
  + Added two banner clients for shop and book promos
 
