@@ -63,6 +63,12 @@ class JApplicationHelper
 			$obj->name	= 'installation';
 			$obj->path	= JPATH_INSTALLATION;
 			$clients[2] = clone($obj);
+			
+			// XMLRPC Client
+			$obj->id		= 3;
+			$obj->name	= 'xmlrpc';
+			$obj->path	= JPATH_XMLRPC;
+			$clients[3] = clone($obj);
 		}
 		
 		//If no client id has been passed return the whole array

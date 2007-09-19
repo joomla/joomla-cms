@@ -18,7 +18,6 @@ define( 'DS', DIRECTORY_SEPARATOR );
 
 require_once JPATH_BASE.DS.'includes'.DS.'defines.php';
 require_once JPATH_BASE.DS.'includes'.DS.'framework.php';
-require_once JPATH_BASE.DS.'includes'.DS.'application.php';
 
 // Templates etc. are not available for the XMLRPC application, therefore this simple error handler
 JError::setErrorHandling( E_ERROR,	 'die' );
@@ -26,7 +25,7 @@ JError::setErrorHandling( E_WARNING, 'echo' );
 JError::setErrorHandling( E_NOTICE,	 'echo' );
 
 // create the mainframe object
-$mainframe = new JXMLRPC();
+$mainframe =& JFactory::getApplication('xmlrpc');
 
 // Ensure that this application is enabled
 if (!($mainframe->getCfg('xmlrpc_server') && $mainframe->getCfg('debug'))) {

@@ -120,7 +120,7 @@ class JApplication extends JObject
 			//Load the router object
 			jimport('joomla.application.helper');
 			$info =& JApplicationHelper::getClientInfo($client, true);
-
+			
 			$path = $info->path.DS.'includes'.DS.'application.php';
 			if(file_exists($path))
 			{

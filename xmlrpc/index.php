@@ -17,7 +17,6 @@ define( 'DS', DIRECTORY_SEPARATOR );
 
 require_once JPATH_BASE.DS.'includes'.DS.'defines.php';
 require_once JPATH_BASE.DS.'includes'.DS.'framework.php';
-require_once JPATH_BASE.DS.'includes'.DS.'application.php';
 
 // We want to echo the errors so that the xmlrpc client has a chance to capture them in the payload
 JError::setErrorHandling( E_ERROR,	 'die' );
@@ -25,7 +24,7 @@ JError::setErrorHandling( E_WARNING, 'echo' );
 JError::setErrorHandling( E_NOTICE,	 'echo' );
 
 // create the mainframe object
-$mainframe =& JApplication::getInstance('xmlrpc');
+$mainframe =& JFactory::getApplication('xmlrpc');
 
 // Ensure that this application is enabled
 if (!$mainframe->getCfg('xmlrpc_server')) {
