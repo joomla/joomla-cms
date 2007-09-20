@@ -71,7 +71,10 @@ class modNewsFlashHelper
 		$contentConfig	= &JComponentHelper::getParams( 'com_content' );
 		$noauth			= !$contentConfig->get('shownoauth');
 
-		$now 	 = date('Y-m-d H:i:s', time() + $mainframe->getCfg('offset') * 60 * 60);
+		jimport('joomla.utilities.date');
+		$date = new JDate();
+		$now = $date->toMySQL();
+	
 		$nullDate = $db->getNullDate();
 
 		// query to determine article count
