@@ -120,7 +120,7 @@ class JApplication extends JObject
 			//Load the router object
 			jimport('joomla.application.helper');
 			$info =& JApplicationHelper::getClientInfo($client, true);
-			
+
 			$path = $info->path.DS.'includes'.DS.'application.php';
 			if(file_exists($path))
 			{
@@ -181,11 +181,11 @@ class JApplication extends JObject
 	function route()
  	{
 		// get the full request URI
-		$uri  =& JURI::getInstance();
+		$uri = clone(JURI::getInstance());
 
 		$router =& $this->getRouter();
 		$result = $router->parse($uri);
-		
+
 		JRequest::set($result, 'get', false );
  	}
 
@@ -523,7 +523,7 @@ class JApplication extends JObject
 				{
 					jimport('joomla.utilities.simplecrypt');
 					jimport('joomla.utilities.utility');
-					
+
 					//Create the encryption key, apply extra hardening using the user agent string
 					$key = JUtility::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
@@ -1024,13 +1024,13 @@ class JApplication extends JObject
 		// Load the article data to know what section/category it is in.
 		$article =& JTable::getInstance('content');
 		$article->load($id);
-		
+
 		$needles = array(
 			'article'  => (int) $id,
-			'category' => (int) $article->catid, 
-			'section'  => (int) $article->sectionid, 
+			'category' => (int) $article->catid,
+			'section'  => (int) $article->sectionid,
 		);
-				
+
 		$item = ContentHelperRoute::_findItem($needles);
 		return $item->id;
 	}

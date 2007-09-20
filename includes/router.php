@@ -56,8 +56,8 @@ class JRouterSite extends JRouter
 			return $vars;
 		}
 
-		//Get the variables from the request
-		$this->setVars(JRequest::get('get'));
+		//Get the variables from the uri
+		$this->setVars($uri->getQuery(true));
 
 		//Get the itemid, if it hasn't been set force it to null
 		$this->setVar('Itemid', JRequest::getInt('Itemid', null));
@@ -79,18 +79,11 @@ class JRouterSite extends JRouter
 	{
 		$vars   = array();
 
-		$menu =& JSite::getMenu(true);
-
-		// Get the base and full URLs
-		$full = $uri->toString( array('scheme', 'host', 'port', 'path'));
-		$base = $uri->base();
-
-		$url = str_replace(array($base, $this->_suffix), '', $full);
-		$url = preg_replace('/index[\d]?.php/', '', $url);
-		$url = trim($url , '/');
+		$menu  =& JSite::getMenu(true);
+		$route = $uri->getPath();
 
 		//Handle an empty URL (special case)
-		if(empty($url))
+		if(empty($route))
 		{
 			$item = $menu->getDefault();
 
@@ -106,17 +99,17 @@ class JRouterSite extends JRouter
 			return $vars;
 		}
 
-		//Get the variables from the request
-		$vars = JRequest::get('get');
+		//Get the variables from the uri
+		$vars = $uri->getQuery(true);
 
 		/*
 		 * Parse the application route
 		 */
 
-		if(substr($url, 0, 9) == 'component')
+		if(substr($route, 0, 9) == 'component')
 		{
-			$segments = explode('/', $url);
-			$url      = str_replace('component/'.$segments[1], '', $url);
+			$segments = explode('/', $route);
+			$route      = str_replace('component/'.$segments[1], '', $route);
 
 			$vars['option'] = 'com_'.$segments[1];
 			$vars['Itemid'] = null;
@@ -130,9 +123,9 @@ class JRouterSite extends JRouter
 			{
 				$lenght = strlen($item->route); //get the lenght of the route
 
-				if($lenght > 0 && strpos($url.'/', $item->route.'/') === 0)
+				if($lenght > 0 && strpos($route.'/', $item->route.'/') === 0)
 				{
-					$url    = substr($url, $lenght);
+					$route   = substr($route, $lenght);
 
 					$vars['Itemid'] = $item->id;
 					$vars['option'] = $item->component;
@@ -152,9 +145,9 @@ class JRouterSite extends JRouter
 		/*
 		 * Parse the component route
 		 */
-		if(!empty($url))
+		if(!empty($route))
 		{
-			$segments = explode('/', $url);
+			$segments = explode('/', $route);
 			array_shift($segments);
 
 			// Handle component	route
@@ -243,7 +236,7 @@ class JRouterSite extends JRouter
 		// Unset unneeded query information
 		unset($query['option']);
 
-		// Use the custom request handler if it exists
+		// Use the custom routing handler if it exists
 		if (file_exists($path) && !empty($query))
 		{
 			require_once $path;
@@ -266,24 +259,31 @@ class JRouterSite extends JRouter
 		return $route;
 	}
 
-	function _processParseRules()
+	function _processParseRules(&$uri)
 	{
+		$vars = array();
+
 		//Process rules
-		if($start = JRequest::getVar('start', null, 'get', 'int'))
-		{
-			$this->setVar('limitstart', $start);
-			unset($this->_vars['start']);
+		if($start = $uri->getVar('start')) {
+			$uri->delVar('start');
+			$vars['limitstart'] = $start;
 		}
+
+		return $vars;
 	}
 
 	function _processBuildRules(&$uri)
 	{
+		$route = '';
+
 		//Process rules
 		if ($limitstart = $uri->getVar('limitstart'))
 		{
 			$uri->setVar('start', (int) $limitstart);
 			$uri->delVar('limitstart');
 		}
+
+		return $route;
 	}
 
 	function &_createURI($url)

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id$
+* @version		$Id:router.php 8876 2007-09-13 22:54:03Z jinx $
 * @package		Joomla.Framework
 * @subpackage	Application
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -47,7 +47,7 @@ class JRouter extends JObject
 	 * @var array
 	 */
 	var $_vars = array();
-	
+
 	/**
 	 * An route prefix
 	 *
@@ -55,7 +55,7 @@ class JRouter extends JObject
 	 * @var string
 	 */
 	var $_prefix = null;
-	
+
 	/**
 	 * An route suffix
 	 *
@@ -63,7 +63,7 @@ class JRouter extends JObject
 	 * @var string
 	 */
 	var $_suffix = null;
-	
+
 	/**
 	 * Class constructor
 	 *
@@ -76,16 +76,16 @@ class JRouter extends JObject
 		} else {
 			$this->_mode = JROUTER_MODE_RAW;
 		}
-		
+
 		if(array_key_exists('prefix', $options)) {
 			$this->_prefix = $options['prefix'];
-		} 
-		
+		}
+
 		if(array_key_exists('suffix', $options)) {
 			$this->_suffix = $options['suffix'];
-		} 
+		}
 	}
-	
+
 	/**
 	 * Returns a reference to the global JRouter object, only creating it if it
 	 * doesn't already exist.
@@ -105,30 +105,30 @@ class JRouter extends JObject
 		if (!isset( $instances )) {
 			$instances = array();
 		}
-		
+
 		if (empty($instances[$client]))
 		{
 			//Load the router object
 			$info =& JApplicationHelper::getClientInfo($client, true);
-			
+
 			$path = $info->path.DS.'includes'.DS.'router.php';
-			if(file_exists($path)) 
+			if(file_exists($path))
 			{
 				require_once $path;
-				
+
 				// Create a JRouter object
 				$classname = 'JRouter'.ucfirst($client);
 				$instance = new $classname($options);
-			} 
-			else 
+			}
+			else
 			{
 				$error = new JException( E_ERROR, 500, 'Unable to load router: '.$client);
 				return $error;
 			}
-			
+
 			$instances[$client] = & $instance;
 		}
-			
+
 		return $instances[$client];
 	}
 
@@ -139,29 +139,43 @@ class JRouter extends JObject
 	 */
 	function parse($uri)
 	{
-		$result = false;
-		
+		$route = false;
+
 		//If the uri is not an object create one
 		if(is_string($uri)) {
 			$uri = JURI::getInstance($uri);
 		}
 
+		//Get the route
+		$path =  $uri->getPath();
+
+		//Transform the route
+		$host  = $uri->toString( array('scheme', 'host', 'port'));
+		$base  = str_replace($host.'/', '', JURI::base());
+
+		$path = str_replace($base, '', $path);				 //Remove basepath
+		$path = str_replace($this->_suffix, '', $path);		 //Remove suffix
+		$path = preg_replace('/index[\d]?.php/', '', $path); //Remove prefix
+
+		//Set the route back
+		$uri->setPath(trim($path , '/'));
+
+		// Process the parsed variables based on custom defined rules
+		$rules = $this->_processParseRules($uri);
+
 		// Parse RAW URL
 		if($this->_mode == JROUTER_MODE_RAW) {
-			$result = $this->_parseRawRoute($uri);
+			$route = $this->_parseRawRoute($uri);
 		}
-		
+
 		// Parse SEF URL
 		if($this->_mode == JROUTER_MODE_SEF) {
-			$result = $this->_parseSefRoute($uri);
+			$route = $this->_parseSefRoute($uri);
 		}
-		
-		// Process the parsed variables based on custom defined rules
-		$this->_processParseRules();
-		
-		return array_merge($this->getVars(), $result);
+
+	 	return  array_merge($this->getVars(), $route + $rules);
 	}
-	
+
 	/**
 	 * Function to convert an internal URI to a route
 	 *
@@ -170,41 +184,41 @@ class JRouter extends JObject
 	 */
 	function build($url)
 	{
-		// Replace all &amp; with &
+		// Replace all &amp; with & -> move to legacy
 		$url = str_replace('&amp;', '&', $url);
-		
+
 		//Create the URI object
 		$uri =& $this->_createURI($url);
 
+		//Process the uri information based on custom defined rules
+		$route = $this->_processBuildRules($uri);
+
 		// Build RAW URL
 		if($this->_mode == JROUTER_MODE_RAW) {
-			$route = $this->_buildRawRoute($uri);
+			$route .= $this->_buildRawRoute($uri);
 		}
 
 		// Build SEF URL : mysite/route/index.php?var=x
 		if ($this->_mode == JROUTER_MODE_SEF) {
-			$route = $this->_buildSefRoute($uri);
+			$route .= $this->_buildSefRoute($uri);
 		}
-		
-		//Process the uri information based on custom defined rules
-		$this->_processBuildRules($uri);
-	
+
 		//Append and prepend informatio to the route
-		if(!empty($route)) 
-		{ 
+		if(!empty($route))
+		{
 			//Append the route with the suffix
 			$route = $route.$this->_suffix;
-			
+
 			//Prepend the route with a delimiter if needed
 			$route = !empty($this->_prefix) ? '/'.$route : $route;
 		}
-		
+
 		//Create the route
 		$url = $this->_prefix.$route.$uri->toString(array('query', 'fragment'));
 
 		return $url;
 	}
-	
+
 	/**
 	 * Get the router mode
 	 *
@@ -213,7 +227,7 @@ class JRouter extends JObject
 	function getMode() {
 		return $this->_mode;
 	}
-	
+
 	/**
 	 * Get the router mode
 	 *
@@ -222,7 +236,7 @@ class JRouter extends JObject
 	function setMode($mode) {
 		$this->_mode = $mode;
 	}
-	
+
 	/**
 	 * Set a router variable, creating it if it doesn't exist
 	 *
@@ -232,14 +246,14 @@ class JRouter extends JObject
 	 * @param	boolean $create If True, the variable will be created if it doesn't exist yet
  	 */
 	function setVar($key, $value, $create = true) {
-		
+
 		if(!$create && array_key_exists($key, $this->_vars)) {
 			$this->_vars[$key] = $value;
 		} else {
 			$this->_vars[$key] = $value;
 		}
 	}
-	
+
 	/**
 	 * Set the router variable array
 	 *
@@ -248,14 +262,14 @@ class JRouter extends JObject
 	 * @param	boolean $create If True, the array will be merged instead of overwritten
  	 */
 	function setVars($vars = array(), $merge = true) {
-		
+
 		if($merge) {
 			$this->_vars = array_merge($this->_vars, $vars);
 		} else {
 			$this->_vars = $vars;
 		}
 	}
-	
+
 	/**
 	 * Get a router variable
 	 *
@@ -263,7 +277,7 @@ class JRouter extends JObject
 	 * @param	string $key   The name of the variable
 	 * $return  mixed  Value of the variable
  	 */
-	function getVar($key) 
+	function getVar($key)
 	{
 		$result = null;
 		if(isset($this->_vars[$key])) {
@@ -271,7 +285,7 @@ class JRouter extends JObject
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Get the router variable array
 	 *
@@ -281,7 +295,7 @@ class JRouter extends JObject
 	function getVars() {
 		return $this->_vars;
 	}
-	
+
 	/**
 	 * Function to convert a raw route to an internal URI
 	 *
@@ -292,7 +306,7 @@ class JRouter extends JObject
 	{
 		return false;
 	}
-	
+
 	/**
 	 *  Function to convert a sef route to an internal URI
 	 *
@@ -303,7 +317,7 @@ class JRouter extends JObject
 	{
 		return false;
 	}
-	
+
 	/**
 	 * Function to build a raw route
 	 *
@@ -314,7 +328,7 @@ class JRouter extends JObject
 	{
 		return '';
 	}
-	
+
 	/**
 	 * Function to build a sef route
 	 *
@@ -325,29 +339,29 @@ class JRouter extends JObject
 	{
 		return '';
 	}
-	
+
 	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
 	 * @abstract
 	 * @access protected
 	 */
-	function _processParseRules()
+	function _processParseRules(&$uri)
 	{
-		
+		return array();
 	}
-	
+
 	/**
-	 * Process the build uri query data based on custom defined rules 
+	 * Process the build uri query data based on custom defined rules
 	 *
 	 * @abstract
 	 * @access protected
 	 */
 	function _processBuildRules(&$uri)
 	{
-	
+		return '';
 	}
-	
+
 	/**
 	 * Create a uri based on a full or partial url string
 	 *
@@ -361,24 +375,24 @@ class JRouter extends JObject
 		{
 			$vars = array();
 			parse_str($url, $vars);
-			
+
 			$vars = array_merge($this->getVars(), $vars);
-			
-			foreach($vars as $key => $var) 
+
+			foreach($vars as $key => $var)
 			{
 				if($var == "") {
 					unset($vars[$key]);
 				}
 			}
-			
+
 			$url = 'index.php?'.JURI::buildQuery($vars);
 		}
-		
+
 		// Decompose link into url component parts
 		$uri = new JURI(JURI::base().$url);
 		return $uri;
 	}
-	
+
 	/**
 	 * Encode route segments
 	 *
