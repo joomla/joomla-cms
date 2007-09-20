@@ -41,6 +41,7 @@ Legend:
  ! Shiver me Timbers if 'ay waz'n an sea lov'n greet'n
  # Fixed [#6871] impossible to uninstall component when database tables or folders missing ( issue 1 )
  ! When manifest cannot be found, uninstall will rm dirs and menu item
+ # Fixed [#7061] Empty search result on fresh installed copy without sample data
  
 19-Sep-2007 Johan Janssens
  ! Aye mateys, 't talk like a pirate day t'day. Aaargh !

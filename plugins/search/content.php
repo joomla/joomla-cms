@@ -63,7 +63,10 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	$limit 			= $pluginParams->def( 'search_limit', 		50 );
 
 	$nullDate 		= $db->getNullDate();
-	$now 			= date( 'Y-m-d H:i:s', time()+$mainframe->getCfg('offset')*60*60 );
+	jimport('joomla.utilities.date');
+	$date = new JDate();
+	$now = $date->toMySQL();
+	//$now 			= date( 'Y-m-d H:i:s', time()+$mainframe->getCfg('offset')*60*60 );
 
 	$text = trim( $text );
 	if ($text == '') {
