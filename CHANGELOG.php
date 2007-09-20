@@ -41,9 +41,9 @@ Legend:
  # Fixed [#6442] Bug in SEF + mosRedirect
  ^ Router now creates absolute paths instead of relatives ones.
  + Added baseurl variable to JView and JDocumentHTML
- ! These changes have been made to improve compilance with W3C standards especially compilance with for
-   the base href implementation. Template designers should take notice any relative paths used in their
-   1.5 templates will need to be changed to absolute paths to allow the template to work with SEF on. 
+ ! These changes have been made to improve compilance with W3C standards especially compilance for the 
+   base href implementation. Template designers should take notice any relative paths used in their 1.5 
+   templates will need to be changed to absolute paths to allow the template to work with SEF on. 
    
 19-Sep-2007 Toby Patterson
  ! Shiver me Timbers if 'ay waz'n an sea lov'n greet'n
