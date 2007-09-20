@@ -334,8 +334,15 @@ class JInstallerComponent extends JObject
 			// Make sure we delete the folders if no manifest exists
 			JFolder::delete($this->parent->getPath('extension_administrator'));
 			JFolder::delete($this->parent->getPath('extension_site'));
-			JError::raiseWarning(100, 'Component Uninstall: Package manifest file invalid or not found');
-			return false;
+			
+			// Remove the menu
+			$this->_removeAdminMenus($row);
+			
+			// Raise a warning
+			JError::raiseWarning(100, JText::_('ERRORREMOVEMANUALLY'));
+			
+			// Return 
+			return false; 
 		}
 
 		// Get the root node of the manifest document

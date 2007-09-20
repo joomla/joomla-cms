@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Sep-2007 Toby Patterson
+ ! Shiver me Timbers if 'ay waz'n an sea lov'n greet'n
+ # Fixed [#6871] impossible to uninstall component when database tables or folders missing ( issue 1 )
+ ! When manifest cannot be found, uninstall will rm dirs and menu item
+ 
 19-Sep-2007 Johan Janssens
  ! Aye mateys, 't talk like a pirate day t'day. Aaargh !
  # Fixed [#7043] Database debug bug 
