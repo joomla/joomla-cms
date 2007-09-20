@@ -53,38 +53,13 @@ class modBreadCrumbsHelper
 	function setSeparator($custom = null)
 	{
 		global $mainframe;
-
+		
 		/**
 	 	* If a custom separator has not been provided we try to load a template
 	 	* specific one first, and if that is not present we load the default separator
 	 	*/
-		if ($custom == null)
-		{
-			// Set path for what would be a template specific separator
-			$tSepPath = 'templates/'.$mainframe->getTemplate().'/images/arrow.png';
-
-			// Check to see if the template specific separator exists and if so, set it
-			if (is_file(JPATH_SITE."/$tSepPath")) {
-				$_separator = '<img src="'.$tSepPath.'" border="0" alt="arrow" />';
-			}
-			else
-			{
-				// Template specific separator does not exist, use the default separator
-				$dSepPath = '/images/M_images/arrow.png';
-
-				// Check to make sure the default separator exists
-				if (is_file(JPATH_SITE.$dSepPath)) {
-					$_separator = '<img src="images/M_images/arrow.png" alt="arrow" />';
-				}
-				else {
-					// The default separator does not exist either ... just use a bracket
-					$_separator = '&gt;';
-				}
-			}
-		}
-		else
-		{
-			$_separator = $custom;
+		if ($custom == null) {
+			$_separator = JHTML::_('image.site', 'arrow.png');
 		}
 		return $_separator;
 	}

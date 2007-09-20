@@ -105,13 +105,13 @@ class JSite extends JApplication
 				}
 
 				if($router->getMode() == JROUTER_MODE_SEF) {
-					$document->setBase(JURI::base());
+					$document->setBase(JURI::current());
 				}
 			} break;
 
 			case 'feed':
 			{
-				$document->setBase(JURI::base());
+				$document->setBase(JURI::current());
 			} break;
 
 			default: break;
@@ -352,15 +352,6 @@ class JSite extends JApplication
 	function &getRouter()
 	{
 		$options['mode'] = $this->getCfg('sef');
-
-		if($options['mode'] && $this->getCfg('sef_suffix')) {
-			$options['suffix'] = $this->getCfg('sef_suffix');
-		}
-
-		if($options['mode'] && !$this->getCfg('sef_rewrite')) {
-			$options['prefix'] = 'index.php';
-		}
-
 		$router =& parent::getRouter('site', $options);
 		return $router;
 	}

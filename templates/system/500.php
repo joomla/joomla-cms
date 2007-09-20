@@ -11,15 +11,12 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
-jimport('joomla.environment.uri');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<title>500 - <?php echo $this->title; ?></title>
-	<base href="<?php echo JURI::base() ?>" />
-	<link rel="stylesheet" href="templates/system/css/error.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/error.css" type="text/css" />
 </head>
 <body>
 	<div align="center">

@@ -49,20 +49,12 @@ class JRouter extends JObject
 	var $_vars = array();
 
 	/**
-	 * An route prefix
+	 * An array of rules
 	 *
 	 * @access protected
-	 * @var string
+	 * @var array
 	 */
-	var $_prefix = null;
-
-	/**
-	 * An route suffix
-	 *
-	 * @access protected
-	 * @var string
-	 */
-	var $_suffix = null;
+	var $_rules = array();
 
 	/**
 	 * Class constructor
@@ -75,14 +67,6 @@ class JRouter extends JObject
 			$this->_mode = $options['mode'];
 		} else {
 			$this->_mode = JROUTER_MODE_RAW;
-		}
-
-		if(array_key_exists('prefix', $options)) {
-			$this->_prefix = $options['prefix'];
-		}
-
-		if(array_key_exists('suffix', $options)) {
-			$this->_suffix = $options['suffix'];
 		}
 	}
 
@@ -148,13 +132,9 @@ class JRouter extends JObject
 
 		//Get the route
 		$path =  $uri->getPath();
-
+		
 		//Transform the route
-		$host  = $uri->toString( array('scheme', 'host', 'port'));
-		$base  = str_replace($host.'/', '', JURI::base());
-
-		$path = str_replace($base, '', $path);				 //Remove basepath
-		$path = str_replace($this->_suffix, '', $path);		 //Remove suffix
+		$path = str_replace(JURI::base(true), '', $path);	 //Remove basepath
 		$path = preg_replace('/index[\d]?.php/', '', $path); //Remove prefix
 
 		//Set the route back
@@ -190,31 +170,21 @@ class JRouter extends JObject
 		//Create the URI object
 		$uri =& $this->_createURI($url);
 
-		//Process the uri information based on custom defined rules
-		$route = $this->_processBuildRules($uri);
-
 		// Build RAW URL
 		if($this->_mode == JROUTER_MODE_RAW) {
-			$route .= $this->_buildRawRoute($uri);
+			$this->_buildRawRoute($uri);
 		}
 
 		// Build SEF URL : mysite/route/index.php?var=x
 		if ($this->_mode == JROUTER_MODE_SEF) {
-			$route .= $this->_buildSefRoute($uri);
+			$this->_buildSefRoute($uri);
 		}
-
-		//Append and prepend informatio to the route
-		if(!empty($route))
-		{
-			//Append the route with the suffix
-			$route = $route.$this->_suffix;
-
-			//Prepend the route with a delimiter if needed
-			$route = !empty($this->_prefix) ? '/'.$route : $route;
-		}
-
+		
+		//Process the uri information based on custom defined rules
+		$this->_processBuildRules($uri);
+		
 		//Create the route
-		$url = $this->_prefix.$route.$uri->toString(array('query', 'fragment'));
+		$url = $uri->toString(array('path', 'query', 'fragment'));
 
 		return $url;
 	}
@@ -295,7 +265,7 @@ class JRouter extends JObject
 	function getVars() {
 		return $this->_vars;
 	}
-
+	
 	/**
 	 * Function to convert a raw route to an internal URI
 	 *
@@ -326,7 +296,7 @@ class JRouter extends JObject
 	 */
 	function _buildRawRoute(&$uri)
 	{
-		return '';
+		
 	}
 
 	/**
@@ -337,7 +307,7 @@ class JRouter extends JObject
 	 */
 	function _buildSefRoute(&$uri)
 	{
-		return '';
+		
 	}
 
 	/**

@@ -3,7 +3,6 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <script language="javascript" type="text/javascript">
-//<![CDATA[
 function submitbutton( pressbutton ) {
 	var form = document.userform;
 	var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", "i");
@@ -31,7 +30,6 @@ function submitbutton( pressbutton ) {
 		form.submit();
 	}
 }
-//]]>
 </script>
 
 <h1 class="componentheading">

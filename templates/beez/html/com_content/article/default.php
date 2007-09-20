@@ -43,7 +43,7 @@ endif; ?>
 	<?php if ($this->print) :
 		echo JHTML::_('icon.print_screen', $this->article, $this->params, $this->access);
 	elseif ($this->params->get('show_pdf_icon') || $this->params->get('show_print_icon') || $this->params->get('show_email_icon')) : ?>
-	<img src="templates/<?php echo $mainframe->getTemplate(); ?>/images/trans.gif" alt="<?php echo JText::_('attention open in a new window'); ?>" />
+	<img src="<?php echo $this->baseurl ?>/templates/beez/images/trans.gif" alt="<?php echo JText::_('attention open in a new window'); ?>" />
 	<?php if ($this->params->get('show_pdf_icon')) :
 		echo JHTML::_('icon.pdf', $this->article, $this->params, $this->access);
 	endif;

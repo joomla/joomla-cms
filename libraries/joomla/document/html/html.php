@@ -221,14 +221,17 @@ class JDocumentHTML extends JDocument
 		if (is_readable( $directory.DS.$template.DS.'params.ini' ) )
 		{
 			$content = file_get_contents($directory.DS.$template.DS.'params.ini');
-			$this->params = new JParameter($content);
+			$params = new JParameter($content);
 		}
 		
 		// Load the language file for the template
 		$lang =& JFactory::getLanguage();
 		$lang->load( 'tpl_'.$template );
 
-		$this->template =& $template;
+		// Assign the variables
+		$this->template = $template;
+		$this->baseurl  = JURI::base(true);
+		$this->params   = $params;
 
 		// load
 		$data = $this->_loadTemplate($directory.DS.$template, $file);
@@ -313,7 +316,7 @@ class JDocumentHTML extends JDocument
 			{
 				$path = str_replace( JPATH_BASE . DS, '', $dir );
 				$path = str_replace( '\\', '/', $path );
-				$this->addFavicon( $path . 'favicon.ico' );
+				$this->addFavicon( JURI::base(true).'/'.$path . 'favicon.ico' );
 				break;
 			}
 		}

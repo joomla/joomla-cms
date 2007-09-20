@@ -29,11 +29,11 @@
 		<tr>
 			<td width="185" class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'URL Suffix' ); ?>::<?php echo JText::_('TIPURLSUFFIX'); ?>">
-					<?php echo JText::_( 'URL Suffix' ); ?>
+					<?php echo JText::_( 'Add suffix to URLs' ); ?>
 				</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" size="20" name="sef_suffix" value="<?php echo $row->sef_suffix; ?>" />
+				<?php echo $lists['sef_suffix']; ?>
 			</td>
 		</tr>
 		</tbody>

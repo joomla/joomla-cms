@@ -42,12 +42,12 @@ if ($type == 'logout') : ?>
 	<input type="checkbox" name="remember" id="mod_login_remember" class="checkbox" value="yes" alt="<?php echo JText::_('Remember me'); ?>" />
 	<input type="submit" name="Submit" class="button" value="<?php echo JText::_('BUTTON_LOGIN'); ?>" />
 	<p>
-		<a href="<?php echo JRoute::_('index.php?option=com_user&view=reset'); ?>#content">
+		<a href="<?php echo JRoute::_('index.php?option=com_user&view=reset#content'); ?>">
 			<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?>
 		</a>
 	</p>
 	<p>
-		<a href="<?php echo JRoute::_('index.php?option=com_user&view=remind'); ?>#content">
+		<a href="<?php echo JRoute::_('index.php?option=com_user&view=remind#content'); ?>">
 			<?php echo JText::_('FORGOT_YOUR_USERNAME'); ?>
 		</a>
 	</p>
@@ -55,7 +55,7 @@ if ($type == 'logout') : ?>
 	if ($usersConfig->get('allowUserRegistration')) : ?>
 	<p>
 		<?php echo JText::_('No account yet?'); ?>
-		<a href="<?php echo JRoute::_('index.php?option=com_user&amp;task=register'); ?>#content">
+		<a href="<?php echo JRoute::_('index.php?option=com_user&amp;task=register#content'); ?>">
 			<?php echo JText::_('Register'); ?>
 		</a>
 	</p>

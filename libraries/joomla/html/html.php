@@ -154,7 +154,7 @@ class JHTML
 			JHTML::_('behavior.mootools');
 		}
 
-		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base(true).'/';
 
 		$document = &JFactory::getDocument();
 		$document->addScript( $base.$path.$filename );

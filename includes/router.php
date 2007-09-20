@@ -181,8 +181,6 @@ class JRouterSite extends JRouter
 
 	function _buildRawRoute(&$uri)
 	{
-		$route = 'index.php'; //the route created
-
 		if($uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
 		{
 			$menu =& JSite::getMenu();
@@ -194,36 +192,37 @@ class JRouterSite extends JRouter
 			$uri->setQuery($item->query);
 			$uri->setVar('Itemid', $itemid);
 		}
-
-		return $route;
 	}
 
 	function _buildSefRoute(&$uri)
 	{
-		$route = ''; //the route created
+		// Get the route
+		$route = $uri->getPath();
 
 		//Get the query data
 		$query = $uri->getQuery(true);
 
 		if(!isset($query['option'])) {
-			return $route;
+			return;
 		}
 
 		$menu =& JSite::getMenu();
-
+		
 		/*
 		 * Built the application route
 		 */
-		$route = 'component/'.substr($query['option'], 4);
-
+		$tmp = 'component/'.substr($query['option'], 4); 
+		 
 		if(isset($query['Itemid']))
 		{
 			$item = $menu->getItem($query['Itemid']);
 
 			if ($query['option'] == $item->component) {
-				$route = $item->route;
+				$tmp = $item->route;
 			}
 		}
+		
+		$route .= '/'.$tmp;
 
 		/*
 		 * Built the component route
@@ -255,18 +254,34 @@ class JRouterSite extends JRouter
 
 		//Set query again in the URI
 		$uri->setQuery($query);
-
-		return $route;
+		$uri->setPath($route);
 	}
 
 	function _processParseRules(&$uri)
 	{
+		$app =& JFactory::getApplication();
+		
 		$vars = array();
-
-		//Process rules
-		if($start = $uri->getVar('start')) {
-			$uri->delVar('start');
-			$vars['limitstart'] = $start;
+		
+		if($this->_mode == JROUTER_MODE_SEF) 
+		{
+			if($start = $uri->getVar('start')) 
+			{
+				$uri->delVar('start');
+				$vars['limitstart'] = $start;
+			}
+			
+			if($app->getCfg('sef_suffix')) 
+			{
+				// Get the path
+				$path = $uri->getPath();
+			
+				if($suffix = pathinfo($path, PATHINFO_EXTENSION)) 
+				{
+					$uri->setPath(str_replace('.'.$suffix, '', $path));
+					$vars['format'] = $suffix;
+				}
+			}
 		}
 
 		return $vars;
@@ -274,16 +289,30 @@ class JRouterSite extends JRouter
 
 	function _processBuildRules(&$uri)
 	{
-		$route = '';
-
-		//Process rules
-		if ($limitstart = $uri->getVar('limitstart'))
+		$app =& JFactory::getApplication();
+		
+		// Get the path data
+		$route = $uri->getPath();
+		
+		if($this->_mode == JROUTER_MODE_SEF && $route) 
 		{
-			$uri->setVar('start', (int) $limitstart);
-			$uri->delVar('limitstart');
+			if ($limitstart = $uri->getVar('limitstart'))
+			{
+				$uri->setVar('start', (int) $limitstart);
+				$uri->delVar('limitstart');
+			}
+			
+			if($app->getCfg('sef_suffix')) 
+			{
+				if($format = $uri->getVar('format', 'html')) 
+				{
+					$route .= '.'.$format;
+					$uri->delVar('format');
+				}
+			}
 		}
-
-		return $route;
+		
+		$uri->setPath($route);
 	}
 
 	function &_createURI($url)

@@ -177,6 +177,8 @@ class JView extends JObject
 		} else {
 			$this->setLayout('default');
 		}
+		
+		$this->baseurl = JURI::base(true);
 	}
 
 	/**

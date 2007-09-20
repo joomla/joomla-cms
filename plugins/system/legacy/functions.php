@@ -871,7 +871,10 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
  * @deprecated	As of version 1.5
  */
 function sefRelToAbs($value) {
-	return JRoute::_($value);
+	
+	$uri    = JURI::getInstance();
+	$prefix = $uri->toString(array('scheme', 'host', 'port'));
+	return $prefix.JRoute::_($value);
 }
 
 

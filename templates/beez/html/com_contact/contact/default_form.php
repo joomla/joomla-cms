@@ -3,7 +3,6 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <script type="text/javascript">
-<!--
 	function validateForm( frm ) {
 		var valid = document.formvalidator.isValid(frm);
 		if (valid == false) {
@@ -18,7 +17,6 @@ defined('_JEXEC') or die('Restricted access');
 			frm.submit();
 		}
 	}
-// -->
 </script>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" class="form-validate" method="post" name="emailForm" id="emailForm">

@@ -80,6 +80,9 @@ class JHTMLImage
 		if (substr($src, 0, 1 ) == "/") {
 			$src = substr_replace($src, '', 0, 1);
 		}
+		
+		// Prepend the base path
+		$src = JURI::base(true).'/'.$src;
 
 		// outputs actual html <img> tag
 		if ($asTag) {
