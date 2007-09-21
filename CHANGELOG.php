@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Sep-2007 Johan Janssens
+ + Added JRequest::getMethod, this will return the request method used by the client
+
 21-Sep-2007 Nur Aini Rakhmawati
 # Fixed Pagination for prev and '1' buttons error problem because of router issue
 

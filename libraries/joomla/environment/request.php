@@ -47,12 +47,24 @@ class JRequest
 {
 	/**
 	 * Gets the full request path
+	 * 
 	 * @return string
 	 */
 	function getURI()
 	{
 		$uri = &JFactory::getURI();
 		return $uri->toString();
+	}
+	
+	/**
+	 * Gets the request method
+	 * 
+	 * @return string
+	 */
+	function getMethod()
+	{
+		$method = strtoupper( $_SERVER['REQUEST_METHOD'] );
+		return $method;
 	}
 
 	/**
