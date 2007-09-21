@@ -325,7 +325,7 @@ class JPagination extends JObject
 		$limits[] = JHTML::_('select.option', '0', JText::_('all'));
 
 		$selected = $this->_viewall ? 0 : $this->limit;
-
+		
 		// Build the select list
 		if ($mainframe->isAdmin()) {
 			$html = JHTML::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="submitform();"', 'value', 'text', $selected);
@@ -458,7 +458,7 @@ class JPagination extends JObject
 	function _item_active(&$item)
 	{
 		global $mainframe;
-		if ($mainframe->isAdmin() && isset($item->base)) {
+		if ($mainframe->isAdmin()) {
 			return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.limitstart.value=".$item->base."; submitform();return false;\">".$item->text."</a>";
 		} else {
 			return "<a title=\"".$item->text."\" href=\"".$item->link."\" class=\"pagenav\">".$item->text."</a>";
@@ -500,11 +500,13 @@ class JPagination extends JObject
 		if ($this->get('pages.current') > 1)
 		{
 			$page = ($this->get('pages.current') -2) * $this->limit;
-
+			
+			$page = $page == 0 ? '' : $page; //set the empty for removal from route
+			
 			$data->start->base	= '0';
 			$data->start->link	= JRoute::_("&limitstart=");
 			$data->previous->base	= $page;
-			$data->previous->link	= JRoute::_("&limitstart=".$page == 0 ? '' : $page);
+			$data->previous->link	= JRoute::_("&limitstart=".$page);
 		}
 
 		// Set the next and end data objects
@@ -515,7 +517,7 @@ class JPagination extends JObject
 		{
 			$next = $this->get('pages.current') * $this->limit;
 			$end  = ($this->get('pages.total') -1) * $this->limit;
-
+			
 			$data->next->base	= $next;
 			$data->next->link	= JRoute::_("&limitstart=".$next);
 			$data->end->base	= $end;
@@ -527,12 +529,14 @@ class JPagination extends JObject
 		for ($i = $this->get('pages.start'); $i <= $stop; $i ++)
 		{
 			$offset = ($i -1) * $this->limit;
-
+			
+			$offset = $offset == 0 ? '' : $offset;  //set the empty for removal from route
+			
 			$data->pages[$i] = new JPaginationObject($i);
 			if ($i != $this->get('pages.current') || $this->_viewall)
 			{
 				$data->pages[$i]->base	= $offset;
-				$data->pages[$i]->link	= JRoute::_("&limitstart=".$offset == 0 ? '' : $offset);
+				$data->pages[$i]->link	= JRoute::_("&limitstart=".$offset);
 			}
 		}
 		return $data;
