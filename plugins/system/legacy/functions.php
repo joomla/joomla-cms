@@ -870,11 +870,14 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
  *
  * @deprecated	As of version 1.5
  */
-function sefRelToAbs($value) {
+function sefRelToAbs($value) 
+{	
+	// Replace all &amp; with & as the router doesn't understand &amp;
+	$url = str_replace('&amp;', '&', $value);
 	
 	$uri    = JURI::getInstance();
 	$prefix = $uri->toString(array('scheme', 'host', 'port'));
-	return $prefix.JRoute::_($value);
+	return $prefix.JRoute::_($url);
 }
 
 

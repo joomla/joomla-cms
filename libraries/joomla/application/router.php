@@ -164,9 +164,6 @@ class JRouter extends JObject
 	 */
 	function build($url)
 	{
-		// Replace all &amp; with & -> move to legacy
-		$url = str_replace('&amp;', '&', $url);
-
 		//Create the URI object
 		$uri =& $this->_createURI($url);
 
