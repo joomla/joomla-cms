@@ -347,6 +347,7 @@ function getSelected(allbuttons){
 			return allbuttons[i].value
 		}
 	}
+	return null;
 }
 
 // JS Calendar

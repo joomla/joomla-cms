@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Sep-2007 Nur Aini Rakhmawati
+# Fixed Pagination for prev and '1' buttons error problem because of router issue
+
 21-Sep-2007 Andrew Eddie
  + PHP setting display_errors is now forced to on when any custom error mode is selected
 
