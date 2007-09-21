@@ -43,12 +43,14 @@ class JRoute
 		// Get the router
 		$app	= &JFactory::getApplication();
 		$router = &$app->getRouter();
-
+	
 		// Build route
-		if ($router) {
-			$url = $router->build($url);
+		if ($router) 
+		{	
+			$uri = &$router->build($url);
+			$url = $uri->toString(array('path', 'query', 'fragment'));
 		}
-
+		
 		/*
 		 * Get the secure/unsecure URLs.
 

@@ -32,6 +32,61 @@ class JRouterSite extends JRouter
 	function __construct($options = array()) {
 		parent::__construct($options);
 	}
+	
+	function parse(&$uri)
+	{
+		$vars = array();
+		
+		//Remove the suffix from the uri
+		if($this->_mode == JROUTER_MODE_SEF) 
+		{
+			// Get the application
+			$app =& JFactory::getApplication();
+			
+			// Get the path
+			$path = $uri->getPath();
+			
+			if($app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/')) 
+			{
+				if($suffix = pathinfo($path, PATHINFO_EXTENSION)) 
+				{
+					$uri->setPath(str_replace('.'.$suffix, '', $path));
+					$vars['format'] = $suffix;
+				}
+			}
+		}
+		
+		$vars += parent::parse($uri);
+
+		return $vars;
+	}
+	
+	function &build($url)
+	{
+		$uri =& parent::build($url);
+		
+		// Get the path data
+		$route = $uri->getPath();
+		
+		//Add the suffix to the uri
+		if($this->_mode == JROUTER_MODE_SEF && $route) 
+		{
+			$app =& JFactory::getApplication();
+				
+			if($app->getCfg('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/')) 
+			{
+				if($format = $uri->getVar('format', 'html')) 
+				{
+					$route .= '.'.$format;
+					$uri->delVar('format');
+				}
+			}
+		}
+		
+		$uri->setPath($route);
+		
+		return $uri;
+	}
 
 	function _parseRawRoute(&$uri)
 	{
@@ -259,28 +314,16 @@ class JRouterSite extends JRouter
 
 	function _processParseRules(&$uri)
 	{
-		$app =& JFactory::getApplication();
-		
-		$vars = array();
+		$vars = parent::_processParseRules($uri);
 		
 		if($this->_mode == JROUTER_MODE_SEF) 
 		{
+			$app =& JFactory::getApplication();
+			
 			if($start = $uri->getVar('start')) 
 			{
 				$uri->delVar('start');
 				$vars['limitstart'] = $start;
-			}
-			
-			if($app->getCfg('sef_suffix')) 
-			{
-				// Get the path
-				$path = $uri->getPath();
-			
-				if($suffix = pathinfo($path, PATHINFO_EXTENSION)) 
-				{
-					$uri->setPath(str_replace('.'.$suffix, '', $path));
-					$vars['format'] = $suffix;
-				}
 			}
 		}
 
@@ -289,26 +332,19 @@ class JRouterSite extends JRouter
 
 	function _processBuildRules(&$uri)
 	{
-		$app =& JFactory::getApplication();
+		parent::_processBuildRules($uri);
 		
 		// Get the path data
 		$route = $uri->getPath();
 		
 		if($this->_mode == JROUTER_MODE_SEF && $route) 
 		{
+			$app =& JFactory::getApplication();
+			
 			if ($limitstart = $uri->getVar('limitstart'))
 			{
 				$uri->setVar('start', (int) $limitstart);
 				$uri->delVar('limitstart');
-			}
-			
-			if($app->getCfg('sef_suffix')) 
-			{
-				if($format = $uri->getVar('format', 'html')) 
-				{
-					$route .= '.'.$format;
-					$uri->delVar('format');
-				}
 			}
 		}
 		

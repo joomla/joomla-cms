@@ -54,7 +54,10 @@ class JRouter extends JObject
 	 * @access protected
 	 * @var array
 	 */
-	var $_rules = array();
+	var $_rules = array(
+		'build' => array(),
+		'parse' => array()
+	);
 
 	/**
 	 * Class constructor
@@ -121,39 +124,34 @@ class JRouter extends JObject
 	 *
 	 * @access public
 	 */
-	function parse($uri)
+	function parse(&$uri)
 	{
-		$route = false;
-
-		//If the uri is not an object create one
-		if(is_string($uri)) {
-			$uri = JURI::getInstance($uri);
-		}
+		$vars = array();
 
 		//Get the route
 		$path =  $uri->getPath();
 		
 		//Transform the route
 		$path = str_replace(JURI::base(true), '', $path);	 //Remove basepath
-		$path = preg_replace('/index[\d]?.php/', '', $path); //Remove prefix
+		$path = str_replace('index.php', '', $path); 		 //Remove prefix
 
 		//Set the route back
 		$uri->setPath(trim($path , '/'));
 
 		// Process the parsed variables based on custom defined rules
-		$rules = $this->_processParseRules($uri);
+		$vars = $this->_processParseRules($uri);
 
 		// Parse RAW URL
 		if($this->_mode == JROUTER_MODE_RAW) {
-			$route = $this->_parseRawRoute($uri);
+			$vars += $this->_parseRawRoute($uri);
 		}
 
 		// Parse SEF URL
 		if($this->_mode == JROUTER_MODE_SEF) {
-			$route = $this->_parseSefRoute($uri);
+			$vars += $vars + $this->_parseSefRoute($uri);
 		}
 
-	 	return  array_merge($this->getVars(), $route + $rules);
+	 	return  array_merge($this->getVars(), $vars);
 	}
 
 	/**
@@ -162,11 +160,14 @@ class JRouter extends JObject
 	 * @param	string	$string	The internal URL
 	 * @return	string	The absolute search engine friendly URL
 	 */
-	function build($url)
+	function &build($url)
 	{
 		//Create the URI object
 		$uri =& $this->_createURI($url);
-
+		
+		//Process the uri information based on custom defined rules
+		$this->_processBuildRules($uri);
+		
 		// Build RAW URL
 		if($this->_mode == JROUTER_MODE_RAW) {
 			$this->_buildRawRoute($uri);
@@ -177,13 +178,7 @@ class JRouter extends JObject
 			$this->_buildSefRoute($uri);
 		}
 		
-		//Process the uri information based on custom defined rules
-		$this->_processBuildRules($uri);
-		
-		//Create the route
-		$url = $uri->toString(array('path', 'query', 'fragment'));
-
-		return $url;
+		return $uri;
 	}
 
 	/**
@@ -264,6 +259,28 @@ class JRouter extends JObject
 	}
 	
 	/**
+	 * Attach a build rule
+	 *
+	 * @access	public
+	 * @param   callback $callback The function to be called. 
+ 	 */
+	function attachBuildRule($callback)
+	{
+		$this->_rules['build'][] = $callback;
+	}
+	
+	/**
+	 * Attach a parse rule
+	 *
+	 * @access	public
+	 * @param   callback $callback The function to be called. 
+ 	 */
+	function attachParseRule($callback)
+	{
+		$this->_rules['parse'][] = $callback;
+	}
+	
+	/**
 	 * Function to convert a raw route to an internal URI
 	 *
 	 * @abstract
@@ -315,7 +332,13 @@ class JRouter extends JObject
 	 */
 	function _processParseRules(&$uri)
 	{
-		return array();
+		$vars = array();
+		
+		foreach($this->_rules['parse'] as $rule) {
+			$vars = call_user_func($rule, &$this, &$uri); 
+		}
+		
+		return $vars;
 	}
 
 	/**
@@ -326,7 +349,9 @@ class JRouter extends JObject
 	 */
 	function _processBuildRules(&$uri)
 	{
-		return '';
+		foreach($this->_rules['build'] as $rule) {
+			call_user_func($rule, &$this, &$uri) ;
+		}
 	}
 
 	/**
@@ -357,6 +382,7 @@ class JRouter extends JObject
 
 		// Decompose link into url component parts
 		$uri = new JURI(JURI::base().$url);
+	
 		return $uri;
 	}
 

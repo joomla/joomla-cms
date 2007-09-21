@@ -39,6 +39,8 @@ Legend:
 
 21-Sep-2007 Johan Janssens
  + Added JRequest::getMethod, this will return the request method used by the client
+ + Added JRouter::attachBuildRule and attachParseRule. These function allow you to 
+   attach callback functions to the router that can be processed for example by a plugin.
 
 21-Sep-2007 Andrew Eddie
  + PHP setting display_errors is now forced to on when any custom error mode is selected

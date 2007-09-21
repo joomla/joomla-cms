@@ -22,16 +22,16 @@ defined('JPATH_BASE') or die();
  * @package 	Joomla
  * @since		1.5
  */
-class JRouterAdministrator extends JObject
+class JRouterAdministrator extends JRouter
 {
 	/**
 	 * Function to convert a route to an internal URI
 	 *
 	 * @access public
 	 */
-	function parse($url)
+	function parse($uri)
 	{
-		return true;
+		return array();
 	}
 
 	/**
@@ -41,10 +41,11 @@ class JRouterAdministrator extends JObject
 	 * @return	string	The absolute search engine friendly URL
 	 * @since	1.5
 	 */
-	function build($url)
+	function &build($url)
 	{
-		$url = str_replace('&amp;', '&', $url);
+		//Create the URI object
+		$uri =& $this->_createURI($url);
 		
-		return $url;
+		return $uri;
 	}
 }
