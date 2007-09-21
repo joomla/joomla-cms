@@ -37,24 +37,27 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Sep-2007 Andrew Eddie
+ + PHP setting display_errors is now forced to on when any custom error mode is selected
+
 20-Sep-2007 Johan Janssens
  # Fixed [#6442] Bug in SEF + mosRedirect
  ^ Router now creates absolute paths instead of relatives ones.
  + Added baseurl variable to JView and JDocumentHTML
- ! These changes have been made to improve compilance with W3C standards especially compilance for the 
-   base href implementation. Template designers should take notice any relative paths used in their 1.5 
-   templates will need to be changed to absolute paths to allow the template to work with SEF on. 
-   
+ ! These changes have been made to improve compilance with W3C standards especially compilance for the
+   base href implementation. Template designers should take notice any relative paths used in their 1.5
+   templates will need to be changed to absolute paths to allow the template to work with SEF on.
+
 19-Sep-2007 Toby Patterson
  ! Shiver me Timbers if 'ay waz'n an sea lov'n greet'n
  # Fixed [#6871] impossible to uninstall component when database tables or folders missing ( issue 1 )
  ! When manifest cannot be found, uninstall will rm dirs and menu item
  # Fixed [#7061] Empty search result on fresh installed copy without sample data
- 
+
 19-Sep-2007 Johan Janssens
  ! Aye mateys, 't talk like a pirate day t'day. Aaargh !
- # Fixed [#7043] Database debug bug 
- # Fixed [#7219] XMLRPC broken as it can't extend the JApplication class 
+ # Fixed [#7043] Database debug bug
+ # Fixed [#7219] XMLRPC broken as it can't extend the JApplication class
 
 19-Sep-2007 Charl van Niekerk
  # Fixed [#6903] Unnecessary definitions in en-GB.mod_feed.ini

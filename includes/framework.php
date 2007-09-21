@@ -55,6 +55,7 @@ if (@$CONFIG->error_reporting === 0) {
 	error_reporting( 0 );
 } else if (@$CONFIG->error_reporting > 0) {
 	error_reporting( $CONFIG->error_reporting );
+	ini_set( 'display_errors', 1 );
 }
 
 define( 'JDEBUG', $CONFIG->debug );
