@@ -53,8 +53,8 @@ class MediaViewMedia extends JView
 			document.preview = SqueezeBox;
 		});");
 
-		JHTML::script('mootree');
-		JHTML::stylesheet('mootree');
+		JHTML::script('mootree.js');
+		JHTML::stylesheet('mootree.css');
 
 		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
 
