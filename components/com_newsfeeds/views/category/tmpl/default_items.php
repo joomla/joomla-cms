@@ -34,13 +34,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td align="right" width="5">
 		<?php echo $item->count + 1; ?>
 	</td>
-	<?php if ( $this->params->get( 'show_name' ) ) : ?>
 	<td height="20" width="90%">
 		<a href="<?php echo $item->link; ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 			<?php echo $item->name; ?>
 		</a>
 	</td>
-	<?php endif; ?>
 	<?php if ( $this->params->get( 'show_articles' ) ) : ?>
 	<td height="20" width="10%" align="center">
 		<?php echo $item->numarticles; ?>
