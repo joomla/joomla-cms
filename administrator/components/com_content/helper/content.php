@@ -62,7 +62,7 @@ class JHTMLContent
 			</td>
 		</tr>
 		<tr>
-			<td colspan="8" align="center">
+			<td colspan="10" align="center">
 			<?php echo JText::_( 'Click on icon to toggle state.' ); ?>
 			</td>
 		</tr>
