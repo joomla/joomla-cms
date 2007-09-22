@@ -60,6 +60,8 @@ class modBreadCrumbsHelper
 	 	*/
 		if ($custom == null) {
 			$_separator = JHTML::_('image.site', 'arrow.png');
+		} else {
+			$_separator = $custom;
 		}
 		return $_separator;
 	}
