@@ -497,4 +497,9 @@ class JRegistry extends JObject
 
 		return $ns;
 	}
+
+	function __clone()
+	{
+		$this->_registry = unserialize(serialize($this->_registry));
+	}
 }

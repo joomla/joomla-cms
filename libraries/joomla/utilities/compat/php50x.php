@@ -98,5 +98,5 @@ if (!function_exists('file_put_contents')) {
  * Ported PHP5 function to PHP4 for forward compatibility
  */
 function clone($object) {
-	return $object;
+	return unserialize(serialize($object));
 }

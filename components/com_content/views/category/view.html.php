@@ -153,11 +153,6 @@ class ContentViewCategory extends ContentView
 
 		$SiteName	= $mainframe->getCfg('sitename');
 
-		$task		= JRequest::getCmd('task');
-
-		$linkOn		= null;
-		$linkText	= null;
-
 		$item 		=& $this->items[$index];
 		$item->text = $item->introtext;
 
@@ -166,44 +161,40 @@ class ContentViewCategory extends ContentView
 		$item->section  = $category->sectiontitle;
 
 		// Get the page/component configuration and article parameters
+		$item->params = clone($params);
 		$aparams = new JParameter($item->attribs);
-		$params = new JParameter('');
-		$params->loadArray($this->_params);
 
 		// Merge article parameters into the page configuration
-		$params->merge($aparams);
+		$item->params->merge($aparams);
 
 		// Process the content preparation plugins
 		JPluginHelper::importPlugin('content');
-		$results = $dispatcher->trigger('onPrepareContent', array (& $item, & $params, 0));
+		$results = $dispatcher->trigger('onPrepareContent', array (& $item, & $item->params, 0));
 
 		// Build the link and text of the readmore button
-		if (($params->get('show_readmore') && @ $item->readmore) || $params->get('link_titles'))
+		if (($item->params->get('show_readmore') && @ $item->readmore) || $item->params->get('link_titles'))
 		{
 			// checks if the item is a public or registered/special item
 			if ($item->access <= $user->get('aid', 0))
 			{
-				$linkOn = JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
-				$linkText = true;
+				$item->readmore_link = JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
+				$item->readmore_register = false;
 			}
 			else
 			{
-				$linkOn = JRoute::_("index.php?option=com_user&task=register");
-				$linkText = false;
+				$item->readmore_link = JRoute::_("index.php?option=com_user&task=register");
+				$item->readmore_register = true;
 			}
 		}
 
-		$item->readmore_link = $linkOn;
-		$item->readmore_text = $linkText;
-
 		$item->event = new stdClass();
-		$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $item, & $params,0));
+		$results = $dispatcher->trigger('onAfterDisplayTitle', array (& $item, & $item->params,0));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onBeforeDisplayContent', array (& $item, & $params, 0));
+		$results = $dispatcher->trigger('onBeforeDisplayContent', array (& $item, & $item->params, 0));
 		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $item, & $params, 0));
+		$results = $dispatcher->trigger('onAfterDisplayContent', array (& $item, & $item->params, 0));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		return $item;
