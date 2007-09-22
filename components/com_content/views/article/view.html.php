@@ -34,11 +34,12 @@ class ContentViewArticle extends ContentView
 		$document	   =& JFactory::getDocument();
 		$dispatcher	   =& JEventDispatcher::getInstance();
 		$pathway	   =& $mainframe->getPathway();
-		$contentConfig = &JComponentHelper::getParams( 'com_content' );
+		$params 	   =& $mainframe->getParams('com_content');
 
 		// Initialize variables
 		$article	=& $this->get('Article');
-		$params		=& $article->parameters;
+		$aparams		=& $article->parameters;
+		$params->merge($aparams);
 
 		// Get the menu item object
 		$menus = &JSite::getMenu();
@@ -59,9 +60,6 @@ class ContentViewArticle extends ContentView
 			$id = JRequest::getVar( 'id', '', 'default', 'int' );
 			return JError::raiseError( 404, JText::sprintf( 'Article # not found', $id ) );
 		}
-
-		$linkOn		= null;
-		$linkText	= null;
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -115,45 +113,15 @@ class ContentViewArticle extends ContentView
 		JPluginHelper::importPlugin('content');
 		$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
 
-		if ($params->get('show_readmore') || $params->get('link_titles'))
+		// Check to see if the user has access to view the full article
+		if ($article->access <= $user->get('aid', 0))
 		{
-			if ($params->get('show_intro'))
-			{
-				// Check to see if the user has access to view the full article
-				if ($article->access <= $user->get('aid', 0))
-				{
-					$linkOn = JRoute::_("index.php?option=com_content&view=article&id=".$article->slug);
-
-					if (@$article->readmore) {
-						// text for the readmore link
-						$linkText = JText::_('Read more...');
-					}
-				}
-				else
-				{
-					$linkOn = JRoute::_("index.php?option=com_user&task=register");
-
-
-					if (@$article->readmore) {
-						// text for the readmore link if accessible only if registered
-						$linkText = JText::_('Register to read more...');
-					}
-				}
-			}
+			$article->readmore_link = JRoute::_("index.php?option=com_content&view=article&id=".$article->slug);
 		}
-
-		/* moved to template - tcp June 27 2007
-		$article->mod_date = '';
-		if (intval($article->modified) != 0) {
-			$article->mod_date = JHTML::_('date', $article->modified);
+		else
+		{
+			$article->readmore_link = JRoute::_("index.php?option=com_user&task=register");
 		}
-		if (intval($article->created) != 0) {
-			$article->created = JHTML::_('date', $article->created);
-		}
-		*/
-
-		$article->readmore_link = $linkOn;
-		$article->readmore_text = $linkText;
 
 		$article->event = new stdClass();
 		$results = $dispatcher->trigger('onAfterDisplayTitle', array ($article, &$params, $limitstart));

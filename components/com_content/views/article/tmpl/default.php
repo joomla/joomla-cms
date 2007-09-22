@@ -127,17 +127,6 @@ endif; ?>
 	</td>
 </tr>
 <?php endif; ?>
-
-<?php if ($this->params->get('show_readmore') && $this->params->get('show_intro') && $this->article->readmore_text) : ?>
-<tr>
-	<td  colspan="2">
-		<a href="<?php echo $this->article->readmore_link; ?>" class="readon<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $this->article->readmore_text; ?>
-		</a>
-	</td>
-</tr>
-<?php endif; ?>
-
 </table>
 <span class="article_separator">&nbsp;</span>
 <?php echo $this->article->event->afterDisplayContent; ?>
