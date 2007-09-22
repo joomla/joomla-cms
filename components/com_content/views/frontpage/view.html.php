@@ -119,7 +119,7 @@ class ContentViewFrontpage extends ContentView
 		$results = $dispatcher->trigger('onPrepareContent', array (& $item, & $item->params, 0));
 
 		// Build the link and text of the readmore button
-		if (($params->get('show_readmore') && @ $item->readmore) || $item->params->get('link_titles'))
+		if (($item->params->get('show_readmore') && @ $item->readmore) || $item->params->get('link_titles'))
 		{
 			// checks if the item is a public or registered/special item
 			if ($item->access <= $user->get('aid', 0))
