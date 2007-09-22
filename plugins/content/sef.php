@@ -30,18 +30,17 @@ function plgContentSEF( &$row, &$params, $page=0 )
 	if(!$mainframe->getCfg('sef')) {
 		return true;
 	}
-
-	// simple performance check to determine whether bot should process further
-	if ( JString::strpos( $row->text, 'href="' ) === false ) {
-		return true;
-	}
-
+	
 	// check whether plugin has been unpublished
 	if ( !JPluginHelper::isEnabled('content', 'sef')) {
 		return true;
 	}
-
-	// define the regular expression for the bot
+	
+	//Replace src links
+	$base = JURI::base(true).'/';
+	$row->text = preg_replace("/(src)=\"(?!http|ftp|https)([^\"]*)\"/", "$1=\"$base\$2\"", $row->text);
+	
+	//Replace href links
 	$regex = "#href=\"(.*?)\"#s";
 
 	// perform the replacement
