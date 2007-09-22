@@ -1,10 +1,11 @@
 ##
-# @version $Id: htaccess.txt 4094 2006-06-21 18:35:46Z stingrey $
+# @version $Id: htaccess.txt 5975 2006-12-11 01:26:33Z robs $
 # @package Joomla
-# @copyright Copyright (C) 2005 - 2006 Open Source Matters. All rights reserved.
-# @license GNU/GPL
+# @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+# @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 # Joomla! is Free Software
 ##
+
 
 #####################################################
 #  READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE
@@ -12,32 +13,15 @@
 # The line just below this section: 'Options +FollowSymLinks' may cause problems
 # with some server configurations.  It is required for use of mod_rewrite, but may already
 # be set by your server administrator in a way that dissallows changing it in
-# your .htaccess file.  If using it causes your server to error out, comment it out (add # to 
+# your .htaccess file.  If using it causes your server to error out, comment it out (add # to
 # beginning of line), reload your site in your browser and test your sef url's.  If they work,
-# it has been set by your server administrator and you do not need it set here. 
+# it has been set by your server administrator and you do not need it set here.
 #
 # Only use one of the two SEF sections that follow.  Lines that can be uncommented
 # (and thus used) have only one #.  Lines with two #'s should not be uncommented
 # In the section that you don't use, all lines should start with #
 #
 #####################################################
-
-#####  SOLVING PROBLEMS WITH COMPONENT URL's that don't work #####
-# SPECIAL NOTE FOR SMF USERS WHEN SMF IS INTEGRATED AND BRIDGED
-# OR ANY SITUATION WHERE A COMPONENT's URL's AREN't WORKING
-#
-# In both the 'Standard SEF', and '3rd Party or Core SEF' sections the line:
-# RewriteCond %{REQUEST_URI} ^(/component/option,com) [NC,OR] ##optional - see notes##
-# May need to be uncommented.  If you are running your Joomla from
-# a subdirectory the name of the subdirectory will need to be inserted into this
-# line.  For example, if your Joomla is in a subdirectory called '/test/',
-# change this:
-# RewriteCond %{REQUEST_URI} ^(/component/option,com) [NC,OR] ##optional - see notes##
-# to this:
-# RewriteCond %{REQUEST_URI} ^(/test/component/option,com) [NC,OR] ##optional - see notes##
-#
-#####################################################
-
 
 ##  Can be commented out if causes errors, see notes above.
 Options +FollowSymLinks
@@ -50,18 +34,36 @@ RewriteEngine On
 
 #  Uncomment following line if your webserver's URL
 #  is not directly related to physical file paths.
-#  Update Your Joomla Directory (just / for root)
+#  Update Your Joomla! Directory (just / for root)
 
 # RewriteBase /
 
 
 ########## Begin - Joomla! core SEF Section
-############# Use this section if you are using a 3rd party (Non Joomla! core) SEF extension - e.g. OpenSEF, 404_SEF, 404SEFx, SEF Advance, etc
 #
-#RewriteCond %{REQUEST_URI} ^(/component/option,com) [NC,OR] 		##optional - see notes##
-RewriteCond %{REQUEST_URI} (/|\.htm|\.php|\.html|/[^.]*)$  [NC]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (/|\.php|\.html|\.feed|\.pdf|\.raw|/[^.]*)$  [NC]
 RewriteRule (.*) index.php
 #
 ########## End - Joomla! core SEF Section
+
+
+########## Begin - Rewrite rules to block out some common exploits
+## If you experience problems on your site block out the operations listed below
+## This attempts to block the most common type of exploit `attempts` to Joomla!
+#
+# Block out any script trying to set a mosConfig value through the URL
+RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
+# Block out any script trying to base64_encode crap to send via URL
+RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [OR]
+# Block out any script that includes a <script> tag in URL
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+# Block out any script trying to set a PHP GLOBALS variable via URL
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+# Block out any script trying to modify a _REQUEST variable via URL
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+# Send all blocked request to homepage with 403 Forbidden error!
+RewriteRule ^(.*)$ index.php [F,L]
+#
+########## End - Rewrite rules to block out some common exploits

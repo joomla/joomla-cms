@@ -81,6 +81,12 @@ class JRouterSite extends JRouter
 					$uri->delVar('format');
 				}
 			}
+			
+			if($app->getCfg('sef_rewrite'))
+			{
+				//Transform the route
+				$route = str_replace('index.php', '', $route);
+			}
 		}
 		
 		$uri->setPath($route);

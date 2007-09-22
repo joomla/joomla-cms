@@ -41,6 +41,8 @@ Legend:
  + Added JRequest::getMethod, this will return the request method used by the client
  + Added JRouter::attachBuildRule and attachParseRule. These function allow you to 
    attach callback functions to the router that can be processed for example by a plugin.
+ # Fixed [#6064] .htaccess mod_rewrite security enhancements missing
+ ^ Updated htaccess.txt file, removed unneeded rewrite rules and updated rules for 1.5
 
 21-Sep-2007 Andrew Eddie
  + PHP setting display_errors is now forced to on when any custom error mode is selected
