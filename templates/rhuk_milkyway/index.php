@@ -121,9 +121,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 							<table class="nopad">
 								<tr valign="top">
 									<td>
-										<?php if($this->params->get('showComponent')) : ?>
-											<jdoc:include type="component" />
-										<?php endif; ?>
+										<jdoc:include type="component" />
 										<jdoc:include type="modules" name="footer" style="xhtml"/>
 									</td>
 									<?php if($this->countModules('right') and JRequest::getCmd('layout') != 'form') : ?>
