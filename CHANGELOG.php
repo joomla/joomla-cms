@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23 Sep-2007 Nur Aini Rakhmawati
+# Fixed Pagination on backend system
+
 22-Sep-2007 Rob Schley
  + Added baseurl variable to JDocumentError
 
