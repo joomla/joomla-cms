@@ -1,4 +1,4 @@
-<?php // @version $Id$
+	<?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
 ?>
 
@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
 	<p>
 		<?php echo JText::_('Search Keyword') ?> <strong><?php echo $this->escape($this->searchword) ?></strong>
 		<?php echo $this->result ?>
-		<a href="http://www.google.com/search?q=<?php echo $this->escape($this->searchword) ?>" target="_blank"> 
+		<a href="http://www.google.com/search?q=<?php echo $this->escape($this->searchword) ?>" target="_blank">
 			<?php echo $this->image ?>
 		</a>
 	</p>
@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access');
 		<li>
 			<?php if ($result->href) : ?>
 			<h4>
-				<a href="<?php echo JRoute :: _($result->href) ?>" <?php echo ($result->browsernav == 1) ? 'target="_blank"' : ''; ?>" >
+				<a href="<?php echo JRoute :: _($result->href) ?>" <?php echo ($result->browsernav == 1) ? 'target="_blank"' : ''; ?> >
 					<?php echo $this->escape($result->title); ?>
 				</a>
 			</h4>
