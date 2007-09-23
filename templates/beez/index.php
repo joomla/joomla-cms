@@ -38,7 +38,7 @@ $showRightColumn &= JRequest::getCmd('task') != 'edit'
 	<div id="all">
 		<div id="header">
 			<h1 id="logo">
-				<img src="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/images/logo.gif" border="0" alt="<?php echo JText::_('Logo Beez, Three little Bees'); ?>" width="300" height="97" />
+				<img src="<?php echo $this->baseurl ?>/templates/beez/images/logo.gif" border="0" alt="<?php echo JText::_('Logo Beez, Three little Bees'); ?>" width="300" height="97" />
 				<span class="header1"><?php echo JText::_('Joomla Accessible Template'); ?></span>
 			</h1>
 
