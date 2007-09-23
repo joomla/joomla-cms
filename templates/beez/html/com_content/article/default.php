@@ -90,7 +90,7 @@ endif; ?>
 	echo $this->article->toc;
 endif; ?>
 
-<?php echo JFilterOutput::ampReplace($this->article->text); ?>
+<?php echo $this->escape($this->article->text); ?>
 
 <?php if ($this->params->get('show_readmore') && $this->params->get('show_intro') && $this->article->readmore_text) : ?>
 <p>

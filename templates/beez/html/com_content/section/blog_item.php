@@ -94,7 +94,7 @@ endif; ?>
 	echo $this->item->toc;
 endif; ?>
 
-<?php echo JFilterOutput::ampReplace($this->item->text); ?>
+<?php echo $this->escape($this->item->text); ?>
 
 <?php if ($this->item->params->get('show_readmore') && $this->item->readmore) : ?>
 <p>
