@@ -35,7 +35,7 @@ require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'media.php' );
 require_once (JPATH_COMPONENT.DS.'controller.php');
 
 $cmd = JRequest::getCmd('task', null);
-if (strpos($cmd, '.') != false && false) 
+if (strpos($cmd, '.') != false)
 {
 	// We have a defined controller/task pair -- lets split them out
 	list($controllerName, $task) = explode('.', $cmd);
@@ -50,14 +50,13 @@ if (strpos($cmd, '.') != false && false)
 	} else {
 		JError::raiseError(500, 'Invalid Controller');
 	}
-} 
-else 
+}
+else
 {
 	// Base controller, just set the task :)
 	$controllerName = null;
 	$task = $cmd;
 }
-
 // Set the name for the controller and instantiate it
 $controllerClass = 'MediaController'.ucfirst($controllerName);
 if (class_exists($controllerClass)) {

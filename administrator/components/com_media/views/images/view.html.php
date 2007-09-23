@@ -36,10 +36,12 @@ class MediaViewImages extends JView
 
 		// Load the mootools framework
 		JHTML::_('behavior.mootools');
-
 		$doc =& JFactory::getDocument();
 		$doc->addStyleSheet('components/com_media/assets/popup-imagemanager.css');
 		$doc->addScript('components/com_media/assets/popup-imagemanager.js');
+
+		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ ImageManager.refreshFrame(); }'));
+
 
 		/*
 		 * Display form for FTP credentials?

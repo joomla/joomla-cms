@@ -1,5 +1,4 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ document.imagemanager.refreshFrame(); }')); ?>
 <form action="index.php" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
 		<span id="message"></span><img src="images/dots.gif" width="22" height="12" alt="..." />
@@ -47,7 +46,7 @@
 	<input type="hidden" id="f_file" name="f_file" />
 	<input type="hidden" id="tmpl" name="component" />
 </form>
-<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>" id="uploadForm" method="post" enctype="multipart/form-data">
+<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>" id="uploadForm" method="post" enctype="multipart/form-data">
 	<fieldset>
 		<legend><?php echo JText::_('Upload'); ?></legend>
 		<fieldset class="actions">
