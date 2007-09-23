@@ -88,13 +88,13 @@ class  plgSystemDebug extends JPlugin
 			;
 
 			$db	=& JFactory::getDBO();
-
-			echo '<h4>'.JText::sprintf( 'Queries logged',  $db->_ticker ).'</h4>';
 			
-			if ($db->_log)
+			echo '<h4>'.JText::sprintf( 'Queries logged',  $db->getTicker() ).'</h4>';
+			
+			if ($log = $db->getLog())
 			{
 				echo '<ol>';
-				foreach ($db->_log as $k=>$sql)
+				foreach ($log as $k=>$sql)
 				{
 					$geshi->set_source($sql);
 					$text = $geshi->parse_code();
@@ -106,10 +106,10 @@ class  plgSystemDebug extends JPlugin
 			
 			if(isset($database))
 			{
-				echo '<h4>'.JText::sprintf( 'Legacy Queries logged',  $db->_ticker ).'</h4>';
+				echo '<h4>'.JText::sprintf( 'Legacy Queries logged',  $database->getTicker() ).'</h4>';
 				echo '<ol>';
 
-					foreach ($database->_log as $k=>$sql)
+					foreach ($database->getLog() as $k=>$sql)
 					{
 						$geshi->set_source($sql);
 						$text = $geshi->parse_code();

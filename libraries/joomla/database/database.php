@@ -25,46 +25,124 @@ defined('JPATH_BASE') or die();
  */
 class JDatabase extends JObject
 {
-	/** @var string The database driver name */
+	/** 
+	 * The database driver name 
+	 * 
+	 * @var string 
+	 */
 	var $name			= '';
-	/** @var string Internal variable to hold the query sql */
+	
+	/** 
+	 * The query sql string 
+	 * 
+	 * @var string 
+	 **/
 	var $_sql			= '';
-	/** @var int Internal variable to hold the database error number */
+	
+	/** 
+	 * The database error number
+	 * 
+	 * @var int  
+	 **/
 	var $_errorNum		= 0;
-	/** @var string Internal variable to hold the database error message */
+	
+	/** 
+	 * The database error message
+	 * 
+	 * @var string  
+	 */
 	var $_errorMsg		= '';
-	/** @var string Internal variable to hold the prefix used on all database tables */
+	
+	/** 
+	 * The prefix used on all database tables 
+	 * 
+	 * @var string 
+	 */
 	var $_table_prefix	= '';
-	/** @var Internal variable to hold the connector resource */
+	
+	/** 
+	 * The connector resource 
+	 * 
+	 * @var resource
+	 */
 	var $_resource		= '';
-	/** @var Internal variable to hold the last query cursor */
+	
+	/** 
+	 * The last query cursor 
+	 * 
+	 * @var resource
+	 */
 	var $_cursor		= null;
-	/** @var boolean Debug option */
+	
+	/** 
+	 * Debug option 
+	 * 
+	 * @var boolean 
+	 */
 	var $_debug			= 0;
-	/** @var int The limit for the query */
+	
+	/** 
+	 * The limit for the query 
+	 * 
+	 * @var int 
+	 */
 	var $_limit			= 0;
-	/** @var int The for offset for the limit */
+	
+	/** 
+	 * The for offset for the limit 
+	 * 
+	 * @var int 
+	 */
 	var $_offset		= 0;
-	/** @var int A counter for the number of queries performed by the object instance */
+	
+	/** 
+	 * The number of queries performed by the object instance 
+	 * 
+	 * @var int 
+	 */
 	var $_ticker		= 0;
-	/** @var array A log of queries */
+	
+	/** 
+	 * A log of queries 
+	 * 
+	 * @var array 
+	 */
 	var $_log			= null;
-	/** @var string The null/zero date string */
+	
+	/** 
+	 * The null/zero date string 
+	 * 
+	 * @var string 
+	 */
 	var $_nullDate		= null;
-	/** @var string Quote for named objects */
+	
+	/** 
+	 * Quote for named objects 
+	 * 
+	 * @var string 
+	 */
 	var $_nameQuote		= null;
+	
 	/**
-	 * @var boolean UTF-8 support
+	 * UTF-8 support
+	 * 
+	 * @var boolean 
 	 * @since	1.5
 	 */
 	var $_utf			= 0;
+	
 	/**
-	 * @var array The fields that are to be quote
+	 * The fields that are to be quote
+	 * 
+	 * @var array 
 	 * @since	1.5
 	 */
 	var $_quoted	= null;
+	
 	/**
-	 * @var bool Legacy compatibility
+	 *  Legacy compatibility
+	 * 
+	 * @var bool
 	 * @since	1.5
 	 */
 	var $_hasQuoted	= null;
@@ -103,9 +181,11 @@ class JDatabase extends JObject
 
 	/**
 	 * Returns a reference to the global Database object, only creating it
-	 * if it doesn't already exist.  The 'driver' entry in the parameters array
-	 * specifies the database driver to be used (defaults to 'mysql' if omitted).
-	 * All other parameters are database driver dependent.
+	 * if it doesn't already exist.  
+	 * 
+	 * The 'driver' entry in the parameters array specifies the database driver 
+	 * to be used (defaults to 'mysql' if omitted). All other parameters are 
+	 * database driver dependent.
 	 *
 	 * @param array Parameters to be passed to the database driver
 	 * @return JDatabase A database object
@@ -327,6 +407,26 @@ class JDatabase extends JObject
 	 */
 	function getEscaped( $text ) {
 		return;
+	}
+	
+	/**
+	 * Get a database error log
+	 *
+	 * @access public
+	 * @return array
+	 */
+	function getLog( ) {
+		return $this->_log;
+	}
+	
+	/**
+	 * Get the total number of queries made
+	 *
+	 * @access public
+	 * @return array
+	 */
+	function getTicker( ) {
+		return $this->_ticker;
 	}
 
 	/**

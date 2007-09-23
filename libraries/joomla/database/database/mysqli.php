@@ -24,11 +24,25 @@ defined('JPATH_BASE') or die();
  */
 class JDatabaseMySQLi extends JDatabase
 {
-	/** @var string The database driver name */
+	/** 
+	 *  The database driver name
+	 * 
+	 * @var string 
+	 */
 	var $name			= 'mysqli';
-	/** @var string The null/zero date string */
+	
+	/** 
+	 * The null/zero date string
+	 * 
+	 * @var string  
+	 */
 	var $_nullDate		= '0000-00-00 00:00:00';
-	/** @var string Quote for named objects */
+	
+	/** 
+	 * Quote for named objects
+	 * 
+	 * @var string  
+	 */
 	var $_nameQuote		= '`';
 
 	/**

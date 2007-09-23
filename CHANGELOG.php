@@ -37,15 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Sep-2007 Johan Janssens
+ + Added JDatabase::getLog and getTicker functions to easily retrieve log and ticker variables.
+
 24-Sep-2007 Wilco Jansen
-# Fixed [#7266] The links in search results have got a double quote at the end
-# Fixed problem with installation data, resulting in two main menus (one disabled)
-
-23-Sep-2007 Nur Aini Rakhmawati
-# Fixed Pagination on backend system
-
-22-Sep-2007 Rob Schley
- + Added baseurl variable to JDocumentError
+ # Fixed [#7266] The links in search results have got a double quote at the end
+ # Fixed problem with installation data, resulting in two main menus (one disabled)
 
 21-Sep-2007 Johan Janssens
  + Added JRequest::getMethod, this will return the request method used by the client
