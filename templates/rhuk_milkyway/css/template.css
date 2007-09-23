@@ -768,7 +768,7 @@ td.key {
 /* System Standard Messages */
 #system-message { margin-bottom: 20px; }
 
-#system-message dd.message ul { background: #C3D2E5 url(../../images/notice-info.png) 4px center no-repeat;}
+#system-message dd.message ul { background: #C3D2E5 url(../../system/images/notice-info.png) 4px center no-repeat;}
 
 /* System Error Messages */
 #system-message dd.error ul { color: #c00; background: #E6C0C0 url(../../system/images/notice-alert.png) 4px center no-repeat; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
