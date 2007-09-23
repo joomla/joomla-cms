@@ -145,7 +145,6 @@ class MenusViewItem extends JView
 		// Add scripts and stylesheets to the document
 		$document	= & JFactory::getDocument();
 		$url		= $mainframe->getSiteURL();
-		$document->addScript($url.'includes/js/joomla/cookie.js');
 
 		if($lang->isRTL()){
 			$document->addStyleSheet('components/com_menus/assets/type_rtl.css');
