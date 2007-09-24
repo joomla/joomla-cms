@@ -130,8 +130,10 @@ class JLDAP
 	{
 		if ($this->users_dn == '' || $nosub) {
 			$this->_dn = $username;
-		} else {
+		} else if(strlen($username)) {
 			$this->_dn = str_replace('[username]', $username, $this->users_dn);
+		} else {
+			$this->_dn = '';
 		}
 	}
 
@@ -168,6 +170,7 @@ class JLDAP
 			$password = $this->password;
 		}
 		$this->setDN($username,$nosub);
+		if(strlen($this->getDN())) 
 		$bindResult = ldap_bind($this->_resource, $this->getDN(), $password);
 		return $bindResult;
 	}

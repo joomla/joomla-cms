@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Sep-2007 Sam Moffatt
+ # Mitigated [#7119] configuration problems
+
 23-Sep-2007 Johan Janssens
  + Added JDatabase::getLog and getTicker functions to easily retrieve log and ticker variables.
 

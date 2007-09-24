@@ -88,7 +88,10 @@ class plgAuthenticationLdap extends JPlugin
 			case 'search':
 			{
 				// Bind using Connect Username/password
-				$bindtest = $ldap->bind();
+				// Force anon bind to mitigate misconfiguration like [#7119]
+				if(strlen($this->params->get('username'))) $bindtest = $ldap->bind();
+				else $bindtest = $ldap->anonymous_bind();
+				
 
 				if($bindtest)
 				{
