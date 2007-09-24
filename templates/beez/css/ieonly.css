@@ -17,7 +17,9 @@
 #all { width: expression(document . body . clientWidth > 980 ? "980px" : "auto"); }
 .leading ,#contentarea2, #main { zoom: 1; }
 #all { padding: 0; }
-#main2 {height:550px;}
+#wrapper
+{border:solid 0px; width:100%}
+#main2 {height:550px; width:68%}
 #main
 {
 	position: relative;
@@ -92,3 +94,9 @@ form.login input
 {
 	margin:0 0 0 -10px
 }
+
+table.contenttoc
+{font-size:1em !important;}
+
+table.contenttoc  td  , table.contenttoc  th
+{padding:3px !important     }

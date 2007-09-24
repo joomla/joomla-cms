@@ -29,7 +29,7 @@ h2
 	color: #333;
 	background: inherit;
 	margin: 0.2em 0 0.5em 0;
-	padding: 0.3em;
+	padding: 0.3em 0.3em 0.3em 0;
 }
 
 h3
@@ -50,11 +50,14 @@ a
 
 .unsichtbar , p .u2 { display: none; }
 #header { width: auto; }
-#header form ,.pagination , #footer , p.counter { display: none; }
+.buttonheading {display:none}
+#header form ,.pagination , #footer , p.counter , .unseen
+{ display: none;
+}
 #header ul, #right form { display: none; }
 #breadcrumbs , #left , #fontsize { display: none; }
 #main2 { margin: 0%; }
-
+#all {text-align:left}
 #right
 {
 	display: block;
@@ -75,7 +78,7 @@ a
 
 #right:before
 {
-	content: " right ";
+	content: " additional information ";
 	color: #888;
 	display: block;
 	background-color: inherit;

@@ -55,13 +55,13 @@ body
 
 #contentarea,#contentarea2
 {
-	border: solid 0px #000000;
+	border: solid 0px #000;
 	margin: 0;
 	padding: 0px 0px 0px 0px;
 	position: relative;
 	overflow: hidden;
 }
-
+#wrapper { margin: 0 0 0 21%}
 #left
 {
 	background: #FFFFFF;
@@ -74,32 +74,34 @@ body
 #right
 {
 	color: #000;
-	position: absolute;
-	right: 0;
-	top: 10px;
-	width: 240px;
+	float:left;
+	width: 28%;
+	padding-top:10px
+
 }
 
 #main2
 {
 	background: #fff;
-	margin: 0px 240px 0 22%;
+	width:64%;
 	padding: 25px 20px 20px 20px;
 	position: relative;
 	min-height:520px;
+	float:left;
+
 
 }
 
 #main
 {
 	background: #fff;
-	margin: 0 0px 0 22%;
+	margin: 0 0px 0 0;
 	padding: 25px 20px 20px 20px;
 	position: relative;
 }
 
 /* ###################### generell ###################### */
-.unsichtbar,.u2,.invisible
+.unsichtbar,.u2,.invisible , .unseen
 {
 	display: inline;
 	height: 0px;

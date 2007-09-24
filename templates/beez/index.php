@@ -48,16 +48,16 @@ $showRightColumn &= JRequest::getCmd('task') != 'edit'
 				<li><a href="#additional" class="u2"><?php echo JText::_('Jump to additional Information'); ?></a></li>
 			</ul>
 
-			<h2 class="unsichtbar">
-				<?php echo JText::_('Search, View and Navigation'); ?>
+			<h2 class="unseen">
+				<?php echo JText::_(' View , Navigation and Search'); ?>
 			</h2>
 
 			<div id="fontsize">
 				<script type="text/javascript">
 				//<![CDATA[
 					document.write('<h3><?php echo JText::_('FONTSIZE'); ?></h3><p class="fontsize">');
-					document.write('<a href="index.php" title="<?php echo JText::_('Increase size'); ?>" onclick="changeFontSize(2); return false;" class="larger"><?php echo JText::_('bigger'); ?></a><span class="unsichtbar">&nbsp;</span>');
-					document.write('<a href="index.php" title="<?php echo JText::_('Decrease size'); ?>" onclick="changeFontSize(-2); return false;" class="smaller"><?php echo JText::_('smaller'); ?></a><span class="unsichtbar">&nbsp;</span>');
+					document.write('<a href="index.php" title="<?php echo JText::_('Increase size'); ?>" onclick="changeFontSize(2); return false;" class="larger"><?php echo JText::_('bigger'); ?></a><span class="unseen">&nbsp;</span>');
+					document.write('<a href="index.php" title="<?php echo JText::_('Decrease size'); ?>" onclick="changeFontSize(-2); return false;" class="smaller"><?php echo JText::_('smaller'); ?></a><span class="unseen">&nbsp;</span>');
 					document.write('<a href="index.php" title="<?php echo JText::_('Revert styles to default'); ?>" onclick="revertStyles(); return false;" class="reset"><?php echo JText::_('reset'); ?></a></p>');
 				//]]>
 				</script>
@@ -83,6 +83,7 @@ $showRightColumn &= JRequest::getCmd('task') != 'edit'
 			</div><!-- left -->
 
 			<a name="content"></a>
+			<div id="wrapper">
 			<div id="<?php echo $showRightColumn ? 'main2' : 'main'; ?>">
 				<?php if ($this->getBuffer('message')) : ?>
 				<div class="error">
@@ -100,7 +101,7 @@ $showRightColumn &= JRequest::getCmd('task') != 'edit'
 			<div id="right">
 
 				<a name="additional"></a>
-				<h2 class="unsichtbar">
+				<h2 class="unseen">
 					<?php echo JText::_('Additional Information'); ?>
 				</h2>
 
@@ -113,6 +114,7 @@ $showRightColumn &= JRequest::getCmd('task') != 'edit'
 			<?php endif; ?>
 
 			<div class="wrap"></div>
+			</div><!-- wrapper -->
 
 			<div id="footer">
 				<p class="syndicate">

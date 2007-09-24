@@ -92,19 +92,6 @@ endif; ?>
 
 <?php echo $this->escape($this->article->text); ?>
 
-<?php if ($this->params->get('show_readmore') && $this->params->get('show_intro') && $this->article->readmore_text) : ?>
-<p>
-	<a href="<?php echo $this->article->readmore_link; ?>" class="readon<?php echo $this->params->get('pageclass_sfx'); ?>">
-	<?php $alias = JFilterOutput::stringURLSafe($this->item->title);
-	if ($this->article->title_alias == $alias || $this->article->title_alias == '') :
-		echo $this->article->readmore_text;
-	else :
-		echo $this->article->title_alias;
-	endif; ?>
-	</a>
-</p>
-<?php endif; ?>
-
 <?php echo $this->article->event->afterDisplayContent; ?>
 
 </div>

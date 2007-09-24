@@ -99,11 +99,13 @@ endif; ?>
 <?php if ($this->item->params->get('show_readmore') && $this->item->readmore) : ?>
 <p>
 	<a href="<?php echo $this->item->readmore_link; ?>" class="readon<?php echo $this->item->params->get('pageclass_sfx'); ?>">
-			<?php if ($this->item->readmore_register) : ?>
-				<?php echo JText::_('Register to read more...'); ?>
-			<?php else : ?>
-				<?php echo JText::sprintf('Read more', $this->item->params->get('readmore', $this->item->title)); ?>
-			<?php endif; ?>
+		<?php if ($this->item->readmore_register) :
+			echo JText::_('Register to read more...');
+		elseif ($readmore = $this->item->params->get('readmore')) :
+			echo $readmore;
+		else :
+			echo JText::sprintf('Read more', $this->item->title);
+		endif; ?>
 	</a>
 </p>
 <?php endif; ?>
