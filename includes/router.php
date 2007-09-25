@@ -37,24 +37,30 @@ class JRouterSite extends JRouter
 	{
 		$vars = array();
 		
+		// Get the path
+		$path = $uri->getPath();
+		
 		//Remove the suffix from the uri
 		if($this->_mode == JROUTER_MODE_SEF) 
 		{
 			// Get the application
 			$app =& JFactory::getApplication();
 			
-			// Get the path
-			$path = $uri->getPath();
-			
 			if($app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/')) 
 			{
 				if($suffix = pathinfo($path, PATHINFO_EXTENSION)) 
 				{
-					$uri->setPath(str_replace('.'.$suffix, '', $path));
+					$path = str_replace('.'.$suffix, '', $path);
 					$vars['format'] = $suffix;
 				}
 			}
 		}
+			
+		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));	 //Remove basepath
+		$path = str_replace('index.php', '', $path); 		 			 //Remove prefix
+
+		//Set the route
+		$uri->setPath(trim($path , '/'));
 		
 		$vars += parent::parse($uri);
 
@@ -63,7 +69,7 @@ class JRouterSite extends JRouter
 	
 	function &build($url)
 	{
-		$uri =& parent::build($url);
+		$uri =& parent::build(JURI::base().$url);
 		
 		// Get the path data
 		$route = $uri->getPath();

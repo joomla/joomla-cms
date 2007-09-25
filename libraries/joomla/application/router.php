@@ -128,16 +128,6 @@ class JRouter extends JObject
 	{
 		$vars = array();
 
-		//Get the route
-		$path =  $uri->getPath();
-		
-		//Transform the route
-		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));	 //Remove basepath
-		$path = str_replace('index.php', '', $path); 		 			 //Remove prefix
-
-		//Set the route back
-		$uri->setPath(trim($path , '/'));
-
 		// Process the parsed variables based on custom defined rules
 		$vars = $this->_processParseRules($uri);
 
@@ -381,7 +371,7 @@ class JRouter extends JObject
 		}
 
 		// Decompose link into url component parts
-		$uri = new JURI(JURI::base().$url);
+		$uri = new JURI($url);
 	
 		return $uri;
 	}
