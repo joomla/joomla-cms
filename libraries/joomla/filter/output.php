@@ -52,7 +52,7 @@ class JFilterOutput
 					continue;
 				}
 
-				$mixed->$k = htmlspecialchars( $v, $quote_style );
+				$mixed->$k = htmlspecialchars( $v, $quote_style, 'UTF-8' );
 			}
 		}
 	}
