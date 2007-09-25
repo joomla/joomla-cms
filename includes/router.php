@@ -94,12 +94,12 @@ class JRouterSite extends JRouter
 			if($app->getCfg('sef_rewrite'))
 			{
 				//Transform the route
-				$route = str_replace('index.php', '', $route);
+				$route = str_replace('index.php/', '', $route);
 			}
 		}
 		
 		//Add basepath to the uri
-		$uri->setPath(JURI::base(true).$route);
+		$uri->setPath(JURI::base(true).'/'.$route);
 		
 		return $uri;
 	}
