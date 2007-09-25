@@ -31,16 +31,6 @@ class WeblinksViewWeblinks extends JView
 	{
 		global $mainframe, $option;
 
-		// Set toolbar items for the page
-		JToolBarHelper::title(   JText::_( 'Weblink Manager' ), 'generic.png' );
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-		JToolBarHelper::deleteList();
-		JToolBarHelper::editListX();
-		JToolBarHelper::addNewX();
-		JToolBarHelper::preferences('com_weblinks', '360');
-		JToolBarHelper::help( 'screen.weblink' );
-
 		$db		=& JFactory::getDBO();
 		$uri	=& JFactory::getURI();
 
@@ -74,8 +64,7 @@ class WeblinksViewWeblinks extends JView
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('request_url',	$uri->toString());
-
+		
 		parent::display($tpl);
 	}
 }

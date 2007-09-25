@@ -68,18 +68,6 @@ class WeblinksViewWeblink extends JView
 			$mainframe->redirect( 'index.php?option='. $option, $msg );
 		}
 
-		// Set toolbar items for the page
-		$text = $isNew ? JText::_( 'New' ) : JText::_( 'Edit' );
-		JToolBarHelper::title(   JText::_( 'Weblink' ).': <small><small>[ ' . $text.' ]</small></small>' );
-		JToolBarHelper::save();
-		if ($isNew)  {
-			JToolBarHelper::cancel();
-		} else {
-			// for existing items the button is renamed `close`
-			JToolBarHelper::cancel( 'cancel', 'Close' );
-		}
-		JToolBarHelper::help( 'screen.weblink.edit' );
-
 		// Edit or Create?
 		if (!$isNew)
 		{
@@ -116,8 +104,7 @@ class WeblinksViewWeblink extends JView
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('weblink',		$weblink);
 		$this->assignRef('params',		$params);
-		$this->assignRef('request_url',	$uri->toString());
-
+		
 		parent::display($tpl);
 	}
 }

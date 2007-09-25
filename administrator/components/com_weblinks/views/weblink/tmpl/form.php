@@ -1,5 +1,21 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
+
 <?php JHTML::_('behavior.tooltip'); ?>
+
+<?php 
+	// Set toolbar items for the page
+	$text = !$this->weblink->id ? JText::_( 'New' ) : JText::_( 'Edit' );
+	JToolBarHelper::title(   JText::_( 'Weblink' ).': <small><small>[ ' . $text.' ]</small></small>' );
+	JToolBarHelper::save();
+	if (!$this->weblink->id)  {
+		JToolBarHelper::cancel();
+	} else {
+		// for existing items the button is renamed `close`
+		JToolBarHelper::cancel( 'cancel', 'Close' );
+	}
+	JToolBarHelper::help( 'screen.weblink.edit' );
+?>
+
 <script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
 		var form = document.adminForm;
@@ -28,7 +44,7 @@
 	}
 </style>
 
-<form action="<?php echo $this->request_url; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php" method="post" name="adminForm" id="adminForm">
 <div class="col50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'Details' ); ?></legend>
@@ -124,6 +140,7 @@
 </div>
 <div class="clr"></div>
 
+<input type="hidden" name="option" value="com_weblinks" />
 <input type="hidden" name="cid[]" value="<?php echo $this->weblink->id; ?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="controller" value="weblink" />

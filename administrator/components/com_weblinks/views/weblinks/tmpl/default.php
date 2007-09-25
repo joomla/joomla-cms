@@ -1,13 +1,19 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
-<?php
-$user 	=& JFactory::getUser();
 
-//Ordering allowed ?
-$ordering = ($this->lists['order'] == 'a.ordering');
+<?php JHTML::_('behavior.tooltip'); ?>
 
-JHTML::_('behavior.tooltip');
+<?php 
+	// Set toolbar items for the page
+	JToolBarHelper::title(   JText::_( 'Weblink Manager' ), 'generic.png' );
+	JToolBarHelper::publishList();
+	JToolBarHelper::unpublishList();
+	JToolBarHelper::deleteList();
+	JToolBarHelper::editListX();
+	JToolBarHelper::addNewX();
+	JToolBarHelper::preferences('com_weblinks', '360');
+	JToolBarHelper::help( 'screen.weblink' );
 ?>
-<form action="<?php echo $this->request_url; ?>" method="post" name="adminForm">
+<form action="index.php" method="post" name="adminForm">
 <table>
 <tr>
 	<td align="left" width="100%">
@@ -76,6 +82,8 @@ JHTML::_('behavior.tooltip');
 
 		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 		$published 	= JHTML::_('grid.published', $row, $i );
+		
+		$ordering = ($this->lists['order'] == 'a.ordering');
 
 		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_weblinks&task=edit&type=other&cid[]='. $row->catid );
 		?>
@@ -130,6 +138,7 @@ JHTML::_('behavior.tooltip');
 	</table>
 </div>
 
+<input type="hidden" name="option" value="com_weblinks" />
 <input type="hidden" name="controller" value="weblink" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />

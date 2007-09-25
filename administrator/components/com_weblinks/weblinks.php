@@ -27,7 +27,7 @@ if (!$user->authorize( 'com_weblinks', 'manage' )) {
 require_once (JPATH_COMPONENT.DS.'controller.php');
 
 // Require specific controller if requested
-if($controller = JRequest::getWord('controller', 'application')) {
+if($controller = JRequest::getWord('controller')) {
 	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
 	if (file_exists($path)) {
 		require_once $path;
