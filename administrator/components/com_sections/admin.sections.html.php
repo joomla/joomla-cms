@@ -337,7 +337,7 @@ class sections_html
 					<td valign="top" colspan="3">
 						<?php
 						// parameters : areaname, content, width, height, cols, rows
-						echo $editor->display( 'description',  $row->description, '550', '300', '60', '20', false ) ;
+						echo $editor->display( 'description',  $row->description, '550', '300', '60', '20', array('pagebreak', 'readmore') ) ;
 						?>
 					</td>
 				</tr>
