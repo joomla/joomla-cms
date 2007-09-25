@@ -72,6 +72,8 @@ input, select { font-size: 10px;  border: 1px solid silver; }
 textarea      { font-size: 11px;  border: 1px solid silver; }
 button        { font-size: 10px;  }
 
+input.disabled { background-color: #F0F0F0; }
+
 input.button  { cursor: pointer;   }
 
 input:focus,

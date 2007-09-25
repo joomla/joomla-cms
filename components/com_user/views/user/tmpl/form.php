@@ -63,6 +63,7 @@ function submitbutton( pressbutton ) {
 		<input class="inputbox" type="text" id="username" name="username" value="<?php echo $this->user->get('username');?>" size="40" />
 	</td>
 </tr>
+<?php if($this->user->get('password')) : ?>
 <tr>
 	<td>
 		<label for="password">
@@ -83,6 +84,7 @@ function submitbutton( pressbutton ) {
 		<input class="inputbox" type="password" id="password2" name="password2" size="40" />
 	</td>
 </tr>
+<?php endif; ?>
 </table>
 <?php if(isset($this->params)) :  echo $this->params->render( 'params' ); endif; ?>
 <button class="button" type="submit" onclick="submitbutton( this.form );return false;"><?php echo JText::_('Save'); ?></button>
