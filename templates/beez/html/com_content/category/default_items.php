@@ -15,7 +15,7 @@ document.adminForm.submit( task );
 // -->
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&amp;view=category&amp;id='.$this->category->slug); ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_content&view=category&id='.$this->category->slug); ?>" method="post" name="adminForm">
 
 <?php if ($this->params->get('filter')) : ?>
 <div class="filter">
@@ -82,7 +82,7 @@ document.adminForm.submit( task );
 				<?php echo JHTML::_('icon.edit', $item, $this->params, $this->access);
 			else :
 				echo $item->title; ?> :
-				<a href="<?php echo JRoute::_('index.php?option=com_user&amp;task=register'); ?>">
+				<a href="<?php echo JRoute::_('index.php?option=com_user&task=register'); ?>">
 					<?php echo JText::_('Register to read more...'); ?>
 				</a>
 			<?php endif; ?>

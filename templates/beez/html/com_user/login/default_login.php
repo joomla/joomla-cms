@@ -39,12 +39,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		</div>
 	</fieldset>
 	<p>
-		<a href="<?php echo JRoute::_( 'index.php?option=com_user&amp;task=lostPassword' ); ?>">
+		<a href="<?php echo JRoute::_( 'index.php?option=com_user&task=lostPassword' ); ?>">
 			<?php echo JText::_('Lost Password?'); ?>
 		</a>
 		<?php if ( $this->params->get( 'registration' ) ) : ?>
 		<?php echo JText::_('No account yet?'); ?>
-		<a href="<?php echo JRoute::_( 'index.php?option=com_user&amp;task=register' ); ?>">
+		<a href="<?php echo JRoute::_( 'index.php?option=com_user&task=register' ); ?>">
 			<?php echo JText::_( 'Register' ); ?>
 		</a>
 		<?php endif; ?>
