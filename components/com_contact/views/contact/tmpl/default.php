@@ -41,7 +41,7 @@
 			<td rowspan="2" align="right" valign="top">
 			<?php if ( $this->contact->image && $this->contact->params->get( 'show_image' ) ) : ?>
 				<div style="float: right;">
-					<img src="images/stories/<?php echo $this->contact->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
+					<?php echo JHTML::_('image', 'images/stories/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middel')); ?>
 				</div>
 			<?php endif; ?>
 			</td>

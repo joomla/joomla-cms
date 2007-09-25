@@ -130,7 +130,7 @@ class ContactViewContact extends JView
 				$image2 = JHTML::_('image.site', 'emailButton.png', 	'/images/M_images/', $contact->params->get('icon_email'), 		'/images/M_images/', JText::_('Email').": ");
 				$image3 = JHTML::_('image.site', 'con_tel.png', 		'/images/M_images/', $contact->params->get('icon_telephone'), 	'/images/M_images/', JText::_('Telephone').": ");
 				$image4 = JHTML::_('image.site', 'con_fax.png', 		'/images/M_images/', $contact->params->get('icon_fax'), 		'/images/M_images/', JText::_('Fax').": ");
-				$image5 = JHTML::_('image.site', 'con_info.png', 	'/images/M_images/', $contact->params->get('icon_misc'), 		'/images/M_images/', JText::_('Information').": ");
+				$image5 = JHTML::_('image.site', 'con_info.png', 		'/images/M_images/', $contact->params->get('icon_misc'), 		'/images/M_images/', JText::_('Information').": ");
 				$contact->params->set('marker_address', 	$image1);
 				$contact->params->set('marker_email', 		$image2);
 				$contact->params->set('marker_telephone', 	$image3);

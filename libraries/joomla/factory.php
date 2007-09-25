@@ -271,7 +271,7 @@ class JFactory
 			$instance = JFactory::_createDBO();
 			$instance->debug($debug);
 		}
-
+		
 		return $instance;
 	}
 

@@ -90,7 +90,7 @@ endif; ?>
 	echo $this->article->toc;
 endif; ?>
 
-<?php echo $this->escape($this->article->text); ?>
+<?php echo JFilterOutput::ampReplace($this->article->text); ?>
 
 <?php echo $this->article->event->afterDisplayContent; ?>
 

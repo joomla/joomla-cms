@@ -125,7 +125,7 @@ class JTable extends JObject
 		$db =& JFactory::getDBO();
 		$instance = new $tableClass($db);
 		$instance->setDBO($db);
-
+		
 		return $instance;
 	}
 
@@ -633,7 +633,7 @@ class JTable extends JObject
 		jimport('joomla.utilities.date');
 		$datenow = new JDate();
 		$time = $datenow->toMysql();
-
+		
 		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ) .
 			' SET checked_out = '.(int)$who.', checked_out_time = '.$this->_db->Quote($time) .
 			' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);

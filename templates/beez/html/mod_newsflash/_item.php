@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 endif; ?>
 
 <?php echo $item->beforeDisplayContent;
-echo htmlspecialchars ($item->text, ENT_COMPAT , UTF-8);
+echo JFilterOutput::ampReplace($item->text);
 if (isset($item->linkOn) && $item->readmore) : ?>
 <a href="<?php $item->linkOn; ?>" class="readon">
 	<?php echo JText::_('Read more'); ?>

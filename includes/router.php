@@ -40,7 +40,7 @@ class JRouterSite extends JRouter
 		// Get the path
 		$path = $uri->getPath();
 		
-		//Remove the suffix from the uri
+		//Remove the suffix
 		if($this->_mode == JROUTER_MODE_SEF) 
 		{
 			// Get the application
@@ -55,9 +55,12 @@ class JRouterSite extends JRouter
 				}
 			}
 		}
-			
-		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));	 //Remove basepath
-		$path = str_replace('index.php', '', $path); 		 			 //Remove prefix
+		
+		//Remove basepath	
+		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));	 
+		
+		//Remove prefix
+		$path = str_replace('index.php', '', $path); 		 			 
 
 		//Set the route
 		$uri->setPath(trim($path , '/'));
@@ -69,7 +72,7 @@ class JRouterSite extends JRouter
 	
 	function &build($url)
 	{
-		$uri =& parent::build(JURI::base().$url);
+		$uri =& parent::build($url);
 		
 		// Get the path data
 		$route = $uri->getPath();
@@ -95,7 +98,8 @@ class JRouterSite extends JRouter
 			}
 		}
 		
-		$uri->setPath($route);
+		//Add basepath to the uri
+		$uri->setPath(JURI::base(true).$route);
 		
 		return $uri;
 	}

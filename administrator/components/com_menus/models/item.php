@@ -303,12 +303,13 @@ class MenusModelItem extends JModel
 	{
 		$id = JRequest::getVar('cid', array(0), '', 'array');
 		JArrayHelper::toInteger( $id, array(0) );
-
+		
 		// Make sure we have a user id to checkout the article with
 		if (is_null($uid)) {
 			$user	=& JFactory::getUser();
 			$uid	= $user->get('id');
 		}
+	
 		// Lets get to it and checkout the thing...
 		$item	=& $this->getItem();
 		if(!$item->checkout($uid, $id[0])) {
