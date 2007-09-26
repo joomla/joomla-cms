@@ -31,7 +31,7 @@ class TOOLBAR_poll {
 		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JToolBarHelper::title(  JText::_( 'Poll' ).': <small><small>[ ' . $text.' ]</small></small>' );
-		JToolBarHelper::Preview('index.php?option=com_poll&tmpl=component&pollid='.$pollid);
+		JToolBarHelper::Preview('index.php?option=com_poll&controller=poll&cid[]='.$pollid);
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		if ($cid[0]) {
