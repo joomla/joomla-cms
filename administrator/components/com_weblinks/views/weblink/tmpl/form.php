@@ -143,5 +143,4 @@
 <input type="hidden" name="option" value="com_weblinks" />
 <input type="hidden" name="cid[]" value="<?php echo $this->weblink->id; ?>" />
 <input type="hidden" name="task" value="" />
-<input type="hidden" name="controller" value="weblink" />
 </form>
