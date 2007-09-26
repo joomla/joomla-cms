@@ -25,14 +25,13 @@ jimport('joomla.application.component.controller');
  */
 class SearchController extends JController
 {
-
 	/**
 	 * Show Search Statistics
 	 */
 	function display()
 	{
 		$model	=& $this->getModel( 'Search' );
-		$view =& $this->getView( 'Search' );
+		$view   =& $this->getView( 'Search' );
 		$view->setModel( $model, true );
 		$view->display();
 	}
