@@ -139,6 +139,9 @@ class JHTMLImage
 		if (substr($image, 0, 1 ) == "/") {
 			$image = substr_replace($image, '', 0, 1);
 		}
+		
+		// Prepend the base path
+		$image = JURI::base(true).'/'.$image;
 
 		// outputs actual html <img> tag
 		if ( $type ) {
