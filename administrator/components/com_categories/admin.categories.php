@@ -25,8 +25,11 @@ JArrayHelper::toInteger($cid, array(0));
 switch (JRequest::getCmd('task'))
 {
 	case 'add' :
+		editCategory(false);
+		break;
+
 	case 'edit':
-		editCategory( );
+		editCategory(true);
 		break;
 
 	case 'moveselect':
@@ -279,7 +282,7 @@ function showCategories( $section, $option )
 * @param integer The unique id of the category to edit (0 if new)
 * @param string The name of the current user
 */
-function editCategory( )
+function editCategory($edit )
 {
 	global $mainframe;
 
@@ -312,7 +315,8 @@ function editCategory( )
 
 	$row =& JTable::getInstance('category');
 	// load the row from the db table
-	$row->load( $cid[0] );
+	if ($edit)
+		$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
 	if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out )) {
@@ -320,7 +324,7 @@ function editCategory( )
 		$mainframe->redirect( 'index.php?option=com_categories&section='. $row->section, $msg );
 	}
 
-	if ( $cid[0] ) {
+	if ( $edit ) {
 		$row->checkout( $user->get('id'));
 	} else {
 		$row->published 	= 1;

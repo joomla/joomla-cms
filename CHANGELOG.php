@@ -37,6 +37,7 @@ Legend:
 - -> Removed
 ! -> Note
 
+
 26-Sep-2007 Sam Moffatt
  # Fixed [#7038] joomla_backward.sql still contains UTF-8 for #__core_acl_aro_map table
 
@@ -48,12 +49,16 @@ Legend:
 24-Sep-2007 Sam Moffatt
  # Mitigated [#7119] configuration problems
 
-23-Sep-2007 Johan Janssens
- + Added JDatabase::getLog and getTicker functions to easily retrieve log and ticker variables.
-
 24-Sep-2007 Wilco Jansen
  # Fixed [#7266] The links in search results have got a double quote at the end
  # Fixed problem with installation data, resulting in two main menus (one disabled)
+
+23-Sep-2007 Johan Janssens
+ + Added JDatabase::getLog and getTicker functions to easily retrieve log and ticker variables.
+
+23-Sep-2007 Nur Aini Rakhmawati
+# Fixed Pagination problem on backend
+
 
 21-Sep-2007 Johan Janssens
  + Added JRequest::getMethod, this will return the request method used by the client

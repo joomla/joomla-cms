@@ -21,16 +21,16 @@ class TOOLBAR_categories {
 	* Draws the menu for Editing an existing category
 	* @param int The published state (to display the inverse button)
 	*/
-	function _EDIT()
+	function _EDIT($edit)
 	{
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 
-		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JToolBarHelper::title( JText::_( 'Category' ) .': <small><small>[ '. $text.' ]</small></small>', 'categories.png' );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
-		if ($cid[0]) {
+		if ($edit) {
 			// for existing articles the button is renamed `close`
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 		} else {

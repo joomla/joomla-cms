@@ -27,8 +27,11 @@ $task = JRequest::getCmd('task');
 switch ($task)
 {
 	case 'add' :
+		editSection(false );
+		break;
+
 	case 'edit':
-		editSection( );
+		editSection(true );
 		break;
 
 	case 'go2menu':
@@ -210,7 +213,7 @@ function showSections( $scope, $option )
 * @param integer The unique id of the category to edit (0 if new)
 * @param string The name of the current user
 */
-function editSection( )
+function editSection( $edit)
 {
 	global $mainframe;
 
@@ -224,7 +227,8 @@ function editSection( )
 
 	$row =& JTable::getInstance('section');
 	// load the row from the db table
-	$row->load( $cid[0] );
+	if ($edit)
+		$row->load( $cid[0] );
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $user->get('id') )) {
@@ -232,7 +236,7 @@ function editSection( )
 		$mainframe->redirect( 'index.php?option='. $option .'&scope='. $row->scope, $msg );
 	}
 
-	if ( $cid[0] ) {
+	if ( $edit ) {
 		$row->checkout( $user->get('id') );
 	} else {
 		$row->scope 		= $scope;

@@ -23,16 +23,16 @@ class TOOLBAR_sections {
 	/**
 	* Draws the menu for Editing an existing category
 	*/
-	function _EDIT() {
+	function _EDIT( $edit) {
 		$cid = JRequest::getVar('cid', array(0), '', 'array');
 		JArrayHelper::toInteger($cid, array(0));
 
-		$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JToolBarHelper::title( JText::_( 'Section' ).': <small><small>[ '. $text.' ]</small></small>', 'sections.png' );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
-		if ( $cid[0] ) {
+		if ( $edit ) {
 			// for existing items the button is renamed `close`
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 		} else {

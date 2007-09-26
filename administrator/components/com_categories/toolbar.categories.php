@@ -20,9 +20,12 @@ require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 switch ($task)
 {
 	case 'add'  :
+		TOOLBAR_categories::_EDIT(false);
+		break;
+
 	case 'edit' :
 	case 'editA':
-		TOOLBAR_categories::_EDIT();
+		TOOLBAR_categories::_EDIT(true);
 		break;
 
 	case 'moveselect':
