@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: admin.media.php 8660 2007-08-30 23:53:21Z louis $
  * @package		Joomla
  * @subpackage	Media
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
@@ -14,21 +14,6 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
-// Make sure the user is authorized to view this page
-$user = & JFactory::getUser();
-if (!$user->authorize( 'com_media', 'manage' )) {
-	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
-}
-
-$params =& JComponentHelper::getParams('com_media');
-
-// Load the admin HTML view
-require_once( JPATH_COMPONENT.DS.'helpers'.DS.'media.php' );
-
-// Set the path definitions
-define('COM_MEDIA_BASE', JPATH_SITE.DS.$params->get('file_path', 'images'));
-define('COM_MEDIA_BASEURL', $mainframe->getSiteURL().$params->get('file_path', 'images'));
 
 jimport( 'joomla.application.component.controller' );
 
@@ -103,38 +88,3 @@ class MediaController extends JController
 		JClientHelper::setCredentialsFromRequest('ftp');
 	}
 }
-
-$cmd = JRequest::getCmd('task', null);
-if (strpos($cmd, '.') != false) {
-	// We have a defined controller/task pair -- lets split them out
-	list($controllerName, $task) = explode('.', $cmd);
-
-	// Define the controller name and path
-	$controllerName	= strtolower($controllerName);
-	$controllerPath	= JPATH_COMPONENT.DS.'controllers'.DS.$controllerName.'.php';
-
-	// If the controller file path exists, include it ... else lets die with a 500 error
-	if (file_exists($controllerPath)) {
-		require_once($controllerPath);
-	} else {
-		JError::raiseError(500, 'Invalid Controller');
-	}
-} else {
-	// Base controller, just set the task :)
-	$controllerName = null;
-	$task = $cmd;
-}
-
-// Set the name for the controller and instantiate it
-$controllerClass = 'MediaController'.ucfirst($controllerName);
-if (class_exists($controllerClass)) {
-	$controller = new $controllerClass();
-} else {
-	JError::raiseError(500, 'Invalid Controller Class');
-}
-
-// Perform the Request task
-$controller->execute($task);
-
-// Redirect if set by the controller
-$controller->redirect();
