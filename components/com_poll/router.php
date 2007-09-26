@@ -50,16 +50,16 @@ function PollParseRoute( $segments )
 	$menu	=& JSite::getMenu();
 	$item	=& $menu->getActive();
 	
+	$count	= count( $segments );
+	
 	//Standard routing for articles
 	if(!isset($item)) 
 	{
-		$vars['view']  = $segments[$count - 2];
 		$vars['id']    = $segments[$count - 1];
 		return $vars;
 	}
 
 	// Count route segments
-	$count			= count( $segments );
 	$vars['id']		= $segments[$count-1];
 
 	return $vars;

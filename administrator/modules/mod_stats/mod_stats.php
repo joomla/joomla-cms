@@ -35,7 +35,7 @@ $rows = $db->loadObjectList();
 <?php
 foreach ($rows as $row)
 {
-	$link = 'index.php?option=com_menus&task=view&menutype='. $row->menutype;
+	$link = 'index.php?option=com_menus&amp;task=view&amp;menutype='. $row->menutype;
 	?>
 	<tr>
 		<td>

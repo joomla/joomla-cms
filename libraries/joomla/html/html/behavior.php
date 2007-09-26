@@ -305,21 +305,22 @@ class JHTMLBehavior
 		// Include mootools framework
 		JHTMLBehavior::mootools();
 
-		$config 		=& JFactory::getConfig();
-		$lifetime 	= ( $config->getValue('lifetime') * 60000 );
+		$config 	 =& JFactory::getConfig();
+		$lifetime 	 = ( $config->getValue('lifetime') * 60000 );
 		$refreshTime =  ( $lifetime <= 60000 ) ? 30000 : $lifetime - 60000;
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
-		?>
-		<script language="javascript">
-		function keepAlive( ) {
-			var myAjax = new Ajax( "index.php", { method: "get" } ).request();
-		}
-
-		window.addEvent('domready', function()
-			{ keepAlive.periodical( <?php echo $refreshTime; ?> ); }
-		);
-		</script>
-		<?php
+		
+		$document =& JFactory::getDocument();
+		
+		$script .= 'function keepAlive( ) {';
+		$script .=  '	var myAjax = new Ajax( "index.php", { method: "get" } ).request();';
+		$script .=  '}';
+		$script .= 	' window.addEvent("domready", function()';
+		$script .= 	'{ keepAlive.periodical('.$refreshTime.' ); }';
+		$script .=  ');';
+		
+		$document->addScriptDeclaration($script);
+	
 		return;
 	}
 

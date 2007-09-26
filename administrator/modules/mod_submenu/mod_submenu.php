@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // Lets get some variables we will need to render the menu
 $lang	=& JFactory::getLanguage();
-$doc		=& JFactory::getDocument();
+$doc	=& JFactory::getDocument();
 $user	=& JFactory::getUser();
 
 // If hidemainmenu is true, we don't want to render this module at all
@@ -59,6 +59,8 @@ class JAdminSubMenu
 		if (!is_array($list) || !count($list)) {
 			return null;
 		}
+		
+		jimport('joomla.filter.output');
 
 		$hide = JRequest::getInt('hidemainmenu');
 		$txt = "<ul id=\"submenu\">\n";
@@ -81,10 +83,10 @@ class JAdminSubMenu
 			else
 			{
 				if (isset ($item[2]) && $item[2] == 1) {
-					$txt .= "<a class=\"active\" href=\"".$item[1]."\">".$item[0]."</a>\n";
+					$txt .= "<a class=\"active\" href=\"".JFilterOutput::ampReplace($item[1])."\">".$item[0]."</a>\n";
 				}
 				else {
-					$txt .= "<a href=\"".$item[1]."\">".$item[0]."</a>\n";
+					$txt .= "<a href=\"".JFilterOutput::ampReplace($item[1])."\">".$item[0]."</a>\n";
 				}
 			}
 			$txt .= "</li>\n";
