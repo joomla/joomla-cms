@@ -73,7 +73,7 @@
 	{
 		$row = &$this->items[$i];
 
-		$link 		= JRoute::_( 'index.php?option=com_poll&controller=poll&task=edit&cid[]='. $row->id );
+		$link 		= JRoute::_( 'index.php?option=com_poll&view=poll&task=edit&cid[]='. $row->id );
 
 		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 		$published 	= JHTML::_('grid.published', $row, $i );
@@ -125,7 +125,6 @@
 </div>
 
 <input type="hidden" name="option" value="com_poll" />
-<input type="hidden" name="controller" value="poll" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />

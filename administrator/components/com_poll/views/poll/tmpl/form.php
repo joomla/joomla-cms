@@ -1,7 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php
-
 	$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 	JArrayHelper::toInteger($cid, array(0));
 
@@ -127,7 +126,6 @@ JFilterOutput::objectHTMLSafe( $this->poll, ENT_QUOTES );
 
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="option" value="com_poll" />
-<input type="hidden" name="controller" value="poll" />
 <input type="hidden" name="id" value="<?php echo $this->poll->id; ?>" />
 <input type="hidden" name="cid[]" value="<?php echo $this->poll->id; ?>" />
 <input type="hidden" name="textfieldcheck" value="<?php echo $n; ?>" />
