@@ -53,6 +53,7 @@ class PollController extends JController
 			case 'preview' :
 			{
 				JRequest::setVar( 'tmpl', 'component' );
+				JRequest::setVar( 'view', 'poll'  );
 			} break;
 		}
 		
