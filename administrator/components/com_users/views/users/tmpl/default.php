@@ -79,7 +79,7 @@
 		$img 	= $row->block ? 'publish_x.png' : 'tick.png';
 		$task 	= $row->block ? 'unblock' : 'block';
 		$alt 	= $row->block ? JText::_( 'Enabled' ) : JText::_( 'Blocked' );
-		$link 	= 'index.php?option=com_users&amp;controller=user&amp;task=edit&amp;cid[]='. $row->id. '';
+		$link 	= 'index.php?option=com_users&amp;view=user&amp;task=edit&amp;cid[]='. $row->id. '';
 
 		if ($row->lastvisitDate == "0000-00-00 00:00:00") {
 			$lvisit = "Never";
@@ -137,5 +137,4 @@
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 <input type="hidden" name="filter_order_Dir" value="" />
-<input type="hidden" name="controller" value="user" />
 </form>

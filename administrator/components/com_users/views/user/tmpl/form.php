@@ -293,7 +293,6 @@
 <input type="hidden" name="option" value="com_users" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="contact_id" value="" />
-<input type="hidden" name="controller" value="user" />
 <?php if (!$this->user->authorize( 'com_users', 'email_events' )) { ?>
 <input type="hidden" name="sendEmail" value="0" />
 <?php } ?>
