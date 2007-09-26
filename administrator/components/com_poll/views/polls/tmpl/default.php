@@ -1,6 +1,16 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php JHTML::_('behavior.tooltip'); ?>
+
+<?php 
+	JToolBarHelper::title(  JText::_( 'Poll Manager' ) );
+	JToolBarHelper::publishList();
+	JToolBarHelper::unpublishList();
+	JToolBarHelper::deleteList();
+	JToolBarHelper::editListX();
+	JToolBarHelper::addNewX();
+	JToolBarHelper::help( 'screen.polls' );
+?>
 	
 <form action="index.php?option=com_poll" method="post" name="adminForm">
 <table>

@@ -1,5 +1,25 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
+<?php
+
+	$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
+	JArrayHelper::toInteger($cid, array(0));
+
+	$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+
+	JToolBarHelper::title(  JText::_( 'Poll' ).': <small><small>[ ' . $text.' ]</small></small>' );
+	JToolBarHelper::Preview('index.php?option=com_poll&controller=poll&cid[]='.$cid[0]);
+	JToolBarHelper::save();
+	JToolBarHelper::apply();
+	if ($cid[0]) {
+		// for existing items the button is renamed `close`
+		JToolBarHelper::cancel( 'cancel', 'Close' );
+	} else {
+		JToolBarHelper::cancel();
+	}
+	JToolBarHelper::help( 'screen.polls.edit' );
+?>
+
 <?php 
 jimport('joomla.filter.output');
 JFilterOutput::objectHTMLSafe( $this->poll, ENT_QUOTES );
