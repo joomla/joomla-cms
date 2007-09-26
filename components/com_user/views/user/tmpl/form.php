@@ -35,6 +35,16 @@ function submitbutton( pressbutton ) {
 </div>
 <table cellpadding="5" cellspacing="0" border="0" width="100%">
 <tr>
+	<td>
+		<label for="username">
+			<?php echo JText::_( 'User Name' ); ?>:
+		</label>
+	</td>
+	<td>
+		<span><?php echo $this->user->get('username');?></span>
+	</td>
+</tr>
+<tr>
 	<td width="120">
 		<label for="name">
 			<?php echo JText::_( 'Your Name' ); ?>:
@@ -52,15 +62,6 @@ function submitbutton( pressbutton ) {
 	</td>
 	<td>
 		<input class="inputbox" type="text" id="email" name="email" value="<?php echo $this->user->get('email');?>" size="40" />
-	</td>
-<tr>
-	<td>
-		<label for="username">
-			<?php echo JText::_( 'User Name' ); ?>:
-		</label>
-	</td>
-	<td>
-		<input class="inputbox" type="text" id="username" name="username" value="<?php echo $this->user->get('username');?>" size="40" />
 	</td>
 </tr>
 <?php if($this->user->get('password')) : ?>
