@@ -29,7 +29,11 @@ class modArchiveHelper
 			' GROUP BY created_year DESC, created_month DESC';
 		$db->setQuery($query, 0, intval($params->get('count')));
 		$rows = $db->loadObjectList();
-
+		
+		$menu = &JSite::getMenu();
+		$item = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);		
+		$itemid = isset($item) ? $item->id : 0;
+		
 		$i		= 0;
 		$lists	= array();
 		foreach ( $rows as $row )
@@ -40,7 +44,7 @@ class modArchiveHelper
 			$month_name		= $date->toFormat("%B");
 			$created_year	= $date->toFormat("%Y");
 
-			$lists[$i]->link	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month);
+			$lists[$i]->link	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.'&Itemid='.$itemid);
 			$lists[$i]->text	= $month_name.', '.$created_year;
 			$i++;
 		}

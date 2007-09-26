@@ -40,7 +40,11 @@ class ContentHelperRoute
 		);
 				
 		//Create the link
-		$link = 'index.php?option=com_content&view=article&catid='.$catid.'&id='. $id;
+		$link = 'index.php?option=com_content&view=article&id='. $id;
+		
+		if($catid) {
+			$link .= '&catid='.$catid;
+		}
 		
 		if($item = ContentHelperRoute::_findItem($needles)) {
 			$link .= '&Itemid='.$item->id;

@@ -17,7 +17,7 @@ function ContentBuildRoute(&$query)
 	
 	if(isset($query['view'])) 
 	{
-		if(!isset($query['Itemid'])) {
+		if(empty($query['Itemid'])) {
 			$segments[] = $query['view'];
 		} 
 		
@@ -35,18 +35,24 @@ function ContentBuildRoute(&$query)
 	};
 
 	if(isset($query['year'])) {
-		$segments[] = $query['year'];
-		unset($query['year']);
+		
+		if(!empty($query['Itemid'])) {
+			$segments[] = $query['year'];
+			unset($query['year']);
+		}
 	};
 
 	if(isset($query['month'])) {
-		$segments[] = $query['month'];
-		unset($query['month']);
+		
+		if(!empty($query['Itemid'])) {
+			$segments[] = $query['month'];
+			unset($query['month']);
+		}
 	};
 	
 	if(isset($query['layout'])) 
 	{	
-		if(isset($query['Itemid'])) {
+		if(!empty($query['Itemid'])) {
 			unset($query['layout']);
 		}
 	};
@@ -72,7 +78,7 @@ function ContentParseRoute($segments)
 		$vars['id']    = $segments[$count - 1];
 		return $vars;
 	}
-
+	
 	//Handle View and Identifier
 	switch($item->query['view'])
 	{
@@ -115,6 +121,13 @@ function ContentParseRoute($segments)
 			$vars['id']	  = $segments[$count-1];
 			$vars['view'] = 'article';
 		} break;
+		
+		case 'archive' :
+		{
+			$vars['year']  = $segments[$count-2];
+			$vars['month'] = $segments[$count-1];
+			$vars['view']  = 'archive';
+		}	
 	}
 
 	return $vars;

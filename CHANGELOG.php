@@ -40,6 +40,7 @@ Legend:
 26-Sep-2007 Johan Janssens
  ^ Refactored administrator/com_users to MVC pattern
  ^ Don't allow external authenticated users to change their passwords
+ ^ Changed JRouterSite to accept and correctly handle Itemid=0
 
 24-Sep-2007 Sam Moffatt
  # Mitigated [#7119] configuration problems

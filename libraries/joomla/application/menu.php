@@ -212,6 +212,7 @@ class JMenu extends JObject
 	function getItems($attribute, $value, $firstonly = false)
 	{
 		$items = array ();
+		
 		foreach ($this->_items as  $item)
 		{
 			if ( ! is_object($item) )

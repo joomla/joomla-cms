@@ -284,7 +284,7 @@ class JRouterSite extends JRouter
 		 */
 		$tmp = 'component/'.substr($query['option'], 4); 
 		 
-		if(isset($query['Itemid']))
+		if(!empty($query['Itemid']))
 		{
 			$item = $menu->getItem($query['Itemid']);
 
@@ -374,8 +374,11 @@ class JRouterSite extends JRouter
 
 		// Set URI defaults
 		$menu =& JSite::getMenu();
-
-		if(!$itemid = $uri->getVar('Itemid'))
+		
+		// Get the itemid form the URI
+		$itemid = $uri->getVar('Itemid');
+		
+		if(is_null($itemid))
 		{
 			if($option = $uri->getVar('option'))
 			{

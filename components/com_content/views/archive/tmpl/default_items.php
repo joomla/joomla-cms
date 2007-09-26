@@ -4,7 +4,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php foreach ($this->items as $item) : ?>
 <li class="row<?php echo ($item->odd +1 ); ?>">
 	<h4 class="title">
-		<a href="<?php echo JRoute::_('index.php?option=com_content&view=article&id='.$item->slug); ?>">
+		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug)); ?>">
 			<?php echo $item->title; ?>
 		</a>
 	</h4>

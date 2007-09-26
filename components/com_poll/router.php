@@ -22,7 +22,7 @@ function PollBuildRoute( &$query )
 
 	if(isset($query['view'])) 
 	{
-		if(!isset($query['Itemid'])) {
+		if(empty($query['Itemid'])) {
 			$segments[] = $query['view'];
 		} 
 		
