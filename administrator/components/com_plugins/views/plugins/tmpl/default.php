@@ -74,7 +74,7 @@
 	for ($i=0, $n=count( $this->items ); $i < $n; $i++) {
 	$row 	= &$this->items[$i];
 
-	$link = JRoute::_( 'index.php?option=com_plugins&controller=plugin&client='. $this->client .'&task=edit&cid[]='. $row->id );
+	$link = JRoute::_( 'index.php?option=com_plugins&view=plugin&client='. $this->client .'&task=edit&cid[]='. $row->id );
 
 	$access 	= JHTML::_('grid.access',   $row, $i );
 	$checked 	= JHTML::_('grid.checkedout',   $row, $i );
@@ -130,7 +130,6 @@
 </table>
 
 <input type="hidden" name="option" value="com_plugins" />
-<input type="hidden" name="controller" value="plugin" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="filter_client" value="<?php echo $this->client;?>" />
 <input type="hidden" name="boxchecked" value="0" />

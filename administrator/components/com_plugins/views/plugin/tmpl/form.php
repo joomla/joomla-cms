@@ -153,7 +153,6 @@
 <div class="clr"></div>
 
 <input type="hidden" name="option" value="com_plugins" />
-<input type="hidden" name="controller" value="plugin" />
 <input type="hidden" name="id" value="<?php echo $this->plugin->id; ?>" />
 <input type="hidden" name="cid[]" value="<?php echo $this->plugin->id; ?>" />
 <input type="hidden" name="client" value="<?php echo $this->plugin->client_id; ?>" />

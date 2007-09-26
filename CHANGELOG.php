@@ -39,6 +39,7 @@ Legend:
 
 26-Sep-2007 Johan Janssens
  ^ Refactored administrator/com_poll to MVC pattern
+ ^ Refactored administrator/com_plugins to MVC pattern
  + Added RTL support to beez, thanks to Mati Kochen.
 
 26-Sep-2007 Sam Moffatt

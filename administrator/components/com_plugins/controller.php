@@ -15,6 +15,8 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
+jimport( 'joomla.application.component.controller' );
+
 /**
  * Plugins Component Controller
  *
@@ -48,14 +50,14 @@ class PluginsController extends JController
 	{
 		switch($this->getTask())
 		{
+			case 'add'     :
 			case 'edit'    :
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'layout', 'form'  );
+				JRequest::setVar( 'view', 'plugin' );
 			} break;
 		}
-		
-		JRequest::setVar( 'view', 'plugin' );
 		
 		parent::display();	
 	}
@@ -91,7 +93,7 @@ class PluginsController extends JController
 		{
 			case 'apply':
 				$msg = JText::sprintf( 'Successfully Saved changes to Plugin', $row->name );
-				$this->setRedirect( 'index.php?option=com_plugins&controller=plugin&client='. $client .'&task=edit&cid[]='. $row->id, $msg );
+				$this->setRedirect( 'index.php?option=com_plugins&view=plugin&client='. $client .'&task=edit&cid[]='. $row->id, $msg );
 				break;
 				
 			case 'save':
