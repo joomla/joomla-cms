@@ -44,6 +44,7 @@ class modRelatedItemsHelper
 
 		if ($option == 'com_content' && $view == 'article' && $id)
 		{	
+
 			// select the meta keywords from the item
 			$query = 'SELECT metakey' .
 					' FROM #__content' .
@@ -64,13 +65,13 @@ class modRelatedItemsHelper
 						$likes[] = $db->getEscaped($key);
 					}
 				}
-
+				
 				if (count($likes))
 				{
 					// select other items based on the metakey field 'like' the keys found
-					$query = 'SELECT a.id, a.title, DATE_FORMAT(a.created, "%Y-%m-%d") AS created, a.sectionid, a.catid, cc.access AS cat_access, s.access AS sec_access, cc.published AS cat_state, s.published AS sec_state' .
+					$query = 'SELECT a.id, a.title, DATE_FORMAT(a.created, "%Y-%m-%d") AS created, a.sectionid, a.catid, cc.access AS cat_access, s.access AS sec_access, cc.published AS cat_state, s.published AS sec_state,' .
 							' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
-							' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
+							' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug'.
 							' FROM #__content AS a' .
 							' LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id' .
 							' LEFT JOIN #__categories AS cc ON cc.id = a.catid' .
@@ -83,7 +84,7 @@ class modRelatedItemsHelper
 							' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )';
 					$db->setQuery($query);
 					$temp = $db->loadObjectList();
-
+					
 					if (count($temp))
 					{
 						foreach ($temp as $row)
