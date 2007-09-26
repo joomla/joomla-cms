@@ -151,6 +151,7 @@ textarea:focus { background-color: #ffd }
 	margin-bottom: 5px;
 }
 
+#module-status .legacy-mode 		  { background: url(../images/mini_icon.png) no-repeat scroll right 5px; }
 #module-status .preview 			  { background: url(../images/menu/icon-16-media.png) right 3px no-repeat; }
 #module-status .unread-messages,
 #module-status .no-unread-messages { background: url(../images/menu/icon-16-messages.png) right 3px no-repeat; }
@@ -301,7 +302,7 @@ div.col30 { float: left; width: 30%; }
 div.col60 { float: left; width: 60%; }
 div.col40 { float: left; width: 40%; }
 
-table.admintable td 					 { padding: 3px; text-align: right;}
+table.admintable td 					 { padding: 3px; text-align: right; }
 table.admintable td.key,
 table.admintable td.paramlist_key {
 	background-color: #f6f6f6;

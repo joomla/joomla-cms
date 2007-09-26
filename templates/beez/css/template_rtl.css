@@ -1,0 +1,181 @@
+/**
+ * @version $Id$
+ * @package Joomla
+ * @subpackage Accessible-Template-Beez
+ * @copyright Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+ 
+ /**
+ * Joomla! 1.5 Beez template css file
+ *
+ * @author 		Design & Accessible Team ( Angie Radtke / Robert Deutz )
+ *					RTL by Mati Kochen
+ * @package		Joomla
+ * @since		1.5
+ * @version    1.0
+ */
+
+p{
+	text-align: right;
+}
+
+#fontsize{
+	right: auto;
+	left: 0px;
+}
+
+#fontsize p {
+	margin:0pt 5pt 0pt 0px;
+}
+
+#fontsize p a
+{
+	padding: 2px 24px 2px 0px;
+}
+
+/* background-images */
+#fontsize p a.larger { background: #fff url(../images/lupe_larger.gif) right no-repeat; }
+#fontsize p a.smaller { background: #fff url(../images/lupe_smaller.gif) right no-repeat; }
+#fontsize p a.reset { background: #fff url(../images/lupe_reset.gif) right no-repeat; }
+
+#logo span{
+	margin: 0 100px 2px 0 !important;
+	text-align: right;
+}
+
+#header ul{
+	text-align: left;
+}
+
+#header ul li a:link,#header ul li a:visited{
+	border-left: solid 1px #666;
+	border-right: none;
+}
+
+#header form{
+	float: left;
+	text-align: right;
+}
+
+#breadcrumbs{
+	text-align: right;
+}
+
+#left{
+	float: right;
+}
+
+#right{
+	right: auto;
+	left: 0px;
+}
+
+#right h3{
+	padding: 0px 0px 0px 5px;
+}
+
+#all{
+	text-align: right;
+}
+
+p.buttonheading{
+	text-align: left;
+}
+
+.leading{
+	padding: 20px 120px 40px 20px;
+	background: #EFDEEA url(../images/biene_rtl.gif) no-repeat scroll right top;
+}
+
+.leading div{
+	text-align: right;
+}
+
+form.login fieldset{
+	text-align: right;
+}
+
+form.login label.remember, form.login input.checkbox{
+	float: right;
+}
+
+form.login .button{
+	clear: right;
+}
+
+form.login .button,
+#main a.readon, #main2 a.readon,
+#main .leading .readon, #main2 .leading .readon,
+#main a.readon:hover, #main2 a.readon:hover, #main a.readon:active, #main2 a.readon:active, #main a.readon:focus, #main2 a.readon:focus{
+	background: url(../images/pfeil_rtl.gif) no-repeat scroll right 50%;
+	padding-right: 30px !important;
+	padding-left: 0px !important;
+}
+
+
+form.login .button{
+	background-color: #CC3399;
+}
+
+#main .leading .readon, 
+#main2 .leading .readon{
+	background-color: #93246F;
+}
+
+#main ul li, #main2 ul li {
+	padding:0 10px 0 0;
+}
+#main ul, #main2 ul {
+	margin:0 20px 0 0;
+	padding:0 10px 0 0;
+}
+#main ul, #main ol {
+	margin:10px 20px 10px 0;
+	padding:0 10px 0 0;
+}
+
+#main a.readon:hover, #main2 a.readon:hover, #main a.readon:active, #main2 a.readon:active, #main a.readon:focus, #main2 a.readon:focus{
+	background-color: #000000;
+}
+
+#right form.poll fieldset label{
+	padding: 0 4px 0 0;
+}
+
+#left ul{
+	margin: 0px 10pt 20px 0px;
+}
+
+#left ul li.active a:link, #left ul li.active a:visited {
+	border-left: none;
+	border-right:4px solid #BE7CA9;
+	padding:3px 6px 3px 0px;
+}
+
+#left ul li ul {
+	border-width:0px 4px 0px 1px;
+}
+
+#left ul li.active ul li a:link, #left ul li.active ul li a:visited{
+	border-left: none;
+	border-right: 0px solid #DD75BB;
+	padding: 3px 20px 3px 4px;
+}
+
+ul.pagination{
+	text-align: right;
+}
+
+#footer p{
+	float: left;
+}
+
+#footer p.syndicate{
+	float: right;
+}

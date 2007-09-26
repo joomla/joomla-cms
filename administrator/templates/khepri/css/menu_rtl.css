@@ -104,11 +104,7 @@ span.nolink {
 	font-weight: bold;
 	color: #0B55C4;
 }
-#submenu li {
-	border-left: 1px solid #ccc;
-	padding-left: 10px;
-	padding-right: 10px;
-}
+#submenu li { }
 
 #submenu span.nolink {
 	color: #999;

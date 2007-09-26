@@ -26,6 +26,9 @@ $showRightColumn &= JRequest::getCmd('task') != 'edit'
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez/css/layout.css" type="text/css" media="screen,projection" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez/css/print.css" type="text/css" media="Print" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez/css/general.css" type="text/css" />
+	<?php if($this->direction == 'rtl') : ?>
+	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez/css/template_rtl.css" type="text/css" />
+	<?php endif; ?>
 	<!--[if lte IE 6]>
 		<link href="<?php echo $this->baseurl ?>/templates/beez/css/ieonly.css" rel="stylesheet" type="text/css" />
 	<![endif]-->
