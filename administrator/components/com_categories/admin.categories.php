@@ -292,7 +292,7 @@ function editCategory($edit )
 	$uid		= $user->get('id');
 
 	$type		= JRequest::getCmd( 'type' );
-	$redirect	= JRequest::getCmd( 'section', 'content' );
+	$redirect	= JRequest::getCmd( 'section', 'com_content' );
 	$section	= JRequest::getCmd( 'section', 'com_content' );
 	$cid		= JRequest::getVar( 'cid', array(0), '', 'array' );
 
