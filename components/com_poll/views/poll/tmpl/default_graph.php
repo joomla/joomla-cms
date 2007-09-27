@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <thead>
 	<tr>
 		<th colspan="3" class="sectiontableheader">
-			<img src="components/com_poll/assets/poll.png" align="middle" border="0" width="12" height="14" alt="" />
+			<img src="<?php echo $this->baseurl; ?>/components/com_poll/assets/poll.png" align="middle" border="0" width="12" height="14" alt="" />
 			<?php echo $this->poll->title; ?>
 		</th>
 	</tr>
