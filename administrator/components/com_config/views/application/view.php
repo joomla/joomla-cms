@@ -89,7 +89,6 @@ class ConfigApplicationView
 							<?php require_once($tmplpath.DS.'config_cache.php'); ?>
 							<?php require_once($tmplpath.DS.'config_session.php'); ?>
 						</td>
-					</td>
 					</tr>
 				</table>
 			</div>

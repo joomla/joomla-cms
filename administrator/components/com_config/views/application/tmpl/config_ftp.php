@@ -10,7 +10,7 @@
 					</span>
 			</td>
 			<td>
-					</span><?php echo $lists['enable_ftp']; ?>
+					<?php echo $lists['enable_ftp']; ?>
 			</td>
 		</tr>
 		<tr>

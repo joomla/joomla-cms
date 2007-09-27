@@ -63,7 +63,7 @@ function submitbutton(pressbutton) {
 			<button type="button" onclick="submitbutton('save')">
 				<?php echo JText::_('Save') ?>
 			</button>
-			<button type="button" onclick="submitbutton('cancel')" />
+			<button type="button" onclick="submitbutton('cancel')">
 				<?php echo JText::_('Cancel') ?>
 			</button>
 		</div>
