@@ -149,7 +149,7 @@ class JTableUser extends JTable
 		}
 
 
-		if (eregi( "[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", $this->username) || JString::strlen( $this->username ) < 2) {
+		if (eregi( "[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", $this->username) || strlen(utf8_decode($this->username )) < 2) {
 			$this->setError( JText::sprintf( 'VALID_AZ09', JText::_( 'Username' ), 2 ) );
 			return false;
 		}
