@@ -15,7 +15,7 @@ document.adminForm.submit( task );
 // -->
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&view=category&id='.$this->category->slug); ?>" method="post" name="adminForm">
+<form action="<?php echo $this->action; ?>" method="post" name="adminForm">
 
 <?php if ($this->params->get('filter')) : ?>
 <div class="filter">
