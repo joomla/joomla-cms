@@ -53,7 +53,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	function __construct( $options = array() )
 	{
 		if (!$this->test()) {
-            return JError::raiseError(404, "The memcache extension isn't available");
+            return JError::raiseError(404, "The memcache extension is not available");
         }
 
 		parent::__construct($options);

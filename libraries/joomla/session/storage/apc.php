@@ -35,7 +35,7 @@ class JSessionStorageApc extends JSessionStorage
 	function __construct( $options = array() )
 	{
 		if (!$this->test()) {
-            return JError::raiseError(404, "The apc extension isn't available");
+            return JError::raiseError(404, "The apc extension is not available");
         }
 
 		parent::__construct($options);
