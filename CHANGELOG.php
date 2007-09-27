@@ -37,10 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
-27-Sep-2007 Toby Patterson
- # Fixed [t216588] Topic: Minor error in installer - translation string issue
 27-Sep-2007 Nur Aini Rakhmawati
-# Fixed[6111] user manager for multiple selection
+ # Fixed[#6111] user manager for multiple selection
 
 26-Sep-2007 Johan Janssens
  ^ Refactored administrator/com_poll to MVC pattern
@@ -48,7 +46,7 @@ Legend:
  + Added RTL support to beez, thanks to Mati Kochen.
 
 26-Sep-2007 Nur Aini Rakhmawati
-# Fixed[6111] categories and sections manager for multiple selection
+# Fixed [#6111] categories and sections manager for multiple selection
 
 26-Sep-2007 Sam Moffatt
  # Fixed [#7038] joomla_backward.sql still contains UTF-8 for #__core_acl_aro_map table
