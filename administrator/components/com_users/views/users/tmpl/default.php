@@ -37,7 +37,7 @@
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 		</th>
 		<th class="title">
-			<?php echo JHTML::_('grid.sort',   'Name', 'a.name', @$$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<?php echo JHTML::_('grid.sort',   'Name', 'a.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
 		<th width="15%" class="title" >
 			<?php echo JHTML::_('grid.sort',   'Username', 'a.username', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
