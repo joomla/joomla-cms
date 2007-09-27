@@ -2,14 +2,15 @@
 
 <?php JHTML::_('behavior.tooltip'); ?>
 
-<?php 
+<?php
 	$cid = JRequest::getVar( 'cid', array(0) );
-	$text = intval($cid[0]) ? JText::_( 'Edit' ) : JText::_( 'New' );
+	$edit		= JRequest::getVar('edit',true);
+	$text = intval($edit) ? JText::_( 'Edit' ) : JText::_( 'New' );
 
 	JToolBarHelper::title( JText::_( 'User' ) . ': <small><small>[ '. $text .' ]</small></small>' , 'user.png' );
 	JToolBarHelper::save();
 	JToolBarHelper::apply();
-	if ( $cid[0] ) {
+	if ( $edit ) {
 		// for existing items the button is renamed `close`
 		JToolBarHelper::cancel( 'cancel', 'Close' );
 	} else {

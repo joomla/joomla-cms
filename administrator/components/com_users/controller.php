@@ -37,23 +37,29 @@ class UsersController extends JController
 		$this->registerTask( 'flogout', 'logout');
 		$this->registerTask( 'unblock', 'block' );
 	}
-	
+
 	function display( )
 	{
 		switch($this->getTask())
 		{
 			case 'add'     :
+			{	JRequest::setVar( 'hidemainmenu', 1 );
+				JRequest::setVar( 'layout', 'form'  );
+				JRequest::setVar( 'view', 'user' );
+				JRequest::setVar( 'edit', false );
+			} break;
 			case 'edit'    :
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'layout', 'form'  );
 				JRequest::setVar( 'view', 'user' );
+				JRequest::setVar( 'edit', true );
 			} break;
 		}
-		
-		parent::display();	
+
+		parent::display();
 	}
-	
+
 	function save()
 	{
 		global $mainframe;
@@ -75,7 +81,7 @@ class UsersController extends JController
 		$post['username']	= JRequest::getVar('username', '', 'post', 'username');
 		$post['password']	= JRequest::getVar('password', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
-	
+
 		if (!$user->bind($post))
 		{
 			$mainframe->enqueueMessage('Cannot save the user information', 'message');
@@ -121,7 +127,7 @@ class UsersController extends JController
 			JRequest::setVar( 'task', 'edit');
 			return $this->edit();
 		}
-	
+
 		/*
 	 	 * Time for the email magic so get ready to sprinkle the magic dust...
 	 	 */
@@ -141,7 +147,7 @@ class UsersController extends JController
 			JUtility::sendMail( $adminEmail, $adminName, $user->get('email'), $subject, $message );
 		}
 
-		switch ( $this->getTask() ) 
+		switch ( $this->getTask() )
 		{
 			case 'apply':
 				$msg = JText::sprintf( 'Successfully Saved changes to User', $user->get('name') );
@@ -155,7 +161,7 @@ class UsersController extends JController
 				break;
 		}
 	}
-	
+
 	function remove()
 	{
 		global $mainframe;
@@ -230,13 +236,13 @@ class UsersController extends JController
 
 		$this->setRedirect( 'index.php?option=com_users', $msg);
 	}
-	
+
 	function cancel( )
 	{
 		$this->setRedirect( 'index.php?option=com_users' );
 	}
-	
-	
+
+
 	function block( )
 	{
 		global $mainframe;
@@ -301,8 +307,8 @@ class UsersController extends JController
 					$user =& JUser::getInstance((int)$id);
 					$user->block = $block;
 					$user->save();
-		
-					if($block) 
+
+					if($block)
 					{
 						JRequest::setVar( 'task', 'block' );
 						JRequest::setVar( 'cid', array($id) );
@@ -313,10 +319,10 @@ class UsersController extends JController
 				}
 			}
 		}
-	
+
 		$this->setRedirect( 'index.php?option=com_users', $msg);
 	}
-	
+
 	function logout( )
 	{
 		global $mainframe;
@@ -326,7 +332,7 @@ class UsersController extends JController
 		$cids 	= JRequest::getVar( 'cid', array(), '', 'array' );
 		$client = JRequest::getVar( 'client', 0, '', 'int' );
 		$id 	= JRequest::getVar( 'id', 0, '', 'int' );
-	
+
 		JArrayHelper::toInteger($cids);
 
 		if ( count( $cids ) < 1 ) {
@@ -337,14 +343,14 @@ class UsersController extends JController
 		foreach($cids as $cid)
 		{
 			$options = array();
-		
+
 			if ($task == 'logout' || $task == 'block') {
 				$options['clientid'][] = 0; //site
 				$options['clientid'][] = 1; //administrator
 			} else if ($task == 'flogout') {
 				$options['clientid'][] = $client;
 			}
-		
+
 			$mainframe->logout((int)$cid, $options);
 		}
 
@@ -366,12 +372,12 @@ class UsersController extends JController
 				break;
 		}
 	}
-	
+
 	function contact()
 	{
 		$contact_id = JRequest::getVar( 'contact_id', '', 'post', 'int' );
 		$this->setRedirect( 'index.php?option=com_contact&atask=edit&cid[]='. $contact_id );
-	}		
+	}
 }
 
 ?>

@@ -28,15 +28,20 @@ jimport( 'joomla.application.component.view');
 class UsersViewUser extends JView
 {
 	function display($tpl = null)
-	{	
+	{
 		$cid		= JRequest::getVar( 'cid', array(0), '', 'array' );
+		$edit		= JRequest::getVar('edit',true);
 		JArrayHelper::toInteger($cid, array(0));
 
 		$db 		=& JFactory::getDBO();
-		$user 		=& JUser::getInstance( $cid[0] );
+		if($edit)
+			$user 		=& JUser::getInstance( $cid[0] );
+		else
+			$user 		=& JUser::getInstance();
+
 		$myuser		=& JFactory::getUser();
 		$acl		=& JFactory::getACL();
-		
+
 		// Check for post data in the event that we are returning
 		// from a unsuccessful attempt to save data
 		$post = JRequest::get('post');
@@ -44,7 +49,7 @@ class UsersViewUser extends JView
 			$user->bind($post);
 		}
 
-		if ( $user->get('id') )
+		if ( $user->get('id'))
 		{
 			$query = 'SELECT *'
 			. ' FROM #__contact_details'
@@ -121,14 +126,14 @@ class UsersViewUser extends JView
 
 		// build the html select list
 		$lists['block'] 	= JHTML::_('select.booleanlist',  'block', 'class="inputbox" size="1"', $user->get('block') );
-		
+
 		// build the html select list
 		$lists['sendEmail'] = JHTML::_('select.booleanlist',  'sendEmail', 'class="inputbox" size="1"', $user->get('sendEmail') );
 
 		$this->assignRef('lists',	$lists);
 		$this->assignRef('user',	$user);
 		$this->assignRef('contact',	$contact);
-		
+
 		parent::display($tpl);
 	}
 }
