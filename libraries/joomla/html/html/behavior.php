@@ -311,7 +311,7 @@ class JHTMLBehavior
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
 		
 		$document =& JFactory::getDocument();
-		
+		$script  = '';
 		$script .= 'function keepAlive( ) {';
 		$script .=  '	var myAjax = new Ajax( "index.php", { method: "get" } ).request();';
 		$script .=  '}';
