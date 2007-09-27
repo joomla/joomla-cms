@@ -66,14 +66,14 @@ class InstallerModelInstall extends JModel
 				break;
 
 			default:
-				$this->setState('message', JText::_('No Install Type Found'));
+				$this->setState('message', 'No Install Type Found');
 				return false;
 				break;
 		}
 
 		// Was the package unpacked?
 		if (!$package) {
-			$this->setState('message', JText::_('Unable to find install package'));
+			$this->setState('message', 'Unable to find install package');
 			return false;
 		}
 

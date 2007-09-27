@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Sep-2007 Toby Patterson
+ # Fixed [t216588] Topic: Minor error in installer - translation string issue
 27-Sep-2007 Nur Aini Rakhmawati
 # Fixed[6111] user manager for multiple selection
 
