@@ -98,8 +98,10 @@ class JRouterSite extends JRouter
 			}
 		}
 		
+		$base = JURI::base(true) == '' ? '' : JURI::base(true).'/'; 
+		
 		//Add basepath to the uri
-		$uri->setPath(JURI::base(true).'/'.$route);
+		$uri->setPath($base.$route);
 		
 		return $uri;
 	}
