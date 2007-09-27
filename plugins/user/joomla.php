@@ -82,6 +82,7 @@ class plgUserJoomla extends JPlugin
 		}
 		else
 		{
+			jimport('joomla.application.component.helper');
 			$usersConfig = &JComponentHelper::getParams( 'com_users' );
 			$newUsertype = $usersConfig->get( 'new_usertype', 'Registered' );
 
