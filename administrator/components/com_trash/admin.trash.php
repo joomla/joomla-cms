@@ -109,7 +109,7 @@ function viewTrashContent( $option )
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// Query articles
-	$query = 'SELECT c.title, c.id, c.sectionid, c.catid, g.name AS groupname, cc.name AS catname, s.name AS sectname'
+	$query = 'SELECT c.title, c.id, c.sectionid, c.catid, g.name AS groupname, cc.title AS catname, s.title AS sectname'
 	. ' FROM #__content AS c'
 	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
 	. ' LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope="content"'
