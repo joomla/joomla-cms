@@ -36,6 +36,8 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+27-Sep-2007 Rastin Mehr
+^ Made small improvement to getTable( $name, $prefix ) method in JUser class so table prefixes can be passed too as well as the table name
 
 27-Sep-2007 Nur Aini Rakhmawati
  # Fixed[#6111] user manager for multiple selection

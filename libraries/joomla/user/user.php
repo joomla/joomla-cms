@@ -339,25 +339,28 @@ class JUser extends JObject
 	 *
 	 * @access 	public
 	 * @param	string	The user table name to be used
+	 * @param	string	The user table prefix to be used
 	 * @return	object	The user table object
 	 * @since	1.5
 	 */
-	function &getTable($type = null)
+	function &getTable( $type = null, $prefix = 'JTable' )
 	{
 		static $tabletype;
 		
 		//Set the default tabletype;
 		if(!isset($tabletype)) {
-			$tabletype = 'user';
+			$tabletype['name'] 	= 'user';
+			$tabletype['prefix']	= 'JTable';
 		}
 		
 		//Set a custom table type is defined
 		if(isset($type)) {
-			$tabletype = $type;
+			$tabletype['name'] 	= $type;
+			$tabletype['prefix']	= $prefix;
 		}
 		
 		// Create the user table object
-		$table 	=& JTable::getInstance( $tabletype);
+		$table 	=& JTable::getInstance( $tabletype['name'], $tabletype['prefix'] );
 		return $table;
 	}
 
