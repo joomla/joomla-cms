@@ -33,7 +33,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'plgContentPagebreak' );
 function plgContentPagebreak( &$row, &$params, $page=0 )
 {
 	// expression to search for
-	$regex = '#<hr class=\"system-pagebreak\"(.*)\/>#iU';
+	$regex = '#<hr(.*)class=\"system-pagebreak\"(.*)\/>#iU';
 
 	// Get Plugin info
 	$plugin			=& JPluginHelper::getPlugin('content', 'pagebreak');
@@ -51,8 +51,8 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 		return true;
 	}
 
-	// simple performance check to determine whether bot should process further
-	if ( JString::strpos( $row->text, '<hr class="system-pagebreak' ) === false ) {
+	//simple performance check to determine whether bot should process further
+	if ( JString::strpos( $row->text, 'class="system-pagebreak' ) === false ) {
 		return true;
 	}
 
