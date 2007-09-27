@@ -42,10 +42,10 @@ class ContentViewCategory extends ContentView
 
 		// Get the page/component configuration
 		$params = clone($mainframe->getParams('com_content'));
-
+		
 		// Request variables
 		$task		= JRequest::getCmd('task');
-		$limit		= $mainframe->getUserStateFromRequest('com_content.limit', 'limit', $params->def('display_num', 0), 'int');
+		$limit		= $mainframe->getUserStateFromRequest('com_content.'.$this->getLayout().'.limit', 'limit', $params->def('display_num', 0), 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// parameters
@@ -56,7 +56,7 @@ class ContentViewCategory extends ContentView
 		$headings	= $params->def('show_headings', 		1);
 		$contentConfig = &JComponentHelper::getParams( 'com_content' );
 		$params->def('show_title', 			$contentConfig->get('show_title'));
-
+		
 		//In case we are in a blog view set the limit
 		if($limit ==  0) $limit = $intro + $leading + $links;
 		JRequest::setVar('limit', (int) $limit);
@@ -92,12 +92,13 @@ class ContentViewCategory extends ContentView
 		// Keep a copy for safe keeping this is soooooo dirty -- must deal with in a later version
 		// @todo -- oh my god we need to find this reference issue in 1.6 :)
 		$this->_params = $params->toArray();
-
+		
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit - $links);
 
 		$this->assign('total',		$total);
-
+		$this->assign('action', 	$uri->toString());
+		
 		$this->assignRef('items',		$items);
 		$this->assignRef('params',		$params);
 		$this->assignRef('category',	$category);
@@ -116,7 +117,7 @@ class ContentViewCategory extends ContentView
 			$return = array();
 			return $return;
 		}
-
+		
 		//create select lists
 		$lists	= $this->_buildSortLists();
 
@@ -126,20 +127,22 @@ class ContentViewCategory extends ContentView
 		}
 
 		$k = 0;
-		for($i = 0; $i <  count($this->items); $i++)
+		$i = 0;
+		foreach($this->items as $key => $item)
 		{
-			$item =& $this->items[$i];
-
 			$item->link		= JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
 			$item->created	= JHTML::_('date', $item->created, $this->params->get('date_format'));
 
 			$item->odd		= $k;
-			$item->count	= $i;
+			$item->count    = $i;
+			
+			$this->items[$key] = $item;
 			$k = 1 - $k;
+			$i++;
 		}
-
+		
 		$this->assign('lists',	$lists);
-
+		
 		return $this->items;
 	}
 
