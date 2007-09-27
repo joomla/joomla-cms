@@ -16,8 +16,8 @@
 	<params group="advanced">
 		<param name="show_title" type="list" default="" label="Show Title" description="Show/Hide the items title">
 			<option value="">Use Global</option>
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
 		</param>
 		<param name="link_titles" type="list" default="" label="Linked Titles" description="Make your Item titles linkable">
 			<option value="">Use Global</option>
