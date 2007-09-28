@@ -97,11 +97,9 @@ class JRouterSite extends JRouter
 				$route = str_replace('index.php/', '', $route);
 			}
 		}
-		
-		$base = JURI::base(true) == '' ? '' : JURI::base(true).'/'; 
-		
+	
 		//Add basepath to the uri
-		$uri->setPath($base.$route);
+		$uri->setPath(JURI::base(true).'/'.$route);
 		
 		return $uri;
 	}
