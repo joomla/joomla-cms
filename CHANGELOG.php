@@ -37,9 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
-
 29-Sep-2007 Nur Aini Rakhmawati
- # Fixed[#6111] article manager for multiple selection
+ # Fixed [#6111] article manager for multiple selection
+
+28-Sep-2007 Johan Janssens
+ ^ Improved flexibility of the user plugins. The authorization routine has been moved to the Joomla!
+   user plugin and the system is using ACL calls to authorize a user based on group names instead of 
+   gid's. This allows the implementation of custom child groups.
 
 28-Sep-2007 Toby Patterson
  # Fixed [#6916] Mixed language in an error message.
@@ -49,10 +53,8 @@ Legend:
  # Fixed [#7102] (IE7) Admin media component
 
 27-Sep-2007 Rastin Mehr
-^ Made small improvement to getTable( $name, $prefix ) method in JUser class so table prefixes can be passed too as well as the table name
-
-27-Sep-2007 Nur Aini Rakhmawati
- # Fixed[#6111] user manager for multiple selection
+^ Made small improvement to getTable( $name, $prefix ) method in JUser class so table prefixes can 
+  be passed too as well as the table name
 
 26-Sep-2007 Johan Janssens
  ^ Refactored administrator/com_poll to MVC pattern

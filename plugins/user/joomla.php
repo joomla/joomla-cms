@@ -68,85 +68,67 @@ class plgUserJoomla extends JPlugin
 	 *
 	 * @access	public
 	 * @param   array   holds the user data
-	 * @param 	array   array holding options (remember, autoregister, ...)
+	 * @param 	array   array holding options (remember, autoregister, group)
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
 	function onLoginUser($user, $options = array())
 	{
 		jimport('joomla.user.helper');
-
-		$my = new JUser();
-		if($id = intval(JUserHelper::getUserId($user['username'])))  {
-			$my->load($id);
-		}
-		else
-		{
-			jimport('joomla.application.component.helper');
-			$usersConfig = &JComponentHelper::getParams( 'com_users' );
-			$newUsertype = $usersConfig->get( 'new_usertype', 'Registered' );
-
-			$authorize	=& JFactory::getACL();
-
-			$my->set( 'id'				, 0 );
-			$my->set( 'name'			, $user['fullname'] );
-			$my->set( 'username'		, $user['username'] );
-			$my->set( 'password_clear'	, $user['password_clear'] );
-			$my->set( 'email'			, $user['email'] );	// Result should contain an email (check)
-			$my->set( 'gid'				, $authorize->get_group_id( '', $newUsertype, 'ARO' ));
-			$my->set( 'usertype'		, $newUsertype );
-
-			//If autoregister is set let's register the user
-			$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);
-
-			if($autoregister) {
-				if(!$my->save()) {
-					return JError::raiseWarning('SOME_ERROR_CODE', $my->getError());
-				}
-			}
-		}
+		
+		$instance =& $this->_getUser($user, $options);
 
 		// If the user is blocked, redirect with an error
-		if ($my->get('block') == 1) {
+		if ($instance->get('block') == 1) {
 			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
+		}
+		
+		// Get an ACL object
+		$acl =& JFactory::getACL();
+		
+		// Get the user group from the ACL
+		$grp = $acl->getAroGroup($instance->get('id'));
+			
+		//Authorise the user based on the group information
+		if(!isset($options['group'])) {
+			$options['group'] = 'USERS'; 
+		}
+				
+		if(!$acl->is_group_child_of( $grp->name, $options['group'])) {
+			return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_ACCESS'));
 		}
 
 		//Mark the user as logged in
-		$my->set( 'guest', 0);
-
-		// Discover the access group identifier
-		// NOTE : this is a very basic for of permission handling, will be replaced by a full ACL in 1.6
-		jimport('joomla.factory');
-		$acl = &JFactory::getACL();
-		$grp = $acl->getAroGroup($my->get('id'));
-
-		$my->set('aid', 1);
-		if ($acl->is_group_child_of($grp->name, 'Registered', 'ARO') || $acl->is_group_child_of($grp->name, 'Public Backend', 'ARO')) {
-			// fudge Authors, Editors, Publishers and Super Administrators into the special access group
-			$my->set('aid', 2);
+		$instance->set( 'guest', 0);
+		$instance->set('aid', 1);
+		
+		// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
+		if ($acl->is_group_child_of($grp->name, 'Registered')      || 
+		    $acl->is_group_child_of($grp->name, 'Public Backend'))    {
+			$instance->set('aid', 2);
 		}
 
 		//Set the usertype based on the ACL group name
-		$my->set('usertype', $grp->name);
+		$instance->set('usertype', $grp->name);
 
 		// Register the needed session variables
 		$session =& JFactory::getSession();
-		$session->set('user', $my);
+		$session->set('user', $instance);
 
 		// Get the session object
 		$table = & JTable::getInstance('session');
 		$table->load( $session->getId() );
 
-		$table->guest 		= $my->get('guest');
-		$table->username 	= $my->get('username');
-		$table->userid 		= intval($my->get('id'));
-		$table->usertype 	= $my->get('usertype');
-		$table->gid 		= intval($my->get('gid'));
+		$table->guest 		= $instance->get('guest');
+		$table->username 	= $instance->get('username');
+		$table->userid 		= intval($instance->get('id'));
+		$table->usertype 	= $instance->get('usertype');
+		$table->gid 		= intval($instance->get('gid'));
 
 		$table->update();
 
 		// Hit the user last visit field
-		$my->setLastVisit();
+		$instance->setLastVisit();
 
 		return true;
 	}
@@ -157,7 +139,7 @@ class plgUserJoomla extends JPlugin
 	 * @access public
 	 * @param  array	holds the user data
 	 * @param 	array   array holding options (client, ...)
-	 * @return boolean  True on success
+	 * @return object   True on success
 	 * @since 1.5
 	 */
 	function onLogoutUser($user, $options = array())
@@ -178,6 +160,53 @@ class plgUserJoomla extends JPlugin
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * This method will return a user object
+	 * 
+	 * If options['autoregister'] is true, if the user doesn't exist yet he will be created
+	 *
+	 * @access	public
+	 * @param   array   holds the user data
+	 * @param 	array   array holding options (remember, autoregister, group)
+	 * @return	object	A JUser object
+	 * @since	1.5
+	 */
+	function &_getUser($user, $options = array())
+	{
+		$instance = new JUser();
+		if($id = intval(JUserHelper::getUserId($user['username'])))  {
+			$instance->load($id);
+			return $instance;
+		}
+		
+		//TODO : move this out of the plugin
+		jimport('joomla.application.component.helper');
+		$config   = &JComponentHelper::getParams( 'com_users' );
+		$usertype = $config->get( 'new_usertype', 'Registered' );
+
+		$acl =& JFactory::getACL();
+
+		$instance->set( 'id'			, 0 );
+		$instance->set( 'name'			, $user['fullname'] );
+		$instance->set( 'username'		, $user['username'] );
+		$instance->set( 'password_clear', $user['password_clear'] );
+		$instance->set( 'email'			, $user['email'] );	// Result should contain an email (check)
+		$instance->set( 'gid'			, $acl->get_group_id( '', $usertype));
+		$instance->set( 'usertype'		, $usertype );
+
+		//If autoregister is set let's register the user
+		$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);
+
+		if($autoregister) 
+		{
+			if(!$instance->save()) {
+				return JError::raiseWarning('SOME_ERROR_CODE', $instance->getError());
+			}
+		}
+		
+		return $instance;
 	}
 }
 

@@ -69,11 +69,6 @@ class plgAuthenticationJoomla extends JPlugin
 		// Initialize variables
 		$conditions = '';
 		
-		//Make sure the group exists
-		if(!isset($credentials['group'])) {
-			$credentials['group'] = 0; 
-		}
-
 		// Get a database object
 		$db =& JFactory::getDBO();
 
@@ -84,29 +79,22 @@ class plgAuthenticationJoomla extends JPlugin
 		$db->setQuery( $query );
 		$result = $db->loadObject();
 		
+	
 		if($result)
 		{
-			if($result->gid > $credentials['group']) 
-			{
-				$parts	= explode( ':', $result->password );
-				$crypt	= $parts[0];
-				$salt	= @$parts[1];
-				$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt);
+			$parts	= explode( ':', $result->password );
+			$crypt	= $parts[0];
+			$salt	= @$parts[1];
+			$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt);
 
-				if ($crypt == $testcrypt) {
-					$email = JUser::getInstance($result->id); // Bring this in line with the rest of the system
-					$response->email = $email->email;
-					$response->status = JAUTHENTICATE_STATUS_SUCCESS;
-					$response->error_message = '';
-				} else {
-					$response->status = JAUTHENTICATE_STATUS_FAILURE;
-					$response->error_message = 'Invalid password';
-				}
-			} 
-			else 
-			{
+			if ($crypt == $testcrypt) {
+				$email = JUser::getInstance($result->id); // Bring this in line with the rest of the system
+				$response->email = $email->email;
+				$response->status = JAUTHENTICATE_STATUS_SUCCESS;
+				$response->error_message = '';
+			} else {
 				$response->status = JAUTHENTICATE_STATUS_FAILURE;
-				$response->error_message = 'Access denied';
+				$response->error_message = 'Invalid password';
 			}
 		}
 		else

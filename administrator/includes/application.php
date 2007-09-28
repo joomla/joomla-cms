@@ -173,8 +173,11 @@ class JAdministrator extends JApplication
 	*/
 	function login($credentials, $options = array())
 	{
-		$credentials['group']    = '22';  //The minimum group identifier
-		$options['autoregister'] = false; //Make sure users are not autoregistered
+		//The minimum group
+		$options['group'] = 'Public Backend';  
+		
+		 //Make sure users are not autoregistered
+		$options['autoregister'] = false; 			 
 
 		$result = parent::login($credentials, $options);
 
