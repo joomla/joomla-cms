@@ -36,6 +36,10 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+28-Sep-2007 Sam Moffatt
+ # Fixed [#7102] (IE7) Admin media component 
+
 27-Sep-2007 Rastin Mehr
 ^ Made small improvement to getTable( $name, $prefix ) method in JUser class so table prefixes can be passed too as well as the table name
 

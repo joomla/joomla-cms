@@ -49,6 +49,7 @@ class MediaHelper
 	 */
 	function canUpload( $file, &$err )
 	{
+		// TODO: Check the contents of the file to make sure that IE doesn't get tripped up
 		$params = &JComponentHelper::getParams( 'com_media' );
 
 		if(empty($file['name'])) {
