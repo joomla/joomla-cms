@@ -45,6 +45,9 @@ Legend:
    user plugin and the system is using ACL calls to authorize a user based on group names instead of 
    gid's. This allows the implementation of custom child groups.
 
+28-Sep-2007 Hannes Papenberg
+ ^ Switched DHTML JS calendar script to version 1.0 and implemented translation for it. The calendar files in /includes are now completely obsolete
+
 28-Sep-2007 Toby Patterson
  # Fixed [#6916] Mixed language in an error message.
  # Fixed [#7258] 404 page not found for Authors when they hit the save button in new article page

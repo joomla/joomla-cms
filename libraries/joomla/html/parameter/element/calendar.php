@@ -36,7 +36,7 @@ class JElementCalendar extends JElement
 	{
 		JHTML::_('behavior.calendar'); //load the calendar behavior
 
-		$format	= ( $node->attributes('format') ? $node->attributes('format') : 'y-mm-dd' );
+		$format	= ( $node->attributes('format') ? $node->attributes('format') : '%Y-%m-%d' );
 		$class	= $node->attributes('class') ? $node->attributes('class') : 'inputbox';
 
 		$id   = $control_name.$name;

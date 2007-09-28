@@ -283,17 +283,15 @@ class JHTMLBehavior
 
 	function calendar()
 	{
-		$lang =& JFactory::getLanguage();
+		$document =& JFactory::getDocument();
+		JHTML::stylesheet('calendar-jos.css', 'media/system/css/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
+		JHTML::script( 'calendar.js', 'media/system/js/' );
+		JHTML::script( 'calendar-setup.js', 'media/system/js/' );
 
-		JHTML::stylesheet('calendar-mos.css', 'includes/js/calendar/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
-		JHTML::script( 'calendar_mini.js', 'includes/js/calendar/' );
-		JHTML::script( 'joomla.javascript.js', 'includes/js/' );
-		
-		$langScript = JPATH_SITE.DS.'includes'.DS.'js'.DS.'calendar'.DS.'lang'.DS.'calendar-'.$lang->getTag().'.js';
-		if( file_exists( $langScript ) ){
-			JHTML::script( 'calendar-'.$lang->getTag().'.js', 'includes/js/calendar/lang/' );
-		} else {
-			JHTML::script( 'calendar-en-GB.js', 'includes/js/calendar/lang/' );
+		$translation = JHTMLBehavior::_calendartranslation();
+		if($translation)
+		{
+			$document->addScriptDeclaration($translation);
 		}
 	}
 
@@ -356,6 +354,35 @@ class JHTMLBehavior
 		$object .= '}';
 
 		return $object;
+	}
+
+	/**
+	 * Internal method to translate the JavaScript Calendar
+	 *
+	 * @return	string	JavaScript that translates the object
+	 * @since	1.5
+	 */
+	function _calendartranslation()
+	{
+		$return = 'Calendar._DN = new Array ("'.JText::_('Sunday').'", "'.JText::_('Monday').'", "'.JText::_('Tuesday').'", "'.JText::_('Wednesday').'", "'.JText::_('Thursday').'", "'.JText::_('Friday').'", "'.JText::_('Saturday').'", "'.JText::_('Sunday').'");Calendar._SDN = new Array ("'.JText::_('Sun').'", "'.JText::_('Mon').'", "'.JText::_('Tue').'", "'.JText::_('Wed').'", "'.JText::_('Thu').'", "'.JText::_('Fri').'", "'.JText::_('Sat').'", "'.JText::_('Sun').'"); Calendar._FD = 0;	Calendar._MN = new Array ("'.JText::_('January').'", "'.JText::_('February').'", "'.JText::_('March').'", "'.JText::_('April').'", "'.JText::_('May').'", "'.JText::_('June').'", "'.JText::_('July').'", "'.JText::_('August').'", "'.JText::_('September').'", "'.JText::_('October').'", "'.JText::_('November').'", "'.JText::_('December').'");	Calendar._SMN = new Array ("'.JText::_('Jan').'", "'.JText::_('Feb').'", "'.JText::_('Mar').'", "'.JText::_('Apr').'", "'.JText::_('May').'", "'.JText::_('Jun').'", "'.JText::_('Jul').'", "'.JText::_('Aug').'", "'.JText::_('Sep').'", "'.JText::_('Oct').'", "'.JText::_('Nov').'", "'.JText::_('Dec').'");Calendar._TT = {};Calendar._TT["INFO"] = "'.JText::_('About the calendar').'";
+		Calendar._TT["ABOUT"] =
+"DHTML Date/Time Selector\n" +
+"(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" +
+"For latest version visit: http://www.dynarch.com/projects/calendar/\n" +
+"Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details." +
+"\n\n" +
+"Date selection:\n" +
+"- Use the \xab, \xbb buttons to select year\n" +
+"- Use the " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " buttons to select month\n" +
+"- Hold mouse button on any of the above buttons for faster selection.";
+Calendar._TT["ABOUT_TIME"] = "\n\n" +
+"Time selection:\n" +
+"- Click on any of the time parts to increase it\n" +
+"- or Shift-click to decrease it\n" +
+"- or click and drag for faster selection.";
+
+		Calendar._TT["PREV_YEAR"] = "'.JText::_('Prev. year (hold for menu)').'";Calendar._TT["PREV_MONTH"] = "'.JText::_('Prev. month (hold for menu)').'";	Calendar._TT["GO_TODAY"] = "'.JText::_('Go Today').'";Calendar._TT["NEXT_MONTH"] = "'.JText::_('Next month (hold for menu)').'";Calendar._TT["NEXT_YEAR"] = "'.JText::_('Next year (hold for menu)').'";Calendar._TT["SEL_DATE"] = "'.JText::_('Select date').'";Calendar._TT["DRAG_TO_MOVE"] = "'.JText::_('Drag to move').'";Calendar._TT["PART_TODAY"] = "'.JText::_(' (today)').'";Calendar._TT["DAY_FIRST"] = "'.JText::_('Display %s first').'";Calendar._TT["WEEKEND"] = "0,6";Calendar._TT["CLOSE"] = "'.JText::_('Close').'";Calendar._TT["TODAY"] = "'.JText::_('Today').'";Calendar._TT["TIME_PART"] = "'.JText::_('(Shift-)Click or drag to change value').'";Calendar._TT["DEF_DATE_FORMAT"] = "'.JText::_('%Y-%m-%d').'"; Calendar._TT["TT_DATE_FORMAT"] = "'.JText::_('%a, %b %e').'";Calendar._TT["WK"] = "wk";Calendar._TT["TIME"] = "'.JText::_('Time:').'";';
+		return $return;
 	}
 }
 
