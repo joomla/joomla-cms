@@ -49,7 +49,7 @@ class JDocument extends JObject
 	 * @access  public
 	 */
 	var $link = '';
-	
+
 	/**
 	 * Document base URL
 	 *
@@ -236,7 +236,7 @@ class JDocument extends JObject
 		if (array_key_exists('link', $options)) {
 			$this->setLink($options['link']);
 		}
-		
+
 		if (array_key_exists('base', $options)) {
 			$this->setBase($options['base']);
 		}
@@ -411,7 +411,11 @@ class JDocument extends JObject
 	 * @return   void
 	 */
 	function addScriptDeclaration($content, $type = 'text/javascript') {
-		$this->_script[][strtolower($type)] = $content;
+		if (!isset($this->_script[strtolower($type)])) {
+			$this->_script[strtolower($type)] = $content;
+		} else {
+			$this->_script[strtolower($type)] .= chr(13).$content;
+		}
 	}
 
 	/**
@@ -438,7 +442,11 @@ class JDocument extends JObject
 	 * @return   void
 	 */
 	function addStyleDeclaration($content, $type = 'text/css') {
-		$this->_style[][strtolower($type)] = $content;
+		if (!isset($this->_script[strtolower($type)])) {
+			$this->_script[strtolower($type)] = $content;
+		} else {
+			$this->_script[strtolower($type)] .= chr(13).$content;
+		}
 	}
 
 	 /**
@@ -521,7 +529,7 @@ class JDocument extends JObject
 	function getTitle() {
 		return $this->title;
 	}
-	
+
 	/**
 	 * Sets the base URI of the document
 	 *
