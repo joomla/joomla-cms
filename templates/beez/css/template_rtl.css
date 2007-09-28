@@ -28,6 +28,7 @@ p{
 #fontsize{
 	right: auto;
 	left: 0px;
+
 }
 
 #fontsize p {
@@ -36,6 +37,7 @@ p{
 
 #fontsize p a
 {
+	display: -moz-inline-box;
 	padding: 2px 24px 2px 0px;
 }
 
@@ -53,9 +55,14 @@ p{
 	text-align: left;
 }
 
+#header ul li{
+	background: none;
+}
+
 #header ul li a:link,#header ul li a:visited{
 	border-left: solid 1px #666;
 	border-right: none;
+	display: -moz-inline-box;
 }
 
 #header form{
@@ -67,6 +74,14 @@ p{
 	text-align: right;
 }
 
+#wrapper {
+	margin:0 21% 0 0;
+}
+
+#main2{
+	float: right;
+}
+
 #left{
 	float: right;
 }
@@ -74,6 +89,11 @@ p{
 #right{
 	right: auto;
 	left: 0px;
+}
+
+#left h3{
+	margin:0pt 5pt 0pt 0px;
+	padding:7px 10px 7px 5px;
 }
 
 #right h3{
