@@ -385,6 +385,8 @@ class ContentModelArticle extends JModel
 
 		$article->reorder("catid = " . (int) $data['catid']);
 
+		$this->_article	=& $article;
+		
 		return true;
 	}
 
@@ -574,9 +576,13 @@ class ContentModelArticle extends JModel
 
 		if (!$user->authorize('com_content', 'edit', 'content', 'all'))
 		{
-			$where .= ' AND ( a.state = 1 OR a.state = -1)' .
+			$where .= ' AND ( ';
+			$where .= ' ( a.created_by = ' . (int) $user->id . ' ) ';
+			$where .= '   OR ';
+			$where .= ' ( a.state = 1 OR a.state = -1)' .
 					' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
 					' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
+			$where .= ' ) ';
 		}
 
 		return $where;

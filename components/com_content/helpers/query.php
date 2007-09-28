@@ -122,4 +122,3 @@ class ContentHelperQuery
 		return $results;
 	}
 }
-?>

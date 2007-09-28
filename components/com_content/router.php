@@ -132,4 +132,3 @@ function ContentParseRoute($segments)
 
 	return $vars;
 }
-?>

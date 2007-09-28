@@ -39,6 +39,7 @@ Legend:
 
 28-Sep-2007 Toby Patterson
  # Fixed [#6916] Mixed language in an error message.
+ # Fixed [#7258] 404 page not found for Authors when they hit the save button in new article page
 
 28-Sep-2007 Sam Moffatt
  # Fixed [#7102] (IE7) Admin media component 

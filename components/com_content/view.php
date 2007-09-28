@@ -13,4 +13,3 @@ class ContentView extends JView
 		JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 	}
 }
-?>
