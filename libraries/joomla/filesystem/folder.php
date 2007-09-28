@@ -238,6 +238,13 @@ class JFolder
 	 */
 	function delete($path)
 	{
+		// Sanity check
+		if ( ! $path ) {
+			// Bad programmer! Bad Bad programmer!
+			JError::raiseWarning(500, 'JFolder::delete: '.JText::_('Attempt to delete base directory') );
+			return false;
+		}	
+
 		// Initialize variables
 		jimport('joomla.client.helper');
 		$FTPOptions = JClientHelper::getCredentials('ftp');
