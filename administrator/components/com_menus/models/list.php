@@ -143,7 +143,17 @@ class MenusModelList extends JModel
 		// slice out elements based on limits
 		$list = array_slice( $list, $this->_pagination->limitstart, $this->_pagination->limit );
 
+		$db->setQuery('SELECT DISTINCT `option` FROM `#__components` WHERE 1');
+		$options = $db->loadResultarray();
+
+		$language = JFactory::getLanguage();
+		foreach($options as $option)
+		{
+			$language->load($option, JPATH_ADMINISTRATOR);
+		}
+
 		$i = 0;
+		$query = array();
 		foreach ( $list as $mitem )
 		{
 			$edit = '';
@@ -163,6 +173,21 @@ class MenusModelList extends JModel
 
 				case 'component':
 					$list[$i]->descrip 	= JText::_('Component');
+					$query 			= parse_url($list[$i]->link);
+					parse_str($query['query'], $view);
+					$list[$i]->view		= $list[$i]->com_name;
+					if (isset($view['view']))
+					{
+						$list[$i]->view	.= '/'.JText::_(ucfirst($view['view']));
+					}
+					if (isset($view['layout']))
+					{
+						$list[$i]->view	.= '/'.JText::_(ucfirst($view['layout']));
+					}
+					if (isset($view['task']) && !isset($view['view']))
+					{
+						$list[$i]->view	.= ' :: '.JText::_(ucfirst($view['task']));
+					}
 					break;
 
 				default:

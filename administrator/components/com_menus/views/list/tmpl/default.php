@@ -111,7 +111,7 @@
 				<?php echo $access;?>
 			</td>
 			<td>
-				<span class="editlinktip" style="text-transform:capitalize"><?php echo ($row->type == 'component') ? $row->com_name : $row->type; ?></span>
+				<span class="editlinktip" style="text-transform:capitalize"><?php echo ($row->type == 'component') ? $row->view : $row->type; ?></span>
 			</td>
 			<td align="center">
 				<?php echo $row->id; ?>
