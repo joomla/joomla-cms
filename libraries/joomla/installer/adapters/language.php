@@ -66,7 +66,7 @@ class JInstallerLanguage extends JObject
 			jimport('joomla.application.helper');
 			$client =& JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false) {
-				$this->parent->abort('Language Install: '.JText::_('Unknown client type').' ['.$cname.']');
+				$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('Unknown client type').' ['.$cname.']');
 				return false;
 			}
 			$basePath = $client->path;
@@ -90,7 +90,7 @@ class JInstallerLanguage extends JObject
 		// Check if we found the tag - if we didn't, we may be trying to install from an older language package
 		if ( ! $tag )
 		{
-			$this->parent->abort('Language Install: '.JText::_('The package did not specify a language tag.  Are you trying to install an old language package?'));
+			$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('The package did not specify a language tag.  Are you trying to install an old language package?'));
 			return false;
 		}
 
@@ -115,7 +115,7 @@ class JInstallerLanguage extends JObject
 		// Either we are installing a core pack or a core pack must exist for the language we are installing.
 		if (!$this->_core) {
 			if (!JFile::exists($this->parent->getPath('extension_site').DS.$this->get('tag').'.xml')) {
-				$this->parent->abort('Language Install: '.JText::_('No core pack exists for the language').' :'.$this->get('tag'));
+				$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('No core pack exists for the language').' :'.$this->get('tag'));
 				return false;
 			}
 		}
@@ -124,7 +124,7 @@ class JInstallerLanguage extends JObject
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_site'))) {
 			if (!$created = JFolder::create($this->parent->getPath('extension_site'))) {
-				$this->parent->abort('Language Install: '.JText::_('Failed to create directory').' "'.$this->parent->getPath('extension_site').'"');
+				$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('Failed to create directory').' "'.$this->parent->getPath('extension_site').'"');
 				return false;
 			}
 		}
@@ -178,12 +178,12 @@ class JInstallerLanguage extends JObject
 	{
 		$path = trim($tag);
 		if (!JFolder::exists($path)) {
-			JError::raiseWarning(100, 'Language Uninstall: '.JText::_('Language path is empty, cannot uninstall files'));
+			JError::raiseWarning(100, JText::_('Language').' '.JText::_('Uninstall').': '.JText::_('Language path is empty, cannot uninstall files'));
 			return false;
 		}
 
 		if (!JFolder::delete($path)) {
-			JError::raiseWarning(100, 'Language Uninstall: '.JText::_('Unable to remove language directory'));
+			JError::raiseWarning(100, JText::_('Language').' '.JText::_('Uninstall').': '.JText::_('Unable to remove language directory'));
 			return false;
 		}
 		return true;

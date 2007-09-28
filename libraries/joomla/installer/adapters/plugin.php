@@ -93,7 +93,7 @@ class JInstallerPlugin extends JObject
 		if (!empty ($pname) && !empty($group)) {
 			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$group);
 		} else {
-			$this->parent->abort('Plugin Install: '.JText::_('No plugin file specified'));
+			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('No plugin file specified'));
 			return false;
 		}
 
@@ -107,7 +107,7 @@ class JInstallerPlugin extends JObject
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root'))) {
 			if (!$created = JFolder::create($this->parent->getPath('extension_root'))) {
-				$this->parent->abort('Plugin Install: '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_root').'"');
+				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_root').'"');
 				return false;
 			}
 		}
@@ -146,7 +146,7 @@ class JInstallerPlugin extends JObject
 		$db->setQuery($query);
 		if (!$db->Query()) {
 			// Install failed, roll back changes
-			$this->parent->abort('Plugin Install: '.$db->stderr(true));
+			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
 		}
 		$id = $db->loadResult();
@@ -157,7 +157,7 @@ class JInstallerPlugin extends JObject
 			if (!$this->parent->getOverwrite())
 			{
 				// Install failed, roll back changes
-				$this->parent->abort('Plugin Install: '.JText::_('Plugin').' "'.$pname.'" '.JText::_('already exists!'));
+				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Plugin').' "'.$pname.'" '.JText::_('already exists!'));
 				return false;
 			}
 
@@ -179,7 +179,7 @@ class JInstallerPlugin extends JObject
 
 			if (!$row->store()) {
 				// Install failed, roll back changes
-				$this->parent->abort('Plugin Install: '.$db->stderr(true));
+				$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
 			}
 
@@ -197,7 +197,7 @@ class JInstallerPlugin extends JObject
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1)) {
 			// Install failed, rollback changes
-			$this->parent->abort('Plugin Install: '.JText::_('Could not copy setup file'));
+			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
 		return true;
@@ -227,13 +227,13 @@ class JInstallerPlugin extends JObject
 		// Is the plugin we are trying to uninstall a core one?
 		// Because that is not a good idea...
 		if ($row->iscore) {
-			JError::raiseWarning(100, 'Plugin Uninstall: '.JText::sprintf('WARNCOREPLUGIN', $row->name)."<br />".JText::_('WARNCOREPLUGIN2'));
+			JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCOREPLUGIN', $row->name)."<br />".JText::_('WARNCOREPLUGIN2'));
 			return false;
 		}
 
 		// Get the plugin folder so we can properly build the plugin path
 		if (trim($row->folder) == '') {
-			JError::raiseWarning(100, 'Plugin Uninstall: '.JText::_('Folder field empty, cannot remove files'));
+			JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('Folder field empty, cannot remove files'));
 			return false;
 		}
 
@@ -248,7 +248,7 @@ class JInstallerPlugin extends JObject
 
 			// If we cannot load the xml file return null
 			if (!$xml->loadFile($manifestFile)) {
-				JError::raiseWarning(100, 'Plugin Uninstall: '.JText::_('Could not load manifest file'));
+				JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('Could not load manifest file'));
 				return false;
 			}
 
@@ -259,7 +259,7 @@ class JInstallerPlugin extends JObject
 			 */
 			$root =& $xml->document;
 			if ($root->name() != 'install' && $root->name() != 'mosinstall') {
-				JError::raiseWarning(100, 'Plugin Uninstall: '.JText::_('Invalid manifest file'));
+				JError::raiseWarning(100, JText::_('Plugin').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
 				return false;
 			}
 

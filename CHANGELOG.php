@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Sep-2007 Toby Patterson
+ # Fixed [#6916] Mixed language in an error message.
+
 28-Sep-2007 Sam Moffatt
  # Fixed [#7102] (IE7) Admin media component 
 

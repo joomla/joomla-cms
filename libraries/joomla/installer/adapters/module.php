@@ -84,7 +84,7 @@ class JInstallerModule extends JObject
 			jimport('joomla.application.helper');
 			$client =& JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false) {
-				$this->parent->abort('Module Install: '.JText::_('Unknown client type').' ['.$client->name.']');
+				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.JText::_('Unknown client type').' ['.$client->name.']');
 				return false;
 			}
 			$basePath = $client->path;
@@ -110,7 +110,7 @@ class JInstallerModule extends JObject
 		if (!empty ($mname)) {
 			$this->parent->setPath('extension_root', $basePath.DS.'modules'.DS.$mname);
 		} else {
-			$this->parent->abort('Module Install: '.JText::_('No module file specified'));
+			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.JText::_('No module file specified'));
 			return false;
 		}
 
@@ -126,7 +126,7 @@ class JInstallerModule extends JObject
 		 * directory.
 		 */
 		if (file_exists($this->parent->getPath('extension_root'))&&!$this->parent->getOverwrite()) {
-			$this->parent->abort('Module Install: '.JText::_('Another module is already using directory').': "'.$this->parent->getPath('extension_root').'"');
+			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.JText::_('Another module is already using directory').': "'.$this->parent->getPath('extension_root').'"');
 			return false;
 		}
 
@@ -134,7 +134,7 @@ class JInstallerModule extends JObject
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root'))) {
 			if (!$created = JFolder::create($this->parent->getPath('extension_root'))) {
-				$this->parent->abort('Module Install: '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_root').'"');
+				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.JText::_('Failed to create directory').': "'.$this->parent->getPath('extension_root').'"');
 				return false;
 			}
 		}
@@ -180,7 +180,7 @@ class JInstallerModule extends JObject
 		$db->setQuery($query);
 		if (!$db->Query()) {
 			// Install failed, roll back changes
-			$this->parent->abort('Module Install: '.$db->stderr(true));
+			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
 		}
 		$id = $db->loadResult();
@@ -191,7 +191,7 @@ class JInstallerModule extends JObject
 			if ( ! $this->parent->getOverwrite())
 			{
 				// Install failed, roll back changes
-				$this->parent->abort('Module Install: '.JText::_('Module').' "'.$mname.'" '.JText::_('already exists!'));
+				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.JText::_('Module').' "'.$mname.'" '.JText::_('already exists!'));
 				return false;
 			}
 
@@ -212,7 +212,7 @@ class JInstallerModule extends JObject
 
 			if (!$row->store()) {
 				// Install failed, roll back changes
-				$this->parent->abort('Module Install: '.$db->stderr(true));
+				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
 			}
 
@@ -225,7 +225,7 @@ class JInstallerModule extends JObject
 			$db->setQuery( $query );
 			if (!$db->query()) {
 				// Install failed, roll back changes
-				$this->parent->abort('Module Install: '.$db->stderr(true));
+				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
 			}
 
@@ -235,7 +235,7 @@ class JInstallerModule extends JObject
 			$db->setQuery($query);
 			if (!$db->query()) {
 				// Install failed, roll back changes
-				$this->parent->abort('Module Install: '.$db->stderr(true));
+				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
 			}
 
@@ -255,7 +255,7 @@ class JInstallerModule extends JObject
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1)) {
 			// Install failed, rollback changes
-			$this->parent->abort('Module Install: '.JText::_('Could not copy setup file'));
+			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.JText::_('Could not copy setup file'));
 			return false;
 		}
 		return true;
@@ -285,7 +285,7 @@ class JInstallerModule extends JObject
 		// Is the module we are trying to uninstall a core one?
 		// Because that is not a good idea...
 		if ($row->iscore) {
-			JError::raiseWarning(100, 'Module Uninstall: '.JText::sprintf('WARNCOREMODULE', $row->name)."<br />".JText::_('WARNCOREMODULE2'));
+			JError::raiseWarning(100, JText::_('Module').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCOREMODULE', $row->name)."<br />".JText::_('WARNCOREMODULE2'));
 			return false;
 		}
 
@@ -293,7 +293,7 @@ class JInstallerModule extends JObject
 		jimport('joomla.application.helper');
 		$client =& JApplicationHelper::getClientInfo($row->client_id);
 		if ($client === false) {
-			$this->parent->abort('Module Uninstall: '.JText::_('Unknown client type').' ['.$row->client_id.']');
+			$this->parent->abort(JText::_('Module').' '.JText::_('Uninstall').': '.JText::_('Unknown client type').' ['.$row->client_id.']');
 			return false;
 		}
 		$this->parent->setPath('extension_root', $client->path.DS.'modules'.DS.$row->module);
@@ -332,7 +332,7 @@ class JInstallerModule extends JObject
 					' WHERE moduleid IN ('.$modID.')';
 			$db->setQuery($query);
 			if (!$db->query()) {
-				JError::raiseWarning(100, 'Module Uninstall: '.$db->stderr(true));
+				JError::raiseWarning(100, JText::_('Module').' '.JText::_('Uninstall').': '.$db->stderr(true));
 				$retval = false;
 			}
 		}
