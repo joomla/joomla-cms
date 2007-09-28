@@ -185,10 +185,6 @@ class ContentViewArticle extends ContentView
 		// Load the JEditor object
 		$editor =& JFactory::getEditor();
 
-		// Ensure the row data is safe html
-		jimport('joomla.filter.output');
-		JFilterOutput::objectHTMLSafe( $article);
-
 		// Build the page title string
 		$title = $article->id ? JText::_('Edit') : JText::_('New');
 
@@ -205,6 +201,10 @@ class ContentViewArticle extends ContentView
 		} else {
 			$article->text = $article->introtext;
 		}
+		
+		// Ensure the row data is safe html
+		jimport('joomla.filter.output');
+		JFilterOutput::objectHTMLSafe( $article);
 
 		$this->set('returnid',	$returnid);
 		$this->set('article',	$article);
