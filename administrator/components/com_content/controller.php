@@ -333,7 +333,7 @@ class ContentController extends JController
 	* @param integer The unique id of the record to edit (0 if new)
 	* @param integer The id of the content section
 	*/
-	function editContent()
+	function editContent($edit)
 	{
 		global $mainframe;
 
@@ -351,7 +351,8 @@ class ContentController extends JController
 
 		// Create and load the content table row
 		$row = & JTable::getInstance('content');
-		$row->load($id);
+		if($edit)
+			$row->load($id);
 
 		if ($id) {
 			$sectionid = $row->sectionid;

@@ -22,10 +22,12 @@ switch ($task)
 	case 'add':
 	case 'new_content_typed':
 	case 'new_content_section':
+		TOOLBAR_content::_EDIT(false);
+		break;
 	case 'edit':
 	case 'editA':
 	case 'edit_content_typed':
-		TOOLBAR_content::_EDIT( );
+		TOOLBAR_content::_EDIT(true);
 		break;
 /*
 	case 'showarchive':

@@ -37,12 +37,16 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+29-Sep-2007 Nur Aini Rakhmawati
+ # Fixed[#6111] article manager for multiple selection
+
 28-Sep-2007 Toby Patterson
  # Fixed [#6916] Mixed language in an error message.
  # Fixed [#7258] 404 page not found for Authors when they hit the save button in new article page
 
 28-Sep-2007 Sam Moffatt
- # Fixed [#7102] (IE7) Admin media component 
+ # Fixed [#7102] (IE7) Admin media component
 
 27-Sep-2007 Rastin Mehr
 ^ Made small improvement to getTable( $name, $prefix ) method in JUser class so table prefixes can be passed too as well as the table name

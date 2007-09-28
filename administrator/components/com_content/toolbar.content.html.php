@@ -18,18 +18,18 @@
 */
 class TOOLBAR_content
 {
-	function _EDIT()
+	function _EDIT($edit)
 	{
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		$cid = intval($cid[0]);
 
-		$text = ( $cid ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JToolBarHelper::title( JText::_( 'Article' ).': <small><small>[ '. $text.' ]</small></small>', 'addedit.png' );
 		JToolBarHelper::preview( 'index.php?option=com_content&id='.$cid.'&tmpl=component', true );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
-		if ( $cid ) {
+		if ( $edit ) {
 			// for existing articles the button is renamed `close`
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 		} else {
