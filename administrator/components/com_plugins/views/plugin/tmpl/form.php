@@ -129,7 +129,7 @@
 
 		if ($this->params->getNumParams('advanced')) {
 			echo $pane->startPanel(JText :: _('Advanced Parameters'), "advanced-page");
-			if($output = $params->render('params', 'advanced')) :
+			if($output = $this->params->render('params', 'advanced')) :
 				echo $output;
 			else :
 				echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no advanced parameters for this item')."</div>";
@@ -139,7 +139,7 @@
 
 		if ($this->params->getNumParams('legacy')) {
 			echo $pane->startPanel(JText :: _('Legacy Parameters'), "legacy-page");
-			if($output = $params->render('params', 'legacy')) :
+			if($output = $this->params->render('params', 'legacy')) :
 				echo $output;
 			else :
 				echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no legacy parameters for this item')."</div>";
