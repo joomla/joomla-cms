@@ -82,7 +82,7 @@ if (count( $rows ))
 			}
 			else
 			{
-				$linkA 	= 'index.php?option=com_users&task=edit&cid[]='. $row->created_by;
+				$linkA 	= 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $row->created_by;
 				$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. htmlspecialchars( $row->name, ENT_QUOTES ) .'</a>';
 			}
 		}
