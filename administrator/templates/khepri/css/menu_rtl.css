@@ -103,8 +103,10 @@ span.nolink {
 	cursor: pointer;
 	font-weight: bold;
 	color: #0B55C4;
+	display: -moz-inline-box;
+	border-right: none;
+	border-left: 1px solid #CCCCCC;
 }
-#submenu li { }
 
 #submenu span.nolink {
 	color: #999;
