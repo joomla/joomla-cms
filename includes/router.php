@@ -32,75 +32,75 @@ class JRouterSite extends JRouter
 	function __construct($options = array()) {
 		parent::__construct($options);
 	}
-	
+
 	function parse(&$uri)
 	{
 		$vars = array();
-		
+
 		// Get the path
 		$path = $uri->getPath();
-		
+
 		//Remove the suffix
-		if($this->_mode == JROUTER_MODE_SEF) 
+		if($this->_mode == JROUTER_MODE_SEF)
 		{
 			// Get the application
 			$app =& JFactory::getApplication();
-			
-			if($app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/')) 
+
+			if($app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
 			{
-				if($suffix = pathinfo($path, PATHINFO_EXTENSION)) 
+				if($suffix = pathinfo($path, PATHINFO_EXTENSION))
 				{
 					$path = str_replace('.'.$suffix, '', $path);
 					$vars['format'] = $suffix;
 				}
 			}
 		}
-		
-		//Remove basepath	
-		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));	 
-		
+
+		//Remove basepath
+		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));
+
 		//Remove prefix
-		$path = str_replace('index.php', '', $path); 		 			 
+		$path = str_replace('index.php', '', $path);
 
 		//Set the route
 		$uri->setPath(trim($path , '/'));
-		
+
 		$vars += parent::parse($uri);
 
 		return $vars;
 	}
-	
+
 	function &build($url)
 	{
 		$uri =& parent::build($url);
-		
+
 		// Get the path data
 		$route = $uri->getPath();
-		
+
 		//Add the suffix to the uri
-		if($this->_mode == JROUTER_MODE_SEF && $route) 
+		if($this->_mode == JROUTER_MODE_SEF && $route)
 		{
 			$app =& JFactory::getApplication();
-				
-			if($app->getCfg('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/')) 
+
+			if($app->getCfg('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
 			{
-				if($format = $uri->getVar('format', 'html')) 
+				if($format = $uri->getVar('format', 'html'))
 				{
 					$route .= '.'.$format;
 					$uri->delVar('format');
 				}
 			}
-			
+
 			if($app->getCfg('sef_rewrite'))
 			{
 				//Transform the route
 				$route = str_replace('index.php/', '', $route);
 			}
 		}
-	
+
 		//Add basepath to the uri
 		$uri->setPath(JURI::base(true).'/'.$route);
-		
+
 		return $uri;
 	}
 
@@ -194,7 +194,7 @@ class JRouterSite extends JRouter
 			{
 				$lenght = strlen($item->route); //get the lenght of the route
 
-				if($lenght > 0 && strpos($route.'/', $item->route.'/') === 0)
+				if($lenght > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink')
 				{
 					$route   = substr($route, $lenght);
 
@@ -278,12 +278,12 @@ class JRouterSite extends JRouter
 		}
 
 		$menu =& JSite::getMenu();
-		
+
 		/*
 		 * Built the application route
 		 */
-		$tmp = 'component/'.substr($query['option'], 4); 
-		 
+		$tmp = 'component/'.substr($query['option'], 4);
+
 		if(!empty($query['Itemid']))
 		{
 			$item = $menu->getItem($query['Itemid']);
@@ -292,7 +292,7 @@ class JRouterSite extends JRouter
 				$tmp = $item->route;
 			}
 		}
-		
+
 		$route .= '/'.$tmp;
 
 		/*
@@ -331,12 +331,12 @@ class JRouterSite extends JRouter
 	function _processParseRules(&$uri)
 	{
 		$vars = parent::_processParseRules($uri);
-		
-		if($this->_mode == JROUTER_MODE_SEF) 
+
+		if($this->_mode == JROUTER_MODE_SEF)
 		{
 			$app =& JFactory::getApplication();
-			
-			if($start = $uri->getVar('start')) 
+
+			if($start = $uri->getVar('start'))
 			{
 				$uri->delVar('start');
 				$vars['limitstart'] = $start;
@@ -349,21 +349,21 @@ class JRouterSite extends JRouter
 	function _processBuildRules(&$uri)
 	{
 		parent::_processBuildRules($uri);
-		
+
 		// Get the path data
 		$route = $uri->getPath();
-		
-		if($this->_mode == JROUTER_MODE_SEF && $route) 
+
+		if($this->_mode == JROUTER_MODE_SEF && $route)
 		{
 			$app =& JFactory::getApplication();
-			
+
 			if ($limitstart = $uri->getVar('limitstart'))
 			{
 				$uri->setVar('start', (int) $limitstart);
 				$uri->delVar('limitstart');
 			}
 		}
-		
+
 		$uri->setPath($route);
 	}
 
@@ -374,10 +374,10 @@ class JRouterSite extends JRouter
 
 		// Set URI defaults
 		$menu =& JSite::getMenu();
-		
+
 		// Get the itemid form the URI
 		$itemid = $uri->getVar('Itemid');
-		
+
 		if(is_null($itemid))
 		{
 			if($option = $uri->getVar('option'))
