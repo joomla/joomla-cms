@@ -211,9 +211,9 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 	{
 		$link = JRoute::_( '&showall=&limitstart='. ($i-1) );
 
-		if ( @$bot[1] )
+		if ( @$bot[0] )
 		{
-			$attrs2 = JUtility::parseAttributes($bot[1]);
+			$attrs2 = JUtility::parseAttributes($bot[0]);
 
 			if ( @$attrs2['title'] )
 			{
