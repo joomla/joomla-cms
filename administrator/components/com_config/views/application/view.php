@@ -122,8 +122,7 @@ class ConfigApplicationView
 	{
 		global $mainframe;
 
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-		$tip = '<img src="'.$url.'includes/js/ThemeOffice/warning.png" border="0"  alt="" />';
+		$tip = '<img src="'.JURI::root().'includes/js/ThemeOffice/warning.png" border="0"  alt="" />';
 
 		return $tip;
 	}

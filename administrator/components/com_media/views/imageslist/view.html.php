@@ -35,13 +35,11 @@ class MediaViewImagesList extends JView
 		JResponse::allowCache(false);
 
 		JHTML::_('behavior.mootools');
+		JHTML::_('stylesheet', 'popup-imagelist.css', 'administrator/components/com_media/assets/');
 
-		$document = &JFactory::getDocument();
-		$document->addStyleSheet('components/com_media/assets/popup-imagelist.css');
-
+		$document =& JFactory::getDocument();
 		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
 
-		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		$this->assign('baseURL', COM_MEDIA_BASEURL);
 		$this->assignRef('images', $this->get('images'));
 		$this->assignRef('folders', $this->get('folders'));

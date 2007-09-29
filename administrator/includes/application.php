@@ -27,14 +27,6 @@ jimport('joomla.application.component.helper');
 class JAdministrator extends JApplication
 {
 	/**
-	 * The url of the site
-	 *
-	 * @var string
-	 * @access protected
-	 */
-	var $_siteURL = null;
-
-	/**
 	* Class constructor
 	*
 	* @access protected
@@ -45,6 +37,9 @@ class JAdministrator extends JApplication
 	{
 		$config['clientId'] = 1;
 		parent::__construct($config);
+		
+		//Set the root in the URI based on the application name
+		JURI::root(null, str_replace('/'.$this->getName(), '', JURI::base(true)));
 	}
 
 	/**
@@ -121,7 +116,7 @@ class JAdministrator extends JApplication
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
 
 				if ( $user->get('id') ) {
-					$document->addScript( '../includes/js/joomla.javascript.js');
+					$document->addScript( JURI::root(true).'/includes/js/joomla.javascript.js');
 				}
 
 				JHTML::_('behavior.mootools');
@@ -226,25 +221,6 @@ class JAdministrator extends JApplication
 	}
 
 	/**
-	* Get the url of the site
-	*
-	* @return string The site URL
-	* @since 1.5
-	*/
-	function getSiteURL()
-	{
-		if(isset($this->_siteURL)) {
-			return $this->_siteURL;
-		}
-
-		$url = JURI::base();
-		$url = str_replace('administrator/', '', $url);
-
-		$this->_siteURL = $url;
-		return $url;
-	}
-
-	/**
 	* Purge the jos_messages table of old messages
 	*
 	* static method
@@ -291,5 +267,17 @@ class JAdministrator extends JApplication
 			$db->setQuery( $query );
 			$db->query();
 		}
+	}
+	
+   /**
+	* Deprecated, use JURI::root() instead.
+	*
+	* @since 1.5
+	* @deprecated As of version 1.5
+	* @see JURI::root()
+	*/
+	function getSiteURL()
+	{
+	   return JURI::root();
 	}
 }

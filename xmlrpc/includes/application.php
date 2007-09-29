@@ -26,14 +26,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class JXMLRPC extends JApplication
 {
 	/**
-	 * The url of the site
-	 *
-	 * @var string
-	 * @access protected
-	 */
-	var $_siteURL = null;
-
-	/**
 	 * The encoding (default: UTF-8)
 	 *
 	 * @var string
@@ -52,12 +44,13 @@ class JXMLRPC extends JApplication
 	{
 		$config['clientId'] = 4;
 		parent::__construct($config);
-	
-		$url = JURI::base();
-		$url = str_replace('xmlrpc/', '', $url);
-
-		$this->_siteURL = $url;
+		
+		//Set the encoding
 		$this->_encoding = "UTF-8";
+	
+		//Set the root in the URI based on the application name
+		JURI::root(null, str_replace('/'.$this->getName(), '', JURI::base(true)));
+		
 	}
 
 	/**
@@ -77,16 +70,6 @@ class JXMLRPC extends JApplication
 	 */
 	function setEncoding($encoding) {
 		$this->_encoding = $encoding;
-	}
-
-	/**
-	 * Get the url of the site
-	 *
-	 * @return string The site URL
-	 * @since 1.5
-	 */
-	function getSiteURL() {
-		return $this->_siteURL;
 	}
 }
 ?>

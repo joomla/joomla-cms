@@ -50,11 +50,8 @@ class plgEditorTinymce extends JPlugin
 	 */
 	function onInit()
 	{
-		global $mainframe;
-
 		$db			=& JFactory::getDBO();
 		$language	=& JFactory::getLanguage();
-		$url		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		$theme = $this->params->get( 'theme', 'advanced' );
 		// handling for former default option
@@ -256,9 +253,9 @@ class plgEditorTinymce extends JPlugin
 
 		// Tiny Compressed mode
 		if ( $compressed ) {
-			$load = "\t<script type=\"text/javascript\" src=\"".$url."plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php\"></script>\n";
+			$load = "\t<script type=\"text/javascript\" src=\"".JURI::root()."plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php\"></script>\n";
 		} else {
-			$load = "\t<script type=\"text/javascript\" src=\"".$url."plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
+			$load = "\t<script type=\"text/javascript\" src=\"".JURI::root()."plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
 		}
 
 		$buttons2 	= implode( ',', $buttons2 );
@@ -274,7 +271,7 @@ class plgEditorTinymce extends JPlugin
 			mode : \"textareas\",
 			gecko_spellcheck : \"true\",
 			editor_selector : \"mce_editable\",
-			document_base_url : \"". $url ."\",
+			document_base_url : \"". JURI::root() ."\",
 			entities : \"60,lt,62,gt\",
 			relative_urls : $relative_urls,
 			remove_script_host : false,

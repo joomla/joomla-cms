@@ -179,8 +179,6 @@ class JPaneTabs extends JPane
 	 */
 	function _loadBehavior($params = array())
 	{
-		global $mainframe;
-
 		// Include mootools framework
 		JHTML::_('behavior.mootools');
 
@@ -204,8 +202,7 @@ class JPaneTabs extends JPane
 		$js = '		window.addEvent(\'domready\', function(){ $$(\'dl.tabs\').each(function(tabs){ new JTabs(tabs, '.$options.'); }); });';
 
 		$document->addScriptDeclaration( $js );
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-		$document->addScript( $url. 'media/system/js/tabs.js' );
+		$document->addScript( JURI::root(). '/media/system/js/tabs.js' );
 	}
 }
 

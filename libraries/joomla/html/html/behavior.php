@@ -185,13 +185,10 @@ class JHTMLBehavior
 		if (isset($uploaders[$id]) && ($uploaders[$id])) {
 			return;
 		}
-
-		global $mainframe;
-		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
+	
 		// Setup options object
 		$opt['url']					= (isset($params['targetURL'])) ? $params['targetURL'] : null ;
-		$opt['swf']					= (isset($params['swf'])) ? $params['swf'] : $base.'media/system/swf/uploader.swf';
+		$opt['swf']					= (isset($params['swf'])) ? $params['swf'] : JURI::root(true).'/media/system/swf/uploader.swf';
 		$opt['multiple']			= (isset($params['multiple']) && !($params['multiple'])) ? '\\false' : '\\true';
 		$opt['queued']				= (isset($params['queued']) && !($params['queued'])) ? '\\false' : '\\true';
 		$opt['queueList']			= (isset($params['queueList'])) ? $params['queueList'] : 'upload-queue';
@@ -243,14 +240,11 @@ class JHTMLBehavior
 			return;
 		}
 
-		global $mainframe;
-		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
 		// Setup options object
 		$opt['div']		= (array_key_exists('div', $params)) ? $params['div'] : $id.'_tree';
 		$opt['mode']	= (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
 		$opt['grid']	= (array_key_exists('grid', $params)) ? '\\'.$params['grid'] : '\\true';
-		$opt['theme']	= (array_key_exists('theme', $params)) ? $params['theme'] : $base.'media/system/images/mootree.gif';
+		$opt['theme']	= (array_key_exists('theme', $params)) ? $params['theme'] : JURI::root(true).'/media/system/images/mootree.gif';
 
 		// Event handlers
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\'.$params['onExpand'] : null;

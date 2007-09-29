@@ -349,13 +349,13 @@ class JUser extends JObject
 		
 		//Set the default tabletype;
 		if(!isset($tabletype)) {
-			$tabletype['name'] 	= 'user';
+			$tabletype['name'] 		= 'user';
 			$tabletype['prefix']	= 'JTable';
 		}
 		
 		//Set a custom table type is defined
 		if(isset($type)) {
-			$tabletype['name'] 	= $type;
+			$tabletype['name'] 		= $type;
 			$tabletype['prefix']	= $prefix;
 		}
 		

@@ -32,7 +32,7 @@ if (defined('_JLEGACY')) {
 }
 
 // Print the preview button
-$output[] = "<span class=\"preview\"><a href=\"".$mainframe->getSiteURL()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
+$output[] = "<span class=\"preview\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('Preview')."</a></span>";
 
 // Get the number of unread messages in your inbox
 $query = 'SELECT COUNT(*)'

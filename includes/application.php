@@ -101,7 +101,7 @@ class JSite extends JApplication
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
 
 				if ( $user->get('id') ) {
-					$document->addScript( 'includes/js/joomla.javascript.js');
+					$document->addScript( JURI::root(true).'/includes/js/joomla.javascript.js');
 				}
 
 				if($router->getMode() == JROUTER_MODE_SEF) {

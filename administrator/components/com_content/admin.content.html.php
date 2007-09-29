@@ -688,7 +688,7 @@ class ContentView
 		$editor		=& JFactory::getEditor();
 
 		$document	=& JFactory::getDocument();
-		$document->setLink($mainframe->getSiteURL());
+		$document->setLink(JURI::root());
 
 		JHTML::_('behavior.caption');
 

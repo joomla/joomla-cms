@@ -298,9 +298,9 @@ class sections_html
 					</td>
 					<td rowspan="4" width="50%">
 						<?php
-							$path = $mainframe->getSiteURL() . "/images/";
-							if ($row->image != "blank.png") {
-								$path.= "stories/";
+							$path = JURI::root() . 'images/';
+							if ($row->image != 'blank.png') {
+								$path.= 'stories/';
 							}
 						?>
 						<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />

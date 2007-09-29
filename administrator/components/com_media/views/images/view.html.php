@@ -31,17 +31,10 @@ class MediaViewImages extends JView
 	{
 		global $mainframe;
 
-		//attach stylesheet to document
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
-		// Load the mootools framework
-		JHTML::_('behavior.mootools');
-		$doc =& JFactory::getDocument();
-		$doc->addStyleSheet('components/com_media/assets/popup-imagemanager.css');
-		$doc->addScript('components/com_media/assets/popup-imagemanager.js');
+		JHTML::_('script'    , 'popup-imagemanager.js', 'administrator/components/com_media/assets/');
+		JHTML::_('stylesheet', 'popup-imagemanager.css', 'administrator/components/com_media/assets/');
 
 		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ ImageManager.refreshFrame(); }'));
-
 
 		/*
 		 * Display form for FTP credentials?

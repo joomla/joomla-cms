@@ -86,7 +86,6 @@ class plgXMLRPCJoomlaServices
 
 		// Initialize variables
 		$db		=& JFactory::getDBO();
-		$url	= $mainframe->getSiteURL();
 
 		// Prepare arguments
 		$searchword	= $db->getEscaped( trim( $searchword ) );
@@ -103,7 +102,7 @@ class plgXMLRPCJoomlaServices
 		foreach ($results as $i=>$rows)
 		{
 			foreach ($rows as $j=>$row) {
-				$results[$i][$j]->href = eregi('^(http|https)://', $row->href) ? $row->href : $url.'/'.$row->href;
+				$results[$i][$j]->href = eregi('^(http|https)://', $row->href) ? $row->href : JURI::root().'/'.$row->href;
 				$results[$i][$j]->text = SearchHelper::prepareSearchContent( $row->text, 200, $searchword);
 			}
 		}

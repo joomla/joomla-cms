@@ -145,7 +145,7 @@ class JInstallationModel extends JModel
 
 		$vars	=& $this->getVars();
 
-		$vars['siteurl']	= $mainframe->getSiteURL();
+		$vars['siteurl']	= JURI::root();
 		$vars['adminurl']	= $vars['siteurl'].'administrator/';
 
 		return true;
@@ -658,7 +658,7 @@ class JInstallationModel extends JModel
 		jimport( 'joomla.user.helper' );
 
 		// Set some needed variables
-		$vars['siteUrl']		= $mainframe->getSiteURL();
+		$vars['siteUrl']		= JURI::root();
 		$vars['secret']			= JUserHelper::genRandomPassword(16);
 
 		$vars['offline']		= JText::_( 'STDOFFLINEMSG' );

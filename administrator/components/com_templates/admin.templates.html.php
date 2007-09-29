@@ -119,7 +119,7 @@ class TemplatesView
 			}
 ?>
 					</td>
-					<td><?php $img_path = ($client->id == 1 ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() ).'/templates/'.$row->directory.'/template_thumbnail.png'; ?>
+					<td><?php $img_path = ($client->id == 1 ? JURI::root().'administrator' : $mainframe->getSiteURL() ).'/templates/'.$row->directory.'/template_thumbnail.png'; ?>
 						<span class="editlinktip hasTip" title="<?php echo $row->name;?>::
 <img border=&quot;1&quot; src=&quot;<?php echo $img_path; ?>&quot; name=&quot;imagelib&quot; alt=&quot;<?php echo JText::_( 'No preview available' ); ?>&quot; width=&quot;206&quot; height=&quot;145&quot; />"><a href="index.php?option=com_templates&amp;task=edit&amp;cid[]=<?php echo $row->directory;?>&amp;client=<?php echo $client->id;?>">
 							<?php echo $row->name;?></a></span>

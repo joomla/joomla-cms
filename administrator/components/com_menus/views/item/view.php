@@ -144,7 +144,6 @@ class MenusViewItem extends JView
 
 		// Add scripts and stylesheets to the document
 		$document	= & JFactory::getDocument();
-		$url		= $mainframe->getSiteURL();
 
 		if($lang->isRTL()){
 			$document->addStyleSheet('components/com_menus/assets/type_rtl.css');
@@ -182,6 +181,7 @@ class MenusViewItem extends JView
 		$this->assignRef('item',		$item);
 		$this->assignRef('components',	$components);
 		$this->assignRef('expansion',	$expansion);
+		
 		parent::display($tpl);
 	}
 }

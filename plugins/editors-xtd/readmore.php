@@ -51,7 +51,6 @@ class plgButtonReadmore extends JPlugin
 		$doc 		=& JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		// button is not active in specific content components
 
 		$getContent = $this->_subject->getContent($name);

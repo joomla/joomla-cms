@@ -67,7 +67,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 					<jdoc:include type="component" />
 					<p><?php echo JText::_('DESCUSEVALIDLOGIN') ?></p>
 					<p>
-						<a href="<?php echo $mainframe->getSiteURL(); ?>"><?php echo JText::_('Return to site Home Page') ?></a>
+						<a href="<?php echo JURI::root(); ?>"><?php echo JText::_('Return to site Home Page') ?></a>
 					</p>
 					<div id="lock"></div>
 					<div class="clr"></div>

@@ -47,6 +47,9 @@ class JInstallation extends JApplication
 	
 		JError::setErrorHandling(E_ALL, 'Ignore');
 		$this->_createConfiguration();
+		
+		//Set the root in the URI based on the application name
+		JURI::root(null, str_replace('/'.$this->getName(), '', JURI::base(true)));
 	}
 
 	/**
@@ -224,24 +227,6 @@ class JInstallation extends JApplication
 		$ret['debug']	= $tags[2]->data();
 		return  $ret;
 
-	}
-
-	/**
-	* Get the url of the site
-	*
-	* @return string The site URL
-	* @since 1.5
-	*/
-	function getSiteURL()
-	{
-		if(isset($this->_siteURL)) {
-			return $this->_siteURL;
-		}
-
-		$url = JURI::base();
-		$url = str_replace('installation/', '', $url);
-		$this->_siteURL = $url;
-		return $url;
 	}
 }
 

@@ -266,7 +266,7 @@
 					<?php echo JText::_( 'Image' ); ?>
 				</td>
 				<td valign="top">
-					<img src="<?php echo $mainframe->getSiteURL();?>/images/stories/<?php echo $this->contact[0]->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
+					<img src="<?php echo JURI::root(); ?>images/stories/<?php echo $this->contact[0]->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
 				</td>
 			</tr>
 			<?php } ?>

@@ -50,14 +50,10 @@ class plgEditorXstandard extends JPlugin {
 	 */
 	function onInit()
 	{
-		global $mainframe;
-
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-
 		$html = '';
 		ob_start();
 		?>
-  		<script type="text/javascript" src="<?php echo $url; ?>plugins/editors/xstandard/xstandard.js"></script>
+  		<script type="text/javascript" src="<?php echo JURI::root() ?>/plugins/editors/xstandard/xstandard.js"></script>
 		<?php
 		$html = ob_get_contents();
 		ob_end_clean();
@@ -111,8 +107,6 @@ class plgEditorXstandard extends JPlugin {
 	 */
 	function onDisplay( $name, $content, $width, $height, $col, $row, $buttons = true )
 	{
-		global $mainframe;
-		
 		// Load modal popup behavior
 		JHTML::_('behavior.modal', 'a.modal-button');
 		
@@ -128,7 +122,6 @@ class plgEditorXstandard extends JPlugin {
 		$instance	=& JBrowser::getInstance();
 		$language	=& JFactory::getLanguage();
 		$db			=& JFactory::getDBO();
-		$url		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 		
 		$lang = substr( $language->getTag(), 0, strpos( $language->getTag(), '-' ) );
 		
@@ -154,7 +147,7 @@ class plgEditorXstandard extends JPlugin {
 			$template = 'system';
 		} 
 				
-		$css =  $url .'templates/'. $template . '/css/editor.css';
+		$css =  JURI::root() .'/templates/'. $template . '/css/editor.css';
 		
 		$html = '';
 		ob_start();
@@ -221,10 +214,7 @@ class plgEditorXstandard extends JPlugin {
 
 	function _getTemplateCss()
 	{
-		global $mainframe;
-
 		$db			=& JFactory::getDBO();
-		$url		= $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
 
 		/*
 		 * Lets get the default template for the site application
@@ -237,7 +227,7 @@ class plgEditorXstandard extends JPlugin {
 		$db->setQuery( $query );
 		$template = $db->loadResult();
 
-		$content_css = $url .'templates/'. $template .'/css/';
+		$content_css = JURI::root() .'/templates/'. $template .'/css/';
 
 		$file_path = JPATH_SITE .'/templates/'. $template .'/css/';
 		if ( file_exists( $file_path .DS. 'editor.css' ) ) {

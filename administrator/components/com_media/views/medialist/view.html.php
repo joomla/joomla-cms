@@ -51,8 +51,7 @@ class MediaViewMediaList extends JView
 			});
 		});");
 
-		$base = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
-		$this->assign('baseURL', $base);
+		$this->assign('baseURL', JURI::root());
 		$this->assignRef('images', $this->get('images'));
 		$this->assignRef('documents', $this->get('documents'));
 		$this->assignRef('folders', $this->get('folders'));

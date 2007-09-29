@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Sep-2007 Johan Janssens
+ ^ Deprecated JAdministratrion::getSiteURL, use JURI::root instead
+
 29-Sep-2007 Nur Aini Rakhmawati
  # Fixed [#6111] article manager for multiple selection
 

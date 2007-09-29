@@ -202,28 +202,52 @@ class JURI extends JObject
 	function base($pathonly = false)
 	{
 		static $base;
-		static $prefix;
-		
-		// Get the scheme
-		if(!isset($prefix))
-		{
-			$uri	 =& JURI::getInstance();
-			$prefix = $uri->toString( array('scheme', 'host', 'port'));
-		}
-
+	
 		// Get the base request path
 		if (!isset($base))
 		{
+			$uri	         =& JURI::getInstance();
+			$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
+			
 			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
 				//Apache CGI
-				$base =  rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+				$base['path'] =  rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 			} else {
 				//Others
-				$base =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+				$base['path'] =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 			}
 		}
 		
-		return $pathonly === false ? $prefix.$base.'/' : $base;	
+		return $pathonly === false ? $base['prefix'].$base['path'].'/' : $base['path'];	
+	}
+	
+	/**
+	 * Returns the root URI for the request.
+	 *
+	 * @access	public
+	 * @static
+	 * @param	boolean $pathonly If true, prepend the scheme, host and port information. Default is false.
+	 * @return	string	The root URI string
+	 * @since	1.5
+	 */
+	function root($pathonly = false, $path = null)
+	{
+		static $root;
+		
+		// Get the scheme
+		if(!isset($root))
+		{
+			$uri	        =& JURI::getInstance();
+			$root['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
+			$root['path']    = JURI::base(true);
+		}
+		
+		// Get the scheme
+		if(isset($path)) {
+			$root['path']    = $path;
+		}
+
+		return $pathonly === false ? $root['prefix'].$root['path'].'/' : $root['path'];
 	}
 
 	/**
