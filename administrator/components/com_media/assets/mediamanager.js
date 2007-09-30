@@ -86,8 +86,7 @@ var MediaManager = {
 			}
 		}, query);
 		a.query = query.join('&');
-
-		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+a.path+'?'+a.query);
+		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+':'+a.port+a.path+'?'+a.query);
 	},
 
 	oncreatefolder: function()

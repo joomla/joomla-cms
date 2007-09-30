@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Sep-2007 Mickael Maison
+ # [#7253] File upload not working in com_media when joomla is on non-standard port
+
 30-Sep-2007 Sam Moffatt
  # Fixed [#7372] Authentication - GMail null admin login error
  # Fixed [#6284] function utf8_strpos - warning message
