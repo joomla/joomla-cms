@@ -210,7 +210,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. ' a.created AS created,'
 		. ' a.introtext AS text,'
 		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
-		. ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'
+		. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug,'
 		. ' u.id AS sectionid,'
 		. ' "2" AS browsernav'
 		. ' FROM #__content AS a'
