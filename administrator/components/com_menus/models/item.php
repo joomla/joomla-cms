@@ -254,36 +254,55 @@ class MenusModelItem extends JModel
 		}
 		return $params;
 	}
-
+	
+	/**
+	 * Get the name of the current menu item
+	 *
+	 * @return	string
+	 * @access	public
+	 * @since	1.5
+	 */
 	function getStateName()
 	{
-		$name = null;
-		if ($state =& $this->_getStateXML())
+		$state =& $this->_getStateXML();
+		
+		if ( ! is_a($state, 'JSimpleXMLElement'))
 		{
-			if (is_a($state, 'JSimpleXMLElement'))
-			{
-				$sn =& $state->getElementByPath('name');
-				if ($sn) {
-					$name = $sn->data();
-				}
-			}
+			return null;
 		}
+		
+		$name = null;
+		$sn =& $state->getElementByPath('name');
+		if ($sn) {
+			$name = $sn->data();
+		}
+
 		return JText::_($name);
 	}
 
+	/**
+	 * Get the description of the current menu item
+	 *
+	 * @return	string
+	 * @access	public
+	 * @since	1.5
+	 */
 	function getStateDescription()
 	{
-		$description = null;
-		if ($state =& $this->_getStateXML())
+		$state =& $this->_getStateXML();
+
+		
+		if ( ! is_a($state, 'JSimpleXMLElement'))
 		{
-			if (is_a($state, 'JSimpleXMLElement'))
-			{
-				$sd =& $state->getElementByPath('description');
-				if ($sd) {
-					$description = $sd->data();
-				}
-			}
+			return null;
 		}
+		
+		$description = null;
+		$sd =& $state->getElementByPath('description');
+		if ($sd) {
+			$description = $sd->data();
+		}
+
 		return JText::_($description);
 	}
 
