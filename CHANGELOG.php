@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Sep-2007 Sam Moffatt
+ # Fixed [#7372] Authentication - GMail null admin login error
+ # Fixed [#6284] function utf8_strpos - warning message
+ 
 29-Sep-2007 Johan Janssens
  ^ Deprecated JAdministratrion::getSiteURL, use JURI::root instead
 

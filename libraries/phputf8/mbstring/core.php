@@ -25,11 +25,13 @@ if ( !defined('UTF8_CORE') ) {
 * @subpackage strings
 */
 function utf8_strpos($str, $search, $offset = FALSE){
-    if ( $offset === FALSE ) {
-        return mb_strpos($str, $search);
-    } else {
-        return mb_strpos($str, $search, $offset);
-    }
+	if(strlen($str) && strlen($search)) {
+	    if ( $offset === FALSE ) {
+	        return mb_strpos($str, $search);
+	    } else {
+	        return mb_strpos($str, $search, $offset);
+	    }
+	} else return FALSE;
 }
 
 //--------------------------------------------------------------------

@@ -54,29 +54,34 @@ class plgAuthenticationGMail extends JPlugin
 	 */
 	function onAuthenticate( $credentials, $options, &$response )
 	{
-		$curl = curl_init('https://mail.google.com/gmail/feed/atom');
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-		//curl_setopt($curl, CURLOPT_HEADER, 1);
-		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'].':'.$credentials['password']);
-		$result = curl_exec($curl);
-		$code = curl_getinfo ($curl, CURLINFO_HTTP_CODE);
 		$message = '';
 		$success = 0;
-
-		switch($code)
-		{
-			case 200:
-		 		$message = 'Access Granted';
-		 		$success = 1;
-			break;
-			case 401:
-				$message = 'Access Denied';
-			break;
-			default:
-				$message = 'Result unknown, access denied.';
-				break;
-		}
+		if(function_exists('curl_init')) {
+			if(strlen($credentials['username']) && strlen($credentials['password'])) {
+				$curl = curl_init('https://mail.google.com/gmail/feed/atom');
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+				//curl_setopt($curl, CURLOPT_HEADER, 1);
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+				curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'].':'.$credentials['password']);
+				$result = curl_exec($curl);
+				$code = curl_getinfo ($curl, CURLINFO_HTTP_CODE);
+				
+		
+				switch($code)
+				{
+					case 200:
+				 		$message = 'Access Granted';
+				 		$success = 1;
+					break;
+					case 401:
+						$message = 'Access Denied';
+					break;
+					default:
+						$message = 'Result unknown, access denied.';
+						break;
+				}
+			} else $message = 'Username or password blank';
+		} else $message = 'curl isn\'t insalled';
 
 		if ($success)
 		{
