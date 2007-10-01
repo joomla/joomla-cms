@@ -662,7 +662,7 @@ class MenusController extends JController
 
 		// Insert the menu type
 		$query = 'INSERT INTO `#__menu_types`  ( `menutype` , `title` , `description` ) ' .
-				' VALUES ( '.$db->Quote($menu_name).', '.$db->Quote(JText::_('New Menu')).', "")';
+				' VALUES ( '.$db->Quote($menu_name).', '.$db->Quote($menu_name).', "")';
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
 			echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
