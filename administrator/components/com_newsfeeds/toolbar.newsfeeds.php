@@ -20,8 +20,10 @@ require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 switch ($task)
 {
 	case 'add' :
+		TOOLBAR_newsfeeds::_EDIT(false);
+		break;
 	case 'edit':
-		TOOLBAR_newsfeeds::_EDIT();
+		TOOLBAR_newsfeeds::_EDIT(true);
 		break;
 
 	default:

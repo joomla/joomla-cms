@@ -372,8 +372,10 @@ function editCategory($edit )
 	. ' WHERE section = '.$db->Quote($row->section)
 	. ' ORDER BY ordering'
 	;
-	$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
-
+	if($edit)
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
+	else
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query );
 	// build the select list for the image positions
 	$active =  ( $row->image_position ? $row->image_position : 'left' );
 	$lists['image_position'] 	= JHTML::_('list.positions',  'image_position', $active, NULL, 0, 0 );

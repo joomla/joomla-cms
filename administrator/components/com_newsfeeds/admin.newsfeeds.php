@@ -33,8 +33,10 @@ $task 	= JRequest::getCmd('task');
 switch ($task) {
 
 	case 'add' :
+		editNewsFeed(false);
+		break;
 	case 'edit':
-		editNewsFeed( );
+		editNewsFeed(true);
 		break;
 
 	case 'save':
@@ -163,7 +165,7 @@ function showNewsFeeds(  )
 /**
 * Creates a new or edits and existing user record
 */
-function editNewsFeed(  )
+function editNewsFeed($edit)
 {
 	$db 		=& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
@@ -175,9 +177,10 @@ function editNewsFeed(  )
 
 	$row =& JTable::getInstance( 'newsfeed', 'Table' );
 	// load the row from the db table
+	if($edit)
 	$row->load( $cid[0] );
 
-	if ($cid[0]) {
+	if ($edit) {
 		// do stuff for existing records
 		$row->checkout( $user->get('id') );
 	} else {
@@ -193,7 +196,11 @@ function editNewsFeed(  )
 	. ' FROM #__newsfeeds AS a'
 	. ' ORDER BY a.ordering'
 	;
-	$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query, 1 );
+
+	if($edit)
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query, 1 );
+	else
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query, 1 );
 
 	// build list of categories
 	$lists['category'] 			= JHTML::_('list.category',  'catid', $option, intval( $row->catid ) );

@@ -33,17 +33,17 @@ class TOOLBAR_newsfeeds
 		JToolBarHelper::help( 'screen.newsfeeds' );
 	}
 
-	function _EDIT()
+	function _EDIT($edit)
 	{
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
 
-		$text 	= ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		$text 	= ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JToolBarHelper::title(  JText::_( 'Newsfeed' ).': <small><small>[ '. $text.' ]</small></small>' );
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
-		if ($cid[0]) {
+		if ($edit) {
 			// for existing items the button is renamed `close`
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 		} else {

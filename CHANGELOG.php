@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+1-Oct-2007 Nur Aini Rakhmawati
+ # Fixed [#6111] article,section,categories,news and contact manager for multiple selection
+
 1-Oct-2007 Toby Patterson
  # Fixed [topic,216726] 9025 --- A bug related to menu item copying
 
@@ -46,7 +49,7 @@ Legend:
 30-Sep-2007 Sam Moffatt
  # Fixed [#7372] Authentication - GMail null admin login error
  # Fixed [#6284] function utf8_strpos - warning message
- 
+
 29-Sep-2007 Johan Janssens
  ^ Deprecated JAdministratrion::getSiteURL, use JURI::root instead
 
@@ -55,7 +58,7 @@ Legend:
 
 28-Sep-2007 Johan Janssens
  ^ Improved flexibility of the user plugins. The authorization routine has been moved to the Joomla!
-   user plugin and the system is using ACL calls to authorize a user based on group names instead of 
+   user plugin and the system is using ACL calls to authorize a user based on group names instead of
    gid's. This allows the implementation of custom child groups.
 
 28-Sep-2007 Hannes Papenberg
@@ -69,7 +72,7 @@ Legend:
  # Fixed [#7102] (IE7) Admin media component
 
 27-Sep-2007 Rastin Mehr
-^ Made small improvement to getTable( $name, $prefix ) method in JUser class so table prefixes can 
+^ Made small improvement to getTable( $name, $prefix ) method in JUser class so table prefixes can
   be passed too as well as the table name
 
 26-Sep-2007 Johan Janssens

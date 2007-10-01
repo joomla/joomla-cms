@@ -20,9 +20,11 @@ require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 switch ( $task )
 {
 	case 'add'  :
+		TOOLBAR_contact::_EDIT(false);
+		break;
 	case 'edit' :
 	case 'editA':
-		TOOLBAR_contact::_EDIT();
+		TOOLBAR_contact::_EDIT(true);
 		break;
 
 	default:

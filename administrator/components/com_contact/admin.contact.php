@@ -35,8 +35,10 @@ JArrayHelper::toInteger($cid, array(0));
 switch ($task)
 {
 	case 'add' :
+		editContact(false );
+		break;
 	case 'edit':
-		editContact( );
+		editContact(true);
 		break;
 
 	case 'apply':
@@ -179,7 +181,7 @@ function showContacts( $option )
 * @param int The id of the record, 0 if a new entry
 * @param string The current GET/POST option
 */
-function editContact( )
+function editContact($edit )
 {
 	$db		=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
@@ -191,9 +193,10 @@ function editContact( )
 
 	$row =& JTable::getInstance('contact', 'Table');
 	// load the row from the db table
+	if($edit)
 	$row->load( $cid[0] );
 
-	if ($cid[0]) {
+	if ($edit) {
 		// do stuff for existing records
 		$row->checkout($user->get('id'));
 	} else {
@@ -211,7 +214,10 @@ function editContact( )
 	. ' AND catid = '.(int) $row->catid
 	. ' ORDER BY ordering'
 	;
-	$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query, 1 );
+	if($edit)
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query, 1 );
+	else
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query, 1 );
 
 	// build list of users
 	$lists['user_id'] 			= JHTML::_('list.users',  'user_id', $row->user_id, 1, NULL, 'name', 0 );

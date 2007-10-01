@@ -524,7 +524,10 @@ class ContentController extends JController
 				' WHERE catid = ' . (int) $row->catid .
 				' AND state >= 0' .
 				' ORDER BY ordering';
-		$lists['ordering'] = JHTML::_('list.specificordering', $row, $id, $query, 1);
+		if($edit)
+			$lists['ordering'] = JHTML::_('list.specificordering', $row, $id, $query, 1);
+		else
+			$lists['ordering'] = JHTML::_('list.specificordering', $row, '', $query, 1);
 
 		// build the html radio buttons for frontpage
 		$lists['frontpage'] = JHTML::_('select.booleanlist', 'frontpage', '', $row->frontpage);
