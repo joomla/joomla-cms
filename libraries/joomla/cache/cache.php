@@ -94,10 +94,8 @@ class JCache extends JObject
 	{
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
-		$path = JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'handler'.DS.$type.'.php';
-		if (file_exists($path)) {
-			require_once $path;
-		} else {
+		$path = 'joomla.cache.handler.'.$type;
+		if ( @ ! jimport($path)) {
 			JError::raiseError(500, 'Unable to load Cache Handler: '.$type);
 		}
 

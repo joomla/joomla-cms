@@ -68,10 +68,8 @@ class JCacheStorage extends JObject
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 		if (!isset($instances[$handler]))
 		{
-			$path = JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'storage'.DS.$handler.'.php';
-			if (file_exists($path)) {
-				require_once $path;
-			} else {
+			$path = 'joomla.cache.storage.'.$handler;
+			if ( @ ! jimport($path) ) {
 				return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
 			}
 
