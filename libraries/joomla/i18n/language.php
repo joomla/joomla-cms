@@ -250,18 +250,24 @@ class JLanguage extends JObject
 	 * @access	public
 	 * @param	string 	$extension 	The extension for which a language file should be loaded
 	 * @param	string 	$basePath  	The basepath to use
+	 * @param	string	$lang		The language to load, default null for the current language
+	 * @param	boolean $reload		Flag that will force a language to be reloaded if set to true
 	 * @return	boolean	True, if the file has successfully loaded.
 	 * @since	1.5
 	 */
-	function load( $extension = 'joomla', $basePath = JPATH_BASE )
+	function load( $extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false )
 	{
-		$path = JLanguage::getLanguagePath( $basePath, $this->_lang);
+		if ( ! $lang ) {
+			$lang = $this->_lang;
+		}
 
-		$filename = ( $extension == 'joomla' ) ?  $this->_lang : $this->_lang . '.' . $extension ;
+		$path = JLanguage::getLanguagePath( $basePath, $lang);
+
+		$filename = ( $extension == 'joomla' ) ?  $lang : $lang . '.' . $extension ;
 		$filename = $path.DS.$filename.'.ini';
 
 		$result = false;
-		if (isset( $this->_paths[$extension][$filename] ))
+		if (isset( $this->_paths[$extension][$filename] ) && ! $reload )
 		{
 			// Strings for this file have already been loaded
 			$result = true;

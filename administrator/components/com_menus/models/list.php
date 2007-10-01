@@ -143,14 +143,18 @@ class MenusModelList extends JModel
 		// slice out elements based on limits
 		$list = array_slice( $list, $this->_pagination->limitstart, $this->_pagination->limit );
 
-		$db->setQuery('SELECT DISTINCT `option` FROM `#__components` WHERE 1');
+		// Load the language files for the various components
+		$db->setQuery('SELECT DISTINCT `option` FROM `#__components` WHERE 1 AND `option` != "com_menus" ');
 		$options = $db->loadResultarray();
-
 		$language = JFactory::getLanguage();
+		
 		foreach($options as $option)
 		{
 			$language->load($option, JPATH_ADMINISTRATOR);
 		}
+		
+		// Load our language file again so that we get the correct text.
+		$language->load('com_menus', JPATH_ADMINISTRATOR, null, true);
 
 		$i = 0;
 		$query = array();
