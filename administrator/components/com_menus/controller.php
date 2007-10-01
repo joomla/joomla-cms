@@ -433,11 +433,15 @@ class MenusController extends JController
 		$isChanged	= ($oldType->menutype != $menuType->menutype);
 
 		if (!$menuType->check()) {
-			return JError::raiseWarning( 500, $row->getError() );
+			JError::raiseWarning( 500, $menuType->getError() );
+			$this->setRedirect( 'index.php?option=com_menus&task=editMenu', 'Please check your menu settings' );
+			return false;
 		}
 
 		if (!$menuType->store()) {
-			return JError::raiseWarning( 500, $row->getError() );
+			JError::raiseWarning( 500, $menuType->getError() );
+			$this->setRedirect( 'index.php?option=com_menus&task=editMenu', 'Please check your menu settings' );
+			return false;
 		}
 
 		if ($isNew)

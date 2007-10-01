@@ -57,6 +57,28 @@ class JTableMenuTypes extends JTable
 		if (trim( $this->title) == '') {
 			$this->title = $this->menutype;
 		}
+
+		$db		=& JFactory::getDBO();
+		
+		// check for unique menutype for new menu copy
+		$query = 'SELECT menutype' .
+				' FROM #__menu_types';
+		if ( $this->id ) {
+			$query .= ' AND id != '.(int) $this->id;
+		}
+		
+		$db->setQuery( $query );
+		$menus = $db->loadResultArray();
+
+		foreach ( $menus as $menutype )
+		{
+			if ( $menutype == $this->menutype )
+			{
+				$this->setError("Cannot save: Duplicate menu type '$this->menutype'");
+				return false;
+			}
+		}
+
 		return true;
 	}
 }

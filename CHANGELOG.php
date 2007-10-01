@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+1-Oct-2007 Toby Patterson
+ # Fixed [topic,216726] 9025 --- A bug related to menu item copying
+
 30-Sep-2007 Mickael Maison
  # [#7253] File upload not working in com_media when joomla is on non-standard port
 
