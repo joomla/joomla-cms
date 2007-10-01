@@ -215,7 +215,7 @@ class MenusModelMenutype extends JModel
 
 		// Delete Associations
 		if (!$this->deleteByType( $table->menutype )) {
-			$this->setError( $menu->getError() );
+			$this->setError( $this->getError() );
 			return false;
 		}
 
