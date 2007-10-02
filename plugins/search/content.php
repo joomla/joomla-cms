@@ -66,7 +66,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	jimport('joomla.utilities.date');
 	$date = new JDate();
 	$now = $date->toMySQL();
-	
+
 	$text = trim( $text );
 	if ($text == '') {
 		return array();
@@ -132,7 +132,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	$rows = array();
 
 	// search articles
-	if ( $sContent ) 
+	if ( $sContent && $limit > 0 ) 
 	{
 		$query = 'SELECT a.title AS title,'
 		. ' a.created AS created,'
@@ -159,6 +159,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		;
 		$db->setQuery( $query, 0, $limit );
 		$list = $db->loadObjectList();
+		$limit -= count($list);
 
 		if(isset($list))
 		{
@@ -171,7 +172,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// search uncategorised content
-	if ( $sUncategorised ) 
+	if ( $sUncategorised && $limit > 0 ) 
 	{
 		$query = 'SELECT id, a.title AS title, a.created AS created,'
 		. ' a.introtext AS text,'
@@ -188,6 +189,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		;
 		$db->setQuery( $query, 0, $limit );
 		$list2 = $db->loadObjectList();
+		$limit -= count($list2);
 
 		if(isset($list2))
 		{
@@ -201,7 +203,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// search archived content
-	if ( $sArchived ) 
+	if ( $sArchived && $limit > 0 ) 
 	{
 		$searchArchived = JText::_( 'Archived' );
 
