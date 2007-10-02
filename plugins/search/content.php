@@ -66,8 +66,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	jimport('joomla.utilities.date');
 	$date = new JDate();
 	$now = $date->toMySQL();
-	//$now 			= date( 'Y-m-d H:i:s', time()+$mainframe->getCfg('offset')*60*60 );
-
+	
 	$text = trim( $text );
 	if ($text == '') {
 		return array();
@@ -241,27 +240,15 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		$rows[] = $list3;
 	}
 
-
-	$count = count( $rows );
-	if ( $count > 1 ) {
-		switch ( $count ) {
-			case 2:
-				$results = array_merge( (array) $rows[0], (array) $rows[1] );
-				break;
-
-			case 3:
-				$results = array_merge( (array) $rows[0], (array) $rows[1], (array) $rows[2] );
-				break;
-
-			case 4:
-			default:
-				$results = array_merge( (array) $rows[0], (array) $rows[1], (array) $rows[2], (array) $rows[3] );
-				break;
+	$results = array();
+	if(count($rows))
+	{
+		foreach($rows as $row)
+		{
+			$results = array_merge($results, (array) $row);
 		}
-
-		return $results;
-	} else if ( $count == 1 ) {
-		return $rows[0];
 	}
+	
+	return $results;
 }
 ?>
