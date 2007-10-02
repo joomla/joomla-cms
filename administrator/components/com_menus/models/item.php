@@ -112,7 +112,7 @@ class MenusModelItem extends JModel
 				break;
 		}
 
-		$item = clone($table);
+		$item = $table;
 		return $item;
 	}
 
