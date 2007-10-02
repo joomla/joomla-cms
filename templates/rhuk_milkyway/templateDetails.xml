@@ -59,6 +59,7 @@
 		<filename>css/ieonly.css</filename>
 	</files>
 	<positions>
+		<position>breadcrumbs</position>
 		<position>left</position>
 		<position>right</position>
 		<position>top</position>
