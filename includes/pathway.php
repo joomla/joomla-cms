@@ -41,8 +41,10 @@ class JPathwaySite extends JPathway
 			
 			if( $item->id != $home->id)
 			{
-				foreach($item->tree as $menupath) {
-					$this->addItem( $menus[$menupath]->name, 'index.php?Itemid='.$menupath);
+				foreach($item->tree as $menupath) 
+				{
+					$link = $menu->getItem($menupath);
+					$this->addItem( $menus[$menupath]->name, $link->link);
 				}
 			}
 		}
