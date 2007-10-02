@@ -612,7 +612,7 @@ class JApplication extends JObject
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
-	function &getRouter($name=null, $options = array())
+	function &getRouter($name = null, $options = array())
 	{
 		if(!isset($name)) {
 			$name = $this->_name;
@@ -635,7 +635,7 @@ class JApplication extends JObject
 	 * @return object JPathway.
 	 * @since 1.5
 	 */
-	function &getPathway($name=null, $options = array())
+	function &getPathway($name = null, $options = array())
 	{
 		if(!isset($name)) {
 			$name = $this->_name;
@@ -658,7 +658,7 @@ class JApplication extends JObject
 	 * @return object JMenu.
 	 * @since 1.5
 	 */
-	function &getMenu($name=null, $options = array())
+	function &getMenu($name = null, $options = array())
 	{
 		if(!isset($name)) {
 			$name = $this->_name;
