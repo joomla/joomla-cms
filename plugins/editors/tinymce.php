@@ -231,7 +231,7 @@ class plgEditorTinymce extends JPlugin
 					$template = 'system';
 				}
 
-				$content_css = 'content_css : "' . $url .'templates/'. $template . '/css/editor.css",';
+				$content_css = 'content_css : "' . JURI::root() .'templates/'. $template . '/css/editor.css",';
 			} else {
 				$content_css = '';
 			}
