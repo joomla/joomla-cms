@@ -88,19 +88,11 @@ class NewsfeedsViewNewsfeed extends JView
 		$document->setTitle( $newsfeed->name . ' - '. $params->get( 'page_title'));
 
 		//set breadcrumbs
-		if($menu->query['view'] != 'newsfeed')
-		{
-			switch ($menu->query['view'])
-			{
-				case 'categories':
-					$pathway->addItem($newsfeed->category, 'index.php?view=category&id='.$newsfeed->catslug);
-					$pathway->addItem($newsfeed->name, '');
-					break;
-				case 'category':
-					$pathway->addItem($newsfeed->name, '');
-					break;
-			}
+		$viewname	= JRequest::getString('view');
+		if ( $viewname == 'categories' ) {
+			$pathway->addItem($newsfeed->category, 'index.php?view=category&id='.$newsfeed->catslug);
 		}
+		$pathway->addItem($newsfeed->name, '');
 
 		$this->assignRef('params'  , $params   );
 		$this->assignRef('newsfeed', $newsfeed );
