@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+2-Oct-2007 Mickael Maison
+ # Fixed [#6949] change ugly javascript silent catch 
+ # Fixed [#6180] Additional language definiton request for "Reset"
+
 1-Oct-2007 Nur Aini Rakhmawati
  # Fixed [#6111] article,section,categories,news and contact manager for multiple selection
 

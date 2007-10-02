@@ -322,10 +322,9 @@ function submitform(pressbutton){
 	if (pressbutton) {
 		document.adminForm.task.value=pressbutton;
 	}
-	try {
+	if (typeof document.adminForm.onsubmit == "function") {
 		document.adminForm.onsubmit();
-		}
-	catch(e){}
+	}
 	document.adminForm.submit();
 }
 
