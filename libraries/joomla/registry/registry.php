@@ -404,17 +404,20 @@ class JRegistry extends JObject
 	 */
 	function merge(&$source)
 	{
-		if (is_a($source, 'JRegistry')) {
+		if (is_a($source, 'JRegistry')) 
+		{
 			$sns = $source->getNameSpaces();
 			foreach ($sns as $ns)
 			{
-				if (!isset($this->_registry[$ns])) {
+				if (!isset($this->_registry[$ns])) 
+				{
 					// If namespace does not exist, make it and load the data
 					$this->makeNameSpace($ns);
 				}
 
 				// Load the variables into the registry's default namespace.
-				foreach ($source->toArray($ns) as $k => $v) {
+				foreach ($source->toArray($ns) as $k => $v) 
+				{
 					if ($v != null) {
 						$this->_registry[$ns]['data']->$k = $v;
 					}
