@@ -38,7 +38,7 @@ Legend:
 ! -> Note
 
 2-Oct-2007 Mickael Maison
- # Fixed [#6949] change ugly javascript silent catch 
+ # Fixed [#6949] Change ugly javascript silent catch 
  # Fixed [#6180] Additional language definiton request for "Reset"
 
 1-Oct-2007 Nur Aini Rakhmawati
@@ -58,7 +58,7 @@ Legend:
  ^ Deprecated JAdministratrion::getSiteURL, use JURI::root instead
 
 29-Sep-2007 Nur Aini Rakhmawati
- # Fixed [#6111] article manager for multiple selection
+ # Fixed [#6111] Article manager for multiple selection
 
 28-Sep-2007 Johan Janssens
  ^ Improved flexibility of the user plugins. The authorization routine has been moved to the Joomla!
