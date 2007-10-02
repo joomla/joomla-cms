@@ -176,7 +176,7 @@ class TableWeblink extends JTable
 		jimport('joomla.filter.output');
 		$alias = JFilterOutput::stringURLSafe($this->title);
 
-		if(empty($this->alias) || $this->alias === $alias ) {
+		if(empty($this->alias)) {
 			$this->alias = $alias;
 		}
 
