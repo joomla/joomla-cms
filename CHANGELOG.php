@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+4-Oct-2007 Hannes Papenberg
+ + Added Dynamic Document Title option to global config
+ # Fixed adress_check in com_contact
+
 04-Oct-2007 Andrew Eddie
  # Fixed double query in database explain methods
 
