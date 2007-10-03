@@ -270,7 +270,7 @@ class JHTML
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString( $attribs );
 		}
-		$document = JFactory::getDocument();
+		$document =& JFactory::getDocument();
 		$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
         inputField     :    "'.$id.'",     // id of the input field
         ifFormat       :    "'.$format.'",      // format of the input field

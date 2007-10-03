@@ -283,8 +283,7 @@ class JHTMLBehavior
 		JHTML::script( 'calendar-setup.js', 'media/system/js/' );
 
 		$translation = JHTMLBehavior::_calendartranslation();
-		if($translation)
-		{
+		if($translation) {
 			$document->addScriptDeclaration($translation);
 		}
 	}
