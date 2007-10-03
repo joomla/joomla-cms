@@ -344,11 +344,6 @@ function saveOrder( &$cid )
 		if (!$db->query()) {
 			JError::raiseError(500, $db->getErrorMsg() );
 		}
-
-		// update ordering
-		$row =& JTable::getInstance('frontpage','Table');
-		$row->load( $cid[$i] );
-		$row->reorder();
 	}
 
 	$cache = & JFactory::getCache('com_content');
