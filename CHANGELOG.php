@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Oct-2007 Mati Kochen
+ ^ RTL Issues
+ 
 4-Oct-2007 Hannes Papenberg
  + Added Dynamic Document Title option to global config
  # Fixed adress_check in com_contact

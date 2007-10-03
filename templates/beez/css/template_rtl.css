@@ -127,25 +127,8 @@ form.login label.remember, form.login input.checkbox{
 
 form.login .button{
 	clear: right;
-}
-
-form.login .button,
-#main a.readon, #main2 a.readon,
-#main .leading .readon, #main2 .leading .readon,
-#main a.readon:hover, #main2 a.readon:hover, #main a.readon:active, #main2 a.readon:active, #main a.readon:focus, #main2 a.readon:focus{
-	background: url(../images/pfeil_rtl.gif) no-repeat scroll right 50%;
-	padding-right: 30px !important;
-	padding-left: 0px !important;
-}
-
-
-form.login .button{
-	background-color: #CC3399;
-}
-
-#main .leading .readon, 
-#main2 .leading .readon{
-	background-color: #93246F;
+	background: #CC3399 url(../images/pfeil_rtl.gif) no-repeat scroll right;
+	padding: 0pt 30px 0pt 0pt !important;
 }
 
 #main ul li, #main2 ul li {
@@ -160,12 +143,30 @@ form.login .button{
 	padding:0 10px 0 0;
 }
 
-#main a.readon:hover, #main2 a.readon:hover, #main a.readon:active, #main2 a.readon:active, #main a.readon:focus, #main2 a.readon:focus{
-	background-color: #000000;
+#main .leading .readon, #main2 .leading .readon{
+	background: #93246F url(../images/pfeil_rtl.gif) no-repeat scroll right;
+	padding: 2px 30px 0pt 2px;
+	right: auto;
+	left: 0px;
+}
+
+#main a.readon:hover, #main2 a.readon:hover, #main a.readon:active, #main2 a.readon:active, #main a.readon:focus, #main2 a.readon:focus {
+	background:#000000 url(../images/pfeil_rtl.gif) no-repeat scroll right;
+	padding:2px 30px 0pt 2px;
+}
+
+#main a.readon, #main2 a.readon {
+	background:transparent url(../images/pfeil_rtl.gif) no-repeat scroll right;
+	padding:2px 30px 0pt 2px;
+	display: table-cell;
 }
 
 #right form.poll fieldset label{
 	padding: 0 4px 0 0;
+}
+
+#right ul{
+	padding: 10px 0 10px 10px;
 }
 
 #left ul{
@@ -192,6 +193,10 @@ ul.pagination{
 	text-align: right;
 }
 
+ul.pagination li {
+	display: -moz-inline-box;
+}
+
 #footer p{
 	float: left;
 }
@@ -200,7 +205,40 @@ ul.pagination{
 	float: right;
 }
 
+form.user label{
+	float: right;
+}
+
 /* edit button */
 .contentpaneopen_edit{
 	float: right;
+}
+
+form.editor .publishing .radio label span ,
+form.editor .publishing label{
+	float: right;
+}
+
+table.contenttoc{
+	float: left;
+}
+
+#main .blog_more ul, #main2 .blog_more ul{
+	padding: 10px 0px 30px 10px;
+}
+
+#main .blog_more ul li a, #main2 .blog_more ul li a {
+	background:transparent url(../images/pfeil_rtl.gif) no-repeat scroll right center;
+	padding:2px 30pt 4px 0px;
+	display: table-cell;
+}
+
+#main .blog_more ul li a:active, #main2 .blog_more ul li a:active, #main .blog_more ul li a:focus, #main2 .blog_more ul li a:focus {
+	background:#993399 url(../images/pfeil_rtl.gif) no-repeat scroll right !important;
+	padding:2px 30px 2px 0px;
+}
+
+#main .blog_more ul li a:hover,#main2 .blog_more ul li a:hover {
+	background:url(../images/pfeil_rtl.gif) #939 no-repeat right !important;
+	padding:2px 30px 2px 0px;
 }
