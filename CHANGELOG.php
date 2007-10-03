@@ -37,18 +37,21 @@ Legend:
 - -> Removed
 ! -> Note
 
-3-Oct-2007 Mati Kochen
+04-Oct-2007 Andrew Eddie
+ # Fixed double query in database explain methods
+
+03-Oct-2007 Mati Kochen
  ^ RTL Issues [topic,215058] --- Khperi in admin, Beez & rhuk_milkyway
  ^ Removed Hard-Coded styling [topic,217981] --- including RTL fix
 
-2-Oct-2007 Mickael Maison
- # Fixed [#6949] Change ugly javascript silent catch 
+02-Oct-2007 Mickael Maison
+ # Fixed [#6949] Change ugly javascript silent catch
  # Fixed [#6180] Additional language definiton request for "Reset"
 
-1-Oct-2007 Nur Aini Rakhmawati
+01-Oct-2007 Nur Aini Rakhmawati
  # Fixed [#6111] article,section,categories,news and contact manager for multiple selection
 
-1-Oct-2007 Toby Patterson
+01-Oct-2007 Toby Patterson
  # Fixed [topic,216726] 9025 --- A bug related to menu item copying
 
 30-Sep-2007 Mickael Maison

@@ -24,24 +24,24 @@ defined('JPATH_BASE') or die();
  */
 class JDatabaseMySQL extends JDatabase
 {
-	/** 
+	/**
 	 * The database driver name
-	 * 
-	 * @var string  
+	 *
+	 * @var string
 	 */
 	var $name			= 'mysql';
-	
-	/** 
+
+	/**
 	 *  The null/zero date string
-	 * 
-	 * @var string 
+	 *
+	 * @var string
 	 */
 	var $_nullDate		= '0000-00-00 00:00:00';
-	
-	/** 
+
+	/**
 	 * Quote for named objects
-	 * 
-	 * @var string  
+	 *
+	 * @var string
 	 */
 	var $_nameQuote		= '`';
 
@@ -266,13 +266,13 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
-	* Diagnostic function
-	*/
+	 * Diagnostic function
+	 * @return	string
+	 */
 	function explain()
 	{
 		$temp = $this->_sql;
 		$this->_sql = "EXPLAIN $this->_sql";
-		$this->query();
 
 		if (!($cur = $this->query())) {
 			return null;
@@ -501,7 +501,7 @@ class JDatabaseMySQL extends JDatabase
 	{
 		$fmtsql = "UPDATE $table SET %s WHERE %s";
 		$tmp = array();
-		foreach (get_object_vars( $object ) as $k => $v) 
+		foreach (get_object_vars( $object ) as $k => $v)
 		{
 			if( is_array($v) or is_object($v) or $k[0] == '_' ) { // internal or NA field
 				continue;
