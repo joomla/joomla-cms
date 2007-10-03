@@ -276,7 +276,7 @@ class JMenuTree extends JTree
 
 		$iParams = new JParameter($tmp->params);
 		if ($iParams->get('menu_image') && $iParams->get('menu_image') != -1) {
-			$image = '<img src="images/stories/'.$iParams->get('menu_image').'" alt="" />';
+			$image = '<img src="'.JURI::base(true).'/images/stories/'.$iParams->get('menu_image').'" alt="" />';
 		} else {
 			$image = null;
 		}

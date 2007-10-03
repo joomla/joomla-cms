@@ -142,7 +142,7 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 
 		$menu_image = $menu_params->def('menu_image', -1);
 		if (($menu_image <> '-1') && $menu_image) {
-			$image = '<img src="images/stories/' . $menu_image . '" border="0" alt="' . $mitem->name . '"/>';
+			$image = '<img src="'.JURI::base(true).'/images/stories/' . $menu_image . '" border="0" alt="' . $mitem->name . '"/>';
 			if ($params->get('menu_images_align')) {
 				$txt = $txt . ' ' . $image;
 			} else {
@@ -170,7 +170,7 @@ function mosShowVIMenu(& $params)
 		case '1' :
 			{
 				// Default images
-				$imgpath = 'images/M_images';
+				$imgpath = JURI::base(true).'/images/M_images';
 				for ($i = 1; $i < 7; $i++) {
 					$img[$i] = '<img src="' . $imgpath . '/indent' . $i . '.png" alt="" />';
 				}
@@ -180,7 +180,7 @@ function mosShowVIMenu(& $params)
 		case '2' :
 			{
 				// Use Params
-				$imgpath = 'images/M_images';
+				$imgpath = JURI::base(true).'/images/M_images';
 				for ($i = 1; $i < 7; $i++) {
 					if ($params->get('indent_image' . $i) == '-1') {
 						$img[$i] = NULL;
@@ -203,7 +203,7 @@ function mosShowVIMenu(& $params)
 		default :
 			{
 				// Template
-				$imgpath = 'templates/' . $template . '/images';
+				$imgpath = JURI::base(true).'/templates/' . $template . '/images';
 				for ($i = 1; $i < 7; $i++) {
 					$img[$i] = '<img src="' . $imgpath . '/indent' . $i . '.png" alt="" />';
 				}
