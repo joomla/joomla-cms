@@ -46,10 +46,6 @@ direction: rtl;
 	text-align:right;
 }
 
-#whitebox_m {
-	padding: 8px 1px;
-}
-
 /* horizontal pill menu */
 table.pill {
   direction: ltr;
@@ -104,6 +100,7 @@ a.readon {
 	padding-left: 20px;
 	padding-right: 0px;
 	direction:rtl;
+	float: right;
 }
 
 /* menu links */
@@ -113,9 +110,10 @@ a.mainlevel:link, a.mainlevel:visited {
 }
 
 .column_separator {
+	border-left: none;
 	padding-left: 0px;
 	border-right: 1px dashed #e0e0e0;
-	padding-right: 10px;
+	padding-right: 10px;	
 }
 
 div.module_menu h3 {
@@ -155,3 +153,9 @@ div.message {
 	text-align: right;
 	direction:rtl;
 }
+
+form#form-login ul {
+	padding-right:20px;
+	padding-left: 0px;
+}
+

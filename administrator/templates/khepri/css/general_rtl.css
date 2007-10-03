@@ -258,7 +258,7 @@ textarea#mm_message { width: 100%; }
 .pane-sliders .adminlist     { border: 0 none; }
 .pane-sliders .adminlist td  { border: 0 none; }
 
-.jpane-toggler  span     { background: transparent url(../images/j_arrow.png) right no-repeat; padding-right: 20px;}
+.jpane-toggler  span     { background: transparent url(../images/j_arrow_left.png) right no-repeat; padding-right: 20px;}
 .jpane-toggler-down span { background: transparent url(../images/j_arrow_down.png) right no-repeat; padding-right: 20px;}
 
 .jpane-toggler-down {  border-bottom: 1px solid #ccc; }

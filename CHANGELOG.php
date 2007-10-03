@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+3-Oct-2007 Mati Kochen
+ ^ RTL Issues [topic,215058] --- Khperi in admin, Beez & rhuk_milkyway
+
 2-Oct-2007 Mickael Maison
  # Fixed [#6949] Change ugly javascript silent catch 
  # Fixed [#6180] Additional language definiton request for "Reset"
