@@ -510,6 +510,11 @@ table.blog span.article_separator {
 	height: 20px;
 }
 
+/* edit button */
+.contentpaneopen_edit{
+	float: left;
+}
+
 /* table of contents */
 table.contenttoc {
   margin: 5px;

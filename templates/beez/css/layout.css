@@ -1379,6 +1379,9 @@ color:red;
 }
 
 /* editor */
+.contentpaneopen_edit{
+	float: left;
+}
 
 .contentpaneopen_edit img
 {	border:0

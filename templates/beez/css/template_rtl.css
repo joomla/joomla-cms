@@ -199,3 +199,8 @@ ul.pagination{
 #footer p.syndicate{
 	float: right;
 }
+
+/* edit button */
+.contentpaneopen_edit{
+	float: right;
+}

@@ -159,3 +159,7 @@ form#form-login ul {
 	padding-left: 0px;
 }
 
+/* edit button */
+.contentpaneopen_edit{
+	float: right;
+}

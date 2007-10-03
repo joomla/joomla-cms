@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 <div id="page">
 
 <?php if ($this->user->authorize('com_content', 'edit', 'content', 'all') && !($this->print)) : ?>
-<div class="contentpaneopen_edit<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>" style="float: left;">
+<div class="contentpaneopen_edit<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 	<?php echo JHTML::_('icon.edit', $this->article, $this->params, $this->access); ?>
 </div>
 <?php endif; ?>
