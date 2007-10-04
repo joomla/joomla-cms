@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <li class="row<?php echo ($item->odd +1 ); ?>">
 	<h4 class="title">
 		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug)); ?>">
-			<?php echo $item->title; ?>
+			<?php echo $this->escape($item->title); ?>
 		</a>
 	</h4>
 	<h5 class="metadata">

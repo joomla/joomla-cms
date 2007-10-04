@@ -16,10 +16,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td class="contentheading<?php echo $this->item->params->get( 'pageclass_sfx' ); ?>" width="100%">
 		<?php if ($this->item->params->get('link_titles') && $this->item->readmore_link != '') : ?>
 		<a href="<?php echo $this->item->readmore_link; ?>" class="contentpagetitle<?php echo $this->item->params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $this->item->title; ?>
+			<?php echo $this->escape($this->item->title); ?>
 		</a>
 		<?php else : ?>
-			<?php echo $this->item->title; ?>
+			<?php echo $this->escape($this->item->title); ?>
 		<?php endif; ?>
 	</td>
 	<?php endif; ?>

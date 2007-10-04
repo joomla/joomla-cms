@@ -79,7 +79,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php else : ?>
 	<td>
 		<?php
-			echo $item->title.' : ';
+			echo $this->escape($item->title).' : ';
 			$link = JRoute::_('index.php?option=com_user&task=register');
 		?>
 		<a href="<?php echo $link; ?>">

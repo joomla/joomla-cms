@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ($this->params->get('show_page_title')) : ?>
 <div class="componentheading<?php echo $this->params->get('pageclass_sfx');?>">
-	<?php echo $this->params->get('page_title'); ?>
+	<?php echo $this->escape($this->params->get('page_title')); ?>
 </div>
 <?php endif; ?>
 <table class="blog<?php echo $this->params->get('pageclass_sfx');?>" cellpadding="0" cellspacing="0">
@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td valign="top">
 	<?php if ($this->params->get('show_description_image') && $this->category->image) : ?>
-		<img src="images/stories/<?php echo $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="" />
+		<img src="<?php echo $this->baseurl ?>/images/stories/<?php echo $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="" />
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 		<?php echo $this->category->description; ?>

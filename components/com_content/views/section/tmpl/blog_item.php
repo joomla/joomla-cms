@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 			<?php echo $this->item->title; ?>
 		</a>
 		<?php else : ?>
-			<?php echo $this->item->title; ?>
+			<?php echo $this->escape($this->item->title); ?>
 		<?php endif; ?>
 	</td>
 	<?php endif; ?>
