@@ -95,8 +95,8 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 	$n = count( $text );
 
 	// we have found at least one plugin, therefore at least 2 pages
-	if ($n > 1) {
-
+	if ($n > 1) 
+	{
 		// Get plugin parameters
 		$pluginParams = new JParameter( $plugin->params );
 		$title	= $pluginParams->get( 'title', 1 );
@@ -106,7 +106,6 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 		if ( $title )
 		{
 			$page_text = $page + 1;
-			$row->page_title = JText::sprintf( 'Page #', $page_text );
 			if ( !$page )
 			{
 				// processing for first page
