@@ -56,6 +56,7 @@ class WeblinksViewWeblink extends JView
 		$user 	=& JFactory::getUser();
 		$model	=& $this->getModel();
 
+
 		$lists = array();
 
 		//get the weblink
@@ -87,6 +88,7 @@ class WeblinksViewWeblink extends JView
 			. ' FROM #__weblinks'
 			. ' WHERE catid = ' . (int) $weblink->catid
 			. ' ORDER BY ordering';
+
 		$lists['ordering'] 			= JHTML::_('list.specificordering',  $weblink, $weblink->id, $query, 1 );
 
 		// build list of categories
@@ -104,7 +106,7 @@ class WeblinksViewWeblink extends JView
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('weblink',		$weblink);
 		$this->assignRef('params',		$params);
-		
+
 		parent::display($tpl);
 	}
 }

@@ -51,7 +51,9 @@ class WeblinksModelWeblink extends JModel
 		parent::__construct();
 
 		$array = JRequest::getVar('cid', array(0), '', 'array');
-		$this->setId((int)$array[0]);
+		$edit	= JRequest::getVar('edit',true);
+		if($edit)
+			$this->setId((int)$array[0]);
 	}
 
 	/**

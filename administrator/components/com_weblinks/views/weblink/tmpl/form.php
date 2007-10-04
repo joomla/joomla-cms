@@ -2,12 +2,13 @@
 
 <?php JHTML::_('behavior.tooltip'); ?>
 
-<?php 
+<?php
 	// Set toolbar items for the page
-	$text = !$this->weblink->id ? JText::_( 'New' ) : JText::_( 'Edit' );
+	$edit		= JRequest::getVar('edit',true);
+	$text = !$edit ? JText::_( 'New' ) : JText::_( 'Edit' );
 	JToolBarHelper::title(   JText::_( 'Weblink' ).': <small><small>[ ' . $text.' ]</small></small>' );
 	JToolBarHelper::save();
-	if (!$this->weblink->id)  {
+	if (!$edit)  {
 		JToolBarHelper::cancel();
 	} else {
 		// for existing items the button is renamed `close`

@@ -34,25 +34,36 @@ class WeblinksController extends JController
 		$this->registerTask( 'add',  'display' );
 		$this->registerTask( 'edit', 'display' );
 	}
-	
+
 	function display( )
 	{
 		switch($this->getTask())
 		{
 			case 'add'     :
+			{
+				JRequest::setVar( 'hidemainmenu', 1 );
+				JRequest::setVar( 'layout', 'form'  );
+				JRequest::setVar( 'view'  , 'weblink');
+				JRequest::setVar( 'edit', false );
+
+				// Checkout the weblink
+				$model = $this->getModel('weblink');
+				$model->checkout();
+			} break;
 			case 'edit'    :
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'layout', 'form'  );
 				JRequest::setVar( 'view'  , 'weblink');
-				
+				JRequest::setVar( 'edit', true );
+
 				// Checkout the weblink
 				$model = $this->getModel('weblink');
 				$model->checkout();
 			} break;
 		}
-		
-		parent::display();	
+
+		parent::display();
 	}
 
 	function save()

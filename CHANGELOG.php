@@ -37,10 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Oct-2007 Nur Aini Rakhmawati
+ # Fixed [#6111] weblinks manager new button for multiple selection
+
+
 04-Oct-2007 Mati Kochen
  ^ RTL Issues
  ^ Submenu Listing [topic,218023] - adopted "|_" fix, introduced by DocMAN
- 
+
 4-Oct-2007 Sam Moffatt
  # Fixed [#7227] file upload vulnerability in joomla com_media component
  ^ Added $amount and $chunksize to JFile::read to allow for partial file reads
