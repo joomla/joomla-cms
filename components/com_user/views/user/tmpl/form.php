@@ -14,8 +14,6 @@ function submitbutton( pressbutton ) {
 	// do field validation
 	if (form.name.value == "") {
 		alert( "<?php echo JText::_( 'Please enter your name.', true );?>" );
-	} else if (r.exec(form.username.value) || form.username.value.length < 3) {
-		alert( "<?php printf( JText::_( 'VALID_AZ09', true ), JText::_( 'Username', true ), 3 );?>" );
 	} else if (form.email.value == "") {
 		alert( "<?php echo JText::_( 'Please enter a valid e-mail address.', true );?>" );
 	} else if ((form.password.value != "") && (form.password.value != form.password2.value)){
