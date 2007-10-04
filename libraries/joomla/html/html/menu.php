@@ -130,7 +130,7 @@ class JHTMLMenu
 				$id = $v->id;
 
 				if ( $type ) {
-					$pre 	= '<sup>L</sup>&nbsp;';
+					$pre 	= '<sup>|_</sup>&nbsp;';
 					$spacer = '.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				} else {
 					$pre 	= '- ';

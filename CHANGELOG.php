@@ -37,9 +37,17 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Oct-2007 Mati Kochen
+ ^ RTL Issues
+ ^ Submenu Listing [topic,218023] - adopted "|_" fix, introduced by DocMAN
+ 
 4-Oct-2007 Sam Moffatt
  # Fixed [#7227] file upload vulnerability in joomla com_media component
  ^ Added $amount and $chunksize to JFile::read to allow for partial file reads
+
+03-Oct-2007 Mati Kochen
+ ^ RTL Issues [topic,215058] --- Khperi in admin, Beez & rhuk_milkyway
+ ^ Removed Hard-Coded styling [topic,217981] --- including RTL fix
 
 02-Oct-2007 Mickael Maison
  # Fixed [#6949] Change ugly javascript silent catch
