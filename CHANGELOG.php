@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+4-Oct-2007 Sam Moffatt
+ # Fixed [#7227] file upload vulnerability in joomla com_media component
+ ^ Added $amount and $chunksize to JFile::read to allow for partial file reads
+
 02-Oct-2007 Mickael Maison
  # Fixed [#6949] Change ugly javascript silent catch
  # Fixed [#6180] Additional language definiton request for "Reset"

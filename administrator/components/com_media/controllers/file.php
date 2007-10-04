@@ -56,7 +56,7 @@ class MediaControllerFile extends MediaController
 					$log = &JLog::getInstance('upload.error.php');
 					$log->addEntry(array('comment' => 'Invalid: '.$filepath.': '.$err));
 					header('HTTP/1.0 415 Unsupported Media Type');
-					die('Error. Unsupported Media Type');
+					die('Error. Unsupported Media Type!');
 				} else {
 					JError::raiseNotice(100, JText::_($err));
 					// REDIRECT

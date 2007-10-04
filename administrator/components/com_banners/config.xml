@@ -9,6 +9,6 @@
 	<option value="0">NO</option>
 	<option value="1">YES</option>
   </param>
-  <param name="tag_prefix" type="text" deault="" label="TAG PREFIX LABEL" description="TAG PREFIX DESC" />
+  <param name="tag_prefix" type="text" default="" label="TAG PREFIX LABEL" description="TAG PREFIX DESC" />
  </params>
 </config>
