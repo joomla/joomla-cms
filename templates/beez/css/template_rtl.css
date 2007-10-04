@@ -37,7 +37,7 @@ p{
 
 #fontsize p a
 {
-	display: -moz-inline-box;
+	display: table-cell;
 	padding: 2px 24px 2px 0px;
 }
 
@@ -45,6 +45,12 @@ p{
 #fontsize p a.larger { background: #fff url(../images/lupe_larger.gif) right no-repeat; }
 #fontsize p a.smaller { background: #fff url(../images/lupe_smaller.gif) right no-repeat; }
 #fontsize p a.reset { background: #fff url(../images/lupe_reset.gif) right no-repeat; }
+
+#fontsize p a.reset:hover, #fontsize p a.reset:active, #fontsize p a.reset:focus,
+#fontsize p a.smaller:hover, #fontsize p a.smaller:active, #fontsize p a.smaller:focus,
+#fontsize p a.larger:hover, #fontsize p a.larger:active, #fontsize p a.larger:focus {
+	background-position:right;
+}
 
 #logo span{
 	margin: 0 100px 2px 0 !important;
