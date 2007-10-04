@@ -37,20 +37,6 @@ Legend:
 - -> Removed
 ! -> Note
 
-04-Oct-2007 Mati Kochen
- ^ RTL Issues
- 
-4-Oct-2007 Hannes Papenberg
- + Added Dynamic Document Title option to global config
- # Fixed adress_check in com_contact
-
-04-Oct-2007 Andrew Eddie
- # Fixed double query in database explain methods
-
-03-Oct-2007 Mati Kochen
- ^ RTL Issues [topic,215058] --- Khperi in admin, Beez & rhuk_milkyway
- ^ Removed Hard-Coded styling [topic,217981] --- including RTL fix
-
 02-Oct-2007 Mickael Maison
  # Fixed [#6949] Change ugly javascript silent catch
  # Fixed [#6180] Additional language definiton request for "Reset"
@@ -62,7 +48,7 @@ Legend:
  # Fixed [topic,216726] 9025 --- A bug related to menu item copying
 
 30-Sep-2007 Mickael Maison
- # [#7253] File upload not working in com_media when joomla is on non-standard port
+ # Fixed [#7253] File upload not working in com_media when joomla is on non-standard port
 
 30-Sep-2007 Sam Moffatt
  # Fixed [#7372] Authentication - GMail null admin login error

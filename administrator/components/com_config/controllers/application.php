@@ -249,7 +249,6 @@ class ConfigControllerApplication extends ConfigController
 		$config_array = array();
 
 		// SITE SETTINGS
-		$config_array['docname']	= JRequest::getVar('docname', 0, 'post', 'string');
 		$config_array['offline']	= JRequest::getVar('offline', 0, 'post', 'int');
 		$config_array['editor']		= JRequest::getVar('editor', 'tinymce', 'post', 'cmd');
 		$config_array['list_limit']	= JRequest::getVar('list_limit', 20, 'post', 'int');

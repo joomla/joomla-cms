@@ -36,16 +36,6 @@
 		</tr>
 		<tr>
 			<td class="key">
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Dynamic Document Title' ); ?>::<?php echo JText::_( 'TIPDOCNAME' ); ?>">
-				<?php echo JText::_( 'Dynamic Document Title' ); ?>
-				</span>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="docname" size="50" value="<?php echo $row->docname; ?>" />
-			</td>
-		</tr>
-		<tr>
-			<td class="key">
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Default WYSIWYG Editor' ); ?>::<?php echo JText::_( 'TIPDEFWYSIWYG' ); ?>">
 			<?php echo JText::_( 'Default WYSIWYG Editor' ); ?>
 			</span>

@@ -53,8 +53,6 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 */
 	function fetchHead(&$document)
 	{
-		global $mainframe;
-
 		// get line endings
 		$lnEnd = $document->_getLineEnd();
 		$tab = $document->_getTab();
@@ -85,7 +83,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$strHtml .= $tab.'<meta name="description" content="'.$document->getDescription().'" />'.$lnEnd;
 		$strHtml .= $tab.'<meta name="generator" content="'.$document->getGenerator().'" />'.$lnEnd;
 
-		$strHtml .= $tab.'<title>'.htmlspecialchars(sprintf($mainframe->getCfg('docname', '%s'), $document->getTitle())).'</title>'.$lnEnd;
+		$strHtml .= $tab.'<title>'.htmlspecialchars($document->getTitle()).'</title>'.$lnEnd;
 
 		// Generate link declarations
 		foreach ($document->_links as $link) {
