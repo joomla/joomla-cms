@@ -37,7 +37,7 @@ p{
 
 #fontsize p a
 {
-	display: table-cell;
+	display: -moz-inline-box;
 	padding: 2px 24px 2px 0px;
 }
 
