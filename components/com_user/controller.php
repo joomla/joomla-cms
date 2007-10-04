@@ -178,8 +178,6 @@ class UserController extends JController
 	 */
 	function register()
 	{
-		global $mainframe;
-
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 		if (!$usersConfig->get( 'allowUserRegistration' )) {
 			JError::raiseError( 403, JText::_( 'Access Forbidden' ));
@@ -234,37 +232,24 @@ class UserController extends JController
 		$user->set('id', 0);
 		$user->set('usertype', '');
 		$user->set('gid', $authorize->get_group_id( '', $newUsertype, 'ARO' ));
+		
 		// TODO: Should this be JDate?
 		$user->set('registerDate', date('Y-m-d H:i:s'));
 
 		// If user activation is turned on, we need to set the activation information
 		$useractivation = $usersConfig->get( 'useractivation' );
-		if ($useractivation == '1') {
+		if ($useractivation == '1') 
+		{
 			jimport('joomla.user.helper');
 			$user->set('activation', md5( JUserHelper::genRandomPassword()) );
 			$user->set('block', '1');
 		}
 
-		// create the view
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'register'.DS.'view.html.php');
-		$view = new UserViewRegister();
-
-		$view->assignRef('user', $user);
-		$message = new stdClass();
-
 		// If there was an error with registration, set the message and display form
-		if ( !$user->save() ) {
-		 	// Page Title
-		 	$document->setTitle( JText::_( 'Registration' ) );
-			// Breadcrumb
-			$pathway->addItem( JText::_( 'New' ) );
-
-			$message->title	= JText::_( 'REGERROR' );
-			$message->text	= JText::_( $user->getError() );
-
-			$view->assign('message', $message);
-			$view->display();
-
+		if ( !$user->save() ) 
+		{ 
+			JError::raiseWarning('', JText::_( $user->getError()));
+			$this->register();
 			return false;
 		}
 
@@ -292,8 +277,9 @@ class UserController extends JController
 			$message->text = JText::_( 'REG_COMPLETE' );
 		}
 
-		$view->assign('message', $message);
-		$view->display('message');
+		//TODO :: this needs to be replace by raiseMessage
+		JError::raiseNotice('', $message);
+		$this->register();
 	}
 
 	function activate()
