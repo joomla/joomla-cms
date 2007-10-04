@@ -23,7 +23,7 @@ class modBreadCrumbsHelper
 		// Get the PathWay object from the application
 		$pathway =& $mainframe->getPathway();
 		$items   = $pathway->getPathWay();
-
+		
 		$count = count($items);
 		for ($i = 0; $i < $count; $i ++)
 		{

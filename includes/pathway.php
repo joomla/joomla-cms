@@ -43,8 +43,19 @@ class JPathwaySite extends JPathway
 			{
 				foreach($item->tree as $menupath) 
 				{
+					$url  = '';
 					$link = $menu->getItem($menupath);
-					$this->addItem( $menus[$menupath]->name, $link->link);
+					
+					switch($link->type)
+					{
+						case 'menulink' : 
+							$url = $link->link;	
+							break;
+						default      :
+							$url = 'index.php?Itemid='.$link->id;
+					}
+					
+					$this->addItem( $menus[$menupath]->name, $url);
 				}
 			}
 		}
