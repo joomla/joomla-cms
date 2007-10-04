@@ -62,8 +62,64 @@ class ContentViewArticle extends ContentView
 		}
 
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		
+		// Create a user access object for the current user
+		$access = new stdClass();
+		$access->canEdit	= $user->authorize('com_content', 'edit', 'content', 'all');
+		$access->canEditOwn	= $user->authorize('com_content', 'edit', 'content', 'own');
+		$access->canPublish	= $user->authorize('com_content', 'publish', 'content', 'all');
+		
+		// Check to see if the user has access to view the full article
+		if ($article->access <= $user->get('aid', 0)) {
+			$article->readmore_link = JRoute::_("index.php?option=com_content&view=article&id=".$article->slug);
+		} else {
+			$article->readmore_link = JRoute::_("index.php?option=com_user&task=register");
+		}
+		
+		/*
+		 * Process the prepare content plugins
+		 */
+		JPluginHelper::importPlugin('content');
+		$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
+		
+		/*
+		 * Handle the metadata
+		 */
+		$document->setTitle($article->title);
 
-		//set breadcrumbs
+		if ($article->metadesc) {
+			$document->setDescription( $article->metadesc );
+		}
+		if ($article->metakey) {
+			$document->setMetadata('keywords', $article->metakey);
+		}
+		
+		if ($mainframe->getCfg('MetaTitle') == '1') {
+			$mainframe->addMetaTag('title', $article->title);
+		}
+		if ($mainframe->getCfg('MetaAuthor') == '1') {
+			$mainframe->addMetaTag('author', $article->author);
+		}
+		
+		$mdata = new JParameter($article->metadata);
+		$mdata = $mdata->toArray();
+		foreach ($mdata as $k => $v)
+		{
+			if ($v) {
+				$document->setMetadata($k, $v);
+			}
+		}
+
+		// If there is a pagebreak heading or title, add it to the page title
+		if (!empty($article->page_title)) 
+		{
+			$article->title = $article->title .' - '. $article->page_title;
+			$document->setTitle($article->page_title.' - '.JText::sprintf('Page %s', $limitstart + 1));
+		}
+
+		/*
+		 * Handle the breadcrumbs
+		 */
 		if($menu && $menu->query['view'] != 'article')
 		{
 			switch ($menu->query['view'])
@@ -78,51 +134,9 @@ class ContentViewArticle extends ContentView
 			}
 		}
 
-		// Handle Page Title
-		$document->setTitle($article->title);
-
-		// Handle metadata
-		if ($article->metadesc) {
-			$document->setDescription( $article->metadesc );
-		}
-		if ($article->metakey) {
-			$document->setMetadata('keywords', $article->metakey);
-		}
-		// Other metadata
-		$mdata = new JParameter($article->metadata);
-		$mdata = $mdata->toArray();
-		foreach ($mdata as $k => $v)
-		{
-			if ($v) {
-				$document->setMetadata($k, $v);
-			}
-		}
-
-		// If there is a pagebreak heading or title, add it to the page title
-		if (isset ($article->page_title)) {
-			$document->setTitle($article->title.' '.$article->page_title);
-		}
-
-		// Create a user access object for the current user
-		$access = new stdClass();
-		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
-		$access->canEditOwn	= $user->authorize('com_content', 'edit', 'content', 'own');
-		$access->canPublish	= $user->authorize('com_content', 'publish', 'content', 'all');
-
-		// Process the content plugins
-		JPluginHelper::importPlugin('content');
-		$results = $dispatcher->trigger('onPrepareContent', array (& $article, & $params, $limitstart));
-
-		// Check to see if the user has access to view the full article
-		if ($article->access <= $user->get('aid', 0))
-		{
-			$article->readmore_link = JRoute::_("index.php?option=com_content&view=article&id=".$article->slug);
-		}
-		else
-		{
-			$article->readmore_link = JRoute::_("index.php?option=com_user&task=register");
-		}
-
+		/*
+		 * Handle display events
+		 */
 		$article->event = new stdClass();
 		$results = $dispatcher->trigger('onAfterDisplayTitle', array ($article, &$params, $limitstart));
 		$article->event->afterDisplayTitle = trim(implode("\n", $results));

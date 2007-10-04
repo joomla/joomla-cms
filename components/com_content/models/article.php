@@ -516,14 +516,6 @@ class ContentModelArticle extends JModel
 	{
 		global $mainframe;
 
-		// Set some metatag information if needed
-		if ($mainframe->getCfg('MetaTitle') == '1') {
-			$mainframe->addMetaTag('title', $this->_article->title);
-		}
-		if ($mainframe->getCfg('MetaAuthor') == '1') {
-			$mainframe->addMetaTag('author', $this->_article->author);
-		}
-
 		// Get the page/component configuration
 		$params = clone($mainframe->getParams('com_content'));
 
