@@ -206,7 +206,6 @@ class ContentView
 								<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?></a>
 							<?php
 						}
-						echo '<br />'.$row->alias;
 						?>
 					</td>
 					<?php
