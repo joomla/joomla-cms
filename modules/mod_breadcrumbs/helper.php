@@ -28,14 +28,14 @@ class modBreadCrumbsHelper
 		for ($i = 0; $i < $count; $i ++)
 		{
 			$items[$i]->name = stripslashes(htmlspecialchars($items[$i]->name));
-			$items[$i]->link = $items[$i]->link;
+			$items[$i]->link = JRoute::_($items[$i]->link);
 		}
 
 		if ($params->get('showHome'))
 		{
 			$item = new stdClass();
 			$item->name = $params->get('homeText', JText::_('Home'));
-			$item->link = JURI::base(true);
+			$item->link = JURI::base();
 			array_unshift($items, $item);
 		}
 

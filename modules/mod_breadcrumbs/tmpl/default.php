@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	// If not the last item in the breadcrumbs add the separator
 	if ($i < $count -1) {
 		if(!empty($list[$i]->link)) {
-			echo '<a href="'.JRoute::_($list[$i]->link).'" class="pathway">'.$list[$i]->name.'</a>';
+			echo '<a href="'.$list[$i]->link.'" class="pathway">'.$list[$i]->name.'</a>';
 		} else {
 			echo $list[$i]->name;
 		}
