@@ -4,7 +4,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php if ($this->params->get('show_page_title')) : ?>
 <h1 class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
-	<?php echo $this->params->get('page_title'); ?>
+	<?php echo $this->escape($this->params->get('page_title')); ?>
 </h1>
 <?php endif; ?>
 
@@ -12,9 +12,9 @@ defined('_JEXEC') or die('Restricted access');
 <div class="contentdescription<?php echo $this->params->get('pageclass_sfx'); ?>">
 
 	<?php if ($this->params->get('image') != -1 && $this->params->get('image') != '') : ?>
-	<img src="images/stories/<?php echo $this->params->get('image'); ?>" class="image_<?php echo $this->params->get('image_align'); ?>" alt="<?php echo JText::_('Contacts'); ?>" />
+	<img src="<?php echo $this->baseurl ?>/images/stories/<?php echo $this->params->get('image'); ?>" class="image_<?php echo $this->params->get('image_align'); ?>" alt="<?php echo JText::_('Contacts'); ?>" />
 	<?php elseif($this->category->image): ?>
-	<img src="images/stories/<?php echo $this->category->image; ?>" class="image_<?php echo $this->category->image_position; ?>" alt="<?php echo JText::_('Contacts'); ?>" />
+	<img src="<?php echo $this->baseurl ?>/images/stories/<?php echo $this->category->image; ?>" class="image_<?php echo $this->category->image_position; ?>" alt="<?php echo JText::_('Contacts'); ?>" />
 	<?php endif; ?>
 
 	<?php echo $this->category->description; ?>

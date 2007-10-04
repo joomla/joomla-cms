@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php if ($this->params->get('show_page_title')) : ?>
 <h1 class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
-	<?php echo $this->poll->title ? $this->poll->title : $this->params->get('page_title'); ?>
+	<?php echo $this->poll->title ? $this->escape($this->poll->title) : $this->escape($this->params->get('page_title')); ?>
 </h1>
 <?php endif; ?>
 

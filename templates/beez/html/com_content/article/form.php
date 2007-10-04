@@ -56,7 +56,7 @@ function submitbutton(pressbutton) {
 			<label for="title">
 				<?php echo JText::_( 'Title' ); ?>:
 			</label>
-			<input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<?php echo $this->article->title; ?>" />
+			<input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<?php echo $this->escape($this->article->title); ?>" />
 		</div>
 		<div class="save">
 			<button type="button" onclick="submitbutton('save')">

@@ -77,7 +77,7 @@ document.adminForm.submit( task );
 		<td headers="tableOrdering">
 			<?php if ($item->access <= $this->user->get('aid', 0)) : ?>
 				<a href="<?php echo $item->link; ?>">
-					<?php echo $item->title; ?>
+					<?php echo $this->escape($item->title); ?>
 				</a>
 				<?php echo JHTML::_('icon.edit', $item, $this->params, $this->access);
 			else :

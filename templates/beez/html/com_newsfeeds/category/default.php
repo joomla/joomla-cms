@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 	<div class="contentdescription<?php echo $this->params->get('pageclass_sfx'); ?>">
 
 		<?php if ( $this->category->image ) : ?>
-		<img src="images/stories/<?php echo $this->category->image; ?>" class="image_<?php echo $this->category->image_position; ?>" />
+		<img src="<?php echo $this->baseurl ?>/images/stories/<?php echo $this->category->image; ?>" class="image_<?php echo $this->category->image_position; ?>" />
 		<?php endif; ?>
 
 		<?php if ( $this->params->get( 'description' ) ) :
