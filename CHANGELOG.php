@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Oct-2007 Johan Janssens
+ + Added milkyway translations
 
 05-Oct-2007 Nur Aini Rakhmawati
  # Fixed [#6111] menu and menu item manager new button for multiple selection

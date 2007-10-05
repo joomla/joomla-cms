@@ -156,8 +156,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 						<jdoc:include type="modules" name="syndicate" />
 					</p>
 					<p style="float:right; padding-right: 25px;">
-	 				 	Powered by <a href="http://www.joomla.org">Joomla!</a>.
-						Valid <a href="http://validator.w3.org/check/referer">XHTML</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
+	 				 	<?php echo JText::_('Powered by') ?> <a href="http://www.joomla.org">Joomla!</a>.
+						<?php echo JText::_('Valid') ?> <a href="http://validator.w3.org/check/referer">XHTML</a> <?php echo JText::_('and') ?> <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
 					</p>
 				</div>
 			</div>
