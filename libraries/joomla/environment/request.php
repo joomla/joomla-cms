@@ -81,6 +81,8 @@ class JRequest
 	 *   get		$_GET
 	 *   files		$_FILES
 	 *   cookie		$_COOKIE
+	 *   env		$_ENV
+	 *   server		$_SERVER
 	 *   method		via current $_SERVER['REQUEST_METHOD']
 	 *   default	$_REQUEST
 	 *
@@ -117,6 +119,12 @@ class JRequest
 				break;
 			case 'COOKIE' :
 				$input = &$_COOKIE;
+				break;
+			case 'ENV'    :
+				$input = &$_ENV;
+				break;
+			case 'SERVER'    :
+				$input = &$_SERVER;
 				break;
 			default:
 				$input = &$_REQUEST;
@@ -303,13 +311,18 @@ class JRequest
 				$_POST[$name] = $value;
 				$_REQUEST[$name] = $value;
 				break;
-			case 'FILES' :
-				$_FILES[$name] = $value;
-				$_REQUEST[$name] = $value;
-				break;
 			case 'COOKIE' :
 				$_COOKIE[$name] = $value;
 				$_REQUEST[$name] = $value;
+				break;
+			case 'FILES' :
+				$_FILES[$name] = $value;
+				break;
+			case 'ENV'    :
+				$_ENV['name'] = $value;
+				break;
+			case 'SERVER'    :
+				$_SERVER['name'] = $value;
 				break;
 		}
 
@@ -333,6 +346,8 @@ class JRequest
 	 *   get		$_GET
 	 *   files		$_FILES
 	 *   cookie		$_COOKIE
+	 *   env		$_ENV
+	 *   server		$_SERVER
 	 *   method		via current $_SERVER['REQUEST_METHOD']
 	 *   default	$_REQUEST
 	 *
@@ -366,6 +381,14 @@ class JRequest
 
 			case 'COOKIE' :
 				$input = $_COOKIE;
+				break;
+	
+			case 'ENV'    :
+				$input = &$_ENV;
+				break;
+			
+			case 'SERVER'    :
+				$input = &$_SERVER;
 				break;
 
 			default:
@@ -471,7 +494,7 @@ class JRequest
 		}
 	}
 
-	function _cleanVar($var, $mask=0, $type=null)
+	function _cleanVar($var, $mask = 0, $type=null)
 	{
 		// Static input filters for specific settings
 		static $noHtmlFilter	= null;
