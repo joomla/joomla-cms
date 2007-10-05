@@ -56,10 +56,10 @@ class JElementMenuItem extends JElement
 		if ($state = $node->attributes('state')) {
 			$where .= ' AND published = '.(int) $state;
 		}
-
+	
 		// load the list of menu items
 		// TODO: move query to model
-		$query = 'SELECT id, parent, name, menutype' .
+		$query = 'SELECT id, parent, name, menutype, type' .
 				' FROM #__menu' .
 				$where .
 				' ORDER BY menutype, parent, ordering'
@@ -72,9 +72,11 @@ class JElementMenuItem extends JElement
 		// TODO: use node model
 		$children = array();
 
-		if ($menuItems) {
+		if ($menuItems) 
+		{
 			// first pass - collect children
-			foreach ($menuItems as $v) {
+			foreach ($menuItems as $v) 
+			{
 				$pt 	= $v->parent;
 				$list 	= @$children[$pt] ? $children[$pt] : array();
 				array_push( $list, $v );
@@ -95,13 +97,13 @@ class JElementMenuItem extends JElement
 		// assemble menu items to the array
 		$options 	= array();
 		$options[]	= JHTML::_('select.option', '', '- '.JText::_('Select Item').' -');
-
+		
 		foreach ($menuTypes as $type)
 		{
 			if ($menuType == '')
 			{
-				$options[]	= JHTML::_('select.option',  '0', '&nbsp;' );
-				$options[]	= JHTML::_('select.option',  $type->menutype, $type->title . ' - ' . JText::_( 'Top' ) );
+				$options[]	= JHTML::_('select.option',  '0', '&nbsp;', 'value', 'text', true);
+				$options[]	= JHTML::_('select.option',  $type->menutype, $type->title . ' - ' . JText::_( 'Top' ), 'value', 'text', true );
 			}
 			if (isset( $groupedList[$type->menutype] ))
 			{
@@ -109,7 +111,8 @@ class JElementMenuItem extends JElement
 				for ($i = 0; $i < $n; $i++)
 				{
 					$item = &$groupedList[$type->menutype][$i];
-					$options[] = JHTML::_('select.option',  $item->id, '&nbsp;&nbsp;&nbsp;' .$item->treename );
+					$disable = strpos($node->attributes('disable'), $item->type) !== false ? true : false;
+					$options[] = JHTML::_('select.option',  $item->id, '&nbsp;&nbsp;&nbsp;' .$item->treename, 'value', 'text', $disable );
 
 				}
 			}
