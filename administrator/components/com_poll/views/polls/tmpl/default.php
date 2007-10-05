@@ -34,7 +34,7 @@
 				<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
 			</th>
 			<th  class="title">
 				<?php echo JHTML::_('grid.sort',   'Poll Title', 'm.title', @$lists['order_Dir'], @$this->lists['order'] ); ?>
