@@ -589,15 +589,6 @@ class JInstaller extends JObject
 		 */
 		switch ($element->name())
 		{
-			case 'media':
-				if ($element->attributes('destination')) {
-					$folder = $element->attributes('destination');
-				} else {
-					$folder = 'stories';
-				}
-				$destintion = $client->path.DS.'images'.DS.$folder;
-				break;
-
 			case 'languages':
 				$destination = $client->path.DS.'language';
 				break;
