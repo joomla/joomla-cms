@@ -161,8 +161,8 @@ class JAdministrator extends JApplication
 	/**
 	* Login authentication function
 	*
-	* @param string The username
-	* @param string The password
+	* @param	array 	Array( 'username' => string, 'password' => string )
+	* @param	array 	Array( 'remember' => boolean )
 	* @access public
 	* @see JApplication::login
 	*/
@@ -172,7 +172,12 @@ class JAdministrator extends JApplication
 		$options['group'] = 'Public Backend';  
 		
 		 //Make sure users are not autoregistered
-		$options['autoregister'] = false; 			 
+		$options['autoregister'] = false;
+		
+		//Set the application login entry point
+		if(!array_key_exists('entry_url', $options)) {
+			$options['entry_url'] = JURI::base().'index.php?option=com_user&task=login';
+		} 	 			 
 
 		$result = parent::login($credentials, $options);
 

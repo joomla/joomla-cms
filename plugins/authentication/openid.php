@@ -49,7 +49,7 @@ class plgAuthenticationOpenID extends JPlugin
 	 *
 	 * @access	public
 	 * @param   array 	$credentials Array holding the user credentials
-	 * @param 	array   $options     Array of extra options
+	 * @param 	array   $options     Array of extra options (return, entry_url)
 	 * @param	object	$response	Authentication response object
 	 * @return	boolean
 	 * @since 1.5
@@ -104,14 +104,22 @@ class plgAuthenticationOpenID extends JPlugin
 			$request->addExtensionArg('sreg', 'required' , 'email');
 			$request->addExtensionArg('sreg', 'optional', 'fullname, language, timezone');
 
+			//Create the entry url
+			$entry_url  = isset($options['entry_url'])  ? $options['entry_url'] : JURI::base();			
+			$entry_url  = JURI::getInstance($entry_url);
+			
+			unset($options['entry_url']); //We don't need this anymore
+			
+			//Create the url query information
 			$options['return'] = isset($options['return']) ? base64_encode($options['return']) : base64_encode(JURI::base());
-			$option       = $mainframe->isAdmin() ? 'com_login' : 'com_user';
-			$process_url  = sprintf("index.php?option=%s&task=login&username=%s", $option, $credentials['username']);
+			
+			$process_url  = sprintf($entry_url->toString()."&username=%s", $credentials['username']);
 			$process_url .= '&'.JURI::buildQuery($options);
-
-			$redirect_url = $request->redirectURL(JURI::base(), JURI::base().$process_url);
-
-			$session->set('trust_url', JURI::base());
+			
+			$trust_url    = $entry_url->toString(array('path', 'host', 'port', 'scheme'));	
+			$redirect_url = $request->redirectURL($trust_url, $process_url);
+			
+			$session->set('trust_url', $trust_url);
 
 			// Redirect the user to the OpenID server for authentication.  Store
 			// the token for this authentication so we can verify the response.
@@ -121,7 +129,7 @@ class plgAuthenticationOpenID extends JPlugin
 		}
 
 		$result = $consumer->complete(JRequest::get('get'));
-
+		
 		switch ($result->status)
 		{
 			case Auth_OpenID_SUCCESS :

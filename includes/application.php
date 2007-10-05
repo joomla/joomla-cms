@@ -168,6 +168,24 @@ class JSite extends JApplication
 		$data = $document->render( $this->getCfg('caching'), $params);
 		JResponse::setBody($data);
 	}
+	
+   /**
+	* Login authentication function
+	*
+	* @param	array 	Array( 'username' => string, 'password' => string )
+	* @param	array 	Array( 'remember' => boolean )
+	* @access public
+	* @see JApplication::login
+	*/
+	function login($credentials, $options = array())
+	{
+		 //Set the application login entry point
+		 if(!array_key_exists('entry_url', $options)) {
+			 $options['entry_url'] = JURI::base().'index.php?option=com_user&task=login';
+		 }
+		 	 			 
+		return parent::login($credentials, $options);
+	}
 
 	/**
 	* Check if the user can access the application
