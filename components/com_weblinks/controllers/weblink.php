@@ -59,8 +59,6 @@ class WeblinksControllerWeblink extends WeblinksController
 	*/
 	function save()
 	{
-		global $mainframe;
-
 		//check the token before we do anything else
 		$token	= JUtility::getToken();
 		if(!JRequest::getInt($token, 0, 'post')) {

@@ -56,18 +56,13 @@ class WeblinksViewWeblink extends JView
 		$document	=& JFactory::getDocument();
 		$model		=& $this->getModel();
 		$user		=& JFactory::getUser();
+		$uri     	=& JFactory::getURI();
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
 			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
-
-		/*
-		 * Disabled until ACL system is implemented.  When enabled the $id variable
-		 * will be used instead of a 0
-		 */
-		$returnid = JRequest::getVar( 'Returnid', 0, '', 'int' );
 
 		//get the weblink
 		$weblink	=& $this->get('data');
@@ -123,7 +118,7 @@ class WeblinksViewWeblink extends JView
 		jimport('joomla.filter.output');
 		JFilterOutput::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
 
-		$this->assign('returnid', $returnid);
+		$this->assign('action', 	$uri->toString());
 
 		$this->assignRef('lists'   , $lists);
 		$this->assignRef('weblink' , $weblink);
