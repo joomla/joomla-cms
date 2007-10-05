@@ -88,8 +88,6 @@ class WeblinksController extends JController
 
 	function remove()
 	{
-		global $mainframe;
-
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
@@ -108,8 +106,6 @@ class WeblinksController extends JController
 
 	function publish()
 	{
-		global $mainframe;
-
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
@@ -128,8 +124,6 @@ class WeblinksController extends JController
 
 	function unpublish()
 	{
-		global $mainframe;
-
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
