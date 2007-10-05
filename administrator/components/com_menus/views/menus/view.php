@@ -35,7 +35,7 @@ class MenusViewMenus extends JView
 		JToolBarHelper::customX( 'copyMenu', 'copy.png', 'copy_f2.png', 'Copy', true );
 		JToolBarHelper::customX( 'deleteMenu', 'delete.png', 'delete_f2.png', 'Delete', true );
 		JToolBarHelper::editListX('editMenu');
-		JToolBarHelper::addNewX('editMenu');
+		JToolBarHelper::addNewX('addMenu');
 		JToolBarHelper::help( 'screen.menumanager' );
 
 		$document = & JFactory::getDocument();
@@ -112,16 +112,17 @@ class MenusViewMenus extends JView
 		parent::display($tpl);
 	}
 
-	function editForm($tpl=null)
+	function editForm($edit,$tpl=null)
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
 
 		global $mainframe;
 
 		$this->_layout = 'edit';
-
-		$table = &$this->get('Table');
-
+		if($edit)
+			$table = &$this->get('Table');
+		else
+			$table=& JTable::getInstance('menuTypes');
 		/*
 		 * Set toolbar items for the page
 		 */

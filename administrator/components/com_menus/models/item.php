@@ -61,9 +61,10 @@ class MenusModelItem extends JModel
 		$table =& $this->_getTable();
 
 		// Load the current item if it has been defined
+		$edit	= JRequest::getVar('edit',true);
 		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
-		if ($cid[0]) {
+		if ($edit) {
 			$table->load($cid[0]);
 		}
 
@@ -194,20 +195,20 @@ class MenusModelItem extends JModel
 		$params	= null;
 		$item	= &$this->getItem();
 
-		if ($item->type == 'component') 
+		if ($item->type == 'component')
 		{
 			$comp	= &$this->getComponent();
 			$option	= preg_replace( '#\W#', '', $comp->option );
 			$path	= JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'config.xml';
 
 			$params = new JParameter( $item->params );
-			if (file_exists( $path )) 
+			if (file_exists( $path ))
 			{
 				$xml =& JFactory::getXMLParser('Simple');
-				if ($xml->loadFile($path)) 
+				if ($xml->loadFile($path))
 				{
 					$document =& $xml->document;
-					
+
 					// if hide is set, don't show the component configuration while editing menu item
 					$menu = $document->attributes('menu');
 					if ( isset($menu) && $menu == 'hide' )
@@ -215,8 +216,8 @@ class MenusModelItem extends JModel
 						$params = null;
 						return $params;
 					}
-					
-					if (isset($document->params[0]->param)) 
+
+					if (isset($document->params[0]->param))
 					{
 						for ($i=0,$n=count($document->params[0]->param); $i<$n; $i++)
 						{
@@ -254,7 +255,7 @@ class MenusModelItem extends JModel
 		}
 		return $params;
 	}
-	
+
 	/**
 	 * Get the name of the current menu item
 	 *
@@ -265,12 +266,12 @@ class MenusModelItem extends JModel
 	function getStateName()
 	{
 		$state =& $this->_getStateXML();
-		
+
 		if ( ! is_a($state, 'JSimpleXMLElement'))
 		{
 			return null;
 		}
-		
+
 		$name = null;
 		$sn =& $state->getElementByPath('name');
 		if ($sn) {
@@ -291,12 +292,12 @@ class MenusModelItem extends JModel
 	{
 		$state =& $this->_getStateXML();
 
-		
+
 		if ( ! is_a($state, 'JSimpleXMLElement'))
 		{
 			return null;
 		}
-		
+
 		$description = null;
 		$sd =& $state->getElementByPath('description');
 		if ($sd) {
@@ -322,13 +323,13 @@ class MenusModelItem extends JModel
 	{
 		$id = JRequest::getVar('cid', array(0), '', 'array');
 		JArrayHelper::toInteger( $id, array(0) );
-		
+
 		// Make sure we have a user id to checkout the article with
 		if (is_null($uid)) {
 			$user	=& JFactory::getUser();
 			$uid	= $user->get('id');
 		}
-	
+
 		// Lets get to it and checkout the thing...
 		$item	=& $this->getItem();
 		if(!$item->checkout($uid, $id[0])) {

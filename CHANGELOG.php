@@ -37,12 +37,15 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+05-Oct-2007 Nur Aini Rakhmawati
+ # Fixed [#6111] menu and menu item manager new button for multiple selection
+
 05-Oct-2007 Robin Muilwijk
  ! Added/Removed/Updated installation language files
- 
+
 04-Oct-2007 Nur Aini Rakhmawati
  # Fixed [#6111] weblinks manager new button for multiple selection
-
 
 04-Oct-2007 Mati Kochen
  ^ RTL Issues

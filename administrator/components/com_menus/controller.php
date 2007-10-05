@@ -29,6 +29,7 @@ class MenusController extends JController
 	 */
 	function type()
 	{
+		JRequest::setVar( 'edit', false );
 		$model	=& $this->getModel( 'Item' );
 		$view =& $this->getView( 'Item' );
 		$view->setModel( $model, true );
@@ -43,6 +44,7 @@ class MenusController extends JController
 	 */
 	function edit()
 	{
+		JRequest::setVar( 'edit', true );
 		$model	=& $this->getModel( 'Item' );
 		$model->checkout();
 
@@ -403,14 +405,26 @@ class MenusController extends JController
 
 
 	/**
-	 * Controller for view to create or edit a menu type
+	 * Controller for view to edit a menu type
 	 */
 	function editMenu()
 	{
 		$view =& $this->getView( 'Menus' );
 		$model	=& $this->getModel( 'Menutype' );
 		$view->setModel( $model, true );
-		$view->editForm();
+		$view->editForm(true,null);
+
+	}
+
+	/**
+	 * Controller for view to create a menu type
+	 */
+	function addMenu()
+	{
+		$view =& $this->getView( 'Menus' );
+		$model	=& $this->getModel( 'Menutype' );
+		$view->setModel( $model, true );
+		$view->editForm(false,null);
 	}
 
 	/**
