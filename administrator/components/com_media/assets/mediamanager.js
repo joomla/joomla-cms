@@ -86,7 +86,11 @@ var MediaManager = {
 			}
 		}, query);
 		a.query = query.join('&');
-		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+':'+a.port+a.path+'?'+a.query);
+		if (a.port) {
+			$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+':'+a.port+a.path+'?'+a.query);
+		} else {
+			$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+a.path+'?'+a.query);
+		}
 	},
 
 	oncreatefolder: function()
