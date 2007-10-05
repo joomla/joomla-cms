@@ -39,9 +39,6 @@
 			<th  class="title">
 				<?php echo JHTML::_('grid.sort',   'Poll Title', 'm.title', @$lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th width="15%" align="center">
-				<?php echo JHTML::_('grid.sort',   'Alias', 'm.alias', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-			</th>
 			<th width="5%" align="center">
 				<?php echo JHTML::_('grid.sort',   'Published', 'm.published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
@@ -96,9 +93,6 @@
 				<?php
 			}
 			?>
-			</td>
-			<td>
-				<?php echo $row->alias;?>
 			</td>
 			<td align="center">
 				<?php echo $published;?>

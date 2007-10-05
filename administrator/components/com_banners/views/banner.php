@@ -71,9 +71,6 @@ class BannersViewBanner
 						<?php echo JHTML::_('grid.sort',  'Name', 'b.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Alias', 'b.alias', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
-					<th width="10%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Client', 'c.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
 					<th width="10%" nowrap="nowrap">
@@ -151,9 +148,6 @@ class BannersViewBanner
 							<?php
 						}
 						?>
-					</td>
-					<td>
-						<?php echo $row->alias;?>
 					</td>
 					<td align="center">
 						<?php echo $row->client_name;?>

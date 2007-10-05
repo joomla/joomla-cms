@@ -43,9 +43,6 @@
 			<th class="title">
 				<?php echo JHTML::_('grid.sort',  'Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
-			<th width="15%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',  'Alias', 'a.alias', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-			</th>
 			<th width="5%" nowrap="nowrap">
 				<?php echo JHTML::_('grid.sort',  'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
@@ -105,9 +102,6 @@
 				<?php
 				}
 				?>
-			</td>
-			<td>
-				<?php echo $row->alias;?>
 			</td>
 			<td align="center">
 				<?php echo $published;?>

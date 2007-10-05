@@ -77,7 +77,6 @@ class ContentView
 					</th>
 					<th class="title">
 						<?php echo JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
-						/ <?php echo JText::_( 'Alias' );?>
 					</th>
 					<th width="1%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Published', 'c.state', @$lists['order_Dir'], @$lists['order'] ); ?>

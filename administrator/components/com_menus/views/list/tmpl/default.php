@@ -32,9 +32,6 @@
 			<th class="title">
 				<?php echo JHTML::_('grid.sort',   'Menu Item', 'm.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th class="title" width="10%">
-				<?php echo JHTML::_('grid.sort',   'Alias', 'm.alias', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-			</th>
 			<th width="5%">
 				<?php echo JText::_( 'Default' ); ?>
 			</th>
@@ -48,7 +45,7 @@
 			<th width="10%">
 				<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
-			<th width="10%" class="title">
+			<th width="20%" class="title">
 				<?php echo JHTML::_('grid.sort',   'Type', 'm.type', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="1%" nowrap="nowrap">
@@ -87,9 +84,6 @@
 				<?php else : ?>
 				<a href="<?php echo JRoute::_( 'index.php?option=com_menus&menutype='.$row->menutype.'&task=edit&cid[]='.$row->id ); ?>"><?php echo $row->treename; ?></a>
 				<?php endif; ?>
-			</td>
-			<td>
-				<?php echo $row->alias;?>
 			</td>
 			<td align="center">
 				<?php if ( $row->home == 1 ) : ?>

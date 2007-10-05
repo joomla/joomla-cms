@@ -61,9 +61,6 @@ class HTML_contact
 					<th class="title">
 						<?php echo JHTML::_('grid.sort',   'Name', 'cd.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="10%" class="title" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort',   'Alias', 'cd.alias', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
 					<th width="5%" class="title" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort',   'Published', 'cd.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
@@ -125,9 +122,6 @@ class HTML_contact
 						<?php
 					endif;
 					?>
-					</td>
-					<td>
-						<?php echo $row->alias;?>
 					</td>
 					<td align="center">
 						<?php echo $published;?>

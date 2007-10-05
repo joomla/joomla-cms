@@ -72,9 +72,6 @@ class categories_html
 				<th class="title">
 					<?php echo JHTML::_('grid.sort',   'Title', 'c.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
-				<th width="10%">
-					<?php echo JHTML::_('grid.sort',   'Alias', 'c.alias', @$lists['order_Dir'], @$lists['order'] ); ?>
-				</th>
 				<th width="5%">
 					<?php echo JHTML::_('grid.sort',   'Published', 'c.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
@@ -152,9 +149,6 @@ class categories_html
 						<?php
 					}
 					?></span>
-				</td>
-				<td>
-					<?php echo $row->alias;?>
 				</td>
 				<td align="center">
 					<?php echo $published;?>

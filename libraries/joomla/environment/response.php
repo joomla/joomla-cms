@@ -82,7 +82,7 @@ class JResponse
 			'value'	=> $value
 		);
 	}
-
+	
 	/**
 	 * Return array of headers;
 	 *

@@ -63,9 +63,6 @@ class HTML_newsfeeds
 					<th class="title">
 						<?php echo JHTML::_('grid.sort',   'News Feed', 'a.name', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
-					<th width="15%">
-						<?php echo JHTML::_('grid.sort',   'Alias', 'a.alias', @$lists['order_Dir'], @$lists['order'] ); ?>
-					</th>
 					<th width="5%">
 						<?php echo JHTML::_('grid.sort',   'Published', 'a.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 					</th>
@@ -125,9 +122,6 @@ class HTML_newsfeeds
 							<?php
 						}
 						?>
-					</td>
-					<td>
-						<?php echo $row->alias;?>
 					</td>
 					<td align="center">
 						<?php echo $published;?>

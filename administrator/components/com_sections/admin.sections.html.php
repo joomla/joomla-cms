@@ -67,9 +67,6 @@ class sections_html
 				<th class="title">
 					<?php echo JHTML::_('grid.sort',   'Title', 's.title', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
-				<th width="15%">
-					<?php echo JHTML::_('grid.sort',   'Alias', 's.alias', @$lists['order_Dir'], @$lists['order'] ); ?>
-				</th>
 				<th width="5%">
 					<?php echo JHTML::_('grid.sort',   'Published', 's.published', @$lists['order_Dir'], @$lists['order'] ); ?>
 				</th>
@@ -132,9 +129,6 @@ class sections_html
 						<?php
 					}
 					?></span>
-				</td>
-				<td>
-					<?php echo $row->alias;?>
 				</td>
 				<td align="center">
 					<?php echo $published;?>
