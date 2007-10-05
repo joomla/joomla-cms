@@ -168,7 +168,7 @@ class JTableUser extends JTable
 		$this->_db->setQuery( $query );
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->setError(  'WARNREG_INUSE'  );
+			$this->setError(  JText::_('WARNREG_INUSE'));
 			return false;
 		}
 
