@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5" client="installation">
+	<name>German(AT)</name>
+	<version>3.01.05</version>
+	<creationDate>Sept 2007</creationDate>
+	<author>Stefan Gabardi</author>
+	<authorEmail>info@joomla.at</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Übersetzung der Joomla!-Installation ins Deutsche (österreichisch).</description>
+	<metadata>
+		<name>German (AT)</name>
+		<tag>de-At</tag>
+		<rtl>0</rtl>
+		<locale>de-AT.utf8, de-AT.utf8@euro, de_AT, de, ger, german, austrian, austria</locale>
+		<winCodePage>iso-8859-1</winCodePage>
+		<backwardLang>german</backwardLang>
+	</metadata>
+	<params />
+</metafile>

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile version="1.5" client="installation" >
-	<tag>fi-FI</tag>
 	<name>Finnish (Suomi)</name>
-	<description>Asennusohjelman kielitiedosto</description>
 	<version>1.5.0</version>
-	<creationDate>23.8.2007</creationDate>
+	<creationDate>18.9.2007</creationDate>
 	<author>Joomlaportal.fi / Markku Suominen</author>
 	<authorEmail>admin@joomlaportal.fi</authorEmail>
-	<authorUrl>www.joomla.org</authorUrl>
+	<authorUrl>www.joomlaportal.fi</authorUrl>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Asennusohjelman kielitiedosto / Finnish language file for web installer</description>
 	<metadata>
 		<name>Finnish (Suomi)</name>
 		<tag>fi-FI</tag>
@@ -17,7 +16,6 @@
 		<locale>fi_FI.utf8,fi_FI.UTF-8,finnish, fi_FI, fin_FI, fi</locale>
 		<winCodePage>iso-8859-1</winCodePage>
 		<backwardLang>finnish</backwardLang>
-		<pdffontname>vera</pdffontname>
 	</metadata>
 	<params />
 </metafile>

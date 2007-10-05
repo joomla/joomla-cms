@@ -2,10 +2,10 @@
 <metafile version="1.5" client="installation">
     <name>Svenska (Sweden)</name>
     <version>1.5.0</version>
-    <creationdate>August 30, 2007</creationdate>
-    <author>SvenskJoomla!</author>
-    <authoremail>info@svenskjoomla.se</authoremail>
-    <authorurl>www.joomla.org</authorurl>
+    <creationDate>September 23, 2007</creationDate>
+    <author>SvenskJoomla! - Sune Hultman and Christer Gerhardsson</author>
+    <authorEmail>info@svenskjoomla.se</authorEmail>
+    <authorUrl>www.svenskjoomla.se</authorUrl>
     <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
   	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>Swedish language file for web installer</description>

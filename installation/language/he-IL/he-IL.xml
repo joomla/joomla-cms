@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5"  client="installation" >
+	<tag>he-IL</tag>
+	<name>Hebrew(IL)</name>
+	<description></description>
+	<version>1.5.0</version>
+	<creationdate>2007-09-29</creationdate>
+	<author>Hebrew Translation Team</author>
+	<authorurl>www.joomla.org</authorurl>
+	<authoremail>info@joomla.co.il</authoremail>
+	<copyright>(C) 2005 - 2006 joomla.co.il. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<metadata>
+		<name>Hebrew(IL)</name>
+		<tag>he-IL</tag>
+		<rtl>1</rtl>
+		<locale>he_IL.utf-8, heb_IL.utf-8, he, hebrew</locale>
+		<wincodepage>windows-1255</wincodepage>
+		<backwardlang>hebrew</backwardlang>
+		<pdffontname>vera</pdffontname>
+	</metadata>
+	<params></params>
+</metafile>

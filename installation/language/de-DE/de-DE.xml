@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: de-DE.xml 8041 2007-07-18 10:25:00Z Joomla! German $ -->
+<metafile version="1.5" client="installation" >
+    <name>German (Germany)</name>
+    <version>1.5.0</version>
+    <creationDate>23.07.2007</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>German language file for Web Installer</description>
+    <metadata>
+    	<name>German (De)</name>
+    	<tag>de-DE</tag>
+    	<rtl>0</rtl>
+    	<locale>de_DE.UTF-8, de_DE.UTF-8@euro, de-DE.utf8, de-DE.utf8@euro, de_DE, ger_DE, ger-DE, deu_de, de, deu, ger, german-de, german, germany</locale>
+     	<winCodePage>iso-8859-1</winCodePage>
+    	<backwardLang>german</backwardLang>
+    </metadata>
+    <params />
+</metafile>

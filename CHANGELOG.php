@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Oct-2007 Robin Muilwijk
+ ! Added/Removed/Updated installation language files
+ 
 04-Oct-2007 Nur Aini Rakhmawati
  # Fixed [#6111] weblinks manager new button for multiple selection
 
