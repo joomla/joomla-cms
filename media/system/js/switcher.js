@@ -50,7 +50,7 @@ var JSwitcher = new Class({
 
 		this.show(this.page);
 
-		if(page = Cookie.get(this.options.cookieName)) {
+		if(page == Cookie.get(this.options.cookieName)) {
 			this.switchTo($(page));
 		}
 	},

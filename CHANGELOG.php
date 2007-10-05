@@ -40,6 +40,7 @@ Legend:
 
 05-Oct-2007 Nur Aini Rakhmawati
  # Fixed [#6111] menu and menu item manager new button for multiple selection
+ # Fixed [#7423] System Info Java Script Error
 
 05-Oct-2007 Robin Muilwijk
  ! Added/Removed/Updated installation language files
