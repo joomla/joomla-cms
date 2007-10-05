@@ -56,10 +56,6 @@ defined('_JEXEC') or die('Restricted access');
 	<?php echo nl2br($this->contact->fax); ?></p>
 	<?php endif; ?>
 
-	<?php if ($this->contact->mobile && $this->contact->params->get('show_mobile')) : ?>
-	<p><?php echo nl2br($this->contact->mobile); ?></p>
-	<?php endif; ?>
-
 	<?php if ($this->contact->webpage && $this->contact->params->get('show_webpage')) : ?>
 	<p><a href="<?php echo $this->contact->webpage; ?>" target="_blank">
 	<?php echo $this->contact->webpage; ?></a></p>
