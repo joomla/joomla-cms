@@ -109,12 +109,16 @@ class ContentController extends JController
 	*/
 	function save()
 	{
-		global $mainframe;
-
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$task		= JRequest::getVar('task', null, 'default', 'cmd');
+		
+		//check the token before we do anything else
+		$token	= JUtility::getToken();
+		if(!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
@@ -230,21 +234,8 @@ class ContentController extends JController
 			$msg = $isNew ? JText::_('THANK_SUB') : JText::_('Item successfully saved.');
 		}
 
-		switch ($task)
-		{
-			case 'apply' :
-				$link = $_SERVER['HTTP_REFERER'];
-				break;
-
-			case 'apply_new' :
-				$link = JRoute::_('index.php?option=com_content&task=edit&id='.$post['id'], false);
-				break;
-
-			case 'save' :
-			default :
-				$link = JRoute::_('index.php?option=com_content&view=article&id='.$post['id'], false);
-				break;
-		}
+		
+		$link = JRequest::getString('referer', JURI::base(), 'post');
 		$this->setRedirect($link, $msg);
 	}
 
@@ -260,9 +251,6 @@ class ContentController extends JController
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
 
-		// At some point in the future these will be in a request object
-		$Itemid	= JRequest::getVar('Returnid', '0', 'post', 'int');
-
 		// Get an article table object and bind post variabes to it [We don't need a full model here]
 		$article = & JTable::getInstance('content');
 		$article->bind(JRequest::get('post'));
@@ -272,7 +260,7 @@ class ContentController extends JController
 		}
 
 		// If the task was edit or cancel, we go back to the content item
-		$referer = JRequest::getVar('referer', JURI::Base() .'index.php', 'post', 'string');
+		$referer = JRequest::getString('referer', JURI::base(), 'post');
 		$this->setRedirect($referer);
 	}
 

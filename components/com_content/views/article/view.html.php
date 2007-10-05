@@ -160,11 +160,12 @@ class ContentViewArticle extends ContentView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		// Initialize variables
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
+		$uri     	 =& JFactory::getURI();
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
@@ -179,7 +180,6 @@ class ContentViewArticle extends ContentView
 
 		// At some point in the future this will come from a request object
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-		$returnid	= JRequest::getVar('Returnid', $Itemid, '', 'int');
 
 		// Add the Calendar includes to the document <head> section
 		JHTML::_('behavior.calendar');
@@ -219,13 +219,15 @@ class ContentViewArticle extends ContentView
 		// Ensure the row data is safe html
 		jimport('joomla.filter.output');
 		JFilterOutput::objectHTMLSafe( $article);
-
-		$this->set('returnid',	$returnid);
-		$this->set('article',	$article);
-		$this->set('params',	$params);
-		$this->set('lists',		$lists);
-		$this->set('editor',	$editor);
-		$this->set('user',		$user);
+		
+		$this->assign('action', 	$uri->toString());
+		
+		$this->assignRef('article',	$article);
+		$this->assignRef('params',	$params);
+		$this->assignRef('lists',	$lists);
+		$this->assignRef('editor',	$editor);
+		$this->assignRef('user',	$user);
+			
 
 		parent::display($tpl);
 	}

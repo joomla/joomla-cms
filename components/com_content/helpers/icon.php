@@ -27,8 +27,6 @@ class JHTMLIcon
 {
 	function create($article, $params, $access, $attribs = array())
 	{
-		global $Itemid;
-
 		$user =& JFactory::getUser();
 
 		$url = 'index.php?task=new&id=0&sectionid='.$article->sectionid;
@@ -45,8 +43,6 @@ class JHTMLIcon
 
 	function pdf($article, $params, $access, $attribs = array())
 	{
-		global $Itemid;
-
 		$user =& JFactory::getUser();
 
 		$url  = 'index.php?view=article;';
@@ -71,8 +67,6 @@ class JHTMLIcon
 
 	function email($article, $params, $access, $attribs = array())
 	{
-		global $Itemid;
-
 		$user =& JFactory::getUser();
 
 		$link	= JURI::base().JRoute::_("index.php?view=article&id=".$article->slug, false);
@@ -95,8 +89,6 @@ class JHTMLIcon
 
 	function edit($article, $params, $access, $attribs = array())
 	{
-		global $Itemid;
-
 		$user =& JFactory::getUser();
 
 		if ($params->get('popup')) {
@@ -113,7 +105,7 @@ class JHTMLIcon
 
 		JHTML::_('behavior.tooltip');
 
-		$url = 'index.php?view=article&id='.$article->id.'&task=edit&Returnid='.$Itemid;
+		$url = 'index.php?view=article&id='.$article->slug.'&task=edit';
 		$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
 		$text = JHTML::_('image.site', $icon, '/images/M_images/', NULL, NULL, JText::_('Edit'));
 
@@ -141,8 +133,6 @@ class JHTMLIcon
 
 	function print_popup($article, $params, $access, $attribs = array())
 	{
-		global $Itemid;
-
 		$user =& JFactory::getUser();
 
 		$url  = 'index.php?view=article';
@@ -166,8 +156,6 @@ class JHTMLIcon
 
 	function print_screen($article, $params, $access, $attribs = array())
 	{
-		global $Itemid;
-
 		$user =& JFactory::getUser();
 
 		// checks template image directory for image, if non found default are loaded

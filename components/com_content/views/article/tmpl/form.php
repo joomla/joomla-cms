@@ -47,7 +47,7 @@ function submitbutton(pressbutton) {
 }
 //-->
 </script>
-<form action="index.php" method="post" name="adminForm" onSubmit="setgood();">
+<form action="<?php echo $this->action ?>" method="post" name="adminForm" onSubmit="setgood();">
 <fieldset>
 <legend><?php echo JText::_('Editor'); ?></legend>
 <table class="adminform" width="100%">
@@ -202,11 +202,11 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 </fieldset>
 
 <input type="hidden" name="option" value="com_content" />
-<input type="hidden" name="Returnid" value="<?php echo $this->returnid; ?>" />
 <input type="hidden" name="id" value="<?php echo $this->article->id; ?>" />
 <input type="hidden" name="version" value="<?php echo $this->article->version; ?>" />
 <input type="hidden" name="created_by" value="<?php echo $this->article->created_by; ?>" />
 <input type="hidden" name="referer" value="<?php echo @$_SERVER['HTTP_REFERER']; ?>" />
+<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 <input type="hidden" name="task" value="" />
 </form>
 <?php echo JHTML::_('behavior.keepalive'); ?>
