@@ -581,27 +581,14 @@ class JInstaller extends JObject
 		}
 
 		/*
-		 * Here we set the folder we are going to remove the files from.  There are a few
-		 * special cases that need to be considered for certain reserved tags.
-		 *
-		 * 	- 'media' Files are copied to the JPATH_BASE/images/stories/ folder
-		 * 	- 'languages' Files are copied to JPATH_BASE/languages/ folder
+		 * Here we set the folder we are going to remove the files from.
 		 */
-		switch ($element->name())
-		{
-			case 'languages':
-				$destination = $client->path.DS.'language';
-				break;
-
-			default:
-				if ($client) {
-					$pathname = 'extension_'.$client->name;
-					$destination = $this->getPath($pathname);
-				} else {
-					$pathname = 'extension_root';
-					$destination = $this->getPath($pathname);
-				}
-				break;
+		if ($client) {
+			$pathname = 'extension_'.$client->name;
+			$destination = $this->getPath($pathname);
+		} else {
+			$pathname = 'extension_root';
+			$destination = $this->getPath($pathname);
 		}
 
 		/*
@@ -620,30 +607,10 @@ class JInstaller extends JObject
 		}
 
 		// Process each file in the $files array (children of $tagName).
-		foreach ($files as $file) {
-			/*
-			 * If the file is a language, we must handle it differently.  Language files
-			 * go in a subdirectory based on the language code, ie.
-			 *
-			 * 		<language tag="en-US">en-US.mycomponent.ini</language>
-			 *
-			 * would go in the en-US subdirectory of the languages directory.
-			 *
-			 * We will only install language files where a core language pack
-			 * already exists.
-			 */
-			if ($file->name() == 'language' && $file->attributes('tag') != '') {
-				$path['src']	= $source.DS.$file->data();
-				$path['dest']	= $destination.DS.$file->attributes('tag').DS.basename($file->data());
-
-				// If the language folder is not present, then the core pack hasn't been installed... ignore
-				if (!JFolder::exists(dirname($path['dest']))) {
-					continue;
-				}
-			} else {
-				$path['src']	= $source.DS.$file->data();
-				$path['dest']	= $destination.DS.$file->data();
-			}
+		foreach ($files as $file)
+		{
+			$path['src']	= $source.DS.$file->data();
+			$path['dest']	= $destination.DS.$file->data();
 
 			// Is this path a file or folder?
 			$path['type']	= ( $file->name() == 'folder') ? 'folder' : 'file';
@@ -723,7 +690,8 @@ class JInstaller extends JObject
 		}
 
 		// Process each file in the $files array (children of $tagName).
-		foreach ($files as $file) {
+		foreach ($files as $file)
+		{
 			/*
 			 * Language files go in a subfolder based on the language code, ie.
 			 *
