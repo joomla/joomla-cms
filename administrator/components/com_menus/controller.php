@@ -122,10 +122,20 @@ class MenusController extends JController
 	*/
 	function doCopy()
 	{
+		global $mainframe; 
+		
 		// Get some variables from the request
-		$menu	= JRequest::getVar( 'menu', '', 'post', 'string' );
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$menu	 	= JRequest::getString( 'menu', '', 'post');
+		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
+		
+		//Check to see of a menu was selected to copy the items too
+		if (empty($menu)) 
+		{
+			$msg = JText::_('Please select a menu from the list');
+			$mainframe->enqueueMessage($msg, 'message');
+			return $this->execute('copy');
+		}
 
 		$model	=& $this->getModel( 'List' );
 
@@ -153,10 +163,20 @@ class MenusController extends JController
 	*/
 	function doMove()
 	{
+		global $mainframe; 
+		
 		// Get some variables from the request
 		$menu	= JRequest::getVar( 'menu', '', 'post', 'string' );
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
+		
+		//Check to see if a menu was selected to copy the items too
+		if (empty($menu)) 
+		{
+			$msg = JText::_('Please select a menu from the list');
+			$mainframe->enqueueMessage($msg, 'message');
+			return $this->execute('move');
+		}
 
 		$model	=& $this->getModel( 'List' );
 
