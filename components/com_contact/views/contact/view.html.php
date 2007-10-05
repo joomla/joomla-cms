@@ -113,6 +113,7 @@ class ContactViewContact extends JView
 				$contact->params->set('marker_email', 		JText::_('Email').": ");
 				$contact->params->set('marker_telephone', 	JText::_('Telephone').": ");
 				$contact->params->set('marker_fax', 		JText::_('Fax').": ");
+				$contact->params->set('marker_mobile',		JText::_('Mobile').": ");
 				$contact->params->set('marker_misc', 		JText::_('Information').": ");
 				$contact->params->set('column_width', 		'100');
 				break;

@@ -68,6 +68,16 @@
 	</td>
 </tr>
 <?php endif; ?>
+<?php if ( $this->contact->mobile && $this->contact->params->get( 'show_mobile' ) ) :?>
+<tr>
+	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
+	<?php echo $this->contact->params->get( 'marker_mobile' ); ?>
+	</td>
+	<td>
+		<?php echo nl2br($this->contact->mobile); ?>
+	</td>
+</tr>
+<?php endif; ?>
 <?php if ( $this->contact->fax && $this->contact->params->get( 'show_fax' ) ) : ?>
 <tr>
 	<td width="<?php echo $this->contact->params->get( 'column_width' ); ?>" >
