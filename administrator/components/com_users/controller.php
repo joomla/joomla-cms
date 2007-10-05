@@ -88,8 +88,7 @@ class UsersController extends JController
 			$mainframe->enqueueMessage($user->getError(), 'error');
 			//$mainframe->redirect( 'index.php?option=com_users', $user->getError() );
 			//return false;
-			JRequest::setVar( 'task', 'edit');
-			return $this->display();
+			return $this->execute('edit');
 		}
 
 		// Are we dealing with a new user which we need to create?
@@ -124,8 +123,7 @@ class UsersController extends JController
 		{
 			$mainframe->enqueueMessage('Cannot save the user information', 'message');
 			$mainframe->enqueueMessage($user->getError(), 'error');
-			JRequest::setVar( 'task', 'edit');
-			return $this->display();
+			return $this->execute('edit');
 		}
 
 		/*
