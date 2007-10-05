@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+-------------------- 1.5.0 Release Candidate 3 Released [5-October-2007] ---------------------
+
 05-Oct-2007 Johan Janssens
  + Added milkyway translations
 

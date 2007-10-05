@@ -35,11 +35,11 @@ class JVersion
 	/** @var int build Number */
 	var $BUILD	 	= '';
 	/** @var string Codename */
-	var $CODENAME 	= 'Endeleo';
+	var $CODENAME 	= 'Takriban';
 	/** @var string Date */
-	var $RELDATE 	= '1-September-2007';
+	var $RELDATE 	= '5-October-2007';
 	/** @var string Time */
-	var $RELTIME 	= '15:00';
+	var $RELTIME 	= '21:00';
 	/** @var string Timezone */
 	var $RELTZ 		= 'GMT';
 	/** @var string Copyright Text */
