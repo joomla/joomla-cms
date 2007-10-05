@@ -89,7 +89,7 @@ class UsersController extends JController
 			//$mainframe->redirect( 'index.php?option=com_users', $user->getError() );
 			//return false;
 			JRequest::setVar( 'task', 'edit');
-			return $this->edit();
+			return $this->display();
 		}
 
 		// Are we dealing with a new user which we need to create?
@@ -125,7 +125,7 @@ class UsersController extends JController
 			$mainframe->enqueueMessage('Cannot save the user information', 'message');
 			$mainframe->enqueueMessage($user->getError(), 'error');
 			JRequest::setVar( 'task', 'edit');
-			return $this->edit();
+			return $this->display();
 		}
 
 		/*
@@ -164,8 +164,6 @@ class UsersController extends JController
 
 	function remove()
 	{
-		global $mainframe;
-
 		$db 			=& JFactory::getDBO();
 		$currentUser 	=& JFactory::getUser();
 		$acl			=& JFactory::getACL();
@@ -245,8 +243,6 @@ class UsersController extends JController
 
 	function block( )
 	{
-		global $mainframe;
-
 		$db 			=& JFactory::getDBO();
 		$acl			=& JFactory::getACL();
 		$currentUser 	=& JFactory::getUser();
