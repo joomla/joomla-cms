@@ -46,14 +46,14 @@ defined('_JEXEC') or die('Restricted access');
 	<?php echo nl2br($this->contact->telephone); ?></p>
 	<?php endif; ?>
 	
-	<?php if ( $this->contact->mobile && $this->contact->params->get( 'show_mobile' ) ) :?>
-	<p><span class="marker"><?php echo $this->contact->params->get( 'marker_mobile' ); ?></span>
-	<?php echo nl2br($this->contact->mobile); ?></p>
-	<?php endif; ?>
-
 	<?php if ($this->contact->fax && $this->contact->params->get('show_fax')) : ?>
 	<p><span class="marker"><?php echo $this->contact->params->get('marker_fax'); ?></span>
 	<?php echo nl2br($this->contact->fax); ?></p>
+	<?php endif; ?>
+	
+	<?php if ( $this->contact->mobile && $this->contact->params->get( 'show_mobile' ) ) :?>
+	<p><span class="marker"><?php echo $this->contact->params->get( 'marker_mobile' ); ?></span>
+	<?php echo nl2br($this->contact->mobile); ?></p>
 	<?php endif; ?>
 
 	<?php if ($this->contact->webpage && $this->contact->params->get('show_webpage')) : ?>
