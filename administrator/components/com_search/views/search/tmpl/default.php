@@ -87,5 +87,5 @@
 		<input type="hidden" name="option" value="com_search" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $lists['order_Dir']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
 		</form>

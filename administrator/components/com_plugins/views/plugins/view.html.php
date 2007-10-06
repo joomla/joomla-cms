@@ -45,6 +45,7 @@ class PluginsViewPlugins extends JView
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
 		$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
 
+		$where = '';
 		if ($client == 'admin') {
 			$where[] = 'p.client_id = 1';
 			$client_id = 1;
@@ -96,6 +97,7 @@ class PluginsViewPlugins extends JView
 			echo $db->stderr();
 			return false;
 		}
+		
 
 		// get list of Positions for dropdown filter
 		$query = 'SELECT folder AS value, folder AS text'
