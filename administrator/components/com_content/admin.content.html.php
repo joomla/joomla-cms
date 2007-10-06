@@ -197,7 +197,7 @@ class ContentView
 						if (  JTable::isCheckedOut($user->get ('id'), $row->checked_out ) ) {
 							echo $row->title;
 						} else if ($row->state == -1) {
-							echo htmlspecialchars($row->title, ENT_QUOTES);
+							echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');
 							echo ' [ '. JText::_( 'Archived' ) .' ]';
 						} else {
 							?>

@@ -41,7 +41,7 @@ class ContentViewCategory extends JView
 		foreach ( $rows as $row )
 		{
 			// strip html from feed item title
-			$title = htmlspecialchars( $row->title );
+			$title = $this->escape( $row->title );
 			$title = html_entity_decode( $title );
 
 			// url link to article

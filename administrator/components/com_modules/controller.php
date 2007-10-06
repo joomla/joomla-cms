@@ -365,7 +365,7 @@ class ModulesController extends JController
 			return JError::raiseWarning( 500, JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The module' ), $row->title ) );
 		}
 
-		$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ) );
+		$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ), ENT_COMPAT, 'UTF-8' );
 
 		if ( $cid[0] ) {
 			$row->checkout( $user->get('id') );

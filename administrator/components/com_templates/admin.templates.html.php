@@ -518,7 +518,7 @@ class TemplatesView
 ?>
 			<tr class="<?php echo 'row'. $k; ?>">
 				<td width="5%">
-					<input type="radio" id="cb<?php echo $i;?>" name="filename" value="<?php echo htmlspecialchars( $file ); ?>" onClick="isChecked(this.checked);" />
+					<input type="radio" id="cb<?php echo $i;?>" name="filename" value="<?php echo htmlspecialchars( $file, ENT_COMPAT, 'UTF-8' ); ?>" onClick="isChecked(this.checked);" />
 				</td>
 				<td width="85%">
 					<?php echo $file; ?>

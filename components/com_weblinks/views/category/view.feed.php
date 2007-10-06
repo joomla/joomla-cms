@@ -44,7 +44,7 @@ class WeblinksViewCategory extends JView
 		foreach ( $items as $item )
 		{
 			// strip html from feed item title
-			$title = htmlspecialchars( $item->title );
+			$title = $this->escape( $item->title );
 			$title = html_entity_decode( $title );
 
 			// url link to article

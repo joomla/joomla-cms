@@ -83,7 +83,7 @@ if (count( $rows ))
 			else
 			{
 				$linkA 	= 'index.php?option=com_users&amp;task=edit&amp;cid[]='. $row->created_by;
-				$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. htmlspecialchars( $row->name, ENT_QUOTES ) .'</a>';
+				$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. htmlspecialchars( $row->name, ENT_QUOTES, 'UTF-8' ) .'</a>';
 			}
 		}
 		else
@@ -94,14 +94,14 @@ if (count( $rows ))
 			}
 			else
 			{
-				$author = htmlspecialchars( $row->name, ENT_QUOTES );
+				$author = htmlspecialchars( $row->name, ENT_QUOTES, 'UTF-8' );
 			}
 		}
 		?>
 		<tr>
 			<td>
 				<a href="<?php echo $link; ?>">
-					<?php echo htmlspecialchars($row->title, ENT_QUOTES);?></a>
+					<?php echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8);?></a>
 			</td>
 			<td>
 				<?php echo $row->$dateProperty;?>

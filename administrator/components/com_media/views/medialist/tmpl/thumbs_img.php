@@ -14,6 +14,6 @@
 				<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_img->name; ?>" />
 			</div>
 			<div class="imginfoBorder">
-				<a href="<?php echo $this->baseURL.'images/'.$this->_tmp_img->path_relative; ?>" class="preview"><?php echo htmlspecialchars( substr( $this->_tmp_img->name, 0, 10 ) . ( strlen( $this->_tmp_img->name ) > 10 ? '...' : ''), ENT_QUOTES ); ?></a>
+				<a href="<?php echo $this->baseURL.'images/'.$this->_tmp_img->path_relative; ?>" class="preview"><?php echo $this->escape( substr( $this->_tmp_img->name, 0, 10 ) . ( strlen( $this->_tmp_img->name ) > 10 ? '...' : '')); ?></a>
 			</div>
 		</div>

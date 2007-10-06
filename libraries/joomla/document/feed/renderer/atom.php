@@ -58,11 +58,11 @@ jimport( 'joomla.utilities.date' );
 			$feed.= " xml:lang=\"".$data->language."\"";
 		}
 		$feed.= ">\n";
-		$feed.= "	<title>".htmlspecialchars($data->title)."</title>\n";
-		$feed.= "	<subtitle>".htmlspecialchars($data->description)."</subtitle>\n";
+		$feed.= "	<title>".htmlspecialchars($data->title, ENT_COMPAT, 'UTF-8')."</title>\n";
+		$feed.= "	<subtitle>".htmlspecialchars($data->description, ENT_COMPAT, 'UTF-8')."</subtitle>\n";
 		$feed.= "	<link rel=\"alternate\" type=\"text/html\" href=\"".$data->link."\"/>\n";
 		$feed.= "	<id>".$data->link."</id>\n";
-		$feed.= "	<updated>".htmlspecialchars($now->toISO8601())."</updated>\n";
+		$feed.= "	<updated>".htmlspecialchars($now->toISO8601(), ENT_COMPAT, 'UTF-8')."</updated>\n";
 		if ($data->editor!="") {
 			$feed.= "	<author>\n";
 			$feed.= "		<name>".$data->editor."</name>\n";
@@ -76,25 +76,25 @@ jimport( 'joomla.utilities.date' );
 		for ($i=0;$i<count($data->items);$i++)
 		{
 			$feed.= "	<entry>\n";
-			$feed.= "		<title>".htmlspecialchars(strip_tags($data->items[$i]->title))."</title>\n";
-			$feed.= "		<link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($data->items[$i]->link)."\"/>\n";
+			$feed.= "		<title>".htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8')."</title>\n";
+			$feed.= "		<link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($data->items[$i]->link, ENT_COMPAT, 'UTF-8')."\"/>\n";
 
 			if ($data->items[$i]->date=="") {
 				$data->items[$i]->date = time();
 			}
 			$itemDate = new JDate($data->items[$i]->date);
-			$feed.= "		<published>".htmlspecialchars($itemDate->toISO8601())."</published>\n";
-			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601())."</updated>\n";
-			$feed.= "		<id>".htmlspecialchars($data->items[$i]->link)."</id>\n";
+			$feed.= "		<published>".htmlspecialchars($itemDate->toISO8601(), ENT_COMPAT, 'UTF-8')."</published>\n";
+			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601(),ENT_COMPAT, 'UTF-8')."</updated>\n";
+			$feed.= "		<id>".htmlspecialchars($data->items[$i]->link, ENT_COMPAT, 'UTF-8')."</id>\n";
 
 			if ($data->items[$i]->author!="")
 			{
 				$feed.= "		<author>\n";
-				$feed.= "			<name>".htmlspecialchars($data->items[$i]->author)."</name>\n";
+				$feed.= "			<name>".htmlspecialchars($data->items[$i]->author, ENT_COMPAT, 'UTF-8')."</name>\n";
 				$feed.= "		</author>\n";
 			}
 			if ($data->items[$i]->description!="") {
-				$feed.= "		<summary type=\"html\">".htmlspecialchars($data->items[$i]->description)."</summary>\n";
+				$feed.= "		<summary type=\"html\">".htmlspecialchars($data->items[$i]->description, ENT_COMPAT, 'UTF-8')."</summary>\n";
 			}
 			if ($data->items[$i]->enclosure != NULL) {
 			$feed.="		<link rel=\"enclosure\" href=\"". $data->items[$i]->enclosure->url ."\" type=\"". $data->items[$i]->enclosure->type."\"  length=\"". $data->items[$i]->enclosure->length . "\" />\n";

@@ -54,14 +54,14 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed.= "		<title>".$data->title."</title>\n";
 		$feed.= "		<description>".$data->description."</description>\n";
 		$feed.= "		<link>".$data->getBase().$data->link."</link>\n";
-		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822())."</lastBuildDate>\n";
+		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822(), ENT_COMPAT, 'UTF-8')."</lastBuildDate>\n";
 		$feed.= "		<generator>".$data->getGenerator()."</generator>\n";
 
 		if ($data->image!=null)
 		{
 			$re.= "		<image>\n";
 			$feed.= "			<url>".$data->image->url."</url>\n";
-			$feed.= "			<title>".htmlspecialchars($data->image->title)."</title>\n";
+			$feed.= "			<title>".htmlspecialchars($data->image->title, ENT_COMPAT, 'UTF-8')."</title>\n";
 			$feed.= "			<link>".$data->image->link."</link>\n";
 			if ($data->image->width != "") {
 				$feed.= "			<width>".$data->image->width."</width>\n";
@@ -78,65 +78,65 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "		<language>".$data->language."</language>\n";
 		}
 		if ($data->copyright!="") {
-			$feed.= "		<copyright>".htmlspecialchars($data->copyright)."</copyright>\n";
+			$feed.= "		<copyright>".htmlspecialchars($data->copyright,ENT_COMPAT, 'UTF-8')."</copyright>\n";
 		}
 		if ($data->editor!="") {
-			$feed.= "		<managingEditor>".htmlspecialchars($data->editor)."</managingEditor>\n";
+			$feed.= "		<managingEditor>".htmlspecialchars($data->editor, ENT_COMPAT, 'UTF-8')."</managingEditor>\n";
 		}
 		if ($data->webmaster!="") {
-			$feed.= "		<webMaster>".htmlspecialchars($data->webmaster)."</webMaster>\n";
+			$feed.= "		<webMaster>".htmlspecialchars($data->webmaster, ENT_COMPAT, 'UTF-8')."</webMaster>\n";
 		}
 		if ($data->pubDate!="") {
 			$pubDate = new JDate($data->pubDate);
-			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822())."</pubDate>\n";
+			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(),ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 		}
 		if ($data->category!="") {
-			$feed.= "		<category>".htmlspecialchars($data->category)."</category>\n";
+			$feed.= "		<category>".htmlspecialchars($data->category, ENT_COMPAT, 'UTF-8')."</category>\n";
 		}
 		if ($data->docs!="") {
-			$feed.= "		<docs>".htmlspecialchars($data->docs)."</docs>\n";
+			$feed.= "		<docs>".htmlspecialchars($data->docs, ENT_COMPAT, 'UTF-8')."</docs>\n";
 		}
 		if ($data->ttl!="") {
-			$feed.= "		<ttl>".htmlspecialchars($data->ttl)."</ttl>\n";
+			$feed.= "		<ttl>".htmlspecialchars($data->ttl, ENT_COMPAT, 'UTF-8')."</ttl>\n";
 		}
 		if ($data->rating!="") {
-			$feed.= "		<rating>".htmlspecialchars($data->rating)."</rating>\n";
+			$feed.= "		<rating>".htmlspecialchars($data->rating, ENT_COMPAT, 'UTF-8')."</rating>\n";
 		}
 		if ($data->skipHours!="") {
-			$feed.= "		<skipHours>".htmlspecialchars($data->skipHours)."</skipHours>\n";
+			$feed.= "		<skipHours>".htmlspecialchars($data->skipHours, ENT_COMPAT, 'UTF-8')."</skipHours>\n";
 		}
 		if ($data->skipDays!="") {
-			$feed.= "		<skipDays>".htmlspecialchars($data->skipDays)."</skipDays>\n";
+			$feed.= "		<skipDays>".htmlspecialchars($data->skipDays, ENT_COMPAT, 'UTF-8')."</skipDays>\n";
 		}
 
 		for ($i=0; $i<count($data->items); $i++)
 		{
 			$feed.= "		<item>\n";
-			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title))."</title>\n";
+			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8')."</title>\n";
 			$feed.= "			<link>".$data->getBase().$data->items[$i]->link."</link>\n";
 			$feed.= "			<description><![CDATA[".$this->_relToAbs($data->items[$i]->description)."]]></description>\n";
 
 			if ($data->items[$i]->author!="") {
-				$feed.= "			<author>".htmlspecialchars($data->items[$i]->author)."</author>\n";
+				$feed.= "			<author>".htmlspecialchars($data->items[$i]->author, ENT_COMPAT, 'UTF-8')."</author>\n";
 			}
 			/*
 			// on hold
 			if ($data->items[$i]->source!="") {
-					$data.= "			<source>".htmlspecialchars($data->items[$i]->source)."</source>\n";
+					$data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
 			}
 			*/
 			if ($data->items[$i]->category!="") {
-				$feed.= "			<category>".htmlspecialchars($data->items[$i]->category)."</category>\n";
+				$feed.= "			<category>".htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8')."</category>\n";
 			}
 			if ($data->items[$i]->comments!="") {
-				$feed.= "			<comments>".htmlspecialchars($data->items[$i]->comments)."</comments>\n";
+				$feed.= "			<comments>".htmlspecialchars($data->items[$i]->comments, ENT_COMPAT, 'UTF-8')."</comments>\n";
 			}
 			if ($data->items[$i]->date!="") {
 			$itemDate = new JDate($data->items[$i]->date);
-				$feed.= "			<pubDate>".htmlspecialchars($itemDate->toRFC822())."</pubDate>\n";
+				$feed.= "			<pubDate>".htmlspecialchars($itemDate->toRFC822(), ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 			}
 			if ($data->items[$i]->guid!="") {
-				$feed.= "			<guid>".htmlspecialchars($data->items[$i]->guid)."</guid>\n";
+				$feed.= "			<guid>".htmlspecialchars($data->items[$i]->guid, ENT_COMPAT, 'UTF-8')."</guid>\n";
 			}
 			if ($data->items[$i]->enclosure != NULL)
 			{

@@ -301,7 +301,7 @@ class TemplatesController
 			jimport('joomla.client.helper');
 			$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 
-			$content = htmlspecialchars($content);
+			$content = htmlspecialchars($content, ENT_COMPAT, 'UTF-8');
 			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
 			TemplatesView::editTemplateSource($template, $content, $option, $client, $ftp);
 		} else {
@@ -417,7 +417,7 @@ class TemplatesController
 			jimport('joomla.client.helper');
 			$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 
-			$content = htmlspecialchars($content);
+			$content = htmlspecialchars($content, ENT_COMPAT, 'UTF-8');
 			require_once (JPATH_COMPONENT.DS.'admin.templates.html.php');
 			TemplatesView::editCSSSource($template, $filename, $content, $option, $client, $ftp);
 		}

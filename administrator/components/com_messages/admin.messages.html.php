@@ -215,7 +215,7 @@ class HTML_messages
 					<?php echo JText::_( 'Message' ); ?>:
 				</td>
 				<td width="100%" bgcolor="#ffffff">
-					<pre><?php echo htmlspecialchars( $row->message );?></pre>
+					<pre><?php echo htmlspecialchars( $row->message, ENT_COMPAT, 'UTF-8' );?></pre>
 				</td>
 			</tr>
 		</table>

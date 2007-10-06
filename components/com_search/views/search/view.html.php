@@ -111,7 +111,7 @@ class SearchViewSearch extends JView
 
 				foreach ($searchwords as $hlword) 
 				{
-					$hlword = htmlspecialchars( stripslashes( $hlword ) );
+					$hlword = this->escape( stripslashes( $hlword ) );
 					$row = eregi_replace( $this->escape($hlword), '<span class="highlight">\0</span>', $row );
 				}
 			}
