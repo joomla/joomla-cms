@@ -103,22 +103,9 @@ class JObject
 	}
 
 	/**
-	 * Returns an associative array of public object properties
-	 *
-	 * @access	public
-	 * @return	array
-	 * @see		get()
-	 * @since	1.5
- 	 */
-	function getPublicProperties()
-	{
-		return $this->getProperties();
-	}
-
-	/**
 	 * Get the most recent error message
 	 *
-	 * @param	int		$i Option error index
+	 * @param	integer	$i Option error index
 	 * @param	boolean	$toString Indicates if JError objects should return their error message
 	 * @return	string	Error message
 	 * @access	public
@@ -226,5 +213,16 @@ class JObject
 	function toString()
 	{
 		return get_class($this);
+	}
+	
+	/**
+	 * Legacy Method, use {@link JObject::getProperties()}  instead
+	 * 
+	 * @deprecated as of 1.5
+	 * @since 1.0
+	 */
+	function getPublicProperties()
+	{
+		return $this->getProperties();
 	}
 }
