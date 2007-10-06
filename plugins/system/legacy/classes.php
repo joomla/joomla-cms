@@ -143,6 +143,14 @@ class mosMainFrame extends JApplication
 class mosDBTable extends JTable
 {
 	/**
+	 * Error number
+	 *
+	 * @var		int
+	 * @access	protected
+	 */
+	var $_errorNum = 0;
+	
+	/**
 	 * Constructor
 	 */
 	function __construct($table, $key, &$db)
@@ -200,6 +208,24 @@ class mosDBTable extends JTable
 	{
 		$properties = $this->getProperties();
 		return array_keys($properties);
+	}
+	
+	/**
+	 * Legacy Method, use {@link JObject::setError()}  instead
+	 * @deprecated As of 1.5
+	 */
+	function setErrorNum( $value )
+	{
+		$this->_errorNum = $value;
+	}
+	
+	/**
+	 * Legacy Method, use {@link JObject::getError()}  instead
+	 * @deprecated As of 1.5
+	 */
+	function getErrorNum()
+	{
+		return $this->_errorNum;
 	}
 }
 
