@@ -390,7 +390,8 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return string The error message for the most recent query
 	 */
-	function getErrorMsg($escaped = false) {
+	function getErrorMsg($escaped = false) 
+	{
 		if($escaped) {
 			return addslashes($this->_errorMsg);
 		} else {
