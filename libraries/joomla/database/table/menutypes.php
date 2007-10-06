@@ -49,7 +49,7 @@ class JTableMenuTypes extends JTable
 	function check()
 	{
 		if (strstr($this->menutype, '\'')) {
-			$this->_error = JText::_( 'The menu name cannot contain a \'', true );
+			$this->setError(JText::_( 'The menu name cannot contain a \'', true ));
 			return false;
 		}
 

@@ -46,20 +46,20 @@ class TableBannerClient extends JTable
 	{
 		// check for valid client name
 		if (trim($this->name == '')) {
-			$this->_error = JText::_( 'BNR_CLIENT_NAME' );
+			$this->setError(JText::_( 'BNR_CLIENT_NAME' ));
 			return false;
 		}
 
 		// check for valid client contact
 		if (trim($this->contact == '')) {
-			$this->_error = JText::_( 'BNR_CONTACT' );
+			$this->setError(JText::_( 'BNR_CONTACT' ));
 			return false;
 		}
 
 		// check for valid client email
 		jimport( 'joomla.utilities.mail' );
 		if (!JMailHelper::isEmailAddress( $this->email )) {
-			$this->_error = JText::_( 'BNR_VALID_EMAIL' );
+			$this->setError(JText::_( 'BNR_VALID_EMAIL' ));
 			return false;
 		}
 

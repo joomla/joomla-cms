@@ -101,13 +101,13 @@ class TableBanner extends JTable
 	{
 		// check for valid client id
 		if (is_null($this->cid) || $this->cid == 0) {
-			$this->_error = JText::_( 'BNR_CLIENT' );
+			$this->setError(JText::_( 'BNR_CLIENT' ));
 			return false;
 		}
 
 		// check for valid name
 		if(trim($this->name) == '') {
-			$this->_error = JText::_( 'BNR_NAME' );
+			$this->setError(JText::_( 'BNR_NAME' ));
 			return false;
 		}
 
@@ -119,11 +119,11 @@ class TableBanner extends JTable
 		}
 
 		/*if(trim($this->imageurl) == '') {
-			$this->_error = JText::_( 'BNR_IMAGE' );
+			$this->setError(JText::_( 'BNR_IMAGE' ));
 			return false;
 		}
 		if(trim($this->clickurl) == '' && trim($this->custombannercode) == '') {
-			$this->_error = JText::_( 'BNR_URL' );
+			$this->setError(JText::_( 'BNR_URL' ));
 			return false;
 		}*/
 

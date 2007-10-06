@@ -78,7 +78,7 @@ class JTableModule extends JTable
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = JText::sprintf( 'must contain a title', JText::_( 'Module') );
+			$this->setError(JText::sprintf( 'must contain a title', JText::_( 'Module') ));
 			return false;
 		}
 
@@ -96,12 +96,15 @@ class JTableModule extends JTable
 	*/
 	function bind($array, $ignore = '')
 	{
-		if (is_array( $array['params'] )) {
+		if (is_array( $array['params'] )) 
+		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
-		if (isset( $array['control'] ) && is_array( $array['control'] )) {
+		
+		if (isset( $array['control'] ) && is_array( $array['control'] )) 
+		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['control']);
 			$array['control'] = $registry->toString();

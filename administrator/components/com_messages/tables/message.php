@@ -167,7 +167,7 @@ class TableMessage extends JTable
 		else
 		{
 			if (is_object($this)) {
-				$this->_error = JText::_('MESSAGE_FAILED');
+				$this->setError(JText::_('MESSAGE_FAILED'));
 			}
 		}
 		return false;

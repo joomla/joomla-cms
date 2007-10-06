@@ -109,7 +109,8 @@ class JTableMenu extends JTable
 
 	function bind($array, $ignore = '')
 	{
-		if (is_array( $array['params'] )) {
+		if (is_array( $array['params'] )) 
+		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();

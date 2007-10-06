@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Oct-2007 Johan Janssens
+ ^ Depcrecated JTable::setErrorNum and getErrorNum, use JTable::setError and getError instead.
+ ^ Reworked all JTable classes to use setError functions instead of directly setting the _error 
+   variable
+
 -------------------- 1.5.0 Release Candidate 3 Released [5-October-2007] ---------------------
 
 05-Oct-2007 Johan Janssens

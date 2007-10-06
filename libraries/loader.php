@@ -33,8 +33,7 @@ class JLoader
 	{
 		static $paths;
 
-		if (!isset($paths))
-		{
+		if (!isset($paths)) {
 			$paths = array();
 		}
 
@@ -50,12 +49,13 @@ class JLoader
 		if (!isset($paths[$keyPath]))
 		{
 			$parts = explode( '.', $filePath );
-
+			
 			if ( ! $base ) {
 				$base =  dirname( __FILE__ );
 			}
 
-			if(array_pop( $parts ) == '*')
+			$classname = array_pop( $parts );
+			if($classname == '*')
 			{
 				$path = $base . DS . implode( DS, $parts );
 
@@ -64,13 +64,23 @@ class JLoader
 				}
 
 				$dir = dir( $path );
-				while ($file = $dir->read()) {
-					if (preg_match( '#(.*?)\.php$#', $file, $m )) {
+				while ($file = $dir->read()) 
+				{
+					if (preg_match( '#(.*?)\.php$#', $file, $m )) 
+					{
 						$nPath = str_replace( '*', $m[1], $filePath );
 						$keyPath	= $key . $nPath;
 						// we need to check each file again incase one has a jimport
 						if (!isset($paths[$keyPath]))
 						{
+							$classname = $m[1];
+							if($classname == 'helper') {
+								$classname = 'J'.ucfirst(array_pop( $parts )).ucfirst($classname);
+							} else {
+								$classname = 'J'.ucfirst($classname);
+							}
+							
+							//$rs	= JLoader::register('J'.ucfirst($m[1]), $path.'.php');
 							$rs	= include($path . DS . $file);
 							$paths[$keyPath] = $rs;
 							$trs =& $rs;
@@ -78,16 +88,87 @@ class JLoader
 					}
 				}
 				$dir->close();
-			} else {
-				$path = str_replace( '.', DS, $filePath );
-				$trs	= include($base . DS . $path . '.php');
+			} 
+			else 
+			{
+				if($classname == 'helper') {
+					$classname = 'J'.ucfirst(array_pop( $parts )).ucfirst($classname);
+				} else {
+					$classname = 'J'.ucfirst($classname);
+				}
+				
+				$path  = str_replace( '.', DS, $filePath );
+				//$trs   = JLoader::register($classname, $base.DS.$path.'.php');
+				$trs   = include($base.DS.$path.'.php');
 			}
 
 			$paths[$keyPath] = $trs;
 		}
 		return $trs;
 	}
+
+    /**
+     * Add a class to autoload
+     *
+     * @param	string $classname	The class name
+     * @param	string $file		Full path to the file that holds the class
+     * @return	array  List of classnames => files
+     * @since 	1.5
+     */
+    function register ($classname = null, $file = null)
+    {
+    	static $classes;
+
+        if(!isset($classes)) {
+            $classes    = array();
+        }
+		
+        if($classname && is_file($file)) 
+		{
+            $classes[$classname] = $file;
+			
+			// In php4 we load the class immediately
+            if((version_compare( phpversion(), '5.0' ) < 0)) { 
+                JLoader::load($classname);
+            }
+        }
+        return $classes;
+    }
+
+
+    /**
+     * Load the file for a class
+     *
+     * @access  public
+     * @param   string  $classname  The class that will be loaded
+     * @return  boolean True on success
+     * @since   1.5
+     */
+    function load( $classname )
+    {
+		$classes = JLoader::register();
+        if(array_key_exists( $classname, $classes)) {
+            include($classes[$classname]);
+            return true;
+        }
+        return false;
+    }
 }
+
+
+/**
+ * When calling a class that hasn't been defined, __autoload will attempt to
+ * include the correct file for that class
+ *
+ * @access      public
+ * @return      void
+ * @since       1.5
+ */
+function __autoload($classname)
+{
+    //JLoader::load($classname);
+}
+
 
 /**
  * Intelligent file importer

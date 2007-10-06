@@ -97,7 +97,7 @@ class TableContact extends JTable
 
 		jimport('joomla.filter.input');
 		if (JFilterInput::checkAttribute(array ('href', $this->webpage))) {
-			$this->_error = JText::_('Please provide a valid URL');
+			$this->setError(JText::_('Please provide a valid URL'));
 			return false;
 		}
 

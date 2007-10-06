@@ -100,7 +100,7 @@ class JTableSession extends JTable
 		$ret = $this->_db->insertObject( $this->_tbl, $this, 'session_id' );
 
 		if( !$ret ) {
-			$this->_error = strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $this->_db->stderr();
+			$this->setError(strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $this->_db->stderr());
 			return false;
 		} else {
 			return true;
@@ -113,7 +113,7 @@ class JTableSession extends JTable
 		$ret = $this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );
 
 		if( !$ret ) {
-			$this->_error = strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ." <br />" . $this->_db->stderr();
+			$this->setError(strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ." <br />" . $this->_db->stderr());
 			return false;
 		} else {
 			return true;
@@ -134,7 +134,7 @@ class JTableSession extends JTable
 		$this->_db->setQuery( $query );
 
 		if ( !$this->_db->query() ) {
-			$this->_error =  $this->_db->stderr();
+			$this->setError( $this->_db->stderr());
 			return false;
 		}
 
@@ -169,7 +169,7 @@ class JTableSession extends JTable
 		$this->_db->setQuery( $query );
 
 		if ( !$result = $this->_db->loadResult() ) {
-			$this->_error =  $this->_db->stderr();
+			$this->setError($this->_db->stderr());
 			return false;
 		}
 

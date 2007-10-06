@@ -130,7 +130,8 @@ class TableWeblink extends JTable
 	*/
 	function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
+		if (key_exists( 'params', $array ) && is_array( $array['params'] )) 
+		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
@@ -149,13 +150,13 @@ class TableWeblink extends JTable
 	function check()
 	{
 		if (JFilterInput::checkAttribute(array ('href', $this->url))) {
-			$this->_error = JText::_('Please provide a valid URL');
+			$this->setError( JText::_('Please provide a valid URL'));
 			return false;
 		}
 
 		/** check for valid name */
 		if (trim($this->title) == '') {
-			$this->_error = JText::_('Your Weblink must contain a title.');
+			$this->setError(JText::_('Your Weblink must contain a title.'));
 			return false;
 		}
 
@@ -169,7 +170,7 @@ class TableWeblink extends JTable
 
 		$xid = intval($this->_db->loadResult());
 		if ($xid && $xid != intval($this->id)) {
-			$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('Web Link'));
+			$this->setError(JText::sprintf('WARNNAMETRYAGAIN', JText::_('Web Link')));
 			return false;
 		}
 

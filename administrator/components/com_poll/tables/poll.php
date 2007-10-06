@@ -74,13 +74,13 @@ class TablePoll extends JTable
 		// check for valid name
 		if (trim( $this->title ) == '')
 		{
-			$this->_error = JText::_( 'Your Poll must contain a title.' );
+			$this->setError(JText::_( 'Your Poll must contain a title.' ));
 			return false;
 		}
 		// check for valid lag
 		$this->lag = intval( $this->lag );
 		if ($this->lag == 0) {
-			$this->_error = JText::_( 'Your Poll must have a non-zero lag time.' );
+			$this->setError(JText::_( 'Your Poll must have a non-zero lag time.' ));
 			return false;
 		}
 

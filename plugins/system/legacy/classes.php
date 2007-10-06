@@ -145,6 +145,14 @@ class mosDBTable extends JTable
 	/**
 	 * Error number
 	 *
+	 * @var		string
+	 * @access	protected
+	 */
+	var $_error = '';
+	
+	/**
+	 * Error number
+	 *
 	 * @var		int
 	 * @access	protected
 	 */
@@ -208,6 +216,15 @@ class mosDBTable extends JTable
 	{
 		$properties = $this->getProperties();
 		return array_keys($properties);
+	}
+	
+	/**
+	 * Legacy Method, use {@link JObject::getError()}  instead
+	 * @deprecated As of 1.5
+	 */
+	function getError($i = null, $toString = true )
+	{
+		return $this->_error;
 	}
 	
 	/**
