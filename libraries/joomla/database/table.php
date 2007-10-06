@@ -46,23 +46,6 @@ class JTable extends JObject
 	var $_tbl_key	= '';
 
 	/**
-	 * Error Message
-	 * 
-	 * @var		string
-	 * @access	protected
-	 * @todo	remove the local implementation in preference of the one defined in JObject
-	 */
-	var $_error		= null;
-	
-	/**
-	 * Error number
-	 *
-	 * @var		int
-	 * @access	protected
-	 */
-	var $_errorNum = 0;
-
-	/**
 	 * Database connector
 	 *
 	 * @var		JDatabase
@@ -173,33 +156,6 @@ class JTable extends JObject
 	}
 	
 	/**
-	 * Get the most recent error message
-	 *
-	 * Use this method in preference of accessing the $_error attribute directly!
-	 * 
-	 * @param	int		Not Used
-	 * @param	boolean	Not Used
-	 * @return	string	Error message
-	 * @access	public
-	 * @since	1.5
-	 * @todo 	Change dependent code to call the API, not access $_error directly
-	 */
-	function getError($i = null, $toString = true )
-	{
-		return $this->_error;
-	}
-	
-	/**
-	 * Returns the error number
-	 *
-	 * @return int The error number
-	 */
-	function getErrorNum()
-	{
-		return $this->_errorNum;
-	}
-
-	/**
 	 * Resets the default properties
 	 * @return	void
 	 */
@@ -232,7 +188,6 @@ class JTable extends JObject
 		if (!$fromArray && !$fromObject)
 		{
 			$this->setError( get_class( $this ).'::bind failed. Invalid from argument' );
-			$this->setErrorNum(20);
 			return false;
 		}
 		if (!is_array( $ignore )) {
@@ -329,7 +284,6 @@ class JTable extends JObject
 		if( !$ret )
 		{
 			$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
-			$this->setErrorNum($this->_db->getErrorNum());
 			return false;
 		}
 		else
@@ -347,6 +301,12 @@ class JTable extends JObject
 	 */
 	function move( $dirn, $where='' )
 	{
+		if (!in_array( 'ordering', $this->getProperties() ))
+		{
+			$this->setError( get_class( $this ).' does not support ordering' );
+			return false;
+		}
+
 		$k = $this->_tbl_key;
 
 		$sql = "SELECT $this->_tbl_key, ordering FROM $this->_tbl";
@@ -430,7 +390,6 @@ class JTable extends JObject
 		if (!in_array( 'ordering', array_keys($this->getProperties()) ))
 		{
 			$this->setError( get_class( $this ).' does not support ordering' );
-			$this->setErrorNum(21);
 			return false;
 		}
 
@@ -444,7 +403,6 @@ class JTable extends JObject
 		if ($this->_db->getErrorNum())
 		{
 			$this->setError($this->_db->getErrorMsg());
-			$this->setErrorNum($this->_db->getErrorNum());
 			return false;
 		}
 		return $maxord + 1;
@@ -463,7 +421,6 @@ class JTable extends JObject
 		if (!in_array( 'ordering', array_keys($this->getProperties()) ))
 		{
 			$this->setError( get_class( $this ).' does not support ordering');
-			$this->setErrorNum(21);
 			return false;
 		}
 
@@ -485,7 +442,6 @@ class JTable extends JObject
 		if (!($orders = $this->_db->loadObjectList()))
 		{
 			$this->setError($this->_db->getErrorMsg());
-			$this->setErrorNum($this->_db->getErrorNum());
 			return false;
 		}
 		// compact the ordering numbers
@@ -548,23 +504,23 @@ class JTable extends JObject
 			if (!$obj = $this->_db->loadObject())
 			{
 				$this->setError($this->_db->getErrorMsg());
-				$this->setErrorNum($this->_db->getErrorNum());
 				return false;
 			}
 			$msg = array();
+			$i = 0;
 			foreach( $joins as $table )
 			{
-				$k = $table['idfield'];
+				$k = $table['idfield'] . $i;
 				if ($obj->$k)
 				{
 					$msg[] = JText::_( $table['label'] );
 				}
+				$i++;
 			}
 
 			if (count( $msg ))
 			{
 				$this->setError("noDeleteRecord" . ": " . implode( ', ', $msg ));
-				$this->setErrorNum(22);
 				return false;
 			}
 			else
@@ -607,7 +563,6 @@ class JTable extends JObject
 		else
 		{
 			$this->setError($this->_db->getErrorMsg());
-			$this->setErrorNum($this->_db->getErrorNum());
 			return false;
 		}
 	}
@@ -767,35 +722,9 @@ class JTable extends JObject
 			$this->reorder( $order_filter ? $this->_db->nameQuote( $order_filter ).' = '.$this->_db->Quote( $filter_value ) : '' );
 		}
 		$this->setError('');
-		$this->setErrorNum(0);
 		return true;
 	}
 	
-	/**
-	 * Set an error message
-	 *
-	 * Use this method in preference of accessing the $_error attribute directly!
-	 * 
-	 * @param	string $error Error message
-	 * @access	public
-	 * @since	1.5
-	 * @todo 	Change dependent code to call the API, not access $_error directly
-	 */
-	function setError($error)
-	{
-		$this->_error	= $error;
-	}
-
-	/**
-	 * Sets the internal error number
-	 *
-	 * @param int Set the error number with this value
-	 */
-	function setErrorNum( $value )
-	{
-		$this->_errorNum = $value;
-	}
-
 	/**
 	 * Generic Publish/Unpublish function
 	 *
@@ -814,9 +743,12 @@ class JTable extends JObject
 
 		if (count( $cid ) < 1)
 		{
-			$this->setError("No items selected.");
-			$this->setErrorNum(24);
-			return false;
+			if ($this->$k) {
+				$cid = array( $this->$k );
+			} else {
+				$this->setError("No items selected.");
+				return false;
+			}
 		}
 
 		$cids = $k . '=' . implode( ' OR ' . $k . '=', $cid );
@@ -836,16 +768,19 @@ class JTable extends JObject
 		if (!$this->_db->query())
 		{
 			$this->setError($this->_db->getErrorMsg());
-			$this->setErrorNum($this->_db->getErrorNum());
 			return false;
 		}
 
 		if (count( $cid ) == 1 && $checkin)
 		{
-			$this->checkin( $cid[0] );
+			if ($this->_db->getAffectedRows() == 1) {
+				$this->checkin( $cid[0] );
+				if ($this->$k == $cid[0]) {
+					$this->published = $publish;
+				}
+			}
 		}
 		$this->setError('');
-		$this->setErrorNum(0);
 		return true;
 	}
 
