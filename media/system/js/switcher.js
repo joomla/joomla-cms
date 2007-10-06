@@ -49,8 +49,7 @@ var JSwitcher = new Class({
 		this.page    = $('page-'+ this.toggler.id);
 
 		this.show(this.page);
-
-		if(page == Cookie.get(this.options.cookieName)) {
+		if(page = Cookie.get(this.options.cookieName)) {
 			this.switchTo($(page));
 		}
 	},
