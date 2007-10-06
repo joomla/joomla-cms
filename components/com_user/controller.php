@@ -485,11 +485,11 @@ class UserController extends JController
 
 		$name 		= $user->get('name');
 		$email 		= $user->get('email');
-		$username 		= $user->get('username');
+		$username 	= $user->get('username');
 
 		$usersConfig 	= &JComponentHelper::getParams( 'com_users' );
 		$sitename 		= $mainframe->getCfg( 'sitename' );
-		$useractivation 	= $usersConfig->get( 'useractivation' );
+		$useractivation = $usersConfig->get( 'useractivation' );
 		$mailfrom 		= $mainframe->getCfg( 'mailfrom' );
 		$fromname 		= $mainframe->getCfg( 'fromname' );
 		$siteURL		= JURI::base();
@@ -522,14 +522,15 @@ class UserController extends JController
 
 		// Send notification to all administrators
 		$subject2 = sprintf ( JText::_( 'Account details for %s at %s' ), $name, $sitename);
-		$message2 = sprintf ( JText::_( 'SEND_MSG_ADMIN' ), $adminName2, $sitename, $name, $email, $username);
 		$subject2 = html_entity_decode($subject2, ENT_QUOTES);
-		$message2 = html_entity_decode($message2, ENT_QUOTES);
 
 		// get superadministrators id
 		foreach ( $rows as $row )
 		{
-			if ($row->sendEmail) {
+			if ($row->sendEmail) 
+			{
+				$message2 = sprintf ( JText::_( 'SEND_MSG_ADMIN' ), $row->name, $sitename, $name, $email, $username);
+				$message2 = html_entity_decode($message2, ENT_QUOTES);
 				JUtility::sendMail($mailfrom, $fromname, $row->email, $subject2, $message2);
 			}
 		}
