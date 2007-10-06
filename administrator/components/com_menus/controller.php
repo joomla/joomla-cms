@@ -492,10 +492,10 @@ class MenusController extends JController
 
 				// check then store data in db
 				if (!$module->check()) {
-					return JError::raiseWarning( 500, $row->getError() );
+					return JError::raiseWarning( 500, $module->getError() );
 				}
 				if (!$module->store()) {
-					return JError::raiseWarning( 500, $row->getError() );
+					return JError::raiseWarning( 500, $module->getError() );
 				}
 				$module->checkin();
 				$module->reorder( 'position='.$db->Quote($module->position) );
