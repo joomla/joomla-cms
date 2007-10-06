@@ -301,7 +301,7 @@ class JTable extends JObject
 	 */
 	function move( $dirn, $where='' )
 	{
-		if (!in_array( 'ordering', $this->getProperties() ))
+		if (!in_array( 'ordering',  array_keys($this->getProperties())))
 		{
 			$this->setError( get_class( $this ).' does not support ordering' );
 			return false;
