@@ -124,13 +124,13 @@ class JLoader
         }
 		
         if($classname && is_file($file)) 
-		{
-            $classes[$classname] = $file;
+		{	
+			$classes[$classname] = $file;
 			
 			// In php4 we load the class immediately
-            if((version_compare( phpversion(), '5.0' ) < 0)) { 
+            //if((version_compare( phpversion(), '5.0' ) < 0)) { 
                 JLoader::load($classname);
-            }
+            //}
         }
         return $classes;
     }
@@ -140,15 +140,19 @@ class JLoader
      * Load the file for a class
      *
      * @access  public
-     * @param   string  $classname  The class that will be loaded
+     * @param   string  $class  The class that will be loaded
      * @return  boolean True on success
      * @since   1.5
      */
-    function load( $classname )
+    function load( $class )
     {
+		if (class_exists($class, false)) {
+            return;
+        }
+		
 		$classes = JLoader::register();
-        if(array_key_exists( $classname, $classes)) {
-            include($classes[$classname]);
+        if(array_key_exists( $class, $classes)) {
+            include($classes[$class]);
             return true;
         }
         return false;
@@ -160,13 +164,18 @@ class JLoader
  * When calling a class that hasn't been defined, __autoload will attempt to
  * include the correct file for that class
  *
- * @access      public
- * @return      void
- * @since       1.5
+ * @param 	string 	$class 
+ * @access 	public
+ * @return  boolean
+ * @since   1.5
  */
-function __autoload($classname)
+function __autoload($class) 
 {
-    //JLoader::load($classname);
+	if(JLoader::load($class)) {
+		return true;
+	}
+	
+	return false;
 }
 
 
