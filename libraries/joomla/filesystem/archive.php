@@ -53,10 +53,10 @@ class JArchive
 					$result = $adapter->extract($archivename, $extractdir);
 				}
 				break;
-			case 'tgz';
+			case 'tgz'  :
 				$untar = true;	// This format is a tarball gzip'd
-			case 'gz';	// This may just be an individual file (e.g. sql script)
-			case 'gzip';
+			case 'gz'   :	// This may just be an individual file (e.g. sql script)
+			case 'gzip' : 
 				$adapter =& JArchive::getAdapter('gzip');
 				if ($adapter)
 				{
@@ -85,10 +85,10 @@ class JArchive
 					@unlink($tmpfname);
 				}
 				break;
-			case 'tbz2';
+			case 'tbz2' :
 				$untar = true; // This format is a tarball bzip2'd
-			case 'bz2';	// This may just be an individual file (e.g. sql script)
-			case 'bzip2';
+			case 'bz2'  :	// This may just be an individual file (e.g. sql script)
+			case 'bzip2':
 				$adapter =& JArchive::getAdapter('bzip2');
 				if ($adapter)
 				{
