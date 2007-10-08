@@ -46,11 +46,13 @@ class  plgSystemLegacy extends JPlugin
 		// Set global configuration var for legacy mode
 		$config = &JFactory::getConfig();
 		$config->setValue('config.legacy', 1);
-
+		
 		// Import library dependencies
 		require_once(dirname(__FILE__).DS.'legacy'.DS.'classes.php');
 		require_once(dirname(__FILE__).DS.'legacy'.DS.'functions.php');
-		require_once(dirname(__FILE__).DS.'legacy'.DS.'toolbar.php');
+		
+		// Register legacy classes for autoloading
+		JLoader::register('mosToolbar', dirname(__FILE__).DS.'legacy'.DS.'toolbar.php');
 
 		/**
 		 * Legacy define, _ISO define not used anymore. All output is forced as utf-8.

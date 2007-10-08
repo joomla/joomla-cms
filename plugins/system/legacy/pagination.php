@@ -14,6 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+// Register legacy classes for autoloading
 JLoader::register('JPagination', JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'pagination.php');
 
 /**

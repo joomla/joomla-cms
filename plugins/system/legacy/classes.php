@@ -19,10 +19,7 @@ jimport( 'joomla.database.database.mysql' );
 jimport( 'joomla.database.table' );
 jimport( 'joomla.html.pane' );
 
-/**
- * Tables need to be included using a regular include to avoid conflict
- */
- 
+// Register legacy classes for autoloading
 JLoader::register('JTableCategory' , JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'category.php');
 JLoader::register('JTableComponent', JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'component.php');
 JLoader::register('JTableContent'  , JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'content.php');
