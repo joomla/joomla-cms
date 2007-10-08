@@ -54,7 +54,7 @@ class JToolBarHelper
 	*/
 	function spacer($width = '')
 	{
-		$bar = & JToolBar::getInstance('JComponent');
+		$bar = & JToolBar::getInstance('toolbar');
 		// Add a spacer
 		$bar->appendButton( 'Separator', 'spacer', $width );
 	}
