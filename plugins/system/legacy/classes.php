@@ -17,19 +17,23 @@ defined('JPATH_BASE') or die();
 
 jimport( 'joomla.database.database.mysql' );
 jimport( 'joomla.database.table' );
+jimport( 'joomla.html.pane' );
 
 /**
  * Tables need to be included using a regular include to avoid conflict
  */
-include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'category.php');
-include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'component.php');
-include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'content.php');
-include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'plugin.php');
-include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'menu.php');
-include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'module.php');
-include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'section.php');
-include_once(JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'user.php');
-include_once(JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php');
+ 
+JLoader::register('JTableCategory' , JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'category.php');
+JLoader::register('JTableComponent', JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'component.php');
+JLoader::register('JTableContent'  , JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'content.php');
+JLoader::register('JTablePlugin'   , JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'plugin.php');
+JLoader::register('JTableMenu'     , JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'menu.php');
+JLoader::register('JTableModule'   , JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'module.php');
+JLoader::register('JTableSection'  , JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'section.php');
+JLoader::register('JTableUser'     , JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'table'.DS.'user.php');
+JLoader::register('JToolBarHelper' , JPATH_ADMINISTRATOR.DS.'includes'.DS.'toolbar.php');
+JLoader::register('JProfiler'      , JPATH_LIBRARIES.DS.'joomla'.DS.'utilities'.DS.'profiler.php');
+JLoader::register('JInstaller'     , JPATH_LIBRARIES.DS.'joomla'.DS.'installer'.DS.'installer.php');
 
 /**
  * Legacy class, derive from {@link JApplication} instead
@@ -802,7 +806,6 @@ class mosCache
  * @package	Joomla.Legacy
  * @subpackage	1.5
  */
-jimport('joomla.utilities.profiler');
 class mosProfiler extends JProfiler
 {
 	/**
@@ -1318,8 +1321,6 @@ class mosHTML
 		echo JHTML::_('behavior.keepalive');
 	}
 }
-
-jimport('joomla.installer.installer');
 
 /**
  * Legacy class, use JInstaller instead
@@ -2018,7 +2019,6 @@ class MENU_Default
  * @package	Joomla.Legacy
  * @subpackage	1.5
  */
-jimport('joomla.html.pane');
 class mosTabs extends JPaneTabs
 {
 	var $useCookies = false;
