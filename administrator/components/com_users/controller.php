@@ -26,9 +26,9 @@ jimport('joomla.application.component.controller');
  */
 class UsersController extends JController
 {
-	function __construct()
+	function __construct($config = array())
 	{
-		parent::__construct();
+		parent::__construct($config);
 
 		// Register Extra tasks
 		$this->registerTask( 'add'  , 	'display'  );
