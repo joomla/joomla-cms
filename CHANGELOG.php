@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+08-Oct-2007 Mickael Maison
+ # Fixed [#7466] Untranslated string in components
+
 06-Oct-2007 Johan Janssens
  ^ Depcrecated JTable::setErrorNum and getErrorNum, use JTable::setError and getError instead.
  ^ Reworked all JTable classes to use setError functions instead of directly setting the _error 
