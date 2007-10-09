@@ -23,7 +23,7 @@ defined('JPATH_BASE') or die();
  * @subpackage		Registry
  * @since		1.5
  */
-class JRegistryFormatINI extends JRegistryFormat 
+class JRegistryFormatINI extends JRegistryFormat
 {
 
 	/**
@@ -37,7 +37,7 @@ class JRegistryFormatINI extends JRegistryFormat
 	 * @param array  $param  Parameters used by the formatter
 	 * @return string INI Formatted String
 	 */
-	function objectToString( &$object, $params ) 
+	function objectToString( &$object, $params )
 	{
 
 		// Initialize variables
@@ -61,6 +61,15 @@ class JRegistryFormatINI extends JRegistryFormat
 					}
 				}
 				$retval .= "\n";
+			}
+			elseif (is_array($level1))
+			{
+				foreach ($level1 as $k1 => $v1)
+				{
+					$level1[$k1] = str_replace( array( "\r\n", "\n" ), '\\n', $v1 );
+				}
+
+				$prepend	.= $key."=".implode('|', $level1)."\n";
 			}
 			else
 			{
@@ -87,13 +96,13 @@ class JRegistryFormatINI extends JRegistryFormat
 		if (!isset( $inistocache )) {
 			$inistocache = array();
 		}
-		
-		if (is_string($data)) 
+
+		if (is_string($data))
 		{
 			$lines = explode("\n", $data);
-			$hash = md5($data); 
-		} 
-		else 
+			$hash = md5($data);
+		}
+		else
 		{
 			if (is_array($data)) {
 				$lines = $data;
@@ -102,11 +111,11 @@ class JRegistryFormatINI extends JRegistryFormat
 			}
 			$hash = md5(implode("\n",$lines));
 		}
-		
+
 		if(array_key_exists($hash, $inistocache)) {
 			return $inistocache[$hash];
 		}
-		
+
 		$obj = new stdClass();
 
 		$sec_name = '';
@@ -114,36 +123,36 @@ class JRegistryFormatINI extends JRegistryFormat
 		if (!$lines) {
 			return $obj;
 		}
-		
-		foreach ($lines as $line) 
+
+		foreach ($lines as $line)
 		{
 			// ignore comments
 			if ($line && $line{0} == ';') {
 				continue;
 			}
-			
+
 			$line = trim($line);
 
 			if ($line == '') {
 				continue;
 			}
-			
+
 			$lineLen = strlen($line);
-			if ($line && $line{0} == '[' && $line{$lineLen-1} == ']') 
+			if ($line && $line{0} == '[' && $line{$lineLen-1} == ']')
 			{
 				$sec_name = substr($line, 1, $lineLen - 2);
 				if ($process_sections) {
 					$obj-> $sec_name = new stdClass();
 				}
-			} 
-			else 
+			}
+			else
 			{
-				if ($pos = strpos($line, '=')) 
+				if ($pos = strpos($line, '='))
 				{
 					$property = trim(substr($line, 0, $pos));
 
 					// property is assumed to be ascii
-					if ($property && $property{0} == '"') 
+					if ($property && $property{0} == '"')
 					{
 						$propLen = strlen( $property );
 						if ($property{$propLen-1} == '"') {
@@ -154,43 +163,83 @@ class JRegistryFormatINI extends JRegistryFormat
 					// for some parameters, eg, class suffix
 					// $value = trim(substr($line, $pos +1));
 					$value = substr($line, $pos +1);
-					if ($value == 'false') {
-						$value = false;
-					}
-					else if ($value == 'true') {
-						$value = true;
-					}
-					else if ($value && $value{0} == '"') 
-					{
-						$valueLen = strlen( $value );
-						if ($value{$valueLen-1} == '"') {
-							$value = stripcslashes(substr($value, 1, $valueLen - 2));
-						}
-					}
 
-					if ($process_sections) 
+					if (strpos($value, '|'))
 					{
-						$value = str_replace('\n', "\n", $value);
-						if ($sec_name != '') {
-							$obj->$sec_name->$property = $value;
-						} else {
-							$obj->$property = $value;
+						$values = explode('|', $value);
+
+						foreach ($values as $key => $value)
+						{
+							if ($value == 'false') {
+								$value = false;
+							}
+							else if ($value == 'true') {
+								$value = true;
+							}
+							else if ($value && $value{0} == '"')
+							{
+								$valueLen = strlen( $value );
+								if ($value{$valueLen-1} == '"') {
+									$value = stripcslashes(substr($value, 1, $valueLen - 2));
+								}
+							}
+
+							$values[$key] = str_replace('\n', "\n", $value);
 						}
-					} 
-					else 
-					{
-						$obj->$property = str_replace('\n', "\n", $value);
+
+						if ($process_sections)
+						{
+							if ($sec_name != '') {
+								$obj->$sec_name->$property = $values;
+							} else {
+								$obj->$property = $values;
+							}
+						}
+						else
+						{
+							$obj->$property = $values;
+						}
 					}
-				} 
-				else 
+					else
+					{
+						if ($value == 'false') {
+							$value = false;
+						}
+						else if ($value == 'true') {
+							$value = true;
+						}
+						else if ($value && $value{0} == '"')
+						{
+							$valueLen = strlen( $value );
+							if ($value{$valueLen-1} == '"') {
+								$value = stripcslashes(substr($value, 1, $valueLen - 2));
+							}
+						}
+
+						if ($process_sections)
+						{
+							$value = str_replace('\n', "\n", $value);
+							if ($sec_name != '') {
+								$obj->$sec_name->$property = $value;
+							} else {
+								$obj->$property = $value;
+							}
+						}
+						else
+						{
+							$obj->$property = str_replace('\n', "\n", $value);
+						}
+					}
+				}
+				else
 				{
 					if ($line && $line{0} == ';') {
 						continue;
 					}
-					if ($process_sections) 
+					if ($process_sections)
 					{
 						$property = '__invalid'.$unparsed ++.'__';
-						if ($process_sections) 
+						if ($process_sections)
 						{
 							if ($sec_name != '') {
 								$obj->$sec_name->$property = trim($line);
@@ -198,7 +247,7 @@ class JRegistryFormatINI extends JRegistryFormat
 								$obj->$property = trim($line);
 							}
 						}
-						else 
+						else
 						{
 							$obj->$property = trim($line);
 						}

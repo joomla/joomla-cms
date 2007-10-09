@@ -37,13 +37,15 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Oct-2007 Rob Schley
+ # Reworked JRegistryFormatINI to correctly handle arrays of data
 
 08-Oct-2007 Mickael Maison
  # Fixed [#7466] Untranslated string in components
 
 06-Oct-2007 Johan Janssens
  ^ Depcrecated JTable::setErrorNum and getErrorNum, use JTable::setError and getError instead.
- ^ Reworked all JTable classes to use setError functions instead of directly setting the _error 
+ ^ Reworked all JTable classes to use setError functions instead of directly setting the _error
    variable
 
 -------------------- 1.5.0 Release Candidate 3 Released [5-October-2007] ---------------------
