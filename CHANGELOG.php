@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Oct-2007 Johan Janssens
+ + Implemented basic autoload support in JLoader
+ # Fixed memory consumption problems in legacy mode
+
 09-Oct-2007 Rob Schley
  # Reworked JRegistryFormatINI to correctly handle arrays of data
 

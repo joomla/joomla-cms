@@ -46,13 +46,36 @@ class  plgSystemLegacy extends JPlugin
 		// Set global configuration var for legacy mode
 		$config = &JFactory::getConfig();
 		$config->setValue('config.legacy', 1);
-		
+
 		// Import library dependencies
 		require_once(dirname(__FILE__).DS.'legacy'.DS.'classes.php');
 		require_once(dirname(__FILE__).DS.'legacy'.DS.'functions.php');
-		
+
 		// Register legacy classes for autoloading
-		JLoader::register('mosToolbar', dirname(__FILE__).DS.'legacy'.DS.'toolbar.php');
+		JLoader::register('mosAdminMenus'   , dirname(__FILE__).DS.'legacy'.DS.'adminmenus.php');
+		JLoader::register('mosCache'        , dirname(__FILE__).DS.'legacy'.DS.'cache.php');
+		JLoader::register('mosCategory'     , dirname(__FILE__).DS.'legacy'.DS.'category.php');
+		JLoader::register('mosCommonHTML'   , dirname(__FILE__).DS.'legacy'.DS.'componenthtml.php');
+		JLoader::register('mosComponent'    , dirname(__FILE__).DS.'legacy'.DS.'component.php');
+		JLoader::register('mosContent'      , dirname(__FILE__).DS.'legacy'.DS.'content.php');
+		JLoader::register('database'        , dirname(__FILE__).DS.'legacy'.DS.'database.php');
+		JLoader::register('mosDBTable'      , dirname(__FILE__).DS.'legacy'.DS.'dbtable.php');
+		JLoader::register('mosHTML'         , dirname(__FILE__).DS.'legacy'.DS.'html.php');
+		JLoader::register('mosInstaller'    , dirname(__FILE__).DS.'legacy'.DS.'installer.php');
+		JLoader::register('mosMainFrame'    , dirname(__FILE__).DS.'legacy'.DS.'mainmframe.php');
+		JLoader::register('mosMambot'       , dirname(__FILE__).DS.'legacy'.DS.'mambot.php');
+		JLoader::register('mosMambotHandler', dirname(__FILE__).DS.'legacy'.DS.'mambothandler.php');
+		JLoader::register('mosMenu'         , dirname(__FILE__).DS.'legacy'.DS.'menu.php');
+		JLoader::register('mosMenuBar'      , dirname(__FILE__).DS.'legacy'.DS.'menubar.php');
+		JLoader::register('mosModule'       , dirname(__FILE__).DS.'legacy'.DS.'module.php');
+		//JLoader::register('mosPageNav'    , dirname(__FILE__).DS.'legacy'.DS.'pagination.php');
+		JLoader::register('mosParameters'   , dirname(__FILE__).DS.'legacy'.DS.'parameters.php');
+		JLoader::register('patFactory'      , dirname(__FILE__).DS.'legacy'.DS.'patfacory.php');
+		JLoader::register('mosProfiler'     , dirname(__FILE__).DS.'legacy'.DS.'profiler.php');
+		JLoader::register('mosSection'      , dirname(__FILE__).DS.'legacy'.DS.'section.php');
+		JLoader::register('mosSession'      , dirname(__FILE__).DS.'legacy'.DS.'session.php');
+		JLoader::register('mosToolbar'      , dirname(__FILE__).DS.'legacy'.DS.'toolbar.php');
+		JLoader::register('mosUser'         , dirname(__FILE__).DS.'legacy'.DS.'user.php');
 
 		/**
 		 * Legacy define, _ISO define not used anymore. All output is forced as utf-8.
@@ -107,10 +130,10 @@ class  plgSystemLegacy extends JPlugin
 		 * @deprecated	As of version 1.5
 		 */
 		$user	=& JFactory::getUser();
-		
+
 		$GLOBALS['my']      = (object)$user->getProperties();
 		$GLOBALS['my']->gid	= $user->get('aid', 0);
-		
+
 		/**
 		 * Insert configuration values into global scope (for backwards compatibility)
 		 * @deprecated	As of version 1.5
@@ -130,7 +153,7 @@ class  plgSystemLegacy extends JPlugin
 
 		$lang =& JFactory::getLanguage();
 		$GLOBALS['mosConfig_lang']          = $lang->getBackwardLang();
-		
+
 		$config->setValue('config.live_site', 		$GLOBALS['mosConfig_live_site']);
 		$config->setValue('config.absolute_path', 	$GLOBALS['mosConfig_absolute_path']);
 		$config->setValue('config.lang', 			$GLOBALS['mosConfig_lang']);

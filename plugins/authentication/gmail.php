@@ -57,7 +57,8 @@ class plgAuthenticationGMail extends JPlugin
 		$message = '';
 		$success = 0;
 		if(function_exists('curl_init')) {
-			if(strlen($credentials['username']) && strlen($credentials['password'])) {
+			if(strlen($credentials['username']) && strlen($credentials['password']))
+			{
 				$curl = curl_init('https://mail.google.com/gmail/feed/atom');
 				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 				//curl_setopt($curl, CURLOPT_HEADER, 1);
@@ -65,8 +66,7 @@ class plgAuthenticationGMail extends JPlugin
 				curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'].':'.$credentials['password']);
 				$result = curl_exec($curl);
 				$code = curl_getinfo ($curl, CURLINFO_HTTP_CODE);
-				
-		
+
 				switch($code)
 				{
 					case 200:

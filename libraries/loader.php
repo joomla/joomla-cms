@@ -49,7 +49,7 @@ class JLoader
 		if (!isset($paths[$keyPath]))
 		{
 			$parts = explode( '.', $filePath );
-			
+
 			if ( ! $base ) {
 				$base =  dirname( __FILE__ );
 			}
@@ -64,9 +64,9 @@ class JLoader
 				}
 
 				$dir = dir( $path );
-				while ($file = $dir->read()) 
+				while ($file = $dir->read())
 				{
-					if (preg_match( '#(.*?)\.php$#', $file, $m )) 
+					if (preg_match( '#(.*?)\.php$#', $file, $m ))
 					{
 						$nPath = str_replace( '*', $m[1], $filePath );
 						$keyPath	= $key . $nPath;
@@ -79,7 +79,7 @@ class JLoader
 							} else {
 								$classname = 'J'.ucfirst($classname);
 							}
-							
+
 							//$rs	= JLoader::register('J'.ucfirst($m[1]), $path.'.php');
 							$rs	= include($path . DS . $file);
 							$paths[$keyPath] = $rs;
@@ -88,15 +88,15 @@ class JLoader
 					}
 				}
 				$dir->close();
-			} 
-			else 
+			}
+			else
 			{
 				if($classname == 'helper') {
 					$classname = 'J'.ucfirst(array_pop( $parts )).ucfirst($classname);
 				} else {
 					$classname = 'J'.ucfirst($classname);
 				}
-				
+
 				$path  = str_replace( '.', DS, $filePath );
 				//$trs   = JLoader::register($classname, $base.DS.$path.'.php');
 				$trs   = include($base.DS.$path.'.php');
@@ -122,15 +122,15 @@ class JLoader
         if(!isset($classes)) {
             $classes    = array();
         }
-		
-        if($classname && is_file($file)) 
-		{	
+
+        if($classname && is_file($file))
+		{
 			$classes[$classname] = $file;
-			
+
 			// In php4 we load the class immediately
-            //if((version_compare( phpversion(), '5.0' ) < 0)) { 
+            if((version_compare( phpversion(), '5.0' ) < 0)) {
                 JLoader::load($classname);
-            //}
+            }
         }
         return $classes;
     }
@@ -146,10 +146,10 @@ class JLoader
      */
     function load( $class )
     {
-		if (class_exists($class, false)) {
-            return;
-        }
-		
+		if (class_exists($class)) {
+      		return;
+    	}
+
 		$classes = JLoader::register();
         if(array_key_exists( $class, $classes)) {
             include($classes[$class]);
@@ -164,17 +164,21 @@ class JLoader
  * When calling a class that hasn't been defined, __autoload will attempt to
  * include the correct file for that class
  *
- * @param 	string 	$class 
+ * @param 	string 	$class
  * @access 	public
  * @return  boolean
  * @since   1.5
  */
-function __autoload($class) 
+function __autoload($class)
 {
+	if (class_exists($class, false)) {
+      	return;
+    }
+
 	if(JLoader::load($class)) {
 		return true;
 	}
-	
+
 	return false;
 }
 
