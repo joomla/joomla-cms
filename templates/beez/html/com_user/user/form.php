@@ -18,7 +18,7 @@ function submitbutton( pressbutton ) {
 		alert( "<?php echo JText::_( 'Please enter your name.', true );?>" );
 	} else if (form.email.value == "") {
 		alert( "<?php echo JText::_( 'Please enter a valid e-mail address.', true );?>" );
-	} else if ((form.password.value != "") && (form.password.value != form.verifyPass.value)){
+	} else if ((form.password.value != "") && (form.password.value != form.password2.value)){
 		alert( "<?php echo JText::_( 'REGWARN_VPASS2', true );?>" );
 	} else if (r.exec(form.password.value)) {
 		alert( "<?php printf( JText::_( 'VALID_AZ09', true ), JText::_( 'Password', true ), 4 );?>" );
@@ -48,7 +48,7 @@ function submitbutton( pressbutton ) {
 		<label for="username"><?php echo JText::_( 'User Name' ); ?>: </label>
 		<input class="inputbox" type="text" id="username" name="username" value="<?php echo $this->user->get('username'); ?>" size="40" />
 	</div>
-
+	<?php if($this->user->get('password')) : ?>
 	<div class="pass">
 		<label for="password"><?php echo JText::_( 'Password' ); ?>: </label>
 		<input class="inputbox" type="password" id="password" name="password" value="" size="40" />
@@ -56,9 +56,9 @@ function submitbutton( pressbutton ) {
 
 	<div class="verify_pass">
 		<label for="verifyPass"><?php echo JText::_( 'Verify Password' ); ?>: </label>
-		<input class="inputbox" type="password" id="verifyPass" name="verifyPass" size="40" />
+		<input class="inputbox" type="password" id="password2" name="password2" size="40" />
 	</div>
-
+	<?php endif; ?>
 	<?php if(isset($this->params)) :
 		echo $this->params->render( 'params' );
 	endif; ?>
