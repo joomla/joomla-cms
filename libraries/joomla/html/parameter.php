@@ -417,7 +417,7 @@ class JParameter extends JRegistry
 	}
 
 	/**
-	 * Add a directory where JParameter should search for element types in FIFO order
+	 * Add a directory where JParameter should search for element types
 	 *
 	 * You may either pass a string or an array of directories.
 	 *
