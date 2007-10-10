@@ -442,10 +442,10 @@ class JDocument extends JObject
 	 * @return   void
 	 */
 	function addStyleDeclaration($content, $type = 'text/css') {
-		if (!isset($this->_script[strtolower($type)])) {
-			$this->_script[strtolower($type)] = $content;
+		if (!isset($this->_style[strtolower($type)])) {
+			$this->_style[strtolower($type)] = $content;
 		} else {
-			$this->_script[strtolower($type)] .= chr(13).$content;
+			$this->_style[strtolower($type)] .= chr(13).$content;
 		}
 	}
 
