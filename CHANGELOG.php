@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Oct-2007 Nur Aini Rakhmawati
+ # Fixed [#6111] poll manager new button for multiple selection
+
 09-Oct-2007 Johan Janssens
  + Implemented basic autoload support in JLoader
  # Fixed memory consumption problems in legacy mode

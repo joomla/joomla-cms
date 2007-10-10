@@ -29,13 +29,13 @@ class PollController extends JController
 	function __construct( $default = array())
 	{
 		parent::__construct( $default );
-		
+
 		$this->registerTask( 'apply', 		'save');
 		$this->registerTask( 'unpublish', 	'publish');
 		$this->registerTask( 'preview', 	'display');
 		$this->registerTask( 'edit', 		'display');
 		$this->registerTask( 'add' , 		'display' );
-	
+
 	}
 
 	function display( )
@@ -43,29 +43,36 @@ class PollController extends JController
 		switch($this->getTask())
 		{
 			case 'add'     :
+			{
+				JRequest::setVar( 'hidemainmenu', 1 );
+				JRequest::setVar( 'layout', 'form'  );
+				JRequest::setVar( 'view', 'poll'  );
+				JRequest::setVar( 'edit', false  );
+			} break;
 			case 'edit'    :
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'layout', 'form'  );
 				JRequest::setVar( 'view', 'poll'  );
+				JRequest::setVar( 'edit', true  );
 			} break;
-			
+
 			case 'preview' :
 			{
 				JRequest::setVar( 'tmpl', 'component' );
 				JRequest::setVar( 'view', 'poll'  );
 			} break;
 		}
-		
+
 		//Set the default view, just in case
 		$view = JRequest::getCmd('view');
 		if(empty($view)) {
 			JRequest::setVar('view', 'polls');
 		};
-		
-		parent::display();	
+
+		parent::display();
 	}
-	
+
 	function save()
 	{
 		$db		=& JFactory::getDBO();
@@ -136,7 +143,7 @@ class PollController extends JController
 	{
 		$db		=& JFactory::getDBO();
 		$cid	= JRequest::getVar( 'cid', array(), '', 'array' );
-		
+
 		JArrayHelper::toInteger($cid);
 		$msg = '';
 

@@ -2,15 +2,16 @@
 
 <?php
 	$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
+	$edit=JRequest::getVar( 'edit', true );
 	JArrayHelper::toInteger($cid, array(0));
 
-	$text = ( $cid[0] ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+	$text = ( $edit ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 	JToolBarHelper::title(  JText::_( 'Poll' ).': <small><small>[ ' . $text.' ]</small></small>' );
 	JToolBarHelper::Preview('index.php?option=com_poll&controller=poll&cid[]='.$cid[0]);
 	JToolBarHelper::save();
 	JToolBarHelper::apply();
-	if ($cid[0]) {
+	if ($edit) {
 		// for existing items the button is renamed `close`
 		JToolBarHelper::cancel( 'cancel', 'Close' );
 	} else {
@@ -19,7 +20,7 @@
 	JToolBarHelper::help( 'screen.polls.edit' );
 ?>
 
-<?php 
+<?php
 jimport('joomla.filter.output');
 JFilterOutput::objectHTMLSafe( $this->poll, ENT_QUOTES );
 ?>

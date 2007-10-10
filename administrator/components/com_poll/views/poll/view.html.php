@@ -37,9 +37,11 @@ class PollViewPoll extends JView
 		$cid 	= JRequest::getVar( 'cid', array(0), '', 'array' );
 		$option = JRequest::getCmd( 'option');
 		$uid 	= (int) @$cid[0];
-			
+		$edit=JRequest::getVar( 'edit', true );
+
 		$poll =& JTable::getInstance('poll', 'Table');
 		// load the row from the db table
+		if($edit)
 		$poll->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -56,7 +58,7 @@ class PollViewPoll extends JView
 
 		$options = array();
 
-		if ($uid)
+		if ($edit)
 		{
 			$poll->checkout( $user->get('id') );
 			$query = 'SELECT id, text'
@@ -71,12 +73,12 @@ class PollViewPoll extends JView
 		{
 			$poll->lag = 3600*24;
 		}
-		
+
 		$this->assignRef('poll',	$poll);
 		$this->assignRef('options',	$options);
 
 		parent::display($tpl);
-		
+
 	}
 }
 ?>
