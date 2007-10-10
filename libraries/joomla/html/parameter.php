@@ -417,7 +417,7 @@ class JParameter extends JRegistry
 	}
 
 	/**
-	 * Add a directory where JParameter should search for element types
+	 * Add a directory where JParameter should search for element types in FIFO order
 	 *
 	 * You may either pass a string or an array of directories.
 	 *
@@ -432,10 +432,9 @@ class JParameter extends JRegistry
 	 */
 	function addElementPath( $path )
 	{
-		if( is_array( $path ) ) {
-			$this->_elementPath = array_merge( $this->_elementPath, $path );
-		} else {
-			array_push( $this->_elementPath, $path );
-		}
+		// just force path to array
+		settype( $path, 'array' );
+		
+		array_unshift( $this->_elementPath, $path );
 	}
 }
