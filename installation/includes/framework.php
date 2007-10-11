@@ -67,6 +67,7 @@ jimport( 'joomla.utilities.array' );
 jimport( 'joomla.utilities.error' );
 jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.version' );
+jimport( 'joomla.i18n.language');
 
 // JString should only be loaded after pre-install checks
 $task = JRequest::getCmd( 'task' );
