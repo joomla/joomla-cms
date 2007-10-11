@@ -208,15 +208,13 @@ class JDatabase extends JObject
 			$database	= array_key_exists('database', $options)	? $options['database']	: null;
 
 			$driver = preg_replace('/[^A-Z0-9_\.-]/i', '', $driver);
-			$path	= JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'database'.DS.$driver.'.php';
+			$path	= dirname(__FILE__).DS.'database'.DS.$driver.'.php';
 
 			if (file_exists($path)) {
-				$path	= "joomla.database.database.$driver";
-				jimport( $path );
+				require_once($path);
 			} else {
 				$error = new JException( E_ERROR, 500, 'Unable to load Database Driver:' .$driver);
 				return $error;
-				//die('Unable to load Database Driver:' .$driver);
 			}
 
 			$adapter	= 'JDatabase'.$driver;
@@ -226,7 +224,6 @@ class JDatabase extends JObject
 			{
 				$error = new JException( E_ERROR, 500, 'Unable to connect to the database:' .$error);
 				return $error;
-				//die('Unable to connect to the database: '.$error);
 			}
 
 			$instances[$signature] = & $instance;
@@ -263,8 +260,12 @@ class JDatabase extends JObject
 		foreach($handlers as $handler)
 		{
 			$name = substr($handler, 0, strrpos($handler, '.'));
-			jimport('joomla.database.database.'.$name);
 			$class = 'JDatabase'.ucfirst($name);
+			
+			if(!class_exists($class)) {
+				require_once(dirname(__FILE__).DS.'database'.DS.$name.'.php');
+			}
+			
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {
 				$names[] = $name;
 			}

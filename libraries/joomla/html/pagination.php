@@ -67,8 +67,6 @@ class JPagination extends JObject
 	 */
 	function __construct($total, $limitstart, $limit)
 	{
-		global $mainframe;
-
 		// Value/Type checking
 		$this->total		= (int) $total;
 		$this->limitstart	= (int) max($limitstart, 0);
@@ -420,8 +418,6 @@ class JPagination extends JObject
 
 	function _list_render($list)
 	{
-		global $mainframe;
-
 		// Initialize variables
 		$lang =& JFactory::getLanguage();
 		$html = null;

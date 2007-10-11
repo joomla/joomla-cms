@@ -65,7 +65,8 @@ class JFolder
 			return JError::raiseError(-1, JText::_('Unable to create target folder'));
 		}
 
-		if ($FTPOptions['enabled'] == 1) {
+		if ($FTPOptions['enabled'] == 1) 
+		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
 			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);

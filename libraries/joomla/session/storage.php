@@ -58,14 +58,18 @@ class JSessionStorage extends JObject
 		$name = strtolower(JFilterInput::clean($name, 'word'));
 		if (empty ($instances[$name]))
 		{
-			if (file_exists(JPATH_LIBRARIES.DS.'joomla'.DS.'session'.DS.'storage'.DS.$name.'.php')) {
-				jimport('joomla.session.storage.'.$name);
-			} else {
-				// No call to JError::raiseError here, as it tries to close the non-existing session
-				die('Unable to load session storage: '.$name);
-			}
-
 			$class = 'JSessionStorage'.ucfirst($name);
+			if(!class_exists($class))
+			{
+				$path = dirname(__FILE__).DS.'storage'.DS.$name.'.php';
+				if (file_exists($path)) {
+					require_once($path);
+				} else {
+					// No call to JError::raiseError here, as it tries to close the non-existing session
+					die('Unable to load session storage class: '.$name);
+				}
+			}
+			
 			$instances[$name] = new $class($options);
 		}
 

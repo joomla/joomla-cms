@@ -149,7 +149,9 @@ class JUser extends JObject
 		// Load the user if it exists
 		if (!empty($identifier)) {
 			$this->load($identifier);
-		} else {
+		} 
+		else 
+		{
 			//initialise
 			$this->id        = 0;
 			$this->gid       = 0;
@@ -375,7 +377,7 @@ class JUser extends JObject
 	function bind(& $array)
 	{
 		jimport('joomla.user.helper');
-		jimport( 'joomla.utilities.array' );
+		jimport('joomla.utilities.array');
 
 		// Lets check to see if the user is new or not
 		if (empty($this->id))
@@ -442,7 +444,7 @@ class JUser extends JObject
 		// TODO: this will be deprecated as of the ACL implementation
 		$db =& JFactory::getDBO();
 
-		$gid	= array_key_exists('gid', $array ) ? $array['gid'] : $this->get('gid');
+		$gid = array_key_exists('gid', $array ) ? $array['gid'] : $this->get('gid');
 
 		$query = 'SELECT name'
 		. ' FROM #__core_acl_aro_groups'
@@ -486,8 +488,6 @@ class JUser extends JObject
 	 */
 	function save( $updateOnly = false )
 	{
-		jimport( 'joomla.utilities.array' );
-
 		// Create the user table object
 		$table 	=& $this->getTable();
 		$this->params = $this->_params->toString();

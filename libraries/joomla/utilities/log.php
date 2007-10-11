@@ -78,7 +78,8 @@ class JLog extends JObject
 		static $instances;
 
 		// Set default path if not set
-		if (!$path) {
+		if (!$path) 
+		{
 			$config =& JFactory::getConfig();
 			$path = $config->getValue('config.log_path');
 		}

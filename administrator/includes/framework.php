@@ -85,5 +85,6 @@ jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.utilities.string' );
 jimport( 'joomla.version' );
 jimport( 'joomla.event.*');
+jimport( 'joomla.i18n.language');
 
 ?>

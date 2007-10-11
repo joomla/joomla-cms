@@ -58,7 +58,8 @@ if (!defined('FTP_NATIVE')) {
  * @subpackage	Client
  * @since		1.5
  */
-class JFTP extends JObject {
+class JFTP extends JObject 
+{
 
 	/**
 	 * Server connection resource

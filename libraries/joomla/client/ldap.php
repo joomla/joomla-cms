@@ -16,10 +16,10 @@
  *
  * @author		Samuel Moffatt <pasamio@gmail.com>
  * @package		Joomla.Framework
- * @subpackage		Client
+ * @subpackage	Client
  * @since		1.5
  */
-class JLDAP
+class JLDAP extends JObject
 {
 	/** @var string Hostname of LDAP server
 		@access public */
@@ -65,14 +65,17 @@ class JLDAP
 
 	/**
 	 * Constructor
+	 * 
 	 * @param object An object of configuration variables
 	 * @access public
 	 */
-	function JLDAP($configObj = null)
+	function __construct($configObj = null)
 	{
-		if (is_object($configObj)) {
+		if (is_object($configObj)) 
+		{
 			$vars = get_class_vars(get_class($this));
-			foreach (array_keys($vars) as $var) {
+			foreach (array_keys($vars) as $var) 
+			{
 				if (substr($var, 0, 1) != '_') {
 					if ($param = $configObj->get($var)) {
 						$this-> $var = $param;
@@ -93,7 +96,8 @@ class JLDAP
 			return false;
 		}
 		$this->_resource = @ ldap_connect($this->host, $this->port);
-		if ($this->_resource) {
+		if ($this->_resource) 
+		{
 			if ($this->use_ldapV3) {
 				if (!ldap_set_option($this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 					return false;
@@ -123,10 +127,11 @@ class JLDAP
 
 	/**
 	 * Sets the DN with some template replacements
+	 * 
 	 * @param string The username
 	 * @access public
 	 */
-	function setDN($username,$nosub=0)
+	function setDN($username,$nosub = 0)
 	{
 		if ($this->users_dn == '' || $nosub) {
 			$this->_dn = $username;
@@ -156,6 +161,7 @@ class JLDAP
 
 	/**
 	 * Binds to the LDAP directory
+	 * 
 	 * @param string The username
 	 * @param string The password
 	 * @return boolean Result
@@ -177,6 +183,7 @@ class JLDAP
 
 	/**
 	 * Perform an LDAP search using comma seperated search strings
+	 * 
 	 * @param string search string of search values
 	 */
 	function simple_search($search)
@@ -191,6 +198,7 @@ class JLDAP
 
 	/**
 	 * Perform an LDAP search
+	 * 
 	 * @param array Search Filters (array of strings)
 	 * @param string DN Override
 	 * @return array Multidimensional array of results
@@ -271,7 +279,8 @@ class JLDAP
 	 * @param string attribute The attribute values you want to remove
 	 * @return mixed result of comparison (true, false, -1 on error)
 	 */
-	function remove($dn, $attribute) {
+	function remove($dn, $attribute) 
+	{
 		$resource = $this->_resource;
 		return ldap_mod_del($resource, $dn, $attribute);
 	}

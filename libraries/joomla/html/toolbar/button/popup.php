@@ -75,8 +75,6 @@ class JButtonPopup extends JButton
 	 */
 	function _getCommand($name, $url, $width, $height, $top, $left)
 	{
-		global $mainframe;
-
 		if (substr($url, 0, 4) !== 'http') {
 			$url = JURI::base().$url;
 		}

@@ -15,6 +15,9 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
+//Register the session storage class with the loader
+JLoader::register('JButton', dirname(__FILE__).DS.'toolbar'.DS.'button.php');
+
 /**
  * ToolBar handler
  *
@@ -67,8 +70,6 @@ class JToolBar extends JObject
 	function __construct($name = 'toolbar')
 	{
 		$this->_name = $name;
-
-		jimport('joomla.html.toolbar.button');
 
 		// Set base path to find buttons
 		$this->_buttonPath[] = dirname(__FILE__).DS.'toolbar'.DS.'button';

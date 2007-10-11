@@ -15,7 +15,8 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport('joomla.session.storage');
+//Register the session storage class with the loader
+JLoader::register('JSessionStorage', dirname(__FILE__).DS.'storage.php');
 
 /**
 * Class for managing HTTP sessions
@@ -253,8 +254,13 @@ class JSession extends JObject
 		foreach($handlers as $handler)
 		{
 			$name = substr($handler, 0, strrpos($handler, '.'));
-			jimport('joomla.session.storage.'.$name);
 			$class = 'JSessionStorage'.ucfirst($name);
+			
+			//Load the class only if needed
+			if(!class_exists($class)) {
+				require_once(dirname(__FILE__).DS.'storage'.DS.$name.'.php');
+			}
+			
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {
 				$names[] = $name;
 			}

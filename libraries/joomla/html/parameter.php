@@ -17,6 +17,9 @@ defined('JPATH_BASE') or die();
 
 jimport( 'joomla.registry.registry' );
 
+//Register the element class with the loader
+JLoader::register('JElement', dirname(__FILE__).DS.'parameter'.DS.'element.php');
+
 /**
  * Parameter handler
  *
@@ -382,10 +385,6 @@ class JParameter extends JRegistry
 
 		if( (isset( $this->_elements[$signature] ) && !is_a($this->_elements[$signature], '__PHP_Incomplete_Class'))  && $new === false ) {
 			return	$this->_elements[$signature];
-		}
-
-		if( !class_exists( 'JElement' ) ) {
-			jimport('joomla.html.parameter.element');
 		}
 
 		$elementClass	=	'JElement'.$type;

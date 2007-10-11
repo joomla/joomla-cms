@@ -135,7 +135,8 @@ class JSimpleCrypt extends JObject
 		return $k;
 	}
 
-	function _hexToIntArray($s) {
+	function _hexToIntArray($s) 
+	{
 		(string) $s1 = $s;
 		(int) $i = strlen($s1);
 		(int) $j = $i / 2;
@@ -147,12 +148,14 @@ class JSimpleCrypt extends JObject
 		return $ai;
 	}
 
-	function _charToInt($c) {
+	function _charToInt($c) 
+	{
 		$ac[0] = $c;
 		return $ac;
 	}
 
-	function _xorString($ai) {
+	function _xorString($ai) 
+	{
 		$s = $this->_key; //
 		(int) $i = strlen($s);
 		$ai1 = $ai;
@@ -169,7 +172,8 @@ class JSimpleCrypt extends JObject
 		return $s1;
 	}
 
-	function _intToHex($i) {
+	function _intToHex($i) 
+	{
 		(int) $j = (int) $i / 16;
 		if ((int) $j == 0) {
 			(string) $s = " ";
@@ -182,7 +186,8 @@ class JSimpleCrypt extends JObject
 		return $s;
 	}
 
-	function _xorCharString($s) {
+	function _xorCharString($s) 
+	{
 		$ac = preg_split('//', $s, -1, PREG_SPLIT_NO_EMPTY);
 		(string) $s1 = $this->_key;
 		(int) $i = strlen($s1);

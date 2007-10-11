@@ -140,13 +140,18 @@ class JArchive
 		if (!isset($adapters[$type]))
 		{
 			// Try to load the adapter object
-			jimport('joomla.filesystem.archive.'.strtolower($type));
 			$class = 'JArchive'.ucfirst($type);
+			
 			if (!class_exists($class))
 			{
-				$false = false;
-				return $false;
+				$path = dirname(__FILE__).DS.'archive.'.DS.strtolower($type).'.php';
+				if (file_exists($path)) {
+					require_once($path);
+				} else {
+					JError::raiseError(500,JText::_('Unable to load archive'));
+				}
 			}
+			
 			$adapters[$type] = new $class();
 		}
 		return $adapters[$type];

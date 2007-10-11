@@ -15,6 +15,9 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
+//Register the session storage class with the loader
+JLoader::register('JCacheStorage', dirname(__FILE__).DS.'storage.php');
+
 /**
  * Joomla! Cache base object
  *
@@ -93,13 +96,20 @@ class JCache extends JObject
 	function &getInstance($type = 'output', $options = array())
 	{
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
+		
+		$class = 'JCache'.ucfirst($type);
 
-		$path = 'joomla.cache.handler.'.$type;
-		if ( @ ! jimport($path)) {
-			JError::raiseError(500, 'Unable to load Cache Handler: '.$type);
+		if(!class_exists($class))
+		{
+			$path = dirname(__FILE__).DS.'handler'.DS.$type.'.php';
+		
+			if (file_exists($path)) {
+				require_once($path);
+			} else {
+				JError::raiseError(500, 'Unable to load Cache Handler: '.$type);
+			}
 		}
 
-		$class = 'JCache'.ucfirst($type);
 		$instance = new $class($options);
 
 		return $instance;
@@ -114,15 +124,18 @@ class JCache extends JObject
 	function getStores()
 	{
 		jimport('joomla.filesystem.folder');
-		jimport('joomla.cache.storage');
 		$handlers = JFolder::files(dirname(__FILE__).DS.'storage', '.php$');
 
 		$names = array();
 		foreach($handlers as $handler)
 		{
 			$name = substr($handler, 0, strrpos($handler, '.'));
-			jimport('joomla.cache.storage.'.$name);
 			$class = 'JCacheStorage'.$name;
+			
+			if(!class_exists($class)) {
+				require_once(dirname(__FILE__).DS.'storage'.DS.$name.'.php');
+			}
+			
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {
 				$names[] = $name;
 			}
@@ -292,8 +305,7 @@ class JCache extends JObject
 		if (is_a($this->_handler, 'JCacheStorage')) {
 			return $this->_handler;
 		}
-
-		jimport('joomla.cache.storage');
+		
 		$this->_handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 		return $this->_handler;
 	}

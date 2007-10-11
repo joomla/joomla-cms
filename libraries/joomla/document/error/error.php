@@ -76,8 +76,6 @@ class JDocumentError extends JDocument
 	 */
 	function render( $cache = false, $params = array())
 	{
-		global $mainframe;
-
 		// If no error object is set return null
 		if (!isset($this->_error)) {
 			return;

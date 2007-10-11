@@ -15,7 +15,8 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.registry.format' );
+//Register the session storage class with the loader
+JLoader::register('JRegistryFormat', dirname(__FILE__).DS.'format.php');
 
 /**
  * JRegistry class

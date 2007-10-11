@@ -196,7 +196,7 @@ class JDocumentFeed extends JDocument
 	 */
 	function render( $cache = false, $params = array())
 	{
-		global $mainframe, $option;
+		global $option;
 
 		// Get the feed type
 		$type = JRequest::getCmd('type', 'rss');

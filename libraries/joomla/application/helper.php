@@ -37,8 +37,6 @@ class JApplicationHelper
 	 */
 	function &getClientInfo($id = null, $byName = false)
 	{
-		global $mainframe;
-
 		static $clients;
 
 		// Only create the array if it does not exist

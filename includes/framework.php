@@ -91,5 +91,6 @@ jimport( 'joomla.utilities.string' );		//needs to be loaded later
 jimport( 'joomla.filter.output' );
 jimport( 'joomla.version' );				//needs to be loaded later
 jimport( 'joomla.event.*');
+jimport( 'joomla.i18n.language');
 
 ?>

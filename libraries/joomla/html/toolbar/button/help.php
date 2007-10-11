@@ -73,8 +73,6 @@ class JButtonHelp extends JButton
 	 */
 	function _getCommand($ref, $com)
 	{
-		global $mainframe;
-
 		// Get Help URL
 		jimport('joomla.i18n.help');
 		$url = JHelp::createURL($ref, $com);

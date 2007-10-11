@@ -18,6 +18,7 @@ defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.model' );
 jimport( 'joomla.installer.installer' );
+jimport('joomla.installer.helper');
 
 /**
  * Extension Manager Install Model
@@ -106,6 +107,7 @@ class InstallerModelInstall extends JModel
 			$config =& JFactory::getConfig();
 			$package['packagefile'] = $config->getValue('config.tmp_path').DS.$package['packagefile'];
 		}
+	
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 		return $result;

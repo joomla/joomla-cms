@@ -15,9 +15,6 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-// Import library dependencies
-jimport('joomla.i18n.language');
-
 // Error Definition: Illegal Options
 define( 'JERROR_ILLEGAL_OPTIONS', 1 );
 // Error Definition: Callback does not exist
@@ -559,7 +556,6 @@ class JError
 		$document->setError($error);
 
 		@ob_end_clean();
-		jimport('joomla.i18n.language');
 		$document->setTitle(JText::_('Error').': '.$error->code);
 		$data = $document->render(false, array (
 			'template' => $template,
