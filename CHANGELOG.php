@@ -37,8 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Oct-2007 Louis Landry
+ # Fixed broken installation application
+
 11-Oct-2007 Nur Aini Rakhmawati
  # Fixed [#6111] poll manager new button for multiple selection
+
+10-Oct-2007 Louis Landry
+ # Fixed document issue attaching stylesheets as scripts - Thanks Jonah!
 
 09-Oct-2007 Johan Janssens
  + Implemented basic autoload support in JLoader

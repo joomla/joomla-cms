@@ -741,8 +741,11 @@ class JDocument extends JObject
 			}
 		}
 
-		$instance = new $class($this);
+		if ( !class_exists( $class ) ) {
+			return $null;
+		}
 
+		$instance = new $class($this);
 		return $instance;
 	}
 

@@ -93,7 +93,8 @@ class JInstallation extends JApplication
 
 		$document->setBuffer( $contents, 'installation');
 		$document->setTitle(JText::_('PAGE_TITLE'));
-		JResponse::setBody($document->render( false, $params));
+		$data = $document->render(false, $params);
+		JResponse::setBody($data);
 	}
 
 	/**

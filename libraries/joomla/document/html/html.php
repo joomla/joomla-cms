@@ -176,7 +176,7 @@ class JDocumentHTML extends JDocument
 			$result = $this->_buffer[$type][$name];
 		}
 
-		if( @ $renderer =& $this->loadRenderer( $type )) {
+		if( $renderer =& $this->loadRenderer( $type )) {
 			$result = $renderer->render($name, $attribs, $result);
 		};
 
