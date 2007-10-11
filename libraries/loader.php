@@ -115,7 +115,7 @@ class JLoader
      * @return	array  List of classnames => files
      * @since 	1.5
      */
-    function register ($classname = null, $file = null)
+    function register ($class = null, $file = null)
     {
     	static $classes;
 
@@ -123,13 +123,14 @@ class JLoader
             $classes    = array();
         }
 
-        if($classname && is_file($file))
+        if($class && is_file($file))
 		{
-			$classes[$classname] = $file;
+			$class = strtolower($class); //force to lower case
+			$classes[$class] = $file;
 
 			// In php4 we load the class immediately
             if((version_compare( phpversion(), '5.0' ) < 0)) {
-                JLoader::load($classname);
+                JLoader::load($class);
             }
         }
         return $classes;
@@ -146,12 +147,14 @@ class JLoader
      */
     function load( $class )
     {
+		$class = strtolower($class); //force to lower case
+		
 		if (class_exists($class)) {
       		return;
     	}
 
 		$classes = JLoader::register();
-        if(array_key_exists( $class, $classes)) {
+        if(array_key_exists( strtolower($class), $classes)) {
             include($classes[$class]);
             return true;
         }
