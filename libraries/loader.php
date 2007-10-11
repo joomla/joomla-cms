@@ -148,7 +148,7 @@ class JLoader
     function load( $class )
     {
 		$class = strtolower($class); //force to lower case
-		
+			
 		if (class_exists($class)) {
       		return;
     	}
@@ -165,7 +165,9 @@ class JLoader
 
 /**
  * When calling a class that hasn't been defined, __autoload will attempt to
- * include the correct file for that class
+ * include the correct file for that class. 
+ * 
+ * This function get's called by PHP. Never call this function yourself.
  *
  * @param 	string 	$class
  * @access 	public
@@ -174,10 +176,6 @@ class JLoader
  */
 function __autoload($class)
 {
-	if (class_exists($class, false)) {
-      	return;
-    }
-
 	if(JLoader::load($class)) {
 		return true;
 	}
