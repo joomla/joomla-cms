@@ -84,7 +84,7 @@ class UsersController extends JController
 
 		if (!$user->bind($post))
 		{
-			$mainframe->enqueueMessage('Cannot save the user information', 'message');
+			$mainframe->enqueueMessage(JText::_('CANNOT SAVE THE USER INFORMATION'), 'message');
 			$mainframe->enqueueMessage($user->getError(), 'error');
 			//$mainframe->redirect( 'index.php?option=com_users', $user->getError() );
 			//return false;
@@ -121,7 +121,8 @@ class UsersController extends JController
 	 	 */
 		if (!$user->save())
 		{
-			$mainframe->enqueueMessage('Cannot save the user information', 'message');
+
+			$mainframe->enqueueMessage(JText::_('CANNOT SAVE THE USER INFORMATION'), 'message');
 			$mainframe->enqueueMessage($user->getError(), 'error');
 			return $this->execute('edit');
 		}
