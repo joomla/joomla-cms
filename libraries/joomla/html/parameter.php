@@ -395,7 +395,7 @@ class JParameter extends JRegistry
 			} else {
 				$dirs = array();
 			}
-
+			
 			$file = JFilterInput::clean(str_replace('_', DS, $type).'.php', 'path');
 
 			jimport('joomla.filesystem.path');
@@ -434,6 +434,22 @@ class JParameter extends JRegistry
 		// just force path to array
 		settype( $path, 'array' );
 		
-		array_unshift( $this->_elementPath, $path );
+		// loop through the path directories
+		foreach ( $path as $dir )
+		{
+			// no surrounding spaces allowed!
+			$dir = trim( $dir );
+
+			// add trailing separators as needed
+			if ( substr( $dir, -1 ) != DIRECTORY_SEPARATOR ) {
+				// directory
+				$dir .= DIRECTORY_SEPARATOR;
+			}
+
+			// add to the top of the search dirs
+			array_unshift( $this->_elementPath, $dir );
+		}
+		
+		
 	}
 }
