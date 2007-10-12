@@ -21,7 +21,7 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="langauge" type="radio" default="1" label="Display undefined language strings" description="If yes, display undefined language strings">
+		<param name="language" type="radio" default="1" label="Display undefined language strings" description="If yes, display undefined language strings">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
