@@ -55,7 +55,7 @@ class  plgSystemLegacy extends JPlugin
 		JLoader::register('mosAdminMenus'   , dirname(__FILE__).DS.'legacy'.DS.'adminmenus.php');
 		JLoader::register('mosCache'        , dirname(__FILE__).DS.'legacy'.DS.'cache.php');
 		JLoader::register('mosCategory'     , dirname(__FILE__).DS.'legacy'.DS.'category.php');
-		JLoader::register('mosCommonHTML'   , dirname(__FILE__).DS.'legacy'.DS.'componenthtml.php');
+		JLoader::register('mosCommonHTML'   , dirname(__FILE__).DS.'legacy'.DS.'commonhtml.php');
 		JLoader::register('mosComponent'    , dirname(__FILE__).DS.'legacy'.DS.'component.php');
 		JLoader::register('mosContent'      , dirname(__FILE__).DS.'legacy'.DS.'content.php');
 		JLoader::register('database'        , dirname(__FILE__).DS.'legacy'.DS.'database.php');
