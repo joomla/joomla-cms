@@ -80,3 +80,6 @@ p {
 	font-weight: bold;
 }
 
+#form-login div.button_holder{
+ 	padding-left: 225px;
+}

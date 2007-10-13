@@ -48,9 +48,9 @@ $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 		<label for="lang"><?php echo JText::_('Language'); ?></label>
 		<?php echo $langs; ?>
 	</p>
-	<div style="padding-left: 180px;">
-	<div class="<?php echo $lang->isRTL() ? 'button1-right' : 'button1-left'; ?>">
-		<div class="<?php echo $lang->isRTL() ? 'prev' : 'next'; ?>">
+	<div class="button_holder">
+	<div class="button1">
+		<div class="next">
 			<a onclick="login.submit();">
 				<?php echo JText::_( 'Login' ); ?>
 			</a>

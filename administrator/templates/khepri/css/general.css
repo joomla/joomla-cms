@@ -369,6 +369,15 @@ table.adminform th {
 }
 table.adminform td { padding: 3px; text-align: left; }
 
+table.adminform td.filter{
+	text-align: left;
+}
+
+table.adminform td.helpMenu{
+	text-align: right;
+}
+
+
 fieldset.adminform { border: 1px solid #ccc; margin: 0 10px 10px 10px; }
 
 /** Table styles **/
@@ -436,25 +445,23 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 
 /* -- buttons -> STILL NEED CLEANUP*/
 
-.button1-left,
-.button1-right,
+.button1,
+.button1 div{
+	float: right;
+}
+
 .button2-left,
 .button2-right,
-.button1-left div,
-.button1-right div,
 .button2-left div,
 .button2-right div {
 	float: left;
 }
 
-.button1-left  { background: url(../images/j_button1_left.png) no-repeat; margin-left: 5px; }
-.button1-right { background: url(../images/j_button1_right.png) 100% 0 no-repeat; margin-left: 5px; }
+.button1 { background: url(../images/j_button1_left.png) no-repeat; margin-left: 5px; }
 
-.button1-right .prev { background: url(../images/j_button1_prev.png) no-repeat; }
-.button1-left .next  { background: url(../images/j_button1_next.png) 100% 0 no-repeat; }
+.button1 .next { background: url(../images/j_button1_next.png) 100% 0 no-repeat; }
 
-.button1-left a,
-.button1-right a {
+.button1 a {
 	display: block;
 	height: 26px;
 	float: left;
@@ -463,13 +470,10 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	font-weight: bold;
 	color: #333;
 	cursor: pointer;
+	padding: 0 30px 0 6px;
 }
 
-.button1-left  a { padding: 0 30px 0 6px; }
-.button1-right a { padding: 0 6px 0 30px; }
-
-.button1-left a:hover,
-.button1-right a:hover { text-decoration: none; color: #0B55C4; }
+.button1 a:hover { text-decoration: none; color: #0B55C4; }
 
 .button2-left a,
 .button2-right a,

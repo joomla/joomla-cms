@@ -162,7 +162,7 @@ class HTML_admin_misc
 							<input type="submit" value="<?php echo JText::_( 'Go' ); ?>" class="button" />
 							<input type="button" value="<?php echo JText::_( 'Clear Results' ); ?>" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
 						</td>
-						<td style="text-align:right">
+						<td class="helpMenu">
 							<?php
 							if ($helpurl) {
 							?>
