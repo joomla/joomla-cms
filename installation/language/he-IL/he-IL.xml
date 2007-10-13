@@ -15,9 +15,8 @@
 		<tag>he-IL</tag>
 		<rtl>1</rtl>
 		<locale>he_IL.utf-8, heb_IL.utf-8, he, hebrew</locale>
-		<wincodepage>windows-1255</wincodepage>
-		<backwardlang>hebrew</backwardlang>
-		<pdffontname>vera</pdffontname>
+		<winCodePage>windows-1255</winCodePage>
+		<backwardLang>hebrew</backwardLang>
 	</metadata>
-	<params></params>
+	<params />
 </metafile>
