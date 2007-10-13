@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="1.5"  client="installation" >
+<metafile version="1.5" client="installation" >
 	<tag>he-IL</tag>
 	<name>Hebrew(IL)</name>
-	<description></description>
+	<description>Joomla! Installation Hebrew Translation - by Mati Kochen</description>
 	<version>1.5.0</version>
-	<creationdate>2007-09-29</creationdate>
-	<author>Hebrew Translation Team</author>
-	<authorurl>www.joomla.org</authorurl>
-	<authoremail>info@joomla.co.il</authoremail>
-	<copyright>(C) 2005 - 2006 joomla.co.il. All rights reserved.</copyright>
+	<creationDate>2007-10-05</creationDate>
+	<author>Mati Kochen - Hebrew Translation Team Coordinator - joomla.co.il</author>
+	<authorurl>www.smartmtk.com</authorurl>
+	<authoremail>mtk@smartmtk.com</authoremail>
+	<copyright>(C) 2007 - 2008 Mati Kochen. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html</license>
 	<metadata>
 		<name>Hebrew(IL)</name>

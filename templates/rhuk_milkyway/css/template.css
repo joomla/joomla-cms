@@ -781,4 +781,12 @@ td.key {
 /* System Notice Messages */
 #system-message dd.notice ul { color: #c00; background: #EFE7B8 url(../../system/images/notice-note.png) 4px center no-repeat; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
 
+#syndicate{
+	float:left;
+	padding-left: 25px;
+}
 
+#power_by{
+	float:right;
+	padding-right: 25px;
+}

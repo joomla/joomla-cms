@@ -152,10 +152,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<div id="footer">
 			<div id="footer_l">
 				<div id="footer_r">
-					<p style="float:left; padding-left: 25px;">
+					<p id="syndicate">
 						<jdoc:include type="modules" name="syndicate" />
 					</p>
-					<p style="float:right; padding-right: 25px;">
+					<p id="power_by">
 	 				 	<?php echo JText::_('Powered by') ?> <a href="http://www.joomla.org">Joomla!</a>.
 						<?php echo JText::_('Valid') ?> <a href="http://validator.w3.org/check/referer">XHTML</a> <?php echo JText::_('and') ?> <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>.
 					</p>

@@ -95,6 +95,7 @@ p{
 #right{
 	right: auto;
 	left: 0px;
+	float: right;
 }
 
 #left h3{
@@ -200,7 +201,7 @@ ul.pagination{
 }
 
 ul.pagination li {
-	display: -moz-inline-box;
+/*	display: -moz-inline-box;*/
 }
 
 #footer p{
