@@ -356,6 +356,21 @@ class sections_html
 	function copySectionSelect( $option, $cid, $categories, $contents, $section )
 	{
 		?>
+		<script language="javascript" type="text/javascript">
+		function submitbutton(pressbutton) {
+			var form = document.adminForm;
+			if (pressbutton == 'cancel') {
+				submitform( pressbutton );
+				return;
+			}
+
+			if ( form.title.value == '' ){
+				alert("<?php echo JText::_( 'Section must have a title', true ); ?>");
+			} else {
+				submitform(pressbutton);
+			}
+		}
+		</script>
 		<form action="index.php" method="post" name="adminForm">
 
 		<table class="adminform">

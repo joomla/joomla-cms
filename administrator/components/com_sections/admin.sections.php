@@ -50,7 +50,7 @@ switch ($task)
 		break;
 
 	case 'copysave':
-		copySectionSave( $cid );
+		copySectionSave( $cid, $scope );
 		break;
 
 	case 'publish':
@@ -546,7 +546,7 @@ function copySectionSelect( $option, $cid, $section )
 /**
 * Save the item(s) to the menu selected
 */
-function copySectionSave( $sectionid )
+function copySectionSave( $sectionid, $scope )
 {
 	global $mainframe;
 
@@ -565,7 +565,9 @@ function copySectionSave( $sectionid )
 		$section->title = $title;
 		$section->name 	= $title;
 		if ( !$section->check() ) {
-			JError::raiseError(500, $section->getError() );
+			copySectionSelect('com_sections', $sectionid, $scope );
+			JError::raiseWarning(500, $section->getError() );
+			return;
 		}
 
 		if ( !$section->store() ) {

@@ -28,6 +28,7 @@ switch ( $task )
 		break;
 
 	case 'copyselect':
+	case 'copysave':
 		TOOLBAR_sections::_COPY();
 		break;
 

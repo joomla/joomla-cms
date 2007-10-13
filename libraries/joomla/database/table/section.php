@@ -71,7 +71,7 @@ class JTableSection extends JTable
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->setError(JText::sprintf( 'must contain a title', JText::_( 'Section') ));
+			$this->setError( JText::_( 'SECTION MUST HAVE A TITLE') );
 			return false;
 		}
 

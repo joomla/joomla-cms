@@ -414,6 +414,23 @@ class categories_html
 	*/
 	function moveCategorySelect( $option, $cid, $SectionList, $items, $sectionOld, $contents, $redirect ) {
 		?>
+		<script language="javascript" type="text/javascript">
+		function submitbutton(pressbutton) {
+			var form = document.adminForm;
+			if (pressbutton == 'cancel') {
+				submitform( pressbutton );
+				return;
+			}
+
+			// do field validation
+			if (!getSelectedValue( 'adminForm', 'sectionmove' )) {
+				alert( "<?php echo JText::_( 'Please select a section from the list', true ); ?>" );
+			} else {
+				submitform( pressbutton );
+			}
+		}
+		</script>
+		
 		<form action="index.php" method="post" name="adminForm">
 
 		<br />
@@ -479,6 +496,23 @@ class categories_html
 	*/
 	function copyCategorySelect( $option, $cid, $SectionList, $items, $sectionOld, $contents, $redirect ) {
 		?>
+		<script language="javascript" type="text/javascript">
+		function submitbutton(pressbutton) {
+			var form = document.adminForm;
+			if (pressbutton == 'cancel') {
+				submitform( pressbutton );
+				return;
+			}
+
+			// do field validation
+			if (!getSelectedValue( 'adminForm', 'sectionmove' )) {
+				alert( "<?php echo JText::_( 'Please select a section from the list', true ); ?>" );
+			} else {
+				submitform( pressbutton );
+			}
+		}
+		</script>
+		
 		<form action="index.php" method="post" name="adminForm">
 
 		<br />
@@ -521,7 +555,7 @@ class categories_html
 			<br />
 			<?php echo JText::_( 'to the selected Section' ); ?>
 			<br />
-			<?php echo JText::_( 'NOTE: IF NO SECTION' ); ?>.
+			<?php echo JText::_( 'NOTE: IF SAME SECTION' ); ?>.
 			</td>.
 		</tr>
 		</table>

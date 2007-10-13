@@ -697,6 +697,15 @@ function moveCategorySave( $cid, $sectionOld )
 
 	$db =& JFactory::getDBO();
 	$sectionMove = JRequest::getCmd( 'sectionmove' );
+	
+	//Check to see of a section was selected to copy the items too
+	if (!$sectionMove) 
+	{
+		$msg = JText::_('Please select a section from the list');
+		moveCategorySelect( 'com_categories', $cid, $sectionOld );
+		JError::raiseWarning(500, $msg);
+		return;
+	}
 
 	JArrayHelper::toInteger($cid, array(0));
 
@@ -787,6 +796,17 @@ function copyCategorySave( $cid, $sectionOld )
 	$db =& JFactory::getDBO();
 
 	$sectionMove 	= JRequest::getInt( 'sectionmove' );
+	
+	
+	//Check to see of a section was selected to copy the items too
+	if (!$sectionMove) 
+	{
+		$msg = JText::_('Please select a section from the list');
+		copyCategorySelect( 'com_categories', $cid, $sectionOld );
+		JError::raiseWarning(500, $msg);
+		return;
+	}
+	
 	$contentid 		= JRequest::getVar( 'item', null, '', 'array' );
 	JArrayHelper::toInteger($contentid);
 

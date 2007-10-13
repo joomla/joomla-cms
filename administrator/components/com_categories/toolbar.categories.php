@@ -29,10 +29,12 @@ switch ($task)
 		break;
 
 	case 'moveselect':
+	case 'movesave':
 		TOOLBAR_categories::_MOVE();
 		break;
 
 	case 'copyselect':
+	case 'copysave':
 		TOOLBAR_categories::_COPY();
 		break;
 

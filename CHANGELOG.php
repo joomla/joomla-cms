@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Oct-2007 Mateusz Krzeszowiec
+ # Fixed [#6087] Copying or moving Menu Items, Sections and Categories generates error.
+ ! "NOTE: IF NO SECTION" changed to "NOTE: IF SAME SECTION" in en-GB.com_categories.ini to reflect component behaviour  
+
 11-Oct-2007 Louis Landry
  # Fixed broken installation application
 
