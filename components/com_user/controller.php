@@ -78,7 +78,8 @@ class UserController extends JController
 		$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		// do a password safety check
-		if(strlen($post['password'])) { // so that "0" can be used as password e.g.
+		if(strlen($post['password'])) 
+		{ // so that "0" can be used as password e.g.
 			if($post['password'] != $post['password2']) {
 				$msg	= JText::_('PASSWORDS_DO_NOT_MATCH');
 				$this->setRedirect($_SERVER['HTTP_REFERER'], $msg);
@@ -95,7 +96,7 @@ class UserController extends JController
 			//$msg	= JText::_( 'Error saving your settings.' );
 			$msg	= $model->getError();
 		}
-
+		
 		$this->setRedirect( $_SERVER['HTTP_REFERER'], $msg );
 	}
 
@@ -260,21 +261,9 @@ class UserController extends JController
 
 		// Everything went fine, set relevant message depending upon user activation state and display message
 		if ( $useractivation == 1 ) {
-			// Page Title
-			$document->setTitle( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ) );
-			// Breadcrumb
-			$pathway->addItem( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ));
-
-			$message->title = JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' );
-			$message->text = JText::_( 'REG_COMPLETE_ACTIVATE' );
+			$message  = JText::_( 'REG_COMPLETE_ACTIVATE' );
 		} else {
-			// Page Title
-			$document->setTitle( JText::_( 'REG_COMPLETE_TITLE' ) );
-			// Breadcrumb
-			$pathway->addItem( JText::_( 'REG_COMPLETE_TITLE' ));
-
-			$message->title = JText::_( 'REG_COMPLETE_TITLE' );
-			$message->text = JText::_( 'REG_COMPLETE' );
+			$message = JText::_( 'REG_COMPLETE' );
 		}
 
 		//TODO :: this needs to be replace by raiseMessage
