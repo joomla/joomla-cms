@@ -839,6 +839,52 @@ class JInstallationHelper
 		return $retval;
 
 	}
+	
+	function return_bytes($val) {
+	    $val = trim($val);
+	    $last = strtolower($val{strlen($val)-1});
+	    switch($last) {
+	        // The 'G' modifier is available since PHP 5.1.0
+	        case 'g':
+	            $val *= 1024;
+	        case 'm':
+	            $val *= 1024;
+	        case 'k':
+	            $val *= 1024;
+	    }
+	
+	    return $val;
+	}
+	
+	function replaceBuffer(&$buffer, $oldPrefix, $newPrefix, $srcEncoding) {
+
+			$buffer = str_replace( $oldPrefix, $newPrefix, $buffer );
+	
+			/*
+			 * give temp name to menu and modules tables
+			 */
+			$buffer = str_replace ( $newPrefix.'modules', $newPrefix.'modules_migration', $buffer );
+			$buffer = str_replace ( $newPrefix.'menu', $newPrefix.'menu_migration', $buffer );
+	
+			/*
+			 * rename two aro_acl... field names
+			 */
+			$buffer = preg_replace ( '/group_id(?!.{15,25}aro_id)/', 'id', $buffer );
+			$buffer = preg_replace ( '/aro_id(?=.{1,6}section_value)/', 'id', $buffer );
+	
+			/*
+			 * convert to utf-8
+			 */
+			if(function_exists('iconv')) {
+				$buffer = iconv( $srcEncoding, 'utf-8//TRANSLIT', $buffer );
+			}
+	}
+	
+	function appendFile(&$buffer, $filename) {
+		$fh = fopen($filename, 'a');
+		fwrite($fh, $buffer);
+		fclose($fh);
+	}
 
 	/**
 	 * Performs pre-populate conversions on a migration script
@@ -851,34 +897,55 @@ class JInstallationHelper
 	 */
 	function preMigrate( $scriptName, &$args, $db )
 	{
-		//TODO add error handling
-		//TODO sam: work out who wrote that todo
+		$maxread = 0;
+		if(function_exists('memory_get_usage')) {
+			$memlimit = JInstallationHelper::return_bytes(ini_get('memory_limit'));
+			$maxread = $memlimit / 16; 	// Read only a eigth of our max amount of memory, we could be up to a lot by now
+										// By default this pegs us at 0.5MB
+		} 
 		$buffer = '';
 		$newPrefix = $args['DBPrefix'];
-		/*
-		 * read script file into buffer
-		 */
-		if(is_file($scriptName)) {
-			$buffer = file_get_contents( $scriptName );
-		} else return false;
-		if(  $buffer == false )
-		{
-			return false;
-		}
-
 		/*
 		 * search and replace table prefixes
 		 */
 		$oldPrefix = trim( $args['oldPrefix']);
 		$oldPrefix = rtrim( $oldPrefix, '_' ) . '_';
-		$buffer = str_replace( $oldPrefix, $newPrefix, $buffer );
-
-		/*
-		 * give temp name to menu and modules tables
-		 */
-		$buffer = str_replace ( $newPrefix.'modules', $newPrefix.'modules_migration', $buffer );
-		$buffer = str_replace ( $newPrefix.'menu', $newPrefix.'menu_migration', $buffer );
-
+		$srcEncoding = $args['srcEncoding'];
+		$newFile = dirname( $scriptName ).DS.'converted.sql';
+		$filesize = filesize($scriptName);
+		if($maxread > 0 && $filesize > 0 && $maxread < $filesize) 
+		{
+			$parts = ceil($filesize / $maxread);
+			file_put_contents( $newFile, '' ); // cleanse the file first
+			for($i = 0; $i < $parts; $i++) {
+				$buffer = JFile::read($scriptName, false, $maxread, $maxread,($i * $maxread));
+				// Lets try and read a portion of the file
+				JInstallationHelper::replaceBuffer($buffer, $oldPrefix, $newPrefix, $srcEncoding);
+				JInstallationHelper::appendFile($buffer, $newFile);
+				unset($buffer);
+			}				
+			JFile::delete( $scriptName );
+		} else {
+			/*
+			 * read script file into buffer
+			 */
+			if(is_file($scriptName)) {
+				$buffer = file_get_contents( $scriptName );
+			} else return false;
+			
+			if(  $buffer == false ) return false;
+			
+			JInstallationHelper::replaceBuffer($buffer, $oldPrefix, $newPrefix, $srcEncoding);
+			
+			/*
+			 * write to file
+			 */
+			//$newFile = dirname( $scriptName ).DS.'converted.sql';
+			$ret = file_put_contents( $newFile, $buffer );
+			unset($buffer); // Release the memory used by the buffer
+			JFile::delete( $scriptName );
+		}
+		
 		/*
 		 * Create two empty temporary tables
 		 */
@@ -902,27 +969,7 @@ class JInstallationHelper
 		$query = 'CREATE TABLE '.$newPrefix.'menu_migration SELECT * FROM '.$newPrefix.'menu WHERE 0';
 		$db->setQuery( $query );
 		$db->query();
-
-		/*
-		 * rename two aro_acl... field names
-		 */
-		$buffer = preg_replace ( '/group_id(?!.{15,25}aro_id)/', 'id', $buffer );
-		$buffer = preg_replace ( '/aro_id(?=.{1,6}section_value)/', 'id', $buffer );
-
-		/*
-		 * convert to utf-8
-		 */
-		$srcEncoding = $args['srcEncoding'];
-		if(function_exists('iconv')) {
-			$buffer = iconv( $srcEncoding, 'utf-8//TRANSLIT', $buffer );
-		}
-		/*
-		 * write to file
-		 */
-		$newFile = dirname( $scriptName ).DS.'converted.sql';
-		$ret = file_put_contents( $newFile, $buffer );
-		$buffer = '';
-		JFile::delete( $scriptName );
+		
 		return $newFile;
 	}
 

@@ -228,10 +228,11 @@ class JFile
 	 * @param boolean $incpath Use include path
 	 * @param int $amount Amount of file to read
 	 * @param int $chunksize Size of chunks to read
+	 * @param int $offset Offset of the file
 	 * @return mixed Returns file contents or boolean False if failed
 	 * @since 1.5
 	 */
-	function read($filename, $incpath = false, $amount = 0, $chunksize=8192)
+	function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
 		// Initialize variables
 		$data = null;
@@ -241,6 +242,7 @@ class JFile
 			return false;
 		}
 		clearstatcache();
+		if($offset) fseek($fh, $offset);
 		if ($fsize = @ filesize($filename)) {
 			if($amount && $fsize > $amount) {
 				$data = fread($fh, $amount);
