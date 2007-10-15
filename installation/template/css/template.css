@@ -293,6 +293,12 @@ span.step {
   height: 500px;
 }
 
+.error {
+	font-size: 14px;
+	font-weight: bold;
+	color: #c00;
+}
+
 h3.title-smenu, h3.moofx-toggler {
 	margin: 0;
 	border: 1px solid #ccc;
