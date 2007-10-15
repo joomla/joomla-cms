@@ -48,6 +48,7 @@ class JElementLanguages extends JElement
 
 		$client = $node->attributes('client');
 
+		jimport('joomla.language.helper');
 		$languages = JLanguageHelper::createLanguageList($value, constant('JPATH_'.strtoupper($client)), true);
 		array_unshift($languages, JHTML::_('select.option', '', '- '.JText::_('Select Language').' -'));
 

@@ -15,7 +15,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.event.handler' );
+jimport( 'joomla.event.event' );
 
 /**
  * JPlugin Class
@@ -26,7 +26,7 @@ jimport( 'joomla.event.handler' );
  * @subpackage	Event
  * @since		1.5
  */
-class JPlugin extends JEventHandler
+class JPlugin extends JEvent
 {
 	/**
 	 * A JParameter object holding the parameters for the plugin

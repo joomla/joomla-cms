@@ -46,7 +46,7 @@ class UserModelRemind extends JModel
 	 */
 	function remindUsername($email)
 	{
-		jimport('joomla.utilities.mail');
+		jimport('joomla.mail.helper');
 
 		global $mainframe;
 

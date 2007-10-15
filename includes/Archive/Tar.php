@@ -4,4 +4,4 @@
  * @version		$Id$
  * @package		Joomla.Legacy
  */
-require_once( dirname(__FILE__)  .'/../../libraries/archive/tar.php' );
+require_once( dirname(__FILE__)  .'/../../libraries/pear/archive_tar/Archive_Tar.php' );

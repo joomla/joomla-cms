@@ -377,8 +377,7 @@ class JUser extends JObject
 	function bind(& $array)
 	{
 		jimport('joomla.user.helper');
-		jimport('joomla.utilities.array');
-
+		
 		// Lets check to see if the user is new or not
 		if (empty($this->id))
 		{
@@ -521,7 +520,7 @@ class JUser extends JObject
 
 		// Fire the onBeforeStoreUser event.
 		JPluginHelper::importPlugin( 'user' );
-		$dispatcher =& JEventDispatcher::getInstance();
+		$dispatcher =& JDispatcher::getInstance();
 		$dispatcher->trigger( 'onBeforeStoreUser', array( $old->getProperties(), $isnew ) );
 
 		//Store the user data in the database
@@ -553,7 +552,7 @@ class JUser extends JObject
 		JPluginHelper::importPlugin( 'user' );
 
 		//trigger the onBeforeDeleteUser event
-		$dispatcher =& JEventDispatcher::getInstance();
+		$dispatcher =& JDispatcher::getInstance();
 		$dispatcher->trigger( 'onBeforeDeleteUser', array( $this->getProperties() ) );
 
 		// Create the user table object

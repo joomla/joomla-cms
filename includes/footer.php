@@ -14,7 +14,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.version');
 $version = new JVersion();
 
 // NOTE - You may change this file to suit your site needs

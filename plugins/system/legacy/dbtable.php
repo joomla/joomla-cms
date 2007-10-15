@@ -82,7 +82,6 @@ class mosDBTable extends JTable
 	{
 		$ignore = is_array( $ignoreList );
 
-		jimport('joomla.filter.input');
 		$filter = & JFilterInput::getInstance();
 		foreach ($this->getProperties() as $k => $v)
 		{

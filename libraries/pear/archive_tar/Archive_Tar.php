@@ -16,7 +16,7 @@
 // | Author: Vincent Blavet <vincent@blavet.net>						  |
 // +----------------------------------------------------------------------+
 //
-// $Id$
+// $Id: Tar.php 6474 2007-02-03 10:47:26Z pasamio $
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();

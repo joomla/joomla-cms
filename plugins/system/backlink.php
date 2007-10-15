@@ -36,7 +36,7 @@ class plgSystemBacklink extends JPlugin
 	 */
 	function plgSystemBacklink(& $subject, $config) 
 	{
-		$this->_db = JFactory :: getDBO();
+		$this->_db = JFactory::getDBO();
 		parent :: __construct($subject, $config);
 	}
 
@@ -159,8 +159,6 @@ class plgSystemBacklink extends JPlugin
 
 	function _legacysef() 
 	{
-		global $mainframe;
-		
 		$mosConfig_absolute_path = JPATH_SITE;
 		$mosConfig_live_site = JURI :: base();
 		$url_array = explode('/', $_SERVER['REQUEST_URI']);

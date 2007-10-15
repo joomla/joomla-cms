@@ -21,7 +21,6 @@
 
 <?php
 	// clean item data
-	jimport('joomla.filter.output');
 	JFilterOutput::objectHTMLSafe( $user, ENT_QUOTES, '' );
 
 	$lvisit = $this->user->get('lastvisitDate');

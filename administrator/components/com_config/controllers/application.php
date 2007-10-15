@@ -87,7 +87,7 @@ class ConfigControllerApplication extends ConfigController
 		$listLimit 				= array (JHTML::_('select.option', 5, 5), JHTML::_('select.option', 10, 10), JHTML::_('select.option', 15, 15), JHTML::_('select.option', 20, 20), JHTML::_('select.option', 25, 25), JHTML::_('select.option', 30, 30), JHTML::_('select.option', 50, 50), JHTML::_('select.option', 100, 100),);
 		$lists['list_limit'] 	= JHTML::_('select.genericlist',  $listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->list_limit ? $row->list_limit : 50));
 
-		jimport('joomla.i18n.help');
+		jimport('joomla.language.help');
 		$helpsites 				= array ();
 		$helpsites 				= JHelp::createSiteList(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $row->helpurl);
 		array_unshift($helpsites, JHTML::_('select.option', '', JText::_('local')));
@@ -337,7 +337,6 @@ class ConfigControllerApplication extends ConfigController
 
 		// handling of quotes (double and single) and amp characters
 		// htmlspecialchars not used to preserve ability to insert other html characters
-		jimport('joomla.filter.output');
 		$offline_message	= JRequest::getVar( 'offline_message', '', 'post', 'string' );
 		$offline_message	= JFilterOutput::ampReplace( $offline_message );
 		$offline_message	= str_replace( '"', '&quot;', $offline_message );

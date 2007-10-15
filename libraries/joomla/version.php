@@ -11,11 +11,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// Global version define
-if (!defined('JVERSION')) {
-	define('JVERSION', '1.5.0');
-}
-
 /**
  * Version information
  *

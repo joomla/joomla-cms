@@ -54,7 +54,7 @@ class MailtoController extends JController
 
 		$db	=& JFactory::getDBO();
 
-		jimport( 'joomla.utilities.mail' );
+		jimport( 'joomla.mail.helper' );
 
 		$SiteName 	= $mainframe->getCfg('sitename');
 		$MailFrom 	= $mainframe->getCfg('mailfrom');

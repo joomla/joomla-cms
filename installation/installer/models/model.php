@@ -79,6 +79,7 @@ class JInstallationModel extends JModel
 
 		$vars	=& $this->getVars();
 
+		jimport('joomla.language.helper');
 		$native = JLanguageHelper::detectLanguage();
 		$forced = $mainframe->getLocalise();
 

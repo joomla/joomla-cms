@@ -15,9 +15,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Include library dependencies
-jimport('joomla.filter.input');
-
 /**
 * Weblink Table class
 *
@@ -174,7 +171,6 @@ class TableWeblink extends JTable
 			return false;
 		}
 
-		jimport('joomla.filter.output');
 		$alias = JFilterOutput::stringURLSafe($this->title);
 
 		if(empty($this->alias)) {

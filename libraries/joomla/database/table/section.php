@@ -89,7 +89,6 @@ class JTableSection extends JTable
 			return false;
 		}*/
 
-		jimport('joomla.filter.output');
 		$alias = JFilterOutput::stringURLSafe($this->title);
 
 		if(empty($this->alias) || $this->alias === $alias ) {

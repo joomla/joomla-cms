@@ -14,8 +14,6 @@
 // Do not allow direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.event.plugin');
-
 /**
  * XStandard Lite for Joomla! WYSIWYG Editor Plugin
  *

@@ -23,5 +23,5 @@ defined('JPATH_BASE') or die();
  * @since		1.5
  */
 if (version_compare( phpversion(), '5.0' ) < 0) {
-	jimport('joomla.utilities.compat.php50x' );
+	require_once( JPATH_LIBRARIES.DS.'joomla'.DS.'utilities'.DS.'compat'.DS.'php50x.php');
 }

@@ -523,7 +523,7 @@ class JFactory
 	 */
 	function &_createMailer()
 	{
-		jimport('joomla.utilities.mail');
+		jimport('joomla.mail.mail');
 
 		$conf	=& JFactory::getConfig();
 
@@ -615,7 +615,7 @@ class JFactory
 	 */
 	function &_createLanguage()
 	{
-		jimport('joomla.i18n.language');
+		jimport('joomla.language.language');
 
 		$conf	=& JFactory::getConfig();
 		$locale	= $conf->getValue('config.language');
@@ -635,7 +635,6 @@ class JFactory
 	function &_createDocument()
 	{
 		jimport('joomla.document.document');
-		jimport('joomla.environment.request');
 
 		$lang	=& JFactory::getLanguage();
 

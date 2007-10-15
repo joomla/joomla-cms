@@ -176,7 +176,6 @@ class HTML_contact
 		jimport('joomla.html.pane');
 		$pane =& JPane::getInstance('sliders');
 
-		jimport('joomla.filter.output');
 		JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'misc' );
 		?>
 		<script language="javascript" type="text/javascript">

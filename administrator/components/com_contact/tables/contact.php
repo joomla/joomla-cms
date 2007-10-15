@@ -95,7 +95,6 @@ class TableContact extends JTable
 	{
 		$this->default_con = intval( $this->default_con );
 
-		jimport('joomla.filter.input');
 		if (JFilterInput::checkAttribute(array ('href', $this->webpage))) {
 			$this->setError(JText::_('Please provide a valid URL'));
 			return false;
@@ -106,7 +105,6 @@ class TableContact extends JTable
 			$this->webpage = 'http://'.$this->webpage;
 		}
 
-		jimport('joomla.filter.output');
 		$alias = JFilterOutput::stringURLSafe($this->name);
 
 		if(empty($this->alias) || $this->alias === $alias ) {

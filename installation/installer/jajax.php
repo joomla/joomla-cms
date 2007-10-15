@@ -37,8 +37,8 @@ if (file_exists(JPATH_CONFIGURATION.DS.'configuration.php') && (filesize(JPATH_C
 	exit();
 }
 
-// Require the library loader
-require_once( JPATH_LIBRARIES . DS .'loader.php' );
+// System includes
+require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php'); 
 
 require_once( JPATH_BASE . DS. 'installer' . DS . 'helper.php' );
 // Require the xajax library
@@ -50,13 +50,9 @@ $xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 $xajax->registerFunction(array('FTPVerify', 'JAJAXHandler', 'ftpverify'));
 $xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 
-jimport( 'joomla.base.object' );
-jimport( 'joomla.utilities.error' );
 JError::setErrorHandling(E_ERROR, 'callback', array('JAJAXHandler','handleError'));
 JError::setErrorHandling(E_WARNING, 'callback', array('JAJAXHandler','handleError'));
 JError::setErrorHandling(E_NOTICE, 'callback', array('JAJAXHandler','handleError'));
-jimport( 'joomla.filesystem.*' );
-jimport( 'joomla.filter.input' );
 jimport( 'joomla.utilities.compat.compat' );
 
 /**
@@ -133,7 +129,7 @@ class JAJAXHandler
 	function sampledata($args)
 	{
 		jimport( 'joomla.database.database');
-		jimport( 'joomla.i18n.language');
+		jimport( 'joomla.language.language');
 		jimport( 'joomla.registry.registry');
 
 

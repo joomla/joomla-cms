@@ -57,7 +57,7 @@ class TableBannerClient extends JTable
 		}
 
 		// check for valid client email
-		jimport( 'joomla.utilities.mail' );
+		jimport( 'joomla.mail.helper' );
 		if (!JMailHelper::isEmailAddress( $this->email )) {
 			$this->setError(JText::_( 'BNR_VALID_EMAIL' ));
 			return false;

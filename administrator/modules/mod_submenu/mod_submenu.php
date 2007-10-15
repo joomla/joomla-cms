@@ -60,8 +60,6 @@ class JAdminSubMenu
 			return null;
 		}
 		
-		jimport('joomla.filter.output');
-
 		$hide = JRequest::getInt('hidemainmenu');
 		$txt = "<ul id=\"submenu\">\n";
 

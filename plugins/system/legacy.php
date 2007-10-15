@@ -62,7 +62,7 @@ class  plgSystemLegacy extends JPlugin
 		JLoader::register('mosDBTable'      , dirname(__FILE__).DS.'legacy'.DS.'dbtable.php');
 		JLoader::register('mosHTML'         , dirname(__FILE__).DS.'legacy'.DS.'html.php');
 		JLoader::register('mosInstaller'    , dirname(__FILE__).DS.'legacy'.DS.'installer.php');
-		JLoader::register('mosMainFrame'    , dirname(__FILE__).DS.'legacy'.DS.'mainmframe.php');
+		JLoader::register('mosMainFrame'    , dirname(__FILE__).DS.'legacy'.DS.'mainframe.php');
 		JLoader::register('mosMambot'       , dirname(__FILE__).DS.'legacy'.DS.'mambot.php');
 		JLoader::register('mosMambotHandler', dirname(__FILE__).DS.'legacy'.DS.'mambothandler.php');
 		JLoader::register('mosMenu'         , dirname(__FILE__).DS.'legacy'.DS.'menu.php');

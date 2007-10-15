@@ -150,7 +150,6 @@ class BannersViewClients
 	{
 		BannersViewClients::setClientToolbar();
 		JRequest::setVar( 'hidemainmenu', 1 );
-		jimport('joomla.filter.output');
 		JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'extrainfo' );
 		?>
 		<script language="javascript" type="text/javascript">

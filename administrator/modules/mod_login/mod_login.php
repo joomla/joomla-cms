@@ -14,6 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jimport('joomla.language.helper');
 //$browserLang = JLanguageHelper::detectLanguage();
 // forced to default
 $browserLang = null;

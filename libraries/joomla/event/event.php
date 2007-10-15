@@ -18,7 +18,7 @@ defined('JPATH_BASE') or die();
 jimport( 'joomla.base.observer' );
 
 /**
- * JEventHandler Class
+ * JEvent Class
  *
  * @abstract
  * @author		Johan Janssens <johan.janssens@joomla.org>
@@ -26,7 +26,7 @@ jimport( 'joomla.base.observer' );
  * @subpackage	Event
  * @since		1.5
  */
-class JEventHandler extends JObserver
+class JEvent extends JObserver
 {
 
 	/**
@@ -39,7 +39,7 @@ class JEventHandler extends JObserver
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function JEventHandler(& $subject) {
+	function JEvent(& $subject) {
 		parent::__construct($subject);
 	}
 

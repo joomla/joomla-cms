@@ -323,7 +323,6 @@ class ContentModelArticle extends JModel
 			$article->publish_down = $date->toMySQL();
 		}
 
-		jimport('joomla.filter.output');
 		$article->title = trim( JFilterOutput::ampReplace($article->title) );
 
 		// Publishing state hardening for Authors

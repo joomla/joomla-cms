@@ -39,8 +39,28 @@ Legend:
 
 13-Oct-2007 Mateusz Krzeszowiec
  # Fixed [#6087] Copying or moving Menu Items, Sections and Categories generates error.
- ! "NOTE: IF NO SECTION" changed to "NOTE: IF SAME SECTION" in en-GB.com_categories.ini to reflect component behaviour  
+ ! "NOTE: IF NO SECTION" changed to "NOTE: IF SAME SECTION" in en-GB.com_categories.ini 
+   to reflect component behaviour  
 
+11-Oct-2007 Johan Janssens
+ ! Performance improvements : The following changes allow autoloading of framework files 
+   using JLoader and jimport. They create forwards compatibilty with PHP 5.x and prpvide
+   significant performance improvements. 
+    ! Possible breakages are expected to occur, please take this into account
+ 	^ Moved JMail into it's own package
+	^ Moved JMailHelper into it's own file
+ 	^ Moved JPlugin and JPluginHelper into their own package
+ 	^ Renamed JEventDispatcher to JDispatcher
+ 	^ Renamed JEventHandler to JEvent
+ 	^ Renamed JBufferStream to JBuffer
+ 	^ Renamed joomla.utilities.array to joomla.utilities.arrayhelper
+ 	^ Renamed i18n package to language package
+ 	^ Moved archive.tar to pear.archive_tar.Archive_Tar
+ 	- Removed joomla.utilities.compat.phputf8env
+ 	+ Added import file that imports all the needed framework classes
+ 	^ Optimised the legacy plugin to use autoload, this reduces memory usage with +/- 1 MB
+ # Fixed [#7561] Legacy extensions fail on mosMainFrame
+ 
 11-Oct-2007 Louis Landry
  # Fixed broken installation application
 
@@ -321,10 +341,10 @@ Legend:
  # Fixed [topic,210138] Easy fix needed for valid HTML in login module
 
 07-Sep-2007 Rastin Mehr
-# Fixed [#6867] Uncategorized articles don't show up (anymore) on Frontpage
-^ used UNION in the query to include both articles that belong to categories, and those which are orphans.
-# Fixed [#6874] With simple fix: Access to a private variable from JTable to JDatabase
-! fix was submited by 'Beat' and I think he should get the credit for it. I just applied the fix
+ # Fixed [#6867] Uncategorized articles don't show up (anymore) on Frontpage
+ ^ used UNION in the query to include both articles that belong to categories, and those which are orphans.
+ # Fixed [#6874] With simple fix: Access to a private variable from JTable to JDatabase
+ ! fix was submited by 'Beat' and I think he should get the credit for it. I just applied the fix
 
 07-Sep-2007 Sam Moffatt
  ^ Updated installer language files to add a few missing entries

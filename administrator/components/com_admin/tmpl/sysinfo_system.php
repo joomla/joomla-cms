@@ -80,7 +80,6 @@ defined('_JEXEC') or die('Restricted access');
 			</td>
 			<td>
 				<?php
-					jimport('joomla.version');
 					$version = new JVersion();
 					echo $version->getLongVersion();
 				?>

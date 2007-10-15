@@ -130,6 +130,7 @@ class JPluginHelper
 				//needed for backwards compatibility
 				global $_MAMBOTS, $mainframe;
 
+				jimport('joomla.plugin.plugin');
 				require_once( $path );
 				$paths[$path] = true;
 
@@ -137,7 +138,7 @@ class JPluginHelper
 				{
 					// Makes sure we have an event dispatcher
 					if(!is_object($dispatcher)) {
-						$dispatcher = & JEventDispatcher::getInstance();
+						$dispatcher = & JDispatcher::getInstance();
 					}
 
 					$className = 'plg'.$plugin->type.$plugin->name;

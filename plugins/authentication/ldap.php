@@ -15,9 +15,6 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport('joomla.event.plugin');
-jimport('joomla.client.ldap');
-
 /**
  * LDAP Authentication Plugin
  *
@@ -74,6 +71,7 @@ class plgAuthenticationLdap extends JPlugin
 		$ldap_uid		= $this->params->get('ldap_uid');
 		$auth_method	= $this->params->get('auth_method');
 
+		jimport('joomla.client.ldap');
 		$ldap = new JLDAP($this->params);
 
 		if (!$ldap->connect())

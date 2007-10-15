@@ -21,7 +21,7 @@ defined('JPATH_BASE') or die();
  * @static
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage		Utilities
+ * @subpackage	Utilities
  * @since	1.5
  */
 class JUtility
@@ -44,8 +44,6 @@ class JUtility
   	 */
 	function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null )
 	{
-		jimport('joomla.utilities.mail');
-
 	 	// Get a JMail instance
 		$mail =& JFactory::getMailer();
 
@@ -93,8 +91,6 @@ class JUtility
 
 		$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
 		$message .= JText::_( 'MAIL_MSG') ."\n";
-
-		jimport('joomla.utilities.mail');
 
 	 	// Get a JMail instance
 		$mail =& JFactory::getMailer();

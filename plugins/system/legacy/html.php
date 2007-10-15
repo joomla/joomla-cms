@@ -276,9 +276,7 @@ class mosHTML
  	 *
  	 * @deprecated	As of version 1.5
  	*/
-	function cleanText ( &$text )
-	{
-		jimport('joomla.filter.output');
+	function cleanText ( &$text ) {
 		return JFilterOutput::cleanText($text);
 	}
 

@@ -117,7 +117,7 @@ class ContactController extends JController
 		 * If there is no valid email address or message body then we throw an
 		 * error and return false.
 		 */
-		jimport('joomla.utilities.mail');
+		jimport('joomla.mail.helper');
 		if (!$email || !$body || (JMailHelper::isEmailAddress($email) == false))
 		{
 			$this->setError(JText::_('CONTACT_FORM_NC'));
@@ -127,7 +127,7 @@ class ContactController extends JController
 
 		// Contact plugins
 		JPluginHelper::importPlugin( 'contact' );
-		$dispatcher	=& JEventDispatcher::getInstance();
+		$dispatcher	=& JDispatcher::getInstance();
 
 		// Input validation
 		if  (!$this->_validateInputs( $contact, $email, $subject, $body ) ) {

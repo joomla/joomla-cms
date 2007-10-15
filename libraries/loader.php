@@ -26,7 +26,7 @@ class JLoader
 	 * @param string $name	The class name to look for ( dot notation ).
 	 * @param string $base	Search this directory for the class.
 	 * @param string $key	String used as a prefix to denote the full path of the file ( dot notation ).
-	 * @return boolean True if the requested class has been successfully included
+	 * @return void
 	 * @since 1.5
 	 */
 	function import( $filePath, $base = null, $key = null )
@@ -36,75 +36,40 @@ class JLoader
 		if (!isset($paths)) {
 			$paths = array();
 		}
-
-		//$keyPath	= $key ? $key . $filePath : $filePath;
-		if ( $key ) {
-			$keyPath = $key . $filePath;
-		} else {
-			$keyPath = $filePath;
-		}
-
-		$trs	= 1;
-
+		
+		$keyPath = $key ? $key . $filePath : $filePath;
+		
 		if (!isset($paths[$keyPath]))
 		{
-			$parts = explode( '.', $filePath );
-
 			if ( ! $base ) {
 				$base =  dirname( __FILE__ );
 			}
+			
+			$parts = explode( '.', $filePath );
 
 			$classname = array_pop( $parts );
-			if($classname == '*')
+			switch($classname)
 			{
-				$path = $base . DS . implode( DS, $parts );
-
-				if (!is_dir( $path )) {
-					return false;
-				}
-
-				$dir = dir( $path );
-				while ($file = $dir->read())
-				{
-					if (preg_match( '#(.*?)\.php$#', $file, $m ))
-					{
-						$nPath = str_replace( '*', $m[1], $filePath );
-						$keyPath	= $key . $nPath;
-						// we need to check each file again incase one has a jimport
-						if (!isset($paths[$keyPath]))
-						{
-							$classname = $m[1];
-							if($classname == 'helper') {
-								$classname = 'J'.ucfirst(array_pop( $parts )).ucfirst($classname);
-							} else {
-								$classname = 'J'.ucfirst($classname);
-							}
-
-							//$rs	= JLoader::register('J'.ucfirst($m[1]), $path.'.php');
-							$rs	= include($path . DS . $file);
-							$paths[$keyPath] = $rs;
-							$trs =& $rs;
-						}
-					}
-				}
-				$dir->close();
+				case 'helper' :
+					$classname = ucfirst(array_pop( $parts )).ucfirst($classname);
+					break;
+				
+				default :
+					$classname = ucfirst($classname);
+					break;
 			}
-			else
-			{
-				if($classname == 'helper') {
-					$classname = 'J'.ucfirst(array_pop( $parts )).ucfirst($classname);
-				} else {
-					$classname = 'J'.ucfirst($classname);
-				}
-
-				$path  = str_replace( '.', DS, $filePath );
-				//$trs   = JLoader::register($classname, $base.DS.$path.'.php');
-				$trs   = include($base.DS.$path.'.php');
+			
+			//If we are loading a joomla class prepend the classname with a capital J
+			if($parts[0] == 'joomla') {
+				$classname = 'J'.$classname;
 			}
+			
+			$path  = str_replace( '.', DS, $filePath );
+			$trs   = JLoader::register($classname, $base.DS.$path.'.php');
+			//$trs   = include($base.DS.$path.'.php');
 
-			$paths[$keyPath] = $trs;
+			$paths[$keyPath] = 1;
 		}
-		return $trs;
 	}
 
     /**
@@ -112,7 +77,7 @@ class JLoader
      *
      * @param	string $classname	The class name
      * @param	string $file		Full path to the file that holds the class
-     * @return	array  List of classnames => files
+     * @return	array|boolean  		List of classnames => files, or True, false
      * @since 	1.5
      */
     function register ($class = null, $file = null)

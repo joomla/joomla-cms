@@ -212,8 +212,6 @@ class JMenuNode extends JNode
 
 	function __construct($title, $link = null, $class = null, $active = false)
 	{
-		jimport('joomla.filter.output');
-		
 		$this->title	= $title;
 		$this->link		= JFilterOutput::ampReplace($link);
 		$this->class	= $class;

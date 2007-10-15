@@ -30,7 +30,6 @@ class ContentHelper
 		$text = JRequest::getVar( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW );
 
 		// Clean text for xhtml transitional compliance
-		jimport('joomla.filter.output');
 		$text		= str_replace( '<br>', '<br />', $text );
 
 		// Search for the {readmore} tag and split the text up accordingly.

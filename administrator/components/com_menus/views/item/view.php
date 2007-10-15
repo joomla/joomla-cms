@@ -39,7 +39,6 @@ class MenusViewItem extends JView
 		$item = &$this->get('Item');
 
 		// clean item data
-		jimport('joomla.filter.output');
 		JFilterOutput::objectHTMLSafe( $item, ENT_QUOTES, '' );
 
 		// Set toolbar items for the page

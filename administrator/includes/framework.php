@@ -34,14 +34,10 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
  */
 
 // System includes
-require_once( JPATH_LIBRARIES		. DS . 'loader.php' );
-require_once( JPATH_CONFIGURATION	. DS . 'configuration.php' );
+require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php'); 
 
-jimport( 'joomla.base.object' );
-jimport( 'joomla.environment.request' );
-
-// ALERT! DO NOT CALL JRequest::clean ANY LATER IN EXECUTION!
-JRequest::clean();
+// Pre-Load configuration
+require_once( JPATH_CONFIGURATION	.DS.'configuration.php' );
 
 // System configuration
 $CONFIG = new JConfig();
@@ -71,20 +67,14 @@ if (JDEBUG) {
 }
 
 // Joomla! library imports
-jimport( 'joomla.environment.response'   );
 jimport( 'joomla.application.menu' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
-jimport( 'joomla.factory' );
-jimport( 'joomla.methods' );
 jimport( 'joomla.html.html' );
 jimport( 'joomla.html.parameter' );
-jimport( 'joomla.utilities.array' );
-jimport( 'joomla.utilities.error' );
 jimport( 'joomla.utilities.utility' );
-jimport( 'joomla.utilities.string' );
-jimport( 'joomla.version' );
-jimport( 'joomla.event.*');
-jimport( 'joomla.i18n.language');
+jimport( 'joomla.event.event');
+jimport( 'joomla.event.dispatcher');
+jimport( 'joomla.language.language');
 
 ?>

@@ -21,7 +21,6 @@
 ?>
 
 <?php
-jimport('joomla.filter.output');
 JFilterOutput::objectHTMLSafe( $this->poll, ENT_QUOTES );
 ?>
 

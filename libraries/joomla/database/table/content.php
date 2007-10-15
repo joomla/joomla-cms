@@ -15,8 +15,6 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-// Include library dependencies
-jimport('joomla.filter.input');
 
 /**
  * Content table
@@ -117,7 +115,6 @@ class JTableContent extends JTable
 		$this->fulltext =  trim( $filter->clean( $this->fulltext ) );
 		*/
 
-		jimport('joomla.filter.output');
 		$alias = JFilterOutput::stringURLSafe($this->title);
 
 		if(empty($this->title)) {

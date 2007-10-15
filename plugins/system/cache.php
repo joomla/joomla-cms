@@ -14,8 +14,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.cache.cache');
-
 /**
  * Joomla! Page Cache Plugin
  *
@@ -53,6 +51,7 @@ class  plgSystemCache extends JPlugin
 			'browsercache'	=> $this->params->get('browsercache', false)
 		);
 
+		jimport('joomla.cache.cache');
 		$this->_cache =& JCache::getInstance( 'page', $options );
 
 		if (!$user->get('aid') && $_SERVER['REQUEST_METHOD'] == 'GET') {

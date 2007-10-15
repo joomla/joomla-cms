@@ -150,7 +150,7 @@ class JApplication extends JObject
 	*/
 	function initialise($options = array())
 	{
-		jimport('joomla.event.helper');
+		jimport('joomla.plugin.helper');
 
 		//Set the language in the class
 		$config =& JFactory::getConfig();
@@ -456,7 +456,7 @@ class JApplication extends JObject
 	 */
 	function registerEvent($event, $handler)
 	{
-		$dispatcher =& JEventDispatcher::getInstance();
+		$dispatcher =& JDispatcher::getInstance();
 		$dispatcher->register($event, $handler);
 	}
 
@@ -471,7 +471,7 @@ class JApplication extends JObject
 	 */
 	function triggerEvent($event, $args=null)
 	{
-		$dispatcher =& JEventDispatcher::getInstance();
+		$dispatcher =& JDispatcher::getInstance();
 		return $dispatcher->trigger($event, $args);
 	}
 

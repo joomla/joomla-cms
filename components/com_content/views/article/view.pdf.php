@@ -30,7 +30,7 @@ class ContentViewArticle extends JView
 	{
 		global $mainframe;
 
-		$dispatcher	=& JEventDispatcher::getInstance();
+		$dispatcher	=& JDispatcher::getInstance();
 
 		// Initialize some variables
 		$article	= & $this->get( 'Article' );

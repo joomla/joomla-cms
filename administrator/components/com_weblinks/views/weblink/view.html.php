@@ -97,7 +97,6 @@ class WeblinksViewWeblink extends JView
 		$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $weblink->published );
 
 		//clean weblink data
-		jimport('joomla.filter.output');
 		JFilterOutput::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
 
 		$file 	= JPATH_COMPONENT.DS.'models'.DS.'weblink.xml';

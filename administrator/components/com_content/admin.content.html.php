@@ -438,7 +438,6 @@ class ContentView
 		JRequest::setVar( 'hidemainmenu', 1 );
 
 		jimport('joomla.html.pane');
-		jimport('joomla.filter.output');
 		JFilterOutput::objectHTMLSafe( $row );
 
 		$db		=& JFactory::getDBO();

@@ -12,7 +12,6 @@
 
 <?php 
 	// clean item data
-	jimport('joomla.filter.output');
 	JFilterOutput::objectHTMLSafe( $this->plugin, ENT_QUOTES, '' );
 ?>
 

@@ -184,7 +184,6 @@ class HTML_newsfeeds
 	{
 		JRequest::setVar( 'hidemainmenu', 1 );
 
-		jimport('joomla.filter.output');
 		JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES );
 		?>
 		<script language="javascript" type="text/javascript">

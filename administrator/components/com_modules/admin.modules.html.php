@@ -213,7 +213,6 @@ class HTML_modules
 		JRequest::setVar( 'hidemainmenu', 1 );
 
 		// clean item data
-		jimport('joomla.filter.output');
 		JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'content' );
 
 		// Check for component metadata.xml file

@@ -168,7 +168,7 @@ class JArchive
 	 */
 	function create($archive, $files, $compress = 'tar', $addPath = '', $removePath = '', $autoExt = false, $cleanUp = false)
 	{
-		jimport( 'archive.tar' );
+		jimport( 'pear.archive_tar.Archive_Tar' );
 
 		if (is_string($files)) {
 			$files = array ($files);

@@ -59,11 +59,10 @@ class JInstallation extends JApplication
 	 */
 	function render()
 	{
-
 		$document	=& JFactory::getDocument();
 		$config		=& JFactory::getConfig();
 		$user		=& JFactory::getUser();
-
+		
 		switch($document->getType())
 		{
 			case 'html':
@@ -84,13 +83,13 @@ class JInstallation extends JApplication
 		require_once(JPATH_COMPONENT.DS.'installer.php');
 		$contents = ob_get_contents();
 		ob_end_clean();
-
+		
 		$params = array(
 			'template' 	=> 'template',
 			'file'		=> 'index.php',
 			'directory' => JPATH_THEMES
 		);
-
+		
 		$document->setBuffer( $contents, 'installation');
 		$document->setTitle(JText::_('PAGE_TITLE'));
 		$data = $document->render(false, $params);
@@ -131,6 +130,7 @@ class JInstallation extends JApplication
 		if(empty($options['language']))
 		{
 			if ( empty($forced['lang'])) {
+				jimport('joomla.language.helper');
 				$options['language'] = JLanguageHelper::detectLanguage();
 			} else {
 				$options['language'] = $forced['lang'];
@@ -209,7 +209,6 @@ class JInstallation extends JApplication
 	 */
 	function getLocalise()
 	{
-		jimport('joomla.factory');
 		$xml = & JFactory::getXMLParser('Simple');
 
 		if (!$xml->loadFile(JPATH_SITE.DS.'installation'.DS.'localise.xml')) {

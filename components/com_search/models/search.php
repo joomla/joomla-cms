@@ -134,7 +134,7 @@ class SearchModelSearch extends JModel
 			$areas = $this->getAreas();
 			
 			JPluginHelper::importPlugin( 'search');
-			$dispatcher =& JEventDispatcher::getInstance();	
+			$dispatcher =& JDispatcher::getInstance();	
 			$results = $dispatcher->trigger( 'onSearch', array( 
 				$this->getState('keyword'), 
 				$this->getState('match'), 

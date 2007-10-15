@@ -135,7 +135,7 @@ class JTableUser extends JTable
 	 */
 	function check()
 	{
-		jimport('joomla.utilities.mail');
+		jimport('joomla.mail.helper');
 		
 		// Validate user information
 		if (trim( $this->name ) == '') {

@@ -652,7 +652,6 @@ function mosCurrentDate( $format="" )
  * @deprecated	As of version 1.5
  */
 function mosMakeHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' ) {
-	jimport('joomla.filter.output');
 	JFilterOutput::objectHTMLSafe( $mixed, $quote_style, $exclude_keys );
 }
 
@@ -886,9 +885,7 @@ function sefRelToAbs($value)
  *
  * @deprecated	As of version 1.5
  */
-function ampReplace( $text )
-{
-	jimport('joomla.filter.output');
+function ampReplace( $text ) {
 	return JFilterOutput::ampReplace($text);
 }
 

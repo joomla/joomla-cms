@@ -210,7 +210,6 @@ class BannersViewBanner
 	{
 		BannersViewBanner::setBannerToolbar();
 		JRequest::setVar( 'hidemainmenu', 1 );
-		jimport('joomla.filter.output');
 		JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'custombannercode' );
 		?>
 		<script language="javascript" type="text/javascript">

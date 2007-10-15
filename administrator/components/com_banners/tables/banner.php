@@ -111,7 +111,6 @@ class TableBanner extends JTable
 			return false;
 		}
 
-		jimport('joomla.filter.output');
 		$alias = JFilterOutput::stringURLSafe($this->name);
 
 		if(empty($this->alias) || $this->alias === $alias ) {

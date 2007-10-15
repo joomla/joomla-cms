@@ -32,7 +32,7 @@ class ContentViewArticle extends ContentView
 
 		$user		   =& JFactory::getUser();
 		$document	   =& JFactory::getDocument();
-		$dispatcher	   =& JEventDispatcher::getInstance();
+		$dispatcher	   =& JDispatcher::getInstance();
 		$pathway	   =& $mainframe->getPathway();
 		$params 	   =& $mainframe->getParams('com_content');
 
@@ -217,7 +217,6 @@ class ContentViewArticle extends ContentView
 		}
 		
 		// Ensure the row data is safe html
-		jimport('joomla.filter.output');
 		JFilterOutput::objectHTMLSafe( $article);
 		
 		$this->assign('action', 	$uri->toString());

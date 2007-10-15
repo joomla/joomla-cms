@@ -36,7 +36,7 @@ class JElementHelpsites extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		jimport('joomla.i18n.help');
+		jimport('joomla.language.help');
 
 		$helpsites 				= JHelp::createSiteList(JPATH_ADMINISTRATOR.DS.'help'.DS.'helpsites-15.xml', $value);
 		array_unshift($helpsites, JHTML::_('select.option', '', JText::_('local')));

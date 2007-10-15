@@ -190,7 +190,6 @@ class JLog extends JObject
 			$header[] = "#Fields: " . $fields;
 
 			// Prepare the software string
-			jimport("joomla.version");
 			$version = new JVersion();
 			$header[] = "#Software: " . $version->getLongVersion();
 

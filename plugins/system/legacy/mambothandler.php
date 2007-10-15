@@ -16,7 +16,7 @@
 defined('JPATH_BASE') or die();
 
 // Register legacy classes for autoloading
-JLoader::register('JEventDispatcher' , JPATH_LIBRARIES.DS.'joomla'.DS.'event'.DS.'dispatcher.php');
+JLoader::register('JDispatcher' , JPATH_LIBRARIES.DS.'joomla'.DS.'event'.DS.'dispatcher.php');
 
 /**
  * Legacy class, use {@link JEventDispatcher} instead
@@ -25,7 +25,7 @@ JLoader::register('JEventDispatcher' , JPATH_LIBRARIES.DS.'joomla'.DS.'event'.DS
  * @package	Joomla.Legacy
  * @subpackage	1.5
  */
-class mosMambotHandler extends JEventDispatcher
+class mosMambotHandler extends JDispatcher
 {
 	function __construct()
 	{

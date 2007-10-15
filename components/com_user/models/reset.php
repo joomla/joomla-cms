@@ -47,7 +47,7 @@ class UserModelReset extends JModel
 	 */
 	function requestReset($email)
 	{
-		jimport('joomla.utilities.mail');
+		jimport('joomla.mail.helper');
 		jimport('joomla.user.helper');
 
 		$db = &JFactory::getDBO();

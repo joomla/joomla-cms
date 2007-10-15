@@ -33,14 +33,10 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
  */
 
 // System includes
-require_once JPATH_LIBRARIES.DS.'loader.php';
-require_once JPATH_CONFIGURATION.DS.'configuration.php';
+require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php'); 
 
-// Clean the request before anything else is loaded
-jimport( 'joomla.base.object' );
-jimport( 'joomla.environment.request' );
-// ALERT! DO NOT CALL JRequest::clean ANY LATER IN EXECUTION!
-JRequest::clean();
+// Pre-Load configuration
+require_once( JPATH_CONFIGURATION	.DS.'configuration.php' );
 
 // System configuration
 $CONFIG = new JConfig();
@@ -64,9 +60,6 @@ jimport( 'joomla.utilities.compat.compat' );
 // Joomla! library imports
 jimport( 'joomla.environment.uri' );
 jimport( 'joomla.user.user' );
-jimport( 'joomla.factory' );
-jimport( 'joomla.filesystem.*' );
-jimport( 'joomla.utilities.string' );
-jimport( 'joomla.utilities.error' );
-jimport( 'joomla.event.*');
+jimport( 'joomla.event.event');
+jimport( 'joomla.event.dispatcher');
 ?>

@@ -21,7 +21,7 @@ jimport('joomla.base.observable');
  * Class to handle dispatching of events.
  *
  * This is the Observable part of the Observer design pattern
- * for the plugin architecture.
+ * for the event architecture.
  *
  * @package 	Joomla.Framework
  * @subpackage	Event
@@ -29,7 +29,7 @@ jimport('joomla.base.observable');
  * @see		JPlugin
  * @link http://dev.joomla.org/component/option,com_jd-wiki/Itemid,31/id,tutorials:plugins/ Plugins tutorial
  */
-class JEventDispatcher extends JObservable
+class JDispatcher extends JObservable
 {
 	/**
 	 * Constructor
@@ -46,10 +46,10 @@ class JEventDispatcher extends JObservable
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $dispatcher = &JEventDispatcher::getInstance();</pre>
+	 * 		<pre>  $dispatcher = &JDispatcher::getInstance();</pre>
 	 *
 	 * @access	public
-	 * @return	JEventDispatcher	The EventDispatcher object.
+	 * @return	JDispatcher	The EventDispatcher object.
 	 * @since	1.5
 	 */
 	function & getInstance()
@@ -57,7 +57,7 @@ class JEventDispatcher extends JObservable
 		static $instance;
 
 		if (!is_object($instance)) {
-			$instance = new JEventDispatcher();
+			$instance = new JDispatcher();
 		}
 
 		return $instance;
@@ -88,7 +88,7 @@ class JEventDispatcher extends JObservable
 		}
 		else
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::register: Event handler not recognized.', 'Handler: '.$handler );
+			JError::raiseWarning('SOME_ERROR_CODE', 'JDispatcher::register: Event handler not recognized.', 'Handler: '.$handler );
 		}
 	}
 
@@ -141,7 +141,7 @@ class JEventDispatcher extends JObservable
 						 * Couldn't find the function that the observer specified..
 						 * wierd, lets throw an error.
 						 */
-						JError::raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
+						JError::raiseWarning('SOME_ERROR_CODE', 'JDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 					}
 				}
 				else
@@ -185,7 +185,7 @@ class JEventDispatcher extends JObservable
 					 * neither a function type observer nor an object type
 					 * observer.  PROBLEM, lets throw an error.
 					 */
-					JError::raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Unknown Event Handler.', $observer );
+					JError::raiseWarning('SOME_ERROR_CODE', 'JDispatcher::trigger: Unknown Event Handler.', $observer );
 				}
 			}
 		}

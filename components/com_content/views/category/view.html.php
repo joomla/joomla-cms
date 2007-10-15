@@ -152,7 +152,7 @@ class ContentViewCategory extends ContentView
 
 		// Initialize some variables
 		$user		=& JFactory::getUser();
-		$dispatcher	=& JEventDispatcher::getInstance();
+		$dispatcher	=& JDispatcher::getInstance();
 
 		$SiteName	= $mainframe->getCfg('sitename');
 
