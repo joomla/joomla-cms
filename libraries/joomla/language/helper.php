@@ -2,7 +2,7 @@
 /**
 * @version		$Id: language.php 9099 2007-10-01 17:13:08Z tcp $
 * @package		Joomla.Framework
-* @subpackage	I18N
+* @subpackage	Language
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die();
 
 /**
  * @package 	Joomla.Framework
- * @subpackage		I18N
+ * @subpackage		Language
  * @static
  * @since 1.5
  */

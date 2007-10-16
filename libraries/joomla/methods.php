@@ -2,7 +2,6 @@
 /**
 * @version		$Id: router.php 8340 2007-08-07 08:18:10Z jinx $
 * @package		Joomla.Framework
-* @subpackage	Application
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -21,7 +20,6 @@ defined('JPATH_BASE') or die();
  * @static
  * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage	Application
  * @since		1.5
  */
 class JRoute

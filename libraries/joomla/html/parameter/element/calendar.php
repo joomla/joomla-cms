@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla.Framework
-* @subpackage	Articles
+* @subpackage	Parameter
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -20,7 +20,7 @@ defined('_JEXEC') or die();
  *
  * @author 		Louis Landry
  * @package 	Joomla.Framework
- * @subpackage	Articles
+ * @subpackage	Parameter
  * @since		1.5
  */
 class JElementCalendar extends JElement
