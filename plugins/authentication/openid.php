@@ -60,9 +60,8 @@ class plgAuthenticationOpenID extends JPlugin
 			define ("Auth_OpenID_RAND_SOURCE", null);
 		}
 
-		 // Require the OpenID consumer.
-		jimport ('openid.consumer');
-
+		require_once(JPATH_LIBRARIES.DS.'openid'.DS.'consumer.php');
+		
 		// Access the session data
 		$session =& JFactory::getSession();
 
