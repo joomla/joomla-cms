@@ -51,7 +51,7 @@ class plgButtonImage extends JPlugin
 		$doc 		=& JFactory::getDocument();
 		$template 	= $mainframe->getTemplate();
 
-		$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component';
+		$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name='.$name;
 
 		JHTML::_('behavior.modal');
 

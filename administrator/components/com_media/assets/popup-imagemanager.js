@@ -22,6 +22,11 @@
 var ImageManager = {
 	initialize: function()
 	{
+		o = this._getUriObject(window.self.location.href);
+		//console.log(o);
+		q = $H(this._getQueryObject(o.query));
+		this.editor = q.get('e_name');
+
 		// Setup image manager fields object
 		this.fields			= new Object();
 		this.fields.url		= $("f_url");
@@ -116,7 +121,7 @@ var ImageManager = {
 			var tag = "<img src=\""+url+"\" "+extra+"/>";
 		}
 
-		window.parent.jInsertEditorText(tag);
+		window.parent.jInsertEditorText(tag, this.editor);
 		return false;
 	},
 

@@ -375,8 +375,8 @@ class plgEditorTinymce extends JPlugin
 	{
 		$doc = & JFactory::getDocument();
 
-		$js= "function jInsertEditorText( text ) {
-			tinyMCE.execInstanceCommand('mce_editor_0', 'mceInsertContent',false,text);
+		$js= "function jInsertEditorText( text, editor ) {
+			tinyMCE.execInstanceCommand(editor, 'mceInsertContent',false,text);
 		}";
 		$doc->addScriptDeclaration($js);
 

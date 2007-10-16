@@ -1,5 +1,5 @@
 		<script type="text/javascript">
-			function insertPagebreak()
+			function insertPagebreak(editor)
 			{
 				// Get the pagebreak title
 				var title = document.getElementById("title").value;
@@ -16,7 +16,7 @@
 
 				var tag = "<hr class=\"system-pagebreak\" "+title+" "+alt+"/>";
 
-				window.parent.jInsertEditorText(tag);
+				window.parent.jInsertEditorText(tag, '<?php echo JRequest::getWord('e_name'); ?>');
 				window.parent.document.getElementById('sbox-window').close();
 				return false;
 			}

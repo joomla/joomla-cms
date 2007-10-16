@@ -129,14 +129,14 @@ class plgEditorNone extends JPlugin
 	{
 		$doc = & JFactory::getDocument();
 
-		$js= "\tfunction jInsertEditorText( text ) {
-			insertAtCursor( document.adminForm.".$name.", text );
+		$js= "\tfunction jInsertEditorText( text, editor ) {
+			insertAtCursor( document.getElementById(editor), text );
 		}";
 		$doc->addScriptDeclaration($js);
 
 		return true;
 	}
-	
+
 	function _displayButtons($name, $buttons)
 	{
 		// Load modal popup behavior
@@ -166,7 +166,7 @@ class plgEditorNone extends JPlugin
 				/*
 				 * Results should be an object
 				 */
-				if ( $button->get('name') ) 
+				if ( $button->get('name') )
 				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
 					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;
@@ -176,7 +176,7 @@ class plgEditorNone extends JPlugin
 			}
 			$return .= "</div>\n";
 		}
-		
+
 		return $return;
 	}
 }

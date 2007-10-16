@@ -54,13 +54,13 @@ class plgButtonReadmore extends JPlugin
 		$getContent = $this->_subject->getContent($name);
 		$present = JText::_('ALREADY EXISTS', true) ;
 		$js = "
-			function insertReadmore() {
+			function insertReadmore(editor) {
 				var content = $getContent
 				if (content.match(/<hr id=\"system-readmore\" \/>/)) {
 					alert('$present');
 					return false;
 				} else {
-					jInsertEditorText('<hr id=\"system-readmore\" />');
+					jInsertEditorText('<hr id=\"system-readmore\" />', editor);
 				}
 			}
 			";
@@ -69,10 +69,10 @@ class plgButtonReadmore extends JPlugin
 
 		$button = new JObject();
 		$button->set('modal', false);
-		$button->set('onclick', 'insertReadmore();');
+		$button->set('onclick', 'insertReadmore(\''.$name.'\');');
 		$button->set('text', JText::_('Readmore'));
 		$button->set('name', 'readmore');
-		$button->set('link', 'javascript:void();');
+		$button->set('link', 'javascript:void(0)');
 
 		return $button;
 	}

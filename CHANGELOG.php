@@ -37,15 +37,18 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Oct-2007 Louis Landry
+ # Fixed cannot insert text into multiple editors
+
 13-Oct-2007 Mateusz Krzeszowiec
  # Fixed [#6087] Copying or moving Menu Items, Sections and Categories generates error.
- ! "NOTE: IF NO SECTION" changed to "NOTE: IF SAME SECTION" in en-GB.com_categories.ini 
-   to reflect component behaviour  
+ ! "NOTE: IF NO SECTION" changed to "NOTE: IF SAME SECTION" in en-GB.com_categories.ini
+   to reflect component behaviour
 
 11-Oct-2007 Johan Janssens
- ! Performance improvements : The following changes allow autoloading of framework files 
+ ! Performance improvements : The following changes allow autoloading of framework files
    using JLoader and jimport. They create forwards compatibilty with PHP 5.x and prpvide
-   significant performance improvements. 
+   significant performance improvements.
     ! Possible breakages are expected to occur, please take this into account
  	^ Moved JMail into it's own package
 	^ Moved JMailHelper into it's own file
@@ -60,7 +63,7 @@ Legend:
  	+ Added import file that imports all the needed framework classes
  	^ Optimised the legacy plugin to use autoload, this reduces memory usage with +/- 1 MB
  # Fixed [#7561] Legacy extensions fail on mosMainFrame
- 
+
 11-Oct-2007 Louis Landry
  # Fixed broken installation application
 
