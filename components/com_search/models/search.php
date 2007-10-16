@@ -197,7 +197,7 @@ class SearchModelSearch extends JModel
 			$areas = array();
 
 			JPluginHelper::importPlugin( 'search');
-			$dispatcher =& JEventDispatcher::getInstance();	
+			$dispatcher =& JDispatcher::getInstance();	
 			$searchareas = $dispatcher->trigger( 'onSearchAreas' );
 			
 			foreach ($searchareas as $area) {
