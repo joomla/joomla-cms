@@ -39,6 +39,8 @@ Legend:
 
 16-Oct-2007 Louis Landry
  # Fixed cannot insert text into multiple editors
+ # Libraries not in the Joomla namespace cannot be reliably autoloaded so the files are
+   now loaded at import time.
 
 13-Oct-2007 Mateusz Krzeszowiec
  # Fixed [#6087] Copying or moving Menu Items, Sections and Categories generates error.

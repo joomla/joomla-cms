@@ -36,15 +36,15 @@ class JLoader
 		if (!isset($paths)) {
 			$paths = array();
 		}
-		
+
 		$keyPath = $key ? $key . $filePath : $filePath;
-		
+
 		if (!isset($paths[$keyPath]))
 		{
 			if ( ! $base ) {
 				$base =  dirname( __FILE__ );
 			}
-			
+
 			$parts = explode( '.', $filePath );
 
 			$classname = array_pop( $parts );
@@ -53,20 +53,26 @@ class JLoader
 				case 'helper' :
 					$classname = ucfirst(array_pop( $parts )).ucfirst($classname);
 					break;
-				
+
 				default :
 					$classname = ucfirst($classname);
 					break;
 			}
-			
+
 			//If we are loading a joomla class prepend the classname with a capital J
 			if($parts[0] == 'joomla') {
 				$classname = 'J'.$classname;
 			}
-			
+
 			$path  = str_replace( '.', DS, $filePath );
-			$trs   = JLoader::register($classname, $base.DS.$path.'.php');
-			//$trs   = include($base.DS.$path.'.php');
+
+			if (strpos($filePath, 'joomla') === 0) {
+				$trs   = JLoader::register($classname, $base.DS.$path.'.php');
+			} else {
+				// If it is not in the joomla namespace then we have no idea if it uses our pattern
+				// for class names/files so just include.
+				$trs   = include($base.DS.$path.'.php');
+			}
 
 			$paths[$keyPath] = 1;
 		}
@@ -113,7 +119,7 @@ class JLoader
     function load( $class )
     {
 		$class = strtolower($class); //force to lower case
-			
+
 		if (class_exists($class)) {
       		return;
     	}
@@ -130,8 +136,8 @@ class JLoader
 
 /**
  * When calling a class that hasn't been defined, __autoload will attempt to
- * include the correct file for that class. 
- * 
+ * include the correct file for that class.
+ *
  * This function get's called by PHP. Never call this function yourself.
  *
  * @param 	string 	$class
