@@ -83,10 +83,13 @@ class JSession extends JObject
 		if (version_compare(PHP_VERSION, '5') == -1) {
 			register_shutdown_function((array(&$this, '__destruct')));
 		}
-		
+
 		//set default sessios save handler
 		ini_set('session.save_handler', 'files');
-		
+
+		//disable transparent sid support
+		ini_set('session.use_trans_sid', '0');
+
 		//create handler
 		$this->_store =& JSessionStorage::getInstance($store, $options);
 
@@ -105,7 +108,7 @@ class JSession extends JObject
 		// perform security checks
 		$this->_validate();
 	}
-	
+
     /**
 	 * Session object destructor
 	 *
@@ -255,12 +258,12 @@ class JSession extends JObject
 		{
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			$class = 'JSessionStorage'.ucfirst($name);
-			
+
 			//Load the class only if needed
 			if(!class_exists($class)) {
 				require_once(dirname(__FILE__).DS.'storage'.DS.$name.'.php');
 			}
-			
+
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {
 				$names[] = $name;
 			}
