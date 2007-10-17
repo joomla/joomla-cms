@@ -74,7 +74,7 @@ class JButtonStandard extends JButton
 	function _getCommand($name, $task, $list, $hide)
 	{
 		$mesg		= JText::_( 'Please make a selection from the list to', true );
-		$todo		= JText::_( strtolower($name), true );
+		$todo		= strtolower(JText::_( $name, true ));
 		$hidecode	= $hide ? 'hideMainMenu();' : '';
 
 		if ($list) {
