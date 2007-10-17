@@ -42,17 +42,19 @@ class modMainMenuHelper
 		$ids = array();
 		$ids[0] = true;
 
-		// pop the first item until the array is empty
-		while ( !is_null($row = array_shift($rows)))
-		{
-			if (array_key_exists($row->parent, $ids)) {
-				$menu->addNode($row);
-				// record loaded parents
-				$ids[$row->id] = true;
-			} else {
-				// no parent yet so push item to back of list
-				array_push($rows, $row);
-			}
+		// pop the first item until the array is empty if there is any item
+		if ( is_array($rows) ) {
+		    while ( !is_null($row = array_shift($rows)))
+		    {
+			    if (array_key_exists($row->parent, $ids)) {
+				    $menu->addNode($row);
+				    // record loaded parents
+				    $ids[$row->id] = true;
+			    } else {
+				    // no parent yet so push item to back of list
+				    array_push($rows, $row);
+			    }
+		    }
 		}
 		return $menu->toXML();
 	}
