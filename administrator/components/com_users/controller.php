@@ -252,8 +252,7 @@ class UsersController extends JController
 		JArrayHelper::toInteger( $cid );
 
 		if (count( $cid ) < 1) {
-			$action = $block ? 'block' : 'unblock';
-			JError::raiseError(500, JText::_( 'Select a User to '.$action, true ) );
+			JError::raiseError(500, JText::_( 'Select a User to '.$this->getTask(), true ) );
 		}
 		foreach ($cid as $id)
 		{
