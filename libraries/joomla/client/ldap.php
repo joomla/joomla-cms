@@ -99,15 +99,15 @@ class JLDAP extends JObject
 		if ($this->_resource) 
 		{
 			if ($this->use_ldapV3) {
-				if (!ldap_set_option($this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3)) {
+				if (!@ldap_set_option($this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 					return false;
 				}
 			}
-			if (!ldap_set_option($this->_resource, LDAP_OPT_REFERRALS, intval($this->no_referrals))) {
+			if (!@ldap_set_option($this->_resource, LDAP_OPT_REFERRALS, intval($this->no_referrals))) {
 				return false;
 			}
 			if ($this->negotiate_tls) {
-				if (!ldap_start_tls($this->_resource)) {
+				if (!@ldap_start_tls($this->_resource)) {
 					return false;
 				}
 			}
@@ -177,7 +177,7 @@ class JLDAP extends JObject
 		}
 		$this->setDN($username,$nosub);
 		if(strlen($this->getDN())) 
-		$bindResult = ldap_bind($this->_resource, $this->getDN(), $password);
+		$bindResult = @ldap_bind($this->_resource, $this->getDN(), $password);
 		return $bindResult;
 	}
 
@@ -217,8 +217,8 @@ class JLDAP extends JObject
 
 		foreach ($filters as $search_filter)
 		{
-			$search_result = ldap_search($resource, $dn, $search_filter);
-			if ($search_result && ($count = ldap_count_entries($resource, $search_result)) > 0)
+			$search_result = @ldap_search($resource, $dn, $search_filter);
+			if ($search_result && ($count = @ldap_count_entries($resource, $search_result)) > 0)
 			{
 				for ($i = 0; $i < $count; $i++)
 				{
