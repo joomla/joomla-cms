@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Oct-2007 Sam Moffatt
+ # Fixed unpublished parent error for menus [topic,218742]
+ # Fixed [#7659] "Remove Installation Directory" warning needs link to main page.
+ # Fixed [#7494] error in /modules/mod_mainmenu/helper.php when no items published to a menu
+ # Fixed [#7487] error in /modules/mod_mainmenu/legacy.php when no items published in menu
+ + Added INSTALLATIONREMOVED, MAXIMUM MENU DEPTH and PARAMMENUMAXDEPTH translation strings
+
 16-Oct-2007 Louis Landry
  # Fixed cannot insert text into multiple editors
  # Libraries not in the Joomla namespace cannot be reliably autoloaded so the files are

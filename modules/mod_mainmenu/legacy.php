@@ -340,13 +340,15 @@ function mosShowHFMenu(& $params, $style = 0)
 	$rows = $menu->getItems('menutype', $params->get('menutype'));
 
 	$links = array ();
-	foreach ($rows as $row)
-	{
-		if ($row->access <= $user->get('aid', 0)) {
-			$links[] = mosGetMenuLink($row, 0, $params);
+	if(is_array($rows) && count($rows)) {
+		foreach ($rows as $row)
+		{
+			if ($row->access <= $user->get('aid', 0)) {
+				$links[] = mosGetMenuLink($row, 0, $params);
+			}
 		}
 	}
-
+		
 	$menuclass = 'mainlevel' . $params->get('class_sfx');
 	$lang =& JFactory::getLanguage();
 

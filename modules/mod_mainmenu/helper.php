@@ -36,15 +36,17 @@ class modMainMenuHelper
 
 		// Get Menu Items
 		$rows = $items->getItems('menutype', $params->get('menutype'));
-
+		$maxdepth = $params->get('maxdepth',10);
+		
 		// Build Menu Tree root down (orphan proof - child might have lower id than parent)
 		$user =& JFactory::getUser();
 		$ids = array();
 		$ids[0] = true;
-
+		$last = null;
+		$unresolved = array();
 		// pop the first item until the array is empty if there is any item
-		if ( is_array($rows) ) {
-		    while ( !is_null($row = array_shift($rows)))
+		if ( is_array($rows)) {
+		    while (count($rows) && !is_null($row = array_shift($rows)))
 		    {
 			    if (array_key_exists($row->parent, $ids)) {
 				    $menu->addNode($row);
@@ -52,7 +54,14 @@ class modMainMenuHelper
 				    $ids[$row->id] = true;
 			    } else {
 				    // no parent yet so push item to back of list
-				    array_push($rows, $row);
+					// SAM: But if the key isn't in the list and we dont _add_ this is infinite, so check the unresolved queue
+					if(!array_key_exists($row->id, $unresolved) || $unresolved[$row->id] < $maxdepth) {
+						array_push($rows, $row);
+						// so let us do max $maxdepth passes
+						// TODO: Put a time check in this loop in case we get too close to the PHP timeout
+						if(!isset($unresolved[$row->id])) $unresolved[$row->id] = 1;
+						else $unresolved[$row->id]++;
+					}
 			    }
 		    }
 		}
