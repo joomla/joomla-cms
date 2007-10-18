@@ -265,14 +265,16 @@ function mosShowVIMenu(& $params)
 
 	// first pass - collect children
 	$cacheIndex = array();
-	foreach ($rows as $index => $v) {
-		if ($v->access <= $user->get('gid')) {
-			$pt = $v->parent;
-			$list = @ $children[$pt] ? $children[$pt] : array ();
-			array_push($list, $v);
-			$children[$pt] = $list;
-		}
-		$cacheIndex[$v->id] = $index;
+	if(is_array($rows) && count($rows)) {
+	    foreach ($rows as $index => $v) {
+		    if ($v->access <= $user->get('gid')) {
+			    $pt = $v->parent;
+			    $list = @ $children[$pt] ? $children[$pt] : array ();
+			    array_push($list, $v);
+			    $children[$pt] = $list;
+		    }
+		    $cacheIndex[$v->id] = $index;
+	    }
 	}
 
 	// second pass - collect 'open' menus
