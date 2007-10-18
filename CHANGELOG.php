@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Oct-2007 Mickael Maison
+ # Fixed [#7431] Untranslated string in User Manager
+ # Fixed [#7633] Untranslated Administrator template parameters
+
 18-Oct-2007 Sam Moffatt
  # Fixed unpublished parent error for menus [topic,218742]
  # Fixed [#7659] "Remove Installation Directory" warning needs link to main page.

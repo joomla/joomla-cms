@@ -82,7 +82,7 @@
 		$link 	= 'index.php?option=com_users&amp;view=user&amp;task=edit&amp;cid[]='. $row->id. '';
 
 		if ($row->lastvisitDate == "0000-00-00 00:00:00") {
-			$lvisit = "Never";
+			$lvisit = JText::_( 'Never' );
 		} else {
 			$lvisit	= $row->lastvisitDate; //= JHTML::_('date',  $row->lastvisitDate, JText::_('DATE_FORMAT_LC4'));
 		}

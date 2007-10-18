@@ -25,7 +25,7 @@
 
 	$lvisit = $this->user->get('lastvisitDate');
 	if ($lvisit == "0000-00-00 00:00:00") {
-		$lvisit = "Never";
+		$lvisit = JText::_( 'Never');
 	}
 ?>
 <script language="javascript" type="text/javascript">
