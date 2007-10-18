@@ -114,25 +114,22 @@ class SearchViewSearch extends JView
 					$hlword = $this->escape( stripslashes( $hlword ) );
 					$row = eregi_replace( $this->escape($hlword), '<span class="highlight">\0</span>', $row );
 				}
+				
+				$result =& $results[$i];
+			    if ($result->created) {
+				    $created = JHTML::Date ( $result->created );
+			    }
+			    else {
+				    $created = '';
+			    }
+
+			    $result->created	= $created;
+			    $result->count		= $i + 1;
 			}
 		}
 
 		$this->result	= JText::sprintf( 'TOTALRESULTSFOUND', $total, $this->escape($searchword) );
 		$this->image	= JHTML::_('image.site',  'google.png', '/images/M_images/', NULL, NULL, 'Google' );
-
-		for($i = 0; $i < count($results); $i++ )
-		{
-			$result =& $results[$i];
-			if ($result->created) {
-				$created = JHTML::Date ( $result->created );
-			}
-			else {
-				$created = '';
-			}
-
-			$result->created	= $created;
-			$result->count		= $i + 1;
-		}
 
 		$this->assignRef('pagination',  $pagination);
 		$this->assignRef('results',		$results);
