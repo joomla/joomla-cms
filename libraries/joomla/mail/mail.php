@@ -16,6 +16,7 @@
 defined('JPATH_BASE') or die();
 
 jimport('phpmailer.phpmailer');
+jimport('joomla.mail.helper');
 
 /**
  * E-Mail Class.  Provides a common interface to send e-mail from the Joomla! Framework
