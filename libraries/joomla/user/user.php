@@ -155,7 +155,7 @@ class JUser extends JObject
 			//initialise
 			$this->id        = 0;
 			$this->gid       = 0;
-			$this->sendEmail = 1;
+			$this->sendEmail = 0;
 			$this->aid       = 0;
 			$this->guest     = 1;
 		}
