@@ -10,12 +10,12 @@
 */
 
 /**
- * Joomla! 1.5 Admin template main css file
+ * Joomla! 1.5 Admin template main RTL css file
  *
  * @author		Mati Kochen
  * @package		Joomla
  * @since		1.5
- * @version    1.0
+ * @version     1.0
  */
 
 /* -- General styles ------------------------------ */
@@ -46,7 +46,7 @@ body{
 }
 
 .button2-left {
-	background:transparent url(../images/j_button2_right.png) no-repeat scroll 100%;
+	background:transparent url(../images/j_button2_right_xl.png) no-repeat scroll 100%;
 }
 
 .button2-left .end{

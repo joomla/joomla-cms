@@ -12,13 +12,12 @@
  */
  
  /**
- * Joomla! 1.5 Beez template css file
+ * Joomla! 1.5 Beez template RTL css file
  *
- * @author 		Design & Accessible Team ( Angie Radtke / Robert Deutz )
- *					RTL by Mati Kochen
+ * @author 		Mati Kochen
  * @package		Joomla
  * @since		1.5
- * @version    1.0
+ * @version     1.0
  */
 
 p{
@@ -194,6 +193,17 @@ form.login .button{
 	border-left: none;
 	border-right: 0px solid #DD75BB;
 	padding: 3px 20px 3px 4px;
+}
+
+#left ul li ul li ul{
+	padding: 10px 5pt 10px 0px;
+}
+
+#left ul li.active ul li.active ul li a:link,
+#left ul li.active ul li.active ul li a:visited{
+	background: #FFFFFF url(../images/arrow_rtl.gif) no-repeat scroll right top;
+	margin: 0 15px 0 0;
+	padding:3px 15px 3px 0;	
 }
 
 ul.pagination{

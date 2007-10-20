@@ -1,3 +1,12 @@
+/**
+ * Joomla! 1.5 Installation template main RTL css file
+ *
+ * @author		Mati Kochen
+ * @package		Joomla
+ * @since		1.5
+ * @version     1.0
+ */
+
 body{
 	direction: rtl;
 }
