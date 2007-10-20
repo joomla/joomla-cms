@@ -7,10 +7,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<head>
 		<jdoc:include type="head" />
 
+		<link href="template/css/template.css" rel="stylesheet" type="text/css" />
 		<?php if($this->direction == 'rtl') : ?>
 		<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
-		<?php else : ?>
-		<link href="template/css/template.css" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
 		<script type="text/javascript" src="../media/system/js/mootools.js"></script>
