@@ -353,24 +353,35 @@ class MenusModelList extends JModel
 		$db		=& $this->getDBO();
 		$nd		= $db->getNullDate();
 		$state	= -2;
+        $row =& $this->getTable();
+        $default = 0;
 
 		// Add all children to the list
 		foreach ($items as $id)
 		{
-			$this->_addChildren($id, $items);
+            //Check if it's the default item
+            $row->load( $id );
+            if ($row->home != 1) {
+                $this->_addChildren($id, $items);
+            } else {
+                unset($items[$default]);
+                JError::raiseWarning( 'SOME_ERROR_CODE', JText::_('You cannot trash the default menu item'));
+            }
+            $default++;
 		}
-
-		// Sent menu items to the trash
-		JArrayHelper::toInteger($items, array(0));
-		$where = ' WHERE (id = ' . implode( ' OR id = ', $items ) . ') AND home = 0';
-		$query = 'UPDATE #__menu' .
-				' SET published = '.(int) $state.', parent = 0, ordering = 0, checked_out = 0, checked_out_time = '.$db->Quote($nd) .
-				$where;
-		$db->setQuery( $query );
-		if (!$db->query()) {
-			$this->setError( $db->getErrorMsg() );
-			return false;
-		}
+        if (count($items) > 0) {
+            // Sent menu items to the trash
+            JArrayHelper::toInteger($items, array(0));
+            $where = ' WHERE (id = ' . implode( ' OR id = ', $items ) . ') AND home = 0';
+            $query = 'UPDATE #__menu' .
+                    ' SET published = '.(int) $state.', parent = 0, ordering = 0, checked_out = 0, checked_out_time = '.$db->Quote($nd) .
+                    $where;
+            $db->setQuery( $query );
+            if (!$db->query()) {
+                $this->setError( $db->getErrorMsg() );
+                return false;
+            }
+        }
 
 		// Clear the content cache
 		// TODO: Is this necessary?
@@ -475,7 +486,7 @@ class MenusModelList extends JModel
 						return false;
 					}
 				} else {
-					JError::raiseWarning( 'SOME_ERROR_CODE', 'You cannot unpublish the default menu item');
+					JError::raiseWarning( 'SOME_ERROR_CODE', JText::_('You cannot unpublish the default menu item'));
 					return false;
 				}
 			}

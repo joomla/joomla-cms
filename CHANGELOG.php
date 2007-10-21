@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Oct-2007 Mickael Maison
+ # Fixed [#7578] "Deleted" confirmation but Menu Item is still there
+
 18-Oct-2007 Mickael Maison
  # Fixed [#7431] Untranslated string in User Manager
  # Fixed [#7633] Untranslated Administrator template parameters
