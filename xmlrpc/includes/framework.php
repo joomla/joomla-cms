@@ -62,4 +62,5 @@ jimport( 'joomla.environment.uri' );
 jimport( 'joomla.user.user' );
 jimport( 'joomla.event.event');
 jimport( 'joomla.event.dispatcher');
+jimport( 'joomla.plugin.helper' );
 ?>
