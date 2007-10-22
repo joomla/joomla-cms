@@ -96,7 +96,7 @@ class JConfig {
 	/* SEO Settings */
 	var $sef = '0';
 	var $sef_rewrite = '0';
-	var $set_suffix = '';
+	var $sef_suffix = '';
 
 	/* Feed Settings */
 	var $feed_limit   = 10;
