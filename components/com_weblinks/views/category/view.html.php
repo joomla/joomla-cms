@@ -71,12 +71,7 @@ class WeblinksViewCategory extends JView
 		}
 
 		// table ordering
-		if ($state->get('filter_order_dir') == 'DESC') {
-			$lists['order_Dir'] = 'ASC';
-		} else {
-			$lists['order_Dir'] = 'DESC';
-		}
-
+		$lists['order_Dir'] = $state->get('filter_order_dir');
 		$lists['order'] = $state->get('filter_order');
 
 		// Set some defaults if not set for params

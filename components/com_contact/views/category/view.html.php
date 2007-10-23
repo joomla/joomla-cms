@@ -101,11 +101,7 @@ class ContactViewCategory extends JView
 		}
 
 		// table ordering
-		if ( $filter_order_Dir == 'DESC' ) {
-			$lists['order_Dir'] = 'ASC';
-		} else {
-			$lists['order_Dir'] = 'DESC';
-		}
+		$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
 		$selected = '';
 
