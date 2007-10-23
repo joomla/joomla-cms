@@ -125,7 +125,7 @@ class JDocumentHTML extends JDocument
 	function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
 	{
 		$attribs = JArrayHelper::toString($attribs);
-		$generatedTag = "<link href=\"$href\" $relType=\"$relation\" ". $attribs;
+		$generatedTag = '<link href="'.$href.'" '.$relType.'="'.$relation.'" '.$attribs;
 		$this->_links[] = $generatedTag;
 	}
 
@@ -176,12 +176,16 @@ class JDocumentHTML extends JDocument
 			$result = $this->_buffer[$type][$name];
 		}
 
+		// If the buffer has been explicitly turned off don't display or attempt to render
+		if ($result === false) {
+			return null;
+		}
+
 		if( $renderer =& $this->loadRenderer( $type )) {
 			$result = $renderer->render($name, $attribs, $result);
-		};
+		}
 
 		return $result;
-
 	}
 
 	/**
@@ -215,7 +219,7 @@ class JDocumentHTML extends JDocument
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = 'system';
 		}
-		
+
 		// Parse the template INI file if it exists for parameters and insert
 		// them into the template.
 		if (is_readable( $directory.DS.$template.DS.'params.ini' ) )
@@ -223,7 +227,7 @@ class JDocumentHTML extends JDocument
 			$content = file_get_contents($directory.DS.$template.DS.'params.ini');
 			$params = new JParameter($content);
 		}
-		
+
 		// Load the language file for the template
 		$lang =& JFactory::getLanguage();
 		$lang->load( 'tpl_'.$template );
@@ -235,10 +239,10 @@ class JDocumentHTML extends JDocument
 
 		// load
 		$data = $this->_loadTemplate($directory.DS.$template, $file);
-		
+
 		// parse
 		$data = $this->_parseTemplate($data);
-		
+
 		//output
 		parent::render();
 		return $data;
@@ -260,7 +264,7 @@ class JDocumentHTML extends JDocument
 		{
 			// odd parts (modules)
 			$name		= strtolower($words[$i]);
-			$words[$i]	= count(JModuleHelper::getModules($name));
+			$words[$i]	= ((isset($this->_buffer['modules'][$name])) && ($this->_buffer['modules'][$name] === false)) ? 0 : count(JModuleHelper::getModules($name));
 		}
 
 		$str = 'return '.implode(' ', $words).';';
