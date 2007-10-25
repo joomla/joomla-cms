@@ -106,7 +106,7 @@ class WeblinksControllerWeblink extends WeblinksController
 
 		// send email notification to admins
 		foreach ($adminRows as $adminRow) {
-			JUtility::sendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $post['title'], $user->get('username'), JURI::base());
+			JUtility::sendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $post['title']." URL link ".$post[url], $user->get('username'), JURI::base());
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=category&id='.$post['catid'], false), $msg);
