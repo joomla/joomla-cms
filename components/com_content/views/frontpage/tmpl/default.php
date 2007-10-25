@@ -34,16 +34,25 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 			$divider = '';
 			for ($z = 0; $z < $this->params->def('num_columns', 2); $z ++) :
 				if ($z > 0) : $divider = " column_separator"; endif; ?>
+				<?php
+				    $rows = (int) ($this->params->get('num_intro_articles', 4) / $this->params->get('num_columns'));
+				    $cols = ($this->params->get('num_intro_articles', 4) % $this->params->get('num_columns'));
+				?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
-				<?php for ($y = 0; $y < ($this->params->get('num_intro_articles', 4) / $this->params->get('num_columns')); $y ++) :
-					if ($i < $this->total && $i < ($numIntroArticles)) :
-						$this->item =& $this->getItem($i, $this->params);
+				<?php 
+				$loop = (($z < $cols)?1:0) + $rows;
+				
+				for ($y = 0; $y < $loop; $y ++) :
+					$target = $i + ($y * $this->params->get('num_columns')) + $z;
+					if ($target < $this->total && $target < ($numIntroArticles)) :
+						$this->item =& $this->getItem($target, $this->params);
 						echo $this->loadTemplate('item');
-						$i ++;
 					endif;
-				endfor; ?>
+				endfor; 
+				?>
 				</td>
 		<?php endfor; ?>
+		<?php $i = $i + $this->params->get('num_intro_articles') ; ?>
 		</tr>
 		</table>
 	</td>
