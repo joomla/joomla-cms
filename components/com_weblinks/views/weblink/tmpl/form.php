@@ -58,6 +58,16 @@ function submitbutton(pressbutton)
 </tr>
 <tr>
 	<td valign="top">
+		<label for="jformpublished">
+			<?php echo JText::_( 'Published' ); ?>:
+		</label>
+	</td>
+	<td>
+			<?php echo $this->lists['published']; ?>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
 		<label for="jformdescription">
 			<?php echo JText::_( 'Description' ); ?>:
 		</label>

@@ -115,6 +115,9 @@ class WeblinksViewWeblink extends JView
 		// build list of categories
 		$lists['catid'] = JHTML::_('list.category', 'jform[catid]', 'com_weblinks', intval($weblink->catid));
 
+		// Radio Buttons: Should the article be published
+		$lists['published'] 		= JHTML::_('select.booleanlist',  'jform[published]', 'class="inputbox"', $weblink->published );
+
 		JFilterOutput::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
 
 		$this->assign('action', 	$uri->toString());

@@ -205,7 +205,7 @@ class WeblinksModelWeblink extends JModel
 		$row =& $this->getTable();
 
 		// Bind the form fields to the web link table
-		if (!$row->bind($data, "published")) {
+		if (!$row->bind($data)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}

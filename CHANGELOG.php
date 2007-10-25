@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Oct-2007 Nur Aini Rakhmawati
++ Added published input in WebLink Front-End
+
 21-Oct-2007 Mickael Maison
  # Fixed [#7578] "Deleted" confirmation but Menu Item is still there
 
