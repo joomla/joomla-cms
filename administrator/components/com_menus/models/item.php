@@ -403,8 +403,6 @@ class MenusModelItem extends JModel
 			}
 		}
 
-		$row->name = JFilterOutput::ampReplace( $row->name );
-
 		if (isset($post['urlparams']) && is_array($post['urlparams']))
 		{
 			$pos = strpos( $row->link, '?' );
