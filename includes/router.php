@@ -114,7 +114,8 @@ class JRouterSite extends JRouter
 		if(!$uri->getVar('Itemid') && !$uri->getVar('option'))
 		{
 			$item = $menu->getDefault();
-
+			if(!is_object($item)) return $vars; // No default item set
+			
 			//Set the information in the request
 			$vars = $item->query;
 
