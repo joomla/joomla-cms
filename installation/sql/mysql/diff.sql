@@ -2,7 +2,7 @@
 
 # RC 3 to RC 4
 
--- 14-Oct-2007 --
+-- 26-Oct-2007 --
 -- Database index optimizations
 
 ALTER TABLE `jos_categories`
