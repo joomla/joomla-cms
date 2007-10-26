@@ -503,14 +503,14 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 )
 
 	// Now we handle input filtering
 	if ($mask & 2) {
-		// If the allow raw flag is set, do not modify the variable
-		$var = $var;
-	} elseif ($mask & 4) {
 		// If the allow html flag is set, apply a safe html filter to the variable
 		if (is_null($safeHtmlFilter)) {
 			$safeHtmlFilter = & JFilterInput::getInstance(null, null, 1, 1);
 		}
 		$var = $safeHtmlFilter->clean($var, 'none');
+	} elseif ($mask & 4) {
+		// If the allow raw flag is set, do not modify the variable
+		$var = $var;
 	} else {
 		// Since no allow flags were set, we will apply the most strict filter to the variable
 		if (is_null($noHtmlFilter)) {

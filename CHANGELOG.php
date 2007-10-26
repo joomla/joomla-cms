@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+26-Oct-2007 Toby Patterson
+ + Fixed [topic,226818] Added various _MOS codes for input filtering
+
 26-Oct-2007 Enno Klasing
  ^ Task [#364] MYSQL optimizations proposals submission for Joomla 1.5 (indexes optimizations)
 
