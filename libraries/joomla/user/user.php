@@ -296,14 +296,14 @@ class JUser extends JObject
 	{	
 		static $parampath;
 		
-		//Set the default parampath;
-		if(!isset($path)) {
-			$parampath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'models';
+		// Set a custom parampath if defined
+		if( isset($path) ) {
+			$parampath = $path;
 		}
 		
-		//Set a custom parampath is defined
-		if(isset($path)) {
-			$parampath = $path;
+		// Set the default parampath if not set already
+		if( !isset($parampath) ) {
+			$parampath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'models';
 		}
 		
 		if($loadsetupfile) 
