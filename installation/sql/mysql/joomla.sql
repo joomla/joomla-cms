@@ -92,7 +92,6 @@ CREATE TABLE `#__categories` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `cat_idx` (`section`,`published`,`access`),
-  KEY `idx_section` (`section`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
@@ -117,7 +116,8 @@ CREATE TABLE `#__components` (
   `iscore` tinyint(4) NOT NULL default '0',
   `params` text NOT NULL,
   `enabled` tinyint(4) NOT NULL default '1',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `parent_option` (`parent`, `option`(32))
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 #
@@ -191,7 +191,8 @@ CREATE TABLE `#__contact_details` (
   `access` tinyint(3) unsigned NOT NULL default '0',
   `mobile` varchar(255) NOT NULL default '',
   `webpage` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `catid` (`catid`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
@@ -237,7 +238,7 @@ CREATE TABLE `#__content` (
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
   KEY `idx_catid` (`catid`),
-  KEY `idx_mask` (`mask`)
+  KEY `idx_createdby` (`created_by`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
@@ -431,7 +432,8 @@ CREATE TABLE `#__messages` (
   `priority` int(1) unsigned NOT NULL default '0',
   `subject` text NOT NULL default '',
   `message` text NOT NULL,
-  PRIMARY KEY  (`message_id`)
+  PRIMARY KEY  (`message_id`),
+  KEY `useridto_state` (`user_id_to`, `state`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 # --------------------------------------------------------
 
@@ -473,9 +475,6 @@ CREATE TABLE `#__modules` (
   KEY `newsfeeds` (`module`,`published`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
-#
-# Dumping data for table `#__modules`
-#
 INSERT INTO `#__modules` VALUES (1, 'Main Menu', '', 1, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 1, 'menutype=mainmenu\nmoduleclass_sfx=_menu\n', 1, 0, '');
 INSERT INTO `#__modules` VALUES (2, 'Login', '', 1, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 0, 1, '', 1, 1, '');
 INSERT INTO `#__modules` VALUES (3, 'Popular','',3,'cpanel',0,'0000-00-00 00:00:00',1,'mod_popular',0,2,1,'',0, 1, '');
@@ -531,7 +530,8 @@ CREATE TABLE `#__newsfeeds` (
   `ordering` int(11) NOT NULL default '0',
   `rtl` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  KEY `published` (`published`)
+  KEY `published` (`published`),
+  KEY `catid` (`catid`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
@@ -638,8 +638,10 @@ CREATE TABLE `#__session` (
   `gid` tinyint(3) unsigned NOT NULL default '0',
   `client_id` tinyint(3) unsigned NOT NULL default '0',
   `data` longtext,
-  PRIMARY KEY  (`session_id`),
-  KEY `whosonline` (`guest`,`usertype`)
+  PRIMARY KEY  (`session_id`(64)),
+  KEY `whosonline` (`guest`,`usertype`),
+  KEY `userid` (`userid`),
+  KEY `time` (`time`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
@@ -664,7 +666,7 @@ CREATE TABLE `#__templates_menu` (
   `template` varchar(255) NOT NULL default '',
   `menuid` int(11) NOT NULL default '0',
   `client_id` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (`template`,`menuid`)
+  PRIMARY KEY (`menuid`, `client_id`, `template`(255))
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # Dumping data for table `#__templates_menu`
@@ -694,7 +696,10 @@ CREATE TABLE `#__users` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `usertype` (`usertype`),
-  KEY `idx_name` (`name`)
+  KEY `idx_name` (`name`),
+  KEY `gid_block` (`gid`, `block`),
+  KEY `username` (`username`),
+  KEY `email` (`email`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
 # --------------------------------------------------------
@@ -831,6 +836,5 @@ CREATE TABLE #__migration_backlinks (
 	`newurl` TEXT NOT NULL,
 	PRIMARY KEY(`itemid`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
-
 
 # --------------------------------------------------------

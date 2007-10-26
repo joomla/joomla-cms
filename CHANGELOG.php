@@ -37,8 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Oct-2007 Enno Klasing
+ ^ Task [#364] MYSQL optimizations proposals submission for Joomla 1.5 (indexes optimizations)
+
 25-Oct-2007 Nur Aini Rakhmawati
-+ Added published input in WebLink Front-End
+ + Added published input in WebLink Front-End
 
 21-Oct-2007 Mickael Maison
  # Fixed [#7578] "Deleted" confirmation but Menu Item is still there
