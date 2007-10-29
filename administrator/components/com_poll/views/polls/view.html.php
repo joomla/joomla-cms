@@ -39,7 +39,7 @@ class PollViewPolls extends JView
 		$search				= JString::strtolower( $search );
 
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
+		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
 
 		$where = array();
 
@@ -98,7 +98,7 @@ class PollViewPolls extends JView
 
 		// search filter
 		$lists['search']= $search;
-		
+
 		$this->assignRef('user',		JFactory::getUser());
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('items',		$rows);

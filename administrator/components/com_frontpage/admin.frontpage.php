@@ -96,7 +96,7 @@ function viewFrontPage( $option )
 	$search				= JString::strtolower( $search );
 
 	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-	$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
+	$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
 
 	JToolBarHelper::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );
 	JToolBarHelper::archiveList();

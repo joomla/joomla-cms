@@ -32,7 +32,7 @@ class PluginsViewPlugins extends JView
 		global $mainframe, $option;
 
 		$db =& JFactory::getDBO();
-	
+
 		$client = JRequest::getWord( 'filter_client', 'site' );
 
 		$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order",		'filter_order',		'p.folder',	'cmd' );
@@ -43,7 +43,7 @@ class PluginsViewPlugins extends JView
 		$search				= JString::strtolower( $search );
 
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
+		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
 
 		$where = '';
 		if ($client == 'admin') {
@@ -97,7 +97,7 @@ class PluginsViewPlugins extends JView
 			echo $db->stderr();
 			return false;
 		}
-		
+
 
 		// get list of Positions for dropdown filter
 		$query = 'SELECT folder AS value, folder AS text'
@@ -121,9 +121,9 @@ class PluginsViewPlugins extends JView
 
 		// search filter
 		$lists['search']= $search;
-		
+
 		$this->assign('client',		$client);
-		
+
 		$this->assignRef('user',		JFactory::getUser());
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('items',		$rows);

@@ -43,7 +43,7 @@ class UsersViewUsers extends JView
 		$search				= JString::strtolower( $search );
 
 		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart = $mainframe->getUserStateFromRequest( $option.'limitstart', 'limitstart', 0, 'int' );
+		$limitstart = $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
 
 		$where = array();
 		if (isset( $search ) && $search!= '')
@@ -74,7 +74,7 @@ class UsersViewUsers extends JView
 		{
 			$where[] = 's.userid IS NULL';
 		}
-		
+
 		// exclude any child group id's for this user
 		$pgids = $acl->get_group_children( $currentUser->get('gid'), 'ARO', 'RECURSE' );
 
@@ -154,7 +154,7 @@ class UsersViewUsers extends JView
 
 		// search filter
 		$lists['search']= $search;
-		
+
 		$this->assignRef('user',		JFactory::getUser());
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('items',		$rows);
