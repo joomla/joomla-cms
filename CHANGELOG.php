@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Oct-2007 Nur Aini Rakhmawati
+# Fixed [#7474] Problem with cancelled web link submission
+# Fixed [#7648] Minor problem with user registry namespace (thanks to Alex Stylianos)
+
 29-Oct-2007 Andrew Eddie
  # Fixed bug in editor buttons if control name contained []'s
 
