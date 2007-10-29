@@ -716,6 +716,8 @@ class ContentView
 	*/
 	function insertPagebreak()
 	{
+		$eName	= JRequest::getVar('e_name');
+		$eName	= preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', $eName );
 		?>
 		<script type="text/javascript">
 			function insertPagebreak()
@@ -735,7 +737,7 @@ class ContentView
 
 				var tag = "<hr class=\"system-pagebreak\" "+title+" "+alt+"/>";
 
-				window.parent.jInsertEditorText(tag, '<?php echo JRequest::getWord('e_name'); ?>');
+				window.parent.jInsertEditorText(tag, '<?php echo $eName; ?>');
 				window.parent.document.getElementById('sbox-window').close();
 				return false;
 			}

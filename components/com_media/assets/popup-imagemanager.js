@@ -25,7 +25,7 @@ var ImageManager = {
 		o = this._getUriObject(window.self.location.href);
 		//console.log(o);
 		q = $H(this._getQueryObject(o.query));
-		this.editor = q.get('e_name');
+		this.editor = decodeURIComponent(q.get('e_name'));
 
 		// Setup image manager fields object
 		this.fields			= new Object();

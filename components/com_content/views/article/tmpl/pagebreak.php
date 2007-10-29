@@ -16,7 +16,7 @@
 
 				var tag = "<hr class=\"system-pagebreak\" "+title+" "+alt+"/>";
 
-				window.parent.jInsertEditorText(tag, '<?php echo JRequest::getWord('e_name'); ?>');
+				window.parent.jInsertEditorText(tag, '<?php echo preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', JRequest::getVar('e_name') ); ?>');
 				window.parent.document.getElementById('sbox-window').close();
 				return false;
 			}

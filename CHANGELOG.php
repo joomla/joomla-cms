@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Oct-2007 Andrew Eddie
+ # Fixed bug in editor buttons if control name contained []'s
 
 26-Oct-2007 Toby Patterson
  + Fixed [topic,226818] Added various _MOS codes for input filtering
