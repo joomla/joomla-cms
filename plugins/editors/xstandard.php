@@ -86,7 +86,7 @@ class plgEditorXstandard extends JPlugin {
 
 		$js = "var editor = $('xstandard');\n";
 		$js .= "editor.EscapeUnicode = true;";
-		$js .= "$('text').value = editor.value;";
+		$js .= "$('".$editor."').value = editor.value;";
 
 		return $js;
 	}
