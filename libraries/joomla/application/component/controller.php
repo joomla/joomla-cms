@@ -492,7 +492,7 @@ class JController extends JObject
 	 * @access	public
 	 * @param	string	The task.
 	 * @param	string	The name of the method in the derived class to perform
-	 * for this task.
+	 *                  for this task.
 	 * @return	void
 	 * @since	1.5
 	 */
@@ -500,9 +500,7 @@ class JController extends JObject
 	{
 		if ( in_array( strtolower( $method ), $this->_methods ) ) {
 			$this->_taskMap[strtolower( $task )] = $method;
-		} else {
-			JError::raiseError( 404, JText::_( 'Method not found:' ) . $method );
-		}
+		} 
 	}
 
 	/**
