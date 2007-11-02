@@ -337,16 +337,17 @@ class JController extends JObject
 	 * @access	public
 	 * @param	string	The model name.
 	 * @param	string	The class prefix. Optional.
+	 * @param	array	Configuration array for model. Optional.
 	 * @return	object	The model.
 	 * @since	1.5
 	 */
-	function &getModel( $name, $prefix = '' )
+	function &getModel( $name, $prefix = '', $config = array() )
 	{
 		if ( empty( $prefix ) ) {
 			$prefix = $this->_name . 'Model';
 		}
 
-		if ( $model = & $this->_createModel( $name, $prefix ) )
+		if ( $model = & $this->_createModel( $name, $prefix, $config ) )
 		{
 			// task is a reserved state
 			$model->setState( 'task', $this->_task );
@@ -574,11 +575,12 @@ class JController extends JObject
 	 * @access	private
 	 * @param	string  The name of the model.
 	 * @param	string	Optional model prefix.
+	 * @param	array	Configuration array for the model. Optional.
 	 * @return	mixed	Model object on success; otherwise null
 	 * failure.
 	 * @since	1.5
 	 */
-	function &_createModel( $name, $prefix = '')
+	function &_createModel( $name, $prefix = '', $config = array())
 	{
 		$result = null;
 
@@ -612,7 +614,7 @@ class JController extends JObject
 			}
 		}
 
-		$result = new $modelClass();
+		$result = new $modelClass($config);
 		return $result;
 	}
 
