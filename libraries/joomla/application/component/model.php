@@ -62,9 +62,6 @@ class JModel extends JObject
 	 */
 	function __construct($config = array())
 	{
-		$this->_db	  = &JFactory::getDBO();
-		$this->_state = new JObject();
-
 		//set the view name
 		if (empty( $this->_name ))
 		{
@@ -73,6 +70,20 @@ class JModel extends JObject
 			} else {
 				$this->_name = $this->getName();
 			}
+		}
+		
+		//set the model state
+		if (array_key_exists('state', $config))  {
+			$this->_state = $config['state'];
+		} else {
+			$this->_state = new JObject();
+		}
+		
+		//set the model dbo
+		if (array_key_exists('dbo', $config))  {
+			$this->_db = $config['dbo'];
+		} else {
+			$this->_db = &JFactory::getDBO();
 		}
 
 		// set the default view search path
