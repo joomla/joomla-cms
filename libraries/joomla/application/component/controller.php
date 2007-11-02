@@ -335,14 +335,18 @@ class JController extends JObject
 	 * Method to get a model object, loading it if required.
 	 *
 	 * @access	public
-	 * @param	string	The model name.
+	 * @param	string	The model name. Optional.
 	 * @param	string	The class prefix. Optional.
 	 * @param	array	Configuration array for model. Optional.
 	 * @return	object	The model.
 	 * @since	1.5
 	 */
-	function &getModel( $name, $prefix = '', $config = array() )
+	function &getModel( $name = '', $prefix = '', $config = array() )
 	{
+		if ( empty( $name ) ) {
+			$name = $this->_name;
+		}
+		
 		if ( empty( $prefix ) ) {
 			$prefix = $this->_name . 'Model';
 		}
