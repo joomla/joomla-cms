@@ -15,7 +15,7 @@ function modMainMenuXMLCallback(&$node, $args)
 
 	if (($args['end']) && ($node->attributes('level') >= $args['end']))
 	{
-		$children = &$node->children();
+		$children = $node->children();
 		foreach ($node->children() as $child)
 		{
 			if ($child->name() == 'ul') {
