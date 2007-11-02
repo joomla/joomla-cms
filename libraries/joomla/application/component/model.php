@@ -221,7 +221,7 @@ class JModel extends JObject
 	function &getTable($name='', $prefix='Table')
 	{
 		if (empty($name)) {
-			$name = $this->_name;
+			$name = $this->getName();
 		}
 
 		if($table = &$this->_createTable( $name, $prefix )) {

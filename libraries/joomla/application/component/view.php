@@ -160,7 +160,7 @@ class JView extends JObject
 			// user-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		} else {
-			$this->_setPath('template', $this->_basePath.DS.'views'.DS.$this->_name.DS.'tmpl');
+			$this->_setPath('template', $this->_basePath.DS.'views'.DS.$this->getName().DS.'tmpl');
 		}
 
 		// set the default helper search path
@@ -630,7 +630,7 @@ class JView extends JObject
 				if (isset($mainframe))
 				{
 					$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
-					$fallback = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->_name;
+					$fallback = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->getName();
 					$this->_addPath('template', $fallback);
 				}
 			}	break;

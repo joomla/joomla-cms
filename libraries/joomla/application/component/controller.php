@@ -291,7 +291,7 @@ class JController extends JObject
 		$document =& JFactory::getDocument();
 
 		$viewType	= $document->getType();
-		$viewName	= JRequest::getCmd( 'view', $this->_name );
+		$viewName	= JRequest::getCmd( 'view', $this->getName() );
 		$viewLayout	= JRequest::getCmd( 'layout', 'default' );
 
 		$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
@@ -344,11 +344,11 @@ class JController extends JObject
 	function &getModel( $name = '', $prefix = '', $config = array() )
 	{
 		if ( empty( $name ) ) {
-			$name = $this->_name;
+			$name = $this->getName();
 		}
 		
 		if ( empty( $prefix ) ) {
-			$prefix = $this->_name . 'Model';
+			$prefix = $this->getName() . 'Model';
 		}
 
 		if ( $model = & $this->_createModel( $name, $prefix, $config ) )
@@ -455,11 +455,11 @@ class JController extends JObject
 		}
 
 		if ( empty( $name ) ) {
-			$name = $this->_name;
+			$name = $this->getName();
 		}
 
 		if ( empty( $prefix ) ) {
-			$prefix = $this->_name . 'View';
+			$prefix = $this->getName() . 'View';
 		}
 
 		if ( empty( $views[$name] ) )
