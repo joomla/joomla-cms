@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Nov-2007 Andrew Eddie
+ # Fixed missing /components/com_users/views/register/tmpl/default_message.php file
+
 29-Oct-2007 Nur Aini Rakhmawati
 # Fixed [#7474] Problem with cancelled web link submission
 # Fixed [#7648] Minor problem with user registry namespace (thanks to Alex Stylianos)
