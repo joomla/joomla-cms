@@ -827,9 +827,10 @@ class JDatabase extends JObject
 	 * @abstract
 	 * @access	public 
 	 * @param 	array|string 	A table name or a list of table names
+	 * @param	boolean			Only return field types, default true
 	 * @return	array An array of fields by table
 	 */
-	function getTableFields( $tables ) {
+	function getTableFields( $tables, $typeonly = true ) {
 		return;
 	}
 

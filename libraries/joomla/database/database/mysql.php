@@ -646,9 +646,10 @@ class JDatabaseMySQL extends JDatabase
 	 * 
 	 * @access	public 
 	 * @param 	array|string 	A table name or a list of table names
+	 * @param	boolean			Only return field types, default true
 	 * @return	array An array of fields by table
 	 */
-	function getTableFields( $tables )
+	function getTableFields( $tables, $typeonly = true )
 	{
 		settype($tables, 'array'); //force to array
 		$result = array();
@@ -657,8 +658,18 @@ class JDatabaseMySQL extends JDatabase
 		{
 			$this->setQuery( 'SHOW FIELDS FROM ' . $tblval );
 			$fields = $this->loadObjectList();
-			foreach ($fields as $field) {
-				$result[$tblval][$field->Field] = preg_replace("/[(0-9)]/",'', $field->Type );
+			
+			if($typeonly) 
+			{
+				foreach ($fields as $field) {
+					$result[$tblval][$field->Field] = preg_replace("/[(0-9)]/",'', $field->Type );
+				}
+			} 
+			else 
+			{
+				foreach ($fields as $field) {
+					$result[$tblval][$field->Field] = $field;
+				}
 			}
 		}
 
