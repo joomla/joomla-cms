@@ -810,24 +810,24 @@ class JDatabase extends JObject
 	}
 
 	/**
-	 *
-	 *
+	 * Shows the CREATE TABLE statement that creates the given tables
+	 * 
 	 * @abstract
-	 * @access public
-	 * @param array A list of table names
-	 * @return array A list the create SQL for the tables
+	 * @access	public 
+	 * @param 	array|string 	A table name or a list of table names
+	 * @return 	array A list the create SQL for the tables
 	 */
 	function getTableCreate( $tables ) {
 		return;
 	}
 
 	/**
-	 * List database table fields
-	 *
+	 * Retrieves information about the given tables
+	 * 
 	 * @abstract
-	 * @access public
-	 * @param array A list of table names
-	 * @return array An array of fields by table
+	 * @access	public 
+	 * @param 	array|string 	A table name or a list of table names
+	 * @return	array An array of fields by table
 	 */
 	function getTableFields( $tables ) {
 		return;

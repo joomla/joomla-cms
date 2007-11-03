@@ -619,14 +619,15 @@ class JDatabaseMySQL extends JDatabase
 	}
 	
 	/**
-	 * Description
+	 * Shows the CREATE TABLE statement that creates the given tables
 	 * 
 	 * @access	public 
-	 * @param array A list of table names
-	 * @return array A list the create SQL for the tables
+	 * @param 	array|string 	A table name or a list of table names
+	 * @return 	array A list the create SQL for the tables
 	 */
 	function getTableCreate( $tables )
 	{
+		settype($tables, 'array'); //force to array
 		$result = array();
 
 		foreach ($tables as $tblval) {
@@ -641,14 +642,15 @@ class JDatabaseMySQL extends JDatabase
 	}
 	
 	/**
-	 * Description
+	 * Retrieves information about the given tables
 	 * 
 	 * @access	public 
-	 * @param array A list of table names
-	 * @return array An array of fields by table
+	 * @param 	array|string 	A table name or a list of table names
+	 * @return	array An array of fields by table
 	 */
 	function getTableFields( $tables )
 	{
+		settype($tables, 'array'); //force to array
 		$result = array();
 
 		foreach ($tables as $tblval) 
