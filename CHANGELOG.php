@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Nov-2007 Rob Schley
+ # Fixed user object not being reloaded in session save.
+
 03-Nov-2007 Andrew Eddie
  # Fixed missing /components/com_users/views/register/tmpl/default_message.php file
 

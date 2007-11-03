@@ -146,6 +146,32 @@ class UsersController extends JController
 			JUtility::sendMail( $adminEmail, $adminName, $user->get('email'), $subject, $message );
 		}
 
+		// If updating self, load the new user object into the session
+		if ($user->get('id') == $me->get('id'))
+		{
+			// Get an ACL object
+			$acl = &JFactory::getACL();
+
+			// Get the user group from the ACL
+			$grp = $acl->getAroGroup($user->get('id'));
+
+			// Mark the user as logged in
+			$user->set('guest', 0);
+			$user->set('aid', 1);
+
+			// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
+			if ($acl->is_group_child_of($grp->name, 'Registered')      ||
+			    $acl->is_group_child_of($grp->name, 'Public Backend'))    {
+				$user->set('aid', 2);
+			}
+
+			// Set the usertype based on the ACL group name
+			$user->set('usertype', $grp->name);
+
+			$session = &JFactory::getSession();
+			$session->set('user', $user);
+		}
+
 		switch ( $this->getTask() )
 		{
 			case 'apply':
