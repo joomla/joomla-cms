@@ -176,6 +176,8 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Determines UTF support
+	 * 
+	 * @access public
 	 * @return boolean True - UTF is supported
 	 */
 	function hasUTF()
@@ -186,6 +188,8 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Custom settings for UTF support
+	 * 
+	 * @access public
 	 */
 	function setUTF()
 	{
@@ -194,6 +198,8 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	* Get a database escaped string
+	* 
+	* @access public
 	* @return string
 	*/
 	function getEscaped( $text )
@@ -203,6 +209,8 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	* Execute the query
+	* 
+	* @access public
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
 	function query()
@@ -236,6 +244,9 @@ class JDatabaseMySQLi extends JDatabase
 	}
 
 	/**
+	 * Description
+	 * 
+	 * @access public
 	 * @return int The number of affected rows in the previous operation
 	 * @since 1.0.5
 	 */
@@ -246,6 +257,8 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	* Execute a batch query
+	* 
+	* @access public
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
 	function queryBatch( $abort_on_error=true, $p_transaction_safe = false)
@@ -284,6 +297,8 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Diagnostic function
+	 * 
+	 * @access public
 	 * @return	string
 	 */
 	function explain()
@@ -322,8 +337,11 @@ class JDatabaseMySQLi extends JDatabase
 	}
 
 	/**
-	* @return int The number of rows returned from the most recent query.
-	*/
+	 * Description 
+	 * 
+	 * @access public
+	 * @return int The number of rows returned from the most recent query.
+	 */
 	function getNumRows( $cur=null )
 	{
 		return mysqli_num_rows( $cur ? $cur : $this->_cursor );
@@ -332,6 +350,7 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	* This method loads the first field of the first row returned by the query.
 	*
+	* @access public
 	* @return The value returned in the query or null if the query failed.
 	*/
 	function loadResult()
@@ -346,8 +365,11 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result( $cur );
 		return $ret;
 	}
+	
 	/**
 	* Load an array of single field results into an array
+	* 
+	* @access public
 	*/
 	function loadResultArray($numinarray = 0)
 	{
@@ -365,7 +387,8 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	* Fetch a result row as an associative array
 	*
-	* return array
+	* @access public
+	* @return array
 	*/
 	function loadAssoc()
 	{
@@ -382,6 +405,8 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	* Load a assoc list of database rows
+	* 
+	* @access public
 	* @param string The field name of a primary key
 	* @return array If <var>key</var> is empty as sequential list of returned records.
 	*/
@@ -401,10 +426,12 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result( $cur );
 		return $array;
 	}
+	
 	/**
 	* This global function loads the first row of a query into an object
 	*
-	* return object
+	* @access public
+	* @return object
 	*/
 	function loadObject( )
 	{
@@ -418,12 +445,16 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result( $cur );
 		return $ret;
 	}
+	
 	/**
 	* Load a list of database objects
-	* @param string The field name of a primary key
-	* @return array If <var>key</var> is empty as sequential list of returned records.
+	* 
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
+	* 
+	* @access public
+	* @param string The field name of a primary key
+	* @return array If <var>key</var> is empty as sequential list of returned records.
 	*/
 	function loadObjectList( $key='' )
 	{
@@ -441,9 +472,13 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result( $cur );
 		return $array;
 	}
+	
 	/**
-	* @return The first row of the query.
-	*/
+	 * Description 
+	 * 
+	 * @access public
+	 * @return The first row of the query.
+	 */
 	function loadRow()
 	{
 		if (!($cur = $this->query())) {
@@ -456,12 +491,16 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result( $cur );
 		return $ret;
 	}
+	
 	/**
 	* Load a list of database rows (numeric column indexing)
-	* @param string The field name of a primary key
-	* @return array If <var>key</var> is empty as sequential list of returned records.
+	* 
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
+	* 
+	* @access public
+	* @param string The field name of a primary key
+	* @return array If <var>key</var> is empty as sequential list of returned records.
 	*/
 	function loadRowList( $key=null )
 	{
@@ -479,8 +518,11 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result( $cur );
 		return $array;
 	}
+	
 	/**
 	 * Inserts a row into a table based on an objects properties
+	 * 
+	 * @access public
 	 * @param	string	The name of the table
 	 * @param	object	An object whose properties match table fields
 	 * @param	string	The name of the primary key. If provided the object property is updated.
@@ -511,7 +553,9 @@ class JDatabaseMySQLi extends JDatabase
 	}
 
 	/**
-	 * Document::db_updateObject()
+	 * Description
+	 * 
+	 * @access public
 	 * @param [type] $updateNulls
 	 */
 	function updateObject( $table, &$object, $keyName, $updateNulls=true )
@@ -542,11 +586,21 @@ class JDatabaseMySQLi extends JDatabase
 		return $this->query();
 	}
 
+	/**
+	 * Description
+	 * 
+	 * @access public
+	 */
 	function insertid()
 	{
 		return mysqli_insert_id( $this->_resource );
 	}
 
+	/**
+	 * Description
+	 * 
+	 * @access public
+	 */
 	function getVersion()
 	{
 		return mysqli_get_server_info( $this->_resource );
@@ -554,6 +608,8 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Assumes database collation in use by sampling one text field in one table
+	 * 
+	 * @access public
 	 * @return string Collation in use
 	 */
 	function getCollation ()
@@ -568,6 +624,9 @@ class JDatabaseMySQLi extends JDatabase
 	}
 
 	/**
+	 * Description
+	 * 
+	 * @access public
 	 * @return array A list of all the tables in the database
 	 */
 	function getTableList()
@@ -575,7 +634,11 @@ class JDatabaseMySQLi extends JDatabase
 		$this->setQuery( 'SHOW TABLES' );
 		return $this->loadResultArray();
 	}
+	
 	/**
+	 * Description
+	 * 
+	 * @access public
 	 * @param array A list of table names
 	 * @return array A list the create SQL for the tables
 	 */
@@ -583,7 +646,8 @@ class JDatabaseMySQLi extends JDatabase
 	{
 		$result = array();
 
-		foreach ($tables as $tblval) {
+		foreach ($tables as $tblval) 
+		{
 			$this->setQuery( 'SHOW CREATE table ' . $this->getEscaped( $tblval ) );
 			$rows = $this->loadRowList();
 			foreach ($rows as $row) {
@@ -593,7 +657,11 @@ class JDatabaseMySQLi extends JDatabase
 
 		return $result;
 	}
+	
 	/**
+	 * Description
+	 * 
+	 * @access public
 	 * @param array A list of table names
 	 * @return array An array of fields by table
 	 */
@@ -601,7 +669,8 @@ class JDatabaseMySQLi extends JDatabase
 	{
 		$result = array();
 
-		foreach ($tables as $tblval) {
+		foreach ($tables as $tblval) 
+		{
 			$this->setQuery( 'SHOW FIELDS FROM ' . $tblval );
 			$fields = $this->loadObjectList();
 			foreach ($fields as $field) {
