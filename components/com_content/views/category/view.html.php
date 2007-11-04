@@ -42,24 +42,33 @@ class ContentViewCategory extends ContentView
 
 		// Get the page/component configuration
 		$params = clone($mainframe->getParams('com_content'));
-		
+
 		// Request variables
 		$task		= JRequest::getCmd('task');
 		$limit		= $mainframe->getUserStateFromRequest('com_content.'.$this->getLayout().'.limit', 'limit', $params->def('display_num', 0), 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
-		// parameters
+		// Parameters
+		$params->def('num_leading_articles', 	1);
+		$params->def('num_intro_articles', 		4);
+		$params->def('num_columns',				2);
+		$params->def('num_links', 				4);
+		$params->def('show_headings', 			1);
+		$params->def('show_pagination',			2);
+		$params->def('show_pagination_results',	1);
+		$params->def('show_pagination_limit',	1);
+		$params->def('filter',					1);
 
-		$intro		= $params->def('num_intro_articles', 	0);
-		$leading	= $params->def('num_leading_articles', 	0);
-		$links		= $params->def('num_links', 			0);
-		$headings	= $params->def('show_headings', 		1);
-		$contentConfig = &JComponentHelper::getParams( 'com_content' );
-		$params->def('show_title', 			$contentConfig->get('show_title'));
-		
+		$intro		= $params->get('num_intro_articles');
+		$leading	= $params->get('num_leading_articles');
+		$links		= $params->get('num_links');
+
 		//In case we are in a blog view set the limit
 		if($limit ==  0) $limit = $intro + $leading + $links;
 		JRequest::setVar('limit', (int) $limit);
+
+		$contentConfig = &JComponentHelper::getParams('com_content');
+		$params->def('show_page_title', 	$contentConfig->get('show_title'));
 
 		// Get some data from the model
 		$items		= & $this->get( 'Data' );
@@ -83,7 +92,7 @@ class ContentViewCategory extends ContentView
 		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
 
 		//set breadcrumbs
-		if($menu->query['view'] != 'category') {
+		if(is_object($menu) && $menu->query['view'] != 'category') {
 			$pathway->addItem($category->title, '');
 		}
 
@@ -92,13 +101,13 @@ class ContentViewCategory extends ContentView
 		// Keep a copy for safe keeping this is soooooo dirty -- must deal with in a later version
 		// @todo -- oh my god we need to find this reference issue in 1.6 :)
 		$this->_params = $params->toArray();
-		
+
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit - $links);
 
 		$this->assign('total',		$total);
 		$this->assign('action', 	$uri->toString());
-		
+
 		$this->assignRef('items',		$items);
 		$this->assignRef('params',		$params);
 		$this->assignRef('category',	$category);
@@ -117,7 +126,7 @@ class ContentViewCategory extends ContentView
 			$return = array();
 			return $return;
 		}
-		
+
 		//create select lists
 		$lists	= $this->_buildSortLists();
 
@@ -135,14 +144,14 @@ class ContentViewCategory extends ContentView
 
 			$item->odd		= $k;
 			$item->count    = $i;
-			
+
 			$this->items[$key] = $item;
 			$k = 1 - $k;
 			$i++;
 		}
-		
+
 		$this->assign('lists',	$lists);
-		
+
 		return $this->items;
 	}
 

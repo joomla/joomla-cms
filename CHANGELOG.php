@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Nov-2007 Rob Schley
+ # Fixed poorly initialized parameter configurations in content category view and weblink category view.
+ # Fixed undefined variable notice when viewing weblink category without Itemid.
+
 03-Nov-2007 Rob Schley
  # Fixed user object not being reloaded in session save.
 

@@ -66,7 +66,7 @@ class WeblinksViewCategory extends JView
 		$document->setTitle( $category->title. ' - '. $params->get( 'page_title'));
 
 		//set breadcrumbs
-		if($menu->query['view'] != 'category') {
+		if(is_object($menu) && $menu->query['view'] != 'category') {
 			$pathway->addItem($category->title, '');
 		}
 

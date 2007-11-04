@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ($this->params->def('num_leading_articles', 1)) : ?>
+<?php if ($this->params->get('num_leading_articles')) : ?>
 <tr>
 	<td valign="top">
 	<?php for ($i = $this->pagination->limitstart; $i < ($this->pagination->limitstart + $this->params->get('num_leading_articles')); $i++) : ?>
@@ -38,7 +38,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php
 $startIntroArticles = $this->pagination->limitstart + $this->params->get('num_leading_articles');
-$numIntroArticles = $startIntroArticles + $this->params->get('num_intro_articles', 4);
+$numIntroArticles = $startIntroArticles + $this->params->get('num_intro_articles');
 if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 <tr>
 	<td valign="top">
@@ -46,10 +46,10 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 		<tr>
 		<?php
 			$divider = '';
-			for ($z = 0; $z < $this->params->def('num_columns', 2); $z ++) :
+			for ($z = 0; $z < $this->params->get('num_columns'); $z ++) :
 				if ($z > 0) : $divider = " column_separator"; endif; ?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
-				<?php for ($y = 0; $y < ($this->params->get('num_intro_articles', 4) / $this->params->get('num_columns')); $y ++) :
+				<?php for ($y = 0; $y < ($this->params->get('num_intro_articles') / $this->params->get('num_columns')); $y ++) :
 					if ($i < $this->total && $i < ($numIntroArticles)) :
 						$this->item =& $this->getItem($i, $this->params);
 						echo $this->loadTemplate('item');
@@ -63,7 +63,7 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ($this->params->def('num_links', 4) && ($i < $this->total)) : ?>
+<?php if ($this->params->get('num_links') && ($i < $this->total)) : ?>
 <tr>
 	<td valign="top">
 		<div class="blog_more<?php echo $this->params->get('pageclass_sfx') ?>">
@@ -75,7 +75,7 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ($this->params->def('show_pagination', 2)) : ?>
+<?php if ($this->params->get('show_pagination')) : ?>
 <tr>
 	<td valign="top" align="center">
 		<?php echo $this->pagination->getPagesLinks(); ?>
@@ -83,7 +83,7 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 	</td>
 </tr>
 <?php endif; ?>
-<?php if ($this->params->def('show_pagination_results', 1)) : ?>
+<?php if ($this->params->get('show_pagination_results')) : ?>
 <tr>
 	<td valign="top" align="center">
 		<?php echo $this->pagination->getPagesCounter(); ?>
