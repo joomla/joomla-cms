@@ -118,19 +118,19 @@ $showRightColumn &= JRequest::getCmd('task') != 'edit'
 
 			<div class="wrap"></div>
 			</div><!-- wrapper -->
-
-			<div id="footer">
-				<p class="syndicate">
-					<jdoc:include type="modules" name="syndicate" />
-				</p>
-
-				<p>
-					<?php echo JText::_('Powered by');?> <a href="http://www.joomla.org/">Joomla!</a>
-				</p>
-
-				<div class="wrap"></div>
-			</div><!-- footer -->
 		</div><!-- contentarea -->
+
+		<div id="footer">
+			<p class="syndicate">
+				<jdoc:include type="modules" name="syndicate" />
+			</p>
+
+			<p>
+				<?php echo JText::_('Powered by');?> <a href="http://www.joomla.org/">Joomla!</a>
+			</p>
+
+			<div class="wrap"></div>
+		</div><!-- footer -->
 	</div><!-- all -->
 
 	<jdoc:include type="modules" name="debug" />

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Nov-2007 Charl van Niekerk
+ ^ Placed the footer div outside of the content area div in the beez template
+
 04-Nov-2007 Rob Schley
  # Fixed poorly initialized parameter configurations in content category view and weblink category view.
  # Fixed undefined variable notice when viewing weblink category without Itemid.
