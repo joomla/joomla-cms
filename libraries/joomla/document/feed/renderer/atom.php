@@ -58,8 +58,8 @@ jimport( 'joomla.utilities.date' );
 			$feed.= " xml:lang=\"".$data->language."\"";
 		}
 		$feed.= ">\n";
-		$feed.= "	<title>".htmlspecialchars($data->title, ENT_COMPAT, 'UTF-8')."</title>\n";
-		$feed.= "	<subtitle>".htmlspecialchars($data->description, ENT_COMPAT, 'UTF-8')."</subtitle>\n";
+		$feed.= "	<title type=\"text\">".htmlspecialchars($data->title, ENT_COMPAT, 'UTF-8')."</title>\n";
+		$feed.= "	<subtitle type=\"text\">".htmlspecialchars($data->description, ENT_COMPAT, 'UTF-8')."</subtitle>\n";
 		$feed.= "	<link rel=\"alternate\" type=\"text/html\" href=\"".$data->link."\"/>\n";
 		$feed.= "	<id>".$data->link."</id>\n";
 		$feed.= "	<updated>".htmlspecialchars($now->toISO8601(), ENT_COMPAT, 'UTF-8')."</updated>\n";
@@ -95,6 +95,7 @@ jimport( 'joomla.utilities.date' );
 			}
 			if ($data->items[$i]->description!="") {
 				$feed.= "		<summary type=\"html\">".htmlspecialchars($data->items[$i]->description, ENT_COMPAT, 'UTF-8')."</summary>\n";
+				$feed.= "		<content type=\"html\">".htmlspecialchars($data->items[$i]->description, ENT_COMPAT, 'UTF-8')."</content>\n";	
 			}
 			if ($data->items[$i]->enclosure != NULL) {
 			$feed.="		<link rel=\"enclosure\" href=\"". $data->items[$i]->enclosure->url ."\" type=\"". $data->items[$i]->enclosure->type."\"  length=\"". $data->items[$i]->enclosure->length . "\" />\n";
