@@ -542,15 +542,14 @@ class JError
 	 */
 	function customErrorPage(& $error)
 	{
-		global $mainframe;
-
 		// Initialize variables
 		jimport('joomla.document.document');
+		$app        = & JFactory::getApplication();
 		$document	= & JDocument::getInstance('error');
 		$config		= & JFactory::getConfig();
 
 		// Get the current template from the application
-		$template = $mainframe->getTemplate();
+		$template = $app->getTemplate();
 
 		// Push the error object into the document
 		$document->setError($error);
@@ -565,7 +564,7 @@ class JError
 
 		JResponse::setBody($data);
 		echo JResponse::toString();
-		$mainframe->close(0);
+		$app->close(0);
 	}
 	
 	function customErrorHandler($level, $msg)
