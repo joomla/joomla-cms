@@ -65,7 +65,7 @@ class JUserHelper
 		}
 		else
 		{
-			JError::raiseWarning( "SOME_ERROR_CODE", JText::_('Unable to find a user with given activation string.') );
+			JError::raiseWarning( "SOME_ERROR_CODE", JText::_('UNABLE TO FIND A USER WITH GIVEN ACTIVATION STRING') );
 			return false;
 		}
 

@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Nov-2007 Mickael Maison
+ # Fixed [#7471] Untranslated error message during activation
+ # Fixed [#7548] Untranslated string found during template installation
+
 06-Nov-2007 Charl van Niekerk
  ^ Placed the footer div outside of the content area div in the beez template
 
