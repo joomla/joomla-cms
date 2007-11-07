@@ -81,25 +81,9 @@ class JDocumentError extends JDocument
 			return;
 		}
 
-		// Send error header and set error page file
-		switch ($this->_error->code)
-		{
-			case '403':
-				JResponse::setHeader('status', '403 Forbidden');
-				$file = "403.php";
-				break;
-
-			case '404':
-				JResponse::setHeader('status', '404 Not Found');
-				$file = "404.php";
-				break;
-
-			case '500':
-			default:
-				JResponse::setHeader('status', '500 Internal Server Error');
-				$file = "500.php";
-				break;
-		}
+		//Set the status header
+		JResponse::setHeader('status', $this->_error->code.' '.$this->_error->message);
+		$file = $this->_error->code.'.php';
 
 		// check template
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
