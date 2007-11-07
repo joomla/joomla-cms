@@ -388,9 +388,9 @@ class JError
 		} else {
 			// output as simple text
 			if (defined('STDERR')) {
-				fwrite(STDERR, "jos-$level_human: ".$error->get('message')."\n");
+				fwrite(STDERR, "J$level_human: ".$error->get('message')."\n");
 			} else {
-				echo "jos-$level_human: ".$error->get('message')."\n";
+				echo "J$level_human: ".$error->get('message')."\n";
 			}
 		}
 		return $error;
