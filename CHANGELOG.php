@@ -1,4 +1,4 @@
-<?php
+	<?php
 /**
 * @version		$Id$
 * @package		Joomla
@@ -36,6 +36,10 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+08-Nov-2007 Nur Aini Rakhmawati
+# Fixed [#7399] Authors when edit existing articles, the state is always changed to unpublished (thx to Daniel Glez-Pena)
+
 
 07-Nov-2007 Mickael Maison
  # Fixed [#7471] Untranslated error message during activation

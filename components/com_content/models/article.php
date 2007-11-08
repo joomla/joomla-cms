@@ -114,7 +114,7 @@ class ContentModelArticle extends JModel
 			if (!$this->_article->cat_pub && $this->_article->catid) {
 				JError::raiseError( 404, JText::_("Article category not published") );
 			}
-			
+
 			// Is the section published?
 			if ($this->_article->sectionid)
 			{
@@ -134,7 +134,7 @@ class ContentModelArticle extends JModel
 					JError::raiseError( 404, JText::_("Article section not published") );
 				}
 			}
-			
+
 			// Do we have access to the category?
 			if (($this->_article->cat_access > $user->get('aid', 0)) && $this->_article->catid) {
 				JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
@@ -338,7 +338,8 @@ class ContentModelArticle extends JModel
 				// For existing items keep existing state - author is not allowed to change status
 				$query = 'SELECT state' .
 						' FROM #__content' .
-						' WHERE id = '.(int) $row->id;
+						' WHERE id = '.(int) $article->id;
+				echo $query;
 				$this->_db->setQuery($query);
 				$state = $this->_db->loadResult();
 
@@ -385,7 +386,7 @@ class ContentModelArticle extends JModel
 		$article->reorder("catid = " . (int) $data['catid']);
 
 		$this->_article	=& $article;
-		
+
 		return true;
 	}
 
@@ -484,7 +485,7 @@ class ContentModelArticle extends JModel
 					$where;
 			$this->_db->setQuery($query);
 			$this->_article = $this->_db->loadObject();
-			
+
 			if ( ! $this->_article ) {
 				return false;
 			}
