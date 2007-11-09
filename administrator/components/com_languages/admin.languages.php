@@ -149,4 +149,3 @@ function publishLanguage( $language )
 
 	$mainframe->redirect('index.php?option=com_languages&client='.$client->id);
 }
-?>

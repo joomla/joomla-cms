@@ -155,4 +155,3 @@ class HTML_languages {
 		<?php
 	}
 }
-?>

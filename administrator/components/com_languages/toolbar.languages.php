@@ -23,4 +23,3 @@ switch ($task) {
 		TOOLBAR_languages::_DEFAULT();
 		break;
 }
-?>

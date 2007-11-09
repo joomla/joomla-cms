@@ -182,12 +182,25 @@ class InstallerModelLanguages extends InstallerModel
 
 		// Get an installer object for the extension type
 		jimport('joomla.installer.installer');
-		$installer = & JInstaller::getInstance($db, $this->_type);
-
+		$installer	=& JInstaller::getInstance($db, $this->_type);
+		
 		// Uninstall the chosen extensions
 		foreach ($eid as $id)
 		{
 			$item = $this->_items[$id];
+			
+			// Get client information
+			$client	=& JApplicationHelper::getClientInfo($item->client_id);
+		
+			// Don't delete a default ( published language )
+			$params = JComponentHelper::getParams('com_languages');
+			$tag	= basename($item->language);
+			if ( $params->get($client->name, 'en-GB') == $tag ) {
+				$failed[]	= $id;
+				JError::raiseWarning('', 'UNINSTALLLANGPUBLISHEDALREADY');
+				continue;
+			}
+			
 			$result = $installer->uninstall( 'language', $item->language );
 
 			// Build an array of extensions that failed to uninstall

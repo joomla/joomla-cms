@@ -28,4 +28,3 @@ class TOOLBAR_languages
 		JToolBarHelper::help( 'screen.languages' );
 	}
 }
-?>
