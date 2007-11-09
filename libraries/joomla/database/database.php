@@ -213,6 +213,7 @@ class JDatabase extends JObject
 			if (file_exists($path)) {
 				require_once($path);
 			} else {
+				jimport('joomla.utilities.exception');
 				$error = new JException( E_ERROR, 500, 'Unable to load Database Driver:' .$driver);
 				return $error;
 			}
@@ -222,6 +223,7 @@ class JDatabase extends JObject
 
 			if ( $error = $instance->getErrorMsg() )
 			{
+				jimport('joomla.utilities.exception');
 				$error = new JException( E_ERROR, 500, 'Unable to connect to the database:' .$error);
 				return $error;
 			}
