@@ -76,5 +76,6 @@ jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.event.event');
 jimport( 'joomla.event.dispatcher');
 jimport( 'joomla.language.language');
+jimport( 'joomla.utilities.string' );
 
 ?>

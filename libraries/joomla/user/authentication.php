@@ -15,6 +15,8 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
+jimport('joomla.base.observable');
+
 /**
  * This is the status code returned when the authentication is success.
  */

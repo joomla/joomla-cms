@@ -63,4 +63,5 @@ jimport( 'joomla.user.user' );
 jimport( 'joomla.event.event');
 jimport( 'joomla.event.dispatcher');
 jimport( 'joomla.plugin.helper' );
+jimport( 'joomla.utilities.string' );
 ?>

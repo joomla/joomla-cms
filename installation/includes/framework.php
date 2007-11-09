@@ -56,4 +56,5 @@ jimport( 'joomla.user.user');
 jimport( 'joomla.html.parameter' );
 jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.language.language');
+jimport( 'joomla.utilities.string' );
 ?>

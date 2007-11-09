@@ -45,7 +45,6 @@ JLoader::import( 'joomla.version' 				);
 
 //Utilities
 JLoader::import( 'joomla.utilities.error' 		);
-JLoader::import( 'joomla.utilities.string' 		);
 JLoader::import( 'joomla.utilities.arrayhelper' );
 
 //Filters
