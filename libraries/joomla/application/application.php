@@ -132,6 +132,7 @@ class JApplication extends JObject
 			}
 			else
 			{
+				jimport('joomla.utilities.exception');
 				$error = new JException(E_ERROR, 500, 'Unable to load application: '.$client);
 				return $error;
 			}
