@@ -37,9 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Nov-2007 Johan Janssens
+ # Fixed issue with JException in JDatabase::getInstance
+ ^ Changed JDocumentError to be able to handle all http error codes.
+
 08-Nov-2007 Nur Aini Rakhmawati
 # Fixed [#7399] Authors when edit existing articles, the state is always changed to unpublished (thx to Daniel Glez-Pena)
-
 
 07-Nov-2007 Mickael Maison
  # Fixed [#7471] Untranslated error message during activation

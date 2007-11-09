@@ -83,7 +83,7 @@ class JDocumentError extends JDocument
 
 		//Set the status header
 		JResponse::setHeader('status', $this->_error->code.' '.$this->_error->message);
-		$file = $this->_error->code.'.php';
+		$file = 'error.php';
 
 		// check template
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
@@ -97,7 +97,7 @@ class JDocumentError extends JDocument
 		$this->baseurl  = JURI::base(true);
 		$this->template = $template;
 		$this->debug	= isset($params['debug']) ? $params['debug'] : false;
-		$this->message	= JText::_($this->_error->message);
+		$this->error	= $this->_error;
 
 		// load
 		$data = $this->_loadTemplate($directory.DS.$template, $file);

@@ -109,8 +109,7 @@ class JRouter extends JObject
 			}
 			else
 			{
-				jimport('joomla.utilities.exception');
-				$error = new JException( E_ERROR, 500, 'Unable to load router: '.$client);
+				$error = new JError( 500, 'Unable to load router: '.$client);
 				return $error;
 			}
 
@@ -155,10 +154,10 @@ class JRouter extends JObject
 	{
 		//Create the URI object
 		$uri =& $this->_createURI($url);
-		
+
 		//Process the uri information based on custom defined rules
 		$this->_processBuildRules($uri);
-		
+
 		// Build RAW URL
 		if($this->_mode == JROUTER_MODE_RAW) {
 			$this->_buildRawRoute($uri);
@@ -168,7 +167,7 @@ class JRouter extends JObject
 		if ($this->_mode == JROUTER_MODE_SEF) {
 			$this->_buildSefRoute($uri);
 		}
-		
+
 		return $uri;
 	}
 
@@ -248,29 +247,29 @@ class JRouter extends JObject
 	function getVars() {
 		return $this->_vars;
 	}
-	
+
 	/**
 	 * Attach a build rule
 	 *
 	 * @access	public
-	 * @param   callback $callback The function to be called. 
+	 * @param   callback $callback The function to be called.
  	 */
 	function attachBuildRule($callback)
 	{
 		$this->_rules['build'][] = $callback;
 	}
-	
+
 	/**
 	 * Attach a parse rule
 	 *
 	 * @access	public
-	 * @param   callback $callback The function to be called. 
+	 * @param   callback $callback The function to be called.
  	 */
 	function attachParseRule($callback)
 	{
 		$this->_rules['parse'][] = $callback;
 	}
-	
+
 	/**
 	 * Function to convert a raw route to an internal URI
 	 *
@@ -301,7 +300,7 @@ class JRouter extends JObject
 	 */
 	function _buildRawRoute(&$uri)
 	{
-		
+
 	}
 
 	/**
@@ -312,7 +311,7 @@ class JRouter extends JObject
 	 */
 	function _buildSefRoute(&$uri)
 	{
-		
+
 	}
 
 	/**
@@ -324,11 +323,11 @@ class JRouter extends JObject
 	function _processParseRules(&$uri)
 	{
 		$vars = array();
-		
+
 		foreach($this->_rules['parse'] as $rule) {
-			$vars = call_user_func( $rule, $this, $uri); 
+			$vars = call_user_func( $rule, $this, $uri);
 		}
-		
+
 		return $vars;
 	}
 
@@ -373,7 +372,7 @@ class JRouter extends JObject
 
 		// Decompose link into url component parts
 		$uri = new JURI($url);
-	
+
 		return $uri;
 	}
 

@@ -68,7 +68,7 @@ class JMenu extends JObject
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns a reference to a JMenu object
 	 *
@@ -88,31 +88,30 @@ class JMenu extends JObject
 		if (!isset( $instances )) {
 			$instances = array();
 		}
-		
+
 		if (empty($instances[$client]))
 		{
 			//Load the router object
 			$info =& JApplicationHelper::getClientInfo($client, true);
-			
+
 			$path = $info->path.DS.'includes'.DS.'menu.php';
-			if(file_exists($path)) 
+			if(file_exists($path))
 			{
 				require_once $path;
-				
+
 				// Create a JPathway object
 				$classname = 'JMenu'.ucfirst($client);
 				$instance = new $classname($options);
-			}	 
-			else 
+			}
+			else
 			{
-				jimport('joomla.utilities.exception');
-				$error = new JException( E_ERROR, 500, 'Unable to load menu: '.$client);
+				$error = new JError( 500, 'Unable to load menu: '.$client);
 				return $error;
 			}
-			
+
 			$instances[$client] = & $instance;
 		}
-		
+
 		return $instances[$client];
 	}
 
@@ -213,7 +212,7 @@ class JMenu extends JObject
 	function getItems($attribute, $value, $firstonly = false)
 	{
 		$items = null;
-		
+
 		foreach ($this->_items as  $item)
 		{
 			if ( ! is_object($item) )

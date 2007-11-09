@@ -49,7 +49,7 @@ class JPathway extends JObject
 		//Initialise the array
 		$this->_pathway = array();
 	}
-	
+
 	/**
 	 * Returns a reference a JPathway object
 	 *
@@ -69,31 +69,30 @@ class JPathway extends JObject
 		if (!isset( $instances )) {
 			$instances = array();
 		}
-		
+
 		if (empty($instances[$client]))
 		{
 			//Load the router object
 			$info =& JApplicationHelper::getClientInfo($client, true);
-			
+
 			$path = $info->path.DS.'includes'.DS.'pathway.php';
-			if(file_exists($path)) 
+			if(file_exists($path))
 			{
 				require_once $path;
-				
+
 				// Create a JPathway object
 				$classname = 'JPathway'.ucfirst($client);
 				$instance = new $classname($options);
-			} 
-			else 
+			}
+			else
 			{
-				jimport('joomla.utilities.exception');
-				$error = new JException( E_ERROR, 500, 'Unable to load pathway: '.$client);
+				$error = new JError( 500, 'Unable to load pathway: '.$client);
 				return $error;
 			}
-			
+
 			$instances[$client] = & $instance;
 		}
-		
+
 		return $instances[$client];
 	}
 

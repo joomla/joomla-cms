@@ -25,123 +25,123 @@ defined('JPATH_BASE') or die();
  */
 class JDatabase extends JObject
 {
-	/** 
-	 * The database driver name 
-	 * 
-	 * @var string 
+	/**
+	 * The database driver name
+	 *
+	 * @var string
 	 */
 	var $name			= '';
-	
-	/** 
-	 * The query sql string 
-	 * 
-	 * @var string 
+
+	/**
+	 * The query sql string
+	 *
+	 * @var string
 	 **/
 	var $_sql			= '';
-	
-	/** 
+
+	/**
 	 * The database error number
-	 * 
-	 * @var int  
+	 *
+	 * @var int
 	 **/
 	var $_errorNum		= 0;
-	
-	/** 
+
+	/**
 	 * The database error message
-	 * 
-	 * @var string  
+	 *
+	 * @var string
 	 */
 	var $_errorMsg		= '';
-	
-	/** 
-	 * The prefix used on all database tables 
-	 * 
-	 * @var string 
+
+	/**
+	 * The prefix used on all database tables
+	 *
+	 * @var string
 	 */
 	var $_table_prefix	= '';
-	
-	/** 
-	 * The connector resource 
-	 * 
+
+	/**
+	 * The connector resource
+	 *
 	 * @var resource
 	 */
 	var $_resource		= '';
-	
-	/** 
-	 * The last query cursor 
-	 * 
+
+	/**
+	 * The last query cursor
+	 *
 	 * @var resource
 	 */
 	var $_cursor		= null;
-	
-	/** 
-	 * Debug option 
-	 * 
-	 * @var boolean 
+
+	/**
+	 * Debug option
+	 *
+	 * @var boolean
 	 */
 	var $_debug			= 0;
-	
-	/** 
-	 * The limit for the query 
-	 * 
-	 * @var int 
+
+	/**
+	 * The limit for the query
+	 *
+	 * @var int
 	 */
 	var $_limit			= 0;
-	
-	/** 
-	 * The for offset for the limit 
-	 * 
-	 * @var int 
+
+	/**
+	 * The for offset for the limit
+	 *
+	 * @var int
 	 */
 	var $_offset		= 0;
-	
-	/** 
-	 * The number of queries performed by the object instance 
-	 * 
-	 * @var int 
+
+	/**
+	 * The number of queries performed by the object instance
+	 *
+	 * @var int
 	 */
 	var $_ticker		= 0;
-	
-	/** 
-	 * A log of queries 
-	 * 
-	 * @var array 
+
+	/**
+	 * A log of queries
+	 *
+	 * @var array
 	 */
 	var $_log			= null;
-	
-	/** 
-	 * The null/zero date string 
-	 * 
-	 * @var string 
+
+	/**
+	 * The null/zero date string
+	 *
+	 * @var string
 	 */
 	var $_nullDate		= null;
-	
-	/** 
-	 * Quote for named objects 
-	 * 
-	 * @var string 
+
+	/**
+	 * Quote for named objects
+	 *
+	 * @var string
 	 */
 	var $_nameQuote		= null;
-	
+
 	/**
 	 * UTF-8 support
-	 * 
-	 * @var boolean 
+	 *
+	 * @var boolean
 	 * @since	1.5
 	 */
 	var $_utf			= 0;
-	
+
 	/**
 	 * The fields that are to be quote
-	 * 
-	 * @var array 
+	 *
+	 * @var array
 	 * @since	1.5
 	 */
 	var $_quoted	= null;
-	
+
 	/**
 	 *  Legacy compatibility
-	 * 
+	 *
 	 * @var bool
 	 * @since	1.5
 	 */
@@ -181,10 +181,10 @@ class JDatabase extends JObject
 
 	/**
 	 * Returns a reference to the global Database object, only creating it
-	 * if it doesn't already exist.  
-	 * 
-	 * The 'driver' entry in the parameters array specifies the database driver 
-	 * to be used (defaults to 'mysql' if omitted). All other parameters are 
+	 * if it doesn't already exist.
+	 *
+	 * The 'driver' entry in the parameters array specifies the database driver
+	 * to be used (defaults to 'mysql' if omitted). All other parameters are
 	 * database driver dependent.
 	 *
 	 * @param array Parameters to be passed to the database driver
@@ -213,8 +213,8 @@ class JDatabase extends JObject
 			if (file_exists($path)) {
 				require_once($path);
 			} else {
-				jimport('joomla.utilities.exception');
-				$error = new JException( E_ERROR, 500, 'Unable to load Database Driver:' .$driver);
+				JError::setErrorHandling(E_ERROR, 'die'); //force error type to die
+				$error = JError::raiseError( 500, 'Unable to load Database Driver:' .$driver);
 				return $error;
 			}
 
@@ -223,10 +223,11 @@ class JDatabase extends JObject
 
 			if ( $error = $instance->getErrorMsg() )
 			{
-				jimport('joomla.utilities.exception');
-				$error = new JException( E_ERROR, 500, 'Unable to connect to the database:' .$error);
+				JError::setErrorHandling(E_ERROR, 'die'); //force error type to die
+				$error = JError::raiseError( 500, 'Unable to connect to the database:' .$error);
 				return $error;
 			}
+
 
 			$instances[$signature] = & $instance;
 		}
@@ -263,11 +264,11 @@ class JDatabase extends JObject
 		{
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			$class = 'JDatabase'.ucfirst($name);
-			
+
 			if(!class_exists($class)) {
 				require_once(dirname(__FILE__).DS.'database'.DS.$name.'.php');
 			}
-			
+
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {
 				$names[] = $name;
 			}
@@ -393,7 +394,7 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return string The error message for the most recent query
 	 */
-	function getErrorMsg($escaped = false) 
+	function getErrorMsg($escaped = false)
 	{
 		if($escaped) {
 			return addslashes($this->_errorMsg);
@@ -412,7 +413,7 @@ class JDatabase extends JObject
 	function getEscaped( $text ) {
 		return;
 	}
-	
+
 	/**
 	 * Get a database error log
 	 *
@@ -422,7 +423,7 @@ class JDatabase extends JObject
 	function getLog( ) {
 		return $this->_log;
 	}
-	
+
 	/**
 	 * Get the total number of queries made
 	 *
@@ -758,7 +759,7 @@ class JDatabase extends JObject
 	 * @param boolean If TRUE, displays the last SQL statement sent to the database
 	 * @return string A standised error message
 	 */
-	function stderr( $showSQL = false ) 
+	function stderr( $showSQL = false )
 	{
 		if ( $this->_errorNum != 0 ) {
 			return "DB function failed with error number $this->_errorNum"
@@ -813,9 +814,9 @@ class JDatabase extends JObject
 
 	/**
 	 * Shows the CREATE TABLE statement that creates the given tables
-	 * 
+	 *
 	 * @abstract
-	 * @access	public 
+	 * @access	public
 	 * @param 	array|string 	A table name or a list of table names
 	 * @return 	array A list the create SQL for the tables
 	 */
@@ -825,9 +826,9 @@ class JDatabase extends JObject
 
 	/**
 	 * Retrieves information about the given tables
-	 * 
+	 *
 	 * @abstract
-	 * @access	public 
+	 * @access	public
 	 * @param 	array|string 	A table name or a list of table names
 	 * @param	boolean			Only return field types, default true
 	 * @return	array An array of fields by table

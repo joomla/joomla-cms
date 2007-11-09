@@ -52,6 +52,42 @@ class plgAuthenticationGMail extends JPlugin
 	 */
 	function onAuthenticate( $credentials, $options, &$response )
 	{
+		/*$errno = 0;
+		$errstr = '';
+
+		$result = fsockopen('ssl://www.google.com/accounts/ClientLogin/', 80, $errno, $errstr, 30);
+
+		echo var_dump($result);
+		echo var_dump($errstr);
+		die;*/
+
+		$postdata = http_build_query(
+    		array(
+        		'Email' 		=>  $credentials['username'],
+        		'Passwd' 		=> $credentials['password'],
+        		'service' 		=> 'mail',
+        		'source' 	 	=> 'Joomla-Joomla-1.5',
+        		'accountType' 	=> 'HOSTED_OR_GOOGLE'
+    		)
+		);
+
+		$opts = array('http' =>
+    		array(
+        		'method'  => 'POST',
+        		'header'=>
+					"Content-Type: application/x-www-form-urlencoded\r\n".
+                	"Content-Length: " . strlen($postdata) . "\r\n",
+        		'content' => $postdata,
+    		)
+		);
+
+		$context  = stream_context_create($opts);
+
+		$result = file_get_contents('https://www.google.com/accounts/ClientLogin', false, $context);
+
+		echo var_dump($result);
+		die;
+
 		$message = '';
 		$success = 0;
 		if(function_exists('curl_init')) {
