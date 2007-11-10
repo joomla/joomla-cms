@@ -502,7 +502,7 @@ class UserController extends JController
 		$rows = $db->loadObjectList();
 
 		// Send email to user
-		if ($mailfrom != "" && $fromname != "") {
+		if ( ! $mailfrom  || ! $fromname ) {
 			$fromname = $rows[0]->name;
 			$mailfrom = $rows[0]->email;
 		}
