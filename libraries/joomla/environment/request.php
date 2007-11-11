@@ -44,18 +44,18 @@ class JRequest
 {
 	/**
 	 * Gets the full request path
-	 * 
+	 *
 	 * @return string
 	 */
 	function getURI()
 	{
 		$uri = &JFactory::getURI();
-		return $uri->toString();
+		return $uri->toString(array('path', 'query'));
 	}
-	
+
 	/**
 	 * Gets the request method
-	 * 
+	 *
 	 * @return string
 	 */
 	function getMethod()
@@ -297,7 +297,7 @@ class JRequest
 		}
 
 		$previous	= array_key_exists($name, $_REQUEST) ? $_REQUEST[$name] : null;
-		
+
 		switch ($hash)
 		{
 			case 'GET' :
@@ -379,11 +379,11 @@ class JRequest
 			case 'COOKIE' :
 				$input = $_COOKIE;
 				break;
-	
+
 			case 'ENV'    :
 				$input = &$_ENV;
 				break;
-			
+
 			case 'SERVER'    :
 				$input = &$_SERVER;
 				break;
