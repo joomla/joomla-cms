@@ -132,7 +132,7 @@ class JApplication extends JObject
 			}
 			else
 			{
-				$error = new JError(E_ERROR, 500, 'Unable to load application: '.$client);
+				$error = JError::raiseError(500, 'Unable to load application: '.$client);
 				return $error;
 			}
 
