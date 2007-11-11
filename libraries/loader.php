@@ -59,16 +59,16 @@ class JLoader
 					break;
 			}
 
-			//If we are loading a joomla class prepend the classname with a capital J
-			if($parts[0] == 'joomla') {
-				$classname = 'J'.$classname;
-			}
-
 			$path  = str_replace( '.', DS, $filePath );
 
-			if (strpos($filePath, 'joomla') === 0) {
+			if (strpos($filePath, 'joomla') === 0)
+			{
+				//If we are loading a joomla class prepend the classname with a capital J
+				$classname = 'J'.$classname;
 				$trs   = JLoader::register($classname, $base.DS.$path.'.php');
-			} else {
+			}
+			else
+			{
 				// If it is not in the joomla namespace then we have no idea if it uses our pattern
 				// for class names/files so just include.
 				$trs   = include($base.DS.$path.'.php');
