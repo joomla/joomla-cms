@@ -24,12 +24,11 @@ $items	= $menu->getItems('link', 'index.php?option=com_poll&view=poll');
 $itemid = isset($items[0]) ? '&Itemid='.$items[0]->id : '';
 
 $poll   = modPollHelper::getPoll($params->get( 'id', 0 ));
-$layout = JModuleHelper::getLayoutPath('mod_poll');
 
-$tabcnt 	= 0;
-
-if ($poll->id)  {
-	$options = modPollHelper::getPollOptions($poll->id);
+if ( $poll && $poll->id ) {
+    $layout = JModuleHelper::getLayoutPath('mod_poll');
+    $tabcnt = 0;
+    $options = modPollHelper::getPollOptions($poll->id);
+    
+	require($layout);
 }
-
-require($layout);
