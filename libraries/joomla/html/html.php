@@ -214,12 +214,12 @@ class JHTML
 	 * Creates a tooltip with an image as button
 	 *
 	 * @access	public
-	 * @param	string
-	 * @param	string
-	 * @param	string
-	 * @param	string
-	 * @param	string
-	 * @param	boolean
+	 * @param	string	$tooltip The tip string
+	 * @param	string	$title The title of the tooltip
+	 * @param	string	$image The image for the tip, if no text is provided
+	 * @param	string	$text The text for the tip
+	 * @param	string	$href An URL that will be used to create the link
+	 * @param	boolean depreciated
 	 * @return	string
 	 * @since	1.5
 	 */
@@ -244,8 +244,6 @@ class JHTML
 		if ( $href ) {
 			$href = JRoute::_( $href );
 			$style = '';
-		}
-		if ( $link ) {
 			$tip = '<span class="editlinktip hasTip" title="'.$title.$tooltip.'" '. $style .'><a href="'. $href .'">'. $text .'</a></span>';
 		} else {
 			$tip = '<span class="editlinktip hasTip" title="'.$title.$tooltip.'" '. $style .'>'. $text .'</span>';
