@@ -743,7 +743,7 @@ CREATE TABLE `#__core_acl_aro` (
   `name` varchar(255) NOT NULL default '',
   `hidden` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `__section_value_value_aro` (`section_value`(100),`value`(100)),
+  UNIQUE KEY `#__section_value_value_aro` (`section_value`(100),`value`(100)),
   KEY `#__gacl_hidden_aro` (`hidden`)
 ) TYPE=MyISAM CHARACTER SET `utf8`;
 
