@@ -339,7 +339,7 @@ class ContentModelArticle extends JModel
 				$query = 'SELECT state' .
 						' FROM #__content' .
 						' WHERE id = '.(int) $article->id;
-				echo $query;
+
 				$this->_db->setQuery($query);
 				$state = $this->_db->loadResult();
 
