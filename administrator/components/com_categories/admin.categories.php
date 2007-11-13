@@ -346,13 +346,18 @@ function editCategory($edit )
 
 	// build the html select list for sections
 	if ( $section == 'com_content' ) {
+
+		if (!$row->section && JRequest::getInt('sectionid')) {
+		    $row->section = JRequest::getInt('sectionid');
+		}
+
 		$query = 'SELECT s.id AS value, s.title AS text'
 		. ' FROM #__sections AS s'
 		. ' ORDER BY s.ordering'
 		;
 		$db->setQuery( $query );
 		$sections = $db->loadObjectList();
-		$lists['section'] = JHTML::_('select.genericlist',   $sections, 'section', 'class="inputbox" size="1"', 'value', 'text', $row->section );;
+		$lists['section'] = JHTML::_('select.genericlist',   $sections, 'section', 'class="inputbox" size="1"', 'value', 'text', $row->section );
 	} else {
 		if ( $type == 'other' ) {
 			$section_name = JText::_( 'N/A' );
