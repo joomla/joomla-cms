@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php if ($this->user->authorize('com_content', 'edit', 'content', 'all') && !$this->print) : ?>
+<?php if (($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own')) && !$this->print) : ?>
 	<div class="contentpaneopen_edit<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<?php echo JHTML::_('icon.edit', $this->article, $this->params, $this->access); ?>
 	</div>
