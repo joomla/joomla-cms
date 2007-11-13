@@ -428,11 +428,17 @@ class ContentModelCategory extends JModel
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
 
-		$where = $noauth ? ' WHERE a.access <= '.(int) $gid . ' AND ' : ' WHERE ' ;
+        $where = ' WHERE 1';
+
+		// Does the user have access to view the items?
+		if ($noauth) {
+			$where .= ' AND a.access <= '.(int) $gid;
+		}
+
 		// First thing we need to do is assert that the articles are in the current category
 		if ($this->_id)
 		{
-			$where .= ' a.catid = '.(int) $this->_id;
+			$where .= ' AND a.catid = '.(int) $this->_id;
 		}
 
 		// Regular Published Content
