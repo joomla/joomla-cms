@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Nov-2007 Toby Patterson
+ + [t198350] Added Check to UserModelReset::completeReset() to check for empty passwd
+
 09-Nov-2007 Johan Janssens
  # Fixed issue with JException in JDatabase::getInstance
  ^ Changed JDocumentError to be able to handle all http error codes.

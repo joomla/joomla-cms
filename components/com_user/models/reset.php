@@ -145,6 +145,13 @@ class UserModelReset extends JModel
 
 		global $mainframe;
 
+		// Make sure that we have a pasword
+		if ( ! $password1 )
+		{
+			$this->setError(JText::_('MUST_SUPPLY_PASSWORD'));
+			return false;
+		}
+		
 		// Verify that the passwords match
 		if ($password1 != $password2)
 		{
