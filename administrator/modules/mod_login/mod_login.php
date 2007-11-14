@@ -40,7 +40,7 @@ $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 	</p>
 	<?php
 	if($error = JError::getError(true)) {
-		echo '<p>';
+		echo '<p id="login-error-message">';
 		echo $error->get('message');
 		echo '<p>';
 	}
