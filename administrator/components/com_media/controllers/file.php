@@ -47,6 +47,10 @@ class MediaControllerFile extends MediaController
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
+		// Make the filename safe
+		jimport('joomla.filesystem.file');
+		$file['name']	= JFile::makeSafe($file['name']);
+		
 		if (isset($file['name'])) {
 			$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($file['name']));
 

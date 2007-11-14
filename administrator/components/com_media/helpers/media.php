@@ -56,12 +56,12 @@ class MediaHelper
 			return false;
 		}
 
-		if ($file['name'] !== JFilterInput::clean($file['name'], 'cmd')) {
+		jimport('joomla.filesystem.file');
+		if ($file['name'] !== JFile::makesafe($file['name'])) {
 			$err = 'WARNFILENAME';
 			return false;
 		}
-
-		jimport('joomla.filesystem.file');
+		
 		$format = strtolower(JFile::getExt($file['name']));
 
 		$allowable = explode( ',', $params->get( 'upload_extensions' ));
