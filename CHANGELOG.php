@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Nov-2007 Charl van Niekerk
+ # Cleanup and various bug fixes for IE 6 and 7 in the beez right-to-left stylesheet by Angie Radtke
+
 13-Nov-2007 Toby Patterson
  + [t198350] Added Check to UserModelReset::completeReset() to check for empty passwd
 
