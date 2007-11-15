@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: admin.media.php 8660 2007-08-30 23:53:21Z louis $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Media
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

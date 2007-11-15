@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: weblink.php 7873 2007-07-05 22:44:21Z friesengeist $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Media
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
