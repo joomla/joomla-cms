@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 15-Nov-2007 Jui-Yu Tsai
+ # Fixed [t,203177] issue with Ordering of categories in category link drop down 
  # Fixed [t,210452] issue with Password and Verify Password when update details 
 
 15-Nov-2007 Toby Patterson

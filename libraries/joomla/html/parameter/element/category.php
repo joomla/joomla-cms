@@ -59,7 +59,7 @@ class JElementCategory extends JElement
 				' LEFT JOIN #__sections AS s ON s.id=c.section' .
 				' WHERE c.published = 1' .
 				' AND s.scope = '.$db->Quote($section).
-				' ORDER BY c.title';
+				' ORDER BY s.title, c.title';
 		} else {
 			$query = 'SELECT c.id, c.title' .
 				' FROM #__categories AS c' .
