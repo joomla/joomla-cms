@@ -78,8 +78,7 @@ class UserController extends JController
 		$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		// do a password safety check
-		if(strlen($post['password'])) 
-		{ // so that "0" can be used as password e.g.
+		if(strlen($post['password']) || strlen($post['password2'])) { // so that "0" can be used as password e.g.
 			if($post['password'] != $post['password2']) {
 				$msg	= JText::_('PASSWORDS_DO_NOT_MATCH');
 				$this->setRedirect($_SERVER['HTTP_REFERER'], $msg);

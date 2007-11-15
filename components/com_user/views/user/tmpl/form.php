@@ -18,6 +18,8 @@ function submitbutton( pressbutton ) {
 		alert( "<?php echo JText::_( 'Please enter a valid e-mail address.', true );?>" );
 	} else if ((form.password.value != "") && (form.password.value != form.password2.value)){
 		alert( "<?php echo JText::_( 'REGWARN_VPASS2', true );?>" );
+	} else if (form.password2.value != ""){
+		alert( "<?php echo JText::_( 'REGWARN_VPASS2', true );?>" );
 	} else if (r.exec(form.password.value)) {
 		alert( "<?php printf( JText::_( 'VALID_AZ09', true ), JText::_( 'Password', true ), 4 );?>" );
 	} else {
