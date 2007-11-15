@@ -48,7 +48,7 @@
 			alert( "<?php echo JText::_( 'You must provide an email address.', true ); ?>" );
 		} else if (form.gid.value == "") {
 			alert( "<?php echo JText::_( 'You must assign user to a group.', true ); ?>" );
-		} else if (trim(form.password.value) != "" && form.password.value != form.password2.value){
+		} else if (((trim(form.password.value) != "") || (trim(form.password2.value) != "")) && (form.password.value != form.password2.value)){
 			alert( "<?php echo JText::_( 'Password do not match.', true ); ?>" );
 		} else if (form.gid.value == "29") {
 			alert( "<?php echo JText::_( 'WARNSELECTPF', true ); ?>" );
