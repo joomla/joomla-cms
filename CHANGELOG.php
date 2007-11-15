@@ -1,4 +1,4 @@
-	<?php
+<?php
 /**
 * @version		$Id$
 * @package		Joomla
@@ -36,6 +36,9 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+15-Nov-2007 Toby Patterson
+ # Fixed [t,225022] routing issue in com_content blog layouts when called as default menu item
 
 15-Nov-2007 Charl van Niekerk
  # Cleanup and various bug fixes for IE 6 and 7 in the beez right-to-left stylesheet by Angie Radtke
