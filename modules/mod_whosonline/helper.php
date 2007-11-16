@@ -57,13 +57,10 @@ class modWhosonlineHelper {
 		
 		$query = 'SELECT DISTINCT a.username' .
 				 ' FROM #__session AS a' .
-				 ' WHERE a.guest = 0';
+				 ' WHERE client_id = 0' .
+				 ' AND a.guest = 0';
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
-
-		if ($db->getErrorNum()) {
-			JError::raiseWarning( 500, $db->stderr(true) );
-		}
 	
 		return $result;
 	}
