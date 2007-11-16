@@ -222,7 +222,10 @@ class JInstallerPlugin extends JObject
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('plugin');
-		$row->load((int) $id);
+		if ( !$row->load((int) $id) ) {
+			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
+			return false;
+		}
 
 		// Is the plugin we are trying to uninstall a core one?
 		// Because that is not a good idea...

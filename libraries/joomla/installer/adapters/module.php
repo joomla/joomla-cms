@@ -280,7 +280,10 @@ class JInstallerModule extends JObject
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('module');
-		$row->load((int) $id);
+		if ( !$row->load((int) $id) ) {
+			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
+			return false;
+		}
 
 		// Is the module we are trying to uninstall a core one?
 		// Because that is not a good idea...

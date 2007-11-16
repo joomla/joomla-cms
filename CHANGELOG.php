@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Nov-2007 Toby Patterson
+ # Fixed [#8041] Component Uninstall removes administrator/components/ and components/ folder
+ ! Removed best method to remove all extensions of a certain type
+
 16-Nov-2007 Jui-Yu Tsai
  # [t,200285] refactoring of mod_whosonline, add new functions to helper and remove render function
 

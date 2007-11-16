@@ -306,7 +306,10 @@ class JInstallerComponent extends JObject
 		// First order of business will be to load the component object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('component');
-		$row->load($id);
+		if ( !$row->load((int) $id) ) {
+			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
+			return false;
+		}
 
 		// Is the component we are trying to uninstall a core one?
 		// Because that is not a good idea...
