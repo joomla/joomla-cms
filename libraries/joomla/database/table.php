@@ -165,6 +165,7 @@ class JTable extends JObject
 		foreach ($this->getProperties() as $name => $value)
 		{
 			if($name != $k)
+			{
 				$this->$name	= $value;
 			}
 		}
@@ -418,7 +419,7 @@ class JTable extends JObject
 	{
 		$k = $this->_tbl_key;
 
-		if (!in_array( 'ordering', array_keys($this->getProperties()) ))
+		if (!in_array( 'ordering', array_keys($this->getProperties() ) ))
 		{
 			$this->setError( get_class( $this ).' does not support ordering');
 			return false;
