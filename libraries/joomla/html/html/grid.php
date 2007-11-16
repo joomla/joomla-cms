@@ -129,7 +129,7 @@ class JHTMLGrid
 		return $href;
 	}
 
-	function state( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL )
+	function state( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL, $trashed=NULL )
 	{
 		$state[] = JHTML::_('select.option',  '', '- '. JText::_( 'Select State' ) .' -' );
 		//Jinx : Why is this used ?
@@ -139,6 +139,10 @@ class JHTMLGrid
 
 		if ($archived) {
 			$state[] = JHTML::_('select.option',  'A', JText::_( $archived ) );
+		}
+		
+		if ($trashed) {
+			$state[] = JHTML::_('select.option',  'T', JText::_( $trashed ) );
 		}
 
 		return JHTML::_('select.genericlist',   $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );

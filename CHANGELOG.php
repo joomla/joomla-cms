@@ -37,11 +37,17 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Nov-2007 Toby Patterson
+ # Fixed several issues with JLoader
+ ^ JLoader::import and jimport now return boolean if a path has been included or registered
+ ! In PHP5, classes are autoloaded so a true value only indicates that the path and class 
+   has been registered, not included!
+
 16-Nov-2007 Sam Moffatt
-# Fixed bug where array style params were displayed as "Array"
-^ Improved param array handling to enable multidimensional arrays with embedded '\n'
-# Fixed Anonymous LDAP bind bug and setted type for LDAP auth plugin for JLog
-! I finished my exams today!
+ # Fixed bug where array style params were displayed as "Array"
+ ^ Improved param array handling to enable multidimensional arrays with embedded '\n'
+ # Fixed Anonymous LDAP bind bug and setted type for LDAP auth plugin for JLog
+ ! I finished my exams today!
 
 15-Nov-2007 Wilco Jansen
 ^ Fixed [#5633] Converted language files to UTF-8 format (Thanks Elin for sending the files)

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: router.php 8340 2007-08-07 08:18:10Z jinx $
+* @version		$Id$
 * @package		Joomla.Framework
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php

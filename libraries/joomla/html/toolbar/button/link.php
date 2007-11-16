@@ -20,7 +20,7 @@ defined('JPATH_BASE') or die();
  *
  * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage		HTML
+ * @subpackage	HTML
  * @since		1.5
  */
 class JButtonLink extends JButton

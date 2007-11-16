@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: language.php 9099 2007-10-01 17:13:08Z tcp $
+* @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Language
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
