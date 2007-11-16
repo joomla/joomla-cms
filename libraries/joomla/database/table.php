@@ -162,9 +162,9 @@ class JTable extends JObject
 	function reset()
 	{
 		$k = $this->_tbl_key;
-		foreach (get_class_vars( get_class( $this ) ) as $name => $value)
+		foreach ($this->getProperties() as $name => $value)
 		{
-			if (($name != $k) and ($name != '_db') and ($name != '_tbl') and ($name != '_tbl_key')) {
+			if($name != $k)
 				$this->$name	= $value;
 			}
 		}
