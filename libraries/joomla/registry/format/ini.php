@@ -64,12 +64,14 @@ class JRegistryFormatINI extends JRegistryFormat
 			}
 			elseif (is_array($level1))
 			{
-				foreach ($level1 as $k1 => $v1)
-				{
-					$level1[$k1] = str_replace( array( "\r\n", "\n" ), '\\n', $v1 );
+				foreach($level1 as $level1key=>$level2) {
+					foreach ($level2 as $k1 => $v1)
+					{
+						$level2[$k1] = str_replace( array( "\r\n", "\n" ), '\\n', $v1 );
+					}
+					$level1[$level1key] = implode('|', $level2);
 				}
-
-				$prepend	.= $key."=".implode('|', $level1)."\n";
+				$prepend	.= $key."=".implode("\\n", $level1); //implode('|', $level1)."\n";
 			}
 			else
 			{
@@ -166,27 +168,32 @@ class JRegistryFormatINI extends JRegistryFormat
 
 					if (strpos($value, '|'))
 					{
-						$values = explode('|', $value);
+						$lines = explode('\n', $value);
+						$values = Array();
+						foreach($lines as $linekey=>$line) {
 
-						foreach ($values as $key => $value)
-						{
-							if ($value == 'false') {
-								$value = false;
-							}
-							else if ($value == 'true') {
-								$value = true;
-							}
-							else if ($value && $value{0} == '"')
+							$parts = explode('|', $line);
+	
+							foreach ($parts as $key => $value)
 							{
-								$valueLen = strlen( $value );
-								if ($value{$valueLen-1} == '"') {
-									$value = stripcslashes(substr($value, 1, $valueLen - 2));
+								if ($value == 'false') {
+									$value = false;
 								}
+								else if ($value == 'true') {
+									$value = true;
+								}
+								else if ($value && $value{0} == '"')
+								{
+									$valueLen = strlen( $value );
+									if ($value{$valueLen-1} == '"') {
+										$value = stripcslashes(substr($value, 1, $valueLen - 2));
+									}
+								}
+								if(!isset($values[$linekey])) $values[$linekey] = Array();
+								$values[$linekey][$key] = str_replace('\n', "\n", $value);
 							}
-
-							$values[$key] = str_replace('\n', "\n", $value);
 						}
-
+						
 						if ($process_sections)
 						{
 							if ($sec_name != '') {

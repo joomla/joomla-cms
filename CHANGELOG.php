@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Nov-2007 Sam Moffatt
+# Fixed bug where array style params were displayed as "Array"
+^ Improved param array handling to enable multidimensional arrays with embedded '\n'
+# Fixed Anonymous LDAP bind bug and setted type for LDAP auth plugin for JLog
+! I finished my exams today!
+
 15-Nov-2007 Wilco Jansen
 ^ Fixed [#5633] Converted language files to UTF-8 format (Thanks Elin for sending the files)
 

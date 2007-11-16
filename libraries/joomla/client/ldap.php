@@ -176,7 +176,7 @@ class JLDAP extends JObject
 			$password = $this->password;
 		}
 		$this->setDN($username,$nosub);
-		if(strlen($this->getDN())) 
+		//if(strlen($this->getDN())) 
 		$bindResult = @ldap_bind($this->_resource, $this->getDN(), $password);
 		return $bindResult;
 	}
