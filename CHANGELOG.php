@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Nov-2007 Jui-Yu Tsai
+ # [t,200285] refactoring of mod_whosonline, add new functions to helper and remove render function
+
 16-Nov-2007 Toby Patterson
  # Fixed several issues with JLoader
  ^ JLoader::import and jimport now return boolean if a path has been included or registered
