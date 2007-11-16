@@ -29,7 +29,7 @@ class JLoader
 	 * @return void
 	 * @since 1.5
 	 */
-	function import( $filePath, $base = null, $key = null )
+	function import( $filePath, $base = null, $key = 'libraries.' )
 	{
 		static $paths;
 
@@ -64,18 +64,21 @@ class JLoader
 			if (strpos($filePath, 'joomla') === 0)
 			{
 				//If we are loading a joomla class prepend the classname with a capital J
-				$classname = 'J'.$classname;
-				$trs   = JLoader::register($classname, $base.DS.$path.'.php');
+				$classname	= 'J'.$classname;
+				$classes	= JLoader::register($classname, $base.DS.$path.'.php');
+				$rs			= isset($classes[strtolower($classname)]);
 			}
 			else
 			{
 				// If it is not in the joomla namespace then we have no idea if it uses our pattern
 				// for class names/files so just include.
-				$trs   = include($base.DS.$path.'.php');
+				$rs   = include($base.DS.$path.'.php');
 			}
 
-			$paths[$keyPath] = 1;
+			$paths[$keyPath] = $rs;
 		}
+		
+		return $paths[$keyPath];
 	}
 
     /**
@@ -83,10 +86,10 @@ class JLoader
      *
      * @param	string $classname	The class name
      * @param	string $file		Full path to the file that holds the class
-     * @return	array|boolean  		List of classnames => files, or True, false
+     * @return	array|boolean  		Array of classes
      * @since 	1.5
      */
-    function register ($class = null, $file = null)
+    function & register ($class = null, $file = null)
     {
     	static $classes;
 
@@ -103,7 +106,9 @@ class JLoader
             if((version_compare( phpversion(), '5.0' ) < 0)) {
                 JLoader::load($class);
             }
+            
         }
+        
         return $classes;
     }
 
@@ -163,5 +168,5 @@ function __autoload($class)
  * @since 1.5
  */
 function jimport( $path ) {
-	return JLoader::import($path, null, 'libraries.' );
+	return JLoader::import($path);
 }
