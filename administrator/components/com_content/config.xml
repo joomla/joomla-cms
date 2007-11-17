@@ -9,7 +9,7 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="link_titles" type="radio" default="0" label="Linked Titles" description="TIPIFYESTITLECONTENTITEMS">
+		<param name="link_titles" type="radio" default="1" label="Linked Titles" description="TIPIFYESTITLECONTENTITEMS">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
@@ -26,11 +26,11 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="show_category" type="radio" default="0" label="Category Name" description="PARAMCATEG">
+		<param name="show_category" type="radio" default="1" label="Category Name" description="PARAMCATEG">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="link_category" type="radio" default="0" label="Category Name Linkable" description="PARAMCATEGLINK">
+		<param name="link_category" type="radio" default="1" label="Category Name Linkable" description="PARAMCATEGLINK">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
@@ -48,7 +48,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_item_navigation" type="radio" default="0" label="Show Navigation" description="PARAMNAVIGATIONARTICLE">
+		<param name="show_item_navigation" type="radio" default="1" label="Show Navigation" description="PARAMNAVIGATIONARTICLE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
