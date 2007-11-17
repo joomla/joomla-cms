@@ -38,9 +38,14 @@ Legend:
 ! -> Note
 
 17-Nov-2007 Andy Wallace
+ + [#7451] Untranslated string in mod_stats - Added missing Language Strings and Values
+
+17-Nov-2007 Andy Wallace
  ^ Amended [#7450] Additional language definition request - amended definitions, XML file labels
+ 
 17-Nov-2007 Andy Wallace
  ^ Amended  [#7436] Incorrect language definition value - amended definition
+ 
 17-Nov-2007 Toby Patterson
  # Fixed [#8041] Component Uninstall removes administrator/components/ and components/ folder
  ! Removed best method to remove all extensions of a certain type
