@@ -13,11 +13,11 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_position" type="radio" default="1" label="Position" description="Show/Hide the position info">
+		<param name="show_position" type="radio" default="1" label="Contact's Position" description="Show/Hide the position info">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_email" type="radio" default="0" label="Email" description="PARAMEMAIL">
+		<param name="show_email" type="radio" default="0" label="E-mail" description="PARAMEMAIL">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

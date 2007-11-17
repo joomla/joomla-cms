@@ -17,7 +17,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_position" type="radio" default="1" label="Show Contact Position" description="Show/Hide the Contact Position">
+		<param name="show_position" type="radio" default="1" label="Show Contact's Position" description="Show/Hide the Contact Position">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

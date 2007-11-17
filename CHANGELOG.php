@@ -38,6 +38,8 @@ Legend:
 ! -> Note
 
 17-Nov-2007 Andy Wallace
+ ^ Amended [#7450] Additional language definition request - amended definitions, XML file labels
+17-Nov-2007 Andy Wallace
  ^ Amended  [#7436] Incorrect language definition value - amended definition
 17-Nov-2007 Toby Patterson
  # Fixed [#8041] Component Uninstall removes administrator/components/ and components/ folder
