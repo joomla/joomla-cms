@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 17-Nov-2007 Andy Wallace
+ ^ Amended  [#7469] Incorrect description in com_user.ini + minor formatting 
+
+17-Nov-2007 Andy Wallace
  + [#7451] Untranslated string in mod_stats - Added missing Language Strings and Values
 
 17-Nov-2007 Andy Wallace
