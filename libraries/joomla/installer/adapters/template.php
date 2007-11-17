@@ -173,7 +173,7 @@ class JInstallerTemplate extends JObject
 		if (!is_a($manifest, 'JSimpleXML')) {
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
-			JError::raiseWarning(100, 'Template Uninstall: Package manifest file invalid or not found');
+			JError::raiseWarning(100, JTEXT::_('Template').' '.JTEXT::_('Uninstall').': '.JTEXT::_('Package manifest file invalid or not found'));
 			return false;
 		}
 		$root =& $manifest->document;
