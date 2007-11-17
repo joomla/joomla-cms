@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 17-Nov-2007 Andy Wallace
+ ^ Amended Partial fix for [#7548] JERRORs translated. 3 Errors remain os see article.
+
+17-Nov-2007 Andy Wallace
  ^ Amended  [#7469] Incorrect description in com_user.ini + minor formatting 
 
 17-Nov-2007 Andy Wallace
