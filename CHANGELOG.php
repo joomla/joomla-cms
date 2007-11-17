@@ -38,19 +38,11 @@ Legend:
 ! -> Note
 
 17-Nov-2007 Andy Wallace
- ^ Amended Partial fix for [#7548] JERRORs translated. 3 Errors remain os see article.
-
-17-Nov-2007 Andy Wallace
- ^ Amended  [#7469] Incorrect description in com_user.ini + minor formatting 
-
-17-Nov-2007 Andy Wallace
- + [#7451] Untranslated string in mod_stats - Added missing Language Strings and Values
-
-17-Nov-2007 Andy Wallace
- ^ Amended [#7450] Additional language definition request - amended definitions, XML file labels
- 
-17-Nov-2007 Andy Wallace
  ^ Amended  [#7436] Incorrect language definition value - amended definition
+ ^ Amended Partial fix for [#7548] JERRORs translated. 3 Errors remain os see article.
+ ^ Amended  [#7469] Incorrect description in com_user.ini + minor formatting 
+ + [#7451] Untranslated string in mod_stats - Added missing Language Strings and Values
+ ^ Amended [#7450] Additional language definition request - amended definitions, XML file labels
  
 17-Nov-2007 Toby Patterson
  # Fixed [#8041] Component Uninstall removes administrator/components/ and components/ folder
