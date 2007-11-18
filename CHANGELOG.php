@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Nov-2007 Louis Landry
+ # Fixed [#7962] Banners don't work when using search engine friendly URLs
+
 18-Nov-2007 Toby Patterson
  # Fixed [#7588] Image upload broken (500 error) on any section-blog and category-blog article
  # Fixed [#7172] FOOTER_LINE1 language variable doesn't have %sitename% to be replaced by footer module in en-GB language file
@@ -44,10 +47,10 @@ Legend:
 17-Nov-2007 Andy Wallace
  ^ Amended  [#7436] Incorrect language definition value - amended definition
  ^ Amended Partial fix for [#7548] JERRORs translated. 3 Errors remain os see article.
- ^ Amended  [#7469] Incorrect description in com_user.ini + minor formatting 
+ ^ Amended  [#7469] Incorrect description in com_user.ini + minor formatting
  + [#7451] Untranslated string in mod_stats - Added missing Language Strings and Values
  ^ Amended [#7450] Additional language definition request - amended definitions, XML file labels
- 
+
 17-Nov-2007 Toby Patterson
  # Fixed [#8041] Component Uninstall removes administrator/components/ and components/ folder
  ! Removed best method to remove all extensions of a certain type
@@ -58,7 +61,7 @@ Legend:
 16-Nov-2007 Toby Patterson
  # Fixed several issues with JLoader
  ^ JLoader::import and jimport now return boolean if a path has been included or registered
- ! In PHP5, classes are autoloaded so a true value only indicates that the path and class 
+ ! In PHP5, classes are autoloaded so a true value only indicates that the path and class
    has been registered, not included!
 
 16-Nov-2007 Sam Moffatt
