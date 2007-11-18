@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Nov-2007 Toby Patterson
+ # Fixed [#7172] FOOTER_LINE1 language variable doesn't have %sitename% to be replaced by footer module in en-GB language file
+
 17-Nov-2007 Andy Wallace
  ^ Amended  [#7436] Incorrect language definition value - amended definition
  ^ Amended Partial fix for [#7548] JERRORs translated. 3 Errors remain os see article.
