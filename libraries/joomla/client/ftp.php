@@ -40,7 +40,7 @@ if (!defined("FTP_ASCII")) {
 
 // Is FTP extension loaded?  If not try to load it
 if (!extension_loaded('ftp')) {
-	if (JPATH_ISWIN) {
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 		@ dl('php_ftp.dll');
 	} else {
 		@ dl('ftp.so');
@@ -150,9 +150,9 @@ class JFTP extends JObject
 		}
 		$this->setOptions($options);
 
-		if (JPATH_ISWIN) {
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 			$this->_OS = 'WIN';
-		} elseif (JPATH_ISMAC) {
+		} elseif (strtoupper(substr(PHP_OS, 0, 3)) === 'MAC') {
 			$this->_OS = 'MAC';
 		} else {
 			$this->_OS = 'UNIX';
@@ -161,6 +161,8 @@ class JFTP extends JObject
 		if (FTP_NATIVE) {
 			// Import the generic buffer stream handler
 			jimport('joomla.utilities.buffer');
+			// Autoloading fails for JBuffer as the class is used as a stream handler
+			JLoader::load('JBuffer');
 		}
 
 		// Register faked "destructor" in PHP4 to close all connections we might have made

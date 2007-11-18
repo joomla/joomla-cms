@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Nov-2007 Enno Klasing
+ # Fixed problems with JFTP which were caused by the __autoload functionality
+ # Fixed [#8151] FTP in installation gives error (Removed coupling of JFTP and JPath)
+
 19-Nov-2007 Toby Patterson
  # Fixed [#8063] Email to a friend generates broken link when Joomla resides in a subdirectory
  # Fixed [#7221] Email address not scrambled in Contacts component
