@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Nov-2007 Toby Patterson
+ # Fixed [#7221] Email address not scrambled in Contacts component
+ # Fixed problem with com_contact and parameters
+ ^ com_content will use cache for public users
+
 18-Nov-2007 Louis Landry
  # Fixed [#7962] Banners don't work when using search engine friendly URLs
 

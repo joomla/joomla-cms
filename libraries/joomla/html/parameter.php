@@ -132,8 +132,9 @@ class JParameter extends JRegistry
 	 * @return	string	The set value
 	 * @since	1.5
 	 */
-	function def($key, $value = '', $group = '_default') {
-		return $this->set($key, $this->get($key, (string) $value, $group));
+	function def($key, $default = '', $group = '_default') {
+		$value = $this->get($key, (string) $default, $group);
+		return $this->set($key, $value);
 	}
 
 	/**
