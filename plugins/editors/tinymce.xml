@@ -32,7 +32,7 @@
  			<option value="1">On</option>
  		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
-  		<param name="relative_urls" type="list" default="1" label="Urls" description="URL behaviour">
+  		<param name="relative_urls" type="list" default="0" label="Urls" description="URL behaviour">
  			<option value="0">Absolute</option>
  			<option value="1">Relative</option>
  		</param>
