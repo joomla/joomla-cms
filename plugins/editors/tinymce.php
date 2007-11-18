@@ -426,4 +426,3 @@ class plgEditorTinymce extends JPlugin
 		return $return;
 	}
 }
-?>
