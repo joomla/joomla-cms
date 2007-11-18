@@ -223,7 +223,7 @@ class JDatabase extends JObject
 
 			if ( $error = $instance->getErrorMsg() )
 			{
-				JError::setErrorHandling(E_ERROR, 'message'); //force error type to die
+				JError::setErrorHandling(E_ERROR, 'ignore'); //force error type to die
 				$error = JError::raiseError( 500, JTEXT::_('Unable to connect to the database:') .$error);
 				return $error;
 			}
