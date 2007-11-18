@@ -180,7 +180,7 @@ class JRouterSite extends JRouter
 
 		if(substr($route, 0, 9) == 'component')
 		{
-			$segments = explode('/', $route);
+			$segments	= explode('/', $route);
 			$route      = str_replace('component/'.$segments[1], '', $route);
 
 			$vars['option'] = 'com_'.$segments[1];

@@ -24,4 +24,3 @@ class MailtoViewSent extends JView
 		parent::display($tpl);
 	}
 }
-?>

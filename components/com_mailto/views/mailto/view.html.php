@@ -66,4 +66,3 @@ class MailtoViewMailto extends JView
 		return $data;
 	}
 }
-?>

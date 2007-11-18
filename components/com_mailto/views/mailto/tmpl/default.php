@@ -16,12 +16,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 $data	= $this->get('data');
 ?>
 
-<form action="index.php" name="mailtoform" method="post" onSubmit="return submitbutton();">
+<form action="<?php echo JURI::base() ?>index.php" name="mailtoform" method="post" onSubmit="return submitbutton();">
 
 <div style="padding: 10px;">
 	<div style="text-align:right">
 		<a href="javascript: void window.close()">
-			<?php echo JText::_('CLOSE_WINDOW'); ?> <img src="components/com_mailto/assets/close-x.png" border="0" alt="" title="" />
+			<?php echo JText::_('CLOSE_WINDOW'); ?> <img src="<?php echo JURI::base() ?>components/com_mailto/assets/close-x.png" border="0" alt="" title="" />
 		</a>
 	</div>
 

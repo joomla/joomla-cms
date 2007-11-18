@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 19-Nov-2007 Toby Patterson
+ # Fixed [#8063] Email to a friend generates broken link when Joomla resides in a subdirectory
  # Fixed [#7221] Email address not scrambled in Contacts component
  # Fixed problem with com_contact and parameters
  ^ com_content will use cache for public users

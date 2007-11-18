@@ -143,4 +143,3 @@ class MailtoController extends JController
 		$this->display();
 	}
 }
-?>
