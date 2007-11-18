@@ -106,7 +106,6 @@ class JAdministrator extends JApplication
 	function dispatch($component)
 	{
 		$document	=& JFactory::getDocument();
-		$config		=& JFactory::getConfig();
 		$user		=& JFactory::getUser();
 
 		switch($document->getType())
