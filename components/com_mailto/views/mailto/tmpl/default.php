@@ -2,13 +2,15 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 <script language="javascript" type="text/javascript">
 <!--
-	function submitbutton(frm) {
+	function submitbutton(pressbutton) {
+	    var form = document.mailtoForm;
+		
 		// do field validation
-		if (frm.mailto.value == "" || frm.from.value == "") {
+		if (form.mailto.value == "" || form.from.value == "") {
 			alert( '<?php echo JText::_('EMAIL_ERR_NOINFO'); ?>' );
 			return false;
 		}
-		frm.submit();
+		form.submit();
 	}
 -->
 </script>
@@ -16,7 +18,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 $data	= $this->get('data');
 ?>
 
-<form action="<?php echo JURI::base() ?>index.php" name="mailtoform" method="post" onSubmit="return submitbutton();">
+<form action="<?php echo JURI::base() ?>index.php" name="mailtoForm" method="post">
 
 <div style="padding: 10px;">
 	<div style="text-align:right">
@@ -54,7 +56,7 @@ $data	= $this->get('data');
 	</p>
 
 	<p>
-		<button class="button" onclick="return submitbutton(this.form);">
+		<button class="button" onclick="return submitbutton('send');">
 			<?php echo JText::_('SEND'); ?>
 		</button>
 		<button class="button" onclick="window.close();return false;">
