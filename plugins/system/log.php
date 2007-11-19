@@ -41,7 +41,7 @@ class  plgSystemLog extends JPlugin
 
 	function onLoginFailure($response)
 	{
-		jimport('joomla.utilities.log');
+		jimport('joomla.error.log');
 
 		$log = JLog::getInstance();
 		$errorlog = array();

@@ -43,8 +43,11 @@ JLoader::import( 'joomla.environment.response'  );
 JLoader::import( 'joomla.factory' 				);
 JLoader::import( 'joomla.version' 				);
 
+//Error
+JLoader::import( 'joomla.error.error' 			);
+JLoader::import( 'joomla.error.exception' 		);
+
 //Utilities
-JLoader::import( 'joomla.utilities.error' 		);
 JLoader::import( 'joomla.utilities.arrayhelper' );
 
 //Filters

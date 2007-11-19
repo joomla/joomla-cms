@@ -37,6 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Nov-2007 Johan Janssens
+ + Added new error package to the framework
+ ^ Moved JException into it's own file and into the error package
+ ^ Moved JError into the error package
+ ^ Moved JLog into the error package
+ ^ Moved JProfiler into the error package
+ + Improved JException to match PHP5 Exception object
+
 20-Nov-2007 Toby Patterson
  # updated JRoute::_() to create base without trailing slash
 

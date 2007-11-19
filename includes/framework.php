@@ -67,7 +67,7 @@ jimport( 'joomla.utilities.compat.compat' );
 
 // System profiler
 if (JDEBUG) {
-	jimport( 'joomla.utilities.profiler' );
+	jimport( 'joomla.error.profiler' );
 	$_PROFILER =& JProfiler::getInstance( 'Application' );
 }
 

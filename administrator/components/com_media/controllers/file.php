@@ -56,7 +56,7 @@ class MediaControllerFile extends MediaController
 
 			if (!MediaHelper::canUpload( $file, $err )) {
 				if ($format == 'json') {
-					jimport('joomla.utilities.log');
+					jimport('joomla.error.log');
 					$log = &JLog::getInstance('upload.error.php');
 					$log->addEntry(array('comment' => 'Invalid: '.$filepath.': '.$err));
 					header('HTTP/1.0 415 Unsupported Media Type');
@@ -73,7 +73,7 @@ class MediaControllerFile extends MediaController
 
 			if (JFile::exists($filepath)) {
 				if ($format == 'json') {
-					jimport('joomla.utilities.log');
+					jimport('joomla.error.log');
 					$log = &JLog::getInstance('upload.error.php');
 					$log->addEntry(array('comment' => 'File already exists: '.$filepath));
 					header('HTTP/1.0 409 Conflict');
@@ -90,7 +90,7 @@ class MediaControllerFile extends MediaController
 
 			if (!JFile::upload($file['tmp_name'], $filepath)) {
 				if ($format == 'json') {
-					jimport('joomla.utilities.log');
+					jimport('joomla.error.log');
 					$log = &JLog::getInstance('upload.error.php');
 					$log->addEntry(array('comment' => 'Cannot upload: '.$filepath));
 					header('HTTP/1.0 400 Bad Request');
@@ -105,7 +105,7 @@ class MediaControllerFile extends MediaController
 				}
 			} else {
 				if ($format == 'json') {
-					jimport('joomla.utilities.log');
+					jimport('joomla.error.log');
 					$log = &JLog::getInstance();
 					$log->addEntry(array('comment' => $folder));
 					die('Upload complete');

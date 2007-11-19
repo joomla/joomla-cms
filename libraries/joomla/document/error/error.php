@@ -136,7 +136,7 @@ class JDocumentError extends JDocument
 	function renderBacktrace()
 	{
 		$contents	= null;
-		$backtrace	= $this->_error->getBacktrace();
+		$backtrace	= $this->_error->getTrace();
 		if( is_array( $backtrace ) )
 		{
 			ob_start();

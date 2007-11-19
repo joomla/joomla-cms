@@ -369,7 +369,7 @@ function mosArrayToInts( &$array, $default=null ) {
 }
 
 /**
- * Legacy function, use {@link JError::getBackTrace() JError->getBackTrace()} instead
+ * Legacy function, use {@link JException::getTrace() JException->getTrace()} instead
  *
  * @deprecated	As of version 1.5
  */
