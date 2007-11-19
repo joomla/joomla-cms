@@ -529,8 +529,8 @@ class JInstallationModel extends JModel
 		$lists	= array ();
 
 		$phpOptions[] = array (
-			'label' => JText::_('PHP version').' >= 4.3.0',
-			'state' => phpversion() < '4.3' ? 'No' : 'Yes'
+			'label' => JText::_('PHP version').' >= 4.3.10',
+			'state' => phpversion() < '4.3.10' ? 'No' : 'Yes'
 		);
 		$phpOptions[] = array (
 			'label' => '- '.JText::_('zlib compression support'),

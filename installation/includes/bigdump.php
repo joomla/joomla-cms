@@ -281,8 +281,8 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 					$db->setQuery(trim($query));
 //					echo $query . '<br />';
 					if (!$db->Query()) {
-						echo ("<p class=\"error\">Error at the line $linenumber: " . trim($dumpline) . "</p>\n");
-						echo ("<p>Query: " . trim(nl2br(htmlentities($query))) . "</p>\n");
+						echo ("<p class=\"error\">".JText::_('Error at the line') ." $linenumber: ". trim($dumpline) . "</p>\n");
+						echo ("<p>".JText::_('Query:') .  trim(nl2br(htmlentities($query))) ."</p>\n");
 						echo ("<p>MySQL: " . mysql_error() . "</p>\n");
 						$error = true;
 						break;
