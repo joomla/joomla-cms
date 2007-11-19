@@ -37,7 +37,7 @@ Legend:
 - -> Removed
 ! -> Note
 
-20-Nov-2007 Enno Klasing
+19-Nov-2007 Enno Klasing
  # Fixed problems with JFTP which were caused by the __autoload functionality
  # Fixed [#8151] FTP in installation gives error (Removed coupling of JFTP and JPath)
 
