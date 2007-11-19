@@ -69,7 +69,7 @@ class ContactViewContact extends JView
 		$document->setTitle(JText::_('Contact').' - '.$contact->name);
 
 		//set breadcrumbs
-		if(!isset($menu->query['view']) && $menu->query['view'] != 'contact'){
+		if (isset( $menu ) && isset($menu->query['view']) && $menu->query['view'] != 'contact'){
 			$pathway->addItem($contact->name, '');
 		}
 
@@ -77,7 +77,7 @@ class ContactViewContact extends JView
 		$contact->params = new JParameter($contact->params);
 
 		$contact->params->merge($pparams);
-		
+
 		// Handle component/menu overides for some contact parameters if set
 		/*
 		$contact->params->def('contact_icons',	$pparams->get('contact_icons'));
@@ -93,7 +93,7 @@ class ContactViewContact extends JView
 		$contact->params->def('show_fax',		$pparams->get('show_fax'));
 		$contact->params->def('allow_vcard',	$pparams->get('allow_vcard'));
 		*/
-		
+
 		// Handle email cloaking
 		if ($contact->email_to && $contact->params->get('show_email')) {
 			$contact->email_to = JHTML::_('email.cloak', $contact->email_to);

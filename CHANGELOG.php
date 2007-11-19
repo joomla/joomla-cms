@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Nov-2007 Andrew Eddie
+ # Fixed com_contact/contact view: $menu not defined if no Itemid given in the URL
+
 19-Nov-2007 Johan Janssens
  + Added [#6824] Add new features for MathML, SVG and (real) XHTML 1.1 to JBrowser class contributed
    by Norman Markgraf
