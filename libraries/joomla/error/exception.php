@@ -2,7 +2,7 @@
 /**
 * @version		$Id: error.php 9330 2007-11-10 06:25:19Z tcp $
 * @package		Joomla.Framework
-* @subpackage	Utilities
+* @subpackage	Error
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -27,7 +27,7 @@ defined('JPATH_BASE') or die();
  *
  * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage	Utilities
+ * @subpackage	Error
  * @since		1.5
  */
 class JException extends JObject

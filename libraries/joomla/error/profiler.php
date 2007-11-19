@@ -3,7 +3,7 @@
 /**
 * @version		$Id$
 * @package		Joomla.Framework
-* @subpackage	Utilities
+* @subpackage	Error
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -21,8 +21,9 @@ defined('JPATH_BASE') or die();
  * Utility class to assist in the process of benchmarking the execution
  * of sections of code to understand where time is being spent.
  *
+ * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
- * @subpackage	Utilities
+ * @subpackage	Error
  * @since 1.0
  */
 class JProfiler extends JObject
