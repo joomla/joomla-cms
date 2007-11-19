@@ -57,7 +57,12 @@ class JRoute
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
 
-		$base = JURI::base(); //get base URL
+		static $base;
+		if ( ! $base ) {
+			//get base URL
+			$uri     =& JURI::getInstance();
+			$base  = $uri->toString( array('scheme', 'host', 'port'));
+		}
 
 		if ( substr( $base, 0, 5 ) == 'https' )
 		{

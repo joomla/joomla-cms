@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Nov-2007 Toby Patterson
+ # updated JRoute::_() to create base without trailing slash
+
 19-Nov-2007 Jui-Yu Tsai
  # Fixed [t,207898] Email article javascript error on clicking send
 
