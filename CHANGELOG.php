@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Nov-2007 Andy Wallace
+ + Added [#7565] Untranslated string missing string and others found within bigdump.php. to     	installer/en-gb.ini
+ + Added Missing strings to administrator/en-GB.ini
+ ^ Amended some of the installation commentary to overcome some of more common issues.
+ ^ Amended bigdump.php for hardcoded errors
+
 19-Nov-2007 Andrew Eddie
  # Fixed com_contact/contact view: $menu not defined if no Itemid given in the URL
 
