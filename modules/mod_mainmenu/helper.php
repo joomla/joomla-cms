@@ -306,7 +306,8 @@ class JMenuTree extends JTree
 				break;
 
 			default :
-				$tmp->url = 'index.php?Itemid='.$tmp->id;
+				$router = JSite::getRouter();
+				$tmp->url = $router->getMode() == JROUTER_MODE_SEF ? 'index.php?Itemid='.$tmp->id : $tmp->link.'&Itemid='.$tmp->id;
 				break;
 		}
 

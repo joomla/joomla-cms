@@ -253,17 +253,7 @@ class JRouterSite extends JRouter
 
 	function _buildRawRoute(&$uri)
 	{
-		if($uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
-		{
-			$menu =& JSite::getMenu();
-
-			// Get the active menu item
-			$itemid = $uri->getVar('Itemid');
-			$item   = $menu->getItem($itemid);
-
-			$uri->setQuery($item->query);
-			$uri->setVar('Itemid', $itemid);
-		}
+		
 	}
 
 	function _buildSefRoute(&$uri)
