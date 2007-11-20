@@ -368,7 +368,8 @@ class JSite extends JApplication
 	 */
 	function &getRouter()
 	{
-		$options['mode'] = $this->getCfg('sef');
+		$config =& JFactory::getConfig();
+		$options['mode'] = $config->getValue('config.sef');
 		$router =& parent::getRouter('site', $options);
 		return $router;
 	}
