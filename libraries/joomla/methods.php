@@ -68,7 +68,7 @@ class JRoute
 			static $prefix;
 			if ( ! $prefix ) {
 				$prefix = $uri->toString( array('host', 'port'));
-				$prefix .= JURI::base(true);
+				//$prefix .= JURI::base(true);
 			}
 			
 			// Determine which scheme we want
