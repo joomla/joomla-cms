@@ -31,7 +31,7 @@ class modPollHelper
 		$result = $db->loadObject();
 
 		if ($db->getErrorNum()) {
-			JError::raiseWarning( 500, $db->stderr(true) );
+			JError::raiseWarning( 500, $db->stderr() );
 		}
 	
 		return $result;
@@ -49,7 +49,7 @@ class modPollHelper
 		$db->setQuery($query);
 
 		if (!($options = $db->loadObjectList())) {
-			echo "MD ".$db->stderr(true);
+			echo "MD ".$db->stderr();
 			return;
 		}
 

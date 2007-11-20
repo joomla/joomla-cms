@@ -31,6 +31,10 @@ class modWhosonlineHelper {
 		$db->setQuery($query);
 		$sessions = $db->loadObjectList();
 		
+		if ($db->getErrorNum()) {
+			JError::raiseWarning( 500, $db->stderr() );
+		}
+		
 		if (count($sessions)) {
 		    foreach ($sessions as $session) {
 			    // if guest increase guest count by 1
@@ -61,6 +65,10 @@ class modWhosonlineHelper {
 				 ' AND a.guest = 0';
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
+		
+		if ($db->getErrorNum()) {
+			JError::raiseWarning( 500, $db->stderr() );
+		}
 	
 		return $result;
 	}
