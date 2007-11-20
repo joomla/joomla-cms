@@ -64,14 +64,3 @@ $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 	<input type="hidden" name="task" value="login" />
 	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>
-<?php
-$urls = array('index.php', '/index.php', 'index.php&option=com_mailto', 'index.php/article.html');
-foreach( $urls as $url ) {
-	echo "Testing for route $url<br/>";
-	echo "Unsecure: " . JRoute::_( $url, true, -1) . '<br/>';
-	echo "Normal: " . JRoute::_( $url, true, 0) . '<br/>';
-	echo "Secure: " . JRoute::_( $url, true, 1) . '<br/>';
-	echo "<br/>";
-}
-
-?>
