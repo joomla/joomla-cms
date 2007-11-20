@@ -30,5 +30,9 @@
 			<option value="0">Username</option>
 			<option value="1">Name</option>
 		</param>
+		<param name="usesecure" type="radio" default="0" label="Encrypt Login Form" description="Submit encrypted login data (requires SSL)">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 	</params>
 </install>

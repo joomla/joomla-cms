@@ -28,7 +28,7 @@ $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 <?php if(JPluginHelper::isEnabled('authentication', 'openid')) : ?>
 	<?php JHTML::_('script', 'openid.js'); ?>
 <?php endif; ?>
-<form action="index.php" method="post" name="login" id="form-login" style="clear: both;">
+<form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" style="clear: both;">
 	<p id="form-login-username">
 		<label for="username"><?php echo JText::_('Username'); ?></label>
 		<input name="username" id="username" type="text" class="inputbox" size="15" />
@@ -64,3 +64,14 @@ $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 	<input type="hidden" name="task" value="login" />
 	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 </form>
+<?php
+$urls = array('index.php', '/index.php', 'index.php&option=com_mailto', 'index.php/article.html');
+foreach( $urls as $url ) {
+	echo "Testing for route $url<br/>";
+	echo "Unsecure: " . JRoute::_( $url, true, -1) . '<br/>';
+	echo "Normal: " . JRoute::_( $url, true, 0) . '<br/>';
+	echo "Secure: " . JRoute::_( $url, true, 1) . '<br/>';
+	echo "<br/>";
+}
+
+?>

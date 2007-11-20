@@ -20,7 +20,7 @@ if ($type == 'logout') : ?>
 	<input type="hidden" name="return" value="<?php echo $return; ?>" />
 </form>
 <?php else : ?>
-<form action="index.php" method="post" name="login" class="login">
+<form action="<?php echo JRoute::_( 'index.php', true, $this->params->get('usesecure')); ?>" method="post" name="login" class="form-login">
 	<?php if ($params->get('pretext')) : ?>
 	<p>
 		<?php echo $params->get('pretext'); ?>

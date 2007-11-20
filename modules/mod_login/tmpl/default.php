@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php if(JPluginHelper::isEnabled('authentication', 'openid')) : ?>
 	<?php JHTML::_('script', 'openid.js'); ?>
 <?php endif; ?>
-<form action="index.php" method="post" name="login" id="form-login" >
+<form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" >
 	<?php echo $params->get('pretext'); ?>
 	<fieldset class="input">
 	<p id="form-login-username">

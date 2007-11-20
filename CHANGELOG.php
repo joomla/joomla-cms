@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Nov-2007 Toby Patterson
+ # Fixed [#7660] JRoute::_(*, *, $ssl) broken when $ssl != 0 and J! installed in sub-directory
+
 19-Nov-2007 Johan Janssens
  + Added new error package to the framework
  ^ Moved JException into it's own file and into the error package

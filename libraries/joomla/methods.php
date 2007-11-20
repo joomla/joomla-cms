@@ -36,18 +36,21 @@ class JRoute
 	 * 		-1: Make URI unsecure using the global unsecure site URI
 	 * @return The translated humanly readible URL
 	 */
-	function _($url, $xhtml = true, $ssl = 0)
+	function _($url, $xhtml = true, $ssl = null)
 	{
 		// Get the router
 		$app	= &JFactory::getApplication();
 		$router = &$app->getRouter();
 	
-		// Build route
-		if ($router) 
+		// Make sure that we have our router
+		if (! $router) 
 		{	
-			$uri = &$router->build($url);
-			$url = $uri->toString(array('path', 'query', 'fragment'));
+			return null;
 		}
+		
+		// Build route
+		$uri = &$router->build($url);
+		$url = $uri->toString(array('path', 'query', 'fragment'));
 		
 		/*
 		 * Get the secure/unsecure URLs.
@@ -56,33 +59,28 @@ class JRoute
 		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
+		$ssl	= (int) $ssl;
+		if ( $ssl ) {
 
-		static $base;
-		if ( ! $base ) {
-			//get base URL
-			$uri     =& JURI::getInstance();
-			$base  = $uri->toString( array('scheme', 'host', 'port'));
-		}
-
-		if ( substr( $base, 0, 5 ) == 'https' )
-		{
-			$secure 	= $base;
-			$unsecure	= 'http'.substr( $base, 5 );
-		}
-		elseif ( substr( $base, 0, 4 ) == 'http' )
-		{
-			$secure		= 'https'.substr( $base, 4 );
-			$unsecure	= $base;
-		}
-
-		// Ensure that proper secure URL is used if ssl flag set secure
-		if ($ssl == 1) {
-			$url = $secure.$url;
-		}
-
-		// Ensure that unsecure URL is used if ssl flag is set to unsecure
-		if ($ssl == -1) {
-			$url = $unsecure.$url;
+			$uri	         =& JURI::getInstance();
+			
+			// Get additional parts
+			static $prefix;
+			if ( ! $prefix ) {
+				$prefix = $uri->toString( array('host', 'port'));
+				$prefix .= JURI::base(true);
+			}
+			
+			// Determine which scheme we want
+			$scheme	= ( $ssl === 1 ) ? 'https' : 'http';
+			
+			// Make sure our url path begins with a slash
+			if ( ! preg_match('#^/#', $url) ) {
+				$url	= '/' . $url;
+			}
+			
+			// Build the URL
+			$url	= $scheme . '://' . $prefix . $url;
 		}
 
 		if($xhtml) {

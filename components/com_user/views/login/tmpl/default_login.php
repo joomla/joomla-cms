@@ -2,7 +2,7 @@
 <?php if(JPluginHelper::isEnabled('authentication', 'openid')) : ?>
 	<?php JHTML::_('script', 'openid.js'); ?>
 <?php endif; ?>
-<form action="index.php" method="post" name="login" id="form-login">
+<form action="<?php echo JRoute::_( 'index.php', true, $this->params->get('usesecure')); ?>" method="post" name="login" id="form-login">
 <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<td colspan="2">
