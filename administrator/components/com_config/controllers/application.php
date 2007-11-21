@@ -354,6 +354,13 @@ class ConfigControllerApplication extends ConfigController
 		$fname = JPATH_CONFIGURATION.DS.'configuration.php';
 
 		// Update the credentials with the new settings
+		$oldconfig =& JFactory::getConfig();
+		$oldconfig->setValue('config.ftp_enable', $config_array['ftp_enable']);
+		$oldconfig->setValue('config.ftp_host', $config_array['ftp_host']);
+		$oldconfig->setValue('config.ftp_port', $config_array['ftp_port']);
+		$oldconfig->setValue('config.ftp_user', $config_array['ftp_user']);
+		$oldconfig->setValue('config.ftp_pass', $config_array['ftp_pass']);
+		$oldconfig->setValue('config.ftp_root', $config_array['ftp_root']);
 		JClientHelper::getCredentials('ftp', true);
 
 		// Try to make configuration.php writeable

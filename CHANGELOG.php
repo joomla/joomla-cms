@@ -39,6 +39,8 @@ Legend:
 
 21-Nov-2007 Sam Moffatt
  # Fixed legacy plugin issue with JProfiler
+ # Fixed [#6670] FTP settings - cannot update password via FTP
+ # Fixed an issue with user activation email subject missing data
 
 22-Nov-2007 Toby Patterson
  # Fixed [#7660] JRoute::_(*, *, $ssl) broken when $ssl != 0 and J! installed in sub-directory
