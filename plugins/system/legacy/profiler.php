@@ -16,7 +16,7 @@
 defined('JPATH_BASE') or die();
 
 // Register legacy classes for autoloading
-JLoader::register('JProfiler', JPATH_LIBRARIES.DS.'joomla'.DS.'utilities'.DS.'profiler.php');
+JLoader::register('JProfiler', JPATH_LIBRARIES.DS.'joomla'.DS.'error'.DS.'profiler.php');
 
 
  /**

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Nov-2007 Sam Moffatt
+ # Fixed legacy plugin issue with JProfiler
+
 22-Nov-2007 Toby Patterson
  # Fixed [#7660] JRoute::_(*, *, $ssl) broken when $ssl != 0 and J! installed in sub-directory
  # Updated login pieces to route to secure pages
