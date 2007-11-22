@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Nov-2007 Sam Moffatt
+ ^ Changed input filter on plugin and module names from 'cmd' to 'string' so they display properly when installed
+
 21-Nov-2007 Sam Moffatt
  # Fixed legacy plugin issue with JProfiler
  # Fixed [#6670] FTP settings - cannot update password via FTP

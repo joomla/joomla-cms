@@ -61,7 +61,7 @@ class JInstallerPlugin extends JObject
 
 		// Set the extensions name
 		$name =& $this->manifest->getElementByPath('name');
-		$name = JFilterInput::clean($name->data(), 'cmd');
+		$name = JFilterInput::clean($name->data(), 'string');
 		$this->set('name', $name);
 
 		// Get the component description
