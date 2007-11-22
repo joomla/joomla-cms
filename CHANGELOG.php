@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Nov-2007 Andrew Eddie
+ # Fixed static use of JException::getTrace
+ ^ Changed JException constructor in line with PHP 5's exception class
+
 22-Nov-2007 Sam Moffatt
  ^ Changed input filter on plugin and module names from 'cmd' to 'string' so they display properly when installed
 
