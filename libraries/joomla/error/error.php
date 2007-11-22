@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id: error.php 9330 2007-11-10 06:25:19Z tcp $
-* @package		Joomla.Framework
-* @subpackage	Error
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id: error.php 9330 2007-11-10 06:25:19Z tcp $
+ * @package		Joomla.Framework
+ * @subpackage	Error
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
@@ -135,21 +135,21 @@ class JError
 		jimport('joomla.error.exception');
 
 		// build error object
-		$error = new JException($msg, $level, $code, $info, $backtrace);
+		$exception = new JException($msg, $code, $level, $info, $backtrace);
 
 		// see what to do with this kind of error
 		$handler = JError::getErrorHandling($level);
 
 		$function = 'handle'.ucfirst($handler['mode']);
 		if (is_callable(array('JError', $function))) {
-			$reference =& JError::$function ($error, (isset($handler['options'])) ? $handler['options'] : array());
+			$reference =& JError::$function ($exception, (isset($handler['options'])) ? $handler['options'] : array());
 		} else {
 			// This is required to prevent a very unhelpful white-screen-of-death
 			die(
 				'JError::raise -> Static method JError::' . $function . ' does not exist.' .
 				' Contact a developer to debug' .
 				'<br/><strong>Error was</strong> ' .
-				'<br/>' . $error->get('message')
+				'<br/>' . $exception->getMessage()
 			);
 		}
 
@@ -574,4 +574,3 @@ class JError
 		JError::raise($level, '', $msg);
 	}
 }
-
