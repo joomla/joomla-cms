@@ -564,13 +564,14 @@ class ModulesController extends JController
 
 		$cids = implode( ',', $cid );
 
-		$query = 'SELECT id, module, title, iscore, params'
+		// pasamio: Disabled this as it breaks the uninstall ability!
+		/*$query = 'SELECT id, module, title, iscore, params'
 		. ' FROM #__modules WHERE id IN ('.$cids.')'
 		;
 		$db->setQuery( $query );
 		if (!($rows = $db->loadObjectList())) {
 			return JError::raiseError( 500, $db->getErrorMsg() );
-		}
+		}*/
 
 		// remove mappings first (lest we leave orphans)
 		$query = 'DELETE FROM #__modules_menu'
