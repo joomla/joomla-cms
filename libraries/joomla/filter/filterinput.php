@@ -16,7 +16,7 @@
 defined('JPATH_BASE') or die();
 
 /**
- * JFilterInout is a class for filtering input from any data source
+ * JFilterInput is a class for filtering input from any data source
  *
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
@@ -104,6 +104,7 @@ class JFilterInput extends JObject
 	 * @param	string	$type	Return type for the variable (INT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
 	 * @return	mixed	'Cleaned' version of input parameter
 	 * @since	1.5
+	 * @static
 	 */
 	function clean($source, $type='string')
 	{
@@ -147,7 +148,8 @@ class JFilterInput extends JObject
 				break;
 
 			case 'STRING' :
-				$result = (string) $this->_remove($this->_decode((string) $source));
+				$filter	= JFilterInput::getInstance();
+				$result = (string) $filter->_remove($filter->_decode((string) $source));
 				break;
 
 			case 'ARRAY' :
@@ -166,12 +168,13 @@ class JFilterInput extends JObject
 
 			default :
 				// Are we dealing with an array?
+				$filter	= JFilterInput::getInstance();
 				if (is_array($source)) {
 					foreach ($source as $key => $value)
 					{
 						// filter element for XSS and other 'bad' code etc.
 						if (is_string($value)) {
-							$source[$key] = $this->_remove($this->_decode($value));
+							$source[$key] = $filter->_remove($filter->_decode($value));
 						}
 					}
 					$result = $source;
@@ -179,7 +182,7 @@ class JFilterInput extends JObject
 					// Or a string?
 					if (is_string($source) && !empty ($source)) {
 						// filter source for XSS and other 'bad' code etc.
-						$result = $this->_remove($this->_decode($source));
+						$result = $filter->_remove($filter->_decode($source));
 					} else {
 						// Not an array or string.. return the passed parameter
 						$result = $source;
