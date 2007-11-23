@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: error.php 9330 2007-11-10 06:25:19Z tcp $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Error
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
