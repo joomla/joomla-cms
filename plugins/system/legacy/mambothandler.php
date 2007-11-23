@@ -19,7 +19,7 @@ defined('JPATH_BASE') or die();
 JLoader::register('JDispatcher' , JPATH_LIBRARIES.DS.'joomla'.DS.'event'.DS.'dispatcher.php');
 
 /**
- * Legacy class, use {@link JEventDispatcher} instead
+ * Legacy class, use {@link JDispatcher} instead
  *
  * @deprecated	As of version 1.5
  * @package	Joomla.Legacy
