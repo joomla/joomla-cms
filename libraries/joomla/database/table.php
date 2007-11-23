@@ -347,7 +347,7 @@ class JTable extends JObject
 			if (!$this->_db->query())
 			{
 				$err = $this->_db->getErrorMsg();
-				JError::raiseError( 0, $err );
+				JError::raiseError( 500, $err );
 			}
 
 			$query = 'UPDATE '.$this->_tbl
@@ -359,7 +359,7 @@ class JTable extends JObject
 			if (!$this->_db->query())
 			{
 				$err = $this->_db->getErrorMsg();
-				JError::raiseError( 0, $err );
+				JError::raiseError( 500, $err );
 			}
 
 			$this->ordering = $row->ordering;
@@ -375,7 +375,7 @@ class JTable extends JObject
 			if (!$this->_db->query())
 			{
 				$err = $this->_db->getErrorMsg();
-				JError::raiseError( 0, $err );
+				JError::raiseError( 500, $err );
 			}
 		}
 	}

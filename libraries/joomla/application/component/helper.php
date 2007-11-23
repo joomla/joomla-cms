@@ -192,12 +192,12 @@ class JComponentHelper
 				' FROM #__components' .
 				' WHERE parent = 0';
 		$db->setQuery( $query );
-
-		if (!($components = $db->loadObjectList( 'option' ))) {
+	
+		if (!($components = $db->loadObjectList( 'option' ))) {		
 			JError::raiseWarning( 'SOME_ERROR_CODE', "Error loading Components: " . $db->getErrorMsg());
 			return false;
 		}
-
+		
 		return $components;
 
 	}

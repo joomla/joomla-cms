@@ -236,7 +236,7 @@ class JDatabaseMySQLi extends JDatabase
 			$this->_errorMsg = mysqli_error( $this->_resource )." SQL=$this->_sql";
 
 			if ($this->_debug) {
-				JError::raiseError('joomla.database:'.$this->_errorNum, 'JDatabaseMySQLi::query: '.$this->_errorMsg );
+				JError::raiseError(500, 'JDatabaseMySQL::query: '.$this->_errorNum.' - '.$this->_errorMsg );
 			}
 			return false;
 		}
