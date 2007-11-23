@@ -64,7 +64,7 @@ class mosMambotHandler extends JDispatcher
 	}
 
 	/**
-	* Deprecated, use {@link JEventDispatcher::trigger() JEventDispatcher->trigger()} instead and handle return values
+	* Deprecated, use {@link JDispatcher::trigger() JDispatcher->trigger()} instead and handle return values
 	* in your code
 	*
 	* @param string The event name
