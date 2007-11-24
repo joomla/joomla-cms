@@ -1391,6 +1391,11 @@ class ContentController extends JController
 		$db->setQuery($query);
 		$template = $db->loadResult();
 
+		// check if template editor stylesheet exists
+		if (!file_exists( JPATH_SITE.DS.'templates'.DS.$template.DS.'css'.DS.'editor.css' )) {
+			$template = 'system';
+		}
+
 		// Set page title
 		$document->setTitle(JText::_('Article Preview'));
 		$document->addStyleSheet('../templates/'.$template.'/css/editor.css');
