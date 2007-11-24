@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Nov-2007 Toby Patterson
+ # Fixed SVN 9434: Beez template - Undef property in mod_login\default.php, topic 236722
+
 24-Nov-2007 Andrew Eddie
  # Fixed bug in JDocumentError::render; error caused by new lines in the message
  # Fixed stray references to now removed com_menumanager
