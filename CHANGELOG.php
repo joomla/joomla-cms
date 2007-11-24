@@ -41,6 +41,7 @@ Legend:
  # Fixed bug in JDocumentError::render; error caused by new lines in the message
  # Fixed stray references to now removed com_menumanager
  # ContentController::previewContent - Added check in backend article preview for editor.css
+ # plgButtonReadmore::onDisplay - Patched readmore button link
 
 23-Nov-2007 Sam Moffatt
  ^ Changed type="module" to type="modules" for admin back end menu area
