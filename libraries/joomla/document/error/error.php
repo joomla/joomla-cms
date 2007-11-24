@@ -82,7 +82,7 @@ class JDocumentError extends JDocument
 		}
 
 		//Set the status header
-		JResponse::setHeader('status', $this->_error->code.' '.$this->_error->message);
+		JResponse::setHeader('status', $this->_error->code.' '.str_replace( "\n", ' ', $this->_error->message ));
 		$file = 'error.php';
 
 		// check template

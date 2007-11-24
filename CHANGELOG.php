@@ -37,9 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Nov-2007 Andrew Eddie
+ # Fixed bug in JDocumentError::render; error caused by new lines in the message
+
 23-Nov-2007 Sam Moffatt
  ^ Changed type="module" to type="modules" for admin back end menu area
- # Fixed [#8198] Removing a module makes it uninstallable until it is added to a menu again 
+ # Fixed [#8198] Removing a module makes it uninstallable until it is added to a menu again
 
 22-Nov-2007 Andrew Eddie
  # Fixed static use of JException::getTrace
