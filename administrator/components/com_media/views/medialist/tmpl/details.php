@@ -4,11 +4,11 @@
 	<table width="100%" cellspacing="0">
 	<thead>
 		<tr>
-			<th><?php echo JText::_( 'Preview' ); ?></td>
-			<th><?php echo JText::_( 'Name' ); ?></td>
-			<th><?php echo JText::_( 'Dimensions' ); ?></td>
-			<th><?php echo JText::_( 'Size' ); ?></td>
-			<th><?php echo JText::_( 'Delete' ); ?></td>
+			<th><?php echo JText::_( 'Preview' ); ?></th>
+			<th><?php echo JText::_( 'Name' ); ?></th>
+			<th><?php echo JText::_( 'Dimensions' ); ?></th>
+			<th><?php echo JText::_( 'Size' ); ?></th>
+			<th><?php echo JText::_( 'Delete' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
