@@ -7,7 +7,7 @@
 		var f = document.adminForm;
 		if (task == 'deleteconfirm') {
 			id = radioGetCheckedValue( f.id );
-			//document.popup.show('index.php?option=com_menumanager&tmpl=component&task=deleteconfirm&id='+id, 700, 500, null);
+			//document.popup.show('index.php?option=com_menus&tmpl=component&task=deleteconfirm&id='+id, 700, 500, null);
 		} else {
 			submitform(task);
 		}

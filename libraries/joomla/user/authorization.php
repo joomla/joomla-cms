@@ -148,8 +148,8 @@ class JAuthorization extends gacl_api
 		$this->addACL( 'com_media', 'popup', 'users', 'editor' );
 		$this->addACL( 'com_media', 'popup', 'users', 'publisher' );
 
-		$this->addACL( 'com_menumanager', 'manage', 'users', 'administrator' );
-		$this->addACL( 'com_menumanager', 'manage', 'users', 'super administrator' );
+		$this->addACL( 'com_menus', 'manage', 'users', 'administrator' );
+		$this->addACL( 'com_menus', 'manage', 'users', 'super administrator' );
 
 		$this->addACL( 'com_modules', 'manage', 'users', 'super administrator' );
 		$this->addACL( 'com_modules', 'manage', 'users', 'administrator' );

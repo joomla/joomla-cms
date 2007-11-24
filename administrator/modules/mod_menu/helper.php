@@ -37,7 +37,7 @@ class modMenuHelper
 		$canConfig			= $user->authorize('com_config', 'manage');
 		$manageTemplates	= $user->authorize('com_templates', 'manage');
 		$manageTrash		= $user->authorize('com_trash', 'manage');
-		$manageMenuMan		= $user->authorize('com_menumanager', 'manage');
+		$manageMenuMan		= $user->authorize('com_menus', 'manage');
 		$manageLanguages	= $user->authorize('com_languages', 'manage');
 		$installModules		= $user->authorize('com_installer', 'module');
 		$editAllModules		= $user->authorize('com_modules', 'manage');
@@ -120,7 +120,7 @@ class modMenuHelper
 		/*
 		 * Components SubMenu
 		 */
-		if ($editAllComponents) 
+		if ($editAllComponents)
 		{
 			$menu->addChild(new JMenuNode(JText::_('Components')), true);
 
