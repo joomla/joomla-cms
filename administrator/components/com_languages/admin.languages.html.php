@@ -145,7 +145,6 @@ class HTML_languages {
 			?>
 			</tbody>
 			</table>
-		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
