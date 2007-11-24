@@ -248,7 +248,6 @@ class FrontpageView
 			</tbody>
 			</table>
 			<?php JHTML::_('content.legend'); ?>
-		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
