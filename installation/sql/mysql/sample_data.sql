@@ -1,4 +1,4 @@
-# $Id: sample_data.sql 6152 2007-01-02 10:43:45Z louis $
+# @version		$Id: sample_data.sql 9439 2007-11-25 23:01:39Z humvee $
 #
 # IMPORTANT - THIS FILE MUST BE SAVED WITH UTF-8 ENCODING ONLY. BEWARE IF EDITING!
 #
