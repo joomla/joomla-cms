@@ -14,6 +14,8 @@
 // Do not allow direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jimport( 'joomla.plugin.plugin' );
+
 /**
  * XStandard Lite for Joomla! WYSIWYG Editor Plugin
  *
@@ -107,7 +109,7 @@ class plgEditorXstandard extends JPlugin {
 	{
 		// Load modal popup behavior
 		JHTML::_('behavior.modal', 'a.modal-button');
-		
+
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric( $width )) {
 			$width .= 'px';
@@ -120,15 +122,15 @@ class plgEditorXstandard extends JPlugin {
 		$instance	=& JBrowser::getInstance();
 		$language	=& JFactory::getLanguage();
 		$db			=& JFactory::getDBO();
-		
+
 		$lang = substr( $language->getTag(), 0, strpos( $language->getTag(), '-' ) );
-		
+
 		if ($language->isRTL()) {
 			$direction = 'rtl';
 		} else {
 			$direction = 'ltr';
 		}
-		
+
 		/*
 		 * Lets get the default template for the site application
 		 */
@@ -143,10 +145,10 @@ class plgEditorXstandard extends JPlugin {
 		$file_path = JPATH_SITE .'/templates/'. $template .'/css/';
 		if ( !file_exists( $file_path .DS. 'editor.css' ) ) {
 			$template = 'system';
-		} 
-				
+		}
+
 		$css =  JURI::root() .'/templates/'. $template . '/css/editor.css';
-		
+
 		$html = '';
 		ob_start();
 		?>
@@ -191,12 +193,12 @@ class plgEditorXstandard extends JPlugin {
 		<?php
 		$html = ob_get_contents();
 		ob_end_clean();
-		
+
 		$html .= $this->_displayButtons($name, $buttons);
 
 		return $html;
 	}
-	
+
 	function onGetInsertMethod($name)
 	{
 		$doc = & JFactory::getDocument();
@@ -236,7 +238,7 @@ class plgEditorXstandard extends JPlugin {
 
 		return $content_css;
 	}
-	
+
 	function _displayButtons($name, $buttons)
 	{
 		// Load modal popup behavior
@@ -266,7 +268,7 @@ class plgEditorXstandard extends JPlugin {
 				/*
 				 * Results should be an object
 				 */
-				if ( $button->get('name') ) 
+				if ( $button->get('name') )
 				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
 					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;
@@ -276,7 +278,7 @@ class plgEditorXstandard extends JPlugin {
 			}
 			$return .= "</div>\n";
 		}
-		
+
 		return $return;
 	}
 

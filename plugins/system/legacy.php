@@ -14,6 +14,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jimport( 'joomla.plugin.plugin' );
+
 /**
  * Joomla! Debug plugin
  *
@@ -112,19 +114,19 @@ class  plgSystemLegacy extends JPlugin
 		 * @deprecated	As of version 1.5
 		 */
 		DEFINE( "_MOS_NOTRIM", 0x0001 );
-		
+
 		/**
 		 * Legacy constant, use JFilterInput instead
 		 * @deprecated	As of version 1.5
 		 */
 		DEFINE( "_MOS_ALLOWHTML", 0x0002 );
-		
+
 		/**
 		 * Legacy constant, use JFilterInput instead
 		 * @deprecated	As of version 1.5
 		 */
 		DEFINE( "_MOS_ALLOWRAW", 0x0004 );
-		
+
 		/**
 		 * Legacy global, use JVersion->getLongVersion() instead
 		 * @name $_VERSION

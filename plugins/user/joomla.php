@@ -16,6 +16,7 @@
 defined('_JEXEC') or die();
 
 jimport('joomla.plugin.plugin');
+
 /**
  * Joomla User plugin
  *

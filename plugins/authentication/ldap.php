@@ -15,6 +15,8 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
+jimport( 'joomla.plugin.plugin' );
+
 /**
  * LDAP Authentication Plugin
  *
@@ -91,7 +93,7 @@ class plgAuthenticationLdap extends JPlugin
 				// Force anon bind to mitigate misconfiguration like [#7119]
 				if(strlen($this->params->get('username'))) $bindtest = $ldap->bind();
 				else $bindtest = $ldap->anonymous_bind();
-				
+
 
 				if($bindtest)
 				{

@@ -15,10 +15,11 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
+jimport( 'joomla.plugin.plugin' );
+
 /**
  * Example Authentication Plugin
  *
- * @author Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	JFramework
  * @since 1.5

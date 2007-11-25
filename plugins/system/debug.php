@@ -14,6 +14,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+jimport( 'joomla.plugin.plugin' );
+
 /**
  * Joomla! Debug plugin
  *
@@ -88,9 +90,9 @@ class  plgSystemDebug extends JPlugin
 			;
 
 			$db	=& JFactory::getDBO();
-			
+
 			echo '<h4>'.JText::sprintf( 'Queries logged',  $db->getTicker() ).'</h4>';
-			
+
 			if ($log = $db->getLog())
 			{
 				echo '<ol>';
@@ -103,7 +105,7 @@ class  plgSystemDebug extends JPlugin
 				}
 				echo '</ol>';
 			}
-			
+
 			if(isset($database))
 			{
 				echo '<h4>'.JText::sprintf( 'Legacy Queries logged',  $database->getTicker() ).'</h4>';

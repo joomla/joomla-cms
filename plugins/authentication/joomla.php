@@ -15,6 +15,8 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
+jimport( 'joomla.plugin.plugin' );
+
 /**
  * Joomla Authentication plugin
  *
@@ -65,7 +67,7 @@ class plgAuthenticationJoomla extends JPlugin
 
 		// Initialize variables
 		$conditions = '';
-		
+
 		// Get a database object
 		$db =& JFactory::getDBO();
 
@@ -75,8 +77,8 @@ class plgAuthenticationJoomla extends JPlugin
 			;
 		$db->setQuery( $query );
 		$result = $db->loadObject();
-		
-	
+
+
 		if($result)
 		{
 			$parts	= explode( ':', $result->password );

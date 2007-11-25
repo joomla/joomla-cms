@@ -16,6 +16,8 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
+jimport( 'joomla.plugin.plugin' );
+
 /**
  * OpenID Authentication Plugin
  *
@@ -61,7 +63,7 @@ class plgAuthenticationOpenID extends JPlugin
 		}
 
 		require_once(JPATH_LIBRARIES.DS.'openid'.DS.'consumer.php');
-		
+
 		// Access the session data
 		$session =& JFactory::getSession();
 
@@ -102,20 +104,20 @@ class plgAuthenticationOpenID extends JPlugin
 			$request->addExtensionArg('sreg', 'optional', 'fullname, language, timezone');
 
 			//Create the entry url
-			$entry_url  = isset($options['entry_url'])  ? $options['entry_url'] : JURI::base();			
+			$entry_url  = isset($options['entry_url'])  ? $options['entry_url'] : JURI::base();
 			$entry_url  = JURI::getInstance($entry_url);
-			
+
 			unset($options['entry_url']); //We don't need this anymore
-			
+
 			//Create the url query information
 			$options['return'] = isset($options['return']) ? base64_encode($options['return']) : base64_encode(JURI::base());
-			
+
 			$process_url  = sprintf($entry_url->toString()."&username=%s", $credentials['username']);
 			$process_url .= '&'.JURI::buildQuery($options);
-			
-			$trust_url    = $entry_url->toString(array('path', 'host', 'port', 'scheme'));	
+
+			$trust_url    = $entry_url->toString(array('path', 'host', 'port', 'scheme'));
 			$redirect_url = $request->redirectURL($trust_url, $process_url);
-			
+
 			$session->set('trust_url', $trust_url);
 
 			// Redirect the user to the OpenID server for authentication.  Store
@@ -126,7 +128,7 @@ class plgAuthenticationOpenID extends JPlugin
 		}
 
 		$result = $consumer->complete(JRequest::get('get'));
-		
+
 		switch ($result->status)
 		{
 			case Auth_OpenID_SUCCESS :

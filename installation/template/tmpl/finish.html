@@ -10,13 +10,13 @@
 
 <div id="right">
 	<div id="rightpad">
-	<div id="step">
+		<div id="step">
 			<div class="t">
-		<div class="t">
-			<div class="t"></div>
-		</div>
-		</div>
-		<div class="m">
+				<div class="t">
+					<div class="t"></div>
+				</div>
+			</div>
+			<div class="m">
 				<div class="far-right">
 					<jtmpl:tmpl name="buttons" type="condition" conditionvar="direction" varscope="body">
 						<jtmpl:sub condition="ltr">
@@ -31,20 +31,20 @@
 				</div>
 				<span class="step"><jtmpl:translate>Finish</jtmpl:translate></span>
 			</div>
-		<div class="b">
-		<div class="b">
-			<div class="b"></div>
+			<div class="b">
+				<div class="b">
+					<div class="b"></div>
+				</div>
+			</div>
 		</div>
-		</div>
-	</div>
 
-	<div id="installer">
+		<div id="installer">
 			<div class="t">
-		<div class="t">
-			<div class="t"></div>
-		</div>
-		</div>
-		<div class="m">
+				<div class="t">
+					<div class="t"></div>
+				</div>
+			</div>
+			<div class="m">
 
 				<h2><jtmpl:translate key="congratulations">Congratulations! Joomla! is installed.</jtmpl:translate></h2>
 				<div class="install-text">
@@ -59,90 +59,90 @@
 					</p>
 					</jtmpl:translate>
 				</div>
-		<div class="install-body">
-				<div class="t">
-			<div class="t">
-				<div class="t"></div>
-			</div>
-			</div>
-			<div class="m">
+				<div class="install-body">
+					<div class="t">
+						<div class="t">
+							<div class="t"></div>
+						</div>
+					</div>
+				<div class="m">
 						<fieldset>
 							<table class="final-table">
 								<tr>
-								<td class="error" align="center">
-									<jtmpl:translate key="removeInstallation">PLEASE REMEMBER TO COMPLETELY REMOVE THE INSTALLATION DIRECTORY</jtmpl:translate>
-								</td>
+									<td class="error" align="center">
+										<jtmpl:translate key="removeInstallation">PLEASE REMEMBER TO COMPLETELY REMOVE THE INSTALLATION DIRECTORY</jtmpl:translate>
+									</td>
 								</tr>
 								<tr>
-								<td align="center">
-									<h3>
-									<jtmpl:translate>Administration Login Details</jtmpl:translate>
-									</h3>
-								</td>
+									<td align="center">
+										<h3>
+										<jtmpl:translate>Administration Login Details</jtmpl:translate>
+										</h3>
+									</td>
 								</tr>
 								<tr>
-								<td align="center" class="notice">
-									<jtmpl:translate>Username</jtmpl:translate> : {VAR_ADMINLOGIN}
-								</td>
+									<td align="center" class="notice">
+										<jtmpl:translate>Username</jtmpl:translate> : {VAR_ADMINLOGIN}
+									</td>
 								</tr>
 								<tr>
-								<td>&nbsp;</td>
+									<td>&nbsp;</td>
 								</tr>
 								<tr>
-								<td align="center" class="notice">
-								<div id="cpanel">
-										<div>
-											<div class="icon">
-												<a href="http://help.joomla.org/content/view/1651/243/" target="_blank">
-												<br />
-												<b><jtmpl:translate key="languagebuttonlineone">Joomla! in your own language?</jtmpl:translate></b>
-												<br />
-												<jtmpl:translate key="languagebuttonlinetwo">Visit the Joomla! help site for more information and downloads.</jtmpl:translate>
-												<br /><br />
-												</a></td>
+									<td align="center" class="notice">
+										<div id="cpanel">
+											<div>
+												<div class="icon">
+													<a href="http://help.joomla.org/content/view/1651/243/" target="_blank">
+													<br />
+													<b><jtmpl:translate key="languagebuttonlineone">Joomla! in your own language?</jtmpl:translate></b>
+													<br />
+													<jtmpl:translate key="languagebuttonlinetwo">Visit the Joomla! help site for more information and downloads.</jtmpl:translate>
+													<br /><br />
+													</a></td>
+												</div>
 											</div>
 										</div>
-								</div>
-								</td>
+									</td>
 								</tr>
 								<tr>
-								<td>&nbsp;</td>
+									<td>&nbsp;</td>
 								</tr>
 								<jtmpl:tmpl name="configuration-error" type="simplecondition" requiredvars="buffer">
 								<tr>
-								<td class="small">
-									<jtmpl:translate key="confProblem">
-									Your configuration file or directory is not writable,
-									or there was a problem creating the configuration file. You'll have to
-									upload the following code by hand. Click in the textarea to highlight
-									all of the code.
-									</jtmpl:translate>
-								</td>
+									<td class="small">
+										<jtmpl:translate key="confProblem">
+										Your configuration file or directory is not writable,
+										or there was a problem creating the configuration file. You'll have to
+										upload the following code by hand. Click in the textarea to highlight
+										all of the code.
+										</jtmpl:translate>
+									</td>
 								</tr>
 								<tr>
 
-								<td align="center">
-									<textarea rows="5" cols="60" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();" >{BUFFER}</textarea>
-								</td>
+									<td align="center">
+										<textarea rows="5" cols="60" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();" >{BUFFER}</textarea>
+									</td>
 								</tr>
 								</jtmpl:tmpl>
 							</table>
 						</fieldset>
 					</div>
+					<div class="b">
+						<div class="b">
+							<div class="b"></div>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</div>
+				<div class="clr"></div>
+			</div>
 			<div class="b">
 				<div class="b">
 					<div class="b"></div>
 				</div>
 			</div>
-					<div class="clr"></div>
-				</div>
-				<div class="clr"></div>
-		</div>
-		<div class="b">
-			<div class="b">
-				<div class="b"></div>
-			</div>
-		</div>
 		</div>
 	</div>
 </div>

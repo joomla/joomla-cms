@@ -20,7 +20,6 @@ jimport('joomla.plugin.plugin');
 /**
  * Example User Plugin
  *
- * @author		Johan Janssens  <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	JFramework
  * @since 		1.5
