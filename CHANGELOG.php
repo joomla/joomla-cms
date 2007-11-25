@@ -37,8 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+
 26-Nov-2007 Andrew Eddie
  # Made plugin loaders consistent
+ 
+25-Nov-2007 Andy Wallace
+ # Review and update of sample_data.sql
 
 24-Nov-2007 Toby Patterson
  # Fixed SVN 9434: Beez template - Undef property in mod_login\default.php, topic 236722
