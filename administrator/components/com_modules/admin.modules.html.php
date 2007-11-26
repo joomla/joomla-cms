@@ -131,9 +131,11 @@ class HTML_modules
 						echo $row->title;
 					} else {
 						?>
+						<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Module' );?>::<?php echo $row->title; ?>">
 						<a href="<?php echo $link; ?>">
 							<?php echo $row->title; ?>
 						</a>
+						</span>
 						<?php
 					}
 					?>

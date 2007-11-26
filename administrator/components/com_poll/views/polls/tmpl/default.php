@@ -2,7 +2,7 @@
 
 <?php JHTML::_('behavior.tooltip'); ?>
 
-<?php 
+<?php
 	JToolBarHelper::title(  JText::_( 'Poll Manager' ) );
 	JToolBarHelper::publishList();
 	JToolBarHelper::unpublishList();
@@ -11,7 +11,7 @@
 	JToolBarHelper::addNewX();
 	JToolBarHelper::help( 'screen.polls' );
 ?>
-	
+
 <form action="index.php?option=com_poll" method="post" name="adminForm">
 <table>
 	<tr>
@@ -87,8 +87,9 @@
 				echo $row->title;
 			} else {
 				?>
-				<a href="<?php echo $link  ?>" title="<?php echo JText::_( 'Edit Poll' ); ?>">
-					<?php echo $row->title; ?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Poll' );?>::<?php echo $row->title; ?>">
+				<a href="<?php echo $link  ?>">
+					<?php echo $row->title; ?></span>
 				</a>
 				<?php
 			}

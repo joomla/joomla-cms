@@ -117,8 +117,9 @@ class HTML_contact
 						echo $row->name;
 					else :
 						?>
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Contact' ); ?>">
-							<?php echo $row->name; ?></a>
+						<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Contact' );?>::<?php echo $row->name; ?>">
+						<a href="<?php echo $link; ?>">
+							<?php echo $row->name; ?></a> </span>
 						<?php
 					endif;
 					?>

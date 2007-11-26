@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Nov-2007 Nur Aini Rakhmawati
+# Fixed [#8223] Links submitted via the Frontend have no ordering-number
+# Fixed [#8171]Banner edit: alias lable refers to wrong input field
+# Fixed some links title in backend
 
 26-Nov-2007 Andrew Eddie
  # Made plugin loaders consistent
@@ -112,6 +116,9 @@ Legend:
  # Fixed [#7221] Email address not scrambled in Contacts component
  # Fixed problem with com_contact and parameters
  ^ com_content will use cache for public users
+
+18-Nov-2007 Nur Aini Rakhmawati
+# Fixed [t,234303] Installation Step4 Database Error on Blank Screen
 
 18-Nov-2007 Louis Landry
  # Fixed [#7962] Banners don't work when using search engine friendly URLs

@@ -86,8 +86,9 @@
 				<input type="radio" id="cb<?php echo $i;?>" name="id" value="<?php echo $menu->id; ?>" onclick="isChecked(this.checked);" />
 			</td>
 			<td>
-				<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Menu Name' ); ?>">
-					<?php echo $menu->title; ?></a>
+			<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Menu Name' );?>::<?php echo $menu->title; ?>">
+				<a href="<?php echo $link; ?>">
+					<?php echo $menu->title; ?></a></spam>
 			</td>
 			<td>
 				<?php echo $menu->menutype; ?>

@@ -76,6 +76,16 @@ function submitbutton(pressbutton)
 		<textarea class="inputbox" cols="30" rows="6" id="jformdescription" name="jform[description]" style="width:300px"><?php echo $this->escape( $this->weblink->description);?></textarea>
 	</td>
 </tr>
+<tr>
+	<td class="key">
+		<label for="jformordering">
+			<?php echo JText::_( 'Ordering' ); ?>:
+		</label>
+	</td>
+	<td>
+		<?php echo $this->lists['ordering']; ?>
+	</td>
+</tr>
 </table>
 
 <div>

@@ -213,6 +213,11 @@ class WeblinksModelWeblink extends JModel
 		// Create the timestamp for the date
 		$row->date = gmdate('Y-m-d H:i:s');
 
+		// if new item, order last in appropriate group
+		if (!$row->id) {
+			$where = 'catid = ' . (int) $row->catid ;
+			$row->ordering = $row->getNextOrder( $where );
+		}
 		// Make sure the web link table is valid
 		if (!$row->check()) {
 			$this->setError($this->_db->getErrorMsg());

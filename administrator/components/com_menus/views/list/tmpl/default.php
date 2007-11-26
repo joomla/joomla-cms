@@ -82,7 +82,8 @@
 				<?php if (  JTable::isCheckedOut($this->user->get('id'), $row->checked_out ) ) : ?>
 				<?php echo $row->treename; ?>
 				<?php else : ?>
-				<a href="<?php echo JRoute::_( 'index.php?option=com_menus&menutype='.$row->menutype.'&task=edit&cid[]='.$row->id ); ?>"><?php echo $row->treename; ?></a>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Menu' );?>::<?php echo $row->treename; ?>">
+				<a href="<?php echo JRoute::_( 'index.php?option=com_menus&menutype='.$row->menutype.'&task=edit&cid[]='.$row->id ); ?>"><?php echo $row->treename; ?></a></span>
 				<?php endif; ?>
 			</td>
 			<td align="center">

@@ -138,16 +138,19 @@ class BannersViewBanner
 						<?php echo $checked; ?>
 					</td>
 					<td>
+					<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit' );?>::<?php echo $row->name; ?>">
 						<?php
 						if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out ) ) {
 							echo $row->name;
 						} else {
 							?>
-							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Banner' ) . ': <small><small>[ '. JText::_( 'Edit' ) .' ]</small></small>'; ?>">
+
+							<a href="<?php echo $link; ?>">
 								<?php echo $row->name; ?></a>
 							<?php
 						}
 						?>
+						</span>
 					</td>
 					<td align="center">
 						<?php echo $row->client_name;?>
@@ -264,7 +267,7 @@ class BannersViewBanner
 					</tr>
 					<tr>
 						<td width="20%" class="key">
-							<label for="name">
+							<label for="alias">
 								<?php echo JText::_( 'Alias' ); ?>:
 							</label>
 						</td>

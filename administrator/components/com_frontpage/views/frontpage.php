@@ -161,7 +161,8 @@ class FrontpageView
 						$author = $row->created_by_alias;
 					} else {
 						$linkA 	= JRoute::_( 'index.php?option=com_users&task=edit&cid[]='. $row->created_by );
-						$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
+						$author='<span class="editlinktip hasTip" title="'.JText::_( 'Edit User' ).'::'.$row->author.'">.' .
+								'<a href="'. $linkA .'">'. $row->author .'</a><span>';
 					}
 				} else {
 					if ( $row->created_by_alias ) {
@@ -196,8 +197,9 @@ class FrontpageView
 							echo $row->title;
 						} else {
 							?>
-							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Content' ); ?>">
-								<?php echo $row->title; ?></a>
+							<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Content' );?>::<?php echo $row->name; ?>">
+							<a href="<?php echo $link; ?>">
+								<?php echo $row->title; ?></a></span>
 							<?php
 						}
 						?>
@@ -227,14 +229,16 @@ class FrontpageView
 					</td>
 					<td>
 						<?php if ($row->sectionid) : ?>
-							<a href="<?php echo $row->sect_link; ?>" title="<?php echo $title_sec; ?>">
-								<?php echo $row->sect_name; ?></a>
+						<span class="editlinktip hasTip" title="<?php echo $title_sec; ?>::<?php echo $row->sect_name; ?>">
+							<a href="<?php echo $row->sect_link; ?>">
+								<?php echo $row->sect_name; ?></a></span>
 						<?php endif; ?>
 					</td>
 					<td>
 						<?php if ($row->catid) : ?>
+						<span class="editlinktip hasTip" title="<?php echo $title_cat; ?>::<?php echo $row->name; ?>">
 							<a href="<?php echo $row->cat_link; ?>" title="<?php echo $title_cat; ?>">
-								<?php echo $row->name; ?></a>
+								<?php echo $row->name; ?></a></span>
 						<?php endif; ?>
 					</td>
 					<td>

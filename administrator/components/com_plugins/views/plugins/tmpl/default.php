@@ -79,7 +79,7 @@
 	$access 	= JHTML::_('grid.access',   $row, $i );
 	$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 	$published 	= JHTML::_('grid.published', $row, $i );
-	
+
 	$ordering = ($this->lists['order'] == 'p.folder');
 ?>
 	<tr class="<?php echo "row$k"; ?>">
@@ -95,9 +95,10 @@
 				echo $row->name;
 			} else {
 			?>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Plugin' );?>::<?php echo $row->name; ?>">
 				<a href="<?php echo $link; ?>">
 					<?php echo $row->name; ?>
-				</a>
+				</a></span>
 			<?php } ?>
 		</td>
 		<td align="center">

@@ -2,7 +2,7 @@
 
 <?php JHTML::_('behavior.tooltip'); ?>
 
-<?php 
+<?php
 	// Set toolbar items for the page
 	JToolBarHelper::title(   JText::_( 'Weblink Manager' ), 'generic.png' );
 	JToolBarHelper::publishList();
@@ -79,7 +79,7 @@
 
 		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
 		$published 	= JHTML::_('grid.published', $row, $i );
-		
+
 		$ordering = ($this->lists['order'] == 'a.ordering');
 
 		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_weblinks&task=edit&type=other&cid[]='. $row->catid );
@@ -97,8 +97,9 @@
 					echo $row->title;
 				} else {
 				?>
-					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Weblinks' ); ?>">
-						<?php echo $row->title; ?></a>
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Weblinks' );?>::<?php echo $row->title; ?>">
+					<a href="<?php echo $link; ?>">
+						<?php echo $row->title; ?></a></span>
 				<?php
 				}
 				?>
@@ -113,9 +114,10 @@
 				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 			</td>
 			<td>
-				<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Category' );?>::<?php echo $row->category; ?>">
+				<a href="<?php echo $row->cat_link; ?>" >
 				<?php echo $row->category; ?>
-				</a>
+				</a><span>
 			</td>
 			<td align="center">
 				<?php echo $row->hits; ?>

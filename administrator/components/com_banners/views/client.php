@@ -102,8 +102,10 @@ class BannersViewClients
 							echo $row->name;
 						} else {
 							?>
-							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Banner Client' ) . ': [ '. JText::_( 'Edit' ) .' ]'; ?>">
+								<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit' );?>::<?php echo $row->name; ?>">
+							<a href="<?php echo $link; ?>">
 								<?php echo $row->name; ?></a>
+								</span>
 							<?php
 						}
 						?>
