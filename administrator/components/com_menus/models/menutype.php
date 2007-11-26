@@ -83,7 +83,16 @@ class MenusModelMenutype extends JModel
 		$db->setQuery( $query );
 		$trash = $db->loadObjectList( 'menutype' );
 
-		$menuTypes 	= MenusHelper::getMenuTypeList();
+		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
+		$limitstart = $mainframe->getUserStateFromRequest( 'com_menus.limitstart', 'limitstart', 0, 'int' );
+
+		$query = 'SELECT a.*, SUM(b.home) AS home' .
+				' FROM #__menu_types AS a' .
+				' LEFT JOIN #__menu AS b ON b.menutype = a.menutype' .
+				' GROUP BY a.id';
+		$db->setQuery( $query, $limitstart, $limit );
+		$menuTypes	= $db->loadObjectList();
+
 		$total		= count( $menuTypes );
 		$i			= 0;
 		for ($i = 0;  $i < $total; $i++) {

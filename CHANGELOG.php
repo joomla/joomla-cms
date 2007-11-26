@@ -40,7 +40,8 @@ Legend:
 
 26-Nov-2007 Andrew Eddie
  # Made plugin loaders consistent
- 
+ # Fixed bug in menu type manager pagination
+
 25-Nov-2007 Andy Wallace
  # Review and update of sample_data.sql
 
