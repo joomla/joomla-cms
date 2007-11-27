@@ -140,7 +140,7 @@ class JUtility
 		$retarray	= array();
 
 		// Lets grab all the key/value pairs using a regular expression
-		preg_match_all( '/([\w]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr );
+		preg_match_all( '/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr );
 
 		if (is_array($attr))
 		{

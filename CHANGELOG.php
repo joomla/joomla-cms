@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Nov-2007 Johan Janssens
+ # Fixed [#8110] Bug in JUtility::parseAttributes
+
 27-Nov-2007 Toby Patterson
  # Fixed broken dots.gif image in com_media
  # Fixed [#7432] Button with untranslated caption in Media Manager
