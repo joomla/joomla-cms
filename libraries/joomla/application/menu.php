@@ -59,7 +59,7 @@ class JMenu extends JObject
 	 */
 	function __construct($options = array())
 	{
-		$this->_items = $this->_load();
+		$this->load(); //load the menu items
 
 		foreach ($this->_items as $k => $item)
 		{
@@ -277,12 +277,13 @@ class JMenu extends JObject
 	}
 
 	/**
-	 * Loads the entire menu table into memory
+	 * Loads the menu items
 	 *
-	 * @access protected
+	 * @abstract
+	 * @access public
 	 * @return array
 	 */
-	function _load()
+	function load()
 	{
 		return array();
 	}

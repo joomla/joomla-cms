@@ -29,18 +29,14 @@ class JMenuSite extends JMenu
 	/**
 	 * Loads the entire menu table into memory
 	 *
-	 * @access protected
+	 * @access public
 	 * @return array
 	 */
-	function _load()
+	function load()
 	{
-		static $menus;
-
-		if (isset ($menus)) {
-			return $menus;
-		}
 		// Initialize some variables
 		$db		= & JFactory::getDBO();
+		
 		$sql	= 'SELECT m.*, c.`option` as component' .
 				' FROM #__menu AS m' .
 				' LEFT JOIN #__components AS c ON m.componentid = c.id'.
@@ -76,6 +72,6 @@ class JMenuSite extends JMenu
 			parse_str($url, $menus[$key]->query);
 		}
 
-		return $menus;
+		$this->_items = $menus;
 	}
 }
