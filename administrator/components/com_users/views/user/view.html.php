@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: view.html.php 8117 2007-07-20 13:37:22Z friesengeist $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Weblinks
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

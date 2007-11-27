@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: controller.php 8275 2007-07-31 23:10:13Z humvee $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Config
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
