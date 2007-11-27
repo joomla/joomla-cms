@@ -943,6 +943,7 @@ class JInstallationHelper
 			//$newFile = dirname( $scriptName ).DS.'converted.sql';
 			$ret = file_put_contents( $newFile, $buffer );
 			unset($buffer); // Release the memory used by the buffer
+			jimport('joomla.filesystem.file');
 			JFile::delete( $scriptName );
 		}
 		
@@ -1305,7 +1306,8 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		$nextId = $db->loadResult();
 		JInstallationHelper::getDBErrors($errors, $db );
-
+		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.file');
 		foreach( $lookup as $module )
 		{
 			$qry = 'SELECT * FROM '.$newPrefix.'modules_migration WHERE id = "'.$module.'" AND client_id = 0';

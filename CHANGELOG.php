@@ -37,10 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Nov-2007 Sam Moffatt
+ # Fixed issue with migrator in installer not working
+ ^ Donated some spaces to Aini
+
 26-Nov-2007 Nur Aini Rakhmawati
-# Fixed [#8223] Links submitted via the Frontend have no ordering-number
-# Fixed [#8171]Banner edit: alias lable refers to wrong input field
-# Fixed some links title in backend
+ # Fixed [#8223] Links submitted via the Frontend have no ordering-number
+ # Fixed [#8171]Banner edit: alias lable refers to wrong input field
+ # Fixed some links title in backend
 
 26-Nov-2007 Andrew Eddie
  # Made plugin loaders consistent
