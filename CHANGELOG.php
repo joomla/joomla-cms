@@ -39,6 +39,7 @@ Legend:
 
 27-Nov-2007 Toby Patterson
  # Fixed broken dots.gif image in com_media
+ # Fixed [#7432] Button with untranslated caption in Media Manager
 
 27-Nov-2007 Sam Moffatt
  # Fixed issue with migrator in installer not working

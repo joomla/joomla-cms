@@ -100,9 +100,19 @@ var FancyUpload = new Class({
 		$(this.element.form).addEvent('submit', this.upload.bindWithEvent(this));
 		if (this.options.createReplacement) this.options.createReplacement(this.element);
 		else {
+			
+			// Try to translate a string
+			var sBrowseHidden = $('browseCaption');
+			var sBrowseCaption;
+			if ( sBrowseHidden ) {
+				sBrowseCaption = sBrowseHidden.value;
+			} else {
+				sBrowseCaption = 'Browse Files'
+			}
+			
 			new Element('input', {
 				type: 'button',
-				value: 'Browse Files',
+				value: sBrowseCaption,
 				events: {
 					click: this.browse.bind(this)
 				}
