@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <form action="index.php" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
-		<span id="message"></span><img src="images/dots.gif" width="22" height="12" alt="..." />
+		<span id="message"></span><img src="<?php echo JURI::root() ?>/administrator/components/com_media/images/dots.gif" width="22" height="12" alt="..." />XXX
 	</div>
 	<fieldset>
 		<div style="float: left">

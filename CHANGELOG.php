@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Nov-2007 Toby Patterson
+ # Fixed broken dots.gif image in com_media
+
 27-Nov-2007 Sam Moffatt
  # Fixed issue with migrator in installer not working
  ^ Donated some spaces to Aini
@@ -55,6 +58,7 @@ Legend:
 
 24-Nov-2007 Toby Patterson
  # Fixed SVN 9434: Beez template - Undef property in mod_login\default.php, topic 236722
+ ! Thanks infograf for pointing out the solution
 
 24-Nov-2007 Andrew Eddie
  # Fixed bug in JDocumentError::render; error caused by new lines in the message
