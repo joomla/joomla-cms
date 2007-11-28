@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: classes.php 9198 2007-10-08 19:39:40Z jinx $
+* @version		$Id$
 * @package		Joomla.Legacy
 * @subpackage	1.5
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

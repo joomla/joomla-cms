@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version		$Id: cache.php 8503 2007-08-22 07:39:40Z jinx $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
