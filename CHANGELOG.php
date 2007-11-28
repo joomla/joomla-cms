@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Nov-2007 Sam Moffatt
+ # Some backlink migration system plugin fixes
+
 28-Nov-2007 Andrew Eddie
  # Fixed bug in com_mailto where error is thrown if home page has a different layout set
 

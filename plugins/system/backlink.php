@@ -67,7 +67,6 @@ class plgSystemBacklink extends JPlugin
 			$part = str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
 			$search = str_replace($part, '', $_SERVER['REQUEST_URI']);
 			$this->_lookup($search);
-
 		}
 		// Case 3: Old school core sef; used to backlink
 		// Enable only if:
@@ -101,10 +100,10 @@ class plgSystemBacklink extends JPlugin
 		$where = Array ();
 
 		if ($url) {
-			$where[] = 'url LIKE "%' . $this->_db->getEscaped($searchstring) . '%"';
+			$where[] = 'url LIKE "' . $this->_db->getEscaped($searchstring) . '%"';
 		}
 		if ($sef) {
-			$where[] = 'sefurl LIKE "%' . $this->_db->getEscaped($searchstring) . '%"';
+			$where[] = 'sefurl LIKE "' . $this->_db->getEscaped($searchstring) . '%"';
 		}
 
 		$query .= implode(' OR ', $where);
@@ -120,7 +119,6 @@ class plgSystemBacklink extends JPlugin
 	function _redirect($Itemid, $name, $url = null)
 	{
 		global $mainframe;
-
 		if (!strlen($url))
 		{
 			$menu = & JSite :: getMenu();
@@ -142,9 +140,8 @@ class plgSystemBacklink extends JPlugin
 					//$url = $item->link . '&Itemid='.$item->id;
 					break;
 			}
-
 			$url = JRoute :: _($url);
-			$url = JURI :: base() . $url; // was $surl with third option of below being url and second being surl
+			//$url = JURI :: base() . $url; // was $surl with third option of below being url and second being surl
 			$name = $item->name;
 		}
 		// Check we're not redirecting to ourselves
