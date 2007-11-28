@@ -287,7 +287,7 @@ class JUser extends JObject
 	 * setup file base path. You can call this function statically to set the base path if needed.
 	 *
 	 * @access 	public
-	 * @param	boolean	If true, loads the parameters setup file. Default is true.
+	 * @param	boolean	If true, loads the parameters setup file. Default is false.
 	 * @param	path	Set the parameters setup file base path to be used to load the user parameters.
 	 * @return	object	The user parameters object
 	 * @since	1.5
