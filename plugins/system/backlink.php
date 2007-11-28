@@ -65,7 +65,11 @@ class plgSystemBacklink extends JPlugin
 		// Case 2: SEF or similar match
 		if ($sef && isset ($_SERVER['SCRIPT_NAME']) && isset ($_SERVER['REQUEST_URI'])) {
 			$part = str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
-			$search = str_replace($part, '', $_SERVER['REQUEST_URI']);
+			if($part != '/') {
+				$search = str_replace($part, '', $_SERVER['REQUEST_URI']);
+			} else {
+				$search = ltrim($_SERVER['REQUEST_URI'],'/');
+			}
 			$this->_lookup($search);
 		}
 		// Case 3: Old school core sef; used to backlink
@@ -522,3 +526,4 @@ class plgSystemBacklink extends JPlugin
 	}
 
 }
+
