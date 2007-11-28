@@ -11,7 +11,7 @@
 	<description>Turkish language file for web installer</description>
 	<metadata>
 		<name>Turkish (Turkiye)</name>
-		<tag>tr_TR</tag>
+		<tag>tr-TR</tag>
 		<rtl>0</rtl>
 		<locale>tr_TR.utf8, tr, tr_TR, turkish, Turkish_Standard, Tur_TR,  tr_TR.UTF-8, tr_TR.ISO8859-9, tr_TR.iso88599, tr_TR.UTF-8@euro</locale>
 		<wincodepage>iso-8859-9</wincodepage>
