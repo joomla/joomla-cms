@@ -16,7 +16,7 @@
 defined('JPATH_BASE') or die();
 
 // Register legacy classes for autoloading
-JLoader::register('JDatabaseMySQL', JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'database'.DS.'database.php');
+JLoader::register('JDatabaseMySQL', JPATH_LIBRARIES.DS.'joomla'.DS.'database'.DS.'database'.DS.'mysql.php');
 
 /**
  * Legacy class, use {@link JDatabase} instead

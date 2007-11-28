@@ -60,7 +60,6 @@ class  plgSystemLegacy extends JPlugin
 		JLoader::register('mosCommonHTML'   , dirname(__FILE__).DS.'legacy'.DS.'commonhtml.php');
 		JLoader::register('mosComponent'    , dirname(__FILE__).DS.'legacy'.DS.'component.php');
 		JLoader::register('mosContent'      , dirname(__FILE__).DS.'legacy'.DS.'content.php');
-		JLoader::register('database'        , dirname(__FILE__).DS.'legacy'.DS.'database.php');
 		JLoader::register('mosDBTable'      , dirname(__FILE__).DS.'legacy'.DS.'dbtable.php');
 		JLoader::register('mosHTML'         , dirname(__FILE__).DS.'legacy'.DS.'html.php');
 		JLoader::register('mosInstaller'    , dirname(__FILE__).DS.'legacy'.DS.'installer.php');
@@ -79,6 +78,10 @@ class  plgSystemLegacy extends JPlugin
 		JLoader::register('mosToolbar'      , dirname(__FILE__).DS.'legacy'.DS.'toolbar.php');
 		JLoader::register('mosUser'         , dirname(__FILE__).DS.'legacy'.DS.'user.php');
 
+		// Register class for the database, depends on which db type has been selected for use
+		$dbtype	= $config->getValue('config.dbtype', 'mysql');
+		JLoader::register('database'        , dirname(__FILE__).DS.'legacy'.DS.$dbtype.'.php');
+		
 		/**
 		 * Legacy define, _ISO define not used anymore. All output is forced as utf-8.
 		 * @deprecated	As of version 1.5
