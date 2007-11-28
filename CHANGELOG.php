@@ -37,8 +37,6 @@ Legend:
 - -> Removed
 ! -> Note
 
-28-Nov-2007 Robin Muilwijk
- ! commit check
 
 28-Nov-2007 Toby Patterson
  # Fixed loading of legacy database class for dbtype mysqli
