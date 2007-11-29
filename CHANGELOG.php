@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 
+29-Nov-2007 Toby Patterson
+ # Fixed [#7928] Wrong titles in table of content of multi-page article
+
 28-Nov-2007 Toby Patterson
  # Fixed loading of legacy database class for dbtype mysqli
 

@@ -171,17 +171,8 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 function plgContentCreateTOC( &$row, &$matches, &$page )
 {
+	
 	$heading = $row->title;
-
-	// allows customization of first page title by checking for `heading` attribute in first bot
-	if ( @$matches[0][1] )
-	{
-		$attrs = JUtility::parseAttributes($matches[0][1]);
-		if ( @$attrs['alt'] ) {
-			$heading = $attrs['alt'];
-			$row->title .= ': '. $heading;
-		}
-	}
 
 	// TOC Header
 	$row->toc = '
