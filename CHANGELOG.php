@@ -43,6 +43,8 @@ Legend:
  # Fixed [#7799] email cloaking don't work when email link is used with a picture
  # Fixed [#7467] Access denied for registered to submit a web link
  ! Registered users are not allowed to submit articles and weblinks
+ # Fixed [#7913] Scrollbar in Configboxes
+ # Fixed [#7912] Scrollbar in Administrator-Template
 
 28-Nov-2007 Toby Patterson
  # Fixed loading of legacy database class for dbtype mysqli

@@ -30,7 +30,7 @@ body {
 
 body, td, th { font-family: Arial, Helvetica, sans-serif; }
 
-html, body { height: 100%; }
+html, body { height: 95%; }
 
 .clr { clear: both; overflow:hidden; height: 0; }
 
