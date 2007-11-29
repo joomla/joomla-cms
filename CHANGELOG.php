@@ -41,7 +41,6 @@ Legend:
 29-Nov-2007 Toby Patterson
  # Fixed [#7928] Wrong titles in table of content of multi-page article
  # Fixed [#7799] email cloaking don't work when email link is used with a picture
- ! Cloaking an e-mail address used as a mailto is not supported - use {emailcloak=off} to disable
 
 28-Nov-2007 Toby Patterson
  # Fixed loading of legacy database class for dbtype mysqli
