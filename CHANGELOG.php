@@ -45,6 +45,7 @@ Legend:
  ! Registered users are not allowed to submit articles and weblinks
  # Fixed [#7913] Scrollbar in Configboxes
  # Fixed [#7912] Scrollbar in Administrator-Template
+ # Fixed [#7846] Untranslated PM subject
 
 28-Nov-2007 Toby Patterson
  # Fixed loading of legacy database class for dbtype mysqli

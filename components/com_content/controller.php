@@ -216,7 +216,7 @@ class ContentController extends JController
 			foreach ($users as $user_id)
 			{
 				$msg = new TableMessage($db);
-				$msg->send($user->get('id'), $user_id, "New Item", JText::sprintf('ON_NEW_CONTENT', $user->get('username'), $post['title'], $section, $category));
+				$msg->send($user->get('id'), $user_id, JText::_('New Item'), JText::sprintf('ON_NEW_CONTENT', $user->get('username'), $post['title'], $section, $category));
 			}
 		} else {
 			// If the article isn't new, then we need to clean the cache so that our changes appear realtime :)
