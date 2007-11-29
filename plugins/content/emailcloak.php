@@ -30,7 +30,7 @@ function plgContentEmailCloak( &$row, &$params, $page=0 )
 
 	// check for presence of {emailcloak=off} which is explicits disables this bot for the item
 	if ( !JString::strpos( $row->text, '{emailcloak=off}' ) === false ) {
-		$row->text = JString::str_replace( '{emailcloak=off}', '', $row->text );
+		$row->text = JString::str_ireplace( '{emailcloak=off}', '', $row->text );
 		return true;
 	}
 
