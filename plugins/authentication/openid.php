@@ -1,17 +1,16 @@
 <?php
-
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	JFramework
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	JFramework
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
@@ -40,7 +39,8 @@ class plgAuthenticationOpenID extends JPlugin
 	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since 1.5
 	 */
-	function plgAuthenticationOpenID(& $subject, $config) {
+	function plgAuthenticationOpenID(& $subject, $config)
+	{
 		parent::__construct($subject, $config);
 	}
 
@@ -78,7 +78,8 @@ class plgAuthenticationOpenID extends JPlugin
 
 		// Create and/or start using the data store
 		$store_path = JPATH_ROOT . '/tmp/_joomla_openid_store';
-		if (!file_exists($store_path) && !mkdir($store_path)) {
+		if (!file_exists($store_path) && !mkdir($store_path))
+		{
 			print "Could not create the FileStore directory '$store_path'. " . " Please check the effective permissions.";
 			exit (0);
 		}
@@ -158,4 +159,3 @@ class plgAuthenticationOpenID extends JPlugin
 		}
 	}
 }
-?>

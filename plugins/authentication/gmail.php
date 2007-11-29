@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	JFramework
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	JFramework
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
@@ -92,7 +92,8 @@ class plgAuthenticationGMail extends JPlugin
 
 		$message = '';
 		$success = 0;
-		if(function_exists('curl_init')) {
+		if(function_exists('curl_init'))
+		{
 			if(strlen($credentials['username']) && strlen($credentials['password']))
 			{
 				$curl = curl_init('https://mail.google.com/gmail/feed/atom');
@@ -116,8 +117,14 @@ class plgAuthenticationGMail extends JPlugin
 						$message = 'Result unknown, access denied.';
 						break;
 				}
-			} else $message = 'Username or password blank';
-		} else $message = 'curl isn\'t insalled';
+			}
+			else  {
+				$message = 'Username or password blank';
+			}
+		}
+		else {
+			$message = 'curl isn\'t insalled';
+		}
 
 		if ($success)
 		{
@@ -133,4 +140,3 @@ class plgAuthenticationGMail extends JPlugin
 		}
 	}
 }
-?>
