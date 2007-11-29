@@ -41,6 +41,8 @@ Legend:
 29-Nov-2007 Toby Patterson
  # Fixed [#7928] Wrong titles in table of content of multi-page article
  # Fixed [#7799] email cloaking don't work when email link is used with a picture
+ # Fixed [#7467] Access denied for registered to submit a web link
+ ! Registered users are not allowed to submit articles and weblinks
 
 28-Nov-2007 Toby Patterson
  # Fixed loading of legacy database class for dbtype mysqli
