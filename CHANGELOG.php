@@ -46,6 +46,7 @@ Legend:
  # Fixed [#7913] Scrollbar in Configboxes
  # Fixed [#7912] Scrollbar in Administrator-Template
  # Fixed [#7846] Untranslated PM subject
+ # Fixed [#7994] Copy Menu throws errors
 
 28-Nov-2007 Toby Patterson
  # Fixed loading of legacy database class for dbtype mysqli

@@ -581,13 +581,15 @@ class MenusController extends JController
 	{
 		$id = JRequest::getVar( 'id', 0, '', 'int' );
 		if ($id <= 0) {
-			JError::raiseError( 500, JText::_( 'Invalid ID provided' ) );
+			JError::raiseWarning( 500, JText::_( 'Invalid ID provided' ) );
+			$this->setRedirect( 'index.php?option=com_menus' );
 			return false;
 		}
 
 		$model =& $this->getModel( 'Menutype' );
 		if (!$model->canDelete()) {
-			JError::raiseError( 500, $model->getError() );
+			JError::raiseWarning( 500, $model->getError() );
+			$this->setRedirect( 'index.php?option=com_menus' );
 			return false;
 		}
 		$err = null;
@@ -631,8 +633,9 @@ class MenusController extends JController
 		{
 			$params = new JParameter( $menu );
 			if ( $params->get('menutype') == $menu_name ) {
-				JError::raiseError( 500, JText::_( 'ERRORMENUNAMEEXISTS' ) );
-				$mainframe->close();
+				JError::raiseWarning( 500, JText::_( 'ERRORMENUNAMEEXISTS' ) );
+				$this->setRedirect( 'index.php?option=com_menus' );
+				return;
 			}
 		}
 
@@ -654,12 +657,14 @@ class MenusController extends JController
 			$copy->menutype = $menu_name;
 
 			if ( !$copy->check() ) {
-				josErrorAlert( $copy->getError() );
-				$mainframe->close();
+				JError::raiseWarning( 500, $copy->getError() );
+				$this->setRedirect( 'index.php?option=com_menus' );
+				return;
 			}
 			if ( !$copy->store() ) {
-				josErrorAlert( $copy->getError() );
-				$mainframe->close();
+				JError::raiseWarning( 500, $copy->getError() );
+				$this->setRedirect( 'index.php?option=com_menus' );
+				return;
 			}
 			$a_ids[$original->id] = $copy->id;
 		}
@@ -675,12 +680,14 @@ class MenusController extends JController
 		$row->params 	= 'menutype='. $menu_name;
 
 		if (!$row->check()) {
-			josErrorAlert( $row->getError() );
-			$mainframe->close();
+			JError::raiseWarning( 500, $row->getError() );
+			$this->setRedirect( 'index.php?option=com_menus' );
+			return;
 		}
 		if (!$row->store()) {
-			josErrorAlert( $row->getError() );
-			$mainframe->close();
+			JError::raiseWarning( 500, $row->getError() );
+			$this->setRedirect( 'index.php?option=com_menus' );
+			return;
 		}
 		$row->checkin();
 		$row->reorder( 'position='.$db->Quote($row->position) );
@@ -690,8 +697,11 @@ class MenusController extends JController
 				' VALUES ( '.(int) $row->id.', 0 )';
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
-			echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
-			$mainframe->close();
+			JError::raiseWarning( 500, $db->getErrorMsg(true) );
+			$this->setRedirect( 'index.php?option=com_menus' );
+			return;
+			//echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
+			//$mainframe->close();
 		}
 
 		// Insert the menu type
@@ -699,8 +709,11 @@ class MenusController extends JController
 				' VALUES ( '.$db->Quote($menu_name).', '.$db->Quote($menu_name).', "")';
 		$db->setQuery( $query );
 		if ( !$db->query() ) {
-			echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
-			$mainframe->close();
+			JError::raiseWarning( 500, $db->getErrorMsg(true) );
+			$this->setRedirect( 'index.php?option=com_menus' );
+			return;
+			//echo "<script> alert('".$db->getErrorMsg(true)."'); window.history.go(-1); </script>\n";
+			//$mainframe->close();
 		}
 
 		$msg = JText::sprintf( 'Copy of Menu created', $type, $total );
