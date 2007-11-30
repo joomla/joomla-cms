@@ -118,7 +118,7 @@ class WeblinksModelCategory extends JModel
 			for($i = 0; $i < $total; $i++)
 			{
 				$item =& $this->_data[$i];
-				$item->slug = $item->id.'-'.$item->alias;
+				$item->slug = $item->id.':'.$item->alias;
 			}
 		}
 

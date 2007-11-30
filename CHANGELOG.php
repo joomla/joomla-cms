@@ -39,6 +39,8 @@ Legend:
 
 30-Nov-2007 Jui-Yu Tsai
  # Fixed [t,237399] Undefined property: stdClass::$category when viewing feed entries
+ # Fixed [t,237399] Undefined property: stdClass::$catid when viewing contact feed entries
+ # Fixed and use slug value for links at com_weblinks and feed for com_content
 
 29-Nov-2007 Toby Patterson
  # Fixed [#7928] Wrong titles in table of content of multi-page article

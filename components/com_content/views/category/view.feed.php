@@ -46,7 +46,7 @@ class ContentViewCategory extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$link = JRoute::_('index.php?option=com_content&view=article&id='. $row->id );
+			$link = JRoute::_('index.php?option=com_content&view=article&id='. $row->slug .'&catid='.$row->catslug );
 
 			// strip html from feed item description text
 			$description	= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
