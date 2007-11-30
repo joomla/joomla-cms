@@ -47,6 +47,7 @@ Legend:
  # Fixed [#7912] Scrollbar in Administrator-Template
  # Fixed [#7846] Untranslated PM subject
  # Fixed [#7994] Copy Menu throws errors
+ # Fixed Topic: 9188- Pagebreak oddity
 
 28-Nov-2007 Toby Patterson
  # Fixed loading of legacy database class for dbtype mysqli

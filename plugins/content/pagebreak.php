@@ -106,18 +106,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 		if ( $title )
 		{
 			$page_text = $page + 1;
-			if ( !$page )
-			{
-				// processing for first page
-				$attrs = JUtility::parseAttributes($matches[0][1]);
-
-				if ( @$attrs['alt'] ) {
-					$row->page_title = $attrs['alt'];
-				} else {
-					$row->page_title = '';
-				}
-			}
-			else if ( @$matches[$page-1][2] )
+			if ( $page && @$matches[$page-1][2] )
 			{
 				$attrs = JUtility::parseAttributes($matches[$page-1][1]);
 
