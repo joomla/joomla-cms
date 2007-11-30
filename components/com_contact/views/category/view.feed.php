@@ -46,7 +46,8 @@ class ContactViewCategory extends JView
 		. ' CONCAT( a.con_position, \' - \', a.misc ) AS description,'
 		. ' "" AS date,'
 		. ' c.title AS category,'
-		. ' a.id AS id'
+		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
+		. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as catslug'
 		. ' FROM #__contact_details AS a'
 		. ' LEFT JOIN #__categories AS c ON c.id = a.catid'
 		. $where
@@ -62,7 +63,7 @@ class ContactViewCategory extends JView
 			$title = html_entity_decode( $title );
 
 			// url link to article
-			$link = JRoute::_('index.php?option=com_contact&view=contact&id='. $row->id .'&catid='.$row->catid );
+			$link = JRoute::_('index.php?option=com_contact&view=contact&id='. $row->slug .'&catid='.$row->catslug );
 
 			// strip html from feed item description text
 			$description = $row->description;

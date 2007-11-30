@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Nov-2007 Jui-Yu Tsai
+ # Fixed [t,237399] Undefined property: stdClass::$category when viewing feed entries
 
 29-Nov-2007 Toby Patterson
  # Fixed [#7928] Wrong titles in table of content of multi-page article
