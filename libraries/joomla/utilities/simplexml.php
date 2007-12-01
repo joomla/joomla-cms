@@ -43,7 +43,7 @@ defined('JPATH_BASE') or die();
  * Example:
  * <code>
  * :simple.xml:
- * <?xml version="1.0" encoding="utf-8" standalon="yes"?>
+ * <?xml version="1.0" encoding="utf-8" standalone="yes"?>
  * <document>
  *   <node>
  *	 <child gender="m">Tom Foo</child>
@@ -56,7 +56,7 @@ defined('JPATH_BASE') or die();
  * // read and write a document
  * $xml = new JSimpleXML;
  * $xml->loadFile('simple.xml');
- * print $xml->toString();
+ * print $xml->document->toString();
  *
  * // access a given node's CDATA
  * print $xml->root->node->child[0]->data(); // Tom Foo
