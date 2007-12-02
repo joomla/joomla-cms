@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Nov-2007 Toby Patterson
+ # Fixed 9470 - One letter domainname in email not valid
+
 30-Nov-2007 Jui-Yu Tsai
  # [t,200285] refactoring of mod_search, add new functions to helper and remove render function
  # Fixed [t,237399] Undefined property: stdClass::$category when viewing feed entries

@@ -136,11 +136,30 @@ class JMailHelper
 		
 		// Check the domain
 		$domain_array	= explode(".", $domain);
-		$regex		= '/^[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]$/';
-		for ($i = 0; $i < sizeof($domain_array); $i++) {
-			if ( ! preg_match($regex, $domain_array[$i])) {
+		$regex		= '/^[A-Za-z0-9-]{0,63}$/';
+		foreach ($domain_array as $domain ) {
+			
+			// Must be something
+			if ( ! $domain ) {
 				return false;
 			}
+			
+			// Check for invalid characters
+			if ( ! preg_match($regex, $domain) ) {
+				return false;
+			}
+			
+			// Check for a dash at the beginning of the domain
+			if ( strpos($domain, '-' ) === 0 ) {
+				return false;
+			}
+			
+			// Check for a dash at the end of the domain
+			$length = strlen($domain) -1;
+			if ( strpos($domain, '-', $length ) === $length ) {
+				return false;
+			}
+			
 		}
 		
 		return true;
