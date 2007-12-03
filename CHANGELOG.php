@@ -37,8 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
-3-Dec-2007 Sam Moffatt
+03-Dec-2007 Sam Moffatt
  # Fixed [#7565] Untranslated string found during Joomla! installation
+ # Changed spelling of 'grey' to 'gray' in khepri template menu css to display right in IE6
 
 30-Nov-2007 Toby Patterson
  # Fixed 9470 - One letter domainname in email not valid
