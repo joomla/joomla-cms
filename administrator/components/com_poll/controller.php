@@ -101,6 +101,7 @@ class PollController extends JController
 
 		foreach ($options as $i=>$text)
 		{
+			$text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 			if ($isNew)
 			{
 				$query = 'INSERT INTO #__poll_data'

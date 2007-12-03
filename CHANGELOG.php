@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Dec-2007 Jui-Yu Tsai
+ * Fixed [#7358] XSS vulnerability in com_poll
+
 03-Dec-2007 Sam Moffatt
  # Fixed [#7565] Untranslated string found during Joomla! installation
  # Changed spelling of 'grey' to 'gray' in khepri template menu css to display right in IE6
