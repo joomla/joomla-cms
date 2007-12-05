@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 05-Dec-2007 Jui-Yu Tsai
+ # Fixed [t,240403] Beez template - undef variable inputfield in mod_search\default.php
  # Fixed com_contact item parameters override menu/global parameters at contact view 
 
 03-Dec-2007 Jui-Yu Tsai
