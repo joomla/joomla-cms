@@ -36,7 +36,7 @@ class ContactViewContact extends JView
 		$menus	= &JSite::getMenu();
 		$menu    = $menus->getActive();
 
-		$pparams = &$mainframe->getParams();
+		$pparams = &$mainframe->getParams('com_contact');
 
 		// Push a model into the view
 		$model		= &$this->getModel();
@@ -76,7 +76,7 @@ class ContactViewContact extends JView
 		// Adds parameter handling
 		$contact->params = new JParameter($contact->params);
 
-		$contact->params->merge($pparams);
+		$pparams->merge($contact->params);
 
 		// Handle component/menu overides for some contact parameters if set
 		/*

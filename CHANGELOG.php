@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Dec-2007 Jui-Yu Tsai
+ # Fixed com_contact item parameters override menu/global parameters at contact view 
+
 03-Dec-2007 Jui-Yu Tsai
  * Fixed [#7358] XSS vulnerability in com_poll
 
