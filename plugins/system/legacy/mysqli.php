@@ -49,9 +49,9 @@ class database extends JDatabaseMySQLi
 				return false;
 			}
 
-			if ($array = mysql_fetch_assoc( $cur ))
+			if ($array = mysqli_fetch_assoc( $cur ))
 			{
-				mysql_free_result( $cur );
+				mysqli_free_result( $cur );
 				mosBindArrayToObject( $array, $object, null, null, false );
 				return true;
 			} else {

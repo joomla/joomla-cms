@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Dec-2007 Johan Janssens 
+ # Fixed [#8390] legacy mysqli.php - calls mysql function (not mysqli)
+ # Fixed [#8388] JArrayHelper::toString complains on empty arrays
+
 05-Dec-2007 Jui-Yu Tsai
  # Fixed [t,240403] Beez template - undef variable inputfield in mod_search\default.php
  # Fixed com_contact item parameters override menu/global parameters at contact view 
