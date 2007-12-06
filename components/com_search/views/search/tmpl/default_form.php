@@ -53,9 +53,6 @@
 		<td>
 			<br />
 			<?php echo $this->result; ?>
-			<a href="http://www.google.com/search?q=<?php echo $this->escape($this->searchword); ?>" target="_blank">
-				<?php echo $this->image; ?>
-			</a>
 		</td>
 	</tr>
 </table>

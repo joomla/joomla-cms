@@ -7,9 +7,6 @@ defined('_JEXEC') or die('Restricted access');
 	<p>
 		<?php echo JText::_('Search Keyword') ?> <strong><?php echo $this->escape($this->searchword) ?></strong>
 		<?php echo $this->result ?>
-		<a href="http://www.google.com/search?q=<?php echo $this->escape($this->searchword) ?>" target="_blank">
-			<?php echo $this->image ?>
-		</a>
 	</p>
 	<p>
 		<a href="#form1" onclick="document.getElementById('search_searchword').focus();return false" onkeypress="document.getElementById('search_searchword').focus();return false" ><?php echo JText::_('Search_again') ?></a>
