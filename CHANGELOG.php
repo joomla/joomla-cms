@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Dec-2007 Jui-Yu Tsai
+ # Fixed [#8322] contact with no email address results in front end error
+
 06-Dec-2007 Johan Janssens 
  # Fixed [#8390] legacy mysqli.php - calls mysql function (not mysqli)
  # Fixed [#8388] JArrayHelper::toString complains on empty arrays

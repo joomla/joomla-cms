@@ -63,13 +63,24 @@ class ContactViewCategory extends JView
 		}
 
 		//prepare contacts
+		if($pparams->get('show_email', 0) == 1) {
+		    jimport('joomla.mail.helper');
+		}
+		
 		$k = 0;
 		for($i = 0; $i <  count( $contacts ); $i++)
 		{
 			$contact =& $contacts[$i];
 
 			$contact->link	   = JRoute::_('index.php?option=com_contact&view=contact&id='.$contact->slug);
-			$contact->email_to = JHTML::_('email.cloak', $contact->email_to);
+			if($pparams->get('show_email', 0) == 1) {
+			    $contact->email_to = trim($contact->email_to); 
+				if(!empty($contact->email_to) && JMailHelper::isEmailAddress($contact->email_to)) {
+				    $contact->email_to = JHTML::_('email.cloak', $contact->email_to);
+				} else {
+				    $contact->email_to = '';
+				}
+			}
 
 			$contact->odd	= $k;
 			$contact->count = $i;
