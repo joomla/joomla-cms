@@ -46,7 +46,7 @@
 </table>
 <br />
 <?php endif; ?>
-<?php if ( ($this->contact->email_to && $this->contact->params->get( 'show_email' )) || $this->contact->telephone  || $this->contact->fax || $this->contact->mobile ) : ?>
+<?php if ( ($this->contact->email_to && $this->contact->params->get( 'show_email' )) || $this->contact->telephone  || $this->contact->fax || $this->contact->mobile || $this->contact->webpage ) : ?>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <?php if ( $this->contact->email_to && $this->contact->params->get( 'show_email' ) ) : ?>
 <tr>
