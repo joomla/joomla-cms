@@ -42,6 +42,7 @@ Legend:
  # Updated pagebreak code to use aliases to TOC
  !  Still need dev feedback re: how to represent the article title in the TOC box
  # Fixed [#8224] admin - mod_login error 12263
+ # Fixed [#8269] Contact parameters telephone bug
 
 06-Dec-2007 Jui-Yu Tsai
  # Fixed [#8322] contact with no email address results in front end error
