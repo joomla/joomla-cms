@@ -44,6 +44,8 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 
+	require_once(JPATH_SITE.DS.'components'.DS.'com_weblinks'.DS.'helpers'.DS.'route.php');
+	
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( plgSearchWeblinksAreas() ) )) {
 			return array();
@@ -131,7 +133,7 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	$rows = $db->loadObjectList();
 	
 	foreach($rows as $key => $row) {
-		$rows[$key]->href = 'index.php?option=com_weblinks&view=weblink&catid='.$row->catslug.'&id='.$row->slug;
+		$rows[$key]->href = WeblinksHelperRoute::getWeblinkRoute($row->slug, $row->catslug);
 	}
 
 	return $rows;

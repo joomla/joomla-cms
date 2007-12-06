@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Dec-2007 Mateusz Krzeszowiec
+ # Fixed [#8250] Possible bug in 'search' when it returns a weblink entry
+ + Added router helper for com_weblinks
+
 06-Dec-2007 Toby Patterson
  # Fixed [#7432] Button with untranslated caption in Media Manager ( take two )
  # Updated pagebreak code to use aliases to TOC
