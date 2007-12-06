@@ -52,7 +52,6 @@
 		<fieldset class="actions">
 			<input type="file" id="file-upload" name="Filedata" />
 			<input type="submit" id="file-upload-submit" value="<?php echo JText::_('Start Upload'); ?>"/>
-			<input type="hidden" id="browseCaption" name="browseCaption" value="<?php echo JText::_('Browse Files'); ?>" />
 			<span id="upload-clear"></span>
 		</fieldset>
 		<ul class="upload-queue" id="upload-queue">

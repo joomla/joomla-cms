@@ -105,13 +105,15 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 		// adds heading or title to <site> Title
 		if ( $title )
 		{
-			$page_text = $page + 1;
-			if ( $page && @$matches[$page-1][2] )
-			{
-				$attrs = JUtility::parseAttributes($matches[$page-1][1]);
-
-				if ( @$attrs['title'] ) {
-					$row->page_title = $attrs['title'];
+			if ( $page ) {
+				$page_text = $page + 1;
+				if ( $page && @$matches[$page-1][2] )
+				{
+					$attrs = JUtility::parseAttributes($matches[$page-1][1]);
+	
+					if ( @$attrs['title'] ) {
+						$row->page_title = $attrs['title'];
+					}
 				}
 			}
 		}
@@ -162,7 +164,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 {
 	
 	$heading = $row->title;
-
+	
 	// TOC Header
 	$row->toc = '
 	<table cellpadding="0" cellspacing="0" class="contenttoc" align="right">
@@ -190,47 +192,38 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 	{
 		$link = JRoute::_( '&showall=&limitstart='. ($i-1) );
 
+		
 		if ( @$bot[0] )
 		{
-			$attrs2 = JUtility::parseAttributes($bot[0]);
+			$attrs2 =& JUtility::parseAttributes($bot[0]);
 
-			if ( @$attrs2['title'] )
+			if ( @$attrs2['alt'] )
 			{
-				$row->toc .= '
-				<tr>
-					<td>
-					<a href="'. $link .'" class="toclink">'
-					. stripslashes( $attrs2['title'] ) .
-					'</a>
-					</td>
-				</tr>
-				';
+				$title	= stripslashes( $attrs2['alt'] );
+			}
+			elseif ( @$attrs2['title'] )
+			{
+				$title	= stripslashes( $attrs2['title'] );
 			}
 			else
 			{
-				$row->toc .= '
-				<tr>
-					<td>
-					<a href="'. $link .'" class="toclink">'
-					. JText::sprintf( 'Page #', $i ) .
-					'</a>
-					</td>
-				</tr>
-				';
+				$title	= JText::sprintf( 'Page #', $i );
 			}
 		}
 		else
 		{
-			$row->toc .= '
+			$title	= JText::sprintf( 'Page #', $i );
+		}
+		
+		$row->toc .= '
 			<tr>
 				<td>
 				<a href="'. $link .'" class="toclink">'
-				. JText::sprintf( 'Page #', $i ) .
+				. $title .
 				'</a>
 				</td>
 			</tr>
 			';
-		}
 		$i++;
 	}
 

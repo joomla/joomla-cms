@@ -56,8 +56,9 @@ class JPathwaySite extends JPathway
 					}
 					
 					$this->addItem( $menus[$menupath]->name, $url);
-				}
-			}
-		}
+					
+				} // end foreach
+			} 
+		} // end if getActive
 	}
 }

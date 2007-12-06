@@ -213,7 +213,9 @@ class JHTMLBehavior
 
 		// Attach tooltips to document
 		$document =& JFactory::getDocument();
-		$uploaderInit = '		window.addEvent(\'load\', function(){
+		$uploaderInit = 'sBrowseCaption=\''.JText::_('Browse Files', true).'\';
+				sRemoveToolTip=\''.JText::_('Remove from queue', true).'\';
+				window.addEvent(\'load\', function(){
 				var Uploader = new FancyUpload($(\''.$id.'\'), '.$options.');
 				$(\'upload-clear\').adopt(new Element(\'input\', { type: \'button\', events: { click: Uploader.clearList.bind(Uploader, [false])}, value: \''.JText::_('Clear Completed').'\' }));				});';
 		$document->addScriptDeclaration($uploaderInit);

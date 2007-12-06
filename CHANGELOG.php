@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Dec-2007 Toby Patterson
+ # Fixed [#7432] Button with untranslated caption in Media Manager ( take two )
+ # Updated pagebreak code to use aliases to TOC
+ !  Still need dev feedback re: how to represent the article title in the TOC box
+
 06-Dec-2007 Jui-Yu Tsai
  # Fixed [#8322] contact with no email address results in front end error
 

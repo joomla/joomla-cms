@@ -101,15 +101,6 @@ var FancyUpload = new Class({
 		if (this.options.createReplacement) this.options.createReplacement(this.element);
 		else {
 			
-			// Try to translate a string
-			var sBrowseHidden = $('browseCaption');
-			var sBrowseCaption;
-			if ( sBrowseHidden ) {
-				sBrowseCaption = sBrowseHidden.value;
-			} else {
-				sBrowseCaption = 'Browse Files'
-			}
-			
 			new Element('input', {
 				type: 'button',
 				value: sBrowseCaption,
@@ -206,7 +197,7 @@ var FancyUpload = new Class({
 		new Element('a', {
 			href: 'javascript:void(0)',
 			'class': 'input-delete',
-			title: 'Remove from queue',
+			title: sRemoveToolTip,
 			events: {
 				click: this.cancelFile.bindWithEvent(this, [name, size])
 			}
