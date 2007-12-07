@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Dec-2007 Jui-Yu Tsai
+ # Fixed [#8404] Invalid XHTML code output in com_search
+
 07-Dec-2007 Toby Patterson
  # Fixed [t,220997] JRoute::_() replaces \s with %20
  ! Left in debug code in JRout::_() to help warn people when passing invalid URLs into the router,

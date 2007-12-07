@@ -32,7 +32,7 @@
 	<?php if ($this->params->get( 'search_areas', 1 )) : ?>
 		<?php echo JText::_( 'Search Only' );?>:
 		<?php foreach ($this->searchareas['search'] as $val => $txt) :
-			$checked = is_array( $this->searchareas['active'] ) && in_array( $val, $this->searchareas['active'] ) ? 'checked="true"' : '';
+			$checked = is_array( $this->searchareas['active'] ) && in_array( $val, $this->searchareas['active'] ) ? 'checked="checked"' : '';
 		?>
 		<input type="checkbox" name="areas[]" value="<?php echo $val;?>" id="area_<?php echo $val;?>" <?php echo $checked;?> />
 			<label for="area_<?php echo $val;?>">
