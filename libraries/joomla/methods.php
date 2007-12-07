@@ -48,9 +48,22 @@ class JRoute
 			return null;
 		}
 		
+		static $debug;
+		
+		if ( $debug == NULL ) {
+			$debug = $app->getCfg('debug');
+		}
+		
+		if ( $debug && (strpos($url, '&') !== 0 ) && (strpos($url, 'index.php') !== 0) ) {
+			JError::raiseWarning(200, "The url '$url' should not be routed through JRoute::_() ");
+		}
+		
 		// Build route
 		$uri = &$router->build($url);
 		$url = $uri->toString(array('path', 'query', 'fragment'));
+		
+		// Replace spaces
+		$url = preg_replace('/\s/', '%20', $url);
 		
 		/*
 		 * Get the secure/unsecure URLs.

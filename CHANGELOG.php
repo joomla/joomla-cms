@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Dec-2007 Toby Patterson
+ # Fixed [t,220997] JRoute::_() replaces \s with %20
+ ! Left in debug code in JRout::_() to help warn people when passing invalid URLs into the router,
+   ie, url args don't begin with 'index.php' or '&' .  
+
 06-Dec-2007 Mateusz Krzeszowiec
  # Fixed [#8250] Possible bug in 'search' when it returns a weblink entry
  + Added router helper for com_weblinks
