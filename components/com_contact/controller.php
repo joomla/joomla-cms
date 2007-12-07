@@ -192,9 +192,10 @@ class ContactController extends JController
 				$sent = $mail->Send();
 			}
 		}
-
-		$this->setError( JText::_( 'Thank you for your e-mail'));
-		$this->display();
+		
+		$msg = JText::_( 'Thank you for your e-mail');
+		$link = JRoute::_('index.php?option=com_contact&view=contact&id='.$contactId);
+		$this->setRedirect($link, $msg);
 	}
 
 	/**

@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 07-Dec-2007 Jui-Yu Tsai
+ # Fixed [t,228722] beez's com_contact/contact/default_form.php message missing
  # Fixed sample_data.sql for _contact_details param
  # Fixed [#8404] Invalid XHTML code output in com_search
 
