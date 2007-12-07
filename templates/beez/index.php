@@ -52,7 +52,7 @@ $showRightColumn &= JRequest::getCmd('task') != 'edit'
 			</ul>
 
 			<h2 class="unseen">
-				<?php echo JText::_(' View , Navigation and Search'); ?>
+				<?php echo JText::_('View , Navigation and Search'); ?>
 			</h2>
 
 			<div id="fontsize">
