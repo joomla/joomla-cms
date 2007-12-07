@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 07-Dec-2007 Jui-Yu Tsai
+ # Fixed sample_data.sql for _contact_details param
  # Fixed [#8404] Invalid XHTML code output in com_search
 
 07-Dec-2007 Toby Patterson
