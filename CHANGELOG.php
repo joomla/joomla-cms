@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Dec-2007 Ian MacLennan
+ # Fixed untranslatable string - Added en-GB.com_media.ini for clear completed string in frontend (thanks JM)
+
 08-Dec-2007 Louis Landry ** Bug Squash Event: NYC **
  # Fixed [#8069] JSwitcher::switchTo() fails with "null" toggler
  # Fixed [#7705] Name and abrreviation of the month [patch]
