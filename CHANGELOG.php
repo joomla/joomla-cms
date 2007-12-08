@@ -43,6 +43,7 @@ Legend:
  ! Month abbreviation translation keys changed from eg. JAN to JANUARY_SHORT, etc.
  # Fixed [#7825] squeezebox doesnt function right in internet explorer * Thanks Anthony Ferrara *
  # Fixed [#6963] [patch] avoiding three warnings in installation/installer/models/model.php (open_basedir)
+ # Fixed [#8367] BUG: CSS problem with Login button in the Control Panel[patch]
 
 07-Dec-2007 Jui-Yu Tsai
  # Fixed [t,228722] beez's com_contact/contact/default_form.php message missing
