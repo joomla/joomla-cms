@@ -39,7 +39,7 @@ Legend:
 
 08-Dec-2007 Mickael Maison
  # Fixed [#7519] Stats module: call for JText not specified (==> localisation problem)
- # Fixed [#6895] Unnecessary definitions in en-GB.com_config.ini 
+ # Fixed [#6895] Unnecessary definitions in en-GB.com_config.ini
 
 08-Dec-2007 Wilco Jansen ** Bug Squash Event: NY **
  # Fixed [#8302] Conflict between hard coding of image path and configured image path
@@ -71,6 +71,7 @@ Legend:
  # Fixed [#8349] Bug in com_search: search result not displayed if limit = 0 * Thanks Anthony Ferrara *
  # Fixed [#8398] Unable to view category even if show_empty_categories is set * Thanks Bruce S. *
  # Fixed [#8431] Menu Item-User-Connexion-Default Login Layout- Not picking up language file * Thanks Anthony Ferrara *
+ # Fixed [#7611] known Help / System-Info error * Thanks Jon Palmer *
 
 07-Dec-2007 Jui-Yu Tsai
  # Fixed [t,228722] beez's com_contact/contact/default_form.php message missing
