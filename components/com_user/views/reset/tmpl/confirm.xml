@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="CONFIRM RESET LAYOUT">
-		<message>
-			<![CDATA[CONFIRM RESET LAYOUT DESC]]>
-		</message>
-	</layout>
-	<state>
-		<name>CONFIRM RESET LAYOUT</name>
-		<description>CONFIRM RESET LAYOUT DESC</description>
-	</state>
+	<layout hidden="true" />
 </metadata>
