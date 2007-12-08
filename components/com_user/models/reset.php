@@ -151,7 +151,7 @@ class UserModelReset extends JModel
 			$this->setError(JText::_('MUST_SUPPLY_PASSWORD'));
 			return false;
 		}
-		
+
 		// Verify that the passwords match
 		if ($password1 != $password2)
 		{
@@ -167,6 +167,14 @@ class UserModelReset extends JModel
 		$crypt		= JUserHelper::getCryptedPassword($password1, $salt);
 		$password	= $crypt.':'.$salt;
 
+		// Get the user object
+		$user = new JUser($id);
+
+		// Fire the onBeforeStoreUser trigger
+		JPluginHelper::importPlugin('user');
+		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher->trigger('onBeforeStoreUser', array($user->getProperties(), false));
+
 		// Build the query
 		$query 	= 'UPDATE #__users'
 				. ' SET password = '.$db->Quote($password)
@@ -178,11 +186,19 @@ class UserModelReset extends JModel
 		$db->setQuery($query);
 
 		// Save the password
-		if (!$db->query())
+		if (!$result = $db->query())
 		{
 			$this->setError(JText::_('DATABASE_ERROR'));
 			return false;
 		}
+
+		// Update the user object with the new values.
+		$user->password			= $password;
+		$user->activation		= '';
+		$user->password_clear	= $password1;
+
+		// Fire the onAfterStoreUser trigger
+		$dispatcher->trigger('onAfterStoreUser', array($user->getProperties(), false, $result, $this->getError()));
 
 		// Flush the variables from the session
 		$mainframe->setUserState($this->_namespace.'id',	null);
