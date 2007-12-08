@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Dec-2007 Louis Landry ** Bug Squash Event: NYC **
+ # Fixed [#8069] JSwitcher::switchTo() fails with "null" toggler
+
 07-Dec-2007 Jui-Yu Tsai
  # Fixed [t,228722] beez's com_contact/contact/default_form.php message missing
  # Fixed sample_data.sql for _contact_details param
@@ -45,7 +48,7 @@ Legend:
 07-Dec-2007 Toby Patterson
  # Fixed [t,220997] JRoute::_() replaces \s with %20
  ! Left in debug code in JRout::_() to help warn people when passing invalid URLs into the router,
-   ie, url args don't begin with 'index.php' or '&' .  
+   ie, url args don't begin with 'index.php' or '&' .
 
 06-Dec-2007 Mateusz Krzeszowiec
  # Fixed [#8250] Possible bug in 'search' when it returns a weblink entry
@@ -63,13 +66,13 @@ Legend:
 06-Dec-2007 Jui-Yu Tsai
  # Fixed [#8322] contact with no email address results in front end error
 
-06-Dec-2007 Johan Janssens 
+06-Dec-2007 Johan Janssens
  # Fixed [#8390] legacy mysqli.php - calls mysql function (not mysqli)
  # Fixed [#8388] JArrayHelper::toString complains on empty arrays
 
 05-Dec-2007 Jui-Yu Tsai
  # Fixed [t,240403] Beez template - undef variable inputfield in mod_search\default.php
- # Fixed com_contact item parameters override menu/global parameters at contact view 
+ # Fixed com_contact item parameters override menu/global parameters at contact view
 
 03-Dec-2007 Jui-Yu Tsai
  * Fixed [#7358] XSS vulnerability in com_poll

@@ -56,8 +56,7 @@ var JSwitcher = new Class({
 
 	switchTo: function(toggler)
 	{
-		page  = $('page-' + toggler.id);
-
+		page = $chk(toggler) ? $('page-'+toggler.id) : null;
 		if(page && page != this.page)
 		{
 			//hide old element
