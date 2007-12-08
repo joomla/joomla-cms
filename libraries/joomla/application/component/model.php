@@ -98,11 +98,12 @@ class JModel extends JObject
 	 * Returns a reference to the a Model object, always creating it
 	 *
 	 * @param	string	The model type to instantiate
-	 * @param	string	Prefix for the model class name
+	 * @param	string	Prefix for the model class name. Optional.
+	 * @param	array	Configuration array for model. Optional.
 	 * @return	mixed	A model object, or false on failure
 	 * @since	1.5
 	*/
-	function &getInstance( $type, $prefix='' )
+	function &getInstance( $type, $prefix = '', $config = array() )
 	{
 		$type		= preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$modelClass	= $prefix.ucfirst($type);
@@ -128,7 +129,7 @@ class JModel extends JObject
 			}
 		}
 
-		$result = new $modelClass();
+		$result = new $modelClass($config);
 		return $result;
 	}
 

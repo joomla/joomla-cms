@@ -618,7 +618,7 @@ class JController extends JObject
 			}
 		}
 
-		$result = new $modelClass($config);
+		$result =& JModel::getInstance($modelName, $classPrefix, $config);
 		return $result;
 	}
 
