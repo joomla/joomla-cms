@@ -52,7 +52,6 @@ class JDate extends JObject
 	 */
 	function __construct($date = 'now', $tzOffset = 0)
 	{
-
 		if ($date == 'now' || empty($date))
 		{
 			$this->_date = gmdate('U');
@@ -105,7 +104,6 @@ class JDate extends JObject
 			$this->_date -= $tzOffset;
 			return;
 		}
-
 		$this->_date = strtotime($date) + $this->serverOffset() - ($tzOffset*3600);
 	}
 
@@ -161,7 +159,7 @@ class JDate extends JObject
 	 */
 	function toMySQL()
 	{
-		$date = gmdate("Y-m-d H:i:s", $this->_date);
+		$date = date("Y-m-d H:i:s", $this->_date);
 		return $date;
 	}
 
@@ -187,14 +185,12 @@ class JDate extends JObject
 	 */
 	function toFormat($format = '%Y-%m-%d %H:%M:%S')
 	{
-		$date = gmstrftime($format, $this->_date + ($this->_offset * 3600));
-
+		$date = strftime($format, $this->_date + ($this->_offset * 3600));
 		// for Windows there is a need to convert the OS date string to utf-8.
 		if ( JUtility::isWinOS() && function_exists('iconv') ) {
 			$lang =& JFactory::getLanguage();
 			return iconv($lang->getWinCP(), "UTF-8", $date);
 		}
-
 		return $date;
 	}
 

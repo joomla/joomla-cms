@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Dec-2007 Mickael Maison ** Bug Squash from home =) **
+ # Fixed [#8242] Bug in Override Date Creation Before 31-10-2005
+
 08-Dec-2007 Rob Schley ** Bug Squash Event: SF **
  * SECURITY A2 [HIGH] Fixed registered user privilege escalation vulnerability.
 
