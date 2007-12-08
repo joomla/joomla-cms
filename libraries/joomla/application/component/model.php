@@ -220,13 +220,13 @@ class JModel extends JObject
 	 * @return	object	The table
 	 * @since	1.5
 	 */
-	function &getTable($name='', $prefix='Table', $options = array())
+	function &getTable($name='', $prefix='Table', $config = array())
 	{
 		if (empty($name)) {
 			$name = $this->getName();
 		}
 
-		if($table = &$this->_createTable( $name, $prefix, $options ))  {
+		if($table = &$this->_createTable( $name, $prefix, $config ))  {
 			return $table;
 		} 
 		
