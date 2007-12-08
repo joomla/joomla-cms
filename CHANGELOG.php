@@ -64,6 +64,7 @@ Legend:
  # Fixed [#8404] Multiple issues with com_search
  # Fixed [#8076] $manframe->getItemid() causes crash when called from backend - bug in JApplication
  # Fixed [#8349] Bug in com_search: search result not displayed if limit = 0 [patch]
+ # Fixed [#8398] Unable to view category even if show_empty_categories is set [patch]
 
 07-Dec-2007 Jui-Yu Tsai
  # Fixed [t,228722] beez's com_contact/contact/default_form.php message missing

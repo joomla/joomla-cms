@@ -291,7 +291,7 @@ class ContentModelSection extends JModel
 			$empty_sec = null;
 
 			// show/hide empty categories in section
-			if (!$params->get('empty_cat_section')) {
+			if (!$params->get('show_empty_categories')) {
 				$empty_sec = ' HAVING numitems > 0';
 			}
 
