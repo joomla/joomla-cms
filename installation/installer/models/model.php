@@ -436,7 +436,7 @@ class JInstallationModel extends JModel
 		if($vars['ftpEnable']) {
 			JInstallationHelper::setFTPCfg( $vars );
 		}
-		
+
 		// Check a few directories are writeable as this may cause issues
 		if(!is_writeable(JPATH_SITE.DS.'tmp') || !is_writeable(JPATH_SITE.DS.'installation'.DS.'sql'.DS.'migration')) {
 			$vars['dircheck'] = JText::_('Some paths may be unwritable');
@@ -568,7 +568,7 @@ class JInstallationModel extends JModel
 			'label' => JText::_('Session path writable'),
 			'state' => is_writable($sp) ? 'Yes' : 'No'
 			);*/
-		$cW = (@ file_exists('../configuration.php') && @ is_writable('../configuration.php')) || is_writable('..');
+		$cW = (@ file_exists('../configuration.php') && @ is_writable('../configuration.php')) || is_writable('../');
 		$phpOptions[] = array (
 			'label' => 'configuration.php '.JText::_('writable'),
 			'state' => $cW ? 'Yes' : 'No',
@@ -737,7 +737,7 @@ class JInstallationModel extends JModel
 		if (file_exists($path)) {
 			$canWrite = is_writable($path);
 		} else {
-			$canWrite = is_writable(JPATH_CONFIGURATION);
+			$canWrite = is_writable(JPATH_CONFIGURATION.DS);
 		}
 
 		/*
@@ -745,7 +745,7 @@ class JInstallationModel extends JModel
 		 * is not writable we need to use FTP
 		 */
 		$ftpFlag = false;
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path)))) {
+		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path).'/'))) {
 			$ftpFlag = true;
 		}
 
