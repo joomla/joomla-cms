@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Dec-2007 Jui-Yu Tsai 
+ # Fixed [#6187] Category can be moved to the original section without warning or question
+  
 08-Dec-2007 Mickael Maison ** Bug Squash from home =) **
  # Fixed [#8242] Bug in Override Date Creation Before 31-10-2005
 

@@ -713,31 +713,60 @@ function moveCategorySave( $cid, $sectionOld )
 	}
 
 	JArrayHelper::toInteger($cid, array(0));
-
-	$cids = implode( ',', $cid );
-	$total = count( $cid );
-
-	$query = 'UPDATE #__categories'
-	. ' SET section = '.$db->Quote($sectionMove)
-	. ' WHERE id IN ( '.$cids.' )'
-	;
-	$db->setQuery( $query );
-	if ( !$db->query() ) {
-		JError::raiseError(500, $db->getErrorMsg() );
-	}
-	$query = 'UPDATE #__content'
-	. ' SET sectionid = '.$db->Quote($sectionMove)
-	. ' WHERE catid IN ( '.$cids.' )'
-	;
-	$db->setQuery( $query );
-	if ( !$db->query() ) {
-		JError::raiseError(500, $db->getErrorMsg());
-	}
+	
 	$sectionNew =& JTable::getInstance('section');
-	$sectionNew->load( $sectionMove );
+    $sectionNew->load( $sectionMove );
 
-	$msg = JText::sprintf( 'Categories moved to', $sectionNew->title );
-	$mainframe->redirect( 'index.php?option=com_categories&section='. $sectionOld, $msg );
+    //Remove the categories was in destination section
+	$cids = implode( ',', $cid );
+	
+	$query = 'SELECT id, title'
+	. ' FROM #__categories'
+	. ' WHERE id IN ( '.$cids.' )'
+	. ' AND section = '.$db->Quote($sectionMove)
+	;
+	$db->setQuery( $query );
+	
+	$scid   = $db->loadResultArray(0);
+	$title  = $db->loadResultArray(1);
+	
+	$cid = array_diff($cid, $scid);
+	
+    // 
+	if ( !empty($cid) ) {
+	    $cids = implode( ',', $cid );
+	    $total = count( $cid );
+
+	    $query = 'UPDATE #__categories'
+	    . ' SET section = '.$db->Quote($sectionMove)
+	    . ' WHERE id IN ( '.$cids.' )'
+	    ;
+	    $db->setQuery( $query );
+    	if ( !$db->query() ) {
+	    	JError::raiseError(500, $db->getErrorMsg() );
+	    }
+	    $query = 'UPDATE #__content'
+	    . ' SET sectionid = '.$db->Quote($sectionMove)
+	    . ' WHERE catid IN ( '.$cids.' )'
+	    ;
+	    $db->setQuery( $query );
+	    if ( !$db->query() ) {
+	    	JError::raiseError(500, $db->getErrorMsg());
+	    }
+
+		$msg = JText::sprintf( 'Categories moved to', $sectionNew->title );
+		$mainframe->enqueueMessage($msg);
+	}
+	if ( !empty($title) && is_array($title) ) {
+	    if ( count($title) == 1 ) {
+		    $msg = JText::sprintf( 'Category already in', implode( ',', $title ), $sectionNew->title );
+	    } else {
+		    $msg = JText::sprintf( 'Categories already in', implode( ',', $title ), $sectionNew->title );
+		}
+		$mainframe->enqueueMessage($msg);
+	}
+	
+	$mainframe->redirect( 'index.php?option=com_categories&section='. $sectionOld );
 }
 
 /**
