@@ -95,12 +95,16 @@ var SqueezeBox = {
 			this.window.style.setExpression('marginTop', '0 - parseInt(this.offsetHeight / 2) + document.documentElement.scrollTop + "px"');
 
 			this.overlay.setStyles({
-				position: 'absolute'
+				position: 'absolute',
+				top: '0%',
+				left: '0%'
 				//,marginTop: "expression(document.documentElement.scrollTop + 'px')"
 			});
 
 			this.window.setStyles({
-				position: 'absolute'
+				position: 'absolute',
+				top: '0%',
+				left: '0%'
 				//,marginTop: "(expression(0 - parseInt(this.offsetHeight / 2) + document.documentElement.scrollTop + 'px')"
 			});
 		}

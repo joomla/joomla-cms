@@ -41,6 +41,7 @@ Legend:
  # Fixed [#8069] JSwitcher::switchTo() fails with "null" toggler
  # Fixed [#7705] Name and abrreviation of the month [patch]
  ! Month abbreviation translation keys changed from eg. JAN to JANUARY_SHORT, etc.
+ # [#7825] squeezebox doesnt function right in internet explorer * Thanks Anthony Ferrara *
 
 07-Dec-2007 Jui-Yu Tsai
  # Fixed [t,228722] beez's com_contact/contact/default_form.php message missing
