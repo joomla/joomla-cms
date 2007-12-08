@@ -277,7 +277,7 @@ class plgEditorTinymce extends JPlugin
 			remove_script_host : false,
 			save_callback : \"TinyMCE_Save\",
 			invalid_elements : \"$invalid_elements\",
-			extended_valid_elements : \"a[class|name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],$elements\",
+			extended_valid_elements : \"a[class|name|href|target|title|onclick|rel],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],$elements\",
 			theme_advanced_toolbar_location : \"$toolbar\",
 			theme_advanced_source_editor_height : \"$html_height\",
 			theme_advanced_source_editor_width : \"$html_width\",
