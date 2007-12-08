@@ -419,7 +419,7 @@ table.adminlist tfoot tr { text-align: center;  color: #333; }
 table.adminlist tfoot td,
 table.adminlist tfoot th { background-color: #f3f3f3; border-top: 1px solid #999; text-align: center; }
 
-table.adminlist td.order 		{ text-align: center; }
+table.adminlist td.order 		{ text-align: center; white-space: nowrap; }
 table.adminlist td.order span { float: left; display: block; width: 20px; text-align: center; }
 
 table.adminlist .pagination { display:table; padding:0;  margin:0 auto;	 }

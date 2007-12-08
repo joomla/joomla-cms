@@ -75,6 +75,7 @@ Legend:
  # Fixed [#7611] known Help / System-Info error * Thanks Jon Palmer *
  # Fixed [#8429] Archives issues * Thanks Joe LeBlanc *
  # Fixed [#8263] Possible bug in com_content default template code for article view * Thanks Bruce S. *
+ # Fixed [#8284] Order column is scrapped in 1024 x 768 in khepri * Thanks Bruce S. *
 
 07-Dec-2007 Jui-Yu Tsai
  # Fixed [t,228722] beez's com_contact/contact/default_form.php message missing
