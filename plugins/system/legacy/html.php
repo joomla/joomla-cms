@@ -109,18 +109,18 @@ class mosHTML
 	function monthSelectList( $tag_name, $tag_attribs, $selected )
 	{
 		$arr = array(
-			mosHTML::makeOption( '01', JText::_( 'JAN' ) ),
-			mosHTML::makeOption( '02', JText::_( 'FEB' ) ),
-			mosHTML::makeOption( '03', JText::_( 'MAR' ) ),
-			mosHTML::makeOption( '04', JText::_( 'APR' ) ),
-			mosHTML::makeOption( '05', JText::_( 'MAY' ) ),
-			mosHTML::makeOption( '06', JText::_( 'JUN' ) ),
-			mosHTML::makeOption( '07', JText::_( 'JUL' ) ),
-			mosHTML::makeOption( '08', JText::_( 'AUG' ) ),
-			mosHTML::makeOption( '09', JText::_( 'SEP' ) ),
-			mosHTML::makeOption( '10', JText::_( 'OCT' ) ),
-			mosHTML::makeOption( '11', JText::_( 'NOV' ) ),
-			mosHTML::makeOption( '12', JText::_( 'DEC' ) )
+			mosHTML::makeOption( '01', JText::_( 'JANUARY_SHORT' ) ),
+			mosHTML::makeOption( '02', JText::_( 'FEBRUARY_SHORT' ) ),
+			mosHTML::makeOption( '03', JText::_( 'MARCH_SHORT' ) ),
+			mosHTML::makeOption( '04', JText::_( 'APRIL_SHORT' ) ),
+			mosHTML::makeOption( '05', JText::_( 'MAY_SHORT' ) ),
+			mosHTML::makeOption( '06', JText::_( 'JUNE_SHORT' ) ),
+			mosHTML::makeOption( '07', JText::_( 'JULY_SHORT' ) ),
+			mosHTML::makeOption( '08', JText::_( 'AUGUST_SHORT' ) ),
+			mosHTML::makeOption( '09', JText::_( 'SEPTEMBER_SHORT' ) ),
+			mosHTML::makeOption( '10', JText::_( 'OCTOBER_SHORT' ) ),
+			mosHTML::makeOption( '11', JText::_( 'NOVEMBER_SHORT' ) ),
+			mosHTML::makeOption( '12', JText::_( 'DECEMBER_SHORT' ) )
 		);
 
 		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );

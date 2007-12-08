@@ -69,18 +69,18 @@ class ContentViewArchive extends ContentView
 		// Month Field
 		$months = array(
 			JHTML::_('select.option',  null, JText::_( 'Month' ) ),
-			JHTML::_('select.option',  '01', JText::_( 'JAN' ) ),
-			JHTML::_('select.option',  '02', JText::_( 'FEB' ) ),
-			JHTML::_('select.option',  '03', JText::_( 'MAR' ) ),
-			JHTML::_('select.option',  '04', JText::_( 'APR' ) ),
-			JHTML::_('select.option',  '05', JText::_( 'MAY' ) ),
-			JHTML::_('select.option',  '06', JText::_( 'JUN' ) ),
-			JHTML::_('select.option',  '07', JText::_( 'JUL' ) ),
-			JHTML::_('select.option',  '08', JText::_( 'AUG' ) ),
-			JHTML::_('select.option',  '09', JText::_( 'SEP' ) ),
-			JHTML::_('select.option',  '10', JText::_( 'OCT' ) ),
-			JHTML::_('select.option',  '11', JText::_( 'NOV' ) ),
-			JHTML::_('select.option',  '12', JText::_( 'DEC' ) )
+			JHTML::_('select.option',  '01', JText::_( 'JANUARY_SHORT' ) ),
+			JHTML::_('select.option',  '02', JText::_( 'FEBRUARY_SHORT' ) ),
+			JHTML::_('select.option',  '03', JText::_( 'MARCH_SHORT' ) ),
+			JHTML::_('select.option',  '04', JText::_( 'APRIL_SHORT' ) ),
+			JHTML::_('select.option',  '05', JText::_( 'MAY_SHORT' ) ),
+			JHTML::_('select.option',  '06', JText::_( 'JUNE_SHORT' ) ),
+			JHTML::_('select.option',  '07', JText::_( 'JULY_SHORT' ) ),
+			JHTML::_('select.option',  '08', JText::_( 'AUGUST_SHORT' ) ),
+			JHTML::_('select.option',  '09', JText::_( 'SEPTEMBER_SHORT' ) ),
+			JHTML::_('select.option',  '10', JText::_( 'OCTOBER_SHORT' ) ),
+			JHTML::_('select.option',  '11', JText::_( 'NOVEMBER_SHORT' ) ),
+			JHTML::_('select.option',  '12', JText::_( 'DECEMBER_SHORT' ) )
 		);
 		$form->monthField	= JHTML::_('select.genericlist',   $months, 'month', 'size="1" class="inputbox"', 'value', 'text', $month );
 
