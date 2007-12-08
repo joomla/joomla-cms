@@ -40,13 +40,13 @@ switch ( JRequest::getCmd('task'))
  * @subpackage	Login
  * @since		1.5
  */
-
 class LoginController
 {
 	function display()
 	{
-		$document =& JFactory::getDocument();
-		echo $document->getBuffer('module', 'login', array('style' => 'rounded', 'id' => 'section-box'));
+		$module = & JModuleHelper::getModule('mod_login');
+		$module = JModuleHelper::renderModule($module, array('style' => 'rounded', 'id' => 'section-box'));
+		echo $module;
 	}
 
 	function login()
