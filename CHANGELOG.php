@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Dec-2007 Rob Schley ** Bug Squash Event: SF **
+ * SECURITY A2 [HIGH] Fixed registered user privilege escalation vulnerability.
+
 08-Dec-2007 Ian MacLennan ** Bug Squash Event **
  # Fixed untranslatable string - Added en-GB.com_media.ini for clear completed string in frontend (thanks JM)
 
