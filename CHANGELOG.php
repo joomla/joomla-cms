@@ -73,6 +73,7 @@ Legend:
  # Fixed [#8398] Unable to view category even if show_empty_categories is set * Thanks Bruce S. *
  # Fixed [#8431] Menu Item-User-Connexion-Default Login Layout- Not picking up language file * Thanks Anthony Ferrara *
  # Fixed [#7611] known Help / System-Info error * Thanks Jon Palmer *
+ # Fixed [#8429] Archives issues * Thanks Joe LeBlanc *
 
 07-Dec-2007 Jui-Yu Tsai
  # Fixed [t,228722] beez's com_contact/contact/default_form.php message missing

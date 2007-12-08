@@ -86,6 +86,20 @@ class ContentModelArchive extends JModel
 		return $this->_total;
 	}
 
+	// JModel override to add alternating value for $odd
+	function &_getList( $query, $limitstart=0, $limit=0 )
+	{
+		$result =& parent::_getList($query, $limitstart, $limit);
+
+		$odd = 1;
+		foreach ($result as &$row) {
+			$row->odd = $odd;
+			$odd = 1 - $odd;
+		}
+
+		return $result;
+	}
+
 	function _buildQuery()
 	{
 		global $mainframe;
