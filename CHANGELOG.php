@@ -63,8 +63,9 @@ Legend:
  # Fixed [#8367] BUG: CSS problem with Login button in the Control Panel[patch]
  # Fixed [#8404] Multiple issues with com_search
  # Fixed [#8076] $manframe->getItemid() causes crash when called from backend - bug in JApplication
- # Fixed [#8349] Bug in com_search: search result not displayed if limit = 0 [patch]
- # Fixed [#8398] Unable to view category even if show_empty_categories is set [patch]
+ # Fixed [#8349] Bug in com_search: search result not displayed if limit = 0 * Thanks Anthony Ferrara *
+ # Fixed [#8398] Unable to view category even if show_empty_categories is set * Thanks Bruce S. *
+ # Fixed [#8431] Menu Item-User-Connexion-Default Login Layout- Not picking up language file * Thanks Anthony Ferrara *
 
 07-Dec-2007 Jui-Yu Tsai
  # Fixed [t,228722] beez's com_contact/contact/default_form.php message missing
