@@ -51,6 +51,7 @@ Legend:
  # Fixed [#8242] Bug in Override Date Creation Before 31-10-2005
 
 08-Dec-2007 Rob Schley ** Bug Squash Event: SF **
+ # Fixed [#7853] Problems with JApplication::getItemid()
  # Fixed [#8409] Back-end login module can be disabled - Thanks Kevin Devine for the patch.
  # Fixed [#8065] Reset of the password isn't triggering the user plugins - Thanks Anthony Ferrara for the patch.
  # Fixed [#8355] Cannot reach the Complete Reset Layout - Hid the confirm and complete reset.

@@ -1015,7 +1015,7 @@ class JApplication extends JObject
 	 *
 	 * @since 1.0
 	 * @deprecated As of version 1.5
-	 * @see ContentHelper::getItemid()
+	 * @see ContentHelperRoute::getArticleRoute()
 	 */
 	function getItemid( $id )
 	{
@@ -1031,8 +1031,10 @@ class JApplication extends JObject
 			'section'  => (int) $article->sectionid,
 		);
 
-		$item = ContentHelperRoute::_findItem($needles);
-		return $item->id;
+		$item	= ContentHelperRoute::_findItem($needles);
+		$return	= is_object($item) ? $item->id : null;
+
+		return $return;
 	}
 
 	/**
