@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Dec-2007 Mickael Maison
+ # Fixed [#7519] Stats module: call for JText not specified (==> localisation problem)
+ # Fixed [#6895] Unnecessary definitions in en-GB.com_config.ini 
+
 08-Dec-2007 Wilco Jansen ** Bug Squash Event: NY **
  # Fixed [#8302] Conflict between hard coding of image path and configured image path
 
