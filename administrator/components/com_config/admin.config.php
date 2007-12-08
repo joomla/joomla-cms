@@ -12,6 +12,8 @@
  * details.
  */
 
+ var_dump(JParameter::getParams ('mediaparams'));
+
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 

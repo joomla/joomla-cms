@@ -178,6 +178,7 @@ class HTML_contact
 		$pane =& JPane::getInstance('sliders');
 
 		JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'misc' );
+		$cparams = JComponentHelper::getParams ('com_media');
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--
@@ -432,7 +433,7 @@ class HTML_contact
 					<td colspan="2">
 						<script language="javascript" type="text/javascript">
 						if (document.forms.adminForm.image.options.value!=''){
-							jsimg='../images/stories/' + getSelectedValue( 'adminForm', 'image' );
+							jsimg='../<?echo $cparams->get('image_path'); ?>/' + getSelectedValue( 'adminForm', 'image' );
 						} else {
 							jsimg='../images/M_images/blank.png';
 						}

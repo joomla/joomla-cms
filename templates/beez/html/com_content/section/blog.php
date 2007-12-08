@@ -1,5 +1,6 @@
 <?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
+$cparams = JComponentHelper::getParams ('com_media');
 ?>
 
 <?php if ($this->params->get('show_page_title')) : ?>
@@ -14,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 	<div class="contentdescription<?php echo $this->params->get('pageclass_sfx'); ?>">
 
 		<?php if ($this->params->get('show_description_image') && $this->section->image) : ?>
-		<img src="<?php echo $this->baseurl ?>/images/stories/<?php echo $this->section->image; ?>" class="image_<?php echo $this->section->image_position; ?>" />
+		<img src="<?php echo $this->baseurl . $cparams->get('image_path').'/'.$this->section->image; ?>" class="image_<?php echo $this->section->image_position; ?>" />
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_description') && $this->section->description) :
@@ -59,7 +60,7 @@ defined('_JEXEC') or die('Restricted access');
 			</div>
 		<?php endfor;
 	endif; ?>
-	
+
 	<?php $numlinks = $this->params->def('num_links', 4);
 	if ($numlinks && $i < $this->total) : ?>
 	<div class="blog_more<?php echo $this->params->get('pageclass_sfx'); ?>">

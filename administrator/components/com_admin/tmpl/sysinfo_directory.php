@@ -6,6 +6,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.filesystem.folder');
+$cparams = JComponentHelper::getParams ('com_media');
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Directory Permissions' ); ?></legend>
@@ -45,7 +46,7 @@ jimport('joomla.filesystem.folder');
 			writableCell( 'components' );
 			writableCell( 'images' );
 			writableCell( 'images/banners' );
-			writableCell( 'images/stories' );
+			writableCell( $cparams->get('image_path'));
 			writableCell( 'language' );
 
 			// List all site languages

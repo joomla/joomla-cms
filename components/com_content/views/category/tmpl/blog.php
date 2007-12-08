@@ -1,5 +1,7 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+$cparams =& JComponentHelper::getParams('com_media');
+ ?>
 <?php if ($this->params->get('show_page_title')) : ?>
 <div class="componentheading<?php echo $this->params->get('pageclass_sfx');?>">
 	<?php echo $this->escape($this->params->get('page_title')); ?>
@@ -10,7 +12,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td valign="top">
 	<?php if ($this->params->get('show_description_image') && $this->category->image) : ?>
-		<img src="<?php echo $this->baseurl ?>/images/stories/<?php echo $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="" />
+		<img src="<?php echo $this->baseurl . $cparams->get('image_path') . '/'. $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="" />
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 		<?php echo $this->category->description; ?>

@@ -1,5 +1,6 @@
 <?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
+$cparams = JComponentHelper::getParams ('com_media');
 ?>
 
 <?php if ($this->params->get('show_page_title')) : ?>
@@ -32,7 +33,7 @@ defined('_JEXEC') or die('Restricted access');
 
 	<?php if ($this->contact->image && $this->contact->params->get('show_image')) : ?>
 	<div style="float: right;">
-		<?php echo JHTML::_('image', 'images/stories/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middel')); ?>
+		<?php echo JHTML::_('image', $cparams->get('image_path').'/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middel')); ?>
 	</div>
 	<?php endif; ?>
 

@@ -193,7 +193,6 @@ class JParameter extends JRegistry
 		}
 
 		$params = $this->getParams($name, $group);
-
 		$html = array ();
 		$html[] = '<table width="100%" class="paramlist admintable" cellspacing="1">';
 
@@ -396,7 +395,7 @@ class JParameter extends JRegistry
 			} else {
 				$dirs = array();
 			}
-			
+
 			$file = JFilterInput::clean(str_replace('_', DS, $type).'.php', 'path');
 
 			jimport('joomla.filesystem.path');
@@ -434,7 +433,7 @@ class JParameter extends JRegistry
 	{
 		// just force path to array
 		settype( $path, 'array' );
-		
+
 		// loop through the path directories
 		foreach ( $path as $dir )
 		{
@@ -450,7 +449,7 @@ class JParameter extends JRegistry
 			// add to the top of the search dirs
 			array_unshift( $this->_elementPath, $dir );
 		}
-		
-		
+
+
 	}
 }

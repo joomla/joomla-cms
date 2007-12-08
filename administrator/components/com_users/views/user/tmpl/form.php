@@ -17,6 +17,7 @@
 		JToolBarHelper::cancel();
 	}
 	JToolBarHelper::help( 'screen.users.edit' );
+	$cparams = JComponentHelper::getParams ('com_media');
 ?>
 
 <?php
@@ -265,7 +266,7 @@
 					<?php echo JText::_( 'Image' ); ?>
 				</td>
 				<td valign="top">
-					<img src="<?php echo JURI::root(); ?>images/stories/<?php echo $this->contact[0]->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
+					<img src="<?php echo JURI::root() . $cparams->get('image_path') . '/' . $this->contact[0]->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
 				</td>
 			</tr>
 			<?php } ?>

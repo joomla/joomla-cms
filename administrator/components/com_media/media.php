@@ -27,14 +27,14 @@ $params =& JComponentHelper::getParams('com_media');
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'media.php' );
 
 // Set the path definitions
-define('COM_MEDIA_BASE',    JPATH_ROOT.DS.$params->get('file_path', 'images'));
-define('COM_MEDIA_BASEURL', JURI::root().$params->get('file_path', 'images'));
+define('COM_MEDIA_BASE',    JPATH_ROOT.DS.$params->get('image_path', 'images'));
+define('COM_MEDIA_BASEURL', JURI::root().$params->get('image_path', 'images'));
 
 // Require the base controller
 require_once (JPATH_COMPONENT.DS.'controller.php');
 
 $cmd = JRequest::getCmd('task', null);
-if (strpos($cmd, '.') != false) 
+if (strpos($cmd, '.') != false)
 {
 	// We have a defined controller/task pair -- lets split them out
 	list($controllerName, $task) = explode('.', $cmd);
@@ -49,8 +49,8 @@ if (strpos($cmd, '.') != false)
 	} else {
 		JError::raiseError(500, 'Invalid Controller');
 	}
-} 
-else 
+}
+else
 {
 	// Base controller, just set the task :)
 	$controllerName = null;

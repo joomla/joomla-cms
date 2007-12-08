@@ -1,5 +1,6 @@
 <?php // @version $Id$
 defined('_JEXEC') or die('Restricted access');
+$cparams = JComponentHelper::getParams ('com_media');
 ?>
 
 <?php if ( $this->params->get( 'show_page_title' ) ) : ?>
@@ -13,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 	<div class="contentdescription<?php echo $this->params->get('pageclass_sfx'); ?>">
 
 		<?php if ( $this->category->image ) : ?>
-		<img src="<?php echo $this->baseurl ?>/images/stories/<?php echo $this->category->image; ?>" class="image_<?php echo $this->category->image_position; ?>" />
+		<img src="<?php echo $this->baseurl . $cparams->get('image_path').'/'.$this->category->image; ?>" class="image_<?php echo $this->category->image_position; ?>" />
 		<?php endif; ?>
 
 		<?php if ( $this->params->get( 'description' ) ) :

@@ -246,6 +246,7 @@ class categories_html
 		}
 
 		JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'description' );
+		$cparams = JComponentHelper::getParams ('com_media');
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton, section) {
@@ -368,7 +369,7 @@ class categories_html
 						<td>
 						<script language="javascript" type="text/javascript">
 						if (document.forms.adminForm.image.options.value!=''){
-							jsimg='../images/stories/' + getSelectedValue( 'adminForm', 'image' );
+							jsimg='../<?echo $cparams->get('image_path'); ?>/' + getSelectedValue( 'adminForm', 'image' );
 						} else {
 							jsimg='../images/M_images/blank.png';
 						}
@@ -429,7 +430,7 @@ class categories_html
 			}
 		}
 		</script>
-		
+
 		<form action="index.php" method="post" name="adminForm">
 
 		<br />
@@ -511,7 +512,7 @@ class categories_html
 			}
 		}
 		</script>
-		
+
 		<form action="index.php" method="post" name="adminForm">
 
 		<br />

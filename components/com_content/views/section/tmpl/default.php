@@ -1,5 +1,7 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+$cparams =& JComponentHelper::getParams('com_media');
+?>
 <?php if ($this->params->get('show_page_title')) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php echo $this->escape($this->section->title); ?>
@@ -9,7 +11,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <tr>
 	<td width="60%" valign="top" class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>" colspan="2">
 	<?php if ($this->params->get('show_description_image') && $this->section->image) : ?>
-		<img src="<?php echo $this->baseurl ?>/images/stories/<?php echo $this->section->image;?>" align="<?php echo $this->section->image_position;?>" hspace="6" alt="<?php echo $this->section->image;?>" />
+		<img src="<?php echo $this->baseurl . $cparams->get('image_path') . '/'.  $this->section->image;?>" align="<?php echo $this->section->image_position;?>" hspace="6" alt="<?php echo $this->section->image;?>" />
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description') && $this->section->description) : ?>
 		<?php echo $this->section->description; ?>

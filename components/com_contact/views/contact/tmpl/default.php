@@ -1,4 +1,11 @@
-<?php /** $Id$ */ defined( '_JEXEC' ) or die(); ?>
+<?php
+/**
+ * $Id$
+ */
+defined( '_JEXEC' ) or die();
+
+$cparams = JComponentHelper::getParams ('com_media');
+?>
 <?php if ( $this->params->get( 'show_page_title' ) && !$this->contact->params->get( 'popup' ) ) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php echo $this->params->get( 'page_title' ); ?>
@@ -41,7 +48,7 @@
 			<td rowspan="2" align="right" valign="top">
 			<?php if ( $this->contact->image && $this->contact->params->get( 'show_image' ) ) : ?>
 				<div style="float: right;">
-					<?php echo JHTML::_('image', 'images/stories/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middel')); ?>
+					<?php echo JHTML::_('image', $cparams->get('image_path') . '/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middel')); ?>
 				</div>
 			<?php endif; ?>
 			</td>
