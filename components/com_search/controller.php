@@ -36,11 +36,20 @@ class SearchController extends JController
 	{
 		parent::display();
 	}
-	
+
 	function search()
 	{
-		$post = JRequest::get('post');
-		
+		$post['searchword'] = JRequest::getString('searchword', null, 'post');
+		$post['ordering']	= JRequest::getWord('ordering', null, 'post');
+
+		$areas = JRequest::getVar('areas', null, 'post', 'array');
+		if ($areas) {
+			foreach($areas as $area)
+			{
+				$post['areas'][] = JFilterInput::clean($area, 'cmd');
+			}
+		}
+
 		// set Itemid id for links
 		$menu = &JSite::getMenu();
 		$items	= $menu->getItems('link', 'index.php?option=com_search&view=search');
@@ -55,8 +64,8 @@ class SearchController extends JController
 		$uri = JURI::getInstance();
 		$uri->setQuery($post);
 		$uri->setVar('option', 'com_search');
-		
-		
+
+
 		$this->setRedirect(JRoute::_('index.php'.$uri->toString(array('query', 'fragment')), false));
 	}
 }

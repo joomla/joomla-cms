@@ -37,7 +37,7 @@ Legend:
 - -> Removed
 ! -> Note
 
-08-Dec-2007 Ian MacLennan
+08-Dec-2007 Ian MacLennan ** Bug Squash Event **
  # Fixed untranslatable string - Added en-GB.com_media.ini for clear completed string in frontend (thanks JM)
 
 08-Dec-2007 Louis Landry ** Bug Squash Event: NYC **
@@ -47,6 +47,7 @@ Legend:
  # Fixed [#7825] squeezebox doesnt function right in internet explorer * Thanks Anthony Ferrara *
  # Fixed [#6963] [patch] avoiding three warnings in installation/installer/models/model.php (open_basedir)
  # Fixed [#8367] BUG: CSS problem with Login button in the Control Panel[patch]
+ # Fixed [#8404] Multiple issues with com_search
 
 07-Dec-2007 Jui-Yu Tsai
  # Fixed [t,228722] beez's com_contact/contact/default_form.php message missing
