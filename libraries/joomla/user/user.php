@@ -149,8 +149,8 @@ class JUser extends JObject
 		// Load the user if it exists
 		if (!empty($identifier)) {
 			$this->load($identifier);
-		} 
-		else 
+		}
+		else
 		{
 			//initialise
 			$this->id        = 0;
@@ -258,7 +258,7 @@ class JUser extends JObject
 		// the native calls (Check Mode 1) work on the user id, not the user type
 		$acl	= & JFactory::getACL();
 		$value	= $acl->getCheckMode() == 1 ? $this->id : $this->usertype;
-		
+
 		return $acl->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
 	}
 
@@ -281,9 +281,9 @@ class JUser extends JObject
 
 	/**
 	 * Method to get the user parameters
-	 * 
+	 *
 	 * This function tries to load an xml file based on the users usertype. The filename of the xml
-	 * file is the same as the usertype. The functionals has a static variable to store the parameters 
+	 * file is the same as the usertype. The functionals has a static variable to store the parameters
 	 * setup file base path. You can call this function statically to set the base path if needed.
 	 *
 	 * @access 	public
@@ -293,33 +293,33 @@ class JUser extends JObject
 	 * @since	1.5
 	 */
 	function &getParameters($loadsetupfile = false, $path = null)
-	{	
+	{
 		static $parampath;
-		
+
 		// Set a custom parampath if defined
 		if( isset($path) ) {
 			$parampath = $path;
 		}
-		
+
 		// Set the default parampath if not set already
 		if( !isset($parampath) ) {
 			$parampath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'models';
 		}
-		
-		if($loadsetupfile) 
+
+		if($loadsetupfile)
 		{
 			$type = str_replace(' ', '_', strtolower($this->usertype));
-			
+
 			$file = $parampath.DS.$type.'.xml';
 			if(!file_exists($file)) {
 				$file = $parampath.DS.'user.xml';
 			}
-			
+
 			$this->_params->loadSetupFile($file);
-		}	
+		}
 		return $this->_params;
 	}
-	
+
 	/**
 	 * Method to get the user parameters
 	 *
@@ -328,14 +328,14 @@ class JUser extends JObject
 	 * @since	1.5
 	 */
 	function setParameters($params )
-	{	
+	{
 		$this->_params = $params;
 	}
 
 	/**
 	 * Method to get the user table object
-	 * 
-	 * This function uses a static variable to store the table name of the user table to 
+	 *
+	 * This function uses a static variable to store the table name of the user table to
 	 * it instantiates. You can call this function statically to set the table name if
 	 * needed.
 	 *
@@ -348,19 +348,19 @@ class JUser extends JObject
 	function &getTable( $type = null, $prefix = 'JTable' )
 	{
 		static $tabletype;
-		
+
 		//Set the default tabletype;
 		if(!isset($tabletype)) {
 			$tabletype['name'] 		= 'user';
 			$tabletype['prefix']	= 'JTable';
 		}
-		
+
 		//Set a custom table type is defined
 		if(isset($type)) {
 			$tabletype['name'] 		= $type;
 			$tabletype['prefix']	= $prefix;
 		}
-		
+
 		// Create the user table object
 		$table 	=& JTable::getInstance( $tabletype['name'], $tabletype['prefix'] );
 		return $table;
@@ -377,7 +377,7 @@ class JUser extends JObject
 	function bind(& $array)
 	{
 		jimport('joomla.user.helper');
-		
+
 		// Lets check to see if the user is new or not
 		if (empty($this->id))
 		{
@@ -507,6 +507,14 @@ class JUser extends JObject
 			return false;
 		}
 
+		// If user is made an Admin group and user is NOT a Super Admin
+		if ($this->get('gid') == 24 && $my->gid != 25)
+		{
+			// disallow creation of Admin by non Super Admin users
+			$this->setError(JText::_( 'WARNSUPERADMINCREATE' ));
+			return false;
+		}
+
 		//are we creating a new user
 		$isnew = !$this->id;
 
@@ -595,7 +603,7 @@ class JUser extends JObject
 		 * user parameters, but for right now we'll leave it how it is.
 		 */
 		$this->_params->loadINI($table->params);
-		
+
 		// Assuming all is well at this point lets bind the data
 		$this->setProperties($table->getProperties());
 

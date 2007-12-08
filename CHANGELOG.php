@@ -41,6 +41,7 @@ Legend:
  # Fixed [#8242] Bug in Override Date Creation Before 31-10-2005
 
 08-Dec-2007 Rob Schley ** Bug Squash Event: SF **
+ * SECURITY [MEDIUM] Fixed administrators can promote other users to administrator group.
  * SECURITY A2 [HIGH] Fixed registered user privilege escalation vulnerability.
 
 08-Dec-2007 Ian MacLennan ** Bug Squash Event **
