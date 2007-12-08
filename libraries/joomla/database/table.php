@@ -73,12 +73,13 @@ class JTable extends JObject
 	/**
 	 * Returns a reference to the a Table object, always creating it
 	 *
-	 * @param type $type The table type to instantiate
-	 * @param string A prefix for the table class name
+	 * @param type 		$type 	 The table type to instantiate
+	 * @param string 	$prefix	 A prefix for the table class name. Optional.
+	 * @param array		$options Configuration array for model. Optional.
 	 * @return database A database object
 	 * @since 1.5
 	*/
-	function &getInstance( $type, $prefix='JTable' )
+	function &getInstance( $type, $prefix = 'JTable', $config = array() )
 	{
 		$false = false;
 
@@ -104,10 +105,16 @@ class JTable extends JObject
 				return $false;
 			}
 		}
+		
+		//Make sure we are returning a DBO object
+		if (array_key_exists('dbo', $config))  {
+			$db =& $config['dbo'];
+		} else {
+			$db = & JFactory::getDBO();
+		}
 
-		$db =& JFactory::getDBO();
 		$instance = new $tableClass($db);
-		$instance->setDBO($db);
+		//$instance->setDBO($db);
 		
 		return $instance;
 	}

@@ -214,24 +214,25 @@ class JModel extends JObject
 	 * Method to get a table object, load it if necessary.
 	 *
 	 * @access	public
-	 * @param	string The table name
-	 * @param	string The class prefix
+	 * @param	string The table name. Optional.
+	 * @param	string The class prefix. Optional.
+	 * @param	array	Configuration array for model. Optional.
 	 * @return	object	The table
 	 * @since	1.5
 	 */
-	function &getTable($name='', $prefix='Table')
+	function &getTable($name='', $prefix='Table', $options = array())
 	{
 		if (empty($name)) {
 			$name = $this->getName();
 		}
 
-		if($table = &$this->_createTable( $name, $prefix )) {
+		if($table = &$this->_createTable( $name, $prefix, $options ))  {
 			return $table;
-		} else {
-			JError::raiseError( 0, 'Table ' . $name . ' not supported. File not found.' );
-			$null = null;
-            return $null;
-		}
+		} 
+		
+		JError::raiseError( 0, 'Table ' . $name . ' not supported. File not found.' );
+		$null = null;
+        return $null;
 	}
 
 	/**
@@ -306,43 +307,26 @@ class JModel extends JObject
 	 * Method to load and return a model object.
 	 *
 	 * @access	private
-	 * @param	string	$modelName	The name of the view
+	 * @param	string	The name of the view
+	 * @param   string  The class prefix. Optional.
 	 * @return	mixed	Model object or boolean false if failed
 	 * @since	1.5
 	 */
-	function &_createTable( $name, $prefix = 'Table')
+	function &_createTable( $name, $prefix = 'Table', $config = array())
 	{
 		$result = null;
 
 		// Clean the model name
-		$tableName	= preg_replace( '/[^A-Z0-9_]/i', '', $name );
-		$classPrefix	= preg_replace( '/[^A-Z0-9_]/i', '', $prefix );
+		$name	= preg_replace( '/[^A-Z0-9_]/i', '', $name );
+		$prefix = preg_replace( '/[^A-Z0-9_]/i', '', $prefix );
 
-		// Build the model class name
-		$tableClass = $classPrefix.$tableName;
-
-		if (!class_exists( $tableClass ))
-		{
-			jimport('joomla.filesystem.path');
-			if($path = JPath::find(JTable::addIncludePath(), $this->_createFileName('table', array('name' => $tableName))))
-			{
-				require_once $path;
-
-				if (!class_exists( $tableClass ))
-				{
-					$result = JError::raiseError( 500, 'Table class ' . $tableClass . ' not found in file.' );
-					return $result;
-				}
-			}
-			else {
-				return $result;
-			}
-		}
-
-		$db =& $this->getDBO();
-		$result = new $tableClass($db);
-
-		return $result;
+		//Make sure we are returning a DBO object
+		if (!array_key_exists('dbo', $config))  {
+			$config['dbo'] =& $this->getDBO();;
+		} 
+		
+		$instance =& JTable::getInstance($name, $prefix, $config );
+		return $instance;
 	}
 
 	/**
