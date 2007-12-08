@@ -40,7 +40,7 @@ class SearchModelSearch extends JModel
 	 * @var integer
 	 */
 	var $_total = null;
-	
+
 	/**
 	 * Search areas
 	 *
@@ -63,9 +63,9 @@ class SearchModelSearch extends JModel
 	function __construct()
 	{
 		parent::__construct();
-		
+
 		global $mainframe;
-		
+
 		//Get configuration
 		$config = JFactory::getConfig();
 
@@ -75,15 +75,15 @@ class SearchModelSearch extends JModel
 
 		// Set the search parameters
 		$keyword		= urldecode(JRequest::getString('searchword'));
-		$match			= JRequest::getWord('searchphrase', 'any');	
+		$match			= JRequest::getWord('searchphrase', 'any');
 		$ordering		= JRequest::getWord('ordering', 'newest');
 		$this->setSearch($keyword, $match, $ordering);
-		
+
 		//Set the search areas
 		$areas = JRequest::getVar('areas');
 		$this->setAreas($areas);
 	}
-	
+
 	/**
 	 * Method to set the search parameters
 	 *
@@ -97,11 +97,11 @@ class SearchModelSearch extends JModel
 		if(isset($keyword)) {
 			$this->setState('keyword', $keyword);
 		}
-		
+
 		if(isset($match)) {
 			$this->setState('match', $match);
 		}
-		
+
 		if(isset($ordering)) {
 			$this->setState('ordering', $ordering);
 		}
@@ -116,7 +116,7 @@ class SearchModelSearch extends JModel
 	 */
 	function setAreas($active = array(), $search = array())
 	{
-		$this->_areas['active'] = $active; 
+		$this->_areas['active'] = $active;
 		$this->_areas['search'] = $search;
 	}
 
@@ -132,22 +132,26 @@ class SearchModelSearch extends JModel
 		if (empty($this->_data))
 		{
 			$areas = $this->getAreas();
-			
+
 			JPluginHelper::importPlugin( 'search');
-			$dispatcher =& JDispatcher::getInstance();	
-			$results = $dispatcher->trigger( 'onSearch', array( 
-				$this->getState('keyword'), 
-				$this->getState('match'), 
+			$dispatcher =& JDispatcher::getInstance();
+			$results = $dispatcher->trigger( 'onSearch', array(
+				$this->getState('keyword'),
+				$this->getState('match'),
 				$this->getState('ordering'),
 				$areas['active']) );
-				
+
 			$rows = array();
 			for ($i = 0, $n = count( $results); $i < $n; $i++) {
 				$rows = array_merge( (array)$rows, (array)$results[$i] );
 			}
 
-			$this->_total	= count($rows);	
-			$this->_data    = array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
+			$this->_total	= count($rows);
+			if($this->getState('limit') > 0) {
+				$this->_data    = array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
+			} else {
+				$this->_data = $rows;
+			}
 		}
 
 		return $this->_data;
@@ -190,26 +194,26 @@ class SearchModelSearch extends JModel
 	function getAreas()
 	{
 		global $mainframe;
-		
+
 		// Load the Category data
 		if (empty($this->_areas['search']))
 		{
 			$areas = array();
 
 			JPluginHelper::importPlugin( 'search');
-			$dispatcher =& JDispatcher::getInstance();	
+			$dispatcher =& JDispatcher::getInstance();
 			$searchareas = $dispatcher->trigger( 'onSearchAreas' );
-			
+
 			foreach ($searchareas as $area) {
 				$areas = array_merge( $areas, $area );
 			}
-			
+
 			$this->_areas['search'] = $areas;
 		}
-		
+
 		return $this->_areas;
 	}
 
-	
+
 }
 ?>
