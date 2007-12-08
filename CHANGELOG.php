@@ -37,7 +37,7 @@ Legend:
 - -> Removed
 ! -> Note
 
-08-Dec-2007 Wilco Jansen
+08-Dec-2007 Wilco Jansen ** Bug Squash Event: NY **
  # Fixed [#8302] Conflict between hard coding of image path and configured image path
 
 07-Dec-2007 Jui-Yu Tsai
