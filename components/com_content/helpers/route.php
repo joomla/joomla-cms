@@ -35,17 +35,17 @@ class ContentHelperRoute
 	{
 		$needles = array(
 			'article'  => (int) $id,
-			'category' => (int) $catid, 
-			'section'  => (int) $sectionid, 
+			'category' => (int) $catid,
+			'section'  => (int) $sectionid,
 		);
-				
+
 		//Create the link
 		$link = 'index.php?option=com_content&view=article&id='. $id;
-		
+
 		if($catid) {
 			$link .= '&catid='.$catid;
 		}
-		
+
 		if($item = ContentHelperRoute::_findItem($needles)) {
 			$link .= '&Itemid='.$item->id;
 		};
@@ -58,17 +58,17 @@ class ContentHelperRoute
 		$needles = array(
 			'section' => (int) $sectionid
 		);
-		
+
 		//Create the link
 		$link = 'index.php?option=com_content&view=section&id='.$sectionid;
-		
+
 		if($item = ContentHelperRoute::_findItem($needles)) {
 			if(isset($item->query['layout'])) {
 				$link .= '&layout='.$item->query['layout'];
 			}
 			$link .= '&Itemid='.$item->id;
 		};
-	
+
 		return $link;
 	}
 
@@ -88,7 +88,7 @@ class ContentHelperRoute
 			}
 			$link .= '&Itemid='.$item->id;
 		};
-		
+
 		return $link;
 	}
 
@@ -96,9 +96,9 @@ class ContentHelperRoute
 	{
 		$component =& JComponentHelper::getComponent('com_content');
 
-		$menus	=& JSite::getMenu();
+		$menus	= &JApplication::getMenu('site', array());
 		$items	= $menus->getItems('componentid', $component->id);
-		
+
 		$match = null;
 
 		foreach($needles as $needle => $id)
@@ -110,12 +110,12 @@ class ContentHelperRoute
 					break;
 				}
 			}
-			
+
 			if(isset($match)) {
 				break;
 			}
 		}
-		
+
 		return $match;
 	}
 }

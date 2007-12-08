@@ -62,6 +62,7 @@ Legend:
  # Fixed [#6963] [patch] avoiding three warnings in installation/installer/models/model.php (open_basedir)
  # Fixed [#8367] BUG: CSS problem with Login button in the Control Panel[patch]
  # Fixed [#8404] Multiple issues with com_search
+ # Fixed [#8076] $manframe->getItemid() causes crash when called from backend - bug in JApplication
 
 07-Dec-2007 Jui-Yu Tsai
  # Fixed [t,228722] beez's com_contact/contact/default_form.php message missing
