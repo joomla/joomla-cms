@@ -30,16 +30,16 @@ function plgContentSEF( &$row, &$params, $page=0 )
 	if(!$mainframe->getCfg('sef')) {
 		return true;
 	}
-	
+
 	// check whether plugin has been unpublished
 	if ( !JPluginHelper::isEnabled('content', 'sef')) {
 		return true;
 	}
-	
+
 	//Replace src links
 	$base = JURI::base(true).'/';
-	$row->text = preg_replace("/(src)=\"(?!http|ftp|https)([^\"]*)\"/", "$1=\"$base\$2\"", $row->text);
-	
+	$row->text = preg_replace("/(src)=\"(?!http|ftp|https|\/)([^\"]*)\"/", "$1=\"$base\$2\"", $row->text);
+
 	//Replace href links
 	$regex = "#href=\"(.*?)\"#s";
 

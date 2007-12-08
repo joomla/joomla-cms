@@ -51,6 +51,7 @@ Legend:
  # Fixed [#8242] Bug in Override Date Creation Before 31-10-2005
 
 08-Dec-2007 Rob Schley ** Bug Squash Event: SF **
+ # Fixed [#8180] SEF plugin adds double trailing slash to src URLs
  # Fixed [#8064] TinyMCE removes rel property of <a>
  # Fixed [#7853] Problems with JApplication::getItemid()
  # Fixed [#8409] Back-end login module can be disabled - Thanks Kevin Devine for the patch.
