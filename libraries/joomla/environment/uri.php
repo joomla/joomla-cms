@@ -291,7 +291,7 @@ class JURI extends JObject
 		 * Parse the URI and populate the object fields.  If URI is parsed properly,
 		 * set method return value to true.
 		 */
-		if ($_parts = @parse_url($uri)) {
+		if ($_parts = $this->_parseURL($uri)) {
 			$retval = true;
 		}
 
@@ -308,6 +308,37 @@ class JURI extends JObject
 		if(isset ($_parts['query'])) parse_str($_parts['query'], $this->_vars);
 
 		return $retval;
+	}
+
+	function _parseURL($uri)
+	{
+		$parts = array();
+		if (version_compare( phpversion(), '4.4' ) < 0) {
+			$regex = "<^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?>";
+			$matches = array();
+			preg_match($regex, $uri, $matches, PREG_OFFSET_CAPTURE);
+
+			$authority = @$matches[4][0];
+			if (strpos($authority, '@') !== false) {
+				$authority = explode('@', $authority);
+				@list($parts['user'], $parts['pass']) = explode(':', $authority[0]);
+				$authority = $authority[1];
+			}
+
+			if (strpos($authority, ':') !== false) {
+				$authority = explode(':', $authority);
+				$parts['host'] = $authority[0];
+				$parts['port'] = $authority[1];
+			}
+
+			$parts['scheme'] = @$matches[2][0];
+			$parts['path'] = @$matches[5][0];
+			$parts['query'] = @$matches[7][0];
+			$parts['fragment'] = @$matches[9][0];
+		} else {
+			$parts = @parse_url($uri);
+		}
+		return $parts;
 	}
 
 	/**

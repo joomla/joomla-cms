@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Dec-2007 Louis Landry ** Bug Squash Event: NYC
+ # Fixed URL routing problems caused by PHP 4.3 parse_url() function bug.
+ ! Users testing on PHP 4.3 please get an updated copy and test the system.
+
 09-Dec-2007 Anthony Ferrara ** Bug Squash Event: NY
  # Fixed [#8446] Images from popup media manager not inserting /stories/ in path
  
@@ -4699,11 +4703,4 @@ You have to open the article preferences and change the setting to show and save
  + Added the english admin language files
 
 14-Oct-2005 Johan Janssens
- + Added userbot group
- + Added Joomla, LDAP and example userbots
- + Added onUserLogin and onUserLogout triggers
- + Added backend language chooser on login page
-
-12-Oct-2005 Andy Miller
- + Added advanced SSL support plus new mosLink method
-
+ + Added u                                                                                                                                                                                                                                               
