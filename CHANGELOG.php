@@ -39,6 +39,7 @@ Legend:
 
 09-Dec-2007 Andrew Eddie ** Bug Squash Event from home **
  # Fixed [t,241466] JHTML::Script() lacks space before extra attributes
+ # Fixed [#8361] Critical CSRF allow portal compromise - admin com_users only
 
 08-Dec-2007 Ian MacLennan ** Bug Squash Event **
 # Fixed [Topic 241519] Language string from TinyMCE horizontale corrected

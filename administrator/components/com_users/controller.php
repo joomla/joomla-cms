@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	Users
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	Users
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -26,6 +26,11 @@ jimport('joomla.application.component.controller');
  */
 class UsersController extends JController
 {
+	/**
+	 * Constructor
+	 *
+	 * @params	array	Controller configuration array
+	 */
 	function __construct($config = array())
 	{
 		parent::__construct($config);
@@ -38,6 +43,9 @@ class UsersController extends JController
 		$this->registerTask( 'unblock', 'block' );
 	}
 
+	/**
+	 * Displays a view
+	 */
 	function display( )
 	{
 		switch($this->getTask())
@@ -60,9 +68,18 @@ class UsersController extends JController
 		parent::display();
 	}
 
+	/**
+	 * Saves the record
+	 */
 	function save()
 	{
 		global $mainframe;
+
+		//preform token check (prevent spoofing)
+		$token	= JUtility::getToken();
+		if(!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 
 		$option = JRequest::getCmd( 'option');
 
@@ -187,8 +204,17 @@ class UsersController extends JController
 		}
 	}
 
+	/**
+	 * Removes the record(s) from the database
+	 */
 	function remove()
 	{
+		//preform token check (prevent spoofing)
+		$token	= JUtility::getToken();
+		if(!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$db 			=& JFactory::getDBO();
 		$currentUser 	=& JFactory::getUser();
 		$acl			=& JFactory::getACL();
@@ -260,14 +286,25 @@ class UsersController extends JController
 		$this->setRedirect( 'index.php?option=com_users', $msg);
 	}
 
+	/**
+	 * Cancels an edit operation
+	 */
 	function cancel( )
 	{
 		$this->setRedirect( 'index.php?option=com_users' );
 	}
 
-
+	/**
+	 * Disables the user account
+	 */
 	function block( )
 	{
+		//preform token check (prevent spoofing)
+		$token	= JUtility::getToken();
+		if(!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$db 			=& JFactory::getDBO();
 		$acl			=& JFactory::getACL();
 		$currentUser 	=& JFactory::getUser();
@@ -343,8 +380,17 @@ class UsersController extends JController
 		$this->setRedirect( 'index.php?option=com_users', $msg);
 	}
 
+	/**
+	 * Force log out a user
+	 */
 	function logout( )
 	{
+		//preform token check (prevent spoofing)
+		$token	= JUtility::getToken();
+		if(!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		global $mainframe;
 
 		$db		=& JFactory::getDBO();
@@ -399,5 +445,3 @@ class UsersController extends JController
 		$this->setRedirect( 'index.php?option=com_contact&atask=edit&cid[]='. $contact_id );
 	}
 }
-
-?>
