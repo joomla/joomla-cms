@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Dec-2007 Ken Crowder ** Bug Squash Event: SF **
+ # Fixed [#8459] Articles without titles.
+
 09-Dec-2007 Andrew Eddie ** Bug Squash Event from home **
  # Fixed [t,241466] JHTML::Script() lacks space before extra attributes
  # Fixed [#8361] Critical CSRF allow portal compromise - admin com_users only
