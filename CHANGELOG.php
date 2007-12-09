@@ -48,6 +48,8 @@ Legend:
 # Fixed [#8225] Module custom output does not save. Thanks Chris Bolt.
 # Fixed [#8281] Incorrect pagination image in admin khepri template. Thanks Debi.
 # Fixed [#8264] System messages CSS errors in milkyway template. Thanks Jon.
+# Fixed [#8283] Incorrect JHML.calendar rendering.
+# Fixed [#6550] Number alignment in views incorrect.
 
 08-Dec-2007 Mickael Maison
  # Fixed [#7519] Stats module: call for JText not specified (==> localisation problem)
