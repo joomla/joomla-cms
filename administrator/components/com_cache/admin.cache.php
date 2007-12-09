@@ -88,6 +88,12 @@ class CacheController
 
 	function deleteCache($cid)
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		$cmData = new CacheData($client->path.DS.'cache');
