@@ -25,7 +25,6 @@ defined('JPATH_BASE') or die();
  */
 class JRegistryFormatINI extends JRegistryFormat
 {
-
 	/**
 	 * Converts an object into an INI formatted string
 	 * 	-	Unfortunately, there is no way to have ini values nested further than two
@@ -51,13 +50,14 @@ class JRegistryFormatINI extends JRegistryFormat
 			{
 				// This field is an object, so we treat it as a section
 				$retval .= "[".$key."]\n";
-				foreach (get_object_vars( $level1 ) as $key => $level2)
+				foreach (get_object_vars($level1) as $key => $level2)
 				{
 					if (!is_object($level2) && !is_array($level2))
 					{
 						// Join lines
-						$level2		= str_replace( array( "\r\n", "\n" ), '\\n', $level2 );
-						$retval .= $key."=".$level2."\n";
+						$level2		= str_replace('|', '\|', $level2);
+						$level2		= str_replace(array("\r\n", "\n"), '\\n', $level2);
+						$retval		.= $key."=".$level2."\n";
 					}
 				}
 				$retval .= "\n";
@@ -67,7 +67,8 @@ class JRegistryFormatINI extends JRegistryFormat
 				foreach($level1 as $level1key=>$level2) {
 					foreach ($level2 as $k1 => $v1)
 					{
-						$level2[$k1] = str_replace( array( "\r\n", "\n" ), '\\n', $v1 );
+						$level2		= str_replace('|', '\|', $level2);
+						$level2		= str_replace(array("\r\n", "\n"), '\\n', $level2);
 					}
 					$level1[$level1key] = implode('|', $level2);
 				}
@@ -76,7 +77,8 @@ class JRegistryFormatINI extends JRegistryFormat
 			else
 			{
 				// Join lines
-				$level1		= str_replace( array( "\r\n", "\n" ), '\\n', $level1 );
+				$level1		= str_replace('|', '\|', $level1);
+				$level1		= str_replace(array("\r\n", "\n"), '\\n', $level1);
 				$prepend	.= $key."=".$level1."\n";
 			}
 		}
@@ -169,11 +171,14 @@ class JRegistryFormatINI extends JRegistryFormat
 					if (strpos($value, '|'))
 					{
 						$lines = explode('\n', $value);
-						$values = Array();
+						$values = array();
 						foreach($lines as $linekey=>$line) {
 
-							$parts = explode('|', $line);
-	
+							// Explode the value if it is serialized as an arry of value1|value2|value3
+							$parts	= preg_split('/(?<!\\\)\|/', $line);
+							$array	= (strcmp($parts[0], $line) === 0) ? false : true;
+							$parts	= call_user_func_array('str_replace', array('\|', '|', $parts));
+
 							foreach ($parts as $key => $value)
 							{
 								if ($value == 'false') {
@@ -189,22 +194,26 @@ class JRegistryFormatINI extends JRegistryFormat
 										$value = stripcslashes(substr($value, 1, $valueLen - 2));
 									}
 								}
-								if(!isset($values[$linekey])) $values[$linekey] = Array();
-								$values[$linekey][$key] = str_replace('\n', "\n", $value);
+								if(!isset($values[$linekey])) $values[$linekey] = array();
+								$values[$linekey][] = str_replace('\n', "\n", $value);
+							}
+
+							if (!$array) {
+								$values[$linekey] = $values[$linekey][0];
 							}
 						}
-						
+
 						if ($process_sections)
 						{
 							if ($sec_name != '') {
-								$obj->$sec_name->$property = $values;
+								$obj->$sec_name->$property = $values[$linekey];
 							} else {
-								$obj->$property = $values;
+								$obj->$property = $values[$linekey];
 							}
 						}
 						else
 						{
-							$obj->$property = $values;
+							$obj->$property = $values[$linekey];
 						}
 					}
 					else
@@ -262,6 +271,7 @@ class JRegistryFormatINI extends JRegistryFormat
 				}
 			}
 		}
+
 		$inistocache[$hash] = clone($obj);
 		return $obj;
 	}

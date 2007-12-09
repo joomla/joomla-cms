@@ -37,13 +37,16 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Dec-2007 Rob Schley ** Bug Squash Event: SF **
+ # Fixed [topic,241520] Issues with the pipe ("|") character in parameters.
+
 09-Dec-2007 Louis Landry ** Bug Squash Event: NYC
  # Fixed URL routing problems caused by PHP 4.3 parse_url() function bug.
  ! Users testing on PHP 4.3 please get an updated copy and test the system.
 
 09-Dec-2007 Anthony Ferrara ** Bug Squash Event: NY
  # Fixed [#8446] Images from popup media manager not inserting /stories/ in path
- 
+
 09-Dec-2007 Andy Miller
  # Fixed issue with Safari and Admin Menu width - domready -> load
 
