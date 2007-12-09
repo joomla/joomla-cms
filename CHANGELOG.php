@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Dec-2007 Anthony Ferrara ** Bug Squash Event: NYC
+ # Fixed [#8446] Issues with relative URLs in modules with SEF enabled
+
 09-Dec-2007 Rob Schley ** Bug Squash Event: SF **
  # Fixed [topic,241520] Issues with the pipe ("|") character in parameters.
 
