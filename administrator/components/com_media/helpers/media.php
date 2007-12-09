@@ -90,8 +90,8 @@ class MediaHelper
 				}
 			} else if(!in_array($format, $ignored)) {
 				// if its not an image...and we're not ignoring it
-				$upload_mime = explode(',', $params->get('upload_mime'));
-				$upload_mime_illegal = explode(',', $params->get('upload_mime_illegal'));
+				$allowed_mime = explode(',', $params->get('upload_mime'));
+				$illegal_mime = explode(',', $params->get('upload_mime_illegal'));
 				if(function_exists('finfo_open') && $params->get('check_mime',1)) {
 					// We have fileinfo
 					$finfo = finfo_open(FILEINFO_MIME);
