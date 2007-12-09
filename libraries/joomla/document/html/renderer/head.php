@@ -97,9 +97,9 @@ class JDocumentRendererHead extends JDocumentRenderer
 			if (!is_null($strAttr['media'])){
 				$strHtml .= ' media="'.$strAttr['media'].'" ';
 			}
-
-			$strHtml .= JArrayHelper::toString($strAttr['attribs']);
-
+			if ($temp = JArrayHelper::toString($strAttr['attribs'])) {
+				$strHtml .= ' '.$temp;;
+			}
 			$strHtml .= $tagEnd.$lnEnd;
 		}
 
