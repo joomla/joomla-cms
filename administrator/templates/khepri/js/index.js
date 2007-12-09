@@ -24,7 +24,7 @@ try {
 } catch(e) {}
 
 document.menu = null
-window.addEvent('domready', function(){
+window.addEvent('load', function(){
 	element = $('menu')
 	if(!element.hasClass('disabled')) {
 		var menu = new JMenu(element)

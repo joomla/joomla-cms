@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Dec-2007 Andy Miller
+ # Fixed issue with Safari and Admin Menu width - domready -> load
+
 09-Dec-2007 Ken Crowder ** Bug Squash Event: SF **
  # Fixed [#8459] Articles without titles.
 
