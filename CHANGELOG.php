@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Dec-2007 Anthony Ferrara ** Bug Squash Event: NY
+ # Fixed [#8446] Images from popup media manager not inserting /stories/ in path
+ 
 09-Dec-2007 Andy Miller
  # Fixed issue with Safari and Admin Menu width - domready -> load
 
