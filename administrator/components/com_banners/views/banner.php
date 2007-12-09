@@ -188,6 +188,7 @@ class BannersViewBanner
 			</tbody>
 			</table>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="c" value="banner" />
 		<input type="hidden" name="option" value="com_banners" />
 		<input type="hidden" name="task" value="" />
@@ -435,6 +436,7 @@ class BannersViewBanner
 		</div>
 		<div class="clr"></div>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="c" value="banner" />
 		<input type="hidden" name="option" value="com_banners" />
 		<input type="hidden" name="bid" value="<?php echo $row->bid; ?>" />

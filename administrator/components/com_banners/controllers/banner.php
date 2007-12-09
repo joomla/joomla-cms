@@ -180,6 +180,12 @@ class BannerControllerBanner extends JController
 	 */
 	function save()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$this->setRedirect( 'index.php?option=com_banners' );
 
 		// Initialize variables
@@ -257,6 +263,12 @@ class BannerControllerBanner extends JController
 	 */
 	function copy()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$this->setRedirect( 'index.php?option=com_banners' );
 
 		$cid	= JRequest::getVar( 'cid', null, 'post', 'array' );
@@ -295,6 +307,12 @@ class BannerControllerBanner extends JController
 
 	function publish()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$this->setRedirect( 'index.php?option=com_banners' );
 
 		// Initialize variables
@@ -326,6 +344,12 @@ class BannerControllerBanner extends JController
 
 	function remove()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$this->setRedirect( 'index.php?option=com_banners' );
 
 		// Initialize variables
@@ -353,6 +377,12 @@ class BannerControllerBanner extends JController
 	 */
 	function saveOrder()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$this->setRedirect( 'index.php?option=com_banners' );
 
 		// Initialize variables

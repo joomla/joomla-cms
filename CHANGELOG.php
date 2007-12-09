@@ -41,6 +41,7 @@ Legend:
  # Fixed [#8446] Issues with relative URLs in modules with SEF enabled
 
 09-Dec-2007 Rob Schley ** Bug Squash Event: SF **
+ * SECURITY A5 [HIGH] [#8361] Critical CSRF allow portal compromise - admin com_banners only
  # Fixed [topic,241520] Issues with the pipe ("|") character in parameters.
 
 09-Dec-2007 Louis Landry ** Bug Squash Event: NYC
@@ -58,7 +59,7 @@ Legend:
 
 09-Dec-2007 Andrew Eddie ** Bug Squash Event from home **
  # Fixed [t,241466] JHTML::Script() lacks space before extra attributes
- # Fixed [#8361] Critical CSRF allow portal compromise - admin com_users only
+ * SECURITY A5 [HIGH] [#8361] Critical CSRF allow portal compromise - admin com_users only
 
 08-Dec-2007 Ian MacLennan ** Bug Squash Event **
 # Fixed [Topic 241519] Language string from TinyMCE horizontale corrected

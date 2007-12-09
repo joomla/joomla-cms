@@ -130,6 +130,12 @@ class BannerControllerClient extends JController
 
 	function save()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$this->setRedirect( 'index.php?option=com_banners&c=client' );
 
 		// Initialize variables
@@ -170,6 +176,12 @@ class BannerControllerClient extends JController
 
 	function remove()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$this->setRedirect( 'index.php?option=com_banners&c=client' );
 
 		// Initialize variables
