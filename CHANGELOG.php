@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Dec-2007 Rastin Mehr ** Bug Squash Event: Vancouver
+ # Fixed [#8429] Archives issues
+ ^ modified the model query in com_content/models/archive.php line 116 to load category and section names
+ ^ modified views/archive/tmpl/default_items.php so it would display category and section links and titles for each article
+
 09-Dec-2007 Anthony Ferrara ** Bug Squash Event: NYC
  # Fixed article preview popup issue with SEF enabled
  # Fixed [#8446] Issues with relative URLs in modules with SEF enabled
