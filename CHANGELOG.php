@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Dec-2007 Ken Crowder ** Bug Squash Event: SF **
+# Fixed [#8225] Module custom output does not save. Thanks Chris Bolt.
+# Fixed [#8281] Incorrect pagination image in admin khepri template. Thanks Debi.
+# Fixed [#8264] System messages CSS errors in milkyway template. Thanks Jon.
+
 08-Dec-2007 Mickael Maison
  # Fixed [#7519] Stats module: call for JText not specified (==> localisation problem)
  # Fixed [#6895] Unnecessary definitions in en-GB.com_config.ini
