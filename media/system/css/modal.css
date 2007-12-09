@@ -24,6 +24,12 @@
 	-moz-border-radius:		3px;
 }
 
+* html #sbox-window
+{
+	top: 50% !important
+	left: 50% !important
+}
+
 #sbox-btn-close
 {
 	position:				absolute;
