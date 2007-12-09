@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 09-Dec-2007 Anthony Ferrara ** Bug Squash Event: NYC
+ # Fixed article preview popup issue with SEF enabled
+
+09-Dec-2007 Anthony Ferrara ** Bug Squash Event: NYC
  # Fixed [#8446] Issues with relative URLs in modules with SEF enabled
 
 09-Dec-2007 Rob Schley ** Bug Squash Event: SF **
