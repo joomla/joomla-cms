@@ -39,9 +39,8 @@ Legend:
 
 09-Dec-2007 Anthony Ferrara ** Bug Squash Event: NYC
  # Fixed article preview popup issue with SEF enabled
-
-09-Dec-2007 Anthony Ferrara ** Bug Squash Event: NYC
  # Fixed [#8446] Issues with relative URLs in modules with SEF enabled
+ # Fixed [#8446] Images from popup media manager not inserting /stories/ in path
 
 09-Dec-2007 Rob Schley ** Bug Squash Event: SF **
  * SECURITY A5 [HIGH] [#8361] Critical CSRF allow portal compromise.  Administrator components
@@ -52,9 +51,7 @@ Legend:
  # Fixed URL routing problems caused by PHP 4.3 parse_url() function bug.
  ! Users testing on PHP 4.3 please get an updated copy and test the system.
  # Fixed [#7746] Media manager mime checking broken (uninitialized variables)
-
-09-Dec-2007 Anthony Ferrara ** Bug Squash Event: NY
- # Fixed [#8446] Images from popup media manager not inserting /stories/ in path
+ # Fixed [#8460] Incorrect URLs in the Top Menu items
 
 09-Dec-2007 Andy Miller
  # Fixed issue with Safari and Admin Menu width - domready -> load

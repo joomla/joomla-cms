@@ -460,7 +460,7 @@ class JURI extends JObject
 
 		//If the query is empty build it first
 		if(is_null($this->_query)) {
-			$this->_query = $this->buildQuery ($this->_vars);
+			$this->_query = $this->buildQuery($this->_vars);
 		}
 
 		return $this->_query;

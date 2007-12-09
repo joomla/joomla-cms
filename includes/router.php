@@ -115,7 +115,7 @@ class JRouterSite extends JRouter
 		{
 			$item = $menu->getDefault();
 			if(!is_object($item)) return $vars; // No default item set
-			
+
 			//Set the information in the request
 			$vars = $item->query;
 
@@ -253,7 +253,6 @@ class JRouterSite extends JRouter
 
 	function _buildRawRoute(&$uri)
 	{
-		
 	}
 
 	function _buildSefRoute(&$uri)
@@ -321,8 +320,10 @@ class JRouterSite extends JRouter
 
 	function _processParseRules(&$uri)
 	{
+		// Process the attached parse rules
 		$vars = parent::_processParseRules($uri);
 
+		// Process the pagination support
 		if($this->_mode == JROUTER_MODE_SEF)
 		{
 			$app =& JFactory::getApplication();
@@ -339,6 +340,20 @@ class JRouterSite extends JRouter
 
 	function _processBuildRules(&$uri)
 	{
+		// Make sure any menu vars are used if no others are specified
+		if($uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
+		{
+			$menu =& JSite::getMenu();
+
+			// Get the active menu item
+			$itemid = $uri->getVar('Itemid');
+			$item   = $menu->getItem($itemid);
+
+			$uri->setQuery($item->query);
+			$uri->setVar('Itemid', $itemid);
+		}
+
+		// Process the attached build rules
 		parent::_processBuildRules($uri);
 
 		// Get the path data
