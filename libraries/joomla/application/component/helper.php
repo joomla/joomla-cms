@@ -168,6 +168,8 @@ class JComponentHelper
 			// Make the toolbar
 			include_once( $path );
 		}
+		
+		JApplication::triggerEvent('onAfterRenderComponent', array(&$contents) );
 
 		return $contents;
 	}
