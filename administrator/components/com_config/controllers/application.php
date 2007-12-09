@@ -203,6 +203,12 @@ class ConfigControllerApplication extends ConfigController
 	{
 		global $mainframe;
 
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');

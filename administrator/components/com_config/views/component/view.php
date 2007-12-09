@@ -56,6 +56,7 @@ class ConfigViewComponent extends JView
 			<?php echo $params->render();?>
 		</fieldset>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="id" value="<?php echo $this->component->id;?>" />
 		<input type="hidden" name="component" value="<?php echo $this->component->option;?>" />
 
