@@ -341,7 +341,7 @@ class JRouterSite extends JRouter
 	function _processBuildRules(&$uri)
 	{
 		// Make sure any menu vars are used if no others are specified
-		if($uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
+		if(($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
 		{
 			$menu =& JSite::getMenu();
 
