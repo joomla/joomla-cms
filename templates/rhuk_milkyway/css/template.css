@@ -776,7 +776,7 @@ td.key {
 #system-message dd.message ul { background: #C3D2E5 url(../../system/images/notice-info.png) 4px center no-repeat;}
 
 /* System Error Messages */
-#system-message dd.error ul { color: #c00; background: #E6C0C0 url(../../system/images/notice-alert.png) 4px center no-repeat; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
+#system-message dd.error ul { color: #c00; background: #E6C0C0 url(../../system/images/notice-alert.png) 4px center no-repeat; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B; margin:0px; padding-left: 40px; text-indent:0px;}
 
 /* System Notice Messages */
 #system-message dd.notice ul { color: #c00; background: #EFE7B8 url(../../system/images/notice-note.png) 4px center no-repeat; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
