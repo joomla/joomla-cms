@@ -50,7 +50,7 @@ class MediaHelper
 	function canUpload( $file, &$err )
 	{
 		$params = &JComponentHelper::getParams( 'com_media' );
-		
+
 		if(empty($file['name'])) {
 			$err = 'Please input a file for upload';
 			return false;
@@ -61,7 +61,7 @@ class MediaHelper
 			$err = 'WARNFILENAME';
 			return false;
 		}
-		
+
 		$format = strtolower(JFile::getExt($file['name']));
 
 		$allowable = explode( ',', $params->get( 'upload_extensions' ));
@@ -78,7 +78,7 @@ class MediaHelper
 			$err = 'WARNFILETOOLARGE';
 			return false;
 		}
-		
+
 		$user = JFactory::getUser();
 		$imginfo = null;
 		if($params->get('restrict_uploads',1) ) {
@@ -90,8 +90,8 @@ class MediaHelper
 				}
 			} else if(!in_array($format, $ignored)) {
 				// if its not an image...and we're not ignoring it
-				$allowed_mime = explode(',', $upload_mime);
-				$illegal_mime = explode(',', $upload_mime_illegal);
+				$upload_mime = explode(',', $params->get('upload_mime'));
+				$upload_mime_illegal = explode(',', $params->get('upload_mime_illegal'));
 				if(function_exists('finfo_open') && $params->get('check_mime',1)) {
 					// We have fileinfo
 					$finfo = finfo_open(FILEINFO_MIME);
@@ -111,10 +111,10 @@ class MediaHelper
 				} else if(!$user->authorize( 'login', 'administrator' )) {
 					$err = 'WARNNOTADMIN';
 					return false;
-				}		
-			}		
+				}
+			}
 		}
-		
+
 		$xss_check =  JFile::read($file['tmp_name'],false,256);
 		$html_tags = array('abbr','acronym','address','applet','area','audioscope','base','basefont','bdo','bgsound','big','blackface','blink','blockquote','body','bq','br','button','caption','center','cite','code','col','colgroup','comment','custom','dd','del','dfn','dir','div','dl','dt','em','embed','fieldset','fn','font','form','frame','frameset','h1','h2','h3','h4','h5','h6','head','hr','html','iframe','ilayer','img','input','ins','isindex','keygen','kbd','label','layer','legend','li','limittext','link','listing','map','marquee','menu','meta','multicol','nobr','noembed','noframes','noscript','nosmartquotes','object','ol','optgroup','option','param','plaintext','pre','rt','ruby','s','samp','script','select','server','shadow','sidebar','small','spacer','span','strike','strong','style','sub','sup','table','tbody','td','textarea','tfoot','th','thead','title','tr','tt','ul','var','wbr','xml','xmp','!DOCTYPE', '!--');
 		foreach($html_tags as $tag) {
@@ -122,7 +122,7 @@ class MediaHelper
 			if(stristr($xss_check, '<'.$tag.' ') || stristr($xss_check, '<'.$tag.'>')) {
 				$err = 'WARNIEXSS';
 				return false;
-			}	
+			}
 		}
 		return true;
 	}

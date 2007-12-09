@@ -47,6 +47,7 @@ Legend:
 09-Dec-2007 Louis Landry ** Bug Squash Event: NYC
  # Fixed URL routing problems caused by PHP 4.3 parse_url() function bug.
  ! Users testing on PHP 4.3 please get an updated copy and test the system.
+ # Fixed [#7746] Media manager mime checking broken (uninitialized variables)
 
 09-Dec-2007 Anthony Ferrara ** Bug Squash Event: NY
  # Fixed [#8446] Images from popup media manager not inserting /stories/ in path
