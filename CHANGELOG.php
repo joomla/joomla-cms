@@ -40,6 +40,9 @@ Legend:
 09-Dec-2007 Andrew Eddie ** Bug Squash Event from home **
  # Fixed [t,241466] JHTML::Script() lacks space before extra attributes
 
+08-Dec-2007 Ian MacLennan ** Bug Squash Event **
+# Fixed [Topic 241519] Language string from TinyMCE horizontale corrected
+
 08-Dec-2007 Ken Crowder ** Bug Squash Event: SF **
 # Fixed [#8225] Module custom output does not save. Thanks Chris Bolt.
 # Fixed [#8281] Incorrect pagination image in admin khepri template. Thanks Debi.
