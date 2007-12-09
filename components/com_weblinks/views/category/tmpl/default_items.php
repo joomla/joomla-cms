@@ -21,7 +21,7 @@
 </tr>
 <?php if ( $this->params->def( 'show_headings', 1 ) ) : ?>
 <tr>
-	<td width="10" style="text-align:center;" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+	<td width="10" style="text-align:right;" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<?php echo JText::_('Num'); ?>
 	</td>
 	<td width="90%" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
