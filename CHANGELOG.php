@@ -50,6 +50,7 @@ Legend:
 # Fixed [#8264] System messages CSS errors in milkyway template. Thanks Jon.
 # Fixed [#8283] Incorrect JHML.calendar rendering.
 # Fixed [#6550] Number alignment in views incorrect.
+# Fixed [#8347] Description of user Default Remind layout inaccurate.
 
 08-Dec-2007 Mickael Maison
  # Fixed [#7519] Stats module: call for JText not specified (==> localisation problem)
