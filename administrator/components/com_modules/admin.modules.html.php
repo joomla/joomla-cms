@@ -236,7 +236,7 @@ class HTML_modules
 				alert("<?php echo JText::_( 'Module must have a title', true ); ?>");
 			} else {
 				<?php
-				if ($row->module == '' || $row->module == 'custom') {
+				if ($row->module == '' || $row->module == 'mod_custom') {
 					echo $editor->save( 'content' );
 				}
 				?>
