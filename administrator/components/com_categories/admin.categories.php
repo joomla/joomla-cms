@@ -403,6 +403,12 @@ function saveCategory()
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+
 	// Initialize variables
 	$db		 =& JFactory::getDBO();
 	$menu 		= JRequest::getCmd( 'menu', 'mainmenu', 'post' );
@@ -490,6 +496,12 @@ function removeCategories( $section, $cid )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+
 	// Initialize variables
 	$db =& JFactory::getDBO();
 
@@ -570,6 +582,12 @@ function publishCategories( $section, $cid=null, $publish=1 )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+
 	// Initialize variables
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
@@ -631,6 +649,12 @@ function orderCategory( $uid, $inc )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+
 	// Initialize variables
 	$db		=& JFactory::getDBO();
 	$row	=& JTable::getInstance('category' );
@@ -649,6 +673,12 @@ function orderCategory( $uid, $inc )
 function moveCategorySelect( $option, $cid, $sectionOld )
 {
 	global $mainframe;
+
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db =& JFactory::getDBO();
 	$redirect = JRequest::getCmd( 'section', 'com_content', 'post' );
@@ -700,6 +730,12 @@ function moveCategorySave( $cid, $sectionOld )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+
 	$db =& JFactory::getDBO();
 	$sectionMove = JRequest::getCmd( 'sectionmove' );
 
@@ -713,26 +749,26 @@ function moveCategorySave( $cid, $sectionOld )
 	}
 
 	JArrayHelper::toInteger($cid, array(0));
-	
+
 	$sectionNew =& JTable::getInstance('section');
     $sectionNew->load( $sectionMove );
 
     //Remove the categories was in destination section
 	$cids = implode( ',', $cid );
-	
+
 	$query = 'SELECT id, title'
 	. ' FROM #__categories'
 	. ' WHERE id IN ( '.$cids.' )'
 	. ' AND section = '.$db->Quote($sectionMove)
 	;
 	$db->setQuery( $query );
-	
+
 	$scid   = $db->loadResultArray(0);
 	$title  = $db->loadResultArray(1);
-	
+
 	$cid = array_diff($cid, $scid);
-	
-    // 
+
+    //
 	if ( !empty($cid) ) {
 	    $cids = implode( ',', $cid );
 	    $total = count( $cid );
@@ -765,7 +801,7 @@ function moveCategorySave( $cid, $sectionOld )
 		}
 		$mainframe->enqueueMessage($msg);
 	}
-	
+
 	$mainframe->redirect( 'index.php?option=com_categories&section='. $sectionOld );
 }
 
@@ -775,6 +811,12 @@ function moveCategorySave( $cid, $sectionOld )
 function copyCategorySelect( $option, $cid, $sectionOld )
 {
 	global $mainframe;
+
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db =& JFactory::getDBO();
 	$redirect = JRequest::getCmd( 'section', 'com_content', 'post' );
@@ -825,6 +867,12 @@ function copyCategorySelect( $option, $cid, $sectionOld )
 function copyCategorySave( $cid, $sectionOld )
 {
 	global $mainframe;
+
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
@@ -903,6 +951,12 @@ function accessMenu( $uid, $access, $section )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+
 	// Initialize variables
 	$db =& JFactory::getDBO();
 
@@ -923,6 +977,12 @@ function accessMenu( $uid, $access, $section )
 function saveOrder( &$cid, $section )
 {
 	global $mainframe;
+
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	// Initialize variables
 	$db =& JFactory::getDBO();

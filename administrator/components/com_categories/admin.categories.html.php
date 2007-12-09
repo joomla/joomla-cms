@@ -207,6 +207,7 @@ class categories_html
 		</tbody>
 		</table>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="com_categories" />
 		<input type="hidden" name="section" value="<?php echo $section;?>" />
 		<input type="hidden" name="task" value="" />
@@ -398,6 +399,7 @@ class categories_html
 		</div>
 		<div class="clr"></div>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="com_categories" />
 		<input type="hidden" name="oldtitle" value="<?php echo $row->title ; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
@@ -476,6 +478,7 @@ class categories_html
 		</table>
 		<br /><br />
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="section" value="<?php echo $sectionOld;?>" />
 		<input type="hidden" name="boxchecked" value="1" />
@@ -561,6 +564,7 @@ class categories_html
 		</table>
 		<br /><br />
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="section" value="<?php echo $sectionOld;?>" />
 		<input type="hidden" name="boxchecked" value="1" />

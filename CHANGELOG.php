@@ -41,8 +41,8 @@ Legend:
  # Fixed [#8446] Issues with relative URLs in modules with SEF enabled
 
 09-Dec-2007 Rob Schley ** Bug Squash Event: SF **
- * SECURITY A5 [HIGH] [#8361] Critical CSRF allow portal compromise - admin com_cache only
- * SECURITY A5 [HIGH] [#8361] Critical CSRF allow portal compromise - admin com_banners only
+ * SECURITY A5 [HIGH] [#8361] Critical CSRF allow portal compromise.  Administrator components
+   fixed so far: com_banners, com_cache, com_categories
  # Fixed [topic,241520] Issues with the pipe ("|") character in parameters.
 
 09-Dec-2007 Louis Landry ** Bug Squash Event: NYC
