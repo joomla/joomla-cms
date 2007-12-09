@@ -202,13 +202,13 @@ class JURI extends JObject
 	function base($pathonly = false)
 	{
 		static $base;
-	
+
 		// Get the base request path
 		if (!isset($base))
 		{
 			$uri	         =& JURI::getInstance();
 			$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
-			
+
 			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
 				//Apache CGI
 				$base['path'] =  rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
@@ -217,10 +217,10 @@ class JURI extends JObject
 				$base['path'] =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 			}
 		}
-		
-		return $pathonly === false ? $base['prefix'].$base['path'].'/' : $base['path'];	
+
+		return $pathonly === false ? $base['prefix'].$base['path'].'/' : $base['path'];
 	}
-	
+
 	/**
 	 * Returns the root URI for the request.
 	 *
@@ -233,7 +233,7 @@ class JURI extends JObject
 	function root($pathonly = false, $path = null)
 	{
 		static $root;
-		
+
 		// Get the scheme
 		if(!isset($root))
 		{
@@ -241,7 +241,7 @@ class JURI extends JObject
 			$root['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
 			$root['path']    = JURI::base(true);
 		}
-		
+
 		// Get the scheme
 		if(isset($path)) {
 			$root['path']    = $path;
@@ -270,7 +270,7 @@ class JURI extends JObject
 
 		return $current;
 	}
-	
+
 	/**
 	 * Parse a given URI and populate the class fields
 	 *
@@ -329,6 +329,8 @@ class JURI extends JObject
 				$authority = explode(':', $authority);
 				$parts['host'] = $authority[0];
 				$parts['port'] = $authority[1];
+			} else {
+				$parts['host'] = $authority;
 			}
 
 			$parts['scheme'] = @$matches[2][0];
@@ -352,7 +354,7 @@ class JURI extends JObject
 	function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
 	{
 		$query = $this->getQuery(); //make sure the query is created
-		
+
 		$uri = '';
 		$uri .= in_array('scheme', $parts)  ? (!empty($this->_scheme) ? $this->_scheme.'://' : '') : '';
 		$uri .= in_array('user', $parts)	? $this->_user : '';
@@ -380,10 +382,10 @@ class JURI extends JObject
 	{
 		$tmp = @$this->_vars[$name];
 		$this->_vars[$name] = $value;
-		
+
 		//empty the query
 		$this->_query = null;
-		
+
 		return $tmp;
 	}
 
@@ -412,10 +414,10 @@ class JURI extends JObject
 	 */
 	function delVar($name)
 	{
-		if (in_array($name, array_keys($this->_vars))) 
+		if (in_array($name, array_keys($this->_vars)))
 		{
 			unset ($this->_vars[$name]);
-			
+
 			//empty the query
 			$this->_query = null;
 		}
@@ -438,7 +440,7 @@ class JURI extends JObject
 		if(is_array($query)) {
 			$this->_vars = $query;
 		}
-		
+
 		//empty the query
 		$this->_query = null;
 	}
@@ -454,13 +456,13 @@ class JURI extends JObject
 	{
 		if($toArray) {
 			return $this->_vars;
-		} 
-		
+		}
+
 		//If the query is empty build it first
 		if(is_null($this->_query)) {
 			$this->_query = $this->buildQuery ($this->_vars);
 		}
-		
+
 		return $this->_query;
 	}
 
