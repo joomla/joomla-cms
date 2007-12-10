@@ -164,6 +164,7 @@ class sections_html
 		</tbody>
 		</table>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="scope" value="<?php echo $scope;?>" />
 		<input type="hidden" name="task" value="" />
@@ -339,6 +340,7 @@ class sections_html
 		</div>
 		<div class="clr"></div>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="scope" value="<?php echo $row->scope; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
@@ -416,6 +418,7 @@ class sections_html
 		</table>
 		<br /><br />
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="section" value="<?php echo $section;?>" />
 		<input type="hidden" name="boxchecked" value="1" />

@@ -274,6 +274,12 @@ function saveSection( $option, $scope, $task )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+
 	$db			=& JFactory::getDBO();
 	$menu		= JRequest::getVar( 'menu', 'mainmenu', 'post', 'string' );
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
@@ -345,6 +351,12 @@ function removeSections( $cid, $scope, $option )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+
 	$db =& JFactory::getDBO();
 	if (count( $cid ) < 1) {
 		JError::raiseError(500, JText::_( 'Select a section to delete', true ) );
@@ -411,6 +423,12 @@ function removeSections( $cid, $scope, $option )
 function publishSections( $scope, $cid=null, $publish=1, $option )
 {
 	global $mainframe;
+
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
@@ -497,6 +515,12 @@ function orderSection( $uid, $inc, $option, $scope )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+
 	$db =& JFactory::getDBO();
 	$row =& JTable::getInstance('section');
 	$row->load( $uid );
@@ -512,6 +536,12 @@ function orderSection( $uid, $inc, $option, $scope )
 function copySectionSelect( $option, $cid, $section )
 {
 	global $mainframe;
+
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db =& JFactory::getDBO();
 
@@ -549,6 +579,12 @@ function copySectionSelect( $option, $cid, $section )
 function copySectionSave( $sectionid, $scope )
 {
 	global $mainframe;
+
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db			=& JFactory::getDBO();
 	$title		= JRequest::getString( 'title' );
@@ -647,6 +683,12 @@ function accessMenu( $uid, $access, $option )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+
 	$db	=& JFactory::getDBO();
 	$row =& JTable::getInstance('section');
 	$row->load( $uid );
@@ -665,6 +707,12 @@ function accessMenu( $uid, $access, $option )
 function saveOrder( &$cid )
 {
 	global $mainframe;
+
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db			=& JFactory::getDBO();
 	$row		=& JTable::getInstance('section');
