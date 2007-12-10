@@ -19,5 +19,9 @@
  			<option value="source">Source</option>
  			<option value="screen-reader">Screen-Reader</option>
  		</param>
+ 		<param name="wrap" type="list" default="0" label="Word Wrap" description="PARAMEDITORMODE">
+ 			<option value="0">Off</option>
+ 			<option value="8">On</option>
+ 		</param>
 	</params>
 </install>

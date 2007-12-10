@@ -170,7 +170,7 @@ class plgEditorXstandard extends JPlugin {
 			<param name="BackgroundColor" value="#F9F9F9" />
 			<param name="Mode" value="<?php echo $this->params->get('mode', 'wysiwyg'); ?>" />
 			<param name="IndentOutput" value="yes" />
-
+            <param name="Options" value="<?php echo $this->params->get('wrap', '0'); ?>" />
  			<param name="BorderColor" value="#FFF" />
  			<param name="Base" value="<?php echo $url ?>" />
  			<param name="ExpandWidth" value="800" />
