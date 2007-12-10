@@ -1,32 +1,31 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <form action="index.php" method="post" name="adminForm">
-<table>
-  <tr>
-    <td align="left" width="100%">
-    <?php echo JText::_( 'Filter' ); ?>:
-    <input type="text" name="search" id="search" value="<?php echo $this->search; ?>" class="text_area" onchange="document.adminForm.submit();" />
-    <button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
-    <button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
-    </td>
-    <td nowrap="nowrap">
-      <span class="componentheading"><?php echo JText::_( 'Search Logging' ); ?> :
-      <?php echo $this->enabled ? '<b><font color="green">'. JText::_( 'Enabled' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Disabled' ) .'</font></b>' ?>
-	</span>
-    </td>
-    <td nowrap="nowrap" align="right">
-	<?php
-	if ( $this->showResults ) : ?>
-	<a href="index.php?option=com_search&amp;search_results=0"><?php echo JText::_( 'Hide Search Results' ); ?></a>
-	<?php else : ?>
-	<a href="index.php?option=com_search&amp;search_results=1"><?php echo JText::_( 'Show Search Results' ); ?></a>
-	<?php endif; ?>
-	</td>
-	</tr>
-</table>
+	<table>
+		<tr>
+			<td align="left" width="100%">
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" id="search" value="<?php echo $this->search; ?>" class="text_area" onchange="document.adminForm.submit();" />
+				<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
+				<button onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
+			</td>
+			<td nowrap="nowrap">
+				<span class="componentheading"><?php echo JText::_( 'Search Logging' ); ?> :
+				<?php echo $this->enabled ? '<b><font color="green">'. JText::_( 'Enabled' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Disabled' ) .'</font></b>' ?>
+				</span>
+			</td>
+			<td nowrap="nowrap" align="right">
+			<?php if ( $this->showResults ) : ?>
+				<a href="index.php?option=com_search&amp;search_results=0"><?php echo JText::_( 'Hide Search Results' ); ?></a>
+			<?php else : ?>
+				<a href="index.php?option=com_search&amp;search_results=1"><?php echo JText::_( 'Show Search Results' ); ?></a>
+			<?php endif; ?>
+			</td>
+		</tr>
+	</table>
 
-		<div id="tablecell">
-			<table class="adminlist">
+	<div id="tablecell">
+		<table class="adminlist">
 			<thead>
 				<tr>
 					<th width="10">
@@ -69,11 +68,10 @@
 					<td align="center">
 						<?php echo $row->hits; ?>
 					</td>
-					<?php
-					if ( $this->showResults ) : ?>
-						<td align="center">
-							<?php echo $row->returns; ?>
-						</td>
+					<?php if ( $this->showResults ) : ?>
+					<td align="center">
+						<?php echo $row->returns; ?>
+					</td>
 					<?php endif; ?>
 				</tr>
 				<?php
@@ -81,11 +79,11 @@
 			}
 			?>
 			</tbody>
-			</table>
-		</div>
+		</table>
+	</div>
 
-		<input type="hidden" name="option" value="com_search" />
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
-		</form>
+	<input type="hidden" name="option" value="com_search" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
+</form>
