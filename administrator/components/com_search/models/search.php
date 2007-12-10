@@ -49,13 +49,13 @@ class SearchModelSearch extends JModel
 		global $mainframe, $option;
 		$db	=& JFactory::getDBO();
 
-		$filter_order	= $mainframe->getUserStateFromRequest( 'com_search.filter_order',		'filter_order',		'hits', 'cmd' );
+		$filter_order		= $mainframe->getUserStateFromRequest( 'com_search.filter_order',		'filter_order',		'hits', 'cmd' );
 		$filter_order_Dir	= $mainframe->getUserStateFromRequest( 'com_search.filter_order_Dir',	'filter_order_Dir',	'',		'word' );
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit',		'limit',	$mainframe->getCfg('list_limit'), 'int' );
-		$limitstart		= $mainframe->getUserStateFromRequest( 'com_search.limitstart',		'limitstart',		0,		'int' );
-		$search		= $mainframe->getUserStateFromRequest( 'com_search.search',	'search',	'',		'string' );
-		$search		= JString::strtolower( $search );
-		$showResults	= JRequest::getInt('search_results');
+		$limit				= $mainframe->getUserStateFromRequest( 'global.list.limit',				'limit',			$mainframe->getCfg('list_limit'), 'int' );
+		$limitstart			= $mainframe->getUserStateFromRequest( 'com_search.limitstart',			'limitstart',		0,		'int' );
+		$search				= $mainframe->getUserStateFromRequest( 'com_search.search',				'search',			'',		'string' );
+		$search				= JString::strtolower( $search );
+		$showResults		= JRequest::getInt('search_results');
 
 		// table ordering
 		if ( $filter_order_Dir == 'ASC' ) {
@@ -96,6 +96,12 @@ class SearchModelSearch extends JModel
 
 		JPluginHelper::importPlugin( 'search' );
 
+		if (!class_exists( 'JSite' ))
+		{
+			// This fools the routers in the search plugins into thinking it's in the frontend
+			require_once( JPATH_COMPONENT.DS.'helpers'.DS.'site.php' );
+		}
+
 		for ($i=0, $n = count($rows); $i < $n; $i++) {
 			// determine if number of results for search item should be calculated
 			// by default it is `off` as it is highly query intensive
@@ -116,4 +122,3 @@ class SearchModelSearch extends JModel
 		return $rows;
 	}
 }
-?>

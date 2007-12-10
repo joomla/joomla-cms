@@ -48,18 +48,17 @@ class SearchViewSearch extends JView
 		$pageNav = new JPagination( count($items), $limitstart, $limit );
 
 		$showResults	= JRequest::getInt('search_results');
-		
+
 		$search 		= $mainframe->getUserStateFromRequest( 'com_search.search', 'search', '', 'string' );
-		
+
 		$this->assignRef('items', 	$items);
 		$this->assignRef('enabled', $enabled);
 		$this->assignRef('pageNav', $pageNav);
 		$this->assignRef('search', 	$search );
 		$this->assignRef('lists',	$model->lists );
-		
+
 		$this->assignRef('showResults', $showResults);
 
 		parent::display($tpl);
 	}
 }
-?>

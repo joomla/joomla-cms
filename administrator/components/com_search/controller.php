@@ -12,7 +12,7 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
  */
- 
+
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
@@ -46,4 +46,3 @@ class SearchController extends JController
 		$this->setRedirect('index.php?option=com_search');
 	}
 }
-?>

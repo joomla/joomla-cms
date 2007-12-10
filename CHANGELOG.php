@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Dec-2007 Andrew Eddie ** Bug Squash Event from home **
+ # Fixed bug in backend search when "Show Search Results" set (had to fool the routers a bit)
+
 09-Dec-2007 Rastin Mehr ** Bug Squash Event: Vancouver
  # Fixed [#8429] Archives issues
  ^ modified the model query in com_content/models/archive.php line 116 to load category and section names
@@ -48,7 +51,7 @@ Legend:
  # Fixed [#8446] Images from popup media manager not inserting /stories/ in path
 
 09-Dec-2007 Rob Schley ** Bug Squash Event: SF **
- # Fixed [topic,236313][#7417] Modal window positioning issues in IE6.  Thanks Michal Viking Krak—w!
+ # Fixed [topic,236313][#7417] Modal window positioning issues in IE6.  Thanks Michal Viking Krakï¿½w!
  * SECURITY A5 [HIGH] [#8361] Critical CSRF allow portal compromise.  Administrator components
    fixed so far: com_banners, com_cache, com_categories, com_config, com_contact
  # Fixed [topic,241520] Issues with the pipe ("|") character in parameters.
