@@ -37,7 +37,7 @@ Legend:
 - -> Removed
 ! -> Note
 
-10-Dec-2007 Laurens Vandeput ** Bug Squash Event: Brussels
+10-Dec-2007 Mathias Verraes ** Bug Squash Event: Brussels
  # Fixed [#7609]
 
 10-Dec-2007 Andrew Eddie ** Bug Squash Event from home **
