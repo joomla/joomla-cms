@@ -29,7 +29,6 @@ class modMenuHelper
 		$lang		= & JFactory::getLanguage();
 		$user		= & JFactory::getUser();
 		$db			= & JFactory::getDBO();
-		$caching	= $mainframe->getCfg('caching');
 		$usertype	= $user->get('usertype');
 
 		// cache some acl checks
@@ -228,9 +227,7 @@ class modMenuHelper
 				$menu->addChild(new JMenuNode(JText::_('Global Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
 				$menu->addSeparator();
 			}
-			if ($caching) {
-				$menu->addChild(new JMenuNode(JText::_('Clean Cache'), 'index.php?option=com_cache', 'class:config'));
-			}
+			$menu->addChild(new JMenuNode(JText::_('Clean Cache'), 'index.php?option=com_cache', 'class:config'));
 
 			$menu->getParent();
 		}
