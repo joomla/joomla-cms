@@ -68,6 +68,12 @@ class WeblinksController extends JController
 
 	function save()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$post	= JRequest::get('post');
 		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		$post['id'] = (int) $cid[0];
@@ -88,6 +94,12 @@ class WeblinksController extends JController
 
 	function remove()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
@@ -106,6 +118,12 @@ class WeblinksController extends JController
 
 	function publish()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
@@ -124,6 +142,12 @@ class WeblinksController extends JController
 
 	function unpublish()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);
 
@@ -151,6 +175,12 @@ class WeblinksController extends JController
 
 	function orderup()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$model = $this->getModel('weblink');
 		$model->move(-1);
 
@@ -159,6 +189,12 @@ class WeblinksController extends JController
 
 	function orderdown()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$model = $this->getModel('weblink');
 		$model->move(1);
 
@@ -167,6 +203,12 @@ class WeblinksController extends JController
 
 	function saveorder()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
 		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
 		JArrayHelper::toInteger($cid);

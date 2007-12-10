@@ -141,6 +141,7 @@
 </div>
 <div class="clr"></div>
 
+<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 <input type="hidden" name="option" value="com_weblinks" />
 <input type="hidden" name="cid[]" value="<?php echo $this->weblink->id; ?>" />
 <input type="hidden" name="task" value="" />
