@@ -124,6 +124,12 @@ function publishLanguage( $language )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+
 	// Initialize some variables
 	$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 

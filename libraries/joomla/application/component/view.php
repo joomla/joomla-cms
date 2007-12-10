@@ -112,12 +112,12 @@ class JView extends JObject
      * @access private
      */
     var $_escape = 'htmlspecialchars';
-	
+
 	 /**
      * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
-     * 
+     *
      * @var string
-     * @access private 
+     * @access private
      */
     var $_charset = 'UTF-8';
 
@@ -137,12 +137,12 @@ class JView extends JObject
 				$this->_name = $this->getName();
 			}
 		}
-		
+
 		 // set the charset (used by the variable escaping functions)
         if (array_key_exists('charset', $config)) {
             $this->_charset = $config['charset'];
         }
-		
+
 		 // user-defined escaping callback
         if (array_key_exists('escape', $config)) {
             $this->setEscape($config['escape']);
@@ -177,7 +177,7 @@ class JView extends JObject
 		} else {
 			$this->setLayout('default');
 		}
-		
+
 		$this->baseurl = JURI::base(true);
 	}
 
@@ -321,7 +321,7 @@ class JView extends JObject
 	/**
      * Escapes a value for output in a view script.
      *
-     * If escaping mechanism is one of htmlspecialchars or htmlentities, uses 
+     * If escaping mechanism is one of htmlspecialchars or htmlentities, uses
      * {@link $_encoding} setting.
      *
      * @param  mixed $var The output to escape.
@@ -335,7 +335,7 @@ class JView extends JObject
 
         return call_user_func($this->_escape, $var);
     }
-	
+
 	/**
 	 * Method to get data from a registered model
 	 *
@@ -397,7 +397,7 @@ class JView extends JObject
 		}
 		return $this->_models[strtolower( $name )];
 	}
-	
+
 	/**
 	* Get the layout.
 	*
@@ -409,7 +409,7 @@ class JView extends JObject
 	{
 		return $this->_layout;
 	}
-	
+
 	/**
 	 * Method to get the view name
 	 *
@@ -430,12 +430,18 @@ class JView extends JObject
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r)) {
 				JError::raiseError (500, "JView::getName() : Cannot get or parse class name.");
 			}
+			if (strpos($r[3], "view"))
+			{
+				JError::raiseWarning("JView::getName() : Your classname contains the substring 'view'. ".
+											"This causes problems when extracting the classname from the name of your objects view. " .
+											"Avoid Object names with the substring 'view'.");
+			}
 			$name = strtolower( $r[3] );
 		}
 
 		return $name;
 	}
-	
+
 	/**
 	 * Method to add a model to the view.  We support a multiple model single
 	 * view system by which models are referenced by classname.  A caveat to the
@@ -491,7 +497,7 @@ class JView extends JObject
 		}
 		return $previous;
 	}
-	
+
 	 /**
      * Sets the _escape() callback.
      *

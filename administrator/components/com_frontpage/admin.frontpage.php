@@ -219,6 +219,12 @@ function changeFrontPage( $cid=null, $state=0, $option )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+	
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
 
@@ -256,6 +262,12 @@ function removeFrontPage( &$cid, $option )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+	
 	$db =& JFactory::getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		JError::raiseError(500, JText::_( 'Select an item to delete', true ) );
@@ -288,6 +300,12 @@ function orderFrontPage( $uid, $inc, $option )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+	
 	$db =& JFactory::getDBO();
 
 	$fp =& JTable::getInstance('frontpage','Table');
@@ -309,6 +327,12 @@ function accessMenu( $uid, $access )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+	
 	$db = & JFactory::getDBO();
 	$row =& JTable::getInstance('content');
 	$row->load( $uid );
@@ -331,6 +355,12 @@ function saveOrder( &$cid )
 {
 	global $mainframe;
 
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
+	
 	$db 	=& JFactory::getDBO();
 	$total	= count( $cid );
 	$order 	= JRequest::getVar( 'order', array(0), 'post', 'array' );

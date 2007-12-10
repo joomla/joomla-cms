@@ -253,6 +253,7 @@ class FrontpageView
 			</table>
 			<?php JHTML::_('content.legend'); ?>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

@@ -42,6 +42,8 @@ Legend:
  # Fixed [#7124] Login doesn't work anymore when enabling cache. Thanks to Mathias Verraes.
 
 10-Dec-2007 Laurens Vandeput ** Bug Squash Event: Brussels
+ * SECURITY A5 [HIGH] Critical CSRF allow portal compromise - Administrator components. Thanks to Paul Delbar & Jeroen Loose.
+ # Fixed [#8294] Joomla! Index.PHP Multiple SQL Injection Vulnerabilities reported on SecurityFocus. Thanks to Philip Richdale.
  # Fixed [#8395]
  # Backend SEF fix. Thanks to Mathias Verraes
  # Fixed [#7526] Section Layout errors-out if published articles contain items which are designated Special-access. Thanks to Jeroen Loose.

@@ -53,6 +53,12 @@ class LoginController
 	{
 		global $mainframe;
 
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$credentials = array();
 
 		$credentials['username'] = JRequest::getVar('username', '', 'method', 'username');
