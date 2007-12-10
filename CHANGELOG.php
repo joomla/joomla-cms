@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Dec-2007 Andy Miller
+ + Added new Delete toolbar icon
+
 10-Dec-2007 Jui-Yu Tsai
  # Fixed [t,241171] contact contentpane css replaced by contentpaneopen
  
