@@ -310,39 +310,6 @@ class JURI extends JObject
 		return $retval;
 	}
 
-	function _parseURL($uri)
-	{
-		$parts = array();
-		if (version_compare( phpversion(), '4.4' ) < 0) {
-			$regex = "<^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?>";
-			$matches = array();
-			preg_match($regex, $uri, $matches, PREG_OFFSET_CAPTURE);
-
-			$authority = @$matches[4][0];
-			if (strpos($authority, '@') !== false) {
-				$authority = explode('@', $authority);
-				@list($parts['user'], $parts['pass']) = explode(':', $authority[0]);
-				$authority = $authority[1];
-			}
-
-			if (strpos($authority, ':') !== false) {
-				$authority = explode(':', $authority);
-				$parts['host'] = $authority[0];
-				$parts['port'] = $authority[1];
-			} else {
-				$parts['host'] = $authority;
-			}
-
-			$parts['scheme'] = @$matches[2][0];
-			$parts['path'] = @$matches[5][0];
-			$parts['query'] = @$matches[7][0];
-			$parts['fragment'] = @$matches[9][0];
-		} else {
-			$parts = @parse_url($uri);
-		}
-		return $parts;
-	}
-
 	/**
 	 * Returns full uri string
 	 *
@@ -464,6 +431,42 @@ class JURI extends JObject
 		}
 
 		return $this->_query;
+	}
+
+	/**
+	 * Build a query from a array (reverse of the PHP parse_str())
+	 *
+	 * @access	public
+	 * @return	string The resulting query string
+	 * @since	1.5
+	 * @see	parse_str()
+	 */
+	function buildQuery ($params, $akey = null)
+	{
+		if ( !is_array($params) || count($params) == 0 ) {
+			return false;
+		}
+
+		$out = array();
+
+		//reset in case we are looping
+		if( !isset($akey) && !count($out) )  {
+			unset($out);
+			$out = array();
+		}
+
+		foreach ( $params as $key => $val )
+		{
+			if ( is_array($val) ) {
+				$out[] = JURI::buildQuery($val,$key);
+				continue;
+			}
+
+			$thekey = ( !$akey ) ? $key : $akey.'[]';
+			$out[] = $thekey."=".urlencode($val);
+		}
+
+		return implode("&",$out);
 	}
 
 	/**
@@ -683,38 +686,51 @@ class JURI extends JObject
 	}
 
 	/**
-	 * Build a query from a array (reverse of the PHP parse_str())
+	 * Backwards compatibility function for parse_url function
+	 * 
+	 * This function solves different bugs in PHP versions lower then
+	 * 4.4, will be deprecated in future versions.
 	 *
-	 * @access	public
-	 * @return	string The resulting query string
+	 * @access	private
+	 * @return	array Associative array containing the URL parts
 	 * @since	1.5
-	 * @see	parse_str()
+	 * @see parse_url()
 	 */
-	function buildQuery ($params, $akey = null)
+	function _parseURL($uri)
 	{
-		if ( !is_array($params) || count($params) == 0 ) {
-			return false;
-		}
-
-		$out = array();
-
-		//reset in case we are looping
-		if( !isset($akey) && !count($out) )  {
-			unset($out);
-			$out = array();
-		}
-
-		foreach ( $params as $key => $val )
+		$parts = array();
+		if (version_compare( phpversion(), '4.4' ) < 0)
 		{
-			if ( is_array($val) ) {
-				$out[] = JURI::buildQuery($val,$key);
-				continue;
+			$regex = "<^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?>";
+			$matches = array();
+			preg_match($regex, $uri, $matches, PREG_OFFSET_CAPTURE);
+
+			$authority = @$matches[4][0];
+			if (strpos($authority, '@') !== false) {
+				$authority = explode('@', $authority);
+				@list($parts['user'], $parts['pass']) = explode(':', $authority[0]);
+				$authority = $authority[1];
 			}
 
-			$thekey = ( !$akey ) ? $key : $akey.'[]';
-			$out[] = $thekey."=".urlencode($val);
-		}
+			if (strpos($authority, ':') !== false) {
+				$authority = explode(':', $authority);
+				$parts['host'] = $authority[0];
+				$parts['port'] = $authority[1];
+			} else {
+				$parts['host'] = $authority;
+			}
 
-		return implode("&",$out);
+			$parts['scheme'] = @$matches[2][0];
+			$parts['path'] = @$matches[5][0];
+			$parts['query'] = @$matches[7][0];
+			$parts['fragment'] = @$matches[9][0];
+		}
+		else
+		{
+			$parts = @parse_url($uri);
+		}
+		return $parts;
 	}
+
+
 }
