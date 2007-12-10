@@ -199,7 +199,8 @@ class JModuleHelper
 			}
 		}
 		//Convert relative links to absolute if SEF is enabled
-		if($mainframe->isSite())
+
+		if($mainframe->getName()=='site')
 		{
 			JModuleHelper::_fixSef($module);
 		}
