@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Dev-2007 Laurens Vandeput ** Bug Squash Event: Brussels
+ # Fixed [#8395]
+ # Backend SEF fix
+
 10-Dec-2007 Mathias Verraes ** Bug Squash Event: Brussels
  # Fixed [#7609]
 
