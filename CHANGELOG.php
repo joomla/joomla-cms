@@ -42,11 +42,11 @@ Legend:
 
 10-Dec-2007 Laurens Vandeput ** Bug Squash Event: Brussels
  # Fixed [#8395]
- # Backend SEF fix
- # Fixed [#7526] Section Layout errors-out if published articles contain items which are designated Special-access
+ # Backend SEF fix. Thanks to Mathias Verraes
+ # Fixed [#7526] Section Layout errors-out if published articles contain items which are designated Special-access. Thanks to Jeroen Loose.
 
-10-Dec-2007 Mathias Verraes ** Bug Squash Event: Brussels
- # Fixed [#7609]
+10-Dec-2007 Laurens Vandeput ** Bug Squash Event: Brussels
+ # Fixed [#7609] Thanks to Mathias Verraes
 
 10-Dec-2007 Andrew Eddie ** Bug Squash Event from home **
  # Fixed bug in backend search when "Show Search Results" set (had to fool the routers a bit)
