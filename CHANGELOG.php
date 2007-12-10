@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Dec-2007 Anthony Ferrara
+ # Fixed [#8431] Language file problems - Split com_login to com_user
+
 10-Dec-2007 Johan Janssens ** Bug Squash Event : Brussels
  # Fixed [#8461] Untranslated string in Menu Item Manager. Thanks to Philip Richdale.
  # Fixed [#7124] Login doesn't work anymore when enabling cache. Thanks to Mathias Verraes.
