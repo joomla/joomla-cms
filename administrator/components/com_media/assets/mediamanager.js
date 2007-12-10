@@ -53,7 +53,7 @@ var MediaManager = {
         form.submit();
     },
 
-    loadframe: function()
+    onloadframe: function()
     {
         // Update the frame url
         this.frameurl = this.frame.location.href;
@@ -173,11 +173,10 @@ var MediaManager = {
     }
 };
 
-window.addEvent('onload', function(){
+window.addEvent('domready', function(){
     // Added to populate data on iframe load
-    $('folderframe').ondomready = function() {
-        MediaManager.trace = 'start';
         MediaManager.initialize();
-        MediaManager.loadframe();
-    }
+        MediaManager.trace = 'start';
+        $('folderframe').onload = function() { MediaManager.onloadframe(); };
+        MediaManager.onloadframe();
 });

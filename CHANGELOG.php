@@ -40,6 +40,7 @@ Legend:
 10-Dec-2007 Johan Janssens ** Bug Squash Event : Brussels
  # Fixed [#8461] Untranslated string in Menu Item Manager. Thanks to Philip Richdale.
  # Fixed [#7124] Login doesn't work anymore when enabling cache. Thanks to Mathias Verraes.
+ ^ Reopened [#7614], applied patch to revert problem. Thanks to Paul Delbar.
 
 10-Dec-2007 Laurens Vandeput ** Bug Squash Event: Brussels
  * SECURITY A5 [HIGH] Critical CSRF allow portal compromise - Administrator components. Thanks to Paul Delbar & Jeroen Loose.
