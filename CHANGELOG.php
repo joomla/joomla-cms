@@ -40,6 +40,7 @@ Legend:
 10-Dev-2007 Laurens Vandeput ** Bug Squash Event: Brussels
  # Fixed [#8395]
  # Backend SEF fix
+ # Fixed [#7526] Section Layout errors-out if published articles contain items which are designated Special-access
 
 10-Dec-2007 Mathias Verraes ** Bug Squash Event: Brussels
  # Fixed [#7609]

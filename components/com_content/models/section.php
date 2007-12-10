@@ -299,6 +299,7 @@ class ContentModelSection extends JModel
 			$access_check = null;
 			if ($noauth) {
 				$access_check = ' AND a.access <= '.(int) $gid;
+				$access_check .= ' AND b.access <= '.(int) $gid;
 			}
 
 			// Query of categories within section
