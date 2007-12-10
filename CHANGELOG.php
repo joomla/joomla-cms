@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Dec-2007 Laurens Vandeput ** Bug Squash Event: Brussels
+ # Fixed [#7609]
+
 10-Dec-2007 Andrew Eddie ** Bug Squash Event from home **
  # Fixed bug in backend search when "Show Search Results" set (had to fool the routers a bit)
 
