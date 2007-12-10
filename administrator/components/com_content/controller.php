@@ -1399,6 +1399,7 @@ class ContentController extends JController
 		// Set page title
 		$document->setTitle(JText::_('Article Preview'));
 		$document->addStyleSheet('../templates/'.$template.'/css/editor.css');
+		$document->setBase(JUri::root());
 
 		// Render article preview
 		ContentView::previewContent();
