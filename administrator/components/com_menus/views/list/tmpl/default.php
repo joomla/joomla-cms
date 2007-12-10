@@ -120,6 +120,7 @@
 	</tbody>
 	</table>
 
+	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 	<input type="hidden" name="option" value="com_menus" />
 	<input type="hidden" name="menutype" value="<?php echo $this->menutype; ?>" />
 	<input type="hidden" name="task" value="view" />

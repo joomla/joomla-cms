@@ -44,6 +44,7 @@
                     <div class="path">
                         <input class="inputbox" type="text" id="folderpath" readonly="readonly" />/
                         <input class="inputbox" type="text" id="foldername" name="foldername"  />
+						<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
                         <input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
                         <button type="submit"><?php echo JText::_( 'Create Folder' ); ?></button>
                     </div>
@@ -64,6 +65,7 @@
                 <fieldset>
                     <legend><?php echo JText::_( 'Upload File' ); ?> [ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ($this->config->get('upload_maxsize') / 1000000); ?>M ]</legend>
                     <fieldset class="actions">
+						<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
                         <input type="file" id="file-upload" name="Filedata" />
                         <input type="submit" id="file-upload-submit" value="<?php echo JText::_('Start Upload'); ?>"/>
                         <span id="upload-clear"></span>

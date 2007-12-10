@@ -171,6 +171,7 @@ function submitbutton(pressbutton) {
 
 	<?php echo $this->item->linkfield; ?>
 
+	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 	<input type="hidden" name="option" value="com_menus" />
 	<input type="hidden" name="id" value="<?php echo $this->item->id; ?>" />
 	<input type="hidden" name="componentid" value="<?php echo $this->item->componentid; ?>" />

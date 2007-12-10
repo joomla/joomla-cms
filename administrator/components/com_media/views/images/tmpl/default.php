@@ -50,6 +50,7 @@
 	<fieldset>
 		<legend><?php echo JText::_('Upload'); ?></legend>
 		<fieldset class="actions">
+			<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 			<input type="file" id="file-upload" name="Filedata" />
 			<input type="submit" id="file-upload-submit" value="<?php echo JText::_('Start Upload'); ?>"/>
 			<span id="upload-clear"></span>

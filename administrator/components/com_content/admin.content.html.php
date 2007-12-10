@@ -259,6 +259,7 @@ class ContentView
 			</table>
 			<?php JHTML::_('content.legend'); ?>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
@@ -412,6 +413,7 @@ class ContentView
 			</table>
 		</div>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="sectionid" value="<?php echo $section->id;?>" />
 		<input type="hidden" name="task" value="showarchive" />
@@ -542,6 +544,7 @@ class ContentView
 		</tr>
 		</table>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="version" value="<?php echo $row->version; ?>" />
@@ -605,6 +608,7 @@ class ContentView
 		</table>
 		<br /><br />
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" />
 		<input type="hidden" name="task" value="" />
@@ -666,6 +670,7 @@ class ContentView
 		</table>
 		<br /><br />
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" />
 		<input type="hidden" name="task" value="" />

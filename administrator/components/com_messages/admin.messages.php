@@ -166,6 +166,12 @@ function editConfig( $option )
 function saveConfig( $option )
 {
 	global $mainframe;
+	
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
@@ -217,6 +223,12 @@ function newMessage( $option, $user, $subject )
 function saveMessage( $option )
 {
 	global $mainframe;
+	
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	require_once(dirname(__FILE__).DS.'tables'.DS.'message.php');
 
@@ -263,6 +275,12 @@ function viewMessage( $uid='0', $option )
 function removeMessage( $cid, $option )
 {
 	global $mainframe;
+	
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db =& JFactory::getDBO();
 

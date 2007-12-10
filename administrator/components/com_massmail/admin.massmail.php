@@ -58,6 +58,12 @@ function messageForm( $option )
 function sendMail()
 {
 	global $mainframe;
+	
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db					=& JFactory::getDBO();
 	$user 				=& JFactory::getUser();

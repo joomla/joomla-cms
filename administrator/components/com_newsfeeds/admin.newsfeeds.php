@@ -216,6 +216,12 @@ function editNewsFeed($edit)
 function saveNewsFeed(  )
 {
 	global $mainframe;
+	
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db 		=& JFactory::getDBO();
 	$task 		= JRequest::getVar( 'task');
@@ -286,6 +292,12 @@ function unPublishNewsFeeds(  ) {
 function changePublishNewsFeeds( $publish )
 {
 	global $mainframe;
+	
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db 		=& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
@@ -325,6 +337,12 @@ function changePublishNewsFeeds( $publish )
 function removeNewsFeeds( )
 {
 	global $mainframe;
+	
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db 		=& JFactory::getDBO();
 	$cid 		= JRequest::getVar('cid', array(), '', 'array');
@@ -385,6 +403,12 @@ function moveDownNewsFeed(  ) {
 function orderNewsFeed( $inc )
 {
 	global $mainframe;
+	
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db		=& JFactory::getDBO();
 	$cid	= JRequest::getVar('cid', array(0), '', 'array');
@@ -408,6 +432,12 @@ function orderNewsFeed( $inc )
 function saveOrder(  )
 {
 	global $mainframe;
+	
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db			=& JFactory::getDBO();
 	$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );

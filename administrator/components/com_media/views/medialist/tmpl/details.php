@@ -32,6 +32,7 @@
 	</tbody>
 	</table>
 	</div>
+	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 	<input type="hidden" name="task" value="list" />
 	<input type="hidden" name="username" value="" />
 	<input type="hidden" name="password" value="" />

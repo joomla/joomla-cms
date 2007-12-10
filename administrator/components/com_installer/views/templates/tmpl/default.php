@@ -41,7 +41,6 @@
 	<?php else : ?>
 		<?php echo JText::_( 'There are no custom modules installed' ); ?>
 	<?php endif; ?>
-
 	<input type="hidden" name="task" value="manage" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="option" value="com_installer" />

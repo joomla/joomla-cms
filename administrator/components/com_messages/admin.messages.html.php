@@ -120,6 +120,7 @@ class HTML_messages
 			</table>
 		</div>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
@@ -175,6 +176,7 @@ class HTML_messages
 			</table>
 		</div>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />
 		</form>
@@ -220,6 +222,7 @@ class HTML_messages
 			</tr>
 		</table>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="1" />
@@ -283,6 +286,7 @@ class HTML_messages
 		</tr>
 		</table>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="user_id_from" value="<?php echo $user->get('id'); ?>">
 		<input type="hidden" name="option" value="<?php echo $option; ?>">
 		<input type="hidden" name="task" value="">

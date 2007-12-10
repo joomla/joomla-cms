@@ -64,6 +64,12 @@ class PluginsController extends JController
 
 	function save()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+		
 		$db   =& JFactory::getDBO();
 		$row  =& JTable::getInstance('plugin');
 		$task = $this->getTask();
@@ -106,6 +112,12 @@ class PluginsController extends JController
 
 	function publish( )
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+		
 		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
 		$cid     = JRequest::getVar( 'cid', array(0), 'post', 'array' );
@@ -214,6 +226,12 @@ class PluginsController extends JController
 
 	function saveorder( )
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+		
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
 		

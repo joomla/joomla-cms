@@ -130,6 +130,7 @@
 </tbody>
 </table>
 
+<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 <input type="hidden" name="option" value="com_plugins" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="filter_client" value="<?php echo $this->client;?>" />

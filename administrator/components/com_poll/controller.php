@@ -75,6 +75,12 @@ class PollController extends JController
 
 	function save()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+		
 		$db		=& JFactory::getDBO();
 
 		// save the poll parent information
@@ -142,6 +148,12 @@ class PollController extends JController
 
 	function remove()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+		
 		$db		=& JFactory::getDBO();
 		$cid	= JRequest::getVar( 'cid', array(), '', 'array' );
 
@@ -168,6 +180,12 @@ class PollController extends JController
 	function publish()
 	{
 		global $mainframe;
+		
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 
 		$db 	=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();

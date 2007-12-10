@@ -186,6 +186,7 @@ class HTML_modules
 			</tbody>
 			</table>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="com_modules" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		<input type="hidden" name="task" value="" />
@@ -488,6 +489,7 @@ class HTML_modules
 		}
 		?>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="com_modules" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
@@ -580,6 +582,7 @@ class HTML_modules
 		</tbody>
 		</table>
 
+		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="com_modules" />
 		<input type="hidden" name="client" value="<?php echo $client->id; ?>" />
 		<input type="hidden" name="created" value="1" />

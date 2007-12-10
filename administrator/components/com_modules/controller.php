@@ -181,6 +181,12 @@ class ModulesController extends JController
 	*/
 	function copy()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+		
 		// Initialize some variables
 		$db 	=& JFactory::getDBO();
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
@@ -246,6 +252,12 @@ class ModulesController extends JController
 	 */
 	function save()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		global $mainframe;
 
 		$cache = & JFactory::getCache();
@@ -549,6 +561,12 @@ class ModulesController extends JController
 	function remove()
 	{
 		global $mainframe;
+		
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
@@ -599,6 +617,12 @@ class ModulesController extends JController
 	function publish()
 	{
 		global $mainframe;
+		
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 
 		// Initialize some variables
 		$db 	=& JFactory::getDBO();
@@ -661,6 +685,12 @@ class ModulesController extends JController
 	function reorder()
 	{
 		global $mainframe;
+		
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
@@ -689,6 +719,11 @@ class ModulesController extends JController
 	function access()
 	{
 		global $mainframe;
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
@@ -736,6 +771,12 @@ class ModulesController extends JController
 	 */
 	function saveOrder()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));

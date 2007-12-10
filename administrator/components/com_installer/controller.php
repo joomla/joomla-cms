@@ -57,6 +57,12 @@ class InstallerController extends JController
 	 */
 	function doInstall()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+
 		$model	= &$this->getModel( 'Install' );
 		$view	= &$this->getView( 'Install' );
 

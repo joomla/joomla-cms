@@ -81,6 +81,7 @@
 	<?php endif; ?>
 </table>
 
+<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 <input type="hidden" name="id" value="<?php echo $this->row->id; ?>" />
 <input type="hidden" name="option" value="com_menus" />
 <input type="hidden" name="task" value="savemenu" />

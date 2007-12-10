@@ -577,6 +577,12 @@ class ContentController extends JController
 	{
 		global $mainframe;
 
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		jimport('joomla.utilities.date');
 
 		// Initialize variables
@@ -778,6 +784,12 @@ class ContentController extends JController
 	{
 		global $mainframe;
 
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		// Initialize variables
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
@@ -854,6 +866,12 @@ class ContentController extends JController
 	{
 		global $mainframe;
 
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		// Initialize variables
 		$db		=& JFactory::getDBO();
 
@@ -909,6 +927,12 @@ class ContentController extends JController
 	{
 		global $mainframe;
 
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
@@ -958,6 +982,12 @@ class ContentController extends JController
 	{
 		global $mainframe;
 
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		// Initialize variables
 		$db	= & JFactory::getDBO();
 
@@ -977,6 +1007,12 @@ class ContentController extends JController
 	{
 		global $mainframe;
 
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		// Initialize variables
 		$db		= & JFactory::getDBO();
 
@@ -1000,6 +1036,12 @@ class ContentController extends JController
 	*/
 	function moveSection()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		// Initialize variables
 		$db			=& JFactory::getDBO();
 
@@ -1044,6 +1086,12 @@ class ContentController extends JController
 	{
 		global $mainframe;
 
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
@@ -1124,6 +1172,12 @@ class ContentController extends JController
 	**/
 	function copyItem()
 	{
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
@@ -1173,6 +1227,12 @@ class ContentController extends JController
 	{
 		global $mainframe;
 
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
@@ -1279,6 +1339,12 @@ class ContentController extends JController
 	{
 		global $mainframe;
 
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		// Initialize variables
 		$db		= & JFactory::getDBO();
 
@@ -1313,6 +1379,12 @@ class ContentController extends JController
 	{
 		global $mainframe;
 
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
+	
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 

@@ -245,6 +245,12 @@ function viewdeleteTrash( $cid, $mid, $option )
 function deleteTrash( $cid, $option )
 {
 	global $mainframe;
+	
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db		=& JFactory::getDBO();
 	$return	= JRequest::getCmd( 'return', 'viewContent', 'post' );
@@ -325,6 +331,12 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 */
 function restoreTrash( $cid, $option ) {
 	global $mainframe;
+	
+	// Check for request forgeries.
+	$token = JUtility::getToken();
+	if (!JRequest::getInt($token, 0, 'post')) {
+		JError::raiseError(403, 'Request Forbidden');
+	}
 
 	$db		= & JFactory::getDBO();
 	$type	= JRequest::getCmd( 'type', '', 'post' );

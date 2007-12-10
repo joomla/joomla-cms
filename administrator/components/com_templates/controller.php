@@ -89,6 +89,12 @@ class TemplatesController
 	function publishTemplate()
 	{
 		global $mainframe;
+		
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 
 		// Initialize some variables
 		$db		= & JFactory::getDBO();
@@ -180,6 +186,12 @@ class TemplatesController
 	function saveTemplate()
 	{
 		global $mainframe;
+		
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 
 		// Initialize some variables
 		$db			 = & JFactory::getDBO();
@@ -313,6 +325,12 @@ class TemplatesController
 	function saveTemplateSource()
 	{
 		global $mainframe;
+		
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');
@@ -431,6 +449,12 @@ class TemplatesController
 	function saveTemplateCSS()
 	{
 		global $mainframe;
+		
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');
