@@ -82,7 +82,7 @@ Legend:
  # Fixed [#7746] Media manager mime checking broken (uninitialized variables)
  # Fixed [#8460] Incorrect URLs in the Top Menu items
 
-09-Dec-2007 Andy Miller
+09-Dec-2007 Andy Miller ** Bug Squash Event: Home **
  # Fixed issue with Safari and Admin Menu width - domready -> load
  # Fixed a couple of issues with x-standard plugin
 
