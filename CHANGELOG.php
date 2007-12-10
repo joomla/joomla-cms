@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Dec-2007 Jui-Yu Tsai
+ # Fixed [t,241171] contact contentpane css replaced by contentpaneopen
+ 
 10-Dec-2007 Anthony Ferrara
  # Fixed [#8431] Language file problems - Split com_login to com_user
 
@@ -4738,4 +4741,4 @@ You have to open the article preferences and change the setting to show and save
  + Added the english admin language files
 
 14-Oct-2005 Johan Janssens
- + Added u                                                                                                                                                                                                                                               
+ + Added u
