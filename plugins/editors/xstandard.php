@@ -122,6 +122,8 @@ class plgEditorXstandard extends JPlugin {
 		$instance	=& JBrowser::getInstance();
 		$language	=& JFactory::getLanguage();
 		$db			=& JFactory::getDBO();
+		
+		$url = JURI::root();
 
 		$lang = substr( $language->getTag(), 0, strpos( $language->getTag(), '-' ) );
 
