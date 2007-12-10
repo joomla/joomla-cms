@@ -169,11 +169,11 @@ class MenusModelList extends JModel
 					$list[$i]->view		= $list[$i]->com_name;
 					if (isset($view['view']))
 					{
-						$list[$i]->view	.= '/'.JText::_(ucfirst($view['view']));
+						$list[$i]->view	.= ' &raquo; '.JText::_(ucfirst($view['view']));
 					}
 					if (isset($view['layout']))
 					{
-						$list[$i]->view	.= '/'.JText::_(ucfirst($view['layout']));
+						$list[$i]->view	.= ' / '.JText::_(ucfirst($view['layout']));
 					}
 					if (isset($view['task']) && !isset($view['view']))
 					{

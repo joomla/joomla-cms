@@ -37,7 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-10-Dev-2007 Laurens Vandeput ** Bug Squash Event: Brussels
+10-Dec-2007 Johan Janssens ** Bug Squash Event : Brussels
+ # Fixed [#8461] Untranslated string in Menu Item Manager. Thanks to Philip Richdale.
+
+10-Dec-2007 Laurens Vandeput ** Bug Squash Event: Brussels
  # Fixed [#8395]
  # Backend SEF fix
  # Fixed [#7526] Section Layout errors-out if published articles contain items which are designated Special-access

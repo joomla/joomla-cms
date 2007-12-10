@@ -260,7 +260,7 @@ class JRouterSite extends JRouter
 		// Get the route
 		$route = $uri->getPath();
 
-		//Get the query data
+		// Get the query data
 		$query = $uri->getQuery(true);
 
 		if(!isset($query['option'])) {
@@ -270,31 +270,13 @@ class JRouterSite extends JRouter
 		$menu =& JSite::getMenu();
 
 		/*
-		 * Built the application route
+		 * Build the component route
 		 */
-		$tmp = 'component/'.substr($query['option'], 4);
-
-		if(!empty($query['Itemid']))
-		{
-			$item = $menu->getItem($query['Itemid']);
-
-			if ($query['option'] == $item->component) {
-				$tmp = $item->route;
-			}
-		}
-
-		$route .= '/'.$tmp;
-
-		/*
-		 * Built the component route
-		 */
-		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
+		$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
+		$tmp 		= '';
 
 		// Use the component routing handler if it exists
 		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
-
-		// Unset unneeded query information
-		unset($query['option']);
 
 		// Use the custom routing handler if it exists
 		if (file_exists($path) && !empty($query))
@@ -303,15 +285,34 @@ class JRouterSite extends JRouter
 			$function	= substr($component, 4).'BuildRoute';
 			$parts		= $function($query);
 
-			//encode the route segments
+			// encode the route segments
 			$parts = $this->_encodeSegments($parts);
 
-			$result  = implode('/', $parts);
-			$route  .= ($result != "") ? '/'.$result : null;
+			$result = implode('/', $parts);
+			$tmp	= ($result != "") ? '/'.$result : '';
 		}
+
+		/*
+		 * Build the application route
+		 */
+		if (isset($query['Itemid']))
+		{
+			$item = $menu->getItem($query['Itemid']);
+
+			if ($query['option'] == $item->component) {
+				$tmp = !empty($tmp) ? $item->route.'/'.$tmp : $item->route;
+			}
+		}
+		else
+		{
+			$tmp = 'component/'.substr($query['option'], 4).'/'.$tmp;
+		}
+
+		$route .= '/'.$tmp;
 
 		// Unset unneeded query information
 		unset($query['Itemid']);
+		unset($query['option']);
 
 		//Set query again in the URI
 		$uri->setQuery($query);
