@@ -50,7 +50,8 @@ class  plgSystemCache extends JPlugin
 			'cachebase' 	=> JPATH_BASE.DS.'cache',
 			'defaultgroup' 	=> 'page',
 			'lifetime' 		=> $this->params->get('cachetime', 15) * 60,
-			'browsercache'	=> $this->params->get('browsercache', false)
+			'browsercache'	=> $this->params->get('browsercache', false),
+			'caching'		=> false
 		);
 
 		jimport('joomla.cache.cache');
