@@ -195,7 +195,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 		
 		if ( @$bot[0] )
 		{
-			$attrs2 =& JUtility::parseAttributes($bot[0]);
+			$attrs2 = JUtility::parseAttributes($bot[0]);
 
 			if ( @$attrs2['alt'] )
 			{
