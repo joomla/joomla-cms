@@ -39,6 +39,7 @@ Legend:
 
 10-Dec-2007 Andy Miller
  + Added new Delete toolbar icon
+ # Fixed issue with hardcoded width of "Login" button
 
 10-Dec-2007 Jui-Yu Tsai
  # Fixed [t,241171] contact contentpane css replaced by contentpaneopen
