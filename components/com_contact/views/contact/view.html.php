@@ -127,6 +127,7 @@ class ContactViewContact extends JView
 				$contact->params->set('marker_address', 	'');
 				$contact->params->set('marker_email', 		'');
 				$contact->params->set('marker_telephone', 	'');
+				$contact->params->set('marker_mobile', 	'');
 				$contact->params->set('marker_fax', 		'');
 				$contact->params->set('marker_misc', 		'');
 				$contact->params->set('column_width', 		'0');
@@ -139,11 +140,14 @@ class ContactViewContact extends JView
 				$image3 = JHTML::_('image.site', 'con_tel.png', 		'/images/M_images/', $contact->params->get('icon_telephone'), 	'/images/M_images/', JText::_('Telephone').": ");
 				$image4 = JHTML::_('image.site', 'con_fax.png', 		'/images/M_images/', $contact->params->get('icon_fax'), 		'/images/M_images/', JText::_('Fax').": ");
 				$image5 = JHTML::_('image.site', 'con_info.png', 		'/images/M_images/', $contact->params->get('icon_misc'), 		'/images/M_images/', JText::_('Information').": ");
+				$image6 = JHTML::_('image.site', 'con_mobile.png', 		'/images/M_images/', $contact->params->get('icon_mobile'), 	'/images/M_images/', JText::_('Mobile').": ");
+				
 				$contact->params->set('marker_address', 	$image1);
 				$contact->params->set('marker_email', 		$image2);
 				$contact->params->set('marker_telephone', 	$image3);
 				$contact->params->set('marker_fax', 		$image4);
 				$contact->params->set('marker_misc',		$image5);
+				$contact->params->set('marker_mobile', 	$image6);
 				$contact->params->set('column_width', 		'40');
 				break;
 		}
