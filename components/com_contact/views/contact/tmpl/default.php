@@ -11,6 +11,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php echo $this->params->get( 'page_title' ); ?>
 </div>
 <?php endif; ?>
+<div id="component-contact">
 <table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentpaneopen<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <?php if ( $this->params->get( 'show_contact_list' ) && count( $this->contacts ) > 1) : ?>
 <tr>
@@ -48,7 +49,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<td rowspan="2" align="right" valign="top">
 			<?php if ( $this->contact->image && $this->contact->params->get( 'show_image' ) ) : ?>
 				<div style="float: right;">
-					<?php echo JHTML::_('image', $cparams->get('image_path') . '/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middel')); ?>
+					<?php echo JHTML::_('image', $cparams->get('image_path') . '/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middle')); ?>
 				</div>
 			<?php endif; ?>
 			</td>
@@ -76,3 +77,4 @@ if ( $this->contact->params->get('show_email_form') && ($this->contact->email_to
 	echo $this->loadTemplate('form');
 ?>
 </table>
+</div>
