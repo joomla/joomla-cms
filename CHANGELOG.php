@@ -46,6 +46,7 @@ Legend:
  # Fixed [#8542] 'searchphrase' form field ignored in com_search (Thanks Anner J. Bonilla)
  # Fixed [#8446] popup imagemanager ignoring global image path config (resulting in wrong URLs if path is not images/stories)
  # Fixed media manager incorect base path when global image path is changed (resulting in wrong URLs if path is not /images)
+ # Fixed media manager now uses file_path, while insert image uses image_path.
 
 11-Dec-2007 Ken Crowder
  # Fixed [#8536] Mobile Phone icon in Contact component missing (Thanks JM)
