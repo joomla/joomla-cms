@@ -346,7 +346,7 @@ class JController extends JObject
 		if ( empty( $name ) ) {
 			$name = $this->getName();
 		}
-		
+
 		if ( empty( $prefix ) ) {
 			$prefix = $this->getName() . 'Model';
 		}
@@ -505,7 +505,7 @@ class JController extends JObject
 	{
 		if ( in_array( strtolower( $method ), $this->_methods ) ) {
 			$this->_taskMap[strtolower( $task )] = $method;
-		} 
+		}
 	}
 
 	/**

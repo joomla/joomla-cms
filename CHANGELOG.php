@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Dec-2007 Andrew Eddie
+ # Fixed bug in searchphrase setting
+ ^ Default searchphrase now 'all' (in line with major search engines)
+
 11-Dec-2007 Louis Landry
  # Fixed wrong URLs on article display with linked titles on
 

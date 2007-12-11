@@ -2,7 +2,7 @@
 /**
  * @version		$Id: category.php 8031 2007-07-17 23:14:23Z jinx $
  * @package		Joomla
- * @subpackage	Content
+ * @subpackage	Search
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
@@ -20,9 +20,8 @@ jimport('joomla.application.component.model');
 /**
  * Search Component Search Model
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
- * @subpackage	Content
+ * @subpackage	Search
  * @since 1.5
  */
 class SearchModelSearch extends JModel
@@ -75,7 +74,7 @@ class SearchModelSearch extends JModel
 
 		// Set the search parameters
 		$keyword		= urldecode(JRequest::getString('searchword'));
-		$match			= JRequest::getWord('searchphrase', 'any');
+		$match			= JRequest::getWord('searchphrase', 'all');
 		$ordering		= JRequest::getWord('ordering', 'newest');
 		$this->setSearch($keyword, $match, $ordering);
 
@@ -92,7 +91,7 @@ class SearchModelSearch extends JModel
  	 * @param string mathcing option, exact|any|all
  	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 */
-	function setSearch($keyword, $match = 'any', $ordering = 'newest')
+	function setSearch($keyword, $match = 'all', $ordering = 'newest')
 	{
 		if(isset($keyword)) {
 			$this->setState('keyword', $keyword);
@@ -213,7 +212,4 @@ class SearchModelSearch extends JModel
 
 		return $this->_areas;
 	}
-
-
 }
-?>

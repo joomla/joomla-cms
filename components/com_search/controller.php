@@ -41,8 +41,8 @@ class SearchController extends JController
 	{
 		$post['searchword'] = JRequest::getString('searchword', null, 'post');
 		$post['ordering']	= JRequest::getWord('ordering', null, 'post');
-		$post['searchphrase']	= JRequest::getWord('searchphrase', null, 'post');
-		
+		$post['searchphrase']	= JRequest::getWord('searchphrase', 'all', 'post');
+
 		$areas = JRequest::getVar('areas', null, 'post', 'array');
 		if ($areas) {
 			foreach($areas as $area)
