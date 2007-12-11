@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+11-Dec-2007 Sam Moffatt
+ ^ Fixed installer to return the value of the child adapter for some operations
+
 10-Dec-2007 Andy Miller
  + Added new Delete toolbar icon
  # Fixed issue with hardcoded width of "Login" button
