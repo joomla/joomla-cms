@@ -39,6 +39,7 @@ Legend:
 
 
 11-Dec-2007 Jui-Yu Tsai
+ # Fixed [t,235383] Display # and Global Config List Length not working in Frontend
  # Fixed [t,242143] Sample data typo
 
 11-Dec-2007 Anthony Ferrara

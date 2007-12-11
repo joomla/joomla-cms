@@ -44,6 +44,7 @@ class ContentViewCategory extends ContentView
 		$params = clone($mainframe->getParams('com_content'));
 
 		// Request variables
+		$layout     = JRequest::getCmd('layout');
 		$task		= JRequest::getCmd('task');
 		$limit		= $mainframe->getUserStateFromRequest('com_content.'.$this->getLayout().'.limit', 'limit', $params->def('display_num', 0), 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
@@ -64,9 +65,11 @@ class ContentViewCategory extends ContentView
 		$links		= $params->get('num_links');
 
 		//In case we are in a blog view set the limit
-		if($limit ==  0) $limit = $intro + $leading + $links;
+		if ($layout == 'blog') {
+		    if($limit ==  0) $limit = $intro + $leading + $links;    
+        }
 		JRequest::setVar('limit', (int) $limit);
-
+		
 		$contentConfig = &JComponentHelper::getParams('com_content');
 		$params->def('show_page_title', 	$contentConfig->get('show_title'));
 
@@ -103,8 +106,13 @@ class ContentViewCategory extends ContentView
 		$this->_params = $params->toArray();
 
 		jimport('joomla.html.pagination');
-		$pagination = new JPagination($total, $limitstart, $limit - $links);
-
+		//In case we are in a blog view set the limit
+		if ($layout == 'blog') {
+		    $pagination = new JPagination($total, $limitstart, $limit - $links);
+        } else {
+		    $pagination = new JPagination($total, $limitstart, $limit);
+		}
+		
 		$this->assign('total',		$total);
 		$this->assign('action', 	$uri->toString());
 
