@@ -37,6 +37,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Dec-2007 Louis Landry
+ # Fixed wrong URLs on article display with linked titles on
 
 11-Dec-2007 Jui-Yu Tsai
  # Fixed [t,235383] Display # and Global Config List Length not working in Frontend
@@ -50,7 +52,7 @@ Legend:
 
 11-Dec-2007 Ken Crowder
  # Fixed [#8536] Mobile Phone icon in Contact component missing (Thanks JM)
- 
+
 11-Dec-2007 Sam Moffatt
  ^ Fixed installer to return the value of the child adapter for some operations
 
@@ -60,7 +62,7 @@ Legend:
 
 10-Dec-2007 Jui-Yu Tsai
  # Fixed [t,241171] contact contentpane css replaced by contentpaneopen
- 
+
 10-Dec-2007 Anthony Ferrara
  # Fixed [#8431] Language file problems - Split com_login to com_user
 
