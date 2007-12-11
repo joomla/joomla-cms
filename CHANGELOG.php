@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 
+11-Dec-2007 Ken Crowder
+ # Fixed [#8536] Mobile Phone icon in Contact component missing
+ 
 11-Dec-2007 Sam Moffatt
  ^ Fixed installer to return the value of the child adapter for some operations
 
