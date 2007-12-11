@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 
+11-Dec-2007 Anthony Ferrara
+ # Fixed [#8542] 'searchphrase' form field ignored in com_search (Thanks Anner J. Bonilla)
+
 11-Dec-2007 Ken Crowder
  # Fixed [#8536] Mobile Phone icon in Contact component missing (Thanks JM)
  
