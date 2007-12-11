@@ -447,6 +447,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 
 .button1,
 .button1 div{
+	height: 1%;
 	float: right;
 }
 
@@ -457,7 +458,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	float: left;
 }
 
-.button1 { background: url(../images/j_button1_left.png) no-repeat; margin-left: 5px;padding-left: 10px; white-space: nowrap; }
+.button1 { background: url(../images/j_button1_left.png) no-repeat; white-space: nowrap; padding-left: 10px; margin-left: 5px;}
 
 .button1 .next { background: url(../images/j_button1_next.png) 100% 0 no-repeat; }
 
