@@ -1,4 +1,8 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
+<script type='text/javascript'>
+var image_base_path = '<?php $params =& JComponentHelper::getParams('com_media');
+echo $params->get('image_path', 'images/stories');?>/';
+</script>
 <form action="index.php" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
 		<span id="message"></span><img src="<?php echo JURI::root() ?>/administrator/components/com_media/images/dots.gif" width="22" height="12" alt="..." />XXX

@@ -27,8 +27,8 @@ $params =& JComponentHelper::getParams('com_media');
 require_once( JPATH_COMPONENT.DS.'helpers'.DS.'media.php' );
 
 // Set the path definitions
-define('COM_MEDIA_BASE',    JPATH_ROOT.DS.$params->get('image_path', 'images'));
-define('COM_MEDIA_BASEURL', JURI::root().$params->get('image_path', 'images'));
+define('COM_MEDIA_BASE',    JPATH_ROOT.DS.$params->get('image_path', 'images/stories'));
+define('COM_MEDIA_BASEURL', JURI::root().$params->get('image_path', 'images/stories'));
 
 // Require the base controller
 require_once (JPATH_COMPONENT.DS.'controller.php');

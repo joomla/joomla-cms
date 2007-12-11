@@ -177,7 +177,7 @@ var ImageManager = {
 
 	populateFields: function(file)
 	{
-		$("f_url").value = "images/stories/"+file;
+		$("f_url").value = image_base_path+file;
 	},
 
 	showMessage: function(text)
