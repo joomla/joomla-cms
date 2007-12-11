@@ -1,10 +1,10 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 		<tr>
 			<td>
-				<a class="img-preview" href="<?php echo $this->baseURL.'images/'.$this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>"><img src="<?php echo $this->baseURL.'images/'.$this->_tmp_img->path_relative; ?>" width="<?php echo $this->_tmp_img->width_16; ?>" height="<?php echo $this->_tmp_img->height_16; ?>" alt="<?php echo $this->_tmp_img->name; ?> - <?php echo MediaHelper::parseSize($this->_tmp_img->size); ?>" border="0" /></a>
+				<a class="img-preview" href="<?php echo COM_MEDIA_BASEURL.'/'.$this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>"><img src="<?php echo COM_MEDIA_BASEURL.'/'.$this->_tmp_img->path_relative; ?>" width="<?php echo $this->_tmp_img->width_16; ?>" height="<?php echo $this->_tmp_img->height_16; ?>" alt="<?php echo $this->_tmp_img->name; ?> - <?php echo MediaHelper::parseSize($this->_tmp_img->size); ?>" border="0" /></a>
 			</td>
 			<td class="description">
-				<a href="<?php echo $this->baseURL.'images/'.$this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>" rel="preview"><?php echo $this->escape( $this->_tmp_img->name); ?></a>
+				<a href="<?php echo  COM_MEDIA_BASEURL.'/'.$this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>" rel="preview"><?php echo $this->escape( $this->_tmp_img->name); ?></a>
 			</td>
 			<td>
 				<?php echo $this->_tmp_img->width; ?> x <?php echo $this->_tmp_img->height; ?>
