@@ -38,6 +38,9 @@ Legend:
 ! -> Note
 
 
+11-Dec-2007 Jui-Yu Tsai
+ # Fixed [t,242143] Sample data typo
+
 11-Dec-2007 Anthony Ferrara
  # Fixed [#8542] 'searchphrase' form field ignored in com_search (Thanks Anner J. Bonilla)
 
