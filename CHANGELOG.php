@@ -51,6 +51,7 @@ Legend:
  # Fixed [#7124] Login doesn't work anymore when enabling cache. Thanks to Mathias Verraes.
  ^ Reopened [#7614], applied patch to revert problem. Thanks to Paul Delbar.
  ^ Don't hide cache tool menu option in backend. Confusing.
+ # Fixed [#7603] Incorrect images paths when Preview content in the edit page.
 
 10-Dec-2007 Laurens Vandeput ** Bug Squash Event: Brussels
  * SECURITY A5 [HIGH] Critical CSRF allow portal compromise - Administrator components. Thanks to Paul Delbar & Jeroen Loose.
