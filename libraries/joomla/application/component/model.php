@@ -122,11 +122,7 @@ class JModel extends JObject
 					return $result;
 				}
 			}
-			else
-			{
-				JError::raiseWarning( 0, 'Model ' . $type . ' not supported. File not found.' );
-				return $result;
-			}
+			else return $result;
 		}
 
 		$result = new $modelClass($config);
@@ -220,13 +216,13 @@ class JModel extends JObject
 	 * @return	object	The table
 	 * @since	1.5
 	 */
-	function &getTable($name='', $prefix='Table', $config = array())
+	function &getTable($name='', $prefix='Table', $options = array())
 	{
 		if (empty($name)) {
 			$name = $this->getName();
 		}
 
-		if($table = &$this->_createTable( $name, $prefix, $config ))  {
+		if($table = &$this->_createTable( $name, $prefix, $options ))  {
 			return $table;
 		} 
 		
@@ -266,6 +262,7 @@ class JModel extends JObject
 	 */
 	function addTablePath($path)
 	{
+		jimport('joomla.database.table');
 		JTable::addIncludePath($path);
 	}
 

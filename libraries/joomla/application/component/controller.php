@@ -80,13 +80,12 @@ class JController extends JObject
 	var $_doTask 	= null;
 
 	/**
-	 * The set of search directories for resources (views or models).
+	 * The set of search directories for resources (views).
 	 *
 	 * @var array
 	 * @access	protected
 	 */
 	var $_path = array(
-		'model'	=> array(),
 		'view'	=> array()
 	);
 
@@ -194,9 +193,9 @@ class JController extends JObject
 		// set the default model search path
 		if ( array_key_exists( 'model_path', $config ) ) {
 			// user-defined dirs
-			$this->_setPath( 'model', $config['model_path'] );
+			$this->addModelPath($config['model_path']);
 		} else {
-			$this->_setPath( 'model', $this->_basePath.DS.'models' );
+			$this->addModelPath($this->_basePath.DS.'models');
 		}
 
 		// set the default view search path
@@ -346,7 +345,7 @@ class JController extends JObject
 		if ( empty( $name ) ) {
 			$name = $this->getName();
 		}
-
+		
 		if ( empty( $prefix ) ) {
 			$prefix = $this->getName() . 'Model';
 		}
@@ -373,16 +372,17 @@ class JController extends JObject
 	}
 
 	/**
-	 * Adds to the stack of controller model paths in LIFO order.
+	 * Adds to the stack of model paths in LIFO order.
 	 *
 	 * @static
 	 * @param	string|array The directory (string), or list of directories
-	 * (array) to add.
+	 *                       (array) to add.
 	 * @return	void
 	 */
 	function addModelPath( $path )
 	{
-		$this->_addPath( 'model', $path );
+		jimport('joomla.application.component.model');
+		JModel::addIncludePath($path);
 	}
 
 	/**
@@ -505,7 +505,7 @@ class JController extends JObject
 	{
 		if ( in_array( strtolower( $method ), $this->_methods ) ) {
 			$this->_taskMap[strtolower( $task )] = $method;
-		}
+		} 
 	}
 
 	/**
@@ -589,34 +589,8 @@ class JController extends JObject
 		$result = null;
 
 		// Clean the model name
-		$modelName	= preg_replace( '/[^A-Z0-9_]/i', '', $name );
-		$classPrefix	= preg_replace( '/[^A-Z0-9_]/i', '', $prefix );
-
-		// Build the model class name
-		$modelClass = $classPrefix . $modelName;
-
-		if ( !class_exists( $modelClass ) )
-		{
-			jimport( 'joomla.filesystem.path' );
-			$path = JPath::find(
-				$this->_path['model'],
-				$this->_createFileName( 'model', array( 'name' => $modelName ) )
-			);
-			if ( $path )
-			{
-				require $path;
-				if ( !class_exists( $modelClass ) ) {
-					JError::raiseWarning(
-						0,
-						JText::_( 'Model class not found [class, file]:' )
-						. ' ' . $modelClass . ', ' . $path
-					);
-					return $result;
-				}
-			} else {
-				return $result;
-			}
-		}
+		$modelName	 = preg_replace( '/[^A-Z0-9_]/i', '', $name );
+		$classPrefix = preg_replace( '/[^A-Z0-9_]/i', '', $prefix );
 
 		$result =& JModel::getInstance($modelName, $classPrefix, $config);
 		return $result;
