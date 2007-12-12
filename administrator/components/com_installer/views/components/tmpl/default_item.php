@@ -1,7 +1,7 @@
 <tr class="<?php echo "row".$this->item->index % 2; ?>" <?php echo $this->item->style; ?>>
 	<td><?php echo $this->pagination->getRowOffset( $this->item->index ); ?></td>
 	<td>
-		<input type="checkbox" id="cb<?php echo $this->item->index;?>" name="eid[<?php echo $this->item->id; ?>]" value="0" onclick="isChecked(this.checked);" <?php echo $this->item->cbd; ?> />
+		<input type="radio" id="cb<?php echo $this->item->index;?>" name="eid[<?php echo $this->item->id; ?>]" value="0" onclick="isChecked(this.checked);" <?php echo $this->item->cbd; ?> />
 		<span class="bold"><?php echo $this->item->name; ?></span>
 	</td>
 	<td align="center">

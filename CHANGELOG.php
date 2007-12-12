@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Dec-2007 Sam Moffatt
+ ^ Altered component uninstaller to use radio buttons not check boxes; joomla-devel thread 4002fe5c585c127
+
 12-Dec-2007 Andrew Eddie
  # Fixed bug in searchphrase setting
  ^ Default searchphrase now 'all' (in line with major search engines)
