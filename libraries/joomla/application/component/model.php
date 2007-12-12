@@ -248,6 +248,7 @@ class JModel extends JObject
 			$paths = array();
 		}
 		if (!empty( $path ) && !in_array( $path, $paths )) {
+			jimport('joomla.filesystem.path');
 			array_unshift($paths, JPath::clean( $path ));
 		}
 		return $paths;

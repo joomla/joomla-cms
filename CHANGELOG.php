@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Dec-2007 Charl van Niekerk
+ # Added JPath import before use in addIncludePath in JModel class (discovered error through crash during installation)
+
 12-Dec-2007 Sam Moffatt
  ^ Altered component uninstaller to use radio buttons not check boxes; joomla-devel thread 4002fe5c585c127
 
