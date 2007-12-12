@@ -103,7 +103,7 @@ class BannersModelBanner extends JModel
 			$item = &$list[$i];
 
 			$item->impmade++;
-			$expire = ($item->imptotal >= $item->impmade);
+			$expire = ($item->impmade >= $item->imptotal);
 
 			$query = 'UPDATE #__banner'
 			. ' SET impmade = impmade + 1'

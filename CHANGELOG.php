@@ -37,6 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Dec-2007 Ian MacLennan
+ # Topic 175547 bad targets in admin.admin.html.php (removed extra quotes)
+ # Topic 193190 help site screens display whole site and not screen only (changed index.php to index2.php)
+ # Topic 209188 Banners self unpublishing (reversed incorrect comparison)
+
 12-Dec-2007 Charl van Niekerk
  # Added JPath import before use in addIncludePath in JModel class (discovered error through crash during installation)
 

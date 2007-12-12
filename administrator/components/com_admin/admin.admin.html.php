@@ -133,7 +133,7 @@ class HTML_admin_misc
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
 			$helpurl = 'http://help.joomla.org';
 		}
-		$fullhelpurl = $helpurl . '/index.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=';
+		$fullhelpurl = $helpurl . '/index.php2?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=';
 
 		$helpsearch = JRequest::getString('helpsearch');
 		$page		= JRequest::getCmd('page', 'joomla.whatsnew15.html');
@@ -185,11 +185,11 @@ class HTML_admin_misc
 							|
 							<?php echo JHTML::_('link', 'http://www.gnu.org/licenses/gpl-2.0.html', JText::_( 'License' ), array('target' => 'helpFrame')) ?>
 							|
-							<?php echo JHTML::_('link', 'http://help.joomla.org', 'help.joomla.org', array('target' => '"_blank"')) ?>
+							<?php echo JHTML::_('link', 'http://help.joomla.org', 'help.joomla.org', array('target' => '_blank')) ?>
 							|
 							<?php echo JHTML::_('link', 'index.php?option=com_admin&amp;task=changelog&amp;tmpl=component', JText::_( 'Changelog' ), array('target' => 'helpFrame')) ?>
 							|
-							<?php echo JHTML::_('link', 'http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '"_blank"')) ?>
+							<?php echo JHTML::_('link', 'http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '_blank')) ?>
 						</td>
 					</tr>
 				</table>
