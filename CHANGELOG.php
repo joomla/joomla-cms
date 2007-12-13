@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Dec-2007 Anthony Ferrara
+ # [#8548] com_media file uploads generating error 403 - Fix pending discussion
+
 12-Dec-2007 Ian MacLennan
  # Topic 175547 bad targets in admin.admin.html.php (removed extra quotes)
  # Topic 193190 help site screens display whole site and not screen only (changed index.php to index2.php)
