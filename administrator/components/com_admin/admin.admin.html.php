@@ -133,7 +133,7 @@ class HTML_admin_misc
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
 			$helpurl = 'http://help.joomla.org';
 		}
-		$fullhelpurl = $helpurl . '/index.php2?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=';
+		$fullhelpurl = $helpurl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=';
 
 		$helpsearch = JRequest::getString('helpsearch');
 		$page		= JRequest::getCmd('page', 'joomla.whatsnew15.html');
