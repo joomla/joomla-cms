@@ -50,11 +50,10 @@ echo $params->get('image_path', 'images/stories');?>/';
 	<input type="hidden" id="f_file" name="f_file" />
 	<input type="hidden" id="tmpl" name="component" />
 </form>
-<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>" id="uploadForm" method="post" enctype="multipart/form-data">
+<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&pop_up=1&<?php echo JUtility::getToken(); ?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
 	<fieldset>
 		<legend><?php echo JText::_('Upload'); ?></legend>
 		<fieldset class="actions">
-			<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 			<input type="file" id="file-upload" name="Filedata" />
 			<input type="submit" id="file-upload-submit" value="<?php echo JText::_('Start Upload'); ?>"/>
 			<span id="upload-clear"></span>
@@ -64,5 +63,4 @@ echo $params->get('image_path', 'images/stories');?>/';
 		</ul>
 	</fieldset>
 	<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component'); ?>" />
-	<input type="hidden" name="pop_up" value="1" />
 </form>

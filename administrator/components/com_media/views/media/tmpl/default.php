@@ -61,11 +61,10 @@
             </form>
 
             <!-- File Upload Form -->
-            <form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>" id="uploadForm" method="post" enctype="multipart/form-data">
+            <form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&<?php echo JUtility::getToken(); ?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
                 <fieldset>
                     <legend><?php echo JText::_( 'Upload File' ); ?> [ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ($this->config->get('upload_maxsize') / 1000000); ?>M ]</legend>
                     <fieldset class="actions">
-						<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
                         <input type="file" id="file-upload" name="Filedata" />
                         <input type="submit" id="file-upload-submit" value="<?php echo JText::_('Start Upload'); ?>"/>
                         <span id="upload-clear"></span>
