@@ -39,6 +39,7 @@ Legend:
 
 13-Dec-2007 Anthony Ferrara
  # [#8548] com_media file uploads generating error 403 - Fix pending discussion
+ # Fixed Warning thrown when FTP client tries to chmod when using on Windows (Thanks Anner J. Bonilla)
 
 12-Dec-2007 Ian MacLennan
  # Topic 175547 bad targets in admin.admin.html.php (removed extra quotes)

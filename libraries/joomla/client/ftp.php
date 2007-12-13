@@ -550,7 +550,9 @@ class JFTP extends JObject
 		// If native FTP support is enabled lets use it...
 		if (FTP_NATIVE) {
 			if (@ftp_site($this->_conn, 'CHMOD '.$mode.' '.$path) === false) {
-				JError::raiseWarning('35', 'JFTP::chmod: Bad response' );
+				if($this->_OS != 'WIN') {
+					JError::raiseWarning('35', 'JFTP::chmod: Bad response' );
+				}
 				return false;
 			}
 			return true;
@@ -558,7 +560,9 @@ class JFTP extends JObject
 
 		// Send change mode command and verify success [must convert mode from octal]
 		if (!$this->_putCmd('SITE CHMOD '.$mode.' '.$path, array(200, 250))) {
-			JError::raiseWarning('35', 'JFTP::chmod: Bad response', 'Server response: '.$this->_response.' [Expected: 200 or 250] Path sent: '.$path.' Mode sent: '.$mode);
+			if($this->_OS != 'WIN') {
+				JError::raiseWarning('35', 'JFTP::chmod: Bad response', 'Server response: '.$this->_response.' [Expected: 200 or 250] Path sent: '.$path.' Mode sent: '.$mode);
+			}
 			return false;
 		}
 		return true;
