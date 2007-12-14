@@ -117,8 +117,8 @@ class HTML_admin_misc
 	/**
 	 * Display Help Page
 	 *
-	 * For this method the important two scenarios are locale or remote help files.
-	 * In the case of locale help files the language tag will be added in order to
+	 * For this method the important two scenarios are local or remote help files.
+	 * In the case of local help files the language tag will be added in order to
 	 * allow different languages of help.<br />
 	 * In case of the remote server it is assumed that this server provide one specific
 	 * help set of files in one particular language.
@@ -127,8 +127,9 @@ class HTML_admin_misc
 	{
 		global $mainframe;
 		jimport( 'joomla.filesystem.folder' );
+		jimport( 'joomla.language.help' );
 
-		// Get Help URL - an empty helpurl is interpreted as locale help files!
+		// Get Help URL - an empty helpurl is interpreted as local help files!
 		$helpurl	= $mainframe->getCfg('helpurl');
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
 			$helpurl = 'http://help.joomla.org';
@@ -166,11 +167,11 @@ class HTML_admin_misc
 							<?php
 							if ($helpurl) {
 							?>
-							<?php echo JHTML::_('link', $fullhelpurl.'joomla.glossary', JText::_( 'Glossary' ), array('target' => 'helpFrame')) ?>
+							<?php echo JHTML::_('link', JHelp::createUrl( 'joomla.glossary' ), JText::_( 'Glossary' ), array('target' => 'helpFrame')) ?>
 							|
-							<?php echo JHTML::_('link', $fullhelpurl.'joomla.credits', JText::_( 'Credits' ), array('target' => 'helpFrame')) ?>
+							<?php echo JHTML::_('link', JHelp::createUrl( 'joomla.credits' ), JText::_( 'Credits' ), array('target' => 'helpFrame')) ?>
 							|
-							<?php echo JHTML::_('link', $fullhelpurl.'joomla.support', JText::_( 'Support' ), array('target' => 'helpFrame')) ?>
+							<?php echo JHTML::_('link', JHelp::createUrl( 'joomla.support' ), JText::_( 'Support' ), array('target' => 'helpFrame')) ?>
 							<?php
 							} else {
 							?>
@@ -209,7 +210,7 @@ class HTML_admin_misc
 						foreach ($toc as $k=>$v) {
 							if ($helpurl) {
 								echo '<li>';
-								echo JHTML::_('link', $fullhelpurl . urlencode( $k ), $v, array('target' => 'helpFrame'));
+								echo JHTML::_('link', JHelp::createUrl( $k ), $v, array('target' => 'helpFrame'));
 								echo '</li>';
 							} else {
 								echo '<li>';
