@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="1.5" client="installation" >
+<metafile version="1.5"  client="installation" >
 	<tag>he-IL</tag>
 	<name>Hebrew(IL)</name>
-	<description>Joomla! Installation Hebrew Translation - by Mati Kochen</description>
+	<description>Joomla! Installation Hebrew Translation - by Mati (MtK) Kochen</description>
 	<version>1.5.0</version>
-	<creationDate>2007-10-05</creationDate>
-	<author>Mati Kochen - Hebrew Translation Team Coordinator - joomla.co.il</author>
+	<creationDate>Nov 2007</creationDate>
+	<author>Mati (MtK) Kochen - Hebrew Translation Team Coordinator - joomla.co.il</author>
 	<authorurl>www.smartmtk.com</authorurl>
 	<authoremail>mtk@smartmtk.com</authoremail>
-	<copyright>(C) 2007 - 2008 Mati Kochen. All rights reserved.</copyright>
+	<copyright>(C) 2007 - 2008 Mati (MtK) Kochen. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html</license>
 	<metadata>
 		<name>Hebrew(IL)</name>
 		<tag>he-IL</tag>
 		<rtl>1</rtl>
 		<locale>he_IL.utf-8, heb_IL.utf-8, he, hebrew</locale>
-		<winCodePage>windows-1255</winCodePage>
-		<backwardLang>hebrew</backwardLang>
+		<wincodepage>windows-1255</wincodepage>
+		<backwardlang>hebrew</backwardlang>
 	</metadata>
-	<params />
+	<params></params>
 </metafile>

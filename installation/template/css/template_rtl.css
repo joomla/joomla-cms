@@ -66,3 +66,7 @@ h3.moofx-toggler {
 h3.moofx-toggler-down {
 	background:url(../images/j_arrow_down.png) no-repeat scroll right;
 }
+
+#srcEncoding{
+	text-align: right;
+}
