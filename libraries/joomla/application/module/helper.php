@@ -198,12 +198,6 @@ class JModuleHelper
 				ob_end_clean();
 			}
 		}
-		//Convert relative links to absolute if SEF is enabled
-
-		if($mainframe->getName()=='site')
-		{
-			JModuleHelper::_fixSef($module);
-		}
 		return $module->content;
 	}
 
@@ -289,84 +283,5 @@ class JModuleHelper
 		return $modules;
 	}
 
-
-	/**
-	 * Change relative URLs in module output to absolute if SEF enabled
-	 *
-	 * @static
-	 * @param	object	$module	The module object
-	 * @since	1.5
-	 */
-	function _fixSef(&$module)
-	{
-		global $mainframe;
-
-		// check to see of SEF is enabled
-		if(!$mainframe->getCfg('sef')) {
-			return true;
-		}
-
-		//Replace src links
-		$base = JURI::base(true).'/';
-		$module->content = preg_replace("/(src)=\"(?!http|ftp|https|\/)([^\"]*)\"/", "$1=\"$base\$2\"", $module->content);
-
-		//Replace href links
-		$regex = "#href=\"(.*?)\"#s";
-
-		// perform the replacement
-		$module->content = preg_replace_callback( $regex, array('JModuleHelper','_fixSefReplacer'), $module->content );
-
-		return true;
-	}
-
-	/**
-	* Replaces the matched tags
-	* @param array An array of matches (see preg_match_all)
-	* @return string
-	*/
-	function _fixSefReplacer($matches)
-	{
-		// original text that might be replaced
-		$original = 'href="'. $matches[1] .'"';
-
-		// array list of non http/https	URL schemes
-		$url_schemes = array( 'data:', 'file:', 'ftp:', 'gopher:', 'imap:', 'ldap:', 'mailto:', 'news:', 'nntp:', 'telnet:', 'javascript:', 'irc:' );
-
-		foreach ( $url_schemes as $url )
-		{
-			// disable bot from being applied to specific URL Scheme tag
-			if ( JString::strpos($matches[1], $url) !== false )
-			{
-				return $original;
-			}
-		}
-
-		// will only process links containing 'index.php?option
-		if ( JString::strpos( $matches[1], 'index.php?option' ) !== false )
-		{
-			$uriLocal	=& JFactory::getURI();
-			$uriHREF	=& JFactory::getURI($matches[1]);
-
-			//disbale bot from being applied to external links
-			if($uriLocal->getHost() !== $uriHREF->getHost() && !is_null($uriHREF->getHost()))
-			{
-				return $original;
-			}
-
-			if ($qstring = $uriHREF->getQuery())
-			{
-				$qstring = '?' . $qstring;
-			}
-			if ($anchor = $uriHREF->getFragment())
-			{
-				$anchor = '#' . $anchor;
-			}
-			return 'href="'. JRoute::_( 'index.php' . $qstring ) . $uriHREF->getFragment() .'"';
-		}
-		else
-		{
-			return $original;
-		}
-	}
 }
 

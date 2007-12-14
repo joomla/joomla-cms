@@ -2,6 +2,13 @@
 
 # RC 3 to RC 4
 
+-- 14-Dec-2007
+-- Change SEF plugin from Content To System
+
+UPDATE `jos_plugins` SET `ordering` = `ordering` + 1 WHERE `folder` LIKE 'system';
+
+UPDATE `jos_plugins` SET `name` = 'System - SEF', `folder` = 'system', `ordering` = 1 WHERE element LIKE 'sef';
+
 -- 26-Oct-2007 --
 -- Database index optimizations
 
