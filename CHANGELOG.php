@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 14-Dec-2007 Jui-Yu Tsai
+ # Fixed [#8457] Untranslated string in Plugin Manager
  # Fixed [topic,243216] Missing Argument in Error.php
 
 14-Dec-2007 Anthony Ferrara
