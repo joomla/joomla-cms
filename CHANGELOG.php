@@ -38,6 +38,8 @@ Legend:
 ! -> Note
 
 14-Dec-2007 Chris Davenport
+ # Fixed [topic,243329] missing index.html
+ ^ help.joomla.org and version check links now open in iframe instead of separate window.
  # Help screen table of contents not adding version number to help screen key references.
 
 13-Dec-2007 Anthony Ferrara
