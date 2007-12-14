@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: sef.php 9527 2007-12-08 23:43:21Z robs $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
@@ -22,9 +22,8 @@ jimport( 'joomla.plugin.plugin');
 * @package 		Joomla
 * @subpackage	System
 */
-class plgSystemSef extends JPlugin {
-
-
+class plgSystemSef extends JPlugin 
+{
 	/**
 	 * Constructor
 	 *
@@ -36,8 +35,7 @@ class plgSystemSef extends JPlugin {
 	  * @param 	array  		$config  An array that holds the plugin configuration
 	 * @since	1.0
 	 */	
-	function plgSystemSef(&$subject, $config) 
-	{
+	function plgSystemSef(&$subject, $config)  {
 		parent::__construct($subject, $config);
 	}
 
@@ -62,17 +60,19 @@ class plgSystemSef extends JPlugin {
 		$regex = "#href=\"(.*?)\"#s";
 
 		// perform the replacement
-		$document = preg_replace_callback( $regex, array($this, 'plgContentSEF_replacer'), $document );
+		$document = preg_replace_callback( $regex, array($this, 'replaceHREF'), $document );
 		JResponse::setBody($document);
+		
 		return true;
 	}
 
 	/**
 	* Replaces the matched tags
+	* 
 	* @param array An array of matches (see preg_match_all)
 	* @return string
 	*/
-	function plgContentSEF_replacer( &$matches )
+	function replaceHREF( &$matches )
 	{
 		// original text that might be replaced
 		$original = 'href="'. $matches[1] .'"';
@@ -83,8 +83,7 @@ class plgSystemSef extends JPlugin {
 		foreach ( $url_schemes as $url )
 		{
 			// disable bot from being applied to specific URL Scheme tag
-			if ( JString::strpos($matches[1], $url) !== false )
-			{
+			if ( JString::strpos($matches[1], $url) !== false ) {
 				return $original;
 			}
 		}

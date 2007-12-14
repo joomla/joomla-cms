@@ -47,8 +47,8 @@ Legend:
 14-Dec-2007 Anthony Ferrara
  # Fixed [#8582] Category Blog Layout does not display the category's image (Thanks Andrew Gorges)
  # Fixed issues with relative urls, removed sef section from JModuleHelper
- + System SEF plugin
- - Content SEF plugin
+ + Added new System SEF plugin
+ - Removed old Content SEF plugin
  ! Changes require a re-install or manual database update.  Check diff.sql for details.
 
 14-Dec-2007 Mati Kochen
