@@ -217,7 +217,7 @@ class JDocumentPDF extends JDocument
 		// Set PDF Header and Footer fonts
 		$lang = &JFactory::getLanguage();
 		$font = $lang->getPdfFontName();
-		$font = ($font) ? $font : 'vera';
+		$font = ($font) ? $font : 'freesans';
 
 		$pdf->setHeaderFont(array($font, '', 10));
 		$pdf->setFooterFont(array($font, '', 8));
