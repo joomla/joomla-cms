@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Dec-2007 Anthony Ferrara
+ # Fixed [#8582] Category Blog Layout does not display the category's image (Thanks Andrew Gorges)
+
 14-Dec-2007 Mati Kochen
  ^ [#8445] replaced vera fonts with freesans
 

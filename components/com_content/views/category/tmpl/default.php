@@ -11,7 +11,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 <tr>
 	<td width="60%" valign="top" class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>" colspan="2">
 	<?php if ($this->category->image) : ?>
-		<img src="<?php echo $this->baseurl . $cparams->get('image_path') . '/'. $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="<?php echo $this->category->image;?>" />
+		<img src="<?php echo $this->baseurl . '/' . $cparams->get('image_path') . '/'. $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="<?php echo $this->category->image;?>" />
 	<?php endif; ?>
 	<?php echo $this->category->description; ?>
 </td>

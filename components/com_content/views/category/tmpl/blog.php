@@ -12,7 +12,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 <tr>
 	<td valign="top">
 	<?php if ($this->params->get('show_description_image') && $this->category->image) : ?>
-		<img src="<?php echo $this->baseurl . $cparams->get('image_path') . '/'. $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="" />
+		<img src="<?php echo $this->baseurl . '/' . $cparams->get('image_path') . '/'. $this->category->image;?>" align="<?php echo $this->category->image_position;?>" hspace="6" alt="" />
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 		<?php echo $this->category->description; ?>
