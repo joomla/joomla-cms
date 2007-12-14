@@ -165,7 +165,7 @@ class BannersViewBanner
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" />
 					</td>
 					<td align="center">
-						<?php echo $row->sticky ? JText::_( 'Yes' ) : 'No';?>
+						<?php echo $row->sticky ? JText::_( 'Yes' ) : JText::_( 'No' );?>
 					</td>
 					<td align="center">
 						<?php echo $row->impmade.' '.JText::_('of').' '.$row->imptotal?>
