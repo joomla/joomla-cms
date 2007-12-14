@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Dec-2007 Jui-Yu Tsai
+ # Fixed [topic,243216] Missing Argument in Error.php
+
 14-Dec-2007 Anthony Ferrara
  # Fixed [#8582] Category Blog Layout does not display the category's image (Thanks Andrew Gorges)
 

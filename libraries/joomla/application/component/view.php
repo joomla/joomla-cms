@@ -432,7 +432,7 @@ class JView extends JObject
 			}
 			if (strpos($r[3], "view"))
 			{
-				JError::raiseWarning("JView::getName() : Your classname contains the substring 'view'. ".
+				JError::raiseWarning('SOME_ERROR_CODE',"JView::getName() : Your classname contains the substring 'view'. ".
 											"This causes problems when extracting the classname from the name of your objects view. " .
 											"Avoid Object names with the substring 'view'.");
 			}
