@@ -161,7 +161,7 @@ class FrontpageView
 						$author = $row->created_by_alias;
 					} else {
 						$linkA 	= JRoute::_( 'index.php?option=com_users&task=edit&cid[]='. $row->created_by );
-						$author='<span class="editlinktip hasTip" title="'.JText::_( 'Edit User' ).'::'.$row->author.'">.' .
+						$author='<span class="editlinktip hasTip" title="'.JText::_( 'Edit User' ).'::'.$row->author.'">' .
 								'<a href="'. $linkA .'">'. $row->author .'</a><span>';
 					}
 				} else {

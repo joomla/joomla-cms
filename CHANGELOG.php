@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 14-Dec-2007 Jui-Yu Tsai
+ # Fixed [topic,243523] Extra Dot Before User Name (Thanks Pentacle)
  # Fixed [#8448] Localized Time Zone dropdown lolls out from the template (Thanks Jonathan)
  # Fixed [#8450] Untranslated string in Banner Manager (Thanks Anner Bonilla)
  # Fixed [#8457] Untranslated string in Plugin Manager (Thanks Anner Bonilla)
