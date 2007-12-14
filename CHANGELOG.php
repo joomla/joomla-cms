@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Dec-2007 Mati Kochen
+ ^ [#8445] replaced vera fonts with freesans
+
 14-Dec-2007 Chris Davenport
  # Fixed [topic,243329] missing index.html
  ^ help.joomla.org and version check links now open in iframe instead of separate window.

@@ -18,7 +18,7 @@
 		<locale>en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
 		<winCodePage>iso-8859-1</winCodePage>
 		<backwardLang>english</backwardLang>
-		<pdfFontName>vera</pdfFontName>
+		<pdfFontName>freesans</pdfFontName> 
 	</metadata>
 	<params />
 </metafile>
