@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://dev.joomla.org/xml/1.5/template-install.dtd">
 <install version="1.5" type="template">
 	<name>beez</name>
-	<version>1.0.0</version>
 	<creationDate>19 February 2007</creationDate>
 	<author>Angie Radtke/Robert Deutz</author>
 	<authorEmail>joomla@run-digital.com</authorEmail>
 	<authorUrl>http://www.run-digital.com</authorUrl>
 	<copyright></copyright>
 	<license>GNU/GPL</license>
+	<version>1.0.0</version>
 	<description>Accessible template for Joomla 1.5</description>
 	<files>
 		<filename>css/layout.css</filename>
@@ -146,10 +147,10 @@
 		<language tag="en-GB">en-GB.tpl_beez.ini</language>
 	</languages>
 	<administration>
-    	<languages folder="admin">
+		<languages folder="admin">
 			<language tag="en-GB">en-GB.tpl_beez.ini</language>
 		</languages>
-    </administration>
+	</administration>
 	<positions>
 		<position>left</position>
 		<position>right</position>

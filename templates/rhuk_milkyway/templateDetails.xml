@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://dev.joomla.org/xml/1.5/template-install.dtd">
 <install version="1.5" type="template">
 	<name>rhuk_milkyway</name>
-	<version>1.0.2</version>
 	<creationDate>11/20/06</creationDate>
 	<author>Andy Miller</author>
 	<authorEmail>rhuk@rockettheme.com.com</authorEmail>
 	<authorUrl>http://www.rockettheme.com</authorUrl>
 	<copyright></copyright>
 	<license>GNU/GPL</license>
+	<version>1.0.2</version>
 	<description>TPL_RHUK_MILKYWAY</description>
 	<files>
 		<filename>index.php</filename>

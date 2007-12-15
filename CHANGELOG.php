@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Dec-2007 Chris Davenport
+ ^ Modified template XML files to allow validation (Thanks Witchakorn Kamolpornwijit for creating the DTD)
+
 14-Dec-2007 Jui-Yu Tsai
  # Fixed [topic,243523] Extra Dot Before User Name (Thanks Pentacle)
  # Fixed [#8448] Localized Time Zone dropdown lolls out from the template (Thanks Jonathan)

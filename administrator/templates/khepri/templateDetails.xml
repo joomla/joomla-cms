@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://dev.joomla.org/xml/1.5/template-install.dtd">
 <install type="template" version="1.5.0" client="administrator">
 	<name>Khepri</name>
 	<creationDate>05/24/06</creationDate>
 	<author>Andy Miller</author>
-	<copyright>GNU/GPL</copyright>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>http://www.joomla.org</authorUrl>
+	<copyright></copyright>
+	<license>GNU/GPL</license>
 	<version>1.0</version>
 	<description>Administration template for Joomla! 1.5</description>
 	<files>
