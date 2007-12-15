@@ -76,18 +76,13 @@ class plgSystemSef extends JPlugin
 	{
 		// original text that might be replaced
 		$original = 'href="'. $matches[1] .'"';
-	
-		// array list of non http/https	URL schemes
-		$url_schemes = array( 'data:', 'file:', 'ftp:', 'gopher:', 'imap:', 'ldap:', 'mailto:', 'news:', 'nntp:', 'telnet:', 'javascript:', 'irc:' );
-	
-		foreach ( $url_schemes as $url )
+
+		//Make sure we are dealing with HTTP urls...
+		if(strpos($matches[1], 'http:') === false && strpos($matches[1], 'https:') === false && strpos($matches[1], ':')!== false) 
 		{
-			// disable bot from being applied to specific URL Scheme tag
-			if ( JString::strpos($matches[1], $url) !== false ) {
-				return $original;
-			}
+			return $origional;
 		}
-	
+
 		$uriLocal	=& JFactory::getURI();
 		$uriHREF	=& JFactory::getURI($matches[1]);
 	
@@ -96,29 +91,58 @@ class plgSystemSef extends JPlugin
 		{
 			return $original;
 		}
-		if ($qstring = $uriHREF->getQuery())
-		{
-			$qstring = '?' . $qstring;
-		}
-		if ($anchor = $uriHREF->getFragment())
-		{
-			$anchor = '#' . $anchor;
-		}
 		if ( JString::strpos( $matches[1], 'index.php?option' ) !== false )
 		{
+			if ($qstring = $uriHREF->getQuery())
+			{
+				$qstring = '?' . $qstring;
+			}
+			if ($anchor = $uriHREF->getFragment())
+			{
+				$anchor = '#' . $anchor;
+			}
 			return 'href="'. JRoute::_( 'index.php' . $qstring ) . $uriHREF->getFragment() .'"';
 		}
 		
-		if(JString::strpos( $matches[1], 'http://' ) === false && JString::strpos( $matches[1], 'https:' ) === false && is_null($uriHREF->getHost())) {
-			//Relative link
-			$base = JURI::base();
-            if(JString::strpos($matches[1], '/') === 0) $base = substr($base, 0, -1);
-            $uriNew =& JFactory::getURI($base.$matches[1]);
-			$href = 'href="'.$uriNew->toString().'"';
-			return $href;
-		}		
-	
-		return $original;
-	}
+		if(is_null($uriHREF->getHost())) 
+		{
+                        //Relative link
+                        $base = JFactory::getURI(JURI::base());
+                        $baseURL = $base->getPath();
+                        $base->setPath('/'.$this->combine($baseURL, $matches[1]));
+                        $href = 'href="'.$base->toString().'"';
+                        //Must set back so next link starts the same...
+                        $base->setPath($baseURL);
+                        return $href;
+                }
 
+                return $original;
+        }
+
+	function combine($ur1, $ur2) 
+	{
+                $ret = array();
+                $arr1 = explode("/", $ur1);
+                $arr2 = explode("/", $ur2);
+                //strip null values
+		foreach($arr1 AS $key => $val) 
+		{
+			if(!empty($val)) 
+			{
+                                $ret[] = $val;
+                        }
+                }
+                $num_same = 0;
+		foreach($arr2 AS $key => $val) 
+		{
+			if(!empty($val)) 
+			{
+				if(!in_array($val, $ret)) 
+				{
+                                        $ret[] = $val;
+				}
+                        }
+                }
+                return implode("/", $ret);
+        }
 }
