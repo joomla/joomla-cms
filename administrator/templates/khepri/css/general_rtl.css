@@ -47,6 +47,7 @@ body{
 
 .button2-left {
 	background:transparent url(../images/j_button2_right_xl.png) no-repeat scroll 100%;
+	float: right;
 }
 
 .button2-left .end{
@@ -74,8 +75,21 @@ body{
 	padding:0pt 24px 0pt 6px;
 }
 
+.button2-left .image {
+	background:transparent url(../images/j_button2_image_rtl.png) no-repeat scroll 0% 0pt;
+}
+
+.button2-left .pagebreak {
+	background:transparent url(../images/j_button2_pagebreak_rtl.png) no-repeat scroll 0% 0pt;
+}
+
+.button2-left .readmore {
+	background:transparent url(../images/j_button2_readmore_rtl.png) no-repeat scroll 0% 0pt;
+}
+
 .button2-right {
 	background:transparent url(../images/j_button2_left.png) no-repeat scroll 0% 0pt;
+	float: right;
 }
 
 .button2-right .prev {
@@ -172,4 +186,17 @@ table.adminform td.filter{
 
 table.adminform td.helpMenu{
 	text-align: left;
+}
+
+table.adminlist .pagination{
+	display: -moz-box;
+}
+
+.pagination div.limit{
+	float: right;
+	margin: 0 0 0 10px;
+}
+
+.button2-left .page a, .button2-right .page a, .button2-left .page span, .button2-right .page span, .button2-left .blank a, .button2-right .blank a, .button2-left .blank span, .button2-right .blank span{
+	float: right;
 }

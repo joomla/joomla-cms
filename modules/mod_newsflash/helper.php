@@ -52,6 +52,10 @@ class modNewsFlashHelper
 			$item->text = preg_replace( '/<img[^>]*>/', '', $item->text );
 		}
 
+		if (!$params->get('image')) {
+			$item->text = preg_replace( '/<img[^>]*>/', '', $item->text );
+		}
+
 		$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (&$item, &$params, 1));
 		$item->afterDisplayTitle = trim(implode("\n", $results));
 

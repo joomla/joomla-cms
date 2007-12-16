@@ -32,17 +32,21 @@ div#logo {
 	margin-right:30px;
 }
 
+input.button{
+margin: 150px;
+
+}
+
 div#header_r {
 	text-align:right;
 	padding-right:370px;
 	padding-left:30px;
 }
 
-
-table.pill{
-	direction: ltr;
+td.pill_m {
+  background: url(../images/mw_menu_normal_bg_rtl.png) repeat-x right;
 }
-/* fix mainmenu RTL
+
 td.pill_r {
 	background:transparent url(../images/mw_menu_cap_l.png) no-repeat scroll 0%;
 }
@@ -51,18 +55,20 @@ td.pill_l {
 	background:transparent url(../images/mw_menu_cap_r.png) no-repeat scroll 0%;
 }
 
-#pillmenu{
-	float: right;
+#pillmenu {
+	float:none;
 }
 
 #pillmenu li{
-	background-position:left;
 	float: right;
+	background: none;
 }
 
-#pillmenu a{
+#pillmenu a {
+	float:none;
+	padding: 0px 10px;
+	display: -moz-inline-table;
 }
-*/
 
 #search{
 	float: left;

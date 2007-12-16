@@ -54,12 +54,19 @@ class modBreadCrumbsHelper
 	{
 		global $mainframe;
 		
+		$lang =& JFactory::getLanguage();
+		
 		/**
 	 	* If a custom separator has not been provided we try to load a template
 	 	* specific one first, and if that is not present we load the default separator
 	 	*/
 		if ($custom == null) {
-			$_separator = JHTML::_('image.site', 'arrow.png');
+			if($lang->isRTL()){
+				$_separator = JHTML::_('image.site', 'arrow_rtl.png');
+			}
+			else{
+				$_separator = JHTML::_('image.site', 'arrow.png');
+			}
 		} else {
 			$_separator = $custom;
 		}

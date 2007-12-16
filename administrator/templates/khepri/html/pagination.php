@@ -70,15 +70,9 @@ function pagination_list_footer($list)
 	$lang =& JFactory::getLanguage();
 	$html = "<del class=\"container\"><div class=\"pagination\">\n";
 
-	if ($lang->isRTL()) {
-		$html .= "\n<div class=\"limit\">".$list['pagescounter']."</div>";
-		$html .= $list['pageslinks'];
-		$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
-	} else {
-		$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
-		$html .= $list['pageslinks'];
-		$html .= "\n<div class=\"limit\">".$list['pagescounter']."</div>";
-	}
+	$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
+	$html .= $list['pageslinks'];
+	$html .= "\n<div class=\"limit\">".$list['pagescounter']."</div>";
 
 	$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"".$list['limitstart']."\" />";
 	$html .= "\n</div></del>";
@@ -92,71 +86,34 @@ function pagination_list_render($list)
 	$lang =& JFactory::getLanguage();
 	$html = null;
 
-	// Reverse output rendering for right-to-left display
-	if($lang->isRTL())
-	{
-		if ($list['end']['active']) {
-			$html .= "<div class=\"button2-left\"><div class=\"end\">".$list['end']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2-left off\"><div class=\"end\">".$list['end']['data']."</div></div>";
-		}
-		if ($list['next']['active']) {
-			$html .= "<div class=\"button2-left\"><div class=\"next\">".$list['next']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2-left off\"><div class=\"next\">".$list['next']['data']."</div></div>";
-		}
-
-		$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
-		$list['pages'] = array_reverse( $list['pages'] );
-		foreach( $list['pages'] as $page ) {
-			$html .= $page['data'];
-		}
-		$html .= "\n</div></div>";
-
-		if ($list['previous']['active']) {
-			$html .= "<div class=\"button2-right\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2-right off\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
-		}
-		if ($list['start']['active']) {
-			$html .= "<div class=\"button2-right\"><div class=\"start\">".$list['start']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2-right off\"><div class=\"start\">".$list['start']['data']."</div></div>";
-		}
-
-
-
+	if ($list['start']['active']) {
+		$html .= "<div class=\"button2-right\"><div class=\"start\">".$list['start']['data']."</div></div>";
+	} else {
+		$html .= "<div class=\"button2-right off\"><div class=\"start\">".$list['start']['data']."</div></div>";
 	}
-	else
-	{
-		if ($list['start']['active']) {
-			$html .= "<div class=\"button2-right\"><div class=\"start\">".$list['start']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2-right off\"><div class=\"start\">".$list['start']['data']."</div></div>";
-		}
-		if ($list['previous']['active']) {
-			$html .= "<div class=\"button2-right\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2-right off\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
-		}
-
-		$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
-		foreach( $list['pages'] as $page ) {
-			$html .= $page['data'];
-		}
-		$html .= "\n</div></div>";
-
-		if ($list['next']['active']) {
-			$html .= "<div class=\"button2-left\"><div class=\"next\">".$list['next']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2-left off\"><div class=\"next\">".$list['next']['data']."</div></div>";
-		}
-		if ($list['end']['active']) {
-			$html .= "<div class=\"button2-left\"><div class=\"end\">".$list['end']['data']."</div></div>";
-		} else {
-			$html .= "<div class=\"button2-left off\"><div class=\"end\">".$list['end']['data']."</div></div>";
-		}
+	if ($list['previous']['active']) {
+		$html .= "<div class=\"button2-right\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
+	} else {
+		$html .= "<div class=\"button2-right off\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
 	}
+
+	$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
+	foreach( $list['pages'] as $page ) {
+		$html .= $page['data'];
+	}
+	$html .= "\n</div></div>";
+
+	if ($list['next']['active']) {
+		$html .= "<div class=\"button2-left\"><div class=\"next\">".$list['next']['data']."</div></div>";
+	} else {
+		$html .= "<div class=\"button2-left off\"><div class=\"next\">".$list['next']['data']."</div></div>";
+	}
+	if ($list['end']['active']) {
+		$html .= "<div class=\"button2-left\"><div class=\"end\">".$list['end']['data']."</div></div>";
+	} else {
+		$html .= "<div class=\"button2-left off\"><div class=\"end\">".$list['end']['data']."</div></div>";
+	}
+
 	return $html;
 }
 

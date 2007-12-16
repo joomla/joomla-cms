@@ -359,9 +359,6 @@ function mosShowHFMenu(& $params, $style = 0)
 		switch ($style)
 		{
 			case 1 :
-				if ($lang->isRTL()) {
-					$links = array_reverse($links);
-				}
 				echo '<ul id="' . $menuclass . '">';
 				foreach ($links as $link) {
 					echo '<li>' . $link . '</li>';

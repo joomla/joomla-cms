@@ -70,18 +70,9 @@ function pagination_list_footer($list)
 	$lang =& JFactory::getLanguage();
 	$html = "<div class=\"list-footer\">\n";
 
-	if ($lang->isRTL())
-	{
-		$html .= "\n<div class=\"counter\">".$list['pagescounter']."</div>";
-		$html .= $list['pageslinks'];
-		$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
-	}
-	else
-	{
-		$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
-		$html .= $list['pageslinks'];
-		$html .= "\n<div class=\"counter\">".$list['pagescounter']."</div>";
-	}
+	$html .= "\n<div class=\"limit\">".JText::_('Display Num').$list['limitfield']."</div>";
+	$html .= $list['pageslinks'];
+	$html .= "\n<div class=\"counter\">".$list['pagescounter']."</div>";
 
 	$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"".$list['limitstart']."\" />";
 	$html .= "\n</div>";
@@ -95,52 +86,25 @@ function pagination_list_render($list)
 	$lang =& JFactory::getLanguage();
 	$html = "<ul class=\"pagination\">";
 
-	// Reverse output rendering for right-to-left display
-	if($lang->isRTL())
+	$html .= $list['start']['data'];
+	$html .= $list['previous']['data'];
+
+	foreach( $list['pages'] as $page )
 	{
-		$html .= $list['start']['data'];
-		$html .= '&nbsp;'.$list['previous']['data'];
-
-		$list['pages'] = array_reverse( $list['pages'] );
-
-		foreach( $list['pages'] as $page ) {
-			if($page['data']['active']) {
-				//  $html .= '<strong>';
-			}
-
-			$html .= '&nbsp;'.$page['data'];
-
-			if($page['data']['active']) {
-				// $html .= '</strong>';
-			}
+		if($page['data']['active']) {
+			// $html .= '<strong>';
 		}
 
-		$html .= '&nbsp;'.$list['next']['data'];
-		$html .= '&nbsp;'.$list['end']['data'];
-		// $html .= '&#171;';
-	}
-	else
-	{
-		$html .= $list['start']['data'];
-		$html .= $list['previous']['data'];
+		$html .= $page['data'];
 
-		foreach( $list['pages'] as $page )
-		{
-			if($page['data']['active']) {
-				// $html .= '<strong>';
-			}
-
-			$html .= $page['data'];
-
-			if($page['data']['active']) {
-				//  $html .= '</strong>';
-			}
+		if($page['data']['active']) {
+			//  $html .= '</strong>';
 		}
-
-		$html .= $list['next']['data'];
-		$html .= $list['end']['data'];
-		// $html .= '&#171;';
 	}
+
+	$html .= $list['next']['data'];
+	$html .= $list['end']['data'];
+	// $html .= '&#171;';
 
 	$html .= "</ul>";
 	return $html;

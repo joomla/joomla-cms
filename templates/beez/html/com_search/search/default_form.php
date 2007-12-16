@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 </fieldset>
 
 <fieldset class="phrase">
-<legend><?php echo JText::_('Search Parameters') ?> </legend>
+<legend><?php echo JText::_('Search Parameters') ?></legend>
 <?php echo $this->lists['searchphrase']; ?>
 <br /><br />
 <label for="ordering" class="ordering"><?php echo JText::_('Ordering') ?>:</label>

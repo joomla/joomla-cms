@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Dec-2007 Mati Kochen
+ ^ Fixed RTL Issues in Admin/Khepri - WIP
+ ^ Fixed RTL Issues in Front/Beez - WIP
+ ^ Fixed RTL Issues in Front/Rhuk - WIP
+ ^ Removed Reverse call for Menu creation
+ ^ Removed Reverse call for Nav creation
+ 
 16-Dec-2007 Toby Patterson
  # Fixed typo in joomla_backward.sql that prevented sef plugin from loading.
 

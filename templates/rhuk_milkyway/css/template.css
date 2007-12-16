@@ -259,7 +259,7 @@ td.pill_r {
 
 #pillmenu li {
 	float: left;
-	background: url(../images/mw_menu_separator.png) top right no-repeat;
+/*	background: url(../images/mw_menu_separator.png) top right no-repeat;*/
 	margin: 0;
 	padding: 0;
 }
