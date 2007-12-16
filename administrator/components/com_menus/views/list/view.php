@@ -61,6 +61,9 @@ class MenusViewList extends JView
 		$lists		= &$this->_getViewLists();
 		$user		= &JFactory::getUser();
 
+		// ensure ampersands are encoded
+		JFilterOutput::ampReplaceRecursive($items);
+
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'm.ordering');
 

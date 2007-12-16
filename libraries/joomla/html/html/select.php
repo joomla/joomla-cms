@@ -126,6 +126,10 @@ class JHTMLSelect
 					$t = JText::_( $t );
 				}
 
+				// ensure ampersands are encoded
+				$k = JFilterOutput::ampReplace($k);
+				$t = JFilterOutput::ampReplace($t);
+
 				$html .= '<option value="'. $k .'" '. $extra .'>' . $t . '</option>';
 			}
 			next($arr);
