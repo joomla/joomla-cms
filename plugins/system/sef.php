@@ -22,7 +22,7 @@ jimport( 'joomla.plugin.plugin');
 * @package 		Joomla
 * @subpackage	System
 */
-class plgSystemSef extends JPlugin 
+class plgSystemSef extends JPlugin
 {
 	/**
 	 * Constructor
@@ -34,7 +34,7 @@ class plgSystemSef extends JPlugin
 	 * @param	object		$subject The object to observe
 	  * @param 	array  		$config  An array that holds the plugin configuration
 	 * @since	1.0
-	 */	
+	 */
 	function plgSystemSef(&$subject, $config)  {
 		parent::__construct($subject, $config);
 	}
@@ -51,7 +51,7 @@ class plgSystemSef extends JPlugin
 		}
 		$document = JResponse::getBody();
 		// check whether plugin has been unpublished
-		
+
 		//Replace src links
 		$base = JURI::base(true).'/';
 		$document = preg_replace("/(src)=\"(?!http|ftp|https|\/)([^\"]*)\"/", "$1=\"$base\$2\"", $document);
@@ -62,13 +62,13 @@ class plgSystemSef extends JPlugin
 		// perform the replacement
 		$document = preg_replace_callback( $regex, array($this, 'replaceHREF'), $document );
 		JResponse::setBody($document);
-		
+
 		return true;
 	}
 
 	/**
 	* Replaces the matched tags
-	* 
+	*
 	* @param array An array of matches (see preg_match_all)
 	* @return string
 	*/
@@ -78,14 +78,14 @@ class plgSystemSef extends JPlugin
 		$original = 'href="'. $matches[1] .'"';
 
 		//Make sure we are dealing with HTTP urls...
-		if(strpos($matches[1], 'http:') === false && strpos($matches[1], 'https:') === false && strpos($matches[1], ':')!== false) 
+		if(strpos($matches[1], 'http:') === false && strpos($matches[1], 'https:') === false && strpos($matches[1], ':')!== false)
 		{
-			return $origional;
+			return $original;
 		}
 
 		$uriLocal	=& JFactory::getURI();
 		$uriHREF	=& JFactory::getURI($matches[1]);
-	
+
 		//disbale bot from being applied to external links
 		if($uriLocal->getHost() !== $uriHREF->getHost() && !is_null($uriHREF->getHost()))
 		{
@@ -103,8 +103,8 @@ class plgSystemSef extends JPlugin
 			}
 			return 'href="'. JRoute::_( 'index.php' . $qstring ) . $uriHREF->getFragment() .'"';
 		}
-		
-		if(is_null($uriHREF->getHost())) 
+
+		if(is_null($uriHREF->getHost()))
 		{
                         //Relative link
                         $base = JFactory::getURI(JURI::base());
@@ -119,25 +119,25 @@ class plgSystemSef extends JPlugin
                 return $original;
         }
 
-	function combine($ur1, $ur2) 
+	function combine($ur1, $ur2)
 	{
                 $ret = array();
                 $arr1 = explode("/", $ur1);
                 $arr2 = explode("/", $ur2);
                 //strip null values
-		foreach($arr1 AS $key => $val) 
+		foreach($arr1 AS $key => $val)
 		{
-			if(!empty($val)) 
+			if(!empty($val))
 			{
                                 $ret[] = $val;
                         }
                 }
                 $num_same = 0;
-		foreach($arr2 AS $key => $val) 
+		foreach($arr2 AS $key => $val)
 		{
-			if(!empty($val)) 
+			if(!empty($val))
 			{
-				if(!in_array($val, $ret)) 
+				if(!in_array($val, $ret))
 				{
                                         $ret[] = $val;
 				}

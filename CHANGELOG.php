@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Dec-2007 Nur Aini Rakhmawati
+# Fixed [t,223403] Warning menu manager standardization
+
 15-Dec-2007 Chris Davenport
  ^ Modified template XML files to allow validation (Thanks Witchakorn Kamolpornwijit for creating the DTD)
 
@@ -53,7 +56,7 @@ Legend:
  + System SEF plugin and admin language file
  - Content SEF plugin and admin language file
  ! Changes require a re-install or manual database update.  Check diff.sql for details.
- 
+
 14-Dec-2007 Mati Kochen
  ^ [#8445] replaced vera fonts with freesans
 
