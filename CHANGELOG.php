@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 16-Dec-2007 Charl van Niekerk
+ + Added ampReplaceRecursive function in JFilterOutput class
  # Fixed unencoded ampersands in menu item titles in backend com_menus (list and ordering)
 
 16-Dec-2007 Nur Aini Rakhmawati
