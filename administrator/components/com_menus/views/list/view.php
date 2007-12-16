@@ -61,8 +61,13 @@ class MenusViewList extends JView
 		$lists		= &$this->_getViewLists();
 		$user		= &JFactory::getUser();
 
-		// ensure ampersands are encoded
-		JFilterOutput::ampReplaceRecursive($items);
+		// Ensure ampersands and double quotes are encoded in item titles
+		foreach ($items as $i => $item) {
+			$treename = $item->treename;
+			$treename = JFilterOutput::ampReplace($treename);
+			$treename = str_replace('"', '&quot;', $treename);
+			$items[$i]->treename = $treename;
+		}
 
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'm.ordering');

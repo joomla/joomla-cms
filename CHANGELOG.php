@@ -51,6 +51,8 @@ Legend:
  + Added ampReplaceRecursive function in JFilterOutput class
  # Fixed unencoded ampersands in menu item titles in backend com_menus (list and ordering)
  # Replaced 'self' with 'JFilterOutput' for PHP 4 compatibility
+ - Removed ampReplaceRecursive function from JFilterOutput class (might be integrated into ampReplace later)
+ # Fixed unencoded ampersands and double quotes in menu item titles in backend com_menus item list without using ampReplaceRecursive
 
 16-Dec-2007 Nur Aini Rakhmawati
 # Fixed [t,223403] Warning menu manager standardization

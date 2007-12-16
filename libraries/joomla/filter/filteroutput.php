@@ -136,23 +136,6 @@ class JFilterOutput
 	}
 
 	/**
-	* Recursively replaces &amp; with & for xhtml compliance
-	*
-	* @static
-	* @since 1.5
-	*/
-	function ampReplaceRecursive(&$item)
-	{
-		if (is_array($item) || is_object($item)) {
-			foreach ($item as &$i) {
-				JFilterOutput::ampReplaceRecursive($i);
-			}
-		} else {
-			$item = JFilterOutput::ampReplace($item);
-		}
-	}
-
-	/**
 	* Cleans text of all formating and scripting code
 	*/
 	function cleanText ( &$text )
