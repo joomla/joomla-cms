@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Dec-2007 Toby Patterson
+ # Fixed typo in joomla_backward.sql that prevented sef plugin from loading.
+
 16-Dec-2007 Charl van Niekerk
  + Added ampReplaceRecursive function in JFilterOutput class
  # Fixed unencoded ampersands in menu item titles in backend com_menus (list and ordering)
