@@ -50,6 +50,7 @@ Legend:
 16-Dec-2007 Charl van Niekerk
  + Added ampReplaceRecursive function in JFilterOutput class
  # Fixed unencoded ampersands in menu item titles in backend com_menus (list and ordering)
+ # Replaced 'self' with 'JFilterOutput' for PHP 4 compatibility
 
 16-Dec-2007 Nur Aini Rakhmawati
 # Fixed [t,223403] Warning menu manager standardization

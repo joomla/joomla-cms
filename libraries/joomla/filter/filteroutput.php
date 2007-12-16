@@ -145,10 +145,10 @@ class JFilterOutput
 	{
 		if (is_array($item) || is_object($item)) {
 			foreach ($item as &$i) {
-				self::ampReplaceRecursive($i);
+				JFilterOutput::ampReplaceRecursive($i);
 			}
 		} else {
-			$item = self::ampReplace($item);
+			$item = JFilterOutput::ampReplace($item);
 		}
 	}
 
