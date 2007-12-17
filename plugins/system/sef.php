@@ -54,7 +54,7 @@ class plgSystemSef extends JPlugin
       	$base   = JURI::base(true).'/';
 		$buffer = JResponse::getBody();
 
-       	$regex  = '#href="index.php([^"]*)(?!")#m';
+       	$regex  = '#href="index.php\?([^"]*)#m';
       	$buffer = preg_replace_callback( $regex, array('plgSystemSEF', 'route'), $buffer );
 
        	$protocols = 'http:|ftp:|https:|mailto:|data:|file:|ftp:|gopher:|
@@ -73,12 +73,11 @@ class plgSystemSef extends JPlugin
      * @return string
      */
    	 function route( &$matches )
-     {
-      	$original       = $matches[0];
+     { 
+		$original       = $matches[0];
        	$url            = $matches[1];
-
-       	$route          = JRoute::_('index.php'.$url);
-
+	
+       	$route          = JRoute::_('index.php?'.$url);
       	return 'href="'.$route;
       }
 }
