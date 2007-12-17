@@ -13,7 +13,7 @@ function modMainMenuXMLCallback(&$node, $args)
 	$active	= $menu->getActive();
 	$path	= isset($active) ? array_reverse($active->tree) : null;
 
-	if (($args['end']) && ($node->attributes('level') > $args['end']))
+	if (($args['end']) && ($node->attributes('level') >= $args['end']))
 	{
 		$children = $node->children();
 		foreach ($node->children() as $child)
