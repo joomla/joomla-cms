@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Dec-2007 Anthony Ferrara
+ # Fixed [#8633] Image path issue in Section description - slash missing
+ 
+
 16-Dec-2007 Mati Kochen
  ^ Fixed RTL Issues in Admin/Khepri - WIP
  ^ Fixed RTL Issues in Front/Beez - WIP
