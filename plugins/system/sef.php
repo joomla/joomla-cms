@@ -39,25 +39,46 @@ class plgSystemSef extends JPlugin
 		parent::__construct($subject, $config);
 	}
 
+	/**
+     * Converting the site URL to fit to the HTTP request
+     */
 	function onAfterRender()
 	{
 		$app =& JFactory::getApplication();
-		
-		// check to see of SEF is enabled
-		if(!$app->getCfg('sef')) {
-			return true;
-		}
+
 		if($app->getName() != 'site') {
 			return true;
 		}
-		
+
 		//Replace src links
-		$document = JResponse::getBody();
+      	$base   = JURI::base(true).'/';
+		$buffer = JResponse::getBody();
 
-		$base     = JURI::base(true).'/';
-		$document = preg_replace("/(src)=\"(?!http|ftp|https|\/)([^\"]*)\"/", "$1=\"$base\$2\"", $document);
+       	$regex  = '#href="index.php([^"]*)(?!")#m';
+      	$buffer = preg_replace_callback( $regex, array('plgSystemSEF', 'route'), $buffer );
 
-		JResponse::setBody($document);
+       	$protocols = 'http:|ftp:|https:|mailto:|data:|file:|ftp:|gopher:|
+					  imap:|ldap:|news:|nntp:|telnet:|javascript:|irc:';
+      	$regex     = '#(src|href)="(?!/|'.$protocols.')([^"]*)"#m';
+        $buffer    = preg_replace($regex, "$1=\"$base\$2\"", $buffer);
+
+		JResponse::setBody($buffer);
 		return true;
 	}
+
+	/**
+     * Replaces the matched tags
+     *
+     * @param array An array of matches (see preg_match_all)
+     * @return string
+     */
+   	 function route( &$matches )
+     {
+      	$original       = $matches[0];
+       	$url            = $matches[1];
+
+       	$route          = JRoute::_('index.php'.$url);
+
+      	return 'href="'.$route;
+      }
 }
