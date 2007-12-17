@@ -73,7 +73,7 @@ class JRouterSite extends JRouter
 	function &build($url)
 	{
 		$uri =& parent::build($url);
-
+		
 		// Get the path data
 		$route = $uri->getPath();
 
@@ -291,7 +291,7 @@ class JRouterSite extends JRouter
 			$result = implode('/', $parts);
 			$tmp	= ($result != "") ? '/'.$result : '';
 		}
-
+	
 		/*
 		 * Build the application route
 		 */
@@ -309,7 +309,7 @@ class JRouterSite extends JRouter
 		}
 
 		$route .= '/'.$tmp;
-
+		
 		// Unset unneeded query information
 		unset($query['Itemid']);
 		unset($query['option']);
