@@ -60,7 +60,7 @@ class plgAuthenticationGMail extends JPlugin
 		{
 			if(strlen($credentials['username']) && strlen($credentials['password']))
 			{
-				$curl = curl_init('https://mail.google.com/gmail/feed/atom');
+				$curl = curl_init('https://mail.google.com/mail/feed/atom');
 				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 				//curl_setopt($curl, CURLOPT_HEADER, 1);
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);

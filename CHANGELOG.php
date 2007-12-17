@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Dec-2007 Sam Moffatt
+ # Fixed GMail Authentication plugin
+
 17-Dec-2007 Anthony Ferrara
  # Fixed [#8633] Image path issue in Section description - slash missing
  # Fixed issues with SplitMenu not respecting END parameter 
