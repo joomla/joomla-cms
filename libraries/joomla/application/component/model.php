@@ -112,7 +112,11 @@ class JModel extends JObject
 		if (!class_exists( $modelClass ))
 		{
 			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JModel::addIncludePath(), strtolower($type).'.php'))
+			$path = JPath::find(
+				JModel::addIncludePath(), 
+				JModel::_createFileName( 'model', array( 'name' => $type)) 
+			);
+			if ($path)
 			{
 				require_once $path;
 
@@ -342,7 +346,7 @@ class JModel extends JObject
 
 		switch($type)
 		{
-			case 'table' :
+			case 'model':
 				$filename = strtolower($parts['name']).'.php';
 				break;
 

@@ -717,10 +717,7 @@ class JController extends JObject
 				}
 
 				$filename = strtolower($parts['name']).DS.'view'.$parts['type'].'.php';
-				break;
-			case 'model':
-				 $filename = strtolower($parts['name']).'.php';
-				break;
+			break;
 		}
 		return $filename;
 	}
