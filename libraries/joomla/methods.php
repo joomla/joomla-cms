@@ -43,8 +43,7 @@ class JRoute
 		$router = &$app->getRouter();
 	
 		// Make sure that we have our router
-		if (! $router) 
-		{	
+		if (! $router) {	
 			return null;
 		}
 		
@@ -73,8 +72,8 @@ class JRoute
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
 		$ssl	= (int) $ssl;
-		if ( $ssl ) {
-
+		if ( $ssl ) 
+		{
 			$uri	         =& JURI::getInstance();
 			
 			// Get additional parts
