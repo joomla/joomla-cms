@@ -44,6 +44,9 @@ Legend:
  ^ Updated 31 new language packages (installer)
  ^ Removed ar-EG, de-DE, ko-KR, pt-BR, sk-SK, tr-TR not delivered in time for RC4
 
+18-Dec-2007 Anthony Ferrara
+ # Fixed front end media manager issue with invalid links.
+
 18-Dec-2007 Sam Moffatt
  # Fixed GMail Authentication plugin
 
