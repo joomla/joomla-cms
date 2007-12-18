@@ -37,12 +37,16 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Dec-2007 Wilco Jansen
+ ^ Updated 31 new language packages (installer)
+ ^ Removed ar-EG, de-DE, ko-KR, pt-BR, sk-SK, tr-TR not delivered in time for RC4
+
 18-Dec-2007 Sam Moffatt
  # Fixed GMail Authentication plugin
 
 17-Dec-2007 Anthony Ferrara
  # Fixed [#8633] Image path issue in Section description - slash missing
- # Fixed issues with SplitMenu not respecting END parameter 
+ # Fixed issues with SplitMenu not respecting END parameter
 
 16-Dec-2007 Mati Kochen
  ^ Fixed RTL Issues in Admin/Khepri - WIP
@@ -50,7 +54,7 @@ Legend:
  ^ Fixed RTL Issues in Front/Rhuk - WIP
  ^ Removed Reverse call for Menu creation
  ^ Removed Reverse call for Nav creation
- 
+
 16-Dec-2007 Toby Patterson
  # Fixed typo in joomla_backward.sql that prevented sef plugin from loading.
 

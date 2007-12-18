@@ -17,7 +17,7 @@
 		<locale>da_DK.UTF-8, da_DK.utf8, da_DK, danish, dansk</locale>
 		<wincodepage>iso-8859-1</wincodepage>
 		<backwardlang>danish</backwardlang>
-		<pdffontname>vera</pdffontname>
+		<pdffontname>freesans</pdffontname>
 	</metadata>
 	<params></params>
 </metafile>

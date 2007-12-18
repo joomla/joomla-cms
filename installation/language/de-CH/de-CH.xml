@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile version="1.5" client="installation">
 	<name>German(CH)</name>
-	<version>3.01.07</version>
+	<version>3.01.09</version>
 	<creationDate>Nov 2006</creationDate>
 	<author>Karin Nikolaj, Jan E. Zassenhaus</author>
-	<authorEmail>info@joomla.ch</authorEmail>
+	<authorEmail>stt@joomlaportal.ch</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>

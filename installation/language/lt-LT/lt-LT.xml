@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5" client="installation" >
+	<name>Lithuanian</name>
+	<version>1.5.0</version>
+	<creationDate>Mar 2007</creationDate>
+	<author>Stasys Švabas, Antanas Vipartas, Andrius Juškėnas, Eglė Petniuniene</author>
+	<authorEmail>stasyss@gmail.com</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Lithuanian language file for web installer</description>
+	<metadata>
+		<name>Lithuanian</name>
+		<tag>lt-LT</tag>
+		<rtl>0</rtl>
+		<locale>lt_LT.utf8, lt_LT.UTF-8, lt_LT</locale>
+		<winCodePage>utf-8</winCodePage>
+		<backwardLang>english</backwardLang>
+	</metadata>
+	<params />
+</metafile>

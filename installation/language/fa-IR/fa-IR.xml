@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: en-GB.xml 8041 2007-07-18 10:25:00Z humvee $ -->
+<metafile version="1.5" client="installation" >
+	<name>Farsi(فارسي)</name>
+	<version>1.5.0</version>
+	<creationDate>Nov 2007</creationDate>
+	<author>Joomfa Team</author>
+	<authorEmail>joomfa@gmail.com</authorEmail>
+	<authorUrl>www.joomfa.org</authorUrl>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Farsi/Persian language file for web installer</description>
+	<metadata>
+		<name>Farsi(فارسي)</name>
+		<tag>fa-IR</tag>
+		<rtl>1</rtl>
+		<locale>fa_IR.utf8, fa, farsi, parsi, pars, persian, per, pe, iran, fars, fa-IR, farsi-IR,persian_IR, per_IR, joomfa, joomfa_IR</locale>
+		<winCodePage>utf-8</winCodePage>
+		<backwardLang>farsi</backwardLang>
+	</metadata>
+	<params />
+</metafile>

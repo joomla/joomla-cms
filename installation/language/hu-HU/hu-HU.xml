@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: hu-HU.xml 8041 2007-07-18 10:25:00Z localicer $ -->
+<metafile version="1.5" client="installation" >
+    <name>Hungarian (formal)</name>
+    <version>1.5.0</version>
+    <creationDate>2007-12-13</creationDate>
+    <author>Magyar Joomla Felhasznalok Nemzetkozi Egyesulete</author>
+    <authorEmail>info@joomla.org.hu</authorEmail>
+    <authorUrl>www.joomla.org.hu</authorUrl>
+    <copyright>Copyright (C) 2007 Magyar Joomla Felhasznalok Nemzetkozi Egyesulete. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>A webes telepítő magyar nyelvi fájlja</description>
+    <metadata>
+    	<name>Hungarian (Magyar)</name>
+    	<tag>hu-HU</tag>
+    	<rtl>0</rtl>
+    	<locale>hu_HU.UTF8, hu_HUN.UTF8, hu_HU, hun_HU, hu, hungarian</locale>
+    	<winCodePage>iso-8859-2</winCodePage>
+    	<backwardLang>hungarian</backwardLang>
+    </metadata>
+    <params />
+</metafile>

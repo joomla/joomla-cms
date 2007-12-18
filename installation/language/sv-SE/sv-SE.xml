@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile version="1.5" client="installation">
-    <name>Svenska (Sweden)</name>
+    <name>Svenska (Sverige)</name>
     <version>1.5.0</version>
-    <creationDate>September 23, 2007</creationDate>
+    <creationDate>December 2007</creationDate>
     <author>SvenskJoomla! - Sune Hultman and Christer Gerhardsson</author>
     <authorEmail>info@svenskjoomla.se</authorEmail>
     <authorUrl>www.svenskjoomla.se</authorUrl>
@@ -10,7 +10,7 @@
   	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>Swedish language file for web installer</description>
     <metadata>
-    	<name>Svenska (Sweden)</name>
+    	<name>Svenska (Sverige)</name>
     	<tag>sv-SE</tag>
     	<rtl>0</rtl>
     	<locale>sv_SE.UTF-8, sv_SE.utf8, sv_FI.UTF-8@euro, sv_FI.utf8@euro, sv_FI.utf8, sv_FI.UTF-8, sv_SE, sv_SE.ISO8859-1, sv_SE.ISO8859-15, sv_SE.iso88591, sv_SE.iso885915, swedish, sv_FI, sv_FI@euro, sv_FI.iso88591, sv_FI.iso885915@euro, swedish_finland</locale>

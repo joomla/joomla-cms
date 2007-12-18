@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: pt-PT.xml SVN 8634 2007-09-30 10:00:00Z www.joomlapt.com  horus_68 $ -->
+<!-- $Id: pt-PT.xml SVN 9629 2007-12-14 10:00:00Z www.joomlapt.com  horus_68 $ -->
 <metafile version="1.5" client="installation" >
 	<name>Português(pt-PT)</name>
 	<version>1.5.0</version>
 	<creationDate>2007-09-30</creationDate>
 	<author>Comunidade Joomlapt.com</author>
 	<authorEmail>admin@joomlapt.com</authorEmail>
-	<authorUrl>www.joomla.org</authorUrl>
+	<authorUrl>www.joomlapt.com</authorUrl>
 	<copyright>(C) 2005 Open Source Matters. Todos os direitos reservados.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>Pacote de idioma Português (Portugal) para o instalador web do Joomla</description>
@@ -17,7 +17,6 @@
 		<locale>pt_PT.utf8, pt_PT.UTF-8, pt_PT.UTF-8@euro, Portuguese_Standard, Portuguese, pt_PT,</locale>
 		<winCodePage>iso-8859-1</winCodePage>
 		<backwardLang>portuguese</backwardLang>
-		<pdfFontName>vera</pdfFontName>
 	</metadata>
 	<params />
 </metafile>
