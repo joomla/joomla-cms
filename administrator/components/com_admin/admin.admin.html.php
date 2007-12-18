@@ -190,7 +190,7 @@ class HTML_admin_misc
 							|
 							<?php echo JHTML::_('link', 'index.php?option=com_admin&amp;task=changelog&amp;tmpl=component', JText::_( 'Changelog' ), array('target' => 'helpFrame')) ?>
 							|
-							<?php echo JHTML::_('link', 'http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => 'helpFrame')) ?>
+							<?php echo JHTML::_('link', 'http://www.joomla.org/content/blogcategory/57/111/', JText::_( 'Latest Version Check' ), array('target' => 'helpFrame')) ?>
 						</td>
 					</tr>
 				</table>

@@ -37,7 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-19-Dec-2007 Wilco Jansen
+18-Dec-2007 Chris Davenport
+ ^ Changed Latest Version Check link to point to new page
+
+18-Dec-2007 Wilco Jansen
  ^ Updated 31 new language packages (installer)
  ^ Removed ar-EG, de-DE, ko-KR, pt-BR, sk-SK, tr-TR not delivered in time for RC4
 
