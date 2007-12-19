@@ -29,7 +29,7 @@ class modLoginHelper
 			$uri = JFactory::getURI();
 			$url = $uri->toString();
 		}
-
+		
 		return base64_encode($url);
 	}
 

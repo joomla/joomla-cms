@@ -57,11 +57,6 @@ class JRoute
 			JError::raiseWarning(200, "The url '$url' should not be routed through JRoute::_() ");
 		}
 	
-		if(strstr($url, '&amp;') !== false)
-		{
-    		$url = str_replace('&amp;','&',$url);
-		}
-
 		// Build route
 		$uri = &$router->build($url);
 		$url = $uri->toString(array('path', 'query', 'fragment'));
