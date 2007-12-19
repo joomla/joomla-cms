@@ -1,4 +1,4 @@
-<?php
+ll <?php
 /**
 * @version		$Id$
 * @package		Joomla
@@ -36,6 +36,12 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+-------------------- 1.5.0 Release Candidate 4 Released [19-December-2007] ---------------------
+
+19-Dec-2007 Wilco Jansen
+ + Added sk-SK language pack
+ ^ Changed RC4 version information
 
 18-Dec-2007 Chris Davenport
  ^ Changed Latest Version Check link to point to new page

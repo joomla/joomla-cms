@@ -24,7 +24,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /*
  * Installation check, and check on removal of the install directory.
  */
-if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10) /*|| file_exists( JPATH_INSTALLATION . DS . 'index.php' )*/) {
+if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10) || file_exists( JPATH_INSTALLATION . DS . 'index.php' )) {
 	if( file_exists( JPATH_INSTALLATION . DS . 'index.php' ) ) {
 		header( 'Location: installation/index.php' );
 		exit();
@@ -39,7 +39,7 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
  */
 
 // System includes
-require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php'); 
+require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php');
 
 // Pre-Load configuration
 require_once( JPATH_CONFIGURATION	.DS.'configuration.php' );
@@ -72,11 +72,11 @@ if (JDEBUG) {
 }
 
 // Joomla! library imports;
-jimport( 'joomla.application.menu' ); 		
+jimport( 'joomla.application.menu' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
-jimport( 'joomla.html.html' );		  		 		
-jimport( 'joomla.utilities.utility' );						
+jimport( 'joomla.html.html' );
+jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.event.event');
 jimport( 'joomla.event.dispatcher');
 jimport( 'joomla.language.language');
