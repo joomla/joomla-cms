@@ -45,7 +45,7 @@ class WeblinksHelperRoute
 	{
 		$component =& JComponentHelper::getComponent('com_weblinks');
 
-		$menus	=& JSite::getMenu();
+		$menus	= &JApplication::getMenu('site', array());
 		$items	= $menus->getItems('componentid', $component->id);
 		$match = null;
 		foreach($needles as $needle => $id)

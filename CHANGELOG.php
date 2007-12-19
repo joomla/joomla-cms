@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Dec-2007 Ian MacLennan
+ # Fixed topic 244449 XMLRPC Search plugin doesn't work with weblinks search plugin published
+
 -------------------- 1.5.0 Release Candidate 4 Released [19-December-2007] ---------------------
 
 19-Dec-2007 Wilco Jansen
