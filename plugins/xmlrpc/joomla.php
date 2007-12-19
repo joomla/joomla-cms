@@ -19,7 +19,6 @@ jimport('joomla.plugin.plugin');
 /**
  * Joomla! Base XML-RPC Plugin
  *
- * @author Louis Landry <louis.landry@joomla.org>
  * @package XML-RPC
  * @since 1.5
  */
@@ -37,7 +36,8 @@ class plgXMLRPCJoomla extends JPlugin
 	 * @param object $params  The object that holds the plugin parameters
 	 * @since 1.5
 	 */
-	function plgXMLRPCJoomla(& $subject, $config) {
+	function plgXMLRPCJoomla(& $subject, $config)
+	{
 		parent::__construct($subject, $config);
 	}
 
@@ -109,5 +109,3 @@ class plgXMLRPCJoomlaServices
 		return $results;
 	}
 }
-
-?>
