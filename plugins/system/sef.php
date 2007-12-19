@@ -72,12 +72,12 @@ class plgSystemSef extends JPlugin
      * @return string
      */
    	 function route( &$matches )
-     { 
+     {
 		$original       = $matches[0];
        	$url            = $matches[1];
-		
+
 		$url = str_replace('&amp;','&',$url);
-	
+
        	$route          = JRoute::_('index.php?'.$url);
       	return 'href="'.$route;
       }

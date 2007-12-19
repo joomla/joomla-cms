@@ -81,7 +81,7 @@ class  plgSystemLegacy extends JPlugin
 		// Register class for the database, depends on which db type has been selected for use
 		$dbtype	= $config->getValue('config.dbtype', 'mysql');
 		JLoader::register('database'        , dirname(__FILE__).DS.'legacy'.DS.$dbtype.'.php');
-		
+
 		/**
 		 * Legacy define, _ISO define not used anymore. All output is forced as utf-8.
 		 * @deprecated	As of version 1.5
