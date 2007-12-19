@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @subpackage	JFramework
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @subpackage	JFramework
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
@@ -37,7 +37,8 @@ class plgUserExample extends JPlugin {
 	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since 1.5
 	 */
-	function plgUserExample(& $subject, $config) {
+	function plgUserExample(& $subject, $config)
+	{
 		parent::__construct($subject, $config);
 	}
 
@@ -52,7 +53,6 @@ class plgUserExample extends JPlugin {
 	function onBeforeStoreUser($user, $isnew)
 	{
 		global $mainframe;
-
 	}
 
 	/**
@@ -69,10 +69,8 @@ class plgUserExample extends JPlugin {
 	{
 		global $mainframe;
 
-		/*
-	 	 * convert the user parameters passed to the event to a format the
-	 	 * external appliction
-	 	 */
+		// convert the user parameters passed to the event
+		// to a format the external application
 
 		$args = array();
 		$args['username']	= $user['username'];
@@ -80,10 +78,13 @@ class plgUserExample extends JPlugin {
 		$args['fullname']	= $user['name'];
 		$args['password']	= $user['password'];
 
-		if($isnew) {
+		if ($isnew)
+		{
 			// Call a function in the external app to create the user
 			// ThirdPartyApp::createUser($user['id'], $args);
-		} else {
+		}
+		else
+		{
 			// Call a function in the external app to update the user
 			// ThirdPartyApp::updateUser($user['id'], $args);
 		}
@@ -99,7 +100,6 @@ class plgUserExample extends JPlugin {
 	function onBeforeDeleteUser($user)
 	{
 		global $mainframe;
-
 	}
 
 	/**
@@ -115,13 +115,10 @@ class plgUserExample extends JPlugin {
 	{
 		global $mainframe;
 
-		/*
-	 	 * only the $user['id'] exists and carries valid information
-	 	 */
+	 	// only the $user['id'] exists and carries valid information
 
 		// Call a function in the external app to delete the user
 		// ThirdPartyApp::deleteUser($user['id']);
-
 	}
 
 	/**
@@ -138,18 +135,16 @@ class plgUserExample extends JPlugin {
 		// Initialize variables
 		$success = false;
 
-		/*
-		 * Here you would do whatever you need for a login routine with the credentials
-		 *
-		 * Remember, this is not the authentication routine as that is done separately.
-		 * The most common use of this routine would be logging the user into a third party
-		 * application.
-		 *
-		 * In this example the boolean variable $success would be set to true
-		 * if the login routine succeeds
-		 */
+		// Here you would do whatever you need for a login routine with the credentials
+		//
+		// Remember, this is not the authentication routine as that is done separately.
+		// The most common use of this routine would be logging the user into a third party
+		// application.
+		//
+		// In this example the boolean variable $success would be set to true
+		// if the login routine succeeds
 
-		 //ThirdPartyApp::loginUser($user['username'], $user['password']);
+		// ThirdPartyApp::loginUser($user['username'], $user['password']);
 
 		return $success;
 	}
@@ -167,17 +162,13 @@ class plgUserExample extends JPlugin {
 		// Initialize variables
 		$success = false;
 
-		/*
-		 * Here you would do whatever you need for a logout routine with the credentials
-		 *
-		 * In this example the boolean variable $success would be set to true
-		 * if the logout routine succeeds
-		 */
+		// Here you would do whatever you need for a logout routine with the credentials
+		//
+		// In this example the boolean variable $success would be set to true
+		// if the logout routine succeeds
 
-			//ThirdPartyApp::loginUser($user['username'], $user['password']);
+		// ThirdPartyApp::loginUser($user['username'], $user['password']);
 
 		return $success;
 	}
 }
-
-?>
