@@ -1,15 +1,15 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -22,7 +22,8 @@ JPlugin::loadLanguage( 'plg_search_newsfeeds' );
 /**
  * @return array An array of search areas
  */
-function &plgSearchNewsfeedAreas() {
+function &plgSearchNewsfeedAreas()
+{
 	static $areas = array(
 		'newsfeeds' => 'Newsfeeds'
 	);
@@ -120,11 +121,10 @@ function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	;
 	$db->setQuery( $query, 0, $limit );
 	$rows = $db->loadObjectList();
-	
+
 	foreach($rows as $key => $row) {
 		$rows[$key]->href = 'index.php?option=com_newsfeeds&view=newsfeed&catid='.$row->catslug.'&id='.$row->slug;
 	}
 
 	return $rows;
 }
-?>

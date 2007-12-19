@@ -1,15 +1,15 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -45,7 +45,7 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	$user	=& JFactory::getUser();
 
 	require_once(JPATH_SITE.DS.'components'.DS.'com_weblinks'.DS.'helpers'.DS.'route.php');
-	
+
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( plgSearchWeblinksAreas() ) )) {
 			return array();
@@ -65,7 +65,7 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	$section 	= JText::_( 'Web Links' );
 
 	$wheres 	= array();
-	switch ($phrase) 
+	switch ($phrase)
 	{
 		case 'exact':
 			$text = $db->getEscaped($text);
@@ -93,7 +93,7 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 			break;
 	}
 
-	switch ( $ordering ) 
+	switch ( $ordering )
 	{
 		case 'oldest':
 			$order = 'a.date ASC';
@@ -131,11 +131,10 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	;
 	$db->setQuery( $query, 0, $limit );
 	$rows = $db->loadObjectList();
-	
+
 	foreach($rows as $key => $row) {
 		$rows[$key]->href = WeblinksHelperRoute::getWeblinkRoute($row->slug, $row->catslug);
 	}
 
 	return $rows;
 }
-?>

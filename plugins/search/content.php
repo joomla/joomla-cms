@@ -1,15 +1,15 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
@@ -22,7 +22,8 @@ JPlugin::loadLanguage( 'plg_search_content' );
 /**
  * @return array An array of search areas
  */
-function &plgSearchContentAreas() {
+function &plgSearchContentAreas()
+{
 	static $areas = array(
 		'content' => 'Articles'
 	);
@@ -71,7 +72,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	if ($text == '') {
 		return array();
 	}
-	
+
 	$wheres = array();
 	switch ($phrase) {
 		case 'exact':
@@ -132,7 +133,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	$rows = array();
 
 	// search articles
-	if ( $sContent && $limit > 0 ) 
+	if ( $sContent && $limit > 0 )
 	{
 		$query = 'SELECT a.title AS title,'
 		. ' a.created AS created,'
@@ -172,7 +173,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// search uncategorised content
-	if ( $sUncategorised && $limit > 0 ) 
+	if ( $sUncategorised && $limit > 0 )
 	{
 		$query = 'SELECT id, a.title AS title, a.created AS created,'
 		. ' a.introtext AS text,'
@@ -203,7 +204,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// search archived content
-	if ( $sArchived && $limit > 0 ) 
+	if ( $sArchived && $limit > 0 )
 	{
 		$searchArchived = JText::_( 'Archived' );
 
@@ -250,7 +251,6 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 			$results = array_merge($results, (array) $row);
 		}
 	}
-	
+
 	return $results;
 }
-?>
