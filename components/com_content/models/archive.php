@@ -92,8 +92,8 @@ class ContentModelArchive extends JModel
 		$result =& parent::_getList($query, $limitstart, $limit);
 
 		$odd = 1;
-		foreach ($result as &$row) {
-			$row->odd = $odd;
+		foreach ($result as $k => $row) {
+			$result[$k]->odd = $odd;
 			$odd = 1 - $odd;
 		}
 

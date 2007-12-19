@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Dec-2007 Andrew Eddie
+ # Fixed [t,243324] PHP 4 incompatible syntax in ContentModelArchive::_getList
+ # Fixed extra <span> in Content Archive items layout
+
 19-Dec-2007 Ian MacLennan
  # Fixed Content Router swallows up layout (checks to see if it matches Itemid)
 
