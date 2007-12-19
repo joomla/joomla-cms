@@ -36,7 +36,8 @@ class plgEditorTinymce extends JPlugin
 	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since 1.5
 	 */
-	function plgEditorTinymce(& $subject, $config) {
+	function plgEditorTinymce(& $subject, $config)
+	{
 		parent::__construct($subject, $config);
 	}
 

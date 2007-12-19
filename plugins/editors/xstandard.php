@@ -23,8 +23,8 @@ jimport( 'joomla.plugin.plugin' );
  * @package Editors
  * @since 1.5
  */
-class plgEditorXstandard extends JPlugin {
-
+class plgEditorXstandard extends JPlugin
+{
 	/**
 	 * Constructor
 	 *
@@ -36,7 +36,8 @@ class plgEditorXstandard extends JPlugin {
 	 * @param 	array  $config  An array that holds the plugin configuration
 	 * @since 1.5
 	 */
-	function plgEditorXstandard(& $subject, $config) {
+	function plgEditorXstandard(& $subject, $config)
+	{
 		parent::__construct($subject, $config);
 	}
 
@@ -122,7 +123,7 @@ class plgEditorXstandard extends JPlugin {
 		$instance	=& JBrowser::getInstance();
 		$language	=& JFactory::getLanguage();
 		$db			=& JFactory::getDBO();
-		
+
 		$url = JURI::root();
 
 		$lang = substr( $language->getTag(), 0, strpos( $language->getTag(), '-' ) );
@@ -283,6 +284,4 @@ class plgEditorXstandard extends JPlugin {
 
 		return $return;
 	}
-
 }
-?>
