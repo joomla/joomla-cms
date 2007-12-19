@@ -53,7 +53,11 @@ function ContentBuildRoute(&$query)
 	if(isset($query['layout'])) 
 	{	
 		if(!empty($query['Itemid'])) {
-			unset($query['layout']);
+			$menu = &JSite::getMenu();
+			$menuItem = &$menu->getItem( $query['Itemid'] );
+			if ($query['layout'] == $menuItem->query['layout']) {
+				unset($query['layout']);
+			}
 		}
 	};
 	
