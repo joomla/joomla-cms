@@ -41,6 +41,7 @@ Legend:
  ^ [topic,244583] added $rows = $this->items, and replaced all instaces
  ^ [topic,244213] added limitation to the return pagination only when there is one
  ^ [topic,244895] added missing content display
+ ^ [topic,245291] refactor more links to use ContentHelperRoute
 
 20-Dec-2007 Ian MacLennan
  # Fixed Topic 245155 Category Content Filter missing default parameter values in model 

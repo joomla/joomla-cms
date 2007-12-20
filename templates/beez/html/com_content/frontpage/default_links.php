@@ -9,7 +9,7 @@ defined('_JEXEC') or die('Restricted access');
 <ul>
 	<?php foreach ($this->links as $link) : ?>
 	<li>
-		<a class="blogsection" href="<?php echo JRoute::_('index.php?view=article&id='.$link->slug); ?>">
+		<a class="blogsection" href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($link->slug, $link->catslug, $link->sectionid)); ?>">
 			<?php echo $link->title; ?>
 		</a>
 	</li>
