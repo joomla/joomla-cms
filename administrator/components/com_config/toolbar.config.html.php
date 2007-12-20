@@ -30,4 +30,3 @@ class TOOLBAR_config
 		JToolBarHelper::help( 'screen.config' );
 	}
 }
-?>

@@ -55,4 +55,3 @@ class ConfigModelComponent extends JModel
 		return $instance;
 	}
 }
-?>

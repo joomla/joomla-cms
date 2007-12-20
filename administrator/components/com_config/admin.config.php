@@ -43,4 +43,3 @@ JResponse::setHeader( 'Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true );
 // Perform the Request task
 $controller->execute( JRequest::getCmd( 'task' ) );
 $controller->redirect();
-?>

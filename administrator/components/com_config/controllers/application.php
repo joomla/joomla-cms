@@ -432,4 +432,3 @@ class ConfigControllerApplication extends ConfigController
 		}
 	}
 }
-?>

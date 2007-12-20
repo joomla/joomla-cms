@@ -26,7 +26,4 @@ jimport('joomla.application.component.controller');
  */
 class ConfigController extends JController
 {
-
 }
-
-?>
