@@ -8,6 +8,9 @@
 	JToolBarHelper::unpublishList();
 	JToolBarHelper::editListX();
 	JToolBarHelper::help( 'screen.plugins' );
+	
+	$rows =& $this->items;
+
 ?>
 
 <form action="index.php" method="post" name="adminForm">
@@ -71,7 +74,6 @@
 <tbody>
 <?php
 	$k = 0;
-	$rows =& $this->items;
 	for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 	$row 	= $rows[$i];
 
