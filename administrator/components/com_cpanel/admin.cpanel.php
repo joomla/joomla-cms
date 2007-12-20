@@ -25,4 +25,3 @@ switch (JRequest::getCmd('task'))
 		HTML_cpanel::display();
 	}	break;
 }
-?>

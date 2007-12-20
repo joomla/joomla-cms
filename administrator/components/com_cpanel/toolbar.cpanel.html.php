@@ -26,4 +26,3 @@ class TOOLBAR_cpanel
 		JToolBarHelper::help( 'screen.cpanel' );
 	}
 }
-?>

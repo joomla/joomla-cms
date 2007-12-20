@@ -23,4 +23,3 @@ switch (JRequest::getCmd('task'))
 		TOOLBAR_cpanel::_DEFAULT();
 		break;
 }
-?>
