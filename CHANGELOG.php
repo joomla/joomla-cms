@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Dec-2007 Mickael Maison
+ # [#7617] Untranslated error message during authentication
+
 20-Dec-2007 Mati Kochen
  ^ [topic,244583] added $rows = $this->items, and replaced all instaces
  ^ [topic,244213] added limitation to the return pagination only when there is one

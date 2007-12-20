@@ -210,7 +210,7 @@ class JSite extends JApplication
 				$url .= '&return='.base64_encode($return);;
 
 				//$url	= JRoute::_($url, false);
-				$this->redirect($url, "You must login first");
+				$this->redirect($url, JText::_('You must login first') );
 			}
 			else
 			{
