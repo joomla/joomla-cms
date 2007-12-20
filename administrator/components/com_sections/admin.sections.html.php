@@ -432,6 +432,4 @@ class sections_html
 		</form>
 		<?php
 	}
-
 }
-?>

@@ -16,7 +16,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- *
+ * @package		Joomla
+ * @subpackage	Templates
  */
 class TemplatesHelper
 {
@@ -117,4 +118,3 @@ class TemplatesHelper
 		return $result;
 	}
 }
-?>

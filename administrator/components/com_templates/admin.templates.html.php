@@ -619,4 +619,3 @@ class TemplatesView
 		<?php
 	}
 }
-?>

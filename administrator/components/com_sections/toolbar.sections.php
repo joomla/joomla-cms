@@ -36,4 +36,3 @@ switch ( $task )
 		TOOLBAR_sections::_DEFAULT();
 		break;
 }
-?>

@@ -64,4 +64,3 @@ class TOOLBAR_sections {
 		JToolBarHelper::help( 'screen.sections' );
 	}
 }
-?>

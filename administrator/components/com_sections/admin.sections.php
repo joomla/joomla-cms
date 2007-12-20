@@ -738,4 +738,3 @@ function saveOrder( &$cid )
 	$msg 	= JText::_( 'New ordering saved' );
 	$mainframe->redirect( 'index.php?option=com_sections&scope=content', $msg );
 }
-?>

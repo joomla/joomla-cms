@@ -46,4 +46,3 @@ switch ($task)
 		TOOLBAR_templates::_DEFAULT($client);
 		break;
 }
-?>

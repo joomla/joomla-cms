@@ -99,5 +99,3 @@ switch ($task)
 		TemplatesController::viewTemplates();
 		break;
 }
-
-?>

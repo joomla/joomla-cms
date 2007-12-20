@@ -89,7 +89,7 @@ class TemplatesController
 	function publishTemplate()
 	{
 		global $mainframe;
-		
+
 		// Check for request forgeries.
 		$token = JUtility::getToken();
 		if (!JRequest::getInt($token, 0, 'post')) {
@@ -186,7 +186,7 @@ class TemplatesController
 	function saveTemplate()
 	{
 		global $mainframe;
-		
+
 		// Check for request forgeries.
 		$token = JUtility::getToken();
 		if (!JRequest::getInt($token, 0, 'post')) {
@@ -325,7 +325,7 @@ class TemplatesController
 	function saveTemplateSource()
 	{
 		global $mainframe;
-		
+
 		// Check for request forgeries.
 		$token = JUtility::getToken();
 		if (!JRequest::getInt($token, 0, 'post')) {
@@ -449,7 +449,7 @@ class TemplatesController
 	function saveTemplateCSS()
 	{
 		global $mainframe;
-		
+
 		// Check for request forgeries.
 		$token = JUtility::getToken();
 		if (!JRequest::getInt($token, 0, 'post')) {
@@ -511,4 +511,3 @@ class TemplatesController
 		}
 	}
 }
-?>

@@ -75,4 +75,3 @@ class TOOLBAR_templates
 		JToolBarHelper::help( 'screen.templates' );
 	}
 }
-?>
