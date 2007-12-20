@@ -22,7 +22,6 @@ jimport('joomla.utilities.simplexml');
  * mod_mainmenu Helper class
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Menus
  * @since		1.5
@@ -165,7 +164,6 @@ class modMainMenuHelper
 /**
  * Main Menu Tree Class.
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Menus
  * @since		1.5
@@ -355,7 +353,6 @@ class JMenuTree extends JTree
 /**
  * Main Menu Tree Node Class.
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Menus
  * @since		1.5

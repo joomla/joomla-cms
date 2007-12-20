@@ -6,8 +6,7 @@ defined('_JEXEC') or die('Restricted access');
 <h4>
 	<?php if ($params->get('link_titles') && $linkOn != '') : ?>
 	<a href="<?php echo JRoute::_($linkOn); ?>" class="contentpagetitle<?php echo $params->get('moduleclass_sfx'); ?>">
-		<?php echo $item->title; ?>
-	</a>
+		<?php echo $item->title; ?></a>
 	<?php else :
 		echo $item->title;
 	endif; ?>
@@ -22,7 +21,6 @@ endif; ?>
 echo JFilterOutput::ampReplace($item->text);
 if (isset($item->linkOn) && $item->readmore) : ?>
 <a href="<?php $item->linkOn; ?>" class="readon">
-	<?php echo JText::_('Read more'); ?>
-</a>
+	<?php echo JText::_('Read more'); ?></a>
 <?php endif; ?>
 <span class="article_separator">&nbsp;</span>

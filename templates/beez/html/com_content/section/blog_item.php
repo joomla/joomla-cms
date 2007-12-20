@@ -12,8 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 <h2 class="contentheading<?php echo $this->item->params->get('pageclass_sfx'); ?>">
 	<?php if ($this->item->params->get('link_titles') && $this->item->readmore_link != '') : ?>
 		<a href="<?php echo $this->item->readmore_link; ?>" class="contentpagetitle<?php echo $this->item->params->get('pageclass_sfx'); ?>">
-			<?php echo $this->escape($this->item->title); ?>
-		</a>
+			<?php echo $this->escape($this->item->title); ?></a>
 	<?php else :
 		echo $this->escape($this->item->title);
 	endif; ?>
@@ -96,8 +95,7 @@ endif; ?>
 <?php if ($this->item->params->get('show_url') && $this->item->urls) : ?>
 <span class="small">
 	<a href="<?php echo $this->item->urls; ?>" target="_blank">
-		<?php echo $this->item->urls; ?>
-	</a>
+		<?php echo $this->item->urls; ?></a>
 </span>
 <?php endif; ?>
 
@@ -116,8 +114,7 @@ endif; ?>
 			echo $readmore;
 		else :
 			echo JText::sprintf('Read more', $this->item->title);
-		endif; ?>
-	</a>
+		endif; ?></a>
 </p>
 <?php endif; ?>
 

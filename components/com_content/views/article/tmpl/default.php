@@ -13,8 +13,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td class="contentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="100%">
 		<?php if ($this->params->get('link_titles') && $this->article->readmore_link != '') : ?>
 		<a href="<?php echo $this->article->readmore_link; ?>" class="contentpagetitle<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $this->escape($this->article->title); ?>
-		</a>
+			<?php echo $this->escape($this->article->title); ?></a>
 		<?php else : ?>
 			<?php echo $this->escape($this->article->title); ?>
 		<?php endif; ?>

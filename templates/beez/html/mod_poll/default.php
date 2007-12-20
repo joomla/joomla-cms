@@ -1,6 +1,6 @@
 <?php
 // @version $Id$
-defined('_JEXEC') or die('Restricted access'); 
+defined('_JEXEC') or die('Restricted access');
 ?>
 
 <h4><?php echo $poll->title; ?></h4>
@@ -17,8 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 
 	<input type="submit" name="task_button" class="button" value="<?php echo JText::_('Vote'); ?>" />
 	<a href="<?php echo JRoute::_('index.php?option=com_poll&id='.$poll->slug.$itemid.'#content'); ?>">
-		<?php echo JText::_('Results'); ?>
-	</a>
+		<?php echo JText::_('Results'); ?></a>
 
 	<input type="hidden" name="option" value="com_poll" />
 	<input type="hidden" name="id" value="<?php echo $poll->id; ?>" />

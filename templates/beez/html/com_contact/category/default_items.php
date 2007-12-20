@@ -16,8 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 	<td height="20" class="sectiontableentry" headers="Name">
 		<a href="<?php echo $item->link; ?>" class="category<?php echo $this->params->get('pageclass_sfx'); ?>">
-			<?php echo $item->name; ?>
-		</a>
+			<?php echo $item->name; ?></a>
 	</td>
 
 	<?php if ($this->params->get('show_email')) : ?>

@@ -29,8 +29,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' ))
 			<div class="icon">
 				<a href="<?php echo $link; ?>">
 					<?php echo JHTML::_('image.site',  $image, '/templates/'. $template .'/images/header/', NULL, NULL, $text ); ?>
-					<span><?php echo $text; ?></span>
-				</a>
+					<span><?php echo $text; ?></span></a>
 			</div>
 		</div>
 		<?php

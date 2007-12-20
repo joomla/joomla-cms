@@ -317,8 +317,7 @@ class mosHTML
 				?>
 				<td align="right" width="100%" class="buttonheading">
 				<a href="<?php echo $link; ?>" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>'); return false;" title="<?php echo JText::_( 'Print' );?>">
-				<?php echo $image;?>
-				</a>
+					<?php echo $image;?></a>
 				</td>
 				<?php
 			}

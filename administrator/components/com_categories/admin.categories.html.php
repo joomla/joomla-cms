@@ -167,8 +167,7 @@ class categories_html
 					?>
 					<td>
 						<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
-							<?php echo $row->section_name; ?>
-						</a>
+							<?php echo $row->section_name; ?></a>
 					</td>
 					<?php
 				}

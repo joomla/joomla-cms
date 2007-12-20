@@ -96,8 +96,7 @@
 				</td>
 				<td>
 					<a href="<?php echo $link; ?>">
-						<?php echo $row->name; ?>
-					</a>
+						<?php echo $row->name; ?></a>
 				</td>
 				<td>
 					<?php echo $row->username; ?>
@@ -107,16 +106,14 @@
 				</td>
 				<td align="center">
 					<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-						<img src="images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt; ?>" />
-					</a>
+						<img src="images/<?php echo $img;?>" width="16" height="16" border="0" alt="<?php echo $alt; ?>" /></a>
 				</td>
 				<td>
 					<?php echo JText::_( $row->groupname ); ?>
 				</td>
 				<td>
 					<a href="mailto:<?php echo $row->email; ?>">
-						<?php echo $row->email; ?>
-					</a>
+						<?php echo $row->email; ?></a>
 				</td>
 				<td nowrap="nowrap">
 					<?php echo $lvisit; ?>

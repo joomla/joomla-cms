@@ -133,8 +133,7 @@ class HTML_modules
 						?>
 						<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Module' );?>::<?php echo $row->title; ?>">
 						<a href="<?php echo $link; ?>">
-							<?php echo $row->title; ?>
-						</a>
+							<?php echo $row->title; ?></a>
 						</span>
 						<?php
 					}

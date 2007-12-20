@@ -3,8 +3,7 @@
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
 					<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe">
-						<img src="components/com_media/images/folder.png" width="80" height="80" border="0" />
-					</a>
+						<img src="components/com_media/images/folder.png" width="80" height="80" border="0" /></a>
 				</div>
 			</div>
 			<div class="controls">

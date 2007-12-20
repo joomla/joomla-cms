@@ -120,8 +120,7 @@ class modFeedHelper
 					if ( !is_null( $currItem->get_link() ) ) {
 					?>
 						<a href="<?php echo $currItem->get_link(); ?>" target="_child">
-						<?php echo $currItem->get_title(); ?>
-						</a>
+						<?php echo $currItem->get_title(); ?></a>
 					<?php
 					}
 

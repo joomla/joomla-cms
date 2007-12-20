@@ -98,8 +98,7 @@ class MediaViewMedia extends JView
 		$title = JText::_('Delete');
 		$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"toolbar\">
 					<span class=\"icon-32-delete\" title=\"$title\" type=\"Custom\"></span>
-					$title
-				</a>";
+					$title</a>";
 		$bar->appendButton( 'Custom', $dhtml, 'delete' );
 
 		// Add a popup configuration button

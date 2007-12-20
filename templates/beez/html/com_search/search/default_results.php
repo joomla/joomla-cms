@@ -24,8 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 			<?php if ($result->href) : ?>
 			<h4>
 				<a href="<?php echo JRoute :: _($result->href) ?>" <?php echo ($result->browsernav == 1) ? 'target="_blank"' : ''; ?> >
-					<?php echo $this->escape($result->title); ?>
-				</a>
+					<?php echo $this->escape($result->title); ?></a>
 			</h4>
 			<?php endif; ?>
 			<?php if ($result->section) : ?>

@@ -10,8 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <h2 class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
 	<a href="<?php echo $this->newsfeed->channel['link']; ?>" target="_blank">
-		<?php echo str_replace('&apos;', "'", $this->newsfeed->channel['title']); ?>
-	</a>
+		<?php echo str_replace('&apos;', "'", $this->newsfeed->channel['title']); ?></a>
 </h2>
 
 <?php if ( $this->params->get( 'show_feed_description' ) )  : ?>
@@ -30,8 +29,7 @@ defined('_JEXEC') or die('Restricted access');
 	<li>
 		<?php if ( !is_null( $item->get_link() ) ) : ?>
 		<a href="<?php echo $item->get_link(); ?>" target="_blank">
-			<?php echo $item->get_title(); ?>
-		</a>
+			<?php echo $item->get_title(); ?></a>
 		<?php endif; ?>
 		<?php if ( $this->params->get( 'show_item_description' ) && $item->get_description() ) : ?>
 		<br />

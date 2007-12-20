@@ -27,8 +27,7 @@ defined('_JEXEC') or die('Restricted access');
 <h2 class="contentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
 	<?php if ($this->params->get('link_titles') && $this->article->readmore_link != '') : ?>
 	<a href="<?php echo $this->article->readmore_link; ?>" class="contentpagetitle<?php echo $this->params->get('pageclass_sfx'); ?>">
-		<?php echo $this->article->title; ?>
-	</a>
+		<?php echo $this->article->title; ?></a>
 	<?php else :
 		echo $this->escape($this->article->title);
 	endif; ?>
@@ -91,8 +90,7 @@ endif; ?>
 <?php if ($this->params->get('show_url') && $this->article->urls) : ?>
 <span class="small">
 	<a href="<?php echo $this->article->urls; ?>" target="_blank">
-		<?php echo $this->article->urls; ?>
-	</a>
+		<?php echo $this->article->urls; ?></a>
 </span>
 <?php endif; ?>
 

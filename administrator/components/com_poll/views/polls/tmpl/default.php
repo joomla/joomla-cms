@@ -89,8 +89,7 @@
 				?>
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Poll' );?>::<?php echo $row->title; ?>">
 				<a href="<?php echo $link  ?>">
-					<?php echo $row->title; ?></span>
-				</a>
+					<?php echo $row->title; ?></a></span>
 				<?php
 			}
 			?>

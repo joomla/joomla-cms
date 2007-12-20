@@ -256,29 +256,29 @@ class HTML_trash
 
 		<table class="adminform">
 		<tr>
-			<td width="3%"></td>
+			<td width="3%">
+			</td>
 			<td  valign="top" width="20%">
-			<strong><?php echo JText::_( 'Number of Items' ); ?>:</strong>
-			<br />
-			<font color="#000066"><strong><?php echo count( $cid ); ?></strong></font>
-			<br /><br />
+				<strong><?php echo JText::_( 'Number of Items' ); ?>:</strong>
+				<br />
+				<font color="#000066"><strong><?php echo count( $cid ); ?></strong></font>
+				<br /><br />
 			</td>
 			<td  valign="top" width="25%">
-			<strong><?php echo JText::_( 'Items being Deleted' ); ?>:</strong>
-			<br />
-			<?php
-			echo "<ol>";
-			foreach ( $items as $item ) {
-				echo "<li>". $item->name ."</li>";
-			}
-			echo "</ol>";
-			?>
-			</td>
-			 <td valign="top"><?php echo JText::_( 'PERMDELETETHESEITEMS' ); ?>
-			<br /><br /><br />
-			<a class="icon-32-delete" style="border: 1px dotted gray; width: 70px; padding: 10px; margin-left: 50px; background-repeat: no-repeat; padding-left: 40px; "  href="javascript:void submitbutton('delete')">
-			&nbsp;<?php echo JText::_( 'Delete' ); ?>
-			</a>
+				<strong><?php echo JText::_( 'Items being Deleted' ); ?>:</strong>
+				<br />
+				<?php
+				echo "<ol>";
+				foreach ( $items as $item ) {
+					echo "<li>". $item->name ."</li>";
+				}
+				echo "</ol>";
+				?>
+				</td>
+				 <td valign="top"><?php echo JText::_( 'PERMDELETETHESEITEMS' ); ?>
+				<br /><br /><br />
+				<a class="icon-32-delete" style="border: 1px dotted gray; width: 70px; padding: 10px; margin-left: 50px; background-repeat: no-repeat; padding-left: 40px; "  href="javascript:void submitbutton('delete')">
+				&nbsp;<?php echo JText::_( 'Delete' ); ?></a>
 			</td>
 		</tr>
 		<tr>
@@ -315,30 +315,29 @@ class HTML_trash
 		<tr>
 			<td width="3%"></td>
 			<td  valign="top" width="20%">
-			<strong><?php echo JText::_( 'Number of Items' ); ?>:</strong>
-			<br />
-			<font color="#000066"><strong><?php echo count( $cid ); ?></strong></font>
-			<br /><br />
+				<strong><?php echo JText::_( 'Number of Items' ); ?>:</strong>
+				<br />
+				<font color="#000066"><strong><?php echo count( $cid ); ?></strong></font>
+				<br /><br />
 			</td>
 			<td  valign="top" width="25%">
-			<strong><?php echo JText::_( 'Items being Restored' ); ?>:</strong>
-			<br />
-			<?php
-			echo "<ol>";
-			foreach ( $items as $item ) {
-				echo "<li>". $item->name ."</li>";
-			}
-			echo "</ol>";
-			?>
+				<strong><?php echo JText::_( 'Items being Restored' ); ?>:</strong>
+				<br />
+				<?php
+				echo "<ol>";
+				foreach ( $items as $item ) {
+					echo "<li>". $item->name ."</li>";
+				}
+				echo "</ol>";
+				?>
 			</td>
-			 <td valign="top"><?php echo JText::_( 'RESTOREITEMS' ); ?><br /><?php echo JText::_( 'TIPWILLBERETURNED' ); ?>
-			<br /><br /><br />
-			<div style="border: 1px dotted gray; width: 80px; padding: 10px; margin-left: 50px;">
-			<a class="toolbar" href="javascript:if (confirm('<?php echo JText::_( 'WARNRESTORE' ); ?>')){ submitbutton('restore');}">
-			<img name="restore" src="images/restore_f2.png" alt="<?php echo JText::_( 'Restore' ); ?>" border="0" align="middle" />
-			&nbsp;<?php echo JText::_( 'Restore' ); ?>
-			</a>
-			</div>
+			<td valign="top"><?php echo JText::_( 'RESTOREITEMS' ); ?><br /><?php echo JText::_( 'TIPWILLBERETURNED' ); ?>
+				<br /><br /><br />
+				<div style="border: 1px dotted gray; width: 80px; padding: 10px; margin-left: 50px;">
+				<a class="toolbar" href="javascript:if (confirm('<?php echo JText::_( 'WARNRESTORE' ); ?>')){ submitbutton('restore');}">
+				<img name="restore" src="images/restore_f2.png" alt="<?php echo JText::_( 'Restore' ); ?>" border="0" align="middle" />
+				&nbsp;<?php echo JText::_( 'Restore' ); ?></a>
+				</div>
 			</td>
 		</tr>
 		<tr>

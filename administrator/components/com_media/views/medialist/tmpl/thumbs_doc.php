@@ -3,8 +3,7 @@
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
 				 	<a style="display: block; width: 100%; height: 100%">
-						<img border="0" src="<?php echo $this->_tmp_doc->icon_32 ?>" alt="<?php echo $this->_tmp_doc->name; ?>" />
-					</a>
+						<img border="0" src="<?php echo $this->_tmp_doc->icon_32 ?>" alt="<?php echo $this->_tmp_doc->name; ?>" /></a>
 				</div>
 			</div>
 			<div class="controls">

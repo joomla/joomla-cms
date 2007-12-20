@@ -5,8 +5,7 @@ foreach ($list as $item) :
 ?>
 <li>
 	<a href="<?php echo JRoute::_(ContentHelperRoute::getSectionRoute($item->id)); ?>">
-		<?php echo $item->title;?>
-	</a>
+		<?php echo $item->title;?></a>
 </li>
 <?php endforeach; ?>
 </ul>

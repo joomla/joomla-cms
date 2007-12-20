@@ -77,14 +77,12 @@ document.adminForm.submit( task );
 		<td headers="tableOrdering">
 			<?php if ($item->access <= $this->user->get('aid', 0)) : ?>
 				<a href="<?php echo $item->link; ?>">
-					<?php echo $this->escape($item->title); ?>
-				</a>
+					<?php echo $this->escape($item->title); ?></a>
 				<?php echo JHTML::_('icon.edit', $item, $this->params, $this->access);
 			else :
 				echo $item->title; ?> :
 				<a href="<?php echo JRoute::_('index.php?option=com_user&task=register'); ?>">
-					<?php echo JText::_('Register to read more...'); ?>
-				</a>
+					<?php echo JText::_('Register to read more...'); ?></a>
 			<?php endif; ?>
 		</td>
 		<?php endif; ?>

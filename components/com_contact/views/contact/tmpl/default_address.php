@@ -94,8 +94,7 @@
 	</td>
 	<td>
 		<a href="<?php echo $this->contact->webpage; ?>" target="_blank">
-			<?php echo $this->contact->webpage; ?>
-		</a>
+			<?php echo $this->contact->webpage; ?></a>
 	</td>
 </tr>
 <?php endif; ?>

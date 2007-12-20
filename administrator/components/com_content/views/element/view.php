@@ -122,8 +122,7 @@ class ContentViewElement extends JView
 					</td>
 					<td>
 						<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""),$row->title); ?>');">
-							<?php echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8'); ?>
-						</a>
+							<?php echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8'); ?></a>
 					</td>
 					<td align="center">
 						<?php echo $row->groupname;?>

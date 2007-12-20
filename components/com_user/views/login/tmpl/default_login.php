@@ -42,21 +42,18 @@
 <ul>
 	<li>
 		<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=reset' ); ?>">
-		<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?>
-		</a>
+		<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a>
 	</li>
 	<li>
 		<a href="<?php echo JRoute::_( 'index.php?option=com_user&view=remind' ); ?>">
-		<?php echo JText::_('FORGOT_YOUR_USERNAME'); ?>
-		</a>
+		<?php echo JText::_('FORGOT_YOUR_USERNAME'); ?></a>
 	</li>
 	<?php
 	$usersConfig = &JComponentHelper::getParams( 'com_users' );
 	if ($usersConfig->get('allowUserRegistration')) : ?>
 	<li>
 		<a href="<?php echo JRoute::_( 'index.php?option=com_user&task=register' ); ?>">
-			<?php echo JText::_('REGISTER'); ?>
-		</a>
+			<?php echo JText::_('REGISTER'); ?></a>
 	</li>
 	<?php endif; ?>
 </ul>

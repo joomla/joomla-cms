@@ -68,8 +68,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<td colspan="2">
 	<?php echo JText::_( 'Download information as a' );?>
 		<a href="index.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $this->contact->id; ?>&amp;format=raw&amp;tmpl=component">
-		<?php echo JText::_( 'VCard' );?>
-		</a>
+			<?php echo JText::_( 'VCard' );?></a>
 	</td>
 </tr>
 <?php endif;

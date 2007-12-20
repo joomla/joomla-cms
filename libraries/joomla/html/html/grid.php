@@ -35,7 +35,7 @@ class JHTMLGrid
 		$images		= array( 'sort_asc.png', 'sort_desc.png' );
 		$index		= intval( $direction == 'desc' );
 		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
-		
+
 		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
 		$html .= JText::_( $title );
 		if ($order == $selected ) {
@@ -83,8 +83,7 @@ class JHTMLGrid
 		{
 			$href = '
 			<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task_access .'\')" '. $color_access .'>
-			'. JText::_( $row->groupname ) .'
-			</a>'
+			'. JText::_( $row->groupname ) .'</a>'
 			;
 		}
 
@@ -122,8 +121,7 @@ class JHTMLGrid
 
 		$href = '
 		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">
-		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
-		</a>'
+		<img src="images/'. $img .'" border="0" alt="'. $alt .'" /></a>'
 		;
 
 		return $href;
@@ -140,7 +138,7 @@ class JHTMLGrid
 		if ($archived) {
 			$state[] = JHTML::_('select.option',  'A', JText::_( $archived ) );
 		}
-		
+
 		if ($trashed) {
 			$state[] = JHTML::_('select.option',  'T', JText::_( $trashed ) );
 		}

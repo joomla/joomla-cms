@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 
-<?php 
+<?php
 $return = base64_encode(base64_decode($return).'#content');
 
 if ($type == 'logout') : ?>
@@ -43,21 +43,18 @@ if ($type == 'logout') : ?>
 	<input type="submit" name="Submit" class="button" value="<?php echo JText::_('BUTTON_LOGIN'); ?>" />
 	<p>
 		<a href="<?php echo JRoute::_('index.php?option=com_user&view=reset#content'); ?>">
-			<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?>
-		</a>
+			<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a>
 	</p>
 	<p>
 		<a href="<?php echo JRoute::_('index.php?option=com_user&view=remind#content'); ?>">
-			<?php echo JText::_('FORGOT_YOUR_USERNAME'); ?>
-		</a>
+			<?php echo JText::_('FORGOT_YOUR_USERNAME'); ?></a>
 	</p>
 	<?php $usersConfig =& JComponentHelper::getParams('com_users');
 	if ($usersConfig->get('allowUserRegistration')) : ?>
 	<p>
 		<?php echo JText::_('No account yet?'); ?>
 		<a href="<?php echo JRoute::_('index.php?option=com_user&task=register#content'); ?>">
-			<?php echo JText::_('Register'); ?>
-		</a>
+			<?php echo JText::_('Register'); ?></a>
 	</p>
 	<?php endif;
 	echo $params->get('posttext'); ?>

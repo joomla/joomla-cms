@@ -22,8 +22,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php foreach ( $this->categories as $category ) : ?>
 	<li>
 		<a href="<?php echo $category->link; ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $category->title;?>
-		</a>
+			<?php echo $category->title;?></a>
 		&nbsp;
 		<span class="small">
 			(<?php echo $category->numlinks;?>)

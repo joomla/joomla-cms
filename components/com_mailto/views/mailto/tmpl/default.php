@@ -23,8 +23,7 @@ $data	= $this->get('data');
 <div style="padding: 10px;">
 	<div style="text-align:right">
 		<a href="javascript: void window.close()">
-			<?php echo JText::_('CLOSE_WINDOW'); ?> <img src="<?php echo JURI::base() ?>components/com_mailto/assets/close-x.png" border="0" alt="" title="" />
-		</a>
+			<?php echo JText::_('CLOSE_WINDOW'); ?> <img src="<?php echo JURI::base() ?>components/com_mailto/assets/close-x.png" border="0" alt="" title="" /></a>
 	</div>
 
 	<div class="componentheading">

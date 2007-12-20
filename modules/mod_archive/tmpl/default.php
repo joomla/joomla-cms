@@ -4,8 +4,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php foreach ($list as $item) : ?>
 	<li>
 		<a href="<?php echo $item->link; ?>">
-			<?php echo $item->text; ?>
-		</a>
+			<?php echo $item->text; ?></a>
 	</li>
 	<?php endforeach; ?>
 </ul>

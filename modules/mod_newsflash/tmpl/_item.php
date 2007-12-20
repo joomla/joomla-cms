@@ -6,8 +6,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td class="contentheading<?php echo $params->get( 'moduleclass_sfx' ); ?>" width="100%">
 	<?php if ($params->get('link_titles') && $item->linkOn != '') : ?>
 		<a href="<?php echo $item->linkOn;?>" class="contentpagetitle<?php echo $params->get( 'moduleclass_sfx' ); ?>">
-			<?php echo $item->title;?>
-		</a>
+			<?php echo $item->title;?></a>
 	<?php else : ?>
 		<?php echo $item->title; ?>
 	<?php endif; ?>

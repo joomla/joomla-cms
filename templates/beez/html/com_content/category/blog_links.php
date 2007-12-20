@@ -10,8 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 	<?php foreach ($this->links as $link) : ?>
 	<li>
 		<a class="blogsection" href="<?php echo JRoute::_('index.php?view=article&id='.$link->slug); ?>">
-			<?php echo $link->title; ?>
-		</a>
+			<?php echo $link->title; ?></a>
 	</li>
 	<?php endforeach; ?>
 </ul>

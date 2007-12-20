@@ -8,7 +8,7 @@
 	JToolBarHelper::unpublishList();
 	JToolBarHelper::editListX();
 	JToolBarHelper::help( 'screen.plugins' );
-	
+
 	$rows =& $this->items;
 
 ?>
@@ -100,8 +100,7 @@
 			?>
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Plugin' );?>::<?php echo $row->name; ?>">
 				<a href="<?php echo $link; ?>">
-					<?php echo $row->name; ?>
-				</a></span>
+					<?php echo $row->name; ?></a></span>
 			<?php } ?>
 		</td>
 		<td align="center">

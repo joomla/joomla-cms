@@ -2,8 +2,7 @@
 		<tr>
 			<td>
 				<a>
-					<img src="<?php echo $this->_tmp_doc->icon_16; ?>" width="16" height="16" border="0" alt="<?php echo $this->_tmp_doc->name; ?>" />
-				</a>
+					<img src="<?php echo $this->_tmp_doc->icon_16; ?>" width="16" height="16" border="0" alt="<?php echo $this->_tmp_doc->name; ?>" /></a>
 			</td>
 			<td class="description">
 				<?php echo $this->_tmp_doc->name; ?>
