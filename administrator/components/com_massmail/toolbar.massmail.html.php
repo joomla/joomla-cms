@@ -19,7 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package		Joomla
 * @subpackage	Massmail
 */
-class TOOLBAR_massmail {
+class TOOLBAR_massmail
+{
 	/**
 	* Draws the menu for a New Contact
 	*/
@@ -32,4 +33,3 @@ class TOOLBAR_massmail {
 		JToolBarHelper::help( 'screen.users.massmail' );
 	}
 }
-?>

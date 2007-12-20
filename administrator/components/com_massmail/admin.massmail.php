@@ -25,7 +25,8 @@ if (!$user->authorize( 'com_massmail', 'manage' )) {
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-switch ($task) {
+switch ($task)
+{
 	case 'send':
 		sendMail();
 		break;
@@ -58,7 +59,7 @@ function messageForm( $option )
 function sendMail()
 {
 	global $mainframe;
-	
+
 	// Check for request forgeries.
 	$token = JUtility::getToken();
 	if (!JRequest::getInt($token, 0, 'post')) {
@@ -73,7 +74,7 @@ function sendMail()
 	$subject			= JRequest::getVar( 'mm_subject', '', 'post', 'string' );
 	$gou				= JRequest::getVar( 'mm_group', '0', 'post', 'int' );
 	$recurse			= JRequest::getVar( 'mm_recurse', 'NO_RECURSE', 'post', 'word' );
-	
+
 	// pulls message inoformation either in text or html format
 	if ( $mode ) {
 		$message_body	= JRequest::getVar( 'mm_message', '', 'post', 'string', JREQUEST_ALLOWRAW );
@@ -90,7 +91,7 @@ function sendMail()
 	// get users in the group out of the acl
 	$to = $acl->get_group_objects( $gou, 'ARO', $recurse );
 	JArrayHelper::toInteger($to['users']);
-	
+
 	// Get sending email address
 	/*
 	$query = 'SELECT email'
@@ -100,14 +101,14 @@ function sendMail()
 	$db->setQuery( $query );
 	$user->set( 'email', $db->loadResult() );
 	*/
-	
+
 	// Get all users email and group except for senders
 	$query = 'SELECT email'
 	. ' FROM #__users'
 	. ' WHERE id != '.(int) $user->get('id')
 	. ( $gou !== 0 ? ' AND id IN (' . implode( ',', $to['users'] ) . ')' : '' )
 	;
-	
+
 	$db->setQuery( $query );
 	$rows = $db->loadObjectList();
 
@@ -116,10 +117,10 @@ function sendMail()
 		$msg	= JText::_('No users could be found in this group.');
 		$mainframe->redirect( 'index.php?option=com_massmail', $msg );
 	}
-	
+
 	$mailer =& JFactory::getMailer();
 	$params =& JComponentHelper::getParams( 'com_massmail' );
-	
+
 	// Build e-mail message format
 	$mailer->setSender(array($mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname')));
 	$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes( $subject));
@@ -133,15 +134,15 @@ function sendMail()
 
 	// Send the Mail
 	$rs	= $mailer->Send();
-	
+
 	// Check for an error
 	if ( JError::isError($rs) ) {
 		$msg	= $rs->getError();
 	} else {
 		$msg = $rs ? JText::sprintf( 'E-mail sent to', count( $rows ) ) : JText::_('The mail could not be sent');
 	}
-	
+
 	// Redirect with the message
 	$mainframe->redirect( 'index.php?option=com_massmail', $msg );
-	
+
 }

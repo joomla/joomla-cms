@@ -19,7 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package		Joomla
 * @subpackage	Massmail
 */
-class HTML_massmail {
+class HTML_massmail
+{
 	function messageForm( &$lists, $option ) {
 		?>
 		<script language="javascript" type="text/javascript">
@@ -124,4 +125,3 @@ class HTML_massmail {
 		<?php
 	}
 }
-?>
