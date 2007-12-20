@@ -3,8 +3,7 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights
- * reserved.
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -20,7 +19,6 @@ jimport( 'joomla.filesystem.folder' );
 /**
  * Installer Languages Model
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Installer
  * @since		1.5
@@ -183,15 +181,15 @@ class InstallerModelLanguages extends InstallerModel
 		// Get an installer object for the extension type
 		jimport('joomla.installer.installer');
 		$installer	=& JInstaller::getInstance($db, $this->_type);
-		
+
 		// Uninstall the chosen extensions
 		foreach ($eid as $id)
 		{
 			$item = $this->_items[$id];
-			
+
 			// Get client information
 			$client	=& JApplicationHelper::getClientInfo($item->client_id);
-		
+
 			// Don't delete a default ( published language )
 			$params = JComponentHelper::getParams('com_languages');
 			$tag	= basename($item->language);
@@ -200,7 +198,7 @@ class InstallerModelLanguages extends InstallerModel
 				JError::raiseWarning('', 'UNINSTALLLANGPUBLISHEDALREADY');
 				continue;
 			}
-			
+
 			$result = $installer->uninstall( 'language', $item->language );
 
 			// Build an array of extensions that failed to uninstall

@@ -20,7 +20,6 @@ jimport('joomla.application.component.view');
 /**
  * Extension Manager Modules View
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Installer
  * @since		1.5
@@ -74,4 +73,3 @@ class InstallerViewModules extends InstallerViewDefault
 		$this->assignRef('item', $item);
 	}
 }
-?>

@@ -20,7 +20,6 @@ jimport('joomla.application.component.view');
 /**
  * Extension Manager Default View
  *
- * @author		Toby Patterson <tcp@gmitc.biz>
  * @package		Joomla
  * @subpackage	Installer
  * @since		1.5
@@ -72,4 +71,3 @@ class InstallerViewDefault extends JView
 	{
 	}
 }
-?>

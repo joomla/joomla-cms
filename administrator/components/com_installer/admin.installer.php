@@ -43,4 +43,3 @@ $controller = new InstallerController( array('default_task' => 'installform') );
 //die(JRequest::getCmd('task'));
 $controller->execute( JRequest::getCmd('task') );
 $controller->redirect();
-?>

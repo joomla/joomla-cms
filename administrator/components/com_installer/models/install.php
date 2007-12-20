@@ -3,8 +3,7 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Menus
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights
- * reserved.
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -23,7 +22,6 @@ jimport('joomla.installer.helper');
 /**
  * Extension Manager Install Model
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Installer
  * @since		1.5
@@ -107,7 +105,7 @@ class InstallerModelInstall extends JModel
 			$config =& JFactory::getConfig();
 			$package['packagefile'] = $config->getValue('config.tmp_path').DS.$package['packagefile'];
 		}
-	
+
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 		return $result;

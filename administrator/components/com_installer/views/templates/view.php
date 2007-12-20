@@ -18,7 +18,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
  * Extension Manager Templates View
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Installer
  * @since		1.5
@@ -72,4 +71,3 @@ class InstallerViewTemplates extends InstallerViewDefault
 		$this->assignRef('item', $item);
 	}
 }
-?>
