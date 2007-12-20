@@ -24,7 +24,6 @@ jimport('joomla.filesystem.file');
 /**
  * Internal link builder
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Menus
  * @since		1.5
