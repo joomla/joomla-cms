@@ -33,4 +33,3 @@ class TableFrontPage extends JTable
 		parent::__construct( '#__content_frontpage', 'content_id', $db );
 	}
 }
-?>
