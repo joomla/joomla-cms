@@ -53,8 +53,9 @@ class JInstallerHelper
 
 		// Open the remote server socket for reading
 		$inputHandle = @ fopen($url, "r");
+		$error = strstr($php_errormsg,'failed to open stream:');
 		if (!$inputHandle) {
-			JError::raiseWarning(42, 'Remote Server connection failed: '.$php_errormsg);
+			JError::raiseWarning(42, JText::_('SERVER_CONNECT_FAILED').', '.$error);
 			return false;
 		}
 

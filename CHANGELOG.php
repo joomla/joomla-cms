@@ -37,6 +37,14 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Dec-2007 Sam Moffatt
+ # [#8444] Testing migration script on install - Scripts not executing (added display of current max PHP upload)
+ # [#8517] com_installer: Installing from nonexisting URL generates technical error message
+ ! SERVER_CONNECT_FAILED language added to com_installer
+ ! MAXIMUM UPLOAD SIZE and UPLOADFILESIZE added to installation language
+ # [#8628] Extension installer fails to remove media files (proposed solution)
+ # [#8573] Google stuff still present in com_search
+
 20-Dec-2007 Andrew Eddie
  # Fixed [t,243324] PHP 4 incompatible syntax in ContentModelArchive::_getList
  # Fixed extra <span> in Content Archive items layout

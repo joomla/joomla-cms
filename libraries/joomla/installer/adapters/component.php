@@ -170,7 +170,6 @@ class JInstallerComponent extends JObject
 
 		// Parse optional tags
 		$this->parent->parseMedia($this->manifest->getElementByPath('media'));
-		$this->parent->parseMedia($this->manifest->getElementByPath('administration/media'), 1);
 		$this->parent->parseLanguages($this->manifest->getElementByPath('languages'));
 		$this->parent->parseLanguages($this->manifest->getElementByPath('administration/languages'), 1);
 
@@ -418,7 +417,6 @@ class JInstallerComponent extends JObject
 		// Let's remove language files and media in the JROOT/images/ folder that are
 		// associated with the component we are uninstalling
 		$this->parent->removeFiles($this->manifest->getElementByPath('media'));
-		$this->parent->removeFiles($this->manifest->getElementByPath('media'), 1);
 		$this->parent->removeFiles($this->manifest->getElementByPath('languages'));
 		$this->parent->removeFiles($this->manifest->getElementByPath('administration/languages'), 1);
 

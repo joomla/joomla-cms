@@ -128,7 +128,7 @@ class SearchViewSearch extends JView
 			}
 		}
 
-		$this->result	= JText::sprintf( 'TOTALRESULTSFOUND', $total, $this->escape($searchword) );
+		$this->result	= JText::sprintf( 'TOTALRESULTSFOUND', $total );
 
 		$this->assignRef('pagination',  $pagination);
 		$this->assignRef('results',		$results);
