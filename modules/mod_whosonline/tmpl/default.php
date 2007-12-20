@@ -8,7 +8,7 @@ if ($showmode == 0 || $showmode == 2) :
 		    echo JText::sprintf('guest', '1'); 
 		else : 
 		    if ($count['guest'] > 1) : 
-			    echo JText::sprintf('guest', $count['guest']); 
+			    echo JText::sprintf('guests', $count['guest']); 
 			endif; 
 		endif; 
 		
@@ -20,7 +20,7 @@ if ($showmode == 0 || $showmode == 2) :
 		    echo JText::sprintf('member', '1'); 
 		else : 
 		    if ($count['user'] > 1) : 
-			    echo JText::sprintf('member', $count['user']); 
+			    echo JText::sprintf('members', $count['user']); 
 			endif; 
 		endif; 
 		echo '&nbsp;' . JText::_('online'); 

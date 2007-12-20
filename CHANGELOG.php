@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Dec-2007 Jui-Yu Tsai
+ # [topic,245322] fixed missing "s" at string for more than one unit
+
 20-Dec-2007 Mickael Maison
  # [#7617] Untranslated error message during authentication
 
