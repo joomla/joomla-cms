@@ -45,10 +45,9 @@ class CacheData extends JObject
 	 *
 	 * @access protected
 	 */
-	function __construct($path)
+	function __construct( $path )
 	{
 		$this->_path = $path;
-
 		$this->_parse();
 	}
 
@@ -56,22 +55,22 @@ class CacheData extends JObject
 	 * Parse $path for cache file groups. Any files identifided as cache are logged
 	 * in a group and stored in $this->items.
 	 *
-	 * @access private
-	 * @param String $path
+	 * @access	private
+	 * @param	String $path
 	 */
-	function _parse( )
+	function _parse()
 	{
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
 		$folders = JFolder::folders($this->_path);
 
-		foreach($folders as $folder)
+		foreach ($folders as $folder)
 		{
 			$files = array();
 			$files = JFolder::files($this->_path.DS.$folder);
 			$this->_items[$folder] = new CacheItem( $folder );
 
-			foreach($files as $file)
+			foreach ($files as $file)
 			{
 				$this->_items[$folder]->updateSize( filesize( $this->_path.DS.$folder.DS.$file )/ 1024 );
 			}
@@ -84,7 +83,8 @@ class CacheData extends JObject
 	 * @access public
 	 * @return int
 	 */
-	function getGroupCount() {
+	function getGroupCount()
+	{
 		return count($this->_items);
 	}
 
@@ -99,12 +99,16 @@ class CacheData extends JObject
 	 */
 	function getRows( $start, $limit )
 	{
-		$i=0;
-		if(count($this->_items) == 0) return null;
+		$i = 0;
+		if (count($this->_items) == 0) {
+			return null;
+		}
 
-		foreach($this->_items as $item) {
-			if($i >= $start && $i < $start+$limit)
+		foreach ($this->_items as $item)
+		{
+			if ($i >= $start && $i < $start+$limit) {
 				$rows[] = $item;
+			}
 			$i++;
 		}
 		return $rows;
@@ -131,26 +135,26 @@ class CacheData extends JObject
 }
 
  /**
- * This Class is used by CacheData to store group cache data.
- *
- * @author		Johan Janssens <johan.janssens@joomla.org>
- * @package		Joomla
- * @subpackage	Cache
- * @since		1.5
- */
+  * This Class is used by CacheData to store group cache data.
+  *
+  * @package		Joomla
+  * @subpackage	Cache
+  * @since		1.5
+  */
 class CacheItem
 {
 	var $group 	= "";
 	var $size 	= 0;
 	var $count 	= 0;
 
-	function CacheItem ( $group ) {
+	function CacheItem ( $group )
+	{
 		$this->group = $group;
 	}
 
 	function updateSize( $size )
 	{
-		$this->size = number_format($this->size + $size, 2);
+		$this->size = number_format( $this->size + $size, 2 );
 		$this->count++;
 	}
 }
