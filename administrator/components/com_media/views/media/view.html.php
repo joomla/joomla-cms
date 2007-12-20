@@ -119,4 +119,3 @@ class MediaViewMedia extends JView
 		return $txt;
 	}
 }
-?>

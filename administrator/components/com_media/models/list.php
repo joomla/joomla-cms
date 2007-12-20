@@ -22,7 +22,6 @@ jimport('joomla.filesystem.file');
 /**
  * Media Component List Model
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Media
  * @since 1.5
