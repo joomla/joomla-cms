@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Dec-2007 Ian MacLennan
+ # Fixed Topic 245155 Category Content Filter missing default parameter values in model 
+
 20-Dec-2007 Sam Moffatt
  # [#8444] Testing migration script on install - Scripts not executing (added display of current max PHP upload)
  # [#8517] com_installer: Installing from nonexisting URL generates technical error message

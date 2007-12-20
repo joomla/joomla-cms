@@ -71,8 +71,15 @@ class ContentModelCategory extends JModel
 	{
 		parent::__construct();
 
+		global $mainframe;
+
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId((int)$id);
+
+		// here we initialize defaults for category model
+		$params = &$mainframe->getParams();
+		$params->def('filter',					1);
+		$params->def('filter_type',				'title');
 	}
 
 	/**
