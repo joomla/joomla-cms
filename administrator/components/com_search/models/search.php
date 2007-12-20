@@ -21,7 +21,6 @@ jimport( 'joomla.application.component.model' );
 /**
  * @package		Joomla
  * @subpackage	Search
- * @author Hannes Papenberg
  */
 class SearchModelSearch extends JModel
 {
