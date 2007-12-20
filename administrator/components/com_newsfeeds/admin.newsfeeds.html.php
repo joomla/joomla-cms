@@ -356,4 +356,3 @@ class HTML_newsfeeds
 		echo '</tr>';
 	}
 }
-?>

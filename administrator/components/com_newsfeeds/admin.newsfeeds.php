@@ -216,7 +216,7 @@ function editNewsFeed($edit)
 function saveNewsFeed(  )
 {
 	global $mainframe;
-	
+
 	// Check for request forgeries.
 	$token = JUtility::getToken();
 	if (!JRequest::getInt($token, 0, 'post')) {
@@ -292,7 +292,7 @@ function unPublishNewsFeeds(  ) {
 function changePublishNewsFeeds( $publish )
 {
 	global $mainframe;
-	
+
 	// Check for request forgeries.
 	$token = JUtility::getToken();
 	if (!JRequest::getInt($token, 0, 'post')) {
@@ -337,7 +337,7 @@ function changePublishNewsFeeds( $publish )
 function removeNewsFeeds( )
 {
 	global $mainframe;
-	
+
 	// Check for request forgeries.
 	$token = JUtility::getToken();
 	if (!JRequest::getInt($token, 0, 'post')) {
@@ -403,7 +403,7 @@ function moveDownNewsFeed(  ) {
 function orderNewsFeed( $inc )
 {
 	global $mainframe;
-	
+
 	// Check for request forgeries.
 	$token = JUtility::getToken();
 	if (!JRequest::getInt($token, 0, 'post')) {
@@ -432,7 +432,7 @@ function orderNewsFeed( $inc )
 function saveOrder(  )
 {
 	global $mainframe;
-	
+
 	// Check for request forgeries.
 	$token = JUtility::getToken();
 	if (!JRequest::getInt($token, 0, 'post')) {
@@ -473,4 +473,3 @@ function saveOrder(  )
 	$msg 	= 'New ordering saved';
 	$mainframe->redirect( 'index.php?option=com_newsfeeds', $msg );
 }
-?>

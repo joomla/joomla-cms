@@ -34,4 +34,3 @@ switch ($task) {
 		TOOLBAR_modules::_DEFAULT($client);
 		break;
 }
-?>

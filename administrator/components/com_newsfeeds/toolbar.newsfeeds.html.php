@@ -52,4 +52,3 @@ class TOOLBAR_newsfeeds
 		JToolBarHelper::help( 'screen.newsfeeds.edit' );
 	}
 }
-?>

@@ -74,4 +74,3 @@ class TableNewsFeed extends JTable
 		return true;
 	}
 }
-?>
