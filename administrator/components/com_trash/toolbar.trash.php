@@ -17,7 +17,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
-switch ($task) {
+switch ($task)
+{
 	case 'restoreconfirm':
 		TOOLBAR_Trash::_RESTORE();
 		break;
@@ -30,4 +31,3 @@ switch ($task) {
 		TOOLBAR_Trash::_DEFAULT();
 		break;
 }
-?>

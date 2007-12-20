@@ -109,4 +109,3 @@ class WeblinksViewWeblink extends JView
 		parent::display($tpl);
 	}
 }
-?>

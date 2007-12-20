@@ -46,4 +46,3 @@ class TOOLBAR_Trash {
 		JToolBarHelper::cancel();
 	}
 }
-?>

@@ -245,7 +245,7 @@ function viewdeleteTrash( $cid, $mid, $option )
 function deleteTrash( $cid, $option )
 {
 	global $mainframe;
-	
+
 	// Check for request forgeries.
 	$token = JUtility::getToken();
 	if (!JRequest::getInt($token, 0, 'post')) {
@@ -331,7 +331,7 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 */
 function restoreTrash( $cid, $option ) {
 	global $mainframe;
-	
+
 	// Check for request forgeries.
 	$token = JUtility::getToken();
 	if (!JRequest::getInt($token, 0, 'post')) {
@@ -380,7 +380,8 @@ function restoreTrash( $cid, $option ) {
 	$mainframe->redirect( 'index.php?option='.$option.'&task='.$return, $msg );
 }
 
-function ReadMenuXML( $type, $component=-1 ) {
+function ReadMenuXML( $type, $component=-1 )
+{
 	// xml file for module
 	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
 
@@ -397,4 +398,3 @@ function ReadMenuXML( $type, $component=-1 ) {
 
 	return $row;
 }
-?>

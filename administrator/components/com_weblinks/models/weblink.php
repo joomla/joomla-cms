@@ -20,7 +20,6 @@ jimport('joomla.application.component.model');
 /**
  * Weblinks Component Weblink Model
  *
- * @author Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Weblinks
  * @since 1.5
@@ -388,4 +387,3 @@ class WeblinksModelWeblink extends JModel
 		return true;
 	}
 }
-?>

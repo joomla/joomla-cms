@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @subpackage	Weblinks
+* @subpackage	Users
 * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -32,5 +32,3 @@ $controller	= new UsersController( );
 // Perform the Request task
 $controller->execute( JRequest::getCmd('task'));
 $controller->redirect();
-
-?>

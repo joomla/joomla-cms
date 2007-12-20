@@ -361,6 +361,4 @@ class HTML_trash
 		</form>
 		<?php
 	}
-
 }
-?>

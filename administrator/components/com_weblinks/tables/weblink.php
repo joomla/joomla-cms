@@ -127,7 +127,7 @@ class TableWeblink extends JTable
 	*/
 	function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) 
+		if (key_exists( 'params', $array ) && is_array( $array['params'] ))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
@@ -180,4 +180,3 @@ class TableWeblink extends JTable
 		return true;
 	}
 }
-?>

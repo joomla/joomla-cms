@@ -221,4 +221,3 @@ class WeblinksController extends JController
 		$this->setRedirect( 'index.php?option=com_weblinks', $msg );
 	}
 }
-?>

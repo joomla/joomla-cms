@@ -31,5 +31,3 @@ $controller	= new WeblinksController( );
 // Perform the Request task
 $controller->execute( JRequest::getCmd('task'));
 $controller->redirect();
-
-?>

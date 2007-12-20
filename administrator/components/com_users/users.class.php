@@ -28,5 +28,3 @@ class mosUserParameters extends JParameter
 		parent::__construct($text, $file);
 	}
 }
-
-?>

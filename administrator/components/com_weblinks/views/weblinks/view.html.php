@@ -64,8 +64,7 @@ class WeblinksViewWeblinks extends JView
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-		
+
 		parent::display($tpl);
 	}
 }
-?>
