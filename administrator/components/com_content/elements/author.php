@@ -18,7 +18,6 @@ defined('_JEXEC') or die();
 /**
  * Renders a author element
  *
- * @author 		Louis Landry
  * @package 	Joomla
  * @subpackage	Articles
  * @since		1.5

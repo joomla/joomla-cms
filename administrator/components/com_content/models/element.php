@@ -21,10 +21,9 @@ jimport( 'joomla.application.component.model');
 /**
  * Content Component Article Model
  *
- * @author	Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Content
- * @since 1.5
+ * @since		1.5
  */
 class ContentModelElement extends JModel
 {

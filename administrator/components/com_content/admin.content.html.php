@@ -927,4 +927,3 @@ class ContentView
 		<?php
 	}
 }
-?>

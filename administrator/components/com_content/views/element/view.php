@@ -197,4 +197,3 @@ class ContentViewElement extends JView
 		return $lists;
 	}
 }
-?>

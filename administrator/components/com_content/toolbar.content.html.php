@@ -82,4 +82,3 @@ class TOOLBAR_content
 		JToolBarHelper::help( 'screen.content' );
 	}
 }
-?>

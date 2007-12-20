@@ -135,5 +135,3 @@ switch (strtolower($task))
 		ContentController::viewContent();
 		break;
 }
-
-?>

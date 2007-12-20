@@ -582,7 +582,7 @@ class ContentController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		jimport('joomla.utilities.date');
 
 		// Initialize variables
@@ -789,7 +789,7 @@ class ContentController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		// Initialize variables
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
@@ -871,7 +871,7 @@ class ContentController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		// Initialize variables
 		$db		=& JFactory::getDBO();
 
@@ -932,7 +932,7 @@ class ContentController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
@@ -987,7 +987,7 @@ class ContentController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		// Initialize variables
 		$db	= & JFactory::getDBO();
 
@@ -1012,7 +1012,7 @@ class ContentController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		// Initialize variables
 		$db		= & JFactory::getDBO();
 
@@ -1041,7 +1041,7 @@ class ContentController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		// Initialize variables
 		$db			=& JFactory::getDBO();
 
@@ -1091,7 +1091,7 @@ class ContentController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
@@ -1177,7 +1177,7 @@ class ContentController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
@@ -1232,7 +1232,7 @@ class ContentController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
@@ -1344,7 +1344,7 @@ class ContentController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		// Initialize variables
 		$db		= & JFactory::getDBO();
 
@@ -1384,7 +1384,7 @@ class ContentController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 
@@ -1497,4 +1497,3 @@ class ContentController extends JController
 		return $newDate;
 	}
 }
-?>
