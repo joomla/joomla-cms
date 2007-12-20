@@ -475,4 +475,3 @@ class HTML_contact
 		<?php
 	}
 }
-?>

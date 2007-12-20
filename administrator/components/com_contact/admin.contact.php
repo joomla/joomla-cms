@@ -518,4 +518,3 @@ function saveOrder( &$cid )
 	$msg 	= 'New ordering saved';
 	$mainframe->redirect( 'index.php?option=com_contact', $msg );
 }
-?>

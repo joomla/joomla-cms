@@ -92,4 +92,3 @@ class JvCard extends vCard
 		return $text;
 	}
 }
-?>

@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
-switch ( $task )
+switch ($task)
 {
 	case 'add'  :
 		TOOLBAR_contact::_EDIT(false);
@@ -31,4 +31,3 @@ switch ( $task )
 		TOOLBAR_contact::_DEFAULT();
 		break;
 }
-?>

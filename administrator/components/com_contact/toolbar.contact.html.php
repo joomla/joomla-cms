@@ -19,7 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package		Joomla
 * @subpackage	Contact
 */
-class TOOLBAR_contact {
+class TOOLBAR_contact
+{
 	/**
 	* Draws the menu for a New Contact
 	*/
@@ -56,4 +57,3 @@ class TOOLBAR_contact {
 		JToolBarHelper::help( 'screen.contactmanager' );
 	}
 }
-?>

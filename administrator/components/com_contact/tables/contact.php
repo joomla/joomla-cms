@@ -114,4 +114,3 @@ class TableContact extends JTable
 		return true;
 	}
 }
-?>
