@@ -35,7 +35,7 @@
 			<?php echo JText::_( 'Num' ); ?>
 		</th>
 		<th width="20">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items );?>);" />
+			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 		</th>
 		<th class="title">
 			<?php echo JHTML::_('grid.sort',   'Plugin Name', 'p.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
@@ -45,7 +45,7 @@
 		</th>
 		<th width="8%" nowrap="nowrap">
 			<?php echo JHTML::_('grid.sort',   'Order', 'p.folder', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-			<?php echo JHTML::_('grid.order',  $this->items ); ?>
+			<?php echo JHTML::_('grid.order',  $rows ); ?>
 		</th>
 		<th nowrap="nowrap" width="10%">
 			<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
@@ -71,8 +71,9 @@
 <tbody>
 <?php
 	$k = 0;
-	for ($i=0, $n=count( $this->items ); $i < $n; $i++) {
-	$row 	= &$this->items[$i];
+	$rows =& $this->items;
+	for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+	$row 	= $rows[$i];
 
 	$link = JRoute::_( 'index.php?option=com_plugins&view=plugin&client='. $this->client .'&task=edit&cid[]='. $row->id );
 
