@@ -294,4 +294,3 @@ class HTML_messages
 		<?php
 	}
 }
-?>

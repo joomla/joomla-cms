@@ -166,7 +166,7 @@ function editConfig( $option )
 function saveConfig( $option )
 {
 	global $mainframe;
-	
+
 	// Check for request forgeries.
 	$token = JUtility::getToken();
 	if (!JRequest::getInt($token, 0, 'post')) {
@@ -223,7 +223,7 @@ function newMessage( $option, $user, $subject )
 function saveMessage( $option )
 {
 	global $mainframe;
-	
+
 	// Check for request forgeries.
 	$token = JUtility::getToken();
 	if (!JRequest::getInt($token, 0, 'post')) {
@@ -275,7 +275,7 @@ function viewMessage( $uid='0', $option )
 function removeMessage( $cid, $option )
 {
 	global $mainframe;
-	
+
 	// Check for request forgeries.
 	$token = JUtility::getToken();
 	if (!JRequest::getInt($token, 0, 'post')) {
@@ -307,4 +307,3 @@ function removeMessage( $cid, $option )
 
 	$mainframe->redirect( 'index.php?option='.$option.'&limit='.$limit.'&limitstart='.$limitstart );
 }
-?>

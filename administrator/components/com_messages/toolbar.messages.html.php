@@ -52,4 +52,3 @@ class TOOLBAR_messages
 		JToolBarHelper::help( 'screen.messages.inbox' );
 	}
 }
-?>

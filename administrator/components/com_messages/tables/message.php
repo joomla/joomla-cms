@@ -173,4 +173,3 @@ class TableMessage extends JTable
 		return false;
 	}
 }
-?>

@@ -37,4 +37,3 @@ switch ( $task ) {
 		TOOLBAR_messages::_DEFAULT();
 		break;
 }
-?>
