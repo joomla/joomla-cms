@@ -41,18 +41,29 @@ endif; ?>
 
 <?php if (($this->item->params->get('show_section') && $this->item->sectionid) || ($this->item->params->get('show_category') && $this->item->catid)) : ?>
 <p class="pageinfo">
-	<?php if ($this->item->params->get('show_section') && $this->item->sectionid) : ?>
+    <?php if ($this->item->params->get('show_section') && $this->item->sectionid && isset($this->item->section)) : ?>
 	<span>
-		<?php echo $this->item->section;
-		if ($this->item->params->get('show_category')) :
-			echo ' - ';
-		endif; ?>
+		<?php if ($this->item->params->get('link_section')) : ?>
+			<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getSectionRoute($this->item->sectionid)).'">'; ?>
+		<?php endif; ?>
+		<?php echo $this->item->section; ?>
+		<?php if ($this->item->params->get('link_section')) : ?>
+			<?php echo '</a>'; ?>
+		<?php endif; ?>
+		<?php if ($this->item->params->get('show_category')) : ?>
+			<?php echo ' - '; ?>
+		<?php endif; ?>
 	</span>
 	<?php endif; ?>
-
 	<?php if ($this->item->params->get('show_category') && $this->item->catid) : ?>
 	<span>
+		<?php if ($this->item->params->get('link_category')) : ?>
+			<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug, $this->item->sectionid)).'">'; ?>
+		<?php endif; ?>
 		<?php echo $this->item->category; ?>
+		<?php if ($this->item->params->get('link_section')) : ?>
+			<?php echo '</a>'; ?>
+		<?php endif; ?>
 	</span>
 	<?php endif; ?>
 </p>

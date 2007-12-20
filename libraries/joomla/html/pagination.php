@@ -146,7 +146,7 @@ class JPagination extends JObject
 	{
 		// Initialize variables
 		$html = null;
-		if ($this->get('pages.total') > 0) {
+		if ($this->get('pages.total') > 1) {
 			$html .= JText::_('Page')." ".$this->get('pages.current')." ".JText::_('of')." ".$this->get('pages.total');
 		}
 		return $html;
@@ -267,7 +267,12 @@ class JPagination extends JObject
 			$list['end']['data'] = ($itemOverride) ? pagination_item_inactive($data->end) : $this->_item_inactive($data->end);
 		}
 
-		return ($listOverride) ? pagination_list_render($list) : $this->_list_render($list);
+		if($this->total > $this->limit){
+			return ($listOverride) ? pagination_list_render($list) : $this->_list_render($list);
+		}
+		else{
+			return '';
+		}
 	}
 
 	/**

@@ -56,21 +56,31 @@ endif; ?>
 	endif; ?>
 </p>
 
-<?php if ((!empty ($this->article->modified) && $this->params->get('show_modify_date')) || ($this->params->get('show_author') && ($this->article->author != "")) || ($this->params->get('show_create_date'))) : ?>
+<?php if (($this->params->get('show_section') && $this->article->sectionid) || ($this->params->get('show_category') && $this->article->catid)) : ?>
 <p class="iteminfo">
-	<?php if (!empty ($this->article->modified) && $this->params->get('show_modify_date')) : ?>
-	<span class="modifydate">
-		<?php echo JText::_('Last Updated').' ('.JHTML::_('date', $this->article->modified, JText::_('DATE_FORMAT_LC2')).')'; ?>
+	<?php if ($this->params->get('show_section') && $this->article->sectionid) : ?>
+	<span>
+		<?php if ($this->params->get('link_section')) : ?>
+			<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getSectionRoute($this->article->sectionid)).'">'; ?>
+		<?php endif; ?>
+		<?php echo $this->article->section; ?>
+		<?php if ($this->params->get('link_section')) : ?>
+			<?php echo '</a>'; ?>
+		<?php endif; ?>
+		<?php if ($this->params->get('show_category')) : ?>
+			<?php echo ' - '; ?>
+		<?php endif; ?>
 	</span>
-	<?php endif;
-	if (($this->params->get('show_author')) && ($this->article->author != "")) : ?>
-	<span class="createdby">
-		<?php echo JText::sprintf('Written by', ($this->article->created_by_alias ? $this->article->created_by_alias : $this->article->author)); ?>
-	</span>
-	<?php endif;
-	if ($this->params->get('show_create_date')) : ?>
-	<span class="createdate">
-		<?php echo JHTML::_('date', $this->article->created, JText::_('DATE_FORMAT_LC2')); ?>
+	<?php endif; ?>
+	<?php if ($this->params->get('show_category') && $this->article->catid) : ?>
+	<span>
+		<?php if ($this->params->get('link_category')) : ?>
+			<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->article->catslug, $this->article->sectionid)).'">'; ?>
+		<?php endif; ?>
+		<?php echo $this->article->category; ?>
+		<?php if ($this->params->get('link_category')) : ?>
+			<?php echo '</a>'; ?>
+		<?php endif; ?>
 	</span>
 	<?php endif; ?>
 </p>
