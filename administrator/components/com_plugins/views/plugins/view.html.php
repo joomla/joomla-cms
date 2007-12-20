@@ -132,4 +132,3 @@ class PluginsViewPlugins extends JView
 		parent::display($tpl);
 	}
 }
-?>

@@ -30,5 +30,3 @@ $controller	= new PluginsController( );
 
 $controller->execute( JRequest::getCmd( 'task' ) );
 $controller->redirect();
-
-?>

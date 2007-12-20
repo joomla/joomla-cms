@@ -107,4 +107,3 @@ class PollViewPolls extends JView
 		parent::display($tpl);
 	}
 }
-?>

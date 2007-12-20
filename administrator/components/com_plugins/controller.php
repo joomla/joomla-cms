@@ -32,20 +32,20 @@ class PluginsController extends JController
 	function __construct( $default = array())
 	{
 		parent::__construct( $default );
-		
+
 		$this->registerTask( 'apply', 		'save');
 		$this->registerTask( 'unpublish', 	'publish');
 		$this->registerTask( 'edit' , 		'display' );
 		$this->registerTask( 'add' , 		'display' );
 		$this->registerTask( 'orderup'   , 	'order' );
 		$this->registerTask( 'orderdown' , 	'order' );
-		
+
 		$this->registerTask( 'accesspublic' 	, 	'access' );
 		$this->registerTask( 'accessregisterd'  , 	'access' );
 		$this->registerTask( 'acessspecial' 	, 	'access' );
-	
+
 	}
-	
+
 	function display( )
 	{
 		switch($this->getTask())
@@ -58,8 +58,8 @@ class PluginsController extends JController
 				JRequest::setVar( 'view', 'plugin' );
 			} break;
 		}
-		
-		parent::display();	
+
+		parent::display();
 	}
 
 	function save()
@@ -69,11 +69,11 @@ class PluginsController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-		
+
 		$db   =& JFactory::getDBO();
 		$row  =& JTable::getInstance('plugin');
 		$task = $this->getTask();
-		
+
 		$client = JRequest::getWord( 'filter_client', 'site' );
 
 		if (!$row->bind(JRequest::get('post'))) {
@@ -95,13 +95,13 @@ class PluginsController extends JController
 
 		$row->reorder( 'folder = '.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND ( '.$where.' )' );
 
-		switch ( $task ) 
+		switch ( $task )
 		{
 			case 'apply':
 				$msg = JText::sprintf( 'Successfully Saved changes to Plugin', $row->name );
 				$this->setRedirect( 'index.php?option=com_plugins&view=plugin&client='. $client .'&task=edit&cid[]='. $row->id, $msg );
 				break;
-				
+
 			case 'save':
 			default:
 				$msg = JText::sprintf( 'Successfully Saved Plugin', $row->name );
@@ -117,7 +117,7 @@ class PluginsController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-		
+
 		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
 		$cid     = JRequest::getVar( 'cid', array(0), 'post', 'array' );
@@ -150,7 +150,7 @@ class PluginsController extends JController
 	}
 
 	function cancel(  )
-	{	
+	{
 		$client  = JRequest::getWord( 'filter_client', 'site' );
 
 		$db =& JFactory::getDBO();
@@ -164,15 +164,15 @@ class PluginsController extends JController
 	function order(  )
 	{
 		$db =& JFactory::getDBO();
-		
+
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
-		
+
 		$uid    = $cid[0];
 		$inc    = ( $this->getTask() == 'orderup' ? -1 : 1 );
 		$client = JRequest::getWord( 'filter_client', 'site' );
-		
-		
+
+
 		// Currently Unsupported
 		if ($client == 'admin') {
 			$where = "client_id = 1";
@@ -190,12 +190,12 @@ class PluginsController extends JController
 	{
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
-		
+
 		$uid    = $cid[0];
 		$access = $this->getTask();
 
 		$db =& JFactory::getDBO();
-		switch ( $access ) 
+		switch ( $access )
 		{
 			case 'accesspublic':
 				$access = 0;
@@ -231,15 +231,15 @@ class PluginsController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-		
+
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
-		
+
 		$db			=& JFactory::getDBO();
 		$total		= count( $cid );
 		$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($order, array(0));
-		
+
 		$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
 
@@ -247,10 +247,10 @@ class PluginsController extends JController
 		$conditions = array();
 
 		// update ordering values
-		for ( $i=0; $i < $total; $i++ ) 
+		for ( $i=0; $i < $total; $i++ )
 		{
 			$row->load( (int) $cid[$i] );
-			if ($row->ordering != $order[$i]) 
+			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
 				if (!$row->store()) {
@@ -259,25 +259,24 @@ class PluginsController extends JController
 				// remember to updateOrder this group
 				$condition = 'folder = '.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND client_id = ' . (int) $row->client_id;
 				$found = false;
-				foreach ( $conditions as $cond ) 
+				foreach ( $conditions as $cond )
 				{
 					if ($cond[1]==$condition) {
 						$found = true;
 						break;
-					} 
+					}
 				}
 				if (!$found) $conditions[] = array($row->id, $condition);
 			}
-		} 
+		}
 
 		// execute updateOrder for each group
 		foreach ( $conditions as $cond ) {
 			$row->load( $cond[0] );
 			$row->reorder( $cond[1] );
-		} 
+		}
 
 		$msg 	= JText::_( 'New ordering saved' );
 		$this->setRedirect( 'index.php?option=com_plugins', $msg );
 	}
 }
-?>

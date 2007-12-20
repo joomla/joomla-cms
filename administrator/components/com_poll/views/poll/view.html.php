@@ -81,4 +81,3 @@ class PollViewPoll extends JView
 
 	}
 }
-?>

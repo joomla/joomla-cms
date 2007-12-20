@@ -31,4 +31,3 @@ $controller	= new PollController( );
 
 $controller->execute( JRequest::getCmd( 'task' ) );
 $controller->redirect();
-?>

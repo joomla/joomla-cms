@@ -101,7 +101,7 @@ class TablePoll extends JTable
 			$this->$k = intval( $oid );
 		}
 
-		if ( parent::delete( $oid )) 
+		if ( parent::delete( $oid ))
 		{
 			$query = 'DELETE FROM #__poll_data'
 			. ' WHERE pollid = '.(int) $this->$k
@@ -128,9 +128,8 @@ class TablePoll extends JTable
 			}
 
 			return true;
-		} 
-		
+		}
+
 		return false;
 	}
 }
-?>

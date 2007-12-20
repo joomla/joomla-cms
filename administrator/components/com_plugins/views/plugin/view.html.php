@@ -46,7 +46,7 @@ class PluginsViewPlugin extends JView
 
 		// fail if checked out not by 'me'
 
-		if ($row->isCheckedOut( $user->get('id') )) 
+		if ($row->isCheckedOut( $user->get('id') ))
 		{
 			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The plugin' ), $row->title );
 			$this->setRedirect( 'index.php?option='. $option .'&client='. $client, $msg, 'error' );
@@ -71,7 +71,7 @@ class PluginsViewPlugin extends JView
 		{
 			$row->checkout( $user->get('id') );
 
-			if ( $row->ordering > -10000 && $row->ordering < 10000 ) 
+			if ( $row->ordering > -10000 && $row->ordering < 10000 )
 			{
 				// build the html select list for ordering
 				$query = 'SELECT ordering AS value, name AS text'
@@ -111,8 +111,7 @@ class PluginsViewPlugin extends JView
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('plugin',		$row);
 		$this->assignRef('params',		$params);
-		
+
 		parent::display($tpl);
 	}
 }
-?>
