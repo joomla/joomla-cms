@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Dec-2007 Andrew Eddie
+ # Fixed [topic,245313] Fatal error in Menu Manager when editing an item
+
 20-Dec-2007 Jui-Yu Tsai
  # [topic,245322] fixed missing "s" at string for more than one unit
 
@@ -50,7 +53,7 @@ Legend:
  ^ [topic,245291] refactor more links to use ContentHelperRoute
 
 20-Dec-2007 Ian MacLennan
- # Fixed Topic 245155 Category Content Filter missing default parameter values in model 
+ # Fixed Topic 245155 Category Content Filter missing default parameter values in model
 
 20-Dec-2007 Sam Moffatt
  # [#8444] Testing migration script on install - Scripts not executing (added display of current max PHP upload)
