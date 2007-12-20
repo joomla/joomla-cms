@@ -39,6 +39,7 @@ Legend:
 
 21-Dec-2007 Andrew Eddie
  # Fixed [topic,245313] Fatal error in Menu Manager when editing an item
+ ! Lots of cosmetic commits (remove trailing ?> tags at EOF, white space, etc)
 
 20-Dec-2007 Jui-Yu Tsai
  # [topic,245322] fixed missing "s" at string for more than one unit
