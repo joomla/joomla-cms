@@ -10,16 +10,9 @@ defined('_JEXEC') or die('Restricted access');
 </div>
 <?php endif; ?>
 
-<?php if ($this->params->get('show_section') && $this->article->sectionid) : ?>
-<h1>
-	<?php echo $this->article->section;
-	if ($this->params->get('show_category') && $this->article->catid) :
-		echo ' - '.$this->article->category;
-	endif; ?>
-</h1>
-<?php elseif ($this->params->get('show_category') && $this->article->catid) : ?>
-<h1>
-	<?php echo $this->article->category; ?>
+<?php if ($this->params->get('show_page_title')) : ?>
+<h1 class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">
+        <?php echo $this->escape($this->params->get('page_title')); ?>
 </h1>
 <?php endif; ?>
 
