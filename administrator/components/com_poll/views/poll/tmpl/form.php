@@ -46,7 +46,7 @@ JFilterOutput::objectHTMLSafe( $this->poll, ENT_QUOTES );
 	}
 </script>
 <form action="index.php" method="post" name="adminForm">
-<div class="col45">
+<div class="col width-45">
 	<fieldset class="adminform">
 	<legend><?php echo JText::_( 'Details' ); ?></legend>
 	<table class="admintable">
