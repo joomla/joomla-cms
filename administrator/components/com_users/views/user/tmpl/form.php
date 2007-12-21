@@ -67,7 +67,7 @@
 	}
 </script>
 <form action="index.php" method="post" name="adminForm" autocomplete="off">
-	<div class="col50">
+	<div class="col width-45">
 		<fieldset class="adminform">
 		<legend><?php echo JText::_( 'User Details' ); ?></legend>
 			<table class="admintable" cellspacing="1">
@@ -178,7 +178,7 @@
 			</table>
 		</fieldset>
 	</div>
-	<div class="col50">
+	<div class="col width-55">
 		<fieldset class="adminform">
 		<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 			<table class="admintable">

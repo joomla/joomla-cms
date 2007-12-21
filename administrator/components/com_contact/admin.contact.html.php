@@ -204,7 +204,7 @@ class HTML_contact
 
 		<form action="index.php" method="post" name="adminForm">
 
-		<div class="col60">
+		<div class="col width-60">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
 

@@ -257,7 +257,7 @@ class HTML_modules
 		//-->
 		</script>
 		<form action="index.php" method="post" name="adminForm">
-		<div class="col50">
+		<div class="col width-50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
@@ -432,7 +432,7 @@ class HTML_modules
 			</fieldset>
 		</div>
 
-		<div class="col50">
+		<div class="col width-50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 

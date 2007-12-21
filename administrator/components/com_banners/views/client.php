@@ -192,7 +192,7 @@ class BannersViewClients
 
 		<form action="index.php" method="post" name="adminForm">
 
-		<div class="col50">
+		<div class="col width-50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
@@ -231,7 +231,7 @@ class BannersViewClients
 			</fieldset>
 		</div>
 
-		<div class="col50">
+		<div class="col width-50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Extra Info' ); ?></legend>
 

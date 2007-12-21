@@ -200,3 +200,7 @@ table.adminlist .pagination{
 .button2-left .page a, .button2-right .page a, .button2-left .page span, .button2-right .page span, .button2-left .blank a, .button2-right .blank a, .button2-left .blank span, .button2-right .blank span{
 	float: right;
 }
+
+div.col{
+	float: right;
+}

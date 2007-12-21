@@ -318,11 +318,13 @@ div.current dd {
 #cpanel span { display: block; text-align: center; }
 
 /* standard form style table */
-div.col50 { float: left; width: 50%; }
-div.col70 { float: left; width: 70%; }
-div.col30 { float: left; width: 30%; }
-div.col60 { float: left; width: 60%; }
-div.col40 { float: left; width: 40%; }
+div.col { float: left; }
+div.width-45 { width: 45%; }
+div.width-55 { width: 55%; }
+div.width-70 { width: 70%; }
+div.width-30 { width: 30%; }
+div.width-60 { width: 60%; }
+div.width-40 { width: 40%; }
 
 table.admintable td 					 { padding: 3px; }
 table.admintable td.key,

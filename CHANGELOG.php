@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Dec-2007 Mati Kochen
+ ^ [topic,245507] Better Styling with double classes & easier RTL
+
 21-Dec-2007 Anthony Ferrara
  # [#8678] [#8675] [#8648] [topic,245507] Fixed min-width CSS issue forcing scrollbars
 

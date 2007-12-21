@@ -294,7 +294,7 @@ class TemplatesView
 		</fieldset>
 		<?php endif; ?>
 
-		<div class="col50">
+		<div class="col width-50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Details' ); ?></legend>
 
@@ -390,7 +390,7 @@ class TemplatesView
 			</fieldset>
 		</div>
 
-		<div class="col50">
+		<div class="col width-50">
 			<fieldset class="adminform">
 				<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 				<?php $templatefile = DS.'templates'.DS.$template.DS.'params.ini';

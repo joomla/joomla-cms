@@ -46,7 +46,7 @@
 </style>
 
 <form action="index.php" method="post" name="adminForm" id="adminForm">
-<div class="col50">
+<div class="col width-50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'Details' ); ?></legend>
 
@@ -112,7 +112,7 @@
 	</table>
 	</fieldset>
 </div>
-<div class="col50">
+<div class="col width-50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 
@@ -126,7 +126,7 @@
 	</fieldset>
 </div>
 
-<div class="col50">
+<div class="col width-50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_( 'Description' ); ?></legend>
 
