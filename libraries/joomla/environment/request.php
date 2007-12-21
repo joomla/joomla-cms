@@ -491,6 +491,18 @@ class JRequest
 		}
 	}
 
+	/**
+	 * Clean up an input variable.
+	 *
+	 * @param mixed The input variable.
+	 * @param int Filter bit mask. 1=no trim: If this flag is cleared and the
+	 * input is a string, the string will have leading and trailing whitespace
+	 * trimmed. 2=allow_raw: If set, no more filtering is performed, higher bits
+	 * are ignored. 4=allow_html: HTML is allowed, but passed through a safe
+	 * HTML filter first. If set, no more filtering is performed. If no bits
+	 * other than the 1 bit is set, a strict filter is applied.
+	 * @param string The variable type {@see JFilterInput::clean()}.
+	 */
 	function _cleanVar($var, $mask = 0, $type=null)
 	{
 		// Static input filters for specific settings
