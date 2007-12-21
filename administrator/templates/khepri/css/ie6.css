@@ -5,6 +5,8 @@ div#toolbar-box {
   width: 100%;
 }
 
+#minwidth {width:expression(document.body.clientWidth <= 1000? "1000px": "auto"); }
+
 #content-box {
 	float: left;
 }

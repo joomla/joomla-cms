@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Dec-2007 Anthony Ferrara
+ # [#8678] [#8675] [#8648] [topic,245507] Fixed min-width CSS issue forcing scrollbars
+
 21-Dec-2007 Andrew Eddie
  # Fixed [topic,245313] Fatal error in Menu Manager when editing an item
  ! Lots of cosmetic commits (remove trailing ?> tags at EOF, white space, etc)
