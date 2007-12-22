@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Dec-2007 Johan Janssens
+ + Added $params parameter to JEditor::display function. This allows to programaticaly set or override
+   the editor plugin parameters.
+
 22-Dec-2007 Andrew Eddie
  ^ Moved article edit icon into the print|pdf|email area
  + Added type property to JAuthenticationResponse which is set to the successful authenication method

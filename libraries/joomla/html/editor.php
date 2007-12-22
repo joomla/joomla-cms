@@ -116,10 +116,11 @@ class JEditor extends JObservable
 	 * @param	int		The number of columns for the textarea
 	 * @param	int		The number of rows for the textarea
 	 * @param	boolean	True and the editor buttons will be displayed
+	 * @param	array	Associative array of editor parameters
 	 */
-	function display($name, $html, $width, $height, $col, $row, $buttons = true)
+	function display($name, $html, $width, $height, $col, $row, $buttons = true, $params = array())
 	{
-		$this->_loadEditor();
+		$this->_loadEditor($params);
 
 		//check if editor is already loaded
 		if(is_null(($this->_editor))) {
@@ -269,9 +270,10 @@ class JEditor extends JObservable
 	 * Load the editor
 	 *
 	 * @access	private
+	 * @param	array	Associative array of editor config paramaters
 	 * @since	1.5
 	 */
-	function _loadEditor()
+	function _loadEditor($config = array())
 	{
 		//check if editor is already loaded
 		if(!is_null(($this->_editor))) {
@@ -295,8 +297,11 @@ class JEditor extends JObservable
 		require_once $path;
 		
 		// Get the plugin
-		$plugin =& JPluginHelper::getPlugin('editors', $this->_name);
-		
+		$plugin   =& JPluginHelper::getPlugin('editors', $this->_name);
+		$params   = new JParameter($plugin->params);
+		$params->loadArray($config);
+		$plugin->params = $params;
+				
 		// Build editor plugin classname
 		$name = 'plgEditor'.$this->_name;
 		if($this->_editor = new $name ($this, (array)$plugin))

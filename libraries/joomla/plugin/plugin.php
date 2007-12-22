@@ -77,7 +77,12 @@ class JPlugin extends JEvent
 	{
 		//Set the parameters
 		if ( isset( $config['params'] ) ) {
-			$this->params = new JParameter($config['params']);
+			
+			if(is_a($config['params'], 'JParameter')) {
+				$this->params = $config['params'];
+			} else {
+				$this->params = new JParameter($config['params']);
+			}
 		}
 		
 		if ( isset( $config['name'] ) ) {
