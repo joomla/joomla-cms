@@ -111,7 +111,7 @@
 		</table>
 	</fieldset>
 </div>
-<div class="col40">
+<div class="col width-40">
 	<fieldset class="adminform">
 	<legend><?php echo JText::_( 'Parameters' ); ?></legend>
 	<?php
