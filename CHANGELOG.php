@@ -39,6 +39,7 @@ Legend:
 
 22-Dec-2007 Andrew Eddie
  ^ Moved article edit icon into the print|pdf|email area
+ + Added type property to JAuthenticationResponse which is set to the successful authenication method
 
 21-Dec-2007 Mati Kochen
  ^ [topic,245507] Better Styling with double classes & easier RTL

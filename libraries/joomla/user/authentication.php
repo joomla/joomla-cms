@@ -1,16 +1,16 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	User
-* @copyright		Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	User
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
@@ -35,7 +35,6 @@ define('JAUTHENTICATE_STATUS_FAILURE', 4);
 /**
  * Authenthication class, provides an interface for the Joomla authentication system
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	User
  * @since		1.5
@@ -111,10 +110,10 @@ class JAuthentication extends JObservable
 		 * Any errors raised in the plugin should be returned via the JAuthenticationResponse
 		 * and handled appropriately.
 		 */
-		foreach($plugins as $plugin)
+		foreach ($plugins as $plugin)
 		{
 			$className = 'plg'.$plugin->type.$plugin->name;
-			if(class_exists($className)) {
+			if (class_exists( $className )) {
 				$plugin = new $className($this, (array)$plugin);
 			}
 
@@ -124,22 +123,24 @@ class JAuthentication extends JObservable
 			// If authentication is successfull break out of the loop
 			if($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 			{
-				if(empty($response->username)) {
+				if (empty( $response->type )) {
+					$response->type = isset( $plugin->_name ) ? $plugin->_name : $plugin->name;
+				}
+   				if (empty( $response->username )) {
 					$response->username = $credentials['username'];
 				}
 
-				if(empty($response->fullname)) {
+				if (empty( $response->fullname )) {
 					$response->fullname = $credentials['username'];
 				}
-				
-				if(empty($response->password)) {
+
+				if (empty( $response->password )) {
 					$response->password = $credentials['password'];
 				}
 
 				break;
 			}
 		}
-
 		return $response;
 	}
 }
@@ -147,7 +148,6 @@ class JAuthentication extends JObservable
 /**
  * Authorization response class, provides an object for storing user and error details
  *
- * @author 		Samuel Moffatt <sam.moffatt@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	User
  * @since		1.5
@@ -161,6 +161,14 @@ class JAuthenticationResponse extends JObject
 	 * @access public
 	 */
 	var $status 		= JAUTHENTICATE_STATUS_FAILURE;
+
+	/**
+	 * The type of authentication that was successful
+	 *
+	 * @var type string
+	 * @access public
+	 */
+	var $type 		= '';
 
 	/**
 	 *  The error message
@@ -177,7 +185,7 @@ class JAuthenticationResponse extends JObject
 	 * @access public
 	 */
 	var $username 		= '';
-	
+
 	/**
 	 * Any UTF-8 string that the End User wants to use as a password.
 	 *
