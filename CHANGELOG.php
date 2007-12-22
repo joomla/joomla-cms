@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Dec-2007 Andrew Eddie
+ ^ Moved article edit icon into the print|pdf|email area
+
 21-Dec-2007 Mati Kochen
  ^ [topic,245507] Better Styling with double classes & easier RTL
 
