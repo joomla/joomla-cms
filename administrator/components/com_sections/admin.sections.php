@@ -442,13 +442,6 @@ function publishSections( $scope, $cid=null, $publish=1, $option )
 
 	$cids = implode( ',', $cid );
 	$count = count( $cid );
-	if ( $publish ) {
-		if ( !$count ){
-			echo "<script> alert('". JText::_( 'Cannot Publish an Empty Section', true ) .": ". $count ."'); window.history.go(-1);</script>\n";
-			return;
-		}
-	}
-
 	$query = 'UPDATE #__sections'
 	. ' SET published = '.(int) $publish
 	. ' WHERE id IN ( '.$cids.' )'

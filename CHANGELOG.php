@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Dec-2007
+- [#8168] Removed Redundant code in Published Section. Thanks Alaattin Kahramanlar
+
 22-Dec-2007 Johan Janssens
  + Added $params parameter to JEditor::display function. This allows to programaticaly set or override
    the editor plugin parameters.
