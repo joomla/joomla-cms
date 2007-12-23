@@ -169,8 +169,6 @@ class JComponentHelper
 			include_once( $path );
 		}
 		
-		JApplication::triggerEvent('onAfterRenderComponent', array(&$contents) );
-
 		return $contents;
 	}
 
