@@ -37,12 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
-23-Dec-2007
+23-Dec-2007 Rob Schley
  # Fixed view cache handler not storing module buffer.
  # Fixed JDocumentHTML::getBuffer() so that you can access the entire document buffer.
 
-23-Dec-2007
-- [#8168] Removed Redundant code in Published Section. Thanks Alaattin Kahramanlar
+23-Dec-2007 Nur Aini Rakhmawati
+ # Fixed [#8168] Removed Redundant code in Published Section. Thanks Alaattin Kahramanlar
 
 22-Dec-2007 Johan Janssens
  + Added $params parameter to JEditor::display function. This allows to programaticaly set or override
