@@ -48,9 +48,22 @@ class JCacheView extends JCache
 
 		$data = parent::get($id);
 		if ($data !== false) {
-			$data = unserialize($data);
-			$document =& JFactory::getDocument();
+			$data		= unserialize($data);
+			$document	= &JFactory::getDocument();
+
+			// Get the document head out of the cache.
 			$document->setHeadData((isset($data['head'])) ? $data['head'] : array());
+
+			// If a module buffer is set in the cache data, get it.
+			if (isset($data['module']) && is_array($data['module']))
+			{
+				// Iterate through the module positions and push them into the document buffer.
+				foreach ($data['module'] as $name => $contents) {
+					$document->setBuffer($contents, 'module', $name);
+				}
+			}
+
+			// Get the document body out of the cache.
 			echo (isset($data['body'])) ? $data['body'] : null;
 			return true;
 		}
@@ -58,7 +71,18 @@ class JCacheView extends JCache
 		/*
 		 * No hit so we have to execute the view
 		 */
-		if (method_exists($view, $method)) {
+		if (method_exists($view, $method))
+		{
+			$document = &JFactory::getDocument();
+
+			// Get the modules buffer before component execution.
+			$buffer1 = $document->getBuffer();
+
+			// Make sure the module buffer is an array.
+			if (!isset($buffer1['module']) || !is_array($buffer1['module'])) {
+				$buffer1['module'] = array();
+			}
+
 			// Capture and echo output
 			ob_start();
 			ob_implicit_flush( false );
@@ -73,11 +97,24 @@ class JCacheView extends JCache
 			 * scripts or stylesheets or links or any other modifications that the view has made to the document object
 			 */
 			$cached = array();
+
 			// View body data
 			$cached['body'] = $data;
+
 			// Document head data
-			$document =& JFactory::getDocument();
 			$cached['head'] = $document->getHeadData();
+
+			// Get the module buffer after component execution.
+			$buffer2 = $document->getBuffer();
+
+			// Make sure the module buffer is an array.
+			if (!isset($buffer2['module']) || !is_array($buffer2['module'])) {
+				$buffer2['module'] = array();
+			}
+
+			// Compare the second module buffer against the first buffer.
+			$cached['module'] = array_diff_assoc($buffer2['module'], $buffer1['module']);
+
 			// Store the cache data
 			$this->store(serialize($cached), $id);
 		}

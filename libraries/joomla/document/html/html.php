@@ -169,9 +169,15 @@ class JDocumentHTML extends JDocument
 	 * @param array   	$attribs Associative array of remaining attributes.
 	 * @return 	The output of the renderer
 	 */
-	function getBuffer($type, $name = null, $attribs = array())
+	function getBuffer($type = null, $name = null, $attribs = array())
 	{
 		$result = null;
+
+		// If no type is specified, return the whole buffer
+		if ($type === null) {
+			return $this->_buffer;
+		}
+
 		if(isset($this->_buffer[$type][$name])) {
 			$result = $this->_buffer[$type][$name];
 		}

@@ -38,6 +38,10 @@ Legend:
 ! -> Note
 
 23-Dec-2007
+ # Fixed view cache handler not storing module buffer.
+ # Fixed JDocumentHTML::getBuffer() so that you can access the entire document buffer.
+
+23-Dec-2007
 - [#8168] Removed Redundant code in Published Section. Thanks Alaattin Kahramanlar
 
 22-Dec-2007 Johan Janssens
