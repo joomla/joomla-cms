@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Dec-2007 Anthony Ferrara
+ # Fixed [#8754] issue with SEF plugin rewriting raw anchors (Thanks Jens-Christian Skibakk)
+
 24-Dec-2007 Jui-Yu Tsai
  # Fixed [#8568] language typo 
 
