@@ -26,7 +26,6 @@ defined('JPATH_BASE') or die();
  * @subpackage		Parameter
  * @since		1.5
  */
-
 class JElement extends JObject
 {
 	/**
@@ -72,7 +71,6 @@ class JElement extends JObject
 		$name	= $xmlElement->attributes('name');
 		$label	= $xmlElement->attributes('label');
 		$descr	= $xmlElement->attributes('description');
-		if(is_array($value)) $value = $this->_parseArray($value);
 		//make sure we have a valid label
 		$label = $label ? $label : $name;
 		$result[0] = $this->fetchTooltip($label, $descr, $xmlElement, $control_name, $name);
@@ -100,14 +98,5 @@ class JElement extends JObject
 
 	function fetchElement($name, $value, &$xmlElement, $control_name) {
 		return;
-	}
-	
-	function _parseArray($targetarray) {
-		$return = '';
-		foreach($targetarray as $linekey=>$line) {
-			$targetarray[$linekey] = implode('|', $line);
-		}
-		$return = implode("\n", $targetarray);
-		return $return;
 	}
 }

@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 23-Dec-2007 Rob Schley
+ # Fixed JRegistryFormatINI::objectToString() method to build proper arrays again. Thanks Ian for testing.
  # Fixed view cache handler not storing module buffer.
  # Fixed JDocumentHTML::getBuffer() so that you can access the entire document buffer.
 

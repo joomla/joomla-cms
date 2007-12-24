@@ -64,15 +64,15 @@ class JRegistryFormatINI extends JRegistryFormat
 			}
 			elseif (is_array($level1))
 			{
-				foreach($level1 as $level1key=>$level2) {
-					foreach ($level2 as $k1 => $v1)
-					{
-						$level2		= str_replace('|', '\|', $level2);
-						$level2		= str_replace(array("\r\n", "\n"), '\\n', $level2);
-					}
-					$level1[$level1key] = implode('|', $level2);
+				foreach ($level1 as $k1 => $v1)
+				{
+					// Escape any pipe characters before storing
+					$level1[$k1]	= str_replace('|', '\|', $v1);
+					$level1[$k1]	= str_replace(array("\r\n", "\n"), '\\n', $v1);
 				}
-				$prepend	.= $key."=".implode("\\n", $level1); //implode('|', $level1)."\n";
+
+				// Implode the array to store
+				$prepend	.= $key."=".implode('|', $level1)."\n";
 			}
 			else
 			{
@@ -82,6 +82,7 @@ class JRegistryFormatINI extends JRegistryFormat
 				$prepend	.= $key."=".$level1."\n";
 			}
 		}
+
 		return $prepend."\n".$retval;
 	}
 
