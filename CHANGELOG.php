@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Dec-2007 Jui-Yu Tsai
+ # Fixed [#8568] language typo 
+
 23-Dec-2007 Rob Schley
  # Fixed JRegistryFormatINI::objectToString() method to build proper arrays again. Thanks Ian for testing.
  # Fixed view cache handler not storing module buffer.
