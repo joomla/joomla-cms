@@ -38,7 +38,7 @@ Legend:
 ! -> Note
 
 25-Dec-2007 Nur Aini Rakhmawati
- # Fixed [#8557] language typo and ordering languange list
+ # Fixed [#8557] language typo and ordering languange list (Thanks to Ole Bang Ottosen)
 
 24-Dec-2007 Anthony Ferrara
  # Fixed [#8754] issue with SEF plugin rewriting raw anchors (Thanks Jens-Christian Skibakk)
