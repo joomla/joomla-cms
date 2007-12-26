@@ -718,7 +718,7 @@ class JInstaller extends JObject
 					$appl	 = &JFactory::getApplication();
 					$name	 = JText::_($appl->getName());
 					$warning = JText::sprintf('INSTALLER LANG NOT INSTALLED', $file->data(), $name, $file->attributes('tag') );
-					JError::raiseWarning(200, 'JInstaller::install: '.$warning);
+					JError::raiseNotice(200, 'JInstaller::install: '.$warning);
 					continue;
 				}
 			} else {
