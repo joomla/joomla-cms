@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Dec-2007 Nur Aini Rakhmawati
+# Fixed [#6111] New button act as Edit when multiply select in Menu Item Manager
+# Fixed [t,223403] Warning menu manager standardization for cancel button
+
 25-Dec-2007 Nur Aini Rakhmawati
  # Fixed [#8557] language typo and ordering languange list (Thanks to Ole Bang Ottosen)
 

@@ -3,7 +3,7 @@
 <script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
-			if (pressbutton == 'cancel') {
+			if (pressbutton == 'cancelItem') {
 				submitform( pressbutton );
 				return;
 			}

@@ -26,9 +26,25 @@ class MenusController extends JController
 	/**
 	 * New menu item wizard
 	 */
+
+	function newItem()
+	{
+		JRequest::setVar( 'edit', false );
+		$model	=& $this->getModel( 'Item' );
+		$view =& $this->getView( 'Item' );
+		$view->setModel( $model, true );
+
+		// Set the layout and display
+		$view->setLayout('type');
+		$view->type();
+	}
+	/**
+	 * Edit menu item wizard
+	 */
+
 	function type()
 	{
-//		JRequest::setVar( 'edit', false );
+		JRequest::setVar( 'edit', true );
 		$model	=& $this->getModel( 'Item' );
 		$view =& $this->getView( 'Item' );
 		$view->setModel( $model, true );
