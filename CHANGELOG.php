@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Dec-2007 Hannes Papenberg
+ # Fixed [#8229] If Intro Text is set to hide and no Fulltext is available, Intro Text is used as the fulltext
+
 27-Dec-2007 Wilco Jansen
  ! Forgotten to credit Zinho for supplying us with information about the csrf exploit that was fixed
    during PBF weekend. Thanks Zinho for you issue report.
