@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Dec-2007 Wilco Jansen
+ ! Forgotten to credit Zinho for supplying us with information about the csrf exploit that was fixed
+   during PBF weekend. Thanks Zinho for you issue report.
+
 27-Dec-2007 Chris Davenport
  ^ Removed/renamed redundant local help screens.
 
