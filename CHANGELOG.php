@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Dec-2007 Chris Davenport
+ ^ Removed/renamed redundant local help screens.
+
 26-Dec-2007 Nur Aini Rakhmawati
 # Fixed [#6111] New button act as Edit when multiply select in Menu Item Manager
 # Fixed [t,223403] Warning menu manager standardization for cancel button
