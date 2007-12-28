@@ -217,7 +217,7 @@ class JRouterSite extends JRouter
 		/*
 		 * Parse the component route
 		 */
-		if(!empty($route))
+		if(!empty($route) && isset($this->_vars['option']) )
 		{
 			$segments = explode('/', $route);
 			array_shift($segments);
