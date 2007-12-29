@@ -60,6 +60,8 @@ class plgSystemSef extends JPlugin
        	$protocols = '[a-zA-Z]*:'; //To check for all unknown protocals
       	$regex     = '#(src|href)="(?!/|'.$protocols.'|\#)([^"]*)"#m';
         $buffer    = preg_replace($regex, "$1=\"$base\$2\"", $buffer);
+	$regex     = '#(onclick="window.open\(\')([^/]+[^\']*?\')#m';
+	$buffer    = preg_replace($regex, '$1'.$base.'$2', $buffer);
 
 		JResponse::setBody($buffer);
 		return true;

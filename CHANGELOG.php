@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Dec-2007 Anthony Ferrara
+ # [#8690] javascript popup: url not found (images directory incorrect)
+
 29-Dec-2007 Mati Kochen
  ^ change width from 1000px to 960px (khepri)
  # [#8873] added BROWSE string
