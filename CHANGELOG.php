@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Dec-2007 Hannes Papenberg
+ # [#8688] fixed pagination in com_categories
+
 29-Dec-2007 Johan Janssens
  + Added transliterate function to JLanguage
  ^ JFilterOutput::stringURLSafe now calls JLanguage::transliterate

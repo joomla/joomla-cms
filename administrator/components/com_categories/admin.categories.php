@@ -117,7 +117,7 @@ function showCategories( $section, $option )
 	$search				= JString::strtolower( $search );
 
 	$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-	$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', '.limitstart', 0, 'int' );
+	$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
 
 	$section_name 	= '';
 	$content_add 	= '';
@@ -159,8 +159,13 @@ function showCategories( $section, $option )
 	// get the total number of records
 	$query = 'SELECT COUNT(*)'
 	. ' FROM #__categories'
-	. ' WHERE section = '.$db->Quote($section)
 	;
+	if ($section = 'com_content')
+	{
+		$query .= ' WHERE section > 0';
+	} else {
+		$query .= ' WHERE section = '.$db->quote($section);
+	}
 	$db->setQuery( $query );
 	$total = $db->loadResult();
 
@@ -178,15 +183,6 @@ function showCategories( $section, $option )
 
 		$section_name 	= JText::_( 'All Content:' );
 
-		// get the total number of records
-		$query = 'SELECT COUNT(*)'
-		. ' FROM #__categories'
-		. ' INNER JOIN #__sections AS s ON s.id = section';
-		if ( $sectionid > 0 ) {
-			$query .= ' WHERE section = '.$db->Quote($sectionid);
-		}
-		$db->setQuery( $query );
-		$total = $db->loadResult();
 		$type 			= 'content';
 	}
 
