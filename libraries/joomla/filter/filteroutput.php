@@ -85,11 +85,8 @@ class JFilterOutput
 		//remove any '-' from the string they will be used as concatonater
 		$str = str_replace('-', ' ', $string);
 		
-		$str = htmlentities(utf8_decode($str));
-		$str = preg_replace(
-			array('/&szlig;/','/&(..)lig;/', '/&([aouAOU])uml;/','/&(.)[^;]*;/'),
-			array('ss',"$1","$1".'e',"$1"),
-			$str);
+		$lang =& JFactory::getLanguage();
+		$str = $lang->transliterate($str);
 
 		// remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$str = preg_replace(array('/\s+/','/[^A-Za-z0-9\-]/'), array('-',''), $str);
@@ -118,8 +115,6 @@ class JFilterOutput
 
 		return $text;
 	}
-
-
 
 	/**
 	 * Callback method for replacing & with &amp; in a string

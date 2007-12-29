@@ -135,7 +135,7 @@ class JLanguage extends JObject
 	}
 
 	/**
-	* Translator function, mimics the php gettext (alias _) function
+	* Translate function, mimics the php gettext (alias _) function
 	*
 	* @access	public
 	* @param	string		$string 	The string to translate
@@ -205,6 +205,28 @@ class JLanguage extends JObject
 			$string = addslashes($string);
 		}
 
+		return $string;
+	}
+	
+	/**
+	 * Transliterate function
+	 * 
+	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
+	 * ASCII-7 "equivalents"
+	 *
+	 * @access	public
+	 * @param	string	$string 	The string to transliterate
+	 * @return	string	The transliteration of the string
+	 * @since	1.5
+	 */
+	function transliterate($string)
+	{
+		$string = htmlentities(utf8_decode($string));
+		$string = preg_replace(
+			array('/&szlig;/','/&(..)lig;/', '/&([aouAOU])uml;/','/&(.)[^;]*;/'),
+			array('ss',"$1","$1".'e',"$1"),
+			$string);
+			
 		return $string;
 	}
 

@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Dec-2007 Johan Janssens
+ + Added transliterate function to JLanguage
+ ^ JFilterOutput::stringURLSafe now calls JLanguage::transliterate
+
 29-Dec-2007 Anthony Ferrara
  # [#8690] javascript popup: url not found (images directory incorrect)
 
