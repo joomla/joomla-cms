@@ -161,6 +161,9 @@ class InstallerModelLanguages extends InstallerModel
 	function remove($eid=array())
 	{
 		global $mainframe;
+		
+		$lang =& JFactory::getLanguage();
+		$lang->load('com_installer');
 
 		// Initialize variables
 		$failed = array ();
@@ -195,8 +198,8 @@ class InstallerModelLanguages extends InstallerModel
 			$tag	= basename($item->language);
 			if ( $params->get($client->name, 'en-GB') == $tag ) {
 				$failed[]	= $id;
-				JError::raiseWarning('', 'UNINSTALLLANGPUBLISHEDALREADY');
-				continue;
+				JError::raiseWarning('', JText::_('UNINSTALLLANGPUBLISHEDALREADY'));
+				return;
 			}
 
 			$result = $installer->uninstall( 'language', $item->language );

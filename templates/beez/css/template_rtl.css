@@ -89,12 +89,14 @@ body #header ul {
 }
 
 #header form{
-	float: left;
+	float: left !important;
 	text-align: right;
+	margin: 0 -10px 0 0 !important;
 }
 
 #header form .inputbox {
 	padding:0 2px 0 0;
+	margin-right:  20px !important;
 }
 
 #header form .button{
@@ -104,7 +106,8 @@ body #header ul {
 }
 
 #breadcrumbs{
-	text-align: right;
+	text-align: right !important;
+	margin:0 0 0 -10px !important;	
 }
 
 #wrapper {
@@ -166,8 +169,19 @@ form.login .button{
 }
 
 #main ul li, #main2 ul li {
-	padding:0 10px 0 0;
+	padding:0 20px 0 0;
+	text-align: right !important;
 }
+
+/* ie7 fix  for list elements with count of articles */
+#main ul li a ,
+#main2 ul li a
+{
+	display:inline-block;
+}
+/* end fix */
+
+
 #main ul, #main2 ul {
 	margin:0 20px 0 0;
 	padding:0 10px 0 0;
@@ -182,7 +196,9 @@ form.login .button{
 	background: #93246F url(../images/pfeil_rtl.gif) no-repeat scroll right;
 	padding: 2px 30px 0 2px;
 	right: auto;
-	left: 0;
+	left: 0px !important;
+	position: absolute;
+	text-align: right;
 }
 
 #main a.readon:hover, #main2 a.readon:hover, #main a.readon:active, #main2 a.readon:active, #main a.readon:focus, #main2 a.readon:focus {
@@ -239,12 +255,21 @@ form.login .button{
 }
 
 ul.pagination{
-	text-align: right;
+         overflow:hidden;
 }
 
 ul.pagination li {
-	display: -moz-inline-box;
-	padding: 0 5px;
+        padding: 2px 5px 2px 5px;
+        float:right  ;
+        font-size:1em;
+        width:auto
+}
+
+ul.pagination a
+{
+    display:inline !important;
+    margin:0 !important;
+    padding:0px !important;
 }
 
 #footer p{
@@ -279,7 +304,7 @@ table.contenttoc{
 
 #main .blog_more ul li a, #main2 .blog_more ul li a {
 	background:transparent url(../images/pfeil_rtl.gif) no-repeat scroll right center;
-	padding:2px 30px 4px 0 !important;
+        padding:2px 30px 4px 30px !important;
 	display: table-cell;
 }
 
@@ -318,4 +343,16 @@ form.search_result, form.registration, form.lost_password, .login_form{
 
 form.registration label, form.lost_password label, .login_form label{
 	float: right;
+}
+
+.column2, .column1{
+	float: right;
+}
+
+.column2{
+	float: left;
+}
+
+.article_column{
+	padding: 10px 0 10px 10px;
 }

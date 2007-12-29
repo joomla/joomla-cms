@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Dec-2007 Mati Kochen
+ ^ change width from 1000px to 960px (khepri)
+ # [#8873] added BROWSE string
+ # [#8867] fixed (Today) string
+ # [#8576] added UNINSTALLLANGPUBLISHEDALREADY to com_installer with the correct call
+
 28-Dec-2007 Hannes Papenberg
  # Fixed [#8229] If Intro Text is set to hide and no Fulltext is available, Intro Text is used as the fulltext
 
