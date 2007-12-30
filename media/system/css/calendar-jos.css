@@ -3,6 +3,7 @@
 div.calendar {
   position: relative;
   z-index: 100;
+  width: 226px;
 }
 
 .calendar, .calendar table {
