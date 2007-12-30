@@ -3,7 +3,7 @@
  * @version		$Id:output.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Filter
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -84,7 +84,7 @@ class JFilterOutput
 	{
 		//remove any '-' from the string they will be used as concatonater
 		$str = str_replace('-', ' ', $string);
-		
+
 		$lang =& JFactory::getLanguage();
 		$str = $lang->transliterate($str);
 

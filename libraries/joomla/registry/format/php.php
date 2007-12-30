@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Registry
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -39,7 +39,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 
 		// Build the object variables string
 		$vars = '';
-		foreach (get_object_vars( $object ) as $k => $v) 
+		foreach (get_object_vars( $object ) as $k => $v)
 		{
 			if (is_scalar($v)) {
 				$vars .= "\tvar $". $k . " = '" . addslashes($v) . "';\n";

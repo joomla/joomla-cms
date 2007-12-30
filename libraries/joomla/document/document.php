@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -273,7 +273,7 @@ class JDocument extends JObject
 			$ntype	= null;
 
 			// Check if the document type exists
-			if ( ! file_exists($path)) 
+			if ( ! file_exists($path))
 			{
 				// Default to the raw format
 				$ntype	= $type;
@@ -291,7 +291,7 @@ class JDocument extends JObject
 					JError::raiseError(500,JText::_('Unable to load document class'));
 				}
 			}
-			
+
 			$instance	= new $class($attributes);
 			$instances[$signature] =& $instance;
 
@@ -421,7 +421,7 @@ class JDocument extends JObject
 	 * @param	string  $type	Scripting mime (defaults to 'text/javascript')
 	 * @return   void
 	 */
-	function addScriptDeclaration($content, $type = 'text/javascript') 
+	function addScriptDeclaration($content, $type = 'text/javascript')
 	{
 		if (!isset($this->_script[strtolower($type)])) {
 			$this->_script[strtolower($type)] = $content;
@@ -453,7 +453,7 @@ class JDocument extends JObject
 	 * @access   public
 	 * @return   void
 	 */
-	function addStyleDeclaration($content, $type = 'text/css') 
+	function addStyleDeclaration($content, $type = 'text/css')
 	{
 		if (!isset($this->_style[strtolower($type)])) {
 			$this->_style[strtolower($type)] = $content;

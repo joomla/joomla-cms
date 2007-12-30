@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	HTML
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -111,11 +111,11 @@ class JHTML
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString( $attribs );
 		}
-		
+
 		if(strpos($url, 'http') !== 0) {
 			$url =  JURI::root(true).'/'.$url;
-		}; 
-			
+		};
+
 		return '<img src="'.$url.'" alt="'.$alt.'" '.$attribs.' />';
 	}
 
@@ -153,10 +153,10 @@ class JHTML
 		if($mootools) {
 			JHTML::_('behavior.mootools');
 		}
-		
+
 		if(strpos($path, 'http') !== 0) {
 			$path =  JURI::root(true).'/'.$path;
-		}; 
+		};
 
 		$document = &JFactory::getDocument();
 		$document->addScript( $path.$filename );
@@ -174,8 +174,8 @@ class JHTML
 	{
 		if(strpos($path, 'http') !== 0) {
 			$path =  JURI::root(true).'/'.$path;
-		}; 
-		
+		};
+
 		$document = &JFactory::getDocument();
 		$document->addStylesheet( $path.$filename, 'text/css', null, $attribs );
 		return;

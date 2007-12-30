@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Cache
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -96,13 +96,13 @@ class JCache extends JObject
 	function &getInstance($type = 'output', $options = array())
 	{
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
-		
+
 		$class = 'JCache'.ucfirst($type);
 
 		if(!class_exists($class))
 		{
 			$path = dirname(__FILE__).DS.'handler'.DS.$type.'.php';
-		
+
 			if (file_exists($path)) {
 				require_once($path);
 			} else {
@@ -131,11 +131,11 @@ class JCache extends JObject
 		{
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			$class = 'JCacheStorage'.$name;
-			
+
 			if(!class_exists($class)) {
 				require_once(dirname(__FILE__).DS.'storage'.DS.$name.'.php');
 			}
-			
+
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {
 				$names[] = $name;
 			}
@@ -305,7 +305,7 @@ class JCache extends JObject
 		if (is_a($this->_handler, 'JCacheStorage')) {
 			return $this->_handler;
 		}
-		
+
 		$this->_handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 		return $this->_handler;
 	}

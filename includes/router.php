@@ -3,7 +3,7 @@
 * @version		$Id: router.php 8180 2007-07-23 05:52:29Z eddieajau $
 * @package		Joomla.Framework
 * @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -73,7 +73,7 @@ class JRouterSite extends JRouter
 	function &build($url)
 	{
 		$uri =& parent::build($url);
-		
+
 		// Get the path data
 		$route = $uri->getPath();
 
@@ -291,7 +291,7 @@ class JRouterSite extends JRouter
 			$result = implode('/', $parts);
 			$tmp	= ($result != "") ? '/'.$result : '';
 		}
-	
+
 		/*
 		 * Build the application route
 		 */
@@ -309,7 +309,7 @@ class JRouterSite extends JRouter
 		}
 
 		$route .= '/'.$tmp;
-		
+
 		// Unset unneeded query information
 		unset($query['Itemid']);
 		unset($query['option']);

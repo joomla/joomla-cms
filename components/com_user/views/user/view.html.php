@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla
 * @subpackage	Weblinks
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -36,7 +36,7 @@ class UserViewUser extends JView
 			$this->_displayForm($tpl);
 			return;
 		}
-		
+
 		if ( $layout == 'login' ) {
 			parent::display($tpl);
 			return;
@@ -55,7 +55,7 @@ class UserViewUser extends JView
 		global $mainframe;
 
 		$user     =& JFactory::getUser();
-	
+
 		// check to see if Frontend User Params have been enabled
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
 		$check = $usersConfig->get('frontend_userparams');

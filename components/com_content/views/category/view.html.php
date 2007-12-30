@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -66,10 +66,10 @@ class ContentViewCategory extends ContentView
 
 		//In case we are in a blog view set the limit
 		if ($layout == 'blog') {
-		    if($limit ==  0) $limit = $intro + $leading + $links;    
+		    if($limit ==  0) $limit = $intro + $leading + $links;
         }
 		JRequest::setVar('limit', (int) $limit);
-		
+
 		$contentConfig = &JComponentHelper::getParams('com_content');
 		$params->def('show_page_title', 	$contentConfig->get('show_title'));
 
@@ -112,7 +112,7 @@ class ContentViewCategory extends ContentView
         } else {
 		    $pagination = new JPagination($total, $limitstart, $limit);
 		}
-		
+
 		$this->assign('total',		$total);
 		$this->assign('action', 	$uri->toString());
 

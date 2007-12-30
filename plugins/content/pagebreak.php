@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -95,7 +95,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 	$n = count( $text );
 
 	// we have found at least one plugin, therefore at least 2 pages
-	if ($n > 1) 
+	if ($n > 1)
 	{
 		// Get plugin parameters
 		$pluginParams = new JParameter( $plugin->params );
@@ -110,7 +110,7 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 				if ( $page && @$matches[$page-1][2] )
 				{
 					$attrs = JUtility::parseAttributes($matches[$page-1][1]);
-	
+
 					if ( @$attrs['title'] ) {
 						$row->page_title = $attrs['title'];
 					}
@@ -162,9 +162,9 @@ function plgContentPagebreak( &$row, &$params, $page=0 )
 
 function plgContentCreateTOC( &$row, &$matches, &$page )
 {
-	
+
 	$heading = $row->title;
-	
+
 	// TOC Header
 	$row->toc = '
 	<table cellpadding="0" cellspacing="0" class="contenttoc" align="right">
@@ -192,7 +192,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 	{
 		$link = JRoute::_( '&showall=&limitstart='. ($i-1) );
 
-		
+
 		if ( @$bot[0] )
 		{
 			$attrs2 = JUtility::parseAttributes($bot[0]);
@@ -214,7 +214,7 @@ function plgContentCreateTOC( &$row, &$matches, &$page )
 		{
 			$title	= JText::sprintf( 'Page #', $i );
 		}
-		
+
 		$row->toc .= '
 			<tr>
 				<td>
@@ -253,28 +253,28 @@ function plgContentCreateNavigation( &$row, $page, $n )
 	$pnSpace = "";
 	if (JText::_( '&lt' ) || JText::_( '&gt' )) $pnSpace = " ";
 
-	if ( $page < $n-1 ) 
+	if ( $page < $n-1 )
 	{
 		$page_next = $page + 1;
-		
+
 		$link_next = JRoute::_( '&limitstart='. ( $page_next ) );
 		// Next >>
 		$next = '<a href="'. $link_next .'">' . JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ) . JText::_( '&gt' ) .'</a>';
-	} 
-	else 
+	}
+	else
 	{
 		$next = JText::_( 'Next' );
 	}
 
-	if ( $page > 0 ) 
+	if ( $page > 0 )
 	{
-		$page_prev = $page - 1 == 0 ? "" : $page - 1;  
-		
+		$page_prev = $page - 1 == 0 ? "" : $page - 1;
+
 		$link_prev = JRoute::_(  '&limitstart='. ( $page_prev) );
 		// << Prev
 		$prev = '<a href="'. $link_prev .'">'. JText::_( '&lt' ) . JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ) .'</a>';
-	} 
-	else 
+	}
+	else
 	{
 		$prev = JText::_( 'Prev' );
 	}

@@ -3,7 +3,7 @@
 * @version      $Id$
 * @package      Joomla.Framework
 * @subpackage   Environment
-* @copyright    Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright    Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license      GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -276,16 +276,16 @@ class JBrowser extends JObject
         }
 
 
-        // Check if browser excepts content type xhtml+xml 
+        // Check if browser excepts content type xhtml+xml
         if (strpos($this->_accept, 'application/xhtml+xml')) {
             $this->setFeature('xhtml+xml');
         }
-     
+
         // Check for a mathplayer plugin is installed, so we can use MathML on several browsers
         if (strpos($this->_lowerAgent, 'mathplayer') !== false) {
             $this->setFeature('mathml');
         }
-     
+
         // Check for UTF support.
         if (isset($_SERVER['HTTP_ACCEPT_CHARSET'])) {
             $this->setFeature('utf', strpos(strtolower($_SERVER['HTTP_ACCEPT_CHARSET']), 'utf') !== false);
@@ -344,7 +344,7 @@ class JBrowser extends JObject
                 if (($this->_majorVersion < 7) &&
                     preg_match('/windows/i', $this->_agent)) {
                     $this->setQuirk('png_transparency');
-                } 
+                }
 
                 /* Some Handhelds have their screen resolution in the
                  * user agent string, which we can use to look for
@@ -433,7 +433,7 @@ class JBrowser extends JObject
             } elseif (preg_match('|W3C_Validator/([0-9.]+)|', $this->_agent, $version)) {
                 $this->setFeature('mathml');
                 $this->setFeature('svg');
-                $this->setFeature('xhtml+xml');            	             
+                $this->setFeature('xhtml+xml');
             } elseif (preg_match('|ANTFresco/([0-9]+)|', $this->_agent, $version)) {
                 $this->setBrowser('fresco');
                 $this->setFeature('javascript', 1.5);

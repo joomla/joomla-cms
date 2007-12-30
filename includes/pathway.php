@@ -3,7 +3,7 @@
 * @version		$Id: pathway.php 8180 2007-07-23 05:52:29Z eddieajau $
 * @package		Joomla.Framework
 * @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -31,34 +31,34 @@ class JPathwaySite extends JPathway
 	{
 		//Initialise the array
 		$this->_pathway = array();
-		
+
 		$menu   =& JSite::getMenu();
 
 		if($item = $menu->getActive())
 		{
 			$menus	= $menu->getMenu();
 			$home	= $menu->getDefault();
-			
+
 			if( $item->id != $home->id)
 			{
-				foreach($item->tree as $menupath) 
+				foreach($item->tree as $menupath)
 				{
 					$url  = '';
 					$link = $menu->getItem($menupath);
-					
+
 					switch($link->type)
 					{
-						case 'menulink' : 
-							$url = $link->link;	
+						case 'menulink' :
+							$url = $link->link;
 							break;
 						default      :
 							$url = 'index.php?Itemid='.$link->id;
 					}
-					
+
 					$this->addItem( $menus[$menupath]->name, $url);
-					
+
 				} // end foreach
-			} 
+			}
 		} // end if getActive
 	}
 }

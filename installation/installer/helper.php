@@ -4,7 +4,7 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Installation
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -688,7 +688,7 @@ class JInstallationHelper
 		if(!$uploaded) {
 			return JText::_('WARNUPLOADFAILURE');
 		}
-		
+
 		if( !eregi('.sql$', $sqlFile['name']) )
 		{
 			$archive = JPATH_SITE.DS.'tmp'.DS.$sqlFile['name'];
@@ -839,7 +839,7 @@ class JInstallationHelper
 		return $retval;
 
 	}
-	
+
 	function return_bytes($val) {
 	    $val = trim($val);
 	    $last = strtolower($val{strlen($val)-1});
@@ -852,26 +852,26 @@ class JInstallationHelper
 	        case 'k':
 	            $val *= 1024;
 	    }
-	
+
 	    return $val;
 	}
-	
+
 	function replaceBuffer(&$buffer, $oldPrefix, $newPrefix, $srcEncoding) {
 
 			$buffer = str_replace( $oldPrefix, $newPrefix, $buffer );
-	
+
 			/*
 			 * give temp name to menu and modules tables
 			 */
 			$buffer = str_replace ( $newPrefix.'modules', $newPrefix.'modules_migration', $buffer );
 			$buffer = str_replace ( $newPrefix.'menu', $newPrefix.'menu_migration', $buffer );
-	
+
 			/*
 			 * rename two aro_acl... field names
 			 */
 			$buffer = preg_replace ( '/group_id(?!.{15,25}aro_id)/', 'id', $buffer );
 			$buffer = preg_replace ( '/aro_id(?=.{1,6}section_value)/', 'id', $buffer );
-	
+
 			/*
 			 * convert to utf-8
 			 */
@@ -879,7 +879,7 @@ class JInstallationHelper
 				$buffer = iconv( $srcEncoding, 'utf-8//TRANSLIT', $buffer );
 			}
 	}
-	
+
 	function appendFile(&$buffer, $filename) {
 		$fh = fopen($filename, 'a');
 		fwrite($fh, $buffer);
@@ -902,7 +902,7 @@ class JInstallationHelper
 			$memlimit = JInstallationHelper::return_bytes(ini_get('memory_limit'));
 			$maxread = $memlimit / 16; 	// Read only a eigth of our max amount of memory, we could be up to a lot by now
 										// By default this pegs us at 0.5MB
-		} 
+		}
 		$buffer = '';
 		$newPrefix = $args['DBPrefix'];
 		/*
@@ -913,7 +913,7 @@ class JInstallationHelper
 		$srcEncoding = $args['srcEncoding'];
 		$newFile = dirname( $scriptName ).DS.'converted.sql';
 		$filesize = filesize($scriptName);
-		if($maxread > 0 && $filesize > 0 && $maxread < $filesize) 
+		if($maxread > 0 && $filesize > 0 && $maxread < $filesize)
 		{
 			$parts = ceil($filesize / $maxread);
 			file_put_contents( $newFile, '' ); // cleanse the file first
@@ -923,7 +923,7 @@ class JInstallationHelper
 				JInstallationHelper::replaceBuffer($buffer, $oldPrefix, $newPrefix, $srcEncoding);
 				JInstallationHelper::appendFile($buffer, $newFile);
 				unset($buffer);
-			}				
+			}
 			JFile::delete( $scriptName );
 		} else {
 			/*
@@ -932,11 +932,11 @@ class JInstallationHelper
 			if(is_file($scriptName)) {
 				$buffer = file_get_contents( $scriptName );
 			} else return false;
-			
+
 			if(  $buffer == false ) return false;
-			
+
 			JInstallationHelper::replaceBuffer($buffer, $oldPrefix, $newPrefix, $srcEncoding);
-			
+
 			/*
 			 * write to file
 			 */
@@ -946,7 +946,7 @@ class JInstallationHelper
 			jimport('joomla.filesystem.file');
 			JFile::delete( $scriptName );
 		}
-		
+
 		/*
 		 * Create two empty temporary tables
 		 */
@@ -970,7 +970,7 @@ class JInstallationHelper
 		$query = 'CREATE TABLE '.$newPrefix.'menu_migration SELECT * FROM '.$newPrefix.'menu WHERE 0';
 		$db->setQuery( $query );
 		$db->query();
-		
+
 		return $newFile;
 	}
 
@@ -1042,12 +1042,12 @@ class JInstallationHelper
 		$db->setQuery( $query );
 		$db->query();
 		JInstallationHelper::getDBErrors($errors, $db );
-		
+
 		// fix up standalone contact
 		$query = 'UPDATE `'. $newPrefix.'menu_migration` SET `link` = "index.php?option=com_contact&view=category" WHERE `link` = "index.php?option=com_contact"';
 		$db->setQuery( $query );
 		$db->query();
-		JInstallationHelper::getDBErrors($errors, $db );		
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		// get com_content id
 		$query = 'SELECT `id` FROM `'.$newPrefix.'components` WHERE `option`="com_content" AND `parent` = 0';

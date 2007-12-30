@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -34,7 +34,7 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
  */
 
 // System includes
-require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php'); 
+require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php');
 
 // Pre-Load configuration
 require_once( JPATH_CONFIGURATION	.DS.'configuration.php' );

@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	HTML
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -47,7 +47,7 @@ class JHTMLImage
 		if (!$paths) {
 			$paths = array();
 		}
-		
+
 		if (is_array( $attribs )) {
 			$attribs = JArrayHelper::toString( $attribs );
 		}
@@ -80,7 +80,7 @@ class JHTMLImage
 		if (substr($src, 0, 1 ) == "/") {
 			$src = substr_replace($src, '', 0, 1);
 		}
-		
+
 		// Prepend the base path
 		$src = JURI::base(true).'/'.$src;
 
@@ -88,7 +88,7 @@ class JHTMLImage
 		if ($asTag) {
 			return '<img src="'. $src .'" alt="'. html_entity_decode( $alt ) .'" '.$attribs.' />';
 		}
-			
+
 		return $src;
 	}
 
@@ -97,7 +97,7 @@ class JHTMLImage
 	* if it does it loads this image.  Otherwise the default image is loaded.
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
-	* 
+	*
 	* @param	string	The file name, eg foobar.png
 	* @param	string	The path to the image
 	* @param	int		empty: use $file and $folder, -1: show no image, not-empty: use $altFile and $altFolder
@@ -109,7 +109,7 @@ class JHTMLImage
 	function administrator( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt = NULL, $attribs = null, $type = 1 )
 	{
 		global $mainframe;
-		
+
 		if (is_array( $attribs )) {
 			$attribs = JArrayHelper::toString( $attribs );
 		}
@@ -139,7 +139,7 @@ class JHTMLImage
 		if (substr($image, 0, 1 ) == "/") {
 			$image = substr_replace($image, '', 0, 1);
 		}
-		
+
 		// Prepend the base path
 		$image = JURI::base(true).'/'.$image;
 

@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -118,22 +118,22 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 		. ' ORDER BY '. $orderby;
 		$db->setQuery($query);
 		$list = $db->loadObjectList('id');
-		
+
 		// this check needed if incorrect Itemid is given resulting in an incorrect result
 		if ( !is_array($list) ) {
 			$list = array();
 		}
-		
+
 		reset($list);
 
 		// location of current content item in array list
 		$location = array_search($uid, array_keys($list));
-			
+
 		$rows = array_values($list);
-		
+
 		$row->prev = null;
 		$row->next = null;
-		
+
 		if ($location -1 >= 0) 	{
 			// the previous content item cannot be in the array position -1
 			$row->prev = $rows[$location -1];

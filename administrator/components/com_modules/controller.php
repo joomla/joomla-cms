@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Modules
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -186,7 +186,7 @@ class ModulesController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-		
+
 		// Initialize some variables
 		$db 	=& JFactory::getDBO();
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
@@ -257,7 +257,7 @@ class ModulesController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		global $mainframe;
 
 		$cache = & JFactory::getCache();
@@ -561,7 +561,7 @@ class ModulesController extends JController
 	function remove()
 	{
 		global $mainframe;
-		
+
 		// Check for request forgeries.
 		$token = JUtility::getToken();
 		if (!JRequest::getInt($token, 0, 'post')) {
@@ -617,7 +617,7 @@ class ModulesController extends JController
 	function publish()
 	{
 		global $mainframe;
-		
+
 		// Check for request forgeries.
 		$token = JUtility::getToken();
 		if (!JRequest::getInt($token, 0, 'post')) {
@@ -685,7 +685,7 @@ class ModulesController extends JController
 	function reorder()
 	{
 		global $mainframe;
-		
+
 		// Check for request forgeries.
 		$token = JUtility::getToken();
 		if (!JRequest::getInt($token, 0, 'post')) {
@@ -776,7 +776,7 @@ class ModulesController extends JController
 		if (!JRequest::getInt($token, 0, 'post')) {
 			JError::raiseError(403, 'Request Forbidden');
 		}
-	
+
 		// Initialize some variables
 		$db		=& JFactory::getDBO();
 		$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));

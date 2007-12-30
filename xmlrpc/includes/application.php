@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla
 * @subpackage	Installation
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -44,13 +44,13 @@ class JXMLRPC extends JApplication
 	{
 		$config['clientId'] = 4;
 		parent::__construct($config);
-		
+
 		//Set the encoding
 		$this->_encoding = "UTF-8";
-	
+
 		//Set the root in the URI based on the application name
 		JURI::root(null, str_replace('/'.$this->getName(), '', JURI::base(true)));
-		
+
 	}
 
 	/**

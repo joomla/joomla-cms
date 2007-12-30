@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla
 * @subpackage	Poll
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -118,7 +118,7 @@ class PollViewPoll extends JView
  			JRoute::_('index.php?option=com_poll&id='.$poll->id.':'.$poll->alias)
  			);
 
-	
+
 		$graphwidth = 200;
 		$barheight 	= 4;
 		$maxcolors 	= 5;
@@ -164,7 +164,7 @@ class PollViewPoll extends JView
 			$vote->count	= $i;
 			$k = 1 - $k;
 		}
-		
+
 		$this->assign('first_vote',	$first_vote);
 		$this->assign('last_vote',	$last_vote);
 

@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -18,7 +18,7 @@ class modLoginHelper
 {
 	function getReturnURL($params, $type)
 	{
-		if($itemid =  $params->get($type)) 
+		if($itemid =  $params->get($type))
 		{
 			$url = 'index.php?Itemid='.$itemid;
 			$url = JRoute::_($url, false);
@@ -29,7 +29,7 @@ class modLoginHelper
 			$uri = JFactory::getURI();
 			$url = $uri->toString();
 		}
-		
+
 		return base64_encode($url);
 	}
 

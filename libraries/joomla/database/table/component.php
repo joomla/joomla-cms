@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -60,7 +60,7 @@ class JTableComponent extends JTable
 
 	/**
 	 * Loads a data row by option
-	 * 
+	 *
 	 * @param string The component option value
 	 * @return boolean
 	 */
@@ -80,11 +80,11 @@ class JTableComponent extends JTable
 			return $this->load( $id );
 		}
 	}
-	
+
 	/**
 	 * Validate and filter fields
 	 */
-	function check() 
+	function check()
 	{
 		$this->parent = intval( $this->parent );
 		$this->ordering = intval( $this->ordering );
@@ -102,7 +102,7 @@ class JTableComponent extends JTable
 	*/
 	function bind($array, $ignore = '')
 	{
-		if (is_array( $array['params'] )) 
+		if (is_array( $array['params'] ))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);

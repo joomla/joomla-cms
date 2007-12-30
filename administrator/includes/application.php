@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -37,7 +37,7 @@ class JAdministrator extends JApplication
 	{
 		$config['clientId'] = 1;
 		parent::__construct($config);
-		
+
 		//Set the root in the URI based on the application name
 		JURI::root(null, str_replace('/'.$this->getName(), '', JURI::base(true)));
 	}
@@ -168,15 +168,15 @@ class JAdministrator extends JApplication
 	function login($credentials, $options = array())
 	{
 		//The minimum group
-		$options['group'] = 'Public Backend';  
-		
+		$options['group'] = 'Public Backend';
+
 		 //Make sure users are not autoregistered
 		$options['autoregister'] = false;
-		
+
 		//Set the application login entry point
 		if(!array_key_exists('entry_url', $options)) {
 			$options['entry_url'] = JURI::base().'index.php?option=com_user&task=login';
-		} 	 			 
+		}
 
 		$result = parent::login($credentials, $options);
 
@@ -272,7 +272,7 @@ class JAdministrator extends JApplication
 			$db->query();
 		}
 	}
-	
+
    /**
 	* Deprecated, use JURI::root() instead.
 	*

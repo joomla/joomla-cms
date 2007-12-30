@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -168,7 +168,7 @@ class JSite extends JApplication
 		$data = $document->render( $this->getCfg('caching'), $params);
 		JResponse::setBody($data);
 	}
-	
+
    /**
 	* Login authentication function
 	*
@@ -183,7 +183,7 @@ class JSite extends JApplication
 		 if(!array_key_exists('entry_url', $options)) {
 			 $options['entry_url'] = JURI::base().'index.php?option=com_user&task=login';
 		 }
-		 	 			 
+
 		return parent::login($credentials, $options);
 	}
 
@@ -289,7 +289,7 @@ class JSite extends JApplication
 		// Get the id of the active menu item
 		$menu =& JSite::getMenu();
 		$item = $menu->getActive();
-		
+
 		$id = 0;
 		if(is_object($item)) { // valid item retrieved
 			$id = $item->id;

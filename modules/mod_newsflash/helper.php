@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -47,7 +47,7 @@ class modNewsFlashHelper
 
 			$item->linkOn = $linkOn;
 		}
-		
+
 		if (!$params->get('image')) {
 			$item->text = preg_replace( '/<img[^>]*>/', '', $item->text );
 		}
@@ -82,7 +82,7 @@ class modNewsFlashHelper
 		jimport('joomla.utilities.date');
 		$date = new JDate();
 		$now = $date->toMySQL();
-	
+
 		$nullDate = $db->getNullDate();
 
 		// query to determine article count

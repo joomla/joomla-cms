@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Plugin
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -40,9 +40,9 @@ class JPluginHelper
 		$result = array();
 
 		$plugins = JPluginHelper::_load();
-		
+
 		$total = count($plugins);
-		for($i = 0; $i < $total; $i++) 
+		for($i = 0; $i < $total; $i++)
 		{
 			if(is_null($plugin))
 			{
@@ -59,7 +59,7 @@ class JPluginHelper
 			}
 
 		}
-		
+
 		return $result;
 	}
 
@@ -120,7 +120,7 @@ class JPluginHelper
 		$result	= false;
 		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
 		$plugin->name  = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
-		
+
 		$path	= JPATH_PLUGINS.DS.$plugin->type.DS.$plugin->name.'.php';
 
 		if (!isset( $paths[$path] ))
@@ -146,7 +146,7 @@ class JPluginHelper
 					{
 						// load plugin parameters
 						$plugin =& JPluginHelper::getPlugin($plugin->type, $plugin->name);
-						
+
 						// create the plugin
 						$instance = new $className($dispatcher, (array)($plugin));
 					}

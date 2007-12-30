@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	HTML
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -185,7 +185,7 @@ class JHTMLBehavior
 		if (isset($uploaders[$id]) && ($uploaders[$id])) {
 			return;
 		}
-	
+
 		// Setup options object
 		$opt['url']					= (isset($params['targetURL'])) ? $params['targetURL'] : null ;
 		$opt['swf']					= (isset($params['swf'])) ? $params['swf'] : JURI::root(true).'/media/system/swf/uploader.swf';
@@ -302,7 +302,7 @@ class JHTMLBehavior
 		$lifetime 	 = ( $config->getValue('lifetime') * 60000 );
 		$refreshTime =  ( $lifetime <= 60000 ) ? 30000 : $lifetime - 60000;
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
-		
+
 		$document =& JFactory::getDocument();
 		$script  = '';
 		$script .= 'function keepAlive( ) {';
@@ -311,9 +311,9 @@ class JHTMLBehavior
 		$script .= 	' window.addEvent("domready", function()';
 		$script .= 	'{ keepAlive.periodical('.$refreshTime.' ); }';
 		$script .=  ');';
-		
+
 		$document->addScriptDeclaration($script);
-	
+
 		return;
 	}
 

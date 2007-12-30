@@ -3,7 +3,7 @@
  * @version		$Id:component.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -336,15 +336,15 @@ class JInstallerComponent extends JObject
 			// Make sure we delete the folders if no manifest exists
 			JFolder::delete($this->parent->getPath('extension_administrator'));
 			JFolder::delete($this->parent->getPath('extension_site'));
-			
+
 			// Remove the menu
 			$this->_removeAdminMenus($row);
-			
+
 			// Raise a warning
 			JError::raiseWarning(100, JText::_('ERRORREMOVEMANUALLY'));
-			
-			// Return 
-			return false; 
+
+			// Return
+			return false;
 		}
 
 		// Get the root node of the manifest document

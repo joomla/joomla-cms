@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla
 * @subpackage	Media
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -34,10 +34,10 @@ class MediaViewImages extends JView
 		$app = JFactory::getApplication();
 		$append = '';
 		if($app->getClientId() == 1) $append = 'administrator/';
-		
+
 		JHTML::_('script'    , 'popup-imagemanager.js', $append .'components/com_media/assets/');
 		JHTML::_('stylesheet', 'popup-imagemanager.css', $append .'components/com_media/assets/');
-		
+
 		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ ImageManager.refreshFrame(); }'));
 
 		/*

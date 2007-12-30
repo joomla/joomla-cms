@@ -3,7 +3,7 @@
 * @version		$Id:storage.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	Cache
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -72,14 +72,14 @@ class JCacheStorage extends JObject
 			if(!class_exists($class))
 			{
 				$path = dirname(__FILE__).DS.'storage'.DS.$handler.'.php';
-				
+
 				if (file_exists($path) ) {
 					require_once($path);
 				} else {
 					return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
 				}
 			}
-						
+
 			$instances[$handler] = new $class($options);
 		}
 		return $instances[$handler];

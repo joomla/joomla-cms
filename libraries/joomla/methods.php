@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla.Framework
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -41,29 +41,29 @@ class JRoute
 		// Get the router
 		$app	= &JFactory::getApplication();
 		$router = &$app->getRouter();
-	
+
 		// Make sure that we have our router
-		if (! $router) {	
+		if (! $router) {
 			return null;
 		}
-		
+
 		static $debug;
-		
+
 		if ( $debug == NULL ) {
 			$debug = $app->getCfg('debug');
 		}
-		
+
 		if ( $debug && (strpos($url, '&') !== 0 ) && (strpos($url, 'index.php') !== 0) ) {
 			JError::raiseWarning(200, "The url '$url' should not be routed through JRoute::_() ");
 		}
-	
+
 		// Build route
 		$uri = &$router->build($url);
 		$url = $uri->toString(array('path', 'query', 'fragment'));
-		
+
 		// Replace spaces
 		$url = preg_replace('/\s/', '%20', $url);
-		
+
 		/*
 		 * Get the secure/unsecure URLs.
 
@@ -72,25 +72,25 @@ class JRoute
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
 		$ssl	= (int) $ssl;
-		if ( $ssl ) 
+		if ( $ssl )
 		{
 			$uri	         =& JURI::getInstance();
-			
+
 			// Get additional parts
 			static $prefix;
 			if ( ! $prefix ) {
 				$prefix = $uri->toString( array('host', 'port'));
 				//$prefix .= JURI::base(true);
 			}
-			
+
 			// Determine which scheme we want
 			$scheme	= ( $ssl === 1 ) ? 'https' : 'http';
-			
+
 			// Make sure our url path begins with a slash
 			if ( ! preg_match('#^/#', $url) ) {
 				$url	= '/' . $url;
 			}
-			
+
 			// Build the URL
 			$url	= $scheme . '://' . $prefix . $url;
 		}

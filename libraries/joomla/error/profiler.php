@@ -4,7 +4,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Error
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -102,7 +102,7 @@ class JProfiler extends JObject
 		if ( function_exists('memory_get_usage') ) {
 			$mark	.= ', '.sprintf('%0.2f', memory_get_usage() / 1048576 ).' MB';
 		}
-		
+
 		$this->_buffer[] = $mark;
 		return $mark;
 	}

@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -19,10 +19,10 @@ $mainframe->registerEvent( 'onBeforeDisplayContent', 'plgContentVote' );
 function plgContentVote( &$row, &$params, $page=0 )
 {
 	$uri = & JFactory::getURI();
-	
+
 	$id 	= $row->id;
 	$html 	= '';
-	
+
 	if (isset($row->rating_count) && $params->get( 'show_vote' ) && !$params->get( 'popup' ))
 	{
 		JPlugin::loadLanguage( 'plg_content_vote' );
@@ -43,8 +43,8 @@ function plgContentVote( &$row, &$params, $page=0 )
 		$html .= JText::_( 'User Rating' ) .':'. $img .'&nbsp;/&nbsp;';
 		$html .= intval( $row->rating_count );
 		$html .= "</span>\n<br />\n";
-		
-		if (!$params->get( 'intro_only' )) 
+
+		if (!$params->get( 'intro_only' ))
 		{
 			$html .= '<span class="content_vote">';
 			$html .= JText::_( 'Poor' );

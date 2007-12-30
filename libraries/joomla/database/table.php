@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Table
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -105,7 +105,7 @@ class JTable extends JObject
 				return $false;
 			}
 		}
-		
+
 		//Make sure we are returning a DBO object
 		if (array_key_exists('dbo', $config))  {
 			$db =& $config['dbo'];
@@ -115,7 +115,7 @@ class JTable extends JObject
 
 		$instance = new $tableClass($db);
 		//$instance->setDBO($db);
-		
+
 		return $instance;
 	}
 
@@ -161,7 +161,7 @@ class JTable extends JObject
 	{
 		return $this->_tbl_key;
 	}
-	
+
 	/**
 	 * Resets the default properties
 	 * @return	void
@@ -490,7 +490,7 @@ class JTable extends JObject
 		if ($oid) {
 			$this->$k = intval( $oid );
 		}
-		
+
 		if (is_array( $joins ))
 		{
 			$select = "$k";
@@ -596,7 +596,7 @@ class JTable extends JObject
 		jimport('joomla.utilities.date');
 		$datenow = new JDate();
 		$time = $datenow->toMysql();
-		
+
 		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ) .
 			' SET checked_out = '.(int)$who.', checked_out_time = '.$this->_db->Quote($time) .
 			' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
@@ -732,7 +732,7 @@ class JTable extends JObject
 		$this->setError('');
 		return true;
 	}
-	
+
 	/**
 	 * Generic Publish/Unpublish function
 	 *

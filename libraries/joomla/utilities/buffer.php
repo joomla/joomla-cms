@@ -3,7 +3,7 @@
  * @version		$Id:buffer.php 6961 2007-03-15 16:06:53Z tcp $
  * @package		Joomla.Framework
  * @subpackage	Utilities
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -15,7 +15,7 @@
 /**
  * Generic Buffer stream handler
  *
- * This class provides a generic buffer stream.  It can be used to store/retrieve/manipulate 
+ * This class provides a generic buffer stream.  It can be used to store/retrieve/manipulate
  * string buffers with the standard PHP filesystem I/O methods.
  *
  * @author		Louis Landry <louis.landry@joomla.org>
@@ -43,7 +43,7 @@ class JBuffer
 	 */
 	var $_buffers = array ();
 
-	function stream_open($path, $mode, $options, & $opened_path) 
+	function stream_open($path, $mode, $options, & $opened_path)
 	{
 		$url = parse_url($path);
 		$this->name = $url["host"];
@@ -53,14 +53,14 @@ class JBuffer
 		return true;
 	}
 
-	function stream_read($count) 
+	function stream_read($count)
 	{
 		$ret = substr($this->_buffers[$this->name], $this->position, $count);
 		$this->position += strlen($ret);
 		return $ret;
 	}
 
-	function stream_write($data) 
+	function stream_write($data)
 	{
 		$left = substr($this->_buffers[$this->name], 0, $this->position);
 		$right = substr($this->_buffers[$this->name], $this->position + strlen($data));
@@ -77,9 +77,9 @@ class JBuffer
 		return $this->position >= strlen($this->_buffers[$this->name]);
 	}
 
-	function stream_seek($offset, $whence) 
+	function stream_seek($offset, $whence)
 	{
-		switch ($whence) 
+		switch ($whence)
 		{
 			case SEEK_SET :
 				if ($offset < strlen($this->_buffers[$this->name]) && $offset >= 0) {

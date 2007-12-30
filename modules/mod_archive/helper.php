@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -29,11 +29,11 @@ class modArchiveHelper
 			' GROUP BY created_year DESC, created_month DESC';
 		$db->setQuery($query, 0, intval($params->get('count')));
 		$rows = $db->loadObjectList();
-		
+
 		$menu = &JSite::getMenu();
-		$item = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);		
+		$item = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
 		$itemid = isset($item) ? $item->id : 0;
-		
+
 		$i		= 0;
 		$lists	= array();
 		foreach ( $rows as $row )

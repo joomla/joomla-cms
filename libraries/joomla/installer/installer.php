@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Installer
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -211,7 +211,7 @@ class JInstaller extends JObject
 	 */
 	function setAdapter($name, $adapter = null)
 	{
-		if (!is_object($adapter)) 
+		if (!is_object($adapter))
 		{
 			// Try to load the adapter object
 			require_once(dirname(__FILE__).DS.'adapters'.DS.strtolower($name).'.php');

@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Plugin
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -44,7 +44,7 @@ class JPlugin extends JEvent
 	 * @access	protected
 	 */
 	var $_name	= null;
-	
+
 	/**
 	 * The plugin type
 	 *
@@ -52,7 +52,7 @@ class JPlugin extends JEvent
 	 * @access	protected
 	 */
 	var $_type	= null;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -77,18 +77,18 @@ class JPlugin extends JEvent
 	{
 		//Set the parameters
 		if ( isset( $config['params'] ) ) {
-			
+
 			if(is_a($config['params'], 'JParameter')) {
 				$this->params = $config['params'];
 			} else {
 				$this->params = new JParameter($config['params']);
 			}
 		}
-		
+
 		if ( isset( $config['name'] ) ) {
 			$this->_name = $config['name'];
 		}
-		
+
 		if ( isset( $config['type'] ) ) {
 			$this->_type = $config['type'];
 		}

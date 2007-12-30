@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -23,7 +23,7 @@ class modBreadCrumbsHelper
 		// Get the PathWay object from the application
 		$pathway =& $mainframe->getPathway();
 		$items   = $pathway->getPathWay();
-		
+
 		$count = count($items);
 		for ($i = 0; $i < $count; $i ++)
 		{
@@ -53,9 +53,9 @@ class modBreadCrumbsHelper
 	function setSeparator($custom = null)
 	{
 		global $mainframe;
-		
+
 		$lang =& JFactory::getLanguage();
-		
+
 		/**
 	 	* If a custom separator has not been provided we try to load a template
 	 	* specific one first, and if that is not present we load the default separator

@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Registry
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -405,19 +405,19 @@ class JRegistry extends JObject
 	 */
 	function merge(&$source)
 	{
-		if (is_a($source, 'JRegistry')) 
+		if (is_a($source, 'JRegistry'))
 		{
 			$sns = $source->getNameSpaces();
 			foreach ($sns as $ns)
 			{
-				if (!isset($this->_registry[$ns])) 
+				if (!isset($this->_registry[$ns]))
 				{
 					// If namespace does not exist, make it and load the data
 					$this->makeNameSpace($ns);
 				}
 
 				// Load the variables into the registry's default namespace.
-				foreach ($source->toArray($ns) as $k => $v) 
+				foreach ($source->toArray($ns) as $k => $v)
 				{
 					if ($v != null) {
 						$this->_registry[$ns]['data']->$k = $v;

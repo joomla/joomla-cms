@@ -3,7 +3,7 @@
  * @version		$Id: route.php 9019 2007-09-26 00:40:35Z jinx $
  * @package		Joomla
  * @subpackage	Weblinks
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -33,12 +33,12 @@ class WeblinksHelperRoute
 			'category' => (int) $catid,
 			'categories' => null
 		);
-		
+
 		//Create the link
 		$link = 'index.php?option=com_weblinks&view=weblink&id='. $id . '&catid='.$catid;
 		$link .= '&Itemid=' . WeblinksHelperRoute::_findItem($needles);
-		
-		return $link;		
+
+		return $link;
 	}
 
 	function _findItem($needles)
@@ -57,12 +57,12 @@ class WeblinksHelperRoute
 					break;
 				}
 			}
-			
+
 			if(isset($match)) {
 				break;
 			}
 		}
-		
+
 		return $match;
 	}
 }

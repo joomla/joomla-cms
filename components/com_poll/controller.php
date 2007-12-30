@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla
 * @subpackage	Polls
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -67,24 +67,24 @@ class PollController extends JController
 		// ToDo - may be adding those information to the session?
 		$voted = JRequest::getVar( $cookieName, '0', 'COOKIE', 'INT');
 
-		if ($voted || !$option_id ) 
+		if ($voted || !$option_id )
 		{
 			if($voted) {
 				$msg = JText::_('You already voted for this poll today!');
 			}
-			
+
 			if(!$option_id){
 				$msg = JText::_('WARNSELECT');
 			}
 		}
-		else 
+		else
 		{
 			setcookie( $cookieName, '1', time() + $poll->lag );
 
 			require_once(JPATH_COMPONENT.DS.'models'.DS.'poll.php');
 			$model = new PollModelPoll();
 			$model->vote( $poll_id, $option_id );
-			
+
 			$msg = JText::_( 'Thanks for your vote!' );
 		}
 
@@ -95,7 +95,7 @@ class PollController extends JController
 		if(isset($items[0])) {
 			$itemid = $items[0]->id;
 		}
-		
+
 		$this->setRedirect( JRoute::_('index.php?option=com_poll&id='. $poll_id.':'.$poll->alias.'&Itemid='.$itemid, false), $msg );
 	}
 }

@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Utilities
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -135,7 +135,7 @@ class JSimpleCrypt extends JObject
 		return $k;
 	}
 
-	function _hexToIntArray($s) 
+	function _hexToIntArray($s)
 	{
 		(string) $s1 = $s;
 		(int) $i = strlen($s1);
@@ -148,13 +148,13 @@ class JSimpleCrypt extends JObject
 		return $ai;
 	}
 
-	function _charToInt($c) 
+	function _charToInt($c)
 	{
 		$ac[0] = $c;
 		return $ac;
 	}
 
-	function _xorString($ai) 
+	function _xorString($ai)
 	{
 		$s = $this->_key; //
 		(int) $i = strlen($s);
@@ -172,7 +172,7 @@ class JSimpleCrypt extends JObject
 		return $s1;
 	}
 
-	function _intToHex($i) 
+	function _intToHex($i)
 	{
 		(int) $j = (int) $i / 16;
 		if ((int) $j == 0) {
@@ -186,7 +186,7 @@ class JSimpleCrypt extends JObject
 		return $s;
 	}
 
-	function _xorCharString($s) 
+	function _xorCharString($s)
 	{
 		$ac = preg_split('//', $s, -1, PREG_SPLIT_NO_EMPTY);
 		(string) $s1 = $this->_key;

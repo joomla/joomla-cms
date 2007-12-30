@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -345,7 +345,7 @@ class JController extends JObject
 		if ( empty( $name ) ) {
 			$name = $this->getName();
 		}
-		
+
 		if ( empty( $prefix ) ) {
 			$prefix = $this->getName() . 'Model';
 		}
@@ -505,7 +505,7 @@ class JController extends JObject
 	{
 		if ( in_array( strtolower( $method ), $this->_methods ) ) {
 			$this->_taskMap[strtolower( $task )] = $method;
-		} 
+		}
 	}
 
 	/**

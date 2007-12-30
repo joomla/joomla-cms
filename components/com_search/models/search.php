@@ -3,7 +3,7 @@
  * @version		$Id: category.php 8031 2007-07-17 23:14:23Z jinx $
  * @package		Joomla
  * @subpackage	Search
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative

@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Parameter
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -56,7 +56,7 @@ class JElementMenuItem extends JElement
 		if ($state = $node->attributes('state')) {
 			$where .= ' AND published = '.(int) $state;
 		}
-	
+
 		// load the list of menu items
 		// TODO: move query to model
 		$query = 'SELECT id, parent, name, menutype, type' .
@@ -72,10 +72,10 @@ class JElementMenuItem extends JElement
 		// TODO: use node model
 		$children = array();
 
-		if ($menuItems) 
+		if ($menuItems)
 		{
 			// first pass - collect children
-			foreach ($menuItems as $v) 
+			foreach ($menuItems as $v)
 			{
 				$pt 	= $v->parent;
 				$list 	= @$children[$pt] ? $children[$pt] : array();
@@ -97,7 +97,7 @@ class JElementMenuItem extends JElement
 		// assemble menu items to the array
 		$options 	= array();
 		$options[]	= JHTML::_('select.option', '', '- '.JText::_('Select Item').' -');
-		
+
 		foreach ($menuTypes as $type)
 		{
 			if ($menuType == '')

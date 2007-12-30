@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Database
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -176,7 +176,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Determines UTF support
-	 * 
+	 *
 	 * @access public
 	 * @return boolean True - UTF is supported
 	 */
@@ -188,7 +188,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Custom settings for UTF support
-	 * 
+	 *
 	 * @access public
 	 */
 	function setUTF()
@@ -198,7 +198,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	* Get a database escaped string
-	* 
+	*
 	* @access public
 	* @return string
 	*/
@@ -209,7 +209,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	* Execute the query
-	* 
+	*
 	* @access public
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
@@ -245,7 +245,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Description
-	 * 
+	 *
 	 * @access public
 	 * @return int The number of affected rows in the previous operation
 	 * @since 1.0.5
@@ -257,7 +257,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	* Execute a batch query
-	* 
+	*
 	* @access public
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
@@ -297,7 +297,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Diagnostic function
-	 * 
+	 *
 	 * @access public
 	 * @return	string
 	 */
@@ -337,8 +337,8 @@ class JDatabaseMySQLi extends JDatabase
 	}
 
 	/**
-	 * Description 
-	 * 
+	 * Description
+	 *
 	 * @access public
 	 * @return int The number of rows returned from the most recent query.
 	 */
@@ -365,10 +365,10 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result( $cur );
 		return $ret;
 	}
-	
+
 	/**
 	* Load an array of single field results into an array
-	* 
+	*
 	* @access public
 	*/
 	function loadResultArray($numinarray = 0)
@@ -405,7 +405,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	* Load a assoc list of database rows
-	* 
+	*
 	* @access public
 	* @param string The field name of a primary key
 	* @return array If <var>key</var> is empty as sequential list of returned records.
@@ -426,7 +426,7 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result( $cur );
 		return $array;
 	}
-	
+
 	/**
 	* This global function loads the first row of a query into an object
 	*
@@ -445,13 +445,13 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result( $cur );
 		return $ret;
 	}
-	
+
 	/**
 	* Load a list of database objects
-	* 
+	*
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
-	* 
+	*
 	* @access public
 	* @param string The field name of a primary key
 	* @return array If <var>key</var> is empty as sequential list of returned records.
@@ -472,10 +472,10 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result( $cur );
 		return $array;
 	}
-	
+
 	/**
-	 * Description 
-	 * 
+	 * Description
+	 *
 	 * @access public
 	 * @return The first row of the query.
 	 */
@@ -491,13 +491,13 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result( $cur );
 		return $ret;
 	}
-	
+
 	/**
 	* Load a list of database rows (numeric column indexing)
-	* 
+	*
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
-	* 
+	*
 	* @access public
 	* @param string The field name of a primary key
 	* @return array If <var>key</var> is empty as sequential list of returned records.
@@ -518,10 +518,10 @@ class JDatabaseMySQLi extends JDatabase
 		mysqli_free_result( $cur );
 		return $array;
 	}
-	
+
 	/**
 	 * Inserts a row into a table based on an objects properties
-	 * 
+	 *
 	 * @access public
 	 * @param	string	The name of the table
 	 * @param	object	An object whose properties match table fields
@@ -554,7 +554,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Description
-	 * 
+	 *
 	 * @access public
 	 * @param [type] $updateNulls
 	 */
@@ -588,7 +588,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Description
-	 * 
+	 *
 	 * @access public
 	 */
 	function insertid()
@@ -598,7 +598,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Description
-	 * 
+	 *
 	 * @access public
 	 */
 	function getVersion()
@@ -608,7 +608,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Assumes database collation in use by sampling one text field in one table
-	 * 
+	 *
 	 * @access public
 	 * @return string Collation in use
 	 */
@@ -625,7 +625,7 @@ class JDatabaseMySQLi extends JDatabase
 
 	/**
 	 * Description
-	 * 
+	 *
 	 * @access public
 	 * @return array A list of all the tables in the database
 	 */
@@ -634,11 +634,11 @@ class JDatabaseMySQLi extends JDatabase
 		$this->setQuery( 'SHOW TABLES' );
 		return $this->loadResultArray();
 	}
-	
+
 	/**
 	 * Shows the CREATE TABLE statement that creates the given tables
-	 * 
-	 * @access	public 
+	 *
+	 * @access	public
 	 * @param 	array|string 	A table name or a list of table names
 	 * @return 	array A list the create SQL for the tables
 	 */
@@ -647,7 +647,7 @@ class JDatabaseMySQLi extends JDatabase
 		settype($tables, 'array'); //force to array
 		$result = array();
 
-		foreach ($tables as $tblval) 
+		foreach ($tables as $tblval)
 		{
 			$this->setQuery( 'SHOW CREATE table ' . $this->getEscaped( $tblval ) );
 			$rows = $this->loadRowList();
@@ -658,11 +658,11 @@ class JDatabaseMySQLi extends JDatabase
 
 		return $result;
 	}
-	
+
 	/**
 	 * Retrieves information about the given tables
-	 * 
-	 * @access	public 
+	 *
+	 * @access	public
 	 * @param 	array|string 	A table name or a list of table names
 	 * @param	boolean			Only return field types, default true
 	 * @return	array An array of fields by table
@@ -672,18 +672,18 @@ class JDatabaseMySQLi extends JDatabase
 		settype($tables, 'array'); //force to array
 		$result = array();
 
-		foreach ($tables as $tblval) 
+		foreach ($tables as $tblval)
 		{
 			$this->setQuery( 'SHOW FIELDS FROM ' . $tblval );
 			$fields = $this->loadObjectList();
-			
-			if($typeonly) 
+
+			if($typeonly)
 			{
 				foreach ($fields as $field) {
 					$result[$tblval][$field->Field] = preg_replace("/[(0-9)]/",'', $field->Type );
 				}
-			} 
-			else 
+			}
+			else
 			{
 				foreach ($fields as $field) {
 					$result[$tblval][$field->Field] = $field;

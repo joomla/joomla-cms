@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Client
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software and parts of it may contain or be derived from the
 * GNU General Public License or other free or open source software licenses.
@@ -58,7 +58,7 @@ if (!defined('FTP_NATIVE')) {
  * @subpackage	Client
  * @since		1.5
  */
-class JFTP extends JObject 
+class JFTP extends JObject
 {
 
 	/**

@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Mail
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -102,7 +102,7 @@ class JMailHelper
 	 */
 	function isEmailAddress($email)
 	{
-		
+
 		// Split the email into a local and domain
 		$atIndex	= strrpos($email, "@");
 		$domain		= substr($email, $atIndex+1);
@@ -113,7 +113,7 @@ class JMailHelper
 		if ($domainLen < 1 || $domainLen > 255) {
 			return false;
 		}
-		
+
 		// Check the local address
 		// We're a bit more conservative about what constitutes a "legal" address, that is, A-Za-z0-9!#$%&\'*+/=?^_`{|}~-
 		$allowed	= 'A-Za-z0-9!#&*+=?_-';
@@ -121,47 +121,47 @@ class JMailHelper
 		if ( ! preg_match($regex, $local) ) {
 			return false;
 		}
-		
+
 		// No problem if the domain looks like an IP address, ish
 		$regex		= '/^[0-9\.]+$/';
 		if ( preg_match($regex, $domain)) {
 			return true;
 		}
-		
+
 		// Check Lengths
 		$localLen	= strlen($local);
 		if ($localLen < 1 || $localLen > 64) {
 			return false;
 		}
-		
+
 		// Check the domain
 		$domain_array	= explode(".", $domain);
 		$regex		= '/^[A-Za-z0-9-]{0,63}$/';
 		foreach ($domain_array as $domain ) {
-			
+
 			// Must be something
 			if ( ! $domain ) {
 				return false;
 			}
-			
+
 			// Check for invalid characters
 			if ( ! preg_match($regex, $domain) ) {
 				return false;
 			}
-			
+
 			// Check for a dash at the beginning of the domain
 			if ( strpos($domain, '-' ) === 0 ) {
 				return false;
 			}
-			
+
 			// Check for a dash at the end of the domain
 			$length = strlen($domain) -1;
 			if ( strpos($domain, '-', $length ) === $length ) {
 				return false;
 			}
-			
+
 		}
-		
+
 		return true;
 	}
 

@@ -3,7 +3,7 @@
 * @version		$Id:database.php 6961 2007-03-15 16:06:53Z tcp $
 * @package		Joomla.Framework
 * @subpackage	Session
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -66,7 +66,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		if(!$db->connected()) {
 			return false;
 		}
-		
+
 		$session = & JTable::getInstance('session');
 		$session->load($id);
 		return (string)$session->data;
@@ -109,7 +109,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		if(!$db->connected()) {
 			return false;
 		}
-		
+
 		$session = & JTable::getInstance('session');
 		$session->delete($id);
 		return true;
@@ -128,7 +128,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		if(!$db->connected()) {
 			return false;
 		}
-		
+
 		$session = & JTable::getInstance('session');
 		$session->purge($maxlifetime);
 		return true;

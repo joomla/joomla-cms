@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Language
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -168,7 +168,7 @@ class JLanguage extends JObject
 		}
 		else
 		{
-			if (defined($string)) 
+			if (defined($string))
 			{
 				$string = $this->_debug ? '!!'.constant($string).'!!' : constant($string);
 
@@ -207,10 +207,10 @@ class JLanguage extends JObject
 
 		return $string;
 	}
-	
+
 	/**
 	 * Transliterate function
-	 * 
+	 *
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
 	 * ASCII-7 "equivalents"
 	 *
@@ -226,7 +226,7 @@ class JLanguage extends JObject
 			array('/&szlig;/','/&(..)lig;/', '/&([aouAOU])uml;/','/&(.)[^;]*;/'),
 			array('ss',"$1","$1".'e',"$1"),
 			$string);
-			
+
 		return $string;
 	}
 

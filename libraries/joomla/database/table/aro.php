@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -26,15 +26,15 @@ class JTableARO extends JTable
 {
 	/** @var int Primary key */
 	var $id			  	= null;
-	
+
 	var $section_value	= null;
-	
+
 	var $value			= null;
-	
+
 	var $order_value	= null;
-	
+
 	var $name			= null;
-	
+
 	var $hidden			= null;
 
 	function __construct( &$db )

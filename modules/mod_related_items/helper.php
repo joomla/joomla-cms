@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -31,19 +31,19 @@ class modRelatedItemsHelper
 		$temp				= JRequest::getString('id');
 		$temp				= explode(':', $temp);
 		$id					= $temp[0];
-		
+
 		$showDate			= $params->get('showDate', 0);
 
 		$nullDate			= $db->getNullDate();
-		
+
 		jimport('joomla.utilities.date');
 		$date = new JDate();
 		$now  = $date->toMySQL();
-		
+
 		$related			= array();
 
 		if ($option == 'com_content' && $view == 'article' && $id)
-		{	
+		{
 
 			// select the meta keywords from the item
 			$query = 'SELECT metakey' .
@@ -65,7 +65,7 @@ class modRelatedItemsHelper
 						$likes[] = $db->getEscaped($key);
 					}
 				}
-				
+
 				if (count($likes))
 				{
 					// select other items based on the metakey field 'like' the keys found
@@ -84,7 +84,7 @@ class modRelatedItemsHelper
 							' AND ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )';
 					$db->setQuery($query);
 					$temp = $db->loadObjectList();
-					
+
 					if (count($temp))
 					{
 						foreach ($temp as $row)

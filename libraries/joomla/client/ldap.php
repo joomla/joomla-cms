@@ -4,7 +4,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Client
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software and parts of it may contain or be derived from the
 * GNU General Public License or other free or open source software licenses.
@@ -65,16 +65,16 @@ class JLDAP extends JObject
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param object An object of configuration variables
 	 * @access public
 	 */
 	function __construct($configObj = null)
 	{
-		if (is_object($configObj)) 
+		if (is_object($configObj))
 		{
 			$vars = get_class_vars(get_class($this));
-			foreach (array_keys($vars) as $var) 
+			foreach (array_keys($vars) as $var)
 			{
 				if (substr($var, 0, 1) != '_') {
 					if ($param = $configObj->get($var)) {
@@ -96,7 +96,7 @@ class JLDAP extends JObject
 			return false;
 		}
 		$this->_resource = @ ldap_connect($this->host, $this->port);
-		if ($this->_resource) 
+		if ($this->_resource)
 		{
 			if ($this->use_ldapV3) {
 				if (!@ldap_set_option($this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3)) {
@@ -127,7 +127,7 @@ class JLDAP extends JObject
 
 	/**
 	 * Sets the DN with some template replacements
-	 * 
+	 *
 	 * @param string The username
 	 * @access public
 	 */
@@ -161,7 +161,7 @@ class JLDAP extends JObject
 
 	/**
 	 * Binds to the LDAP directory
-	 * 
+	 *
 	 * @param string The username
 	 * @param string The password
 	 * @return boolean Result
@@ -176,14 +176,14 @@ class JLDAP extends JObject
 			$password = $this->password;
 		}
 		$this->setDN($username,$nosub);
-		//if(strlen($this->getDN())) 
+		//if(strlen($this->getDN()))
 		$bindResult = @ldap_bind($this->_resource, $this->getDN(), $password);
 		return $bindResult;
 	}
 
 	/**
 	 * Perform an LDAP search using comma seperated search strings
-	 * 
+	 *
 	 * @param string search string of search values
 	 */
 	function simple_search($search)
@@ -198,7 +198,7 @@ class JLDAP extends JObject
 
 	/**
 	 * Perform an LDAP search
-	 * 
+	 *
 	 * @param array Search Filters (array of strings)
 	 * @param string DN Override
 	 * @return array Multidimensional array of results
@@ -247,7 +247,7 @@ class JLDAP extends JObject
 		}
 		return $attributes;
 	}
-	
+
 	/**
 	 * Replace an entry and return a true or false result
 	 *
@@ -259,8 +259,8 @@ class JLDAP extends JObject
 	function replace($dn, $attribute) {
 		return ldap_mod_replace($this->_resource, $dn, $attribute);
 	}
-	
-	
+
+
 	/**
 	 * Modifies an entry and return a true or false result
 	 *
@@ -279,7 +279,7 @@ class JLDAP extends JObject
 	 * @param string attribute The attribute values you want to remove
 	 * @return mixed result of comparison (true, false, -1 on error)
 	 */
-	function remove($dn, $attribute) 
+	function remove($dn, $attribute)
 	{
 		$resource = $this->_resource;
 		return ldap_mod_del($resource, $dn, $attribute);
@@ -287,7 +287,7 @@ class JLDAP extends JObject
 
 	/**
 	 * Compare an entry and return a true or false result
-	 * 
+	 *
 	 * @param string dn The DN which contains the attribute you want to compare
 	 * @param string attribute The attribute whose value you want to compare
 	 * @param string value The value you want to check against the LDAP attribute
@@ -296,7 +296,7 @@ class JLDAP extends JObject
 	function compare($dn, $attribute, $value) {
 		return ldap_compare($this->_resource, $dn, $attribute, $value);
 	}
-	
+
 	/**
 	 * Read all or specified attributes of given dn
 	 *
@@ -304,12 +304,12 @@ class JLDAP extends JObject
 	 * @param string attribute The attribute values you want to read (Optional)
 	 * @return array of attributes or -1 on error
 	 */
-	function read($dn, $attribute = array()) 
+	function read($dn, $attribute = array())
 	{
 		$base = substr($dn,strpos($dn,',')+1);
 		$cn = substr($dn,0,strpos($dn,','));
 		$result = ldap_read($this->_resource, $base, $cn);
-		
+
 		if ($result) {
 			// TODO: instead of just returning array of attributes, convert to object before returning
 			return ldap_get_entries($this->_resource, $result);
@@ -320,7 +320,7 @@ class JLDAP extends JObject
 
 	/**
 	 * Converts a dot notation IP address to net address (e.g. for Netware, etc)
-	 * 
+	 *
 	 * @param string IP Address (e.g. xxx.xxx.xxx.xxx)
 	 * @return string Net address
 	 * @access public
@@ -344,7 +344,7 @@ class JLDAP extends JObject
 	 * extract readable network address from the LDAP encoded networkAddress attribute.
 	 * @author Jay Burrell, Systems & Networks, Mississippi State University
 	 * Please keep this document block and author attribution in place.
-	 * 
+	 *
 	 *  Novell Docs, see: http://developer.novell.com/ndk/doc/ndslib/schm_enu/data/sdk5624.html#sdk5624
 	 *  for Address types: http://developer.novell.com/ndk/doc/ndslib/index.html?page=/ndk/doc/ndslib/schm_enu/data/sdk4170.html
 	 *  LDAP Format, String:
@@ -363,11 +363,11 @@ class JLDAP extends JObject
 		$addr = "";
 		$addrtype = intval(substr($networkaddress, 0, 1));
 		$networkaddress = substr($networkaddress, 2); // throw away bytes 0 and 1 which should be the addrtype and the "#" separator
-		
+
 		if (($addrtype == 8) || ($addrtype = 9)) {    // if udp or tcp, (TODO fill addrport and) strip portnumber information from address
 			$networkaddress = substr($networkaddress, (strlen($networkaddress)-4));
 		}
-		
+
 		$addrtypes = array (
 			'IPX',
 			'IP',

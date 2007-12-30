@@ -2,7 +2,7 @@
 /**
 * @version		$Id: router.php 7380 2007-05-06 21:26:03Z eddieajau $
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -15,15 +15,15 @@ function ContactBuildRoute(&$query)
 {
 	$segments = array();
 
-	if(isset($query['view'])) 
+	if(isset($query['view']))
 	{
 		if(empty($query['Itemid'])) {
 			$segments[] = $query['view'];
-		} 
-		
+		}
+
 		unset($query['view']);
 	};
-	
+
 	if(isset($query['id']))
 	{
 		$segments[] = $query['id'];
@@ -43,9 +43,9 @@ function ContactParseRoute($segments)
 
 	// Count route segments
 	$count = count($segments);
-	
+
 	//Standard routing for articles
-	if(!isset($item)) 
+	if(!isset($item))
 	{
 		$vars['view']  = $segments[$count - 2];;
 		$vars['id']    = $segments[$count - 1];

@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Legacy
  * @subpackage	1.5
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -773,9 +773,9 @@ function SortArrayObjects( &$a, $k, $sort_direction=1 )
  * @deprecated	As of version 1.5
  */
 function josGetArrayInts( $name, $type=NULL ) {
-	
+
 	$array	=  JRequest::getVar($name, array(), 'default', 'array' );
-	
+
 	return $array;
 }
 
@@ -855,12 +855,12 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 {
 	// Initialize the toolips if required
 	static $init;
-	if ( ! $init ) 
-	{			
+	if ( ! $init )
+	{
 		JHTML::_('behavior.tooltip');
 		$init = true;
 	}
-		
+
 	return JHTML::_('tooltip', $tooltip, $title, $image, $text, $href, $link);
 }
 
@@ -869,11 +869,11 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
  *
  * @deprecated	As of version 1.5
  */
-function sefRelToAbs($value) 
-{	
+function sefRelToAbs($value)
+{
 	// Replace all &amp; with & as the router doesn't understand &amp;
 	$url = str_replace('&amp;', '&', $value);
-	
+
 	$uri    = JURI::getInstance();
 	$prefix = $uri->toString(array('scheme', 'host', 'port'));
 	return $prefix.JRoute::_($url);

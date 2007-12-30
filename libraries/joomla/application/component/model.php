@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Application
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -71,14 +71,14 @@ class JModel extends JObject
 				$this->_name = $this->getName();
 			}
 		}
-		
+
 		//set the model state
 		if (array_key_exists('state', $config))  {
 			$this->_state = $config['state'];
 		} else {
 			$this->_state = new JObject();
 		}
-		
+
 		//set the model dbo
 		if (array_key_exists('dbo', $config))  {
 			$this->_db = $config['dbo'];
@@ -113,8 +113,8 @@ class JModel extends JObject
 		{
 			jimport('joomla.filesystem.path');
 			$path = JPath::find(
-				JModel::addIncludePath(), 
-				JModel::_createFileName( 'model', array( 'name' => $type)) 
+				JModel::addIncludePath(),
+				JModel::_createFileName( 'model', array( 'name' => $type))
 			);
 			if ($path)
 			{
@@ -228,8 +228,8 @@ class JModel extends JObject
 
 		if($table = &$this->_createTable( $name, $prefix, $options ))  {
 			return $table;
-		} 
-		
+		}
+
 		JError::raiseError( 0, 'Table ' . $name . ' not supported. File not found.' );
 		$null = null;
         return $null;
@@ -325,8 +325,8 @@ class JModel extends JObject
 		//Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))  {
 			$config['dbo'] =& $this->getDBO();;
-		} 
-		
+		}
+
 		$instance =& JTable::getInstance($name, $prefix, $config );
 		return $instance;
 	}

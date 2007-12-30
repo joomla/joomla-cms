@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -232,9 +232,9 @@ class JDocumentPDF extends JDocument
 
 		// Set document type headers
 		parent::render();
-		
+
 		//JResponse::setHeader('Content-Length', strlen($data), true);
-	
+
 		JResponse::setHeader('Content-disposition', 'inline; filename="'.$this->getName().'.pdf"', true);
 
 		//Close and output PDF document

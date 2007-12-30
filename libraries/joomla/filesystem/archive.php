@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	FileSystem
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -56,7 +56,7 @@ class JArchive
 			case 'tgz'  :
 				$untar = true;	// This format is a tarball gzip'd
 			case 'gz'   :	// This may just be an individual file (e.g. sql script)
-			case 'gzip' : 
+			case 'gzip' :
 				$adapter =& JArchive::getAdapter('gzip');
 				if ($adapter)
 				{
@@ -141,7 +141,7 @@ class JArchive
 		{
 			// Try to load the adapter object
 			$class = 'JArchive'.ucfirst($type);
-			
+
 			if (!class_exists($class))
 			{
 				$path = dirname(__FILE__).DS.'archive'.DS.strtolower($type).'.php';
@@ -151,7 +151,7 @@ class JArchive
 					JError::raiseError(500,JText::_('Unable to load archive'));
 				}
 			}
-			
+
 			$adapters[$type] = new $class();
 		}
 		return $adapters[$type];

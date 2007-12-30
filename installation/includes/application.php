@@ -3,7 +3,7 @@
 * @version		$Id$
 * @package		Joomla
 * @subpackage	Installation
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -44,10 +44,10 @@ class JInstallation extends JApplication
 	{
 		$config['clientId'] = 3;
 		parent::__construct($config);
-	
+
 		JError::setErrorHandling(E_ALL, 'Ignore');
 		$this->_createConfiguration();
-		
+
 		//Set the root in the URI based on the application name
 		JURI::root(null, str_replace('/'.$this->getName(), '', JURI::base(true)));
 	}
@@ -62,7 +62,7 @@ class JInstallation extends JApplication
 		$document	=& JFactory::getDocument();
 		$config		=& JFactory::getConfig();
 		$user		=& JFactory::getUser();
-		
+
 		switch($document->getType())
 		{
 			case 'html':
@@ -83,13 +83,13 @@ class JInstallation extends JApplication
 		require_once(JPATH_COMPONENT.DS.'installer.php');
 		$contents = ob_get_contents();
 		ob_end_clean();
-		
+
 		$params = array(
 			'template' 	=> 'template',
 			'file'		=> 'index.php',
 			'directory' => JPATH_THEMES
 		);
-		
+
 		$document->setBuffer( $contents, 'installation');
 		$document->setTitle(JText::_('PAGE_TITLE'));
 		$data = $document->render(false, $params);

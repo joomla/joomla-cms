@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -35,10 +35,10 @@ class ContentViewSection extends JView
 
 		// Get some data from the model
 		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
-		
+
 		// Lets get our data from the model
 		$rows =& $this->get( 'Data' );
-		
+
 		$doc->link = JRoute::_('index.php?option=com_content&view=section&id='.JRequest::getVar('id',null, '', 'int'));
 
 		foreach ( $rows as $row )

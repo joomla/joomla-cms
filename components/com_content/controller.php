@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
- * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -41,7 +41,7 @@ class ContentController extends JController
 			$default	= JRequest::getInt('id') ? 'article' : 'frontpage';
 			JRequest::setVar('view', $default );
 		}
-		
+
 		// View caching logic -- simple... are we logged in?
 		$user = &JFactory::getUser();
 		if ($user->get('id')) {
@@ -60,7 +60,7 @@ class ContentController extends JController
 	function edit()
 	{
 		$user	=& JFactory::getUser();
-		
+
 		// Create a user access object for the user
 		$access					= new stdClass();
 		$access->canEdit		= $user->authorize('com_content', 'edit', 'content', 'all');
@@ -81,7 +81,7 @@ class ContentController extends JController
 		if( $model->get('id') > 1 && $user->get('gid') <= 19 && $model->get('created_by') != $user->id ) {
 			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}
-		
+
 		if ( $model->isCheckedOut($user->get ('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The item'), $model->get('title'));
@@ -113,7 +113,7 @@ class ContentController extends JController
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$task		= JRequest::getVar('task', null, 'default', 'cmd');
-		
+
 		//check the token before we do anything else
 		$token	= JUtility::getToken();
 		if(!JRequest::getInt($token, 0, 'post')) {
@@ -234,7 +234,7 @@ class ContentController extends JController
 			$msg = $isNew ? JText::_('THANK_SUB') : JText::_('Item successfully saved.');
 		}
 
-		
+
 		$link = JRequest::getString('referer', JURI::base(), 'post');
 		$this->setRedirect($link, $msg);
 	}
