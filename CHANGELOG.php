@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Dec-2007 Andy Miller
+ # Fixed issue with admin login button with Safari
+
 29-Dec-2007 Hannes Papenberg
  # [#8688] fixed pagination in com_categories
 

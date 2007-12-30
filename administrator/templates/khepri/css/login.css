@@ -80,6 +80,15 @@ p {
 	font-weight: bold;
 }
 
-#form-login div.button_holder{
- 	padding-left: 225px;
+#form-login .button_holder {
+	float: left;
+	padding-left: 180px;
+}
+
+#form-login div.button1{
+ 	float: left;
+}
+
+#form-login div.button1 div.next {
+	float: left;
 }
