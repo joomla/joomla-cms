@@ -90,7 +90,7 @@ class JInstallerLanguage extends JObject
 		// Check if we found the tag - if we didn't, we may be trying to install from an older language package
 		if ( ! $tag )
 		{
-			$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('The package did not specify a language tag.  Are you trying to install an old language package?'));
+			$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('NO LANGUAGE TAG?'));
 			return false;
 		}
 
