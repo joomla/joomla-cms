@@ -118,11 +118,11 @@ class InstallerModel extends JModel
 
 		if (count($failed)) {
 			// There was an error in uninstalling the package
-			$msg = JText::sprintf('UNINSTALLEXT', $this->_type, JText::_('Error'));
+			$msg = JText::sprintf('UNINSTALLEXT', JText::_($this->_type), JText::_('Error'));
 			$result = false;
 		} else {
 			// Package uninstalled sucessfully
-			$msg = JText::sprintf('UNINSTALLEXT', $this->_type, JText::_('Success'));
+			$msg = JText::sprintf('UNINSTALLEXT', JText::_($this->_type), JText::_('Success'));
 			$result = true;
 		}
 
