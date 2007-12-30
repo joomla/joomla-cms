@@ -58,7 +58,7 @@
 </table>
 
 <br />
-<?php if($this->result > 0) : ?>
+<?php if($this->total > 0) : ?>
 <div align="center">
 	<div style="float: right;">
 		<label for="limit">

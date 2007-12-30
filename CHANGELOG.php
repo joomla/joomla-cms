@@ -48,6 +48,7 @@ Legend:
  
 30-Dec-2007 Anthony Ferrara
  ^ [#8901] Update copyright date needed in all trunk files
+ # [#8736] 'limit' form field ignored in com_search
 
 29-Dec-2007 Andy Miller
  # Fixed issue with admin login button with Safari
