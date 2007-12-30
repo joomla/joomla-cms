@@ -123,7 +123,7 @@ class ConfigControllerApplication extends ConfigController
 								JHTML::_('select.option', -1, JText::_('(UTC -01:00) Azores, Cape Verde Islands')),
 								JHTML::_('select.option', 0, JText::_('(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca')),
 								JHTML::_('select.option', 1, JText::_('(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris')),
-								JHTML::_('select.option', 2, JText::_('(UTC +02:00) Jerusalem, Kaliningrad, South Africa')),
+								JHTML::_('select.option', 2, JText::_('(UTC +02:00) Istanbul, Jerusalem, Kaliningrad, South Africa')),
 								JHTML::_('select.option', 3, JText::_('(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg')),
 								JHTML::_('select.option', 3.5, JText::_('(UTC +03:30) Tehran')),
 								JHTML::_('select.option', 4, JText::_('(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi')),
