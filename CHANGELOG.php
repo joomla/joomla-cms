@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Dec-2007 Charl van Niekerk
+ # Fixed [#8718] Frontend com_weblinks pagination error
+
 30-Dec-2007 Mati Kochen
  # [#8568] Applied proposed fixes
  # [#8797] Added string to com_installer

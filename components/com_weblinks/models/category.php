@@ -79,6 +79,9 @@ class WeblinksModelCategory extends JModel
 		$this->setState('limit', $mainframe->getUserStateFromRequest('com_weblinks.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
+		// In case limit has been changed, adjust limitstart accordingly
+		$this->setState('limitstart', floor($this->getState('limitstart') / $this->getState('limit')) * $this->getState('limit'));
+
 		// Get the filter request variables
 		$this->setState('filter_order', JRequest::getCmd('filter_order', 'ordering'));
 		$this->setState('filter_order_dir', JRequest::getCmd('filter_order_Dir', 'ASC'));
