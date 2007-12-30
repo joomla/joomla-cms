@@ -2,7 +2,7 @@
 @version	$Id$
 @package	Joomla
 @subpackage	Installation
-@copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+@copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 @license	GNU/GPL
 </jtmpl:comment>
 
@@ -12,7 +12,7 @@
 
 		document.formvalidator.handlers['adminEmail'] = document.formvalidator.handlers['email'];
 		var valid = document.formvalidator.isValid(frm);
-		
+
 		var siteName 				= getElementByName( frm, 'vars[siteName]' );
 		var adminEmail 				= getElementByName( frm, 'vars[adminEmail]' );
 		var adminPassword 			= getElementByName( frm, 'vars[adminPassword]' );
@@ -420,7 +420,7 @@
 <script language="JavaScript" type="text/javascript">
 	document.filename.what_to_load[document.filename.loadchecked.value].checked = true;
 	selectMode();
-	if(this.document.filename.migstatus.value == '1') { 
+	if(this.document.filename.migstatus.value == '1') {
 		this.document.filename.what_to_load.disabled = 1;
 		this.document.filename.instDefault.disabled = 1;
 		this.document.filename.default_sample.disabled = 1;

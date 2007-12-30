@@ -2,7 +2,7 @@
 /**
 * @version		$Id$
 * @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL
 * Joomla! is Free Software
 */
