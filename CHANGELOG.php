@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Dec-2007 Wilco Jansen
+ # Fixed [8307] Local distribs can't define default admin language
+
 30-Dec-2007 Charl van Niekerk
  # Fixed [#8718] Frontend com_weblinks pagination error
 
@@ -45,11 +48,11 @@ Legend:
  # [#8797] Added string to com_installer
  # [#7549] type of uninstall not translated
  # [#8901] changed copyright to 2008
- 
+
 30-Dec-2007 Anthony Ferrara
  ^ [#8901] Update copyright date needed in all trunk files
  # [#8736] 'limit' form field ignored in com_search
- ^ Added Istanbul to the timezone listings (Thanks Ercan Özkaya)
+ ^ Added Istanbul to the timezone listings (Thanks Ercan ï¿½zkaya)
 
 29-Dec-2007 Andy Miller
  # Fixed issue with admin login button with Safari

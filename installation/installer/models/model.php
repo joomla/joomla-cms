@@ -275,15 +275,16 @@ class JInstallationModel extends JModel
 	 */
 	function makeDB($vars = false)
 	{
+		global $mainframe;
+
 		// Initialize variables
 		if ($vars === false) {
 			$vars	= $this->getVars();
 		}
-		$errors 	= null;
 
+		$errors 	= null;
 		$lang 		= JArrayHelper::getValue($vars, 'lang', 'en-GB');
 		$DBcreated	= JArrayHelper::getValue($vars, 'DBcreated', '0');
-
 		$DBtype 	= JArrayHelper::getValue($vars, 'DBtype', 'mysql');
 		$DBhostname = JArrayHelper::getValue($vars, 'DBhostname', '');
 		$DBuserName = JArrayHelper::getValue($vars, 'DBuserName', '');
@@ -291,7 +292,6 @@ class JInstallationModel extends JModel
 		$DBname 	= JArrayHelper::getValue($vars, 'DBname', '');
 		$DBPrefix 	= JArrayHelper::getValue($vars, 'DBPrefix', 'jos_');
 		$DBOld 		= JArrayHelper::getValue($vars, 'DBOld', 'bu');
-		//		$DBSample = mosGetParam($vars, 'DBSample', 1);
 		$DButfSupport 	= intval(JArrayHelper::getValue($vars, 'DButfSupport', 0));
 		$DBversion 		= JArrayHelper::getValue($vars, 'DBversion', '');
 
@@ -414,6 +414,25 @@ class JInstallationModel extends JModel
 				//return JInstallationView::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 			}
 
+			// Handle default backend language setting. This feature is available for
+			// localized versions of Joomla! 1.5.
+			$adminlangs = $mainframe->getLocaliseAdmin();
+			if (in_array($lang, $adminlangs)) {
+				// Because database config has not yet been set we just
+				// do the trick by a plain update of the proper record.
+				$where[] = "`option`='com_languages'";
+				$where = (count($where) ? ' WHERE '.implode(' AND ', $where) : '');
+
+				// Get the total number of records
+				$query = "UPDATE #__components " .
+						"SET params='administrator=$lang'" .
+						$where;
+
+				$db->setQuery($query);
+				if (!$db->query()) {
+					return false;
+				}
+			}
 		}
 
 		return true;
