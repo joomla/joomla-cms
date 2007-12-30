@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Dec-2007 Mati Kochen
+ # [#8568] Applied proposed fixes
+ 
 30-Dec-2007 Anthony Ferrara
  ^ [#8901] Update copyright date needed in all trunk files
 
