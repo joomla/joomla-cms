@@ -44,6 +44,7 @@ Legend:
  # [#8568] Applied proposed fixes
  # [#8797] Added string to com_installer
  # [#7549] type of uninstall not translated
+ # [#8901] changed copyright to 2008
  
 30-Dec-2007 Anthony Ferrara
  ^ [#8901] Update copyright date needed in all trunk files
