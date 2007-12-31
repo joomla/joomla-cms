@@ -72,7 +72,7 @@ $showRightColumn &= JRequest::getCmd('task') != 'edit'
 			<div id="breadcrumbs">
 				<p>
 					<?php echo JText::_('You are here'); ?>
-					<jdoc:include type="module" name="breadcrumbs" />
+					<jdoc:include type="modules" name="breadcrumb" />
 				</p>
 			</div>
 

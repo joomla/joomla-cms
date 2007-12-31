@@ -49,6 +49,8 @@ Legend:
  
 31-Dec-2007 Charl van Niekerk
  # Fixed [#8516] xmlrpc throws errors when using third party blog/content entry tools
+ ^ Changed mod_breadcrumbs individual module include to "breadcrumb" position include in rhuk_milkyway and beez
+ ^ Renamed "breadcrumbs" position to "breadcrumb" in rhuk_milkyway
 
 31-Dec-2007 Johan Janssens
  + Added scope variable to JApplication

@@ -69,7 +69,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			</div>
 
 			<div id="pathway">
-				<jdoc:include type="module" name="breadcrumbs" />
+				<jdoc:include type="modules" name="breadcrumb" />
 			</div>
 
 			<div class="clr"></div>
