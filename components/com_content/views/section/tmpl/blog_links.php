@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <div>
-	<strong><?php echo JText::_( 'Read more...' ); ?></strong>
+	<strong><?php echo JText::_( 'More Articles...' ); ?></strong>
 </div>
 <ul>
 <?php

@@ -3,7 +3,7 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <h2>
-	<?php echo JText::_('Read more...'); ?>
+	<?php echo JText::_('More Articles...'); ?>
 </h2>
 
 <ul>
