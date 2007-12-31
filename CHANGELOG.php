@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Jan-2008 Sam Moffatt
+ ! Welcome to 2008, a great new year for Joomla!
+ ^ Updates to the installation system to better handle some situations
+ ^ Renamed a variable in the Joomla authentication plugin to make more sense
+ # Fixes to prevent against uninitialised variable access in various locations
+
 31-Dec-2007 Mati Kochen
  ^ [topic,247978] Added More Articles string, with corresponding fixes in files
  # [#8935] wrong comparisson for categories

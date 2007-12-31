@@ -164,7 +164,8 @@ class MenusModelList extends JModel
 				case 'component':
 					$list[$i]->descrip 	= JText::_('Component');
 					$query 			= parse_url($list[$i]->link);
-					parse_str($query['query'], $view);
+					$view = array();
+					if(isset($query['query'])) parse_str($query['query'], $view);
 					$list[$i]->view		= $list[$i]->com_name;
 					if (isset($view['view']))
 					{

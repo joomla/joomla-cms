@@ -93,7 +93,7 @@ class MenusViewItem extends JView
 		if ($item->type != 'url') {
 			$lists->disabled = 'readonly="true"';
 			$item->linkfield = '<input type="hidden" name="link" value="'.$item->link.'" />';
-			if (($item->id) && ($item->type == 'component')) {
+			if (($item->id) && ($item->type == 'component') && (isset($item->linkparts['option']))) {
 				$item->expansion = '&amp;expand='.trim(str_replace('com_', '', $item->linkparts['option']));
 			}
 		} else {

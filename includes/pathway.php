@@ -39,7 +39,7 @@ class JPathwaySite extends JPathway
 			$menus	= $menu->getMenu();
 			$home	= $menu->getDefault();
 
-			if( $item->id != $home->id)
+			if(is_object($home) && ($item->id != $home->id))
 			{
 				foreach($item->tree as $menupath)
 				{

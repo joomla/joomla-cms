@@ -197,9 +197,9 @@ class JInstallerHelper
 					continue;
 				}
 				$root = & $xmlDoc->documentElement;
-
-				if ($root->getTagName() != "install" && $root->getTagName() != 'mosinstall')
+				if (!is_object($root) || ($root->getTagName() != "install" && $root->getTagName() != 'mosinstall'))
 				{
+					unset($xmlDoc);
 					continue;
 				}
 

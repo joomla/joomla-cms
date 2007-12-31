@@ -898,6 +898,7 @@ class JInstallationHelper
 	function preMigrate( $scriptName, &$args, $db )
 	{
 		$maxread = 0;
+		jimport('joomla.filesystem.file');
 		if(function_exists('memory_get_usage')) {
 			$memlimit = JInstallationHelper::return_bytes(ini_get('memory_limit'));
 			$maxread = $memlimit / 16; 	// Read only a eigth of our max amount of memory, we could be up to a lot by now
@@ -911,11 +912,12 @@ class JInstallationHelper
 		$oldPrefix = trim( $args['oldPrefix']);
 		$oldPrefix = rtrim( $oldPrefix, '_' ) . '_';
 		$srcEncoding = $args['srcEncoding'];
+		if(!is_file($scriptName)) return false; // not a file?
 		$newFile = dirname( $scriptName ).DS.'converted.sql';
-		$filesize = filesize($scriptName);
-		if($maxread > 0 && $filesize > 0 && $maxread < $filesize)
+		$tfilesize = filesize($scriptName);
+		if($maxread > 0 && $tfilesize > 0 && $maxread < $tfilesize) 		
 		{
-			$parts = ceil($filesize / $maxread);
+			$parts = ceil($tfilesize / $maxread);
 			file_put_contents( $newFile, '' ); // cleanse the file first
 			for($i = 0; $i < $parts; $i++) {
 				$buffer = JFile::read($scriptName, false, $maxread, $maxread,($i * $maxread));
@@ -934,7 +936,6 @@ class JInstallationHelper
 			} else return false;
 
 			if(  $buffer == false ) return false;
-
 			JInstallationHelper::replaceBuffer($buffer, $oldPrefix, $newPrefix, $srcEncoding);
 
 			/*
@@ -1169,17 +1170,19 @@ class JInstallationHelper
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = CONCAT(link, "&view=wrapper"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "wrapper"';
 		$db->setQuery( $query );
 		$db->query();
-		JInstallationHelper::getDBErrors($errors, $db );
+		JInstallationHelper::getDBErrors($errors, $db ); 
 
 		// set default to lowest ordering published on mainmenu
 		$query = 'SELECT MIN( `ordering` ) FROM `'.$newPrefix.'menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = "mainmenu"';
 		$db->setQuery( $query );
 		$minorder = $db->loadResult();
+		if(!$minorder) $minorder = 0;
 		JInstallationHelper::getDBErrors($errors, $db );
 		$query = 'SELECT `id` FROM `'.$newPrefix.'menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = "mainmenu" AND `ordering` = '.$minorder;
 		$db->setQuery( $query );
 		$menuitemid = $db->loadResult();
 		JInstallationHelper::getDBErrors($errors, $db );
+		if(!$menuitemid) $menuitemid = 1;
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `home` = 1 WHERE `id` = '.$menuitemid;
 		$db->setQuery( $query );
 		$db->query();

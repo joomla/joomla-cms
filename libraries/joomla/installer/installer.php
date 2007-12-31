@@ -1162,7 +1162,7 @@ class JInstaller extends JObject
 		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
 		 */
 		$root =& $xml->document;
-		if ($root->name() != 'install' && $root->name() != 'mosinstall') {
+		if (!is_object($root) || ($root->name() != 'install' && $root->name() != 'mosinstall')) {
 			// Free up xml parser memory and return null
 			unset ($xml);
 			return $null;

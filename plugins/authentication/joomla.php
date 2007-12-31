@@ -87,8 +87,8 @@ class plgAuthenticationJoomla extends JPlugin
 			$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt);
 
 			if ($crypt == $testcrypt) {
-				$email = JUser::getInstance($result->id); // Bring this in line with the rest of the system
-				$response->email = $email->email;
+				$user = JUser::getInstance($result->id); // Bring this in line with the rest of the system
+				$response->email = $user->email;
 				$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 				$response->error_message = '';
 			} else {
