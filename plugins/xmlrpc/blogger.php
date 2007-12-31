@@ -210,13 +210,13 @@ class plgXMLRPCBloggerServices
 		$item->state		= $publish;
 
 		if (!$item->check()) {
-			return new dom_xmlrpc_fault( '500', 'Post check failed' );
+			return new xmlrpcresp(0, $xmlrpcerruser+1, 'Post check failed' );
 		}
 
 		$item->version++;
 
 		if (!$item->store()) {
-			return new dom_xmlrpc_fault( '500', 'Post store failed' );
+			return new xmlrpcresp(0, $xmlrpcerruser+1, 'Post store failed' );
 		}
 
 		return new xmlrpcresp(new xmlrpcval($item->id, $xmlrpcString));
