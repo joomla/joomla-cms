@@ -94,6 +94,9 @@ class JComponentHelper
 		if(empty($name)) {
 			return;
 		}
+		
+		$scope = $mainframe->scope; //record the scope
+		$mainframe->scope = $name;  //set scope to component name
 
 		$task = JRequest::getString( 'task' );
 
@@ -168,6 +171,8 @@ class JComponentHelper
 			// Make the toolbar
 			include_once( $path );
 		}
+		
+		$mainframe->scope = $scope; //revert the scope
 
 		return $contents;
 	}

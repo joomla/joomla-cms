@@ -54,6 +54,14 @@ class JApplication extends JObject
 	 * @access	protected
 	 */
 	var $_name = null;
+	
+	/**
+	 * The scope of the application
+	 *
+	 * @var		string
+	 * @access	public
+	 */
+	var $scope = null;
 
 	/**
 	* Class constructor.

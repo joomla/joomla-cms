@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Dec-2007 Johan Janssens
+ + Added scope variable to JApplication
+
 30-Dec-2007 Wilco Jansen
  # Fixed [8307] Local distribs can't define default admin language
 
