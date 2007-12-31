@@ -39,6 +39,7 @@ Legend:
 
 31-Dec-2007 Mati Kochen
  ^ [topic,247978] Added More Articles string, with corresponding fixes in files
+ # [#8935] wrong comparisson for categories
  
 31-Dec-2007 Charl van Niekerk
  # Fixed [#8516] xmlrpc throws errors when using third party blog/content entry tools

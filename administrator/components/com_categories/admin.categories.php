@@ -160,7 +160,7 @@ function showCategories( $section, $option )
 	$query = 'SELECT COUNT(*)'
 	. ' FROM #__categories'
 	;
-	if ($section = 'com_content')
+	if ($section == 'com_content')
 	{
 		$query .= ' WHERE section > 0';
 	} else {
