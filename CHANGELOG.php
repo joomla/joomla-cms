@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Jan-2008 Chris Davenport
+ ^ Local help files replaced by dummy files containing links to online help.
+
 01-Jan-2008 Wilco Jansen
  ^ Added also front-end language defaulting, see also #8307
 
