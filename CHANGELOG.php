@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Jan-2008 Wilco Jansen
+ ^ Added also front-end language defaulting, see also #8307
+
 01-Jan-2008 Mati Kochen
  # [#8750] Fixed Base URL sent by reminder mail
 
@@ -49,7 +52,7 @@ Legend:
 31-Dec-2007 Mati Kochen
  ^ [topic,247978] Added More Articles string, with corresponding fixes in files
  # [#8935] wrong comparisson for categories
- 
+
 31-Dec-2007 Charl van Niekerk
  # Fixed [#8516] xmlrpc throws errors when using third party blog/content entry tools
  ^ Changed mod_breadcrumbs individual module include to "breadcrumb" position include in rhuk_milkyway and beez

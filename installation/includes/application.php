@@ -230,18 +230,24 @@ class JInstallation extends JApplication
 	}
 
 	/**
-	 * Returns the installed admin language files in the administrative
-	 * area.
+	 * Returns the installed admin language files in the administrative and
+	 * front-end area.
 	 *
 	 * @access private
 	 * @return	array 		Array with installed language packs in admin area
 	 */
 	function getLocaliseAdmin()
 	{
-		//load folder filesystem class
 		jimport('joomla.filesystem.folder');
+
+		// Read the files in the admin area
 		$path = JLanguage::getLanguagePath(JPATH_SITE.DS.'administrator');
-		return JFolder::folders( $path );
+		$langfiles['admin'] = JFolder::folders( $path );
+
+		$path = JLanguage::getLanguagePath(JPATH_SITE);
+		$langfiles['site'] = JFolder::folders( $path );
+
+		return $langfiles;
 	}
 }
 

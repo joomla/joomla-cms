@@ -416,16 +416,26 @@ class JInstallationModel extends JModel
 
 			// Handle default backend language setting. This feature is available for
 			// localized versions of Joomla! 1.5.
-			$adminlangs = $mainframe->getLocaliseAdmin();
-			if (in_array($lang, $adminlangs)) {
+			$langfiles = $mainframe->getLocaliseAdmin();
+			if (in_array($lang, $langfiles['admin']) || in_array($lang, $langfiles['site'])) {
+				// Determine the language settings
+				$param[] = Array();
+				if (in_array($lang, $langfiles['admin'])) {
+					$langparam[] = "administrator=$lang";
+				}
+
+				if (in_array($lang, $langfiles['site'])) {
+					$langparam[] = "site=$lang";
+				}
+				$langparams = implode("\n", $langparam);
+
 				// Because database config has not yet been set we just
 				// do the trick by a plain update of the proper record.
 				$where[] = "`option`='com_languages'";
 				$where = (count($where) ? ' WHERE '.implode(' AND ', $where) : '');
 
-				// Get the total number of records
 				$query = "UPDATE #__components " .
-						"SET params='administrator=$lang'" .
+						"SET params='$langparams'" .
 						$where;
 
 				$db->setQuery($query);
