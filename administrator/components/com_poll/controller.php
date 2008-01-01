@@ -110,22 +110,17 @@ class PollController extends JController
 			$text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 			if ($isNew)
 			{
-				$query = 'INSERT INTO #__poll_data'
-				. ' ( pollid, text )'
-				. ' VALUES ( '.(int) $row->id.', '.$db->Quote($text).' )'
-				;
-				$db->setQuery( $query );
-				$db->query();
+				$obj = new stdClass();
+				$obj->pollid = (int)$row->id;
+				$obj->text   = $text;
+				$db->insertObject('#__poll_data', $obj);
 			}
 			else
 			{
-				$query = 'UPDATE #__poll_data'
-				. ' SET text = '. $db->Quote($text)
-				. ' WHERE id = '. (int) $i
-				. ' AND pollid = '.(int) $row->id
-				;
-				$db->setQuery( $query );
-				$db->query();
+				$obj = new stdClass();
+				$obj->id     = (int)$i;
+				$obj->text   = $text;
+				$db->updateObject('#__poll_data', $obj, 'id');
 			}
 		}
 
