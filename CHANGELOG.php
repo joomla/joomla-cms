@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Jan-2008 Mati Kochen
+ # [#8750] Fixed Base URL sent by reminder mail
+
 01-Jan-2008 Sam Moffatt
  ! Welcome to 2008, a great new year for Joomla!
  ^ Updates to the installation system to better handle some situations
