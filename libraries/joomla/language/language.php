@@ -748,12 +748,14 @@ class JLanguage extends JObject
 	function _parseXMLLanguageFile($path)
 	{
 		$xml = & JFactory::getXMLParser('Simple');
-		if (!$xml->loadFile($path)) {
+		
+		// Load the file
+		if (!$xml || !$xml->loadFile($path)) {
 			return null;
 		}
 
 		// Check that it's am metadata file
-		if ($xml->document->name() != 'metafile') {
+		if (!$xml->document || $xml->document->name() != 'metafile') {
 			return null;
 		}
 
