@@ -130,11 +130,8 @@ class BannerControllerClient extends JController
 
 	function save()
 	{
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$this->setRedirect( 'index.php?option=com_banners&c=client' );
 
@@ -165,6 +162,9 @@ class BannerControllerClient extends JController
 
 	function cancel()
 	{
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
+
 		$this->setRedirect( 'index.php?option=com_banners&c=client' );
 
 		// Initialize variables
@@ -176,11 +176,8 @@ class BannerControllerClient extends JController
 
 	function remove()
 	{
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$this->setRedirect( 'index.php?option=com_banners&c=client' );
 
@@ -214,4 +211,3 @@ class BannerControllerClient extends JController
 		$this->setMessage( JText::sprintf( 'Items removed', $n ) );
 	}
 }
-?>

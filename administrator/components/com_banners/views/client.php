@@ -127,13 +127,13 @@ class BannersViewClients
 			</tbody>
 			</table>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="c" value="client" />
 		<input type="hidden" name="option" value="com_banners" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $lists['order_Dir']; ?>" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
@@ -246,12 +246,12 @@ class BannersViewClients
 		</div>
 		<div class="clr"></div>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="c" value="client" />
 		<input type="hidden" name="option" value="com_banners" />
 		<input type="hidden" name="cid" value="<?php echo $row->cid; ?>" />
 		<input type="hidden" name="client_id" value="<?php echo $row->cid; ?>" />
 		<input type="hidden" name="task" value="" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
