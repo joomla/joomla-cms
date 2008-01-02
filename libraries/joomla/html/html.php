@@ -3,7 +3,7 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	HTML
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -28,24 +28,38 @@ class JHTML
 	 * Additional arguments may be supplied and are passed to the sub-class.
 	 * Additional include paths are also able to be specified for third-party use
 	 *
-	 * @param	string	The type of helper method to load
+	 * @param	string	The name of helper method to load, (prefix).(class).function
+	 *                  prefix and class are optional and can be used to load custom
+	 *                  html helpers.
 	 */
 	function _( $type )
 	{
 		//Initialise variables
-		$file = '';
-		$func = $type;
+		$prefix = 'JHTML';
+		$file   = '';
+		$func   = $type;
 
 		// Check to see if we need to load a helper file
-		if(substr_count($type, '.'))
+		$parts = explode('.', $type);
+		
+		switch(count($parts)) 
 		{
-			$parts = explode('.', $type);
-			$file		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
-			$func		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
+			case 3 : 
+			{
+				$prefix		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
+				$file		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
+				$func		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[2] );
+			} break;
+			
+			case 2 : 
+			{
+				$file		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
+				$func		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
+			} break;
 		}
-
-		$className	= 'JHTML'.ucfirst($file);
-
+		
+		$className	= $prefix.ucfirst($file);
+		
 		if (!class_exists( $className ))
 		{
 			jimport('joomla.filesystem.path');
@@ -55,13 +69,13 @@ class JHTML
 
 				if (!class_exists( $className ))
 				{
-					JError::raiseWarning( 0, 'JHTML '. $className.'::' .$func. ' not found in file.' );
+					JError::raiseWarning( 0, $className.'::' .$func. ' not found in file.' );
 					return false;
 				}
 			}
 			else
 			{
-				JError::raiseWarning( 0, 'JHTML ' . $file . ' not supported. File not found.' );
+				JError::raiseWarning( 0, $prefix.$file . ' not supported. File not found.' );
 				return false;
 			}
 		}
@@ -111,11 +125,11 @@ class JHTML
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString( $attribs );
 		}
-
+		
 		if(strpos($url, 'http') !== 0) {
 			$url =  JURI::root(true).'/'.$url;
-		};
-
+		}; 
+			
 		return '<img src="'.$url.'" alt="'.$alt.'" '.$attribs.' />';
 	}
 
@@ -153,10 +167,10 @@ class JHTML
 		if($mootools) {
 			JHTML::_('behavior.mootools');
 		}
-
+		
 		if(strpos($path, 'http') !== 0) {
 			$path =  JURI::root(true).'/'.$path;
-		};
+		}; 
 
 		$document = &JFactory::getDocument();
 		$document->addScript( $path.$filename );
@@ -174,8 +188,8 @@ class JHTML
 	{
 		if(strpos($path, 'http') !== 0) {
 			$path =  JURI::root(true).'/'.$path;
-		};
-
+		}; 
+		
 		$document = &JFactory::getDocument();
 		$document->addStylesheet( $path.$filename, 'text/css', null, $attribs );
 		return;
