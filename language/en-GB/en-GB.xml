@@ -15,7 +15,7 @@
 		<name>English (United Kingdom)</name>
 		<tag>en-GB</tag>
 		<rtl>0</rtl>
-		<locale>en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
+		<locale>en_GB.utf-8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
 		<winCodePage>iso-8859-1</winCodePage>
 		<backwardLang>english</backwardLang>
 		<pdfFontName>freesans</pdfFontName> 

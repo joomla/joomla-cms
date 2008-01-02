@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Jan-2008 Mati Kochen
+ ^ Added UTF locales to en_GB.xml (admin/installation/site)
+
 02-Jan-2008 Andrew Eddie
  # Fixed csrf exploits in com_installer
 
