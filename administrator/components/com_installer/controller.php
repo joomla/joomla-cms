@@ -165,6 +165,13 @@ class InstallerController extends JController
 		$view->assignRef('ftp', $ftp);
 
 		$eid = JRequest::getVar('eid', array(), '', 'array');
+		
+		// Update to handle components radio box
+		// Checks there is only one extensions, we're uninstalling components
+		// and then checks that the zero numbered item is set (shouldn't be a zero
+		// if the eid is set to the proper format)
+		if((count($eid) == 1) && ($type == 'components') && (isset($eid[0]))) $eid = array($eid[0] => 0);
+		
 		JArrayHelper::toInteger($eid, array());
 		$result = $model->remove($eid);
 

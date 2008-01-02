@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Jan-2008 Sam Moffatt
+ # Fixed radio button selection in com_installer
+ ^ Removed administration/media tag from module installer
+ 
 01-Jan-2008 Chris Davenport
  ^ Local help files replaced by dummy files containing links to online help.
 

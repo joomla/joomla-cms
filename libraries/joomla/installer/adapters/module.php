@@ -314,7 +314,6 @@ class JInstallerModule extends JObject
 		// Remove other files
 		$root =& $manifest->document;
 		$this->parent->removeFiles($root->getElementByPath('media'));
-		$this->parent->removeFiles($root->getElementByPath('administration/media'), 1);
 		$this->parent->removeFiles($root->getElementByPath('languages'));
 		$this->parent->removeFiles($root->getElementByPath('administration/languages'), 1);
 
