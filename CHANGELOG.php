@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Jan-2008 Robin Muilwijk
+ # Fixed [#8969] Mod_sections missing parameter + patch
+
 02-Jan-2008 Sam Moffatt
  # Fixed radio button selection in com_installer
  ^ Removed administration/media tag from module installer
