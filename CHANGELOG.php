@@ -42,6 +42,7 @@ Legend:
 
 02-Jan-2008 Robin Muilwijk
  # Fixed [#8969] Mod_sections missing parameter + patch
+ # Fixed [#8828] htaccess does not include rewrite for .htm
 
 02-Jan-2008 Sam Moffatt
  # Fixed radio button selection in com_installer
