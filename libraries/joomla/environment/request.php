@@ -23,9 +23,9 @@ $GLOBALS['_JREQUEST'] = array();
 /**
  * Set the available masks for cleaning variables
  */
-define('JREQUEST_NOTRIM'   , 1);
-define('JREQUEST_ALLOWRAW' , 2);
-define('JREQUEST_ALLOWHTML', 4);
+define( 'JREQUEST_NOTRIM'   , 1 );
+define( 'JREQUEST_ALLOWRAW' , 2 );
+define( 'JREQUEST_ALLOWHTML', 4 );
 
 /**
  * JRequest Class
@@ -35,7 +35,6 @@ define('JREQUEST_ALLOWHTML', 4);
  * can be passed through an input filter to avoid injection or returned raw.
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Environment
  * @since		1.5
@@ -145,10 +144,12 @@ class JRequest
 				}
 
 				$GLOBALS['_JREQUEST'][$name][$sig] = $var;
-			} elseif ($default !== null) {
+			}
+			elseif ($default !== null) {
 				// Clean the default value
 				$var = JRequest::_cleanVar($default, $mask, $type);
-			} else {
+			}
+			else {
 				$var = $default;
 			}
 		} else {
@@ -172,7 +173,8 @@ class JRequest
 	 * @return	integer	Requested variable
 	 * @since	1.5
 	 */
-	function getInt($name, $default = 0, $hash = 'default') {
+	function getInt($name, $default = 0, $hash = 'default')
+	{
 		return JRequest::getVar($name, $default, $hash, 'int');
 	}
 
@@ -190,7 +192,8 @@ class JRequest
 	 * @return	float	Requested variable
 	 * @since	1.5
 	 */
-	function getFloat($name, $default = 0.0, $hash = 'default') {
+	function getFloat($name, $default = 0.0, $hash = 'default')
+	{
 		return JRequest::getVar($name, $default, $hash, 'float');
 	}
 
@@ -208,7 +211,8 @@ class JRequest
 	 * @return	bool		Requested variable
 	 * @since	1.5
 	 */
-	function getBool($name, $default = false, $hash = 'default') {
+	function getBool($name, $default = false, $hash = 'default')
+	{
 		return JRequest::getVar($name, $default, $hash, 'bool');
 	}
 
@@ -226,7 +230,8 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getWord($name, $default = '', $hash = 'default') {
+	function getWord($name, $default = '', $hash = 'default')
+	{
 		return JRequest::getVar($name, $default, $hash, 'word');
 	}
 
@@ -244,7 +249,8 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getCmd($name, $default = '', $hash = 'default') {
+	function getCmd($name, $default = '', $hash = 'default')
+	{
 		return JRequest::getVar($name, $default, $hash, 'cmd');
 	}
 
@@ -403,11 +409,32 @@ class JRequest
 		return $result;
 	}
 
-	function set($array, $hash = 'default', $overwrite = true)
+	/**
+	 * Sets a request variable
+	 *
+	 * @param	array	An associative array of key-value pairs
+	 * @param	string	The request variable to set (POST, GET, FILES, METHOD)
+	 * @param	boolean	If true and an existing key is found, the value is overwritten, otherwise it is ingored
+	 */
+	function set( $array, $hash = 'default', $overwrite = true )
 	{
-		foreach($array as $key => $value) {
+		foreach ($array as $key => $value) {
 			JRequest::setVar($key, $value, $hash, $overwrite);
 		}
+	}
+
+	/**
+	 * Checks for a form token in the request
+	 *
+	 * Use in conjuction with JHTML::_( 'form.token' )
+	 *
+	 * @param	string	The request method in which to look for the token key
+	 * @return	boolean	True if found and valid, false otherwise
+	 */
+	function checkToken( $method = 'post' )
+	{
+		$token = JUtility::getToken();
+		return JRequest::getInt( $token, 0, $method );
 	}
 
 	/**
@@ -442,7 +469,8 @@ class JRequest
 			$SESSION = $_SESSION;
 		}
 
-		foreach ($GLOBALS as $key => $value) {
+		foreach ($GLOBALS as $key => $value)
+		{
 			if ( $key != 'GLOBALS' ) {
 				unset ( $GLOBALS [ $key ] );
 			}

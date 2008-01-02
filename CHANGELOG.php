@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Jan-2008 Andrew Eddie
+ # Added JHTML::_( 'form.token' ) and JRequest::checkToken to assist in preventing CSRF exploits
+
 03-Jan-2008 Alan Langford
  ^ Added conditionals to JLoader, __autoload(), jimport() to aid unit testing.
 
@@ -44,7 +47,7 @@ Legend:
  ^ Added UTF locales to en_GB.xml (admin/installation/site)
 
 02-Jan-2008 Andrew Eddie
- # Fixed csrf exploits in com_installer
+ # Fixed CSRF exploits in com_installer
 
 02-Jan-2008 Toby Patterson
  # Fixed problem with JDocumentRendererAtom encoding links resulting in invalid urls ( & to &amp; )
