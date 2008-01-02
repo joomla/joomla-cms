@@ -77,7 +77,7 @@ jimport( 'joomla.utilities.date' );
 		{
 			$feed.= "	<entry>\n";
 			$feed.= "		<title>".htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8')."</title>\n";
-			$feed.= "		<link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($data->items[$i]->link, ENT_COMPAT, 'UTF-8')."\"/>\n";
+			$feed.= '		<link rel="alternate" type="text/html" href="'.$data->items[$i]->link."\"/>\n";
 
 			if ($data->items[$i]->date=="") {
 				$data->items[$i]->date = time();

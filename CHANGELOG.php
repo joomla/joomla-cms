@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Jan-2008 Toby Patterson
+ # Fixed problem with JDocumentRendererAtom encoding links resulting in invalid urls ( & to &amp; )
+
 02-Jan-2008 Robin Muilwijk
  # Fixed [#8969] Mod_sections missing parameter + patch
 
