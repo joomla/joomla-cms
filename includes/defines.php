@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 
 //Global definitions
-//Joomla framework paht definitions
+//Joomla framework path definitions
 $parts = explode( DS, JPATH_BASE );
 
 //Defines

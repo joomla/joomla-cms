@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Jan-2008 Alan Langford
+ ^ Added conditionals to JLoader, __autoload(), jimport() to aid unit testing.
+
 02-Jan-2008 Mati Kochen
  ^ Added UTF locales to en_GB.xml (admin/installation/site)
 
@@ -712,7 +715,7 @@ Legend:
  ! Performance improvements : The following changes allow autoloading of framework files
    using JLoader and jimport. They create forwards compatibilty with PHP 5.x and prpvide
    significant performance improvements.
-    ! Possible breakages are expected to occur, please take this into account
+	! Possible breakages are expected to occur, please take this into account
  	^ Moved JMail into it's own package
 	^ Moved JMailHelper into it's own file
  	^ Moved JPlugin and JPluginHelper into their own package
@@ -1192,7 +1195,7 @@ Legend:
  # Fixed [#6573] Legacy - pagination.php vs pageNavigation.php
  # Fixed [#6572] Legacy - mosWarning
  ^ Improved user synchronisation and user plugin support for com_user, block and logout users
-    tasks now also trigger the user plugins
+	tasks now also trigger the user plugins
  ^ JApplication::logout now accepts userid variable to allow a force logout of any user.
  ^ Improved user onBeforeStore and onAfterStore events, the onBeforeStore event now receives
    the old user data which can be used to create assynchronous application bridges
@@ -1703,7 +1706,7 @@ Legend:
 
 10-Jun-2007 Rastin Mehr
  # Fixed [#5628] gacl_api::get_group_id( ... ) now returns the right value, that was causing the
-    registration process not going through properly.
+	registration process not going through properly.
  # Fixed [#4694] Com_contact broken
  ^ Modified sample_data.sql file to fix the issue
 
@@ -3253,7 +3256,7 @@ You have to open the article preferences and change the setting to show and save
 05-Sep-2006 David Gal
  # Fixed [artf5822] : Configuration popups are not translated
  # Fixed [artf5711] : Vars in configuration.html (installation) are not translated
-                      This resulted in an update to en-GB.ini in installation
+					  This resulted in an update to en-GB.ini in installation
  # Fixed [artf4940] : Localisations in menu wizard
  # Fixed "L10n tagged" untranslated strings
 
