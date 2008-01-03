@@ -46,5 +46,5 @@
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="option" value="com_installer" />
 	<input type="hidden" name="type" value="plugins" />
-	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

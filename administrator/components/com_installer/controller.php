@@ -55,11 +55,8 @@ class InstallerController extends JController
 	 */
 	function doInstall()
 	{
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$model	= &$this->getModel( 'Install' );
 		$view	= &$this->getView( 'Install' );
@@ -105,11 +102,8 @@ class InstallerController extends JController
 	 */
 	function enable()
 	{
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'get')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken( 'request' ) or die( 'Invalid Token' );
 
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel( $type );
@@ -137,11 +131,8 @@ class InstallerController extends JController
 	 */
 	function disable()
 	{
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'get')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken( 'request' ) or die( 'Invalid Token' );
 
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel( $type );
@@ -169,11 +160,8 @@ class InstallerController extends JController
 	 */
 	function remove()
 	{
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel( $type );
