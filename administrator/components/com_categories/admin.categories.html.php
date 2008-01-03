@@ -206,7 +206,6 @@ class categories_html
 		</tbody>
 		</table>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="com_categories" />
 		<input type="hidden" name="section" value="<?php echo $section;?>" />
 		<input type="hidden" name="task" value="" />
@@ -216,6 +215,7 @@ class categories_html
 		<input type="hidden" name="type" value="<?php echo $type; ?>" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $lists['order_Dir']; ?>" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
@@ -398,17 +398,16 @@ class categories_html
 		</div>
 		<div class="clr"></div>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="com_categories" />
 		<input type="hidden" name="oldtitle" value="<?php echo $row->title ; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="sectionid" value="<?php echo $row->section; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="redirect" value="<?php echo $redirect; ?>" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
-
 
 	/**
 	* Form to select Section to move Category to
@@ -477,7 +476,6 @@ class categories_html
 		</table>
 		<br /><br />
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="section" value="<?php echo $sectionOld;?>" />
 		<input type="hidden" name="boxchecked" value="1" />
@@ -488,14 +486,14 @@ class categories_html
 			echo "\n <input type=\"hidden\" name=\"cid[]\" value=\"$id\" />";
 		}
 		?>
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
 
-
 	/**
-	* Form to select Section to copy Category to
-	*/
+	 * Form to select Section to copy Category to
+	 */
 	function copyCategorySelect( $option, $cid, $SectionList, $items, $sectionOld, $contents, $redirect ) {
 		?>
 		<script language="javascript" type="text/javascript">
@@ -563,7 +561,6 @@ class categories_html
 		</table>
 		<br /><br />
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="section" value="<?php echo $sectionOld;?>" />
 		<input type="hidden" name="boxchecked" value="1" />
@@ -574,8 +571,8 @@ class categories_html
 			echo "\n <input type=\"hidden\" name=\"cid[]\" value=\"$id\" />";
 		}
 		?>
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
-
 }

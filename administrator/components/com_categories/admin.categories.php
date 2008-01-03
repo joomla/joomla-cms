@@ -373,10 +373,12 @@ function editCategory($edit )
 	. ' WHERE section = '.$db->Quote($row->section)
 	. ' ORDER BY ordering'
 	;
-	if($edit)
+	if ($edit) {
 		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
-	else
+	}
+	else {
 		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query );
+	}
 	// build the select list for the image positions
 	$active =  ( $row->image_position ? $row->image_position : 'left' );
 	$lists['image_position'] 	= JHTML::_('list.positions',  'image_position', $active, NULL, 0, 0 );
@@ -399,11 +401,8 @@ function saveCategory()
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	// Initialize variables
 	$db		 =& JFactory::getDBO();
@@ -492,11 +491,8 @@ function removeCategories( $section, $cid )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
@@ -578,11 +574,8 @@ function publishCategories( $section, $cid=null, $publish=1 )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	// Initialize variables
 	$db		=& JFactory::getDBO();
@@ -625,6 +618,9 @@ function cancelCategory()
 {
 	global $mainframe;
 
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
+
 	// Initialize variables
 	$db =& JFactory::getDBO();
 
@@ -645,11 +641,8 @@ function orderCategory( $uid, $inc )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	// Initialize variables
 	$db		=& JFactory::getDBO();
@@ -670,11 +663,8 @@ function moveCategorySelect( $option, $cid, $sectionOld )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 	$redirect = JRequest::getCmd( 'section', 'com_content', 'post' );
@@ -726,11 +716,8 @@ function moveCategorySave( $cid, $sectionOld )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 	$sectionMove = JRequest::getCmd( 'sectionmove' );
@@ -808,11 +795,8 @@ function copyCategorySelect( $option, $cid, $sectionOld )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 	$redirect = JRequest::getCmd( 'section', 'com_content', 'post' );
@@ -864,17 +848,13 @@ function copyCategorySave( $cid, $sectionOld )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
 
 	$sectionMove 	= JRequest::getInt( 'sectionmove' );
-
 
 	//Check to see of a section was selected to copy the items too
 	if (!$sectionMove)
@@ -947,11 +927,8 @@ function accessMenu( $uid, $access, $section )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
@@ -974,11 +951,8 @@ function saveOrder( &$cid, $section )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
