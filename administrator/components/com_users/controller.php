@@ -75,11 +75,8 @@ class UsersController extends JController
 	{
 		global $mainframe;
 
-		//preform token check (prevent spoofing)
-		$token	= JUtility::getToken();
-		if(!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$option = JRequest::getCmd( 'option');
 
@@ -209,11 +206,8 @@ class UsersController extends JController
 	 */
 	function remove()
 	{
-		//preform token check (prevent spoofing)
-		$token	= JUtility::getToken();
-		if(!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$db 			=& JFactory::getDBO();
 		$currentUser 	=& JFactory::getUser();
@@ -299,11 +293,8 @@ class UsersController extends JController
 	 */
 	function block( )
 	{
-		//preform token check (prevent spoofing)
-		$token	= JUtility::getToken();
-		if(!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$db 			=& JFactory::getDBO();
 		$acl			=& JFactory::getACL();
@@ -385,11 +376,8 @@ class UsersController extends JController
 	 */
 	function logout( )
 	{
-		//preform token check (prevent spoofing)
-		$token	= JUtility::getToken();
-		if(!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		global $mainframe;
 

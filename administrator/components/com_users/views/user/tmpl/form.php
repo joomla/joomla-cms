@@ -297,5 +297,5 @@
 	<?php if (!$this->user->authorize( 'com_users', 'email_events' )) { ?>
 	<input type="hidden" name="sendEmail" value="0" />
 	<?php } ?>
-	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
