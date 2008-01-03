@@ -204,7 +204,7 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 <input type="hidden" name="version" value="<?php echo $this->article->version; ?>" />
 <input type="hidden" name="created_by" value="<?php echo $this->article->created_by; ?>" />
 <input type="hidden" name="referer" value="<?php echo @$_SERVER['HTTP_REFERER']; ?>" />
-<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+<?php echo JHTML::_( 'form.token' ); ?>
 <input type="hidden" name="task" value="" />
 </form>
 <?php echo JHTML::_('behavior.keepalive'); ?>

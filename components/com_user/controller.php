@@ -56,11 +56,8 @@ class UserController extends JController
 
 	function save()
 	{
-		//preform token check (prevent spoofing)
-		$token	= JUtility::getToken();
-		if(!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$user	 =& JFactory::getUser();
 		$userid = JRequest::getVar( 'id', 0, 'post', 'int' );
@@ -113,6 +110,9 @@ class UserController extends JController
 
 	function login()
 	{
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
+
 		global $mainframe;
 
 		if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
@@ -126,12 +126,6 @@ class UserController extends JController
 		$credentials = array();
 		$credentials['username'] = JRequest::getVar('username', '', 'method', 'username');
 		$credentials['password'] = JRequest::getString('passwd', '', 'post', JREQUEST_ALLOWRAW);
-
-		//check the token before we do anything else
-		/*$token	= JUtility::getToken();
-		if(!JRequest::getInt( $token, 0, 'post' )) {
-			JError::raiseError(403, 'Request Forbidden');
-		}*/
 
 		//preform the login action
 		$error = $mainframe->login($credentials, $options);
@@ -204,11 +198,8 @@ class UserController extends JController
 	{
 		global $mainframe;
 
-		//check the token before we do anything else
-		$token	= JUtility::getToken();
-		if(!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		// Get required system objects
 		$user 		= clone(JFactory::getUser());
@@ -360,10 +351,8 @@ class UserController extends JController
 	 */
 	function requestreset()
 	{
-		// Verify the submission
-		if(!JRequest::getVar(JUtility::getToken(), 0, 'post', 'alnum')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		// Get the input
 		$email		= JRequest::getVar('email', null, 'post', 'string');
@@ -389,10 +378,8 @@ class UserController extends JController
 	 */
 	function confirmreset()
 	{
-		// Verify the submission
-		if(!JRequest::getVar(JUtility::getToken(), 0, 'post', 'alnum')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		// Get the input
 		$token = JRequest::getVar('token', null, 'post', 'alnum');
@@ -418,10 +405,8 @@ class UserController extends JController
 	 */
 	function completereset()
 	{
-		// Verify the submission
-		if(!JRequest::getVar(JUtility::getToken(), 0, 'post', 'alnum')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		// Get the input
 		$password1 = JRequest::getVar('password1', null, 'post', 'string', JREQUEST_ALLOWRAW);
@@ -449,10 +434,8 @@ class UserController extends JController
 	 */
 	function remindusername()
 	{
-		// Verify the submission
-		if(!JRequest::getVar(JUtility::getToken(), 0, 'post', 'alnum')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		// Get the input
 		$email = JRequest::getVar('email', null, 'post', 'string');

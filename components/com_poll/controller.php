@@ -46,14 +46,10 @@ class PollController extends JController
 	{
 		global $mainframe;
 
-		//check the token before we do anything else
-		$token = JUtility::getToken();
-		if(!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$db			=& JFactory::getDBO();
-
 		$poll_id	= JRequest::getVar( 'id', 0, '', 'int' );
 		$option_id	= JRequest::getVar( 'voteid', 0, 'post', 'int' );
 

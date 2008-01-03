@@ -82,11 +82,8 @@ class ContactController extends JController
 	{
 		global $mainframe;
 
-		//check the token before we do anything else
-		$token	= JUtility::getToken();
-		if (!JRequest::getInt( $token, 0, 'post' )) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		// Initialize some variables
 		$db			= & JFactory::getDBO();

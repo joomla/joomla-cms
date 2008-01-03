@@ -109,16 +109,13 @@ class ContentController extends JController
 	*/
 	function save()
 	{
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
+
 		// Initialize variables
 		$db			= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$task		= JRequest::getVar('task', null, 'default', 'cmd');
-
-		//check the token before we do anything else
-		$token	= JUtility::getToken();
-		if(!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
