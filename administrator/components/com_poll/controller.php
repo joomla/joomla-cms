@@ -75,11 +75,8 @@ class PollController extends JController
 
 	function save()
 	{
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$db		=& JFactory::getDBO();
 
@@ -143,11 +140,8 @@ class PollController extends JController
 
 	function remove()
 	{
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$db		=& JFactory::getDBO();
 		$cid	= JRequest::getVar( 'cid', array(), '', 'array' );
@@ -176,11 +170,8 @@ class PollController extends JController
 	{
 		global $mainframe;
 
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$db 	=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();
@@ -219,6 +210,8 @@ class PollController extends JController
 
 	function cancel()
 	{
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$id		= JRequest::getVar( 'id', 0, '', 'int' );
 		$db		=& JFactory::getDBO();

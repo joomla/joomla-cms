@@ -124,10 +124,10 @@ JFilterOutput::objectHTMLSafe( $this->poll, ENT_QUOTES );
 </div>
 <div class="clr"></div>
 
-<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
-<input type="hidden" name="task" value="" />
-<input type="hidden" name="option" value="com_poll" />
-<input type="hidden" name="id" value="<?php echo $this->poll->id; ?>" />
-<input type="hidden" name="cid[]" value="<?php echo $this->poll->id; ?>" />
-<input type="hidden" name="textfieldcheck" value="<?php echo $n; ?>" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="option" value="com_poll" />
+	<input type="hidden" name="id" value="<?php echo $this->poll->id; ?>" />
+	<input type="hidden" name="cid[]" value="<?php echo $this->poll->id; ?>" />
+	<input type="hidden" name="textfieldcheck" value="<?php echo $n; ?>" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
