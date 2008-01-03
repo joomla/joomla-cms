@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 03-Jan-2008 Jui-Yu Tsai
+ # Fixed [#8615][topic,240577] mod_newsflash "Read more..." parameter issue
  # Fixed [topic,248718] com_search gives an error under Beez template
  # Fixed [topic,248716] Author and date in beez template
 

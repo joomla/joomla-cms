@@ -26,6 +26,6 @@ endif; ?>
 		<td valign="top" colspan="2"><?php echo $item->text; ?></td>
 	</tr>
 </table>
-<?php if (isset($item->linkOn) && $item->readmore) :
+<?php if (isset($item->linkOn) && $item->readmore && $params->get('readmore')) :
 	echo '<a href="'.$item->linkOn.'">'.JText::_('Read more').'</a>';
 endif; ?>
