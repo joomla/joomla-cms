@@ -27,6 +27,28 @@ defined('_JEXEC') or die('Restricted access');
 </h2>
 <?php endif; ?>
 
+<?php if ((!empty ($this->article->modified) && $this->params->get('show_modify_date')) || ($this->params->get('show_author') && ($this->article->author != "")) || ($this->params->get('show_create_date'))) : ?>
+<p class="articleinfo">
+	<?php if (!empty ($this->article->modified) && $this->params->get('show_modify_date')) : ?>
+	<span class="modifydate">
+		<?php echo JText::_('Last Updated').' ('.JHTML::_('date', $this->article->modified, JText::_('DATE_FORMAT_LC2')).')'; ?>
+	</span>
+	<?php endif; ?>
+
+	<?php if (($this->params->get('show_author')) && ($this->article->author != "")) : ?>
+	<span class="createdby">
+		<?php JText::printf('Written by', ($this->article->created_by_alias ? $this->article->created_by_alias : $this->article->author)); ?>
+	</span>
+	<?php endif; ?>
+
+	<?php if ($this->params->get('show_create_date')) : ?>
+	<span class="createdate">
+		<?php echo JHTML::_('date', $this->article->created, JText::_('DATE_FORMAT_LC2')); ?>
+	</span>
+	<?php endif; ?>
+</p>
+<?php endif; ?>
+
 <?php if (!$this->params->get('show_intro')) :
 	echo $this->article->event->afterDisplayTitle;
 endif; ?>

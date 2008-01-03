@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Jan-2008 Jui-Yu Tsai
+ # Fixed [topic,248716] Author and date in beez template
+
 03-Jan-2008 Anthony Ferrara
  # Fixed untranslated string in timezones (Thanks Ercan �zkaya)
 
