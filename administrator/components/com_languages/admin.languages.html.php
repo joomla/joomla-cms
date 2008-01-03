@@ -146,11 +146,11 @@ class HTML_languages {
 			</tbody>
 			</table>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
