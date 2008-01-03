@@ -10,7 +10,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <div id="page">
 
-<?php if (!$this->error && count($this->results) > 0) :
+<?php if (!$this->error) :
 	echo $this->loadTemplate('results');
 else :
 	echo $this->loadTemplate('error');
