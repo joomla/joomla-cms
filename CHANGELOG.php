@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Jan-2008 Anthony Ferrara
+ # Fixed untranslated string in timezones (Thanks Ercan �zkaya)
+
 03-Jan-2008 Andrew Eddie
  # Added JHTML::_( 'form.token' ) and JRequest::checkToken to assist in preventing CSRF exploits
 
