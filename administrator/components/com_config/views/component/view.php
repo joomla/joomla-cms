@@ -56,7 +56,6 @@ class ConfigViewComponent extends JView
 			<?php echo $params->render();?>
 		</fieldset>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="id" value="<?php echo $this->component->id;?>" />
 		<input type="hidden" name="component" value="<?php echo $this->component->option;?>" />
 
@@ -64,6 +63,7 @@ class ConfigViewComponent extends JView
 		<input type="hidden" name="option" value="com_config" />
 		<input type="hidden" name="tmpl" value="component" />
 		<input type="hidden" name="task" value="" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 	</form>
 <?php
 	}
