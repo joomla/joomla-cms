@@ -219,11 +219,8 @@ function changeFrontPage( $cid=null, $state=0, $option )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db 	=& JFactory::getDBO();
 	$user 	=& JFactory::getUser();
@@ -262,11 +259,8 @@ function removeFrontPage( &$cid, $option )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -300,11 +294,8 @@ function orderFrontPage( $uid, $inc, $option )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 
@@ -327,11 +318,8 @@ function accessMenu( $uid, $access )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db = & JFactory::getDBO();
 	$row =& JTable::getInstance('content');
@@ -355,11 +343,8 @@ function saveOrder( &$cid )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db 	=& JFactory::getDBO();
 	$total	= count( $cid );
