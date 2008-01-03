@@ -118,9 +118,9 @@ class HTML_massmail
 		</div>
 		<div class="clr"></div>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
