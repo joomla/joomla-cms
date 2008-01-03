@@ -171,16 +171,15 @@ class HTML_newsfeeds
 			</tr>
 			</table>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $lists['order_Dir']; ?>" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
-
 
 	function editNewsFeed( &$row, &$lists, $option )
 	{
@@ -325,11 +324,11 @@ class HTML_newsfeeds
 		</div>
 		<div class="clr"></div>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 	<?php
 	}

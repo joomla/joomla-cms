@@ -217,11 +217,8 @@ function saveNewsFeed(  )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db 		=& JFactory::getDBO();
 	$task 		= JRequest::getVar( 'task');
@@ -293,11 +290,8 @@ function changePublishNewsFeeds( $publish )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db 		=& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
@@ -338,11 +332,8 @@ function removeNewsFeeds( )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db 		=& JFactory::getDBO();
 	$cid 		= JRequest::getVar('cid', array(), '', 'array');
@@ -372,6 +363,9 @@ function removeNewsFeeds( )
 function cancelNewsFeed(  )
 {
 	global $mainframe;
+
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db 	=& JFactory::getDBO();
 	$option = JRequest::getCmd('option');
@@ -404,11 +398,8 @@ function orderNewsFeed( $inc )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db		=& JFactory::getDBO();
 	$cid	= JRequest::getVar('cid', array(0), '', 'array');
@@ -433,11 +424,8 @@ function saveOrder(  )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db			=& JFactory::getDBO();
 	$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
