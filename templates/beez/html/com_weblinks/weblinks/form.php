@@ -80,12 +80,12 @@ function submitbutton(pressbutton)
 	</button>
 </div>
 
-<input type="hidden" name="jform[id]" value="<?php echo $this->weblink->id; ?>" />
-<input type="hidden" name="jform[ordering]" value="<?php echo $this->weblink->ordering; ?>" />
-<input type="hidden" name="jform[approved]" value="<?php echo $this->weblink->approved; ?>" />
-<input type="hidden" name="option" value="<?php echo $option;?>" />
-<input type="hidden" name="controller" value="weblink" />
-<input type="hidden" name="task" value="" />
-<input type="hidden" name="Returnid" value="<?php echo $this->returnid; ?>" />
-<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+	<input type="hidden" name="jform[id]" value="<?php echo $this->weblink->id; ?>" />
+	<input type="hidden" name="jform[ordering]" value="<?php echo $this->weblink->ordering; ?>" />
+	<input type="hidden" name="jform[approved]" value="<?php echo $this->weblink->approved; ?>" />
+	<input type="hidden" name="option" value="<?php echo $option;?>" />
+	<input type="hidden" name="controller" value="weblink" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="Returnid" value="<?php echo $this->returnid; ?>" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

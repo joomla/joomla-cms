@@ -175,13 +175,13 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 
 </fieldset>
 
-<input type="hidden" name="option" value="com_content" />
-<input type="hidden" name="Returnid" value="<?php echo $this->returnid; ?>" />
-<input type="hidden" name="id" value="<?php echo $this->article->id; ?>" />
-<input type="hidden" name="version" value="<?php echo $this->article->version; ?>" />
-<input type="hidden" name="created_by" value="<?php echo $this->article->created_by; ?>" />
-<input type="hidden" name="referer" value="<?php echo @$_SERVER['HTTP_REFERER']; ?>" />
-<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
-<input type="hidden" name="task" value="" />
+	<input type="hidden" name="option" value="com_content" />
+	<input type="hidden" name="Returnid" value="<?php echo $this->returnid; ?>" />
+	<input type="hidden" name="id" value="<?php echo $this->article->id; ?>" />
+	<input type="hidden" name="version" value="<?php echo $this->article->version; ?>" />
+	<input type="hidden" name="created_by" value="<?php echo $this->article->created_by; ?>" />
+	<input type="hidden" name="referer" value="<?php echo @$_SERVER['HTTP_REFERER']; ?>" />
+	<input type="hidden" name="task" value="" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
 <?php echo JHTML::_('behavior.keepalive'); ?>

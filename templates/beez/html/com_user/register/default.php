@@ -42,5 +42,5 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<input type="hidden" name="task" value="register_save" />
 	<input type="hidden" name="id" value="0" />
 	<input type="hidden" name="gid" value="0" />
-	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

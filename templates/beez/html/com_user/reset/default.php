@@ -10,6 +10,6 @@ defined('_JEXEC') or die('Restricted access');
 	<label for="email" class="hasTip" title="<?php echo JText::_('RESET_PASSWORD_EMAIL_TIP_TITLE'); ?>::<?php echo JText::_('RESET_PASSWORD_EMAIL_TIP_TEXT'); ?>"><?php echo JText::_('Email Address'); ?>:</label>
 	<input id="email" name="email" type="text" class="required validate-email" />
 
-	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 	<button type="submit" class="validate"><?php echo JText::_('Submit'); ?></button>
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

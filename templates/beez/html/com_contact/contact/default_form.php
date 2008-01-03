@@ -48,6 +48,6 @@ defined('_JEXEC') or die('Restricted access');
 	<button class="button validate" type="submit"><?php echo JText::_('Send'); ?></button>
 	<input type="hidden" name="view" value="contact" />
 	<input type="hidden" name="id" value="<?php echo $this->contact->id; ?>" />
-	<input type="hidden" name="task" value="submit" /> 
-	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+	<input type="hidden" name="task" value="submit" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

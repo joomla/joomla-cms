@@ -23,6 +23,6 @@ defined('_JEXEC') or die('Restricted access');
 		</tr>
 	</table>
 
-	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 	<button type="submit" class="validate"><?php echo JText::_('Submit'); ?></button>
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

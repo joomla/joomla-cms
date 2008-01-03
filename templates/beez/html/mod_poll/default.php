@@ -22,5 +22,5 @@ defined('_JEXEC') or die('Restricted access');
 	<input type="hidden" name="option" value="com_poll" />
 	<input type="hidden" name="id" value="<?php echo $poll->id; ?>" />
 	<input type="hidden" name="task" value="vote" />
-	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
