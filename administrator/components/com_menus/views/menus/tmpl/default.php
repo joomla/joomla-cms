@@ -128,8 +128,8 @@
 	</tbody>
 	</table>
 
-<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
-<input type="hidden" name="option" value="com_menus" />
-<input type="hidden" name="task" value="" />
-<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="option" value="com_menus" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
