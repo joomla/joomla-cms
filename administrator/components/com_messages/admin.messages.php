@@ -167,11 +167,8 @@ function saveConfig( $option )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
@@ -224,11 +221,8 @@ function saveMessage( $option )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	require_once(dirname(__FILE__).DS.'tables'.DS.'message.php');
 
@@ -276,11 +270,8 @@ function removeMessage( $cid, $option )
 {
 	global $mainframe;
 
-	// Check for request forgeries.
-	$token = JUtility::getToken();
-	if (!JRequest::getInt($token, 0, 'post')) {
-		JError::raiseError(403, 'Request Forbidden');
-	}
+	// Check for request forgeries
+	JRequest::checkToken() or die( 'Invalid Token' );
 
 	$db =& JFactory::getDBO();
 
