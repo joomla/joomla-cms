@@ -37,11 +37,8 @@ class MediaControllerFile extends MediaController
 	{
 		global $mainframe;
 
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'request')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken( 'request' ) or die( 'Invalid Token' );
 
 		$file 		= JRequest::getVar( 'Filedata', '', 'files', 'array' );
 		$folder		= JRequest::getVar( 'folder', '', '', 'path' );

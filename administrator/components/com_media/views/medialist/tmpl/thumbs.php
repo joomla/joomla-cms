@@ -19,8 +19,8 @@
 		endfor; ?>
 
 	</div>
-	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="username" value="" />
 	<input type="hidden" name="password" value="" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

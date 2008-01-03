@@ -44,7 +44,6 @@
                     <div class="path">
                         <input class="inputbox" type="text" id="folderpath" readonly="readonly" />/
                         <input class="inputbox" type="text" id="foldername" name="foldername"  />
-						<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
                         <input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
                         <button type="submit"><?php echo JText::_( 'Create Folder' ); ?></button>
                     </div>
@@ -52,7 +51,8 @@
                         <iframe src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
                     </div>
                 </fieldset>
-            </form>
+				<?php echo JHTML::_( 'form.token' ); ?>
+			</form>
 
             <form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data" >
                 <input type="hidden" name="task" value="" />
