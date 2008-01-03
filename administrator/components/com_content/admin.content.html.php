@@ -259,17 +259,16 @@ class ContentView
 			</table>
 			<?php JHTML::_('content.legend'); ?>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="redirect" value="<?php echo $redirect;?>" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $lists['order_Dir']; ?>" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
-
 
 	/**
 	* Writes a list of the articles
@@ -413,7 +412,6 @@ class ContentView
 			</table>
 		</div>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="sectionid" value="<?php echo $section->id;?>" />
 		<input type="hidden" name="task" value="showarchive" />
@@ -422,10 +420,10 @@ class ContentView
 		<input type="hidden" name="redirect" value="<?php echo $redirect;?>" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
-
 
 	/**
 	* Writes the edit form for new and existing article
@@ -544,13 +542,13 @@ class ContentView
 		</tr>
 		</table>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="version" value="<?php echo $row->version; ?>" />
 		<input type="hidden" name="mask" value="0" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 		echo JHTML::_('behavior.keepalive');
@@ -608,7 +606,6 @@ class ContentView
 		</table>
 		<br /><br />
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" />
 		<input type="hidden" name="task" value="" />
@@ -617,11 +614,10 @@ class ContentView
 			echo "\n<input type=\"hidden\" name=\"cid[]\" value=\"$id\" />";
 		}
 		?>
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
-
-
 
 	/**
 	* Form to select Section/Category to copys item(s) to
@@ -670,7 +666,6 @@ class ContentView
 		</table>
 		<br /><br />
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" />
 		<input type="hidden" name="task" value="" />
@@ -679,6 +674,7 @@ class ContentView
 			echo "\n<input type=\"hidden\" name=\"cid[]\" value=\"$id\" />";
 		}
 		?>
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
