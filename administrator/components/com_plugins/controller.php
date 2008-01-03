@@ -64,11 +64,8 @@ class PluginsController extends JController
 
 	function save()
 	{
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$db   =& JFactory::getDBO();
 		$row  =& JTable::getInstance('plugin');
@@ -112,11 +109,8 @@ class PluginsController extends JController
 
 	function publish( )
 	{
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
@@ -151,6 +145,9 @@ class PluginsController extends JController
 
 	function cancel(  )
 	{
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
+
 		$client  = JRequest::getWord( 'filter_client', 'site' );
 
 		$db =& JFactory::getDBO();
@@ -163,6 +160,9 @@ class PluginsController extends JController
 
 	function order(  )
 	{
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
+
 		$db =& JFactory::getDBO();
 
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
@@ -188,6 +188,9 @@ class PluginsController extends JController
 
 	function access( )
 	{
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
+
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
 
@@ -226,11 +229,8 @@ class PluginsController extends JController
 
 	function saveorder( )
 	{
-		// Check for request forgeries.
-		$token = JUtility::getToken();
-		if (!JRequest::getInt($token, 0, 'post')) {
-			JError::raiseError(403, 'Request Forbidden');
-		}
+		// Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
 
 		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($cid, array(0));

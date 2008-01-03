@@ -2,7 +2,7 @@
 
 <?php JHTML::_('behavior.tooltip'); ?>
 
-<?php 
+<?php
 	JToolBarHelper::title( JText::_( 'Plugin' ) .': <small><small>[' .JText::_('Edit'). ']</small></small>', 'plugin.png' );
 	JToolBarHelper::save();
 	JToolBarHelper::apply();
@@ -10,7 +10,7 @@
 	JToolBarHelper::help( 'screen.plugins.edit' );
 ?>
 
-<?php 
+<?php
 	// clean item data
 	JFilterOutput::objectHTMLSafe( $this->plugin, ENT_QUOTES, '' );
 ?>
@@ -151,10 +151,10 @@
 </div>
 <div class="clr"></div>
 
-<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
-<input type="hidden" name="option" value="com_plugins" />
-<input type="hidden" name="id" value="<?php echo $this->plugin->id; ?>" />
-<input type="hidden" name="cid[]" value="<?php echo $this->plugin->id; ?>" />
-<input type="hidden" name="client" value="<?php echo $this->plugin->client_id; ?>" />
-<input type="hidden" name="task" value="" />
+	<input type="hidden" name="option" value="com_plugins" />
+	<input type="hidden" name="id" value="<?php echo $this->plugin->id; ?>" />
+	<input type="hidden" name="cid[]" value="<?php echo $this->plugin->id; ?>" />
+	<input type="hidden" name="client" value="<?php echo $this->plugin->client_id; ?>" />
+	<input type="hidden" name="task" value="" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
