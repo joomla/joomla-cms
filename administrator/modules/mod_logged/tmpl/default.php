@@ -70,5 +70,5 @@
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="client" value="" />
 	<input type="hidden" name="cid[]" id="cid_value" value="" />
-	<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
