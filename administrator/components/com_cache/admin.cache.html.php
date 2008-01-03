@@ -95,11 +95,11 @@ class CacheView
 			</tbody>
 		</table>
 
-		<input type="hidden" name="<?php echo JUtility::getToken(); ?>" value="1" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="option" value="com_cache" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 		</form>
 		<?php
 	}
