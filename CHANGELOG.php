@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Jan-2008 Mati Kochen
+ ^ [topic,249292] Minor Typos in Sample Data
+
 04-Jan-2008 Alan Langford
  ^ Removed conditionals in loader.php, to revisit after upcoming release.
 
