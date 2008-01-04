@@ -23,12 +23,11 @@
 class JHTMLForm
 {
 	/**
-	 * Method to load the mootools framework into the document head
+	 * Displays a hidden token field to reduce the risk of CSRF exploits
 	 *
-	 * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
+	 * Use in conjuction with JRequest::checkToken
 	 *
 	 * @static
-	 * @param	boolean	$debug	Is debugging mode on? [optional]
 	 * @return	void
 	 * @since	1.5
 	 */
