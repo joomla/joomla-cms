@@ -147,7 +147,7 @@ class JDate extends JObject
 	 * @return a date in RFC 822 format
 	 * @link http://www.ietf.org/rfc/rfc2822.txt?number=2822 IETF RFC 2822 (replaces RFC 822)
 	 */
-	function toRFC822($local=false)
+	function toRFC822($local = false)
 	{
 		$function = ($local) ? 'date' : 'gmdate';
 		$date = ($this->_date !== false) ? $function("D, d M Y H:i:s O", $this->_date) : null;
@@ -160,7 +160,7 @@ class JDate extends JObject
 	 * @return a date in ISO 8601 (RFC 3339) format
 	 * @link http://www.ietf.org/rfc/rfc3339.txt?number=3339 IETF RFC 3339
 	 */
-	function toISO8601($local=false)
+	function toISO8601($local = false)
 	{
 		$function = ($local) ? 'date' : 'gmdate';
 		$date = ($this->_date !== false) ? $function("Y-m-d\TH:i:sP", $this->_date) : null;
@@ -173,7 +173,7 @@ class JDate extends JObject
 	 * @return a date in MySQL datetime format
 	 * @link http://dev.mysql.com/doc/refman/4.1/en/datetime.html MySQL DATETIME format
 	 */
-	function toMySQL($local=false)
+	function toMySQL($local = false)
 	{
 		$function = ($local) ? 'date' : 'gmdate';
 		$date = ($this->_date !== false) ? $function("Y-m-d H:i:s", $this->_date) : null;
@@ -185,7 +185,7 @@ class JDate extends JObject
 	 *
 	 * @return a date as a unix time stamp
 	 */
-	function toUnix($local=true)
+	function toUnix($local = false)
 	{
 		$date = null;
 		if ($this->_date !== false) {
@@ -203,7 +203,7 @@ class JDate extends JObject
 	 * @param string $format  The date format specification string (see {@link PHP_MANUAL#strftime})
 	 * @return a date in a specific format
 	 */
-	function toFormat($format='%Y-%m-%d %H:%M:%S')
+	function toFormat($format = '%Y-%m-%d %H:%M:%S')
 	{
 		$date = ($this->_date !== false) ? gmstrftime($format, $this->_date + ($this->_offset * 3600)) : null;
 		// for Windows there is a need to convert the OS date string to utf-8.
