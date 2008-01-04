@@ -200,11 +200,14 @@ class plgXMLRPCBloggerServices
 
 		$item->catid	 	= $cat->id;
 		$item->sectionid 	= $cat->section;
-		// TODO: Should this be JDate?
-		$item->created		= date('Y-m-d H:i:s');
+
+		jimport('joomla.utilities.date');
+		$date = new JDate();
+
+		$item->created		= $date->toMySQL();
 		$item->created_by	= $user->get('id');
 
-		$item->publish_up	= $publish ? date('Y-m-d H:i:s') : $db->getNullDate();
+		$item->publish_up	= $publish ? $date->toMySQL() : $db->getNullDate();
 		$item->publish_down	= $db->getNullDate();
 
 		$item->state		= $publish;

@@ -16,6 +16,7 @@
 defined('JPATH_BASE') or die();
 
 jimport( 'joomla.html.parameter');
+jimport( 'joomla.utilities.date');
 
 /**
  * User class.  Handles all application interaction with a user
@@ -399,8 +400,9 @@ class JUser extends JObject
 			$array['password'] = $crypt.':'.$salt;
 
 			// Set the registration timestamp
-			// TODO: Should this be JDate?
-			$this->set( 'registerDate', date( 'Y-m-d H:i:s' ) );
+			jimport('joomla.utilities.date');
+			$now = new JDate();
+			$this->set( 'registerDate', $now->toMySQL() );
 
 			// Check that username is not greater than 25 characters
 			$username = $this->get( 'username' );

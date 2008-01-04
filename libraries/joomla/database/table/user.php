@@ -296,16 +296,11 @@ class JTableUser extends JTable
 		}
 
 		// if no timestamp value is passed to functon, than current time is used
-		if ( $timeStamp ) {
-			$dateTime = date( 'Y-m-d H:i:s', $timeStamp );
-		} else {
-			// TODO: Should this be JDate?
-			$dateTime = date( 'Y-m-d H:i:s' );
-		}
+		$date = new JDate($timeStamp);
 
 		// updates user lastvistdate field with date and time
 		$query = 'UPDATE '. $this->_tbl
-		. ' SET lastvisitDate = '.$this->_db->Quote($dateTime)
+		. ' SET lastvisitDate = '.$this->_db->Quote($date->toMySQL())
 		. ' WHERE id = '. (int) $id
 		;
 		$this->_db->setQuery( $query );

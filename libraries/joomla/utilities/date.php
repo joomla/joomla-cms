@@ -150,7 +150,7 @@ class JDate extends JObject
 	function toRFC822($local=false)
 	{
 		$function = ($local) ? 'date' : 'gmdate';
-		$date = ($this->_date) ? $function("D, d M Y H:i:s O", $this->_date) : null;
+		$date = ($this->_date !== false) ? $function("D, d M Y H:i:s O", $this->_date) : null;
 		return $date;
 	}
 
@@ -163,7 +163,7 @@ class JDate extends JObject
 	function toISO8601($local=false)
 	{
 		$function = ($local) ? 'date' : 'gmdate';
-		$date = ($this->_date) ? $function("Y-m-d\TH:i:sP", $this->_date) : null;
+		$date = ($this->_date !== false) ? $function("Y-m-d\TH:i:sP", $this->_date) : null;
 		return $date;
 	}
 
@@ -176,7 +176,7 @@ class JDate extends JObject
 	function toMySQL($local=false)
 	{
 		$function = ($local) ? 'date' : 'gmdate';
-		$date = ($this->_date) ? $function("Y-m-d H:i:s", $this->_date) : null;
+		$date = ($this->_date !== false) ? $function("Y-m-d H:i:s", $this->_date) : null;
 		return $date;
 	}
 
@@ -188,7 +188,7 @@ class JDate extends JObject
 	function toUnix($local=true)
 	{
 		$date = null;
-		if ($this->_date) {
+		if ($this->_date !== false) {
 			$date = ($local) ? $this->_date - $this->_server_offset : $this->_date;
 		}
 		return $date;
@@ -205,7 +205,7 @@ class JDate extends JObject
 	 */
 	function toFormat($format='%Y-%m-%d %H:%M:%S')
 	{
-		$date = ($this->_date) ? gmstrftime($format, $this->_date + ($this->_offset * 3600)) : null;
+		$date = ($this->_date !== false) ? gmstrftime($format, $this->_date + ($this->_offset * 3600)) : null;
 		// for Windows there is a need to convert the OS date string to utf-8.
 		if ( JUtility::isWinOS() && function_exists('iconv') ) {
 			$lang =& JFactory::getLanguage();

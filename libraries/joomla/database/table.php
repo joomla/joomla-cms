@@ -594,8 +594,8 @@ class JTable extends JObject
 			$this->$k = $oid;
 		}
 		jimport('joomla.utilities.date');
-		$datenow = new JDate();
-		$time = $datenow->toMysql();
+		$date = new JDate();
+		$time = $date->toMysql();
 
 		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ) .
 			' SET checked_out = '.(int)$who.', checked_out_time = '.$this->_db->Quote($time) .
