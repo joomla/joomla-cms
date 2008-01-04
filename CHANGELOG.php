@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Jan-2008 Jui-Yu Tsai
+ # Fixed com_messages manager reset filter
+
 04-Jan-2008 Mati Kochen
  ^ [topic,249292] Minor Typos in Sample Data
  # [topic,249199] Added 404 if no Route was found
