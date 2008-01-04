@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Jan-2008 Andrew Eddie
+ # Fixed [#8988] Legacy commonhtml.php bug
+
 04-Jan-2008 Charl van Niekerk
  # Fixed pagination in backend com_content (similar issue as [#8718])
 
