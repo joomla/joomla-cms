@@ -63,15 +63,20 @@ class JLoader
 
 			if (strpos($filePath, 'joomla') === 0)
 			{
-				//If we are loading a joomla class prepend the classname with a capital J
+				/*
+				 * If we are loading a joomla class prepend the classname with a
+				 * capital J.
+				 */
 				$classname	= 'J'.$classname;
 				$classes	= JLoader::register($classname, $base.DS.$path.'.php');
 				$rs			= isset($classes[strtolower($classname)]);
 			}
 			else
 			{
-				// If it is not in the joomla namespace then we have no idea if it uses our pattern
-				// for class names/files so just include.
+				/*
+				 * If it is not in the joomla namespace then we have no idea if
+				 * it uses our pattern for class names/files so just include.
+				 */
 				$rs   = include($base.DS.$path.'.php');
 			}
 
@@ -99,10 +104,11 @@ class JLoader
 
 		if($class && is_file($file))
 		{
-			$class = strtolower($class); //force to lower case
+			// Force to lower case.
+			$class = strtolower($class);
 			$classes[$class] = $file;
 
-			// In php4 we load the class immediately
+			// In php4 we load the class immediately.
 			if((version_compare( phpversion(), '5.0' ) < 0)) {
 				JLoader::load($class);
 			}
@@ -139,37 +145,32 @@ class JLoader
 }
 
 
-if (! function_exists('__autoload')) {
-	/**
-	 * When calling a class that hasn't been defined, __autoload will attempt to
-	 * include the correct file for that class.
-	 *
-	 * This function get's called by PHP. Never call this function yourself.
-	 *
-	 * @param 	string 	$class
-	 * @access 	public
-	 * @return  boolean
-	 * @since   1.5
-	 */
-	function __autoload($class)
-	{
-		if(JLoader::load($class)) {
-			return true;
-		}
-
-		return false;
+/**
+ * When calling a class that hasn't been defined, __autoload will attempt to
+ * include the correct file for that class.
+ *
+ * This function get's called by PHP. Never call this function yourself.
+ *
+ * @param 	string 	$class
+ * @access 	public
+ * @return  boolean
+ * @since   1.5
+ */
+function __autoload($class)
+{
+	if(JLoader::load($class)) {
+		return true;
 	}
+	return false;
 }
 
-if (! function_exists('jimport')) {
-	/**
-	 * Intelligent file importer
-	 *
-	 * @access public
-	 * @param string $path A dot syntax path
-	 * @since 1.5
-	 */
-	function jimport( $path ) {
-		return JLoader::import($path);
-	}
+/**
+ * Intelligent file importer
+ *
+ * @access public
+ * @param string $path A dot syntax path
+ * @since 1.5
+ */
+function jimport( $path ) {
+	return JLoader::import($path);
 }
