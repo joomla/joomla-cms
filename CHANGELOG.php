@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Jan-2008 Louis Landry
+ # Fixed JDate issue with server offsets and daylight savings time as well as GMT output
+
 04-Jan-2008 Jui-Yu Tsai
  # Fixed com_messages manager reset filter
 
