@@ -14,7 +14,7 @@
 		<name>Hebrew(IL)</name>
 		<tag>he-IL</tag>
 		<rtl>1</rtl>
-		<locale>he_IL.utf-8, heb_IL.utf-8, he, hebrew</locale>
+		<locale>he_IL.utf8, heb_IL.UTF-8, he, hebrew</locale>
 		<winCodePage>windows-1255</winCodePage>
 		<backwardLang>hebrew</backwardLang>
 	</metadata>
