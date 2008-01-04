@@ -39,6 +39,7 @@ Legend:
 
 04-Jan-2008 Mati Kochen
  ^ [topic,249292] Minor Typos in Sample Data
+ # [topic,249199] Added 404 if no Route was found
 
 04-Jan-2008 Alan Langford
  ^ Removed conditionals in loader.php, to revisit after upcoming release.

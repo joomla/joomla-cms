@@ -194,6 +194,9 @@ class JApplication extends JObject
 		$router =& $this->getRouter();
 		$result = $router->parse($uri);
 
+		// Throw 404 if no route
+		if (empty($result)) { JError::raiseError(404, JText::_("Page Not Found")); }
+
 		JRequest::set($result, 'get', false );
  	}
 
