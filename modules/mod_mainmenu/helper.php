@@ -94,25 +94,30 @@ class modMainMenuHelper
 		{
 			$found = false;
 			$root = true;
-			$path = $active->tree;
-			for ($i=0,$n=count($path);$i<$n;$i++)
-			{
-				foreach ($doc->children() as $child)
+			if(!isset($active)){
+				$doc = false;
+			}
+			else{
+				$path = $active->tree;
+				for ($i=0,$n=count($path);$i<$n;$i++)
 				{
-					if ($child->attributes('id') == $path[$i]) {
-						$doc = &$child->ul[0];
-						$root = false;
+					foreach ($doc->children() as $child)
+					{
+						if ($child->attributes('id') == $path[$i]) {
+							$doc = &$child->ul[0];
+							$root = false;
+							break;
+						}
+					}
+	
+					if ($i == $start-1) {
+						$found = true;
 						break;
 					}
 				}
-
-				if ($i == $start-1) {
-					$found = true;
-					break;
+				if ((!is_a($doc, 'JSimpleXMLElement')) || (!$found) || ($root)) {
+					$doc = false;
 				}
-			}
-			if ((!is_a($doc, 'JSimpleXMLElement')) || (!$found) || ($root)) {
-				$doc = false;
 			}
 		}
 

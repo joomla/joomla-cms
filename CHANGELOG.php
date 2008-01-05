@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Jan-2008 Mati Kochen
+ + Added missing POLL string
+ - Removed unnecessary "
+ ^ fixed locales again
+ # [topic,249218] notice when showing subtree with no active parent (thanks trevornorth)
+ 
 05-Jan-2008 Wilco Jansen
  ^ Updated the installer language files (thanks Ole for providing, thanks translators for creating these files)
 
