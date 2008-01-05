@@ -39,6 +39,7 @@ Legend:
 
 05-Jan-2008 Charl van Niekerk
  # Fixed pagination in backend com_weblinks (similar issue as [#8718])
+ # Fixed division by zero in com_weblinks frontend and backend if limit = 0
 
 05-Jan-2008 Anthony Ferrara
  # [#8663] File path issues in media manager for IE6 and IE7 (Thanks Jens-Christian Skibakk)

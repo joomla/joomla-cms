@@ -63,7 +63,7 @@ class WeblinksModelWeblinks extends JModel
 		$limitstart	= $mainframe->getUserStateFromRequest( $option.'.limitstart', 'limitstart', 0, 'int' );
 
 		// In case limit has been changed, adjust limitstart accordingly
-		$limitstart = floor($limitstart / $limit) * $limit;
+		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);

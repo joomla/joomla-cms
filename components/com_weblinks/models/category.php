@@ -80,7 +80,7 @@ class WeblinksModelCategory extends JModel
 		$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
 
 		// In case limit has been changed, adjust limitstart accordingly
-		$this->setState('limitstart', floor($this->getState('limitstart') / $this->getState('limit')) * $this->getState('limit'));
+		$this->setState('limitstart', ($this->getState('limit') != 0 ? (floor($this->getState('limitstart') / $this->getState('limit')) * $this->getState('limit')) : 0));
 
 		// Get the filter request variables
 		$this->setState('filter_order', JRequest::getCmd('filter_order', 'ordering'));
