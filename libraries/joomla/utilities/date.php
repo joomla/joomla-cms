@@ -29,16 +29,16 @@ class JDate extends JObject
 	/**
 	 * Unix timestamp
 	 *
-	 * @var		string
-	 * @access	protected
+	 * @var     int|boolean
+	 * @access  protected
 	 */
-	var $_date = 0;
+	var $_date = false;
 
 	/**
-	 * Timeoffset (in hours)
+	 * Time offset (in seconds)
 	 *
-	 * @var		string
-	 * @access	protected
+	 * @var     string
+	 * @access  protected
 	 */
 	var $_offset = 0;
 
@@ -60,55 +60,80 @@ class JDate extends JObject
 			return;
 		}
 
+		$tzOffset *= 3600;
 		if (is_numeric($date))
 		{
-			$this->_date = $date + ($tzOffset * 3600);
+			$this->_date = $date + $tzOffset;
 			return;
 		}
 
-		if (preg_match("~(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),\\s+)?(\\d{1,2})\\s+([a-zA-Z]{3})\\s+(\\d{4})\\s+(\\d{2}):(\\d{2}):(\\d{2})\\s+(.*)~",$date,$matches))
+		if (preg_match('~(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),\\s+)?(\\d{1,2})\\s+([a-zA-Z]{3})\\s+(\\d{4})\\s+(\\d{2}):(\\d{2}):(\\d{2})\\s+(.*)~i',$date,$matches))
 		{
-			$months = Array("Jan"=>1,"Feb"=>2,"Mar"=>3,"Apr"=>4,"May"=>5,"Jun"=>6,"Jul"=>7,"Aug"=>8,"Sep"=>9,"Oct"=>10,"Nov"=>11,"Dec"=>12);
-			$this->_date = $function($matches[4],$matches[5],$matches[6],$months[$matches[2]],$matches[1],$matches[3]);
+			$months = Array(
+				'jan' => 1, 'feb' => 2, 'mar' => 3, 'apr' => 4,
+				'may' => 5, 'jun' => 6, 'jul' => 7, 'aug' => 8,
+				'sep' => 9, 'oct' => 10, 'nov' => 11, 'dec' => 12
+			);
+			$matches[2] = strtolower($matches[2]);
+			if (! isset($months[$matches[2]])) {
+				return;
+			}
+			$this->_date = $function(
+				$matches[4], $matches[5], $matches[6],
+				$months[$matches[2]], $matches[1], $matches[3]
+			);
+			if ($this->_date === false) {
+				return;
+			}
 
-			if (substr($matches[7],0,1)=='+' OR substr($matches[7],0,1)=='-') {
-				$tzOffset = (substr($matches[7],0,3) * 60 + substr($matches[7],-2)) * 60;
+			if ($matches[7][0] == '+') {
+				$tzOffset = 3600 * substr($matches[7], 1, 2)
+					+ 60 * substr($matches[7], -2);
+			} elseif ($matches[7][0] == '-') {
+				$tzOffset = -3600 * substr($matches[7], 1, 2)
+					- 60 * substr($matches[7], -2);
 			} else {
-				if (strlen($matches[7])==1) {
+				if (strlen($matches[7]) == 1) {
 					$oneHour = 3600;
 					$ord = ord($matches[7]);
-					if ($ord < ord("M")) {
-						$tzOffset = (ord("A") - $ord - 1) * $oneHour;
-					} elseif ($ord >= ord("M") AND $matches[7]!="Z") {
-						$tzOffset = ($ord - ord("M")) * $oneHour;
-					} elseif ($matches[7]=="Z") {
+					if ($ord < ord('M')) {
+						$tzOffset = (ord('A') - $ord - 1) * $oneHour;
+					} elseif ($ord >= ord('M') && $matches[7] != 'Z') {
+						$tzOffset = ($ord - ord('M')) * $oneHour;
+					} elseif ($matches[7] == 'Z') {
 						$tzOffset = 0;
 					}
 				}
 				switch ($matches[7]) {
-					case "UT":
-					case "GMT":	$tzOffset = 0;
+					case 'UT':
+					case 'GMT': $tzOffset = 0;
 				}
 			}
 			$this->_date -= $tzOffset;
 			return;
 		}
-		if (preg_match("~(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(.*)~",$date,$matches))
+		if (preg_match('~(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(.*)~', $date, $matches))
 		{
-			$this->_date = $function($matches[4],$matches[5],$matches[6],$matches[2],$matches[3],$matches[1]);
-			if (substr($matches[7],0,1)=='+' OR substr($matches[7],0,1)=='-') {
-				$tzOffset = (substr($matches[7],0,3) * 60 + substr($matches[7],-2)) * 60;
-			} else {
-				if ($matches[7]=="Z") {
-					$tzOffset = 0;
-				}
+			$this->_date = $function(
+				$matches[4], $matches[5], $matches[6],
+				$matches[2], $matches[3], $matches[1]
+			);
+			if ($this->_date == false) {
+				return;
+			}
+			if ($matches[7][0] == '+' || $matches[7][0] == '-') {
+				$tzOffset = 60 * (
+					substr($matches[7], 0, 3) * 60 + substr($matches[7], -2)
+				);
+			} elseif ($matches[7] == 'Z') {
+				$tzOffset = 0;
 			}
 			$this->_date -= $tzOffset;
 			return;
 		}
 		$this->_date = strtotime($date);
 		if ($this->_date) {
-			$this->_date += ($tzOffset*3600);
+			$this->_date += $tzOffset;
 		}
 	}
 
@@ -116,10 +141,10 @@ class JDate extends JObject
 	 * Set the date offset (in hours)
 	 *
 	 * @access public
-	 * @param integer $offset The offset in hours
+	 * @param float The offset in hours
 	 */
 	function setOffset($offset) {
-		$this->_offset = $offset;
+		$this->_offset = 3600 * $offset;
 	}
 
 	/**
@@ -129,19 +154,20 @@ class JDate extends JObject
 	 * @return integer
 	 */
 	function getOffset() {
-		return $this->_offset;
+		return ((float) $this->_offset) / 3600.0;
 	}
 
 	/**
 	 * Gets the date as an RFC 822 date.
 	 *
 	 * @return a date in RFC 822 format
-	 * @link http://www.ietf.org/rfc/rfc2822.txt?number=2822 IETF RFC 2822 (replaces RFC 822)
+	 * @link http://www.ietf.org/rfc/rfc2822.txt?number=2822 IETF RFC 2822
+	 * (replaces RFC 822)
 	 */
 	function toRFC822($local = false)
 	{
-		$date = ($local) ? $this->_date + $this->_offset*3600 : $this->_date;
-		$date = ($this->_date !== false) ? date("D, d M Y H:i:s O", $date) : null;
+		$date = ($local) ? $this->_date + $this->_offset : $this->_date;
+		$date = ($this->_date !== false) ? date('D, d M Y H:i:s O', $date) : null;
 		return $date;
 	}
 
@@ -153,8 +179,8 @@ class JDate extends JObject
 	 */
 	function toISO8601($local = false)
 	{
-		$date = ($local) ? $this->_date + $this->_offset*3600 : $this->_date;
-		$date = ($this->_date !== false) ? date("Y-m-d\TH:i:sP", $date) : null;
+		$date = ($local) ? $this->_date + $this->_offset : $this->_date;
+		$date = ($this->_date !== false) ? date('Y-m-d\TH:i:s+0000', $date) : null;
 		return $date;
 	}
 
@@ -162,12 +188,13 @@ class JDate extends JObject
 	 * Gets the date as in MySQL datetime format
 	 *
 	 * @return a date in MySQL datetime format
-	 * @link http://dev.mysql.com/doc/refman/4.1/en/datetime.html MySQL DATETIME format
+	 * @link http://dev.mysql.com/doc/refman/4.1/en/datetime.html MySQL DATETIME
+	 * format
 	 */
 	function toMySQL($local = false)
 	{
-		$date = ($local) ? $this->_date + $this->_offset*3600 : $this->_date;
-		$date = ($this->_date !== false) ? date("Y-m-d H:i:s", $date) : null;
+		$date = ($local) ? $this->_date + $this->_offset : $this->_date;
+		$date = ($this->_date !== false) ? date('Y-m-d H:i:s', $date) : null;
 		return $date;
 	}
 
@@ -180,7 +207,7 @@ class JDate extends JObject
 	{
 		$date = null;
 		if ($this->_date !== false) {
-			$date = ($local) ? $this->_date + $this->_offset*3600 : $this->_date;
+			$date = ($local) ? $this->_date + $this->_offset : $this->_date;
 		}
 		return $date;
 	}
@@ -196,11 +223,11 @@ class JDate extends JObject
 	 */
 	function toFormat($format = '%Y-%m-%d %H:%M:%S')
 	{
-		$date = ($this->_date !== false) ? strftime($format, $this->_date + ($this->_offset * 3600)) : null;
+		$date = ($this->_date !== false) ? strftime($format, $this->_date + $this->_offset) : null;
 		// for Windows there is a need to convert the OS date string to utf-8.
 		if ( JUtility::isWinOS() && function_exists('iconv') ) {
 			$lang =& JFactory::getLanguage();
-			return iconv($lang->getWinCP(), "UTF-8", $date);
+			return iconv($lang->getWinCP(), 'UTF-8', $date);
 		}
 		return $date;
 	}
