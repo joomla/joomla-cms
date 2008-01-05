@@ -284,7 +284,10 @@ class ContentModelSection extends JModel
 				$xwhere2 = ' AND b.state = 1' .
 						' AND ( b.publish_up = '.$this->_db->Quote($nullDate).' OR b.publish_up <= '.$this->_db->Quote($now).' )' .
 						' AND ( b.publish_down = '.$this->_db->Quote($nullDate).' OR b.publish_down >= '.$this->_db->Quote($now).' )';
-			}
+				if ($noauth) {
+					$xwhere2 .= ' AND b.access <= '.(int) $gid;
+				}
+ 			}
 
 			// Determine whether to show/hide the empty categories and sections
 			$empty = null;
@@ -299,7 +302,7 @@ class ContentModelSection extends JModel
 			$access_check = null;
 			if ($noauth) {
 				$access_check = ' AND a.access <= '.(int) $gid;
-				$access_check .= ' AND b.access <= '.(int) $gid;
+				//$access_check .= ' AND b.access <= '.(int) $gid;
 			}
 
 			// Query of categories within section

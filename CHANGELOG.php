@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Jan-2008 Louis Landry
+ # Fixed [#8228] Empty categories don't display when the show empty category parameter is selected (proposed solution)
+
 05-Jan-2008 Charl van Niekerk
  # Fixed pagination in backend com_weblinks (similar issue as [#8718])
  # Fixed division by zero in com_weblinks frontend and backend if limit = 0
