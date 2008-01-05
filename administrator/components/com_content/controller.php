@@ -556,7 +556,7 @@ class ContentController extends JController
 
 		$form->set('created', JHTML::_('date', $row->created, '%Y-%m-%d %H:%M:%S'));
 		$form->set('publish_up', JHTML::_('date', $row->publish_up, '%Y-%m-%d %H:%M:%S'));
-		if (JHTML::_('date', $row->publish_down, '%Y') == 1969 || $row->publish_down == $db->getNullDate()) {
+		if (JHTML::_('date', $row->publish_down, '%Y') <= 1969 || $row->publish_down == $db->getNullDate()) {
 			$form->set('publish_down', JText::_('Never'));
 		} else {
 			$form->set('publish_down', JHTML::_('date', $row->publish_down, '%Y-%m-%d %H:%M:%S'));
