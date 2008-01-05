@@ -177,6 +177,6 @@ window.addEvent('domready', function(){
     // Added to populate data on iframe load
         MediaManager.initialize();
         MediaManager.trace = 'start';
-        $('folderframe').onload = function() { MediaManager.onloadframe(); };
+        document.updateUploader = function() { MediaManager.onloadframe(); };
         MediaManager.onloadframe();
 });

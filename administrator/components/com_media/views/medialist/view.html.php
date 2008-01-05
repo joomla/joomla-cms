@@ -43,6 +43,7 @@ class MediaViewMediaList extends JView
 
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
+			window.top.document.updateUploader();
 			$$('a.img-preview').each(function(el) {
 				el.addEvent('click', function(e) {
 					new Event(e).stop();

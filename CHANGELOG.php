@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Jan-2008 Anthony Ferrara
+ # [#8663] File path issues in media manager for IE6 and IE7 (Thanks Jens-Christian Skibakk)
+
 05-Jan-2008 Mati Kochen
  + Added missing POLL string
  - Removed unnecessary "
