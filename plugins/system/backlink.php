@@ -100,14 +100,15 @@ class plgSystemBacklink extends JPlugin
 			return; // Neither option enabled, bail!
 		}
 
-		$query = 'SELECT * FROM #__migration_backlinks WHERE ';
-		$where = Array ();
+		$query	= 'SELECT * FROM #__migration_backlinks WHERE ';
+		$where	= Array ();
+		$search	= $db->Quote( $db->getEscaped( $searchstring, true ).'%', false );
 
 		if ($url) {
-			$where[] = 'url LIKE "' . $this->_db->getEscaped($searchstring) . '%"';
+			$where[] = 'url LIKE ' . $search;
 		}
 		if ($sef) {
-			$where[] = 'sefurl LIKE "' . $this->_db->getEscaped($searchstring) . '%"';
+			$where[] = 'sefurl LIKE ' . $search;
 		}
 
 		$query .= implode(' OR ', $where);

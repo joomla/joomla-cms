@@ -68,11 +68,11 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	switch ($phrase)
 	{
 		case 'exact':
-			$text = $db->getEscaped($text);
+			$text		= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
 			$wheres2 	= array();
-			$wheres2[] 	= "LOWER(a.url) LIKE '%$text%'";
-			$wheres2[] 	= "LOWER(a.description) LIKE '%$text%'";
-			$wheres2[] 	= "LOWER(a.title) LIKE '%$text%'";
+			$wheres2[] 	= 'LOWER(a.url) LIKE '.$text;
+			$wheres2[] 	= 'LOWER(a.description) LIKE '.$text;
+			$wheres2[] 	= 'LOWER(a.title) LIKE '.$text;
 			$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
 			break;
 
@@ -81,12 +81,13 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 		default:
 			$words 	= explode( ' ', $text );
 			$wheres = array();
-			foreach ($words as $word) {
-				$word = $db->getEscaped($word);
+			foreach ($words as $word)
+			{
+				$word		= $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
 				$wheres2 	= array();
-				$wheres2[] 	= "LOWER(a.url) LIKE '%$word%'";
-				$wheres2[] 	= "LOWER(a.description) LIKE '%$word%'";
-				$wheres2[] 	= "LOWER(a.title) LIKE '%$word%'";
+				$wheres2[] 	= 'LOWER(a.url) LIKE '.$word;
+				$wheres2[] 	= 'LOWER(a.description) LIKE '.$word;
+				$wheres2[] 	= 'LOWER(a.title) LIKE '.$word;
 				$wheres[] 	= implode( ' OR ', $wheres2 );
 			}
 			$where 	= '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';

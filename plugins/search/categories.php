@@ -78,16 +78,16 @@ function plgSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 			$order = 'a.name DESC';
 	}
 
-	$text = $db->getEscaped($text);
-	$query = 'SELECT a.title, a.description AS text, "" AS created,'
+	$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
+	$query	= 'SELECT a.title, a.description AS text, "" AS created,'
 	. ' "2" AS browsernav,'
 	. ' s.id AS secid, a.id AS catid,'
 	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug'
 	. ' FROM #__categories AS a'
 	. ' INNER JOIN #__sections AS s ON s.id = a.section'
-	. ' WHERE ( a.name LIKE "%'.$text.'%"'
-	. ' OR a.title LIKE "%'.$text.'%"'
-	. ' OR a.description LIKE "%'.$text.'%" )'
+	. ' WHERE ( a.name LIKE '.$text
+	. ' OR a.title LIKE '.$text
+	. ' OR a.description LIKE '.$text.' )'
 	. ' AND a.published = 1'
 	. ' AND s.published = 1'
 	. ' AND a.access <= '.(int) $user->get('aid')

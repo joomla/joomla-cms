@@ -76,15 +76,15 @@ function plgSearchSections( $text, $phrase='', $ordering='', $areas=null )
 			$order = 'a.name DESC';
 	}
 
-	$text = $db->getEscaped($text);
-	$query = 'SELECT a.title AS title, a.description AS text,'
+	$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
+	$query	= 'SELECT a.title AS title, a.description AS text,'
 	. ' "" AS created,'
 	. ' "2" AS browsernav,'
 	. ' a.id AS secid'
 	. ' FROM #__sections AS a'
-	. ' WHERE ( a.name LIKE "%'.$text.'%"'
-	. ' OR a.title LIKE "%'.$text.'%"'
-	. ' OR a.description LIKE "%'.$text.'%" )'
+	. ' WHERE ( a.name LIKE '.$text
+	. ' OR a.title LIKE '.$text
+	. ' OR a.description LIKE '.$text.' )'
 	. ' AND a.published = 1'
 	. ' AND a.access <= '.(int) $user->get( 'aid' )
 	. ' GROUP BY a.id'

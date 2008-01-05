@@ -76,13 +76,13 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	$wheres = array();
 	switch ($phrase) {
 		case 'exact':
-			$text = $db->getEscaped($text);
+			$text		= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
 			$wheres2 	= array();
-			$wheres2[] 	= "LOWER(a.title) LIKE '%$text%'";
-			$wheres2[] 	= "LOWER(a.introtext) LIKE '%$text%'";
-			$wheres2[] 	= "LOWER(a.`fulltext`) LIKE '%$text%'";
-			$wheres2[] 	= "LOWER(a.metakey) LIKE '%$text%'";
-			$wheres2[] 	= "LOWER(a.metadesc) LIKE '%$text%'";
+			$wheres2[] 	= 'LOWER(a.title) LIKE '.$text;
+			$wheres2[] 	= 'LOWER(a.introtext) LIKE '.$text;
+			$wheres2[] 	= 'LOWER(a.`fulltext`) LIKE '.$text;
+			$wheres2[] 	= 'LOWER(a.metakey) LIKE '.$text;
+			$wheres2[] 	= 'LOWER(a.metadesc) LIKE '.$text;
 			$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
 			break;
 
@@ -92,13 +92,13 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 			$words = explode( ' ', $text );
 			$wheres = array();
 			foreach ($words as $word) {
-				$word = $db->getEscaped($word);
+				$word		= $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
 				$wheres2 	= array();
-				$wheres2[] 	= 'LOWER(a.title) LIKE "%'.$word.'%"';
-				$wheres2[] 	= 'LOWER(a.introtext) LIKE "%'.$word.'%"';
-				$wheres2[] 	= 'LOWER(a.`fulltext`) LIKE "%'.$word.'%"';
-				$wheres2[] 	= 'LOWER(a.metakey) LIKE "%'.$word.'%"';
-				$wheres2[] 	= 'LOWER(a.metadesc) LIKE "%'.$word.'%"';
+				$wheres2[] 	= 'LOWER(a.title) LIKE '.$word;
+				$wheres2[] 	= 'LOWER(a.introtext) LIKE '.$word;
+				$wheres2[] 	= 'LOWER(a.`fulltext`) LIKE '.$word;
+				$wheres2[] 	= 'LOWER(a.metakey) LIKE '.$word;
+				$wheres2[] 	= 'LOWER(a.metadesc) LIKE '.$word;
 				$wheres[] 	= implode( ' OR ', $wheres2 );
 			}
 			$where = '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';

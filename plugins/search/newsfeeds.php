@@ -65,10 +65,10 @@ function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	$wheres = array();
 	switch ($phrase) {
 		case 'exact':
-			$text = $db->getEscaped($text);
+			$text		= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
 			$wheres2 	= array();
-			$wheres2[] 	= "LOWER(a.name) LIKE '%$text%'";
-			$wheres2[] 	= "LOWER(a.link) LIKE '%$text%'";
+			$wheres2[] 	= 'LOWER(a.name) LIKE '.$text;
+			$wheres2[] 	= 'LOWER(a.link) LIKE '.$text;
 			$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
 			break;
 
@@ -77,11 +77,12 @@ function plgSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 		default:
 			$words 	= explode( ' ', $text );
 			$wheres = array();
-			foreach ($words as $word) {
-				$word = $db->getEscaped($word);
+			foreach ($words as $word)
+			{
+				$word		= $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
 				$wheres2 	= array();
-				$wheres2[] 	= "LOWER(a.name) LIKE '%$word%'";
-				$wheres2[] 	= "LOWER(a.link) LIKE '%$word%'";
+				$wheres2[] 	= 'LOWER(a.name) LIKE '.$word;
+				$wheres2[] 	= 'LOWER(a.link) LIKE '.$word;
 				$wheres[] 	= implode( ' OR ', $wheres2 );
 			}
 			$where = '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';

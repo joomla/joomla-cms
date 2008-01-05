@@ -79,24 +79,24 @@ function plgSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 			$order = 'a.name DESC';
 	}
 
-	$text = $db->getEscaped($text);
-	$query = 'SELECT a.name AS title, "" AS created,'
+	$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
+	$query	= 'SELECT a.name AS title, "" AS created,'
 	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 	. ' CONCAT_WS( ", ", a.name, a.con_position, a.misc ) AS text,'
 	. ' CONCAT_WS( " / ", '.$db->Quote($section).', b.title ) AS section,'
 	. ' "2" AS browsernav'
 	. ' FROM #__contact_details AS a'
 	. ' INNER JOIN #__categories AS b ON b.id = a.catid'
-	. ' WHERE ( a.name LIKE "%'.$text.'%"'
-	. ' OR a.misc LIKE "%'.$text.'%"'
-	. ' OR a.con_position LIKE "%'.$text.'%"'
-	. ' OR a.address LIKE "%'.$text.'%"'
-	. ' OR a.suburb LIKE "%'.$text.'%"'
-	. ' OR a.state LIKE "%'.$text.'%"'
-	. ' OR a.country LIKE "%'.$text.'%"'
-	. ' OR a.postcode LIKE "%'.$text.'%"'
-	. ' OR a.telephone LIKE "%'.$text.'%"'
-	. ' OR a.fax LIKE "%'.$text.'%" )'
+	. ' WHERE ( a.name LIKE '.$text
+	. ' OR a.misc LIKE '.$text
+	. ' OR a.con_position LIKE '.$text
+	. ' OR a.address LIKE '.$text
+	. ' OR a.suburb LIKE '.$text
+	. ' OR a.state LIKE '.$text
+	. ' OR a.country LIKE '.$text
+	. ' OR a.postcode LIKE '.$text
+	. ' OR a.telephone LIKE '.$text
+	. ' OR a.fax LIKE '.$text.' )'
 	. ' AND a.published = 1'
 	. ' AND b.published = 1'
 	. ' AND a.access <= '.(int) $user->get( 'aid' )
