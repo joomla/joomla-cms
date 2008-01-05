@@ -197,16 +197,22 @@ class JDatabaseMySQLi extends JDatabase
 	}
 
 	/**
-	* Get a database escaped string
-	*
-	* @access public
-	* @return string
-	*/
-	function getEscaped( $text )
+	 * Get a database escaped string
+	 *
+	 * @param	string	The string to be escaped
+	 * @param	boolean	Optional parameter to provide extra escaping
+	 * @return	string
+	 * @access	public
+	 * @abstract
+	 */
+	function getEscaped( $text, $extra = false )
 	{
-		return mysqli_real_escape_string( $this->_resource, $text );
+		$result = mysqli_real_escape_string( $this->_resource, $text );
+		if ($extra) {
+			$result = addcslashes( $result, '%_' );
+		}
+		return $result;
 	}
-
 	/**
 	* Execute the query
 	*

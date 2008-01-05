@@ -41,6 +41,8 @@ Legend:
  ^ Updated the installer language files (thanks Ole for providing, thanks translators for creating these files)
 
 05-Jan-2008 Andrew Eddie
+ * SECURITY - Hardened escaping of user supplied text strings used in LIKE queries
+ ^ Added extra arguments to JDatabase::Quote and JDatabase::getEscaped to facilitate hardening queries
  # Fixed [#8988] Legacy commonhtml.php bug
 
 04-Jan-2008 Charl van Niekerk

@@ -406,11 +406,14 @@ class JDatabase extends JObject
 	/**
 	 * Get a database escaped string
 	 *
+	 * @param	string	The string to be escaped
+	 * @param	boolean	Optional parameter to provide extra escaping
+	 * @return	string
+	 * @access	public
 	 * @abstract
-	 * @access public
-	 * @return string
 	 */
-	function getEscaped( $text ) {
+	function getEscaped( $text, $extra = false )
+	{
 		return;
 	}
 
@@ -420,7 +423,8 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return array
 	 */
-	function getLog( ) {
+	function getLog( )
+	{
 		return $this->_log;
 	}
 
@@ -430,7 +434,8 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return array
 	 */
-	function getTicker( ) {
+	function getTicker( )
+	{
 		return $this->_ticker;
 	}
 
@@ -456,7 +461,8 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return string The database prefix
 	 */
-	function getPrefix() {
+	function getPrefix()
+	{
 		return $this->_table_prefix;
 	}
 
@@ -466,7 +472,8 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return string Quoted null/zero date string
 	 */
-	function getNullDate() {
+	function getNullDate()
+	{
 		return $this->_nullDate;
 	}
 
@@ -598,7 +605,8 @@ class JDatabase extends JObject
 	 * @return int The number of affected rows in the previous operation
 	 * @since 1.0.5
 	 */
-	function getAffectedRows() {
+	function getAffectedRows()
+	{
 		return;
 	}
 
@@ -609,7 +617,8 @@ class JDatabase extends JObject
 	* @access public
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
-	function queryBatch( $abort_on_error=true, $p_transaction_safe = false) {
+	function queryBatch( $abort_on_error=true, $p_transaction_safe = false)
+	{
 		return false;
 	}
 
@@ -619,7 +628,8 @@ class JDatabase extends JObject
 	 * @abstract
 	 * @access public
 	 */
-	function explain() {
+	function explain()
+	{
 		return;
 	}
 
@@ -631,7 +641,8 @@ class JDatabase extends JObject
 	 * @param object Database resource
 	 * @return int The number of rows
 	 */
-	function getNumRows( $cur=null ) {
+	function getNumRows( $cur=null )
+	{
 		return;
 	}
 
@@ -642,7 +653,8 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return The value returned in the query or null if the query failed.
 	 */
-	function loadResult() {
+	function loadResult()
+	{
 		return;
 	}
 
@@ -651,7 +663,8 @@ class JDatabase extends JObject
 	 *
 	 * @abstract
 	 */
-	function loadResultArray($numinarray = 0) {
+	function loadResultArray($numinarray = 0)
+	{
 		return;
 	}
 
@@ -660,7 +673,8 @@ class JDatabase extends JObject
 	*
 	* @abstract
 	*/
-	function loadAssoc() {
+	function loadAssoc()
+	{
 		return;
 	}
 
@@ -672,7 +686,8 @@ class JDatabase extends JObject
 	 * @param string The field name of a primary key
 	 * @return array If key is empty as sequential list of returned records.
 	 */
-	function loadAssocList( $key='' ) {
+	function loadAssocList( $key='' )
+	{
 		return;
 	}
 
@@ -684,7 +699,8 @@ class JDatabase extends JObject
 	 * @access public
 	 * @param object
 	 */
-	function loadObject( ) {
+	function loadObject( )
+	{
 		return;
 	}
 
@@ -699,7 +715,8 @@ class JDatabase extends JObject
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
 	*/
-	function loadObjectList( $key='' ) {
+	function loadObjectList( $key='' )
+	{
 		return;
 	}
 
@@ -710,7 +727,8 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return The first row of the query.
 	 */
-	function loadRow() {
+	function loadRow()
+	{
 		return;
 	}
 
@@ -725,7 +743,8 @@ class JDatabase extends JObject
 	* @param string The field name of a primary key
 	* @return array
 	*/
-	function loadRowList( $key='' ) {
+	function loadRowList( $key='' )
+	{
 		return;
 	}
 
@@ -735,7 +754,8 @@ class JDatabase extends JObject
 	 * @param	object	An object whose properties match table fields
 	 * @param	string	The name of the primary key. If provided the object property is updated.
 	 */
-	function insertObject( $table, &$object, $keyName = NULL ) {
+	function insertObject( $table, &$object, $keyName = NULL )
+	{
 		return;
 	}
 
@@ -749,7 +769,8 @@ class JDatabase extends JObject
 	 * @param string
 	 * @param boolean
 	 */
-	function updateObject( $table, &$object, $keyName, $updateNulls=true ) {
+	function updateObject( $table, &$object, $keyName, $updateNulls=true )
+	{
 		return;
 	}
 
@@ -777,7 +798,8 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return mixed
 	 */
-	function insertid() {
+	function insertid()
+	{
 		return;
 	}
 
@@ -788,7 +810,8 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return string Collation in use
 	 */
-	function getCollation() {
+	function getCollation()
+	{
 		return;
 	}
 
@@ -797,7 +820,8 @@ class JDatabase extends JObject
 	 *
 	 * @abstract
 	 */
-	function getVersion() {
+	function getVersion()
+	{
 		return 'Not available for this connector';
 	}
 
@@ -808,7 +832,8 @@ class JDatabase extends JObject
 	 * @access public
 	 * @return array A list of all the tables in the database
 	 */
-	function getTableList() {
+	function getTableList()
+	{
 		return;
 	}
 
@@ -820,7 +845,8 @@ class JDatabase extends JObject
 	 * @param 	array|string 	A table name or a list of table names
 	 * @return 	array A list the create SQL for the tables
 	 */
-	function getTableCreate( $tables ) {
+	function getTableCreate( $tables )
+	{
 		return;
 	}
 
@@ -833,7 +859,8 @@ class JDatabase extends JObject
 	 * @param	boolean			Only return field types, default true
 	 * @return	array An array of fields by table
 	 */
-	function getTableFields( $tables, $typeonly = true ) {
+	function getTableFields( $tables, $typeonly = true )
+	{
 		return;
 	}
 
@@ -844,19 +871,22 @@ class JDatabase extends JObject
 	/**
 	* Get a quoted database escaped string
 	*
+	* @param	string	A string
+	* @param	boolean	Default true to escape string, false to leave the string unchanged
+	* @return	string
 	* @access public
-	* @return string
 	*/
-	function Quote( $text ) {
-		return '\'' . $this->getEscaped( $text ) . '\'';
+	function Quote( $text, $escaped = true )
+	{
+		return '\''.($escaped ? $this->getEscaped( $text ) : $text).'\'';
 	}
 
 	/**
 	 * ADODB compatability function
 	 *
-	 * @access public
-	 * @param string SQL
-	 * @since 1.5
+	 * @access	public
+	 * @param	string SQL
+	 * @since	1.5
 	 */
 	function GetCol( $query )
 	{
@@ -867,10 +897,10 @@ class JDatabase extends JObject
 	/**
 	 * ADODB compatability function
 	 *
-	 * @access public
-	 * @param string SQL
-	 * @return object
-	 * @since 1.5
+	 * @access	public
+	 * @param	string SQL
+	 * @return	object
+	 * @since	1.5
 	 */
 	function Execute( $query )
 	{
@@ -955,7 +985,8 @@ class JDatabase extends JObject
 	 *
 	 * @since 1.5
 	 */
-	function BeginTrans() {
+	function BeginTrans()
+	{
 	}
 
 	/**
@@ -963,7 +994,8 @@ class JDatabase extends JObject
 	 *
 	 * @since 1.5
 	 */
-	function RollbackTrans() {
+	function RollbackTrans()
+	{
 	}
 
 	/**
@@ -971,7 +1003,8 @@ class JDatabase extends JObject
 	 *
 	 * @since 1.5
 	 */
-	function CommitTrans() {
+	function CommitTrans()
+	{
 	}
 
 	/**
@@ -979,7 +1012,8 @@ class JDatabase extends JObject
 	 *
 	 * @since 1.5
 	 */
-	function ErrorMsg() {
+	function ErrorMsg()
+	{
 		return $this->getErrorMsg();
 	}
 
@@ -988,7 +1022,8 @@ class JDatabase extends JObject
 	 *
 	 * @since 1.5
 	 */
-	function ErrorNo() {
+	function ErrorNo()
+	{
 		return $this->getErrorNum();
 	}
 
@@ -997,7 +1032,8 @@ class JDatabase extends JObject
 	 *
 	 * @since 1.5
 	 */
-	function GenID( $foo1=null, $foo2=null ) {
+	function GenID( $foo1=null, $foo2=null )
+	{
 		return '0';
 	}
 }
