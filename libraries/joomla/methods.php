@@ -47,15 +47,9 @@ class JRoute
 			return null;
 		}
 
-		static $debug;
-
-		if ( $debug == NULL ) {
-			$debug = $app->getCfg('debug');
-		}
-
-		if ( $debug && (strpos($url, '&') !== 0 ) && (strpos($url, 'index.php') !== 0) ) {
-			JError::raiseWarning(200, "The url '$url' should not be routed through JRoute::_() ");
-		}
+		if ( (strpos($url, '&') !== 0 ) && (strpos($url, 'index.php') !== 0) ) {
+            return $url;
+ 		}
 
 		// Build route
 		$uri = &$router->build($url);
