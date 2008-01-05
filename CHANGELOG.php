@@ -39,6 +39,7 @@ Legend:
 
 05-Jan-2008 Louis Landry
  # Fixed [#8228] Empty categories don't display when the show empty category parameter is selected (proposed solution)
+ # Fixed [#8301] Memory consumption problems in com_search
 
 05-Jan-2008 Charl van Niekerk
  # Fixed pagination in backend com_weblinks (similar issue as [#8718])

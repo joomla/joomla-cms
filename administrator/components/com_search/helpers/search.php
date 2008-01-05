@@ -132,12 +132,31 @@ class SearchHelper
 	 */
 	function _smartSubstr($text, $length = 200, $searchword)
 	{
-  		$wordpos = JString::strpos(JString::strtolower($text), JString::strtolower($searchword));
-  		$halfside = intval($wordpos - $length/2 - JString::strlen($searchword));
-  		if ($wordpos && $halfside > 0) {
-			return '...' . JString::substr($text, $halfside, $length) . '...';
-  		} else {
-			return JString::substr( $text, 0, $length);
-  		}
+		$textlen = JString::strlen($text);
+		$lsearchword = JString::strtolower($searchword);
+		$wordfound = false;
+		$pos = 0;
+		while ($wordfound === false && $pos < $textlen) {
+			if (($wordpos = @JString::strpos($text, ' ', $pos + $length)) !== false) {
+				$chunk_size = $wordpos - $pos;
+			} else {
+				$chunk_size = $length;
+			}
+			$chunk = JString::substr($text, $pos, $chunk_size);
+			$wordfound = JString::strpos(JString::strtolower($chunk), $lsearchword);
+			if ($wordfound === false) {
+				$pos += $chunk_size + 1;
+			}
+		}
+
+		if ($wordfound !== false) {
+			return (($pos > 0) ? '...&nbsp;' : '') . $chunk . '&nbsp;...';
+		} else {
+			if (($wordpos = JString::strpos($text, ' ', $length)) !== false) {
+				return JString::substr($text, 0, $wordpos) . '&nbsp;...';
+			} else {
+				return JString::substr($text, 0, $length);
+			}
+		}
 	}
 }
