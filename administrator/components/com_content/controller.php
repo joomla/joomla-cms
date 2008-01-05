@@ -115,7 +115,7 @@ class ContentController extends JController
 		}
 		// Keyword filter
 		if ($search) {
-			$where[] = '(LOWER( c.title ) LIKE ' . $db->Quote( "%$search%" ) .
+			$where[] = '(LOWER( c.title ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false ) .
 				' OR c.id = ' . (int) $search . ')';
 		}
 
@@ -253,7 +253,7 @@ class ContentController extends JController
 		// Keyword filter
 		if ($search)
 		{
-			$where[] = 'LOWER( c.title ) LIKE '.$db->Quote('%'.$search.'%');
+			$where[] = 'LOWER( c.title ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
 
 		// TODO: Sanitise $filter_order

@@ -128,7 +128,7 @@ function viewFrontPage( $option )
 	}
 
 	if ($search) {
-		$where[] = 'LOWER( c.title ) LIKE '.$db->Quote('%'.$search.'%');
+		$where[] = 'LOWER( c.title ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 	}
 
 	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );

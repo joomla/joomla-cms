@@ -73,15 +73,17 @@ class InstallerModelPlugins extends InstallerModel
 
 		$where = null;
 		if ($this->_state->get('filter.group')) {
-			if ($this->_state->get('filter.string')) {
+			if ($search = $this->_state->get('filter.string'))
+			{
 				$where = ' WHERE folder = "'.$db->getEscaped($this->_state->get('filter.group')).'"';
-				$where .= ' AND name LIKE "%'.$db->getEscaped($this->_state->get('filter.string')).'%"';
-			} else {
+				$where .= ' AND name LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
+			}
+			else {
 				$where = ' WHERE folder = "'.$db->getEscaped($this->_state->get('filter.group')).'"';
 			}
 		} else {
-			if ($this->_state->get('filter.string')) {
-				$where .= ' WHERE name LIKE "%'.$db->getEscaped($this->_state->get('filter.string')).'%"';
+			if ($search = $this->_state->get('filter.string')) {
+				$where .= ' WHERE name LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 			}
 		}
 

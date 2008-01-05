@@ -70,7 +70,7 @@ class BannerControllerBanner extends JController
 			$where[] = 'cc.id = ' . (int) $filter_catid;
 		}
 		if ($search) {
-			$where[] = 'LOWER(b.name) LIKE ' . $db->Quote( '%'.$search.'%' );
+			$where[] = 'LOWER(b.name) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
 
 		$where		= count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '';

@@ -170,7 +170,7 @@ class WeblinksModelWeblinks extends JModel
 			$where[] = 'a.catid = '.(int) $filter_catid;
 		}
 		if ($search) {
-			$where[] = 'LOWER(a.title) LIKE '.$this->_db->Quote('%'.$search.'%');
+			$where[] = 'LOWER(a.title) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
 		if ( $filter_state ) {
 			if ( $filter_state == 'P' ) {

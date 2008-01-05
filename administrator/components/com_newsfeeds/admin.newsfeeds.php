@@ -101,7 +101,7 @@ function showNewsFeeds(  )
 		$where[] = 'a.catid = '.(int) $filter_catid;
 	}
 	if ($search) {
-		$where[] = 'LOWER(a.name) LIKE '.$db->Quote('%'.$search.'%');
+		$where[] = 'LOWER(a.name) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {

@@ -87,7 +87,7 @@ class ModulesController extends JController
 			$where[] = 'm.module = '.$db->Quote($filter_type);
 		}
 		if ( $search ) {
-			$where[] = 'LOWER( m.title ) LIKE '.$db->Quote('%'.$search.'%');
+			$where[] = 'LOWER( m.title ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
 		if ( $filter_state ) {
 			if ( $filter_state == 'P' ) {

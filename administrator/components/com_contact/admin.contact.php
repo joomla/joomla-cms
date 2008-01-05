@@ -115,7 +115,7 @@ function showContacts( $option )
 	$where = array();
 
 	if ( $search ) {
-		$where[] = 'cd.name LIKE "%'.$db->getEscaped($search).'%"';
+		$where[] = 'cd.name LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 	}
 	if ( $filter_catid ) {
 		$where[] = 'cd.catid = '.(int) $filter_catid;

@@ -87,7 +87,7 @@ function viewTrashContent( $option )
 	$where[] = 'c.state = -2';
 
 	if ($search) {
-		$where[] = 'LOWER(c.title) LIKE '.$db->Quote('%'.$search.'%');
+		$where[] = 'LOWER(c.title) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 	}
 
 	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
@@ -155,7 +155,7 @@ function viewTrashMenu( $option )
 	$where[] = 'm.published = -2';
 
 	if ($search) {
-		$where[] = 'LOWER(m.name) LIKE '.$db->Quote('%'.$search.'%');
+		$where[] = 'LOWER(m.name) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 	}
 
 	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );

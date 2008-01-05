@@ -54,15 +54,17 @@ class InstallerModelModules extends InstallerModel
 
 		$and = null;
 		if ($this->_state->get('filter.client') < 0) {
-			if ($this->_state->get('filter.string')) {
-				$and = ' AND title LIKE "%'.$db->getEscaped($this->_state->get('filter.string')).'%"';
+			if ($search = $this->_state->get('filter.string')) {
+				$and = ' AND title LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 			}
 		} else {
-			if (!$this->_state->get('filter.string')) {
+			if ($search = $this->_state->get('filter.string'))
+			{
 				$and = ' AND client_id = '.(int)$this->_state->get('filter.client');
-			} else {
+				$and .= ' AND title LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
+			}
+			else {
 				$and = ' AND client_id = '.(int)$this->_state->get('filter.client');
-				$and .= ' AND title LIKE "%'.$db->getEscaped($this->_state->get('filter.string')).'%"';
 			}
 		}
 

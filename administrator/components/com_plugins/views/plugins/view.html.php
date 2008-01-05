@@ -59,7 +59,7 @@ class PluginsViewPlugins extends JView
 			$where[] = 'p.folder = '.$db->Quote($filter_type);
 		}
 		if ( $search ) {
-			$where[] = 'LOWER( p.name ) LIKE '.$db->Quote('%'.$search.'%');
+			$where[] = 'LOWER( p.name ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
 		if ( $filter_state ) {
 			if ( $filter_state == 'P' ) {

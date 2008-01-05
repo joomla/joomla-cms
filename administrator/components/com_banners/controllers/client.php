@@ -52,7 +52,7 @@ class BannerControllerClient extends JController
 		$where = array();
 
 		if ($search) {
-			$where[] = 'LOWER(a.name) LIKE "%'.$db->getEscaped($search).'%"';
+			$where[] = 'LOWER(a.name) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
 
 		$where		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );

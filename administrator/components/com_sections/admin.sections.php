@@ -125,7 +125,7 @@ function showSections( $scope, $option )
 		}
 	}
 	if ($search) {
-		$where[] = 'LOWER(s.title) LIKE '.$db->Quote('%'.$search.'%');
+		$where[] = 'LOWER(s.title) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 	}
 
 	$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );

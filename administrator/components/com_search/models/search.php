@@ -68,7 +68,7 @@ class SearchModelSearch extends JModel
 
 		$where = array();
 		if ($search) {
-			$where[] = 'LOWER( search_term ) LIKE '.$db->Quote('%'.$search.'%');
+			$where[] = 'LOWER( search_term ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
 
 		$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
