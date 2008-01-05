@@ -67,7 +67,7 @@ class ContentController extends JController
 		$limitstart	= $mainframe->getUserStateFromRequest($context.'limitstart', 'limitstart', 0, 'int');
 
 		// In case limit has been changed, adjust limitstart accordingly
-		$limitstart = floor($limitstart / $limit) * $limit;
+		$limitstart = ( $limit != 0 ? (floor($limitstart / $limit) * $limit) : 0 );
 
 		//$where[] = "c.state >= 0";
 		$where[] = 'c.state != -2';
