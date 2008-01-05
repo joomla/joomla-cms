@@ -302,9 +302,10 @@ class ContentController extends JController
 			JError::raiseError( 404, JText::_("Key Not Found") );
 		}
 
-		$query =	'SELECT id' .
+		$keyref	= $db->Quote( '%keyref='.$db->getEscaped( $keyref, true ).'%', false );
+		$query	= 'SELECT id' .
 				' FROM #__content' .
-				' WHERE attribs LIKE "%keyref='.$db->getEscaped($keyref).'%"';
+				' WHERE attribs LIKE '.$keyref;
 		$db->setQuery($query);
 		$id = (int) $db->loadResult();
 
@@ -326,7 +327,7 @@ class ContentController extends JController
 			$view->display();
 		}
 		else {
-			JError::raiseError( 404, JText::_("Key Not Found") );
+			JError::raiseError( 404, JText::_( 'Key Not Found' ) );
 		}
 	}
 

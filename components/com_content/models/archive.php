@@ -188,22 +188,22 @@ class ContentModelArchive extends JModel
 		if ($filter) {
 			// clean filter variable
 			$filter = JString::strtolower($filter);
-			$filter	= $db->getEscaped($filter);
+			$filter	= $db->Quote( '%'.$db->getEscaped( $filter, true ).'%', false );
 
 			// Get the page/component configuration
 			$params = &$mainframe->getParams();
 			switch ($params->get('filter_type', 'title'))
 			{
 				case 'title' :
-					$where .= ' AND LOWER( a.title ) LIKE \'%'.$filter.'%\'';
+					$where .= ' AND LOWER( a.title ) LIKE '.$filter;
 					break;
 
 				case 'author' :
-					$where .= ' AND ( ( LOWER( u.name ) LIKE \'%'.$filter.'%\' ) OR ( LOWER( a.created_by_alias ) LIKE \'%'.$filter.'%\' ) )';
+					$where .= ' AND ( ( LOWER( u.name ) LIKE '.$filter.' ) OR ( LOWER( a.created_by_alias ) LIKE '.$filter.' ) )';
 					break;
 
 				case 'hits' :
-					$where .= ' AND a.hits LIKE \'%'.$filter.'%\'';
+					$where .= ' AND a.hits LIKE '.$filter;
 					break;
 			}
 		}

@@ -491,19 +491,20 @@ class ContentModelCategory extends JModel
 			{
 				// clean filter variable
 				$filter = JString::strtolower($filter);
+				$filter	= $db->Quote( '%'.$db->getEscaped( $filter, true ).'%', false );
 
 				switch ($params->get('filter_type'))
 				{
 					case 'title' :
-						$where .= ' AND LOWER( a.title ) LIKE "%'.$this->_db->getEscaped($filter).'%"';
+						$where .= ' AND LOWER( a.title ) LIKE '.$filter;
 						break;
 
 					case 'author' :
-						$where .= ' AND ( ( LOWER( u.name ) LIKE "%'.$this->_db->getEscaped($filter).'%" ) OR ( LOWER( a.created_by_alias ) LIKE "%'.$this->_db->getEscaped($filter).'%" ) )';
+						$where .= ' AND ( ( LOWER( u.name ) LIKE '.$filter.' ) OR ( LOWER( a.created_by_alias ) LIKE '.$filter.' ) )';
 						break;
 
 					case 'hits' :
-						$where .= ' AND a.hits LIKE "%'.$this->_db->getEscaped($filter).'%"';
+						$where .= ' AND a.hits LIKE '.$filter;
 						break;
 				}
 			}
