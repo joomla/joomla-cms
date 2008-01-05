@@ -303,8 +303,7 @@ class ContentModelArticle extends JModel
 		}
 
 		jimport( 'joomla.utilities.date' );
-		$date = new JDate($article->publish_up);
-		$date->setOffset( -$mainframe->getCfg('offset'));
+		$date = new JDate($article->publish_up, -$mainframe->getCfg('offset'));
 		$article->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
@@ -318,8 +317,7 @@ class ContentModelArticle extends JModel
 				$article->publish_down .= ' 00:00:00';
 			}
 
-			$date = new JDate($article->publish_down);
-			$date->setOffset( -$mainframe->getCfg('offset'));
+			$date = new JDate($article->publish_down, -$mainframe->getCfg('offset'));
 			$article->publish_down = $date->toMySQL();
 		}
 
