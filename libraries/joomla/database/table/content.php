@@ -115,16 +115,16 @@ class JTableContent extends JTable
 		$this->fulltext =  trim( $filter->clean( $this->fulltext ) );
 		*/
 
-		$alias = JFilterOutput::stringURLSafe($this->title);
 
 		if(empty($this->title)) {
 			$this->setError(JText::_('Article must have a title'));
 			return false;
 		}
 
-		if(empty($this->alias) || $this->alias === $alias ) {
-			$this->alias = $alias;
+		if(empty($this->alias)) {
+			$this->alias = $this->title;
 		}
+		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 
 		if (trim( str_replace( '&nbsp;', '', $this->fulltext ) ) == '') {
 			$this->fulltext = '';

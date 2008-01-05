@@ -40,6 +40,8 @@ Legend:
 05-Jan-2008 Louis Landry
  # Fixed [#8228] Empty categories don't display when the show empty category parameter is selected (proposed solution)
  # Fixed [#8301] Memory consumption problems in com_search
+ # Fixed [#8432] Mod_polls Validation: JS Unterminated String Literal--problems with quote marks in alias
+ # Fixed [#8532] alias fields on menus and com_pool is not correctly sanitized can break links when sef on and cause other errors
 
 05-Jan-2008 Charl van Niekerk
  # Fixed pagination in backend com_weblinks (similar issue as [#8718])

@@ -105,11 +105,10 @@ class TableContact extends JTable
 			$this->webpage = 'http://'.$this->webpage;
 		}
 
-		$alias = JFilterOutput::stringURLSafe($this->name);
-
-		if(empty($this->alias) || $this->alias === $alias ) {
-			$this->alias = $alias;
+		if(empty($this->alias)) {
+			$this->alias = $this->name;
 		}
+		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 
 		return true;
 	}

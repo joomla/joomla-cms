@@ -111,11 +111,10 @@ class TableBanner extends JTable
 			return false;
 		}
 
-		$alias = JFilterOutput::stringURLSafe($this->name);
-
-		if(empty($this->alias) || $this->alias === $alias ) {
-			$this->alias = $alias;
+		if(empty($this->alias)) {
+			$this->alias = $this->name;
 		}
+		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 
 		/*if(trim($this->imageurl) == '') {
 			$this->setError(JText::_( 'BNR_IMAGE' ));

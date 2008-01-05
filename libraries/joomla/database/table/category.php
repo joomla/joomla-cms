@@ -93,11 +93,10 @@ class JTableCategory extends JTable
 			return false;
 		}*/
 
-		$alias = JFilterOutput::stringURLSafe($this->title);
-
-		if(empty($this->alias) || $this->alias === $alias ) {
-			$this->alias = $alias;
+		if(empty($this->alias)) {
+			$this->alias = $this->title;
 		}
+		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 
 		return true;
 	}
