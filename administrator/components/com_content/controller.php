@@ -391,8 +391,6 @@ class ContentController extends JController
 				$row->images = array ();
 			}
 
-			$row->publish_down 	= ContentController::_validateDate($row->publish_down);
-
 			$query = 'SELECT name' .
 					' FROM #__users'.
 					' WHERE id = '. (int) $row->created_by;
@@ -558,7 +556,11 @@ class ContentController extends JController
 
 		$form->set('created', JHTML::_('date', $row->created, '%Y-%m-%d %H:%M:%S'));
 		$form->set('publish_up', JHTML::_('date', $row->publish_up, '%Y-%m-%d %H:%M:%S'));
-		$form->set('publish_down', $row->publish_down);
+		if (JHTML::_('date', $row->publish_down, '%Y') == 1969 || $row->publish_down == $db->getNullDate()) {
+			$form->set('publish_down', JText::_('Never'));
+		} else {
+			$form->set('publish_down', JHTML::_('date', $row->publish_down, '%Y-%m-%d %H:%M:%S'));
+		}
 
 		// Advanced Group
 		$form->loadINI($row->attribs);
@@ -610,7 +612,7 @@ class ContentController extends JController
 		// Are we saving from an item edit?
 		if ($row->id) {
 			$datenow = new JDate();
-			$row->modified 		= $datenow->toFormat();
+			$row->modified 		= $datenow->toMySQL();
 			$row->modified_by 	= $user->get('id');
 		}
 
@@ -622,7 +624,7 @@ class ContentController extends JController
 
 		$config =& JFactory::getConfig();
 		$tzoffset = $config->getValue('config.offset');
-		$date = new JDate($row->created, $tzoffset);
+		$date = new JDate($row->created, -$tzoffset);
 		$row->created = $date->toMySQL();
 
 		// Append time if not added to publish date
@@ -630,7 +632,7 @@ class ContentController extends JController
 			$row->publish_up .= ' 00:00:00';
 		}
 
-		$date = new JDate($row->publish_up, $tzoffset);
+		$date = new JDate($row->publish_up, -$tzoffset);
 		$row->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
@@ -643,7 +645,7 @@ class ContentController extends JController
 			if (strlen(trim( $row->publish_down )) <= 10) {
 				$row->publish_down .= ' 00:00:00';
 			}
-			$date = new JDate($row->publish_down, $tzoffset);
+			$date = new JDate($row->publish_down, -$tzoffset);
 			$row->publish_down = $date->toMySQL();
 		}
 
@@ -1448,18 +1450,5 @@ class ContentController extends JController
 		$document =& JFactory::getDocument();
 		$document->setTitle(JText::_('PGB ARTICLE PAGEBRK'));
 		ContentView::insertPagebreak();
-	}
-
-	function _validateDate($date)
-	{
-		$db =& JFactory::getDBO();
-
-		if (JHTML::_('date', $date, '%Y') == 1969 || $date == $db->getNullDate()) {
-			$newDate = JText::_('Never');
-		} else {
-			$newDate = JHTML::_('date', $date, '%Y-%m-%d %H:%M:%S');
-		}
-
-		return $newDate;
 	}
 }
