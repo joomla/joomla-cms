@@ -56,7 +56,7 @@ class JDate extends JObject
 
 		if ($date == 'now' || empty($date))
 		{
-			$this->_date = gmdate('U');
+			$this->_date = strtotime(gmdate("M d Y H:i:s", time()));
 			return;
 		}
 
