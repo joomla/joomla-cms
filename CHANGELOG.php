@@ -39,6 +39,7 @@ Legend:
 
 05-Jan-2008 Anthony Ferrara
  # [#8663] File path issues in media manager for IE6 and IE7 (Thanks Jens-Christian Skibakk)
+ # [#8452] Mediamanager in IE6 shows one item in each row (Thanks Michal Sobkowiak)
 
 05-Jan-2008 Mati Kochen
  + Added missing POLL string
