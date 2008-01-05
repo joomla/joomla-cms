@@ -112,7 +112,7 @@ class JDate extends JObject
 			$this->_date -= $tzOffset;
 			return;
 		}
-		if (preg_match('~(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})(.*)~', $date, $matches))
+		if (preg_match('~(\\d{4})-(\\d{2})-(\\d{2})[T\s](\\d{2}):(\\d{2}):(\\d{2})(.*)~', $date, $matches))
 		{
 			$this->_date = $function(
 				$matches[4], $matches[5], $matches[6],
