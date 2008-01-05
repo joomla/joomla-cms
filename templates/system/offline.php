@@ -51,6 +51,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<input type="hidden" name="option" value="com_user" />
 	<input type="hidden" name="task" value="login" />
 	<input type="hidden" name="return" value="<?php echo base64_encode(JURI::base()) ?>" />
+	<?php echo JHTML::_( 'form.token' ); ?>
 	</form>
 	</div>
 </body>

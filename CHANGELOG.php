@@ -44,6 +44,7 @@ Legend:
  * SECURITY - Hardened escaping of user supplied text strings used in LIKE queries
  ^ Added extra arguments to JDatabase::Quote and JDatabase::getEscaped to facilitate hardening queries
  # Fixed [#8988] Legacy commonhtml.php bug
+ # Fixed missing token in offline page
 
 04-Jan-2008 Charl van Niekerk
  # Fixed pagination in backend com_content (similar issue as [#8718])
