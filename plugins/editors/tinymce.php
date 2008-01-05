@@ -51,6 +51,7 @@ class plgEditorTinymce extends JPlugin
 	 */
 	function onInit()
 	{
+		global $mainframe;
 		$db			=& JFactory::getDBO();
 		$language	=& JFactory::getLanguage();
 
@@ -68,6 +69,7 @@ class plgEditorTinymce extends JPlugin
 		$invalid_elements	= $this->params->def( 'invalid_elements', 'script,applet,iframe' );
 		$newlines			= $this->params->def( 'newlines', 0 );
 		$cleanup_startup	= $this->params->def( 'cleanup_startup', 0 );
+		$cleanup_save		= $this->params->def( 'cleanup_save', 2 );
 		$compressed			= $this->params->def( 'compressed', 0 );
 		$langPrefix			= $this->params->def( 'lang_code', 'en' );
 		$langMode			= $this->params->def( 'lang_mode', 0 );
@@ -244,6 +246,20 @@ class plgEditorTinymce extends JPlugin
 			$cleanup_startup = 'false';
 		}
 
+		switch ( $cleanup_save ) {
+		case '0': /* Never clean up on save */
+			$cleanup = 'false';
+			break;
+		case '1': /* Clean up front end edits only */
+			if ($mainframe->isadmin())
+				$cleanup = 'false';
+			else
+				$cleanup = 'true';
+			break;
+		default:  /* Always clean up on save */
+			$cleanup = 'true';
+		}
+
 		if ( $newlines ) {
 			$br_newlines	= 'true';
 			$p_newlines		= 'false';
@@ -287,7 +303,7 @@ class plgEditorTinymce extends JPlugin
 			force_p_newlines : \"$p_newlines\",
 			$content_css
 			debug : false,
-			cleanup : true,
+			cleanup : $cleanup,
 			cleanup_on_startup : $cleanup_startup,
 			safari_warning : false,
 			plugins : \"advlink, advimage, $plugins\",

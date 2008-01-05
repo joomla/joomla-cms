@@ -46,9 +46,11 @@ Legend:
  - Removed unnecessary "
  ^ fixed locales again
  # [topic,249218] notice when showing subtree with no active parent (thanks trevornorth)
- 
+
 05-Jan-2008 Wilco Jansen
  ^ Updated the installer language files (thanks Ole for providing, thanks translators for creating these files)
+ # Fixed [9019] Content of entryfield 'Style' of 'Image' -> 'Appearances' are not saved in Article Editor (Thanks Bruce Scherzinger)
+ ! Make sure to save the plugin properties once of the tinymce editor!
 
 05-Jan-2008 Andrew Eddie
  * SECURITY - Hardened escaping of user supplied text strings used in LIKE queries
