@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Jan-2008 Charl van Niekerk
+ # Fixed pagination in backend com_weblinks (similar issue as [#8718])
+
 05-Jan-2008 Anthony Ferrara
  # [#8663] File path issues in media manager for IE6 and IE7 (Thanks Jens-Christian Skibakk)
  # [#8452] Mediamanager in IE6 shows one item in each row (Thanks Michal Sobkowiak)
