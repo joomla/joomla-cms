@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5" client="installation" >
+    <name>Lao (ພາສາລາວ)</name>
+    <version>1.5.0</version>
+    <creationDate>September 2007</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>Lao language file for web installer </description>
+    <metadata>
+    	<name>Lao (ພາສາລາວ)</name>
+    	<tag>lo-LA</tag>
+    	<rtl>0</rtl>
+    	<locale>lo_LA.utf8, lo_LA.UTF-8, lo_LA, lo, LO, lao</locale>
+    	<winCodePage>iso-8859-1</winCodePage>
+    	<backwardLang>lao</backwardLang>
+    </metadata>
+    <params />
+</metafile>

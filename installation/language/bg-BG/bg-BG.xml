@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5"  client="installation" >
+	<tag>bg-BG</tag>
+	<name>Български (България)</name>
+	<description><![CDATA[Локализация на Джумла! 1.5 на български език - Инсталация.<br/>
+				 Авторски права: 2002 - 2008 Джумла! България.<br/>
+				 Всички права запазени.<br/>
+				 <a href="http://www.joomla-bg.com" target="_blank">Джумла! България</a> е единствения собственик на авторските права на настоящия превод на Джумла! <br/>
+				 Съгласно лицензионната политика на <a href="http://www.opensourcematters.org" target="_blank">OpenSourceMatters</a>, както и <a href="http://www.joomla.org" target="_blank">Joomla!</a> считано от версия 1.5 на Джумла!, езиковите файлове е задължително да бъдат лицензирани под <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank"> GNU/GPL лиценз (версия 2)</a>. Настоящият превод е лицензиран именно под такъв лиценз. Ако откриете неточности в превода, моля свържете се с автора, за да могат да бъдат отстранени.<br/><br/><br/>Иво Апостолов<br/><em>Администратор на <a href="http://www.joomla-bg.com" target="_blank">Джумла! България</a></em>.]]></description>
+	<version>1.5</version>
+	<creationDate>31 декември 2007</creationDate>
+	<author>Иво Апостолов</author>
+	<authorurl>www.joomla-bg.com</authorurl>
+	<authoremail>ivo@joomla-bg.com</authoremail>
+	<copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<metadata>
+		<name>Български (България)</name>
+		<tag>bg-BG</tag>
+		<rtl>0</rtl>
+		<locale>bg-BG.UTF-8, bgr-BGR.UTF-8, bgr_BGR.UTF-8, bg_BG.UTF-8, bg-BG, bgr-BGR, bgr_BGR, bg_BG, bg-BG.windows-1251, bgr-BGR.windows-1251, bgr_BGR.windows-1251, bg_BG.windows-1251, bg, bgr, bulgarian, bulgaria</locale>
+		<wincodepage>windows-1251</wincodepage>
+		<backwardlang>bulgarian</backwardlang>
+		<pdffontname>freesans</pdffontname>
+	</metadata>
+	<params></params>
+</metafile>

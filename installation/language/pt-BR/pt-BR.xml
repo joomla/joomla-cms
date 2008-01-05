@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: pt-BR.xml 8 2008-01-02 01:16:01Z fabmak $ -->
+<metafile version="1.5" client="installation" >
+    <name>Português(Brasil)</name>
+    <version>1.5.0</version>
+    <creationDate>2008-01-02</creationDate>
+    <author>Joomla! Brasil</author>
+    <authorEmail>traducao@joomla.com.br</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <copyright>(C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>Pacote de idioma em Português Brasileiro para o instalador web do Joomla!</description>
+    <metadata>
+    	<name>Português (Brasil)</name>
+    	<tag>pt-BR</tag>
+    	<rtl>0</rtl>
+      	<locale>pt_BR.utf8, pt_BR.UTF-8, Portuguese_Brazilian, pt_BR, por_BR, ptb, pt_BR.iso88591, pt_BR.ISO8859-1</locale>
+     	<winCodePage>iso-8859-1</winCodePage>
+    	<backwardLang>brazilian_portuguese</backwardLang>
+    </metadata>
+    <params />
+</metafile>

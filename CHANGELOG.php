@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Jan-2008 Wilco Jansen
+ ^ Updated the installer language files (thanks Ole for providing, thanks translators for creating these files)
+
 05-Jan-2008 Andrew Eddie
  # Fixed [#8988] Legacy commonhtml.php bug
 
