@@ -64,14 +64,12 @@ class MENU_Default
 {
 	function MENU_Default()
 	{
-		JToolBarHelper::startTable();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 		JToolBarHelper::addNew();
 		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::spacer();
-		JToolBarHelper::endTable();
 	}
 }
 
