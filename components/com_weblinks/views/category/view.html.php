@@ -55,7 +55,7 @@ class WeblinksViewCategory extends JView
 		// Add alternate feed link
 		if($params->get('show_feed_link', 1) == 1)
 		{
-			$link	= '&format=feed&limitstart=';
+			$link	= '&view=category&id='.$category->slug.'&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 			$document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
