@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Jan-2008 Rob Schley
+ # Refactored routers for com_contact, com_weblinks, com_polls, and com_newsfeeds to be more reliable
+   at finding configurations and to prevent duplicate content URL issues.
+
 05-Jan-2008 Louis Landry
  # Fixed [#8228] Empty categories don't display when the show empty category parameter is selected (proposed solution)
  # Fixed [#8301] Memory consumption problems in com_search

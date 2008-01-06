@@ -13,74 +13,224 @@
 
 function WeblinksBuildRoute(&$query)
 {
-	$segments = array();
+	static $items;
 
-	if(isset($query['view']))
+	$segments	= array();
+	$itemid		= null;
+
+	// Get the menu items for this component.
+	if (!$items) {
+		$component	= &JComponentHelper::getComponent('com_weblinks');
+		$menu		= &JSite::getMenu();
+		$items		= $menu->getItems('componentid', $component->id);
+	}
+
+	// Break up the weblink/category id into numeric and alias values.
+	if (isset($query['id']) && strpos($query['id'], ':')) {
+		list($query['id'], $query['alias']) = explode(':', $query['id'], 2);
+	}
+
+	// Break up the category id into numeric and alias values.
+	if (isset($query['catid']) && strpos($query['catid'], ':')) {
+		list($query['catid'], $query['catalias']) = explode(':', $query['catid'], 2);
+	}
+
+	// Search for an appropriate menu item.
+	if (is_array($items))
 	{
-		if(!isset($query['Itemid'])) {
-			$segments[] = $query['view'];
+		// If only the option and itemid are specified in the query, return that item.
+		if (!isset($query['view']) && !isset($query['id']) && !isset($query['catid']) && isset($query['Itemid'])) {
+			$itemid = (int) $query['Itemid'];
 		}
 
+		// Search for a specific link based on the critera given.
+		if (!$itemid)
+		{
+			foreach ($items as $item)
+			{
+				// Check if this menu item links to this view.
+				if (isset($item->query['view']) && $item->query['view'] == 'category'
+					&& isset($query['view']) && $query['view'] == 'category'
+					&& isset($item->query['id']) && $item->query['id'] == $query['id'])
+				{
+					$itemid	= $item->id;
+					break;
+				}
+				elseif (isset($item->query['view']) && $item->query['view'] == 'category'
+					&& isset($query['view']) && $query['view'] == 'weblink'
+					&& isset($item->query['id']) && $item->query['id'] == $query['catid']
+					&& isset($query['id']))
+				{
+					$segments[]	= isset($query['alias']) ? $query['id'].':'.$query['alias'] : $query['id'];
+					$itemid	= $item->id;
+					break;
+				}
+			}
+		}
+
+		// If no specific link has been found, search for a general one.
+		if (!$itemid)
+		{
+			foreach ($items as $item)
+			{
+				if (isset($query['view']) && $query['view'] == 'category' && isset($item->query['view']) && $item->query['view'] == 'categories')
+				{
+					// Check for an undealt with category id.
+					if (isset($query['id']))
+					{
+						// This menu item links to the weblink view but we need to append the weblink id to it.
+						$itemid		= $item->id;
+						$segments[]	= isset($query['alias']) ? $query['id'].':'.$query['alias'] : $query['id'];
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	// Check if the router found an appropriate itemid.
+	if (!$itemid)
+	{
+		// Check if a catid was specified.
+		if (isset($query['catid']))
+		{
+			if (isset($query['catalias'])) {
+				$query['catid'] .= ':'.$query['catalias'];
+			}
+
+			if (isset($query['alias'])) {
+				$query['id'] .= ':'.$query['alias'];
+			}
+
+			// Push the id onto the stack.
+			$segments[]	= $query['catid'];
+			$segments[] = $query['id'];
+
+			unset($query['view']);
+			unset($query['catid']);
+			unset($query['catalias']);
+			unset($query['id']);
+			unset($query['alias']);
+		}
+		elseif (isset($query['id']))
+		{
+			if (isset($query['alias'])) {
+				$query['id'] .= ':'.$query['alias'];
+			}
+
+			// Push the catid onto the stack.
+			$segments[] = $query['id'];
+
+			unset($query['view']);
+			unset($query['id']);
+			unset($query['alias']);
+		}
+		elseif (!isset($query['id']) && isset($query['view']) && $query['view'] = 'weblink')
+		{
+			// Submit view.
+			$segments[]	= 'weblink';
+			unset($query['view']);
+			unset($query['layout']);
+		}
+	}
+	else
+	{
+		$query['Itemid'] = $itemid;
+
+		// Remove the unnecessary URL segments.
 		unset($query['view']);
-	};
-
-	if(isset($query['catid']))
-	{
-		$segments[] = $query['catid'];
-		unset($query['catid']);
-	};
-
-	if(isset($query['id']))
-	{
-		$segments[] = $query['id'];
 		unset($query['id']);
-	};
+		unset($query['catid']);
+		unset($query['alias']);
+		unset($query['catalias']);
+	}
 
 	return $segments;
 }
 
 function WeblinksParseRoute($segments)
 {
-	$vars = array();
+	$vars	= array();
 
-	//Get the active menu item
-	$menu =& JSite::getMenu();
-	$item =& $menu->getActive();
+	// Get the active menu item.
+	$menu	= &JSite::getMenu();
+	$item	= &$menu->getActive();
 
-	// Count route segments
-	$count = count($segments);
-
-	//Standard routing for articles
-	if(!isset($item))
+	// Check if we have a valid menu item.
+	if (is_object($item))
 	{
-		$vars['view']  = $segments[$count - 2];
-		$vars['id']    = $segments[$count - 1];
-		return $vars;
+		// Proceed through the possible variations trying to match the most specific one.
+		if (isset($item->query['view']) && $item->query['view'] == 'category' && isset($segments[0]))
+		{
+			// Break up the contact id into numeric and alias values.
+			if (isset($segments[0]) && strpos($segments[0], ':')) {
+				list($id, $alias) = explode(':', $segments[0], 2);
+			}
+
+			// Contact view.
+			$vars['view']	= 'weblink';
+			$vars['id']		= $id;
+		}
+		elseif (isset($item->query['view']) && $item->query['view'] == 'categories' && count($segments) == 2)
+		{
+			// Break up the category id into numeric and alias values.
+			if (isset($segments[0]) && strpos($segments[0], ':')) {
+				list($catid, $catalias) = explode(':', $segments[0], 2);
+			}
+
+			// Break up the weblink id into numeric and alias value.
+			if (isset($segments[1]) && strpos($segments[1], ':')) {
+				list($id, $alias) = explode(':', $segments[1], 2);
+			}
+
+			// Weblink view.
+			$vars['view']	= 'weblink';
+			$vars['catid']	= $catid;
+			$vars['id']		= $id;
+		}
+		elseif (isset($item->query['view']) && $item->query['view'] == 'categories' && isset($segments[0]))
+		{
+			// Break up the category id into numeric and alias values.
+			if (isset($segments[0]) && strpos($segments[0], ':')) {
+				list($catid, $alias) = explode(':', $segments[0], 2);
+			}
+
+			// Category view.
+			$vars['view']	= 'category';
+			$vars['id']		= $catid;
+		}
 	}
-
-	//Handle View and Identifier
-	switch($item->query['view'])
+	else
 	{
-		case 'categories' :
+		// Count route segments
+		$count = count($segments);
+
+		// Check if there are any route segments to handle.
+		if ($count)
 		{
-			if($count == 1) {
-				$vars['view'] = 'category';
+			if ($count === 2)
+			{
+				// We are viewing a category.
+				$vars['view']	= 'weblink';
+				$vars['catid']	= $segments[$count-2];
+				$vars['id']		= $segments[$count-1];
 			}
-
-			if($count == 2) {
-				$vars['view'] = 'weblink';
+			elseif ($count === 1)
+			{
+				if ($segments[$count-1] === 'weblink')
+				{
+					// We are viewing the submit form.
+					$vars['view']	= 'weblink';
+					$vars['layout']	= 'form';
+				}
+				else
+				{
+					// We are viewing a category.
+					$vars['view']	= 'category';
+					$vars['id']		= $segments[$count-1];
+				}
 			}
-
-			$vars['id'] = $segments[$count-1];
-
-		} break;
-
-		case 'category'   :
-		{
-			$vars['id']   = $segments[$count-1];
-			$vars['view'] = 'weblink';
-
-		} break;
+		}
 	}
 
 	return $vars;
