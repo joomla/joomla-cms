@@ -148,6 +148,11 @@ function NewsfeedsBuildRoute(&$query)
 			unset($query['catalias']);
 			unset($query['alias']);
 		}
+		else
+		{
+			// Categories view.
+			unset($query['view']);
+		}
 	}
 	else
 	{
