@@ -121,11 +121,15 @@ class JDate extends JObject
 			if ($this->_date == false) {
 				return;
 			}
-			if ($matches[7][0] == '+' || $matches[7][0] == '-') {
-				$tzOffset = 60 * (
-					substr($matches[7], 0, 3) * 60 + substr($matches[7], -2)
-				);
-			} elseif ($matches[7] == 'Z') {
+			if (isset($matches[7][0])) {
+				if ($matches[7][0] == '+' || $matches[7][0] == '-') {
+					$tzOffset = 60 * (
+						substr($matches[7], 0, 3) * 60 + substr($matches[7], -2)
+					);
+				} elseif ($matches[7] == 'Z') {
+					$tzOffset = 0;
+				}
+			} else {
 				$tzOffset = 0;
 			}
 			$this->_date -= $tzOffset;
