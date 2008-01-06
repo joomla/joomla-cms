@@ -72,7 +72,7 @@ class ContactViewCategory extends JView
 		{
 			$contact =& $contacts[$i];
 
-			$contact->link	   = JRoute::_('index.php?option=com_contact&view=contact&id='.$contact->slug);
+			$contact->link	   = JRoute::_('index.php?option=com_contact&view=contact&id='.$contact->slug.'&catid='.$contact->catslug);
 			if($pparams->get('show_email', 0) == 1) {
 			    $contact->email_to = trim($contact->email_to);
 				if(!empty($contact->email_to) && JMailHelper::isEmailAddress($contact->email_to)) {
