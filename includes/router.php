@@ -66,6 +66,11 @@ class JRouterSite extends JRouter
 		$uri->setPath(trim($path , '/'));
 
 		$vars += parent::parse($uri);
+		
+		// Throw 404 if no route 
+		if (empty($vars)) { 
+			JError::raiseError(404, JText::_("Page Not Found")); 
+		}
 
 		return $vars;
 	}
@@ -100,7 +105,7 @@ class JRouterSite extends JRouter
 
 		//Add basepath to the uri
 		$uri->setPath(JURI::base(true).'/'.$route);
-
+		
 		return $uri;
 	}
 
