@@ -37,8 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Feb-2008 Alan Langford
+ ^ Unit test support: Added conditional to import.php to only include JLoader if not defined.
+
 07-Jan-2008 Johan Janssens
- # Fixed issue with JApplication::route wrongly assuming no route was found if no request variables are 
+ # Fixed issue with JApplication::route wrongly assuming no route was found if no request variables are
    being returned and throwing a 404.
 
 05-Jan-2008 Rob Schley

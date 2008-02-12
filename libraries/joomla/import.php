@@ -17,7 +17,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
  * Load the loader class
  */
-require_once( JPATH_LIBRARIES.DS.'loader.php');
+if (! class_exists('JLoader')) {
+	require_once JPATH_LIBRARIES.DS.'loader.php';
+}
 
 /**
  * Joomla! Global version define
