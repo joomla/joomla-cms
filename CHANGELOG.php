@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Feb-2008 Kenneth Crowder
+ # Fixed a typo in the sample data sql. The link to the extensions site was bad. 
+
 12-Feb-2008 Alan Langford
  ^ Unit test support: Added conditional to import.php to only include JLoader if not defined.
 
