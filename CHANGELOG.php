@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Mar-2008 Kenneth Crowder
+ # Added 50 pixels to the height of Email Icon Popup. (Send/Cancel were hidden)
+ 
 15-Feb-2008 Kenneth Crowder
  # Fixed a typo in the sample data sql. The link to the extensions site was bad. 
 
