@@ -17,10 +17,6 @@
 # beginning of line), reload your site in your browser and test your sef url's.  If they work,
 # it has been set by your server administrator and you do not need it set here.
 #
-# Only use one of the two SEF sections that follow.  Lines that can be uncommented
-# (and thus used) have only one #.  Lines with two #'s should not be uncommented
-# In the section that you don't use, all lines should start with #
-#
 #####################################################
 
 ##  Can be commented out if causes errors, see notes above.

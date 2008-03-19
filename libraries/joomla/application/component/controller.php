@@ -24,9 +24,6 @@ defined('JPATH_BASE') or die();
  * @abstract
  * @package		Joomla.Framework
  * @subpackage	Application
- * @author		Johan Janssens <johan.janssens@joomla.org>
- * @author		Louis Landry <louis.landry@joomla.org>
- * @author 		Andrew Eddie
  * @since		1.5
  */
 class JController extends JObject

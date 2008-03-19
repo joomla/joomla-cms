@@ -55,7 +55,7 @@ $mainframe->route();
 $Itemid = JRequest::getInt( 'Itemid');
 $mainframe->authorize($Itemid);
 
-// trigger the onAfterDisplay events
+// trigger the onAfterRoute events
 JDEBUG ? $_PROFILER->mark('afterRoute') : null;
 $mainframe->triggerEvent('onAfterRoute');
 
@@ -67,7 +67,7 @@ $mainframe->triggerEvent('onAfterRoute');
 $option = JRequest::getCmd('option');
 $mainframe->dispatch($option);
 
-// trigger the onAfterDisplay events
+// trigger the onAfterDispatch events
 JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
 $mainframe->triggerEvent('onAfterDispatch');
 
@@ -78,7 +78,7 @@ $mainframe->triggerEvent('onAfterDispatch');
  */
 $mainframe->render();
 
-// trigger the onAfterDisplay events
+// trigger the onAfterRender events
 JDEBUG ? $_PROFILER->mark('afterRender') : null;
 $mainframe->triggerEvent('onAfterRender');
 

@@ -62,6 +62,7 @@ class JConfig {
 	var $tmp_path	= '/tmp';
 	var $log_path	= '/var/logs';
 	var $offset = '0';
+	var $live_site = ''; 					// Optional, Full url to Joomla install.
 
 	/* Session settings */
 	var $lifetime = '15';					// Session time

@@ -23,9 +23,6 @@ defined('JPATH_BASE') or die();
  * @abstract
  * @package		Joomla.Framework
  * @subpackage	Application
- * @author		Johan Janssens <johan.janssens@joomla.org>
- * @author		Louis Landry <louis.landry@joomla.org>
- * @author 		Andrew Eddie
  * @since		1.5
  */
 class JView extends JObject
@@ -337,50 +334,43 @@ class JView extends JObject
     }
 
 	/**
-	 * Method to get data from a registered model
+	 * Method to get data from a registered model or a property of the view
 	 *
 	 * @access	public
-	 * @param	string	The name of the method to call on the model
-	 * @param	string	The name of the model to reference [optional]
+	 * @param	string	The name of the method to call on the model, or the property to get
+	 * @param	string	The name of the model to reference, or the default value [optional]
 	 * @return mixed	The return value of the method
 	 */
-	function &get( $method, $model = null )
+	function &get( $property, $default = null )
 	{
-		$result = false;
 
 		// If $model is null we use the default model
-		if (is_null($model)) {
+		if (is_null($default)) {
 			$model = $this->_defaultModel;
 		} else {
-			$model = strtolower( $model );
+			$model = strtolower( $default );
 		}
 
 		// First check to make sure the model requested exists
 		if (isset( $this->_models[$model] ))
 		{
 			// Model exists, lets build the method name
-			$method = 'get'.ucfirst($method);
+			$method = 'get'.ucfirst($property);
 
 			// Does the method exist?
 			if (method_exists($this->_models[$model], $method))
 			{
 				// The method exists, lets call it and return what we get
-				$result = $this->_models[$model]->$method();
+                $result = $this->_models[$model]->$method();
+                return $result;
 			}
-			else
-			{
-				// Method wasn't found... throw a warning and return false
-				JError::raiseWarning( 0, "Unknown Method $model::$method() was not found");
-				$result = false;
-			}
-		}
-		else
-		{
-			// degrade to JObject::get
-			$result = parent::get( $method, $model );
+
 		}
 
+		// degrade to JObject::get
+		$result = parent::get( $property, $default );
 		return $result;
+
 	}
 
 	/**

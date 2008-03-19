@@ -165,6 +165,17 @@ function __autoload($class)
 }
 
 /**
+ * Global application exit.
+ *
+ * This function provides a single exit point for the framework.
+ *
+ * @param mixed Exit code or string. Defaults to zero.
+ */
+function jexit($message = 0) {
+    exit($message);
+}
+
+/**
  * Intelligent file importer
  *
  * @access public

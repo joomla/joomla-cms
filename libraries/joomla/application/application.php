@@ -54,7 +54,7 @@ class JApplication extends JObject
 	 * @access	protected
 	 */
 	var $_name = null;
-	
+
 	/**
 	 * The scope of the application
 	 *
@@ -193,7 +193,7 @@ class JApplication extends JObject
 
 		$router =& $this->getRouter();
 		$result = $router->parse($uri);
-		
+
 		JRequest::set($result, 'get', false );
  	}
 
@@ -547,6 +547,12 @@ class JApplication extends JObject
 		// Trigger onLoginFailure Event
 		$this->triggerEvent('onLoginFailure', array((array)$response));
 
+
+		// If silent is set, just return false
+		if (isset($options['silent']) && $options['silent']) {
+			return false;
+		}
+
 		// Return the error
 		return JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_LOGIN_AUTHENTICATE'));
 	}
@@ -741,7 +747,7 @@ class JApplication extends JObject
 		$session->set('user',		new JUser());
 
 		if (!$storage->insert( $session->getId(), $this->getClientId())) {
-			die( $storage->getError());
+			jexit( $storage->getError());
 		}
 
 		return $session;
