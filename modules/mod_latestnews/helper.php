@@ -36,8 +36,8 @@ class modLatestNewsHelper
 		$access		= !$contentConfig->get('shownoauth');
 
 		$nullDate	= $db->getNullDate();
-		jimport('joomla.utilities.date');
-		$date = new JDate();
+
+		$date =& JFactory::getDate();
 		$now = $date->toMySQL();
 
 		$where		= 'a.state = 1'

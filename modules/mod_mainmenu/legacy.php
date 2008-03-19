@@ -82,6 +82,11 @@ function mosGetMenuLink($mitem, $level = 0, & $params, $open = null)
 		// support for `active_menu` of 'Link - Url' if link is relative
 		if ($id == '' && $mitem->type == 'url' && strpos('http', $mitem->link) === false) {
 			$url = array();
+			if(strpos($mitem->link, '&amp;') !== false) 
+			{ 
+			   $mitem->link = str_replace('&amp;','&',$mitem->link); 
+			} 
+			
 			parse_str($mitem->link, $url);
 			if (isset ($url['Itemid'])) {
 				if ($url['Itemid'] == $current_itemid) {

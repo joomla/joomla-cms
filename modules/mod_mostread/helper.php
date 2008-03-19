@@ -35,8 +35,7 @@ class modMostReadHelper
 		$access		= !$contentConfig->get('shownoauth');
 
 		$nullDate	= $db->getNullDate();
-		jimport('joomla.utilities.date');
-		$date = new JDate();
+		$date =& JFactory::getDate();
 		$now  = $date->toMySQL();
 
 		if ($catid) {

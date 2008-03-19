@@ -29,11 +29,23 @@ class modRandomImageHelper
 
 
 		if ($width == '') {
-			($size[0] > 100 ? $width = 100 : $width = $size[0]);
+			$width = 100;
 		}
+
+		if ($size[0] < $width) {
+			$width = $size[0];
+		}
+
+		$coeff = $size[0]/$size[1];
 		if ($height == '') {
-			$coeff 	= $size[0]/$size[1];
 			$height = (int) ($width/$coeff);
+		} else {
+			$newheight = min ($height, (int) ($width/$coeff));
+			if ($newheight < $height) {
+				$height = $newheight;
+			} else {
+				$width = $height * $coeff;
+			}
 		}
 
 		$image->width 	= $width;

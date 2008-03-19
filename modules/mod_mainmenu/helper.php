@@ -159,7 +159,9 @@ class modMainMenuHelper
 						$xml->addAttribute('id', $tagId);
 					}
 
-					echo JFilterOutput::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
+					$result = JFilterOutput::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
+					$result = str_replace(array('<ul/>', '<ul />'), '', $result);
+					echo $result;
 				}
 				break;
 		}

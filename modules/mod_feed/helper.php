@@ -24,7 +24,12 @@ class modFeedHelper
 		//  get RSS parsed object
 		$options = array();
 		$options['rssUrl'] 		= $rssurl;
-		$options['cache_time'] 	= 3600;
+		if ($params->get('cache')) {
+			$options['cache_time']  = $params->get('cache_time', 15) ;
+			$options['cache_time']	*= 60;	
+		} else {
+			$options['cache_time'] = null;
+		}
 
 		$rssDoc =& JFactory::getXMLparser('RSS', $options);
 

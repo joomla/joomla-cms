@@ -30,8 +30,8 @@ var JFormValidator = new Class({
 		// Default handlers
 		this.setHandler('username',
 			function (value) {
-				regex=/^[a-zA-Z](([\.\-a-zA-Z0-9@])?[a-zA-Z0-9]*)*$/;
-				return regex.test(value);
+				regex = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&]", "i");
+				return !regex.test(value);
 			}
 		);
 

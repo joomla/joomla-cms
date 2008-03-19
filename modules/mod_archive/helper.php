@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.utilities.date');
+
 
 class modArchiveHelper
 {
@@ -32,19 +32,19 @@ class modArchiveHelper
 
 		$menu = &JSite::getMenu();
 		$item = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
-		$itemid = isset($item) ? $item->id : 0;
+		$itemid = isset($item) ? '&Itemid='.$item->id : '';
 
 		$i		= 0;
 		$lists	= array();
 		foreach ( $rows as $row )
 		{
-			$date = new JDate($row->created);
+			$date =& JFactory::getDate($row->created);
 
 			$created_month	= $date->toFormat("%m");
 			$month_name		= $date->toFormat("%B");
 			$created_year	= $date->toFormat("%Y");
 
-			$lists[$i]->link	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.'&Itemid='.$itemid);
+			$lists[$i]->link	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.$itemid);
 			$lists[$i]->text	= $month_name.', '.$created_year;
 			$i++;
 		}
