@@ -60,7 +60,7 @@ endif; ?>
                 <?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug, $this->item->sectionid)).'">'; ?>
             <?php endif; ?>
             <?php echo $this->item->category; ?>
-            <?php if ($this->item->params->get('link_section')) : ?>
+            <?php if ($this->item->params->get('link_category')) : ?>
                 <?php echo '</a>'; ?>
             <?php endif; ?>
         </span>

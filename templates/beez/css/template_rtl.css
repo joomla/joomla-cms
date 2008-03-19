@@ -216,6 +216,10 @@ form.login .button{
 	padding: 0 4px 0 0;
 }
 
+#right form.poll fieldset input{
+        float:right;
+}
+
 #right ul{
 	padding: 10px 0 10px 10px;
 	zoom:1

@@ -39,7 +39,7 @@ div#header_r {
 }
 
 td.pill_m {
-  background: url(../images/mw_menu_normal_bg_rtl.png) repeat-x right;
+    background: url(../images/mw_menu_normal_bg.png) repeat-x;
 }
 
 td.pill_r {
@@ -54,9 +54,12 @@ td.pill_l {
 	float:none;
 }
 
+#pillmenu ul {
+	width: 420px;
+}
+
 #pillmenu li{
 	float: right;
-	background: none;
 }
 
 #pillmenu a {
@@ -140,6 +143,11 @@ td.buttonheading {
 }
 
 form#form-login ul {
+	padding-right: 20px;
+	padding-left: 0px;
+}
+
+form#com-form-login ul {
 	padding-right: 20px;
 	padding-left: 0px;
 }

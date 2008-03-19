@@ -92,6 +92,7 @@ div.tooltip {
 	border: 1px solid #D4D5AA;
 	padding: 5px;
 	max-width: 200px;
+	z-index:13000;
 }
 
 div.tooltip h4 {

@@ -16,7 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<title><?php echo $this->error->code ?> - <?php echo $this->title; ?></title>
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/error.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" type="text/css" />
 </head>
 <body>
 	<div align="center">
@@ -36,7 +36,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			<p><strong><?php echo JText::_('Please try one of the following pages:'); ?></strong></p>
 			<p>
 				<ul>
-					<li><a href="index.php" title="<?php echo JText::_('Go to the home page'); ?>"><?php echo JText::_('Home Page'); ?></a></li>
+					<li><a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('Go to the home page'); ?>"><?php echo JText::_('Home Page'); ?></a></li>
 				</ul>
 			</p>
 			<p><?php echo JText::_('If difficulties persist, please contact the system administrator of this site.'); ?></p>
