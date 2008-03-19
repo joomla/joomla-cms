@@ -13,7 +13,7 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
 
@@ -89,7 +89,7 @@ class UserViewLogin extends JView
 
 		// Build login image if enabled
 		if ( $params->get( 'image_'.$type ) != -1 ) {
-			$image = JURI::base(true).$params->get('image_path').'/'.$params->get( 'image_'.$type );
+			$image = 'images/stories/'.$params->get( 'image_'.$type );
 			$image = '<img src="'. $image  .'" align="'. $params->get( 'image_'.$type.'_align' ) .'" hspace="10" alt="" />';
 		}
 

@@ -50,7 +50,7 @@ function NewsfeedsBuildRoute(&$query)
 				// Check if this menu item links to this view.
 				if (isset($item->query['view']) && $item->query['view'] == 'newsfeed'
 					&& isset($query['view']) && $query['view'] != 'category'
-					&& isset($item->query['id']) && $item->query['id'] == $query['id'])
+					&& isset($item->query['id']) && isset($query['id']) && $item->query['id'] == $query['id'])
 				{
 					$itemid	= $item->id;
 				}
@@ -183,70 +183,35 @@ function NewsfeedsParseRoute($segments)
 		// Proceed through the possible variations trying to match the most specific one.
 		if (isset($item->query['view']) && $item->query['view'] == 'newsfeed' && isset($segments[0]))
 		{
-			// Break up the newsfeed id into numeric and alias values.
-			if (isset($segments[0]) && strpos($segments[0], ':')) {
-				list($id, $alias) = explode(':', $segments[0], 2);
-			}
-
 			// Contact view.
 			$vars['view']	= 'newsfeed';
-			$vars['id']		= $id;
+			$vars['id']		= $segments[0];
 		}
 		elseif (isset($item->query['view']) && $item->query['view'] == 'category' && count($segments) == 2)
 		{
-			// Break up the category id into numeric and alias values.
-			if (isset($segments[0]) && strpos($segments[0], ':')) {
-				list($catid, $catalias) = explode(':', $segments[0], 2);
-			}
-
-			// Break up the newsfeed id into numeric and alias values.
-			if (isset($segments[1]) && strpos($segments[1], ':')) {
-				list($id, $alias) = explode(':', $segments[1], 2);
-			}
-
 			// Newsfeed view.
 			$vars['view']	= 'newsfeed';
-			$vars['id']		= $id;
-			$vars['catid']	= $catid;
+			$vars['id']		= $segments[1];
+			$vars['catid']	= $segments[0];
 		}
 		elseif (isset($item->query['view']) && $item->query['view'] == 'category' && isset($segments[0]))
 		{
-			// Break up the category id into numeric and alias values.
-			if (isset($segments[0]) && strpos($segments[0], ':')) {
-				list($catid, $alias) = explode(':', $segments[0], 2);
-			}
-
 			// Category view.
 			$vars['view']	= 'category';
-			$vars['id']		= $catid;
+			$vars['id']		= $segments[0];
 		}
 		elseif (isset($item->query['view']) && $item->query['view'] == 'categories' && count($segments) == 2)
 		{
-			// Break up the category id into numeric and alias values.
-			if (isset($segments[0]) && strpos($segments[0], ':')) {
-				list($catid, $catalias) = explode(':', $segments[0], 2);
-			}
-
-			// Break up the newsfeed id into numeric and alias values.
-			if (isset($segments[1]) && strpos($segments[1], ':')) {
-				list($id, $alias) = explode(':', $segments[1], 2);
-			}
-
 			// Newsfeed view.
 			$vars['view']	= 'newsfeed';
-			$vars['id']		= $id;
-			$vars['catid']	= $catid;
+			$vars['id']		= $segments[1];
+			$vars['catid']	= $segments[0];
 		}
 		elseif (isset($item->query['view']) && $item->query['view'] == 'categories' && isset($segments[0]))
 		{
-			// Break up the category id into numeric and alias values.
-			if (isset($segments[0]) && strpos($segments[0], ':')) {
-				list($catid, $alias) = explode(':', $segments[0], 2);
-			}
-
 			// Category view.
 			$vars['view']	= 'category';
-			$vars['id']		= $catid;
+			$vars['id']		= $segments[0];
 		}
 	}
 	else

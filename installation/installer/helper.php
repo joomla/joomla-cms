@@ -616,7 +616,7 @@ class JInstallationHelper
 	}
 
 	function findMigration( &$args ) {
-		print_r($args); die();
+		print_r($args); jexit();
 	}
 
 	/**
@@ -915,7 +915,7 @@ class JInstallationHelper
 		if(!is_file($scriptName)) return false; // not a file?
 		$newFile = dirname( $scriptName ).DS.'converted.sql';
 		$tfilesize = filesize($scriptName);
-		if($maxread > 0 && $tfilesize > 0 && $maxread < $tfilesize) 		
+		if($maxread > 0 && $tfilesize > 0 && $maxread < $tfilesize)
 		{
 			$parts = ceil($tfilesize / $maxread);
 			file_put_contents( $newFile, '' ); // cleanse the file first
@@ -1170,7 +1170,7 @@ class JInstallationHelper
 		$query = 'UPDATE `'.$newPrefix.'menu_migration` SET `link` = CONCAT(link, "&view=wrapper"), `type` = "component", `componentid` = '.$compId.' WHERE `type` = "wrapper"';
 		$db->setQuery( $query );
 		$db->query();
-		JInstallationHelper::getDBErrors($errors, $db ); 
+		JInstallationHelper::getDBErrors($errors, $db );
 
 		// set default to lowest ordering published on mainmenu
 		$query = 'SELECT MIN( `ordering` ) FROM `'.$newPrefix.'menu_migration` WHERE `published` = 1 AND `parent` = 0 AND `menutype` = "mainmenu"';

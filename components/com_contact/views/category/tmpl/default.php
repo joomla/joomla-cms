@@ -2,7 +2,7 @@
 /**
  * $Id$
  */
-defined( '_JEXEC' ) or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $cparams =& JComponentHelper::getParams('com_media');
 ?>
@@ -20,9 +20,9 @@ endif; ?>
 <?php if ($this->category->image || $this->category->description) : ?>
 	<div class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php if ($this->params->get('image') != -1 && $this->params->get('image') != '') : ?>
-		<img src="<?php echo $this->baseurl . $cparams->get('image_path') . '/'. $this->params->get('image'); ?>" align="<?php echo $this->params->get('image_align'); ?>" hspace="6" alt="<?php echo JText::_( 'Contacts' ); ?>" />
+		<img src="<?php echo $this->baseurl .'/'. $cparams->get('image_path') . '/'. $this->params->get('image'); ?>" align="<?php echo $this->params->get('image_align'); ?>" hspace="6" alt="<?php echo JText::_( 'Contacts' ); ?>" />
 	<?php elseif ($this->category->image) : ?>
-		<img src="<?php echo $this->baseurl . $cparams->get('image_path') . '/'. $this->category->image; ?>" align="<?php echo $this->category->image_position; ?>" hspace="6" alt="<?php echo JText::_( 'Contacts' ); ?>" />
+		<img src="<?php echo $this->baseurl .'/'. $cparams->get('image_path') . '/'. $this->category->image; ?>" align="<?php echo $this->category->image_position; ?>" hspace="6" alt="<?php echo JText::_( 'Contacts' ); ?>" />
 	<?php endif; ?>
 	<?php echo $this->category->description; ?>
 	</div>

@@ -14,7 +14,7 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
 
@@ -45,12 +45,12 @@ class NewsfeedsViewCategories extends JView
 		// Define image tag attributes
 		if ($params->get('image') != -1)
 		{
-			$attribs['align'] = '"'. $params->get('image_align').'"';
-			$attribs['hspace'] = '"6"';
+			$attribs['align'] = $params->get('image_align');
+			$attribs['hspace'] = 6;
 
 			// Use the static HTML library to build the image tag
 
-			$image = JHTML::_('image', $params->get('image_path').'/'.$params->get('image'), JText::_('NEWS_FEEDS'), $attribs);
+			$image = JHTML::_('image', 'images/stories/'.$params->get('image'), JText::_('NEWS_FEEDS'), $attribs);
 		}
 
 		$this->assignRef('image',		$image);

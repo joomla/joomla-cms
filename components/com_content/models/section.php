@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.model');
 
@@ -477,8 +477,7 @@ class ContentModelSection extends JModel
 		$user		=& JFactory::getUser();
 		$aid		= $user->get('aid', 0);
 
-		jimport('joomla.utilities.date');
-		$jnow		= new JDate();
+		$jnow		=& JFactory::getDate();
 		$now		= $jnow->toMySQL();
 
 		// Get the page/component configuration
@@ -537,7 +536,7 @@ class ContentModelSection extends JModel
 			if ($filter) {
 				// clean filter variable
 				$filter = JString::strtolower($filter);
-				$filter	= $db->Quote( '%'.$db->getEscaped( $filter, true ).'%', false );
+				$filter	= $this->_db->Quote( '%'.$this->_db->getEscaped( $filter, true ).'%', false );
 
 				switch ($params->get('filter_type'))
 				{

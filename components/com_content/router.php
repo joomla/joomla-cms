@@ -30,7 +30,19 @@ function ContentBuildRoute(&$query)
 	};
 
 	if(isset($query['id'])) {
-		$segments[] = $query['id'];
+		if (empty($query['Itemid'])) {
+			$segments[] = $query['id'];
+		} else {
+			$menu = &JSite::getMenu();
+			$menuItem = &$menu->getItem( $query['Itemid'] );
+			if (isset($menuItem->query['id'])) {
+				if($query['id'] != $menuItem->query['id']) {
+					$segments[] = $query['id'];	
+				}
+			} else {
+				$segments[] = $query['id'];
+			}
+		}
 		unset($query['id']);
 	};
 

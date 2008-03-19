@@ -18,6 +18,8 @@
 		var DBname = getElementByName( frm, 'vars[DBname]' );
 		var DBPrefix = getElementByName( frm, 'vars[DBPrefix]' );
 
+		var regex=/^[a-zA-Z]+[a-zA-Z0-9_]*$/;
+
 		if ( DBtype.selectedIndex == 0 ) {
 			alert( '<jtmpl:translate key="validType" escape="yes">Please select the database type</jtmpl:translate>' );
 			return;
@@ -30,6 +32,18 @@
 		} else if (DBPrefix.value == '') {
 			alert('<jtmpl:translate key="validPrefix" escape="yes">You must enter a MySQL Table Prefix for Joomla to operate correctly</jtmpl:translate>');
 			return;
+		} else if (DBname.value.length > 64) {
+			alert('<jtmpl:translate key="MYSQLDBNAMETOOLONG" escape="yes">The MySQL Database Name must be a maximum of 64 characters</jtmpl:translate>');
+			return;
+		} else if (DBPrefix.value.length > 15) {
+			alert('<jtmpl:translate key="MYSQLPREFIXTOOLONG" escape="yes">The MySQL Table Prefix must be a maximum of 15 characters</jtmpl:translate>');
+			return;
+		} else if (!regex.test(DBname.value)) {
+			alert('<jtmpl:translate key="MYSQLDBNAMEINVALIDCHARS" escape="yes">The MySQL Database Name must start with a letter, and be followed by only letters, numbers or underscores</jtmpl:translate>');
+			return;		
+		} else if (!regex.test(DBPrefix.value)) {
+			alert('<jtmpl:translate key="MYSQLPREFIXINVALIDCHARS" escape="yes">The MySQL Table Prefix must start with a letter, and be followed by only letters, numbers or underscores</jtmpl:translate>');
+			return;		
 		} else {
 			submitForm( frm, task );
 		}
@@ -107,7 +121,7 @@
 			</div>
 			</div>
 			<div class="m">
-							<h3 class="title-smenu" title="Basic"><jtmpl:translate>Basic Settings</jtmpl:translate></h3>
+							<h3 class="title-smenu" title="<jtmpl:translate>Basic</jtmpl:translate>"><jtmpl:translate>Basic Settings</jtmpl:translate></h3>
 							<div class="section-smenu">
 								<table class="content2">
 								<tr>
@@ -193,7 +207,7 @@
 								</table>
 								<br /><br />
 							</div>
-							<h3 class="title-smenu moofx-toggler" title="Advanced"><jtmpl:translate>Advanced settings</jtmpl:translate></h3>
+							<h3 class="title-smenu moofx-toggler" title="<jtmpl:translate>Advanced</jtmpl:translate>"><jtmpl:translate>Advanced settings</jtmpl:translate></h3>
 							<div class="section-smenu moofx-slider">
 								<table class="content2">
 								<tr>
@@ -268,7 +282,6 @@
 
 
 <div class="clr"></div>
-<input type="hidden" id="utfsupport" name="vars[DButfSupport]" value="" />
 <input type="hidden" id="vars_lang" name="vars[lang]" value="{VAR_LANG}" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="vars[ftpEnable]" value="0" />

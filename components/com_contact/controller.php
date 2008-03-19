@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.controller' );
 
@@ -83,7 +83,7 @@ class ContactController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize some variables
 		$db			= & JFactory::getDBO();
@@ -191,7 +191,7 @@ class ContactController extends JController
 		}
 
 		$msg = JText::_( 'Thank you for your e-mail');
-		$link = JRoute::_('index.php?option=com_contact&view=contact&id='.$contactId);
+		$link = JRoute::_('index.php?option=com_contact&view=contact&id='.$contact->slug.'&catid='.$contact->catslug, false);
 		$this->setRedirect($link, $msg);
 	}
 

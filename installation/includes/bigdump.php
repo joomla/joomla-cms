@@ -1,4 +1,7 @@
 <?php
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+
 //TODO: Rewrite this so its cleaner
 
 // BigDump ver. 0.28b from 2007-06-08
@@ -107,7 +110,7 @@ foreach ($_REQUEST as $key => $val) {
 	$_REQUEST[$key] = $val;
 }
 
-// *cough* dirty *cough* *cough* hack *cough*
+// Determine filename to execute for loading...
 $filename = JPATH_BASE . DS . 'sql' . DS . 'migration' . DS . 'migrate.sql';
 $_REQUEST['fn'] = $filename;
 $error = false;
@@ -271,7 +274,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 		$migration = JRequest::getVar( 'migration', 0, 'post', 'bool' );
 
 			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
-			if(JError::isError($db)) die(JText::_('CONNECTION FAIL'));
+			if(JError::isError($db)) jexit(JText::_('CONNECTION FAIL'));
 
 //			echo 'Done.<br />';
 			// Execute query if end of query detected (; as last character) AND NOT in parents
@@ -397,10 +400,10 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
   	<input type="hidden" name="dataLoaded" value="1" />
   	<input type="hidden" name="DBtype" value="<?php echo $DBtype ?>" />
   	<input type="hidden" name="DBhostname" value="<?php echo $DBhostname ?>" />
-  	<input type="hidden" name="DBuserName" value="<?php echo $DBusername ?>" />
+  	<input type="hidden" name="DBuserName" value="<?php echo $DBuserName ?>" />
   	<input type="hidden" name="DBpassword" value="<?php echo $DBpassword ?>" />
   	<input type="hidden" name="DBname" value="<?php echo $DBname ?>" />
-  	<input type="hidden" name="DBPrefix" value="<?php echo $DBprefix ?>" />
+  	<input type="hidden" name="DBPrefix" value="<?php echo $DBPrefix ?>" />
   	</form>
   	<script language="JavaScript" type="text/javascript">window.setTimeout('submitForm(this.document.migrateForm,"postmigrate")',500);</script>
 			<?php
@@ -420,11 +423,11 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
   	<input type="hidden" name="loadchecked" value="1" />
   	<input type="hidden" name="dataLoaded" value="1" />
   	<input type="hidden" name="DBtype" value="<?php echo $DBtype ?>" />
-  	<input type="hidden" name="DBhostname" value="<?php echo $DBHOSTNAME ?>" />
-  	<input type="hidden" name="DBuserName" value="<?php echo $DBUSERNAME ?>" />
-  	<input type="hidden" name="DBpassword" value="<?php echo $DBPASSWORD ?>" />
-  	<input type="hidden" name="DBname" value="<?php echo $DBNAME ?>" />
-  	<input type="hidden" name="DBPrefix" value="<?php echo $DBPREFIX ?>" />
+  	<input type="hidden" name="DBhostname" value="<?php echo $DBhostname ?>" />
+  	<input type="hidden" name="DBuserName" value="<?php echo $DBuserName ?>" />
+  	<input type="hidden" name="DBpassword" value="<?php echo $DBpassword ?>" />
+  	<input type="hidden" name="DBname" value="<?php echo $DBname ?>" />
+  	<input type="hidden" name="DBPrefix" value="<?php echo $DBPrefix ?>" />
   	 <input type="hidden" name="start" value="<?php echo $linenumber ?>" />
 	<input type="hidden" name="foffset" value="<?php echo $foffset ?>" />
 	<input type="hidden" name="totalqueries" value="<?php echo $totalqueries ?>" />

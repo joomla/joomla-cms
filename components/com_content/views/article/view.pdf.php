@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
 
@@ -59,15 +59,11 @@ class ContentViewArticle extends JView
 		// Initialize some variables
 		$text = '';
 
+		// Display Author name
 		if ($params->get('show_author')) {
 			// Display Author name
-			if ($article->usertype == 'administrator' || $article->usertype == 'superadministrator') {
-				$text .= "\n";
-				$text .= JText::_('Written by').' '. ($article->created_by_alias ? $article->created_by_alias : $article->author);
-			} else {
-				$text .= "\n";
-				$text .= JText::_('Contributed by').' '. ($article->created_by_alias ? $article->created_by_alias : $article->author);
-			}
+			$text .= "\n";
+			$text .= JText::sprintf( 'Written by', ($article->created_by_alias ? $article->created_by_alias : $article->author) );
 		}
 
 		if ($params->get('show_create_date') && $params->get('show_author')) {
@@ -91,7 +87,7 @@ class ContentViewArticle extends JView
 		if ($params->get('show_modify_date')) {
 			// Display Modified Date
 			if (intval($article->modified)) {
-				$mod_date = JHTML::_('date', $article->modified);
+				$mod_date = JHTML::_('date', $article->modified, JText::_('DATE_FORMAT_LC2'));
 				$text .= JText::_('Last Updated').' '.$mod_date;
 			}
 		}

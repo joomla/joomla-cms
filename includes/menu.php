@@ -70,6 +70,11 @@ class JMenuSite extends JMenu
 
 			//Create the query array
 			$url = str_replace('index.php?', '', $menus[$key]->link);
+			if(strpos($url, '&amp;') !== false) 
+			{ 
+			   $url = str_replace('&amp;','&',$url); 
+			} 
+			
 			parse_str($url, $menus[$key]->query);
 		}
 

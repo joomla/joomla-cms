@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
@@ -57,7 +57,7 @@ class UserController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$user	 =& JFactory::getUser();
 		$userid = JRequest::getVar( 'id', 0, 'post', 'int' );
@@ -111,7 +111,7 @@ class UserController extends JController
 	function login()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken('request') or jexit( 'Invalid Token' );
 
 		global $mainframe;
 
@@ -199,7 +199,7 @@ class UserController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get required system objects
 		$user 		= clone(JFactory::getUser());
@@ -231,8 +231,8 @@ class UserController extends JController
 		$user->set('usertype', '');
 		$user->set('gid', $authorize->get_group_id( '', $newUsertype, 'ARO' ));
 
-		// TODO: Should this be JDate?
-		$user->set('registerDate', date('Y-m-d H:i:s'));
+		$date =& JFactory::getDate();
+		$user->set('registerDate', $date->toMySQL());
 
 		// If user activation is turned on, we need to set the activation information
 		$useractivation = $usersConfig->get( 'useractivation' );
@@ -352,7 +352,7 @@ class UserController extends JController
 	function requestreset()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get the input
 		$email		= JRequest::getVar('email', null, 'post', 'string');
@@ -379,7 +379,7 @@ class UserController extends JController
 	function confirmreset()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get the input
 		$token = JRequest::getVar('token', null, 'post', 'alnum');
@@ -406,7 +406,7 @@ class UserController extends JController
 	function completereset()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get the input
 		$password1 = JRequest::getVar('password1', null, 'post', 'string', JREQUEST_ALLOWRAW);
@@ -435,7 +435,7 @@ class UserController extends JController
 	function remindusername()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get the input
 		$email = JRequest::getVar('email', null, 'post', 'string');
@@ -499,7 +499,7 @@ class UserController extends JController
 		JUtility::sendMail($mailfrom, $fromname, $email, $subject, $message);
 
 		// Send notification to all administrators
-		$subject2 = sprintf ( JText::_( 'Account details for %s at %s' ), $name, $sitename);
+		$subject2 = sprintf ( JText::_( 'Account details for' ), $name, $sitename);
 		$subject2 = html_entity_decode($subject2, ENT_QUOTES);
 
 		// get superadministrators id

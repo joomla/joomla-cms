@@ -71,7 +71,7 @@ endif; ?>
 				<?php echo '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug, $this->item->sectionid)).'">'; ?>
 			<?php endif; ?>
 			<?php echo $this->item->category; ?>
-			<?php if ($this->item->params->get('link_section')) : ?>
+			<?php if ($this->item->params->get('link_category')) : ?>
 				<?php echo '</a>'; ?>
 			<?php endif; ?>
 		</span>
@@ -128,12 +128,14 @@ endif; ?>
 <?php if ($this->item->params->get('show_readmore') && $this->item->readmore) : ?>
 <tr>
 	<td  colspan="2">
-		<a href="<?php echo $this->item->readmore_link; ?>" class="readon<?php echo $this->item->params->get( 'pageclass_sfx' ); ?>">
-			<?php if ($this->item->readmore_register) : ?>
-				<?php echo JText::_('Register to read more...'); ?>
-			<?php else : ?>
-				<?php echo JText::_('Read more...'); ?>
-			<?php endif; ?></a>
+		<a href="<?php echo $this->item->readmore_link; ?>" class="readon<?php echo $this->item->params->get('pageclass_sfx'); ?>">
+			<?php if ($this->item->readmore_register) :
+				echo JText::_('Register to read more...');
+			elseif ($readmore = $this->item->params->get('readmore')) :
+				echo $readmore;
+			else :
+				echo JText::sprintf('Read more...');
+			endif; ?></a>
 	</td>
 </tr>
 <?php endif; ?>

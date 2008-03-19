@@ -13,7 +13,7 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
 
@@ -47,13 +47,13 @@ class WeblinksViewCategories extends JView
 		if ($params->get('image') != -1)
 		{
 			if($params->get('image_align')!="")
-				$attribs['align'] = '"'. $params->get('image_align').'"';
+				$attribs['align'] = $params->get('image_align');
 			else
 				$attribs['align'] = '';
 			$attribs['hspace'] = 6;
 
 			// Use the static HTML library to build the image tag
-			$image = JHTML::_('image', $params->get('image_path').'/'.$params->get('image'), JText::_('Web Links'), $attribs);
+			$image = JHTML::_('image', 'images/stories/'.$params->get('image'), JText::_('Web Links'), $attribs);
 		}
 
 		for($i = 0; $i < count($categories); $i++)

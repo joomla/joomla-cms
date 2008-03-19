@@ -47,7 +47,7 @@ class PollController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$db			=& JFactory::getDBO();
 		$poll_id	= JRequest::getVar( 'id', 0, '', 'int' );
@@ -88,11 +88,9 @@ class PollController extends JController
 		$menu = &JSite::getMenu();
 		$items	= $menu->getItems('link', 'index.php?option=com_poll&view=poll');
 
-		if(isset($items[0])) {
-			$itemid = $items[0]->id;
-		}
+		$itemid = isset($items[0]) ? '&Itemid='.$items[0]->id : '';
 
-		$this->setRedirect( JRoute::_('index.php?option=com_poll&id='. $poll_id.':'.$poll->alias.'&Itemid='.$itemid, false), $msg );
+		$this->setRedirect( JRoute::_('index.php?option=com_poll&id='. $poll_id.':'.$poll->alias.$itemid, false), $msg );
 	}
 }
 ?>

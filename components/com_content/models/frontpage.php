@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.model');
 
@@ -175,8 +175,7 @@ class ContentModelFrontpage extends JModel
 		// TODO: Should we be using requestTime here? or is JDate ok?
 		// $now		= $mainframe->get('requestTime');
 
-		jimport('joomla.utilities.date');
-		$jnow		= new JDate();
+		$jnow		=& JFactory::getDate();
 		$now		= $jnow->toMySQL();
 
 		// Get the page/component configuration

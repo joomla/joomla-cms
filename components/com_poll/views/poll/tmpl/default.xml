@@ -8,7 +8,9 @@
 	<state>
 		<name>Poll Layout</name>
 		<description>STANDARD POLL LAYOUT DESC</description>
-		<params>
-		</params>
+		<url addpath="/administrator/components/com_poll/elements">
+			<param name="id" type="poll" default="0" label="Poll" description="A poll" />
+		</url>
+		<params />
 	</state>
 </metadata>

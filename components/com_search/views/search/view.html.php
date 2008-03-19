@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
 
@@ -84,6 +84,10 @@ class SearchViewSearch extends JView
 			//$error = JText::_( 'Enter a search keyword' );
 		}
 
+		// put the filtered results back into the model
+		// for next release, the checks should be done in the model perhaps...
+		$state->set('keyword', $searchword);
+
 		if(!$error)
 		{
 			$results	= &$this->get('data' );
@@ -108,12 +112,18 @@ class SearchViewSearch extends JView
 				}
 
 				$row = SearchHelper::prepareSearchContent( $row, 200, $needle );
-
-				foreach ($searchwords as $hlword)
+				$searchwords = array_unique( $searchwords );
+				$searchRegex = '#(';
+				$x = 0;
+				foreach ($searchwords as $k => $hlword)
 				{
-					$hlword = $this->escape( stripslashes( $hlword ) );
-					$row = eregi_replace( $this->escape($hlword), '<span class="highlight">\0</span>', $row );
+					$searchRegex .= ($x == 0 ? '' : '|');
+					$searchRegex .= preg_quote($hlword, '#');
+					$x++;
 				}
+				$searchRegex .= ')#iu';
+				
+				$row = preg_replace($searchRegex, '<span class="highlight">\0</span>', $row );
 
 				$result =& $results[$i];
 			    if ($result->created) {

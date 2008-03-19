@@ -1,4 +1,7 @@
-<?php /** $Id$ */ defined( '_JEXEC' ) or die(); ?>
+<?php
+/** $Id$ */
+defined( '_JEXEC' ) or die( 'Restricted access' );
+?>
 <?php foreach($this->items as $item) : ?>
 <tr>
 	<td align="right" width="5">

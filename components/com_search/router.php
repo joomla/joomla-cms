@@ -23,6 +23,10 @@ function SearchBuildRoute( &$query )
 		$segments[] = $query['searchword'];
 		unset($query['searchword']);
 	}
+	
+	if (isset($query['view'])) {
+		unset($query['view']);
+	}
 
 	return $segments;
 }
@@ -37,6 +41,7 @@ function SearchParseRoute( $segments )
 
 	$searchword	= array_shift($segments);
 	$vars['searchword'] = $searchword;
+	$vars['view'] = 'search';
 
 	return $vars;
 }

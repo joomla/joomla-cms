@@ -292,7 +292,6 @@ class JInstallationModel extends JModel
 		$DBname 	= JArrayHelper::getValue($vars, 'DBname', '');
 		$DBPrefix 	= JArrayHelper::getValue($vars, 'DBPrefix', 'jos_');
 		$DBOld 		= JArrayHelper::getValue($vars, 'DBOld', 'bu');
-		$DButfSupport 	= intval(JArrayHelper::getValue($vars, 'DButfSupport', 0));
 		$DBversion 		= JArrayHelper::getValue($vars, 'DBversion', '');
 
 		// these 3 errors should be caught by the javascript in dbConfig
@@ -320,6 +319,30 @@ class JInstallationModel extends JModel
 			return false;
 			//return JInstallationView::error($vars, JText::_('emptyDBName'), 'dbconfig');
 		}
+		if (!preg_match( '#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $DBPrefix )) {
+			$this->setError(JText::_('MYSQLPREFIXINVALIDCHARS'));
+			$this->setData('back', 'dbconfig');
+			$this->setData('errors', $errors);
+			return false;
+		}
+		if (!preg_match( '#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $DBname )) {
+			$this->setError(JText::_('MYSQLDBNAMEINVALIDCHARS'));
+			$this->setData('back', 'dbconfig');
+			$this->setData('errors', $errors);
+			return false;
+		}
+		if (strlen($DBPrefix) > 15) {
+			$this->setError(JText::_('MYSQLPREFIXTOOLONG'));
+			$this->setData('back', 'dbconfig');
+			$this->setData('errors', $errors);
+			return false;
+		}
+		if (strlen($DBname) > 64) {
+			$this->setError(JText::_('MYSQLDBNAMETOOLONG'));
+			$this->setData('back', 'dbconfig');
+			$this->setData('errors', $errors);
+			return false;
+		}
 
 		if (!$DBcreated)
 		{
@@ -341,6 +364,9 @@ class JInstallationModel extends JModel
 				$this->setData('errors', $db->getErrorMsg());
 				return false;
 			}
+
+			//Check utf8 support of database
+			$DButfSupport = $db->hasUTF();
 
 			// Try to select the database
 			if ( ! $db->select($DBname) )
@@ -412,6 +438,19 @@ class JInstallationModel extends JModel
 				$this->setData('errors', JInstallationHelper::errors2string($errors));
 				return false;
 				//return JInstallationView::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
+			}
+
+			// Load the localise.sql for translating the data in joomla.sql/joomla_backwards.sql
+			// This feature is available for localized version of Joomla! 1.5
+			jimport('joomla.filesystem.file');
+			$dblocalise = 'sql'.DS.$type.DS.'localise.sql';
+			if(JFile::exists($dblocalise)) {
+				if(JInstallationHelper::populateDatabase($db, $dblocalise, $errors) > 0) {
+					$this->setError(JText::_('WARNPOPULATINGDB'));
+					$this->setData('back', 'dbconfig');
+					$this->setData('errors', JInstallationHelper::errors2string($errors));
+					return false;
+				}
 			}
 
 			// Handle default backend language setting. This feature is available for
@@ -492,7 +531,7 @@ class JInstallationModel extends JModel
 		}
 		if ((JRequest::getVar( 'migrationupload', 0, 'post', 'int' ) == 1) && (JRequest::getVar( 'migrationUploaded', 0, 'post', 'int' ) == 0))
 		{
-			die(print_r(JRequest::getVar( 'migrationUploaded', 0, 'post', 'int' )));
+			jexit(print_r(JRequest::getVar( 'migrationUploaded', 0, 'post', 'int' )));
 			$vars['migresponse'] = JInstallationHelper::uploadSql( $vars, true );
 			$vars['dataloaded'] = '1';
 			$vars['loadchecked'] = 2;
@@ -614,7 +653,7 @@ class JInstallationModel extends JModel
 		array (
 			JText::_('Display Errors'),
 			'display_errors',
-			'ON'
+			'OFF'
 			),
 		array (
 			JText::_('File Uploads'),

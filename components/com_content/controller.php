@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
@@ -82,7 +82,7 @@ class ContentController extends JController
 			JError::raiseError( 403, JText::_("ALERTNOTAUTH") );
 		}
 
-		if ( $model->isCheckedOut($user->get ('id')))
+		if ( $model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('The item'), $model->get('title'));
 			$this->setRedirect(JRoute::_('index.php?view=article&id='.$model->get('id'), false), $msg);
@@ -110,7 +110,7 @@ class ContentController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();
@@ -205,6 +205,11 @@ class ContentController extends JController
 		{
 			// messaging for new items
 			require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'tables'.DS.'message.php');
+
+			// load language for messaging
+			$lang =& JFactory::getLanguage();
+			$lang->load('com_messages');
+
 			$query = 'SELECT id' .
 					' FROM #__users' .
 					' WHERE sendEmail = 1';

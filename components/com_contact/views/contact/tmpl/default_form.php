@@ -1,4 +1,7 @@
-<?php /** $Id$ */ defined( '_JEXEC' ) or die(); ?>
+<?php
+/** $Id$ */
+defined( '_JEXEC' ) or die( 'Restricted access' );
+?>
 <script type="text/javascript">
 <!--
 	function validateForm( frm ) {

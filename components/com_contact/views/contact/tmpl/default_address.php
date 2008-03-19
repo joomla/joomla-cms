@@ -1,4 +1,7 @@
-<?php /** $Id$ */ defined( '_JEXEC' ) or die(); ?>
+<?php
+/** $Id$ */
+defined( '_JEXEC' ) or die( 'Restricted access' );
+?>
 <?php if ( ( $this->contact->params->get( 'address_check' ) > 0 ) &&  ( $this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode ) ) : ?>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <?php if ( $this->contact->params->get( 'address_check' ) > 0 ) : ?>

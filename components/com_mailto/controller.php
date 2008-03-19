@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
@@ -47,7 +47,7 @@ class MailtoController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$db	=& JFactory::getDBO();
 

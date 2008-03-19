@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.model');
 
@@ -302,8 +302,7 @@ class ContentModelArticle extends JModel
 			$article->publish_up .= ' 00:00:00';
 		}
 
-		jimport( 'joomla.utilities.date' );
-		$date = new JDate($article->publish_up, -$mainframe->getCfg('offset'));
+		$date =& JFactory::getDate($article->publish_up, $mainframe->getCfg('offset'));
 		$article->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
@@ -317,7 +316,7 @@ class ContentModelArticle extends JModel
 				$article->publish_down .= ' 00:00:00';
 			}
 
-			$date = new JDate($article->publish_down, -$mainframe->getCfg('offset'));
+			$date =& JFactory::getDate($article->publish_down, $mainframe->getCfg('offset'));
 			$article->publish_down = $date->toMySQL();
 		}
 
@@ -356,10 +355,39 @@ class ContentModelArticle extends JModel
 		$tagPos = JString::strpos($text, '<hr id="system-readmore" />');
 
 		if ($tagPos === false)	{
-			$article->introtext = $text;
+			$article->introtext	= $text;
 		} else 	{
-			$article->introtext = JString::substr($text, 0, $tagPos);
-			$article->fulltext = JString::substr($text, $tagPos +27);
+			$article->introtext	= JString::substr($text, 0, $tagPos);
+			$article->fulltext	= JString::substr($text, $tagPos +27);
+		}
+
+		// Filter settings
+		jimport( 'joomla.application.component.helper' );
+		$config	= JComponentHelper::getParams( 'com_content' );
+		$user	= &JFactory::getUser();
+		$gid	= $user->get( 'gid' );
+
+		$filterGroups	= (array) $config->get( 'filter_groups' );
+		if (in_array( $gid, $filterGroups ))
+		{
+			$filterType		= $config->get( 'filter_type' );
+			$filterTags		= preg_split( '#[,\s]+#', trim( $config->get( 'filter_tags' ) ) );
+			$filterAttrs	= preg_split( '#[,\s]+#', trim( $config->get( 'filter_attritbutes' ) ) );
+			switch ($filterType)
+			{
+				case 'NH':
+					$filter	= new JFilterInput();
+					break;
+				case 'WL':
+					$filter	= new JFilterInput( $filterTags, $filterAttrs, 0, 0 );
+					break;
+				case 'BL':
+				default:
+					$filter	= new JFilterInput( $filterTags, $filterAttrs, 1, 1 );
+					break;
+			}
+			$article->introtext	= $filter->clean( $article->introtext );
+			$article->fulltext	= $filter->clean( $article->fulltext );
 		}
 
 		// Make sure the article table is valid
@@ -549,11 +577,8 @@ class ContentModelArticle extends JModel
 
 		$user		=& JFactory::getUser();
 		$aid		= (int) $user->get('aid', 0);
-		// TODO: Should we be using requestTime here? or is JDate ok?
-		// $now		= $mainframe->get('requestTime');
 
-		jimport('joomla.utilities.date');
-		$jnow		= new JDate();
+		$jnow		=& JFactory::getDate();
 		$now		= $jnow->toMySQL();
 		$nullDate	= $this->_db->getNullDate();
 

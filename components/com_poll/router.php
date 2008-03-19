@@ -87,10 +87,10 @@ function PollBuildRoute( &$query )
 
 			// Push the id onto the stack.
 			$segments[] = $query['id'];
-			unset($query['view']);
 			unset($query['id']);
 			unset($query['alias']);
 		}
+		unset($query['view']);
 	}
 	else
 	{
@@ -129,6 +129,7 @@ function PollParseRoute( $segments )
 
 	// Count route segments
 	$vars['id']		= $segments[$count-1];
+	$vars['view']	= 'poll';
 
 	return $vars;
 }

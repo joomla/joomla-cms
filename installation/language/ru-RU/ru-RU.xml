@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <metafile version="1.5" client="installation">
     <name>Russian(RU)</name>
     <version>1.5.0</version>
@@ -13,7 +13,7 @@
 			<name>Русский (CIS)</name>
 			<tag>ru-RU</tag>
 			<rtl>0</rtl>
-			<locale>ru_RU.utf8, ru_RU.UTF-8, ru_RU, ru_RU.KOI8-R, ru_RU.CP1251, ru_RU.CP866, ru_RU.ISO8859-5, russian, ru_RU, ru, rus</locale>
+			<locale>ru_RU.UTF-8, ru_RU, ru_RU.KOI8-R, ru_RU.CP1251, ru_RU.CP866, ru_RU.ISO8859-5, russian, ru_RU, ru, rus</locale>
 			<winCodePage>windows-1251</winCodePage>
 			<backwardLang>russian</backwardLang>
 		</metadata>
