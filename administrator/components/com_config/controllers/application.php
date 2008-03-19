@@ -204,7 +204,7 @@ class ConfigControllerApplication extends ConfigController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -233,6 +233,28 @@ class ConfigControllerApplication extends ConfigController
 
 		$mediapost['params'] = JRequest::getVar('mediaparams', array(), 'post', 'array');
 		$mediapost['option'] = 'com_media';
+		//Sanitize $file_path and $image_path
+		$file_path = $mediapost['params']['file_path'];
+		$image_path = $mediapost['params']['image_path'];
+		if(strpos($file_path, '/') === 0 || strpos($file_path, '\\') === 0) {
+			//Leading slash.  Kill it and default to /media
+			$file_path = 'images';
+		}
+		if(strpos($image_path, '/') === 0 || strpos($image_path, '\\') === 0) {
+			//Leading slash.  Kill it and default to /media
+			$image_path = 'images/stories';
+		}
+		if(strpos($file_path, '..') !== false) {
+			//downward directories.  Kill it and default to images/
+			$file_path = 'images';
+		}
+		if(strpos($image_path, '..') !== false) {
+			//downward directories  Kill it and default to images/stories
+			$image_path = 'images/stories';
+		}
+		$mediapost['params']['file_path'] = $file_path;
+		$mediapost['params']['image_path'] = $image_path;
+
 		$table->loadByOption( 'com_media' );
 		$table->bind( $mediapost );
 
@@ -276,7 +298,8 @@ class ConfigControllerApplication extends ConfigController
 		$config_array['xmlrpc_server']		= JRequest::getVar('xmlrpc_server', 0, 'post', 'int');
 		$config_array['log_path']			= JRequest::getVar('log_path', JPATH_ROOT.DS.'logs', 'post', 'string');
 		$config_array['tmp_path']			= JRequest::getVar('tmp_path', JPATH_ROOT.DS.'tmp', 'post', 'string');
-
+		$config_array['live_site'] 			= rtrim(JRequest::getVar('live_site','','post','string'), '/\\');
+		
 		// LOCALE SETTINGS
 		$config_array['offset']				= JRequest::getVar('offset', 0, 'post', 'float');
 

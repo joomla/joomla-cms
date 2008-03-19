@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
@@ -97,6 +97,11 @@ class MenusModelItem extends JModel
 				$url = str_replace('index.php?', '', $table->link);
 				$url = str_replace('&amp;', '&', $url);
 				$table->linkparts = null;
+				if(strpos($url, '&amp;') !== false)
+				{
+				   $url = str_replace('&amp;','&',$url);
+				}
+
 				parse_str($url, $table->linkparts);
 
 				$db = &$this->getDBO();
@@ -218,17 +223,28 @@ class MenusModelItem extends JModel
 
 					if (isset($document->params[0]->param))
 					{
+						// We will collect the hidden elements in an array
+						// loop will mess up if we do it within the loop
+						$hide	= array();
 						for ($i=0,$n=count($document->params[0]->param); $i<$n; $i++)
 						{
-							if ($document->params[0]->param[$i]->attributes('type') == 'radio' || $document->params[0]->param[$i]->attributes('type') == 'list') {
+							if ($document->params[0]->param[$i]->attributes('menu') == 'hide')
+							{
+								$hide[]	= &$document->params[0]->param[$i];
+							}
+							else if ($document->params[0]->param[$i]->attributes('type') == 'radio' || $document->params[0]->param[$i]->attributes('type') == 'list') {
 								$document->params[0]->param[$i]->addAttribute('default', '');
 								$document->params[0]->param[$i]->addAttribute('type', 'list');
 								$child = &$document->params[0]->param[$i]->addChild('option', array('value' => ''));
 								$child->setData('Use Global');
 							}
 						}
+						// Now remove any hidden elements
+						for ($i = 0, $n = count( $hide ); $i < $n; $i++) {
+							$document->params[0]->removeChild( $hide[$i] );
+						}
 					}
-					$params->setXML($document->params[0]);
+					$params->setXML( $document->params[0] );
 				}
 			}
 		}
@@ -411,6 +427,9 @@ class MenusModelItem extends JModel
 				$query	= substr( $row->link, $pos+1 );
 
 				$temp = array();
+				if(strpos($query, '&amp;') !== false) {
+					$query = str_replace('&amp;', '&', $query);
+				}
 				parse_str( $query, $temp );
 				$temp2 = array_merge( $temp, $post['urlparams'] );
 

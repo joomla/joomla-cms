@@ -261,11 +261,11 @@ class JAdministrator extends JApplication
 		if ($purge > 0)
 		{
 			// purge old messages at day set in message configuration
-			// TODO: Should this be JDate? Or updated to handle offset
-			$past = date( 'Y-m-d H:i:s', time() - $purge * 86400 );
+			$past =& JFactory::getDate(time() - $purge * 86400);
+			$pastStamp = $past->toMySQL();
 
 			$query = 'DELETE FROM #__messages'
-			. ' WHERE date_time < ' . $db->Quote( $past )
+			. ' WHERE date_time < ' . $db->Quote( $pastStamp )
 			. ' AND user_id_to = ' . (int) $userid
 			;
 			$db->setQuery( $query );

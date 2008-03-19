@@ -72,7 +72,7 @@ class ConfigControllerComponent extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$component = JRequest::getCmd( 'component' );
 

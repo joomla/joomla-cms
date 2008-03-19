@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 jimport('joomla.client.helper');
@@ -56,7 +56,7 @@ class InstallerController extends JController
 	function doInstall()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$model	= &$this->getModel( 'Install' );
 		$view	= &$this->getView( 'Install' );
@@ -103,7 +103,7 @@ class InstallerController extends JController
 	function enable()
 	{
 		// Check for request forgeries
-		JRequest::checkToken( 'request' ) or die( 'Invalid Token' );
+		JRequest::checkToken( 'request' ) or jexit( 'Invalid Token' );
 
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel( $type );
@@ -132,7 +132,7 @@ class InstallerController extends JController
 	function disable()
 	{
 		// Check for request forgeries
-		JRequest::checkToken( 'request' ) or die( 'Invalid Token' );
+		JRequest::checkToken( 'request' ) or jexit( 'Invalid Token' );
 
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel( $type );
@@ -161,7 +161,7 @@ class InstallerController extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$type	= JRequest::getWord('type', 'components');
 		$model	= &$this->getModel( $type );

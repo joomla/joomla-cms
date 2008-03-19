@@ -72,7 +72,7 @@ class TemplatesController
 
 		if (!$template)
 		{
-			return JError::raiseWarning( 500, 'Template not specified' );
+			return JError::raiseWarning( 500, JText::_('Template not specified') );
 		}
 
 		// Set FTP credentials, if given
@@ -91,7 +91,7 @@ class TemplatesController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize some variables
 		$db		= & JFactory::getDBO();
@@ -130,13 +130,13 @@ class TemplatesController
 		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		if (!$cid[0]) {
-			return JError::raiseWarning( 500, 'Template not specified' );
+			return JError::raiseWarning( 500, JText::_('Template not specified') );
 		}
 
 		$tBaseDir	= JPath::clean($client->path.DS.'templates');
 
 		if (!is_dir( $tBaseDir . DS . $template )) {
-			return JError::raiseWarning( 500, 'Template not found' );
+			return JError::raiseWarning( 500, JText::_('Template not found') );
 		}
 		$lang =& JFactory::getLanguage();
 		$lang->load( 'tpl_'.$template, JPATH_ADMINISTRATOR );
@@ -159,7 +159,7 @@ class TemplatesController
 		$default = TemplatesHelper::isTemplateDefault($row->directory, $client->id);
 
 		if($client->id == '1')  {
-			$lists['selections'] =  JText::_("Cannot assign an administrator template");
+			$lists['selections'] =  JText::_('Cannot assign an administrator template');
 		} else {
 			$lists['selections'] = TemplatesHelper::createMenuList($template);
 		}
@@ -185,7 +185,7 @@ class TemplatesController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize some variables
 		$db			 = & JFactory::getDBO();
@@ -219,14 +219,14 @@ class TemplatesController
 
 			// Try to make the params file writeable
 			if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
-				JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template parameter file writable');
+				JError::raiseNotice('SOME_ERROR_CODE', JText::_('Could not make the template parameter file writable'));
 			}
 
 			$return = JFile::write($file, $txt);
 
 			// Try to make the params file unwriteable
 			if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0555')) {
-				JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template parameter file unwritable');
+				JError::raiseNotice('SOME_ERROR_CODE', JText::_('Could not make the template parameter file unwritable'));
 			}
 
 			if (!$return) {
@@ -321,7 +321,7 @@ class TemplatesController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');
@@ -346,7 +346,7 @@ class TemplatesController
 
 		// Try to make the template file writeable
 		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0755')) {
-			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template file writable');
+			JError::raiseNotice('SOME_ERROR_CODE', JText::_('Could not make the template file writable'));
 		}
 
 		jimport('joomla.filesystem.file');
@@ -354,7 +354,7 @@ class TemplatesController
 
 		// Try to make the template file unwriteable
 		if (!$ftp['enabled'] && !JPath::setPermissions($file, '0555')) {
-			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the template file unwritable');
+			JError::raiseNotice('SOME_ERROR_CODE', JText::_('Could not make the template file unwritable'));
 		}
 
 		if ($return)
@@ -373,7 +373,7 @@ class TemplatesController
 			}
 		}
 		else {
-			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
+			$mainframe->redirect('index.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::sprintf('Failed to open file for writing.', $file));
 		}
 	}
 
@@ -442,7 +442,7 @@ class TemplatesController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize some variables
 		$option			= JRequest::getCmd('option');
@@ -468,7 +468,7 @@ class TemplatesController
 
 		// Try to make the css file writeable
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0755')) {
-			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the css file writable');
+			JError::raiseNotice('SOME_ERROR_CODE', JText::_('Could not make the css file writable'));
 		}
 
 		jimport('joomla.filesystem.file');
@@ -476,7 +476,7 @@ class TemplatesController
 
 		// Try to make the css file unwriteable
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0555')) {
-			JError::raiseNotice('SOME_ERROR_CODE', 'Could not make the css file unwritable');
+			JError::raiseNotice('SOME_ERROR_CODE', JText::_('Could not make the css file unwritable'));
 		}
 
 		if ($return)

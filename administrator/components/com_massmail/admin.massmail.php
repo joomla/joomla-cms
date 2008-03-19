@@ -61,7 +61,7 @@ function sendMail()
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db					=& JFactory::getDBO();
 	$user 				=& JFactory::getUser();
@@ -71,6 +71,7 @@ function sendMail()
 	$subject			= JRequest::getVar( 'mm_subject', '', 'post', 'string' );
 	$gou				= JRequest::getVar( 'mm_group', '0', 'post', 'int' );
 	$recurse			= JRequest::getVar( 'mm_recurse', 'NO_RECURSE', 'post', 'word' );
+	$bcc				= JRequest::getVar( 'mm_bcc', 0, 'post', 'int' );
 
 	// pulls message inoformation either in text or html format
 	if ( $mode ) {
@@ -125,8 +126,16 @@ function sendMail()
 	$mailer->IsHTML($mode);
 
 	// Add recipients
-	foreach ($rows as $row) {
-		$mailer->addRecipient($row->email);
+
+	if ( $bcc ) {
+		foreach ($rows as $row) {
+			$mailer->addBCC($row->email);
+		}
+		$mailer->addRecipient($mainframe->getCfg('mailfrom'));
+	}else {
+		foreach ($rows as $row) {
+ 			$mailer->addRecipient($row->email);
+ 		}
 	}
 
 	// Send the Mail

@@ -46,7 +46,7 @@ class ConfigApplicationView
 
 		// Set document data
 		$document =& JFactory::getDocument();
-		$document->setBuffer($contents, 'module', 'submenu');
+		$document->setBuffer($contents, 'modules', 'submenu');
 
 		// Load settings for the FTP layer
 		jimport('joomla.client.helper');
@@ -111,6 +111,7 @@ class ConfigApplicationView
 		<div class="clr"></div>
 
 		<input type="hidden" name="c" value="global" />
+		<input type="hidden" name="live_site" value="<?php echo isset($row->live_site) ? $row->live_site : ''; ?>" />
 		<input type="hidden" name="option" value="com_config" />
 		<input type="hidden" name="secret" value="<?php echo $row->secret; ?>" />
 		<input type="hidden" name="task" value="" />

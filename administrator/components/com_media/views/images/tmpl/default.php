@@ -5,7 +5,7 @@ echo $params->get('image_path', 'images/stories');?>/';
 </script>
 <form action="index.php" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
-		<span id="message"></span><img src="<?php echo JURI::root() ?>/administrator/components/com_media/images/dots.gif" width="22" height="12" alt="..." />XXX
+		<span id="message"></span><img src="<?php echo JURI::root() ?>/administrator/components/com_media/images/dots.gif" width="22" height="12" alt="..." />
 	</div>
 	<fieldset>
 		<div style="float: left">
@@ -50,7 +50,7 @@ echo $params->get('image_path', 'images/stories');?>/';
 	<input type="hidden" id="f_file" name="f_file" />
 	<input type="hidden" id="tmpl" name="component" />
 </form>
-<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&pop_up=1&<?php echo JUtility::getToken(); ?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
+<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;pop_up=1&amp;<?php echo JUtility::getToken();?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
 	<fieldset>
 		<legend><?php echo JText::_('Upload'); ?></legend>
 		<fieldset class="actions">

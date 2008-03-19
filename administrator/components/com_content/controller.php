@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
@@ -432,8 +432,7 @@ class ContentController extends JController
 			} else {
 				$row->catid = NULL;
 			}
-			jimport('joomla.utilities.date');
-			$createdate = new JDate();
+			$createdate =& JFactory::getDate();
 			$row->sectionid = $sectionid;
 			$row->version = 0;
 			$row->state = 1;
@@ -582,9 +581,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
-
-		jimport('joomla.utilities.date');
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();
@@ -611,7 +608,7 @@ class ContentController extends JController
 
 		// Are we saving from an item edit?
 		if ($row->id) {
-			$datenow = new JDate();
+			$datenow =& JFactory::getDate();
 			$row->modified 		= $datenow->toMySQL();
 			$row->modified_by 	= $user->get('id');
 		}
@@ -624,7 +621,7 @@ class ContentController extends JController
 
 		$config =& JFactory::getConfig();
 		$tzoffset = $config->getValue('config.offset');
-		$date = new JDate($row->created, -$tzoffset);
+		$date =& JFactory::getDate($row->created, $tzoffset);
 		$row->created = $date->toMySQL();
 
 		// Append time if not added to publish date
@@ -632,7 +629,7 @@ class ContentController extends JController
 			$row->publish_up .= ' 00:00:00';
 		}
 
-		$date = new JDate($row->publish_up, -$tzoffset);
+		$date =& JFactory::getDate($row->publish_up, $tzoffset);
 		$row->publish_up = $date->toMySQL();
 
 		// Handle never unpublish date
@@ -645,7 +642,7 @@ class ContentController extends JController
 			if (strlen(trim( $row->publish_down )) <= 10) {
 				$row->publish_down .= ' 00:00:00';
 			}
-			$date = new JDate($row->publish_down, -$tzoffset);
+			$date =& JFactory::getDate($row->publish_down, $tzoffset);
 			$row->publish_down = $date->toMySQL();
 		}
 
@@ -786,7 +783,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db		= & JFactory::getDBO();
@@ -865,7 +862,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db		=& JFactory::getDBO();
@@ -923,7 +920,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();
@@ -975,7 +972,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db	= & JFactory::getDBO();
@@ -997,7 +994,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db		= & JFactory::getDBO();
@@ -1023,7 +1020,7 @@ class ContentController extends JController
 	function moveSection()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db			=& JFactory::getDBO();
@@ -1070,7 +1067,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();
@@ -1153,7 +1150,7 @@ class ContentController extends JController
 	function copyItem()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();
@@ -1205,7 +1202,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();
@@ -1314,7 +1311,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db		= & JFactory::getDBO();
@@ -1351,7 +1348,7 @@ class ContentController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Initialize variables
 		$db			= & JFactory::getDBO();

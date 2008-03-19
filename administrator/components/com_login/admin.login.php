@@ -53,7 +53,7 @@ class LoginController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken('request') or jexit( 'Invalid Token' );
 
 		$credentials = array();
 

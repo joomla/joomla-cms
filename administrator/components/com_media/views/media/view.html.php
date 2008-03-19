@@ -13,7 +13,7 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
 
@@ -30,6 +30,8 @@ class MediaViewMedia extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
+		
+		$config =& JComponentHelper::getParams('com_media');
 
 		$style = $mainframe->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
@@ -41,7 +43,7 @@ class MediaViewMedia extends JView
 		";
 
 		$document =& JFactory::getDocument();
-		$document->setBuffer($listStyle, 'module', 'submenu');
+		$document->setBuffer($listStyle, 'modules', 'submenu');
 
 		JHTML::_('behavior.mootools');
 		$document->addScript('components/com_media/assets/mediamanager.js');
@@ -56,11 +58,13 @@ class MediaViewMedia extends JView
 		JHTML::script('mootree.js');
 		JHTML::stylesheet('mootree.css');
 
-		JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
+		if ($config->get('enable_flash', 1)) {
+			JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
+		}
 
 		$base = str_replace("\\","/",JPATH_ROOT);
 		$js = "
-			var basepath = '".$base.'/images'."';
+			var basepath = '".COM_MEDIA_BASE."';
 			var viewstyle = '".$style."';
 		" ;
 		$document->addScriptDeclaration($js);
@@ -73,7 +77,7 @@ class MediaViewMedia extends JView
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
 		$this->assignRef('session', JFactory::getSession());
-		$this->assignRef('config', JComponentHelper::getParams('com_media'));
+		$this->assignRef('config', $config);
 		$this->assignRef('state', $this->get('state'));
 		$this->assign('require_ftp', $ftp);
 		$this->assign('folders_id', ' id="media-tree"');

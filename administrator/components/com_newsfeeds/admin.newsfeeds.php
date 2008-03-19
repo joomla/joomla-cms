@@ -198,9 +198,9 @@ function editNewsFeed($edit)
 	;
 
 	if($edit)
-		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query, 1 );
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
 	else
-		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query, 1 );
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query );
 
 	// build list of categories
 	$lists['category'] 			= JHTML::_('list.category',  'catid', $option, intval( $row->catid ) );
@@ -218,7 +218,7 @@ function saveNewsFeed(  )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db 		=& JFactory::getDBO();
 	$task 		= JRequest::getVar( 'task');
@@ -291,7 +291,7 @@ function changePublishNewsFeeds( $publish )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db 		=& JFactory::getDBO();
 	$user 		=& JFactory::getUser();
@@ -333,7 +333,7 @@ function removeNewsFeeds( )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db 		=& JFactory::getDBO();
 	$cid 		= JRequest::getVar('cid', array(), '', 'array');
@@ -365,7 +365,7 @@ function cancelNewsFeed(  )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db 	=& JFactory::getDBO();
 	$option = JRequest::getCmd('option');
@@ -399,7 +399,7 @@ function orderNewsFeed( $inc )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db		=& JFactory::getDBO();
 	$cid	= JRequest::getVar('cid', array(0), '', 'array');
@@ -425,7 +425,7 @@ function saveOrder(  )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	$db			=& JFactory::getDBO();
 	$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );

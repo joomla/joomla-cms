@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
@@ -76,7 +76,7 @@ class MenusController extends JController
 	function save()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$cache = & JFactory::getCache('com_content');
 		$cache->clean();
@@ -143,7 +143,7 @@ class MenusController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get some variables from the request
 		$menu	 	= JRequest::getString( 'menu', '', 'post');
@@ -187,7 +187,7 @@ class MenusController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get some variables from the request
 		$menu	= JRequest::getVar( 'menu', '', 'post', 'string' );
@@ -218,7 +218,7 @@ class MenusController extends JController
 	function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get some variables from the request
 		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
@@ -240,7 +240,7 @@ class MenusController extends JController
 	function unpublish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get some variables from the request
 		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
@@ -262,7 +262,7 @@ class MenusController extends JController
 	function orderup()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
@@ -290,7 +290,7 @@ class MenusController extends JController
 	function orderdown()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
@@ -318,7 +318,7 @@ class MenusController extends JController
 	function saveorder()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
 		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
@@ -339,7 +339,7 @@ class MenusController extends JController
 	function accesspublic()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get some variables from the request
 		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
@@ -361,7 +361,7 @@ class MenusController extends JController
 	function accessregistered()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get some variables from the request
 		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
@@ -383,7 +383,7 @@ class MenusController extends JController
 	function accessspecial()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get some variables from the request
 		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
@@ -405,7 +405,7 @@ class MenusController extends JController
 	function setdefault()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get some variables from the request
 		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
@@ -431,7 +431,7 @@ class MenusController extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		// Get some variables from the request
 		$menu	= JRequest::getVar( 'menutype', '', 'post', 'string' );
@@ -509,7 +509,7 @@ class MenusController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$db		=& JFactory::getDBO();
 		$id		= JRequest::getVar( 'id', 0, 'post', 'int' );
@@ -637,7 +637,7 @@ class MenusController extends JController
 	function doDeleteMenu()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$id = JRequest::getVar( 'id', 0, '', 'int' );
 		if ($id <= 0) {
@@ -678,7 +678,7 @@ class MenusController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$db				=& JFactory::getDBO();
 		$type			= JRequest::getVar( 'type', '', 'post', 'string' );

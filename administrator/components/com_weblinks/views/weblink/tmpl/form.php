@@ -63,7 +63,7 @@
 		</tr>
 		<tr>
 			<td width="100" align="right" class="key">
-				<label for="alias"">
+				<label for="alias">
 					<?php echo JText::_( 'Alias' ); ?>:
 				</label>
 			</td>

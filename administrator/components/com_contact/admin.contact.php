@@ -215,9 +215,9 @@ function editContact($edit )
 	. ' ORDER BY ordering'
 	;
 	if($edit)
-		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query, 1 );
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
 	else
-		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query, 1 );
+		$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query );
 
 	// build list of users
 	$lists['user_id'] 			= JHTML::_('list.users',  'user_id', $row->user_id, 1, NULL, 'name', 0 );
@@ -248,7 +248,7 @@ function saveContact( $task )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db		=& JFactory::getDBO();
@@ -332,7 +332,7 @@ function removeContacts( &$cid )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
@@ -363,7 +363,7 @@ function changeContact( $cid=null, $state=0 )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db 	=& JFactory::getDBO();
@@ -404,7 +404,7 @@ function orderContacts( $uid, $inc )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
@@ -424,7 +424,7 @@ function cancelContact()
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
@@ -444,7 +444,7 @@ function changeAccess( $id, $access  )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db =& JFactory::getDBO();
@@ -468,7 +468,7 @@ function saveOrder( &$cid )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize variables
 	$db			=& JFactory::getDBO();

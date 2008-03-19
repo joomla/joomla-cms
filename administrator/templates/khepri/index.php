@@ -82,7 +82,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
   		</div>
    		<div class="clr"></div>
 		<?php if (!JRequest::getInt('hidemainmenu')): ?>
-		<jdoc:include type="module" name="submenu" style="rounded" id="submenu-box" />
+		<jdoc:include type="modules" name="submenu" style="rounded" id="submenu-box" />
 		<?php endif; ?>
 		<jdoc:include type="message" />
 		<div id="element-box">

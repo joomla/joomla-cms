@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -38,7 +38,7 @@ class MediaControllerFile extends MediaController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken( 'request' ) or die( 'Invalid Token' );
+		JRequest::checkToken( 'request' ) or jexit( 'Invalid Token' );
 
 		$file 		= JRequest::getVar( 'Filedata', '', 'files', 'array' );
 		$folder		= JRequest::getVar( 'folder', '', '', 'path' );
@@ -63,7 +63,7 @@ class MediaControllerFile extends MediaController
 					$log = &JLog::getInstance('upload.error.php');
 					$log->addEntry(array('comment' => 'Invalid: '.$filepath.': '.$err));
 					header('HTTP/1.0 415 Unsupported Media Type');
-					die('Error. Unsupported Media Type!');
+					jexit('Error. Unsupported Media Type!');
 				} else {
 					JError::raiseNotice(100, JText::_($err));
 					// REDIRECT
@@ -80,7 +80,7 @@ class MediaControllerFile extends MediaController
 					$log = &JLog::getInstance('upload.error.php');
 					$log->addEntry(array('comment' => 'File already exists: '.$filepath));
 					header('HTTP/1.0 409 Conflict');
-					die('Error. File already exists');
+					jexit('Error. File already exists');
 				} else {
 					JError::raiseNotice(100, JText::_('Error. File already exists'));
 					// REDIRECT
@@ -97,7 +97,7 @@ class MediaControllerFile extends MediaController
 					$log = &JLog::getInstance('upload.error.php');
 					$log->addEntry(array('comment' => 'Cannot upload: '.$filepath));
 					header('HTTP/1.0 400 Bad Request');
-					die('Error. Unable to upload file');
+					jexit('Error. Unable to upload file');
 				} else {
 					JError::raiseWarning(100, JText::_('Error. Unable to upload file'));
 					// REDIRECT
@@ -111,7 +111,7 @@ class MediaControllerFile extends MediaController
 					jimport('joomla.error.log');
 					$log = &JLog::getInstance();
 					$log->addEntry(array('comment' => $folder));
-					die('Upload complete');
+					jexit('Upload complete');
 				} else {
 					$mainframe->enqueueMessage(JText::_('Upload complete'));
 					// REDIRECT
@@ -152,7 +152,7 @@ class MediaControllerFile extends MediaController
 		if (count($paths)) {
 			foreach ($paths as $path)
 			{
-				if ($path !== JFilterInput::clean($path, 'path')) {
+				if ($path !== JFile::makeSafe($path)) {
 					JError::raiseWarning(100, JText::_('Unable to delete:').htmlspecialchars($path, ENT_COMPAT, 'UTF-8').' '.JText::_('WARNFILENAME'));
 					continue;
 				}

@@ -30,7 +30,7 @@ class BannersViewBanner
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
-		JToolBarHelper::preferences('com_banners', '150');
+		JToolBarHelper::preferences('com_banners', '200');
 		JToolBarHelper::help( 'screen.banners' );
 	}
 
@@ -356,7 +356,7 @@ class BannersViewBanner
 					</tr>
 					<tr >
 						<td valign="top" align="right" class="key">
-							<?php echo JText::_( 'Clicks' ); ?>
+							<?php echo JText::_( 'Clicks' ); ?>:
 						</td>
 						<td colspan="2">
 							<?php echo $row->clicks;?>

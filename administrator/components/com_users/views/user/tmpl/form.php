@@ -36,7 +36,7 @@
 			submitform( pressbutton );
 			return;
 		}
-		var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", "i");
+		var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&]", "i");
 
 		// do field validation
 		if (trim(form.name.value) == "") {

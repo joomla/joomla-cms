@@ -74,8 +74,8 @@ class TableBanner extends JTable
 	{
 		parent::__construct( '#__banner', 'bid', $_db );
 
-		jimport('joomla.utilities.date');
-		$now = new JDate();
+
+		$now =& JFactory::getDate();
 		$this->set( 'date', $now->toMySQL() );
 	}
 

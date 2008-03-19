@@ -125,7 +125,7 @@ function publishLanguage( $language )
 	global $mainframe;
 
 	// Check for request forgeries
-	JRequest::checkToken() or die( 'Invalid Token' );
+	JRequest::checkToken() or jexit( 'Invalid Token' );
 
 	// Initialize some variables
 	$client	=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));

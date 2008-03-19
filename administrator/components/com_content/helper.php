@@ -24,7 +24,6 @@ class ContentHelper
 {
 	function saveContentPrep( &$row )
 	{
-
 		// Get submitted text from the request variables
 		$text = JRequest::getVar( 'text', '', 'post', 'string', JREQUEST_ALLOWRAW );
 
@@ -41,6 +40,35 @@ class ContentHelper
 		{
 			$row->introtext	= JString::substr($text, 0, $tagPos);
 			$row->fulltext	= JString::substr($text, $tagPos + 27 );
+		}
+
+		// Filter settings
+		jimport( 'joomla.application.component.helper' );
+		$config	= JComponentHelper::getParams( 'com_content' );
+		$user	= &JFactory::getUser();
+		$gid	= $user->get( 'gid' );
+
+		$filterGroups	= (array) $config->get( 'filter_groups' );
+		if (in_array( $gid, $filterGroups ))
+		{
+			$filterType		= $config->get( 'filter_type' );
+			$filterTags		= preg_split( '#[,\s]+#', trim( $config->get( 'filter_tags' ) ) );
+			$filterAttrs	= preg_split( '#[,\s]+#', trim( $config->get( 'filter_attritbutes' ) ) );
+			switch ($filterType)
+			{
+				case 'NH':
+					$filter	= new JFilterInput();
+					break;
+				case 'WL':
+					$filter	= new JFilterInput( $filterTags, $filterAttrs, 0, 0 );
+					break;
+				case 'BL':
+				default:
+					$filter	= new JFilterInput( $filterTags, $filterAttrs, 1, 1 );
+					break;
+			}
+			$row->introtext	= $filter->clean( $row->introtext );
+			$row->fulltext	= $filter->clean( $row->fulltext );
 		}
 
 		return true;

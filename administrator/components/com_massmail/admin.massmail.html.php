@@ -84,6 +84,18 @@ class HTML_massmail
 						<?php echo $lists['gid']; ?>
 					</td>
 				</tr>
+
+				<tr>
+			       <td class="key">
+							<label for="mm_bcc" title="<?php echo JText::_( 'Send as Blind Carbon Copy' ); ?>">
+									<?php echo JText::_( 'Recipients as BCC' ); ?>:
+							</label>
+					</td>
+					<td>
+							<input type="checkbox" name="mm_bcc" id="mm_bcc" value="1" checked="checked" />
+					</td>
+				</tr>
+
 				</table>
 			</fieldset>
 		</div>

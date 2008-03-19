@@ -31,15 +31,14 @@ class ContentView
 	*/
 	function showContent( &$rows, &$lists, $page, $redirect )
 	{
-		jimport('joomla.utilities.date');
-
+	
 		global $mainframe;
 
 		// Initialize variables
 		$db		=& JFactory::getDBO();
 		$user	=& JFactory::getUser();
 		$config	=& JFactory::getConfig();
-		$now	= new JDate();
+		$now	=& JFactory::getDate();
 
 		//Ordering allowed ?
 		$ordering = ($lists['order'] == 'section_name' || $lists['order'] == 'cc.name');
@@ -131,8 +130,8 @@ class ContentView
 				$row->sect_link = JRoute::_( 'index.php?option=com_sections&task=edit&cid[]='. $row->sectionid );
 				$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&task=edit&cid[]='. $row->catid );
 
-				$publish_up = new JDate($row->publish_up);
-				$publish_down = new JDate($row->publish_down);
+				$publish_up =& JFactory::getDate($row->publish_up);
+				$publish_down =& JFactory::getDate($row->publish_down);
 				$publish_up->setOffset($config->getValue('config.offset'));
 				$publish_down->setOffset($config->getValue('config.offset'));
 				if ( $now->toUnix() <= $publish_up->toUnix() && $row->state == 1 ) {

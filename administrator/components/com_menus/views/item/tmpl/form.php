@@ -14,7 +14,7 @@ function submitbutton(pressbutton) {
 		alert( "<?php echo JText::_( 'Item must have a title', true ); ?>" );
 	}
 	<?php if( $this->name == "Article Layout" ){ ?>
-	else if( document.getElementById('a_id').value == 0 ){
+	else if( document.getElementById('id_id').value == 0 ){
 		alert( "<?php echo JText::_('Please select an Article', true ); ?>" );
 	} <?php } ?> else {
 		submitform( pressbutton );

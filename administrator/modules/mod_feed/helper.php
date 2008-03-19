@@ -12,7 +12,7 @@
 */
 
 /** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Direct Access to this location is not allowed.');
+defined('_JEXEC') or die( 'Restricted access' );
 
 class modFeedHelper
 {
@@ -32,22 +32,25 @@ class modFeedHelper
 		//  get RSS parsed object
 		$options = array();
 		$options['rssUrl'] 		= $rssurl;
-		$options['cache_time'] 	= 3600;
+		if ($params->get('cache')) {
+			$options['cache_time']  = $params->get('cache_time', 15) ;
+			$options['cache_time']	*= 60;
+		} else {
+			$options['cache_time'] = null;
+		}
 
 		$rssDoc =& JFactory::getXMLparser('RSS', $options);
 
 		if ($rssDoc != false)
 		{
 			// channel header and link
-			$channel['title'] = $rssDoc->get_feed_title();
-			$channel['link'] = $rssDoc->get_feed_link();
-			$channel['description'] = $rssDoc->get_feed_description();
+			$channel['title'] = $rssDoc->get_title();
+			$channel['link'] = $rssDoc->get_link();
+			$channel['description'] = $rssDoc->get_description();
 
 			// channel image if exists
-			if ($rssDoc->get_image_exist()) {
-				$image['url'] = $rssDoc->get_image_url();
-				$image['title'] = $rssDoc->get_image_title();
-			}
+			$image['url'] = $rssDoc->get_image_url();
+			$image['title'] = $rssDoc->get_image_title();
 
 			//image handling
 			$iUrl 	= isset($image['url']) ? $image['url'] : null;

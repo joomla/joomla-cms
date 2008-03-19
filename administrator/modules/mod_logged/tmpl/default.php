@@ -1,4 +1,7 @@
-<?php /** $Id$ */ defined( '_JEXEC' ) or die(); ?>
+<?php
+/** $Id$ */
+defined( '_JEXEC' ) or die( 'Restricted access' );
+?>
 
 <form method="post" action="index.php?option=com_users">
 	<table class="adminlist">

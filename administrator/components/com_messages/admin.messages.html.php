@@ -110,7 +110,7 @@ class HTML_messages
 						<?php echo $author; ?>
 					</td>
 					<td>
-						<?php echo $row->date_time; ?>
+						<?php echo JHTML::_('date', $row->date_time, JText::_('DATE_FORMAT_LC2')); ?>
 					</td>
 				</tr>
 				<?php $k = 1 - $k;

@@ -29,7 +29,7 @@ class TOOLBAR_newsfeeds
 		JToolBarHelper::deleteList();
 		JToolBarHelper::editListX();
 		JToolBarHelper::addNewX();
-		JToolBarHelper::preferences( 'com_newsfeeds' );
+		JToolBarHelper::preferences( 'com_newsfeeds','400');
 		JToolBarHelper::help( 'screen.newsfeeds' );
 	}
 
