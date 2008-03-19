@@ -216,7 +216,7 @@ class JApplicationHelper
 		 *
 		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
 		 */
-		if ($xml->document->name() != 'install' && $xml->document->name() != 'mosinstall') {
+		if ( !is_object($xml->document) || ($xml->document->name() != 'install' && $xml->document->name() != 'mosinstall')) {
 			unset($xml);
 			return false;
 		}
