@@ -13,7 +13,7 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.plugin.plugin' );
 
@@ -89,6 +89,7 @@ class plgAuthenticationJoomla extends JPlugin
 			if ($crypt == $testcrypt) {
 				$user = JUser::getInstance($result->id); // Bring this in line with the rest of the system
 				$response->email = $user->email;
+				$response->fullname = $user->name;
 				$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 				$response->error_message = '';
 			} else {

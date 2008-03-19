@@ -82,6 +82,7 @@ function plgSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 	$text	= $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
 	$query	= 'SELECT a.name AS title, "" AS created,'
 	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+	. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END AS catslug, '
 	. ' CONCAT_WS( ", ", a.name, a.con_position, a.misc ) AS text,'
 	. ' CONCAT_WS( " / ", '.$db->Quote($section).', b.title ) AS section,'
 	. ' "2" AS browsernav'
@@ -108,7 +109,7 @@ function plgSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 	$rows = $db->loadObjectList();
 
 	foreach($rows as $key => $row) {
-		$rows[$key]->href = 'index.php?option=com_contact&view=contact&id='.$row->slug;
+		$rows[$key]->href = 'index.php?option=com_contact&view=contact&id='.$row->slug.'&catid='.$row->catslug;
 	}
 
 	return $rows;

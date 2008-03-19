@@ -1,9 +1,9 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
+* @version      $Id$
+* @package      Joomla
+* @copyright    Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+* @license      GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
 * is derivative of works licensed under the GNU General Public License or
@@ -14,114 +14,152 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'plgContentEmailCloak' );
+$mainframe->registerEvent('onPrepareContent', 'plgContentEmailCloak');
 
 /**
-* Plugin that Cloaks all emails in content from spambots via javascript
-*/
-function plgContentEmailCloak( &$row, &$params, $page=0 )
+ * Plugin that cloaks all emails in content from spambots via Javascript.
+ *
+ * @param object|string An object with a "text" property or the string to be
+ * cloaked.
+ * @param array Additional parameters. See {@see plgEmailCloak()}.
+ * @param int Optional page number. Unused. Defaults to zero.
+ * @return boolean True on success.
+ */
+function plgContentEmailCloak(&$row, &$params, $page=0)
 {
-	// simple performance check to determine whether bot should process further
-	if ( JString::strpos( $row->text, '@' ) === false ) {
-		return true;
-	}
-
- 	$plugin =& JPluginHelper::getPlugin('content', 'emailcloak');
-
-	// check for presence of {emailcloak=off} which is explicits disables this bot for the item
-	if ( !JString::strpos( $row->text, '{emailcloak=off}' ) === false ) {
-		$row->text = JString::str_ireplace( '{emailcloak=off}', '', $row->text );
-		return true;
-	}
-
-	// load plugin params info
- 	$pluginParams 	= new JParameter( $plugin->params );
- 	$mode			= $pluginParams->def( 'mode', 1 );
-
-	// any@email.address.com
-	$search_email		= "([[:alnum:]_\.\-]+)(\@[[:alnum:]\.\-]+\.+)([[:alnum:]\.\-]+)";
-	// any@email.address.com?subject=anyText
-	$search_email_msg	= "([[:alnum:]_\.\-]+)(\@[[:alnum:]\.\-]+\.+)([[:alnum:]\.\-]+)([[:alnum:][:space:][:punct:]][^\"<>]+)";
-	// anyText
-	$search_text 		= "([[:alnum:][:space:][:punct:]][^<>]+)";
-
-	// search for derivativs of link code <a href="mailto:email@amail.com">email@amail.com</a>
-	$pattern = plgContentEmailCloak_searchPattern( $search_email, $search_email );
-	while( eregi( $pattern, $row->text, $regs ) ) {
-		$mail 		= $regs[2] . $regs[3] . $regs[4];
-		$mail_text 	= $regs[5] . $regs[6] . $regs[7];
-
-		// check to see if mail text is different from mail addy
-		if ( $mail_text ) {
-			$replacement = JHTML::_('email.cloak', $mail, $mode, $mail_text );
-		} else {
-			$replacement = JHTML::_('email.cloak', $mail, $mode );
-		}
-
-		// replace the found address with the js cloacked email
-		$row->text 	= str_replace( $regs[0], $replacement, $row->text );
-	}
-
-	// search for derivativs of link code <a href="mailto:email@amail.com">anytext</a>
-	$pattern = plgContentEmailCloak_searchPattern( $search_email, $search_text );
-	while( eregi( $pattern, $row->text, $regs ) ) {
-		$mail 		= $regs[2] . $regs[3] . $regs[4];
-		$mail_text 	= $regs[5];
-
-		$replacement = JHTML::_('email.cloak', $mail, $mode, $mail_text, 0 );
-
-		// replace the found address with the js cloacked email
-		$row->text 	= str_replace( $regs[0], $replacement, $row->text );
-	}
-
-	// search for derivativs of link code <a href="mailto:email@amail.com?subject=Text">email@amail.com</a>
-	$pattern = plgContentEmailCloak_searchPattern( $search_email_msg, $search_email );
-	while( eregi( $pattern, $row->text, $regs ) ) {
-		$mail		= $regs[2] . $regs[3] . $regs[4] . $regs[5];
-		$mail_text	= $regs[6] . $regs[7]. $regs[8];
-		//needed for handling of Body parameter
-		$mail 		= str_replace( '&amp;', '&', $mail );
-
-		// check to see if mail text is different from mail addy
-		if ( $mail_text ) {
-			$replacement = JHTML::_('email.cloak', $mail, $mode, $mail_text );
-		} else {
-			$replacement = JHTML::_('email.cloak', $mail, $mode );
-		}
-
-
-		// replace the found address with the js cloacked email
-		$row->text	 = str_replace( $regs[0], $replacement, $row->text );
-	}
-
-	// search for derivativs of link code <a href="mailto:email@amail.com?subject=Text">anytext</a>
-	$pattern = plgContentEmailCloak_searchPattern( $search_email_msg, $search_text );
-	while( eregi( $pattern, $row->text, $regs ) ) {
-		$mail		= $regs[2] . $regs[3] . $regs[4] . $regs[5];
-		$mail_text	= $regs[6];
-		//needed for handling of Body parameter
-		$mail 		= str_replace( '&amp;', '&', $mail );
-
-		$replacement = JHTML::_('email.cloak', $mail);
-
-		// replace the found address with the js cloacked email
-		$row->text	 = str_replace( $regs[0], $replacement, $row->text );
-	}
-
-	// search for plain text email@amail.com
-	while( eregi( $search_email, $row->text, $regs ) ) {
-		$mail = $regs[0];
-
-		$replacement = JHTML::_('email.cloak', $mail, $mode );
-
-		// replace the found address with the js cloacked email
-		$row->text = str_replace( $regs[0], $replacement, $row->text );
-	}
+    if (is_object($row)) {
+        return plgEmailCloak($row->text, $params);
+    }
+    return plgEmailCloak($row, $params);
 }
 
-function plgContentEmailCloak_searchPattern ( $link, $text ) {
-	// <a href="mailto:anyLink">anyText</a>
-	$pattern = "(<a [[:alnum:] _\"\'=\@\.\-]*href=[\"\']mailto:". $link	."[\"\'][[:alnum:] _\"\'=\@\.\-]*)>". $text ."</a>";
+/**
+ * Genarate a search pattern based on link and text.
+ *
+ * @param string The target of an e-mail link.
+ * @param string The text enclosed by the link.
+ * @return string A regular expression that matches a link containing the
+ * parameters.
+ */
+function plgContentEmailCloak_searchPattern ($link, $text) {
+    // <a href="mailto:anyLink">anyText</a>
+    $pattern = '~(?:<a [\w "\'=\@\.\-]*href\s*=\s*"mailto:'
+        . $link . '"[\w "\'=\@\.\-]*)>' . $text . '</a>~i';
 
-	return $pattern;
+    return $pattern;
+}
+
+/**
+ * Cloak all emails in text from spambots via Javascript.
+ *
+ * @param string The string to be cloaked.
+ * @param array Additional parameters. Parameter "mode" (integer, default 1)
+ * replaces addresses with "mailto:" links if nonzero.
+ * @return boolean True on success.
+ */
+function plgEmailCloak(&$text, &$params)
+{
+    // Simple performance check to determine whether bot should process further.
+    if (JString::strpos($text, '@') === false) {
+        return true;
+    }
+
+    $plugin = & JPluginHelper::getPlugin('content', 'emailcloak');
+
+    /*
+     * Check for presence of {emailcloak=off} which is explicits disables this
+     * bot for the item.
+     */
+    if (! JString::strpos($text, '{emailcloak=off}') === false) {
+        $text = JString::str_ireplace('{emailcloak=off}', '', $text);
+        return true;
+    }
+
+    // Load plugin params info
+    $pluginParams = new JParameter($plugin->params);
+    $mode = $pluginParams->def('mode', 1);
+
+    // any@email.address.com
+    $searchEmail = '([\w\.\-]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-z0-9\-]{2,4}))';
+    // any@email.address.com?subject=anyText
+    $searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';
+    // anyText
+    $searchText = '([\x20-\x7f][^<>]+)';
+
+    /*
+     * Search for derivatives of link code <a href="mailto:email@amail.com"
+     * >email@amail.com</a>
+     */
+    $pattern = plgContentEmailCloak_searchPattern($searchEmail, $searchEmail);
+    while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
+        $mail = $regs[1][0];
+        $mailText = $regs[2][0];
+
+        // Check to see if mail text is different from mail addy
+        $replacement = JHTML::_('email.cloak', $mail, $mode, $mailText);
+
+        // Replace the found address with the js cloaked email
+        $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+    }
+
+    /*
+     * Search for derivatives of link code <a href="mailto:email@amail.com">
+     * anytext</a>
+     */
+    $pattern = plgContentEmailCloak_searchPattern($searchEmail, $searchText);
+    while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
+        $mail = $regs[1][0];
+        $mailText = $regs[2][0];
+
+        $replacement = JHTML::_('email.cloak', $mail, $mode, $mailText, 0);
+
+        // Replace the found address with the js cloaked email
+        $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+    }
+
+    /*
+     * Search for derivatives of link code <a href="mailto:email@amail.com?
+     * subject=Text">email@amail.com</a>
+     */
+    $pattern = plgContentEmailCloak_searchPattern($searchEmailLink, $searchEmail);
+    while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
+        $mail = $regs[1][0] . $regs[2][0];
+        $mailText = $regs[3][0];
+        // Needed for handling of Body parameter
+        $mail = str_replace( '&amp;', '&', $mail );
+
+        // Check to see if mail text is different from mail addy
+        $replacement = JHTML::_('email.cloak', $mail, $mode, $mailText);
+
+        // Replace the found address with the js cloaked email
+        $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+    }
+
+    /*
+     * Search for derivatives of link code <a href="mailto:email@amail.com?
+     * subject=Text">anytext</a>
+     */
+    $pattern = plgContentEmailCloak_searchPattern($searchEmailLink, $searchText);
+    while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
+        $mail = $regs[1][0] . $regs[2][0];
+        $mailText = $regs[3][0];
+        // Needed for handling of Body parameter
+        $mail = str_replace('&amp;', '&', $mail);
+
+        $replacement = JHTML::_('email.cloak', $mail, $mode, $mailText, 0);
+
+        // Replace the found address with the js cloaked email
+        $text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+    }
+
+    // Search for plain text email@amail.com
+    $pattern = '~' . $searchEmail . '([^a-z0-9]|$)~i';
+    while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
+        $mail = $regs[1][0];
+        $replacement = JHTML::_('email.cloak', $mail, $mode);
+
+        // Replace the found address with the js cloaked email
+        $text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
+    }
+    return true;
 }

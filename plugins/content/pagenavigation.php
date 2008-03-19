@@ -25,13 +25,13 @@ function plgContentNavigation( &$row, &$params, $page=0 )
 
 	if ($params->get('show_item_navigation') && ($view == 'article'))
 	{
-		jimport('joomla.utilities.date');
+
 		$html 		= '';
 		$db 		= & JFactory::getDBO();
 		$user		= & JFactory::getUser();
 		$nullDate	= $db->getNullDate();
 
-		$date		= new JDate();
+		$date		=& JFactory::getDate();
 		$config 	= & JFactory::getConfig();
 		$now 		= $date->toMySQL();
 

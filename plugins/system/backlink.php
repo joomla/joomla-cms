@@ -102,7 +102,7 @@ class plgSystemBacklink extends JPlugin
 
 		$query	= 'SELECT * FROM #__migration_backlinks WHERE ';
 		$where	= Array ();
-		$search	= $db->Quote( $db->getEscaped( $searchstring, true ).'%', false );
+		$search	= $this->_db->Quote( $this->_db->getEscaped( $searchstring, true ).'%', false );
 
 		if ($url) {
 			$where[] = 'url LIKE ' . $search;
@@ -156,8 +156,8 @@ class plgSystemBacklink extends JPlugin
 
 		$name = $name ? $name : "Unknown";
 
-		header('Location: ' . str_replace('&amp;','&',$url)); // redirect and kill of and &amp;
-		die(JText :: sprintf('"%s" has moved to <a href="%s">%s</a>. Click the link if your browser does not redirect you automatically.', $name, $url, $url));
+		header('Location: ' . str_replace('&amp;','&',$url), true, '301'); // redirect and kill of and &amp;
+		jexit(JText :: sprintf('"%s" has moved to <a href="%s">%s</a>. Click the link if your browser does not redirect you automatically.', $name, $url, $url));
 	}
 
 	function _legacysef()

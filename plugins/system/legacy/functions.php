@@ -808,7 +808,7 @@ function josSpoofCheck( $header=false, $alternate=false )
 	if (!$check)
 	{
 		header( 'HTTP/1.0 403 Forbidden' );
-		die( JText::_('E_SESSION_TIMEOUT') );
+		jexit( JText::_('E_SESSION_TIMEOUT') );
 	}
 }
 
@@ -873,7 +873,7 @@ function sefRelToAbs($value)
 {
 	// Replace all &amp; with & as the router doesn't understand &amp;
 	$url = str_replace('&amp;', '&', $value);
-
+	if(substr(strtolower($url),0,9) != "index.php") return $url;
 	$uri    = JURI::getInstance();
 	$prefix = $uri->toString(array('scheme', 'host', 'port'));
 	return $prefix.JRoute::_($url);

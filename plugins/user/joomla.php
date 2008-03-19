@@ -13,7 +13,7 @@
 */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die();
+defined('_JEXEC') or die( 'Restricted access' );
 
 jimport('joomla.plugin.plugin');
 
@@ -78,6 +78,11 @@ class plgUserJoomla extends JPlugin
 		jimport('joomla.user.helper');
 
 		$instance =& $this->_getUser($user, $options);
+
+		// if _getUser returned an error, then pass it back.
+		if (JError::isError( $instance )) {
+			return $instance;
+		}
 
 		// If the user is blocked, redirect with an error
 		if ($instance->get('block') == 1) {
@@ -151,11 +156,11 @@ class plgUserJoomla extends JPlugin
 	 */
 	function onLogoutUser($user, $options = array())
 	{
-		// Remove the session from the session table
-		$table = & JTable::getInstance('session');
-		$table->destroy($user['id'], $options['clientid']);
+		//Make sure we're a valid user first
+		if($user['id'] == 0) return true;
 
 		$my =& JFactory::getUser();
+		//Check to see if we're deleting the current session
 		if($my->get('id') == $user['id'])
 		{
 			// Hit the user last visit field
@@ -164,8 +169,11 @@ class plgUserJoomla extends JPlugin
 			// Destroy the php session for this user
 			$session =& JFactory::getSession();
 			$session->destroy();
+		} else {
+			// Force logout all users with that userid
+			$table = & JTable::getInstance('session');
+			$table->destroy($user['id'], $options['clientid']);
 		}
-
 		return true;
 	}
 

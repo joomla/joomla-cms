@@ -71,7 +71,7 @@ class  plgSystemLegacy extends JPlugin
 		JLoader::register('mosModule'       , dirname(__FILE__).DS.'legacy'.DS.'module.php');
 		//JLoader::register('mosPageNav'    , dirname(__FILE__).DS.'legacy'.DS.'pagination.php');
 		JLoader::register('mosParameters'   , dirname(__FILE__).DS.'legacy'.DS.'parameters.php');
-		JLoader::register('patFactory'      , dirname(__FILE__).DS.'legacy'.DS.'patfacory.php');
+		JLoader::register('patFactory'      , dirname(__FILE__).DS.'legacy'.DS.'patfactory.php');
 		JLoader::register('mosProfiler'     , dirname(__FILE__).DS.'legacy'.DS.'profiler.php');
 		JLoader::register('mosSection'      , dirname(__FILE__).DS.'legacy'.DS.'section.php');
 		JLoader::register('mosSession'      , dirname(__FILE__).DS.'legacy'.DS.'session.php');

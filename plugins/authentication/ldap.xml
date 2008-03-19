@@ -23,7 +23,7 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="no_referrals" type="radio" default="0" label="Don`t follow referrals" description="PARAMNOFOLLOW">
+		<param name="no_referrals" type="radio" default="0" label="Follow referrals" description="PARAMFOLLOW">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>

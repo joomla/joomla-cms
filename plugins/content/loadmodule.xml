@@ -18,11 +18,11 @@
 			<option value="1">Yes</option>
 		</param>
 		<param name="style" type="list" default="0" label="Style" description="Code that will wrap modules">
-			<option value="0">Wrapped by Table - Column</option>
-			<option value="1">Wrapped by Table - Horizontal</option>
-			<option value="-2">Wrapped by Divs</option>
-			<option value="-3">Wrapped by Multiple Divs</option>
-			<option value="-1">No wrapping - raw output</option>
+			<option value="table">Wrapped by Table - Column</option>
+			<option value="horz">Wrapped by Table - Horizontal</option>
+			<option value="xhtml">Wrapped by Divs</option>
+			<option value="rounded">Wrapped by Multiple Divs</option>
+			<option value="none">No wrapping - raw output</option>
 		</param>
 	</params>
 </install>

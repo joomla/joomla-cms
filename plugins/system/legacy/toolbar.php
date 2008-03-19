@@ -53,10 +53,13 @@ class mosToolBar {
 		$image 	= JHTML::_('image.site',  $icon, '/images/', NULL, NULL, $alt );
 
 		if ($listSelect) {
-			$onclick = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( $alt, true ). "');}else{submitbutton('$task')}";
+			$message = JText::sprintf( 'Please make a selection from the list to', JText::_( $alt ) );
+			$message = addslashes($message);
+			$onclick = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('".  $message . "');}else{submitbutton('$task')}";
 		} else {
 			$onclick = "javascript:submitbutton('$task')";
 		}
+		
 		?>
 		<td>
 			<a class="toolbar" onclick="<?php echo $onclick ;?>">

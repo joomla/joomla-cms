@@ -65,7 +65,13 @@ class plgSystemRemember extends JPlugin
 
 				$crypt	= new JSimpleCrypt($key);
 				$str	= $crypt->decrypt($str);
-				$mainframe->login(unserialize($str));
+				
+				$options = array();
+				$options['silent'] = true;
+				if (!$mainframe->login(@unserialize($str), $options)) {
+					// Clear the remember me cookie
+					setcookie( JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, '/' );
+				}
 			}
 		}
 	}

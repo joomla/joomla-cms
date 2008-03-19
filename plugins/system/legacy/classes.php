@@ -28,7 +28,7 @@ class mosAbstractTasker
 {
 	function mosAbstractTasker()
 	{
-		die( 'mosAbstractTasker deprecated, use JController instead' );
+		jexit( 'mosAbstractTasker deprecated, use JController instead' );
 	}
 }
 

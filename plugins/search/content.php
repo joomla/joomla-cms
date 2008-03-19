@@ -64,8 +64,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 	$limit 			= $pluginParams->def( 'search_limit', 		50 );
 
 	$nullDate 		= $db->getNullDate();
-	jimport('joomla.utilities.date');
-	$date = new JDate();
+	$date =& JFactory::getDate();
 	$now = $date->toMySQL();
 
 	$text = trim( $text );
