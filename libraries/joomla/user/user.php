@@ -16,7 +16,7 @@
 defined('JPATH_BASE') or die();
 
 jimport( 'joomla.html.parameter');
-jimport( 'joomla.utilities.date');
+
 
 /**
  * User class.  Handles all application interaction with a user
@@ -400,8 +400,8 @@ class JUser extends JObject
 			$array['password'] = $crypt.':'.$salt;
 
 			// Set the registration timestamp
-			jimport('joomla.utilities.date');
-			$now = new JDate();
+			
+			$now =& JFactory::getDate();
 			$this->set( 'registerDate', $now->toMySQL() );
 
 			// Check that username is not greater than 25 characters
@@ -510,7 +510,7 @@ class JUser extends JObject
 		}
 
 		// If user is made an Admin group and user is NOT a Super Admin
-		if ($this->get('gid') == 24 && $my->gid != 25)
+		if ($this->get('gid') == 24 && !($my->get('gid') == 25 || ($this->get('id') == $my->id && $my->get('gid') == 24)))
 		{
 			// disallow creation of Admin by non Super Admin users
 			$this->setError(JText::_( 'WARNSUPERADMINCREATE' ));

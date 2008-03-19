@@ -83,6 +83,11 @@ class JCache extends JObject
 		} else {
 			$this->_options['storage'] = 'file';
 		}
+
+		//Fix to detect if template positions are enabled...
+		if(JRequest::getCMD('tpl',0)) {
+			$this->_options['caching'] = false;
+		}
 	}
 
 	/**

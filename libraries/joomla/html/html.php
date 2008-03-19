@@ -211,14 +211,14 @@ class JHTML
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
 
-		jimport('joomla.utilities.date');
+
 
 		if(is_null($offset))
 		{
 			$config =& JFactory::getConfig();
 			$offset = $config->getValue('config.offset');
 		}
-		$instance = new JDate($date);
+		$instance =& JFactory::getDate($date);
 		$instance->setOffset($offset);
 
 		return $instance->toFormat($format);

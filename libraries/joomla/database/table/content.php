@@ -126,6 +126,11 @@ class JTableContent extends JTable
 		}
 		$this->alias = JFilterOutput::stringURLSafe($this->alias);
 
+		if(trim(str_replace('-','',$this->alias)) == '') {
+			$datenow =& JFactory::getDate();
+			$this->alias = $datenow->toFormat("%Y-%m-%d-%H-%M-%S");
+		}
+
 		if (trim( str_replace( '&nbsp;', '', $this->fulltext ) ) == '') {
 			$this->fulltext = '';
 		}

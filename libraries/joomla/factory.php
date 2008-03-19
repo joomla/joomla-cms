@@ -324,13 +324,16 @@ class JFactory
 				{
 					jimport ('simplepie.simplepie');
 					$simplepie = new SimplePie($options['rssUrl']);
-					$simplepie->set_cache_location(JPATH_BASE.DS.'cache');
-					$simplepie->init();
+					$simplepie = new SimplePie(
+						$options['rssUrl'],
+						JPATH_BASE.DS.'cache',
+						isset( $options['cache_time'] ) ? $options['cache_time'] : 0
+					);
 					$simplepie->handle_content_type();
 					if ($simplepie->data) {
 						$doc = $simplepie;
 					} else {
-					// Raise Error
+						JError::raiseWarning( 'SOME_ERROR_CODE', JText::_('ERROR LOADING FEED DATA') );
 					}
 				}
 			}	break;
@@ -397,6 +400,60 @@ class JFactory
 		$instance =& JURI::getInstance($uri);
 		return $instance;
 	}
+
+	/**
+	 * Return a reference to the {@link JDate} object
+	 *
+	 * @access public
+	 * @param mixed $time The initial time for the JDate object
+	 * @param int $tzOffset The timezone offset.
+	 * @return object JDate
+	 * @since 1.5
+	 */
+	function &getDate($time = 'now', $tzOffset = 0)
+	{
+		jimport('joomla.utilities.date');
+		static $instances;
+		static $classname;
+		static $mainLocale;
+
+		if(!isset($instances)) {
+			$instances = array();
+		}
+
+		$language =& JFactory::getLanguage();
+		$locale = $language->getTag();
+
+		if(!isset($classname) || $locale != $mainLocale) {
+			//Store the locale for future reference
+			$mainLocale = $locale;
+			$localePath = JPATH_ROOT . DS . 'language' . DS . $mainLocale . DS . $mainLocale . '.date.php';
+			if($mainLocale !== false && file_exists($localePath)) {
+				$classname = 'JDate'.str_replace('-', '_', $mainLocale);
+				JLoader::register( $classname,  $localePath);
+				if(!class_exists($classname)) {
+					//Something went wrong.  The file exists, but the class does not, default to JDate
+					$classname = 'JDate';
+				}
+			} else {
+				//No file, so default to JDate
+				$classname = 'JDate';
+			}
+		}
+		$key = $time . '-' . $tzOffset;
+
+		if(!isset($instances[$classname][$key])) {
+			$tmp = new $classname($time, $tzOffset);
+			//We need to serialize to break the reference
+			$instances[$classname][$key] = serialize($tmp);
+			unset($tmp);
+		}
+
+		$date = unserialize($instances[$classname][$key]);
+		return $date;
+	}
+
+
 
 	/**
 	 * Create a configuration object
@@ -503,7 +560,7 @@ class JFactory
 		$db =& JDatabase::getInstance( $options );
 
 		if ( JError::isError($db) ) {
-			die("Database Error: ".$db->toString() );
+			jexit('Database Error: ' . $db->toString() );
 		}
 
 		if ($db->getErrorNum() > 0) {

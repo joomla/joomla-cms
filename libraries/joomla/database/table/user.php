@@ -125,7 +125,7 @@ class JTableUser extends JTable
 		//initialise
 		$this->id        = 0;
 		$this->gid       = 0;
-		$this->sendEmail = 1;
+		$this->sendEmail = 0;
 	}
 
 	/**
@@ -149,7 +149,7 @@ class JTableUser extends JTable
 		}
 
 
-		if (eregi( "[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", $this->username) || strlen(utf8_decode($this->username )) < 2) {
+		if (eregi( "[\<|\>|\"|\'|\%|\;|\(|\)|\&]", $this->username) || strlen(utf8_decode($this->username )) < 2) {
 			$this->setError( JText::sprintf( 'VALID_AZ09', JText::_( 'Username' ), 2 ) );
 			return false;
 		}
@@ -158,6 +158,13 @@ class JTableUser extends JTable
 			$this->setError( JText::_( 'WARNREG_MAIL' ) );
 			return false;
 		}
+
+		if ($this->registerDate == null) {
+			// Set the registration timestamp
+			$now =& JFactory::getDate();
+			$this->registerDate = $now->toMySQL();
+		}
+
 
 		// check for existing username
 		$query = 'SELECT id'
@@ -291,12 +298,12 @@ class JTableUser extends JTable
 				$id = $this->id;
 			} else {
 				// do not translate
-				die( 'WARNMOSUSER' );
+				jexit( 'WARNMOSUSER' );
 			}
 		}
 
 		// if no timestamp value is passed to functon, than current time is used
-		$date = new JDate($timeStamp);
+		$date =& JFactory::getDate($timeStamp);
 
 		// updates user lastvistdate field with date and time
 		$query = 'UPDATE '. $this->_tbl

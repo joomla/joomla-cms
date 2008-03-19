@@ -175,4 +175,39 @@ class JTableSession extends JTable
 
 		return (boolean) $result;
 	}
+
+	/**
+	 * Overloaded delete method
+	 *
+	 * We must override it because of the non-integer primary key
+	 *
+	 * @access public
+	 * @return true if successful otherwise returns and error message
+	 */
+	function delete( $oid=null )
+	{
+		//if (!$this->canDelete( $msg ))
+		//{
+		//	return $msg;
+		//}
+
+		$k = $this->_tbl_key;
+		if ($oid) {
+			$this->$k = $oid;
+		}
+
+		$query = 'DELETE FROM '.$this->_db->nameQuote( $this->_tbl ).
+				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
+		$this->_db->setQuery( $query );
+
+		if ($this->_db->query())
+		{
+			return true;
+		}
+		else
+		{
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+	}
 }

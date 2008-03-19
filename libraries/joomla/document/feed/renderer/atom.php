@@ -15,7 +15,7 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.utilities.date' );
+
 
 /**
  * JDocumentRenderer_Atom is a feed that implements the atom specification
@@ -50,7 +50,7 @@ jimport( 'joomla.utilities.date' );
 	 */
 	function render()
 	{
-		$now	= new JDate();
+		$now	=& JFactory::getDate();
 		$data	=& $this->_doc;
 
 		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" xml:base=\"".$data->getBase()."\"";
@@ -80,9 +80,9 @@ jimport( 'joomla.utilities.date' );
 			$feed.= '		<link rel="alternate" type="text/html" href="'.$data->items[$i]->link."\"/>\n";
 
 			if ($data->items[$i]->date=="") {
-				$data->items[$i]->date = time();
+				$data->items[$i]->date = $now->toUnix();
 			}
-			$itemDate = new JDate($data->items[$i]->date);
+			$itemDate =& JFactory::getDate($data->items[$i]->date);
 			$feed.= "		<published>".htmlspecialchars($itemDate->toISO8601(), ENT_COMPAT, 'UTF-8')."</published>\n";
 			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601(),ENT_COMPAT, 'UTF-8')."</updated>\n";
 			$feed.= "		<id>".htmlspecialchars($data->items[$i]->link, ENT_COMPAT, 'UTF-8')."</id>\n";

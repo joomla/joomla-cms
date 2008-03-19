@@ -71,15 +71,19 @@ class JButtonConfirm extends JButton
 	 */
 	function _getCommand($msg, $name, $task, $list, $hide)
 	{
+		$todo	 = JString::strtolower(JText::_( $name ));
+		$message = JText::sprintf( 'Please make a selection from the list to', $todo );
+		$message = addslashes($message);
+			
 		if ($hide) {
 			if ($list) {
-				$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( $name, true ) ."');}else{hideMainMenu();if(confirm('$msg')){submitbutton('$task');}}";
+				$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('$message');}else{hideMainMenu();if(confirm('$msg')){submitbutton('$task');}}";
 			} else {
 				$cmd = "javascript:hideMainMenu();if(confirm('$msg')){submitbutton('$task');}";
 			}
 		} else {
 			if ($list) {
-				$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( $name, true ) ."');}else{if(confirm('$msg')){submitbutton('$task');}}";
+				$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('$message');}else{if(confirm('$msg')){submitbutton('$task');}}";
 			} else {
 				$cmd = "javascript:if(confirm('$msg')){submitbutton('$task');}";
 			}

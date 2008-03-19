@@ -66,7 +66,7 @@ class JSessionStorage extends JObject
 					require_once($path);
 				} else {
 					// No call to JError::raiseError here, as it tries to close the non-existing session
-					die('Unable to load session storage class: '.$name);
+					jexit('Unable to load session storage class: '.$name);
 				}
 			}
 

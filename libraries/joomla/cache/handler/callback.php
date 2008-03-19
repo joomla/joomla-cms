@@ -124,6 +124,11 @@ class JCacheCallback extends JCache
 	 */
 	function _makeId($callback, $args)
 	{
+		if(is_array($callback) && is_object($callback[0])) {
+			$vars = get_object_vars($callback[0]);
+			$vars[] = strtolower(get_class($callback[0]));
+			$callback[0] = $vars;
+		}
 		return md5(serialize(array($callback, $args)));
 	}
 }

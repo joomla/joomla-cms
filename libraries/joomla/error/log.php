@@ -118,13 +118,14 @@ class JLog extends JObject
 	function addEntry($entry)
 	{
 		// Set some default field values if not already set.
+		$date =& JFactory::getDate();
 		if (!isset ($entry['date'])) {
-			// TODO: Should this be JDate?
-			$entry['date'] = date("Y-m-d");
+
+			$entry['date'] = $date->toFormat("%Y-%m-%d");
 		}
 		if (!isset ($entry['time'])) {
-			// TODO: Should this be JDate?
-			$entry['time'] = date("H:i:s");
+
+			$entry['time'] = $date->toFormat("%H:%M:%S");
 		}
 		if (!isset ($entry['c-ip'])) {
 			$entry['c-ip'] = $_SERVER['REMOTE_ADDR'];
@@ -170,9 +171,10 @@ class JLog extends JObject
 		if (is_resource($this->_file)) {
 			return true;
 		}
-		// TODO: Should this be JDate?
-		$date = date("Y-m-d");
-		$time = date("H:i:s");
+
+		$now =& JFactory::getDate();
+		$date = $now->toMySQL();
+
 		if (!file_exists($this->_path))
 		{
 			jimport("joomla.filesystem.folder");
@@ -181,7 +183,7 @@ class JLog extends JObject
 			}
 			$header[] = "#<?php die('Direct Access To Log Files Not Permitted'); ?>";
 			$header[] = "#Version: 1.0";
-			$header[] = "#Date: " . $date . " " . $time;
+			$header[] = "#Date: " . $date;
 
 			// Prepare the fields string
 			$fields = str_replace("{", "", $this->_format);

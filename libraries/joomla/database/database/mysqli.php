@@ -282,7 +282,7 @@ class JDatabaseMySQLi extends JDatabase
 				$this->_sql = 'BEGIN;' . $this->_sql . '; COMMIT;';
 			}
 		}
-		$query_split = preg_split ("/[;]+/", $this->_sql);
+		$query_split = $this->splitSql($this->_sql);
 		$error = 0;
 		foreach ($query_split as $command_line) {
 			$command_line = trim( $command_line );

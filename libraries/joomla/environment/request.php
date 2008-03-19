@@ -433,8 +433,21 @@ class JRequest
 	 */
 	function checkToken( $method = 'post' )
 	{
-		$token = JUtility::getToken();
-		return JRequest::getInt( $token, 0, $method );
+		$token	= JUtility::getToken();
+		if(!JRequest::getVar( $token, '', $method, 'alnum' )) {
+			$session = JFactory::getSession();
+			if($session->isNew()) {
+				//Redirect to login screen
+				global $mainframe;
+				$return = JRoute::_('index.php');
+;				$mainframe->redirect($return, JText::_('SESSION_EXPIRED'));
+				$mainframe->close();
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
 	}
 
 	/**
@@ -511,7 +524,7 @@ class JRequest
 			// PHP Zend_Hash_Del_Key_Or_Index bug
 			$failed |= is_numeric( $key );
 			if ($failed) {
-				die( 'Illegal variable <b>' . implode( '</b> or <b>', $banned ) . '</b> passed to script.' );
+				jexit( 'Illegal variable <b>' . implode( '</b> or <b>', $banned ) . '</b> passed to script.' );
 			}
 			if ($globalise) {
 				$GLOBALS[$key] = $value;

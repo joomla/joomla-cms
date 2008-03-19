@@ -53,7 +53,12 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$this->_setExpire($cache_id);
-		return eaccelerator_get($cache_id);
+		$cache_content = eaccelerator_get($cache_id);
+		if($cache_content === null) 
+		{
+			return false;
+		}
+		return $cache_content;
 	}
 
 	/**

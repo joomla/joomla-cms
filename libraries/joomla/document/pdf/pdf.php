@@ -85,12 +85,11 @@ class JDocumentPDF extends JDocument
 
 		//set document type
 		$this->_type = 'pdf';
-
 		/*
 		 * Setup external configuration options
 		 */
 		define('K_TCPDF_EXTERNAL_CONFIG', true);
-
+		
 		/*
 		 * Path options
 		 */
@@ -102,7 +101,7 @@ class JDocumentPDF extends JDocument
 		define("K_PATH_URL", JPATH_BASE);
 
 		// Fonts path
-		define("FPDF_FONTPATH", JPATH_SITE.DS.'language'.DS."pdf_fonts".DS);
+		define("K_PATH_FONTS", JPATH_SITE.DS.'language'.DS."pdf_fonts".DS);
 
 		// Cache directory path
 		define("K_PATH_CACHE", K_PATH_MAIN.DS."cache");
@@ -218,6 +217,8 @@ class JDocumentPDF extends JDocument
 		$lang = &JFactory::getLanguage();
 		$font = $lang->getPdfFontName();
 		$font = ($font) ? $font : 'freesans';
+
+		$pdf->rtl = $lang->isRTL();
 
 		$pdf->setHeaderFont(array($font, '', 10));
 		$pdf->setFooterFont(array($font, '', 8));

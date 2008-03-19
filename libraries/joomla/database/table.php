@@ -593,8 +593,8 @@ class JTable extends JObject
 		if ($oid !== null) {
 			$this->$k = $oid;
 		}
-		jimport('joomla.utilities.date');
-		$date = new JDate();
+
+		$date =& JFactory::getDate();
 		$time = $date->toMysql();
 
 		$query = 'UPDATE '.$this->_db->nameQuote( $this->_tbl ) .
@@ -688,7 +688,7 @@ class JTable extends JObject
 	 */
 	function isCheckedOut( $with = 0, $against = null)
 	{
-		if(isset($this) && is_null($against)) {
+		if(isset($this) && is_a($this, 'JTable') && is_null($against)) {
 			$against = $this->get( 'checked_out' );
 		}
 

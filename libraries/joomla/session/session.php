@@ -466,6 +466,9 @@ class JSession extends JObject
 		$this->_store->register();
 
 		$this->_state	=   'restart';
+		//regenerate session id
+		$id	=	$this->_createId( strlen( $this->getId() ) );
+		session_id($id);
 		$this->_start();
 		$this->_state	=	'active';
 
@@ -679,7 +682,7 @@ class JSession extends JObject
 		if( $this->_expire )
 		{
 			$curTime =	$this->get( 'session.timer.now' , 0  );
-			$maxTime =	$this->get( 'session.timer.last', 0 ) + (60 * $this->_expire);
+			$maxTime =	$this->get( 'session.timer.last', 0 ) +  $this->_expire;
 
 			// empty session variables
 			if( $maxTime < $curTime ) {

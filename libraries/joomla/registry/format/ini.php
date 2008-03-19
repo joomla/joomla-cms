@@ -169,7 +169,7 @@ class JRegistryFormatINI extends JRegistryFormat
 					// $value = trim(substr($line, $pos +1));
 					$value = substr($line, $pos +1);
 
-					if (strpos($value, '|'))
+					if (strpos($value, '|') !== false && preg_match('#(?<!\\\)\|#', $value))
 					{
 						$lines = explode('\n', $value);
 						$values = array();

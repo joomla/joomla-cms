@@ -140,6 +140,11 @@ class JCacheStorageFile extends JCacheStorage
 
 		$return = true;
 		$folder	= $group;
+
+		if(trim($folder) == '') {
+			$mode = 'notgroup';
+		}
+
 		switch ($mode)
 		{
 			case 'notgroup':

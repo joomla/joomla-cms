@@ -147,12 +147,12 @@ class JPath
 	{
 		if (strpos($path, '..') !== false) {
 			JError::raiseError( 20, 'JPath::check Use of relative paths not permitted'); // don't translate
-			die();
+			jexit();
 		}
 		$path = JPath::clean($path);
 		if (strpos($path, JPath::clean(JPATH_ROOT)) !== 0) {
 			JError::raiseError( 20, 'JPath::check Snooping out of bounds @ '.$path); // don't translate
-			die();
+			jexit();
 		}
 	}
 
@@ -232,7 +232,7 @@ class JPath
 	function find($paths, $file)
 	{
 		settype($paths, 'array'); //force to array
-		
+
 		// start looping through the path set
 		foreach ($paths as $path)
 		{

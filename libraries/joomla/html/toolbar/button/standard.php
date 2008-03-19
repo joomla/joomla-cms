@@ -73,12 +73,13 @@ class JButtonStandard extends JButton
 	 */
 	function _getCommand($name, $task, $list, $hide)
 	{
-		$mesg		= JText::_( 'Please make a selection from the list to', true );
-		$todo		= strtolower(JText::_( $name, true ));
+		$todo		= JString::strtolower(JText::_( $name ));
+		$message	= JText::sprintf( 'Please make a selection from the list to', $todo );
+		$message	= addslashes($message);
 		$hidecode	= $hide ? 'hideMainMenu();' : '';
 
 		if ($list) {
-			$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('$mesg $todo');}else{ $hidecode submitbutton('$task')}";
+			$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('$message');}else{ $hidecode submitbutton('$task')}";
 		} else {
 			$cmd = "javascript:$hidecode submitbutton('$task')";
 		}

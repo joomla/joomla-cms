@@ -195,7 +195,7 @@ class JURI extends JObject
 	 *
 	 * @access	public
 	 * @static
-	 * @param	boolean $pathonly If true, prepend the scheme, host and port information. Default is false.
+	 * @param	boolean $pathonly If false, prepend the scheme, host and port information. Default is false.
 	 * @return	string	The base URI string
 	 * @since	1.5
 	 */
@@ -206,15 +206,26 @@ class JURI extends JObject
 		// Get the base request path
 		if (!isset($base))
 		{
-			$uri	         =& JURI::getInstance();
-			$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
-
-			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
-				//Apache CGI
-				$base['path'] =  rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+			$config =& JFactory::getConfig();
+			$live_site = $config->getValue('config.live_site');
+			if(trim($live_site) != '') {
+				$uri =& JURI::getInstance($live_site);
+				$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
+				$base['path'] = rtrim($uri->toString( array('path')), '/\\');
+				if(JPATH_BASE == JPATH_ADMINISTRATOR) {
+					$base['path'] .= '/administrator';
+				}
 			} else {
-				//Others
-				$base['path'] =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+				$uri	         =& JURI::getInstance();
+				$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
+	
+				if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
+					//Apache CGI
+					$base['path'] =  rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+				} else {
+					//Others
+					$base['path'] =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+				}
 			}
 		}
 
@@ -226,7 +237,7 @@ class JURI extends JObject
 	 *
 	 * @access	public
 	 * @static
-	 * @param	boolean $pathonly If true, prepend the scheme, host and port information. Default is false.
+	 * @param	boolean $pathonly If false, prepend the scheme, host and port information. Default is false.
 	 * @return	string	The root URI string
 	 * @since	1.5
 	 */
@@ -295,6 +306,11 @@ class JURI extends JObject
 			$retval = true;
 		}
 
+		//We need to replace &amp; with & for parse_str to work right...
+		if(isset ($_parts['query']) && strpos($_parts['query'], '&amp;')) {
+			$_parts['query'] = str_replace('&amp;', '&', $_parts['query']);
+		}
+			
 		$this->_scheme = isset ($_parts['scheme']) ? $_parts['scheme'] : null;
 		$this->_user = isset ($_parts['user']) ? $_parts['user'] : null;
 		$this->_pass = isset ($_parts['pass']) ? $_parts['pass'] : null;
@@ -305,8 +321,8 @@ class JURI extends JObject
 		$this->_fragment = isset ($_parts['fragment']) ? $_parts['fragment'] : null;
 
 		//parse the query
-		if(isset ($_parts['query'])) parse_str($_parts['query'], $this->_vars);
 
+		if(isset ($_parts['query'])) parse_str($_parts['query'], $this->_vars);
 		return $retval;
 	}
 
@@ -401,6 +417,10 @@ class JURI extends JObject
 	function setQuery($query)
 	{
 		if(!is_array($query)) {
+			if(strpos($query, '&amp;') !== false) 
+			{ 
+			   $query = str_replace('&amp;','&',$query); 
+			} 
 			parse_str($query, $this->_vars);
 		}
 

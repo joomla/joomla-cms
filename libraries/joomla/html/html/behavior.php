@@ -264,9 +264,11 @@ class JHTMLBehavior
 		$rt['data']		= (array_key_exists('data', $root)) ? $root['data'] : null;
 		$rootNode = JHTMLBehavior::_getJSObject($rt);
 
+		$treeName		= (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
+
 		$js = '		window.addEvent(\'domready\', function(){
-			tree = new MooTreeControl('.$options.','.$rootNode.');
-			tree.adopt(\''.$id.'\');})';
+			tree'.$treeName.' = new MooTreeControl('.$options.','.$rootNode.');
+			tree'.$treeName.'.adopt(\''.$id.'\');})';
 
 		// Attach tooltips to document
 		$document =& JFactory::getDocument();

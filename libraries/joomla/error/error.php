@@ -145,7 +145,7 @@ class JError
 			$reference =& JError::$function ($exception, (isset($handler['options'])) ? $handler['options'] : array());
 		} else {
 			// This is required to prevent a very unhelpful white-screen-of-death
-			die(
+			jexit(
 				'JError::raise -> Static method JError::' . $function . ' does not exist.' .
 				' Contact a developer to debug' .
 				'<br/><strong>Error was</strong> ' .
@@ -451,13 +451,13 @@ class JError
 
 		if (isset ($_SERVER['HTTP_HOST'])) {
 			// output as html
-			die("<br /><b>J$level_human</b> ".$error->get('message')."<br />\n");
+			jexit("<br /><b>J$level_human</b> ".$error->get('message')."<br />\n");
 		} else {
 			// output as simple text
 			if (defined('STDERR')) {
 				fwrite(STDERR, "J$level_human ".$error->get('message')."\n");
 			} else {
-				die("J$level_human ".$error->get('message')."\n");
+				jexit("J$level_human ".$error->get('message')."\n");
 			}
 		}
 		return $error;

@@ -15,7 +15,6 @@
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.utilities.date' );
 
  /**
  * JDocumentRenderer_RSS is a feed that implements RSS 2.0 Specification
@@ -46,7 +45,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 */
 	function render()
 	{
-		$now	= new JDate();
+		$now	=& JFactory::getDate();
 		$data	=& $this->_doc;
 
 		$uri =& JFactory::getURI();
@@ -62,7 +61,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		if ($data->image!=null)
 		{
-			$re.= "		<image>\n";
+			$feed.= "		<image>\n";
 			$feed.= "			<url>".$data->image->url."</url>\n";
 			$feed.= "			<title>".htmlspecialchars($data->image->title, ENT_COMPAT, 'UTF-8')."</title>\n";
 			$feed.= "			<link>".$data->image->link."</link>\n";
@@ -90,7 +89,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "		<webMaster>".htmlspecialchars($data->webmaster, ENT_COMPAT, 'UTF-8')."</webMaster>\n";
 		}
 		if ($data->pubDate!="") {
-			$pubDate = new JDate($data->pubDate);
+			$pubDate =& JFactory::getDate($data->pubDate);
 			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(),ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 		}
 		if ($data->category!="") {
@@ -135,7 +134,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 				$feed.= "			<comments>".htmlspecialchars($data->items[$i]->comments, ENT_COMPAT, 'UTF-8')."</comments>\n";
 			}
 			if ($data->items[$i]->date!="") {
-			$itemDate = new JDate($data->items[$i]->date);
+			$itemDate =& JFactory::getDate($data->items[$i]->date);
 				$feed.= "			<pubDate>".htmlspecialchars($itemDate->toRFC822(), ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 			}
 			if ($data->items[$i]->guid!="") {

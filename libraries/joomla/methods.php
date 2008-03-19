@@ -101,8 +101,8 @@ class JRoute
  * Text  handling class
  *
  * @static
- * @package 		Joomla.Framework
- * @subpackage	I18N
+ * @package 	Joomla.Framework
+ * @subpackage	Language
  * @since		1.5
  */
 class JText

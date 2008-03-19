@@ -75,8 +75,6 @@ defined('JPATH_BASE') or die();
  * using datatype ANY (e.g. XHTML). With a DOM implementation you can
  * handle this.
  *
- *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since 1.5
@@ -631,15 +629,15 @@ class JSimpleXMLElement extends JObject
 		}
 
 		//For each attribute, add attr="value"
-		foreach($this->_attributes as $attr => $value)
+		foreach($this->_attributes as $attr => $value) {
 			$out .= ' '.$attr.'="'.htmlspecialchars($value).'"';
+		}
 
 		//If there are no children and it contains no data, end it off with a />
-		if(empty($this->_children) && empty($this->_data))
+		if (empty($this->_children) && empty($this->_data)) {
 			$out .= " />";
-
-		//Otherwise...
-		else
+		}
+		else //Otherwise...
 		{
 			//If there are children
 			if(!empty($this->_children))
