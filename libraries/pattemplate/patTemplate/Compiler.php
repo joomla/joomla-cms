@@ -418,7 +418,7 @@ class patTemplate_Compiler extends patTemplate
 
 		if( !is_callable( 'compiledTemplate', $name ) )
 		{
-			die( 'Unknown template' );
+			jexit( 'Unknown template' );
 		}
 
 		compiledTemplate::$name();

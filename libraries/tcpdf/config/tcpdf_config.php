@@ -2,16 +2,17 @@
 //============================================================+
 // File name   : tcpdf_config.php
 // Begin       : 2004-06-11
-// Last Update : 2007-07-30
+// Last Update : 2008-03-04
 //
 // Description : Congiguration file for TCPDF.
 //
 // Author: Nicola Asuni
 //
 // (c) Copyright:
-//               Tecnick.com S.r.l.
-//               Via Ugo Foscolo n.19
-//               09045 Quartu Sant'Elena (CA)
+//               Nicola Asuni
+//               Tecnick.com s.r.l.
+//               Via Della Pace, 11
+//               09044 Quartucciu (CA)
 //               ITALY
 //               www.tecnick.com
 //               info@tecnick.com
@@ -20,9 +21,9 @@
 /**
  * Configuration file for TCPDF.
  * @author Nicola Asuni
- * @copyright Copyright &copy; 2004, Tecnick.com S.r.l. - Via Ugo Foscolo n.19 - 09045 Quartu Sant'Elena (CA) - ITALY - www.tecnick.com - info@tecnick.com
+ * @copyright 2004-2008 Nicola Asuni - Tecnick.com S.r.l (www.tecnick.com) Via Della Pace, 11 - 09044 - Quartucciu (CA) - ITALY - www.tecnick.com - info@tecnick.com
  * @package com.tecnick.tcpdf
- * @version 1.53.0.TC033
+ * @version 2.1.000
  * @link http://tcpdf.sourceforge.net
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  * @since 2004-10-27
@@ -35,19 +36,20 @@ if (!defined("K_TCPDF_EXTERNAL_CONFIG")) {
 	// PLEASE SET THE FOLLOWING CONSTANTS:
 	
 	/**
-	 * installation path
+	 * installation path (/var/www/tcpdf/)
 	 */
 	define ("K_PATH_MAIN", "D:/Inetpub/wwwroot/_OPENSOURCE/tcpdf/");
 	
 	/**
-	 * url path
+	 * url path (http://localhost/tcpdf/)
 	 */
 	define ("K_PATH_URL", "http://localhost/_OPENSOURCE/tcpdf/");
 	
 	/**
 	 * path for PDF fonts
+	 * use K_PATH_MAIN."fonts/old/" for old non-UTF8 fonts
 	 */
-	define ("FPDF_FONTPATH", K_PATH_MAIN."fonts/");
+	define ("K_PATH_FONTS", K_PATH_MAIN."fonts/");
 	
 	/**
 	 * cache directory for temporary files (full path)
@@ -102,12 +104,12 @@ if (!defined("K_TCPDF_EXTERNAL_CONFIG")) {
 	/**
 	 * image logo
 	 */
-	define ("PDF_HEADER_LOGO", "logo_example.png");
+	define ("PDF_HEADER_LOGO", "tcpdf_logo.jpg");
 	
 	/**
 	 * header logo image width [mm]
 	 */
-	define ("PDF_HEADER_LOGO_WIDTH", 20);
+	define ("PDF_HEADER_LOGO_WIDTH", 30);
 	
 	/**
 	 *  document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch]
@@ -147,7 +149,7 @@ if (!defined("K_TCPDF_EXTERNAL_CONFIG")) {
 	/**
 	 * main font name
 	 */
-	define ("PDF_FONT_NAME_MAIN", "freeserif"); //vera
+	define ("PDF_FONT_NAME_MAIN", "vera"); //vera
 	
 	/**
 	 * main font size
@@ -157,7 +159,7 @@ if (!defined("K_TCPDF_EXTERNAL_CONFIG")) {
 	/**
 	 * data font name
 	 */
-	define ("PDF_FONT_NAME_DATA", "freeserif"); //verase
+	define ("PDF_FONT_NAME_DATA", "vera"); //vera
 	
 	/**
 	 * data font size

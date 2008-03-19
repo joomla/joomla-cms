@@ -209,7 +209,7 @@ class patErrorManager
 			return patErrorManager::$function( $error, $handling );
 		} else {
 			// This is required to prevent a very unhelpful white-screen-of-death
-			die(
+			jexit(
 				'JError::raise -> Static method JError::' . $function . ' does not exist.' .
 				' Contact a developer to debug' .
 				'<br/><strong>Error was</strong> ' .
@@ -641,7 +641,7 @@ class patErrorManager
 		if( isset( $_SERVER['HTTP_HOST'] ) )
 		{
 			// output as html
-			die( "<br /><b>pat-$level_human</b> " . $error->getMessage() . "<br />\n" );
+			jexit( "<br /><b>pat-$level_human</b> " . $error->getMessage() . "<br />\n" );
 		}
 		else
 		{
@@ -652,7 +652,7 @@ class patErrorManager
 			}
 			else
 			{
-				die( "pat-$level_human " . $error->getMessage() . "\n" );
+				jexit( "pat-$level_human " . $error->getMessage() . "\n" );
 			}
 		}
 		return $error;
