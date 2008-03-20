@@ -38,6 +38,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Mar-2008 Andrew Eddie
+ # Fixed double-quoting bug in gacl_api::del_object
+
 18-Mar-2008 Kenneth Crowder
  # Added 50 pixels to the height of Email Icon Popup. (Send/Cancel were hidden)
 

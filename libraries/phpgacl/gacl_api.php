@@ -3342,7 +3342,7 @@ class gacl_api extends gacl {
 					// In these cases the acl MUST NOT be deleted
 
 					// Get rid of $object_id map referencing erased objects
-					$query = "DELETE FROM $object_map_table WHERE section_value='$section_value' AND value='$value'";
+					$query = "DELETE FROM $object_map_table WHERE section_value=$section_value AND value=$value";
 					$this->db->Execute($query);
 
 					if (!is_object($rs)) {
