@@ -70,12 +70,15 @@ class WeblinksViewCategory extends JView
 			$pathway->addItem($category->title, '');
 		}
 
+		// Prepare category description
+		$category->description = JHTML::_('content.prepare', $category->description);
+
 		// table ordering
 		$lists['order_Dir'] = $state->get('filter_order_dir');
 		$lists['order'] = $state->get('filter_order');
 
 		// Set some defaults if not set for params
-		$params->def('com_description', JText::_('WEBLINKS_DESC'));
+		$params->def('comp_description', JText::_('WEBLINKS_DESC'));
 		// Define image tag attributes
 		if (isset( $category->image ) && $category->image != '')
 		{
@@ -88,7 +91,7 @@ class WeblinksViewCategory extends JView
 
 		// icon in table display
 		if ( $params->get( 'link_icons' ) <> -1 ) {
-			$image = JHTML::_('image.site',  'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link' );
+			$image = JHTML::_('image.site',  $params->get('link_icons'), '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link' );
 		}
 
 		$k = 0;

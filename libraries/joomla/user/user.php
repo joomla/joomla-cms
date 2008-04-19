@@ -400,7 +400,7 @@ class JUser extends JObject
 			$array['password'] = $crypt.':'.$salt;
 
 			// Set the registration timestamp
-			
+
 			$now =& JFactory::getDate();
 			$this->set( 'registerDate', $now->toMySQL() );
 

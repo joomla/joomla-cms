@@ -104,8 +104,17 @@ class JInstallerComponent extends JObject
 		 * If the component site or admin directory already exists, then we will assume that the component is already
 		 * installed or another component is using that directory.
 		 */
-		if ((file_exists($this->parent->getPath('extension_site')) || file_exists($this->parent->getPath('extension_administrator'))) && !$this->parent->getOverwrite()) {
+		$exists	= false;
+		if ( file_exists($this->parent->getPath('extension_site')) && !$this->parent->getOverwrite()) {
+			$exists	= true;
 			JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_site').'"');
+		}
+		if ( file_exists($this->parent->getPath('extension_administrator')) && !$this->parent->getOverwrite()) {
+			$exists	= true;
+			JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_administrator').'"');
+		}
+		if ( $exists )
+		{
 			return false;
 		}
 

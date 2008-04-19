@@ -372,7 +372,7 @@ class JDatabase extends JObject
 						$open_char = $current;
 					}
 				}
-			} 
+			}
 			if(($current == ';' && !$open)|| $i == $end - 1) {
 				$query_split[] = substr($queries, $start, ($i - $start + 1));
 				$start = $i + 1;

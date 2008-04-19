@@ -46,7 +46,7 @@
 		<?php endif; ?>
 		<?php echo $item->link; ?>
 		<?php if ( $this->params->get( 'show_link_description' ) ) : ?>
-		<br /><span class="description"><?php echo nl2br($item->description); ?></span>		
+		<br /><span class="description"><?php echo nl2br($item->description); ?></span>
 		<?php endif; ?>
 	</td>
 	<?php if ( $this->params->get( 'show_link_hits' ) ) : ?>

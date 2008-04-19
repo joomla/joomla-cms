@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <model>
 	<params>
-		<param name="target" type="list" default="0" label="Target" description="Target window when the link is clicked">
+		<param name="target" type="list" default="" label="Target" description="Target window when the link is clicked">
+			<option value="">Use Global</option>
 			<option value="0">Parent Window With Browser Navigation</option>
 			<option value="1">New Window With Browser Navigation</option>
 			<option value="2">New Window Without Browser Navigation</option>

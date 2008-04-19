@@ -23,7 +23,7 @@ function SearchBuildRoute( &$query )
 		$segments[] = $query['searchword'];
 		unset($query['searchword']);
 	}
-	
+
 	if (isset($query['view'])) {
 		unset($query['view']);
 	}

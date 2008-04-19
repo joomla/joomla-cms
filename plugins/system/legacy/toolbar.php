@@ -59,7 +59,7 @@ class mosToolBar {
 		} else {
 			$onclick = "javascript:submitbutton('$task')";
 		}
-		
+
 		?>
 		<td>
 			<a class="toolbar" onclick="<?php echo $onclick ;?>">

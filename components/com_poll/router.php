@@ -27,14 +27,14 @@ function PollBuildRoute( &$query )
 	if (isset($query['id']) && strpos($query['id'], ':')) {
 		list($query['id'], $query['alias']) = explode(':', $query['id'], 2);
 	}
-	
+
 	// Get the menu items for this component.
 	if (!$items) {
 		$component	= &JComponentHelper::getComponent('com_poll');
 		$menu		= &JSite::getMenu();
 		$items		= $menu->getItems('componentid', $component->id);
 	}
-	
+
 	// Search for an appropriate menu item.
 	if (is_array($items))
 	{
@@ -55,7 +55,7 @@ function PollBuildRoute( &$query )
 				}
 			}
 		}
-	
+
 		// If no specific link has been found, search for a general one.
 		if (!$itemid) {
 			foreach ($items as $item)
@@ -74,7 +74,7 @@ function PollBuildRoute( &$query )
 			}
 		}
 	}
-	
+
 	// Check if the router found an appropriate itemid.
 	if (!$itemid)
 	{
@@ -101,7 +101,7 @@ function PollBuildRoute( &$query )
 		unset($query['id']);
 		unset($query['catid']);
 		unset($query['alias']);
-	}			
+	}
 
 	return $segments;
 }

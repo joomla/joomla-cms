@@ -38,19 +38,96 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Apr-2008 Andrew Eddie
+ ! Trailing white-space cleanup
+
+18-Apr-2008 Ian MacLennan
+ # [#10732] Help screen updates for Menu Manager
+
+18-Apr-2008 Sam Moffatt
+ # [#10724] Custom user groups fail to display
+ # [#10707] update link to forum in Sample content
+ # [#10638] mod_newsflash renders article separator after last article
+
+17-Apr-2008 Anthony Ferrara
+ # [#9858] Flash Uploader not loading properly
+ # [#10511] Print button showing Array Print Array
+ # [#9775] Cache directory not writable causes warning
+ # [#10588] QueryBatch executing empty queries
+ # [#10675] Code Cleanup
+ # [#10702] JURI::clean fix (not properly stripping out /'s) - Thanks Alex Stylianos
+ # [#10308] Installer rejects valid DB names
+ # [#10323] Wrong param count for class_exists in TCPDF
+
+14-Apr-2008 Mati Kochen
+ + Offline validation
+ + Legacy-Marker - a marker to show (admin) extensions requiring Legacy-Mode ON
+
+13-Apr-2008 Sam Moffatt
+ # [#10639] mod_newsflash renders bad "read more" link text
+ # [#10574] Problem with template rhuk_milkyway in white color variation.
+ # [#10540] com_login not w3c valid
+ # [#10539] Contacts string repeat twice in com_contacts language file
+ # [#10510] /templates/beez/com_content/section/default.php
+ # [#10302] Milky Way and Beez lack editor.css files
+ # [#9984] Plugin parameters with pipes still not working perfectly
+ # [#10402] Mainmenu Module issues
+ # [#9977] Search module changing '-' to ':' in keywords
+ # [#10097] Various XHTML fixes
+
+10-Apr-2008 Anthony Ferrara
+ # [#10508] Caching pathway and breadcrumbs fix
+ # [#10329] Debug fails with version of Zend Optimizer
+
+10-Apr-2008 Mati Kochen
+ # [#10299] Added 'Use Global' as default value to weblink.xml
+
+09-Apr-2008 Mati Kochen
+ # [#10253] Better PDF coding
+
+09-Apr-2008 Mati Kochen
+ # [#10297] Fixed RTL in Offline message
+
+04-Apr-2008 Toby Patterson
+ # Fixed [#10307] "Select Article" breaks on change category refresh ( Thanks Michael )
+
+03-Apr-2008 Toby Patterson
+ # Fixed [#10197] component install error fails to reference left over folder in administrator/components folder
+ # Fixed [#10200] jdoc:include type="module" not usable
+ # Fixed [#10012] $task is not properly passed to extensions
+ # Fixed [#10345] emailcloak is not removed if the article does not contain @
+
+29-Mar-2008 Ian MacLennan
+ # Fixed [#9335] Extra/Random table class (sectionentrytable0)
+
+29-Mar-2008 Sam Moffatt
+ ! Removed old TODO notice in installer
+
+28-Mar-2008 Wilco Jansen
+ # Fixed [9118] Uncaught Error message in Extension Manager when uninstalling deleted component
+ ! Thanks Ian for the patch
+
+26-Mar-2008 Toby Patterson
+ # Fixed [9015] No .blank class in system general.css
+
+-------------------- 1.5.2 Stable Release [22-March-2008] ---------------------
+
+22-Mar-2008 Sam Moffatt
+ $ Added ko-KR installation language files
+
+21-Mar-2008 Sam Moffatt
+ $ Added lt-LT, pl-PL and ca-ES installation language files
+
+20-Mar-2008 Ian MacLennan
+ $ Added bn-IN and th-TH installation language files
+
 20-Mar-2008 Andrew Eddie
  # Fixed double-quoting bug in gacl_api::del_object
-
-18-Mar-2008 Kenneth Crowder
- # Added 50 pixels to the height of Email Icon Popup. (Send/Cancel were hidden)
 
 15-Mar-2008 Ian MacLennan
  # [#9816] Fixed openid toggle link doesn't appear on component.  Also fixes duplicate ids for com and mod.
  # [#9816] Fixed username cannot contain + or - characters
  # [#9816] Fixed css resulting from first patch above
-
-15-Feb-2008 Kenneth Crowder
- # Fixed a typo in the sample data sql. The link to the extensions site was bad.
 
 15-Mar-2008 Sam Moffatt
  ^ Updated language XML files version to 1.5.2 and date to 2008-03-15 (pour JM)

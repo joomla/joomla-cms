@@ -99,8 +99,6 @@ class JComponentHelper
 		$scope = $mainframe->scope; //record the scope
 		$mainframe->scope = $name;  //set scope to component name
 
-		$task = JRequest::getString( 'task' );
-
 		// Build the component path
 		$name = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
 		$file = substr( $name, 4 );
@@ -147,7 +145,10 @@ class JComponentHelper
 				$varname = 'mosConfig_'.$k;
 				$$varname = $v;
 			}
+
 		}
+
+		$task = JRequest::getString( 'task' );
 
 		// Load common language files
 		$lang =& JFactory::getLanguage();

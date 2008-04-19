@@ -1102,7 +1102,7 @@ class JInstaller extends JObject
 		// Get an array of all the xml files from teh installation directory
 		$xmlfiles = JFolder::files($this->getPath('source'), '.xml$', 1, true);
 		// If at least one xml file exists
-		if (count($xmlfiles) > 0) {
+		if (!empty($xmlfiles)) {
 			foreach ($xmlfiles as $file)
 			{
 				// Is it a valid joomla installation manifest file?

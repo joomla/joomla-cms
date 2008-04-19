@@ -65,7 +65,7 @@ class plgSystemRemember extends JPlugin
 
 				$crypt	= new JSimpleCrypt($key);
 				$str	= $crypt->decrypt($str);
-				
+
 				$options = array();
 				$options['silent'] = true;
 				if (!$mainframe->login(@unserialize($str), $options)) {

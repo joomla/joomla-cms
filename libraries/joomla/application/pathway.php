@@ -112,6 +112,25 @@ class JPathway extends JObject
 	}
 
 	/**
+	 * Set the JPathway items array.
+	 *
+	 * @access	public
+	 * @param	array	$pathway	An array of pathway objects.
+	 * @return	array	The previous pathway data.
+	 * @since	1.5
+	 */
+	function setPathway($pathway)
+	{
+		$oldPathway	= $this->_pathway;
+		$pathway	= (array) $pathway;
+
+		// Set the new pathway.
+		$this->_pathway = array_values($pathway);
+
+		return array_values($oldPathway);
+	}
+
+	/**
 	 * Create and return an array of the pathway names.
 	 *
 	 * @access public

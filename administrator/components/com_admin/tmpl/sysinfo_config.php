@@ -44,6 +44,10 @@ defined('_JEXEC') or die('Restricted access');
 					$cf[$k] = 'var $ftp_user = \'xxxxxx\'';
 				} else if (eregi( 'var \$ftp_pass ', $v)) {
 					$cf[$k] = 'var $ftp_pass = \'xxxxxx\'';
+				} else if (eregi( 'var \$smtpuser ', $v)) {
+					$cf[$k] = 'var $smtpuser = \'xxxxxx\'';
+				} else if (eregi( 'var \$smtppass ', $v)) {
+					$cf[$k] = 'var $smtppass = \'xxxxxx\'';
 				} else if (eregi( '<?php', $v)) {
 					$cf[$k] = '';
 				} else if (eregi( '\?>', $v)) {

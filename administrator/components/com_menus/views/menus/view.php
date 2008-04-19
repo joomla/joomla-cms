@@ -71,7 +71,7 @@ class MenusViewMenus extends JView
 		JToolBarHelper::title(  JText::_( 'Copy Menu' ) );
 		JToolBarHelper::custom( 'doCopyMenu', 'copy.png', 'copy_f2.png', 'Copy', false );
 		JToolBarHelper::cancel();
-		JToolBarHelper::help( 'screen.menumanager.copy' );
+		JToolBarHelper::help( 'screen.menumanager' );
 
 		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');

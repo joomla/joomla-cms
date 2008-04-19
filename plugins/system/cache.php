@@ -73,7 +73,7 @@ class  plgSystemCache extends JPlugin
 		 if($mainframe->isAdmin() || JDEBUG) {
 		 	return;
 		 }
-		
+
 
 		$data  = $this->_cache->get();
 

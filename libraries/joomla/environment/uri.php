@@ -218,7 +218,7 @@ class JURI extends JObject
 			} else {
 				$uri	         =& JURI::getInstance();
 				$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
-	
+
 				if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
 					//Apache CGI
 					$base['path'] =  rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
@@ -310,7 +310,7 @@ class JURI extends JObject
 		if(isset ($_parts['query']) && strpos($_parts['query'], '&amp;')) {
 			$_parts['query'] = str_replace('&amp;', '&', $_parts['query']);
 		}
-			
+
 		$this->_scheme = isset ($_parts['scheme']) ? $_parts['scheme'] : null;
 		$this->_user = isset ($_parts['user']) ? $_parts['user'] : null;
 		$this->_pass = isset ($_parts['pass']) ? $_parts['pass'] : null;
@@ -417,10 +417,10 @@ class JURI extends JObject
 	function setQuery($query)
 	{
 		if(!is_array($query)) {
-			if(strpos($query, '&amp;') !== false) 
-			{ 
-			   $query = str_replace('&amp;','&',$query); 
-			} 
+			if(strpos($query, '&amp;') !== false)
+			{
+			   $query = str_replace('&amp;','&',$query);
+			}
 			parse_str($query, $this->_vars);
 		}
 
@@ -676,7 +676,7 @@ class JURI extends JObject
 	 */
 	function _cleanPath($path)
 	{
-		$path = explode('/', str_replace('//', '/', $path));
+		$path = explode('/', preg_replace('#(/+)#', '/', $path));
 
 		for ($i = 0; $i < count($path); $i ++) {
 			if ($path[$i] == '.') {

@@ -31,7 +31,7 @@ class ContentView
 	*/
 	function showContent( &$rows, &$lists, $page, $redirect )
 	{
-	
+
 		global $mainframe;
 
 		// Initialize variables

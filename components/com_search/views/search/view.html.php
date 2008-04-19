@@ -122,7 +122,7 @@ class SearchViewSearch extends JView
 					$x++;
 				}
 				$searchRegex .= ')#iu';
-				
+
 				$row = preg_replace($searchRegex, '<span class="highlight">\0</span>', $row );
 
 				$result =& $results[$i];

@@ -72,10 +72,16 @@ class ContentViewSection extends ContentView
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
 
+		// Prepare section description
+		$section->description = JHTML::_('content.prepare', $section->description);
+
 		for($i = 0; $i < count($categories); $i++)
 		{
 			$category =& $categories[$i];
 			$category->link = JRoute::_('index.php?view=category&id='.$category->slug);
+
+			// Prepare category description
+			$category->description = JHTML::_('content.prepare', $category->description);
 		}
 
 		if ($total == 0) {

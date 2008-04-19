@@ -105,7 +105,7 @@ class UsersController extends JController
 			//return false;
 			return $this->execute('edit');
 		}
-		
+
 		$objectID 	= $acl->get_object_id( 'users', $user->get('id'), 'ARO' );
 		$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
 		$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );

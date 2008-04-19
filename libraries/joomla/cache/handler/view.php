@@ -38,6 +38,8 @@ class JCacheView extends JCache
 	 */
 	function get( &$view, $method, $id=false )
 	{
+		global $mainframe;
+
 		// Initialize variables
 		$data = false;
 
@@ -53,6 +55,14 @@ class JCacheView extends JCache
 
 			// Get the document head out of the cache.
 			$document->setHeadData((isset($data['head'])) ? $data['head'] : array());
+
+			// If the pathway buffer is set in the cache data, get it.
+			if (isset($data['pathway']) && is_array($data['pathway']))
+			{
+				// Push the pathway data into the pathway object.
+				$pathway = &$mainframe->getPathWay();
+				$pathway->setPathway($data['pathway']);
+			}
 
 			// If a module buffer is set in the cache data, get it.
 			if (isset($data['module']) && is_array($data['module']))
@@ -103,6 +113,10 @@ class JCacheView extends JCache
 
 			// Document head data
 			$cached['head'] = $document->getHeadData();
+
+			// Pathway data
+			$pathway			= &$mainframe->getPathWay();
+			$cached['pathway']	= $pathway->getPathway();
 
 			// Get the module buffer after component execution.
 			$buffer2 = $document->getBuffer();

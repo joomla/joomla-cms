@@ -132,7 +132,8 @@ textarea:focus { background-color: #ffd }
 #module-status      { float: right; }
 #module-status span { display: block; float: left; line-height: 16px; padding: 4px 10px 0 22px; margin-bottom: 5px; }
 
-#module-status .legacy-mode { background: url(../images/mini_icon.png) 3px 5px no-repeat; color: #c00;}
+#module-status { background: url(../images/mini_icon.png) 3px 5px no-repeat; }
+.legacy-mode{ color: #c00;}
 #module-status .preview 			  { background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat; }
 #module-status .unread-messages,
 #module-status .no-unread-messages { background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat; }
@@ -556,6 +557,7 @@ table.noshow fieldset { margin: 15px 7px 7px 7px; }
 	border: 1px solid #D4D5AA;
 	padding: 5px;
 	max-width: 200px;
+	z-index: 50;
 }
 
 .tool-title {

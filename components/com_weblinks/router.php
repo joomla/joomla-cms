@@ -34,7 +34,7 @@ function WeblinksBuildRoute(&$query)
 		$menu		= &JSite::getMenu();
 		$items		= $menu->getItems('componentid', $component->id);
 	}
-	
+
 	// Search for an appropriate menu item.
 	if (is_array($items))
 	{

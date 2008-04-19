@@ -165,7 +165,7 @@ class JRouterSite extends JRouter
 			if(isset($vars['option']) || isset($vars['Itemid'])) {
 				return $this->_parseRawRoute($uri);
 			}
-			
+
 			$item = $menu->getDefault();
 
 			//Set the information in the request
@@ -237,8 +237,10 @@ class JRouterSite extends JRouter
 
 			if (file_exists($path) && count($segments))
 			{
-				//decode the route segments
-				$segments = $this->_decodeSegments($segments);
+				if ($component != "com_search") { // Cheep fix on searches
+					//decode the route segments
+					$segments = $this->_decodeSegments($segments);
+				}
 
 				require_once $path;
 				$function =  substr($component, 4).'ParseRoute';
@@ -293,7 +295,9 @@ class JRouterSite extends JRouter
 			$parts		= $function($query);
 
 			// encode the route segments
-			$parts = $this->_encodeSegments($parts);
+			if ($component != "com_search") { // Cheep fix on searches
+				$parts = $this->_encodeSegments($parts);
+			}
 
 			$result = implode('/', $parts);
 			$tmp	= ($result != "") ? '/'.$result : '';
@@ -312,7 +316,7 @@ class JRouterSite extends JRouter
 				$built = true;
 			}
 		}
-		
+
 		if(!$built) {
 			$tmp = 'component/'.substr($query['option'], 4).'/'.$tmp;
 		}

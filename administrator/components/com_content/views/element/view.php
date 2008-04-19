@@ -53,7 +53,7 @@ class ContentViewElement extends JView
 		$page = &$this->get('Pagination');
 		JHTML::_('behavior.tooltip');
 		?>
-		<form action="index.php?option=com_content&amp;task=element&amp;tmpl=component" method="post" name="adminForm">
+		<form action="index.php?option=com_content&amp;task=element&amp;tmpl=component&amp;object=id" method="post" name="adminForm">
 
 			<table>
 				<tr>

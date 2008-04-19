@@ -45,14 +45,16 @@ class modMainMenuHelper
 		$unresolved = array();
 		// pop the first item until the array is empty if there is any item
 		if ( is_array($rows)) {
-		    while (count($rows) && !is_null($row = array_shift($rows)))
-		    {
-			    if (array_key_exists($row->parent, $ids)) {
-				    $menu->addNode($row);
-				    // record loaded parents
-				    $ids[$row->id] = true;
-			    } else {
-				    // no parent yet so push item to back of list
+			while (count($rows) && !is_null($row = array_shift($rows)))
+			{
+				if (array_key_exists($row->parent, $ids)) {
+					$row->ionly = $params->get('menu_images_link');
+					$menu->addNode($params, $row);
+
+					// record loaded parents
+					$ids[$row->id] = true;
+				} else {
+					// no parent yet so push item to back of list
 					// SAM: But if the key isn't in the list and we dont _add_ this is infinite, so check the unresolved queue
 					if(!array_key_exists($row->id, $unresolved) || $unresolved[$row->id] < $maxdepth) {
 						array_push($rows, $row);
@@ -61,8 +63,8 @@ class modMainMenuHelper
 						if(!isset($unresolved[$row->id])) $unresolved[$row->id] = 1;
 						else $unresolved[$row->id]++;
 					}
-			    }
-		    }
+				}
+			}
 		}
 		return $menu->toXML();
 	}
@@ -109,7 +111,7 @@ class modMainMenuHelper
 							break;
 						}
 					}
-	
+
 					if ($i == $start-1) {
 						$found = true;
 						break;
@@ -200,10 +202,10 @@ class JMenuTree extends JTree
 		$this->_current		=& $this->_root;
 	}
 
-	function addNode($item)
+	function addNode(&$params, $item)
 	{
 		// Get menu item data
-		$data = $this->_getItemData($item);
+		$data = $this->_getItemData($params, $item);
 
 		// Create the node and add it
 		$node = new JMenuNode($item->id, $item->name, $item->access, $data);
@@ -270,7 +272,7 @@ class JMenuTree extends JTree
 		$this->_buffer .= '</li>';
 	}
 
-	function _getItemData($item)
+	function _getItemData(&$params, $item)
 	{
 		$data = null;
 
@@ -291,8 +293,11 @@ class JMenuTree extends JTree
 		}
 
 		$iParams = new JParameter($tmp->params);
-		if ($iParams->get('menu_image') && $iParams->get('menu_image') != -1) {
+		if ($params->get('menu_images') && $iParams->get('menu_image') && $iParams->get('menu_image') != -1) {
 			$image = '<img src="'.JURI::base(true).'/images/stories/'.$iParams->get('menu_image').'" alt="" />';
+			if($tmp->ionly){
+				 $tmp->name = null;
+			 }
 		} else {
 			$image = null;
 		}

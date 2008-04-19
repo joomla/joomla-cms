@@ -382,7 +382,7 @@ class JLanguage extends JObject
 	function _getCallerInfo()
 	{
 			// Try to determine the source if none was provided
-		if ( ! function_exists('debug_backtrace') ) {
+		if ( ! function_exists('debug_backtrace') || extension_loaded('Zend Optimizer') ) {
 			return null;
 		}
 
@@ -748,7 +748,7 @@ class JLanguage extends JObject
 	function _parseXMLLanguageFile($path)
 	{
 		$xml = & JFactory::getXMLParser('Simple');
-		
+
 		// Load the file
 		if (!$xml || !$xml->loadFile($path)) {
 			return null;

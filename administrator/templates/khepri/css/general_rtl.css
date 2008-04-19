@@ -32,7 +32,7 @@ body{
 	background-image: url(../images/h_green/j_header_right_rtl.png);
 }
 
-.button1 { background: url(../images/j_button1_right.png) 100% 0 no-repeat; margin-left: 5px; padding-right: 10px; white-space: nowrap; }
+.button1 { background: url(../images/j_button1_right.png) 100% 0 no-repeat; margin-left: 5px; padding-right: 10px; white-space: nowrap; padding-left: 0px; }
 .button1 .next { background: url(../images/j_button1_prev.png) no-repeat; }
 .button1 a { padding: 0 6px 0 30px; }
 
@@ -46,7 +46,7 @@ body{
 }
 
 .button2-left {
-	background:transparent url(../images/j_button2_right_xl.png) no-repeat scroll 100%;
+	background:transparent url(../images/j_button2_right.png) no-repeat scroll 100%;
 	float: right;
 }
 
@@ -203,4 +203,18 @@ table.adminlist .pagination{
 
 div.col{
 	float: right;
+}
+
+#system-message dd.message ul {
+	background-position: 99% center;
+}
+
+#system-message dd {
+	text-indent:35px;
+}
+
+/* debug */
+#system-debug ol,
+#system-debug ul{
+	direction: ltr;
 }

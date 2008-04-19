@@ -66,8 +66,8 @@ class ContentViewCategory extends ContentView
 
 		//In case we are in a blog view set the limit
 		if ($layout == 'blog') {
-		    if($limit ==  0) $limit = $intro + $leading + $links;
-        }
+			if ($limit ==  0) $limit = $intro + $leading + $links;
+		}
 		JRequest::setVar('limit', (int) $limit);
 
 		$contentConfig = &JComponentHelper::getParams('com_content');
@@ -95,12 +95,15 @@ class ContentViewCategory extends ContentView
 		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
 
 		// Set page title per category
-        $document->setTitle( $category->title. ' - '. $params->get( 'page_title'));
+		$document->setTitle($category->title. ' - '. $params->get( 'page_title'));
 
 		//set breadcrumbs
 		if(is_object($menu) && $menu->query['view'] != 'category') {
 			$pathway->addItem($category->title, '');
 		}
+
+		// Prepare category description
+		$category->description = JHTML::_('content.prepare', $category->description);
 
 		$params->def('date_format',	JText::_('DATE_FORMAT_LC1'));
 
@@ -111,9 +114,9 @@ class ContentViewCategory extends ContentView
 		jimport('joomla.html.pagination');
 		//In case we are in a blog view set the limit
 		if ($layout == 'blog') {
-		    $pagination = new JPagination($total, $limitstart, $limit - $links);
-        } else {
-		    $pagination = new JPagination($total, $limitstart, $limit);
+			$pagination = new JPagination($total, $limitstart, $limit - $links);
+		} else {
+			$pagination = new JPagination($total, $limitstart, $limit);
 		}
 
 		$this->assign('total',		$total);

@@ -323,7 +323,9 @@ class JFactory
 				if (!is_null( $options['rssUrl'] ))
 				{
 					jimport ('simplepie.simplepie');
-					$simplepie = new SimplePie($options['rssUrl']);
+					if(!is_writable(JPATH_BASE.DS.'cache')) {
+						$options['cache_time'] = 0;
+					}
 					$simplepie = new SimplePie(
 						$options['rssUrl'],
 						JPATH_BASE.DS.'cache',

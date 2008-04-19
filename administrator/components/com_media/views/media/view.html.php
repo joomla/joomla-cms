@@ -30,7 +30,7 @@ class MediaViewMedia extends JView
 	function display($tpl = null)
 	{
 		global $mainframe;
-		
+
 		$config =& JComponentHelper::getParams('com_media');
 
 		$style = $mainframe->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');

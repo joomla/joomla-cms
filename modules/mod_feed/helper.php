@@ -26,7 +26,7 @@ class modFeedHelper
 		$options['rssUrl'] 		= $rssurl;
 		if ($params->get('cache')) {
 			$options['cache_time']  = $params->get('cache_time', 15) ;
-			$options['cache_time']	*= 60;	
+			$options['cache_time']	*= 60;
 		} else {
 			$options['cache_time'] = null;
 		}

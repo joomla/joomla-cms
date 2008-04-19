@@ -171,14 +171,14 @@ class JRegistryFormatINI extends JRegistryFormat
 
 					if (strpos($value, '|') !== false && preg_match('#(?<!\\\)\|#', $value))
 					{
-						$lines = explode('\n', $value);
+						$newlines = explode('\n', $value);
 						$values = array();
-						foreach($lines as $linekey=>$line) {
+						foreach($newlines as $newlinekey=>$newline) {
 
 							// Explode the value if it is serialized as an arry of value1|value2|value3
-							$parts	= preg_split('/(?<!\\\)\|/', $line);
-							$array	= (strcmp($parts[0], $line) === 0) ? false : true;
-							$parts	= call_user_func_array('str_replace', array('\|', '|', $parts));
+							$parts	= preg_split('/(?<!\\\)\|/', $newline);
+							$array	= (strcmp($parts[0], $newline) === 0) ? false : true;
+							$parts	= str_replace('\|', '|', $parts);
 
 							foreach ($parts as $key => $value)
 							{
@@ -195,30 +195,33 @@ class JRegistryFormatINI extends JRegistryFormat
 										$value = stripcslashes(substr($value, 1, $valueLen - 2));
 									}
 								}
-								if(!isset($values[$linekey])) $values[$linekey] = array();
-								$values[$linekey][] = str_replace('\n', "\n", $value);
+								if(!isset($values[$newlinekey])) $values[$newlinekey] = array();
+								$values[$newlinekey][] = str_replace('\n', "\n", $value);
 							}
 
 							if (!$array) {
-								$values[$linekey] = $values[$linekey][0];
+								$values[$newlinekey] = $values[$newlinekey][0];
 							}
 						}
 
 						if ($process_sections)
 						{
 							if ($sec_name != '') {
-								$obj->$sec_name->$property = $values[$linekey];
+								$obj->$sec_name->$property = $values[$newlinekey];
 							} else {
-								$obj->$property = $values[$linekey];
+								$obj->$property = $values[$newlinekey];
 							}
 						}
 						else
 						{
-							$obj->$property = $values[$linekey];
+							$obj->$property = $values[$newlinekey];
 						}
 					}
 					else
 					{
+						//unescape the \|
+						$value = str_replace('\|', '|', $value);
+
 						if ($value == 'false') {
 							$value = false;
 						}

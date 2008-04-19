@@ -353,7 +353,7 @@ class JAuthorization extends gacl_api
 			if ($inclusive) {
 				$where = ' WHERE g1.lft BETWEEN '.(int) $root->lft.' AND '.(int) $root->rgt;
 			} else {
-				$where = ' WHERE g1.lft BETWEEN 3 AND 22 ';
+				$where = ' WHERE g1.lft > '.(int) $root->lft.' AND g1.lft <'.(int) $root->rgt;
 			}
 		}
 

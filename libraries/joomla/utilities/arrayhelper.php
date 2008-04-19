@@ -193,7 +193,7 @@ class JArrayHelper
 		}
 
 		// Handle the default case
-		if ((is_null($result))) {
+		if (is_null($result)) {
 			$result = $default;
 		}
 

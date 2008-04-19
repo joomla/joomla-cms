@@ -63,12 +63,12 @@ Andy Wallace
 
 Translation contributers:
 -------------------------
-Afrikaans (af-ZA) - Afrikaans Translation Team - Gerrit Hoekstra
-Arabic Algeria (ar-DZ) - Arabic Algeria Translation Team - Saber Bousba
 Basque (eu-ES) - Basque Translation Team (Basque Language School of Santurtzi) - Abel Camacho, Pedro Lonbide
+Belarusian (be-BY) - Dennis Hermacki
 Bengali (bn-IN) - IndicJoomla! Team - Romit Chatterjee
 Bosnian (bs-BA) - Bosnian Joomla! Community (joomla.ba) - Emir Sakic
 Bulgarian (bg-BG) - Joomla! Bulgaria - Ivo Apostolov
+Catalan (ca-ES) - Damià Verger
 Chinese-Traditional (zh-TW) - Traditional Chinese Translation Team - Eddy Chang
 Croatian (hr-HR) - Croatian Translation Team - Klaudia B.
 Czech (cs-CZ) - Czech Translation Team - Svatopluk Vit
@@ -84,6 +84,7 @@ Hindi-Devanagari (hi-IN) - IndicJoomla! Team - Vishal Pahuja
 Hungarian (hu-HU) - Magyar Joomla! Felhasznalok Nemzetkozi Egyesulete (joomla.org.hu) - Jozsef Tamas Herczeg, Annamaria Ban
 Italian (it-IT) - Italian Translation Team - Stefania Gaianigo, Alessandro Rossi
 Japanese (ja-JP) - Japanese Translation Team - Nori Aki
+Korean (ko-KR) - Korean Translation Team - Song S. Kim
 Lao (lo-LA) - Joomla LaiLao Team (LaoOpenSource) - Akarawuth Tamrareang , Viengsakhone phanthanousy , Outhai Saioudom
 Latvian (lv-LV) - Joomla Latvian Team - Edgars Piruška, Iveta Rītiņa-Namiķe, Ingars Stepkāns
 Lithuanian (lt-LT) - Lithuanian Translation Team - Stasys
@@ -96,9 +97,12 @@ Portuguese (pt-PT) - Comunidade JoomlaPT.com - Paulo Izidoro
 Romanian (ro-RO) - Romanian Joomla! Community (joomla.ro) - Cosmin Lebu
 Russian (ru-RU) - Russian Translation Team - Serge Litvinov
 Serbian (sr-RS) - Joomla! Serbia team (joomlaserbia.com) - Marko Milenovic
+Sindhi (sd-PK) - Raheel H. Kaghzi
 Slovak (sk-SK) - Slovak Translation Team - Karol Cejka, Viliam Kmec, Alexander Horvath, Marek Sabo
 Spanish (es-ES) TodosJuntos.org - Joomla!'s Spanish Community Translation Team
 Swedish (sv-SE) - Swedish Translation Team (SvenskJoomla!) - Sune Hultman, Christer Gerhardsson
+Syriac (sy-IQ) - Pauls! Dinka
+Tamil (ta-LK) - UoM, LK
 Thai (th-TH) - Joomla LaiThai Team (JoomlaCorner) - Akarawuth Tamrareang , Supachai Teasakul
 Turkish (tr-TR) - Joomla! Turkiye (joomlaturkiye.org) - Oguz Kaan Cagatay Kilinc
 Ukrainian (uk-UA) - Ukrainian Translation Team - Denys Nosov

@@ -466,6 +466,17 @@ class HTML_modules
 						endif;
 						echo $pane->endPanel();
 					}
+
+
+				if ($p->getNumParams('other')) {
+					echo $pane->startPanel(JText :: _('Other Parameters'), "other-page");
+					if($params = $p->render('params', 'other')) :
+						echo $params;
+						else :
+						echo "<div  style=\"text-align: center; padding: 5px; \">".JText::_('There are no other parameters for this item')."</div>";
+  						endif;
+						echo $pane->endPanel();
+					}
 					echo $pane->endPane();
 				?>
 			</fieldset>

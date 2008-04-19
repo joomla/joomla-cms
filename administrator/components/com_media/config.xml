@@ -11,16 +11,16 @@
 		</param>
 		<param name="check_mime" type="radio" default="1" label="CHECK MIME" description="CHECK MIME DESC">
 			<option value="0">NO</option>
-			<option value="1">YES</option>		
+			<option value="1">YES</option>
 		</param>
 		<param name="image_extensions" type="text" size="50" default="bmp,gif,jpg,png" label="LEGAL IMAGE EXTENSIONS LABEL" description="LEGAL IMAGE EXTENSIONS DESC" />
 		<param name="ignore_extensions" type="text" size="50" default="" label="IGNORED EXTENSIONS LABEL" description="IGNORED EXTENSIONS DESC" />
-		
+
 		<param name="upload_mime" type="text" size="50" default="image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip" label="LEGAL MIME TYPES LABEL" description="LEGAL MIME TYPES DESC" />
 		<param name="upload_mime_illegal" type="text" size="50" default="text/html" label="ILLEGAL MIME TYPES" description="ILLEGAL MIME TYPES DESC" />
 		<param name="enable_flash" type="radio" default="1" label="ENABLE FLASH UPLOADER" description="ENABLE FLASH UPLOADER DESC">
 			<option value="0">NO</option>
-			<option value="1">YES</option>		
+			<option value="1">YES</option>
 		</param>
 	</params>
 </config>

@@ -51,6 +51,9 @@ class NewsfeedsViewCategory extends JView
 		//set breadcrumbs
 		$pathway->addItem($category->title, '');
 
+		// Prepare category description
+		$category->description = JHTML::_('content.prepare', $category->description);
+
 		$k = 0;
 		for($i = 0; $i <  count($items); $i++)
 		{

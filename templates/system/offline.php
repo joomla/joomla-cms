@@ -17,6 +17,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <head>
 	<jdoc:include type="head" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/offline.css" type="text/css" />
+	<?php if($this->direction == 'rtl') : ?>
+	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/offline_rtl.css" type="text/css" />
+	<?php endif; ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/general.css" type="text/css" />
 </head>
 <body>
@@ -36,15 +39,15 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<fieldset class="input">
 		<p id="form-login-username">
 			<label for="username"><?php echo JText::_('Username') ?></label><br />
-			<input name="username" id="username" type="text" class="inputbox" alt="username" size="18" />
+			<input name="username" id="username" type="text" class="inputbox" alt="<?php echo JText::_('Username') ?>" size="18" />
 		</p>
 		<p id="form-login-password">
 			<label for="passwd"><?php echo JText::_('Password') ?></label><br />
-			<input type="password" name="passwd" class="inputbox" size="18" alt="password" />
+			<input type="password" name="passwd" class="inputbox" size="18" alt="<?php echo JText::_('Password') ?>" id="passwd" />
 		</p>
 		<p id="form-login-remember">
 			<label for="remember"><?php echo JText::_('Remember me') ?></label>
-			<input type="checkbox" name="remember" class="inputbox" value="yes" alt="Remember Me" />
+			<input type="checkbox" name="remember" class="inputbox" value="yes" alt="<?php echo JText::_('Remember me') ?>" id="remember" />
 		</p>
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('LOGIN') ?>" />
 	</fieldset>

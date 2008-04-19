@@ -33,7 +33,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::deleteList( '', 'remove', 'Uninstall' );
+		JToolBarHelper::deleteList( JText::_('UNINSTALL LANGUAGE'), 'remove', 'Uninstall' );
 		JToolBarHelper::help( 'screen.installer2' );
 
 		// Get data from the model

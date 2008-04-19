@@ -41,25 +41,25 @@ class JHTML
 
 		// Check to see if we need to load a helper file
 		$parts = explode('.', $type);
-		
-		switch(count($parts)) 
+
+		switch(count($parts))
 		{
-			case 3 : 
+			case 3 :
 			{
 				$prefix		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
 				$file		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
 				$func		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[2] );
 			} break;
-			
-			case 2 : 
+
+			case 2 :
 			{
 				$file		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
 				$func		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
 			} break;
 		}
-		
+
 		$className	= $prefix.ucfirst($file);
-		
+
 		if (!class_exists( $className ))
 		{
 			jimport('joomla.filesystem.path');
@@ -125,11 +125,11 @@ class JHTML
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString( $attribs );
 		}
-		
+
 		if(strpos($url, 'http') !== 0) {
 			$url =  JURI::root(true).'/'.$url;
-		}; 
-			
+		};
+
 		return '<img src="'.$url.'" alt="'.$alt.'" '.$attribs.' />';
 	}
 
@@ -167,10 +167,10 @@ class JHTML
 		if($mootools) {
 			JHTML::_('behavior.mootools');
 		}
-		
+
 		if(strpos($path, 'http') !== 0) {
 			$path =  JURI::root(true).'/'.$path;
-		}; 
+		};
 
 		$document = &JFactory::getDocument();
 		$document->addScript( $path.$filename );
@@ -188,8 +188,8 @@ class JHTML
 	{
 		if(strpos($path, 'http') !== 0) {
 			$path =  JURI::root(true).'/'.$path;
-		}; 
-		
+		};
+
 		$document = &JFactory::getDocument();
 		$document->addStylesheet( $path.$filename, 'text/css', null, $attribs );
 		return;

@@ -39,16 +39,16 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 				    $cols = ($this->params->get('num_intro_articles', 4) % $this->params->get('num_columns'));
 				?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
-				<?php 
+				<?php
 				$loop = (($z < $cols)?1:0) + $rows;
-				
+
 				for ($y = 0; $y < $loop; $y ++) :
 					$target = $i + ($y * $this->params->get('num_columns')) + $z;
 					if ($target < $this->total && $target < ($numIntroArticles)) :
 						$this->item =& $this->getItem($target, $this->params);
 						echo $this->loadTemplate('item');
 					endif;
-				endfor; 
+				endfor;
 				?>
 				</td>
 		<?php endfor; ?>

@@ -4,9 +4,9 @@
 	<tbody>
 		<tr>
 			<td width="185" class="key">
-			
+
 			<span class="editlinktip hasTip" title="<?php echo JText::_( 'Site Offline' ); ?>::<?php echo JText::_( 'TIPSETYOURSITEISOFFLINE' ); ?>">
-			
+
 			<?php echo JText::_( 'Site Offline' ); ?>
 			</span>
 			</td>

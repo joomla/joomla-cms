@@ -74,7 +74,7 @@ class JButtonConfirm extends JButton
 		$todo	 = JString::strtolower(JText::_( $name ));
 		$message = JText::sprintf( 'Please make a selection from the list to', $todo );
 		$message = addslashes($message);
-			
+
 		if ($hide) {
 			if ($list) {
 				$cmd = "javascript:if(document.adminForm.boxchecked.value==0){alert('$message');}else{hideMainMenu();if(confirm('$msg')){submitbutton('$task');}}";

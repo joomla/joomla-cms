@@ -89,7 +89,7 @@ class JDocumentPDF extends JDocument
 		 * Setup external configuration options
 		 */
 		define('K_TCPDF_EXTERNAL_CONFIG', true);
-		
+
 		/*
 		 * Path options
 		 */
@@ -206,7 +206,6 @@ class JDocumentPDF extends JDocument
 		// Set PDF Metadata
 		$pdf->SetCreator($this->getGenerator());
 		$pdf->SetTitle($this->getTitle());
-		$pdf->header_title = $this->getTitle();
 		$pdf->SetSubject($this->getDescription());
 		$pdf->SetKeywords($this->getMetaData('keywords'));
 
@@ -218,7 +217,7 @@ class JDocumentPDF extends JDocument
 		$font = $lang->getPdfFontName();
 		$font = ($font) ? $font : 'freesans';
 
-		$pdf->rtl = $lang->isRTL();
+		$pdf->setRTL($lang->isRTL());
 
 		$pdf->setHeaderFont(array($font, '', 10));
 		$pdf->setFooterFont(array($font, '', 8));
@@ -228,6 +227,7 @@ class JDocumentPDF extends JDocument
 		$pdf->AddPage();
 
 		// Build the PDF Document string from the document buffer
+		$this->fixLinks();
 		$pdf->WriteHTML($this->getBuffer(), true);
 		$data = $pdf->Output('', 'S');
 
@@ -240,5 +240,10 @@ class JDocumentPDF extends JDocument
 
 		//Close and output PDF document
 		return $data;
+	}
+
+	function fixLinks()
+	{
+
 	}
 }
