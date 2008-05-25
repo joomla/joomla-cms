@@ -128,9 +128,13 @@ class JRequest
 				break;
 		}
 
-		if (isset($GLOBALS['_JREQUEST'][$name]['SET.'.$hash]) && ($GLOBALS['_JREQUEST'][$name]['SET.'.$hash] === true)) {
+		if (
+			isset($GLOBALS['_JREQUEST'][$name]['SET.'.$hash])
+			&& ($GLOBALS['_JREQUEST'][$name]['SET.'.$hash] === true)
+		) {
 			// Get the variable from the input hash
-			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
+			$var = (isset($input[$name]) && $input[$name] !== null)
+				? $input[$name] : $default;
 		}
 		elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig]))
 		{
@@ -544,24 +548,24 @@ class JRequest
 	 * other than the 1 bit is set, a strict filter is applied.
 	 * @param string The variable type {@see JFilterInput::clean()}.
 	 */
-	function _cleanVar($var, $mask = 0, $type=null)
+	function _cleanVar($var, $mask = 0, $type = null)
 	{
 		// Static input filters for specific settings
 		static $noHtmlFilter	= null;
 		static $safeHtmlFilter	= null;
 
 		// If the no trim flag is not set, trim the variable
-		if (!($mask & 1) && is_string($var)) {
+		if (!($mask & JREQUEST_NOTRIM) && is_string($var)) {
 			$var = trim($var);
 		}
 
 		// Now we handle input filtering
-		if ($mask & 2)
+		if ($mask & JREQUEST_ALLOWRAW)
 		{
 			// If the allow raw flag is set, do not modify the variable
 			$var = $var;
 		}
-		elseif ($mask & 4)
+		elseif ($mask & JREQUEST_ALLOWHTML)
 		{
 			// If the allow html flag is set, apply a safe html filter to the variable
 			if (is_null($safeHtmlFilter)) {
@@ -589,7 +593,9 @@ class JRequest
 	 */
 	function _stripSlashesRecursive( $value )
 	{
-		$value = is_array( $value ) ? array_map( array( 'JRequest', '_stripSlashesRecursive' ), $value ) : stripslashes( $value );
+		$value = is_array( $value )
+			? array_map( array( 'JRequest', '_stripSlashesRecursive' ), $value )
+			: stripslashes( $value );
 		return $value;
 	}
 }
