@@ -104,9 +104,10 @@ class CacheData extends JObject
 			return null;
 		}
 
+        $rows = null;
 		foreach ($this->_items as $item)
 		{
-			if ($i >= $start && $i < $start+$limit) {
+			if ( (($i >= $start) && ($i < $start+$limit)) || ($limit == 0) ) {
 				$rows[] = $item;
 			}
 			$i++;
