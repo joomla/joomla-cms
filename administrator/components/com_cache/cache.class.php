@@ -99,11 +99,11 @@ class CacheData extends JObject
 	 */
 	function getRows( $start, $limit )
 	{
-		$i = 0;
-		if (count($this->_items) == 0) {
-			return null;
-		}
-
+        if ( (!is_array($this->_items)) || (count($this->_items) <= 0) ) {
+            return null;
+        }
+        
+        $i = 0;
         $rows = null;
 		foreach ($this->_items as $item)
 		{
