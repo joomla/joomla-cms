@@ -102,6 +102,20 @@ function ContactBuildRoute(&$query)
 	// Check if the router found an appropriate itemid.
 	if (!$itemid)
 	{
+		// Check if a catid was specified.
+		if (isset($query['catid']))
+		{
+			if (isset($query['catalias'])) {
+				$query['catid'] .= ':'.$query['catalias'];
+			}
+
+			$segments[] = $query['catid'];
+
+			unset($query['view']);
+			unset($query['catid']);
+			unset($query['catalias']);
+		}
+
 		// Check if a id was specified.
 		if (isset($query['id']))
 		{
@@ -115,30 +129,6 @@ function ContactBuildRoute(&$query)
 			unset($query['view']);
 			unset($query['id']);
 			unset($query['alias']);
-		}
-		elseif (isset($query['catid']))
-		{
-			if (isset($query['catalias'])) {
-				$query['catid'] .= ':'.$query['catalias'];
-			}
-
-			if (isset($query['alias'])) {
-				$query['id'] .= ':'.$query['alias'];
-			}
-
-			// Push the catid onto the stack.
-			$segments[]	= 'category';
-			$segments[] = $query['catid'];
-
-			// Push the id onto the stack.
-			$segments[] = $query['id'];
-
-			// Remove the unnecessary URL segments.
-			unset($query['view']);
-			unset($query['id']);
-			unset($query['alias']);
-			unset($query['catid']);
-			unset($query['catalias']);
 		}
 	}
 	else

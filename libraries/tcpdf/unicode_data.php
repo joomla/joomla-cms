@@ -1,7 +1,7 @@
 <?php
 //============================================================+
 // File name   : unicode_data.php
-// Begin       : 2008-01-01
+// Begin	   : 2008-01-01
 // Last Update : 2008-01-08
 //
 // Description : Unicode Include file for TCPDF.
@@ -9,13 +9,13 @@
 // Author: Nicola Asuni
 //
 // (c) Copyright:
-//               Nicola Asuni
-//               Tecnick.com s.r.l.
-//               Via Della Pace, 11
-//               09044 Quartucciu (CA)
-//               ITALY
-//               www.tecnick.com
-//               info@tecnick.com
+//			   Nicola Asuni
+//			   Tecnick.com s.r.l.
+//			   Via Della Pace, 11
+//			   09044 Quartucciu (CA)
+//			   ITALY
+//			   www.tecnick.com
+//			   info@tecnick.com
 //============================================================+
 // THANKS TO
 // Efthimios Mavrogeorgiadis

@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Class to manage the site application pathway
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla
  * @since		1.5
  */
@@ -48,13 +47,14 @@ class JPathwaySite extends JPathway
 
 					switch($link->type)
 					{
-						case 'menulink' :
+						case 'menulink':
+						case 'url':
 							$url = $link->link;
 							break;
-                        case 'separator' :
-                            $url = null;
-                            break;
-						default      :
+						case 'separator':
+							$url = null;
+							break;
+						default:
 							$url = 'index.php?Itemid='.$link->id;
 					}
 

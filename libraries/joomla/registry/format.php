@@ -19,12 +19,11 @@ defined('JPATH_BASE') or die();
  * Abstract Format for JRegistry
  *
  * @abstract
- * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
  * @subpackage	Registry
  * @since		1.5
  */
-class JRegistryFormat extends JObject
+abstract class JRegistryFormat extends JObject
 {
 	/**
 	 * Returns a reference to a Format object, only creating it
@@ -35,7 +34,7 @@ class JRegistryFormat extends JObject
 	 * @return	object	Registry format handler
 	 * @since	1.5
 	 */
-	function &getInstance($format)
+	public static function &getInstance($format)
 	{
 		static $instances;
 
@@ -49,11 +48,11 @@ class JRegistryFormat extends JObject
 			$class = 'JRegistryFormat'.$format;
 			if(!class_exists($class))
 			{
-				$path    = dirname(__FILE__).DS.'format'.DS.$format.'.php';
+				$path	= dirname(__FILE__).DS.'format'.DS.$format.'.php';
 				if (file_exists($path)) {
-					require_once($path);
+					require_once $path;
 				} else {
-					JError::raiseError(500,JText::_('Unable to load format class'));
+					throw new JException(JText::_('Unable to load format class'), 500, E_ERROR, $format);
 				}
 			}
 
@@ -71,9 +70,7 @@ class JRegistryFormat extends JObject
 	 * @return	object	Data Object
 	 * @since	1.5
 	 */
-	function stringToObject( $data, $namespace='' ) {
-		return true;
-	}
+	abstract public function stringToObject( $data, $process_sections=false );
 
 	/**
 	 * Converts an object into a formatted string
@@ -84,7 +81,5 @@ class JRegistryFormat extends JObject
 	 * @return	string	Formatted string
 	 * @since	1.5
 	 */
-	function objectToString( &$object ) {
-
-	}
+	abstract public function objectToString( &$object, $params );
 }

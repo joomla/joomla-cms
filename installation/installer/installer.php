@@ -16,8 +16,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 $here	= dirname(__FILE__);
-require_once( $here.DS.'controller.php');
-require_once( $here.DS.'helper.php');
+require_once $here.DS.'controller.php';
+require_once $here.DS.'helper.php';
 
 // Get the controller
 $config = array();

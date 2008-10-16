@@ -16,9 +16,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <form action="<?php echo JRoute::_( 'index.php?option=com_user' ); ?>" method="post" id="josForm" name="josForm" class="form-validate">
 
-<div class="componentheading">
-	<?php echo JText::_( 'Registration' ); ?>
-</div>
+<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
+<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
+<?php endif; ?>
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
 <tr>

@@ -20,7 +20,7 @@
  * @subpackage	HTML
  * @version		1.5
  */
-class JHTMLForm
+abstract class JHTMLForm
 {
 	/**
 	 * Displays a hidden token field to reduce the risk of CSRF exploits
@@ -31,7 +31,7 @@ class JHTMLForm
 	 * @return	void
 	 * @since	1.5
 	 */
-	function token()
+	public static function token()
 	{
 		return '<input type="hidden" name="'.JUtility::getToken().'" value="1" />';
 	}

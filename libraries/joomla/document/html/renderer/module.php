@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * JDocument Module renderer
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
@@ -33,7 +32,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 	 * @param array 		$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render( $module, $params = array(), $content = null )
+	public function render($module, $params = array(), $content = null)
 	{
 		if (!is_object($module))
 		{
@@ -70,17 +69,17 @@ class JDocumentRendererModule extends JDocumentRenderer
 		}
 
 		//get module parameters
-		$mod_params = new JParameter( $module->params );
+		$mod_params = new JParameter($module->params);
 
 		$contents = '';
-		if ($mod_params->get('cache', 0) && $conf->getValue( 'config.caching' ))
+		if ($mod_params->get('cache', 0) && $conf->getValue('config.caching'))
 		{
-			$cache =& JFactory::getCache( $module->module );
+			$cache =& JFactory::getCache($module->module);
 
-			$cache->setLifeTime( $mod_params->get( 'cache_time', $conf->getValue( 'config.cachetime' ) * 60 ) );
+			$cache->setLifeTime($mod_params->get('cache_time', $conf->getValue('config.cachetime') * 60));
 			$cache->setCacheValidation(true);
 
-			$contents =  $cache->get( array('JModuleHelper', 'renderModule'), array( $module, $params ), $module->id. $user->get('aid', 0) );
+			$contents = $cache->get(array('JModuleHelper', 'renderModule'), array($module, $params), $module->id. $user->get('aid', 0));
 		} else {
 			$contents = JModuleHelper::renderModule($module, $params);
 		}

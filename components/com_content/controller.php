@@ -156,7 +156,7 @@ class ContentController extends JController
 
 		// manage frontpage items
 		//TODO : Move this into a frontpage model
-		require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php');
+		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_frontpage'.DS.'tables'.DS.'frontpage.php';
 		$fp = new TableFrontPage($db);
 
 		if (JRequest::getVar('frontpage', false, '', 'boolean'))
@@ -204,7 +204,7 @@ class ContentController extends JController
 		if ($isNew)
 		{
 			// messaging for new items
-			require_once (JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'tables'.DS.'message.php');
+			require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'tables'.DS.'message.php';
 
 			// load language for messaging
 			$lang =& JFactory::getLanguage();

@@ -1,15 +1,15 @@
 <?php
 //============================================================+
 // File name   : tcpdf.php
-// Begin       : 2002-08-03
+// Begin	   : 2002-08-03
 // Last Update : 2008-03-07
-// Author      : Nicola Asuni
-// Version     : 2.5.000_PHP4
-// License     : GNU LGPL (http://www.gnu.org/copyleft/lesser.html)
+// Author	  : Nicola Asuni
+// Version	 : 2.5.000_PHP4
+// License	 : GNU LGPL (http://www.gnu.org/copyleft/lesser.html)
 //
 // Description : This is a PHP5 class for generating PDF files
-//               on-the-fly without requiring external
-//               extensions.
+//			   on-the-fly without requiring external
+//			   extensions.
 //
 // NOTE:
 // This class was originally derived in 2002 from the Public
@@ -839,7 +839,7 @@ if(!class_exists('TCPDF', false)) {
 		 * @access private
 		 * @since 2.1.002 (2008-02-12)
 		 */
-    var $n_js;
+	var $n_js;
 
 		//------------------------------------------------------------
 		// Public methods
@@ -2196,7 +2196,7 @@ if(!class_exists('TCPDF', false)) {
 		* $pdf->AddPage();
 		* $pdf->SetFont('vera','',12);
 		* for($i=1;$i<=300;$i++) {
-		*     $pdf->Cell(0,5,"Line $i",0,1);
+		*	 $pdf->Cell(0,5,"Line $i",0,1);
 		* }
 		* $pdf->Output();
 		* </pre>
@@ -4133,26 +4133,26 @@ if(!class_exists('TCPDF', false)) {
 		 * Invalid byte sequences will be replaced with 0xFFFD (replacement character)<br>
 		 * Based on: http://www.faqs.org/rfcs/rfc3629.html
 		 * <pre>
-		 * 	  Char. number range  |        UTF-8 octet sequence
-		 *       (hexadecimal)    |              (binary)
-		 *    --------------------+-----------------------------------------------
-		 *    0000 0000-0000 007F | 0xxxxxxx
-		 *    0000 0080-0000 07FF | 110xxxxx 10xxxxxx
-		 *    0000 0800-0000 FFFF | 1110xxxx 10xxxxxx 10xxxxxx
-		 *    0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-		 *    ---------------------------------------------------------------------
+		 * 	  Char. number range  |		UTF-8 octet sequence
+		 *	   (hexadecimal)	|			  (binary)
+		 *	--------------------+-----------------------------------------------
+		 *	0000 0000-0000 007F | 0xxxxxxx
+		 *	0000 0080-0000 07FF | 110xxxxx 10xxxxxx
+		 *	0000 0800-0000 FFFF | 1110xxxx 10xxxxxx 10xxxxxx
+		 *	0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+		 *	---------------------------------------------------------------------
 		 *
 		 *   ABFN notation:
 		 *   ---------------------------------------------------------------------
 		 *   UTF8-octets = *( UTF8-char )
 		 *   UTF8-char   = UTF8-1 / UTF8-2 / UTF8-3 / UTF8-4
-		 *   UTF8-1      = %x00-7F
-		 *   UTF8-2      = %xC2-DF UTF8-tail
+		 *   UTF8-1	  = %x00-7F
+		 *   UTF8-2	  = %xC2-DF UTF8-tail
 		 *
-		 *   UTF8-3      = %xE0 %xA0-BF UTF8-tail / %xE1-EC 2( UTF8-tail ) /
-		 *                 %xED %x80-9F UTF8-tail / %xEE-EF 2( UTF8-tail )
-		 *   UTF8-4      = %xF0 %x90-BF 2( UTF8-tail ) / %xF1-F3 3( UTF8-tail ) /
-		 *                 %xF4 %x80-8F 2( UTF8-tail )
+		 *   UTF8-3	  = %xE0 %xA0-BF UTF8-tail / %xE1-EC 2( UTF8-tail ) /
+		 *				 %xED %x80-9F UTF8-tail / %xEE-EF 2( UTF8-tail )
+		 *   UTF8-4	  = %xF0 %x90-BF 2( UTF8-tail ) / %xF1-F3 3( UTF8-tail ) /
+		 *				 %xF4 %x80-8F 2( UTF8-tail )
 		 *   UTF8-tail   = %x80-BF
 		 *   ---------------------------------------------------------------------
 		 * </pre>
@@ -4257,28 +4257,28 @@ if(!class_exists('TCPDF', false)) {
 		 *   Encoding UTF-16:
 		 *
  		 *   Encoding of a single character from an ISO 10646 character value to
-		 *    UTF-16 proceeds as follows. Let U be the character number, no greater
-		 *    than 0x10FFFF.
+		 *	UTF-16 proceeds as follows. Let U be the character number, no greater
+		 *	than 0x10FFFF.
 		 *
-		 *    1) If U < 0x10000, encode U as a 16-bit unsigned integer and
-		 *       terminate.
+		 *	1) If U < 0x10000, encode U as a 16-bit unsigned integer and
+		 *	   terminate.
 		 *
-		 *    2) Let U' = U - 0x10000. Because U is less than or equal to 0x10FFFF,
-		 *       U' must be less than or equal to 0xFFFFF. That is, U' can be
-		 *       represented in 20 bits.
+		 *	2) Let U' = U - 0x10000. Because U is less than or equal to 0x10FFFF,
+		 *	   U' must be less than or equal to 0xFFFFF. That is, U' can be
+		 *	   represented in 20 bits.
 		 *
-		 *    3) Initialize two 16-bit unsigned integers, W1 and W2, to 0xD800 and
-		 *       0xDC00, respectively. These integers each have 10 bits free to
-		 *       encode the character value, for a total of 20 bits.
+		 *	3) Initialize two 16-bit unsigned integers, W1 and W2, to 0xD800 and
+		 *	   0xDC00, respectively. These integers each have 10 bits free to
+		 *	   encode the character value, for a total of 20 bits.
 		 *
-		 *    4) Assign the 10 high-order bits of the 20-bit U' to the 10 low-order
-		 *       bits of W1 and the 10 low-order bits of U' to the 10 low-order
-		 *       bits of W2. Terminate.
+		 *	4) Assign the 10 high-order bits of the 20-bit U' to the 10 low-order
+		 *	   bits of W1 and the 10 low-order bits of U' to the 10 low-order
+		 *	   bits of W2. Terminate.
 		 *
-		 *    Graphically, steps 2 through 4 look like:
-		 *    U' = yyyyyyyyyyxxxxxxxxxx
-		 *    W1 = 110110yyyyyyyyyy
-		 *    W2 = 110111xxxxxxxxxx
+		 *	Graphically, steps 2 through 4 look like:
+		 *	U' = yyyyyyyyyyxxxxxxxxxx
+		 *	W1 = 110110yyyyyyyyyy
+		 *	W2 = 110111xxxxxxxxxx
 		 * </pre>
 		 * @param array $unicode array containing UTF-8 unicode values
 		 * @param boolean $setbom if true set the Byte Order Mark (BOM = 0xFEFF)
@@ -4787,10 +4787,10 @@ if(!class_exists('TCPDF', false)) {
 						if (isset($attr['value'])) {
 							$this->listcount = intval($attr['value']);
 						}
-						$this->lispacer = "    ".(++$this->listcount).". ";
+						$this->lispacer = "	".(++$this->listcount).". ";
 					} else {
 						//unordered list simbol
-						$this->lispacer = "    -  ";
+						$this->lispacer = "	-  ";
 					}
 					$rtldir = $this->tmprtl;
 					$this->tmprtl = false;
@@ -6713,7 +6713,7 @@ if(!class_exists('TCPDF', false)) {
 		* @since 2.1.002 (2008-02-12)
 		*/
 		function Bookmark($txt, $level=0, $y=-1) {
-    	if($y == -1) {
+		if($y == -1) {
 				$y = $this->GetY();
 			}
 			$this->outlines[]=array('t'=>$txt,'l'=>$level,'y'=>$y,'p'=>$this->PageNo());

@@ -130,16 +130,9 @@ class TableMessage extends JTable
 			$message	= $message	? $message	: $this->message;
 		}
 
-		$query = 'SELECT cfg_name, cfg_value' .
-				' FROM #__messages_cfg' .
-				' WHERE user_id = '.(int) $toId;
-		$db->setQuery($query);
+		$toUser =& JFactory::getUser($toId);
 
-		$config = $db->loadObjectList('cfg_name');
-		$locked = @ $config['lock']->cfg_value;
-		$domail = @ $config['mail_on_new']->cfg_value;
-
-		if (!$locked)
+		if (!$toUser->getParam('message_locked', 0))
 		{
 			$this->user_id_from	= $fromId;
 			$this->user_id_to	= $toId;
@@ -150,7 +143,7 @@ class TableMessage extends JTable
 
 			if ($this->store())
 			{
-				if ($domail)
+				if ($toUser->getParam('message_mail_on_new', 0))
 				{
 					$query = 'SELECT name, email' .
 							' FROM #__users' .

@@ -32,7 +32,7 @@ class JInstallerModule extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct(&$parent)
+	public function __construct(&$parent)
 	{
 		$this->parent =& $parent;
 	}
@@ -44,7 +44,7 @@ class JInstallerModule extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		// Get a database connector object
 		$db =& $this->parent->getDBO();
@@ -66,7 +66,7 @@ class JInstallerModule extends JObject
 
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '' );
@@ -98,7 +98,7 @@ class JInstallerModule extends JObject
 
 		// Set the installation path
 		$element =& $this->manifest->getElementByPath('files');
-		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
+		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
 			$files =& $element->children();
 			foreach ($files as $file) {
 				if ($file->attributes('module')) {
@@ -169,16 +169,14 @@ class JInstallerModule extends JObject
 		 */
 
 		// Check to see if a module by the same name is already installed
-		// Shouldn't this be stopped by the above section?
-		// Commented out pending removal
-		// TODO: Remove this at a later point
-		// see http://groups.google.com/group/joomla-devel/browse_thread/thread/7ef4cd7f80c98e41
-/*		$query = 'SELECT `id`' .
+		$query = 'SELECT `id`' .
 				' FROM `#__modules` ' .
 				' WHERE module = '.$db->Quote($mname) .
 				' AND client_id = '.(int)$clientId;
 		$db->setQuery($query);
-		if (!$db->Query()) {
+		try {
+			$db->Query();
+		} catch(JException $e) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
@@ -186,19 +184,11 @@ class JInstallerModule extends JObject
 		$id = $db->loadResult();
 
 		// Was there a module already installed with the same name?
-		if ($id) {
-
-			if ( ! $this->parent->getOverwrite())
-			{
-				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.JText::_('Module').' "'.$mname.'" '.JText::_('already exists!'));
-				return false;
-			}
-
-
-		} else {
-*/
-
+		// If there was then we wouldn't be here because it would have
+		// been stopped by the above. Otherwise the files weren't there
+		// (e.g. migration) or its an upgrade (files overwritten)
+		// So all we need to do is create an entry when we can't find one
+		if (!$id) {
 			$row = & JTable::getInstance('module');
 			$row->title = $this->get('name');
 			$row->ordering = $row->getNextOrder( "position='left'" );
@@ -212,7 +202,7 @@ class JInstallerModule extends JObject
 
 			if (!$row->store()) {
 				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
+				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$row->getError());
 				return false;
 			}
 
@@ -223,7 +213,9 @@ class JInstallerModule extends JObject
 			// Clean up possible garbage first
 			$query = 'DELETE FROM #__modules_menu WHERE moduleid = '.(int) $row->id;
 			$db->setQuery( $query );
-			if (!$db->query()) {
+			try {
+				$db->query();
+			} catch(JException $e) {
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
@@ -233,7 +225,9 @@ class JInstallerModule extends JObject
 			$query = 'INSERT INTO `#__modules_menu` ' .
 					' VALUES ('.(int) $row->id.', 0 )';
 			$db->setQuery($query);
-			if (!$db->query()) {
+			try {
+				$db->query();
+			} catch(JException $e) {
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
 				return false;
@@ -244,7 +238,7 @@ class JInstallerModule extends JObject
 			 * so that if we have to rollback the changes we can undo it.
 			 */
 			$this->parent->pushStep(array ('type' => 'menu', 'id' => $db->insertid()));
-//		} // TODO: Remove this re: database check removal
+		}
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -270,7 +264,7 @@ class JInstallerModule extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall( $id, $clientId )
+	public function uninstall( $id, $clientId )
 	{
 		// Initialize variables
 		$row	= null;
@@ -304,7 +298,7 @@ class JInstallerModule extends JObject
 		// Get the package manifest objecct
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 		$manifest =& $this->parent->getManifest();
-		if (!is_a($manifest, 'JSimpleXML')) {
+		if (!$manifest INSTANCEOF JSimpleXML) {
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
 			JError::raiseWarning(100, 'Module Uninstall: Package manifest file invalid or not found');
@@ -323,7 +317,11 @@ class JInstallerModule extends JObject
 				' WHERE module = '.$db->Quote($row->module) .
 				' AND client_id = '.(int)$row->client_id;
 		$db->setQuery($query);
-		$modules = $db->loadResultArray();
+		try {
+			$modules = $db->loadResultArray();
+		} catch(JException $e) {
+			$modules = array();
+		}
 
 		// Do we have any module copies?
 		if (count($modules)) {
@@ -333,7 +331,9 @@ class JInstallerModule extends JObject
 					' FROM #__modules_menu' .
 					' WHERE moduleid IN ('.$modID.')';
 			$db->setQuery($query);
-			if (!$db->query()) {
+			try {
+				$db->query();
+			} catch(JException $e) {
 				JError::raiseWarning(100, JText::_('Module').' '.JText::_('Uninstall').': '.$db->stderr(true));
 				$retval = false;
 			}
@@ -341,6 +341,13 @@ class JInstallerModule extends JObject
 
 		// Now we will no longer need the module object, so lets delete it and free up memory
 		$row->delete($row->id);
+		$query = 'DELETE FROM `#__modules` WHERE module = '.$db->Quote($row->module) . ' AND client_id = ' . $row->client_id;
+		$db->setQuery($query);
+		try {
+			$db->Query(); // clean up any other ones that might exist as well
+		} catch(JException $e) {
+			//Ignore the error...
+		}
 		unset ($row);
 
 		// Remove the installation folder
@@ -360,7 +367,7 @@ class JInstallerModule extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _rollback_menu($arg)
+	protected function _rollback_menu($arg)
 	{
 		// Get database connector object
 		$db =& $this->parent->getDBO();
@@ -370,7 +377,11 @@ class JInstallerModule extends JObject
 				' FROM `#__modules_menu`' .
 				' WHERE moduleid='.(int)$arg['id'];
 		$db->setQuery($query);
-		return ($db->query() !== false);
+		try {
+			return $db->query();
+		} catch(JException $e) {
+			return false;
+		}
 	}
 
 	/**
@@ -382,7 +393,7 @@ class JInstallerModule extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _rollback_module($arg)
+	protected function _rollback_module($arg)
 	{
 		// Get database connector object
 		$db =& $this->parent->getDBO();
@@ -392,6 +403,10 @@ class JInstallerModule extends JObject
 				' FROM `#__modules`' .
 				' WHERE id='.(int)$arg['id'];
 		$db->setQuery($query);
-		return ($db->query() !== false);
+		try {
+			return $db->query();
+		} catch(JException $e) {
+			return false;
+		}
 	}
 }

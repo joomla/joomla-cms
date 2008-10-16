@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a radio element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,9 +31,9 @@ class JElementRadio extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Radio';
+	protected $_name = 'Radio';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$options = array ();
 		foreach ($node->children() as $option)

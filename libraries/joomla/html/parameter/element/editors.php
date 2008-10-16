@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a editors element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,9 +31,9 @@ class JElementEditors extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Editors';
+	protected $_name = 'Editors';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db		= & JFactory::getDBO();
 		$user	= & JFactory::getUser();
@@ -52,7 +51,11 @@ class JElementEditors extends JElement
 		. ' ORDER BY ordering, name'
 		;
 		$db->setQuery( $query );
-		$editors = $db->loadObjectList();
+		try {
+			$editors = $db->loadObjectList();
+		} catch(JException $e) {
+			$editors = array();
+		}
 
 		array_unshift( $editors, JHTML::_('select.option',  '', '- '. JText::_( 'Select Editor' ) .' -' ) );
 

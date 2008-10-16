@@ -35,7 +35,7 @@ class php_http_connector {
 	* @param string The password, if authentication is required
 	*/
 	function setConnection($host, $path = '/', $port = 80, $timeout = 0, $user = null, $password = null) {
-	    require_once(PHP_HTTP_TOOLS_INCLUDE_PATH . 'php_http_client_generic.php');
+		require_once(PHP_HTTP_TOOLS_INCLUDE_PATH . 'php_http_client_generic.php');
 
 		$this->httpConnection = new php_http_client_generic($host, $path, $port, $timeout, $user, $password);
 	} //setConnection
@@ -59,7 +59,7 @@ class php_http_connector {
 	* @param string The password, if authentication is required
 	*/
 	function setProxyConnection($host, $path = '/', $port = 80, $timeout = 0, $user = null, $password = null) {
-	    require_once(PHP_HTTP_TOOLS_INCLUDE_PATH . 'php_http_proxy.php');
+		require_once(PHP_HTTP_TOOLS_INCLUDE_PATH . 'php_http_proxy.php');
 
 		$this->httpConnection = new php_http_proxy($host, $path, $port, $timeout, $user, $password);
 	} //setProxyConnection

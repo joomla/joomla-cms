@@ -19,8 +19,6 @@ defined('JPATH_BASE') or die();
  /**
  * JDocumentRenderer_RSS is a feed that implements RSS 2.0 Specification
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
- *
  * @package 	Joomla.Framework
  * @subpackage		Document
  * @see http://www.rssboard.org/rss-specification
@@ -35,7 +33,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * @var		string
 	 * @access	private
 	 */
-	var $_mime = "application/rss+xml";
+	protected $_mime = "application/rss+xml";
 
 	/**
 	 * Render the feed
@@ -43,7 +41,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * @access public
 	 * @return	string
 	 */
-	function render()
+	public function render()
 	{
 		$now	=& JFactory::getDate();
 		$data	=& $this->_doc;
@@ -113,20 +111,20 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		for ($i=0; $i<count($data->items); $i++)
 		{
+			if ((strpos($data->items[$i]->link, 'http://') === false) and (strpos($data->items[$i]->link, 'https://') === false)) {
+				$data->items[$i]->link = $url.$data->items[$i]->link;
+			}
 			$feed.= "		<item>\n";
 			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8')."</title>\n";
-			$feed.= "			<link>".$url.$data->items[$i]->link."</link>\n";
+			$feed.= "			<link>".$data->items[$i]->link."</link>\n";
 			$feed.= "			<description><![CDATA[".$this->_relToAbs($data->items[$i]->description)."]]></description>\n";
 
 			if ($data->items[$i]->author!="") {
 				$feed.= "			<author>".htmlspecialchars($data->items[$i]->author, ENT_COMPAT, 'UTF-8')."</author>\n";
 			}
-			/*
-			// on hold
 			if ($data->items[$i]->source!="") {
-					$data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
+				$feed.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
 			}
-			*/
 			if ($data->items[$i]->category!="") {
 				$feed.= "			<category>".htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8')."</category>\n";
 			}

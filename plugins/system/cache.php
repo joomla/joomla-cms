@@ -19,7 +19,6 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * Joomla! Page Cache Plugin
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	System
  */
@@ -31,19 +30,13 @@ class  plgSystemCache extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
 	 * @access	protected
 	 * @param	object	$subject The object to observe
 	 * @param 	array   $config  An array that holds the plugin configuration
-	 * @since	1.0
+	 * @since	1.6
 	 */
-	function plgSystemCache(& $subject, $config)
+	function __construct($subject, $config)
 	{
-		parent::__construct($subject, $config);
-
 		$user =& JFactory::getUser();
 
 		$options = array(
@@ -60,6 +53,8 @@ class  plgSystemCache extends JPlugin
 		if (!$user->get('aid') && $_SERVER['REQUEST_METHOD'] == 'GET') {
 			$this->_cache->setCaching(true);
 		}
+
+		parent::__construct($subject, $config);
 	}
 
 	/**

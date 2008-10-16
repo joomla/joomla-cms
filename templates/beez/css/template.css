@@ -1,6 +1,5 @@
 /**
  * @version $Id$
- * @author Design & Accessible Team ( Angie Radtke / Robert Deutz )
  * @package Joomla
  * @subpackage Accessible-Template-Beez
  * @copyright Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -12,10 +11,6 @@
  * details.
  */
 
-
-
-
-
 body
 {
 	background: #fff;
@@ -25,8 +20,6 @@ body
 	padding: 0px;
 	text-align: center;
 }
-
-
 
 body.contentpane {
 

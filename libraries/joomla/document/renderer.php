@@ -19,12 +19,11 @@ defined('JPATH_BASE') or die();
  * Abstract class for a renderer
  *
  * @abstract
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
  */
-class JDocumentRenderer extends JObject
+abstract class JDocumentRenderer extends JObject
 {
 	/**
 	* reference to the JDocument object that instantiated the renderer
@@ -32,7 +31,7 @@ class JDocumentRenderer extends JObject
 	* @var		object
 	* @access	protected
 	*/
-	var	$_doc = null;
+	protected $_doc = null;
 
 	/**
 	 * Renderer mime type
@@ -40,7 +39,7 @@ class JDocumentRenderer extends JObject
 	 * @var		string
 	 * @access	private
 	 */
-	 var $_mime = "text/html";
+	 protected $_mime = "text/html";
 
 	/**
 	* Class constructor
@@ -48,7 +47,7 @@ class JDocumentRenderer extends JObject
 	* @access protected
 	* @param object A reference to the JDocument object that instantiated the renderer
 	*/
-	function __construct(&$doc) {
+	public function __construct(&$doc) {
 		$this->_doc =& $doc;
 	}
 
@@ -62,17 +61,14 @@ class JDocumentRenderer extends JObject
 	 * @param string 	$content	Override the output of the renderer
 	 * @return string	The output of the script
 	 */
-	function render( $name, $params = array(), $content = null )
-	{
-
-	}
+	abstract public function render( $name, $params = array(), $content = null );
 
 	/**
 	 * Return the content type of the renderer
 	 *
 	 * @return string The contentType
 	 */
-	function getContentType() {
+	public function getContentType() {
 		return $this->_mime;
 	}
 }

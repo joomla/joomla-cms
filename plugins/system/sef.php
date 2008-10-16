@@ -25,23 +25,8 @@ jimport( 'joomla.plugin.plugin');
 class plgSystemSef extends JPlugin
 {
 	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param	object		$subject The object to observe
-	  * @param 	array  		$config  An array that holds the plugin configuration
-	 * @since	1.0
+	 * Converting the site URL to fit to the HTTP request
 	 */
-	function plgSystemSef(&$subject, $config)  {
-		parent::__construct($subject, $config);
-	}
-
-	/**
-     * Converting the site URL to fit to the HTTP request
-     */
 	function onAfterRender()
 	{
 		$app =& JFactory::getApplication();
@@ -51,36 +36,36 @@ class plgSystemSef extends JPlugin
 		}
 
 		//Replace src links
-      	$base   = JURI::base(true).'/';
+		$base   = JURI::base(true).'/';
 		$buffer = JResponse::getBody();
 
-       	$regex  = '#href="index.php\?([^"]*)#m';
-      	$buffer = preg_replace_callback( $regex, array('plgSystemSEF', 'route'), $buffer );
+		$regex  = '#href="index.php\?([^"]*)#m';
+		$buffer = preg_replace_callback( $regex, array('plgSystemSEF', 'route'), $buffer );
 
-       	$protocols = '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
-      	$regex     = '#(src|href)="(?!/|'.$protocols.'|\#)([^"]*)"#m';
-        $buffer    = preg_replace($regex, "$1=\"$base\$2\"", $buffer);
-		$regex     = '#(onclick="window.open\(\')(?!/|'.$protocols.'|\#)([^/]+[^\']*?\')#m';
-		$buffer    = preg_replace($regex, '$1'.$base.'$2', $buffer);
+		$protocols = '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
+		$regex	 = '#(src|href)="(?!/|'.$protocols.'|\#)([^"]*)"#m';
+		$buffer	= preg_replace($regex, "$1=\"$base\$2\"", $buffer);
+		$regex	 = '#(onclick="window.open\(\')(?!/|'.$protocols.'|\#)([^/]+[^\']*?\')#m';
+		$buffer	= preg_replace($regex, '$1'.$base.'$2', $buffer);
 
 		JResponse::setBody($buffer);
 		return true;
 	}
 
 	/**
-     * Replaces the matched tags
-     *
-     * @param array An array of matches (see preg_match_all)
-     * @return string
-     */
+	 * Replaces the matched tags
+	 *
+	 * @param array An array of matches (see preg_match_all)
+	 * @return string
+	 */
    	 function route( &$matches )
-     {
-		$original       = $matches[0];
-       	$url            = $matches[1];
+	 {
+		$original	= $matches[0];
+		$url		= $matches[1];
 
 		$url = str_replace('&amp;','&',$url);
 
-       	$route          = JRoute::_('index.php?'.$url);
-      	return 'href="'.$route;
-      }
+		$route		= JRoute::_('index.php?'.$url);
+		return 'href="'.$route;
+	}
 }

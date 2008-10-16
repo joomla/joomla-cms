@@ -16,12 +16,11 @@
  * JFilterOutput
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Filter
  * @since		1.5
  */
-class JFilterOutput
+abstract class JFilterOutput
 {
 	/**
 	* Makes an object safe to display in forms
@@ -36,7 +35,7 @@ class JFilterOutput
 	*					 to be parsed (eg, for a textarea)
 	* @since 1.5
 	*/
-	function objectHTMLSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' )
+	public static function objectHTMLSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' )
 	{
 		if (is_object( $mixed ))
 		{
@@ -65,7 +64,7 @@ class JFilterOutput
 	 * @return	string	Processed string
 	 * @since	1.5
 	 */
-	function linkXHTMLSafe($input)
+	public static function linkXHTMLSafe($input)
 	{
 		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
 		return preg_replace_callback( "#$regex#i", array('JFilterOutput', '_ampReplaceCallback'), $input );
@@ -80,7 +79,7 @@ class JFilterOutput
 	 * @return	string	Processed string
 	 * @since	1.5
 	 */
-	function stringURLSafe($string)
+	public static function stringURLSafe($string)
 	{
 		//remove any '-' from the string they will be used as concatonater
 		$str = str_replace('-', ' ', $string);
@@ -104,7 +103,7 @@ class JFilterOutput
 	* @static
 	* @since 1.5
 	*/
-	function ampReplace( $text )
+	public static function ampReplace( $text )
 	{
 		$text = str_replace( '&&', '*--*', $text );
 		$text = str_replace( '&#', '*-*', $text );
@@ -124,7 +123,7 @@ class JFilterOutput
 	 * @return	string	Replaced string
 	 * @since	1.5
 	 */
-	function _ampReplaceCallback( $m )
+	protected static function _ampReplaceCallback( $m )
 	{
 		 $rx = '&(?!amp;)';
 		 return preg_replace( '#'.$rx.'#', '&amp;', $m[0] );
@@ -133,7 +132,7 @@ class JFilterOutput
 	/**
 	* Cleans text of all formating and scripting code
 	*/
-	function cleanText ( &$text )
+	public static function cleanText ( &$text )
 	{
 		$text = preg_replace( "'<script[^>]*>.*?</script>'si", '', $text );
 		$text = preg_replace( '/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is', '\2 (\1)', $text );

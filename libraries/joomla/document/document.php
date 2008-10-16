@@ -22,12 +22,11 @@ JLoader::register('JDocumentRenderer', dirname(__FILE__).DS.'renderer.php');
  * Document class, provides an easy interface to parse and display a document
  *
  * @abstract
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
  */
-class JDocument extends JObject
+abstract class JDocument extends JObject
 {
 	/**
 	 * Document title
@@ -35,7 +34,7 @@ class JDocument extends JObject
 	 * @var	 string
 	 * @access  public
 	 */
-	var $title = '';
+	public $title = '';
 
 	/**
 	 * Document description
@@ -43,7 +42,7 @@ class JDocument extends JObject
 	 * @var	 string
 	 * @access  public
 	 */
-	var $description = '';
+	public $description = '';
 
 	/**
 	 * Document full URL
@@ -51,7 +50,7 @@ class JDocument extends JObject
 	 * @var	 string
 	 * @access  public
 	 */
-	var $link = '';
+	public $link = '';
 
 	/**
 	 * Document base URL
@@ -59,7 +58,7 @@ class JDocument extends JObject
 	 * @var	 string
 	 * @access  public
 	 */
-	var $base = '';
+	public $base = '';
 
 	 /**
 	 * Contains the document language setting
@@ -67,7 +66,7 @@ class JDocument extends JObject
 	 * @var	 string
 	 * @access  public
 	 */
-	var $language = 'en-gb';
+	public $language = 'en-gb';
 
 	/**
 	 * Contains the document direction setting
@@ -75,7 +74,7 @@ class JDocument extends JObject
 	 * @var	 string
 	 * @access  public
 	 */
-	var $direction = 'ltr';
+	public $direction = 'ltr';
 
 	/**
 	 * Document generator
@@ -83,7 +82,7 @@ class JDocument extends JObject
 	 * @var		string
 	 * @access	public
 	 */
-	 var $_generator = 'Joomla! 1.5 - Open Source Content Management';
+	public $_generator = 'Joomla! 1.5 - Open Source Content Management';
 
 	/**
 	 * Document modified date
@@ -91,7 +90,7 @@ class JDocument extends JObject
 	 * @var		string
 	 * @access   private
 	 */
-	var $_mdate = '';
+	public $_mdate = '';
 
 	/**
 	 * Tab string
@@ -99,7 +98,7 @@ class JDocument extends JObject
 	 * @var		string
 	 * @access	private
 	 */
-	var $_tab = "\11";
+	public $_tab = "\11";
 
 	/**
 	 * Contains the line end string
@@ -107,7 +106,7 @@ class JDocument extends JObject
 	 * @var		string
 	 * @access	private
 	 */
-	var $_lineEnd = "\12";
+	public $_lineEnd = "\12";
 
 	/**
 	 * Contains the character encoding string
@@ -115,7 +114,7 @@ class JDocument extends JObject
 	 * @var	 string
 	 * @access  private
 	 */
-	var $_charset = 'utf-8';
+	public $_charset = 'utf-8';
 
 	/**
 	 * Document mime type
@@ -123,7 +122,7 @@ class JDocument extends JObject
 	 * @var		string
 	 * @access	private
 	 */
-	var $_mime = '';
+	public $_mime = '';
 
 	/**
 	 * Document namespace
@@ -131,7 +130,7 @@ class JDocument extends JObject
 	 * @var		string
 	 * @access   private
 	 */
-	var $_namespace = '';
+	public $_namespace = '';
 
 	/**
 	 * Document profile
@@ -139,7 +138,7 @@ class JDocument extends JObject
 	 * @var		string
 	 * @access   private
 	 */
-	var $_profile = '';
+	public $_profile = '';
 
 	/**
 	 * Array of linked scripts
@@ -147,7 +146,7 @@ class JDocument extends JObject
 	 * @var		array
 	 * @access   private
 	 */
-	var $_scripts = array();
+	public $_scripts = array();
 
 	/**
 	 * Array of scripts placed in the header
@@ -155,7 +154,7 @@ class JDocument extends JObject
 	 * @var  array
 	 * @access   private
 	 */
-	var $_script = array();
+	public $_script = array();
 
 	 /**
 	 * Array of linked style sheets
@@ -163,7 +162,7 @@ class JDocument extends JObject
 	 * @var	 array
 	 * @access  private
 	 */
-	var $_styleSheets = array();
+	public $_styleSheets = array();
 
 	/**
 	 * Array of included style declarations
@@ -171,7 +170,7 @@ class JDocument extends JObject
 	 * @var	 array
 	 * @access  private
 	 */
-	var $_style = array();
+	public $_style = array();
 
 	/**
 	 * Array of meta tags
@@ -179,7 +178,7 @@ class JDocument extends JObject
 	 * @var	 array
 	 * @access  private
 	 */
-	var $_metaTags = array();
+	public $_metaTags = array();
 
 	/**
 	 * The rendering engine
@@ -187,7 +186,7 @@ class JDocument extends JObject
 	 * @var	 object
 	 * @access  private
 	 */
-	var $_engine = null;
+	public $_engine = null;
 
 	/**
 	 * The document type
@@ -195,7 +194,7 @@ class JDocument extends JObject
 	 * @var	 string
 	 * @access  private
 	 */
-	var $_type = null;
+	public $_type = null;
 
 	/**
 	 * Array of buffered output
@@ -203,16 +202,16 @@ class JDocument extends JObject
 	 * @var		mixed (depends on the renderer)
 	 * @access	private
 	 */
-	var $_buffer = null;
+	public $_buffer = null;
 
 
 	/**
 	* Class constructor
 	*
-	* @access protected
+	* @access public
 	* @param	array	$options Associative array of options
 	*/
-	function __construct( $options = array())
+	public function __construct( $options = array())
 	{
 		parent::__construct();
 
@@ -256,7 +255,7 @@ class JDocument extends JObject
 	 * @param type $type The document type to instantiate
 	 * @return object  The document object.
 	 */
-	function &getInstance($type = 'html', $attributes = array())
+	public static function &getInstance($type = 'html', $attributes = array())
 	{
 		static $instances;
 
@@ -286,9 +285,9 @@ class JDocument extends JObject
 			{
 				$path	= dirname(__FILE__).DS.$type.DS.$type.'.php';
 				if (file_exists($path)) {
-					require_once($path);
+					require_once $path;
 				} else {
-					JError::raiseError(500,JText::_('Unable to load document class'));
+					throw new JException(JText::_('Unable to load document class'), 500, E_ERROR, $class, true);
 				}
 			}
 
@@ -311,7 +310,7 @@ class JDocument extends JObject
 	 * @access	public
 	 * @param	string $type
 	 */
-	function setType($type) {
+	public function setType($type) {
 		$this->_type = $type;
 	}
 
@@ -321,7 +320,7 @@ class JDocument extends JObject
 	 * @access	public
 	 * @return	string
 	 */
-	function getType() {
+	public function getType() {
 		return $this->_type;
 	}
 
@@ -331,9 +330,7 @@ class JDocument extends JObject
 	 * @access	public
 	 * @return	array	The document head data in array form
 	 */
-	function getHeadData() {
-		// Impelemented in child classes
-	}
+	abstract public function getHeadData();
 
 	/**
 	 * Set the document head data
@@ -341,9 +338,7 @@ class JDocument extends JObject
 	 * @access	public
 	 * @param	array	$data	The document head data in array form
 	 */
-	function setHeadData($data) {
-		// Impelemented in child classes
-	}
+	abstract public function setHeadData($data);
 
 	/**
 	 * Get the contents of the document buffer
@@ -351,7 +346,7 @@ class JDocument extends JObject
 	 * @access public
 	 * @return 	The contents of the document buffer
 	 */
-	function getBuffer() {
+	public function getBuffer() {
 		return $this->_buffer;
 	}
 
@@ -361,7 +356,7 @@ class JDocument extends JObject
 	 * @access public
 	 * @param string 	$content	The content to be set in the buffer
 	 */
-	function setBuffer($content) {
+	public function setBuffer($content) {
 		$this->_buffer = $content;
 	}
 
@@ -373,13 +368,20 @@ class JDocument extends JObject
 	 * @return	string
 	 * @access	public
 	 */
-	function getMetaData($name, $http_equiv = false)
+	public function getMetaData($name, $http_equiv = false)
 	{
 		$result = '';
-		if ($http_equiv == true) {
-			$result = @$this->_metaTags['http-equiv'][$name];
+		$name = strtolower($name);
+		if($name == 'generator') {
+			$result = $this->getGenerator();
+		} elseif($name == 'description') {
+			$result = $this->getDescription();
 		} else {
-			$result = @$this->_metaTags['standard'][$name];
+			if ($http_equiv == true) {
+				$result = @$this->_metaTags['http-equiv'][$name];
+			} else {
+				$result = @$this->_metaTags['standard'][$name];
+			}
 		}
 		return $result;
 	}
@@ -393,12 +395,19 @@ class JDocument extends JObject
 	 * @return void
 	 * @access public
 	 */
-	function setMetaData($name, $content, $http_equiv = false)
+	public function setMetaData($name, $content, $http_equiv = false)
 	{
-		 if ($http_equiv == true) {
-			$this->_metaTags['http-equiv'][$name] = $content;
+		$name = strtolower($name);
+		if($name == 'generator') {
+			$this->setGenerator($content);
+		} elseif($name == 'description') {
+			$this->setDescription($content);
 		} else {
-			$this->_metaTags['standard'][$name] = $content;
+			if ($http_equiv == true) {
+				$this->_metaTags['http-equiv'][$name] = $content;
+			} else {
+				$this->_metaTags['standard'][$name] = $content;
+			}
 		}
 	}
 
@@ -409,7 +418,7 @@ class JDocument extends JObject
 	 * @param	string  $type		Type of script. Defaults to 'text/javascript'
 	 * @access   public
 	 */
-	function addScript($url, $type="text/javascript") {
+	public function addScript($url, $type="text/javascript") {
 		$this->_scripts[$url] = $type;
 	}
 
@@ -421,7 +430,7 @@ class JDocument extends JObject
 	 * @param	string  $type	Scripting mime (defaults to 'text/javascript')
 	 * @return   void
 	 */
-	function addScriptDeclaration($content, $type = 'text/javascript')
+	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
 		if (!isset($this->_script[strtolower($type)])) {
 			$this->_script[strtolower($type)] = $content;
@@ -438,7 +447,7 @@ class JDocument extends JObject
 	 * @param	string  $media  Media type that this stylesheet applies to
 	 * @access   public
 	 */
-	function addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array())
+	public function addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array())
 	{
 		$this->_styleSheets[$url]['mime']		= $type;
 		$this->_styleSheets[$url]['media']		= $media;
@@ -453,7 +462,7 @@ class JDocument extends JObject
 	 * @access   public
 	 * @return   void
 	 */
-	function addStyleDeclaration($content, $type = 'text/css')
+	public function addStyleDeclaration($content, $type = 'text/css')
 	{
 		if (!isset($this->_style[strtolower($type)])) {
 			$this->_style[strtolower($type)] = $content;
@@ -469,7 +478,7 @@ class JDocument extends JObject
 	 * @access  public
 	 * @return  void
 	 */
-	function setCharset($type = 'utf-8') {
+	public function setCharset($type = 'utf-8') {
 		$this->_charset = $type;
 	}
 
@@ -479,7 +488,7 @@ class JDocument extends JObject
 	 * @access public
 	 * @return string
 	 */
-	function getCharset() {
+	public function getCharset() {
 		return $this->_charset;
 	}
 
@@ -489,7 +498,7 @@ class JDocument extends JObject
 	 * @access public
 	 * @param   string   $lang
 	 */
-	function setLanguage($lang = "en-gb") {
+	public function setLanguage($lang = "en-gb") {
 		$this->language = strtolower($lang);
 	}
 
@@ -499,7 +508,7 @@ class JDocument extends JObject
 	 * @return string
 	 * @access public
 	 */
-	function getLanguage() {
+	public function getLanguage() {
 		return $this->language;
 	}
 
@@ -509,7 +518,7 @@ class JDocument extends JObject
 	 * @access public
 	 * @param   string   $lang
 	 */
-	function setDirection($dir = "ltr") {
+	public function setDirection($dir = "ltr") {
 		$this->direction = strtolower($dir);
 	}
 
@@ -519,7 +528,7 @@ class JDocument extends JObject
 	 * @return string
 	 * @access public
 	 */
-	function getDirection() {
+	public function getDirection() {
 		return $this->direction;
 	}
 
@@ -529,7 +538,7 @@ class JDocument extends JObject
 	 * @param	string	$title
 	 * @access   public
 	 */
-	function setTitle($title) {
+	public function setTitle($title) {
 		$this->title = $title;
 	}
 
@@ -539,7 +548,7 @@ class JDocument extends JObject
 	 * @return   string
 	 * @access   public
 	 */
-	function getTitle() {
+	public function getTitle() {
 		return $this->title;
 	}
 
@@ -549,7 +558,7 @@ class JDocument extends JObject
 	 * @param	string	$base
 	 * @access   public
 	 */
-	function setBase($base) {
+	public function setBase($base) {
 		$this->base = $base;
 	}
 
@@ -559,7 +568,7 @@ class JDocument extends JObject
 	 * @return   string
 	 * @access   public
 	 */
-	function getBase() {
+	public function getBase() {
 		return $this->base;
 	}
 
@@ -569,7 +578,7 @@ class JDocument extends JObject
 	 * @param	string	$title
 	 * @access   public
 	 */
-	function setDescription($description) {
+	public function setDescription($description) {
 		$this->description = $description;
 	}
 
@@ -579,7 +588,7 @@ class JDocument extends JObject
 	 * @return   string
 	 * @access   public
 	 */
-	function getDescription() {
+	public function getDescription() {
 		return $this->description;
 	}
 
@@ -590,7 +599,7 @@ class JDocument extends JObject
 	 * @access  public
 	 * @return  void
 	 */
-	function setLink($url) {
+	public function setLink($url) {
 		$this->link = $url;
 	}
 
@@ -600,7 +609,7 @@ class JDocument extends JObject
 	 * @access public
 	 * @return string
 	 */
-	function getLink() {
+	public function getLink() {
 		return $this->link;
 	}
 
@@ -611,7 +620,7 @@ class JDocument extends JObject
 	 * @access  public
 	 * @return  void
 	 */
-	function setGenerator($generator) {
+	public function setGenerator($generator) {
 		$this->_generator = $generator;
 	}
 
@@ -621,7 +630,7 @@ class JDocument extends JObject
 	 * @access public
 	 * @return string
 	 */
-	function getGenerator() {
+	public function getGenerator() {
 		return $this->_generator;
 	}
 
@@ -632,7 +641,7 @@ class JDocument extends JObject
 	 * @access  public
 	 * @return  void
 	 */
-	function setModifiedDate($date) {
+	public function setModifiedDate($date) {
 		$this->_mdate = $date;
 	}
 
@@ -642,7 +651,7 @@ class JDocument extends JObject
 	 * @access public
 	 * @return string
 	 */
-	function getModifiedDate() {
+	public function getModifiedDate() {
 		return $this->_mdate;
 	}
 
@@ -659,7 +668,7 @@ class JDocument extends JObject
 	 * @access   public
 	 * @return   void
 	 */
-	function setMimeEncoding($type = 'text/html') {
+	public function setMimeEncoding($type = 'text/html') {
 		$this->_mime = strtolower($type);
 	}
 
@@ -670,7 +679,7 @@ class JDocument extends JObject
 	 * @access  public
 	 * @return  void
 	 */
-	function setLineEnd($style)
+	public function setLineEnd($style)
 	{
 		switch ($style) {
 			case 'win':
@@ -693,7 +702,7 @@ class JDocument extends JObject
 	 * @access	private
 	 * @return	string
 	 */
-	function _getLineEnd() {
+	public function _getLineEnd() {
 		return $this->_lineEnd;
 	}
 
@@ -704,7 +713,7 @@ class JDocument extends JObject
 	 * @access	public
 	 * @return	void
 	 */
-	function setTab($string) {
+	public function setTab($string) {
 		$this->_tab = $string;
 	}
 
@@ -714,7 +723,7 @@ class JDocument extends JObject
 	 * @access	private
 	 * @return	string
 	 */
-	function _getTab() {
+	public function _getTab() {
 		return $this->_tab;
 	}
 
@@ -726,7 +735,7 @@ class JDocument extends JObject
 	* @return	object
 	* @since 1.5
 	*/
-	function &loadRenderer( $type )
+	public function &loadRenderer( $type )
 	{
 		$null	= null;
 		$class	= 'JDocumentRenderer'.$type;
@@ -735,9 +744,9 @@ class JDocument extends JObject
 		{
 			$path = dirname(__FILE__).DS.$this->_type.DS.'renderer'.DS.$type.'.php';
 			if(file_exists($path)) {
-				require_once($path);
+				require_once $path;
 			} else {
-				JError::raiseError(500,JText::_('Unable to load renderer class'));
+				throw new JException(JText::_('Unable to load renderer class'), 500, E_ERROR, $class, true);
 			}
 		}
 
@@ -758,7 +767,7 @@ class JDocument extends JObject
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	function render( $cache = false, $params = array())
+	public function render( $cache = false, $params = array())
 	{
 		JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
 		if ($mdate = $this->getModifiedDate()) {

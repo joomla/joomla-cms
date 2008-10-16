@@ -25,7 +25,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Application
  * @since		1.5
  */
-class JView extends JObject
+abstract class JView extends JObject
 {
 	/**
 	 * The name of the view
@@ -33,7 +33,7 @@ class JView extends JObject
 	 * @var		array
 	 * @access protected
 	 */
-	var $_name = null;
+	protected $_name = null;
 
 	/**
 	 * Registered models
@@ -41,7 +41,7 @@ class JView extends JObject
 	 * @var		array
 	 * @access protected
 	 */
-	var $_models = array();
+	protected $_models = array();
 
 	/**
 	 * The base path of the view
@@ -49,7 +49,7 @@ class JView extends JObject
 	 * @var		string
 	 * @access 	protected
 	 */
-	var $_basePath = null;
+	protected $_basePath = null;
 
 	/**
 	 * The default model
@@ -57,7 +57,7 @@ class JView extends JObject
 	 * @var	string
 	 * @access protected
 	 */
-	var $_defaultModel = null;
+	protected $_defaultModel = null;
 
 	/**
 	 * Layout name
@@ -65,7 +65,7 @@ class JView extends JObject
 	 * @var		string
 	 * @access 	protected
 	 */
-	var $_layout = 'default';
+	protected $_layout = 'default';
 
 	/**
 	 * Layout extension
@@ -73,7 +73,7 @@ class JView extends JObject
 	 * @var		string
 	 * @access 	protected
 	 */
-	var $_layoutExt = 'php';
+	protected $_layoutExt = 'php';
 
 	/**
 	* The set of search directories for resources (templates)
@@ -81,7 +81,7 @@ class JView extends JObject
 	* @var array
 	* @access protected
 	*/
-	var $_path = array(
+	protected $_path = array(
 		'template' => array(),
 		'helper' => array()
 	);
@@ -92,7 +92,7 @@ class JView extends JObject
 	* @var string
 	* @access private
 	*/
-	var $_template = null;
+	protected $_template = null;
 
 	/**
 	* The output of the template script.
@@ -100,30 +100,34 @@ class JView extends JObject
 	* @var string
 	* @access private
 	*/
-	var $_output = null;
+	protected $_output = null;
 
 	/**
-     * Callback for escaping.
-     *
-     * @var string
-     * @access private
-     */
-    var $_escape = 'htmlspecialchars';
+	 * Callback for escaping.
+	 *
+	 * @var string
+	 * @access private
+	 */
+	protected $_escape = 'htmlspecialchars';
 
 	 /**
-     * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
-     *
-     * @var string
-     * @access private
-     */
-    var $_charset = 'UTF-8';
+	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
+	 *
+	 * @var string
+	 * @access private
+	 */
+	protected $_charset = 'UTF-8';
+
+	public $baseurl = '';
+
+	protected $_data = array();
 
 	/**
 	 * Constructor
 	 *
 	 * @access	protected
 	 */
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
 		//set the view name
 		if (empty( $this->_name ))
@@ -136,14 +140,14 @@ class JView extends JObject
 		}
 
 		 // set the charset (used by the variable escaping functions)
-        if (array_key_exists('charset', $config)) {
-            $this->_charset = $config['charset'];
-        }
+		if (array_key_exists('charset', $config)) {
+			$this->_charset = $config['charset'];
+		}
 
 		 // user-defined escaping callback
-        if (array_key_exists('escape', $config)) {
-            $this->setEscape($config['escape']);
-        }
+		if (array_key_exists('escape', $config)) {
+			$this->setEscape($config['escape']);
+		}
 
 		// Set a base path for use by the view
 		if (array_key_exists('base_path', $config)) {
@@ -179,6 +183,33 @@ class JView extends JObject
 	}
 
 	/**
+	 * Provides interception of default php error handling logic for objects.  Enforceing class definitions
+	 *
+	 * @access	public
+	 * @throw Jexception
+	 * @since	1.6
+ 	 */
+	public function &__get($var) {
+		if(isset($this->_data[$var])) {
+			return $this->_data[$var];
+		}
+		JError::raiseNotice(0, 'Attempted to access undefined object propery', $var);
+		return $this->$var;
+	}
+
+	/**
+	 * Provides interception of default php error handling logic for objects.  Enforceing class definitions
+	 *
+	 * @access	public
+	 * @throw Jexception
+	 * @since	1.6
+ 	 */
+	public function __set($var, $val) {
+		JError::raiseNotice(0, 'Attempted to set undefined object propery', array('var'=>$var, 'val'=>$val));
+		$this->_data[$var] = $val;
+	}
+	
+	/**
 	* Execute and display a template script.
 	*
 	* @param string $tpl The name of the template file to parse;
@@ -187,13 +218,9 @@ class JView extends JObject
 	* @throws object An JError object.
 	* @see fetch()
 	*/
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
-		if (JError::isError($result)) {
-			return $result;
-		}
-
 		echo $result;
 	}
 
@@ -233,7 +260,7 @@ class JView extends JObject
 	* @access public
 	* @return bool True on success, false on failure.
 	*/
-	function assign()
+	public function assign()
 	{
 		// get the arguments; there may be 1 or 2.
 		$arg0 = @func_get_arg(0);
@@ -304,11 +331,15 @@ class JView extends JObject
 	* @return bool True on success, false on failure.
 	*/
 
-	function assignRef($key, &$val)
+	public function assignRef($key, &$val)
 	{
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
-			$this->$key =& $val;
+			if(array_key_exists($key, get_object_vars($this))) {
+				$this->$key =& $val;
+			} else {
+				$this->_data[$key] =& $val;
+			}
 			return true;
 		}
 
@@ -316,22 +347,22 @@ class JView extends JObject
 	}
 
 	/**
-     * Escapes a value for output in a view script.
-     *
-     * If escaping mechanism is one of htmlspecialchars or htmlentities, uses
-     * {@link $_encoding} setting.
-     *
-     * @param  mixed $var The output to escape.
-     * @return mixed The escaped value.
-     */
-    function escape($var)
-    {
-        if (in_array($this->_escape, array('htmlspecialchars', 'htmlentities'))) {
-            return call_user_func($this->_escape, $var, ENT_COMPAT, $this->_charset);
-        }
+	 * Escapes a value for output in a view script.
+	 *
+	 * If escaping mechanism is one of htmlspecialchars or htmlentities, uses
+	 * {@link $_encoding} setting.
+	 *
+	 * @param  mixed $var The output to escape.
+	 * @return mixed The escaped value.
+	 */
+	public function escape($var)
+	{
+		if (in_array($this->_escape, array('htmlspecialchars', 'htmlentities'))) {
+			return call_user_func($this->_escape, $var, ENT_COMPAT, $this->_charset);
+		}
 
-        return call_user_func($this->_escape, $var);
-    }
+		return call_user_func($this->_escape, $var);
+	}
 
 	/**
 	 * Method to get data from a registered model or a property of the view
@@ -341,9 +372,8 @@ class JView extends JObject
 	 * @param	string	The name of the model to reference, or the default value [optional]
 	 * @return mixed	The return value of the method
 	 */
-	function &get( $property, $default = null )
+	public function &get( $property, $default = null )
 	{
-
 		// If $model is null we use the default model
 		if (is_null($default)) {
 			$model = $this->_defaultModel;
@@ -361,8 +391,8 @@ class JView extends JObject
 			if (method_exists($this->_models[$model], $method))
 			{
 				// The method exists, lets call it and return what we get
-                $result = $this->_models[$model]->$method();
-                return $result;
+				$result = $this->_models[$model]->$method();
+				return $result;
 			}
 
 		}
@@ -380,7 +410,7 @@ class JView extends JObject
 	 * @param	string	$name	The name of the model (optional)
 	 * @return	mixed			JModel object
 	 */
-	function &getModel( $name = null )
+	public function &getModel( $name = null )
 	{
 		if ($name === null) {
 			$name = $this->_defaultModel;
@@ -395,7 +425,7 @@ class JView extends JObject
 	* @return string The layout name
 	*/
 
-	function getLayout()
+	public function getLayout()
 	{
 		return $this->_layout;
 	}
@@ -410,7 +440,7 @@ class JView extends JObject
 	 * @return	string The name of the model
 	 * @since	1.5
 	 */
-	function getName()
+	public function getName()
 	{
 		$name = $this->_name;
 
@@ -418,7 +448,7 @@ class JView extends JObject
 		{
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r)) {
-				JError::raiseError (500, "JView::getName() : Cannot get or parse class name.");
+				throw new JException('Cannot get or parse class name', 500, E_ERROR, get_class($this), true);
 			}
 			if (strpos($r[3], "view"))
 			{
@@ -444,7 +474,7 @@ class JView extends JObject
 	 * @param	boolean	$default	Is this the default model?
 	 * @return	object				The added model
 	 */
-	function &setModel( &$model, $default = false )
+	public function &setModel( &$model, $default = false )
 	{
 		$name = strtolower($model->getName());
 		$this->_models[$name] = &$model;
@@ -464,7 +494,7 @@ class JView extends JObject
 	* @since	1.5
 	*/
 
-	function setLayout($layout)
+	public function setLayout($layout)
 	{
 		$previous		= $this->_layout;
 		$this->_layout = $layout;
@@ -479,7 +509,7 @@ class JView extends JObject
 	 * @return	string	Previous value
 	 * @since	1.5
 	 */
-	function setLayoutExt( $value )
+	public function setLayoutExt( $value )
 	{
 		$previous	= $this->_layoutExt;
 		if ($value = preg_replace( '#[^A-Za-z0-9]#', '', trim( $value ) )) {
@@ -489,14 +519,14 @@ class JView extends JObject
 	}
 
 	 /**
-     * Sets the _escape() callback.
-     *
-     * @param mixed $spec The callback for _escape() to use.
-     */
-    function setEscape($spec)
-    {
-        $this->_escape = $spec;
-    }
+	 * Sets the _escape() callback.
+	 *
+	 * @param mixed $spec The callback for _escape() to use.
+	 */
+	public function setEscape($spec)
+	{
+		$this->_escape = $spec;
+	}
 
 	/**
 	 * Adds to the stack of view script paths in LIFO order.
@@ -504,7 +534,7 @@ class JView extends JObject
 	 * @param string|array The directory (-ies) to add.
 	 * @return void
 	 */
-	function addTemplatePath($path)
+	public function addTemplatePath($path)
 	{
 		$this->_addPath('template', $path);
 	}
@@ -515,7 +545,7 @@ class JView extends JObject
 	 * @param string|array The directory (-ies) to add.
 	 * @return void
 	 */
-	function addHelperPath($path)
+	public function addHelperPath($path)
 	{
 		$this->_addPath('helper', $path);
 	}
@@ -528,9 +558,10 @@ class JView extends JObject
 	 * automatically searches the template paths and compiles as needed.
 	 * @return string The output of the the template script.
 	 */
-	function loadTemplate( $tpl = null)
+	public function loadTemplate( $tpl = null)
 	{
-		global $mainframe, $option;
+		$appl		= JFactory::getApplication();
+		$option		= JApplicationHelper::getComponentName();
 
 		// clear prior output
 		$this->_output = null;
@@ -571,7 +602,7 @@ class JView extends JObject
 			return $this->_output;
 		}
 		else {
-			return JError::raiseError( 500, 'Layout "' . $file . '" not found' );
+			throw new JException('Layout file not found', 500, E_ERROR, $file, true);
 		}
 	}
 
@@ -583,7 +614,7 @@ class JView extends JObject
 	 * automatically searches the helper paths and compiles as needed.
 	 * @return boolean Returns true if the file was loaded
 	 */
-	function loadHelper( $hlp = null)
+	public function loadHelper( $hlp = null)
 	{
 		// clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
@@ -607,9 +638,10 @@ class JView extends JObject
 	* @param string|array $path The new set of search paths.  If null or
 	* false, resets to the current directory only.
 	*/
-	function _setPath($type, $path)
+	protected function _setPath($type, $path)
 	{
-		global $mainframe, $option;
+		$component	= JApplicationHelper::getComponentName();
+		$appl		= JFactory::getApplication();
 
 		// clear out the prior search dirs
 		$this->_path[$type] = array();
@@ -623,10 +655,10 @@ class JView extends JObject
 			case 'template':
 			{
 				// set the alternative template search dir
-				if (isset($mainframe))
+				if (isset($appl))
 				{
-					$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
-					$fallback = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$option.DS.$this->getName();
+					$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+					$fallback	= JPATH_BASE.DS.'templates'.DS.$appl->getTemplate().DS.'html'.DS.$component.DS.$this->getName();
 					$this->_addPath('template', $fallback);
 				}
 			}	break;
@@ -639,7 +671,7 @@ class JView extends JObject
 	* @access protected
 	* @param string|array $path The directory or stream to search.
 	*/
-	function _addPath($type, $path)
+	protected function _addPath($type, $path)
 	{
 		// just force to array
 		settype($path, 'array');
@@ -670,7 +702,7 @@ class JView extends JObject
 	 * @return string The filename
 	 * @since 1.5
 	 */
-	function _createFileName($type, $parts = array())
+	private function _createFileName($type, $parts = array())
 	{
 		$filename = '';
 

@@ -16,14 +16,14 @@
 		<param name="ordering" type="list" default="create_dsc" label="Ordering" description="Ordering options">
 			<option value="c_dsc">Recently Added First</option>
 			<option value="m_dsc">Recently Modified First</option>
-	  	</param>
+		</param>
 		<param name="user_id" type="list" default="0" label="Authors" description="A filter for the authors">
 			<option value="0">Anyone</option>
 			<option value="by_me">Added or modified by me</option>
 			<option value="not_me">Not added or modified by me</option>
-	  	</param>
+		</param>
 		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
 			<option value="0">Never</option>
-	  	</param>
+		</param>
 	</params>
 </install>

@@ -18,11 +18,10 @@ defined('JPATH_BASE') or die();
  * Route handling class
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @since		1.5
  */
-class JRoute
+abstract class JRoute
 {
 	/**
 	 * Translates an internal Joomla URL to a humanly readible URL.
@@ -36,11 +35,11 @@ class JRoute
 	 * 		-1: Make URI unsecure using the global unsecure site URI
 	 * @return The translated humanly readible URL
 	 */
-	function _($url, $xhtml = true, $ssl = null)
+	public static function _($url, $xhtml = true, $ssl = null)
 	{
 		// Get the router
-		$app	= &JFactory::getApplication();
-		$router = &$app->getRouter();
+		$app	= JFactory::getApplication();
+		$router = $app->getRouter();
 
 		// Make sure that we have our router
 		if (! $router) {
@@ -48,7 +47,7 @@ class JRoute
 		}
 
 		if ( (strpos($url, '&') !== 0 ) && (strpos($url, 'index.php') !== 0) ) {
-            return $url;
+			return $url;
  		}
 
 		// Build route
@@ -68,7 +67,7 @@ class JRoute
 		$ssl	= (int) $ssl;
 		if ( $ssl )
 		{
-			$uri	         =& JURI::getInstance();
+			$uri = JURI::getInstance();
 
 			// Get additional parts
 			static $prefix;
@@ -105,7 +104,7 @@ class JRoute
  * @subpackage	Language
  * @since		1.5
  */
-class JText
+abstract class JText
 {
 	/**
 	 * Translates a string into the current language
@@ -116,9 +115,9 @@ class JText
 	 * @since	1.5
 	 *
 	 */
-	function _($string, $jsSafe = false)
+	public static function _($string, $jsSafe = false)
 	{
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		return $lang->_($string, $jsSafe);
 	}
 
@@ -130,11 +129,11 @@ class JText
 	 * @param	mixed Mixed number of arguments for the sprintf function
 	 * @since	1.5
 	 */
-	function sprintf($string)
+	public static function sprintf($string)
 	{
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$args = func_get_args();
-		if (count($args) > 0) {
+		if(!empty($args)) {
 			$args[0] = $lang->_($args[0]);
 			return call_user_func_array('sprintf', $args);
 		}
@@ -149,11 +148,11 @@ class JText
 	 * @param	mixed Mixed number of arguments for the sprintf function
 	 * @since	1.5
 	 */
-	function printf($string)
+	public static function printf($string)
 	{
-		$lang =& JFactory::getLanguage();
+		$lang =&JFactory::getLanguage();
 		$args = func_get_args();
-		if (count($args) > 0) {
+		if (!empty($args)) {
 			$args[0] = $lang->_($args[0]);
 			return call_user_func_array('printf', $args);
 		}

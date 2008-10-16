@@ -300,7 +300,7 @@ td.pill_r {
 
 #maincolumn_full {
 	margin-left: 0;
-	padding: 0;	
+	padding: 0;
 	width: 100%;
 }
 
@@ -553,7 +553,7 @@ td.sectiontableentry2 {
 table.contentpaneopen, table.contentpane {
 	margin: 0;
 	padding: 0;
-	width: auto;
+	width: 100%;
 }
 
 table.contentpaneopen li {

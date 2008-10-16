@@ -32,7 +32,7 @@ class JInstallerPlugin extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct(&$parent)
+	public function __construct(&$parent)
 	{
 		$this->parent =& $parent;
 	}
@@ -44,7 +44,7 @@ class JInstallerPlugin extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		// Get a database connector object
 		$db =& $this->parent->getDBO();
@@ -66,7 +66,7 @@ class JInstallerPlugin extends JObject
 
 		// Get the component description
 		$description = & $this->manifest->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '' );
@@ -80,7 +80,7 @@ class JInstallerPlugin extends JObject
 
 		// Set the installation path
 		$element =& $this->manifest->getElementByPath('files');
-		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
+		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
 			$files =& $element->children();
 			foreach ($files as $file) {
 				if ($file->attributes($type)) {
@@ -144,7 +144,9 @@ class JInstallerPlugin extends JObject
 				' WHERE folder = '.$db->Quote($group) .
 				' AND element = '.$db->Quote($pname);
 		$db->setQuery($query);
-		if (!$db->Query()) {
+		try {
+			$db->Query();
+		} catch(JException $e) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Plugin').' '.JText::_('Install').': '.$db->stderr(true));
 			return false;
@@ -212,7 +214,7 @@ class JInstallerPlugin extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall($id, $clientId )
+	public function uninstall($id, $clientId )
 	{
 		// Initialize variables
 		$row	= null;
@@ -301,7 +303,7 @@ class JInstallerPlugin extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _rollback_plugin($arg)
+	protected function _rollback_plugin($arg)
 	{
 		// Get database connector object
 		$db =& $this->parent->getDBO();
@@ -311,6 +313,10 @@ class JInstallerPlugin extends JObject
 				' FROM `#__plugins`' .
 				' WHERE id='.(int)$arg['id'];
 		$db->setQuery($query);
-		return ($db->query() !== false);
+		try {
+			return $db->query();
+		} catch(JException $e) {
+			return false;
+		}
 	}
 }

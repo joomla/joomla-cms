@@ -35,7 +35,6 @@ defined('JPATH_BASE') or die();
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	FileSystem
  * @since		1.5
@@ -46,7 +45,7 @@ class JArchiveZip extends JObject
 	 * ZIP compression methods.
 	 * @var array
 	 */
-	var $_methods = array (
+	protected $_methods = array (
 		0x0 => 'None',
 		0x1 => 'Shrunk',
 		0x2 => 'Super Fast',
@@ -61,31 +60,31 @@ class JArchiveZip extends JObject
 	 * Beginning of central directory record.
 	 * @var string
 	 */
-	var $_ctrlDirHeader = "\x50\x4b\x01\x02";
+	protected $_ctrlDirHeader = "\x50\x4b\x01\x02";
 
 	/**
 	 * End of central directory record.
 	 * @var string
 	 */
-	var $_ctrlDirEnd = "\x50\x4b\x05\x06\x00\x00\x00\x00";
+	protected $_ctrlDirEnd = "\x50\x4b\x05\x06\x00\x00\x00\x00";
 
 	/**
 	 * Beginning of file contents.
 	 * @var string
 	 */
-	var $_fileHeader = "\x50\x4b\x03\x04";
+	protected $_fileHeader = "\x50\x4b\x03\x04";
 
 	/**
 	 * ZIP file data buffer
 	 * @var string
 	 */
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * ZIP file metadata array
 	 * @var array
 	 */
-	var $_metadata = null;
+	protected $_metadata = null;
 
 	/**
 	 * Create a ZIP compressed file from an array of file data.
@@ -99,7 +98,7 @@ class JArchiveZip extends JObject
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function create($archive, $files, $options = array ())
+	public function create($archive, $files, $options = array ())
 	{
 		// Initialize variables
 		$contents = array();
@@ -122,7 +121,7 @@ class JArchiveZip extends JObject
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function extract($archive, $destination, $options = array ())
+	public function extract($archive, $destination, $options = array ())
 	{
 		if ( ! is_file($archive) )
 		{
@@ -144,7 +143,7 @@ class JArchiveZip extends JObject
 	 * @return	boolean	True if php has native ZIP support
 	 * @since	1.5
 	 */
-	function hasNativeSupport()
+	public function hasNativeSupport()
 	{
 		return (function_exists('zip_open') && function_exists('zip_read'));
 	}
@@ -157,7 +156,7 @@ class JArchiveZip extends JObject
 	 * @return	boolean	True if valid, false if invalid.
 	 * @since	1.5
 	 */
-	function checkZipData(& $data) {
+	public function checkZipData(& $data) {
 		if (strpos($data, $this->_fileHeader) === false) {
 			return false;
 		} else {
@@ -175,7 +174,7 @@ class JArchiveZip extends JObject
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function _extract($archive, $destination, $options)
+	protected function _extract($archive, $destination, $options)
 	{
 		// Initialize variables
 		$this->_data = null;
@@ -222,7 +221,7 @@ class JArchiveZip extends JObject
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function _extractNative($archive, $destination, $options)
+	protected function _extractNative($archive, $destination, $options)
 	{
 		if ($zip = zip_open($archive)) {
 			if ($zip) {
@@ -276,7 +275,7 @@ class JArchiveZip extends JObject
 	 * </pre>
 	 * @since	1.5
 	 */
-	function _getZipInfo(& $data)
+	protected function _getZipInfo(& $data)
 	{
 		// Initialize variables
 		$entries = array ();
@@ -302,10 +301,10 @@ class JArchiveZip extends JObject
 
 			$entries[$name]['type'] = ($info['Internal'] & 0x01) ? 'text' : 'binary';
 			$entries[$name]['attr'] = (($info['External'] & 0x10) ? 'D' : '-') .
-									  (($info['External'] & 0x20) ? 'A' : '-') .
-									  (($info['External'] & 0x03) ? 'S' : '-') .
-									  (($info['External'] & 0x02) ? 'H' : '-') .
-									  (($info['External'] & 0x01) ? 'R' : '-');
+										(($info['External'] & 0x20) ? 'A' : '-') .
+										(($info['External'] & 0x03) ? 'S' : '-') .
+										(($info['External'] & 0x02) ? 'H' : '-') .
+										(($info['External'] & 0x01) ? 'R' : '-');
 		} while (($fhStart = strpos($data, $this->_ctrlDirHeader, $fhStart +46)) !== false);
 
 		// Get details from local file header.
@@ -332,7 +331,7 @@ class JArchiveZip extends JObject
 	 * @return	string	Uncompresed file data buffer
 	 * @since	1.5
 	 */
-	function _getFileData($key) {
+	protected function _getFileData($key) {
 		if ($this->_metadata[$key]['_method'] == 0x8) {
 			// If zlib extention is loaded use it
 			if (extension_loaded('zlib')) {
@@ -369,7 +368,7 @@ class JArchiveZip extends JObject
 	 * @return	int	The current date in a 4-byte DOS format.
 	 * @since	1.5
 	 */
-	function _unix2DOSTime($unixtime = null) {
+	protected function _unix2DOSTime($unixtime = null) {
 		$timearray = (is_null($unixtime)) ? getdate() : getdate($unixtime);
 
 		if ($timearray['year'] < 1980) {
@@ -395,7 +394,7 @@ class JArchiveZip extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function _addToZIPFile(& $file, & $contents, & $ctrldir) {
+	protected function _addToZIPFile(& $file, & $contents, & $ctrldir) {
 		$data = & $file['data'];
 		$name = str_replace('\\', '/', $file['name']);
 
@@ -454,10 +453,8 @@ class JArchiveZip extends JObject
 		$cdrec .= pack('v', 0); /* File comment length. */
 		$cdrec .= pack('v', 0); /* Disk number start. */
 		$cdrec .= pack('v', 0); /* Internal file attributes. */
-		$cdrec .= pack('V', 32); /* External file attributes -
-		                                   'archive' bit set. */
-		$cdrec .= pack('V', $old_offset); /* Relative offset of local
-		                                            header. */
+		$cdrec .= pack('V', 32); /* External file attributes - 'archive' bit set. */
+		$cdrec .= pack('V', $old_offset); /* Relative offset of local header. */
 		$cdrec .= $name; /* File name. */
 		/* Optional extra field, file comment goes here. */
 
@@ -478,7 +475,7 @@ class JArchiveZip extends JObject
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function _createZIPFile(& $contents, & $ctrlDir, $path)
+	protected function _createZIPFile(& $contents, & $ctrlDir, $path)
 	{
 		$data = implode('', $contents);
 		$dir = implode('', $ctrlDir);

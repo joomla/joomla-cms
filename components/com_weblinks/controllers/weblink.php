@@ -34,7 +34,8 @@ class WeblinksControllerWeblink extends WeblinksController
 	*/
 	function edit()
 	{
-		$user = & JFactory::getUser();
+		$app	=& JFactory::getApplication();
+		$user	=& JFactory::getUser();
 
 		// Make sure you are logged in
 		if ($user->get('aid', 0) < 1) {
@@ -46,7 +47,11 @@ class WeblinksControllerWeblink extends WeblinksController
 		JRequest::setVar('layout', 'form');
 
 		$model =& $this->getModel('weblink');
-		$model->checkout();
+		// fail if checked out not by 'me'
+		if ($model->isCheckedOut( $user->get('id') )) {
+			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The weblink' ), $weblink->title );
+			$app->redirect( 'index.php?option=com_weblinks', $msg );
+		}
 
 		parent::display();
 	}

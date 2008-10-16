@@ -5,40 +5,36 @@
 * @subpackage	Table
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
 */
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
 
+require_once dirname(__FILE__).DS.'tree.php';
+
 /**
  * AroGroup table
  *
- * @package 	Joomla.Framework
+ * @package 		Joomla.Framework
  * @subpackage		Table
  * @since	1.0
  */
-class JTableAROGroup extends JTable
+class JTableAROGroup extends JTableTree
 {
 	/** @var int Primary key */
-	var $id			= null;
+	protected $id = null;
 
-	var $parent_id	= null;
+	protected $name = null;
 
-	var $name		= null;
+	protected $value = null;
 
-	var $value		= null;
-
-	var $lft		= null;
-
-	var $rgt		= null;
-
-	function __construct( &$db )
+	/**
+	 * Constructor
+	 *
+	 * @param	JDatabase	$db
+	 */
+	protected function __construct(&$db)
 	{
-		parent::__construct( '#__core_acl_aro_groups', 'group_id', $db );
+		parent::__construct('#__core_acl_aro_groups', 'id', $db);
 	}
 }

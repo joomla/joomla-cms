@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a section element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,15 +31,19 @@ class JElementSection extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Section';
+	protected $_name = 'Section';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db =& JFactory::getDBO();
 
 		$query = 'SELECT id, title FROM #__sections WHERE published = 1 AND scope = "content" ORDER BY title';
 		$db->setQuery($query);
-		$options = $db->loadObjectList();
+		try {
+			$options = $db->loadObjectList();
+		} catch(JException $e) {
+			$options = array();
+		}
 		array_unshift($options, JHTML::_('select.option', '0', '- '.JText::_('Select Section').' -', 'id', 'title'));
 
 		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value, $control_name.$name);

@@ -19,7 +19,7 @@
  * @subpackage	HTML
  * @since		1.5
  */
-class JHTMLContent
+abstract class JHTMLContent
 {
 	/**
 	 * Fire onPrepareContent for content that isn't part of an article.
@@ -28,7 +28,7 @@ class JHTMLContent
 	 * @param array The content params.
 	 * @return string The content after transformation.
 	 */
-	function prepare($text, $params = null)
+	public static function prepare($text, $params = null)
 	{
 		if ($params === null) {
 			$params = array();

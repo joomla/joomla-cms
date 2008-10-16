@@ -27,6 +27,13 @@ jimport( 'joomla.application.component.view');
  */
 class PluginsViewPlugins extends JView
 {
+	protected $client;
+	protected $user;
+	protected $lists;
+	protected $items;
+	protected $item;
+	protected $pagination;
+
 	function display( $tpl = null )
 	{
 		global $mainframe, $option;
@@ -86,7 +93,7 @@ class PluginsViewPlugins extends JView
 		$query = 'SELECT p.*, u.name AS editor, g.name AS groupname'
 			. ' FROM #__plugins AS p'
 			. ' LEFT JOIN #__users AS u ON u.id = p.checked_out'
-			. ' LEFT JOIN #__groups AS g ON g.id = p.access'
+			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = p.access'
 			. $where
 			. ' GROUP BY p.id'
 			. $orderby

@@ -21,13 +21,13 @@ if (!$user->authorize( 'com_poll', 'manage' )) {
 	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( JPATH_COMPONENT.DS.'controller.php' );
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 // Set the table directory
-JTable::addIncludePath( JPATH_COMPONENT.DS.'tables' );
+JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
 
 // Create the controller
-$controller	= new PollController( );
+$controller	= new PollController();
 
-$controller->execute( JRequest::getCmd( 'task' ) );
+$controller->execute(JRequest::getCmd( 'task' ) );
 $controller->redirect();

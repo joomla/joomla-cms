@@ -20,7 +20,6 @@ jimport('joomla.application.component.model');
 /**
  * Weblinks Component Weblink Model
  *
- * @author Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Weblinks
  * @since 1.5
@@ -81,7 +80,7 @@ class WeblinksModelWeblink extends JModel
 			$user = &JFactory::getUser();
 
 			// Make sure the weblink is published
-			if (!$this->_data->published) {
+			if ($this->_data->state != 1) {
 				JError::raiseError(404, JText::_("Resource Not Found"));
 				return false;
 			}
@@ -234,6 +233,34 @@ class WeblinksModelWeblink extends JModel
 	}
 
 	/**
+	 * Method to mark a weblink reported
+	 *
+	 * @access	public
+	 * @return	boolean	True on success
+	 * @since	1.6
+	 */
+	function report()
+	{
+		if ($this->_id)
+		{
+			$weblink = & $this->getTable();
+			if(!$weblink->load($this->_id)) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+			$weblink->state = -1;
+
+			if (!$weblink->store()) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Method to load content weblink data
 	 *
 	 * @access	private
@@ -278,7 +305,7 @@ class WeblinksModelWeblink extends JModel
 			$weblink->description			= null;
 			$weblink->date				= null;
 			$weblink->hits				= 0;
-			$weblink->published			= 0;
+			$weblink->state				= 0;
 			$weblink->checked_out			= 0;
 			$weblink->checked_out_time 	= 0;
 			$weblink->ordering			= 0;
@@ -292,4 +319,3 @@ class WeblinksModelWeblink extends JModel
 		return true;
 	}
 }
-?>

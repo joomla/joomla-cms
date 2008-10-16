@@ -12,7 +12,6 @@
 /**
  * Joomla! 1.5 Admin template main css file
  *
- * @author		Andy Miller <andy.miller@joomla.org>
  * @package		Joomla
  * @since		1.5
  * @version    1.0
@@ -73,6 +72,9 @@ legend    {
 input, select { font-size: 10px;  border: 1px solid silver; }
 textarea      { font-size: 11px;  border: 1px solid silver; }
 button        { font-size: 10px;  }
+
+.invalid { color: red; font-weight: bold; }
+input.invalid { border: 1px solid red; }
 
 input.disabled { background-color: #F0F0F0; }
 

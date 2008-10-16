@@ -29,86 +29,86 @@ class JTablePlugin extends JTable
 	 *
 	 *  @var int
 	 */
-	var $id = null;
+	protected $id = null;
 
 	/**
 	 *
 	 *
 	 * @var varchar
 	 */
-	var $name = null;
+	protected $name = null;
 
 	/**
 	 *
 	 *
 	 * @var varchar
 	 */
-	var $element = null;
+	protected $element = null;
 
 	/**
 	 *
 	 *
 	 * @var varchar
 	 */
-	var $folder = null;
+	protected $folder = null;
 
 	/**
 	 *
 	 *
 	 * @var tinyint unsigned
 	 */
-	var $access = null;
+	protected $access = null;
 
 	/**
 	 *
 	 *
 	 * @var int
 	 */
-	var $ordering = null;
+	protected $ordering = null;
 
 	/**
 	 *
 	 *
 	 * @var tinyint
 	 */
-	var $published = null;
+	protected $published = null;
 
 	/**
 	 *
 	 *
 	 * @var tinyint
 	 */
-	var $iscore = null;
+	protected $iscore = null;
 
 	/**
 	 *
 	 *
 	 * @var tinyint
 	 */
-	var $client_id = null;
+	protected $client_id = null;
 
 	/**
 	 *
 	 *
 	 * @var int unsigned
 	 */
-	var $checked_out = 0;
+	protected $checked_out = 0;
 
 	/**
 	 *
 	 *
 	 * @var datetime
 	 */
-	var $checked_out_time = 0;
+	protected $checked_out_time = 0;
 
 	/**
 	 *
 	 *
 	 * @var text
 	 */
-	var $params = null;
+	protected $params = null;
 
-	function __construct(& $db) {
+	protected function __construct(& $db) {
 		parent::__construct('#__plugins', 'id', $db);
 	}
 
@@ -121,7 +121,7 @@ class JTablePlugin extends JTable
 	* @see JTable:bind
 	* @since 1.5
 	*/
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (isset( $array['params'] ) && is_array($array['params']))
 		{

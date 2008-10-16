@@ -10,7 +10,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['debug']; ?>
+				<?php echo $this->lists['debug']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -20,7 +20,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['debug_lang']; ?>
+				<?php echo $this->lists['debug_lang']; ?>
 			</td>
 		</tr>
 	</table>

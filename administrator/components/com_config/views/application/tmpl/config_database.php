@@ -9,7 +9,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="dbtype" size="30" value="<?php echo $row->dbtype; ?>" />
+				<input class="text_area" type="text" name="dbtype" size="30" value="<?php echo $this->row->dbtype; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -19,7 +19,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="host" size="30" value="<?php echo $row->host; ?>" />
+				<input class="text_area" type="text" name="host" size="30" value="<?php echo $this->row->host; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -29,7 +29,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="user" size="30" value="<?php echo $row->user; ?>" />
+				<input class="text_area" type="text" name="user" size="30" value="<?php echo $this->row->user; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -39,7 +39,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="db" size="30" value="<?php echo $row->db; ?>" />
+				<input class="text_area" type="text" name="db" size="30" value="<?php echo $this->row->db; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -49,10 +49,10 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="dbprefix" size="10" value="<?php echo $row->dbprefix; ?>" />
+				<input class="text_area" type="text" name="dbprefix" size="10" value="<?php echo $this->row->dbprefix; ?>" />
 				&nbsp;
 				<span class="error hasTip" title="<?php echo JText::_( 'Warning' );?>::<?php echo JText::_( 'WARNDONOTCHANGEDATABASETABLESPREFIX' ); ?>">
-					<?php echo ConfigApplicationView::WarningIcon(); ?>
+					<?php echo JHTML::_('config.warnicon'); ?>
 				</span>
 			</td>
 		</tr>

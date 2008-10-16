@@ -29,41 +29,26 @@ class WeblinksViewWeblinks extends JView
 {
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
-
-		$db		=& JFactory::getDBO();
-		$uri	=& JFactory::getURI();
-
-		$filter_state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
-		$filter_catid		= $mainframe->getUserStateFromRequest( $option.'filter_catid',		'filter_catid',		0,				'int' );
-		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$search				= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$search				= JString::strtolower( $search );
+		// Set toolbar items for the page
+		JToolBarHelper::title(   JText::_( 'Weblink Manager' ), 'generic.png' );
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::editListX();
+		JToolBarHelper::addNewX();
+		JToolBarHelper::preferences('com_weblinks', '480');
+		JToolBarHelper::help( 'screen.weblink' );
 
 		// Get data from the model
 		$items		= & $this->get( 'Data');
 		$total		= & $this->get( 'Total');
 		$pagination = & $this->get( 'Pagination' );
-
-		// build list of categories
-		$javascript 	= 'onchange="document.adminForm.submit();"';
-		$lists['catid'] = JHTML::_('list.category',  'filter_catid', $option, intval( $filter_catid ), $javascript );
-
-		// state filter
-		$lists['state']	= JHTML::_('grid.state',  $filter_state );
-
-		// table ordering
-		$lists['order_Dir'] = $filter_order_Dir;
-		$lists['order'] = $filter_order;
-
-		// search filter
-		$lists['search']= $search;
+		$filter		= & $this->get( 'Filter');
 
 		$this->assignRef('user',		JFactory::getUser());
-		$this->assignRef('lists',		$lists);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
+		$this->assignRef('filter',		$filter);
 
 		parent::display($tpl);
 	}

@@ -37,20 +37,6 @@ class ContactController extends JController
 		$viewName	= JRequest::getVar('view', 'category', 'default', 'cmd');
 		$viewType	= $document->getType();
 
-		// interceptors to support legacy urls
-		switch ($this->getTask())
-		{
-			//index.php?option=com_contact&task=category&id=0&Itemid=4
-			case 'category':
-				$viewName	= 'category';
-				$layout		= 'default';
-				break;
-			case 'view':
-				$viewName	= 'contact';
-				$layout		= 'default';
-				break;
-		}
-
 		// Set the default view name from the Request
 		$view = &$this->getView($viewName, $viewType);
 
@@ -196,100 +182,6 @@ class ContactController extends JController
 	}
 
 	/**
-	 * Method to output a vCard
-	 *
-	 * @static
-	 * @since 1.0
-	 */
-	function vcard()
-	{
-		global $mainframe;
-
-		// Initialize some variables
-		$db = & JFactory::getDBO();
-
-		$SiteName = $mainframe->getCfg('sitename');
-		$contactId = JRequest::getVar('contact_id', 0, '', 'int');
-		// Get a Contact table object and load the selected contact details
-		JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
-		$contact =& JTable::getInstance('contact', 'Table');
-		$contact->load($contactId);
-
-		// Get the contact detail parameters
-		$pparams = &$mainframe->getParams('com_contact');
-
-		// Should we show the vcard?
-		if ($pparams->get('allow_vcard', 0))
-		{
-			// Parse the contact name field and build the nam information for the vcard.
-			$firstname 	= null;
-			$middlename = null;
-			$surname 	= null;
-
-			// How many parts do we have?
-			$parts = explode(' ', $contact->name);
-			$count = count($parts);
-
-			switch ($count) {
-				case 1 :
-					// only a first name
-					$firstname = $parts[0];
-					break;
-
-				case 2 :
-					// first and last name
-					$firstname = $parts[0];
-					$surname = $parts[1];
-					break;
-
-				default :
-					// we have full name info
-					$firstname = $parts[0];
-					$surname = $parts[$count -1];
-					for ($i = 1; $i < $count -1; $i ++) {
-						$middlename .= $parts[$i].' ';
-					}
-					break;
-			}
-			// quick cleanup for the middlename value
-			$middlename = trim($middlename);
-
-			// Create a new vcard object and populate the fields
-			require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'helpers'.DS.'vcard.php');
-			$v = new JvCard();
-
-			$v->setPhoneNumber($contact->telephone, 'PREF;WORK;VOICE');
-			$v->setPhoneNumber($contact->fax, 'WORK;FAX');
-			$v->setName($surname, $firstname, $middlename, '');
-			$v->setAddress('', '', $contact->address, $contact->suburb, $contact->state, $contact->postcode, $contact->country, 'WORK;POSTAL');
-			$v->setEmail($contact->email_to);
-			$v->setNote($contact->misc);
-			$v->setURL( JURI::base(), 'WORK');
-			$v->setTitle($contact->con_position);
-			$v->setOrg($SiteName);
-
-			$filename = str_replace(' ', '_', $contact->name);
-			$v->setFilename($filename);
-
-			$output = $v->getVCard($SiteName);
-			$filename = $v->getFileName();
-
-			// Send vCard file headers
-			header('Content-Disposition: attachment; filename='.$filename);
-			header('Content-Length: '.strlen($output));
-			header('Connection: close');
-			header('Content-Type: text/x-vCard; name='.$filename);
-			header('Cache-Control: store, cache');
-			header('Pragma: cache');
-
-			print $output;
-		} else {
-			JError::raiseWarning('SOME_ERROR_CODE', 'ContactController::vCard: '.JText::_('NOTAUTH'));
-			return false;
-		}
-	}
-
-	/**
 	 * Validates some inputs based on component configuration
 	 *
 	 * @param Object	$contact	JTable Object
@@ -305,13 +197,6 @@ class ContactController extends JController
 		global $mainframe;
 
 		$session =& JFactory::getSession();
-
-		/**
-		$model		= $this->getModel('contact');
-		$options['category_id']	= $contact->catid;
-		$options['order by']	= 'a.default_con DESC, a.ordering ASC';
-		$contact 		= $model->getContact( $options );
-		**/
 
 		// Get params and component configurations
 		$params		= new JParameter($contact->params);
@@ -333,15 +218,9 @@ class ContactController extends JController
 		$bannedEmail 	= $configEmail . ($paramsEmail ? ';'.$paramsEmail : '');
 
 		// Prevent form submission if one of the banned text is discovered in the email field
-		if ( $bannedEmail ) {
-			$bannedEmail = explode( ';', $bannedEmail );
-			foreach ($bannedEmail as $value) {
-
-				if ( JString::stristr($email, $value) ) {
-					$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Email') );
-					return false;
-				}
-			}
+		if(false === $this->_checkText($email, $bannedEmail )) {
+			$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Email') );
+			return false;
 		}
 
 		// Determine banned subjects
@@ -350,14 +229,9 @@ class ContactController extends JController
 		$bannedSubject 	= $configSubject . ( $paramsSubject ? ';'.$paramsSubject : '');
 
 		// Prevent form submission if one of the banned text is discovered in the subject field
-		if ( $bannedSubject ) {
-			$bannedSubject = explode( ';', $bannedSubject );
-			foreach ($bannedSubject as $value) {
-				if ( JString::stristr($subject, $value) ) {
-					$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Subject') );
-					return false;
-				}
-			}
+		if(false === $this->_checkText($subject, $bannedSubject)) {
+			$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Subject') );
+			return false;
 		}
 
 		// Determine banned Text
@@ -366,14 +240,9 @@ class ContactController extends JController
 		$bannedText 	= $configText . ( $paramsText ? ';'.$paramsText : '' );
 
 		// Prevent form submission if one of the banned text is discovered in the text field
-		if ( $bannedText ) {
-			$bannedText = explode( ';', $bannedText );
-			foreach ($bannedText as $value) {
-				if ( JString::stristr($body, $value) ) {
-					$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Message') );
-					return false;
-				}
-			}
+		if(false === $this->_checkText( $body, $bannedText )) {
+			$this->setError( JText::sprintf('MESGHASBANNEDTEXT', 'Message') );
+			return false;
 		}
 
 		// test to ensure that only one email address is entered
@@ -385,4 +254,29 @@ class ContactController extends JController
 
 		return true;
 	}
+
+	/**
+	 * Checks $text for values contained in the array $array, and sets error message if true...
+	 *
+	 * @param String	$text		Text to search against
+	 * @param String	$list		semicolon (;) seperated list of banned values
+	 * @return Boolean
+	 * @access protected
+	 * @since 1.5.4
+	 */
+	function _checkText($text, $list) {
+		if(empty($list) || empty($text)) return true;
+		$array = explode(';', $list);
+		foreach ($array as $value) {
+			$value = trim($value);
+			if(empty($value)) continue;
+			if ( JString::stristr($text, $value) !== false ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+
 }

@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * DocumentError class, provides an easy interface to parse and display an error page
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
@@ -29,16 +28,22 @@ class JDocumentError extends JDocument
 	 * Error Object
 	 * @var	object
 	 */
-	var $_error;
+	protected $_error;
+	protected $template;
+	protected $baseurl;
+	protected $debug;
+	protected $error;
+	protected $_file;
+	
 
 	/**
 	 * Class constructor
 	 *
-	 * @access protected
+	 * @access public
 	 * @param	string	$type 		(either html or tex)
 	 * @param	array	$attributes Associative array of attributes
 	 */
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -57,7 +62,7 @@ class JDocumentError extends JDocument
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function setError($error)
+	public function setError($error)
 	{
 		if (JError::isError($error)) {
 			$this->_error = & $error;
@@ -74,7 +79,7 @@ class JDocumentError extends JDocument
 	 * @param boolean 	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
 	 */
-	function render( $cache = false, $params = array())
+	public function render( $cache = false, $params = array())
 	{
 		// If no error object is set return null
 		if (!isset($this->_error)) {
@@ -82,7 +87,7 @@ class JDocumentError extends JDocument
 		}
 
 		//Set the status header
-		JResponse::setHeader('status', $this->_error->code.' '.str_replace( "\n", ' ', $this->_error->message ));
+		JResponse::setHeader('status', $this->_error->get('code').' '.str_replace( "\n", ' ', $this->_error->get('message') ));
 		$file = 'error.php';
 
 		// check template
@@ -113,7 +118,7 @@ class JDocumentError extends JDocument
 	 * @param string 	$filename	The actual filename
 	 * @return string The contents of the template
 	 */
-	function _loadTemplate($directory, $filename)
+	public function _loadTemplate($directory, $filename)
 	{
 		$contents = '';
 
@@ -133,44 +138,29 @@ class JDocumentError extends JDocument
 		return $contents;
 	}
 
-	function renderBacktrace()
+	public function renderBacktrace()
 	{
-		$contents	= null;
-		$backtrace	= $this->_error->getTrace();
-		if( is_array( $backtrace ) )
-		{
-			ob_start();
-			$j	=	1;
-			echo  	'<table border="0" cellpadding="0" cellspacing="0" class="Table">';
-			echo  	'	<tr>';
-			echo  	'		<td colspan="3" align="left" class="TD"><strong>Call stack</strong></td>';
-			echo  	'	</tr>';
-			echo  	'	<tr>';
-			echo  	'		<td class="TD"><strong>#</strong></td>';
-			echo  	'		<td class="TD"><strong>Function</strong></td>';
-			echo  	'		<td class="TD"><strong>Location</strong></td>';
-			echo  	'	</tr>';
-			for( $i = count( $backtrace )-1; $i >= 0 ; $i-- )
-			{
-				echo  	'	<tr>';
-				echo  	'		<td class="TD">'.$j.'</td>';
-				if( isset( $backtrace[$i]['class'] ) ) {
-					echo  	'	<td class="TD">'.$backtrace[$i]['class'].$backtrace[$i]['type'].$backtrace[$i]['function'].'()</td>';
-				} else {
-					echo  	'	<td class="TD">'.$backtrace[$i]['function'].'()</td>';
-				}
-				if( isset( $backtrace[$i]['file'] ) ) {
-					echo  	'		<td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
-				} else {
-					echo  	'		<td class="TD">&nbsp;</td>';
-				}
-				echo  	'	</tr>';
-				$j++;
-			}
-			echo  	'</table>';
-			$contents = ob_get_contents();
-			ob_end_clean();
-		}
-		return $contents;
+		return JError::renderBacktrace($this->_error);
+	}
+
+	
+	/**
+	 * Get the document head data
+	 *
+	 * @access	public
+	 * @return	array	The document head data in array form
+	 */
+	public function getHeadData(){
+		return false;
+	}
+
+	/**
+	 * Set the document head data
+	 *
+	 * @access	public
+	 * @param	array	$data	The document head data in array form
+	 */
+	public function setHeadData($data) {
+		return false;
 	}
 }

@@ -54,7 +54,7 @@ define('DOMIT_RSS_ONERROR_RETURN', 3);
 * @author John Heinstein <johnkarl@nbnet.nb.ca>
 */
 class xml_domit_rss_base {
-    /** @var Object The underlying DOMIT! node of the element */
+	/** @var Object The underlying DOMIT! node of the element */
 	var $node = null;
 	/** @var array A list of valid RSS defined child elements */
 	var $rssDefinedElements = array();
@@ -64,7 +64,7 @@ class xml_domit_rss_base {
 	* @return Object The underlying DOMIT node
 	*/
 	function getNode() {
-	    return $this->node;
+		return $this->node;
 	} //getNode
 
 	/**
@@ -86,7 +86,7 @@ class xml_domit_rss_base {
 	* @return boolean True if the attribute exists
 	*/
 	function hasAttribute($attr) {
-	    return (($this->node->nodeType == DOMIT_ELEMENT_NODE) && $this->node->hasAttribute($attr));
+		return (($this->node->nodeType == DOMIT_ELEMENT_NODE) && $this->node->hasAttribute($attr));
 	} //hasAttribute
 
 	/**
@@ -95,16 +95,16 @@ class xml_domit_rss_base {
 	* @return boolean True if the element is predefined by the RSS spec
 	*/
 	function isRSSDefined($elementName) {
-	    $isDefined = false;
+		$isDefined = false;
 
-	    foreach ($this->rssDefinedElements as $key => $value) {
-	        if ($elementName == $value) {
-	            $isDefined = true;
-	            break;
-	        }
-	    }
+		foreach ($this->rssDefinedElements as $key => $value) {
+			if ($elementName == $value) {
+				$isDefined = true;
+				break;
+			}
+		}
 
-	    return $isDefined;
+		return $isDefined;
 	} //isRSSDefined
 
 	/**
@@ -113,13 +113,13 @@ class xml_domit_rss_base {
 	* @return boolean True if the named element has a single child text node
 	*/
 	function isSimpleRSSElement($elementName) {
-	    $elementName = strtolower($elementName);
+		$elementName = strtolower($elementName);
 
 		if (isset($this->DOMIT_RSS_indexer[$elementName])) {
-	    	return (get_class($this->getElement($elementName)) == 'xml_domit_rss_simpleelement');
+			return (get_class($this->getElement($elementName)) == 'xml_domit_rss_simpleelement');
 		}
 		else {
-		    return false;
+			return false;
 		}
 	} //isSimpleRSSElement
 
@@ -129,18 +129,18 @@ class xml_domit_rss_base {
 	* @param boolean True if illegal xml characters in text nodes and attributes should be converted to entities
 	* @return string The string representation
 	*/
-    function get($htmlSafe = false, $subEntities = false) {
-	    return $this->node->toString($htmlSafe, $subEntities);
+	function get($htmlSafe = false, $subEntities = false) {
+		return $this->node->toString($htmlSafe, $subEntities);
 	} //toString
 
-    /**
+	/**
 	* Generates a normalized (formatted for readability) representation of the node and its children
 	* @param boolean True if HTML readable output is desired
 	* @param boolean True if illegal xml characters in text nodes and attributes should be converted to entities
 	* @return string The formatted string representation
 	*/
 	function toNormalizedString($htmlSafe = false, $subEntities = false) {
-	    return $this->node->toNormalizedString($htmlSafe, $subEntities);
+		return $this->node->toNormalizedString($htmlSafe, $subEntities);
 	} //toNormalizedString
 } //xml_domit_rss_base
 
@@ -153,7 +153,7 @@ class xml_domit_rss_base {
 * @author John Heinstein <johnkarl@nbnet.nb.ca>
 */
 class xml_domit_rss_collection extends xml_domit_rss_elementindexer {
-    /** @var array An array holding the collection of custom elements */
+	/** @var array An array holding the collection of custom elements */
 	var $elements = array();
 	/** @var int The number of custom elements in the collection */
 	var $elementCount = 0;
@@ -190,7 +190,7 @@ class xml_domit_rss_collection extends xml_domit_rss_elementindexer {
 	* @return int The number of members in the collection
 	*/
 	function getElementCount() {
-	    return $this->elementCount;
+		return $this->elementCount;
 	} //getElementCount
 
 	/**
@@ -201,11 +201,11 @@ class xml_domit_rss_collection extends xml_domit_rss_elementindexer {
 		$total = $this->getElementCount();
   		$result = '';
 
-        for ($i = 0; $i < $total; $i++) {
-            $result .= $currElement->toString();
-        }
+		for ($i = 0; $i < $total; $i++) {
+			$result .= $currElement->toString();
+		}
 
-        return $result;
+		return $result;
 	} //getElementText
 } //xml_domit_rss_collection
 
@@ -240,23 +240,23 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	* @param Object A DOMIT! node representing the custom element
 	*/
 	function addIndexedElement(&$node) {
-	    $tagName = strtolower($node->nodeName);
+		$tagName = strtolower($node->nodeName);
 
-	    if (isset($this->DOMIT_RSS_indexer[$tagName])) {
-	        if (strtolower(get_class($this->DOMIT_RSS_indexer[$tagName])) == 'domit_element') {
-	        	$collection = new xml_domit_rss_collection();
-	        	$collection->addElement($this->DOMIT_RSS_indexer[$tagName]);
-	        	$collection->addElement($node);
-	        	$this->DOMIT_RSS_indexer[$tagName] =& $collection;
-	        }
-	        else {
+		if (isset($this->DOMIT_RSS_indexer[$tagName])) {
+			if (strtolower(get_class($this->DOMIT_RSS_indexer[$tagName])) == 'domit_element') {
+				$collection = new xml_domit_rss_collection();
+				$collection->addElement($this->DOMIT_RSS_indexer[$tagName]);
+				$collection->addElement($node);
+				$this->DOMIT_RSS_indexer[$tagName] =& $collection;
+			}
+			else {
 				//Don't think I need this case???
-	            //$this->DOMIT_RSS_indexer[$tagName]->addElement($node);
-	        }
-	    }
-	    else {
-	        $this->DOMIT_RSS_indexer[$tagName] =& $node;
-	    }
+				//$this->DOMIT_RSS_indexer[$tagName]->addElement($node);
+			}
+		}
+		else {
+			$this->DOMIT_RSS_indexer[$tagName] =& $node;
+		}
 	} //addIndexedElement
 
 	/**
@@ -265,7 +265,7 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	* @return boolean True if a collection of elements exists
 	*/
 	function isCollection($elementName) {
-	    $elementName = strtolower($elementName);
+		$elementName = strtolower($elementName);
 
 		if (isset($this->DOMIT_RSS_indexer[$elementName])) {
 			return (get_class($this->DOMIT_RSS_indexer[$elementName]) == 'xml_domit_rss_collection');
@@ -281,7 +281,7 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	* @return boolean True if the requested element is a DOMIT! node
 	*/
 	function isNode($elementName) {
-	    $elementName = strtolower($elementName);
+		$elementName = strtolower($elementName);
 
 		if (isset($this->DOMIT_RSS_indexer[$elementName])) {
 			return (strtolower(get_class($this->DOMIT_RSS_indexer[$elementName])) == 'domit_element');
@@ -297,7 +297,7 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	* @return boolean True if the requested element is a DOMIT! node
 	*/
 	function isCustomRSSElement($elementName) {
-	    return isNode($elementName);
+		return isNode($elementName);
 	} //isCustomRSSElement
 
 	/**
@@ -342,7 +342,7 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	function &getElementAt($index) {
 		$this->indexNumerically();
 
-	    if (isset($this->DOMIT_RSS_numericalIndexer[$index])) {
+		if (isset($this->DOMIT_RSS_numericalIndexer[$index])) {
 			return $this->DOMIT_RSS_numericalIndexer[$index];
 		}
 		else {
@@ -358,10 +358,10 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 		if (!isset($this->DOMIT_RSS_numericalIndexer)) {
 			$counter = 0;
 
-            foreach ($this->DOMIT_RSS_indexer as $key => $value) {
+			foreach ($this->DOMIT_RSS_indexer as $key => $value) {
 				$this->DOMIT_RSS_numericalIndexer[$counter] =& $this->DOMIT_RSS_indexer[$key];
 				$counter++;
-	    	}
+			}
 		}
 	} //indexNumerically
 
@@ -372,7 +372,7 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	*/
 	function getElementText($elementName) {
 		$elementName = strtolower($elementName);
-	    return $this->_getElementText($elementName, $this->DOMIT_RSS_indexer);
+		return $this->_getElementText($elementName, $this->DOMIT_RSS_indexer);
 	} //getElementText
 
 	/**
@@ -381,9 +381,9 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	* @return string The element text, or an empty string
 	*/
 	function getElementTextAt($index) {
-	    $this->indexNumerically();
+		$this->indexNumerically();
 
-	    return $this->_getElementText($index, $this->DOMIT_RSS_numericalIndexer);
+		return $this->_getElementText($index, $this->DOMIT_RSS_numericalIndexer);
 	} //getElementTextAt
 
 	/**
@@ -393,7 +393,7 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	* @return string The element text, or an empty string
 	*/
 	function _getElementText($index, &$myArray) {
-	    if (isset($myArray[$index])) {
+		if (isset($myArray[$index])) {
 			$element =& $myArray[$index];
 			$result = '';
 
@@ -403,16 +403,16 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 			}
 			else {
 				switch (strtolower(get_class($element))) {
-				    case 'xml_domit_rss_simpleelement':
-				        $result = $element->getElementText();
-				        break;
+					case 'xml_domit_rss_simpleelement':
+						$result = $element->getElementText();
+						break;
 
-				    case 'xml_domit_rss_collection':
-				        $result = $element->getElementText();
-				        break;
+					case 'xml_domit_rss_collection':
+						$result = $element->getElementText();
+						break;
 
 					case 'domit_element':
-					    $total = $element->childCount;
+						$total = $element->childCount;
 
 						for ($i = 0; $i < $total; $i++) {
 							$currNode =& $element->childNodes[$i];
@@ -472,10 +472,10 @@ class xml_domit_rss_base_document extends xml_domit_rss_elementindexer {
 	* @return mixed Null if an url was not provided, true if an url was provided and parsing was successful, false otherwise
 	*/
 	function xml_domit_rss_base_document ($url = '', $cacheDir = './', $cacheTime = 3600) {
-	    $success = null;
-	    $this->createDocument();
+		$success = null;
+		$this->createDocument();
 
-	    if ($url != '') { //if rss data is from filesystem
+		if ($url != '') { //if rss data is from filesystem
 			if (substr($url, 0, 4) != "http") {
 				$rssText = $this->getTextFromFile($url);
 				$this->parseRSS($rssText);
@@ -484,9 +484,9 @@ class xml_domit_rss_base_document extends xml_domit_rss_elementindexer {
 				$this->createDefaultCache($cacheDir, $cacheTime);
 				$success = $this->loadRSS($url, $cacheDir, $cacheTime);
 			}
-	    }
+		}
 
-	    return $success;
+		return $success;
 	} //xml_domit_rss_base_document
 
 	/**
@@ -511,7 +511,7 @@ class xml_domit_rss_base_document extends xml_domit_rss_elementindexer {
 	* @param string The password, if authentication is required
 	*/
 	function setConnection($host, $path = '/', $port = 80, $timeout = 0, $user = null, $password = null) {
-	    require_once(DOMIT_RSS_INCLUDE_PATH . 'php_http_client_generic.php');
+		require_once(DOMIT_RSS_INCLUDE_PATH . 'php_http_client_generic.php');
 
 		$this->httpConnection = new php_http_client_generic($host, $path, $port, $timeout, $user, $password);
 	} //setConnection
@@ -562,14 +562,14 @@ class xml_domit_rss_base_document extends xml_domit_rss_elementindexer {
 	*@return string Either 'DOMIT_RSS' or 'DOMIT_RSS_LITE'
 	*/
 	function parsedBy() {
-	    return $this->parser;
+		return $this->parser;
 	} //parsedBy
 
 	/**
 	* Creates an empty DOMIT! document to contain the RSS nodes
 	*/
 	function createDocument() {
-	    require_once(DOMIT_RSS_INCLUDE_PATH . 'xml_domit_include.php');
+		require_once(DOMIT_RSS_INCLUDE_PATH . 'xml_domit_include.php');
 		$this->node = new DOMIT_Document();
 		$this->node->resolveErrors(true);
 	} //createDocument
@@ -585,18 +585,18 @@ class xml_domit_rss_base_document extends xml_domit_rss_elementindexer {
 		$this->useCacheLite = $doUseCacheLite;
 
 		if ($doUseCacheLite) {
-		    if (!file_exists($pathToLibrary)) {
+			if (!file_exists($pathToLibrary)) {
 				$this->useCacheLite(false);
-		    }
-		    else {
+			}
+			else {
 				require_once($pathToLibrary);
 
 				$cacheOptions = array('cacheDir' => $cacheDir, 'lifeTime' => $cacheTime);
 				$this->cache = new Cache_Lite($cacheOptions);
-		    }
+			}
 		}
 		else {
-		    $this->createDefaultCache($cacheDir, $cacheTime);
+			$this->createDefaultCache($cacheDir, $cacheTime);
 		}
 	} //useCacheLite
 
@@ -606,7 +606,7 @@ class xml_domit_rss_base_document extends xml_domit_rss_elementindexer {
 	* @param int Expiration time for a cache file
 	*/
 	function createDefaultCache($cacheDir = './', $cacheTime = 3600) {
-	    require_once(DOMIT_RSS_INCLUDE_PATH . 'php_text_cache.php');
+		require_once(DOMIT_RSS_INCLUDE_PATH . 'php_text_cache.php');
 		$this->cache = new php_text_cache($cacheDir, $cacheTime, $this->rssTimeout);
 	} //initDefaultCache
 
@@ -628,10 +628,10 @@ class xml_domit_rss_base_document extends xml_domit_rss_elementindexer {
 			return $this->parseRSS($rssText);
 		}
 		else {
-		    if ($this->cacheEnabled && !isset($this->cache)) {
+			if ($this->cacheEnabled && !isset($this->cache)) {
 				$this->createDefaultCache();
 				$this->cache->httpConnection =& $this->httpConnection;
-		    }
+			}
 
 			$success = $this->loadRSSData($url);
 
@@ -649,8 +649,8 @@ class xml_domit_rss_base_document extends xml_domit_rss_elementindexer {
 	* @return boolean True if parsing is successful
 	*/
 	function parseRSS($rssText) {
-	    if ($this->cacheEnabled && !isset($this->cache)) $this->createDefaultCache();
-	    $success = $this->parseRSSData($rssText);
+		if ($this->cacheEnabled && !isset($this->cache)) $this->createDefaultCache();
+		$success = $this->parseRSSData($rssText);
 
 		if ($success) {
 			$this->_init();
@@ -676,20 +676,20 @@ class xml_domit_rss_base_document extends xml_domit_rss_elementindexer {
 	*/
 	function getDataFromCache($url) {
 		if ($this->cacheEnabled) {
-	    	if ($this->useCacheLite) {
-	        	if ($rssText = $this->cache->get($url)) {
-	            	return $rssText;
-	       		}
-	        	else {
-	            	$rssText = $this->getTextFromFile($url);
+			if ($this->useCacheLite) {
+				if ($rssText = $this->cache->get($url)) {
+					return $rssText;
+				}
+				else {
+					$rssText = $this->getTextFromFile($url);
 					if ($rssText != '') $this->cache->save($rssText, $url);
-	            	return $rssText;
-	        	}
-	    	}
-	    	else {
+					return $rssText;
+				}
+			}
+			else {
 				$this->cache->useHTTPClient($this->doUseHTTPClient);
-	        	return $this->cache->getData($url);
-	    	}
+				return $this->cache->getData($url);
+			}
 		}
 		else {
 			return $this->getTextFromFile($url);
@@ -702,7 +702,7 @@ class xml_domit_rss_base_document extends xml_domit_rss_elementindexer {
 	* @return boolean True if parsing is successful
 	*/
 	function parseRSSData($rssText) {
-	    if ($rssText != '') {
+		if ($rssText != '') {
 			return $this->fromString($rssText);
 		}
 		else {
@@ -829,18 +829,18 @@ class xml_domit_rss_base_document extends xml_domit_rss_elementindexer {
 			$total = strlen($xmlns);
 
 			if (substr($xmlns, $total) == '/') {
-			    $total--;
+				$total--;
 			}
 
 			for ($i = ($total - 1); $i > -1; $i--) {
-			    $currentChar = substr($xmlns, $i);
+				$currentChar = substr($xmlns, $i);
 
-			    if ($currentChar == '/') {
-			        break;
-			    }
-			    else {
-			        $version = $currentChar . $version;
-			    }
+				if ($currentChar == '/') {
+					break;
+				}
+				else {
+					$version = $currentChar . $version;
+				}
 			}
 
 		}
@@ -886,9 +886,9 @@ class xml_domit_rss_simpleelement extends xml_domit_rss_elementindexer {
 	* @return string The element text
 	*/
 	function getElementText() {
-	    $element =& $this->node;
-	    $result = '';
-    	$total = $element->childCount;
+		$element =& $this->node;
+		$result = '';
+		$total = $element->childCount;
 
 		for ($i = 0; $i < $total; $i++) {
 			$currNode =& $element->childNodes[$i];
@@ -899,9 +899,9 @@ class xml_domit_rss_simpleelement extends xml_domit_rss_elementindexer {
 			else {
 				$result .= $currNode->toString();
 			}
-	    }
+		}
 
-        return $result;
+		return $result;
 	} //getElementText
 } //xml_domit_rss_simpleelement
 

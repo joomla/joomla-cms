@@ -12,7 +12,7 @@
 	JToolBarHelper::help( 'screen.polls' );
 ?>
 
-<form action="index.php?option=com_poll" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_poll'); ?>" method="post" name="adminForm">
 <table>
 	<tr>
 		<td align="left" width="100%">

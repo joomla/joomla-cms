@@ -21,7 +21,6 @@ jimport( 'joomla.html.parameter');
 /**
  * User class.  Handles all application interaction with a user
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	User
  * @since		1.5
@@ -32,109 +31,109 @@ class JUser extends JObject
 	 * Unique id
 	 * @var int
 	 */
-	var $id				= null;
+	public $id				= null;
 
 	/**
 	 * The users real name (or nickname)
 	 * @var string
 	 */
-	var $name			= null;
+	public $name			= null;
 
 	/**
 	 * The login name
 	 * @var string
 	 */
-	var $username		= null;
+	public $username		= null;
 
 	/**
 	 * The email
 	 * @var string
 	 */
-	var $email			= null;
+	public $email			= null;
 
 	/**
 	 * MD5 encrypted password
 	 * @var string
 	 */
-	var $password		= null;
+	public $password		= null;
 
 	/**
 	 * Clear password, only available when a new password is set for a user
 	 * @var string
 	 */
-	var $password_clear	= '';
+	public $password_clear	= '';
 
 	/**
 	 * Description
 	 * @var string
 	 */
-	var $usertype		= null;
+	public $usertype		= null;
 
 	/**
 	 * Description
 	 * @var int
 	 */
-	var $block			= null;
+	public $block			= null;
 
 	/**
 	 * Description
 	 * @var int
 	 */
-	var $sendEmail		= null;
+	public $sendEmail		= null;
 
 	/**
 	 * The group id number
 	 * @var int
 	 */
-	var $gid			= null;
+	public $gid			= null;
 
 	/**
 	 * Description
 	 * @var datetime
 	 */
-	var $registerDate	= null;
+	public $registerDate	= null;
 
 	/**
 	 * Description
 	 * @var datetime
 	 */
-	var $lastvisitDate	= null;
+	public $lastvisitDate	= null;
 
 	/**
 	 * Description
 	 * @var string activation hash
 	 */
-	var $activation		= null;
+	public $activation		= null;
 
 	/**
 	 * Description
 	 * @var string
 	 */
-	var $params			= null;
+	public $params			= null;
 
 	/**
 	 * Description
 	 * @var string integer
 	 */
-	var $aid 		= null;
+	public $aid 		= null;
 
 	/**
 	 * Description
 	 * @var boolean
 	 */
-	var $guest     = null;
+	public $guest	 = null;
 
 	/**
 	 * User parameters
 	 * @var object
 	 */
-	var $_params 	= null;
+	protected $_params 	= null;
 
 	/**
 	 * Error message
 	 * @var string
 	 */
-	var $_errorMsg	= null;
+	protected $_errorMsg	= null;
 
 
 	/**
@@ -142,7 +141,7 @@ class JUser extends JObject
 	*
 	* @access 	protected
 	*/
-	function __construct($identifier = 0)
+	protected function __construct($identifier = 0)
 	{
 		// Create the user parameters object
 		$this->_params = new JParameter( '' );
@@ -154,11 +153,11 @@ class JUser extends JObject
 		else
 		{
 			//initialise
-			$this->id        = 0;
-			$this->gid       = 0;
+			$this->id		= 0;
+			$this->gid		= 0;
 			$this->sendEmail = 0;
-			$this->aid       = 0;
-			$this->guest     = 1;
+			$this->aid		= 0;
+			$this->guest	= 1;
 		}
 	}
 
@@ -174,7 +173,7 @@ class JUser extends JObject
 	 * @return 	JUser  			The User object.
 	 * @since 	1.5
 	 */
-	function &getInstance($id = 0)
+	public static function &getInstance($id = 0)
 	{
 		static $instances;
 
@@ -187,8 +186,7 @@ class JUser extends JObject
 		{
 			jimport('joomla.user.helper');
 			if (!$id = JUserHelper::getUserId($id)) {
-				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$id.' does not exist' );
-				return false;
+				throw new JException('JUser::_load: User does not exist', 0, E_WARNING, $id);
 			}
 		}
 
@@ -209,7 +207,7 @@ class JUser extends JObject
 	 * @return	mixed				The value or the default if it did not exist
 	 * @since	1.5
 	 */
-	function getParam( $key, $default = null )
+	public function getParam( $key, $default = null )
 	{
 		return $this->_params->get( $key, $default );
 	}
@@ -223,7 +221,7 @@ class JUser extends JObject
 	 * @return	mixed			Set parameter value
 	 * @since	1.5
 	 */
-	function setParam( $key, $value )
+	public function setParam( $key, $value )
 	{
 		return $this->_params->set( $key, $value );
 	}
@@ -237,7 +235,7 @@ class JUser extends JObject
 	 * @return	mixed			Set parameter value
 	 * @since	1.5
 	 */
-	function defParam( $key, $value )
+	public function defParam( $key, $value )
 	{
 		return $this->_params->def( $key, $value );
 	}
@@ -254,13 +252,36 @@ class JUser extends JObject
 	 * @return	boolean	True if authorized
 	 * @since	1.5
 	 */
-	function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
+	public function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
 	{
 		// the native calls (Check Mode 1) work on the user id, not the user type
 		$acl	= & JFactory::getACL();
 		$value	= $acl->getCheckMode() == 1 ? $this->id : $this->usertype;
 
 		return $acl->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
+	}
+
+	/**
+	 * NOTE: Temporary method to test new access control checks
+	 *
+	 * @access 	public
+	 * @param	string	$acoSection	The ACO section value
+	 * @param	string	$aco		The ACO value
+	 * @param	string	$axoSection	The AXO section value	[optional]
+	 * @param	string	$axo		The AXO value			[optional]
+	 * @return	boolean	True if authorized
+	 * @since	1.5
+	 */
+	public function authorize2( $acoSection, $aco, $axoSection = null, $axo = null )
+	{
+		// the native calls (Check Mode 1) work on the user id, not the user type
+		$acl	= & JFactory::getACL();
+		$old	= $acl->setCheckMode( 1 );
+		$value	= $this->id;
+
+		$result	= $acl->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
+		$acl->setCheckMode( $old );
+		return $result;
 	}
 
 	/**
@@ -271,7 +292,7 @@ class JUser extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function setLastVisit($timestamp=null)
+	public function setLastVisit($timestamp=null)
 	{
 		// Create the user table object
 		$table 	=& $this->getTable();
@@ -293,7 +314,7 @@ class JUser extends JObject
 	 * @return	object	The user parameters object
 	 * @since	1.5
 	 */
-	function &getParameters($loadsetupfile = false, $path = null)
+	public function &getParameters($loadsetupfile = false, $path = null)
 	{
 		static $parampath;
 
@@ -304,7 +325,7 @@ class JUser extends JObject
 
 		// Set the default parampath if not set already
 		if( !isset($parampath) ) {
-			$parampath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'models';
+			$parampath = JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'params';
 		}
 
 		if($loadsetupfile)
@@ -317,6 +338,8 @@ class JUser extends JObject
 			}
 
 			$this->_params->loadSetupFile($file);
+			$this->_params->loadSetupDirectory($parampath, $type.'_(.*)\.xml');
+			$this->_params->loadSetupDirectory($parampath, 'general_(.*)\.xml');
 		}
 		return $this->_params;
 	}
@@ -328,7 +351,7 @@ class JUser extends JObject
 	 * @param	object	The user parameters object
 	 * @since	1.5
 	 */
-	function setParameters($params )
+	public function setParameters($params )
 	{
 		$this->_params = $params;
 	}
@@ -346,7 +369,7 @@ class JUser extends JObject
 	 * @return	object	The user table object
 	 * @since	1.5
 	 */
-	function &getTable( $type = null, $prefix = 'JTable' )
+	public function &getTable( $type = null, $prefix = 'JTable' )
 	{
 		static $tabletype;
 
@@ -375,7 +398,7 @@ class JUser extends JObject
 	 * @return 	boolean 		True on success
 	 * @since 1.5
 	 */
-	function bind(& $array)
+	public function bind(& $array)
 	{
 		jimport('joomla.user.helper');
 
@@ -452,7 +475,11 @@ class JUser extends JObject
 		. ' WHERE id = ' . (int) $gid
 		;
 		$db->setQuery( $query );
-		$this->set( 'usertype', $db->loadResult());
+		try {
+			$this->set( 'usertype', $db->loadResult());
+		} catch (JException $e) {
+			$this->set( 'usertype', null);
+		}
 
 		if ( array_key_exists('params', $array) )
 		{
@@ -487,7 +514,7 @@ class JUser extends JObject
 	 * @return 	boolean 			True on success
 	 * @since 1.5
 	 */
-	function save( $updateOnly = false )
+	public function save( $updateOnly = false )
 	{
 		// Create the user table object
 		$table 	=& $this->getTable();
@@ -557,7 +584,7 @@ class JUser extends JObject
 	 * @return 	boolean 			True on success
 	 * @since 1.5
 	 */
-	function delete( )
+	public function delete( )
 	{
 		JPluginHelper::importPlugin( 'user' );
 
@@ -588,15 +615,14 @@ class JUser extends JObject
 	 * @return 	boolean 			True on success
 	 * @since 1.5
 	 */
-	function load($id)
+	public function load($id)
 	{
 		// Create the user table object
 		$table 	=& $this->getTable();
 
-		 // Load the JUserModel object based on the user id or throw a warning.
-		 if(!$table->load($id)) {
-			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with id: '.$id );
-			return false;
+		// Load the JUserModel object based on the user id or throw a warning.
+		if(!$table->load($id)) {
+			throw new JException('JUser::_load: User does not exist', 0, E_WARNING, $id);
 		}
 
 		/*

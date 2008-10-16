@@ -19,13 +19,12 @@ defined('JPATH_BASE') or die();
 * Custom session storage handler for PHP
 *
 * @abstract
-* @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
 * @subpackage	Session
 * @since		1.5
 * @see http://www.php.net/manual/en/function.session-set-save-handler.php
 */
-class JSessionStorage extends JObject
+abstract class JSessionStorage extends JObject
 {
 	/**
 	* Constructor
@@ -33,7 +32,7 @@ class JSessionStorage extends JObject
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	protected function __construct( $options = array() )
 	{
 		$this->register($options);
 	}
@@ -47,12 +46,12 @@ class JSessionStorage extends JObject
 	 * @return database A JSessionStorage object
 	 * @since 1.5
 	 */
-	function &getInstance($name = 'none', $options = array())
+	public static function &getInstance($name = 'none', $options = array())
 	{
 		static $instances;
 
 		if (!isset ($instances)) {
-			$instances = array ();
+			$instances = array();
 		}
 
 		$name = strtolower(JFilterInput::clean($name, 'word'));
@@ -63,7 +62,7 @@ class JSessionStorage extends JObject
 			{
 				$path = dirname(__FILE__).DS.'storage'.DS.$name.'.php';
 				if (file_exists($path)) {
-					require_once($path);
+					require_once $path;
 				} else {
 					// No call to JError::raiseError here, as it tries to close the non-existing session
 					jexit('Unable to load session storage class: '.$name);
@@ -82,7 +81,7 @@ class JSessionStorage extends JObject
 	* @access public
 	* @param array $options optional parameters
 	*/
-	function register( $options = array() )
+	public function register( $options = array() )
 	{
 		// use this object as the session handler
 		session_set_save_handler(
@@ -100,14 +99,11 @@ class JSessionStorage extends JObject
 	 *
 	 * @abstract
 	 * @access public
-	 * @param string $save_path     The path to the session object.
+	 * @param string $save_path	 The path to the session object.
 	 * @param string $session_name  The name of the session.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function open($save_path, $session_name)
-	{
-		return true;
-	}
+	abstract public function open($save_path, $session_name);
 
 	/**
 	 * Close the SessionHandler backend.
@@ -116,10 +112,7 @@ class JSessionStorage extends JObject
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function close()
-	{
-		return true;
-	}
+	abstract public function close();
 
  	/**
  	 * Read the data for a particular session identifier from the
@@ -130,38 +123,29 @@ class JSessionStorage extends JObject
  	 * @param string $id  The session identifier.
  	 * @return string  The session data.
  	 */
-	function read($id)
-	{
-		return;
-	}
+	abstract public function read($id);
 
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
 	 * @abstract
 	 * @access public
-	 * @param string $id            The session identifier.
+	 * @param string $id			The session identifier.
 	 * @param string $session_data  The session data.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function write($id, $session_data)
-	{
-		return true;
-	}
+	abstract public function write($id, $session_data);
 
 	/**
-	  * Destroy the data for a particular session identifier in the
-	  * SessionHandler backend.
-	  *
-	  * @abstract
-	  * @access public
-	  * @param string $id  The session identifier.
-	  * @return boolean  True on success, false otherwise.
-	  */
-	function destroy($id)
-	{
-		return true;
-	}
+	 * Destroy the data for a particular session identifier in the
+	 * SessionHandler backend.
+	 *
+	 * @abstract
+	 * @access public
+	 * @param string $id  The session identifier.
+	 * @return boolean  True on success, false otherwise.
+	 */
+	abstract public function destroy($id);
 
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
@@ -171,10 +155,7 @@ class JSessionStorage extends JObject
 	 * @param integer $maxlifetime  The maximum age of a session.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc($maxlifetime)
-	{
-		return true;
-	}
+	abstract public function gc($maxlifetime);
 
 	/**
 	 * Test to see if the SessionHandler is available.
@@ -184,8 +165,5 @@ class JSessionStorage extends JObject
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test()
-	{
-		return true;
-	}
+	abstract public static function test();
 }

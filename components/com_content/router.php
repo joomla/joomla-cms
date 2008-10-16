@@ -15,17 +15,52 @@ function ContentBuildRoute(&$query)
 {
 	$segments = array();
 
+	// get a menu item based on Itemid or currently active
+	$menu = &JSite::getMenu();
+	if (empty($query['Itemid'])) {
+		$menuItem = &$menu->getActive();
+	} else {
+		$menuItem = &$menu->getItem($query['Itemid']);
+	}
+	$mView	= (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
+	$mCatid	= (empty($menuItem->query['catid'])) ? null : $menuItem->query['catid'];
+	$mId	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+
 	if(isset($query['view']))
 	{
+		$view = $query['view'];
 		if(empty($query['Itemid'])) {
 			$segments[] = $query['view'];
 		}
-
 		unset($query['view']);
 	};
 
-	if(isset($query['catid'])) {
-		$segments[] = $query['catid'];
+	// are we dealing with an article that is attached to a menu item?
+	if (($mView == 'article') and (isset($query['id'])) and ($mId == intval($query['id']))) {
+		unset($query['view']);
+		unset($query['catid']);
+		unset($query['id']);
+	}
+
+	if (isset($view) and ($view == 'section' && !empty($query['Itemid']))) {
+		if (($mView != 'section') or ($mView == 'section' and $mId != intval($query['id']))) {
+			$segments[] = 'section';
+			unset($query['Itemid']);
+		}
+	}
+
+	if (isset($view) and $view == 'category') {
+		if ($mId != intval($query['id']) || $mView != $view) {
+			$segments[] = $query['id'];
+		}
+		unset($query['id']);
+	}
+
+	if (isset($query['catid'])) {
+		// if we are routing an article or category where the category id matches the menu catid, don't include the category segment
+		if ((($view == 'article') and ($mView != 'category') and ($mView != 'article') and ($mCatid != intval($query['catid'])))) {
+			$segments[] = $query['catid'];
+		}
 		unset($query['catid']);
 	};
 
@@ -33,10 +68,8 @@ function ContentBuildRoute(&$query)
 		if (empty($query['Itemid'])) {
 			$segments[] = $query['id'];
 		} else {
-			$menu = &JSite::getMenu();
-			$menuItem = &$menu->getItem( $query['Itemid'] );
 			if (isset($menuItem->query['id'])) {
-				if($query['id'] != $menuItem->query['id']) {
+				if($query['id'] != $mId) {
 					$segments[] = $query['id'];
 				}
 			} else {
@@ -64,10 +97,13 @@ function ContentBuildRoute(&$query)
 
 	if(isset($query['layout']))
 	{
-		if(!empty($query['Itemid'])) {
-			$menu = &JSite::getMenu();
-			$menuItem = &$menu->getItem( $query['Itemid'] );
+		if(!empty($query['Itemid']) && isset($menuItem->query['layout'])) {
 			if ($query['layout'] == $menuItem->query['layout']) {
+
+				unset($query['layout']);
+			}
+		} else {
+			if($query['layout'] == 'default') {
 				unset($query['layout']);
 			}
 		}
@@ -91,7 +127,7 @@ function ContentParseRoute($segments)
 	if(!isset($item))
 	{
 		$vars['view']  = $segments[0];
-		$vars['id']    = $segments[$count - 1];
+		$vars['id']	= $segments[$count - 1];
 		return $vars;
 	}
 
@@ -101,11 +137,10 @@ function ContentParseRoute($segments)
 		case 'section' :
 		{
 			if($count == 1) {
+				$vars['view'] = 'category';
 
 				if(isset($item->query['layout']) && $item->query['layout'] == 'blog') {
-					$vars['view'] = 'article';
-				} else {
-					$vars['view'] = 'category';
+					$vars['layout'] = 'blog';
 				}
 			}
 
@@ -114,7 +149,7 @@ function ContentParseRoute($segments)
 				$vars['catid'] = $segments[$count-2];
 			}
 
-			$vars['id']    = $segments[$count-1];
+			$vars['id']	= $segments[$count-1];
 
 		} break;
 
@@ -134,15 +169,21 @@ function ContentParseRoute($segments)
 
 		case 'article' :
 		{
-			$vars['id']	  = $segments[$count-1];
-			$vars['view'] = 'article';
+			$vars['id']		= $segments[$count-1];
+			$vars['view']	= 'article';
 		} break;
 
 		case 'archive' :
 		{
-			$vars['year']  = $segments[$count-2];
-			$vars['month'] = $segments[$count-1];
-			$vars['view']  = 'archive';
+			if($count != 1)
+			{
+				$vars['year']	= $count >= 2 ? $segments[$count-2] : null;
+				$vars['month']	= $segments[$count-1];
+				$vars['view']	= 'archive';
+			} else {
+				$vars['id']		= $segments[$count-1];
+				$vars['view']	= 'article';
+			}
 		}
 	}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: category.php 8031 2007-07-17 23:14:23Z jinx $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Search
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -135,19 +135,19 @@ class SearchModelSearch extends JModel
 			JPluginHelper::importPlugin( 'search');
 			$dispatcher =& JDispatcher::getInstance();
 			$results = $dispatcher->trigger( 'onSearch', array(
-				$this->getState('keyword'),
-				$this->getState('match'),
-				$this->getState('ordering'),
-				$areas['active']) );
+			$this->getState('keyword'),
+			$this->getState('match'),
+			$this->getState('ordering'),
+			$areas['active']) );
 
 			$rows = array();
-			for ($i = 0, $n = count( $results); $i < $n; $i++) {
-				$rows = array_merge( (array)$rows, (array)$results[$i] );
+			foreach($results AS $result) {
+				$rows = array_merge( (array) $rows, (array) $result);
 			}
 
 			$this->_total	= count($rows);
 			if($this->getState('limit') > 0) {
-				$this->_data    = array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
+				$this->_data	= array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
 			} else {
 				$this->_data = $rows;
 			}

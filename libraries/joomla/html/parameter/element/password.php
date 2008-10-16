@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a password element
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,9 +31,9 @@ class JElementPassword extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Password';
+	protected $_name = 'Password';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$size = ( $node->attributes('size') ? 'size="'.$node->attributes('size').'"' : '' );
 		$class = ( $node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"' );

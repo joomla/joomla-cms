@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a menu element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,13 +31,12 @@ class JElementMenu extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Menu';
+	protected $_name = 'Menu';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db =& JFactory::getDBO();
 
-		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php' );
+		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php';
 		$menuTypes 	= MenusHelper::getMenuTypes();
 
 		foreach ($menuTypes as $menutype) {

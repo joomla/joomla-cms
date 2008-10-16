@@ -261,18 +261,18 @@ class DOMIT_Lite_Node {
 	* Clears previousSibling, nextSibling, and parentNode references from a node that has been removed
 	*/
 	function clearReferences() {
-	    if ($this->previousSibling != null) {
-	        unset($this->previousSibling);
-	        $this->previousSibling = null;
-	    }
-	    if ($this->nextSibling != null) {
-            unset($this->nextSibling);
-	        $this->nextSibling = null;
-	    }
-	    if ($this->parentNode != null) {
-            unset($this->parentNode);
-	        $this->parentNode = null;
-	    }
+		if ($this->previousSibling != null) {
+			unset($this->previousSibling);
+			$this->previousSibling = null;
+		}
+		if ($this->nextSibling != null) {
+			unset($this->nextSibling);
+			$this->nextSibling = null;
+		}
+		if ($this->parentNode != null) {
+			unset($this->parentNode);
+			$this->parentNode = null;
+		}
 	} //clearReferences
 
 	/**
@@ -580,7 +580,7 @@ class DOMIT_Lite_ChildNodes_Interface extends DOMIT_Lite_Node {
 			if ($nodelist->getLength() > 0) {
 				return $nodelist->item(0);
 			}
-            $null = null;
+			$null = null;
 			return $null;
 		}
 
@@ -641,20 +641,20 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	var $implementation;
 	/** @var Array User defined translation table for XML entities */
 	var $definedEntities = array();
-    /** @var boolean If true, loadXML or parseXML will attempt to detect and repair invalid xml */
-    var $doResolveErrors = false;
+	/** @var boolean If true, loadXML or parseXML will attempt to detect and repair invalid xml */
+	var $doResolveErrors = false;
 	/** @var boolean True if whitespace is to be preserved during parsing */
 	var $preserveWhitespace = false;
-    /** @var boolean If true, elements tags will be rendered to string as <element></element> rather than <element/> */
-    var $doExpandEmptyElementTags = false;
+	/** @var boolean If true, elements tags will be rendered to string as <element></element> rather than <element/> */
+	var $doExpandEmptyElementTags = false;
 	/** @var array A list of exceptions to the empty element expansion rule */
 	var $expandEmptyElementExceptions = array();
 	/** @var int The error code returned by the SAX parser */
-    var $errorCode = 0;
+	var $errorCode = 0;
 	/** @var string The error string returned by the SAX parser */
-    var $errorString = '';
+	var $errorString = '';
 	/** @var object A reference to a http connection or proxy server, if one is required */
-    var $httpConnection = null;
+	var $httpConnection = null;
 	/** @var boolean True if php_http_client_generic is to be used instead of PHP get_file_contents to retrieve xml data */
 	var $doUseHTTPClient = false;
 
@@ -678,7 +678,7 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	* @param boolean True if errors are to be resolved
 	*/
 	function resolveErrors($truthVal) {
-	    $this->doResolveErrors = $truthVal;
+		$this->doResolveErrors = $truthVal;
 	} //resolveErrors
 
 	/**
@@ -691,7 +691,7 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	* @param string The password, if authentication is required
 	*/
 	function setConnection($host, $path = '/', $port = 80, $timeout = 0, $user = null, $password = null) {
-	    require_once(DOMIT_INCLUDE_PATH . 'php_http_client_generic.php');
+		require_once(DOMIT_INCLUDE_PATH . 'php_http_client_generic.php');
 
 		$this->httpConnection = new php_http_client_generic($host, $path, $port, $timeout, $user, $password);
 	} //setConnection
@@ -701,7 +701,7 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	* @param boolean True if whitespace is to be preserved
 	*/
 	function preserveWhitespace($truthVal) {
-	    $this->preserveWhitespace = $truthVal;
+		$this->preserveWhitespace = $truthVal;
 	} //preserveWhitespace
 
 	/**
@@ -723,7 +723,7 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	* @param string The password, if authentication is required
 	*/
 	function setProxyConnection($host, $path = '/', $port = 80, $timeout = 0, $user = null, $password = null) {
-	    require_once(DOMIT_INCLUDE_PATH . 'php_http_proxy.php');
+		require_once(DOMIT_INCLUDE_PATH . 'php_http_proxy.php');
 
 		$this->httpConnection = new php_http_proxy($host, $path, $port, $timeout, $user, $password);
 	} //setProxyConnection
@@ -750,7 +750,7 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	* @return int The error code
 	*/
 	function getErrorCode() {
-	    return $this->errorCode;
+		return $this->errorCode;
 	} //getErrorCode
 
 	/**
@@ -758,7 +758,7 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	* @return string The error string
 	*/
 	function getErrorString() {
-	    return $this->errorString;
+		return $this->errorString;
 	} //getErrorString
 
 	/**
@@ -996,10 +996,10 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	function parseXML($xmlText, $useSAXY = true, $preserveCDATA = true, $fireLoadEvent = false) {
 		require_once(DOMIT_INCLUDE_PATH . 'xml_domit_utilities.php');
 
-        if ($this->doResolveErrors) {
-            require_once(DOMIT_INCLUDE_PATH . 'xml_domit_doctor.php');
-            $xmlText = DOMIT_Doctor::fixAmpersands($xmlText);
-        }
+		if ($this->doResolveErrors) {
+			require_once(DOMIT_INCLUDE_PATH . 'xml_domit_doctor.php');
+			$xmlText = DOMIT_Doctor::fixAmpersands($xmlText);
+		}
 
 		if (DOMIT_Utilities::validateXML($xmlText)) {
 			$domParser = new DOMIT_Lite_Parser();
@@ -1078,9 +1078,9 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 			return $response->getResponse();
 		}
 		else if (function_exists('file_get_contents')) {
-		    //if (file_exists($filename)) {
+			//if (file_exists($filename)) {
 				return file_get_contents($filename);
-		    //}
+			//}
 		}
 		else {
 			require_once(DOMIT_INCLUDE_PATH . 'php_file_utilities.php');
@@ -1358,21 +1358,21 @@ class DOMIT_Lite_Element extends DOMIT_Lite_ChildNodes_Interface {
 	* @param string The text data of the node
 	*/
 	function setText($data) {
-	    switch ($this->childCount) {
-	        case 1:
-	            if ($this->firstChild->nodeType == DOMIT_TEXT_NODE) {
-	                $this->firstChild->setText($data);
-	            }
-	            break;
+		switch ($this->childCount) {
+			case 1:
+				if ($this->firstChild->nodeType == DOMIT_TEXT_NODE) {
+					$this->firstChild->setText($data);
+				}
+				break;
 
-	        case 0:
-	            $childTextNode =& $this->ownerDocument->createTextNode($data);
-	            $this->appendChild($childTextNode);
-	            break;
+			case 0:
+				$childTextNode =& $this->ownerDocument->createTextNode($data);
+				$this->appendChild($childTextNode);
+				break;
 
-	        default:
-	            //do nothing. Maybe throw error???
-	    }
+			default:
+				//do nothing. Maybe throw error???
+		}
 	} //setText
 
 	/**
@@ -1553,17 +1553,17 @@ class DOMIT_Lite_Element extends DOMIT_Lite_ChildNodes_Interface {
 					$result .= ' />';
 				}
 				else {
-                	$result .= '></' . $this->nodeName . '>';
+					$result .= '></' . $this->nodeName . '>';
 				}
-		    }
-		    else {
+			}
+			else {
 				if (in_array($this->nodeName, $this->ownerDocument->expandEmptyElementExceptions)) {
 					$result .= '></' . $this->nodeName . '>';
 				}
 				else {
 					$result .= ' />';
 				}
-		    }
+			}
 		}
 
 		if ($htmlSafe) $result = $this->forHTML($result);
@@ -1604,7 +1604,7 @@ class DOMIT_Lite_TextNode extends DOMIT_Lite_Node {
 	* @param string The text data of the node
 	*/
 	function setText($data) {
-        $this->nodeValue = $data;
+		$this->nodeValue = $data;
 	} //setText
 
 	/**
@@ -1799,7 +1799,7 @@ class DOMIT_Lite_Parser {
 	*/
 	function dumpTextNode() {
 		//traps for mixed content
-	    $currentNode =& $this->xmlDoc->createTextNode($this->parseContainer);
+		$currentNode =& $this->xmlDoc->createTextNode($this->parseContainer);
 		$this->lastChild->appendChild($currentNode);
 		$this->inTextNode = false;
 		$this->parseContainer = '';

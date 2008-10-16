@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a filelist element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,9 +31,9 @@ class JElementFilelist extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Filelist';
+	protected $_name = 'Filelist';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		jimport( 'joomla.filesystem.folder' );
 		jimport( 'joomla.filesystem.file' );

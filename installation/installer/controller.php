@@ -22,14 +22,15 @@ defined('_JEXEC') or die('Restricted access');
  */
 
 jimport('joomla.application.component.controller');
-require_once( dirname(__FILE__).DS.'models'.DS.'model.php');
-require_once( dirname(__FILE__).DS.'views'.DS.'install'.DS.'view.php');
+require_once dirname(__FILE__).DS.'models'.DS.'model.php';
+require_once dirname(__FILE__).DS.'views'.DS.'install'.DS.'view.php';
 
 class JInstallationController extends JController
 {
-	var $_model		= null;
+	protected $_model		= null;
 
-	var $_view		= null;
+	protected $_view		= null;
+
 
 	/**
 	 * Constructor
@@ -74,7 +75,7 @@ class JInstallationController extends JController
 	 */
 	function execute($task)
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		// Sanity check
 		if ( $task && ( $task != 'lang' ) && ( $task != 'removedir' ) )
@@ -85,7 +86,7 @@ class JInstallationController extends JController
 			 * If the state is not set, then cookies are probably disabled.
 			 **/
 
-			$goodEnoughForMe = $mainframe->getUserState('application.cookietest');
+			$goodEnoughForMe = $appl->getUserState('application.cookietest');
 
 			if ( ! $goodEnoughForMe )
 			{
@@ -105,7 +106,7 @@ class JInstallationController extends JController
 			$registry->makeNameSpace('application');
 
 			// Set the cookie test seed
-			$mainframe->setUserState('application.cookietest', 1);
+			$appl->setUserState('application.cookietest', 1);
 		}
 
 		parent::execute($task);
@@ -271,7 +272,7 @@ class JInstallationController extends JController
 	 */
 	function mainconfig()
 	{
-		//$this->dumpLoad();
+
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
@@ -363,22 +364,22 @@ class JInstallationController extends JController
 		return true;
 	}
 
-	function dumpLoad() {
-		$model	=& $this->getModel();
-		$model->dumpLoad();
-
-	}
-
 	function migration() {
 		$model =& $this->getModel();
-		$model->setData('back', 'mainconfig');
+
 		$view =& $this->getView();
 		if(!$model->checkUpload()) {
 			$view->error();
 			return false;
 		}
 
-		$view->migrateScreen();
+		if (!$model->dumpLoad())
+		{
+			$view->error();
+			return false;
+		}
+
+		$view->migration();
 		return true;
 	}
 

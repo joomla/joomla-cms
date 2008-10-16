@@ -23,7 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage	HTML
  * @since		1.5
  */
-class JHTMLImage
+abstract class JHTMLImage
 {
 	/**
 	* Checks to see if an image exists in the current templates image directory
@@ -39,10 +39,10 @@ class JHTMLImage
 	* @param	array	An associative array of attributes to add
 	* @param	boolean	True (default) to display full tag, false to return just the path
 	*/
-	function site( $file, $folder='/images/M_images/', $altFile=NULL, $altFolder='/images/M_images/', $alt=NULL, $attribs = null, $asTag = 1)
+	public static function site( $file, $folder='/images/M_images/', $altFile=NULL, $altFolder='/images/M_images/', $alt=NULL, $attribs = null, $asTag = 1)
 	{
 		static $paths;
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		if (!$paths) {
 			$paths = array();
@@ -52,7 +52,7 @@ class JHTMLImage
 			$attribs = JArrayHelper::toString( $attribs );
 		}
 
-		$cur_template = $mainframe->getTemplate();
+		$cur_template = $appl->getTemplate();
 
 		if ( $altFile )
 		{
@@ -106,15 +106,15 @@ class JHTMLImage
 	* @param	array	An associative array of attributes to add
 	* @param	boolean	True (default) to display full tag, false to return just the path
 	*/
-	function administrator( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt = NULL, $attribs = null, $type = 1 )
+	public static function administrator( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt = NULL, $attribs = null, $type = 1 )
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		if (is_array( $attribs )) {
 			$attribs = JArrayHelper::toString( $attribs );
 		}
 
-		$cur_template = $mainframe->getTemplate();
+		$cur_template = $appl->getTemplate();
 
 		// strip html
 		$alt	= html_entity_decode( $alt );

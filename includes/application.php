@@ -26,6 +26,9 @@ jimport('joomla.application.component.helper');
 */
 class JSite extends JApplication
 {
+
+	protected $setTemplate = null;
+
 	/**
 	* Class constructor
 	*
@@ -86,12 +89,17 @@ class JSite extends JApplication
 	*
 	* @access public
 	*/
-	function dispatch($component)
+	function dispatch($component=null)
 	{
+		if ( ! $component )
+		{
+			$component = JRequest::getCmd('option');
+		}
+
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
-		$router     =& $this->getRouter();
-		$params     =& $this->getParams();
+		$router	 =& $this->getRouter();
+		$params	 =& $this->getParams();
 
 		switch($document->getType())
 		{
@@ -101,7 +109,7 @@ class JSite extends JApplication
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
 
 				if ( $user->get('id') ) {
-					$document->addScript( JURI::root(true).'/includes/js/joomla.javascript.js');
+					$document->addScript( JURI::root(true).'/media/system/js/legacy.js');
 				}
 
 				if($router->getMode() == JROUTER_MODE_SEF) {
@@ -133,7 +141,7 @@ class JSite extends JApplication
 	function render()
 	{
 		$document =& JFactory::getDocument();
-		$user     =& JFactory::getUser();
+		$user	 =& JFactory::getUser();
 
 		// get the format to render
 		$format = $document->getType();
@@ -146,7 +154,7 @@ class JSite extends JApplication
 			} break;
 
 			case 'html' :
-			default     :
+			default	 :
 			{
 				$template	= $this->getTemplate();
 				$file 		= JRequest::getCmd('tmpl', 'index');
@@ -242,19 +250,18 @@ class JSite extends JApplication
 			$menus	= &JSite::getMenu();
 			$menu	= $menus->getActive();
 
-			$title       = $this->getCfg('sitename' );
-			$description = $this->getCfg('MetaDesc');
+			$title			= htmlspecialchars_decode($this->getCfg('sitename' ));
+			$description	= $this->getCfg('MetaDesc');
 
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu))
 			{
 				$params->merge(new JParameter($menu->params));
 				$title = $menu->name;
-
 			}
 
-			$params->def( 'page_title'      , $title );
-			$params->def( 'page_description', $description );
+			$params->def('page_title',		$title);
+			$params->def('page_description',$description);
 		}
 
 		return $params;

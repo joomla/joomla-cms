@@ -20,7 +20,6 @@ jimport('joomla.application.component.model');
 /**
  * Weblinks Component Weblink Model
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Content
  * @since 1.5
@@ -225,11 +224,10 @@ class WeblinksModelCategory extends JModel
 		$query = 'SELECT *' .
 			' FROM #__weblinks' .
 			' WHERE catid = '. (int) $this->_id.
-			' AND published = 1' .
+			' AND state = 1' .
 			' AND archived = 0'.
 			' ORDER BY '. $filter_order .' '. $filter_order_dir .', ordering';
 
 		return $query;
 	}
 }
-?>

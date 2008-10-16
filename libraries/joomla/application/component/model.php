@@ -5,11 +5,6 @@
 * @subpackage	Application
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
 */
 
 // Check to ensure this file is within the rest of the framework
@@ -26,38 +21,43 @@ defined('JPATH_BASE') or die();
  * @subpackage	Application
  * @since		1.5
  */
-class JModel extends JObject
+abstract class JModel extends JObject
 {
 	/**
 	 * The model (base) name
 	 *
 	 * @var string
-	 * @access	protected
 	 */
-	var $_name;
+	protected $_name;
 
 	/**
 	 * Database Connector
 	 *
 	 * @var object
-	 * @access	protected
 	 */
-	var $_db;
+	protected $_db;
 
 	/**
 	 * An state object
 	 *
 	 * @var string
-	 * @access	protected
 	 */
-	var $_state;
+	protected $_state;
+
+	/**
+	 * Indicates if the internal state has been set
+	 *
+	 * @var bool
+	 * @since	1.6
+	 */
+	protected $__state_set	= null;
 
 	/**
 	 * Constructor
 	 *
 	 * @since	1.5
 	 */
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
 		//set the view name
 		if (empty( $this->_name ))
@@ -73,7 +73,7 @@ class JModel extends JObject
 		if (array_key_exists('state', $config))  {
 			$this->_state = $config['state'];
 		} else {
-			$this->_state = new JObject();
+			$this->_state = new JStdClass();
 		}
 
 		//set the model dbo
@@ -89,6 +89,11 @@ class JModel extends JObject
 		} else if (defined( 'JPATH_COMPONENT_ADMINISTRATOR' )){
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 		}
+
+		// set the internal state marker - used to ignore setting state from the request
+		if (!empty($config['ignore_request'])) {
+			$this->__state_set = true;
+		}
 	}
 
 	/**
@@ -100,7 +105,7 @@ class JModel extends JObject
 	 * @return	mixed	A model object, or false on failure
 	 * @since	1.5
 	*/
-	function &getInstance( $type, $prefix = '', $config = array() )
+	public static function &getInstance( $type, $prefix = '', $config = array() )
 	{
 		$type		= preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$modelClass	= $prefix.ucfirst($type);
@@ -119,8 +124,7 @@ class JModel extends JObject
 
 				if (!class_exists( $modelClass ))
 				{
-					JError::raiseWarning( 0, 'Model class ' . $modelClass . ' not found in file.' );
-					return $result;
+					throw new JException('Model class not found in file', 500, E_ERROR, $modelClass, true);
 				}
 			}
 			else return $result;
@@ -139,7 +143,7 @@ class JModel extends JObject
 	 * @return	mixed	The previous value of the property
 	 * @since	1.5
 	 */
-	function setState( $property, $value=null )
+	public function setState( $property, $value=null )
 	{
 		return $this->_state->set($property, $value);
 	}
@@ -149,12 +153,13 @@ class JModel extends JObject
 	 *
 	 * @access	public
 	 * @param	string	Optional parameter name
+	 * @param   mixed	Optional default value
 	 * @return	object	The property where specified, the state object where omitted
 	 * @since	1.5
 	 */
-	function getState($property = null)
+	public function getState($property = null, $default = null)
 	{
-		return $property === null ? $this->_state : $this->_state->get($property);
+		return $property === null ? $this->_state : $this->_state->get($property, $default);
 	}
 
 	/**
@@ -164,7 +169,7 @@ class JModel extends JObject
 	 * @return	object JDatabase connector object
 	 * @since	1.5
 	 */
-	function &getDBO()
+	public function &getDBO()
 	{
 		return $this->_db;
 	}
@@ -176,7 +181,7 @@ class JModel extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function setDBO(&$db)
+	public function setDBO(&$db)
 	{
 		$this->_db =& $db;
 	}
@@ -191,7 +196,7 @@ class JModel extends JObject
 	 * @return	string The name of the model
 	 * @since	1.5
 	 */
-	function getName()
+	public function getName()
 	{
 		$name = $this->_name;
 
@@ -199,7 +204,7 @@ class JModel extends JObject
 		{
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r)) {
-				JError::raiseError (500, "JModel::getName() : Can't get or parse class name.");
+				throw new JException('Can\'t get or parse class name', 500, E_ERROR, get_class($this), true);
 			}
 			$name = strtolower( $r[1] );
 		}
@@ -217,7 +222,7 @@ class JModel extends JObject
 	 * @return	object	The table
 	 * @since	1.5
 	 */
-	function &getTable($name='', $prefix='Table', $options = array())
+	public function &getTable($name='', $prefix='Table', $options = array())
 	{
 		if (empty($name)) {
 			$name = $this->getName();
@@ -227,9 +232,7 @@ class JModel extends JObject
 			return $table;
 		}
 
-		JError::raiseError( 0, 'Table ' . $name . ' not supported. File not found.' );
-		$null = null;
-        return $null;
+		throw new JException('Table not supported.  File not found.', 500, E_ERROR, $name, true);
 	}
 
 	/**
@@ -241,7 +244,7 @@ class JModel extends JObject
 	 * @return	array	An array with directory elements
 	 * @since	1.5
 	 */
-	function addIncludePath( $path='' )
+	public function addIncludePath( $path='' )
 	{
 		static $paths;
 
@@ -262,7 +265,7 @@ class JModel extends JObject
 	 * @param	string|array The directory (-ies) to add.
 	 * @return	void
 	 */
-	function addTablePath($path)
+	public function addTablePath($path)
 	{
 		jimport('joomla.database.table');
 		JTable::addIncludePath($path);
@@ -278,7 +281,7 @@ class JModel extends JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	function &_getList( $query, $limitstart=0, $limit=0 )
+	protected function &_getList( $query, $limitstart=0, $limit=0 )
 	{
 		$this->_db->setQuery( $query, $limitstart, $limit );
 		$result = $this->_db->loadObjectList();
@@ -294,7 +297,7 @@ class JModel extends JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	function _getListCount( $query )
+	protected function _getListCount( $query )
 	{
 		$this->_db->setQuery( $query );
 		$this->_db->query();
@@ -311,7 +314,7 @@ class JModel extends JObject
 	 * @return	mixed	Model object or boolean false if failed
 	 * @since	1.5
 	 */
-	function &_createTable( $name, $prefix = 'Table', $config = array())
+	private function &_createTable( $name, $prefix = 'Table', $config = array())
 	{
 		$result = null;
 
@@ -337,7 +340,7 @@ class JModel extends JObject
 	 * @return	string The filename
 	 * @since	1.5
 	 */
-	function _createFileName($type, $parts = array())
+	private function _createFileName($type, $parts = array())
 	{
 		$filename = '';
 

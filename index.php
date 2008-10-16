@@ -12,77 +12,83 @@
 */
 
 // Set flag that this is a parent file
-define( '_JEXEC', 1 );
+define('_JEXEC', 1);
 
-define('JPATH_BASE', dirname(__FILE__) );
+define('JPATH_BASE', dirname(__FILE__));
 
-define( 'DS', DIRECTORY_SEPARATOR );
+define('DS', DIRECTORY_SEPARATOR);
 
-require_once ( JPATH_BASE .DS.'includes'.DS.'defines.php' );
-require_once ( JPATH_BASE .DS.'includes'.DS.'framework.php' );
+try {
+	require_once JPATH_BASE .DS.'includes'.DS.'defines.php';
+	require_once JPATH_BASE .DS.'includes'.DS.'framework.php';
 
-JDEBUG ? $_PROFILER->mark( 'afterLoad' ) : null;
+	JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
-/**
- * CREATE THE APPLICATION
- *
- * NOTE :
- */
-$mainframe =& JFactory::getApplication('site');
+	/**
+	 * CREATE THE APPLICATION
+	 *
+	 * NOTE :
+	 */
 
-/**
- * INITIALISE THE APPLICATION
- *
- * NOTE :
- */
-// set the language
-$mainframe->initialise();
 
-JPluginHelper::importPlugin('system');
+	$mainframe =& JFactory::getApplication('site');
 
-// trigger the onAfterInitialise events
-JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
-$mainframe->triggerEvent('onAfterInitialise');
+	/**
+	 * INITIALISE THE APPLICATION
+	 *
+	 * NOTE :
+	 */
+	// set the language
+	$mainframe->initialise();
 
-/**
- * ROUTE THE APPLICATION
- *
- * NOTE :
- */
-$mainframe->route();
+	JPluginHelper::importPlugin('system');
 
-// authorization
-$Itemid = JRequest::getInt( 'Itemid');
-$mainframe->authorize($Itemid);
+	// trigger the onAfterInitialise events
+	JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
+	$mainframe->triggerEvent('onAfterInitialise');
 
-// trigger the onAfterRoute events
-JDEBUG ? $_PROFILER->mark('afterRoute') : null;
-$mainframe->triggerEvent('onAfterRoute');
+	/**
+	 * ROUTE THE APPLICATION
+	 *
+	 * NOTE :
+	 */
+	$mainframe->route();
 
-/**
- * DISPATCH THE APPLICATION
- *
- * NOTE :
- */
-$option = JRequest::getCmd('option');
-$mainframe->dispatch($option);
+	// authorization
+	$Itemid = JRequest::getInt('Itemid');
+	$mainframe->authorize($Itemid);
 
-// trigger the onAfterDispatch events
-JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
-$mainframe->triggerEvent('onAfterDispatch');
+	// trigger the onAfterRoute events
+	JDEBUG ? $_PROFILER->mark('afterRoute') : null;
+	$mainframe->triggerEvent('onAfterRoute');
 
-/**
- * RENDER  THE APPLICATION
- *
- * NOTE :
- */
-$mainframe->render();
+	/**
+	 * DISPATCH THE APPLICATION
+	 *
+	 * NOTE :
+	 */
+	$mainframe->dispatch();
 
-// trigger the onAfterRender events
-JDEBUG ? $_PROFILER->mark('afterRender') : null;
-$mainframe->triggerEvent('onAfterRender');
+	// trigger the onAfterDispatch events
+	JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
+	$mainframe->triggerEvent('onAfterDispatch');
 
-/**
- * RETURN THE RESPONSE
- */
-echo JResponse::toString($mainframe->getCfg('gzip'));
+	/**
+	 * RENDER  THE APPLICATION
+	 *
+	 * NOTE :
+	 */
+	$mainframe->render();
+
+	// trigger the onAfterRender events
+	JDEBUG ? $_PROFILER->mark('afterRender') : null;
+	$mainframe->triggerEvent('onAfterRender');
+
+	/**
+	 * RETURN THE RESPONSE
+	 */
+	echo JResponse::toString($mainframe->getCfg('gzip'));
+} catch (JException $e) {
+	$e->set('level', E_ERROR);
+	JError::throwError($e);
+}

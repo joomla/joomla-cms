@@ -95,7 +95,7 @@ class MenusModelList extends JModel
 		$query = 'SELECT m.*, u.name AS editor, g.name AS groupname, c.publish_up, c.publish_down, com.name AS com_name' .
 				' FROM #__menu AS m' .
 				' LEFT JOIN #__users AS u ON u.id = m.checked_out' .
-				' LEFT JOIN #__groups AS g ON g.id = m.access' .
+				' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = m.access' .
 				' LEFT JOIN #__content AS c ON c.id = m.componentid AND m.type = "content_typed"' .
 				' LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = "component"' .
 				' WHERE m.menutype = '.$db->Quote($menutype) .
@@ -168,7 +168,7 @@ class MenusModelList extends JModel
 					if(isset($query['query'])) {
 						if(strpos($query['query'], '&amp;') !== false)
 						{
-						   $query['query'] = str_replace('&amp;','&',$query['query']);
+							$query['query'] = str_replace('&amp;','&',$query['query']);
 						}
 						parse_str($query['query'], $view);
 					}
@@ -346,35 +346,35 @@ class MenusModelList extends JModel
 		$db		=& $this->getDBO();
 		$nd		= $db->getNullDate();
 		$state	= -2;
-        $row =& $this->getTable();
-        $default = 0;
+		$row =& $this->getTable();
+		$default = 0;
 
 		// Add all children to the list
 		foreach ($items as $id)
 		{
-            //Check if it's the default item
-            $row->load( $id );
-            if ($row->home != 1) {
-                $this->_addChildren($id, $items);
-            } else {
-                unset($items[$default]);
-                JError::raiseWarning( 'SOME_ERROR_CODE', JText::_('You cannot trash the default menu item'));
-            }
-            $default++;
+			//Check if it's the default item
+			$row->load( $id );
+			if ($row->home != 1) {
+				$this->_addChildren($id, $items);
+			} else {
+				unset($items[$default]);
+				JError::raiseWarning( 'SOME_ERROR_CODE', JText::_('You cannot trash the default menu item'));
+			}
+			$default++;
 		}
-        if (count($items) > 0) {
-            // Sent menu items to the trash
-            JArrayHelper::toInteger($items, array(0));
-            $where = ' WHERE (id = ' . implode( ' OR id = ', $items ) . ') AND home = 0';
-            $query = 'UPDATE #__menu' .
-                    ' SET published = '.(int) $state.', parent = 0, ordering = 0, checked_out = 0, checked_out_time = '.$db->Quote($nd) .
-                    $where;
-            $db->setQuery( $query );
-            if (!$db->query()) {
-                $this->setError( $db->getErrorMsg() );
-                return false;
-            }
-        }
+		if (count($items) > 0) {
+			// Sent menu items to the trash
+			JArrayHelper::toInteger($items, array(0));
+			$where = ' WHERE (id = ' . implode( ' OR id = ', $items ) . ') AND home = 0';
+			$query = 'UPDATE #__menu' .
+					' SET published = '.(int) $state.', parent = 0, ordering = 0, checked_out = 0, checked_out_time = '.$db->Quote($nd) .
+					$where;
+			$db->setQuery( $query );
+			if (!$db->query()) {
+				$this->setError( $db->getErrorMsg() );
+				return false;
+			}
+		}
 
 		// Clear the content cache
 		// TODO: Is this necessary?

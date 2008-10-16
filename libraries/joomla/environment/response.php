@@ -12,14 +12,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-/**
- * Create the response global object
- */
-$GLOBALS['_JRESPONSE'] = new stdClass();
-$GLOBALS['_JRESPONSE']->cachable = false;
-$GLOBALS['_JRESPONSE']->headers  = array();
-$GLOBALS['_JRESPONSE']->body	 = array();
-
  /**
  * JResponse Class
  *
@@ -27,13 +19,16 @@ $GLOBALS['_JRESPONSE']->body	 = array();
  * response variables.  This includes header and body.
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Environment
  * @since		1.5
  */
-class JResponse
+abstract class JResponse
 {
+	private static $cachable = false;
+	private static $headers = array();
+	private static $body = array();
+
 	/**
 	 * Set/get cachable state for the response
 	 *
@@ -44,12 +39,12 @@ class JResponse
 	 * @return	boolean 	True of browser caching should be allowed
 	 * @since	1.5
 	 */
-	function allowCache($allow = null)
+	public static function allowCache($allow = null)
 	{
 		if (!is_null($allow)) {
-			$GLOBALS['_JRESPONSE']->cachable = (bool) $allow;
+			JResponse::$cachable = (bool) $allow;
 		}
-		return $GLOBALS['_JRESPONSE']->cachable;
+		return JResponse::$cachable;
 	}
 
 	/**
@@ -63,21 +58,21 @@ class JResponse
 	 * @param string 	$value
 	 * @param boolean 	$replace
 	 */
-	function setHeader($name, $value, $replace = false)
+	public static function setHeader($name, $value, $replace = false)
 	{
 		$name	= (string) $name;
 		$value	= (string) $value;
 
 		if ($replace)
 		{
-			foreach ($GLOBALS['_JRESPONSE']->headers as $key => $header) {
+			foreach (JResponse::$headers as $key => $header) {
 				if ($name == $header['name']) {
-					unset($GLOBALS['_JRESPONSE']->headers[$key]);
+					unset(JResponse::$headers[$key]);
 				}
 			}
 		}
 
-		$GLOBALS['_JRESPONSE']->headers[] = array(
+		JResponse::$headers[] = array(
 			'name'	=> $name,
 			'value'	=> $value
 		);
@@ -89,8 +84,8 @@ class JResponse
 	 * @access public
 	 * @return array
 	 */
-	function getHeaders() {
-		return  $GLOBALS['_JRESPONSE']->headers;
+	public static function getHeaders() {
+		return  JResponse::$headers;
 	}
 
 	/**
@@ -98,8 +93,8 @@ class JResponse
 	 *
 	 * @access public
 	 */
-	function clearHeaders() {
-		$GLOBALS['_JRESPONSE']->headers = array();
+	public static function clearHeaders() {
+		JResponse::$headers = array();
 	}
 
 	/**
@@ -108,11 +103,11 @@ class JResponse
 	 * @access public
 	 * @return void
 	 */
-	function sendHeaders()
+	public static function sendHeaders()
 	{
 		if (!headers_sent())
 		{
-			foreach ($GLOBALS['_JRESPONSE']->headers as $header)
+			foreach (JResponse::$headers as $header)
 			{
 				if ('status' == strtolower($header['name']))
 				{
@@ -133,8 +128,8 @@ class JResponse
 	 * @access public
 	 * @param string $content
 	 */
-	function setBody($content) {
-		$GLOBALS['_JRESPONSE']->body = array((string) $content);
+	public static function setBody($content) {
+		JResponse::$body = array((string) $content);
 	}
 
 	 /**
@@ -143,8 +138,8 @@ class JResponse
 	 * @access public
 	 * @param string $content
 	 */
-	function prependBody($content) {
-		array_unshift($GLOBALS['_JRESPONSE']->body, (string) $content);
+	public static function prependBody($content) {
+		array_unshift(JResponse::$body, (string) $content);
 	}
 
 	/**
@@ -153,8 +148,8 @@ class JResponse
 	 * @access public
 	 * @param string $content
 	 */
-	function appendBody($content) {
-		array_push($GLOBALS['_JRESPONSE']->body, (string) $content);
+	public static function appendBody($content) {
+		array_push(JResponse::$body, (string) $content);
 	}
 
 	/**
@@ -165,14 +160,14 @@ class JResponse
 	 * array of strings or as a single string; defaults to false
 	 * @return string|array
 	 */
-	function getBody($toArray = false)
+	public static function getBody($toArray = false)
 	{
 		if ($toArray) {
-			return $GLOBALS['_JRESPONSE']->body;
+			return JResponse::$body;
 		}
 
 		ob_start();
-		foreach ($GLOBALS['_JRESPONSE']->body as $content) {
+		foreach (JResponse::$body as $content) {
 			echo $content;
 		}
 		return ob_get_clean();
@@ -185,7 +180,7 @@ class JResponse
 	 * @param boolean 	$compress	If true, compress the data
 	 * @return string
 	 */
-	function toString($compress = false)
+	public static function toString($compress = false)
 	{
 		$data = JResponse::getBody();
 
@@ -216,7 +211,7 @@ class JResponse
 	* @param	string		data
 	* @return	string		compressed data
 	*/
-	function _compress( $data )
+	private static function _compress( $data )
 	{
 		$encoding = JResponse::_clientEncoding();
 
@@ -261,7 +256,7 @@ class JResponse
 	* @access	private
 	* @return	boolean
 	*/
-	function _clientEncoding()
+	private static function _clientEncoding()
 	{
 		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
 			return false;

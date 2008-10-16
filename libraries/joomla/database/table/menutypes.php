@@ -25,13 +25,13 @@ defined('JPATH_BASE') or die();
 class JTableMenuTypes extends JTable
 {
 	/** @var int Primary key */
-	var $id					= null;
+	protected $id					= null;
 	/** @var string */
-	var $menutype			= null;
+	protected $menutype			= null;
 	/** @var string */
-	var $title				= null;
+	protected $title				= null;
 	/** @var string */
-	var $description		= null;
+	protected $description		= null;
 
 	/**
 	 * Constructor
@@ -39,7 +39,7 @@ class JTableMenuTypes extends JTable
 	 * @access protected
 	 * @param database A database connector object
 	 */
-	function __construct( &$db )
+	protected function __construct( &$db )
 	{
 		parent::__construct( '#__menu_types', 'id', $db );
 	}
@@ -47,11 +47,11 @@ class JTableMenuTypes extends JTable
 	/**
 	 * @return boolean
 	 */
-	function check()
+	public function check()
 	{
-		if (strstr( $this->menutype, '\'' ))
-		{
-			$this->setError(JText::_( 'The menu name cannot contain a \'', true ));
+		$this->menutype = JFilterOutput::stringURLSafe($this->menutype);
+		if(empty($this->menutype)) {
+			$this->setError( "Cannot save: Empty menu type" );
 			return false;
 		}
 
@@ -70,13 +70,18 @@ class JTableMenuTypes extends JTable
 		}
 
 		$db->setQuery( $query );
-		$menus = $db->loadResultArray();
+		try {
+			$menus = $db->loadResultArray();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
 
 		foreach ($menus as $menutype)
 		{
 			if ($menutype == $this->menutype)
 			{
-				$this->setError( "Cannot save: Duplicate menu type '$this->menutype'" );
+				$this->setError( "Cannot save: Duplicate menu type '{$this->menutype}'" );
 				return false;
 			}
 		}
@@ -84,3 +89,4 @@ class JTableMenuTypes extends JTable
 		return true;
 	}
 }
+

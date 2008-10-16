@@ -32,7 +32,7 @@ class JInstallerTemplate extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct(&$parent)
+	public function __construct(&$parent)
 	{
 		$this->parent =& $parent;
 	}
@@ -44,10 +44,8 @@ class JInstallerTemplate extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
-		// Get database connector object
-		$db =& $this->parent->getDBO();
 		$manifest =& $this->parent->getManifest();
 		$root =& $manifest->document;
 
@@ -125,7 +123,7 @@ class JInstallerTemplate extends JObject
 
 		// Get the template description
 		$description = & $root->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '' );
@@ -149,7 +147,7 @@ class JInstallerTemplate extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall( $name, $clientId )
+	public function uninstall( $name, $clientId )
 	{
 		// Initialize variables
 		$retval	= true;
@@ -170,7 +168,7 @@ class JInstallerTemplate extends JObject
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		$manifest =& $this->parent->getManifest();
-		if (!is_a($manifest, 'JSimpleXML')) {
+		if (!$manifest INSTANCEOF JSimpleXML) {
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
 			JError::raiseWarning(100, JTEXT::_('Template').' '.JTEXT::_('Uninstall').': '.JTEXT::_('Package manifest file invalid or not found'));

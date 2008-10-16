@@ -20,7 +20,6 @@ jimport('joomla.application.component.model');
 /**
  * Weblinks Component Categories Model
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Weblinks
  * @since 1.5
@@ -99,7 +98,7 @@ class WeblinksModelCategories extends JModel
 			.' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(\':\', cc.id, cc.alias) ELSE cc.id END as slug'
 			.' FROM #__categories AS cc'
 			.' LEFT JOIN #__weblinks AS a ON a.catid = cc.id'
-			.' WHERE a.published = 1'
+			.' WHERE a.state = 1'
 			.' AND section = \'com_weblinks\''
 			.' AND cc.published = 1'
 			.' AND cc.access <= '.(int) $aid

@@ -10,7 +10,7 @@
 					</span>
 			</td>
 			<td>
-				<?php echo $lists['mailer']; ?>
+				<?php echo $this->lists['mailer']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -20,7 +20,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="mailfrom" size="30" value="<?php echo $row->mailfrom; ?>" />
+				<input class="text_area" type="text" name="mailfrom" size="30" value="<?php echo $this->row->mailfrom; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -30,7 +30,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="fromname" size="30" value="<?php echo $row->fromname; ?>" />
+				<input class="text_area" type="text" name="fromname" size="30" value="<?php echo $this->row->fromname; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -40,7 +40,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="sendmail" size="30" value="<?php echo $row->sendmail; ?>" />
+				<input class="text_area" type="text" name="sendmail" size="30" value="<?php echo $this->row->sendmail; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -50,7 +50,7 @@
 					</span>
 			</td>
 			<td>
-				<?php echo $lists['smtpauth']; ?>
+				<?php echo $this->lists['smtpauth']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -60,7 +60,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="smtpuser" size="30" value="<?php echo $row->smtpuser; ?>" />
+				<input class="text_area" type="text" name="smtpuser" size="30" value="<?php echo $this->row->smtpuser; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -70,7 +70,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="password" name="smtppass" size="30" value="<?php echo $row->smtppass; ?>" />
+				<input class="text_area" type="password" name="smtppass" size="30" value="<?php echo $this->row->smtppass; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -80,7 +80,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="smtphost" size="30" value="<?php echo $row->smtphost; ?>" />
+				<input class="text_area" type="text" name="smtphost" size="30" value="<?php echo $this->row->smtphost; ?>" />
 			</td>
 		</tr>
 		</tbody>

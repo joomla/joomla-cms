@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * JDocument system message renderer
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
@@ -33,16 +32,16 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	 * @param array 	$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render($name = null, $params = array (), $content = null)
+	public function render($name, $params = array (), $content = null)
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		// Initialize variables
 		$contents	= null;
 		$lists		= null;
 
 		// Get the message queue
-		$messages = $mainframe->getMessageQueue();
+		$messages = $appl->getMessageQueue();
 
 		// Build the sorted message list
 		if (is_array($messages) && count($messages)) {

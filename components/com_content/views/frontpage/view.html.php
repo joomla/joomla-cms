@@ -15,7 +15,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+require_once JPATH_COMPONENT.DS.'view.php';
 
 /**
  * Frontpage View class
@@ -27,9 +27,18 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  */
 class ContentViewFrontpage extends ContentView
 {
+	protected $pagination = null;
+	protected $total = null;
+	protected $access = null;
+	protected $user = null;
+	protected $params = null;
+	protected $items = null;
+	protected $item = null;
+
 	function display($tpl = null)
 	{
-		global $mainframe, $option;
+		$mainframe = JFactory::getApplication();
+		$option = JRequest::getCmd('option', 'com_content');
 
 		// Initialize variables
 		$user		=& JFactory::getUser();
@@ -42,7 +51,6 @@ class ContentViewFrontpage extends ContentView
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
-
 		// parameters
 		$intro			= $params->def('num_intro_articles',	4);
 		$leading		= $params->def('num_leading_articles',	1);
@@ -76,6 +84,21 @@ class ContentViewFrontpage extends ContentView
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
 
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	 htmlspecialchars_decode($mainframe->getCfg('sitename' )));
+			}
+		} else {
+			$params->set('page_title',	 htmlspecialchars_decode($mainframe->getCfg('sitename' )));
+		}
+		$document->setTitle( $params->get( 'page_title' ) );
+
 		jimport('joomla.html.pagination');
 		$this->pagination = new JPagination($total, $limitstart, $limit - $links);
 
@@ -85,7 +108,6 @@ class ContentViewFrontpage extends ContentView
 		$this->assignRef('access',		$access);
 		$this->assignRef('params',		$params);
 		$this->assignRef('items',		$items);
-
 		parent::display($tpl);
 	}
 

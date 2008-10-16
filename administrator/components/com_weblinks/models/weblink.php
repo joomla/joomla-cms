@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla
- * @subpackage	Content
+ * @subpackage	Weblinks
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
@@ -108,13 +108,14 @@ class WeblinksModelWeblink extends JModel
 	 */
 	function isCheckedOut( $uid=0 )
 	{
-		if ($this->_loadData())
+		if ($this->_id)
 		{
-			if ($uid) {
-				return ($this->_data->checked_out && $this->_data->checked_out != $uid);
-			} else {
-				return $this->_data->checked_out;
+			$weblink = & $this->getTable();
+			if (!$weblink->load($this->_id)) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
 			}
+			return $weblink->isCheckedOut($uid);
 		}
 	}
 
@@ -252,9 +253,39 @@ class WeblinksModelWeblink extends JModel
 			$cids = implode( ',', $cid );
 
 			$query = 'UPDATE #__weblinks'
-				. ' SET published = '.(int) $publish
+				. ' SET state = '.(int) $publish
 				. ' WHERE id IN ( '.$cids.' )'
 				. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )'
+			;
+			$this->_db->setQuery( $query );
+			if (!$this->_db->query()) {
+				$this->setError($this->_db->getErrorMsg());
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to report a weblink
+	 *
+	 * @access	public
+	 * @return	boolean	True on success
+	 * @since	1.6
+	 */
+	function report($cid = array(), $report = -1)
+	{
+		$user 	=& JFactory::getUser();
+
+		if (count( $cid ))
+		{
+			JArrayHelper::toInteger($cid);
+			$cids = implode( ',', $cid );
+
+			$query = 'UPDATE #__weblinks'
+				. ' SET state = '.(int) $report
+				. ' WHERE id IN ( '.$cids.' )'
 			;
 			$this->_db->setQuery( $query );
 			if (!$this->_db->query()) {
@@ -364,24 +395,24 @@ class WeblinksModelWeblink extends JModel
 		if (empty($this->_data))
 		{
 			$weblink = new stdClass();
-			$weblink->id					= 0;
+			$weblink->id				= 0;
 			$weblink->catid				= 0;
 			$weblink->sid				= 0;
 			$weblink->title				= null;
-			$weblink->alias               = null;
+			$weblink->alias				= null;
 			$weblink->url				= null;
-			$weblink->description			= null;
+			$weblink->description		= null;
 			$weblink->date				= null;
 			$weblink->hits				= 0;
-			$weblink->published			= 0;
-			$weblink->checked_out			= 0;
+			$weblink->state				= 0;
+			$weblink->checked_out		= 0;
 			$weblink->checked_out_time	= 0;
 			$weblink->ordering			= 0;
 			$weblink->archived			= 0;
 			$weblink->approved			= 0;
-			$weblink->params				= null;
+			$weblink->params			= null;
 			$weblink->category			= null;
-			$this->_data					= $weblink;
+			$this->_data				= $weblink;
 			return (boolean) $this->_data;
 		}
 		return true;

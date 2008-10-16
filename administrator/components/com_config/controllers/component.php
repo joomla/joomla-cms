@@ -12,7 +12,7 @@
  * details.
  */
 
-require_once( JPATH_COMPONENT.DS.'views'.DS.'component'.DS.'view.php' );
+jimport('joomla.application.component.controller');
 
 /**
  * Note: this view is intended only to be opened in a popup
@@ -52,16 +52,7 @@ class ConfigControllerComponent extends JController
 		$lang->load( $component );
 
 		$model = $this->getModel('Component' );
-		$table =& JTable::getInstance('component');
-
-		if (!$table->loadByOption( $component ))
-		{
-			JError::raiseWarning( 500, 'Not a valid component' );
-			return false;
-		}
-
-		$view = new ConfigViewComponent( );
-		$view->assignRef('component', $table);
+		$view = $this->getView('Component');
 		$view->setModel( $model, true );
 		$view->display();
 	}

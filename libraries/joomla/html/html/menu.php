@@ -23,15 +23,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage	HTML
  * @since		1.5
  */
-class JHTMLMenu
+abstract class JHTMLMenu
 {
 	/**
 	* Build the select list for Menu Ordering
 	*/
-	function ordering( &$row, $id )
+	public static function ordering( &$row, $id )
 	{
-		$db =& JFactory::getDBO();
-
+		$db = JFactory::getDBO();
 		if ( $id )
 		{
 			$query = 'SELECT ordering AS value, name AS text'
@@ -53,7 +52,7 @@ class JHTMLMenu
 	/**
 	* Build the multiple select list for Menu Links/Pages
 	*/
-	function linkoptions( $all=false, $unassigned=false )
+	public static function linkoptions( $all=false, $unassigned=false )
 	{
 		$db =& JFactory::getDBO();
 
@@ -64,7 +63,11 @@ class JHTMLMenu
 		. ' ORDER BY m.menutype, m.parent, m.ordering'
 		;
 		$db->setQuery( $query );
-		$mitems = $db->loadObjectList();
+		try {
+			$mitems = $db->loadObjectList();
+		} catch(JException $e) {
+			$mitems = array();
+		}
 		$mitems_temp = $mitems;
 
 		// establish the hierarchy of the menu
@@ -121,7 +124,7 @@ class JHTMLMenu
 		return $mitems;
 	}
 
-	function treerecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 )
+	public static function treerecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 )
 	{
 		if (@$children[$id] && $level <= $maxlevel)
 		{

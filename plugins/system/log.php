@@ -19,28 +19,11 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * Joomla! System Logging Plugin
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	System
  */
 class  plgSystemLog extends JPlugin
 {
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @access	protected
-	 * @param	object	$subject The object to observe
-	 * @param 	array   $config  An array that holds the plugin configuration
-	 * @since	1.5
-	 */
-	function plgSystemLog(& $subject, $config) {
-		parent::__construct($subject, $config);
-	}
-
 	function onLoginFailure($response)
 	{
 		jimport('joomla.error.log');
@@ -49,7 +32,7 @@ class  plgSystemLog extends JPlugin
 		$errorlog = array();
 
 		switch($response['status'])
-	    {
+		{
 			case JAUTHENTICATE_STATUS_CANCEL :
 			{
 				$errorlog['status']  = $response['type'] . " CANCELED: ";

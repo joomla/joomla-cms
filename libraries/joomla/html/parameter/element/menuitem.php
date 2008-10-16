@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a menu item element
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Parameter
  * @since		1.5
@@ -32,9 +31,9 @@ class JElementMenuItem extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'MenuItem';
+	protected $_name = 'MenuItem';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db =& JFactory::getDBO();
 
@@ -51,7 +50,11 @@ class JElementMenuItem extends JElement
 				' FROM #__menu_types' .
 				' ORDER BY title';
 		$db->setQuery( $query );
-		$menuTypes = $db->loadObjectList();
+		try {
+			$menuTypes = $db->loadObjectList();
+		} catch(JException $e) {
+			$menuTypes = array();
+		}
 
 		if ($state = $node->attributes('state')) {
 			$where .= ' AND published = '.(int) $state;
@@ -66,7 +69,11 @@ class JElementMenuItem extends JElement
 				;
 
 		$db->setQuery($query);
-		$menuItems = $db->loadObjectList();
+		try {
+			$menuItems = $db->loadObjectList();
+		} catch(JException $e) {
+			$menuItems = array();
+		}
 
 		// establish the hierarchy of the menu
 		// TODO: use node model

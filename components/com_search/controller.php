@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: controller.php 7682 2007-06-08 16:12:14Z friesengeist $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.

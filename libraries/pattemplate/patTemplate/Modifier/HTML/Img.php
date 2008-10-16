@@ -37,7 +37,7 @@ class patTemplate_Modifier_HTML_Img extends patTemplate_Modifier
 	function modify( $value, $params = array() )
 	{
 		$size = getimagesize( $value );
-		$params['src']    = $value;
+		$params['src']	= $value;
 		$params['width']  = $size[0];
 		$params['height'] = $size[1];
 		return '<img'.$this->arrayToAttributes($params).' />';

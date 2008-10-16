@@ -1,21 +1,21 @@
-﻿<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <metafile version="1.5" client="installation" >
-    <name>Japanese(JP)</name>
-    <version>1.5.0</version>
-    <creationDate>Nov 2005</creationDate>
-    <author>Joomla! Japanese Translation Project</author>
-    <authorEmail>project@joomla.jp</authorEmail>
-    <authorUrl>www.joomla.jp</authorUrl>
-    <copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
-    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>Japanese language file for web installer</description>
-    <metadata>
-    	<name>Japanese(JP)</name>
-    	<tag>ja-JP</tag>
-    	<rtl>0</rtl>
-	<locale>ja_JP.utf8, ja_JP.UTF-8, jpn_JP, ja_JP, jpn, ja, Japanse_Japan, japanse, jp, JP, JA</locale>
-    	<winCodePage>SJIS</winCodePage>
-    	<backwardLang>japanese</backwardLang>
-    </metadata>
-    <params />
+	<name>Japanese(JP)</name>
+	<version>1.5.4</version>
+	<creationDate>2008-03-15</creationDate>
+	<author>Joomla! Japanese Translation Project</author>
+	<authorEmail>project@joomla.jp</authorEmail>
+	<authorUrl>www.joomla.jp</authorUrl>
+	<copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Japanese language file for web installer</description>
+	<metadata>
+		<name>Japanese(JP)</name>
+		<tag>ja-JP</tag>
+		<rtl>0</rtl>
+	<locale>ja_JP.UTF8, jpn_JP, ja_JP, jpn, ja, Japanse_Japan, japanse, jp, JP, JA</locale>
+		<winCodePage>SJIS</winCodePage>
+		<backwardLang>japanese</backwardLang>
+	</metadata>
+	<params />
 </metafile>

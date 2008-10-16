@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Class to create and parse routes
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla
  * @since		1.5
  */

@@ -1,10 +1,10 @@
 function Xajax()
 {
 	if (xajaxDebug) this.DebugMessage = function(text) { alert("Xajax Debug:\n " + text) };
-	
+
 	this.workId = 'xajaxWork'+ new Date().getTime();
 	this.depth = 0;
-	
+
 	//Get the XMLHttpRequest Object
 	this.getRequestObject = function()
 	{
@@ -27,11 +27,11 @@ function Xajax()
 		}
 		if(!req && typeof XMLHttpRequest != "undefined")
 			req = new XMLHttpRequest();
-		
+
 			if (xajaxDebug) {
 				if (!req) this.DebugMessage("Request Object Instantiation failed.");
 			}
-			
+
 		return req;
 	}
 
@@ -47,7 +47,7 @@ function Xajax()
 		}
 		return returnObj;
 	}
-	
+
 	// xajax.include(sFileName) dynamically includes an external javascript file
 	this.include = function(sFileName)
 	{
@@ -57,7 +57,7 @@ function Xajax()
 		objScript.src = sFileName;
 		objHead[0].appendChild(objScript);
 	}
-	
+
 	// xajax.addHandler adds an event handler to an element
 	this.addHandler = function(sElementId, sEvent, sFunctionName)
 	{
@@ -70,7 +70,7 @@ function Xajax()
 			eval("this.$('"+sElementId+"').attachEvent('on"+sEvent+"',"+sFunctionName+",false);");
 		}
 	}
-	
+
 	// xajax.removeHandler removes an event handler from an element
 	this.removeHandler = function(sElementId, sEvent, sFunctionName)
 	{
@@ -83,7 +83,7 @@ function Xajax()
 			eval("this.$('"+sElementId+"').detachEvent('on"+sEvent+"',"+sFunctionName+",false);");
 		}
 	}
-	
+
 	// xajax.create creates a new child node under a parent
 	this.create = function(sParentId, sTag, sId)
 	{
@@ -92,7 +92,7 @@ function Xajax()
 		objElement.setAttribute('id',sId);
 		objParent.appendChild(objElement);
 	}
-	
+
 	// xajax.insert inserts a new node before another node
 	this.insert = function(sBeforeId, sTag, sId)
 	{
@@ -101,7 +101,7 @@ function Xajax()
 		objElement.setAttribute('id',sId);
 		objSibling.parentNode.insertBefore(objElement, objSibling);
 	}
-	
+
 	this.getInput = function(sType, sName, sId)
 	{
 		var Obj;
@@ -118,7 +118,7 @@ function Xajax()
 		}
 		return Obj;
 	}
-	
+
 	// xajax.createInput creates a new input node under a parent
 	this.createInput = function(sParentId, sType, sName, sId)
 	{
@@ -126,7 +126,7 @@ function Xajax()
 		var objElement = this.getInput(sType, sName, sId);
 		objParent.appendChild(objElement);
 	}
-	
+
 	// xajax.insertInput creates a new input node before another node
 	this.insertInput = function(sBeforeId, sType, sName, sId)
 	{
@@ -134,7 +134,7 @@ function Xajax()
 		var objElement = this.getInput(sType, sName, sId);
 		objSibling.parentNode.insertBefore(objElement, objSibling);
 	}
-	
+
 	// xajax.remove deletes an element
 	this.remove = function(sId)
 	{
@@ -144,16 +144,16 @@ function Xajax()
 			objElement.parentNode.removeChild(objElement);
 		}
 	}
-	
+
 	//xajax.replace searches for text in an attribute of an element and replaces it
 	//with a different text
 	this.replace = function(sId,sAttribute,sSearch,sReplace)
 	{
 		var bFunction = false;
-		
+
 		if (sAttribute == "innerHTML")
 			sSearch = this.getBrowserHTML(sSearch);
-		
+
 		eval("var txt=document.getElementById('"+sId+"')."+sAttribute);
 		if (typeof txt == "function")
         {
@@ -172,7 +172,7 @@ function Xajax()
 			newTxt += txt;
 			if (bFunction)
 			{
-				eval("newTxt =" + newTxt); 
+				eval("newTxt =" + newTxt);
 				eval('this.$("'+sId+'").'+sAttribute+'=newTxt;');
 			}
 			else if (this.willChange(sId,sAttribute,newTxt))
@@ -181,7 +181,7 @@ function Xajax()
 			}
 		}
 	}
-	
+
 	// xajax.getFormValues() builds a query string XML message from the elements of a form object
 	this.getFormValues = function(frm)
 	{
@@ -189,7 +189,7 @@ function Xajax()
 		var submitDisabledElements = false;
 		if (arguments.length > 1 && arguments[1] == true)
 			submitDisabledElements = true;
-		
+
 		if (typeof(frm) == "string")
 			objForm = this.$(frm);
 		else
@@ -219,15 +219,15 @@ function Xajax()
 					{
 						sXml += name+"="+encodeURIComponent(formElements[i].value);
 					}
-				} 
+				}
 			}
 		}
-		
+
 		sXml +="</q></xjxquery>";
-		
+
 		return sXml;
 	}
-	
+
 	// Generates an XML message that xajax can understand from a javascript object
 	this.objectToXML = function(obj)
 	{
@@ -240,10 +240,10 @@ function Xajax()
 					continue;
 				if (obj[i] && typeof(obj[i]) == 'function')
 					continue;
-					
+
 				var key = i;
 				var value = obj[i];
-				if (value && typeof(value)=="object" && 
+				if (value && typeof(value)=="object" &&
 					(value.constructor == Array
 					 ) && this.depth <= 50)
 				{
@@ -251,9 +251,9 @@ function Xajax()
 					value = this.objectToXML(value);
 					this.depth--;
 				}
-				
+
 				sXml += "<e><k>"+key+"</k><v>"+value+"</v></e>";
-				
+
 			}
 			catch(e)
 			{
@@ -261,7 +261,7 @@ function Xajax()
 			}
 		}
 		sXml += "</xjxobj>";
-	
+
 		return sXml;
 	}
 
@@ -335,7 +335,7 @@ function Xajax()
 		{
 			if (r.readyState != 4)
 				return;
-			
+
 			if (r.status==200)
 			{
 				if (xajaxDebug && r.responseText.length < 1000) xajax.DebugMessage("Received:\n" + r.responseText);
@@ -345,10 +345,10 @@ function Xajax()
 				else {
 					alert("Error: the XML response that was returned from the server is invalid.");
 					document.body.style.cursor = 'default';
-					if (xajaxStatusMessages == true) window.status = 'Invalid XML response error';				
+					if (xajaxStatusMessages == true) window.status = 'Invalid XML response error';
 				}
 			}
-			
+
 			delete r;
 		}
 		if (xajaxDebug) this.DebugMessage("Calling "+sFunction +" uri="+uri+" (post:"+ postData +")");
@@ -357,7 +357,7 @@ function Xajax()
 		delete r;
 		return true;
 	}
-	
+
 	//Gets the text as it would be if it were being retrieved from
 	//the innerHTML property in the current browser
 	this.getBrowserHTML = function(html)
@@ -373,11 +373,11 @@ function Xajax()
 		}
 		tmpXajax.innerHTML = html;
 		var browserHTML = tmpXajax.innerHTML;
-		tmpXajax.innerHTML = '';	
-		
+		tmpXajax.innerHTML = '';
+
 		return browserHTML;
 	}
-	
+
 	// Tests if the new Data is the same as the extant data
 	this.willChange = function(element, attribute, newData)
 	{
@@ -393,10 +393,10 @@ function Xajax()
 		eval("oldData=document.getElementById('"+element+"')."+attribute);
 		if (newData != oldData)
 			return true;
-			
+
 		return false;
 	}
-	
+
 	//Process XML xajaxResponses returned from the request
 	this.processResponse = function(xml)
 	{
@@ -420,7 +420,7 @@ function Xajax()
 				var search;
 				var type;
 				var before;
-				
+
 				for (j=0; j<xml.childNodes[i].attributes.length; j++)
 				{
 					if (xml.childNodes[i].attributes[j].name == "n")
@@ -460,7 +460,7 @@ function Xajax()
 					data = xml.childNodes[i].firstChild.nodeValue;
 				else
 					data = "";
-				
+
 				var objElement = this.$(id);
 				try
 				{
@@ -540,7 +540,7 @@ function Xajax()
 				delete data;
 				delete type;
 				delete before;
-			}	
+			}
 		}
 		delete xml;
 		document.body.style.cursor = 'default';

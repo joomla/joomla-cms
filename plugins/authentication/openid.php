@@ -20,7 +20,6 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * OpenID Authentication Plugin
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	openID
  * @since 1.5
@@ -29,27 +28,11 @@ jimport( 'joomla.plugin.plugin' );
 class plgAuthenticationOpenID extends JPlugin
 {
 	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param 	object $subject The object to observe
-	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since 1.5
-	 */
-	function plgAuthenticationOpenID(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
 	 * @param   array 	$credentials Array holding the user credentials
-	 * @param 	array   $options     Array of extra options (return, entry_url)
+	 * @param 	array   $options	 Array of extra options (return, entry_url)
 	 * @param	object	$response	Authentication response object
 	 * @return	boolean
 	 * @since 1.5
@@ -62,7 +45,7 @@ class plgAuthenticationOpenID extends JPlugin
 			define ("Auth_OpenID_RAND_SOURCE", null);
 		}
 
-		require_once(JPATH_LIBRARIES.DS.'openid'.DS.'consumer.php');
+		require_once JPATH_LIBRARIES.DS.'openid'.DS.'consumer.php';
 
 		// Access the session data
 		$session =& JFactory::getSession();
@@ -117,7 +100,7 @@ class plgAuthenticationOpenID extends JPlugin
 			$process_url  = sprintf($entry_url->toString()."&username=%s", $credentials['username']);
 			$process_url .= '&'.JURI::buildQuery($options);
 
-			$trust_url    = $entry_url->toString(array('path', 'host', 'port', 'scheme'));
+			$trust_url	= $entry_url->toString(array('path', 'host', 'port', 'scheme'));
 			$redirect_url = $request->redirectURL($trust_url, $process_url);
 
 			$session->set('trust_url', $trust_url);
@@ -137,8 +120,8 @@ class plgAuthenticationOpenID extends JPlugin
 			{
 				$sreg = $result->extensionResponse('sreg');
 
-				$response->status	      = JAUTHENTICATE_STATUS_SUCCESS;
-				$response->error_message  = '';
+				$response->status 			= JAUTHENTICATE_STATUS_SUCCESS;
+				$response->error_message	= '';
 				$response->email	= isset($sreg['email'])	? $sreg['email']	: "";
 				$response->fullname	= isset($sreg['fullname']) ? $sreg['fullname'] : "";
 				$response->language	= isset($sreg['language']) ? $sreg['language'] : "";

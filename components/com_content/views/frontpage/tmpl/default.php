@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<?php if ($this->params->get('show_page_title')) : ?>
+<?php if ($this->params->get('show_page_title', 1)) : ?>
 <div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
 	<?php echo $this->escape($this->params->get('page_title')); ?>
 </div>
@@ -35,8 +35,8 @@ if (($numIntroArticles != $startIntroArticles) && ($i < $this->total)) : ?>
 			for ($z = 0; $z < $this->params->def('num_columns', 2); $z ++) :
 				if ($z > 0) : $divider = " column_separator"; endif; ?>
 				<?php
-				    $rows = (int) ($this->params->get('num_intro_articles', 4) / $this->params->get('num_columns'));
-				    $cols = ($this->params->get('num_intro_articles', 4) % $this->params->get('num_columns'));
+					$rows = (int) ($this->params->get('num_intro_articles', 4) / $this->params->get('num_columns'));
+					$cols = ($this->params->get('num_intro_articles', 4) % $this->params->get('num_columns'));
 				?>
 				<td valign="top" width="<?php echo intval(100 / $this->params->get('num_columns')) ?>%" class="article_column<?php echo $divider ?>">
 				<?php

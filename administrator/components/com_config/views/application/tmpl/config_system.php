@@ -10,7 +10,7 @@
 				</span>
 				</td>
 				<td>
-					<strong><?php echo $row->secret; ?></strong>
+					<strong><?php echo $this->row->secret; ?></strong>
 				</td>
 			</tr>
 			<tr>
@@ -20,7 +20,7 @@
 					</span>
 				</td>
 				<td>
-					<input class="text_area" type="text" size="50" name="log_path" value="<?php echo $row->log_path; ?>" />
+					<input class="text_area" type="text" size="50" name="log_path" value="<?php echo $this->row->log_path; ?>" />
 				</td>
 			</tr>
 			<tr>
@@ -30,7 +30,7 @@
 				</span>
 				</td>
 				<td>
-					<?php echo $lists['xmlrpc_server']; ?>
+					<?php echo $this->lists['xmlrpc_server']; ?>
 				</td>
 			</tr>
 			<tr>
@@ -40,7 +40,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['helpsites']; ?>
+				<?php echo $this->lists['helpsites']; ?>
 				<input type="button" onclick="submitbutton('refreshhelp')" value="<?php echo JText::_('Refresh'); ?>" />
 			</td>
 		</tr>

@@ -1,14 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: uk-UA.xml 15:32 03.01.2008 Denys Nosov -->
+<?xml version="1.0" encoding="utf-8"?>
 <metafile version="1.5" client="installation" >
 	<name>Ukrainian(Ukraine)</name>
-	<version>1.5.0</version>
-	<creationDate>03 Jan 2008</creationDate>
+	<version>1.5.4</version>
+	<creationDate>12.03.2008</creationDate>
 	<author>Joomla! Ukraine</author>
-	<authorEmail>dgm.denys@gmail.com</authorEmail>
+	<authorEmail>denys@joomla-ua</authorEmail>
 	<authorUrl>www.joomla-ua.org</authorUrl>
 	<copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<license>>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>Ukrainian language file for web installer</description>
 	<metadata>
 		<name>Ukrainian (Ukraine)</name>

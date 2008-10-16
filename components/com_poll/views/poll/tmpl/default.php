@@ -5,9 +5,9 @@ defined('_JEXEC') or die('Restricted access');
 <?php JHTML::_('stylesheet', 'poll_bars.css', 'components/com_poll/assets/'); ?>
 
 <form action="index.php" method="post" name="poll" id="poll">
-<?php if ($this->params->get( 'show_page_title')) : ?>
+<?php if ($this->params->get( 'show_page_title', 1)) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ) ?>">
-	<?php echo $this->poll->title ? $this->escape($this->poll->title) : $this->escape($this->params->get('page_title')); ?>
+	<?php echo $this->escape($this->params->get('page_title')); ?>
 </div>
 <?php endif; ?>
 <div class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ) ?>">

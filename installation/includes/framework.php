@@ -21,7 +21,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 error_reporting( E_ALL );
 @set_magic_quotes_runtime( 0 );
-@ini_set('zend.ze1_compatibility_mode', '0');
 
 /*
  *
@@ -36,7 +35,7 @@ if (file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) && (filesize( 
  */
 
 // System includes
-require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php');
+require_once(JPATH_LIBRARIES . DS . 'joomla' . DS . 'import.php');
 
 // Installation file includes
 define( 'JPATH_INCLUDES', dirname(__FILE__) );
@@ -57,4 +56,3 @@ jimport( 'joomla.html.parameter' );
 jimport( 'joomla.utilities.utility' );
 jimport( 'joomla.language.language');
 jimport( 'joomla.utilities.string' );
-?>

@@ -27,7 +27,7 @@ class JInstallationHelper
 	 */
 	function detectDB()
 	{
-		$map = array ('mysql_connect' => 'mysql', 'mysqli_connect' => 'mysqli', 'mssql_connect' => 'mssql');
+		$map = array ('mysqli_connect' => 'mysqli', 'mysql_connect' => 'mysql', 'mssql_connect' => 'mssql');
 		foreach ($map as $f => $db)
 		{
 			if (function_exists($f))
@@ -195,11 +195,12 @@ class JInstallationHelper
 			{
 				$db->setQuery($query);
 				//echo $query .'<br />';
-				$db->query() or die($db->getErrorMsg());
+				$db->query();
 
 				JInstallationHelper::getDBErrors($errors, $db );
 			}
 		}
+
 		return count($errors);
 	}
 
@@ -290,8 +291,9 @@ class JInstallationHelper
 		$nullDate 		= $db->getNullDate();
 		$query = "INSERT INTO #__users VALUES (62, 'Administrator', 'admin', ".$db->Quote($adminEmail).", ".$db->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '')";
 		$db->setQuery($query);
-		if (!$db->query())
-		{
+		try {
+			$db->query();
+		} catch(JException $e) {
 			// is there already and existing admin in migrated data
 			if ( $db->getErrorNum() == 1062 )
 			{
@@ -309,8 +311,9 @@ class JInstallationHelper
 		// add the ARO (Access Request Object)
 		$query = "INSERT INTO #__core_acl_aro VALUES (10,'users','62',0,'Administrator',0)";
 		$db->setQuery($query);
-		if (!$db->query())
-		{
+		try {
+			$db->query();
+		} catch (JException $e) {
 			echo $db->getErrorMsg();
 			return;
 		}
@@ -318,8 +321,9 @@ class JInstallationHelper
 		// add the map between the ARO and the Group
 		$query = "INSERT INTO #__core_acl_groups_aro_map VALUES (25,'',10)";
 		$db->setQuery($query);
-		if (!$db->query())
-		{
+		try {
+			$db->query();
+		} catch (JException $e) {
 			echo $db->getErrorMsg();
 			return;
 		}
@@ -630,7 +634,8 @@ class JInstallationHelper
 	 */
 	function uploadSql( &$args, $migration = false, $preconverted = false )
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
+
 		$archive = '';
 		$script = '';
 
@@ -841,19 +846,19 @@ class JInstallationHelper
 	}
 
 	function return_bytes($val) {
-	    $val = trim($val);
-	    $last = strtolower($val{strlen($val)-1});
-	    switch($last) {
-	        // The 'G' modifier is available since PHP 5.1.0
-	        case 'g':
-	            $val *= 1024;
-	        case 'm':
-	            $val *= 1024;
-	        case 'k':
-	            $val *= 1024;
-	    }
+		$val = trim($val);
+		$last = strtolower($val{strlen($val)-1});
+		switch($last) {
+			// The 'G' modifier is available since PHP 5.1.0
+			case 'g':
+				$val *= 1024;
+			case 'm':
+				$val *= 1024;
+			case 'k':
+				$val *= 1024;
+		}
 
-	    return $val;
+		return $val;
 	}
 
 	function replaceBuffer(&$buffer, $oldPrefix, $newPrefix, $srcEncoding) {
@@ -1295,12 +1300,10 @@ class JInstallationHelper
 			JInstallationHelper::getDBErrors($errors, $db );
 		}
 
-		// TODO: SAM: This doesn't work?
 		/*
 		 * Add core client modules from old site to modules table as unpublished
-		 * SAM: Of course this doesn't work since we dont use this table any more!
 		 */
-		$query = 'SELECT id FROM '.$newPrefix.'modules_migration WHERE client_id = 0 '; //AND module != "mod_mainmenu"';
+		$query = 'SELECT id FROM '.$newPrefix.'modules_migration WHERE client_id = 0 ';
 		$db->setQuery( $query );
 		$lookup = $db->loadResultArray();
 		JInstallationHelper::getDBErrors($errors, $db );
@@ -1395,7 +1398,8 @@ class JInstallationHelper
 	 */
 	function setFTPCfg( $vars )
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
+
 		$arr = array();
 		$arr['ftp_enable'] = $vars['ftpEnable'];
 		$arr['ftp_user'] = $vars['ftpUser'];
@@ -1404,20 +1408,21 @@ class JInstallationHelper
 		$arr['ftp_host'] = $vars['ftpHost'];
 		$arr['ftp_port'] = $vars['ftpPort'];
 
-		$mainframe->setCfg( $arr, 'config' );
+		$appl->setCfg( $arr, 'config' );
 	}
 
 	function _chmod( $path, $mode )
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
+
 		$ret = false;
 
 		// Initialize variables
 		$ftpFlag	= true;
-		$ftpRoot	= $mainframe->getCfg('ftp_root');
+		$ftpRoot	= $appl->getCfg('ftp_root');
 
 		// Do NOT use ftp if it is not enabled
-		if ($mainframe->getCfg('ftp_enable') != 1) {
+		if ($appl->getCfg('ftp_enable') != 1) {
 			$ftpFlag = false;
 		}
 
@@ -1425,8 +1430,8 @@ class JInstallationHelper
 		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP::getInstance($appl->getCfg('ftp_host'), $appl->getCfg('ftp_port'));
+			$ftp->login($appl->getCfg('ftp_user'), $appl->getCfg('ftp_pass'));
 
 			//Translate the destination path for the FTP account
 			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), '/');
@@ -1450,22 +1455,21 @@ class JInstallationHelper
 
 	/** Borrowed from http://au.php.net/manual/en/ini.core.php comments */
 	function let_to_num($v){ //This function transforms the php.ini notation for numbers (like '2M') to an integer (2*1024*1024 in this case)
-	    $l = substr($v, -1);
-	    $ret = substr($v, 0, -1);
-	    switch(strtoupper($l)){
-	    case 'P':
-	        $ret *= 1024;
-	    case 'T':
-	        $ret *= 1024;
-	    case 'G':
-	        $ret *= 1024;
-	    case 'M':
-	        $ret *= 1024;
-	    case 'K':
-	        $ret *= 1024;
-	        break;
-	    }
-	    return $ret;
+		$l = substr($v, -1);
+		$ret = substr($v, 0, -1);
+		switch(strtoupper($l)){
+		case 'P':
+			$ret *= 1024;
+		case 'T':
+			$ret *= 1024;
+		case 'G':
+			$ret *= 1024;
+		case 'M':
+			$ret *= 1024;
+		case 'K':
+			$ret *= 1024;
+			break;
+		}
+		return $ret;
 	}
 }
-?>

@@ -25,20 +25,20 @@ defined('JPATH_BASE') or die();
 class JTableARO extends JTable
 {
 	/** @var int Primary key */
-	var $id			  	= null;
+	protected $id		= null;
 
-	var $section_value	= null;
+	protected $section_value	= null;
 
-	var $value			= null;
+	protected $value			= null;
 
-	var $order_value	= null;
+	protected $order_value	= null;
 
-	var $name			= null;
+	protected $name			= null;
 
-	var $hidden			= null;
+	protected $hidden			= null;
 
-	function __construct( &$db )
+	protected function __construct(&$db)
 	{
-		parent::__construct( '#__core_acl_aro', 'aro_id', $db );
+		parent::__construct('#__core_acl_aro', 'aro_id', $db);
 	}
 }

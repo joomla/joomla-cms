@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: default.xml 9051 2007-09-27 14:47:54Z jinx $ -->
+<metadata>
+	<layout title="Contacts Category Layout">
+		<message>
+			<![CDATA[CONTACT_CATEGORY_LAYOUT_DESCRIPTION]]>
+		</message>
+	</layout>
+	<state>
+		<name>CONTACT_CATEGORY_LAYOUT</name>
+		<description>CONTACT_CATEGORY_LAYOUT_DESCRIPTION</description>
+		<url>
+			<param name="catid" type="category" section="com_contactdirectory" default="0" label="Select Category" description="SELECT_CATEGORY_DESCRIPTION" />
+		</url>
+		<params>
+			<param name="show_title" type="radio" default="0" label="CATEGORY_TITLE" description="CATEGORY_TITLE_DESCRIPTION">
+	 			<option value="0">HIDE</option>
+	 			<option value="1">SHOW</option>
+	 		</param>
+			 <param name="show_description" type="radio" default="0" label="DESCRIPTION" description="CATEGORY_DESCRIPTION_DESCRIPTION">
+	 			<option value="0">HIDE</option>
+	 			<option value="1">SHOW</option>
+	 		</param>
+			<param name="show_description_image" type="radio" default="0" label="DESCRIPTION_IMAGE" description="CATEGORY_DESCRIPTION_IMAGE_DESCRIPTION">
+	 			<option value="0">HIDE</option>
+	 			<option value="1">SHOW</option>
+	 		</param>
+	 		<param name="@spacer" type="spacer" default="" label="" description="" />
+	 		<param name="link" type="radio" default="0" label="HTML_LINK_CONTACT" description="HTML_LINK_CONTACT_DESCIPTION">
+	 			<option value="0">NO</option>
+	 			<option value="1">YES</option>
+	 		</param>
+		</params>
+		<advanced>
+			<param name="orderby" type="list" default="order" label="CATEGORY_ORDER" description="CATEGORY_ORDER_DESCRIPTION">
+				<option value="alpha">TITLE_ALPHABETICAL</option>
+				<option value="ralpha">TITLE_REVERSE_ALPHABETICAL</option>
+				<option value="order">ORDERING</option>
+			</param>
+			<param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="alphabet" type="radio" default="1" label="ALPHABET_FILTER" description="ALPHABET_FILTER_DESCRIPTION">
+				<option value="0">HIDE</option>
+				<option value="1">SHOW</option>
+			</param>
+			<param name="search" type="radio" default="1" label="SEARCH_BOX_FILTER" description="SEARCH_BOX_FILTER_DESCRIPTION">
+				<option value="0">HIDE</option>
+				<option value="1">SHOW</option>
+			</param>
+			<param name="show_limit" type="radio" default="1" label="LIMIT_BOX" description="Show/Hide the Limit Box">
+				<option value="0">HIDE</option>
+				<option value="1">SHOW</option>
+			</param>
+		</advanced>
+	</state>
+</metadata>
+
+
+
+			<!-- <param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="Select whether or not the Feed Links will be displayed.">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param> -->

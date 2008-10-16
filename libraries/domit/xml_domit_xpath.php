@@ -32,7 +32,7 @@ define('DOMIT_XPATH_SEARCH_VARIABLE', 2);
 * DOMIT! XPath is an XPath parser.
 */
 class DOMIT_XPath {
-    /** @var Object The node from which the search is called */
+	/** @var Object The node from which the search is called */
 	var $callingNode;
 	/** @var Object The node that is the current parent of the search */
 	var $searchType;

@@ -23,10 +23,9 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.5, including beta and release candidate versions.
+Joomla! 1.6, including beta and release candidate versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
-
 
 Legend:
 
@@ -38,7 +37,134 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+COMMITERS
 
+Do not forget to update this page on the wiki when making changes relevant to developers:
+http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
+
+14-Oct-2008 Alan Langford
+ + Added JLanguage::getLanguageIdentifier() plus much rework of class (with supporting unit tests)
+ 
+14-Oct-2008 Andrew Eddie
+ ! SCHEMA CHANGE - REINSTALL REQUIRED
+ ^ Broke ACLs into 3 types
+ + Added abstract JTableAxoMap table
+
+13-Oct-2008 Andrew Eddie
+ + Added support to edit access levels
+
+13-Oct-2008 Toby Patterson
+ # Added access methods to JToolBar
+ # Removed most references of keyword global from the framework
+ # Fixed bug with rendering cpanel modules
+ ^ Moved some routing logic out of index.php into JAdministrator::dispatch()
+
+11-Oct-2008 Alan Langford
+ + Added ability to specify module appearance in "exclude from list" mode.
+
+11-Oct-2008 Andrew Eddie
+ - Merge System-Debug plugin from 1.5
+ - Added com_acl (finally! they all say)
+ - Moved user group management from com_users to com_acl
+
+10-Oct-2008 Sam Moffatt
+ - Commented out useless lines in JDatabaseMySQL and JDatabaseMySQLi
+
+10-Oct-2008 Andrew Eddie
+ - Dropped joomla_backward.sql
+ ^ Changed installation error_reporting to 2047 while under development
+ + Added new ACL tables
+ ^ Update queries using jos_groups to jos_core_acl_axo_groups
+ - Removed JAuthorization::_mos_add_acl
+ + Added JAuthorization::getUserAccessLevels
+
+04-Oct-2008 Toby Patterson
+ # Fixed final step of installation, completed removal of patTemplates from Installer
+ - Removed global $mainframe from the framework files, except where other extensions will be loaded
+
+02-Oct-2008 Toby Patterson
+ - Fixed bug with JFTP and check for connection
+ # [#12699] Refactor installation application
+ - Most patTemplate code removed
+ - Migrator currently broken, may be redesigned, discussion pending
+
+29-Sep-2008 Chantal Bisson
+ - Removed duplicates of the language files for com_contactdirectory
+ # Fixed notice about $this->type not initialized on line 199 /administrator/components/com_categories/models/categories.php
+ # Fixed notice about $filter not initialized on line 23 /administrator/components/com_categories/views/tmpl/default.php
+ ^ Changed check() contactdirectory/tables/contact.php posible to add contacts with the same name
+ ^ Changed view for category and categories in com_contactdirectory
+ # Fixed redirect with router after sending mail in com_contactdirectory
+
+22-Sep-2008 Chantal Bisson
+ ^ Changed the column 'name' in the #__contactdirectory_fields table to 'alias'
+ ^ Changed the fields admin view to show the alias in the list and changed the edit field view to be able to modify the alias
+ + Added sample date for contact in com_contactdirectory
+ # Fixed right psition for image in com_contactdirectory contact view
+ # Fixed notice about $email->data in /components/com_contactdirectory/views/contact/view.html.php on line 203
+ # Fixed changing access level in com_contactdirectory from link in contact manager
+
+15-Sep-2008 Chantal Bisson
+ + Added com_contactdirectory and language files
+ + Added sql create table queries for com_contactdirectory in the installation
+ + Added sql sample data for com_contactdirectory
+
+14-Sep-2008 Johan Janssens
+ ^ Changed __autoload to spl_autoload_register() and refactored JLoader to adhere to E_STRICT
+
+11-Sep-2008 Sam Moffatt
+ ^ Changed behaviour of JFile::write and JFTP::write to use references for the second param
+
+25-Aug-2008 Andrew Eddie
+ + Added JQuery class
+ + Added .invalid styles to admin template for form validation
+ + Added new filters to com_users list
+ + Added support to manage groups in com_users
+
+23-Aug-2008 Andrew Eddie
+ ! Partial merge with 10701 (around 1.5.6)
+ - Remove old 1.5 RC sql diffs
+ ^ JModel::getState will now take an optional second argument to set a default
+ ^ JDatbase::setQuery cast the sql variable to a string allowing for the __toString interface to be used if an object is passed
+
+25-Jun-2008 Johan Janssens
+ - Removed libraries/bitfolge/vcard
+ + Added JDocumentVCARD format
+ + Implemented new Vcard format in contact component
+
+09-Jun-2008 Johan Janssens
+ - Removed backlink system plugin
+ - Removed legacy from mod_mainmenu
+
+08-Jun-2008 Johan Janssens
+ - Removed deprecated functions from JApplication
+
+19-May-2008 Johan Janssens
+ - Removed phpinputfilter library
+ - Removed phputf8, moved mbstring and iconv implementation into JString
+ - Removed administrator/includes/js/ThemeOffice
+ - Removed includes/js/ThemeOffice
+ - Removed includes/js/calendar
+ - Removed includes/js/jscalendar-1.0
+ - Removed includes/js/tabs
+ - Removed includes/js/dtree
+ - Removed includes/js/wz_tooltip.js
+ - Removed includes/js/overlib
+ - Removed includes/js/mambojavascript.js
+ - Removed includes/js/JSCookMenu
+ ^ Renamed joomla.javascript.js to legacy.js and moved to media/system/js
+
+15-May-2008 Johan Janssens
+ - Removed administrator/includes/pcl
+ - Removed folder and file placeholders from application includes directories
+ - Removed libraries/bitfolge/feedcreator
+ - Cleaned up legacy plugin for 1.6
+ - Removed 1.0 legacy code
+ - Updated version information to reflect 1.6
+ - Removed hack to support PHP5 style constructors in PHP4
+ - Removed hack to support PHP5 style destructors in PHP4
+ - Removed _parseURL function from JURI, replaced by parse_url
+ - Removed index2.php and index3.php entry files
 
 19-Apr-2008 Andrew Eddie
  ! Trailing white-space cleanup

@@ -20,7 +20,6 @@ jimport('joomla.application.component.model');
 /**
  * Newsfeeds Component Newsfeed Model
  *
- * @author Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Newsfeeds
  * @since 1.5

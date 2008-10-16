@@ -2,30 +2,19 @@
 
 <?php JHTML::_('behavior.tooltip'); ?>
 
-<?php
-	// Set toolbar items for the page
-	JToolBarHelper::title(   JText::_( 'Weblink Manager' ), 'generic.png' );
-	JToolBarHelper::publishList();
-	JToolBarHelper::unpublishList();
-	JToolBarHelper::deleteList();
-	JToolBarHelper::editListX();
-	JToolBarHelper::addNewX();
-	JToolBarHelper::preferences('com_weblinks', '360');
-	JToolBarHelper::help( 'screen.weblink' );
-?>
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 <table>
 <tr>
 	<td align="left" width="100%">
 		<?php echo JText::_( 'Filter' ); ?>:
-		<input type="text" name="search" id="search" value="<?php echo $this->lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+		<input type="text" name="search" id="search" value="<?php echo $this->filter->search;?>" class="text_area" onchange="document.adminForm.submit();" />
 		<button onclick="this.form.submit();"><?php echo JText::_( 'Go' ); ?></button>
 		<button onclick="document.getElementById('search').value='';this.form.getElementById('filter_catid').value='0';this.form.getElementById('filter_state').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 	</td>
 	<td nowrap="nowrap">
 		<?php
-			echo $this->lists['catid'];
-			echo $this->lists['state'];
+			echo JHTML::_('list.category',  'filter_catid', 'com_weblinks', intval( $this->filter->catid ), 'onchange="document.adminForm.submit();"' );
+			echo JHTML::_('weblink.statefilter',  $this->filter->state );
 		?>
 	</td>
 </tr>
@@ -41,23 +30,23 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
 			</th>
 			<th class="title">
-				<?php echo JHTML::_('grid.sort',  'Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHTML::_('grid.sort',  'Title', 'a.title', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',  'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHTML::_('grid.sort',  'State', 'a.state', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
-			<th width="8%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',  'Order', 'a.ordering', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+			<th width="10%" nowrap="nowrap">
+				<?php echo JHTML::_('grid.sort',  'Order', 'a.ordering', $this->filter->order_Dir, $this->filter->order ); ?>
 				<?php echo JHTML::_('grid.order',  $this->items ); ?>
 			</th>
 			<th width="15%"  class="title">
-				<?php echo JHTML::_('grid.sort',  'Category', 'category', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHTML::_('grid.sort',  'Category', 'category', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="5%">
-				<?php echo JHTML::_('grid.sort',  'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHTML::_('grid.sort',  'Hits', 'a.hits', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="1%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',  'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHTML::_('grid.sort',  'ID', 'a.id', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -78,9 +67,9 @@
 		$link 	= JRoute::_( 'index.php?option=com_weblinks&view=weblink&task=edit&cid[]='. $row->id );
 
 		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
-		$published 	= JHTML::_('grid.published', $row, $i );
+		$state 		= JHTML::_('weblink.state', $row, $i );
 
-		$ordering = ($this->lists['order'] == 'a.ordering');
+		$ordering = ($this->filter->order == 'a.ordering');
 
 		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_weblinks&task=edit&type=other&cid[]='. $row->catid );
 		?>
@@ -105,7 +94,7 @@
 				?>
 			</td>
 			<td align="center">
-				<?php echo $published;?>
+				<?php echo $state;?>
 			</td>
 			<td class="order">
 				<span><?php echo $this->pagination->orderUpIcon( $i, ($row->catid == @$this->items[$i-1]->catid),'orderup', 'Move Up', $ordering ); ?></span>
@@ -136,7 +125,7 @@
 	<input type="hidden" name="option" value="com_weblinks" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->filter->order; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->filter->order_Dir; ?>" />
 	<?php echo JHTML::_( 'form.token' ); ?>
 </form>

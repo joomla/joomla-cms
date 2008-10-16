@@ -50,8 +50,8 @@ class PluginsController extends JController
 	{
 		switch($this->getTask())
 		{
-			case 'add'     :
-			case 'edit'    :
+			case 'add':
+			case 'edit':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'layout', 'form'  );

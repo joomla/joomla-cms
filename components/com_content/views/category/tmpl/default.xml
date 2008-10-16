@@ -12,6 +12,17 @@
 			<param name="id" type="category" label="Category" description="Choose a category..." />
 		</url>
 		<params>
+			<param name="display_num" type="list" default="10" label="Num Links" description="Number of Items to display as links.">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="15">15</option>
+				<option value="20">20</option>
+				<option value="25">25</option>
+				<option value="30">30</option>
+				<option value="50">50</option>
+				<option value="100">100</option>
+				<option value="0">All</option>
+			</param>
 			<param name="show_headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
 				<option value="0">Hide</option>
 				<option value="1">Show</option>

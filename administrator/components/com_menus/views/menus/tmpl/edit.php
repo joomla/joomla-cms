@@ -31,7 +31,7 @@
 	}
 //-->
 </script>
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
 <table class="adminform">
 	<tr>

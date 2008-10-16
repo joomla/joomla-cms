@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * PHP class format handler for JRegistry
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Registry
  * @since		1.5
@@ -35,7 +34,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * @return string Config class formatted string
 	 * @since 1.5
 	 */
-	function objectToString( &$object, $params ) {
+	public function objectToString( &$object, $params ) {
 
 		// Build the object variables string
 		$vars = '';
@@ -62,11 +61,11 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * @return boolean True
 	 * @since 1.5
 	 */
-	function stringToObject() {
+	public function stringToObject( $data, $process_sections = false) {
 		return true;
 	}
 
-	function _getArrayString($a)
+	protected function _getArrayString($a)
 	{
 		$s = 'array(';
 		$i = 0;

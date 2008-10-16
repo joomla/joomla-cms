@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: bn-IN.xml 8041 2007-07-30 10:25:00Z romit1 $ -->
 <metafile version="1.5" client="installation" >
 	<name>Bengali(India)</name>
-	<version>1.5.0</version>
-	<creationDate>May 2007</creationDate>
+	<version>1.5.4</version>
+	<creationDate>March 2008</creationDate>
 	<author>Romit Chatterjee</author>
 	<authorEmail>romit@romitchat.com</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>

@@ -1,22 +1,22 @@
 <?php
 //============================================================+
 // File name   : eng.php
-// Begin       : 2004-03-03
+// Begin	   : 2004-03-03
 // Last Update : 2008-01-08
 //
 // Description : Language module for TCPDF
-//               (contains translated texts)
+//			   (contains translated texts)
 //
 // Author: Nicola Asuni
 //
 // (c) Copyright:
-//               Nicola Asuni
-//               Tecnick.com s.r.l.
-//               Via Della Pace, 11
-//               09044 Quartucciu (CA)
-//               ITALY
-//               www.tecnick.com
-//               info@tecnick.com
+//			   Nicola Asuni
+//			   Tecnick.com s.r.l.
+//			   Via Della Pace, 11
+//			   09044 Quartucciu (CA)
+//			   ITALY
+//			   www.tecnick.com
+//			   info@tecnick.com
 //============================================================+
 
 /**

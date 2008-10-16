@@ -16,11 +16,6 @@
 defined('JPATH_BASE') or die();
 
 /**
- * Create the request global object
- */
-$GLOBALS['_JREQUEST'] = array();
-
-/**
  * Set the available masks for cleaning variables
  */
 define( 'JREQUEST_NOTRIM'   , 1 );
@@ -39,14 +34,16 @@ define( 'JREQUEST_ALLOWHTML', 4 );
  * @subpackage	Environment
  * @since		1.5
  */
-class JRequest
+abstract class JRequest
 {
+	private static $data = array();
+
 	/**
 	 * Gets the full request path
 	 *
 	 * @return string
 	 */
-	function getURI()
+	public static function getURI()
 	{
 		$uri = &JFactory::getURI();
 		return $uri->toString(array('path', 'query'));
@@ -57,7 +54,7 @@ class JRequest
 	 *
 	 * @return string
 	 */
-	function getMethod()
+	public static function getMethod()
 	{
 		$method = strtoupper( $_SERVER['REQUEST_METHOD'] );
 		return $method;
@@ -91,7 +88,7 @@ class JRequest
 	 * @return	mixed	Requested variable
 	 * @since	1.5
 	 */
-	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
+	public static function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
 		// Ensure hash and type are uppercase
 		$hash = strtoupper( $hash );
@@ -116,10 +113,10 @@ class JRequest
 			case 'COOKIE' :
 				$input = &$_COOKIE;
 				break;
-			case 'ENV'    :
+			case 'ENV'	:
 				$input = &$_ENV;
 				break;
-			case 'SERVER'    :
+			case 'SERVER'	:
 				$input = &$_SERVER;
 				break;
 			default:
@@ -128,15 +125,12 @@ class JRequest
 				break;
 		}
 
-		if (
-			isset($GLOBALS['_JREQUEST'][$name]['SET.'.$hash])
-			&& ($GLOBALS['_JREQUEST'][$name]['SET.'.$hash] === true)
-		) {
+		if (isset(JRequest::$data[$name]['SET.'.$hash]) && (JRequest::$data[$name]['SET.'.$hash] === true)) {
 			// Get the variable from the input hash
-			$var = (isset($input[$name]) && $input[$name] !== null)
-				? $input[$name] : $default;
+			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
+			$var = JRequest::_cleanVar($var, $mask, $type);
 		}
-		elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig]))
+		elseif (!isset(JRequest::$data[$name][$sig]))
 		{
 			if (isset($input[$name]) && $input[$name] !== null) {
 				// Get the variable from the input hash and clean it
@@ -147,7 +141,7 @@ class JRequest
 					$var = JRequest::_stripSlashesRecursive( $var );
 				}
 
-				$GLOBALS['_JREQUEST'][$name][$sig] = $var;
+				JRequest::$data[$name][$sig] = $var;
 			}
 			elseif ($default !== null) {
 				// Clean the default value
@@ -157,7 +151,7 @@ class JRequest
 				$var = $default;
 			}
 		} else {
-			$var = $GLOBALS['_JREQUEST'][$name][$sig];
+			$var = JRequest::$data[$name][$sig];
 		}
 
 		return $var;
@@ -177,7 +171,7 @@ class JRequest
 	 * @return	integer	Requested variable
 	 * @since	1.5
 	 */
-	function getInt($name, $default = 0, $hash = 'default')
+	public static function getInt($name, $default = 0, $hash = 'default')
 	{
 		return JRequest::getVar($name, $default, $hash, 'int');
 	}
@@ -196,7 +190,7 @@ class JRequest
 	 * @return	float	Requested variable
 	 * @since	1.5
 	 */
-	function getFloat($name, $default = 0.0, $hash = 'default')
+	public static function getFloat($name, $default = 0.0, $hash = 'default')
 	{
 		return JRequest::getVar($name, $default, $hash, 'float');
 	}
@@ -215,7 +209,7 @@ class JRequest
 	 * @return	bool		Requested variable
 	 * @since	1.5
 	 */
-	function getBool($name, $default = false, $hash = 'default')
+	public static function getBool($name, $default = false, $hash = 'default')
 	{
 		return JRequest::getVar($name, $default, $hash, 'bool');
 	}
@@ -234,7 +228,7 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getWord($name, $default = '', $hash = 'default')
+	public static function getWord($name, $default = '', $hash = 'default')
 	{
 		return JRequest::getVar($name, $default, $hash, 'word');
 	}
@@ -253,7 +247,7 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getCmd($name, $default = '', $hash = 'default')
+	public static function getCmd($name, $default = '', $hash = 'default')
 	{
 		return JRequest::getVar($name, $default, $hash, 'cmd');
 	}
@@ -273,7 +267,7 @@ class JRequest
 	 * @return	string	Requested variable
 	 * @since	1.5
 	 */
-	function getString($name, $default = '', $hash = 'default', $mask = 0)
+	public static function getString($name, $default = '', $hash = 'default', $mask = 0)
 	{
 		// Cast to string, in case JREQUEST_ALLOWRAW was specified for mask
 		return (string) JRequest::getVar($name, $default, $hash, 'string', $mask);
@@ -290,7 +284,7 @@ class JRequest
 	 * @return	string	Previous value
 	 * @since	1.5
 	 */
-	function setVar($name, $value = null, $hash = 'method', $overwrite = true)
+	public static function setVar($name, $value = null, $hash = 'method', $overwrite = true)
 	{
 		//If overwrite is true, makes sure the variable hasn't been set yet
 		if(!$overwrite && array_key_exists($name, $_REQUEST)) {
@@ -298,7 +292,7 @@ class JRequest
 		}
 
 		// Clean global request var
-		$GLOBALS['_JREQUEST'][$name] = array();
+		JRequest::$data[$name] = array();
 
 		// Get the request hash value
 		$hash = strtoupper($hash);
@@ -325,17 +319,17 @@ class JRequest
 			case 'FILES' :
 				$_FILES[$name] = $value;
 				break;
-			case 'ENV'    :
+			case 'ENV'	:
 				$_ENV['name'] = $value;
 				break;
-			case 'SERVER'    :
+			case 'SERVER'	:
 				$_SERVER['name'] = $value;
 				break;
 		}
 
 		// Mark this variable as 'SET'
-		$GLOBALS['_JREQUEST'][$name]['SET.'.$hash] = true;
-		$GLOBALS['_JREQUEST'][$name]['SET.REQUEST'] = true;
+		JRequest::$data[$name]['SET.'.$hash] = true;
+		JRequest::$data[$name]['SET.REQUEST'] = true;
 
 		return $previous;
 	}
@@ -364,7 +358,7 @@ class JRequest
 	 * @return	mixed	Request hash
 	 * @since	1.5
 	 */
-	function get($hash = 'default', $mask = 0)
+	public static function get($hash = 'default', $mask = 0)
 	{
 		$hash = strtoupper($hash);
 
@@ -374,27 +368,27 @@ class JRequest
 
 		switch ($hash)
 		{
-			case 'GET' :
+			case 'GET':
 				$input = $_GET;
 				break;
 
-			case 'POST' :
+			case 'POST':
 				$input = $_POST;
 				break;
 
-			case 'FILES' :
+			case 'FILES':
 				$input = $_FILES;
 				break;
 
-			case 'COOKIE' :
+			case 'COOKIE':
 				$input = $_COOKIE;
 				break;
 
-			case 'ENV'    :
+			case 'ENV':
 				$input = &$_ENV;
 				break;
 
-			case 'SERVER'    :
+			case 'SERVER':
 				$input = &$_SERVER;
 				break;
 
@@ -420,7 +414,7 @@ class JRequest
 	 * @param	string	The request variable to set (POST, GET, FILES, METHOD)
 	 * @param	boolean	If true and an existing key is found, the value is overwritten, otherwise it is ingored
 	 */
-	function set( $array, $hash = 'default', $overwrite = true )
+	public static function set( $array, $hash = 'default', $overwrite = true )
 	{
 		foreach ($array as $key => $value) {
 			JRequest::setVar($key, $value, $hash, $overwrite);
@@ -435,17 +429,17 @@ class JRequest
 	 * @param	string	The request method in which to look for the token key
 	 * @return	boolean	True if found and valid, false otherwise
 	 */
-	function checkToken( $method = 'post' )
+	public static function checkToken( $method = 'post' )
 	{
 		$token	= JUtility::getToken();
 		if(!JRequest::getVar( $token, '', $method, 'alnum' )) {
 			$session = JFactory::getSession();
 			if($session->isNew()) {
 				//Redirect to login screen
-				global $mainframe;
+				$appl = JFactory::getApplication();
 				$return = JRoute::_('index.php');
-;				$mainframe->redirect($return, JText::_('SESSION_EXPIRED'));
-				$mainframe->close();
+;				$appl->redirect($return, JText::_('SESSION_EXPIRED'));
+				$appl->close();
 			} else {
 				return false;
 			}
@@ -461,7 +455,7 @@ class JRequest
 	 * @return	void
 	 * @since	1.5
 	 */
-	function clean()
+	public static function clean()
 	{
 		JRequest::_cleanArray( $_FILES );
 		JRequest::_cleanArray( $_ENV );
@@ -505,7 +499,7 @@ class JRequest
 		}
 
 		// Make sure the request hash is clean on file inclusion
-		$GLOBALS['_JREQUEST'] = array();
+		JRequest::$data = array();
 	}
 
 	/**
@@ -516,7 +510,7 @@ class JRequest
 	 * @param	boolean	True if the array is to be added to the GLOBALS
 	 * @since	1.5
 	 */
-	function _cleanArray( &$array, $globalise=false )
+	private static function _cleanArray( &$array, $globalise=false )
 	{
 		static $banned = array( '_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals' );
 
@@ -548,24 +542,24 @@ class JRequest
 	 * other than the 1 bit is set, a strict filter is applied.
 	 * @param string The variable type {@see JFilterInput::clean()}.
 	 */
-	function _cleanVar($var, $mask = 0, $type = null)
+	private static function _cleanVar($var, $mask = 0, $type=null)
 	{
 		// Static input filters for specific settings
 		static $noHtmlFilter	= null;
 		static $safeHtmlFilter	= null;
 
 		// If the no trim flag is not set, trim the variable
-		if (!($mask & JREQUEST_NOTRIM) && is_string($var)) {
+		if (!($mask & 1) && is_string($var)) {
 			$var = trim($var);
 		}
 
 		// Now we handle input filtering
-		if ($mask & JREQUEST_ALLOWRAW)
+		if ($mask & 2)
 		{
 			// If the allow raw flag is set, do not modify the variable
 			$var = $var;
 		}
-		elseif ($mask & JREQUEST_ALLOWHTML)
+		elseif ($mask & 4)
 		{
 			// If the allow html flag is set, apply a safe html filter to the variable
 			if (is_null($safeHtmlFilter)) {
@@ -591,11 +585,9 @@ class JRequest
 	 * @param	array	$array		Array of (nested arrays of) strings
 	 * @return	array	The input array with stripshlashes applied to it
 	 */
-	function _stripSlashesRecursive( $value )
+	private static function _stripSlashesRecursive( $value )
 	{
-		$value = is_array( $value )
-			? array_map( array( 'JRequest', '_stripSlashesRecursive' ), $value )
-			: stripslashes( $value );
+		$value = is_array( $value ) ? array_map( array( 'JRequest', '_stripSlashesRecursive' ), $value ) : stripslashes( $value );
 		return $value;
 	}
 }

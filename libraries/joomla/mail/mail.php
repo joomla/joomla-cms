@@ -21,7 +21,6 @@ jimport('joomla.mail.helper');
 /**
  * E-Mail Class.  Provides a common interface to send e-mail from the Joomla! Framework
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Mail
  * @since		1.5
@@ -33,7 +32,7 @@ class JMail extends PHPMailer
 	 * Constructor
 	 *
 	 */
-	function JMail()
+	protected function __construct()
 	{
 		 // phpmailer has an issue using the relative path for it's language files
 		 $this->SetLanguage('joomla', JPATH_LIBRARIES.DS.'phpmailer'.DS.'language'.DS);
@@ -55,7 +54,7 @@ class JMail extends PHPMailer
 	 * @return object The global JMail object
 	 * @since 1.5
 	 */
-	function & getInstance($id = 'Joomla')
+	public static function & getInstance($id = 'Joomla')
 	{
 		static $instances;
 
@@ -73,7 +72,7 @@ class JMail extends PHPMailer
 	/**
 	 * @return mixed True if successful, a JError object otherwise
 	 */
-	function &Send()
+	public function &Send()
 	{
 		if ( ( $this->Mailer == 'mail' ) && ! function_exists('mail') )
 		{
@@ -101,7 +100,7 @@ class JMail extends PHPMailer
 	 * @return void
 	 * @since 1.5
 	 */
-	function setSender($from)
+	public function setSender($from)
 	{
 		// If $from is an array we assume it has an address and a name
 		if (is_array($from))
@@ -125,7 +124,7 @@ class JMail extends PHPMailer
 	 * @return void
 	 * @since 1.5
 	 */
-	function setSubject($subject) {
+	public function setSubject($subject) {
 		$this->Subject = JMailHelper::cleanLine( $subject );
 	}
 
@@ -137,7 +136,7 @@ class JMail extends PHPMailer
 	 * @return void
 	 * @since 1.5
 	 */
-	function setBody($content)
+	public function setBody($content)
 	{
 		/*
 		 * Filter the Body
@@ -154,7 +153,7 @@ class JMail extends PHPMailer
 	 * @return void
 	 * @since 1.5
 	 */
-	function addRecipient($recipient)
+	public function addRecipient($recipient)
 	{
 		// If the recipient is an aray, add each recipient... otherwise just add the one
 		if (is_array($recipient))
@@ -177,7 +176,7 @@ class JMail extends PHPMailer
 	 * @return void
 	 * @since 1.5
 	 */
-	function addCC($cc)
+	public function addCC($cc)
 	{
 		//If the carbon copy recipient is an aray, add each recipient... otherwise just add the one
 		if (isset ($cc))
@@ -202,7 +201,7 @@ class JMail extends PHPMailer
 	 * @return void
 	 * @since 1.5
 	 */
-	function addBCC($bcc)
+	public function addBCC($bcc)
 	{
 		// If the blind carbon copy recipient is an aray, add each recipient... otherwise just add the one
 		if (isset ($bcc))
@@ -227,7 +226,7 @@ class JMail extends PHPMailer
 	 * @return void
 	 * @since 1.5
 	 */
-	function addAttachment($attachment)
+	public function addAttachment($attachment)
 	{
 		// If the file attachments is an aray, add each file... otherwise just add the one
 		if (isset ($attachment))
@@ -253,7 +252,7 @@ class JMail extends PHPMailer
 	 * @return void
 	 * @since 1.5
 	 */
-	function addReplyTo($replyto)
+	public function addReplyTo($replyto)
 	{
 		// Take care of reply email addresses
 		if (is_array($replyto[0]))
@@ -278,7 +277,7 @@ class JMail extends PHPMailer
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function useSendmail($sendmail = null)
+	public function useSendmail($sendmail = null)
 	{
 		$this->Sendmail = $sendmail;
 
@@ -302,7 +301,7 @@ class JMail extends PHPMailer
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function useSMTP($auth = null, $host = null, $user = null, $pass = null)
+	public function useSMTP($auth = null, $host = null, $user = null, $pass = null)
 	{
 		$this->SMTPAuth = $auth;
 		$this->Host 	= $host;

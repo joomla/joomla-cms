@@ -182,7 +182,7 @@ class SAXY_Parser_Base {
 							if ($quoteType == $currentChar) {
 								// Joomla! hack
 								if (isset( $this ) && $this->convertEntities && $maybeEntity) {
-								    $valueDump = strtr($valueDump, $this->predefinedEntities);
+									$valueDump = strtr($valueDump, $this->predefinedEntities);
 									$valueDump = strtr($valueDump, $this->definedEntities);
 								}
 
@@ -207,7 +207,7 @@ class SAXY_Parser_Base {
 							if ($quoteType == $currentChar) {
 								// Joomla! hack
 								if (isset( $this ) && $this->convertEntities && $maybeEntity) {
-								    $valueDump = strtr($valueDump, $this->predefinedEntities);
+									$valueDump = strtr($valueDump, $this->predefinedEntities);
 									$valueDump = strtr($valueDump, $this->definedEntities);
 								}
 

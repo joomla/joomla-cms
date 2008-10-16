@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Tree Class.
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Base
  * @since		1.5
@@ -28,20 +27,20 @@ class JTree extends JObject
 	/**
 	 * Root node
 	 */
-	var $_root = null;
+	protected $_root = null;
 
 	/**
 	 * Current working node
 	 */
-	var $_current = null;
+	protected $_current = null;
 
-	function __construct()
+	public function __construct()
 	{
 		$this->_root = new JNode('ROOT');
 		$this->_current = & $this->_root;
 	}
 
-	function addChild(&$node, $setCurrent = false)
+	public function addChild(&$node, $setCurrent = false)
 	{
 		$this->_current->addChild($node);
 		if ($setCurrent) {
@@ -49,12 +48,12 @@ class JTree extends JObject
 		}
 	}
 
-	function getParent()
+	public function getParent()
 	{
 		$this->_current =& $this->_current->getParent();
 	}
 
-	function reset()
+	public function reset()
 	{
 		$this->_current =& $this->_root;
 	}
@@ -63,7 +62,6 @@ class JTree extends JObject
 /**
  * Tree Node Class.
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Base
  * @since		1.5
@@ -73,40 +71,40 @@ class JNode extends JObject
 	/**
 	 * Parent node
 	 */
-	var $_parent = null;
+	protected $_parent = null;
 
 	/**
 	 * Array of Children
 	 */
-	var $_children = array();
+	protected $_children = array();
 
-	function __construct()
+	public function __construct()
 	{
 		return true;
 	}
 
-	function addChild( &$node )
+	public function addChild( &$node )
 	{
 		$node->setParent($this);
 		$this->_children[] = & $node;
 	}
 
-	function &getParent()
+	public function &getParent()
 	{
 		return $this->_parent;
 	}
 
-	function setParent( &$node )
+	public function setParent( &$node )
 	{
 		$this->_parent = & $node;
 	}
 
-	function hasChildren()
+	public function hasChildren()
 	{
 		return count($this->_children);
 	}
 
-	function &getChildren()
+	public function &getChildren()
 	{
 		return $this->_children;
 	}

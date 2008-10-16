@@ -124,12 +124,12 @@
 	* @param string $funcname the name of the PHP user function to be exposed as xmlrpc method; array($obj, 'methodname') might be ok too, in the future...
 	* @param string $newfuncname (optional) name for function to be created
 	* @param array $extra_options (optional) array of options for conversion. valid values include:
-	*        bool  return_source when true, php code w. function definition will be returned, not evaluated
-	*        bool  encode_php_objs let php objects be sent to server using the 'improved' xmlrpc notation, so server can deserialize them as php objects
-	*        bool  decode_php_objs --- WARNING !!! possible security hazard. only use it with trusted servers ---
-	*        bool  suppress_warnings  remove from produced xml any runtime warnings due to the php function being invoked
+	*		bool  return_source when true, php code w. function definition will be returned, not evaluated
+	*		bool  encode_php_objs let php objects be sent to server using the 'improved' xmlrpc notation, so server can deserialize them as php objects
+	*		bool  decode_php_objs --- WARNING !!! possible security hazard. only use it with trusted servers ---
+	*		bool  suppress_warnings  remove from produced xml any runtime warnings due to the php function being invoked
 	* @return false on error, or an array containing the name of the new php function,
-	*         its signature and docs, to be used in the server dispatch map
+	*		 its signature and docs, to be used in the server dispatch map
 	*
 	* @todo decide how to deal with params passed by ref: bomb out or allow?
 	* @todo finish using javadoc info to build method sig if all params are named but out of order
@@ -419,19 +419,19 @@
 	* An extra 'debug' param is appended to param list of xmlrpc method, useful
 	* for debugging purposes.
 	*
-	* @param xmlrpc_client $client     an xmlrpc client set up correctly to communicate with target server
-	* @param string        $methodname the xmlrpc method to be mapped to a php function
-	* @param array         $extra_options array of options that specify conversion details. valid ptions include
-	*        integer       signum      the index of the method signature to use in mapping (if method exposes many sigs)
-	*        integer       timeout     timeout (in secs) to be used when executing function/calling remote method
-	*        string        protocol    'http' (default), 'http11' or 'https'
-	*        string        new_function_name the name of php function to create. If unsepcified, lib will pick an appropriate name
-	*        string        return_source if true return php code w. function definition instead fo function name
-	*        bool          encode_php_objs let php objects be sent to server using the 'improved' xmlrpc notation, so server can deserialize them as php objects
-	*        bool          decode_php_objs --- WARNING !!! possible security hazard. only use it with trusted servers ---
-	*        mixed         return_on_fault a php value to be returned when the xmlrpc call fails/returns a fault response (by default the xmlrpcresp object is returned in this case). If a string is used, '%faultCode%' and '%faultString%' tokens will be substituted with actual error values
-	*        bool          debug        set it to 1 or 2 to see debug results of querying server for method synopsis
-	* @return string                   the name of the generated php function (or false) - OR AN ARRAY...
+	* @param xmlrpc_client $client	 an xmlrpc client set up correctly to communicate with target server
+	* @param string		$methodname the xmlrpc method to be mapped to a php function
+	* @param array		 $extra_options array of options that specify conversion details. valid ptions include
+	*		integer	   signum	  the index of the method signature to use in mapping (if method exposes many sigs)
+	*		integer	   timeout	 timeout (in secs) to be used when executing function/calling remote method
+	*		string		protocol	'http' (default), 'http11' or 'https'
+	*		string		new_function_name the name of php function to create. If unsepcified, lib will pick an appropriate name
+	*		string		return_source if true return php code w. function definition instead fo function name
+	*		bool		  encode_php_objs let php objects be sent to server using the 'improved' xmlrpc notation, so server can deserialize them as php objects
+	*		bool		  decode_php_objs --- WARNING !!! possible security hazard. only use it with trusted servers ---
+	*		mixed		 return_on_fault a php value to be returned when the xmlrpc call fails/returns a fault response (by default the xmlrpcresp object is returned in this case). If a string is used, '%faultCode%' and '%faultString%' tokens will be substituted with actual error values
+	*		bool		  debug		set it to 1 or 2 to see debug results of querying server for method synopsis
+	* @return string				   the name of the generated php function (or false) - OR AN ARRAY...
 	*/
 	function wrap_xmlrpc_method($client, $methodname, $extra_options=0, $timeout=0, $protocol='', $newfuncname='')
 	{

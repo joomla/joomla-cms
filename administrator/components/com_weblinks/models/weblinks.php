@@ -48,6 +48,13 @@ class WeblinksModelWeblinks extends JModel
 	var $_pagination = null;
 
 	/**
+	 * Filter object
+	 *
+	 * @var object
+	 */
+	var $_filter = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @since 1.5
@@ -67,6 +74,14 @@ class WeblinksModelWeblinks extends JModel
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
+
+		$filter = new stdClass();
+		$filter->order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
+		$filter->order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
+		$filter->state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
+		$filter->catid		= $mainframe->getUserStateFromRequest( $option.'filter_catid',		'filter_catid',		0,				'int' );
+		$filter->search		= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
+		$this->_filter = $filter;
 	}
 
 	/**
@@ -123,6 +138,17 @@ class WeblinksModelWeblinks extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * Method to get filter object for the weblinks
+	 *
+	 * @access public
+	 * @return object
+	 */
+	function getFilter()
+	{
+		return $this->_filter;
+	}
+
 	function _buildQuery()
 	{
 		// Get the WHERE and ORDER BY clauses for the query
@@ -142,15 +168,10 @@ class WeblinksModelWeblinks extends JModel
 
 	function _buildContentOrderBy()
 	{
-		global $mainframe, $option;
-
-		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-
-		if ($filter_order == 'a.ordering'){
-			$orderby 	= ' ORDER BY category, a.ordering '.$filter_order_Dir;
+		if ($this->_filter->order == 'a.ordering'){
+			$orderby 	= ' ORDER BY category, a.ordering '.$this->_filter->order_Dir;
 		} else {
-			$orderby 	= ' ORDER BY '.$filter_order.' '.$filter_order_Dir.' , category, a.ordering ';
+			$orderby 	= ' ORDER BY '.$this->_filter->order.' '.$this->_filter->order_Dir.' , category, a.ordering ';
 		}
 
 		return $orderby;
@@ -158,28 +179,23 @@ class WeblinksModelWeblinks extends JModel
 
 	function _buildContentWhere()
 	{
-		global $mainframe, $option;
-		$db					=& JFactory::getDBO();
-		$filter_state		= $mainframe->getUserStateFromRequest( $option.'filter_state',		'filter_state',		'',				'word' );
-		$filter_catid		= $mainframe->getUserStateFromRequest( $option.'filter_catid',		'filter_catid',		0,				'int' );
-		$filter_order		= $mainframe->getUserStateFromRequest( $option.'filter_order',		'filter_order',		'a.ordering',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'filter_order_Dir',	'filter_order_Dir',	'',				'word' );
-		$search				= $mainframe->getUserStateFromRequest( $option.'search',			'search',			'',				'string' );
-		$search				= JString::strtolower( $search );
+		$search				= JString::strtolower( $this->_filter->search );
 
 		$where = array();
 
-		if ($filter_catid > 0) {
-			$where[] = 'a.catid = '.(int) $filter_catid;
+		if ($this->_filter->catid > 0) {
+			$where[] = 'a.catid = '.(int) $this->_filter->catid;
 		}
 		if ($search) {
 			$where[] = 'LOWER(a.title) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
-		if ( $filter_state ) {
-			if ( $filter_state == 'P' ) {
-				$where[] = 'a.published = 1';
-			} else if ($filter_state == 'U' ) {
-				$where[] = 'a.published = 0';
+		if ( $this->_filter->state ) {
+			if ( $this->_filter->state == 'P' ) {
+				$where[] = 'a.state = 1';
+			} else if ($this->_filter->state == 'U' ) {
+				$where[] = 'a.state = 0';
+			} else if ($this->_filter->state == 'R' ) {
+				$where[] = 'a.state = -1';
 			}
 		}
 

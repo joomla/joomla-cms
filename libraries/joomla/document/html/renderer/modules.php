@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * JDocument Modules renderer
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
@@ -33,7 +32,7 @@ class JDocumentRendererModules extends JDocumentRenderer
 	 * @param array 	$params		Associative array of values
 	 * @return string	The output of the script
 	 */
-	function render( $position, $params = array(), $content = null )
+	public function render($position, $params = array(), $content = null)
 	{
 		$renderer =&  $this->_doc->loadRenderer('module');
 

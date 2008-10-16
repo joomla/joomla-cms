@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a custom button
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	 HTML
  * @since		1.5
@@ -31,9 +30,9 @@ class JButtonCustom extends JButton
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Custom';
+	protected $_name = 'Custom';
 
-	function fetchButton( $type='Custom', $html = '', $id = 'custom' )
+	public function fetchButton( $type='Custom', $html = '', $id = 'custom' )
 	{
 		return $html;
 	}
@@ -45,8 +44,8 @@ class JButtonCustom extends JButton
 	 * @return	string	Button CSS Id
 	 * @since	1.5
 	 */
-	function fetchId( $type='Custom', $html = '', $id = 'custom' )
+	public function fetchId( $type='Custom', $html = '', $id = 'custom' )
 	{
-		return $this->_parent->_name.'-'.$id;
+		return $this->_parent->getName().'-'.$id;
 	}
 }

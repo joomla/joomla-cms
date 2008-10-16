@@ -30,7 +30,8 @@ class BannerControllerBanner extends JController
 	{
 		parent::__construct( $config );
 		// Register Extra tasks
-		$this->registerTask( 'add',			'edit' );
+		$this->registerTask( 'add',			'display' );
+		$this->registerTask( 'edit',		'display' );
 		$this->registerTask( 'apply',		'save' );
 		$this->registerTask( 'resethits',	'save' );
 		$this->registerTask( 'unpublish',	'publish' );
@@ -41,138 +42,30 @@ class BannerControllerBanner extends JController
 	 */
 	function display()
 	{
-		global $mainframe;
+		$app	=& JFactory::getApplication();
+		$user 	=& JFactory::getUser();
 
-		$db =& JFactory::getDBO();
-
-		$context			= 'com_banners.banner.list.';
-		$filter_order		= $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order',		'cc.title',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir',	'',			'word' );
-		$filter_catid		= $mainframe->getUserStateFromRequest( $context.'filter_catid',		'filter_catid',		'',			'int' );
-		$filter_state		= $mainframe->getUserStateFromRequest( $context.'filter_state',		'filter_state',		'',			'word' );
-		$search				= $mainframe->getUserStateFromRequest( $context.'search',			'search',			'',			'string' );
-
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int' );
-		$limitstart = $mainframe->getUserStateFromRequest( $context.'limitstart', 'limitstart', 0, 'int' );
-
-		$where = array();
-
-		if ( $filter_state )
+		switch($this->getTask())
 		{
-			if ( $filter_state == 'P' ) {
-				$where[] = 'b.showBanner = 1';
-			}
-			else if ($filter_state == 'U' ) {
-				$where[] = 'b.showBanner = 0';
+			case 'add':
+			{
+				JRequest::setVar( 'hidemainmenu', 1 );
+				JRequest::setVar( 'view'  , 'banner');
+				JRequest::setVar( 'edit', false );
+			} break;
+			case 'edit':
+			{
+				JRequest::setVar( 'hidemainmenu', 1 );
+				JRequest::setVar( 'view'  , 'banner');
+				JRequest::setVar( 'edit', true );
+			} break;
+			default:
+			{
+				JRequest::setVar( 'view', 'banners');
 			}
 		}
-		if ($filter_catid) {
-			$where[] = 'cc.id = ' . (int) $filter_catid;
-		}
-		if ($search) {
-			$where[] = 'LOWER(b.name) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
-		}
 
-		$where		= count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '';
-		$orderby	= ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', b.ordering';
-
-		// get the total number of records
-		$query = 'SELECT COUNT(*)'
-		. ' FROM #__banner AS b'
-		. ' LEFT JOIN #__categories AS cc ON cc.id = b.catid'
-		. $where
-		;
-		$db->setQuery( $query );
-		$total = $db->loadResult();
-
-		jimport('joomla.html.pagination');
-		$pageNav = new JPagination( $total, $limitstart, $limit );
-
-		$query = 'SELECT b.*, c.name AS client_name, cc.title AS category_name, u.name AS editor'
-		. ' FROM #__banner AS b'
-		. ' INNER JOIN #__bannerclient AS c ON c.cid = b.cid'
-		. ' LEFT JOIN #__categories AS cc ON cc.id = b.catid'
-		. ' LEFT JOIN #__users AS u ON u.id = b.checked_out'
-		. $where
-		. $orderby
-		;
-		$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-		$rows = $db->loadObjectList();
-
-		// build list of categories
-		$javascript		= 'onchange="document.adminForm.submit();"';
-		$lists['catid'] = JHTML::_('list.category',  'filter_catid', 'com_banner', (int) $filter_catid, $javascript );
-
-		// state filter
-		$lists['state']	= JHTML::_('grid.state',  $filter_state );
-
-		// table ordering
-		$lists['order_Dir']	= $filter_order_Dir;
-		$lists['order']		= $filter_order;
-
-		// search filter
-		$lists['search']= $search;
-
-		require_once(JPATH_COMPONENT.DS.'views'.DS.'banner.php');
-		BannersViewBanner::banners( $rows, $pageNav, $lists );
-	}
-
-	function edit()
-	{
-		$db		=& JFactory::getDBO();
-		$user	=& JFactory::getUser();
-
-		if ($this->_task == 'edit') {
-			$cid	= JRequest::getVar('cid', array(0), 'method', 'array');
-			$cid	= array((int) $cid[0]);
-		} else {
-			$cid	= array( 0 );
-		}
-
-		$option = JRequest::getCmd('option');
-
-		$lists = array();
-
-		$row =& JTable::getInstance('banner', 'Table');
-		$row->load( $cid[0] );
-
-		if ($cid[0]) {
-			$row->checkout( $user->get('id') );
-		} else {
-			$row->showBanner = 1;
-		}
-
-		// Build Client select list
-		$sql = 'SELECT cid, name'
-		. ' FROM #__bannerclient'
-		;
-		$db->setQuery($sql);
-		if (!$db->query())
-		{
-			$this->setRedirect( 'index.php?option=com_banners' );
-			return JError::raiseWarning( 500, $db->getErrorMsg() );
-		}
-
-		$clientlist[]		= JHTML::_('select.option',  '0', JText::_( 'Select Client' ), 'cid', 'name' );
-		$clientlist			= array_merge( $clientlist, $db->loadObjectList() );
-		$lists['cid']		= JHTML::_('select.genericlist',   $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid );
-
-		// Imagelist
-		$javascript			= 'onchange="changeDisplayImage();"';
-		$directory			= '/images/banners';
-		$lists['imageurl']	= JHTML::_('list.images',  'imageurl', $row->imageurl, $javascript, $directory );
-
-		// build list of categories
-		$lists['catid']		= JHTML::_('list.category',  'catid', 'com_banner', intval( $row->catid ) );
-
-		// sticky
-		$lists['sticky']	= JHTML::_('select.booleanlist',  'sticky', 'class="inputbox"', $row->sticky );
-
-		// published
-		$lists['showBanner'] = JHTML::_('select.booleanlist',  'showBanner', '', $row->showBanner );
-
-		require_once(JPATH_COMPONENT.DS.'views'.DS.'banner.php');
-		BannersViewBanner::banner( $row, $lists );
+		parent::display();
 	}
 
 	/**
@@ -183,55 +76,41 @@ class BannerControllerBanner extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
-		$this->setRedirect( 'index.php?option=com_banners' );
-
-		// Initialize variables
-		$db =& JFactory::getDBO();
-
-		$post	= JRequest::get( 'post' );
+		$post	= JRequest::get('post');
+		$bid	= JRequest::getVar( 'bid', array(0), 'post', 'array' );
+		$post['bid'] = (int) $bid[0];
 		// fix up special html fields
 		$post['custombannercode'] = JRequest::getVar( 'custombannercode', '', 'post', 'string', JREQUEST_ALLOWRAW );
-
-		$row =& JTable::getInstance('banner', 'Table');
-
-		if (!$row->bind( $post )) {
-			return JError::raiseWarning( 500, $row->getError() );
-		}
 
 		// Resets clicks when `Reset Clicks` button is used instead of `Save` button
 		$task = JRequest::getCmd( 'task' );
 		if ( $task == 'resethits' )
-		{
-			$row->clicks = 0;
-			$msg = JText::_( 'Reset Banner clicks' );
-		}
+			$post['clicks'] = 0;
 
 		// Sets impressions to unlimited when `unlimited` checkbox ticked
 		$unlimited = JRequest::getBool('unlimited');
 		if ($unlimited) {
-			$row->imptotal = 0;
+			$post['imptotal'] = 0;
 		}
 
-		if (!$row->check()) {
-			return JError::raiseWarning( 500, $row->getError() );
+		$model = $this->getModel('banner');
+
+		if ($model->store($post)) {
+			if ( $task == 'resethits' )
+				$msg = JText::_( 'Reset Banner clicks' );
+			else
+				$msg = JText::_( 'Banner Saved' );
+		} else {
+			$msg = JText::_( 'Error Saving Banner' );
 		}
 
-		// if new item order last in appropriate group
-		if (!$row->bid)
-		{
-			$where = 'catid = '.(int) $row->catid;
-			$row->ordering = $row->getNextOrder( $where );
-		}
-
-		if (!$row->store()) {
-			return JError::raiseWarning( 500, $row->getError() );
-		}
-		$row->checkin();
+		// Check the table in so it can be edited.... we are done with it anyway
+		$model->checkin();
 
 		switch ($task)
 		{
 			case 'apply':
-				$link = 'index.php?option=com_banners&task=edit&cid[]='. $row->bid ;
+				$link = 'index.php?option=com_banners&task=edit&bid[]='. (int) $bid[0] ;
 				break;
 
 			case 'save':
@@ -240,22 +119,16 @@ class BannerControllerBanner extends JController
 				break;
 		}
 
-		$this->setRedirect( $link, JText::_( 'Item Saved' ) );
+		$this->setRedirect( $link, $msg );
 	}
 
 	function cancel()
 	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		// Checkin the data
+		$model = $this->getModel('banner');
+		$model->checkin();
 
 		$this->setRedirect( 'index.php?option=com_banners' );
-
-		// Initialize variables
-		$db		=& JFactory::getDBO();
-		$post	= JRequest::get( 'post' );
-		$row	=& JTable::getInstance('banner', 'Table');
-		$row->bind( $post );
-		$row->checkin();
 	}
 
 	/**
@@ -266,40 +139,21 @@ class BannerControllerBanner extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
-		$this->setRedirect( 'index.php?option=com_banners' );
+		// Initialize variables
+		$bid		= JRequest::getVar( 'bid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($bid);
 
-		$cid	= JRequest::getVar( 'cid', null, 'post', 'array' );
-		$db		=& JFactory::getDBO();
-		$table	=& JTable::getInstance('banner', 'Table');
-		$user	= &JFactory::getUser();
-		$n		= count( $cid );
-
-		if ($n > 0)
-		{
-			foreach ($cid as $id)
-			{
-				if ($table->load( (int)$id ))
-				{
-					$table->bid				= 0;
-					$table->name			= 'Copy of ' . $table->name;
-					$table->impmade			= 0;
-					$table->clicks			= 0;
-					$table->showBanner		= 0;
-					$table->date			= $db->getNullDate();
-
-					if (!$table->store()) {
-						return JError::raiseWarning( $table->getError() );
-					}
-				}
-				else {
-					return JError::raiseWarning( 500, $table->getError() );
-				}
-			}
+		if (count( $bid ) < 1) {
+			JError::raiseError(500, JText::_( 'Select an item to copy' ) );
 		}
-		else {
-			return JError::raiseWarning( 500, JText::_( 'No items selected' ) );
+
+		$model = $this->getModel('banner');
+
+		if(!$model->copy($bid)) {
+			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
-		$this->setMessage( JText::sprintf( 'Items copied', $n ) );
+
+		$this->setRedirect( 'index.php?option=com_banners', JText::sprintf( 'Items copied', count( $cid ) ) );
 	}
 
 	function publish()
@@ -307,33 +161,22 @@ class BannerControllerBanner extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
-		$this->setRedirect( 'index.php?option=com_banners' );
-
 		// Initialize variables
-		$db			=& JFactory::getDBO();
-		$user		=& JFactory::getUser();
-		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$bid		= JRequest::getVar( 'bid', array(), 'post', 'array' );
 		$task		= JRequest::getCmd( 'task' );
 		$publish	= ($task == 'publish');
-		$n			= count( $cid );
+		JArrayHelper::toInteger($bid);
 
-		if (empty( $cid )) {
-			return JError::raiseWarning( 500, JText::_( 'No items selected' ) );
+		if (count( $bid ) < 1) {
+			JError::raiseError(500, JText::_( 'Select an item to publish' ) );
 		}
 
-		JArrayHelper::toInteger( $cid );
-		$cids = implode( ',', $cid );
-
-		$query = 'UPDATE #__banner'
-		. ' SET showBanner = ' . (int) $publish
-		. ' WHERE bid IN ( '. $cids.'  )'
-		. ' AND ( checked_out = 0 OR ( checked_out = ' .(int) $user->get('id'). ' ) )'
-		;
-		$db->setQuery( $query );
-		if (!$db->query()) {
-			return JError::raiseWarning( 500, $row->getError() );
+		$model = $this->getModel('banner');
+		if(!$model->publish($bid, $publish)) {
+			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
-		$this->setMessage( JText::sprintf( $publish ? 'Items published' : 'Items unpublished', $n ) );
+
+		$this->setRedirect( 'index.php?option=com_banners' );
 	}
 
 	function remove()
@@ -341,87 +184,60 @@ class BannerControllerBanner extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
-		$this->setRedirect( 'index.php?option=com_banners' );
+		$bid = JRequest::getVar( 'bid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($bid);
 
-		// Initialize variables
-		$db		=& JFactory::getDBO();
-		$cid	= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$n		= count( $cid );
-		JArrayHelper::toInteger( $cid );
-
-		if ($n)
-		{
-			$query = 'DELETE FROM #__banner'
-			. ' WHERE bid = ' . implode( ' OR bid = ', $cid )
-			;
-			$db->setQuery( $query );
-			if (!$db->query()) {
-				JError::raiseWarning( 500, $row->getError() );
-			}
+		if (count( $bid ) < 1) {
+			JError::raiseError(500, JText::_( 'Select an item to delete' ) );
 		}
 
-		$this->setMessage( JText::sprintf( 'Items removed', $n ) );
+		$model = $this->getModel('banner');
+		if(!$model->delete($bid)) {
+			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+		}
+
+		$this->setRedirect( 'index.php?option=com_banners' );
+	}
+
+	function orderup()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$model = $this->getModel('banner');
+		$model->move(-1);
+
+		$this->setRedirect( 'index.php?option=com_banners');
+	}
+
+	function orderdown()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$model = $this->getModel('banner');
+		$model->move(1);
+
+		$this->setRedirect( 'index.php?option=com_banners');
 	}
 
 	/**
 	 * Save the new order given by user
 	 */
-	function saveOrder()
+	function saveorder()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
-		$this->setRedirect( 'index.php?option=com_banners' );
+		$cid 	= JRequest::getVar( 'cid', array(), 'post', 'array' );
+		$order 	= JRequest::getVar( 'order', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+		JArrayHelper::toInteger($order);
 
-		// Initialize variables
-		$db			=& JFactory::getDBO();
-		$cid		= JRequest::getVar( 'cid', array(), 'post', 'array' );
-		$order		= JRequest::getVar( 'order', array(), 'post', 'array' );
-		$row		=& JTable::getInstance('banner', 'Table');
-		$total		= count( $cid );
-		$conditions	= array();
+		$model = $this->getModel('banner');
+		$model->saveorder($cid, $order);
 
-		if (empty( $cid )) {
-			return JError::raiseWarning( 500, JText::_( 'No items selected' ) );
-		}
-
-		// update ordering values
-		for ($i = 0; $i < $total; $i++)
-		{
-			$row->load( (int) $cid[$i] );
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-				if (!$row->store()) {
-					return JError::raiseError( 500, $db->getErrorMsg() );
-				}
-				// remember to reorder this category
-				$condition = 'catid = '.(int) $row->catid;
-				$found = false;
-				foreach ($conditions as $cond) {
-					if ($cond[1] == $condition)
-					{
-						$found = true;
-						break;
-					}
-				}
-				if (!$found) {
-					$conditions[] = array ( $row->bid, $condition );
-				}
-			}
-		}
-
-		// execute reorder for each category
-		foreach ($conditions as $cond)
-		{
-			$row->load( $cond[0] );
-			$row->reorder( $cond[1] );
-		}
-
-		// Clear the component's cache
-		$cache =& JFactory::getCache('com_banners');
-		$cache->clean();
-
-		$this->setMessage( JText::_('New ordering saved') );
+		$msg = JText::_('New ordering saved');
+		$this->setRedirect( 'index.php?option=com_banners', $msg );
 	}
 }

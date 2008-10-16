@@ -32,11 +32,10 @@ class JAdminSubMenu
 {
 	function get()
 	{
-		global $mainframe;
 
 		// Lets get some variables we are going to need
 		$menu = JToolBar::getInstance('submenu');
-		$list = $menu->_bar;
+		$list = $menu->getItems();
 		if(!is_array($list) || !count($list))
 		{
 			$option = JRequest::getCmd('option');

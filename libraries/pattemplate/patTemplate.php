@@ -1946,11 +1946,11 @@ class patTemplate
 						}
 					}
 					if ($value !== null) {
-                        if ($var[2] === null) {
-                        	continue;
-                        } else {
-                        	// Joomla! addition 23-June-2005
-                        	// value wrapped in ## uses regex for comparison
+						if ($var[2] === null) {
+							continue;
+						} else {
+							// Joomla! addition 23-June-2005
+							// value wrapped in ## uses regex for comparison
 							$condition = $var[2];
 							if (substr( $condition, 0, 1 ) == '#' && substr( $condition, -1, 1 ) == '#' ) {
 								if (preg_match( $condition, $value )) {
@@ -1959,13 +1959,13 @@ class patTemplate
 							} else if ($condition == $value) {
 								continue;
 							}
-                        	/* Pat Original
-                            if ($var[2] == $value) {
-                               	continue;
-                            }
-                            */
-                        }
-                    }
+							/* Pat Original
+							if ($var[2] == $value) {
+							   	continue;
+							}
+							*/
+						}
+					}
 
 					$this->_templates[$template]['work']				= '';
 					$this->_templates[$template]['currentDependencies']	= array();

@@ -18,7 +18,6 @@
  * This class provides a generic buffer stream.  It can be used to store/retrieve/manipulate
  * string buffers with the standard PHP filesystem I/O methods.
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Utilities
  * @since		1.5
@@ -29,21 +28,21 @@ class JBuffer
 	 * Stream position
 	 * @var int
 	 */
-	var $position = 0;
+	public $position = 0;
 
 	/**
 	 * Buffer name
 	 * @var string
 	 */
-	var $name = null;
+	public $name = null;
 
 	/**
 	 * Buffer hash
 	 * @var array
 	 */
-	var $_buffers = array ();
+	protected $_buffers = array ();
 
-	function stream_open($path, $mode, $options, & $opened_path)
+	public function stream_open($path, $mode, $options, & $opened_path)
 	{
 		$url = parse_url($path);
 		$this->name = $url["host"];
@@ -53,14 +52,14 @@ class JBuffer
 		return true;
 	}
 
-	function stream_read($count)
+	public function stream_read($count)
 	{
 		$ret = substr($this->_buffers[$this->name], $this->position, $count);
 		$this->position += strlen($ret);
 		return $ret;
 	}
 
-	function stream_write($data)
+	public function stream_write($data)
 	{
 		$left = substr($this->_buffers[$this->name], 0, $this->position);
 		$right = substr($this->_buffers[$this->name], $this->position + strlen($data));
@@ -69,15 +68,15 @@ class JBuffer
 		return strlen($data);
 	}
 
-	function stream_tell() {
+	public function stream_tell() {
 		return $this->position;
 	}
 
-	function stream_eof() {
+	public function stream_eof() {
 		return $this->position >= strlen($this->_buffers[$this->name]);
 	}
 
-	function stream_seek($offset, $whence)
+	public function stream_seek($offset, $whence)
 	{
 		switch ($whence)
 		{

@@ -89,8 +89,8 @@ class patErrorManager
 	* @param	mixed	&$object
 	* @return	boolean $result	True if argument is a patError-object, false otherwise.
 	*/
-    function isError( &$object )
-    {
+	function isError( &$object )
+	{
 		if( !is_object( $object ) )
 		{
 			return false;
@@ -103,8 +103,8 @@ class patErrorManager
 			return false;
 		}
 
-        return  true;
-    }
+		return  true;
+	}
 
 	/**
 	* wrapper for the {@link raise()} method where you do not have to specify the
@@ -173,8 +173,8 @@ class patErrorManager
 	* @todo		implement 'simple' mode that returns just false (BC for patConfiguration)
 	* @todo		either remove HTML tags and entities from output or test for enviroment!!! <b></b> in shell is ugly!
 	*/
-    function &raise( $level, $code, $msg, $info = null )
-    {
+	function &raise( $level, $code, $msg, $info = null )
+	{
 		// ignore this error?
 		if( in_array( $code, $GLOBALS['_pat_errorIgnores'] ) )
 		{
@@ -216,7 +216,7 @@ class patErrorManager
 				'<br/>' . $error->getMessage()
 			);
 		}
-    }
+	}
 
 	/**
 	* register a new error level
@@ -277,8 +277,8 @@ class patErrorManager
 	* @return	mixed	$result		True on success, or a patError object if failed.
 	* @see		getErrorHandling()
 	*/
-    function setErrorHandling( $level, $mode, $options = null )
-    {
+	function setErrorHandling( $level, $mode, $options = null )
+	{
 		$levels	=	$GLOBALS['_pat_errorLevels'];
 
 		$function	=	'handleError' . ucfirst( $mode );
@@ -339,8 +339,8 @@ class patErrorManager
 			}
 		}
 
-        return  true;
-    }
+		return  true;
+	}
 
 	/**
 	* retrieves the current error handling settings for the specified error level.
@@ -349,10 +349,10 @@ class patErrorManager
 	* @param	int		$level		The error level to retrieve. This can be any of PHP's own error levels, e.g. E_ALL, E_NOTICE...
 	* @return	array	$handling	All error handling details
 	*/
-    function getErrorHandling( $level )
-    {
+	function getErrorHandling( $level )
+	{
 		return $GLOBALS['_pat_errorHandling'][$level];
-    }
+	}
 
 	/**
 	* translate an error level
@@ -384,8 +384,8 @@ class patErrorManager
 	* @param string $name classname
 	* @return boolean $result true on success
 	*/
-    function setErrorClass( $name )
-    {
+	function setErrorClass( $name )
+	{
 		// include old error-class
 		if( $name !== $GLOBALS['_pat_errorClass'] && !class_exists( $GLOBALS['_pat_errorClass'] ) )
 		{
@@ -394,7 +394,7 @@ class patErrorManager
 
 		$GLOBALS['_pat_errorClass']	=	$name;
 		return true;
-    }
+	}
 
 	/**
 	* add error codes to be ingored
@@ -404,8 +404,8 @@ class patErrorManager
 	* @param mixed $codes either an array of error code or a single code that will be ignored in future
 	* @return boolean $result true on success
 	*/
-    function addIgnore( $codes )
-    {
+	function addIgnore( $codes )
+	{
 		if( !is_array( $codes ) )
 		{
 			$codes	=	array( $codes );
@@ -415,7 +415,7 @@ class patErrorManager
 		$GLOBALS['_pat_errorIgnores']	=	array_unique( $codes );
 
 		return true;
-    }
+	}
 
 	/**
 	* removeIgnore
@@ -425,8 +425,8 @@ class patErrorManager
 	* @access public
 	* @return boolean $result true on success
 	*/
-    function removeIgnore( $codes )
-    {
+	function removeIgnore( $codes )
+	{
 		if( !is_array( $codes ) )
 		{
 			$codes	=	array( $codes );
@@ -447,7 +447,7 @@ class patErrorManager
 		$GLOBALS['_pat_errorIgnores']	=	array_values( $GLOBALS['_pat_errorIgnores'] );
 
 		return true;
-    }
+	}
 
 	/**
 	* recieve all registerd error codes that will be ignored
@@ -456,10 +456,10 @@ class patErrorManager
 	* @access public
 	* @return array $codes list of error codes
 	*/
-    function getIgnore()
-    {
+	function getIgnore()
+	{
 		return $GLOBALS['_pat_errorIgnores'];
-    }
+	}
 
 	/**
 	* empty list of errors to be ignored
@@ -468,11 +468,11 @@ class patErrorManager
 	* @access public
 	* @return boolean $result true on success
 	*/
-    function clearIgnore()
-    {
+	function clearIgnore()
+	{
 		$GLOBALS['_pat_errorIgnores']	=	array();
 		return true;
-    }
+	}
 
 	/**
 	* add expected errors to stack
@@ -482,8 +482,8 @@ class patErrorManager
 	* @param mixed $codes either an array of error code or a single code that will be ignored in future
 	* @return boolean $result true on success
 	*/
-    function pushExpect( $codes )
-    {
+	function pushExpect( $codes )
+	{
 		if( !is_array( $codes ) )
 		{
 			$codes	=	array( $codes );
@@ -492,7 +492,7 @@ class patErrorManager
 		array_push( $GLOBALS['_pat_errorExpects'], $codes );
 
 		return true;
-    }
+	}
 
 	/**
 	* remove top of error-codes from stack
@@ -501,8 +501,8 @@ class patErrorManager
 	* @access public
 	* @return boolean $result true on success
 	*/
-    function popExpect()
-    {
+	function popExpect()
+	{
 		if( empty( $GLOBALS['_pat_errorExpects'] ) )
 		{
 			return false;
@@ -510,7 +510,7 @@ class patErrorManager
 
 		array_pop( $GLOBALS['_pat_errorExpects'] );
 		return true;
-    }
+	}
 
 	/**
 	* recieve all registerd error codes that will be ignored
@@ -519,10 +519,10 @@ class patErrorManager
 	* @access public
 	* @return array $codes list of error codes
 	*/
-    function getExpect()
-    {
+	function getExpect()
+	{
 		return $GLOBALS['_pat_errorExpects'];
-    }
+	}
 
 	/**
 	* empty list of errors to be ignored
@@ -531,11 +531,11 @@ class patErrorManager
 	* @access public
 	* @return boolean $result true on success
 	*/
-    function clearExpect()
-    {
+	function clearExpect()
+	{
 		$GLOBALS['_pat_errorExpects']	=	array();
 		return true;
-    }
+	}
 
 	/**
 	* handleError: Ignore
@@ -547,10 +547,10 @@ class patErrorManager
 	* @return object $error error-object
 	* @see raise()
 	*/
-    function &handleErrorIgnore( &$error, $options )
-    {
+	function &handleErrorIgnore( &$error, $options )
+	{
 		return $error;
-    }
+	}
 
 	/**
 	* handleError: Echo
@@ -562,8 +562,8 @@ class patErrorManager
 	* @return object $error error-object
 	* @see raise()
 	*/
-    function &handleErrorEcho( &$error, $options )
-    {
+	function &handleErrorEcho( &$error, $options )
+	{
 		$level_human	=	patErrorManager::translateErrorLevel( $error->getLevel() );
 
 		if( isset( $_SERVER['HTTP_HOST'] ) )
@@ -584,7 +584,7 @@ class patErrorManager
 			}
 		}
 		return $error;
-    }
+	}
 
 	/**
 	* handleError: Verbose
@@ -596,8 +596,8 @@ class patErrorManager
 	* @return object $error error-object
 	* @see raise()
 	*/
-    function &handleErrorVerbose( &$error, $options )
-    {
+	function &handleErrorVerbose( &$error, $options )
+	{
 		$level_human	=	patErrorManager::translateErrorLevel( $error->getLevel() );
 		$info			=	$error->getInfo();
 
@@ -617,12 +617,12 @@ class patErrorManager
 			echo "pat-$level_human: " . $error->getMessage() . "\n";
 			if( $info != null )
 			{
-				echo "    " . $error->getInfo() . "\n";
+				echo "	" . $error->getInfo() . "\n";
 			}
 
 		}
 		return $error;
-    }
+	}
 
 	/**
 	* handleError: die
@@ -634,8 +634,8 @@ class patErrorManager
 	* @return object $error error-object
 	* @see raise()
 	*/
-    function &handleErrorDie( &$error, $options )
-    {
+	function &handleErrorDie( &$error, $options )
+	{
 		$level_human	=	patErrorManager::translateErrorLevel( $error->getLevel() );
 
 		if( isset( $_SERVER['HTTP_HOST'] ) )
@@ -656,7 +656,7 @@ class patErrorManager
 			}
 		}
 		return $error;
-    }
+	}
 
 	/**
 	* handleError: trigger
@@ -668,8 +668,8 @@ class patErrorManager
 	* @return object $error error-object
 	* @see raise()
 	*/
-    function &handleErrorTrigger( &$error, $options )
-    {
+	function &handleErrorTrigger( &$error, $options )
+	{
 		switch( $error->getLevel() )
 		{
 			case	E_NOTICE:
@@ -688,7 +688,7 @@ class patErrorManager
 
 		trigger_error( $error->getMessage(), $level );
 		return $error;
-    }
+	}
 
 	/**
 	* handleError: callback
@@ -700,11 +700,11 @@ class patErrorManager
 	* @return object $error error-object
 	* @see raise()
 	*/
-    function &handleErrorCallback( &$error, $options )
-    {
+	function &handleErrorCallback( &$error, $options )
+	{
 		$opt	= $options['options'];
 		$result = &call_user_func( $opt, $error );
 		return $result;
-    }
+	}
 }
 ?>

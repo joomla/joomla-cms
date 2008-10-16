@@ -27,24 +27,26 @@ class JAdministratorHelper
 	/**
 	 * Return the application option string [main component]
 	 *
+	 * Use JApplicationHelper::getComponent() instead
+	 *
 	 * @access public
 	 * @return string Option
 	 * @since 1.5
+	 * @deprecated 1.6
 	 */
 	function findOption()
 	{
-		$option = strtolower(JRequest::getCmd('option'));
+		$option = NULL;
 
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user->get('guest')) {
 			$option = 'com_login';
 		}
 
 		if(empty($option)) {
-			$option = 'com_cpanel';
+			$option = JApplicationHelper::getComponent('com_cpanel');
 		}
 
-		JRequest::setVar('option', $option);
 		return $option;
 	}
 }

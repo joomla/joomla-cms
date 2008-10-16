@@ -16,18 +16,28 @@
 defined('JPATH_BASE') or die();
 
 jimport('joomla.filesystem.path');
+jimport('joomla.filesystem.filesystem');
 
 /**
  * A Folder handling class
  *
  * @static
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	FileSystem
  * @since		1.5
  */
-class JFolder
+abstract class JFolder
 {
+	private static $filesystem = null;
+	private static $treeLevel = 0;
+
+	protected static function &getFileSystem() {
+		if(!is_object(JFolder::$filesystem)) {
+			JFolder::$filesystem = JFileSystem::getInstance();
+		}
+		return JFolder::$filesystem;
+	}
+
 	/**
 	 * Copies a folder
 	 *
@@ -38,11 +48,9 @@ class JFolder
 	 * @return	mixed	JError object on failure or boolean True on success
 	 * @since	1.5
 	 */
-	function copy($src, $dest, $path = '', $force = false)
+	public static function copy($src, $dest, $path = '', $force = false)
 	{
-		// Initialize variables
-		jimport('joomla.client.helper');
-		$FTPOptions = JClientHelper::getCredentials('ftp');
+		$backend = JFolder::getFileSystem();
 
 		if ($path) {
 			$src = JPath::clean($path.DS.$src);
@@ -61,66 +69,31 @@ class JFolder
 		}
 
 		// Make sure the destination exists
-		if (! JFolder::create($dest)) {
+		if (!JFolder::create($dest)) {
 			return JError::raiseError(-1, JText::_('Unable to create target folder'));
 		}
 
-		if ($FTPOptions['enabled'] == 1)
-		{
-			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
-
-			if(! ($dh = @opendir($src))) {
-				return JError::raiseError(-1, JText::_('Unable to open source folder'));
-			}
-			// Walk through the directory copying files and recursing into folders.
-			while (($file = readdir($dh)) !== false) {
-				$sfid = $src . DS . $file;
-				$dfid = $dest . DS . $file;
-				switch (filetype($sfid)) {
-					case 'dir':
-						if ($file != '.' && $file != '..') {
-							$ret = JFolder::copy($sfid, $dfid, null, $force);
-							if ($ret !== true) {
-								return $ret;
-							}
+		if(! ($dh = @opendir($src))) {
+			return JError::raiseError(-1, JText::_('Unable to open source folder'));
+		}
+		// Walk through the directory copying files and recursing into folders.
+		while (($file = readdir($dh)) !== false) {
+			$sfid = $src . DS . $file;
+			$dfid = $dest . DS . $file;
+			switch (filetype($sfid)) {
+				case 'dir':
+					if ($file != '.' && $file != '..') {
+						$ret = JFolder::copy($sfid, $dfid, null, $force);
+						if ($ret !== true) {
+							return $ret;
 						}
-						break;
-
-					case 'file':
-						//Translate path for the FTP account
-						$dfid = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
-						if (! $ftp->store($sfid, $dfid)) {
-							return JError::raiseError(-1, JText::_('Copy failed'));
-						}
-						break;
-				}
-			}
-		} else {
-			if(! ($dh = @opendir($src))) {
-				return JError::raiseError(-1, JText::_('Unable to open source folder'));
-			}
-			// Walk through the directory copying files and recursing into folders.
-			while (($file = readdir($dh)) !== false) {
-				$sfid = $src.DS.$file;
-				$dfid = $dest.DS.$file;
-				switch (filetype($sfid)) {
-					case 'dir':
-						if ($file != '.' && $file != '..') {
-							$ret = JFolder::copy($sfid, $dfid, null, $force);
-							if ($ret !== true) {
-								return $ret;
-							}
-						}
-						break;
-
-					case 'file':
-						if (!@ copy($sfid, $dfid)) {
-							return JError::raiseError(-1, JText::_('Copy failed'));
-						}
-						break;
-				}
+					}
+					break;
+				case 'file':
+					if (!JFile::copy($sfid, $dfid)) {
+						return JError::raiseError(-1, JText::_('Copy failed'));
+					}
+					break;
 			}
 		}
 		return true;
@@ -134,11 +107,9 @@ class JFolder
 	 * @return boolean True if successful
 	 * @since 1.5
 	 */
-	function create($path = '', $mode = 0755)
+	public static function create($path = '', $mode = 0755)
 	{
-		// Initialize variables
-		jimport('joomla.client.helper');
-		$FTPOptions = JClientHelper::getCredentials('ftp');
+		$backend = JFolder::getBackend();
 		static $nested = 0;
 
 		// Check to make sure the path valid and clean
@@ -171,62 +142,13 @@ class JFolder
 			return true;
 		}
 
-		// Check for safe mode
-		if ($FTPOptions['enabled'] == 1) {
-			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+		$ret = $backend->mkdir($path);
 
-			// Translate path to FTP path
-			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
-			$ret = $ftp->mkdir($path);
-			$ftp->chmod($path, $mode);
+		if(!$ret) {
+			JError::raiseWarning('SOME_ERROR_CODE', 'JFolder::create: '.JText::_('Could not create directory'), 'Path: '.$path);
+			return false;
 		}
-		else
-		{
-			// We need to get and explode the open_basedir paths
-			$obd = ini_get('open_basedir');
-
-			// If open_basedir is set we need to get the open_basedir that the path is in
-			if ($obd != null)
-			{
-				if (JPATH_ISWIN) {
-					$obdSeparator = ";";
-				} else {
-					$obdSeparator = ":";
-				}
-				// Create the array of open_basedir paths
-				$obdArray = explode($obdSeparator, $obd);
-				$inOBD = false;
-				// Iterate through open_basedir paths looking for a match
-				foreach ($obdArray as $test) {
-					$test = JPath::clean($test);
-					if (strpos($path, $test) === 0) {
-						$obdpath = $test;
-						$inOBD = true;
-						break;
-					}
-				}
-				if ($inOBD == false) {
-					// Return false for JFolder::create because the path to be created is not in open_basedir
-					JError::raiseWarning('SOME_ERROR_CODE', 'JFolder::create: '.JText::_('Path not in open_basedir paths'));
-					return false;
-				}
-			}
-
-			// First set umask
-			$origmask = @ umask(0);
-
-			// Create the path
-			if (!$ret = @mkdir($path, $mode)) {
-				@ umask($origmask);
-				JError::raiseWarning('SOME_ERROR_CODE', 'JFolder::create: '.JText::_('Could not create directory'), 'Path: '.$path);
-				return false;
-			}
-
-			// Reset umask
-			@ umask($origmask);
-		}
+		$backend->chmod($path, $mode);
 		return $ret;
 	}
 
@@ -237,7 +159,7 @@ class JFolder
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function delete($path)
+	public static function delete($path)
 	{
 		// Sanity check
 		if ( ! $path ) {
@@ -246,9 +168,7 @@ class JFolder
 			return false;
 		}
 
-		// Initialize variables
-		jimport('joomla.client.helper');
-		$FTPOptions = JClientHelper::getCredentials('ftp');
+		$backend = JFolder::getFileSystem();
 
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
@@ -261,7 +181,7 @@ class JFolder
 
 		// Remove all the files in folder if they exist
 		$files = JFolder::files($path, '.', false, true, array());
-		if (count($files)) {
+		if(!empty($files)) {
 			jimport('joomla.filesystem.file');
 			if (JFile::delete($files) !== true) {
 				// JFile::delete throws an error
@@ -277,23 +197,8 @@ class JFolder
 				return false;
 			}
 		}
-
-		if ($FTPOptions['enabled'] == 1) {
-			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
-		}
-
-		// In case of restricted permissions we zap it one way or the other
-		// as long as the owner is either the webserver or the ftp
-		if (@rmdir($path)) {
-			$ret = true;
-		} elseif ($FTPOptions['enabled'] == 1) {
-			// Translate path and delete
-			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
-			// FTP connector throws an error
-			$ret = $ftp->delete($path);
-		} else {
+		$ret = true;
+		if (!$backend->rmdir($path)) {
 			JError::raiseWarning('SOME_ERROR_CODE', 'JFolder::delete: '.JText::_('Could not delete folder').' '.$path);
 			$ret = false;
 		}
@@ -310,44 +215,26 @@ class JFolder
 	 * @return mixed Error message on false or boolean True on success
 	 * @since 1.5
 	 */
-	function move($src, $dest, $path = '')
+	public static function move($src, $dest, $path = '')
 	{
-		// Initialize variables
-		jimport('joomla.client.helper');
-		$FTPOptions = JClientHelper::getCredentials('ftp');
+		$backend = JFolder::getFileSystem();
 
 		if ($path) {
 			$src = JPath::clean($path.DS.$src);
 			$dest = JPath::clean($path.DS.$dest);
 		}
 
-		if (!JFolder::exists($src) && !is_writable($src)) {
+		if (!JFolder::exists($src) && !$backend->isWritable($src)) {
 			return JText::_('Cannot find source folder');
 		}
 		if (JFolder::exists($dest)) {
 			return JText::_('Folder already exists');
 		}
 
-		if ($FTPOptions['enabled'] == 1) {
-			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
-
-			//Translate path for the FTP account
-			$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-			$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
-			// Use FTP rename to simulate move
-			if (!$ftp->rename($src, $dest)) {
-				return JText::_('Rename failed');
-			}
-			$ret = true;
-		} else {
-			if (!@ rename($src, $dest)) {
-				return JText::_('Rename failed');
-			}
-			$ret = true;
+		if (!$backend->rename($src, $dest)) {
+			return JText::_('Rename failed');
 		}
+		$ret = true;
 		return $ret;
 	}
 
@@ -358,7 +245,7 @@ class JFolder
 	 * @return boolean True if path is a folder
 	 * @since 1.5
 	 */
-	function exists($path)
+	public static function exists($path)
 	{
 		return is_dir(JPath::clean($path));
 	}
@@ -374,7 +261,7 @@ class JFolder
 	 * @return	array	Files in the given folder
 	 * @since 1.5
 	 */
-	function files($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS'))
+	public static function files($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS'))
 	{
 		// Initialize variables
 		$arr = array ();
@@ -431,7 +318,7 @@ class JFolder
 	 * @return	array	Folders in the given folder
 	 * @since 1.5
 	 */
-	function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS'))
+	public static function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS'))
 	{
 		// Initialize variables
 		$arr = array ();
@@ -487,17 +374,17 @@ class JFolder
 	 * @return	array	Folders in the given folder
 	 * @since	1.5
 	 */
-	function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
+	public static function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
 	{
 		$dirs = array ();
 		if ($level == 0) {
-			$GLOBALS['_JFolder_folder_tree_index'] = 0;
+			JFolder::$treeLevel = 0;
 		}
 		if ($level < $maxLevel) {
 			$folders = JFolder::folders($path, $filter);
 			// first path, index foldernames
 			for ($i = 0, $n = count($folders); $i < $n; $i ++) {
-				$id = ++ $GLOBALS['_JFolder_folder_tree_index'];
+				$id = ++ JFolder::$treeLevel;
 				$name = $folders[$i];
 				$fullName = JPath::clean($path.DS.$name);
 				$dirs[] = array ('id' => $id, 'parent' => $parent, 'name' => $name, 'fullname' => $fullName, 'relname' => str_replace(JPATH_ROOT, '', $fullName));

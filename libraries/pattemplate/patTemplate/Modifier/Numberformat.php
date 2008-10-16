@@ -32,11 +32,11 @@ defined('JPATH_BASE') or die();
  */
 class patTemplate_Modifier_Numberformat extends patTemplate_Modifier
 {
-    var $defaults = array(
-                        'decimals'  => 2,
-                        'point'     => '.',
-                        'separator' => ','
-                    );
+	var $defaults = array(
+						'decimals'  => 2,
+						'point'	 => '.',
+						'separator' => ','
+					);
 	/**
 	* modify the value
 	*
@@ -46,8 +46,8 @@ class patTemplate_Modifier_Numberformat extends patTemplate_Modifier
 	*/
 	function modify($value, $params = array())
 	{
-	    $params = array_merge($this->defaults, $params);
-	    return @number_format($value, $params['decimals'], $params['point'], $params['separator']);
+		$params = array_merge($this->defaults, $params);
+		return @number_format($value, $params['decimals'], $params['point'], $params['separator']);
 	}
 }
 ?>

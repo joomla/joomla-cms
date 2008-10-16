@@ -24,8 +24,17 @@ jimport('joomla.application.component.view');
  */
 class MenusViewList extends JView
 {
-	var $_name = 'list';
-
+	protected $_name = 'list';
+	protected $items;
+	protected $pagination;
+	protected $lists;
+	protected $user;		
+	protected $menutype;
+	protected $ordering;
+	protected $limitstart = 0;
+	protected $menutypes;
+	protected $MenuList;
+	
 	function display($tpl=null)
 	{
 		global $mainframe;
@@ -171,7 +180,7 @@ class MenusViewList extends JView
 		$search				= JString::strtolower( $search );
 
 		// level limit filter
-		$lists['levellist'] = JHTML::_('select.integerlist',    1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
+		$lists['levellist'] = JHTML::_('select.integerlist', 1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
 
 		// state filter
 		$lists['state']	= JHTML::_('grid.state',  $filter_state );

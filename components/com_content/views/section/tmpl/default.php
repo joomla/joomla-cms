@@ -2,9 +2,9 @@
 defined('_JEXEC') or die('Restricted access');
 $cparams =& JComponentHelper::getParams('com_media');
 ?>
-<?php if ($this->params->get('show_page_title')) : ?>
-<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-	<?php echo $this->escape($this->section->title); ?>
+<?php if ($this->params->get('show_page_title', 1)) : ?>
+<div class="componentheading<?php echo $this->params->get('pageclass_sfx');?>">
+	<?php echo $this->escape($this->params->get('page_title')); ?>
 </div>
 <?php endif; ?>
 <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">

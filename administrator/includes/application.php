@@ -26,6 +26,8 @@ jimport('joomla.application.component.helper');
 */
 class JAdministrator extends JApplication
 {
+	protected $JComponentTitle = null;
+
 	/**
 	* Class constructor
 	*
@@ -101,12 +103,24 @@ class JAdministrator extends JApplication
 	/**
 	* Dispatch the application
 	*
-	* @access public
+	* @param	string $component Name of component to load
+	* @access	public
+	* @since	1.6
 	*/
-	function dispatch($component)
+	function dispatch($component = NULL)
 	{
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
+
+		// Get our component
+		if ($user->get('guest')) {
+			$component = 'com_login';
+		}
+
+		if ( ! $component )
+		{
+			$component = JApplicationHelper::getComponentName('com_cpanel');
+		}
 
 		switch($document->getType())
 		{
@@ -115,7 +129,7 @@ class JAdministrator extends JApplication
 				$document->setMetaData( 'keywords', $this->getCfg('MetaKeys') );
 
 				if ( $user->get('id') ) {
-					$document->addScript( JURI::root(true).'/includes/js/joomla.javascript.js');
+					$document->addScript( JURI::root(true).'/media/system/js/legacy.js');
 				}
 
 				JHTML::_('behavior.mootools');
@@ -124,7 +138,7 @@ class JAdministrator extends JApplication
 			default : break;
 		}
 
-		$document->setTitle( $this->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
+		$document->setTitle( htmlspecialchars_decode($this->getCfg('sitename' )). ' - ' .JText::_( 'Administration' ));
 		$document->setDescription( $this->getCfg('MetaDesc') );
 
 		$contents = JComponentHelper::renderComponent($component);
@@ -138,7 +152,7 @@ class JAdministrator extends JApplication
 	*/
 	function render()
 	{
-		$component	= JRequest::getCmd('option');
+		$component	= JRequest::getCmd('option', 'com_login');
 		$template	= $this->getTemplate();
 		$file 		= JRequest::getCmd('tmpl', 'index');
 
@@ -282,6 +296,6 @@ class JAdministrator extends JApplication
 	*/
 	function getSiteURL()
 	{
-	   return JURI::root();
+		return JURI::root();
 	}
 }

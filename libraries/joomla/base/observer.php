@@ -19,12 +19,11 @@ defined('JPATH_BASE') or die();
  * Abstract observer class to implement the observer design pattern
  *
  * @abstract
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Base
  * @since		1.5
  */
-class JObserver extends JObject
+abstract class JObserver extends JObject
 {
 
 	/**
@@ -33,12 +32,12 @@ class JObserver extends JObject
 	 * @access private
 	 * @var object
 	 */
-	var $_subject = null;
+	protected $_subject = null;
 
 	/**
 	 * Constructor
 	 */
-	function __construct(& $subject)
+	protected function __construct(& $subject)
 	{
 		// Register the observer ($this) so we can be notified
 		$subject->attach($this);
@@ -54,7 +53,5 @@ class JObserver extends JObject
 	 * @access public
 	 * @return mixed
 	 */
-	function update() {
-		return JError::raiseError('9', 'JObserver::update: Method not implemented', 'This method should be implemented in a child class');
-	}
+	abstract public function update( &$args );
 }

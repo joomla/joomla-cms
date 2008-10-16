@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 	<table>
 		<tr>
 			<td align="left" width="100%">
@@ -16,9 +16,9 @@
 			</td>
 			<td nowrap="nowrap" align="right">
 			<?php if ( $this->showResults ) : ?>
-				<a href="index.php?option=com_search&amp;search_results=0"><?php echo JText::_( 'Hide Search Results' ); ?></a>
+				<a href="<?php echo JRoute::_('index.php?option=com_search&amp;search_results=0'); ?>"><?php echo JText::_( 'Hide Search Results' ); ?></a>
 			<?php else : ?>
-				<a href="index.php?option=com_search&amp;search_results=1"><?php echo JText::_( 'Show Search Results' ); ?></a>
+				<a href="<?php echo JRoute::_('index.php?option=com_search&amp;search_results=1'); ?>"><?php echo JText::_( 'Show Search Results' ); ?></a>
 			<?php endif; ?>
 			</td>
 		</tr>

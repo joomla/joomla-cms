@@ -20,14 +20,14 @@
  * @subpackage	FileSystem
  * @since		1.5
  */
-class JArchive
+abstract class JArchive
 {
 	/**
 	 * @param	string	The name of the archive file
 	 * @param	string	Directory to unpack into
 	 * @return	boolean	True for success
 	 */
-	function extract( $archivename, $extractdir)
+	public static function extract( $archivename, $extractdir)
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
@@ -129,7 +129,7 @@ class JArchive
 		return true;
 	}
 
-	function &getAdapter($type)
+	public static function &getAdapter($type)
 	{
 		static $adapters;
 
@@ -146,7 +146,7 @@ class JArchive
 			{
 				$path = dirname(__FILE__).DS.'archive'.DS.strtolower($type).'.php';
 				if (file_exists($path)) {
-					require_once($path);
+					require_once $path;
 				} else {
 					JError::raiseError(500,JText::_('Unable to load archive'));
 				}
@@ -166,7 +166,7 @@ class JArchive
 	 * @param	boolean	Automatically append the extension for the archive
 	 * @param	boolean	Remove for source files
 	 */
-	function create($archive, $files, $compress = 'tar', $addPath = '', $removePath = '', $autoExt = false, $cleanUp = false)
+	public static function create($archive, $files, $compress = 'tar', $addPath = '', $removePath = '', $autoExt = false, $cleanUp = false)
 	{
 		jimport( 'pear.archive_tar.Archive_Tar' );
 

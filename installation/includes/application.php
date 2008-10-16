@@ -31,7 +31,14 @@ class JInstallation extends JApplication
 	 * @var string
 	 * @access protected
 	 */
-	var $_siteURL = null;
+	protected $_siteURL = null;
+
+	/**
+	 * Installation Registry
+	 *
+	 * @var object JRegistry
+	 */
+	protected $_registry = null;
 
 	/**
 	* Class constructor
@@ -40,9 +47,9 @@ class JInstallation extends JApplication
 	* @param	array An optional associative array of configuration settings.
 	* Recognized key values include 'clientId' (this list is not meant to be comprehensive).
 	*/
-	function __construct($config = array())
+	protected function __construct($config = array())
 	{
-		$config['clientId'] = 3;
+		$config['clientId'] = 2;
 		parent::__construct($config);
 
 		JError::setErrorHandling(E_ALL, 'Ignore');
@@ -59,9 +66,9 @@ class JInstallation extends JApplication
 	 */
 	function render()
 	{
-		$document	=& JFactory::getDocument();
-		$config		=& JFactory::getConfig();
-		$user		=& JFactory::getUser();
+		$document	= JFactory::getDocument();
+		$config		= JFactory::getConfig();
+		$user		= JFactory::getUser();
 
 		switch($document->getType())
 		{
@@ -80,7 +87,7 @@ class JInstallation extends JApplication
 
 		// Execute the component
 		ob_start();
-		require_once(JPATH_COMPONENT.DS.'installer.php');
+		require_once JPATH_COMPONENT.DS.'installer.php';
 		$contents = ob_get_contents();
 		ob_end_clean();
 
@@ -143,7 +150,7 @@ class JInstallation extends JApplication
 		}
 
 		//Set the language in the class
-		$conf =& JFactory::getConfig();
+		$conf = JFactory::getConfig();
 		$conf->setValue('config.language', $options['language']);
 		$conf->setValue('config.debug_lang', $forced['debug']);
 	}
@@ -194,8 +201,8 @@ class JInstallation extends JApplication
 		$options = array();
 		$options['name'] = $name;
 
-		$session = &JFactory::getSession($options);
-		if (!is_a($session->get('registry'), 'JRegistry')) {
+		$session = JFactory::getSession($options);
+		if (!($session->get('registry') INSTANCEOF JRegistry)) {
 			// Registry has been corrupted somehow
 			$session->set('registry', new JRegistry('session'));
 		}
@@ -209,7 +216,7 @@ class JInstallation extends JApplication
 	 */
 	function getLocalise()
 	{
-		$xml = & JFactory::getXMLParser('Simple');
+		$xml =  JFactory::getXMLParser('Simple');
 
 		if (!$xml->loadFile(JPATH_SITE.DS.'installation'.DS.'localise.xml')) {
 			return 'no file'; //null;
@@ -226,7 +233,6 @@ class JInstallation extends JApplication
 		$ret['helpurl'] = $tags[1]->data();
 		$ret['debug']	= $tags[2]->data();
 		return  $ret;
-
 	}
 
 	/**
@@ -251,4 +257,3 @@ class JInstallation extends JApplication
 	}
 }
 
-?>

@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.5" type="plugin" group="system">
-	<name>System - Legacy</name>
+<install version="1.6" type="plugin" group="system">
+	<name>System - Legacy 1.5</name>
 	<author>Joomla! Project</author>
-	<creationDate>January 2007</creationDate>
+	<creationDate>May 2008</creationDate>
 	<copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.5</version>
-	<description>Provides legacy support for older version of Joomla!</description>
+	<version>1.6</version>
+	<description>Provides legacy support for 1.5 version of Joomla!</description>
 	<files>
 		<filename plugin="legacy">legacy.php</filename>
-		<filename>legacy/classes.php</filename>
-		<filename>legacy/functions.php</filename>
-		<filename>legacy/toolbar.php</filename>
-		<filename>legacy/index.html</filename>
+		<folder>legacy</folder>
 	</files>
 	<params>
-		<param name="route" type="radio" default="0" label="Use legacy URL routing" description="If yes, use legacy url routing mechanism">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
 	</params>
 </install>

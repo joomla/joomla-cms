@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Bzip2 format adapter for the JArchive class
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	FileSystem
  * @since		1.5
@@ -29,7 +28,7 @@ class JArchiveBzip2 extends JObject
 	 * Bzip2 file data buffer
 	 * @var string
 	 */
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * Constructor tries to load the bz2 extension of not loaded
@@ -38,7 +37,7 @@ class JArchiveBzip2 extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		// Is bz2 extension loaded?  If not try to load it
 		if (!extension_loaded('bz2')) {
@@ -60,7 +59,7 @@ class JArchiveBzip2 extends JObject
 	* @return	boolean	True if successful
 	* @since	1.5
 	*/
-	function extract($archive, $destination, $options = array ())
+	public function extract($archive, $destination, $options = array ())
 	{
 		// Initialize variables
 		$this->_data = null;

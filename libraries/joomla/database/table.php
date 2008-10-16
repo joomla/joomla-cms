@@ -27,7 +27,7 @@ defined('JPATH_BASE') or die();
  * @since		1.0
  * @tutorial	Joomla.Framework/jtable.cls
  */
-class JTable extends JObject
+abstract class JTable extends JObject
 {
 	/**
 	 * Name of the table in the db schema relating to child class
@@ -35,7 +35,7 @@ class JTable extends JObject
 	 * @var 	string
 	 * @access	protected
 	 */
-	var $_tbl		= '';
+	protected $_tbl	= '';
 
 	/**
 	 * Name of the primary key field in the table
@@ -43,7 +43,7 @@ class JTable extends JObject
 	 * @var		string
 	 * @access	protected
 	 */
-	var $_tbl_key	= '';
+	protected $_tbl_key = '';
 
 	/**
 	 * Database connector
@@ -51,7 +51,7 @@ class JTable extends JObject
 	 * @var		JDatabase
 	 * @access	protected
 	 */
-	var $_db		= null;
+	protected $_db = null;
 
 	/**
 	 * Object constructor to set table and key field
@@ -63,11 +63,23 @@ class JTable extends JObject
 	 * @param string $key name of the primary key field in the table
 	 * @param object $db JDatabase object
 	 */
-	function __construct( $table, $key, &$db )
+	protected function __construct( $table, $key, &$db )
 	{
 		$this->_tbl		= $table;
 		$this->_tbl_key	= $key;
 		$this->_db		=& $db;
+	}
+
+	public function __get($var) {
+		if(isset($this->$var)) {
+			return $this->$var;
+		} else {
+			return null;
+		}
+	}
+
+	public function __set($var, $val) {
+		return $this->bind(array($var=>$val));
 	}
 
 	/**
@@ -79,7 +91,7 @@ class JTable extends JObject
 	 * @return database A database object
 	 * @since 1.5
 	*/
-	function &getInstance( $type, $prefix = 'JTable', $config = array() )
+	public static function &getInstance( $type, $prefix = 'JTable', $config = array() )
 	{
 		$false = false;
 
@@ -124,7 +136,7 @@ class JTable extends JObject
 	 *
 	 * @return object A JDatabase based object
 	 */
-	function &getDBO()
+	public function &getDBO()
 	{
 		return $this->_db;
 	}
@@ -135,7 +147,7 @@ class JTable extends JObject
 	 * @param	object	$db	A JDatabase based object
 	 * @return	void
 	 */
-	function setDBO(&$db)
+	public function setDBO(&$db)
 	{
 		$this->_db =& $db;
 	}
@@ -146,7 +158,7 @@ class JTable extends JObject
 	 * @return string
 	 * @since 1.5
 	 */
-	function getTableName()
+	public function getTableName()
 	{
 		return $this->_tbl;
 	}
@@ -157,7 +169,7 @@ class JTable extends JObject
 	 * @return string
 	 * @since 1.5
 	 */
-	function getKeyName()
+	public function getKeyName()
 	{
 		return $this->_tbl_key;
 	}
@@ -166,7 +178,7 @@ class JTable extends JObject
 	 * Resets the default properties
 	 * @return	void
 	 */
-	function reset()
+	public function reset()
 	{
 		$k = $this->_tbl_key;
 		foreach ($this->getProperties() as $name => $value)
@@ -188,7 +200,7 @@ class JTable extends JObject
 	 * @param	$ignore	mixed	An array or space separated list of fields not to bind
 	 * @return	boolean
 	 */
-	function bind( $from, $ignore=array() )
+	public function bind( $from, $ignore=array() )
 	{
 		$fromArray	= is_array( $from );
 		$fromObject	= is_object( $from );
@@ -223,7 +235,7 @@ class JTable extends JObject
 	 * @param	mixed	Optional primary key.  If not specifed, the value of current key is used
 	 * @return	boolean	True if successful
 	 */
-	function load( $oid=null )
+	public function load( $oid=null )
 	{
 		$k = $this->_tbl_key;
 
@@ -263,7 +275,7 @@ class JTable extends JObject
 	 * @access public
 	 * @return boolean True if the object is ok
 	 */
-	function check()
+	public function check()
 	{
 		return true;
 	}
@@ -277,27 +289,23 @@ class JTable extends JObject
 	 * @param boolean If false, null object variables are not updated
 	 * @return null|string null if successful otherwise returns and error message
 	 */
-	function store( $updateNulls=false )
+	public function store( $updateNulls=false )
 	{
 		$k = $this->_tbl_key;
-
-		if( $this->$k)
-		{
-			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
-		}
-		else
-		{
-			$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
-		}
-		if( !$ret )
-		{
-			$this->setError(get_class( $this ).'::store failed - '.$this->_db->getErrorMsg());
+		try {
+			if( $this->$k)
+			{
+				$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
+			}
+			else
+			{
+				$ret = $this->_db->insertObject( $this->_tbl, $this, $this->_tbl_key );
+			}
+		} catch(JException $e) {
+			$this->setError(get_class( $this ).'::store failed - '.$e->getMessage());
 			return false;
 		}
-		else
-		{
-			return true;
-		}
+		return true;
 	}
 
 	/**
@@ -307,7 +315,7 @@ class JTable extends JObject
 	 * @param $dirn
 	 * @param $where
 	 */
-	function move( $dirn, $where='' )
+	public function move( $dirn, $where='' )
 	{
 		if (!in_array( 'ordering',  array_keys($this->getProperties())))
 		{
@@ -341,49 +349,46 @@ class JTable extends JObject
 		$this->_db->setQuery( $sql, 0, 1 );
 
 
-		$row = null;
-		$row = $this->_db->loadObject();
-		if (isset($row))
-		{
-			$query = 'UPDATE '. $this->_tbl
-			. ' SET ordering = '. (int) $row->ordering
-			. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
-			;
-			$this->_db->setQuery( $query );
-
-			if (!$this->_db->query())
-			{
-				$err = $this->_db->getErrorMsg();
-				JError::raiseError( 500, $err );
-			}
-
-			$query = 'UPDATE '.$this->_tbl
-			. ' SET ordering = '.(int) $this->ordering
-			. ' WHERE '.$this->_tbl_key.' = '.$this->_db->Quote($row->$k)
-			;
-			$this->_db->setQuery( $query );
-
-			if (!$this->_db->query())
-			{
-				$err = $this->_db->getErrorMsg();
-				JError::raiseError( 500, $err );
-			}
-
-			$this->ordering = $row->ordering;
+		try {
+			$row = $this->_db->loadObject();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
 		}
-		else
-		{
-			$query = 'UPDATE '. $this->_tbl
-			. ' SET ordering = '.(int) $this->ordering
-			. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
-			;
-			$this->_db->setQuery( $query );
-
-			if (!$this->_db->query())
+		try {
+			if (!empty($row))
 			{
-				$err = $this->_db->getErrorMsg();
-				JError::raiseError( 500, $err );
+				$query = 'UPDATE '. $this->_tbl
+				. ' SET ordering = '. (int) $row->ordering
+				. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
+				;
+				$this->_db->setQuery( $query );
+	
+				$this->_db->query();
+	
+				$query = 'UPDATE '.$this->_tbl
+				. ' SET ordering = '.(int) $this->ordering
+				. ' WHERE '.$this->_tbl_key.' = '.$this->_db->Quote($row->$k)
+				;
+				$this->_db->setQuery( $query );
+	
+				$this->_db->query();
+	
+				$this->ordering = $row->ordering;
 			}
+			else
+			{
+					$query = 'UPDATE '. $this->_tbl
+				. ' SET ordering = '.(int) $this->ordering
+				. ' WHERE '. $this->_tbl_key .' = '. $this->_db->Quote($this->$k)
+				;
+				$this->_db->setQuery( $query );
+		
+				$this->_db->query();
+			}
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
 		}
 	}
 
@@ -393,7 +398,7 @@ class JTable extends JObject
 	 * @access public
 	 * @param string query WHERE clause for selecting MAX(ordering).
 	 */
-	function getNextOrder ( $where='' )
+	public function getNextOrder ( $where='' )
 	{
 		if (!in_array( 'ordering', array_keys($this->getProperties()) ))
 		{
@@ -406,11 +411,10 @@ class JTable extends JObject
 				($where ? ' WHERE '.$where : '');
 
 		$this->_db->setQuery( $query );
-		$maxord = $this->_db->loadResult();
-
-		if ($this->_db->getErrorNum())
-		{
-			$this->setError($this->_db->getErrorMsg());
+		try {
+			$maxord = $this->_db->loadResult();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 		return $maxord + 1;
@@ -422,7 +426,7 @@ class JTable extends JObject
 	 * @access public
 	 * @param string Additional where query to limit ordering to a particular subset of records
 	 */
-	function reorder( $where='' )
+	public function reorder( $where='' )
 	{
 		$k = $this->_tbl_key;
 
@@ -447,9 +451,10 @@ class JTable extends JObject
 		. ' ORDER BY ordering'.$order2
 		;
 		$this->_db->setQuery( $query );
-		if (!($orders = $this->_db->loadObjectList()))
-		{
-			$this->setError($this->_db->getErrorMsg());
+		try {
+			$orders = $this->_db->loadObjectList();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 		// compact the ordering numbers
@@ -465,7 +470,12 @@ class JTable extends JObject
 					. ' WHERE '. $k .' = '. $this->_db->Quote($orders[$i]->$k)
 					;
 					$this->_db->setQuery( $query);
-					$this->_db->query();
+					try {
+						$this->_db->query();
+					} catch(JException $e) {
+						$this->setError($e->getMessage());
+						return false;
+					}
 				}
 			}
 		}
@@ -484,7 +494,7 @@ class JTable extends JObject
 	 * @param array Optional array to compiles standard joins: format [label=>'Label',name=>'table name',idfield=>'field',joinfield=>'field']
 	 * @return true|false
 	 */
-	function canDelete( $oid=null, $joins=null )
+	public function canDelete( $oid=null, $joins=null )
 	{
 		$k = $this->_tbl_key;
 		if ($oid) {
@@ -509,9 +519,10 @@ class JTable extends JObject
 			;
 			$this->_db->setQuery( $query );
 
-			if (!$obj = $this->_db->loadObject())
-			{
-				$this->setError($this->_db->getErrorMsg());
+			try {
+				$obj = $this->_db->loadObject();
+			} catch(JException $e) {
+				$this->setError($e->getMessage());
 				return false;
 			}
 			$msg = array();
@@ -548,7 +559,7 @@ class JTable extends JObject
 	 * @access public
 	 * @return true if successful otherwise returns and error message
 	 */
-	function delete( $oid=null )
+	public function delete( $oid=null )
 	{
 		//if (!$this->canDelete( $msg ))
 		//{
@@ -564,13 +575,11 @@ class JTable extends JObject
 				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 
-		if ($this->_db->query())
-		{
+		try {
+			$this->_db->query();
 			return true;
-		}
-		else
-		{
-			$this->setError($this->_db->getErrorMsg());
+		} catch (JException $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 	}
@@ -583,7 +592,7 @@ class JTable extends JObject
 	 * @param 	mixed	The primary key value for the row
 	 * @return	boolean	True if successful, or if checkout is not supported
 	 */
-	function checkout( $who, $oid = null )
+	public function checkout( $who, $oid = null )
 	{
 		if (!in_array( 'checked_out', array_keys($this->getProperties()) )) {
 			return true;
@@ -604,8 +613,12 @@ class JTable extends JObject
 
 		$this->checked_out = $who;
 		$this->checked_out_time = $time;
-
-		return $this->_db->query();
+		try {
+			return $this->_db->query();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
 	}
 
 	/**
@@ -615,7 +628,7 @@ class JTable extends JObject
 	 * @param	mixed	The primary key value for the row
 	 * @return	boolean	True if successful, or if checkout is not supported
 	 */
-	function checkin( $oid=null )
+	public function checkin( $oid=null )
 	{
 		if (!(
 			in_array( 'checked_out', array_keys($this->getProperties()) ) ||
@@ -642,7 +655,12 @@ class JTable extends JObject
 		$this->checked_out = 0;
 		$this->checked_out_time = '';
 
-		return $this->_db->query();
+		try {
+			return $this->_db->query();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
 	}
 
 	/**
@@ -652,7 +670,7 @@ class JTable extends JObject
 	 * @param $oid
 	 * @param $log
 	 */
-	function hit( $oid=null, $log=false )
+	public function hit( $oid=null, $log=false )
 	{
 		if (!in_array( 'hits', array_keys($this->getProperties()) )) {
 			return;
@@ -668,8 +686,14 @@ class JTable extends JObject
 		. ' SET hits = ( hits + 1 )'
 		. ' WHERE '. $this->_tbl_key .'='. $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
-		$this->_db->query();
-		$this->hits++;
+		try {
+			$this->_db->query();
+			$this->hits++;
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -681,14 +705,14 @@ class JTable extends JObject
 	 * @static
 	 * @access public
 	 * @param integer  $with  	The userid to preform the match with, if an item is checked out
-	 * 				  			by this user the function will return false
+	 * 							by this user the function will return false
 	 * @param integer  $against 	The userid to perform the match against when the function is used as
 	 * 							a static function.
 	 * @return boolean
 	 */
-	function isCheckedOut( $with = 0, $against = null)
+	public function isCheckedOut( $with = 0, $against = null)
 	{
-		if(isset($this) && is_a($this, 'JTable') && is_null($against)) {
+		if(isset($this) && $this INSTANCEOF JTable && is_null($against)) {
 			$against = $this->get( 'checked_out' );
 		}
 
@@ -710,7 +734,7 @@ class JTable extends JObject
 	 * @param	mixed	An array or space separated list of fields not to bind
 	 * @returns TRUE if completely successful, FALSE if partially or not succesful.
 	 */
-	function save( $source, $order_filter='', $ignore='' )
+	public function save( $source, $order_filter='', $ignore='' )
 	{
 		if (!$this->bind( $source, $ignore )) {
 			return false;
@@ -742,7 +766,7 @@ class JTable extends JObject
 	 * @param integer The id of the user performnig the operation
 	 * @since 1.0.4
 	 */
-	function publish( $cid=null, $publish=1, $user_id=0 )
+	public function publish( $cid=null, $publish=1, $user_id=0 )
 	{
 		JArrayHelper::toInteger( $cid );
 		$user_id	= (int) $user_id;
@@ -773,9 +797,10 @@ class JTable extends JObject
 		}
 
 		$this->_db->setQuery( $query );
-		if (!$this->_db->query())
-		{
-			$this->setError($this->_db->getErrorMsg());
+		try {
+			$this->_db->query();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -798,7 +823,7 @@ class JTable extends JObject
 	 * @access public
 	 * @param boolean Map foreign keys to text values
 	 */
-	function toXML( $mapKeysToText=false )
+	public function toXML( $mapKeysToText=false )
 	{
 		$xml = '<record table="' . $this->_tbl . '"';
 
@@ -828,12 +853,13 @@ class JTable extends JObject
 	 * Add a directory where JTable should search for table types. You may
 	 * either pass a string or an array of directories.
 	 *
+	 * @static
 	 * @access	public
 	 * @param	string	A path to search.
 	 * @return	array	An array with directory elements
 	 * @since 1.5
 	 */
-	function addIncludePath( $path=null )
+	public static function addIncludePath( $path=null )
 	{
 		static $paths;
 
@@ -860,3 +886,4 @@ class JTable extends JObject
 		return $paths;
 	}
 }
+

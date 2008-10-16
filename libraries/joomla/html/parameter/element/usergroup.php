@@ -31,9 +31,9 @@ class JElementUserGroup extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Editors';
+	protected $_name = 'Editors';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$acl	=& JFactory::getACL();
 		$gtree	= $acl->get_group_children_tree( null, 'USERS', false );

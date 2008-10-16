@@ -9750,11 +9750,11 @@ class SimplePie_Misc
 	 * @access string
 	 * @param object $haystack
 	 * @param string $needle Note that the needle may be a string of one or more
-	 *     characters. If needle is not a string, it is converted to an integer
-	 *     and applied as the ordinal value of a character.
+	 *	 characters. If needle is not a string, it is converted to an integer
+	 *	 and applied as the ordinal value of a character.
 	 * @param int $offset The optional offset parameter allows you to specify which
-	 *     character in haystack to start searching. The position returned is still
-	 *     relative to the beginning of haystack.
+	 *	 character in haystack to start searching. The position returned is still
+	 *	 relative to the beginning of haystack.
 	 * @return bool If needle is not found, stripos() will return boolean false.
 	 */
 	 function stripos($haystack, $needle, $offset = 0)

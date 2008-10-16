@@ -6,8 +6,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</div>
 <?php endif; ?>
 
-<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <?php if ( ($this->params->def('image', -1) != -1) || $this->params->def('show_comp_description', 1) ) : ?>
+<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<td valign="top" class="contentdescription<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php
@@ -16,12 +16,12 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	?>
 	</td>
 </tr>
-<?php endif; ?>
 </table>
+<?php endif; ?>
 <ul>
 <?php foreach ( $this->categories as $category ) : ?>
 	<li>
-		<a href="<?php echo $category->link; ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<a href="<?php echo JRoute::_($category->link); ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 			<?php echo $category->title;?></a>
 		&nbsp;
 		<span class="small">

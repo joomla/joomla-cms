@@ -15,7 +15,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+require_once JPATH_COMPONENT.DS.'view.php';
 
 /**
  * HTML View class for the Content component
@@ -26,6 +26,19 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  */
 class ContentViewCategory extends ContentView
 {
+	protected $_params = null;
+	public $total = null;
+	public $access = null;
+	public $action = null;
+	public $items = null;
+	public $item = null;
+	public $params = null;
+	public $category = null;
+	public $user = null;
+	public $pagination = null;
+	public $lists = null;
+	public $links = array();
+
 	function display($tpl = null)
 	{
 		global $mainframe, $option;
@@ -44,10 +57,8 @@ class ContentViewCategory extends ContentView
 		$params = clone($mainframe->getParams('com_content'));
 
 		// Request variables
-		$layout     = JRequest::getCmd('layout');
+		$layout	 = JRequest::getCmd('layout');
 		$task		= JRequest::getCmd('task');
-		$limit		= $mainframe->getUserStateFromRequest('com_content.'.$this->getLayout().'.limit', 'limit', $params->def('display_num', 0), 'int');
-		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 		// Parameters
 		$params->def('num_leading_articles', 	1);
@@ -64,10 +75,16 @@ class ContentViewCategory extends ContentView
 		$leading	= $params->get('num_leading_articles');
 		$links		= $params->get('num_links');
 
-		//In case we are in a blog view set the limit
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+
 		if ($layout == 'blog') {
-			if ($limit ==  0) $limit = $intro + $leading + $links;
+			$default_limit = $intro + $leading + $links;
+		} else {
+			$params->def('display_num', $mainframe->getCfg('list_limit'));
+			$default_limit = $params->get('display_num');
 		}
+		$limit = $mainframe->getUserStateFromRequest('com_content.'.$this->getLayout().'.limit', 'limit', $default_limit, 'int');
+
 		JRequest::setVar('limit', (int) $limit);
 
 		$contentConfig = &JComponentHelper::getParams('com_content');
@@ -95,7 +112,17 @@ class ContentViewCategory extends ContentView
 		$access->canPublish		= $user->authorize('com_content', 'publish', 'content', 'all');
 
 		// Set page title per category
-		$document->setTitle($category->title. ' - '. $params->get( 'page_title'));
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	$category->title);
+			}
+		} else {
+			$params->set('page_title',	$category->title);
+		}
+		$document->setTitle( $params->get( 'page_title' ) );
 
 		//set breadcrumbs
 		if(is_object($menu) && $menu->query['view'] != 'category') {
@@ -137,6 +164,7 @@ class ContentViewCategory extends ContentView
 		global $mainframe;
 
 		//create select lists
+		$user	= &JFactory::getUser();
 		$lists	= $this->_buildSortLists();
 
 		if (!count( $this->items ) )
@@ -155,11 +183,21 @@ class ContentViewCategory extends ContentView
 		$i = 0;
 		foreach($this->items as $key => $item)
 		{
-			$item->link		= JRoute::_('index.php?view=article&catid='.$this->category->slug.'&id='.$item->slug);
+			// checks if the item is a public or registered/special item
+			if ($item->access <= $user->get('aid', 0))
+			{
+				$item->link	= JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->sectionid));
+				$item->readmore_register = false;
+			}
+			else
+			{
+				$item->link = JRoute::_('index.php?option=com_user&task=register');
+				$item->readmore_register = true;
+			}
 			$item->created	= JHTML::_('date', $item->created, $this->params->get('date_format'));
 
 			$item->odd		= $k;
-			$item->count    = $i;
+			$item->count	= $i;
 
 			$this->items[$key] = $item;
 			$k = 1 - $k;
@@ -181,12 +219,12 @@ class ContentViewCategory extends ContentView
 
 		$SiteName	= $mainframe->getCfg('sitename');
 
-		$item 		=& $this->items[$index];
-		$item->text = $item->introtext;
+		$item		=& $this->items[$index];
+		$item->text	= $item->introtext;
 
-		$category	= & $this->get( 'Category' );
-		$item->category = $category->title;
-		$item->section  = $category->sectiontitle;
+		$category		= & $this->get( 'Category' );
+		$item->category	= $category->title;
+		$item->section	= $category->sectiontitle;
 
 		// Get the page/component configuration and article parameters
 		$item->params = clone($params);
@@ -236,10 +274,10 @@ class ContentViewCategory extends ContentView
 		$filter_order		= JRequest::getCmd('filter_order');
 		$filter_order_Dir	= JRequest::getCmd('filter_order_Dir');
 
-		$lists['task']      = 'category';
-		$lists['filter']    = $filter;
-		$lists['order']     = $filter_order;
-		$lists['order_Dir'] = $filter_order_Dir;
+		$lists['task']		= 'category';
+		$lists['filter']	= $filter;
+		$lists['order']		= $filter_order;
+		$lists['order_Dir']	= $filter_order_Dir;
 
 		return $lists;
 	}

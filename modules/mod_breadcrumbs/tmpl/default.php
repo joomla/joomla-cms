@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		}
 		echo ' '.$separator.' ';
 	}  else { // when $i == $count -1
-	    echo $list[$i]->name;
+		echo $list[$i]->name;
 	}
 endfor; ?>
 </span>

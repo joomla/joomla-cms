@@ -20,7 +20,6 @@ jimport('joomla.application.component.model');
 /**
  * Frontpage Component Model
  *
- * @author	Louis Landry <louis.landry@joomla.org>
  * @package		Joomla
  * @subpackage	Content
  * @since 1.5
@@ -138,7 +137,7 @@ class ContentModelFrontpage extends JModel
 			' LEFT JOIN #__categories AS cc ON cc.id = a.catid'.
 			' LEFT JOIN #__sections AS s ON s.id = a.sectionid'.
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
-			' LEFT JOIN #__groups AS g ON a.access = g.id'.
+			' LEFT JOIN #__core_acl_axo_groups AS g ON a.access = g.value'.
 			$voting['join'].
 			$where
 			.$orderby
@@ -201,7 +200,7 @@ class ContentModelFrontpage extends JModel
 					' OR ( a.catid = 0 AND a.sectionid = 0 ) )';
 
 			$where .= ' AND ( a.publish_up = '.$this->_db->Quote($nullDate).' OR a.publish_up <= '.$this->_db->Quote($now).' )' .
-					  ' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
+					' AND ( a.publish_down = '.$this->_db->Quote($nullDate).' OR a.publish_down >= '.$this->_db->Quote($now).' )';
 		}
 
 		return $where;

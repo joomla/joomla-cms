@@ -18,10 +18,18 @@ jimport( 'joomla.plugin.plugin' );
 
 class plgXMLRPCBlogger extends JPlugin
 {
-	function plgXMLRPCBlogger(&$subject, $config)
+	/**
+	 * Constructor
+	 *
+	 * @access	protected
+	 * @param	object	$subject The object to observe
+	 * @param 	array   $config  An array that holds the plugin configuration
+	 * @since	1.6
+	 */
+	function __construct($subject, $config)
 	{
-		parent::__construct($subject, $config);
 		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
+		parent::__construct($subject, $config);
 	}
 
 	/**
@@ -493,7 +501,7 @@ class plgXMLRPCBloggerHelper
 		$user->set('aid', 1);
 
 		// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-		if ($acl->is_group_child_of($grp->name, 'Registered')      ||
+		if ($acl->is_group_child_of($grp->name, 'Registered') ||
 			$acl->is_group_child_of($grp->name, 'Public Backend')) {
  			$user->set('aid', 2);
  		}

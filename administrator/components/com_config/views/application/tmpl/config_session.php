@@ -9,7 +9,7 @@
 					</span>
 				</td>
 				<td>
-					<input class="text_area" type="text" name="lifetime" size="10" value="<?php echo $row->lifetime; ?>" />
+					<input class="text_area" type="text" name="lifetime" size="10" value="<?php echo $this->row->lifetime; ?>" />
 					&nbsp;<?php echo JText::_('minutes'); ?>&nbsp;
 				</td>
 			</tr>
@@ -20,7 +20,7 @@
 					</span>
 				</td>
 				<td>
-					<strong><?php echo $lists['session_handlers']; ?></strong>
+					<strong><?php echo $this->lists['session_handlers']; ?></strong>
 				</td>
 			</tr>
 		</tbody>

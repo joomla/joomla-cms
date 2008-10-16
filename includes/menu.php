@@ -18,8 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * JMenu class
  *
- * @author Louis Landry   <louis.landry@joomla.org>
- * @author Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Application
  * @since		1.5
@@ -72,7 +70,7 @@ class JMenuSite extends JMenu
 			$url = str_replace('index.php?', '', $menus[$key]->link);
 			if(strpos($url, '&amp;') !== false)
 			{
-			   $url = str_replace('&amp;','&',$url);
+				$url = str_replace('&amp;','&',$url);
 			}
 
 			parse_str($url, $menus[$key]->query);

@@ -24,8 +24,6 @@ defined('JPATH_BASE') or die();
  * produce valid atom files. For example, you have to specify either an editor
  * for the feed or an author for every single feed item.
  *
- * @author	Johan Janssens <johan.janssens@joomla.org>
- *
  * @package 	Joomla.Framework
  * @subpackage	Document
  * @see http://www.atomenabled.org/developers/syndication/atom-format-spec.php
@@ -40,7 +38,7 @@ defined('JPATH_BASE') or die();
 	 * @var		string
 	 * @access	private
 	 */
-	 var $_mime = "application/atom+xml";
+	 protected $_mime = "application/atom+xml";
 
 	/**
 	 * Render the feed
@@ -48,7 +46,7 @@ defined('JPATH_BASE') or die();
 	 * @access public
 	 * @return string
 	 */
-	function render()
+	public function render()
 	{
 		$now	=& JFactory::getDate();
 		$data	=& $this->_doc;

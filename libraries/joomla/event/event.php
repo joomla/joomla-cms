@@ -21,25 +21,20 @@ jimport( 'joomla.base.observer' );
  * JEvent Class
  *
  * @abstract
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Event
  * @since		1.5
  */
-class JEvent extends JObserver
+abstract class JEvent extends JObserver
 {
 
 	/**
 	 * Constructor
 	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function JEvent(& $subject) {
+	protected function __construct(& $subject) {
 		parent::__construct($subject);
 	}
 
@@ -51,7 +46,7 @@ class JEvent extends JObserver
 	 * @return mixed Routine return value
 	 * @since 1.5
 	 */
-	function update(& $args)
+	public function update(& $args)
 	{
 		/*
 		 * First lets get the event from the argument array.  Next we will unset the

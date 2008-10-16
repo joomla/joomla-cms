@@ -39,10 +39,10 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
  */
 
 // System includes
-require_once( JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php');
+require_once JPATH_LIBRARIES		.DS.'joomla'.DS.'import.php';
 
 // Pre-Load configuration
-require_once( JPATH_CONFIGURATION	.DS.'configuration.php' );
+require_once JPATH_CONFIGURATION	.DS.'configuration.php';
 
 // System configuration
 $CONFIG = new JConfig();
@@ -81,4 +81,3 @@ jimport( 'joomla.event.event');
 jimport( 'joomla.event.dispatcher');
 jimport( 'joomla.language.language');
 jimport( 'joomla.utilities.string' );
-?>

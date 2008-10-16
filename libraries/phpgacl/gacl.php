@@ -130,6 +130,10 @@ class gacl {
 		//If your using ADODB v3.5+ feel free to comment out the following line if its giving you problems.
 		//$ADODB_FETCH_MODE = ADODB_FETCH_NUM;
 
+		if(!is_object($this->_db)) {
+			$this->_db = &JFactory::getDBO();
+		}
+
 		if (is_object($this->_db)) {
 			$this->db = &$this->_db;
 		} else {
@@ -140,7 +144,7 @@ class gacl {
 			$this->db->SetFetchMode(ADODB_FETCH_NUM);
 			$this->db->PConnect($this->_db_host, $this->_db_user, $this->_db_password, $this->_db_name);
 		}
-		$this->db->debug = $this->_debug;
+
 
 		if ( $this->_caching == TRUE ) {
 			if (!class_exists('Hashed_Cache_Lite')) {
@@ -306,7 +310,7 @@ class gacl {
 				$sql_aro_group_ids = implode(',', $aro_group_ids);
 			}
 
-			if ($axo_section_value != '' AND $axo_value != '') {
+			if ($axo_section_value !== '' AND $axo_value !== '') {
 				$axo_group_ids = $this->acl_get_groups($axo_section_value, $axo_value, $root_axo_group, 'AXO');
 
 				if (is_array($axo_group_ids) AND !empty($axo_group_ids)) {

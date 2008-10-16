@@ -18,7 +18,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
  * Renders a calendar element
  *
- * @author 		Louis Landry
  * @package 	Joomla.Framework
  * @subpackage	Parameter
  * @since		1.5
@@ -30,9 +29,9 @@ class JElementCalendar extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Calendar';
+	protected $_name = 'Calendar';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		JHTML::_('behavior.calendar'); //load the calendar behavior
 

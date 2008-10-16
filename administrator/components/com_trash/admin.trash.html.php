@@ -29,7 +29,7 @@ class HTML_trash
 	function showListContent( $option, &$contents, &$pageNav, &$lists )
 	{
 		?>
-		<form action="index.php?option=com_trash&amp;task=viewContent" method="post" name="adminForm">
+		<form action="<?php echo JRoute::_('index.php?option=com_trash&amp;task=viewContent'); ?>" method="post" name="adminForm">
 
 		<table>
 		<tr>
@@ -153,7 +153,7 @@ class HTML_trash
 			}
 		}
 		</script>
-		<form action="index.php?option=com_trash&amp;task=viewMenu" method="post" name="adminForm">
+		<form action="<?php echo JRoute::_('index.php?option=com_trash&amp;task=viewMenu'); ?>" method="post" name="adminForm">
 
 		<table>
 		<tr>
@@ -252,7 +252,7 @@ class HTML_trash
 	*/
 	function showDelete( $option, $cid, $items, $type, $return ) {
 	?>
-		<form action="index.php?option=com_trash&amp;task=<?php echo $return; ?>" method="post" name="adminForm">
+		<form action="<?php echo JRoute::_('index.php?option=com_trash&amp;task=' . $return); ?>" method="post" name="adminForm">
 
 		<table class="adminform">
 		<tr>
@@ -308,7 +308,7 @@ class HTML_trash
 	*/
 	function showRestore( $option, $cid, $items, $type, $return ) {
 		?>
-		<form action="index.php?option=com_trash&amp;task=<?php echo $return; ?>" method="post" name="adminForm">
+		<form action="<?php echo JRoute::_('index.php?option=com_trash&amp;task=' . $return); ?>" method="post" name="adminForm">
 
 		<table class="adminform">
 		<tr>

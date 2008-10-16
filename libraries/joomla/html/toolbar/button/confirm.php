@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a standard button with a confirm dialog
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
@@ -31,9 +30,9 @@ class JButtonConfirm extends JButton
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Confirm';
+	protected $_name = 'Confirm';
 
-	function fetchButton( $type='Confirm', $msg='', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
+	public function fetchButton( $type='Confirm', $msg='', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
 	{
 		$text	= JText::_($text);
 		$msg	= JText::_($msg, true);
@@ -56,9 +55,9 @@ class JButtonConfirm extends JButton
 	 * @return	string	Button CSS Id
 	 * @since	1.5
 	 */
-	function fetchId( $type='Confirm', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
+	public function fetchId( $type='Confirm', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
 	{
-		return $this->_parent->_name.'-'.$name;
+		return $this->_parent->getName().'-'.$name;
 	}
 
 	/**
@@ -69,7 +68,7 @@ class JButtonConfirm extends JButton
 	 * @return	string	JavaScript command string
 	 * @since	1.5
 	 */
-	function _getCommand($msg, $name, $task, $list, $hide)
+	protected function _getCommand($msg, $name, $task, $list, $hide)
 	{
 		$todo	 = JString::strtolower(JText::_( $name ));
 		$message = JText::sprintf( 'Please make a selection from the list to', $todo );

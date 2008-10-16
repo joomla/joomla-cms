@@ -10,7 +10,7 @@
 				</span>
 			</td>
 			<td>
-				<textarea class="text_area" cols="50" rows="3" style="width:400px; height:50px" name="MetaDesc"><?php echo $row->MetaDesc; ?></textarea>
+				<textarea class="text_area" cols="50" rows="3" style="width:400px; height:50px" name="MetaDesc"><?php echo $this->row->MetaDesc; ?></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -20,7 +20,7 @@
 				</span>
 			</td>
 			<td>
-				<textarea class="text_area" cols="50" rows="3" style="width:400px; height:50px" name="MetaKeys"><?php echo $row->MetaKeys; ?></textarea>
+				<textarea class="text_area" cols="50" rows="3" style="width:400px; height:50px" name="MetaKeys"><?php echo $this->row->MetaKeys; ?></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -30,7 +30,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['MetaTitle']; ?>
+				<?php echo $this->lists['MetaTitle']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -40,7 +40,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['MetaAuthor']; ?>
+				<?php echo $this->lists['MetaAuthor']; ?>
 			</td>
 		</tr>
 		</tbody>

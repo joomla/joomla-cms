@@ -78,7 +78,7 @@ class patTemplate_Reader_DB extends patTemplate_Reader
 	* fetch the template data from the database
 	*
 	* @access   protected
-	* @param    string      input to read from
+	* @param	string	  input to read from
 	*/
 	function getDataFromDb($input)
 	{

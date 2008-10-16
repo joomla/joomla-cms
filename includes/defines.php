@@ -32,5 +32,5 @@ define( 'JPATH_XMLRPC', 		JPATH_ROOT.DS.'xmlrpc' );
 define( 'JPATH_LIBRARIES',	 	JPATH_ROOT.DS.'libraries' );
 define( 'JPATH_PLUGINS',		JPATH_ROOT.DS.'plugins'   );
 define( 'JPATH_INSTALLATION',	JPATH_ROOT.DS.'installation' );
-define( 'JPATH_THEMES'	   ,	JPATH_BASE.DS.'templates' );
+define( 'JPATH_THEMES',			JPATH_BASE.DS.'templates' );
 define( 'JPATH_CACHE',			JPATH_BASE.DS.'cache');

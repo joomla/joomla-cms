@@ -25,37 +25,37 @@ defined('JPATH_BASE') or die();
 class JTableModule extends JTable
 {
 	/** @var int Primary key */
-	var $id					= null;
+	protected $id					= null;
 	/** @var string */
-	var $title				= null;
+	protected $title				= null;
 	/** @var string */
-	var $showtitle			= null;
+	protected $showtitle			= null;
 	/** @var int */
-	var $content			= null;
+	protected $content			= null;
 	/** @var int */
-	var $ordering			= null;
+	protected $ordering			= null;
 	/** @var string */
-	var $position			= null;
+	protected $position			= null;
 	/** @var boolean */
-	var $checked_out		= 0;
+	protected $checked_out		= 0;
 	/** @var time */
-	var $checked_out_time	= 0;
+	protected $checked_out_time	= 0;
 	/** @var boolean */
-	var $published			= null;
+	protected $published			= null;
 	/** @var string */
-	var $module				= null;
+	protected $module				= null;
 	/** @var int */
-	var $numnews			= null;
+	protected $numnews			= null;
 	/** @var int */
-	var $access				= null;
+	protected $access				= null;
 	/** @var string */
-	var $params				= null;
+	protected $params				= null;
 	/** @var string */
-	var $iscore				= null;
+	protected $iscore				= null;
 	/** @var string */
-	var $client_id			= null;
+	protected $client_id			= null;
 	/** @var string */
-	var $control				= null;
+	protected $control				= null;
 
 	/**
 	 * Contructore
@@ -63,7 +63,7 @@ class JTableModule extends JTable
 	 * @access protected
 	 * @param database A database connector object
 	 */
-	function __construct( &$db ) {
+	protected function __construct( &$db ) {
 		parent::__construct( '#__modules', 'id', $db );
 	}
 
@@ -74,7 +74,7 @@ class JTableModule extends JTable
 	* @return boolean True if the object is ok
 	* @see JTable:bind
 	*/
-	function check()
+	public function check()
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
@@ -94,7 +94,7 @@ class JTableModule extends JTable
 	* @see JTable:bind
 	* @since 1.5
 	*/
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (is_array( $array['params'] ))
 		{

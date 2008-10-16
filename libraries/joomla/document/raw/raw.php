@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * DocumentRAW class, provides an easy interface to parse and display raw output
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
@@ -30,10 +29,10 @@ class JDocumentRAW extends JDocument
 	/**
 	 * Class constructore
 	 *
-	 * @access protected
+	 * @access public
 	 * @param	array	$options Associative array of options
 	 */
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -52,7 +51,7 @@ class JDocumentRAW extends JDocument
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	function render( $cache = false, $params = array())
+	public function render( $cache = false, $params = array())
 	{
 		parent::render();
 		return $this->getBuffer();

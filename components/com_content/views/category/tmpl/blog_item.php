@@ -36,11 +36,11 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<?php echo JHTML::_('icon.email', $this->item, $this->item->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
-	   <?php if ($canEdit) : ?>
-	   <td align="right" width="100%" class="buttonheading">
-	   <?php echo JHTML::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
-	   </td>
-   <?php endif; ?>
+	<?php if ($canEdit) : ?>
+	<td align="right" width="100%" class="buttonheading">
+		<?php echo JHTML::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
+	</td>
+	<?php endif; ?>
 </tr>
 </table>
 <?php endif; ?>

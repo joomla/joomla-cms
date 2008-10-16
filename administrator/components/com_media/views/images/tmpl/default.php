@@ -3,7 +3,7 @@
 var image_base_path = '<?php $params =& JComponentHelper::getParams('com_media');
 echo $params->get('image_path', 'images/stories');?>/';
 </script>
-<form action="index.php" id="imageForm" method="post" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php'); ?>" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
 		<span id="message"></span><img src="<?php echo JURI::root() ?>/administrator/components/com_media/images/dots.gif" width="22" height="12" alt="..." />
 	</div>
@@ -18,7 +18,7 @@ echo $params->get('image_path', 'images/stories');?>/';
 			<button type="button" onclick="window.parent.document.getElementById('sbox-window').close();"><?php echo JText::_('Cancel') ?></button>
 		</div>
 	</fieldset>
-	<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>"></iframe>
+	<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>"></iframe>
 
 	<fieldset>
 		<table class="properties">

@@ -22,12 +22,11 @@ defined('JPATH_BASE') or die();
  * TODO: Test these methods as the regex work is first run and not tested thoroughly
  *
  * @static
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Mail
  * @since		1.5
  */
-class JMailHelper
+abstract class JMailHelper
 {
 	/**
 	 * Cleans single line inputs.
@@ -36,7 +35,7 @@ class JMailHelper
 	 * @param string $value String to be cleaned.
 	 * @return string Cleaned string.
 	 */
-	function cleanLine( $value ) {
+	public static function cleanLine( $value ) {
 		return trim( preg_replace( '/(%0A|%0D|\n+|\r+)/i', '', $value ) );
 	}
 
@@ -47,7 +46,7 @@ class JMailHelper
 	 * @param string $value Multi-line string to be cleaned.
 	 * @return string Cleaned multi-line string.
 	 */
-	function cleanText( $value ) {
+	public static function cleanText( $value ) {
 		return trim( preg_replace( '/(%0A|%0D|\n+|\r+)(content-type:|to:|cc:|bcc:)/i', '', $value ) );
 	}
 
@@ -59,7 +58,7 @@ class JMailHelper
 	 * @return string Cleaned E-Mail body string.
 	 * @since 1.5
 	 */
-	function cleanBody($body) {
+	public static function cleanBody($body) {
 		// Strip all E-Mail headers from a string
 		return preg_replace("/((From:|To:|Cc:|Bcc:|Subject:|Content-type:) ([\S]+))/", "", $body);
 	}
@@ -72,7 +71,7 @@ class JMailHelper
 	 * @return string Cleaned E-Mail subject string.
 	 * @since 1.5
 	 */
-	function cleanSubject($subject) {
+	public static function cleanSubject($subject) {
 		return preg_replace("/((From:|To:|Cc:|Bcc:|Content-type:) ([\S]+))/", "", $subject);
 	}
 
@@ -84,7 +83,7 @@ class JMailHelper
 	 * @return string|false E-Mail address string or boolean false if injected headers are present.
 	 * @since 1.5
 	 */
-	function cleanAddress($address)
+	public static function cleanAddress($address)
 	{
 		if (preg_match("[\s;,]", $address)) {
 			return false;
@@ -100,7 +99,7 @@ class JMailHelper
 	 * @return boolean True if string has the correct format; false otherwise.
 	 * @since 1.5
 	 */
-	function isEmailAddress($email)
+	public static function isEmailAddress($email)
 	{
 
 		// Split the email into a local and domain

@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once(dirname(__FILE__).DS.'menu.php');
+require_once dirname(__FILE__).DS.'menu.php';
 
 class modMenuHelper
 {
@@ -24,8 +24,6 @@ class modMenuHelper
 	 */
 	function buildMenu()
 	{
-		global $mainframe;
-
 		$lang		= & JFactory::getLanguage();
 		$user		= & JFactory::getUser();
 		$db			= & JFactory::getDBO();
@@ -48,7 +46,7 @@ class modMenuHelper
 		$canManageUsers		= $user->authorize('com_users', 'manage');
 
 		// Menu Types
-		require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php' );
+		require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'helpers'.DS.'helper.php';
 		$menuTypes 	= MenusHelper::getMenuTypelist();
 
 		/*
@@ -62,6 +60,9 @@ class modMenuHelper
 		$menu->addChild(new JMenuNode(JText::_('Site')), true);
 		$menu->addChild(new JMenuNode(JText::_('Control Panel'), 'index.php', 'class:cpanel'));
 		$menu->addSeparator();
+		//if ($canManageACL) {
+			$menu->addChild(new JMenuNode(JText::_('Access Control'), 'index.php?option=com_acl', 'class:config'));
+		//}
 		if ($canManageUsers) {
 			$menu->addChild(new JMenuNode(JText::_('User Manager'), 'index.php?option=com_users&task=view', 'class:user'));
 		}
@@ -125,8 +126,11 @@ class modMenuHelper
 
 			$query = 'SELECT *' .
 				' FROM #__components' .
-				' WHERE '.$db->NameQuote( 'option' ).' <> "com_frontpage"' .
-				' AND '.$db->NameQuote( 'option' ).' <> "com_media"' .
+				' WHERE '.$db->NameQuote( 'option' ).' NOT IN (' .
+					$db->Quote('com_acl').','.
+					$db->Quote('com_frontpage').','.
+					$db->Quote('com_media').
+				') AND '.$db->NameQuote( 'option' ).' <> "com_media"' .
 				' AND enabled = 1' .
 				' ORDER BY ordering, name';
 			$db->setQuery($query);
@@ -300,4 +304,3 @@ class modMenuHelper
 		$menu->renderMenu('menu', 'disabled');
 	}
 }
-?>

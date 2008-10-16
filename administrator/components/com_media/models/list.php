@@ -107,7 +107,7 @@ class MediaModelList extends JModel
 			foreach ($fileList as $file)
 			{
 				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
-					$tmp = new JObject();
+					$tmp = new JStdClass();
 					$tmp->name = $file;
 					$tmp->path = str_replace(DS, '/', JPath::clean($basePath.DS.$file));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
@@ -175,7 +175,7 @@ class MediaModelList extends JModel
 		// Iterate over the folders if they exist
 		if ($folderList !== false) {
 			foreach ($folderList as $folder) {
-				$tmp = new JObject();
+				$tmp = new JStdClass();
 				$tmp->name = basename($folder);
 				$tmp->path = str_replace(DS, '/', JPath::clean($basePath.DS.$folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);

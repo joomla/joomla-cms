@@ -92,7 +92,7 @@ class nodetools {
 						else {
 							if ($quoteType == $currentChar) {
 								if ($convertEntities && $maybeEntity) {
-								    $valueDump = strtr($valueDump, DOMIT_PREDEFINED_ENTITIES);
+									$valueDump = strtr($valueDump, DOMIT_PREDEFINED_ENTITIES);
 									$valueDump = strtr($valueDump, $definedEntities);
 								}
 
@@ -115,7 +115,7 @@ class nodetools {
 						else {
 							if ($quoteType == $currentChar) {
 								if ($convertEntities && $maybeEntity) {
-								    $valueDump = strtr($valueDump, $predefinedEntities);
+									$valueDump = strtr($valueDump, $predefinedEntities);
 									$valueDump = strtr($valueDump, $definedEntities);
 								}
 

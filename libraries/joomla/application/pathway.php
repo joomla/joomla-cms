@@ -22,29 +22,28 @@ defined('JPATH_BASE') or die();
  * the user's navigated path within the Joomla application.
  *
  * @abstract
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
  * @since		1.5
  */
-class JPathway extends JObject
+abstract class JPathway extends JObject
 {
 	/**
 	 * Array to hold the pathway item objects
 	 * @access private
 	 */
-	var $_pathway = null;
+	protected $_pathway = null;
 
 	/**
 	 * Integer number of items in the pathway
 	 * @access private
 	 */
-	var $_count = 0;
+	protected $_count = 0;
 
 	/**
 	 * Class constructor
 	 */
-	function __construct($options = array())
+	protected function __construct($options = array())
 	{
 		//Initialise the array
 		$this->_pathway = array();
@@ -58,11 +57,11 @@ class JPathway extends JObject
 	 *
 	 * @access	public
 	 * @param   string  $client  The name of the client
-	 * @param array     $options An associative array of options
+	 * @param array	 $options An associative array of options
 	 * @return JPathway 	A pathway object.
 	 * @since	1.5
 	 */
-	function &getInstance($client, $options = array())
+	public static function &getInstance($client, $options = array())
 	{
 		static $instances;
 
@@ -70,7 +69,7 @@ class JPathway extends JObject
 			$instances = array();
 		}
 
-		if (empty($instances[$client]))
+		if (!isset($instances[$client]) || empty($instances[$client]))
 		{
 			//Load the router object
 			$info =& JApplicationHelper::getClientInfo($client, true);
@@ -86,8 +85,7 @@ class JPathway extends JObject
 			}
 			else
 			{
-				$error = JError::raiseError( 500, 'Unable to load pathway: '.$client);
-				return $error;
+				throw new JException('Unable to load pathway', 500, E_ERROR, $client, true);
 			}
 
 			$instances[$client] = & $instance;
@@ -103,7 +101,7 @@ class JPathway extends JObject
 	 * @return array Array of pathway items
 	 * @since 1.5
 	 */
-	function getPathway()
+	public function getPathway()
 	{
 		$pw = $this->_pathway;
 
@@ -119,7 +117,7 @@ class JPathway extends JObject
 	 * @return	array	The previous pathway data.
 	 * @since	1.5
 	 */
-	function setPathway($pathway)
+	public function setPathway($pathway)
 	{
 		$oldPathway	= $this->_pathway;
 		$pathway	= (array) $pathway;
@@ -137,7 +135,7 @@ class JPathway extends JObject
 	 * @return array Array of names of pathway items
 	 * @since 1.5
 	 */
-	function getPathwayNames()
+	public function getPathwayNames()
 	{
 		// Initialize variables
 		$names = array (null);
@@ -160,7 +158,7 @@ class JPathway extends JObject
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function addItem($name, $link='')
+	public function addItem($name, $link='')
 	{
 		// Initalize variables
 		$ret = false;
@@ -182,7 +180,7 @@ class JPathway extends JObject
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function setItemName($id, $name)
+	public function setItemName($id, $name)
 	{
 		// Initalize variables
 		$ret = false;
@@ -204,7 +202,7 @@ class JPathway extends JObject
 	 * @return object Pathway item object
 	 * @since 1.5
 	 */
-	function _makeItem($name, $link)
+	protected function _makeItem($name, $link)
 	{
 		$item = new stdClass();
 		$item->name = html_entity_decode($name);
@@ -213,3 +211,4 @@ class JPathway extends JObject
 		return $item;
 	}
 }
+

@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a textarea element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,9 +31,9 @@ class JElementTextarea extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Textarea';
+	protected $_name = 'Textarea';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$rows = $node->attributes('rows');
 		$cols = $node->attributes('cols');

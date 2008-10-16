@@ -105,7 +105,7 @@ class xml_domit_rss_document extends xml_domit_rss_base_document {
 	* @return Object A new instance of xml_domit_rss_document
 	*/
 	function xml_domit_rss_document($url = '', $cacheDir = './', $cacheTime = '3600') {
-	    $this->parser = 'DOMIT_RSS';
+		$this->parser = 'DOMIT_RSS';
 		$this->xml_domit_rss_base_document($url, $cacheDir, $cacheTime);
 	} //xml_domit_rss_document
 
@@ -145,9 +145,9 @@ class xml_domit_rss_document extends xml_domit_rss_base_document {
 					$this->indexer[$tagName] = new xml_domit_rss_textinput($currNode);
 					break;
 				case DOMIT_RSS_ELEMENT_TITLE:
-                case DOMIT_RSS_ELEMENT_LINK:
-                case DOMIT_RSS_ELEMENT_DESCRIPTION:
-                case DOMIT_RSS_ELEMENT_LANGUAGE:
+				case DOMIT_RSS_ELEMENT_LINK:
+				case DOMIT_RSS_ELEMENT_DESCRIPTION:
+				case DOMIT_RSS_ELEMENT_LANGUAGE:
 				case DOMIT_RSS_ELEMENT_COPYRIGHT:
 				case DOMIT_RSS_ELEMENT_MANAGINGEDITOR:
 				case DOMIT_RSS_ELEMENT_WEBMASTER:
@@ -159,10 +159,10 @@ class xml_domit_rss_document extends xml_domit_rss_base_document {
 				case DOMIT_RSS_ELEMENT_RATING:
 				case DOMIT_RSS_ELEMENT_SKIPHOURS:
 				case DOMIT_RSS_ELEMENT_SKIPDAYS:
-				    $this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_simpleelement($currNode);
-				    break;
+					$this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_simpleelement($currNode);
+					break;
 				default:
-				    $this->addIndexedElement($currNode);
+					$this->addIndexedElement($currNode);
 					//$this->indexer[$tagName] =& $currNode;
 			}
 		}
@@ -256,10 +256,10 @@ class xml_domit_rss_channel extends xml_domit_rss_elementindexer {
 				case DOMIT_RSS_ELEMENT_SKIPDAYS:
 					$this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_skipdays($currNode);
 					break;
-                case DOMIT_RSS_ELEMENT_TITLE:
-                case DOMIT_RSS_ELEMENT_LINK:
-                case DOMIT_RSS_ELEMENT_DESCRIPTION:
-                case DOMIT_RSS_ELEMENT_LANGUAGE:
+				case DOMIT_RSS_ELEMENT_TITLE:
+				case DOMIT_RSS_ELEMENT_LINK:
+				case DOMIT_RSS_ELEMENT_DESCRIPTION:
+				case DOMIT_RSS_ELEMENT_LANGUAGE:
 				case DOMIT_RSS_ELEMENT_COPYRIGHT:
 				case DOMIT_RSS_ELEMENT_MANAGINGEDITOR:
 				case DOMIT_RSS_ELEMENT_WEBMASTER:
@@ -269,10 +269,10 @@ class xml_domit_rss_channel extends xml_domit_rss_elementindexer {
 				case DOMIT_RSS_ELEMENT_DOCS:
 				case DOMIT_RSS_ELEMENT_TTL:
 				case DOMIT_RSS_ELEMENT_RATING:
-				    $this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_simpleelement($currNode);
-				    break;
+					$this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_simpleelement($currNode);
+					break;
 				default:
-				    $this->addIndexedElement($currNode);
+					$this->addIndexedElement($currNode);
 					//$this->DOMIT_RSS_indexer[$tagName] =& $currNode;
 			}
 		}
@@ -518,32 +518,32 @@ class xml_domit_rss_item extends xml_domit_rss_elementindexer {
 			$currNode =& $this->node->childNodes[$i];
 			$tagName = strtolower($currNode->nodeName);
 
-		    switch ($tagName) {
-		        case DOMIT_RSS_ELEMENT_CATEGORY:
-		            $this->categories[$categoryCounter] = new xml_domit_rss_category($currNode);
+			switch ($tagName) {
+				case DOMIT_RSS_ELEMENT_CATEGORY:
+					$this->categories[$categoryCounter] = new xml_domit_rss_category($currNode);
 					$categoryCounter++;
-		            break;
-                case DOMIT_RSS_ELEMENT_ENCLOSURE:
-                    $this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_enclosure($currNode);
-		            break;
-                case DOMIT_RSS_ELEMENT_SOURCE:
-                    $this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_source($currNode);
-		            break;
-                case DOMIT_RSS_ELEMENT_GUID:
-                    $this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_guid($currNode);
-		            break;
-                case DOMIT_RSS_ELEMENT_TITLE:
-                case DOMIT_RSS_ELEMENT_LINK:
-                case DOMIT_RSS_ELEMENT_DESCRIPTION:
-                case DOMIT_RSS_ELEMENT_AUTHOR:
+					break;
+				case DOMIT_RSS_ELEMENT_ENCLOSURE:
+					$this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_enclosure($currNode);
+					break;
+				case DOMIT_RSS_ELEMENT_SOURCE:
+					$this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_source($currNode);
+					break;
+				case DOMIT_RSS_ELEMENT_GUID:
+					$this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_guid($currNode);
+					break;
+				case DOMIT_RSS_ELEMENT_TITLE:
+				case DOMIT_RSS_ELEMENT_LINK:
+				case DOMIT_RSS_ELEMENT_DESCRIPTION:
+				case DOMIT_RSS_ELEMENT_AUTHOR:
 				case DOMIT_RSS_ELEMENT_COMMENTS:
 				case DOMIT_RSS_ELEMENT_PUBDATE:
-				    $this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_simpleelement($currNode);
-				    break;
+					$this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_simpleelement($currNode);
+					break;
 				default:
-				    $this->addIndexedElement($currNode);
-				    //$this->DOMIT_RSS_indexer[$tagName] =& $currNode;
-		    }
+					$this->addIndexedElement($currNode);
+					//$this->DOMIT_RSS_indexer[$tagName] =& $currNode;
+			}
 		}
 
 		if ($categoryCounter != 0) {
@@ -717,19 +717,19 @@ class xml_domit_rss_image extends xml_domit_rss_elementindexer {
 			$currNode =& $this->node->childNodes[$i];
 			$tagName = strtolower($currNode->nodeName);
 
-		    switch ($tagName) {
-                case DOMIT_RSS_ELEMENT_TITLE:
-                case DOMIT_RSS_ELEMENT_LINK:
-                case DOMIT_RSS_ELEMENT_DESCRIPTION:
-                case DOMIT_RSS_ELEMENT_URL:
+			switch ($tagName) {
+				case DOMIT_RSS_ELEMENT_TITLE:
+				case DOMIT_RSS_ELEMENT_LINK:
+				case DOMIT_RSS_ELEMENT_DESCRIPTION:
+				case DOMIT_RSS_ELEMENT_URL:
 				case DOMIT_RSS_ELEMENT_WIDTH:
 				case DOMIT_RSS_ELEMENT_HEIGHT:
-				    $this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_simpleelement($currNode);
-				    break;
+					$this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_simpleelement($currNode);
+					break;
 				default:
-				    $this->addIndexedElement($currNode);
-				    //$this->DOMIT_RSS_indexer[$tagName] =& $currNode;
-		    }
+					$this->addIndexedElement($currNode);
+					//$this->DOMIT_RSS_indexer[$tagName] =& $currNode;
+			}
 		}
 	} //_init
 
@@ -768,7 +768,7 @@ class xml_domit_rss_image extends xml_domit_rss_elementindexer {
 			$myWidth = '88';
 		}
 		else if (intval($myWidth) > 144) {
-	        $myWidth = '144';
+			$myWidth = '144';
 		}
 
 		return $myWidth;
@@ -785,7 +785,7 @@ class xml_domit_rss_image extends xml_domit_rss_elementindexer {
 			$myHeight = '31';
 		}
 		else if (intval($myHeight) > 400) {
-	        $myHeight = '400';
+			$myHeight = '400';
 		}
 
 		return $myHeight;
@@ -828,17 +828,17 @@ class xml_domit_rss_textinput extends xml_domit_rss_elementindexer {
 			$currNode =& $this->node->childNodes[$i];
 			$tagName = strtolower($currNode->nodeName);
 
-		    switch ($tagName) {
-                case DOMIT_RSS_ELEMENT_TITLE:
-                case DOMIT_RSS_ELEMENT_LINK:
-                case DOMIT_RSS_ELEMENT_DESCRIPTION:
-                case DOMIT_RSS_ELEMENT_NAME:
-				    $this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_simpleelement($currNode);
-				    break;
+			switch ($tagName) {
+				case DOMIT_RSS_ELEMENT_TITLE:
+				case DOMIT_RSS_ELEMENT_LINK:
+				case DOMIT_RSS_ELEMENT_DESCRIPTION:
+				case DOMIT_RSS_ELEMENT_NAME:
+					$this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_simpleelement($currNode);
+					break;
 				default:
-				    $this->addIndexedElement($currNode);
-				    //$this->DOMIT_RSS_indexer[$tagName] =& $currNode;
-		    }
+					$this->addIndexedElement($currNode);
+					//$this->DOMIT_RSS_indexer[$tagName] =& $currNode;
+			}
 		}
 	} //_init
 
@@ -997,7 +997,7 @@ class xml_domit_rss_guid extends xml_domit_rss_elementindexer {
 	* @return string The guid text
 	*/
 	function getGuid() {
-	    return $this->node->getText();
+		return $this->node->getText();
 	} //getGuid
 
 	/**
@@ -1005,12 +1005,12 @@ class xml_domit_rss_guid extends xml_domit_rss_elementindexer {
 	* @return boolean True if the guid is a permalink (default true)
 	*/
 	function isPermaLink() {
-	    if (!$this->node->hasAttribute(DOMIT_RSS_ATTR_ISPERMALINK)) {
-	        return true;
-	    }
-	    else {
+		if (!$this->node->hasAttribute(DOMIT_RSS_ATTR_ISPERMALINK)) {
+			return true;
+		}
+		else {
 			return (strtolower($this->node->getAttribute(DOMIT_RSS_ATTR_ISPERMALINK)) == "true");
-	    }
+		}
 	} //isPermaLink
 } //xml_domit_rss_guid
 
@@ -1036,7 +1036,7 @@ class xml_domit_rss_source extends xml_domit_rss_elementindexer {
 	* @return string The source text
 	*/
 	function getSource() {
-	    return $this->node->getText();
+		return $this->node->getText();
 	} //getSource
 
 	/**
@@ -1070,7 +1070,7 @@ class xml_domit_rss_skipdays extends xml_domit_rss_elementindexer {
 	* @return int The number of skip day items
 	*/
 	function getSkipDayCount() {
-	    return $this->node->childCount;
+		return $this->node->childCount;
 	} //getSkipDayCount
 
 	/**
@@ -1105,7 +1105,7 @@ class xml_domit_rss_skiphours extends xml_domit_rss_elementindexer {
 	* @return int The number of skip hour items
 	*/
 	function getSkipHourCount() {
-	    return $this->node->childCount;
+		return $this->node->childCount;
 	} //getSkipHourCount
 
 	/**

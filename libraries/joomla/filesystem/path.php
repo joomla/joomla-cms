@@ -27,6 +27,8 @@ if (!defined('JPATH_ROOT')) {
 	define('JPATH_ROOT', JPath::clean(JPATH_SITE));
 }
 
+jimport('joomla.filesystem.filesystem');
+
 /**
  * A Path handling class
  *
@@ -35,8 +37,18 @@ if (!defined('JPATH_ROOT')) {
  * @subpackage	FileSystem
  * @since		1.5
  */
-class JPath
+abstract class JPath
 {
+
+	private static $filesystem = null;
+
+	protected static function &getFileSystem() {
+		if(!is_object(JPath::$filesystem)) {
+			JPath::$filesystem = JFileSystem::getInstance();
+		}
+		return JPath::$filesystem;
+	}
+
 	/**
 	 * Checks if a path's permissions can be changed
 	 *
@@ -44,14 +56,15 @@ class JPath
 	 * @return	boolean	True if path can have mode changed
 	 * @since	1.5
 	 */
-	function canChmod($path)
+	public static function canChmod($path)
 	{
-		$perms = fileperms($path);
+		$backend = JPath::getFileSystem();
+		$perms = $backend->perms($path);
 		if ($perms !== false)
 		{
-			if (@ chmod($path, $perms ^ 0001))
+			if ($backend->chmod($path, $perms ^ 0001))
 			{
-				@chmod($path, $perms);
+				$backend->chmod($path, $perms);
 				return true;
 			}
 		}
@@ -67,8 +80,8 @@ class JPath
 	 * @return	boolean	True if successful [one fail means the whole operation failed]
 	 * @since	1.5
 	 */
-	function setPermissions($path, $filemode = '0644', $foldermode = '0755') {
-
+	public static function setPermissions($path, $filemode = '0644', $foldermode = '0755') {
+		$backend = JPath::getFileSystem();
 		// Initialize return value
 		$ret = true;
 
@@ -85,7 +98,7 @@ class JPath
 						}
 					} else {
 						if (isset ($filemode)) {
-							if (!@ chmod($fullpath, octdec($filemode))) {
+							if (!$backend->chmod($fullpath, octdec($filemode))) {
 								$ret = false;
 							}
 						}
@@ -94,7 +107,7 @@ class JPath
 			} // while
 			closedir($dh);
 			if (isset ($foldermode)) {
-				if (!@ chmod($path, octdec($foldermode))) {
+				if (!$backend->chmod($path, octdec($foldermode))) {
 					$ret = false;
 				}
 			}
@@ -102,7 +115,7 @@ class JPath
 		else
 		{
 			if (isset ($filemode)) {
-				$ret = @ chmod($path, octdec($filemode));
+				$ret = $backend->chmod($path, octdec($filemode));
 			}
 		} // if
 		return $ret;
@@ -115,10 +128,11 @@ class JPath
 	 * @return	string	Filesystem permissions
 	 * @since	1.5
 	 */
-	function getPermissions($path)
+	public static function getPermissions($path)
 	{
+		$backend = JPath::getFileSystem();
 		$path = JPath::clean($path);
-		$mode = @ decoct(@ fileperms($path) & 0777);
+		$mode = @ decoct($backend->perms($path) & 0777);
 
 		if (strlen($mode) < 3) {
 			return '---------';
@@ -143,7 +157,7 @@ class JPath
 	 * @return	string	A cleaned version of the path
 	 * @since	1.5
 	 */
-	function check($path)
+	public static function check($path)
 	{
 		if (strpos($path, '..') !== false) {
 			JError::raiseError( 20, 'JPath::check Use of relative paths not permitted'); // don't translate
@@ -165,7 +179,7 @@ class JPath
 	 * @return	string	The cleaned path
 	 * @since	1.5
 	 */
-	function clean($path, $ds=DS)
+	public static function clean($path, $ds=DS)
 	{
 		$path = trim($path);
 
@@ -187,8 +201,9 @@ class JPath
 	 * @return	boolean	True if the php script owns the path passed
 	 * @since	1.5
 	 */
-	function isOwner($path)
+	public static function isOwner($path)
 	{
+		$backend = JPath::getFileSystem();
 		jimport('joomla.filesystem.file');
 		jimport('joomla.user.helper');
 
@@ -206,10 +221,11 @@ class JPath
 			$test = $dir.DS.$tmp;
 
 			// Create the test file
-			JFile::write($test, '');
+			$blank = '';
+			JFile::write($test, $blank);
 
 			// Test ownership
-			$return = (fileowner($test) == fileowner($path));
+			$return = ($backend->owner($test) == $backend->owner($path));
 
 			// Delete the test file
 			JFile::delete($test);
@@ -224,12 +240,12 @@ class JPath
 	 * Searches the directory paths for a given file.
 	 *
 	 * @access	protected
-	  * @param	array|string	$path	An path or array of path to search in
+	 * @param	array|string	$path	An path or array of path to search in
 	 * @param	string	$file	The file name to look for.
 	 * @return	mixed	The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
 	 * @since	1.5
 	 */
-	function find($paths, $file)
+	public static function find($paths, $file)
 	{
 		settype($paths, 'array'); //force to array
 

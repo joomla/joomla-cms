@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5" client="installation" >
+	<name>Syriac(sy-IQ)</name>
+	<version>1.5.4</version>
+	<creationDate>Mar 2008</creationDate>
+	<author>Pauls! Dinka</author>
+	<authorEmail>pauls@nohadra.com</authorEmail>
+	<authorUrl>www.nohadra.com</authorUrl>
+	<copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>ܟܢܦܪܐ(ܦ̮ܐܝܠ) ܕܠܫܢܐ ܣܘܪܝܝܐ ܕܢܨܒ݂ܬܐ ܕܓ̰ܘܡܠܐ</description>
+	<metadata>
+		<name>Syriac(Iraq)</name>
+		<tag>sy-IQ.utf8, sy-IQ.UTF-8, sy-IQ, syr-IQ, syriac</tag>
+		<rtl>1</rtl>
+		<locale>sy-IQ.utf8, sy-IQ.UTF-8, sy-IQ, syr-IQ, sy, syr, syriac,iraq</locale>
+		<winCodePage>utf-8</winCodePage>
+		<backwardLang>syriac</backwardLang>
+	</metadata>
+	<params />
+</metafile>

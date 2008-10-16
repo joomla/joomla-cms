@@ -10,7 +10,7 @@
 					</span>
 				</td>
 				<td>
-					<input class="text_area" type="text" size="50" name="tmp_path" value="<?php echo $row->tmp_path; ?>" />
+					<input class="text_area" type="text" size="50" name="tmp_path" value="<?php echo $this->row->tmp_path; ?>" />
 				</td>
 			</tr>
 			<tr>
@@ -20,7 +20,7 @@
 					</span>
 				</td>
 				<td>
-					<?php echo $lists['gzip']; ?>
+					<?php echo $this->lists['gzip']; ?>
 				</td>
 			</tr>
 			<tr>
@@ -30,7 +30,7 @@
 					</span>
 				</td>
 				<td>
-					<?php echo $lists['error_reporting']; ?>
+					<?php echo $this->lists['error_reporting']; ?>
 				</td>
 			</tr>
 		</tbody>

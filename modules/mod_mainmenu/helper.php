@@ -28,6 +28,7 @@ jimport('joomla.utilities.simplexml');
  */
 class modMainMenuHelper
 {
+
 	function buildXML(&$params)
 	{
 		$menu = new JMenuTree($params);
@@ -117,7 +118,7 @@ class modMainMenuHelper
 						break;
 					}
 				}
-				if ((!is_a($doc, 'JSimpleXMLElement')) || (!$found) || ($root)) {
+				if ((!($doc INSTANCEOF JSimpleXMLElement)) || (!$found) || ($root)) {
 					$doc = false;
 				}
 			}
@@ -131,41 +132,19 @@ class modMainMenuHelper
 
 	function render(&$params, $callback)
 	{
-		switch ( $params->get( 'menu_style', 'list' ) )
+		// Include the new menu class
+		$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
+		if ($xml)
 		{
-			case 'list_flat' :
-				// Include the legacy library file
-				require_once(dirname(__FILE__).DS.'legacy.php');
-				mosShowHFMenu($params, 1);
-				break;
+			$class = $params->get('class_sfx');
+			$xml->addAttribute('class', 'menu'.$class);
+			if ($tagId = $params->get('tag_id')) {
+				$xml->addAttribute('id', $tagId);
+			}
 
-			case 'horiz_flat' :
-				// Include the legacy library file
-				require_once(dirname(__FILE__).DS.'legacy.php');
-				mosShowHFMenu($params, 0);
-				break;
-
-			case 'vert_indent' :
-				// Include the legacy library file
-				require_once(dirname(__FILE__).DS.'legacy.php');
-				mosShowVIMenu($params);
-				break;
-
-			default :
-				// Include the new menu class
-				$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
-				if ($xml) {
-					$class = $params->get('class_sfx');
-					$xml->addAttribute('class', 'menu'.$class);
-					if ($tagId = $params->get('tag_id')) {
-						$xml->addAttribute('id', $tagId);
-					}
-
-					$result = JFilterOutput::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
-					$result = str_replace(array('<ul/>', '<ul />'), '', $result);
-					echo $result;
-				}
-				break;
+			$result = JFilterOutput::ampReplace($xml->toString((bool)$params->get('show_whitespace')));
+			$result = str_replace(array('<ul/>', '<ul />'), '', $result);
+			echo $result;
 		}
 	}
 }
@@ -182,17 +161,20 @@ class JMenuTree extends JTree
 	/**
 	 * Node/Id Hash for quickly handling node additions to the tree.
 	 */
-	var $_nodeHash = array();
+	protected $_nodeHash = array();
 
 	/**
 	 * Menu parameters
 	 */
-	var $_params = null;
+	protected $_params = null;
 
 	/**
 	 * Menu parameters
 	 */
-	var $_buffer = null;
+	protected $_buffer = null;
+
+	protected $_root;
+	protected $_current;
 
 	function __construct(&$params)
 	{
@@ -374,17 +356,20 @@ class JMenuNode extends JNode
 	/**
 	 * Node Title
 	 */
-	var $title = null;
+	public $title = null;
 
 	/**
 	 * Node Link
 	 */
-	var $link = null;
+	public $link = null;
 
 	/**
 	 * CSS Class for node
 	 */
-	var $class = null;
+	public $class = null;
+
+	public $id = null;
+	public $access = null;
 
 	function __construct($id, $title, $access = null, $link = null, $class = null)
 	{

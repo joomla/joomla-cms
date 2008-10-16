@@ -1,14 +1,10 @@
 <?php // no direct acces
 defined('_JEXEC') or die('Restricted access'); ?>
 <div style="direction: <?php echo $this->newsfeed->rtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $this->newsfeed->rtl ? 'right' :'left'; ?>">
-<table width="100%" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-<?php if ( $this->params->get( 'show_page_title' ) ) : ?>
-<tr>
-	<td class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>" colspan="2">
-		<?php echo $this->params->get( 'page_title' ); ?>
-	</td>
-</tr>
+<?php if ($this->params->get('show_page_title', 1)) : ?>
+	<div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>
 <?php endif; ?>
+<table width="100%" class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 <tr>
 	<td class="contentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 		<a href="<?php echo $this->newsfeed->channel['link']; ?>" target="_blank">

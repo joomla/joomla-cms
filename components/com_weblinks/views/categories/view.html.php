@@ -40,6 +40,22 @@ class WeblinksViewCategories extends JView
 		// Get the page/component configuration
 		$params = &$mainframe->getParams();
 
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	JText::_( 'Web Links' ));
+			}
+		} else {
+			$params->set('page_title',	JText::_( 'Web Links' ));
+		}
+
+		$document->setTitle( $params->get( 'page_title' ) );
+
 		// Set some defaults if not set for params
 		$params->def('comp_description', JText::_('WEBLINKS_DESC'));
 

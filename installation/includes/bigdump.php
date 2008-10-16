@@ -134,7 +134,7 @@ if (!$error && isset ($_REQUEST["fn"])) {
 	if ((!$gzipmode && !$file = fopen($_REQUEST["fn"], "rt")) || ($gzipmode && !$file = gzopen($_REQUEST["fn"], "rt"))) {
 		echo ("<p class=\"error\">". JText::sprintf("Cant open file for import", $_REQUEST["fn"]) ."</p>\n");
 		echo ("<p>". JText::_('CHECKDUMPFILE') .
-		" .<br>". JText::_('NEEDTOUPLOADFILE')."</p>\n");
+		" .<br />". JText::_('NEEDTOUPLOADFILE')."</p>\n");
 		$error = true;
 	}
 
@@ -395,7 +395,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 			?><br />Migration will continue shortly...</div>
 						<form action="index.php" method="post" name="migrateForm" id="migrateForm" class="form-validate" target="migrationtarget">
 	<input type="hidden" name="task" value="postmigrate" />
-	<input type="hidden" name="migration" value="<?php echo $migration ?>">
+	<input type="hidden" name="migration" value="<?php echo $migration ?>" />
   	<input type="hidden" name="loadchecked" value="1" />
   	<input type="hidden" name="dataLoaded" value="1" />
   	<input type="hidden" name="DBtype" value="<?php echo $DBtype ?>" />
@@ -419,7 +419,7 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 
 			<form action="index.php" method="post" name="migrateForm" id="migrateForm" class="form-validate" target="migrationtarget">
 	<input type="hidden" name="task" value="dumpLoad" />
-	<input type="hidden" name="migration" value="<?php echo $migration ?>">
+	<input type="hidden" name="migration" value="<?php echo $migration ?>" />
   	<input type="hidden" name="loadchecked" value="1" />
   	<input type="hidden" name="dataLoaded" value="1" />
   	<input type="hidden" name="DBtype" value="<?php echo $DBtype ?>" />
@@ -455,4 +455,4 @@ else
 
 //ob_flush();
 //die();
-?>
+

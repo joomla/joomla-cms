@@ -10,17 +10,17 @@
 // modification, are permitted provided that the following conditions
 // are met:
 //
-//    * Redistributions of source code must retain the above copyright
-//      notice, this list of conditions and the following disclaimer.
+//	* Redistributions of source code must retain the above copyright
+//	  notice, this list of conditions and the following disclaimer.
 //
-//    * Redistributions in binary form must reproduce the above
-//      copyright notice, this list of conditions and the following
-//      disclaimer in the documentation and/or other materials provided
-//      with the distribution.
+//	* Redistributions in binary form must reproduce the above
+//	  copyright notice, this list of conditions and the following
+//	  disclaimer in the documentation and/or other materials provided
+//	  with the distribution.
 //
-//    * Neither the name of the "XML-RPC for PHP" nor the names of its
-//      contributors may be used to endorse or promote products derived
-//      from this software without specific prior written permission.
+//	* Neither the name of the "XML-RPC for PHP" nor the names of its
+//	  contributors may be used to endorse or promote products derived
+//	  from this software without specific prior written permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 // "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -83,14 +83,14 @@
 	$GLOBALS['xmlrpcValue']='undefined';
 
 	$GLOBALS['xmlrpcTypes']=array(
-		$GLOBALS['xmlrpcI4']       => 1,
-		$GLOBALS['xmlrpcInt']      => 1,
+		$GLOBALS['xmlrpcI4']	   => 1,
+		$GLOBALS['xmlrpcInt']	  => 1,
 		$GLOBALS['xmlrpcBoolean']  => 1,
 		$GLOBALS['xmlrpcString']   => 1,
 		$GLOBALS['xmlrpcDouble']   => 1,
 		$GLOBALS['xmlrpcDateTime'] => 1,
 		$GLOBALS['xmlrpcBase64']   => 1,
-		$GLOBALS['xmlrpcArray']    => 2,
+		$GLOBALS['xmlrpcArray']	=> 2,
 		$GLOBALS['xmlrpcStruct']   => 3
 	);
 
@@ -243,11 +243,11 @@ $cp1252_to_xmlent =
 	//   isf - used to indicate a parsing fault (2) or xmlrpcresp fault (1)
 	//   isf_reason - used for storing xmlrpcresp fault string
 	//   lv - used to indicate "looking for a value": implements
-	//        the logic to allow values with no types to be strings
+	//		the logic to allow values with no types to be strings
 	//   params - used to store parameters in method calls
 	//   method - used to store method name
 	//   stack - array with genealogy of xml elements names:
-	//           used to validate nesting of xmlrpc elements
+	//		   used to validate nesting of xmlrpc elements
 	$GLOBALS['_xh']=null;
 
 	/**
@@ -384,7 +384,7 @@ $cp1252_to_xmlent =
 			// check for correct element nesting
 			// top level element can only be of 2 types
 			/// @todo optimization creep: save this check into a bool variable, instead of using count() every time:
-			///       there is only a single top level element in xml anyway
+			///	   there is only a single top level element in xml anyway
 			if (count($GLOBALS['_xh']['stack']) == 0)
 			{
 				if ($name != 'METHODRESPONSE' && $name != 'METHODCALL' && (
@@ -594,8 +594,8 @@ $cp1252_to_xmlent =
 				case 'DATETIME.ISO8601':
 				case 'BASE64':
 					$GLOBALS['_xh']['vt']=strtolower($name);
-        			/// @todo: optimization creep - remove the if/elseif cycle below
-                    /// since the case() in which we are already did that
+					/// @todo: optimization creep - remove the if/elseif cycle below
+					/// since the case() in which we are already did that
 					if ($name=='STRING')
 					{
 						$GLOBALS['_xh']['value']=$GLOBALS['_xh']['ac'];
@@ -3533,9 +3533,9 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 		// 1 - test if encoding is specified in HTTP HEADERS
 
 		//Details:
-		// LWS:           (\13\10)?( |\t)+
-		// token:         (any char but excluded stuff)+
-		// header:        Content-type = ...; charset=value(; ...)*
+		// LWS:		   (\13\10)?( |\t)+
+		// token:		 (any char but excluded stuff)+
+		// header:		Content-type = ...; charset=value(; ...)*
 		//   where value is of type token, no LWS allowed between 'charset' and value
 		// Note: we do not check for invalid chars in VALUE:
 		//   this had better be done using pure ereg as below
@@ -3548,10 +3548,10 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 		}
 
 		// 2 - scan the first bytes of the data for a UTF-16 (or other) BOM pattern
-		//     (source: http://www.w3.org/TR/2000/REC-xml-20001006)
-		//     NOTE: actually, according to the spec, even if we find the BOM and determine
-		//     an encoding, we should check if there is an encoding specified
-		//     in the xml declaration, and verify if they match.
+		//	 (source: http://www.w3.org/TR/2000/REC-xml-20001006)
+		//	 NOTE: actually, according to the spec, even if we find the BOM and determine
+		//	 an encoding, we should check if there is an encoding specified
+		//	 in the xml declaration, and verify if they match.
 		/// @todo implement check as described above?
 		/// @todo implement check for first bytes of string even without a BOM? (It sure looks harder than for cases WITH a BOM)
 		if(preg_match('/^(\x00\x00\xFE\xFF|\xFF\xFE\x00\x00|\x00\x00\xFF\xFE|\xFE\xFF\x00\x00)/', $xmlchunk))
@@ -3569,8 +3569,8 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 
 		// 3 - test if encoding is specified in the xml declaration
 		// Details:
-		// SPACE:         (#x20 | #x9 | #xD | #xA)+ === [ \x9\xD\xA]+
-		// EQ:            SPACE?=SPACE? === [ \x9\xD\xA]*=[ \x9\xD\xA]*
+		// SPACE:		 (#x20 | #x9 | #xD | #xA)+ === [ \x9\xD\xA]+
+		// EQ:			SPACE?=SPACE? === [ \x9\xD\xA]*=[ \x9\xD\xA]*
 		if (preg_match('/^<\?xml\s+version\s*=\s*'. "((?:\"[a-zA-Z0-9_.:-]+\")|(?:'[a-zA-Z0-9_.:-]+'))".
 			'\s+encoding\s*=\s*' . "((?:\"[A-Za-z][A-Za-z0-9._-]*\")|(?:'[A-Za-z][A-Za-z0-9._-]*'))/",
 			$xmlchunk, $matches))

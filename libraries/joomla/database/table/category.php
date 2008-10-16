@@ -25,40 +25,40 @@ defined('JPATH_BASE') or die();
 class JTableCategory extends JTable
 {
 	/** @var int Primary key */
-	var $id					= null;
+	protected $id					= null;
 	/** @var int */
-	var $parent_id			= null;
+	protected $parent_id			= null;
 	/** @var string The menu title for the category (a short name)*/
-	var $title				= null;
+	protected $title				= null;
 	/** @var string The full name for the category*/
-	var $name				= null;
+	protected $name				= null;
 	/** @var string The the alias for the category*/
-	var $alias				= null;
+	protected $alias				= null;
 	/** @var string */
-	var $image				= null;
+	protected $image				= null;
 	/** @var string */
-	var $section				= null;
+	protected $section				= null;
 	/** @var int */
-	var $image_position		= null;
+	protected $image_position		= null;
 	/** @var string */
-	var $description			= null;
+	protected $description			= null;
 	/** @var boolean */
-	var $published			= null;
+	protected $published			= null;
 	/** @var boolean */
-	var $checked_out			= 0;
+	protected $checked_out			= 0;
 	/** @var time */
-	var $checked_out_time		= 0;
+	protected $checked_out_time		= 0;
 	/** @var int */
-	var $ordering			= null;
+	protected $ordering			= null;
 	/** @var int */
-	var $access				= null;
+	protected $access				= null;
 	/** @var string */
-	var $params				= null;
+	protected $params				= null;
 
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db )
+	protected function __construct( &$db )
 	{
 		parent::__construct( '#__categories', 'id', $db );
 	}
@@ -71,7 +71,7 @@ class JTableCategory extends JTable
 	 * @see JTable::check
 	 * @since 1.5
 	 */
-	function check()
+	public function check()
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {

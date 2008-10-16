@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 // Include the syndicate functions only once
-require_once (dirname(__FILE__).DS.'helper.php');
+require_once dirname(__FILE__).DS.'helper.php';
 
 $params->def('text', 'Feed Entries');
 $params->def('format', 'rss');

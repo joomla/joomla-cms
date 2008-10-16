@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a imagelist element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,9 +31,9 @@ class JElementImageList extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'ImageList';
+	protected $_name = 'ImageList';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$';
 		$node->addAttribute('filter', $filter);

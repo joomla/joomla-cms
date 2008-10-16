@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a timezones element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,9 +31,9 @@ class JElementTimezones extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Timezones';
+	protected $_name = 'Timezones';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		if(!strlen($value)) {
 			$conf =& JFactory::getConfig();
@@ -53,6 +52,7 @@ class JElementTimezones extends JElement
 			JHTML::_('select.option', -6, JText::_('(UTC -06:00) Central Time (US &amp; Canada), Mexico City')),
 			JHTML::_('select.option', -5, JText::_('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima')),
 			JHTML::_('select.option', -4, JText::_('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz')),
+			JHTML::_('select.option', -4.5, JText::_('(UTC -04:30) Venezuela')),
 			JHTML::_('select.option', -3.5, JText::_('(UTC -03:30) St. John\'s, Newfoundland, Labrador')),
 			JHTML::_('select.option', -3, JText::_('(UTC -03:00) Brazil, Buenos Aires, Georgetown')),
 			JHTML::_('select.option', -2, JText::_('(UTC -02:00) Mid-Atlantic')),

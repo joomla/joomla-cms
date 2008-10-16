@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.5"  client="installation" >
+	<tag>si-LK</tag>
+	<name>Sinhala (Sri Lanka)</name>
+	<description>වෙබ් ස්ථාපකය සදහා භාෂා ගොනුව</description>
+	<version>1.5.4</version>
+	<creationDate>2007-10-31</creationDate>
+	<author>Rashan Anushka</author>
+	<authorUrl>www.joomla.org</authorUrl>
+	<authorEmail>rashan.uoc@gmail.com</authorEmail>
+	<copyright>(C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<metadata>
+		<name>Sinhala (Sri Lanka)</name>
+		<tag>si-LK</tag>
+		<rtl>0</rtl>
+		<locale>si_LK.UTF-8, si, si_lk, si-lk, sinhala</locale>
+		<winCodePage>utf-8</winCodePage>
+		<backwardLang>sinhala</backwardLang>
+		<pdfFontName>malithiplus</pdfFontName>
+	</metadata>
+	<params></params>
+</metafile>

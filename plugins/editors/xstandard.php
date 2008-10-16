@@ -19,28 +19,11 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * XStandard Lite for Joomla! WYSIWYG Editor Plugin
  *
- * @author Johan Janssens <johan.janssens@joomla.org>
  * @package Editors
  * @since 1.5
  */
 class plgEditorXstandard extends JPlugin
 {
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param 	object $subject The object to observe
-	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since 1.5
-	 */
-	function plgEditorXstandard(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
-
 	/**
 	 * Method to handle the onInitEditor event.
 	 *  - Initializes the XStandard Lite WYSIWYG Editor
@@ -173,7 +156,7 @@ class plgEditorXstandard extends JPlugin
 			<param name="BackgroundColor" value="#F9F9F9" />
 			<param name="Mode" value="<?php echo $this->params->get('mode', 'wysiwyg'); ?>" />
 			<param name="IndentOutput" value="yes" />
-            <param name="Options" value="<?php echo $this->params->get('wrap', '0'); ?>" />
+			<param name="Options" value="<?php echo $this->params->get('wrap', '0'); ?>" />
  			<param name="BorderColor" value="#FFF" />
  			<param name="Base" value="<?php echo $url ?>" />
  			<param name="ExpandWidth" value="800" />

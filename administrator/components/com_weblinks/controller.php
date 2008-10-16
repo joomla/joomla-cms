@@ -37,9 +37,12 @@ class WeblinksController extends JController
 
 	function display( )
 	{
+		$app	=& JFactory::getApplication();
+		$user 	=& JFactory::getUser();
+
 		switch($this->getTask())
 		{
-			case 'add'     :
+			case 'add':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'layout', 'form'  );
@@ -50,7 +53,7 @@ class WeblinksController extends JController
 				$model = $this->getModel('weblink');
 				$model->checkout();
 			} break;
-			case 'edit'    :
+			case 'edit':
 			{
 				JRequest::setVar( 'hidemainmenu', 1 );
 				JRequest::setVar( 'layout', 'form'  );
@@ -59,6 +62,11 @@ class WeblinksController extends JController
 
 				// Checkout the weblink
 				$model = $this->getModel('weblink');
+				// fail if checked out not by 'me'
+				if ($model->isCheckedOut( $user->get('id') )) {
+					$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The weblink' ), $weblink->title );
+					$app->redirect( 'index.php?option=com_weblinks', $msg );
+				}
 				$model->checkout();
 			} break;
 		}
@@ -145,6 +153,26 @@ class WeblinksController extends JController
 
 		$model = $this->getModel('weblink');
 		if(!$model->publish($cid, 0)) {
+			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+		}
+
+		$this->setRedirect( 'index.php?option=com_weblinks' );
+	}
+
+	function report()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+
+		if (count( $cid ) < 1) {
+			JError::raiseError(500, JText::_( 'Select an item to report' ) );
+		}
+
+		$model = $this->getModel('weblink');
+		if(!$model->report($cid, 0)) {
 			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
 		}
 

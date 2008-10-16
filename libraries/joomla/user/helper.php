@@ -19,12 +19,11 @@
  * This class has influences and some method logic from the Horde Auth package
  *
  * @static
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	User
  * @since		1.5
  */
-class JUserHelper
+abstract class JUserHelper
 {
 	/**
 	 * Method to activate a user
@@ -33,7 +32,7 @@ class JUserHelper
 	 * @return 	boolean 			True on success
 	 * @since	1.5
 	 */
-	function activateUser($activation)
+	public static function activateUser($activation)
 	{
 		//Initialize some variables
 		$db = & JFactory::getDBO();
@@ -46,7 +45,11 @@ class JUserHelper
 		. ' AND lastvisitDate = '.$db->Quote('0000-00-00 00:00:00');
 		;
 		$db->setQuery( $query );
-		$id = intval( $db->loadResult() );
+		try {
+			$id = intval( $db->loadResult() );
+		} catch(JException $e) {
+			$id = 0;
+		}
 
 		// Is it a valid user to activate?
 		if ($id)
@@ -78,14 +81,18 @@ class JUserHelper
 	 * @param string The username to search on
 	 * @return int The user id or 0 if not found
 	 */
-	function getUserId($username)
+	public static function getUserId($username)
 	{
 		// Initialize some variables
 		$db = & JFactory::getDBO();
 
 		$query = 'SELECT id FROM #__users WHERE username = ' . $db->Quote( $username );
 		$db->setQuery($query, 0, 1);
-		return $db->loadResult();
+		try {
+			return $db->loadResult();
+		} catch (JException $e) {
+			return 0;
+		}
 	}
 
 	/**
@@ -104,7 +111,7 @@ class JUserHelper
 	 *
 	 * @return string  The encrypted password.
 	 */
-	function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
+	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
 		// Get the salt to use.
 		$salt = JUserHelper::getSalt($encryption, $salt, $plaintext);
@@ -199,7 +206,7 @@ class JUserHelper
 	 *
 	 * @return string  The generated or extracted salt.
 	 */
-	function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
+	public static function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
 	{
 		// Encrypt the password.
 		switch ($encryption)
@@ -280,12 +287,16 @@ class JUserHelper
 	 * @return	string			Random Password
 	 * @since	1.5
 	 */
-	function genRandomPassword($length = 8)
+	public static function genRandomPassword($length = 8)
 	{
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$len = strlen($salt);
 		$makepass = '';
-		mt_srand(10000000 * (double) microtime());
+
+		$stat = @stat(__FILE__);
+		if(empty($stat) || !is_array($stat)) $stat = array(php_uname());
+
+		mt_srand(crc32(microtime() . implode('|', $stat)));
 
 		for ($i = 0; $i < $length; $i ++) {
 			$makepass .= $salt[mt_rand(0, $len -1)];
@@ -303,7 +314,7 @@ class JUserHelper
 	 * @return string  $value converted to the 64 MD5 characters.
 	 * @since 1.5
 	 */
-	function _toAPRMD5($value, $count)
+	private static function _toAPRMD5($value, $count)
 	{
 		/* 64 characters that are valid for APRMD5 passwords. */
 		$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -325,7 +336,7 @@ class JUserHelper
 	 * @return string  Binary data.
 	 * @since 1.5
 	 */
-	function _bin($hex)
+	private static function _bin($hex)
 	{
 		$bin = '';
 		$length = strlen($hex);

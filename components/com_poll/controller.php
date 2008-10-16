@@ -21,7 +21,6 @@ jimport('joomla.application.component.controller');
  * Static class to hold controller functions for the Poll component
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Poll
  * @since		1.5
@@ -77,7 +76,7 @@ class PollController extends JController
 		{
 			setcookie( $cookieName, '1', time() + $poll->lag );
 
-			require_once(JPATH_COMPONENT.DS.'models'.DS.'poll.php');
+			require_once JPATH_COMPONENT.DS.'models'.DS.'poll.php';
 			$model = new PollModelPoll();
 			$model->vote( $poll_id, $option_id );
 

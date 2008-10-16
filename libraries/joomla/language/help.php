@@ -19,7 +19,7 @@
  * @subpackage	Language
  * @since		1.5
  */
-class JHelp
+abstract class JHelp
 {
 
 	/**
@@ -28,14 +28,15 @@ class JHelp
 	* @param string The name of the popup file (excluding the file extension for an xml file)
 	* @param boolean Use the help file in the component directory
 	*/
-	function createURL($ref, $useComponent = false)
+	public static function createURL($ref, $useComponent = false)
 	{
-		global $mainframe, $option;
+		$component	= JApplicationHelper::getComponentName();
+		$appl		= JFactory::getApplication();
 
-		$user			=& JFactory::getUser();
+		$user			= JFactory::getUser();
 		$userHelpUrl	= $user->getParam( 'helpsite' );
-		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
-		$lang			=& JFactory::getLanguage();
+		$globalHelpUrl 	= $appl->getCfg('helpurl');
+		$lang			= JFactory::getLanguage();
 
 		if ($useComponent)
 		{
@@ -43,7 +44,7 @@ class JHelp
 				$ref = $ref . '.html';
 			}
 
-			$url = 'components/' . $option. '/help';
+			$url = 'components/' . $component. '/help';
 			$tag =  $lang->getTag();
 
 			// Check if the file exists within a different language!
@@ -102,10 +103,10 @@ class JHelp
 	 * @param string	Language tag to select (if exists)
 	 * @param array	An array of arrays ( text, value, selected )
 	 */
-	function createSiteList($pathToXml, $selected = null)
+	public static function createSiteList($pathToXml, $selected = null)
 	{
 		$list	= array ();
-		$xml	=& JFactory::getXMLParser('Simple');
+		$xml	= JFactory::getXMLParser('Simple');
 		$data	= null;
 		if( !empty( $pathToXml ) ) {
 			$data = file_get_contents($pathToXml);

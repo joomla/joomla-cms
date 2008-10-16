@@ -26,6 +26,12 @@ jimport('joomla.application.component.view');
  */
 class InstallerViewDefault extends JView
 {
+	protected $ftp;
+	protected $paths;
+	protected $state;
+	protected $showMessage;
+	
+
 	function __construct($config = null)
 	{
 		parent::__construct($config);

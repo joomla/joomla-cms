@@ -31,9 +31,9 @@ class PollViewPoll extends JView
 	{
 		global $mainframe;
 
-		$db 	  =& JFactory::getDBO();
-		$document =& JFactory::getDocument();
-		$pathway  =& $mainframe->getPathway();
+		$db 		=& JFactory::getDBO();
+		$document	=& JFactory::getDocument();
+		$pathway	=& $mainframe->getPathway();
 
 		$poll_id = JRequest::getVar( 'id', 0, '', 'int' );
 
@@ -50,7 +50,20 @@ class PollViewPoll extends JView
 		$params = $mainframe->getParams();
 
 		//Set page title information
-		$document->setTitle($poll->title);
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	$poll->title);
+			}
+		} else {
+			$params->set('page_title',	$poll->title);
+		}
+		$document->setTitle( $params->get( 'page_title' ) );
 
 		//Set pathway information
 		$pathway->addItem($poll->title, '');

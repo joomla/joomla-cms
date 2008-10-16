@@ -19,28 +19,11 @@ jimport( 'joomla.plugin.plugin' );
 /**
  * No WYSIWYG Editor Plugin
  *
- * @author Louis Landry <louis.landry@joomla.org>
  * @package Editors
  * @since 1.5
  */
 class plgEditorNone extends JPlugin
 {
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param 	object $subject The object to observe
-	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since 1.5
-	 */
-	function plgEditorNone(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
-
 	/**
 	 * Method to handle the onInitEditor event.
 	 *  - Initializes the Editor

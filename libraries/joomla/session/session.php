@@ -26,7 +26,6 @@ JLoader::register('JSessionStorage', dirname(__FILE__).DS.'storage.php');
 * Based on the standart PHP session handling mechanism it provides
 * for you more advanced features such as expire timeouts.
 *
-* @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
 * @subpackage	Session
 * @since		1.5
@@ -40,7 +39,7 @@ class JSession extends JObject
 	 * @var	string $_state one of 'active'|'expired'|'destroyed|'error'
 	 * @see getState()
 	 */
-	var	$_state	=	'active';
+	protected $_state = 'active';
 
 	/**
 	 * Maximum age of unused session
@@ -48,7 +47,7 @@ class JSession extends JObject
 	 * @access protected
 	 * @var	string $_expire minutes
 	 */
-	var	$_expire	=	15;
+	protected $_expire = 15;
 
 	/**
 	 * The session store object
@@ -56,7 +55,7 @@ class JSession extends JObject
 	 * @access protected
 	 * @var	object A JSessionStorage object
 	 */
-	var	$_store	=	null;
+	protected $_store = null;
 
 	/**
 	* security policy
@@ -68,7 +67,7 @@ class JSession extends JObject
 	* @access protected
 	* @var array $_security list of checks that will be done.
 	*/
-	var $_security = array( 'fix_browser' );
+	protected $_security = array( 'fix_browser' );
 
 	/**
 	* Constructor
@@ -77,15 +76,13 @@ class JSession extends JObject
 	* @param string $storage
 	* @param array 	$options 	optional parameters
 	*/
-	function __construct( $store = 'none', $options = array() )
+	protected function __construct( $store = 'none', $options = array() )
 	{
-		// Register faked "destructor" in PHP4, this needs to happen before creating the session store
-		if (version_compare(PHP_VERSION, '5') == -1) {
-			register_shutdown_function((array(&$this, '__destruct')));
+		//Need to destroy any existing sessions started with session.auto_start
+		if (session_id()) {
+			session_unset();
+			session_destroy();
 		}
-
-		//set default sessios save handler
-		ini_set('session.save_handler', 'files');
 
 		//disable transparent sid support
 		ini_set('session.use_trans_sid', '0');
@@ -109,13 +106,13 @@ class JSession extends JObject
 		$this->_validate();
 	}
 
-    /**
+	/**
 	 * Session object destructor
 	 *
 	 * @access private
 	 * @since 1.5
 	 */
-	function __destruct() {
+	public function __destruct() {
 		$this->close();
 	}
 
@@ -130,7 +127,7 @@ class JSession extends JObject
 	 * @return	JSession	The Session object.
 	 * @since	1.5
 	 */
-	function & getInstance($handler, $options)
+	public static function &getInstance($handler, $options)
 	{
 		static $instance;
 
@@ -147,7 +144,7 @@ class JSession extends JObject
 	 * @access public
 	 * @return string The session state
 	 */
-    function getState() {
+	public function getState() {
 		return $this->_state;
 	}
 
@@ -157,9 +154,9 @@ class JSession extends JObject
 	 * @access public
 	 * @return integer The session expiration time in minutes
 	 */
-    function getExpire() {
+	public function getExpire() {
 		return $this->_expire;
-    }
+	}
 
 	/**
 	 * Get a session token, if a token isn't set yet one will be generated.
@@ -172,7 +169,7 @@ class JSession extends JObject
 	 * @access public
 	 * @return string The session token
 	 */
-	function getToken($forceNew = false)
+	public function getToken($forceNew = false)
 	{
 		$token = $this->get( 'session.token' );
 
@@ -194,7 +191,7 @@ class JSession extends JObject
 	 * @since	1.5
 	 * @static
 	 */
-	function hasToken($tCheck, $forceExpire = true)
+	public function hasToken($tCheck, $forceExpire = true)
 	{
 		// check if a token exists in the session
 		$tStored = $this->get( 'session.token' );
@@ -218,7 +215,7 @@ class JSession extends JObject
 	 * @access public
 	 * @return string The session name
 	 */
-	function getName()
+	public function getName()
 	{
 		if( $this->_state === 'destroyed' ) {
 			// @TODO : raise error
@@ -233,7 +230,7 @@ class JSession extends JObject
 	 * @access public
 	 * @return string The session name
 	 */
-	function getId()
+	public function getId()
 	{
 		if( $this->_state === 'destroyed' ) {
 			// @TODO : raise error
@@ -248,7 +245,7 @@ class JSession extends JObject
 	 * @access public
 	 * @return array An array of available session handlers
 	 */
-	function getStores()
+	public function getStores()
 	{
 		jimport('joomla.filesystem.folder');
 		$handlers = JFolder::files(dirname(__FILE__).DS.'storage', '.php$');
@@ -261,7 +258,7 @@ class JSession extends JObject
 
 			//Load the class only if needed
 			if(!class_exists($class)) {
-				require_once(dirname(__FILE__).DS.'storage'.DS.$name.'.php');
+				require_once dirname(__FILE__).DS.'storage'.DS.$name.'.php';
 			}
 
 			if(call_user_func_array( array( trim($class), 'test' ), null)) {
@@ -278,7 +275,7 @@ class JSession extends JObject
 	* @access public
 	* @return boolean $result true on success
 	*/
-	function isNew()
+	public function isNew()
 	{
 		$counter = $this->get( 'session.counter' );
 		if( $counter === 1 ) {
@@ -297,7 +294,7 @@ class JSession extends JObject
 	 * @param  string 	$namespace 	Namespace to use, default to 'default'
 	 * @return mixed  Value of a variable
 	 */
-	function &get($name, $default = null, $namespace = 'default')
+	public function &get($name, $default = null, $namespace = 'default')
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
@@ -322,7 +319,7 @@ class JSession extends JObject
 	 * @param  string 	$namespace 	Namespace to use, default to 'default'
 	 * @return mixed  Old value of a variable
 	 */
-	function set($name, $value, $namespace = 'default')
+	public function set($name, $value, $namespace = 'default')
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
@@ -350,7 +347,7 @@ class JSession extends JObject
 	* @param  string 	$namespace 	Namespace to use, default to 'default'
 	* @return boolean $result true if the variable exists
 	*/
-	function has( $name, $namespace = 'default' )
+	public function has( $name, $namespace = 'default' )
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
@@ -370,7 +367,7 @@ class JSession extends JObject
 	* @param  string 	$namespace 	Namespace to use, default to 'default'
 	* @return mixed $value the value from session or NULL if not set
 	*/
-	function clear( $name, $namespace = 'default' )
+	public function clear( $name, $namespace = 'default' )
 	{
 		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
 
@@ -396,7 +393,7 @@ class JSession extends JObject
 	* @access private
 	* @return boolean $result true on success
 	*/
-	function _start()
+	public function _start()
 	{
 		//  start session if not startet
 		if( $this->_state == 'restart' ) {
@@ -426,7 +423,7 @@ class JSession extends JObject
 	 * @see	session_unset()
 	 * @see	session_destroy()
 	 */
-	function destroy()
+	public function destroy()
 	{
 		// session was already destroyed
 		if( $this->_state === 'destroyed' ) {
@@ -448,13 +445,13 @@ class JSession extends JObject
 	}
 
 	/**
-    * restart an expired or locked session
+	* restart an expired or locked session
 	*
 	* @access public
 	* @return boolean $result true on success
 	* @see destroy
 	*/
-	function restart()
+	public function restart()
 	{
 		$this->destroy();
 		if( $this->_state !==  'destroyed' ) {
@@ -485,7 +482,7 @@ class JSession extends JObject
 	* @access public
 	* @return boolean $result true on success
 	*/
-	function fork()
+	public function fork()
 	{
 		if( $this->_state !== 'active' ) {
 			// @TODO :: generated error here
@@ -536,7 +533,7 @@ class JSession extends JObject
 	 * @access public
 	 * @see	session_write_close()
 	 */
-	function close() {
+	public function close() {
 		session_write_close();
 	}
 
@@ -547,7 +544,7 @@ class JSession extends JObject
 	 * @access private
 	 * @return string Session ID
 	 */
-	function _createId( )
+	private function _createId( )
 	{
 		$id = 0;
 		while (strlen($id) < 32)  {
@@ -565,7 +562,7 @@ class JSession extends JObject
 	* @param int $length lenght of string
 	* @return string $id generated token
 	*/
-	function _createToken( $length = 32 )
+	private function _createToken( $length = 32 )
 	{
 		static $chars	=	'0123456789abcdef';
 		$max			=	strlen( $chars ) - 1;
@@ -584,7 +581,7 @@ class JSession extends JObject
 	* @access protected
 	* @return boolean $result true on success
 	*/
-	function _setCounter()
+	private function _setCounter()
 	{
 		$counter = $this->get( 'session.counter', 0 );
 		++$counter;
@@ -599,7 +596,7 @@ class JSession extends JObject
 	* @access protected
 	* @return boolean $result true on success
 	*/
-	function _setTimers()
+	private function _setTimers()
 	{
 		if( !$this->has( 'session.timer.start' ) )
 		{
@@ -623,7 +620,7 @@ class JSession extends JObject
 	* @param array $options list of parameter
 	* @return boolean $result true on success
 	*/
-	function _setOptions( &$options )
+	private function _setOptions( &$options )
 	{
 		// set name
 		if( isset( $options['name'] ) ) {
@@ -665,7 +662,7 @@ class JSession extends JObject
 	* @return boolean $result true on success
 	* @see http://shiflett.org/articles/the-truth-about-sessions
 	*/
-	function _validate( $restart = false )
+	private function _validate( $restart = false )
 	{
 		// allow to restart a session
 		if( $restart )

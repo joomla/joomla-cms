@@ -34,7 +34,7 @@ class ContactViewContact extends JView
 
 		// Get the parameters of the active menu item
 		$menus	= &JSite::getMenu();
-		$menu    = $menus->getActive();
+		$menu	= $menus->getActive();
 
 		$pparams = &$mainframe->getParams('com_contact');
 
@@ -66,7 +66,17 @@ class ContactViewContact extends JView
 		$contacts = $modelCat->getContacts( $options );
 
 		// Set the document page title
-		$document->setTitle(JText::_('Contact').' - '.$contact->name);
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'contact' && isset($menu->query['id']) && $menu->query['id'] == $contact->id) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$pparams->set('page_title',	$contact->name);
+			}
+		} else {
+			$pparams->set('page_title',	$contact->name);
+		}
+		$document->setTitle( $pparams->get( 'page_title' ) );
 
 		//set breadcrumbs
 		if (isset( $menu ) && isset($menu->query['view']) && $menu->query['view'] != 'contact'){

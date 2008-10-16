@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
 * APC session storage handler for PHP
 *
-* @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
 * @subpackage	Session
 * @since		1.5
@@ -32,12 +31,11 @@ class JSessionStorageApc extends JSessionStorage
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	protected function __construct( $options = array() )
 	{
-		if (!$this->test()) {
-            return JError::raiseError(404, "The apc extension is not available");
-        }
-
+		if (!self::test()) {
+			throw new JException("The ACP extension isn't available", 500, E_ERROR);
+		}
 		parent::__construct($options);
 	}
 
@@ -45,11 +43,11 @@ class JSessionStorageApc extends JSessionStorage
 	 * Open the SessionHandler backend.
 	 *
 	 * @access public
-	 * @param string $save_path     The path to the session object.
+	 * @param string $save_path	 The path to the session object.
 	 * @param string $session_name  The name of the session.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function open($save_path, $session_name)
+	public function open($save_path, $session_name)
 	{
 		return true;
 	}
@@ -60,7 +58,7 @@ class JSessionStorageApc extends JSessionStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function close()
+	public function close()
 	{
 		return true;
 	}
@@ -73,7 +71,7 @@ class JSessionStorageApc extends JSessionStorage
  	 * @param string $id  The session identifier.
  	 * @return string  The session data.
  	 */
-	function read($id)
+	public function read($id)
 	{
 		$sess_id = 'sess_'.$id;
 		return (string) apc_fetch($sess_id);
@@ -83,25 +81,25 @@ class JSessionStorageApc extends JSessionStorage
 	 * Write session data to the SessionHandler backend.
 	 *
 	 * @access public
-	 * @param string $id            The session identifier.
+	 * @param string $id			The session identifier.
 	 * @param string $session_data  The session data.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function write($id, $session_data)
+	public function write($id, $session_data)
 	{
 		$sess_id = 'sess_'.$id;
 		return apc_store($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
 	}
 
 	/**
-	  * Destroy the data for a particular session identifier in the
-	  * SessionHandler backend.
-	  *
-	  * @access public
-	  * @param string $id  The session identifier.
-	  * @return boolean  True on success, false otherwise.
-	  */
-	function destroy($id)
+	 * Destroy the data for a particular session identifier in the
+	 * SessionHandler backend.
+	 *
+	 * @access public
+	 * @param string $id  The session identifier.
+	 * @return boolean  True on success, false otherwise.
+	 */
+	public function destroy($id)
 	{
 		$sess_id = 'sess_'.$id;
 		return apc_delete($sess_id);
@@ -114,7 +112,7 @@ class JSessionStorageApc extends JSessionStorage
 	 * @param integer $maxlifetime  The maximum age of a session.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc($maxlifetime)
+	public function gc($maxlifetime)
 	{
 		return true;
 	}
@@ -126,7 +124,7 @@ class JSessionStorageApc extends JSessionStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test() {
+	public static function test() {
 		return extension_loaded('apc');
 	}
 }

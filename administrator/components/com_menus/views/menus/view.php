@@ -24,6 +24,13 @@ jimport('joomla.application.component.view');
  */
 class MenusViewMenus extends JView
 {
+	protected $menus = array();
+	protected $pagination = null;
+	protected $limitstart = 0;
+	protected $row;
+	protected $isnew;
+
+
 	function display($tpl=null)
 	{
 		global $mainframe;

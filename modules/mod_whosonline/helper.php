@@ -18,12 +18,12 @@ class modWhosonlineHelper {
 
 	// show online count
 	function getOnlineCount() {
-	    $db		  =& JFactory::getDBO();
-		$sessions = null;
+		$db			=& JFactory::getDBO();
+		$sessions	= null;
 		// calculate number of guests and members
-		$result      = array();
-		$user_array  = 0;
-		$guest_array = 0;
+		$result		= array();
+		$user_array	= 0;
+		$guest_array= 0;
 
 		$query = 'SELECT guest, usertype, client_id' .
 					' FROM #__session' .
@@ -36,10 +36,10 @@ class modWhosonlineHelper {
 		}
 
 		if (count($sessions)) {
-		    foreach ($sessions as $session) {
-			    // if guest increase guest count by 1
+			foreach ($sessions as $session) {
+				// if guest increase guest count by 1
 				if ($session->guest == 1 && !$session->usertype) {
-				    $guest_array ++;
+					$guest_array ++;
 				}
 				// if member increase member count by 1
 				if ($session->guest == 0) {
@@ -56,7 +56,7 @@ class modWhosonlineHelper {
 
 	// show online member names
 	function getOnlineMemberNames() {
-	    $db		=& JFactory::getDBO();
+		$db		=& JFactory::getDBO();
 		$result	= null;
 
 		$query = 'SELECT DISTINCT a.username' .

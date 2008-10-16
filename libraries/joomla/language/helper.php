@@ -32,7 +32,7 @@ class JLanguageHelper
 	 * @param	array	An array of arrays ( text, value, selected )
 	 * @since	1.5
 	 */
-	function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false)
+	public function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false)
 	{
 		$list = array ();
 
@@ -61,7 +61,7 @@ class JLanguageHelper
  	 * @return	string locale
  	 * @since	1.5
  	 */
-	function detectLanguage()
+	public function detectLanguage()
 	{
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
 		{

@@ -32,7 +32,7 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	* filter name
 	*
 	* @access	private
-	* @var	    string
+	* @var		string
 	*/
 	var	$_name = 'ShortModifiers';
 
@@ -40,7 +40,7 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	* parameters of the filter
 	*
 	* @access  private
-	* @var     array
+	* @var	 array
 	*/
 	var $_params = array(
 							'copyVars' => true
@@ -50,7 +50,7 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	* namespace
 	*
 	* @access	private
-	* @var	    string
+	* @var		string
 	*/
 	var	$_ns = null;
 
@@ -66,7 +66,7 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	* set the template reference
 	*
 	* @access	public
-	* @param    object patTemplate
+	* @param	object patTemplate
 	*/
 	function setTemplateReference(&$tmpl)
 	{
@@ -77,7 +77,7 @@ class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter
 	* generate the <patTemplate:var/> tag
 	*
 	* @access	public
-	* @param	array       matches from preg_replace
+	* @param	array	   matches from preg_replace
 	* @return	string		tag
 	*/
 	function _generateReplace($matches)

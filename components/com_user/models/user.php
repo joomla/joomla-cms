@@ -20,7 +20,6 @@ jimport('joomla.application.component.model');
 /**
  * User Component User Model
  *
- * @author Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	User
  * @since 1.5

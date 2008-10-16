@@ -43,7 +43,7 @@ if( $feed != false )
 	}
 
 	$actualItems = count( $feed->items );
-	$setItems    = $params->get('rssitems', 5);
+	$setItems	= $params->get('rssitems', 5);
 
 	if ($setItems > $actualItems) {
 		$totalItems = $actualItems;

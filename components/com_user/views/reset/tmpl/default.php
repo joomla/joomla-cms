@@ -1,10 +1,12 @@
 <?php defined('_JEXEC') or die; ?>
 
-<div class="componentheading">
-	<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?>
-</div>
+<?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
+	<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+		<?php echo $this->escape($this->params->get('page_title')); ?>
+	</div>
+<?php endif; ?>
 
-<form action="index.php?option=com_user&amp;task=requestreset" method="post" class="josForm form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_user&amp;task=requestreset') ?>" method="post" class="josForm form-validate">
 	<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
 		<tr>
 			<td colspan="2" height="40">

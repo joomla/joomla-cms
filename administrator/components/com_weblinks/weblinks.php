@@ -23,8 +23,11 @@ if (!$user->authorize( 'com_weblinks', 'manage' )) {
 	$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
+// Helper classes
+JHTML::addIncludePath(JPATH_COMPONENT.DS.'classes');
+
 // Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 $controller	= new WeblinksController( );
 

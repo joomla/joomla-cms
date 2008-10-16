@@ -63,18 +63,8 @@ class WeblinksViewWeblink extends JView
 		$weblink	=& $this->get('data');
 		$isNew		= ($weblink->id < 1);
 
-		// fail if checked out not by 'me'
-		if ($model->isCheckedOut( $user->get('id') )) {
-			$msg = JText::sprintf( 'DESCBEINGEDITTED', JText::_( 'The weblink' ), $weblink->title );
-			$mainframe->redirect( 'index.php?option='. $option, $msg );
-		}
-
 		// Edit or Create?
-		if (!$isNew)
-		{
-			$model->checkout( $user->get('id') );
-		}
-		else
+		if ($isNew)
 		{
 			// initialise new record
 			$weblink->published = 1;
@@ -94,7 +84,7 @@ class WeblinksViewWeblink extends JView
 		// build list of categories
 		$lists['catid'] 			= JHTML::_('list.category',  'catid', $option, intval( $weblink->catid ) );
 		// build the html select list
-		$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $weblink->published );
+		$lists['state'] 		= JHTML::_('weblink.statelist',  'state', $weblink->state );
 
 		//clean weblink data
 		JFilterOutput::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );

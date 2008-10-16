@@ -20,7 +20,6 @@ jimport('joomla.application.component.model');
 /**
  * Content Component Archive Model
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla
  * @subpackage	Content
  * @since		1.5
@@ -122,7 +121,7 @@ class ContentModelArchive extends JModel
 			' INNER JOIN #__categories AS cc ON cc.id = a.catid' .
 			' LEFT JOIN #__sections AS s ON s.id = a.sectionid' .
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
-			' LEFT JOIN #__groups AS g ON a.access = g.id'.
+			' LEFT JOIN #__core_acl_axo_groups AS g ON a.access = g.value'.
 			$voting['join'].
 			$where.
 			$orderby;

@@ -32,7 +32,7 @@ class JInstallationModel extends JModel
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var	$data		= array();
+	public $data		= array();
 
 	/**
 	 * Array used to store user input created during the installation process
@@ -41,14 +41,16 @@ class JInstallationModel extends JModel
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var	$vars		= array();
+	public $vars		= array();
+
+	public $test;
 
 	/**
 	 * Constructor
 	 */
 	function __construct($config = array())
 	{
-		$this->_state = new JObject();
+		$this->_state = new JStdClass();
 		//set the view name
 		if (empty( $this->_name ))
 		{
@@ -75,13 +77,13 @@ class JInstallationModel extends JModel
 	 */
 	function chooseLanguage()
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$vars	=& $this->getVars();
 
 		jimport('joomla.language.helper');
 		$native = JLanguageHelper::detectLanguage();
-		$forced = $mainframe->getLocalise();
+		$forced = $appl->getLocalise();
 
 		if ( !empty( $forced['lang'] ) ){
 			$native = $forced['lang'];
@@ -104,7 +106,7 @@ class JInstallationModel extends JModel
 	 */
 	function dbConfig()
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$vars	=& $this->getVars();
 
@@ -114,19 +116,19 @@ class JInstallationModel extends JModel
 
 		$lists	= array ();
 		$files	= array ('mysql', 'mysqli',);
-		$db		= JInstallationHelper::detectDB();
+		$db		= isset($vars['DBtype']) ? $vars['DBtype'] : JInstallationHelper::detectDB();
 		foreach ($files as $file)
 		{
 			$option = array ();
 			$option['text'] = $file;
 			if (strcasecmp($option['text'], $db) == 0)
 			{
-				$option['selected'] = 'selected="true"';
+				$option['selected'] = 'selected="selected"';
 			}
 			$lists['dbTypes'][] = $option;
 		}
 
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 
 		$this->setData('lists', $lists);
 
@@ -142,12 +144,12 @@ class JInstallationModel extends JModel
 	 */
 	function finish()
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$vars	=& $this->getVars();
 
-		$vars['siteurl']	= JURI::root();
-		$vars['adminurl']	= $vars['siteurl'].'administrator/';
+		$vars['siteUrl']	= JURI::root();
+		$vars['adminUrl']	= $vars['siteUrl'].'administrator/';
 
 		return true;
 	}
@@ -161,12 +163,12 @@ class JInstallationModel extends JModel
 	 */
 	function ftpConfig($DBcreated = '0')
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$vars	=& $this->getVars();
 
 		// Require the xajax library
-		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
+		require_once JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php';
 
 		// Instantiate the xajax object and register the function
 		$xajax = new xajax(JURI::base().'installer/jajax.php');
@@ -275,7 +277,7 @@ class JInstallationModel extends JModel
 	 */
 	function makeDB($vars = false)
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		// Initialize variables
 		if ($vars === false) {
@@ -325,12 +327,6 @@ class JInstallationModel extends JModel
 			$this->setData('errors', $errors);
 			return false;
 		}
-		if (!preg_match( '#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $DBname )) {
-			$this->setError(JText::_('MYSQLDBNAMEINVALIDCHARS'));
-			$this->setData('back', 'dbconfig');
-			$this->setData('errors', $errors);
-			return false;
-		}
 		if (strlen($DBPrefix) > 15) {
 			$this->setError(JText::_('MYSQLPREFIXTOOLONG'));
 			$this->setData('back', 'dbconfig');
@@ -359,7 +355,7 @@ class JInstallationModel extends JModel
 
 			if ($err = $db->getErrorNum()) {
 				// connection failed
-				$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->getErrorNum()));
+				$this->setError(JText::sprintf('WARNNOTCONNECTDB', $err ) );
 				$this->setData('back', 'dbconfig');
 				$this->setData('errors', $db->getErrorMsg());
 				return false;
@@ -419,10 +415,8 @@ class JInstallationModel extends JModel
 				}
 			}
 
-			$type = $DBtype;
-			if ($type == 'mysqli') {
-				$type = 'mysql';
-			}
+			// For the install the mysql type will be used
+			$type = 'mysql';
 
 			// set collation and use utf-8 compatibile script if appropriate
 			if ($DButfSupport) {
@@ -455,7 +449,7 @@ class JInstallationModel extends JModel
 
 			// Handle default backend language setting. This feature is available for
 			// localized versions of Joomla! 1.5.
-			$langfiles = $mainframe->getLocaliseAdmin();
+			$langfiles = $appl->getLocaliseAdmin();
 			if (in_array($lang, $langfiles['admin']) || in_array($lang, $langfiles['site'])) {
 				// Determine the language settings
 				$param[] = Array();
@@ -496,7 +490,7 @@ class JInstallationModel extends JModel
 	 */
 	function mainConfig()
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$vars	=& $this->getVars();
 
@@ -511,7 +505,7 @@ class JInstallationModel extends JModel
 		}
 
 		// Require the xajax library
-		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
+		require_once JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php';
 
 		// Instantiate the xajax object and register the function
 		$xajax = new xajax(JURI::base().'installer/jajax.php');
@@ -549,6 +543,7 @@ class JInstallationModel extends JModel
 			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
 		}
 
+		/*
 		$folders = array (
 			'administrator/backups',
 			'administrator/cache',
@@ -572,14 +567,15 @@ class JInstallationModel extends JModel
 			'templates',
 		);
 
-		// Now lets make sure we have permissions set on the appropriate folders
-		//		foreach ($folders as $folder)
-		//		{
-		//			if (!JInstallationHelper::setDirPerms( $folder, $vars ))
-		//			{
-		//				$lists['folderPerms'][] = $folder;
-		//			}
-		//		}
+		//Now lets make sure we have permissions set on the appropriate folders
+		foreach ($folders as $folder)
+		{
+			if (!JInstallationHelper::setDirPerms( $folder, $vars ))
+			{
+				$lists['folderPerms'][] = $folder;
+			}
+		}
+		*/
 
 		return true;
 	}
@@ -597,8 +593,8 @@ class JInstallationModel extends JModel
 		$lists	= array ();
 
 		$phpOptions[] = array (
-			'label' => JText::_('PHP version').' >= 4.3.10',
-			'state' => phpversion() < '4.3.10' ? 'No' : 'Yes'
+			'label' => JText::_('PHP version').' >= 5.2',
+			'state' => phpversion() < '5.2' ? 'No' : 'Yes'
 		);
 		$phpOptions[] = array (
 			'label' => '- '.JText::_('zlib compression support'),
@@ -718,147 +714,99 @@ class JInstallationModel extends JModel
 	 */
 	function saveConfig()
 	{
-		global $mainframe;
-
+		$appl	= JFactory::getApplication();
 		$vars	=& $this->getVars();
-		$lang	=& JFactory::getLanguage();
+		$lang	= JFactory::getLanguage();
+		$config	= new JRegistry('config');
 
 		// Import authentication library
 		jimport( 'joomla.user.helper' );
 
-		// Set some needed variables
-		$vars['siteUrl']		= JURI::root();
-		$vars['secret']			= JUserHelper::genRandomPassword(16);
+		$data	= new JstdClass();
+		$data->dbtype 		= $vars['DBtype'];
+		$data->host 		= $vars['DBhostname'];
+		$data->user 		= $vars['DBuserName'];
+		$data->password 	= $vars['DBpassword'];
+		$data->db 			= $vars['DBname'];
+		$data->dbprefix 	= $vars['DBPrefix'];
+		$data->ftp_host 	= $vars['ftpHost'];
+		$data->ftp_port 	= $vars['ftpPort'];
+		$data->ftp_user 	= $vars['ftpUser'];
+		$data->ftp_pass 	= $vars['ftpPassword'];
+		$data->ftp_root 	= rtrim($vars['ftpRoot'], '/');
+		$data->ftp_enable	 = $vars['ftpEnable'];
+		$data->tmp_path		= JPATH_ROOT.DS.'tmp';
+		$data->log_path		= JPATH_ROOT.DS.'logs';
+		$data->mailer 		= 'mail';
+		$data->mailfrom 	= $vars['adminEmail'];
+		$data->fromname 	= $vars['siteName'];
+		$data->sendmail 	= '/usr/sbin/sendmail';
+		$data->smtpauth 	= '0';
+		$data->smtpuser 	= '';
+		$data->smtppass 	= '';
+		$data->smtphost 	= 'localhost';
+		$data->debug 		= 0;
+		$data->caching 		= '0';
+		$data->cachetime	= '900';
+		$data->language  	= $vars['lang'];
+		$data->secret		= JUserHelper::genRandomPassword(16);
+		$data->editor		= 'none';
+		$data->offset		= 0;
+		$data->lifetime		= 15;
 
-		$vars['offline']		= JText::_( 'STDOFFLINEMSG' );
-		$vars['errormsg']		= JText::_( 'STDERRORMSG' );
-		$vars['metadesc']		= JText::_( 'STDMETADESC' );
-		$vars['metakeys']		= JText::_( 'STDMETAKEYS' );
-		$vars['tmp_path']		= JPATH_ROOT.DS.'tmp';
-		$vars['log_path']		= JPATH_ROOT.DS.'logs';
+		$data->list_limit	= 30;
+		$data->debug_lang 	= 0;
+		$data->gzip 		= 0;
+		$data->xmlrpc_server	= 0;
+		$data->cache_handler	= 'file';
+		$data->MetaAuthor 	= '';
+		$data->MetaTitle	= '';
+		$data->sef		= 0;
+		$data->sef_rewrite	= 0;
+		$data->sef_suffix 	= 0;
+		$data->feed_limit 	= 0;
+		$data->session_handler	= 'database';
 
-		// set default language
-		$forced = $mainframe->getLocalise();
-		if ( empty($forced['lang']) ) {
-			$vars['deflang'] = 'en-GB';
-			$vars['bclang'] = 'english';
-		} else {
-			$vars['deflang'] = $forced['lang'];
-			$vars['bclang'] = $lang->getBackwardLang();
-		}
+		$data->MetaDesc			= JText::_( 'STDMETADESC' );
+		$data->MetaKeys			= JText::_( 'STDMETAKEYS' );
+		$data->offline 		= 0;
+		$data->offline_message	= JText::_( 'STDOFFLINEMSG' );
+		// @todo: change to -1 before release
+		$data->error_reporting	= '2047';
+		$data->helpurl			= 'http://help.joomla.org';
 
-		if ( empty( $forced['helpurl'] ) ) {
-			$vars['helpurl'] = 'http://help.joomla.org';
-		} else {
-			$vars['helpurl'] = $forced['helpurl'];
-		}
+		$config->loadObject($data);
 
-		// If FTP has not been enabled, set the value to 0
-		if (!isset($vars['ftpEnable']))
+		// Update the credentials with the new settings
+		if ( $data->ftp_enable )
 		{
-			$vars['ftpEnable'] = 0;
+			jimport('joomla.client.helper');
+			$oldconfig =& JFactory::getConfig();
+			$oldconfig->setValue('config.ftp_enable', $data->ftp_enable);
+			$oldconfig->setValue('config.ftp_host', $data->ftp_host);
+			$oldconfig->setValue('config.ftp_port', $data->ftp_port);
+			$oldconfig->setValue('config.ftp_user', $data->ftp_user);
+			$oldconfig->setValue('config.ftp_pass', $data->ftp_pass);
+			$oldconfig->setValue('config.ftp_root', $data->ftp_root);
+			JClientHelper::getCredentials('ftp', true);
 		}
-
-		/*
-		 * Trim the last slash from the FTP root, as the FTP root usually replaces JPATH_ROOT.
-		 * If the path had a trailing slash, this would lead to double slashes, like "/joomla//configuration.php"
-		 */
-		if (isset($vars['ftpRoot'])) {
-			$vars['ftpRoot'] = rtrim($vars['ftpRoot'], '/');
-		}
-
-		switch ($vars['DBtype']) {
-
-			case 'mssql' :
-				$vars['ZERO_DATE'] = '1/01/1990';
-				break;
-
-			default :
-				$vars['ZERO_DATE'] = '0000-00-00 00:00:00';
-				break;
-		}
-
-		JInstallationHelper::createAdminUser($vars);
 
 		/**
 		 * Write the configuration file
 		 */
-		jimport('joomla.template.template');
+		$fname		= JPATH_CONFIGURATION.DS.'configuration.php';
+		$written	= NULL;
 
-		$tmpl = new JTemplate();
-		$tmpl->applyInputFilter('ShortModifiers');
+		// Get the config registry in PHP class format and write it to configuation.php
+		jimport('joomla.filesystem.file');
+		$written = JFile::write($fname, $config->toString('PHP', 'config', array('class' => 'JConfig')));
 
-		// load the wrapper and common templates
-		$tmpl->setRoot( JPATH_BASE . DS . 'template' . DS. 'tmpl' );
-
-		$tmpl->readTemplatesFromFile('configuration.html');
-		$tmpl->addVars('configuration', $vars, 'var_');
-
-		if (empty($vars['ftpSavePass'])) {
-			$tmpl->addVar('configuration', 'var_ftpuser', '');
-			$tmpl->addVar('configuration', 'var_ftppassword', '');
-		}
-
-		$buffer = $tmpl->getParsedTemplate('configuration');
-		$path = JPATH_CONFIGURATION.DS.'configuration.php';
-
-		if (file_exists($path)) {
-			$canWrite = is_writable($path);
-		} else {
-			$canWrite = is_writable(JPATH_CONFIGURATION.DS);
-		}
-
-		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP
-		 */
-		$ftpFlag = false;
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path).'/'))) {
-			$ftpFlag = true;
-		}
-
-		// Check for safe mode
-		if (ini_get('safe_mode'))
+		if ( ! $written )
 		{
-			$ftpFlag = true;
+			return false;
 		}
 
-		// Enable/Disable override
-		if (!isset($vars['ftpEnable']) || ($vars['ftpEnable'] != 1))
-		{
-			$ftpFlag = false;
-		}
-
-		if ($ftpFlag == true)
-		{
-			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			jimport('joomla.filesystem.path');
-
-			$ftp = & JFTP::getInstance($vars['ftpHost'], $vars['ftpPort']);
-			$ftp->login($vars['ftpUser'], $vars['ftpPassword']);
-
-			// Translate path for the FTP account
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $vars['ftpRoot'], $path), '/');
-
-			// Use FTP write buffer to file
-			if (!$ftp->write($file, $buffer)) {
-				$this->setData('buffer', $buffer);
-				return false;
-			}
-
-			$ftp->quit();
-
-		}
-		else
-		{
-			if ($canWrite) {
-				file_put_contents($path, $buffer);
-			} else {
-				$this->setData('buffer', $buffer);
-				return true;
-			}
-		}
+		JInstallationHelper::createAdminUser($vars);
 
 		return true;
 	}

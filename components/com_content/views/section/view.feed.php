@@ -37,9 +37,10 @@ class ContentViewSection extends JView
 		JRequest::setVar('limit', $mainframe->getCfg('feed_limit'));
 
 		// Lets get our data from the model
-		$rows =& $this->get( 'Data' );
+		$rows 		= &$this->get( 'Data' );
+		$section	= &$this->get( 'Section' );
 
-		$doc->link = JRoute::_('index.php?option=com_content&view=section&id='.JRequest::getVar('id',null, '', 'int'));
+		$doc->link = JRoute::_(ContentHelperRoute::getSectionRoute($section->id));;
 
 		foreach ( $rows as $row )
 		{
@@ -49,7 +50,7 @@ class ContentViewSection extends JView
 
 			// url link to article
 			// & used instead of &amp; as this is converted by feed creator
-			$link = JRoute::_('index.php?option=com_content&view=article&id='. $row->slug .'&catid='.$row->catslug );
+			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug, $row->sectionid));;
 
 			// strip html from feed item description text
 			$description	= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
@@ -69,4 +70,3 @@ class ContentViewSection extends JView
 		}
 	}
 }
-?>

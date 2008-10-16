@@ -10,7 +10,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['caching']; ?>
+				<?php echo $this->lists['caching']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -20,7 +20,7 @@
 				</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="cachetime" size="5" value="<?php echo $row->cachetime; ?>" />
+				<input class="text_area" type="text" name="cachetime" size="5" value="<?php echo $this->row->cachetime; ?>" />
 					<?php echo JText::_( 'minutes' ); ?>
 			</td>
 		</tr>
@@ -31,16 +31,16 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['cache_handlers']; ?>
+				<?php echo $this->lists['cache_handlers']; ?>
 			</td>
 		</tr>
-		<?php if ($row->cache_handler == 'memcache' || $row->session_handler == 'memcache') : ?>
+		<?php if ($this->row->cache_handler == 'memcache' || $this->row->session_handler == 'memcache') : ?>
 		<tr>
 			<td class="key">
 				<?php echo JText::_( 'Memcache Persistent' ); ?>
 			</td>
 			<td>
-				<?php echo $lists['memcache_persist']; ?>
+				<?php echo $this->lists['memcache_persist']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -48,7 +48,7 @@
 				<?php echo JText::_( 'Memcache Compression' ); ?>
 			</td>
 			<td>
-				<?php echo $lists['memcache_compress']; ?>
+				<?php echo $this->lists['memcache_compress']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -57,10 +57,10 @@
 			</td>
 			<td>
 				<?php echo JText::_( 'Host' ); ?>:
-				<input class="text_area" type="text" name="memcache_settings[servers][0][host]" size="25" value="<?php echo @$row->memcache_settings['servers'][0]['host']; ?>" />
+				<input class="text_area" type="text" name="memcache_settings[servers][0][host]" size="25" value="<?php echo @$this->row->memcache_settings['servers'][0]['host']; ?>" />
 				<br /><br />
 				<?php echo JText::_( 'Port' ); ?>:
-				<input class="text_area" type="text" name="memcache_settings[servers][0][port]" size="6" value="<?php echo @$row->memcache_settings['servers'][0]['port']; ?>" />
+				<input class="text_area" type="text" name="memcache_settings[servers][0][port]" size="6" value="<?php echo @$this->row->memcache_settings['servers'][0]['port']; ?>" />
 			</td>
 		</tr>
 		<?php endif; ?>

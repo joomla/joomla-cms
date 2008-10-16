@@ -129,10 +129,10 @@ class patError
 	* @param	string	$info	Optional: The additional error information.
 	* @see		__construct()
 	*/
-    function patError( $level, $code, $msg, $info = null )
-    {
+	function patError( $level, $code, $msg, $info = null )
+	{
 		$this->__construct( $level, $code, $msg, $info );
-    }
+	}
 
 	/**
 	* constructor - used to set up the error with all needed error details.
@@ -144,8 +144,8 @@ class patError
 	* @param	string	$info	Optional: The additional error information.
 	* @todo		all calls to patErrorManager::raise* should not be included in backtrace
 	*/
-    function __construct( $level, $code, $msg, $info = null )
-    {
+	function __construct( $level, $code, $msg, $info = null )
+	{
 		static $raise		=	array(	'raise',
 										'raiseerror',
 										'raisewarning',
@@ -190,7 +190,7 @@ class patError
 				}
 			}
 		}
-    }
+	}
 
 	/**
 	* returns the error level of the error - corresponds to the PHP
@@ -200,10 +200,10 @@ class patError
 	* @return	int $level	The error level
 	* @see		$level
 	*/
-    function getLevel()
-    {
-        return  $this->level;
-    }
+	function getLevel()
+	{
+		return  $this->level;
+	}
 
 
 	/**
@@ -213,10 +213,10 @@ class patError
 	* @return	string 	$msg	The stored error message
 	* @see		$message
 	*/
-    function getMessage()
-    {
+	function getMessage()
+	{
 		return $this->message;
-    }
+	}
 
 	/**
 	* retrieves the additional error information (information usually
@@ -226,10 +226,10 @@ class patError
 	* @return	mixed $info	The additional information
 	* @see		$info
 	*/
-    function getInfo()
-    {
+	function getInfo()
+	{
 		return $this->info;
-    }
+	}
 
 	/**
 	* recieve error code
@@ -238,10 +238,10 @@ class patError
 	* @return	string|integer		error code (may be a string or an integer)
 	* @see		$code
 	*/
-    function getCode()
-    {
+	function getCode()
+	{
 		return $this->code;
-    }
+	}
 
 	/**
 	* get the backtrace
@@ -252,19 +252,19 @@ class patError
 	* @return	array backtrace
 	* @see		$backtrace
 	*/
-    function getBacktrace( $formatted=false )
-    {
-    	if ($formatted && is_array( $this->backtrace )) {
-    		$result = '';
-    		foreach( debug_backtrace() as $back) {
-			    if (!eregi( 'patErrorManager.php', $back['file'])) {
-				    $result .= '<br />'.$back['file'].':'.$back['line'];
+	function getBacktrace( $formatted=false )
+	{
+		if ($formatted && is_array( $this->backtrace )) {
+			$result = '';
+			foreach( debug_backtrace() as $back) {
+				if (!eregi( 'patErrorManager.php', $back['file'])) {
+					$result .= '<br />'.$back['file'].':'.$back['line'];
 				}
 			}
 			return $result;
 		}
 		return $this->backtrace;
-    }
+	}
 
 	/**
 	* get the filename in which the error occured
@@ -275,10 +275,10 @@ class patError
 	* @return	string filename
 	* @see		$file
 	*/
-    function getFile()
-    {
+	function getFile()
+	{
 		return $this->file;
-    }
+	}
 
 	/**
 	* get the line number in which the error occured
@@ -289,9 +289,9 @@ class patError
 	* @return	integer line number
 	* @see		$line
 	*/
-    function getLine()
-    {
+	function getLine()
+	{
 		return $this->line;
-    }
+	}
 }
 ?>

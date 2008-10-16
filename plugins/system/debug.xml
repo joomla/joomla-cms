@@ -13,6 +13,10 @@
 		<filename plugin="debug">debug.php</filename>
 	</files>
 	<params>
+		<param name="profile" type="radio" default="1" label="Display Profiling Information" description="If yes, display profiling information">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 		<param name="queries" type="radio" default="1" label="Display SQL query log" description="If yes, display SQL query log">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
@@ -21,9 +25,16 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="language" type="radio" default="1" label="Display undefined language strings" description="If yes, display undefined language strings">
+		<param name="language_files" type="radio" default="1" label="Display loaded language files" description="If yes, display a list of the language files loaded">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		<param name="language_strings" type="list" default="2" label="Display undefined language strings" description="Displays orphaned strings in different ways">
+			<option value="0">No</option>
+			<option value="-1">All modes</option>
+			<option value="1">Diagnostic mode</option>
+			<option value="2">Designer mode</option>
+		</param>
+		<param name="language_prefix" type="text" default="" label="Strip String Prefix" description="Strip String Prefix Desc" />
 	</params>
 </install>

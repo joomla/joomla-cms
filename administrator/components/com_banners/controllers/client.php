@@ -36,128 +36,65 @@ class BannerControllerClient extends JController
 
 	function display()
 	{
-		global $mainframe;
+		$app	=& JFactory::getApplication();
+		$user 	=& JFactory::getUser();
 
-		$db		=& JFactory::getDBO();
-		$user	=& JFactory::getUser();
-		$context			= 'com_banners.bannerclient.list.';
-		$filter_order		= $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order',		'a.name',	'cmd' );
-		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir',	'',			'word' );
-		$search				= $mainframe->getUserStateFromRequest( $context.'search',			'search',			'',			'string' );
-		$search				= JString::strtolower( $search );
-
-		$limit		= $mainframe->getUserStateFromRequest( 'global.list.limit',		'limit',		$mainframe->getCfg('list_limit'), 'int' );
-		$limitstart	= $mainframe->getUserStateFromRequest( $context.'limitstart',	'limitstart',	0, 'int' );
-
-		$where = array();
-
-		if ($search) {
-			$where[] = 'LOWER(a.name) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
+		switch($this->getTask())
+		{
+			case 'add':
+			{
+				JRequest::setVar( 'hidemainmenu', 1 );
+				JRequest::setVar( 'view'  , 'bannerclient');
+				JRequest::setVar( 'edit', false );
+			} break;
+			case 'edit':
+			{
+				JRequest::setVar( 'hidemainmenu', 1 );
+				JRequest::setVar( 'view'  , 'bannerclient');
+				JRequest::setVar( 'edit', true );
+			} break;
 		}
 
-		$where		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
-		$orderby = ' ORDER BY '. $filter_order .' '. $filter_order_Dir .', a.cid';
-
-		// get the total number of records
-		$query = 'SELECT a.*, count(b.bid) AS nbanners, u.name AS editor'
-		. ' FROM #__bannerclient AS a'
-		. ' LEFT JOIN #__banner AS b ON a.cid = b.cid'
-		. ' LEFT JOIN #__users AS u ON u.id = a.checked_out'
-		. $where
-		. ' GROUP BY a.cid'
-		. $orderby
-		;
-
-		$db->setQuery( $query );
-		$db->query();
-		$total = $db->getNumRows();
-
-		jimport('joomla.html.pagination');
-		$pageNav = new JPagination( $total, $limitstart, $limit );
-
-		$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-		$rows = $db->loadObjectList();
-
-		// table ordering
-		$lists['order_Dir']	= $filter_order_Dir;
-		$lists['order']		= $filter_order;
-
-		// search filter
-		$lists['search']= $search;
-
-		require_once(JPATH_COMPONENT.DS.'views'.DS.'client.php');
-		BannersViewClients::clients( $rows, $pageNav, $lists );
-	}
-
-	/**
-	 * Edit a banner client record
-	 */
-	function edit()
-	{
-		// Initialize variables
-		$db		=& JFactory::getDBO();
-		$user	=& JFactory::getUser();
-
-		$userId	= $user->get ( 'id' );
-
-		if ($this->_task == 'edit') {
-			$cid	= JRequest::getVar('cid', array(0), 'method', 'array');
-		} else {
-			$cid	= array( 0 );
+		if (JRequest::getVar( 'view', '') == '') {
+			JRequest::setVar( 'view', 'bannerclients');
 		}
-
-		$row =& JTable::getInstance('bannerclient', 'Table');
-		$row->load( (int) $cid[0] );
-
-		// fail if checked out not by 'me'
-		if ($row->isCheckedOut( $userId )) {
-			$this->setRedirect( 'index.php?option=com_banners&c=client' );
-			return JError::raiseWarning( JText::sprintf( 'WARNEDITEDBYPERSON', $row->name ) );
-		}
-
-		if ($row->cid) {
-			// do stuff for existing record
-			$row->checkout( $userId );
-		} else {
-			// do stuff for new record
-			$row->published = 0;
-			$row->approved = 0;
-		}
-
-		require_once(JPATH_COMPONENT.DS.'views'.DS.'client.php');
-		BannersViewClients::client( $row );
+		parent::display();
 	}
 
 	function save()
 	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-
-		$this->setRedirect( 'index.php?option=com_banners&c=client' );
-
-		// Initialize variables
-		$db		=& JFactory::getDBO();
-		$table	=& JTable::getInstance('bannerclient', 'Table');
-
-		if (!$table->bind( JRequest::get( 'post' ) )) {
-			return JError::raiseWarning( 500, $table->getError() );
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
 		}
-		if (!$table->check()) {
-			return JError::raiseWarning( 500, $table->getError() );
+
+		$post	= JRequest::get('post');
+		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		$post['cid'] = (int) $cid[0];
+
+		$model = $this->getModel('bannerclient');
+
+		if ($model->store($post)) {
+			$msg = JText::_( 'Item Saved' );
+		} else {
+			$msg = JText::_( 'Error Saving Item' );
 		}
-		if (!$table->store()) {
-			return JError::raiseWarning( 500, $table->getError() );
-		}
-		$table->checkin();
+
+		// Check the table in so it can be edited.... we are done with it anyway
+		$model->checkin();
 
 		switch (JRequest::getCmd( 'task' ))
 		{
 			case 'apply':
-				$this->setRedirect( 'index.php?option=com_banners&c=client&task=edit&cid[]='. $table->cid );
+				$link = 'index.php?option=com_banners&c=client&task=edit&cid[]='. $post['cid'];
+				break;
+			default:
+				$link = 'index.php?option=com_banners&c=client';
 				break;
 		}
 
-		$this->setMessage( JText::_( 'Item Saved' ) );
+		$this->setRedirect($link, $msg);
 	}
 
 	function cancel()
@@ -165,49 +102,33 @@ class BannerControllerClient extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
-		$this->setRedirect( 'index.php?option=com_banners&c=client' );
+		// Checkin the contact
+		$model = $this->getModel('bannerclient');
+		$model->checkin();
 
-		// Initialize variables
-		$db			=& JFactory::getDBO();
-		$table		=& JTable::getInstance('bannerclient', 'Table');
-		$table->cid	= JRequest::getVar( 'cid', 0, 'post', 'int' );
-		$table->checkin();
+		$this->setRedirect( 'index.php?option=com_banners&c=client' );
 	}
 
 	function remove()
 	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
-
-		$this->setRedirect( 'index.php?option=com_banners&c=client' );
-
-		// Initialize variables
-		$db		=& JFactory::getDBO();
-		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
-		$table	=& JTable::getInstance('bannerclient', 'Table');
-		$n		= count( $cid );
-
-		for ($i = 0; $i < $n; $i++)
-		{
-			$query = 'SELECT COUNT( bid )'
-			. ' FROM #__banner'
-			. ' WHERE cid = '. (int) $cid[$i]
-			;
-			$db->setQuery($query);
-			$count = $db->loadResult();
-			if ($count === null) {
-				return JError::raiseWarning( 500, $db->getErrorMsg() );
-			}
-			else if ($count > 0) {
-				return JError::raiseWarning( 500, JText::_( 'WARNCANNOTDELCLIENTBANNER' ) );
-			}
-			else {
-				if (!$table->delete( (int) $cid[$i] )) {
-					return JError::raiseWarning( 500, $table->getError() );
-				}
-			}
+		// Check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
 		}
 
-		$this->setMessage( JText::sprintf( 'Items removed', $n ) );
+		$cid = JRequest::getVar( 'cid', array(), 'post', 'array' );
+		JArrayHelper::toInteger($cid);
+
+		if (count( $cid ) < 1) {
+			JError::raiseError(500, JText::_( 'Select an item to delete' ) );
+		}
+
+		$model = $this->getModel('contact');
+		if(!$model->delete($cid)) {
+			echo "<script> alert('".$model->getError(true)."'); window.history.go(-1); </script>\n";
+		}
+
+		$this->setRedirect( 'index.php?option=com_banners&c=client', JText::sprintf( 'Items removed', count($cid) ) );
 	}
 }

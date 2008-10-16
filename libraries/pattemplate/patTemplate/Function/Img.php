@@ -55,7 +55,7 @@ class patTemplate_Function_Img extends patTemplate_Function {
 		$this->_defaults= array(
 		  'border' => 0,
 		  'title'  => '',
-		  'alt'    => '',
+		  'alt'	=> '',
 		  'width'  => $width,
 		  'height' => $height
 		);

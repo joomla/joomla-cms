@@ -31,7 +31,7 @@ class JAuthorization extends gacl_api
 	 * Access control list
 	 * @var	array
 	 */
-	var $acl       = null;
+	var $acl = null;
 
 	/**
 	 * Internal counter
@@ -270,7 +270,7 @@ class JAuthorization extends gacl_api
 			return parent::acl_check( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $root_aro_group, $root_axo_group );
 		}
 
-		$this->debug_text( "\n<br> ACO=$aco_section_value:$aco_value, ARO=$aro_section_value:$aro_value, AXO=$axo_section_value|$axo_value" );
+		$this->debug_text( "\n<br /> ACO=$aco_section_value:$aco_value, ARO=$aro_section_value:$aro_value, AXO=$axo_section_value|$axo_value" );
 
 		$acl_result = 0;
 		for ($i=0; $i < $this->acl_count; $i++)
@@ -328,8 +328,13 @@ class JAuthorization extends gacl_api
 			. ' INNER JOIN #__core_acl_groups_'.$type.'_map AS gm ON gm.group_id = g.id'
 			. ' INNER JOIN #__core_acl_'.$type.' AS ao ON ao.id = gm.'.$type.'_id'
 			. ' WHERE ao.value='.$db->Quote($value)
+			. ' ORDER BY g.id'
 		);
-		$obj = $db->loadObject(  );
+		try {
+			$obj = $db->loadObject();
+		} catch( JException $e) {
+			$obj = null;
+		}
 		return $obj;
 	}
 
@@ -341,31 +346,35 @@ class JAuthorization extends gacl_api
 		$root->lft = 0;
 		$root->rgt = 0;
 
-		if ($root_id) {
-		} else if ($root_name) {
-			$query	= "SELECT lft, rgt FROM $table WHERE name = ".$db->Quote($root_name);
-			$db->setQuery( $query );
-			$root = $db->loadObject();
-		}
-
-		$where = '';
-		if ($root->lft+$root->rgt <> 0) {
-			if ($inclusive) {
-				$where = ' WHERE g1.lft BETWEEN '.(int) $root->lft.' AND '.(int) $root->rgt;
-			} else {
-				$where = ' WHERE g1.lft > '.(int) $root->lft.' AND g1.lft <'.(int) $root->rgt;
+		try {
+			if ($root_id) {
+			} else if ($root_name) {
+				$query	= "SELECT lft, rgt FROM $table WHERE name = ".$db->Quote($root_name);
+				$db->setQuery( $query );
+				$root = $db->loadObject();
 			}
+	
+			$where = '';
+			if ($root->lft+$root->rgt <> 0) {
+				if ($inclusive) {
+					$where = ' WHERE g1.lft BETWEEN '.(int) $root->lft.' AND '.(int) $root->rgt;
+				} else {
+					$where = ' WHERE g1.lft > '.(int) $root->lft.' AND g1.lft <'.(int) $root->rgt;
+				}
+			}
+	
+			$query	= 'SELECT '. $fields
+					. ' FROM '. $table .' AS g1'
+					. ' INNER JOIN '. $table .' AS g2 ON g1.lft BETWEEN g2.lft AND g2.rgt'
+					. $where
+					. ($groupby ? ' GROUP BY ' . $groupby : '')
+					. ' ORDER BY g1.lft';
+			$db->setQuery( $query );
+
+			return $db->loadObjectList();
+		} catch (JException $e) {
+			return array();
 		}
-
-		$query	= 'SELECT '. $fields
-				. ' FROM '. $table .' AS g1'
-				. ' INNER JOIN '. $table .' AS g2 ON g1.lft BETWEEN g2.lft AND g2.rgt'
-				. $where
-				. ($groupby ? ' GROUP BY ' . $groupby : '')
-				. ' ORDER BY g1.lft';
-		$db->setQuery( $query );
-
-		return $db->loadObjectList();
 	}
 
 	/**
@@ -377,7 +386,6 @@ class JAuthorization extends gacl_api
 	 */
 	function get_group_children_tree( $root_id=null, $root_name=null, $inclusive=true, $html=true )
 	{
-		$db =& JFactory::getDBO();
 
 		$tree = $this->_getBelow( '#__core_acl_aro_groups',
 			'g1.id, g1.name, COUNT(g2.name) AS level',
@@ -462,8 +470,11 @@ class JAuthorization extends gacl_api
 		}
 
 		$db->setQuery($query);
-
-		return $db->loadResult();
+		try {
+			return $db->loadResult();
+		} catch(JException $e) {
+			return null;
+		}
 	}
 
 	/*======================================================================*\
@@ -473,7 +484,7 @@ class JAuthorization extends gacl_api
 	function get_group_parents($group_id, $group_type = 'ARO', $recurse = 'NO_RECURSE')
 	{
 		$this->debug_text("get_group_parents(): Group_ID: $group_id Group Type: $group_type Recurse: $recurse");
-
+		$db = JFactory::getDBO();
 		switch (strtolower(trim($group_type))) {
 			case 'axo':
 				$group_type = 'axo';
@@ -516,19 +527,50 @@ class JAuthorization extends gacl_api
 
 
 		$this->db->setQuery( $query );
-		return $this->db->loadResultArray();
+		try {
+			return $this->db->loadResultArray();
+		} catch (JException $e) {
+			return array();
+		}
 	}
-
 
 	/**
-	 * Deprecated, use JAuthorisation::addACL() instead.
+	 * Get the access levels that the users is permitted to action
 	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @see JAuthorisation::addACL()
+	 * @param	string	The name of the ACL section (usually the component, eg, com_content)
+	 * @param	string	The action (usually 'view' when used in a list context)
+	 * @return	string	Comma separated list of access level ID's
+	 * @since	1.6
 	 */
-	function _mos_add_acl( $aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL, $return_value=NULL ) {
-		$this->addACL($aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value, $axo_value, $return_value);
+	function getUserAccessLevels( $section, $action = 'view' )
+	{
+		$db		= &JFactory::getDBO();
+		$user	= &JFactory::getUser();
+		if ($id = $user->get('aid')) {
+			$query	= 'SELECT GROUP_CONCAT( DISTINCT axog.value SEPARATOR \',\' )' .
+					' FROM #__core_acl_aco_map AS am' .
+					' INNER JOIN #__core_acl_acl AS acl ON acl.id = am.acl_id' .
+					' INNER JOIN #__core_acl_aro_groups_map AS agm ON agm.acl_id = am.acl_id' .
+					' LEFT JOIN #__core_acl_axo_groups_map AS axogm ON axogm.acl_id = am.acl_id' .
+					' INNER JOIN #__core_acl_axo_groups AS axog ON axog.id = axogm.group_id' .
+					' INNER JOIN #__core_acl_groups_aro_map AS garom ON garom.group_id = agm.group_id' .
+					' INNER JOIN #__core_acl_aro AS aro ON aro.id = garom.aro_id' .
+					' WHERE am.section_value = '.$db->Quote( $section ) .
+					'  AND am.value = '.$db->Quote( $action ) .
+					'  AND acl.enabled = 1' .
+					'  AND acl.allow = 1' .
+					'  AND aro.value = '.(int) $user->id;
+			$db->setQuery( $query );
+			try {
+				$result	= $db->loadResult();
+			} catch(JException $e) {
+				$result = 0;
+			}
+		}
+		else {
+			// Save some performance for anon users
+			$result = 0;
+		}
+		return $result;
 	}
-
 }

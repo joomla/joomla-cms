@@ -44,8 +44,28 @@ class UserViewUser extends JView
 
 		$user =& JFactory::getUser();
 
+		// Get the page/component configuration
+		$params = &$mainframe->getParams();
+
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	JText::_( 'User Details' ));
+			}
+		} else {
+			$params->set('page_title',	JText::_( 'User Details' ));
+		}
+		$document	= &JFactory::getDocument();
+		$document->setTitle( $params->get( 'page_title' ) );
+
 		// Set pathway information
 		$this->assignRef('user'   , $user);
+		$this->assignRef('params',		$params);
 
 		parent::display($tpl);
 	}
@@ -54,7 +74,8 @@ class UserViewUser extends JView
 	{
 		global $mainframe;
 
-		$user     =& JFactory::getUser();
+		$user	=& JFactory::getUser();
+		$params	= &$mainframe->getParams();
 
 		// check to see if Frontend User Params have been enabled
 		$usersConfig = &JComponentHelper::getParams( 'com_users' );
@@ -66,6 +87,22 @@ class UserViewUser extends JView
 				$params		= $user->getParameters(true);
 			}
 		}
+		$params->merge( $params );
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	JText::_( 'Edit Your Details' ));
+			}
+		} else {
+			$params->set('page_title',	JText::_( 'Edit Your Details' ));
+		}
+		$document	= &JFactory::getDocument();
+		$document->setTitle( $params->get( 'page_title' ) );
 
 		$this->assignRef('user'  , $user);
 		$this->assignRef('params', $params);

@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a category element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,9 +31,9 @@ class JElementCategory extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Category';
+	protected $_name = 'Category';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		$db = &JFactory::getDBO();
 
@@ -68,7 +67,11 @@ class JElementCategory extends JElement
 				' ORDER BY c.title';
 		}
 		$db->setQuery($query);
-		$options = $db->loadObjectList();
+		try {
+			$options = $db->loadObjectList();
+		} catch(JException $e) {
+			$options = array();
+		}
 		array_unshift($options, JHTML::_('select.option', '0', '- '.JText::_('Select Category').' -', 'id', 'title'));
 
 		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name );

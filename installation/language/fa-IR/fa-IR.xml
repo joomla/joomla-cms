@@ -2,8 +2,8 @@
 <!-- $Id: en-GB.xml 8041 2007-07-18 10:25:00Z humvee $ -->
 <metafile version="1.5" client="installation" >
 	<name>Persian(پارسی)</name>
-	<version>1.5.0</version>
-	<creationDate>Nov 2007</creationDate>
+	<version>1.5.4</version>
+	<creationDate>March 2008</creationDate>
 	<author>Joomfa Team</author>
 	<authorEmail>joomfa@gmail.com</authorEmail>
 	<authorUrl>www.joomfa.org</authorUrl>

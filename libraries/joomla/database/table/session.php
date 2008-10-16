@@ -28,61 +28,61 @@ class JTableSession extends JTable
 	 *
 	 * @var int Primary key
 	 */
-	var $session_id			= null;
+	protected $session_id			= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	var $time				= null;
+	protected $time				= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	var $userid				= null;
+	protected $userid				= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	var $usertype			= null;
+	protected $usertype			= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	var $username			= null;
+	protected $username			= null;
 
 	/**
 	 *
 	 * @var time
 	 */
-	var $gid				= null;
+	protected $gid				= null;
 
 	/**
 	 *
 	 * @var int
 	 */
-	var $guest				= null;
+	protected $guest				= null;
 
 	/**
 	 *
 	 * @var int
 	 */
-	var $client_id			= null;
+	protected $client_id			= null;
 
 	/**
 	 *
 	 * @var string
 	 */
-	var $data				= null;
+	protected $data				= null;
 
 	/**
 	 * Constructor
 	 * @param database A database connector object
 	 */
-	function __construct( &$db )
+	protected function __construct( &$db )
 	{
 		parent::__construct( '#__session', 'session_id', $db );
 
@@ -91,39 +91,37 @@ class JTableSession extends JTable
 		$this->gid 		= 0;
 	}
 
-	function insert($sessionId, $clientId)
+	public function insert($sessionId, $clientId)
 	{
 		$this->session_id	= $sessionId;
 		$this->client_id	= $clientId;
 
 		$this->time = time();
-		$ret = $this->_db->insertObject( $this->_tbl, $this, 'session_id' );
-
-		if( !$ret ) {
-			$this->setError(strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $this->_db->stderr());
+		try {
+			$this->_db->insertObject( $this->_tbl, $this, 'session_id' );
+		} catch(JException $e) {
+			$this->setError(strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $e->getMessage());
 			return false;
-		} else {
-			return true;
 		}
+		return true;
 	}
 
-	function update( $updateNulls = false )
+	public function update( $updateNulls = false )
 	{
 		$this->time = time();
-		$ret = $this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );
-
-		if( !$ret ) {
-			$this->setError(strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ." <br />" . $this->_db->stderr());
+		try {
+			$this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );	
+		} catch(JException $e) {
+			$this->setError(strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ." <br />" . $e->getMessage());
 			return false;
-		} else {
-			return true;
 		}
+		return true;
 	}
 
 	/**
 	 * Destroys the pesisting session
 	 */
-	function destroy($userId, $clientIds = array())
+	public function destroy($userId, $clientIds = array())
 	{
 		$clientIds = implode( ',', $clientIds );
 
@@ -133,8 +131,10 @@ class JTableSession extends JTable
 			;
 		$this->_db->setQuery( $query );
 
-		if ( !$this->_db->query() ) {
-			$this->setError( $this->_db->stderr());
+		try {
+			$this->_db->query();
+		} catch(JException $e) {
+			$this->setError( $e->getMessage());
 			return false;
 		}
 
@@ -147,13 +147,17 @@ class JTableSession extends JTable
 	* @param int 	Session age in seconds
 	* @return mixed Resource on success, null on fail
 	*/
-	function purge( $maxLifetime = 1440 )
+	public function purge( $maxLifetime = 1440 )
 	{
 		$past = time() - $maxLifetime;
 		$query = 'DELETE FROM '. $this->_tbl .' WHERE ( time < \''. (int) $past .'\' )'; // Index on 'VARCHAR'
 		$this->_db->setQuery($query);
-
-		return $this->_db->query();
+		try {
+			return $this->_db->query();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		} 
 	}
 
 	/**
@@ -162,14 +166,16 @@ class JTableSession extends JTable
 	 * @param int $userid The identifier of the user
 	 * @return boolean True if a session for this user exists
 	 */
-	function exists($userid)
+	public function exists($userid)
 	{
 		$query = 'SELECT COUNT(userid) FROM #__session'
 			. ' WHERE userid = '. $this->_db->Quote( $userid );
 		$this->_db->setQuery( $query );
 
-		if ( !$result = $this->_db->loadResult() ) {
-			$this->setError($this->_db->stderr());
+		try {
+			$result = $this->_db->loadResult();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -184,7 +190,7 @@ class JTableSession extends JTable
 	 * @access public
 	 * @return true if successful otherwise returns and error message
 	 */
-	function delete( $oid=null )
+	public function delete( $oid=null )
 	{
 		//if (!$this->canDelete( $msg ))
 		//{
@@ -200,13 +206,11 @@ class JTableSession extends JTable
 				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
 		$this->_db->setQuery( $query );
 
-		if ($this->_db->query())
-		{
+		try {
+			$this->_db->query();
 			return true;
-		}
-		else
-		{
-			$this->setError($this->_db->getErrorMsg());
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
 			return false;
 		}
 	}

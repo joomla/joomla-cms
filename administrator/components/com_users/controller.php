@@ -1,15 +1,10 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	Users
+ * @package		Joomla.Administrator
+ * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
  */
 
 // no direct access
@@ -24,7 +19,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	Users
  * @since 1.5
  */
-class UsersController extends JController
+class UserController extends JController
 {
 	/**
 	 * Constructor
@@ -48,24 +43,34 @@ class UsersController extends JController
 	 */
 	function display( )
 	{
-		switch($this->getTask())
-		{
-			case 'add'     :
-			{	JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'layout', 'form'  );
-				JRequest::setVar( 'view', 'user' );
-				JRequest::setVar( 'edit', false );
-			} break;
-			case 'edit'    :
-			{
-				JRequest::setVar( 'hidemainmenu', 1 );
-				JRequest::setVar( 'layout', 'form'  );
-				JRequest::setVar( 'view', 'user' );
-				JRequest::setVar( 'edit', true );
-			} break;
-		}
+		jimport( 'joomla.application.component.model' );
+		JModel::addIncludePath( JPATH_COMPONENT.DS.'models' );
 
-		parent::display();
+		$document	= &JFactory::getDocument();
+		$vName		= JRequest::getCmd( 'view', 'users' );
+		$vFormat	= $document->getType();
+		$lName		= JRequest::getCmd( 'layout', 'default' );
+
+		if ($view = &$this->getView( $vName, $vFormat ))
+		{
+			switch ($vName)
+			{
+				case 'user':
+				case 'users':
+					$model = $this->getModel( 'user' );
+					break;
+			}
+
+			// Push the model into the view (as default)
+			$view->setModel( $model, true);
+			$view->setLayout($lName);
+
+			// push document object into the view
+			$view->assignRef('document', $document);
+			$view->display();
+
+			//JSubMenuHelper::addEntry( JText::_( 'Link Users' ),			'index.php?option=com_users&view=users',	$vName == 'users' );
+		}
 	}
 
 	/**
@@ -203,8 +208,8 @@ class UsersController extends JController
 			$user->set('aid', 1);
 
 			// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-			if ($acl->is_group_child_of($grp->name, 'Registered')      ||
-			    $acl->is_group_child_of($grp->name, 'Public Backend'))    {
+			if ($acl->is_group_child_of($grp->name, 'Registered') ||
+				$acl->is_group_child_of($grp->name, 'Public Backend')) {
 				$user->set('aid', 2);
 			}
 

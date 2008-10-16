@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a popup window button
  *
- * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		HTML
  * @since		1.5
@@ -31,9 +30,9 @@ class JButtonPopup extends JButton
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Popup';
+	protected $_name = 'Popup';
 
-	function fetchButton( $type='Popup', $name = '', $text = '', $url = '', $width=640, $height=480, $top=0, $left=0 )
+	public function fetchButton( $type='Popup', $name = '', $text = '', $url = '', $width=640, $height=480, $top=0, $left=0 )
 	{
 		JHTML::_('behavior.modal');
 
@@ -60,9 +59,9 @@ class JButtonPopup extends JButton
 	 * @return		string	Button CSS Id
 	 * @since		1.5
 	 */
-	function fetchId($name)
+	public function fetchId($name)
 	{
-		return $this->_parent->_name.'-'."popup-$name";
+		return $this->_parent->getName().'-'."popup-$name";
 	}
 
 	/**
@@ -73,7 +72,7 @@ class JButtonPopup extends JButton
 	 * @return	string	JavaScript command string
 	 * @since	1.5
 	 */
-	function _getCommand($name, $url, $width, $height, $top, $left)
+	protected function _getCommand($name, $url, $width, $height, $top, $left)
 	{
 		if (substr($url, 0, 4) !== 'http') {
 			$url = JURI::base().$url;

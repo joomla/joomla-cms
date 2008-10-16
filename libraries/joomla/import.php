@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Load the loader class
  */
 if (! class_exists('JLoader')) {
-    require_once( JPATH_LIBRARIES.DS.'loader.php');
+	require_once JPATH_LIBRARIES.DS.'loader.php';
 }
 
 /**
@@ -26,7 +26,9 @@ if (! class_exists('JLoader')) {
  */
 
 //Base classes
-JLoader::import( 'joomla.base.object' 			);
+JLoader::import( 'joomla.base.stdclass' );
+JLoader::import( 'joomla.base.object' );
+
 
 //Environment classes
 JLoader::import( 'joomla.environment.request'   );

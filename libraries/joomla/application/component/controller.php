@@ -26,7 +26,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Application
  * @since		1.5
  */
-class JController extends JObject
+abstract class JController extends JObject
 {
 	/**
 	 * The base path of the controller
@@ -34,7 +34,7 @@ class JController extends JObject
 	 * @var		string
 	 * @access 	protected
 	 */
-	var $_basePath = null;
+	protected $_basePath = null;
 
 	/**
 	 * The name of the controller
@@ -42,7 +42,7 @@ class JController extends JObject
 	 * @var		array
 	 * @access	protected
 	 */
-	var $_name = null;
+	protected $_name = null;
 
 	/**
 	 * Array of class methods
@@ -50,7 +50,7 @@ class JController extends JObject
 	 * @var	array
 	 * @access	protected
 	 */
-	var $_methods 	= null;
+	protected $_methods 	= null;
 
 	/**
 	 * Array of class methods to call for a given task.
@@ -58,7 +58,7 @@ class JController extends JObject
 	 * @var	array
 	 * @access	protected
 	 */
-	var $_taskMap 	= null;
+	protected $_taskMap 	= null;
 
 	/**
 	 * Current or most recent task to be performed.
@@ -66,7 +66,9 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_task 		= null;
+	protected $_task 		= null;
+
+	protected $_data = null;
 
 	/**
 	 * The mapped task that was performed.
@@ -74,7 +76,7 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_doTask 	= null;
+	protected $_doTask 	= null;
 
 	/**
 	 * The set of search directories for resources (views).
@@ -82,7 +84,7 @@ class JController extends JObject
 	 * @var array
 	 * @access	protected
 	 */
-	var $_path = array(
+	protected $_path = array(
 		'view'	=> array()
 	);
 
@@ -92,7 +94,7 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_redirect 	= null;
+	protected $_redirect 	= null;
 
 	/**
 	 * Redirect message.
@@ -100,7 +102,7 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_message 	= null;
+	protected $_message 	= null;
 
 	/**
 	 * Redirect message type.
@@ -108,7 +110,7 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_messageType 	= null;
+	protected $_messageType 	= null;
 
 	/**
 	 * ACO Section for the controller.
@@ -116,7 +118,7 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_acoSection 		= null;
+	protected $_acoSection 		= null;
 
 	/**
 	 * Default ACO Section value for the controller.
@@ -124,7 +126,9 @@ class JController extends JObject
 	 * @var	string
 	 * @access	protected
 	 */
-	var $_acoSectionValue 	= null;
+	protected $_acoSectionValue 	= null;
+
+	protected $_params = null;
 
 	/**
 	 * Constructor.
@@ -135,7 +139,7 @@ class JController extends JObject
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @since	1.5
 	 */
-	function __construct( $config = array() )
+	public function __construct( $config = array() )
 	{
 		//Initialize private variables
 		$this->_redirect	= null;
@@ -214,7 +218,7 @@ class JController extends JObject
 	 * error case.
 	 * @since	1.5
 	 */
-	function execute( $task )
+	public function execute( $task )
 	{
 		$this->_task = $task;
 
@@ -251,7 +255,7 @@ class JController extends JObject
 	 * @return	boolean	True if authorized
 	 * @since	1.5
 	 */
-	function authorize( $task )
+	public function authorize( $task )
 	{
 		// Only do access check if the aco section is set
 		if ($this->_acoSection)
@@ -282,7 +286,7 @@ class JController extends JObject
 	 * @param	string	$cachable	If true, the view output will be cached
 	 * @since	1.5
 	 */
-	function display($cachable=false)
+	public function display($cachable=false)
 	{
 		$document =& JFactory::getDocument();
 
@@ -302,9 +306,9 @@ class JController extends JObject
 		$view->setLayout($viewLayout);
 
 		// Display the view
-		if ($cachable) {
-			global $option;
-			$cache =& JFactory::getCache($option, 'view');
+		if ($cachable && $viewType != 'feed') {
+			$component	= JApplicationHelper::getComponentName();
+			$cache		= JFactory::getCache($component, 'view');
 			$cache->get($view, 'display');
 		} else {
 			$view->display();
@@ -318,11 +322,11 @@ class JController extends JObject
 	 * @return	boolean	False if no redirect exists.
 	 * @since	1.5
 	 */
-	function redirect()
+	public function redirect()
 	{
 		if ($this->_redirect) {
-			global $mainframe;
-			$mainframe->redirect( $this->_redirect, $this->_message, $this->_messageType );
+			$appl = JFactory::getApplication();
+			$appl->redirect( $this->_redirect, $this->_message, $this->_messageType );
 		}
 		return false;
 	}
@@ -337,7 +341,7 @@ class JController extends JObject
 	 * @return	object	The model.
 	 * @since	1.5
 	 */
-	function &getModel( $name = '', $prefix = '', $config = array() )
+	public function &getModel( $name = '', $prefix = '', $config = array() )
 	{
 		if ( empty( $name ) ) {
 			$name = $this->getName();
@@ -372,11 +376,10 @@ class JController extends JObject
 	 * Adds to the stack of model paths in LIFO order.
 	 *
 	 * @static
-	 * @param	string|array The directory (string), or list of directories
-	 *                       (array) to add.
+	 * @param	string|array The directory (string), or list of directories (array) to add.
 	 * @return	void
 	 */
-	function addModelPath( $path )
+	public function addModelPath( $path )
 	{
 		jimport('joomla.application.component.model');
 		JModel::addIncludePath($path);
@@ -388,7 +391,7 @@ class JController extends JObject
 	 * @return	array Array[i] of task names.
 	 * @since	1.5
 	 */
-	function getTasks()
+	public function getTasks()
 	{
 		return $this->_methods;
 	}
@@ -400,7 +403,7 @@ class JController extends JObject
 	 * @return	 string The task that was or is being performed.
 	 * @since	1.5
 	 */
-	function getTask()
+	public function getTask()
 	{
 		return $this->_task;
 	}
@@ -415,7 +418,7 @@ class JController extends JObject
 	 * @return	string The name of the dispatcher
 	 * @since	1.5
 	 */
-	function getName()
+	public function getName()
 	{
 		$name = $this->_name;
 
@@ -423,7 +426,7 @@ class JController extends JObject
 		{
 			$r = null;
 			if ( !preg_match( '/(.*)Controller/i', get_class( $this ), $r ) ) {
-				JError::raiseError(500, "JController::getName() : Cannot get or parse class name.");
+				throw new JException('Cannot get or parse class name', 500, E_ERROR, $name, true);
 			}
 			$name = strtolower( $r[1] );
 		}
@@ -443,7 +446,7 @@ class JController extends JObject
 	 * @return	object	Reference to the view or an error.
 	 * @since	1.5
 	 */
-	function &getView( $name = '', $type = '', $prefix = '', $config = array() )
+	public function &getView( $name = '', $type = '', $prefix = '', $config = array() )
 	{
 		static $views;
 
@@ -483,7 +486,7 @@ class JController extends JObject
 	 * (array) to add.
 	 * @return	void
 	 */
-	function addViewPath( $path )
+	public function addViewPath( $path )
 	{
 		$this->_addPath( 'view', $path );
 	}
@@ -493,12 +496,11 @@ class JController extends JObject
 	 *
 	 * @access	public
 	 * @param	string	The task.
-	 * @param	string	The name of the method in the derived class to perform
-	 *                  for this task.
+	 * @param	string	The name of the method in the derived class to perform for this task.
 	 * @return	void
 	 * @since	1.5
 	 */
-	function registerTask( $task, $method )
+	public function registerTask( $task, $method )
 	{
 		if ( in_array( strtolower( $method ), $this->_methods ) ) {
 			$this->_taskMap[strtolower( $task )] = $method;
@@ -514,7 +516,7 @@ class JController extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function registerDefaultTask( $method )
+	public function registerDefaultTask( $method )
 	{
 		$this->registerTask( '__default', $method );
 	}
@@ -527,7 +529,7 @@ class JController extends JObject
 	 * @return	string	Previous message
 	 * @since	1.5
 	 */
-	function setMessage( $text )
+	public function setMessage( $text )
 	{
 		$previous		= $this->_message;
 		$this->_message = $text;
@@ -545,7 +547,7 @@ class JController extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function setRedirect( $url, $msg = null, $type = 'message' )
+	public function setRedirect( $url, $msg = null, $type = 'message' )
 	{
 		$this->_redirect = $url;
 		if ($msg !== null) {
@@ -564,7 +566,7 @@ class JController extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function setAccessControl( $section, $value = null )
+	public function setAccessControl( $section, $value = null )
 	{
 		$this->_acoSection = $section;
 		$this->_acoSectionValue = $value;
@@ -581,7 +583,7 @@ class JController extends JObject
 	 * failure.
 	 * @since	1.5
 	 */
-	function &_createModel( $name, $prefix = '', $config = array())
+	private function &_createModel( $name, $prefix = '', $config = array())
 	{
 		$result = null;
 
@@ -609,7 +611,7 @@ class JController extends JObject
 	 * @return	mixed	View object on success; null or error result on failure.
 	 * @since	1.5
 	 */
-	function &_createView( $name, $prefix = '', $type = '', $config = array() )
+	private function &_createView( $name, $prefix = '', $type = '', $config = array() )
 	{
 		$result = null;
 
@@ -654,7 +656,7 @@ class JController extends JObject
 	* @param	string|array	The new set of search paths. If null or false,
 	* resets to the current directory only.
 	*/
-	function _setPath( $type, $path )
+	protected function _setPath( $type, $path )
 	{
 		// clear out the prior search dirs
 		$this->_path[$type] = array();
@@ -671,7 +673,7 @@ class JController extends JObject
 	* @param	string|array The directory or stream to search.
 	* @return	void
 	*/
-	function _addPath( $type, $path )
+	protected function _addPath( $type, $path )
 	{
 		// just force path to array
 		settype( $path, 'array' );
@@ -702,7 +704,7 @@ class JController extends JObject
 	 * @return	string	The filename.
 	 * @since	1.5
 	 */
-	function _createFileName( $type, $parts = array() )
+	private function _createFileName( $type, $parts = array() )
 	{
 		$filename = '';
 
@@ -719,3 +721,4 @@ class JController extends JObject
 		return $filename;
 	}
 }
+

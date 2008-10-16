@@ -22,74 +22,74 @@ defined('JPATH_BASE') or die();
  * @subpackage	Error
  * @since		1.5
  */
-class JException extends JObject
+class JException extends Exception
 {
 	/**
 	 * Error level
 	 * @var string
 	 */
-	var	$level		= null;
+	protected $level		= null;
 
 	/**
 	 * Error code
 	 * @var string
 	 */
-	var	$code		= null;
+	protected $code = null;
 
 	/**
 	 * Error message
 	 * @var string
 	 */
-	var	$message	= null;
+	protected $message = null;
 
 	/**
 	 * Additional info about the error relevant to the developer
 	 *  - e.g. if a database connect fails, the dsn used
 	 * @var string
 	 */
-	var	$info		= '';
+	protected $info = '';
 
 	/**
 	 * Name of the file the error occurred in [Available if backtrace is enabled]
 	 * @var string
 	 */
-	var	$file		= null;
+	protected $file = null;
 
 	/**
 	 * Line number the error occurred in [Available if backtrace is enabled]
 	 * @var int
 	 */
-	var	$line		= 0;
+	protected $line = 0;
 
 	/**
 	 * Name of the method the error occurred in [Available if backtrace is enabled]
 	 * @var string
 	 */
-	var	$function	= null;
+	protected $function	= null;
 
 	/**
 	 * Name of the class the error occurred in [Available if backtrace is enabled]
 	 * @var string
 	 */
-	var	$class		= null;
+	protected $class = null;
 
 	/**
-     * Error type
+	 * Error type
 	 * @var string
 	 */
-	var	$type		= null;
+	protected	$type		= null;
 
 	/**
 	 * Arguments recieved by the method the error occurred in [Available if backtrace is enabled]
 	 * @var array
 	 */
-	var	$args		= array();
+	protected	$args		= array();
 
 	/**
 	 * Backtrace information
 	 * @var mixed
 	 */
-	var	$backtrace	= null;
+	protected	$backtrace	= null;
 
 	/**
 	 * Constructor
@@ -102,8 +102,8 @@ class JException extends JObject
 	 * @param	string	$info		Optional: The additional error information.
 	 * @param	boolean	$backtrace	True if backtrace information is to be collected
 	 */
-    function __construct( $msg, $code = 0, $level = null, $info = null, $backtrace = false )
-    {
+	public function __construct( $msg, $code = 0, $level = null, $info = null, $backtrace = false )
+	{
 		$this->level	=	$level;
 		$this->code		=	$code;
 		$this->message	=	$msg;
@@ -142,100 +142,11 @@ class JException extends JObject
 				break;
 			}
 		}
-    }
 
-	/**
-	 * Method to get the exception message
-	 *
-	 * @final
-	 * @access	public
-	 * @return	string
-	 * @since	1.5
-	 */
-	function getMessage()
-	{
-		return $this->message;
-	}
+		//Store exception for debugging purposes!!!	
+		JError::addToStack($this);
 
-	/**
-	 * Method to get the exception code
-	 *
-	 * @final
-	 * @access	public
-	 * @return	integer
-	 * @since	1.5
-	 */
-	function getCode()
-	{
-		return $this->code;
-	}
-
-	/**
-	 * Method to get the source filename where the exception occured
-	 *
-	 * @final
-	 * @access	public
-	 * @return	string
-	 * @since	1.5
-	 */
-	function getFile()
-	{
-		return $this->file;
-	}
-
-	/**
-	 * Method to get the source line where the exception occured
-	 *
-	 * @final
-	 * @access	public
-	 * @return	integer
-	 * @since	1.5
-	 */
-	function getLine()
-	{
-		return $this->line;
-	}
-
-	/**
-	 * Method to get the array of the backtrace()
-	 *
-	 * @final
-	 * @access	public
-	 * @return	array backtrace
-	 * @since	1.5
-	 */
-	function getTrace()
-	{
-		if (isset( $this ) && isset( $this->backtrace )) {
-			$trace = &$this->backtrace;
-		} else {
-			$trace = function_exists( 'debug_backtrace' ) ? debug_backtrace() : null;
-		}
-
-		return $trace;
-	}
-
-	/**
-	 * Method to get the formatted backtrace information
-	 *
-	 * @final
-	 * @access	public
-	 * @return	string Formated string of trace
-	 * @since	1.5
-	 */
-	function getTraceAsString( )
-	{
-		//Get the trace array
-		$trace = JException::getTrace();
-
-		$result = '';
-		foreach ($trace as $back)
-		{
-			if (isset($back['file']) && strpos($back['file'], 'error.php') === false) {
-				$result .= '<br />'.$back['file'].':'.$back['line'];
-			}
-		}
-		return $result;
+		parent::__construct($msg, (int) $code);
 	}
 
 	/**
@@ -245,8 +156,151 @@ class JException extends JObject
 	 * @return	string Error message
 	 * @since	1.5
 	 */
-	function toString()
+	public function toString()
 	{
 		return $this->message;
 	}
+
+	/**
+	 * Returns a property of the object or the default value if the property is not set.
+	 *
+	 * @access	public
+	 * @param	string $property The name of the property
+	 * @param	mixed  $default The default value
+	 * @return	mixed The value of the property
+	 * @see		getProperties()
+	 * @since	1.5
+ 	 */
+	public function get($property, $default=null)
+	{
+		if(isset($this->$property)) {
+			return $this->$property;
+		}
+		return $default;
+	}
+
+	/**
+	 * Returns an associative array of object properties
+	 *
+	 * @access	public
+	 * @param	boolean $public If true, returns only the public properties
+	 * @return	array
+	 * @see		get()
+	 * @since	1.5
+ 	 */
+	public function getProperties( $public = true )
+	{
+		$vars  = get_object_vars($this);
+		if($public)
+		{
+			foreach ($vars as $key => $value)
+			{
+				if ('_' == substr($key, 0, 1)) {
+					unset($vars[$key]);
+				}
+			}
+		}
+		return $vars;
+	}
+
+	/**
+	 * Get the most recent error message
+	 *
+	 * @param	integer	$i Option error index
+	 * @param	boolean	$toString Indicates if JError objects should return their error message
+	 * @return	string	Error message
+	 * @access	public
+	 * @since	1.5
+	 */
+	public function getError($i = null, $toString = true )
+	{
+		// Find the error
+		if ( $i === null) {
+			// Default, return the last message
+			$error = end($this->_errors);
+		}
+		else
+		if ( ! array_key_exists($i, $this->_errors) ) {
+			// If $i has been specified but does not exist, return false
+			return false;
+		}
+		else {
+			$error	= $this->_errors[$i];
+		}
+
+		// Check if only the string is requested
+		if ( JError::isError($error) && $toString ) {
+			return $error->toString();
+		}
+
+		return $error;
+	}
+
+	/**
+	 * Return all errors, if any
+	 *
+	 * @access	public
+	 * @return	array	Array of error messages or JErrors
+	 * @since	1.5
+	 */
+	public function getErrors()
+	{
+		return $this->_errors;
+	}
+
+
+	/**
+	 * Modifies a property of the object, creating it if it does not already exist.
+	 *
+	 * @access	public
+	 * @param	string $property The name of the property
+	 * @param	mixed  $value The value of the property to set
+	 * @return	mixed Previous value of the property
+	 * @see		setProperties()
+	 * @since	1.5
+	 */
+	public function set( $property, $value = null )
+	{
+		$previous = isset($this->$property) ? $this->$property : null;
+		$this->$property = $value;
+		return $previous;
+	}
+
+	/**
+	* Set the object properties based on a named array/hash
+	*
+	* @access	protected
+	* @param	$array  mixed Either and associative array or another object
+	* @return	boolean
+	* @see		set()
+	* @since	1.5
+	*/
+	public function setProperties( $properties )
+	{
+		$properties = (array) $properties; //cast to an array
+
+		if (is_array($properties))
+		{
+			foreach ($properties as $k => $v) {
+				$this->$k = $v;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Add an error message
+	 *
+	 * @param	string $error Error message
+	 * @access	public
+	 * @since	1.0
+	 */
+	public function setError($error)
+	{
+		array_push($this->_errors, $error);
+	}
+
 }

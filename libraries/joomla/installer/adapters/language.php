@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Language installer
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.5
@@ -30,7 +29,7 @@ class JInstallerLanguage extends JObject
 	 * @access	private
 	 * @var		boolean
 	 */
-	var $_core = false;
+	protected $_core = false;
 
 	/**
 	 * Constructor
@@ -40,7 +39,7 @@ class JInstallerLanguage extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct(&$parent)
+	public function __construct(&$parent)
 	{
 		$this->parent =& $parent;
 	}
@@ -52,31 +51,64 @@ class JInstallerLanguage extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
-		// Get database connector object
-		$db =& $this->parent->getDBO();
 		$manifest =& $this->parent->getManifest();
 		$this->manifest =& $manifest->document;
 		$root =& $manifest->document;
 
 		// Get the client application target
-		if ($cname = $root->attributes('client')) {
+		if ($root->attributes('client') == 'both')
+		{
+			$siteElement =& $root->getElementByPath('site');
+			$element =& $siteElement->getElementByPath('files');
+			if (!$this->_install('site', JPATH_SITE, 0, $element)) {
+				return false;
+			}
+
+			$adminElement =& $root->getElementByPath('administration');
+			$element =& $adminElement->getElementByPath('files');
+			if (!$this->_install('administrator', JPATH_ADMINISTRATOR, 1, $element)) {
+				return false;
+			}
+
+			return true;
+		}
+		elseif ($cname = $root->attributes('client'))
+		{
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
 			$client =& JApplicationHelper::getClientInfo($cname, true);
-			if ($client === false) {
+			if ($client === null) {
 				$this->parent->abort(JText::_('Language').' '.JText::_('Install').': '.JText::_('Unknown client type').' ['.$cname.']');
 				return false;
 			}
 			$basePath = $client->path;
 			$clientId = $client->id;
-		} else {
+			$element =& $root->getElementByPath('files');
+
+			return $this->_install($cname, $basePath, $clientId, $element);
+		}
+		else
+		{
 			// No client attribute was found so we assume the site as the client
 			$cname = 'site';
 			$basePath = JPATH_SITE;
 			$clientId = 0;
+			$element =& $root->getElementByPath('files');
+
+			return $this->_install($cname, $basePath, $clientId, $element);
 		}
+	}
+
+	/**
+	 *
+	 */
+	protected function _install($cname, $basePath, $clientId, &$element)
+	{
+		$manifest =& $this->parent->getManifest();
+		$this->manifest =& $manifest->document;
+		$root =& $manifest->document;
 
 		// Get the language name
 		// Set the extensions name
@@ -101,8 +133,7 @@ class JInstallerLanguage extends JObject
 		$this->parent->setPath('extension_site', $basePath.DS."language".DS.$this->get('tag'));
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		$element =& $root->getElementByPath('files');
-		if (is_a($element, 'JSimpleXMLElement') && count($element->children())) {
+		if ($element INSTANCEOF JSimpleXMLElement && count($element->children())) {
 			$files = $element->children();
 			foreach ($files as $file) {
 				if ($file->attributes('file') == 'meta') {
@@ -157,7 +188,7 @@ class JInstallerLanguage extends JObject
 
 		// Get the language description
 		$description = & $root->getElementByPath('description');
-		if (is_a($description, 'JSimpleXMLElement')) {
+		if ($description INSTANCEOF JSimpleXMLElement) {
 			$this->parent->set('message', $description->data());
 		} else {
 			$this->parent->set('message', '' );
@@ -174,7 +205,7 @@ class JInstallerLanguage extends JObject
 	 * @return	mixed	Return value for uninstall method in component uninstall file
 	 * @since	1.5
 	 */
-	function uninstall($tag, $clientId)
+	public function uninstall($tag, $clientId)
 	{
 		$path = trim($tag);
 		if (!JFolder::exists($path)) {

@@ -88,223 +88,221 @@ require_once "Auth/OpenID.php";
 
 class Auth_OpenID_Parse {
 
-    /**
-     * Specify some flags for use with regex matching.
-     */
-    var $_re_flags = "si";
+	/**
+	 * Specify some flags for use with regex matching.
+	 */
+	var $_re_flags = "si";
 
-    /**
-     * Stuff to remove before we start looking for tags
-     */
-    var $_removed_re =
-           "<!--.*?-->|<!\[CDATA\[.*?\]\]>|<script\b(?!:)[^>]*>.*?<\/script>";
+	/**
+	 * Stuff to remove before we start looking for tags
+	 */
+	var $_removed_re =
+		   "<!--.*?-->|<!\[CDATA\[.*?\]\]>|<script\b(?!:)[^>]*>.*?<\/script>";
 
-    /**
-     * Starts with the tag name at a word boundary, where the tag name
-     * is not a namespace
-     */
-    var $_tag_expr = "<%s\b(?!:)([^>]*?)(?:\/>|>(.*?)(?:<\/?%s\s*>|\Z))";
+	/**
+	 * Starts with the tag name at a word boundary, where the tag name
+	 * is not a namespace
+	 */
+	var $_tag_expr = "<%s\b(?!:)([^>]*?)(?:\/>|>(.*?)(?:<\/?%s\s*>|\Z))";
 
-    var $_attr_find = '\b(\w+)=("[^"]*"|\'[^\']*\'|[^\'"\s\/<>]+)';
+	var $_attr_find = '\b(\w+)=("[^"]*"|\'[^\']*\'|[^\'"\s\/<>]+)';
 
-    function Auth_OpenID_Parse()
-    {
-        $this->_link_find = sprintf("/<link\b(?!:)([^>]*)(?!<)>/%s",
-                                    $this->_re_flags);
+	function Auth_OpenID_Parse()
+	{
+		$this->_link_find = sprintf("/<link\b(?!:)([^>]*)(?!<)>/%s",
+									$this->_re_flags);
 
-        $this->_entity_replacements = array(
-                                            'amp' => '&',
-                                            'lt' => '<',
-                                            'gt' => '>',
-                                            'quot' => '"'
-                                            );
+		$this->_entity_replacements = array(
+											'amp' => '&',
+											'lt' => '<',
+											'gt' => '>',
+											'quot' => '"'
+											);
 
-        $this->_attr_find = sprintf("/%s/%s",
-                                    $this->_attr_find,
-                                    $this->_re_flags);
+		$this->_attr_find = sprintf("/%s/%s",
+									$this->_attr_find,
+									$this->_re_flags);
 
-        $this->_removed_re = sprintf("/%s/%s",
-                                     $this->_removed_re,
-                                     $this->_re_flags);
+		$this->_removed_re = sprintf("/%s/%s",
+									 $this->_removed_re,
+									 $this->_re_flags);
 
-        $this->_ent_replace =
-            sprintf("&(%s);", implode("|",
-                                      $this->_entity_replacements));
-    }
+		$this->_ent_replace =
+			sprintf("&(%s);", implode("|",
+									  $this->_entity_replacements));
+	}
 
-    /**
-     * Returns a regular expression that will match a given tag in an
-     * SGML string.
-     */
-    function tagMatcher($tag_name, $close_tags = null)
-    {
-        if ($close_tags) {
-            $options = implode("|", array_merge(array($tag_name), $close_tags));
-            $closer = sprintf("(?:%s)", $options);
-        } else {
-            $closer = $tag_name;
-        }
+	/**
+	 * Returns a regular expression that will match a given tag in an
+	 * SGML string.
+	 */
+	function tagMatcher($tag_name, $close_tags = null)
+	{
+		if ($close_tags) {
+			$options = implode("|", array_merge(array($tag_name), $close_tags));
+			$closer = sprintf("(?:%s)", $options);
+		} else {
+			$closer = $tag_name;
+		}
 
-        $expr = sprintf($this->_tag_expr, $tag_name, $closer);
-        return sprintf("/%s/%s", $expr, $this->_re_flags);
-    }
+		$expr = sprintf($this->_tag_expr, $tag_name, $closer);
+		return sprintf("/%s/%s", $expr, $this->_re_flags);
+	}
 
-    function htmlFind()
-    {
-        return $this->tagMatcher('html');
-    }
+	function htmlFind()
+	{
+		return $this->tagMatcher('html');
+	}
 
-    function headFind()
-    {
-        return $this->tagMatcher('head', array('body'));
-    }
+	function headFind()
+	{
+		return $this->tagMatcher('head', array('body'));
+	}
 
-    function replaceEntities($str)
-    {
-        foreach ($this->_entity_replacements as $old => $new) {
-            $str = preg_replace(sprintf("/&%s;/", $old), $new, $str);
-        }
-        return $str;
-    }
+	function replaceEntities($str)
+	{
+		foreach ($this->_entity_replacements as $old => $new) {
+			$str = preg_replace(sprintf("/&%s;/", $old), $new, $str);
+		}
+		return $str;
+	}
 
-    function removeQuotes($str)
-    {
-        $matches = array();
-        $double = '/^"(.*)"$/';
-        $single = "/^\'(.*)\'$/";
+	function removeQuotes($str)
+	{
+		$matches = array();
+		$double = '/^"(.*)"$/';
+		$single = "/^\'(.*)\'$/";
 
-        if (preg_match($double, $str, $matches)) {
-            return $matches[1];
-        } else if (preg_match($single, $str, $matches)) {
-            return $matches[1];
-        } else {
-            return $str;
-        }
-    }
+		if (preg_match($double, $str, $matches)) {
+			return $matches[1];
+		} else if (preg_match($single, $str, $matches)) {
+			return $matches[1];
+		} else {
+			return $str;
+		}
+	}
 
-    /**
-     * Find all link tags in a string representing a HTML document and
-     * return a list of their attributes.
-     *
-     * @param string $html The text to parse
-     * @return array $list An array of arrays of attributes, one for each
-     * link tag
-     */
-    function parseLinkAttrs($html)
-    {
-        $stripped = preg_replace($this->_removed_re,
-                                 "",
-                                 $html);
+	/**
+	 * Find all link tags in a string representing a HTML document and
+	 * return a list of their attributes.
+	 *
+	 * @param string $html The text to parse
+	 * @return array $list An array of arrays of attributes, one for each
+	 * link tag
+	 */
+	function parseLinkAttrs($html)
+	{
+		$stripped = preg_replace($this->_removed_re,
+								 "",
+								 $html);
 
-        // Try to find the <HTML> tag.
-        $html_re = $this->htmlFind();
-        $html_matches = array();
-        if (!preg_match($html_re, $stripped, $html_matches)) {
-            return array();
-        }
+		// Try to find the <HTML> tag.
+		$html_re = $this->htmlFind();
+		$html_matches = array();
+		if (!preg_match($html_re, $stripped, $html_matches)) {
+			return array();
+		}
 
-        // Try to find the <HEAD> tag.
-        $head_re = $this->headFind();
-        $head_matches = array();
-        if (!preg_match($head_re, $html_matches[0], $head_matches)) {
-            return array();
-        }
+		// Try to find the <HEAD> tag.
+		$head_re = $this->headFind();
+		$head_matches = array();
+		if (!preg_match($head_re, $html_matches[0], $head_matches)) {
+			return array();
+		}
 
-        $link_data = array();
-        $link_matches = array();
+		$link_data = array();
+		$link_matches = array();
 
-        if (!preg_match_all($this->_link_find, $head_matches[0],
-                            $link_matches)) {
-            return array();
-        }
+		if (!preg_match_all($this->_link_find, $head_matches[0],
+							$link_matches)) {
+			return array();
+		}
 
-        foreach ($link_matches[0] as $link) {
-            $attr_matches = array();
-            preg_match_all($this->_attr_find, $link, $attr_matches);
-            $link_attrs = array();
-            foreach ($attr_matches[0] as $index => $full_match) {
-                $name = $attr_matches[1][$index];
-                $value = $this->replaceEntities(
-                              $this->removeQuotes($attr_matches[2][$index]));
+		foreach ($link_matches[0] as $link) {
+			$attr_matches = array();
+			preg_match_all($this->_attr_find, $link, $attr_matches);
+			$link_attrs = array();
+			foreach ($attr_matches[0] as $index => $full_match) {
+				$name = $attr_matches[1][$index];
+				$value = $this->replaceEntities(
+							  $this->removeQuotes($attr_matches[2][$index]));
 
-                $link_attrs[strtolower($name)] = $value;
-            }
-            $link_data[] = $link_attrs;
-        }
+				$link_attrs[strtolower($name)] = $value;
+			}
+			$link_data[] = $link_attrs;
+		}
 
-        return $link_data;
-    }
+		return $link_data;
+	}
 
-    function relMatches($rel_attr, $target_rel)
-    {
-        // Does this target_rel appear in the rel_str?
-        // XXX: TESTME
-        $rels = preg_split("/\s+/", trim($rel_attr));
-        foreach ($rels as $rel) {
-            $rel = strtolower($rel);
-            if ($rel == $target_rel) {
-                return 1;
-            }
-        }
+	function relMatches($rel_attr, $target_rel)
+	{
+		// Does this target_rel appear in the rel_str?
+		// XXX: TESTME
+		$rels = preg_split("/\s+/", trim($rel_attr));
+		foreach ($rels as $rel) {
+			$rel = strtolower($rel);
+			if ($rel == $target_rel) {
+				return 1;
+			}
+		}
 
-        return 0;
-    }
+		return 0;
+	}
 
-    function linkHasRel($link_attrs, $target_rel)
-    {
-        // Does this link have target_rel as a relationship?
-        // XXX: TESTME
-        $rel_attr = Auth_OpeniD::arrayGet($link_attrs, 'rel', null);
-        return ($rel_attr && $this->relMatches($rel_attr,
-                                               $target_rel));
-    }
+	function linkHasRel($link_attrs, $target_rel)
+	{
+		// Does this link have target_rel as a relationship?
+		// XXX: TESTME
+		$rel_attr = Auth_OpeniD::arrayGet($link_attrs, 'rel', null);
+		return ($rel_attr && $this->relMatches($rel_attr,
+											   $target_rel));
+	}
 
-    function findLinksRel($link_attrs_list, $target_rel)
-    {
-        // Filter the list of link attributes on whether it has
-        // target_rel as a relationship.
-        // XXX: TESTME
-        $result = array();
-        foreach ($link_attrs_list as $attr) {
-            if ($this->linkHasRel($attr, $target_rel)) {
-                $result[] = $attr;
-            }
-        }
+	function findLinksRel($link_attrs_list, $target_rel)
+	{
+		// Filter the list of link attributes on whether it has
+		// target_rel as a relationship.
+		// XXX: TESTME
+		$result = array();
+		foreach ($link_attrs_list as $attr) {
+			if ($this->linkHasRel($attr, $target_rel)) {
+				$result[] = $attr;
+			}
+		}
 
-        return $result;
-    }
+		return $result;
+	}
 
-    function findFirstHref($link_attrs_list, $target_rel)
-    {
-        // Return the value of the href attribute for the first link
-        // tag in the list that has target_rel as a relationship.
-        // XXX: TESTME
-        $matches = $this->findLinksRel($link_attrs_list,
-                                       $target_rel);
-        if (!$matches) {
-            return null;
-        }
-        $first = $matches[0];
-        return Auth_OpenID::arrayGet($first, 'href', null);
-    }
+	function findFirstHref($link_attrs_list, $target_rel)
+	{
+		// Return the value of the href attribute for the first link
+		// tag in the list that has target_rel as a relationship.
+		// XXX: TESTME
+		$matches = $this->findLinksRel($link_attrs_list,
+									   $target_rel);
+		if (!$matches) {
+			return null;
+		}
+		$first = $matches[0];
+		return Auth_OpenID::arrayGet($first, 'href', null);
+	}
 }
 
 function Auth_OpenID_legacy_discover($html_text)
 {
-    $p = new Auth_OpenID_Parse();
+	$p = new Auth_OpenID_Parse();
 
-    $link_attrs = $p->parseLinkAttrs($html_text);
+	$link_attrs = $p->parseLinkAttrs($html_text);
 
-    $server_url = $p->findFirstHref($link_attrs,
-                                    'openid.server');
+	$server_url = $p->findFirstHref($link_attrs,
+									'openid.server');
 
-    if ($server_url === null) {
-        return false;
-    } else {
-        $delegate_url = $p->findFirstHref($link_attrs,
-                                          'openid.delegate');
-        return array($delegate_url, $server_url);
-    }
+	if ($server_url === null) {
+		return false;
+	} else {
+		$delegate_url = $p->findFirstHref($link_attrs,
+										  'openid.delegate');
+		return array($delegate_url, $server_url);
+	}
 }
-
-?>

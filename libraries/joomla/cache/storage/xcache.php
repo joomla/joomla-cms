@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * XCache cache storage handler
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -58,7 +57,6 @@ class JCacheStorageXCache extends JCacheStorage
 			return false;
 		}
 
-		$this->_setExpire($cache_id);
 		return xcache_get($cache_id);
 	}
 
@@ -75,7 +73,6 @@ class JCacheStorageXCache extends JCacheStorage
 	function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		xcache_set($cache_id.'_expire', time() );
 		return xcache_set($cache_id, $data, $this->_lifetime);
 	}
 
@@ -126,28 +123,6 @@ class JCacheStorageXCache extends JCacheStorage
 	function test()
 	{
 		return (extension_loaded('xcache'));
-	}
-
-	/**
-	 * Set expire time on each call since memcache sets it on cache creation.
-	 *
-	 * @access private
-	 *
-	 * @param string  $key   Cache key to expire.
-	 * @param integer $lifetime  Lifetime of the data in seconds.
-	 */
-	function _setExpire($key)
-	{
-		$lifetime	= $this->_lifetime;
-		$expire		= xcache_get($key.'_expire');
-
-		// set prune period
-		if ($expire + $lifetime < time()) {
-			xcache_unset($key);
-			xcache_unset($key.'_expire');
-		} else {
-			xcache_set($key.'_expire',  time());
-		}
 	}
 
 	/**

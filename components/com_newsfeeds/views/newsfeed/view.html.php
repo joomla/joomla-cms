@@ -66,17 +66,17 @@ class NewsfeedsViewNewsfeed extends JView
 		$lists = array();
 
 		// channel header and link
-		$newsfeed->channel['title'] 	  = $rssDoc->get_title();
-		$newsfeed->channel['link'] 		  = $rssDoc->get_link();
-		$newsfeed->channel['description'] = $rssDoc->get_description();
-		$newsfeed->channel['language'] 	  = $rssDoc->get_language();
+		$newsfeed->channel['title']			= $rssDoc->get_title();
+		$newsfeed->channel['link']			= $rssDoc->get_link();
+		$newsfeed->channel['description']	= $rssDoc->get_description();
+		$newsfeed->channel['language']		= $rssDoc->get_language();
 
 		// channel image if exists
-		$newsfeed->image['url']    = $rssDoc->get_image_url();
-		$newsfeed->image['title']  = $rssDoc->get_image_title();
-		$newsfeed->image['link']   = $rssDoc->get_image_link();
-		$newsfeed->image['height'] = $rssDoc->get_image_height();
-		$newsfeed->image['width']  = $rssDoc->get_image_width();
+		$newsfeed->image['url']		= $rssDoc->get_image_url();
+		$newsfeed->image['title']	= $rssDoc->get_image_title();
+		$newsfeed->image['link']	= $rssDoc->get_image_link();
+		$newsfeed->image['height']	= $rssDoc->get_image_height();
+		$newsfeed->image['width']	= $rssDoc->get_image_width();
 
 		// items
 		$newsfeed->items = $rssDoc->get_items();
@@ -84,8 +84,18 @@ class NewsfeedsViewNewsfeed extends JView
 		// feed elements
 		$newsfeed->items = array_slice($newsfeed->items, 0, $newsfeed->numarticles);
 
-		// Set page title per category
-		$document->setTitle( $newsfeed->name . ' - '. $params->get( 'page_title'));
+		// Set page title
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	$newsfeed->name);
+			}
+		} else {
+			$params->set('page_title',	$newsfeed->name);
+		}
+		$document->setTitle( $params->get( 'page_title' ) );
 
 		//set breadcrumbs
 		$viewname	= JRequest::getString('view');

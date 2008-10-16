@@ -23,10 +23,10 @@ if (!$user->authorize( 'com_plugins', 'manage' )) {
 		$mainframe->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( JPATH_COMPONENT.DS.'controller.php' );
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 // Create the controller
-$controller	= new PluginsController( );
+$controller	= new PluginsController();
 
-$controller->execute( JRequest::getCmd( 'task' ) );
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

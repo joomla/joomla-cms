@@ -343,18 +343,18 @@ class DOMIT_Node {
 	* Clears previousSibling, nextSibling, and parentNode references from a node that has been removed
 	*/
 	function clearReferences() {
-	    if ($this->previousSibling != null) {
-	        unset($this->previousSibling);
-	        $this->previousSibling = null;
-	    }
-	    if ($this->nextSibling != null) {
-            unset($this->nextSibling);
-	        $this->nextSibling = null;
-	    }
-	    if ($this->parentNode != null) {
-            unset($this->parentNode);
-	        $this->parentNode = null;
-	    }
+		if ($this->previousSibling != null) {
+			unset($this->previousSibling);
+			$this->previousSibling = null;
+		}
+		if ($this->nextSibling != null) {
+			unset($this->nextSibling);
+			$this->nextSibling = null;
+		}
+		if ($this->parentNode != null) {
+			unset($this->parentNode);
+			$this->parentNode = null;
+		}
 	} //clearReferences
 
 	/**
@@ -408,7 +408,7 @@ class DOMIT_ChildNodes_Interface extends DOMIT_Node {
 	*/
 	function &appendChild(&$child) {
 		if ($child->nodeType == DOMIT_ATTRIBUTE_NODE) {
-		    DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
+			DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
 				('Cannot add a node of type ' . get_class($child) . ' using appendChild'));
 		}
 		else if ($child->nodeType == DOMIT_DOCUMENT_FRAGMENT_NODE) {
@@ -474,10 +474,10 @@ class DOMIT_ChildNodes_Interface extends DOMIT_Node {
 	* @return Object The inserted node
 	*/
 	function &insertBefore(&$newChild, &$refChild) {
-	    if ($newChild->nodeType == DOMIT_ATTRIBUTE_NODE) {
-	    	DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
+		if ($newChild->nodeType == DOMIT_ATTRIBUTE_NODE) {
+			DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
 				('Cannot add a node of type ' . get_class($newChild) . ' using insertBefore'));
-	    }
+		}
 
 		if (($refChild->nodeType == DOMIT_DOCUMENT_NODE) ||
 			//($refChild->parentNode->nodeType == DOMIT_DOCUMENT_NODE) ||
@@ -564,10 +564,10 @@ class DOMIT_ChildNodes_Interface extends DOMIT_Node {
 	* @return Object The new node
 	*/
 	function &replaceChild(&$newChild, &$oldChild) {
-	    if ($newChild->nodeType == DOMIT_ATTRIBUTE_NODE) {
-	    	DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
+		if ($newChild->nodeType == DOMIT_ATTRIBUTE_NODE) {
+			DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
 				('Cannot add a node of type ' . get_class($newChild) . ' using replaceChild'));
-	    }
+		}
 		else if ($newChild->nodeType == DOMIT_DOCUMENT_FRAGMENT_NODE) { //if $newChild is a DocumentFragment
 			//replace the first node then loop through and insert each node separately
 			$total = $newChild->childCount;
@@ -821,20 +821,20 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 	var $preserveWhitespace = false;
 	/** @var Array User defined translation table for XML entities; passed to SAXY */
 	var $definedEntities = array();
-    /** @var boolean If true, loadXML or parseXML will attempt to detect and repair invalid xml */
-    var $doResolveErrors = false;
-    /** @var boolean If true, elements tags will be rendered to string as <element></element> rather than <element/> */
-    var $doExpandEmptyElementTags = false;
+	/** @var boolean If true, loadXML or parseXML will attempt to detect and repair invalid xml */
+	var $doResolveErrors = false;
+	/** @var boolean If true, elements tags will be rendered to string as <element></element> rather than <element/> */
+	var $doExpandEmptyElementTags = false;
 	/** @var array A list of exceptions to the empty element expansion rule */
 	var $expandEmptyElementExceptions = array();
-    /** @var boolean If true, namespaces will be processed */
-    var $isNamespaceAware = false;
+	/** @var boolean If true, namespaces will be processed */
+	var $isNamespaceAware = false;
 	/** @var int The error code returned by the SAX parser */
-    var $errorCode = 0;
+	var $errorCode = 0;
 	/** @var string The error string returned by the SAX parser */
-    var $errorString = '';
+	var $errorString = '';
 	/** @var object A reference to a http connection or proxy server, if one is required */
-    var $httpConnection = null;
+	var $httpConnection = null;
 	/** @var boolean True if php_http_client_generic is to be used instead of PHP get_file_contents to retrieve xml data */
 	var $doUseHTTPClient = false;
 	/** @var array An array of namespacesURIs mapped to prefixes */
@@ -860,7 +860,7 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 	* @param boolean True if errors are to be resolved
 	*/
 	function resolveErrors($truthVal) {
-	    $this->doResolveErrors = $truthVal;
+		$this->doResolveErrors = $truthVal;
 	} //resolveErrors
 
 	/**
@@ -868,7 +868,7 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 	* @param boolean True if namespaces are to be processed
 	*/
 	function setNamespaceAwareness($truthVal) {
-	    $this->isNamespaceAware = $truthVal;
+		$this->isNamespaceAware = $truthVal;
 	} //setNamespaceAwareness
 
 	/**
@@ -876,7 +876,7 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 	* @param boolean True if whitespace is to be preserved
 	*/
 	function preserveWhitespace($truthVal) {
-	    $this->preserveWhitespace = $truthVal;
+		$this->preserveWhitespace = $truthVal;
 	} //preserveWhitespace
 
 	/**
@@ -889,7 +889,7 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 	* @param string The password, if authentication is required
 	*/
 	function setConnection($host, $path = '/', $port = 80, $timeout = 0, $user = null, $password = null) {
-	    require_once(DOMIT_INCLUDE_PATH . 'php_http_client_generic.php');
+		require_once(DOMIT_INCLUDE_PATH . 'php_http_client_generic.php');
 
 		$this->httpConnection = new php_http_client_generic($host, $path, $port, $timeout, $user, $password);
 	} //setConnection
@@ -913,7 +913,7 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 	* @param string The password, if authentication is required
 	*/
 	function setProxyConnection($host, $path = '/', $port = 80, $timeout = 0, $user = null, $password = null) {
-	    require_once(DOMIT_INCLUDE_PATH . 'php_http_proxy.php');
+		require_once(DOMIT_INCLUDE_PATH . 'php_http_proxy.php');
 
 		$this->httpConnection = new php_http_proxy($host, $path, $port, $timeout, $user, $password);
 	} //setProxyConnection
@@ -940,7 +940,7 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 	* @return int The error code
 	*/
 	function getErrorCode() {
-	    return $this->errorCode;
+		return $this->errorCode;
 	} //getErrorCode
 
 	/**
@@ -948,7 +948,7 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 	* @return string The error string
 	*/
 	function getErrorString() {
-	    return $this->errorString;
+		return $this->errorString;
 	} //getErrorString
 
 	/**
@@ -1096,9 +1096,9 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 	* @return Object The appended node
 	*/
 	function &appendChild(&$node) {
-	    switch ($node->nodeType) {
-	        case DOMIT_ELEMENT_NODE:
-	            if ($this->documentElement == null) {
+		switch ($node->nodeType) {
+			case DOMIT_ELEMENT_NODE:
+				if ($this->documentElement == null) {
 					parent::appendChild($node);
 					$this->setDocumentElement($node);
 				}
@@ -1107,36 +1107,36 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 					DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
 						('Cannot have more than one root node (documentElement) in a DOMIT_Document.'));
 				}
-	            break;
+				break;
 
 			case DOMIT_PROCESSING_INSTRUCTION_NODE:
 			case DOMIT_COMMENT_NODE:
-			    parent::appendChild($node);
-			    break;
+				parent::appendChild($node);
+				break;
 
    			case DOMIT_DOCUMENT_TYPE_NODE:
-   			    if ($this->doctype == null) {
+   				if ($this->doctype == null) {
 					parent::appendChild($node);
 				}
 				else {
 					DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
 						('Cannot have more than one doctype node in a DOMIT_Document.'));
 				}
-   			    break;
+   				break;
 
 			case DOMIT_DOCUMENT_FRAGMENT_NODE:
-			    $total = $node->childCount;
+				$total = $node->childCount;
 
 				for ($i = 0; $i < $total; $i++) {
 					$currChild =& $node->childNodes[$i];
 					$this->appendChild($currChild);
 				}
-			    break;
+				break;
 
    			default:
-   			    DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
+   				DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
 					('Cannot add a node of type ' . get_class($node) . ' to a DOMIT_Document.'));
-	    }
+		}
 
 		return $node;
 	} //appendChild
@@ -1174,23 +1174,23 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 			}
 			else {
 				switch ($newChild->nodeType) {
-				    case DOMIT_ELEMENT_NODE:
-				        if ($this->documentElement != null) {
+					case DOMIT_ELEMENT_NODE:
+						if ($this->documentElement != null) {
 							DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
 								('Cannot have more than one root node (documentElement) in a DOMIT_Document.'));
 						}
 						else {
 							parent::replaceChild($newChild, $oldChild);
 						}
-				        break;
+						break;
 
 					case DOMIT_PROCESSING_INSTRUCTION_NODE:
 					case DOMIT_COMMENT_NODE:
-					    parent::replaceChild($newChild, $oldChild);
-					    break;
+						parent::replaceChild($newChild, $oldChild);
+						break;
 
 	 				case DOMIT_DOCUMENT_TYPE_NODE:
-	 				    if ($this->doctype != null) {
+	 					if ($this->doctype != null) {
 							if ($this->doctype->uid == $oldChild->uid) {
 								parent::replaceChild($newChild, $oldChild);
 							}
@@ -1202,10 +1202,10 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 						else {
 							parent::replaceChild($newChild, $oldChild);
 						}
-	 				    break;
+	 					break;
 
 	  				default:
-	  				    DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
+	  					DOMIT_DOMException::raiseException(DOMIT_HIERARCHY_REQUEST_ERR,
 							('Nodes of class ' . get_class($newChild) . ' cannot be children of a DOMIT_Document.'));
 				}
 			}
@@ -1326,8 +1326,8 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 		$colonIndex = strpos($qualifiedName, ":");
 
 		if ($colonIndex !== false) {
-	    	$node->prefix = substr($qualifiedName, 0, $colonIndex);
-	    	$node->localName = substr($qualifiedName, ($colonIndex + 1));
+			$node->prefix = substr($qualifiedName, 0, $colonIndex);
+			$node->localName = substr($qualifiedName, ($colonIndex + 1));
 		}
 		else {
 			$node->prefix = '';
@@ -1356,20 +1356,20 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 	* @return Object The new element
 	*/
 	function &createElementNS($namespaceURI, $qualifiedName) {
-	    $node = new DOMIT_Element($qualifiedName);
+		$node = new DOMIT_Element($qualifiedName);
 
-	    $colonIndex = strpos($qualifiedName, ":");
+		$colonIndex = strpos($qualifiedName, ":");
 
 		if ($colonIndex !== false) {
-	    	$node->prefix = substr($qualifiedName, 0, $colonIndex);
-	    	$node->localName = substr($qualifiedName, ($colonIndex + 1));
+			$node->prefix = substr($qualifiedName, 0, $colonIndex);
+			$node->localName = substr($qualifiedName, ($colonIndex + 1));
 		}
 		else {
 			$node->prefix = '';
-	    	$node->localName = $qualifiedName;
+			$node->localName = $qualifiedName;
 		}
 
-	    $node->namespaceURI = $namespaceURI;
+		$node->namespaceURI = $namespaceURI;
 
 		$node->ownerDocument =& $this;
 
@@ -1569,10 +1569,10 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 	function parseXML($xmlText, $useSAXY = true, $preserveCDATA = true, $fireLoadEvent = false) {
 		require_once(DOMIT_INCLUDE_PATH . 'xml_domit_utilities.php');
 
-        if ($this->doResolveErrors) {
-            require_once(DOMIT_INCLUDE_PATH . 'xml_domit_doctor.php');
-            $xmlText = DOMIT_Doctor::fixAmpersands($xmlText);
-        }
+		if ($this->doResolveErrors) {
+			require_once(DOMIT_INCLUDE_PATH . 'xml_domit_doctor.php');
+			$xmlText = DOMIT_Doctor::fixAmpersands($xmlText);
+		}
 
 		if (DOMIT_Utilities::validateXML($xmlText)) {
 			$domParser = new DOMIT_Parser();
@@ -1641,9 +1641,9 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 			return $response->getResponse();
 		}
 		else if (function_exists('file_get_contents')) {
-		    //if (file_exists($filename)) {
+			//if (file_exists($filename)) {
 				return file_get_contents($filename);
-		    //}
+			//}
 		}
 		else {
 			require_once(DOMIT_INCLUDE_PATH . 'php_file_utilities.php');
@@ -1983,10 +1983,10 @@ class DOMIT_Element extends DOMIT_ChildNodes_Interface {
 	* @param string The localName of matching elements
 	*/
 	function getNamedElementsNS(&$nodeList, $namespaceURI, $localName) {
-	    if ((($namespaceURI == $this->namespaceURI) || ($namespaceURI == '*')) &&
-                (($localName == $this->localName) || ($localName == '*')))	{
-	        $nodeList->appendNode($this);
-	    }
+		if ((($namespaceURI == $this->namespaceURI) || ($namespaceURI == '*')) &&
+				(($localName == $this->localName) || ($localName == '*')))	{
+			$nodeList->appendNode($this);
+		}
 
 		$total = $this->childCount;
 
@@ -2018,21 +2018,21 @@ class DOMIT_Element extends DOMIT_ChildNodes_Interface {
 	* @param string The text data of the node
 	*/
 	function setText($data) {
-	    switch ($this->childCount) {
-	        case 1:
-	            if ($this->firstChild->nodeType == DOMIT_TEXT_NODE) {
-	                $this->firstChild->setText($data);
-	            }
-	            break;
+		switch ($this->childCount) {
+			case 1:
+				if ($this->firstChild->nodeType == DOMIT_TEXT_NODE) {
+					$this->firstChild->setText($data);
+				}
+				break;
 
-	        case 0:
-	            $childTextNode =& $this->ownerDocument->createTextNode($data);
-	            $this->appendChild($childTextNode);
-	            break;
+			case 0:
+				$childTextNode =& $this->ownerDocument->createTextNode($data);
+				$this->appendChild($childTextNode);
+				break;
 
-	        default:
-	            //do nothing. Maybe throw error???
-	    }
+			default:
+				//do nothing. Maybe throw error???
+		}
 	} //setText
 
 	/**
@@ -2225,11 +2225,11 @@ class DOMIT_Element extends DOMIT_ChildNodes_Interface {
 	* @param string The desired attribute value
 	*/
 	function setAttributeNS($namespaceURI, $qualifiedName, $value) {
-	    //get localName
-	    $colonIndex = strpos($qualifiedName, ":");
+		//get localName
+		$colonIndex = strpos($qualifiedName, ":");
 
 		if ($colonIndex !== false) {
-	    	$localName = substr($qualifiedName, ($colonIndex + 1));
+			$localName = substr($qualifiedName, ($colonIndex + 1));
 		}
 		else {
 			$localName = $qualifiedName;
@@ -2240,9 +2240,9 @@ class DOMIT_Element extends DOMIT_ChildNodes_Interface {
 		if ($returnNode == null) {
 			//create this manually in case element has no ownerDocument to reference
 			$newAttr = new DOMIT_Attr($qualifiedName);
-	    	$newAttr->prefix = substr($qualifiedName, 0, $colonIndex);
-	    	$newAttr->localName = $localName;
-	    	$newAttr->namespaceURI = $namespaceURI;
+			$newAttr->prefix = substr($qualifiedName, 0, $colonIndex);
+			$newAttr->localName = $localName;
+			$newAttr->namespaceURI = $namespaceURI;
 
 			$newAttr->setValue($value);
 			$this->attributes->setNamedItemNS($newAttr);
@@ -2464,22 +2464,22 @@ class DOMIT_Element extends DOMIT_ChildNodes_Interface {
 			$result .= '</' . $this->nodeName . '>';
 		}
 		else {
-		    if ($this->ownerDocument->doExpandEmptyElementTags) {
+			if ($this->ownerDocument->doExpandEmptyElementTags) {
 				if (in_array($this->nodeName, $this->ownerDocument->expandEmptyElementExceptions)) {
 					$result .= ' />';
 				}
 				else {
-                	$result .= '></' . $this->nodeName . '>';
+					$result .= '></' . $this->nodeName . '>';
 				}
-		    }
-		    else {
+			}
+			else {
 				if (in_array($this->nodeName, $this->ownerDocument->expandEmptyElementExceptions)) {
 					$result .= '></' . $this->nodeName . '>';
 				}
 				else {
 					$result .= ' />';
 				}
-		    }
+			}
 		}
 
 		if ($htmlSafe) $result = $this->forHTML($result);
@@ -2518,7 +2518,7 @@ class DOMIT_CharacterData extends DOMIT_Node {
 	* @param string The text data of the node
 	*/
 	function setData($data) {
-        $this->nodeValue = $data;
+		$this->nodeValue = $data;
 	} //setData
 
 
@@ -2662,7 +2662,7 @@ class DOMIT_TextNode extends DOMIT_CharacterData {
 	* @param string The text data of the node
 	*/
 	function setText($data) {
-        $this->nodeValue = $data;
+		$this->nodeValue = $data;
 	} //setText
 
 	/**
@@ -2846,7 +2846,7 @@ class DOMIT_Attr extends DOMIT_Node {
 	* @param string The text data of the node
 	*/
 	function setText($data) {
-        $this->nodeValue = $data;
+		$this->nodeValue = $data;
 	} //setText
 
 	/**
@@ -2999,7 +2999,7 @@ class DOMIT_Comment extends DOMIT_CharacterData {
 	* @param string The text data of the node
 	*/
 	function setText($data) {
-        $this->nodeValue = $data;
+		$this->nodeValue = $data;
 	} //setText
 
 	/**
@@ -3269,7 +3269,7 @@ class DOMIT_Parser {
 				$parser = xml_parser_create_ns('');
 			}
 			else {
-		    	$parser = xml_parser_create('');
+				$parser = xml_parser_create('');
 			}
 		}
 		else {
@@ -3277,7 +3277,7 @@ class DOMIT_Parser {
 				$parser = xml_parser_create_ns();
 			}
 			else {
-		    	$parser = xml_parser_create();
+				$parser = xml_parser_create();
 			}
 		}
 
@@ -3298,7 +3298,7 @@ class DOMIT_Parser {
 
 		if ($this->xmlDoc->isNamespaceAware) {
 			xml_set_start_namespace_decl_handler($parser, 'startNamespaceDeclaration');
-		    xml_set_end_namespace_decl_handler($parser, 'endNamespaceDeclaration');
+			xml_set_end_namespace_decl_handler($parser, 'endNamespaceDeclaration');
 			xml_set_element_handler($parser, 'startElementNS', 'endElement');
 			$this->xmlDoc->namespaceURIMap[DOMIT_XML_NAMESPACE] = 'xml';
 		}
@@ -3343,9 +3343,9 @@ class DOMIT_Parser {
 		$parser->preserveWhitespace = $this->xmlDoc->preserveWhitespace;
 
 		if ($this->xmlDoc->isNamespaceAware) {
-		    $parser->setNamespaceAwareness(true);
-		    $parser->xml_set_start_namespace_decl_handler(array(&$this, 'startNamespaceDeclaration'));
-		    $parser->xml_set_end_namespace_decl_handler(array(&$this, 'endNamespaceDeclaration'));
+			$parser->setNamespaceAwareness(true);
+			$parser->xml_set_start_namespace_decl_handler(array(&$this, 'startNamespaceDeclaration'));
+			$parser->xml_set_end_namespace_decl_handler(array(&$this, 'endNamespaceDeclaration'));
 			$parser->xml_set_element_handler(array(&$this, 'startElementNS'), array(&$this, 'endElement'));
 			$this->xmlDoc->namespaceURIMap[DOMIT_XML_NAMESPACE] = 'xml';
 		}
@@ -3374,7 +3374,7 @@ class DOMIT_Parser {
 	* Generates and appends a new text node from the parseContainer text
 	*/
 	function dumpTextNode() {
-	    $currentNode =& $this->xmlDoc->createTextNode($this->parseContainer);
+		$currentNode =& $this->xmlDoc->createTextNode($this->parseContainer);
 		$this->lastChild->appendChild($currentNode);
 		$this->inTextNode = false;
 		$this->parseContainer = '';
@@ -3411,8 +3411,8 @@ class DOMIT_Parser {
 	*/
 	function startElementNS(&$parser, $name, $attrs) {
 		if ($this->inTextNode) {
-           $this->dumpTextNode();
-         }
+			$this->dumpTextNode();
+		}
 
 		$colonIndex = strrpos($name, ":");
 

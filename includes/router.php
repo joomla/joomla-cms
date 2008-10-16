@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Class to create and parse routes for the site application
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla
  * @since		1.5
  */
@@ -188,7 +187,7 @@ class JRouterSite extends JRouter
 		if(substr($route, 0, 9) == 'component')
 		{
 			$segments	= explode('/', $route);
-			$route      = str_replace('component/'.$segments[1], '', $route);
+			$route		= str_replace('component/'.$segments[1], '', $route);
 
 			$vars['option'] = 'com_'.$segments[1];
 			$vars['Itemid'] = null;
@@ -233,7 +232,7 @@ class JRouterSite extends JRouter
 			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_vars['option']);
 
 			// Use the component routing handler if it exists
-			$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
+			$path = JPATH_SITE.DS.'components'.DS.$component.DS.'router.php';
 
 			if (file_exists($path) && count($segments))
 			{
@@ -285,7 +284,7 @@ class JRouterSite extends JRouter
 		$tmp 		= '';
 
 		// Use the component routing handler if it exists
-		$path = JPATH_BASE.DS.'components'.DS.$component.DS.'router.php';
+		$path = JPATH_SITE.DS.'components'.DS.$component.DS.'router.php';
 
 		// Use the custom routing handler if it exists
 		if (file_exists($path) && !empty($query))

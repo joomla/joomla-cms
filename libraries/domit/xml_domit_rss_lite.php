@@ -35,8 +35,8 @@ class xml_domit_rss_document_lite extends xml_domit_rss_base_document {
 	* @param int Expiration time for a cache file
 	*/
 	function xml_domit_rss_document_lite($url = '', $cacheDir = './', $cacheTime = 3600) {
-	    $this->parser = 'DOMIT_RSS_LITE';
-	    $this->xml_domit_rss_base_document($url, $cacheDir, $cacheTime);
+		$this->parser = 'DOMIT_RSS_LITE';
+		$this->xml_domit_rss_base_document($url, $cacheDir, $cacheTime);
 	} //xml_domit_rss_document_lite
 
  	/**
@@ -60,11 +60,11 @@ class xml_domit_rss_document_lite extends xml_domit_rss_base_document {
 					$this->domit_rss_channels[$channelCounter] = new xml_domit_rss_channel_lite($currNode);
 					$channelCounter++;
 					break;
-                case DOMIT_RSS_ELEMENT_TITLE:
-                case DOMIT_RSS_ELEMENT_LINK:
-                case DOMIT_RSS_ELEMENT_DESCRIPTION:
-                    $this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_simpleelement($currNode);
-                    break;
+				case DOMIT_RSS_ELEMENT_TITLE:
+				case DOMIT_RSS_ELEMENT_LINK:
+				case DOMIT_RSS_ELEMENT_DESCRIPTION:
+					$this->DOMIT_RSS_indexer[$tagName] = new xml_domit_rss_simpleelement($currNode);
+					break;
 			}
 		}
 

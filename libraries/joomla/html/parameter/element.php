@@ -21,12 +21,11 @@ defined('JPATH_BASE') or die();
  * The JElement is the base class for all JElement types
  *
  * @abstract
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
  */
-class JElement extends JObject
+abstract class JElement extends JObject
 {
 	/**
 	* element name
@@ -37,7 +36,7 @@ class JElement extends JObject
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = null;
+	protected $_name = null;
 
 	/**
 	* reference to the object that instantiated the element
@@ -45,14 +44,14 @@ class JElement extends JObject
 	* @access	protected
 	* @var		object
 	*/
-	var	$_parent = null;
+	protected $_parent = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @access protected
 	 */
-	function __construct($parent = null) {
+	public function __construct($parent = null) {
 		$this->_parent = $parent;
 	}
 
@@ -62,11 +61,11 @@ class JElement extends JObject
 	* @access	public
 	* @return	string	type of the parameter
 	*/
-	function getName() {
+	public function getName() {
 		return $this->_name;
 	}
 
-	function render(&$xmlElement, $value, $control_name = 'params')
+	public function render(&$xmlElement, $value, $control_name = 'params')
 	{
 		$name	= $xmlElement->attributes('name');
 		$label	= $xmlElement->attributes('label');
@@ -83,7 +82,7 @@ class JElement extends JObject
 		return $result;
 	}
 
-	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
+	public function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='')
 	{
 		$output = '<label id="'.$control_name.$name.'-lbl" for="'.$control_name.$name.'"';
 		if ($description) {
@@ -96,7 +95,5 @@ class JElement extends JObject
 		return $output;
 	}
 
-	function fetchElement($name, $value, &$xmlElement, $control_name) {
-		return;
-	}
+	abstract public function fetchElement($name, $value, &$xmlElement, $control_name);
 }

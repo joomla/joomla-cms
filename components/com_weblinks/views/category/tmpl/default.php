@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 <?php if ( $this->params->def( 'show_page_title', 1 ) ) : ?>
 	<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<?php echo $this->category->title; ?>
+		<?php echo $this->escape($this->params->get('page_title')); ?>
 	</div>
 <?php endif; ?>
 
@@ -21,4 +21,22 @@
 	<?php echo $this->loadTemplate('items'); ?>
 	</td>
 </tr>
+<?php if ($this->params->get('show_other_cats', 1)): ?>
+<tr>
+	<td width="60%" colspan="2">
+		<ul>
+		<?php foreach ( $this->categories as $category ) : ?>
+			<li>
+				<a href="<?php echo $category->link; ?>" class="category<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
+					<?php echo $this->escape($category->title);?></a>
+				&nbsp;
+				<span class="small">
+					(<?php echo $category->numlinks;?>)
+				</span>
+			</li>
+		<?php endforeach; ?>
+		</ul>
+	</td>
+</tr>
+<?php endif; ?>
 </table>

@@ -25,7 +25,7 @@ define('GET_ELEMENTS_BY_PATH_SEARCH_VARIABLE', 2);
 * getElementsByPath is a simple utility for path-based access to nodes in a DOMIT! document.
 */
 class DOMIT_GetElementsByPath {
-    /** @var Object The node from which the search is called */
+	/** @var Object The node from which the search is called */
 	var $callingNode;
 	/** @var int The type of search to be performed, i.e., relative, absolute, or variable */
 	var $searchType;
@@ -214,10 +214,10 @@ class DOMIT_GetElementsByPath {
 * This class may be absent from future versions of DOMIT!
 */
 class DOMIT_GetElementsByAttributePath {
-    /** @var Object A DOMIT_NodeList of matching attribute nodes */
+	/** @var Object A DOMIT_NodeList of matching attribute nodes */
 	var $nodeList;
 
-    /**
+	/**
 	* Constructor - creates an empty DOMIT_NodeList to store matching nodes
 	*/
 	function DOMIT_GetElementsByAttributePath() {

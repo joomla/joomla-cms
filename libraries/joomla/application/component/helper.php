@@ -23,8 +23,9 @@ defined('JPATH_BASE') or die();
  * @subpackage	Application
  * @since		1.5
  */
-class JComponentHelper
+abstract class JComponentHelper
 {
+
 	/**
 	 * Get the component info
 	 *
@@ -33,7 +34,7 @@ class JComponentHelper
 	 * @param 	boolean	$string	If set and a component does not exist, the enabled attribue will be set to false
 	 * @return	object A JComponent object
 	 */
-	function &getComponent( $name, $strict = false )
+	public static function &getComponent( $name, $strict = false )
 	{
 		$result = null;
 		$components = JComponentHelper::_load();
@@ -60,12 +61,12 @@ class JComponentHelper
 	 * @param 	boolean	$string	If set and a component does not exist, false will be returned
 	 * @return	boolean
 	 */
-	function isEnabled( $component, $strict = false )
+	public static function isEnabled( $component, $strict = false )
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		$result = &JComponentHelper::getComponent( $component, $strict );
-		return ($result->enabled | $mainframe->isAdmin());
+		return ($result->enabled | $appl->isAdmin());
 	}
 
 	/**
@@ -75,7 +76,7 @@ class JComponentHelper
 	 * @param string $name The component name
 	 * @return object A JParameter object
 	 */
-	function &getParams( $name )
+	public static function &getParams( $name )
 	{
 		static $instances;
 		if (!isset( $instances[$name] ))
@@ -86,9 +87,22 @@ class JComponentHelper
 		return $instances[$name];
 	}
 
-	function renderComponent($name = null, $params = array())
+	/**
+	 * Render a component
+	 *
+	 * @param	string $name Name of the component
+	 * @param	array $params
+	 * @return	string Output from rendering the component
+	 * @since	1.5
+	 */
+	public static function renderComponent($name = null, $params = array())
 	{
-		global $mainframe, $option;
+		$component	= JApplicationHelper::getComponentName();
+		$appl	= JFactory::getApplication();
+
+		//needed for backwards compatibility
+		// @todo if legacy ...
+		$mainframe =& $appl;
 
 		if(empty($name)) {
 			// Throw 404 if no component
@@ -96,8 +110,8 @@ class JComponentHelper
 			return;
 		}
 
-		$scope = $mainframe->scope; //record the scope
-		$mainframe->scope = $name;  //set scope to component name
+		$scope = $appl->scope; //record the scope
+		$appl->scope = $name;  //set scope to component name
 
 		// Build the component path
 		$name = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
@@ -109,7 +123,7 @@ class JComponentHelper
 		define( 'JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.DS.'components'.DS.$name);
 
 		// get component path
-		if ( $mainframe->isAdmin() && file_exists(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
+		if ( $appl->isAdmin() && file_exists(JPATH_COMPONENT.DS.'admin.'.$file.'.php') ) {
 			$path = JPATH_COMPONENT.DS.'admin.'.$file.'.php';
 		} else {
 			$path = JPATH_COMPONENT.DS.$file.'.php';
@@ -120,40 +134,15 @@ class JComponentHelper
 			JError::raiseError( 404, JText::_( 'Component Not Found' ) );
 		}
 
-		// Handle legacy globals if enabled
-		if ($mainframe->getCfg('legacy'))
-		{
-			// Include legacy globals
-			global $my, $database, $id, $acl, $task;
-
-			// For backwards compatibility extract the config vars as globals
-			$registry =& JFactory::getConfig();
-			foreach (get_object_vars($registry->toObject()) as $k => $v)
-			{
-				$varname = 'mosConfig_'.$k;
-				$$varname = $v;
-			}
-			$contentConfig = &JComponentHelper::getParams( 'com_content' );
-			foreach (get_object_vars($contentConfig->toObject()) as $k => $v)
-			{
-				$varname = 'mosConfig_'.$k;
-				$$varname = $v;
-			}
-			$usersConfig = &JComponentHelper::getParams( 'com_users' );
-			foreach (get_object_vars($usersConfig->toObject()) as $k => $v)
-			{
-				$varname = 'mosConfig_'.$k;
-				$$varname = $v;
-			}
-
-		}
-
 		$task = JRequest::getString( 'task' );
 
 		// Load common language files
 		$lang =& JFactory::getLanguage();
 		$lang->load($name);
 
+		// @todo if ( $legacy )
+		$option = $component;
+		
 		// Handle template preview outlining
 		$contents = null;
 
@@ -165,7 +154,7 @@ class JComponentHelper
 
 		// Build the component toolbar
 		jimport( 'joomla.application.helper' );
-		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $mainframe->isAdmin()) {
+		if (($path = JApplicationHelper::getPath( 'toolbar' )) && $appl->isAdmin()) {
 
 			// Get the task again, in case it has changed
 			$task = JRequest::getString( 'task' );
@@ -174,7 +163,7 @@ class JComponentHelper
 			include_once( $path );
 		}
 
-		$mainframe->scope = $scope; //revert the scope
+		$appl->scope = $scope; //revert the scope
 
 		return $contents;
 	}
@@ -185,7 +174,7 @@ class JComponentHelper
 	 * @access	private
 	 * @return	array
 	 */
-	function _load()
+	protected static function _load()
 	{
 		static $components;
 
@@ -199,8 +188,10 @@ class JComponentHelper
 				' FROM #__components' .
 				' WHERE parent = 0';
 		$db->setQuery( $query );
-
-		if (!($components = $db->loadObjectList( 'option' ))) {
+	
+		try {
+			$components = $db->loadObjectList( 'option' );
+		} catch (JException $e) {
 			JError::raiseWarning( 'SOME_ERROR_CODE', "Error loading Components: " . $db->getErrorMsg());
 			return false;
 		}
@@ -209,3 +200,4 @@ class JComponentHelper
 
 	}
 }
+

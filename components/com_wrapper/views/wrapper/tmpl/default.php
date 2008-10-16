@@ -13,7 +13,7 @@ function iFrameHeight() {
 }
 </script>
 <div class="contentpane<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-<?php if ( $this->params->get( 'show_page_title' ) ) : ?>
+<?php if ( $this->params->get( 'show_page_title', 1 ) ) : ?>
 	<div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php echo $this->params->get( 'page_title' ); ?>
 	</div>

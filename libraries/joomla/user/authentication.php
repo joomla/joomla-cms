@@ -46,12 +46,12 @@ class JAuthentication extends JObservable
 	 *
 	 * @access protected
 	 */
-	function __construct()
+	protected function __construct()
 	{
 		$isLoaded = JPluginHelper::importPlugin('authentication');
 
 		if (!$isLoaded) {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JAuthentication::__construct: Could not load authentication libraries.'));
+			throw new JException( JText::_('JAuthentication::__construct: Could not load authentication libraries.'), 0, E_WARNING);
 		}
 	}
 
@@ -67,7 +67,7 @@ class JAuthentication extends JObservable
 	 * @return object The global JAuthentication object
 	 * @since 1.5
 	 */
-	function & getInstance()
+	public static function & getInstance()
 	{
 		static $instances;
 
@@ -92,7 +92,7 @@ class JAuthentication extends JObservable
 	 * 					boolean false if they are not
 	 * @since 1.5
 	 */
-	function authenticate($credentials, $options)
+	public function authenticate($credentials, $options)
 	{
 		// Initialize variables
 		$auth = false;
@@ -160,7 +160,7 @@ class JAuthenticationResponse extends JObject
 	 * @var type string
 	 * @access public
 	 */
-	var $status 		= JAUTHENTICATE_STATUS_FAILURE;
+	public $status 		= JAUTHENTICATE_STATUS_FAILURE;
 
 	/**
 	 * The type of authentication that was successful
@@ -168,7 +168,7 @@ class JAuthenticationResponse extends JObject
 	 * @var type string
 	 * @access public
 	 */
-	var $type 		= '';
+	public $type 		= '';
 
 	/**
 	 *  The error message
@@ -176,7 +176,7 @@ class JAuthenticationResponse extends JObject
 	 * @var error_message string
 	 * @access public
 	 */
-	var $error_message 	= '';
+	public $error_message 	= '';
 
 	/**
 	 * Any UTF-8 string that the End User wants to use as a username.
@@ -184,7 +184,7 @@ class JAuthenticationResponse extends JObject
 	 * @var fullname string
 	 * @access public
 	 */
-	var $username 		= '';
+	public $username 		= '';
 
 	/**
 	 * Any UTF-8 string that the End User wants to use as a password.
@@ -192,7 +192,7 @@ class JAuthenticationResponse extends JObject
 	 * @var password string
 	 * @access public
 	 */
-	var $password 		= '';
+	public $password 		= '';
 
 	/**
 	 * The email address of the End User as specified in section 3.4.1 of [RFC2822]
@@ -200,7 +200,7 @@ class JAuthenticationResponse extends JObject
 	 * @var email string
 	 * @access public
 	 */
-	var $email			= '';
+	public $email			= '';
 
 	/**
 	 * UTF-8 string free text representation of the End User's full name.
@@ -208,7 +208,7 @@ class JAuthenticationResponse extends JObject
 	 * @var fullname string
 	 * @access public
 	 */
-	var $fullname 		= '';
+	public $fullname 		= '';
 
 	/**
 	 * The End User's date of birth as YYYY-MM-DD. Any values whose representation uses
@@ -222,7 +222,7 @@ class JAuthenticationResponse extends JObject
 	 * @var fullname string
 	 * @access public
 	 */
-	var $birthdate	 	= '';
+	public $birthdate	 	= '';
 
 	/**
 	 * The End User's gender, "M" for male, "F" for female.
@@ -230,7 +230,7 @@ class JAuthenticationResponse extends JObject
 	 * @var fullname string
 	 * @access public
 	 */
-	var $gender 		= '';
+	public $gender 		= '';
 
 	/**
 	 * UTF-8 string free text that SHOULD conform to the End User's country's postal system.
@@ -238,7 +238,7 @@ class JAuthenticationResponse extends JObject
 	 * @var fullname string
 	 * @access public
 	 */
-	var $postcode 		= '';
+	public $postcode 		= '';
 
 	/**
 	 * The End User's country of residence as specified by ISO3166.
@@ -246,7 +246,7 @@ class JAuthenticationResponse extends JObject
 	 * @var fullname string
 	 * @access public
 	 */
-	var $country 		= '';
+	public $country 		= '';
 
 	/**
 	 * End User's preferred language as specified by ISO639.
@@ -254,7 +254,7 @@ class JAuthenticationResponse extends JObject
 	 * @var fullname string
 	 * @access public
 	 */
-	var $language 		= '';
+	public $language 		= '';
 
 	/**
 	 * ASCII string from TimeZone database
@@ -262,7 +262,7 @@ class JAuthenticationResponse extends JObject
 	 * @var fullname string
 	 * @access public
 	 */
-	var $timezone 		= '';
+	public $timezone 		= '';
 
 	/**
 	 * Constructor
@@ -270,5 +270,5 @@ class JAuthenticationResponse extends JObject
 	 * @param string $name The type of the response
 	 * @since 1.5
 	 */
-	function __construct() { }
+	public function __construct() { }
 }

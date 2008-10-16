@@ -26,7 +26,7 @@
 //-->
 </script>
 
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
 	<table class="adminlist">
 	<thead>
@@ -95,7 +95,7 @@
 			</td>
 			<td align="center">
 				<a href="<?php echo $linkA; ?>" title="<?php echo JText::_( 'Edit Menu Items' ); ?>">
-					<img src="<?php echo JURI::root(); ?>includes/js/ThemeOffice/mainmenu.png" border="0" /></a>
+					<?php echo JHTML::_('image.administrator', 'mainmenu.png'); ?></a>
 			</td>
 			<td align="center">
 				<?php

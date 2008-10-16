@@ -28,7 +28,7 @@ defined('JPATH_BASE') or die();
 * @since		1.5
 */
 
-class JApplication extends JObject
+abstract class JApplication extends JObject
 {
 	/**
 	 * The client identifier.
@@ -37,7 +37,7 @@ class JApplication extends JObject
 	 * @access	protected
 	 * @since	1.5
 	 */
-	var $_clientId = null;
+	protected $_clientId = null;
 
 	/**
 	 * The application message queue.
@@ -45,7 +45,7 @@ class JApplication extends JObject
 	 * @var		array
 	 * @access	protected
 	 */
-	var $_messageQueue = array();
+	protected $_messageQueue = array();
 
 	/**
 	 * The name of the application
@@ -53,7 +53,7 @@ class JApplication extends JObject
 	 * @var		array
 	 * @access	protected
 	 */
-	var $_name = null;
+	protected $_name = null;
 
 	/**
 	 * The scope of the application
@@ -61,14 +61,16 @@ class JApplication extends JObject
 	 * @var		string
 	 * @access	public
 	 */
-	var $scope = null;
+	public $scope = null;
+
+	public $requestTime = null;
 
 	/**
 	* Class constructor.
 	*
 	* @param	integer	A client identifier.
 	*/
-	function __construct($config = array())
+	protected function __construct($config = array())
 	{
 		jimport('joomla.utilities.utility');
 
@@ -115,7 +117,7 @@ class JApplication extends JObject
 	 * @return	JApplication	The appliction object.
 	 * @since	1.5
 	 */
-	function &getInstance($client, $config = array(), $prefix = 'J')
+	public static function &getInstance($client, $config = array(), $prefix = 'J')
 	{
 		static $instances;
 
@@ -140,8 +142,7 @@ class JApplication extends JObject
 			}
 			else
 			{
-				$error = JError::raiseError(500, 'Unable to load application: '.$client);
-				return $error;
+				throw new JException('Unable to load application: '.$client, 500, E_ERROR, $info, true);
 			}
 
 			$instances[$client] =& $instance;
@@ -156,7 +157,7 @@ class JApplication extends JObject
 	* @param	array An optional associative array of configuration settings.
 	* @access	public
 	*/
-	function initialise($options = array())
+	public function initialise($options = array())
 	{
 		jimport('joomla.plugin.helper');
 
@@ -186,7 +187,7 @@ class JApplication extends JObject
 	* @abstract
 	* @access	public
 	*/
-	function route()
+	public function route()
  	{
 		// get the full request URI
 		$uri = clone(JURI::getInstance());
@@ -207,7 +208,7 @@ class JApplication extends JObject
 	* @abstract
 	* @access	public
 	*/
- 	function dispatch($component)
+ 	public function dispatch($component)
  	{
 		$document =& JFactory::getDocument();
 
@@ -228,7 +229,7 @@ class JApplication extends JObject
 	* @abstract
 	* @access	public
 	*/
-	function render()
+	public function render()
 	{
 		$params = array(
 			'template' 	=> $this->getTemplate(),
@@ -247,7 +248,7 @@ class JApplication extends JObject
 	* @access	public
 	* @param	int	Exit code
 	*/
-	function close( $code = 0 ) {
+	public function close( $code = 0 ) {
 		exit($code);
 	}
 
@@ -261,14 +262,14 @@ class JApplication extends JObject
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
 	 * @access	public
-	 * @param	string	$url	The URL to redirect to.
+	 * @param	string	$url	The URL to redirect to. Can only be http/https URL
 	 * @param	string	$msg	An optional message to display on redirect.
 	 * @param	string  $msgType An optional message type.
 	 * @return	none; calls exit().
 	 * @since	1.5
 	 * @see		JApplication::enqueueMessage()
 	 */
-	function redirect( $url, $msg='', $msgType='message' )
+	public function redirect( $url, $msg='', $msgType='message' )
 	{
 		// check for relative internal links
 		if (preg_match( '#^index[2]?.php#', $url )) {
@@ -278,6 +279,25 @@ class JApplication extends JObject
 		// Strip out any line breaks
 		$url = preg_split("/[\r\n]/", $url);
 		$url = $url[0];
+
+		// If we don't start with a http we need to fix this before we proceed
+		// We could validly start with something else (e.g. ftp), though this would
+		// be unlikely and isn't supported by this API
+		if(!preg_match( '#^http#', $url )) {
+			$uri =& JURI::getInstance();
+			$prefix = $uri->toString(Array('scheme', 'user', 'pass', 'host', 'port'));
+			if($url[0] == '/') {
+				// we just need the prefix since we have a path relative to the root
+				$url = $prefix . $url;
+			} else {
+				// its relative to where we are now, so lets add that
+				$parts = explode('/', $uri->toString(Array('path')));
+				array_pop($parts);
+				$path = implode('/',$parts).'/';
+				$url = $prefix . $path . $url;
+			}
+		}
+
 
 		// If the message exists, enqueue it
 		if (trim( $msg )) {
@@ -314,7 +334,7 @@ class JApplication extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function enqueueMessage( $msg, $type = 'message' )
+	public function enqueueMessage( $msg, $type = 'message' )
 	{
 		// For empty queue, if messages exists in the session, enqueue them first
 		if (!count($this->_messageQueue))
@@ -337,7 +357,7 @@ class JApplication extends JObject
 	 * @return	The system message queue.
 	 * @since	1.5
 	 */
-	function getMessageQueue()
+	public function getMessageQueue()
 	{
 		// For empty queue, if messages exists in the session, enqueue them
 		if (!count($this->_messageQueue))
@@ -360,7 +380,7 @@ class JApplication extends JObject
 	 * @return	mixed	The user state.
 	 * @example	application/japplication-getcfg.php Getting a configuration value
 	 */
-	function getCfg( $varname )
+	public function getCfg( $varname )
 	{
 		$config =& JFactory::getConfig();
 		return $config->getValue('config.' . $varname);
@@ -376,7 +396,7 @@ class JApplication extends JObject
 	 * @return	string The name of the dispatcher
 	 * @since	1.5
 	 */
-	function getName()
+	public function getName()
 	{
 		$name = $this->_name;
 
@@ -384,7 +404,7 @@ class JApplication extends JObject
 		{
 			$r = null;
 			if ( !preg_match( '/J(.*)/i', get_class( $this ), $r ) ) {
-				JError::raiseError(500, "JApplication::getName() : Can\'t get or parse class name.");
+				throw new JException("JApplication::getName() : Can\'t get or parse class name.", 500, E_ERROR, $name, true);
 			}
 			$name = strtolower( $r[1] );
 		}
@@ -399,7 +419,7 @@ class JApplication extends JObject
 	 * @param	string	The path of the state.
 	 * @return	mixed	The user state.
 	 */
-	function getUserState( $key )
+	public function getUserState( $key )
 	{
 		$session	=& JFactory::getSession();
 		$registry	=& $session->get('registry');
@@ -417,7 +437,7 @@ class JApplication extends JObject
 	* @param	string	The value of the variable.
 	* @return	mixed	The previous state, if one existed.
 	*/
-	function setUserState( $key, $value )
+	public function setUserState( $key, $value )
 	{
 		$session	=& JFactory::getSession();
 		$registry	=& $session->get('registry');
@@ -437,7 +457,7 @@ class JApplication extends JObject
 	 * @param	string	Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 * @return	The request user state.
 	 */
-	function getUserStateFromRequest( $key, $request, $default = null, $type = 'none' )
+	public function getUserStateFromRequest( $key, $request, $default = null, $type = 'none' )
 	{
 		$old_state = $this->getUserState( $key );
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
@@ -462,7 +482,7 @@ class JApplication extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function registerEvent($event, $handler)
+	public function registerEvent($event, $handler)
 	{
 		$dispatcher =& JDispatcher::getInstance();
 		$dispatcher->register($event, $handler);
@@ -477,7 +497,7 @@ class JApplication extends JObject
 	 * @return	array	An array of results from each function call.
 	 * @since	1.5
 	 */
-	function triggerEvent($event, $args=null)
+	public function triggerEvent($event, $args=null)
 	{
 		$dispatcher =& JDispatcher::getInstance();
 		return $dispatcher->trigger($event, $args);
@@ -501,12 +521,12 @@ class JApplication extends JObject
 	 * @access	public
 	 * @since	1.5
 	 */
-	function login($credentials, $options = array())
+	public function login($credentials, $options = array())
 	{
 		// Get the global JAuthentication object
 		jimport( 'joomla.user.authentication');
-		$authenticate = & JAuthentication::getInstance();
-		$response	  = $authenticate->authenticate($credentials, $options);
+		$authenticate	= &JAuthentication::getInstance();
+		$response		= $authenticate->authenticate($credentials, $options);
 
 		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 		{
@@ -568,7 +588,7 @@ class JApplication extends JObject
 	 *
 	 * @access public
 	 */
-	function logout($userid = null, $options = array())
+	public function logout($userid = null, $options = array())
 	{
 		// Initialize variables
 		$retval = false;
@@ -613,7 +633,7 @@ class JApplication extends JObject
 	 *
 	 * @return	string
 	 */
-	function getTemplate()
+	public function getTemplate()
 	{
 		return 'system';
 	}
@@ -626,7 +646,7 @@ class JApplication extends JObject
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
-	function &getRouter($name = null, $options = array())
+	public function &getRouter($name = null, $options = array())
 	{
 		if(!isset($name)) {
 			$name = $this->_name;
@@ -634,10 +654,6 @@ class JApplication extends JObject
 
 		jimport( 'joomla.application.router' );
 		$router =& JRouter::getInstance($name, $options);
-		if (JError::isError($router)) {
-			$null = null;
-			return $null;
-		}
 		return $router;
 	}
 
@@ -649,7 +665,7 @@ class JApplication extends JObject
 	 * @return object JPathway.
 	 * @since 1.5
 	 */
-	function &getPathway($name = null, $options = array())
+	public function &getPathway($name = null, $options = array())
 	{
 		if(!isset($name)) {
 			$name = $this->_name;
@@ -657,10 +673,6 @@ class JApplication extends JObject
 
 		jimport( 'joomla.application.pathway' );
 		$pathway =& JPathway::getInstance($name, $options);
-		if (JError::isError($pathway)) {
-			$null = null;
-			return $null;
-		}
 		return $pathway;
 	}
 
@@ -672,7 +684,7 @@ class JApplication extends JObject
 	 * @return object JMenu.
 	 * @since 1.5
 	 */
-	function &getMenu($name = null, $options = array())
+	public function &getMenu($name = null, $options = array())
 	{
 		if(!isset($name)) {
 			$name = $this->_name;
@@ -680,10 +692,6 @@ class JApplication extends JObject
 
 		jimport( 'joomla.application.menu' );
 		$menu =& JMenu::getInstance($name, $options);
-		if (JError::isError($menu)) {
-			$null = null;
-			return $null;
-		}
 		return $menu;
 	}
 
@@ -694,11 +702,11 @@ class JApplication extends JObject
 	 * @param	string	$file 	The path to the configuration file
 	 * return	JConfig
 	 */
-	function &_createConfiguration($file)
+	protected function &_createConfiguration($file)
 	{
 		jimport( 'joomla.registry.registry' );
 
-		require_once( $file );
+		require_once $file;
 
 		// Create the JConfig object
 		$config = new JConfig();
@@ -725,7 +733,7 @@ class JApplication extends JObject
 	 * @return	object	JSession on success. May call exit() on database error.
 	 * @since	1.5
 	 */
-	function &_createSession( $name )
+	protected function &_createSession( $name )
 	{
 		$options = array();
 		$options['name'] = $name;
@@ -744,7 +752,7 @@ class JApplication extends JObject
 
 		//Session doesn't exist yet, initalise and store it in the session table
 		$session->set('registry',	new JRegistry('session'));
-		$session->set('user',		new JUser());
+		$session->set('user', JUser::getInstance());
 
 		if (!$storage->insert( $session->getId(), $this->getClientId())) {
 			jexit( $storage->getError());
@@ -761,7 +769,7 @@ class JApplication extends JObject
 	 * @return	int A client identifier.
 	 * @since	1.5
 	 */
-	function getClientId( )
+	public function getClientId( )
 	{
 		return $this->_clientId;
 	}
@@ -773,9 +781,9 @@ class JApplication extends JObject
 	 * @return	boolean		True if this application is administrator.
 	 * @since	1.0.2
 	 */
-	function isAdmin()
+	public function isAdmin()
 	{
-		return ($this->_clientId == 1);
+		return ($this->_name == 'administrator');
 	}
 
 	/**
@@ -785,295 +793,8 @@ class JApplication extends JObject
 	 * @return	boolean		True if this application is site.
 	 * @since	1.5
 	 */
-	function isSite()
+	public function isSite()
 	{
-		return ($this->_clientId == 0);
-	}
-
-	/**
-	 * Deprecated functions
-	 */
-
-	 /**
-	 * Deprecated, use JPathWay->addItem() method instead.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @see JPathWay::addItem()
-	 */
-	function appendPathWay( $name, $link = null )
-	{
-		/*
-		 * To provide backward compatability if no second parameter is set
-		 * set it to null
-		 */
-		if ($link == null) {
-			$link = '';
-		}
-
-		$pathway =& $this->getPathway();
-
-		if( defined( '_JLEGACY' ) && $link == '' )
-		{
-			$matches = array();
-
-			$links = preg_match_all ( '/<a[^>]+href="([^"]*)"[^>]*>([^<]*)<\/a>/ui', $name, $matches, PREG_SET_ORDER );
-
-			foreach( $matches AS $match) {
-				// Add each item to the pathway object
-				if( !$pathway->addItem( $match[2], $match[1] ) ) {
-					return false;
-				}
-			}
-			 return true;
-		}
-		else
-		{
-			// Add item to the pathway object
-			if ($pathway->addItem($name, $link)) {
-				return true;
-			}
-		}
-
-		return false;
-  }
-
-	/**
-	 * Deprecated, use JPathway->getPathWayNames() method instead.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @see JPathWay::getPathWayNames()
-	 */
-	function getCustomPathWay()
-	{
-		$pathway = $this->getPathway();
-		return $pathway->getPathWayNames();
-	}
-
-	/**
-	 * Deprecated, use JDocument->get( 'head' ) instead.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @see JDocument
-	 * @see JObject::get()
-	 */
-	function getHead()
-	{
-		$document=& JFactory::getDocument();
-		return $document->get('head');
-	}
-
-	/**
-	 * Deprecated, use JDocument->setMetaData instead.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @param string Name of the metadata tag
-	 * @param string Content of the metadata tag
-	 * @param string Deprecated, ignored
-	 * @param string Deprecated, ignored
-	 * @see JDocument::setMetaData()
-	 */
-	function addMetaTag( $name, $content, $prepend = '', $append = '' )
-	{
-		$document=& JFactory::getDocument();
-		$document->setMetadata($name, $content);
-	}
-
-	/**
-	 * Deprecated, use JDocument->setMetaData instead.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-		 * @param string Name of the metadata tag
-		 * @param string Content of the metadata tag
-	 * @see JDocument::setMetaData()
-	 */
-	function appendMetaTag( $name, $content )
-	{
-		$this->addMetaTag($name, $content);
-	}
-
-	/**
-	 * Deprecated, use JDocument->setMetaData instead
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-		 * @param string Name of the metadata tag
-		 * @param string Content of the metadata tag
-	 * @see JDocument::setMetaData()
-	 */
-	function prependMetaTag( $name, $content )
-	{
-		$this->addMetaTag($name, $content);
-	}
-
-	/**
-	 * Deprecated, use JDocument->addCustomTag instead (only when document type is HTML).
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @param string Valid HTML
-	 * @see JDocumentHTML::addCustomTag()
-	 */
-	function addCustomHeadTag( $html )
-	{
-		$document=& JFactory::getDocument();
-		if($document->getType() == 'html') {
-			$document->addCustomTag($html);
-		}
-	}
-
-	/**
-	 * Deprecated.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 */
-	function getBlogSectionCount( )
-	{
-		$menus = &JSite::getMenu();
-		return count($menus->getItems('type', 'content_blog_section'));
-	}
-
-	/**
-	 * Deprecated.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 */
-	function getBlogCategoryCount( )
-	{
-		$menus = &JSite::getMenu();
-		return count($menus->getItems('type', 'content_blog_category'));
-	}
-
-	/**
-	 * Deprecated.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 */
-	function getGlobalBlogSectionCount( )
-	{
-		$menus = &JSite::getMenu();
-		return count($menus->getItems('type', 'content_blog_section'));
-	}
-
-	/**
-	 * Deprecated.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 */
-	function getStaticContentCount( )
-	{
-		$menus = &JSite::getMenu();
-		return count($menus->getItems('type', 'content_typed'));
-	}
-
-	/**
-	 * Deprecated.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 */
-	function getContentItemLinkCount( )
-	{
-		$menus = &JSite::getMenu();
-		return count($menus->getItems('type', 'content_item_link'));
-	}
-
-	/**
-	 * Deprecated, use JApplicationHelper::getPath instead.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @see JApplicationHelper::getPath()
-	 */
-	function getPath($varname, $user_option = null)
-	{
-		jimport('joomla.application.helper');
-		return JApplicationHelper::getPath ($varname, $user_option);
-	}
-
-	/**
-	 * Deprecated, use JURI::base() instead.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @see JURI::base()
-	 */
-	function getBasePath($client=0, $addTrailingSlash = true)
-	{
-		return JURI::base();
-	}
-
-	/**
-	 * Deprecated, use JFactory::getUser instead.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @see JFactory::getUser()
-	 */
-	function &getUser()
-	{
-		$user =& JFactory::getUser();
-		return $user;
-	}
-
-	/**
-	 * Deprecated, use ContentHelper::getItemid instead.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @see ContentHelperRoute::getArticleRoute()
-	 */
-	function getItemid( $id )
-	{
-		require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
-
-		// Load the article data to know what section/category it is in.
-		$article =& JTable::getInstance('content');
-		$article->load($id);
-
-		$needles = array(
-			'article'  => (int) $id,
-			'category' => (int) $article->catid,
-			'section'  => (int) $article->sectionid,
-		);
-
-		$item	= ContentHelperRoute::_findItem($needles);
-		$return	= is_object($item) ? $item->id : null;
-
-		return $return;
-	}
-
-	/**
-	 * Deprecated, use JDocument::setTitle instead.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @see JDocument::setTitle()
-	 */
-	function setPageTitle( $title=null )
-	{
-		$document=& JFactory::getDocument();
-		$document->setTitle($title);
-	}
-
-	/**
-	 * Deprecated, use JDocument::getTitle instead.
-	 *
-	 * @since 1.0
-	 * @deprecated As of version 1.5
-	 * @see JDocument::getTitle()
-	 */
-	function getPageTitle()
-	{
-		$document=& JFactory::getDocument();
-		return $document->getTitle();
+		return ($this->_name == 'site');
 	}
 }

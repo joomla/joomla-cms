@@ -28,6 +28,10 @@ include_once(dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php');
 
 class InstallerViewLanguages extends InstallerViewDefault
 {
+	protected $items;
+	protected $pagination;
+	protected $lists;
+	protected $item;
 	function display($tpl=null)
 	{
 		/*

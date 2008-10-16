@@ -20,34 +20,34 @@
 class JVersion
 {
 	/** @var string Product */
-	var $PRODUCT 	= 'Joomla!';
+	public $PRODUCT 	= 'Joomla!';
 	/** @var int Main Release Level */
-	var $RELEASE 	= '1.5';
+	public $RELEASE 	= '1.6';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Production/Stable';
+	public $DEV_STATUS = 'Development/Alpha';
 	/** @var int Sub Release Level */
-	var $DEV_LEVEL 	= '2';
+	public $DEV_LEVEL 	= '0';
 	/** @var int build Number */
-	var $BUILD	 	= '';
+	public $BUILD	= '';
 	/** @var string Codename */
-	var $CODENAME 	= 'Woi';
+	public $CODENAME 	= 'Sparrow';
 	/** @var string Date */
-	var $RELDATE 	= '22-March-2008';
+	public $RELDATE 	= '';
 	/** @var string Time */
-	var $RELTIME 	= '22:00';
+	public $RELTIME 	= '';
 	/** @var string Timezone */
-	var $RELTZ 		= 'GMT';
+	public $RELTZ 		= '';
 	/** @var string Copyright Text */
-	var $COPYRIGHT 	= 'Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.';
+	public $COPYRIGHT 	= 'Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.';
 	/** @var string URL */
-	var $URL 		= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	public $URL 	= '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 *
 	 *
 	 * @return string Long format version
 	 */
-	function getLongVersion()
+	public function getLongVersion()
 	{
 		return $this->PRODUCT .' '. $this->RELEASE .'.'. $this->DEV_LEVEL .' '
 			. $this->DEV_STATUS
@@ -60,7 +60,7 @@ class JVersion
 	 *
 	 * @return string Short version format
 	 */
-	function getShortVersion() {
+	public function getShortVersion() {
 		return $this->RELEASE .'.'. $this->DEV_LEVEL;
 	}
 
@@ -69,7 +69,7 @@ class JVersion
 	 *
 	 * @return string Version suffix for help files
 	 */
-	function getHelpVersion()
+	public function getHelpVersion()
 	{
 		if ($this->RELEASE > '1.0') {
 			return '.' . str_replace( '.', '', $this->RELEASE );
@@ -84,7 +84,7 @@ class JVersion
 	 * @return boolean
 	 * @see http://www.php.net/version_compare
 	 */
-	function isCompatible ( $minimum ) {
+	public function isCompatible ( $minimum ) {
 		return (version_compare( JVERSION, $minimum, 'eq' ) == 1);
 	}
 }

@@ -89,9 +89,9 @@ class patTemplate_OutputFilter_Gzip extends patTemplate_OutputFilter
 	/**
 	* get value as hex-string
 	*
-	* @access      public
-	* @param       integer $value  value to convert
-	* @return      string  $string converted string
+	* @access	  public
+	* @param	   integer $value  value to convert
+	* @return	  string  $string converted string
 	*/
 	function _gfc( $value )
 	{

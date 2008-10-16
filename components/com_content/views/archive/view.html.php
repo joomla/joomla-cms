@@ -15,7 +15,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+require_once JPATH_COMPONENT.DS.'view.php';
 
 /**
  * HTML View class for the Content component
@@ -39,6 +39,7 @@ class ContentViewArchive extends ContentView
 		// Initialize some variables
 		$user		=& JFactory::getUser();
 		$pathway	=& $mainframe->getPathway();
+		$document	=& JFactory::getDocument();
 
 		// Get the page/component configuration
 		$params = &$mainframe->getParams('com_content');
@@ -64,6 +65,21 @@ class ContentViewArchive extends ContentView
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination($total, $limitstart, $limit);
+
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	JText::_( 'Archives' ));
+			}
+		} else {
+			$params->set('page_title',	JText::_( 'Archives' ));
+		}
+		$document->setTitle( $params->get( 'page_title' ) );
 
 		$form = new stdClass();
 		// Month Field

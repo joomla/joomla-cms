@@ -12,7 +12,7 @@
 	}
 //-->
 </script>
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 	<div>
 		<div style="width:30%;float:left">
 			<?php if ( $this->modules ) : ?>

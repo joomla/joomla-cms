@@ -31,7 +31,6 @@ switch (JRequest::getCmd('task'))
  * Static class to hold controller functions for the Wrapper component
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	Wrapper
  * @since		1.5
@@ -75,7 +74,7 @@ class WrapperController
 			$row->url = $url;
 		}
 
-		require_once (JPATH_COMPONENT.DS.'views'.DS.'wrapper'.DS.'view.php');
+		require_once JPATH_COMPONENT.DS.'views'.DS.'wrapper'.DS.'view.php';
 		$view = new WrapperViewWrapper();
 
 		$view->assignRef('params'  , $params);

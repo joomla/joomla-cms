@@ -31,20 +31,39 @@ class SearchViewSearch extends JView
 	{
 		global $mainframe;
 
-		require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php' );
+		require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php';
 
 		// Initialize some variables
-		$pathway  =& $mainframe->getPathway();
-		$uri      =& JFactory::getURI();
+		$pathway	=& $mainframe->getPathway();
+		$uri		=& JFactory::getURI();
 
 		$error	= '';
 		$rows	= null;
 		$total	= 0;
 
 		// Get some data from the model
-		$areas      = &$this->get('areas');
+		$areas	  = &$this->get('areas');
 		$state 		= &$this->get('state');
 		$searchword = $state->get('keyword');
+
+		$params = &$mainframe->getParams();
+
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	JText::_( 'Search' ));
+			}
+		} else {
+			$params->set('page_title',	JText::_( 'Search' ));
+		}
+
+		$document	= &JFactory::getDocument();
+		$document->setTitle( $params->get( 'page_title' ) );
 
 		// Get the parameters of the active menu item
 		$params	= &$mainframe->getParams();
@@ -94,7 +113,7 @@ class SearchViewSearch extends JView
 			$total		= &$this->get('total');
 			$pagination	= &$this->get('pagination');
 
-			require_once (JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+			require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
 			for ($i=0; $i < count($results); $i++)
 			{
@@ -126,15 +145,15 @@ class SearchViewSearch extends JView
 				$row = preg_replace($searchRegex, '<span class="highlight">\0</span>', $row );
 
 				$result =& $results[$i];
-			    if ($result->created) {
-				    $created = JHTML::Date ( $result->created );
-			    }
-			    else {
-				    $created = '';
-			    }
+				if ($result->created) {
+					$created = JHTML::Date ( $result->created );
+				}
+				else {
+					$created = '';
+				}
 
-			    $result->created	= $created;
-			    $result->count		= $i + 1;
+				$result->created	= $created;
+				$result->count		= $i + 1;
 			}
 		}
 
@@ -152,7 +171,7 @@ class SearchViewSearch extends JView
 
 		$this->assign('total',			$total);
 		$this->assign('error',			$error);
-		$this->assign('action', 	    $uri->toString());
+		$this->assign('action', 		$uri->toString());
 
 		parent::display($tpl);
 	}

@@ -74,7 +74,7 @@ class TableWeblink extends JTable
 	/**
 	 * @var int
 	 */
-	var $published = null;
+	var $state = null;
 
 	/**
 	 * @var boolean

@@ -27,9 +27,9 @@ class DOMIT_Utilities {
 	* Raises an error if an attempt to instantiate the class is made
 	*/
 	function DOMIT_Utilities() {
-	    die("DOMIT_Utilities Error: this is a static class that should never be instantiated.\n" .
-		    "Please use the following syntax to access methods of this class:\n" .
-		    'DOMIT_Utilities::methodName(parameters)');
+		die("DOMIT_Utilities Error: this is a static class that should never be instantiated.\n" .
+			"Please use the following syntax to access methods of this class:\n" .
+			'DOMIT_Utilities::methodName(parameters)');
 	} //DOMIT_Utilities
 
 	/**
@@ -189,22 +189,22 @@ class DOMIT_Utilities {
 
 		//if node is childless
 		if ($node->childCount == 0) {
-            if ($node->ownerDocument->doExpandEmptyElementTags) {
+			if ($node->ownerDocument->doExpandEmptyElementTags) {
 				if (in_array($node->nodeName, $node->ownerDocument->expandEmptyElementExceptions)) {
 					$response .= ' />';
 				}
 				else {
-                	$response .= '></' . $node->nodeName . '>';
+					$response .= '></' . $node->nodeName . '>';
 				}
-		    }
-		    else {
+			}
+			else {
 				if (in_array($node->nodeName, $node->ownerDocument->expandEmptyElementExceptions)) {
 					$response .= '></' . $node->nodeName . '>';
 				}
 				else {
 					$response .= ' />';
 				}
-		    }
+			}
 		}
 		else {
 			$response .= '>';
@@ -259,7 +259,7 @@ class DOMIT_Utilities {
 	* @return string The indentation required for the specified node level
 	*/
 	function getIndentation($node_level) {
-		$INDENT_LEN = '    ';
+		$INDENT_LEN = '	';
 		$indentation = "\n";
 
 		for ($i = 0; $i < $node_level; $i++) {

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: cs-CZ.xml 9768 2007-12-30 09:15:49Z svatas $ -->
 <metafile version="1.5" client="installation" >
 	<name>Česky(Czech)</name>
-	<version>1.5.0</version>
-	<creationDate>Nov 2005</creationDate>
+	<version>1.5.4</version>
+	<creationDate>March 2008</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomlaportal.cz</authorEmail>
 	<authorUrl>www.joomlaportal.cz</authorUrl>

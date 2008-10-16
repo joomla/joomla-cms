@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 
 // Require the base controller
-require_once (JPATH_COMPONENT.DS.'controller.php');
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 // Require specific controller if requested
 if($controller = JRequest::getWord('controller')) {
@@ -43,5 +43,3 @@ $controller->execute(JRequest::getCmd('task'));
 
 // Redirect if set by the controller
 $controller->redirect();
-
-?>

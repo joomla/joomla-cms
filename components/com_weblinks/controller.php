@@ -48,4 +48,24 @@ class WeblinksController extends JController
 
 		parent::display();
 	}
+
+	/**
+	* Report a weblink
+	*
+	* @acces public
+	* @since 1.6
+	*/
+
+	function report()
+	{
+		$model =& $this->getModel('weblink');
+		if ($model->report()) {
+			$msg = JText::_("Link Reported");
+		}
+		else {
+			$msg = JText::_("Error reporting link");
+		}
+
+		$this->setRedirect(JRoute::_('index.php?option=com_weblinks'), $msg);
+	}
 }

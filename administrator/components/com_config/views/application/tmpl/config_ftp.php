@@ -10,7 +10,7 @@
 					</span>
 			</td>
 			<td>
-					<?php echo $lists['enable_ftp']; ?>
+					<?php echo $this->lists['enable_ftp']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -20,7 +20,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="ftp_host" size="25" value="<?php echo $row->ftp_host; ?>" />
+				<input class="text_area" type="text" name="ftp_host" size="25" value="<?php echo $this->row->ftp_host; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -30,7 +30,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="ftp_port" size="25" value="<?php echo $row->ftp_port; ?>" />
+				<input class="text_area" type="text" name="ftp_port" size="25" value="<?php echo $this->row->ftp_port; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -40,7 +40,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="ftp_user" size="25" value="<?php echo $row->ftp_user; ?>" />
+				<input class="text_area" type="text" name="ftp_user" size="25" value="<?php echo $this->row->ftp_user; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -50,7 +50,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="password" name="ftp_pass" size="25" value="<?php echo $row->ftp_pass; ?>" />
+				<input class="text_area" type="password" name="ftp_pass" size="25" value="<?php echo $this->row->ftp_pass; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -60,7 +60,7 @@
 					</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="ftp_root" size="50" value="<?php echo $row->ftp_root; ?>" />
+				<input class="text_area" type="text" name="ftp_root" size="50" value="<?php echo $this->row->ftp_root; ?>" />
 			</td>
 		</tr>
 		</tbody>

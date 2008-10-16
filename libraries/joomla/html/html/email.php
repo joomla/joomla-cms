@@ -20,14 +20,14 @@
  * @subpackage	HTML
  * @since		1.5
  */
-class JHTMLEmail
+abstract class JHTMLEmail
 {
 	/**
 	* Simple Javascript email Cloaker
 	*
  	* By default replaces an email with a mailto link with email cloacked
 	*/
-	function cloak( $mail, $mailto=1, $text='', $email=1 )
+	public static function cloak( $mail, $mailto=1, $text='', $email=1 )
 	{
 		// convert text
 		$mail 			= JHTMLEmail::_convertEncoding( $mail );
@@ -88,7 +88,7 @@ class JHTMLEmail
 		return $replacement;
 	}
 
-	function _convertEncoding( $text )
+	protected static function _convertEncoding( $text )
 	{
 		// replace vowels with character encoding
 		$text 	= str_replace( 'a', '&#97;', $text );

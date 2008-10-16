@@ -20,7 +20,6 @@ jimport('joomla.plugin.plugin');
 /**
  * Joomla User plugin
  *
- * @author		Johan Janssens  <johan.janssens@joomla.org>
  * @package		Joomla
  * @subpackage	JFramework
  * @since 		1.5
@@ -28,26 +27,11 @@ jimport('joomla.plugin.plugin');
 class plgUserJoomla extends JPlugin
 {
 	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param 	object $subject The object to observe
-	 * @param 	array  $config  An array that holds the plugin configuration
-	 * @since 1.5
-	 */
-	function plgUserJoomla(& $subject, $config) {
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * Remove all sessions for the user name
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param 	array	  	holds the user data
+	 * @param 	array		holds the user data
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
@@ -94,7 +78,7 @@ class plgUserJoomla extends JPlugin
 
 		// Get the user group from the ACL
 		if ($instance->get('tmp_user') == 1) {
-			$grp = new JObject;
+			$grp = new JStdClass;
 			// This should be configurable at some point
 			$grp->set('name', 'Registered');
 		} else {
@@ -115,8 +99,8 @@ class plgUserJoomla extends JPlugin
 		$instance->set('aid', 1);
 
 		// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-		if ($acl->is_group_child_of($grp->name, 'Registered')      ||
-		    $acl->is_group_child_of($grp->name, 'Public Backend'))    {
+		if ($acl->is_group_child_of($grp->name, 'Registered') ||
+			$acl->is_group_child_of($grp->name, 'Public Backend'))	{
 			$instance->set('aid', 2);
 		}
 
@@ -190,7 +174,7 @@ class plgUserJoomla extends JPlugin
 	 */
 	function &_getUser($user, $options = array())
 	{
-		$instance = new JUser();
+		$instance = JUser::getInstance();
 		if($id = intval(JUserHelper::getUserId($user['username'])))  {
 			$instance->load($id);
 			return $instance;

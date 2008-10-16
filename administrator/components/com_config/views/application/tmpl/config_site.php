@@ -11,7 +11,7 @@
 			</span>
 			</td>
 			<td>
-			<?php echo $lists['offline']; ?>
+			<?php echo $this->lists['offline']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -21,7 +21,7 @@
 				</span>
 			</td>
 			<td>
-				<textarea class="text_area" cols="60" rows="2" style="width:400px; height:40px" name="offline_message"><?php echo $row->offline_message; ?></textarea>
+				<textarea class="text_area" cols="60" rows="2" style="width:400px; height:40px" name="offline_message"><?php echo $this->row->offline_message; ?></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -31,7 +31,7 @@
 				</span>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="sitename" size="50" value="<?php echo $row->sitename; ?>" />
+				<input class="text_area" type="text" name="sitename" size="50" value="<?php echo $this->row->sitename; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -41,7 +41,7 @@
 			</span>
 			</td>
 			<td>
-				<?php echo $lists['editor']; ?>
+				<?php echo $this->lists['editor']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -51,7 +51,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['list_limit']; ?>
+				<?php echo $this->lists['list_limit']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -61,7 +61,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['feed_limit']; ?>
+				<?php echo $this->lists['feed_limit']; ?>
 			</td>
 		</tr>
 

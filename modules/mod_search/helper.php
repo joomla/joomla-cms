@@ -15,8 +15,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 class modSearchHelper {
-    function getSearchImage($button_text) {
-	    $img = JHTML::_('image.site', 'searchButton.gif', '/images/M_images/', NULL, NULL, $button_text, null, 0);
+	function getSearchImage($button_text) {
+		$img = JHTML::_('image.site', 'searchButton.gif', '/images/M_images/', NULL, NULL, $button_text, null, 0);
 		return $img;
 	}
 }

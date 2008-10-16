@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Include the syndicate functions only once
-require_once( dirname(__FILE__).DS.'helper.php' );
+require_once dirname(__FILE__).DS.'helper.php';
 
 $button			 = $params->get('button', '');
 $imagebutton	 = $params->get('imagebutton', '');
@@ -27,6 +27,6 @@ $set_Itemid		 = intval($params->get('set_itemid', 0));
 $moduleclass_sfx = $params->get('moduleclass_sfx', '');
 
 if ($imagebutton) {
-    $img = modSearchHelper::getSearchImage( $button_text );
+	$img = modSearchHelper::getSearchImage( $button_text );
 }
 require(JModuleHelper::getLayoutPath('mod_search'));

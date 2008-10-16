@@ -20,7 +20,7 @@
  * @subpackage	HTML
  * @since		1.5
  */
-class JHTMLSelect
+abstract class JHTMLSelect
 {
 	/**
 	 * @param	string	The value of the option
@@ -29,7 +29,7 @@ class JHTMLSelect
 	 * @param	string	The returned object property name for the text
 	 * @return	object
 	 */
-	function option( $value, $text='', $value_name='value', $text_name='text', $disable=false )
+	public static function option( $value, $text='', $value_name='value', $text_name='text', $disable=false )
 	{
 		$obj = new stdClass;
 		$obj->$value_name	= $value;
@@ -44,7 +44,7 @@ class JHTMLSelect
 	 * @param	string	The returned object property name for the text
 	 * @return	object
 	 */
-	function optgroup( $text, $value_name = 'value', $text_name = 'text' )
+	public static function optgroup( $text, $value_name = 'value', $text_name = 'text' )
 	{
 		$obj = new stdClass;
 		$obj->$value_name	= '<OPTGROUP>';
@@ -61,7 +61,7 @@ class JHTMLSelect
 	 * @param	mixed	The key that is selected (accepts an array or a string)
 	 * @returns	string	HTML for the select list
 	 */
-	function options( $arr, $key = 'value', $text = 'text', $selected = null, $translate = false )
+	public static function options( $arr, $key = 'value', $text = 'text', $selected = null, $translate = false )
 	{
 		$html = '';
 
@@ -118,7 +118,7 @@ class JHTMLSelect
 						}
 					}
 				} else {
-					$extra .= ( $k == $selected ? ' selected="selected"' : '' );
+					$extra .= ( (string)$k == (string)$selected  ? ' selected="selected"' : '' );
 				}
 
 				//if flag translate text
@@ -148,7 +148,7 @@ class JHTMLSelect
 	 * @param	mixed	The key that is selected (accepts an array or a string)
 	 * @returns	string	HTML for the select list
 	 */
-	function genericlist( $arr, $name, $attribs = null, $key = 'value', $text = 'text', $selected = NULL, $idtag = false, $translate = false )
+	public static function genericlist( $arr, $name, $attribs = null, $key = 'value', $text = 'text', $selected = NULL, $idtag = false, $translate = false )
 	{
 		if ( is_array( $arr ) ) {
 			reset( $arr );
@@ -186,7 +186,7 @@ class JHTMLSelect
 	* @param string The printf format to be applied to the number
 	* @returns string HTML for the select list
 	*/
-	function integerlist( $start, $end, $inc, $name, $attribs = null, $selected = null, $format = "" )
+	public static function integerlist( $start, $end, $inc, $name, $attribs = null, $selected = null, $format = "" )
 	{
 		$start 	= intval( $start );
 		$end 	= intval( $end );
@@ -213,7 +213,7 @@ class JHTMLSelect
 	* @param string The name of the object variable for the option text
 	* @returns string HTML for the select list
 	*/
-	function radiolist( $arr, $name, $attribs = null, $key = 'value', $text = 'text', $selected = null, $idtag = false, $translate = false )
+	public static function radiolist( $arr, $name, $attribs = null, $key = 'value', $text = 'text', $selected = null, $idtag = false, $translate = false )
 	{
 		reset( $arr );
 		$html = '';
@@ -247,7 +247,7 @@ class JHTMLSelect
 					}
 				}
 			} else {
-				$extra .= ($k == $selected ? " checked=\"checked\"" : '');
+				$extra .= ((string)$k == (string)$selected ? " checked=\"checked\"" : '');
 			}
 			$html .= "\n\t<input type=\"radio\" name=\"$name\" id=\"$id_text$k\" value=\"".$k."\"$extra $attribs />";
 			$html .= "\n\t<label for=\"$id_text$k\">$t</label>";
@@ -264,7 +264,7 @@ class JHTMLSelect
 	* @param mixed The key that is selected
 	* @returns string HTML for the radio list
 	*/
-	function booleanlist( $name, $attribs = null, $selected = null, $yes='yes', $no='no', $id=false )
+	public static function booleanlist( $name, $attribs = null, $selected = null, $yes='yes', $no='no', $id=false )
 	{
 		$arr = array(
 			JHTML::_('select.option',  '0', JText::_( $no ) ),

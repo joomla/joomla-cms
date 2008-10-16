@@ -19,13 +19,19 @@ defined('JPATH_BASE') or die();
  * Abstract cache storage handler
  *
  * @abstract
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
  */
 class JCacheStorage extends JObject
 {
+	protected $_application = null;
+	protected $_language = null;
+	protected $_locking = null;
+	protected $_lifetime = null;
+	protected $_now = null;
+	protected $_threshold = null;
+
 	/**
 	* Constructor
 	*
@@ -38,14 +44,16 @@ class JCacheStorage extends JObject
 		$this->_language	= (isset($options['language'])) ? $options['language'] : 'en-GB';
 		$this->_locking		= (isset($options['locking'])) ? $options['locking'] : true;
 		$this->_lifetime	= (isset($options['lifetime'])) ? $options['lifetime'] : null;
-		$this->_now			= time();
+		$this->_now		= (isset($options['now'])) ? $options['now'] : time();
 
- 		// Set time threshold value
-        if (is_null($this->_lifetime)) {
-            $this->_threshold = 0;
-        } else {
-            $this->_threshold = $this->_now - $this->_lifetime;
-        }
+		// Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)
+		// _threshold is now available ONLY as a legacy (it's deprecated).  It's no longer used in the core.
+		if (empty($this->_lifetime)) {
+			$this->_threshold = $this->_now - 60;
+			$this->_lifetime = 60;
+		} else {
+			$this->_threshold = $this->_now - $this->_lifetime;
+		}
 	}
 
 	/**
@@ -59,30 +67,25 @@ class JCacheStorage extends JObject
 	 */
 	function &getInstance($handler = 'file', $options = array())
 	{
-		static $instances;
-
-		if (!isset ($instances)) {
-			$instances = array ();
+		static $now = null;
+		if(is_null($now)) {
+			$now = time();
 		}
-
+		$options['now'] = $now;
+		//We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
-		if (!isset($instances[$handler]))
+		$class   = 'JCacheStorage'.ucfirst($handler);
+		if(!class_exists($class))
 		{
-			$class   = 'JCacheStorage'.ucfirst($handler);
-			if(!class_exists($class))
-			{
-				$path = dirname(__FILE__).DS.'storage'.DS.$handler.'.php';
-
-				if (file_exists($path) ) {
-					require_once($path);
-				} else {
-					return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
-				}
+			$path = dirname(__FILE__).DS.'storage'.DS.$handler.'.php';
+			if (file_exists($path) ) {
+				require_once($path);
+			} else {
+				return JError::raiseWarning(500, 'Unable to load Cache Storage: '.$handler);
 			}
-
-			$instances[$handler] = new $class($options);
 		}
-		return $instances[$handler];
+		$return = new $class($options);
+		return $return;
 	}
 
 	/**

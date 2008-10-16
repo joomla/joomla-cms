@@ -66,7 +66,7 @@ class MediaViewMediaList extends JView
 		if (isset($this->folders[$index])) {
 			$this->_tmp_folder = &$this->folders[$index];
 		} else {
-			$this->_tmp_folder = new JObject;
+			$this->_tmp_folder = new JStdClass();
 		}
 	}
 
@@ -75,7 +75,7 @@ class MediaViewMediaList extends JView
 		if (isset($this->images[$index])) {
 			$this->_tmp_img = &$this->images[$index];
 		} else {
-			$this->_tmp_img = new JObject;
+			$this->_tmp_img = new JStdClass;
 		}
 	}
 
@@ -84,7 +84,7 @@ class MediaViewMediaList extends JView
 		if (isset($this->documents[$index])) {
 			$this->_tmp_doc = &$this->documents[$index];
 		} else {
-			$this->_tmp_doc = new JObject;
+			$this->_tmp_doc = new JStdClass;
 		}
 	}
 }

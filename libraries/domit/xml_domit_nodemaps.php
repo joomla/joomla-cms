@@ -192,13 +192,13 @@ class DOMIT_NamedNodeMap {
 	* Reindexes the numerical index for the named node map
 	*/
 	function reindexNodeMap() {
-	    $this->indexedNodeMap = array();
+		$this->indexedNodeMap = array();
 
-	    foreach ($this->arNodeMap as $key => $value) {
-	        $this->indexedNodeMap[] = $key;
-	    }
+		foreach ($this->arNodeMap as $key => $value) {
+			$this->indexedNodeMap[] = $key;
+		}
 
-	    $this->isDirty = false;
+		$this->isDirty = false;
 	} //reindexNodeMap
 
 	/**
@@ -213,7 +213,7 @@ class DOMIT_NamedNodeMap {
 			$returnNode =& $this->arNodeMap[$arg->nodeName];
 		}
 		else {
-		    $this->isDirty = true;
+			$this->isDirty = true;
 		}
 
 		$this->arNodeMap[$arg->nodeName] =& $arg;
@@ -244,7 +244,7 @@ class DOMIT_NamedNodeMap {
 	* @return mixed A reference to the requested node, or null
 	*/
 	function &getNamedItemNS($namespaceURI, $localName) {
-	    $key = $this->getKeyNS($namespaceURI, $localName);
+		$key = $this->getKeyNS($namespaceURI, $localName);
 
 		//check for explicit namespaces
 		if (isset($this->arNodeMap[$key])) {
@@ -280,7 +280,7 @@ class DOMIT_NamedNodeMap {
 			$returnNode =& $this->arNodeMap[$key];
 		}
 		else {
-		    $this->isDirty = true;
+			$this->isDirty = true;
 		}
 
 		$this->arNodeMap[$key] =& $arg;
@@ -313,9 +313,9 @@ class DOMIT_NamedNodeMap {
 	* @return string The key of the NamedNodeMap
 	*/
 	function getKeyNS($namespaceURI, $localName) {
-	    if ($namespaceURI != '') {
-	    	return $namespaceURI . ":" . $localName;
-	    }
+		if ($namespaceURI != '') {
+			return $namespaceURI . ":" . $localName;
+		}
 
 		return $localName;
 	} //getKeyNS

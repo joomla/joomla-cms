@@ -44,7 +44,7 @@ function plgSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	$db		=& JFactory::getDBO();
 	$user	=& JFactory::getUser();
 
-	require_once(JPATH_SITE.DS.'components'.DS.'com_weblinks'.DS.'helpers'.DS.'route.php');
+	require_once JPATH_SITE.DS.'components'.DS.'com_weblinks'.DS.'helpers'.DS.'route.php';
 
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( plgSearchWeblinksAreas() ) )) {

@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Renders a helpsites element
  *
- * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage		Parameter
  * @since		1.5
@@ -32,9 +31,9 @@ class JElementHelpsites extends JElement
 	* @access	protected
 	* @var		string
 	*/
-	var	$_name = 'Helpsites';
+	protected $_name = 'Helpsites';
 
-	function fetchElement($name, $value, &$node, $control_name)
+	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		jimport('joomla.language.help');
 

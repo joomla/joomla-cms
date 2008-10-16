@@ -15,7 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Include the syndicate functions only once
-require_once (dirname(__FILE__).DS.'helper.php');
+require_once dirname(__FILE__).DS.'helper.php';
 
 $headerText	= trim( $params->get( 'header_text' ) );
 $footerText	= trim( $params->get( 'footer_text' ) );

@@ -10,7 +10,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['sef']; ?>
+				<?php echo $this->lists['sef']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -20,9 +20,9 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['sef_rewrite']; ?>
+				<?php echo $this->lists['sef_rewrite']; ?>
 				<span class="error hasTip" title="<?php echo JText::_( 'Warning' );?>::<?php echo JText::_( 'WARNAPACHEONLY' ); ?>">
-					<?php echo ConfigApplicationView::WarningIcon(); ?>
+					<?php echo JHTML::_('config.warnicon'); ?>
 				</span>
 			</td>
 		</tr>
@@ -33,7 +33,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['sef_suffix']; ?>
+				<?php echo $this->lists['sef_suffix']; ?>
 			</td>
 		</tr>
 		</tbody>

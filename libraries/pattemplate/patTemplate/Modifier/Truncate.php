@@ -5,9 +5,9 @@
  * Truncate a string variable to fixed length and add a suffix if it was truncated.
  * It can also start from an offset and add a prefix.
  *
- * @package     patTemplate
+ * @package	 patTemplate
  * @subpackage  Modifiers
- * @author      Rafa Couto <rafacouto@yahoo.com>
+ * @author	  Rafa Couto <rafacouto@yahoo.com>
  */
 
 // Check to ensure this file is within the rest of the framework
@@ -25,9 +25,9 @@ defined('JPATH_BASE') or die();
  * - start
  * - prefix (string)
  *
- * @package     patTemplate
+ * @package	 patTemplate
  * @subpackage  Modifiers
- * @author      Rafa Couto <rafacouto@yahoo.com>
+ * @author	  Rafa Couto <rafacouto@yahoo.com>
  */
 class patTemplate_Modifier_Truncate extends patTemplate_Modifier
 {
@@ -36,8 +36,8 @@ class patTemplate_Modifier_Truncate extends patTemplate_Modifier
 	* modify the value
 	*
 	* @access  public
-	* @param  string    value
-	* @return  string    modified value
+	* @param  string	value
+	* @return  string	modified value
 	*/
 	function modify($value, $params = array())
 	{
@@ -47,12 +47,12 @@ class patTemplate_Modifier_Truncate extends patTemplate_Modifier
 		}
 		settype($params['length'], 'integer');
 
-    	$decode = isset( $params['htmlsafe'] );
+		$decode = isset( $params['htmlsafe'] );
    		if (function_exists( 'html_entity_decode' ) && $decode) {
-	    	$value = html_entity_decode( $value );
-    	}
+			$value = html_entity_decode( $value );
+		}
 
-        // start
+		// start
 		if (isset($params['start'])) {
 			settype( $params['start'], 'integer' );
 		} else {
@@ -80,9 +80,9 @@ class patTemplate_Modifier_Truncate extends patTemplate_Modifier
 			$suffix = '';
 		}
 
-        $value = $prefix.$value.$suffix;
+		$value = $prefix.$value.$suffix;
 
-        return $decode ? htmlspecialchars( $value, ENT_QUOTES ) : $value;
+		return $decode ? htmlspecialchars( $value, ENT_QUOTES ) : $value;
 	}
 }
 ?>

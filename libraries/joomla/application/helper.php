@@ -23,8 +23,35 @@ defined('JPATH_BASE') or die();
  * @subpackage	Application
  * @since		1.5
  */
-class JApplicationHelper
+abstract class JApplicationHelper
 {
+	/**
+	 * Return the name of the request component [main component]
+	 *
+	 * @param	string $default The default option
+	 * @access	public
+	 * @return	string Option
+	 * @since	1.6
+	 */
+	function getComponentName($default = NULL)
+	{
+		static $option;
+
+		if ( $option )
+		{
+			return $option;
+		}
+
+		$option = strtolower(JRequest::getCmd('option'));
+
+		if(empty($option)) {
+			$option = $default;
+		}
+
+		JRequest::setVar('option', $option);
+		return $option;
+	}
+
 	/**
 	 * Gets information on a specific client id.  This method will be useful in
 	 * future versions when we start mapping applications in the database.
@@ -35,7 +62,7 @@ class JApplicationHelper
 	 * @return	mixed	Object describing the client or false if not known
 	 * @since	1.5
 	 */
-	function &getClientInfo($id = null, $byName = false)
+	public static function &getClientInfo($id = null, $byName = false)
 	{
 		static $clients;
 
@@ -103,7 +130,7 @@ class JApplicationHelper
 	* @return string The requested path
 	* @since 1.0
 	*/
-	function getPath( $varname, $user_option=null )
+	public static function getPath( $varname, $user_option=null )
 	{
 		// check needed for handling of custom/new module xml file loading
 		$check = ( ( $varname == 'mod0_xml' ) || ( $varname == 'mod1_xml' ) );
@@ -145,6 +172,10 @@ class JApplicationHelper
 			case 'admin':
 				$path 	= DS.'components'.DS. $user_option .DS.'admin.'. $name .'.php';
 				$result = JApplicationHelper::_checkPath( $path, -1 );
+				if ($result == null) {
+					$path = DS.'components'.DS. $user_option .DS. $name .'.php';
+					$result = JApplicationHelper::_checkPath( $path, -1 );
+				}
 				break;
 
 			case 'admin_html':
@@ -201,7 +232,7 @@ class JApplicationHelper
 		return $result;
 	}
 
-	function parseXMLInstallFile($path)
+	public static function parseXMLInstallFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
 		$xml = & JFactory::getXMLParser('Simple');
@@ -222,6 +253,7 @@ class JApplicationHelper
 		}
 
 		$data = array();
+		$data['legacy'] = $xml->document->name() == 'mosinstall';
 
 		$element = & $xml->document->name[0];
 		$data['name'] = $element ? $element->data() : '';
@@ -254,7 +286,7 @@ class JApplicationHelper
 		return $data;
 	}
 
-	function parseXMLLangMetaFile($path)
+	public static function parseXMLLangMetaFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
 		$xml = & JFactory::getXMLParser('Simple');
@@ -315,7 +347,7 @@ class JApplicationHelper
 	 * @param integer 	$checkAdmin		0 to check site only, 1 to check site and admin, -1 to check admin only
 	 * @since 1.5
 	 */
-	function _checkPath( $path, $checkAdmin=1 )
+	protected static function _checkPath( $path, $checkAdmin=1 )
 	{
 		$file = JPATH_SITE . $path;
 		if ($checkAdmin > -1 && file_exists( $file )) {

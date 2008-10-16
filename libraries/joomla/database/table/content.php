@@ -26,74 +26,74 @@ defined('JPATH_BASE') or die();
 class JTableContent extends JTable
 {
 	/** @var int Primary key */
-	var $id					= null;
+	protected $id					= null;
 	/** @var string */
-	var $title				= null;
+	protected $title				= null;
 	/** @var string */
-	var $alias				= null;
+	protected $alias				= null;
 	/** @var string */
-	var $title_alias			= null;
+	protected $title_alias			= null;
 	/** @var string */
-	var $introtext			= null;
+	protected $introtext			= null;
 	/** @var string */
-	var $fulltext			= null;
+	protected $fulltext			= null;
 	/** @var int */
-	var $state				= null;
+	protected $state				= null;
 	/** @var int The id of the category section*/
-	var $sectionid			= null;
+	protected $sectionid			= null;
 	/** @var int DEPRECATED */
-	var $mask				= null;
+	protected $mask				= null;
 	/** @var int */
-	var $catid				= null;
+	protected $catid				= null;
 	/** @var datetime */
-	var $created				= null;
+	protected $created				= null;
 	/** @var int User id*/
-	var $created_by			= null;
+	protected $created_by			= null;
 	/** @var string An alias for the author*/
-	var $created_by_alias		= null;
+	protected $created_by_alias		= null;
 	/** @var datetime */
-	var $modified			= null;
+	protected $modified			= null;
 	/** @var int User id*/
-	var $modified_by			= null;
+	protected $modified_by			= null;
 	/** @var boolean */
-	var $checked_out			= 0;
+	protected $checked_out			= 0;
 	/** @var time */
-	var $checked_out_time		= 0;
+	protected $checked_out_time		= 0;
 	/** @var datetime */
-	var $frontpage_up		= null;
+	protected $frontpage_up		= null;
 	/** @var datetime */
-	var $frontpage_down		= null;
+	protected $frontpage_down		= null;
 	/** @var datetime */
-	var $publish_up			= null;
+	protected $publish_up			= null;
 	/** @var datetime */
-	var $publish_down		= null;
+	protected $publish_down		= null;
 	/** @var string */
-	var $images				= null;
+	protected $images				= null;
 	/** @var string */
-	var $urls				= null;
+	protected $urls				= null;
 	/** @var string */
-	var $attribs				= null;
+	protected $attribs				= null;
 	/** @var int */
-	var $version				= null;
+	protected $version				= null;
 	/** @var int */
-	var $parentid			= null;
+	protected $parentid			= null;
 	/** @var int */
-	var $ordering			= null;
+	protected $ordering			= null;
 	/** @var string */
-	var $metakey				= null;
+	protected $metakey				= null;
 	/** @var string */
-	var $metadesc			= null;
+	protected $metadesc			= null;
 	/** @var string */
-	var $metadata			= null;
+	protected $metadata			= null;
 	/** @var int */
-	var $access				= null;
+	protected $access				= null;
 	/** @var int */
-	var $hits				= null;
+	protected $hits				= null;
 
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db ) {
+	protected function __construct( &$db ) {
 		parent::__construct( '#__content', 'id', $db );
 	}
 
@@ -105,7 +105,7 @@ class JTableContent extends JTable
 	 * @see JTable::check
 	 * @since 1.5
 	 */
-	function check()
+	public function check()
 	{
 		/*
 		TODO: This filter is too rigorous,need to implement more configurable solution
@@ -147,31 +147,35 @@ class JTableContent extends JTable
 	* Converts record to XML
 	* @param boolean Map foreign keys to text values
 	*/
-	function toXML( $mapKeysToText=false )
+	public function toXML( $mapKeysToText=false )
 	{
 		$db =& JFactory::getDBO();
-
-		if ($mapKeysToText) {
-			$query = 'SELECT name'
-			. ' FROM #__sections'
-			. ' WHERE id = '. (int) $this->sectionid
-			;
-			$db->setQuery( $query );
-			$this->sectionid = $db->loadResult();
-
-			$query = 'SELECT name'
-			. ' FROM #__categories'
-			. ' WHERE id = '. (int) $this->catid
-			;
-			$db->setQuery( $query );
-			$this->catid = $db->loadResult();
-
-			$query = 'SELECT name'
-			. ' FROM #__users'
-			. ' WHERE id = ' . (int) $this->created_by
-			;
-			$db->setQuery( $query );
-			$this->created_by = $db->loadResult();
+		try {
+			if ($mapKeysToText) {
+				$query = 'SELECT name'
+				. ' FROM #__sections'
+				. ' WHERE id = '. (int) $this->sectionid
+				;
+				$db->setQuery( $query );
+				$this->sectionid = $db->loadResult();
+	
+				$query = 'SELECT name'
+				. ' FROM #__categories'
+				. ' WHERE id = '. (int) $this->catid
+				;
+				$db->setQuery( $query );
+				$this->catid = $db->loadResult();
+	
+				$query = 'SELECT name'
+				. ' FROM #__users'
+				. ' WHERE id = ' . (int) $this->created_by
+				;
+				$db->setQuery( $query );
+				$this->created_by = $db->loadResult();
+			}
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
 		}
 
 		return parent::toXML( $mapKeysToText );

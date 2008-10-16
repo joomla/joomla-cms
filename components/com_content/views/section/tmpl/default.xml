@@ -46,7 +46,7 @@
 				<option value="ralpha">Title Reverse-Alphabetical</option>
 				<option value="order">Ordering</option>
 			</param>
-			<param name="orderby_sec" type="list" default="" label="Article Order" description="Order that the articles will be displayed in.">
+			<param name="orderby_sec" type="list" default="" label="Article Order" description="Order that the articles will be displayed in">
 				<option value="">Default</option>
 				<option value="date">Oldest first</option>
 				<option value="rdate">Most recent first</option>

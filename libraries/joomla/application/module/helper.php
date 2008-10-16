@@ -22,12 +22,11 @@ jimport('joomla.application.component.helper');
  * Module helper class
  *
  * @static
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Application
  * @since		1.5
  */
-class JModuleHelper
+abstract class JModuleHelper
 {
 	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
@@ -37,7 +36,7 @@ class JModuleHelper
 	 * @param	string	$title	The title of the module, optional
 	 * @return	object	The Module object
 	 */
-	function &getModule($name, $title = null )
+	public static function &getModule($name, $title = null )
 	{
 		$result		= null;
 		$modules	=& JModuleHelper::_load();
@@ -81,7 +80,7 @@ class JModuleHelper
 	 * @param string 	$position	The position of the module
 	 * @return array	An array of module objects
 	 */
-	function &getModules($position)
+	public static function &getModules($position)
 	{
 		$position	= strtolower( $position );
 		$result		= array();
@@ -113,48 +112,25 @@ class JModuleHelper
 	 * @param   string 	$module	The module name
 	 * @return	boolean
 	 */
-	function isEnabled( $module )
+	public static function isEnabled( $module )
 	{
 		$result = &JModuleHelper::getModule( $module);
 		return (!is_null($result));
 	}
 
-	function renderModule($module, $attribs = array())
+	public static function renderModule($module, $attribs = array())
 	{
 		static $chrome;
-		global $mainframe, $option;
+		$option = JRequest::getCMD('option');
 
-		$scope = $mainframe->scope; //record the scope
-		$mainframe->scope = $module->module;  //set scope to component name
+		$appl	= JFactory::getApplication();
 
-		// Handle legacy globals if enabled
-		if ($mainframe->getCfg('legacy'))
-		{
-			// Include legacy globals
-			global $my, $database, $acl, $mosConfig_absolute_path;
+		//needed for backwards compatibility
+		// @todo if legacy ...
+		$mainframe =& $appl;
 
-			// Get the task variable for local scope
-			$task = JRequest::getString('task');
-
-			// For backwards compatibility extract the config vars as globals
-			$registry =& JFactory::getConfig();
-			foreach (get_object_vars($registry->toObject()) as $k => $v) {
-				$name = 'mosConfig_'.$k;
-				$$name = $v;
-			}
-			$contentConfig = &JComponentHelper::getParams( 'com_content' );
-			foreach (get_object_vars($contentConfig->toObject()) as $k => $v)
-			{
-				$name = 'mosConfig_'.$k;
-				$$name = $v;
-			}
-			$usersConfig = &JComponentHelper::getParams( 'com_users' );
-			foreach (get_object_vars($usersConfig->toObject()) as $k => $v)
-			{
-				$name = 'mosConfig_'.$k;
-				$$name = $v;
-			}
-		}
+		$scope = $appl->scope; //record the scope
+		$appl->scope = $module->module;  //set scope to component name
 
 		// Get module parameters
 		$params = new JParameter( $module->params );
@@ -181,12 +157,12 @@ class JModuleHelper
 			$chrome = array();
 		}
 
-		require_once (JPATH_BASE.DS.'templates'.DS.'system'.DS.'html'.DS.'modules.php');
-		$chromePath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.'modules.php';
+		require_once JPATH_BASE.DS.'templates'.DS.'system'.DS.'html'.DS.'modules.php';
+		$chromePath = JPATH_BASE.DS.'templates'.DS.$appl->getTemplate().DS.'html'.DS.'modules.php';
 		if (!isset( $chrome[$chromePath]))
 		{
 			if (file_exists($chromePath)) {
-				require_once ($chromePath);
+				require_once $chromePath;
 			}
 			$chrome[$chromePath] = true;
 		}
@@ -217,7 +193,7 @@ class JModuleHelper
 			}
 		}
 
-		$mainframe->scope = $scope; //revert the scope
+		$appl->scope = $scope; //revert the scope
 
 		return $module->content;
 	}
@@ -231,12 +207,12 @@ class JModuleHelper
 	 * @return	string	The path to the module layout
 	 * @since	1.5
 	 */
-	function getLayoutPath($module, $layout = 'default')
+	public static function getLayoutPath($module, $layout = 'default')
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		// Build the template and base path for the layout
-		$tPath = JPATH_BASE.DS.'templates'.DS.$mainframe->getTemplate().DS.'html'.DS.$module.DS.$layout.'.php';
+		$tPath = JPATH_BASE.DS.'templates'.DS.$appl->getTemplate().DS.'html'.DS.$module.DS.$layout.'.php';
 		$bPath = JPATH_BASE.DS.'modules'.DS.$module.DS.'tmpl'.DS.$layout.'.php';
 
 		// If the template has a layout override use it
@@ -253,56 +229,88 @@ class JModuleHelper
 	 * @access	private
 	 * @return	array
 	 */
-	function &_load()
+	protected static function &_load()
 	{
-		global $mainframe, $Itemid;
+		$Itemid = JRequest::getInt('Itemid');
+		$appl	= JFactory::getApplication();
 
-		static $modules;
+		static $clean;
 
-		if (isset($modules)) {
-			return $modules;
+		if (isset($clean)) {
+			return $clean;
 		}
 
-		$user	=& JFactory::getUser();
-		$db		=& JFactory::getDBO();
+		$user = &JFactory::getUser();
+		$db = &JFactory::getDBO();
 
-		$aid	= $user->get('aid', 0);
+		$aid = $user->get('aid', 0);
 
-		$modules	= array();
+		$modules = array();
 
-		$wheremenu = isset( $Itemid ) ? ' AND ( mm.menuid = '. (int) $Itemid .' OR mm.menuid = 0 )' : '';
+		$wheremenu = !empty($Itemid)
+			? ' AND (mm.menuid = ' . (int)$Itemid . ' OR mm.menuid <= 0)'
+			: '';
 
-		$query = 'SELECT id, title, module, position, content, showtitle, control, params'
+		$query = 'SELECT id, title, module, position, content, showtitle, control, params, mm.menuid'
 			. ' FROM #__modules AS m'
 			. ' LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id'
 			. ' WHERE m.published = 1'
 			. ' AND m.access <= '. (int)$aid
-			. ' AND m.client_id = '. (int)$mainframe->getClientId()
+			. ' AND m.client_id = '. (int)$appl->getClientId()
 			. $wheremenu
 			. ' ORDER BY position, ordering';
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 
-		if (null === ($modules = $db->loadObjectList())) {
-			JError::raiseWarning( 'SOME_ERROR_CODE', JText::_( 'Error Loading Modules' ) . $db->getErrorMsg());
+		try {
+			$modules = $db->loadObjectList();
+		} catch(JException $e) {
+			JError::raiseWarning(
+				'SOME_ERROR_CODE',
+				JText::_('Error Loading Modules') . $db->getErrorMsg()
+			);
 			return false;
 		}
 
-		$total = count($modules);
-		for($i = 0; $i < $total; $i++)
+		// Apply negative selections and eliminate duplicates
+		$negId = $Itemid ? -(int)$Itemid : false;
+		$dups = array();
+		$clean = array();
+		foreach ($modules as $i => $module)
 		{
-			//determine if this is a custom module
-			$file					= $modules[$i]->module;
-			$custom 				= substr( $file, 0, 4 ) == 'mod_' ?  0 : 1;
-			$modules[$i]->user  	= $custom;
-			// CHECK: custom module name is given by the title field, otherwise it's just 'om' ??
-			$modules[$i]->name		= $custom ? $modules[$i]->title : substr( $file, 4 );
-			$modules[$i]->style		= null;
-			$modules[$i]->position	= strtolower($modules[$i]->position);
+			/*
+			 * The module is excluded if there is an explicit prohibition, or if
+			 * the Itemid is missing or zero and the module is in exclude mode.
+			*/
+			$negHit = $negId === (int)$module->menuid
+					|| (!$negId && (int)$module->menuid < 0);
+			if (isset($dups[$module->id])) {
+			/*
+			 * If this item has been excluded, keep the duplicate flag set,
+				 * but remove any item from the cleaned array.
+				 */
+				if ($negHit) {
+					unset($clean[$module->id]);
+				}
+				continue;
+			}
+			$dups[$module->id] = true;
+			// Only accept modules without explicit exclusions.
+			if (! $negHit) {
+				//determine if this is a custom module
+				$file				= $module->module;
+				$custom				= substr($file, 0, 4) == 'mod_' ?  0 : 1;
+				$module->user		= $custom;
+				// Custom module name is given by the title field, otherwise strip off "com_"
+				$module->name		= $custom ? $module->title : substr($file, 4);
+				$module->style		= null;
+				$module->position	= strtolower($module->position);
+				$clean[$module->id]	= $module;
+			}
 		}
+		// Return to simple indexing that matches the query order.
+		$clean = array_values($clean);
 
-		return $modules;
+		return $clean;
 	}
-
 }
-

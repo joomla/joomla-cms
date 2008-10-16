@@ -9,7 +9,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $lists['offset']; ?>
+				<?php echo $this->lists['offset']; ?>
 			</td>
 		</tr>
 		</tbody>

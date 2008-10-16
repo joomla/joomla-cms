@@ -25,36 +25,36 @@ defined('JPATH_BASE') or die();
 class JTableComponent extends JTable
 {
 	/** @var int Primary key */
-	var $id					= null;
+	protected $id					= null;
 	/** @var string */
-	var $name				= null;
+	protected $name				= null;
 	/** @var string */
-	var $link				= null;
+	protected $link				= null;
 	/** @var int */
-	var $menuid				= null;
+	protected $menuid				= null;
 	/** @var int */
-	var $parent				= null;
+	protected $parent				= null;
 	/** @var string */
-	var $admin_menu_link	= null;
+	protected $admin_menu_link	= null;
 	/** @var string */
-	var $admin_menu_alt		= null;
+	protected $admin_menu_alt		= null;
 	/** @var string */
-	var $option				= null;
+	protected $option				= null;
 	/** @var string */
-	var $ordering			= null;
+	protected $ordering			= null;
 	/** @var string */
-	var $admin_menu_img		= null;
+	protected $admin_menu_img		= null;
 	/** @var int */
-	var $iscore				= null;
+	protected $iscore				= null;
 	/** @var string */
-	var $params				= null;
+	protected $params				= null;
 	/** @var int */
-	var $enabled			= null;
+	protected $enabled			= null;
 
 	/**
 	* @param database A database connector object
 	*/
-	function __construct( &$db ) {
+	protected function __construct( &$db ) {
 		parent::__construct( '#__components', 'id', $db );
 	}
 
@@ -64,7 +64,7 @@ class JTableComponent extends JTable
 	 * @param string The component option value
 	 * @return boolean
 	 */
-	function loadByOption( $option )
+	public function loadByOption( $option )
 	{
 		$db = &$this->getDBO();
 		$query = 'SELECT id' .
@@ -72,9 +72,13 @@ class JTableComponent extends JTable
 				' WHERE ' . $db->nameQuote( 'option' ) . '=' . $db->Quote( $option ) .
 				' AND parent = 0';
 		$db->setQuery( $query, 0, 1 );
-		$id = $db->loadResult();
-
-		if ($id === null) {
+		try {
+			$id = $db->loadResult();
+		} catch(JException $e) {
+			$this->setError($e->getMessage());
+			return false;
+		}
+		if (empty($id)) {
 			return false;
 		} else {
 			return $this->load( $id );
@@ -84,7 +88,7 @@ class JTableComponent extends JTable
 	/**
 	 * Validate and filter fields
 	 */
-	function check()
+	public function check()
 	{
 		$this->parent = intval( $this->parent );
 		$this->ordering = intval( $this->ordering );
@@ -100,7 +104,7 @@ class JTableComponent extends JTable
 	* @see JTable:bind
 	* @since 1.5
 	*/
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (is_array( $array['params'] ))
 		{

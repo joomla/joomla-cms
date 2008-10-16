@@ -85,10 +85,6 @@ label.invalid { color: #ff0000; }
 	background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat;
 }
 
-.button2-left .blank {
-	background: url(../images/j_button2_blank.png) 100% 0 no-repeat;
-}
-
 /* Tooltips */
 div.tooltip {
 	float: left;

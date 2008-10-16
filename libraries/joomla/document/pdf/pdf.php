@@ -18,37 +18,35 @@ defined('JPATH_BASE') or die();
 /**
  * DocumentPDF class, provides an easy interface to parse and display a pdf document
  *
- * @author		Johan Janssens <johan.janssens@joomla.org>
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.5
  */
 class JDocumentPDF extends JDocument
 {
-	var $_engine	= null;
+	public $_engine	= null;
 
-	var $_name		= 'joomla';
+	public $_name		= 'joomla';
 
-	var $_header	= null;
+	public $_header	= null;
 
-	var $_margin_header	= 5;
-	var $_margin_footer	= 10;
-	var $_margin_top	= 27;
-	var $_margin_bottom	= 25;
-	var $_margin_left	= 15;
-	var $_margin_right	= 15;
+	public $_margin_header	= 5;
+	public $_margin_footer	= 10;
+	public $_margin_top	= 27;
+	public $_margin_bottom	= 25;
+	public $_margin_left	= 15;
+	public $_margin_right	= 15;
 
 	// Scale ratio for images [number of points in user unit]
-	var $_image_scale	= 4;
+	public $_image_scale	= 4;
 
 	/**
 	 * Class constructore
 	 *
-	 * @access protected
+	 * @access public
 	 * @param	array	$options Associative array of options
 	 */
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -156,7 +154,7 @@ class JDocumentPDF extends JDocument
 	 * @access  public
 	 * @return  void
 	 */
-	function setName($name = 'joomla') {
+	public function setName($name = 'joomla') {
 		$this->_name = $name;
 	}
 
@@ -166,7 +164,7 @@ class JDocumentPDF extends JDocument
 	 * @access public
 	 * @return string
 	 */
-	function getName() {
+	public function getName() {
 		return $this->_name;
 	}
 
@@ -177,7 +175,7 @@ class JDocumentPDF extends JDocument
 	 * @access  public
 	 * @return  void
 	 */
-	function setHeader($text) {
+	public function setHeader($text) {
 		$this->_header = $text;
 	}
 
@@ -187,7 +185,7 @@ class JDocumentPDF extends JDocument
 	 * @access public
 	 * @return string
 	 */
-	function getHeader() {
+	public function getHeader() {
 		return $this->_header;
 	}
 
@@ -199,7 +197,7 @@ class JDocumentPDF extends JDocument
 	 * @param array		$params		Associative array of attributes
 	 * @return 	The rendered data
 	 */
-	function render( $cache = false, $params = array())
+	public function render( $cache = false, $params = array())
 	{
 		$pdf = &$this->_engine;
 
@@ -242,7 +240,7 @@ class JDocumentPDF extends JDocument
 		return $data;
 	}
 
-	function fixLinks()
+	public function fixLinks()
 	{
 
 	}

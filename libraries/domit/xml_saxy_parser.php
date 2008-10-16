@@ -94,7 +94,7 @@ require_once(SAXY_INCLUDE_PATH . 'xml_saxy_shared.php');
 * @author John Heinstein <johnkarl@nbnet.nb.ca>
 */
 class SAXY_Parser extends SAXY_Parser_Base {
-    /** @var int The current error number */
+	/** @var int The current error number */
 	var $errorCode = SAXY_XML_ERROR_NONE;
 	/** @var Object A reference to the DocType event handler */
 	var $DTDHandler = null;
@@ -501,16 +501,16 @@ class SAXY_Parser extends SAXY_Parser_Base {
 	* @param Array The start element attributes
 	*/
 	function _fireStartElementEvent($tagName, &$myAttributes) {
-	    $this->elementNameStack[] = $tagName;
+		$this->elementNameStack[] = $tagName;
 
-	    if ($this->isNamespaceAware) {
+		if ($this->isNamespaceAware) {
 			$this->detectStartNamespaceDeclaration($myAttributes);
 			$tagName = $this->expandNamespacePrefix($tagName);
 
 			$this->expandAttributePrefixes($myAttributes);
-	    }
+		}
 
-	    $this->fireStartElementEvent($tagName, $myAttributes);
+		$this->fireStartElementEvent($tagName, $myAttributes);
 	} //_fireStartElementEvent
 
 	/**
@@ -518,21 +518,21 @@ class SAXY_Parser extends SAXY_Parser_Base {
 	* @param Array The start element attributes
 	*/
 	function expandAttributePrefixes(&$myAttributes) {
-	    $arTransform = array();
+		$arTransform = array();
 
-	    foreach ($myAttributes as $key => $value) {
-	        if (strpos($key, 'xmlns') === false) {
-	            if (strpos($key, ':') !== false) {
-	                $expandedTag = $this->expandNamespacePrefix($key);
-	                $arTransform[$key] = $expandedTag;
-	            }
-	        }
-	    }
+		foreach ($myAttributes as $key => $value) {
+			if (strpos($key, 'xmlns') === false) {
+				if (strpos($key, ':') !== false) {
+					$expandedTag = $this->expandNamespacePrefix($key);
+					$arTransform[$key] = $expandedTag;
+				}
+			}
+		}
 
-	    foreach ($arTransform as $key => $value) {
-	        $myAttributes[$value] = $myAttributes[$key];
-	        unset($myAttributes[$key]);
-	    }
+		foreach ($arTransform as $key => $value) {
+			$myAttributes[$value] = $myAttributes[$key];
+			unset($myAttributes[$key]);
+		}
 	} //expandAttributePrefixes
 
 	/**
@@ -541,26 +541,26 @@ class SAXY_Parser extends SAXY_Parser_Base {
 	* @return string The tagName, with the prefix expanded to the namespace uri
 	*/
 	function expandNamespacePrefix($tagName) {
-	    $stackLen = count($this->defaultNamespaceStack);
-	    $defaultNamespace = $this->defaultNamespaceStack[($stackLen - 1)];
+		$stackLen = count($this->defaultNamespaceStack);
+		$defaultNamespace = $this->defaultNamespaceStack[($stackLen - 1)];
 
-	    $colonIndex = strpos($tagName, ':');
+		$colonIndex = strpos($tagName, ':');
 
-	    if ($colonIndex !== false) {
+		if ($colonIndex !== false) {
 			$prefix = substr($tagName, 0, $colonIndex);
 
 			if ($prefix != 'xml') {
-	        	$tagName = $this->getNamespaceURI($prefix) . substr($tagName, $colonIndex);
+				$tagName = $this->getNamespaceURI($prefix) . substr($tagName, $colonIndex);
 			}
 			else {
 				$tagName = SAXY_XML_NAMESPACE . substr($tagName, $colonIndex);
 			}
-	    }
-	    else if ($defaultNamespace != '') {
-	        $tagName = $defaultNamespace . ':' . $tagName;
-	    }
+		}
+		else if ($defaultNamespace != '') {
+			$tagName = $defaultNamespace . ':' . $tagName;
+		}
 
-	    return $tagName;
+		return $tagName;
 	} //expandNamespacePrefix
 
 	/**
@@ -569,21 +569,21 @@ class SAXY_Parser extends SAXY_Parser_Base {
 	* @return string The namespace uri
 	*/
 	function getNamespaceURI($prefix) {
-	    $total = count($this->namespaceMap);
-	    $uri = $prefix; //in case uri can't be found, just send back prefix
-	                    //should really generate an error, but worry about this later
+		$total = count($this->namespaceMap);
+		$uri = $prefix; //in case uri can't be found, just send back prefix
+						//should really generate an error, but worry about this later
 		//reset($this->namespaceMap);
 
-	    for ($i = ($total - 1); $i >= 0; $i--) {
-	        $currMap =& $this->namespaceMap[$i];
+		for ($i = ($total - 1); $i >= 0; $i--) {
+			$currMap =& $this->namespaceMap[$i];
 
-	        if (isset($currMap[$prefix])) {
-	            $uri = $currMap[$prefix];
-	            break;
-	        }
-	    }
+			if (isset($currMap[$prefix])) {
+				$uri = $currMap[$prefix];
+				break;
+			}
+		}
 
-	    return $uri;
+		return $uri;
 	} //getNamespaceURI
 
 	/**
@@ -591,26 +591,26 @@ class SAXY_Parser extends SAXY_Parser_Base {
 	* @param Array The start element attributes
 	*/
 	function detectStartNamespaceDeclaration(&$myAttributes) {
-	    $namespaceExists = false;
-	    $namespaceMapUpper = 0;
-	    $userDefinedDefaultNamespace = false;
-	    $total = count($myAttributes);
+		$namespaceExists = false;
+		$namespaceMapUpper = 0;
+		$userDefinedDefaultNamespace = false;
+		$total = count($myAttributes);
 
-	    foreach ($myAttributes as $key => $value) {
-	        if (strpos($key, 'xmlns') !== false) {
-	            //add an array to store all namespaces for the current element
-	            if (!$namespaceExists) {
+		foreach ($myAttributes as $key => $value) {
+			if (strpos($key, 'xmlns') !== false) {
+				//add an array to store all namespaces for the current element
+				if (!$namespaceExists) {
 					$this->namespaceMap[] = array();
 					$namespaceMapUpper = count($this->namespaceMap) - 1;
-	            }
+				}
 
 				//check for default namespace override, i.e. xmlns='...'
 				if (strpos($key, ':') !== false) {
-				    $prefix = $namespaceMapKey = substr($key, 6);
-				    $this->namespaceMap[$namespaceMapUpper][$namespaceMapKey] = $value;
+					$prefix = $namespaceMapKey = substr($key, 6);
+					$this->namespaceMap[$namespaceMapUpper][$namespaceMapKey] = $value;
 				}
 				else {
-				    $prefix = '';
+					$prefix = '';
 					$userDefinedDefaultNamespace = true;
 
 					//if default namespace '', store in map using key ':'
@@ -618,26 +618,26 @@ class SAXY_Parser extends SAXY_Parser_Base {
 					$this->defaultNamespaceStack[] = $value;
 				}
 
-	            $this->fireStartNamespaceDeclarationEvent($prefix, $value);
-	            $namespaceExists = true;
+				$this->fireStartNamespaceDeclarationEvent($prefix, $value);
+				$namespaceExists = true;
 
 				unset($myAttributes[$key]);
-	        }
-	    }
-
-	    //store the default namespace (inherited from the parent elements so grab last one)
-		if (!$userDefinedDefaultNamespace) {
-		    $stackLen = count($this->defaultNamespaceStack);
-		    if ($stackLen == 0) {
-		        $this->defaultNamespaceStack[] = '';
-		    }
-		    else {
-				$this->defaultNamespaceStack[] =
-					$this->defaultNamespaceStack[($stackLen - 1)];
-		    }
+			}
 		}
 
-	    $this->namespaceStack[] = $namespaceExists;
+		//store the default namespace (inherited from the parent elements so grab last one)
+		if (!$userDefinedDefaultNamespace) {
+			$stackLen = count($this->defaultNamespaceStack);
+			if ($stackLen == 0) {
+				$this->defaultNamespaceStack[] = '';
+			}
+			else {
+				$this->defaultNamespaceStack[] =
+					$this->defaultNamespaceStack[($stackLen - 1)];
+			}
+		}
+
+		$this->namespaceStack[] = $namespaceExists;
 	} //detectStartNamespaceDeclaration
 
 	/**
@@ -645,7 +645,7 @@ class SAXY_Parser extends SAXY_Parser_Base {
 	* @param string The end element tag name
 	*/
 	function _fireEndElementEvent($tagName) {
-	    $lastTagName = array_pop($this->elementNameStack);
+		$lastTagName = array_pop($this->elementNameStack);
 
 		//check for mismatched tag error
 		if ($lastTagName != $tagName) {
@@ -653,13 +653,13 @@ class SAXY_Parser extends SAXY_Parser_Base {
 		}
 
 		if ($this->isNamespaceAware) {
-		    $tagName = $this->expandNamespacePrefix($tagName);
-		    $this->fireEndElementEvent($tagName);
+			$tagName = $this->expandNamespacePrefix($tagName);
+			$this->fireEndElementEvent($tagName);
 			$this->detectEndNamespaceDeclaration();
 			$defaultNamespace = array_pop($this->defaultNamespaceStack);
 		}
 		else {
-		    $this->fireEndElementEvent($tagName);
+			$this->fireEndElementEvent($tagName);
 		}
 	} //_fireEndElementEvent
 
@@ -667,17 +667,17 @@ class SAXY_Parser extends SAXY_Parser_Base {
 	* Determines whether an end namespace declaration event should be fired
 	*/
 	function detectEndNamespaceDeclaration() {
-	    $isNamespaceEnded = array_pop($this->namespaceStack);
+		$isNamespaceEnded = array_pop($this->namespaceStack);
 
-	    if ($isNamespaceEnded) {
+		if ($isNamespaceEnded) {
 			$map = array_pop($this->namespaceMap);
 
-	        foreach ($map as $key => $value) {
-	            if ($key == ':') {
+			foreach ($map as $key => $value) {
+				if ($key == ':') {
 					$key = '';
-	            }
+				}
 				$this->fireEndNamespaceDeclarationEvent($key);
-	        }
+			}
 		}
 	} //detectEndNamespaceDeclaration
 
@@ -771,75 +771,75 @@ class SAXY_Parser extends SAXY_Parser_Base {
 	*/
 	function xml_error_string($code) {
 		switch ($code) {
-		    case SAXY_XML_ERROR_NONE:
-		        return "No error";
-		        break;
+			case SAXY_XML_ERROR_NONE:
+				return "No error";
+				break;
 			case SAXY_XML_ERROR_NO_MEMORY:
-			    return "Out of memory";
-		        break;
+				return "Out of memory";
+				break;
 			case SAXY_XML_ERROR_SYNTAX:
-			    return "Syntax error";
-		        break;
+				return "Syntax error";
+				break;
 			case SAXY_XML_ERROR_NO_ELEMENTS:
-			    return "No elements in document";
-		        break;
+				return "No elements in document";
+				break;
 			case SAXY_XML_ERROR_INVALID_TOKEN:
-			    return "Invalid token";
-		        break;
+				return "Invalid token";
+				break;
 			case SAXY_XML_ERROR_UNCLOSED_TOKEN:
-			    return "Unclosed token";
-		        break;
+				return "Unclosed token";
+				break;
 			case SAXY_XML_ERROR_PARTIAL_CHAR:
-			    return "Partial character";
-		        break;
+				return "Partial character";
+				break;
 			case SAXY_XML_ERROR_TAG_MISMATCH:
-			    return "Tag mismatch";
-		        break;
+				return "Tag mismatch";
+				break;
 			case SAXY_XML_ERROR_DUPLICATE_ATTRIBUTE:
-			    return "Duplicate attribute";
-		        break;
+				return "Duplicate attribute";
+				break;
 			case SAXY_XML_ERROR_JUNK_AFTER_DOC_ELEMENT:
-			    return "Junk encountered after document element";
-		        break;
+				return "Junk encountered after document element";
+				break;
 			case SAXY_XML_ERROR_PARAM_ENTITY_REF:
-			    return "Parameter entity reference error";
-		        break;
+				return "Parameter entity reference error";
+				break;
 			case SAXY_XML_ERROR_UNDEFINED_ENTITY:
-			    return "Undefined entity";
-		        break;
+				return "Undefined entity";
+				break;
 			case SAXY_XML_ERROR_RECURSIVE_ENTITY_REF:
-			    return "Recursive entity reference";
-		        break;
+				return "Recursive entity reference";
+				break;
 			case SAXY_XML_ERROR_ASYNC_ENTITY:
-			    return "Asynchronous internal entity found in external entity";
-		        break;
+				return "Asynchronous internal entity found in external entity";
+				break;
 			case SAXY_XML_ERROR_BAD_CHAR_REF:
-			    return "Bad character reference";
-		        break;
+				return "Bad character reference";
+				break;
 			case SAXY_XML_ERROR_BINARY_ENTITY_REF:
 				return "Binary entity reference";
-		        break;
+				break;
 			case SAXY_XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF:
-			    return "Attribute external entity reference";
-		        break;
+				return "Attribute external entity reference";
+				break;
 			case SAXY_XML_ERROR_MISPLACED_XML_PI:
-			    return "Misplaced processing instruction";
-		        break;
+				return "Misplaced processing instruction";
+				break;
 			case SAXY_XML_ERROR_UNKNOWN_ENCODING:
-			    return "Unknown encoding";
-		        break;
+				return "Unknown encoding";
+				break;
 			case SAXY_XML_ERROR_INCORRECT_ENCODING:
 				return "Incorrect encoding";
-		        break;
+				break;
 			case SAXY_XML_ERROR_UNCLOSED_CDATA_SECTION:
-			    return "Unclosed CDATA Section";
-		        break;
+				return "Unclosed CDATA Section";
+				break;
 			case SAXY_XML_ERROR_EXTERNAL_ENTITY_HANDLING:
-			    return "Problem in external entity handling";
-		        break;
+				return "Problem in external entity handling";
+				break;
 			default:
-			    return "No definition for error code " . $code;
-		        break;
+				return "No definition for error code " . $code;
+				break;
 		}
 	} //xml_error_string
 

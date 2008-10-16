@@ -3,8 +3,8 @@
 	<tag>lv-LV</tag>
 	<name>Latvian</name>
 	<description>Latvian language file for web installer</description>
-	<version>1.5.0</version>
-	<creationdate>12.12.2007</creationdate>
+	<version>1.5.4</version>
+	<creationdate>March 2008</creationdate>
 	<author>Latvian Joomla! Project</author>
 	<authorurl>www.joomla.org</authorurl>
 	<authoremail>joomlalv@gmail.com</authoremail>
@@ -16,8 +16,7 @@
 		<rtl>0</rtl>
 		<locale>lv_LV.utf8, lv_LV.UTF-8, lv_LV</locale>
 		<wincodepage>utf-8</wincodepage>
-		<backwardlang>english</backwardlang>
-		<pdffontname>freesans</pdffontname>
+		<backwardlang>latvian</backwardlang>
 	</metadata>
 	<params></params>
 </metafile>

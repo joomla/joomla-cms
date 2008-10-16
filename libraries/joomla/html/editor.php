@@ -20,8 +20,6 @@ jimport('joomla.event.dispatcher');
 /**
  * JEditor class to handle WYSIWYG editors
  *
- * @author		Louis Landry <louis.landry@joomla.org>
- * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @since		1.5
@@ -33,14 +31,14 @@ class JEditor extends JObservable
 	 *
 	 * @var	object
 	 */
-	var $_editor = null;
+	protected $_editor = null;
 
 	/**
 	 * Editor Plugin name
 	 *
 	 * @var string
 	 */
-	var $_name = null;
+	protected $_name = null;
 
 	/**
 	 * constructor
@@ -48,7 +46,7 @@ class JEditor extends JObservable
 	 * @access	protected
 	 * @param	string	The editor name
 	 */
-	function __construct($editor = 'none')
+	protected function __construct($editor = 'none')
 	{
 		$this->_name = $editor;
 	}
@@ -64,7 +62,7 @@ class JEditor extends JObservable
 	 * @param	string	$editor  The editor to use.
 	 * @return	JEditor	The Editor object.
 	 */
-	function &getInstance($editor = 'none')
+	public static function &getInstance($editor = 'none')
 	{
 		static $instances;
 
@@ -84,7 +82,7 @@ class JEditor extends JObservable
 	/**
 	 * Initialize the editor
 	 */
-	function initialise()
+	public function initialise()
 	{
 		//check if editor is already loaded
 		if(is_null(($this->_editor))) {
@@ -118,7 +116,7 @@ class JEditor extends JObservable
 	 * @param	boolean	True and the editor buttons will be displayed
 	 * @param	array	Associative array of editor parameters
 	 */
-	function display($name, $html, $width, $height, $col, $row, $buttons = true, $params = array())
+	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $params = array())
 	{
 		$this->_loadEditor($params);
 
@@ -160,7 +158,7 @@ class JEditor extends JObservable
 	 *
 	 * @param	string	The name of the editor control
 	 */
-	function save( $editor )
+	public function save( $editor )
 	{
 		$this->_loadEditor();
 
@@ -187,7 +185,7 @@ class JEditor extends JObservable
 	 *
 	 * @param	string	The name of the editor control
 	 */
-	function getContent( $editor )
+	public function getContent( $editor )
 	{
 		$this->_loadEditor();
 
@@ -210,7 +208,7 @@ class JEditor extends JObservable
 	 * @param	string	The name of the editor control
 	 * @param	string	The contents of the text area
 	 */
-	function setContent( $editor, $html )
+	public function setContent( $editor, $html )
 	{
 		$this->_loadEditor();
 
@@ -235,7 +233,7 @@ class JEditor extends JObservable
 	 * @access public
 	 * @since 1.5
 	 */
-	 function getButtons($editor, $buttons = true)
+	 public function getButtons($editor, $buttons = true)
 	 {
 		$result = array();
 
@@ -273,7 +271,7 @@ class JEditor extends JObservable
 	 * @param	array	Associative array of editor config paramaters
 	 * @since	1.5
 	 */
-	function _loadEditor($config = array())
+	protected function _loadEditor($config = array())
 	{
 		//check if editor is already loaded
 		if(!is_null(($this->_editor))) {

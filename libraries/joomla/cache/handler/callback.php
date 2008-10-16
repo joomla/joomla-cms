@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Joomla! Cache callback type object
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5

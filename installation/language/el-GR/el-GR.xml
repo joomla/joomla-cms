@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile version="1.1" client="installation" >
 	<name>Greek</name>
-	<version>1.5.0</version>
-	<creationDate>January 2008</creationDate>
+	<version>1.5.4</version>
+	<creationDate>2008-07-22</creationDate>
 	<author>Joomla.gr team</author>
 	<authorEmail>joomla@myjoomla.gr</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,8 +13,8 @@
 		<name>Greek</name>
 		<tag>el-GR</tag>
 		<rtl>0</rtl>
-		<locale>el_GR.UTF8, el_GR.UTF-8, el_GR.utf8, el, gr, el_GR, gr_GR, el_GRE, gr_GRE, greek, greece, hellas, hellenic</locale>
-		<winCodePage>iso-8859-7</winCodePage>
+		<locale>el_GR.UTF-8, el_GR.UTF8, el_GR.utf-8, el_GR.utf8, greek, el, ell, gr, el_GR, gr_GR, el_GRE, gr_GRE, greece, hellas, hellenic</locale>
+		<winCodePage>WINDOWS-1253</winCodePage>
 		<backwardLang>greek</backwardLang>
 	</metadata>
 	<params />

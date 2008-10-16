@@ -27,6 +27,11 @@ jimport( 'joomla.application.component.view');
  */
 class PollViewPolls extends JView
 {
+	protected $user;
+	protected $lists;
+	protected $items;
+	protected $pagination;	
+
 	function display( $tpl = null )
 	{
 		global $mainframe, $option;

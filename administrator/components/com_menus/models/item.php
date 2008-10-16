@@ -29,6 +29,8 @@ class MenusModelItem extends JModel
 	/** @var object JTable object */
 	var $_url = null;
 
+	protected $_xml;
+
 	/**
 	 * Overridden constructor
 	 * @access	protected
@@ -97,12 +99,12 @@ class MenusModelItem extends JModel
 				$url = str_replace('index.php?', '', $table->link);
 				$url = str_replace('&amp;', '&', $url);
 				$table->linkparts = null;
-				if(strpos($url, '&amp;') !== false)
-				{
-				   $url = str_replace('&amp;','&',$url);
+				if(strpos($url, '&amp;') !== false) {
+					$url = str_replace('&amp;','&',$url);
 				}
 
-				parse_str($url, $table->linkparts);
+				parse_str($url, $parts);
+				$table->linkparts = $parts;
 
 				$db = &$this->getDBO();
 				if ($component = @$table->linkparts['option']) {
@@ -129,7 +131,7 @@ class MenusModelItem extends JModel
 
 		if ($return['option'])
 		{
-			require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'classes'.DS.'ilink.php');
+			require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_menus'.DS.'classes'.DS.'ilink.php';
 			$handler		= new iLink($return['option'], $item->id, $menutype);
 			$return['html'] = $handler->getTree();
 			return $return;
@@ -147,7 +149,7 @@ class MenusModelItem extends JModel
 
 		if ($state =& $this->_getStateXML())
 		{
-			if (is_a($state, 'JSimpleXMLElement'))
+			if ($state INSTANCEOF JSimpleXMLElement)
 			{
 				$sp =& $state->getElementByPath('url');
 				$params->setXML($sp);
@@ -167,7 +169,7 @@ class MenusModelItem extends JModel
 
 		if ($state =& $this->_getStateXML())
 		{
-			if (is_a($state, 'JSimpleXMLElement'))
+			if ($state INSTANCEOF JSimpleXMLElement)
 			{
 				$sp =& $state->getElementByPath('params');
 				$params->setXML($sp);
@@ -184,7 +186,7 @@ class MenusModelItem extends JModel
 
 		if ($state =& $this->_getStateXML())
 		{
-			if (is_a($state, 'JSimpleXMLElement'))
+			if ($state INSTANCEOF JSimpleXMLElement)
 			{
 				$ap =& $state->getElementByPath('advanced');
 				$params->setXML($ap);
@@ -282,7 +284,7 @@ class MenusModelItem extends JModel
 	{
 		$state =& $this->_getStateXML();
 
-		if ( ! is_a($state, 'JSimpleXMLElement'))
+		if (!($state INSTANCEOF JSimpleXMLElement))
 		{
 			return null;
 		}
@@ -308,7 +310,7 @@ class MenusModelItem extends JModel
 		$state =& $this->_getStateXML();
 
 
-		if ( ! is_a($state, 'JSimpleXMLElement'))
+		if (!($state INSTANCEOF JSimpleXMLElement))
 		{
 			return null;
 		}
@@ -618,14 +620,14 @@ class MenusModelItem extends JModel
 				 * HANDLE NO OPTION CASE
 				 */
 				$menus =& $document->getElementByPath('menu');
-				if (is_a($menus, 'JSimpleXMLElement') && $menus->attributes('options') == 'none') {
+				if ($menus INSTANCEOF JSimpleXMLElement && $menus->attributes('options') == 'none') {
 					$xml =& $menus->getElementByPath('state');
 				} else {
 					$xml =& $document->getElementByPath('state');
 				}
 
 				// Handle error case... path doesn't exist
-				if (!is_a($xml, 'JSimpleXMLElement')) {
+				if (!($xml INSTANCEOF JSimpleXMLElement)) {
 					return $document;
 				}
 

@@ -27,6 +27,11 @@ include_once(dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php');
 
 class InstallerViewComponents extends InstallerViewDefault
 {
+	protected $items;
+	protected $pagination;
+	protected $item;
+
+
 	function display($tpl=null)
 	{
 		/*

@@ -18,7 +18,6 @@ defined('JPATH_BASE') or die();
 /**
  * Joomla! Cache view type object
  *
- * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.5
@@ -38,7 +37,7 @@ class JCacheView extends JCache
 	 */
 	function get( &$view, $method, $id=false )
 	{
-		global $mainframe;
+		$appl = JFactory::getApplication();
 
 		// Initialize variables
 		$data = false;
@@ -60,7 +59,7 @@ class JCacheView extends JCache
 			if (isset($data['pathway']) && is_array($data['pathway']))
 			{
 				// Push the pathway data into the pathway object.
-				$pathway = &$mainframe->getPathWay();
+				$pathway = &$appl->getPathWay();
 				$pathway->setPathway($data['pathway']);
 			}
 
@@ -115,7 +114,7 @@ class JCacheView extends JCache
 			$cached['head'] = $document->getHeadData();
 
 			// Pathway data
-			$pathway			= &$mainframe->getPathWay();
+			$pathway			= &$appl->getPathWay();
 			$cached['pathway']	= $pathway->getPathway();
 
 			// Get the module buffer after component execution.

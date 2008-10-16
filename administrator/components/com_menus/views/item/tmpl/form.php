@@ -22,7 +22,7 @@ function submitbutton(pressbutton) {
 }
 //-->
 </script>
-<form action="index.php" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 	<table class="admintable" width="100%">
 		<tr valign="top">
 			<td width="60%">
@@ -137,8 +137,8 @@ function submitbutton(pressbutton) {
 					echo $this->pane->startPane("menu-pane");
 					echo $this->pane->startPanel(JText :: _('Parameters - Basic'), "param-page");
 					echo $this->urlparams->render('urlparams');
-					if(count($this->params->getParams('params'))) :
-						echo $this->params->render('params');
+					if($this->params->getNumParams()) :
+						echo $this->params->render();
 					endif;
 
 					if(!count($this->params->getNumParams('params')) && !count($this->urlparams->getNumParams('urlparams'))) :
@@ -146,21 +146,27 @@ function submitbutton(pressbutton) {
 					endif;
 					echo $this->pane->endPanel();
 
-					if($params = $this->advanced->render('params')) :
-						echo $this->pane->startPanel(JText :: _('Parameters - Advanced'), "advanced-page");
-						echo $params;
-						echo $this->pane->endPanel();
-					endif;
-
-					if ($this->comp && ($params = $this->comp->render('params'))) :
+					$groups = $this->params->getGroups();
+					if(count($groups)) {
+						foreach($groups as $groupname => $group) {
+							if($groupname != 'state' && $groupname != '_default') {
+								if($this->params->getNumParams($groupname)) {
+									echo $this->pane->startPanel(JText :: _('Parameters - '.ucfirst($groupname)), $groupname.'-page');
+									echo $this->params->render('params', $groupname);
+									echo $this->pane->endPanel();
+								}
+							}
+						}
+					}
+					if ($this->comp) :
 						echo $this->pane->startPanel(JText :: _('Parameters - Component'), "component-page");
-						echo $params;
+						echo $this->comp->render('params');
 						echo $this->pane->endPanel();
 					endif;
 
-					if ($this->sysparams && ($params = $this->sysparams->render('params'))) :
+					if ($this->params->getNumParams('state')) :
 						echo $this->pane->startPanel(JText :: _('Parameters - System'), "system-page");
-						echo $params;
+						echo $this->params->render('params', 'state');
 						echo $this->pane->endPanel();
 					endif;
 					echo $this->pane->endPane();

@@ -123,7 +123,7 @@ function PollParseRoute( $segments )
 	//Standard routing for articles
 	if(!isset($item))
 	{
-		$vars['id']    = $segments[$count - 1];
+		$vars['id']	= $segments[$count - 1];
 		return $vars;
 	}
 

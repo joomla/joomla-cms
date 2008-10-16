@@ -15,7 +15,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die( 'Restricted access' );
 
-require_once (JPATH_COMPONENT.DS.'view.php');
+require_once JPATH_COMPONENT.DS.'view.php';
 
 /**
  * HTML Article View class for the Content component
@@ -26,24 +26,29 @@ require_once (JPATH_COMPONENT.DS.'view.php');
  */
 class ContentViewArticle extends ContentView
 {
+	protected $article = null;
+	protected $params = null;
+	protected $user = null;
+	protected $access = null;
+	protected $print = null;
+	protected $action = null;
+	protected $lists = null;
+	protected $editor = null;
+
+
 	function display($tpl = null)
 	{
-		global $mainframe;
-
-		$user		   =& JFactory::getUser();
-		$document	   =& JFactory::getDocument();
-		$dispatcher	   =& JDispatcher::getInstance();
-		$pathway	   =& $mainframe->getPathway();
-		$params 	   =& $mainframe->getParams('com_content');
+		$app			=& JFactory::getApplication();
+		$user		=& JFactory::getUser();
+		$document	=& JFactory::getDocument();
+		$dispatcher	=& JDispatcher::getInstance();
+		$pathway	=& $app->getPathway();
+		$params		= JComponentHelper::getParams('com_content');
 
 		// Initialize variables
 		$article	=& $this->get('Article');
-		$aparams		=& $article->parameters;
+		$aparams	= $article->parameters;
 		$params->merge($aparams);
-
-		// Get the menu item object
-		$menus = &JSite::getMenu();
-		$menu  = $menus->getActive();
 
 		if($this->getLayout() == 'pagebreak') {
 			$this->_displayPagebreak($tpl);
@@ -85,7 +90,21 @@ class ContentViewArticle extends ContentView
 		/*
 		 * Handle the metadata
 		 */
-		$document->setTitle($article->title);
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		// Get the menu item object
+		$menus = &JSite::getMenu();
+		$menu  = $menus->getActive();
+
+		if (is_object( $menu ) && isset($menu->query['view']) && $menu->query['view'] == 'article' && isset($menu->query['id']) && $menu->query['id'] == $article->id) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	$article->title);
+			}
+		} else {
+			$params->set('page_title',	$article->title);
+		}
+		$document->setTitle( $params->get( 'page_title' ) );
 
 		if ($article->metadesc) {
 			$document->setDescription( $article->metadesc );
@@ -94,11 +113,11 @@ class ContentViewArticle extends ContentView
 			$document->setMetadata('keywords', $article->metakey);
 		}
 
-		if ($mainframe->getCfg('MetaTitle') == '1') {
-			$mainframe->addMetaTag('title', $article->title);
+		if ($app->getCfg('MetaTitle') == '1') {
+			$document->setMetadata('title', $article->title);
 		}
-		if ($mainframe->getCfg('MetaAuthor') == '1') {
-			$mainframe->addMetaTag('author', $article->author);
+		if ($app->getCfg('MetaAuthor') == '1') {
+			$document->setMetadata('author', $article->author);
 		}
 
 		$mdata = new JParameter($article->metadata);
@@ -160,23 +179,26 @@ class ContentViewArticle extends ContentView
 
 	function _displayForm($tpl)
 	{
-		global $mainframe;
-
 		// Initialize variables
+		$app		=& JFactory::getApplication();
 		$document	=& JFactory::getDocument();
 		$user		=& JFactory::getUser();
-		$uri     	 =& JFactory::getURI();
+		$uri		=& JFactory::getURI();
+		$params		= JComponentHelper::getParams('com_content');
 
 		// Make sure you are logged in and have the necessary access rights
 		if ($user->get('gid') < 19) {
-			JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
+			JResponse::setHeader('HTTP/1.0 403',true);
+			JError::raiseWarning( 403, JText::_('ALERTNOTAUTH') );
 			return;
 		}
 
 		// Initialize variables
 		$article	=& $this->get('Article');
-		$params		=& $article->parameters;
+		$aparams	= $article->parameters;
 		$isNew		= ($article->id < 1);
+
+		$params->merge($aparams);
 
 		// At some point in the future this will come from a request object
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
@@ -203,10 +225,24 @@ class ContentViewArticle extends ContentView
 		$title = $article->id ? JText::_('Edit') : JText::_('New');
 
 		// Set page title
-		$document->setTitle($title);
+		// because the application sets a default page title, we need to get it
+		// right from the menu item itself
+		// Get the menu item object
+		$menus = &JSite::getMenu();
+		$menu  = $menus->getActive();
+		$params->set( 'page_title', $params->get( 'page_title' ) );
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	JText::_( 'Submit an Article' ));
+			}
+		} else {
+			$params->set('page_title', JText::_( 'Submit an Article' ));
+		}
+		$document->setTitle( $params->get( 'page_title' ) );
 
 		// get pathway
-		$pathway =& $mainframe->getPathWay();
+		$pathway =& $app->getPathway();
 		$pathway->addItem($title, '');
 
 		// Unify the introtext and fulltext fields and separated the fields by the {readmore} tag
