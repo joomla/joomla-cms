@@ -1,3 +1,4 @@
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'FTP Settings' ); ?></legend>
 	<table class="admintable" cellspacing="1">
@@ -10,7 +11,7 @@
 					</span>
 			</td>
 			<td>
-					<?php echo $this->lists['enable_ftp']; ?>
+					<?php echo JHTML::_('select.booleanlist', 'ftp_enable', 'class="inputbox"', (int) $this->row->ftp_enable); ?>
 			</td>
 		</tr>
 		<tr>

@@ -1,3 +1,4 @@
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Debug Settings' ); ?></legend>
 	<table class="admintable" cellspacing="1">
@@ -10,7 +11,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $this->lists['debug']; ?>
+				<?php echo JHTML::_('select.booleanlist', 'debug', 'class="inputbox"', $this->row->debug);; ?>
 			</td>
 		</tr>
 		<tr>
@@ -20,7 +21,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $this->lists['debug_lang']; ?>
+				<?php echo JHTML::_('select.booleanlist', 'debug_lang', 'class="inputbox"', $this->row->debug_lang); ?>
 			</td>
 		</tr>
 	</table>

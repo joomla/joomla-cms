@@ -1,3 +1,4 @@
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Mail Settings' ); ?></legend>
 	<table class="admintable" cellspacing="1">
@@ -10,7 +11,7 @@
 					</span>
 			</td>
 			<td>
-				<?php echo $this->lists['mailer']; ?>
+				<?php echo JHTML::_('config.mailHandlers', $this->row->mailer); ?>
 			</td>
 		</tr>
 		<tr>
@@ -50,7 +51,7 @@
 					</span>
 			</td>
 			<td>
-				<?php echo $this->lists['smtpauth']; ?>
+				<?php echo JHTML::_('select.booleanlist', 'smtpauth', 'class="inputbox"', $this->row->smtpauth); ?>
 			</td>
 		</tr>
 		<tr>

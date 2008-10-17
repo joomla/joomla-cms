@@ -1,3 +1,4 @@
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Database Settings' ); ?></legend>
 	<table class="admintable" cellspacing="1">

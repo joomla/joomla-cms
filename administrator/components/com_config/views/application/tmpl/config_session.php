@@ -1,3 +1,4 @@
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Session Settings' ); ?></legend>
 	<table class="admintable" cellspacing="1">
@@ -20,7 +21,7 @@
 					</span>
 				</td>
 				<td>
-					<strong><?php echo $this->lists['session_handlers']; ?></strong>
+					<strong><?php echo JHTML::_('config.sessionHandlers', $this->row->session_handler); ?></strong>
 				</td>
 			</tr>
 		</tbody>

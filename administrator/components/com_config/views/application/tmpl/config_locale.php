@@ -1,3 +1,4 @@
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Locale Settings' ); ?></legend>
 	<table class="admintable" cellspacing="1">
@@ -9,7 +10,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $this->lists['offset']; ?>
+				<?php echo JHTML::_('config.locales', $this->row->offset); ?>
 			</td>
 		</tr>
 		</tbody>

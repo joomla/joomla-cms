@@ -1,5 +1,7 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
 	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+	JHTML::_('behavior.tooltip');
+	JHTML::_('behavior.switcher');
 ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">

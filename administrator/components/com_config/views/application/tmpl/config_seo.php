@@ -1,3 +1,4 @@
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'SEO Settings' ); ?></legend>
 	<table class="admintable" cellspacing="1">
@@ -10,7 +11,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $this->lists['sef']; ?>
+				<?php echo JHTML::_('select.booleanlist', 'sef', 'class="inputbox"', $this->row->sef); ?>
 			</td>
 		</tr>
 		<tr>
@@ -20,7 +21,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $this->lists['sef_rewrite']; ?>
+				<?php echo JHTML::_('select.booleanlist', 'sef_rewrite', 'class="inputbox"', $this->row->sef_rewrite); ?>
 				<span class="error hasTip" title="<?php echo JText::_( 'Warning' );?>::<?php echo JText::_( 'WARNAPACHEONLY' ); ?>">
 					<?php echo JHTML::_('config.warnicon'); ?>
 				</span>
@@ -33,7 +34,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $this->lists['sef_suffix']; ?>
+				<?php echo JHTML::_('select.booleanlist', 'sef_suffix', 'class="inputbox"', $this->row->sef_suffix); ?>
 			</td>
 		</tr>
 		</tbody>

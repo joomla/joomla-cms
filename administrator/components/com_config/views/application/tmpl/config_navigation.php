@@ -1,3 +1,4 @@
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <div class="submenu-box">
 	<div class="submenu-pad">
 		<ul id="submenu" class="configuration">

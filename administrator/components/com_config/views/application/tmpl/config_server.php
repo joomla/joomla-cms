@@ -1,3 +1,4 @@
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Server Settings' ); ?></legend>
 	<table class="admintable" cellspacing="1">
@@ -19,7 +20,7 @@
 					</span>
 				</td>
 				<td>
-					<?php echo $this->lists['gzip']; ?>
+					<?php echo JHTML::_('select.booleanlist', 'gzip', 'class="inputbox"', $this->row->gzip); ?>
 				</td>
 			</tr>
 			<tr>

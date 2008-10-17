@@ -1,3 +1,4 @@
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'System Settings' ); ?></legend>
 	<table class="admintable" cellspacing="1">
@@ -30,7 +31,7 @@
 				</span>
 				</td>
 				<td>
-					<?php echo $this->lists['xmlrpc_server']; ?>
+					<?php echo JHTML::_('select.booleanlist', 'xmlrpc_server', 'class="inputbox"', $this->row->xmlrpc_server); ?>
 				</td>
 			</tr>
 			<tr>
@@ -40,7 +41,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $this->lists['helpsites']; ?>
+				<?php echo JHTML::_('config.helpSites', $this->row->helpurl); ?>
 				<input type="button" onclick="submitbutton('refreshhelp')" value="<?php echo JText::_('Refresh'); ?>" />
 			</td>
 		</tr>

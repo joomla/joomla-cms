@@ -42,6 +42,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+18-Oct-2008 Andrew Eddie
+ ^ Moved various presentation elements in com_config into either views or html helpers
+
 17-Oct-2008 Andrew Eddie
  - PEAR class removed due to license conflict
  - Archive_tar class removed due to license conflict

@@ -1,3 +1,4 @@
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Metadata Settings' ); ?></legend>
 	<table class="admintable" cellspacing="1">
@@ -30,7 +31,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $this->lists['MetaTitle']; ?>
+				<?php echo JHTML::_('select.booleanlist', 'MetaTitle', 'class="inputbox"', $this->row->MetaTitle); ?>
 			</td>
 		</tr>
 		<tr>
@@ -40,7 +41,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo $this->lists['MetaAuthor']; ?>
+				<?php echo JHTML::_('select.booleanlist', 'MetaAuthor', 'class="inputbox"', $this->row->MetaAuthor); ?>
 			</td>
 		</tr>
 		</tbody>
