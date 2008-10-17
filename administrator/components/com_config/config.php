@@ -21,9 +21,6 @@ if (!$user->authorize( 'com_config', 'manage' )) {
 	$mainframe->redirect('index.php', JText::_('ALERTNOTAUTH'));
 }
 
-// Helper classes
-JHTML::addIncludePath(JPATH_COMPONENT.DS.'classes');
-
 // Require specific controller if requested
 if($controller = JRequest::getWord('controller', 'application')) {
 	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';

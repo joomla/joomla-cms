@@ -1,5 +1,6 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
+	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+?>
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" autocomplete="off">
 	<fieldset>
 		<div style="float: right">
