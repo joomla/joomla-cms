@@ -27,7 +27,7 @@ abstract class JArchive
 	 * @param	string	Directory to unpack into
 	 * @return	boolean	True for success
 	 */
-	public static function extract( $archivename, $extractdir)
+	public static function extract($archivename, $extractdir)
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
@@ -168,22 +168,6 @@ abstract class JArchive
 	 */
 	public static function create($archive, $files, $compress = 'tar', $addPath = '', $removePath = '', $autoExt = false, $cleanUp = false)
 	{
-		jimport( 'pear.archive_tar.Archive_Tar' );
-
-		if (is_string($files)) {
-			$files = array ($files);
-		}
-		if ($autoExt) {
-			$archive .= '.'.$compress;
-		}
-
-		$tar = new Archive_Tar( $archive, $compress );
-		$tar->setErrorHandling(PEAR_ERROR_PRINT);
-		$tar->createModify( $files, $addPath, $removePath );
-
-		if ($cleanUp) {
-			JFile::delete( $files );
-		}
-		return $tar;
+		JError::raiseError(500, 'JArchive::create not available yet');
 	}
 }
