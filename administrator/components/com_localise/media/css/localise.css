@@ -1,0 +1,77 @@
+#fftranslation legend {
+	color:black;
+}
+
+#fftranslation tr {
+	vertical-align:top;
+}
+
+td.ffMeta b i {
+	color:red;
+}
+td.ffMetaToken {
+	background-color: #f6f6f6;
+	border-bottom: 1px solid #e9e9e9;
+	border-right: 1px solid #e9e9e9;
+	color: #666;
+	font-weight: bold;
+	text-align: right;
+	vertical-align:top;
+	width:150px;
+}
+td.ffKeys {
+	background-color: #f6f6f6;
+	border:solid black 1px;
+	color: #666;
+	font-weight: bold;
+	text-align: right;
+	width:250px;
+}
+td.ffKeys input {
+	width:200px;
+}
+td.ffCounter {
+	color:gray;
+	font-size:smaller;
+	width:10px;
+}
+td.ffToken{
+	background-color: #f6f6f6;
+	border-bottom: 1px solid #e9e9e9;
+	border-right: 1px solid #e9e9e9;
+	color: #666;
+	font-weight: bold;
+	text-align: right;
+	width:50%;
+}
+span.ffToken {
+	font-weight:normal;
+}
+
+td.ffValue{
+	width:50%;
+}
+
+.ffChanged, .ffError, .ffExtra, .ffUnchanged {
+	width:90%;
+	padding-left:2px;
+	vertical-align:top;
+}
+.ffError {
+	border-left:solid red 2px;
+}
+.ffExtra {
+	border-left:solid green 2px;
+}
+.ffUnchanged {
+	border-left:solid red 2px;
+}
+
+.ffCopy {
+	float:right;
+	margin-top:2px;
+}
+.ffReset {
+	margin-top:2px;
+	margin-right:2px;
+}
