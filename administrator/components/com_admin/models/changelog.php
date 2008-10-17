@@ -58,7 +58,7 @@ class AdminModelChangelog extends JModel
 		if (!$this->_data)
 		{
 			ob_start();
-			readfile( JPATH_SITE.DS.'CHANGELOG.php' );
+			readfile(JPATH_SITE.DS.'CHANGELOG.php');
 			$this->_data = ob_get_contents();
 			ob_clean();
 

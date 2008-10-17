@@ -1,15 +1,15 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <fieldset class="adminform">
-	<legend><?php echo JText::_( 'Relevant PHP Settings' ); ?></legend>
+	<legend><?php echo JText::_('Relevant PHP Settings'); ?></legend>
 	<table class="adminlist">
 	<thead>
 		<tr>
 			<th width="250">
-				<?php echo JText::_( 'Setting' ); ?>
+				<?php echo JText::_('Setting'); ?>
 			</th>
 			<th>
-				<?php echo JText::_( 'Value' ); ?>
+				<?php echo JText::_('Value'); ?>
 			</th>
 		</tr>
 	</thead>
@@ -22,7 +22,7 @@
 	<tbody>
 	<tr>
 		<td>
-			<?php echo JText::_( 'Safe Mode' ); ?>:
+			<?php echo JText::_('Safe Mode'); ?>:
 		</td>
 		<td>
 			<?php echo AdminViewSysinfo::get_php_setting('safe_mode'); ?>
@@ -30,15 +30,15 @@
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'Open basedir' ); ?>:
+			<?php echo JText::_('Open basedir'); ?>:
 		</td>
 		<td>
-			<?php echo (($ob = ini_get('open_basedir')) ? $ob : JText::_( 'none' ) ); ?>
+			<?php echo (($ob = ini_get('open_basedir')) ? $ob : JText::_('none')); ?>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'Display Errors' ); ?>:
+			<?php echo JText::_('Display Errors'); ?>:
 		</td>
 		<td>
 			<?php echo AdminViewSysinfo::get_php_setting('display_errors'); ?>
@@ -46,7 +46,7 @@
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'Short Open Tags' ); ?>:
+			<?php echo JText::_('Short Open Tags'); ?>:
 		</td>
 		<td>
 			<?php echo AdminViewSysinfo::get_php_setting('short_open_tag'); ?>
@@ -54,7 +54,7 @@
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'File Uploads' ); ?>:
+			<?php echo JText::_('File Uploads'); ?>:
 		</td>
 		<td>
 			<?php echo AdminViewSysinfo::get_php_setting('file_uploads'); ?>
@@ -62,7 +62,7 @@
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'Magic Quotes' ); ?>:
+			<?php echo JText::_('Magic Quotes'); ?>:
 		</td>
 		<td>
 			<?php echo AdminViewSysinfo::get_php_setting('magic_quotes_gpc'); ?>
@@ -70,7 +70,7 @@
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'Register Globals' ); ?>:
+			<?php echo JText::_('Register Globals'); ?>:
 		</td>
 		<td>
 			<?php echo AdminViewSysinfo::get_php_setting('register_globals'); ?>
@@ -78,7 +78,7 @@
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'Output Buffering' ); ?>:
+			<?php echo JText::_('Output Buffering'); ?>:
 		</td>
 		<td>
 			<?php echo AdminViewSysinfo::get_php_setting('output_buffering'); ?>
@@ -86,58 +86,58 @@
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'Session Save Path' ); ?>:
+			<?php echo JText::_('Session Save Path'); ?>:
 		</td>
 		<td>
-			<?php echo (($sp=ini_get('session.save_path')) ? $sp : JText::_( 'none' ) ); ?>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<?php echo JText::_( 'Session Auto Start' ); ?>:
-		</td>
-		<td>
-			<?php echo intval( ini_get( 'session.auto_start' ) ); ?>
+			<?php echo (($sp=ini_get('session.save_path')) ? $sp : JText::_('none')); ?>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'XML Enabled' ); ?>:
+			<?php echo JText::_('Session Auto Start'); ?>:
 		</td>
 		<td>
-		<?php echo extension_loaded('xml') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<?php echo JText::_( 'Zlib Enabled' ); ?>:
-		</td>
-		<td>
-			<?php echo extension_loaded('zlib') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
+			<?php echo intval(ini_get('session.auto_start')); ?>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'Disabled Functions' ); ?>:
+			<?php echo JText::_('XML Enabled'); ?>:
 		</td>
 		<td>
-			<?php echo (($df=ini_get('disable_functions')) ? $df : JText::_( 'none' ) ); ?>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<?php echo JText::_( 'Mbstring Enabled' ); ?>:
-		</td>
-		<td>
-			<?php echo extension_loaded('mbstring') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
+		<?php echo extension_loaded('xml') ? JText::_('Yes') : JText::_('No'); ?>
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<?php echo JText::_( 'Iconv Available' ); ?>:
+			<?php echo JText::_('Zlib Enabled'); ?>:
 		</td>
 		<td>
-			<?php echo function_exists('iconv') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
+			<?php echo extension_loaded('zlib') ? JText::_('Yes') : JText::_('No'); ?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?php echo JText::_('Disabled Functions'); ?>:
+		</td>
+		<td>
+			<?php echo (($df=ini_get('disable_functions')) ? $df : JText::_('none')); ?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?php echo JText::_('Mbstring Enabled'); ?>:
+		</td>
+		<td>
+			<?php echo extension_loaded('mbstring') ? JText::_('Yes') : JText::_('No'); ?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?php echo JText::_('Iconv Available'); ?>:
+		</td>
+		<td>
+			<?php echo function_exists('iconv') ? JText::_('Yes') : JText::_('No'); ?>
 		</td>
 	</tr>
 	</tbody>

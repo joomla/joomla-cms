@@ -15,7 +15,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
  * Admin Controller
@@ -31,14 +31,14 @@ class AdminController extends JController
 	 *
 	 * @param	array	Configuration array
 	 */
-	function __construct( $config = array() )
+	function __construct($config = array())
 	{
-		parent::__construct( $config );
+		parent::__construct($config);
 
 		// Register Extra tasks
-		$this->registerTask( 'sysinfo',		'display' );
-		$this->registerTask( 'help',		'display' );
-		$this->registerTask( 'changelog',	'display' );
+		$this->registerTask('sysinfo',		'display');
+		$this->registerTask('help',		'display');
+		$this->registerTask('changelog',	'display');
 	}
 
 	/**
@@ -54,11 +54,11 @@ class AdminController extends JController
 			case 'sysinfo':
 			case 'help':
 			case 'changelog':
-				JRequest::setVar( 'view', $task );
+				JRequest::setVar('view', $task);
 				break;
 		}
 
-		if (JRequest::getVar( 'view' )) {
+		if (JRequest::getVar('view')) {
 			parent::display();
 		}
 	}
@@ -66,7 +66,7 @@ class AdminController extends JController
 	/**
 	 * TODO: Description?
 	 */
-	function keepalive( )
+	function keepalive()
 	{
 		return;
 	}

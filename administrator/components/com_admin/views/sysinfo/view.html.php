@@ -15,7 +15,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Admin component
@@ -39,8 +39,8 @@ class AdminViewSysinfo extends JView
 		$document->setBuffer($contents, 'modules', 'submenu');
 
 		// Toolbar
-		JToolBarHelper::title( JText::_( 'Information' ), 'systeminfo.png' );
-		JToolBarHelper::help( 'screen.system.info' );
+		JToolBarHelper::title(JText::_('Information'), 'systeminfo.png');
+		JToolBarHelper::help('screen.system.info');
 
 		parent::display($tpl);
 	}
@@ -48,7 +48,7 @@ class AdminViewSysinfo extends JView
 	function get_php_setting($val)
 	{
 		$r =  (ini_get($val) == '1' ? 1 : 0);
-		return $r ? JText::_( 'ON' ) : JText::_( 'OFF' ) ;
+		return $r ? JText::_('ON') : JText::_('OFF') ;
 	}
 
 	function get_server_software()
@@ -58,27 +58,27 @@ class AdminViewSysinfo extends JView
 		} else if (($sf = getenv('SERVER_SOFTWARE'))) {
 			return $sf;
 		} else {
-			return JText::_( 'n/a' );
+			return JText::_('n/a');
 		}
 	}
 
-	function writableRow( $folder, $relative=1, $text='', $visible=1 )
+	function writableRow($folder, $relative=1, $text='', $visible=1)
 	{
-		$writeable		= '<b><span style="color:green;">'. JText::_( 'Writable' ) .'</span></b>';
-		$unwriteable	= '<b><span style="color:red;">'. JText::_( 'Unwritable' ) .'</span></b>';
+		$writeable		= '<b><span style="color:green;">'. JText::_('Writable') .'</span></b>';
+		$unwriteable	= '<b><span style="color:red;">'. JText::_('Unwritable') .'</span></b>';
 
 		echo '<tr>';
 		echo '<td class="item">';
 		echo $text;
-		if ( $visible ) {
+		if ($visible) {
 			echo $folder . '/';
 		}
 		echo '</td>';
 		echo '<td >';
-		if ( $relative ) {
-			echo is_writable( "../$folder" )	? $writeable : $unwriteable;
+		if ($relative) {
+			echo is_writable("../$folder")	? $writeable : $unwriteable;
 		} else {
-			echo is_writable( "$folder" )		? $writeable : $unwriteable;
+			echo is_writable("$folder")		? $writeable : $unwriteable;
 		}
 		echo '</td>';
 		echo '</tr>';

@@ -29,7 +29,7 @@ class AdminViewChangelog extends JView
 {
 	function display($tpl = null)
 	{
-		$this->assign( 'changelog', $this->get( 'Changelog' ) );
+		$this->assign('changelog', $this->get( 'Changelog' ));
 		parent::display($tpl);
 	}
 }

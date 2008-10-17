@@ -2,15 +2,15 @@
 
 ?>
 <fieldset class="adminform">
-	<legend><?php echo JText::_( 'Configuration File' ); ?></legend>
+	<legend><?php echo JText::_('Configuration File'); ?></legend>
 		<table class="adminlist">
 		<thead>
 			<tr>
 				<th width="300">
-					<?php echo JText::_( 'Setting' ); ?>
+					<?php echo JText::_('Setting'); ?>
 				</th>
 				<th>
-					<?php echo JText::_( 'Value' ); ?>
+					<?php echo JText::_('Value'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -24,32 +24,32 @@
 		<tbody>
 			<tr>
 			<?php
-			$cf = file( JPATH_CONFIGURATION . '/configuration.php' );
+			$cf = file(JPATH_CONFIGURATION . '/configuration.php');
 			$config_output = array();
 			foreach ($cf as $k => $v) {
-				if (eregi( 'var \$host', $v)) {
+				if (eregi('var \$host', $v)) {
 					$cf[$k] = 'var $host = \'xxxxxx\'';
-				} else if (eregi( 'var \$user', $v)) {
+				} else if (eregi('var \$user', $v)) {
 					$cf[$k] = 'var $user = \'xxxxxx\'';
-				} else if (eregi( 'var \$password', $v)) {
+				} else if (eregi('var \$password', $v)) {
 					$cf[$k] = 'var $password = \'xxxxxx\'';
-				} else if (eregi( 'var \$db ', $v)) {
+				} else if (eregi('var \$db ', $v)) {
 					$cf[$k] = 'var $db = \'xxxxxx\'';
-				} else if (eregi( 'var \$ftp_user ', $v)) {
+				} else if (eregi('var \$ftp_user ', $v)) {
 					$cf[$k] = 'var $ftp_user = \'xxxxxx\'';
-				} else if (eregi( 'var \$ftp_pass ', $v)) {
+				} else if (eregi('var \$ftp_pass ', $v)) {
 					$cf[$k] = 'var $ftp_pass = \'xxxxxx\'';
-				} else if (eregi( 'var \$smtpuser ', $v)) {
+				} else if (eregi('var \$smtpuser ', $v)) {
 					$cf[$k] = 'var $smtpuser = \'xxxxxx\'';
-				} else if (eregi( 'var \$smtppass ', $v)) {
+				} else if (eregi('var \$smtppass ', $v)) {
 					$cf[$k] = 'var $smtppass = \'xxxxxx\'';
-				} else if (eregi( '<?php', $v)) {
+				} else if (eregi('<?php', $v)) {
 					$cf[$k] = '';
-				} else if (eregi( '\?>', $v)) {
+				} else if (eregi('\?>', $v)) {
 					$cf[$k] = '';
-				} else if (eregi( '}', $v)) {
+				} else if (eregi('}', $v)) {
 					$cf[$k] = '';
-				} else if (eregi( 'class JConfig {', $v)) {
+				} else if (eregi('class JConfig {', $v)) {
 					$cf[$k] = '';
 				}
 				$cf[$k]		= str_replace('var ','',$cf[$k]);
@@ -60,7 +60,7 @@
 					$config_output[] = $cf[$k];
 				}
 			}
-			echo implode( '</tr><tr>', $config_output );
+			echo implode('</tr><tr>', $config_output);
 			?>
 			</tr>
 		</tbody>

@@ -4,15 +4,15 @@
 $db =& JFactory::getDBO();
 ?>
 <fieldset class="adminform">
-	<legend><?php echo JText::_( 'System Information' ); ?></legend>
+	<legend><?php echo JText::_('System Information'); ?></legend>
 		<table class="adminlist">
 		<thead>
 			<tr>
 				<th width="250">
-					<?php echo JText::_( 'Setting' ); ?>
+					<?php echo JText::_('Setting'); ?>
 				</th>
 				<th>
-					<?php echo JText::_( 'Value' ); ?>
+					<?php echo JText::_('Value'); ?>
 				</th>
 			</tr>
 		</thead>
@@ -25,7 +25,7 @@ $db =& JFactory::getDBO();
 		<tbody>
 		<tr>
 			<td valign="top">
-				<strong><?php echo JText::_( 'PHP Built On' ); ?>:</strong>
+				<strong><?php echo JText::_('PHP Built On'); ?>:</strong>
 			</td>
 			<td>
 				<?php echo php_uname(); ?>
@@ -33,7 +33,7 @@ $db =& JFactory::getDBO();
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'Database Version' ); ?>:</strong>
+				<strong><?php echo JText::_('Database Version'); ?>:</strong>
 			</td>
 			<td>
 				<?php echo $db->getVersion(); ?>
@@ -41,7 +41,7 @@ $db =& JFactory::getDBO();
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'Database Collation' ); ?>:</strong>
+				<strong><?php echo JText::_('Database Collation'); ?>:</strong>
 			</td>
 			<td>
 				<?php echo $db->getCollation(); ?>
@@ -49,7 +49,7 @@ $db =& JFactory::getDBO();
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'PHP Version' ); ?>:</strong>
+				<strong><?php echo JText::_('PHP Version'); ?>:</strong>
 			</td>
 			<td>
 				<?php echo phpversion(); ?>
@@ -57,7 +57,7 @@ $db =& JFactory::getDBO();
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'Web Server' ); ?>:</strong>
+				<strong><?php echo JText::_('Web Server'); ?>:</strong>
 			</td>
 			<td>
 				<?php echo AdminViewSysinfo::get_server_software(); ?>
@@ -65,7 +65,7 @@ $db =& JFactory::getDBO();
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'WebServer to PHP Interface' ); ?>:</strong>
+				<strong><?php echo JText::_('WebServer to PHP Interface'); ?>:</strong>
 			</td>
 			<td>
 				<?php echo php_sapi_name(); ?>
@@ -73,7 +73,7 @@ $db =& JFactory::getDBO();
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'Joomla! Version' ); ?>:</strong>
+				<strong><?php echo JText::_('Joomla! Version'); ?>:</strong>
 			</td>
 			<td>
 				<?php
@@ -84,10 +84,10 @@ $db =& JFactory::getDBO();
 		</tr>
 		<tr>
 			<td>
-				<strong><?php echo JText::_( 'User Agent' ); ?>:</strong>
+				<strong><?php echo JText::_('User Agent'); ?>:</strong>
 			</td>
 			<td>
-				<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
+				<?php echo phpversion() <= "4.2.1" ? getenv("HTTP_USER_AGENT") : $_SERVER['HTTP_USER_AGENT'];?>
 			</td>
 		</tr>
 		</tbody>
