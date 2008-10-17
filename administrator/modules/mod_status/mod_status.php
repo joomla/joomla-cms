@@ -1,18 +1,18 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version		$Id$
+ * @package		Joomla
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 global $task;
 
@@ -39,7 +39,7 @@ $query = 'SELECT COUNT(*)'
 . ' FROM #__messages'
 . ' WHERE state = 0'
 . ' AND user_id_to = '.(int) $user->get('id');
-$db->setQuery( $query );
+$db->setQuery($query);
 $unread = $db->loadResult();
 
 if (JRequest::getInt('hidemainmenu')) {
@@ -56,17 +56,17 @@ if ($unread) {
 }
 
 // Get the number of logged in users
-$query = 'SELECT COUNT( session_id )'
+$query = 'SELECT COUNT(session_id)'
 . ' FROM #__session'
 . ' WHERE guest <> 1'
 ;
 $db->setQuery($query);
-$online_num = intval( $db->loadResult() );
+$online_num = intval($db->loadResult());
 
 //Print the logged in users message
 $output[] = "<span class=\"loggedin-users\">".$online_num."</span>";
 
-if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu') ) {
+if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
 	 // Print the logout message
 	 $output[] = "<span class=\"logout\">".JText::_('Logout')."</span>";
 } else {
@@ -75,8 +75,8 @@ if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu') ) {
 }
 
 // reverse rendering order for rtl display
-if ( $lang->isRTL() ) {
-	$output = array_reverse( $output );
+if ($lang->isRTL()) {
+	$output = array_reverse($output);
 }
 
 // output the module
