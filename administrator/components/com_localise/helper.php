@@ -48,7 +48,7 @@ class TranslationsHelper
 		}
 
 		// parse the top line from one of these two formats
-		//	# $Id: helper.php 10619 2008-08-06 21:54:36Z eddieajau $
+		//	# $Id$
 		//	# version 1.5.0 2007-01-25 10:40:16 ~0 +0
 		if (strpos($content[0],'.ini')) {
 			$line = preg_replace('/^.*[.]ini[ ]+/','',$content[0]);

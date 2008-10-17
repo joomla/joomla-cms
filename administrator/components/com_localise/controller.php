@@ -592,7 +592,8 @@ class TranslationsController extends JController
 				$editMeta['complete'] = ( $editMeta['complete'] == 'COMPLETE' ) ? $editMeta['unchanged'] : 0;
 				// build the header
 				if ($editMeta['headertype']==1) {
-					$saveContent = '# $Id: controller.php 10619 2008-08-06 21:54:36Z eddieajau $options['filename'] . ' ' . $editMeta['version'] . ' ' . date('Y-m-d H:i:s') . ' ' . $editMeta['owner'] . ' ~' . $editMeta['complete'] . ' $';
+					// @todo - should leave this up to the repo
+					$saveContent = '# $'.'Id '.$options['filename'] . ' ' . $editMeta['version'] . ' ' . date('Y-m-d H:i:s') . ' ' . $editMeta['owner'] . ' ~' . $editMeta['complete'] . ' $';
 				} else {
 					$saveContent = '# version ' . $editMeta['version'] . ' ' . date('Y-m-d H:i:s') . ' ~' . $editMeta['complete'];
 				}

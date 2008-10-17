@@ -251,7 +251,8 @@ ffchkmessage = '<?php echo ( $this->options['isReference'] ? JText::_('Warning D
 							echo '<a class="ffCopy" href="javascript:ffCopyRef2Val(' . $row->i . ')">' . $this->getTooltip( '<img src="../images/M_images/arrow.png" alt="&gt;" />', null, 'COPY STRING', 'TC') . '</a>';
 						}
 						?>
-						<input type="hidden" name="ffKeys[]" value="<?php echo $row->key . '" id="key' . $row->i . '">' . $this->getTooltip( '<span id="ref' . $row->i .'">' . $row->refshow . '</span>', $row->key, JText::_('Key'), false); ?>
+						<input type="hidden" name="ffKeys[]" value="<?php echo $row->key . '" id="key' . $row->i;?>" />
+						<?php echo $this->getTooltip( '<span id="ref' . $row->i .'">' . $row->refshow . '</span>', $row->key, JText::_('Key'), false); ?>
 					</td>
 					<td class="ffValue" nowrap>
 						<?php
