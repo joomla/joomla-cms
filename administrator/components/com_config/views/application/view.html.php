@@ -23,12 +23,21 @@ jimport('joomla.application.component.view');
 */
 class ConfigViewApplication extends JView
 {
+	/**
+	 * The configuration object
+	 *
+	 * @var JConfig
+	 */
 	protected $row;
 	protected $ftp;
-	protected $lists;
 	protected $userparams;
 	protected $mediaparams;
 
+	/**
+	 * Display the view
+	 *
+	 * @param	string	Optional sub-template
+	 */
 	function display($tpl = null)
 	{
 		// Initialize some variables
@@ -40,7 +49,7 @@ class ConfigViewApplication extends JView
 		}
 
 		// Load component specific configurations
-		$table =& JTable::getInstance('component');
+		$table = &JTable::getInstance('component');
 		$table->loadByOption('com_users');
 		$userparams = new JParameter($table->params, JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'config.xml');
 		$table->loadByOption('com_media');
@@ -50,12 +59,12 @@ class ConfigViewApplication extends JView
 		$submenu = $this->loadTemplate('navigation');
 
 		// Set document data
-		$document =& JFactory::getDocument();
+		$document = &JFactory::getDocument();
 		$document->setBuffer($submenu, 'modules', 'submenu');
 
 		// Load settings for the FTP layer
 		jimport('joomla.client.helper');
-		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = &JClientHelper::setCredentialsFromRequest('ftp');
 
 		$this->assignRef('row',			$row);
 		$this->assignRef('ftp',			$ftp);
