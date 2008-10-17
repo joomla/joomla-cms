@@ -1,7 +1,6 @@
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'Server Settings' ); ?></legend>
 	<table class="admintable" cellspacing="1">
-
 		<tbody>
 			<tr>
 				<td valign="top" class="key">
@@ -30,7 +29,7 @@
 					</span>
 				</td>
 				<td>
-					<?php echo $this->lists['error_reporting']; ?>
+					<?php echo JHTML::_('config.errorReporting', $this->row->error_reporting);?>
 				</td>
 			</tr>
 		</tbody>

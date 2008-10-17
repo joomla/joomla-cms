@@ -48,6 +48,9 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  - Disabled JArchive::create due to license conflict in supporting library
  - Removed old "what's new" files from /help/
  - Added com_localise rough cut
+ + Added STRICT setting to error reporting
+ ^ Reconfigured HTML helpers in com_config
+ ^ Namespaced com_config error reporting strings
 
 14-Oct-2008 Alan Langford
  + Added JLanguage::getLanguageIdentifier() plus much rework of class (with supporting unit tests)
