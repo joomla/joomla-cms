@@ -14,27 +14,16 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once dirname(__FILE__).DS.'legacy'.DS.'legacy.php';
-
-jimport( 'joomla.plugin.plugin' );
-
 /**
- * Joomla! Legacy plugin
+ * Legacy proxy for deprecated methods
  *
  * @package		Joomla
  * @subpackage	System
  */
-class  plgSystemLegacy extends JPlugin
+final class JLegacy
 {
 	/**
-	 * Constructor
-	 *
-	 * @param	object		$subject The object to observe
-	 * @param 	array  		$config  An array that holds the plugin configuration
-	 * @since	1.0
+	 * The maximum version supported by this legacy class
 	 */
-	function __construct($subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
+	const VERSION = 1.5;
 }
