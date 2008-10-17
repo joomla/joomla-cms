@@ -364,17 +364,42 @@ class JInstallationModel extends JModel
 			//Check utf8 support of database
 			$DButfSupport = $db->hasUTF();
 
+			try
+			{
+				$db->select($DBname);
+				JInstallationHelper::setDBCharset($db, $DBname);
+			}
+			catch (JException $e)
+			{
+				try
+				{
+					JInstallationHelper::createDatabase($db, $DBname, $DButfSupport);
+					$db->select($DBname);
+				}
+				catch (JException $e)
+				{
+					// make the new connection to the new database
+					//$db = NULL;
+					//$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+					$info = $e->get('info');
+					$this->setError(JText::sprintf('WARNCREATEDB', $DBname));
+					$this->setData('back',		'dbconfig');
+					$this->setData('errors',	$info['errorMsg']);
+					return false;
+					//return JInstallationView::error($vars, array (JText::sprintf('WARNCREATEDB', $DBname)), 'dbconfig', $error);
+				}
+			}
+
+			/*
 			// Try to select the database
 			if ( ! $db->select($DBname) )
 			{
 				if (JInstallationHelper::createDatabase($db, $DBname, $DButfSupport))
 				{
 					$db->select($DBname);
-					/*
 					// make the new connection to the new database
-					$db = NULL;
-					$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
-					*/
+					//$db = NULL;
+					//$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 				} else {
 					$this->setError(JText::sprintf('WARNCREATEDB', $DBname));
 					$this->setData('back', 'dbconfig');
@@ -388,6 +413,7 @@ class JInstallationModel extends JModel
 				// will only affect MySQL 4.1.2 and up
 				JInstallationHelper::setDBCharset($db, $DBname);
 			}
+			*/
 
 			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
