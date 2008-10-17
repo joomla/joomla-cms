@@ -323,7 +323,7 @@ class JInstaller extends JObject
 			return false;
 		}
 
-		if ((version_compare($version, '1.6', '<')) && !$config->getValue('config.legacy')) {
+		if ((version_compare($version, '1.6', '<')) && !class_exists('JLegacy')) {
 			$this->abort(JText::_('MUSTENABLELEGACY'));
 			return false;
 		}
@@ -368,7 +368,7 @@ class JInstaller extends JObject
 			return false;
 		}
 
-		if ((version_compare($version, '1.6', '<')) && !$config->getValue('config.legacy')) {
+		if ((version_compare($version, '1.6', '<')) && !class_exists('JLegacy')) {
 			$this->abort(JText::_('MUSTENABLELEGACY'));
 			return false;
 		}
