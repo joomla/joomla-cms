@@ -44,6 +44,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 18-Oct-2008 Andrew Eddie
  ^ Moved various presentation elements in com_config into either views or html helpers
+ - Removed patTemplate library from distro
 
 17-Oct-2008 Andrew Eddie
  - PEAR class removed due to license conflict
