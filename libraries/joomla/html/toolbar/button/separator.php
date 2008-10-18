@@ -32,7 +32,7 @@ class JButtonSeparator extends JButton
 	 */
 	protected $_name = 'Separator';
 
-	public function render( &$definition )
+	public function render(&$definition)
 	{
 		/*
 		 * Initialize variables
