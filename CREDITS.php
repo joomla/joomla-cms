@@ -15,6 +15,18 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 
+-------------------- Joomla! 1.6 Credits ---------------------
+
+Code contributers:
+------------------
+Alan Langford
+Andrew Eddie
+Anthony Ferrara
+Ifan Evans
+Johan Janssens
+Samuel Moffatt
+Toby Patterson
+
 -------------------- Joomla! 1.5 Credits ---------------------
 
 Code contributers:
@@ -138,7 +150,7 @@ Toni Marie Swats
 Jon Giles
 Matheus Mendes
 
-Joomla! 1.5 includes or is derivative of works distributed under the licenses listed below.
+Joomla! 1.6 includes or is derivative of works distributed under the licenses listed below.
 The full text for most of the licenses listed below can be found in the LICENSES.php file.
 The original copyright notices have been preserved within the respective files and or
 packages. Please refer to the specific files and/or packages for more detailed information
@@ -204,24 +216,6 @@ OpenID
 Author:		Janrain, Inc.
 Copyright:	Copyright (C) 2005 Janrain, Inc.
 License:	GNU Lesser General Public License (LGPL)
-
-patError
-------
-Author:		gERD Schaufelberger, Sebastian Mordziol, Stephan Schmidt
-Copyright:	Copyright (C) gERD Schaufelberger, Sebastian Mordziol, Stephan Schmidt
-License:	GNU Lesser General Public License (LGPL)
-
-patTemplate
------------
-Author:		Stephan Schmidt
-Copyright:	Copyright (C) Stephan Schmidt
-License:	GNU Lesser General Public License (LGPL)
-
-Pear
-----
-Author:		Sterling Hughes, Stig Bakken, Tomas V.V.Cox, Greg Beaver
-Copyright:	Copyright (C) 1997-2006 The PHP Group
-License:	PHP License 3.0
 
 PHPGACL
 -------
