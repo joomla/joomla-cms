@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: Template.php 10398 2008-06-07 03:27:27Z roscohead $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Templates
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.

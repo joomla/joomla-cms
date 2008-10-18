@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: Modules.php 10331 2008-05-24 03:11:55Z roscohead $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Content
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
