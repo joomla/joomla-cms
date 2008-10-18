@@ -26,7 +26,6 @@ abstract class JFactory
 	public static $language = null;
 	public static $document = null;
 	public static $acl = null;
-	public static $template = null;
 	public static $database = null;
 	public static $mailer = null;
 
@@ -36,7 +35,6 @@ abstract class JFactory
 	 * Returns a reference to the global {@link JApplication} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @access public
 	 * @param	mixed	$id 		A client identifier or name.
 	 * @param	array	$config 	An optional associative array of configuration settings.
 	 * @return object JApplication
@@ -45,7 +43,7 @@ abstract class JFactory
 	{
 		if (!is_object(JFactory::$application))
 		{
-			jimport( 'joomla.application.application' );
+			jimport('joomla.application.application');
 
 			if (!$id) {
 				JError::raiseError(500, 'Application Instantiation Error');
@@ -63,7 +61,6 @@ abstract class JFactory
 	 * Returns a reference to the global {@link JRegistry} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @access public
 	 * @param string	The path to the configuration file
 	 * @param string	The type of the configuration file
 	 * @return object JRegistry
@@ -88,7 +85,6 @@ abstract class JFactory
 	 * Returns a reference to the global {@link JSession} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @access public
 	 * @param array An array containing session options
 	 * @return object JSession
 	 */
@@ -107,7 +103,6 @@ abstract class JFactory
 	 * Returns a reference to the global {@link JLanguage} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @access public
 	 * @return object JLanguage
 	 */
 	public static function &getLanguage()
@@ -115,7 +110,7 @@ abstract class JFactory
 		if (!is_object(JFactory::$language))
 		{
 			//get the debug configuration setting
-			$conf =& JFactory::getConfig();
+			$conf = &JFactory::getConfig();
 			$debug = $conf->getValue('config.debug_lang');
 
 			JFactory::$language = JFactory::_createLanguage();
@@ -131,7 +126,6 @@ abstract class JFactory
 	 * Returns a reference to the global {@link JDocument} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @access public
 	 * @return object JLanguage
 	 */
 	public static function &getDocument()
@@ -151,7 +145,6 @@ abstract class JFactory
 	 *
 	 * @param 	int 	$id 	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 *
-	 * @access public
 	 * @return object JUser
 	 */
 	public static function &getUser($id = null)
@@ -160,15 +153,15 @@ abstract class JFactory
 
 		if(is_null($id))
 		{
-			$session  =& JFactory::getSession();
-			$instance =& $session->get('user');
+			$session  = &JFactory::getSession();
+			$instance = &$session->get('user');
 			if (!$instance INSTANCEOF JUser) {
-				$instance =& JUser::getInstance();
+				$instance = &JUser::getInstance();
 			}
 		}
 		else
 		{
-			$instance =& JUser::getInstance($id);
+			$instance = &JUser::getInstance($id);
 		}
 
 		return $instance;
@@ -179,7 +172,6 @@ abstract class JFactory
 	 *
 	 * Returns a reference to the global {@link JCache} object
 	 *
-	 * @access public
 	 * @param string The cache group name
 	 * @param string The handler to use
 	 * @param string The storage method
@@ -189,7 +181,7 @@ abstract class JFactory
 	{
 		$handler = ($handler == 'function') ? 'callback' : $handler;
 
-		$conf =& JFactory::getConfig();
+		$conf = &JFactory::getConfig();
 
 		if(!isset($storage)) {
 			$storage = $conf->getValue('config.cache_handler', 'file');
@@ -205,7 +197,7 @@ abstract class JFactory
 
 		jimport('joomla.cache.cache');
 
-		$cache =& JCache::getInstance( $handler, $options );
+		$cache = &JCache::getInstance($handler, $options);
 		$cache->setCaching($conf->getValue('config.caching'));
 		return $cache;
 	}
@@ -216,14 +208,13 @@ abstract class JFactory
 	 * Returns a reference to the global {@link JACL} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @access public
 	 * @return object JACL
 	 */
-	public static function &getACL( )
+	public static function &getACL()
 	{
 		if (!is_object(JFactory::$acl)) {
-			jimport( 'joomla.user.authorization' );
-		$db =&  JFactory::getDBO();
+			jimport('joomla.user.authorization');
+		$db = & JFactory::getDBO();
 
 			$options = array(
 				'db'				=> &$db,
@@ -243,16 +234,17 @@ abstract class JFactory
 	 * Returns a reference to the global {@link JTemplate} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @access public
-	 * @return object JTemplate
+	 * @return		object JTemplate
+	 * @deprecated
 	 */
-	public static function &getTemplate( )
+	public static function &getTemplate()
 	{
-		if (!is_object(JFactory::$template)) {
-			JFactory::$template = JFactory::_createTemplate();
+		if (class_exists('JLegacy')) {
+			return JLegacy::JFactoryGetTemplate();
 		}
-
-		return JFactory::$template;
+		else {
+			throw new JException('Exception JFactory::getTemplate deprecated. Turn on legacy mode', 500, E_ERROR, 'JFactory::getTemplate', true);
+		}
 	}
 
 	/**
@@ -268,7 +260,7 @@ abstract class JFactory
 		if (!is_object(JFactory::$database))
 		{
 			//get the debug configuration setting
-			$conf =& JFactory::getConfig();
+			$conf = &JFactory::getConfig();
 			$debug = $conf->getValue('config.debug');
 
 			JFactory::$database = JFactory::_createDBO();
@@ -284,12 +276,11 @@ abstract class JFactory
 	 * Returns a reference to the global {@link JMail} object, only creating it
 	 * if it doesn't already exist
 	 *
-	 * @access public
 	 * @return object JMail
 	 */
-	public static function &getMailer( )
+	public static function &getMailer()
 	{
-		if ( ! is_object(JFactory::$mailer) ) {
+		if (! is_object(JFactory::$mailer)) {
 			JFactory::$mailer = JFactory::_createMailer();
 		}
 		$copy	= clone(JFactory::$mailer);
@@ -299,7 +290,6 @@ abstract class JFactory
 	/**
 	 * Get an XML document
 	 *
-	 * @access public
 	 * @param string The type of xml parser needed 'DOM', 'RSS' or 'Simple'
 	 * @param array:
 	 * 		boolean ['lite'] When using 'DOM' if true or not defined then domit_lite is used
@@ -307,16 +297,16 @@ abstract class JFactory
 	 * 		string	['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
 	 * @return object Parsed XML document object
 	 */
-	public static function &getXMLParser( $type = 'DOM', $options = array())
+	public static function &getXMLParser($type = 'DOM', $options = array())
 	 {
 		$doc = null;
 
-		switch (strtolower( $type ))
+		switch (strtolower($type))
 		{
 			case 'rss' :
 			case 'atom' :
 			{
-				if (!is_null( $options['rssUrl'] ))
+				if (!is_null($options['rssUrl']))
 				{
 					jimport ('simplepie.simplepie');
 					if(!is_writable(JPATH_BASE.DS.'cache')) {
@@ -325,13 +315,13 @@ abstract class JFactory
 					$simplepie = new SimplePie(
 						$options['rssUrl'],
 						JPATH_BASE.DS.'cache',
-						isset( $options['cache_time'] ) ? $options['cache_time'] : 0
+						isset($options['cache_time']) ? $options['cache_time'] : 0
 					);
 					$simplepie->handle_content_type();
 					if ($simplepie->data) {
 						$doc = $simplepie;
 					} else {
-						JError::raiseWarning( 'SOME_ERROR_CODE', JText::_('ERROR LOADING FEED DATA') );
+						JError::raiseWarning('SOME_ERROR_CODE', JText::_('ERROR LOADING FEED DATA'));
 					}
 				}
 			}	break;
@@ -364,22 +354,21 @@ abstract class JFactory
 	/**
 	* Get an editor object
 	*
-	* @access public
 	* @param string $editor The editor to load, depends on the editor plugins that are installed
 	* @return object JEditor
 	*/
 	public static function &getEditor($editor = null)
 	{
-		jimport( 'joomla.html.editor' );
+		jimport('joomla.html.editor');
 
 		//get the editor configuration setting
 		if(is_null($editor))
 		{
-			$conf =& JFactory::getConfig();
+			$conf = &JFactory::getConfig();
 			$editor = $conf->getValue('config.editor');
 		}
 
-		$instance =& JEditor::getInstance($editor);
+		$instance = &JEditor::getInstance($editor);
 
 		return $instance;
 	}
@@ -387,7 +376,6 @@ abstract class JFactory
 	/**
 	 * Return a reference to the {@link JURI} object
 	 *
-	 * @access public
 	 * @return object JURI
 	 * @since 1.5
 	 */
@@ -395,14 +383,13 @@ abstract class JFactory
 	{
 		jimport('joomla.environment.uri');
 
-		$instance =& JURI::getInstance($uri);
+		$instance = &JURI::getInstance($uri);
 		return $instance;
 	}
 
 	/**
 	 * Return a reference to the {@link JDate} object
 	 *
-	 * @access public
 	 * @param mixed $time The initial time for the JDate object
 	 * @param int $tzOffset The timezone offset.
 	 * @return object JDate
@@ -419,7 +406,7 @@ abstract class JFactory
 			$instances = array();
 		}
 
-		$language =& JFactory::getLanguage();
+		$language = &JFactory::getLanguage();
 		$locale = $language->getTag();
 
 		if(!isset($classname) || $locale != $mainLocale) {
@@ -428,7 +415,7 @@ abstract class JFactory
 			$localePath = JPATH_ROOT . DS . 'language' . DS . $mainLocale . DS . $mainLocale . '.date.php';
 			if($mainLocale !== false && file_exists($localePath)) {
 				$classname = 'JDate'.str_replace('-', '_', $mainLocale);
-				JLoader::register( $classname,  $localePath);
+				JLoader::register($classname,  $localePath);
 				if(!class_exists($classname)) {
 					//Something went wrong.  The file exists, but the class does not, default to JDate
 					$classname = 'JDate';
@@ -456,7 +443,6 @@ abstract class JFactory
 	/**
 	 * Create a configuration object
 	 *
-	 * @access private
 	 * @param string	The path to the configuration file
 	 * @param string	The type of the configuration file
 	 * @return object JRegistry
@@ -483,17 +469,16 @@ abstract class JFactory
 	/**
 	 * Create a session object
 	 *
-	 * @access private
 	 * @param array $options An array containing session options
 	 * @return object JSession
 	 * @since 1.5
 	 */
-	private static function &_createSession( $options = array())
+	private static function &_createSession($options = array())
 	{
 		jimport('joomla.session.session');
 
 		//get the editor configuration setting
-		$conf =& JFactory::getConfig();
+		$conf = &JFactory::getConfig();
 		$handler =  $conf->getValue('config.session_handler', 'none');
 
 		// config time is in minutes
@@ -510,16 +495,15 @@ abstract class JFactory
 	/**
 	 * Create an database object
 	 *
-	 * @access private
 	 * @return object JDatabase
 	 * @since 1.5
 	 */
 	private static function &_createDBO()
 	{
 		jimport('joomla.database.database');
-		jimport( 'joomla.database.table' );
+		jimport('joomla.database.table');
 
-		$conf =& JFactory::getConfig();
+		$conf = &JFactory::getConfig();
 
 		$host 		= $conf->getValue('config.host');
 		$user 		= $conf->getValue('config.user');
@@ -529,26 +513,25 @@ abstract class JFactory
 		$driver 	= $conf->getValue('config.dbtype');
 		$debug 		= $conf->getValue('config.debug');
 
-		$options	= array ( 'driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix );
+		$options	= array ('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
-		$db =& JDatabase::getInstance( $options );
+		$db = &JDatabase::getInstance($options);
 
-		if ( JError::isError($db) ) {
-			jexit('Database Error: ' . $db->toString() );
+		if (JError::isError($db)) {
+			jexit('Database Error: ' . $db->toString());
 		}
 
 		if ($db->getErrorNum() > 0) {
-			JError::raiseError(500 , 'JDatabase::getInstance: Could not connect to database <br/>' . 'joomla.library:'.$db->getErrorNum().' - '.$db->getErrorMsg() );
+			JError::raiseError(500 , 'JDatabase::getInstance: Could not connect to database <br/>' . 'joomla.library:'.$db->getErrorNum().' - '.$db->getErrorMsg());
 		}
 
-		$db->debug( $debug );
+		$db->debug($debug);
 		return $db;
 	}
 
 	/**
 	 * Create a mailer object
 	 *
-	 * @access private
 	 * @return object JMail
 	 * @since 1.5
 	 */
@@ -556,7 +539,7 @@ abstract class JFactory
 	{
 		jimport('joomla.mail.mail');
 
-		$conf	=& JFactory::getConfig();
+		$conf	= &JFactory::getConfig();
 
 		$sendmail 	= $conf->getValue('config.sendmail');
 		$smtpauth 	= $conf->getValue('config.smtpauth');
@@ -568,7 +551,7 @@ abstract class JFactory
 		$mailer 	= $conf->getValue('config.mailer');
 
 		// Create a JMail object
-		$mail 		=& JMail::getInstance();
+		$mail 		= &JMail::getInstance();
 
 		// Set default sender
 		$mail->setSender(array ($mailfrom, $fromname));
@@ -590,57 +573,9 @@ abstract class JFactory
 		return $mail;
 	}
 
-
-	/**
-	 * Create a template object
-	 *
-	 * @access private
-	 * @param array An array of support template files to load
-	 * @return object JTemplate
-	 * @since 1.5
-	 */
-	private static function &_createTemplate($files = array())
-	{
-		jimport('joomla.template.template');
-
-		$conf =& JFactory::getConfig();
-
-		$tmpl = new JTemplate;
-
-		// patTemplate
-		if ($conf->getValue('config.caching')) {
-			 $tmpl->enableTemplateCache( 'File', JPATH_BASE.DS.'cache'.DS);
-		}
-
-		$tmpl->setNamespace( 'jtmpl' );
-
-		// load the wrapper and common templates
-		$tmpl->readTemplatesFromFile( 'page.html' );
-		$tmpl->applyInputFilter('ShortModifiers');
-
-		// load the stock templates
-		if (is_array( $files ))
-		{
-			foreach ($files as $file) {
-				$tmpl->readTemplatesFromInput( $file );
-			}
-		}
-
-		$tmpl->addGlobalVar( 'option', 				$GLOBALS['option'] );
-		$tmpl->addGlobalVar( 'self', 				$_SERVER['PHP_SELF'] );
-		$tmpl->addGlobalVar( 'uri_query', 			$_SERVER['QUERY_STRING'] );
-		$tmpl->addGlobalVar( 'REQUEST_URI',			JRequest::getURI() );
-		if (isset($GLOBALS['Itemid'])) {
-			$tmpl->addGlobalVar( 'itemid', $GLOBALS['Itemid'] );
-		}
-
-		return $tmpl;
-	}
-
 	/**
 	 * Create a language object
 	 *
-	 * @access private
 	 * @return object JLanguage
 	 * @since 1.5
 	 */
@@ -648,9 +583,9 @@ abstract class JFactory
 	{
 		jimport('joomla.language.language');
 
-		$conf	=& JFactory::getConfig();
+		$conf	= &JFactory::getConfig();
 		$locale	= $conf->getValue('config.language');
-		$lang	=& JLanguage::getInstance($locale);
+		$lang	= &JLanguage::getInstance($locale);
 		$lang->setDebug($conf->getValue('config.debug_lang'));
 
 		return $lang;
@@ -659,7 +594,6 @@ abstract class JFactory
 	/**
 	 * Create a document object
 	 *
-	 * @access private
 	 * @return object JDocument
 	 * @since 1.5
 	 */
@@ -667,7 +601,7 @@ abstract class JFactory
 	{
 		jimport('joomla.document.document');
 
-		$lang	=& JFactory::getLanguage();
+		$lang	= &JFactory::getLanguage();
 
 		//Keep backwards compatibility with Joomla! 1.0
 		$raw	= JRequest::getBool('no_html');
@@ -681,8 +615,7 @@ abstract class JFactory
 			'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
 		);
 
-		$doc =& JDocument::getInstance($type, $attributes);
+		$doc = &JDocument::getInstance($type, $attributes);
 		return $doc;
 	}
 }
-
