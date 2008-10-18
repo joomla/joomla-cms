@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: menu.php 8682 2007-08-31 18:36:45Z jinx $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Application
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.

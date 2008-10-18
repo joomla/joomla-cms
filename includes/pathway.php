@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: pathway.php 8180 2007-07-23 05:52:29Z eddieajau $
+* @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Application
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
