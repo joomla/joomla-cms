@@ -34,10 +34,7 @@ class JButtonSeparator extends JButton
 
 	public function render(&$definition)
 	{
-		/*
-		 * Initialize variables
-		 */
-		$html	= null;
+		// Initialize variables
 		$class	= null;
 		$style	= null;
 
@@ -51,7 +48,6 @@ class JButtonSeparator extends JButton
 
 	/**
 	 * Empty implementation (not required)
-	 *
 	 */
 	public function fetchButton()
 	{
