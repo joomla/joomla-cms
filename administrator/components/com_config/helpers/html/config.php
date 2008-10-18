@@ -199,14 +199,14 @@ class JHTMLConfig
 	{
 		// compile list of the editors
 		$db = &JFactory::getDBO();
-		$query = 'SELECT element AS value, name AS text'
-				.' FROM #__plugins'
-				.' WHERE folder = '.$db->Quote('editor')
-				.' AND published = 1'
-				.' ORDER BY ordering, name'
-				;
-		$db->setQuery($query);
-		$edits = $db->loadObjectList();
-		return JHTML::_('select.genericlist',  $edits, $name, 'class="inputbox" size="1"', 'value', 'text', $selected);
+		$db->setQuery(
+			'SELECT element AS value, name AS text'
+			.' FROM #__plugins'
+			.' WHERE folder = '.$db->Quote('editors')
+			.' AND published = 1'
+			.' ORDER BY ordering, name'
+		);
+		$options = $db->loadObjectList();
+		return JHTML::_('select.genericlist', $options, $name, 'class="inputbox" size="1"', 'value', 'text', $selected);
 	}
 }
