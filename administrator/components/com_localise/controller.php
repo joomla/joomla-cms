@@ -12,39 +12,41 @@
 defined('_JEXEC') or die();
 
 // import controller parent class
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 /**
 * Controller class for the localise component
 */
 class TranslationsController extends JController
 {
+	protected $_options = array();
+
 	/**
 	 * Custom Constructor
 	 */
-	function __construct( $default = array() )
+	function __construct($default = array())
 	{
-		parent::__construct( $default );
+		parent::__construct($default);
 
-		$this->registerTask( 'cancel', 		'doTask' );
-		$this->registerTask( 'cancelxml', 	'doTask' );
-		$this->registerTask( 'checkin', 	'doTask' );
-		$this->registerTask( 'checkout', 	'doTask' );
-		$this->registerTask( 'publish', 	'doTask' );
-		$this->registerTask( 'remove', 		'doTask' );
-		$this->registerTask( 'removexml', 	'doTask' );
-		$this->registerTask( 'unpublish', 	'doTask' );
+		$this->registerTask('cancel', 		'doTask');
+		$this->registerTask('cancelxml', 	'doTask');
+		$this->registerTask('checkin', 	'doTask');
+		$this->registerTask('checkout', 	'doTask');
+		$this->registerTask('publish', 	'doTask');
+		$this->registerTask('remove', 		'doTask');
+		$this->registerTask('removexml', 	'doTask');
+		$this->registerTask('unpublish', 	'doTask');
 
-		$this->registerTask( 'add', 		'edit' );
-		$this->registerTask( 'apply', 		'edit' );
-		$this->registerTask( 'save', 		'edit' );
+		$this->registerTask('add', 		'edit');
+		$this->registerTask('apply', 		'edit');
+		$this->registerTask('save', 		'edit');
 
-		$this->registerTask( 'addxml', 		'editXML' );
-		$this->registerTask( 'applyxml', 	'editXML' );
-		$this->registerTask( 'editxml', 	'editXML' );
-		$this->registerTask( 'savexml', 	'editXML' );
+		$this->registerTask('addxml', 		'editXML');
+		$this->registerTask('applyxml', 	'editXML');
+		$this->registerTask('editxml', 	'editXML');
+		$this->registerTask('savexml', 	'editXML');
 
-		$this->registerTask( 'default', 	'setDefault' );
+		$this->registerTask('default', 	'setDefault');
 
 	}
 
@@ -54,7 +56,7 @@ class TranslationsController extends JController
 	* @param string the namespace for this view
 	* @return array	The Configuration in an array
 	*/
-	function _buildfilters( $allowed=array(), $namespace='' )
+	function _buildfilters($allowed=array(), $namespace='')
 	{
 		// initialise
 		global $mainframe;
@@ -66,27 +68,27 @@ class TranslationsController extends JController
 		}
 
 		// get the limitstart for this namespace
-		$filters['limitstart'] = $mainframe->getUserStateFromRequest( $namespace . 'limitstart', 'limitstart', 0 );
+		$filters['limitstart'] = $mainframe->getUserStateFromRequest($namespace . 'limitstart', 'limitstart', 0);
 
 		// then validate all the filters for this namespace
 		foreach ($allowed as $k=>$v) {
 			// values are all changed to lower case
 			$values = explode('|',$v);
-			foreach ( $values as $k2=>$v2 ) {
+			foreach ($values as $k2=>$v2) {
 				$values[$k2] = strtolower($v2);
 			}
 			// A: get the old/current value
-			$old = $mainframe->getUserState( 'request.' . $namespace . $k );
+			$old = $mainframe->getUserState('request.' . $namespace . $k);
 			// B: get the new value from the user input
-			$new = $mainframe->getUserStateFromRequest( $namespace . $k, $k, $values[0] );
+			$new = $mainframe->getUserStateFromRequest($namespace . $k, $k, $values[0]);
 			// C: check that the new (lowercase) value is valid
 			if ($k=='limit') {
 				$new = (is_numeric($new)) ? abs($new) : $values[0];
-			} else if ( $v && array_search(strtolower($new),$values) === false ) {
+			} else if ($v && array_search(strtolower($new),$values) === false) {
 				$new = $values[0];
 			}
 			// D: reset the page to #1 if the value has changed
-			if ( $old != $new ) {
+			if ($old != $new) {
 				$options['limitstart'] = 0;
 			}
 			// set the value
@@ -106,18 +108,18 @@ class TranslationsController extends JController
 		// initialise configuration variables
 		global $mainframe;
 		$task	= strtolower($this->_task);
-		$options['config'] 			= JComponentHelper::getParams( 'com_localise' );
+		$options['config'] 			= JComponentHelper::getParams('com_localise');
 
-		$options['autoCorrect']		= $options['config']->get( 'autoCorrect', 'a^=â' );
-		$options['backticks'] 		= $options['config']->get( 'backticks', 0 );
-		$options['cid'] 			= JRequest::getVar( 'cid', array(''), '', 'array' );
+		$options['autoCorrect']		= $options['config']->get('autoCorrect', 'a^=â');
+		$options['backticks'] 		= $options['config']->get('backticks', 0);
+		$options['cid'] 			= JRequest::getVar('cid', array(''), '', 'array');
 		$options['client_lang']		= $mainframe->getUserStateFromRequest('com_localise.client_lang','client_lang','');
-		$options['globalChanges'] 	= $options['config']->get('globalChanges', 0 );
+		$options['globalChanges'] 	= $options['config']->get('globalChanges', 0);
 		$options['limitstart']		= $mainframe->getUserStateFromRequest('com_localise.limitstart','limitstart','');
-		$options['newprocess'] 		= JRequest::getVar('newprocess',0,'','integer' );
-		$options['refLang'] 		= $options['config']->get( 'refLanguage', 'en-GB' );
+		$options['newprocess'] 		= JRequest::getVar('newprocess',0,'','integer');
+		$options['refLang'] 		= $options['config']->get('refLanguage', 'en-GB');
 		$options['refLangMissing'] 	= false;
-		$options['searchStyle']		= $options['config']->get( 'searchStyle', 'background-color:yellow;' );
+		$options['searchStyle']		= $options['config']->get('searchStyle', 'background-color:yellow;');
 		$options['task'] 			= strtolower($task);
 
 		// initialise a list of available languages
@@ -157,7 +159,7 @@ class TranslationsController extends JController
 			$options['basePath'] = JPATH_SITE;
 			$options['clientKey'] = 'site';
 		}
-		$options['clientName'] = JText::_( $options['clientKey'] );
+		$options['clientName'] = JText::_($options['clientKey']);
 
 		// validate that the reference language exists on this client
 		if (!isset($options['languages'][$options['client'].'_'.$options['refLang']])) {
@@ -178,21 +180,21 @@ class TranslationsController extends JController
 		$options['lang'] = substr($options['client_lang'],2);
         $options['langLen'] = strlen($options['lang']);
 		$options['langName'] = $options['languages'][$options['client_lang']];
-		$options['langPath'] 	= JLanguage::getLanguagePath( $options['basePath'], $options['lang'] );
+		$options['langPath'] 	= JLanguage::getLanguagePath($options['basePath'], $options['lang']);
         $options['refLangLen'] = strlen($options['refLang']);
-		$options['refLangPath'] = JLanguage::getLanguagePath( $options['basePath'], $options['refLang'] );
+		$options['refLangPath'] = JLanguage::getLanguagePath($options['basePath'], $options['refLang']);
 
 		// set reference language variables
-		$options['isReference'] = intval( $options['lang']==$options['refLang'] );
+		$options['isReference'] = intval($options['lang']==$options['refLang']);
 
 		// validate the cid array
-		if ( !is_array( $options['cid'] )) {
+		if (!is_array($options['cid'])) {
 			if (!empty($options['cid'])) $options['cid'] = array($options['cid']);
 			else $options['cid'] = array('');
 		}
 
 		// process the cid array to validate filenames
-		foreach($options['cid'] as $k=>$v ){
+		foreach($options['cid'] as $k=>$v){
 			if ($v) {
 				// strip unpublished prefix
 				if (substr($v,0,3)=='xx.') $v = substr($v,3);
@@ -232,11 +234,11 @@ class TranslationsController extends JController
 	* @param string $redirect_task	the task to use when redirecting (blank means no redirection)
 	* @param boolean $report	whether or not to report processing success/failure
 	*/
-	function _multitask( $task=null, $file=null, $redirect_task='files', $report=true )
+	function _multitask($task=null, $file=null, $redirect_task='files', $report=true)
 	{
 		// variables
 		$options =& $this->getOptions();
-		$task = strtolower( is_null($task) ? $this->_task : $task );
+		$task = strtolower(is_null($task) ? $this->_task : $task);
 
 		// validate the task
 		if ($task=='cancel') {
@@ -257,7 +259,7 @@ class TranslationsController extends JController
 			$options['cid'] = (is_array($file)) ? $file : array($file);
 		} else if ($task=='removexml') {
 			$options['cid'][0] = $options['lang'].'.xml';
-		} else if ( (empty($options['cid'][0])) && ($task!='checkin') ) {
+		} else if ((empty($options['cid'][0])) && ($task!='checkin')) {
 			echo "<script> alert('". JText::_('Please make a selection from the list to') . ' ' . JText::_(str_replace('xml','',$task)) ."'); window.history.go(-1);</script>\n";
 			exit();
 		}
@@ -282,20 +284,20 @@ class TranslationsController extends JController
 		foreach ($options['cid'] as $file) {
 
 			// validate the filename language prefix
-			if ( preg_match('/^[a-z]{2,3}-[A-Z]{2}[.].*/',$file) ) {
+			if (preg_match('/^[a-z]{2,3}-[A-Z]{2}[.].*/',$file)) {
 
 				// get the language and language path
 				$lang = substr($file,0,$options['langLen']);
-				$langPath = JLanguage::getLanguagePath( $options['basePath'], $lang );
+				$langPath = JLanguage::getLanguagePath($options['basePath'], $lang);
 
 				// ensure that XML files are only affected by XML tasks
-				if ( (substr($file,-4)=='.xml') && (substr($task,-3)!='xml') ) {
+				if ((substr($file,-4)=='.xml') && (substr($task,-3)!='xml')) {
 					// continue without error warning
 					continue;
 				}
 
 				// ensure that there are no existing published INI files when we are deleting an XML file
-				if ( ($task=='removexml') && (count( JFolder::files($langPath,'^'.$lang.'.*ini$') ) ) ) {
+				if (($task=='removexml') && (count(JFolder::files($langPath,'^'.$lang.'.*ini$')))) {
 					// error and continue
 					$inifile_list[$file] = $file;
 					continue;
@@ -324,20 +326,20 @@ class TranslationsController extends JController
 				// publish a file
 				// unpublish a file
 				// otherwise break because the task isn't recognised
-				if ( ($task=='checkin') && (JFile::exists($langPath.DS.$chk_file)) ) {
-					$do = JFile::delete( $langPath.DS.$chk_file );
+				if (($task=='checkin') && (JFile::exists($langPath.DS.$chk_file))) {
+					$do = JFile::delete($langPath.DS.$chk_file);
 				} else if ($task=='checkout') {
-					$do = Jfile::write( $langPath.DS.$chk_file, $chk_file_content );
+					$do = Jfile::write($langPath.DS.$chk_file, $chk_file_content);
 				} else if ($task=='remove') {
-					$do = JFile::delete( $langPath.DS.$file );
+					$do = JFile::delete($langPath.DS.$file);
 				} else if ($task=='removexml') {
-					if ( $do = JFile::delete( $langPath.DS.$file ) ) {
-						$do = JFolder::delete( $langPath );
+					if ($do = JFile::delete($langPath.DS.$file)) {
+						$do = JFolder::delete($langPath);
 					}
 				} else if ($task=='publish') {
-					$do = JFile::move( $file, $pub_file, $langPath );
+					$do = JFile::move($file, $pub_file, $langPath);
 				} else if ($task=='unpublish') {
-					$do = JFile::move( $file, $unpub_file, $langPath );
+					$do = JFile::move($file, $unpub_file, $langPath);
 				} else {
 					break;
 				}
@@ -347,7 +349,7 @@ class TranslationsController extends JController
 
 				// add the function to the file list on success
 				if ($do) {
-					$file_list[$file] = str_replace( 'xx.'.$lang, $lang,substr($file,0,-4) );
+					$file_list[$file] = str_replace('xx.'.$lang, $lang,substr($file,0,-4));
 				}
 			}
 		}
@@ -355,20 +357,20 @@ class TranslationsController extends JController
 		if ($report) {
 			// report processing success
 			if (count($file_list)) {
-				$mainframe->enqueueMessage(sprintf(JText::_($task.' success'), count($file_list), implode(', ',$file_list) ) );
+				$mainframe->enqueueMessage(sprintf(JText::_($task.' success'), count($file_list), implode(', ',$file_list)));
 			}
 			// report existing ini files
 			if (count($inifile_list)) {
-				$mainframe->enqueueMessage(sprintf(JText::_($task.' inifile'), count($inifile_list), implode(', ',$inifile_list) ) );
+				$mainframe->enqueueMessage(sprintf(JText::_($task.' inifile'), count($inifile_list), implode(', ',$inifile_list)));
 			}
 		}
 
 		// redirect
 		if ($redirect_task) {
 			if ($task=='removexml') {
-				$mainframe->redirect( 'index.php?option=com_localise' );
+				$mainframe->redirect('index.php?option=com_localise');
 			} else {
-				$mainframe->redirect( 'index.php?option=com_localise&client_lang='.$options['client_lang'].'&task='.$redirect_task );
+				$mainframe->redirect('index.php?option=com_localise&client_lang='.$options['client_lang'].'&task='.$redirect_task);
 			}
 		}
 	}
@@ -391,24 +393,24 @@ class TranslationsController extends JController
 		jimport('joomla.filesystem.file');
 
 		// variables
-		global $mainframe;
-		$options =& $this->getOptions();
+		$app		= &JFactory::getApplication();
+		$options	= &$this->getOptions();
 
 		// build the search highlight array
-		$options['filter_search'] =	$mainframe->getUserStateFromRequest( 'com_localise.files.filter_search',	'filter_search', '' );
+		$options['filter_search'] =	$app->getUserStateFromRequest('com_localise.files.filter_search',	'filter_search', '');
 
 		// we are creating a new file
 		// always in the reference language
 		if ($options['task']=='add') {
 			$options['newprocess'] = 1;
-			if (! $options['isReference'] ) {
-				$mainframe->enqueueMessage( JText::_('Always create in reference language') );
+			if (! $options['isReference']) {
+				$app->enqueueMessage(JText::_('Always create in reference language'));
 			}
 		}
 
 		// we are in the process of creating a new file
 		// the filename is set by the 'newfilename' field
-		if ( $options['newprocess'] ) {
+		if ($options['newprocess']) {
 			$options['newfilename'] = strtolower(JRequest::getVar('newfilename','','','string'));
 			// validate the filename
 			if ($options['newfilename']) {
@@ -426,7 +428,7 @@ class TranslationsController extends JController
 			// no filename
 			else {
 				// report error
-				$mainframe->enqueueMessage( JText::_('filename desc') );
+				$app->enqueueMessage(JText::_('filename desc'));
 				// change task
 				if ($options['task']!='add') {
 					$options['task'] = 'edit';
@@ -439,21 +441,21 @@ class TranslationsController extends JController
 		// 2: otherwise verify that we have a filename
 		// 3: otherwise validate the checkout status of the selected file
 		else if (empty($options['filename'])) {
-			$mainframe->enqueueMessage( JText::_('You must select a file to edit') );
-			$mainframe->redirect( 'index.php?option=com_localise&task=files' );
-		} else if ( $content = @file_get_contents($options['langPath'].DS.'chk.'.$options['filename'])) {
-			list ($timestamp,$userid,$username) = explode( '#', $content.'##' );
+			$app->enqueueMessage(JText::_('You must select a file to edit'));
+			$app->redirect('index.php?option=com_localise&task=files');
+		} else if ($content = @file_get_contents($options['langPath'].DS.'chk.'.$options['filename'])) {
+			list ($timestamp,$userid,$username) = explode('#', $content.'##');
 			$user = & JFactory::getUser();
 			// validate the checkout
 			if	(
-				( (time()-$timestamp) < 3600 )
-			&&	( $userid <> 0 )
-			&&	( $userid <> $user->get('id','0') )
+				((time()-$timestamp) < 3600)
+			&&	($userid <> 0)
+			&&	($userid <> $user->get('id','0'))
 				) {
 				// report and redirect
-				$checkin = '<a href="index.php?option=com_localise&task=checkin&id='.$options['filename'].'" title="'. JText::_( 'Force Checkin' ) . '" style="font-size:smaller">[' . JText::_( 'Checkin' ) . ']</a>';
-				$mainframe->enqueueMessage(sprintf(JText::_('checked out by'), $options['filename'], $username, $checkin ) );
-				$mainframe->redirect( 'index.php?option=com_localise&task=files' );
+				$checkin = '<a href="index.php?option=com_localise&task=checkin&id='.$options['filename'].'" title="'. JText::_('Force Checkin') . '" style="font-size:smaller">[' . JText::_('Checkin') . ']</a>';
+				$app->enqueueMessage(sprintf(JText::_('checked out by'), $options['filename'], $username, $checkin));
+				$app->redirect('index.php?option=com_localise&task=files');
 			}
 		}
 
@@ -462,7 +464,7 @@ class TranslationsController extends JController
 
 		// find the published reference language file
 		// default to an unpublished reference file
-		if ( JFile::exists($options['refLangPath'].DS.$options['refFilename']) ) {
+		if (JFile::exists($options['refLangPath'].DS.$options['refFilename'])) {
 			$options['ref_path_file'] = $options['refLangPath'].DS.$options['refFilename'];
 		} else {
 			$options['ref_path_file'] = $options['refLangPath'].DS.'xx.'.$options['refFilename'];
@@ -470,7 +472,7 @@ class TranslationsController extends JController
 
 		// find the published selected language file
 		// default to an unpublished new file
-		if ( JFile::exists($options['langPath'].DS.$options['filename']) ) {
+		if (JFile::exists($options['langPath'].DS.$options['filename'])) {
 			$options['path_file'] = $options['langPath'].DS.$options['filename'];
 		} else {
 			$options['path_file'] = $options['langPath'].DS.'xx.'.$options['filename'];
@@ -484,12 +486,12 @@ class TranslationsController extends JController
 		$editData = array();
 		$header = 0;
 		$refStrings = array();
-		if ( $refContent = @file($options['ref_path_file']) ) {
+		if ($refContent = @file($options['ref_path_file'])) {
 			foreach ($refContent as $k=>$v) {
 				$v = trim($v);
 				// grab the comments (but skip up to 6 lines before we have any strings in the file)
 				// grab the strings
-				if ( (empty($v))||($v{0}=='#')||($v{0}==';') ) {
+				if ((empty($v))||($v{0}=='#')||($v{0}==';')) {
 					if($header++>6) $editData[$k] = $v;
 				} else if(strpos($v,'=')) {
 					$header = 7;
@@ -509,30 +511,30 @@ class TranslationsController extends JController
 		if ($options['isReference']) {
 			$fileContent = $refContent;
 			$fileStrings = array();
-			$fileMeta = TranslationsHelper::getINIMeta( $fileContent, $fileStrings );
+			$fileMeta = TranslationsHelper::getINIMeta($fileContent, $fileStrings);
 			$editStrings = $fileStrings;
-		} else if ( $fileContent = @file($options['path_file']) )  {
+		} else if ($fileContent = @file($options['path_file']))  {
 			$fileStrings = array();
-			$fileMeta = TranslationsHelper::getINIMeta( $fileContent, $fileStrings );
+			$fileMeta = TranslationsHelper::getINIMeta($fileContent, $fileStrings);
 			$editStrings = $fileStrings;
-			foreach ( $fileStrings as $k=>$v ) {
+			foreach ($fileStrings as $k=>$v) {
 				$editData[$k]['edit'] = $v;
 				$editData[$k]['lang_file'] = $v;
 			}
 		} else {
 			$fileContent = array();
 			$fileStrings = array();
-			$fileMeta = array( 'headertype'=>1, 'owner'=>'ff', 'complete'=>0 );
+			$fileMeta = array('headertype'=>1, 'owner'=>'ff', 'complete'=>0);
 			$editStrings = array();
 		}
 
 		// STRINGS: load the user form contents and process into $editData
 		$editFormOnly = array();
-		if ($FormKeys = JRequest::getVar( 'ffKeys', array(), '', 'ARRAY', JREQUEST_ALLOWRAW )) {
-			$FormValues = JRequest::getVar( 'ffValues', array(), '', 'ARRAY', JREQUEST_ALLOWRAW );
+		if ($FormKeys = JRequest::getVar('ffKeys', array(), '', 'ARRAY', JREQUEST_ALLOWRAW)) {
+			$FormValues = JRequest::getVar('ffValues', array(), '', 'ARRAY', JREQUEST_ALLOWRAW);
 			// process each key=value pair from the form into $editData
 			foreach ($FormKeys as $k=>$v) {
-				if ( ($v) && (isset($FormValues[$k])) ) {
+				if (($v) && (isset($FormValues[$k]))) {
 					$key = strtoupper(trim(stripslashes($v)));
 					$value = trim(stripslashes(str_replace('\n',"\n",$FormValues[$k])));
 					$editStrings[$key] = $value;
@@ -542,7 +544,7 @@ class TranslationsController extends JController
 			}
 			// every element of $editData must have a form entry
 			foreach($editData as $k=>$v){
-				if ( is_array($v) && !isset($v['user_form']) ) {
+				if (is_array($v) && !isset($v['user_form'])) {
 					unset($editStrings[$k]);
 					unset($editData[$k]);
 				}
@@ -551,8 +553,8 @@ class TranslationsController extends JController
 
 		// META: get the XML and status meta then initialise
 		$options['XMLmeta'] = TranslationsHelper::getXMLMeta($options['langPath'].DS.$options['lang'].'.xml');
-		$statusMeta = TranslationsHelper::getINIstatus( $refStrings, $editStrings );
-		$editMeta = array_merge( $options['XMLmeta'], $fileMeta, $statusMeta );
+		$statusMeta = TranslationsHelper::getINIstatus($refStrings, $editStrings);
+		$editMeta = array_merge($options['XMLmeta'], $fileMeta, $statusMeta);
 		$editMeta['filename'] = $options['filename'];
 
 		// META: apply any user form values
@@ -569,7 +571,7 @@ class TranslationsController extends JController
 
 		// ERRORS: report any errors and change the task
 		if ((!empty($options['field_error_list']))&&($options['task']!='add')) {
-			$mainframe->enqueueMessage( sprintf( JText::_('Values Required'), implode(', ',$options['field_error_list']) ) );
+			$app->enqueueMessage(sprintf(JText::_('Values Required'), implode(', ',$options['field_error_list'])));
 			$options['task'] = 'edit';
 		}
 
@@ -577,9 +579,9 @@ class TranslationsController extends JController
 		if (($options['task']=='apply')||($options['task']=='save')) {
 
 			// ensure the file does not already exist when we are creating a new file
-			if ( ($options['newprocess'])&&(JFile::exists($options['path_file'])) ) {
+			if (($options['newprocess'])&&(JFile::exists($options['path_file']))) {
 				// report error and set task flag
-				$mainframe->enqueueMessage( sprintf(JText::_('Language INI Exists'),$options['newfilename']) );
+				$app->enqueueMessage(sprintf(JText::_('Language INI Exists'),$options['newfilename']));
 				$options['task'] = 'edit';
 			}
 
@@ -588,8 +590,8 @@ class TranslationsController extends JController
 				// check the complete status
 				// we set the complete value to the number of strings that are 'unchanged'
 				// so that if the reference INI file should change the 'complete' flag is unset/broken
-				$editMeta['complete'] = JRequest::getVar( 'complete', '', 'post', 'string' );
-				$editMeta['complete'] = ( $editMeta['complete'] == 'COMPLETE' ) ? $editMeta['unchanged'] : 0;
+				$editMeta['complete'] = JRequest::getVar('complete', '', 'post', 'string');
+				$editMeta['complete'] = ($editMeta['complete'] == 'COMPLETE') ? $editMeta['unchanged'] : 0;
 				// build the header
 				if ($editMeta['headertype']==1) {
 					// @todo - should leave this up to the repo
@@ -613,12 +615,12 @@ class TranslationsController extends JController
 						$saveContent .= $v . "\n";
 					} else {
 						// change newlines in the value
-						$value = preg_replace( '/(\r\n)|(\n\r)|(\n)/', '\n', $v['edit'] );
+						$value = preg_replace('/(\r\n)|(\n\r)|(\n)/', '\n', $v['edit']);
 						// change single-quotes or backticks in the value
 						if ($options['backticks']>0) {
-							$value = strtr( $value, "'", '`' );
+							$value = strtr($value, "'", '`');
 						} else if ($options['backticks']<0) {
-							$value = strtr( $value, '`', "'" );
+							$value = strtr($value, '`', "'");
 						}
 						// set back to $editData
 						$editData[$k]['edit'] = $value;
@@ -637,22 +639,22 @@ class TranslationsController extends JController
 
 				// if there is no reference Language File, automatically initialise/create one which is the same as the selected language file
 				if ($options['refLangMissing']) {
-					if ( JFile::write( $options['refLangPath'].DS.$options['refLangFile'], trim($saveContent) ) ) {
-						$mainframe->enqueueMessage(sprintf(JText::_('Language INI Created'), $options['refLangFile'] ) );
+					if (JFile::write($options['refLangPath'].DS.$options['refLangFile'], trim($saveContent))) {
+						$app->enqueueMessage(sprintf(JText::_('Language INI Created'), $options['refLangFile']));
 					}
 				}
 
 				// 1: write the selected language file and clear newprocess flag
 				// 2: report failure
-				if ( JFile::write( $options['path_file'], trim($saveContent) ) ) {
-					$mainframe->enqueueMessage(sprintf(JText::_('Language INI '.(($options['newprocess'])?'Created':'Saved') ),$options['clientName'],$options['filename'] ) );
+				if (JFile::write($options['path_file'], trim($saveContent))) {
+					$app->enqueueMessage(sprintf(JText::_('Language INI '.(($options['newprocess'])?'Created':'Saved')),$options['clientName'],$options['filename']));
 					$options['newprocess'] = 0;
 				} else {
-					$mainframe->enqueueMessage( sprintf(JText::_('Could not write to file'),$options['path_file']) );
+					$app->enqueueMessage(sprintf(JText::_('Could not write to file'),$options['path_file']));
 				}
 
 				// process changed strings globally across all the the ini files from the selected language directory
-				if ( (count($changedStrings)) && ($options['globalChanges']) ) {
+				if ((count($changedStrings)) && ($options['globalChanges'])) {
 					$write = 0;
 					$writeFiles = array();
 					if ($files = JFolder::files($options['langPath'])) {
@@ -673,10 +675,10 @@ class TranslationsController extends JController
 							// otherwise grab the file content
 							if ($content = file_get_contents($options['langPath'].DS.$file)) {
 								// parse the changed strings
-								$new_content = strtr( $content, $changedStrings );
+								$new_content = strtr($content, $changedStrings);
 								// check for changes then write to the file
 								if ($new_content != $content) {
-									if ( JFile::write( $options['langPath'].DS.$file, trim($new_content) ) ) {
+									if (JFile::write($options['langPath'].DS.$file, trim($new_content))) {
 										$writeFiles[$write++] = $file;
 									}
 								}
@@ -685,7 +687,7 @@ class TranslationsController extends JController
 					}
 					// report
 					if ($write) {
-						$mainframe->enqueueMessage( sprintf(JText::_('Global String Change'), $write, implode('; ',$writeFiles) ) );
+						$app->enqueueMessage(sprintf(JText::_('Global String Change'), $write, implode('; ',$writeFiles)));
 					}
 				}
 			}
@@ -695,16 +697,16 @@ class TranslationsController extends JController
 		// 1: checkin when we are saving (this will redirect also)
 		// 2: call the html when we are editing or applying (and checkout existing files)
 		if ($options['task'] == 'save') {
-			$this->_multitask( 'checkin', $options['filename'], 'files', false );
+			$this->_multitask('checkin', $options['filename'], 'files', false);
 		} else {
-			$view = $this->getView( $this->_name, 'html');
-			$view->setLayout( 'edit' );
-			$view->assignRef( 'data', $editData );
-			$view->assignRef( 'meta', $editMeta );
-			$view->assignRef( 'options', $options );
+			$view = $this->getView($this->_name, 'html');
+			$view->setLayout('edit');
+			$view->assignRef('data', $editData);
+			$view->assignRef('meta', $editMeta);
+			$view->assignRef('options', $options);
 			$view->display();
 			if (!$options['newprocess']) {
-				$this->_multitask( 'checkout', $options['filename'], false, false );
+				$this->_multitask('checkout', $options['filename'], false, false);
 			}
 		}
 	}
@@ -719,14 +721,14 @@ class TranslationsController extends JController
 		jimport('joomla.filesystem.file');
 
 		// variables
-		global $mainframe;
+		$app		= &JFactory::getApplication();
 		$options =& $this->getOptions();
 		$options['field_error_list'] = array();
 
 		// new tasks set newprocess
 		if ($options['task']=='addxml') {
 			$options['newprocess'] = 1;
-			$mainframe->enqueueMessage( JText::_('Tag Desc') );
+			$app->enqueueMessage(JText::_('Tag Desc'));
 
 		}
 
@@ -749,12 +751,12 @@ class TranslationsController extends JController
 					$options['basePath'] = JPATH_SITE;
 					$options['clientKey'] = 'site';
 				}
-				$options['clientName'] = JText::_( $options['clientKey'] );
+				$options['clientName'] = JText::_($options['clientKey']);
 			}
 
 			// validate the language tag (split, check case, reassemble, on failure report error and change task)
 			// report error and change task if we need to
-			$tag_split = preg_split( "/[^a-z]/i", JRequest::getVar('tag','','','string') );
+			$tag_split = preg_split("/[^a-z]/i", JRequest::getVar('tag','','','string'));
 			$tag = strtolower($tag_split[0]) . '-' . strtoupper($tag_split[1]);
 			print_r($tag);
             if (!preg_match('/^[a-z]{2,3}-[A-Z]{2}$/',$tag)) {
@@ -808,7 +810,7 @@ class TranslationsController extends JController
 				// go through each child of the xml root (using the XML file as master)
 				// all the nodes in the XML file are parsed in lowercase
 				// do it this way to ensure that we retain all the existing data in the XML file
-				foreach( $xml->document->children() as $node ) {
+				foreach($xml->document->children() as $node) {
 					// main nodes
 					if ($node->name()!='metadata') {
 					   $editData[$node->name()] = $node->data();
@@ -825,14 +827,14 @@ class TranslationsController extends JController
 				foreach ($editData as $k=>$v) {
 				    if ($k!='metadata') {
 				        $k_lc = strtolower($k);
-    				    if ( $k_lc != $k ) {
+    				    if ($k_lc != $k) {
     				        $editData[$k] = $editData[$k_lc];
     				        unset($editData[$k_lc]);
                         }
 				    } else {
             			foreach ($editData['metadata'] as $k=>$v) {
         				    $k_lc = strtolower($k);
-        				    if ( $k_lc != $k ) {
+        				    if ($k_lc != $k) {
         				        $editData['metadata'][$k] = $editData['metadata'][$k_lc];
         				        unset($editData['metadata'][$k_lc]);
                             }
@@ -849,8 +851,8 @@ class TranslationsController extends JController
 		}
 		// require a valid XML file (unless creating a new language)
 		else if (!$options['newprocess']) {
-			$mainframe->enqueueMessage( sprintf(JText::_('Invalid XML File'),$options['langPath'].DS.$options['filename']) );
-			$mainframe->redirect( 'index.php?option=com_localise' );
+			$app->enqueueMessage(sprintf(JText::_('Invalid XML File'),$options['langPath'].DS.$options['filename']));
+			$app->redirect('index.php?option=com_localise');
 		}
 
 		// apply the user form data (only when not empty)
@@ -870,15 +872,15 @@ class TranslationsController extends JController
 		// validate required (non-blank)
 		$required = array ('tag','name','version','creationDate','author','locale','winCodePage','backwardLang','pdfFontName');
 		foreach ($required as $v) {
-			if ( (isset($editData[$v])) && (empty($editData[$v])) ) {
+			if ((isset($editData[$v])) && (empty($editData[$v]))) {
 				$options['field_error_list'][$v] = JText::_($v);
-			} else if ( (isset($editData['metadata'][$v])) && (empty($editData['metadata'][$v])) ) {
+			} else if ((isset($editData['metadata'][$v])) && (empty($editData['metadata'][$v]))) {
 				$options['field_error_list'][$v] = JText::_($v);
 			}
 		}
 		// report any errors and change the task
 		if (($options['field_error_list'])&&($options['task']!='addxml')) {
-			$mainframe->enqueueMessage( sprintf( JText::_('Values Required'), implode(', ',$options['field_error_list']) ) );
+			$app->enqueueMessage(sprintf(JText::_('Values Required'), implode(', ',$options['field_error_list'])));
 			$options['task'] = 'editxml';
 		}
 
@@ -886,9 +888,9 @@ class TranslationsController extends JController
 		if (($options['task']=='savexml')||($options['task']=='applyxml')) {
 
 			// ensure the file does not already exist when we are creating a new language
-			if ( ($options['newprocess'])&&(JFile::exists($options['langPath'].DS.$options['filename'])) ) {
+			if (($options['newprocess'])&&(JFile::exists($options['langPath'].DS.$options['filename']))) {
 				// report error and set task flag
-				$mainframe->enqueueMessage( sprintf(JText::_('Language XML Exists'), $options['lang'] ));
+				$app->enqueueMessage(sprintf(JText::_('Language XML Exists'), $options['lang']));
 				$options['task'] = 'editxml';
 			}
 
@@ -918,7 +920,7 @@ class TranslationsController extends JController
 					jimport('joomla.filesystem.folder');
 					if (!JFolder::create($options['langPath'])) {
 						// report failure and set task flag
-						$mainframe->enqueueMessage( sprintf(JText::_('Folder Created'),$options['langPath'] ) );
+						$app->enqueueMessage(sprintf(JText::_('Folder Created'),$options['langPath']));
 						$options['task'] = 'applyxml';
 					}
 				}
@@ -926,12 +928,12 @@ class TranslationsController extends JController
 				// write the XML file (this will create a new file or overwrite an existing file)
 				// 1: report new/existing file and clear new process flag
 				// 2: report failure and set task flag if we can't write
-				if ( JFile::write( $options['langPath'].DS.$options['filename'], $saveData ) ) {
+				if (JFile::write($options['langPath'].DS.$options['filename'], $saveData)) {
 					$msg = ($options['newprocess']) ? 'Language XML Created' : 'Language XML Saved' ;
-					$mainframe->enqueueMessage( sprintf(JText::_($msg),$options['clientName'],$options['lang']) );
+					$app->enqueueMessage(sprintf(JText::_($msg),$options['clientName'],$options['lang']));
 					$options['newprocess'] = 0;
 				} else {
-					$mainframe->enqueueMessage( sprintf(JText::_('Could not write to file'),$options['langPath'].DS.$options['filename']) );
+					$app->enqueueMessage(sprintf(JText::_('Could not write to file'),$options['langPath'].DS.$options['filename']));
 					$options['task'] = 'applyxml';
 				}
 			}
@@ -939,12 +941,12 @@ class TranslationsController extends JController
 
 		// redirect or show HTML after saving
 		if ($options['task'] == 'savexml') {
-			$mainframe->redirect( 'index.php?option=com_localise' );
+			$app->redirect('index.php?option=com_localise');
 		} else {
-			$view = $this->getView( $this->_name, 'html');
-			$view->setLayout( 'editxml' );
-			$view->assignRef( 'data', $editData );
-			$view->assignRef( 'options', $options );
+			$view = $this->getView($this->_name, 'html');
+			$view->setLayout('editxml');
+			$view->assignRef('data', $editData);
+			$view->assignRef('options', $options);
 			$view->display();
 		}
 	}
@@ -955,7 +957,7 @@ class TranslationsController extends JController
 	*/
 	function &getOptions () {
 
-		if (!isset($this->_options)) {
+		if (empty($this->_options)) {
 			$this->_options = $this->_buildoptions();
 		}
 		return $this->_options;
@@ -964,10 +966,10 @@ class TranslationsController extends JController
 	/**
 	* Make a language the default language for a client
 	*/
-	function setDefault( )
+	function setDefault()
 	{
         // variables
-    	global $mainframe;
+		$app	= &JFactory::getApplication();
     	$params = JComponentHelper::getParams('com_languages');
 
         $options =& $this->getOptions();
@@ -991,15 +993,15 @@ class TranslationsController extends JController
     	// set variables
     	$params->set($client, $lang);
     	$table =& JTable::getInstance('component');
-	    $table->loadByOption( 'com_languages' );
+	    $table->loadByOption('com_languages');
     	$table->params = $params->toString();
 
     	// save the changes
         if (!$table->check()) {
-    		JError::raiseWarning( 500, $table->getError() );
+    		JError::raiseWarning(500, $table->getError());
     		$write = false;
         } else if (!$table->store()) {
-    		JError::raiseWarning( 500, $table->getError() );
+    		JError::raiseWarning(500, $table->getError());
     		$write = false;
     	} else {
             $write = true;
@@ -1007,22 +1009,11 @@ class TranslationsController extends JController
 
 		// Redirect on success/failure
 		if ($write) {
-			$mainframe->redirect('index.php?option=com_localise', sprintf( JText::_('Default Language Saved'), JText::_($client), $options['lang'] )  );
+			$app->redirect('index.php?option=com_localise', sprintf(JText::_('Default Language Saved'), JText::_($client), $options['lang']) );
 		} else {
-			$mainframe->redirect('index.php?option=com_localise', JText::_('ERRORCONFIGWRITEABLE') );
+			$app->redirect('index.php?option=com_localise', JText::_('ERRORCONFIGWRITEABLE'));
 		}
     }
-
-	/**
-	* Show Credits/Homepage for the component
-	*/
-	function credits()
-	{
-		// call the html view
-		$view = $this->getView( $this->_name, 'html');
-		$view->setLayout( 'credits' );
-		$view->display();
-	}
 
 	/**
 	* Show a List of INI Translation Files for a given Client-Language
@@ -1034,16 +1025,16 @@ class TranslationsController extends JController
 		jimport('joomla.filesystem.file');
 
 		// variables
-		global $mainframe;
-		$options =& $this->getOptions();
-		$user = &JFactory::getUser();
-		$userid = $user->get('id',0);
+		$app		= &JFactory::getApplication();
+		$options	= &$this->getOptions();
+		$user		= &JFactory::getUser();
+		$userid		= $user->get('id',0);
 
 		// build client_lang select box
 		foreach ($options['languages'] as $k=>$v) {
-			$sel_lang[] = JHTML::_( 'select.option', $k, $v );
+			$sel_lang[] = JHTML::_('select.option', $k, $v);
 		}
-		$lists['client_lang'] = JHTML::_( 'select.genericlist', $sel_lang, 'client_lang', 'class="inputbox" size="1" onchange="document.adminForm.limitstart.value=0;document.adminForm.submit( );"', 'value', 'text', $options['client_lang'] );
+		$lists['client_lang'] = JHTML::_('select.genericlist', $sel_lang, 'client_lang', 'class="inputbox" size="1" onchange="document.adminForm.limitstart.value=0;document.adminForm.submit();"', 'value', 'text', $options['client_lang']);
 
 		// validate all the filters (specific to this view)
 		$allowed = array(
@@ -1053,12 +1044,12 @@ class TranslationsController extends JController
 			'filter_status' 		=> '*|NS|IP|C',
 			'filter_order' 			=> 'name|status|strings|version|datetime|author',
 			'filter_order_Dir' 		=> 'asc|desc',
-			'limit' 				=> $mainframe->getCfg('list_limit')
+			'limit' 				=> $app->getCfg('list_limit')
 		);
-		$filters = $this->_buildfilters( $allowed, 'com_localise.files.' );
+		$filters = $this->_buildfilters($allowed, 'com_localise.files.');
 
 		// copy to $options
-		$options = array_merge( $options, $filters );
+		$options = array_merge($options, $filters);
 
 		// copy to $lists
 		$lists['order'] = $options['filter_order'];
@@ -1072,10 +1063,10 @@ class TranslationsController extends JController
 			// 3: invalid regexp
 			if ($options['filter_search']{0}!='/') {
 				$options['dosearch'] = '/.*'.trim($options['filter_search'],'/').'.*/i';
-			} else if ( @preg_match($options['filter_search'],'') !== false ) {
+			} else if (@preg_match($options['filter_search'],'') !== false) {
 				$options['dosearch'] = $options['filter_search'];
 			} else {
-				$mainframe->enqueueMessage( JText::_('Search') . ': ' . sprintf( JText::_('Invalid RegExp'), htmlentities($options['filter_search']) ), 'error' );
+				$app->enqueueMessage(JText::_('Search') . ': ' . sprintf(JText::_('Invalid RegExp'), htmlentities($options['filter_search'])), 'error');
 				$options['filter_search'] = '';
 			}
 		}
@@ -1083,51 +1074,51 @@ class TranslationsController extends JController
 
 		// build the filter_state select box
 		$extra = 'class="inputbox" size="1" onchange="document.adminForm.submit();"';
-		$sel_state[] = JHTML::_( 'select.option',  '*', JText::_( 'Any State' ) );
-		$sel_state[] = JHTML::_( 'select.option',  'P', JText::_( 'Published' ) );
-		$sel_state[] = JHTML::_( 'select.option',  'U', JText::_( 'Not Published' ) );
-		$lists['state'] = JHTML::_( 'select.genericlist',  $sel_state, 'filter_state', $extra, 'value', 'text', $options['filter_state'] );
+		$sel_state[] = JHTML::_('select.option',  '*', JText::_('Any State'));
+		$sel_state[] = JHTML::_('select.option',  'P', JText::_('Published'));
+		$sel_state[] = JHTML::_('select.option',  'U', JText::_('Not Published'));
+		$lists['state'] = JHTML::_('select.genericlist',  $sel_state, 'filter_state', $extra, 'value', 'text', $options['filter_state']);
 
 		// build the filter_status select box
-		$sel_status[] = JHTML::_( 'select.option',  '*', JText::_( 'Any Status' ) );
-		$sel_status[] = JHTML::_( 'select.option',  'NS', JText::_( 'Not Started' ) );
-		$sel_status[] = JHTML::_( 'select.option',  'IP', JText::_( 'In Progress' ) );
-		$sel_status[] = JHTML::_( 'select.option',  'C', JText::_( 'Complete' ) );
+		$sel_status[] = JHTML::_('select.option',  '*', JText::_('Any Status'));
+		$sel_status[] = JHTML::_('select.option',  'NS', JText::_('Not Started'));
+		$sel_status[] = JHTML::_('select.option',  'IP', JText::_('In Progress'));
+		$sel_status[] = JHTML::_('select.option',  'C', JText::_('Complete'));
 		if ($options['isReference']) {
 			$options['filter_status'] = '*';
 		}
 		if ($options['lang'] == $options['refLang']) {
 			$extra .= ' disabled';
 		}
-		$lists['status'] = JHTML::_( 'select.genericlist',  $sel_status, 'filter_status', $extra, 'value', 'text', $options['filter_status'] );
+		$lists['status'] = JHTML::_('select.genericlist',  $sel_status, 'filter_status', $extra, 'value', 'text', $options['filter_status']);
 
 		// create objects for loading data
-		$refLangLoader = new JLanguage( $options['refLang'] );
-		$LangLoader = ( $options['lang'] == $options['refLang'] ) ? $refLangLoader : new JLanguage( $options['lang'] );
+		$refLangLoader = new JLanguage($options['refLang']);
+		$LangLoader = ($options['lang'] == $options['refLang']) ? $refLangLoader : new JLanguage($options['lang']);
 
 		// load all the the ini filenames (published or unpublished) from the reference directory
 		// load the same from the selected language directory
-		$refLangFiles = JFolder::files( $options['refLangPath'] , '^(xx|'.$options['refLang'].')[.].*ini$' );
+		$refLangFiles = JFolder::files($options['refLangPath'] , '^(xx|'.$options['refLang'].')[.].*ini$');
 		if ($options['isReference']) {
-			$LangFiles = array_flip( $refLangFiles );
+			$LangFiles = array_flip($refLangFiles);
 		} else {
-			$LangFiles = JFolder::files( $options['langPath'] , '^(xx|'.$options['lang'].')[.].*ini$' );
-			$LangFiles = array_flip( $LangFiles );
+			$LangFiles = JFolder::files($options['langPath'] , '^(xx|'.$options['lang'].')[.].*ini$');
+			$LangFiles = array_flip($LangFiles);
 		}
 
 		// build a composite filename list, keyed using the filename without language tag
 		$allFiles = array();
-		foreach ( $refLangFiles as $v ) {
+		foreach ($refLangFiles as $v) {
 			$k = preg_replace('/^(xx[.])*'.$options['refLang'].'[.]/','',$v);
 			$allFiles[$k]['refLang'] = $v;
 		}
-		foreach ( $LangFiles as $v=>$k ) {
+		foreach ($LangFiles as $v=>$k) {
 			$k = preg_replace('/^(xx[.])*'.$options['lang'].'[.]/','',$v);
 			$allFiles[$k]['lang'] = $v;
 		}
 
 		// get default metadata for the selected language
-		$xmlData = TranslationsHelper::getXMLMeta( $options['langPath'].DS.$options['lang'].'.xml' );
+		$xmlData = TranslationsHelper::getXMLMeta($options['langPath'].DS.$options['lang'].'.xml');
 
 		// process the reference language INI files and compare them against the files for the selected language
 		$rows = array ();
@@ -1137,14 +1128,14 @@ class TranslationsController extends JController
 			// get the content, bare filename, Meta and Strings from the reference language INI file
 			// in some cases there may not be a reference language INI file
 			if (isset($v['refLang'])) {
-				$refContent = file( $options['refLangPath'].DS.$v['refLang'] );
-                $refFileName = ( substr($v['refLang'],0,3)=='xx.' ) ?  substr($v['refLang'],3) : $v['refLang'];
+				$refContent = file($options['refLangPath'].DS.$v['refLang']);
+                $refFileName = (substr($v['refLang'],0,3)=='xx.') ?  substr($v['refLang'],3) : $v['refLang'];
 				$fileName = $options['lang'] . substr($refFileName,$options['refLangLen']);
 				$refStrings = array();
-				$refMeta  = TranslationsHelper::getINIMeta( $refContent, $refStrings );
+				$refMeta  = TranslationsHelper::getINIMeta($refContent, $refStrings);
 			} else {
 				$refContent = array();
-				$fileName = ( substr($v['lang'],0,3)=='xx.' ) ?  substr($v['lang'],3) : $v['lang'];
+				$fileName = (substr($v['lang'],0,3)=='xx.') ?  substr($v['lang'],3) : $v['lang'];
 				$refFileName = $options['refLang'] . substr($fileName,$options['langLen']);
 				$refStrings = array();
 				$refMeta  = array(
@@ -1167,7 +1158,7 @@ class TranslationsController extends JController
 			$row->filename 		= $fileName;
 			$row->id 			= $rowid++;
 			$row->name 			= substr($row->filename,($options['langLen']+1),-4);
-			$row->refexists 	= intval( isset($v['refLang']) );
+			$row->refexists 	= intval(isset($v['refLang']));
 			$row->reffilename 	= $refFileName;
 			$row->refstrings	= $refMeta['strings'];
 			$row->searchfound 	= 0;
@@ -1181,12 +1172,12 @@ class TranslationsController extends JController
 			// 1: file is published
 			// 2: file is unpublished
 			// 3: file does not exist
-			if ( JFile::exists($options['langPath'].DS.$row->filename) ) {
+			if (JFile::exists($options['langPath'].DS.$row->filename)) {
 				$row->exists 		= 1;
 				$row->path_file 	= $options['langPath'].DS.$row->filename;
 				$row->published 	= 1;
 				$row->writable 		= is_writable($row->path_file);
-			} else if ( JFile::exists($options['langPath'].DS.$row->unpub_filename) ) {
+			} else if (JFile::exists($options['langPath'].DS.$row->unpub_filename)) {
 				$row->exists 		= 1;
 				$row->path_file 	= $options['langPath'].DS.$row->unpub_filename;
 				$row->published 	= 0;
@@ -1203,16 +1194,16 @@ class TranslationsController extends JController
 			}
 
 			// get the checkout status of the selected file
-			if ( $content = @file_get_contents($options['langPath'].DS.'chk.'.$row->filename)) {
-				$row->checkedout = ( (strpos($content,'#'.$userid.'#')) || (strpos($content,'#0#')) ) ? 0 : 1;
+			if ($content = @file_get_contents($options['langPath'].DS.'chk.'.$row->filename)) {
+				$row->checkedout = ((strpos($content,'#'.$userid.'#')) || (strpos($content,'#0#'))) ? 0 : 1;
 			}
 
 			// scan an existing language file
-			if ( (!$options['isReference']) && ($row->exists) ) {
+			if ((!$options['isReference']) && ($row->exists)) {
 				$fileContent = file($row->path_file);
 				$fileStrings = array();
-				$fileMeta = TranslationsHelper::getINIMeta( $fileContent, $fileStrings, $refStrings );
-				if ( $fileMeta['bom'] == 'UTF-8' ) {
+				$fileMeta = TranslationsHelper::getINIMeta($fileContent, $fileStrings, $refStrings);
+				if ($fileMeta['bom'] == 'UTF-8') {
 					foreach ($fileMeta as $k=>$v) {
 						$row->{$k} = $v;
 					}
@@ -1228,10 +1219,10 @@ class TranslationsController extends JController
 
 			// search the files
 			// $refContent and $fileContent are arrays containing each line of the reference and translation file
-			if ( $options['dosearch'] ) {
-				$row->searchfound_ref = preg_match_all($options['dosearch'], implode("\n",$refContent), $arr );
-                if (! $options['isReference'] ) {
-                    $row->searchfound_tran = preg_match_all($options['dosearch'], implode("\n",$fileContent), $arr );
+			if ($options['dosearch']) {
+				$row->searchfound_ref = preg_match_all($options['dosearch'], implode("\n",$refContent), $arr);
+                if (! $options['isReference']) {
+                    $row->searchfound_tran = preg_match_all($options['dosearch'], implode("\n",$fileContent), $arr);
                 } else {
                     $row->searchfound_tran = $row->searchfound_ref;
                 }
@@ -1257,7 +1248,7 @@ class TranslationsController extends JController
 		$options['fileset-published'] = 0;
 		$options['fileset-refstrings'] = 0;
 		$options['fileset-changed'] = 0;
-		foreach( $rows as $k=>$row) {
+		foreach($rows as $k=>$row) {
 			// add to totals
 			$options['fileset-files']++;
 			$options['fileset-exists'] 		+= $row->exists;
@@ -1269,12 +1260,12 @@ class TranslationsController extends JController
 			// filter out published or unpublished items
 			// filter out status of items
 			if 	(
-				( ($options['dosearch']) && ($row->searchfound == 0) )
-			||	( ($options['filter_state']=='P') && ($row->published <> 1) )
-			||	( ($options['filter_state']=='U') && ($row->published <> 0) )
-			||	( ($options['filter_status']=='NS') && ($row->status > 0) )
-			||	( ($options['filter_status']=='IP') && (($row->status <= 0)||($row->status >= 100)) )
-			||	( ($options['filter_status']=='C') && ($row->status < 100) )
+				(($options['dosearch']) && ($row->searchfound == 0))
+			||	(($options['filter_state']=='P') && ($row->published <> 1))
+			||	(($options['filter_state']=='U') && ($row->published <> 0))
+			||	(($options['filter_status']=='NS') && ($row->status > 0))
+			||	(($options['filter_status']=='IP') && (($row->status <= 0)||($row->status >= 100)))
+			||	(($options['filter_status']=='C') && ($row->status < 100))
 				) {
 				unset($rows[$k]);
 			}
@@ -1287,27 +1278,27 @@ class TranslationsController extends JController
 		if ($options['fileset-refstrings'] == $options['fileset-changed']) {
 			$options['fileset-status'] = 100;
 		} else {
-			$options['fileset-status'] = floor( ($options['fileset-changed']/$options['fileset-refstrings'])*100 );
+			$options['fileset-status'] = floor(($options['fileset-changed']/$options['fileset-refstrings'])*100);
 		}
 
 		// build the pagination
 		jimport('joomla.html.pagination');
-		$pageNav = new JPagination( count($rows), $options['limitstart'], $options['limit'], 'index.php?option=com_localise&amp;task=files' );
+		$pageNav = new JPagination(count($rows), $options['limitstart'], $options['limit'], 'index.php?option=com_localise&amp;task=files');
 
 		// sort the $rows array
 		$order_Int = (strtolower($lists['order_Dir'])=='desc') ? -1 : 1;
-		JArrayHelper::sortObjects( $rows, $lists['order'], $order_Int );
+		JArrayHelper::sortObjects($rows, $lists['order'], $order_Int);
 
 		// slice the array so we only show one page
-		$rows = array_slice( $rows, $pageNav->limitstart, $pageNav->limit );
+		$rows = array_slice($rows, $pageNav->limitstart, $pageNav->limit);
 
 		// call the html view
-		$view = $this->getView( $this->_name, 'html');
-		$view->setLayout( 'files' );
-		$view->assignRef( 'data', $rows );
-		$view->assignRef( 'options', $options );
-		$view->assignRef( 'lists', $lists );
-		$view->assignRef( 'pagenav', $pageNav );
+		$view = $this->getView($this->_name, 'html');
+		$view->setLayout('files');
+		$view->assignRef('data', $rows);
+		$view->assignRef('options', $options);
+		$view->assignRef('lists', $lists);
+		$view->assignRef('pagenav', $pageNav);
 		$view->display();
 	}
 
@@ -1317,7 +1308,7 @@ class TranslationsController extends JController
 	function languages()
 	{
 		// variables
-		global $mainframe;
+		$app		= &JFactory::getApplication();
 		$options =& $this->getOptions();
 
 		// default languages
@@ -1331,15 +1322,15 @@ class TranslationsController extends JController
 		// a blank value skips validation
 		// the  key "limit" allows any integer
 		$allowed = array(
-			'filter_client' 	=> '*|' . implode( '|', array_keys($options['clients']) ),
+			'filter_client' 	=> '*|' . implode('|', array_keys($options['clients'])),
 			'filter_order' 		=> 'tag',
 			'filter_order_Dir' 	=> 'asc|desc',
-			'limit' 			=> $mainframe->getCfg('list_limit')
+			'limit' 			=> $app->getCfg('list_limit')
 		);
-		$filters = $this->_buildfilters( $allowed, 'com_localise.languages.' );
+		$filters = $this->_buildfilters($allowed, 'com_localise.languages.');
 
 		// copy to $options
-		$options = array_merge( $options, $filters );
+		$options = array_merge($options, $filters);
 
 		// copy to $lists
 		$lists['order'] 	= $options['filter_order'];
@@ -1362,7 +1353,7 @@ class TranslationsController extends JController
 			}
 
 			// check default status
-			$row->isdefault = intval( $default[$row->client]==$row->tag );
+			$row->isdefault = intval($default[$row->client]==$row->tag);
 
 			// get the directory path
 			if ($k{0}=='A') {
@@ -1378,7 +1369,7 @@ class TranslationsController extends JController
 			$path .= DS.'language'.DS.$row->tag;
 
 			// count the number of INI files (published or unpublished)
-			$row->files = count( JFolder::files( $path, '(xx[.]|^)'.$row->tag.'.*ini$' ) );
+			$row->files = count(JFolder::files($path, '(xx[.]|^)'.$row->tag.'.*ini$'));
 
 			// load and add XML attributes
 			// force the tag
@@ -1394,22 +1385,22 @@ class TranslationsController extends JController
 
 		// build the pagination
 		jimport('joomla.html.pagination');
-		$pageNav = new JPagination( count($rows), $options['limitstart'], $options['limit'], 'index.php?option=com_localise' );
+		$pageNav = new JPagination(count($rows), $options['limitstart'], $options['limit'], 'index.php?option=com_localise');
 
 		// sort the $rows array
 		$order_Int = (strtolower($lists['order_Dir'])=='desc') ? -1 : 1;
-		JArrayHelper::sortObjects( $rows, $lists['order'], $order_Int );
+		JArrayHelper::sortObjects($rows, $lists['order'], $order_Int);
 
 		// slice the array so we only show one page
-		$rows = array_slice( $rows, $pageNav->limitstart, $pageNav->limit );
+		$rows = array_slice($rows, $pageNav->limitstart, $pageNav->limit);
 
 		// call the html view
-		$view = $this->getView( $this->_name, 'html');
-		$view->setLayout( 'languages' );
-		$view->assignRef( 'data', $rows );
-		$view->assignRef( 'options', $options );
-		$view->assignRef( 'lists', $lists );
-		$view->assignRef( 'pagenav', $pageNav );
+		$view = $this->getView($this->_name, 'html');
+		$view->setLayout('languages');
+		$view->assignRef('data', $rows);
+		$view->assignRef('options', $options);
+		$view->assignRef('lists', $lists);
+		$view->assignRef('pagenav', $pageNav);
 		$view->display();
 	}
 
@@ -1419,56 +1410,56 @@ class TranslationsController extends JController
 	function package()
 	{
 		// variables
-		global $mainframe;
+		$app		= &JFactory::getApplication();
 		$options =& $this->getOptions();
 		$files = array();
 
 		// set the zip path
 		// optionally change the tag if there is a [tag=xx-XX] in the path
-		$zippath = '/' . $options['config']->get( 'zippath', 'tmp/[tag].[client].zip' );
+		$zippath = '/' . $options['config']->get('zippath', 'tmp/[tag].[client].zip');
 		$ziptag = $options['lang'];
-		if ( preg_match('/\[tag=([^\]]*)\]/',$zippath,$match) ) {
+		if (preg_match('/\[tag=([^\]]*)\]/',$zippath,$match)) {
 			$zippath = str_replace($match[0],'[tag]',$zippath);
-			if ( preg_match('/^[a-z]{2}-[a-z]{2}$/i',$match[1]) ) {
+			if (preg_match('/^[a-z]{2}-[a-z]{2}$/i',$match[1])) {
 				$ziptag = strtolower(substr($match[1],0,2)) . '-' . strtoupper(substr($match[1],-2));
-				$mainframe->enqueueMessage( sprintf( JText::_('ZIP Translate Tag'), $options['lang'], $ziptag ) );
+				$app->enqueueMessage(sprintf(JText::_('ZIP Translate Tag'), $options['lang'], $ziptag));
 			}
 		}
 
 		// process all the files in the selected language directory into an array ready to be packaged
 		// translate the language tag if configured
 		jimport('joomla.filesystem.file');
-		foreach ( JFolder::files( $options['langPath'] ) as $k=>$filename ) {
+		foreach (JFolder::files($options['langPath']) as $k=>$filename) {
 			// 1: grab the XML data and info
 			// 2a: skip checkout marker files
 			// 2b: grab the INI data into the files array
-			if ( $filename == $options['lang'].'.xml' ) {
+			if ($filename == $options['lang'].'.xml') {
 				$xmlname = $filename;
-				$xmldata = file_get_contents( $options['langPath'].DS.$filename );
-				$xmltime = filemtime( $options['langPath'].DS.$filename );
-				$xml = TranslationsHelper::getXMLMeta( $options['langPath'].DS.$filename );
+				$xmldata = file_get_contents($options['langPath'].DS.$filename);
+				$xmltime = filemtime($options['langPath'].DS.$filename);
+				$xml = TranslationsHelper::getXMLMeta($options['langPath'].DS.$filename);
 				$xml['client'] 	= $options['clientKey'];
 				$xml['tag'] 	= $ziptag;
 				$xmlname = str_replace($options['lang'],$ziptag,$xmlname);
 				$xmldata = str_replace($options['lang'],$ziptag,$xmldata);
-			} else if ( substr($filename,-4)=='.ini') {
-				if ( substr($filename,0,4)=='chk.' ) {
+			} else if (substr($filename,-4)=='.ini') {
+				if (substr($filename,0,4)=='chk.') {
 					continue;
 				} else {
-					$k = ( substr($filename,0,3)=='xx.' ) ? substr($filename,3) : $filename;
+					$k = (substr($filename,0,3)=='xx.') ? substr($filename,3) : $filename;
 					$k = str_replace($options['lang'],$ziptag,$k);
 					$files[$k]['name'] = $k;
-					$files[$k]['data'] = file_get_contents( $options['langPath'].DS.$filename );
-					$files[$k]['time'] = filemtime( $options['langPath'].DS.$filename );
+					$files[$k]['data'] = file_get_contents($options['langPath'].DS.$filename);
+					$files[$k]['time'] = filemtime($options['langPath'].DS.$filename);
 				}
 			}
 		}
 
 		// check we have XML data and files
 		if (!isset($xml)) {
-			JError::raiseNotice( 500, sprintf( JText::_('ZIP No XML'), $options['clientKey'].'DS'.$options['lang'].'.xml'  ) );
+			JError::raiseNotice(500, sprintf(JText::_('ZIP No XML'), $options['clientKey'].'DS'.$options['lang'].'.xml' ));
 		} else if (!count($files)) {
-			JError::raiseNotice( 500, sprintf( JText::_('ZIP No Files'), $options['clientKey'] ) );
+			JError::raiseNotice(500, sprintf(JText::_('ZIP No Files'), $options['clientKey']));
 		} else {
 
 			// sort the files
@@ -1488,7 +1479,7 @@ class TranslationsController extends JController
     <license>' . $xml['license'] .'</license>
     <description>' . $xml['description'] .'</description>
     <files>';
-	foreach ( $files as $k=>$v ) {
+	foreach ($files as $k=>$v) {
 		$install .= '
 		<filename>' . $v['name'] . '</filename>';
 	}
@@ -1507,28 +1498,26 @@ class TranslationsController extends JController
 			$files['install']['date'] = time();
 
 			// configure the package filename and type
-			$type = substr( $zippath, strrpos( $zippath, '.' ) + 1 );
-			$zippath = str_replace( '[client]', $xml['client'], $zippath );
-			$zippath = str_replace( '[tag]', $xml['tag'], $zippath );
+			$type = substr($zippath, strrpos($zippath, '.') + 1);
+			$zippath = str_replace('[client]', $xml['client'], $zippath);
+			$zippath = str_replace('[tag]', $xml['tag'], $zippath);
 			$ziproot = JPATH_ROOT.$zippath;
-			$zipfile = substr( $zippath, strrpos( $zippath, DS ) + 1 );
+			$zipfile = substr($zippath, strrpos($zippath, DS) + 1);
 			$ziplink = JURI::root() . $zipfile;
 
 			// run the packager
 			jimport('joomla.filesystem.archive');
-			if ( !$packager =& JARchive::getAdapter( $type ) ) {
-				JError::raiseWarning( 500, sprintf( JText::_('ZIP Adapter Failure'), $type ) );
-			} else if ( $packager->create( $ziproot, $files, array() ) ) {
-				$mainframe->enqueueMessage( sprintf( JText::_('ZIP Create Success'), $ziplink, $zipfile ) );
+			if (!$packager =& JARchive::getAdapter($type)) {
+				JError::raiseWarning(500, sprintf(JText::_('ZIP Adapter Failure'), $type));
+			} else if ($packager->create($ziproot, $files, array())) {
+				$app->enqueueMessage(sprintf(JText::_('ZIP Create Success'), $ziplink, $zipfile));
 			} else {
-				JError::raiseNotice( 500, sprintf( JText::_('ZIP Create Failure'), $ziplink ) );
+				JError::raiseNotice(500, sprintf(JText::_('ZIP Create Failure'), $ziplink));
 			}
 
 		}
 
 		// Redirect to the default page
-		$mainframe->redirect( 'index.php?option=com_localise' );
+		$app->redirect('index.php?option=com_localise');
 	}
-
 }
-?>

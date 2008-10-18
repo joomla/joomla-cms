@@ -20,25 +20,10 @@ jimport( 'joomla.application.component.view' );
 */
 class TranslationsViewTranslations extends JView
 {
-
-	/**
-	* Writes credits for the component
-	*/
-	function credits () {
-		?>
-		<p class="copyright">
-			<?php echo JText::_( 'Translation Manager By' ); ?> <a href="index.php?option=com_localise&task=credits">Ifan Evans [credits]</a> <br>
-			<?php echo sprintf( JText::_('Translation Manager Donate'), 'https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=ifan%40rhiannon%2eco%2euk&item_name=Donate - Joomla Translation Manager - Thank You&no_shipping=2&no_note=1&tax=0&currency_code=GBP&lc=GB&bn=PP%2dDonationsBF&charset=UTF%2d8' ); ?>
-		</p>
-		<?php
-	}
-
 	function display()
 	{
 		// output the view
 		parent::display();
-		// output credits
-		$this->credits();
 	}
 
 	/**
