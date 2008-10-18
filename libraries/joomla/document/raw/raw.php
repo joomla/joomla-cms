@@ -44,6 +44,17 @@ class JDocumentRAW extends JDocument
 	}
 
 	/**
+	 * Get the document head data
+	 *
+	 * @access	public
+	 * @return	array	The document head data in array form
+	 */
+	public function getHeadData()
+	{
+
+	}
+
+	/**
 	 * Render the document.
 	 *
 	 * @access public
@@ -55,5 +66,16 @@ class JDocumentRAW extends JDocument
 	{
 		parent::render();
 		return $this->getBuffer();
+	}
+
+	/**
+	 * Set the document head data
+	 *
+	 * @access	public
+	 * @param	array	$data	The document head data in array form
+	 */
+	public function setHeadData($data)
+	{
+
 	}
 }

@@ -42,6 +42,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+18-Oct-2008 Toby Patterson
+ + Implemented abstract methods in JDocumentRaw
+
 18-Oct-2008 Andrew Eddie
  ^ Moved various presentation elements in com_config into either views or html helpers
  - Removed patTemplate library from distro
