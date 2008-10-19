@@ -119,8 +119,10 @@ class JFilesystemFTP extends JFilesystem
 	protected function &_getFTP() {
 		static $obj = null;
 		if(!is_object($obj)) {
-			jimport('joomla.client.ftp');
-			$obj =& JFTP::getInstance($this->_options['host'], $this->_options['port'], null, $this->_options['user'], $this->_options['pass']);
+			jimport('joomla.client.ftp');
+
+			$obj =& JFTP::getInstance($this->_options['host'], $this->_options['port'], null, $this->_options['user'], $this->_options['pass']);
+
 		}
 		return $obj;
 	}
