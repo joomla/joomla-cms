@@ -12,6 +12,7 @@ if(!count($this->messages)) {
 		echo '<div style="padding: 5px;" >'.$message['description'].'</div>';
 		echo $pane->endPanel();
 	}
+	// TODO: Fix this link up
 	echo $pane->startPanel(JText::_('WARNINGFURTHERINFO'),'furtherinfo-pane');
 	echo '<div style="padding: 5px;" >'. JText::_('WARNINGFURTHERINFODESC') .'</div>';
 	echo $pane->endPanel();

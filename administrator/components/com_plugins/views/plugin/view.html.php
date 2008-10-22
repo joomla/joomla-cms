@@ -96,7 +96,7 @@ class PluginsViewPlugin extends JView
 			// Core or 1.5
 			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_ADMINISTRATOR );
 			// 1.6 3PD Extension
-			$lang->load( 'joomla', PATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element);
+			$lang->load( 'joomla', JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element);
 
 			// TODO: Rewrite this (and other instances of parseXMLInstallFile) to use the extensions table
 			$data = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element .'.xml');
@@ -113,7 +113,7 @@ class PluginsViewPlugin extends JView
 		$lists['enabled'] = JHTML::_('select.booleanlist',  'enabled', 'class="inputbox"', $row->enabled );
 
 		// get params definitions
-		$params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ), 'plugin' );
+		$params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ));
 
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('plugin',		$row);

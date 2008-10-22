@@ -105,7 +105,7 @@ class JInstallerComponent extends JAdapterInstance
 				return $this->update(); // transfer control to the update function
 			} else if(!$this->parent->getOverwrite()) { // overwrite is set
 				// we didn't have overwrite set, find an update function or find an update tag so lets call it safe 
-				if(file_exists($this->parent->getPath('extension_site')) { // if the site exists say that
+				if(file_exists($this->parent->getPath('extension_site'))) { // if the site exists say that
 					JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_site').'"');
 				} else { // if the admin exists say that
 					JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_administrator').'"');

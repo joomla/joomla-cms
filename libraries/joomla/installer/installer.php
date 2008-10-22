@@ -340,7 +340,7 @@ class JInstaller extends JAdapter
 		}
 
 		$system_version = new JVersion();
-		if ((version_compare($version, JVersion->RELEASE, '<')) && !class_exists('JLegacy')) {
+		if ((version_compare($version, $system_version->RELEASE, '<')) && !class_exists('JLegacy')) {
 			$this->abort(JText::_('MUSTENABLELEGACY'));
 			return false;
 		}
@@ -472,7 +472,7 @@ class JInstaller extends JAdapter
 		}
 
 		$system_version = new JVersion();
-		if ((version_compare($version, JVersion->RELEASE, '<')) && !class_exists('JLegacy')) {
+		if ((version_compare($version, $system_version->RELEASE, '<')) && !class_exists('JLegacy')) {
 			$this->abort(JText::_('MUSTENABLELEGACY'));
 			return false;
 		}		

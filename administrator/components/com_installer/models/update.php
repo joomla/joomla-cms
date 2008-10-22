@@ -53,7 +53,12 @@ class InstallerModelUpdate extends InstallerModel
 				//' WHERE extensionid != 0' . // we only want actual updates
 				' ORDER BY type, client_id, folder, name';
 		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		try {
+			$rows = $db->loadObjectList();
+		} catch (JException $e) {
+			JError::raiseWarning(-1, $e->getMessage());
+			return false;
+		}
 		
 		$apps =& JApplicationHelper::getClientInfo();
 		

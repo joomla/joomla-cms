@@ -488,7 +488,8 @@ class JForm extends JRegistry
 					{
 						if ($addDefault)
 						{
-							foreach($element->_children as &$child)
+							$children = $element->children();
+							foreach($children as &$child)
 							{
 								if($child->attributes('type') == 'radio' || $child->attributes('type') == 'list') {
 									$child->addAttribute('default', '');

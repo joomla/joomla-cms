@@ -27,18 +27,6 @@ jimport( 'joomla.installer.filemanifest' );
  */
 class JInstallerFile extends JObject
 {
-	/**
-	 * Constructor
-	 *
-	 * @access	protected
-	 * @param	object	$parent	Parent object [JInstaller instance]
-	 * @return	void
-	 * @since	1.5
-	 */
-	function __construct(&$parent)
-	{
-		$this->parent =& $parent;
-	}
 
 	/**
 	 * Custom install method

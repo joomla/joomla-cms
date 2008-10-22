@@ -32,7 +32,7 @@
 					</span>
 				</td>
 				<td>
-					<input class="text_area" type="text" name="sitename" size="50" value="<?php echo $this->row->sitename; ?>" />
+					<input class="text_area" type="text" name="sitename" size="50" value="<?php echo @$this->row->sitename; ?>" />
 				</td>
 			</tr>
 			<tr>

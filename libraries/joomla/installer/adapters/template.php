@@ -25,18 +25,6 @@ jimport('joomla.installer.extension');
  */
 class JInstallerTemplate extends JObject
 {
-	/**
-	 * Constructor
-	 *
-	 * @access	protected
-	 * @param	object	$parent	Parent object [JInstaller instance]
-	 * @return	void
-	 * @since	1.5
-	 */
-	public function __construct(&$parent)
-	{
-		$this->parent =& $parent;
-	}
 
 	/**
 	 * Custom install method

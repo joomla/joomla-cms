@@ -103,13 +103,13 @@ class JAdapter extends JObject {
 			if(JFile::getExt($filename) == 'php') {
 				// Try to load the adapter object
 				require_once($this->_basepath.DS.$this->_adapterfolder.DS.$filename);
+				
 				$name = JFile::stripExt($filename);
 				$class = $this->_classprefix.ucfirst($name);
 				if (!class_exists($class)) {
 					return false;
 				}
 				$adapter = new $class($this);
-				$adapter->parent =& $this;
 				$this->_adapters[$name] = clone($adapter);
 			}
 		}

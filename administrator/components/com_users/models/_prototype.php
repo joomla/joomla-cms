@@ -20,6 +20,7 @@ jimport( 'joomla.database.query' );
 class UserModelPrototype extends JModel
 {
 	// @todo Upgrade format as is done in com_acl
+	protected $_total = 0;
 
 	/**
 	 * @param	boolean	True to resolve foreign keys
@@ -34,14 +35,16 @@ class UserModelPrototype extends JModel
 
 		if (!isset( $instances[$hash] ))
 		{
-			$query				= $this->_getListQuery( $state, $resolveFKs );
-			$sql				= $query->toString();
-			$this->_total		= $this->_getListCount( $sql );
-			if ($this->_total < $state->get( 'limitstart' )) {
-				$state->set( 'limitstart', 0 );
-			}
-			$result				= $this->_getList( $sql, $state->get( 'limitstart' ), $state->get( 'limit' ));
-			$instances[$hash]	= $result;
+				$query				= $this->_getListQuery( $state, $resolveFKs );
+				$sql				= $query->toString();
+				$this->_total		= $this->_getListCount( $sql );
+				if ($this->_total < $state->get( 'limitstart' )) {
+					$state->set( 'limitstart', 0 );
+				}
+			
+				$result				= $this->_getList( $sql, $state->get( 'limitstart' ), $state->get( 'limit' ));
+				$instances[$hash]	= $result;
+			
 		}
 		else {
 			// TODO: Ideal for true caching

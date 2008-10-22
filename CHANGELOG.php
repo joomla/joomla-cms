@@ -42,6 +42,12 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+22-Oct-2008 Sam Moffatt
+ ! Merged update into trunk
+ # Fixed issue with JForm accessing protected members of JSimpleXML
+ # Used an error supression operator in site configuration to solve issues where $live_site may not be set
+ ! Due to schema changes, a new install is required.
+
 18-Oct-2008 Toby Patterson
  + Implemented abstract methods in JDocumentRaw
 

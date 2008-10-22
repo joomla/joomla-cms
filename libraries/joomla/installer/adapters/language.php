@@ -32,19 +32,6 @@ class JInstallerLanguage extends JObject
 	protected $_core = false;
 
 	/**
-	 * Constructor
-	 *
-	 * @access	protected
-	 * @param	object	$parent	Parent object [JInstaller instance]
-	 * @return	void
-	 * @since	1.5
-	 */
-	public function __construct(&$parent)
-	{
-		$this->parent =& $parent;
-	}
-
-	/**
 	 * Custom install method
 	 *
 	 * @access	public

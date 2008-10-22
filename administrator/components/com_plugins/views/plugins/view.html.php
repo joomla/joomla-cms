@@ -69,9 +69,6 @@ class PluginsViewPlugins extends JView
 			$where[] = 'LOWER( p.name ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
 		if ( $filter_state ) {
-			$where[] = 'type = "plugin"';
-			$where[] = 'state > -1';
-
 			if ( $filter_state == 'P' ) {
 				$where[] = 'p.enabled = 1';
 			} else if ($filter_state == 'U' ) {
@@ -79,6 +76,9 @@ class PluginsViewPlugins extends JView
 			}
 		}
 
+		$where[] = 'type = "plugin"';
+		$where[] = 'state > -1';
+					
 		$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
 		$orderby 	= ' ORDER BY '.$filter_order .' '. $filter_order_Dir .', p.ordering ASC';
 
@@ -88,7 +88,12 @@ class PluginsViewPlugins extends JView
 			. $where
 			;
 		$db->setQuery( $query );
-		$total = $db->loadResult();
+		try {
+			$total = $db->loadResult();
+		} catch(JException $e) {
+			echo $db->stderr();
+			return false;
+		}
 
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination( $total, $limitstart, $limit );
@@ -102,8 +107,9 @@ class PluginsViewPlugins extends JView
 			. $orderby
 			;
 		$db->setQuery( $query, $pagination->limitstart, $pagination->limit );
-		$rows = $db->loadObjectList();
-		if ($db->getErrorNum()) {
+		try {
+			$rows = $db->loadObjectList();
+		} catch (JException $e) {
 			echo $db->stderr();
 			return false;
 		}
@@ -113,13 +119,18 @@ class PluginsViewPlugins extends JView
 		$query = 'SELECT folder AS value, folder AS text'
 			. ' FROM #__extensions'
 			. ' WHERE client_id = '.(int) $client_id
-			. ' AND type = "plugin" AND state > -1"'
+			. ' AND type = "plugin" AND state > -1'
 			. ' GROUP BY folder'
 			. ' ORDER BY folder'
 			;
 		$types[] = JHTML::_('select.option',  1, '- '. JText::_( 'Select Type' ) .' -' );
 		$db->setQuery( $query );
-		$types 			= array_merge( $types, $db->loadObjectList() );
+		try {
+			$types 			= array_merge( $types, $db->loadObjectList() );
+		} catch(JException $e) {
+			echo $db->stderr();
+			return false;
+		}
 		$lists['type']	= JHTML::_('select.genericlist',   $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
 
 		// state filter
