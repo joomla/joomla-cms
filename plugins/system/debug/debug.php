@@ -34,9 +34,9 @@ class  plgSystemDebug extends JPlugin
 	 */
 	function __construct($subject, $config)
 	{
+		parent::__construct($subject, $config);
 		//load the translation
 		$this->loadLanguage( );
-		parent::__construct($subject, $config);
 	}
 
 	/**

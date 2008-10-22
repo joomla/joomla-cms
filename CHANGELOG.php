@@ -51,6 +51,10 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  + Added exclusionfilter to JFolder::files and JFolder::folders to mitigate issues with Apple Double files
  ^ Changed  JFolder::files and JFolder::folders exclusion list to include .DS_Store files (Apple metadata) and __MACOSX files 
  # Fixed undefined variable issues in com_module
+ # Fixed issue with languages not loading properly in Blogger and Debug plugins
+ # Fixed language load issue with 1.6 3PD language folders
+ ^ Shifted debug plugin into new 1.6 plugin folder structure
+ + Added 1.6 plugin folders ala modules
 
 18-Oct-2008 Toby Patterson
  + Implemented abstract methods in JDocumentRaw

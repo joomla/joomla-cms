@@ -28,8 +28,8 @@ class plgXMLRPCBlogger extends JPlugin
 	 */
 	function __construct($subject, $config)
 	{
-		$this->loadLanguage( '', JPATH_ADMINISTRATOR );
 		parent::__construct($subject, $config);
+		$this->loadLanguage( '', JPATH_ADMINISTRATOR );		
 	}
 
 	/**

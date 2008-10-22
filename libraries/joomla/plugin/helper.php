@@ -120,12 +120,14 @@ abstract class JPluginHelper
 		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
 		$plugin->name  = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
 
-		$path	= JPATH_PLUGINS.DS.$plugin->type.DS.$plugin->name.'.php';
-
-		if (!isset( $paths[$path] ))
+		$legacypath	= JPATH_PLUGINS.DS.$plugin->type.DS.$plugin->name.'.php';
+		$path = JPATH_PLUGINS.DS.$plugin->type.DS.$plugin->name.DS.$plugin->name.'.php';
+		
+		if (!isset( $paths[$path] ) || !isset($paths[$legacypath]))
 		{
-			if (file_exists( $path ))
+			if (file_exists( $path ) || file_exists($legacypath))
 			{
+				$path = file_exists($path) ? $path : $legacypath;
 				//needed for backwards compatibility
 				// @todo if legacy ...
 				$mainframe = JFactory::getApplication();

@@ -80,7 +80,6 @@ abstract class JPlugin extends JEvent
 		if ( isset( $config['type'] ) ) {
 			$this->_type = $config['type'];
 		}
-
 		parent::__construct($subject);
 	}
 
@@ -107,7 +106,7 @@ abstract class JPlugin extends JEvent
 		}
 
 		$lang =& JFactory::getLanguage();
-		return $lang->load(strtolower($extension), $basePath || $lang->load ('joomla', $basePath.DS.'plugins'.$this->_type.DS.$this->_name));
+		return $lang->load(strtolower($extension), $basePath) || $lang->load ('joomla', $basePath.DS.'plugins'.$this->_type.DS.$this->_name);
 	}
 
 
