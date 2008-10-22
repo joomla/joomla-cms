@@ -47,6 +47,10 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  # Fixed issue with JForm accessing protected members of JSimpleXML
  # Used an error supression operator in site configuration to solve issues where $live_site may not be set
  ! Due to schema changes, a new install is required.
+ # Fixed recursion issue in JFolder::files and JFolder::folders
+ + Added exclusionfilter to JFolder::files and JFolder::folders to mitigate issues with Apple Double files
+ ^ Changed  JFolder::files and JFolder::folders exclusion list to include .DS_Store files (Apple metadata) and __MACOSX files 
+ # Fixed undefined variable issues in com_module
 
 18-Oct-2008 Toby Patterson
  + Implemented abstract methods in JDocumentRaw

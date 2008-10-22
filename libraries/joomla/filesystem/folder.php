@@ -261,7 +261,7 @@ abstract class JFolder
 	 * @return	array	Files in the given folder
 	 * @since 1.5
 	 */
-	public static function files($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS'))
+	public static function files($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('\._.*'))
 	{
 		// Initialize variables
 		$arr = array ();
@@ -277,17 +277,24 @@ abstract class JFolder
 
 		// read the source directory
 		$handle = opendir($path);
+		if(count($excludefilter)) {
+			$excludefilter = '('. implode('|', $excludefilter) .')';
+		} else {
+			$excludefilter = '';	
+		}
 		while (($file = readdir($handle)) !== false)
 		{
 			$dir = $path.DS.$file;
 			$isDir = is_dir($dir);
-			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude))) {
+			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file))) {
 				if ($isDir) {
 					if ($recurse) {
 						if (is_integer($recurse)) {
-							$recurse--;
+							$arr2 = JFolder::files($dir, $filter, $recurse - 1, $fullpath);
+						} else {
+							$arr2 = JFolder::files($dir, $filter, $recurse, $fullpath);
 						}
-						$arr2 = JFolder::files($dir, $filter, $recurse, $fullpath);
+						
 						$arr = array_merge($arr, $arr2);
 					}
 				} else {
@@ -318,7 +325,7 @@ abstract class JFolder
 	 * @return	array	Folders in the given folder
 	 * @since 1.5
 	 */
-	public static function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS'))
+	public static function folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('\._.*'))
 	{
 		// Initialize variables
 		$arr = array ();
@@ -334,11 +341,16 @@ abstract class JFolder
 
 		// read the source directory
 		$handle = opendir($path);
+		if(count($excludefilter)) {
+			$excludefilter = '('. implode('|', $excludefilter) .')';
+		} else {
+			$excludefilter = '';	
+		}
 		while (($file = readdir($handle)) !== false)
 		{
 			$dir = $path.DS.$file;
 			$isDir = is_dir($dir);
-			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && $isDir) {
+			if (($file != '.') && ($file != '..') && $isDir && (!in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file))) {
 				// removes SVN directores from list
 				if (preg_match("/$filter/", $file)) {
 					if ($fullpath) {
@@ -349,9 +361,11 @@ abstract class JFolder
 				}
 				if ($recurse) {
 					if (is_integer($recurse)) {
-						$recurse--;
+						$arr2 = JFolder::folders($dir, $filter, $recurse - 1, $fullpath);
+					} else {
+						$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath);
 					}
-					$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath);
+					
 					$arr = array_merge($arr, $arr2);
 				}
 			}

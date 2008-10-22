@@ -173,7 +173,7 @@ class ModulesModelModule extends JModel
 		// Get the xml parser first
 		for ($i = 0, $n = count($templates); $i < $n; $i++ )
 		{
-			$path = $client->path.DS.'templates'.DS.$templates[$i]->value;
+			$path = $this->_client->path.DS.'templates'.DS.$templates[$i]->value;
 
 			$xml =& JFactory::getXMLParser('Simple');
 			if ($xml->loadFile($path.DS.'templateDetails.xml'))
