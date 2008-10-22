@@ -184,8 +184,10 @@ class ModulesViewModule extends JView
 		$lang =& JFactory::getLanguage();
 		if ( $client->id != '1' ) {
 			$lang->load( trim($row->module), JPATH_SITE );
+			$lang->load( 'joomla', JPATH_SITE.DS.'modules'.DS.trim($row->module));
 		} else {
 			$lang->load( trim($row->module) );
+			$lang->load( 'joomla', JPATH_ADMINISTRATOR.DS.'modules'.DS.trim($row->module));
 		}
 
 		// xml file for module

@@ -68,7 +68,7 @@ class PluginsController extends JController
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
 		$db   =& JFactory::getDBO();
-		$row  =& JTable::getInstance('plugin');
+		$row  =& JTable::getInstance('extension');
 		$task = $this->getTask();
 
 		$client = JRequest::getWord( 'filter_client', 'site' );
@@ -90,13 +90,13 @@ class PluginsController extends JController
 			$where = "client_id=0";
 		}
 
-		$row->reorder( 'folder = '.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND ( '.$where.' )' );
+		$row->reorder( 'type = "plugin" AND folder = '.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND ( '.$where.' )' );
 
 		switch ( $task )
 		{
 			case 'apply':
 				$msg = JText::sprintf( 'Successfully Saved changes to Plugin', $row->name );
-				$this->setRedirect( 'index.php?option=com_plugins&view=plugin&client='. $client .'&task=edit&cid[]='. $row->id, $msg );
+				$this->setRedirect( 'index.php?option=com_plugins&view=plugin&client='. $client .'&task=edit&cid[]='. $row->extensionid, $msg );
 				break;
 
 			case 'save':
@@ -126,8 +126,8 @@ class PluginsController extends JController
 
 		$cids = implode( ',', $cid );
 
-		$query = 'UPDATE #__plugins SET published = '.(int) $publish
-			. ' WHERE id IN ( '.$cids.' )'
+		$query = 'UPDATE #__extensions SET enabled = '.(int) $publish
+			. ' WHERE extensionid IN ( '.$cids.' )'
 			. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ))'
 			;
 		$db->setQuery( $query );
@@ -136,7 +136,7 @@ class PluginsController extends JController
 		}
 
 		if (count( $cid ) == 1) {
-			$row =& JTable::getInstance('plugin');
+			$row =& JTable::getInstance('extension');
 			$row->checkin( $cid[0] );
 		}
 
@@ -151,7 +151,7 @@ class PluginsController extends JController
 		$client  = JRequest::getWord( 'filter_client', 'site' );
 
 		$db =& JFactory::getDBO();
-		$row =& JTable::getInstance('plugin');
+		$row =& JTable::getInstance('extension');
 		$row->bind(JRequest::get('post'));
 		$row->checkin();
 
@@ -179,9 +179,9 @@ class PluginsController extends JController
 		} else {
 			$where = "client_id = 0";
 		}
-		$row =& JTable::getInstance('plugin');
+		$row =& JTable::getInstance('extension');
 		$row->load( $uid );
-		$row->move( $inc, 'folder='.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND ('.$where.')' );
+		$row->move( $inc, 'type = "plugin" AND folder='.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND ('.$where.')' );
 
 		$this->setRedirect( 'index.php?option=com_plugins' );
 	}
@@ -213,7 +213,7 @@ class PluginsController extends JController
 				break;
 		}
 
-		$row =& JTable::getInstance('plugin');
+		$row =& JTable::getInstance('extension');
 		$row->load( $uid );
 		$row->access = $access;
 
@@ -243,7 +243,7 @@ class PluginsController extends JController
 		$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
 
-		$row 		=& JTable::getInstance('plugin');
+		$row 		=& JTable::getInstance('extension');
 		$conditions = array();
 
 		// update ordering values
@@ -257,7 +257,7 @@ class PluginsController extends JController
 					JError::raiseError(500, $db->getErrorMsg() );
 				}
 				// remember to updateOrder this group
-				$condition = 'folder = '.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND client_id = ' . (int) $row->client_id;
+				$condition = 'type = "plugin" AND folder = '.$db->Quote($row->folder).' AND ordering > -10000 AND ordering < 10000 AND client_id = ' . (int) $row->client_id;
 				$found = false;
 				foreach ( $conditions as $cond )
 				{
@@ -266,7 +266,7 @@ class PluginsController extends JController
 						break;
 					}
 				}
-				if (!$found) $conditions[] = array($row->id, $condition);
+				if (!$found) $conditions[] = array($row->extensionid, $condition);
 			}
 		}
 

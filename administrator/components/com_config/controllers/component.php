@@ -49,7 +49,10 @@ class ConfigControllerComponent extends JController
 
 		// load the component's language file
 		$lang = & JFactory::getLanguage();
+		// 1.5 or core
 		$lang->load( $component );
+		// 1.6 support for component specific languages
+		$lang->load( 'joomla', JPATH_ADMINISTRATOR.DS.'components'.DS.$component);
 
 		$model = $this->getModel('Component' );
 		$view = $this->getView('Component');

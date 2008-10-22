@@ -102,6 +102,7 @@ abstract class JApplication extends JObject
 		}
 
 		$this->set( 'requestTime', gmdate('Y-m-d H:i') );
+		$this->set( 'startTime', JProfiler::getmicrotime() ); // used by task system to ensure that the system doesn't go over time
 	}
 
 	/**

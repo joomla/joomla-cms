@@ -92,6 +92,35 @@ class InstallerController extends JController
 		$view->setModel( $model, true );
 		$view->display();
 	}
+	
+	/**
+	 * Discover handler
+	 */
+	function discover() {
+		$model = &$this->getModel('discover');
+		$view = &$this->getView( 'discover' );
+		$model->discover();
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
+		$view->setModel( $model, true );
+		$view->display();
+	}
+	
+	function discover_install() {
+		$model = &$this->getModel('discover');
+		$view = &$this->getView( 'discover' );
+		$model->discover_install();
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
+		$view->setModel( $model, true );
+		$view->display();
+	}
+	
+	function discover_purge() {
+		$model = &$this->getModel('discover');
+		$model->purge();
+		$this->setRedirect('index.php?option=com_installer&task=manage&type=discover', $model->_message);
+	}
 
 	/**
 	 * Enable an extension (If supported)
@@ -158,8 +187,7 @@ class InstallerController extends JController
 	 * @return	void
 	 * @since	1.5
 	 */
-	function remove()
-	{
+	function remove() {
 		// Check for request forgeries
 		JRequest::checkToken() or jexit( 'Invalid Token' );
 
@@ -183,5 +211,52 @@ class InstallerController extends JController
 
 		$view->setModel( $model, true );
 		$view->display();
+	}
+	
+	// Should probably use multiple controllers here
+	function update()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$type	= JRequest::getWord('type', 'components');
+		$model	= &$this->getModel( $type );
+		$view	= &$this->getView( $type );
+
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
+
+		$uid = JRequest::getVar('uid', array(), '', 'array');
+
+		JArrayHelper::toInteger($uid, array());
+		$result = $model->update($uid);
+
+		$view->setModel( $model, true );
+		$view->display();
+	}
+	
+	function update_find() {
+		// Find updates
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$type	= JRequest::getWord('type', 'components');
+		$model	= &$this->getModel( $type );
+		$view	= &$this->getView( $type );
+
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
+		$model->purge();
+		$result = $model->findUpdates();
+
+		$view->setModel( $model, true );
+		$view->display();
+	}
+	
+	function update_purge() {
+		// Purge updates
+		$model = &$this->getModel('update');
+		$model->purge();
+		$this->setRedirect('index.php?option=com_installer&task=manage&type=update', $model->_message);
 	}
 }

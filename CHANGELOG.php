@@ -98,15 +98,44 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  - Removed JAuthorization::_mos_add_acl
  + Added JAuthorization::getUserAccessLevels
 
+06-Oct-2008 Sam Moffatt
+ + Added targetplatform and targetplatformversion to collection extension definition
+ ^ Target platform version now supports regexp for both collection and extension updates
+ ^ Changed component discover_install to return extension ID
+
 04-Oct-2008 Toby Patterson
  # Fixed final step of installation, completed removal of patTemplates from Installer
  - Removed global $mainframe from the framework files, except where other extensions will be loaded
+
+03-Oct-2008 Sam Moffatt
+ + Added extra triggers to example installer plugin
+ ^ Changed installer on onBeforeExtensionInstall trigger call to work as documented
+ + Added SCP support to JFactory::getStream
+ ^ Fixed a few JFile::write instance not using stream in the filesystem tree
+ ^ Changed some of the warning messages to be more descriptive
+ # Fixed extraneous database in SQL file
+ ^ Added filtering to the product name (from JVersion) when comparing to avoid case or symbol issues in update code
 
 02-Oct-2008 Toby Patterson
  - Fixed bug with JFTP and check for connection
  # [#12699] Refactor installation application
  - Most patTemplate code removed
  - Migrator currently broken, may be redesigned, discussion pending
+
+02-Oct-2008 Sam Moffatt
+ - Removed File Stream class
+ + Added htaccess.txt file for administrator/backups folder to protect it
+ + Added some todos
+ ! JStream support is complete
+ + Started primitive work on supporting more than just FTP (e.g. SCP)
+ + Added various options to the stream class to handle operations like copies
+ ^ Changed JFile and JFolder to support streams
+ ^ Changed tar and zip archivers to write files out using stream support
+ + Component installer deletes old files
+ ^ Changed component install and update functions to return extension ID 
+
+30-Sep-2008 Sam Moffatt
+ + Added JInstaller::findDeletedFiles
 
 29-Sep-2008 Chantal Bisson
  - Removed duplicates of the language files for com_contactdirectory
@@ -115,6 +144,30 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ Changed check() contactdirectory/tables/contact.php posible to add contacts with the same name
  ^ Changed view for category and categories in com_contactdirectory
  # Fixed redirect with router after sending mail in com_contactdirectory
+
+29-Sep-2008 Sam Moffatt
+ + Added JUtility::array_unshift_ref to allow unshifting of references
+ + Added filter and context support to JStream
+
+25-Sep-2008 Sam Moffatt
+ + Added File Stream class
+ + Added extension installer plugin triggers (see http://docs.joomla.org/Extension_Installer/Triggers)
+
+24-Sep-2008 Sam Moffatt
+ ^ bzip2 and gzip archive formats now run stream
+ ^ tar archive handler uses streams
+ ^ updated to references to point to www.php.net instead of au.php.net
+
+22-Sep-2008 Sam Moffatt
+ ! Archives (particularly tar and bzip2) may be broken in this revision
+ + Added file system helper class with various FTP, stream and filter related operations
+ + Added stream class to replace old FTP layer system; uses PHP streams instead
+ + Added streams folder to hold custom J! streams
+ + Added support folder to hold support files for custom J! streams
+ ^ Changed JFile::write and JFTP::write to use references to gain back some memory
+ ^ Changed JObject::setProperties to use the set function to set values instead of directly setting them
+ ^ Changed JInstallerHelper's error tracking to check the previous state of track_errors before setting and resetting it
+ + Added JVersion::getUserAgent to hold user agent generation
 
 22-Sep-2008 Chantal Bisson
  ^ Changed the column 'name' in the #__contactdirectory_fields table to 'alias'
@@ -147,6 +200,113 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ JModel::getState will now take an optional second argument to set a default
  ^ JDatbase::setQuery cast the sql variable to a string allowing for the __toString interface to be used if an object is passed
 
+18-Aug-2008 Sam Moffatt
+ + Added purge cached updates to installer controller
+ ^ Changed jos_extensions state field to use a -1 (discovered), 0 (normal installed), 1 ()
+ ^ Added support for checks against installed extensions or possible new extensions
+ ^ Cleaned up extensions list view
+ + Added find option for extensions
+ ^ Collection updates now work properly
+ + Added Update table
+ ^ Fixed updater to support linking updates to an update site
+
+13-Aug-2008 Sam Moffatt
+ ^ Work on collection and extension update adapters
+ + Added ability for adapter to add extra update sites to list on the fly 
+
+12-Aug-2008 Sam Moffatt
+ + Added stringstream library
+ + Added updater and dependency stubs
+ ^ Update view now works
+ + Created an adapter and adapterinstance template
+ + Moved migration SQL to its own file 
+
+10-Aug-2008 Sam Moffatt
+ ^ Changed "Install/Uninstall" to be "Extension Manager"
+ 
+08-Aug-2008 Sam Moffatt
+ ^ Typo fix for loading template language
+ + Added start of updater
+
+01-Aug-2008 Sam Moffatt
+ + Added extension based language file support
+ # Changed libraries/joomla/language/language.php to not overwrite strings with default
+ ^ Working on component discover_install functionality
+
+30-Jul-2008 Sam Moffatt
+ + Added plugin, module and library discover and discover_install functionality
+ ^ Use checkbox for discovered extensions
+ ^ Fixed plugins display to exclude 'discovered' extensions
+ # Fixed issue where menu would pick up discovered and installed extensions if an extension was available in both states
+ 
+29-Jul-2008 Sam Moffatt
+ + Added discover_install functionality to templates and com_installer
+ + Added purge functionality for discovery cache
+ + Started on discover_install for component installation adapter
+
+25-Jul-2008 Sam Moffatt
+ + Added a state field and some indicies to the jos_extensions table
+ + Added discover and discover_install support in the installer class
+ + Discover tab in admininistrator:com_installer now goes somewhere 
+ + Discover function works for templates
+ + Added an icon to the Khepri template CSS
+
+23-Jul-2008 Sam Moffatt
+ ^ Plugins now have their own directory with their group
+ + Plugins now have install triggers and SQL support
+ + Packages can handle folders as well as archives
+ ^ Altered #__extensions.data to be called 'custom_data' and 'system_data' 
+ 
+
+22-Jul-2008 Sam Moffatt
+ ^ Clean installation now adding entries for plugins, modules and components
+ - Removed plugins table completely
+ + Modules now can use SQL and have full install, update and uninstall triggers
+ + Modules now have an update function
+ ^ Changed the parseSQLQueries code to use extension_root instead of extension_administrator
+ ^ Changed component installer adapter to set extension_root to extension_administrator
+ - Removed old comments
+ # Fixed rollback bug in installer handler for extensions
+ + Added File and SQL adapters as copies of libraries and components respectively (nonfunctional)
+ ^ Set svn:keywords recursively to Id for /libraries/joomla/installer
+
+21-Jul-2008 Sam Moffatt
+ + Gave modules install trigger set
+ ^ Changed triggers to use elements (e.g. com_alpha) instead of clean names to ensure uniqueness
+ + Added warnings tab
+ ^ Converting plugins to extensions in more places
+ ^ Changed version string
+ ^ Changed components menu to use extenions table instead of components
+
+18-Jul-2008 Sam Moffatt
+ + Components now use the extensions table for install and uninstall
+ + Added a simple migration script for components, modules, plugins 
+
+17-Jul-2008 Sam Moffatt
+ ^ Converting plugins to use jos_extensions on install and uninstall
+ ^ Converted com_plugins to use jos_extensions
+
+16-Jul-2008 Sam Moffatt
+ - Hid old extension specific tabs from com_installer
+ + Added 'discover' tab to find new extensions/installed extensions
+ $ Added language strings
+ ^ Changed modules to use jos_extensions on uninstall
+ ^ Changed libraries to use jos_extensions when installing and uninstalling
+
+15-Jul-2008 Sam Moffatt
+ + Added jos_extensions table
+ + Added 'manage' tab to installer
+ ^ Changed modules to use jos_extensions on install
+
+14-Jul-2008 Sam Moffatt
+ ^ Strings in extension installs can now be translated
+ ^ Merged in the 1.5.4 language installer changes
+
+10-Jul-2008 Sam Moffatt
+ # Fixed [#10374] setAdapter pass by reference from 1.5 bug tracker
+ - Removed excess calls to set the extension.message in the component adapter
+ ^ Changed some legacy references to mosinstall to extension
+
 25-Jun-2008 Johan Janssens
  - Removed libraries/bitfolge/vcard
  + Added JDocumentVCARD format
@@ -158,6 +318,16 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 08-Jun-2008 Johan Janssens
  - Removed deprecated functions from JApplication
+
+05-Jun-2008 Sam Moffatt
+ + Added packages to installer UI
+ ^ Altered package format in manifest handler
+ ^ Altered library format in manifest handler
+
+28-May-2008 Sam Moffatt
+ + Added libraries to system
+ + Added packages to system (non-functional UI)
+ ^ Changed language files to handle new features
 
 19-May-2008 Johan Janssens
  - Removed phpinputfilter library

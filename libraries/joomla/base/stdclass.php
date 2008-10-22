@@ -152,7 +152,7 @@ class JStdClass
 		if (is_array($properties))
 		{
 			foreach ($properties as $k => $v) {
-				$this->$k = $v;
+				$this->set($k, $v); // use the set function which might be overriden
 			}
 
 			return true;

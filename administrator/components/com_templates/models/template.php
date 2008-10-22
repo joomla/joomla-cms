@@ -221,7 +221,10 @@ class TemplatesModelTemplate extends JModel
 				return JError::raiseWarning( 500, JText::_('Template not found') );
 			}
 			$lang =& JFactory::getLanguage();
-			$lang->load( 'tpl_'.$this->_id, JPATH_ADMINISTRATOR );
+			 // 1.5 or Core
+			$lang->load( 'tpl_'.$this->_id, $this->_client->path );
+			// 1.6 3PD Templates
+			$lang->load( 'joomla', $this->_client->path.DS.'templates'.DS.$templates );
 
 			$ini	= $this->_client->path.DS.'templates'.DS.$this->_id.DS.'params.ini';
 			$xml	= $this->_client->path.DS.'templates'.DS.$this->_id.DS.'templateDetails.xml';

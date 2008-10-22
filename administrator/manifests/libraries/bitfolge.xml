@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="library" version="1.5">
+	<name>BitFolge</name>
+	<libraryname>bitfolge</libraryname>
+	<version>1.5</version>
+	<description>Useful PHP scripts (incl feedcreator)</description>
+	<creationDate>21-Sep-2007</creationDate>
+	<copyright>Copyright (c) BitFolge</copyright>
+	<license>GNU GPL</license>
+	<author>Kai Blankenhorn</author>
+	<authorEmail></authorEmail>
+	<authorUrl>http://www.bitfolge.de/en</authorUrl>
+	<packager>Joomla!</packager>
+	<packagerurl>http://www.joomla.org</packagerurl>
+	<update>http://update.joomla.org/libraries/bitfolge</update>
+	<files>
+		<file>feedcreator.php</file>
+		<file>vcard.php</file>
+		<file>index.html</file>
+	</files>
+</extension>

@@ -62,7 +62,10 @@ class ModulesViewSelecttype extends JView
 				$module->path 		= $path.DS.$dir;
 				$modules[]			= $module;
 
+				// 1.5 Format; Core files or language packs
 				$lang->load( $module->module, $langbase );
+				// 1.6 3PD Extension Support
+				$lang->load( 'joomla', $langbase.DS.'modules'.DS.$module->module);
 			}
 		}
 

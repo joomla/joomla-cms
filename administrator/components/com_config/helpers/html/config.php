@@ -201,9 +201,10 @@ class JHTMLConfig
 		$db = &JFactory::getDBO();
 		$db->setQuery(
 			'SELECT element AS value, name AS text'
-			.' FROM #__plugins'
+			.' FROM #__extensions'
 			.' WHERE folder = '.$db->Quote('editors')
-			.' AND published = 1'
+			.' AND type = "plugin" '
+			.' AND enabled = 1'
 			.' ORDER BY ordering, name'
 		);
 		$options = $db->loadObjectList();

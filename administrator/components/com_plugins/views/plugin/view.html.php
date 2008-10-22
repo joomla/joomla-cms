@@ -39,7 +39,7 @@ class PluginsViewPlugin extends JView
 		JArrayHelper::toInteger($cid, array(0));
 
 		$lists 	= array();
-		$row 	=& JTable::getInstance('plugin');
+		$row 	=& JTable::getInstance('extension');
 
 		// load the row from the db table
 		$row->load( $cid[0] );
@@ -73,14 +73,17 @@ class PluginsViewPlugin extends JView
 
 			if ( $row->ordering > -10000 && $row->ordering < 10000 )
 			{
+				// TODO: This should really be in the model that doesn't exist...
 				// build the html select list for ordering
 				$query = 'SELECT ordering AS value, name AS text'
-					. ' FROM #__plugins'
+					. ' FROM #__extensions'
 					. ' WHERE folder = '.$db->Quote($row->folder)
-					. ' AND published > 0'
+					. ' AND enabled > 0'
+					. ' AND state > -1'
 					. ' AND '. $where
 					. ' AND ordering > -10000'
 					. ' AND ordering < 10000'
+					. ' AND type = "plugin"'
 					. ' ORDER BY ordering'
 				;
 				$order = JHTML::_('list.genericordering',  $query );
@@ -90,8 +93,12 @@ class PluginsViewPlugin extends JView
 			}
 
 			$lang =& JFactory::getLanguage();
+			// Core or 1.5
 			$lang->load( 'plg_' . trim( $row->folder ) . '_' . trim( $row->element ), JPATH_ADMINISTRATOR );
+			// 1.6 3PD Extension
+			$lang->load( 'joomla', PATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element);
 
+			// TODO: Rewrite this (and other instances of parseXMLInstallFile) to use the extensions table
 			$data = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element .'.xml');
 
 			$row->description = $data['description'];
@@ -99,11 +106,11 @@ class PluginsViewPlugin extends JView
 		} else {
 			$row->folder 		= '';
 			$row->ordering 		= 999;
-			$row->published 	= 1;
+			$row->enabled 	= 1;
 			$row->description 	= '';
 		}
 
-		$lists['published'] = JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
+		$lists['enabled'] = JHTML::_('select.booleanlist',  'enabled', 'class="inputbox"', $row->enabled );
 
 		// get params definitions
 		$params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ), 'plugin' );

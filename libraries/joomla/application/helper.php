@@ -245,9 +245,9 @@ abstract class JApplicationHelper
 		/*
 		 * Check for a valid XML root tag.
 		 *
-		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
+		 * Should be 'install', but for backward compatability we will accept 'extension'.
 		 */
-		if ( !is_object($xml->document) || ($xml->document->name() != 'install' && $xml->document->name() != 'mosinstall')) {
+		if ( !is_object($xml->document) || ($xml->document->name() != 'install' && $xml->document->name() != 'extension')) {
 			unset($xml);
 			return false;
 		}

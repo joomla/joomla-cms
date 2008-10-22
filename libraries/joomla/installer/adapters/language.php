@@ -86,7 +86,7 @@ class JInstallerLanguage extends JObject
 			$basePath = $client->path;
 			$clientId = $client->id;
 			$element =& $root->getElementByPath('files');
-
+			
 			return $this->_install($cname, $basePath, $clientId, $element);
 		}
 		else
@@ -96,7 +96,7 @@ class JInstallerLanguage extends JObject
 			$basePath = JPATH_SITE;
 			$clientId = 0;
 			$element =& $root->getElementByPath('files');
-
+			
 			return $this->_install($cname, $basePath, $clientId, $element);
 		}
 	}

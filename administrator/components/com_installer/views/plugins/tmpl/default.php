@@ -40,7 +40,7 @@
 		</tbody>
 	</table>
 	<?php else : ?>
-		<?php echo JText::_( 'There are no custom components installed' ); ?>
+		<?php echo JText::_( 'There are no custom plugins installed' ); ?>
 	<?php endif; ?>
 
 	<input type="hidden" name="task" value="manage" />

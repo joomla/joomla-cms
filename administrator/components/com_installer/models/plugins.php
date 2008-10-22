@@ -56,7 +56,8 @@ class InstallerModelPlugins extends InstallerModel
 
 		// get list of Positions for dropdown filter
 		$query = 'SELECT folder AS value, folder AS text' .
-				' FROM #__plugins' .
+				' FROM #__extensions' .
+				' WHERE type = "plugin"' .
 				' GROUP BY folder' .
 				' ORDER BY folder';
 		$db->setQuery( $query );
@@ -89,11 +90,12 @@ class InstallerModelPlugins extends InstallerModel
 				$where .= ' WHERE name LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 			}
 		}
-
-		$query = 'SELECT id, name, folder, element, client_id, iscore' .
-				' FROM #__plugins' .
+		
+		$where = $where ? $where . ' AND type = "plugin"' : ' WHERE type = "plugin"';
+		$query = 'SELECT id, name, folder, element, client_id, protected' .
+				' FROM #__extensions' .
 				$where .
-				' ORDER BY iscore, folder, name';
+				' ORDER BY protected, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 

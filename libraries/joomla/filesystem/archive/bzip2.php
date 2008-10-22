@@ -15,6 +15,8 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
+jimport('joomla.filesystem.stream');
+
 /**
  * Bzip2 format adapter for the JArchive class
  *
@@ -63,18 +65,20 @@ class JArchiveBzip2 extends JObject
 	{
 		// Initialize variables
 		$this->_data = null;
-
+		
 		if (!extension_loaded('bz2')) {
 			$this->set('error.message', 'BZip2 Not Supported');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
+		/* // old style: read the whole file and then parse it
 		if (!$this->_data = JFile::read($archive)) {
 			$this->set('error.message', 'Unable to read archive');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
 		$buffer = bzdecompress($this->_data);
+		unset($this->_data);
 		if (empty ($buffer)) {
 			$this->set('error.message', 'Unable to decompress data');
 			return JError::raiseWarning(100, $this->get('error.message'));
@@ -84,6 +88,35 @@ class JArchiveBzip2 extends JObject
 			$this->set('error.message', 'Unable to write archive');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
+		//*/
+		
+		// New style! streams!
+		$input =& JFactory::getStream();
+		$input->set('processingmethod','bz'); // use bzip
+		if(!$input->open($archive)) {
+			$this->set('error.message', 'Unable to read archive (bz2)');
+			return JError::raiseWarning(100, $this->get('error.message'));
+		}
+		
+		$output =& JFactory::getStream();
+		if(!$output->open($destination, 'w')) {
+			$this->set('error.message', 'Unable to write archive (bz2)');
+			$input->close(); // close the previous file
+			return JError::raiseWarning(100, $this->get('error.message'));
+		}
+		
+		$written = 0;
+		do {
+			$this->_data = $input->read($input->get('chunksize', 8196));
+			if($this->_data) {
+				if(!$output->write($this->_data)) {
+					$this->set('error.message', 'Unable to write file (bz2)');
+					return JError::raiseWarning(100, $this->get('error.message'));
+				}
+			}
+		} while ($this->_data);
+		$output->close();
+		$input->close();
 		return true;
 	}
 }

@@ -60,9 +60,11 @@ class MenusViewItem extends JView
 		}
 		JToolBarHelper::help( 'screen.menus.edit' );
 
-		// Load component language files
+		// Load component language files (1.5)
 		$component		= &$this->get('Component');
 		$lang->load($component->option, JPATH_ADMINISTRATOR);
+		// Load component language files (1.6)
+		$lang->load('joomla', JPATH_ADMINISTRATOR.DS.'components'.DS.$component->option);
 
 		// Initialize variables
 		$urlparams		= $this->get( 'UrlParams' );
@@ -162,7 +164,10 @@ class MenusViewItem extends JView
 			$path = JPATH_SITE.DS.'components'.DS.$components[$i]->option.DS.'views';
 			$components[$i]->legacy = !is_dir($path);
 
+			// Load 1.5 language files
 			$lang->load($components[$i]->option, JPATH_ADMINISTRATOR);
+			// Load 1.6 language files
+                        $lang->load('joomla', JPATH_ADMINISTRATOR.DS.'components'.DS.$components[$i]->option);
 		}
 
 		// Initialize variables

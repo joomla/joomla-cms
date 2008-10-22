@@ -44,7 +44,7 @@
 			<?php echo JHTML::_('grid.sort',   'Plugin Name', 'p.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
 		<th nowrap="nowrap" width="5%">
-			<?php echo JHTML::_('grid.sort',   'Published', 'p.published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<?php echo JHTML::_('grid.sort',   'Enabled', 'p.enabled', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
 		<th width="8%" nowrap="nowrap">
 			<?php echo JHTML::_('grid.sort',   'Order', 'p.folder', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
@@ -77,11 +77,12 @@
 	for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 	$row 	= $rows[$i];
 
-	$link = JRoute::_( 'index.php?option=com_plugins&view=plugin&client='. $this->client .'&task=edit&cid[]='. $row->id );
+	$link = JRoute::_( 'index.php?option=com_plugins&view=plugin&client='. $this->client .'&task=edit&cid[]='. $row->extensionid );
 
 	$access 	= JHTML::_('grid.access',   $row, $i );
 	$checked 	= JHTML::_('grid.checkedout',   $row, $i );
-	$published 	= JHTML::_('grid.published', $row, $i );
+	$row->published = $row->enabled;
+	$enabled 	= JHTML::_('grid.published', $row, $i );
 
 	$ordering = ($this->lists['order'] == 'p.folder');
 ?>
@@ -104,7 +105,7 @@
 			<?php } ?>
 		</td>
 		<td align="center">
-			<?php echo $published;?>
+			<?php echo $enabled;?>
 		</td>
 		<td class="order">
 			<span><?php echo $this->pagination->orderUpIcon( $i, ($row->folder == @$rows[$i-1]->folder && $row->ordering > -10000 && $row->ordering < 10000), 'orderup', 'Move Up', $ordering ); ?></span>
@@ -122,7 +123,7 @@
 			<?php echo $row->element;?>
 		</td>
 		<td align="center">
-			<?php echo $row->id;?>
+			<?php echo $row->extensionid;?>
 		</td>
 	</tr>
 	<?php

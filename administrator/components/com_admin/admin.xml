@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="1.5.0">
+<extension type="component" version="1.6">
 	<name>Admin</name>
-	<author>Joomla! Project</author>
-	<creationDate>March 2008</creationDate>
-	<copyright>(C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<authorEmail>admin@joomla.org</authorEmail>
-	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.5.0</version>
-	<description>This component manages sections</description>
-</install>
+        <author>Joomla! Project</author>
+	<creationDate>March 2008</creationDate>        
+        <copyright>(C) 2005 - 2008 Open Source Matters. All rights reserved.</copyright>
+        <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+        <authorEmail>admin@joomla.org</authorEmail>
+        <authorUrl>www.joomla.org</authorUrl>
+        <version>1.6.0</version>
+        <description>This component handles displaying the CHANGELOG, the help system and system information</description>
+		<administrator />
+</extension>
+

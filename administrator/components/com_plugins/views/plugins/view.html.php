@@ -69,10 +69,13 @@ class PluginsViewPlugins extends JView
 			$where[] = 'LOWER( p.name ) LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 		}
 		if ( $filter_state ) {
+			$where[] = 'type = "plugin"';
+			$where[] = 'state > -1';
+
 			if ( $filter_state == 'P' ) {
-				$where[] = 'p.published = 1';
+				$where[] = 'p.enabled = 1';
 			} else if ($filter_state == 'U' ) {
-				$where[] = 'p.published = 0';
+				$where[] = 'p.enabled = 0';
 			}
 		}
 
@@ -81,7 +84,7 @@ class PluginsViewPlugins extends JView
 
 		// get the total number of records
 		$query = 'SELECT COUNT(*)'
-			. ' FROM #__plugins AS p'
+			. ' FROM #__extensions AS p'
 			. $where
 			;
 		$db->setQuery( $query );
@@ -90,12 +93,12 @@ class PluginsViewPlugins extends JView
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination( $total, $limitstart, $limit );
 
-		$query = 'SELECT p.*, u.name AS editor, g.name AS groupname'
-			. ' FROM #__plugins AS p'
+		$query = 'SELECT p.*, p.extensionid AS id, p.enabled AS published, u.name AS editor, g.name AS groupname'
+			. ' FROM #__extensions AS p'
 			. ' LEFT JOIN #__users AS u ON u.id = p.checked_out'
 			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = p.access'
 			. $where
-			. ' GROUP BY p.id'
+			. ' GROUP BY p.extensionid'
 			. $orderby
 			;
 		$db->setQuery( $query, $pagination->limitstart, $pagination->limit );
@@ -108,8 +111,9 @@ class PluginsViewPlugins extends JView
 
 		// get list of Positions for dropdown filter
 		$query = 'SELECT folder AS value, folder AS text'
-			. ' FROM #__plugins'
+			. ' FROM #__extensions'
 			. ' WHERE client_id = '.(int) $client_id
+			. ' AND type = "plugin" AND state > -1"'
 			. ' GROUP BY folder'
 			. ' ORDER BY folder'
 			;

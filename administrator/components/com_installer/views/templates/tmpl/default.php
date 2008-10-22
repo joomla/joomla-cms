@@ -40,7 +40,7 @@
 		</tbody>
 	</table>
 	<?php else : ?>
-		<?php echo JText::_( 'There are no custom modules installed' ); ?>
+		<?php echo JText::_( 'There are no custom templates installed' ); ?>
 	<?php endif; ?>
 	<input type="hidden" name="task" value="manage" />
 	<input type="hidden" name="boxchecked" value="0" />

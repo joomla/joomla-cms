@@ -180,16 +180,18 @@ abstract class JPluginHelper
 			$aid = $user->get('aid', 0);
 
 			$query = 'SELECT folder AS type, element AS name, params'
-				. ' FROM #__plugins'
-				. ' WHERE published >= 1'
+				. ' FROM #__extensions'
+				. ' WHERE enabled >= 1'
+				. ' AND type = "plugin"'
 				. ' AND access <= ' . (int) $aid
 				. ' ORDER BY ordering';
 		}
 		else
 		{
 			$query = 'SELECT folder AS type, element AS name, params'
-				. ' FROM #__plugins'
-				. ' WHERE published >= 1'
+				. ' FROM #__extensions'
+				. ' WHERE enabled >= 1'
+				. ' AND type = "plugin"'
 				. ' ORDER BY ordering';
 		}
 
