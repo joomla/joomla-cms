@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Content
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -19,12 +19,11 @@ defined('_JEXEC') or die('Restricted access');
 require_once JPATH_COMPONENT.DS.'controller.php';
 
 // Set the helper directory
-JHTML::addIncludePath(JPATH_COMPONENT.DS.'classes');
+JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 
 // Require specific controller if requested
-global $controller;
-if($controller = JRequest::getWord('controller', 'application')) {
-	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
+if($controllerName = JRequest::getWord('controller', '')) {
+	$path = JPATH_COMPONENT.DS.'controllers'.DS.$controllerName.'.php';
 	if (file_exists($path)) {
 		require_once $path;
 	} else {
@@ -33,9 +32,9 @@ if($controller = JRequest::getWord('controller', 'application')) {
 }
 
 // Create the controller
-$classname	= 'ContentController'.ucfirst($controller);
-$controller_obj	= new $classname();
+$classname	= 'ContentController'.ucfirst($controllerName);
+$controller	= new $classname();
 
 // Perform the Request task
-$controller_obj->execute(JRequest::getCmd('task'));
-$controller_obj->redirect();
+$controller->execute(JRequest::getCmd('task'));
+$controller->redirect();

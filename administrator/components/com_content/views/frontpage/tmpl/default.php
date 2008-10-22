@@ -10,14 +10,12 @@
 	$now	=& JFactory::getDate();
 	$nullDate 	= $db->getNullDate();
 
-	global $controller;
-
 	JHTML::_('behavior.tooltip');
 	//Ordering allowed ?
 	$ordering = ($this->filter->order == 'fpordering');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_frontpage'); ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_content&controller=frontpage'); ?>" method="post" name="adminForm">
 	<table>
 		<tr>
 			<td width="100%" class="filter">
@@ -227,8 +225,8 @@
 	</table>
 	<?php JHTML::_('content.legend'); ?>
 
-<input type="hidden" name="option" value="<?php echo $option;?>" />
-<input type="hidden" name="controller" value="<?php echo $controller;?>" />
+<input type="hidden" name="option" value="com_content" />
+<input type="hidden" name="controller" value="frontpage" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="filter_order" value="<?php echo $this->filter->order; ?>" />
