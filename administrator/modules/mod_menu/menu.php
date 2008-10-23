@@ -12,7 +12,7 @@
  */
 
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.base.tree');
 
@@ -22,7 +22,7 @@ class JAdminCSSMenu extends JTree
 	 * CSS string to add to document head
 	 * @var string
 	 */
-	var $_css = null;
+	protected $_css = null;
 
 	function __construct()
 	{
@@ -37,15 +37,13 @@ class JAdminCSSMenu extends JTree
 
 	function renderMenu($id = 'menu', $class = '')
 	{
-		global $mainframe;
-
 		$depth = 1;
 
-		if(!empty($id)) {
+		if (!empty($id)) {
 			$id='id="'.$id.'"';
 		}
 
-		if(!empty($class)) {
+		if (!empty($class)) {
 			$class='class="'.$class.'"';
 		}
 
@@ -80,14 +78,13 @@ class JAdminCSSMenu extends JTree
 			$class = ' class="node"';
 		}
 
-		if($this->_current->class == 'separator') {
+		if ($this->_current->class == 'separator') {
 			$class = ' class="separator"';
 		}
 
-		if($this->_current->class == 'disabled') {
+		if ($this->_current->class == 'disabled') {
 			$class = ' class="disabled"';
 		}
-
 
 		/*
 		 * Print the item
@@ -137,8 +134,6 @@ class JAdminCSSMenu extends JTree
 	 */
 	function getIconClass($identifier)
 	{
-		global $mainframe;
-
 		static $classes;
 
 		// Initialize the known classes array if it does not exist
@@ -167,7 +162,7 @@ class JAdminCSSMenu extends JTree
 					}
 					// Build the CSS class for the icon
 					$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
-					$class = preg_replace( '#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
+					$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
 
 					$this->_css  .= "\n.icon-16-$class {\n" .
 							"\tbackground: url($identifier) no-repeat;\n" .
@@ -186,29 +181,27 @@ class JMenuNode extends JNode
 	/**
 	 * Node Title
 	 */
-	var $title = null;
+	public $title = null;
 
 	/**
 	 * Node Id
 	 */
-	var $id = null;
-
+	public $id = null;
 
 	/**
 	 * Node Link
 	 */
-	var $link = null;
+	public $link = null;
 
 	/**
 	 * CSS Class for node
 	 */
-	var $class = null;
+	public $class = null;
 
 	/**
 	 * Active Node?
 	 */
-	var $active = false;
-
+	public $active = false;
 
 	function __construct($title, $link = null, $class = null, $active = false)
 	{

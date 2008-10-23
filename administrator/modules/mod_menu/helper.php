@@ -87,7 +87,7 @@ class modMenuHelper
 			$menu->addChild(new JMenuNode(JText::_('Menu Trash'), 'index.php?option=com_trash&task=viewMenu', 'class:trash'));
 		}
 
-		if($manageTrash || $manageMenuMan) {
+		if ($manageTrash || $manageMenuMan) {
 			$menu->addSeparator();
 		}
 		/*
@@ -126,11 +126,11 @@ class modMenuHelper
 
 			$query = 'SELECT c.*' .
 				' FROM #__components c LEFT JOIN #__extensions e ON c.option = e.element ' .
-				' WHERE '.$db->NameQuote( 'option' ).' NOT IN (' .
+				' WHERE '.$db->NameQuote('option').' NOT IN (' .
 					$db->Quote('com_acl').','.
 					$db->Quote('com_frontpage').','.
 					$db->Quote('com_media').
-				') AND '.$db->NameQuote( 'option' ).' <> "com_media"' .
+				') AND '.$db->NameQuote('option').' <> "com_media"' .
 				' AND e.enabled = 1' .
 				' AND e.state > -1' .
 				' ORDER BY ordering, name';
@@ -162,7 +162,7 @@ class modMenuHelper
 				// 1.5 or Core
 				$lang->load($lang_name);
 				// 1.6 3PD Extensions
-				$lang->load( 'menu', JPATH_ADMINISTRATOR.DS.'components'.DS.str_replace('.menu','',$lang_name));
+				$lang->load('menu', JPATH_ADMINISTRATOR.DS.'components'.DS.str_replace('.menu','',$lang_name));
 			}
 
 			foreach ($comps as $row)
@@ -220,22 +220,24 @@ class modMenuHelper
 		 */
 		if ($canConfig || $canCheckin)
 		{
-			$menu->addChild(new JMenuNode(JText::_('Tools')), true);
+			$menu->addChild(new JMenuNode(JText::_('Menu Tools')), true);
 
 			if ($canConfig) {
-				$menu->addChild(new JMenuNode(JText::_('Read Messages'), 'index.php?option=com_messages', 'class:messages'));
-				$menu->addChild(new JMenuNode(JText::_('Write Message'), 'index.php?option=com_messages&task=add', 'class:messages'));
+				$menu->addChild(new JMenuNode(JText::_('Menu Read Messages'), 'index.php?option=com_messages', 'class:messages'));
+				$menu->addChild(new JMenuNode(JText::_('Menu Write Message'), 'index.php?option=com_messages&task=add', 'class:messages'));
 				$menu->addSeparator();
 			}
 			if ($canMassMail) {
-				$menu->addChild(new JMenuNode(JText::_('Mass Mail'), 'index.php?option=com_massmail', 'class:massmail'));
+				$menu->addChild(new JMenuNode(JText::_('Menu Mass Mail'), 'index.php?option=com_massmail', 'class:massmail'));
 				$menu->addSeparator();
 			}
 			if ($canCheckin) {
-				$menu->addChild(new JMenuNode(JText::_('Global Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
+				$menu->addChild(new JMenuNode(JText::_('Menu Global Checkin'), 'index.php?option=com_checkin', 'class:checkin'));
 				$menu->addSeparator();
 			}
-			$menu->addChild(new JMenuNode(JText::_('Clean Cache'), 'index.php?option=com_cache', 'class:config'));
+			// @todo Add ACL and add style for com_localise
+			$menu->addChild(new JMenuNode(JText::_('Menu Localisation'), 'index.php?option=com_localise', 'class:config'));
+			$menu->addChild(new JMenuNode(JText::_('Menu Clean Cache'), 'index.php?option=com_cache', 'class:config'));
 
 			$menu->getParent();
 		}

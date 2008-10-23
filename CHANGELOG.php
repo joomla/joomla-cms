@@ -42,6 +42,10 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+23-Oct-2008 Andrew Eddie
+ + Added link to com_localise to Tools menu
+ ^ Namespace langauge strings in Tools menu
+
 22-Oct-2008 Sam Moffatt
  ! Merged update into trunk
  # Fixed issue with JForm accessing protected members of JSimpleXML
@@ -49,7 +53,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ! Due to schema changes, a new install is required.
  # Fixed recursion issue in JFolder::files and JFolder::folders
  + Added exclusionfilter to JFolder::files and JFolder::folders to mitigate issues with Apple Double files
- ^ Changed  JFolder::files and JFolder::folders exclusion list to include .DS_Store files (Apple metadata) and __MACOSX files 
+ ^ Changed  JFolder::files and JFolder::folders exclusion list to include .DS_Store files (Apple metadata) and __MACOSX files
  # Fixed undefined variable issues in com_module
  # Fixed issue with languages not loading properly in Blogger and Debug plugins
  # Fixed language load issue with 1.6 3PD language folders
@@ -146,7 +150,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ Changed JFile and JFolder to support streams
  ^ Changed tar and zip archivers to write files out using stream support
  + Component installer deletes old files
- ^ Changed component install and update functions to return extension ID 
+ ^ Changed component install and update functions to return extension ID
 
 30-Sep-2008 Sam Moffatt
  + Added JInstaller::findDeletedFiles
@@ -226,18 +230,18 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 13-Aug-2008 Sam Moffatt
  ^ Work on collection and extension update adapters
- + Added ability for adapter to add extra update sites to list on the fly 
+ + Added ability for adapter to add extra update sites to list on the fly
 
 12-Aug-2008 Sam Moffatt
  + Added stringstream library
  + Added updater and dependency stubs
  ^ Update view now works
  + Created an adapter and adapterinstance template
- + Moved migration SQL to its own file 
+ + Moved migration SQL to its own file
 
 10-Aug-2008 Sam Moffatt
  ^ Changed "Install/Uninstall" to be "Extension Manager"
- 
+
 08-Aug-2008 Sam Moffatt
  ^ Typo fix for loading template language
  + Added start of updater
@@ -252,7 +256,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ Use checkbox for discovered extensions
  ^ Fixed plugins display to exclude 'discovered' extensions
  # Fixed issue where menu would pick up discovered and installed extensions if an extension was available in both states
- 
+
 29-Jul-2008 Sam Moffatt
  + Added discover_install functionality to templates and com_installer
  + Added purge functionality for discovery cache
@@ -261,7 +265,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 25-Jul-2008 Sam Moffatt
  + Added a state field and some indicies to the jos_extensions table
  + Added discover and discover_install support in the installer class
- + Discover tab in admininistrator:com_installer now goes somewhere 
+ + Discover tab in admininistrator:com_installer now goes somewhere
  + Discover function works for templates
  + Added an icon to the Khepri template CSS
 
@@ -269,8 +273,8 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ Plugins now have their own directory with their group
  + Plugins now have install triggers and SQL support
  + Packages can handle folders as well as archives
- ^ Altered #__extensions.data to be called 'custom_data' and 'system_data' 
- 
+ ^ Altered #__extensions.data to be called 'custom_data' and 'system_data'
+
 
 22-Jul-2008 Sam Moffatt
  ^ Clean installation now adding entries for plugins, modules and components
@@ -294,7 +298,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 18-Jul-2008 Sam Moffatt
  + Components now use the extensions table for install and uninstall
- + Added a simple migration script for components, modules, plugins 
+ + Added a simple migration script for components, modules, plugins
 
 17-Jul-2008 Sam Moffatt
  ^ Converting plugins to use jos_extensions on install and uninstall
