@@ -45,8 +45,8 @@ abstract class JFile
 	 * @since 1.5
 	 */
 	public static function getExt($file) {
-		$dot = strrpos($file, '.') + 1;
-		return substr($file, $dot);
+		$dot = strrpos($file, '.');
+		return $dot === false ? '' : substr($file, $dot + 1);
 	}
 
 	/**
