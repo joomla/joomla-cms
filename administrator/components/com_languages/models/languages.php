@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Languages
  * @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.

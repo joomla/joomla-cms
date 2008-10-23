@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Cpanel
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
