@@ -17,7 +17,7 @@ jimport('joomla.application.component.controller');
 /**
 * Controller class for the localise component
 */
-class TranslationsController extends JController
+class LocaliseController extends JController
 {
 	protected $_options = array();
 
@@ -699,7 +699,7 @@ class TranslationsController extends JController
 		if ($options['task'] == 'save') {
 			$this->_multitask('checkin', $options['filename'], 'files', false);
 		} else {
-			$view = $this->getView($this->_name, 'html');
+			$view = $this->getView('translations', 'html');
 			$view->setLayout('edit');
 			$view->assignRef('data', $editData);
 			$view->assignRef('meta', $editMeta);
@@ -1395,7 +1395,7 @@ class TranslationsController extends JController
 		$rows = array_slice($rows, $pageNav->limitstart, $pageNav->limit);
 
 		// call the html view
-		$view = $this->getView($this->_name, 'html');
+		$view = $this->getView('translations', 'html');
 		$view->setLayout('languages');
 		$view->assignRef('data', $rows);
 		$view->assignRef('options', $options);

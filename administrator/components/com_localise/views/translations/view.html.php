@@ -18,7 +18,7 @@ jimport( 'joomla.application.component.view' );
 * View class for the localise component
 *
 */
-class TranslationsViewTranslations extends JView
+class LocaliseViewTranslations extends JView
 {
 	function display()
 	{
