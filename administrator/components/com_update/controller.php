@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: controller.php 10675 2008-08-18 09:08:38Z pasamio $
+ * @version		$Id$
  * @package		Joomla
  * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.

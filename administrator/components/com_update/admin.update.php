@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: admin.installer.php 10586 2008-07-25 05:57:24Z pasamio $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Installer
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.

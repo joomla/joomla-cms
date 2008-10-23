@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: default.php 193 2008-08-03 chantal.bisson $
+ * @version		$Id$
  * @package	Contact Directory
  * @copyright	(C) 2008 Chantal Bisson. All rights reserved.
  * @license		GNU General Public License
