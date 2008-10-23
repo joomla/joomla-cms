@@ -51,7 +51,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 		switch($name) {
 			case 'CATEGORY':
 				if(isset($attrs['REF'])) {
-					$this->update_sites[] = Array('type'=>'collection','location'=>$attrs['REF'],'updatesiteid'=>$this->_updatesiteid);
+					$this->update_sites[] = Array('type'=>'collection','location'=>$attrs['REF'],'update_site_id'=>$this->_update_site_id);
 					//echo 'Found new update collection: '. $attrs['NAME'] .'<br />';
 				} else {
 					// This item will have children, so prepare to attach them
@@ -60,7 +60,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 				break;
 			case 'EXTENSION':
 				$update =& JTable::getInstance('update');
-				$update->updatesiteid = $this->_updatesiteid;
+				$update->update_site_id = $this->_update_site_id;
 				foreach($this->_updatecols AS $col) {
 					// reset the values if it doesn't exist
 					if(!array_key_exists($col, $attrs)) {
@@ -122,7 +122,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 	
 	function findUpdate($options) {
 		$url = $options['location'];
-		$this->_updatesiteid = $options['updatesiteid'];
+		$this->_update_site_id = $options['update_site_id'];
 		//echo '<p>Find update for collection run on <a href="'. $url .'">'. $url .'</a></p>';
 		if(substr($url, -4) != '.xml') {
 			if(substr($url, -1) != '/') {

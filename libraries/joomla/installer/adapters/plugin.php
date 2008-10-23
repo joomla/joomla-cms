@@ -92,7 +92,7 @@ class JInstallerPlugin extends JObject
 		 * Check if we should enable overwrite settings
 		 */
 		// Check to see if a plugin by the same name is already installed
-		$query = 'SELECT `extensionid`' .
+		$query = 'SELECT `extension_id`' .
 				' FROM `#__extensions`' .
 				' WHERE folder = '.$db->Quote($group) .
 				' AND element = '.$db->Quote($element);
@@ -236,7 +236,7 @@ class JInstallerPlugin extends JObject
 			$row->params = $this->parent->getParams();
 			$row->custom_data = ''; // custom data
 			$row->system_data = ''; // system data
-			$row->manifestcache = $this->parent->generateManifestCache();
+			$row->manifest_cache = $this->parent->generateManifestCache();
 
 			// Editor plugins are published by default
 			if ($group == 'editors') {
@@ -251,7 +251,7 @@ class JInstallerPlugin extends JObject
 
 			// Since we have created a plugin item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
-			$this->parent->pushStep(array ('type' => 'extension', 'id' => $row->extensionid));
+			$this->parent->pushStep(array ('type' => 'extension', 'id' => $row->extension_id));
 		}
 		
 		/*
@@ -457,7 +457,7 @@ class JInstallerPlugin extends JObject
 		}
 
 		// Now we will no longer need the plugin object, so lets delete it
-		$row->delete($row->extensionid);
+		$row->delete($row->extension_id);
 		unset ($row);
 
 		// If the folder is empty, let's delete it
@@ -518,7 +518,7 @@ class JInstallerPlugin extends JObject
 		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->_extension->manifestcache = serialize($manifest_details);
+		$this->parent->_extension->manifest_cache = serialize($manifest_details);
 		$this->parent->_extension->state = 0;
 		$this->parent->_extension->name = $manifest_details['name'];
 		$this->parent->_extension->enabled = 1;

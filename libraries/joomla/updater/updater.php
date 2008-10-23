@@ -64,9 +64,9 @@ class JUpdater extends JAdapter {
 		$retval = false;
 		// push it into an array
 		if(!is_array($eid)) {
-			$query = 'SELECT DISTINCT updatesiteid, type, location FROM #__update_sites WHERE enabled = 1';
+			$query = 'SELECT DISTINCT update_site_id, type, location FROM #__update_sites WHERE enabled = 1';
 		} else {
-			$query = 'SELECT DISTINCT updatesiteid, type, location FROM #__update_sites WHERE updatesiteid IN (SELECT updatesiteid FROM #__update_sites_extensions WHERE extensionid IN ('. implode(',', $eid) .'))';
+			$query = 'SELECT DISTINCT update_site_id, type, location FROM #__update_sites WHERE update_site_id IN (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN ('. implode(',', $eid) .'))';
 		}
 		$dbo->setQuery($query);
 		$results = $dbo->loadAssocList();
@@ -99,10 +99,10 @@ class JUpdater extends JAdapter {
 							if($eid) {
 								// we have an installed extension, check the update is actually newer
 								$extension->load($eid);
-								$data = unserialize($extension->manifestcache);
+								$data = unserialize($extension->manifest_cache);
 								if(version_compare($current_update->version, $data['version'], '>') == 1) {
 									//echo '<p>Storing extension since '. $attrs['VERSION'] .' > ' . $data['version']. '</p>';
-									$current_update->extensionid = $eid;
+									$current_update->extension_id = $eid;
 									$current_update->store();
 								}
 							} else {

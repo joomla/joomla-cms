@@ -98,12 +98,12 @@ class PluginsViewPlugins extends JView
 		jimport('joomla.html.pagination');
 		$pagination = new JPagination( $total, $limitstart, $limit );
 
-		$query = 'SELECT p.*, p.extensionid AS id, p.enabled AS published, u.name AS editor, g.name AS groupname'
+		$query = 'SELECT p.*, p.extension_id AS id, p.enabled AS published, u.name AS editor, g.name AS groupname'
 			. ' FROM #__extensions AS p'
 			. ' LEFT JOIN #__users AS u ON u.id = p.checked_out'
 			. ' LEFT JOIN #__core_acl_axo_groups AS g ON g.value = p.access'
 			. $where
-			. ' GROUP BY p.extensionid'
+			. ' GROUP BY p.extension_id'
 			. $orderby
 			;
 		$db->setQuery( $query, $pagination->limitstart, $pagination->limit );

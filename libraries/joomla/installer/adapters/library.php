@@ -55,7 +55,7 @@ class JInstallerLibrary extends JObject
 		$this->set('element', $element);
 
 		$db =& $this->parent->getDBO();
-		$db->setQuery('SELECT extensionid FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
+		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		if($result) { // already installed, can we upgrade?
 			if($this->parent->getOverwrite() || $this->parent->getUpgrade()) { 
@@ -136,7 +136,7 @@ class JInstallerLibrary extends JObject
 		$row->client_id = 0;
 		$row->params = $this->parent->getParams();
 		$row->data = ''; // custom data
-		$row->manifestcache = $this->parent->generateManifestCache();
+		$row->manifest_cache = $this->parent->generateManifestCache();
 		if (!$row->store()) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Library').' '.JText::_('Install').': '.$db->stderr(true));
@@ -187,7 +187,7 @@ class JInstallerLibrary extends JObject
 		$this->set('element', $element);
 		$installer = new JInstaller(); // we don't want to compromise this instance!
 		$db =& $this->parent->getDBO();
-		$db->setQuery('SELECT extensionid FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
+		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		if($result) { // already installed, which would make sense
 			$installer->uninstall('library', $result);
@@ -257,7 +257,7 @@ class JInstallerLibrary extends JObject
 
 		} else {
 			// remove this row entry since its invalid
-			$row->delete($row->extensionid);
+			$row->delete($row->extension_id);
 			unset($row);
 			JError::raiseWarning(100, 'Library Uninstall: Manifest File invalid or not found');
 			return false;
@@ -274,7 +274,7 @@ class JInstallerLibrary extends JObject
 			}
 		}
 		
-		$row->delete($row->extensionid);
+		$row->delete($row->extension_id);
 		unset($row);
 
 		return $retval;
@@ -326,7 +326,7 @@ class JInstallerLibrary extends JObject
 		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->_extension->manifestcache = serialize($manifest_details);
+		$this->parent->_extension->manifest_cache = serialize($manifest_details);
 		$this->parent->_extension->state = 0;
 		$this->parent->_extension->name = $manifest_details['name'];
 		$this->parent->_extension->enabled = 1;

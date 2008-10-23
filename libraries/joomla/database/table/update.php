@@ -26,11 +26,11 @@ defined('JPATH_BASE') or die();
 class JTableUpdate extends JTable
 {
 	/** @var int Primary key */
-	var $updateid				= null;
+	var $update_id				= null;
 	/** @var int Source update site ID */
-	var $updatesiteid			= null;
+	var $update_site_id			= null;
 	/** @var int Linked extension ID */
-	var $extensionid			= null;
+	var $extension_id			= null;
 	/** @var int Linked update category ID */
 	var $categoryid				= null;
 	/** @var string Friendly name of the extension */
@@ -59,7 +59,7 @@ class JTableUpdate extends JTable
 	 * @param database A database connector object
 	 */
 	function __construct( &$db ) {
-		parent::__construct( '#__updates', 'updateid', $db );
+		parent::__construct( '#__updates', 'update_id', $db );
 	}
 
 	/**
@@ -113,7 +113,7 @@ class JTableUpdate extends JTable
 		foreach($options as $col=>$val) {
 			$where[] = $col .' = '. $dbo->Quote($val);
 		}
-		$query = 'SELECT updateid FROM #__updates WHERE '. implode(' AND ', $where);
+		$query = 'SELECT update_id FROM #__updates WHERE '. implode(' AND ', $where);
 		$dbo->setQuery($query);
 		return $dbo->loadResult();
 	}

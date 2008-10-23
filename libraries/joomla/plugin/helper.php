@@ -185,6 +185,7 @@ abstract class JPluginHelper
 				. ' FROM #__extensions'
 				. ' WHERE enabled >= 1'
 				. ' AND type = "plugin"'
+				. ' AND state >= 0'
 				. ' AND access <= ' . (int) $aid
 				. ' ORDER BY ordering';
 		}
@@ -194,6 +195,7 @@ abstract class JPluginHelper
 				. ' FROM #__extensions'
 				. ' WHERE enabled >= 1'
 				. ' AND type = "plugin"'
+				. ' AND state >= 0'
 				. ' ORDER BY ordering';
 		}
 

@@ -4,7 +4,7 @@
 # --------------------------------------------------------
 # Table structure for table `#__extensions`
 CREATE TABLE  `jos_extensions` (
-  `extensionid` int(11) NOT NULL auto_increment,
+  `extension_id` int(11) NOT NULL auto_increment,
   `name` varchar(100) NOT NULL default '',
   `type` varchar(20) NOT NULL default '',
   `element` varchar(100) NOT NULL default '',
@@ -13,7 +13,7 @@ CREATE TABLE  `jos_extensions` (
   `enabled` tinyint(3) NOT NULL default '1',
   `access` tinyint(3) unsigned NOT NULL default '0',
   `protected` tinyint(3) NOT NULL default '0',
-  `manifestcache` text NOT NULL,
+  `manifest_cache` text NOT NULL,
   `params` text NOT NULL,
   `custom_data` text NOT NULL,
   `system_data` text NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE  `jos_extensions` (
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `ordering` int(11) default '0',
   `state` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`extensionid`),
+  PRIMARY KEY  (`extension_id`),
   KEY `type_element` (`type`,`element`),
   KEY `element_clientid` (`element`,`client_id`),
   KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
@@ -49,9 +49,9 @@ ALTER TABLE `jos_extensions` ADD INDEX `type_element`(`type`, `element`),
 
 # Update Sites
 CREATE TABLE  `jos_updates` (
-  `updateid` int(11) NOT NULL auto_increment,
-  `updatesiteid` int(11) default '0',
-  `extensionid` int(11) default '0',
+  `update_id` int(11) NOT NULL auto_increment,
+  `update_site_id` int(11) default '0',
+  `extension_id` int(11) default '0',
   `categoryid` int(11) default '0',
   `name` varchar(100) default '',
   `description` text,
@@ -62,22 +62,22 @@ CREATE TABLE  `jos_updates` (
   `version` varchar(10) default '',
   `data` text,
   `detailsurl` text,
-  PRIMARY KEY  (`updateid`)
+  PRIMARY KEY  (`update_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Available Updates';
 
 CREATE TABLE  `jos_update_sites` (
-  `updatesiteid` int(11) NOT NULL auto_increment,
+  `update_site_id` int(11) NOT NULL auto_increment,
   `name` varchar(100) default '',
   `type` varchar(20) default '',
   `location` text,
   `enabled` int(11) default '0',
-  PRIMARY KEY  (`updatesiteid`)
+  PRIMARY KEY  (`update_site_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Sites';
 
 CREATE TABLE `jos_update_sites_extensions` (
-  `updatesiteid` INT DEFAULT 0,
-  `extensionid` INT DEFAULT 0,
-  INDEX `newindex`(`updatesiteid`, `extensionid`)
+  `update_site_id` INT DEFAULT 0,
+  `extension_id` INT DEFAULT 0,
+  INDEX `newindex`(`update_site_id`, `extension_id`)
 ) ENGINE = MYISAM CHARACTER SET utf8 COMMENT = 'Links extensions to update sites';
 
 CREATE TABLE  `jos_update_categories` (

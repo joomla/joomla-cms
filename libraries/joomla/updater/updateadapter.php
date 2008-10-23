@@ -4,7 +4,7 @@ jimport('joomla.base.adapterinstance');
 class JUpdateAdapter extends JAdapterInstance {
 	var $xml_parser;
 	var $_stack = Array('base');
-	var $_updatesiteid = 0;
+	var $_update_site_id = 0;
 	var $_updatecols = Array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION');
 	
 	/**

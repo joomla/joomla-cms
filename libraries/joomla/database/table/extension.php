@@ -26,7 +26,7 @@ defined('JPATH_BASE') or die();
 class JTableExtension extends JTable
 {
 	/** @var int Primary key */
-	var $extensionid					= null;
+	var $extension_id					= null;
 	/** @var string Friendly name of the extension */
 	var $name				= null;
 	/** @var string Type of Extension */
@@ -44,7 +44,7 @@ class JTableExtension extends JTable
 	/** @var int If the extension is included in the Core (2) or otherwise protected (1); default not protected (0)*/
 	var $protected			= 0;
 	/** @var string Manifest Cache; cache of the manifest data */
-	var $manifestcache		= null;
+	var $manifest_cache		= null;
 	/** @var string Extension parameters */
 	var $params				= null;
 	/** @var string Generic extension data field; for extensions private use */
@@ -68,7 +68,7 @@ class JTableExtension extends JTable
 	 * @param database A database connector object
 	 */
 	function __construct( &$db ) {
-		parent::__construct( '#__extensions', 'extensionid', $db );
+		parent::__construct( '#__extensions', 'extension_id', $db );
 	}
 
 	/**
@@ -122,7 +122,7 @@ class JTableExtension extends JTable
 		foreach($options as $col=>$val) {
 			$where[] = $col .' = '. $dbo->Quote($val);
 		}
-		$query = 'SELECT extensionid FROM #__extensions WHERE '. implode(' AND ', $where);
+		$query = 'SELECT extension_id FROM #__extensions WHERE '. implode(' AND ', $where);
 		$dbo->setQuery($query);
 		return $dbo->loadResult();
 	}

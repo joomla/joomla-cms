@@ -96,7 +96,7 @@ class PluginsController extends JController
 		{
 			case 'apply':
 				$msg = JText::sprintf( 'Successfully Saved changes to Plugin', $row->name );
-				$this->setRedirect( 'index.php?option=com_plugins&view=plugin&client='. $client .'&task=edit&cid[]='. $row->extensionid, $msg );
+				$this->setRedirect( 'index.php?option=com_plugins&view=plugin&client='. $client .'&task=edit&cid[]='. $row->extension_id, $msg );
 				break;
 
 			case 'save':
@@ -127,7 +127,7 @@ class PluginsController extends JController
 		$cids = implode( ',', $cid );
 
 		$query = 'UPDATE #__extensions SET enabled = '.(int) $publish
-			. ' WHERE extensionid IN ( '.$cids.' )'
+			. ' WHERE extension_id IN ( '.$cids.' )'
 			. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ))'
 			;
 		$db->setQuery( $query );
@@ -266,7 +266,7 @@ class PluginsController extends JController
 						break;
 					}
 				}
-				if (!$found) $conditions[] = array($row->extensionid, $condition);
+				if (!$found) $conditions[] = array($row->extension_id, $condition);
 			}
 		}
 

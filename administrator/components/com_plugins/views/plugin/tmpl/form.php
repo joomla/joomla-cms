@@ -17,7 +17,7 @@
 
 <?php
 	$this->plugin->nameA = '';
-	if ( $this->plugin->extensionid ) {
+	if ( $this->plugin->extension_id ) {
 		$row->nameA = '<small><small>[ '. $this->plugin->name .' ]</small></small>';
 	}
 ?>
@@ -152,8 +152,8 @@
 <div class="clr"></div>
 
 	<input type="hidden" name="option" value="com_plugins" />
-	<input type="hidden" name="extensionid" value="<?php echo $this->plugin->extensionid; ?>" />
-	<input type="hidden" name="cid[]" value="<?php echo $this->plugin->extensionid; ?>" />
+	<input type="hidden" name="extension_id" value="<?php echo $this->plugin->extension_id; ?>" />
+	<input type="hidden" name="cid[]" value="<?php echo $this->plugin->extension_id; ?>" />
 	<input type="hidden" name="client" value="<?php echo $this->plugin->client_id; ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHTML::_( 'form.token' ); ?>

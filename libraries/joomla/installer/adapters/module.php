@@ -229,7 +229,7 @@ class JInstallerModule extends JObject
 		// If it is, then update the table because if the files aren't there
 		// we can assume that it was (badly) uninstalled
 		// If it isn't, add an entry to extensions
-		$query = 'SELECT `extensionid`' .
+		$query = 'SELECT `extension_id`' .
 				' FROM `#__extensions` ' .
 				' WHERE element = '.$db->Quote($element) .
 				' AND client_id = '.(int)$clientId;
@@ -245,11 +245,11 @@ class JInstallerModule extends JObject
 
 		// Was there a module already installed with the same name?
 		if ($id) {
-			// load the entry and update the manifestcache
+			// load the entry and update the manifest_cache
 			$row =& JTable::getInstance('extension');
 			$row->load($id);
 			$row->name = $this->get('name'); // update name
-			$row->manifestcache = $this->parent->generateManifestCache(); // update manifest
+			$row->manifest_cache = $this->parent->generateManifestCache(); // update manifest
 			if (!$row->store()) {
 				// Install failed, roll back changes
 				$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.$db->stderr(true));
@@ -267,7 +267,7 @@ class JInstallerModule extends JObject
 			$row->client_id = $clientId;
 			$row->params = $this->parent->getParams();
 			$row->data = ''; // custom data
-			$row->manifestcache = $this->parent->generateManifestCache();
+			$row->manifest_cache = $this->parent->generateManifestCache();
 
 			if (!$row->store()) {
 				// Install failed, roll back changes
@@ -277,7 +277,7 @@ class JInstallerModule extends JObject
 
 			// Since we have created a module item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
-			$this->parent->pushStep(array ('type' => 'extension', 'extensionid' => $row->extensionid));
+			$this->parent->pushStep(array ('type' => 'extension', 'extension_id' => $row->extension_id));
 		}
 		
 		/*
@@ -394,7 +394,7 @@ class JInstallerModule extends JObject
 		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->_extension->manifestcache = serialize($manifest_details);
+		$this->parent->_extension->manifest_cache = serialize($manifest_details);
 		$this->parent->_extension->state = 0;
 		$this->parent->_extension->name = $manifest_details['name'];
 		$this->parent->_extension->enabled = 1;
@@ -551,7 +551,7 @@ class JInstallerModule extends JObject
 		
 
 		// Now we will no longer need the module object, so lets delete it and free up memory
-		$row->delete($row->extensionid);
+		$row->delete($row->extension_id);
 		$query = 'DELETE FROM `#__modules` WHERE module = '.$db->Quote($row->module) . ' AND client_id = ' . $row->client_id;
 		$db->setQuery($query);
 		try {

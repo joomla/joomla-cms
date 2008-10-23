@@ -72,7 +72,7 @@ class UpdateModelUpdate extends JModel
 
 		$query = 'SELECT *' .
 				' FROM #__updates' .
-				//' WHERE extensionid != 0' . // we only want actual updates
+				//' WHERE extension_id != 0' . // we only want actual updates
 				' ORDER BY type, client_id, folder, name';
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();

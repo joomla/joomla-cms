@@ -42,6 +42,13 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+23-Oct-2008 Sam Moffatt
+ ^ Changed extensionid, updateid and updatesiteid to have an up to two extra underscores (e.g. update_site_id)
+ + Added a few missing tables and indexes (update and tasks)
+ ^ Changed joomla.sql to rename a whole heap of jos_ to #__
+ # Fixed issue with authentication system trying to load a plugin that doesn't exist
+ # Fixed issue with JPluginHelper::_load trying to load discovered plugins 
+
 23-Oct-2008 Andrew Eddie
  + Added link to com_localise to Tools menu
  ^ Namespace langauge strings in Tools menu

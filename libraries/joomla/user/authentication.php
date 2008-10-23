@@ -115,8 +115,11 @@ class JAuthentication extends JObservable
 			$className = 'plg'.$plugin->type.$plugin->name;
 			if (class_exists( $className )) {
 				$plugin = new $className($this, (array)$plugin);
+			} else { // bail here if the plugin can't be created
+				JError::raiseWarning(50,'JAuthentication::authenticate: '. JText::_('Failed to load plugin') .': '. $className);
+				continue;
 			}
-
+			print_R($plugin);
 			// Try to authenticate
 			$plugin->onAuthenticate($credentials, $options, $response);
 

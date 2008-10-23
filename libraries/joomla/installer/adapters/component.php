@@ -335,7 +335,7 @@ class JInstallerComponent extends JAdapterInstance
 		$row->access = 0;
 		$row->client_id = 0;
 		$row->params = $this->parent->getParams();
-		$row->manifestcache = $this->parent->generateManifestCache();
+		$row->manifest_cache = $this->parent->generateManifestCache();
 		if (!$row->store()) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
@@ -367,7 +367,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->set('extension.message', $msg);
 		}
 		
-		return $row->extensionid;
+		return $row->extension_id;
 	}
 
 	/**
@@ -665,7 +665,7 @@ class JInstallerComponent extends JAdapterInstance
 								'folder'=>''));
 		$row->load($eid);	
 		$row->name = $this->get('name'); //update the name possibly
-		$row->manifestcache = $this->parent->generateManifestCache(); // and the manifest cache
+		$row->manifest_cache = $this->parent->generateManifestCache(); // and the manifest cache
 		if (!$row->store()) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Module').' '.JText::_('Install').': '.$db->stderr(true));
@@ -698,7 +698,7 @@ class JInstallerComponent extends JAdapterInstance
 		$row->name = $this->get('name');
 		$row->type = 'component';
 		$row->element = $this->get('element');
-		$row->manifestcache = $this->parent->generateManifestCache();
+		$row->manifest_cache = $this->parent->generateManifestCache();
 		if (!$row->store()) {
 			// Install failed, roll back changes
 			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
@@ -723,7 +723,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->set('extension.message', $msg);
 		}
 		
-		return $row->extensionid;
+		return $row->extension_id;
 	}	
 	
 	
@@ -925,7 +925,7 @@ class JInstallerComponent extends JAdapterInstance
 			}
 			
 			// Now we will no longer need the extension object, so lets delete it and free up memory
-			$row->delete($row->extensionid);
+			$row->delete($row->extension_id);
 			unset ($row);
 			
 			return $retval;
@@ -1259,7 +1259,7 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->setPath('source', $client->path . DS . 'components'. DS . $this->parent->_extension->element);
 		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->_extension->manifestcache = serialize($manifest_details);
+		$this->parent->_extension->manifest_cache = serialize($manifest_details);
 		$this->parent->_extension->state = 0;
 		$this->parent->_extension->name = $manifest_details['name'];
 		$this->parent->_extension->enabled = 1;
@@ -1440,7 +1440,7 @@ class JInstallerComponent extends JAdapterInstance
 			if ($msg != '') {
 				$this->parent->set('extension.message', $msg);
 			}	
-			return $this->parent->_extension->extensionid;
+			return $this->parent->_extension->extension_id;
 		} else {
 			JError::raiseWarning(101, JText::_('Component').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
 			return false;

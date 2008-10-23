@@ -8,7 +8,7 @@ jimport('joomla.tasks.task');
 class JTaskSet extends JTable { 
 	var $tasksetid;
 	var $taskname;
-	var $extensionid;
+	var $extension_id;
 	var $executionpage;
 	var $landingpage;
 	var $_startTime;

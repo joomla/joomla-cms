@@ -16,7 +16,7 @@ class JUpdaterExtension extends JUpdateAdapter {
 		switch($name) {
 			case 'UPDATE':
 				$this->current_update =& JTable::getInstance('update');
-				$this->current_update->updatesiteid = $this->_updatesiteid;
+				$this->current_update->update_site_id = $this->_update_site_id;
 				$this->current_update->detailsurl = $this->_url;
 				break;
 			case 'UPDATES': // don't do anything
@@ -73,7 +73,7 @@ class JUpdaterExtension extends JUpdateAdapter {
 	function findUpdate($options) {
 		$url = $options['location'];
 		$this->_url =& $url;
-		$this->_updatesiteid = $options['updatesiteid'];
+		$this->_update_site_id = $options['update_site_id'];
 		//echo '<p>Find update for extension run on <a href="'. $url .'">'. $url .'</a></p>';
 		if(substr($url, -4) != '.xml') {
 			if(substr($url, -1) != '/') {

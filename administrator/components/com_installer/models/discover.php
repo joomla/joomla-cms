@@ -59,8 +59,8 @@ class InstallerModelDiscover extends InstallerModel
 		for($i=0;$i < $numRows; $i++)
 		{
 			$row =& $rows[$i];
-			if(strlen($row->manifestcache)) {
-				$data = unserialize($row->manifestcache);
+			if(strlen($row->manifest_cache)) {
+				$data = unserialize($row->manifest_cache);
 				if($data) {
 					foreach($data as $key => $value) {
 						$row->$key = $value;

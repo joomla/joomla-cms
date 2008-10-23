@@ -77,7 +77,7 @@
 	for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 	$row 	= $rows[$i];
 
-	$link = JRoute::_( 'index.php?option=com_plugins&view=plugin&client='. $this->client .'&task=edit&cid[]='. $row->extensionid );
+	$link = JRoute::_( 'index.php?option=com_plugins&view=plugin&client='. $this->client .'&task=edit&cid[]='. $row->extension_id );
 
 	$access 	= JHTML::_('grid.access',   $row, $i );
 	$checked 	= JHTML::_('grid.checkedout',   $row, $i );
@@ -123,7 +123,7 @@
 			<?php echo $row->element;?>
 		</td>
 		<td align="center">
-			<?php echo $row->extensionid;?>
+			<?php echo $row->extension_id;?>
 		</td>
 	</tr>
 	<?php

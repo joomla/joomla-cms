@@ -32,7 +32,7 @@ class JExtension extends JObject {
 	var $published = false; // published status 
 	var $client = 'site'; // valid for modules, templates and languages; set by default
 	var $group =  ''; // valid for plugins
-	var $manifestcache = null; // manifest cache; stored metadata
+	var $manifest_cache = null; // manifest cache; stored metadata
 	var $params = null;	// extension params
 	
 	function __construct($element=null) {

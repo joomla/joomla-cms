@@ -195,7 +195,7 @@ class JInstallerPackage extends JObject
 			$error = false;
 			foreach($manifest->filelist as $extension) {
 				$tmpInstaller = new JInstaller();
-				$id = $this->_getExtensionId($extension->type, $extension->id, $extension->client, $extension->group);
+				$id = $this->_getExtensionID($extension->type, $extension->id, $extension->client, $extension->group);
 				$client = JApplicationHelper::getClientInfo($extension->client,true);
 				if(!$tmpInstaller->uninstall($extension->type, $id, $client->id)) {
 					$error = true;

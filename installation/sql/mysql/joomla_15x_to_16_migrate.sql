@@ -11,7 +11,7 @@
      published,                 # enabled 
      access,                    # access
      iscore,                    # protected
-     '',                        # manifestcache
+     '',                        # manifest_cache
      params,                    # params
      '',                        # data
      checked_out,            	# checked_out

@@ -1,13 +1,13 @@
 <tr class="<?php echo "row".$this->item->index % 2; ?>" >
 	<td><?php echo $this->pagination->getRowOffset( $this->item->index ); ?></td>
 	<td>
-		<input type="checkbox" id="cb<?php echo $this->item->index;?>" name="uid[]" value="<?php echo $this->item->updateid; ?>" onclick="isChecked(this.checked);" />
+		<input type="checkbox" id="cb<?php echo $this->item->index;?>" name="uid[]" value="<?php echo $this->item->update_id; ?>" onclick="isChecked(this.checked);" />
 		<span class="editlinktip hasTip" title="<?php echo JText::_( 'Description' );?>::<?php echo $this->item->description ? $this->item->description : JText::_('NODESC'); ?>">
 		<?php echo $this->item->name; ?>
 		</span>
 	</td>
 	<td align="center">
-		<?php echo $this->item->extensionid ? JText::_('Update') : JText::_('New install') ?>
+		<?php echo $this->item->extension_id ? JText::_('Update') : JText::_('New install') ?>
 	</td>
 	<td>
 		<?php echo JText::_($this->item->type) ?>
