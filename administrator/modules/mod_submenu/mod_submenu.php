@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id:mod_menu.php 2463 2006-02-18 06:05:38Z webImagery $
+* @version		$Id$
 * @package		Joomla
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 * @license		GNU/GPL, see LICENSE.php
