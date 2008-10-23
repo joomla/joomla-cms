@@ -12,10 +12,10 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-define( '_JEXEC', 1 );
-define( 'JPATH_BASE', dirname(dirname(__FILE__)) );
-define( 'DS', DIRECTORY_SEPARATOR );
-define( 'JXPATH_BASE', JPATH_BASE.DS.'includes' );
+define('_JEXEC', 1);
+define('JPATH_BASE', dirname(dirname(__FILE__)));
+define('DS', DIRECTORY_SEPARATOR);
+define('JXPATH_BASE', JPATH_BASE.DS.'includes');
 
 require_once JPATH_BASE .DS.'includes'.DS.'defines.php';
 require_once JPATH_BASE .DS.'includes'.DS.'framework.php';
@@ -25,7 +25,7 @@ $mainframe = JFactory::getApplication('installation');
 
 // Make sure that Joomla! is not yet installed
 if (file_exists(JPATH_CONFIGURATION.DS.'configuration.php') && (filesize(JPATH_CONFIGURATION.DS.'configuration.php') > 10)) {
-	header( 'Location: ../../index.php' );
+	header('Location: ../../index.php');
 	exit();
 }
 
@@ -45,7 +45,7 @@ $xajax->registerFunction(array('instDefault', 'JAJAXHandler', 'sampledata'));
 JError::setErrorHandling(E_ERROR, 'callback', array('JAJAXHandler','handleError'));
 JError::setErrorHandling(E_WARNING, 'callback', array('JAJAXHandler','handleError'));
 JError::setErrorHandling(E_NOTICE, 'callback', array('JAJAXHandler','handleError'));
-jimport( 'joomla.utilities.compat.compat' );
+jimport('joomla.utilities.compat.compat');
 
 
 
@@ -66,7 +66,7 @@ class JAJAXHandler
 	{
 		static $vars;
 
-		if ( ! $vars )
+		if (! $vars)
 		{
 			$session	= JFactory::getSession();
 			$registry	= $session->get('registry');
@@ -81,8 +81,8 @@ class JAJAXHandler
 	 */
 	function ftproot($args)
 	{
-		jimport( 'joomla.application.application' );
-		jimport( 'joomla.registry.registry' );
+		jimport('joomla.application.application');
+		jimport('joomla.registry.registry');
 
 		$objResponse = new xajaxResponse();
 		$args = $args['vars'];
@@ -105,8 +105,8 @@ class JAJAXHandler
 	 */
 	function ftpverify($args)
 	{
-		jimport( 'joomla.application.application' );
-		jimport( 'joomla.registry.registry' );
+		jimport('joomla.application.application');
+		jimport('joomla.registry.registry');
 
 		$objResponse = new xajaxResponse();
 		$args = $args['vars'];
@@ -133,10 +133,9 @@ class JAJAXHandler
 	 */
 	function sampledata($args)
 	{
-		jimport( 'joomla.database.database');
-		jimport( 'joomla.language.language');
-		jimport( 'joomla.registry.registry');
-
+		jimport('joomla.database.database');
+		jimport('joomla.language.language');
+		jimport('joomla.registry.registry');
 
 		$errors = null;
 		$msg = '';
@@ -161,7 +160,7 @@ class JAJAXHandler
 		 */
 		if (!is_null($errors)){
 			foreach($errors as $error){
-				$msg .= stripslashes( $error['msg'] );
+				$msg .= stripslashes($error['msg']);
 				$msg .= chr(13)."-------------".chr(13);
 				$txt = '<textarea cols="35" rows="5" name="instDefault" readonly="readonly" >'.JText::_('Database Errors Reported').chr(13).$msg.'</textarea>';
 			}
@@ -188,7 +187,6 @@ class JAJAXHandler
 		return $error;
 	}
 }
-
 
 /*
  * Process the AJAX requests

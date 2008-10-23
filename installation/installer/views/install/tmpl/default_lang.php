@@ -1,24 +1,11 @@
-<?php
-/**
- * @version		$Id$
- * @package		Joomla
- * @subpackage	Installation
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
 
-$languages	=& $this->languages;
-
+	$languages	=& $this->languages;
 ?>
 
 <script language="JavaScript" type="text/javascript">
-	function validateForm( frm, task ) {
-		submitForm( frm, task );
+	function validateForm(frm, task) {
+		submitForm(frm, task);
 	}
 </script>
 
@@ -34,13 +21,13 @@ $languages	=& $this->languages;
 				<div class="m">
 
 					<div class="far-right">
-						<?php if ( $this->direction == 'ltr' ) : ?>
+						<?php if ($this->direction == 'ltr') : ?>
 						<div class="button1-left">
-							<div class="next"><a onclick="validateForm( adminForm, 'preinstall' );" alt="<?php echo JText::_('Next' ,true ) ?>"><?php echo JText::_('Next') ?></a></div>
+							<div class="next"><a onclick="validateForm(adminForm, 'preinstall');" alt="<?php echo JText::_('Next' ,true) ?>"><?php echo JText::_('Next') ?></a></div>
 						</div>
 						<?php else: ?>
 						<div class="button1-right">
-							<div class="prev"><a onclick="validateForm( adminForm, 'preinstall' );" alt="<?php echo JText::_('Next' ,true ) ?>"><?php echo JText::_('Next') ?></a></div>
+							<div class="prev"><a onclick="validateForm(adminForm, 'preinstall');" alt="<?php echo JText::_('Next' ,true) ?>"><?php echo JText::_('Next') ?></a></div>
 						</div>
 						<?php endif; ?>
 					</div>
@@ -75,7 +62,7 @@ $languages	=& $this->languages;
 						<div class="m">
 							<fieldset>
 								<select name="vars[lang]" class="inputbox" size="20">
-									<?php foreach ( $languages as $language ) : ?>
+									<?php foreach ($languages as $language) : ?>
 									<option value="<?php echo $language['value'] ?>" <?php echo @ $language['selected'] ?>><?php echo $language['value'] ?> - <?php echo $language['text'] ?></option>
 									<?php endforeach; ?>
 								</select>

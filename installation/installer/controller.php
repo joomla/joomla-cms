@@ -35,10 +35,10 @@ class JInstallationController extends JController
 	/**
 	 * Constructor
 	 */
-	function __construct( $config = array() )
+	function __construct($config = array())
 	{
 		$config['name']	= 'JInstallation';
-		parent::__construct( $config );
+		parent::__construct($config);
 	}
 
 	/**
@@ -53,7 +53,7 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		if ( ! $model->dbConfig() )
+		if (! $model->dbConfig())
 		{
 			$view->error();
 			return false;
@@ -78,7 +78,7 @@ class JInstallationController extends JController
 		$appl = JFactory::getApplication();
 
 		// Sanity check
-		if ( $task && ( $task != 'lang' ) && ( $task != 'removedir' ) )
+		if ($task && ($task != 'lang') && ($task != 'removedir'))
 		{
 
 			/**
@@ -88,7 +88,7 @@ class JInstallationController extends JController
 
 			$goodEnoughForMe = $appl->getUserState('application.cookietest');
 
-			if ( ! $goodEnoughForMe )
+			if (! $goodEnoughForMe)
 			{
 				$model	=& $this->getModel();
 				$model->setError(JText::_('WARNCOOKIESNOTENABLED'));
@@ -136,7 +136,7 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		if ( ! $model->ftpConfig() )
+		if (! $model->ftpConfig())
 		{
 			$view->error();
 			return false;
@@ -157,7 +157,7 @@ class JInstallationController extends JController
 	function & getModel()
 	{
 
-		if ( ! $this->_model )
+		if (! $this->_model)
 		{
 			$this->_model	= new JInstallationModel();
 		}
@@ -175,7 +175,7 @@ class JInstallationController extends JController
 	function & getView()
 	{
 
-		if ( ! $this->_view )
+		if (! $this->_view)
 		{
 			$this->_view	= new JInstallationView();
 			$model	=& $this->getModel();
@@ -198,7 +198,7 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		if ( ! $model->license() )
+		if (! $model->license())
 		{
 			$view->error();
 			return false;
@@ -223,7 +223,7 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		if ( ! $model->chooseLanguage() )
+		if (! $model->chooseLanguage())
 		{
 			$view->error();
 			return false;
@@ -246,13 +246,13 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		if ( ! $model->makeDB())
+		if (! $model->makeDB())
 		{
 			$view->error();
 			return false;
 		}
 
-		if ( ! $model->ftpConfig( 1 ) )
+		if (! $model->ftpConfig(1))
 		{
 			$view->error();
 			return false;
@@ -276,7 +276,7 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		if ( ! $model->mainConfig() )
+		if (! $model->mainConfig())
 		{
 			$view->error();
 			return false;
@@ -301,7 +301,7 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		if ( ! $model->preInstall() )
+		if (! $model->preInstall())
 		{
 			$view->error();
 			return true;
@@ -324,7 +324,7 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		if ( ! $model->removedir() )
+		if (! $model->removedir())
 		{
 			$view->error();
 			return true;
@@ -347,13 +347,13 @@ class JInstallationController extends JController
 		$model	=& $this->getModel();
 		$view	=& $this->getView();
 
-		if ( ! $model->saveConfig() )
+		if (! $model->saveConfig())
 		{
 			$view->error();
 			return false;
 		}
 
-		if ( ! $model->finish() )
+		if (! $model->finish())
 		{
 			$view->error();
 			return false;

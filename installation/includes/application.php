@@ -13,7 +13,7 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
 * Joomla! Application class
@@ -77,13 +77,14 @@ class JInstallation extends JApplication
 				$document->setTitle(JText::_('PAGE_TITLE'));
 				break;
 
-			default: break;
+			default:
+				break;
 		}
 
 		// Define component path
-		define( 'JPATH_COMPONENT',					JPATH_BASE.DS.'installer');
-		define( 'JPATH_COMPONENT_SITE',				JPATH_SITE.DS.'installer');
-		define( 'JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.DS.'installer');
+		define('JPATH_COMPONENT',				JPATH_BASE.DS.'installer');
+		define('JPATH_COMPONENT_SITE',			JPATH_SITE.DS.'installer');
+		define('JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.DS.'installer');
 
 		// Execute the component
 		ob_start();
@@ -97,7 +98,7 @@ class JInstallation extends JApplication
 			'directory' => JPATH_THEMES
 		);
 
-		$document->setBuffer( $contents, 'installation');
+		$document->setBuffer($contents, 'installation');
 		$document->setTitle(JText::_('PAGE_TITLE'));
 		$data = $document->render(false, $params);
 		JResponse::setBody($data);
@@ -108,7 +109,7 @@ class JInstallation extends JApplication
 	*
 	* @access public
 	*/
-	function initialise( $options = array())
+	function initialise($options = array())
 	{
 		//Get the localisation information provided in the localise xml file
 		$forced = $this->getLocalise();
@@ -117,7 +118,7 @@ class JInstallation extends JApplication
 		if(empty($options['language']))
 		{
 			$vars		= JRequest::getVar('vars');
-			if ( is_array($vars) && ! empty($vars['lang'])  )
+			if (is_array($vars) && ! empty($vars['lang']) )
 			{
 				$varLang	= $vars['lang'];
 				$options['language']	= $varLang;
@@ -128,7 +129,7 @@ class JInstallation extends JApplication
 		if(empty($options['language']))
 		{
 			$configLang = $this->getUserState('application.lang');
-			if ( $configLang ) {
+			if ($configLang) {
 				$options['language']	= $configLang;
 			}
 		}
@@ -136,7 +137,7 @@ class JInstallation extends JApplication
 		// This could be a first-time visit - try to determine what the client accepts
 		if(empty($options['language']))
 		{
-			if ( empty($forced['lang'])) {
+			if (empty($forced['lang'])) {
 				jimport('joomla.language.helper');
 				$options['language'] = JLanguageHelper::detectLanguage();
 			} else {
@@ -162,8 +163,8 @@ class JInstallation extends JApplication
 	 * @param array 	Array of configuration values
 	 * @param string 	The namespace
 	 */
-	function setCfg( $vars, $namespace = 'config' ) {
-		$this->_registry->loadArray( $vars, $namespace );
+	function setCfg($vars, $namespace = 'config') {
+		$this->_registry->loadArray($vars, $namespace);
 	}
 
 	/**
@@ -173,10 +174,10 @@ class JInstallation extends JApplication
 	 */
 	function _createConfiguration()
 	{
-		jimport( 'joomla.registry.registry' );
+		jimport('joomla.registry.registry');
 
 		// Create the registry with a default namespace of config which is read only
-		$this->_registry = new JRegistry( 'config' );
+		$this->_registry = new JRegistry('config');
 	}
 
 	/**
@@ -196,7 +197,7 @@ class JInstallation extends JApplication
 	 * @param string		The sessions name
 	 * @return	object 		JSession
 	 */
-	function &_createSession( $name )
+	function &_createSession($name)
 	{
 		$options = array();
 		$options['name'] = $name;
@@ -216,7 +217,7 @@ class JInstallation extends JApplication
 	 */
 	function getLocalise()
 	{
-		$xml =  JFactory::getXMLParser('Simple');
+		$xml = JFactory::getXMLParser('Simple');
 
 		if (!$xml->loadFile(JPATH_SITE.DS.'installation'.DS.'localise.xml')) {
 			return 'no file'; //null;
@@ -227,8 +228,8 @@ class JInstallation extends JApplication
 			return 'not a localise'; //null;
 		}
 
-		$tags =  $xml->document->children();
-		$ret = array();
+		$tags	= $xml->document->children();
+		$ret	= array();
 		$ret['lang'] 	= $tags[0]->data();
 		$ret['helpurl'] = $tags[1]->data();
 		$ret['debug']	= $tags[2]->data();
@@ -248,12 +249,11 @@ class JInstallation extends JApplication
 
 		// Read the files in the admin area
 		$path = JLanguage::getLanguagePath(JPATH_SITE.DS.'administrator');
-		$langfiles['admin'] = JFolder::folders( $path );
+		$langfiles['admin'] = JFolder::folders($path);
 
 		$path = JLanguage::getLanguagePath(JPATH_SITE);
-		$langfiles['site'] = JFolder::folders( $path );
+		$langfiles['site'] = JFolder::folders($path);
 
 		return $langfiles;
 	}
 }
-

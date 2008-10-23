@@ -1,24 +1,10 @@
-<?php
-/**
- * @version		$Id$
- * @package		Joomla
- * @subpackage	Installation
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
-
-?>
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 
 <script language="JavaScript" type="text/javascript">
 <!--
-	function validateForm( frm, task ) {
+	function validateForm(frm, task) {
 		var valid = document.formvalidator.isValid(frm);
-		submitForm( frm, task );
+		submitForm(frm, task);
 	}
 
 	function selectMode() {
@@ -58,7 +44,7 @@
 	function externalSql(frm, task) {
 
 		if (frm.sqlFile.value == '') {
-			alert( '<?php echo JText::_('No file selected', true) ?>' );
+			alert('<?php echo JText::_('No file selected', true) ?>');
 			return;
 		} else {
 			frm.sqlupload.value = '1';
@@ -70,7 +56,7 @@
 	function migrationSql(frm, task) {
 
 		if (frm.migrationFile.value == '') {
-			alert( '<?php echo JText::_('No file selected', true) ?>' );
+			alert('<?php echo JText::_('No file selected', true) ?>');
 			return;
 		} else {
 			frm.migrationupload.value = '1';
@@ -80,10 +66,10 @@
 	}
 
 	function clearPasswordFields(frm) {
-		var adminPassword 			= getElementByName( frm, 'vars[adminPassword]' );
-		var confirmAdminPassword 	= getElementByName( frm, 'vars[confirmAdminPassword]' );
+		var adminPassword 			= getElementByName(frm, 'vars[adminPassword]');
+		var confirmAdminPassword 	= getElementByName(frm, 'vars[confirmAdminPassword]');
 
-		if( adminPassword.defaultValue == adminPassword.value || confirmAdminPassword.defaultValue == confirmAdminPassword.value ) {
+		if(adminPassword.defaultValue == adminPassword.value || confirmAdminPassword.defaultValue == confirmAdminPassword.value) {
 			adminPassword.value 		= '';
 			confirmAdminPassword.value 	= '';
 		}
@@ -102,12 +88,12 @@
 		</div>
 		<div class="m">
 				<div class="far-right">
-					<?php if ( $this->direction == 'ltr' ) : ?>
-							<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'mainconfig' );" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
-							<div class="button1-left"><div class="next"><a onclick="validateForm( adminForm, 'mainconfig' );" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
+					<?php if ($this->direction == 'ltr') : ?>
+							<div class="button1-right"><div class="prev"><a onclick="submitForm(adminForm, 'mainconfig');" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
+							<div class="button1-left"><div class="next"><a onclick="validateForm(adminForm, 'mainconfig');" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
 					<?php else: ?>
-							<div class="button1-right"><div class="prev"><a onclick="validateForm( adminForm, 'mainconfig' );" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
-							<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'mainconfig' );" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
+							<div class="button1-right"><div class="prev"><a onclick="validateForm(adminForm, 'mainconfig');" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
+							<div class="button1-left"><div class="next"><a onclick="submitForm(adminForm, 'mainconfig');" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
 					<?php endif; ?>
 				</div>
 				<span class="step"><?php echo JText::_('Site Migration') ?></span>
@@ -156,7 +142,7 @@
 </form>
 <form action="index.php" method="post" name="migrateForm" id="migrateForm" class="form-validate" target="migrationtarget">
 	<input type="hidden" name="task" value="dumpLoad" />
-  	<input type="hidden" name="migration" value="<?php echo JRequest::getBool( 'migration', 0, 'post') ?>" />
+  	<input type="hidden" name="migration" value="<?php echo JRequest::getBool('migration', 0, 'post') ?>" />
   	<input type="hidden" name="start" value="1" />
 	<input type="hidden" name="foffset" value="0" />
 	<input type="hidden" name="totalqueries" value="0" />

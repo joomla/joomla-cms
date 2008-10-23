@@ -1,18 +1,4 @@
-<?php
-/**
- * @version		$Id$
- * @package		Joomla
- * @subpackage	Installation
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
-
-?>
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -33,7 +19,7 @@
 									}
 	});
 
-	function validateForm( frm, task ) {
+	function validateForm(frm, task) {
 		var valid = document.formvalidator.isValid(frm);
 		if (valid == false) {
 			return false;
@@ -43,12 +29,12 @@
 		var ftpRoot = document.getElementById("ftproot");
 
 		if (ftpEnable.checked == false) {
-			submitForm( frm, task );
+			submitForm(frm, task);
 		} else if (ftpRoot.value == '') {
-			alert( '<?php echo JText::_('warnFtpRoot', true) ?>' );
+			alert('<?php echo JText::_('warnFtpRoot', true) ?>');
 			return;
 		} else {
-			submitForm( frm, task );
+			submitForm(frm, task);
 		}
 	}
 
@@ -58,14 +44,14 @@
 
 	function JProcess() {
 
-		if ( document.getElementById("ftphost").value == '' ) {
-			alert( '<?php echo JText::_('validFtpHost', true) ?>' );
+		if (document.getElementById("ftphost").value == '') {
+			alert('<?php echo JText::_('validFtpHost', true) ?>');
 			return;
 		} else if (document.getElementById("ftpuser").value == '') {
-			alert( '<?php echo JText::_('validFtpUser', true) ?>' );
+			alert('<?php echo JText::_('validFtpUser', true) ?>');
 			return;
 		} else if (document.getElementById("ftppass").value == '') {
-			alert( '<?php echo JText::_('validFtpPass', true) ?>' );
+			alert('<?php echo JText::_('validFtpPass', true) ?>');
 			return;
 		} else {
 			xajax_getFtpRoot(xajax.getFormValues('adminForm'));
@@ -85,12 +71,12 @@
 			</div>
 			<div class="m">
 				<div class="far-right">
-					<?php if ( $this->direction == 'ltr' ) : ?>
-						<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'dbconfig' );" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
-						<div class="button1-left"><div class="next"><a onclick="validateForm( adminForm, 'mainconfig' );" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
+					<?php if ($this->direction == 'ltr') : ?>
+						<div class="button1-right"><div class="prev"><a onclick="submitForm(adminForm, 'dbconfig');" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
+						<div class="button1-left"><div class="next"><a onclick="validateForm(adminForm, 'mainconfig');" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
 					<?php else : ?>
-						<div class="button1-right"><div class="prev"><a onclick="validateForm( adminForm, 'mainconfig' );" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
-						<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'dbconfig' );" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
+						<div class="button1-right"><div class="prev"><a onclick="validateForm(adminForm, 'mainconfig');" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
+						<div class="button1-left"><div class="next"><a onclick="submitForm(adminForm, 'dbconfig');" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
 					<?php endif; ?>
 				</div>
 				<span class="step"><?php echo JText::_('FTP Configuration') ?></span>

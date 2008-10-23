@@ -55,12 +55,12 @@ $db_password = '';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title><?php JText::_('Migration load script') ?></title>
-<script type="text/javascript" src="includes/js/installation.js"></script>
-</head>
-<body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title><?php JText::_('Migration load script') ?></title>
+		<script type="text/javascript" src="includes/js/installation.js"></script>
+		</head>
+	<body>
 <?php
 
 // Other Settings
@@ -274,9 +274,8 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 		$migration = JRequest::getVar( 'migration', 0, 'post', 'bool' );
 
 			$db = & JInstallationHelper::getDBO($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
-			if(JError::isError($db)) jexit(JText::_('CONNECTION FAIL'));
+			if (JError::isError($db)) jexit(JText::_('CONNECTION FAIL'));
 
-//			echo 'Done.<br />';
 			// Execute query if end of query detected (; as last character) AND NOT in parents
 
 			if (ereg(";$", trim($dumpline)) && !$inparents) {
@@ -314,8 +313,6 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 	}
 
 	// Print statistics
-
-	// echo ("<p class=\"centr\"><b>Statistics</b></p>\n");
 
 	if (!$error) {
 		$lines_this = $linenumber - $_REQUEST["start"];
@@ -370,46 +367,30 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 			$pct_tota = 100;
 			$pct_bar = str_replace(' ', '&nbsp;', '<tt>[         Not available for gzipped files          ]</tt>');
 		}
-		/*
-		echo ("
-		<center>
-		<table width=\"520\" border=\"0\" cellpadding=\"3\" cellspacing=\"1\">
-		<tr><th class=\"bg4\"> </th><th class=\"bg4\">Session</th><th class=\"bg4\">Done</th><th class=\"bg4\">To go</th><th class=\"bg4\">Total</th></tr>
-		<tr><th class=\"bg4\">Lines</th><td class=\"bg3\">$lines_this</td><td class=\"bg3\">$lines_done</td><td class=\"bg3\">$lines_togo</td><td class=\"bg3\">$lines_tota</td></tr>
-		<tr><th class=\"bg4\">Queries</th><td class=\"bg3\">$queries_this</td><td class=\"bg3\">$queries_done</td><td class=\"bg3\">$queries_togo</td><td class=\"bg3\">$queries_tota</td></tr>
-		<tr><th class=\"bg4\">Bytes</th><td class=\"bg3\">$bytes_this</td><td class=\"bg3\">$bytes_done</td><td class=\"bg3\">$bytes_togo</td><td class=\"bg3\">$bytes_tota</td></tr>
-		<tr><th class=\"bg4\">KB</th><td class=\"bg3\">$kbytes_this</td><td class=\"bg3\">$kbytes_done</td><td class=\"bg3\">$kbytes_togo</td><td class=\"bg3\">$kbytes_tota</td></tr>
-		<tr><th class=\"bg4\">MB</th><td class=\"bg3\">$mbytes_this</td><td class=\"bg3\">$mbytes_done</td><td class=\"bg3\">$mbytes_togo</td><td class=\"bg3\">$mbytes_tota</td></tr>
-		<tr><th class=\"bg4\">%</th><td class=\"bg3\">$pct_this</td><td class=\"bg3\">$pct_done</td><td class=\"bg3\">$pct_togo</td><td class=\"bg3\">$pct_tota</td></tr>
-		<tr><th class=\"bg4\">% bar</th><td class=\"bgpctbar\" colspan=\"4\">$pct_bar</td></tr>
-		</table>
-		</center>
-		\n");*/
 
 		// Finish message and restart the script
 
-		if ($linenumber < $_REQUEST["start"] + $linespersession) {
-			echo ("<div id=\"installer\"><p class=\"successcentr\">".JText::_('CONGRATSEOF')."</p>\n");
+		if ($linenumber < $_REQUEST["start"] + $linespersession) { ?>
+		<div id="installer"><p class="successcentr"><?php echo JText::_('CONGRATSEOF');?></p>
+		<?php
 			// Do migration
-			if($migration) {
-			?><br />Migration will continue shortly...</div>
-						<form action="index.php" method="post" name="migrateForm" id="migrateForm" class="form-validate" target="migrationtarget">
-	<input type="hidden" name="task" value="postmigrate" />
-	<input type="hidden" name="migration" value="<?php echo $migration ?>" />
-  	<input type="hidden" name="loadchecked" value="1" />
-  	<input type="hidden" name="dataLoaded" value="1" />
-  	<input type="hidden" name="DBtype" value="<?php echo $DBtype ?>" />
-  	<input type="hidden" name="DBhostname" value="<?php echo $DBhostname ?>" />
-  	<input type="hidden" name="DBuserName" value="<?php echo $DBuserName ?>" />
-  	<input type="hidden" name="DBpassword" value="<?php echo $DBpassword ?>" />
-  	<input type="hidden" name="DBname" value="<?php echo $DBname ?>" />
-  	<input type="hidden" name="DBPrefix" value="<?php echo $DBPrefix ?>" />
-  	</form>
-  	<script language="JavaScript" type="text/javascript">window.setTimeout('submitForm(this.document.migrateForm,"postmigrate")',500);</script>
+			if ($migration) { ?>
+			<br />Migration will continue shortly...</div>
+			<form action="index.php" method="post" name="migrateForm" id="migrateForm" class="form-validate" target="migrationtarget">
+				<input type="hidden" name="task" value="postmigrate" />
+				<input type="hidden" name="migration" value="<?php echo $migration ?>" />
+			  	<input type="hidden" name="loadchecked" value="1" />
+			  	<input type="hidden" name="dataLoaded" value="1" />
+			  	<input type="hidden" name="DBtype" value="<?php echo $DBtype ?>" />
+			  	<input type="hidden" name="DBhostname" value="<?php echo $DBhostname ?>" />
+			  	<input type="hidden" name="DBuserName" value="<?php echo $DBuserName ?>" />
+			  	<input type="hidden" name="DBpassword" value="<?php echo $DBpassword ?>" />
+			  	<input type="hidden" name="DBname" value="<?php echo $DBname ?>" />
+			  	<input type="hidden" name="DBPrefix" value="<?php echo $DBPrefix ?>" />
+			</form>
+  			<script language="JavaScript" type="text/javascript">window.setTimeout('submitForm(this.document.migrateForm,"postmigrate")',500);</script>
 			<?php
 			} else echo '<br />'. JText::_('FINALIZEINSTALL').'</div>';
-			//echo ("<p class=\"centr\">Thank you for using this tool! Please rate <a href=\"http://www.hotscripts.com/Detailed/20922.html\" target=\"_blank\">Bigdump at Hotscripts.com</a></p>\n");
-			//echo ("<p class=\"centr\">You can send me some bucks or euros as appreciation <a href=\"http://www.ozerov.de/bigdump.php\" target=\"_blank\">via PayPal</a></p>\n");
 			$error = true;
 		} else {
 			if ($delaypersession != 0)
@@ -418,41 +399,30 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 			<div id="installer"><p><?php echo JText::_('LOADSQLFILE') ?></p></div>
 
 			<form action="index.php" method="post" name="migrateForm" id="migrateForm" class="form-validate" target="migrationtarget">
-	<input type="hidden" name="task" value="dumpLoad" />
-	<input type="hidden" name="migration" value="<?php echo $migration ?>" />
-  	<input type="hidden" name="loadchecked" value="1" />
-  	<input type="hidden" name="dataLoaded" value="1" />
-  	<input type="hidden" name="DBtype" value="<?php echo $DBtype ?>" />
-  	<input type="hidden" name="DBhostname" value="<?php echo $DBhostname ?>" />
-  	<input type="hidden" name="DBuserName" value="<?php echo $DBuserName ?>" />
-  	<input type="hidden" name="DBpassword" value="<?php echo $DBpassword ?>" />
-  	<input type="hidden" name="DBname" value="<?php echo $DBname ?>" />
-  	<input type="hidden" name="DBPrefix" value="<?php echo $DBPrefix ?>" />
-  	 <input type="hidden" name="start" value="<?php echo $linenumber ?>" />
-	<input type="hidden" name="foffset" value="<?php echo $foffset ?>" />
-	<input type="hidden" name="totalqueries" value="<?php echo $totalqueries ?>" />
-  </form>
+				<input type="hidden" name="task" value="dumpLoad" />
+				<input type="hidden" name="migration" value="<?php echo $migration ?>" />
+			  	<input type="hidden" name="loadchecked" value="1" />
+			  	<input type="hidden" name="dataLoaded" value="1" />
+			  	<input type="hidden" name="DBtype" value="<?php echo $DBtype ?>" />
+			  	<input type="hidden" name="DBhostname" value="<?php echo $DBhostname ?>" />
+			  	<input type="hidden" name="DBuserName" value="<?php echo $DBuserName ?>" />
+			  	<input type="hidden" name="DBpassword" value="<?php echo $DBpassword ?>" />
+			  	<input type="hidden" name="DBname" value="<?php echo $DBname ?>" />
+			  	<input type="hidden" name="DBPrefix" value="<?php echo $DBPrefix ?>" />
+				<input type="hidden" name="start" value="<?php echo $linenumber ?>" />
+				<input type="hidden" name="foffset" value="<?php echo $foffset ?>" />
+				<input type="hidden" name="totalqueries" value="<?php echo $totalqueries ?>" />
+			</form>
   <?php
-
-				//echo ("<script language=\"JavaScript\" type=\"text/javascript\">window.setTimeout('location.href=\"" . $_SERVER["PHP_SELF"] . "?start=$linenumber&fn=" . $_REQUEST["fn"] . "&foffset=$foffset&totalqueries=$totalqueries\";',500+$delaypersession);</script>\n");
-			//echo ("<noscript>\n");
-			//echo ("<p class=\"centr\"><a href=\"" . $_SERVER["PHP_SELF"] . "?start=$linenumber&amp;fn=" . $_REQUEST["fn"] . "&amp;foffset=$foffset&amp;totalqueries=$totalqueries\">Continue from the line $linenumber</a> (Enable JavaScript to do it automatically)</p>\n");
-			//echo ("</noscript>\n");
-
-			//echo ("<p class=\"centr\">Press <b><a href=\"" . $_SERVER["PHP_SELF"] . "\">STOP</a></b> to abort the import <b>OR WAIT!</b></p>\n");
 		}
 	} else
 		echo ("<p class=\"error\">".JText::_('STOPPEDONERROR')."</p>\n");
 
 }
 
-//if ($dbconnection) mysql_close();
-if ($file && !$gzipmode)
+if ($file && !$gzipmode) {
 	fclose($file);
-else
-	if ($file && $gzipmode)
-		gzclose($file);
-
-//ob_flush();
-//die();
-
+}
+else if ($file && $gzipmode) {
+	gzclose($file);
+}

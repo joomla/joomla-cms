@@ -1,5 +1,5 @@
 /**
-* @version		$Id: install.js 966 2005-11-11 01:37:07Z Jinx $
+* @version		$Id$
 * @package		Joomla
 * @subpackage	Installation
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.

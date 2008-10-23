@@ -1,46 +1,32 @@
-<?php
-/**
- * @version		$Id$
- * @package		Joomla
- * @subpackage	Installation
- * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
- */
-
-?>
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 
 <script language="JavaScript" type="text/javascript">
 <!--
-	function validateForm( frm, task ) {
+	function validateForm(frm, task) {
 
 		var valid_site = document.formvalidator.isValid(frm, 'vars[siteName]');
 		var valid_email = document.formvalidator.isValid(frm, 'vars[adminEmail]');
 		var valid_password = document.formvalidator.isValid(frm, 'vars[adminPassword]');
 		var confirm_password = document.formvalidator.isValid(frm, 'vars[confirmAdminPassword]');
 
-		var siteName 				= getElementByName( frm, 'vars[siteName]' );
-		var adminEmail 				= getElementByName( frm, 'vars[adminEmail]' );
-		var adminPassword 			= getElementByName( frm, 'vars[adminPassword]' );
-		var confirmAdminPassword 	= getElementByName( frm, 'vars[confirmAdminPassword]' );
+		var siteName 				= getElementByName(frm, 'vars[siteName]');
+		var adminEmail 				= getElementByName(frm, 'vars[adminEmail]');
+		var adminPassword 			= getElementByName(frm, 'vars[adminPassword]');
+		var confirmAdminPassword 	= getElementByName(frm, 'vars[confirmAdminPassword]');
 
 		if (siteName.value == '' || !valid_site) {
-			alert( '<?php echo JText::_('warnSiteName', true) ?>' );
+			alert('<?php echo JText::_('warnSiteName', true) ?>');
 		} else if (this.document.filename.migstatus.value == '1' && this.document.filename.dataLoaded.value == '1') {
-			submitForm( frm, task ); // Migration doesn't need email or admin passord
+			submitForm(frm, task); // Migration doesn't need email or admin passord
 		} else if (adminEmail.value == '' || !valid_email) {
-			alert( '<?php echo JText::_('warnEmailAddress', true) ?>' );
+			alert('<?php echo JText::_('warnEmailAddress', true) ?>');
 		} else if (adminPassword.value == '' || !valid_password) {
-			alert( '<?php echo JText::_('warnAdminPassword', true) ?>' );
+			alert('<?php echo JText::_('warnAdminPassword', true) ?>');
 		} else if (adminPassword.value != confirmAdminPassword.value || !confirm_password) {
-			alert( '<?php echo JText::_('warnAdminPasswordDoesntMatch', true) ?>' );
+			alert('<?php echo JText::_('warnAdminPasswordDoesntMatch', true) ?>');
 		} else {
-			if (this.document.filename.dataLoaded.value == '1' || confirm( '<?php echo JText::_('warnNoData', true) ?>' )) {
-				submitForm( frm, task );
+			if (this.document.filename.dataLoaded.value == '1' || confirm('<?php echo JText::_('warnNoData', true) ?>')) {
+				submitForm(frm, task);
 			} else {
 				return;
 			}
@@ -78,7 +64,7 @@
 		var frm = this.document.filename;
 
 		if (frm.sqlFile.value == '' && !frm.sqlUploaded.checked) {
-			alert( '<?php echo JText::_('No file selected', true) ?>' );
+			alert('<?php echo JText::_('No file selected', true) ?>');
 			return;
 		}
 
@@ -90,10 +76,10 @@
 	}
 
 	function clearPasswordFields(frm) {
-		var adminPassword 			= getElementByName( frm, 'vars[adminPassword]' );
-		var confirmAdminPassword 	= getElementByName( frm, 'vars[confirmAdminPassword]' );
+		var adminPassword 			= getElementByName(frm, 'vars[adminPassword]');
+		var confirmAdminPassword 	= getElementByName(frm, 'vars[confirmAdminPassword]');
 
-		if( adminPassword.defaultValue == adminPassword.value || confirmAdminPassword.defaultValue == confirmAdminPassword.value ) {
+		if(adminPassword.defaultValue == adminPassword.value || confirmAdminPassword.defaultValue == confirmAdminPassword.value) {
 			adminPassword.value 		= '';
 			confirmAdminPassword.value 	= '';
 		}
@@ -112,12 +98,12 @@
 		</div>
 		<div class="m">
 				<div class="far-right">
-					<?php if ( $this->direction == 'ltr' ) : ?>
-							<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'ftpconfig' );" alt="<?php echo JText::_('Previous', true ) ?>"><?php echo JText::_('Previous' ) ?></a></div></div>
-							<div class="button1-left"><div class="next"><a onclick="validateForm( adminForm, 'saveconfig' );" alt=<?php echo JText::_('Next', true ) ?>"><?php echo JText::_('Next' ) ?></a></div></div>
+					<?php if ($this->direction == 'ltr') : ?>
+							<div class="button1-right"><div class="prev"><a onclick="submitForm(adminForm, 'ftpconfig');" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
+							<div class="button1-left"><div class="next"><a onclick="validateForm(adminForm, 'saveconfig');" alt=<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
 					<?php else: ?>
-							<div class="button1-right"><div class="prev"><a onclick="validateForm( adminForm, 'saveconfig' );" alt="<?php echo JText::_('Next', true ) ?>"><?php echo JText::_('Next' ) ?></a></div></div>
-							<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'ftpconfig' );" alt="<?php echo JText::_('Previous', true ) ?>"><?php echo JText::_('Previous' ) ?></a></div></div>
+							<div class="button1-right"><div class="prev"><a onclick="validateForm(adminForm, 'saveconfig');" alt="<?php echo JText::_('Next', true) ?>"><?php echo JText::_('Next') ?></a></div></div>
+							<div class="button1-left"><div class="next"><a onclick="submitForm(adminForm, 'ftpconfig');" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
 					<?php endif; ?>
 				</div>
 				<span class="step"><?php echo JText::_('Main Configuration') ?></span>
@@ -207,7 +193,7 @@
 							</label>
 							</td>
 							<td align="center">
-							<input onfocus="clearPasswordFields( adminForm );" class="inputbox validate required password passwordmsg" type="password" id="adminPassword" name="vars[adminPassword]" value="" size="30"/>
+							<input onfocus="clearPasswordFields(adminForm);" class="inputbox validate required password passwordmsg" type="password" id="adminPassword" name="vars[adminPassword]" value="" size="30"/>
 							</td>
 						</tr>
 						<tr>
@@ -340,7 +326,7 @@
 								<td>
 									<!--<input class="inputbox" type="text" id="srcEncoding" name="vars[srcEncoding]" value="" size="24" />-->
 									<select id="srcEncoding" name="vars[srcEncoding]" class="inputbox" >
-									<?php foreach ( $this->encodings as $encoding ) : ?>
+									<?php foreach ($this->encodings as $encoding) : ?>
 										<option value="<?php echo $encoding ?>" ><?php echo $encoding ?></option>
 									<?php endforeach; ?>
 									</select>

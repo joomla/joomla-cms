@@ -1,6 +1,6 @@
 <?php
 /**
-* @version		$Id: router.php 8180 2007-07-23 05:52:29Z eddieajau $
+* @version		$Id$
 * @package		Joomla.Framework
 * @subpackage	Application
 * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -15,7 +15,7 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
-jimport( 'joomla.application.router' );
+jimport('joomla.application.router');
 
 /**
  * Class to create and parse routes
@@ -45,7 +45,6 @@ class JRouterInstallation extends JObject
 	function build($url)
 	{
 		$url = str_replace('&amp;', '&', $url);
-
 		return $url;
 	}
 }
