@@ -14,6 +14,7 @@
 
 // No direct access
 defined('JPATH_BASE') or die();
+jimport('joomla.base.adapterinstance');
 
 /**
  * Language installer
@@ -22,7 +23,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Installer
  * @since		1.5
  */
-class JInstallerLanguage extends JObject
+class JInstallerLanguage extends JAdapterInstance
 {
 	/**
 	 * Core language pack flag

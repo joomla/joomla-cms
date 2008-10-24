@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="library" version="1.5">
+<extension type="library" version="1.6">
 	<name>XML RPC for PHP</name>
 	<libraryname>phpxmlrpc</libraryname>
 	<version>1.5</version>
@@ -7,9 +7,9 @@
 	<creationDate>2008</creationDate>
 	<copyright>Copyright (C) 2008 phpxmlrpc.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<author>Joomla</author>
-	<authorEmail>admin@joomla.org</authorEmail>
-	<authorUrl>http://www.joomla.org</authorUrl>
+	<author>phpxmlrpc</author>
+	<authorEmail></authorEmail>
+	<authorUrl>http://phpxmlrpc.sourceforge.net/</authorUrl>
 	<packager>Joomla!</packager>
 	<packagerurl>http://www.joomla.org</packagerurl>
 	<update>http://update.joomla.org/libraries/phpxmlrpc</update>

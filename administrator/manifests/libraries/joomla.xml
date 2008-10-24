@@ -17,8 +17,11 @@
 		<file>base/tree.php</file>
 		<file>base/observer.php</file>
 		<file>base/index.html</file>
+		<file>base/adapterinstance.php</file>
 		<file>base/object.php</file>
 		<file>base/observable.php</file>
+		<file>base/adapter.php</file>
+		<file>base/stdclass.php</file>
 		<file>html/html/menu.php</file>
 		<file>html/html/list.php</file>
 		<file>html/html/grid.php</file>
@@ -28,9 +31,11 @@
 		<file>html/html/select.php</file>
 		<file>html/html/image.php</file>
 		<file>html/html/behavior.php</file>
+		<file>html/html/content.php</file>
 		<file>html/toolbar.php</file>
 		<file>html/html.php</file>
 		<file>html/pane.php</file>
+		<file>html/form.php</file>
 		<file>html/parameter.php</file>
 		<file>html/index.html</file>
 		<file>html/toolbar/index.html</file>
@@ -83,20 +88,27 @@
 		<file>database/database/mysqli.php</file>
 		<file>database/database/mysql.php</file>
 		<file>database/table/menu.php</file>
+		<file>database/table/axogroup.php</file>
+		<file>database/table/tree.php</file>
+		<file>database/table/update.php</file>
 		<file>database/table/section.php</file>
 		<file>database/table/module.php</file>
 		<file>database/table/index.html</file>
-		<file>database/table/plugin.php</file>
 		<file>database/table/component.php</file>
+		<file>database/table/acl.php</file>
 		<file>database/table/arogroup.php</file>
 		<file>database/table/content.php</file>
+		<file>database/table/axomap.php</file>
 		<file>database/table/session.php</file>
+		<file>database/table/group.php</file>
+		<file>database/table/extension.php</file>
 		<file>database/table/aro.php</file>
 		<file>database/table/user.php</file>
 		<file>database/table/category.php</file>
 		<file>database/table/menutypes.php</file>
 		<file>database/index.html</file>
 		<file>database/database.php</file>
+		<file>database/query.php</file>
 		<file>database/table.php</file>
 		<file>cache/cache.php</file>
 		<file>cache/storage.php</file>
@@ -120,6 +132,8 @@
 		<file>event/index.html</file>
 		<file>event/event.php</file>
 		<file>event/dispatcher.php</file>
+		<file>tasks/task.php</file>
+		<file>tasks/taskset.php</file>
 		<file>session/storage.php</file>
 		<file>session/index.html</file>
 		<file>session/storage/none.php</file>
@@ -143,28 +157,10 @@
 		<file>application/router.php</file>
 		<file>application/module/helper.php</file>
 		<file>application/module/index.html</file>
-		<file>template/tmpl/calendar.html</file>
-		<file>template/tmpl/page.html</file>
-		<file>template/tmpl/index.html</file>
-		<file>template/tmpl/forms.html</file>
-		<file>template/tmpl/breadcrumbs.html</file>
-		<file>template/tmpl/adminfilters.html</file>
-		<file>template/tmpl/dtree.html</file>
-		<file>template/tmpl/adminlists.html</file>
-		<file>template/tmpl/help.html</file>
-		<file>template/tmpl/tabs.html</file>
-		<file>template/index.html</file>
-		<file>template/module/function/index.html</file>
-		<file>template/module/function/Sef.php</file>
-		<file>template/module/function/Translate.php</file>
-		<file>template/module/modifier/SEF.php</file>
-		<file>template/module/modifier/index.html</file>
-		<file>template/module/modifier/Translate.php</file>
-		<file>template/module/index.html</file>
-		<file>template/template.php</file>
 		<file>index.html</file>
 		<file>version.php</file>
 		<file>config.php</file>
+		<file>backup/adapter/table.php</file>
 		<file>client/ldap.php</file>
 		<file>client/helper.php</file>
 		<file>client/index.html</file>
@@ -174,19 +170,36 @@
 		<file>filter/index.html</file>
 		<file>import.php</file>
 		<file>filesystem/archive.php</file>
+		<file>filesystem/helper.php</file>
 		<file>filesystem/file.php</file>
 		<file>filesystem/index.html</file>
 		<file>filesystem/path.php</file>
+		<file>filesystem/streams/index.html</file>
+		<file>filesystem/streams/string.php</file>
+		<file>filesystem/support/index.html</file>
+		<file>filesystem/support/stringcontroller.php</file>
+		<file>filesystem/filesystem/ssh.php</file>
+		<file>filesystem/filesystem/ssh.xml</file>
+		<file>filesystem/filesystem/ftp.php</file>
+		<file>filesystem/filesystem/ftp.xml</file>
+		<file>filesystem/filesystem/php.php</file>
 		<file>filesystem/folder.php</file>
+		<file>filesystem/stream.php</file>
 		<file>filesystem/archive/zip.php</file>
 		<file>filesystem/archive/tar.php</file>
 		<file>filesystem/archive/index.html</file>
 		<file>filesystem/archive/gzip.php</file>
 		<file>filesystem/archive/bzip2.php</file>
+		<file>filesystem/filesystem.php</file>
 		<file>factory.php</file>
 		<file>plugin/helper.php</file>
 		<file>plugin/index.html</file>
 		<file>plugin/plugin.php</file>
+		<file>updater/updater.php</file>
+		<file>updater/update.php</file>
+		<file>updater/updateadapter.php</file>
+		<file>updater/adapters/collection.php</file>
+		<file>updater/adapters/extension.php</file>
 		<file>environment/index.html</file>
 		<file>environment/request.php</file>
 		<file>environment/uri.php</file>
@@ -202,11 +215,14 @@
 		<file>installer/adapters/module.php</file>
 		<file>installer/adapters/package.php</file>
 		<file>installer/adapters/library.php</file>
+		<file>installer/adapters/file.php</file>
 		<file>installer/adapters/index.html</file>
+		<file>installer/adapters/sql.php</file>
 		<file>installer/adapters/plugin.php</file>
 		<file>installer/adapters/component.php</file>
 		<file>installer/adapters/template.php</file>
 		<file>installer/adapters/language.php</file>
+		<file>installer/dependency.php</file>
 		<file>installer/extension.php</file>
 		<file>installer/librarymanifest.php</file>
 		<file>installer/installer.php</file>
@@ -219,6 +235,7 @@
 		<file>document/feed/renderer/index.html</file>
 		<file>document/feed/index.html</file>
 		<file>document/feed/feed.php</file>
+		<file>document/html/renderer/installation.php</file>
 		<file>document/html/renderer/module.php</file>
 		<file>document/html/renderer/message.php</file>
 		<file>document/html/renderer/index.html</file>
@@ -229,6 +246,8 @@
 		<file>document/html/index.html</file>
 		<file>document/error/index.html</file>
 		<file>document/error/error.php</file>
+		<file>document/vcard/vcard.php</file>
+		<file>document/vcard/index.html</file>
 		<file>document/document.php</file>
 		<file>document/index.html</file>
 		<file>document/renderer.php</file>
@@ -237,7 +256,6 @@
 		<file>utilities/index.html</file>
 		<file>utilities/simplexml.php</file>
 		<file>utilities/string.php</file>
-		<file>utilities/compat/php50x.php</file>
 		<file>utilities/compat/compat.php</file>
 		<file>utilities/compat/index.html</file>
 		<file>utilities/buffer.php</file>

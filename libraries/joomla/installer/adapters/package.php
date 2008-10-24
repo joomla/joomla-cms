@@ -15,7 +15,7 @@
 
 // Check to ensure this file is within the rest of the framework
 defined('JPATH_BASE') or die();
-
+jimport('joomla.base.adapterinstance');
 
 
 /**
@@ -26,7 +26,7 @@ defined('JPATH_BASE') or die();
  * @subpackage	Installer
  * @since		1.6
  */
-class JInstallerPackage extends JObject
+class JInstallerPackage extends JAdapterInstance
 {
 
 	/**

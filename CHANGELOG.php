@@ -42,6 +42,16 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+24-Oct-2008 Sam Moffatt
+ + Moved installer example plugin into its own folder (1.6 preferred style)
+ ^ Changed scope values in installer system
+ + Added refreshManifestCache trigger for extension installers to update the in DB XML cache
+ - Removed excess line in JAdapter that set the parent after the instance has already done so
+ ^ Changed manage view in com_installer to use checkboxes
+ + Added refresh cache option into com_installer to refresh manifest caches
+ ^ Cleaned up library manifests
+ ^ Reverted debug plugin shift for BC 
+
 23-Oct-2008 Sam Moffatt
  ^ Changed extensionid, updateid and updatesiteid to have an up to two extra underscores (e.g. update_site_id)
  + Added a few missing tables and indexes (update and tasks)

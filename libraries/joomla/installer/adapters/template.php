@@ -15,6 +15,7 @@
 // No direct access
 defined('JPATH_BASE') or die();
 jimport('joomla.installer.extension');
+jimport('joomla.base.adapterinstance');
 
 /**
  * Template installer
@@ -23,7 +24,7 @@ jimport('joomla.installer.extension');
  * @subpackage	Installer
  * @since		1.5
  */
-class JInstallerTemplate extends JObject
+class JInstallerTemplate extends JAdapterInstance
 {
 
 	/**
@@ -283,17 +284,17 @@ class JInstallerTemplate extends JObject
 	function discover_install() {
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it
-		$client = JApplicationHelper::getClientInfo($this->parent->_extension->client_id);
-		$manifestPath = $client->path . DS . 'templates'. DS . $this->parent->_extension->element . DS . 'templateDetails.xml';
-		$this->parent->_manifest = $this->parent->_isManifest($manifestPath);
+		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath = $client->path . DS . 'templates'. DS . $this->parent->extension->element . DS . 'templateDetails.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->_extension->manifest_cache = serialize($manifest_details);
-		$this->parent->_extension->state = 0;
-		$this->parent->_extension->name = $manifest_details['name'];
-		$this->parent->_extension->enabled = 1;
-		$this->parent->_extension->params = $this->parent->getParams();
-		if($this->parent->_extension->store()) {
+		$this->parent->extension->manifest_cache = serialize($manifest_details);
+		$this->parent->extension->state = 0;
+		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->enabled = 1;
+		$this->parent->extension->params = $this->parent->getParams();
+		if($this->parent->extension->store()) {
 			return true;
 		} else {
 			JError::raiseWarning(101, JText::_('Template').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));

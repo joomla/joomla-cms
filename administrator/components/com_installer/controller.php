@@ -213,6 +213,26 @@ class InstallerController extends JController
 		$view->display();
 	}
 	
+	function refresh() {
+		// Check for request forgeries
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$type	= JRequest::getWord('type', 'manage');
+		$model	= &$this->getModel( $type );
+		$view	= &$this->getView( $type );
+
+		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
+		$view->assignRef('ftp', $ftp);
+
+		$uid = JRequest::getVar('eid', array(), '', 'array');
+
+		JArrayHelper::toInteger($uid, array());
+		$result = $model->refresh($uid);
+
+		$view->setModel( $model, true );
+		$view->display();
+	}
+	
 	// Should probably use multiple controllers here
 	function update()
 	{

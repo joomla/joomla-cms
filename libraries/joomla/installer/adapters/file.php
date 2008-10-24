@@ -16,6 +16,7 @@
 defined('JPATH_BASE') or die();
 
 jimport( 'joomla.installer.filemanifest' );
+jimport('joomla.base.adapterinstance');
 
 /**
  * File installer
@@ -25,7 +26,7 @@ jimport( 'joomla.installer.filemanifest' );
  * @subpackage	Installer
  * @since		1.6
  */
-class JInstallerFile extends JObject
+class JInstallerFile extends JAdapterInstance
 {
 
 	/**

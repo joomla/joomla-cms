@@ -88,7 +88,6 @@ class JAdapter extends JObject {
 				return false;
 			}
 			$adapter = new $class($this);
-			$adapter->parent =& $this;
 		}
 		$this->_adapters[$name] =& $adapter;
 		return true;
