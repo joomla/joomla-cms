@@ -42,6 +42,11 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+28-Oct-2008 Alan Langford
+ # Fixed several minor bugs in JArrayHelper, fixed formatting and docs, reorganized code.
+ ^ Backwards compatible overhaul and extension of JArrayHelper::toString().
+ ! Unit tests for JArrayHelper::toString() in next commit.
+
 28-Oct-2008 Sam Moffatt
  # Fixed JTableUser regexp from the incorrect monstrosity it was to the correct form
  $ Changed REG_INUSE to remove the 'password' as it only pertains to usernames in en-GB.ini
@@ -54,14 +59,14 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ Changed manage view in com_installer to use checkboxes
  + Added refresh cache option into com_installer to refresh manifest caches
  ^ Cleaned up library manifests
- ^ Reverted debug plugin shift for BC 
+ ^ Reverted debug plugin shift for BC
 
 23-Oct-2008 Sam Moffatt
  ^ Changed extensionid, updateid and updatesiteid to have an up to two extra underscores (e.g. update_site_id)
  + Added a few missing tables and indexes (update and tasks)
  ^ Changed joomla.sql to rename a whole heap of jos_ to #__
  # Fixed issue with authentication system trying to load a plugin that doesn't exist
- # Fixed issue with JPluginHelper::_load trying to load discovered plugins 
+ # Fixed issue with JPluginHelper::_load trying to load discovered plugins
 
 23-Oct-2008 Andrew Eddie
  + Added link to com_localise to Tools menu

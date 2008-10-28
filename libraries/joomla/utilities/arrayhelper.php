@@ -23,118 +23,89 @@
 abstract class JArrayHelper
 {
 	/**
-	 * Function to convert array to integer values
+	 * Sort direction, should be +1 or -1.
 	 *
-	 * @static
-	 * @param	array	$array		The source array to convert
-	 * @param	mixed	$default	A default value (int|array) to assign if $array is not an array
-	 * @since	1.5
+	 * @var int
 	 */
-	public static function toInteger(&$array, $default = null)
-	{
-		if (is_array($array)) {
-			foreach ($array as $i => $v) {
-				$array[$i] = (int) $v;
-			}
-		} else {
-			if ($default === null) {
-				$array = array();
-			} elseif (is_array($default)) {
-				JArrayHelper::toInteger($default, null);
-				$array = $default;
-			} else {
-				$array = array( (int) $default );
-			}
-		}
+	static protected $_sortDirection;
+
+	/**
+	 * Sort key.
+	 *
+	 * @var string
+	 */
+	static protected $_sortKey;
+
+	/**
+	 * Add slashes transform for toString().
+	 *
+	 * @param string Input string.
+	 * @param string Quote character(s).
+	 * @return string Input string with PHP escapes and quote escaped
+	 */
+	protected static function _addSlashes($str, $quotes) {
+		return addcslashes($str, "\0\n\r\t\\" . $quotes);
 	}
 
 	/**
-	 * Utility function to map an array to a stdClass object.
+	 * Null transform function for toString.
 	 *
-	 * @static
-	 * @param	array	$array		The array to map.
-	 * @param	string	$calss 		Name of the class to create
-	 * @return	object	The object mapped from the given array
-	 * @since	1.5
+	 * @param string Input string.
+	 * @return string Same as input.
 	 */
-	public static function toObject(&$array, $class = 'stdClass')
-	{
-		$obj = null;
-		if (is_array($array))
-		{
-			$obj = new $class();
-			foreach ($array as $k => $v)
-			{
-				if (is_array($v)) {
-					$obj->$k = JArrayHelper::toObject($v, $class);
-				} else {
-					$obj->$k = $v;
-				}
-			}
-		}
-		return $obj;
+	protected static function _nullTransform($str) {
+		return $str;
 	}
 
-	public static function toString( $array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false )
+	/**
+	 * Internal callback function for sorting an array of objects on a key
+	 *
+	 * @param   array   An array of objects
+	 * @param   array   An array of objects
+	 * @return  int     Comparison status
+	 * @since   1.5
+	 * @see     JArrayHelper::sortObjects()
+	 */
+	protected static function _sortObjects(&$a, &$b)
 	{
-		$output = array();
-
-		if (is_array($array))
-		{
-			foreach ($array as $key => $item)
-			{
-				if (is_array ($item))
-				{
-					if ($keepOuterKey) {
-						$output[] = $key;
-					}
-					// This is value is an array, go and do it again!
-					$output[] = JArrayHelper::toString( $item, $inner_glue, $outer_glue, $keepOuterKey);
-				}
-				else {
-					$output[] = $key.$inner_glue.'"'.$item.'"';
-				}
-			}
+		$key = self::$_sortKey;
+		if ($a->$key > $b->$key) {
+			return self::$_sortDirection;
+		} elseif ($a->$key < $b->$key) {
+			return -1 * self::$_sortDirection;
 		}
-
-		return implode( $outer_glue, $output);
+		return 0;
 	}
 
 	/**
 	 * Utility function to map an object to an array
 	 *
-	 * @static
-	 * @param	object	The source object
-	 * @param	boolean	True to recurve through multi-level objects
-	 * @param	string	An optional regular expression to match on field names
-	 * @return	array	The array mapped from the given object
-	 * @since	1.5
+	 * @param   object  The source object
+	 * @param   boolean True to recurve through multi-level objects
+	 * @param   string  An optional regular expression to match on field names
+	 * @return  array   The array mapped from the given object
+	 * @since   1.5
 	 */
-	public static function fromObject( $p_obj, $recurse = true, $regex = null )
+	public static function fromObject($source, $recurse = true, $regex = null)
 	{
 		$result = null;
-		if (is_object( $p_obj ))
+		if (is_object($source))
 		{
 			$result = array();
-			foreach (get_object_vars($p_obj) as $k => $v)
+			foreach (get_object_vars($source) as $key => $val)
 			{
 				if ($regex)
 				{
-					if (!preg_match( $regex, $k ))
+					if (!preg_match($regex, $key))
 					{
 						continue;
 					}
 				}
-				if (is_object( $v ))
+				if (is_object($val) && $recurse)
 				{
-					if ($recurse)
-					{
-						$result[$k] = JArrayHelper::fromObject( $v, $recurse, $regex );
-					}
-				}
-				else
-				{
-					$result[$k] = $v;
+					$result[$key] = JArrayHelper::fromObject($val, $recurse, $regex);
+				} else {
+					$result[$key] = $val;
 				}
 			}
 		}
@@ -144,25 +115,23 @@ abstract class JArrayHelper
 	/**
 	 * Extracts a column from an array of arrays or objects
 	 *
-	 * @static
-	 * @param	array	$array	The source array
-	 * @param	string	$index	The index of the column or name of object property
-	 * @return	array	Column of values from the source array
-	 * @since	1.5
+	 * @param   array   The source array
+	 * @param   string  The index of the column or name of object property
+	 * @return  array   Column of values from the source array
+	 * @since   1.5
 	 */
-	public static function getColumn(&$array, $index)
+	public static function getColumn(&$data, $index)
 	{
-		$result = array ();
+		$result = array();
 
-		if (is_array($array))
+		if (is_array($data))
 		{
-			$n = count($array);
-			for ($i = 0; $i < $n; $i++)
+			$n = count($data);
+			foreach ($data as &$item)
 			{
-				$item = & $array[$i];
-				if (is_array($item) && isset ($item[$index])) {
+				if (is_array($item) && isset($item[$index])) {
 					$result[] = $item[$index];
-				} elseif (is_object($item) && isset ($item-> $index)) {
+				} elseif (is_object($item) && isset($item-> $index)) {
 					$result[] = $item-> $index;
 				}
 				// else ignore the entry
@@ -174,21 +143,21 @@ abstract class JArrayHelper
 	/**
 	 * Utility function to return a value from a named array or a specified default
 	 *
-	 * @static
-	 * @param	array	$array		A named array
-	 * @param	string	$name		The key to search for
-	 * @param	mixed	$default	The default value to give if no key found
-	 * @param	string	$type		Return type for the variable (INT, FLOAT, STRING, WORD, BOOLEAN, ARRAY)
-	 * @return	mixed	The value from the source array
-	 * @since	1.5
+	 * @param   array   A named array.
+	 * @param   string  The key to search for.
+	 * @param   mixed   The default value to give if no key found.
+	 * @param   string  Return type for the variable (INT, FLOAT, STRING, WORD,
+	 * BOOLEAN, ARRAY).
+	 * @return  mixed   The value from the source array.
+	 * @since   1.5
 	 */
-	public static function getValue(&$array, $name, $default=null, $type='')
+	public static function getValue(&$data, $name, $default = null, $type = '')
 	{
 		// Initialize variables
 		$result = null;
 
-		if (isset ($array[$name])) {
-			$result = $array[$name];
+		if (isset ($data[$name])) {
+			$result = $data[$name];
 		}
 
 		// Handle the default case
@@ -202,15 +171,15 @@ abstract class JArrayHelper
 			case 'INT' :
 			case 'INTEGER' :
 				// Only use the first integer value
-				@ preg_match('/-?[0-9]+/', $result, $matches);
-				$result = @ (int) $matches[0];
+				@preg_match('/-?[0-9]+/', $result, $matches);
+				$result = @(int) $matches[0];
 				break;
 
 			case 'FLOAT' :
 			case 'DOUBLE' :
 				// Only use the first floating point value
-				@ preg_match('/-?[0-9]+(\.[0-9]+)?/', $result, $matches);
-				$result = @ (float) $matches[0];
+				@preg_match('/-?[0-9]+(\.[0-9]+)?/', $result, $matches);
+				$result = @(float) $matches[0];
 				break;
 
 			case 'BOOL' :
@@ -220,7 +189,7 @@ abstract class JArrayHelper
 
 			case 'ARRAY' :
 				if (!is_array($result)) {
-					$result = array ($result);
+					$result = array($result);
 				}
 				break;
 
@@ -243,44 +212,203 @@ abstract class JArrayHelper
 	/**
 	 * Utility function to sort an array of objects on a given field
 	 *
-	 * @static
-	 * @param	array	$arr		An array of objects
-	 * @param	string	$k			The key to sort on
-	 * @param	int		$direction	Direction to sort in [1 = Ascending] [-1 = Descending]
-	 * @return	array	The sorted array of objects
-	 * @since	1.5
+	 * @param   array   An array of objects to be sorted. Passed by reference.
+	 * @param   string  The key to sort on
+	 * @param   int     Direction to sort in [1 = Ascending] [-1 = Descending]
+	 * @return  array   The sorted array of objects
+	 * @since   1.5
 	 */
-	public static function sortObjects( &$a, $k, $direction=1 )
+	public static function sortObjects(&$data, $key, $direction = 1)
 	{
-		$GLOBALS['JAH_so'] = array(
-			'key'		=> $k,
-			'direction'	=> $direction
-		);
-		usort( $a, array('JArrayHelper', '_sortObjects') );
-		unset( $GLOBALS['JAH_so'] );
+		self::$_sortKey = $key;
+		self::$_sortDirection = $direction;
+		usort($data, array('JArrayHelper', '_sortObjects'));
 
-		return $a;
+		return $data;
 	}
 
 	/**
-	 * Private callback function for sorting an array of objects on a key
+	 * Function to convert array to integer values
 	 *
 	 * @static
-	 * @param	array	$a	An array of objects
-	 * @param	array	$b	An array of objects
-	 * @return	int		Comparison status
+	 * @param	array	The source array to convert
+	 * @param	mixed	A default value (int|array) to assign if the data is not
+	 * an array.
 	 * @since	1.5
-	 * @see		JArrayHelper::sortObjects()
 	 */
-	protected static function _sortObjects( &$a, &$b )
+	public static function toInteger(&$data, $default = null)
 	{
-		$params = $GLOBALS['JAH_so'];
-		if ( $a->$params['key'] > $b->$params['key'] ) {
-			return $params['direction'];
+		if (is_array($data)) {
+			foreach ($data as $key => $val) {
+				$data[$key] = (int) $val;
+			}
+		} else {
+			if ($default === null) {
+				$data = array();
+			} elseif (is_array($default)) {
+				JArrayHelper::toInteger($default, null);
+				$data = $default;
+			} else {
+				$data = array((int) $default);
+			}
 		}
-		if ( $a->$params['key'] < $b->$params['key'] ) {
-			return -1 * $params['direction'];
-		}
-		return 0;
 	}
+
+	/**
+	 * Utility function to map an array to a JStdClass object.
+	 *
+	 * @param	array	The array to map.
+	 * @param	string	Name of the class to create
+	 * @return	object	The object mapped from the given array
+	 * @since	1.5
+	 */
+	public static function toObject(&$data, $class = 'JStdClass')
+	{
+		$obj = null;
+		if (is_array($data))
+		{
+			$obj = new $class();
+			foreach ($data as $k => $v)
+			{
+				if (is_array($v)) {
+					$obj->$k = JArrayHelper::toObject($v, $class);
+				} else {
+					$obj->$k = $v;
+				}
+			}
+		}
+		return $obj;
+	}
+
+	/**
+	 * Convert array to a string, recurses into sub-arrays.
+	 *
+	 * @internal Anyone have a clue as to why the array is optional???
+	 * @param array Optional. The array to be converted.
+	 * @param string|array Optional. If a string, the "inner glue" (see options
+	 * below). If an array, a set of options:
+	 * <ul><li>
+	 * </li><li>innerGlue String. String to delimit the array key and the value.
+	 * </li><li>keepOuterKey Boolean. When nesting arrays, setting this true
+	 * will cause the key of the sub-array to appear in the output.
+	 * </li><li>nestClose string. The string used to mark the end of a nested
+	 * array. Defaults to empty string.
+	 * </li><li>nestMode boolean. If disabled, nest glue is ignored and the
+	 * value of keepOuterKey is used.
+	 * </li><li>nestOpen string. The string used to mark the beginning of a
+	 * nested array. Defaults to empty string.
+	 * </li><li>quoteChar string. Character used to quote the array values.
+	 * Defaults to double-quote.
+	 * </li><li>transform string. Transform function to apply to scalar array
+	 * values. Valid values are: none, slash (escape with backslashes), special
+	 * (htmlspecialchars, UTF-8), entities (htmlentities, UTF-8), and callback.
+	 * The default is special.
+	 * </li><li>transformFunction string|array. Callback function used if the
+	 * transform option is callback.
+	 * </li></ul>
+	 * @param string The "outer glue", which separates array entries.
+	 * @param boolean Optional. See option definitions above.
+	 * @return string Formatted array contents.
+	 */
+	public static function toString(
+		$data = null, $innerGlue = '=', $outerGlue = ' ', $keepOuterKey = false
+	) {
+		static $optionDefaults;
+
+		if (empty($optionDefaults)) {
+			$optionDefaults = array(
+				'innerGlue' => '=',
+				'keepOuterKey' => false,
+				'nestClose' => '',
+				'nestMode' => false,
+				'nestOpen' => '',
+				'outerGlue' => ' ',
+				'quoteChar' => '"',
+				'transform' => '',
+				'transformFunction' => '',
+			);
+		}
+		if (is_array($innerGlue)) {
+			$options = array_merge($optionDefaults, $innerGlue);
+		} else {
+			$options = $optionDefaults;
+			$options['innerGlue'] = $innerGlue;
+			$options['outerGlue'] = $outerGlue;
+			$options['keepOuterKey'] = $keepOuterKey;
+		}
+		if (! $options['nestMode']) {
+			$options['nestClose'] = '';
+			$options['nestOpen'] = '';
+		}
+		$output = array();
+
+		if (is_array($data))
+		{
+			/*
+			 * Determine the appropriate transform callback function and
+			 * arguments.
+			 */
+			$transArgs = array(0 => '');
+			switch ($options['transform']) {
+				case 'callback': {
+					$transFn = $options['transformFunction'];
+				}
+				break;
+
+				case 'entities': {
+					$transFn = 'htmlentities';
+					$transArgs[1] = $options['quoteChar'] == '\'' ? ENT_QUOTES : ENT_COMPAT;
+					$transArgs[2] = 'UTF-8';
+				}
+				break;
+
+				case 'none': {
+					$transFn = array(__CLASS__, '_nullTransform');
+				}
+				break;
+
+				case 'slashes': {
+					$transFn = array(__CLASS__, '_addSlashes');
+					$transArgs[1] = $options['quoteChar'];
+				}
+				break;
+
+				case 'special':
+				default: {
+					$transFn = 'htmlspecialchars';
+					$transArgs[1] = $options['quoteChar'] == '\'' ? ENT_QUOTES : ENT_COMPAT;
+					$transArgs[2] = 'UTF-8';
+				}
+				break;
+
+			}
+			/*
+			 * Convert each element in the array.
+			 */
+			foreach ($data as $key => $item)
+			{
+				if (is_array($item))
+				{
+					// This is value is an array, recurse and do it again!
+					if ($options['nestMode']) {
+						$output[] = $key . $options['innerGlue']
+							. $options['nestOpen'] . self::toString($item, $options)
+							 . $options['nestClose'];
+					} else {
+						if ($options['keepOuterKey']) {
+							$output[] = $key;
+						}
+						$output[] = self::toString($item, $options);
+					}
+				} else {
+					$transArgs[0] = $item;
+					$output[] = $key . $options['innerGlue'] . $options['quoteChar']
+						. call_user_func_array($transFn, $transArgs) . $options['quoteChar'];
+				}
+			}
+		}
+
+		return implode($options['outerGlue'], $output);
+	}
+
 }
