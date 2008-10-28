@@ -42,6 +42,10 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+28-Oct-2008 Sam Moffatt
+ # Fixed JTableUser regexp from the incorrect monstrosity it was to the correct form
+ $ Changed REG_INUSE to remove the 'password' as it only pertains to usernames in en-GB.ini
+
 24-Oct-2008 Sam Moffatt
  + Moved installer example plugin into its own folder (1.6 preferred style)
  ^ Changed scope values in installer system
