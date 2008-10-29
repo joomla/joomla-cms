@@ -12,7 +12,7 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-JHTML::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html');
+JHtml::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html');
 
 /**
  * Utility class for all HTML drawing classes
@@ -22,8 +22,25 @@ JHTML::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html');
  * @subpackage	HTML
  * @since		1.5
  */
-abstract class JHTML
+abstract class JHtml
 {
+	/**
+	 * Option values related to the generation of HTML output. Recognized
+	 * options are:
+     * <ul><li>fmtDepth, integer. The current indent depth.
+     * </li><li>fmtEol, string. The end of line string, default is linefeed.
+     * </li><li>fmtIndent, string. The string to use for indentation, default is
+     * tab.
+     * </ul>
+	 *
+	 * @var array
+	 */
+	static $formatOptions = array(
+        'format.depth' => 0,
+        'format.eol' => "\n",
+        'format.indent' => "\t"
+    );
+
 	private static $includePaths = array();
 
 	/**
@@ -36,63 +53,59 @@ abstract class JHTML
 	 *					prefix and class are optional and can be used to load custom
 	 *					html helpers.
 	 */
-	public static function _( $type )
+	public static function _($type)
 	{
 		//Initialise variables
-		$prefix = 'JHTML';
-		$file   = '';
-		$func   = $type;
+		$prefix = 'JHtml';
+		$file = '';
+		$func = $type;
 
 		// Check to see if we need to load a helper file
 		$parts = explode('.', $type);
 
-		switch(count($parts))
+		switch (count($parts))
 		{
 			case 3 :
 			{
-				$prefix		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
-				$file		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
-				$func		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[2] );
+				$prefix = preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
+				$file = preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
+				$func = preg_replace( '#[^A-Z0-9_]#i', '', $parts[2] );
 			} break;
 
 			case 2 :
 			{
-				$file		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
-				$func		= preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
+				$file = preg_replace( '#[^A-Z0-9_]#i', '', $parts[0] );
+				$func = preg_replace( '#[^A-Z0-9_]#i', '', $parts[1] );
 			} break;
 		}
 
-		$className	= $prefix.ucfirst($file);
+		$className = $prefix . ucfirst($file);
 
-		if (!class_exists( $className ))
+		if (!class_exists($className))
 		{
 			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(JHTML::$includePaths, strtolower($file).'.php'))
+			if ($path = JPath::find(JHtml::$includePaths, strtolower($file) . '.php'))
 			{
 				require_once $path;
 
-				if (!class_exists( $className ))
+				if (!class_exists($className))
 				{
-					JError::raiseWarning( 0, $className.'::' .$func. ' not found in file.' );
+					JError::raiseWarning(0, $className.'::' .$func. ' not found in file.');
 					return false;
 				}
-			}
-			else
-			{
-				JError::raiseWarning( 0, $prefix.$file . ' not supported. File not found.' );
+			} else {
+				JError::raiseWarning(0, $prefix.$file . ' not supported. File not found.');
 				return false;
 			}
 		}
 
-		if (is_callable( array( $className, $func ) ))
+		if (is_callable(array($className, $func)))
 		{
 			$args = func_get_args();
-			array_shift( $args );
-			return call_user_func_array( array( $className, $func ), $args );
-		}
-		else
-		{
-			JError::raiseWarning( 0, $className.'::'.$func.' not supported.' );
+			array_shift($args);
+			return call_user_func_array(array($className, $func), $args);
+		} else {
+			JError::raiseWarning(0, $className.'::'.$func.' not supported.');
 			return false;
 		}
 	}
@@ -108,11 +121,11 @@ abstract class JHTML
 	 */
 	public static function link($url, $text, $attribs = null)
 	{
-		if (is_array( $attribs )) {
-			$attribs = JArrayHelper::toString( $attribs );
+		if (is_array($attribs)) {
+			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		return '<a href="'.$url.'" '.$attribs.'>'.$text.'</a>';
+		return '<a href="' . $url . '" ' . $attribs . '>' . $text . '</a>';
 	}
 
 	/**
@@ -127,14 +140,14 @@ abstract class JHTML
 	public static function image($url, $alt, $attribs = null)
 	{
 		if (is_array($attribs)) {
-			$attribs = JArrayHelper::toString( $attribs );
+			$attribs = JArrayHelper::toString($attribs);
 		}
 
 		if(strpos($url, 'http') !== 0) {
-			$url =  JURI::root(true).'/'.$url;
+			$url = JURI::root(true).'/'.$url;
 		};
 
-		return '<img src="'.$url.'" alt="'.$alt.'" '.$attribs.' />';
+		return '<img src="' . $url . '" alt="' . $alt . '" ' . $attribs . ' />';
 	}
 
 	/**
@@ -147,13 +160,14 @@ abstract class JHTML
 	 * @param	string	The message to display if the iframe tag is not supported
 	 * @since	1.5
 	 */
-	public static function iframe( $url, $name, $attribs = null, $noFrames = '' )
+	public static function iframe($url, $name, $attribs = null, $noFrames = '')
 	{
-		if (is_array( $attribs )) {
-			$attribs = JArrayHelper::toString( $attribs );
+		if (is_array($attribs)) {
+			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		return '<iframe src="'.$url.'" '.$attribs.' name="'.$name.'">'.$noFrames.'</iframe>';
+		return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">'
+			. $noFrames . '</iframe>';
 	}
 
 	/**
@@ -168,18 +182,34 @@ abstract class JHTML
 	public static function script($filename, $path = 'media/system/js/', $mootools = true)
 	{
 		// Include mootools framework
-		if($mootools) {
-			JHTML::_('behavior.mootools');
+		if ($mootools) {
+			JHtml::_('behavior.mootools');
 		}
 
-		if(strpos($path, 'http') !== 0) {
-			$path =  JURI::root(true).'/'.$path;
+		if (strpos($path, 'http') !== 0) {
+			$path = JURI::root(true).'/'.$path;
 		};
 
 		$document = &JFactory::getDocument();
-		$document->addScript( $path.$filename );
+		$document->addScript($path . $filename);
 		return;
 	}
+    
+    /**
+     * Set format related options.
+     * 
+     * Updates the formatOptions array with all valid values in the passed
+     * array. See {@see JHtml::$formatOptions} for details.
+     * 
+     * @param array Option key/value pairs.
+     */
+    public static function setFormatOptions($options) {
+        foreach ($options as $key => $val) {
+            if (isset(self::$formatOptions[$key])) {
+                self::$formatOptions[$key] = $val;
+            }
+        }
+    }
 
 	/**
 	 * Write a <link rel="stylesheet" style="text/css" /> element
@@ -188,14 +218,15 @@ abstract class JHTML
 	 * @param	string 	The relative URL to use for the href attribute
 	 * @since	1.5
 	 */
-	public static function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
-	{
-		if(strpos($path, 'http') !== 0) {
-			$path =  JURI::root(true).'/'.$path;
+	public static function stylesheet(
+		$filename, $path = 'media/system/css/', $attribs = array()
+	) {
+		if (strpos($path, 'http') !== 0) {
+			$path = JURI::root(true).'/'.$path;
 		};
 
 		$document = &JFactory::getDocument();
-		$document->addStylesheet( $path.$filename, 'text/css', null, $attribs );
+		$document->addStylesheet($path . $filename, 'text/css', null, $attribs);
 		return;
 	}
 
@@ -209,20 +240,18 @@ abstract class JHTML
 	 * @see		strftime
 	 * @since	1.5
 	 */
-	public static function date($date, $format = null, $offset = NULL)
+	public static function date($date, $format = null, $offset = null)
 	{
-		if ( ! $format ) {
+		if (! $format) {
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
 
-
-
-		if(is_null($offset))
+		if (is_null($offset))
 		{
-			$config =& JFactory::getConfig();
+			$config = &JFactory::getConfig();
 			$offset = $config->getValue('config.offset');
 		}
-		$instance =& JFactory::getDate($date);
+		$instance = &JFactory::getDate($date);
 		$instance->setOffset($offset);
 
 		return $instance->toFormat($format);
@@ -241,30 +270,34 @@ abstract class JHTML
 	 * @return	string
 	 * @since	1.5
 	 */
-	public static function tooltip($tooltip, $title='', $image='tooltip.png', $text='', $href='', $link=1)
-	{
-		$tooltip	= addslashes(htmlspecialchars($tooltip));
-		$title		= addslashes(htmlspecialchars($title));
+	public static function tooltip(
+		$tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $link = 1
+	) {
+		$tooltip = addslashes(htmlspecialchars($tooltip));
+		$title = addslashes(htmlspecialchars($title));
 
-		if ( !$text ) {
-			$image 	= JURI::root(true).'/includes/js/ThemeOffice/'. $image;
-			$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
+		if (!$text) {
+			$image = JURI::root(true).'/includes/js/ThemeOffice/'. $image;
+			$text = '<img src="' . $image . '" border="0" alt="'
+				. JText::_( 'Tooltip' ) . '"/>';
 		} else {
-			$text 	= JText::_( $text, true );
+			$text = JText::_($text, true);
 		}
 
-		if($title) {
-			$title = $title.'::';
+		if ($title) {
+			$title .= '::';
 		}
 
 		$style = 'style="text-decoration: none; color: #333;"';
 
-		if ( $href ) {
-			$href = JRoute::_( $href );
+		$tip = '<span class="editlinktip hasTip" title="' . $title . $tooltip . '" '
+			. $style . '>';
+		if ($href) {
+			$href = JRoute::_($href);
 			$style = '';
-			$tip = '<span class="editlinktip hasTip" title="'.$title.$tooltip.'" '. $style .'><a href="'. $href .'">'. $text .'</a></span>';
+			$tip .= '<a href="' . $href . '">' . $text . '</a></span>';
 		} else {
-			$tip = '<span class="editlinktip hasTip" title="'.$title.$tooltip.'" '. $style .'>'. $text .'</span>';
+			$tip .= $text . '</span>';
 		}
 
 		return $tip;
@@ -281,26 +314,32 @@ abstract class JHTML
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
 	{
-		JHTML::_('behavior.calendar'); //load the calendar behavior
+		// Load the calendar behavior
+		JHtml::_('behavior.calendar');
 
 		if (is_array($attribs)) {
-			$attribs = JArrayHelper::toString( $attribs );
+			$attribs = JArrayHelper::toString($attribs);
 		}
-		$document =& JFactory::getDocument();
-		$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
-		inputField	:	"'.$id.'",	 // id of the input field
-		ifFormat	:	"'.$format.'",	  // format of the input field
-		button		:	"'.$id.'_img",  // trigger for the calendar (button ID)
-		align		:	"Tl",		   // alignment (defaults to "Bl")
-		singleClick	:	true
-	});});');
+		$document = &JFactory::getDocument();
+		$document->addScriptDeclaration(
+			'window.addEvent(\'domready\', function() {Calendar.setup({'
+			. 'inputField:"' . $id . '",'       // Id of the input field
+			. 'ifFormat:"' . $format . '",'     // Format of the input field
+			. 'button:"' . $id . '_img",'       // Trigger for the calendar (button ID)
+			. 'align:"Tl",'                     // Alignment (defaults to "Bl")
+			. 'singleClick:true'
+			. '});});'
+		);
 
-		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
-				 '<img class="calendar" src="'.JURI::root(true).'/templates/system/images/calendar.png" alt="calendar" id="'.$id.'_img" />';
+		return '<input type="text" name="' . $name . '" id="' . $id . '"'
+			. ' value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" '
+			. $attribs . ' />'
+			. '<img class="calendar" src="' .JURI::root(true)
+			. '/templates/system/images/calendar.png" alt="calendar" id="' . $id . '_img" />';
 	}
 
 	/**
-	 * Add a directory where JHTML should search for helpers. You may
+	 * Add a directory where JHtml should search for helpers. You may
 	 * either pass a string or an array of directories.
 	 *
 	 * @access	public
@@ -308,7 +347,7 @@ abstract class JHTML
 	 * @return	array	An array with directory elements
 	 * @since	1.5
 	 */
-	public static function addIncludePath( $path='' )
+	public static function addIncludePath($path = '')
 	{
 		// force path to array
 		settype($path, 'array');
@@ -316,11 +355,12 @@ abstract class JHTML
 		// loop through the path directories
 		foreach ($path as $dir)
 		{
-			if (!empty($dir) && !in_array($dir, JHTML::$includePaths)) {
-				array_unshift(JHTML::$includePaths, JPath::clean( $dir ));
+			if (!empty($dir) && !in_array($dir, JHtml::$includePaths)) {
+				array_unshift(JHtml::$includePaths, JPath::clean($dir));
 			}
 		}
 
-		return JHTML::$includePaths;
+		return JHtml::$includePaths;
 	}
+
 }

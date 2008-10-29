@@ -42,6 +42,13 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+29-Oct-2008 Alan Langford
+ + Added JHtmlSelect::groupedList() with improved support for select lists in groups.
+ ^ 95% backwards compatible refactoring of select-related methods in JHtmlSelect.
+ + Added several options to JHtmlSelect methods.
+ ^ Initiate refactor of JHTML* to JHtml*.
+ + Added output formatting options to JHtml.
+
 29-Oct-2008 Sam Moffatt
  - Removed JLanguage's support for constants as language strings
  ^ Changed JFile::write and JFilesystem::write to use a reference
