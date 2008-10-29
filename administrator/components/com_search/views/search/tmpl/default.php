@@ -32,10 +32,10 @@
 						<?php echo JText::_( 'NUM' ); ?>
 					</th>
 					<th class="title">
-						<?php echo JHTML::_('grid.sort',   'Search Text', 'search_term', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Search Text', 'search_term', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 					</th>
 					<th nowrap="nowrap" width="20%">
-						<?php echo JHTML::_('grid.sort',   'Times Requested', 'hits', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+						<?php echo JHtml::_('grid.sort',   'Times Requested', 'hits', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 					</th>
 					<?php
 					if ( $this->showResults ) : ?>

@@ -24,29 +24,29 @@ $canEdit	= ($this->user->authorize('com_content', 'edit', 'content', 'all') || $
 	<?php if (!$this->print) : ?>
 		<?php if ($this->params->get('show_pdf_icon')) : ?>
 		<td align="right" width="100%" class="buttonheading">
-		<?php echo JHTML::_('icon.pdf',  $this->article, $this->params, $this->access); ?>
+		<?php echo JHtml::_('icon.pdf',  $this->article, $this->params, $this->access); ?>
 		</td>
 		<?php endif; ?>
 
 		<?php if ( $this->params->get( 'show_print_icon' )) : ?>
 		<td align="right" width="100%" class="buttonheading">
-		<?php echo JHTML::_('icon.print_popup',  $this->article, $this->params, $this->access); ?>
+		<?php echo JHtml::_('icon.print_popup',  $this->article, $this->params, $this->access); ?>
 		</td>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_email_icon')) : ?>
 		<td align="right" width="100%" class="buttonheading">
-		<?php echo JHTML::_('icon.email',  $this->article, $this->params, $this->access); ?>
+		<?php echo JHtml::_('icon.email',  $this->article, $this->params, $this->access); ?>
 		</td>
 		<?php endif; ?>
 		<?php if ($canEdit) : ?>
 		<td align="right" width="100%" class="buttonheading">
-			<?php echo JHTML::_('icon.edit', $this->article, $this->params, $this->access); ?>
+			<?php echo JHtml::_('icon.edit', $this->article, $this->params, $this->access); ?>
 		</td>
 		<?php endif; ?>
 	<?php else : ?>
 		<td align="right" width="100%" class="buttonheading">
-		<?php echo JHTML::_('icon.print_screen',  $this->article, $this->params, $this->access); ?>
+		<?php echo JHtml::_('icon.print_screen',  $this->article, $this->params, $this->access); ?>
 		</td>
 	<?php endif; ?>
 </tr>
@@ -103,7 +103,7 @@ endif; ?>
 <?php if ($this->params->get('show_create_date')) : ?>
 <tr>
 	<td valign="top" class="createdate">
-		<?php echo JHTML::_('date', $this->article->created, JText::_('DATE_FORMAT_LC2')) ?>
+		<?php echo JHtml::_('date', $this->article->created, JText::_('DATE_FORMAT_LC2')) ?>
 	</td>
 </tr>
 <?php endif; ?>
@@ -129,7 +129,7 @@ endif; ?>
 <?php if ( intval($this->article->modified) !=0 && $this->params->get('show_modify_date')) : ?>
 <tr>
 	<td class="modifydate">
-		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHTML::_('date', $this->article->modified, JText::_('DATE_FORMAT_LC2')); ?> )
+		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHtml::_('date', $this->article->modified, JText::_('DATE_FORMAT_LC2')); ?> )
 	</td>
 </tr>
 <?php endif; ?>

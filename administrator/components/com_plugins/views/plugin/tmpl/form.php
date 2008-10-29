@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 
 <?php
 	JToolBarHelper::title( JText::_( 'Plugin' ) .': <small><small>[' .JText::_('Edit'). ']</small></small>', 'plugin.png' );
@@ -156,5 +156,5 @@
 	<input type="hidden" name="cid[]" value="<?php echo $this->plugin->extension_id; ?>" />
 	<input type="hidden" name="client" value="<?php echo $this->plugin->client_id; ?>" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

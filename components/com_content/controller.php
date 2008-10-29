@@ -34,7 +34,7 @@ class ContentController extends JController
 	 */
 	function display()
 	{
-		JHTML::_('behavior.caption');
+		JHtml::_('behavior.caption');
 
 		// Set a default view if none exists
 		if ( ! JRequest::getCmd( 'view' ) ) {

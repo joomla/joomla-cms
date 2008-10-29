@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 <?php JRequest::setVar( 'hidemainmenu', 1 ); ?>
 
 
@@ -93,5 +93,5 @@ foreach ( $this->cid as $id ) {
 	<?php
 }
 ?>
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

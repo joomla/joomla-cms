@@ -95,7 +95,7 @@ class PollViewPolls extends JView
 		}
 
 		// state filter
-		$lists['state']	= JHTML::_('grid.state',  $filter_state );
+		$lists['state']	= JHtml::_('grid.state',  $filter_state );
 
 		// table ordering
 		$lists['order_Dir']	= $filter_order_Dir;

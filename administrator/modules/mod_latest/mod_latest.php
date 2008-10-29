@@ -104,7 +104,7 @@ if (count( $rows ))
 					<?php echo htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');?></a>
 			</td>
 			<td>
-				<?php echo JHTML::_('date', $row->$dateProperty, '%Y-%m-%d %H:%M:%S'); ?>
+				<?php echo JHtml::_('date', $row->$dateProperty, '%Y-%m-%d %H:%M:%S'); ?>
 			</td>
 			<td>
 				<?php echo $author;?>

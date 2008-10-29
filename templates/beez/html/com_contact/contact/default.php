@@ -14,7 +14,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<form method="post" name="selectForm" id="selectForm">
 		<?php echo JText::_('Select Contact'); ?>
 		<br />
-		<?php echo JHTML::_('select.genericlist', $this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id); ?>
+		<?php echo JHtml::_('select.genericlist', $this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id); ?>
 		<input type="hidden" name="option" value="com_contact" />
 	</form>
 	<?php endif; ?>
@@ -33,7 +33,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 
 	<?php if ($this->contact->image && $this->contact->params->get('show_image')) : ?>
 	<div style="float: right;">
-		<?php echo JHTML::_('image', $cparams->get('image_path').'/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middel')); ?>
+		<?php echo JHtml::_('image', $cparams->get('image_path').'/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middel')); ?>
 	</div>
 	<?php endif; ?>
 

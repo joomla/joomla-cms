@@ -64,7 +64,7 @@ class PluginsViewPlugin extends JView
 			$lists['access'] = 'Administrator<input type="hidden" name="access" value="99" />';
 		} else {
 			// build the html select list for the group access
-			$lists['access'] = JHTML::_('list.accesslevel',  $row );
+			$lists['access'] = JHtml::_('list.accesslevel',  $row );
 		}
 
 		if ($cid[0])
@@ -86,8 +86,8 @@ class PluginsViewPlugin extends JView
 					. ' AND type = "plugin"'
 					. ' ORDER BY ordering'
 				;
-				$order = JHTML::_('list.genericordering',  $query );
-				$lists['ordering'] = JHTML::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+				$order = JHtml::_('list.genericordering',  $query );
+				$lists['ordering'] = JHtml::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 			} else {
 				$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
 			}
@@ -110,7 +110,7 @@ class PluginsViewPlugin extends JView
 			$row->description 	= '';
 		}
 
-		$lists['enabled'] = JHTML::_('select.booleanlist',  'enabled', 'class="inputbox"', $row->enabled );
+		$lists['enabled'] = JHtml::_('select.booleanlist',  'enabled', 'class="inputbox"', $row->enabled );
 
 		// get params definitions
 		$params = new JParameter( $row->params, JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ));

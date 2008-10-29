@@ -128,14 +128,14 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 		<label for="publish_up">
 			<?php echo JText::_( 'Start Publishing' ); ?>:
 		</label>
-		<?php echo JHTML::_('calendar', $this->article->publish_up, 'publish_up', 'publish_up', '%Y-%m-%d %H:%M:%S', array('class'=>'inputbox', 'size'=>'25',  'maxlength'=>'19')); ?>
+		<?php echo JHtml::_('calendar', $this->article->publish_up, 'publish_up', 'publish_up', '%Y-%m-%d %H:%M:%S', array('class'=>'inputbox', 'size'=>'25',  'maxlength'=>'19')); ?>
 	</div>
 	<div class="wrap">&nbsp;</div>
 	<div>
 		<label for="publish_down">
 			<?php echo JText::_( 'Finish Publishing' ); ?>:
 		</label>
-		<?php echo JHTML::_('calendar', $this->article->publish_down, 'publish_down', 'publish_down', '%Y-%m-%d %H:%M:%S', array('class'=>'inputbox', 'size'=>'25',  'maxlength'=>'19')); ?>
+		<?php echo JHtml::_('calendar', $this->article->publish_down, 'publish_down', 'publish_down', '%Y-%m-%d %H:%M:%S', array('class'=>'inputbox', 'size'=>'25',  'maxlength'=>'19')); ?>
 	</div>
 	<div class="wrap">&nbsp;</div>
 	<div>
@@ -182,6 +182,6 @@ echo $this->editor->display('text', $this->article->text, '100%', '400', '70', '
 	<input type="hidden" name="created_by" value="<?php echo $this->article->created_by; ?>" />
 	<input type="hidden" name="referer" value="<?php echo @$_SERVER['HTTP_REFERER']; ?>" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>
-<?php echo JHTML::_('behavior.keepalive'); ?>
+<?php echo JHtml::_('behavior.keepalive'); ?>

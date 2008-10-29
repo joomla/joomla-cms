@@ -57,7 +57,7 @@ class MenusViewMenus extends JView
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('limitstart', $limitstart);
 
-		JHTML::_('behavior.tooltip');
+		JHtml::_('behavior.tooltip');
 
 		parent::display($tpl);
 	}
@@ -142,7 +142,7 @@ class MenusViewMenus extends JView
 		$this->assignRef('row', $table);
 		$this->assign('isnew', ($table->id == 0));
 
-		JHTML::_('behavior.tooltip');
+		JHtml::_('behavior.tooltip');
 
 		parent::display($tpl);
 	}

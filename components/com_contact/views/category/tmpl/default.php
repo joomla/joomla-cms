@@ -63,11 +63,11 @@ $cparams =& JComponentHelper::getParams('com_media');
 				<?php echo JText::_('Num'); ?>
 			</td>
 			<td height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php echo JHTML::_('grid.sort',  'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',  'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</td>
 			<?php if ( $this->params->get( 'show_position' ) ) : ?>
 			<td height="20" class="sectiontableheader<?php echo  $this->params->get( 'pageclass_sfx' ); ?>">
-				<?php echo JHTML::_('grid.sort',  'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',  'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</td>
 			<?php endif; ?>
 			<?php if ( $this->params->get( 'show_email' ) ) : ?>

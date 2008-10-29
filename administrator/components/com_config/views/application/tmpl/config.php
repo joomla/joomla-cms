@@ -1,7 +1,7 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
-	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
-	JHTML::_('behavior.tooltip');
-	JHTML::_('behavior.switcher');
+	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+	JHtml::_('behavior.tooltip');
+	JHtml::_('behavior.switcher');
 ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
@@ -67,5 +67,5 @@
 <input type="hidden" name="option" value="com_config" />
 <input type="hidden" name="secret" value="<?php echo $this->row->secret; ?>" />
 <input type="hidden" name="task" value="" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

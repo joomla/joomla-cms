@@ -1,5 +1,5 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
-	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 ?>
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" autocomplete="off">
 	<fieldset>
@@ -28,5 +28,5 @@
 	<input type="hidden" name="option" value="com_config" />
 	<input type="hidden" name="tmpl" value="component" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

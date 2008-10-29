@@ -143,7 +143,7 @@ class WeblinksViewWeblink extends JView
 		}
 
 		// build list of categories
-		$lists['catid'] = JHTML::_('list.category', 'jform[catid]', 'com_weblinks', intval($weblink->catid));
+		$lists['catid'] = JHtml::_('list.category', 'jform[catid]', 'com_weblinks', intval($weblink->catid));
 
 		// build the html select list for ordering
 		$query = 'SELECT ordering AS value, title AS text'
@@ -151,10 +151,10 @@ class WeblinksViewWeblink extends JView
 			. ' WHERE catid = ' . (int) $weblink->catid
 			. ' ORDER BY ordering';
 
-		$lists['ordering'] 			= JHTML::_('list.specificordering',  $weblink, $weblink->id, $query );
+		$lists['ordering'] 			= JHtml::_('list.specificordering',  $weblink, $weblink->id, $query );
 
 		// Radio Buttons: weblink state
-		$lists['state'] 		= JHTML::_('weblink.statelist',  'jform[state]', $weblink->state );
+		$lists['state'] 		= JHtml::_('weblink.statelist',  'jform[state]', $weblink->state );
 
 		JFilterOutput::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );
 

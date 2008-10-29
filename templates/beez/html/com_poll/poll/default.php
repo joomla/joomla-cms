@@ -2,7 +2,7 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 
-<?php JHTML::_('stylesheet', 'poll_bars.css', 'components/com_poll/assets/'); ?>
+<?php JHtml::_('stylesheet', 'poll_bars.css', 'components/com_poll/assets/'); ?>
 
 <?php if ($this->params->get('show_page_title')) : ?>
 <h1 class="componentheading<?php echo $this->params->get('pageclass_sfx'); ?>">

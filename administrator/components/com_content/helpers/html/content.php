@@ -20,7 +20,7 @@
  * @subpackage	Content
  * @since		1.5
  */
-class JHTMLContent
+class JHtmlContent
 {
 	/**
 	 * Displays the publishing state legend for articles

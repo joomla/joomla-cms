@@ -42,8 +42,8 @@ class JElementBannerclient extends JElement
 				' ORDER BY name';
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-		array_unshift($options, JHTML::_('select.option', '0', '- '.JText::_('Select Client').' -', 'cid', 'name'));
+		array_unshift($options, JHtml::_('select.option', '0', '- '.JText::_('Select Client').' -', 'cid', 'name'));
 
-		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'cid', 'name', $value, $control_name.$name );
+		return JHtml::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'cid', 'name', $value, $control_name.$name );
 	}
 }

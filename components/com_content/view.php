@@ -9,7 +9,7 @@ class ContentView extends JView
 	{
 		parent::__construct($config);
 
-		//Add the helper path to the JHTML library
-		JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers');
+		//Add the helper path to the JHtml library
+		JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 	}
 }

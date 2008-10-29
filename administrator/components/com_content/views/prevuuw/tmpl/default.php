@@ -2,7 +2,7 @@
 
 <?php
 		$editor		=& JFactory::getEditor();
-		JHTML::_('behavior.caption');
+		JHtml::_('behavior.caption');
 ?>
 
 <script>

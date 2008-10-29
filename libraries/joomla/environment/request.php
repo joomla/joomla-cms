@@ -424,7 +424,7 @@ abstract class JRequest
 	/**
 	 * Checks for a form token in the request
 	 *
-	 * Use in conjuction with JHTML::_( 'form.token' )
+	 * Use in conjuction with JHtml::_( 'form.token' )
 	 *
 	 * @param	string	The request method in which to look for the token key
 	 * @return	boolean	True if found and valid, false otherwise

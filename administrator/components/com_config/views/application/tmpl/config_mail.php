@@ -11,7 +11,7 @@
 					</span>
 			</td>
 			<td>
-				<?php echo JHTML::_('config.mailHandlers', $this->row->mailer); ?>
+				<?php echo JHtml::_('config.mailHandlers', $this->row->mailer); ?>
 			</td>
 		</tr>
 		<tr>
@@ -51,7 +51,7 @@
 					</span>
 			</td>
 			<td>
-				<?php echo JHTML::_('select.booleanlist', 'smtpauth', 'class="inputbox"', $this->row->smtpauth); ?>
+				<?php echo JHtml::_('select.booleanlist', 'smtpauth', 'class="inputbox"', $this->row->smtpauth); ?>
 			</td>
 		</tr>
 		<tr>

@@ -59,42 +59,42 @@ class ContactdirectoryViewField extends JView
 			. " WHERE pos = '$field->pos'"
 			. " ORDER BY ordering";
 
-		$lists['ordering'] = JHTML::_('list.specificordering',  $field, $field->id, $query );
+		$lists['ordering'] = JHtml::_('list.specificordering',  $field, $field->id, $query );
 
 		// build the html select list for published
-		$lists['published'] = JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $field->published );
+		$lists['published'] = JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $field->published );
 
 		// build the html select list for access
-		$lists['access'] = JHTML::_('list.accesslevel', $field);
+		$lists['access'] = JHtml::_('list.accesslevel', $field);
 
 		// build the html select list for type
 		$types = array();
-		//$types[] = JHTML::_('select.option', 'checkbox', 'Check Box (Single)' );
-		//$types[] = JHTML::_('select.option', 'multicheckbox', 'Check Box (Muliple)' );
-		//$types[] = JHTML::_('select.option', 'date', 'Date' );
-		//$types[] = JHTML::_('select.option', 'select', 'Drop Down (Single Select)' );
-		//$types[] = JHTML::_('select.option', 'multiselect', 'Drop Down (Multi-Select)' );
-		$types[] = JHTML::_('select.option', 'text', JText::_('TEXT_FIELD'));
-		$types[] = JHTML::_('select.option', 'textarea', JText::_('TEXT_AREA'));
-		$types[] = JHTML::_('select.option', 'editor', JText::_('EDITOR_TEXT_AREA'));
-		//$types[] = JHTML::_('select.option', 'number', 'Number Text' );
-		$types[] = JHTML::_('select.option', 'email', JText::_('EMAIL_ADDRESS'));
-		$types[] = JHTML::_('select.option', 'url', JText::_('URL'));
-		//$types[] = JHTML::_('select.option', 'radio', 'Radio Button' );
-		$types[] = JHTML::_('select.option', 'image', JText::_('IMAGE'));
+		//$types[] = JHtml::_('select.option', 'checkbox', 'Check Box (Single)' );
+		//$types[] = JHtml::_('select.option', 'multicheckbox', 'Check Box (Muliple)' );
+		//$types[] = JHtml::_('select.option', 'date', 'Date' );
+		//$types[] = JHtml::_('select.option', 'select', 'Drop Down (Single Select)' );
+		//$types[] = JHtml::_('select.option', 'multiselect', 'Drop Down (Multi-Select)' );
+		$types[] = JHtml::_('select.option', 'text', JText::_('TEXT_FIELD'));
+		$types[] = JHtml::_('select.option', 'textarea', JText::_('TEXT_AREA'));
+		$types[] = JHtml::_('select.option', 'editor', JText::_('EDITOR_TEXT_AREA'));
+		//$types[] = JHtml::_('select.option', 'number', 'Number Text' );
+		$types[] = JHtml::_('select.option', 'email', JText::_('EMAIL_ADDRESS'));
+		$types[] = JHtml::_('select.option', 'url', JText::_('URL'));
+		//$types[] = JHtml::_('select.option', 'radio', 'Radio Button' );
+		$types[] = JHtml::_('select.option', 'image', JText::_('IMAGE'));
 
-		$lists['type'] = JHTML::_('select.genericlist', $types, 'type', 'class="inputbox"', 'value', 'text', $field->type );
+		$lists['type'] = JHtml::_('select.genericlist', $types, 'type', 'class="inputbox"', 'value', 'text', $field->type );
 
 		// build the html select list for position
 		$positions = array();
-		$positions[] = JHTML::_('select.option', 'title', JText::_('TITLE'));
-		$positions[] = JHTML::_('select.option', 'top', JText::_('TOP'));
-		$positions[] = JHTML::_('select.option', 'left', JText::_('LEFT'));
-		$positions[] = JHTML::_('select.option', 'main', JText::_('MAIN'));
-		$positions[] = JHTML::_('select.option', 'right', JText::_('RIGHT'));
-		$positions[] = JHTML::_('select.option', 'bottom', JText::_('BOTTOM'));
+		$positions[] = JHtml::_('select.option', 'title', JText::_('TITLE'));
+		$positions[] = JHtml::_('select.option', 'top', JText::_('TOP'));
+		$positions[] = JHtml::_('select.option', 'left', JText::_('LEFT'));
+		$positions[] = JHtml::_('select.option', 'main', JText::_('MAIN'));
+		$positions[] = JHtml::_('select.option', 'right', JText::_('RIGHT'));
+		$positions[] = JHtml::_('select.option', 'bottom', JText::_('BOTTOM'));
 
-		$lists['pos'] = JHTML::_('select.genericlist', $positions, 'pos', 'class="inputbox"', 'value', 'text', $field->pos );
+		$lists['pos'] = JHtml::_('select.genericlist', $positions, 'pos', 'class="inputbox"', 'value', 'text', $field->pos );
 
 		//clean field data
 		JFilterOutput::objectHTMLSafe( $field, ENT_QUOTES, 'description' );

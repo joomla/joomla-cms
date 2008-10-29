@@ -1,13 +1,13 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php
-	JHTML::_('behavior.combobox');
+	JHtml::_('behavior.combobox');
 
 	jimport('joomla.html.pane');
 	$pane = &JPane::getInstance('sliders');
 	$editor = &JFactory::getEditor();
 
-	JHTML::_('behavior.tooltip');
+	JHtml::_('behavior.tooltip');
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -286,5 +286,5 @@ if ( !$this->row->module || $this->row->module == 'custom' || $this->row->module
 <input type="hidden" name="module" value="<?php echo $this->row->module; ?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="client" value="<?php echo $this->client->id ?>" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

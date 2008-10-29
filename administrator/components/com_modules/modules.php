@@ -24,7 +24,7 @@ if (!$user->authorize( 'com_modules', 'manage' )) {
 }
 
 // Helper classes
-JHTML::addIncludePath(JPATH_COMPONENT.DS.'classes');
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'classes');
 
 // Require the base controller
 require_once JPATH_COMPONENT.DS.'controller.php';

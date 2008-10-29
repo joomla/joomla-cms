@@ -46,10 +46,10 @@ class InstallerViewLanguages extends InstallerViewDefault
 		$pagination	= &$this->get('Pagination');
 
 		$lists = new stdClass();
-		$select[] = JHTML::_('select.option', '-1', JText::_('All'));
-		$select[] = JHTML::_('select.option', '0', JText::_('Site Languages'));
-		$select[] = JHTML::_('select.option', '1', JText::_('Admin Languages'));
-		$lists->client = JHTML::_('select.genericlist',  $select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
+		$select[] = JHtml::_('select.option', '-1', JText::_('All'));
+		$select[] = JHtml::_('select.option', '0', JText::_('Site Languages'));
+		$select[] = JHtml::_('select.option', '1', JText::_('Admin Languages'));
+		$lists->client = JHtml::_('select.genericlist',  $select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
 
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);

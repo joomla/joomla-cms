@@ -38,7 +38,7 @@ class plgButtonImage extends JPlugin
 
 		$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name='.$name;
 
-		JHTML::_('behavior.modal');
+		JHtml::_('behavior.modal');
 
 		$button = new JStdClass();
 		$button->set('modal', true);

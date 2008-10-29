@@ -48,5 +48,5 @@
 <?php foreach ( $this->items as $item ) : ?>
 	<input type="hidden" name="cid[]" value="<?php echo $item->id; ?>" />
 <?php endforeach; ?>
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

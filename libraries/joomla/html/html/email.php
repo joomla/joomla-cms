@@ -20,7 +20,7 @@
  * @subpackage	HTML
  * @since		1.5
  */
-abstract class JHTMLEmail
+abstract class JHtmlEmail
 {
 	/**
 	* Simple Javascript email Cloaker
@@ -30,7 +30,7 @@ abstract class JHTMLEmail
 	public static function cloak( $mail, $mailto=1, $text='', $email=1 )
 	{
 		// convert text
-		$mail 			= JHTMLEmail::_convertEncoding( $mail );
+		$mail 			= JHtmlEmail::_convertEncoding( $mail );
 		// split email by @ symbol
 		$mail			= explode( '@', $mail );
 		$mail_parts		= explode( '.', $mail[1] );
@@ -49,7 +49,7 @@ abstract class JHTMLEmail
 			if ( $text ) {
 				if ( $email ) {
 					// convert text
-					$text 			= JHTMLEmail::_convertEncoding( $text );
+					$text 			= JHtmlEmail::_convertEncoding( $text );
 					// split email by @ symbol
 					$text 			= explode( '@', $text );
 					$text_parts		= explode( '.', $text[1] );

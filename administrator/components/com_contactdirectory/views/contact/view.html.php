@@ -83,7 +83,7 @@ class ContactdirectoryViewContact extends JView
 			$select[] = $category->id;
 		}
 
-		$lists['category'] = JHTML::_('select.genericlist', $cat, 'categories[]', 'multiple="multiple" class="inputbox" size="'. count($cat).'"', 'value', 'text', $select );
+		$lists['category'] = JHtml::_('select.genericlist', $cat, 'categories[]', 'multiple="multiple" class="inputbox" size="'. count($cat).'"', 'value', 'text', $select );
 
 		$i = 0;
 		foreach ($categories as $category) {
@@ -92,18 +92,18 @@ class ContactdirectoryViewContact extends JView
 				."LEFT JOIN jos_contactdirectory_con_cat_map map ON map.contact_id = c.id "
 				."WHERE c.published = 1 AND map.category_id = '$category->id' ORDER BY ordering";
 
-			$order = JHTML::_('list.genericordering', $query );
-			$lists['ordering'.$i] = JHTML::_('select.genericlist', $order, 'ordering[]', 'class="inputbox" size="1"', 'value', 'text', intval( $category->ordering ) );
+			$order = JHtml::_('list.genericordering', $query );
+			$lists['ordering'.$i] = JHtml::_('select.genericlist', $order, 'ordering[]', 'class="inputbox" size="1"', 'value', 'text', intval( $category->ordering ) );
 			$i++;
 		}
 
-		//$lists['ordering'] = JHTML::_('list.specificordering',  $contact, $contact->id, $query );
+		//$lists['ordering'] = JHtml::_('list.specificordering',  $contact, $contact->id, $query );
 
 		// build the html select list for published
-		$lists['published'] = JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $contact->published );
+		$lists['published'] = JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $contact->published );
 
 		// build the html select list for access
-		$lists['access'] = JHTML::_('list.accesslevel', $contact);
+		$lists['access'] = JHtml::_('list.accesslevel', $contact);
 
 
 		// build the html for the booleanlist Show / Hide Field
@@ -111,13 +111,13 @@ class ContactdirectoryViewContact extends JView
 		foreach ($fields as $field){
 			$field->params = new JParameter($field->params);
 
-			$lists['showContact'.$i] = JHTML::_('select.booleanlist', 'showContactPage['.$field->alias.']', 'class="inputbox"', $field->show_contact, 'show', 'hide' );
-			$lists['showDirectory'.$i] = JHTML::_('select.booleanlist', 'showContactLists['.$field->alias.']', 'class="inputbox"', $field->show_directory, 'show', 'hide' );
+			$lists['showContact'.$i] = JHtml::_('select.booleanlist', 'showContactPage['.$field->alias.']', 'class="inputbox"', $field->show_contact, 'show', 'hide' );
+			$lists['showDirectory'.$i] = JHtml::_('select.booleanlist', 'showContactLists['.$field->alias.']', 'class="inputbox"', $field->show_directory, 'show', 'hide' );
 			$i++;
 		}
 
 		// build list of users
-		$lists['user_id'] = JHTML::_('list.users',  'user_id', $contact->user_id, 1, null, 'name', 0 );
+		$lists['user_id'] = JHtml::_('list.users',  'user_id', $contact->user_id, 1, null, 'name', 0 );
 
 		//clean contact data
 		JFilterOutput::objectHTMLSafe( $contact, ENT_QUOTES, 'description' );

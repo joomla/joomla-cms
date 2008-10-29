@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
  * @static
  * @package 	Bricks
  */
-class JHTMLContentGrid
+class JHtmlContentGrid
 {
 	function author( $name, $filter_authorid )
 	{
@@ -27,10 +27,10 @@ class JHTMLContentGrid
 				' AND c.state <> -2' .
 				' GROUP BY u.name' .
 				' ORDER BY u.name';
-		$authors[] = JHTML::_('select.option', '0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
+		$authors[] = JHtml::_('select.option', '0', '- '.JText::_('Select Author').' -', 'created_by', 'name');
 		$db->setQuery($query);
 		$authors = array_merge($authors, $db->loadObjectList());
-		return JHTML::_('select.genericlist',  $authors, $name, 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
+		return JHtml::_('select.genericlist',  $authors, $name, 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid);
 	}
 
 	function category( $name, $filter_catid, $filter_sectionid = null )
@@ -45,9 +45,9 @@ class JHTMLContentGrid
 				' INNER JOIN #__sections AS s ON s.id = cc.section ' .
 				$cat_filter .
 				' ORDER BY s.ordering, cc.ordering';
-		$categories[] = JHTML::_('select.option', '0', '- '.JText::_('Select Category').' -');
+		$categories[] = JHtml::_('select.option', '0', '- '.JText::_('Select Category').' -');
 		$db->setQuery($query);
 		$categories = array_merge($categories, $db->loadObjectList());
-		return JHTML::_('select.genericlist',  $categories, $name, 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_catid);
+		return JHtml::_('select.genericlist',  $categories, $name, 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_catid);
 	}
 }

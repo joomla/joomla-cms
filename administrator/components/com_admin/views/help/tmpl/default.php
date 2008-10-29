@@ -18,30 +18,30 @@
 					<?php
 					if ($helpurl) {
 					?>
-					<?php echo JHTML::_('link', JHelp::createUrl('joomla.glossary'), JText::_('Glossary'), array('target' => 'helpFrame')) ?>
+					<?php echo JHtml::_('link', JHelp::createUrl('joomla.glossary'), JText::_('Glossary'), array('target' => 'helpFrame')) ?>
 					|
-					<?php echo JHTML::_('link', JHelp::createUrl('joomla.credits'), JText::_('Credits'), array('target' => 'helpFrame')) ?>
+					<?php echo JHtml::_('link', JHelp::createUrl('joomla.credits'), JText::_('Credits'), array('target' => 'helpFrame')) ?>
 					|
-					<?php echo JHTML::_('link', JHelp::createUrl('joomla.support'), JText::_('Support'), array('target' => 'helpFrame')) ?>
+					<?php echo JHtml::_('link', JHelp::createUrl('joomla.support'), JText::_('Support'), array('target' => 'helpFrame')) ?>
 					<?php
 					} else {
 					?>
-					<?php echo JHTML::_('link', JURI::base() .'help/'.$this->langTag.'/joomla.glossary.html', JText::_('Glossary'), array('target' => 'helpFrame')) ?>
+					<?php echo JHtml::_('link', JURI::base() .'help/'.$this->langTag.'/joomla.glossary.html', JText::_('Glossary'), array('target' => 'helpFrame')) ?>
 					|
-					<?php echo JHTML::_('link', JURI::base() .'help/'.$this->langTag.'/joomla.credits.html', JText::_('Credits'), array('target' => 'helpFrame')) ?>
+					<?php echo JHtml::_('link', JURI::base() .'help/'.$this->langTag.'/joomla.credits.html', JText::_('Credits'), array('target' => 'helpFrame')) ?>
 					|
-					<?php echo JHTML::_('link', JURI::base() .'help/'.$this->langTag.'/joomla.support.html', JText::_('Support'), array('target' => 'helpFrame')) ?>
+					<?php echo JHtml::_('link', JURI::base() .'help/'.$this->langTag.'/joomla.support.html', JText::_('Support'), array('target' => 'helpFrame')) ?>
 					<?php
 					}
 					?>
 					|
-					<?php echo JHTML::_('link', 'http://www.gnu.org/licenses/gpl-2.0.html', JText::_('License'), array('target' => 'helpFrame')) ?>
+					<?php echo JHtml::_('link', 'http://www.gnu.org/licenses/gpl-2.0.html', JText::_('License'), array('target' => 'helpFrame')) ?>
 					|
-					<?php echo JHTML::_('link', 'http://help.joomla.org', 'help.joomla.org', array('target' => 'helpFrame')) ?>
+					<?php echo JHtml::_('link', 'http://help.joomla.org', 'help.joomla.org', array('target' => 'helpFrame')) ?>
 					|
-					<?php echo JHTML::_('link', 'index.php?option=com_admin&amp;task=changelog&amp;tmpl=component', JText::_('Changelog'), array('target' => 'helpFrame')) ?>
+					<?php echo JHtml::_('link', 'index.php?option=com_admin&amp;task=changelog&amp;tmpl=component', JText::_('Changelog'), array('target' => 'helpFrame')) ?>
 					|
-					<?php echo JHTML::_('link', 'http://www.joomla.org/content/blogcategory/57/111/', JText::_('Latest Version Check'), array('target' => 'helpFrame')) ?>
+					<?php echo JHtml::_('link', 'http://www.joomla.org/content/blogcategory/57/111/', JText::_('Latest Version Check'), array('target' => 'helpFrame')) ?>
 				</td>
 			</tr>
 		</table>
@@ -62,11 +62,11 @@
 				foreach ($this->toc as $k=>$v) {
 					if ($helpurl) {
 						echo '<li>';
-						echo JHTML::_('link', JHelp::createUrl($k), $v, array('target' => 'helpFrame'));
+						echo JHtml::_('link', JHelp::createUrl($k), $v, array('target' => 'helpFrame'));
 						echo '</li>';
 					} else {
 						echo '<li>';
-						echo JHTML::_('link', JURI::base() .'help/'.$this->langTag.'/'.$k, $v, array('target' => 'helpFrame'));
+						echo JHtml::_('link', JURI::base() .'help/'.$this->langTag.'/'.$k, $v, array('target' => 'helpFrame'));
 						echo '</li>';
 					}
 				}

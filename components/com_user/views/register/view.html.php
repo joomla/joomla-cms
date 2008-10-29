@@ -53,7 +53,7 @@ class UserViewRegister extends JView
 		$pathway->addItem( JText::_( 'New' ));
 
 		// Load the form validation behavior
-		JHTML::_('behavior.formvalidation');
+		JHtml::_('behavior.formvalidation');
 
 		$user =& JFactory::getUser();
 		$this->assignRef('user', $user);

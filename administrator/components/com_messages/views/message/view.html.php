@@ -57,7 +57,7 @@ class MessagesViewMessage extends JView
 			$gids 	= implode( ',', $gids );
 
 			// get list of usernames
-			$recipients = array( JHTML::_('select.option',  '0', '- '. JText::_( 'Select User' ) .' -' ) );
+			$recipients = array( JHtml::_('select.option',  '0', '- '. JText::_( 'Select User' ) .' -' ) );
 			$query = 'SELECT id AS value, username AS text FROM #__users'
 					. ' WHERE gid IN ( '.$gids.' )'
 					. ' ORDER BY name'

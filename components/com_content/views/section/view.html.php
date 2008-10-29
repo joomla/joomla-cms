@@ -97,7 +97,7 @@ class ContentViewSection extends ContentView
 		$document->setTitle( $params->get( 'page_title' ) );
 
 		// Prepare section description
-		$section->description = JHTML::_('content.prepare', $section->description);
+		$section->description = JHtml::_('content.prepare', $section->description);
 
 		for($i = 0; $i < count($categories); $i++)
 		{
@@ -105,7 +105,7 @@ class ContentViewSection extends ContentView
 			$category->link = JRoute::_(ContentHelperRoute::getCategoryRoute($category->slug, $category->section).'&layout=default');
 
 			// Prepare category description
-			$category->description = JHTML::_('content.prepare', $category->description);
+			$category->description = JHtml::_('content.prepare', $category->description);
 		}
 
 		if ($total == 0) {

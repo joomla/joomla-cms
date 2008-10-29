@@ -11,7 +11,7 @@
 					</span>
 			</td>
 			<td>
-					<?php echo JHTML::_('select.booleanlist', 'ftp_enable', 'class="inputbox"', (int) $this->row->ftp_enable); ?>
+					<?php echo JHtml::_('select.booleanlist', 'ftp_enable', 'class="inputbox"', (int) $this->row->ftp_enable); ?>
 			</td>
 		</tr>
 		<tr>

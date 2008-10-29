@@ -123,7 +123,7 @@ class PluginsViewPlugins extends JView
 			. ' GROUP BY folder'
 			. ' ORDER BY folder'
 			;
-		$types[] = JHTML::_('select.option',  1, '- '. JText::_( 'Select Type' ) .' -' );
+		$types[] = JHtml::_('select.option',  1, '- '. JText::_( 'Select Type' ) .' -' );
 		$db->setQuery( $query );
 		try {
 			$types 			= array_merge( $types, $db->loadObjectList() );
@@ -131,10 +131,10 @@ class PluginsViewPlugins extends JView
 			echo $db->stderr();
 			return false;
 		}
-		$lists['type']	= JHTML::_('select.genericlist',   $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
+		$lists['type']	= JHtml::_('select.genericlist',   $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
 
 		// state filter
-		$lists['state']	= JHTML::_('grid.state',  $filter_state );
+		$lists['state']	= JHtml::_('grid.state',  $filter_state );
 
 
 		// table ordering

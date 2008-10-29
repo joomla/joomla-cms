@@ -63,11 +63,11 @@ class ContentViewCopyselect extends JView
 		$db->setQuery($query);
 
 		// Add a row for uncategorized content
-		$uncat	= JHTML::_('select.option', '0,0', JText::_('UNCATEGORIZED'));
+		$uncat	= JHtml::_('select.option', '0,0', JText::_('UNCATEGORIZED'));
 		$rows	= $db->loadObjectList();
 		array_unshift($rows, $uncat);
 		// build the html select list
-		$sectCatList = JHTML::_('select.genericlist', $rows, 'sectcat', 'class="inputbox" size="10"', 'value', 'text', NULL);
+		$sectCatList = JHtml::_('select.genericlist', $rows, 'sectcat', 'class="inputbox" size="10"', 'value', 'text', NULL);
 
 		$this->assignRef('option',		$option);
 		$this->assignRef('cid',			$cid);

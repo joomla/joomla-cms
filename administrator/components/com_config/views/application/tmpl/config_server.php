@@ -20,7 +20,7 @@
 					</span>
 				</td>
 				<td>
-					<?php echo JHTML::_('select.booleanlist', 'gzip', 'class="inputbox"', $this->row->gzip); ?>
+					<?php echo JHtml::_('select.booleanlist', 'gzip', 'class="inputbox"', $this->row->gzip); ?>
 				</td>
 			</tr>
 			<tr>
@@ -30,7 +30,7 @@
 					</span>
 				</td>
 				<td>
-					<?php echo JHTML::_('config.errorReporting', $this->row->error_reporting);?>
+					<?php echo JHtml::_('config.errorReporting', $this->row->error_reporting);?>
 				</td>
 			</tr>
 		</tbody>

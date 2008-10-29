@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 
 <script language="javascript" type="text/javascript">
 <!--
@@ -98,5 +98,5 @@ function submitbutton(pressbutton)
 <input type="hidden" name="cid" value="<?php echo $this->row->cid; ?>" />
 <input type="hidden" name="client_id" value="<?php echo $this->row->cid; ?>" />
 <input type="hidden" name="task" value="" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

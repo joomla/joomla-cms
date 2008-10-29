@@ -15,7 +15,7 @@
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items);?>)" />
 				</th>
 				<th class="left">
-					<?php echo JHTML::_('grid.sort', 'ACL Col Note', 'a.note', $this->state->orderDirn, $this->state->orderCol); ?>
+					<?php echo JHtml::_('grid.sort', 'ACL Col Note', 'a.note', $this->state->orderDirn, $this->state->orderCol); ?>
 				</th>
 				<th nowrap="nowrap" align="center">
 					<?php echo JText::_('ACL Col User Groups'); ?>
@@ -27,10 +27,10 @@
 					<?php echo JText::_('ACL Col Applies to Levels'); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHTML::_('grid.sort', 'ACL Col Allowed', 'a.allow', $this->state->orderDirn, $this->state->orderCol); ?>
+					<?php echo JHtml::_('grid.sort', 'ACL Col Allowed', 'a.allow', $this->state->orderDirn, $this->state->orderCol); ?>
 				</th>
 				<th nowrap="nowrap" width="5%">
-					<?php echo JHTML::_('grid.sort', 'ACL Col Enabled', 'a.enabled', $this->state->orderDirn, $this->state->orderCol); ?>
+					<?php echo JHtml::_('grid.sort', 'ACL Col Enabled', 'a.enabled', $this->state->orderDirn, $this->state->orderCol); ?>
 				</th>
 				<th nowrap="nowrap" width="1%" align="center">
 					<?php echo JText::_('Col ID'); ?>
@@ -50,7 +50,7 @@
 			foreach ($this->items as $item) : ?>
 			<tr class="row<?php echo $i++ % 2; ?>">
 				<td style="text-align:center">
-					<?php echo JHTML::_('grid.id', $item->id, $item->id); ?>
+					<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
 				</td>
 				<td>
 					<a href="<?php echo JRoute::_('index.php?option=com_acl&task=acl.edit&id='.$item->id);?>">
@@ -118,10 +118,10 @@
 				<?php endif; ?>
 				</td>
 				<td align="center">
-					<?php echo JHTML::_('acl.allowed', $item->allow, $item->id); ?>
+					<?php echo JHtml::_('acl.allowed', $item->allow, $item->id); ?>
 				</td>
 				<td align="center">
-					<?php echo JHTML::_('acl.enabled', $item->enabled, $item->id); ?>
+					<?php echo JHtml::_('acl.enabled', $item->enabled, $item->id); ?>
 				</td>
 				<td align="center">
 					<?php echo $item->id; ?>

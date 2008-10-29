@@ -40,7 +40,7 @@ class MassmailViewMassmail extends JView
 
 		// get list of groups
 		$gtree = array(
-			JHTML::_('select.option',  0, '- '. JText::_( 'All User Groups' ) .' -' )
+			JHtml::_('select.option',  0, '- '. JText::_( 'All User Groups' ) .' -' )
 		);
 		$gtree = array_merge( $gtree, $acl->get_group_children_tree( null, 'users', false ) );
 

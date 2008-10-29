@@ -81,5 +81,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<input type="hidden" name="task" value="register_save" />
 	<input type="hidden" name="id" value="0" />
 	<input type="hidden" name="gid" value="0" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

@@ -3,7 +3,7 @@
 <?php
 	$user = & JFactory :: getUser();
 
-	JHTML::_('behavior.imagetooltip', 206, 145);
+	JHtml::_('behavior.imagetooltip', 206, 145);
 ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
@@ -154,5 +154,5 @@ for ($i = 0, $n = count($this->rows); $i < $n; $i++) {
 <input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

@@ -30,8 +30,8 @@ function plgContentVote( &$row, &$params, $page=0 )
 		$img = '';
 
 		// look for images in template if available
-		$starImageOn 	= JHTML::_('image.site',  'rating_star.png', '/images/M_images/' );
-		$starImageOff 	= JHTML::_('image.site',  'rating_star_blank.png', '/images/M_images/' );
+		$starImageOn 	= JHtml::_('image.site',  'rating_star.png', '/images/M_images/' );
+		$starImageOff 	= JHtml::_('image.site',  'rating_star_blank.png', '/images/M_images/' );
 
 		for ($i=0; $i < $row->rating; $i++) {
 			$img .= $starImageOn;

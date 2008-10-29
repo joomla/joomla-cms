@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php
-	JHTML::_('behavior.tooltip');
+	JHtml::_('behavior.tooltip');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_content&amp;task=element&amp;tmpl=component&amp;object=id'); ?>" method="post" name="adminForm">
 
@@ -15,8 +15,8 @@
 			</td>
 			<td nowrap="nowrap">
 				<?php
-				echo JHTML::_('list.section', 'filter_sectionid', $this->filter->sectionid, 'onchange="document.adminForm.submit();"');
-				echo JHTML::_('contentgrid.category', 'filter_catid', $this->filter->catid, $this->filter->sectionid);
+				echo JHtml::_('list.section', 'filter_sectionid', $this->filter->sectionid, 'onchange="document.adminForm.submit();"');
+				echo JHtml::_('contentgrid.category', 'filter_catid', $this->filter->catid, $this->filter->sectionid);
 				?>
 			</td>
 		</tr>
@@ -29,22 +29,22 @@
 				<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th class="title">
-				<?php echo JHTML::_('grid.sort',   'Title', 'c.title', @$this->filter->order_Dir, @$this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Title', 'c.title', @$this->filter->order_Dir, @$this->filter->order ); ?>
 			</th>
 			<th width="7%">
-				<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$this->filter->order_Dir, @$this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Access', 'groupname', @$this->filter->order_Dir, @$this->filter->order ); ?>
 			</th>
 			<th width="2%" class="title">
-				<?php echo JHTML::_('grid.sort',   'ID', 'c.id', @$this->filter->order_Dir, @$this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'ID', 'c.id', @$this->filter->order_Dir, @$this->filter->order ); ?>
 			</th>
 			<th class="title" width="15%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'Section', 'section_name', @$this->filter->order_Dir, @$this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Section', 'section_name', @$this->filter->order_Dir, @$this->filter->order ); ?>
 			</th>
 			<th  class="title" width="15%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'Category', 'cc.title', @$this->filter->order_Dir, @$this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Category', 'cc.title', @$this->filter->order_Dir, @$this->filter->order ); ?>
 			</th>
 			<th align="center" width="10">
-				<?php echo JHTML::_('grid.sort',   'Date', 'c.created', @$this->filter->order_Dir, @$this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Date', 'c.created', @$this->filter->order_Dir, @$this->filter->order ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -63,8 +63,8 @@
 		$row = &$this->rows[$i];
 
 		$link 	= '';
-		$date	= JHTML::_('date',  $row->created, JText::_('DATE_FORMAT_LC4') );
-		$access	= JHTML::_('grid.access',   $row, $i, $row->state );
+		$date	= JHtml::_('date',  $row->created, JText::_('DATE_FORMAT_LC4') );
+		$access	= JHtml::_('grid.access',   $row, $i, $row->state );
 		?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td>
@@ -99,5 +99,5 @@
 
 <input type="hidden" name="filter_order" value="<?php echo $this->filter->order; ?>" />
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->filter->order_Dir; ?>" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once JPATH_COMPONENT.DS.'controller.php';
 
 // Set the helper directory
-JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 
 // Require specific controller if requested
 if($controllerName = JRequest::getWord('controller', '')) {

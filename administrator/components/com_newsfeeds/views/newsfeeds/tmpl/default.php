@@ -4,7 +4,7 @@
 	//Ordering allowed ?
 	$ordering = ($this->filter->order == 'a.ordering');
 
-	JHTML::_('behavior.tooltip');
+	JHtml::_('behavior.tooltip');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds'); ?>" method="post" name="adminForm">
@@ -19,8 +19,8 @@
 	</td>
 	<td nowrap="nowrap">
 		<?php
-		echo JHTML::_('list.category',  'filter_catid', 'com_newsfeeds', $this->filter->catid, 'onchange="document.adminForm.submit();"' );
-		echo JHTML::_('grid.state',  $this->filter->state );
+		echo JHtml::_('list.category',  'filter_catid', 'com_newsfeeds', $this->filter->catid, 'onchange="document.adminForm.submit();"' );
+		echo JHtml::_('grid.state',  $this->filter->state );
 		?>
 	</td>
 </tr>
@@ -36,26 +36,26 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
 			</th>
 			<th class="title">
-				<?php echo JHTML::_('grid.sort',   'News Feed', 'a.name', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'News Feed', 'a.name', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="5%">
-				<?php echo JHTML::_('grid.sort',   'Published', 'a.published', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Published', 'a.published', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="10%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'Order', 'a.ordering', $this->filter->order_Dir, $this->filter->order ); ?>
-				<?php echo JHTML::_('grid.order',  $this->items ); ?>
+				<?php echo JHtml::_('grid.sort',   'Order', 'a.ordering', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.order',  $this->items ); ?>
 			</th>
 			<th class="title" width="10%">
-				<?php echo JHTML::_('grid.sort',   'Category', 'catname', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Category', 'catname', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'Num Articles', 'a.numarticles', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Num Articles', 'a.numarticles', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="5%">
-				<?php echo JHTML::_('grid.sort',   'Cache time', 'a.cache_time', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Cache time', 'a.cache_time', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="1%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'ID', 'a.id', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'ID', 'a.id', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -75,8 +75,8 @@
 
 		$link 		= JRoute::_( 'index.php?option=com_newsfeeds&task=edit&cid[]='. $row->id );
 
-		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
-		$published 	= JHTML::_('grid.published', $row, $i );
+		$checked 	= JHtml::_('grid.checkedout',   $row, $i );
+		$published 	= JHtml::_('grid.published', $row, $i );
 
 		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_newsfeeds&task=edit&cid[]='. $row->catid );
 		?>

@@ -30,26 +30,26 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 			</th>
 			<th class="title">
-				<?php echo JHTML::_('grid.sort',   'Menu Item', 'm.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',   'Menu Item', 'm.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="5%">
 				<?php echo JText::_( 'Default' ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'Published', 'm.published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',   'Published', 'm.published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="8%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'Order by', 'm.ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-				<?php echo JHTML::_('grid.order',  $this->items ); ?>
+				<?php echo JHtml::_('grid.sort',   'Order by', 'm.ordering', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.order',  $this->items ); ?>
 			</th>
 			<th width="10%">
-				<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',   'Access', 'groupname', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="20%" class="title">
-				<?php echo JHTML::_('grid.sort',   'Type', 'm.type', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',   'Type', 'm.type', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="1%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'Itemid', 'm.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',   'Itemid', 'm.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -67,9 +67,9 @@
 	$n = count( $this->items );
 	$rows = &$this->items;
 	foreach ($rows as $row) :
-		$access 	= JHTML::_('grid.access',   $row, $i );
-		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
-		$published 	= JHTML::_('grid.published', $row, $i );
+		$access 	= JHtml::_('grid.access',   $row, $i );
+		$checked 	= JHtml::_('grid.checkedout',   $row, $i );
+		$published 	= JHtml::_('grid.published', $row, $i );
 		?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td>
@@ -126,5 +126,5 @@
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

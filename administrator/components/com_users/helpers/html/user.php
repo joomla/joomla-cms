@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage	HTML
  * @since		1.5
  */
-class JHTMLUser
+class JHtmlUser
 {
 	/**
 	* Build the select list for access level
@@ -44,8 +44,8 @@ class JHTMLUser
 		foreach ($options as $i => $option) {
 			$options[$i]->text = str_pad( $option->text, strlen( $option->text ) + 2*($option->level - $parentLevel), '- ', STR_PAD_LEFT );
 		}
-		//array_unshift( $options, JHTML::_( 'select.option', 0, 'Select Group' ) );
+		//array_unshift( $options, JHtml::_( 'select.option', 0, 'Select Group' ) );
 
-		return JHTML::_( 'select.options', $options, 'value', 'text', $selected );
+		return JHtml::_( 'select.options', $options, 'value', 'text', $selected );
 	}
 }

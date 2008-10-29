@@ -29,7 +29,7 @@ class UserFx
 	function slider( $open = false, $idClicker ='v_toggle', $idSlider = 'v_slider' )
 	{
 		// Include mootools
-		JHTML::_('behavior.mootools');
+		JHtml::_('behavior.mootools');
 
 		// Convert the open state to a true int
 		$open = (int) $open;

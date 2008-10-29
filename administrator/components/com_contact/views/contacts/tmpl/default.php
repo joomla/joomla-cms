@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php
-	JHTML::_('behavior.tooltip');
+	JHtml::_('behavior.tooltip');
 	$ordering = ($this->filter->order == 'a.ordering');
 ?>
 
@@ -16,8 +16,8 @@
 	</td>
 	<td nowrap="nowrap">
 		<?php
-		echo JHTML::_('list.category',  'filter_catid', 'com_contact_details', intval( $this->filter->catid ), 'onchange="document.adminForm.submit();"' );
-		echo JHTML::_('grid.state',  $this->filter->state );
+		echo JHtml::_('list.category',  'filter_catid', 'com_contact_details', intval( $this->filter->catid ), 'onchange="document.adminForm.submit();"' );
+		echo JHtml::_('grid.state',  $this->filter->state );
 		?>
 	</td>
 </tr>
@@ -33,26 +33,26 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
 			</th>
 			<th class="title">
-				<?php echo JHTML::_('grid.sort',  'Name', 'a.name', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'Name', 'a.name', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',  'Published', 'a.published', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'Published', 'a.published', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="10%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',  'Order', 'a.ordering', $this->filter->order_Dir, $this->filter->order ); ?>
-				<?php echo JHTML::_('grid.order',  $this->items ); ?>
+				<?php echo JHtml::_('grid.sort',  'Order', 'a.ordering', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.order',  $this->items ); ?>
 			</th>
 			<th width="8%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'Access', 'a.access', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Access', 'a.access', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="12%"  class="title">
-				<?php echo JHTML::_('grid.sort',  'Category', 'category', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'Category', 'category', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th class="title" nowrap="nowrap" width="10%">
-				<?php echo JHTML::_('grid.sort',   'Linked to User', 'user', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Linked to User', 'user', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="1%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',  'ID', 'a.id', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'ID', 'a.id', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -72,9 +72,9 @@
 
 		$link 	= JRoute::_( 'index.php?option=com_contact&view=contact&task=edit&cid[]='. $row->id );
 
-		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
-		$access 	= JHTML::_('grid.access',   $row, $i );
-		$published 	= JHTML::_('grid.published', $row, $i );
+		$checked 	= JHtml::_('grid.checkedout',   $row, $i );
+		$access 	= JHtml::_('grid.access',   $row, $i );
+		$published 	= JHtml::_('grid.published', $row, $i );
 
 		$row->cat_link 	= JRoute::_( 'index.php?option=com_categories&section=com_contact&task=edit&type=other&cid[]='. $row->catid );
 		$row->user_link	= JRoute::_( 'index.php?option=com_users&task=edit&cid[]='. $row->user_id );

@@ -29,5 +29,5 @@ $cparams = JComponentHelper::getParams ('com_media');
 echo $this->loadTemplate('items'); ?>
 
 <?php if ($this->access->canEdit || $this->access->canEditOwn) :
-	echo JHTML::_('icon.create', $this->category, $this->params, $this->access);
+	echo JHtml::_('icon.create', $this->category, $this->params, $this->access);
 endif;

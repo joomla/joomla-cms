@@ -11,5 +11,5 @@ defined('_JEXEC') or die('Restricted access');
 	<input id="email" name="email" type="text" class="required validate-email" />
 
 	<button type="submit" class="validate"><?php echo JText::_('Submit'); ?></button>
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

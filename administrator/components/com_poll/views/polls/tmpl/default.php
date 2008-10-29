@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 
 <?php
 	JToolBarHelper::title(  JText::_( 'Poll Manager' ) );
@@ -37,22 +37,22 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
 			</th>
 			<th  class="title">
-				<?php echo JHTML::_('grid.sort',   'Poll Title', 'm.title', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',   'Poll Title', 'm.title', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="5%" align="center">
-				<?php echo JHTML::_('grid.sort',   'Published', 'm.published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',   'Published', 'm.published', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="5%" align="center">
-				<?php echo JHTML::_('grid.sort',   'Votes', 'm.voters', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',   'Votes', 'm.voters', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="5%" align="center">
-				<?php echo JHTML::_('grid.sort',   'Options', 'numoptions', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',   'Options', 'numoptions', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="5%" align="center">
-				<?php echo JHTML::_('grid.sort',   'Lag', 'm.lag', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',   'Lag', 'm.lag', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 			<th width="1%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',   'ID', 'm.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+				<?php echo JHtml::_('grid.sort',   'ID', 'm.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -72,8 +72,8 @@
 
 		$link 		= JRoute::_( 'index.php?option=com_poll&view=poll&task=edit&cid[]='. $row->id );
 
-		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
-		$published 	= JHTML::_('grid.published', $row, $i );
+		$checked 	= JHtml::_('grid.checkedout',   $row, $i );
+		$published 	= JHtml::_('grid.published', $row, $i );
 	?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td>
@@ -123,5 +123,5 @@
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

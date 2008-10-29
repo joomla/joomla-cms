@@ -10,7 +10,7 @@
 					</span>
 				</td>
 				<td>
-					<?php echo JHTML::_('select.booleanlist', 'caching', 'class="inputbox"', $this->row->caching); ?>
+					<?php echo JHtml::_('select.booleanlist', 'caching', 'class="inputbox"', $this->row->caching); ?>
 				</td>
 			</tr>
 			<tr>
@@ -31,7 +31,7 @@
 					</span>
 				</td>
 				<td>
-					<?php echo JHTML::_('config.cacheHandlers', $this->row->cache_handler); ?>
+					<?php echo JHtml::_('config.cacheHandlers', $this->row->cache_handler); ?>
 				</td>
 			</tr>
 			<?php if ($this->row->cache_handler == 'memcache' || $this->row->session_handler == 'memcache') : ?>
@@ -40,7 +40,7 @@
 					<?php echo JText::_( 'Memcache Persistent' ); ?>
 				</td>
 				<td>
-					<?php echo JHTML::_('select.booleanlist', 'memcache_settings[persistent]', 'class="inputbox"', @$this->row->memcache_settings['persistent']); ?>
+					<?php echo JHtml::_('select.booleanlist', 'memcache_settings[persistent]', 'class="inputbox"', @$this->row->memcache_settings['persistent']); ?>
 				</td>
 			</tr>
 			<tr>
@@ -48,7 +48,7 @@
 					<?php echo JText::_( 'Memcache Compression' ); ?>
 				</td>
 				<td>
-					<?php echo JHTML::_('select.booleanlist', 'memcache_settings[compression]', 'class="inputbox"', @$this->row->memcache_settings['compression']); ?>
+					<?php echo JHtml::_('select.booleanlist', 'memcache_settings[compression]', 'class="inputbox"', @$this->row->memcache_settings['compression']); ?>
 				</td>
 			</tr>
 			<tr>

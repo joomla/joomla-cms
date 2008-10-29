@@ -45,10 +45,10 @@ class UserViewReset extends JView
 		global $mainframe;
 
 		// Load the form validation behavior
-		JHTML::_('behavior.formvalidation');
+		JHtml::_('behavior.formvalidation');
 
 		// Add the tooltip behavior
-		JHTML::_('behavior.tooltip');
+		JHtml::_('behavior.tooltip');
 
 		// Get the layout
 		$layout	= $this->getLayout();

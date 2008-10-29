@@ -33,7 +33,7 @@ class ContentViewArticle extends JView
 	protected $params;
 	protected $contentSection;
 	protected $sectioncategories;
-	
+
 	function display($tpl = null)
 	{
 		global $mainframe;
@@ -157,10 +157,10 @@ class ContentViewArticle extends JView
 				' ORDER BY s.ordering';
 		$db->setQuery($query);
 
-		$sections[] = JHTML::_('select.option', '-1', '- '.JText::_('Select Section').' -', 'id', 'title');
-		$sections[] = JHTML::_('select.option', '0', JText::_('Uncategorized'), 'id', 'title');
+		$sections[] = JHtml::_('select.option', '-1', '- '.JText::_('Select Section').' -', 'id', 'title');
+		$sections[] = JHtml::_('select.option', '0', JText::_('Uncategorized'), 'id', 'title');
 		$sections = array_merge($sections, $db->loadObjectList());
-		$lists['sectionid'] = JHTML::_('select.genericlist',  $sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($row->sectionid));
+		$lists['sectionid'] = JHtml::_('select.genericlist',  $sections, 'sectionid', 'class="inputbox" size="1" '.$javascript, 'id', 'title', intval($row->sectionid));
 
 		foreach ($sections as $section)
 		{
@@ -179,7 +179,7 @@ class ContentViewArticle extends JView
 
 		$sectioncategories = array ();
 		$sectioncategories[-1] = array ();
-		$sectioncategories[-1][] = JHTML::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
+		$sectioncategories[-1][] = JHtml::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
 		$section_list = implode('\', \'', $section_list);
 
 		$query = 'SELECT id, title, section' .
@@ -206,18 +206,18 @@ class ContentViewArticle extends JView
 				}
 			}
 			foreach ($rows2 as $row2) {
-				$sectioncategories[$section->id][] = JHTML::_('select.option', $row2->id, $row2->title, 'id', 'title');
+				$sectioncategories[$section->id][] = JHtml::_('select.option', $row2->id, $row2->title, 'id', 'title');
 			}
 		}
-		$sectioncategories['-1'][] = JHTML::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
+		$sectioncategories['-1'][] = JHtml::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
 		$categories = array();
 		foreach ($cat_list as $cat) {
 			if($cat->section == $row->sectionid)
 				$categories[] = $cat;
 		}
 
-		$categories[] = JHTML::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
-		$lists['catid'] = JHTML::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($row->catid));
+		$categories[] = JHtml::_('select.option', '-1', JText::_( 'Select Category' ), 'id', 'title');
+		$lists['catid'] = JHtml::_('select.genericlist',  $categories, 'catid', 'class="inputbox" size="1"', 'id', 'title', intval($row->catid));
 
 		// build the html select list for ordering
 		$query = 'SELECT ordering AS value, title AS text' .
@@ -226,15 +226,15 @@ class ContentViewArticle extends JView
 				' AND state >= 0' .
 				' ORDER BY ordering';
 		if($edit)
-			$lists['ordering'] = JHTML::_('list.specificordering', $row, $id, $query, 1);
+			$lists['ordering'] = JHtml::_('list.specificordering', $row, $id, $query, 1);
 		else
-			$lists['ordering'] = JHTML::_('list.specificordering', $row, '', $query, 1);
+			$lists['ordering'] = JHtml::_('list.specificordering', $row, '', $query, 1);
 
 		// build the html radio buttons for frontpage
-		$lists['frontpage'] = JHTML::_('select.booleanlist', 'frontpage', '', $row->frontpage);
+		$lists['frontpage'] = JHtml::_('select.booleanlist', 'frontpage', '', $row->frontpage);
 
 		// build the html radio buttons for published
-		$lists['state'] = JHTML::_('select.booleanlist', 'state', '', $row->state);
+		$lists['state'] = JHtml::_('select.booleanlist', 'state', '', $row->state);
 
 		/*
 		 * We need to unify the introtext and fulltext fields and have the
@@ -254,13 +254,13 @@ class ContentViewArticle extends JView
 		$params->set('created_by', $active);
 		$params->set('access', $row->access);
 		$params->set('created_by_alias', $row->created_by_alias);
-		$params->set('created', JHTML::_('date', $row->created, '%Y-%m-%d %H:%M:%S'));
-		$params->set('publish_up', JHTML::_('date', $row->publish_up, '%Y-%m-%d %H:%M:%S'));
+		$params->set('created', JHtml::_('date', $row->created, '%Y-%m-%d %H:%M:%S'));
+		$params->set('publish_up', JHtml::_('date', $row->publish_up, '%Y-%m-%d %H:%M:%S'));
 		$params->set('publish_down', $row->publish_down);
-		if (JHTML::_('date', $row->publish_down, '%Y') <= 1969 || $row->publish_down == $db->getNullDate()) {
+		if (JHtml::_('date', $row->publish_down, '%Y') <= 1969 || $row->publish_down == $db->getNullDate()) {
 			$params->set('publish_down', JText::_('Never'));
 		} else {
-			$params->set('publish_down', JHTML::_('date', $row->publish_down, '%Y-%m-%d %H:%M:%S'));
+			$params->set('publish_down', JHtml::_('date', $row->publish_down, '%Y-%m-%d %H:%M:%S'));
 		}
 
 		$params->bind($row->attribs);
@@ -284,10 +284,10 @@ class ContentViewArticle extends JView
 	{
 		$db =& JFactory::getDBO();
 
-		if (JHTML::_('date', $date, '%Y') == 1969 || $date == $db->getNullDate()) {
+		if (JHtml::_('date', $date, '%Y') == 1969 || $date == $db->getNullDate()) {
 			$newDate = JText::_('Never');
 		} else {
-			$newDate = JHTML::_('date', $date, '%Y-%m-%d %H:%M:%S');
+			$newDate = JHtml::_('date', $date, '%Y-%m-%d %H:%M:%S');
 		}
 
 		return $newDate;

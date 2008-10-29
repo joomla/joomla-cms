@@ -11,7 +11,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo JHTML::_('select.booleanlist', 'debug', 'class="inputbox"', $this->row->debug);; ?>
+				<?php echo JHtml::_('select.booleanlist', 'debug', 'class="inputbox"', $this->row->debug);; ?>
 			</td>
 		</tr>
 		<tr>
@@ -21,7 +21,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo JHTML::_('select.booleanlist', 'debug_lang', 'class="inputbox"', $this->row->debug_lang); ?>
+				<?php echo JHtml::_('select.booleanlist', 'debug_lang', 'class="inputbox"', $this->row->debug_lang); ?>
 			</td>
 		</tr>
 	</table>

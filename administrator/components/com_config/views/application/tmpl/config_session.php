@@ -21,7 +21,7 @@
 					</span>
 				</td>
 				<td>
-					<strong><?php echo JHTML::_('config.sessionHandlers', $this->row->session_handler); ?></strong>
+					<strong><?php echo JHtml::_('config.sessionHandlers', $this->row->session_handler); ?></strong>
 				</td>
 			</tr>
 		</tbody>

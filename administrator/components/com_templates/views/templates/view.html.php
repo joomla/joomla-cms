@@ -63,9 +63,9 @@ class TemplatesViewTemplates extends JView
 		//JToolBarHelper::addNew();
 		JToolBarHelper::help( 'screen.templates' );
 
-		//$select[] 			= JHTML::_('select.option', '0', JText::_('Site'));
-		//$select[] 			= JHTML::_('select.option', '1', JText::_('Administrator'));
-		//$lists['client'] 	= JHTML::_('select.genericlist',  $select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
+		//$select[] 			= JHtml::_('select.option', '0', JText::_('Site'));
+		//$select[] 			= JHtml::_('select.option', '1', JText::_('Administrator'));
+		//$lists['client'] 	= JHtml::_('select.genericlist',  $select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
 
 		$this->assignRef('rows',		$rows);
 		$this->assignRef('pagination',	$pagination);

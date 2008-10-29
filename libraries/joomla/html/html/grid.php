@@ -20,7 +20,7 @@
  * @subpackage	HTML
  * @since		1.5
  */
-abstract class JHTMLGrid
+abstract class JHtmlGrid
 {
 	/**
 	 * @param	string	The link title
@@ -39,7 +39,7 @@ abstract class JHTMLGrid
 		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_( 'Click to sort this column' ).'">';
 		$html .= JText::_( $title );
 		if ($order == $selected ) {
-			$html .= JHTML::_('image.administrator',  $images[$index], '/images/', NULL, NULL);
+			$html .= JHtml::_('image.administrator',  $images[$index], '/images/', NULL, NULL);
 		}
 		$html .= '</a>';
 		return $html;
@@ -104,12 +104,12 @@ abstract class JHTMLGrid
 
 		$checked = '';
 		if ( $result ) {
-			$checked = JHTMLGrid::_checkedOut( $row );
+			$checked = JHtmlGrid::_checkedOut( $row );
 		} else {
 			if ($identifier == 'id')
-				$checked = JHTML::_('grid.id', $i, $row->$identifier );
+				$checked = JHtml::_('grid.id', $i, $row->$identifier );
 			else
-				$checked = JHTML::_('grid.id', $i, $row->$identifier, $result, $identifier );
+				$checked = JHtml::_('grid.id', $i, $row->$identifier, $result, $identifier );
 		}
 
 		return $checked;
@@ -132,26 +132,26 @@ abstract class JHTMLGrid
 
 	public static function state( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL, $trashed=NULL )
 	{
-		$state[] = JHTML::_('select.option',  '', '- '. JText::_( 'Select State' ) .' -' );
+		$state[] = JHtml::_('select.option',  '', '- '. JText::_( 'Select State' ) .' -' );
 		//Jinx : Why is this used ?
-		//$state[] = JHTML::_('select.option',  '*', JText::_( 'Any' ) );
-		$state[] = JHTML::_('select.option',  'P', JText::_( $published ) );
-		$state[] = JHTML::_('select.option',  'U', JText::_( $unpublished ) );
+		//$state[] = JHtml::_('select.option',  '*', JText::_( 'Any' ) );
+		$state[] = JHtml::_('select.option',  'P', JText::_( $published ) );
+		$state[] = JHtml::_('select.option',  'U', JText::_( $unpublished ) );
 
 		if ($archived) {
-			$state[] = JHTML::_('select.option',  'A', JText::_( $archived ) );
+			$state[] = JHtml::_('select.option',  'A', JText::_( $archived ) );
 		}
 
 		if ($trashed) {
-			$state[] = JHTML::_('select.option',  'T', JText::_( $trashed ) );
+			$state[] = JHtml::_('select.option',  'T', JText::_( $trashed ) );
 		}
 
-		return JHTML::_('select.genericlist',   $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );
+		return JHtml::_('select.genericlist',   $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );
 	}
 
 	public static function order( $rows, $image='filesave.png', $task="saveorder" )
 	{
-		$image = JHTML::_('image.administrator',  $image, '/images/', NULL, NULL, JText::_( 'Save Order' ) );
+		$image = JHtml::_('image.administrator',  $image, '/images/', NULL, NULL, JText::_( 'Save Order' ) );
 		$href = '<a href="javascript:saveorder('.(count( $rows )-1).', \''.$task.'\')" title="'.JText::_( 'Save Order' ).'">'.$image.'</a>';
 		return $href;
 	}
@@ -164,8 +164,8 @@ abstract class JHTMLGrid
 		{
 			$text = addslashes(htmlspecialchars($row->editor));
 
-			$date 	= JHTML::_('date',  $row->checked_out_time, '%A, %d %B %Y' );
-			$time	= JHTML::_('date',  $row->checked_out_time, '%H:%M' );
+			$date 	= JHtml::_('date',  $row->checked_out_time, '%A, %d %B %Y' );
+			$time	= JHtml::_('date',  $row->checked_out_time, '%H:%M' );
 
 			$hover = '<span class="editlinktip hasTip" title="'. JText::_( 'Checked Out' ) .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
 		}

@@ -31,7 +31,7 @@
 				</span>
 				</td>
 				<td>
-					<?php echo JHTML::_('select.booleanlist', 'xmlrpc_server', 'class="inputbox"', $this->row->xmlrpc_server); ?>
+					<?php echo JHtml::_('select.booleanlist', 'xmlrpc_server', 'class="inputbox"', $this->row->xmlrpc_server); ?>
 				</td>
 			</tr>
 			<tr>
@@ -41,7 +41,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo JHTML::_('config.helpSites', $this->row->helpurl); ?>
+				<?php echo JHtml::_('config.helpSites', $this->row->helpurl); ?>
 				<input type="button" onclick="submitbutton('refreshhelp')" value="<?php echo JText::_('Refresh'); ?>" />
 			</td>
 		</tr>

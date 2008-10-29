@@ -72,23 +72,23 @@ class BannerViewBanner extends JView
 			return JError::raiseWarning( 500, $db->getErrorMsg() );
 		}
 
-		$clientlist[]		= JHTML::_('select.option',  '0', '- ' . JText::_( 'Select Client' ) . ' -', 'cid', 'name' );
+		$clientlist[]		= JHtml::_('select.option',  '0', '- ' . JText::_( 'Select Client' ) . ' -', 'cid', 'name' );
 		$clientlist			= array_merge( $clientlist, $db->loadObjectList() );
-		$lists['cid']		= JHTML::_('select.genericlist',   $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid );
+		$lists['cid']		= JHtml::_('select.genericlist',   $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid );
 
 		// Imagelist
 		$javascript			= 'onchange="changeDisplayImage();"';
 		$directory			= '/images/banners';
-		$lists['imageurl']	= JHTML::_('list.images',  'imageurl', $row->imageurl, $javascript, $directory );
+		$lists['imageurl']	= JHtml::_('list.images',  'imageurl', $row->imageurl, $javascript, $directory );
 
 		// build list of categories
-		$lists['catid']		= JHTML::_('list.category',  'catid', 'com_banner', intval( $row->catid ) );
+		$lists['catid']		= JHtml::_('list.category',  'catid', 'com_banner', intval( $row->catid ) );
 
 		// sticky
-		$lists['sticky']	= JHTML::_('select.booleanlist',  'sticky', 'class="inputbox"', $row->sticky );
+		$lists['sticky']	= JHtml::_('select.booleanlist',  'sticky', 'class="inputbox"', $row->sticky );
 
 		// published
-		$lists['showBanner'] = JHTML::_('select.booleanlist',  'showBanner', '', $row->showBanner );
+		$lists['showBanner'] = JHtml::_('select.booleanlist',  'showBanner', '', $row->showBanner );
 
 		// build the html select list for ordering
 		$order_query = 'SELECT ordering AS value, name AS text'

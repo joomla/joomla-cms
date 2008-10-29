@@ -86,7 +86,7 @@ JFilterOutput::objectHTMLSafe( $this->poll, ENT_QUOTES );
 				<?php echo JText::_( 'Published' ); ?>:
 			</td>
 			<td>
-				<?php echo JHTML::_( 'select.booleanlist',  'published', 'class="inputbox"', $this->poll->published ); ?>
+				<?php echo JHtml::_( 'select.booleanlist',  'published', 'class="inputbox"', $this->poll->published ); ?>
 			</td>
 		</tr>
 	</table>
@@ -129,5 +129,5 @@ JFilterOutput::objectHTMLSafe( $this->poll, ENT_QUOTES );
 	<input type="hidden" name="id" value="<?php echo $this->poll->id; ?>" />
 	<input type="hidden" name="cid[]" value="<?php echo $this->poll->id; ?>" />
 	<input type="hidden" name="textfieldcheck" value="<?php echo $n; ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

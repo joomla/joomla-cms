@@ -45,21 +45,21 @@ class MediaViewMedia extends JView
 		$document =& JFactory::getDocument();
 		$document->setBuffer($listStyle, 'modules', 'submenu');
 
-		JHTML::_('behavior.mootools');
+		JHtml::_('behavior.mootools');
 		$document->addScript('components/com_media/assets/mediamanager.js');
 		$document->addStyleSheet('components/com_media/assets/mediamanager.css');
 
-		JHTML::_('behavior.modal');
+		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
 			document.preview = SqueezeBox;
 		});");
 
-		JHTML::script('mootree.js');
-		JHTML::stylesheet('mootree.css');
+		JHtml::script('mootree.js');
+		JHtml::stylesheet('mootree.css');
 
 		if ($config->get('enable_flash', 1)) {
-			JHTML::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
+			JHtml::_('behavior.uploader', 'file-upload', array('onAllComplete' => 'function(){ MediaManager.refreshFrame(); }'));
 		}
 
 		$base = str_replace("\\","/",JPATH_ROOT);
@@ -87,7 +87,7 @@ class MediaViewMedia extends JView
 		$this->_setToolBar();
 
 		parent::display($tpl);
-		echo JHTML::_('behavior.keepalive');
+		echo JHtml::_('behavior.keepalive');
 	}
 
 	function _setToolBar()

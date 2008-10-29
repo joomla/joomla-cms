@@ -20,7 +20,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 		<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="selectForm" id="selectForm">
 		<?php echo JText::_( 'Select Contact' ); ?>:
 			<br />
-			<?php echo JHTML::_('select.genericlist',  $this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
+			<?php echo JHtml::_('select.genericlist',  $this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
 			<option type="hidden" name="option" value="com_contact" />
 		</form>
 	</td>
@@ -49,7 +49,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<td rowspan="2" align="right" valign="top">
 			<?php if ( $this->contact->image && $this->contact->params->get( 'show_image' ) ) : ?>
 				<div style="float: right;">
-					<?php echo JHTML::_('image', $cparams->get('image_path') . '/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middle')); ?>
+					<?php echo JHtml::_('image', $cparams->get('image_path') . '/'.$this->contact->image, JText::_( 'Contact' ), array('align' => 'middle')); ?>
 				</div>
 			<?php endif; ?>
 			</td>

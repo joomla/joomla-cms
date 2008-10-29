@@ -37,10 +37,10 @@ class ContactdirectoryViewContacts extends JView
 
 		// build list of categories
 		$javascript = 'onchange="document.adminForm.submit();"';
-		$lists['category'] = JHTML::_('list.category',  'filter_catid', $option, intval( $filter_catid ), $javascript );
+		$lists['category'] = JHtml::_('list.category',  'filter_catid', $option, intval( $filter_catid ), $javascript );
 
 		// state filter
-		$lists['state']	= JHTML::_('grid.state',  $filter_state );
+		$lists['state']	= JHtml::_('grid.state',  $filter_state );
 
 		// table ordering
 		$lists['order_Dir'] = $filter_order_Dir;

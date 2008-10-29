@@ -12,7 +12,7 @@
 	</td>
 	<td nowrap="nowrap">
 		<?php
-		echo JHTML::_('grid.state',  $this->filter->state, 'Read', 'Unread' );
+		echo JHtml::_('grid.state',  $this->filter->state, 'Read', 'Unread' );
 		?>
 	</td>
 </tr>
@@ -29,16 +29,16 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->rows); ?>);" />
 			</th>
 			<th width="50%" class="title">
-				<?php echo JHTML::_('grid.sort',   'Subject', 'a.subject', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Subject', 'a.subject', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="5%" class="title" align="center">
-				<?php echo JHTML::_('grid.sort',   'Read', 'a.state', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Read', 'a.state', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="25%" class="title">
-				<?php echo JHTML::_('grid.sort',   'From', 'user_from', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'From', 'user_from', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="15%" class="title" nowrap="nowrap" align="center">
-				<?php echo JHTML::_('grid.sort',   'Date', 'a.date_time', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',   'Date', 'a.date_time', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -70,7 +70,7 @@
 				<?php echo $i+1+$this->pagination->limitstart;?>
 			</td>
 			<td>
-				<?php echo JHTML::_('grid.id', $i, $row->message_id ); ?>
+				<?php echo JHtml::_('grid.id', $i, $row->message_id ); ?>
 			</td>
 			<td>
 				<a href="#edit" onclick="return listItemTask('cb<?php echo $i;?>','view')">
@@ -84,7 +84,7 @@
 				<?php echo $author; ?>
 			</td>
 			<td>
-				<?php echo JHTML::_('date', $row->date_time, JText::_('DATE_FORMAT_LC2')); ?>
+				<?php echo JHtml::_('date', $row->date_time, JText::_('DATE_FORMAT_LC2')); ?>
 			</td>
 		</tr>
 		<?php $k = 1 - $k;
@@ -99,5 +99,5 @@
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="filter_order" value="<?php echo $this->filter->order; ?>" />
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->filter->order_Dir; ?>" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

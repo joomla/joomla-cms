@@ -71,12 +71,12 @@ class MediaModelManager extends JModel
 		$document->setTitle(JText::_('Insert Image'));
 
 		// Build the array of select options for the folder list
-		$options[] = JHTML::_('select.option', "","/");
+		$options[] = JHtml::_('select.option', "","/");
 		foreach ($folders as $folder) {
 			$folder 	= str_replace(COM_MEDIA_BASE, "", $folder);
 			$value		= substr($folder, 1);
 			$text	 	= str_replace(DS, "/", $folder);
-			$options[] 	= JHTML::_('select.option', $value, $text);
+			$options[] 	= JHtml::_('select.option', $value, $text);
 		}
 
 		// Sort the folder list array
@@ -85,7 +85,7 @@ class MediaModelManager extends JModel
 		}
 
 		// Create the drop-down folder select list
-		$list = JHTML::_('select.genericlist',  $options, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"ImageManager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $base);
+		$list = JHtml::_('select.genericlist',  $options, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"ImageManager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $base);
 		return $list;
 	}
 

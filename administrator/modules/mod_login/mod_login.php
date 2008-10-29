@@ -22,8 +22,8 @@ $lang =& JFactory::getLanguage();
 
 $languages = array();
 $languages = JLanguageHelper::createLanguageList($browserLang );
-array_unshift( $languages, JHTML::_('select.option',  '', JText::_( 'Default' ) ) );
-$langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
+array_unshift( $languages, JHtml::_('select.option',  '', JText::_( 'Default' ) ) );
+$langs = JHtml::_('select.genericlist',   $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
 ?>
 <?php if(JPluginHelper::isEnabled('authentication', 'openid')) :
 		$lang->load( 'plg_authentication_openid', JPATH_ADMINISTRATOR );
@@ -34,7 +34,7 @@ $langs = JHTML::_('select.genericlist',   $languages, 'lang', ' class="inputbox"
 						' var modlogin = 1;';
 		$document = &JFactory::getDocument();
 		$document->addScriptDeclaration( $langScript );
-		JHTML::_('script', 'openid.js');
+		JHtml::_('script', 'openid.js');
 endif; ?>
 <form action="<?php echo JRoute::_( 'index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login" style="clear: both;">
 	<p id="form-login-username">
@@ -70,5 +70,5 @@ endif; ?>
 	<input type="submit" style="border: 0; padding: 0; margin: 0; width: 0px; height: 0px;" value="<?php echo JText::_( 'Login' ); ?>" />
 	<input type="hidden" name="option" value="com_login" />
 	<input type="hidden" name="task" value="login" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

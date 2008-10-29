@@ -51,7 +51,7 @@
 						<iframe src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
 					</div>
 				</fieldset>
-				<?php echo JHTML::_( 'form.token' ); ?>
+				<?php echo JHtml::_( 'form.token' ); ?>
 			</form>
 
 			<form action="<?php echo JRoute::_('index.php?option=com_media'); ?>" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data" >

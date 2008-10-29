@@ -38,8 +38,8 @@ class JElementHelpsites extends JElement
 		jimport('joomla.language.help');
 
 		$helpsites 				= JHelp::createSiteList(JPATH_ADMINISTRATOR.DS.'help'.DS.'helpsites-15.xml', $value);
-		array_unshift($helpsites, JHTML::_('select.option', '', JText::_('local')));
+		array_unshift($helpsites, JHtml::_('select.option', '', JText::_('local')));
 
-		return JHTML::_('select.genericlist',  $helpsites, ''.$control_name.'['.$name.']', ' class="inputbox"', 'value', 'text', $value, $control_name.$name );
+		return JHtml::_('select.genericlist',  $helpsites, ''.$control_name.'['.$name.']', ' class="inputbox"', 'value', 'text', $value, $control_name.$name );
 	}
 }

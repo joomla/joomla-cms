@@ -61,7 +61,7 @@
 				@todo ACL this field
 			</td>
 			<td>
-				<?php echo JHTML::_( 'select.booleanlist', 'block', '', $this->item->get( 'block' ) ); ?>
+				<?php echo JHtml::_( 'select.booleanlist', 'block', '', $this->item->get( 'block' ) ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -70,7 +70,7 @@
 				@todo ACL this field
 			</td>
 			<td>
-				<?php echo JHTML::_( 'select.booleanlist', 'sendEmail', '', $this->item->get( 'sendEmail' ) ); ?>
+				<?php echo JHtml::_( 'select.booleanlist', 'sendEmail', '', $this->item->get( 'sendEmail' ) ); ?>
 			</td>
 		</tr>
 		<?php if ($id == 0) : ?>

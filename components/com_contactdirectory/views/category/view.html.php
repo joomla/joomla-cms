@@ -68,9 +68,9 @@ class ContactdirectoryViewCategory extends JView
 				if($contacts[$i]->field->type == 'image'){
 					if($contacts[$i]->field->data){
 						if($contacts[$i]->field->pos == 'right'){
-							$contacts[$i]->field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$contacts[$i]->field->data, JText::_( 'CONTACT' ), array('align' => 'right'));
+							$contacts[$i]->field->data = JHtml::_('image', $cparams->get('image_path') . '/'.$contacts[$i]->field->data, JText::_( 'CONTACT' ), array('align' => 'right'));
 						}else{
-							$contacts[$i]->field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$contacts[$i]->field->data, JText::_( 'CONTACT' ), array('align' => 'left'));
+							$contacts[$i]->field->data = JHtml::_('image', $cparams->get('image_path') . '/'.$contacts[$i]->field->data, JText::_( 'CONTACT' ), array('align' => 'left'));
 						}
 					}
 				}
@@ -90,7 +90,7 @@ class ContactdirectoryViewCategory extends JView
 					jimport('joomla.mail.helper');
 					$contacts[$i]->field->data = trim($contacts[$i]->field->data);
 					if(!empty($contacts[$i]->field->data) && JMailHelper::isEmailAddress($contacts[$i]->field->data)) {
-						$contacts[$i]->field->data = JHTML::_('email.cloak', $contacts[$i]->field->data);
+						$contacts[$i]->field->data = JHtml::_('email.cloak', $contacts[$i]->field->data);
 					}else{
 						$contacts[$i]->field->data = '';
 					}
@@ -105,12 +105,12 @@ class ContactdirectoryViewCategory extends JView
 						break;
 					case 1:
 						//icon and text
-						$image = JHTML::_('image.site', 'arrow.png', 	'/images/M_images/', $contacts[$i]->field->params->get('choose_icon'), 	'/images/M_images/', JText::_($contacts[$i]->field->title).": ");
+						$image = JHtml::_('image.site', 'arrow.png', 	'/images/M_images/', $contacts[$i]->field->params->get('choose_icon'), 	'/images/M_images/', JText::_($contacts[$i]->field->title).": ");
 						$contacts[$i]->field->params->set('marker_title', 	$image);
 						break;
 					case 2 :
 						// icons
-						$image = JHTML::_('image.site', 'arrow.png', 	'/images/M_images/', $contacts[$i]->field->params->get('choose_icon'), 	'/images/M_images/', JText::_($contacts[$i]->field->title).": ");
+						$image = JHtml::_('image.site', 'arrow.png', 	'/images/M_images/', $contacts[$i]->field->params->get('choose_icon'), 	'/images/M_images/', JText::_($contacts[$i]->field->title).": ");
 						$contacts[$i]->field->params->set('marker_title', 	$image." ".JText::_($contacts[$i]->field->title).": ");
 						break;
 					case 3 :
@@ -153,9 +153,9 @@ class ContactdirectoryViewCategory extends JView
 		}
 
 		// Prepare category description
-		$category->description = JHTML::_('content.prepare', $category->description);
+		$category->description = JHtml::_('content.prepare', $category->description);
 
-		JHTML::stylesheet('contactdirectory.css', 'components/com_contactdirectory/css/');
+		JHtml::stylesheet('contactdirectory.css', 'components/com_contactdirectory/css/');
 
 		$this->assignRef('contacts', $contacts);
 		$this->assignRef('lists', $lists);

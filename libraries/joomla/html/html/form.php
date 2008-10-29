@@ -20,7 +20,7 @@
  * @subpackage	HTML
  * @version		1.5
  */
-abstract class JHTMLForm
+abstract class JHtmlForm
 {
 	/**
 	 * Displays a hidden token field to reduce the risk of CSRF exploits

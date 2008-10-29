@@ -32,7 +32,7 @@ class AdminViewSysinfo extends JView
 		global $mainframe;
 
 		//Load switcher behavior
-		JHTML::_('behavior.switcher');
+		JHtml::_('behavior.switcher');
 
 		$contents = $this->loadTemplate('navigation');
 		$document =& JFactory::getDocument();

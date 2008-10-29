@@ -62,10 +62,10 @@ class modBreadCrumbsHelper
 	 	*/
 		if ($custom == null) {
 			if($lang->isRTL()){
-				$_separator = JHTML::_('image.site', 'arrow_rtl.png');
+				$_separator = JHtml::_('image.site', 'arrow_rtl.png');
 			}
 			else{
-				$_separator = JHTML::_('image.site', 'arrow.png');
+				$_separator = JHtml::_('image.site', 'arrow.png');
 			}
 		} else {
 			$_separator = $custom;

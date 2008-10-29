@@ -109,12 +109,12 @@ class TemplatesHelper
 		$db->setQuery($query);
 		$lookup = $db->loadObjectList();
 		if (empty( $lookup )) {
-			$lookup = array( JHTML::_('select.option',  '-1' ) );
+			$lookup = array( JHtml::_('select.option',  '-1' ) );
 		}
 
 		// build the html select list
-		$options	= JHTML::_('menu.linkoptions');
-		$result		= JHTML::_('select.genericlist',   $options, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
+		$options	= JHtml::_('menu.linkoptions');
+		$result		= JHtml::_('select.genericlist',   $options, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
 		return $result;
 	}
 }

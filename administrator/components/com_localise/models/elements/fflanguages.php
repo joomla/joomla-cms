@@ -34,7 +34,7 @@ class JElementffLanguages extends JElement
 		foreach($admin as $k=>$v) if (isset($site[$k])) $languages[] = array('value'=>$k,'text'=>$v['name']);
 
 		# return the select box
-		return JHTMLSelect::genericList($languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name );
+		return JHtmlSelect::genericList($languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name );
 	}
 }
 ?>

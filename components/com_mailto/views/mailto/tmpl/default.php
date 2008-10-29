@@ -69,5 +69,5 @@ $data	= $this->get('data');
 	<input type="hidden" name="task" value="send" />
 	<input type="hidden" name="tmpl" value="component" />
 	<input type="hidden" name="link" value="<?php echo $data->link; ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

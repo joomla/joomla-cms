@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php
-	JHTML::_('behavior.tooltip');
+	JHtml::_('behavior.tooltip');
 
 	// Set toolbar items for the page
 	$edit		= JRequest::getVar('edit',true);
@@ -173,7 +173,7 @@
 							$editor =& JFactory::getEditor();
 							echo $editor->display('fields['.$field->alias.']', $field->data, '100%', '100%', '50', '5');
 						}else if($field->type == 'image'){
-							echo JHTML::_('list.images',  'fields['.$field->alias.']', $field->data );
+							echo JHtml::_('list.images',  'fields['.$field->alias.']', $field->data );
 						}
 
 					?>
@@ -255,5 +255,5 @@
 	<input type="hidden" name="option" value="com_contactdirectory" />
 	<input type="hidden" name="cid[]" value="<?php echo $this->contact->id; ?>" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

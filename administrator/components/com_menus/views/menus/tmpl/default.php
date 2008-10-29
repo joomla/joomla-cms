@@ -95,7 +95,7 @@
 			</td>
 			<td align="center">
 				<a href="<?php echo $linkA; ?>" title="<?php echo JText::_( 'Edit Menu Items' ); ?>">
-					<?php echo JHTML::_('image.administrator', 'mainmenu.png'); ?></a>
+					<?php echo JHtml::_('image.administrator', 'mainmenu.png'); ?></a>
 			</td>
 			<td align="center">
 				<?php
@@ -131,5 +131,5 @@
 	<input type="hidden" name="option" value="com_menus" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

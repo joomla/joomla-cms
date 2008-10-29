@@ -65,5 +65,5 @@
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="option" value="com_cache" />
 <input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

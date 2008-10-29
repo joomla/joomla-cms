@@ -1,7 +1,7 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
 <?php
-	JHTML::_('behavior.tooltip');
+	JHtml::_('behavior.tooltip');
 ?>
 
 <form action=<?php echo JRoute::_("index.php"); ?> method="post" name="adminForm">
@@ -58,5 +58,5 @@ for ( $i=0; $i < $count; $i++ ) {
 <input type="hidden" name="created" value="1" />
 <input type="hidden" name="task" value="edit" />
 <input type="hidden" name="boxchecked" value="0" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

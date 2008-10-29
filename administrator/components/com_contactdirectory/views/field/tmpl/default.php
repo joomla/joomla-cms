@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 
 <?php
 // Set toolbar items for the page
@@ -119,5 +119,5 @@ if (!$edit)  {
 	<input type="hidden" name="option" value="com_contactdirectory" />
 	<input type="hidden" name="cid[]" value="<?php echo $this->field->id; ?>" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

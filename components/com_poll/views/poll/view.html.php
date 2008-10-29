@@ -90,8 +90,8 @@ class PollViewPoll extends JView
 			$dates = $db->loadObject();
 
 			if (isset( $dates->mindate )) {
-				$first_vote = JHTML::_('date',  $dates->mindate, JText::_('DATE_FORMAT_LC2') );
-				$last_vote 	= JHTML::_('date',  $dates->maxdate, JText::_('DATE_FORMAT_LC2') );
+				$first_vote = JHtml::_('date',  $dates->mindate, JText::_('DATE_FORMAT_LC2') );
+				$last_vote 	= JHtml::_('date',  $dates->maxdate, JText::_('DATE_FORMAT_LC2') );
 			}
 
 			$query = 'SELECT a.id, a.text, a.hits, b.voters '
@@ -120,12 +120,12 @@ class PollViewPoll extends JView
 			$pList[$k]->url = JRoute::_('index.php?option=com_poll&id='.$p->id.':'.$p->alias);
 		}
 
-		array_unshift( $pList, JHTML::_('select.option',  '', JText::_( 'Select Poll from the list' ), 'url', 'title' ));
+		array_unshift( $pList, JHtml::_('select.option',  '', JText::_( 'Select Poll from the list' ), 'url', 'title' ));
 
 		// dropdown output
 		$lists = array();
 
-		$lists['polls'] = JHTML::_('select.genericlist',   $pList, 'id',
+		$lists['polls'] = JHtml::_('select.genericlist',   $pList, 'id',
 			'class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=this.options[selectedIndex].value}"',
  			'url', 'title',
  			JRoute::_('index.php?option=com_poll&id='.$poll->id.':'.$poll->alias)

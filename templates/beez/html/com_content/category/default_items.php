@@ -43,25 +43,25 @@ document.adminForm.submit( task );
 
 		<?php if ($this->params->get('show_title')) : ?>
 		<th class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" id="tableOrdering">
-			<?php echo JHTML::_('grid.sort', 'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order']); ?>
+			<?php echo JHtml::_('grid.sort', 'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_date')) : ?>
 		<th class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" id="tableOrdering2">
-			<?php echo JHTML::_('grid.sort', 'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order']); ?>
+			<?php echo JHtml::_('grid.sort', 'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_author')) : ?>
 		<th class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" id="author">
-			<?php echo JHTML::_('grid.sort', 'Author', 'author', $this->lists['order_Dir'], $this->lists['order']); ?>
+			<?php echo JHtml::_('grid.sort', 'Author', 'author', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_hits')) : ?>
 		<th align="center" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" width="5%" nowrap="nowrap" id="hits">
-			<?php echo JHTML::_('grid.sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order']); ?>
+			<?php echo JHtml::_('grid.sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<?php endif; ?>
 	</tr>
@@ -78,7 +78,7 @@ document.adminForm.submit( task );
 			<?php if ($item->access <= $this->user->get('aid', 0)) : ?>
 				<a href="<?php echo $item->link; ?>">
 					<?php echo $this->escape($item->title); ?></a>
-				<?php echo JHTML::_('icon.edit', $item, $this->params, $this->access);
+				<?php echo JHtml::_('icon.edit', $item, $this->params, $this->access);
 			else :
 				echo $item->title; ?> :
 				<a href="<?php echo JRoute::_('index.php?option=com_user&task=register'); ?>">

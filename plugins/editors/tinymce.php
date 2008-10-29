@@ -388,7 +388,7 @@ class plgEditorTinymce extends JPlugin
 	function _displayButtons($name, $buttons)
 	{
 		// Load modal popup behavior
-		JHTML::_('behavior.modal', 'a.modal-button');
+		JHtml::_('behavior.modal', 'a.modal-button');
 
 		$args['name'] = $name;
 		$args['event'] = 'onGetInsertMethod';

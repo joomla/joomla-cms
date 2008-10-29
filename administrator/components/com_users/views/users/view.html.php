@@ -40,22 +40,22 @@ class UserViewUsers extends JView
 
 		// Logged in filter
 		$options	= array();
-		$options[]	= JHTML::_( 'select.option', '0', 'Select Login Status' );
-		$options[]	= JHTML::_( 'select.option', '1', 'Logged In' );
+		$options[]	= JHtml::_( 'select.option', '0', 'Select Login Status' );
+		$options[]	= JHtml::_( 'select.option', '1', 'Logged In' );
 		$this->assign( 'f_logged_in', $options );
 
 		// Enabled filter
 		$options	= array();
-		$options[]	= JHTML::_( 'select.option', '*', 'Select Enabled Status' );
-		$options[]	= JHTML::_( 'select.option', '1', 'No' );
-		$options[]	= JHTML::_( 'select.option', '0', 'Yes' );
+		$options[]	= JHtml::_( 'select.option', '*', 'Select Enabled Status' );
+		$options[]	= JHtml::_( 'select.option', '1', 'No' );
+		$options[]	= JHtml::_( 'select.option', '0', 'Yes' );
 		$this->assign( 'f_enabled', $options );
 
 		// Activated filter
 		$options	= array();
-		$options[]	= JHTML::_( 'select.option', '*', 'Select Activated Status' );
-		$options[]	= JHTML::_( 'select.option', '1', 'No' );
-		$options[]	= JHTML::_( 'select.option', '0', 'Yes' );
+		$options[]	= JHtml::_( 'select.option', '*', 'Select Activated Status' );
+		$options[]	= JHtml::_( 'select.option', '1', 'No' );
+		$options[]	= JHtml::_( 'select.option', '0', 'Yes' );
 		$this->assign( 'f_activated', $options );
 
 		$this->_setToolBar();

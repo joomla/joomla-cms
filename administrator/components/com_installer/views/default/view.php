@@ -64,7 +64,7 @@ class InstallerViewDefault extends JView
 		$this->assign('showMessage',	$showMessage);
 		$this->assignRef('state',		$state);
 
-		JHTML::_('behavior.tooltip');
+		JHtml::_('behavior.tooltip');
 		parent::display($tpl);
 	}
 

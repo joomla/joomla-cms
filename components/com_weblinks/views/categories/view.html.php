@@ -69,7 +69,7 @@ class WeblinksViewCategories extends JView
 			$attribs['hspace'] = 6;
 
 			// Use the static HTML library to build the image tag
-			$image = JHTML::_('image', 'images/stories/'.$params->get('image'), JText::_('Web Links'), $attribs);
+			$image = JHtml::_('image', 'images/stories/'.$params->get('image'), JText::_('Web Links'), $attribs);
 		}
 
 		for($i = 0; $i < count($categories); $i++)
@@ -78,7 +78,7 @@ class WeblinksViewCategories extends JView
 			$category->link = JRoute::_('index.php?option=com_weblinks&view=category&id='. $category->slug);
 
 			// Prepare category description
-			$category->description = JHTML::_('content.prepare', $category->description);
+			$category->description = JHtml::_('content.prepare', $category->description);
 		}
 
 		$this->assignRef('image',		$image);

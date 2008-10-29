@@ -49,7 +49,7 @@ class ContactsViewContacts extends JView
 
 		// build list of categories
 		$javascript 	= 'onchange="document.adminForm.submit();"';
-		$lists['catid'] = JHTML::_('list.category',  'filter_catid', 'com_contact_details', intval( $filter_catid ), $javascript );
+		$lists['catid'] = JHtml::_('list.category',  'filter_catid', 'com_contact_details', intval( $filter_catid ), $javascript );
 
 		$this->assignRef('user',		JFactory::getUser());
 		$this->assignRef('lists',		$lists);

@@ -89,7 +89,7 @@ class CategoriesViewCategory extends JView
 		$max = intval( $db->loadResult() ) + 1;
 
 		for ($i=1; $i < $max; $i++) {
-			$order[] = JHTML::_('select.option',  $i );
+			$order[] = JHtml::_('select.option',  $i );
 		}
 		*/
 
@@ -106,7 +106,7 @@ class CategoriesViewCategory extends JView
 			;
 			$db->setQuery( $query );
 			$sections = $db->loadObjectList();
-			$lists['section'] = JHTML::_('select.genericlist',   $sections, 'section', 'class="inputbox" size="1"', 'value', 'text', $row->section );
+			$lists['section'] = JHtml::_('select.genericlist',   $sections, 'section', 'class="inputbox" size="1"', 'value', 'text', $row->section );
 		} else {
 			if ( $type == 'other' ) {
 				$section_name = JText::_( 'N/A' );
@@ -127,20 +127,20 @@ class CategoriesViewCategory extends JView
 		. ' ORDER BY ordering'
 		;
 		if($edit)
-			$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
+			$lists['ordering'] 			= JHtml::_('list.specificordering',  $row, $cid[0], $query );
 		else
-			$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query );
+			$lists['ordering'] 			= JHtml::_('list.specificordering',  $row, '', $query );
 
 		// build the select list for the image positions
 		$active =  ( $row->image_position ? $row->image_position : 'left' );
-		$lists['image_position'] 	= JHTML::_('list.positions',  'image_position', $active, NULL, 0, 0 );
+		$lists['image_position'] 	= JHtml::_('list.positions',  'image_position', $active, NULL, 0, 0 );
 		// Imagelist
-		$lists['image'] 			= JHTML::_('list.images',  'image', $row->image );
+		$lists['image'] 			= JHtml::_('list.images',  'image', $row->image );
 		// build the html select list for the group access
-		$lists['access'] 			= JHTML::_('list.accesslevel',  $row );
+		$lists['access'] 			= JHtml::_('list.accesslevel',  $row );
 		// build the html radio buttons for published
 		$published = ($row->id) ? $row->published : 1;
-		$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $published );
+		$lists['published'] 		= JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $published );
 
 		$this->assignRef('redirect',	$redirect);
 		$this->assignRef('lists',		$lists);

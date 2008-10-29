@@ -86,7 +86,7 @@ class WeblinksViewCategory extends JView
 		}
 
 		// Prepare category description
-		$category->description = JHTML::_('content.prepare', $category->description);
+		$category->description = JHtml::_('content.prepare', $category->description);
 
 		// table ordering
 		$lists['order_Dir'] = $state->get('filter_order_dir');
@@ -107,12 +107,12 @@ class WeblinksViewCategory extends JView
 			$attribs['hspace'] = 6;
 
 			// Use the static HTML library to build the image tag
-			$category->image = JHTML::_('image', 'images/stories/'.$category->image, JText::_('Web Links'), $attribs);
+			$category->image = JHtml::_('image', 'images/stories/'.$category->image, JText::_('Web Links'), $attribs);
 		}
 
 		// icon in table display
 		if ( $params->get( 'link_icons' ) <> -1 ) {
-			$image = JHTML::_('image.site',  $params->get('link_icons', 'weblink.png'), '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link' );
+			$image = JHtml::_('image.site',  $params->get('link_icons', 'weblink.png'), '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link' );
 		}
 
 		$source = $params->get('snapshot_source');

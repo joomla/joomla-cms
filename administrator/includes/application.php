@@ -132,7 +132,7 @@ class JAdministrator extends JApplication
 					$document->addScript( JURI::root(true).'/media/system/js/legacy.js');
 				}
 
-				JHTML::_('behavior.mootools');
+				JHtml::_('behavior.mootools');
 			} break;
 
 			default : break;

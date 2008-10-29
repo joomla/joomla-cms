@@ -4,7 +4,7 @@
 	//Ordering allowed ?
 	$ordering = ($this->filter->order == 's.ordering');
 
-	JHTML::_('behavior.tooltip');
+	JHtml::_('behavior.tooltip');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_sections&amp;scope=' . $this->scope); ?>" method="post" name="adminForm">
@@ -19,7 +19,7 @@
 	</td>
 	<td nowrap="nowrap">
 		<?php
-		echo JHTML::_('grid.state', $this->filter->state );
+		echo JHtml::_('grid.state', $this->filter->state );
 		?>
 	</td>
 </tr>
@@ -35,17 +35,17 @@
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->rows );?>);" />
 		</th>
 		<th class="title">
-			<?php echo JHTML::_('grid.sort',   'Title', 's.title', @$this->filter->order_Dir, @$this->filter->order ); ?>
+			<?php echo JHtml::_('grid.sort',   'Title', 's.title', @$this->filter->order_Dir, @$this->filter->order ); ?>
 		</th>
 		<th width="5%">
-			<?php echo JHTML::_('grid.sort',   'Published', 's.published', @$this->filter->order_Dir, @$this->filter->order ); ?>
+			<?php echo JHtml::_('grid.sort',   'Published', 's.published', @$this->filter->order_Dir, @$this->filter->order ); ?>
 		</th>
 		<th width="10%" nowrap="nowrap">
-			<?php echo JHTML::_('grid.sort',   'Order', 's.ordering', @$this->filter->order_Dir, @$this->filter->order ); ?>
-			<?php echo JHTML::_('grid.order',  $this->rows ); ?>
+			<?php echo JHtml::_('grid.sort',   'Order', 's.ordering', @$this->filter->order_Dir, @$this->filter->order ); ?>
+			<?php echo JHtml::_('grid.order',  $this->rows ); ?>
 		</th>
 		<th width="10%">
-			<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$this->filter->order_Dir, @$this->filter->order ); ?>
+			<?php echo JHtml::_('grid.sort',   'Access', 'groupname', @$this->filter->order_Dir, @$this->filter->order ); ?>
 		</th>
 		<th width="5%" nowrap="nowrap">
 			<?php echo JText::_( 'Num Categories' ); ?>
@@ -57,7 +57,7 @@
 			<?php echo JText::_( 'Num Trash' ); ?>
 		</th>
 		<th width="1%" nowrap="nowrap">
-			<?php echo JHTML::_('grid.sort',   'ID', 's.id', @$this->filter->order_Dir, @$this->filter->order ); ?>
+			<?php echo JHtml::_('grid.sort',   'ID', 's.id', @$this->filter->order_Dir, @$this->filter->order ); ?>
 		</th>
 	</tr>
 </thead>
@@ -76,9 +76,9 @@ for ( $i=0, $n=count( $this->rows ); $i < $n; $i++ ) {
 
 	$link 		= 'index.php?option=com_sections&scope=content&task=edit&cid[]='. $row->id;
 
-	$access 	= JHTML::_('grid.access',   $row, $i );
-	$checked 	= JHTML::_('grid.checkedout',   $row, $i );
-	$published 	= JHTML::_('grid.published', $row, $i );
+	$access 	= JHtml::_('grid.access',   $row, $i );
+	$checked 	= JHtml::_('grid.checkedout',   $row, $i );
+	$published 	= JHtml::_('grid.published', $row, $i );
 	?>
 	<tr class="<?php echo "row$k"; ?>">
 		<td align="center">

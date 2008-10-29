@@ -70,20 +70,20 @@ class SearchViewSearch extends JView
 
 		// built select lists
 		$orders = array();
-		$orders[] = JHTML::_('select.option',  'newest', JText::_( 'Newest first' ) );
-		$orders[] = JHTML::_('select.option',  'oldest', JText::_( 'Oldest first' ) );
-		$orders[] = JHTML::_('select.option',  'popular', JText::_( 'Most popular' ) );
-		$orders[] = JHTML::_('select.option',  'alpha', JText::_( 'Alphabetical' ) );
-		$orders[] = JHTML::_('select.option',  'category', JText::_( 'Section/Category' ) );
+		$orders[] = JHtml::_('select.option',  'newest', JText::_( 'Newest first' ) );
+		$orders[] = JHtml::_('select.option',  'oldest', JText::_( 'Oldest first' ) );
+		$orders[] = JHtml::_('select.option',  'popular', JText::_( 'Most popular' ) );
+		$orders[] = JHtml::_('select.option',  'alpha', JText::_( 'Alphabetical' ) );
+		$orders[] = JHtml::_('select.option',  'category', JText::_( 'Section/Category' ) );
 
 		$lists = array();
-		$lists['ordering'] = JHTML::_('select.genericlist',   $orders, 'ordering', 'class="inputbox"', 'value', 'text', $state->get('ordering') );
+		$lists['ordering'] = JHtml::_('select.genericlist',   $orders, 'ordering', 'class="inputbox"', 'value', 'text', $state->get('ordering') );
 
 		$searchphrases 		= array();
-		$searchphrases[] 	= JHTML::_('select.option',  'all', JText::_( 'All words' ) );
-		$searchphrases[] 	= JHTML::_('select.option',  'any', JText::_( 'Any words' ) );
-		$searchphrases[] 	= JHTML::_('select.option',  'exact', JText::_( 'Exact phrase' ) );
-		$lists['searchphrase' ]= JHTML::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match') );
+		$searchphrases[] 	= JHtml::_('select.option',  'all', JText::_( 'All words' ) );
+		$searchphrases[] 	= JHtml::_('select.option',  'any', JText::_( 'Any words' ) );
+		$searchphrases[] 	= JHtml::_('select.option',  'exact', JText::_( 'Exact phrase' ) );
+		$lists['searchphrase' ]= JHtml::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match') );
 
 		// log the search
 		SearchHelper::logSearch( $searchword);
@@ -146,7 +146,7 @@ class SearchViewSearch extends JView
 
 				$result =& $results[$i];
 				if ($result->created) {
-					$created = JHTML::Date ( $result->created );
+					$created = JHtml::Date ( $result->created );
 				}
 				else {
 					$created = '';

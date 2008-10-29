@@ -97,7 +97,7 @@ function plgEmailCloak(&$text, &$params)
 		$mailText = $regs[2][0];
 
 		// Check to see if mail text is different from mail addy
-		$replacement = JHTML::_('email.cloak', $mail, $mode, $mailText);
+		$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
 
 		// Replace the found address with the js cloaked email
 		$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -112,7 +112,7 @@ function plgEmailCloak(&$text, &$params)
 		$mail = $regs[1][0];
 		$mailText = $regs[2][0];
 
-		$replacement = JHTML::_('email.cloak', $mail, $mode, $mailText, 0);
+		$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
 
 		// Replace the found address with the js cloaked email
 		$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -130,7 +130,7 @@ function plgEmailCloak(&$text, &$params)
 		$mail = str_replace( '&amp;', '&', $mail );
 
 		// Check to see if mail text is different from mail addy
-		$replacement = JHTML::_('email.cloak', $mail, $mode, $mailText);
+		$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
 
 		// Replace the found address with the js cloaked email
 		$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -147,7 +147,7 @@ function plgEmailCloak(&$text, &$params)
 		// Needed for handling of Body parameter
 		$mail = str_replace('&amp;', '&', $mail);
 
-		$replacement = JHTML::_('email.cloak', $mail, $mode, $mailText, 0);
+		$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
 
 		// Replace the found address with the js cloaked email
 		$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
@@ -157,7 +157,7 @@ function plgEmailCloak(&$text, &$params)
 	$pattern = '~' . $searchEmail . '([^a-z0-9]|$)~i';
 	while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
 		$mail = $regs[1][0];
-		$replacement = JHTML::_('email.cloak', $mail, $mode);
+		$replacement = JHtml::_('email.cloak', $mail, $mode);
 
 		// Replace the found address with the js cloaked email
 		$text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));

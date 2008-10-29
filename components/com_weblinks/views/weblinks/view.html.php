@@ -72,7 +72,7 @@ class WeblinksViewWeblinks extends JView
 
 		// icon in table display
 		if ( $params->get( 'link_icons' ) <> -1 ) {
-			$image = JHTML::_('image.site',  $params->get('link_icons'), '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link' );
+			$image = JHtml::_('image.site',  $params->get('link_icons'), '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link' );
 		}
 
 		$source = $params->get('snapshot_source');

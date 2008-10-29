@@ -72,8 +72,8 @@ class JElementCategory extends JElement
 		} catch(JException $e) {
 			$options = array();
 		}
-		array_unshift($options, JHTML::_('select.option', '0', '- '.JText::_('Select Category').' -', 'id', 'title'));
+		array_unshift($options, JHtml::_('select.option', '0', '- '.JText::_('Select Category').' -', 'id', 'title'));
 
-		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name );
+		return JHtml::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="'.$class.'"', 'id', 'title', $value, $control_name.$name );
 	}
 }

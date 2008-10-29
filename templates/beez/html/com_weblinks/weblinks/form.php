@@ -87,5 +87,5 @@ function submitbutton(pressbutton)
 	<input type="hidden" name="controller" value="weblink" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="Returnid" value="<?php echo $this->returnid; ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

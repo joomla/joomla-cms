@@ -76,7 +76,7 @@ class ContactViewCategory extends JView
 			if ($pparams->get('show_email', 0) == 1) {
 				$contact->email_to = trim($contact->email_to);
 				if (!empty($contact->email_to) && JMailHelper::isEmailAddress($contact->email_to)) {
-					$contact->email_to = JHTML::_('email.cloak', $contact->email_to);
+					$contact->email_to = JHtml::_('email.cloak', $contact->email_to);
 				} else {
 					$contact->email_to = '';
 				}
@@ -118,7 +118,7 @@ class ContactViewCategory extends JView
 		$document->setTitle( $pparams->get( 'page_title' ) );
 
 		// Prepare category description
-		$category->description = JHTML::_('content.prepare', $category->description);
+		$category->description = JHtml::_('content.prepare', $category->description);
 
 		// table ordering
 		$lists['order_Dir'] = $filter_order_Dir;

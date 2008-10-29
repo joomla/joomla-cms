@@ -66,7 +66,7 @@ class NewsfeedsViewCategory extends JView
 		$pathway->addItem($category->title, '');
 
 		// Prepare category description
-		$category->description = JHTML::_('content.prepare', $category->description);
+		$category->description = JHtml::_('content.prepare', $category->description);
 
 		$k = 0;
 		for($i = 0; $i <  count($items); $i++)
@@ -87,7 +87,7 @@ class NewsfeedsViewCategory extends JView
 			$attribs['hspace'] = 6;
 
 			// Use the static HTML library to build the image tag
-			$image = JHTML::_('image', 'images/stories/'.$category->image, JText::_('NEWS_FEEDS'), $attribs);
+			$image = JHtml::_('image', 'images/stories/'.$category->image, JText::_('NEWS_FEEDS'), $attribs);
 		}
 
 		$this->assignRef('image',		$image);

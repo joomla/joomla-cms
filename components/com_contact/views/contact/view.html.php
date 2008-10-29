@@ -106,7 +106,7 @@ class ContactViewContact extends JView
 
 		// Handle email cloaking
 		if ($contact->email_to && $contact->params->get('show_email')) {
-			$contact->email_to = JHTML::_('email.cloak', $contact->email_to);
+			$contact->email_to = JHtml::_('email.cloak', $contact->email_to);
 		}
 
 		if ($contact->params->get('show_street_adress') || $contact->params->get('show_suburb') || $contact->params->get('show_state') || $contact->params->get('show_postcode') || $contact->params->get('show_country'))
@@ -145,12 +145,12 @@ class ContactViewContact extends JView
 
 			default :
 				// icons
-				$image1 = JHTML::_('image.site', 'con_address.png', 	'/images/M_images/', $contact->params->get('icon_address'), 	'/images/M_images/', JText::_('Address').": ");
-				$image2 = JHTML::_('image.site', 'emailButton.png', 	'/images/M_images/', $contact->params->get('icon_email'), 		'/images/M_images/', JText::_('Email').": ");
-				$image3 = JHTML::_('image.site', 'con_tel.png', 		'/images/M_images/', $contact->params->get('icon_telephone'), 	'/images/M_images/', JText::_('Telephone').": ");
-				$image4 = JHTML::_('image.site', 'con_fax.png', 		'/images/M_images/', $contact->params->get('icon_fax'), 		'/images/M_images/', JText::_('Fax').": ");
-				$image5 = JHTML::_('image.site', 'con_info.png', 		'/images/M_images/', $contact->params->get('icon_misc'), 		'/images/M_images/', JText::_('Information').": ");
-				$image6 = JHTML::_('image.site', 'con_mobile.png', 		'/images/M_images/', $contact->params->get('icon_mobile'), 	'/images/M_images/', JText::_('Mobile').": ");
+				$image1 = JHtml::_('image.site', 'con_address.png', 	'/images/M_images/', $contact->params->get('icon_address'), 	'/images/M_images/', JText::_('Address').": ");
+				$image2 = JHtml::_('image.site', 'emailButton.png', 	'/images/M_images/', $contact->params->get('icon_email'), 		'/images/M_images/', JText::_('Email').": ");
+				$image3 = JHtml::_('image.site', 'con_tel.png', 		'/images/M_images/', $contact->params->get('icon_telephone'), 	'/images/M_images/', JText::_('Telephone').": ");
+				$image4 = JHtml::_('image.site', 'con_fax.png', 		'/images/M_images/', $contact->params->get('icon_fax'), 		'/images/M_images/', JText::_('Fax').": ");
+				$image5 = JHtml::_('image.site', 'con_info.png', 		'/images/M_images/', $contact->params->get('icon_misc'), 		'/images/M_images/', JText::_('Information').": ");
+				$image6 = JHtml::_('image.site', 'con_mobile.png', 		'/images/M_images/', $contact->params->get('icon_mobile'), 	'/images/M_images/', JText::_('Mobile').": ");
 
 				$contact->params->set('marker_address', 	$image1);
 				$contact->params->set('marker_email', 		$image2);
@@ -162,7 +162,7 @@ class ContactViewContact extends JView
 				break;
 		}
 
-		JHTML::_('behavior.formvalidation');
+		JHtml::_('behavior.formvalidation');
 
 		$this->assignRef('contact',		$contact);
 		$this->assignRef('contacts',	$contacts);

@@ -327,19 +327,19 @@ class JPagination extends JObject
 
 		// Make the option list
 		for ($i = 5; $i <= 30; $i += 5) {
-			$limits[] = JHTML::_('select.option', "$i");
+			$limits[] = JHtml::_('select.option', "$i");
 		}
-		$limits[] = JHTML::_('select.option', '50');
-		$limits[] = JHTML::_('select.option', '100');
-		$limits[] = JHTML::_('select.option', '0', JText::_('all'));
+		$limits[] = JHtml::_('select.option', '50');
+		$limits[] = JHtml::_('select.option', '100');
+		$limits[] = JHtml::_('select.option', '0', JText::_('all'));
 
 		$selected = $this->_viewall ? 0 : $this->limit;
 
 		// Build the select list
 		if ($appl->isAdmin()) {
-			$html = JHTML::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="submitform();"', 'value', 'text', $selected);
+			$html = JHtml::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="submitform();"', 'value', 'text', $selected);
 		} else {
-			$html = JHTML::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected);
+			$html = JHtml::_('select.genericlist',  $limits, 'limit', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected);
 		}
 		return $html;
 	}

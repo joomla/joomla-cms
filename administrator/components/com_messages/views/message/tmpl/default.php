@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 
@@ -45,5 +45,5 @@
 <input type="hidden" name="cid[]" value="<?php echo $this->row->message_id; ?>" />
 <input type="hidden" name="userid" value="<?php echo $this->row->user_id_from; ?>" />
 <input type="hidden" name="subject" value="Re: <?php echo $this->row->subject; ?>" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

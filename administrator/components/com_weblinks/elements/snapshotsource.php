@@ -29,6 +29,6 @@ class JElementSnapshotSource extends JElement
 		JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_weblinks'.DS.'models');
 		$model =& JModel::getInstance('snapshotsources','WeblinksModel');
 		$sites = $model->getData();
-		return JHTML::_('select.genericlist', $sites, ''.$control_name.'['.$name.']', 'class="inputbox"', 'name', 'name', $value, $control_name.$name );
+		return JHtml::_('select.genericlist', $sites, ''.$control_name.'['.$name.']', 'class="inputbox"', 'name', 'name', $value, $control_name.$name );
 	}
 }

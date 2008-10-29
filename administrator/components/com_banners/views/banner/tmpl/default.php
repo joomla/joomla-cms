@@ -1,7 +1,7 @@
 <?php defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
 
 <?php
-	JHTML::_('behavior.tooltip');
+	JHtml::_('behavior.tooltip');
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -87,7 +87,7 @@ function submitbutton(pressbutton) {
 					</label>
 				</td>
 				<td>
-					<?php echo JHTML::_('list.specificordering',  $this->row, $this->row->bid, $this->order_query, 1 ); ?>
+					<?php echo JHtml::_('list.specificordering',  $this->row, $this->row->bid, $this->order_query, 1 ); ?>
 				</td>
 			</tr>
 			<tr>
@@ -230,5 +230,5 @@ function submitbutton(pressbutton) {
 <input type="hidden" name="clicks" value="<?php echo $this->row->clicks; ?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="impmade" value="<?php echo $this->row->impmade; ?>" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

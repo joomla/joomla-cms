@@ -21,24 +21,24 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 	<?php if ($this->item->params->get('show_pdf_icon')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php echo JHTML::_('icon.pdf', $this->item, $this->item->params, $this->access); ?>
+	<?php echo JHtml::_('icon.pdf', $this->item, $this->item->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
 
 	<?php if ( $this->item->params->get( 'show_print_icon' )) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php echo JHTML::_('icon.print_popup', $this->item, $this->item->params, $this->access); ?>
+	<?php echo JHtml::_('icon.print_popup', $this->item, $this->item->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
 
 	<?php if ($this->item->params->get('show_email_icon')) : ?>
 	<td align="right" width="100%" class="buttonheading">
-	<?php echo JHTML::_('icon.email', $this->item, $this->item->params, $this->access); ?>
+	<?php echo JHtml::_('icon.email', $this->item, $this->item->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($canEdit) : ?>
 	<td align="right" width="100%" class="buttonheading">
-		<?php echo JHTML::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
+		<?php echo JHtml::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
 	</td>
 	<?php endif; ?>
 </tr>
@@ -95,7 +95,7 @@ endif; ?>
 <?php if ($this->item->params->get('show_create_date')) : ?>
 <tr>
 	<td valign="top" colspan="2" class="createdate">
-		<?php echo JHTML::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
+		<?php echo JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
 	</td>
 </tr>
 <?php endif; ?>
@@ -121,7 +121,7 @@ endif; ?>
 <?php if ( intval($this->item->modified) != 0 && $this->item->params->get('show_modify_date')) : ?>
 <tr>
 	<td colspan="2"  class="modifydate">
-		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHTML::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2')); ?> )
+		<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2')); ?> )
 	</td>
 </tr>
 <?php endif; ?>

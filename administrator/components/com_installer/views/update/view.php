@@ -45,7 +45,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 		
-		JHTML::_('behavior.tooltip');
+		JHtml::_('behavior.tooltip');
 		parent::display($tpl);
 	}
 

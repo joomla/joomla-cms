@@ -38,5 +38,5 @@
 	<input type="hidden" name="id" value="<?php echo $this->table->id; ?>" />
 	<input type="hidden" name="option" value="com_menus" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

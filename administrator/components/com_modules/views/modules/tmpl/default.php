@@ -6,7 +6,7 @@
 	//Ordering allowed ?
 	$ordering = (($this->filter->order == 'm.position'));
 
-	JHTML::_('behavior.tooltip');
+	JHtml::_('behavior.tooltip');
 ?>
 
 <form action=<?php echo JRoute::_('index.php?option=com_modules'); ?> method="post" name="adminForm">
@@ -21,10 +21,10 @@
 		</td>
 		<td nowrap="nowrap">
 			<?php
-				echo JHTML::_('filter.assigned', $this->client, $this->filter->assigned);
-				echo JHTML::_('filter.position', $this->client, $this->filter->position);
-				echo JHTML::_('filter.type', $this->client, $this->filter->type);
-				echo JHTML::_('grid.state', $this->filter->state);
+				echo JHtml::_('filter.assigned', $this->client, $this->filter->assigned);
+				echo JHtml::_('filter.position', $this->client, $this->filter->position);
+				echo JHtml::_('filter.type', $this->client, $this->filter->type);
+				echo JHtml::_('grid.state', $this->filter->state);
 			?>
 		</td>
 	</tr>
@@ -40,37 +40,37 @@
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->rows);?>);" />
 		</th>
 		<th class="title">
-			<?php echo JHTML::_('grid.sort', 'Module Name', 'm.title', @$this->filter->order_Dir, @$this->filter->order); ?>
+			<?php echo JHtml::_('grid.sort', 'Module Name', 'm.title', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
 		<th nowrap="nowrap" width="7%">
-			<?php echo JHTML::_('grid.sort', 'Published', 'm.published', @$this->filter->order_Dir, @$this->filter->order); ?>
+			<?php echo JHtml::_('grid.sort', 'Published', 'm.published', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
 		<th width="80" nowrap="nowrap">
-			<?php echo JHTML::_('grid.sort', 'Order', 'm.position', @$this->filter->order_Dir, @$this->filter->order); ?>
+			<?php echo JHtml::_('grid.sort', 'Order', 'm.position', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
 		<th width="1%">
-			<?php echo JHTML::_('grid.order',  $this->rows); ?>
+			<?php echo JHtml::_('grid.order',  $this->rows); ?>
 		</th>
 		<?php
 		if ($this->client->id == 0) {
 			?>
 			<th nowrap="nowrap" width="7%">
-				<?php echo JHTML::_('grid.sort', 'Access', 'groupname', @$this->filter->order_Dir, @$this->filter->order); ?>
+				<?php echo JHtml::_('grid.sort', 'Access', 'groupname', @$this->filter->order_Dir, @$this->filter->order); ?>
 			</th>
 			<?php
 		}
 		?>
 		<th nowrap="nowrap" width="7%">
-			<?php echo JHTML::_('grid.sort', 'Position', 'm.position', @$this->filter->order_Dir, @$this->filter->order); ?>
+			<?php echo JHtml::_('grid.sort', 'Position', 'm.position', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
 		<th nowrap="nowrap" width="5%">
-			<?php echo JHTML::_('grid.sort', 'Pages', 'pages', @$this->filter->order_Dir, @$this->filter->order); ?>
+			<?php echo JHtml::_('grid.sort', 'Pages', 'pages', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
 		<th nowrap="nowrap" width="10%"  class="title">
-			<?php echo JHTML::_('grid.sort', 'Type', 'm.module', @$this->filter->order_Dir, @$this->filter->order); ?>
+			<?php echo JHtml::_('grid.sort', 'Type', 'm.module', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
 		<th nowrap="nowrap" width="1%">
-			<?php echo JHTML::_('grid.sort',   'ID', 'm.id', @$this->filter->order_Dir, @$this->filter->order); ?>
+			<?php echo JHtml::_('grid.sort',   'ID', 'm.id', @$this->filter->order_Dir, @$this->filter->order); ?>
 		</th>
 	</tr>
 	</thead>
@@ -89,9 +89,9 @@
 
 		$link = JRoute::_( 'index.php?option=com_modules&client='. $this->client->id .'&task=edit&cid[]='. $row->id );
 
-		$access		= JHTML::_('grid.access', $row, $i);
-		$checked	= JHTML::_('grid.checkedout', $row, $i);
-		$published  = JHTML::_('grid.published', $row, $i);
+		$access		= JHtml::_('grid.access', $row, $i);
+		$checked	= JHtml::_('grid.checkedout', $row, $i);
+		$published  = JHtml::_('grid.published', $row, $i);
 		?>
 		<tr class="<?php echo 'row' . $k; ?>">
 			<td align="right">
@@ -166,5 +166,5 @@
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="filter_order" value="<?php echo $this->filter->order; ?>" />
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->filter->order_Dir; ?>" />
-<?php echo JHTML::_('form.token'); ?>
+<?php echo JHtml::_('form.token'); ?>
 </form>

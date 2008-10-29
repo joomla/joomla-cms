@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 <?php JRequest::setVar( 'hidemainmenu', 1 ); ?>
 
 <script language="javascript" type="text/javascript">
@@ -62,7 +62,7 @@ function submitbutton(pressbutton) {
 				<?php echo JText::_( 'Published' ); ?>:
 			</td>
 			<td>
-				<?php echo JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $this->newsfeed->published ); ?>
+				<?php echo JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $this->newsfeed->published ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -72,7 +72,7 @@ function submitbutton(pressbutton) {
 				</label>
 			</td>
 			<td>
-				<?php echo JHTML::_('list.category',  'catid', $option, intval( $this->newsfeed->catid ) ); ?>
+				<?php echo JHtml::_('list.category',  'catid', $option, intval( $this->newsfeed->catid ) ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -112,7 +112,7 @@ function submitbutton(pressbutton) {
 				</label>
 			</td>
 			<td>
-				<?php echo JHTML::_('list.specificordering',  $this->newsfeed, $this->newsfeed->id, $this->order_query, 1 ); ?>
+				<?php echo JHtml::_('list.specificordering',  $this->newsfeed, $this->newsfeed->id, $this->order_query, 1 ); ?>
 			</td>
 		</tr>
 		<?php

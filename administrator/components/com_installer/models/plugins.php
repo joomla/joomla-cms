@@ -62,7 +62,7 @@ class InstallerModelPlugins extends InstallerModel
 				' ORDER BY folder';
 		$db->setQuery( $query );
 
-		$types[] = JHTML::_('select.option',  '', JText::_( 'All' ) );
+		$types[] = JHtml::_('select.option',  '', JText::_( 'All' ) );
 		$types = array_merge( $types, $db->loadObjectList() );
 
 		return $types;
@@ -90,7 +90,7 @@ class InstallerModelPlugins extends InstallerModel
 				$where .= ' WHERE name LIKE '.$db->Quote( '%'.$db->getEscaped( $search, true ).'%', false );
 			}
 		}
-		
+
 		$where = $where ? $where . ' AND type = "plugin"' : ' WHERE type = "plugin"';
 		$query = 'SELECT id, name, folder, element, client_id, protected' .
 				' FROM #__extensions' .

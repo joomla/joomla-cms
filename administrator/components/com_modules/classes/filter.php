@@ -21,7 +21,7 @@
  * @since		1.6
  */
 
-class JHTMLFilter
+class JHtmlFilter
 {
 	function assigned($client, $selected = null)
 	{
@@ -32,9 +32,9 @@ class JHTMLFilter
 				' FROM #__templates_menu' .
 				' WHERE client_id = '.(int) $client->id;
 		$db->setQuery( $query );
-		$assigned[]		= JHTML::_('select.option',  '0', '- '. JText::_( 'Select Template' ) .' -' );
+		$assigned[]		= JHtml::_('select.option',  '0', '- '. JText::_( 'Select Template' ) .' -' );
 		$assigned 		= array_merge( $assigned, $db->loadObjectList() );
-		return JHTML::_('select.genericlist',   $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected );
+		return JHtml::_('select.genericlist',   $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected );
 	}
 
 	function position($client, $selected = null)
@@ -48,10 +48,10 @@ class JHTMLFilter
 		. ' GROUP BY m.position'
 		. ' ORDER BY m.position'
 		;
-		$positions[] = JHTML::_('select.option',  '0', '- '. JText::_( 'Select Position' ) .' -' );
+		$positions[] = JHtml::_('select.option',  '0', '- '. JText::_( 'Select Position' ) .' -' );
 		$db->setQuery( $query );
 		$positions = array_merge( $positions, $db->loadObjectList() );
-		return JHTML::_('select.genericlist',   $positions, 'filter_position', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected );
+		return JHtml::_('select.genericlist',   $positions, 'filter_position', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected );
 	}
 
 	function type($client, $selected = null)
@@ -66,8 +66,8 @@ class JHTMLFilter
 		. ' ORDER BY module'
 		;
 		$db->setQuery( $query );
-		$types[] 		= JHTML::_('select.option',  '0', '- '. JText::_( 'Select Type' ) .' -' );
+		$types[] 		= JHtml::_('select.option',  '0', '- '. JText::_( 'Select Type' ) .' -' );
 		$types 			= array_merge( $types, $db->loadObjectList() );
-		return JHTML::_('select.genericlist',   $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected );
+		return JHtml::_('select.genericlist',   $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected );
 	}
 }

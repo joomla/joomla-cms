@@ -4,7 +4,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php if ($this->user->authorize('com_content', 'edit', 'content', 'all') || $this->user->authorize('com_content', 'edit', 'content', 'own')) : ?>
 <div class="contentpaneopen_edit<?php echo $this->item->params->get('pageclass_sfx'); ?>">
-	<?php echo JHTML::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
+	<?php echo JHtml::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
 </div>
 <?php endif; ?>
 
@@ -27,13 +27,13 @@ endif; ?>
 <p class="buttonheading">
 	<img src="<?php echo $this->baseurl ?>/templates/beez/images/trans.gif" alt="<?php echo JText::_('attention open in a new window'); ?>" />
 	<?php if ($this->item->params->get('show_pdf_icon')) :
-		echo JHTML::_('icon.pdf', $this->item, $this->item->params, $this->access);
+		echo JHtml::_('icon.pdf', $this->item, $this->item->params, $this->access);
 	endif;
 	if ($this->item->params->get('show_print_icon')) :
-		echo JHTML::_('icon.print_popup', $this->item, $this->item->params, $this->access);
+		echo JHtml::_('icon.print_popup', $this->item, $this->item->params, $this->access);
 	endif;
 	if ($this->item->params->get('show_email_icon')) :
-		echo JHTML::_('icon.email', $this->item, $this->item->params, $this->access);
+		echo JHtml::_('icon.email', $this->item, $this->item->params, $this->access);
 	endif; ?>
 </p>
 <?php endif; ?>
@@ -72,7 +72,7 @@ endif; ?>
 <p class="iteminfo">
 	<?php if (!empty ($this->item->modified) && $this->item->params->get('show_modify_date')) : ?>
 	<span class="modifydate">
-		<?php echo JText::_('Last Updated').' ('.JHTML::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2')).')'; ?>
+		<?php echo JText::_('Last Updated').' ('.JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC2')).')'; ?>
 	</span>
 	<?php endif; ?>
 
@@ -84,7 +84,7 @@ endif; ?>
 
 	<?php if ($this->item->params->get('show_create_date')) : ?>
 	<span class="createdate">
-		<?php echo JHTML::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
+		<?php echo JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC2')); ?>
 	</span>
 	<?php endif; ?>
 </p>

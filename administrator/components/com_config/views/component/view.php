@@ -34,7 +34,7 @@ class ConfigViewComponent extends JView
 
 		$document = & JFactory::getDocument();
 		$document->setTitle( JText::_('Edit Preferences') );
-		JHTML::_('behavior.tooltip');
+		JHtml::_('behavior.tooltip');
 
 		$this->assignRef('params',		$params);
 		$this->assignRef('component',	$component);

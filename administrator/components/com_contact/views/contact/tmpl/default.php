@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 
 <script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
@@ -59,7 +59,7 @@
 				<?php echo JText::_( 'Published' ); ?>:
 			</td>
 			<td>
-				<?php echo JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $this->contact->published ); ?>
+				<?php echo JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $this->contact->published ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -69,7 +69,7 @@
 				</label>
 			</td>
 			<td>
-				<?php echo JHTML::_('list.category',  'catid', 'com_contact_details', intval( $this->contact->catid ) ); ?>
+				<?php echo JHtml::_('list.category',  'catid', 'com_contact_details', intval( $this->contact->catid ) ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -79,7 +79,7 @@
 				</label>
 			</td>
 			<td >
-				<?php echo JHTML::_('list.users',  'user_id', $this->contact->user_id, 1, NULL, 'name', 0 ); ?>
+				<?php echo JHtml::_('list.users',  'user_id', $this->contact->user_id, 1, NULL, 'name', 0 ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -89,7 +89,7 @@
 				</label>
 			</td>
 			<td>
-				<?php echo JHTML::_('list.specificordering',  $this->contact, $this->contact->id, $this->order_query, 1 ); ?>
+				<?php echo JHtml::_('list.specificordering',  $this->contact, $this->contact->id, $this->order_query, 1 ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -99,7 +99,7 @@
 				</label>
 			</td>
 			<td>
-				<?php echo JHTML::_('list.accesslevel',  $this->contact ); ?>
+				<?php echo JHtml::_('list.accesslevel',  $this->contact ); ?>
 			</td>
 		</tr>
 		<?php
@@ -252,7 +252,7 @@
 				</label>
 			</td>
 			<td >
-				<?php echo JHTML::_('list.images',  'image', $this->contact->image ); ?>
+				<?php echo JHtml::_('list.images',  'image', $this->contact->image ); ?>
 			</td>
 		</tr>
 		<tr>

@@ -41,7 +41,7 @@
 			</label>
 		</td>
 		<td>
-			<input class="inputbox" type="text" name="menutype" id="menutype" size="30" maxlength="25" value="<?php echo $this->row->menutype; ?>" />			<?php echo JHTML::_('tooltip', JText::_( 'TIPNAMEUSEDTOIDENTIFYMENU' )); ?>
+			<input class="inputbox" type="text" name="menutype" id="menutype" size="30" maxlength="25" value="<?php echo $this->row->menutype; ?>" />			<?php echo JHtml::_('tooltip', JText::_( 'TIPNAMEUSEDTOIDENTIFYMENU' )); ?>
 		</td>
 	</tr>
 	<tr>
@@ -52,7 +52,7 @@
 		</td>
 		<td>
 			<input class="inputbox" type="text" name="title" id="title" size="30" maxlength="255" value="<?php echo $this->row->title; ?>" />
-			<?php echo JHTML::_('tooltip',  JText::_( 'A proper title for the Menu' ) ); ?>
+			<?php echo JHtml::_('tooltip',  JText::_( 'A proper title for the Menu' ) ); ?>
 		</td>
 	</tr>
 	<tr>
@@ -63,7 +63,7 @@
 		</td>
 		<td>
 			<input class="inputbox" type="text" name="description" id="description" size="30" maxlength="255" value="<?php echo $this->row->description; ?>" />
-			<?php echo JHTML::_('tooltip',  JText::_( 'A description for the Menu' ) ); ?>
+			<?php echo JHtml::_('tooltip',  JText::_( 'A description for the Menu' ) ); ?>
 		</td>
 	</tr>
 	<?php if ($this->isnew) : ?>
@@ -75,7 +75,7 @@
 		</td>
 		<td>
 			<input class="inputbox" type="text" name="module_title" id="module_title" size="30" value="" />
-			<?php echo JHTML::_('tooltip',  JText::_( 'TIPTITLEMAINMENUMODULEREQUIRED' ) ); ?>
+			<?php echo JHtml::_('tooltip',  JText::_( 'TIPTITLEMAINMENUMODULEREQUIRED' ) ); ?>
 		</td>
 	</tr>
 	<?php endif; ?>
@@ -84,5 +84,5 @@
 	<input type="hidden" name="id" value="<?php echo $this->row->id; ?>" />
 	<input type="hidden" name="option" value="com_menus" />
 	<input type="hidden" name="task" value="savemenu" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 
 <?php
 	// Set toolbar items for the page
@@ -144,5 +144,5 @@
 	<input type="hidden" name="option" value="com_weblinks" />
 	<input type="hidden" name="cid[]" value="<?php echo $this->weblink->id; ?>" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

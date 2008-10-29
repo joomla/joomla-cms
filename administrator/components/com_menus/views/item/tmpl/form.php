@@ -85,7 +85,7 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_( 'Display in' ); ?>:
 							</td>
 							<td>
-								<?php echo JHTML::_('select.genericlist',   $this->menutypes, 'menutype', 'class="inputbox" size="1"', 'menutype', 'title', $this->item->menutype );?>
+								<?php echo JHtml::_('select.genericlist',   $this->menutypes, 'menutype', 'class="inputbox" size="1"', 'menutype', 'title', $this->item->menutype );?>
 							</td>
 						</tr>
 						<tr>
@@ -109,7 +109,7 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_( 'Ordering' ); ?>:
 							</td>
 							<td>
-								<?php echo JHTML::_('menu.ordering', $this->item, $this->item->id ); ?>
+								<?php echo JHtml::_('menu.ordering', $this->item, $this->item->id ); ?>
 							</td>
 						</tr>
 						<tr>
@@ -117,7 +117,7 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_( 'Access Level' ); ?>:
 							</td>
 							<td>
-								<?php echo JHTML::_('list.accesslevel',  $this->item ); ?>
+								<?php echo JHtml::_('list.accesslevel',  $this->item ); ?>
 							</td>
 						</tr>
 						<tr>
@@ -182,5 +182,5 @@ function submitbutton(pressbutton) {
 	<input type="hidden" name="componentid" value="<?php echo $this->item->componentid; ?>" />
 	<input type="hidden" name="type" value="<?php echo $this->item->type; ?>" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

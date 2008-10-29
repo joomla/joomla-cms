@@ -54,18 +54,18 @@ class InstallerViewManage extends InstallerViewDefault
 		$type_list = $dbo->loadObjectList();
 		$item->type = 'All'; // will get translated below
 		array_unshift($type_list, $item);
-		$lists['type'] = JHTML::_('select.genericlist', $type_list, 'extensiontype', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'type', 'type', JRequest::getVar('extensiontype'), false, true);
+		$lists['type'] = JHtml::_('select.genericlist', $type_list, 'extensiontype', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'type', 'type', JRequest::getVar('extensiontype'), false, true);
 
-		$select[] = JHTML::_('select.option', '-1', JText::_('All'));
-		$select[] = JHTML::_('select.option', '0', JText::_('Site'));
-		$select[] = JHTML::_('select.option', '1', JText::_('Admininistrator'));
-		$select[] = JHTML::_('select.option', '3', JText::_('XMLRPC'));
-		$lists['clientid'] = JHTML::_('select.genericlist',  $select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
+		$select[] = JHtml::_('select.option', '-1', JText::_('All'));
+		$select[] = JHtml::_('select.option', '0', JText::_('Site'));
+		$select[] = JHtml::_('select.option', '1', JText::_('Admininistrator'));
+		$select[] = JHtml::_('select.option', '3', JText::_('XMLRPC'));
+		$lists['clientid'] = JHtml::_('select.genericlist',  $select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
 		$dbo->setQuery('SELECT DISTINCT CASE `folder` WHEN "" THEN "N/A" ELSE `folder` END AS folder from #__extensions');
 		$folder_list = $dbo->loadObjectList();
 		$item->folder = 'All'; // will get translated below
 		array_unshift($folder_list, $item);
-		$lists['folder'] = JHTML::_('select.genericlist', $folder_list, 'folder', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'folder','folder', JRequest::getVar('folder',''), false, true);
+		$lists['folder'] = JHtml::_('select.genericlist', $folder_list, 'folder', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'folder','folder', JRequest::getVar('folder',''), false, true);
 		//$lists['state'] = ''; // published or otherwise?
 		$lists['hideprotected'] = JRequest::getBool('hideprotected', 0);
 		$this->assignRef('lists', $lists);

@@ -23,7 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage	HTML
  * @since		1.5
  */
-abstract class JHTMLList
+abstract class JHtmlList
 {
 	/**
 	* Build the select list for access level
@@ -43,7 +43,7 @@ abstract class JHTMLList
 		} catch(JException $e) {
 			$groups = array();
 		}
-		$access = JHTML::_('select.genericlist',   $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
+		$access = JHtml::_('select.genericlist',   $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
 
 		return $access;
 	}
@@ -63,13 +63,13 @@ abstract class JHTMLList
 
 		jimport( 'joomla.filesystem.folder' );
 		$imageFiles = JFolder::files( JPATH_SITE.DS.$directory );
-		$images 	= array(  JHTML::_('select.option',  '', '- '. JText::_( 'Select Image' ) .' -' ) );
+		$images 	= array(  JHtml::_('select.option',  '', '- '. JText::_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
 			if ( eregi( $extensions, $file ) ) {
-				$images[] = JHTML::_('select.option',  $file );
+				$images[] = JHtml::_('select.option',  $file );
 			}
 		}
-		$images = JHTML::_('select.genericlist',  $images, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$images = JHtml::_('select.genericlist',  $images, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $images;
 	}
@@ -93,11 +93,11 @@ abstract class JHTMLList
 		}
 
 		if(empty($orders)) {
-			$order[] = JHTML::_('select.option',  1, JText::_( 'first' ) );
+			$order[] = JHtml::_('select.option',  1, JText::_( 'first' ) );
 			return $order;
 		}
 	
-		$order[] = JHTML::_('select.option',  0, '0 '. JText::_( 'first' ) );
+		$order[] = JHtml::_('select.option',  0, '0 '. JText::_( 'first' ) );
 		for ($i=0, $n=count( $orders ); $i < $n; $i++) {
 
 			if (JString::strlen($orders[$i]->text) > $chop) {
@@ -106,9 +106,9 @@ abstract class JHTMLList
 				$text = $orders[$i]->text;
 			}
 
-			$order[] = JHTML::_('select.option',  $orders[$i]->value, $orders[$i]->value.' ('.$text.')' );
+			$order[] = JHtml::_('select.option',  $orders[$i]->value, $orders[$i]->value.' ('.$text.')' );
 		}
-		$order[] = JHTML::_('select.option',  $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_( 'last' ) );
+		$order[] = JHtml::_('select.option',  $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_( 'last' ) );
 
 		return $order;
 	}
@@ -119,8 +119,8 @@ abstract class JHTMLList
 	public static function specificordering( &$row, $id, $query, $neworder = 0 )
 	{
 		if ( $id ) {
-			$order = JHTML::_('list.genericordering',  $query );
-			$ordering = JHTML::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+			$order = JHtml::_('list.genericordering',  $query );
+			$ordering = JHtml::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
 			if ( $neworder ) {
 				$text = JText::_( 'descNewItemsFirst' );
@@ -153,7 +153,7 @@ abstract class JHTMLList
 		;
 		$db->setQuery( $query );
 		if ( $nouser ) {
-			$users[] = JHTML::_('select.option',  '0', '- '. JText::_( 'No User' ) .' -' );
+			$users[] = JHtml::_('select.option',  '0', '- '. JText::_( 'No User' ) .' -' );
 			try {
 				$users = array_merge( $users, $db->loadObjectList() );
 			} catch(JException $e) {
@@ -163,7 +163,7 @@ abstract class JHTMLList
 			$users = $db->loadObjectList();
 		}
 
-		$users = JHTML::_('select.genericlist',   $users, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$users = JHtml::_('select.genericlist',   $users, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $users;
 	}
@@ -174,19 +174,19 @@ abstract class JHTMLList
 	public static function positions( $name, $active = NULL, $javascript = NULL, $none = 1, $center = 1, $left = 1, $right = 1, $id = false )
 	{
 		if ( $none ) {
-			$pos[] = JHTML::_('select.option',  '', JText::_( 'None' ) );
+			$pos[] = JHtml::_('select.option',  '', JText::_( 'None' ) );
 		}
 		if ( $center ) {
-			$pos[] = JHTML::_('select.option',  'center', JText::_( 'Center' ) );
+			$pos[] = JHtml::_('select.option',  'center', JText::_( 'Center' ) );
 		}
 		if ( $left ) {
-			$pos[] = JHTML::_('select.option',  'left', JText::_( 'Left' ) );
+			$pos[] = JHtml::_('select.option',  'left', JText::_( 'Left' ) );
 		}
 		if ( $right ) {
-			$pos[] = JHTML::_('select.option',  'right', JText::_( 'Right' ) );
+			$pos[] = JHtml::_('select.option',  'right', JText::_( 'Right' ) );
 		}
 
-		$positions = JHTML::_('select.genericlist',   $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active, $id );
+		$positions = JHtml::_('select.genericlist',   $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active, $id );
 
 		return $positions;
 	}
@@ -206,7 +206,7 @@ abstract class JHTMLList
 		;
 		$db->setQuery( $query );
 		if ( $sel_cat ) {
-			$categories[] = JHTML::_('select.option',  '0', '- '. JText::_( 'Select a Category' ) .' -' );
+			$categories[] = JHtml::_('select.option',  '0', '- '. JText::_( 'Select a Category' ) .' -' );
 			try {
 				$categories = array_merge( $categories, $db->loadObjectList() );
 			} catch (JException $e) {
@@ -220,7 +220,7 @@ abstract class JHTMLList
 			}
 		}
 
-		$category = JHTML::_('select.genericlist',   $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
+		$category = JHtml::_('select.genericlist',   $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
 		return $category;
 	}
 
@@ -231,10 +231,10 @@ abstract class JHTMLList
 	{
 		$db =& JFactory::getDBO();
 
-		$categories[] = JHTML::_('select.option',  '-1', '- '. JText::_( 'Select Section' ) .' -' );
+		$categories[] = JHtml::_('select.option',  '-1', '- '. JText::_( 'Select Section' ) .' -' );
 
 		if ($uncategorized) {
-			$categories[] = JHTML::_('select.option',  '0', JText::_( 'Uncategorized' ) );
+			$categories[] = JHtml::_('select.option',  '0', JText::_( 'Uncategorized' ) );
 		}
 
 		$query = 'SELECT id AS value, title AS text'
@@ -249,7 +249,7 @@ abstract class JHTMLList
 			//ignore error
 		}
 
-		$category = JHTML::_('select.genericlist',   $sections, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$category = JHtml::_('select.genericlist',   $sections, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
 
 		return $category;
 	}

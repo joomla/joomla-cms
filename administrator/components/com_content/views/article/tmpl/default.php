@@ -10,7 +10,7 @@
 	$editor =& JFactory::getEditor();
 	$pane	=& JPane::getInstance('sliders');
 
-	JHTML::_('behavior.tooltip');
+	JHtml::_('behavior.tooltip');
 
 	$create_date 	= null;
 	$nullDate 		= $db->getNullDate();
@@ -221,7 +221,7 @@ function submitbutton(pressbutton)
 				if ( $this->row->created == $nullDate ) {
 					echo JText::_( 'New document' );
 				} else {
-					echo JHTML::_('date',  $this->row->created,  JText::_('DATE_FORMAT_LC2') );
+					echo JHtml::_('date',  $this->row->created,  JText::_('DATE_FORMAT_LC2') );
 				}
 				?>
 			</td>
@@ -235,7 +235,7 @@ function submitbutton(pressbutton)
 					if ( $this->row->modified == $nullDate ) {
 						echo JText::_( 'Not modified' );
 					} else {
-						echo JHTML::_('date',  $this->row->modified, JText::_('DATE_FORMAT_LC2'));
+						echo JHtml::_('date',  $this->row->modified, JText::_('DATE_FORMAT_LC2'));
 					}
 				?>
 			</td>
@@ -276,5 +276,5 @@ function submitbutton(pressbutton)
 <input type="hidden" name="mask" value="0" />
 <input type="hidden" name="option" value="<?php echo $option;?>" />
 <input type="hidden" name="task" value="" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

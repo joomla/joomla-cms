@@ -49,8 +49,8 @@ class JElementLanguages extends JElement
 
 		jimport('joomla.language.helper');
 		$languages = JLanguageHelper::createLanguageList($value, constant('JPATH_'.strtoupper($client)), true);
-		array_unshift($languages, JHTML::_('select.option', '', '- '.JText::_('Select Language').' -'));
+		array_unshift($languages, JHtml::_('select.option', '', '- '.JText::_('Select Language').' -'));
 
-		return JHTML::_('select.genericlist',  $languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name );
+		return JHtml::_('select.genericlist',  $languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name );
 	}
 }

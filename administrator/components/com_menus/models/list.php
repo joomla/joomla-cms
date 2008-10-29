@@ -116,7 +116,7 @@ class MenusModelList extends JModel
 			$children[$pt] = $list;
 		}
 		// second pass - get an indent list of the items
-		$list = JHTML::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
+		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, max( 0, $levellimit-1 ) );
 		// eventually only pick out the searched items.
 		if ($search) {
 			$list1 = array();

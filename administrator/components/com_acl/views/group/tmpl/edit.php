@@ -1,8 +1,8 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
 
-	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
-	JHTML::_('behavior.tooltip');
-	JHTML::_('behavior.formvalidation');
+	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+	JHtml::_('behavior.tooltip');
+	JHtml::_('behavior.formvalidation');
 
 	$state	= $this->get('State');
 	$type	= strtoupper($state->get('type'));
@@ -36,7 +36,7 @@
 				</td>
 				<td>
 					<select name="parent_id" class="inputbox" size="1">
-						<?php echo JHTML::_('acl.groups', $this->item->get('parent_id'), $parentId);  ?>
+						<?php echo JHtml::_('acl.groups', $this->item->get('parent_id'), $parentId);  ?>
 					</select>
 				</td>
 			</tr>

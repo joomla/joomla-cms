@@ -105,5 +105,5 @@ function submitbutton(pressbutton)
 	<input type="hidden" name="option" value="com_weblinks" />
 	<input type="hidden" name="controller" value="weblink" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

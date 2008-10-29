@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 <?php JRequest::setVar( 'hidemainmenu', 1 ); ?>
 
 
@@ -83,7 +83,7 @@ function submitbutton(pressbutton) {
 <input type="hidden" name="boxchecked" value="1" />
 <input type="hidden" name="redirect" value="<?php echo $this->redirect; ?>" />
 <input type="hidden" name="task" value="" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 <?php
 foreach ( $this->cid as $id ) {
 	echo "\n <input type=\"hidden\" name=\"cid[]\" value=\"$id\" />";

@@ -1032,9 +1032,9 @@ class LocaliseController extends JController
 
 		// build client_lang select box
 		foreach ($options['languages'] as $k=>$v) {
-			$sel_lang[] = JHTML::_('select.option', $k, $v);
+			$sel_lang[] = JHtml::_('select.option', $k, $v);
 		}
-		$lists['client_lang'] = JHTML::_('select.genericlist', $sel_lang, 'client_lang', 'class="inputbox" size="1" onchange="document.adminForm.limitstart.value=0;document.adminForm.submit();"', 'value', 'text', $options['client_lang']);
+		$lists['client_lang'] = JHtml::_('select.genericlist', $sel_lang, 'client_lang', 'class="inputbox" size="1" onchange="document.adminForm.limitstart.value=0;document.adminForm.submit();"', 'value', 'text', $options['client_lang']);
 
 		// validate all the filters (specific to this view)
 		$allowed = array(
@@ -1074,23 +1074,23 @@ class LocaliseController extends JController
 
 		// build the filter_state select box
 		$extra = 'class="inputbox" size="1" onchange="document.adminForm.submit();"';
-		$sel_state[] = JHTML::_('select.option',  '*', JText::_('Any State'));
-		$sel_state[] = JHTML::_('select.option',  'P', JText::_('Published'));
-		$sel_state[] = JHTML::_('select.option',  'U', JText::_('Not Published'));
-		$lists['state'] = JHTML::_('select.genericlist',  $sel_state, 'filter_state', $extra, 'value', 'text', $options['filter_state']);
+		$sel_state[] = JHtml::_('select.option',  '*', JText::_('Any State'));
+		$sel_state[] = JHtml::_('select.option',  'P', JText::_('Published'));
+		$sel_state[] = JHtml::_('select.option',  'U', JText::_('Not Published'));
+		$lists['state'] = JHtml::_('select.genericlist',  $sel_state, 'filter_state', $extra, 'value', 'text', $options['filter_state']);
 
 		// build the filter_status select box
-		$sel_status[] = JHTML::_('select.option',  '*', JText::_('Any Status'));
-		$sel_status[] = JHTML::_('select.option',  'NS', JText::_('Not Started'));
-		$sel_status[] = JHTML::_('select.option',  'IP', JText::_('In Progress'));
-		$sel_status[] = JHTML::_('select.option',  'C', JText::_('Complete'));
+		$sel_status[] = JHtml::_('select.option',  '*', JText::_('Any Status'));
+		$sel_status[] = JHtml::_('select.option',  'NS', JText::_('Not Started'));
+		$sel_status[] = JHtml::_('select.option',  'IP', JText::_('In Progress'));
+		$sel_status[] = JHtml::_('select.option',  'C', JText::_('Complete'));
 		if ($options['isReference']) {
 			$options['filter_status'] = '*';
 		}
 		if ($options['lang'] == $options['refLang']) {
 			$extra .= ' disabled';
 		}
-		$lists['status'] = JHTML::_('select.genericlist',  $sel_status, 'filter_status', $extra, 'value', 'text', $options['filter_status']);
+		$lists['status'] = JHtml::_('select.genericlist',  $sel_status, 'filter_status', $extra, 'value', 'text', $options['filter_status']);
 
 		// create objects for loading data
 		$refLangLoader = new JLanguage($options['refLang']);

@@ -36,7 +36,7 @@ class ContentViewElement extends JView
 		$template = $mainframe->getTemplate();
 		$document->addStyleSheet("templates/$template/css/general.css");
 
-		JHTML::_('behavior.modal');
+		JHtml::_('behavior.modal');
 
 		$rows		= & $this->get( 'List');
 		$total		= & $this->get( 'Total');

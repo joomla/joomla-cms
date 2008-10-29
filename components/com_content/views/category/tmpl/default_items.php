@@ -44,22 +44,22 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	</td>
 	<?php if ($this->params->get('show_title')) : ?>
  	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="45%">
-		<?php echo JHTML::_('grid.sort',  'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+		<?php echo JHtml::_('grid.sort',  'Item Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_date')) : ?>
 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="25%">
-		<?php echo JHTML::_('grid.sort',  'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+		<?php echo JHtml::_('grid.sort',  'Date', 'a.created', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_author')) : ?>
 	<td class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>"  width="20%">
-		<?php echo JHTML::_('grid.sort',  'Author', 'author', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+		<?php echo JHtml::_('grid.sort',  'Author', 'author', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_hits')) : ?>
 	<td align="center" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" width="5%" nowrap="nowrap">
-		<?php echo JHTML::_('grid.sort',  'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+		<?php echo JHtml::_('grid.sort',  'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
 </tr>
@@ -74,7 +74,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 	<td>
 		<a href="<?php echo $item->link; ?>">
 			<?php echo $item->title; ?></a>
-			<?php $this->item = $item; echo JHTML::_('icon.edit', $item, $this->params, $this->access) ?>
+			<?php $this->item = $item; echo JHtml::_('icon.edit', $item, $this->params, $this->access) ?>
 	</td>
 	<?php else : ?>
 	<td>

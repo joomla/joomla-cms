@@ -73,5 +73,5 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="client" value="" />
 	<input type="hidden" name="cid[]" id="cid_value" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

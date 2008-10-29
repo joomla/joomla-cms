@@ -43,7 +43,7 @@ class SearchViewSearch extends JView
 		$items = $model->getItems();
 		$params = &JComponentHelper::getParams( 'com_search' );
 		$enabled = $params->get('enabled');
-		JHTML::_('behavior.tooltip');
+		JHtml::_('behavior.tooltip');
 		jimport('joomla.html.pagination');
 		$pageNav = new JPagination( count($items), $limitstart, $limit );
 

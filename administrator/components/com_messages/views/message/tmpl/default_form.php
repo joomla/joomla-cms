@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 
 <script language="javascript" type="text/javascript">
 function submitbutton(pressbutton) {
@@ -30,7 +30,7 @@ function submitbutton(pressbutton) {
 		<?php echo JText::_( 'To' ); ?>:
 	</td>
 	<td width="85%">
-		<?php echo JHTML::_('select.genericlist', $this->recipients, 'user_id_to', 'class="inputbox" size="1"', 'value', 'text', $this->reply_user); ?>
+		<?php echo JHtml::_('select.genericlist', $this->recipients, 'user_id_to', 'class="inputbox" size="1"', 'value', 'text', $this->reply_user); ?>
 	</td>
 </tr>
 <tr>
@@ -54,5 +54,5 @@ function submitbutton(pressbutton) {
 <input type="hidden" name="user_id_from" value="<?php echo $this->user->get('id'); ?>">
 <input type="hidden" name="option" value="<?php echo $option; ?>">
 <input type="hidden" name="task" value="">
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

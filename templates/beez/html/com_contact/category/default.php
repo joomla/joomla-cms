@@ -62,12 +62,12 @@ function tableOrdering( order, dir, task )
 
 		<?php if ($this->params->get('show_position')) : ?>
 		<th id="Position" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
-			<?php echo JHTML::_('grid.sort', 'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+			<?php echo JHtml::_('grid.sort', 'Position', 'cd.con_position', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 		</th>
 		<?php endif; ?>
 
 		<th id="Name" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>">
-			<?php echo JHTML::_('grid.sort', 'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+			<?php echo JHtml::_('grid.sort', 'Name', 'cd.name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 		</th>
 
 		<?php if ($this->params->get('show_email')) : ?>

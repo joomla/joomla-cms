@@ -43,7 +43,7 @@ class NewsfeedsViewCategories extends JView
 			$category->link = JRoute::_('index.php?view=category&id='. $category->slug );
 
 			// Prepare category description
-			$category->description = JHTML::_('content.prepare', $category->description);
+			$category->description = JHtml::_('content.prepare', $category->description);
 		}
 		// Define image tag attributes
 		if ($params->get('image') != -1)
@@ -53,7 +53,7 @@ class NewsfeedsViewCategories extends JView
 
 			// Use the static HTML library to build the image tag
 
-			$image = JHTML::_('image', 'images/stories/'.$params->get('image'), JText::_('NEWS_FEEDS'), $attribs);
+			$image = JHtml::_('image', 'images/stories/'.$params->get('image'), JText::_('NEWS_FEEDS'), $attribs);
 		}
 
 		$menus	= &JSite::getMenu();

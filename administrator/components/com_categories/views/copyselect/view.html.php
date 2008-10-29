@@ -75,7 +75,7 @@ class CategoriesViewCopySelect extends JView
 		$sections = $db->loadObjectList();
 
 		// build the html select list
-		$lists['SectionList'] = JHTML::_('select.genericlist',   $sections, 'sectionmove', 'class="inputbox" size="10"', 'value', 'text', null );
+		$lists['SectionList'] = JHtml::_('select.genericlist',   $sections, 'sectionmove', 'class="inputbox" size="10"', 'value', 'text', null );
 
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('redirect',	$redirect);

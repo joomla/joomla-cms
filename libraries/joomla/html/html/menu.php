@@ -23,7 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage	HTML
  * @since		1.5
  */
-abstract class JHTMLMenu
+abstract class JHtmlMenu
 {
 	/**
 	* Build the select list for Menu Ordering
@@ -39,8 +39,8 @@ abstract class JHTMLMenu
 			. ' AND parent = '.(int) $row->parent
 			. ' AND published != -2'
 			. ' ORDER BY ordering';
-			$order = JHTML::_('list.genericordering',  $query );
-			$ordering = JHTML::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+			$order = JHtml::_('list.genericordering',  $query );
+			$ordering = JHtml::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		}
 		else
 		{
@@ -82,23 +82,23 @@ abstract class JHTMLMenu
 			$children[$pt] = $list;
 		}
 		// second pass - get an indent list of the items
-		$list = JHTMLMenu::TreeRecurse( intval( $mitems[0]->parent ), '', array(), $children, 9999, 0, 0 );
+		$list = JHtmlMenu::TreeRecurse( intval( $mitems[0]->parent ), '', array(), $children, 9999, 0, 0 );
 
 		// Code that adds menu name to Display of Page(s)
 		$mitems_spacer 	= $mitems_temp[0]->menutype;
 
 		$mitems = array();
 		if ($all | $unassigned) {
-			$mitems[] = JHTML::_('select.option',  '<OPTGROUP>', JText::_( 'Menus' ) );
+			$mitems[] = JHtml::_('select.option',  '<OPTGROUP>', JText::_( 'Menus' ) );
 
 			if ( $all ) {
-				$mitems[] = JHTML::_('select.option',  0, JText::_( 'All' ) );
+				$mitems[] = JHtml::_('select.option',  0, JText::_( 'All' ) );
 			}
 			if ( $unassigned ) {
-				$mitems[] = JHTML::_('select.option',  -1, JText::_( 'Unassigned' ) );
+				$mitems[] = JHtml::_('select.option',  -1, JText::_( 'Unassigned' ) );
 			}
 
-			$mitems[] = JHTML::_('select.option',  '</OPTGROUP>' );
+			$mitems[] = JHtml::_('select.option',  '</OPTGROUP>' );
 		}
 
 		$lastMenuType	= null;
@@ -108,17 +108,17 @@ abstract class JHTMLMenu
 			if ($list_a->menutype != $lastMenuType)
 			{
 				if ($tmpMenuType) {
-					$mitems[] = JHTML::_('select.option',  '</OPTGROUP>' );
+					$mitems[] = JHtml::_('select.option',  '</OPTGROUP>' );
 				}
-				$mitems[] = JHTML::_('select.option',  '<OPTGROUP>', $list_a->menutype );
+				$mitems[] = JHtml::_('select.option',  '<OPTGROUP>', $list_a->menutype );
 				$lastMenuType = $list_a->menutype;
 				$tmpMenuType  = $list_a->menutype;
 			}
 
-			$mitems[] = JHTML::_('select.option',  $list_a->id, $list_a->treename );
+			$mitems[] = JHtml::_('select.option',  $list_a->id, $list_a->treename );
 		}
 		if ($lastMenuType !== null) {
-			$mitems[] = JHTML::_('select.option',  '</OPTGROUP>' );
+			$mitems[] = JHtml::_('select.option',  '</OPTGROUP>' );
 		}
 
 		return $mitems;
@@ -149,7 +149,7 @@ abstract class JHTMLMenu
 				$list[$id] = $v;
 				$list[$id]->treename = "$indent$txt";
 				$list[$id]->children = count( @$children[$id] );
-				$list = JHTMLMenu::TreeRecurse( $id, $indent . $spacer, $list, $children, $maxlevel, $level+1, $type );
+				$list = JHtmlMenu::TreeRecurse( $id, $indent . $spacer, $list, $children, $maxlevel, $level+1, $type );
 			}
 		}
 		return $list;

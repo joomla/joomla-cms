@@ -1,7 +1,7 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
 
-	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
-	JHTML::_('behavior.tooltip');
+	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+	JHtml::_('behavior.tooltip');
 	$type = $this->state->get('list.group_type');
 	$editId = 30;
 ?>
@@ -49,7 +49,7 @@
 			<tr class="row<?php echo $i++ % 2; ?>">
 				<td style="text-align:center">
 					<?php if ($item->id > $editId) : ?>
-						<?php echo JHTML::_('grid.id', $item->id, $item->id); ?>
+						<?php echo JHtml::_('grid.id', $item->id, $item->id); ?>
 					<?php endif; ?>
 				</td>
 				<td style="padding-left:<?php echo intval(($item->level-2)*15)+4; ?>px">

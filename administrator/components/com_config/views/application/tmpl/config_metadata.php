@@ -31,7 +31,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo JHTML::_('select.booleanlist', 'MetaTitle', 'class="inputbox"', $this->row->MetaTitle); ?>
+				<?php echo JHtml::_('select.booleanlist', 'MetaTitle', 'class="inputbox"', $this->row->MetaTitle); ?>
 			</td>
 		</tr>
 		<tr>
@@ -41,7 +41,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo JHTML::_('select.booleanlist', 'MetaAuthor', 'class="inputbox"', $this->row->MetaAuthor); ?>
+				<?php echo JHtml::_('select.booleanlist', 'MetaAuthor', 'class="inputbox"', $this->row->MetaAuthor); ?>
 			</td>
 		</tr>
 		</tbody>

@@ -16,7 +16,7 @@
 			</td>
 			<td>
 				<select name="gid" class="inputbox" size="10">
-					<?php echo JHTML::_( 'user.groups', $this->item->get( 'gid' ), $parentId );  ?>
+					<?php echo JHtml::_( 'user.groups', $this->item->get( 'gid' ), $parentId );  ?>
 				</select>
 			</td>
 		</tr>

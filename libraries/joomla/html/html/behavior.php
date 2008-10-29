@@ -20,7 +20,7 @@
  * @subpackage	HTML
  * @version		1.5
  */
-abstract class JHTMLBehavior
+abstract class JHtmlBehavior
 {
 	/**
 	 * Method to load the mootools framework into the document head
@@ -51,28 +51,28 @@ abstract class JHTMLBehavior
 		$konkcheck = strpos (strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
 
 		if ($debug || $konkcheck) {
-			JHTML::script('mootools-uncompressed.js', 'media/system/js/', false);
+			JHtml::script('mootools-uncompressed.js', 'media/system/js/', false);
 		} else {
-			JHTML::script('mootools.js', 'media/system/js/', false);
+			JHtml::script('mootools.js', 'media/system/js/', false);
 		}
 		$loaded = true;
 		return;
 	}
 
 	public static function caption() {
-		JHTML::script('caption.js');
+		JHtml::script('caption.js');
 	}
 
 	public static function formvalidation() {
-		JHTML::script('validate.js' );
+		JHtml::script('validate.js' );
 	}
 
 	public static function switcher() {
-		JHTML::script('switcher.js' );
+		JHtml::script('switcher.js' );
 	}
 
 	public static function combobox() {
-		JHTML::script('combobox.js' );
+		JHtml::script('combobox.js' );
 	}
 
 	public static function tooltip($selector='.hasTip', $params = array())
@@ -84,7 +84,7 @@ abstract class JHTMLBehavior
 		}
 
 		// Include mootools framework
-		JHTMLBehavior::mootools();
+		JHtmlBehavior::mootools();
 
 		$sig = md5(serialize(array($selector,$params)));
 		if (isset($tips[$sig]) && ($tips[$sig])) {
@@ -102,7 +102,7 @@ abstract class JHTMLBehavior
 		$opt['onShow']			= (isset($params['onShow'])) ? '\\'.$params['onShow'] : null;
 		$opt['onHide']			= (isset($params['onHide'])) ? '\\'.$params['onHide'] : null;
 
-		$options = JHTMLBehavior::_getJSObject($opt);
+		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
 		$document =& JFactory::getDocument();
@@ -154,7 +154,7 @@ abstract class JHTMLBehavior
 			this);
 		}";
 
-		JHTMLBehavior::tooltip($selector, $params);
+		JHtmlBehavior::tooltip($selector, $params);
 
 		// Set static array
 		$snapshots[$sig] = true;
@@ -172,8 +172,8 @@ abstract class JHTMLBehavior
 		if (!isset($included)) {
 
 			// Load the javascript and css
-			JHTML::script('modal.js');
-			JHTML::stylesheet('modal.css');
+			JHtml::script('modal.js');
+			JHtml::stylesheet('modal.css');
 
 			$included = true;
 		}
@@ -198,7 +198,7 @@ abstract class JHTMLBehavior
 		$opt['onShow']		= (isset($params['onShow'])) ? $params['onShow'] : null;
 		$opt['onHide']		= (isset($params['onHide'])) ? $params['onHide'] : null;
 
-		$options = JHTMLBehavior::_getJSObject($opt);
+		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach modal behavior to document
 		$document->addScriptDeclaration("
@@ -221,8 +221,8 @@ abstract class JHTMLBehavior
 
 	public static function uploader($id='file-upload', $params = array())
 	{
-		JHTML::script('swf.js' );
-		JHTML::script('uploader.js' );
+		JHtml::script('swf.js' );
+		JHtml::script('uploader.js' );
 
 		static $uploaders;
 
@@ -257,7 +257,7 @@ abstract class JHTMLBehavior
 /*  types: Object with (description: extension) pairs, default: Images (*.jpg; *.jpeg; *.gif; *.png)
  */
 
-		$options = JHTMLBehavior::_getJSObject($opt);
+		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
 		$document =& JFactory::getDocument();
@@ -282,9 +282,9 @@ abstract class JHTMLBehavior
 		}
 
 		// Include mootools framework
-		JHTMLBehavior::mootools();
-		JHTML::script('mootree.js');
-		JHTML::stylesheet('mootree.css');
+		JHtmlBehavior::mootools();
+		JHtml::script('mootree.js');
+		JHtml::stylesheet('mootree.css');
 
 		if (isset($trees[$id]) && ($trees[$id])) {
 			return;
@@ -300,7 +300,7 @@ abstract class JHTMLBehavior
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\'.$params['onExpand'] : null;
 		$opt['onSelect']	= (array_key_exists('onSelect', $params)) ? '\\'.$params['onSelect'] : null;
 		$opt['onClick']		= (array_key_exists('onClick', $params)) ? '\\'.$params['onClick'] : '\\function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : \'_self\'); }';
-		$options = JHTMLBehavior::_getJSObject($opt);
+		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Setup root node
 		$rt['text']		= (array_key_exists('text', $root)) ? $root['text'] : 'Root';
@@ -310,7 +310,7 @@ abstract class JHTMLBehavior
 		$rt['icon']		= (array_key_exists('icon', $root)) ? $root['icon'] : null;
 		$rt['openicon']	= (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
 		$rt['data']		= (array_key_exists('data', $root)) ? $root['data'] : null;
-		$rootNode = JHTMLBehavior::_getJSObject($rt);
+		$rootNode = JHtmlBehavior::_getJSObject($rt);
 
 		$treeName		= (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
 
@@ -330,11 +330,11 @@ abstract class JHTMLBehavior
 	public static function calendar()
 	{
 		$document =& JFactory::getDocument();
-		JHTML::stylesheet('calendar-jos.css', 'media/system/css/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
-		JHTML::script( 'calendar.js', 'media/system/js/' );
-		JHTML::script( 'calendar-setup.js', 'media/system/js/' );
+		JHtml::stylesheet('calendar-jos.css', 'media/system/css/', array(' title' => JText::_( 'green' ) ,' media' => 'all' ));
+		JHtml::script( 'calendar.js', 'media/system/js/' );
+		JHtml::script( 'calendar-setup.js', 'media/system/js/' );
 
-		$translation = JHTMLBehavior::_calendartranslation();
+		$translation = JHtmlBehavior::_calendartranslation();
 		if($translation) {
 			$document->addScriptDeclaration($translation);
 		}
@@ -346,7 +346,7 @@ abstract class JHTMLBehavior
 	public static function keepalive()
 	{
 		// Include mootools framework
-		JHTMLBehavior::mootools();
+		JHtmlBehavior::mootools();
 
 		$config 	 =& JFactory::getConfig();
 		$lifetime 	 = ( $config->getValue('lifetime') * 60000 );
@@ -390,7 +390,7 @@ abstract class JHTMLBehavior
 				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'".$v."'";
 				$object .= ',';
 			} else {
-				$object .= ' '.$k.': '.JHTMLBehavior::_getJSObject($v).',';
+				$object .= ' '.$k.': '.JHtmlBehavior::_getJSObject($v).',';
 			}
 		}
 		if (substr($object, -1) == ',') {

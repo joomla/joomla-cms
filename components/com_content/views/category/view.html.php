@@ -130,7 +130,7 @@ class ContentViewCategory extends ContentView
 		}
 
 		// Prepare category description
-		$category->description = JHTML::_('content.prepare', $category->description);
+		$category->description = JHtml::_('content.prepare', $category->description);
 
 		$params->def('date_format',	JText::_('DATE_FORMAT_LC1'));
 
@@ -194,7 +194,7 @@ class ContentViewCategory extends ContentView
 				$item->link = JRoute::_('index.php?option=com_user&task=register');
 				$item->readmore_register = true;
 			}
-			$item->created	= JHTML::_('date', $item->created, $this->params->get('date_format'));
+			$item->created	= JHtml::_('date', $item->created, $this->params->get('date_format'));
 
 			$item->odd		= $k;
 			$item->count	= $i;

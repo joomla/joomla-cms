@@ -71,9 +71,9 @@ class ContactdirectoryViewContact extends JView
 			if($field->type == 'image'){
 				if($field->data){
 					if($field->pos == 'right'){
-						$field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$field->data, JText::_( 'CONTACT' ), array('align' => 'right'));
+						$field->data = JHtml::_('image', $cparams->get('image_path') . '/'.$field->data, JText::_( 'CONTACT' ), array('align' => 'right'));
 					}else{
-						$field->data = JHTML::_('image', $cparams->get('image_path') . '/'.$field->data, JText::_( 'CONTACT' ), array('align' => 'left'));
+						$field->data = JHtml::_('image', $cparams->get('image_path') . '/'.$field->data, JText::_( 'CONTACT' ), array('align' => 'left'));
 					}
 
 				}
@@ -94,7 +94,7 @@ class ContactdirectoryViewContact extends JView
 				jimport('joomla.mail.helper');
 				$field->data = trim($field->data);
 				if(!empty($field->data) && JMailHelper::isEmailAddress($field->data)) {
-					$field->data = JHTML::_('email.cloak', $field->data);
+					$field->data = JHtml::_('email.cloak', $field->data);
 				}else{
 					$field->data = '';
 				}
@@ -112,12 +112,12 @@ class ContactdirectoryViewContact extends JView
 					break;
 				case 1:
 					//icon and text
-					$image = JHTML::_('image.site', 'arrow.png', 	'/images/M_images/', $field->params->get('choose_icon'), 	'/images/M_images/', JText::_($field->title).": ");
+					$image = JHtml::_('image.site', 'arrow.png', 	'/images/M_images/', $field->params->get('choose_icon'), 	'/images/M_images/', JText::_($field->title).": ");
 					$field->params->set('marker_title', 	$image);
 					break;
 				case 2 :
 					// icons
-					$image = JHTML::_('image.site', 'arrow.png', 	'/images/M_images/', $field->params->get('choose_icon'), 	'/images/M_images/', JText::_($field->title).": ");
+					$image = JHtml::_('image.site', 'arrow.png', 	'/images/M_images/', $field->params->get('choose_icon'), 	'/images/M_images/', JText::_($field->title).": ");
 					$field->params->set('marker_title', 	$image." ".JText::_($field->title).": ");
 					break;
 				case 3 :
@@ -156,11 +156,11 @@ class ContactdirectoryViewContact extends JView
 			$pathway->addItem($contact->name, '');
 		}
 
-		JHTML::_('behavior.formvalidation');
+		JHtml::_('behavior.formvalidation');
 
 		$captcha = null;
 		if($contact->params->get('show_captcha')) {
-			 $captcha = JHTML::image('index.php?option=com_contactdirectory&task=captcha&amp;format=raw&amp;sid=' . md5(uniqid(time())), 'captcha', array('id'=>'captcha-img'));
+			 $captcha = JHtml::image('index.php?option=com_contactdirectory&task=captcha&amp;format=raw&amp;sid=' . md5(uniqid(time())), 'captcha', array('id'=>'captcha-img'));
 		}
 
 		$showFormTitle = false;
@@ -215,7 +215,7 @@ class ContactdirectoryViewContact extends JView
 		// Fill up the form with the original data after summit error
 		$data =& $this->get('FormData');
 
-		JHTML::stylesheet('contactdirectory.css', 'components/com_contactdirectory/css/');
+		JHtml::stylesheet('contactdirectory.css', 'components/com_contactdirectory/css/');
 
 		$this->assignRef('contact',	$contact);
 		$this->assignRef('pos_title', $pos_title);

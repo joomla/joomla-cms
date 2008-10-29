@@ -1,8 +1,8 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <?php
-	JHTML::addIncludePath( JPATH_COMPONENT.DS.'helpers'.DS.'html' );
-	JHTML::_('behavior.tooltip');
-	JHTML::_( 'user.fx.slider' );
+	JHtml::addIncludePath( JPATH_COMPONENT.DS.'helpers'.DS.'html' );
+	JHtml::_('behavior.tooltip');
+	JHtml::_( 'user.fx.slider' );
 
 	// Find the correct parent group for the filter list
 	$acl = &JFactory::getACL();
@@ -23,17 +23,17 @@
 			</td>
 			<td nowrap="nowrap">
 				<select name="filter_logged_in" class="inputbox" size="1" onchange="document.adminForm.submit( );">
-					<?php echo JHTML::_('select.options', $this->f_logged_in, 'value', 'text', $this->state->get( 'logged_in' ) ); ?>
+					<?php echo JHtml::_('select.options', $this->f_logged_in, 'value', 'text', $this->state->get( 'logged_in' ) ); ?>
 				</select>
 				<select name="filter_enabled" class="inputbox" size="1" onchange="document.adminForm.submit( );">
-					<?php echo JHTML::_('select.options', $this->f_enabled, 'value', 'text', $this->state->get( 'enabled' ) ); ?>
+					<?php echo JHtml::_('select.options', $this->f_enabled, 'value', 'text', $this->state->get( 'enabled' ) ); ?>
 				</select>
 				<select name="filter_activated" class="inputbox" size="1" onchange="document.adminForm.submit( );">
-					<?php echo JHTML::_('select.options', $this->f_activated, 'value', 'text', $this->state->get( 'activated' ) ); ?>
+					<?php echo JHtml::_('select.options', $this->f_activated, 'value', 'text', $this->state->get( 'activated' ) ); ?>
 				</select>
 				<select name="filter_group_id" class="inputbox" size="1" onchange="document.adminForm.submit( );">
 					<option value="0"><?php echo JText::_( 'Select Group' ); ?></option>
-					<?php echo JHTML::_( 'user.groups', $this->state->get( 'group_id' ), $parentId );  ?>
+					<?php echo JHtml::_( 'user.groups', $this->state->get( 'group_id' ), $parentId );  ?>
 				</select>
 			</td>
 		</tr>
@@ -49,29 +49,29 @@
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->items); ?>);" />
 				</th>
 				<th class="title">
-					<?php echo JHTML::_('grid.sort',   'Name', 'a.name', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
-					(<?php echo JHTML::_('grid.sort',   'Username', 'a.username', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>)
+					<?php echo JHtml::_('grid.sort',   'Name', 'a.name', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
+					(<?php echo JHtml::_('grid.sort',   'Username', 'a.username', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>)
 				</th>
 				<th width="5%" class="title" nowrap="nowrap">
 					<?php echo JText::_( 'Logged In' ); ?>
 				</th>
 				<th width="5%" class="title" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort',   'Enabled', 'a.block', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
+					<?php echo JHtml::_('grid.sort',   'Enabled', 'a.block', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
 				</th>
 				<th width="5%" class="title" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort',   'Activated', 'a.activation', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
+					<?php echo JHtml::_('grid.sort',   'Activated', 'a.activation', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
 				</th>
 				<th width="15%" class="title">
-					<?php echo JHTML::_('grid.sort',   'Group(s)', 'gm.group_id', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
+					<?php echo JHtml::_('grid.sort',   'Group(s)', 'gm.group_id', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
 				</th>
 				<th width="15%" class="title">
-					<?php echo JHTML::_('grid.sort',   'E-Mail', 'a.email', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
+					<?php echo JHtml::_('grid.sort',   'E-Mail', 'a.email', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
 				</th>
 				<th width="10%" class="title">
-					<?php echo JHTML::_('grid.sort',   'Last Visit', 'a.lastvisitDate', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
+					<?php echo JHtml::_('grid.sort',   'Last Visit', 'a.lastvisitDate', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
 				</th>
 				<th width="1%" class="title" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort',   'ID', 'a.id', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
+					<?php echo JHtml::_('grid.sort',   'ID', 'a.id', $this->state->get('orderDirn'), $this->state->get('orderCol') ); ?>
 				</th>
 			</tr>
 		</thead>
@@ -96,7 +96,7 @@
 					<?php echo $i+1+$this->pagination->limitstart;?>
 				</td>
 				<td>
-					<?php echo JHTML::_('grid.id', $i, $row->id ); ?>
+					<?php echo JHtml::_('grid.id', $i, $row->id ); ?>
 				</td>
 				<td>
 					<a href="<?php echo JRoute::_( 'index.php?option=com_users&task=user.edit&id='.$row->id ); ?>">
@@ -130,7 +130,7 @@
 					if ($row->lastvisitDate == "0000-00-00 00:00:00") :
 						echo JText::_( 'Never' );
 					else :
-						echo $row->lastvisitDate; //= JHTML::_('date',  $row->lastvisitDate, JText::_('DATE_FORMAT_LC4'));
+						echo $row->lastvisitDate; //= JHtml::_('date',  $row->lastvisitDate, JText::_('DATE_FORMAT_LC4'));
 					endif;
 				 ?>
 				</td>

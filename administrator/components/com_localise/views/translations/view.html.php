@@ -74,7 +74,7 @@ class LocaliseViewTranslations extends JView
 				$caption = '';
 			}
 			if (!$behavior) {
-				JHTML::_('behavior.tooltip');
+				JHtml::_('behavior.tooltip');
 				$behavior = true;
 			}
 			// build tooltip span

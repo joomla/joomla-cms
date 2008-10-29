@@ -2,9 +2,9 @@
 
 <?php
 	if ($this->params->get('show_snapshot'))
-		JHTML::_('behavior.imagetooltip', $this->params->get('snapshot_width'), $this->params->get('snapshot_height'));
+		JHtml::_('behavior.imagetooltip', $this->params->get('snapshot_width'), $this->params->get('snapshot_height'));
 	else
-		JHTML::_('behavior.tooltip');
+		JHtml::_('behavior.tooltip');
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -37,15 +37,15 @@
 	</td>
 	<?php endif; ?>
 	<td width="50%" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<?php echo JHTML::_('grid.sort',  'Web Link', 'title', $this->filter->order_Dir, $this->filter->order ); ?>
+		<?php echo JHtml::_('grid.sort',  'Web Link', 'title', $this->filter->order_Dir, $this->filter->order ); ?>
 	</td>
 	<td width="80" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
-		<?php echo JHTML::_('grid.sort',  'Category', 'category', $this->filter->order_Dir, $this->filter->order ); ?>
+		<?php echo JHtml::_('grid.sort',  'Category', 'category', $this->filter->order_Dir, $this->filter->order ); ?>
 	</td>
 	<?php if ( $this->params->get( 'show_link_hits' ) ) : ?>
 
 	<td width="30" height="20" class="sectiontableheader<?php echo $this->params->get( 'pageclass_sfx' ); ?>" style="text-align:center;" nowrap="nowrap">
-		<?php echo JHTML::_('grid.sort',  'Hits', 'hits', $this->filter->order_Dir, $this->filter->order ); ?>
+		<?php echo JHtml::_('grid.sort',  'Hits', 'hits', $this->filter->order_Dir, $this->filter->order ); ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get( 'show_report' )): ?>
@@ -83,7 +83,7 @@
 	<?php endif; ?>
 	<?php if ($this->params->get( 'show_report' )): ?>
 	<td align="center">
-		<a href="<?php echo JRoute::_($item->report_link); ?>"><?php echo JHTML::_('image.site', 'report.png', null, null, null, JText::_('Report this link')); ?></a>
+		<a href="<?php echo JRoute::_($item->report_link); ?>"><?php echo JHtml::_('image.site', 'report.png', null, null, null, JText::_('Report this link')); ?></a>
 	</td>
 	<?php endif; ?>
 </tr>

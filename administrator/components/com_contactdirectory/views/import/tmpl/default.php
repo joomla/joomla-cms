@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-JHTML::_('behavior.tooltip');
+JHtml::_('behavior.tooltip');
 
 JToolBarHelper::title(JText::_( 'IMPORT_CONTACTS' ));
 JToolBarHelper::custom('import', 'save.png', 'save_f2.png', JText::_('SAVE'), false, true);
@@ -27,5 +27,5 @@ JToolBarHelper::cancel();
 	<input type="hidden" name="controller" value="contact" />
 	<input type="hidden" name="option" value="com_contactdirectory" />
 	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

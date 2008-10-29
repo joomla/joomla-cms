@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 
 <?php
 	JToolBarHelper::title( JText::_( 'Plugin Manager' ), 'plugin.png' );
@@ -41,26 +41,26 @@
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 		</th>
 		<th class="title">
-			<?php echo JHTML::_('grid.sort',   'Plugin Name', 'p.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<?php echo JHtml::_('grid.sort',   'Plugin Name', 'p.name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
 		<th nowrap="nowrap" width="5%">
-			<?php echo JHTML::_('grid.sort',   'Enabled', 'p.enabled', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<?php echo JHtml::_('grid.sort',   'Enabled', 'p.enabled', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
 		<th width="8%" nowrap="nowrap">
-			<?php echo JHTML::_('grid.sort',   'Order', 'p.folder', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
-			<?php echo JHTML::_('grid.order',  $rows ); ?>
+			<?php echo JHtml::_('grid.sort',   'Order', 'p.folder', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<?php echo JHtml::_('grid.order',  $rows ); ?>
 		</th>
 		<th nowrap="nowrap" width="10%">
-			<?php echo JHTML::_('grid.sort',   'Access', 'groupname', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<?php echo JHtml::_('grid.sort',   'Access', 'groupname', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
 		<th nowrap="nowrap"  width="10%" class="title">
-			<?php echo JHTML::_('grid.sort',   'Type', 'p.folder', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<?php echo JHtml::_('grid.sort',   'Type', 'p.folder', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
 		<th nowrap="nowrap"  width="10%" class="title">
-			<?php echo JHTML::_('grid.sort',   'File', 'p.element', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<?php echo JHtml::_('grid.sort',   'File', 'p.element', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
 		<th nowrap="nowrap"  width="1%" class="title">
-			<?php echo JHTML::_('grid.sort',   'ID', 'p.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
+			<?php echo JHtml::_('grid.sort',   'ID', 'p.id', @$this->lists['order_Dir'], @$this->lists['order'] ); ?>
 		</th>
 	</tr>
 </thead>
@@ -79,10 +79,10 @@
 
 	$link = JRoute::_( 'index.php?option=com_plugins&view=plugin&client='. $this->client .'&task=edit&cid[]='. $row->extension_id );
 
-	$access 	= JHTML::_('grid.access',   $row, $i );
-	$checked 	= JHTML::_('grid.checkedout',   $row, $i );
+	$access 	= JHtml::_('grid.access',   $row, $i );
+	$checked 	= JHtml::_('grid.checkedout',   $row, $i );
 	$row->published = $row->enabled;
-	$enabled 	= JHTML::_('grid.published', $row, $i );
+	$enabled 	= JHtml::_('grid.published', $row, $i );
 
 	$ordering = ($this->lists['order'] == 'p.folder');
 ?>
@@ -139,5 +139,5 @@
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

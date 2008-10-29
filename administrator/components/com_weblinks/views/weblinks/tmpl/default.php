@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
 <table>
@@ -13,8 +13,8 @@
 	</td>
 	<td nowrap="nowrap">
 		<?php
-			echo JHTML::_('list.category',  'filter_catid', 'com_weblinks', intval( $this->filter->catid ), 'onchange="document.adminForm.submit();"' );
-			echo JHTML::_('weblink.statefilter',  $this->filter->state );
+			echo JHtml::_('list.category',  'filter_catid', 'com_weblinks', intval( $this->filter->catid ), 'onchange="document.adminForm.submit();"' );
+			echo JHtml::_('weblink.statefilter',  $this->filter->state );
 		?>
 	</td>
 </tr>
@@ -30,23 +30,23 @@
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" />
 			</th>
 			<th class="title">
-				<?php echo JHTML::_('grid.sort',  'Title', 'a.title', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'Title', 'a.title', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',  'State', 'a.state', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'State', 'a.state', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="10%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',  'Order', 'a.ordering', $this->filter->order_Dir, $this->filter->order ); ?>
-				<?php echo JHTML::_('grid.order',  $this->items ); ?>
+				<?php echo JHtml::_('grid.sort',  'Order', 'a.ordering', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.order',  $this->items ); ?>
 			</th>
 			<th width="15%"  class="title">
-				<?php echo JHTML::_('grid.sort',  'Category', 'category', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'Category', 'category', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="5%">
-				<?php echo JHTML::_('grid.sort',  'Hits', 'a.hits', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'Hits', 'a.hits', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 			<th width="1%" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort',  'ID', 'a.id', $this->filter->order_Dir, $this->filter->order ); ?>
+				<?php echo JHtml::_('grid.sort',  'ID', 'a.id', $this->filter->order_Dir, $this->filter->order ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -66,8 +66,8 @@
 
 		$link 	= JRoute::_( 'index.php?option=com_weblinks&view=weblink&task=edit&cid[]='. $row->id );
 
-		$checked 	= JHTML::_('grid.checkedout',   $row, $i );
-		$state 		= JHTML::_('weblink.state', $row, $i );
+		$checked 	= JHtml::_('grid.checkedout',   $row, $i );
+		$state 		= JHtml::_('weblink.state', $row, $i );
 
 		$ordering = ($this->filter->order == 'a.ordering');
 
@@ -127,5 +127,5 @@
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->filter->order; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->filter->order_Dir; ?>" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

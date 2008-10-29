@@ -54,8 +54,8 @@ class JElementUserGroup extends JElement
 			$ctrl		.= '[]';
 			//$value		= implode( '|', )
 		}
-		//array_unshift( $editors, JHTML::_('select.option',  '', '- '. JText::_( 'Select Editor' ) .' -' ) );
+		//array_unshift( $editors, JHtml::_('select.option',  '', '- '. JText::_( 'Select Editor' ) .' -' ) );
 
-		return JHTML::_('select.genericlist',   $gtree, $ctrl, $attribs, 'value', 'text', $value, $control_name.$name );
+		return JHtml::_('select.genericlist',   $gtree, $ctrl, $attribs, 'value', 'text', $value, $control_name.$name );
 	}
 }

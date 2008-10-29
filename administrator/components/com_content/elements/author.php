@@ -33,6 +33,6 @@ class JElementAuthor extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		return JHTML::_('list.users', $control_name.'['.$name.']', $value);
+		return JHtml::_('list.users', $control_name.'['.$name.']', $value);
 	}
 }

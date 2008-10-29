@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 <?php JRequest::setVar( 'hidemainmenu', 1 ); ?>
 
 
@@ -196,5 +196,5 @@ function submitbutton(pressbutton, section) {
 <input type="hidden" name="sectionid" value="<?php echo $this->row->section; ?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="redirect" value="<?php echo $this->redirect; ?>" />
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

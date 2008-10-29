@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
 
-<?php JHTML::_('behavior.tooltip'); ?>
+<?php JHtml::_('behavior.tooltip'); ?>
 
 <script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
@@ -60,7 +60,7 @@
 		</tr>
 		<tr>
 			<td colspan="2" valign="top">
-				<?php echo JHTML::_('select.genericlist', $this->gtree, 'mm_group', 'size="10"', 'value', 'text', 0 ); ?>
+				<?php echo JHtml::_('select.genericlist', $this->gtree, 'mm_group', 'size="10"', 'value', 'text', 0 ); ?>
 			</td>
 		</tr>
 		<tr>

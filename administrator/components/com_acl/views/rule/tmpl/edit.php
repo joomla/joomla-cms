@@ -1,8 +1,8 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
 
-	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
-	JHTML::_('behavior.tooltip');
-	JHTML::_('behavior.formvalidation');
+	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+	JHtml::_('behavior.tooltip');
+	JHtml::_('behavior.formvalidation');
 ?>
 <style type="text/css">
 /* @TODO Mode to stylesheet */
@@ -64,7 +64,7 @@ ul.checklist li:hover {
 						<label for="allow" class="block">
 							<?php echo JText::_('ACL Allow'); ?>
 						</label>
-						<?php echo JHTML::_('select.booleanlist',  'allow', '', (int) $this->item->allow); ?>
+						<?php echo JHtml::_('select.booleanlist',  'allow', '', (int) $this->item->allow); ?>
 					</td>
 					<td width="33%">
 						<label for="note" class="block">
@@ -84,7 +84,7 @@ ul.checklist li:hover {
 						<label for="allow" class="block">
 							<?php echo JText::_('ACL Enabled'); ?>
 						</label>
-						<?php echo JHTML::_('select.booleanlist',  'enabled', '', (int) $this->item->enabled); ?>
+						<?php echo JHtml::_('select.booleanlist',  'enabled', '', (int) $this->item->enabled); ?>
 					</td>
 					<td>
 						<label for="note" class="block">

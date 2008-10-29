@@ -4,7 +4,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 
 <?php
-JHTML::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidation');
 if ($this->params->get('validate_email_form')=='1') {
 	// validate all fields on submit
 	$formValidationType='';
@@ -90,7 +90,7 @@ if ($this->params->get('validate_email_form')=='1') {
 	<input type="hidden" name="view" value="contact" />
 	<input type="hidden" name="id" value="<?php echo $this->contact->id; ?>" />
 	<input type="hidden" name="task" value="submit" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 	</form>
 	<br />
 </div>

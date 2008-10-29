@@ -12,7 +12,7 @@
 				</span>
 				</td>
 				<td>
-				<?php echo JHTML::_('select.booleanlist', 'offline', 'class="inputbox"', $this->row->offline); ?>
+				<?php echo JHtml::_('select.booleanlist', 'offline', 'class="inputbox"', $this->row->offline); ?>
 				</td>
 			</tr>
 			<tr>
@@ -42,7 +42,7 @@
 				</span>
 				</td>
 				<td>
-					<?php echo JHTML::_('config.editors', $this->row->editor); ?>
+					<?php echo JHtml::_('config.editors', $this->row->editor); ?>
 				</td>
 			</tr>
 			<tr>
@@ -52,7 +52,7 @@
 					</span>
 				</td>
 				<td>
-					<?php echo JHTML::_('config.listLimits', $this->row->list_limit); ?>
+					<?php echo JHtml::_('config.listLimits', $this->row->list_limit); ?>
 				</td>
 			</tr>
 			<tr>
@@ -62,7 +62,7 @@
 					</span>
 				</td>
 				<td>
-					<?php echo JHTML::_('config.listLimits', $this->row->feed_limit, 'feed_limit'); ?>
+					<?php echo JHtml::_('config.listLimits', $this->row->feed_limit, 'feed_limit'); ?>
 				</td>
 			</tr>
 		</tbody>

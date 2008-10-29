@@ -70,7 +70,7 @@ class UserController extends JController
 			$view->setLayout( $lName );
 			$view->assignRef( 'document', $document );
 
-			JHTML::addIncludePath( JPATH_COMPONENT.DS.'helpers'.DS.'html' );
+			JHtml::addIncludePath( JPATH_COMPONENT.DS.'helpers'.DS.'html' );
 			$view->display();
 		}
 

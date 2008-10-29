@@ -104,7 +104,7 @@ class ModulesViewModule extends JView
 				$ord =count( array_keys( $orders2[$orders[$i]->position] ) ) + 1;
 			}
 
-			$orders2[$orders[$i]->position][] = JHTML::_('select.option',  $ord, $ord.'::'.addslashes( $orders[$i]->title ) );
+			$orders2[$orders[$i]->position][] = JHtml::_('select.option',  $ord, $ord.'::'.addslashes( $orders[$i]->title ) );
 		}
 
 		// get selected pages for $lists['selections']
@@ -118,7 +118,7 @@ class ModulesViewModule extends JView
 			$lookup = $db->loadObjectList();
 			$row->pages = 'select';
 			if (empty($lookup)) {
-				$lookup = array(JHTML::_('select.option', '-1'));
+				$lookup = array(JHtml::_('select.option', '-1'));
 				$row->pages = 'none';
 			} elseif (count($lookup) == 1 && $lookup[0]->value == 0) {
 				$row->pages = 'all';
@@ -136,23 +136,23 @@ class ModulesViewModule extends JView
 				}
 			}
 		} else {
-			$lookup = array(JHTML::_('select.option', 0, JText::_('All')));
+			$lookup = array(JHtml::_('select.option', 0, JText::_('All')));
 			$row->pages = 'all';
 		}
 
 		if ($row->access == 99 || $row->client_id == 1 || $lists['client_id']) {
-			$lists['access']			= 'Administrator';
-			$lists['showtitle']		 	= 'N/A <input type="hidden" name="showtitle" value="1" />';
-			$lists['selections']		= 'N/A';
+			$lists['access'] = 'Administrator';
+			$lists['showtitle'] = 'N/A <input type="hidden" name="showtitle" value="1" />';
+			$lists['selections'] = 'N/A';
 		} else {
 			if ($client->id == '1') {
-				$lists['access']		= 'N/A';
-				$lists['selections']	= 'N/A';
+				$lists['access'] = 'N/A';
+				$lists['selections'] = 'N/A';
 			} else {
-				$lists['access']		= JHTML::_('list.accesslevel', $row);
+				$lists['access'] = JHtml::_('list.accesslevel', $row);
 
-				$selections			 = JHTML::_('menu.linkoptions');
-				$lists['selections']	= JHTML::_(
+				$selections = JHtml::_('menu.linkoptions');
+				$lists['selections'] = JHtml::_(
 					'select.genericlist',
 					$selections,
 					'selections[]',
@@ -163,7 +163,7 @@ class ModulesViewModule extends JView
 					'selections'
 				);
 			}
-			$lists['showtitle'] = JHTML::_(
+			$lists['showtitle'] = JHtml::_(
 				'select.booleanlist',
 				'showtitle',
 				'class="inputbox"',
@@ -172,7 +172,7 @@ class ModulesViewModule extends JView
 		}
 
 		// build the html select list for published
-		$lists['published'] = JHTML::_(
+		$lists['published'] = JHtml::_(
 			'select.booleanlist',
 			'published',
 			'class="inputbox"',

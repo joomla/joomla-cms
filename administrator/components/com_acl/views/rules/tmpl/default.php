@@ -1,7 +1,7 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
 
-	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
-	JHTML::_('behavior.tooltip');
+	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+	JHtml::_('behavior.tooltip');
 	$aclType = $this->state->get('list.acl_type', 1);
 ?>
 <style type="text/css">
@@ -20,5 +20,5 @@
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('orderCol'); ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('orderDirn'); ?>" />
-	<?php echo JHTML::_('form.token'); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

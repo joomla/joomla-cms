@@ -11,7 +11,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo JHTML::_('select.booleanlist', 'sef', 'class="inputbox"', $this->row->sef); ?>
+				<?php echo JHtml::_('select.booleanlist', 'sef', 'class="inputbox"', $this->row->sef); ?>
 			</td>
 		</tr>
 		<tr>
@@ -21,9 +21,9 @@
 				</span>
 			</td>
 			<td>
-				<?php echo JHTML::_('select.booleanlist', 'sef_rewrite', 'class="inputbox"', $this->row->sef_rewrite); ?>
+				<?php echo JHtml::_('select.booleanlist', 'sef_rewrite', 'class="inputbox"', $this->row->sef_rewrite); ?>
 				<span class="error hasTip" title="<?php echo JText::_( 'Warning' );?>::<?php echo JText::_( 'WARNAPACHEONLY' ); ?>">
-					<?php echo JHTML::_('config.warnicon'); ?>
+					<?php echo JHtml::_('config.warnicon'); ?>
 				</span>
 			</td>
 		</tr>
@@ -34,7 +34,7 @@
 				</span>
 			</td>
 			<td>
-				<?php echo JHTML::_('select.booleanlist', 'sef_suffix', 'class="inputbox"', $this->row->sef_suffix); ?>
+				<?php echo JHtml::_('select.booleanlist', 'sef_suffix', 'class="inputbox"', $this->row->sef_suffix); ?>
 			</td>
 		</tr>
 		</tbody>

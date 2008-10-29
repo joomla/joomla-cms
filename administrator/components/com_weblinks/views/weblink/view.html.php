@@ -79,12 +79,12 @@ class WeblinksViewWeblink extends JView
 			. ' WHERE catid = ' . (int) $weblink->catid
 			. ' ORDER BY ordering';
 
-		$lists['ordering'] 			= JHTML::_('list.specificordering',  $weblink, $weblink->id, $query );
+		$lists['ordering'] 			= JHtml::_('list.specificordering',  $weblink, $weblink->id, $query );
 
 		// build list of categories
-		$lists['catid'] 			= JHTML::_('list.category',  'catid', $option, intval( $weblink->catid ) );
+		$lists['catid'] 			= JHtml::_('list.category',  'catid', $option, intval( $weblink->catid ) );
 		// build the html select list
-		$lists['state'] 		= JHTML::_('weblink.statelist',  'state', $weblink->state );
+		$lists['state'] 		= JHtml::_('weblink.statelist',  'state', $weblink->state );
 
 		//clean weblink data
 		JFilterOutput::objectHTMLSafe( $weblink, ENT_QUOTES, 'description' );

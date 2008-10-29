@@ -84,29 +84,29 @@ class ContentViewArchive extends ContentView
 		$form = new stdClass();
 		// Month Field
 		$months = array(
-			JHTML::_('select.option',  null, JText::_( 'Month' ) ),
-			JHTML::_('select.option',  '01', JText::_( 'JANUARY_SHORT' ) ),
-			JHTML::_('select.option',  '02', JText::_( 'FEBRUARY_SHORT' ) ),
-			JHTML::_('select.option',  '03', JText::_( 'MARCH_SHORT' ) ),
-			JHTML::_('select.option',  '04', JText::_( 'APRIL_SHORT' ) ),
-			JHTML::_('select.option',  '05', JText::_( 'MAY_SHORT' ) ),
-			JHTML::_('select.option',  '06', JText::_( 'JUNE_SHORT' ) ),
-			JHTML::_('select.option',  '07', JText::_( 'JULY_SHORT' ) ),
-			JHTML::_('select.option',  '08', JText::_( 'AUGUST_SHORT' ) ),
-			JHTML::_('select.option',  '09', JText::_( 'SEPTEMBER_SHORT' ) ),
-			JHTML::_('select.option',  '10', JText::_( 'OCTOBER_SHORT' ) ),
-			JHTML::_('select.option',  '11', JText::_( 'NOVEMBER_SHORT' ) ),
-			JHTML::_('select.option',  '12', JText::_( 'DECEMBER_SHORT' ) )
+			JHtml::_('select.option',  null, JText::_( 'Month' ) ),
+			JHtml::_('select.option',  '01', JText::_( 'JANUARY_SHORT' ) ),
+			JHtml::_('select.option',  '02', JText::_( 'FEBRUARY_SHORT' ) ),
+			JHtml::_('select.option',  '03', JText::_( 'MARCH_SHORT' ) ),
+			JHtml::_('select.option',  '04', JText::_( 'APRIL_SHORT' ) ),
+			JHtml::_('select.option',  '05', JText::_( 'MAY_SHORT' ) ),
+			JHtml::_('select.option',  '06', JText::_( 'JUNE_SHORT' ) ),
+			JHtml::_('select.option',  '07', JText::_( 'JULY_SHORT' ) ),
+			JHtml::_('select.option',  '08', JText::_( 'AUGUST_SHORT' ) ),
+			JHtml::_('select.option',  '09', JText::_( 'SEPTEMBER_SHORT' ) ),
+			JHtml::_('select.option',  '10', JText::_( 'OCTOBER_SHORT' ) ),
+			JHtml::_('select.option',  '11', JText::_( 'NOVEMBER_SHORT' ) ),
+			JHtml::_('select.option',  '12', JText::_( 'DECEMBER_SHORT' ) )
 		);
-		$form->monthField	= JHTML::_('select.genericlist',   $months, 'month', 'size="1" class="inputbox"', 'value', 'text', $month );
+		$form->monthField	= JHtml::_('select.genericlist',   $months, 'month', 'size="1" class="inputbox"', 'value', 'text', $month );
 
 		// Year Field
 		$years = array();
-		$years[] = JHTML::_('select.option',  null, JText::_( 'Year' ) );
+		$years[] = JHtml::_('select.option',  null, JText::_( 'Year' ) );
 		for ($i=2000; $i <= 2010; $i++) {
-			$years[] = JHTML::_('select.option',  $i, $i );
+			$years[] = JHtml::_('select.option',  $i, $i );
 		}
-		$form->yearField	= JHTML::_('select.genericlist',   $years, 'year', 'size="1" class="inputbox"', 'value', 'text', $year );
+		$form->yearField	= JHtml::_('select.genericlist',   $years, 'year', 'size="1" class="inputbox"', 'value', 'text', $year );
 		$form->limitField	= $pagination->getLimitBox();
 
 		$this->assign('filter' 		, $filter);

@@ -35,5 +35,5 @@
 	<input type="hidden" name="task" value="list" />
 	<input type="hidden" name="username" value="" />
 	<input type="hidden" name="password" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

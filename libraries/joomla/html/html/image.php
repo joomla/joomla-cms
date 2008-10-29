@@ -23,7 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @subpackage	HTML
  * @since		1.5
  */
-abstract class JHTMLImage
+abstract class JHtmlImage
 {
 	/**
 	* Checks to see if an image exists in the current templates image directory

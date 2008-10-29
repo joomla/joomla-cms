@@ -19,7 +19,7 @@
  * @subpackage	HTML
  * @since		1.5
  */
-abstract class JHTMLContent
+abstract class JHtmlContent
 {
 	/**
 	 * Fire onPrepareContent for content that isn't part of an article.

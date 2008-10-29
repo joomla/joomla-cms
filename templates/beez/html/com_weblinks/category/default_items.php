@@ -32,12 +32,12 @@ defined('_JEXEC') or die('Restricted access');
 		</th>
 
 		<th width="90%" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" id="title">
-			<?php echo JHTML::_('grid.sort', 'Web Link', 'title', $this->lists['order_Dir'], $this->lists['order']); ?>
+			<?php echo JHtml::_('grid.sort', 'Web Link', 'title', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 
 		<?php if ($this->params->get('show_link_hits')) : ?>
 		<th width="10%" class="sectiontableheader<?php echo $this->params->get('pageclass_sfx'); ?>" nowrap="nowrap" id="hits">
-			<?php echo JHTML::_('grid.sort', 'Hits', 'hits', $this->lists['order_Dir'], $this->lists['order']); ?>
+			<?php echo JHtml::_('grid.sort', 'Hits', 'hits', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 		<?php endif; ?>
 

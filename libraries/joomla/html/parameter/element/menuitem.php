@@ -92,7 +92,7 @@ class JElementMenuItem extends JElement
 		}
 
 		// second pass - get an indent list of the items
-		$list = JHTML::_('menu.treerecurse', 0, '', array(), $children, 9999, 0, 0 );
+		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, 9999, 0, 0 );
 
 		// assemble into menutype groups
 		$n = count( $list );
@@ -103,14 +103,14 @@ class JElementMenuItem extends JElement
 
 		// assemble menu items to the array
 		$options 	= array();
-		$options[]	= JHTML::_('select.option', '', '- '.JText::_('Select Item').' -');
+		$options[]	= JHtml::_('select.option', '', '- '.JText::_('Select Item').' -');
 
 		foreach ($menuTypes as $type)
 		{
 			if ($menuType == '')
 			{
-				$options[]	= JHTML::_('select.option',  '0', '&nbsp;', 'value', 'text', true);
-				$options[]	= JHTML::_('select.option',  $type->menutype, $type->title . ' - ' . JText::_( 'Top' ), 'value', 'text', true );
+				$options[]	= JHtml::_('select.option',  '0', '&nbsp;', 'value', 'text', true);
+				$options[]	= JHtml::_('select.option',  $type->menutype, $type->title . ' - ' . JText::_( 'Top' ), 'value', 'text', true );
 			}
 			if (isset( $groupedList[$type->menutype] ))
 			{
@@ -119,12 +119,12 @@ class JElementMenuItem extends JElement
 				{
 					$item = &$groupedList[$type->menutype][$i];
 					$disable = strpos($node->attributes('disable'), $item->type) !== false ? true : false;
-					$options[] = JHTML::_('select.option',  $item->id, '&nbsp;&nbsp;&nbsp;' .$item->treename, 'value', 'text', $disable );
+					$options[] = JHtml::_('select.option',  $item->id, '&nbsp;&nbsp;&nbsp;' .$item->treename, 'value', 'text', $disable );
 
 				}
 			}
 		}
 
-		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
+		return JHtml::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
 	}
 }

@@ -44,6 +44,6 @@ class JElementSQL extends JElement
 		} catch(JException $e) {
 			$options = array();
 		}
-		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', $key, $val, $value, $control_name.$name);
+		return JHtml::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', $key, $val, $value, $control_name.$name);
 	}
 }

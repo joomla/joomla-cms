@@ -67,19 +67,19 @@ class SectionsViewSection extends JView
 		. ' WHERE scope='.$db->Quote($row->scope).' ORDER BY ordering'
 		;
 		if($edit)
-			$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, $cid[0], $query );
+			$lists['ordering'] 			= JHtml::_('list.specificordering',  $row, $cid[0], $query );
 		else
-			$lists['ordering'] 			= JHTML::_('list.specificordering',  $row, '', $query );
+			$lists['ordering'] 			= JHtml::_('list.specificordering',  $row, '', $query );
 
 		// build the select list for the image positions
 		$active =  ( $row->image_position ? $row->image_position : 'left' );
-		$lists['image_position'] 	= JHTML::_('list.positions',  'image_position', $active, NULL, 0 );
+		$lists['image_position'] 	= JHtml::_('list.positions',  'image_position', $active, NULL, 0 );
 		// build the html select list for images
-		$lists['image'] 			= JHTML::_('list.images',  'image', $row->image );
+		$lists['image'] 			= JHtml::_('list.images',  'image', $row->image );
 		// build the html select list for the group access
-		$lists['access'] 			= JHTML::_('list.accesslevel',  $row );
+		$lists['access'] 			= JHtml::_('list.accesslevel',  $row );
 		// build the html radio buttons for published
-		$lists['published'] 		= JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
+		$lists['published'] 		= JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $row->published );
 
 		$this->assignRef('user',		$user);
 		$this->assignRef('lists',		$lists);

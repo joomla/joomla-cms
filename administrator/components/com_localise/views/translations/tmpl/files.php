@@ -62,13 +62,13 @@ JToolbarHelper::addNew();
 		<tr>
 			<th width="20"><?php echo JText::_( 'Num' ); ?></th>
 			<th width="20"><input type="checkbox" name="toggle" value=""  onclick="checkAll(<?php echo count( $this->data ); ?>);" /></th>
-			<th width="25%"><?php echo JHTML::_( 'grid.sort',  'File', 'name', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
+			<th width="25%"><?php echo JHtml::_( 'grid.sort',  'File', 'name', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
 			<th width="40"><?php echo JText::_( 'State' ); ?></th>
-			<th width="100"><?php echo JHTML::_( 'grid.sort',  'Status', 'status', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
-			<th width="100"><?php echo JHTML::_( 'grid.sort',  'Strings', 'strings', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
-            <th width="40"><?php echo JHTML::_( 'grid.sort',  'Version', 'version', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
-			<th width="40"><?php echo JHTML::_( 'grid.sort',  'Date', 'datetime', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
-			<th width="20%"><?php echo JHTML::_( 'grid.sort',  'Author', 'author', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
+			<th width="100"><?php echo JHtml::_( 'grid.sort',  'Status', 'status', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
+			<th width="100"><?php echo JHtml::_( 'grid.sort',  'Strings', 'strings', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
+            <th width="40"><?php echo JHtml::_( 'grid.sort',  'Version', 'version', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
+			<th width="40"><?php echo JHtml::_( 'grid.sort',  'Date', 'datetime', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
+			<th width="20%"><?php echo JHtml::_( 'grid.sort',  'Author', 'author', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
 		</tr>
 		</thead>
 
@@ -130,7 +130,7 @@ JToolbarHelper::addNew();
 					if (!$row->exists) {
 						echo $this->getTooltip( '<img src="images/disabled.png" alt="x" />', null, 'Does Not Exist', 'TC' );
 					} else if ($row->writable) {
-						echo JHTML::_( 'grid.published',  $row, $i, 'publish_g.png', 'publish_r.png' );
+						echo JHtml::_( 'grid.published',  $row, $i, 'publish_g.png', 'publish_r.png' );
 					} else if ($row->published) {
 						echo '<img src="images/publish_g.png" alt="'.JText::_( 'Published' ).'" />';
 					} else {

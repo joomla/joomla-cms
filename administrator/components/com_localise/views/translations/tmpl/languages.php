@@ -57,7 +57,7 @@ $document->setBuffer( $submenu, 'module', 'submenu' );
 			<tr>
 				<th width="20">&nbsp;</th>
 				<th width="15%"><?php echo JText::_( 'Client' ); ?></th>
-				<th width="20%"><?php echo JHTML::_( 'grid.sort', 'Language', 'tag', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
+				<th width="20%"><?php echo JHtml::_( 'grid.sort', 'Language', 'tag', $this->lists['order_Dir'], $this->lists['order'], $this->options['task'] ); ?></th>
 				<th width="5%"><?php echo JText::_( 'Default' ); ?></th>
 				<th width="5%"><?php echo JText::_( 'XML' ); ?></th>
 				<th width="5%"><?php echo JText::_( 'Files' ); ?></th>

@@ -67,5 +67,5 @@ foreach ($this->cid as $id) {
 	echo "\n<input type=\"hidden\" name=\"cid[]\" value=\"$id\" />";
 }
 ?>
-<?php echo JHTML::_( 'form.token' ); ?>
+<?php echo JHtml::_( 'form.token' ); ?>
 </form>

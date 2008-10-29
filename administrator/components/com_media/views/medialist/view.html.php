@@ -36,7 +36,7 @@ class MediaViewMediaList extends JView
 
 		$style = $mainframe->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
-		JHTML::_('behavior.mootools');
+		JHtml::_('behavior.mootools');
 
 		$document = &JFactory::getDocument();
 		$document->addStyleSheet('components/com_media/assets/medialist-'.$style.'.css');

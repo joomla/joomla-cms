@@ -81,5 +81,5 @@
 	<input type="hidden" name="installtype" value="upload" />
 	<input type="hidden" name="task" value="doInstall" />
 	<input type="hidden" name="option" value="com_installer" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<?php echo JHtml::_( 'form.token' ); ?>
 </form>

@@ -1,8 +1,8 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
 
-	JHTML::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
-	JHTML::_('behavior.tooltip');
-	JHTML::_('behavior.formvalidation');
+	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+	JHtml::_('behavior.tooltip');
+	JHtml::_('behavior.formvalidation');
 
 	$state	= $this->get('State');
 	$type	= strtoupper($state->get('type'));

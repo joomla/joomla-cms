@@ -26,5 +26,5 @@ if(is_null($link)) {
 	return;
 }
 
-$img = JHTML::_('image.site', 'livemarks.png', '/images/M_images/');
+$img = JHtml::_('image.site', 'livemarks.png', '/images/M_images/');
 require(JModuleHelper::getLayoutPath('mod_syndicate'));
