@@ -35,3 +35,4 @@ define( 'JPATH_INSTALLATION',	JPATH_ROOT.DS.'installation' );
 define( 'JPATH_THEMES',			JPATH_BASE.DS.'templates' );
 define( 'JPATH_CACHE',			JPATH_BASE.DS.'cache');
 define( 'JPATH_MANIFESTS',		JPATH_ADMINISTRATOR.DS.'manifests');
+define( 'JPATH_BACKUPS',			JPATH_ADMINISTRATOR.DS.'backups');

@@ -148,7 +148,7 @@ abstract class JFileSystem
 
 	abstract public function isReadable($path);
 
-	abstract public function write($path, $buffer);
+	abstract public function write($path, &$buffer);
 
 	abstract public function isWritable($path);
 

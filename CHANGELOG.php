@@ -42,6 +42,16 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+29-Oct-2008 Sam Moffatt
+ - Removed JLanguage's support for constants as language strings
+ ^ Changed JFile::write and JFilesystem::write to use a reference
+ + Added backup support tables
+ # Fixed issue with JFolder::create
+ + Added JBackup class shell
+ + Added JBackupSql class
+ ^ Fixed potential issue in JAdapter constructor
+ + Added JPATH_BACKUPS define
+
 28-Oct-2008 Alan Langford
  # Fixed several minor bugs in JArrayHelper, fixed formatting and docs, reorganized code.
  ^ Backwards compatible overhaul and extension of JArrayHelper::toString().

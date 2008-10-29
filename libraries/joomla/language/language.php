@@ -153,36 +153,18 @@ class JLanguage extends JObject
 			}
 
 		} else {
-			if (defined($string))
+			if ($this->_debug)
 			{
-				$string = constant($string);
+				$caller	= $this->_getCallerInfo();
+				$caller['string'] = $string;
 
-				// Store debug information
-				if ($this->_debug)
-				{
-					$string = '!!' . $string . '!!';
-					$caller = $this->_getCallerInfo();
-
-					if (! array_key_exists($key, $this->_used)) {
-						$this->_used[$key] = array();
-					}
-
-					$this->_used[$key][] = $caller;
+				if (! array_key_exists($key, $this->_orphans)) {
+					$this->_orphans[$key] = array();
 				}
-			} else {
-				if ($this->_debug)
-				{
-					$caller	= $this->_getCallerInfo();
-					$caller['string'] = $string;
 
-					if (! array_key_exists($key, $this->_orphans)) {
-						$this->_orphans[$key] = array();
-					}
+				$this->_orphans[$key][] = $caller;
 
-					$this->_orphans[$key][] = $caller;
-
-					$string = '??'.$string.'??';
-				}
+				$string = '??'.$string.'??';
 			}
 		}
 

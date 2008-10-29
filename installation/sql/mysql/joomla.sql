@@ -1304,7 +1304,7 @@ CREATE TABLE  `#__tasks` (
   `offset` int(11) default '0',
   `total` int(11) default '0',
   PRIMARY KEY  (`taskid`)
-) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COMMENT='Individual tasks';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Individual tasks';
 
 CREATE TABLE  `#__tasksets` (
   `tasksetid` int(10) unsigned NOT NULL auto_increment,
@@ -1313,4 +1313,28 @@ CREATE TABLE  `#__tasksets` (
   `executionpage` text,
   `landingpage` text,
   PRIMARY KEY  (`tasksetid`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='Task Sets';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Task Sets';
+
+
+CREATE TABLE  `#__backups` (
+  `backupid` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(50) NOT NULL default '',
+  `description` text NOT NULL,
+  `start` datetime NOT NULL default '0000-00-00 00:00:00',
+  `end` datetime NOT NULL default '0000-00-00 00:00:00',
+  `location` text NOT NULL,
+  `data` text NOT NULL,
+  `creator` varchar(50) NOT NULL default '',
+  PRIMARY KEY  (`backupid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Backups';
+
+CREATE TABLE  `#__backup_entries` (
+  `entryid` int(10) unsigned NOT NULL auto_increment,
+  `backupid` int(10) unsigned NOT NULL default '0',
+  `type` varchar(20) NOT NULL default '',
+  `name` varchar(50) NOT NULL default '',
+  `source` text NOT NULL,
+  `destination` text NOT NULL,
+  `data` text NOT NULL,
+  PRIMARY KEY  (`entryid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Backup Entries';

@@ -51,7 +51,7 @@ class JFilesystemPHP extends JFilesystem
 		return @file_get_contents($src, $include_path, $length, $offset);
 	}
 
-	public function write($file, $buffer) {
+	public function write($file, &$buffer) {
 		return @file_put_contents($file, $buffer);
 	}
 

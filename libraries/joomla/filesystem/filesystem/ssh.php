@@ -78,7 +78,7 @@ class JFilesystemSSH extends JFilesystem
 		return $buffer;
 	}
 
-	public function write($file, $buffer) {
+	public function write($file, &$buffer) {
 		//write to temp file
 		$config =& JFactory::getConfig();
 		$path = $config->get('config.tmp_path');

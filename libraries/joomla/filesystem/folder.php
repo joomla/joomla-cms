@@ -109,7 +109,7 @@ abstract class JFolder
 	 */
 	public static function create($path = '', $mode = 0755)
 	{
-		$backend = JFolder::getBackend();
+		$backend = JFolder::getFileSystem();
 		static $nested = 0;
 
 		// Check to make sure the path valid and clean

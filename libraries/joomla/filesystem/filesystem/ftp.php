@@ -71,7 +71,7 @@ class JFilesystemFTP extends JFilesystem
 		return $buffer;
 	}
 
-	public function write($file, $buffer) {
+	public function write($file, &$buffer) {
 		return $this->ftp->write($this->_makePath($file), $buffer);
 	}
 
