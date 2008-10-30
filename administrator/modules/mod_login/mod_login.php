@@ -23,7 +23,12 @@ $lang =& JFactory::getLanguage();
 $languages = array();
 $languages = JLanguageHelper::createLanguageList($browserLang );
 array_unshift( $languages, JHtml::_('select.option',  '', JText::_( 'Default' ) ) );
-$langs = JHtml::_('select.genericlist',   $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
+$langs = JHtml::_(
+	'select.genericlist',
+	$languages,
+	'lang',
+	array('list.attr' => 'class="inputbox"', 'list.select' => $browserLang)
+);
 ?>
 <?php if(JPluginHelper::isEnabled('authentication', 'openid')) :
 		$lang->load( 'plg_authentication_openid', JPATH_ADMINISTRATOR );

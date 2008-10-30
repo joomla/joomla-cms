@@ -45,7 +45,12 @@ class JHtmlConfig
 			JHtml::_('select.option',	E_ALL,							JText::_('Config Error Maximum')),
 			JHtml::_('select.option',	E_ALL | E_STRICT,				JText::_('Config Error Strict'))
 		);
-		return JHtml::_('select.genericlist', $options, $name, 'class="inputbox" size="1"', 'value', 'text', $selected);
+		return JHtml::_(
+			'select.genericlist',
+			$options,
+			$name,
+			array('list.attr' => 'class="inputbox" size="1"', 'list.select' => $selected)
+		);
 	}
 
 	/**
@@ -57,48 +62,57 @@ class JHtmlConfig
 	 */
 	public static function locales($selected = 0, $name = 'offset')
 	{
-		$options = array (
-			JHtml::_('select.option',	-12,	JText::_('(UTC -12:00) International Date Line West')),
-			JHtml::_('select.option',	-11,	JText::_('(UTC -11:00) Midway Island, Samoa')),
-			JHtml::_('select.option',	-10,	JText::_('(UTC -10:00) Hawaii')),
-			JHtml::_('select.option',	-9.5,	JText::_('(UTC -09:30) Taiohae, Marquesas Islands')),
-			JHtml::_('select.option',	-9,		JText::_('(UTC -09:00) Alaska')),
-			JHtml::_('select.option',	-8,		JText::_('(UTC -08:00) Pacific Time (US &amp; Canada)')),
-			JHtml::_('select.option',	-7,		JText::_('(UTC -07:00) Mountain Time (US &amp; Canada)')),
-			JHtml::_('select.option',	-6,		JText::_('(UTC -06:00) Central Time (US &amp; Canada), Mexico City')),
-			JHtml::_('select.option',	-5,		JText::_('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima')),
-			JHtml::_('select.option',	-4,		JText::_('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz')),
-			JHtml::_('select.option',	-3.5,	JText::_('(UTC -03:30) St. John\'s, Newfoundland, Labrador')),
-			JHtml::_('select.option',	-3,		JText::_('(UTC -03:00) Brazil, Buenos Aires, Georgetown')),
-			JHtml::_('select.option',	-2,		JText::_('(UTC -02:00) Mid-Atlantic')),
-			JHtml::_('select.option',	-1,		JText::_('(UTC -01:00) Azores, Cape Verde Islands')),
-			JHtml::_('select.option',	0,		JText::_('(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca')),
-			JHtml::_('select.option',	1,		JText::_('(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris')),
-			JHtml::_('select.option',	2,		JText::_('(UTC +02:00) Istanbul, Jerusalem, Kaliningrad, South Africa')),
-			JHtml::_('select.option',	3,		JText::_('(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg')),
-			JHtml::_('select.option',	3.5,	JText::_('(UTC +03:30) Tehran')),
-			JHtml::_('select.option',	4,		JText::_('(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi')),
-			JHtml::_('select.option',	4.5,	JText::_('(UTC +04:30) Kabul')),
-			JHtml::_('select.option',	5,		JText::_('(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent')),
-			JHtml::_('select.option',	5.5,	JText::_('(UTC +05:30) Bombay, Calcutta, Madras, New Delhi')),
-			JHtml::_('select.option',	5.75,	JText::_('(UTC +05:45) Kathmandu')),
-			JHtml::_('select.option',	6,		JText::_('(UTC +06:00) Almaty, Dhaka, Colombo')),
-			JHtml::_('select.option',	6.30,	JText::_('(UTC +06:30) Yagoon')),
-			JHtml::_('select.option',	7,		JText::_('(UTC +07:00) Bangkok, Hanoi, Jakarta')),
-			JHtml::_('select.option',	8,		JText::_('(UTC +08:00) Beijing, Perth, Singapore, Hong Kong')),
-			JHtml::_('select.option',	8.75,	JText::_('(UTC +08:00) Western Australia')),
-			JHtml::_('select.option',	9,		JText::_('(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk')),
-			JHtml::_('select.option',	9.5,	JText::_('(UTC +09:30) Adelaide, Darwin, Yakutsk')),
-			JHtml::_('select.option',	10,		JText::_('(UTC +10:00) Eastern Australia, Guam, Vladivostok')),
-			JHtml::_('select.option',	10.5,	JText::_('(UTC +10:30) Lord Howe Island (Australia)')),
-			JHtml::_('select.option',	11,		JText::_('(UTC +11:00) Magadan, Solomon Islands, New Caledonia')),
-			JHtml::_('select.option',	11.30,	JText::_('(UTC +11:30) Norfolk Island')),
-			JHtml::_('select.option',	12,		JText::_('(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka')),
-			JHtml::_('select.option',	12.75,	JText::_('(UTC +12:45) Chatham Island')),
-			JHtml::_('select.option',	13,		JText::_('(UTC +13:00) Tonga')),
-			JHtml::_('select.option',	14,		JText::_('(UTC +14:00) Kiribati')),
+		$zones = array (
+			'-12' => JText::_('(UTC -12:00) International Date Line West'),
+			'-11' => JText::_('(UTC -11:00) Midway Island, Samoa'),
+			'-10' => JText::_('(UTC -10:00) Hawaii'),
+			'-9.5' => JText::_('(UTC -09:30) Taiohae, Marquesas Islands'),
+			'-9' => JText::_('(UTC -09:00) Alaska'),
+			'-8' => JText::_('(UTC -08:00) Pacific Time (US &amp; Canada)'),
+			'-7' => JText::_('(UTC -07:00) Mountain Time (US &amp; Canada)'),
+			'-6' => JText::_('(UTC -06:00) Central Time (US &amp; Canada), Mexico City'),
+			'-5' => JText::_('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima'),
+			'-4' => JText::_('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz'),
+			'-3.5' => JText::_('(UTC -03:30) St. John\'s, Newfoundland, Labrador'),
+			'-3' => JText::_('(UTC -03:00) Brazil, Buenos Aires, Georgetown'),
+			'-2' => JText::_('(UTC -02:00) Mid-Atlantic'),
+			'-1' => JText::_('(UTC -01:00) Azores, Cape Verde Islands'),
+			'0' => JText::_('(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca'),
+			'1' => JText::_('(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris'),
+			'2' => JText::_('(UTC +02:00) Istanbul, Jerusalem, Kaliningrad, South Africa'),
+			'3' => JText::_('(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg'),
+			'3.5' => JText::_('(UTC +03:30) Tehran'),
+			'4' => JText::_('(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi'),
+			'4.5' => JText::_('(UTC +04:30) Kabul'),
+			'5' => JText::_('(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent'),
+			'5.5' => JText::_('(UTC +05:30) Bombay, Calcutta, Madras, New Delhi'),
+			'5.75' => JText::_('(UTC +05:45) Kathmandu'),
+			'6' => JText::_('(UTC +06:00) Almaty, Dhaka, Colombo'),
+			'6.5' => JText::_('(UTC +06:30) Yagoon'),
+			'7' => JText::_('(UTC +07:00) Bangkok, Hanoi, Jakarta'),
+			'8' => JText::_('(UTC +08:00) Beijing, Perth, Singapore, Hong Kong'),
+			'8.75' => JText::_('(UTC +08:45) Western Australia'),
+			'9' => JText::_('(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk'),
+			'9.5' => JText::_('(UTC +09:30) Adelaide, Darwin, Yakutsk'),
+			'10' => JText::_('(UTC +10:00) Eastern Australia, Guam, Vladivostok'),
+			'10.5' => JText::_('(UTC +10:30) Lord Howe Island (Australia)'),
+			'11' => JText::_('(UTC +11:00) Magadan, Solomon Islands, New Caledonia'),
+			'11.5' => JText::_('(UTC +11:30) Norfolk Island'),
+			'12' => JText::_('(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka'),
+			'12.75' => JText::_('(UTC +12:45) Chatham Island'),
+			'13' => JText::_('(UTC +13:00) Tonga'),
+			'14' => JText::_('(UTC +14:00) Kiribati'),
 		);
-		return JHtml::_('select.genericlist', $options, $name, 'class="inputbox" size="1"', 'value', 'text', $selected);
+		return JHtml::_(
+			'select.genericlist',
+			$zones,
+			$name,
+			array(
+				'list.attr' => 'class="inputbox" size="1"',
+				'list.select' => $selected,
+				'option.key' => null
+			)
+		);
 	}
 
 	/**
@@ -114,7 +128,12 @@ class JHtmlConfig
 		foreach (JSession::getStores() as $store) {
 			$options[] = JHtml::_('select.option', $store, JText::_(ucfirst($store)) );
 		}
-		return JHtml::_('select.genericlist', $options, $name, 'class="inputbox" size="1"', 'value', 'text', $selected);
+		return JHtml::_(
+			'select.genericlist',
+			$options,
+			$name,
+			array('list.attr' => 'class="inputbox" size="1"', 'list.select' => $selected)
+		);
 	}
 
 	/**
@@ -131,7 +150,12 @@ class JHtmlConfig
 		foreach(JCache::getStores() as $store) {
 			$options[] = JHtml::_('select.option', $store, JText::_(ucfirst($store)) );
 		}
-		return JHtml::_('select.genericlist', $options, $name, 'class="inputbox" size="1"', 'value', 'text', $selected);
+		return JHtml::_(
+			'select.genericlist',
+			$options,
+			$name,
+			array('list.attr' => 'class="inputbox" size="1"', 'list.select' => $selected)
+		);
 	}
 
 	/**
@@ -144,11 +168,20 @@ class JHtmlConfig
 	public static function mailHandlers($selected = 'mail', $name = 'mailer')
 	{
 		$options = array (
-			JHtml::_('select.option',	'mail',		JText::_('PHP mail function')),
-			JHtml::_('select.option',	'sendmail',	JText::_('Sendmail')),
-			JHtml::_('select.option',	'smtp',		JText::_('SMTP Server'))
+			'mail' => JText::_('PHP mail function'),
+			'sendmail' => JText::_('Sendmail'),
+			'smtp' => JText::_('SMTP Server')
 		);
-		return JHtml::_('select.genericlist', $options, $name, 'class="inputbox" size="1"', 'value', 'text', $selected);
+		return JHtml::_(
+			'select.genericlist',
+			$options,
+			$name,
+			array(
+				'list.attr' => 'class="inputbox" size="1"',
+				'list.select' => $selected,
+				'option.key' => null
+			)
+		);
 	}
 
 	/**
@@ -163,7 +196,12 @@ class JHtmlConfig
 		jimport('joomla.language.help');
 		$options = JHelp::createSiteList(JPATH_BASE.DS.'help'.DS.'helpsites-15.xml', $selected);
 		array_unshift($options, JHtml::_('select.option', '', JText::_('local')));
-		return JHtml::_('select.genericlist', $options, $name, ' class="inputbox"', 'value', 'text', $selected);
+		return JHtml::_(
+			'select.genericlist',
+			$options,
+			$name,
+			array('list.attr' => 'class="inputbox"', 'list.select' => $selected)
+		);
 	}
 
 	/**
@@ -185,7 +223,12 @@ class JHtmlConfig
 			JHtml::_('select.option', 50, 50),
 			JHtml::_('select.option', 100, 100),
 		);
-		return JHtml::_('select.genericlist', $options, $name, 'class="inputbox" size="1"', 'value', 'text', $selected);
+		return JHtml::_(
+			'select.genericlist',
+			$options,
+			$name,
+			array('list.attr' => 'class="inputbox" size="1"', 'list.select' => $selected)
+		);
 	}
 
 	/**
@@ -208,6 +251,11 @@ class JHtmlConfig
 			.' ORDER BY ordering, name'
 		);
 		$options = $db->loadObjectList();
-		return JHtml::_('select.genericlist', $options, $name, 'class="inputbox" size="1"', 'value', 'text', $selected);
+		return JHtml::_(
+			'select.genericlist',
+			$options,
+			$name,
+			array('list.attr' => 'class="inputbox" size="1"', 'list.select' => $selected)
+		);
 	}
 }

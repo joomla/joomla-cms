@@ -83,7 +83,15 @@ class ContactdirectoryViewContact extends JView
 			$select[] = $category->id;
 		}
 
-		$lists['category'] = JHtml::_('select.genericlist', $cat, 'categories[]', 'multiple="multiple" class="inputbox" size="'. count($cat).'"', 'value', 'text', $select );
+		$lists['category'] = JHtml::_(
+			'select.genericlist',
+			$cat,
+			'categories[]',
+			array(
+				'list.attr' => 'multiple="multiple" class="inputbox" size="'. count($cat).'"',
+				'list.select' => $select
+				)
+			);
 
 		$i = 0;
 		foreach ($categories as $category) {
@@ -92,8 +100,16 @@ class ContactdirectoryViewContact extends JView
 				."LEFT JOIN jos_contactdirectory_con_cat_map map ON map.contact_id = c.id "
 				."WHERE c.published = 1 AND map.category_id = '$category->id' ORDER BY ordering";
 
-			$order = JHtml::_('list.genericordering', $query );
-			$lists['ordering'.$i] = JHtml::_('select.genericlist', $order, 'ordering[]', 'class="inputbox" size="1"', 'value', 'text', intval( $category->ordering ) );
+			$order = JHtml::_('list.genericordering', $query);
+			$lists['ordering'.$i] = JHtml::_(
+				'select.genericlist',
+				$order,
+				'ordering[]',
+				array(
+					'list.attr' => 'class="inputbox" size="1"',
+					'list.select' => intval($category->ordering)
+				)
+			);
 			$i++;
 		}
 

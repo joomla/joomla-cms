@@ -39,25 +39,46 @@ class JHtmlWeblink
 		return $href;
 	}
 
-	function statefilter( $filter_state='' )
+	function statefilter($filter_state = '')
 	{
-		$state[] = JHtml::_('select.option',  '', '- '. JText::_( 'Select State' ) .' -' );
-		$state[] = JHtml::_('select.option',  'P', JText::_( 'Published' ) );
-		$state[] = JHtml::_('select.option',  'U', JText::_( 'Unpublished' ) );
-		$state[] = JHtml::_('select.option',  'R', JText::_( 'Reported' ) );
-
-		return JHtml::_('select.genericlist',   $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );
+		$state = array(
+			'' => '- ' . JText::_('Select State') . ' -',
+			'P' => JText::_('Published'),
+			'U' => JText::_('Unpublished'),
+			'R' => JText::_('Reported')
+		);
+		return JHtml::_(
+			'select.genericlist',
+			$state,
+			'filter_state',
+			array(
+				'list.attr' => 'class="inputbox" size="1" onchange="submitform( );"',
+				'list.select' => $filter_state,
+				'option.key' => null
+			)
+		);
 	}
 
 	/**
 	* Select list of weblink states
 	*/
-	function statelist( $name, $active = NULL, $javascript = NULL )
+	function statelist($name, $active = null, $javascript = null)
 	{
-		$state[] = JHtml::_('select.option',  1, JText::_( 'Published' ) );
-		$state[] = JHtml::_('select.option',  0, JText::_( 'Unpublished' ) );
-		$state[] = JHtml::_('select.option',  -1, JText::_( 'Reported' ) );
+		$state = array(
+			1 => JText::_('Published'),
+			0 => JText::_('Unpublished'),
+			-1 => JText::_('Reported')
+		);
 
-		return JHtml::_('select.genericlist', $state, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active );
+		return JHtml::_(
+			'select.genericlist',
+			$state,
+			$name,
+			array(
+				'list.attr' => 'class="inputbox" size="1"'. $javascript,
+				'list.select' => $active,
+				'option.key' => null
+			)
+		);
 	}
 }

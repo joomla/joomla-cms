@@ -49,7 +49,7 @@ abstract class JHtmlSelect
 	* @param mixed The key that is selected
 	* @return string HTML for the radio list
 	*/
-	public static function booleanList(
+	public static function booleanlist(
 		$name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false
 	) {
 		$arr = array(
@@ -82,7 +82,7 @@ abstract class JHtmlSelect
 	 * @param   mixed   The key that is selected (accepts an array or a string).
 	 * @return  string  HTML for the select list.
 	 */
-	public static function genericList(
+	public static function genericlist(
 		$data, $name, $attribs = null, $optKey = 'value', $optText = 'text',
 		$selected = null, $idtag = false, $translate = false
 	) {
@@ -163,7 +163,7 @@ abstract class JHtmlSelect
 	 * @throws JException If a group has unprocessable contents.
 	 * @return string  HTML for the select list
 	 */
-	public static function groupedList($data, $name, $options = array())
+	public static function groupedlist($data, $name, $options = array())
 	{
 		// Set default options and overwrite with anything passed in
 		$options = array_merge(
@@ -263,7 +263,7 @@ abstract class JHtmlSelect
 	* @param string The printf format to be applied to the number
 	* @return string HTML for the select list
 	*/
-	public static function integerList(
+	public static function integerlist(
 		$start, $end, $inc, $name, $attribs = null, $selected = null, $format = ''
 	) {
 		// Set default options
@@ -311,7 +311,7 @@ abstract class JHtmlSelect
 	 * @param   string  The returned object property name for the text
 	 * @return  object
 	 */
-	public static function optGroup($text, $optKey = 'value', $optText = 'text')
+	public static function optgroup($text, $optKey = 'value', $optText = 'text')
 	{
 		$obj = new stdClass;
 		$obj->$optKey = '<OPTGROUP>';
@@ -516,6 +516,7 @@ abstract class JHtmlSelect
 			 * "groups" option, which defaults true in J1.6, but should be
 			 * deprecated at some point in the future.
 			 */
+			$key = (string) $key;
 			if ($options['groups'] && $key == '<OPTGROUP>') {
 				$html .= $baseIndent . '<optgroup label="'
 					. ($options['list.translate'] ? JText::_($text) : $text)
@@ -591,7 +592,7 @@ abstract class JHtmlSelect
 	* @param string The name of the object variable for the option text
 	* @return string HTML for the select list
 	*/
-	public static function radioList(
+	public static function radiolist(
 		$data, $name, $attribs = null, $optKey = 'value', $optText = 'text',
 		$selected = null, $idtag = false, $translate = false
 	) {

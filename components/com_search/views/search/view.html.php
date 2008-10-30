@@ -68,21 +68,31 @@ class SearchViewSearch extends JView
 		// Get the parameters of the active menu item
 		$params	= &$mainframe->getParams();
 
-		// built select lists
-		$orders = array();
-		$orders[] = JHtml::_('select.option',  'newest', JText::_( 'Newest first' ) );
-		$orders[] = JHtml::_('select.option',  'oldest', JText::_( 'Oldest first' ) );
-		$orders[] = JHtml::_('select.option',  'popular', JText::_( 'Most popular' ) );
-		$orders[] = JHtml::_('select.option',  'alpha', JText::_( 'Alphabetical' ) );
-		$orders[] = JHtml::_('select.option',  'category', JText::_( 'Section/Category' ) );
+		// build select lists
+		$orders = array(
+			'newest' => JText::_('Newest first'),
+			'oldest' => JText::_('Oldest first'),
+			'popular' => JText::_('Most popular'),
+			'alpha' => JText::_('Alphabetical'),
+			'category' => JText::_('Section/Category')
+		);
 
 		$lists = array();
-		$lists['ordering'] = JHtml::_('select.genericlist',   $orders, 'ordering', 'class="inputbox"', 'value', 'text', $state->get('ordering') );
+		$lists['ordering'] = JHtml::_(
+			'select.genericlist',
+			$orders,
+			'ordering',
+			array(
+				'list.attr' => 'class="inputbox"',
+				'list.select' => $state->get('ordering'),
+				'option.key' => null
+			)
+	   );
 
-		$searchphrases 		= array();
-		$searchphrases[] 	= JHtml::_('select.option',  'all', JText::_( 'All words' ) );
-		$searchphrases[] 	= JHtml::_('select.option',  'any', JText::_( 'Any words' ) );
-		$searchphrases[] 	= JHtml::_('select.option',  'exact', JText::_( 'Exact phrase' ) );
+		$searchphrases = array();
+		$searchphrases[] = JHtml::_('select.option',  'all', JText::_( 'All words' ) );
+		$searchphrases[] = JHtml::_('select.option',  'any', JText::_( 'Any words' ) );
+		$searchphrases[] = JHtml::_('select.option',  'exact', JText::_( 'Exact phrase' ) );
 		$lists['searchphrase' ]= JHtml::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match') );
 
 		// log the search

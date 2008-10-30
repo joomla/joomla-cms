@@ -130,26 +130,40 @@ abstract class JHtmlGrid
 		return $href;
 	}
 
-	public static function state( $filter_state='*', $published='Published', $unpublished='Unpublished', $archived=NULL, $trashed=NULL )
-	{
-		$state[] = JHtml::_('select.option',  '', '- '. JText::_( 'Select State' ) .' -' );
-		//Jinx : Why is this used ?
-		//$state[] = JHtml::_('select.option',  '*', JText::_( 'Any' ) );
-		$state[] = JHtml::_('select.option',  'P', JText::_( $published ) );
-		$state[] = JHtml::_('select.option',  'U', JText::_( $unpublished ) );
+	public static function state(
+		$filter_state = '*',
+		$published = 'Published',
+		$unpublished = 'Unpublished',
+		$archived = null,
+		$trashed = null
+	) {
+		$state = array(
+			'' => '- ' . JText::_('Select State') . ' -',
+			'P' => JText::_($published),
+			'U' => JText::_($unpublished)
+		);
 
 		if ($archived) {
-			$state[] = JHtml::_('select.option',  'A', JText::_( $archived ) );
+			$state['A'] = JText::_($archived);
 		}
 
 		if ($trashed) {
-			$state[] = JHtml::_('select.option',  'T', JText::_( $trashed ) );
+			$state['T'] = JText::_($trashed);
 		}
 
-		return JHtml::_('select.genericlist',   $state, 'filter_state', 'class="inputbox" size="1" onchange="submitform( );"', 'value', 'text', $filter_state );
+		return JHtml::_(
+			'select.genericlist',
+			$state,
+			'filter_state',
+			array(
+				'list.attr' => 'class="inputbox" size="1" onchange="submitform();"',
+				'list.select' => $filter_state,
+				'option.key' => null
+			)
+		);
 	}
 
-	public static function order( $rows, $image='filesave.png', $task="saveorder" )
+	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
 		$image = JHtml::_('image.administrator',  $image, '/images/', NULL, NULL, JText::_( 'Save Order' ) );
 		$href = '<a href="javascript:saveorder('.(count( $rows )-1).', \''.$task.'\')" title="'.JText::_( 'Save Order' ).'">'.$image.'</a>';

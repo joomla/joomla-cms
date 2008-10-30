@@ -44,6 +44,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 29-Oct-2008 Alan Langford
  ^ Complete JHTML -> JHtml refactor.
+ ^ Updated a large number of calls to JHtml::_('select.genericlist'...
 
 29-Oct-2008 Alan Langford
  + Added JHtmlSelect::groupedList() with improved support for select lists in groups.

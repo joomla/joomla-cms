@@ -117,7 +117,12 @@ class MenusHelper
 			$mitems[] = JHtml::_('select.option',  $item->id, '&nbsp;&nbsp;&nbsp;'. $item->treename );
 		}
 
-		$output = JHtml::_('select.genericlist',   $mitems, 'parent', 'class="inputbox" size="10"', 'value', 'text', $row->parent );
+		$output = JHtml::_(
+			'select.genericlist',
+			$mitems,
+			'parent',
+			array('list.attr' => 'class="inputbox" size="10"', 'list.select' => $row->parent)
+		);
 
 		return $output;
 	}
@@ -130,7 +135,12 @@ class MenusHelper
 		$click[] = JHtml::_('select.option',  '0', JText::_( 'Parent Window With Browser Navigation' ) );
 		$click[] = JHtml::_('select.option',  '1', JText::_( 'New Window With Browser Navigation' ) );
 		$click[] = JHtml::_('select.option',  '2', JText::_( 'New Window Without Browser Navigation' ) );
-		$target = JHtml::_('select.genericlist',   $click, 'browserNav', 'class="inputbox" size="4"', 'value', 'text', intval( $row->browserNav ) );
+		$target = JHtml::_(
+			'select.genericlist',
+			$click,
+			'browserNav',
+			array('list.attr' => 'class="inputbox" size="4"', 'list.select' => intval($row->browserNav))
+		);
 
 		return $target;
 	}

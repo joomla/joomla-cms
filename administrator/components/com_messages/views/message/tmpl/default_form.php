@@ -30,7 +30,18 @@ function submitbutton(pressbutton) {
 		<?php echo JText::_( 'To' ); ?>:
 	</td>
 	<td width="85%">
-		<?php echo JHtml::_('select.genericlist', $this->recipients, 'user_id_to', 'class="inputbox" size="1"', 'value', 'text', $this->reply_user); ?>
+		<?php
+			echo JHtml::_(
+				'select.genericlist',
+				$this->recipients,
+				'user_id_to',
+				array(
+					'format.depth' => 2,
+					'list.attr' => 'class="inputbox" size="1"',
+					'list.select' => $this->reply_user
+				)
+			);
+		?>
 	</td>
 </tr>
 <tr>

@@ -35,16 +35,16 @@ class CategoriesViewCategory extends JView
 		global $mainframe;
 
 		// Initialize variables
-		$db			=& JFactory::getDBO();
-		$user 		=& JFactory::getUser();
-		$uid		= $user->get('id');
+		$db =& JFactory::getDBO();
+		$user =& JFactory::getUser();
+		$uid = $user->get('id');
 
-		$type		= JRequest::getCmd( 'type' );
-		$redirect	= JRequest::getCmd( 'section', 'com_content' );
-		$section	= JRequest::getCmd( 'section', 'com_content' );
-		$cid		= JRequest::getVar( 'cid', array(0), '', 'array' );
+		$type = JRequest::getCmd( 'type' );
+		$redirect = JRequest::getCmd( 'section', 'com_content' );
+		$section = JRequest::getCmd( 'section', 'com_content' );
+		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		JArrayHelper::toInteger($cid, array(0));
-		$model	=& $this->getModel();
+		$model =& $this->getModel();
 
 		// check for existance of any sections
 		$query = 'SELECT COUNT( id )'
@@ -62,8 +62,8 @@ class CategoriesViewCategory extends JView
 		}
 
 		//get the section
-		$row	=& $this->get('data');
-		$edit	= JRequest::getVar('edit',true);
+		$row =& $this->get('data');
+		$edit = JRequest::getVar('edit',true);
 
 		// fail if checked out not by 'me'
 		if ( JTable::isCheckedOut($user->get ('id'), $row->checked_out )) {
@@ -74,7 +74,7 @@ class CategoriesViewCategory extends JView
 		if ( $edit ) {
 			$model->checkout( $user->get('id'));
 		} else {
-			$row->published 	= 1;
+			$row->published = 1;
 		}
 
 
@@ -106,7 +106,12 @@ class CategoriesViewCategory extends JView
 			;
 			$db->setQuery( $query );
 			$sections = $db->loadObjectList();
-			$lists['section'] = JHtml::_('select.genericlist',   $sections, 'section', 'class="inputbox" size="1"', 'value', 'text', $row->section );
+			$lists['section'] = JHtml::_(
+				'select.genericlist',
+				$sections,
+				'section',
+				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => $row->section)
+			 );
 		} else {
 			if ( $type == 'other' ) {
 				$section_name = JText::_( 'N/A' );
@@ -127,20 +132,20 @@ class CategoriesViewCategory extends JView
 		. ' ORDER BY ordering'
 		;
 		if($edit)
-			$lists['ordering'] 			= JHtml::_('list.specificordering',  $row, $cid[0], $query );
+			$lists['ordering'] = JHtml::_('list.specificordering',  $row, $cid[0], $query );
 		else
-			$lists['ordering'] 			= JHtml::_('list.specificordering',  $row, '', $query );
+			$lists['ordering'] = JHtml::_('list.specificordering',  $row, '', $query );
 
 		// build the select list for the image positions
 		$active =  ( $row->image_position ? $row->image_position : 'left' );
-		$lists['image_position'] 	= JHtml::_('list.positions',  'image_position', $active, NULL, 0, 0 );
+		$lists['image_position'] = JHtml::_('list.positions',  'image_position', $active, NULL, 0, 0 );
 		// Imagelist
-		$lists['image'] 			= JHtml::_('list.images',  'image', $row->image );
+		$lists['image'] = JHtml::_('list.images',  'image', $row->image );
 		// build the html select list for the group access
-		$lists['access'] 			= JHtml::_('list.accesslevel',  $row );
+		$lists['access'] = JHtml::_('list.accesslevel',  $row );
 		// build the html radio buttons for published
 		$published = ($row->id) ? $row->published : 1;
-		$lists['published'] 		= JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $published );
+		$lists['published'] = JHtml::_('select.booleanlist',  'published', 'class="inputbox"', $published );
 
 		$this->assignRef('redirect',	$redirect);
 		$this->assignRef('lists',		$lists);

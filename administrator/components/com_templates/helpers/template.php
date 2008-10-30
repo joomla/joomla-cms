@@ -113,8 +113,17 @@ class TemplatesHelper
 		}
 
 		// build the html select list
-		$options	= JHtml::_('menu.linkoptions');
-		$result		= JHtml::_('select.genericlist',   $options, 'selections[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
+		$options = JHtml::_('menu.linkoptions');
+		$result = JHtml::_(
+			'select.genericlist',
+			$options,
+			'selections[]',
+			array(
+				'list.attr' => 'class="inputbox" size="15" multiple="multiple"',
+				'list.id' =>'selections',
+				'list.select' => $lookup,
+			)
+		);
 		return $result;
 	}
 }

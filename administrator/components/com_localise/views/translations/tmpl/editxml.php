@@ -93,7 +93,12 @@ ffchkmessage = '<?php echo ( $this->options['isReference'] ? JText::_('Warning D
 				$arr['locale'] = 'textarea';
 				$arr['winCodePage'] = 40;
 				$arr['pdfFontName'] =  80;
-				$arr['rtl'] = JHtml::_( 'select.genericlist',  $yn, 'rtl', '', 'value', 'text', $this->data['metadata']['rtl'] );
+				$arr['rtl'] = JHtml::_(
+					'select.genericlist',
+					$yn,
+					'rtl',
+					array('list.select' => $this->data['metadata']['rtl'])
+				);
 				$arr[] = 'Author Details';
 				$arr['author'] =  80;
 				$arr['authorEmail'] =  80;

@@ -85,7 +85,20 @@ function submitbutton(pressbutton) {
 								<?php echo JText::_( 'Display in' ); ?>:
 							</td>
 							<td>
-								<?php echo JHtml::_('select.genericlist',   $this->menutypes, 'menutype', 'class="inputbox" size="1"', 'menutype', 'title', $this->item->menutype );?>
+								<?php
+									echo JHtml::_(
+										'select.genericlist',
+										$this->menutypes,
+										'menutype',
+										array(
+											'format.depth' => 8,
+											'list.attr' => 'class="inputbox" size="1"',
+											'list.select' => $this->item->menutype,
+											'option.key' => 'menutype',
+											'option.text' => 'title',
+										)
+									);
+								?>
 							</td>
 						</tr>
 						<tr>

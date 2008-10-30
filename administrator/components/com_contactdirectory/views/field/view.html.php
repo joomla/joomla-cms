@@ -68,33 +68,52 @@ class ContactdirectoryViewField extends JView
 		$lists['access'] = JHtml::_('list.accesslevel', $field);
 
 		// build the html select list for type
-		$types = array();
-		//$types[] = JHtml::_('select.option', 'checkbox', 'Check Box (Single)' );
-		//$types[] = JHtml::_('select.option', 'multicheckbox', 'Check Box (Muliple)' );
-		//$types[] = JHtml::_('select.option', 'date', 'Date' );
-		//$types[] = JHtml::_('select.option', 'select', 'Drop Down (Single Select)' );
-		//$types[] = JHtml::_('select.option', 'multiselect', 'Drop Down (Multi-Select)' );
-		$types[] = JHtml::_('select.option', 'text', JText::_('TEXT_FIELD'));
-		$types[] = JHtml::_('select.option', 'textarea', JText::_('TEXT_AREA'));
-		$types[] = JHtml::_('select.option', 'editor', JText::_('EDITOR_TEXT_AREA'));
-		//$types[] = JHtml::_('select.option', 'number', 'Number Text' );
-		$types[] = JHtml::_('select.option', 'email', JText::_('EMAIL_ADDRESS'));
-		$types[] = JHtml::_('select.option', 'url', JText::_('URL'));
-		//$types[] = JHtml::_('select.option', 'radio', 'Radio Button' );
-		$types[] = JHtml::_('select.option', 'image', JText::_('IMAGE'));
-
-		$lists['type'] = JHtml::_('select.genericlist', $types, 'type', 'class="inputbox"', 'value', 'text', $field->type );
+		$types = array(
+    		//'checkbox' => 'Check Box (Single)',
+    		//'multicheckbox' => 'Check Box (Muliple)',
+    		//'date' => 'Date',
+    		//'select' => 'Drop Down (Single Select)',
+    		//'multiselect' => 'Drop Down (Multi-Select)',
+    		'text' => JText::_('TEXT_FIELD'),
+    		'textarea' => JText::_('TEXT_AREA'),
+    		'editor' => JText::_('EDITOR_TEXT_AREA'),
+    		//'number' => 'Number Text',
+    		'email' => JText::_('EMAIL_ADDRESS'),
+    		'url' => JText::_('URL'),
+    		//'radio' => 'Radio Button',
+    		'image', JText::_('IMAGE'),
+        );
+		$lists['type'] = JHtml::_(
+            'select.genericlist',
+            $types,
+            'type',
+            array(
+                'list.attr' => 'class="inputbox"',
+                'list.select' => $field->type,
+                'option.key' => null
+            )
+        );
 
 		// build the html select list for position
-		$positions = array();
-		$positions[] = JHtml::_('select.option', 'title', JText::_('TITLE'));
-		$positions[] = JHtml::_('select.option', 'top', JText::_('TOP'));
-		$positions[] = JHtml::_('select.option', 'left', JText::_('LEFT'));
-		$positions[] = JHtml::_('select.option', 'main', JText::_('MAIN'));
-		$positions[] = JHtml::_('select.option', 'right', JText::_('RIGHT'));
-		$positions[] = JHtml::_('select.option', 'bottom', JText::_('BOTTOM'));
+		$positions = array(
+            'title' => JText::_('TITLE'),
+    		'top' => JText::_('TOP'),
+    		'left' => JText::_('LEFT'),
+    		'main' => JText::_('MAIN'),
+    		'right' => JText::_('RIGHT'),
+    		'bottom' => JText::_('BOTTOM'),
+        );
 
-		$lists['pos'] = JHtml::_('select.genericlist', $positions, 'pos', 'class="inputbox"', 'value', 'text', $field->pos );
+		$lists['pos'] = JHtml::_(
+            'select.genericlist', 
+            $positions, 
+            'pos',
+            array(
+                'list.attr' => 'class="inputbox"',
+                'list.select' => $field->pos,
+                'option.key' => null
+            )
+        );
 
 		//clean field data
 		JFilterOutput::objectHTMLSafe( $field, ENT_QUOTES, 'description' );
@@ -102,9 +121,9 @@ class ContactdirectoryViewField extends JView
 		$file 	= JPATH_COMPONENT.DS.'models'.DS.'field.xml';
 		$params = new JParameter( $field->params, $file );
 
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('field',		$field);
-		$this->assignRef('params',		$params);
+		$this->assignRef('lists', $lists);
+		$this->assignRef('field', $field);
+		$this->assignRef('params', $params);
 
 		parent::display($tpl);
 	}

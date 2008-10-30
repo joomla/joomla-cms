@@ -49,7 +49,15 @@ class InstallerViewLanguages extends InstallerViewDefault
 		$select[] = JHtml::_('select.option', '-1', JText::_('All'));
 		$select[] = JHtml::_('select.option', '0', JText::_('Site Languages'));
 		$select[] = JHtml::_('select.option', '1', JText::_('Admin Languages'));
-		$lists->client = JHtml::_('select.genericlist',  $select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $state->get('filter.client'));
+		$lists->client = JHtml::_(
+            'select.genericlist',  
+            $select,
+            'client',
+            array(
+                'list.attr' => 'class="inputbox" size="1" onchange="document.adminForm.submit();"',
+                'list.select' => $state->get('filter.client')
+            )
+        );
 
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);

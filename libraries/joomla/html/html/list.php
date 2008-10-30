@@ -43,7 +43,16 @@ abstract class JHtmlList
 		} catch(JException $e) {
 			$groups = array();
 		}
-		$access = JHtml::_('select.genericlist',   $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
+		$access = JHtml::_(
+			'select.genericlist',
+			$groups,
+			'access',
+			array(
+				'list.attr' => 'class="inputbox" size="3"',
+				'list.select' => intval($row->access),
+				'list.translate' => true
+			)
+		);
 
 		return $access;
 	}
@@ -63,14 +72,21 @@ abstract class JHtmlList
 
 		jimport( 'joomla.filesystem.folder' );
 		$imageFiles = JFolder::files( JPATH_SITE.DS.$directory );
-		$images 	= array(  JHtml::_('select.option',  '', '- '. JText::_( 'Select Image' ) .' -' ) );
+		$images = array(  JHtml::_('select.option',  '', '- '. JText::_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
 			if ( eregi( $extensions, $file ) ) {
-				$images[] = JHtml::_('select.option',  $file );
+				$images[] = JHtml::_('select.option', $file);
 			}
 		}
-		$images = JHtml::_('select.genericlist',  $images, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
-
+		$images = JHtml::_(
+			'select.genericlist',
+			$images,
+			$name,
+			array(
+				'list.attr' => 'class="inputbox" size="1" '. $javascript,
+				'list.select' => $active
+			)
+		);
 		return $images;
 	}
 
@@ -96,7 +112,7 @@ abstract class JHtmlList
 			$order[] = JHtml::_('select.option',  1, JText::_( 'first' ) );
 			return $order;
 		}
-	
+
 		$order[] = JHtml::_('select.option',  0, '0 '. JText::_( 'first' ) );
 		for ($i=0, $n=count( $orders ); $i < $n; $i++) {
 
@@ -116,16 +132,21 @@ abstract class JHtmlList
 	/**
 	* Build the select list for Ordering of a specified Table
 	*/
-	public static function specificordering( &$row, $id, $query, $neworder = 0 )
+	public static function specificordering(&$row, $id, $query, $neworder = 0)
 	{
-		if ( $id ) {
-			$order = JHtml::_('list.genericordering',  $query );
-			$ordering = JHtml::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+		if ($id) {
+			$order = JHtml::_('list.genericordering', $query);
+			$ordering = JHtml::_(
+				'select.genericlist',
+				$order,
+				'ordering',
+				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => intval($row->ordering))
+			);
 		} else {
-			if ( $neworder ) {
-				$text = JText::_( 'descNewItemsFirst' );
+			if ($neworder) {
+				$text = JText::_('descNewItemsFirst');
 			} else {
-				$text = JText::_( 'descNewItemsLast' );
+				$text = JText::_('descNewItemsLast');
 			}
 			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. $text;
 		}
@@ -163,30 +184,53 @@ abstract class JHtmlList
 			$users = $db->loadObjectList();
 		}
 
-		$users = JHtml::_('select.genericlist',   $users, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
-
+		$users = JHtml::_(
+			'select.genericlist',
+			$users,
+			$name,
+			array('list.attr' => 'class="inputbox" size="1" '. $javascript, 'list.select' => $active)
+		);
 		return $users;
 	}
 
 	/**
 	* Select list of positions - generally used for location of images
 	*/
-	public static function positions( $name, $active = NULL, $javascript = NULL, $none = 1, $center = 1, $left = 1, $right = 1, $id = false )
-	{
-		if ( $none ) {
-			$pos[] = JHtml::_('select.option',  '', JText::_( 'None' ) );
+	public static function positions(
+		$name,
+		$active = null,
+		$javascript = null,
+		$none = 1,
+		$center = 1,
+		$left = 1,
+		$right = 1,
+		$id = false
+	) {
+		$pos = array();
+		if ($none ) {
+			$pos[''] = JText::_('None');
 		}
-		if ( $center ) {
-			$pos[] = JHtml::_('select.option',  'center', JText::_( 'Center' ) );
+		if ($center) {
+			$pos['center'] = JText::_('Center');
 		}
-		if ( $left ) {
-			$pos[] = JHtml::_('select.option',  'left', JText::_( 'Left' ) );
+		if ($left) {
+			$pos['left'] = JText::_('Left');
 		}
-		if ( $right ) {
-			$pos[] = JHtml::_('select.option',  'right', JText::_( 'Right' ) );
+		if ($right) {
+			$pos['right'] = JText::_('Right');
 		}
 
-		$positions = JHtml::_('select.genericlist',   $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active, $id );
+		$positions = JHtml::_(
+			'select.genericlist',
+			$pos,
+			$name,
+			array(
+				'id' => $id,
+				'list.attr' => 'class="inputbox" size="1"'. $javascript,
+				'list.select' => $active,
+				'option.key' => null,
+			)
+		);
 
 		return $positions;
 	}
@@ -220,7 +264,15 @@ abstract class JHtmlList
 			}
 		}
 
-		$category = JHtml::_('select.genericlist',   $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
+		$category = JHtml::_(
+			'select.genericlist',
+			$categories,
+			$name,
+			array(
+				'list.attr' => 'class="inputbox" size="'. $size .'" '. $javascript,
+				'list.select' => $active
+			)
+		);
 		return $category;
 	}
 
@@ -249,7 +301,12 @@ abstract class JHtmlList
 			//ignore error
 		}
 
-		$category = JHtml::_('select.genericlist',   $sections, $name, 'class="inputbox" size="1" '. $javascript, 'value', 'text', $active );
+		$category = JHtml::_(
+			'select.genericlist',
+			$sections,
+			$name,
+			array('list.attr' => 'class="inputbox" size="1" '. $javascript, 'list.select' => $active)
+		);
 
 		return $category;
 	}

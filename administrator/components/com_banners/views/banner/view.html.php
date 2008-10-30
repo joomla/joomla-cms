@@ -72,20 +72,28 @@ class BannerViewBanner extends JView
 			return JError::raiseWarning( 500, $db->getErrorMsg() );
 		}
 
-		$clientlist[]		= JHtml::_('select.option',  '0', '- ' . JText::_( 'Select Client' ) . ' -', 'cid', 'name' );
-		$clientlist			= array_merge( $clientlist, $db->loadObjectList() );
-		$lists['cid']		= JHtml::_('select.genericlist',   $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid );
+		$clientlist[] = JHtml::_('select.option',  '0', '- ' . JText::_( 'Select Client' ) . ' -', 'cid', 'name' );
+		$clientlist = array_merge( $clientlist, $db->loadObjectList() );
+		$lists['cid'] = JHtml::_(
+            'select.genericlist',
+            $clientlist,
+            'cid',
+            'class="inputbox" size="1"',
+            'cid',
+            'name',
+            $row->cid
+        );
 
 		// Imagelist
-		$javascript			= 'onchange="changeDisplayImage();"';
-		$directory			= '/images/banners';
-		$lists['imageurl']	= JHtml::_('list.images',  'imageurl', $row->imageurl, $javascript, $directory );
+		$javascript = 'onchange="changeDisplayImage();"';
+		$directory = '/images/banners';
+		$lists['imageurl'] = JHtml::_('list.images',  'imageurl', $row->imageurl, $javascript, $directory );
 
 		// build list of categories
-		$lists['catid']		= JHtml::_('list.category',  'catid', 'com_banner', intval( $row->catid ) );
+		$lists['catid'] = JHtml::_('list.category',  'catid', 'com_banner', intval( $row->catid ) );
 
 		// sticky
-		$lists['sticky']	= JHtml::_('select.booleanlist',  'sticky', 'class="inputbox"', $row->sticky );
+		$lists['sticky'] = JHtml::_('select.booleanlist',  'sticky', 'class="inputbox"', $row->sticky );
 
 		// published
 		$lists['showBanner'] = JHtml::_('select.booleanlist',  'showBanner', '', $row->showBanner );
@@ -99,9 +107,9 @@ class BannerViewBanner extends JView
 		//clean data
 		JFilterOutput::objectHTMLSafe( $row, ENT_QUOTES, 'custombannercode' );
 
-		$this->assignRef('row',			$row);
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('order_query',	$order_query);
+		$this->assignRef('row', $row);
+		$this->assignRef('lists', $lists);
+		$this->assignRef('order_query', $order_query);
 
 		parent::display($tpl);
 	}

@@ -40,7 +40,12 @@ abstract class JHtmlMenu
 			. ' AND published != -2'
 			. ' ORDER BY ordering';
 			$order = JHtml::_('list.genericordering',  $query );
-			$ordering = JHtml::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+			$ordering = JHtml::_(
+				'select.genericlist',
+				$order,
+				'ordering',
+				array('list.attr' => 'class="inputbox" size="1"', 'list.select' => intval($row->ordering))
+			);
 		}
 		else
 		{

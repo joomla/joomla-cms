@@ -34,7 +34,15 @@ class JHtmlFilter
 		$db->setQuery( $query );
 		$assigned[]		= JHtml::_('select.option',  '0', '- '. JText::_( 'Select Template' ) .' -' );
 		$assigned 		= array_merge( $assigned, $db->loadObjectList() );
-		return JHtml::_('select.genericlist',   $assigned, 'filter_assigned', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected );
+		return JHtml::_(
+			'select.genericlist',
+			$assigned,
+			'filter_assigned',
+			array(
+				'list.attr' => 'class="inputbox" size="1" onchange="this.form.submit()"',
+				'list.select' => $selected
+			)
+		);
 	}
 
 	function position($client, $selected = null)
@@ -51,7 +59,15 @@ class JHtmlFilter
 		$positions[] = JHtml::_('select.option',  '0', '- '. JText::_( 'Select Position' ) .' -' );
 		$db->setQuery( $query );
 		$positions = array_merge( $positions, $db->loadObjectList() );
-		return JHtml::_('select.genericlist',   $positions, 'filter_position', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected );
+		return JHtml::_(
+			'select.genericlist',
+			$positions,
+			'filter_position',
+			array(
+				'list.attr' => 'class="inputbox" size="1" onchange="this.form.submit()"',
+				'list.select' => $selected
+			)
+		);
 	}
 
 	function type($client, $selected = null)
@@ -68,6 +84,14 @@ class JHtmlFilter
 		$db->setQuery( $query );
 		$types[] 		= JHtml::_('select.option',  '0', '- '. JText::_( 'Select Type' ) .' -' );
 		$types 			= array_merge( $types, $db->loadObjectList() );
-		return JHtml::_('select.genericlist',   $types, 'filter_type', 'class="inputbox" size="1" onchange="this.form.submit()"', 'value', 'text', $selected );
+		return JHtml::_(
+			'select.genericlist',
+			$types,
+			'filter_type',
+			array(
+				'list.attr' => 'class="inputbox" size="1" onchange="this.form.submit()"',
+				'list.select' => $selected
+			)
+		);
 	}
 }

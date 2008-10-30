@@ -78,7 +78,7 @@ class PluginsViewPlugins extends JView
 
 		$where[] = 'type = "plugin"';
 		$where[] = 'state > -1';
-					
+
 		$where 		= ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
 		$orderby 	= ' ORDER BY '.$filter_order .' '. $filter_order_Dir .', p.ordering ASC';
 
@@ -126,12 +126,20 @@ class PluginsViewPlugins extends JView
 		$types[] = JHtml::_('select.option',  1, '- '. JText::_( 'Select Type' ) .' -' );
 		$db->setQuery( $query );
 		try {
-			$types 			= array_merge( $types, $db->loadObjectList() );
+			$types = array_merge( $types, $db->loadObjectList() );
 		} catch(JException $e) {
 			echo $db->stderr();
 			return false;
 		}
-		$lists['type']	= JHtml::_('select.genericlist',   $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
+		$lists['type']	= JHtml::_(
+			'select.genericlist',
+			$types,
+			'filter_type',
+			array(
+				'list.attr' => 'class="inputbox" size="1" onchange="document.adminForm.submit( );"',
+				'list.select' => $filter_type
+			)
+		);
 
 		// state filter
 		$lists['state']	= JHtml::_('grid.state',  $filter_state );

@@ -48,6 +48,14 @@ class JHtmlContentGrid
 		$categories[] = JHtml::_('select.option', '0', '- '.JText::_('Select Category').' -');
 		$db->setQuery($query);
 		$categories = array_merge($categories, $db->loadObjectList());
-		return JHtml::_('select.genericlist',  $categories, $name, 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_catid);
+		return JHtml::_(
+			'select.genericlist',
+			$categories,
+			$name,
+			array(
+				'list.attr' => 'class="inputbox" size="1" onchange="document.adminForm.submit( );"',
+				'list.selected' => $filter_catid
+			)
+		);
 	}
 }

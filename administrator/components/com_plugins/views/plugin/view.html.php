@@ -87,7 +87,15 @@ class PluginsViewPlugin extends JView
 					. ' ORDER BY ordering'
 				;
 				$order = JHtml::_('list.genericordering',  $query );
-				$lists['ordering'] = JHtml::_('select.genericlist',   $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
+				$lists['ordering'] = JHtml::_(
+					'select.genericlist',
+					$order,
+					'ordering',
+					array(
+						'list.attr' => 'class="inputbox" size="1"',
+						'list.select' => intval($row->ordering)
+					)
+				);
 			} else {
 				$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
 			}

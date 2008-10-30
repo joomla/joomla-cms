@@ -28,13 +28,13 @@ class MenusViewList extends JView
 	protected $items;
 	protected $pagination;
 	protected $lists;
-	protected $user;		
+	protected $user;
 	protected $menutype;
 	protected $ordering;
 	protected $limitstart = 0;
 	protected $menutypes;
 	protected $MenuList;
-	
+
 	function display($tpl=null)
 	{
 		global $mainframe;
@@ -118,7 +118,12 @@ class MenusViewList extends JView
 		foreach ( $menuTypes as $menuType ) {
 			$menu[] = JHtml::_('select.option',  $menuType, $menuType );
 		}
-		$MenuList = JHtml::_('select.genericlist',   $menu, 'menu', 'class="inputbox" size="10"', 'value', 'text', null );
+		$MenuList = JHtml::_(
+			'select.genericlist',
+			$menu,
+			'menu',
+			array('list.attr' => 'class="inputbox" size="10"')
+		);
 
 		$items = &$this->get('ItemsFromRequest');
 
@@ -147,14 +152,19 @@ class MenusViewList extends JView
 		$document = & JFactory::getDocument();
 		$document->setTitle('Copy Menu Items');
 
-		$menutype 	= $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu', 'string' );
+		$menutype = $mainframe->getUserStateFromRequest( 'com_menus.menutype', 'menutype', 'mainmenu', 'string' );
 
 		// Build the menutypes select list
 		$menuTypes 	= MenusHelper::getMenuTypes();
 		foreach ( $menuTypes as $menuType ) {
-			$menu[] = JHtml::_('select.option',  $menuType, $menuType );
+			$menu[$menuType] = $menuType;
 		}
-		$MenuList = JHtml::_('select.genericlist',   $menu, 'menu', 'class="inputbox" size="10"', 'value', 'text', null );
+		$MenuList = JHtml::_(
+			'select.genericlist',
+			$menu,
+			'menu',
+			array('list.attr' => 'class="inputbox" size="10"', 'option.key' => null)
+		);
 
 		$items = &$this->get('ItemsFromRequest');
 

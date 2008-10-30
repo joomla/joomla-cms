@@ -144,8 +144,8 @@ class LocaliseController extends JController
 		$cl_split = preg_split("/[^a-z]/i",$options['client_lang']);
 		$options['client_lang'] = strtoupper($cl_split[0]) . '_' . strtolower($cl_split[1]) . '-' . strtoupper($cl_split[2]);
 		if (!isset($options['languages'][$options['client_lang']])) {
-            $options['client_lang'] = key($options['languages']);
-        }
+			$options['client_lang'] = key($options['languages']);
+		}
 
 		// set client variables
 		$options['client'] = $options['client_lang']{0};
@@ -178,10 +178,10 @@ class LocaliseController extends JController
 
 		// set language variables
 		$options['lang'] = substr($options['client_lang'],2);
-        $options['langLen'] = strlen($options['lang']);
+		$options['langLen'] = strlen($options['lang']);
 		$options['langName'] = $options['languages'][$options['client_lang']];
 		$options['langPath'] 	= JLanguage::getLanguagePath($options['basePath'], $options['lang']);
-        $options['refLangLen'] = strlen($options['refLang']);
+		$options['refLangLen'] = strlen($options['refLang']);
 		$options['refLangPath'] = JLanguage::getLanguagePath($options['basePath'], $options['refLang']);
 
 		// set reference language variables
@@ -759,7 +759,7 @@ class LocaliseController extends JController
 			$tag_split = preg_split("/[^a-z]/i", JRequest::getVar('tag','','','string'));
 			$tag = strtolower($tag_split[0]) . '-' . strtoupper($tag_split[1]);
 			print_r($tag);
-            if (!preg_match('/^[a-z]{2,3}-[A-Z]{2}$/',$tag)) {
+			if (!preg_match('/^[a-z]{2,3}-[A-Z]{2}$/',$tag)) {
 				$options['field_error_list']['tag'] = JText::_('Tag Desc');
 				if ($options['task']!='addxml') {
 					$options['task'] = 'editxml';
@@ -825,25 +825,25 @@ class LocaliseController extends JController
 				// copy any lowercase keys to mixed case keys
 				// remove the lowercase key afterwards
 				foreach ($editData as $k=>$v) {
-				    if ($k!='metadata') {
-				        $k_lc = strtolower($k);
-    				    if ($k_lc != $k) {
-    				        $editData[$k] = $editData[$k_lc];
-    				        unset($editData[$k_lc]);
-                        }
-				    } else {
-            			foreach ($editData['metadata'] as $k=>$v) {
-        				    $k_lc = strtolower($k);
-        				    if ($k_lc != $k) {
-        				        $editData['metadata'][$k] = $editData['metadata'][$k_lc];
-        				        unset($editData['metadata'][$k_lc]);
-                            }
-        	            }
-                    }
+					if ($k!='metadata') {
+						$k_lc = strtolower($k);
+						if ($k_lc != $k) {
+							$editData[$k] = $editData[$k_lc];
+							unset($editData[$k_lc]);
+						}
+					} else {
+						foreach ($editData['metadata'] as $k=>$v) {
+							$k_lc = strtolower($k);
+							if ($k_lc != $k) {
+								$editData['metadata'][$k] = $editData['metadata'][$k_lc];
+								unset($editData['metadata'][$k_lc]);
+							}
+						}
+					}
 				}
-                // ensure that metadata and main body values match
+				// ensure that metadata and main body values match
 				foreach ($editData['metadata'] as $k=>$v) {
-        			if (isset($editData[$k])) {
+					if (isset($editData[$k])) {
 						$editData[$k] = $v;
 					}
 				}
@@ -968,44 +968,44 @@ class LocaliseController extends JController
 	*/
 	function setDefault()
 	{
-        // variables
+		// variables
 		$app	= &JFactory::getApplication();
-    	$params = JComponentHelper::getParams('com_languages');
+		$params = JComponentHelper::getParams('com_languages');
 
-        $options =& $this->getOptions();
-        if ($options['client']=='A') {
-            $client = 'administrator';
-        } else if ($options['client']=='S') {
-            $client = 'site';
-        } else if ($options['client']=='I') {
-            $client = 'installation';
-        } else {
-            return false;
-        }
+		$options =& $this->getOptions();
+		if ($options['client']=='A') {
+			$client = 'administrator';
+		} else if ($options['client']=='S') {
+			$client = 'site';
+		} else if ($options['client']=='I') {
+			$client = 'installation';
+		} else {
+			return false;
+		}
 		$lang = $options['lang'];
 
-    	// check for request forgeries.
-    	$token = JUtility::getToken();
-    	if (!JRequest::getInt($token, 0, 'post')) {
-    		JError::raiseError(403, 'Request Forbidden');
-    	}
+		// check for request forgeries.
+		$token = JUtility::getToken();
+		if (!JRequest::getInt($token, 0, 'post')) {
+			JError::raiseError(403, 'Request Forbidden');
+		}
 
-    	// set variables
-    	$params->set($client, $lang);
-    	$table =& JTable::getInstance('component');
-	    $table->loadByOption('com_languages');
-    	$table->params = $params->toString();
+		// set variables
+		$params->set($client, $lang);
+		$table =& JTable::getInstance('component');
+		$table->loadByOption('com_languages');
+		$table->params = $params->toString();
 
-    	// save the changes
-        if (!$table->check()) {
-    		JError::raiseWarning(500, $table->getError());
-    		$write = false;
-        } else if (!$table->store()) {
-    		JError::raiseWarning(500, $table->getError());
-    		$write = false;
-    	} else {
-            $write = true;
-        }
+		// save the changes
+		if (!$table->check()) {
+			JError::raiseWarning(500, $table->getError());
+			$write = false;
+		} else if (!$table->store()) {
+			JError::raiseWarning(500, $table->getError());
+			$write = false;
+		} else {
+			$write = true;
+		}
 
 		// Redirect on success/failure
 		if ($write) {
@@ -1013,7 +1013,7 @@ class LocaliseController extends JController
 		} else {
 			$app->redirect('index.php?option=com_localise', JText::_('ERRORCONFIGWRITEABLE'));
 		}
-    }
+	}
 
 	/**
 	* Show a List of INI Translation Files for a given Client-Language
@@ -1025,26 +1025,32 @@ class LocaliseController extends JController
 		jimport('joomla.filesystem.file');
 
 		// variables
-		$app		= &JFactory::getApplication();
-		$options	= &$this->getOptions();
-		$user		= &JFactory::getUser();
-		$userid		= $user->get('id',0);
+		$app = &JFactory::getApplication();
+		$options = &$this->getOptions();
+		$user = &JFactory::getUser();
+		$userid = $user->get('id',0);
 
 		// build client_lang select box
-		foreach ($options['languages'] as $k=>$v) {
-			$sel_lang[] = JHtml::_('select.option', $k, $v);
-		}
-		$lists['client_lang'] = JHtml::_('select.genericlist', $sel_lang, 'client_lang', 'class="inputbox" size="1" onchange="document.adminForm.limitstart.value=0;document.adminForm.submit();"', 'value', 'text', $options['client_lang']);
+		$lists['client_lang'] = JHtml::_(
+			'select.genericlist',
+			$options['languages'],
+			'client_lang',
+			array(
+				'list.attr' => 'class="inputbox" size="1" onchange="document.adminForm.limitstart.value=0;document.adminForm.submit();"',
+				'list.select' => $options['client_lang'],
+				'option.key' => null
+			)
+		);
 
 		// validate all the filters (specific to this view)
 		$allowed = array(
-			'client_lang'			=> '',
-			'filter_search' 		=> '',
-			'filter_state' 			=> '*|U|P',
-			'filter_status' 		=> '*|NS|IP|C',
-			'filter_order' 			=> 'name|status|strings|version|datetime|author',
-			'filter_order_Dir' 		=> 'asc|desc',
-			'limit' 				=> $app->getCfg('list_limit')
+			'client_lang' => '',
+			'filter_search' => '',
+			'filter_state' => '*|U|P',
+			'filter_status' => '*|NS|IP|C',
+			'filter_order' => 'name|status|strings|version|datetime|author',
+			'filter_order_Dir' => 'asc|desc',
+			'limit' => $app->getCfg('list_limit')
 		);
 		$filters = $this->_buildfilters($allowed, 'com_localise.files.');
 
@@ -1074,23 +1080,45 @@ class LocaliseController extends JController
 
 		// build the filter_state select box
 		$extra = 'class="inputbox" size="1" onchange="document.adminForm.submit();"';
-		$sel_state[] = JHtml::_('select.option',  '*', JText::_('Any State'));
-		$sel_state[] = JHtml::_('select.option',  'P', JText::_('Published'));
-		$sel_state[] = JHtml::_('select.option',  'U', JText::_('Not Published'));
-		$lists['state'] = JHtml::_('select.genericlist',  $sel_state, 'filter_state', $extra, 'value', 'text', $options['filter_state']);
+		$sel_state = array(
+			'*' => JText::_('Any State'),
+			'P' => JText::_('Published'),
+			'U' => JText::_('Not Published')
+		);
+		$lists['state'] = JHtml::_(
+			'select.genericlist',
+			$sel_state,
+			'filter_state',
+			array(
+				'list.attr' => $extra,
+				'list.select' => $options['filter_state'],
+				'option.key' => null
+			)
+		);
 
 		// build the filter_status select box
-		$sel_status[] = JHtml::_('select.option',  '*', JText::_('Any Status'));
-		$sel_status[] = JHtml::_('select.option',  'NS', JText::_('Not Started'));
-		$sel_status[] = JHtml::_('select.option',  'IP', JText::_('In Progress'));
-		$sel_status[] = JHtml::_('select.option',  'C', JText::_('Complete'));
+		$sel_status = array(
+			'*' => JText::_('Any Status'),
+			'NS' => JText::_('Not Started'),
+			'IP' => JText::_('In Progress'),
+			'C' => JText::_('Complete'),
+		);
 		if ($options['isReference']) {
 			$options['filter_status'] = '*';
 		}
 		if ($options['lang'] == $options['refLang']) {
 			$extra .= ' disabled';
 		}
-		$lists['status'] = JHtml::_('select.genericlist',  $sel_status, 'filter_status', $extra, 'value', 'text', $options['filter_status']);
+		$lists['status'] = JHtml::_(
+			'select.genericlist',
+			$sel_status,
+			'filter_status',
+			array(
+				'list.attr' => $extra,
+				'list.select' => $options['filter_status'],
+				'option.key' => null
+			)
+		);
 
 		// create objects for loading data
 		$refLangLoader = new JLanguage($options['refLang']);
@@ -1129,7 +1157,7 @@ class LocaliseController extends JController
 			// in some cases there may not be a reference language INI file
 			if (isset($v['refLang'])) {
 				$refContent = file($options['refLangPath'].DS.$v['refLang']);
-                $refFileName = (substr($v['refLang'],0,3)=='xx.') ?  substr($v['refLang'],3) : $v['refLang'];
+				$refFileName = (substr($v['refLang'],0,3)=='xx.') ?  substr($v['refLang'],3) : $v['refLang'];
 				$fileName = $options['lang'] . substr($refFileName,$options['refLangLen']);
 				$refStrings = array();
 				$refMeta  = TranslationsHelper::getINIMeta($refContent, $refStrings);
@@ -1221,11 +1249,11 @@ class LocaliseController extends JController
 			// $refContent and $fileContent are arrays containing each line of the reference and translation file
 			if ($options['dosearch']) {
 				$row->searchfound_ref = preg_match_all($options['dosearch'], implode("\n",$refContent), $arr);
-                if (! $options['isReference']) {
-                    $row->searchfound_tran = preg_match_all($options['dosearch'], implode("\n",$fileContent), $arr);
-                } else {
-                    $row->searchfound_tran = $row->searchfound_ref;
-                }
+				if (! $options['isReference']) {
+					$row->searchfound_tran = preg_match_all($options['dosearch'], implode("\n",$fileContent), $arr);
+				} else {
+					$row->searchfound_tran = $row->searchfound_ref;
+				}
 				$row->searchfound = $row->searchfound_ref + $row->searchfound_tran;
 			}
 
@@ -1373,7 +1401,7 @@ class LocaliseController extends JController
 
 			// load and add XML attributes
 			// force the tag
-		    $data = TranslationsHelper::getXMLMeta($path.DS.$row->filename);
+			$data = TranslationsHelper::getXMLMeta($path.DS.$row->filename);
 			$data['tag'] = $row->tag;
  			foreach($data as $k2=>$v2) {
 				$row->$k2 = $v2;
@@ -1468,17 +1496,17 @@ class LocaliseController extends JController
 			// build the XML install file
 			$install = '<?xml version="1.0" encoding="utf-8" ?>
 <install version="1.5" client="' . $xml['client'] .'" type="language">
-    <name>' . $xml['name'] .'</name>
-    <tag>' . $xml['tag'] .'</tag>
-    <version>' . $xml['version'] .'</version>
-    <creationDate>' . $xml['creationDate'] .'</creationDate>
-    <author>' . $xml['author'] .'</author>
-    <authoremail>' . $xml['authorEmail'] .'</authoremail>
-    <authorurl>' . $xml['authorUrl'] .'</authorurl>
-    <copyright>' . $xml['copyright'] .'</copyright>
-    <license>' . $xml['license'] .'</license>
-    <description>' . $xml['description'] .'</description>
-    <files>';
+	<name>' . $xml['name'] .'</name>
+	<tag>' . $xml['tag'] .'</tag>
+	<version>' . $xml['version'] .'</version>
+	<creationDate>' . $xml['creationDate'] .'</creationDate>
+	<author>' . $xml['author'] .'</author>
+	<authoremail>' . $xml['authorEmail'] .'</authoremail>
+	<authorurl>' . $xml['authorUrl'] .'</authorurl>
+	<copyright>' . $xml['copyright'] .'</copyright>
+	<license>' . $xml['license'] .'</license>
+	<description>' . $xml['description'] .'</description>
+	<files>';
 	foreach ($files as $k=>$v) {
 		$install .= '
 		<filename>' . $v['name'] . '</filename>';

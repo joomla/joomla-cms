@@ -67,7 +67,12 @@ class ContentViewCopyselect extends JView
 		$rows	= $db->loadObjectList();
 		array_unshift($rows, $uncat);
 		// build the html select list
-		$sectCatList = JHtml::_('select.genericlist', $rows, 'sectcat', 'class="inputbox" size="10"', 'value', 'text', NULL);
+		$sectCatList = JHtml::_(
+			'select.genericlist',
+			$rows,
+			'sectcat',
+			array('list.attr' => 'class="inputbox" size="10"')
+		);
 
 		$this->assignRef('option',		$option);
 		$this->assignRef('cid',			$cid);
