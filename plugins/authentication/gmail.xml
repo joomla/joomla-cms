@@ -12,5 +12,7 @@
 	<files>
 		<filename plugin="gmail">gmail.php</filename>
 	</files>
-	<params />
+	<params>
+		<param name="suffix" type="text" size="20" default="" label="Username Suffix" description="USERNAMESUFFIX" />
+	</params>
 </install>

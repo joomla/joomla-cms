@@ -98,7 +98,7 @@ class JStream extends JObject {
 	 * @param bool Use a prefix to open the file
 	 * @param bool Filename is a relative path (if false, strips JPATH_ROOT to make it relative) 
 	 */
-	function open($filename, $mode='r', $use_include_path=false, $context=null, $use_prefix=true, $relative=false) {
+	function open($filename, $mode='r', $use_include_path=false, $context=null, $use_prefix=true, $relative=false, $detectprocessingmode=true) {
 		$filename = $this->_getFilename($filename, $mode, $use_prefix, $relative);
 		if(!$filename) {
 			$this->setError(JText::_('No filename set'));
@@ -116,7 +116,24 @@ class JStream extends JObject {
 			}
 			// we have a scheme! force the method to be f
 			$this->processingmethod = 'f';
-			
+		} else if($detectprocessingmode) {
+			$ext = strtolower(JFile::getExt($this->filename));
+			switch ($ext)
+			{
+				case 'tgz'  :
+				case 'gz'   :
+				case 'gzip' :
+					$this->processingmethod = 'gz';
+					break;
+				case 'tbz2' :
+				case 'bz2'  :	
+				case 'bzip2':
+					$this->processingmethod = 'bz';
+					break;
+				default:
+					$this->processingmethod = 'f';
+					break;
+			}
 		}
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown whilst opening a file';
@@ -261,6 +278,37 @@ class JStream extends JObject {
 			}
 		} else {
 			$this->_filesize = $res;
+			$retval = $res;
+		}
+		// restore error tracking to what it was before
+		ini_set('track_errors',$track_errors);
+		// return the result
+		return $retval;
+	}
+	
+	function gets($length=0) {
+		if(!$this->_fh) {
+			$this->setError(JText::_('File not open'));
+			return false;
+		}
+		$retval = false;
+		// Capture PHP errors
+		$php_errormsg = 'Error Unknown';
+		$track_errors = ini_get('track_errors');
+		ini_set('track_errors', true);
+		switch($this->processingmethod) {
+			case 'gz':
+				$res = $length ? gzgets($this->_fh, $length) : gzgets($this->_fh);
+				break;
+			case 'bz':				
+			case 'f':
+			default:
+				$res = $length ? fgets($this->_fh, $length) : fgets($this->_fh);
+				break;
+		}
+		if(!$res) {
+			$this->setError($php_errormsg);			
+		} else {
 			$retval = $res;
 		}
 		// restore error tracking to what it was before

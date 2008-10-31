@@ -152,7 +152,9 @@ class JStdClass
 		if (is_array($properties))
 		{
 			foreach ($properties as $k => $v) {
-				$this->set($k, $v); // use the set function which might be overriden
+				try {
+					$this->set($k, $v); // use the set function which might be overriden
+				} catch (JException $e) {} // ignore undefined variable errors
 			}
 
 			return true;

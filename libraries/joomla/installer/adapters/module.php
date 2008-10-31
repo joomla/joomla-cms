@@ -520,8 +520,7 @@ class JInstallerModule extends JAdapterInstance
 		// Remove other files
 		$root =& $manifest->document;
 		$this->parent->removeFiles($root->getElementByPath('media'));
-		$this->parent->removeFiles($root->getElementByPath('languages'));
-		$this->parent->removeFiles($root->getElementByPath('administration/languages'), 1);
+		$this->parent->removeFiles($root->getElementByPath('languages'), $row->client_id);
 
 		// Lets delete all the module copies for the type we are uninstalling
 		$query = 'SELECT `id`' .

@@ -63,7 +63,20 @@ abstract class JApplication extends JObject
 	 */
 	public $scope = null;
 
+	/**
+	 * The time the request was made
+	 * 
+	 * @var		date
+	 * @access 	public
+	 */
 	public $requestTime = null;
+	/**
+	 * The time the request was made as Unix timestamp
+	 * 
+	 * @var 	integer
+	 * @access 	public
+	 * @since 	1.6
+	 */
 	public $startTime = null;
 
 	/**

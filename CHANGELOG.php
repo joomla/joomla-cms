@@ -42,6 +42,15 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+31-Oct-2008 Sam Moffatt
+ ^ GMail plugin updated to fix issue with verifying peers
+ + GMail plugin now supports suffixes to ensure that logins have a strict suffix
+ # [#13388] Admin modules xml does not uninstall ini files
+ + Enabled JStream::open to auto detect file compression types (gz, bz2 or none) and added JStream::gets
+ ! JStream::open when using a web page will always ignore compression
+ + Added JDataLoad and JDataLoadSQL
+ # Updated JStdClass::setProperties to ignore undefined variables errors for extraneous array keys
+
 29-Oct-2008 Alan Langford
  ^ Complete JHTML -> JHtml refactor.
  ^ Updated a large number of calls to JHtml::_('select.genericlist'...
