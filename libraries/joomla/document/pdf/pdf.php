@@ -244,4 +244,24 @@ class JDocumentPDF extends JDocument
 	{
 
 	}
+	
+	/**
+	 * Get the document head data
+	 *
+	 * @access	public
+	 * @return	array	The document head data in array form
+	 */
+	public function getHeadData(){
+		return false;
+	}
+
+	/**
+	 * Set the document head data
+	 *
+	 * @access	public
+	 * @param	array	$data	The document head data in array form
+	 */
+	public function setHeadData($data) {
+		return false;
+	}	
 }

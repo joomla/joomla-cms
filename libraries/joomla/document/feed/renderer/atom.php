@@ -46,7 +46,7 @@ defined('JPATH_BASE') or die();
 	 * @access public
 	 * @return string
 	 */
-	public function render()
+	public function render($name, $params = array(), $content = null)
 	{
 		$now	=& JFactory::getDate();
 		$data	=& $this->_doc;

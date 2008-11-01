@@ -230,7 +230,7 @@ class JDocumentFeed extends JDocument
 		}
 
 		// Render the feed
-		$data .= $renderer->render();
+		$data .= $renderer->render(null);
 
 		parent::render();
 		return $data;
@@ -246,6 +246,26 @@ class JDocumentFeed extends JDocument
 	{
 		$this->items[] = $item;
 	}
+	
+	/**
+	 * Get the document head data
+	 *
+	 * @access	public
+	 * @return	array	The document head data in array form
+	 */
+	public function getHeadData(){
+		return false;
+	}
+
+	/**
+	 * Set the document head data
+	 *
+	 * @access	public
+	 * @param	array	$data	The document head data in array form
+	 */
+	public function setHeadData($data) {
+		return false;
+	}	
 }
 
 /**
@@ -307,6 +327,15 @@ class JFeedItem extends JObject
 	 */
 	 public $authorEmail;
 
+	/**
+	 * Date element
+	 *
+	 * optional
+	 *
+	 * @var		string
+	 * @access	public
+	 */
+	 public $date;
 
 	/**
 	 * Category element
