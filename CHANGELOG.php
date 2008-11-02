@@ -42,6 +42,11 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+01-Nov-2008 Sam Moffatt
+ ^ Made GMail verify peer a configurable option
+ + Added a few missing tables to 1.5 to 1.6 upgrade script
+ # Fixed issue where administrator login module wasn't receiving its params.
+
 01-Nov-2008 Ercan Ozkaya
 + XML Document Type
 # Missing abstract methods in various document types

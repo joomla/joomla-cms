@@ -31,7 +31,7 @@ class LoginViewLogin extends JView
 
 	public function display($tpl = null)
 	{
-		$module = & JModuleHelper::getModule('mod_login');
+		$module = & JModuleHelper::getModule('login');
 
 		$this->assignRef('module',		$module);
 

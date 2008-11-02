@@ -44,7 +44,7 @@ class plgAuthenticationGMail extends JPlugin
 		{
 			if(strlen($credentials['username']) && strlen($credentials['password']))
 			{
-				$suffix = $params->get('suffix', '');
+				$suffix = $this->params->get('suffix', '');
 				if($suffix) {
 					$offset = strpos($credentials['username'], '@');
 					if($offset) {
@@ -57,7 +57,7 @@ class plgAuthenticationGMail extends JPlugin
 				$curl = curl_init('https://mail.google.com/mail/feed/atom');
 				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 				//curl_setopt($curl, CURLOPT_HEADER, 1);
-				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->params->get('vertifypeer', 1));
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
 				curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'].':'.$credentials['password']);
 				$result = curl_exec($curl);

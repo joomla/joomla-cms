@@ -348,3 +348,65 @@ INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_content', 'article.publish', 0, '
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_content', 'article.view', 0, 'View Articles', 0, 3, 'ACO Content View Articles Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_categories', 'category.view', 0, 'View Categories', 0, 3, 'ACO Categories View Categories Desc');
 INSERT INTO `jos_core_acl_aco` VALUES (0, 'com_sections', 'section.view', 0, 'View Sections', 0, 3, 'ACO Sections View Sections Desc');
+
+
+# Update Sites
+CREATE TABLE  `jos_updates` (
+  `update_id` int(11) NOT NULL auto_increment,
+  `update_site_id` int(11) default '0',
+  `extension_id` int(11) default '0',
+  `categoryid` int(11) default '0',
+  `name` varchar(100) default '',
+  `description` text,
+  `element` varchar(100) default '',
+  `type` varchar(20) default '',
+  `folder` varchar(20) default '',
+  `client_id` tinyint(3) default '0',
+  `version` varchar(10) default '',
+  `data` text,
+  `detailsurl` text,
+  PRIMARY KEY  (`update_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Available Updates';
+
+CREATE TABLE  `jos_update_sites` (
+  `update_site_id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) default '',
+  `type` varchar(20) default '',
+  `location` text,
+  `enabled` int(11) default '0',
+  PRIMARY KEY  (`update_site_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Sites';
+
+CREATE TABLE `jos_update_sites_extensions` (
+  `update_site_id` INT DEFAULT 0,
+  `extension_id` INT DEFAULT 0,
+  INDEX `newindex`(`update_site_id`, `extension_id`)
+) ENGINE = MYISAM CHARACTER SET utf8 COMMENT = 'Links extensions to update sites';
+
+CREATE TABLE  `jos_update_categories` (
+  `categoryid` int(11) NOT NULL auto_increment,
+  `name` varchar(20) default '',
+  `description` text,
+  `parent` int(11) default '0',
+  `updatesite` int(11) default '0',
+  PRIMARY KEY  (`categoryid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Categories';
+
+
+CREATE TABLE  `jos_tasks` (
+  `taskid` int(10) unsigned NOT NULL auto_increment,
+  `tasksetid` int(10) unsigned NOT NULL default '0',
+  `data` text,
+  `offset` int(11) default '0',
+  `total` int(11) default '0',
+  PRIMARY KEY  (`taskid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Individual tasks';
+
+CREATE TABLE  `jos_tasksets` (
+  `tasksetid` int(10) unsigned NOT NULL auto_increment,
+  `taskname` varchar(100) default '',
+  `extensionid` int(10) unsigned default '0',
+  `executionpage` text,
+  `landingpage` text,
+  PRIMARY KEY  (`tasksetid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Task Sets';
