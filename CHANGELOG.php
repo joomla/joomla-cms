@@ -42,6 +42,13 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+
+03-Nov-2008 Sam Moffatt
+ # Fixed bug with JLoaderSql for long lines (setting not appending lines)
+ ^ Preparing JLoaderSql and JBackupSql to integrate with task system (added yield calls)
+ ^ Tweaks to JBackupSql (createtable to create_table, extra comments) 
+ ^ Changed administrator router to closer match site router 
+
 01-Nov-2008 Sam Moffatt
  ^ Made GMail verify peer a configurable option
  + Added a few missing tables to 1.5 to 1.6 upgrade script

@@ -5,14 +5,15 @@ defined('JPATH_BASE') or die();
 jimport('joomla.base.adapterinstance');
 
 class JBackupSql extends JAdapterInstance {
-	
+	protected $yield_amount = 100; // yield every 100 queries
 	
 	/**
 	 * Run a back up with a set of tables
 	 * @param $options['tables'] The tables to backup; if blank all tables
 	 * @param $options['destination'] Destination folder to write files too; required
 	 * @param $options['filename'] Backup filename; default is name of data.sql
-	 * @param $options['createtable'] Dump out create table commands as well
+	 * @param $options['create_table'] Dump out create table commands as well
+	 * @param $options['replace_prefix'] Replace the DB prefix with #__
 	 * @return bool Result of backups, true on success, false on failure
 	 */
 	public function backup($options=Array()) {
@@ -20,8 +21,8 @@ class JBackupSql extends JAdapterInstance {
 		if(!is_array($options)) return false; // if we don't have an array bail 
 		if(!isset($options['destination'])) return false; // if we don't have a dest bail
 		if(!isset($options['filename'])) $options['filename'] = 'data.sql'; // and this
-		if(!isset($options['replace_prefix'])) $options['replace_prefix'] = 1; // and this
-		if(!isset($options['createtable'])) $options['createtable'] = 1; // append create table
+		if(!isset($options['replace_prefix'])) $options['replace_prefix'] = 0; // replace jos_ with #__
+		if(!isset($options['create_table'])) $options['create_table'] = 1; // append create table
 		if(!isset($options['droptable'])) $options['droptable'] = 1; // append drop table
 		$db =& JFactory::getDBO();
 		$db->setQuery('SET sql_quote_show_create = 1;');
@@ -42,17 +43,18 @@ class JBackupSql extends JAdapterInstance {
 		}
 		$output =& JFactory::getStream();
 		$filename = $options['destination'].DS.$options['filename'];
+		// TODO: Change this to 'a' when we resume a task
 		if(!$output->open($filename,'w')) return false;
 		
 		foreach($options['tables'] as $table) {
 			// if the table isn't in our table list ignore it
 			if(!in_array($table, $tables)) continue;
 			
-			if($options['createtable']) {
+			if($options['create_table']) {
 				if($options['droptable']) {
-					$line  = "DROP TABLE IF EXISTS ";
+					$line  = "DROP TABLE IF EXISTS `";
 					$line .= ($options['replace_prefix'] ? str_replace($prefix,'#__', $table) : $table);
-					$line .= ";\n";
+					$line .= "`;\n";
 					$output->write($line);
 				}
 				$db->setQuery('SHOW CREATE TABLE '. $table);
@@ -74,6 +76,7 @@ class JBackupSql extends JAdapterInstance {
 					$line .= ");\n";
 					$output->write($line);
 					$count++;
+					if($this->_task && !($count % $this->yield_amount))  $this->_task->yield(); // check if refresh/reload is required
 				} while(($rows - $count) > 0);
 			}
 			$nl = "\n\n\n";
@@ -90,7 +93,6 @@ class JBackupSql extends JAdapterInstance {
 	 * @param $options['prefix'] Table prefix of the backups
 	 * @return bool Result of the restore: true on success, false on failure
 	 */
-	// TODO: This function
 	public function restore($options=Array()) {
 		// Do some simple param checks and settings
 		if(!is_array($options)) return false; // if we don't have an array bail 

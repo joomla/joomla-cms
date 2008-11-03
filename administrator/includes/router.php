@@ -43,8 +43,11 @@ class JRouterAdministrator extends JRouter
 	function &build($url)
 	{
 		//Create the URI object
-		$uri =& $this->_createURI($url);
-
+		$uri =& parent::build($url);
+		// Get the path data
+		$route = $uri->getPath();		
+		//Add basepath to the uri
+		$uri->setPath(JURI::base(true).'/'.$route);	
 		return $uri;
 	}
 }

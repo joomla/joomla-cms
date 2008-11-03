@@ -19,11 +19,13 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
-class JLoaderSQL extends JDataLoad implements Serializable {
+class JLoaderSql extends JDataLoad {
 	/** JStream internal stream object */
 	private $_stream;
 	/** DBO */
 	private $_dbo;
+	/** Task Entry */
+	private $_task;
 	/** @var int How many chars are read per time */
 	protected $data_chunk_length = 16384;
 	/** @var int How many lines may be considered to be one query (except text lines) */ 
@@ -31,13 +33,15 @@ class JLoaderSQL extends JDataLoad implements Serializable {
 	
 	protected $lines_per_session = 3000;
 	protected $delay_per_session = 0;
-	
+	protected $yield_amount = 100; // run yield for this duration
 	protected $total_queries = 0;
 	protected $filename = '';
 	protected $offset = 0;
 	protected $start = 0;
 	protected $queries = 0;
-	protected $comment = Array('#', '-- ');
+	protected $comment = Array('#', '--');
+	protected $taskid = 0;
+	protected $taskset = 0;
 	
 	public function __construct($options) {
 		if(!isset($options['filename'])) {
@@ -53,6 +57,19 @@ class JLoaderSQL extends JDataLoad implements Serializable {
 		}
 		
 		$this->_dbo =& JFactory::getDBO();
+		
+		
+		if($this->taskset || $this->taskid) {
+			// TODO: If there is a task system available, redirect through that	
+			if($this->taskset && !$this->taskid) {
+				// Add a new task to the task set and transfer control to the task set
+				// and set the taskid			
+			} else if($this->taskid) {
+				// We have a task ID, so use that. We can find the taskset from the task
+				$task =& JTable::getTable('task');
+				$task->load($this->taskid);
+			}
+		}
 		
 		// Hope these work
 		@ini_set('auto_detect_line_endings', true);
@@ -74,7 +91,7 @@ class JLoaderSQL extends JDataLoad implements Serializable {
 			// Read the whole next line			
 			$dumpline = "";
 			while(!$this->_stream->eof() && substr($dumpline, -1) != "\n") {
-				$dumpline = $this->_stream->gets($this->data_chunk_length);
+				$dumpline .= $this->_stream->gets($this->data_chunk_length);
 			}
 			if($dumpline === "") break;
 			
@@ -133,39 +150,22 @@ class JLoaderSQL extends JDataLoad implements Serializable {
         		}
 		        $this->total_queries++;
 		        $this->queries++;
-		        $query="";
+		        $query='';
 		        $querylines=0;
       		}
       		$linenumber++;
+      		if($this->_task && !($this->queries % $this->yield_amount)) $this->_task->yield(); // check if refresh/reload is required
 		}
 		
 		if ($linenumber < ($this->start+$this->lines_per_session)) {
 			return true; // we're all finished!
 		} else {
-			// TODO: If there is a task system available, redirect through that
-			JError::raiseError(500, 'JLoaderSQL::load: Ran out of time during load');
-			return false;
+			if($this->taskid) {
+				// TODO: Hand over control to the taskid
+			} else {
+				JError::raiseError(500, 'JLoaderSQL::load: Ran out of time during load');
+				return false;
+			}
 		}
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public function serialize() {
-		return '';
-	}
-	
-	public function unserialize($data) {
-		return true;
 	}
 }
