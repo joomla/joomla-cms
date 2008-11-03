@@ -48,6 +48,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ Preparing JLoaderSql and JBackupSql to integrate with task system (added yield calls)
  ^ Tweaks to JBackupSql (createtable to create_table, extra comments) 
  ^ Changed administrator router to closer match site router 
+ ^ Added suffix control options to GMail plugin
 
 01-Nov-2008 Sam Moffatt
  ^ Made GMail verify peer a configurable option

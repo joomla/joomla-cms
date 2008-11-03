@@ -13,10 +13,16 @@
 		<filename plugin="gmail">gmail.php</filename>
 	</files>
 	<params>
-		<param name="suffix" type="text" size="20" default="" label="Username Suffix" description="PARAMUSERNAMESUFFIX" />
+		<param name="applysuffix" type="list" default="0" label="Apply Suffix" description="PARAMAPPLYSUFFIX" >
+			<option value="0">Dont apply suffix</option>
+			<option value="1">Apply suffix if missing</option>
+			<option value="2">Always use suffix</option>
+		</param>
+		<param name="suffix" type="text" size="20" default="" label="Username Suffix" description="PARAMUSERNAMESUFFIX" />	
 		<param name="verifypeer" type="radio" default="1" label="Verify Peer" description="PARAMVERIFYPEER">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		
 	</params>
 </install>

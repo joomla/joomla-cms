@@ -45,9 +45,10 @@ class plgAuthenticationGMail extends JPlugin
 			if(strlen($credentials['username']) && strlen($credentials['password']))
 			{
 				$suffix = $this->params->get('suffix', '');
-				if($suffix) {
+				$applysuffix = $this->params->get('applysuffix',0);
+				if($suffix && $applysuffix) {
 					$offset = strpos($credentials['username'], '@');
-					if($offset) {
+					if($offset && $applysuffix == 2) {
 						// if we already have an @, get rid of it and replace it
 						$credentials['username'] = substr($credentials['username'], 0, $offset);
 					}
