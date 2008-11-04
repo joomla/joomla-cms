@@ -4,14 +4,14 @@
 	JHtml::_('behavior.formvalidation');
 
 	// clean item data
-	JFilterOutput::objectHTMLSafe( $this->item, ENT_QUOTES, '' );
+	JFilterOutput::objectHTMLSafe($this->item, ENT_QUOTES, '');
 ?>
 
 <script type="text/javascript">
 function submitbutton(task)
 {
 	if (task == 'user.cancel' || document.formvalidator.isValid(document.adminForm)) {
-		submitform( task );
+		submitform(task);
 	}
 
 }
@@ -27,13 +27,13 @@ Window.onDomReady(function(){
 @todo Form validation moving to unobtrusive js methods
 <form action="<?php echo JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" autocomplete="off" class="form-validate">
 	<div class="col width-45">
-		<?php echo $this->loadTemplate( 'main' ); ?>
+		<?php echo $this->loadTemplate('main'); ?>
 	</div>
 
 	<div class="col width-55">
-		<?php echo $this->loadTemplate( 'parameters' ); ?>
-		<?php echo $this->loadTemplate( 'contact' ); ?>
-		<?php echo $this->loadTemplate( 'groups' ); ?>
+		<?php echo $this->loadTemplate('parameters'); ?>
+		<?php echo $this->loadTemplate('contact'); ?>
+		<?php echo $this->loadTemplate('groups'); ?>
 	</div>
 
 	<div class="clr"></div>

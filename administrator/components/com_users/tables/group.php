@@ -42,9 +42,9 @@ class AclTableGroup extends JTable
 	 * Constructor
 	 * @param object Database object
 	 */
-	function __construct( &$db, $type='' )
+	function __construct(&$db, $type='')
 	{
-		parent::__construct( '#__core_acl_'.$type.'_groups', 'id', $db );
+		parent::__construct('#__core_acl_'.$type.'_groups', 'id', $db);
 	}
 
 	/**
@@ -52,7 +52,7 @@ class AclTableGroup extends JTable
 	 * @param	int	parent id
 	 * @param	int	Left value
 	 */
-	function rebuild( $parent_id = 0, $left = 1 )
+	function rebuild($parent_id = 0, $left = 1)
 	{
 		$db = &$this->_db;
 
@@ -61,20 +61,20 @@ class AclTableGroup extends JTable
 		// get all children of this node
 		$query = 'SELECT id FROM '. $this->_tbl .' WHERE parent_id='. $parent_id;
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$children = $db->loadResultArray();
 
 		// the right value of this node is the left value + 1
 		$right = $left + 1;
 
-		$n = count( $children );
+		$n = count($children);
 		foreach ($children as $id)
 		{
 			// recursive execution of this function for each
 			// child of this node
 			// $right is the current right value, which is
 			// incremented by the rebuild_tree function
-			$right = $this->rebuild( $id, $right );
+			$right = $this->rebuild($id, $right);
 
 			if ($right === FALSE) {
 				return FALSE;
@@ -85,7 +85,7 @@ class AclTableGroup extends JTable
 		// the children of this node we also know the right value
 		$query  = 'UPDATE '. $this->_tbl .' SET lft='. $left .', rgt='. $right .' WHERE id='. $parent_id;
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		if (!$db->query()) {
 			return false;
 		}

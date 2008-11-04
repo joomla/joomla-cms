@@ -1,6 +1,6 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <fieldset class="adminform">
-	<legend><?php echo JText::_( 'Parameters' ); ?></legend>
+	<legend><?php echo JText::_('Parameters'); ?></legend>
 	<table class="admintable">
 		<tr>
 			<td>

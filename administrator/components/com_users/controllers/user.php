@@ -25,13 +25,13 @@ class UserControllerUser extends JController
 	{
 		parent::__construct();
 
-		$this->registerTask( 'save2copy',	'save' );
-		$this->registerTask( 'save2new',	'save' );
-		$this->registerTask( 'apply',		'save' );
-		$this->registerTask( 'unpublish',	'publish' );
-		$this->registerTask( 'trash',		'publish' );
-		$this->registerTask( 'orderup',		'ordering' );
-		$this->registerTask( 'orderdown',	'ordering' );
+		$this->registerTask('save2copy',	'save');
+		$this->registerTask('save2new',	'save');
+		$this->registerTask('apply',		'save');
+		$this->registerTask('unpublish',	'publish');
+		$this->registerTask('trash',		'publish');
+		$this->registerTask('orderup',		'ordering');
+		$this->registerTask('orderdown',	'ordering');
 	}
 
 	/**
@@ -39,7 +39,7 @@ class UserControllerUser extends JController
 	 */
 	function display()
 	{
-		JError::raiseWarning( 500, 'This controller does not implement a display method' );
+		JError::raiseWarning(500, 'This controller does not implement a display method');
 	}
 
 	/**
@@ -47,7 +47,7 @@ class UserControllerUser extends JController
 	 */
 	function &getModel()
 	{
-		return parent::getModel( 'User', 'UserModel', array( 'ignore_request' => true ) );
+		return parent::getModel('User', 'UserModel', array('ignore_request' => true));
 	}
 
 	/**
@@ -60,18 +60,18 @@ class UserControllerUser extends JController
 	 */
 	function edit()
 	{
-		$cid = JRequest::getVar( 'cid', array(), '', 'array' );
-		$id  = JRequest::getInt( 'id', @$cid[0] );
+		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$id  = JRequest::getInt('id', @$cid[0]);
 
 		$session = &JFactory::getSession();
-		$session->set( 'users.user.id', $id );
+		$session->set('users.user.id', $id);
 
 		if ($id) {
 			// Checkout item
 			//$model = $this->getModel();
-			//$model->checkout( $id );
+			//$model->checkout($id);
 		}
-		$this->setRedirect( JRoute::_( 'index.php?option=com_users&view=user&layout=edit', false ) );
+		$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false));
 	}
 
 	/**
@@ -86,9 +86,9 @@ class UserControllerUser extends JController
 	{
 		$session = &JFactory::getSession();
 		// Clear the session of the item
-		$session->set( 'users.user.id', null );
+		$session->set('users.user.id', null);
 
-		$this->setRedirect( JRoute::_('index.php?option=com_users&view=users', false ) );
+		$this->setRedirect(JRoute::_('index.php?option=com_users&view=users', false));
 	}
 
 	/**
@@ -107,9 +107,9 @@ class UserControllerUser extends JController
 		$input['password']	= JRequest::getVar('password', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$input['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
-		if (!empty( $input['password'] ) AND !empty( $input['password2'] )) {
+		if (!empty($input['password']) AND !empty($input['password2'])) {
 			if ($input['password'] !== $input['password2']) {
-				$this->setMessage( JText::_( '@todo Find string for p[asswords dont match' ) );
+				$this->setMessage(JText::_('@todo Find string for p[asswords dont match'));
 				$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false));
 				return;
 			}
@@ -117,9 +117,9 @@ class UserControllerUser extends JController
 
 		// Clear static values
 		// @todo Look at moving these to the table bind method (but check how new user values are handled)
-		unset( $input['registerDate'] );
-		unset( $input['lastvisitDate'] );
-		unset( $input['activation'] );
+		unset($input['registerDate']);
+		unset($input['lastvisitDate']);
+		unset($input['activation']);
 
 		// Get the id of the item out of the session.
 		$session	= &JFactory::getSession();
@@ -128,21 +128,21 @@ class UserControllerUser extends JController
 
 		// Get the extensions model and set the post request in its state.
 		$model	= &$this->getModel();
-		$result	= $model->save( $input );
-		$msg	= JError::isError( $result ) ? $result->message : 'Saved';
+		$result	= $model->save($input);
+		$msg	= JError::isError($result) ? $result->message : 'Saved';
 
 		if ($this->_task == 'apply') {
-			$session->set( 'users.redirect.id', $model->getState( 'id' ) );
+			$session->set('users.redirect.id', $model->getState('id'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false), JText::_($msg));
 		}
 		else if ($this->_task == 'save2new') {
-			$session->set( 'users.user.id', null );
+			$session->set('users.user.id', null);
 			$model->checkin($id);
 
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false), JText::_($msg));
 		}
 		else {
-			$session->set( 'users.user.id', null );
+			$session->set('users.user.id', null);
 			$model->checkin($id);
 
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=users', false), JText::_($msg));
@@ -155,29 +155,29 @@ class UserControllerUser extends JController
 	function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or die('Invalid Token');
 
 		// Get items from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
 
-		if (empty( $cid )) {
-			JError::raiseWarning(500, JText::_( 'No items selected' ));
+		if (empty($cid)) {
+			JError::raiseWarning(500, JText::_('No items selected'));
 		}
 		else {
 			// Get the model.
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			jimport( 'joomla.utilities.arrayhelper' );
-			JArrayHelper::toInteger( $cid );
+			jimport('joomla.utilities.arrayhelper');
+			JArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if (!$model->delete($cid)) {
-				JError::raiseWarning( 500, $model->getError() );
+				JError::raiseWarning(500, $model->getError());
 			}
 		}
 
-		$this->setRedirect( 'index.php?option=com_users&view=users' );
+		$this->setRedirect('index.php?option=com_users&view=users');
 	}
 
 	/**
@@ -189,17 +189,17 @@ class UserControllerUser extends JController
 	function logout()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die( 'Invalid Token' );
+		JRequest::checkToken() or die('Invalid Token');
 
 		// Get items from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
-		$client = JRequest::getVar( 'client' );
+		$client = JRequest::getVar('client');
 
-		if (empty( $cid )) {
-			JError::raiseWarning(500, JText::_( 'No items selected' ));
+		if (empty($cid)) {
+			JError::raiseWarning(500, JText::_('No items selected'));
 		}
 		else {
-			if (is_numeric( $client )) {
+			if (is_numeric($client)) {
 				$options['clientid'][] = $client;
 			}
 			else {
@@ -209,17 +209,17 @@ class UserControllerUser extends JController
 			}
 
 			// Make sure the item ids are integers
-			jimport( 'joomla.utilities.arrayhelper' );
-			JArrayHelper::toInteger( $cid );
+			jimport('joomla.utilities.arrayhelper');
+			JArrayHelper::toInteger($cid);
 
 			foreach ($cids as $cid) {
-				$mainframe->logout( $cid, $options );
+				$mainframe->logout($cid, $options);
 			}
 
-			$this->setMessage( JText::_( 'User session ended' ) );
+			$this->setMessage(JText::_('User session ended'));
 		}
 
-		$this->setRedirect( 'index.php?option=com_users&view=users' );
+		$this->setRedirect('index.php?option=com_users&view=users');
 	}
 
 	/**
@@ -232,12 +232,12 @@ class UserControllerUser extends JController
 	function batch()
 	{
 		// Get variables from the request.
-		$vars	= JRequest::getVar( 'batch', array(), 'post', 'array' );
-		$cid	= JRequest::getVar( 'cid', null, 'post', 'array' );
+		$vars	= JRequest::getVar('batch', array(), 'post', 'array');
+		$cid	= JRequest::getVar('cid', null, 'post', 'array');
 
 		$model	= &$this->getModel();
-		$model->batch( $vars, $cid );
+		$model->batch($vars, $cid);
 
-		$this->setRedirect( 'index.php?option=com_users&view=users' );
+		$this->setRedirect('index.php?option=com_users&view=users');
 	}
 }

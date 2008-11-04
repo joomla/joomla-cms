@@ -32,34 +32,34 @@ class UserViewUsers extends JView
 	 */
 	function display($tpl = null)
 	{
-		$state		= $this->get( 'State' );
-		$this->assignRef( 'state', $state );
+		$state		= $this->get('State');
+		$this->assignRef('state', $state);
 
-		$items		= &$this->get( 'Items' );
-		$this->assignRef( 'items', $items );
+		$items		= &$this->get('Items');
+		$this->assignRef('items', $items);
 
-		$pagination	= &$this->get( 'Pagination' );
-		$this->assignRef( 'pagination', $pagination );
+		$pagination	= &$this->get('Pagination');
+		$this->assignRef('pagination', $pagination);
 
 		// Logged in filter
 		$options	= array();
-		$options[]	= JHtml::_( 'select.option', '0', 'Select Login Status' );
-		$options[]	= JHtml::_( 'select.option', '1', 'Logged In' );
-		$this->assign( 'f_logged_in', $options );
+		$options[]	= JHtml::_('select.option', '0', 'Select Login Status');
+		$options[]	= JHtml::_('select.option', '1', 'Logged In');
+		$this->assign('f_logged_in', $options);
 
 		// Enabled filter
 		$options	= array();
-		$options[]	= JHtml::_( 'select.option', '*', 'Select Enabled Status' );
-		$options[]	= JHtml::_( 'select.option', '1', 'No' );
-		$options[]	= JHtml::_( 'select.option', '0', 'Yes' );
-		$this->assign( 'f_enabled', $options );
+		$options[]	= JHtml::_('select.option', '*', 'Select Enabled Status');
+		$options[]	= JHtml::_('select.option', '1', 'No');
+		$options[]	= JHtml::_('select.option', '0', 'Yes');
+		$this->assign('f_enabled', $options);
 
 		// Activated filter
 		$options	= array();
-		$options[]	= JHtml::_( 'select.option', '*', 'Select Activated Status' );
-		$options[]	= JHtml::_( 'select.option', '1', 'No' );
-		$options[]	= JHtml::_( 'select.option', '0', 'Yes' );
-		$this->assign( 'f_activated', $options );
+		$options[]	= JHtml::_('select.option', '*', 'Select Activated Status');
+		$options[]	= JHtml::_('select.option', '1', 'No');
+		$options[]	= JHtml::_('select.option', '0', 'Yes');
+		$this->assign('f_activated', $options);
 
 		$this->_setToolBar();
 		parent::display($tpl);
@@ -72,12 +72,12 @@ class UserViewUsers extends JView
 	 */
 	function _setToolBar()
 	{
-		JToolBarHelper::title( JText::_( 'user Manager' ), 'user.png' );
-		JToolBarHelper::custom( 'user.logout', 'cancel.png', 'cancel_f2.png', 'Logout' );
-		JToolBarHelper::deleteList( '', 'user.delete' );
-		JToolBarHelper::custom( 'user.edit', 'edit.png', 'edit_f2.png', 'Edit', true );
-		JToolBarHelper::custom( 'user.edit', 'new.png', 'new_f2.png', 'New', false );
-		JToolBarHelper::help( 'screen.users' );
+		JToolBarHelper::title(JText::_('user Manager'), 'user.png');
+		JToolBarHelper::custom('user.logout', 'cancel.png', 'cancel_f2.png', 'Logout');
+		JToolBarHelper::deleteList('', 'user.delete');
+		JToolBarHelper::custom('user.edit', 'edit.png', 'edit_f2.png', 'Edit', true);
+		JToolBarHelper::custom('user.edit', 'new.png', 'new_f2.png', 'New', false);
+		JToolBarHelper::help('screen.users');
 	}
 }
 

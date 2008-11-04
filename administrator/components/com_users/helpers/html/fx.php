@@ -26,7 +26,7 @@ class UserFx
 	 * @param	string	The id of the clickable element
 	 * @param	string	The id of the sliding element
 	 */
-	function slider( $open = false, $idClicker ='v_toggle', $idSlider = 'v_slider' )
+	function slider($open = false, $idClicker ='v_toggle', $idSlider = 'v_slider')
 	{
 		// Include mootools
 		JHtml::_('behavior.mootools');
@@ -38,7 +38,7 @@ class UserFx
 		$document = &JFactory::getDocument();
 
 		// Inject the javascript behaviour into the document HEAD
-		$document->addScriptDeclaration( <<<CODE
+		$document->addScriptDeclaration(<<<CODE
 		//<![CDATA[
 		window.addEvent('domready',function() {
 			var FxSlider = new Fx.Slide('{$idSlider}');

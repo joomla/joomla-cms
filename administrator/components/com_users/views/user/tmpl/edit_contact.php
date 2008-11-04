@@ -1,15 +1,15 @@
 <?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 		<fieldset class="adminform">
-		<legend><?php echo JText::_( 'Contact Information' ); ?></legend>
-		<?php if ( !$this->contact ) { ?>
+		<legend><?php echo JText::_('Contact Information'); ?></legend>
+		<?php if (!$this->contact) { ?>
 			<table class="admintable">
 				<tr>
 					<td>
 						<br />
 						<span class="note">
-							<?php echo JText::_( 'No Contact details linked to this User' ); ?>:
+							<?php echo JText::_('No Contact details linked to this User'); ?>:
 							<br />
-							<?php echo JText::_( 'SEECOMPCONTACTFORDETAILS' ); ?>.
+							<?php echo JText::_('SEECOMPCONTACTFORDETAILS'); ?>.
 						</span>
 						<br /><br />
 					</td>
@@ -19,7 +19,7 @@
 			<table class="admintable">
 				<tr>
 					<td width="120" class="key">
-						<?php echo JText::_( 'Name' ); ?>
+						<?php echo JText::_('Name'); ?>
 					</td>
 					<td>
 						<strong>
@@ -29,7 +29,7 @@
 				</tr>
 				<tr>
 					<td class="key">
-						<?php echo JText::_( 'Position' ); ?>
+						<?php echo JText::_('Position'); ?>
 					</td>
 					<td >
 						<strong>
@@ -39,7 +39,7 @@
 				</tr>
 				<tr>
 					<td class="key">
-						<?php echo JText::_( 'Telephone' ); ?>
+						<?php echo JText::_('Telephone'); ?>
 					</td>
 					<td >
 						<strong>
@@ -49,7 +49,7 @@
 				</tr>
 				<tr>
 					<td class="key">
-						<?php echo JText::_( 'Fax' ); ?>
+						<?php echo JText::_('Fax'); ?>
 					</td>
 					<td >
 						<strong>
@@ -59,7 +59,7 @@
 				</tr>
 				<tr>
 					<td class="key">
-						<?php echo JText::_( 'Misc' ); ?>
+						<?php echo JText::_('Misc'); ?>
 					</td>
 					<td >
 						<strong>
@@ -70,10 +70,10 @@
 				<?php if ($this->contact[0]->image) { ?>
 				<tr>
 					<td class="key">
-						<?php echo JText::_( 'Image' ); ?>
+						<?php echo JText::_('Image'); ?>
 					</td>
 					<td valign="top">
-						<img src="<?php echo JURI::root() . $cparams->get('image_path') . '/' . $this->contact[0]->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
+						<img src="<?php echo JUri::root() . $cparams->get('image_path') . '/' . $this->contact[0]->image; ?>" align="middle" alt="<?php echo JText::_('Contact'); ?>" />
 					</td>
 				</tr>
 				<?php } ?>
@@ -82,10 +82,10 @@
 					<td>
 						<div>
 							<br />
-							<input class="button" type="button" value="<?php echo JText::_( 'change Contact Details' ); ?>" onclick="gotocontact( '<?php echo $this->contact[0]->id; ?>' )" />
+							<input class="button" type="button" value="<?php echo JText::_('change Contact Details'); ?>" onclick="gotocontact('<?php echo $this->contact[0]->id; ?>')" />
 							<i>
 								<br /><br />
-								'<?php echo JText::_( 'Components -> Contact -> Manage Contacts' ); ?>'
+								'<?php echo JText::_('Components -> Contact -> Manage Contacts'); ?>'
 							</i>
 						</div>
 					</td>

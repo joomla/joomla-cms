@@ -10,8 +10,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-jimport( 'joomla.application.component.model' );
-jimport( 'joomla.database.query' );
+jimport('joomla.application.component.model');
+jimport('joomla.database.query');
 
 /**
  * @package		Users
@@ -26,23 +26,23 @@ class UserModelPrototype extends JModel
 	 * @param	boolean	True to resolve foreign keys
 	 * @return	array	List of items
 	 */
-	function &getItems( $resolveFKs = true )
+	function &getItems($resolveFKs = true)
 	{
 		static $instances;
 
 		$state	= $this->getState();
-		$hash	= md5( intval( $resolveFKs ).serialize( $state->getProperties( 1 ) ) );
+		$hash	= md5(intval($resolveFKs).serialize($state->getProperties(1)));
 
-		if (!isset( $instances[$hash] ))
+		if (!isset($instances[$hash]))
 		{
-				$query				= $this->_getListQuery( $state, $resolveFKs );
+				$query				= $this->_getListQuery($state, $resolveFKs);
 				$sql				= $query->toString();
-				$this->_total		= $this->_getListCount( $sql );
-				if ($this->_total < $state->get( 'limitstart' )) {
-					$state->set( 'limitstart', 0 );
+				$this->_total		= $this->_getListCount($sql);
+				if ($this->_total < $state->get('limitstart')) {
+					$state->set('limitstart', 0);
 				}
 
-				$result				= $this->_getList( $sql, $state->get( 'limitstart' ), $state->get( 'limit' ));
+				$result				= $this->_getList($sql, $state->get('limitstart'), $state->get('limit'));
 				$instances[$hash]	= $result;
 
 		}
@@ -62,9 +62,9 @@ class UserModelPrototype extends JModel
 		static $instance;
 
 		if (!$instance) {
-			jimport( 'joomla.html.pagination' );
+			jimport('joomla.html.pagination');
 			$state = &$this->getState();
-			$instance = new JPagination( $this->_total, $state->get( 'limitstart'), $state->get( 'limit' ) );
+			$instance = new JPagination($this->_total, $state->get('limitstart'), $state->get('limit'));
 		}
 		return $instance;
 	}
@@ -74,30 +74,30 @@ class UserModelPrototype extends JModel
 	 *
 	 * @return	JStdClass
 	 */
-	function &getItem( $resolveFKs = true  )
+	function &getItem($resolveFKs = true )
 	{
 		static $instances;
 
 		$state = $this->getState();
-		$key = md5( intval( $resolveFKs ).serialize( $state->getProperties( 1 ) ) );
+		$key = md5(intval($resolveFKs).serialize($state->getProperties(1)));
 
-		if (!isset( $instances[$key] ))
+		if (!isset($instances[$key]))
 		{
 			$session = &JFactory::getSession();
-			$id = (int) $session->get( 'users.'.$this->getName().'.id', $this->getState('id') );
+			$id = (int) $session->get('users.'.$this->getName().'.id', $this->getState('id'));
 
 			$user	= JUser::getInstance($id);
 
-			$state->set( 'where', 'a.id='.(int) $id );
-			$query	= $this->_getListQuery( $state, $resolveFKs );
+			$state->set('where', 'a.id='.(int) $id);
+			$query	= $this->_getListQuery($state, $resolveFKs);
 			$sql	= $query->toString();
-			$temp	= $this->_getList( $sql );
-			if (isset( $temp[0] )) {
-				$instances[$key] = JArrayHelper::toObject( JArrayHelper::fromObject( $temp[0] ), 'JStdClass' );
+			$temp	= $this->_getList($sql);
+			if (isset($temp[0])) {
+				$instances[$key] = JArrayHelper::toObject(JArrayHelper::fromObject($temp[0]), 'JStdClass');
 			}
 			else {
 				$temp = $this->getTable();
-				$instances[$key] = JArrayHelper::toObject( $temp->getProperties( 1 ), 'JStdClass' );
+				$instances[$key] = JArrayHelper::toObject($temp->getProperties(1), 'JStdClass');
 			}
 		}
 		return $instances[$key];
@@ -120,7 +120,7 @@ class UserModelPrototype extends JModel
 			$table	= &$this->getTable();
 			$user = &JFactory::getUser();
 			if (!$table->checkout($user->get('id'), $id)) {
-				$result = new JException( $table->getError() );
+				$result = new JException($table->getError());
 			}
 		}
 	}
@@ -141,7 +141,7 @@ class UserModelPrototype extends JModel
 		if ($id) {
 			$table	= &$this->getTable();
 			if (!$table->checkin($id)) {
-				$result = new JException( $table->getError() );
+				$result = new JException($table->getError());
 			}
 		}
 	}
@@ -160,11 +160,11 @@ class UserModelPrototype extends JModel
 		$user	= &JFactory::getUser();
 		$table	= &$this->getTable();
 
-		if (!$table->save( $input )) {
-			$result	= JError::raiseWarning( 500, $table->getError() );
+		if (!$table->save($input)) {
+			$result	= JError::raiseWarning(500, $table->getError());
 		}
 		// Set the new id (if new)
-		$this->setState( 'id', $table->id );
+		$this->setState('id', $table->id);
 
 		return $result;
 	}
@@ -177,7 +177,7 @@ class UserModelPrototype extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.0
 	 */
-	function delete( $ids )
+	function delete($ids)
 	{
 		$table	= &$this->getTable();
 		if (is_array($ids)) {
@@ -200,13 +200,13 @@ class UserModelPrototype extends JModel
 	 * @return	mixed	True on success or JExeception object on failure
 	 * @since	1.0
 	 */
-	function publish( $ids, $value = 1 )
+	function publish($ids, $value = 1)
 	{
 		$result	= true;
 		$user	= &JFactory::getUser();
 		$table	= &$this->getTable();
 
-		if (!$table->publish( $ids, $value, $user->get('id'))) {
+		if (!$table->publish($ids, $value, $user->get('id'))) {
 			$result = JError::raiseWarning(500, $table->getError());
 		}
 		return $result;
@@ -218,7 +218,7 @@ class UserModelPrototype extends JModel
 	 * @param	mixed	An integer ID, or an array of ID's
 	 * @param	int		Option - the access level
 	 */
-	function access( $ids, $level = null )
+	function access($ids, $level = null)
 	{
 		$table = $this->getTable();
 		$qt	= 'SELECT g.id' .
@@ -227,15 +227,15 @@ class UserModelPrototype extends JModel
 				' WHERE g.level > a.access' .
 				' ORDER BY g.id ASC';
 
-		if (!is_array( $ids )) {
-			$ids = array( $ids );
+		if (!is_array($ids)) {
+			$ids = array($ids);
 		}
-		JArrayHelper::toInteger( $ids );
+		JArrayHelper::toInteger($ids);
 		$db	= &$this->getDBO();
 
 		foreach ($ids as $id) {
 			if ($level == null) {
-				$db->setQuery( sprintf( $qt, $id ), 0, 1 );
+				$db->setQuery(sprintf($qt, $id), 0, 1);
 				$newlevel = $db->loadResult();
 			}
 			else {
@@ -247,10 +247,10 @@ class UserModelPrototype extends JModel
 				' WHERE id = '.$id
 			);
 			if (!$db->query()) {
-				return new JException( $db->getErrorMsg() );
+				return new JException($db->getErrorMsg());
 			}
 		}
-		return count( $ids );
+		return count($ids);
 	}
 
 	/**
@@ -258,7 +258,7 @@ class UserModelPrototype extends JModel
 	 * @param int		Increment, usually +1 or -1
 	 * @return boolean
 	 */
-	function ordering( $input, $inc=0 )
+	function ordering($input, $inc=0)
 	{
 		$app = &JFactory::getApplication();
 
@@ -266,20 +266,20 @@ class UserModelPrototype extends JModel
 		$user	= &JFactory::getUser();
 		$table	= &$this->getTable();
 
-		JArrayHelper::toInteger( $input );
+		JArrayHelper::toInteger($input);
 
-		if (!empty( $input )) {
-			$cids = 'id=' . implode( ' OR id=', $input );
-			$hasCO = property_exists( $table, 'checked_out' );
+		if (!empty($input)) {
+			$cids = 'id=' . implode(' OR id=', $input);
+			$hasCO = property_exists($table, 'checked_out');
 
 			$query = 'UPDATE ' . $table->getTableName()
 			. ' SET ordering = ordering + ' . (int) $inc
 			. ' WHERE (' . $cids . ')'
-			. ($hasCO ? ' AND (checked_out = 0 OR checked_out = ' . (int) $user->get( 'id' ) . ')' : '' )
+			. ($hasCO ? ' AND (checked_out = 0 OR checked_out = ' . (int) $user->get('id') . ')' : '')
 			;
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if (!$db->query()) {
-				$this->setError( $db->getErrorMsg() );
+				$this->setError($db->getErrorMsg());
 			}
 			else {
 				return true;

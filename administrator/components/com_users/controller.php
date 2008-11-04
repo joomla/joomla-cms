@@ -8,7 +8,7 @@
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
 
@@ -31,45 +31,45 @@ class UserController extends JController
 		parent::__construct($config);
 
 		// Register Extra tasks
-		$this->registerTask( 'add'  , 	'display'  );
-		$this->registerTask( 'edit'  , 	'display'  );
-		$this->registerTask( 'apply', 	'save'  );
-		$this->registerTask( 'flogout', 'logout');
-		$this->registerTask( 'unblock', 'block' );
+		$this->registerTask('add'  , 	'display' );
+		$this->registerTask('edit'  , 	'display' );
+		$this->registerTask('apply', 	'save' );
+		$this->registerTask('flogout', 'logout');
+		$this->registerTask('unblock', 'block');
 	}
 
 	/**
 	 * Displays a view
 	 */
-	function display( )
+	function display()
 	{
-		jimport( 'joomla.application.component.model' );
-		JModel::addIncludePath( JPATH_COMPONENT.DS.'models' );
+		jimport('joomla.application.component.model');
+		JModel::addIncludePath(JPATH_COMPONENT.DS.'models');
 
 		$document	= &JFactory::getDocument();
-		$vName		= JRequest::getCmd( 'view', 'users' );
+		$vName		= JRequest::getCmd('view', 'users');
 		$vFormat	= $document->getType();
-		$lName		= JRequest::getCmd( 'layout', 'default' );
+		$lName		= JRequest::getCmd('layout', 'default');
 
-		if ($view = &$this->getView( $vName, $vFormat ))
+		if ($view = &$this->getView($vName, $vFormat))
 		{
 			switch ($vName)
 			{
 				case 'user':
 				case 'users':
-					$model = $this->getModel( 'user' );
+					$model = $this->getModel('user');
 					break;
 			}
 
 			// Push the model into the view (as default)
-			$view->setModel( $model, true);
+			$view->setModel($model, true);
 			$view->setLayout($lName);
 
 			// push document object into the view
 			$view->assignRef('document', $document);
 			$view->display();
 
-			//JSubMenuHelper::addEntry( JText::_( 'Link Users' ),			'index.php?option=com_users&view=users',	$vName == 'users' );
+			//JSubMenuHelper::addEntry(JText::_('Link Users'),			'index.php?option=com_users&view=users',	$vName == 'users');
 		}
 	}
 
@@ -81,9 +81,9 @@ class UserController extends JController
 		global $mainframe;
 
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
-		$option = JRequest::getCmd( 'option');
+		$option = JRequest::getCmd('option');
 
 		// Initialize some variables
 		$db			= & JFactory::getDBO();
@@ -94,7 +94,7 @@ class UserController extends JController
 		$SiteName	= $mainframe->getCfg('sitename');
 
  		// Create a new JUser object
-		$user = new JUser(JRequest::getVar( 'id', 0, 'post', 'int'));
+		$user = new JUser(JRequest::getVar('id', 0, 'post', 'int'));
 		$original_gid = $user->get('gid');
 
 		$post = JRequest::get('post');
@@ -106,36 +106,36 @@ class UserController extends JController
 		{
 			$mainframe->enqueueMessage(JText::_('CANNOT SAVE THE USER INFORMATION'), 'message');
 			$mainframe->enqueueMessage($user->getError(), 'error');
-			//$mainframe->redirect( 'index.php?option=com_users', $user->getError() );
+			//$mainframe->redirect('index.php?option=com_users', $user->getError());
 			//return false;
 			return $this->execute('edit');
 		}
 
-		$objectID 	= $acl->get_object_id( 'users', $user->get('id'), 'ARO' );
-		$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
-		$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
+		$objectID 	= $acl->get_object_id('users', $user->get('id'), 'ARO');
+		$groups 	= $acl->get_object_groups($objectID, 'ARO');
+		$this_group = strtolower($acl->get_group_name($groups[0], 'ARO'));
 
 
-		if ( $user->get('id') == $me->get( 'id' ) && $user->get('block') == 1 )
+		if ($user->get('id') == $me->get('id') && $user->get('block') == 1)
 		{
-			$msg = JText::_( 'You cannot block Yourself!' );
+			$msg = JText::_('You cannot block Yourself!');
 			$mainframe->enqueueMessage($msg, 'message');
 			return $this->execute('edit');
 		}
-		else if ( ( $this_group == 'super administrator' ) && $user->get('block') == 1 ) {
-			$msg = JText::_( 'You cannot block a Super Administrator' );
+		else if (($this_group == 'super administrator') && $user->get('block') == 1) {
+			$msg = JText::_('You cannot block a Super Administrator');
 			$mainframe->enqueueMessage($msg, 'message');
 			return $this->execute('edit');
 		}
-		else if ( ( $this_group == 'administrator' ) && ( $me->get( 'gid' ) == 24 ) && $user->get('block') == 1 )
+		else if (($this_group == 'administrator') && ($me->get('gid') == 24) && $user->get('block') == 1)
 		{
-			$msg = JText::_( 'WARNBLOCK' );
+			$msg = JText::_('WARNBLOCK');
 			$mainframe->enqueueMessage($msg, 'message');
 			return $this->execute('edit');
 		}
-		else if ( ( $this_group == 'super administrator' ) && ( $me->get( 'gid' ) != 25 ) )
+		else if (($this_group == 'super administrator') && ($me->get('gid') != 25))
 		{
-			$msg = JText::_( 'You cannot edit a super administrator account' );
+			$msg = JText::_('You cannot edit a super administrator account');
 			$mainframe->enqueueMessage($msg, 'message');
 			return $this->execute('edit');
 		}
@@ -144,21 +144,21 @@ class UserController extends JController
 		if (!$isNew)
 		{
 			// if group has been changed and where original group was a Super Admin
-			if ( $user->get('gid') != $original_gid && $original_gid == 25 )
+			if ($user->get('gid') != $original_gid && $original_gid == 25)
 			{
 				// count number of active super admins
-				$query = 'SELECT COUNT( id )'
+				$query = 'SELECT COUNT(id)'
 					. ' FROM #__users'
 					. ' WHERE gid = 25'
 					. ' AND block = 0'
 				;
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$count = $db->loadResult();
 
-				if ( $count <= 1 )
+				if ($count <= 1)
 				{
 					// disallow change if only one Super Admin exists
-					$this->setRedirect( 'index.php?option=com_users', JText::_('WARN_ONLY_SUPER') );
+					$this->setRedirect('index.php?option=com_users', JText::_('WARN_ONLY_SUPER'));
 					return false;
 				}
 			}
@@ -184,14 +184,14 @@ class UserController extends JController
 			$adminName	= $me->get('name');
 
 			$subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
-			$message = sprintf ( JText::_('NEW_USER_MESSAGE'), $user->get('name'), $SiteName, JURI::root(), $user->get('username'), $user->password_clear );
+			$message = sprintf (JText::_('NEW_USER_MESSAGE'), $user->get('name'), $SiteName, JUri::root(), $user->get('username'), $user->password_clear);
 
 			if ($MailFrom != '' && $FromName != '')
 			{
 				$adminName 	= $FromName;
 				$adminEmail = $MailFrom;
 			}
-			JUtility::sendMail( $adminEmail, $adminName, $user->get('email'), $subject, $message );
+			JUtility::sendMail($adminEmail, $adminName, $user->get('email'), $subject, $message);
 		}
 
 		// If updating self, load the new user object into the session
@@ -220,17 +220,17 @@ class UserController extends JController
 			$session->set('user', $user);
 		}
 
-		switch ( $this->getTask() )
+		switch ($this->getTask())
 		{
 			case 'apply':
-				$msg = JText::sprintf( 'Successfully Saved changes to User', $user->get('name') );
-				$this->setRedirect( 'index.php?option=com_users&view=user&task=edit&cid[]='. $user->get('id'), $msg );
+				$msg = JText::sprintf('Successfully Saved changes to User', $user->get('name'));
+				$this->setRedirect('index.php?option=com_users&view=user&task=edit&cid[]='. $user->get('id'), $msg);
 				break;
 
 			case 'save':
 			default:
-				$msg = JText::sprintf( 'Successfully Saved User', $user->get('name') );
-				$this->setRedirect( 'index.php?option=com_users', $msg );
+				$msg = JText::sprintf('Successfully Saved User', $user->get('name'));
+				$this->setRedirect('index.php?option=com_users', $msg);
 				break;
 		}
 	}
@@ -241,57 +241,57 @@ class UserController extends JController
 	function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		$db 			=& JFactory::getDBO();
 		$currentUser 	=& JFactory::getUser();
 		$acl			=& JFactory::getACL();
-		$cid 			= JRequest::getVar( 'cid', array(), '', 'array' );
+		$cid 			= JRequest::getVar('cid', array(), '', 'array');
 
-		JArrayHelper::toInteger( $cid );
+		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select a User to delete', true ) );
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select a User to delete', true));
 		}
 
 		foreach ($cid as $id)
 		{
 			// check for a super admin ... can't delete them
-			$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );
-			$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
-			$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
+			$objectID 	= $acl->get_object_id('users', $id, 'ARO');
+			$groups 	= $acl->get_object_groups($objectID, 'ARO');
+			$this_group = strtolower($acl->get_group_name($groups[0], 'ARO'));
 
 			$success = false;
-			if ( $this_group == 'super administrator' )
+			if ($this_group == 'super administrator')
 			{
-				$msg = JText::_( 'You cannot delete a Super Administrator' );
+				$msg = JText::_('You cannot delete a Super Administrator');
 			}
-			else if ( $id == $currentUser->get( 'id' ) )
+			else if ($id == $currentUser->get('id'))
 			{
-				$msg = JText::_( 'You cannot delete Yourself!' );
+				$msg = JText::_('You cannot delete Yourself!');
 			}
-			else if ( ( $this_group == 'administrator' ) && ( $currentUser->get( 'gid' ) == 24 ) )
+			else if (($this_group == 'administrator') && ($currentUser->get('gid') == 24))
 			{
-				$msg = JText::_( 'WARNDELETE' );
+				$msg = JText::_('WARNDELETE');
 			}
 			else
 			{
 				$user =& JUser::getInstance((int)$id);
 				$count = 2;
 
-				if ( $user->get( 'gid' ) == 25 )
+				if ($user->get('gid') == 25)
 				{
 					// count number of active super admins
-					$query = 'SELECT COUNT( id )'
+					$query = 'SELECT COUNT(id)'
 						. ' FROM #__users'
 						. ' WHERE gid = 25'
 						. ' AND block = 0'
 					;
-					$db->setQuery( $query );
+					$db->setQuery($query);
 					$count = $db->loadResult();
 				}
 
-				if ( $count <= 1 && $user->get( 'gid' ) == 25 )
+				if ($count <= 1 && $user->get('gid') == 25)
 				{
 					// cannot delete Super Admin where it is the only one that exists
 					$msg = "You cannot delete this Super Administrator as it is the only active Super Administrator for your site";
@@ -302,8 +302,8 @@ class UserController extends JController
 					$user->delete();
 					$msg = '';
 
-					JRequest::setVar( 'task', 'remove' );
-					JRequest::setVar( 'cid', $id );
+					JRequest::setVar('task', 'remove');
+					JRequest::setVar('cid', $id);
 
 					// delete user acounts active sessions
 					$this->logout();
@@ -311,75 +311,75 @@ class UserController extends JController
 			}
 		}
 
-		$this->setRedirect( 'index.php?option=com_users', $msg);
+		$this->setRedirect('index.php?option=com_users', $msg);
 	}
 
 	/**
 	 * Cancels an edit operation
 	 */
-	function cancel( )
+	function cancel()
 	{
-		$this->setRedirect( 'index.php?option=com_users' );
+		$this->setRedirect('index.php?option=com_users');
 	}
 
 	/**
 	 * Disables the user account
 	 */
-	function block( )
+	function block()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		$db 			=& JFactory::getDBO();
 		$acl			=& JFactory::getACL();
 		$currentUser 	=& JFactory::getUser();
 
-		$cid 	= JRequest::getVar( 'cid', array(), '', 'array' );
+		$cid 	= JRequest::getVar('cid', array(), '', 'array');
 		$block  = $this->getTask() == 'block' ? 1 : 0;
 
-		JArrayHelper::toInteger( $cid );
+		JArrayHelper::toInteger($cid);
 
-		if (count( $cid ) < 1) {
-			JError::raiseError(500, JText::_( 'Select a User to '.$this->getTask(), true ) );
+		if (count($cid) < 1) {
+			JError::raiseError(500, JText::_('Select a User to '.$this->getTask(), true));
 		}
 		foreach ($cid as $id)
 		{
 			// check for a super admin ... can't delete them
-			$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );
-			$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
-			$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
+			$objectID 	= $acl->get_object_id('users', $id, 'ARO');
+			$groups 	= $acl->get_object_groups($objectID, 'ARO');
+			$this_group = strtolower($acl->get_group_name($groups[0], 'ARO'));
 
 			$success = false;
-			if ( $this_group == 'super administrator' )
+			if ($this_group == 'super administrator')
 			{
-				$msg = JText::_( 'You cannot block a Super Administrator' );
+				$msg = JText::_('You cannot block a Super Administrator');
 			}
-			else if ( $id == $currentUser->get( 'id' ) )
+			else if ($id == $currentUser->get('id'))
 			{
-				$msg = JText::_( 'You cannot block Yourself!' );
+				$msg = JText::_('You cannot block Yourself!');
 			}
-			else if ( ( $this_group == 'administrator' ) && ( $currentUser->get( 'gid' ) == 24 ) )
+			else if (($this_group == 'administrator') && ($currentUser->get('gid') == 24))
 			{
-				$msg = JText::_( 'WARNBLOCK' );
+				$msg = JText::_('WARNBLOCK');
 			}
 			else
 			{
 				$user =& JUser::getInstance((int)$id);
 				$count = 2;
 
-				if ( $user->get( 'gid' ) == 25 )
+				if ($user->get('gid') == 25)
 				{
 					// count number of active super admins
-					$query = 'SELECT COUNT( id )'
+					$query = 'SELECT COUNT(id)'
 						. ' FROM #__users'
 						. ' WHERE gid = 25'
 						. ' AND block = 0'
 					;
-					$db->setQuery( $query );
+					$db->setQuery($query);
 					$count = $db->loadResult();
 				}
 
-				if ( $count <= 1 && $user->get( 'gid' ) == 25 )
+				if ($count <= 1 && $user->get('gid') == 25)
 				{
 					// cannot delete Super Admin where it is the only one that exists
 					$msg = "You cannot block this Super Administrator as it is the only active Super Administrator for your site";
@@ -392,8 +392,8 @@ class UserController extends JController
 
 					if($block)
 					{
-						JRequest::setVar( 'task', 'block' );
-						JRequest::setVar( 'cid', array($id) );
+						JRequest::setVar('task', 'block');
+						JRequest::setVar('cid', array($id));
 
 						// delete user acounts active sessions
 						$this->logout();
@@ -402,29 +402,29 @@ class UserController extends JController
 			}
 		}
 
-		$this->setRedirect( 'index.php?option=com_users', $msg);
+		$this->setRedirect('index.php?option=com_users', $msg);
 	}
 
 	/**
 	 * Force log out a user
 	 */
-	function logout( )
+	function logout()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit( 'Invalid Token' );
+		JRequest::checkToken() or jexit('Invalid Token');
 
 		global $mainframe;
 
 		$db		=& JFactory::getDBO();
 		$task 	= $this->getTask();
-		$cids 	= JRequest::getVar( 'cid', array(), '', 'array' );
-		$client = JRequest::getVar( 'client', 0, '', 'int' );
-		$id 	= JRequest::getVar( 'id', 0, '', 'int' );
+		$cids 	= JRequest::getVar('cid', array(), '', 'array');
+		$client = JRequest::getVar('client', 0, '', 'int');
+		$id 	= JRequest::getVar('id', 0, '', 'int');
 
 		JArrayHelper::toInteger($cids);
 
-		if ( count( $cids ) < 1 ) {
-			$this->setRedirect( 'index.php?option=com_users', JText::_( 'User Deleted' ) );
+		if (count($cids) < 1) {
+			$this->setRedirect('index.php?option=com_users', JText::_('User Deleted'));
 			return false;
 		}
 
@@ -443,11 +443,11 @@ class UserController extends JController
 		}
 
 
-		$msg = JText::_( 'User Session Ended' );
-		switch ( $task )
+		$msg = JText::_('User Session Ended');
+		switch ($task)
 		{
 			case 'flogout':
-				$this->setRedirect( 'index.php', $msg );
+				$this->setRedirect('index.php', $msg);
 				break;
 
 			case 'remove':
@@ -456,14 +456,14 @@ class UserController extends JController
 				break;
 
 			default:
-				$this->setRedirect( 'index.php?option=com_users', $msg );
+				$this->setRedirect('index.php?option=com_users', $msg);
 				break;
 		}
 	}
 
 	function contact()
 	{
-		$contact_id = JRequest::getVar( 'contact_id', '', 'post', 'int' );
-		$this->setRedirect( 'index.php?option=com_contact&atask=edit&cid[]='. $contact_id );
+		$contact_id = JRequest::getVar('contact_id', '', 'post', 'int');
+		$this->setRedirect('index.php?option=com_contact&atask=edit&cid[]='. $contact_id);
 	}
 }

@@ -28,21 +28,21 @@ class UserViewUser extends JView
 	 */
 	function display($tpl = null)
 	{
-		$state = $this->get( 'State' );
-		$this->assignRef( 'state', $state );
+		$state = $this->get('State');
+		$this->assignRef('state', $state);
 
-		$item = &$this->get( 'Item' );
-		$this->assignRef( 'item', $item );
+		$item = &$this->get('Item');
+		$this->assignRef('item', $item);
 
-		if ($state->get( 'id' )) {
+		if ($state->get('id')) {
 			// Existing
 		}
 		else {
 			// New
-			$config		= &JComponentHelper::getParams( 'com_users' );
+			$config		= &JComponentHelper::getParams('com_users');
 			$acl		= &JFactory::getACL();
-			$newGrp		= $config->get( 'new_usertype' );
-			$item->set( 'gid', $acl->get_group_id( $newGrp, null, 'ARO' ) );
+			$newGrp		= $config->get('new_usertype');
+			$item->set('gid', $acl->get_group_id($newGrp, null, 'ARO'));
 		}
 
 		$this->_setToolBar();
@@ -56,16 +56,16 @@ class UserViewUser extends JView
 	 */
 	function _setToolBar()
 	{
-		$isNew = ($this->item->get( 'id' ) == 0);
-		JToolBarHelper::title( JText::_( ($isNew ? 'Add User' : 'Edit User' ) ), 'user' );
+		$isNew = ($this->item->get('id') == 0);
+		JToolBarHelper::title(JText::_(($isNew ? 'Add User' : 'Edit User')), 'user');
 		if (!$isNew) {
-			JToolBarHelper::custom( 'user.save2copy', 'copy.png', 'copy_f2.png', 'Save To Copy', false );
+			JToolBarHelper::custom('user.save2copy', 'copy.png', 'copy_f2.png', 'Save To Copy', false);
 		}
-		JToolBarHelper::custom( 'user.save2new', 'new.png', 'new_f2.png', 'Save And New', false );
-		JToolBarHelper::save( 'user.save' );
-		JToolBarHelper::apply( 'user.apply' );
-		JToolBarHelper::cancel( 'user.cancel' );
-		JToolBarHelper::help( 'screen.users.edit' );
+		JToolBarHelper::custom('user.save2new', 'new.png', 'new_f2.png', 'Save And New', false);
+		JToolBarHelper::save('user.save');
+		JToolBarHelper::apply('user.apply');
+		JToolBarHelper::cancel('user.cancel');
+		JToolBarHelper::help('screen.users.edit');
 	}
 }
 
