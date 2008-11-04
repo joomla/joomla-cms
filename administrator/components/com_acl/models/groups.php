@@ -137,7 +137,7 @@ class AccessModelGroups extends AccessModelPrototypeList
 				$query->order($this->_db->getEscaped($orderBy));
 			}
 
-			echo nl2br($query->toString());
+			//echo nl2br($query->toString());
 			$this->_list_query = (string) $query;
 		}
 
