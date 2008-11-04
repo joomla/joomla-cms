@@ -18,8 +18,9 @@ jimport('joomla.application.component.view');
  */
 class UserViewUsers extends JView
 {
-	public $document = null;
-	public $state = null;
+	protected $document = null;
+	protected $state = null;
+	protected $items = null;
 	protected $_total = null;
 	protected $f_logged_in = null;
 	protected $f_enabled = null;
@@ -33,13 +34,12 @@ class UserViewUsers extends JView
 	function display($tpl = null)
 	{
 		$state		= $this->get('State');
-		$this->assignRef('state', $state);
+		$items		= $this->get('List');
+		$pagination	= $this->get('Pagination');
 
-		$items		= &$this->get('Items');
-		$this->assignRef('items', $items);
-
-		$pagination	= &$this->get('Pagination');
-		$this->assignRef('pagination', $pagination);
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
+		$this->assignRef('pagination',	$pagination);
 
 		// Logged in filter
 		$options	= array();
@@ -80,4 +80,3 @@ class UserViewUsers extends JView
 		JToolBarHelper::help('screen.users');
 	}
 }
-

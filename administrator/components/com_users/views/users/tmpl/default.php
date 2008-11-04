@@ -88,7 +88,7 @@
 				$row 	=& $this->items[$i];
 
 				$img 	= $row->block ? 'publish_x.png' : 'tick.png';
-				$task 	= $row->block ? 'unblock' : 'block';
+				$task 	= $row->block ? 'user.unblock' : 'user.block';
 				$alt 	= $row->block ? JText::_('Enabled') : JText::_('Blocked');
 			?>
 			<tr class="row<?php echo $i%2; ?>">

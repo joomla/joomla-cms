@@ -29,12 +29,12 @@ class UserViewUser extends JView
 	function display($tpl = null)
 	{
 		$state = $this->get('State');
-		$this->assignRef('state', $state);
-
 		$item = &$this->get('Item');
+
+		$this->assignRef('state', $state);
 		$this->assignRef('item', $item);
 
-		if ($state->get('id')) {
+		if ($item->get('id')) {
 			// Existing
 		}
 		else {

@@ -10,72 +10,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once dirname(__FILE__).DS.'_prototype.php';
-
 /**
  * @package		Users
  * @subpackage	com_users
  */
-class UserModelUser extends UserModelPrototype
+class UserModelUser extends JModel
 {
-	/**
-	 * Overridden method to lazy load data from the request/session as necessary
-	 *
-	 * @access	public
-	 * @param	string	$key		The key of the state item to return
-	 * @param	mixed	$default	The default value to return if it does not exist
-	 * @return	mixed	The requested value by key
-	 * @since	1.0
-	 */
-	function getState($key=null, $default=null)
-	{
-		if (empty($this->__state_set))
-		{
-			$app = &JFactory::getApplication();
-
-			$cid	= JRequest::getVar('cid', array(0), '', 'array');
-			$id		= JRequest::getInt('id', $cid[0]);
-			$this->setState('id', $id);
-
-			$search = $app->getUserStateFromRequest('users.user.search', 'search');
-			$this->setState('search', $search);
-
-			//$published 	= $app->getUserStateFromRequest('users.user.published', 'published', 1);
-			//$this->setState('published', ($published == '*' ? null : $published));
-
-			$value = $app->getUserStateFromRequest('users.user.groupId', 'filter_group_id');
-			$this->setState('group_id', $value);
-
-			$value = $app->getUserStateFromRequest('users.user.loggedIn', 'filter_logged_in');
-			$this->setState('logged_in', $value);
-
-			$value = $app->getUserStateFromRequest('users.user.enabled', 'filter_enabled', '*');
-			$this->setState('enabled', $value);
-
-			$value = $app->getUserStateFromRequest('users.user.activated', 'filter_activated', '*');
-			$this->setState('activated', $value);
-
-			// List state information
-			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-			$this->setState('limit', $limit);
-
-			$limitstart = $app->getUserStateFromRequest('users.user.limitstart', 'limitstart', 0);
-			$this->setState('limitstart', $limitstart);
-
-			$orderCol	= $app->getUserStateFromRequest('users.user.ordercol', 'filter_order', 'a.name');
-			$orderDirn	= $app->getUserStateFromRequest('users.user.orderdirn', 'filter_order_Dir', 'asc');
-			if ($orderCol) {
-				$this->setState('order by',	$orderCol.' '.($orderDirn == 'asc' ? 'asc' : 'desc'));
-			}
-			$this->setState('orderCol',	$orderCol);
-			$this->setState('orderDirn',	$orderDirn);
-
-			$this->__state_set = true;
-		}
-		return parent::getState($key, $default);
-	}
-
-
 	/**
 	 * Proxy for getTable
 	 */
@@ -89,110 +29,10 @@ class UserModelUser extends UserModelPrototype
 	 */
 	function &getItem()
 	{
-		$session = &JFactory::getSession();
-		$id = (int) $session->get('users.'.$this->getName().'.id', $this->getState('id'));
-
-		$user	= &JUser::getInstance($id);
+		$session	= &JFactory::getSession();
+		$id			= (int) $session->get('users.'.$this->getName().'.id', $this->getState('id'));
+		$user		= &JUser::getInstance($id);
 		return $user;
-	}
-
-
-	/**
-	 * Gets a list of categories objects
-	 *
-	 * Filters may be fields|published|order by|searchName|where
-	 * @param array Named array of field-value filters
-	 * @param boolean True if foreign keys are to be resolved
-	 */
-	function _getListQuery($filters, $resolveFKs=false)
-	{
-		$groupId		= $filters->get('group_id');
-		$loggedIn		= $filters->get('logged_in');
-		$enabled		= $filters->get('enabled');
-		$activated		= $filters->get('activated');
-		// arbitrary where
-		$select			= $filters->get('select');
-		$search			= $filters->get('search');
-		$where			= $filters->get('where');
-		$orderBy		= $filters->get('order by');
-
-		$db	= &$this->getDBO();
-		$query = new JQuery;
-
-		$query->select($select !== null ? $select : 'a.*' );
-		$query->from('#__users AS a');
-
-		if ($resolveFKs) {
-			/*
-			// checked out
-			$query->select('co.name AS editor');
-			$query->join('LEFT', '#__users AS co ON co.id=a.checked_out');
-
-			// access level
-			$config	= &JComponentHelper::getParams('com_users');
-			if ($config->get('acl_mode') == 0) {
-				$query->select('g.name AS access_name');
-				$query->join('LEFT', '#__core_acl_axo_groups AS g ON g.value=a.access');
-			}
-			else {
-				$query->select('g.name AS access_name');
-				$query->join('LEFT', '#__core_acl_axo_groups AS g ON g.value=CAST(a.access AS CHAR)');
-			}
-*/
-			$NL = $db->Quote("\n");
-			$query->select('GROUP_CONCAT(DISTINCT(g.name) SEPARATOR '.$NL.') AS groups');
-			$query->join('INNER', '#__core_acl_aro AS aro ON aro.value = a.id');
-			$query->join('INNER', '#__core_acl_groups_aro_map AS gm ON gm.aro_id = aro.id');
-			$query->join('INNER', '#__core_acl_aro_groups AS g ON g.id = gm.group_id');
-			$query->group('a.id');
-
-			/* @todo Check for performance on this join  - there is an index on userid ?? */
-			$query->select('s.userid AS loggedin');
-			if ($loggedIn) {
-				$query->join('INNER', '#__session AS s ON s.userid = a.id');
-			}
-			else {
-				$query->join('LEFT', '#__session AS s ON s.userid = a.id');
-			}
-		}
-
-		// options
-		if ($search) {
-			$match = $db->Quote('%'.$db->getEscaped($search, true).'%', false);
-			$query->where('(a.name LIKE '.$match.' OR a.username LIKE '.$match.')');
-		}
-
-		if ($groupId) {
-			if (!$resolveFKs) {
-				$query->join('INNER', '#__core_acl_aro AS aro ON aro.value = a.id');
-				$query->join('INNER', '#__core_acl_groups_aro_map AS gm ON gm.aro_id = aro.id');
-			}
-			$query->where('gm.group_id = '.(int) $groupId);
-		}
-
-		if (is_numeric($enabled)) {
-			$query->where('a.block = '.$enabled);
-		}
-
-		if (is_numeric($activated)) {
-			if ($activated == 1) {
-				$query->where('a.activation = '.$db->Quote(''));
-			}
-			else {
-				$query->where('a.activation <> '.$db->Quote(''));
-			}
-		}
-
-		if ($where) {
-			$query->where($where);
-		}
-
-		if ($orderBy) {
-			$query->order($this->_db->getEscaped($orderBy));
-		}
-
-		//echo str_replace('#__','jos_',nl2br($query->toString()));
-		return $query;
 	}
 
 	/**
@@ -212,4 +52,197 @@ class UserModelUser extends UserModelPrototype
 
 		return $result;
 	}
+
+	/**
+	 * Saves the record
+	 */
+	function save($input)
+	{
+		// Initialize some variables
+		$app		= &JFactory::getApplication();
+		$db			= &JFactory::getDBO();
+		$me			= &JFactory::getUser();
+		$acl		= &JFactory::getACL();
+		$MailFrom	= $app->getCfg('mailfrom');
+		$FromName	= $app->getCfg('fromname');
+		$SiteName	= $app->getCfg('sitename');
+		$userId		= JArrayHelper::getValue($input, 'id', 0, 'int');
+
+ 		// Create a new JUser object
+		$user		= JUser::getInstance($userId);
+		// @todo How does this work with multi-mapping groups
+		$oldGroupId	= $user->get('gid');
+
+		if (!$user->bind($input)) {
+			$this->setError($user->getError());
+			return false;
+		}
+
+		$objectID 	= $acl->get_object_id('users', $user->get('id'), 'ARO');
+		$groups 	= $acl->get_object_groups($objectID, 'ARO');
+		$this_group = strtolower($acl->get_group_name($groups[0], 'ARO'));
+
+		if ($user->get('id') == $me->get('id') && $user->get('block') == 1) {
+			$this->setError(JText::_('You cannot block Yourself!'));
+			return false;
+		}
+
+		if (($this_group == 'super administrator') && $user->get('block') == 1) {
+			$this->setError(JText::_('You cannot block a Super Administrator'));
+			return false;
+		}
+
+		if (($this_group == 'administrator') && ($me->get('gid') == 24) && $user->get('block') == 1) {
+			$this->setError(JText::_('WARNBLOCK'));
+			return false;
+		}
+
+		if (($this_group == 'super administrator') && ($me->get('gid') != 25))
+		{
+			$this->setError(JText::_('You cannot edit a super administrator account'));
+			return false;
+		}
+		// Are we dealing with a new user which we need to create?
+		$isNew 	= ($user->get('id') < 1);
+		if (!$isNew)
+		{
+			// if group has been changed and where original group was a Super Admin
+			if ($user->get('gid') != $oldGroupId && $oldGroupId == 25)
+			{
+				// count number of active super admins
+				$db->setQuery(
+					'SELECT COUNT(id)'
+					. ' FROM #__users'
+					. ' WHERE gid = 25'
+					. ' AND block = 0'
+				);
+				$count = $db->loadResult();
+
+				if ($count <= 1) {
+					// disallow change if only one Super Admin exists
+					$this->setError(JText::_('WARN_ONLY_SUPER'));
+					return false;
+				}
+			}
+		}
+
+		// Lets save the JUser object
+		if (!$user->save())
+		{
+			$this->setError($user->getError());
+			return false;
+		}
+
+		/*
+	 	 * Time for the email magic so get ready to sprinkle the magic dust...
+	 	 */
+		if ($isNew)
+		{
+			$adminEmail = $me->get('email');
+			$adminName	= $me->get('name');
+
+			$subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
+			$message = sprintf (JText::_('NEW_USER_MESSAGE'), $user->get('name'), $SiteName, JUri::root(), $user->get('username'), $user->password_clear);
+
+			if ($MailFrom != '' && $FromName != '')
+			{
+				$adminName 	= $FromName;
+				$adminEmail = $MailFrom;
+			}
+			JUtility::sendMail($adminEmail, $adminName, $user->get('email'), $subject, $message);
+		}
+
+		// If updating self, load the new user object into the session
+		if ($user->get('id') == $me->get('id'))
+		{
+			// Get an ACL object
+			$acl = &JFactory::getACL();
+
+			// Get the user group from the ACL
+			$grp = $acl->getAroGroup($user->get('id'));
+
+			// Mark the user as logged in
+			$user->set('guest', 0);
+			$user->set('aid', 1);
+
+			// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
+			if ($acl->is_group_child_of($grp->name, 'Registered') ||
+				$acl->is_group_child_of($grp->name, 'Public Backend')) {
+				$user->set('aid', 2);
+			}
+
+			// Set the usertype based on the ACL group name
+			$user->set('usertype', $grp->name);
+
+			$session = &JFactory::getSession();
+			$session->set('user', $user);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Removes the record(s) from the database
+	 *
+	 * @param	array	An array of User IDs
+	 * @return	boolean
+	 */
+	function delete($ids)
+	{
+		JArrayHelper::toInteger($ids);
+
+		if (count($ids) < 1) {
+			$this->setError(JText::_('Select a User to delete'));
+			return false;
+		}
+
+		foreach ($ids as $id)
+		{
+			// check for a super admin ... can't delete them
+			$objectID 	= $acl->get_object_id('users', $id, 'ARO');
+			$groups 	= $acl->get_object_groups($objectID, 'ARO');
+			$thisGroup = strtolower($acl->get_group_name($groups[0], 'ARO'));
+
+			$success = false;
+			// @todo The group checking need to be done via the API
+			if ($thisGroup == 'super administrator') {
+				$this->setError(JText::_('You cannot delete a Super Administrator'));
+			}
+			else if ($id == $currentUser->get('id')) {
+				$this->setError(JText::_('You cannot delete Yourself!'));
+			}
+			// @todo The group checking need to be done via the API
+			else if (($thisGroup == 'administrator') && ($currentUser->get('gid') == 24)) {
+				$this->setError(JText::_('WARNDELETE'));
+			}
+			else {
+				$user	=& JUser::getInstance((int)$id);
+				$count	= 2;
+
+				if ($user->get('gid') == 25) {
+					// count number of active super admins
+					$db->setQuery(
+						'SELECT COUNT(id)'
+						. ' FROM #__users'
+						. ' WHERE gid = 25'
+						. ' AND block = 0'
+					);
+					$count = $db->loadResult();
+				}
+
+				if ($count <= 1 && $user->get('gid') == 25) {
+					// cannot delete Super Admin where it is the only one that exists
+					$this->setError(JText::_('You cannot delete this Super Administrator as it is the only active Super Administrator for your site'));
+				}
+				else {
+					// @todo Log the user out/delete user acounts active sessions
+					$user->delete();
+					// @todo Error check delete
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 }

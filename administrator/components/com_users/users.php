@@ -20,66 +20,7 @@ if (!$user->authorize('com_users', 'manage')) {
 jimport('joomla.application.component.controller');
 jimport('joomla.application.component.model');
 JTable::addIncludePath(JPATH_COMPONENT.DS.'tables');
-
-/**
- * Component Controller
- *
- * @package		Users
- * @subpackage	com_user
- */
-class UserController extends JController
-{
-	function display()
-	{
-		$document	= &JFactory::getDocument();
-
-		// Set the default view name and format from the Request
-		$vName		= JRequest::getWord('view', 'users');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getWord('layout', 'default');
-
-		if ($view = &$this->getView($vName, $vFormat))
-		{
-			switch ($vName)
-			{
-				case 'user':
-				case 'users':
-					$model = $this->getModel('user');
-					break;
-
-				case 'group':
-				case 'groups':
-					$acl		= &JFactory::getACL();
-					$parentId	= $acl->get_group_id('USERS');
-					$model		= $this->getModel('group');
-					$model->setState('type', 'aro');
-					$model->setState('parent_id', $parentId);
-					$model->setState('show.tree', 1);
-					break;
-
-				case 'level':
-				case 'levels':
-					$model = $this->getModel('group');
-					$model->setState('type', 'axo');
-					break;
-
-			}
-
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
-			$view->setLayout($lName);
-			$view->assignRef('document', $document);
-
-			JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
-			$view->display();
-		}
-
-		// Set up the Linkbar
-		JSubMenuHelper::addEntry(JText::_('Link Users'),			'index.php?option=com_users&view=users',	$vName == 'users');
-		JSubMenuHelper::addEntry(JText::_('Link Groups'),		'index.php?option=com_users&view=groups',	$vName == 'groups');
-		JSubMenuHelper::addEntry(JText::_('Link Access Levels'),	'index.php?option=com_users&view=levels',	$vName == 'levels');
-	}
-}
+require_once dirname(__FILE__).DS.'controller.php';
 
 // Determine the request protocol
 $protocol = JRequest::getWord('protocol');

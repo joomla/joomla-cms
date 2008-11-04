@@ -26,12 +26,9 @@ class UserControllerUser extends JController
 		parent::__construct();
 
 		$this->registerTask('save2copy',	'save');
-		$this->registerTask('save2new',	'save');
+		$this->registerTask('save2new',		'save');
 		$this->registerTask('apply',		'save');
-		$this->registerTask('unpublish',	'publish');
-		$this->registerTask('trash',		'publish');
-		$this->registerTask('orderup',		'ordering');
-		$this->registerTask('orderdown',	'ordering');
+		$this->registerTask('unblock',		'block');
 	}
 
 	/**
@@ -127,25 +124,28 @@ class UserControllerUser extends JController
 		$input['id'] = $id;
 
 		// Get the extensions model and set the post request in its state.
+		$task	= $this->getTask();
 		$model	= &$this->getModel();
-		$result	= $model->save($input);
-		$msg	= JError::isError($result) ? $result->message : 'Saved';
-
-		if ($this->_task == 'apply') {
-			$session->set('users.redirect.id', $model->getState('id'));
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false), JText::_($msg));
+		if (!$model->save($input)) {
+			JError::raiseWarning(500, $model->getError());
+			$task = 'apply';
+			$this->setMessage(JText::_('CANNOT SAVE THE USER INFORMATION'));
 		}
-		else if ($this->_task == 'save2new') {
-			$session->set('users.user.id', null);
-			$model->checkin($id);
+		else {
+			$this->setMessage(JText::_('Saved'));
+		}
 
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false), JText::_($msg));
+		if ($task == 'apply') {
+			$session->set('users.redirect.id', $model->getState('id'));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false));
+		}
+		else if ($task == 'save2new') {
+			$session->set('users.user.id', null);
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false));
 		}
 		else {
 			$session->set('users.user.id', null);
-			$model->checkin($id);
-
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=users', false), JText::_($msg));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=users', false));
 		}
 	}
 
@@ -220,6 +220,90 @@ class UserControllerUser extends JController
 		}
 
 		$this->setRedirect('index.php?option=com_users&view=users');
+	}
+
+	/**
+	 * Disables the user account
+	 * @todo Move to the other controller - this is just the display controller
+	 */
+	function block()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or jexit('Invalid Token');
+
+		$db 			=& JFactory::getDBO();
+		$acl			=& JFactory::getACL();
+		$currentUser 	=& JFactory::getUser();
+
+		$cid 	= JRequest::getVar('cid', array(), '', 'array');
+		$block  = ($this->getTask() == 'block') ? 1 : 0;
+
+		JArrayHelper::toInteger($cid);
+
+		if (count($cid) < 1) {
+			// @todo Convert to sprintf form
+			JError::raiseError(500, JText::_('Select a User to '.$this->getTask(), true));
+		}
+		foreach ($cid as $id)
+		{
+			// check for a super admin ... can't delete them
+			$objectID 	= $acl->get_object_id('users', $id, 'ARO');
+			$groups 	= $acl->get_object_groups($objectID, 'ARO');
+			$this_group = strtolower($acl->get_group_name($groups[0], 'ARO'));
+
+			$success = false;
+			if ($this_group == 'super administrator') {
+				$msg = JText::_('You cannot block a Super Administrator');
+			}
+			else if ($id == $currentUser->get('id'))
+			{
+				$msg = JText::_('You cannot block Yourself!');
+			}
+			else if (($this_group == 'administrator') && ($currentUser->get('gid') == 24))
+			{
+				$msg = JText::_('WARNBLOCK');
+			}
+			else
+			{
+				$user =& JUser::getInstance((int)$id);
+				$count = 2;
+
+				if ($user->get('gid') == 25)
+				{
+					// count number of active super admins
+					$query = 'SELECT COUNT(id)'
+						. ' FROM #__users'
+						. ' WHERE gid = 25'
+						. ' AND block = 0'
+					;
+					$db->setQuery($query);
+					$count = $db->loadResult();
+				}
+
+				if ($count <= 1 && $user->get('gid') == 25)
+				{
+					// cannot delete Super Admin where it is the only one that exists
+					$msg = "You cannot block this Super Administrator as it is the only active Super Administrator for your site";
+				}
+				else
+				{
+					$user =& JUser::getInstance((int)$id);
+					$user->block = $block;
+					$user->save();
+
+					if($block)
+					{
+						JRequest::setVar('task', 'block');
+						JRequest::setVar('cid', array($id));
+
+						// delete user acounts active sessions
+						$this->logout();
+					}
+				}
+			}
+		}
+
+		$this->setRedirect('index.php?option=com_users', $msg);
 	}
 
 	/**
