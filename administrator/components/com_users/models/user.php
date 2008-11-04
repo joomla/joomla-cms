@@ -85,6 +85,19 @@ class UserModelUser extends UserModelPrototype
 	}
 
 	/**
+	 * @return	JUser
+	 */
+	function &getItem()
+	{
+		$session = &JFactory::getSession();
+		$id = (int) $session->get( 'users.'.$this->getName().'.id', $this->getState('id') );
+
+		$user	= &JUser::getInstance($id);
+		return $user;
+	}
+
+
+	/**
 	 * Gets a list of categories objects
 	 *
 	 * Filters may be fields|published|order by|searchName|where

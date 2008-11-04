@@ -41,10 +41,10 @@ class UserModelPrototype extends JModel
 				if ($this->_total < $state->get( 'limitstart' )) {
 					$state->set( 'limitstart', 0 );
 				}
-			
+
 				$result				= $this->_getList( $sql, $state->get( 'limitstart' ), $state->get( 'limit' ));
 				$instances[$hash]	= $result;
-			
+
 		}
 		else {
 			// TODO: Ideal for true caching
@@ -85,6 +85,8 @@ class UserModelPrototype extends JModel
 		{
 			$session = &JFactory::getSession();
 			$id = (int) $session->get( 'users.'.$this->getName().'.id', $this->getState('id') );
+
+			$user	= JUser::getInstance($id);
 
 			$state->set( 'where', 'a.id='.(int) $id );
 			$query	= $this->_getListQuery( $state, $resolveFKs );

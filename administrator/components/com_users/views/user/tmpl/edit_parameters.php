@@ -7,7 +7,7 @@
 				<?php
 					jimport('joomla.html.pane');
 					$pane	=& JPane::getInstance('sliders');
-					$params = $this->user->getParameters(true);
+					$params = $this->item->getParameters(true);
 					echo $pane->startPane("menu-pane");
 					$groups = $params->getGroups();
 					if(count($groups)) {
