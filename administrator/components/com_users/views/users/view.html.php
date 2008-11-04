@@ -21,6 +21,9 @@ class UserViewUsers extends JView
 	public $document = null;
 	public $state = null;
 	protected $_total = null;
+	protected $f_logged_in = null;
+	protected $f_enabled = null;
+	protected $f_activated = null;
 
 	/**
 	 * Display the view

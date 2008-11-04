@@ -23,13 +23,13 @@
 			</td>
 			<td nowrap="nowrap">
 				<select name="filter_logged_in" class="inputbox" size="1" onchange="document.adminForm.submit( );">
-					<?php echo JHtml::_('select.options', $this->f_logged_in, 'value', 'text', $this->state->get( 'logged_in' ) ); ?>
+					<?php echo JHtml::_('select.options', $this->get('f_logged_in'), 'value', 'text', $this->state->get( 'logged_in' ) ); ?>
 				</select>
 				<select name="filter_enabled" class="inputbox" size="1" onchange="document.adminForm.submit( );">
-					<?php echo JHtml::_('select.options', $this->f_enabled, 'value', 'text', $this->state->get( 'enabled' ) ); ?>
+					<?php echo JHtml::_('select.options', $this->get('f_enabled'), 'value', 'text', $this->state->get( 'enabled' ) ); ?>
 				</select>
 				<select name="filter_activated" class="inputbox" size="1" onchange="document.adminForm.submit( );">
-					<?php echo JHtml::_('select.options', $this->f_activated, 'value', 'text', $this->state->get( 'activated' ) ); ?>
+					<?php echo JHtml::_('select.options', $this->get('f_activated'), 'value', 'text', $this->state->get( 'activated' ) ); ?>
 				</select>
 				<select name="filter_group_id" class="inputbox" size="1" onchange="document.adminForm.submit( );">
 					<option value="0"><?php echo JText::_( 'Select Group' ); ?></option>

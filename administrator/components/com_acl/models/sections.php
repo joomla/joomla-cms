@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT.DS.'models'.DS.'_prototypelist.php';
+require_once dirname(__FILE__).DS.'_prototypelist.php';
 
 /**
  * @package		Joomla.Administrator

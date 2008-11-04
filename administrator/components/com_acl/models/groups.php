@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT.DS.'models'.DS.'_prototypelist.php';
+require_once dirname(__FILE__).DS.'_prototypelist.php';
 
 /**
  * @package		Joomla.Administrator
@@ -78,7 +78,7 @@ class AccessModelGroups extends AccessModelPrototypeList
 		{
 			$db			= &$this->getDBO();
 			$query		= new JQuery;
-			$type		= strtolower($this->getState('list.group_type'));
+			$type		= strtolower($this->getState('list.group_type', 'aro'));
 			$tree		= $this->getState('list.tree');
 			$parentId	= $this->getState('list.parent_id');
 			$select		= $this->getState('list.select', 'a.*');
@@ -137,7 +137,7 @@ class AccessModelGroups extends AccessModelPrototypeList
 				$query->order($this->_db->getEscaped($orderBy));
 			}
 
-			//echo nl2br($query->toString());
+			echo nl2br($query->toString());
 			$this->_list_query = (string) $query;
 		}
 

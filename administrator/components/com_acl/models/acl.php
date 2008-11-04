@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_COMPONENT.DS.'models'.DS.'_prototypeitem.php';
+require_once dirname(__FILE__).DS.'_prototypeitem.php';
 
 if (!defined('ACCESS_USERS_ARO_ID')) {
 	define('ACCESS_USERS_ARO_ID', 28);

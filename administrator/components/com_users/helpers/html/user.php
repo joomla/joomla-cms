@@ -25,17 +25,18 @@ class JHtmlUser
 	*/
 	function groups( $selected = null, $parentId = 0, $type = 'aro' )
 	{
-		$model = JModel::getInstance( 'Group', 'UserModel', array( 'ignore_request' => 1 ) );
+		JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_acl'.DS.'models');
+		$model = JModel::getInstance( 'Groups', 'AccessModel', array( 'ignore_request' => 1 ) );
 		$model->setState( 'type', $type );
 
 		// Set the model state to get the groups tree
-		$model->setState( 'select',		'a.id AS value, a.name AS text' );
-		$model->setState( 'show.tree',	1 );
-		$model->setState( 'order by',	'a.lft' );
-		$model->setState( 'parent_id',	$parentId );
+		$model->setState( 'list.select',	'a.id AS value, a.name AS text' );
+		$model->setState( 'list.tree',		1 );
+		$model->setState( 'list.order',		'a.lft' );
+		$model->setState( 'list.parent_id',	$parentId );
 
 		// Get a list without resolving foreign keys
-		$options = $model->getItems( 0 );
+		$options = $model->getList( 0 );
 
 		// Find the level of the parent
 		$parentLevel = ($parentId > 0) ? $model->getLevel( $parentId, $type ) : 0;
