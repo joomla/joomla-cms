@@ -47,11 +47,6 @@ class UserController extends JController
 			JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 			$view->display();
 		}
-
-		// Set up the Linkbar
-		JSubMenuHelper::addEntry(JText::_('Link Users'),			'index.php?option=com_users&view=users',	$vName == 'users');
-		JSubMenuHelper::addEntry(JText::_('Link Groups'),		'index.php?option=com_users&view=groups',	$vName == 'groups');
-		JSubMenuHelper::addEntry(JText::_('Link Access Levels'),	'index.php?option=com_users&view=levels',	$vName == 'levels');
 	}
 
 	/**
