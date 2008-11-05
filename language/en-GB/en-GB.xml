@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id -->
-<metafile version="1.5"  client="site" >
+<metafile version="1.6"  client="site" >
 	<name>English(United Kingdom)</name>
 	<tag>en-GB</tag>
-	<version>1.5.2</version>
+	<version>1.6</version>
 	<creationDate>2008-03-15</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id$ -->
-<metafile version="1.5" client="installation">
+<metafile version="1.6" client="installation">
 	<name>English(United Kingdom)</name>
-	<version>1.5.4</version>
+	<version>1.6</version>
 	<creationDate>2008-03-15</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>
-		Copyright (C) 2005 - 2008 Open Source Matters. All rights
-		reserved.
+	<copyright>Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
 	</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>English language file for web installer</description>
