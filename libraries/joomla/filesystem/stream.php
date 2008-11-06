@@ -23,7 +23,7 @@
 defined('JPATH_BASE') or die();
 
 jimport('joomla.filesystem.helper');
-jimport('joomla.utility.utility');
+jimport('joomla.utilities.utility');
 
 /**
  * Joomla! Stream Class
@@ -419,6 +419,37 @@ class JStream extends JObject {
 		ini_set('track_errors',$track_errors);
 		// return the result
 		return $retval;
+	}
+	
+	function tell() {
+		if(!$this->_fh) {
+			$this->setError(JText::_('File not open'));
+			return false;
+		}
+		$res = false;
+		// Capture PHP errors
+		$php_errormsg = '';
+		$track_errors = ini_get('track_errors');
+		ini_set('track_errors', true);
+		switch($this->processingmethod) {
+			case 'gz':
+				$res = gztell($this->_fh);
+				break;
+			case 'bz':
+			case 'f':
+			default:
+				$res = ftell($this->_fh);
+				break;
+		}
+		// may return 0 so check its really false
+		if($res === FALSE) {
+			$this->setError($php_errormsg);
+		}
+			
+		// restore error tracking to what it was before
+		ini_set('track_errors',$track_errors);
+		// return the result
+		return $res;		
 	}
 
 	/**

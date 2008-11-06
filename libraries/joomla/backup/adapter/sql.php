@@ -3,9 +3,30 @@
 defined('JPATH_BASE') or die();
 
 jimport('joomla.base.adapterinstance');
+jimport('joomla.tasks.tasksuspendable');
 
-class JBackupSql extends JAdapterInstance {
+class JBackupSql extends JAdapterInstance implements JTaskSuspendable {
 	protected $yield_amount = 100; // yield every 100 queries
+	protected $db;
+	protected $task;
+	
+	public function __construct(&$parent, &$db=null) {
+		$this->parent =& $parent;
+		$this->db =& $this->db ? $db : JFactory::getDBO();
+	}
+	
+	public function setTask(&$task) {
+		$this->task =& $task;
+	}
+	
+	public function suspendTask() {
+		// TODO: Finish this function
+		return Array();
+	}
+	
+	public function restoreTask($options) {
+		$this->setProperties($options);
+	}
 	
 	/**
 	 * Run a back up with a set of tables
@@ -24,12 +45,11 @@ class JBackupSql extends JAdapterInstance {
 		if(!isset($options['replace_prefix'])) $options['replace_prefix'] = 0; // replace jos_ with #__
 		if(!isset($options['create_table'])) $options['create_table'] = 1; // append create table
 		if(!isset($options['droptable'])) $options['droptable'] = 1; // append drop table
-		$db =& JFactory::getDBO();
-		$db->setQuery('SET sql_quote_show_create = 1;');
-		$db->Query();
+		$this->db->setQuery('SET sql_quote_show_create = 1;');
+		$this->db->Query();
 		$config =& JFactory::getConfig();
 		$prefix = $config->getValue('config.dbprefix');
-		$tables = $db->getTableList(); // load all tables in database
+		$tables = $this->db->getTableList(); // load all tables in database
 		// check if this is set and contains rows otherwise set it to all of the tables
 		if(!isset($options['tables']) || !count($options['tables'])) {
 			$options['tables'] = Array(); // set this
@@ -57,22 +77,22 @@ class JBackupSql extends JAdapterInstance {
 					$line .= "`;\n";
 					$output->write($line);
 				}
-				$db->setQuery('SHOW CREATE TABLE '. $table);
-				$create = $db->loadRow();
+				$this->db->setQuery('SHOW CREATE TABLE '. $table);
+				$create = $this->db->loadRow();
 				$create = $create[1].";\n\n"; // ignore the table name
 				$create = $options['replace_prefix'] ? str_replace($prefix,'#__', $create) : $create;
 				$output->write($create);
 			}
-			$db->setQuery('SELECT COUNT(*) FROM '. $table);
-			$rows = $db->loadResult();
+			$this->db->setQuery('SELECT COUNT(*) FROM '. $table);
+			$rows = $this->db->loadResult();
 			$count = 0;
 			if($rows) {
 				do {
-					$db->setQuery('SELECT * FROM '. $table, $count, 1);
-					$row = $db->loadRow();
+					$this->db->setQuery('SELECT * FROM '. $table, $count, 1);
+					$row = $this->db->loadRow();
 					$tablename = $options['replace_prefix'] ? str_replace($prefix,'#__', $table) : $table;
 					$line = 'INSERT INTO `'. $tablename .'` VALUES(';
-					$line .= implode(',', array_map(array($db, 'Quote'), $row));
+					$line .= implode(',', array_map(array($this->db, 'Quote'), $row));
 					$line .= ");\n";
 					$output->write($line);
 					$count++;
@@ -98,7 +118,6 @@ class JBackupSql extends JAdapterInstance {
 		if(!is_array($options)) return false; // if we don't have an array bail 
 		if(!isset($options['destination'])) return false; // if we don't have a dest bail
 		if(!isset($options['filename'])) $options['filename'] = 'data.sql'; // and this		
-		$db =& JFactory::getDBO();
 		jimport('joomla.database.dataload');
 		$loader =& JDataLoad::getInstance(Array('driver'=>'sql','filename'=>$options['destination'].DS.$options['filename']));
 		if($loader INSTANCEOF JException) {

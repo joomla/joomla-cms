@@ -538,7 +538,7 @@ class ModulesModelModule extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
-	function saveorder($cid = array(), $order)
+	function saveorder($cid, $order)
 	{
 		$total		= count( $cid );
 

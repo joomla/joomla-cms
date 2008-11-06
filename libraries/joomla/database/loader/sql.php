@@ -19,7 +19,10 @@
 // No direct access
 defined('JPATH_BASE') or die();
 
-class JLoaderSql extends JDataLoad {
+jimport('joomla.tasks.task');
+jimport('joomla.tasks.tasksuspendable');
+
+class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 	/** JStream internal stream object */
 	private $_stream;
 	/** DBO */
@@ -30,18 +33,22 @@ class JLoaderSql extends JDataLoad {
 	protected $data_chunk_length = 16384;
 	/** @var int How many lines may be considered to be one query (except text lines) */ 
 	protected $max_query_lines = 300;
+	/** @var JStream Log file */
+	private $_logger;
 	
-	protected $lines_per_session = 3000;
+	protected $lines_per_session = 10000;
 	protected $delay_per_session = 0;
 	protected $yield_amount = 100; // run yield for this duration
 	protected $total_queries = 0;
 	protected $filename = '';
 	protected $offset = 0;
 	protected $start = 0;
-	protected $queries = 0;
-	protected $comment = Array('#', '--');
+	protected $_queries = 0;
+	protected $_linenumber = 0;
+	protected $comment = Array('#', '--' ,'/*!');
 	protected $taskid = 0;
 	protected $taskset = 0;
+	
 	
 	public function __construct($options) {
 		if(!isset($options['filename'])) {
@@ -56,6 +63,10 @@ class JLoaderSql extends JDataLoad {
 			return false;
 		}
 		
+		// Open up log file
+		//$this->_logger =& JFactory::getStream();
+		//$this->_logger->open('/tmp/datalog','a');
+		
 		$this->_dbo =& JFactory::getDBO();
 		
 		
@@ -64,16 +75,45 @@ class JLoaderSql extends JDataLoad {
 			if($this->taskset && !$this->taskid) {
 				// Add a new task to the task set and transfer control to the task set
 				// and set the taskid			
+				$taskset = new JTaskSet($this->_dbo);
+				$this->_task = $taskset->createTask();
 			} else if($this->taskid) {
 				// We have a task ID, so use that. We can find the taskset from the task
-				$task =& JTable::getTable('task');
-				$task->load($this->taskid);
+				$this->_task = new JTask($this->_dbo);
+				$this->_task->load($this->taskid);
 			}
 		}
 		
 		// Hope these work
 		@ini_set('auto_detect_line_endings', true);
 		@set_time_limit(0);
+	}
+	
+	public function __destruct() {
+		//$this->_logger->close();
+		$this->_stream->close();
+	}
+	
+	public function suspendTask() {
+		// TODO: Fill this function in
+		$this->start = $this->_linenumber;
+		$data = get_object_vars($this);
+		$result = Array();
+		foreach($data as $key=>$value) {
+			if($key[0] == '_') continue;
+			$result[$key] = $value;
+		}
+		return $result;
+	}
+	
+	public function restoreTask($options) {
+		$this->setProperties($options);
+	}
+	
+	public function setTask(&$task) { 
+		$this->_task = $task;
+		$this->taskid = $task->taskid;
+		$this->taskset = $task->tasksetid;
 	}
 	
 	public function load($offset=-1) {
@@ -85,16 +125,17 @@ class JLoaderSql extends JDataLoad {
 		$query = '';
 		$querylines = 0;
 		$inparents = false;
-		$linenumber = $this->start;
-		// Stay processing as long as the $linespersession is not reached or the query is still incomplete		
-		while($linenumber < ($this->start + $this->lines_per_session) || $query != "") {
+		$dropline = false;
+		$this->_linenumber = $this->start;
+		// Stay processing as long as the $linespersession is not reached or the query is still incomplete
+		// or if the last query started with 'drop', the next one should be a create 
+		while($this->_linenumber < ($this->start + $this->lines_per_session) || $query != "" || $dropline) {
 			// Read the whole next line			
 			$dumpline = "";
 			while(!$this->_stream->eof() && substr($dumpline, -1) != "\n") {
 				$dumpline .= $this->_stream->gets($this->data_chunk_length);
 			}
 			if($dumpline === "") break;
-			
 			// Handle DOS and Mac encoded linebreaks (I don't know if it will work on Win32 or Mac Servers)
 
 			$dumpline = str_replace("\r\n", "\n", $dumpline);
@@ -111,8 +152,20 @@ class JLoaderSql extends JDataLoad {
 					}
 				}
 				if ($skipline) {
-					$linenumber++;
+					$this->_linenumber++;
 					continue;
+				}
+				
+				// check for drop statements
+				if(strpos($dumpline, 'DROP') === 0) {
+					// if they're dropping something, don't yield as this may cause weird errors
+					// hopefully the next valid line should contain a valid create statement
+					$dropline = true;
+				}
+				// if we see a create or an insert then reset dropline
+				// note: this is for testing, if not the above should work as an else
+				if(strpos($dumpline, 'CREATE') === 0 || strpos($dumpline, 'INSERT') === 0) {
+					$dropline = false;
 				}
 			}
 			
@@ -127,41 +180,47 @@ class JLoaderSql extends JDataLoad {
       		
       		// Add the line to query
 			$query .= $dumpline;
-			
 			// Don't count the line if in parents (text fields may include unlimited linebreaks)
       		if (!$inparents) $querylines++;
       		
       		// Stop if query contains more lines as defined by $this->max_query_lines
 			if ($querylines>$this->max_query_lines) {
-				$this->setError('JLoaderSQL::load: Oversized query on line '. $linenumber);
+				$this->setError('JLoaderSQL::load: Oversized query on line '. $this->_linenumber);
 				return false;
 			}
 			
 			// Execute query if end of query detected (; as last character) AND NOT in parents
 			if (ereg(";$",trim($dumpline)) && !$inparents) {
+				$this->offset = $this->_stream->tell(); // update the current location when we've finished a query
 				$this->_dbo->setQuery(trim($query));
+				//$line = $this->_dbo->getQuery()."\n";
+				//$this->_logger->write($line);
 				try {
 					$this->_dbo->Query();
 				} catch (JException $e) {
-        			echo ("<p class=\"error\">Error at the line $linenumber: ". trim($dumpline)."</p>\n");
+					echo '<p>'. $e->getMessage() .'</p>';
+        			echo ("<p class=\"error\">Error at the line $this->_linenumber: ". trim($dumpline)."</p>\n");
           			echo ("<p>Query: ".trim(nl2br(htmlentities($query)))."</p>\n");
-          			echo ("<p>MySQL: ".mysql_error()."</p>\n");
+          			echo ("<p>MySQL: ".$db->getError()."</p>\n");
           			return false;
         		}
 		        $this->total_queries++;
-		        $this->queries++;
+		        $this->_queries++;
 		        $query='';
 		        $querylines=0;
+		        if(!$dropline && $this->_task && $this->_queries && $this->_queries % $this->yield_amount == 0) {
+		        	$this->_task->yield();
+		        }
       		}
-      		$linenumber++;
-      		if($this->_task && !($this->queries % $this->yield_amount)) $this->_task->yield(); // check if refresh/reload is required
+      		$this->_linenumber++;
 		}
 		
-		if ($linenumber < ($this->start+$this->lines_per_session)) {
+		if ($this->_linenumber < ($this->start+$this->lines_per_session)) {
+			$this->delete();
 			return true; // we're all finished!
 		} else {
 			if($this->taskid) {
-				// TODO: Hand over control to the taskid
+				$this->_task->reload();
 			} else {
 				JError::raiseError(500, 'JLoaderSQL::load: Ran out of time during load');
 				return false;

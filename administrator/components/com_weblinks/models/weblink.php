@@ -327,7 +327,7 @@ class WeblinksModelWeblink extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function saveorder($cid = array(), $order)
+	function saveorder($cid, $order)
 	{
 		$row =& $this->getTable();
 		$groupings = array();

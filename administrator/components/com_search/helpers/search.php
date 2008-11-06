@@ -117,7 +117,7 @@ class SearchHelper
 	 * @param string The searchword to select around
 	 * @return string
 	 */
-	function prepareSearchContent( $text, $length = 200, $searchword )
+	function prepareSearchContent( $text, $length, $searchword )
 	{
 		// strips tags won't remove the actual jscript
 		$text = preg_replace( "'<script[^>]*>.*?</script>'si", "", $text );

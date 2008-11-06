@@ -42,7 +42,15 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
-05-Nov-2009 Wilco Jansen
+06-Nov-2008 Sam Moffatt
+ ^ Changed the year on Wilco's last changelog entry, time thankfully doesn't go that fast
+ + Added JStream::tell
+ + Added JTaskSuspendable interface to support suspension and resumption of tasks
+ ^ Various changes to taskset and task support systems
+ + Added JTaskSuspendable interface to JLoadSql to handle large SQL loads and gave JBackupSql initial support
+ - Removed incorrect uses of function argument defaults
+
+05-Nov-2008 Wilco Jansen
  ^ Changed some version tags to 1.6 in the tranlations files
  ! Translaters need to make sure the proper version tag is used in the installer language packs
 
