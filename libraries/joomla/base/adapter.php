@@ -69,11 +69,11 @@ class JAdapter extends JObject {
 	}	
 	
 	/**
-	 * Set an installer adapter by name
+	 * Set an adapter by name
 	 *
 	 * @access	public
 	 * @param	string	$name		Adapter name
-	 * @param	object	$adapter	Installer adapter object
+	 * @param	object	$adapter	Adapter object
 	 * @return	boolean True if successful
 	 * @since	1.5
 	 */

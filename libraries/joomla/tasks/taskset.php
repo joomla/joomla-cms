@@ -102,7 +102,9 @@ class JTaskSet extends JTable {
 			$this->setError($e->getMessage());
 			return false;
 		}
+		// Clean up any subtasks just in case
 		$query = 'DELETE FROM #__tasks WHERE tasksetid = '. $this->_db->Quote($this->$k);
+		$this->_db->setQuery($query);
 		try {
 			$this->_db->query();
 			return true;

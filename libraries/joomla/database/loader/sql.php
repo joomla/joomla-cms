@@ -36,7 +36,8 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 	/** @var JStream Log file */
 	private $_logger;
 	
-	protected $lines_per_session = 10000;
+	// TODO: Document this
+	protected $lines_per_session = 3000;
 	protected $delay_per_session = 0;
 	protected $yield_amount = 100; // run yield for this duration
 	protected $total_queries = 0;
@@ -49,7 +50,7 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 	protected $taskid = 0;
 	protected $taskset = 0;
 	
-	
+	/** Constructor */
 	public function __construct($options) {
 		if(!isset($options['filename'])) {
 			$this->setError(42, 'Filename not set');
@@ -89,11 +90,13 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 		@set_time_limit(0);
 	}
 	
+	/** Destructor */
 	public function __destruct() {
 		//$this->_logger->close();
 		$this->_stream->close();
 	}
 	
+	/** Suspend the task; required by JTaskSuspendable */ 
 	public function suspendTask() {
 		// TODO: Fill this function in
 		$this->start = $this->_linenumber;
@@ -106,16 +109,19 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 		return $result;
 	}
 	
+	/** Restore the task;  required by JTaskSuspendable */
 	public function restoreTask($options) {
 		$this->setProperties($options);
 	}
 	
+	/** Set the task; required by JTaskSuspendable */
 	public function setTask(&$task) { 
 		$this->_task = $task;
 		$this->taskid = $task->taskid;
 		$this->taskset = $task->tasksetid;
 	}
 	
+	/** Load the data */
 	public function load($offset=-1) {
 		if($offset > -1) $this->offset = $offset; 
 		if(!$this->_stream->seek($this->offset)) {
@@ -216,11 +222,11 @@ class JLoaderSql extends JDataLoad implements JTaskSuspendable {
 		}
 		
 		if ($this->_linenumber < ($this->start+$this->lines_per_session)) {
-			$this->delete();
+			if($this->_task) $this->_task->delete(); // remove this task when its done
 			return true; // we're all finished!
 		} else {
 			if($this->taskid) {
-				$this->_task->reload();
+				$this->_task->reload(); // force a task reload
 			} else {
 				JError::raiseError(500, 'JLoaderSQL::load: Ran out of time during load');
 				return false;

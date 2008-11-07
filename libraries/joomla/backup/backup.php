@@ -17,11 +17,52 @@
  
 defined('JPATH_BASE') or die();
 
-class JBackup extends JObject {
+jimport('joomla.base.adapter');
 
-	public function __construct()
+class JBackup extends JAdapter {
+
+	private $_db;
+	protected $taskset;
+	protected $backup;
+	
+	public function __construct(&$db, $backupid=0, $tasksetid=0)
 	{
+		$this->_db =& $db;	
+		$this->setBackupID($backupid);
+		$this->setTaskSetID($tasksetid);
 		parent::__construct(dirname(__FILE__),'JBackup');
+	}
+	
+	public function setTaskSetID($tasksetid) {
+		$this->taskset = new JTaskSet($db);
+		if ($tasksetid) {
+			$this->taskset->load($tasksetid);
+		} // if its zero create a new taskset; no work required
+	}
+	
+	public function setBackupID($backupid) {
+		$this->backup =& JFactory::getTable();
+		if($backupid) {
+			$this->backup->load($backupid);
+			$this->entries = $this->backup->getEntries();
+		}
+	}
+	
+	/**
+	 * Finishes the backup removing any extra data (e.g. tasksets)
+	 *
+	 */
+	public function finish() {
+		 if($this->taskset) $this->taskset->delete();
+	}
+	
+	/**
+	 * Set the task set of the backup
+	 *
+	 * @param unknown_type $taskset
+	 */
+	public function setTaskSet(&$taskset) {
+		$this->taskset =& $taskset;
 	}
 	
 	
@@ -31,8 +72,8 @@ class JBackup extends JObject {
 	 * @param unknown_type $type
 	 * @param unknown_type $source
 	 */
-	public function addEntry($type, $source) {
-		
+	public function addEntry($name, $type, $source) {
+		return $this->backup->addEntry($name, $type, $source);
 	}
 	
 	/**
@@ -41,8 +82,8 @@ class JBackup extends JObject {
 	 * @param unknown_type $type
 	 * @param unknown_type $source
 	 */
-	public function removeEntry($type, $source) {
-		
+	public function removeEntry($name, $type, $source) {
+		return $this->backup->removeEntry($name, $type, $source);
 	}
 	
 	/**
@@ -50,7 +91,9 @@ class JBackup extends JObject {
 	 *
 	 */
 	public function execute() {	
-		
+		while($task =& $tasket->getNextTask()) {
+			
+		}
 	}
 	
 }
