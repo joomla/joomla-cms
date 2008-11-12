@@ -6,12 +6,12 @@ jimport('joomla.tasks.task');
  * @since 1.6
  */
 class JTaskSet extends JTable { 
-	var $tasksetid;
-	var $taskname;
-	var $extension_id;
-	var $executionpage;
-	var $landingpage;
-	var $_startTime;
+	protected $tasksetid;
+	protected $tasksetname;
+	protected $extension_id;
+	protected $execution_page;
+	protected $landing_page;
+	protected $_startTime;
 	/** Time to run */
 	protected $run_time;
 	/** Maximum time to run */
@@ -67,8 +67,8 @@ class JTaskSet extends JTable {
 		while($task = $this->getNextTask()) $task->execute($callback, $context);
 		$app =& JFactory::getApplication();
 		$this->delete();
-		if(!$this->landingpage) $this->landingpage = 'index.php';
-		$app->redirect($this->landingpage);
+		if(!$this->landing_page) $this->landing_page = 'index.php';
+		$app->redirect($this->landing_page);
 	}
 	
 	public function &createTask() {
@@ -82,6 +82,19 @@ class JTaskSet extends JTable {
 		$task->store();
 		$task->setInstance($obj);
 		$obj->setTask($task);
+	}
+	
+	public function load($pid=null) {
+		$res = parent::load($pid);
+		if($res) $this->data = unserialize($this->data); // pull the data back out
+		return $res;
+	}
+	
+	public function store($updateNulls=false) {
+		$this->params = serialize($this->params);
+		$res = parent::store($updateNulls);
+		$this->params = unserialize($this->params);
+		return $res;		
 	}
 	
 	public function delete( $oid=null )
@@ -116,6 +129,6 @@ class JTaskSet extends JTable {
 	
 	public function redirect() {
 		$app =& JFactory::getApplication();
-		$app->redirect($this->landingpage);
+		$app->redirect($this->landing_page);
 	}
 }

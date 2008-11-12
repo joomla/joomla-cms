@@ -10,7 +10,7 @@
  * @package		Joomla.Framework
  * @subpackage	Table
  */
-class JTableBackups extends JTable
+class JTableBackup extends JTable
 {
 /**
 	 * @var int unsigned
@@ -41,7 +41,7 @@ class JTableBackups extends JTable
 	 */
 	protected $data = null;
 
-	private $_entries = null;
+	private $_entries = Array();
 	
 	/*
 	 * Constructor
@@ -52,19 +52,13 @@ class JTableBackups extends JTable
 		parent::__construct('#__backups', 'backupid', $db);
 	}
 	
-	public function load($oid = null) {
-		if(parent::load($oid)) {
-			$this->loadEntries();
-		}
-	}
-	
 	public function loadEntries()  {
 		$this->_entries = Array(); // reset this
-		$this->_db->setQuery('SELECT * FROM #__backupentries WHERE backupid = '. $backupid);
+		$this->_db->setQuery('SELECT * FROM #__backup_entries WHERE backupid = '. $this->backupid);
 		try {
 			$results = $this->_db->loadAssocList();
 			foreach($results as $result) {
-				$tmp =& JFactory::getTable('backupentry');
+				$tmp =& JTable::getInstance('backupentry');
 				$tmp->setProperties($result);
 				$this->_entries[] = clone($tmp);
 				return true;
@@ -74,8 +68,16 @@ class JTableBackups extends JTable
 		}
 	}
 	
+	public function load($oid=null) {
+		$res = parent::load($oid);
+		if($res) {
+			$res = $this->loadEntries();
+		} 
+		return $res;
+	}
+	
 	public function &getEntries() {
-		if($this->_entries != null) {
+		if(!count($this->_entries)) {
 			$this->loadEntries();
 		}
 		return $this->_entries;
@@ -114,20 +116,20 @@ class JTableBackups extends JTable
 		return true;
 	}
 	
-	public function &addEntry($name, $type, $source) {
-		$entry =& JTable::getTable('backupentry');
+	public function &addEntry($name, $type, $params) {
+		$entry =& JTable::getInstance('backupentry');
 		$entry->name = $name;
 		$entry->type = $type;
-		$entry->source = $source;
+		$entry->params = $params;
 		$this->_entries[] =& $entry;
 		return $entry;
 	}
 	
-	public function removeEntry($name, $type=null, $source=null) {
+	public function removeEntry($name, $type=null) {
 		foreach($this->_entries as $key=>$value) {
 			if($entry->name == $name 
-				&& ($type === null || $entry->type == $type) 
-				&& ($source === null || $entry->source == $source)) {
+				&& ($type === null || $entry->type == $type)
+			) {
 				unset($this->_entries[$key]);
 				return true;
 			}

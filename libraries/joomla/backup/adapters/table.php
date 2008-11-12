@@ -4,8 +4,22 @@ defined('JPATH_BASE') or die();
 
 jimport('joomla.base.adapterinstance');
 
-class JBackupTable extends JAdapterInstance {
+class JBackupTable extends JAdapterInstance implements JTaskSuspendable {
+	protected $task;
 	
+	public function setTask(&$task) {
+		$this->task =& $task;
+	}
+	
+	public function suspendTask() {
+		// TODO: Finish this function
+		return Array();
+	}
+	
+	public function restoreTask($options) {
+		$this->setProperties($options);
+	}
+		
 	
 	/**
 	 * Run a back up with a set of tables

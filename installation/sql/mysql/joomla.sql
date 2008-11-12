@@ -1297,21 +1297,27 @@ CREATE TABLE  `#__update_categories` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Categories';
 
 
-CREATE TABLE  `#__tasks` (
+CREATE TABLE  `moffats_joomla_trunk_16`.`jos_tasks` (
   `taskid` int(10) unsigned NOT NULL auto_increment,
   `tasksetid` int(10) unsigned NOT NULL default '0',
+  `type` varchar(20) NOT NULL default '',
   `data` text,
   `offset` int(11) default '0',
   `total` int(11) default '0',
+  `params` text,
   PRIMARY KEY  (`taskid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Individual tasks';
 
-CREATE TABLE  `#__tasksets` (
+CREATE TABLE  `moffats_joomla_trunk_16`.`jos_tasksets` (
   `tasksetid` int(10) unsigned NOT NULL auto_increment,
-  `taskname` varchar(100) default '',
+  `tasksetname` varchar(100) default NULL,
   `extensionid` int(10) unsigned default '0',
-  `executionpage` text,
-  `landingpage` text,
+  `execution_page` text,
+  `landing_page` text,
+  `run_time` int(10) unsigned NOT NULL default '0',
+  `max_time` int(10) unsigned NOT NULL default '0',
+  `threshold` int(10) unsigned NOT NULL default '0',
+  `data` text NOT NULL,
   PRIMARY KEY  (`tasksetid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Task Sets';
 
@@ -1333,8 +1339,8 @@ CREATE TABLE  `#__backup_entries` (
   `backupid` int(10) unsigned NOT NULL default '0',
   `type` varchar(20) NOT NULL default '',
   `name` varchar(50) NOT NULL default '',
-  `source` text NOT NULL,
-  `destination` text NOT NULL,
   `data` text NOT NULL,
+  `params` text NOT NULL,
   PRIMARY KEY  (`entryid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Backup Entries';
+

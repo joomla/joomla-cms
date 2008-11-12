@@ -92,6 +92,16 @@ class JAdapter extends JObject {
 		$this->_adapters[$name] =& $adapter;
 		return true;
 	}	
+	
+	public function &getAdapter($name) {
+		if(!array_key_exists($name, $this->_adapters)) {
+			if(!$this->setAdapter($name)) {
+				$false = false;
+				return $false;
+			}
+		}
+		return $this->_adapters[$name];
+	}
 		
 	/**
 	 * Loads all adapters

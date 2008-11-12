@@ -42,6 +42,14 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+12-Nov-2008 Sam Moffatt
+ ^ Changed default colours for error message so that it wasn't light grey on white (uses darker grey)
+ ^ Big changes to taskset and task system (including tables)
+ ^ Changes to backup and backupentry tables
+ + Added JAdapter::getAdapter
+ + Added JTaskSuspendable to table backup adapter
+ ^ Significant changes to JBackup to enable functionality
+
 07-Nov-2008 Sam Moffatt
  ^ Changes to JDataLoad and its adapters
  + Started fleshing out JBackup 
