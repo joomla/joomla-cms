@@ -73,7 +73,7 @@ function submitbutton(pressbutton) {
 	<?php echo JText::_( 'to the selected Section' ); ?>
 	<br />
 	<?php if ($isCopy) echo JText::_( 'NOTE: IF SAME SECTION' ); ?>
-	</td>.
+	</td>
 </tr>
 </table>
 <br /><br />

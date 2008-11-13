@@ -32,52 +32,58 @@ function submitbutton(pressbutton) {
 	<td  valign="top" width="20%">
 	<strong><?php echo JText::_( 'Sections being copied' ); ?>:</strong>
 	<br />
+		<ol>
 	<?php
-	echo "<ol>";
 	foreach ( $this->sections as $section ) {
 		?>
-		<li><?php echo $section->title; ?></li>
-		<input type="hidden" name="section[]" value="<?php echo $section->id; ?>" />
+		<li>
+			<?php echo $section->title; ?>
+			<input type="hidden" name="section[]" value="<?php echo $section->id; ?>" />
+		</li>
 		<?php
 	}
-	echo "</ol>";
 	?>
+		</ol>
 	</td>
 	<td  valign="top" width="20%">
-	<strong><?php echo JText::_( 'Categories being copied' ); ?>:</strong>
-	<br />
-	<?php
-	echo "<ol>";
-	foreach ( $this->categories as $category ) {
-		?>
-		<li><?php echo $category->title; ?></li>
-		<input type="hidden" name="category[]" value="<?php echo $category->id; ?>" />
+		<strong><?php echo JText::_( 'Categories being copied' ); ?>:</strong>
+		<br />
+		<ol>
 		<?php
-	}
-	echo "</ol>";
-	?>
+		foreach ( $this->categories as $category ) {
+			?>
+			<li>
+				<?php echo $category->title; ?>
+				<input type="hidden" name="category[]" value="<?php echo $category->id; ?>" />
+			</li>
+			<?php
+		}
+		?>
+		</ol>
 	</td>
 	<td valign="top" width="20%">
-	<strong><?php echo JText::_( 'Articles being copied' ); ?>:</strong>
-	<br />
-	<?php
-	echo "<ol>";
-	foreach ( $this->contents as $content ) {
-		?>
-		<li><?php echo $content->title; ?></li>
-		<input type="hidden" name="content[]" value="<?php echo $content->id; ?>" />
+		<strong><?php echo JText::_( 'Articles being copied' ); ?>:</strong>
+		<br />
+		<ol>
 		<?php
-	}
-	echo "</ol>";
-	?>
+		foreach ( $this->contents as $content ) {
+			?>
+			<li>
+				<?php echo $content->title; ?>
+				<input type="hidden" name="content[]" value="<?php echo $content->id; ?>" />
+			</li>
+			<?php
+		}
+		?>
+		</ol>
 	</td>
 	<td valign="top">
-	<?php echo JText::_( 'This will copy the Categories listed' ); ?>
-	<br />
-	<?php echo JText::_( 'DESCALLITEMSWITHINCAT' ); ?>
-	<br />
-	<?php echo JText::_( 'to the new Section(s) created.' ); ?>
-	</td>.
+		<?php echo JText::_( 'This will copy the Categories listed' ); ?>
+		<br />
+		<?php echo JText::_( 'DESCALLITEMSWITHINCAT' ); ?>
+		<br />
+		<?php echo JText::_( 'to the new Section(s) created.' ); ?>
+	</td>
 </tr>
 </table>
 <br /><br />

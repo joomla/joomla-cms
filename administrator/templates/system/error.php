@@ -23,6 +23,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 		<td align="center">
 			<h1>
 				<?php echo $this->error->get('code') ?> - <?php echo JText::_('An error has occurred') ?>
+			</h1>
 		</td>
 	</tr>
 	<tr>

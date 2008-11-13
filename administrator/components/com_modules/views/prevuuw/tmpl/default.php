@@ -12,6 +12,8 @@ var alltext = window.top.<?php echo $this->editor->getContent('text') ?>;
 		<td class="contentheading" colspan="2"><script>document.write(title);</script></td>
 	</tr>
 <tr>
-	<script>document.write("<td valign=\"top\" height=\"90%\" colspan=\"2\">" + alltext + "</td>");</script>
+	<td valign="top" height="90%" colspan="2">
+		<script>document.write(alltext);</script>
+	</td>
 </tr>
 </table>

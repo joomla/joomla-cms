@@ -45,7 +45,6 @@
 				<li>
 					<font color="#000066"><?php echo $item->name; ?></font>
 				</li>
-				<input type="hidden" name="mids[]" value="<?php echo $item->id; ?>" />
 				<?php endforeach; ?>
 			</ol>
 		</td>
@@ -56,6 +55,7 @@
 	</tr>
 </table>
 
+	<input type="hidden" name="mids[]" value="<?php echo $item->id; ?>" />
 	<input type="hidden" name="option" value="com_menus" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="type" value="<?php echo $this->table->menutype; ?>" />

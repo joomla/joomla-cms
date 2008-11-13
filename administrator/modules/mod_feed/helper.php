@@ -94,7 +94,7 @@ class modFeedHelper
 			?>
 				<tr>
 					<td align="center">
-						<image src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
+						<image src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>" />
 					</td>
 				</tr>
 			<?php

@@ -12,7 +12,7 @@
 				</div>
 				<div class="m">
 					<div class="far-right">
-						<div class="button1-right"><div class="prev"><a onclick="submitForm(adminForm, '<?php echo $this->back ?>');" alt="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
+						<div class="button1-right"><div class="prev"><a onclick="submitForm(adminForm, '<?php echo $this->back ?>');" title="<?php echo JText::_('Previous', true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
 					</div>
 					<span class="step"><?php echo JText::_('Error') ?></span>
 				</div>

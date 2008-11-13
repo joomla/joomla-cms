@@ -88,7 +88,7 @@
 			<td>
 			<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Menu Name' );?>::<?php echo $menu->title; ?>">
 				<a href="<?php echo $link; ?>">
-					<?php echo $menu->title; ?></a></spam>
+					<?php echo $menu->title; ?></a></span>
 			</td>
 			<td>
 				<?php echo $menu->menutype; ?>

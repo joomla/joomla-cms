@@ -114,7 +114,7 @@
 			<td>
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Category' );?>::<?php echo $row->category; ?>">
 				<a href="<?php echo $row->cat_link; ?>" >
-				<?php echo $row->category; ?></a><span>
+				<?php echo $row->category; ?></a></span>
 			</td>
 			<td>
 				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit User' );?>::<?php echo $row->user; ?>">

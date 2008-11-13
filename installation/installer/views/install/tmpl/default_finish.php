@@ -12,11 +12,11 @@
 				<div class="m">
 					<div class="far-right">
 						<?php if ($this->direction == 'ltr') : ?>
-							<div class="button1-left"><div class="site"><a onclick="window.location.href='<?php echo $this->getSessionVar('siteUrl') ?>';" alt="<?php echo JText::_('Site', true) ?>"><?php echo JText::_('Site') ?></a></div></div>
-							<div class="button1-left"><div class="admin"><a onclick="window.location.href='<?php echo $this->getSessionVar('adminUrl') ?>';" alt="<?php echo JText::_('Admin', true) ?>"><?php echo JText::_('Admin') ?></a></div></div>
+							<div class="button1-left"><div class="site"><a onclick="window.location.href='<?php echo $this->getSessionVar('siteUrl') ?>';" title="<?php echo JText::_('Site', true) ?>"><?php echo JText::_('Site') ?></a></div></div>
+							<div class="button1-left"><div class="admin"><a onclick="window.location.href='<?php echo $this->getSessionVar('adminUrl') ?>';" title="<?php echo JText::_('Admin', true) ?>"><?php echo JText::_('Admin') ?></a></div></div>
 						<?php else: ?>
-							<div class="button1-left"><div class="admin"><a onclick="window.location.href='<?php echo $this->getSessionVar('adminUrl') ?>';" alt="<?php echo JText::_('Admin', true) ?>"><?php echo JText::_('Admin') ?></a></div></div>
-							<div class="button1-left"><div class="site"><a onclick="window.location.href='<?php echo $this->getSessionVar('siteUrl') ?>';" alt="<?php echo JText::_('Site', true) ?>"><?php echo JText::_('Site') ?></a></div></div>
+							<div class="button1-left"><div class="admin"><a onclick="window.location.href='<?php echo $this->getSessionVar('adminUrl') ?>';" title="<?php echo JText::_('Admin', true) ?>"><?php echo JText::_('Admin') ?></a></div></div>
+							<div class="button1-left"><div class="site"><a onclick="window.location.href='<?php echo $this->getSessionVar('siteUrl') ?>';" title="<?php echo JText::_('Site', true) ?>"><?php echo JText::_('Site') ?></a></div></div>
 						<?php endif; ?>
 					</div>
 					<span class="step"><?php echo JText::_('Finish') ?></span>

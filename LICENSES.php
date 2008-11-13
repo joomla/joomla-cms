@@ -12,6 +12,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
+/* Comment to get around validation errors
 ?>
 
 Joomla! includes or is derivative of works distributed under the licenses listed below.

@@ -1,6 +1,6 @@
+<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access'); ?>
 <form action="index.php" method="post" name="adminForm">
 <?php
-
 if(!count($this->messages)) {
 	echo '<p>'. JText::_('No warnings detected').'</p>';
 } else {
@@ -20,8 +20,9 @@ if(!count($this->messages)) {
 }
 // the below br fixes a formatting issue in ff3 on mac
 ?><br />
-<input type="hidden" name="task" value="manage" />
-<input type="hidden" name="boxchecked" value="0" />
-<input type="hidden" name="option" value="com_installer" />
-<input type="hidden" name="type" value="warnings" />
-<?php echo JHtml::_( 'form.token' ); ?>
+	<input type="hidden" name="task" value="manage" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="option" value="com_installer" />
+	<input type="hidden" name="type" value="warnings" />
+	<?php echo JHtml::_( 'form.token' ); ?>
+</form>

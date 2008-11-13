@@ -1,8 +1,7 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die('Restricted access');
 
-<?php
-		$editor		=& JFactory::getEditor();
-		JHtml::_('behavior.caption');
+	$editor		=& JFactory::getEditor();
+	JHtml::_('behavior.caption');
 ?>
 
 <script>
@@ -18,7 +17,9 @@ alltext = alltext.replace('<hr id=\"system-readmore\" \/>', '');
 	<tr>
 		<td class="contentheading" colspan="2"><script>document.write(title);</script></td>
 	</tr>
-<tr>
-	<script>document.write("<td valign=\"top\" height=\"90%\" colspan=\"2\">" + alltext + "</td>");</script>
-</tr>
+	<tr>
+		<td valign="top" height="90%" colspan="2">
+			<script>document.write(alltext);</script>
+		</td>
+	</tr>
 </table>

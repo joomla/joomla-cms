@@ -162,3 +162,4 @@ ffchkmessage = '<?php echo ( $this->options['isReference'] ? JText::_('Warning D
 	<div class="clr"></div>
 
 </form>
+</div>

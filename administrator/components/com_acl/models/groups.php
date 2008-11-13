@@ -42,7 +42,7 @@ class AccessModelGroups extends AccessModelPrototypeList
 		{
 			$app 		= &JFactory::getApplication();
 			$type		= $this->_state->get('list.group_type');
-			$context	= 'ac.groups.'.$type;
+			$context	= 'acl.groups.'.$type;
 
 			$type		= $app->getUserStateFromRequest($context.'.type',		'group_type');
 			$search		= $app->getUserStateFromRequest($context.'.search',		'search');
@@ -137,7 +137,7 @@ class AccessModelGroups extends AccessModelPrototypeList
 				$query->order($this->_db->getEscaped($orderBy));
 			}
 
-			//echo nl2br($query->toString());
+			//echo str_replace('#__','jos_',nl2br($query->toString()));
 			$this->_list_query = (string) $query;
 		}
 

@@ -18,10 +18,10 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<td colspan="2" align="center">
 		<br />
 		<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="selectForm" id="selectForm">
-		<?php echo JText::_( 'Select Contact' ); ?>:
+			<?php echo JText::_( 'Select Contact' ); ?>:
 			<br />
 			<?php echo JHtml::_('select.genericlist',  $this->contacts, 'contact_id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
-			<option type="hidden" name="option" value="com_contact" />
+			<input type="hidden" name="option" value="com_contact" />
 		</form>
 	</td>
 </tr>

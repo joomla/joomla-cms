@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://dev.joomla.org/xml/1.5/component.dtd">
+<!--<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://dev.joomla.org/xml/1.5/component.dtd">-->
 <config>
 	<params addpath="/administrator/components/com_weblinks/elements">
 		<param name="show_comp_description" type="radio" default="1" label="Description" description="Show/Hide the Description below">

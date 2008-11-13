@@ -13,13 +13,13 @@
 
 				<div class="far-right">
 					<?php if ($this->direction == 'ltr') : ?>
-						<div class="button1-left"><div class="refresh"><a onclick="submitForm(adminForm, 'preinstall');" alt="<?php echo JText::_('Check Again' ,true) ?>"><?php echo JText::_('Check Again') ?></a></div></div>
-						<div class="button1-right"><div class="prev"><a onclick="submitForm(adminForm, 'lang');" alt="<?php echo JText::_('Previous' ,true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
-						<div class="button1-left"><div class="next"><a onclick="submitForm(adminForm, 'license');" alt="<?php echo JText::_('Next' ,true) ?>"><?php echo JText::_('Next') ?></a></div></div>
+						<div class="button1-left"><div class="refresh"><a onclick="submitForm(adminForm, 'preinstall');" title="<?php echo JText::_('Check Again' ,true) ?>"><?php echo JText::_('Check Again') ?></a></div></div>
+						<div class="button1-right"><div class="prev"><a onclick="submitForm(adminForm, 'lang');" title="<?php echo JText::_('Previous' ,true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
+						<div class="button1-left"><div class="next"><a onclick="submitForm(adminForm, 'license');" title="<?php echo JText::_('Next' ,true) ?>"><?php echo JText::_('Next') ?></a></div></div>
 					<?php else: ?>
-						<div class="button1-right"><div class="prev"><a onclick="submitForm(adminForm, 'license');" alt="<?php echo JText::_('Next' ,true) ?>"><?php echo JText::_('Next') ?></a></div></div>
-						<div class="button1-left"><div class="next"><a onclick="submitForm(adminForm, 'lang');" alt="<?php echo JText::_('Previous' ,true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
-						<div class="button1-left"><div class="refresh"><a onclick="submitForm(adminForm, 'preinstall');" alt="<?php echo JText::_('Check Again' ,true) ?>"><?php echo JText::_('Check Again') ?></a></div></div>
+						<div class="button1-right"><div class="prev"><a onclick="submitForm(adminForm, 'license');" title="<?php echo JText::_('Next' ,true) ?>"><?php echo JText::_('Next') ?></a></div></div>
+						<div class="button1-left"><div class="next"><a onclick="submitForm(adminForm, 'lang');" title="<?php echo JText::_('Previous' ,true) ?>"><?php echo JText::_('Previous') ?></a></div></div>
+						<div class="button1-left"><div class="refresh"><a onclick="submitForm(adminForm, 'preinstall');" title="<?php echo JText::_('Check Again' ,true) ?>"><?php echo JText::_('Check Again') ?></a></div></div>
 					<?php endif; ?>
 				</div>
 				<span class="step"><?php echo JText::_('Pre-Installation check') ?></span>

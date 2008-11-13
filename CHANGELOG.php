@@ -13,6 +13,7 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
+/* Comment to get around validation errors
 ?>
 1. Copyright and disclaimer
 ---------------------------
@@ -52,7 +53,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 07-Nov-2008 Sam Moffatt
  ^ Changes to JDataLoad and its adapters
- + Started fleshing out JBackup 
+ + Started fleshing out JBackup
 
 06-Nov-2008 Sam Moffatt
  ^ Changed the year on Wilco's last changelog entry, time thankfully doesn't go that fast
@@ -69,8 +70,8 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 03-Nov-2008 Sam Moffatt
  # Fixed bug with JLoaderSql for long lines (setting not appending lines)
  ^ Preparing JLoaderSql and JBackupSql to integrate with task system (added yield calls)
- ^ Tweaks to JBackupSql (createtable to create_table, extra comments) 
- ^ Changed administrator router to closer match site router 
+ ^ Tweaks to JBackupSql (createtable to create_table, extra comments)
+ ^ Changed administrator router to closer match site router
  ^ Added suffix control options to GMail plugin
 
 01-Nov-2008 Sam Moffatt

@@ -27,7 +27,7 @@ function modChrome_beezDivision($module, &$params, &$attribs)
 	if (!empty ($module->content)) : ?>
 		<div class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
 			<?php if ($module->showtitle) : ?>
-				<h<?php echo $headerLevel; ?>><?php echo $module->title; ?></h<?php echo $headerLevel; ?>>
+				<?php echo '<h'.$headerLevel.'>'; ?><?php echo $module->title; ?><?php echo '<h'.$headerLevel.'>'; ?>
 			<?php endif; ?>
 			<?php echo $module->content; ?>
 		</div>

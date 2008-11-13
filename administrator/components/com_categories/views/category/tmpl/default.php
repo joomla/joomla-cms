@@ -80,7 +80,7 @@ function submitbutton(pressbutton, section) {
 			<table class="admintable">
 			<tr>
 				<td class="key">
-					<label for="title" width="100">
+					<label for="title">
 						<?php echo JText::_( 'Title' ); ?>:
 					</label>
 				</td>

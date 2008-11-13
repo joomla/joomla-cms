@@ -13,6 +13,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+/* Comment to get around validation errors
 ?>
 
 -------------------- Joomla! 1.6 Credits ---------------------
@@ -259,7 +260,7 @@ Copyright:	2004 iCandy Junior Icons
 License:	http://www.iconaholic.com/help/joomla.html
 Notes:		Please note these icons are NOT OPEN SOURCE but used with permission
 
-Print & Email Front End Icons
+Print and Email Front End Icons
 -----------------------------
 Copyright:	Copyright (C) 2005 Plone Foundation
 License:	GNU Lesser General Public License (LGPL)

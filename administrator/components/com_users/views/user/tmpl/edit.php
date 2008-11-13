@@ -5,25 +5,36 @@
 
 	// clean item data
 	JFilterOutput::objectHTMLSafe($this->item, ENT_QUOTES, '');
+
+	JHTML::script('passwordGenerator.js');
+	$this->document->addStyleDeclaration('#passwordContainer span{margin-right:20px;}');
 ?>
 
 <script type="text/javascript">
-function submitbutton(task)
-{
-	if (task == 'user.cancel' || document.formvalidator.isValid(document.adminForm)) {
-		submitform(task);
+	function submitbutton(task)
+	{
+		if (task == 'user.cancel' || document.formvalidator.isValid(document.adminForm)) {
+			submitform(task);
+		}
+
 	}
 
-}
-Window.onDomReady(function(){
-	document.formvalidator.setHandler('username2',
-		function (value) {
-			regex = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&]", "i");
-			return !regex.test(value);
-		}
-	);
-});
+	var pg;
+	window.addEvent("domready",function(){
+		document.formvalidator.setHandler('username2',
+			function (value) {
+				regex = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&]", "i");
+				return !regex.test(value);
+			}
+		);
+	});
+	window.addEvent("domready",function(){
+		pg=new PasswordGenerator("passwordContainer");
+	});
+
 </script>
+
+
 @todo Form validation moving to unobtrusive js methods
 <form action="<?php echo JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" autocomplete="off" class="form-validate">
 	<div class="col width-45">
@@ -42,3 +53,5 @@ Window.onDomReady(function(){
 	<input type="hidden" name="contact_id" value="" />
 	<input type="hidden" name="<?php echo JUtility::getToken();?>" value="1" />
 </form>
+
+<div id="passwordContainer"></div>

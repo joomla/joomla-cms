@@ -419,6 +419,10 @@ if (!$error && isset ($_REQUEST["start"]) && isset ($_REQUEST["foffset"]) && ere
 		echo ("<p class=\"error\">".JText::_('STOPPEDONERROR')."</p>\n");
 
 }
+?>
+	</body>
+</html>
+<?php
 
 if ($file && !$gzipmode) {
 	fclose($file);

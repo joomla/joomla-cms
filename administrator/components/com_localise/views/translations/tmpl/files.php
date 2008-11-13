@@ -73,9 +73,11 @@ JToolbarHelper::addNew();
 		</thead>
 
 		<tfoot>
-			<td  width="100%" colspan="9">
-				<?php echo $this->pagenav->getListFooter(); ?>
-			</td>
+			<tr>
+				<td width="100%" colspan="9">
+					<?php echo $this->pagenav->getListFooter(); ?>
+				</td>
+			</tr>
 		</tfoot>
 
 		<tbody>

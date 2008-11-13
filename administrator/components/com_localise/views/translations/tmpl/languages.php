@@ -68,7 +68,11 @@ $document->setBuffer( $submenu, 'module', 'submenu' );
 		</thead>
 
 		<tfoot>
-			<td width="100%" colspan="9"><?php echo $this->pagenav->getListFooter(); ?></td>
+			<tr>
+				<td width="100%" colspan="9">
+					<?php echo $this->pagenav->getListFooter(); ?>
+				</td>
+			</tr>
 		</tfoot>
 
 		<tbody>
@@ -80,7 +84,7 @@ $document->setBuffer( $submenu, 'module', 'submenu' );
 			?>
 			<tr class="row<?php echo $i; ?>">
 				<td width="20">
-					<?php echo '<input type="radio" name="client_lang" value="' . $row->client_lang . '" ' . ( ($row->client_lang==$this->options['client_lang']) ? 'checked ' : '' ); ?> />
+					<input type="radio" name="client_lang" value="<?php echo $row->client_lang;?>" <?php if ($row->client_lang == $this->options['client_lang']) echo 'checked="checked"'; ?> />
 				</td>
 				<td width="15%">
 					<b><?php echo $row->client_name	;?></b>
