@@ -1297,7 +1297,7 @@ CREATE TABLE  `#__update_categories` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Categories';
 
 
-CREATE TABLE  `#__joomla_trunk_16`.`jos_tasks` (
+CREATE TABLE  `#__tasks` (
   `taskid` int(10) unsigned NOT NULL auto_increment,
   `tasksetid` int(10) unsigned NOT NULL default '0',
   `type` varchar(20) NOT NULL default '',
@@ -1308,7 +1308,7 @@ CREATE TABLE  `#__joomla_trunk_16`.`jos_tasks` (
   PRIMARY KEY  (`taskid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Individual tasks';
 
-CREATE TABLE  `#__joomla_trunk_16`.`jos_tasksets` (
+CREATE TABLE  `#__tasksets` (
   `tasksetid` int(10) unsigned NOT NULL auto_increment,
   `tasksetname` varchar(100) default NULL,
   `extensionid` int(10) unsigned default '0',
