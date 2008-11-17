@@ -43,6 +43,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+17-Nov-2008 Charl van Niekerk
+ # Added values to the language and direction attributes on the root element in the installer template.
+
 12-Nov-2008 Sam Moffatt
  ^ Changed default colours for error message so that it wasn't light grey on white (uses darker grey)
  ^ Big changes to taskset and task system (including tables)
