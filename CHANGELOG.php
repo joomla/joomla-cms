@@ -52,6 +52,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  # Added values to the language and direction attributes on the root element in the installer template.
  # Replaced "moffats" with "#_" as table prefix in installer SQL.
  # Removed references to "#__joomla_trunk_16" database in installer SQL.
+ # Reset attribs array in com_weblinks so that type="application/xhtml+xml" is not set on category image.
 
 12-Nov-2008 Sam Moffatt
  ^ Changed default colours for error message so that it wasn't light grey on white (uses darker grey)

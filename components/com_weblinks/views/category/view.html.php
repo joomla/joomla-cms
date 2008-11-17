@@ -103,6 +103,7 @@ class WeblinksViewCategory extends JView
 		// Define image tag attributes
 		if (isset( $category->image ) && $category->image != '')
 		{
+			$attribs = array();
 			$attribs['align']  = $category->image_position;
 			$attribs['hspace'] = 6;
 
