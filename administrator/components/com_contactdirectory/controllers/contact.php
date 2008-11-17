@@ -247,10 +247,7 @@ class ContactdirectoryControllerContact extends JController
 			$this->setRedirect('index.php?option=com_contactdirectory&controller=contact', $message);
 		}elseif(!empty($file) && $file['error'] == 0 && $file['size'] > 0 && is_readable($file['tmp_name'])){
 			// import the contacts from a file
-			if($file['type'] != 'text/csv'){
-				$message = JText::_('WRONG_FILE_TYPE');
-				$this->setRedirect('index.php?option=com_contactdirectory&controller=contact&task=importView', $message);
-			}else{
+			if($file['type'] = 'text/csv' || $file['type'] = 'text/comma-separated-values'){
 				$string = implode("", file($file['tmp_name']));
 				if (!$model->import($string)) {
 					$message = $model->getError();
@@ -259,6 +256,9 @@ class ContactdirectoryControllerContact extends JController
 					$message = JText::_('CONTACTS_IMPORT_SUCCESS');
 				}
 				$this->setRedirect('index.php?option=com_contactdirectory&controller=contact', $message);
+			}else{
+				$message = JText::_('WRONG_FILE_TYPE');
+				$this->setRedirect('index.php?option=com_contactdirectory&controller=contact&task=importView', $message);
 			}
 		}
 	}
