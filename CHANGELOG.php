@@ -45,6 +45,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 17-Nov-2008 Charl van Niekerk
  # Added values to the language and direction attributes on the root element in the installer template.
+ # Replaced "moffats" with "#_" as table prefix in installer SQL.
 
 12-Nov-2008 Sam Moffatt
  ^ Changed default colours for error message so that it wasn't light grey on white (uses darker grey)
