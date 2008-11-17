@@ -43,6 +43,11 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+17-Nov-2008 Chantal Bisson
+ + Added contactdirectory search plugin
+ + Added sql query for the contactdirectory search plugin
+ # Fixed bug to recognize csv files in Windows for the contacts import
+
 17-Nov-2008 Charl van Niekerk
  # Added values to the language and direction attributes on the root element in the installer template.
  # Replaced "moffats" with "#_" as table prefix in installer SQL.
