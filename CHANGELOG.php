@@ -47,6 +47,10 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  + Added contactdirectory search plugin
  + Added sql query for the contactdirectory search plugin
  # Fixed bug to recognize csv files in Windows for the contacts import
+ + Added sql query in extention table for com_contactdirectory
+ + Added column in contact manager for categories (com_contactdirectory)
+ + Added getCategories method in com_contactdirectory/model/contacts.php
+ # Fixed bug jos_ changed for #__ in com_contactdirectory/model/contact.php
 
 17-Nov-2008 Charl van Niekerk
  # Added values to the language and direction attributes on the root element in the installer template.

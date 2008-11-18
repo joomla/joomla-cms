@@ -72,11 +72,11 @@ class ContactdirectoryModelContact extends JModel{
 	function &getCategories()
 	{
 		if(!$this->_categories){
-			$query = "SELECT c.title, map.category_id AS id, map.ordering "
-					."FROM #__categories c "
-					."LEFT JOIN jos_contactdirectory_con_cat_map map ON map.category_id = c.id "
-					."WHERE c.published = 1 AND map.contact_id = '$this->_id'"
-					."ORDER BY c.ordering";
+			$query = " SELECT c.title, map.category_id AS id, map.ordering "
+					." FROM #__categories c "
+					." LEFT JOIN #__contactdirectory_con_cat_map map ON map.category_id = c.id "
+					." WHERE c.published = 1 AND map.contact_id = '$this->_id'"
+					." ORDER BY c.ordering ";
 			$this->_db->setQuery($query);
 			$this->_categories = $this->_db->loadObjectList();
 		}
