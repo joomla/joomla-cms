@@ -38,14 +38,12 @@ class ContactdirectoryViewCategories extends JView
 		$categories = $model->getCategories();
 		$contacts	= $model->getData($pparams->get('groupby_cat'));
 		$fields = $model->getFields($pparams->get('groupby_cat'));
-
 		$pagination = $model->getPagination($pparams->get('groupby_cat'));
-
-		$alphabet	= $mainframe->getUserStateFromRequest( $option.'alphabet',		'alphabet',	'',	'string' );
-		$search		= $mainframe->getUserStateFromRequest( $option.'search',		'search',	'',	'string' );
-		$search		= JString::strtolower( $search );
+		$alphabet	=  $model->getAlphabet();
 
 		// search filter
+		$search		= $mainframe->getUserStateFromRequest( $option.'search',		'search',	'',	'string' );
+		$search		= JString::strtolower( $search );
 		$lists['search']= $search;
 
 		//add alternate feed link
@@ -168,6 +166,7 @@ class ContactdirectoryViewCategories extends JView
 		$this->assignRef('params',	$pparams);
 		$this->assignRef('user',	$user);
 		$this->assignRef('cparams', $cparams);
+		$this->assignRef('alphabet', $alphabet);
 
 		$this->assign('action', $uri->toString());
 
