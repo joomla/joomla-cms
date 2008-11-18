@@ -122,8 +122,8 @@ class TableContact extends JTable
 						return false;
 					}
 				}
-				if(isset($data['showContactList'][$key])){
-					$query = "UPDATE #__contactdirectory_details SET show_directory = ".$data['showContactList'][$key]." WHERE contact_id = $this->id AND field_id = ".$field_id;
+				if(isset($data['showContactLists'][$key])){
+					$query = "UPDATE #__contactdirectory_details SET show_directory = ".$data['showContactLists'][$key]." WHERE contact_id = $this->id AND field_id = ".$field_id;
 					$this->_db->setQuery($query);
 					if(!$this->_db->query()) {
 						$this->setError(get_class( $this ).'::store failed 5 - '.$this->_db->getErrorMsg());
