@@ -128,5 +128,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				<?php endif; ?>
 			</td>
 		</tr>
+		<?php if($this->params->get('linktop')): ?>
+		<tr>
+			<td colspan="4" class="toplink">
+				<a href="#top" name="backTop">Back to top</a>
+			</td>
+		</tr>
+		<?php endif; ?>
 	<?php endif; ?>
 <?php endforeach; ?>

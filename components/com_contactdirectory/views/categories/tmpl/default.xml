@@ -28,6 +28,10 @@
 	 			<option value="0">NO</option>
 	 			<option value="1">YES</option>
 	 		</param>
+	 		<param name="toplink" type="radio" default="0" label="HTML_LINK_TOP" description="HTML_LINK_TOP_DESCIPTION">
+	 			<option value="0">NO</option>
+	 			<option value="1">YES</option>
+	 		</param>
 	 		<param name="linkcat" type="radio" default="0" label="HTML_LINK_CATEGORY" description="HTML_LINK_CATEGORY_DESCRIPTION">
 	 			<option value="0">NO</option>
 	 			<option value="1">YES</option>

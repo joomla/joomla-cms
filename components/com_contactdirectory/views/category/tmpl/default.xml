@@ -30,6 +30,10 @@
 	 			<option value="0">NO</option>
 	 			<option value="1">YES</option>
 	 		</param>
+	 		<param name="toplink" type="radio" default="0" label="HTML_LINK_TOP" description="HTML_LINK_TOP_DESCIPTION">
+	 			<option value="0">NO</option>
+	 			<option value="1">YES</option>
+	 		</param>
 		</params>
 		<advanced>
 			<param name="orderby" type="list" default="order" label="CATEGORY_ORDER" description="CATEGORY_ORDER_DESCRIPTION">
