@@ -193,7 +193,7 @@ class WeblinksViewCategory extends JView
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 
-		$this->assign('action',	$uri->toString());
+		$this->assign('action',	JFilterOutput::ampReplace($uri->toString()));
 
 		parent::display($tpl);
 	}

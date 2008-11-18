@@ -43,6 +43,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+18-Nov-2008 Charl van Niekerk
+ # Fixed unencoded ampersands in form action on com_weblinks category view.
+
 18-Nov-2008 Sam Moffatt
  # Changed mysql/mysqli drivers to not alter the sql query buffer and alter a local copy
 
