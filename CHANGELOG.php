@@ -43,6 +43,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+18-Nov-2008 Sam Moffatt
+ # Changed mysql/mysqli drivers to not alter the sql query buffer and alter a local copy
+
 18-Nov-2008 Chantal Bisson
  ^ Only non empty letters show up in the alphabet filter com_contactdirectory category and categories view
  + Added method to get the alphabet letters for the filter in model

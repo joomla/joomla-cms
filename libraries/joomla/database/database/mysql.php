@@ -202,21 +202,23 @@ class JDatabaseMySQL extends JDatabase
 			throw new JException('Database not connected', 10, E_WARNING);
 		}
 
+		// Take a local copy of the SQL before modifying it
+		$sql = $this->_sql;
 		if ($this->_limit > 0 || $this->_offset > 0) {
-			$this->_sql .= ' LIMIT '.$this->_offset.', '.$this->_limit;
+			$sql .= ' LIMIT '.$this->_offset.', '.$this->_limit;
 		}
 		if ($this->_debug) {
 			$this->_ticker++;
-			$this->_log[] = $this->_sql;
+			$this->_log[] = $sql;
 		}
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
-		$this->_cursor = mysql_query( $this->_sql, $this->_resource );
+		$this->_cursor = mysql_query( $sql, $this->_resource );
 
 		if (!$this->_cursor)
 		{
 			$this->_errorNum = mysql_errno( $this->_resource );
-			$this->_errorMsg = mysql_error( $this->_resource )." SQL=$this->_sql";
+			$this->_errorMsg = mysql_error( $this->_resource )." SQL=$sql";
 			throw new JException('Database query error', 11, E_WARNING, array('errorNum'=>$this->_errorNum, 'errorMsg'=>$this->_errorMsg), true);
 		}
 		return $this->_cursor;
