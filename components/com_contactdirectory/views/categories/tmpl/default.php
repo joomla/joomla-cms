@@ -7,6 +7,8 @@ function alphabetFilter(val){
 }
 </script>
 
+<div id="top"></div>
+
 <?php if ( $this->params->get( 'show_page_title' ) ) : ?>
 <div class="componentheading<?php echo $this->params->get( 'pageclass_sfx' ); ?>">
 	<?php echo $this->escape($this->params->get('page_title'));?>
@@ -32,34 +34,11 @@ function alphabetFilter(val){
 			<tr>
 				<td colspan="2" height="50">
 					<?php if($this->params->get('alphabet')): ?>
-					<a href="javascript:alphabetFilter('a')">A</a>
-					<a href="javascript:alphabetFilter('b')">B</a>
-					<a href="javascript:alphabetFilter('c')">C</a>
-					<a href="javascript:alphabetFilter('d')">D</a>
-					<a href="javascript:alphabetFilter('e')">E</a>
-					<a href="javascript:alphabetFilter('f')">F</a>
-					<a href="javascript:alphabetFilter('g')">G</a>
-					<a href="javascript:alphabetFilter('h')">H</a>
-					<a href="javascript:alphabetFilter('i')">I</a>
-					<a href="javascript:alphabetFilter('j')">J</a>
-					<a href="javascript:alphabetFilter('k')">K</a>
-					<a href="javascript:alphabetFilter('l')">L</a>
-					<a href="javascript:alphabetFilter('m')">M</a>
-					<a href="javascript:alphabetFilter('n')">N</a>
-					<a href="javascript:alphabetFilter('o')">O</a>
-					<a href="javascript:alphabetFilter('p')">P</a>
-					<a href="javascript:alphabetFilter('q')">Q</a>
-					<a href="javascript:alphabetFilter('r')">R</a>
-					<a href="javascript:alphabetFilter('s')">S</a>
-					<a href="javascript:alphabetFilter('t')">T</a>
-					<a href="javascript:alphabetFilter('u')">U</a>
-					<a href="javascript:alphabetFilter('v')">V</a>
-					<a href="javascript:alphabetFilter('w')">W</a>
-					<a href="javascript:alphabetFilter('x')">X</a>
-					<a href="javascript:alphabetFilter('y')">Y</a>
-					<a href="javascript:alphabetFilter('z')">Z</a> |
-					<a href="javascript:alphabetFilter('')">Reset</a>
-					<input type="text" name="alphabet" id="alpha" value="" style="display:none;"/>
+						<?php foreach($this->alphabet as $letter): ?>
+							<a href="javascript:alphabetFilter('<?php echo $letter; ?>')"><?php echo $letter; ?></a>
+						<?php endforeach; ?> |
+						<a href="javascript:alphabetFilter('')">Reset</a>
+						<input type="text" name="alphabet" id="alpha" value="" style="display:none;"/>
 					<?php endif; ?>
 				</td>
 				<td align="right" nowrap="nowrap" colspan="2">

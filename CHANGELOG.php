@@ -43,6 +43,12 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+18-Nov-2008 Chantal Bisson
+ ^ Only non empty letters show up in the alphabet filter com_contactdirectory category and categories view
+ + Added method to get the alphabet letters for the filter in model
+ + Added back to top link in the categries and category parameters
+ # Fixed bug in admin/tables/contact.php final "s" missing in "showContactLists"
+
 17-Nov-2008 Chantal Bisson
  + Added contactdirectory search plugin
  + Added sql query for the contactdirectory search plugin
