@@ -14,14 +14,14 @@ jimport('joomla.application.component.model');
 class ContactdirectoryModelContacts extends JModel
 {
 	/**
-	 * Category data array
+	 * Contact data array
 	 *
 	 * @var array
 	 */
 	var $_data = null;
 
 	/**
-	 * Category total
+	 * Contact total
 	 *
 	 * @var integer
 	 */
@@ -33,6 +33,11 @@ class ContactdirectoryModelContacts extends JModel
 	 * @var object
 	 */
 	var $_pagination = null;
+
+	/**
+	 * Contacts categories
+	 */
+	var $_categories = null;
 
 	/**
 	 * Constructor
@@ -176,5 +181,20 @@ class ContactdirectoryModelContacts extends JModel
 		$where = ( count( $where ) ? ' WHERE '. implode( ' AND ', $where ) : '' );
 		$where .= ' AND d.field_id = 1';
 		return $where;
+	}
+
+	function &getCategories()
+	{
+		if(!$this->_categories){
+			$query = " SELECT c.title, map.contact_id, map.category_id AS id "
+					." FROM #__categories c "
+					." LEFT JOIN #__contactdirectory_con_cat_map map ON map.category_id = c.id "
+					." WHERE c.published = 1 "
+					." AND map.category_id IS NOT NULL "
+					." ORDER BY c.ordering ";
+			$this->_db->setQuery($query);
+			$this->_categories = $this->_db->loadObjectList();
+		}
+		return $this->_categories;
 	}
 }
