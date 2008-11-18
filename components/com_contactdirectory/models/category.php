@@ -29,6 +29,7 @@ class ContactdirectoryModelCategory extends JModel
 	var $_category = null;
 	var $_fields = null;
 	var $_pagination = null;
+	var $_alphabet = null;
 
 	/**
 	 * Constructor
@@ -305,5 +306,22 @@ class ContactdirectoryModelCategory extends JModel
 			}
 		}
 		return $where;
+	}
+
+	function getAlphabet($category)
+	{
+		$user		=& JFactory::getUser();
+		$gid		= $user->get('aid', 0);
+
+		$query = ' SELECT DISTINCT ucase(substr(c.name,1,1)) AS active '
+				.' FROM #__contactdirectory_contacts AS c '
+				.' LEFT JOIN #__contactdirectory_con_cat_map AS map ON map.contact_id = c.id '
+				.' WHERE c.published = 1 AND c.access <= '.(int) $gid
+				.' AND map.category_id = '.$category->id;
+
+		$this->_db->setQuery($query);
+		$this->_alphabet = $this->_db->loadResultArray();
+
+		return $this->_alphabet;
 	}
 }

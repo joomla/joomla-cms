@@ -28,6 +28,7 @@ class ContactdirectoryModelCategories extends JModel
 	var $_categories = null;
 	var $_fields = null;
 	var $_pagination = null;
+	var $_alphabet = null;
 
 	/**
 	 * Constructor
@@ -265,5 +266,20 @@ class ContactdirectoryModelCategories extends JModel
 			}
 		}
 		return $where;
+	}
+
+	function getAlphabet()
+	{
+		$user		=& JFactory::getUser();
+		$gid		= $user->get('aid', 0);
+
+		$query = ' SELECT DISTINCT ucase(substr(name,1,1)) AS active '
+				.' FROM #__contactdirectory_contacts '
+				.' WHERE published = 1 AND access <= '.(int) $gid;
+
+		$this->_db->setQuery($query);
+		$this->_alphabet = $this->_db->loadResultArray();
+
+		return $this->_alphabet;
 	}
 }
