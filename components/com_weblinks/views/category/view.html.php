@@ -143,9 +143,11 @@ class WeblinksViewCategory extends JView
 				$replacements[0] = $item->url;
 				$url_snapshot = str_replace($patterns, $replacements, $source_url);
 				$item->url_snapshot = JRoute::_($url_snapshot);
+				$item->url_snapshot_id = 'id="' . $item->url_snapshot . '"';
 			}
 			else {
 				$item->url_snapshot = '';
+				$item->url_snapshot_id = '';
 				$params->set('show_snapshot', '0');
 			}
 
