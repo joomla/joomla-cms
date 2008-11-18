@@ -50,6 +50,9 @@
 			<th width="15%">
 				<?php echo JHtml::_('grid.sort', JText::_( 'E-MAIL' ), 'email', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
+			<th width="15%">
+				<?php echo JHtml::_('grid.sort', JText::_( 'CATEGORIES' ), 'cat.categories', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+			</th>
 			<th width="5%" nowrap="nowrap">
 				<?php echo JHtml::_('grid.sort', JText::_( 'PUBLISHED' ), 'c.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 			</th>
@@ -105,6 +108,19 @@
 				?>
 			</td>
 			<td><?php echo $row->email; ?></td>
+			<td>
+				<?php
+					$z = 0;
+					foreach($row->categories as $category){
+						if($z == 0){
+							echo $category;
+						}else{
+							echo " - ".$category;
+						}
+						$z++;
+					}
+				?>
+			</td>
 			<td align="center"><?php echo $published;?></td>
 			<td align="center"><?php echo $access;?></td>
 			<td align="center">

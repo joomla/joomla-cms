@@ -34,6 +34,15 @@ class ContactdirectoryViewContacts extends JView
 		$items = & $this->get( 'Data');
 		$total = & $this->get( 'Total');
 		$pagination = & $this->get( 'Pagination' );
+		$categories = & $this->get( 'Categories' );
+
+		foreach($items as $item){
+			foreach($categories as $category){
+				if($item->id == $category->contact_id){
+					$item->categories[] = $category->title;
+				}
+			}
+		}
 
 		// build list of categories
 		$javascript = 'onchange="document.adminForm.submit();"';
@@ -41,7 +50,7 @@ class ContactdirectoryViewContacts extends JView
 
 		// state filter
 		$lists['state']	= JHtml::_('grid.state',  $filter_state );
-
+$fields =& $this->get('fields');
 		// table ordering
 		$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
