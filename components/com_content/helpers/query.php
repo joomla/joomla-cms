@@ -23,9 +23,9 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage	Content
  * @since 1.5
  */
-class ContentHelperQuery
+abstract class ContentHelperQuery
 {
-	function orderbyPrimary($orderby)
+	public static function orderbyPrimary($orderby)
 	{
 		switch ($orderby)
 		{
@@ -49,7 +49,7 @@ class ContentHelperQuery
 		return $orderby;
 	}
 
-	function orderbySecondary($orderby)
+	public static function orderbySecondary($orderby)
 	{
 		switch ($orderby)
 		{
@@ -101,7 +101,7 @@ class ContentHelperQuery
 		return $orderby;
 	}
 
-	function buildVotingQuery($params=null)
+	public static function buildVotingQuery($params=null)
 	{
 		if (!$params) {
 			$params = &JComponentHelper::getParams( 'com_content' );

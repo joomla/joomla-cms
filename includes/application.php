@@ -36,7 +36,7 @@ class JSite extends JApplication
 	* @param	array An optional associative array of configuration settings.
 	* Recognized key values include 'clientId' (this list is not meant to be comprehensive).
 	*/
-	function __construct($config = array())
+	protected function __construct($config = array())
 	{
 		$config['clientId'] = 0;
 		parent::__construct($config);
@@ -47,7 +47,7 @@ class JSite extends JApplication
 	*
 	* @access public
 	*/
-	function initialise( $options = array())
+	public function initialise( $options = array())
 	{
 		// if a language was specified it has priority
 		// otherwise use user or default language settings
@@ -80,7 +80,7 @@ class JSite extends JApplication
 	*
 	* @access public
 	*/
-	function route() {
+	public function route() {
 		parent::route();
 	}
 
@@ -89,7 +89,7 @@ class JSite extends JApplication
 	*
 	* @access public
 	*/
-	function dispatch($component = null)
+	public function dispatch($component = null)
 	{
 		if ( ! $component )
 		{
@@ -138,7 +138,7 @@ class JSite extends JApplication
 	*
 	* @access public
 	*/
-	function render()
+	public function render()
 	{
 		$document =& JFactory::getDocument();
 		$user	 =& JFactory::getUser();
@@ -185,7 +185,7 @@ class JSite extends JApplication
 	* @access public
 	* @see JApplication::login
 	*/
-	function login($credentials, $options = array())
+	public function login($credentials, $options = array())
 	{
 		 //Set the application login entry point
 		 if(!array_key_exists('entry_url', $options)) {
@@ -200,7 +200,7 @@ class JSite extends JApplication
 	*
 	* @access public
 	*/
-	function authorize($itemid)
+	public function authorize($itemid)
 	{
 		$menus	=& $this->getMenu();
 		$user	=& JFactory::getUser();
@@ -234,7 +234,7 @@ class JSite extends JApplication
 	 * @return	object	The parameters object
 	 * @since	1.5
 	 */
-	function &getParams($option = null)
+	public function &getParams($option = null)
 	{
 		static $params;
 
@@ -274,7 +274,7 @@ class JSite extends JApplication
 	 * @return	object	The parameters object
 	 * @since	1.5
 	 */
-	function &getPageParameters( $option = null )
+	public function &getPageParameters( $option = null )
 	{
 		return $this->getParams( $option );
 	}
@@ -285,7 +285,7 @@ class JSite extends JApplication
 	 * @return string The template name
 	 * @since 1.0
 	 */
-	function getTemplate()
+	public function getTemplate()
 	{
 		// Allows for overriding the active template from a component, and caches the result of this function
 		// e.g. $mainframe->setTemplate('solar-flare-ii');
@@ -331,7 +331,7 @@ class JSite extends JApplication
 	 *
 	 * @param string The template name
 	 */
-	function setTemplate( $template )
+	public function setTemplate( $template )
 	{
 		if (is_dir(JPATH_THEMES.DS.$template)) {
 			$this->set('setTemplate', $template);
@@ -345,7 +345,7 @@ class JSite extends JApplication
 	 * @return object JPathway.
 	 * @since 1.5
 	 */
-	function &getMenu($name = null, $options = array())
+	public function &getMenu($name = null, $options = array())
 	{
 		$menu =& parent::getMenu('site', $options);
 		return $menu;
@@ -358,7 +358,7 @@ class JSite extends JApplication
 	 * @return object JPathway.
 	 * @since 1.5
 	 */
-	function &getPathWay($name = null, $options = array())
+	public function &getPathWay($name = null, $options = array())
 	{
 		$pathway =& parent::getPathway('site', $options);
 		return $pathway;
@@ -371,7 +371,7 @@ class JSite extends JApplication
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
-	function &getRouter($name = null, $options = array())
+	public function &getRouter($name = null, $options = array())
 	{
 		$config =& JFactory::getConfig();
 		$options['mode'] = $config->getValue('config.sef');

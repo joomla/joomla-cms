@@ -26,12 +26,12 @@ jimport('joomla.application.component.helper');
  * @subpackage	Content
  * @since 1.5
  */
-class ContentHelperRoute
+abstract class ContentHelperRoute
 {
 	/**
 	 * @param	int	The route of the content item
 	 */
-	function getArticleRoute($id, $catid = 0, $sectionid = 0)
+	public static function getArticleRoute($id, $catid = 0, $sectionid = 0)
 	{
 		$needles = array(
 			'article'  => (int) $id,
@@ -53,7 +53,7 @@ class ContentHelperRoute
 		return $link;
 	}
 
-	function getSectionRoute($sectionid)
+	public static function getSectionRoute($sectionid)
 	{
 		$needles = array(
 			'section' => (int) $sectionid
@@ -72,7 +72,7 @@ class ContentHelperRoute
 		return $link;
 	}
 
-	function getCategoryRoute($catid, $sectionid)
+	public static function getCategoryRoute($catid, $sectionid)
 	{
 		$needles = array(
 			'category' => (int) $catid,
@@ -92,11 +92,11 @@ class ContentHelperRoute
 		return $link;
 	}
 
-	function _findItem($needles)
+	protected static function _findItem($needles)
 	{
 		$component =& JComponentHelper::getComponent('com_content');
-
-		$menus	= &JApplication::getMenu('site', array());
+		$app = JFactory::getApplication();
+		$menus	= & $app->getMenu();
 		$items	= $menus->getItems('componentid', $component->id);
 
 		$match = null;
