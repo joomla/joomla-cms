@@ -31,35 +31,35 @@ class ContentModelCategory extends JModel
 	 *
 	 * @var int
 	 */
-	var $_id = null;
+	protected $_id = null;
 
 	/**
 	 * Category items data
 	 *
 	 * @var array
 	 */
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * Category number items
 	 *
 	 * @var integer
 	 */
-	var $_total = null;
+	protected $_total = null;
 
 	/**
 	 * Category data
 	 *
 	 * @var object
 	 */
-	var $_category = null;
+	protected $_category = null;
 
 	/**
 	 * Category data
 	 *
 	 * @var array
 	 */
-	var $_siblings = null;
+	protected $_siblings = null;
 
 	protected $_content = null;
 
@@ -68,17 +68,16 @@ class ContentModelCategory extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
-
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId((int)$id);
 
 		// here we initialize defaults for category model
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 		$params->def('filter',					1);
 		$params->def('filter_type',				'title');
 	}
@@ -89,7 +88,7 @@ class ContentModelCategory extends JModel
 	 * @access	public
 	 * @param	int	Category ID number
 	 */
-	function setId($id)
+	public function setId($id)
 	{
 		// Set category ID and wipe data
 		$this->_id			= $id;
@@ -106,7 +105,7 @@ class ContentModelCategory extends JModel
 	 * category
 	 * @since 1.5
 	 */
-	function getData($state = 1)
+	public function getData($state = 1)
 	{
 		// Load the Category data
 		if ($this->_loadCategory() && $this->_loadData($state))
@@ -137,13 +136,14 @@ class ContentModelCategory extends JModel
 	 * @access public
 	 * @return integer
 	 */
-	function getTotal($state = 1)
+	public function getTotal($state = 1)
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery($state);
-			$this->_total[$state] = $this->_getListCount($query);
+			$query = $this->_buildQuery($state, true);
+			$this->_db->setQuery($query);
+			$this->_total[$state] = $this->_db->loadResult();
 		}
 
 		return $this->_total[$state];
@@ -154,7 +154,7 @@ class ContentModelCategory extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function getCategory()
+	public function getCategory()
 	{
 		// Load the Category data
 		if ($this->_loadCategory())
@@ -181,7 +181,7 @@ class ContentModelCategory extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function getSiblings()
+	public function getSiblings()
 	{
 		// Initialize some variables
 		$user	=& JFactory::getUser();
@@ -212,7 +212,7 @@ class ContentModelCategory extends JModel
 	 * @param	int	$state	The content state to pull from for the current section
 	 * @since 1.5
 	 */
-	function getArchives($state = -1)
+	public function getArchives($state = -1)
 	{
 		return $this->getContent(-1);
 	}
@@ -223,7 +223,7 @@ class ContentModelCategory extends JModel
 	 * @access	private
 	 * @return	boolean	True on success
 	 */
-	function _loadCategory()
+	protected function _loadCategory()
 	{
 		if (empty($this->_category))
 		{
@@ -245,10 +245,8 @@ class ContentModelCategory extends JModel
 	 * @access	private
 	 * @return	boolean	True on success
 	 */
-	function _loadSiblings()
+	protected function _loadSiblings()
 	{
-		global $mainframe;
-
 		if (empty($this->_category))
 		{
 			return false; // TODO: set error -- can't get siblings when we don't know the category
@@ -258,13 +256,14 @@ class ContentModelCategory extends JModel
 		if (empty($this->_siblings))
 		{
 			$user	 =& JFactory::getUser();
+			$app = JFactory::getApplication();
 
 			// Get the page/component configuration
-			$params = &$mainframe->getParams();
+			$params = &$app->getParams();
 
 			$noauth	 = !$params->get('show_noauth');
 			$gid		 = (int) $user->get('aid', 0);
-			$now		 = $mainframe->get('requestTime');
+			$now		 = $app->get('requestTime');
 			$nullDate = $this->_db->getNullDate();
 			$section	 = $this->_category->section;
 
@@ -317,7 +316,7 @@ class ContentModelCategory extends JModel
 	 * @access	private
 	 * @return	boolean	True on success
 	 */
-	function _loadData($state = 1)
+	protected function _loadData($state = 1)
 	{
 		if (empty($this->_category)) {
 			return false; // TODO: set error -- can't get siblings when we don't know the category
@@ -347,11 +346,11 @@ class ContentModelCategory extends JModel
 		return true;
 	}
 
-	function _buildQuery($state = 1)
+	protected function _buildQuery($state = 1, $countOnly = false)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		// Get the page/component configuration
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 
 		// If voting is turned on, get voting data as well for the content items
 		$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -360,11 +359,16 @@ class ContentModelCategory extends JModel
 		$where		= $this->_buildContentWhere($state);
 		$orderby	= $this->_buildContentOrderBy($state);
 
-		$query = 'SELECT cc.title AS category, a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
-			' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
-			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
-			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-			' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups'.$voting['select'] .
+		if(!$countOnly) {
+			$query = 'SELECT cc.title AS category, a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
+				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.hits, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,' .
+				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'.
+				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
+				' CHAR_LENGTH( a.`fulltext` ) AS readmore, u.name AS author, u.usertype, g.name AS groups'.$voting['select'];
+		} else {
+			$query = 'SELECT count(*) ';
+		}
+		$query .=
 			' FROM #__content AS a' .
 			' LEFT JOIN #__categories AS cc ON a.catid = cc.id' .
 			' LEFT JOIN #__users AS u ON u.id = a.created_by' .
@@ -376,11 +380,11 @@ class ContentModelCategory extends JModel
 		return $query;
 	}
 
-	function _buildContentOrderBy($state = 1)
+	protected function _buildContentOrderBy($state = 1)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		// Get the page/component configuration
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 
 		$filter_order		= JRequest::getCmd('filter_order');
 		$filter_order_Dir	= JRequest::getWord('filter_order_Dir');
@@ -418,9 +422,11 @@ class ContentModelCategory extends JModel
 		return $orderby;
 	}
 
-	function _buildContentWhere($state = 1)
+	protected function _buildContentWhere($state = 1)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
+		// Get the page/component configuration
+		$params = &$app->getParams();
 
 		$user		=& JFactory::getUser();
 		$gid		= $user->get('aid', 0);
@@ -429,7 +435,6 @@ class ContentModelCategory extends JModel
 		$now		= $jnow->toMySQL();
 
 		// Get the page/component configuration
-		$params		= &$mainframe->getParams();
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();
 

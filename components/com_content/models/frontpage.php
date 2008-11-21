@@ -31,14 +31,14 @@ class ContentModelFrontpage extends JModel
 	 *
 	 * @var array
 	 */
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * Frontpage total
 	 *
 	 * @var integer
 	 */
-	var $_total = null;
+	protected $_total = null;
 
 
 	/**
@@ -47,17 +47,10 @@ class ContentModelFrontpage extends JModel
 	 * @access public
 	 * @return array
 	 */
-	function getData()
+	public function getData()
 	{
 		// Load the Category data
-		if ($this->_loadData())
-		{
-			// Initialize some variables
-			$user	=& JFactory::getUser();
-
-			// raise errors
-		}
-
+		$this->_loadData();
 		return $this->_data;
 	}
 
@@ -67,15 +60,15 @@ class ContentModelFrontpage extends JModel
 	 * @access public
 	 * @return integer
 	 */
-	function getTotal()
+	public function getTotal()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
+			$query = $this->_buildQuery(true);
+			$this->_db->setQuery($query);
+			$this->_total = $this->_db->loadResult();
 		}
-
 		return $this->_total;
 	}
 
@@ -86,7 +79,7 @@ class ContentModelFrontpage extends JModel
 	 * @access	private
 	 * @return	boolean	True on success
 	 */
-	function _loadData()
+	protected function _loadData()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -112,26 +105,31 @@ class ContentModelFrontpage extends JModel
 		return true;
 	}
 
-	function _buildQuery()
+	protected function _buildQuery( $countOnly = false )
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		// Get the page/component configuration
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 
 		// Voting is turned on, get voting data as well for the content items
 		$voting	= ContentHelperQuery::buildVotingQuery($params);
 
 		// Get the WHERE and ORDER BY clauses for the query
 		$where	= $this->_buildContentWhere();
-		$orderby 			= $this->_buildContentOrderBy();
+		$orderby = $this->_buildContentOrderBy();
 
-		$query = ' SELECT a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
-			' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.metakey, a.metadesc, a.access,' .
-			' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
-			' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
-			' CHAR_LENGTH( a.`fulltext` ) AS readmore,' .
-			' u.name AS author, u.usertype, g.name AS groups, cc.title AS category, s.title AS section, s.ordering AS s_ordering, cc.ordering AS cc_ordering, a.ordering AS a_ordering, f.ordering AS f_ordering'.
-			$voting['select'] .
+		if(!$countOnly) {
+			$query = ' SELECT a.id, a.title, a.title_alias, a.introtext, a.fulltext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,' .
+				' a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.attribs, a.urls, a.metakey, a.metadesc, a.access,' .
+				' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'.
+				' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug,'.
+				' CHAR_LENGTH( a.`fulltext` ) AS readmore,' .
+				' u.name AS author, u.usertype, g.name AS groups, cc.title AS category, s.title AS section, s.ordering AS s_ordering, cc.ordering AS cc_ordering, a.ordering AS a_ordering, f.ordering AS f_ordering'.
+				$voting['select'];
+		} else {
+			$query = 'SELECT count(*)';
+		}
+		$query .= 
 			' FROM #__content AS a' .
 			' INNER JOIN #__content_frontpage AS f ON f.content_id = a.id' .
 			' LEFT JOIN #__categories AS cc ON cc.id = a.catid'.
@@ -148,9 +146,9 @@ class ContentModelFrontpage extends JModel
 
 	function _buildContentOrderBy()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		// Get the page/component configuration
-		$params = &$mainframe->getParams();
+		$params = &$app->getParams();
 		if (!is_object($params)) {
 			$params = &JComponentHelper::getParams('com_content');
 		}
@@ -167,18 +165,16 @@ class ContentModelFrontpage extends JModel
 
 	function _buildContentWhere()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$user		=& JFactory::getUser();
-		$gid		= $user->get('aid', 0);
-		// TODO: Should we be using requestTime here? or is JDate ok?
-		// $now		= $mainframe->get('requestTime');
+		$user	=& JFactory::getUser();
+		$gid	= $user->get('aid', 0);
 
-		$jnow		=& JFactory::getDate();
-		$now		= $jnow->toMySQL();
+		$jnow	=& JFactory::getDate();
+		$now	= $jnow->toMySQL();
 
 		// Get the page/component configuration
-		$params = &$mainframe->getParams();
+		$params = $app->getParams();
 
 		$noauth		= !$params->get('show_noauth');
 		$nullDate	= $this->_db->getNullDate();

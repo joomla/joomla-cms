@@ -45,7 +45,8 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
 21-Nov-2008 Anthony Ferrara
  ^ Refactored all core plugins to use objects instead of callbacks
-
+ # Optimized com_content models SQL work (as well as moved to php5)
+ 
 18-Nov-2008 Charl van Niekerk
  # Fixed unencoded ampersands in form action on com_weblinks category view.
  # Fixed empty id attributes on com_weblinks category view.

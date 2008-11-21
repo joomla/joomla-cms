@@ -33,17 +33,16 @@ class ContentModelArticle extends JModel
 	 *
 	 * @var object
 	 */
-	var $_article = null;
+	protected $_article = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
-
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setId((int)$id);
 	}
@@ -54,7 +53,7 @@ class ContentModelArticle extends JModel
 	 * @access	public
 	 * @param	int	Article ID number
 	 */
-	function setId($id)
+	public function setId($id)
 	{
 		// Set new article ID and wipe data
 		$this->_id		= $id;
@@ -70,7 +69,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function set( $property, $value=null )
+	public function set( $property, $value=null )
 	{
 		if ($this->_loadArticle()) {
 			$this->_article->$property = $value;
@@ -89,7 +88,7 @@ class ContentModelArticle extends JModel
 	 * @return 	mixed 				The value of the property
 	 * @since	1.5
 	 */
-	function get($property, $default=null)
+	public function get($property, $default=null)
 	{
 		if ($this->_loadArticle()) {
 			if(isset($this->_article->$property)) {
@@ -104,7 +103,7 @@ class ContentModelArticle extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function &getArticle()
+	public function &getArticle()
 	{
 		// Load the Category data
 		if ($this->_loadArticle())
@@ -184,10 +183,8 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function hit()
+	public function hit()
 	{
-		global $mainframe;
-
 		if ($this->_id)
 		{
 			$article = & JTable::getInstance('content');
@@ -205,7 +202,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True if checked out
 	 * @since	1.5
 	 */
-	function isCheckedOut( $uid=0 )
+	public function isCheckedOut( $uid=0 )
 	{
 		if ($this->_loadArticle())
 		{
@@ -229,7 +226,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function checkin()
+	public function checkin()
 	{
 		if ($this->_id)
 		{
@@ -247,7 +244,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function checkout($uid = null)
+	public function checkout($uid = null)
 	{
 		if ($this->_id)
 		{
@@ -270,10 +267,8 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function store($data)
+	public function store($data)
 	{
-		global $mainframe;
-
 		$article	=& JTable::getInstance('content');
 		$user		=& JFactory::getUser();
 		$dispatcher	=& JDispatcher::getInstance();
@@ -437,7 +432,7 @@ class ContentModelArticle extends JModel
 	 * @return	boolean True on success
 	 * @since	1.5
 	 */
-	function storeVote($rate)
+	public function storeVote($rate)
 	{
 		if ( $rate >= 1 && $rate <= 5)
 		{
@@ -490,9 +485,9 @@ class ContentModelArticle extends JModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function _loadArticle()
+	protected function _loadArticle()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		if($this->_id == '0')
 		{
@@ -503,7 +498,7 @@ class ContentModelArticle extends JModel
 		if (empty($this->_article))
 		{
 			// Get the page/component configuration
-			$params = &$mainframe->getParams();
+			$params = &$app->getParams();
 
 			// If voting is turned on, get voting data as well for the article
 			$voting	= ContentHelperQuery::buildVotingQuery($params);
@@ -551,12 +546,12 @@ class ContentModelArticle extends JModel
 	 * @return	void
 	 * @since	1.5
 	 */
-	function _loadArticleParams()
+	protected function _loadArticleParams()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		// Get the page/component configuration
-		$params = clone($mainframe->getParams('com_content'));
+		$params = clone($app->getParams('com_content'));
 
 		// Merge article parameters into the page configuration
 		$aparams = new JParameter($this->_article->attribs);
@@ -584,10 +579,8 @@ class ContentModelArticle extends JModel
 	 * @return	string	WHERE clause
 	 * @since	1.5
 	 */
-	function _buildContentWhere()
+	protected function _buildContentWhere()
 	{
-		global $mainframe;
-
 		$user		=& JFactory::getUser();
 		$aid		= (int) $user->get('aid', 0);
 
