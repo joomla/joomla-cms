@@ -306,7 +306,7 @@ abstract class JCache extends JObject
 	 */
 	function &_getStorage()
 	{
-		if ($this->_handler INSTANCEOF JCacheStorage)) {
+		if ($this->_handler INSTANCEOF JCacheStorage) {
 			return $this->_handler;
 		}
 
