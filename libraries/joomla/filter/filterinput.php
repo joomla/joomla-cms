@@ -95,7 +95,7 @@ class JFilterInput extends JObject
 		if(empty($instance)) {
 			$instance = self::getInstance();
 		}
-		return $instance->clean($source, $type)
+		return $instance->clean($source, $type);
 	}
 
 	/**
