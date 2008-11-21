@@ -334,7 +334,7 @@ INSERT INTO #__extensions VALUES(0,"Search - Categories","plugin","categories","
 INSERT INTO #__extensions VALUES(0,"Search - Sections","plugin","sections","search",0,1,0,0,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",5,0);
 INSERT INTO #__extensions VALUES(0,"Search - Newsfeeds","plugin","newsfeeds","search",0,1,0,0,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",6,0);
 INSERT INTO #__extensions VALUES(0,"Search - Weblinks","plugin","weblinks","search",0,1,0,1,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",2,0);
-INSERT INTO #__extensions VALUES(0,"Search - Contact Directory","contactdirectory","search",0,1,0,1,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",7,0)
+INSERT INTO #__extensions VALUES(0,"Search - Contact Directory","plugin","contactdirectory","search",0,1,0,1,"","search_limit=50\n","","",0,"0000-00-00 00:00:00",7,0);
 INSERT INTO #__extensions VALUES(0,"Content - Pagebreak","plugin","pagebreak","content",0,1,0,1,"","enabled=1\ntitle=1\nmultipage_toc=1\nshowall=1\n","","",0,"0000-00-00 00:00:00",10000,0);
 INSERT INTO #__extensions VALUES(0,"Content - Rating","plugin","vote","content",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",4,0);
 INSERT INTO #__extensions VALUES(0,"Content - Email Cloaking","plugin","emailcloak","content",0,1,0,0,"","mode=1\n","","",0,"0000-00-00 00:00:00",5,0);
@@ -380,7 +380,7 @@ INSERT INTO #__extensions VALUES(0,"User","component","com_user","",0,1,0,1,"","
 INSERT INTO #__extensions VALUES(0,"User Manager","component","com_users","",0,1,0,1,"","allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Web Links","component","com_weblinks","",0,1,0,0,"","show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"Wrapper","component","com_wrapper","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
-INSERT INTO #__extensions VALUES(0,"Contact Directory","component","com_contactdirectory","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0)
+INSERT INTO #__extensions VALUES(0,"Contact Directory","component","com_contactdirectory","",0,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 # Modules
 INSERT INTO #__extensions VALUES(0,"mod_login","module","mod_login","",1,1,0,1,"","","","",0,"0000-00-00 00:00:00",0,0);
 INSERT INTO #__extensions VALUES(0,"mod_popular","module","mod_popular","",1,1,0,0,"","","","",0,"0000-00-00 00:00:00",0,0);
