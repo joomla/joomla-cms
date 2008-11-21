@@ -25,6 +25,12 @@ jimport('joomla.base.adapterinstance');
  */
 class JInstallerComponent extends JAdapterInstance
 {
+	protected $manifest = null;
+	protected $name = null;
+	protected $element = null;
+	protected $scriptElement = null;
+
+	
 	/**
 	 * Custom install method for components
 	 *

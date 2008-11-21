@@ -26,8 +26,11 @@ jimport('joomla.base.adapterinstance');
 class JInstallerModule extends JAdapterInstance
 {
 	/** @var string install function routing */
-	var $route = 'Install';
-	
+	protected $route = 'Install';
+	protected $manifest = null;
+	protected $name = null;
+	protected $element = null;
+	protected $scriptElement = null;
 
 	/**
 	 * Custom install method
