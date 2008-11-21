@@ -33,7 +33,7 @@ class MediaViewMediaList extends JView
 	protected $folders = null;
 	protected $state = null;
 	protected $_tmp_folder = null;
-	protected $_tmp_image = null;
+	protected $_tmp_img = null;
 	protected $_tmp_doc = null;
 
 	public function display($tpl = null)

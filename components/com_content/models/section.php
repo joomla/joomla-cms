@@ -264,7 +264,8 @@ class ContentModelSection extends JModel
 
 			$noauth	= !$params->get('show_noauth');
 			$gid		= $user->get('aid', 0);
-			$now		= $mainframe->get('requestTime');
+			$today = JFactory::getDate();
+			$now = $today->toMySQL();
 			$nullDate	= $this->_db->getNullDate();
 
 			// Ordering control

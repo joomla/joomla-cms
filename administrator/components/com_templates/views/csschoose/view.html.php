@@ -27,9 +27,13 @@ jimport( 'joomla.application.component.view');
  */
 class TemplatesViewCsschoose extends JView
 {
-	function display($tpl = null)
+	protected $option = null;
+	protected $client = null;
+	protected $template = null;
+	protected $files = null;
+
+	public function display($tpl = null)
 	{
-		global $mainframe;
 
 		JToolBarHelper::title( JText::_( 'Template CSS Editor' ), 'thememanager' );
 		JToolBarHelper::custom( 'edit_css', 'edit.png', 'edit_f2.png', 'Edit', true );
@@ -52,7 +56,7 @@ class TemplatesViewCsschoose extends JView
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$this->assignRef('option',		$option);
+		$this->assign('option',		$option);
 		$this->assignRef('client',		$client);
 		$this->assignRef('template',	$template);
 		$this->assignRef('files',		$files);

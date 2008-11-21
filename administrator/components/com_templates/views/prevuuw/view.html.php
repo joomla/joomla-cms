@@ -27,10 +27,12 @@ jimport( 'joomla.application.component.view');
  */
 class TemplatesViewPrevuuw extends JView
 {
-	function display($tpl = null)
-	{
-		global $mainframe;
+	protected $url = null;
+	protected $tp = null;
+	protected $template = null;
 
+	public function display($tpl = null)
+	{
 		JToolBarHelper::title( JText::_( 'Template Manager' ), 'thememanager' );
 		JToolBarHelper::back();
 
@@ -38,7 +40,7 @@ class TemplatesViewPrevuuw extends JView
 		$option 	= JRequest::getCmd('option');
 		$client		=& JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$tp			= true;
-		$url		= $client->id ? JURI::base() : $mainframe->getSiteURL();
+		$url		= $client->id ? JURI::base() : JURI::root();
 
 		if (!$template)
 		{

@@ -27,10 +27,14 @@ jimport( 'joomla.application.component.view');
  */
 class TemplatesViewCssedit extends JView
 {
-	function display($tpl = null)
-	{
-		global $mainframe;
+	protected $option = null;
+	protected $client = null;
+	protected $ftp = null;
+	protected $template = null;
+	protected $content = null;
 
+	public function display($tpl = null)
+	{
 		JToolBarHelper::title( JText::_( 'Template Manager' ), 'thememanager' );
 		JToolBarHelper::save( 'save_css' );
 		JToolBarHelper::apply( 'apply_css');
@@ -49,7 +53,7 @@ class TemplatesViewCssedit extends JView
 		jimport('joomla.client.helper');
 		$ftp =& JClientHelper::setCredentialsFromRequest('ftp');
 
-		$this->assignRef('option',		$option);
+		$this->assign('option',		$option);
 		$this->assignRef('client',		$client);
 		$this->assignRef('ftp',			$ftp);
 		$this->assignRef('template',	$template);

@@ -36,7 +36,7 @@ class MediaViewMedia extends JView
 
 	public function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication;
+		$mainframe = JFactory::getApplication();
 
 		$config =& JComponentHelper::getParams('com_media');
 

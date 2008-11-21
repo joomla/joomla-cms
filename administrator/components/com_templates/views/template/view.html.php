@@ -27,9 +27,17 @@ jimport( 'joomla.application.component.view');
  */
 class TemplatesViewTemplate extends JView
 {
-	function display($tpl = null)
+	protected $params = null;
+	protected $template = null;
+	protected $ftp = null;
+	protected $client = null;
+	protected $option = null;
+	protected $row = null;
+	protected $lists = null;
+	protected $templatefile = null;
+
+	public function display($tpl = null)
 	{
-		global $option;
 
 		jimport('joomla.filesystem.path');
 		$this->loadHelper('template');
@@ -64,7 +72,7 @@ class TemplatesViewTemplate extends JView
 
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('row',			$row);
-		$this->assignRef('option',		$option);
+		$this->assign('option',		JRequest::getCMD('option'));
 		$this->assignRef('client',		$client);
 		$this->assignRef('ftp',			$ftp);
 		$this->assignRef('template',	$template);

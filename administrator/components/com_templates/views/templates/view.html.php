@@ -30,7 +30,8 @@ class TemplatesViewTemplates extends JView
 	protected $rows;
 	protected $pagination;
 	protected $client;
-	function display($tpl = null)
+
+	public function display($tpl = null)
 	{
 		// Get data from the model
 		$rows		= & $this->get( 'Data');

@@ -27,11 +27,14 @@ jimport( 'joomla.application.component.view');
  */
 class TemplatesViewSource extends JView
 {
-	function display($tpl = null)
+	protected $content = null;
+	protected $template = null;
+	protected $ftp = null;
+	protected $client = null;
+	protected $option = null;
+
+	public function display($tpl = null)
 	{
-
-		global $mainframe;
-
 		JToolBarHelper::title( JText::_( 'Template HTML Editor' ), 'thememanager' );
 		JToolBarHelper::save( 'save_source' );
 		JToolBarHelper::apply( 'apply_source' );
