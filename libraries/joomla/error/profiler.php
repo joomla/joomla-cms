@@ -53,7 +53,7 @@ class JProfiler extends JObject
 	 */
 	protected function __construct( $prefix = '' )
 	{
-		$this->_start = $this->getmicrotime();
+		$this->_start = self::getmicrotime();
 		$this->_prefix = $prefix;
 		$this->_buffer = array();
 	}
@@ -97,7 +97,7 @@ class JProfiler extends JObject
 	public function mark( $label )
 	{
 		$mark	= $this->_prefix." $label: ";
-		$mark	.= sprintf('%.3f', $this->getmicrotime() - $this->_start) . ' seconds';
+		$mark	.= sprintf('%.3f', self::getmicrotime() - $this->_start) . ' seconds';
 		if ( function_exists('memory_get_usage') ) {
 			$mark	.= ', '.sprintf('%0.2f', memory_get_usage() / 1048576 ).' MB';
 		}
@@ -112,7 +112,7 @@ class JProfiler extends JObject
 	 * @access public
 	 * @return float The current time
 	 */
-	public function getmicrotime()
+	public static function getmicrotime()
 	{
 		list( $usec, $sec ) = explode( ' ', microtime() );
 		return ((float)$usec + (float)$sec);

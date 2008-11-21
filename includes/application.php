@@ -89,7 +89,7 @@ class JSite extends JApplication
 	*
 	* @access public
 	*/
-	function dispatch($component=null)
+	function dispatch($component = null)
 	{
 		if ( ! $component )
 		{
@@ -345,9 +345,8 @@ class JSite extends JApplication
 	 * @return object JPathway.
 	 * @since 1.5
 	 */
-	function &getMenu()
+	function &getMenu($name = null, $options = array())
 	{
-		$options = array();
 		$menu =& parent::getMenu('site', $options);
 		return $menu;
 	}
@@ -359,9 +358,8 @@ class JSite extends JApplication
 	 * @return object JPathway.
 	 * @since 1.5
 	 */
-	function &getPathWay()
+	function &getPathWay($name = null, $options = array())
 	{
-		$options = array();
 		$pathway =& parent::getPathway('site', $options);
 		return $pathway;
 	}
@@ -373,7 +371,7 @@ class JSite extends JApplication
 	 * @return	JRouter.
 	 * @since	1.5
 	 */
-	function &getRouter()
+	function &getRouter($name = null, $options = array())
 	{
 		$config =& JFactory::getConfig();
 		$options['mode'] = $config->getValue('config.sef');

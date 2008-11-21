@@ -224,7 +224,7 @@ abstract class JApplication extends JObject
 	* @abstract
 	* @access	public
 	*/
- 	public function dispatch($component)
+ 	public function dispatch($component = null)
  	{
 		$document =& JFactory::getDocument();
 
