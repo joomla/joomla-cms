@@ -79,19 +79,23 @@ class JFilterInput extends JObject
 	 */
 	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
 	{
-		static $instances;
+		static $instances = array();
 
 		$sig = md5(serialize(array($tagsArray,$attrArray,$tagsMethod,$attrMethod,$xssAuto)));
-
-		if (!isset ($instances)) {
-			$instances = array();
-		}
 
 		if (empty ($instances[$sig])) {
 			$instances[$sig] = new JFilterInput($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto);
 		}
 
 		return $instances[$sig];
+	}
+
+	public static function _($source, $type = 'string') {
+		static $instance = null;
+		if(empty($instance)) {
+			$instance = self::getInstance();
+		}
+		return $instance->clean($source, $type)
 	}
 
 	/**
@@ -148,6 +152,7 @@ class JFilterInput extends JObject
 
 			case 'STRING' :
 				// Check for static usage and assign $filter the proper variable
+				// NOTE:  Calling ::clean() as a static method is deprecated.  Use JFilterInput::_() instead
 				if(isset($this) && $this INSTANCEOF JFilterInput) {
 					$filter =& $this;
 				} else {

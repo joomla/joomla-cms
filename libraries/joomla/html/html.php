@@ -218,9 +218,8 @@ abstract class JHtml
 	 * @param	string 	The relative URL to use for the href attribute
 	 * @since	1.5
 	 */
-	public static function stylesheet(
-		$filename, $path = 'media/system/css/', $attribs = array()
-	) {
+	public static function stylesheet( $filename, $path = 'media/system/css/', $attribs = array() ) 
+	{
 		if (strpos($path, 'http') !== 0) {
 			$path = JURI::root(true).'/'.$path;
 		};

@@ -54,7 +54,7 @@ abstract class JSessionStorage extends JObject
 			$instances = array();
 		}
 
-		$name = strtolower(JFilterInput::clean($name, 'word'));
+		$name = strtolower(JFilterInput::_($name, 'word'));
 		if (empty ($instances[$name]))
 		{
 			$class = 'JSessionStorage'.ucfirst($name);
