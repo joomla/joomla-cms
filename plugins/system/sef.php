@@ -27,7 +27,7 @@ class plgSystemSef extends JPlugin
 	/**
 	 * Converting the site URL to fit to the HTTP request
 	 */
-	function onAfterRender()
+	public function onAfterRender()
 	{
 		$app =& JFactory::getApplication();
 
@@ -40,7 +40,7 @@ class plgSystemSef extends JPlugin
 		$buffer = JResponse::getBody();
 
 		$regex  = '#href="index.php\?([^"]*)#m';
-		$buffer = preg_replace_callback( $regex, array('plgSystemSEF', 'route'), $buffer );
+		$buffer = preg_replace_callback( $regex, array($this, 'route'), $buffer );
 
 		$protocols = '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
 		$regex	 = '#(src|href)="(?!/|'.$protocols.'|\#)([^"]*)"#m';
@@ -58,13 +58,11 @@ class plgSystemSef extends JPlugin
 	 * @param array An array of matches (see preg_match_all)
 	 * @return string
 	 */
-   	 function route( &$matches )
+   	 protected function route( &$matches )
 	 {
 		$original	= $matches[0];
 		$url		= $matches[1];
-
 		$url = str_replace('&amp;','&',$url);
-
 		$route		= JRoute::_('index.php?'.$url);
 		return 'href="'.$route;
 	}

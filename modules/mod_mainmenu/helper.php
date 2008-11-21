@@ -26,10 +26,10 @@ jimport('joomla.utilities.simplexml');
  * @subpackage	Menus
  * @since		1.5
  */
-class modMainMenuHelper
+abstract class modMainMenuHelper
 {
 
-	function buildXML(&$params)
+	public static function buildXML(&$params)
 	{
 		$menu = new JMenuTree($params);
 		$items = &JSite::getMenu();
@@ -70,7 +70,7 @@ class modMainMenuHelper
 		return $menu->toXML();
 	}
 
-	function &getXML($type, &$params, $decorator)
+	public static function &getXML($type, &$params, $decorator)
 	{
 		static $xmls;
 
@@ -130,7 +130,7 @@ class modMainMenuHelper
 		return $doc;
 	}
 
-	function render(&$params, $callback)
+	public static function render(&$params, $callback)
 	{
 		// Include the new menu class
 		$xml = modMainMenuHelper::getXML($params->get('menutype'), $params, $callback);
@@ -176,7 +176,7 @@ class JMenuTree extends JTree
 	protected $_root;
 	protected $_current;
 
-	function __construct(&$params)
+	public function __construct(&$params)
 	{
 		$this->_params		=& $params;
 		$this->_root		= new JMenuNode(0, 'ROOT');
@@ -184,7 +184,7 @@ class JMenuTree extends JTree
 		$this->_current		=& $this->_root;
 	}
 
-	function addNode(&$params, $item)
+	public function addNode(&$params, $item)
 	{
 		// Get menu item data
 		$data = $this->_getItemData($params, $item);
@@ -208,7 +208,7 @@ class JMenuTree extends JTree
 		}
 	}
 
-	function toXML()
+	public function toXML()
 	{
 		// Initialize variables
 		$this->_current =& $this->_root;
@@ -228,7 +228,7 @@ class JMenuTree extends JTree
 		return $this->_buffer;
 	}
 
-	function _getLevelXML($depth)
+	protected function _getLevelXML($depth)
 	{
 		$depth++;
 
@@ -254,7 +254,7 @@ class JMenuTree extends JTree
 		$this->_buffer .= '</li>';
 	}
 
-	function _getItemData(&$params, $item)
+	protected function _getItemData(&$params, $item)
 	{
 		$data = null;
 
@@ -371,7 +371,7 @@ class JMenuNode extends JNode
 	public $id = null;
 	public $access = null;
 
-	function __construct($id, $title, $access = null, $link = null, $class = null)
+	public function __construct($id, $title, $access = null, $link = null, $class = null)
 	{
 		$this->id		= $id;
 		$this->title	= $title;

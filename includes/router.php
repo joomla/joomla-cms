@@ -106,8 +106,8 @@ class JRouterSite extends JRouter
 	function _parseRawRoute(&$uri)
 	{
 		$vars   = array();
-
-		$menu =& JSite::getMenu(true);
+		$app = JFactory::getApplication();
+		$menu =& $app->getMenu(true);
 
 		//Handle an empty URL (special case)
 		if(!$uri->getVar('Itemid') && !$uri->getVar('option'))
@@ -150,7 +150,9 @@ class JRouterSite extends JRouter
 	{
 		$vars   = array();
 
-		$menu  =& JSite::getMenu(true);
+		$app = JFactory::getApplication();
+		$menu =& $app->getMenu(true);
+
 		$route = $uri->getPath();
 
 		//Get the variables from the uri
@@ -275,7 +277,8 @@ class JRouterSite extends JRouter
 			return;
 		}
 
-		$menu =& JSite::getMenu();
+		$app = JFactory::getApplication();
+		$menu =& $app->getMenu(true);
 
 		/*
 		 * Build the component route
@@ -339,8 +342,6 @@ class JRouterSite extends JRouter
 		// Process the pagination support
 		if($this->_mode == JROUTER_MODE_SEF)
 		{
-			$app =& JFactory::getApplication();
-
 			if($start = $uri->getVar('start'))
 			{
 				$uri->delVar('start');
@@ -356,7 +357,8 @@ class JRouterSite extends JRouter
 		// Make sure any menu vars are used if no others are specified
 		if(($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
 		{
-			$menu =& JSite::getMenu();
+			$app = JFactory::getApplication();
+			$menu =& $app->getMenu(true);
 
 			// Get the active menu item
 			$itemid = $uri->getVar('Itemid');
@@ -374,8 +376,6 @@ class JRouterSite extends JRouter
 
 		if($this->_mode == JROUTER_MODE_SEF && $route)
 		{
-			$app =& JFactory::getApplication();
-
 			if ($limitstart = $uri->getVar('limitstart'))
 			{
 				$uri->setVar('start', (int) $limitstart);
@@ -392,7 +392,8 @@ class JRouterSite extends JRouter
 		$uri =& parent::_createURI($url);
 
 		// Set URI defaults
-		$menu =& JSite::getMenu();
+		$app = JFactory::getApplication();
+		$menu =& $app->getMenu(true);
 
 		// Get the itemid form the URI
 		$itemid = $uri->getVar('Itemid');

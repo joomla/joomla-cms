@@ -33,7 +33,7 @@ abstract class JApplicationHelper
 	 * @return	string Option
 	 * @since	1.6
 	 */
-	function getComponentName($default = NULL)
+	public static function getComponentName($default = NULL)
 	{
 		static $option;
 
