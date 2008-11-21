@@ -27,9 +27,16 @@ jimport( 'joomla.application.component.view');
  */
 class MediaViewImagesList extends JView
 {
-	function display($tpl = null)
+	protected $baseURL = null;
+	protected $images = null;
+	protected $folders = null;
+	protected $state = null;
+	protected $_tmp_folder = null;
+	protected $_tmp_img = null;
+
+	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Do not allow cache
 		JResponse::allowCache(false);
@@ -52,7 +59,7 @@ class MediaViewImagesList extends JView
 	function setFolder($index = 0)
 	{
 		if (isset($this->folders[$index])) {
-			$this->_tmp_folder = &$this->folders[$index];
+			$this->_tmp_folder = $this->folders[$index];
 		} else {
 			$this->_tmp_folder = new JStdClass;
 		}
@@ -61,7 +68,7 @@ class MediaViewImagesList extends JView
 	function setImage($index = 0)
 	{
 		if (isset($this->images[$index])) {
-			$this->_tmp_img = &$this->images[$index];
+			$this->_tmp_img = $this->images[$index];
 		} else {
 			$this->_tmp_img = new JStdClass();
 		}

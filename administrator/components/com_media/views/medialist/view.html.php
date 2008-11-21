@@ -27,9 +27,18 @@ jimport( 'joomla.application.component.view');
  */
 class MediaViewMediaList extends JView
 {
-	function display($tpl = null)
+	protected $baseURL = '';
+	protected $images = null;
+	protected $documents = null;
+	protected $folders = null;
+	protected $state = null;
+	protected $_tmp_folder = null;
+	protected $_tmp_image = null;
+	protected $_tmp_doc = null;
+
+	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication();
 
 		// Do not allow cache
 		JResponse::allowCache(false);
@@ -61,28 +70,28 @@ class MediaViewMediaList extends JView
 		parent::display($tpl);
 	}
 
-	function setFolder($index = 0)
+	public function setFolder($index = 0)
 	{
 		if (isset($this->folders[$index])) {
-			$this->_tmp_folder = &$this->folders[$index];
+			$this->_tmp_folder = $this->folders[$index];
 		} else {
 			$this->_tmp_folder = new JStdClass();
 		}
 	}
 
-	function setImage($index = 0)
+	public function setImage($index = 0)
 	{
 		if (isset($this->images[$index])) {
-			$this->_tmp_img = &$this->images[$index];
+			$this->_tmp_img = $this->images[$index];
 		} else {
 			$this->_tmp_img = new JStdClass;
 		}
 	}
 
-	function setDoc($index = 0)
+	public function setDoc($index = 0)
 	{
 		if (isset($this->documents[$index])) {
-			$this->_tmp_doc = &$this->documents[$index];
+			$this->_tmp_doc = $this->documents[$index];
 		} else {
 			$this->_tmp_doc = new JStdClass;
 		}

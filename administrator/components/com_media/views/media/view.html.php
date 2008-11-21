@@ -27,9 +27,16 @@ jimport( 'joomla.application.component.view');
  */
 class MediaViewMedia extends JView
 {
-	function display($tpl = null)
+	protected $session = null;
+	protected $config = null;
+	protected $state = null;
+	protected $require_ftp = null;
+	protected $folders = null;
+	protected $folders_id = null;
+
+	public function display($tpl = null)
 	{
-		global $mainframe;
+		$mainframe = JFactory::getApplication;
 
 		$config =& JComponentHelper::getParams('com_media');
 
