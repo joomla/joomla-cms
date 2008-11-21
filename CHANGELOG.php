@@ -43,6 +43,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+21-Nov-2008 Anthony Ferrara
+ ^ Refactored all core plugins to use objects instead of callbacks
+
 18-Nov-2008 Charl van Niekerk
  # Fixed unencoded ampersands in form action on com_weblinks category view.
  # Fixed empty id attributes on com_weblinks category view.

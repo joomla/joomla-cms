@@ -99,6 +99,9 @@ class JObservable extends JObject
 		// Make sure we haven't already attached this object as an observer
 		if (is_object($observer))
 		{
+			if(!$observer INSTANCEOF JObserver) {
+				return;
+			}
 
 			$class = get_class($observer);
 			foreach ($this->_observers as $check) {
@@ -109,6 +112,9 @@ class JObservable extends JObject
 			$this->_observers[] =& $observer;
 			$methods = get_class_methods($observer);
 		} else {
+			if(!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler'])) {
+				return;
+			}
 			$this->_observers[] =& $observer;
 			$methods = array($observer['event']);
 		}

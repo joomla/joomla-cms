@@ -103,7 +103,7 @@ class JDispatcher extends JObservable
 	 * @return	array	An array of results from each function call
 	 * @since	1.5
 	 */
-	public function trigger($event, $args = null, $doUnpublished = false)
+	public function trigger($event, $args = array(), $doUnpublished = false)
 	{
 		// Initialize variables
 		$result = array ();
@@ -112,8 +112,8 @@ class JDispatcher extends JObservable
 		 * If no arguments were passed, we still need to pass an empty array to
 		 * the call_user_func_array function.
 		 */
-		if ($args === null) {
-			$args = array ();
+		if(!is_array($args)) {
+			$args = (array) $args;
 		}
 
 		$event = strtolower($event);
@@ -121,30 +121,17 @@ class JDispatcher extends JObservable
 			//No Plugins Associated To Event!
 			return $result;
 		}
+
 		//Loop through all plugins having a method matching our event
 		foreach($this->_methods[$event] AS $key) {
 			if(!isset($this->_observers[$key])) {
 				//for some reason there's a disconnect...  Continue to next plugin key
 				continue;
-			}
-			if(is_array($this->_observers[$key])) {
-				if(is_callable($this->_observers[$key]['handler'])) {
-					$result[] = call_user_func_array($this->_observers[$key]['handler'], $args);
-				} else {
-					JError::raiseWarning('SOME_ERROR_CODE', 'JDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
-				}
 			} elseif(is_object($this->_observers[$key])) {
 				$args['event'] = $event;
-				if(is_callable(array($this->_observers[$key], 'update'))) {
-					$result[] = $this->_observers[$key]->update($args);
-				} else {
-					/*
-					 * At this point, we know that the registered observer is
-					 * neither a function type observer nor an object type
-					 * observer.  PROBLEM, lets throw an error.
-					 */
-					JError::raiseWarning('SOME_ERROR_CODE', 'JDispatcher::trigger: Unknown Event Handler.', $observer );
-				}
+				$result[] = $this->_observers[$key]->update($args);
+			} elseif(is_array($this->_observers[$key])) {
+				$result[] = call_user_func_array($this->_observers[$key]['handler'], $args);
 			}
 		}
 		return $result;
