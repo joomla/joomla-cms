@@ -45,7 +45,7 @@ class ContentViewFrontpage extends ContentView
 		$document	=& JFactory::getDocument();
 
 		// Request variables
-		$id			= JRequest::getVar('id', null, '', 'int');
+		$id		= JRequest::getVar('id', null, '', 'int');
 		$limit		= JRequest::getVar('limit', 5, '', 'int');
 		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -84,7 +84,7 @@ class ContentViewFrontpage extends ContentView
 			$document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
 
-		$menus	= &JSite::getMenu();
+		$menus	= &$mainframe->getMenu();
 		$menu	= $menus->getActive();
 
 		// because the application sets a default page title, we need to get it

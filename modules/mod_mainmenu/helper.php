@@ -32,7 +32,8 @@ abstract class modMainMenuHelper
 	public static function buildXML(&$params)
 	{
 		$menu = new JMenuTree($params);
-		$items = &JSite::getMenu();
+		$app = JFactory::getApplication();
+		$items = &$app->getMenu();
 
 		// Get Menu Items
 		$rows = $items->getItems('menutype', $params->get('menutype'));
@@ -74,6 +75,8 @@ abstract class modMainMenuHelper
 	{
 		static $xmls;
 
+		$app = JFactory::getApplication();
+
 		if (!isset($xmls[$type])) {
 			$cache =& JFactory::getCache('mod_mainmenu');
 			$string = $cache->call(array('modMainMenuHelper', 'buildXML'), $params);
@@ -85,7 +88,7 @@ abstract class modMainMenuHelper
 		$xml->loadString($xmls[$type]);
 		$doc = &$xml->document;
 
-		$menu	= &JSite::getMenu();
+		$menu	= &$app->getMenu();
 		$active	= $menu->getActive();
 		$start	= $params->get('startLevel');
 		$end	= $params->get('endLevel');
@@ -257,11 +260,12 @@ class JMenuTree extends JTree
 	protected function _getItemData(&$params, $item)
 	{
 		$data = null;
+		$app = JFactory::getApplication();
 
 		// Menu Link is a special type that is a link to another item
 		if ($item->type == 'menulink')
 		{
-			$menu = &JSite::getMenu();
+			$menu = &$app->getMenu();
 			if ($tmp = clone($menu->getItem($item->query['Itemid']))) {
 				$tmp->name	 = '<span><![CDATA['.$item->name.']]></span>';
 				$tmp->mid	 = $item->id;
@@ -298,7 +302,7 @@ class JMenuTree extends JTree
 				break;
 
 			default :
-				$router = JSite::getRouter();
+				$router = $app->getRouter();
 				$tmp->url = $router->getMode() == JROUTER_MODE_SEF ? 'index.php?Itemid='.$tmp->id : $tmp->link.'&Itemid='.$tmp->id;
 				break;
 		}

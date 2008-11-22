@@ -244,7 +244,7 @@ abstract class JModel extends JObject
 	 * @return	array	An array with directory elements
 	 * @since	1.5
 	 */
-	public function addIncludePath( $path='' )
+	public static function addIncludePath( $path='' )
 	{
 		static $paths;
 
@@ -265,7 +265,7 @@ abstract class JModel extends JObject
 	 * @param	string|array The directory (-ies) to add.
 	 * @return	void
 	 */
-	public function addTablePath($path)
+	public static function addTablePath($path)
 	{
 		jimport('joomla.database.table');
 		JTable::addIncludePath($path);

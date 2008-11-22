@@ -26,12 +26,12 @@ class JPathwaySite extends JPathway
 	/**
 	 * Class constructor
 	 */
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		//Initialise the array
 		$this->_pathway = array();
-
-		$menu   =& JSite::getMenu();
+		$app = JFactory::getApplication();
+		$menu   =& $app->getMenu();
 
 		if($item = $menu->getActive())
 		{
