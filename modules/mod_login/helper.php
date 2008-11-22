@@ -14,13 +14,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-class modLoginHelper
+abstract class modLoginHelper
 {
-	function getReturnURL($params, $type)
+	public static function getReturnURL($params, $type)
 	{
 		if($itemid =  $params->get($type))
 		{
-			$menu =& JSite::getMenu();
+			$app = JFactory::getApplication();
+			$menu =& $app->getMenu();
 			$item = $menu->getItem($itemid);
 			$url = $item->link;
 		}
@@ -34,7 +35,7 @@ class modLoginHelper
 		return base64_encode($url);
 	}
 
-	function getType()
+	public static function getType()
 	{
 		$user = & JFactory::getUser();
 		return (!$user->get('guest')) ? 'logout' : 'login';

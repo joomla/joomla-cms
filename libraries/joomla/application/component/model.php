@@ -340,7 +340,7 @@ abstract class JModel extends JObject
 	 * @return	string The filename
 	 * @since	1.5
 	 */
-	private function _createFileName($type, $parts = array())
+	private static function _createFileName($type, $parts = array())
 	{
 		$filename = '';
 
