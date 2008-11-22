@@ -108,7 +108,7 @@ abstract class JInstallerHelper
 	 *
 	 * @static
 	 * @param string $p_filename The uploaded package filename or install directory
-	 * @return boolean True on success, False on error
+	 * @return Array Two elements - extractdir and packagefile
 	 * @since 1.5
 	 */
 	public static function unpack($p_filename)
@@ -246,7 +246,7 @@ abstract class JInstallerHelper
 	 * Clean up temporary uploaded package and unpacked extension
 	 *
 	 * @static
-	 * @param string $p_file Path to the uploaded package file
+	 * @param string $package Path to the uploaded package file
 	 * @param string $resultdir Path to the unpacked extension
 	 * @return boolean True on success
 	 * @since 1.5
