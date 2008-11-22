@@ -46,8 +46,6 @@ class  plgSystemDebug extends JPlugin
 	function onAfterRender()
 	{
 		global $_PROFILER;
-		$mainframe = JFactory::getApplication();
-		$database = JFactory::getDBO();
 
 		// Do not render if debugging is not enabled
 		if(!JDEBUG) { return; }
@@ -109,22 +107,6 @@ class  plgSystemDebug extends JPlugin
 					$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
 					echo '<li>'.$text.'</li>';
 				}
-				echo '</ol>';
-			}
-
-			if(isset($database))
-			{
-				echo '<h4>'.JText::sprintf( 'Legacy Queries logged',  $database->getTicker() ).'</h4>';
-				echo '<ol>';
-
-					foreach ($database->getLog() as $k=>$sql)
-					{
-						$geshi->set_source($sql);
-						$text = $geshi->parse_code();
-						$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
-						echo '<li>'.$text.'</li>';
-					}
-
 				echo '</ol>';
 			}
 		}

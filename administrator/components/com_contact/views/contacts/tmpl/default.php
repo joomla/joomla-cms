@@ -92,7 +92,7 @@
 					echo $row->title;
 				} else {
 				?>
-				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Contact' );?>::<?php echo $row->title; ?>">
+				<span class="editlinktip hasTip" title="<?php echo JText::_( 'Edit Contact' );?>::<?php echo $row->name; ?>">
 					<a href="<?php echo $link; ?>">
 						<?php echo $row->name; ?></a></span>
 				<?php

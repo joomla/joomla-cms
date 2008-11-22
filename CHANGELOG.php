@@ -43,6 +43,10 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+22-Nov-2008 Ercan Ozkaya
+ # Fixed misnamed variables in com_contact and com_weblinks
+ - Removed legacy query support from debug plugin
+
 21-Nov-2008 Anthony Ferrara
  ^ Refactored all core plugins to use objects instead of callbacks
  # Optimized com_content models SQL work (as well as moved to php5)
@@ -113,10 +117,10 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  # Fixed issue where administrator login module wasn't receiving its params.
 
 01-Nov-2008 Ercan Ozkaya
-+ XML Document Type
-# Missing abstract methods in various document types
-# Incompatible method declaration for abstract JDocumentRendererRSS and Atom
-# Missing date property for JFeedItem
+ + XML Document Type
+ # Missing abstract methods in various document types
+ # Incompatible method declaration for abstract JDocumentRendererRSS and Atom
+ # Missing date property for JFeedItem
 
 31-Oct-2008 Sam Moffatt
  ^ GMail plugin updated to fix issue with verifying peers
