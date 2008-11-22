@@ -24,17 +24,19 @@ defined('JPATH_BASE') or die();
  */
 class JCacheStorageApc extends JCacheStorage
 {
+	protected $_hash;
+
 	/**
 	 * Constructor
 	 *
 	 * @access protected
 	 * @param array $options optional parameters
 	 */
-	function __construct( $options = array() )
+	protected function __construct( $options = array() )
 	{
 		parent::__construct($options);
 
-		$config			=& JFactory::getConfig();
+		$config	=& JFactory::getConfig();
 		$this->_hash	= $config->getValue('config.secret');
 	}
 
@@ -48,10 +50,9 @@ class JCacheStorageApc extends JCacheStorage
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		$this->_setExpire($cache_id);
 		return apc_fetch($cache_id);
 	}
 
@@ -65,10 +66,9 @@ class JCacheStorageApc extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function store($id, $group, $data)
+	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		apc_store($cache_id.'_expire', time());
 		return apc_store($cache_id, $data, $this->_lifetime);
 	}
 
@@ -81,10 +81,9 @@ class JCacheStorageApc extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function remove($id, $group)
+	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		apc_delete($cache_id.'_expire');
 		return apc_delete($cache_id);
 	}
 
@@ -100,8 +99,19 @@ class JCacheStorageApc extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function clean($group, $mode)
+	public function clean($group, $mode)
 	{
+		return true;
+	}
+
+	/**
+	 * Garbage collect expired cache data
+	 *
+	 * @abstract
+	 * @access public
+	 * @return boolean  True on success, false otherwise.
+	 */
+	public function gc() {
 		return true;
 	}
 
@@ -112,31 +122,9 @@ class JCacheStorageApc extends JCacheStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test()
+	public static function test()
 	{
 		return extension_loaded('apc');
-	}
-
-	/**
-	 * Set expire time on each call since memcache sets it on cache creation.
-	 *
-	 * @access private
-	 *
-	 * @param string  $key   Cache key to expire.
-	 * @param integer $lifetime  Lifetime of the data in seconds.
-	 */
-	function _setExpire($key)
-	{
-		$lifetime	= $this->_lifetime;
-		$expire		= apc_fetch($key.'_expire');
-
-		// set prune period
-		if ($expire + $lifetime < time()) {
-			apc_delete($key);
-			apc_delete($key.'_expire');
-		} else {
-			apc_store($key.'_expire',  time());
-		}
 	}
 
 	/**
@@ -148,7 +136,7 @@ class JCacheStorageApc extends JCacheStorage
 	 * @return	string	The cache_id string
 	 * @since	1.5
 	 */
-	function _getCacheId($id, $group)
+	protected function _getCacheId($id, $group)
 	{
 		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
 		return 'cache_'.$group.'-'.$name;

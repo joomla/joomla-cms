@@ -39,7 +39,7 @@ class JCacheCallback extends JCache
 	 * @return	mixed	Result of the callback
 	 * @since	1.5
 	 */
-	function call()
+	public function call()
 	{
 		// Get callback and arguments
 		$args		= func_get_args();
@@ -57,28 +57,17 @@ class JCacheCallback extends JCache
 	 * @return	mixed	Result of the callback
 	 * @since	1.5
 	 */
-	function get( $callback, $args, $id=false )
+	public function get( $callback, $args, $id=false )
 	{
 		// Normalize callback
-		if (is_array( $callback )) {
+		if (is_callable( $callback )) {
 			// We have a standard php callback array -- do nothing
 		} elseif (strstr( $callback, '::' )) {
 			// This is shorthand for a static method callback classname::methodname
 			list( $class, $method ) = explode( '::', $callback );
 			$callback = array( trim($class), trim($method) );
-		} elseif (strstr( $callback, '->' )) {
-			/*
-			 * This is a really not so smart way of doing this... we provide this for backward compatability but this
-			 * WILL!!! disappear in a future version.  If you are using this syntax change your code to use the standard
-			 * PHP callback array syntax: <http://php.net/callback>
-			 *
-			 * We have to use some silly global notation to pull it off and this is very unreliable
-			 */
-			list( $object_123456789, $method ) = explode('->', $callback);
-			global $$object_123456789;
-			$callback = array( $$object_123456789, $method );
 		} else {
-			// We have just a standard function -- do nothing
+			throw new JException('Callback not supported', 0, E_WARNING, $callback, true);
 		}
 
 		if (!$id) {
@@ -121,7 +110,7 @@ class JCacheCallback extends JCache
 	 * @return	string	MD5 Hash : function cache id
 	 * @since	1.5
 	 */
-	function _makeId($callback, $args)
+	protected function _makeId($callback, $args)
 	{
 		if(is_array($callback) && is_object($callback[0])) {
 			$vars = get_object_vars($callback[0]);

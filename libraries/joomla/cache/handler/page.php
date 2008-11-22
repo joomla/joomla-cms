@@ -24,6 +24,9 @@ defined('JPATH_BASE') or die();
  */
 class JCachePage extends JCache
 {
+	protected $_id = null;
+	protected $_group = null;
+
 	/**
 	 * Get the cached page data
 	 *
@@ -33,7 +36,7 @@ class JCachePage extends JCache
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	1.5
 	 */
-	function get( $id=false, $group='page' )
+	public function get( $id=false, $group='page' )
 	{
 		// Initialize variables
 		$data = false;
@@ -63,7 +66,7 @@ class JCachePage extends JCache
 		}
 
 		// Set id and group placeholders
-		$this->_id		= $id;
+		$this->_id	= $id;
 		$this->_group	= $group;
 		return false;
 	}
@@ -75,7 +78,7 @@ class JCachePage extends JCache
 	 * @return	boolean	True if cache stored
 	 * @since	1.5
 	 */
-	function store()
+	public function store()
 	{
 		// Get page data from JResponse body
 		$data = JResponse::getBody();
@@ -101,7 +104,7 @@ class JCachePage extends JCache
 	 * @return	string	MD5 Hash : page cache id
 	 * @since	1.5
 	 */
-	function _makeId()
+	protected function _makeId()
 	{
 		return md5(JRequest::getURI());
 	}
@@ -113,7 +116,7 @@ class JCachePage extends JCache
 	 * @return	void
 	 * @since	1.5
 	 */
-	function _noChange()
+	protected function _noChange()
 	{
 		$appl = JFactory::getApplication();
 
@@ -129,7 +132,7 @@ class JCachePage extends JCache
 	 * @return	void
 	 * @since	1.5
 	 */
-	function _setEtag($etag)
+	protected function _setEtag($etag)
 	{
 		JResponse::setHeader( 'ETag', $etag, true );
 	}

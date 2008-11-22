@@ -28,19 +28,21 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * Resource for the current memcached connection.
 	 * @var resource
 	 */
-	var $_db;
+	protected $_db;
 
 	/**
 	 * Use compression?
 	 * @var int
 	 */
-	var $_compress = null;
+	protected $_compress = null;
 
 	/**
 	 * Use persistent connections
 	 * @var boolean
 	 */
-	var $_persistent = false;
+	protected $_persistent = false;
+
+	protected $_hash = null;
 
 	/**
 	 * Constructor
@@ -48,15 +50,15 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @access protected
 	 * @param array $options optional parameters
 	 */
-	function __construct( $options = array() )
+	protected function __construct( $options = array() )
 	{
-		if (!$this->test()) {
+		if (!self::test()) {
 			return JError::raiseError(404, "The memcache extension is not available");
 		}
 		parent::__construct($options);
 
 		$params =& JCacheStorageMemcache::getConfig();
-		$this->_compress	= (isset($params['compression'])) ? $params['compression'] : 0;
+		$this->_compress = (isset($params['compression'])) ? $params['compression'] : 0;
 		$this->_db =& JCacheStorageMemcache::getConnection();
 
 		// Get the site hash
@@ -70,7 +72,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @access private
 	 * @return object memcache connection object
 	 */
-	function &getConnection() {
+	protected static function &getConnection() {
 		static $db = null;
 		if(is_null($db)) {
 			$params =& JCacheStorageMemcache::getConfig();
@@ -94,7 +96,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @access private
 	 * @return array options
 	 */
-	function &getConfig() {
+	protected static function &getConfig() {
 		static $params = null;
 		if(is_null($params)) {
 			$config =& JFactory::getConfig();
@@ -121,7 +123,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		return $this->_db->get($cache_id);
@@ -137,7 +139,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function store($id, $group, $data)
+	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		return $this->_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
@@ -152,7 +154,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function remove($id, $group)
+	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		return $this->_db->delete($cache_id);
@@ -170,7 +172,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function clean($group, $mode)
+	public function clean($group, $mode)
 	{
 		return true;
 	}
@@ -181,7 +183,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc()
+	public function gc()
 	{
 		return true;
 	}
@@ -193,7 +195,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test()
+	public static function test()
 	{
 		return (extension_loaded('memcache') && class_exists('Memcache'));
 	}
@@ -207,7 +209,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	string	The cache_id string
 	 * @since	1.5
 	 */
-	function _getCacheId($id, $group)
+	protected function _getCacheId($id, $group)
 	{
 		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
 		return 'cache_'.$group.'-'.$name;

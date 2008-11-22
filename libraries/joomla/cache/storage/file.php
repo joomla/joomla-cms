@@ -33,11 +33,11 @@ class JCacheStorageFile extends JCacheStorage
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	protected function __construct( $options = array() )
 	{
 		parent::__construct($options);
 
-		$config			=& JFactory::getConfig();
+		$config		=& JFactory::getConfig();
 		$this->_root	= $options['cachebase'];
 		$this->_hash	= $config->getValue('config.secret');
 	}
@@ -52,7 +52,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime = true)
 	{
 		$data = false;
 
@@ -79,7 +79,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function store($id, $group, $data)
+	public function store($id, $group, $data)
 	{
 		$written	= false;
 		$path		= $this->_getFilePath($id, $group);
@@ -105,7 +105,7 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		// Data integrity check
 		if ($written && ($data == file_get_contents($path))) {
-			@file_put_contents($expirePath, ($this->_now + $this->_lifetime));
+			@file_put_contents($expirePath, ($this->_now));
 			return true;
 		} else {
 			return false;
@@ -121,7 +121,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function remove($id, $group)
+	public function remove($id, $group)
 	{
 		$path = $this->_getFilePath($id, $group);
 		@unlink($path.'_expire');
@@ -143,7 +143,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function clean($group, $mode)
+	public function clean($group, $mode)
 	{
 		jimport('joomla.filesystem.folder');
 
@@ -181,14 +181,14 @@ class JCacheStorageFile extends JCacheStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc()
+	public function gc()
 	{
 		$result = true;
 		// files older than lifeTime get deleted from cache
 		$files = JFolder::files($this->_root, '_expire', true, true);
 		foreach($files As $file) {
 			$time = @file_get_contents($file);
-			if ($time < $this->_now) {
+			if ($time + $this->_lifetime < $this->_now) {
 				$result |= JFile::delete($file);
 				$result |= JFile::delete(str_replace('_expire', '', $file));
 			}
@@ -203,7 +203,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test()
+	public static function test()
 	{
 		$config	=& JFactory::getConfig();
 		$root	= $config->getValue('config.cache_path', JPATH_ROOT.DS.'cache');
@@ -218,14 +218,14 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param string  $id   Cache key to expire.
 	 * @param string  $group The cache data group.
 	 */
-	function _setExpire($id, $group)
+	protected function _setExpire($id, $group)
 	{
 		$path = $this->_getFilePath($id, $group);
 
 		// set prune period
 		if(file_exists($path.'_expire')) {
 			$time = @file_get_contents($path.'_expire');
-			if ($time < $this->_now || empty($time)) {
+			if ($time + $this->_lifetime < $this->_now || empty($time)) {
 				$this->remove($id, $group);
 			}
 		} elseif(file_exists($path)) {

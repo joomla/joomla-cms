@@ -26,7 +26,7 @@ JLoader::register('JCacheStorage', dirname(__FILE__).DS.'storage.php');
  * @subpackage	Cache
  * @since		1.5
  */
-abstract class JCache extends JObject
+class JCache extends JObject
 {
 	/**
 	 * Storage Handler
@@ -156,7 +156,7 @@ abstract class JCache extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function setCaching($enabled)
+	public function setCaching($enabled)
 	{
 		$this->_options['caching'] = $enabled;
 	}
@@ -169,21 +169,9 @@ abstract class JCache extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	function setLifeTime($lt)
+	public function setLifeTime($lt)
 	{
 		$this->_options['lifetime'] = $lt;
-	}
-
-	/**
-	 * Set cache validation
-	 *
-	 * @access	public
-	 * @return	void
-	 * @since	1.5
-	 */
-	function setCacheValidation()
-	{
-		// Deprecated
 	}
 
 	/**
@@ -196,13 +184,13 @@ abstract class JCache extends JObject
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	function get($id, $group=null)
+	public function get($id, $group=null)
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
 		// Get the storage handler
-		$handler =& $this->_getStorage();
+		$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 		if (!JError::isError($handler) && $this->_options['caching']) {
 			return $handler->get($id, $group, (isset($this->_options['checkTime']))? $this->_options['checkTime'] : true);
 		}
@@ -219,13 +207,13 @@ abstract class JCache extends JObject
 	 * @return	boolean	True if cache stored
 	 * @since	1.5
 	 */
-	function store($data, $id, $group=null)
+	public function store($data, $id, $group=null)
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
 		// Get the storage handler and store the cached data
-		$handler =& $this->_getStorage();
+		$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 		if (!JError::isError($handler) && $this->_options['caching']) {
 			return $handler->store($id, $group, $data);
 		}
@@ -242,13 +230,13 @@ abstract class JCache extends JObject
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function remove($id, $group=null)
+	public function remove($id, $group=null)
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
 		// Get the storage handler
-		$handler =& $this->_getStorage();
+		$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 		if (!JError::isError($handler)) {
 			return $handler->remove($id, $group);
 		}
@@ -267,13 +255,13 @@ abstract class JCache extends JObject
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function clean($group=null, $mode='group')
+	public function clean($group=null, $mode='group')
 	{
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
 		// Get the storage handler
-		$handler =& $this->_getStorage();
+		$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 		if (!JError::isError($handler)) {
 			return $handler->clean($group, $mode);
 		}
@@ -287,10 +275,10 @@ abstract class JCache extends JObject
 	 * @return boolean  True on success, false otherwise.
 	 * @since	1.5
 	 */
-	function gc()
+	public function gc()
 	{
 		// Get the storage handler
-		$handler =& $this->_getStorage();
+		$handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 		if (!JError::isError($handler)) {
 			return $handler->gc();
 		}
@@ -303,14 +291,10 @@ abstract class JCache extends JObject
 	 * @access protected
 	 * @return object A JCacheStorage object
 	 * @since	1.5
+	 * @deprecated
 	 */
-	function &_getStorage()
+	public function &_getStorage()
 	{
-		if ($this->_handler INSTANCEOF JCacheStorage) {
-			return $this->_handler;
-		}
-
-		$this->_handler =& JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-		return $this->_handler;
+		return JCacheStorage::getInstance($this->_options['storage'], $this->_options)
 	}
 }

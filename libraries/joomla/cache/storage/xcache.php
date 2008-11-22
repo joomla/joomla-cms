@@ -24,13 +24,15 @@ defined('JPATH_BASE') or die();
  */
 class JCacheStorageXCache extends JCacheStorage
 {
+	protected $_hash = null;
+
 	/**
 	* Constructor
 	*
 	* @access protected
 	* @param array $options optional parameters
 	*/
-	function __construct( $options = array() )
+	protected function __construct( $options = array() )
 	{
 		parent::__construct($options);
 
@@ -48,7 +50,7 @@ class JCacheStorageXCache extends JCacheStorage
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
@@ -70,7 +72,7 @@ class JCacheStorageXCache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function store($id, $group, $data)
+	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		return xcache_set($cache_id, $data, $this->_lifetime);
@@ -85,7 +87,7 @@ class JCacheStorageXCache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function remove($id, $group)
+	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
@@ -108,8 +110,12 @@ class JCacheStorageXCache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	function clean($group, $mode)
+	public function clean($group, $mode)
 	{
+		return true;
+	}
+
+	public function gc() {
 		return true;
 	}
 
@@ -120,7 +126,7 @@ class JCacheStorageXCache extends JCacheStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test()
+	public static function test()
 	{
 		return (extension_loaded('xcache'));
 	}
@@ -134,7 +140,7 @@ class JCacheStorageXCache extends JCacheStorage
 	 * @return	string	The cache_id string
 	 * @since	1.5
 	 */
-	function _getCacheId($id, $group)
+	protected function _getCacheId($id, $group)
 	{
 		$name	= md5($this->_application.'-'.$id.'-'.$this->_hash.'-'.$this->_language);
 		return 'cache_'.$group.'-'.$name;
