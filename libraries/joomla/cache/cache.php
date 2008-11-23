@@ -295,6 +295,6 @@ class JCache extends JObject
 	 */
 	public function &_getStorage()
 	{
-		return JCacheStorage::getInstance($this->_options['storage'], $this->_options)
+		return JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 	}
 }
