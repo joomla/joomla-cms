@@ -97,7 +97,9 @@ abstract class JCacheStorage extends JObject
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	public abstract function get($id, $group, $checkTime = true);
+	public function get($id, $group, $checkTime = true) {
+		return false;
+	}
 
 	/**
 	 * Store the data to cache by id and group
