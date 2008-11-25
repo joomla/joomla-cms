@@ -39,7 +39,7 @@ class JAclAdmin
 		$table = JTable::getInstance($type.'Section');
 
 		// Verify we got a proper JTable object.
-		if (!is_a($table.$type.'Section')) {
+		if (!is_a($table, 'JTable'.$type.'Section')) {
 			throw new JException(JText::_('Error Acl Missing API'));
 		}
 
@@ -51,7 +51,7 @@ class JAclAdmin
 
 		// Check the data.
 		if (!$table->check()) {
-			throw new JException($group->getError());
+			throw new JException($table->getError());
 		}
 
 		// Store the data.
@@ -60,7 +60,7 @@ class JAclAdmin
 			throw new JException($db->getErrorMsg());
 		}
 
-		return $section->id;
+		return $table->id;
 	}
 
 	public static function removeSection($type, $value)
@@ -113,7 +113,7 @@ class JAclAdmin
 	 * @param	int $parentId	The parent group
 	 * @return	int				The ID of the group
 	 */
-	public static function registerGroup($type, $name, $value, $parentId = 1)
+	public static function registerGroup($type, $name, $value, $parentId = 29)
 	{
 		$type = ucfirst(strtolower($type));
 		if (!in_array($type, array('Aro', 'Axo'))) {
@@ -140,7 +140,7 @@ class JAclAdmin
 		$group = JTable::getInstance($type.'Group');
 
 		// Verify we got a proper JTable object.
-		if (!is_a($group.$type.'Group')) {
+		if (!is_a($group, 'JTable'.$type.'Group')) {
 			throw new JException(JText::_('Error Acl Missing API'));
 		}
 
@@ -164,6 +164,16 @@ class JAclAdmin
 			throw new JException($db->getErrorMsg());
 		}
 
+		if ($type == 'Axo') {
+			// We need to syncronise the value with the Id to ensure uniqueness and to fool
+			// older extensions into working properly (that is, they won't know about the new
+			// access levels.
+			$group->value = $group->id;
+			if (!$group->store()) {
+				throw new JException($db->getErrorMsg());
+			}
+		}
+
 		return $group->id;
 	}
 
@@ -183,7 +193,10 @@ class JAclAdmin
 	 */
 	public static function registerGroupForUsers($name, $parentId = 29, $value = null)
 	{
-		return JAclAdmin::registerGroup('Aro', $name, $parentId, $value);
+		if (empty($value)) {
+			$value = preg_replace('#[^a-z0-9\-_]+#i', '-', strtolower($name));
+		}
+		return JAclAdmin::registerGroup('Aro', $name, $value, $parentId, $value);
 	}
 
 	/**
@@ -197,7 +210,7 @@ class JAclAdmin
 	 */
 	public static function registerGroupForAssets($name)
 	{
-		return JAclAdmin::registerGroup('Axo', $name, 1);
+		return JAclAdmin::registerGroup('Axo', $name, 0, 1);
 	}
 
 	/**
@@ -229,7 +242,7 @@ class JAclAdmin
 		$table = JTable::getInstance('Aco');
 
 		// Verify we got a proper JTable object.
-		if (!is_a($section, 'JTableAco')) {
+		if (!is_a($table, 'JTableAco')) {
 			throw new JException(JText::_('Error Acl Missing API'));
 		}
 

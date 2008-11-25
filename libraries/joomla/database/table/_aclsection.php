@@ -97,7 +97,7 @@ abstract class JTable_AclSection extends JTable
 		);
 		$id = $this->_db->loadResult();
 		if (!empty($id) && $id != $this->id) {
-			$this->setError(JText::_('Error Acl Section Table Value already used'));
+			$this->setError(JText::sprintf('Error Acl Section Table Value %s already used', $this->value));
 			return false;
 		}
 
@@ -139,7 +139,7 @@ abstract class JTable_AclSection extends JTable
 		if ($result = parent::store($updateNulls))
 		{
 			// Syncronise the section_value and value with foreign keys
-			if (!$reSync)
+			if ($reSync)
 			{
 				// Update the acl_{type} table
 				$this->_db->setQuery(

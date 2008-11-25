@@ -25,7 +25,7 @@ class JTableAco extends JTable_AclObject
 	 * @var	string The object type
 	 * @protected
 	 */
-	final protected $_type = 'aco';
+	protected $_type = 'aco';
 
 	/**
 	 * Deletes referenced data

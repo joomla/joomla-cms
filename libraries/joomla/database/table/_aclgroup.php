@@ -14,24 +14,24 @@ abstract class JTable_AclGroup extends JTable
 	/**
 	 * @var int Primary key
 	 */
-	var $id = null;
+	public $id = null;
 	/**
 	 * @var varchar
 	 */
-	var $name = null;
+	public $name = null;
 	/** @var varchar */
-	var $value = null;
+	public $value = null;
 	/** @var int */
-	var $parent_id = null;
+	public $parent_id = null;
 	/** @var int */
-	var $lft = null;
+	public $lft = null;
 	/** @var int */
-	var $rgt = null;
+	public $rgt = null;
 	/**
 	 * @var	string The section type
 	 * @protected
 	 */
-	var $_type = null;
+	protected $_type = null;
 
 	/**
 	 * Constructor

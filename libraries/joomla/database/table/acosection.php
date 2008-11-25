@@ -21,5 +21,5 @@ class JTableAcoSection extends JTable_AclSection
 	/**
 	 * @var	string The section type
 	 */
-	final protected $_type = 'aco';
+	protected $_type = 'aco';
 }

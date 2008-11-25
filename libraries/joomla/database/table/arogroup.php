@@ -21,7 +21,7 @@ class JTableAroGroup extends JTable_AclGroup
 	/**
 	 * @var	string The group type
 	 */
-	final protected $_type = 'aro';
+	protected $_type = 'aro';
 
 	/**
 	 * Find the references to this AXO

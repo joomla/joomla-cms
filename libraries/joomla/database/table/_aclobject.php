@@ -95,7 +95,7 @@ abstract class JTable_AclObject extends JTable
 		);
 		$id = $this->_db->loadResult();
 		if (!empty($id) && $id != $this->id) {
-			$this->setError(JText::_('Error Acl Object Table '.strtoupper($this->_type).' value already used'));
+			$this->setError(JText::sprintf('Error Acl Object Table '.strtoupper($this->_type).' value %s already used', $this->value));
 			return false;
 		}
 
@@ -137,7 +137,7 @@ abstract class JTable_AclObject extends JTable
 		if ($result = parent::store($updateNulls))
 		{
 			// Syncronise the section_value and value with foreign keys
-			if (!$reSync)
+			if ($reSync)
 			{
 				$parts = explode('/', $existing);
 

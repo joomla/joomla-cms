@@ -23,7 +23,7 @@ class JTableAxo extends JTableAclObject
 	 * @var	string The object type
 	 * @protected
 	 */
-	final protected $_type = 'axo';
+	protected $_type = 'axo';
 
 	/**
 	 * Find the references to this AXO

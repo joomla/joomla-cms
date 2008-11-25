@@ -20,5 +20,5 @@ class JTableAclSection extends JTable_AclSection
 	/**
 	 * @var	string The section type
 	 */
-	final protected $_type = 'acl';
+	protected $_type = 'acl';
 }

@@ -22,7 +22,7 @@ class JTableAro extends JTableAclObject
 	/**
 	 * @var	string The object type
 	 */
-	final protected $_type = 'aro';
+	protected $_type = 'aro';
 
 	/**
 	 * Find the references to this ARO

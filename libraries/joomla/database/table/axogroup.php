@@ -22,7 +22,7 @@ class JTableAxoGroup extends JTable_AclGroup
 	 * @var	string The group type
 	 * @protected
 	 */
-	final protected $_type = 'axo';
+	protected $_type = 'axo';
 
 	/**
 	 * Find the references to this AXO
