@@ -6,8 +6,10 @@
 	// clean item data
 	JFilterOutput::objectHTMLSafe($this->item, ENT_QUOTES, '');
 
+	/*
 	JHTML::script('passwordGenerator.js');
 	$this->document->addStyleDeclaration('#passwordContainer span{margin-right:20px;}');
+	*/
 ?>
 
 <script type="text/javascript">
@@ -28,9 +30,11 @@
 			}
 		);
 	});
+	/*
 	window.addEvent("domready",function(){
 		pg=new PasswordGenerator("passwordContainer");
 	});
+	*/
 
 </script>
 
