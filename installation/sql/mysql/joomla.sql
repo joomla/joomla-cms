@@ -977,7 +977,7 @@ CREATE TABLE IF NOT EXISTS  `#__core_acl_aro_groups_map` (
 CREATE TABLE IF NOT EXISTS `#__core_acl_axo` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `section_value` varchar(100) NOT NULL default '0',
-  `value` `value` INTEGER(10) NOT NULL default 0,
+  `value` INTEGER(10) NOT NULL default 0,
   `order_value` int(11) NOT NULL default '0',
   `name` varchar(255) NOT NULL default '',
   `hidden` int(1) unsigned NOT NULL default '0',
