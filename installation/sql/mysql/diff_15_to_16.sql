@@ -410,3 +410,9 @@ CREATE TABLE  `jos_tasksets` (
   `landingpage` text,
   PRIMARY KEY  (`tasksetid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Task Sets';
+
+-- 2008-11-25
+
+ALTER TABLE `jos_core_acl_axo`
+ MODIFY COLUMN `value` INTEGER(10) NOT NULL;
+

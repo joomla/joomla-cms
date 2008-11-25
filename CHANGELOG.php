@@ -43,6 +43,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+25-Nov-2008 Ercan Ozkaya
+ ^ Changed AXO Table value field to INT
+
 22-Nov-2008 Ercan Ozkaya
  # Fixed misnamed variables in com_contact and com_weblinks
  - Removed legacy query support from debug plugin
@@ -51,7 +54,7 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  ^ Refactored all core plugins to use objects instead of callbacks
  # Optimized com_content models SQL work (as well as moved to php5)
  + Added JFilterInput::_() method (proxies to ::clean()).  Deprecated static calling of JFilterInput::clean()
- 
+
 18-Nov-2008 Charl van Niekerk
  # Fixed unencoded ampersands in form action on com_weblinks category view.
  # Fixed empty id attributes on com_weblinks category view.
