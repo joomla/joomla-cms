@@ -1,13 +1,12 @@
 <?php
 /**
- * @version		$Id:article.php 1840 2007-09-21 01:09:04Z masterchief $
- * @package		Magazine
- * @copyright	2008 JXtended LLC.  All rights reserved.
- * @license		GNU General Public License
+ * @version		$Id$
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+// No direct access
+defined('JPATH_BASE') or die();
 
 /**
  * Abstract table used for object that map to the access control system
@@ -53,7 +52,7 @@ abstract class JTableAxoMap extends JTable
 		$groupId	= $acl->get_group_id($this->access, '', 'AXO');
 		$axoTitle	= $this->getAxoTitle();
 		$axoSection	= $this->getAxoSection();
-	
+
 		try {
 			if ($key)
 			{
@@ -67,7 +66,7 @@ abstract class JTableAxoMap extends JTable
 						// update the AXO object
 						$ret	= $acl->edit_object($axoId, $axoSection, $axoTitle, $key, 0, 0, 'AXO');
 					}
-	
+
 					// syncronise ACL - single group handled at the moment
 					if ($groups = $acl->get_object_groups($axoId, 'AXO')) {
 						$acl->del_group_object($groups[0], $axoSection, $key, 'AXO');

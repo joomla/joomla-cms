@@ -43,8 +43,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
-25-Nov-2008 Ercan Ozkaya
+25-Nov-2008 Andrew Eddie
  ^ Changed AXO Table value field to INT
+ + Added more ACL infrastructure
 
 22-Nov-2008 Ercan Ozkaya
  # Fixed misnamed variables in com_contact and com_weblinks

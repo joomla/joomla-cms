@@ -11,25 +11,27 @@ defined('JPATH_BASE') or die();
 require_once dirname(__FILE__).DS.'_aclobject.php';
 
 /**
- * Aro table
+ * Axo table
  *
  * @package 	Joomla.Framework
  * @subpackage	Table
  * @since		1.0
  */
-class JTableAro extends JTableAclObject
+class JTableAxo extends JTableAclObject
 {
 	/**
 	 * @var	string The object type
+	 * @protected
 	 */
-	final protected $_type = 'aro';
+	final protected $_type = 'axo';
 
 	/**
-	 * Find the references to this ARO
+	 * Find the references to this AXO
 	 *
 	 * This method can only operate on a previously loaded object.
 	 *
 	 * @return	JAclReferences
+	 * @access	public
 	 */
 	public function &findReferences()
 	{
