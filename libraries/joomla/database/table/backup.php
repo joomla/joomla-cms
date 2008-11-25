@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: acl.php 11140 2008-10-16 18:17:16Z ircmaxell $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
