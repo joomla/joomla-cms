@@ -62,14 +62,15 @@ class JAclReferences
 	 */
 	protected function _add($field, $section, $value)
 	{
-		if (!isset($this->$field[$section])) {
-			$this->$field[$section] = array();
+		$f = &$this->$field;
+		if (!isset($f[$section])) {
+			$f[$section] = array();
 		}
 		if (is_array($value)) {
-			$this->$field[$section] = array_merge($this->$field[$section], $value);
+			$f[$section] = array_merge($f[$section], $value);
 		}
 		else {
-			$this->$field[$section][] = $value;
+			$f[$section][] = $value;
 		}
 	}
 
@@ -125,7 +126,7 @@ class JAclReferences
 	 */
 	public function addAroGroup($value)
 	{
-		$this->_add('_aros', '__default', $value);
+		$this->_add('_aro_groups', '__default', $value);
 	}
 
 	/**
@@ -136,7 +137,7 @@ class JAclReferences
 	 */
 	public function addAxoGroup($value)
 	{
-		$this->_add('_axos', '__default', $value);
+		$this->_add('_axo_groups', '__default', $value);
 	}
 
 	/**
@@ -200,24 +201,25 @@ class JAclReferences
 	 * Get the referenced ACLs
 	 *
 	 * @param	string $field		The field to operate on
-	 * @param	mixed $section		True to return array with sections, string for a particular section, otherwise a concatenated array if returned
+	 * @param	mixed $section		True to return array with sections, string for a particular section, otherwise a concatenated array is returned
 	 *
 	 * @return	array
 	 */
 	protected function _get($field, $section = null)
 	{
 		$result = array();
+		$f = &$this->$field;
 
-		if (isset($this->$field[$section]))
+		if ($section === true) {
+			return $f;
+		}
+		else if (isset($f[$section]))
 		{
 			if (!empty($section)) {
-				return $this->$field[$section];
-			}
-			else if ($section === true) {
-				return $this->$field;
+				return $f[$section];
 			}
 			else {
-				foreach ($this->$field[$section] as $value) {
+				foreach ($f as $section => $value) {
 					$result = array_merge($result, $value);
 				}
 			}

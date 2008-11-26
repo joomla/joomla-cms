@@ -5,8 +5,7 @@
  * @license		GNU/GPL, see LICENSE.php
  */
 
-// No direct access
-defined('JPATH_BASE') or die();
+defined('_JEXEC') or die('Restricted access');
 
 require_once dirname(__FILE__).DS.'_aclobject.php';
 

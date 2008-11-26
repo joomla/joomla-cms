@@ -7,18 +7,20 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once dirname(__FILE__).DS.'_aclsection.php';
+require_once dirname(__FILE__).DS.'_groupmap.php';
 
 /**
- * Table object for ACO sections.
- *
  * @package		Joomla.Framework
  * @subpackage	Table
  */
-class JTableAcoSection extends JTable_AclSection
+class MembersTableGroupAxoMap extends MembersTable_GroupMap
 {
+	var $axo_id = null;
+
 	/**
 	 * @var	string The section type
+	 * @protected
+	 * @final
 	 */
-	protected $_type = 'aco';
+	var $_type = 'axo';
 }

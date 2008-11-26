@@ -5,6 +5,8 @@
  * @license		GNU/GPL, see LICENSE.php
  */
 
+defined('_JEXEC') or die('Restricted access');
+
 /**
  * @package		Joomla.Framework
  * @subpackage	Table
@@ -44,6 +46,8 @@ class JTableACL extends JTable
 	 */
 	protected $acl_type = null;
 
+	protected $_quiet = false;
+
 	/*
 	 * Constructor
 	 * @param object Database object
@@ -52,6 +56,7 @@ class JTableACL extends JTable
 	{
 		parent::__construct('#__core_acl_acl', 'id', $db);
 	}
+
 	/**
 	 * Validate the internal data
 	 *
@@ -67,7 +72,7 @@ class JTableACL extends JTable
 
 		// Check that section exists
 		$this->_db->setQuery(
-			'SELECT id FROM $__core_acl_acl_sections WHERE value = '.$this->_db->quote($this->section_value)
+			'SELECT id FROM #__core_acl_acl_sections WHERE value = '.$this->_db->quote($this->section_value)
 		);
 		$id = $this->_db->loadResult();
 		if (empty($id)) {
@@ -258,7 +263,7 @@ class JTableACL extends JTable
 			return false;
 		}
 
-		if (!$this->deleteReferences()) {
+		if (!$this->_deleteReferences()) {
 			return false;
 		}
 
@@ -271,6 +276,8 @@ class JTableACL extends JTable
 		// Insert ACO/ARO/AXO mappings
 		foreach ($maps as $type => $map)
 		{
+			$this->_quiet or $this->_log($type.': '.count($map).' maps');
+
 			if (empty($map)) {
 				continue;
 			}
@@ -279,6 +286,8 @@ class JTableACL extends JTable
 
 			foreach ($map as $sectionValue => $ids)
 			{
+				$this->_quiet or $this->_log('&raquo; '.$sectionValue.': '.count($ids).' ids');
+
 				if (empty($ids)) {
 					continue;
 				}
@@ -292,6 +301,8 @@ class JTableACL extends JTable
 					}
 					$tuples[$id] = $this->_db->quote($sectionValue);
 				}
+
+				$this->_quiet or $this->_log('&raquo;&raquo; Tuples: '.print_r($tuples, true));
 			}
 
 			if (empty($tuples)) {
@@ -302,17 +313,20 @@ class JTableACL extends JTable
 			$this->_db->setQuery(
 				'SELECT value, id'.
 				' FROM #__core_acl_'.$type.
-				' WHERE id IN ('.implode(',', $tuples).')'
+				' WHERE id IN ('.implode(',', array_keys($tuples)).')'
 			);
-			$lookup = $this->_db->loadRowList(0);
+			$this->_quiet or $this->_log('&raquo; '.$this->_db->getQuery());
+
+			$lookup = $this->_db->loadRowList(1);
 			if ($this->_db->getErrorNum()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
+			$this->_quiet or $this->_log('&raquo; Lookup: '.print_r($lookup, true));
 
 			// Assemble the mapping tuples
 			foreach ($tuples as $id => $tuple) {
-				$tuples[$id] = '('.(int) $this->id.','.$tuple.','.$lookup[$id][0].')';
+				$tuples[$id] = '('.(int) $this->id.','.$tuple.','.$this->_db->quote($lookup[$id][0]).')';
 			}
 
 			// Add the tuples
@@ -320,6 +334,7 @@ class JTableACL extends JTable
 				'INSERT INTO #__core_acl_'.$type.'_map (acl_id,section_value,value)'.
 				' VALUES '.implode(',', $tuples)
 			);
+			$this->_quiet or $this->_log('&raquo; '.$this->_db->getQuery());
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
@@ -334,7 +349,9 @@ class JTableACL extends JTable
 		// Insert ARO/AXO GROUP mappings
 		foreach ($maps as $type => $groups)
 		{
-			if (empty($map)) {
+			$this->_quiet or $this->_log('Group '.$type.': '.count($groups).' groups');
+
+			if (empty($groups)) {
 				continue;
 			}
 
@@ -351,13 +368,15 @@ class JTableACL extends JTable
 				'INSERT INTO #__core_acl_'.$type.'_groups_map (acl_id,group_id)'.
 				' VALUES '.implode(',', $tuples)
 			);
+			$this->_quiet or $this->_log('&raquo; '.$this->_db->getQuery());
+
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return false;
 			}
 		}
 
-		// @todo Clean caching here
+		// @todo Clean ACL caching here
 
 		return true;
 	}
@@ -381,7 +400,8 @@ class JTableACL extends JTable
 		$aros = $references->getAros(true);
 		$axos = $references->getAros(true);
 
-		$query  = new JXQuery;
+		jimport('joomla.database.query');
+		$query  = new JQuery;
 		$query->select('a.id');
 		$query->from('#__core_acl_acl AS a');
 		$query->join('LEFT', '#__core_acl_aco_map AS ac ON ac.acl_id=a.id');
@@ -399,7 +419,7 @@ class JTableACL extends JTable
 			}
 
 			$wheres = array(
-				'ac2' => '(ac.section_value='. $this->db->quote($acoSectionValue) .' AND ac.value IN (\''. implode ('\',\'', $acoValues) .'\'))'
+				'ac2' => '(ac.section_value='. $this->_db->quote($acoSectionValue) .' AND ac.value IN (\''. implode ('\',\'', $acoValues) .'\'))'
 			);
 
 			// Scan AROs
@@ -409,7 +429,7 @@ class JTableACL extends JTable
 					continue;
 				}
 
-				$wheres['ar2'] = '(ar.section_value='. $this->db->quote($aroSectionValue) .' AND ar.value IN (\''. implode ('\',\'', $aroValues) .'\'))';
+				$wheres['ar2'] = '(ar.section_value='. $this->_db->quote($aroSectionValue) .' AND ar.value IN (\''. implode ('\',\'', $aroValues) .'\'))';
 
 				if (!empty($axos))
 				{
@@ -421,9 +441,9 @@ class JTableACL extends JTable
 						}
 
 						$wheres['ax1']	= 'ax.acl_id=a.id';
-						$wheres['ax2']	= '(ax.section_value='. $this->db->quote($axoSectionValue) .' AND ax.value IN (\''. implode ('\',\'', $axoValues) .'\'))';
+						$wheres['ax2']	= '(ax.section_value='. $this->_db->quote($axoSectionValue) .' AND ax.value IN (\''. implode ('\',\'', $axoValues) .'\'))';
 						$this->_db->setQuery($sql.' WHERE '.implode(' AND ', $wheres));
-						$result = $this->db->loadResultArray($sql.$where);
+						$result = $this->_db->loadResultArray();
 
 						if (!empty($result))
 						{
@@ -443,7 +463,7 @@ class JTableACL extends JTable
 					$wheres['ax1'] = '(ax.section_value IS NULL AND ax.value IS NULL)';
 					$wheres['ax2'] = 'xg.name IS NULL';
 					$this->_db->setQuery($sql.' WHERE '.implode(' AND ', $wheres));
-					$result = $this->db->loadResultArray($sql.$where);
+					$result = $this->_db->loadResultArray();
 
 					if (!empty($result))
 					{
@@ -494,5 +514,9 @@ class JTableACL extends JTable
 
 		return true;
 	}
-}
 
+	function _log($text)
+	{
+		echo '<br />'.$text;
+	}
+}

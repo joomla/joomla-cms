@@ -229,14 +229,14 @@ class JAclAdmin
 	 * Type 3: User Group + Permission + Access Level; such as Registered can View Articles in the Registered Access Level
 	 * (inheritance not available)
 	 *
+	 * @param	int $type		Used in rule type (1, 2 or 3)
 	 * @param	string $section	The section for the permission
 	 * @param	string $name	The readable name of the permission
 	 * @param	string $value	The permission value
-	 * @param	int $type		The permission type (1, 2 or 3)
 	 *
 	 * @return	int				The ID of the ACO
 	 */
-	public static function registerAction($section, $name, $value, $type = 1, $note = '')
+	public static function registerAction($type, $section, $name, $value, $note = '')
 	{
 		// Get a group row instance.
 		$table = JTable::getInstance('Aco');
@@ -277,6 +277,49 @@ class JAclAdmin
 	public static function removeAction($section, $value)
 	{
 		throw new JException('TODO');
+	}
+
+	/**
+	 * Creates a user (ARO) record (note this does not create a Joomla user)
+	 *
+	 * @param	string $name	The name of the user
+	 * @param	int $value		The Joomla ID of the user
+	 *
+	 * @return	int				The ID of the section
+	 */
+	public function registerUser($name, $value)
+	{
+		// Get a group row instance.
+		$table = JTable::getInstance('Aro');
+
+		// Verify we got a proper JTable object.
+		if (!is_a($table, 'JTableAro')) {
+			return new JException(JText::_('Error Acl Missing API'));
+		}
+
+		// Bind the data.
+		$data = array(
+			'section_value'	=> 'users',
+			'name'			=> $name,
+			'value'			=> (int) $value,
+			'order_value'	=> 0,
+		);
+		if (!$table->bind($data)) {
+			return new JException(JText::sprintf('Error Acl USer Bind Failed', $table->getError()));
+		}
+
+		// Check and validate the data.
+		if (!$table->check()) {
+			return new JException($table->getError());
+		}
+
+		// Store the data.
+		if (!$table->store()) {
+			$db = &JFactory::getDBO();
+			return new JException($db->getErrorMsg());
+		}
+
+		return $table->id;
 	}
 
 	/**
@@ -325,10 +368,6 @@ class JAclAdmin
 		throw new JException('TODO');
 	}
 
-	//
-	// Note: Names can change - just using familiar terminolgy for now
-	//
-
 	/**
 	 * Adds a rule
 	 *
@@ -336,18 +375,24 @@ class JAclAdmin
 	 * when creating rules by hand, such as at install time.  Mode 1 is most typically used
 	 * when maintain rules via a user interface and Id's are posted back to for saving.
 	 *
-	 * @param	string $title		The title for the rule
+	 * @param	string $type		The type for the rule: 1, 2 or 3 (4 not supported)
+	 * @param	string $section		The rule section
+	 * @param	string $note		The title for the rule
 	 * @param	array $userGroups	An array of User Group Values or Id's
-	 * @param	array $acos			A nested an named array (by section) of ACO Values or Id's
-	 * @param	array $axos			Optional: nested an named array (by section) of AXO Values or Id's
-	 * @param	array $levels		Optional: An array of AXO Group Values or Id's
+	 * @param	array $actions		A nested an named array (by section) of ACO Values or Id's
+	 * @param	array $assets		Optional: nested an named array (by section) of Asset Id's
+	 * @param	array $assetGroups	Optional: An array of Asset Group Values or Id's
 	 * @param	int $mode			The input mode; 0: By values (default, requiring translation to Id's); 1: By Id's
 	 */
-	public static function registerRule($title, $userGroups, $acos, $axos = null, $levels = null, $mode = 0)
+	public function registerRule($type, $section, $note, $userGroups, $actions, $assets = null, $assetGroups = null, $mode = 0)
 	{
 		static $cache = null;
 
 		// Input validation checks
+		if (empty($section)) {
+			return new JException(JText::_('Error Acl Rule Section Empty'));
+		}
+
 		if (empty($userGroups)) {
 			throw new JException(JText::_('Error Acl No user groups'));
 		}
@@ -379,7 +424,7 @@ class JAclAdmin
 					'SELECT id, value'.
 					' FROM #__core_acl_aro_groups'
 				);
-				$cache['aro_groups'] = $db->loadRowList('value');
+				$cache['aro_groups'] = $db->loadAssocList('value');
 				if ($cache['aro_groups'] === null) {
 					throw new JException($db->getErrorMsg());
 				}
@@ -389,7 +434,7 @@ class JAclAdmin
 				if (!isset($cache['aro_groups'][$value])) {
 					throw new JException(JText::_sprinf('Error Acl User Group with value %s not found', $value));
 				}
-				$userGroups[$k] = $cache['aro_groups'][$value][0];
+				$userGroups[$k] = $cache['aro_groups'][$value]['id'];
 			}
 
 			// ACO reverse lookup
@@ -398,13 +443,13 @@ class JAclAdmin
 					'SELECT id, LOWER(CONCAT_WS(\'/\', section_value, value)) AS section_value_key'.
 					' FROM #__core_acl_aco'
 				);
-				$cache['acos'] = $db->loadRowList('section_value_key');
+				$cache['acos'] = $db->loadAssocList('section_value_key');
 				if ($cache['acos'] === null) {
 					throw new JException($db->getErrorMsg());
 				}
 			}
 
-			foreach ($acos as $section => $values)
+			foreach ($actions as $section => $values)
 			{
 				foreach ($values as $k => $value)
 				{
@@ -412,20 +457,19 @@ class JAclAdmin
 					if (!isset($cache['acos'][$key])) {
 						throw new JException(JText::_sprinf('Error Acl Action with value %s not found', $value));
 					}
-					$acos[$section][$k] = $cache['acos'][$key][0];
-
+					$actions[$section][$k] = $cache['acos'][$key]['id'];
 				}
 			}
 
 			// AXO reverse lookup
-			if (!empty($axos))
+			if (!empty($assets))
 			{
 				if (!isset($cache['axos'])) {
 					$db->setQuery(
 						'SELECT id, LOWER(CONCAT_WS(\'/\', section_value, value)) AS section_value_key'.
 						' FROM #__core_acl_axo'
 					);
-					$cache['axos'] = $db->loadRowList('section_value_key');
+					$cache['axos'] = $db->loadAssocList('section_value_key');
 					if ($cache['axos'] === null) {
 						throw new JException($db->getErrorMsg());
 					}
@@ -439,31 +483,31 @@ class JAclAdmin
 						if (!isset($cache['axos'][$key])) {
 							throw new JException(JText::_sprinf('Error Acl Asset with value %s not found', $value));
 						}
-						$axos[$section][$k] = $cache['axos'][$key][0];
+						$assets[$section][$k] = $cache['axos'][$key]['id'];
 
 					}
 				}
 			}
 
 			// AXO Groups reverse lookup
-			if (!empty($levels))
+			if (!empty($assetGroups))
 			{
 				if (!isset($cache['axo_groups'])) {
 					$db->setQuery(
 						'SELECT id, value'.
 						' FROM #__core_acl_axo_groups'
 					);
-					$cache['axo_groups'] = $db->loadRowList('value');
+					$cache['axo_groups'] = $db->loadAssocList('value');
 					if ($cache['axo_groups'] === null) {
 						throw new JException($db->getErrorMsg());
 					}
 				}
 
-				foreach ($levels as $k => $value) {
+				foreach ($assetGroups as $k => $value) {
 					if (!isset($cache['axo_groups'][$value])) {
 						throw new JException(JText::_sprinf('Error Acl Asset group with value %s not found', $value));
 					}
-					$userGroups[$k] = $cache['axo_groups'][$value][0];
+					$userGroups[$k] = $cache['axo_groups'][$value]['id'];
 				}
 			}
 		}
@@ -471,28 +515,30 @@ class JAclAdmin
 		// Now we assemble the References
 		$references->addAroGroup($userGroups);
 
-		foreach ($acos As $section => $values) {
+		foreach ($actions As $section => $values) {
 			$references->addAco($section, $values);
 		}
 
-		if (!empty($axos)) {
-			foreach ($axos As $section => $values) {
+		if (!empty($assets)) {
+			foreach ($assets As $section => $values) {
 				$references->addAxo($section, $values);
 			}
 		}
 
-		if (!empty($axoGroups)) {
-			$references->addAroGroup($axoGroups);
+		if (!empty($assetGroups)) {
+			$references->addAroGroup($assetGroups);
 		}
 
 		$table = &JTable::getInstance('Acl');
 
 		$input = array(
+			'section_value'	=> $section,
 			'note'			=> $note,
 			'enabled'		=> 1,
 			'allowed'		=> 1,
 			'return_value'	=> '',
 		);
+
 		if (!$table->bind($input)) {
 			throw new JException(JText::sprintf('Error Acl Rule bind failed', $table->getError()));
 		}
@@ -509,7 +555,7 @@ class JAclAdmin
 		}
 
 		// Add the reference data
-		if (!$table->addReferences($references)) {
+		if (!$table->updateReferences($references)) {
 			throw new JException($table->getError());
 		}
 
@@ -526,4 +572,111 @@ class JAclAdmin
 		throw new JException('TODO');
 	}
 
+	//
+	// Mapping Operations
+	//
+
+	function registerUserInGroups($mapId, $groupIds)
+	{
+		// Get a group row instance.
+		$table = JTable::getInstance('GroupAroMap');
+
+		// Verify we got a proper JTable object.
+		if (!is_a($table, 'JTableGroupAroMap')) {
+			return new JException(JText::_('Error Acl Missing Api'));
+		}
+
+		if (!$table->store($groupIds, $mapId)) {
+			return new JException($table->getError());
+		}
+
+		return true;
+	}
+
+	function registerAssetInGroups($mapId, $groupIds)
+	{
+		// Get a group row instance.
+		$table = JTable::getInstance('GroupAxoMap');
+
+		// Verify we got a proper JTable object.
+		if (!is_a($table, 'JTableGroupAxoMap')) {
+			return new JException(JText::_('Error Acl Missing Api'));
+		}
+
+		if (!$table->store($groupIds, $mapId)) {
+			return new JException($table->getError());
+		}
+
+		return true;
+	}
+
+	//
+	// ACL Querying
+	//
+
+	function getGroup($type, $value = null, $name = null)
+	{
+		$type = ucfirst(strtolower($type));
+		if (!in_array($type, array('Aro', 'Axo'))) {
+			return new JException(JText::_('Error Acl Invalid Group Type'));
+		}
+		$table = &JTable::getInstance($type.'Group');
+
+		if ($value !== null) {
+			if ($table->loadByvalue($value)) {
+				return $table;
+			}
+		}
+		else if ($name !== null) {
+			if ($table->loadByName($name)) {
+				return $table;
+			}
+		}
+		return null;
+	}
+
+	function getGroupForUsers($value = null, $name = null)
+	{
+		return JAclAdmin::getGroup('Aro', $value, $name);
+	}
+
+	function getGroupForAssets($value = null, $name = null)
+	{
+		return JAclAdmin::getGroup('Aro', $value, $name);
+	}
+
+	function getObject($type, $value = null, $name = null)
+	{
+		$type = ucfirst(strtolower($type));
+		if (!in_array($type, array('Acl', 'Aco', 'Aro', 'Axo'))) {
+			return new JException(JText::_('Error Acl Invalid Object Type'));
+		}
+		$table = &JTable::getInstance($type);
+		if ($value !== null) {
+			if ($table->loadByvalue($value)) {
+				return $table;
+			}
+		}
+		else if ($name !== null) {
+			if ($table->loadByName($name)) {
+				return $table;
+			}
+		}
+		return null;
+	}
+
+	function getAction($value = null, $name = null)
+	{
+		return JAclAdmin::getObject('Aco', $value, $name);
+	}
+
+	function getUser($value = null, $name = null)
+	{
+		return JAclAdmin::getObject('Aro', $value, $name);
+	}
+
+	function getAsset($value = null, $name = null)
+	{
+		return JAclAdmin::getGroup('Axo', $value, $name);
+	}
 }

@@ -55,6 +55,48 @@ abstract class JTable_AclGroup extends JTable
 	}
 
 	/**
+	 * Load an object by mathcing the `name` field
+	 *
+	 * @param	string $name
+	 *
+	 * @return	boolean			True if successful, false if not found
+	 */
+	function loadByName($name)
+	{
+		$this->_db->setQuery(
+			'SELECT id'
+			.' FROM '.$this->_tbl
+			.' WHERE `name` = '.$this->_db->quote($name)
+		);
+		if ($id = $this->_db->loadResult()) {
+			$this->load($id);
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
+	 * Load an object by mathcing the `value` field
+	 *
+	 * @param	string $value
+	 *
+	 * @return	boolean			True if successful, false if not found
+	 */
+	function loadByValue($value)
+	{
+		$this->_db->setQuery(
+			'SELECT id'
+			.' FROM '.$this->_tbl
+			.' WHERE `value` = '.$this->_db->quote($value)
+		);
+		if ($id = $this->_db->loadResult()) {
+			return $this->load($id);
+		}
+		return false;
+	}
+
+	/**
 	 * Validate the internal data
 	 *
 	 * @return	boolean
