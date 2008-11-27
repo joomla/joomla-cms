@@ -13,7 +13,7 @@ require_once dirname(__FILE__).DS.'_groupmap.php';
  * @package		Joomla.Framework
  * @subpackage	Table
  */
-class MembersTableGroupAxoMap extends MembersTable_GroupMap
+class JTableGroupAxoMap extends JTable_GroupMap
 {
 	var $axo_id = null;
 

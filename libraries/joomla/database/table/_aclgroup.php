@@ -5,6 +5,8 @@
  * @license		GNU/GPL, see LICENSE.php
  */
 
+defined('_JEXEC') or die('Restricted access');
+
 /**
  * @package		Joomla.Framework
  * @subpackage	Table

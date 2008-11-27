@@ -5,6 +5,8 @@
  * @license		GNU/GPL, see LICENSE.php
  */
 
+defined('_JEXEC') or die('Restricted access');
+
 /**
  * @package		Joomla.Framework
  * @subpackage	Table
@@ -29,7 +31,7 @@ abstract class JTable_AclObject extends JTable
 	 */
 	protected $_type = null;
 	/**
-	 * @var	MemberApiReferences Any references to the current object
+	 * @var	JAclReferences Any references to the current object
 	 * @protected
 	 */
 	protected $_references = null;
@@ -66,7 +68,7 @@ abstract class JTable_AclObject extends JTable
 	function loadByName($name, $section = null)
 	{
 		if (empty($name)) {
-			$this->setError('MEMBERS_API_INVALID_SECTION_NAME');
+			$this->setError('Error Acl Invalid section name');
 			return false;
 		}
 

@@ -216,10 +216,10 @@ class JAclReferences
 			return $f;
 		}
 		else if (empty($section)) {
-				foreach ($f as $section => $value) {
-					$result = array_merge($result, $value);
-				}
+			foreach ($f as $section => $value) {
+				$result = array_merge($result, $value);
 			}
+		}
 		else if (isset($f[$section])) {
 			return $f[$section];
 		}
@@ -280,7 +280,7 @@ class JAclReferences
 	 *
 	 * @return	array
 	 */
-	public function getAroGroups($section = null)
+	public function getAroGroups()
 	{
 		return $this->_get('_aro_groups', '__default');
 	}

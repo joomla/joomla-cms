@@ -46,7 +46,7 @@ class JAclAdmin
 		// Bind the data.
 		$data = array('name' => $name, 'value' => $value, 'order_value' => 0, 'hidden' => 0);
 		if (!$table->bind($data)) {
-			throw new JException(JText::sprintf('Error Acl Section Bind failed', $table->getError()));
+			throw new JException(JText::sprintf('Error Acl Section Bind failed %s', $table->getError()));
 		}
 
 		// Check the data.
@@ -151,7 +151,7 @@ class JAclAdmin
 			'parent_id'	=> $parentId
 		);
 		if (!$group->bind($data)) {
-			throw new JException(JText::sprintf('Error Acl Group bind failed', $group->getError()));
+			throw new JException(JText::sprintf('Error Acl Group bind failed %s', $group->getError()));
 		}
 
 		// Check the data.
@@ -196,7 +196,7 @@ class JAclAdmin
 		if (empty($value)) {
 			$value = preg_replace('#[^a-z0-9\-_]+#i', '-', strtolower($name));
 		}
-		return JAclAdmin::registerGroup('Aro', $name, $value, $parentId, $value);
+		return JAclAdmin::registerGroup('Aro', $name, $value, $parentId);
 	}
 
 	/**
@@ -233,10 +233,12 @@ class JAclAdmin
 	 * @param	string $section	The section for the permission
 	 * @param	string $name	The readable name of the permission
 	 * @param	string $value	The permission value
+	 * @param	string $note	An optional note to describe the purpose of the action
+	 * @param	string $ording	An optional order value
 	 *
-	 * @return	int				The ID of the ACO
+	 * @return	int				The ID of the Action
 	 */
-	public static function registerAction($type, $section, $name, $value, $note = '')
+	public static function registerAction($type, $section, $name, $value, $note = '', $order = 0)
 	{
 		// Get a group row instance.
 		$table = JTable::getInstance('Aco');
@@ -252,12 +254,12 @@ class JAclAdmin
 			'name'			=> $name,
 			'value'			=> $value,
 			'acl_type'		=> $type,
-			'order_value'	=> 0,
+			'order_value'	=> $order,
 			'hidden'		=> 0,
 			'note'			=> $note
 		);
 		if (!$table->bind($data)) {
-			throw new JException(JText::sprintf('Error Acl Action bind failed', $table->getError()));
+			throw new JException(JText::sprintf('Error Acl Action bind failed %s', $table->getError()));
 		}
 
 		// Check and validate the data.
@@ -305,7 +307,7 @@ class JAclAdmin
 			'order_value'	=> 0,
 		);
 		if (!$table->bind($data)) {
-			return new JException(JText::sprintf('Error Acl USer Bind Failed', $table->getError()));
+			return new JException(JText::sprintf('Error Acl USer Bind Failed %s', $table->getError()));
 		}
 
 		// Check and validate the data.
@@ -325,16 +327,20 @@ class JAclAdmin
 	/**
 	 * Creates a asset (AXO)
 	 *
-	 * @param	string $name	The name of the access level
-	 * @return	int				The ID of the section
+	 * @param	string $seciton	The section for the asset
+	 * @param	string $name	The name of the asset
+	 * @param	int $value		The Id value of the asset
+	 * @param	int $order		An optional order value
+	 *
+	 * @return	int				The ID of the asset
 	 */
-	public static function registerAsset($section, $name, $value)
+	public static function registerAsset($section, $name, $value, $order = 0)
 	{
 		// Get a group row instance.
 		$table = JTable::getInstance('Axo');
 
 		// Verify we got a proper JTable object.
-		if (!is_a($section, 'JTableAxo')) {
+		if (!is_a($table, 'JTableAxo')) {
 			throw new JException(JText::_('Error Acl Missing API'));
 		}
 
@@ -343,10 +349,10 @@ class JAclAdmin
 			'section_value'	=> $section,
 			'name'			=> $name,
 			'value'			=> (int) $value,
-			'order_value'	=> 0,
+			'order_value'	=> (int) $order,
 		);
 		if (!$table->bind($data)) {
-			throw new JException(JText::sprintf('Error Acl Asset bind failed', $table->getError()));
+			throw new JException(JText::sprintf('Error Acl Asset bind failed %s', $table->getError()));
 		}
 
 		// Check and validate the data.
@@ -397,11 +403,11 @@ class JAclAdmin
 			throw new JException(JText::_('Error Acl No user groups'));
 		}
 
-		if (empty($acos)) {
+		if (empty($actions)) {
 			throw new JException(JText::_('Error Acl No actions'));
 		}
 
-		if (!empty($axos) && !empty($levels)) {
+		if (!empty($assets) && !empty($assetGroups)) {
 			throw new JException(JText::_('Error Acl Type 4 Rules not supported'));
 		}
 
@@ -475,7 +481,7 @@ class JAclAdmin
 					}
 				}
 
-				foreach ($axos as $section => $values)
+				foreach ($assets as $section => $values)
 				{
 					foreach ($values as $k => $value)
 					{
@@ -535,12 +541,12 @@ class JAclAdmin
 			'section_value'	=> $section,
 			'note'			=> $note,
 			'enabled'		=> 1,
-			'allowed'		=> 1,
+			'allow'			=> 1,
 			'return_value'	=> '',
 		);
 
 		if (!$table->bind($input)) {
-			throw new JException(JText::sprintf('Error Acl Rule bind failed', $table->getError()));
+			throw new JException($table->getError());
 		}
 
 		// Check the data.
@@ -562,7 +568,7 @@ class JAclAdmin
 		return $table->id;
 	}
 
-	public static function updateRule($id, $userGroups, $acos, $axos = null, $levels = null)
+	public static function updateRule($id, $userGroups, $actions, $assets = null, $assetGroups = null)
 	{
 		throw new JException('TODO');
 	}
@@ -618,7 +624,7 @@ class JAclAdmin
 	{
 		$type = ucfirst(strtolower($type));
 		if (!in_array($type, array('Aro', 'Axo'))) {
-			return new JException(JText::_('Error Acl Invalid Group Type'));
+			throw new JException(JText::_('Error Acl Invalid Group Type'));
 		}
 		$table = &JTable::getInstance($type.'Group');
 
