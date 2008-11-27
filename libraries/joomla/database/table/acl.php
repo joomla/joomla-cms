@@ -144,12 +144,12 @@ class JTableACL extends JTable
 	 */
 	function &findReferences()
 	{
-		if (empty($this->id) || empty($this->section_value) || empty($this->value)) {
-			$this->setError(JText::_('Error Acl Table Invalid properties to find references'));
-			return false;
-		}
-
 		$false = false;
+
+		if (empty($this->id) || empty($this->section_value)) {
+			$this->setError(JText::_('Error Acl Table Invalid properties to find references'));
+			return $false;
+		}
 
 		if (empty($this->_references))
 		{
@@ -159,9 +159,10 @@ class JTableACL extends JTable
 
 			// Find the references to mapped ACO's
 			$this->_db->setQuery(
-				'SELET m.aco_id, a.section_value'.
+				'SELECT aco.id AS aco_id, a.section_value'.
 				' FROM #__core_acl_aco_map AS m'.
 				' LEFT JOIN #__core_acl_acl AS a ON a.id = m.acl_id'.
+				' LEFT JOIN #__core_acl_aco AS aco ON aco.value = m.value AND aco.section_value = m.section_value'.
 				' WHERE m.acl_id = '.(int) $this->id
 			);
 			$result = $this->_db->loadObjectList();
@@ -177,9 +178,10 @@ class JTableACL extends JTable
 
 			// Find the references to mapped ARO's
 			$this->_db->setQuery(
-				'SELET m.aro_id, a.section_value'.
+				'SELECT aro.id AS aro_id, a.section_value'.
 				' FROM #__core_acl_aro_map AS m'.
 				' LEFT JOIN #__core_acl_acl AS a ON a.id = m.acl_id'.
+				' LEFT JOIN #__core_acl_aro AS aro ON aro.value = m.value AND aro.section_value = m.section_value'.
 				' WHERE acl_id = '.(int) $this->id
 			);
 			$result = $this->_db->loadObjectList();
@@ -195,9 +197,9 @@ class JTableACL extends JTable
 
 			// Find the references to mapped AXO's
 			$this->_db->setQuery(
-				'SELET m.axo_id, a.section_value'.
+				'SELECT a.id AS axo_id, a.section_value'.
 				' FROM #__core_acl_axo_map AS m'.
-				' LEFT JOIN #__core_acl_axo AS a ON a.id = m.acl_id'.
+				' LEFT JOIN #__core_acl_axo AS a ON a.value = m.value'.
 				' WHERE acl_id = '.(int) $this->id
 			);
 			$result = $this->_db->loadObjectList();
@@ -213,11 +215,11 @@ class JTableACL extends JTable
 
 			// Find the references to mapped ARO's
 			$this->_db->setQuery(
-				'SELET m.group_id'.
+				'SELECT m.group_id'.
 				' FROM #__core_acl_aro_groups_map AS m'.
 				' WHERE acl_id = '.(int) $this->id
 			);
-			$result = $this->_db->loadObjectList();
+			$result = $this->_db->loadResultArray();
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return $false;
@@ -228,11 +230,11 @@ class JTableACL extends JTable
 
 			// Find the references to mapped AXO's
 			$this->_db->setQuery(
-				'SELET m.group_id'.
+				'SELECT m.group_id'.
 				' FROM #__core_acl_axo_groups_map AS m'.
 				' WHERE acl_id = '.(int) $this->id
 			);
-			$result = $this->_db->loadObjectList();
+			$result = $this->_db->loadResultArray();
 			if (!$this->_db->query()) {
 				$this->setError($this->_db->getErrorMsg());
 				return $false;

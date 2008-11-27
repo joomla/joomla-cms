@@ -188,13 +188,15 @@ class JAclReferences
 
 		if (isset($input['aro_groups']) && is_array($input['aro_groups']))
 		{
-			$this->addAxoGroup($input['aro_groups']);
+			$this->addAroGroup($input['aro_groups']);
 		}
 
 		if (isset($input['axo_groups']) && is_array($input['axo_groups']))
 		{
 			$this->addAxoGroup($input['axo_groups']);
 		}
+
+		return true;
 	}
 
 	/**
@@ -213,16 +215,13 @@ class JAclReferences
 		if ($section === true) {
 			return $f;
 		}
-		else if (isset($f[$section]))
-		{
-			if (!empty($section)) {
-				return $f[$section];
-			}
-			else {
+		else if (empty($section)) {
 				foreach ($f as $section => $value) {
 					$result = array_merge($result, $value);
 				}
 			}
+		else if (isset($f[$section])) {
+			return $f[$section];
 		}
 		return $result;
 	}
