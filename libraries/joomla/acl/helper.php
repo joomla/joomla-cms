@@ -28,7 +28,7 @@ class JAclHelper
 	 * $query->select('a.*');
 	 * $query->from('#__content AS a');
 	 * $query->where('a.published = 1');
-	 * $query->where('a.access IN ('.implode(', ', $assetGroups).')');
+	 * $query->where('a.access IN ('.$assetGroups.')');
 	 * $db = &JFactory:getDBO();
 	 * $db->setQuery();
 	 * $items = $db->loadObjectList();
@@ -38,14 +38,14 @@ class JAclHelper
 	 * @param	string $assetSection	An optional section value for the asset (not used)
 	 * @param	integer	$userId			An optional user Id.  The current use it used if not supplied
 	 *
-	 * @return	array					An array of Asset Groups that the user is authorised to perform the action on
+	 * @return	string					An comma separated list of Asset Groups that the user is authorised to perform the action on
 	 */
 	static function getAllowedAssetGroups($actionSection, $action, $assetSection = null, $userId = null)
 	{
 		// @todo This result is ideal for caching in the session as it need only be calculated once for the user for each context
 
 		if (empty($actionSection)) {
-			return array(0);
+			return '0';
 		}
 
 		if (empty($assetSection)) {
@@ -54,6 +54,7 @@ class JAclHelper
 
 		if ($userId === null) {
 			$user = &JFactory::getUser();
+			$userId = $user->get('id');
 		}
 
 		$db	= &JFactory::getDBO();
@@ -85,7 +86,7 @@ class JAclHelper
 			return $ids;
 		}
 		else {
-			return array(0);
+			return '0';
 		}
 	}
 }

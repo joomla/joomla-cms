@@ -416,8 +416,8 @@ class JAclAdmin
 		}
 
 		// The references file is in the wrong place I know
-		require_once dirname(__FILE__).DS.'references.php';
-		$references = new JAclAdminReferences;
+		require_once dirname(__FILE__).DS.'aclreferences.php';
+		$references = new JxAclReferences;
 		$db = &JFactory::getDBO();
 
 		if ($mode == 0)
@@ -438,7 +438,7 @@ class JAclAdmin
 
 			foreach ($userGroups as $k => $value) {
 				if (!isset($cache['aro_groups'][$value])) {
-					throw new JException(JText::_sprinf('Error Acl User Group with value %s not found', $value));
+					throw new JException(JText::sprinf('Error Acl User Group with value %s not found', $value));
 				}
 				$userGroups[$k] = $cache['aro_groups'][$value]['id'];
 			}

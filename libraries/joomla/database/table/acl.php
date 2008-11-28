@@ -48,6 +48,8 @@ class JTableACL extends JTable
 
 	protected $_quiet = false;
 
+	protected $_references = false;
+
 	/*
 	 * Constructor
 	 * @param object Database object
@@ -153,7 +155,7 @@ class JTableACL extends JTable
 
 		if (empty($this->_references))
 		{
-			require_once JPATH_LIBRARIES.DS.'joomla'.DS.'acl'.DS.'references.php';
+			require_once JPATH_LIBRARIES.DS.'joomla'.DS.'acl'.DS.'aclreferences.php';
 
 			$this->_references = new JAclReferences;
 

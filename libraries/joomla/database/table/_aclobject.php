@@ -278,7 +278,7 @@ abstract class JTable_AclObject extends JTable
 
 		if (empty($this->_references))
 		{
-			require_once JPATH_LIBRARIES.DS.'joomla'.DS.'acl'.DS.'references.php';
+			require_once JPATH_LIBRARIES.DS.'joomla'.DS.'acl'.DS.'aclreferences.php';
 
 			$this->_references = new JAclReferences;
 
