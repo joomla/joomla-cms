@@ -25,11 +25,10 @@ class AccessControllerACL extends JController
 	{
 		parent::__construct();
 
-		$this->registerTask('save2copy',	'save');
 		$this->registerTask('save2new',	'save');
-		$this->registerTask('apply',		'save');
+		$this->registerTask('apply',	'save');
 		$this->registerTask('deny',		'allow');
-		$this->registerTask('disable',		'enable');
+		$this->registerTask('disable',	'enable');
 	}
 
 	/**
@@ -72,6 +71,10 @@ class AccessControllerACL extends JController
 			// Checkout item
 			//$model->checkout($id);
 		}
+
+		// Synronise the AXO's
+		//$this->synchronize($model);
+
 		$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit&type='.$type, false));
 	}
 
@@ -113,9 +116,6 @@ class AccessControllerACL extends JController
 		// Get the id of the item out of the session.
 		$session	= &JFactory::getSession();
 
-		// Override the automatic filters
-		//$input['username']	= JRequest::getVar('username', '', 'post', 'username');
-
 		// Clear static values
 		// @todo Look at moving these to the table bind method (but check how new user values are handled)
 		unset($input['updated_date']);
@@ -127,24 +127,24 @@ class AccessControllerACL extends JController
 
 		// Get the extensions model and set the post request in its state.
 		$model	= &$this->getModel();
-		$result	= $model->save($input);
-		$msg	= JError::isError($result) ? $result->getMessage() : 'Saved';
+		if ($model->save($input)) {
+			$this->setMessage(JText::_('Saved'));
+		}
+		else {
+			$this->setMessage($model->getError());
+		}
 
 		if ($this->_task == 'apply') {
 			$session->set('com_acl.acl.id', $model->getState('id'));
-			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit', false), JText::_($msg));
+			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit', false));
 		}
 		else if ($this->_task == 'save2new') {
 			$session->set('com_acl.acl.id', null);
-			//$model->checkin($id);
-
-			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit&type='.$type, false), JText::_($msg));
+			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rule&layout=edit&type='.$type, false));
 		}
 		else {
 			$session->set('com_acl.acl.id', null);
-			//$model->checkin($id);
-
-			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rules&type='.$type, false), JText::_($msg));
+			$this->setRedirect(JRoute::_('index.php?option=com_acl&view=rules&type='.$type, false));
 		}
 	}
 

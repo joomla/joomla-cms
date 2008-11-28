@@ -21,6 +21,32 @@ jimport('joomla.application.component.controller');
 class AccessController extends JController
 {
 	/**
+	 * Temporary testing methods
+	 */
+	function test()
+	{
+		jimport('joomla.acl.acladmin');
+
+		try
+		{
+			//JAclAdmin::registerSectionForActions('Foobar', 'com_foobar');
+			//JAclAdmin::registerAction('com_foobar', 'Foobar Action 1', 'foobar.action1', 1);
+			//JAclAdmin::registerAction('com_foobar', 'Foobar Action 2', 'foobar.action2', 2);
+			//JAclAdmin::registerAction('com_foobar', 'Foobar Action 3', 'foobar.action3', 3);
+
+			//echo '<br />Group ID = '.JAclAdmin::registerGroupForUsers('Foobar Group');
+
+			echo '<br />Group ID = '.JAclAdmin::registerGroupForAssets('Foobar Special');
+
+			echo 'It worked';
+		}
+		catch (Exception $e)
+		{
+			echo $e->getMessage();
+		}
+	}
+
+	/**
 	 * Default display method
 	 */
 	function display()

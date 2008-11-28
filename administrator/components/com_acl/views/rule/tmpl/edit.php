@@ -1,4 +1,4 @@
-<?php /** $Id$ */ defined('_JEXEC') or die('Restricted access');
+<?php /** $Id$ */ defined('_JEXEC') or die();
 
 	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 	JHtml::_('behavior.tooltip');
@@ -64,33 +64,33 @@ ul.checklist li:hover {
 						<label for="allow" class="block">
 							<?php echo JText::_('ACL Allow'); ?>
 						</label>
-						<?php echo JHtml::_('select.booleanlist',  'allow', '', (int) $this->item->allow); ?>
+						<?php echo JHtml::_('select.booleanlist',  'allow', '', (int) $this->item->get('allow', 1)); ?>
 					</td>
 					<td width="33%">
-						<label for="note" class="block">
+						<label for="section_value" class="block">
 							<?php echo JText::_('ACL Section'); ?>
 						</label>
-						<input type="text" name="section_value" id="section_value" value="<?php echo $this->item->section_value; ?>" class="readonly" readonly="readonly" />
+						<input type="text" name="section_value" id="section_value" value="<?php echo $this->item->get('section_value', 'user'); ?>" class="readonly" readonly="readonly" />
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<label for="note" class="block">
+						<label for="return_value" class="block">
 							<?php echo JText::_('ACL Return Value'); ?>
 						</label>
 						<input type="text" name="return_value" id="return_value" value="<?php echo $this->item->return_value; ?>" class="inputbox"/>
 					</td>
 					<td>
-						<label for="allow" class="block">
+						<label for="enabled" class="block">
 							<?php echo JText::_('ACL Enabled'); ?>
 						</label>
-						<?php echo JHtml::_('select.booleanlist',  'enabled', '', (int) $this->item->enabled); ?>
+						<?php echo JHtml::_('select.booleanlist',  'enabled', '', (int) $this->item->get('enabled', 1)); ?>
 					</td>
 					<td>
-						<label for="note" class="block">
+						<label for="updated_date" class="block">
 							<?php echo JText::_('ACL Updated Date'); ?>
 						</label>
-						<input type="text" value="<?php echo $this->item->updated_date; ?>" class="readonly" readonly="readonly" />
+						<input type="text" value="<?php echo $this->item->updated_date; ?>" id="updated_date" class="readonly" readonly="readonly" />
 					</td>
 				</tr>
 			</tbody>

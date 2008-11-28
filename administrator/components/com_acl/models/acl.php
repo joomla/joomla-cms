@@ -38,21 +38,6 @@ class AccessModelACL extends AccessModelPrototypeItem
 	}
 
 	/**
-	 * Get the native acl information
-	 *
-	 * @return	array
-	 */
-	function getACL()
-	{
-		// @todo - surely we can merge this with getExtendedItem (affect the edit view)
-		$acl	= &JFactory::getACL();
-		$sess	= &JFactory::getSession();
-		$id		= (int) $sess->get('com_acl.acl.id', $this->getState('id'));
-		$result	= $acl->get_acl($id);
-		return $result;
-	}
-
-	/**
 	 * @param	boolean	True to resolve foreign data relationship
 	 *
 	 * @return	JStdClass
@@ -70,21 +55,25 @@ class AccessModelACL extends AccessModelPrototypeItem
 				//$this->setError($table->getError());
 			}
 			$this->_item = JArrayHelper::toObject($table->getProperties(1), 'JStdClass');
+
+			if ($this->_item->id)
+			{
+				// Load the references into the item object
+				if ($references = &$table->findReferences()) {
+					$this->_item->references = &$references;
+				}
+				else {
+					$this->setError($table->getError());
+				}
+				$this->setState('acl_type', $this->_item->acl_type);
+			}
+			else {
+				jimport('joomla.acl.aclreferences');
+				$this->_item->references = new JAclReferences;
+				$this->_item->acl_type = $this->getState('acl_type');
+			}
 		}
 		return $this->_item;
-	}
-
-	/**
-	 * Gets an ACL with extended data
-	 *
-	 * @return	JStdClass
-	 */
-	function getExtendedItem()
-	{
-		$item	= array($this->getItem());
-		$model	= JModel::getInstance('Acls', 'AccessModel');
-		$item	= $model->getExtendedItems($item);
-		return $item[0];
 	}
 
 	function getSections()
@@ -142,90 +131,96 @@ class AccessModelACL extends AccessModelPrototypeItem
 
 	function save($values)
 	{
-		$acl		= &JFactory::getACL();
+		$table = &$this->getTable();
 
-		$acoArray		= JArrayHelper::getValue($values, 'aco_array', array(), 'array');
-		$aroArray		= JArrayHelper::getValue($values, 'aro_array', array(), 'array');
-		$aroGroupIds	= JArrayHelper::getValue($values, 'aro_group_ids', array(), 'array');
-		$axoArray		= JArrayHelper::getValue($values, 'axo_array', array(), 'array');
-		$axoGroupIds	= JArrayHelper::getValue($values, 'axo_group_ids', array(), 'array');
-
-		$allow			= JArrayHelper::getValue($values, 'allow', 1, 'int');
-		$enabled		= JArrayHelper::getValue($values, 'enabled', 1, 'int');
-		$returnValue	= JArrayHelper::getValue($values, 'return_value');
-		$note			= JArrayHelper::getValue($values, 'note');
-		$sectionValue	= JArrayHelper::getValue($values, 'section_value');
-		$aclId			= JArrayHelper::getValue($values, 'id', 0, 'int');
-		$aclType		= JArrayHelper::getValue($values, 'acl_type', 1, 'int');
-
-		//$acl->_debug = 1;
-		$result = $acl->add_acl($acoArray, $aroArray, $aroGroupIds, $axoArray, $axoGroupIds, $allow, $enabled, $returnValue, $note, $sectionValue, $aclId, $aclType);
-
-		if ($result) {
-			$this->setState('id', $result);
+		if (!$table->bind($values)) {
+			$this->setError($table->getError());
+			return false;
 		}
-		else {
-			$result = JError::raiseWarning(500, array_pop($acl->_debugLog));
+
+		if (!$table->check()) {
+			$this->setError($table->getError());
+			return false;
 		}
+
+		if (!$table->store()) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		jimport('joomla.acl.aclreferences');
+
+		$references = new JAclReferences;
+
+		if (!$references->bind($values)) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		if (!$table->updateReferences($references)) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Set the new id (if new)
+		$this->setState('id', $table->id);
+
 		return $result;
 	}
 
 	function delete($ids = array())
 	{
-		$acl		= &JFactory::getACL();
+		$table = JTable::getInstance('Acl', 'MembersTable');
 		foreach ((array) $ids as $id)
 		{
-			$result		= $acl->del_acl($id);
-			$acl->_debug = 1;
-			if ($result == false) {
-				JError::raiseWarning(500, array_pop($acl->_debugLog));
-				break;
+			if (!$table->delete($id)) {
+				$this->setError($table->getError());
+				return false;
 			}
 		}
-		return $result;
+		return true;
 	}
 
 	function allow($ids = array(), $value = 1)
 	{
 		if (empty($ids)) {
-			return JException('No items selected');
+			$this->setError(JText::_('No items selected'));
+			return false;
 		}
-		else
-		{
-			$acl	= &JFactory::getACL();
-			$db		= $this->getDBO();
-			JArrayHelper::toInteger($ids);
 
-			$query	= 'UPDATE #__core_acl_acl' .
-					' SET allow = '.(int)($value ? 1 : 0) .
-					' WHERE id IN ('.implode(',', $ids).')';
-			$db->setQuery($query);
-			if (!$db->query()) {
-				return new JExecption($db->getErrorMsg());
-			}
-			return true;
+		$acl	= &JFactory::getACL();
+		$db		= $this->getDBO();
+		JArrayHelper::toInteger($ids);
+
+		$query	= 'UPDATE #__core_acl_acl' .
+				' SET allow = '.(int)($value ? 1 : 0) .
+				' WHERE id IN ('.implode(',', $ids).')';
+		$db->setQuery($query);
+		if (!$db->query()) {
+			$this->setError($db->getErrorMsg());
+			return false;
 		}
+		return true;
 	}
 
 	function enable($ids = array(), $value = 1)
 	{
 		if (empty($ids)) {
-			return JException('No items selected');
+			$this->setError(JText::_('No items selected'));
+			return false;
 		}
-		else
-		{
-			$acl	= &JFactory::getACL();
-			$db		= $this->getDBO();
-			JArrayHelper::toInteger($ids);
+		$acl	= &JFactory::getACL();
+		$db		= $this->getDBO();
+		JArrayHelper::toInteger($ids);
 
-			$query	= 'UPDATE #__core_acl_acl' .
-					' SET enabled = '.(int)($value ? 1 : 0) .
-					' WHERE id IN ('.implode(',', $ids).')';
-			$db->setQuery($query);
-			if (!$db->query()) {
-				return new JExecption($db->getErrorMsg());
-			}
-			return true;
+		$query	= 'UPDATE #__core_acl_acl' .
+				' SET enabled = '.(int)($value ? 1 : 0) .
+				' WHERE id IN ('.implode(',', $ids).')';
+		$db->setQuery($query);
+		if (!$db->query()) {
+			$this->setError($db->getErrorMsg());
+			return false;
 		}
+		return true;
 	}
 }

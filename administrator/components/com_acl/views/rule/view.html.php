@@ -39,9 +39,12 @@ class AccessViewRule extends JView
 	function display($tpl = null)
 	{
 		$state		= $this->get('State');
-		$item		= $this->get('ExtendedItem');
-		$acl		= $this->get('ACL');
-		$aclType	= $state->get('acl_type', 1);
+		$item		= $this->get('Item');
+
+		$acos		= $this->get('ACOs');
+		$aroGroups	= $this->get('AROGroups');
+		$axos		= $this->get('AXOs');
+		$axoGroups	= $this->get('AXOGroups');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -49,31 +52,15 @@ class AccessViewRule extends JView
 			return false;
 		}
 
-		//$layout = $this->getLayout();
-		if ($state->get('id')) {
-			// Existing
-		}
-		else {
-			// New
-			$item->section_value	= 'user';
-			$item->enabled			= 1;
-			$item->allow			= 1;
-			$item->acl_type			= $aclType;
-		}
-
 		$this->assignRef('state',		$state);
 		$this->assignRef('item',		$item);
 		$this->assignRef('acl',			$acl);
-		$this->assignRef('acos',		$this->get('ACOs'));
-		$this->assignRef('aroGroups',	$this->get('AROGroups'));
-		if ($aclType == 2) {
-			$this->assignRef('axos', $this->get('AXOs'));
-		}
-		else if ($aclType == 3) {
-			$this->assignRef('axoGroups', $this->get('AXOGroups'));
-		}
+		$this->assignRef('acos',		$acos);
+		$this->assignRef('aroGroups',	$aroGroups);
+		$this->assignRef('axos',		$axos);
+		$this->assignRef('axoGroups',	$axoGroups);
 
-		$this->_setToolBar($aclType);
+		$this->_setToolBar($item->acl_type);
 		parent::display($tpl);
 		JRequest::setVar('hidemainmenu',1);
 	}
