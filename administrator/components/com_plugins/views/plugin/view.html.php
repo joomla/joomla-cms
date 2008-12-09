@@ -107,15 +107,20 @@ class PluginsViewPlugin extends JView
 			$lang->load( 'joomla', JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element);
 
 			// TODO: Rewrite this (and other instances of parseXMLInstallFile) to use the extensions table
-			$data = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element .'.xml');
+			$data = JApplicationHelper::parseXMLInstallFile(JApplicationHelper::getPath( 'plg_xml', $row->folder.DS.$row->element ));
 
 			$row->description = $data['description'];
 
 		} else {
+			// this area should never be hit in normal execution phase
+			// plugins can't be created so there should be no reason for a blank id
+			// however in the weird case it might happen (e.g. a dev doing naughty things)
+			// we've got this here
 			$row->folder 		= '';
 			$row->ordering 		= 999;
 			$row->enabled 	= 1;
 			$row->description 	= '';
+			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
 		}
 
 		$lists['enabled'] = JHtml::_('select.booleanlist',  'enabled', 'class="inputbox"', $row->enabled );

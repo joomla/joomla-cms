@@ -38,10 +38,6 @@ class JTask extends JTable {
 		}
 	}
 	
-	public function setDBO(&$dbo) {
-		$this->_db =& $dbo;
-	}
-	
 	public function setParent(&$parent) {
 		$this->_parent = $parent;
 	}

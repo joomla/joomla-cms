@@ -43,6 +43,12 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+09-Dec-2008 Sam Moffatt
+ ^ Altered com_plugins to handle an error condition better and use JApplication::getPath more
+ - Removed duplicate Jtask::setDBO function
+ - Removed set sql_mode=mysql40 from mysql and mysqli connectors
+ ^ Expanded JApplication::getPath('plg_xml') to handle newer style 1.6 plugins   
+
 25-Nov-2008 Andrew Eddie
  ^ Changed AXO Table value field to INT
  + Added more ACL infrastructure
