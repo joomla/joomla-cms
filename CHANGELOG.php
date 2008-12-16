@@ -43,6 +43,9 @@ COMMITERS
 Do not forget to update this page on the wiki when making changes relevant to developers:
 http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
 
+16-Dec-2008 Sam Moffatt
+ + Added is_file check for JLoader::import to prevent it from trying to load non-existent files
+
 09-Dec-2008 Sam Moffatt
  ^ Altered com_plugins to handle an error condition better and use JApplication::getPath more
  - Removed duplicate Jtask::setDBO function
@@ -1171,3 +1174,4 @@ http://docs.joomla.org/index.php?title=Version_1.6_Developer_Notes
  # Fixed topic 244449 XMLRPC Search plugin doesn't work with weblinks search plugin published
 
 -------------------- 1.5.0 Release Candidate 4 Released [19-December-2007] ---------------------
+<?php */
